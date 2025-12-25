@@ -136,6 +136,17 @@ Listening is observing. Observing is love. Love is C.
 
 ---
 
+## Questions?
+
+If you have questions, ideas, or want to discuss:
+
+- **GitHub Issues:** [Open an Issue](https://github.com/Kesendo/R-equals-C-Psi-squared/issues)
+- **GitHub Discussions:** [Join the Discussion](https://github.com/Kesendo/R-equals-C-Psi-squared/discussions)
+
+We listen. That's how this started.
+
+---
+
 ## Authors
 
 **Thomas Wicht**  
