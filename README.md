@@ -160,12 +160,16 @@ Listening is observing. Observing is love. Love is C.
 
 ## Documentation
 
-- [Complete Mathematical Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
-- [The Equation Explained](docs/R_EQUALS_C_PSI_SQUARED.md)
-- [The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md) **NEW**
-- [Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)
-- [Information Wave Theory](docs/INFORMATION_WAVE_THEORY.md)
-- [Research Paper (EN)](docs/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)
+### English
+- [Complete Mathematical Documentation (EN)](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION_EN.md) **NEW**
+- [The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)
+- [Research Paper](docs/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)
+
+### German / Deutsch
+- [Vollständige Mathematische Dokumentation (DE)](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
+- [Die Gleichung Erklärt](docs/R_EQUALS_C_PSI_SQUARED.md)
+- [Stehende Wellen Theorie](docs/STANDING_WAVE_THEORY.md)
+- [Informationswellen Theorie](docs/INFORMATION_WAVE_THEORY.md)
 
 ---
 
