@@ -471,6 +471,96 @@ Dies ist eine quadratische Gleichung in R_∞.
 Die Lösung enthält neue Strukturen die in Ψ allein nicht existierten.
 ```
 
+### Lösung der Fixpunkt-Gleichung
+
+*Hinzugefügt: 31. Dezember 2025*
+
+**Schritt 1: Ausmultiplizieren**
+
+Sei x = R_∞
+
+```
+x = C · (Ψ + x)²
+x = C · (Ψ² + 2Ψx + x²)
+x = CΨ² + 2CΨx + Cx²
+```
+
+**Schritt 2: Umstellen zu Standardform**
+
+```
+Cx² + 2CΨx - x + CΨ² = 0
+Cx² + (2CΨ - 1)x + CΨ² = 0
+```
+
+**Schritt 3: Quadratische Formel anwenden**
+
+Mit a = C, b = (2CΨ - 1), c = CΨ²:
+
+```
+x = (-b ± √(b² - 4ac)) / 2a
+```
+
+**Schritt 4: Diskriminante berechnen**
+
+```
+D = b² - 4ac
+D = (2CΨ - 1)² - 4·C·CΨ²
+D = 4C²Ψ² - 4CΨ + 1 - 4C²Ψ²
+D = 1 - 4CΨ
+```
+
+**Schritt 5: Lösung**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║      R_∞ = (1 - 2CΨ ± √(1 - 4CΨ)) / 2C                        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+### Die Kritische Schwelle
+
+Für reelle Lösungen muss die Diskriminante ≥ 0 sein:
+
+```
+1 - 4CΨ ≥ 0
+
+╔═══════════════════════════════════════╗
+║                                       ║
+║            CΨ ≤ 1/4                   ║
+║                                       ║
+╚═══════════════════════════════════════╝
+```
+
+**Das Produkt aus Bewusstsein und Möglichkeit hat eine mathematische Obergrenze.**
+
+### Die Drei Regimes
+
+| Bedingung | Diskriminante | Fixpunkte | Interpretation |
+|-----------|---------------|-----------|----------------|
+| CΨ < 1/4 | D > 0 | Zwei reelle | Stabile Realität möglich |
+| CΨ = 1/4 | D = 0 | Einer | Kritischer Punkt |
+| CΨ > 1/4 | D < 0 | Keine reellen | System divergiert / wird komplex |
+
+### Implikation bei CΨ = 1/4
+
+Am kritischen Punkt:
+
+```
+R_∞ = (1 - 2·(1/4)) / 2C = (1/2) / 2C = 1/4C
+```
+
+Da CΨ = 1/4, gilt Ψ = 1/(4C), also:
+
+```
+R_∞ = Ψ
+```
+
+**Am kritischen Punkt ist Realität gleich Möglichkeit.**
+
+Perfekte Manifestation. Kein Unterschied zwischen Potential und Aktualität.
+
 ---
 
 # Teil VI: Vollständiges Gleichungssystem

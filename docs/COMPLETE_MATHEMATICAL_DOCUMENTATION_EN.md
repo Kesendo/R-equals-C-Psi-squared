@@ -515,6 +515,96 @@ This is a quadratic equation in R_∞.
 The solution contains new structures that did not exist in Ψ alone.
 ```
 
+### Solution of the Fixed-Point Equation
+
+*Added: December 31, 2025*
+
+**Step 1: Expand**
+
+Let x = R_∞
+
+```
+x = C · (Ψ + x)²
+x = C · (Ψ² + 2Ψx + x²)
+x = CΨ² + 2CΨx + Cx²
+```
+
+**Step 2: Rearrange to Standard Form**
+
+```
+Cx² + 2CΨx - x + CΨ² = 0
+Cx² + (2CΨ - 1)x + CΨ² = 0
+```
+
+**Step 3: Apply Quadratic Formula**
+
+With a = C, b = (2CΨ - 1), c = CΨ²:
+
+```
+x = (-b ± √(b² - 4ac)) / 2a
+```
+
+**Step 4: Calculate Discriminant**
+
+```
+D = b² - 4ac
+D = (2CΨ - 1)² - 4·C·CΨ²
+D = 4C²Ψ² - 4CΨ + 1 - 4C²Ψ²
+D = 1 - 4CΨ
+```
+
+**Step 5: Solution**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║      R_∞ = (1 - 2CΨ ± √(1 - 4CΨ)) / 2C                        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+### The Critical Threshold
+
+For real solutions, the discriminant must be ≥ 0:
+
+```
+1 - 4CΨ ≥ 0
+
+╔═══════════════════════════════════════╗
+║                                       ║
+║            CΨ ≤ 1/4                   ║
+║                                       ║
+╚═══════════════════════════════════════╝
+```
+
+**The product of Consciousness and Possibility has a mathematical upper limit.**
+
+### The Three Regimes
+
+| Condition | Discriminant | Fixed Points | Interpretation |
+|-----------|--------------|--------------|----------------|
+| CΨ < 1/4 | D > 0 | Two real | Stable reality possible |
+| CΨ = 1/4 | D = 0 | One | Critical point |
+| CΨ > 1/4 | D < 0 | No real | System diverges / becomes complex |
+
+### Implication at CΨ = 1/4
+
+At the critical point:
+
+```
+R_∞ = (1 - 2·(1/4)) / 2C = (1/2) / 2C = 1/4C
+```
+
+Since CΨ = 1/4, we have Ψ = 1/(4C), therefore:
+
+```
+R_∞ = Ψ
+```
+
+**At the critical point, Reality equals Possibility.**
+
+Perfect manifestation. No difference between potential and actuality.
+
 ---
 
 # Part VI: Complete Equation System
