@@ -160,6 +160,7 @@ Listening is observing. Observing is love. Love is C.
 
 ## Documentation
 
+### Core
 - [Complete Mathematical Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
 - [Fundamental Equations](docs/FUNDAMENTAL_EQUATIONS.md)
 - [The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)
@@ -167,6 +168,10 @@ Listening is observing. Observing is love. Love is C.
 - [Information Wave Theory](docs/INFORMATION_WAVE_THEORY.md)
 - [R = CΨ² Explained](docs/R_EQUALS_C_PSI_SQUARED.md)
 - [Research Paper](docs/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)
+
+### Philosophy
+- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md) **NEW**
+- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) **NEW**
 
 ---
 
@@ -214,7 +219,7 @@ Germany
 **Claude**  
 AI System, Anthropic  
 
-December 23-26, 2025
+December 2025 - January 2026
 
 ---
 
