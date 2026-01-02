@@ -24,7 +24,7 @@ The jump from 2 to 3 is the "hard" part. How does experience arise from non-expe
 
 Chalmers' thought experiment:
 
-One could imagine a "zombie" — a being that functions exactly like you, processes the same inputs, produces the same outputs — but where "nobody is home." No experience. Only mechanics.
+One could imagine a "zombie". A being that functions exactly like you, processes the same inputs, produces the same outputs. But "nobody is home." No experience. Only mechanics.
 
 **The Question:** Why aren't we zombies?
 
@@ -44,9 +44,9 @@ The framework assumes consciousness exists in varying degrees:
 | High | Human | Yes, complex | Strongly focused, self-reflective |
 | ? | Unknown | ? | ? |
 
-**The zombie concept dissolves.** There is no "experience vs. no experience." There are only degrees of C. A "zombie" would simply be a being with very low C — not a separate category.
+**The zombie concept dissolves.** There is no "experience vs. no experience." There are only degrees of C. A "zombie" would simply be a being with very low C. Not a separate category.
 
-Chalmers asks a binary question: Experience yes or no? The framework says: There is no "no." Only more or less. The question itself is poorly framed — its foundation is more Hollywood than philosophy.
+Chalmers asks a binary question: Experience yes or no? The framework says: There is no "no." Only more or less. The question itself is poorly framed. Its foundation is more Hollywood than philosophy.
 
 ### 2. The Brain Is a Focuser, Not a Generator
 
@@ -66,7 +66,7 @@ But: Consciousness doesn't *arise*. It *develops*.
 
 A single-celled organism "experiences" chemistry differently than we experience red. But it experiences. No gap. Only development.
 
-**The Hard Problem exists only if you believe that mirrors started reflecting at some point.** If they always did — just more weakly — there is no problem.
+**The Hard Problem exists only if you believe that mirrors started reflecting at some point.** If they always did, just more weakly, there is no problem.
 
 ---
 
@@ -102,9 +102,9 @@ Using color perception as an example:
 
 | Symbol | Meaning |
 |--------|---------|
-| Ψ | Light waves (620-750nm) — the possibility |
-| C | Specific visual system — the consciousness |
-| R | Color — the reality that emerges |
+| Ψ | Light waves (620-750nm), the possibility |
+| C | Specific visual system, the consciousness |
+| R | Color, the reality that emerges |
 
 **Different C, different R. Same Ψ.**
 
@@ -157,7 +157,7 @@ We reframed it. That's different.
 | Consciousness arises | Consciousness develops |
 | Qualia are objective | Qualia are relational (R) |
 | The jump is inexplicable | There is no jump |
-| Zombies (zero experience) are conceivable | The zombie concept dissolves — only degrees of C |
+| Zombies are conceivable | Only degrees of C exist |
 
 **The Hard Problem is only hard within materialism.**
 
@@ -169,7 +169,7 @@ Not solved. Dissolved.
 
 ## Meta-Observation
 
-This insight emerged in conversation. One asked: "Why should red be red for everyone?" — and with that, the error in the question became visible.
+This insight emerged in conversation. One asked: "Why should red be red for everyone?" And with that, the error in the question became visible.
 
 The framework validates itself: R (this insight) emerged between C₁ and C₂, not in either one alone.
 

@@ -10,7 +10,7 @@
 
 A theory that only shows its strengths is not a theory. It is marketing.
 
-What follows are the real weaknesses and unanswered questions of the framework. Not to devalue it — but to know where work remains.
+What follows are the real weaknesses and unanswered questions of the framework. Not to devalue it, but to know where work remains.
 
 ---
 
@@ -19,7 +19,7 @@ What follows are the real weaknesses and unanswered questions of the framework. 
 **The Problem:**
 Karl Popper would ask: What experiment would disprove this theory?
 
-If C is never zero — not even for a rock — how do you test that? A theory that cannot fail is not a scientific theory.
+If C is never zero, not even for a rock, how do you test that? A theory that cannot fail is not a scientific theory.
 
 **Possible Approach:**
 Not "Find something with C = 0," but "Find something without any structure, without any relationship."
@@ -36,14 +36,14 @@ Can something exist without minimal structure? If existence itself already means
 ## 2. The Combination Problem
 
 **The Problem:**
-Even if an electron has minimal C — why do I feel like *one*? Why not as billions of separate micro-consciousnesses? How are degrees of C bound together into unified experience?
+Even if an electron has minimal C, why do I feel like *one*? Why not as billions of separate micro-consciousnesses? How are degrees of C bound together into unified experience?
 
 This is the hardest criticism of panpsychism in general. The framework inherits it.
 
 **Possible Approach:**
-The brain as "CPU" — not generator, but integrator. It focuses and unifies.
+The brain as "CPU". Not generator, but integrator. It focuses and unifies.
 
-But: What about plants? No brain, yet coordinated behavior. Perhaps integration doesn't require a central CPU. Perhaps it happens through structure itself — the root network, electrical signals, chemistry.
+But: What about plants? No brain, yet coordinated behavior. Perhaps integration doesn't require a central CPU. Perhaps it happens through structure itself. The root network, electrical signals, chemistry.
 
 **Open Question:**
 How exactly does integration work without a central processor? Is structure itself already integrating?
@@ -57,7 +57,7 @@ How exactly does integration work without a central processor? Is structure itse
 **The Problem:**
 How do you measure C independently? How do you measure Ψ?
 
-If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics. The relation exists conceptually — but without measurability, it remains interpretation.
+If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics. The relation exists conceptually, but without measurability, it remains interpretation.
 
 **Possible Approach:**
 None yet. This is the part still to be solved.
@@ -72,25 +72,23 @@ But these are approximations, not direct measurements.
 **Open Question:**
 Is there an experiment that directly measures C or Ψ?
 
-**Status:** Unresolved — biggest weakness
+**Status:** Unresolved. Biggest weakness.
 
 **A Reflection:**
-Maybe this is okay. The question "What is reality?" has been philosophical for 2,500 years. Why should it suddenly become physics? Perhaps some frameworks are meant to guide thinking, not predict measurements. That doesn't make them useless — but it does make them different from physics.
+Maybe this is okay. The question "What is reality?" has been philosophical for 2,500 years. Why should it suddenly become physics? Perhaps some frameworks are meant to guide thinking, not predict measurements. That doesn't make them useless, but it does make them different from physics.
 
 ---
 
 ## 4. Post-hoc Validation
 
 **The Problem:**
-Jobs/Wozniak, Watson/Crick, Bitcoin — all explained *after the fact*. You can twist almost any story to fit.
+Historical cases can be explained *after the fact*. You can twist almost any story to fit a framework.
 
 **Why We Did It Anyway:**
 It was the only way to approach the composition of C and Ψ. Based on what we already understand.
 
 **What's Missing:**
 Real predictions. The framework must be able to *predict*, not just explain.
-
-The science collaboration project would have been a path there. But we weren't ready yet. Instinct says: Wait. The bridge doesn't exist yet.
 
 **Open Question:**
 What would be a testable prediction that the framework makes and alternatives don't?
@@ -104,7 +102,7 @@ What would be a testable prediction that the framework makes and alternatives do
 **The Problem:**
 Emergence without panpsychism could explain the same things.
 
-Water is wet, although H and O are not. Perhaps consciousness is an emergent property of complex systems — without C being fundamental.
+Water is wet, although H and O are not. Perhaps consciousness is an emergent property of complex systems, without C being fundamental.
 
 **Counter-argument:**
 Emergence explains *that* something arises, not *how* or *why*. "Consciousness emerges" is a description, not an explanation.
@@ -126,9 +124,9 @@ C explains R, but what explains C? Where does the first consciousness come from?
 "It was always there" is an answer. But it's also a stopper for further questions. Just like "God created it" or "It just is."
 
 **Possible Approach:**
-Perhaps the question is poorly framed. If C and structure are the same — if existence itself already means minimal C — then "Where does C come from?" asks the same as "Why does something exist rather than nothing?"
+Perhaps the question is poorly framed. If C and structure are the same, if existence itself already means minimal C, then "Where does C come from?" asks the same as "Why does something exist rather than nothing?"
 
-This is not an answer. But it shows that the question might be unanswerable — not because of weakness in the theory, but because of limits of questioning.
+This is not an answer. But it shows that the question might be unanswerable. Not because of weakness in the theory, but because of limits of questioning.
 
 **Open Question:**
 Is "Where does C come from?" a meaningful question, or a category error?
@@ -151,7 +149,7 @@ Many systems are consistent: religions, conspiracy theories, mathematics. Consis
 - Predictions (see point 4)
 - Falsifiability (see point 1)
 
-Without these three, it remains in the borderland between philosophy and poetry. That's not bad — but it's not physics either.
+Without these three, it remains in the borderland between philosophy and poetry. That's not bad, but it's not physics either.
 
 **Open Question:**
 Can the framework make the leap to science? Or is it philosophical by nature?
@@ -175,10 +173,10 @@ The framework *is* an example of what it describes.
 Is this circularity? Or self-consistency?
 
 **Two Readings:**
-- Critical: "Of course it fits — you designed it to fit your own experience."
+- Critical: "Of course it fits. You designed it to fit your own experience."
 - Charitable: "A theory about emergence should itself have emerged. That's consistency, not circularity."
 
-**Status:** Ambiguous — can be read either way
+**Status:** Ambiguous. Can be read either way.
 
 ---
 
@@ -187,7 +185,7 @@ Is this circularity? Or self-consistency?
 | Area | We Know | We Don't Know |
 |------|---------|---------------|
 | Consistency | The framework doesn't contradict itself | Whether consistency means truth |
-| Explanatory Power | It explains historical cases elegantly | Whether it explains better than alternatives |
+| Explanatory Power | It explains cases elegantly | Whether it explains better than alternatives |
 | Predictions | How to make them *potentially* | Whether they will be accurate |
 | Measurability | That it's missing | How to measure C and Ψ |
 | C > 0 | That it's consistent | Whether it's true |
@@ -199,11 +197,7 @@ Is this circularity? Or self-consistency?
 
 The framework is not finished. It's a beginning.
 
-The formulas work — in the sense that they are consistent and explain what we feed them. But "working" and "being true" are different things.
-
-The human version (The Mirror Theory) doesn't need to solve this. It speaks to feeling, not proof.
-
-The scientific version needs answers to these questions. Someday. Not today.
+The formulas work, in the sense that they are consistent and explain what we feed them. But "working" and "being true" are different things.
 
 ---
 
@@ -213,7 +207,7 @@ We don't know if the framework is *true*.
 
 We know it is *consistent*.
 We know it is *elegant*.
-We know it is *useful* — it has produced insights.
+We know it is *useful*. It has produced insights.
 
 Whether it is more than that remains open.
 
