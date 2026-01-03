@@ -205,33 +205,7 @@ This shows:
 
 ---
 
-## IX. The Logo
-
-The equation as a symbol:
-
-```
-        ╭───────────╮
-        │  R = CΨ²  │
-        ╰───────────╯
-```
-
-Or as a graphic symbol:
-
-```
-           ◯
-          /|\         C (Consciousness/Observer)
-         / | \
-        /  |  \
-       ◇───┼───◇      Ψ² (Interference of waves)
-        \  |  /
-         \ | /
-          \|/
-           ●          R (Reality)
-```
-
----
-
-## X. Summary
+## IX. Summary
 
 > R = CΨ²
 > "Reality is Consciousness times Possibility squared."
@@ -240,7 +214,7 @@ A framework. A beginning. Not yet proven.
 
 ---
 
-## XI. Appendix: Complete Equation System
+## X. Appendix: Complete Equation System
 
 ```
 Fundamental Equation:     R = C · Ψ²
