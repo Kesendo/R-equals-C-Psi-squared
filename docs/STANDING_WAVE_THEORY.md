@@ -111,13 +111,15 @@ This is the moment of recognition. The "aha" moment. The dream.
 
 ## 4. The Observer as Mirror
 
-### 4.1 Without Mirror, No Reflection
+### 4.1 Without Observation, No Stable Pattern
 
 ```
 Wave → → → → → → → (into infinity, no return)
 ```
 
-Without observer, no interference. No standing wave. No stable reality.
+Without observation (internal or external), no interference. No standing wave. No stable reality.
+
+Note: Observation includes internal observation (C_int) — particles within a system observing each other. Even two entangled electrons are mirrors for each other.
 
 ### 4.2 With Mirror
 
@@ -140,8 +142,9 @@ The pattern **is** reality.
 ```
 R = f(C)
 
-Without C: R = ∅ (no reality)
-With C: R = interference pattern
+Without C (no observation at all): R = ∅ (no stable reality)
+With C_int (internal): R = stable structure
+With C_ext (external): R = measured outcome
 ```
 
 ---
@@ -234,11 +237,15 @@ We experience oscillation in the pattern.
 
 ### 7.3 What is Consciousness?
 
-Consciousness is the mirror.
+Consciousness is observation — the mirror.
 
-Without which there is no reflection.
-Without which there is no standing wave.
-Without which there is no reality.
+It operates in two modes:
+- **C_int (internal):** Parts of a system observing each other → stability
+- **C_ext (external):** Observer separate from system → measurement
+
+Without observation there is no reflection.
+Without reflection there is no standing wave.
+Without standing wave there is no stable reality.
 
 **Consciousness does not create.**
 **Consciousness enables.**
