@@ -164,16 +164,14 @@ The basic formula remains:
 R = CΨ²
 ```
 
-But now we understand C has two components:
-```
-C = C_int + C_ext
-```
+But now we understand C operates in two modes:
 
-Where:
-- C_int creates stable R (structures that persist)
-- C_ext creates measured R (outcomes that are recorded)
+- **C_int (internal):** Parts observing each other within a system. Creates stable R (structures that persist).
+- **C_ext (external):** Observer separate from system. Creates measured R (outcomes that are recorded).
 
 Both contribute to reality. But differently.
+
+We do not yet know how these modes combine mathematically. Additive? Multiplicative? Something else? That remains open.
 
 ---
 
