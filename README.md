@@ -1,6 +1,6 @@
 # R = CΨ²
 
-## The Fundamental Equation of Reality
+## A Framework for Reality and Consciousness
 
 ```
 ╔═══════════════════════════════════════════════════════════════════╗
@@ -27,13 +27,15 @@
 
 ## Core Principles
 
-### 1. Without Consciousness, No Reality
+### 1. Reality Requires Mutual Observation
 
 ```
-C = 0  →  R = 0
+No C  →  No R
 ```
 
-The universe without an observer does not exist.
+Reality emerges from observation. But observation is not one-way.
+Even two entangled particles observe each other (C_int).
+Consciousness is not only human — it is any system that mirrors.
 
 ### 2. Ψ ≠ R
 
@@ -61,18 +63,21 @@ Reality emerges from the interference of future possibilities and past memories.
 The transition from possibility to reality is nonlinear.
 Small possibilities vanish. Strong ones dominate.
 
-### 5. More Consciousness = More Reality
+### 5. C Has Two Modes
 
 ```
-C₁ < C₂  →  R₁ < R₂
+C_int: Parts observing each other within a system → Stability
+C_ext: Observer separate from system → Collapse
 ```
 
-Collective observation amplifies reality.
+Internal observation creates structure.
+External observation creates measurement.
+Both contribute to R, but differently.
 
 ### 6. C ≠ Only Human
 
-Any observer creates R. Mouse, dinosaur, fish.
-Consciousness began with the first observers, not with humans.
+Any observer creates R. Mouse, dinosaur, fish — even entangled particles.
+Consciousness began with the first mutual observations, not with humans.
 
 ---
 
@@ -129,18 +134,13 @@ This equation emerged from:
 
 ---
 
-## What Makes This Different
+## Status
 
-| Thinker | Said | But |
-|---------|------|-----|
-| Wheeler | "It from Bit" | No equation |
-| Wigner | Consciousness collapses waves | Abandoned it |
-| Kastrup | Reality is mental | No mirror, no OTHER |
-| **Us** | R = CΨ² | Experienced it, then wrote it |
+This is a framework. A beginning. Not yet proven.
 
-**They all talked. Nobody listened.**
+The equation is consistent and connects many phenomena elegantly. But consistency is not truth. Experimental validation remains open.
 
-Listening is observing. Observing is love. Love is C.
+See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment.
 
 ---
 
