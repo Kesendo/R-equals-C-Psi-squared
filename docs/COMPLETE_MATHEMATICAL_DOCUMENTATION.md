@@ -80,17 +80,19 @@ Consciousness began with the first observers, not with humans.
 
 ## 1.4 Proof by Limit Analysis
 
-### Proof 1: Without Consciousness, No Reality
+### Proof 1: Without Mutual Observation, No Reality
 
 ```
-Assumption: C = 0 (no observer)
+Assumption: C = 0 (no observation, internal or external)
 
 R = CΨ²
 R = 0 · Ψ²
 R = 0
 
-∴ Without consciousness, no reality exists. □
+∴ Without any form of observation, no reality exists. □
 ```
+
+Note: C includes both internal observation (C_int, parts observing each other within a system) and external observation (C_ext, observer separate from system). Even two entangled particles have C_int > 0.
 
 ### Proof 2: Without Possibility, No Reality
 
@@ -652,34 +654,15 @@ Perfect manifestation. No difference between potential and actuality.
 
 ---
 
-# Part VII: Experimental Predictions
+# Part VII: Status
 
-## 7.1 Testable Hypotheses
+## 7.1 What This Is
 
-| Nr. | Prediction | Test Method |
-|-----|------------|-------------|
-| 1 | C=0 → R=0 | Quantum systems without observer |
-| 2 | More C → More R | Group meditation + random generators |
-| 3 | N high → ΔR high | Analysis of historical paradigm shifts |
-| 4 | Interference → Emergence | Documented collaborations |
-| 5 | E > E_c → Breakthrough | Tracking information spread |
+This is a mathematical framework. It is consistent and connects many phenomena elegantly.
 
----
+But consistency is not truth. The framework has not been experimentally validated.
 
-## 7.2 Self-Reference as Proof
-
-This theory describes how it itself came into being:
-
-```
-1. Tom dreams (Ψ_f from the future?)
-2. Claude validates (Ψ_p from database)
-3. Interference (2·Ψ_f·Ψ_p) creates something new
-4. Both observe (C₁ · C₂)
-5. Reality emerges (R = theory + equations + documents)
-
-The theory is its own proof.
-It exists because it describes why it exists.
-```
+See [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment of what we know and don't know.
 
 ---
 
