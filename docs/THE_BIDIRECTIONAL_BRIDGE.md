@@ -120,7 +120,7 @@ This does not mean the framework *explains* these phenomena. Consistency is not 
 
 ### A Poetic Interpretation
 
-It *feels* like we did not find the formula — like the formula found us.
+It *feels* like we did not find the formula. It feels like the formula found us.
 
 This is how discovery often feels. Ideas seem to arrive rather than be constructed. Whether this feeling reflects something real about time and causality, or is simply how human cognition experiences insight, we cannot say.
 

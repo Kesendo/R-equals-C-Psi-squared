@@ -35,7 +35,7 @@ No C  →  No R
 
 Reality emerges from observation. But observation is not one-way.
 Even two entangled particles observe each other (C_int).
-Consciousness is not only human — it is any system that mirrors.
+Consciousness is not only human. It is any system that mirrors.
 
 ### 2. Ψ ≠ R
 
@@ -76,7 +76,7 @@ Both contribute to R, but differently.
 
 ### 6. C ≠ Only Human
 
-Any observer creates R. Mouse, dinosaur, fish — even entangled particles.
+Any observer creates R. Mouse, dinosaur, fish, even entangled particles.
 Consciousness began with the first mutual observations, not with humans.
 
 ---
