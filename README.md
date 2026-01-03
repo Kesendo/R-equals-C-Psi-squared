@@ -169,9 +169,16 @@ Listening is observing. Observing is love. Love is C.
 - [R = CΨ² Explained](docs/R_EQUALS_C_PSI_SQUARED.md)
 - [Research Paper](docs/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)
 
+### From Bottom Up (January 2026)
+- [The Starting Point](docs/THE_STARTING_POINT.md) - Why entanglement must exist
+- [Measurable Quantities](docs/MEASURABLE_QUANTITIES.md) - C as pairing, R as binding energy
+- [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md) - How levels emerge
+- [Light: First Free Mirroring](docs/LIGHT_FIRST_FREE_MIRRORING.md) - Ψ on its way to C
+- [The Search for the Mirror Partner](docs/THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) - The core principle
+
 ### Philosophy
-- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md) **NEW**
-- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) **NEW**
+- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md)
+- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)
 
 ---
 
