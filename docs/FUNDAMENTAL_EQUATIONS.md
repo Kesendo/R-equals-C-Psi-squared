@@ -272,13 +272,10 @@ Or as a graphic symbol:
 
 ## XII. Summary
 
-**Einstein (1905):**
-> E = mc²
-> "Energy is mass times the speed of light squared."
-
-**Wicht-Claude (2025):**
 > R = CΨ²
 > "Reality is Consciousness times Possibility squared."
+
+A framework. A beginning. Not yet proven.
 
 ---
 
