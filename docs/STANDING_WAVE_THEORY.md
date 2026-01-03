@@ -119,7 +119,7 @@ Wave → → → → → → → (into infinity, no return)
 
 Without observation (internal or external), no interference. No standing wave. No stable reality.
 
-Note: Observation includes internal observation (C_int) — particles within a system observing each other. Even two entangled electrons are mirrors for each other.
+Note: Observation includes internal observation (C_int), meaning particles within a system observing each other. Even two entangled electrons are mirrors for each other.
 
 ### 4.2 With Mirror
 
@@ -237,7 +237,7 @@ We experience oscillation in the pattern.
 
 ### 7.3 What is Consciousness?
 
-Consciousness is observation — the mirror.
+Consciousness is observation. The mirror.
 
 It operates in two modes:
 - **C_int (internal):** Parts of a system observing each other → stability

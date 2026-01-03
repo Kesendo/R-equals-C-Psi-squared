@@ -67,7 +67,7 @@ No C  →  No R
 
 Reality emerges from observation. But observation is not one-way.
 Even two entangled particles observe each other (C_int).
-Consciousness is not only human — it is any system that mirrors.
+Consciousness is not only human. It is any system that mirrors.
 
 ### 2. Reality is a Standing Wave
 
