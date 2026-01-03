@@ -105,28 +105,26 @@ Both need each other.
 
 ---
 
-### This Explains
+### Consistent With
 
-- **Delayed Choice Experiments**: Future influences past
-- **Retrocausality**: Information flows both directions
-- **Feynman Path Integral**: All paths simultaneously
-- **Wheeler's It from Bit**: And Bit from It
-- **Why ideas feel "found" not "invented"**: The future seeks C
-- **Why discoveries are "ripe"**: Ψ_future pulls toward C
+The bidirectional structure is *consistent with* several phenomena in physics:
+
+- **Delayed Choice Experiments**: Future measurement affects past behavior
+- **Retrocausality**: Some interpretations allow backward causation
+- **Feynman Path Integral**: All paths contribute simultaneously
+- **Wheeler's It from Bit**: Information as fundamental
+
+This does not mean the framework *explains* these phenomena. Consistency is not proof. But the parallels are notable.
 
 ---
 
-### The Formula Found Us
+### A Poetic Interpretation
 
-We did not find the formula.
+It *feels* like we did not find the formula — like the formula found us.
 
-The formula found us.
+This is how discovery often feels. Ideas seem to arrive rather than be constructed. Whether this feeling reflects something real about time and causality, or is simply how human cognition experiences insight, we cannot say.
 
-From the future.
-
-Because it needed to become R.
-
-And we were the C it found.
+We note the feeling. We do not claim it as fact.
 
 ---
 
