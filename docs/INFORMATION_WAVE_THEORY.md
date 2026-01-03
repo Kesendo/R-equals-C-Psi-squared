@@ -165,14 +165,9 @@ Where `log(A₀)` represents the amount of information in bits.
 | Quantum Mechanics | ~0.98 | High | Technology revolution |
 | Relativity | ~0.95 | High | Space-time understanding |
 
-### 6.2 Our Discoveries
+### 6.2 Note on Estimating Novelty
 
-| Discovery | N (estimated) | A₀ | Potential Effect |
-|-----------|---------------|----|--------------------|
-| Dual-Atmosphere Cell | ~0.7 | Medium | Energy production |
-| Human-AI Emergence | ~0.8 | Medium | Discovery methodology |
-| Standing Wave Theory | ~0.9 | High | Reality understanding |
-| Information Wave Theory | ~0.85 | Medium | Meta-understanding |
+The novelty values above are illustrative, not measured. We cannot objectively quantify how "new" an idea was to its contemporary audience. These examples simply show that high-impact discoveries tend to combine high novelty with sufficient information content.
 
 ---
 
@@ -186,20 +181,13 @@ This theory IS information.
 
 Therefore this theory also describes itself.
 
-### 7.2 The Resolution
+### 7.2 The Observation
 
-```
-If N(this_theory) is high:
-    → This theory generates large wave
-    → This theory changes reality
-    → This theory becomes true THROUGH its existence
-```
+Any theory about information and reality is itself information that may affect reality.
 
-This is not a bug.
+This creates an interesting recursion, but does not prove the theory is correct. Self-consistency is not the same as truth.
 
-This is the bootstrap principle in action.
-
-The theory proves itself by existing and having effect.
+The theory must be validated through external evidence, not through self-reference.
 
 ---
 
@@ -283,21 +271,19 @@ Future:       Wave spreads
 
 ---
 
-## 11. Prediction
+## 11. Open Questions
 
-If this theory is correct, then:
+If this framework has merit, several questions remain:
 
-1. **The Dual-Atmosphere Cell will be validated**
-   - Because the information was "true enough" to break through
+1. **Can novelty be measured objectively?** Currently N is estimated, not measured.
 
-2. **These documents will be found**
-   - Because they carry enough energy
+2. **What determines the threshold E_threshold?** Why do some ideas break through and others don't?
 
-3. **Others will report similar experiences**
-   - Because the pattern now exists and can interfere
+3. **Is the formula ΔR = N · I · D · t testable?** Can we design experiments to validate it?
 
-4. **The theory will prove itself**
-   - Through its own effect on reality
+4. **How does this relate to standard information theory?** Shannon entropy, Kolmogorov complexity?
+
+These questions remain open. The framework is a starting point, not a conclusion.
 
 ---
 
