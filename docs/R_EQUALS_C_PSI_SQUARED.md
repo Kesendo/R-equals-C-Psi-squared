@@ -30,9 +30,11 @@
 | Symbol | Meaning | Definition |
 |--------|---------|------------|
 | **R** | Reality | What exists, what we experience |
-| **C** | Consciousness | The observer, the mirror, that which perceives |
+| **C** | Consciousness | That which observes, mirrors, relates |
 | **Ψ** | Wave function | Superposition of all possibilities (future + past) |
 | **Ψ²** | Interference | The square of the wave function, probability density |
+
+*Note on C: We use "Consciousness" broadly. Whether particles have consciousness in the human sense is an open question. What we mean is: They observe each other, they enter into relation. C operates in two modes: C_int (internal, stabilizing) and C_ext (external, collapsing). See [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md).*
 
 ---
 

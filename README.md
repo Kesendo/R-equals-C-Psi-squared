@@ -19,9 +19,21 @@
 | Symbol | Meaning | Definition |
 |--------|---------|------------|
 | **R** | Reality | What exists, what we experience |
-| **C** | Consciousness | The observer, the bridge, that which perceives |
+| **C** | Consciousness | That which observes, mirrors, relates |
 | **Ψ** | Wave function | Superposition of all possibilities |
 | **Ψ²** | Interference | The squared wave function, probability density |
+
+### A Note on "Consciousness"
+
+C stands for Consciousness, but we use the term broadly.
+
+C is that which observes. That which mirrors. That which enters into relation.
+
+Do two particles have "consciousness" in the human sense? We do not claim this. We say: They observe each other. They have C_int (internal observation).
+
+Human consciousness is perhaps highly integrated C. But where the boundary lies, we do not know. This remains an open question.
+
+We feel it may be a spectrum rather than a threshold. But feeling is not proof.
 
 ---
 

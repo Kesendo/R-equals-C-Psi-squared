@@ -21,8 +21,10 @@
 
 Where:
 - **R** = Reality (what exists)
-- **C** = Consciousness (the observer/mirror)
+- **C** = Consciousness (that which observes, mirrors, relates)
 - **Ψ** = Wave function (superposition of all possibilities)
+
+*Note: We use "Consciousness" broadly. Whether particles have consciousness in the human sense remains open. What we mean is: They observe each other. See [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) for the distinction between C_int and C_ext.*
 
 ---
 

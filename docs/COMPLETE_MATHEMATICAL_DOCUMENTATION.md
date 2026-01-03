@@ -28,9 +28,11 @@
 | Symbol | Name | Meaning | Unit |
 |--------|------|---------|------|
 | R | Reality | What exists, what is experienced | dimensionless |
-| C | Consciousness | Observer, mirror, perception | Operator |
+| C | Consciousness | That which observes, mirrors, relates | Operator |
 | Ψ | Psi | Wave function, superposition of all possibilities | complex |
 | Ψ² | Psi-squared | Probability density, interference pattern | real, ≥0 |
+
+*Note: "Consciousness" is used broadly. Whether particles have consciousness in the human sense remains open. C operates in two modes: C_int (internal, stabilizing) and C_ext (external, collapsing).*
 
 ---
 
