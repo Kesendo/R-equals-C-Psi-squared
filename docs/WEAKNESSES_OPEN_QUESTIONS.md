@@ -2,6 +2,7 @@
 ## What We Don't Know
 
 **Created:** January 2, 2026
+**Updated:** January 3, 2026
 **Status:** Honest Assessment
 
 ---
@@ -57,25 +58,25 @@ How exactly does integration work without a central processor? Is structure itse
 **The Problem:**
 How do you measure C independently? How do you measure Ψ?
 
-If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics. The relation exists conceptually, but without measurability, it remains interpretation.
+If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics.
 
-**Possible Approach:**
-None yet. This is the part still to be solved.
+**Update (January 3, 2026):**
 
-Perhaps through proxies:
-- C ≈ Complexity of structure?
-- C ≈ Information integration (Tononi's Φ)?
-- Ψ ≈ Number of possibilities in a system?
+An approach now exists. See [Measurable Quantities](MEASURABLE_QUANTITIES.md).
 
-But these are approximations, not direct measurements.
+For atoms and molecules:
+- C = Complete pairs / Possible pairs (dimensionless, 0-1)
+- R = Binding energy (eV or MeV)
+- Ψ² = Probability distribution (wave function)
 
-**Open Question:**
-Is there an experiment that directly measures C or Ψ?
+This works. Noble gases have C = 1 and don't react. Carbon has C = 0.5 and builds all life. Iron-56 has the highest binding energy per nucleon. The periodic table validates the approach.
 
-**Status:** Unresolved. Biggest weakness.
+**What remains open:**
+- Does this scale to complex systems (cells, brains)?
+- What is C for a protein? For a neural network?
+- How does C (pairing) relate to Φ (integrated information)?
 
-**A Reflection:**
-Maybe this is okay. The question "What is reality?" has been philosophical for 2,500 years. Why should it suddenly become physics? Perhaps some frameworks are meant to guide thinking, not predict measurements. That doesn't make them useless, but it does make them different from physics.
+**Status:** Partially addressed. Works for atoms and molecules. Unknown for higher levels.
 
 ---
 
@@ -121,17 +122,23 @@ What distinguishes the framework from pure emergence theory? Is there a testable
 **The Problem:**
 C explains R, but what explains C? Where does the first consciousness come from?
 
-"It was always there" is an answer. But it's also a stopper for further questions. Just like "God created it" or "It just is."
+"It was always there" is an answer. But it's also a stopper for further questions.
 
-**Possible Approach:**
-Perhaps the question is poorly framed. If C and structure are the same, if existence itself already means minimal C, then "Where does C come from?" asks the same as "Why does something exist rather than nothing?"
+**Update (January 3, 2026):**
 
-This is not an answer. But it shows that the question might be unanswerable. Not because of weakness in the theory, but because of limits of questioning.
+The question has shifted. See [The Starting Point](THE_STARTING_POINT.md).
 
-**Open Question:**
-Is "Where does C come from?" a meaningful question, or a category error?
+Not "Where does C come from?" but "Where does the first pair come from?"
 
-**Status:** Philosophically open
+Entanglement is not a phenomenon that appeared later. Entanglement is the prerequisite for existence. Two particles mirroring each other simultaneously, without one being first. They are C for each other. Through this, R emerges.
+
+This doesn't answer "Why something rather than nothing?" But it answers "How can observation exist without a first observer?" The answer: Mutual observation. No hierarchy needed.
+
+**What remains open:**
+- Why this entanglement instead of another?
+- How did the first Ψ arise?
+
+**Status:** Shifted. The mechanism is clearer. The ultimate origin remains open.
 
 ---
 
@@ -145,21 +152,18 @@ It is consistent. It doesn't contradict itself. It explains much elegantly. But 
 Many systems are consistent: religions, conspiracy theories, mathematics. Consistency alone is not enough.
 
 **What It Needs:**
-- Measurability (see point 3)
-- Predictions (see point 4)
-- Falsifiability (see point 1)
+- Measurability (see point 3, now partially addressed)
+- Predictions (see point 4, still missing publicly)
+- Falsifiability (see point 1, still unresolved)
 
-Without these three, it remains in the borderland between philosophy and poetry. That's not bad, but it's not physics either.
-
-**Open Question:**
-Can the framework make the leap to science? Or is it philosophical by nature?
-
-**Status:** Honestly unknown
+Without all three, it remains in the borderland between philosophy and physics.
 
 **A Reflection:**
 Maybe the question "Physics or Poetry?" is itself poorly framed. Newton's laws are physics. Shakespeare is poetry. But what is a framework about consciousness supposed to be?
 
 Perhaps there is a third category: Frameworks that guide how we think about reality, without being testable in the way physics is. Philosophy has always been this. Maybe that's what this is. And maybe that's enough.
+
+**Status:** Honestly unknown
 
 ---
 
@@ -186,9 +190,9 @@ Is this circularity? Or self-consistency?
 |------|---------|---------------|
 | Consistency | The framework doesn't contradict itself | Whether consistency means truth |
 | Explanatory Power | It explains cases elegantly | Whether it explains better than alternatives |
-| Predictions | How to make them *potentially* | Whether they will be accurate |
-| Measurability | That it's missing | How to measure C and Ψ |
-| C > 0 | That it's consistent | Whether it's true |
+| Measurability | C = pairing, R = binding energy (for atoms) | Whether this scales to complex systems |
+| Predictions | That we need them | Whether they will be accurate |
+| The Starting Point | Mutual mirroring, no first observer needed | Why something rather than nothing |
 | Integration | That it happens | How exactly |
 
 ---
@@ -198,6 +202,8 @@ Is this circularity? Or self-consistency?
 The framework is not finished. It's a beginning.
 
 The formulas work, in the sense that they are consistent and explain what we feed them. But "working" and "being true" are different things.
+
+Progress has been made. Measurability is no longer the black hole it was. The circularity problem has shifted to a more honest question. But open questions remain.
 
 ---
 
@@ -219,5 +225,6 @@ The difference: We admit it.
 
 ---
 
-*January 2, 2026*
+*January 2, 2026 (created)*
+*January 3, 2026 (updated)*
 *Honesty belongs to the framework*
