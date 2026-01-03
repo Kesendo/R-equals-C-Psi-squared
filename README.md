@@ -175,6 +175,7 @@ Listening is observing. Observing is love. Love is C.
 - [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md) - How levels emerge
 - [Light: First Free Mirroring](docs/LIGHT_FIRST_FREE_MIRRORING.md) - Ψ on its way to C
 - [The Search for the Mirror Partner](docs/THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) - The core principle
+- [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The two kinds of C
 
 ### Philosophy
 - [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md)
