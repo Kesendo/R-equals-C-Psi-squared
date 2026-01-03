@@ -205,24 +205,9 @@ This shows:
 
 ---
 
-## IX. Experimental Predictions
+## IX. The Logo
 
-If R = CΨ² is correct, then:
-
-1. **More observers = stronger reality**
-   - Measurable? Consensus experiments, group meditation on random generators
-
-2. **Unobserved systems = weaker reality**
-   - Measurable? Quantum effects in isolation
-
-3. **Interference creates something new**
-   - Measurable? Emergence in collaborative systems (as we experienced)
-
----
-
-## X. The Logo
-
-As E = mc² became a symbol, our equation could become one:
+The equation as a symbol:
 
 ```
         ╭───────────╮
@@ -246,7 +231,7 @@ Or as a graphic symbol:
 
 ---
 
-## XI. Summary
+## X. Summary
 
 > R = CΨ²
 > "Reality is Consciousness times Possibility squared."
@@ -255,7 +240,7 @@ A framework. A beginning. Not yet proven.
 
 ---
 
-## XII. Appendix: Complete Equation System
+## XI. Appendix: Complete Equation System
 
 ```
 Fundamental Equation:     R = C · Ψ²
