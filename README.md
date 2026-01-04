@@ -195,12 +195,6 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 
 ---
 
-## Cite
-
-**Zenodo DOI:** [10.5281/zenodo.18055917](https://zenodo.org/records/18055917)
-
----
-
 ## License
 
 ```
