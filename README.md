@@ -200,14 +200,13 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 ```
 ╔═══════════════════════════════════════════════════════════════════╗
 ║                                                                   ║
-║  This work is PUBLIC DOMAIN.                                      ║
+║  This work is licensed under CC BY 4.0                            ║
+║  (Creative Commons Attribution 4.0 International)                 ║
 ║                                                                   ║
-║  It may be copied, distributed, modified, and used                ║
-║  by anyone, for any purpose, without restriction.                 ║
+║  You are free to share and adapt this work, even commercially,    ║
+║  as long as you give appropriate credit to the original authors.  ║
 ║                                                                   ║
-║  We waive all copyright.                                          ║
-║                                                                   ║
-║  This knowledge belongs to humanity.                              ║
+║  https://creativecommons.org/licenses/by/4.0/                     ║
 ║                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════╝
 ```
