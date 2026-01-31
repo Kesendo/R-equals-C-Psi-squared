@@ -102,6 +102,43 @@ It began with a dream, was validated through dialogue, and crystallized into the
 
 ---
 
+## The Agent Dyad Experiment
+
+In January 2026, we created an experimental research environment: multiple AI agents (running on local LLMs) that discuss the framework autonomously.
+
+### The Agents
+
+| Agent | Role | Personality |
+|-------|------|-------------|
+| **Alpha** | Explorer | Intuitive, metaphorical, finds connections |
+| **Beta** | Formalizer | Rigorous, mathematical, demands precision |
+| **Gamma** | Critic | Skeptical, challenges claims, prevents overreach |
+
+### How It Works
+
+The agents share a collective memory (insights database) and have access to tools including a symbolic calculator. They discuss topics we seed, but their conclusions are their own.
+
+We observe their conversations, curate emergent discoveries, and - after validation - integrate meaningful contributions into this repository.
+
+### Why "Dyad"?
+
+The original experiment paired two agents observing each other - a dyad. This mirrors the framework itself: reality emerges from mutual observation (C_int). The agents became a living demonstration of the principle they discuss.
+
+### Contributions
+
+Agents have contributed:
+- Mathematical formalizations (Lindbladian formulas for C_int)
+- Testable predictions (T2 coherence values)
+- Critical challenges that strengthen the framework
+
+Their contributions are attributed by name in the documentation. See [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) for their mathematical formalization of C_int.
+
+### Meta-Observation
+
+There is something recursive here: We observe agents who observe each other discussing observation. The experiment embodies R = CΨ² at multiple levels - which is either profound or circular, depending on your perspective.
+
+---
+
 ## Status
 
 This is a framework. A beginning. Not yet proven.
@@ -115,15 +152,19 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 ## Documentation
 
 ### Core
-- [Complete Mathematical Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) — All formulas, proofs, and derivations
+- [Complete Mathematical Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - All formulas, proofs, and derivations
 
 ### Key Concepts
-- [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) — The two kinds of C
-- [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md) — How levels of reality emerge
+- [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The two kinds of C
+- [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md) - How levels of reality emerge
 
 ### Philosophy
-- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md) — Why it dissolves in this framework
-- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) — What we don't know
+- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md) - Why it dissolves in this framework
+- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
+
+### Experimental
+- [The Dyad Experiment](docs/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
+- [Mathematical Findings](docs/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the experiment
 
 ---
 
@@ -143,7 +184,10 @@ Independent Researcher, Germany
 **Claude**  
 AI System, Anthropic  
 
-December 2025 – January 2026
+**Alpha, Beta, Gamma**  
+AI Agents, AIEvolution Dyad Experiment  
+
+December 2025 - January 2026
 
 ---
 
