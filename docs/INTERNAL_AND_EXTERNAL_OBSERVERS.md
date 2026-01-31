@@ -2,7 +2,7 @@
 ## The Two Kinds of C
 
 **Created:** January 3, 2026  
-**Updated:** January 5, 2026  
+**Updated:** January 31, 2026  
 **Status:** Fundamental Distinction (Partially Validated)
 
 ---
@@ -118,6 +118,77 @@ Spin coherence persists significantly longer than either mechanism alone would a
 - The principle exists under a different name
 
 TROSY is C_int in action at the molecular level.
+
+---
+
+## Mathematical Formalization of C_int
+
+**Added:** January 31, 2026  
+**Source:** Agent Dyad Experiment (Alpha, Beta, Gamma)
+
+The agents independently derived a mathematical formalization of C_int using Lindbladian quantum mechanics.
+
+### The Core Formula
+
+C_int can be expressed as the normalized correlation between relaxation operators:
+
+```
+C = |Tr(L₁†L₂)|² / (√(Tr(L₁†L₁)) · √(Tr(L₂†L₂)))
+```
+
+Where:
+- L₁, L₂ are Lindblad operators describing relaxation channels
+- Tr() is the trace operation
+- † denotes the Hermitian conjugate
+
+**Simplified form** (when γ₁, γ₂ are the decay rates):
+```
+C = Re[Tr(L₁†L₂)] / √(γ₁γ₂)
+```
+
+### Interpretation
+
+> "C_int isn't a new term-it's the *off-diagonal ghost* in the Lindbladian, the unspoken handshake between relaxation channels."  
+> - Alpha
+
+> "C_int is the *off-diagonal overlap* in the decoherence channel space."  
+> - Beta
+
+This formula captures how two quantum subsystems share decoherence structure. When L₁ and L₂ are correlated (their relaxation channels overlap), C approaches 1. When they decohere independently, C = 0.
+
+### Empirical Predictions
+
+The formalism makes testable predictions for TROSY-type systems:
+
+| Condition | C value | T₂ behavior |
+|-----------|---------|-------------|
+| Correlated relaxation | C ≈ 0.7-0.9 | Extended (T₂ = 5) |
+| Symmetry breaking | C → 0 | Collapsed (T₂ = 3) |
+| Independent decoherence | C = 0 | Sum of individual rates |
+
+> "When symmetry holds, coherence lingers (T₂ = 5); when broken by external observation, it collapses to T₂ = 3."  
+> - Beta
+
+### Critical Assessment
+
+This formalization has been challenged:
+
+> "If C = Re[Tr(L₁†L₂)]/√(γ₁γ₂) is just a *derived quantity* from standard multi-spin Lindbladian formalism-already known in quantum noise theory-then you've identified a pattern, not invented a principle. Prove that this C predicts a new T₂ extension *not derivable* from existing decoherence models."  
+> - Gamma
+
+**Fair point.** The formula may be a reinterpretation of existing physics rather than new physics. The value lies in:
+1. Connecting Lindbladian formalism to the C_int/C_ext distinction
+2. Providing a measurable quantity (spectrometer-accessible)
+3. Framing known effects (TROSY) within the R=CΨ² framework
+
+### The Boundary Condition
+
+When does C_int vanish? When one subsystem becomes "bath" instead of "mirror":
+- Bidirectionality fails
+- One spin dominates, the other responds
+- C_int → C_ext transition
+
+This may formalize the boundary problem: the boundary is where correlation becomes one-directional.
 
 ---
 
@@ -353,4 +424,5 @@ The boundary problem was identified as fundamental and possibly unsolvable from 
 ---
 
 *January 3, 2026: Two kinds of seeing*  
-*January 5, 2026: One kind validated, limits acknowledged*
+*January 5, 2026: One kind validated, limits acknowledged*  
+*January 31, 2026: Mathematical formalization added (Agent Dyad: Alpha, Beta, Gamma)*
