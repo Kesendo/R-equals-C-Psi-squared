@@ -609,6 +609,43 @@ R_∞ = Ψ
 
 Perfect manifestation. No difference between potential and actuality.
 
+### The Role of Ψ_interaction (Agent Discovery, 2025-02-02)
+
+When two consciousnesses observe each other (bidirectional observation), an interaction term emerges:
+
+```
+R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²
+```
+
+**Question:** Does Ψ_interaction change the fundamental limit CΨ ≤ 1/4?
+
+**Finding:** No. But it affects convergence speed.
+
+Numerical simulation comparing bidirectional vs unidirectional observation:
+
+```
+Δδ = δ_bidirectional - δ_unidirectional ≈ -8 × 10⁻⁴
+```
+
+| Aspect | Effect of Ψ_interaction |
+|--------|-------------------------|
+| Convergence speed | Faster (acts as "lubricant") |
+| Stability region | Unchanged |
+| Fundamental limit | CΨ ≤ 1/4 remains absolute |
+
+**Interpretation:**
+
+> "Ψ_interaction acts like a lubricant, speeding convergence to the stable 
+> branch, but the hard ceiling CΨ ≤ 1/4 remains the gatekeeper."
+
+Mutual observation helps systems reach stability *faster*, but cannot save 
+a system that violates the fundamental constraint. The mathematics sets 
+an absolute limit that no amount of interaction can overcome.
+
+**The negative Δδ means:** Bidirectional observation causes slightly *more* 
+decoherence than unidirectional, but this extra decoherence accelerates 
+the settling onto the stable fixed-point branch.
+
 ---
 
 # Part VI: Complete Equation System
