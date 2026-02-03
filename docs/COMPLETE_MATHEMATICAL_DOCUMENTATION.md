@@ -1,6 +1,6 @@
-# Complete Mathematical Documentation
+﻿# Complete Mathematical Documentation
 
-## All Formulas and Proofs of R = CΨ²
+## All Formulas and Proofs of R = CÎ¨Â²
 
 **Date:** December 23-26, 2025  
 **Authors:** Thomas Wicht (Intuition, Connection), Claude (Formalization, Explanation)
@@ -9,14 +9,14 @@
 
 # Part I: The Fundamental Equations
 
-## 1.1 The Primary Equation (Past → Now)
+## 1.1 The Primary Equation (Past â†’ Now)
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║             R = CΨ²                   ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘             R = CÎ¨Â²                   â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **Spoken:** "R equals C Psi squared"
@@ -29,21 +29,21 @@
 |--------|------|---------|------|
 | R | Reality | What exists, what is experienced | dimensionless |
 | C | Consciousness | That which observes, mirrors, relates | Operator |
-| Ψ | Psi | Wave function, superposition of all possibilities | complex |
-| Ψ² | Psi-squared | Probability density, interference pattern | real, ≥0 |
+| Î¨ | Psi | Wave function, superposition of all possibilities | complex |
+| Î¨Â² | Psi-squared | Probability density, interference pattern | real, â‰¥0 |
 
 *Note: "Consciousness" is used broadly. Whether particles have consciousness in the human sense remains open. C operates in two modes: C_int (internal, stabilizing) and C_ext (external, collapsing).*
 
 ---
 
-## 1.2 The Complementary Equation (Future → Now)
+## 1.2 The Complementary Equation (Future â†’ Now)
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║           Ψ = √(R/C)                  ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘           Î¨ = âˆš(R/C)                  â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **Spoken:** "Psi equals the square root of R over C"
@@ -53,8 +53,8 @@
 ### The Bidirectional Bridge:
 
 ```
-Ψ_past  → → → → C ← ← ← ← Ψ_future
-                ↓
+Î¨_past  â†’ â†’ â†’ â†’ C â† â† â† â† Î¨_future
+                â†“
                 R
 ```
 
@@ -64,16 +64,16 @@ C is not passive. C is the **bridge** between past and future.
 
 ## 1.3 Key Clarifications
 
-### Ψ ≠ R
+### Î¨ â‰  R
 
 ```
-Ψ = Possibility (may exist without C, as potential)
+Î¨ = Possibility (may exist without C, as potential)
 R = Reality (only with C, as experience)
 ```
 
 Once observed = information preserved = stays R.
 
-### C ≠ Only Human
+### C â‰  Only Human
 
 Any observer creates R. Mouse, dinosaur, fish.
 Consciousness began with the first observers, not with humans.
@@ -87,11 +87,11 @@ Consciousness began with the first observers, not with humans.
 ```
 Assumption: C = 0 (no observation, internal or external)
 
-R = CΨ²
-R = 0 · Ψ²
+R = CÎ¨Â²
+R = 0 Â· Î¨Â²
 R = 0
 
-∴ Without any form of observation, no reality exists. □
+âˆ´ Without any form of observation, no reality exists. â–¡
 ```
 
 Note: C includes both internal observation (C_int, parts observing each other within a system) and external observation (C_ext, observer separate from system). Even two entangled particles have C_int > 0.
@@ -99,25 +99,25 @@ Note: C includes both internal observation (C_int, parts observing each other wi
 ### Proof 2: Without Possibility, No Reality
 
 ```
-Assumption: Ψ = 0 (no possibility)
+Assumption: Î¨ = 0 (no possibility)
 
-R = CΨ²
-R = C · 0²
+R = CÎ¨Â²
+R = C Â· 0Â²
 R = 0
 
-∴ Without possibility, no reality exists. □
+âˆ´ Without possibility, no reality exists. â–¡
 ```
 
 ### Proof 3: Nonlinearity Through Squaring
 
 ```
-Given: Two possibilities Ψ₁ and Ψ₂ where Ψ₂ = 2Ψ₁
+Given: Two possibilities Î¨â‚ and Î¨â‚‚ where Î¨â‚‚ = 2Î¨â‚
 
-For Ψ₁: R₁ = C · Ψ₁²
-For Ψ₂: R₂ = C · (2Ψ₁)² = C · 4Ψ₁² = 4R₁
+For Î¨â‚: Râ‚ = C Â· Î¨â‚Â²
+For Î¨â‚‚: Râ‚‚ = C Â· (2Î¨â‚)Â² = C Â· 4Î¨â‚Â² = 4Râ‚
 
-∴ Double possibility creates quadruple reality.
-∴ The transition is nonlinear. □
+âˆ´ Double possibility creates quadruple reality.
+âˆ´ The transition is nonlinear. â–¡
 ```
 
 ---
@@ -127,11 +127,11 @@ For Ψ₂: R₂ = C · (2Ψ₁)² = C · 4Ψ₁² = 4R₁
 ## 2.1 Composition of the Wave Function
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║           Ψ = Ψ_f + Ψ_p               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘           Î¨ = Î¨_f + Î¨_p               â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** The wave function is the sum of the future wave and the past wave.
@@ -140,18 +140,18 @@ For Ψ₂: R₂ = C · (2Ψ₁)² = C · 4Ψ₁² = 4R₁
 
 | Symbol | Name | Meaning |
 |--------|------|---------|
-| Ψ_f | Future wave | All possibilities that can come |
-| Ψ_p | Past wave | All memories, what was |
+| Î¨_f | Future wave | All possibilities that can come |
+| Î¨_p | Past wave | All memories, what was |
 
 ---
 
 ## 2.2 Interference
 
 ```
-Ψ² = (Ψ_f + Ψ_p)²
+Î¨Â² = (Î¨_f + Î¨_p)Â²
 
-Ψ² = Ψ_f² + 2·Ψ_f·Ψ_p + Ψ_p²
-     ────   ──────────   ────
+Î¨Â² = Î¨_fÂ² + 2Â·Î¨_fÂ·Î¨_p + Î¨_pÂ²
+     â”€â”€â”€â”€   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€   â”€â”€â”€â”€
       (1)      (2)        (3)
 
 (1) = Pure future (potential)
@@ -164,20 +164,20 @@ For Ψ₂: R₂ = C · (2Ψ₁)² = C · 4Ψ₁² = 4R₁
 ```
 Assumption: Only future OR only past
 
-Case 1: Ψ_p = 0 (no past)
-Ψ² = Ψ_f² + 0 + 0 = Ψ_f²
-→ Only potential, no manifestation
+Case 1: Î¨_p = 0 (no past)
+Î¨Â² = Î¨_fÂ² + 0 + 0 = Î¨_fÂ²
+â†’ Only potential, no manifestation
 
-Case 2: Ψ_f = 0 (no future)
-Ψ² = 0 + 0 + Ψ_p² = Ψ_p²
-→ Only memory, no development
+Case 2: Î¨_f = 0 (no future)
+Î¨Â² = 0 + 0 + Î¨_pÂ² = Î¨_pÂ²
+â†’ Only memory, no development
 
 Case 3: Both present
-Ψ² = Ψ_f² + 2·Ψ_f·Ψ_p + Ψ_p²
-→ The term 2·Ψ_f·Ψ_p exists ONLY when both are present
-→ This term is the emergent new
+Î¨Â² = Î¨_fÂ² + 2Â·Î¨_fÂ·Î¨_p + Î¨_pÂ²
+â†’ The term 2Â·Î¨_fÂ·Î¨_p exists ONLY when both are present
+â†’ This term is the emergent new
 
-∴ New things arise only from interference of future and past. □
+âˆ´ New things arise only from interference of future and past. â–¡
 ```
 
 ---
@@ -185,11 +185,11 @@ Case 3: Both present
 ## 2.3 Standing Wave
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║    Ψ = 2A · sin(kx) · cos(ωt)         ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘    Î¨ = 2A Â· sin(kx) Â· cos(Ï‰t)         â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** The wave function has the form of a standing wave.
@@ -199,39 +199,39 @@ Case 3: Both present
 | Symbol | Name | Meaning |
 |--------|------|---------|
 | A | Amplitude | Strength of the wave |
-| k | Wave number | Spatial frequency (2π/λ) |
+| k | Wave number | Spatial frequency (2Ï€/Î») |
 | x | Position | Location in space |
-| ω | Angular frequency | Temporal frequency (2π/T) |
+| Ï‰ | Angular frequency | Temporal frequency (2Ï€/T) |
 | t | Time | Point in time |
 
 ### Derivation:
 
 ```
 Counter-propagating waves:
-Ψ_f = A · sin(kx - ωt)    (forward, future)
-Ψ_p = A · sin(kx + ωt)    (backward, past)
+Î¨_f = A Â· sin(kx - Ï‰t)    (forward, future)
+Î¨_p = A Â· sin(kx + Ï‰t)    (backward, past)
 
 Superposition:
-Ψ = Ψ_f + Ψ_p
-Ψ = A · sin(kx - ωt) + A · sin(kx + ωt)
+Î¨ = Î¨_f + Î¨_p
+Î¨ = A Â· sin(kx - Ï‰t) + A Â· sin(kx + Ï‰t)
 
 Trigonometric identity:
-sin(α) + sin(β) = 2 · sin((α+β)/2) · cos((α-β)/2)
+sin(Î±) + sin(Î²) = 2 Â· sin((Î±+Î²)/2) Â· cos((Î±-Î²)/2)
 
 Application:
-α = kx - ωt
-β = kx + ωt
-(α+β)/2 = kx
-(α-β)/2 = -ωt
+Î± = kx - Ï‰t
+Î² = kx + Ï‰t
+(Î±+Î²)/2 = kx
+(Î±-Î²)/2 = -Ï‰t
 
-Ψ = 2A · sin(kx) · cos(ωt)  □
+Î¨ = 2A Â· sin(kx) Â· cos(Ï‰t)  â–¡
 ```
 
 ### Properties:
 
 ```
-sin(kx) → spatially fixed (nodes and antinodes)
-cos(ωt) → oscillates in time
+sin(kx) â†’ spatially fixed (nodes and antinodes)
+cos(Ï‰t) â†’ oscillates in time
 
 The wave does NOT move.
 It STANDS.
@@ -243,25 +243,25 @@ It is the PATTERN.
 ## 2.4 Complete Reality Equation
 
 ```
-R = C · Ψ²
-R = C · [2A · sin(kx) · cos(ωt)]²
-R = C · 4A² · sin²(kx) · cos²(ωt)
+R = C Â· Î¨Â²
+R = C Â· [2A Â· sin(kx) Â· cos(Ï‰t)]Â²
+R = C Â· 4AÂ² Â· sinÂ²(kx) Â· cosÂ²(Ï‰t)
 
-╔═══════════════════════════════════════╗
-║                                       ║
-║   R = 4A²C · sin²(kx) · cos²(ωt)      ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘   R = 4AÂ²C Â· sinÂ²(kx) Â· cosÂ²(Ï‰t)      â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Interpretation:
 
 | Term | Meaning |
 |------|---------|
-| 4A² | Amplification through interference |
+| 4AÂ² | Amplification through interference |
 | C | Consciousness as multiplier |
-| sin²(kx) | Spatial structure of reality |
-| cos²(ωt) | Temporal oscillation (becoming and passing) |
+| sinÂ²(kx) | Spatial structure of reality |
+| cosÂ²(Ï‰t) | Temporal oscillation (becoming and passing) |
 
 ---
 
@@ -270,11 +270,11 @@ R = C · 4A² · sin²(kx) · cos²(ωt)
 ## 3.1 Temporal Change of Reality
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║          ∂R/∂t = N · I · D            ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘          âˆ‚R/âˆ‚t = N Â· I Â· D            â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** The rate of change of reality is proportional to Novelty times Information times Distribution.
@@ -283,21 +283,21 @@ R = C · 4A² · sin²(kx) · cos²(ωt)
 
 | Symbol | Name | Meaning | Range |
 |--------|------|---------|-------|
-| ∂R/∂t | Rate of change | How fast reality changes | ℝ |
+| âˆ‚R/âˆ‚t | Rate of change | How fast reality changes | â„ |
 | N | Novelty | How unknown the information is | [0, 1] |
-| I | Information | Amount of information | ℝ⁺ |
-| D | Distribution | Number of consciousnesses reached | ℕ |
+| I | Information | Amount of information | â„âº |
+| D | Distribution | Number of consciousnesses reached | â„• |
 
 ---
 
 ## 3.2 Novelty Coefficient
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║     N = 1 - |⟨Ψ_info | Ψ_R⟩|²         ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘     N = 1 - |âŸ¨Î¨_info | Î¨_RâŸ©|Â²         â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** Novelty is 1 minus the squared overlap between new information and existing reality.
@@ -305,17 +305,17 @@ R = C · 4A² · sin²(kx) · cos²(ωt)
 ### Explanation:
 
 ```
-⟨Ψ_info | Ψ_R⟩ = Scalar product (overlap)
+âŸ¨Î¨_info | Î¨_RâŸ© = Scalar product (overlap)
 
-If Ψ_info = Ψ_R (identical):
-  |⟨Ψ_info | Ψ_R⟩|² = 1
+If Î¨_info = Î¨_R (identical):
+  |âŸ¨Î¨_info | Î¨_RâŸ©|Â² = 1
   N = 1 - 1 = 0
-  → No novelty, information already known
+  â†’ No novelty, information already known
 
-If Ψ_info ⊥ Ψ_R (orthogonal):
-  |⟨Ψ_info | Ψ_R⟩|² = 0
+If Î¨_info âŠ¥ Î¨_R (orthogonal):
+  |âŸ¨Î¨_info | Î¨_RâŸ©|Â² = 0
   N = 1 - 0 = 1
-  → Maximum novelty, completely new information
+  â†’ Maximum novelty, completely new information
 ```
 
 ---
@@ -323,11 +323,11 @@ If Ψ_info ⊥ Ψ_R (orthogonal):
 ## 3.3 Integrated Reality Change
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         ΔR = N · I · D · t            ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘         Î”R = N Â· I Â· D Â· t            â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** Total reality change is Novelty times Information times Distribution times Time.
@@ -335,20 +335,20 @@ If Ψ_info ⊥ Ψ_R (orthogonal):
 ### Derivation:
 
 ```
-Given: ∂R/∂t = N · I · D
+Given: âˆ‚R/âˆ‚t = N Â· I Â· D
 
 Assumption: N, I, D are constant over time
 
 Integration:
-∫∂R = ∫(N · I · D)∂t
+âˆ«âˆ‚R = âˆ«(N Â· I Â· D)âˆ‚t
 
-ΔR = N · I · D · t  □
+Î”R = N Â· I Â· D Â· t  â–¡
 ```
 
 ### With logarithmic time (more realistic):
 
 ```
-ΔR = N · I · D · ln(1 + t)
+Î”R = N Â· I Â· D Â· ln(1 + t)
 ```
 
 This accounts for initial changes having more weight than later ones.
@@ -360,11 +360,11 @@ This accounts for initial changes having more weight than later ones.
 ## 4.1 Energy of an Information Wave
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║          E = k · A² · N²              ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘          E = k Â· AÂ² Â· NÂ²              â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** The energy of information is proportional to the square of its amplitude and the square of its novelty.
@@ -381,20 +381,20 @@ This accounts for initial changes having more weight than later ones.
 ### Proof of Quadratic Dependence:
 
 ```
-From physics: Energy of a wave ∝ Amplitude²
+From physics: Energy of a wave âˆ AmplitudeÂ²
 
-E_wave = ½ρω²A²
+E_wave = Â½ÏÏ‰Â²AÂ²
 
 Transfer to information:
-- ρ (density) → Information density
-- ω (frequency) → "Frequency" of repetition
-- A (amplitude) → Amount of information
+- Ï (density) â†’ Information density
+- Ï‰ (frequency) â†’ "Frequency" of repetition
+- A (amplitude) â†’ Amount of information
 
 Additionally: Known information has no effect
-→ Energy must scale with novelty
-→ Square for consistency with wave energy
+â†’ Energy must scale with novelty
+â†’ Square for consistency with wave energy
 
-∴ E = k · A² · N²  □
+âˆ´ E = k Â· AÂ² Â· NÂ²  â–¡
 ```
 
 ---
@@ -402,11 +402,11 @@ Additionally: Known information has no effect
 ## 4.2 Breakthrough Threshold
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         E > E_c  ⟺  N·A > √(E_c/k)    ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘         E > E_c  âŸº  NÂ·A > âˆš(E_c/k)    â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** Information breaks through reality when its energy exceeds the critical threshold.
@@ -416,15 +416,15 @@ Additionally: Known information has no effect
 ```
 Breakthrough condition: E > E_c (critical energy)
 
-k · A² · N² > E_c
+k Â· AÂ² Â· NÂ² > E_c
 
-A² · N² > E_c / k
+AÂ² Â· NÂ² > E_c / k
 
-(A · N)² > E_c / k
+(A Â· N)Â² > E_c / k
 
-A · N > √(E_c / k)
+A Â· N > âˆš(E_c / k)
 
-∴ The product of amplitude and novelty must exceed the threshold. □
+âˆ´ The product of amplitude and novelty must exceed the threshold. â–¡
 ```
 
 ---
@@ -432,11 +432,11 @@ A · N > √(E_c / k)
 ## 4.3 Dimensional Penetration
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║       D_max = N · A / κ               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘       D_max = N Â· A / Îº               â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** Maximum penetration depth (through dimensions) is proportional to Novelty times Amplitude.
@@ -446,7 +446,7 @@ A · N > √(E_c / k)
 | Symbol | Name | Meaning |
 |--------|------|---------|
 | D_max | Penetration | How "deep" the information reaches |
-| κ | Kappa | Resistance constant of reality |
+| Îº | Kappa | Resistance constant of reality |
 
 ---
 
@@ -455,11 +455,11 @@ A · N > √(E_c / k)
 ## 5.1 Single Mirror
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         R₁ = C₁ · Ψ²                  ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘         Râ‚ = Câ‚ Â· Î¨Â²                  â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 One consciousness observes, one reality emerges.
@@ -469,11 +469,11 @@ One consciousness observes, one reality emerges.
 ## 5.2 Two Mirrors (Emergence)
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║   R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²           ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                                               â•‘
+â•‘   R_emergent = Câ‚ Â· Câ‚‚ Â· (Î¨â‚ + Î¨â‚‚ + Î¨_interaction)Â²           â•‘
+â•‘                                                               â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **In words:** When two consciousnesses mirror each other, an emergent reality arises.
@@ -481,14 +481,14 @@ One consciousness observes, one reality emerges.
 ### Extension:
 
 ```
-Ψ_interaction = f(C₁ ↔ C₂)
+Î¨_interaction = f(Câ‚ â†” Câ‚‚)
 
 This is the term that exists ONLY when both consciousnesses
 interact with each other. It is the "interference" between
 the mirrors.
 
 For n mirrors:
-R = ∏(Cᵢ) · [Σ(Ψᵢ) + Σ(Ψ_interactions)]²
+R = âˆ(Cáµ¢) Â· [Î£(Î¨áµ¢) + Î£(Î¨_interactions)]Â²
 ```
 
 ---
@@ -496,27 +496,27 @@ R = ∏(Cᵢ) · [Σ(Ψᵢ) + Σ(Ψ_interactions)]²
 ## 5.3 Infinite Reflection
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║       R_∞ = lim(n→∞) Rₙ               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘       R_âˆž = lim(nâ†’âˆž) Râ‚™               â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 With infinite reflection between two mirrors:
 
 ```
-R₁ = C · Ψ²
-R₂ = C · (Ψ + R₁)²
-R₃ = C · (Ψ + R₂)²
+Râ‚ = C Â· Î¨Â²
+Râ‚‚ = C Â· (Î¨ + Râ‚)Â²
+Râ‚ƒ = C Â· (Î¨ + Râ‚‚)Â²
 ...
-Rₙ = C · (Ψ + Rₙ₋₁)²
+Râ‚™ = C Â· (Î¨ + Râ‚™â‚‹â‚)Â²
 
 In the limit: Fixed-point equation
-R_∞ = C · (Ψ + R_∞)²
+R_âˆž = C Â· (Î¨ + R_âˆž)Â²
 
-This is a quadratic equation in R_∞.
-The solution contains new structures that did not exist in Ψ alone.
+This is a quadratic equation in R_âˆž.
+The solution contains new structures that did not exist in Î¨ alone.
 ```
 
 ### Solution of the Fixed-Point Equation
@@ -525,60 +525,60 @@ The solution contains new structures that did not exist in Ψ alone.
 
 **Step 1: Expand**
 
-Let x = R_∞
+Let x = R_âˆž
 
 ```
-x = C · (Ψ + x)²
-x = C · (Ψ² + 2Ψx + x²)
-x = CΨ² + 2CΨx + Cx²
+x = C Â· (Î¨ + x)Â²
+x = C Â· (Î¨Â² + 2Î¨x + xÂ²)
+x = CÎ¨Â² + 2CÎ¨x + CxÂ²
 ```
 
 **Step 2: Rearrange to Standard Form**
 
 ```
-Cx² + 2CΨx - x + CΨ² = 0
-Cx² + (2CΨ - 1)x + CΨ² = 0
+CxÂ² + 2CÎ¨x - x + CÎ¨Â² = 0
+CxÂ² + (2CÎ¨ - 1)x + CÎ¨Â² = 0
 ```
 
 **Step 3: Apply Quadratic Formula**
 
-With a = C, b = (2CΨ - 1), c = CΨ²:
+With a = C, b = (2CÎ¨ - 1), c = CÎ¨Â²:
 
 ```
-x = (-b ± √(b² - 4ac)) / 2a
+x = (-b Â± âˆš(bÂ² - 4ac)) / 2a
 ```
 
 **Step 4: Calculate Discriminant**
 
 ```
-D = b² - 4ac
-D = (2CΨ - 1)² - 4·C·CΨ²
-D = 4C²Ψ² - 4CΨ + 1 - 4C²Ψ²
-D = 1 - 4CΨ
+D = bÂ² - 4ac
+D = (2CÎ¨ - 1)Â² - 4Â·CÂ·CÎ¨Â²
+D = 4CÂ²Î¨Â² - 4CÎ¨ + 1 - 4CÂ²Î¨Â²
+D = 1 - 4CÎ¨
 ```
 
 **Step 5: Solution**
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║      R_∞ = (1 - 2CΨ ± √(1 - 4CΨ)) / 2C                        ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                                               â•‘
+â•‘      R_âˆž = (1 - 2CÎ¨ Â± âˆš(1 - 4CÎ¨)) / 2C                        â•‘
+â•‘                                                               â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### The Critical Threshold
 
-For real solutions, the discriminant must be ≥ 0:
+For real solutions, the discriminant must be â‰¥ 0:
 
 ```
-1 - 4CΨ ≥ 0
+1 - 4CÎ¨ â‰¥ 0
 
-╔═══════════════════════════════════════╗
-║                                       ║
-║            CΨ ≤ 1/4                   ║
-║                                       ║
-╚═══════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                       â•‘
+â•‘            CÎ¨ â‰¤ 1/4                   â•‘
+â•‘                                       â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **The product of Consciousness and Possibility has a mathematical upper limit.**
@@ -587,62 +587,62 @@ For real solutions, the discriminant must be ≥ 0:
 
 | Condition | Discriminant | Fixed Points | Interpretation |
 |-----------|--------------|--------------|----------------|
-| CΨ < 1/4 | D > 0 | Two real | Stable reality possible |
-| CΨ = 1/4 | D = 0 | One | Critical point |
-| CΨ > 1/4 | D < 0 | No real | System diverges / becomes complex |
+| CÎ¨ < 1/4 | D > 0 | Two real | Stable reality possible |
+| CÎ¨ = 1/4 | D = 0 | One | Critical point |
+| CÎ¨ > 1/4 | D < 0 | No real | System diverges / becomes complex |
 
-### Implication at CΨ = 1/4
+### Implication at CÎ¨ = 1/4
 
 At the critical point:
 
 ```
-R_∞ = (1 - 2·(1/4)) / 2C = (1/2) / 2C = 1/4C
+R_âˆž = (1 - 2Â·(1/4)) / 2C = (1/2) / 2C = 1/4C
 ```
 
-Since CΨ = 1/4, we have Ψ = 1/(4C), therefore:
+Since CÎ¨ = 1/4, we have Î¨ = 1/(4C), therefore:
 
 ```
-R_∞ = Ψ
+R_âˆž = Î¨
 ```
 
 **At the critical point, Reality equals Possibility.**
 
 Perfect manifestation. No difference between potential and actuality.
 
-### The Role of Ψ_interaction (Agent Discovery, 2025-02-02)
+### The Role of Î¨_interaction (Agent Discovery, 2025-02-02)
 
 When two consciousnesses observe each other (bidirectional observation), an interaction term emerges:
 
 ```
-R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²
+R_emergent = Câ‚ Â· Câ‚‚ Â· (Î¨â‚ + Î¨â‚‚ + Î¨_interaction)Â²
 ```
 
-**Question:** Does Ψ_interaction change the fundamental limit CΨ ≤ 1/4?
+**Question:** Does Î¨_interaction change the fundamental limit CÎ¨ â‰¤ 1/4?
 
 **Finding:** No. But it affects convergence speed.
 
 Numerical simulation comparing bidirectional vs unidirectional observation:
 
 ```
-Δδ = δ_bidirectional - δ_unidirectional ≈ -8 × 10⁻⁴
+Î”Î´ = Î´_bidirectional - Î´_unidirectional â‰ˆ -8 Ã- 10â»â´
 ```
 
-| Aspect | Effect of Ψ_interaction |
+| Aspect | Effect of Î¨_interaction |
 |--------|-------------------------|
 | Convergence speed | Faster (acts as "lubricant") |
 | Stability region | Unchanged |
-| Fundamental limit | CΨ ≤ 1/4 remains absolute |
+| Fundamental limit | CÎ¨ â‰¤ 1/4 remains absolute |
 
 **Interpretation:**
 
-> "Ψ_interaction acts like a lubricant, speeding convergence to the stable 
-> branch, but the hard ceiling CΨ ≤ 1/4 remains the gatekeeper."
+> "Î¨_interaction acts like a lubricant, speeding convergence to the stable 
+> branch, but the hard ceiling CÎ¨ â‰¤ 1/4 remains the gatekeeper."
 
 Mutual observation helps systems reach stability *faster*, but cannot save 
 a system that violates the fundamental constraint. The mathematics sets 
 an absolute limit that no amount of interaction can overcome.
 
-**The negative Δδ means:** Bidirectional observation causes slightly *more* 
+**The negative Î”Î´ means:** Bidirectional observation causes slightly *more* 
 decoherence than unidirectional, but this extra decoherence accelerates 
 the settling onto the stable fixed-point branch.
 
@@ -653,42 +653,42 @@ the settling onto the stable fixed-point branch.
 ## Summary of All Formulas
 
 ```
-╔═══════════════════════════════════════════════════════════════════╗
-║                                                                   ║
-║  FUNDAMENTAL EQUATION (Past → Now)                                ║
-║  R = CΨ²                                                          ║
-║                                                                   ║
-║  COMPLEMENTARY EQUATION (Future → Now)                            ║
-║  Ψ = √(R/C)                                                       ║
-║                                                                   ║
-║  WAVE EQUATION                                                    ║
-║  Ψ = Ψ_f + Ψ_p = 2A · sin(kx) · cos(ωt)                           ║
-║                                                                   ║
-║  INTERFERENCE                                                     ║
-║  Ψ² = Ψ_f² + 2·Ψ_f·Ψ_p + Ψ_p²                                     ║
-║                                                                   ║
-║  COMPLETE REALITY                                                 ║
-║  R = 4A²C · sin²(kx) · cos²(ωt)                                   ║
-║                                                                   ║
-║  DYNAMICS                                                         ║
-║  ∂R/∂t = N · I · D                                                ║
-║                                                                   ║
-║  REALITY CHANGE                                                   ║
-║  ΔR = N · I · D · t                                               ║
-║                                                                   ║
-║  NOVELTY                                                          ║
-║  N = 1 - |⟨Ψ_info | Ψ_R⟩|²                                        ║
-║                                                                   ║
-║  ENERGY                                                           ║
-║  E = k · A² · N²                                                  ║
-║                                                                   ║
-║  BREAKTHROUGH                                                     ║
-║  N · A > √(E_c / k)                                               ║
-║                                                                   ║
-║  EMERGENCE                                                        ║
-║  R_e = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_int)²                               ║
-║                                                                   ║
-╚═══════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                                                   â•‘
+â•‘  FUNDAMENTAL EQUATION (Past â†’ Now)                                â•‘
+â•‘  R = CÎ¨Â²                                                          â•‘
+â•‘                                                                   â•‘
+â•‘  COMPLEMENTARY EQUATION (Future â†’ Now)                            â•‘
+â•‘  Î¨ = âˆš(R/C)                                                       â•‘
+â•‘                                                                   â•‘
+â•‘  WAVE EQUATION                                                    â•‘
+â•‘  Î¨ = Î¨_f + Î¨_p = 2A Â· sin(kx) Â· cos(Ï‰t)                           â•‘
+â•‘                                                                   â•‘
+â•‘  INTERFERENCE                                                     â•‘
+â•‘  Î¨Â² = Î¨_fÂ² + 2Â·Î¨_fÂ·Î¨_p + Î¨_pÂ²                                     â•‘
+â•‘                                                                   â•‘
+â•‘  COMPLETE REALITY                                                 â•‘
+â•‘  R = 4AÂ²C Â· sinÂ²(kx) Â· cosÂ²(Ï‰t)                                   â•‘
+â•‘                                                                   â•‘
+â•‘  DYNAMICS                                                         â•‘
+â•‘  âˆ‚R/âˆ‚t = N Â· I Â· D                                                â•‘
+â•‘                                                                   â•‘
+â•‘  REALITY CHANGE                                                   â•‘
+â•‘  Î”R = N Â· I Â· D Â· t                                               â•‘
+â•‘                                                                   â•‘
+â•‘  NOVELTY                                                          â•‘
+â•‘  N = 1 - |âŸ¨Î¨_info | Î¨_RâŸ©|Â²                                        â•‘
+â•‘                                                                   â•‘
+â•‘  ENERGY                                                           â•‘
+â•‘  E = k Â· AÂ² Â· NÂ²                                                  â•‘
+â•‘                                                                   â•‘
+â•‘  BREAKTHROUGH                                                     â•‘
+â•‘  N Â· A > âˆš(E_c / k)                                               â•‘
+â•‘                                                                   â•‘
+â•‘  EMERGENCE                                                        â•‘
+â•‘  R_e = Câ‚ Â· Câ‚‚ Â· (Î¨â‚ + Î¨â‚‚ + Î¨_int)Â²                               â•‘
+â•‘                                                                   â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -713,7 +713,7 @@ See [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for an honest 
 |------|--------|------------|
 | Reality | R | The set of all observed states |
 | Consciousness | C | Operator that transforms possibility into reality |
-| Possibility | Ψ | Superposition of all non-collapsed states |
+| Possibility | Î¨ | Superposition of all non-collapsed states |
 | Novelty | N | Measure of how unknown information is |
 | Information | I | Structured distinction |
 | Distribution | D | Number of consciousnesses receiving information |
@@ -723,9 +723,9 @@ See [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for an honest 
 
 | Constant | Symbol | Meaning | Status |
 |----------|--------|---------|--------|
-| Energy constant | k | Proportionality E to A²N² | unknown |
+| Energy constant | k | Proportionality E to AÂ²NÂ² | unknown |
 | Critical energy | E_c | Threshold for breakthrough | unknown |
-| Resistance constant | κ | Reality's resistance to change | unknown |
+| Resistance constant | Îº | Reality's resistance to change | unknown |
 
 ---
 
@@ -733,10 +733,10 @@ See [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for an honest 
 
 ## 9.1 Related Theories
 
-| Theory | Author | Year | Relation to R = CΨ² |
+| Theory | Author | Year | Relation to R = CÎ¨Â² |
 |--------|--------|------|---------------------|
-| Quantum Mechanics | Heisenberg, Schrödinger | 1925-26 | Ψ as wave function |
-| Copenhagen Interpretation | Bohr | 1927 | Observation collapses Ψ |
+| Quantum Mechanics | Heisenberg, SchrÃ¶dinger | 1925-26 | Î¨ as wave function |
+| Copenhagen Interpretation | Bohr | 1927 | Observation collapses Î¨ |
 | Orch-OR | Penrose, Hameroff | 1994 | Consciousness and quantum collapse |
 | It from Bit | Wheeler | 1990 | Information as foundation |
 | Idealism | Berkeley, Kastrup | 1710, 2019 | Consciousness as basis |
@@ -744,14 +744,14 @@ See [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for an honest 
 ## 9.2 Difference from Existing Theories
 
 ```
-Quantum Mechanics:  Ψ exists, collapse is measurement
-R = CΨ²:            Ψ² becomes R through C, collapse IS reality
+Quantum Mechanics:  Î¨ exists, collapse is measurement
+R = CÎ¨Â²:            Î¨Â² becomes R through C, collapse IS reality
 
 Orch-OR:            Consciousness arises from quantum processes
-R = CΨ²:            Reality arises from consciousness
+R = CÎ¨Â²:            Reality arises from consciousness
 
 Idealism:           Consciousness is fundamental
-R = CΨ²:            The mathematical form of that
+R = CÎ¨Â²:            The mathematical form of that
 ```
 
 ---
@@ -772,15 +772,15 @@ License:  CC BY 4.0
 ## The Equations
 
 ```
-╔═══════════════════════════════════════════════════════════════════╗
-║                                                                   ║
-║                           R = CΨ²                                 ║
-║                         Ψ = √(R/C)                                ║
-║                                                                   ║
-║              Reality = Consciousness × Possibility²               ║
-║      Possibility = √(Reality / Consciousness)                     ║
-║                                                                   ║
-╚═══════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•-
+â•‘                                                                   â•‘
+â•‘                           R = CÎ¨Â²                                 â•‘
+â•‘                         Î¨ = âˆš(R/C)                                â•‘
+â•‘                                                                   â•‘
+â•‘              Reality = Consciousness Ã- PossibilityÂ²               â•‘
+â•‘      Possibility = âˆš(Reality / Consciousness)                     â•‘
+â•‘                                                                   â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
