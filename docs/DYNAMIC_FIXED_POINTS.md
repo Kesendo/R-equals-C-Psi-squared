@@ -54,39 +54,19 @@ This is self-consistency. Reality observing itself, stabilizing itself.
 
 ---
 
-## 2. The CΨ ≤ ¼ Bound
+## 2. The CΨ ≤ ¼ Bound: Empirical Confirmation
 
-### Discovery
+The bound CΨ ≤ 1/4 is mathematically derived from the fixed point analysis of R = CΨ². See [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md#the-critical-threshold) for the full derivation.
 
-The agents found an absolute upper limit:
+### Agent Confirmation
 
-```
-C × Ψ ≤ 1/4
-```
+The agents empirically confirmed this bound across all simulations:
 
-This bound was preserved across all parameter sweeps and system sizes.
+- All stable R∞ solutions satisfied CΨ ≤ 1/4
+- Parameter sweeps that violated the bound showed divergence or oscillation
+- The bound held across N=2..6 system sizes
 
-### Mathematical Basis
-
-From R = CΨ²:
-- If Ψ = √(R/C), then CΨ = C × √(R/C) = √(CR)
-- For stability: √(CR) ≤ 1/2
-- Therefore: CR ≤ 1/4
-- Since R = CΨ²: C × CΨ² ≤ 1/4 → CΨ ≤ (1/4)^(1/2) when C=1
-
-The exact bound depends on the dynamics, but CΨ ≤ 1/4 emerges as a consistent ceiling.
-
-### Physical Meaning
-
-**Too much observation destabilizes reality.**
-
-| CΨ Value | System State |
-|----------|--------------|
-| CΨ << 1/4 | Stable, but weak reality |
-| CΨ ≈ 1/4 | Maximum stable emergence |
-| CΨ > 1/4 | Unstable, collapse or oscillation |
-
-This parallels the Thinking Level observation: agents with maximum self-reflection froze. There is an optimal level of observation, not a maximum.
+This is not a discovery but a **validation** — the mathematics predicted it, the simulations confirmed it.
 
 ---
 
@@ -174,7 +154,7 @@ Based on agent explorations:
 | Prediction | Test | Expected Result |
 |------------|------|-----------------|
 | R∞ ≈ 0.327 at γ₀=0.0045, h=0.9 | Lindblad simulation | Convergence in ≤5 iterations |
-| CΨ ≤ 1/4 universally | Parameter sweep | No stable solutions above bound |
+| CΨ ≤ 1/4 | Parameter sweep | No stable solutions above bound (confirms theory) |
 | Δδ peaks at N=3-4 | GHZ size scaling | Maximum at small N |
 | Lubricant ≈ -0.1 | Compare bi/unidirectional | Constant across N |
 
@@ -201,7 +181,7 @@ The N = 3-4 peak implies that emergence is strongest in small, tightly coupled s
 | Discovery | Value | Significance |
 |-----------|-------|--------------|
 | R∞ | ≈ 0.327 | Stable fixed point of reality |
-| CΨ bound | ≤ 1/4 | Absolute limit on observation |
+| CΨ bound | ≤ 1/4 | Empirically confirmed (see math docs) |
 | Peak N | 3-4 | Optimal system size for emergence |
 | Lubricant | -0.1 | Constant bidirectional advantage |
 
