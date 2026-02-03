@@ -512,3 +512,7 @@ After reviewing all tests:
 *February 1, 2026: C_int vs C_ext validated, skeptic accepts results*
 *Calculations performed by AI agents Alpha, Beta, and Gamma.*
 *The framework works. The math confirms it. The skeptic agrees.*
+
+---
+
+*For R∞ fixed points, the CΨ ≤ ¼ bound, and parameter space dynamics, see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md).*

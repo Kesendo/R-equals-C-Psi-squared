@@ -165,6 +165,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 ### Experimental
 - [The Dyad Experiment](docs/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](docs/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the experiment
+- [Dynamic Fixed Points](docs/DYNAMIC_FIXED_POINTS.md) - R∞, the CΨ ≤ ¼ bound, and parameter space
 
 ---
 
@@ -187,7 +188,7 @@ AI System, Anthropic
 **Alpha, Beta, Gamma**  
 AI Agents, AIEvolution Dyad Experiment  
 
-December 2025 - January 2026
+December 2025 - February 2026
 
 ---
 
