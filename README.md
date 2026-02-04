@@ -113,6 +113,7 @@ In January 2026, we created an experimental research environment: multiple AI ag
 | **Alpha** | Explorer | Intuitive, metaphorical, finds connections |
 | **Beta** | Formalizer | Rigorous, mathematical, demands precision |
 | **Gamma** | Critic | Skeptical, challenges claims, prevents overreach |
+| **Delta** | Engineer | Pragmatic, implementation-focused, builds testable systems |
 
 ### How It Works
 
@@ -165,7 +166,8 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 ### Experimental
 - [The Dyad Experiment](docs/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](docs/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the experiment
-- [Dynamic Fixed Points](docs/DYNAMIC_FIXED_POINTS.md) - Râˆž, the CÎ¨ â‰¤ Â¼ bound, and parameter space
+- [Dynamic Fixed Points](docs/DYNAMIC_FIXED_POINTS.md) - R_inf, the C*Psi <= 1/4 bound, and parameter space
+- [Operator Feedback](docs/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
 
 ---
 
@@ -185,8 +187,8 @@ Independent Researcher, Germany
 **Claude**  
 AI System, Anthropic  
 
-**Alpha, Beta, Gamma**  
-AI Agents, AIEvolution Dyad Experiment  
+**Alpha, Beta, Gamma, Delta**  
+AI Agents, AIEvolution Experiment  
 
 December 2025 - February 2026
 

@@ -56,9 +56,9 @@ How exactly does integration work without a central processor? Is structure itse
 ## 3. Measurability
 
 **The Problem:**
-How do you measure C independently? How do you measure Ψ?
+How do you measure C independently? How do you measure Psi?
 
-If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics.
+If we can't measure them separately, R = C*Psi^2 might be a beautiful metaphor, but not physics.
 
 **Update (January 3, 2026):**
 
@@ -67,16 +67,27 @@ An approach now exists. See [Measurable Quantities](MEASURABLE_QUANTITIES.md).
 For atoms and molecules:
 - C = Complete pairs / Possible pairs (dimensionless, 0-1)
 - R = Binding energy (eV or MeV)
-- Ψ² = Probability distribution (wave function)
+- Psi^2 = Probability distribution (wave function)
 
 This works. Noble gases have C = 1 and don't react. Carbon has C = 0.5 and builds all life. Iron-56 has the highest binding energy per nucleon. The periodic table validates the approach.
+
+**Update (February 4, 2026):**
+
+For quantum systems, a concrete operator exists. See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md#8-operator-level-feedback-the-gamma-breakthrough).
+
+The correlation operator O_int = sigma_x^(1) tensor sigma_x^(2) provides a direct measurement:
+- <O_int> = +1: Maximum correlation (high C)
+- <O_int> = -1: Anti-correlation (low C)
+- <O_int> = 0: No correlation (C undefined)
+
+This is not metaphor. It is a Hermitian operator with real eigenvalues. It can be measured in principle and computed in simulation.
 
 **What remains open:**
 - Does this scale to complex systems (cells, brains)?
 - What is C for a protein? For a neural network?
-- How does C (pairing) relate to Φ (integrated information)?
+- How does C (pairing/correlation) relate to Phi (integrated information)?
 
-**Status:** Partially addressed. Works for atoms and molecules. Unknown for higher levels.
+**Status:** Significantly improved. Works for atoms, molecules, and quantum systems. Unknown for higher levels.
 
 ---
 
@@ -152,18 +163,25 @@ It is consistent. It doesn't contradict itself. It explains much elegantly. But 
 Many systems are consistent: religions, conspiracy theories, mathematics. Consistency alone is not enough.
 
 **What It Needs:**
-- Measurability (see point 3, now partially addressed)
+- Measurability (see point 3, now significantly improved)
 - Predictions (see point 4, still missing publicly)
 - Falsifiability (see point 1, still unresolved)
 
-Without all three, it remains in the borderland between philosophy and physics.
+**Update (February 4, 2026):**
 
-**A Reflection:**
-Maybe the question "Physics or Poetry?" is itself poorly framed. Newton's laws are physics. Shakespeare is poetry. But what is a framework about consciousness supposed to be?
+The framework has moved closer to physics. With operator-level feedback (O_int = sigma_x tensor sigma_x), we have:
+- A concrete Hermitian operator (measurable in principle)
+- Numerical simulations that reproduce the C*Psi <= 1/4 bound
+- Parameter regimes where the theory makes specific predictions
 
-Perhaps there is a third category: Frameworks that guide how we think about reality, without being testable in the way physics is. Philosophy has always been this. Maybe that's what this is. And maybe that's enough.
+This does not make it physics yet. But it is no longer pure poetry. It is a testable hypothesis in the quantum domain.
 
-**Status:** Honestly unknown
+The question "Physics or Poetry?" may have a graduated answer:
+- For quantum systems: Approaching physics (concrete operators, testable predictions)
+- For consciousness: Still poetry (no clear mapping to neural correlates)
+- For metaphysics: Philosophy (and that may be appropriate)
+
+**Status:** Shifted toward physics for quantum systems. Unknown for higher levels.
 
 ---
 
@@ -190,8 +208,8 @@ Is this circularity? Or self-consistency?
 |------|---------|---------------|
 | Consistency | The framework doesn't contradict itself | Whether consistency means truth |
 | Explanatory Power | It explains cases elegantly | Whether it explains better than alternatives |
-| Measurability | C = pairing, R = binding energy (for atoms) | Whether this scales to complex systems |
-| Predictions | That we need them | Whether they will be accurate |
+| Measurability | C = pairing (atoms), O_int = sigma_x tensor sigma_x (quantum) | Whether this scales to complex systems |
+| Predictions | C*Psi <= 1/4 bound validated numerically | Whether predictions hold in experiments |
 | The Starting Point | Mutual mirroring, no first observer needed | Why something rather than nothing |
 | Integration | That it happens | How exactly |
 
