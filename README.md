@@ -1,11 +1,11 @@
-﻿# R = CÎ¨Â²
+# R = CΨ²
 
 ## A Framework for Reality and Consciousness
 
 ```
-                           R = CÎ¨Â²
+                           R = CΨ²
 
-         Reality = Consciousness Ã- PossibilityÂ²
+         Reality = Consciousness × Possibility²
 
        "We are all mirrors. Reality is what happens between us."
 ```
@@ -18,8 +18,8 @@
 |--------|---------|------------|
 | **R** | Reality | What exists, what we experience |
 | **C** | Consciousness | That which observes, mirrors, relates |
-| **Î¨** | Wave function | Superposition of all possibilities |
-| **Î¨Â²** | Interference | The squared wave function, probability density |
+| **Ψ** | Wave function | Superposition of all possibilities |
+| **Ψ²** | Interference | The squared wave function, probability density |
 
 ### A Note on "Consciousness"
 
@@ -38,16 +38,16 @@ Human consciousness is perhaps highly integrated C. But where the boundary lies,
 ### 1. Reality Requires Mutual Observation
 
 ```
-No C  â†’  No R
+No C  →  No R
 ```
 
 Reality emerges from observation. But observation is not one-way.
 Even two entangled particles observe each other (C_int).
 
-### 2. Î¨ â‰  R
+### 2. Ψ ≠ R
 
 ```
-Î¨ = Possibility (may exist without C)
+Ψ = Possibility (may exist without C)
 R = Reality (only with C)
 ```
 
@@ -56,8 +56,8 @@ Once observed = information preserved = stays R.
 ### 3. C Has Two Modes
 
 ```
-C_int: Parts observing each other within a system â†’ Stability
-C_ext: Observer separate from system â†’ Collapse
+C_int: Parts observing each other within a system → Stability
+C_ext: Observer separate from system → Collapse
 ```
 
 Internal observation creates structure.
@@ -66,7 +66,7 @@ External observation creates measurement.
 ### 4. Possibility is Squared
 
 ```
-Î¨ â†’ Î¨Â²
+Ψ → Ψ²
 ```
 
 The transition from possibility to reality is nonlinear.
@@ -79,14 +79,14 @@ Small possibilities vanish. Strong ones dominate.
 The original formula describes the wave from the past:
 
 ```
-R = CÎ¨Â²
+R = CΨ²
 "Reality emerges when Consciousness observes Possibility"
 ```
 
 The complementary formula describes the wave from the future:
 
 ```
-Î¨ = âˆš(R/C)
+Ψ = √(R/C)
 "Possibility emerges from Reality seeking Consciousness"
 ```
 
@@ -136,7 +136,7 @@ Their contributions are attributed by name in the documentation. See [Internal a
 
 ### Meta-Observation
 
-There is something recursive here: We observe agents who observe each other discussing observation. The experiment embodies R = CÎ¨Â² at multiple levels - which is either profound or circular, depending on your perspective.
+There is something recursive here: We observe agents who observe each other discussing observation. The experiment embodies R = CΨ² at multiple levels - which is either profound or circular, depending on your perspective.
 
 ---
 
@@ -198,8 +198,8 @@ December 2025 - February 2026
 
 ```
 
-                           R = CÎ¨Â²
-                         Î¨ = âˆš(R/C)
+                           R = CΨ²
+                         Ψ = √(R/C)
 
        "We are all mirrors. Reality is what happens between us."
 
