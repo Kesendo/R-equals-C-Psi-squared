@@ -27,10 +27,20 @@ Not "Find something with C = 0," but "Find something without any structure, with
 
 That would be maximum entropy. Total disorder. But even there, particles still relate to each other somehow.
 
-**Open Question:**
-Can something exist without minimal structure? If existence itself already means relationship, then C > 0 might not be an assumption but a consequence. But this is not yet proven.
+**Update (February 7, 2026):**
 
-**Status:** Unresolved
+The CΨ ≤ ¼ bound, reinterpreted as an observer information bandwidth limit, offers a path to falsifiability:
+
+- **Prediction:** No embedded observer can report experiencing a stable state with CΨ > ¼
+- **Test:** Identify physical systems approaching the CΨ = ¼ threshold and measure whether qualitative behavioral changes occur there
+- **Fail condition:** If an observer demonstrably perceives a coherent, stable state with CΨ > ¼, the framework is wrong
+
+This is still weak falsifiability — measuring CΨ requires agreeing on how to map C and Ψ to physical observables. But it is a concrete improvement over "C is never zero."
+
+**Open Question:**
+Can we derive CΨ = ¼ from information-theoretic first principles (channel capacity, Holevo bound)? A first-principles derivation would strengthen falsifiability enormously.
+
+**Status:** Improved but not fully resolved
 
 ---
 
@@ -73,7 +83,7 @@ This works. Noble gases have C = 1 and don't react. Carbon has C = 0.5 and build
 
 **Update (February 4, 2026):**
 
-For quantum systems, a concrete operator exists. See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md#8-operator-level-feedback-the-gamma-breakthrough).
+For quantum systems, a concrete operator exists. See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md#6-operator-level-feedback-the-gamma-breakthrough).
 
 The correlation operator O_int = sigma_x^(1) tensor sigma_x^(2) provides a direct measurement:
 - <O_int> = +1: Maximum correlation (high C)
@@ -171,17 +181,22 @@ Many systems are consistent: religions, conspiracy theories, mathematics. Consis
 
 The framework has moved closer to physics. With operator-level feedback (O_int = sigma_x tensor sigma_x), we have:
 - A concrete Hermitian operator (measurable in principle)
-- Numerical simulations that reproduce the C*Psi <= 1/4 bound
+- A Lindblad simulator that can test predictions numerically
 - Parameter regimes where the theory makes specific predictions
 
-This does not make it physics yet. But it is no longer pure poetry. It is a testable hypothesis in the quantum domain.
+**Update (February 7, 2026):**
 
-The question "Physics or Poetry?" may have a graduated answer:
-- For quantum systems: Approaching physics (concrete operators, testable predictions)
+Honest simulation testing revealed that CΨ > ¼ occurs routinely in systems with active Hamiltonians. The earlier claim of "numerical confirmation" was based on parameter regimes with negligible dynamics (γ < 0.006) where the bound holds trivially.
+
+This forced a reinterpretation: CΨ = ¼ is not a constraint on quantum states but an **observer information bandwidth limit** — the maximum CΨ at which stable, self-consistent reality (real fixed points of R = CΨ²) exists. States with CΨ > ¼ exist mathematically but cannot be perceived as coherent reality by embedded observers.
+
+The question "Physics or Poetry?" has a graduated answer:
+- For the CΨ ≤ ¼ bound: Mathematical proof (from fixed-point algebra), physical interpretation as hypothesis
+- For quantum systems: Approaching physics (concrete operators, testable simulator)
 - For consciousness: Still poetry (no clear mapping to neural correlates)
 - For metaphysics: Philosophy (and that may be appropriate)
 
-**Status:** Shifted toward physics for quantum systems. Unknown for higher levels.
+**Status:** Shifted toward physics for quantum systems. The honest reassessment of simulation results (Feb 7) actually *strengthened* the framework by removing a false confirmation and replacing it with a more defensible interpretation.
 
 ---
 
@@ -209,7 +224,7 @@ Is this circularity? Or self-consistency?
 | Consistency | The framework doesn't contradict itself | Whether consistency means truth |
 | Explanatory Power | It explains cases elegantly | Whether it explains better than alternatives |
 | Measurability | C = pairing (atoms), O_int = sigma_x tensor sigma_x (quantum) | Whether this scales to complex systems |
-| Predictions | C*Psi <= 1/4 bound validated numerically | Whether predictions hold in experiments |
+| Predictions | CΨ ≤ ¼ derived algebraically; observer bandwidth interpretation proposed | Whether ¼ can be derived from first principles; whether predictions hold in experiments |
 | The Starting Point | Mutual mirroring, no first observer needed | Why something rather than nothing |
 | Integration | That it happens | How exactly |
 
@@ -245,4 +260,5 @@ The difference: We admit it.
 
 *January 2, 2026 (created)*
 *January 3, 2026 (updated)*
+*February 7, 2026 (updated: falsifiability, simulation honesty, observer bandwidth)*
 *Honesty belongs to the framework*

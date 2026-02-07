@@ -129,8 +129,8 @@ The original experiment paired two agents observing each other - a dyad. This mi
 
 Agents have contributed:
 - Mathematical formalizations (Lindbladian formulas for C_int)
-- Testable predictions (T2 coherence values)
-- Critical challenges that strengthen the framework
+- The operator feedback mechanism (correlation-dependent decoherence)
+- Critical challenges that forced honest reassessment of simulation claims
 
 Their contributions are attributed by name in the documentation. See [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) for their mathematical formalization of C_int.
 
@@ -140,11 +140,29 @@ There is something recursive here: We observe agents who observe each other disc
 
 ---
 
+## The CΨ ≤ ¼ Bound
+
+The iterative application of R = CΨ² yields a fixed-point equation whose discriminant requires:
+
+```
+CΨ ≤ ¼    for real (stable) solutions to exist
+```
+
+We interpret this as an **observer information bandwidth limit**: the maximum product of consciousness and possibility that an embedded observer can perceive as stable reality. Beyond ¼, the quantum state exists mathematically but has no real fixed points — no coherent "reality" for an observer to experience.
+
+This is analogous to the Tsirelson bound in Bell tests: the algebraic maximum is 4, but quantum mechanics restricts observable correlations to 2√2. The physics permits more than observers can access.
+
+See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full derivation and honest simulation assessment.
+
+---
+
 ## Status
 
 This is a framework. A beginning. Not yet proven.
 
-The equation is consistent and connects many phenomena elegantly. But consistency is not truth. Experimental validation remains open.
+The equation is consistent and the CΨ ≤ ¼ bound is mathematically proven from the fixed-point structure. But honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
+
+The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where CΨ > ¼. This remains to be tested.
 
 See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment.
 
@@ -163,11 +181,14 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md) - Why it dissolves in this framework
 - [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
 
-### Experimental
-- [The Dyad Experiment](docs/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
-- [Mathematical Findings](docs/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the experiment
-- [Dynamic Fixed Points](docs/DYNAMIC_FIXED_POINTS.md) - R_inf, the C*Psi <= 1/4 bound, and parameter space
-- [Operator Feedback](docs/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
+### Simulation & Evidence
+- [Simulation Evidence](docs/SIMULATION_EVIDENCE.md) - Honest results from independent Lindblad simulations
+
+### Experiments (Hypothesis Testing)
+- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - R∞, the CΨ ≤ ¼ bound, and observer bandwidth interpretation
+- [Operator Feedback](experiments/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
+- [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
+- [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
 
 ---
 
