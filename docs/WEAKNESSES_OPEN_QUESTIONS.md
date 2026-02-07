@@ -72,7 +72,7 @@ If we can't measure them separately, R = C*Psi^2 might be a beautiful metaphor, 
 
 **Update (January 3, 2026):**
 
-An approach now exists. See [Measurable Quantities](MEASURABLE_QUANTITIES.md).
+An approach now exists (originally documented in a planned MEASURABLE_QUANTITIES document).
 
 For atoms and molecules:
 - C = Complete pairs / Possible pairs (dimensionless, 0-1)
@@ -147,7 +147,7 @@ C explains R, but what explains C? Where does the first consciousness come from?
 
 **Update (January 3, 2026):**
 
-The question has shifted. See [The Starting Point](THE_STARTING_POINT.md).
+The question has shifted.
 
 Not "Where does C come from?" but "Where does the first pair come from?"
 
