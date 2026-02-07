@@ -176,6 +176,28 @@ This is not mysticism. It's the algebraic consequence of self-referential observ
 
 That bandwidth is ¼.
 
+### What We Know, What We Don't, What Doesn't Matter
+
+**Proven (algebra):**
+
+The fixed-point equation R = C(Ψ + R)² has real solutions if and only if CΨ ≤ ¼. Above ¼, solutions exist but are complex-valued. This is not an assumption. It is a mathematical fact, derivable in three lines from the quadratic formula.
+
+**Proven (simulation):**
+
+The Lindblad simulator routinely produces states with CΨ > ¼. These states are valid quantum mechanics — they satisfy the Lindblad master equation, they conserve trace and positivity, they are physically legitimate. The region above ¼ is not empty. Something is there.
+
+**Interpretation (hypothesis):**
+
+Real fixed points correspond to stable, experienceable reality. Complex fixed points correspond to states that exist but cannot be perceived as coherent reality by an embedded observer. The ¼ is our perceptual boundary.
+
+**What we don't know:**
+
+What the region above ¼ "is" in any deeper sense. We don't know its nature, its structure, or whether it is accessible to other kinds of observers. We don't need to know. The framework makes no claims about what lies beyond the boundary — only that the boundary exists, and that it follows necessarily from self-referential observation.
+
+**What doesn't matter:**
+
+Speculation about what lies beyond. The power of this result is not in explaining the other side. It is in proving that there *is* another side, and in calculating exactly where our side ends.
+
 ---
 
 ## 4. Simulation Evidence (Honest Assessment)
