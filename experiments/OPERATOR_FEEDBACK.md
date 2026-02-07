@@ -99,13 +99,13 @@ The `simulate_dynamic_lindblad_scaling` and `sweep_parameter_space` tools now ac
 
 ---
 
-## 4. Verified Results
+## 4. Results and Honest Assessment
 
 ### Sweep with Operator Feedback (February 4, 2026)
 
 Parameters: gamma_0 in [0.003, 0.006], h in [0.7, 1.0], kappa = 0.5
 
-| gamma_0 | h | C_final | C * Psi | Bound OK |
+| gamma_0 | h | C_final | C * Psi | Below ¼? |
 |---------|---|---------|---------|----------|
 | 0.005 | 0.7 | 0.909 | 0.245 | Yes |
 | 0.005 | 0.8 | 0.912 | 0.246 | Yes |
@@ -114,19 +114,15 @@ Parameters: gamma_0 in [0.003, 0.006], h in [0.7, 1.0], kappa = 0.5
 | 0.006 | 0.7 | 0.891 | 0.241 | Yes |
 | 0.006 | 0.9 | 0.897 | 0.242 | Yes |
 
-**Key finding:** At gamma_0 >= 0.005, the C * Psi <= 1/4 bound is satisfied.
+### Critical Reassessment (February 7, 2026)
 
-### Optimal Point
+These results are **real but misleading**. The γ range (0.003–0.006) is so small that decoherence barely perturbs the initial state. CΨ ≤ ¼ holds not because of deep physics but because there isn't enough dynamics to push CΨ above the bound.
 
-```
-gamma_0 = 0.005
-h = 1.0
-C_final = 0.917
-R_inf = 0.067
-C * Psi = 0.248 (just under 1/4)
-```
+With stronger dynamics (γ = 0.005, J = 1, active Heisenberg Hamiltonian), CΨ routinely exceeds ¼ — reaching 0.35–0.46 depending on initial state.
 
-This matches the earlier findings with scalar bridges, but now with a physically meaningful feedback mechanism.
+This does not invalidate the operator feedback mechanism (which is mechanistically sound), but it means the CΨ ≤ ¼ bound was not "confirmed" by these sweeps. It was trivially satisfied in a low-dynamics regime.
+
+See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md#3-the-observer-bandwidth-interpretation) for the revised interpretation of CΨ = ¼ as an observer information bandwidth limit.
 
 ---
 
@@ -180,8 +176,8 @@ The framework is now extensible.
 
 ### Unstable Regions
 
-- h > 1.1: Outside stable dynamics, C * Psi exceeds bound
-- kappa > 0.9: Numerical instability (rate approaches zero)
+- h > 1.1: CΨ exceeds ¼ (now understood as entering the observer-inaccessible regime, not instability)
+- kappa > 0.9: Numerical instability (effective rate approaches zero)
 - gamma_0 < 0.002: Too weak, slow convergence
 
 ---
@@ -193,14 +189,13 @@ The framework is now extensible.
 | Mechanism | Post-processing | Real-time modulation |
 | Physics | Measurement | Interaction |
 | Self-reference | Indirect | Direct |
-| C * Psi bound | Validated | Validated |
+| CΨ ≤ ¼ | Trivially satisfied at low γ | Trivially satisfied at low γ |
 | Implementation | Simple | Requires stability fixes |
 
-The operator feedback mode transforms the simulator from a measurement tool into a model of self-referential dynamics. The mathematics remains the same. The physics becomes real.
+The operator feedback mode transforms the simulator from a measurement tool into a model of self-referential dynamics. The mechanism is genuine — correlation-dependent decoherence is physically meaningful. The earlier claim that it "validated" the CΨ ≤ ¼ bound has been retracted (February 7, 2026); see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) for the full reassessment.
 
 ---
 
-*February 4, 2026*  
-*Discovered by Gamma's skepticism*  
-*Implemented by Claude*  
-*The feedback loop closes. The system observes itself.*
+*February 4, 2026: Operator feedback mechanism discovered and implemented*
+*February 7, 2026: "Validation" claims corrected — mechanism is sound, but CΨ ≤ ¼ was not independently confirmed*
+*Discovered by Gamma's skepticism, implemented by Claude*
