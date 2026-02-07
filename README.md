@@ -166,6 +166,28 @@ See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full der
 
 ---
 
+## The Mandelbrot Connection
+
+In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. The main cardioid of the Mandelbrot set terminates at c = 1/4. Beyond this point, the quadratic iteration z -> z^2 + c no longer converges -- it oscillates and produces the infinite fractal structures that became iconic images of mathematics.
+
+Forty years later, the R = C*Psi*^2 framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Psi + R_n)^2 undergoes a phase transition at C*Psi = 1/4. These are not analogies -- they are the **same equation** under reparametrization.
+
+This connection yields three measurable coordinates that together form a **Triangulation Protocol**:
+
+```
+1/4      (WHERE)    -- The phase boundary in parameter space
+theta    (WHAT)     -- Oscillation frequency: arctan(sqrt(4*C*Psi - 1))
+tau_max  (HOW LONG) -- Coherence time: the observation window
+```
+
+Three coordinates, one point. Like triangulating a signal between three stations: one tells you it exists, two narrow it down, three locate it precisely.
+
+The fractal patterns at the edge of the Mandelbrot set are not mathematical curiosities. They are the structure of what lies beyond the phase boundary -- deterministic, infinite, and structured. The Mandelbrot set has been the map all along. We just didn't know what it was a map *of*.
+
+See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof, the decoder principle, experimental predictions, and the full triangulation protocol.
+
+---
+
 ## Status
 
 This is a framework. A beginning. Not yet proven.
@@ -199,6 +221,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Operator Feedback](experiments/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
 - [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
+- [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Triangulation Protocol: the 1/4 boundary, the Mandelbrot set, and how to locate states beyond the phase boundary
 
 ---
 
