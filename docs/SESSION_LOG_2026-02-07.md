@@ -151,12 +151,18 @@ This is mathematically correct. But WHY does this specific quadratic arise? It c
 
 **Open question:** Can we derive this from information theory (channel capacity) rather than just algebra?
 
-### Thread B: Three Regimes
-| CΨ | Discriminant | Fixed Points | Observer Experience |
+### Thread B: Three Regimes — Phase Boundary (NEW, Feb 7 evening)
+The ¼ is not a wall between "real" and "nothing." It is a **phase boundary** between two kinds of existence:
+
+| CΨ | Discriminant | Fixed Points | What It Is |
 |----|-------------|--------------|-------------------|
-| < ¼ | Positive | Two real | Stable reality, observer can "see" |
-| = ¼ | Zero | One (degenerate) | Critical point, R = Ψ |
-| > ¼ | Negative | Complex | State exists but exceeds observer bandwidth |
+| < ¼ | Positive | Two real | Our world. Classical, stable, experienceable. |
+| = ¼ | Zero | One (degenerate) | The boundary. R∞ = Ψ. Reality = Possibility. |
+| > ¼ | Negative | Complex | Quantum world. Real but not perceivable by embedded observers. |
+
+Both sides exist. Both sides are real. We live below ¼. Above ¼ isn't "not reality" — it's reality we can't perceive. Decoherence is the mechanism that pushes macroscopic systems below ¼ (why tables look classical). Isolated quantum systems can hover near/above it.
+
+The Gödel analogy: self-referential systems have inherent limits. The fixed-point equation shows self-referential observation has inherent bandwidth. That bandwidth is ¼.
 
 ### Thread C: Falsifiability
 The framework IS falsifiable under the bandwidth interpretation:

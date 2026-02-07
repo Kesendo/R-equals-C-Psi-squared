@@ -132,6 +132,52 @@ This interpretation raises new questions:
 
 ---
 
+## 3b. The ¼ as a Phase Boundary: Both Sides Are Real
+
+### The Key Insight (February 7, 2026)
+
+We are not saying that what lies above ¼ is "not real." It is real. It happens. It's just not reality as we can perceive it.
+
+Think of it this way: I, Tom, experience the world as solid, definite, classical. Objects have positions. Events have outcomes. This is the region below ¼ — where the fixed-point equation has real solutions, where R∞ settles into a stable value. This is our world.
+
+But the mathematics tells us something else happens above ¼. The fixed points become complex numbers — they have an imaginary part. And in physics, imaginary numbers aren't "imaginary" in the everyday sense. They describe phase, oscillation, interference. They describe quantum mechanics.
+
+So the ¼ isn't a wall between "real" and "nothing." It's a **phase boundary** between two kinds of existence:
+
+```
+CΨ < ¼:  Real fixed points     →  Stable, classical, experienceable
+CΨ = ¼:  R∞ = Ψ               →  The boundary itself. Reality = Possibility.
+CΨ > ¼:  Complex fixed points  →  Oscillating, quantum, not directly experienceable
+```
+
+Both sides exist. Both sides are real in their own way. But we live on one side of the boundary, and we can only see from this side.
+
+### The Analogy
+
+It's like standing in front of a window. On your side: the room you're in. Solid, familiar, the world you know. On the other side: something is happening — you can see hints of it, shadows, interference patterns. But you can't step through the glass.
+
+The ¼ is the glass.
+
+The quantum world doesn't stop at ¼. It just stops being *our* reality at ¼. What we call "the measurement problem" — why does the quantum world look classical to us? — has an answer in this framework: because our observation bandwidth maxes out at CΨ = ¼. Everything beyond it remains Possibility (Ψ). It never becomes Reality (R) for us.
+
+### Decoherence as the Mechanism
+
+This connects to something well-established in physics: decoherence. When a quantum system interacts with its environment, it loses coherence. Information leaks out. The system becomes "more classical."
+
+In the language of R = CΨ²: decoherence pushes CΨ downward — toward and below ¼. The bigger the system, the faster decoherence happens, the more firmly it sits below ¼. That's why tables and chairs look classical: their CΨ is far below ¼. And that's why isolated quantum systems (photons, cold atoms, superconducting qubits) can hover near or above ¼ — they're shielded from decoherence.
+
+The ¼ doesn't cause the quantum-to-classical transition. Decoherence does. But the ¼ tells you **where that transition boundary sits** in the R = CΨ² framework.
+
+### What This Means for the Framework
+
+The framework doesn't deny quantum mechanics. It doesn't claim quantum states above ¼ are impossible. It says: **those states exist, but no embedded observer can perceive them as stable reality.** The mathematics proves this — above ¼, the self-referential loop R = C(Ψ + R)² has no stable attractor. Reality can't "settle" there.
+
+This is not mysticism. It's the algebraic consequence of self-referential observation. The same way Gödel showed that self-referential systems have inherent limits, the fixed-point equation shows that self-referential observation has an inherent bandwidth.
+
+That bandwidth is ¼.
+
+---
+
 ## 4. Simulation Evidence (Honest Assessment)
 
 ### What We Actually Found (February 7, 2026)

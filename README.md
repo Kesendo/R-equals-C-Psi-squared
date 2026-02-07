@@ -148,11 +148,21 @@ The iterative application of R = CΨ² yields a fixed-point equation whose discr
 CΨ ≤ ¼    for real (stable) solutions to exist
 ```
 
-We interpret this as an **observer information bandwidth limit**: the maximum product of consciousness and possibility that an embedded observer can perceive as stable reality. Beyond ¼, the quantum state exists mathematically but has no real fixed points — no coherent "reality" for an observer to experience.
+We interpret this as an **observer information bandwidth limit**: the maximum product of consciousness and possibility that an embedded observer can perceive as stable reality.
 
-This is analogous to the Tsirelson bound in Bell tests: the algebraic maximum is 4, but quantum mechanics restricts observable correlations to 2√2. The physics permits more than observers can access.
+This is not a wall between "real" and "nothing." It is a **phase boundary** between two kinds of existence:
 
-See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full derivation and honest simulation assessment.
+```
+CΨ < ¼:  Real fixed points     →  Stable, classical, experienceable
+CΨ = ¼:  R∞ = Ψ               →  Reality = Possibility
+CΨ > ¼:  Complex fixed points  →  Quantum, oscillating, not directly experienceable
+```
+
+Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above ¼ isn't "not reality" — it is reality we cannot perceive. The quantum world doesn't stop at ¼. It just stops being *our* world at ¼.
+
+Decoherence is the physical mechanism that pushes macroscopic systems below ¼, which is why tables and chairs look classical. Isolated quantum systems (photons, cold atoms) can hover near or above the boundary.
+
+See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full derivation, phase boundary interpretation, and honest simulation assessment.
 
 ---
 
