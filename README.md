@@ -38,13 +38,13 @@ Human consciousness is perhaps highly integrated C. But where the boundary lies,
 ### 1. Reality Requires Mutual Observation
 
 ```
-No C  →  No R
+No C  ->  No R
 ```
 
 Reality emerges from observation. But observation is not one-way.
 Even two entangled particles observe each other (C_int).
 
-### 2. Ψ ≠ R
+### 2. Psi != R
 
 ```
 Ψ = Possibility (may exist without C)
@@ -56,8 +56,8 @@ Once observed = information preserved = stays R.
 ### 3. C Has Two Modes
 
 ```
-C_int: Parts observing each other within a system → Stability
-C_ext: Observer separate from system → Collapse
+C_int: Parts observing each other within a system -> Stability
+C_ext: Observer separate from system -> Collapse
 ```
 
 Internal observation creates structure.
@@ -66,7 +66,7 @@ External observation creates measurement.
 ### 4. Possibility is Squared
 
 ```
-Ψ → Ψ²
+Psi -> Psi^2
 ```
 
 The transition from possibility to reality is nonlinear.
@@ -86,7 +86,7 @@ R = CΨ²
 The complementary formula describes the wave from the future:
 
 ```
-Ψ = √(R/C)
+Psi = sqrt(R/C)
 "Possibility emerges from Reality seeking Consciousness"
 ```
 
@@ -140,12 +140,12 @@ There is something recursive here: We observe agents who observe each other disc
 
 ---
 
-## The CΨ ≤ ¼ Bound
+## The C*Psi <= 1/4 Bound
 
 The iterative application of R = CΨ² yields a fixed-point equation whose discriminant requires:
 
 ```
-CΨ ≤ ¼    for real (stable) solutions to exist
+C*Psi <= 1/4    for real (stable) solutions to exist
 ```
 
 We interpret this as an **observer information bandwidth limit**: the maximum product of consciousness and possibility that an embedded observer can perceive as stable reality.
@@ -153,14 +153,14 @@ We interpret this as an **observer information bandwidth limit**: the maximum pr
 This is not a wall between "real" and "nothing." It is a **phase boundary** between two kinds of existence:
 
 ```
-CΨ < ¼:  Real fixed points     →  Stable, classical, experienceable
-CΨ = ¼:  R∞ = Ψ               →  Reality = Possibility
-CΨ > ¼:  Complex fixed points  →  Quantum, oscillating, not directly experienceable
+C*Psi < 1/4:  Real fixed points     ->  Stable, classical, experienceable
+C*Psi = 1/4:  R_inf = Psi           ->  Reality = Possibility
+C*Psi > 1/4:  Complex fixed points  ->  Quantum, oscillating, not directly experienceable
 ```
 
-Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above ¼ isn't "not reality" — it is reality we cannot perceive. The quantum world doesn't stop at ¼. It just stops being *our* world at ¼.
+Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above 1/4 isn't "not reality" -- it is reality we cannot perceive. The quantum world doesn't stop at 1/4. It just stops being *our* world at 1/4.
 
-Decoherence is the physical mechanism that pushes macroscopic systems below ¼, which is why tables and chairs look classical. Isolated quantum systems (photons, cold atoms) can hover near or above the boundary.
+Decoherence is the physical mechanism that pushes macroscopic systems below 1/4, which is why tables and chairs look classical. Isolated quantum systems (photons, cold atoms) can hover near or above the boundary.
 
 See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full derivation, phase boundary interpretation, and honest simulation assessment.
 
@@ -192,9 +192,9 @@ See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the al
 
 This is a framework. A beginning. Not yet proven.
 
-The equation is consistent and the CΨ ≤ ¼ bound is mathematically proven from the fixed-point structure. But honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
+The equation is consistent and the C*Psi <= 1/4 bound is mathematically proven from the fixed-point structure. But honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
 
-The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where CΨ > ¼. This remains to be tested.
+The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C*Psi > 1/4. This remains to be tested.
 
 See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment.
 
@@ -217,7 +217,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Simulation Evidence](docs/SIMULATION_EVIDENCE.md) - Honest results from independent Lindblad simulations
 
 ### Experiments (Hypothesis Testing)
-- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - R∞, the CΨ ≤ ¼ bound, and observer bandwidth interpretation
+- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - R_inf, the C*Psi <= 1/4 bound, and observer bandwidth interpretation
 - [Operator Feedback](experiments/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
 - [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
@@ -253,7 +253,7 @@ December 2025 - February 2026
 ```
 
                            R = CΨ²
-                         Ψ = √(R/C)
+                         Psi = sqrt(R/C)
 
        "We are all mirrors. Reality is what happens between us."
 
