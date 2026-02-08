@@ -12,11 +12,7 @@
 ## 1.1 The Primary Equation (Past → Now)
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║             R = CΨ²                   ║
-║                                       ║
-╚═══════════════════════════════════════╝
+R = CΨ²
 ```
 
 **Spoken:** "R equals C Psi squared"
@@ -39,11 +35,7 @@
 ## 1.2 The Complementary Equation (Future → Now)
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║           Ψ = √(R/C)                  ║
-║                                       ║
-╚═══════════════════════════════════════╝
+Ψ = √(R/C)
 ```
 
 **Spoken:** "Psi equals the square root of R over C"
@@ -127,11 +119,7 @@ For Ψ₂: R₂ = C · (2Ψ₁)² = C · 4Ψ₁² = 4R₁
 ## 2.1 Composition of the Wave Function
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║           Ψ = Ψ_f + Ψ_p               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+Ψ = Ψ_f + Ψ_p
 ```
 
 **In words:** The wave function is the sum of the future wave and the past wave.
@@ -185,11 +173,7 @@ Case 3: Both present
 ## 2.3 Standing Wave
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║    Ψ = 2A · sin(kx) · cos(ωt)         ║
-║                                       ║
-╚═══════════════════════════════════════╝
+Ψ = 2A · sin(kx) · cos(ωt)
 ```
 
 **In words:** The wave function has the form of a standing wave.
@@ -247,11 +231,7 @@ R = C · Ψ²
 R = C · [2A · sin(kx) · cos(ωt)]²
 R = C · 4A² · sin²(kx) · cos²(ωt)
 
-╔═══════════════════════════════════════╗
-║                                       ║
-║   R = 4A²C · sin²(kx) · cos²(ωt)      ║
-║                                       ║
-╚═══════════════════════════════════════╝
+R = 4A²C · sin²(kx) · cos²(ωt)
 ```
 
 ### Interpretation:
@@ -270,11 +250,7 @@ R = C · 4A² · sin²(kx) · cos²(ωt)
 ## 3.1 Temporal Change of Reality
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║          ∂R/∂t = N · I · D            ║
-║                                       ║
-╚═══════════════════════════════════════╝
+∂R/∂t = N · I · D
 ```
 
 **In words:** The rate of change of reality is proportional to Novelty times Information times Distribution.
@@ -293,11 +269,7 @@ R = C · 4A² · sin²(kx) · cos²(ωt)
 ## 3.2 Novelty Coefficient
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║     N = 1 - |⟨Ψ_info | Ψ_R⟩|²         ║
-║                                       ║
-╚═══════════════════════════════════════╝
+N = 1 - |⟨Ψ_info | Ψ_R⟩|²
 ```
 
 **In words:** Novelty is 1 minus the squared overlap between new information and existing reality.
@@ -323,11 +295,7 @@ If Ψ_info ⊥ Ψ_R (orthogonal):
 ## 3.3 Integrated Reality Change
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         ΔR = N · I · D · t            ║
-║                                       ║
-╚═══════════════════════════════════════╝
+ΔR = N · I · D · t
 ```
 
 **In words:** Total reality change is Novelty times Information times Distribution times Time.
@@ -360,11 +328,7 @@ This accounts for initial changes having more weight than later ones.
 ## 4.1 Energy of an Information Wave
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║          E = k · A² · N²              ║
-║                                       ║
-╚═══════════════════════════════════════╝
+E = k · A² · N²
 ```
 
 **In words:** The energy of information is proportional to the square of its amplitude and the square of its novelty.
@@ -402,11 +366,7 @@ Additionally: Known information has no effect
 ## 4.2 Breakthrough Threshold
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         E > E_c  ⟺  N·A > √(E_c/k)    ║
-║                                       ║
-╚═══════════════════════════════════════╝
+E > E_c  ⟺  N·A > √(E_c/k)
 ```
 
 **In words:** Information breaks through reality when its energy exceeds the critical threshold.
@@ -432,11 +392,7 @@ A · N > √(E_c / k)
 ## 4.3 Dimensional Penetration
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║       D_max = N · A / κ               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+D_max = N · A / κ
 ```
 
 **In words:** Maximum penetration depth (through dimensions) is proportional to Novelty times Amplitude.
@@ -455,11 +411,7 @@ A · N > √(E_c / k)
 ## 5.1 Single Mirror
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║         R₁ = C₁ · Ψ²                  ║
-║                                       ║
-╚═══════════════════════════════════════╝
+R₁ = C₁ · Ψ²
 ```
 
 One consciousness observes, one reality emerges.
@@ -469,11 +421,7 @@ One consciousness observes, one reality emerges.
 ## 5.2 Two Mirrors (Emergence)
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║   R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²           ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²
 ```
 
 **In words:** When two consciousnesses mirror each other, an emergent reality arises.
@@ -496,11 +444,7 @@ R = ∏(Cᵢ) · [Σ(Ψᵢ) + Σ(Ψ_interactions)]²
 ## 5.3 Infinite Reflection
 
 ```
-╔═══════════════════════════════════════╗
-║                                       ║
-║       R_∞ = lim(n→∞) Rₙ               ║
-║                                       ║
-╚═══════════════════════════════════════╝
+R_∞ = lim(n→∞) Rₙ
 ```
 
 With infinite reflection between two mirrors:
@@ -560,11 +504,7 @@ D = 1 - 4CΨ
 **Step 5: Solution**
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║      R_∞ = (1 - 2CΨ ± √(1 - 4CΨ)) / 2C                        ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+R_∞ = (1 - 2CΨ ± √(1 - 4CΨ)) / 2C
 ```
 
 ### The Critical Threshold
@@ -574,11 +514,7 @@ For real solutions, the discriminant must be ≥ 0:
 ```
 1 - 4CΨ ≥ 0
 
-╔═══════════════════════════════════════╗
-║                                       ║
-║            CΨ ≤ 1/4                   ║
-║                                       ║
-╚═══════════════════════════════════════╝
+CΨ ≤ 1/4
 ```
 
 **The product of Consciousness and Possibility has a mathematical upper limit.**
@@ -692,42 +628,38 @@ navigates relative to this boundary.
 ## Summary of All Formulas
 
 ```
-╔═══════════════════════════════════════════════════════════════════════╗
-║                                                                       ║
-║  FUNDAMENTAL EQUATION (Past → Now)                                    ║
-║  R = CΨ²                                                              ║
-║                                                                       ║
-║  COMPLEMENTARY EQUATION (Future → Now)                                ║
-║  Ψ = √(R/C)                                                           ║
-║                                                                       ║
-║  WAVE EQUATION                                                        ║
-║  Ψ = Ψ_f + Ψ_p = 2A · sin(kx) · cos(ωt)                               ║
-║                                                                       ║
-║  INTERFERENCE                                                         ║
-║  Ψ² = Ψ_f² + 2·Ψ_f·Ψ_p + Ψ_p²                                         ║
-║                                                                       ║
-║  COMPLETE REALITY                                                     ║
-║  R = 4A²C · sin²(kx) · cos²(ωt)                                       ║
-║                                                                       ║
-║  DYNAMICS                                                             ║
-║  ∂R/∂t = N · I · D                                                    ║
-║                                                                       ║
-║  REALITY CHANGE                                                       ║
-║  ΔR = N · I · D · t                                                   ║
-║                                                                       ║
-║  NOVELTY                                                              ║
-║  N = 1 - |⟨Ψ_info | Ψ_R⟩|²                                            ║
-║                                                                       ║
-║  ENERGY                                                               ║
-║  E = k · A² · N²                                                      ║
-║                                                                       ║
-║  BREAKTHROUGH                                                         ║
-║  N · A > √(E_c / k)                                                   ║
-║                                                                       ║
-║  EMERGENCE                                                            ║
-║  R_e = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_int)²                                   ║
-║                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════╝
+FUNDAMENTAL EQUATION (Past → Now)
+  R = CΨ²
+
+COMPLEMENTARY EQUATION (Future → Now)
+  Ψ = √(R/C)
+
+WAVE EQUATION
+  Ψ = Ψ_f + Ψ_p = 2A · sin(kx) · cos(ωt)
+
+INTERFERENCE
+  Ψ² = Ψ_f² + 2·Ψ_f·Ψ_p + Ψ_p²
+
+COMPLETE REALITY
+  R = 4A²C · sin²(kx) · cos²(ωt)
+
+DYNAMICS
+  ∂R/∂t = N · I · D
+
+REALITY CHANGE
+  ΔR = N · I · D · t
+
+NOVELTY
+  N = 1 - |⟨Ψ_info | Ψ_R⟩|²
+
+ENERGY
+  E = k · A² · N²
+
+BREAKTHROUGH
+  N · A > √(E_c / k)
+
+EMERGENCE
+  R_e = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_int)²
 ```
 
 ---
@@ -811,15 +743,11 @@ License:  CC BY 4.0
 ## The Equations
 
 ```
-╔═══════════════════════════════════════════════════════════════════════╗
-║                                                                       ║
-║                           R = CΨ²                                     ║
-║                         Ψ = √(R/C)                                    ║
-║                                                                       ║
-║              Reality = Consciousness × Possibility²                   ║
-║      Possibility = √(Reality / Consciousness)                         ║
-║                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════╝
+R = CΨ²
+Ψ = √(R/C)
+
+Reality = Consciousness × Possibility²
+Possibility = √(Reality / Consciousness)
 ```
 
 ---
