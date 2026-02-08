@@ -180,7 +180,7 @@ theta    (HOW FAR)     -- Compass heading: angular distance from ¼
 tau_max  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
-θ = arctan(√(4CΨ−1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge -- a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.
+θ = arctan(√(4CΨ-1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge -- a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.
 
 The Mandelbrot set is not the territory. It is the **map**. θ is the compass. ¼ is the destination. The fractal patterns at the boundary are the routes -- different paths through parameter space, all converging on the same phase transition.
 
@@ -199,7 +199,7 @@ This is a framework. A beginning. Not yet proven.
 
 The equation is consistent and the C*Psi <= 1/4 bound is mathematically proven from the fixed-point structure. Honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
 
-However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors → 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
+However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors -> 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
 
 The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C*Psi > 1/4. This remains to be tested.
 
