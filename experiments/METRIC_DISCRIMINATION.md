@@ -191,6 +191,8 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Psi, a
 
 **The experiment confirms the invariance law to high precision but honestly reports that metric discrimination requires additional structure beyond what the current simulator provides.**
 
+**UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md).
+
 ## 8. Recommended Next Steps
 
 1. **Immediate**: Implement per-qubit gamma in delta_calc (Path 5.1)
