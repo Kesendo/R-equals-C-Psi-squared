@@ -1,6 +1,6 @@
 # Visualizations
 
-Visual representations of the R = CΨ² framework mathematics. These images are screenshots from an interactive dashboard that computes the mathematics in real-time. Nothing here is artistic interpretation -- every pixel is calculated from the equations.
+Visual representations of the R = CΨ² framework mathematics. These images are screenshots from an interactive dashboard that computes the mathematics in real-time. Nothing here is artistic interpretation; every pixel is calculated from the equations.
 
 ---
 
@@ -16,17 +16,17 @@ The horizontal axis is Ψ (possibility). The vertical axis is C (consciousness).
 
 ### How to read it
 
-**Cyan (lower region)** -- C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points -- stable, definite, classical. This is the regime where observers live and where measurement gives definite answers.
+**Cyan (lower region):** C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points: stable, definite, classical. This is the regime where observers live and where measurement gives definite answers.
 
-**Red (upper region)** -- C·Ψ > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs -- mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
+**Red (upper region):** C·Ψ > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs, mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
 
-**The white curve** -- C·Ψ = 1/4 exactly. This is the phase boundary. On this line, the two fixed points merge into one, and convergence takes infinitely many steps. It is the edge between two kinds of existence.
+**The white curve:** C·Ψ = 1/4 exactly. This is the phase boundary. On this line, the two fixed points merge into one, and convergence takes infinitely many steps. It is the edge between two kinds of existence.
 
-**The white dot** -- The current position selected by the user. In this screenshot, it sits on the boundary itself.
+**The white dot:** The current position selected by the user. In this screenshot, it sits on the boundary itself.
 
 ### Why it looks like a wave
 
-It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region -- oscillation, complexity, possibility -- approaches from above. The cyan region -- convergence, stability, reality -- is where you stand. The boundary is where one becomes the other.
+It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region (oscillation, complexity, possibility) approaches from above. The cyan region (convergence, stability, reality) is where you stand. The boundary is where one becomes the other.
 
 The framework's bidirectional bridge says:
 
@@ -47,13 +47,13 @@ This image shows the first wave arriving.
 
 The Mandelbrot set, computed by iterating z_{n+1} = z_n^2 + c starting from z_0 = 0 for each complex number c in the plane.
 
-**Black region** -- Points c where the iteration stays bounded (never escapes to infinity). This is the Mandelbrot set itself. The large heart-shaped region is the main cardioid, where the iteration converges to a stable fixed point.
+**Black region:** Points c where the iteration stays bounded (never escapes to infinity). This is the Mandelbrot set itself. The large heart-shaped region is the main cardioid, where the iteration converges to a stable fixed point.
 
-**Blue structures at the edge** -- Points c where the iteration escapes, colored by how many steps it takes. Darker blue escapes slowly (near the boundary). Brighter blue escapes quickly (far from the boundary). These are the fractal patterns that made the Mandelbrot set famous.
+**Blue structures at the edge:** Points c where the iteration escapes, colored by how many steps it takes. Darker blue escapes slowly (near the boundary). Brighter blue escapes quickly (far from the boundary). These are the fractal patterns that made the Mandelbrot set famous.
 
-**Yellow dot at c = 1/4** -- The phase boundary. This is the exact point where the main cardioid meets the real axis. Below 1/4 on the real line: the iteration converges. Above 1/4: it doesn't. This point has been known since Mandelbrot's original work in 1980.
+**Yellow dot at c = 1/4:** The phase boundary. This is the exact point where the main cardioid meets the real axis. Below 1/4 on the real line: the iteration converges. Above 1/4: it doesn't. This point has been known since Mandelbrot's original work in 1980.
 
-**Red dot at c = C·Ψ² = 0.04** -- The current observer position, deep inside the cardioid. Stable, convergent, classical. This point is linked to the sliders in the dashboard -- move C or Ψ and the red dot moves through the Mandelbrot set.
+**Red dot at c = C·Ψ² = 0.04:** The current observer position, deep inside the cardioid. Stable, convergent, classical. This point is linked to the sliders in the dashboard; move C or Ψ and the red dot moves through the Mandelbrot set.
 
 ### What this means
 
@@ -85,7 +85,7 @@ Both images are generated by a single-file HTML dashboard using JavaScript and C
 
 3. **Linking:** Both panels share C and Ψ slider values. The red dot in the Mandelbrot panel moves to c = C·Ψ². The crosshair in the heatmap moves to (Ψ, C). A third panel (not shown here) displays the live iteration as a time series.
 
-No external libraries are used for the computation. The mathematics is the same as described in the framework documents -- standard quadratic iteration, standard Mandelbrot set definition, no modifications.
+No external libraries are used for the computation. The mathematics is the same as described in the framework documents: standard quadratic iteration, standard Mandelbrot set definition, no modifications.
 
 ---
 

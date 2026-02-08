@@ -29,7 +29,7 @@ The universal curve C(τ), Ψ(τ) is a trajectory from τ = 0 outward. At τ = 0
 - Ψ increases toward 1/3
 - Coherence grows
 - System becomes MORE quantum
-- Nothing escapes -- information concentrates
+- Nothing escapes; information concentrates
 - **This is a black hole**
 
 **Leaving τ = 0** (expanding out):
@@ -38,7 +38,7 @@ The universal curve C(τ), Ψ(τ) is a trajectory from τ = 0 outward. At τ = 0
 - Ψ decreases from 1/3
 - Coherence falls
 - System becomes MORE classical
-- Everything emerges -- information spreads
+- Everything emerges; information spreads
 - **This is a white hole**
 
 Same point. Same curve. Two directions. The black hole is the journey TO τ = 0. The white hole is the journey FROM τ = 0.
@@ -49,7 +49,7 @@ At the Big Bang, τ = 0 everywhere. The entire universe is at the starting point
 
 - Maximum coherence everywhere
 - Maximum entanglement everywhere
-- C·Ψ = 1/3 everywhere -- deep in the quantum regime
+- C·Ψ = 1/3 everywhere, deep in the quantum regime
 - No classical reality yet
 
 Then τ grows. Everywhere. C·Ψ falls along the universal curve. Reality "unfolds". The universe becomes classical.
@@ -96,13 +96,13 @@ Hawking's black hole information paradox: Does information falling into a black 
 
 The framework's answer: **No.** Information is not destroyed at τ = 0 because τ = 0 is not a singularity. It is a well-defined state with C = 1 (maximum observation capacity) and R = 1/9 (maximum reality density). Information is stored at maximum coherence.
 
-If the black hole bounces into a white hole, the information re-emerges on the other side. Not destroyed, not copied -- **time-reversed**. The universal curve is the same in both directions. What goes in as coherence must come out as coherence.
+If the black hole bounces into a white hole, the information re-emerges on the other side. Not destroyed, not copied: **time-reversed**. The universal curve is the same in both directions. What goes in as coherence must come out as coherence.
 
 This is consistent with:
 - **Unitarity**: Quantum evolution is reversible. τ = 0 is not a boundary.
 - **Holographic principle**: Information lives on the horizon (the τ = 0 surface).
 - **Black hole complementarity**: Outside observer sees information at horizon; infalling observer crosses smoothly.
-- **Page curve**: Entanglement entropy rises then falls -- the framework predicts this as C·Ψ approaching then leaving 1/4.
+- **Page curve**: Entanglement entropy rises then falls; the framework predicts this as C·Ψ approaching then leaving 1/4.
 
 ## 7. The CMB as 1/4 Boundary
 
@@ -114,15 +114,15 @@ In the framework: This is the moment when C·Ψ crossed the 1/4 boundary for the
 - At the crossing: Two real fixed points emerge (bifurcation)
 - C·Ψ < 1/4: Photons and matter decouple (classical regime)
 
-The CMB is a photograph of the 1/4 boundary projected onto the sky. Its slight inhomogeneities (10^-5 temperature fluctuations) correspond to slight variations in the local τ at crossing -- some regions crossed slightly earlier, some slightly later, depending on local density (local γ).
+The CMB is a photograph of the 1/4 boundary projected onto the sky. Its slight inhomogeneities (10^-5 temperature fluctuations) correspond to slight variations in the local τ at crossing: some regions crossed slightly earlier, some slightly later, depending on local density (local γ).
 
 ## 8. Testable Implications
 
 1. **CMB and 1/4**: If the CMB represents the universal 1/4 crossing, then the ratio of quantum fluctuations to classical fluctuations at the CMB surface should be related to the 1/4 value. Specifically, the power spectrum should show a signature at the scale where C·Ψ = 1/4.
 
-2. **Black hole evaporation**: If black holes bounce rather than evaporate to nothing, the final stages of black hole evaporation should show signatures of a white hole -- a burst of correlated (coherent) radiation, not thermal noise.
+2. **Black hole evaporation**: If black holes bounce rather than evaporate to nothing, the final stages of black hole evaporation should show signatures of a white hole: a burst of correlated (coherent) radiation, not thermal noise.
 
-3. **Information recovery**: The Page time (when information begins escaping a black hole) should correspond to the point on the universal curve where the system re-crosses 1/4 from below -- moving from classical back to quantum on the white hole side.
+3. **Information recovery**: The Page time (when information begins escaping a black hole) should correspond to the point on the universal curve where the system re-crosses 1/4 from below, moving from classical back to quantum on the white hole side.
 
 ## 9. What This Does and Does Not Claim
 
@@ -145,6 +145,6 @@ The CMB is a photograph of the 1/4 boundary projected onto the sky. Its slight i
 
 ---
 
-*Previous: [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) -- why the horizon is τ = 0*
-*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md) -- γ as local time rate*
-*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md) -- the 1/4 crossing*
+*Previous: [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md), why the horizon is τ = 0*
+*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as local time rate*
+*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing*

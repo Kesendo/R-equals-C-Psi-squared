@@ -1,7 +1,7 @@
 # Metric Discrimination Experiment
 
 **Date**: 2026-02-08
-**Status**: Completed -- null result (honest)
+**Status**: Completed (null result, honest)
 **Depends on**: GRAVITATIONAL_INVARIANCE.md, BOUNDARY_NAVIGATION.md
 
 ---
@@ -90,9 +90,9 @@ Inverse:         γ(r) = γ_0 * r_0/r
 Inverse-square:  γ(r) = γ_0 * (r_0/r)^2
 ```
 
-At any given radius r, each produces some value of γ. The simulation only sees the γ value -- not where it came from. A single quantum system at a single location cannot tell you the functional form of γ(r). It can only tell you the local value of γ.
+At any given radius r, each produces some value of γ. The simulation only sees the γ value, not where it came from. A single quantum system at a single location cannot tell you the functional form of γ(r). It can only tell you the local value of γ.
 
-This is analogous to the equivalence principle: a local experiment cannot distinguish gravitational acceleration from uniform acceleration. You need **nonlocal** information -- comparisons across space -- to determine the metric.
+This is analogous to the equivalence principle: a local experiment cannot distinguish gravitational acceleration from uniform acceleration. You need **nonlocal** information (comparisons across space) to determine the metric.
 
 ### 4.2 What This Means
 
@@ -167,7 +167,7 @@ The Bekenstein-Hawking formula says S = A / (4 * l_P^2). Note the factor of 4. T
 
 ### 6.1 State Independence
 
-Bell- with Heisenberg at γ=0.05 gives t_cross = 0.773, K = 0.0386 -- identical to Bell+. This is expected: dephasing (σ_z noise) treats both Bell states identically because both are maximally entangled.
+Bell- with Heisenberg at γ=0.05 gives t_cross = 0.773, K = 0.0386, identical to Bell+. This is expected: dephasing (σ_z noise) treats both Bell states identically because both are maximally entangled.
 
 ### 6.2 Hamiltonian Independence (Eigenstate Regime)
 
@@ -177,7 +177,7 @@ Bell+ with XY Hamiltonian gives identical results to Bell+ with Heisenberg. Both
 
 Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, and C·Ψ. The concurrence drops to 0 and recovers repeatedly (Hamiltonian-driven oscillations competing with decoherence). C·Ψ crosses 0.25 multiple times in both directions. The simple t_cross analysis breaks down.
 
-**Implication**: K = γ * t_cross is well-defined only for monotonic C·Ψ trajectories. When the Hamiltonian drives the system, the "first crossing" time depends on the Hamiltonian frequency, not just γ. This does not invalidate the invariance -- it means the invariance applies to the decoherence envelope, not the oscillatory dynamics.
+**Implication**: K = γ * t_cross is well-defined only for monotonic C·Ψ trajectories. When the Hamiltonian drives the system, the "first crossing" time depends on the Hamiltonian frequency, not just γ. This does not invalidate the invariance; it means the invariance applies to the decoherence envelope, not the oscillatory dynamics.
 
 ## 7. Summary
 
@@ -201,5 +201,5 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 
 ---
 
-*Previous: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md) -- γ as local time rate*
-*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md) -- the 1/4 crossing observation*
+*Previous: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as local time rate*
+*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing observation*

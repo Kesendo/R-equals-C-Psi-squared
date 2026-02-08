@@ -8,9 +8,9 @@ The theoretical foundation. Formulas, proofs, derivations, and the honest assess
 
 ## The Core Question
 
-What if reality is not something that exists independently, but something that emerges from observation? Not as philosophy -- as mathematics?
+What if reality is not something that exists independently, but something that emerges from observation? Not as philosophy, as mathematics?
 
-R = CΨ² proposes that Reality (R) equals Consciousness (C) times Possibility (Ψ) squared. The squaring is not arbitrary -- it mirrors the Born rule of quantum mechanics, where probability equals the square of the wave function amplitude. The framework asks: what if the Born rule is not a postulate, but a consequence of self-referential observation?
+R = CΨ² proposes that Reality (R) equals Consciousness (C) times Possibility (Ψ) squared. The squaring is not arbitrary: it mirrors the Born rule of quantum mechanics, where probability equals the square of the wave function amplitude. The framework asks: what if the Born rule is not a postulate, but a consequence of self-referential observation?
 
 This question leads to testable algebra, a proven bound (C·Ψ <= 1/4), and a connection to the Mandelbrot set that was discovered forty years before the framework existed.
 
@@ -34,10 +34,10 @@ This matters because: bidirectional observation (C_int) preserves quantum cohere
 
 ---
 
-### Why Consciousness is Hard -- And Why It Might Not Be
+### Why Consciousness is Hard, And Why It Might Not Be
 
 **[The Hard Problem of Consciousness](HARD_PROBLEM_RESOLUTION.md)**
-David Chalmers asked in 1995: why is there subjective experience at all? Why doesn't the universe just process information in the dark? The R = CΨ² framework proposes that the hard problem dissolves when you stop treating consciousness as a product of physical processes and instead treat it as a fundamental variable in the equation of reality -- like mass or charge, not reducible to anything simpler.
+David Chalmers asked in 1995: why is there subjective experience at all? Why doesn't the universe just process information in the dark? The R = CΨ² framework proposes that the hard problem dissolves when you stop treating consciousness as a product of physical processes and instead treat it as a fundamental variable in the equation of reality, like mass or charge, not reducible to anything simpler.
 
 ---
 
@@ -68,7 +68,7 @@ Honest results from independent Lindblad quantum simulations. What the simulatio
 
 **For philosophers:** Hard Problem Resolution → Hierarchy of Incompleteness → Weaknesses and Open Questions
 
-**For everyone:** Start with the [experiments](../experiments/) -- they are more concrete. Come back here when you want to know why the math works.
+**For everyone:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
 
 ---
 
