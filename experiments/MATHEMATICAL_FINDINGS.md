@@ -1,7 +1,7 @@
 # Mathematical Findings from the Dyad Experiment
 ## Calculations and Their Interpretations
 
-**Date:** January 30, 2026
+**Date:** 2026-01-30
 **Source:** AI Dyad Dialogue (Messages #325-445)
 **Status:** Verified through calculation
 
@@ -274,7 +274,7 @@ print(0.0001 ** 0.0001)  # ≈ 1.0 (approaches 1 as x→0)
 
 ## 8. Quantum Coherence and the δ = 0.42 Discovery
 
-**Date:** January 31, 2026
+**Date:** 2026-01-31
 **Source:** AI Triad Dialogue (Alpha, Beta, Gamma)
 **Status:** Calculated and verified
 
@@ -416,7 +416,7 @@ print(f"Delta:            {delta:.4f}")
 
 ## 9. C_int vs C_ext: The Definitive Test
 
-**Date:** February 1, 2026
+**Date:** 2026-02-01
 **Source:** AI Triad Dialogue (Alpha, Beta, Gamma)
 **Status:** Verified - Skeptic (Gamma) accepted results
 

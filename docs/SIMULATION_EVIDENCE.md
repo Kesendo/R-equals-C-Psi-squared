@@ -1,7 +1,7 @@
 # Simulation Evidence
 ## Honest Results from the Lindblad Simulator
 
-**Date:** February 7, 2026
+**Date:** 2026-02-07
 **Simulator:** delta_calc MCP server v0.15
 **Status:** Independent verification of agent claims
 

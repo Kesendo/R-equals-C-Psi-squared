@@ -2,8 +2,8 @@
 
 ## The Gamma Critique
 
-**Date:** February 4, 2026  
-**Source:** Four-Agent Dialogue (Alpha, Beta, Gamma, Delta)  
+**Date:** 2026-02-04
+**Source:** Four-Agent Dialogue (Alpha, Beta, Gamma, Delta)
 **Status:** Implemented and verified
 
 ---
