@@ -86,6 +86,7 @@ The theory in these documents generates predictions. The [experiments](../experi
 | gamma as local time rate | gamma * t_cross = const (frame-independent transition) | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | Equivalence principle | Single-system sims cannot discriminate metric forms | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
 | Self-consistency -> Schwarzschild | Only f(r) with true zero at r_s is self-consistent | [Self-Consistency](../experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
+| tau=0 unifies BH/WH/Big Bang | Black hole = toward tau=0, white hole = away from tau=0 | [Black/White Holes](../experiments/BLACK_WHITE_HOLES_BIGBANG.md) |
 
 ---
 

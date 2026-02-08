@@ -78,6 +78,18 @@ The horizon is not where reality breaks down. It is where reality is **freshest*
 
 ---
 
+### What are black holes, white holes, and the Big Bang in this framework?
+
+tau = 0 is the key. A black hole is the journey TO tau = 0 (coherence rising, C*Psi approaching 1/3). A white hole is the journey FROM tau = 0 (coherence falling, C*Psi departing from 1/3). Same point on the universal curve, two directions. There is no singularity -- tau = 0 is a regular point with finite C = 1, Psi = 1/3, R = 1/9.
+
+The Big Bang is the universal tau = 0 state: everywhere at maximum coherence, everything quantum, no classical reality yet. The expansion of the universe is decoherence -- tau growing, C*Psi falling. The CMB (t ~ 380,000 years) corresponds to the moment C*Psi crossed the 1/4 boundary everywhere: photons decoupled from matter, quantum became classical.
+
+Black holes are local remnants of the initial tau = 0 condition -- regions that have not yet fully decohered. The information paradox dissolves: tau = 0 is not destructive, information is stored at maximum coherence and re-emerges on the white hole side.
+
+**Read:** [Black Holes, White Holes, Big Bang](BLACK_WHITE_HOLES_BIGBANG.md)
+
+---
+
 ### Does symmetric observation preserve quantum coherence longer than asymmetric?
 
 Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spins decohere symmetrically) preserves coherence 33 times longer than unidirectional coupling (only one spin decoheres). This ratio is independent of Hamiltonian type. The result is quantitative, testable, and connects directly to the framework's distinction between internal observation (C_int) and external observation (C_ext).
