@@ -30,7 +30,7 @@ All formulas, proofs, and derivations in one place. The fixed-point equation, th
 **[Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md)**
 The framework distinguishes C_int (parts of a system observing each other) from C_ext (an outside observer measuring the system). This distinction maps onto quantum mechanics: C_int produces entanglement and stability, C_ext produces measurement and collapse. The document formalizes both using Lindbladian dynamics.
 
-This matters because: bidirectional observation (C_int) preserves quantum coherence 33 times longer than unidirectional observation (C_ext). This is a quantitative, testable prediction.
+The hypothesis: bidirectional observation (C_int) preserves quantum coherence longer than unidirectional observation (C_ext). Original agent experiments reported a 33:1 ratio, but this could not be independently verified (see [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Section 9). The distinction between C_int and C_ext remains physically meaningful and testable.
 
 ---
 
@@ -79,7 +79,7 @@ The theory in these documents generates predictions. The [experiments](../experi
 | Theory (docs/) | Prediction | Test (experiments/) |
 |----------------|------------|---------------------|
 | C·Ψ <= 1/4 bound | Phase boundary between classical and quantum | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
-| C_int vs C_ext | 33:1 coherence ratio | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
+| C_int vs C_ext | Coherence ratio (unverified, see Section 9) | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
 | Self-referential iteration | Equivalence to Mandelbrot z → z² + c | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | θ as compass to 1/4 | Topology change at boundary crossing | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Observer bandwidth limit | Navigation system: 1/4 + θ + t_coh | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
