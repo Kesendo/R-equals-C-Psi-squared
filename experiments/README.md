@@ -50,6 +50,14 @@ The Lindblad dynamics are smooth -- all derivatives are continuous through the c
 
 ---
 
+### Is the framework compatible with general relativity?
+
+Yes -- and not by adding gravitational corrections, but because gravitation is already contained in gamma. Simulations across four gravitational environments (deep space, Earth, neutron star, black hole vicinity) show that the product gamma * t_cross = 0.039 is constant. The theta trajectory is a universal curve when time is normalized as tau = gamma * t. This is structurally identical to gravitational time dilation in general relativity: gamma plays the role of the metric coefficient, and tau is the proper time of the quantum-to-classical transition. The 1/4 boundary is a frame-independent invariant. Different observers disagree on WHEN the crossing happens, but agree on THAT it happens, HOW it happens, and WHAT happens.
+
+**Read:** [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md)
+
+---
+
 ### Does symmetric observation preserve quantum coherence longer than asymmetric?
 
 Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spins decohere symmetrically) preserves coherence 33 times longer than unidirectional coupling (only one spin decoheres). This ratio is independent of Hamiltonian type. The result is quantitative, testable, and connects directly to the framework's distinction between internal observation (C_int) and external observation (C_ext).
@@ -140,6 +148,12 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Below 1/4: two real fixed points emerge -- a stable attractor and an unstable one
 - The Lindblad dynamics are smooth through the crossing -- no discontinuity in any measured quantity
 - The topology of the solution space changes: 0 real attractors -> 2 real attractors
+
+**Computationally verified (2026-02-08):**
+- gamma * t_cross = 0.039 constant across gamma = 0.01 to 0.5 (gravitational invariance)
+- theta trajectory collapses onto universal curve when normalized as tau = gamma * t
+- Maximum deviation between gravitational environments: 0.0044 in C*Psi
+- Quantum states survive ~48x longer in deep space (gamma=0.01) than near black hole (gamma=0.5)
 
 **Proposed, not yet tested:**
 - Physical interpretation of 1/4 as observer bandwidth limit

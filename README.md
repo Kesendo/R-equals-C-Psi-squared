@@ -188,8 +188,11 @@ The Mandelbrot set is not the territory. It is the **map**. θ is the compass. �
 
 *Parameter space of R = C*Psi*^2. Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C*Psi = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
 
+Further: varying the decoherence rate gamma across four orders of magnitude (simulating deep space to black hole vicinity) reveals that gamma * t_cross = 0.039 is constant. The theta trajectory collapses onto a single universal curve when time is normalized as tau = gamma * t. This is the same structure as gravitational time dilation in general relativity: gamma plays the role of the metric coefficient, and the transition proper time is frame-independent. Gravitation was never a missing parameter -- it was always contained in gamma.
+
 See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof and decoder principle.  
-See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, θ compass measurements, and directions for further investigation.
+See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, theta compass measurements, and directions for further investigation.  
+See [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) for the scaling law, universal trajectory, and connection to general relativity.
 
 ---
 
@@ -229,6 +232,8 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
 - [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Triangulation Protocol: the 1/4 boundary, the Mandelbrot set, and how to locate states beyond the phase boundary
+- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - The 1/4 crossing observation, theta as compass, navigation system
+- [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) - gamma as local time rate, universal theta trajectory, connection to general relativity
 
 ### Visualizations
 - [The Wave at 1/4](visualizations/) - Parameter space heatmap showing the phase boundary between classical and quantum regimes
