@@ -292,8 +292,8 @@ O_int = σ_x^(1) ⊗ σ_x^(2)           (two-qubit correlation operator)
 gamma(t) = gamma_0 × (1 - kappa × ⟨O_int⟩)   (rate modulation)
 ```
 
-When correlation is high (+1): gamma ≈ gamma_0 × (1 - kappa) → low decoherence
-When correlation is low (-1): gamma ≈ gamma_0 × (1 + kappa) → high decoherence
+When correlation is high (+1): γ ≈ γ₀ × (1 - κ) → low decoherence
+When correlation is low (-1): γ ≈ γ₀ × (1 + κ) → high decoherence
 
 This creates genuine dynamical coupling between correlation and decoherence — not a post-processing artifact.
 

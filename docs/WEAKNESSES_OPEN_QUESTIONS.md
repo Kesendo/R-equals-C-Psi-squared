@@ -66,9 +66,9 @@ How exactly does integration work without a central processor? Is structure itse
 ## 3. Measurability
 
 **The Problem:**
-How do you measure C independently? How do you measure Psi?
+How do you measure C independently? How do you measure Ψ?
 
-If we can't measure them separately, R = C*Psi^2 might be a beautiful metaphor, but not physics.
+If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics.
 
 **Update (January 3, 2026):**
 
@@ -77,7 +77,7 @@ An approach now exists (originally documented in a planned MEASURABLE_QUANTITIES
 For atoms and molecules:
 - C = Complete pairs / Possible pairs (dimensionless, 0-1)
 - R = Binding energy (eV or MeV)
-- Psi^2 = Probability distribution (wave function)
+- Ψ² = Probability distribution (wave function)
 
 This works. Noble gases have C = 1 and don't react. Carbon has C = 0.5 and builds all life. Iron-56 has the highest binding energy per nucleon. The periodic table validates the approach.
 
