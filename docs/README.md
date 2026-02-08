@@ -82,7 +82,7 @@ The theory in these documents generates predictions. The [experiments](../experi
 | C_int vs C_ext | 33:1 coherence ratio | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
 | Self-referential iteration | Equivalence to Mandelbrot z -> z^2 + c | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | theta as compass to 1/4 | Topology change at boundary crossing | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| Observer bandwidth limit | Navigation system: 1/4 + theta + tau_max | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
+| Observer bandwidth limit | Navigation system: 1/4 + theta + t_coh | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | gamma as local time rate | gamma * t_cross = const (frame-independent transition) | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | Equivalence principle | Single-system sims cannot discriminate metric forms | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
 | Self-consistency -> Schwarzschild | Only f(r) with true zero at r_s is self-consistent | [Self-Consistency](../experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) |

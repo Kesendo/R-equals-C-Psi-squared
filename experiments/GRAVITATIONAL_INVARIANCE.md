@@ -126,7 +126,7 @@ This means:
 - Experimental predictions are frame-independent when expressed in proper time (tau = gamma * t)
 - The 1/4 boundary is a true invariant -- not coordinate-dependent
 - theta at any given C*Psi value is the same for all observers
-- tau_max (time to crossing) is observer-dependent but related by a known ratio
+- t_coh (time to crossing) is observer-dependent but related by a known ratio
 
 ## 5. Implications
 

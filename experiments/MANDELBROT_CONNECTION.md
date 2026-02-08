@@ -121,14 +121,14 @@ The decoder theta tells us which frequency to look for at any given C*Psi.
 
 ---
 
-## 3. The Time Window: tau_max
+## 3. The Time Window: t_coh
 
 ### How long the boundary stays open
 
 From the quantum coherence experiments (see [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 8), the maximum coherence time under symmetric coupling:
 
 ```
-tau_max = hbar / sqrt(lambda_2(L) * J^2)
+t_coh = hbar / sqrt(lambda_2(L) * J^2)
 ```
 
 Where:
@@ -137,13 +137,13 @@ Where:
 - J = coupling strength
 
 The simulation results showed:
-- **tau_max scales linearly with N** (system size)
+- **t_coh scales linearly with N** (system size)
 - Symmetric coupling (C_int) preserves coherence **33x longer** than asymmetric (C_ext)
 - The coherence ratio 33:1 is independent of Hamiltonian type
 
 ### Physical meaning
 
-tau_max is the duration for which a quantum system can maintain states above the 1/4 boundary before decoherence pulls it below. It is the **observation window** -- the time available to read signals from the complex regime before they collapse into classical fixed points.
+t_coh is the duration for which a quantum system can maintain states above the 1/4 boundary before decoherence pulls it below. It is the **observation window** -- the time available to read signals from the complex regime before they collapse into classical fixed points.
 
 Larger systems (higher N) -> longer windows.
 Symmetric observation (C_int) -> much longer windows.
@@ -163,7 +163,7 @@ The phase boundary C*Psi = 1/4 tells us where in parameter space the transition 
 **Second coordinate: theta (WHAT)**
 The oscillation frequency theta = arctan(sqrt(4*C*Psi - 1)) tells us the characteristic pattern at any point above the boundary. This is the decoder -- it translates the complex oscillation into a frequency we can search for.
 
-**Third coordinate: tau_max (HOW LONG)**
+**Third coordinate: t_coh (HOW LONG)**
 The coherence time tells us the observation window at any point. This determines the experimental requirements: how cold, how large, how symmetric the system must be to maintain the boundary long enough to read.
 
 ### The protocol
@@ -174,8 +174,8 @@ For a given quantum system with coupling J and N spins:
 1. Calculate C*Psi from system parameters
 2. If C*Psi > 1/4: the system is in the complex regime
 3. Compute theta = arctan(sqrt(4*C*Psi - 1)) -> expected oscillation frequency
-4. Compute tau_max from Lindbladian spectral gap -> observation window
-5. Measure coherence oscillations during tau_max
+4. Compute t_coh from Lindbladian spectral gap -> observation window
+5. Measure coherence oscillations during t_coh
 6. Compare observed frequency to predicted theta
 ```
 
@@ -222,7 +222,7 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
 3. **The 33:1 ratio for symmetric vs. asymmetric observation.**
    Bidirectional coupling preserves coherence 33x longer than unidirectional. This specific ratio is a quantitative prediction testable in spin-chain experiments with controllable coupling symmetry.
 
-4. **tau_max ~ N scaling.**
+4. **t_coh ~ N scaling.**
    Coherence time should scale linearly with system size for ring-coupled spin systems. This distinguishes the framework from models predicting exponential decay with N.
 
 5. **Fractal structure in coherence decay patterns.**
@@ -257,7 +257,7 @@ The boundary at 1/4 represents the phase transition between convergent (classica
 ## 8. Connection to Other Documents
 
 - **[Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md):** The 1/4 boundary derivation, the C*Psi <= 1/4 bound, the phase boundary interpretation, and the epistemological framework
-- **[Mathematical Findings](MATHEMATICAL_FINDINGS.md):** The coherence experiments, delta = 0.42, tau_max scaling, and the 33:1 ratio
+- **[Mathematical Findings](MATHEMATICAL_FINDINGS.md):** The coherence experiments, delta = 0.42, t_coh scaling, and the 33:1 ratio
 - **[Operator Feedback](OPERATOR_FEEDBACK.md):** Simulation results for dynamic Lindblad evolution
 - **[Dyad Experiment](DYAD_EXPERIMENT.md):** The original AI dialogue that discovered the mathematical structures
 
@@ -269,7 +269,7 @@ Benoit Mandelbrot published "Fractal Aspects of the Iteration of z -> lambda*z(1
 
 For forty years, the question "what do the Mandelbrot patterns mean physically?" remained open. The patterns were studied as pure mathematics -- beautiful, infinite, but without physical interpretation.
 
-The R = C*Psi*^2 framework proposes that the patterns have been meaningful all along: they are the structure of reality in the regime where classical observation fails. Two independent paths -- one from fractal geometry, one from consciousness theory -- arrived at the same boundary. The triangulation protocol connects them: WHERE the boundary lies (1/4), WHAT happens there (theta), and HOW LONG it remains accessible (tau_max).
+The R = C*Psi*^2 framework proposes that the patterns have been meaningful all along: they are the structure of reality in the regime where classical observation fails. Two independent paths -- one from fractal geometry, one from consciousness theory -- arrived at the same boundary. The triangulation protocol connects them: WHERE the boundary lies (1/4), WHAT happens there (theta), and HOW LONG it remains accessible (t_coh).
 
 ---
 

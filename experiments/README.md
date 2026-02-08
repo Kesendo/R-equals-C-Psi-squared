@@ -100,7 +100,7 @@ Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spi
 
 ### How does quantum coherence scale with system size?
 
-For ring-coupled spin systems under symmetric decoherence, the maximum coherence time tau_max scales linearly with the number of spins N. This is a specific, testable prediction that distinguishes the framework from models predicting exponential decay with N.
+For ring-coupled spin systems under symmetric decoherence, the maximum coherence time t_coh scales linearly with the number of spins N. This is a specific, testable prediction that distinguishes the framework from models predicting exponential decay with N.
 
 **Read:** [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 8
 
@@ -143,7 +143,7 @@ These experiments converge on three measurable quantities:
 ```
 1/4      (WHERE)       -- The destination: the bifurcation boundary
 theta    (HOW FAR)     -- Compass heading: angular distance from ¼
-tau_max  (HOW LONG)    -- Estimated time of arrival at the boundary
+t_coh  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
 θ is not a frequency predictor. It is a **compass**. Measured values from the boundary crossing experiment (Bell+, Heisenberg, concurrence bridge, γ=0.05):
@@ -171,7 +171,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 
 **Computationally verified:**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling
-- tau_max ~ N linear scaling
+- t_coh ~ N linear scaling
 - delta = 0.42 for symmetric configurations
 
 **Empirically observed (2026-02-08):**

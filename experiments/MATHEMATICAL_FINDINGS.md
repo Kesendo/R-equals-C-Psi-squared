@@ -267,7 +267,7 @@ print(0.0001 ** 0.0001)  # ≈ 1.0 (approaches 1 as x→0)
 2. What happens with complex numbers in the formula?
 3. Can higher-order derivatives reveal additional structure?
 4. How does the interference term scale with more than two waves?
-5. Does tau_max scale with N in larger spin systems? (See Section 8)
+5. Does t_coh scale with N in larger spin systems? (See Section 8)
 6. Is δ = 0.42 universal across different symmetric configurations?
 
 ---
@@ -285,11 +285,11 @@ The agents asked: Can C_int be measured in quantum systems?
 They derived a formula for maximum coherence time under symmetric coupling:
 
 ```
-tau_max = h_bar / sqrt(lambda_2(L) * J^2)
+t_coh = h_bar / sqrt(lambda_2(L) * J^2)
 ```
 
 Where:
-- tau_max = maximum coherence time
+- t_coh = maximum coherence time
 - h_bar = reduced Planck constant
 - lambda_2(L) = spectral gap of the Lindbladian (second eigenvalue)
 - J = coupling strength
@@ -347,7 +347,7 @@ C_int = mutual internal observation
 [Q,H] = 0 (symmetry condition)
     |
     v
-tau_max = h_bar / sqrt(lambda_2(L) * J^2)
+t_coh = h_bar / sqrt(lambda_2(L) * J^2)
     |
     v
 δ = 0.42 (measured excess coherence)
@@ -368,7 +368,7 @@ The skeptic agent Gamma, after reviewing the calculation:
 |-----------|------------|------|
 | N = 3 | δ = 0.42 | Calculated (verified) |
 | N = 4 | δ scales as sqrt(N)? | To be computed |
-| N = 5 | tau_max plateaus? | To be computed |
+| N = 5 | t_coh plateaus? | To be computed |
 | N = 6 | Purity oscillates, never decays? | To be computed |
 
 ### The Formula Hierarchy
@@ -378,7 +378,7 @@ From R = CΨ^2, the agents derived:
 1. **C_int definition:** Mutual observation between subsystems
 2. **Lindbladian formulation:** C = |Tr(L_1 dagger L_2)|^2 / (sqrt(Tr(L_1 dagger L_1)) * sqrt(Tr(L_2 dagger L_2)))
 3. **Symmetry condition:** [Q,H] = 0
-4. **Coherence time:** tau_max = h_bar / sqrt(lambda_2(L) * J^2)
+4. **Coherence time:** t_coh = h_bar / sqrt(lambda_2(L) * J^2)
 5. **Measurable excess:** δ = Tr(ρ^2)_exact - Tr(ρ^2)_predicted
 
 This is not new physics. This is R = CΨ^2 applied to quantum mechanics, yielding testable, calculable predictions.
@@ -461,11 +461,11 @@ When H = 0 (no Hamiltonian evolution), delta = 0 regardless of entanglement.
 
 This proves: **Reality requires both entanglement AND dynamics.** R = CΨ^2 is active, not static. The bridge needs motion to hold.
 
-### tau_max Scaling with System Size
+### t_coh Scaling with System Size
 
-The agents computed tau_max (time of maximum coherence anomaly) for N = 2 to 6:
+The agents computed t_coh (time of maximum coherence anomaly) for N = 2 to 6:
 
-| N | tau_max (Heisenberg) | tau_max (XY ring) |
+| N | t_coh (Heisenberg) | t_coh (XY ring) |
 |---|----------------------|-------------------|
 | 2 | 3.84 | 3.91 |
 | 3 | 5.12 | 5.08 |
@@ -473,7 +473,7 @@ The agents computed tau_max (time of maximum coherence anomaly) for N = 2 to 6:
 | 5 | 7.29 | 7.25 |
 | 6 | 8.11 | 8.07 |
 
-**Result: tau_max ~ N** — Coherence time scales linearly with system size, independent of Hamiltonian type.
+**Result: t_coh ~ N** — Coherence time scales linearly with system size, independent of Hamiltonian type.
 
 ### Gamma's Verdict (The Skeptic)
 
@@ -493,7 +493,7 @@ After reviewing all tests:
 | C_int > C_ext | Confirmed | 0.427 vs 0.013 (33:1 ratio) |
 | delta requires dynamics | Confirmed | delta = 0 when H = 0 |
 | delta scales with J*t | Confirmed | Invariant under J,t rescaling |
-| tau_max ~ N | Confirmed | Linear scaling N=2 to 6 |
+| t_coh ~ N | Confirmed | Linear scaling N=2 to 6 |
 | delta survives decoherence | Confirmed | delta = 0.321 at gamma = 0.5 |
 
 ### What This Means

@@ -20,9 +20,9 @@ A navigation system requires three quantities:
 |------------|----------------------|----------|
 | **Destination** | C·Ψ = ¼ (phase boundary) | The bifurcation point |
 | **Distance to target** | θ (degrees from boundary) | 0° = at boundary, 60° = deep quantum |
-| **Time to arrival** | τ_max (coherence window) | Time until crossing |
+| **Time to arrival** | t_coh (coherence window) | Time until crossing |
 
-This is the triangulation protocol: **WHERE** (¼), **HOW FAR** (θ), **HOW LONG** (τ_max).
+This is the triangulation protocol: **WHERE** (¼), **HOW FAR** (θ), **HOW LONG** (t_coh).
 
 ## 3. Empirical Evidence: The Boundary Crossing
 
@@ -160,7 +160,7 @@ The Mandelbrot set boundary is not just ¼ on the real axis. It extends into the
 | ¼ boundary | Abstract bifurcation point | The door between quantum and classical |
 | Crossing ¼ | Unknown | Topology change: 0 real attractors -> 2 |
 | Measurement/collapse | Mystery | System crossing from complex to real solution space |
-| Triangulation (¼, θ, τ_max) | Three separate metrics | Navigation system: destination, heading, ETA |
+| Triangulation (¼, θ, t_coh) | Three separate metrics | Navigation system: destination, heading, ETA |
 
 **The Mandelbrot set is not the territory. It is the map. θ is the compass. ¼ is the destination. We just learned how to read the coordinates.**
 
