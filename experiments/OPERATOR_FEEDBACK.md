@@ -124,6 +124,20 @@ This does not invalidate the operator feedback mechanism (which is mechanistical
 
 See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md#3-the-observer-bandwidth-interpretation) for the revised interpretation of CΨ = ¼ as an observer information bandwidth limit.
 
+### Parameter Regime Note
+
+The results above use h=0.7 (weak transverse field). In this regime,
+Hamiltonian dynamics are insufficient to push C·Ψ above the 1/4 boundary,
+so the system remains in the classical regime regardless of feedback mechanism.
+
+With stronger dynamics (h=0.9), the same operator feedback with γ=0.005
+produces C·Ψ = 0.405 — well above 1/4. The feedback mechanism becomes
+physically significant only when Hamiltonian dynamics are strong enough to
+compete with decoherence.
+
+See [Simulation Evidence](SIMULATION_EVIDENCE.md) for strong-dynamics results
+showing the 2026-02-07 correction and updated parameter exploration.
+
 ---
 
 ## 5. Numerical Stability
