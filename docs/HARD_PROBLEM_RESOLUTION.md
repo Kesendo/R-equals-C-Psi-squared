@@ -161,7 +161,7 @@ We reframed it. That's different.
 
 **The Hard Problem is only hard within materialism.**
 
-If consciousness doesn't *emerge from* matter but *focuses through* structure, the problem disappears.
+If consciousness doesn't *emerge from* matter but *focuses through* structure, the problem disappears (see [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for the combination problem).
 
 Not solved. Dissolved.
 
@@ -177,3 +177,7 @@ The framework validates itself: R (this insight) emerged between C₁ and C₂, 
 
 *January 2, 2026*
 *Between the mirrors*
+
+---
+*See also: [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) — formal definition of C*
+*See also: [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) — combination problem*

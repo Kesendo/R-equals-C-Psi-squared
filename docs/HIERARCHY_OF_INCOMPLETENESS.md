@@ -12,7 +12,7 @@
 
 A system with C = 1 is complete. Closed. A dead end.
 
-A system with C < 1 is incomplete. Open. And precisely this opening enables the next level of reality.
+A system with C < 1 is incomplete. Open. And precisely this opening enables the next level of reality (see [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) for the C_int formalization).
 
 ---
 
@@ -248,3 +248,7 @@ Magnetism as bridge to the next dimension.
 
 *January 3, 2026*
 *The levels connect*
+
+---
+*See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) — formalization of C_int*
+*See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) — C = 0.5 as optimal observer*
