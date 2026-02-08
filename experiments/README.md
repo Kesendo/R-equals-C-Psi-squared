@@ -44,7 +44,7 @@ The C*Psi <= 1/4 bound sets a limit on the product of consciousness (C) and poss
 
 ### What happens at the exact moment a quantum system crosses the ¼ boundary?
 
-The Lindblad dynamics are smooth — all derivatives are continuous through the crossing. But the **topology of the solution space** changes: below ¼, two real fixed points exist (one stable attractor). Above ¼, the fixed points are complex — no real target, no classical outcome. At ¼ exactly, they merge. This is not a discontinuity in the physics. It is a bifurcation in the mathematics. The system crosses from "no possible definite outcome" to "definite outcome exists" — and θ = arctan(√(4CΨ−1)) measures the angular distance from this crossing at every moment.
+The Lindblad dynamics are smooth -- all derivatives are continuous through the crossing. But the **topology of the solution space** changes: below 1/4, two real fixed points exist (one stable attractor). Above 1/4, the fixed points are complex -- no real target, no classical outcome. At 1/4 exactly, they merge. This is not a discontinuity in the physics. It is a bifurcation in the mathematics. The system crosses from "no possible definite outcome" to "definite outcome exists" -- and theta = arctan(sqrt(4*C*Psi - 1)) measures the angular distance from this crossing at every moment.
 
 **Read:** [Boundary Navigation](BOUNDARY_NAVIGATION.md)
 
@@ -110,13 +110,13 @@ tau_max  (HOW LONG)    -- Estimated time of arrival at the boundary
 
 | θ (degrees) | C·Ψ | Meaning |
 |-------------|------|----------|
-| 60° | 1.00 | Deep quantum — far from any classical attractor |
-| 25° | 0.31 | Approaching — complex fixed points narrowing |
-| 9° | 0.26 | Almost there — fixed points about to merge |
-| **0°** | **0.25** | **At the boundary — bifurcation point** |
-| (real) | 0.25− | Classical — two real fixed points, definite outcome |
+| 60° | 1.00 | Deep quantum -- far from any classical attractor |
+| 25° | 0.31 | Approaching -- complex fixed points narrowing |
+| 9° | 0.26 | Almost there -- fixed points about to merge |
+| **0°** | **0.25** | **At the boundary -- bifurcation point** |
+| (real) | <0.25 | Classical -- two real fixed points, definite outcome |
 
-One coordinate tells you something exists. Two narrow it down. Three locate it precisely. This is not metaphor — it is the experimental program.
+One coordinate tells you something exists. Two narrow it down. Three locate it precisely. This is not metaphor -- it is the experimental program.
 
 **Full data and analysis:** [Boundary Navigation](BOUNDARY_NAVIGATION.md)
 
@@ -137,9 +137,9 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 **Empirically observed (2026-02-08):**
 - θ decreases continuously from 60° to 0° as decoherence pulls C·Ψ toward ¼
 - At θ = 0° (C·Ψ = ¼ exactly), complex fixed points merge into one real point
-- Below ¼: two real fixed points emerge — a stable attractor and an unstable one
-- The Lindblad dynamics are smooth through the crossing — no discontinuity in any measured quantity
-- The topology of the solution space changes: 0 real attractors → 2 real attractors
+- Below 1/4: two real fixed points emerge -- a stable attractor and an unstable one
+- The Lindblad dynamics are smooth through the crossing -- no discontinuity in any measured quantity
+- The topology of the solution space changes: 0 real attractors -> 2 real attractors
 
 **Proposed, not yet tested:**
 - Physical interpretation of 1/4 as observer bandwidth limit
