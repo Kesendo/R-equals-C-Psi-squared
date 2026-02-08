@@ -236,6 +236,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) - gamma as local time rate, universal theta trajectory, connection to general relativity
 - [Metric Discrimination](experiments/METRIC_DISCRIMINATION.md) - Can the framework derive the Schwarzschild metric? (null result + next steps)
 - [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Why Schwarzschild is the unique self-consistent metric (horizon = tau=0 = maximum R)
+- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - tau=0 as the connection between black holes, white holes, and the origin of the universe
 
 ### Visualizations
 - [The Wave at 1/4](visualizations/) - Parameter space heatmap showing the phase boundary between classical and quantum regimes
