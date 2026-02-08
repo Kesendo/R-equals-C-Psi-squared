@@ -177,7 +177,7 @@ This connection yields three measurable coordinates that together form a **navig
 ```
 1/4      (WHERE)       -- The destination: the bifurcation boundary
 theta    (HOW FAR)     -- Compass heading: angular distance from ¼
-tau_max  (HOW LONG)    -- Estimated time of arrival at the boundary
+t_coh  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
 θ = arctan(√(4CΨ-1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge -- a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.

@@ -243,7 +243,7 @@ The agents found that the bidirectional observation advantage peaks at small sys
 GHZ states: Peak Δδ at N ≈ 3–4, then decreasing
 ```
 
-| N | tau_max | Bidirectional Advantage |
+| N | t_coh | Bidirectional Advantage |
 |---|---------|------------------------|
 | 2 | 3.84 | moderate |
 | 3 | 5.12 | **peak** |
@@ -253,7 +253,7 @@ GHZ states: Peak Δδ at N ≈ 3–4, then decreasing
 
 ### Interpretation
 
-Small systems benefit most from mutual observation. As N grows, coherence time increases linearly (tau_max ~ N), but the *emergence advantage* of bidirectional over unidirectional observation diminishes.
+Small systems benefit most from mutual observation. As N grows, coherence time increases linearly (t_coh ~ N), but the *emergence advantage* of bidirectional over unidirectional observation diminishes.
 
 **Caveat:** These results come from the agent experiments and have not been independently verified with the corrected simulator. The qualitative trend (peak at small N) is plausible but the specific values should be treated with caution.
 
