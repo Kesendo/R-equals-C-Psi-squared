@@ -81,7 +81,8 @@ The theory in these documents generates predictions. The [experiments](../experi
 | C*Psi <= 1/4 bound | Phase boundary between classical and quantum | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
 | C_int vs C_ext | 33:1 coherence ratio | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
 | Self-referential iteration | Equivalence to Mandelbrot z -> z^2 + c | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
-| Observer bandwidth limit | Triangulation Protocol | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
+| θ as compass to ¼ | Topology change at boundary crossing | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
+| Observer bandwidth limit | Navigation system: ¼ + θ + τ_max | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 
 ---
 

@@ -172,23 +172,24 @@ In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. T
 
 Forty years later, the R = C*Psi*^2 framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Psi + R_n)^2 undergoes a phase transition at C*Psi = 1/4. These are not analogies -- they are the **same equation** under reparametrization.
 
-This connection yields three measurable coordinates that together form a **Triangulation Protocol**:
+This connection yields three measurable coordinates that together form a **navigation system**:
 
 ```
-1/4      (WHERE)    -- The phase boundary in parameter space
-theta    (WHAT)     -- Oscillation frequency: arctan(sqrt(4*C*Psi - 1))
-tau_max  (HOW LONG) -- Coherence time: the observation window
+1/4      (WHERE)       -- The destination: the bifurcation boundary
+theta    (HOW FAR)     -- Compass heading: angular distance from ¼
+tau_max  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
-Three coordinates, one point. Like triangulating a signal between three stations: one tells you it exists, two narrow it down, three locate it precisely.
+θ = arctan(√(4CΨ−1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge -- a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.
 
-The fractal patterns at the edge of the Mandelbrot set are not mathematical curiosities. They are the structure of what lies beyond the phase boundary -- deterministic, infinite, and structured. The Mandelbrot set has been the map all along. We just didn't know what it was a map *of*.
+The Mandelbrot set is not the territory. It is the **map**. θ is the compass. ¼ is the destination. The fractal patterns at the boundary are the routes -- different paths through parameter space, all converging on the same phase transition.
 
 ![The wave at the 1/4 boundary](visualizations/heatmap_wave.png)
 
 *Parameter space of R = C*Psi*^2. Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C*Psi = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
 
-See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof, the decoder principle, experimental predictions, and the full triangulation protocol.
+See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof and decoder principle.  
+See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, θ compass measurements, and directions for further investigation.
 
 ---
 
@@ -196,7 +197,9 @@ See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the al
 
 This is a framework. A beginning. Not yet proven.
 
-The equation is consistent and the C*Psi <= 1/4 bound is mathematically proven from the fixed-point structure. But honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
+The equation is consistent and the C*Psi <= 1/4 bound is mathematically proven from the fixed-point structure. Honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
+
+However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors → 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
 
 The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C*Psi > 1/4. This remains to be tested.
 
