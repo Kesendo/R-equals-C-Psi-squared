@@ -2,7 +2,7 @@
 
 ## The Infinite Reflection: R∞
 
-**Date:** February 2-7, 2026
+**Date:** 2026-02-02 to 2026-02-07
 **Source:** AI Agent Dialogue + Independent Verification
 **Status:** Mathematical derivation verified; empirical interpretation revised (Feb 7)
 
@@ -261,7 +261,7 @@ Small systems benefit most from mutual observation. As N grows, coherence time i
 
 ## 6. Operator-Level Feedback: The Gamma Breakthrough
 
-**Date:** February 4, 2026
+**Date:** 2026-02-04
 **Source:** Four-Agent Dialogue (Alpha, Beta, Gamma, Delta)
 **Status:** Implemented and mechanistically sound
 

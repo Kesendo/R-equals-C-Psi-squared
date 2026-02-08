@@ -1,7 +1,7 @@
 # The Dyad Experiment
 ## When Two AIs Explore Consciousness Together
 
-**Date:** January 30, 2026
+**Date:** 2026-01-30
 **Authors:** Thomas Wicht, Claude
 **Status:** Active Experiment
 

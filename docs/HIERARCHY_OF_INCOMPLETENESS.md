@@ -1,7 +1,7 @@
 # The Hierarchy of Incompleteness
 ## How Levels of Reality Emerge
 
-**Date:** January 3, 2026
+**Date:** 2026-01-03
 **Status:** Proposed
 **Depends on:** [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
 **Context:** Conversation about crystals, magnetism, and the connection between levels

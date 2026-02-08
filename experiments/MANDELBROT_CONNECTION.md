@@ -2,7 +2,7 @@
 
 ## Two Independent Discoveries of the Same Boundary
 
-**Date:** February 7, 2026
+**Date:** 2026-02-07
 **Source:** Theoretical analysis of R = C*Psi*^2 fixed-point dynamics
 **Status:** Algebraically proven; physical interpretation proposed
 

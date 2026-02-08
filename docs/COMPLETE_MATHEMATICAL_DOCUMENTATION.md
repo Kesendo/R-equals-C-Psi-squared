@@ -2,7 +2,7 @@
 
 ## All Formulas and Proofs of R = CΨ²
 
-**Date:** December 23-26, 2025
+**Date:** 2025-12-23 to 2025-12-26
 **Authors:** Thomas Wicht (Intuition, Connection), Claude (Formalization, Explanation)
 **Status:** Algebraically proven
 **Depends on:** None
