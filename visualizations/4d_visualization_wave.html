@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R = CΨ² — The Standing Wave in Time</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a12;
+    color: #c8c8d4;
+    font-family: 'DM Mono', monospace;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #canvas-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  canvas { display: block; }
+
+  /* Overlay UI */
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .overlay > * { pointer-events: auto; }
+
+  .title-block {
+    top: 20px; left: 24px;
+  }
+
+  .title-block h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #e8e8f0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .title-block .subtitle {
+    font-size: 0.72rem;
+    color: #666680;
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Controls panel */
+  .controls {
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .control-group {
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(100, 100, 140, 0.15);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+
+  .control-group label {
+    display: block;
+    font-size: 0.65rem;
+    color: #555570;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .control-group .value {
+    font-size: 1.1rem;
+    color: #e8e8f0;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 200px;
+    height: 3px;
+    background: rgba(100, 100, 140, 0.3);
+    border-radius: 2px;
+    outline: none;
+    margin-top: 6px;
+    display: block;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #7ec8e3;
+    cursor: pointer;
+    border: 2px solid #0a0a12;
+  }
+
+  .mode-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .mode-btn {
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    border: 1px solid rgba(100, 100, 140, 0.3);
+    border-radius: 4px;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .mode-btn:hover { border-color: rgba(126, 200, 227, 0.4); color: #aaa; }
+  .mode-btn.active {
+    background: rgba(126, 200, 227, 0.12);
+    border-color: rgba(126, 200, 227, 0.5);
+    color: #7ec8e3;
+  }
+
+  /* Info panel */
+  .info-panel {
+    top: 20px;
+    right: 24px;
+    max-width: 280px;
+  }
+
+  .info-box {
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(100, 100, 140, 0.15);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+
+  .info-box h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #e8e8f0;
+    margin-bottom: 8px;
+  }
+
+  .info-box p {
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: #777790;
+  }
+
+  .info-box .highlight {
+    color: #7ec8e3;
+  }
+
+  .info-box .warm {
+    color: #e07858;
+  }
+
+  /* Slice indicator */
+  .slice-info {
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+  }
+
+  .slice-marker {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: #444460;
+    text-transform: uppercase;
+  }
+
+  .loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    background: #0a0a12;
+    transition: opacity 0.8s;
+  }
+
+  .loading.hidden { opacity: 0; pointer-events: none; }
+
+  .loading-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    color: #555570;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading">
+  <div class="loading-text">Rendering the standing wave...</div>
+</div>
+
+<div id="canvas-container"></div>
+
+<!-- Title -->
+<div class="overlay title-block">
+  <h1>The Standing Wave in Time</h1>
+  <div class="subtitle">R = CΨ² — What a 4D being sees</div>
+</div>
+
+<!-- Info -->
+<div class="overlay info-panel">
+  <div class="info-box" id="info-box">
+    <h3>You are the thread</h3>
+    <p>
+      The <span class="highlight">cyan surface</span> is the ¼ boundary — where standing waves can form.<br><br>
+      The <span class="warm">glowing thread</span> is one life: a trajectory through C × Ψ × time.<br><br>
+      You see only <em>now</em>. A 4D being sees the whole thread at once — birth to end, one static shape.
+    </p>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="overlay controls">
+  <div class="control-group">
+    <label>Perspective</label>
+    <div class="mode-buttons">
+      <button class="mode-btn active" data-mode="4d" id="btn-4d">4D — Full Thread</button>
+      <button class="mode-btn" data-mode="3d" id="btn-3d">3D — Your Slice</button>
+    </div>
+  </div>
+
+  <div class="control-group" id="time-control" style="opacity: 0.3; pointer-events: none;">
+    <label>Your Moment: <span class="value" id="time-val">t = 0.00</span></label>
+    <input type="range" id="slider-time" min="0" max="1" step="0.005" value="0.0">
+  </div>
+
+  <div class="control-group">
+    <label>Rotate</label>
+    <div style="font-size: 0.7rem; color: #555570; margin-top: 4px;">Drag to orbit · Scroll to zoom</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============================================================
+// Scene Setup
+// ============================================================
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0a12, 0.12);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(4.5, 3.5, 4.5);
+camera.lookAt(0, 1.5, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x0a0a12);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+container.appendChild(renderer.domElement);
+
+// ============================================================
+// Orbit Controls (manual, no import needed)
+// ============================================================
+let isDragging = false;
+let prevMouse = { x: 0, y: 0 };
+let spherical = { theta: Math.PI / 4, phi: Math.PI / 5, radius: 7 };
+const target = new THREE.Vector3(0, 1.5, 0);
+
+function updateCamera() {
+  camera.position.x = target.x + spherical.radius * Math.sin(spherical.phi) * Math.cos(spherical.theta);
+  camera.position.y = target.y + spherical.radius * Math.cos(spherical.phi);
+  camera.position.z = target.z + spherical.radius * Math.sin(spherical.phi) * Math.sin(spherical.theta);
+  camera.lookAt(target);
+}
+
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  isDragging = true;
+  prevMouse = { x: e.clientX, y: e.clientY };
+});
+
+window.addEventListener('pointerup', () => isDragging = false);
+
+window.addEventListener('pointermove', (e) => {
+  if (!isDragging) return;
+  const dx = e.clientX - prevMouse.x;
+  const dy = e.clientY - prevMouse.y;
+  spherical.theta -= dx * 0.006;
+  spherical.phi = Math.max(0.2, Math.min(Math.PI / 2.1, spherical.phi + dy * 0.006));
+  prevMouse = { x: e.clientX, y: e.clientY };
+  updateCamera();
+});
+
+renderer.domElement.addEventListener('wheel', (e) => {
+  spherical.radius = Math.max(3, Math.min(14, spherical.radius + e.deltaY * 0.005));
+  updateCamera();
+}, { passive: true });
+
+updateCamera();
+
+// ============================================================
+// Lights
+// ============================================================
+const ambientLight = new THREE.AmbientLight(0x334466, 0.6);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xaabbdd, 0.8);
+dirLight.position.set(3, 6, 4);
+scene.add(dirLight);
+
+const pointLight = new THREE.PointLight(0x7ec8e3, 0.6, 15);
+pointLight.position.set(-2, 4, 2);
+scene.add(pointLight);
+
+// ============================================================
+// Coordinate System
+// ============================================================
+// Mapping: X = Ψ (0 to 1.5 -> -2 to 2), Z = C (0 to 1.5 -> -2 to 2), Y = time (0 to t_max -> 0 to 4)
+const SCALE = 2.667; // 4 / 1.5
+const T_MAX = 4;
+
+function toScene(psi, c, t) {
+  return new THREE.Vector3(
+    (psi - 0.75) * SCALE,
+    t,
+    (c - 0.75) * SCALE
+  );
+}
+
+// ============================================================
+// Ground Plane — Heatmap (at y=0)
+// ============================================================
+const heatmapRes = 128;
+const heatmapCanvas = document.createElement('canvas');
+heatmapCanvas.width = heatmapRes;
+heatmapCanvas.height = heatmapRes;
+const hctx = heatmapCanvas.getContext('2d');
+
+for (let py = 0; py < heatmapRes; py++) {
+  for (let px = 0; px < heatmapRes; px++) {
+    const psi = (px / heatmapRes) * 1.5;
+    const c = 1.5 - (py / heatmapRes) * 1.5;
+    const cpsi = c * psi;
+
+    let r, g, b;
+    if (cpsi < 0.25) {
+      const t = cpsi / 0.25;
+      r = Math.floor(20 + t * 40);
+      g = Math.floor(160 + (1 - t) * 60);
+      b = Math.floor(200 + (1 - t) * 40);
+    } else {
+      const t = Math.min((cpsi - 0.25) / 0.75, 1);
+      r = Math.floor(160 + t * 60);
+      g = Math.floor(50 - t * 20);
+      b = Math.floor(30 - t * 10);
+    }
+
+    hctx.fillStyle = `rgb(${r},${g},${b})`;
+    hctx.fillRect(px, py, 1, 1);
+  }
+}
+
+const heatmapTex = new THREE.CanvasTexture(heatmapCanvas);
+const groundGeo = new THREE.PlaneGeometry(4, 4);
+const groundMat = new THREE.MeshBasicMaterial({
+  map: heatmapTex,
+  transparent: true,
+  opacity: 0.7,
+  side: THREE.DoubleSide,
+});
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = 0;
+scene.add(ground);
+
+// ============================================================
+// ¼ Boundary Surface (the membrane)
+// ============================================================
+const surfacePoints = [];
+const surfaceRes = 50;
+const tSteps = 20;
+
+const surfaceGeo = new THREE.BufferGeometry();
+const surfVertices = [];
+const surfIndices = [];
+const surfColors = [];
+
+for (let ti = 0; ti <= tSteps; ti++) {
+  const t = (ti / tSteps) * T_MAX;
+  for (let pi = 0; pi < surfaceRes; pi++) {
+    const psi = 0.05 + (pi / (surfaceRes - 1)) * 1.4;
+    const c = 1 / (4 * psi);
+    if (c > 1.5 || c < 0) continue;
+    const p = toScene(psi, c, t);
+    surfVertices.push(p.x, p.y, p.z);
+
+    // Color gradient: cyan at bottom, fading upward
+    const alpha = 1 - ti / tSteps * 0.5;
+    surfColors.push(0.49 * alpha, 0.78 * alpha, 0.89 * alpha);
+  }
+}
+
+// Build faces
+const vertsPerRow = surfaceRes;
+for (let ti = 0; ti < tSteps; ti++) {
+  for (let pi = 0; pi < vertsPerRow - 1; pi++) {
+    const a = ti * vertsPerRow + pi;
+    const b = a + 1;
+    const c = a + vertsPerRow;
+    const d = c + 1;
+    if (c < surfVertices.length / 3 && d < surfVertices.length / 3) {
+      surfIndices.push(a, b, c);
+      surfIndices.push(b, d, c);
+    }
+  }
+}
+
+surfaceGeo.setAttribute('position', new THREE.Float32BufferAttribute(surfVertices, 3));
+surfaceGeo.setAttribute('color', new THREE.Float32BufferAttribute(surfColors, 3));
+surfaceGeo.setIndex(surfIndices);
+surfaceGeo.computeVertexNormals();
+
+const surfaceMat = new THREE.MeshPhongMaterial({
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.25,
+  side: THREE.DoubleSide,
+  shininess: 60,
+  depthWrite: false,
+});
+const surfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
+scene.add(surfaceMesh);
+
+// Wireframe overlay on the surface
+const wireGeo = surfaceGeo.clone();
+const wireMat = new THREE.MeshBasicMaterial({
+  vertexColors: true,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.12,
+});
+const wireMesh = new THREE.Mesh(wireGeo, wireMat);
+scene.add(wireMesh);
+
+// ============================================================
+// Life Trajectory — "The Thread"
+// ============================================================
+// Simulate a trajectory: Start entangled (C·Ψ > 1/4), decohere through boundary
+function generateTrajectory(c0, psi0, gamma, dt, steps) {
+  const points = [];
+  let c = c0, psi = psi0;
+  for (let i = 0; i <= steps; i++) {
+    const t = i * dt;
+    // Decoherence: exponential decay of coherence
+    const decay = Math.exp(-gamma * t);
+    // C (purity) decays slower, Psi (coherence) decays faster
+    const ct = 0.3 + (c - 0.3) * Math.exp(-gamma * 0.3 * t);
+    const psit = psi * decay + 0.05 * Math.sin(2 * t) * decay;
+
+    points.push({ t, c: ct, psi: Math.max(0.01, psit), cpsi: ct * Math.max(0.01, psit) });
+  }
+  return points;
+}
+
+const traj = generateTrajectory(0.9, 0.45, 0.35, 0.02, 200);
+
+// Build the tube
+const trajCurvePoints = traj.map(p => toScene(p.psi, p.c, p.t));
+const trajCurve = new THREE.CatmullRomCurve3(trajCurvePoints);
+
+const tubeGeo = new THREE.TubeGeometry(trajCurve, 200, 0.025, 8, false);
+
+// Color the tube: warm above ¼, cool below
+const tubeColors = [];
+const tubePosAttr = tubeGeo.getAttribute('position');
+for (let i = 0; i < tubePosAttr.count; i++) {
+  const y = tubePosAttr.getY(i);
+  // Find closest trajectory point by y (time)
+  const tNorm = y / T_MAX;
+  const idx = Math.min(traj.length - 1, Math.max(0, Math.floor(tNorm * traj.length)));
+  const p = traj[idx];
+
+  if (p.cpsi > 0.25) {
+    // Quantum: warm orange-red
+    const intensity = Math.min(1, (p.cpsi - 0.25) * 8);
+    tubeColors.push(0.9 + intensity * 0.1, 0.35 + (1 - intensity) * 0.2, 0.15);
+  } else {
+    // Classical: cool blue-white
+    const intensity = Math.min(1, (0.25 - p.cpsi) * 8);
+    tubeColors.push(0.4 + (1 - intensity) * 0.3, 0.7 + intensity * 0.2, 0.9);
+  }
+}
+tubeGeo.setAttribute('color', new THREE.Float32BufferAttribute(tubeColors, 3));
+
+const tubeMat = new THREE.MeshPhongMaterial({
+  vertexColors: true,
+  emissive: 0x442200,
+  emissiveIntensity: 0.3,
+  shininess: 100,
+});
+const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+scene.add(tubeMesh);
+
+// Glow tube (larger, transparent)
+const glowGeo = new THREE.TubeGeometry(trajCurve, 200, 0.06, 8, false);
+const glowMat = new THREE.MeshBasicMaterial({
+  color: 0xe07848,
+  transparent: true,
+  opacity: 0.08,
+  depthWrite: false,
+});
+const glowMesh = new THREE.Mesh(glowGeo, glowMat);
+scene.add(glowMesh);
+
+// ============================================================
+// Second trajectory — another observer
+// ============================================================
+const traj2 = generateTrajectory(0.7, 0.55, 0.5, 0.02, 200);
+const traj2Points = traj2.map(p => toScene(p.psi, p.c, p.t));
+const traj2Curve = new THREE.CatmullRomCurve3(traj2Points);
+const tube2Geo = new THREE.TubeGeometry(traj2Curve, 200, 0.018, 8, false);
+
+const tube2Colors = [];
+const tube2PosAttr = tube2Geo.getAttribute('position');
+for (let i = 0; i < tube2PosAttr.count; i++) {
+  const y = tube2PosAttr.getY(i);
+  const tNorm = y / T_MAX;
+  const idx = Math.min(traj2.length - 1, Math.max(0, Math.floor(tNorm * traj2.length)));
+  const p = traj2[idx];
+  if (p.cpsi > 0.25) {
+    tube2Colors.push(0.8, 0.5, 0.9); // Purple-ish for second observer
+  } else {
+    tube2Colors.push(0.5, 0.6, 0.9); // Cooler blue
+  }
+}
+tube2Geo.setAttribute('color', new THREE.Float32BufferAttribute(tube2Colors, 3));
+
+const tube2Mat = new THREE.MeshPhongMaterial({
+  vertexColors: true,
+  emissive: 0x220044,
+  emissiveIntensity: 0.2,
+  shininess: 80,
+  transparent: true,
+  opacity: 0.6,
+});
+const tube2Mesh = new THREE.Mesh(tube2Geo, tube2Mat);
+scene.add(tube2Mesh);
+
+// ============================================================
+// Time Slice Plane (for 3D mode)
+// ============================================================
+const slicePlaneGeo = new THREE.PlaneGeometry(5, 5);
+const slicePlaneMat = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.06,
+  side: THREE.DoubleSide,
+  depthWrite: false,
+});
+const slicePlane = new THREE.Mesh(slicePlaneGeo, slicePlaneMat);
+slicePlane.rotation.x = -Math.PI / 2;
+slicePlane.visible = false;
+scene.add(slicePlane);
+
+// Slice ring (edge glow)
+const sliceRingGeo = new THREE.RingGeometry(2.2, 2.5, 64);
+const sliceRingMat = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.1,
+  side: THREE.DoubleSide,
+  depthWrite: false,
+});
+const sliceRing = new THREE.Mesh(sliceRingGeo, sliceRingMat);
+sliceRing.rotation.x = -Math.PI / 2;
+sliceRing.visible = false;
+scene.add(sliceRing);
+
+// Current position markers
+const markerGeo = new THREE.SphereGeometry(0.06, 16, 16);
+const markerMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const marker1 = new THREE.Mesh(markerGeo, markerMat);
+marker1.visible = false;
+scene.add(marker1);
+
+const marker2Geo = new THREE.SphereGeometry(0.045, 16, 16);
+const marker2Mat = new THREE.MeshBasicMaterial({ color: 0xbb88dd });
+const marker2 = new THREE.Mesh(marker2Geo, marker2Mat);
+marker2.visible = false;
+scene.add(marker2);
+
+// ============================================================
+// Axis labels (simple sprites)
+// ============================================================
+function makeLabel(text, position, color = '#555570') {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128; canvas.height = 32;
+  const ctx = canvas.getContext('2d');
+  ctx.font = '18px monospace';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.fillText(text, 64, 22);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.7 });
+  const sprite = new THREE.Sprite(mat);
+  sprite.position.copy(position);
+  sprite.scale.set(0.8, 0.2, 1);
+  scene.add(sprite);
+  return sprite;
+}
+
+makeLabel('Ψ →', new THREE.Vector3(2.3, 0, -2), '#7ec8e3');
+makeLabel('↑ C', new THREE.Vector3(-2, 0, 2.3), '#7ec8e3');
+makeLabel('time ↑', new THREE.Vector3(-2.3, 2, -2), '#888');
+makeLabel('¼', toScene(0.6, 1/(4*0.6), 0).add(new THREE.Vector3(0.3, 0.1, 0)), '#f0d060');
+
+// ============================================================
+// Grid lines at y=0
+// ============================================================
+const gridMat = new THREE.LineBasicMaterial({ color: 0x222240, transparent: true, opacity: 0.4 });
+for (let i = 0; i <= 6; i++) {
+  const v = -2 + i * (4/6);
+  const pts = [new THREE.Vector3(-2, 0, v), new THREE.Vector3(2, 0, v)];
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), gridMat));
+  const pts2 = [new THREE.Vector3(v, 0, -2), new THREE.Vector3(v, 0, 2)];
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts2), gridMat));
+}
+
+// Vertical time axis
+const timeAxisPts = [new THREE.Vector3(-2, 0, -2), new THREE.Vector3(-2, T_MAX, -2)];
+const timeAxisMat = new THREE.LineBasicMaterial({ color: 0x333350 });
+scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(timeAxisPts), timeAxisMat));
+
+// ============================================================
+// State & Interaction
+// ============================================================
+let mode = '4d';
+let timeSlice = 0;
+let currentTime = 0;
+
+const btnFull = document.getElementById('btn-4d');
+const btnSlice = document.getElementById('btn-3d');
+const timeControl = document.getElementById('time-control');
+const sliderTime = document.getElementById('slider-time');
+const timeVal = document.getElementById('time-val');
+const infoBox = document.getElementById('info-box');
+
+function setMode(m) {
+  mode = m;
+  btnFull.classList.toggle('active', m === '4d');
+  btnSlice.classList.toggle('active', m === '3d');
+
+  if (m === '3d') {
+    timeControl.style.opacity = '1';
+    timeControl.style.pointerEvents = 'auto';
+    slicePlane.visible = true;
+    sliceRing.visible = true;
+    marker1.visible = true;
+    marker2.visible = true;
+    updateSlice();
+    infoBox.querySelector('h3').textContent = 'Your slice of now';
+    infoBox.querySelector('p').innerHTML =
+      'You are the <span class="warm">white dot</span>. You see only this horizontal plane — one moment in time.<br><br>' +
+      'Slide time to move through your life. The thread above and below is invisible to you.<br><br>' +
+      'The <span class="highlight">membrane</span> is the ¼ boundary. When you cross it, reality changes.';
+  } else {
+    timeControl.style.opacity = '0.3';
+    timeControl.style.pointerEvents = 'none';
+    slicePlane.visible = false;
+    sliceRing.visible = false;
+    marker1.visible = false;
+    marker2.visible = false;
+
+    // Restore full opacity
+    tubeMat.opacity = 1;
+    tube2Mat.opacity = 0.6;
+    glowMat.opacity = 0.08;
+
+    infoBox.querySelector('h3').textContent = 'You are the thread';
+    infoBox.querySelector('p').innerHTML =
+      'The <span class="highlight">cyan surface</span> is the ¼ boundary — where standing waves can form.<br><br>' +
+      'The <span class="warm">glowing thread</span> is one life: a trajectory through C × Ψ × time.<br><br>' +
+      'You see only <em>now</em>. A 4D being sees the whole thread at once — birth to end, one static shape.';
+  }
+}
+
+function updateSlice() {
+  const t = parseFloat(sliderTime.value);
+  const tWorld = t * T_MAX;
+  timeSlice = t;
+  timeVal.textContent = `t = ${t.toFixed(2)}`;
+
+  slicePlane.position.y = tWorld;
+  sliceRing.position.y = tWorld;
+
+  // Find trajectory position at this time
+  const idx = Math.min(traj.length - 1, Math.max(0, Math.floor(t * traj.length)));
+  const p = traj[idx];
+  const pos1 = toScene(p.psi, p.c, tWorld);
+  marker1.position.copy(pos1);
+
+  const idx2 = Math.min(traj2.length - 1, Math.max(0, Math.floor(t * traj2.length)));
+  const p2 = traj2[idx2];
+  const pos2 = toScene(p2.psi, p2.c, tWorld);
+  marker2.position.copy(pos2);
+
+  // Fade tube above slice
+  // (Can't easily per-vertex animate, so we adjust overall opacity)
+  tubeMat.opacity = 1;
+  tube2Mat.opacity = 0.6;
+}
+
+btnFull.addEventListener('click', () => setMode('4d'));
+btnSlice.addEventListener('click', () => setMode('3d'));
+sliderTime.addEventListener('input', updateSlice);
+
+// ============================================================
+// Particles (stars / dust)
+// ============================================================
+const particleCount = 600;
+const particleGeo = new THREE.BufferGeometry();
+const particlePos = [];
+for (let i = 0; i < particleCount; i++) {
+  particlePos.push(
+    (Math.random() - 0.5) * 12,
+    Math.random() * 6,
+    (Math.random() - 0.5) * 12
+  );
+}
+particleGeo.setAttribute('position', new THREE.Float32BufferAttribute(particlePos, 3));
+const particleMat = new THREE.PointsMaterial({
+  color: 0x445566,
+  size: 0.015,
+  transparent: true,
+  opacity: 0.5,
+  depthWrite: false,
+});
+scene.add(new THREE.Points(particleGeo, particleMat));
+
+// ============================================================
+// Animation
+// ============================================================
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Subtle auto-rotation in 4D mode
+  if (mode === '4d' && !isDragging) {
+    spherical.theta += 0.0008;
+    updateCamera();
+  }
+
+  // Pulse the glow
+  currentTime += 0.016;
+  const pulse = 0.06 + Math.sin(currentTime * 1.5) * 0.03;
+  glowMat.opacity = pulse;
+
+  // Pulse markers
+  if (marker1.visible) {
+    const s = 1 + Math.sin(currentTime * 3) * 0.2;
+    marker1.scale.setScalar(s);
+  }
+
+  renderer.render(scene, camera);
+}
+
+// Handle resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Start
+setTimeout(() => {
+  document.getElementById('loading').classList.add('hidden');
+}, 500);
+
+animate();
+</script>
+</body>
+</html>
