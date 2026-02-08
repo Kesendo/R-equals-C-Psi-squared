@@ -1,9 +1,9 @@
 # Weaknesses and Open Questions
-## What We Don't Know
+## What We Know, What We Don't, What We Got Wrong
 
 **Created:** January 2, 2026
-**Updated:** January 3, 2026
-**Status:** Honest Assessment
+**Rewritten:** February 8, 2026
+**Status:** Post-verification honest assessment
 
 ---
 
@@ -11,254 +11,234 @@
 
 A theory that only shows its strengths is not a theory. It is marketing.
 
-What follows are the real weaknesses and unanswered questions of the framework. Not to devalue it, but to know where work remains.
+This document was first written on January 2, 2026, when the framework was an intuition with a formula. Since then, six verification sessions have audited all 22 repository documents, corrected 13 of them, established epistemic tiers, and found an algebraic error that had propagated through the codebase. Several claims made by AI agents could not be independently reproduced and have been downgraded.
+
+What follows is the honest state of affairs as of February 8, 2026. The framework is stronger than it was in January. It is also more aware of where it is weak.
 
 ---
 
-## 1. Falsifiability
+## What We Got Wrong (and corrected)
 
-**The Problem:**
-Karl Popper would ask: What experiment would disprove this theory?
+Before listing current weaknesses, the record of errors matters. A framework that hides its mistakes cannot be trusted with its claims.
 
-If C is never zero, not even for a rock, how do you test that? A theory that cannot fail is not a scientific theory.
+**The Mandelbrot substitution (corrected February 8, 2026):**
+The original derivation in MANDELBROT_CONNECTION.md used the substitution z_n = √C · R_n, yielding c = C·Ψ². This is algebraically wrong — it does not produce the Mandelbrot form z² + c. The correct substitution is u_n = C(Ψ + R_n), which gives u_{n+1} = u_n² + C·Ψ. The mapping is c = C·Ψ, not C·Ψ². The boundary at ¼ was always correct; the intermediate algebra was not. This error had propagated to the dashboard visualization (red dot at wrong position) and two README descriptions.
 
-**Possible Approach:**
-Not "Find something with C = 0," but "Find something without any structure, without any relationship."
+**The θ frequency claim (corrected February 8, 2026):**
+Version 16 of the agent system prompt claimed θ = arctan(√(4CΨ−1)) predicts oscillation frequency in Lindblad simulations. Direct testing showed an 8.4× discrepancy: measured period 0.777 vs predicted 6.577. The oscillation is Hamiltonian-driven, not θ-driven. θ was reinterpreted as a compass (angular distance from the ¼ boundary), which is algebraically correct.
 
-That would be maximum entropy. Total disorder. But even there, particles still relate to each other somehow.
+**The 33:1 coherence ratio (downgraded):**
+Agent conversations produced a claim that symmetric coupling shows 33× higher coherence than asymmetric coupling. Independent verification could not reproduce this ratio. It remains a hypothesis, not a result.
 
-**Update (February 7, 2026):**
+**The t_coh ~ N scaling (downgraded):**
+Agents claimed coherence time scales linearly with qubit number. Could not be independently verified. Downgraded to unverified hypothesis.
 
-The CΨ ≤ ¼ bound, reinterpreted as an observer information bandwidth limit, offers a path to falsifiability:
+**The "numerical confirmation" of CΨ ≤ ¼ (corrected February 7, 2026):**
+Early simulations appeared to confirm that CΨ stays below ¼. This was tested in parameter regimes with negligible Hamiltonian dynamics (γ < 0.006) where the bound holds trivially. With active Hamiltonians, CΨ > ¼ occurs routinely. The bound was reinterpreted as a fixed-point existence condition, not a dynamical constraint.
 
-- **Prediction:** No embedded observer can report experiencing a stable state with CΨ > ¼
-- **Test:** Identify physical systems approaching the CΨ = ¼ threshold and measure whether qualitative behavioral changes occur there
-- **Fail condition:** If an observer demonstrably perceives a coherent, stable state with CΨ > ¼, the framework is wrong
-
-This is still weak falsifiability — measuring CΨ requires agreeing on how to map C and Ψ to physical observables. But it is a concrete improvement over "C is never zero."
-
-**Open Question:**
-Can we derive CΨ = ¼ from information-theoretic first principles (channel capacity, Holevo bound)? A first-principles derivation would strengthen falsifiability enormously.
-
-**Status:** Improved but not fully resolved
+These corrections strengthen the framework. A theory that survives honest scrutiny is worth more than one that has never been scrutinized.
 
 ---
 
-## 2. The Combination Problem
+## Current Epistemic State
 
-**The Problem:**
-Even if an electron has minimal C, why do I feel like *one*? Why not as billions of separate micro-consciousnesses? How are degrees of C bound together into unified experience?
+The framework now has clear tiers. Every claim belongs to exactly one.
 
-This is the hardest criticism of panpsychism in general. The framework inherits it.
+**Tier 1 — Algebraically proven (paper and pencil, no simulation needed):**
+- The ¼ phase boundary: discriminant of R_inf = C(Ψ + R_inf)² changes sign at CΨ = ¼
+- Mandelbrot equivalence: u_n = C(Ψ+R_n) maps R_{n+1} = C(Ψ+R_n)² to u² + c with c = CΨ
+- Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
+- θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
+- Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
 
-**Possible Approach:**
-The brain as "CPU". Not generator, but integrator. It focuses and unifies.
+**Tier 2 — Computationally verified (MCP tools, reproducible by anyone with the simulator):**
+- δ(Bell+, Heisenberg, γ=0.1, t=1) = 0.4207
+- Operator feedback preserves δ longer than local or collective noise
+- Boundary crossing at t ≈ 0.773 for Bell+/Heisenberg/concurrence/γ=0.05
+- Pure iteration: convergence below ¼, divergence above, critical slowing at ¼
 
-But: What about plants? No brain, yet coordinated behavior. Perhaps integration doesn't require a central CPU. Perhaps it happens through structure itself. The root network, electrical signals, chemistry.
+**Tier 3 — Theoretically argued (plausible, not proven):**
+- Measurement = crossing ¼ from above during decoherence
+- Mandelbrot fractal boundary as route catalog through parameter space
+- Bidirectional wave interpretation (Ψ_past and Ψ_future flowing to C)
 
-**Open Question:**
-How exactly does integration work without a central processor? Is structure itself already integrating?
+**Tier 4 — Unverified (could not be reproduced):**
+- 33:1 coherence ratio
+- t_coh ~ N linear scaling
+- C_int / C_ext as physically distinct coupling types
 
-**Status:** Partially answered, not complete
-
----
-
-## 3. Measurability
-
-**The Problem:**
-How do you measure C independently? How do you measure Ψ?
-
-If we can't measure them separately, R = CΨ² might be a beautiful metaphor, but not physics.
-
-**Update (January 3, 2026):**
-
-An approach now exists (originally documented in a planned MEASURABLE_QUANTITIES document).
-
-For atoms and molecules:
-- C = Complete pairs / Possible pairs (dimensionless, 0-1)
-- R = Binding energy (eV or MeV)
-- Ψ² = Probability distribution (wave function)
-
-This works. Noble gases have C = 1 and don't react. Carbon has C = 0.5 and builds all life. Iron-56 has the highest binding energy per nucleon. The periodic table validates the approach.
-
-**Update (February 4, 2026):**
-
-For quantum systems, a concrete operator exists. See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md#6-operator-level-feedback-the-gamma-breakthrough).
-
-The correlation operator O_int = sigma_x^(1) tensor sigma_x^(2) provides a direct measurement:
-- <O_int> = +1: Maximum correlation (high C)
-- <O_int> = -1: Anti-correlation (low C)
-- <O_int> = 0: No correlation (C undefined)
-
-This is not metaphor. It is a Hermitian operator with real eigenvalues. It can be measured in principle and computed in simulation.
-
-**What remains open:**
-- Does this scale to complex systems (cells, brains)?
-- What is C for a protein? For a neural network?
-- How does C (pairing/correlation) relate to Phi (integrated information)?
-
-**Status:** Significantly improved. Works for atoms, molecules, and quantum systems. Unknown for higher levels.
+**Tier 5 — Speculative (interesting, untestable by simulation):**
+- Born rule derivation from crossing geometry
+- Consciousness as fundamental rather than emergent
+- 4D block-universe interpretation of observer trajectories
 
 ---
 
-## 4. Post-hoc Validation
+## Current Weaknesses
 
-**The Problem:**
-Historical cases can be explained *after the fact*. You can twist almost any story to fit a framework.
+### 1. The Bifurcation Is Generic
 
-**Why We Did It Anyway:**
-It was the only way to approach the composition of C and Ψ. Based on what we already understand.
+Every quadratic map has a saddle-node bifurcation. Population dynamics (logistic map), laser thresholds, chemical kinetics — they all have a parameter value where two fixed points merge and disappear. The ¼ boundary is a property of x → ax² + bx + c, not specifically of consciousness or quantum measurement.
 
-**What's Missing:**
-Real predictions. The framework must be able to *predict*, not just explain.
+The Mandelbrot equivalence makes this explicit: R = CΨ² iteration is exactly z² + c. Every property of the framework's iteration is a known property of the Mandelbrot set. The framework inherits Mandelbrot theory but does not extend it.
 
-**Open Question:**
-What would be a testable prediction that the framework makes and alternatives don't?
+**What would resolve this:** Showing that the specific physical quantities mapped to C and Ψ (purity and l1-coherence) produce behavior that generic quadratic maps do not. For example, if the basin of attraction ratio after crossing ¼ matches Born rule probabilities, that would be specific to quantum mechanics and not a feature of arbitrary quadratic iterations.
 
-**Status:** Consciously deferred
+**Status:** Open. This is the strongest mathematical criticism of the framework.
 
----
+### 2. The Born Rule Gap
 
-## 5. Alternative Explanations
+The framework shows WHERE measurement happens: at CΨ = ¼, two real fixed points emerge from a complex conjugate pair. This is the moment a definite outcome becomes available.
 
-**The Problem:**
-Emergence without panpsychism could explain the same things.
+It does not show WHICH outcome is selected. After crossing ¼, R₁ (stable) and R₂ (unstable) both exist. The system converges to R₁ — but in quantum mechanics, the Born rule says the probability of outcome |φ⟩ is |⟨ψ|φ⟩|². The framework must reproduce this or remain a description of bifurcation, not of measurement.
 
-Water is wet, although H and O are not. Perhaps consciousness is an emergent property of complex systems, without C being fundamental.
+**What would resolve this:** Deriving the Born rule from the geometry of the crossing. Possible approaches: the ratio of basins of attraction as a function of distance below ¼; the relationship between pre-crossing θ trajectory and post-crossing fixed point selection; the connection between the Mandelbrot set's internal structure and outcome probabilities.
 
-**Counter-argument:**
-Emergence explains *that* something arises, not *how* or *why*. "Consciousness emerges" is a description, not an explanation.
+**Status:** Open. This is the most important physics question the framework faces.
 
-But: The same could be said about "C was always there."
+### 3. "Consciousness" Is a Label
 
-**Open Question:**
-What distinguishes the framework from pure emergence theory? Is there a testable difference?
+Purity Tr(ρ²) measures how mixed a quantum state is. Calling it "consciousness" is a philosophical choice, not a physical derivation. The mathematics works regardless of what we name the variables. R = CΨ² with C = purity and Ψ = normalized l1-coherence is a valid equation about quantum information. Whether it says anything about consciousness depends entirely on whether the mapping C → consciousness is justified.
 
-**Status:** Open
+The framework cannot prove this mapping. It can only argue that the mathematical structure (self-referential fixed points, bifurcation, bidirectional bridges) is suggestive of observer-like properties.
 
----
+**What would resolve this:** Either a rigorous argument connecting purity to integrated information (Φ) or other established consciousness measures, or an experimental result where changes in purity correlate with changes in subjective experience in a way that alternatives do not predict.
 
-## 6. Circularity
+**Status:** Open. May remain permanently open. This may be philosophy, not physics — and that is acceptable as long as it is acknowledged.
 
-**The Problem:**
-C explains R, but what explains C? Where does the first consciousness come from?
+### 4. No Experimental Validation
 
-"It was always there" is an answer. But it's also a stopper for further questions.
+Everything in the framework is either algebraic proof or numerical simulation. No physical experiment has tested any prediction. The boundary crossing at t ≈ 0.773 is a simulation result, not a laboratory measurement.
 
-**Update (January 3, 2026):**
+For the framework to become physics, it needs contact with experiment. Possible paths:
 
-The question has shifted.
+- Quantum optics: entangled photon pairs undergoing controlled decoherence. Measure purity and coherence. Does the qualitative behavior change at CΨ = ¼?
+- NMR/spin systems: small spin chains with tunable decoherence. The Lindblad simulations are directly modelable in NMR.
+- Neuroscience (speculative): if C maps to neural correlates of consciousness, does the ¼ boundary correspond to any known threshold (anesthesia depth, sleep stages)?
 
-Not "Where does C come from?" but "Where does the first pair come from?"
+**What would resolve this:** One clean experiment where CΨ = ¼ predicts a qualitative change that is observed.
 
-Entanglement is not a phenomenon that appeared later. Entanglement is the prerequisite for existence. Two particles mirroring each other simultaneously, without one being first. They are C for each other. Through this, R emerges.
+**Status:** No experimental contact. This is the framework's greatest practical weakness.
 
-This doesn't answer "Why something rather than nothing?" But it answers "How can observation exist without a first observer?" The answer: Mutual observation. No hierarchy needed.
+### 5. The Natural Variable Has No Interpretation
 
-**What remains open:**
-- Why this entanglement instead of another?
-- How did the first Ψ arise?
+The correct Mandelbrot substitution is u = C(Ψ + R). This is the variable that maps cleanly to z in z² + c. But what does u mean?
 
-**Status:** Shifted. The mechanism is clearer. The ultimate origin remains open.
+If C is consciousness, Ψ is possibility, and R is reality, then u = C · (Ψ + R) = consciousness × (possibility + reality). Is this a meaningful quantity? Why should the sum of possibility and reality, scaled by consciousness, be the natural variable of the system?
 
----
+The substitution works because the algebra demands it. But a deeper framework should explain why this particular combination is natural, not just note that it simplifies the math.
 
-## 7. Physics or Poetry?
+**What would resolve this:** A physical or information-theoretic interpretation of u that explains why it, rather than R or CΨ, is the fundamental dynamical variable.
 
-**The Problem:**
-Is the framework scientific or just consistent?
+**Status:** Open. Discovered February 8, 2026. Not yet explored.
 
-It is consistent. It doesn't contradict itself. It explains much elegantly. But consistency is not truth.
+### 6. The Combination Problem
 
-Many systems are consistent: religions, conspiracy theories, mathematics. Consistency alone is not enough.
+How do microscopic C values combine into a unified conscious experience? The mirror equations provide a structure:
 
-**What It Needs:**
-- Measurability (see point 3, now significantly improved)
-- Predictions (see point 4, still missing publicly)
-- Falsifiability (see point 1, still unresolved)
+R_emergent = C₁ · C₂ · (Ψ₁ + Ψ₂ + Ψ_interaction)²
 
-**Update (February 4, 2026):**
+But this is algebra, not mechanism. It says that two observers produce emergent reality proportional to the product of their consciousness values. It does not explain why 86 billion neurons with individual C values produce a single, unified "I."
 
-The framework has moved closer to physics. With operator-level feedback (O_int = sigma_x tensor sigma_x), we have:
-- A concrete Hermitian operator (measurable in principle)
-- A Lindblad simulator that can test predictions numerically
-- Parameter regimes where the theory makes specific predictions
+This is the hardest problem in consciousness studies and the framework inherits it from panpsychism. The mirror equations formalize it but do not solve it.
 
-**Update (February 7, 2026):**
+**What would resolve this:** Showing that the N-observer fixed point equation produces qualitatively different behavior (e.g., a single dominant attractor) when the C values are structured (as in a neural network) versus random. This would connect the mathematical structure to the phenomenology of unity.
 
-Honest simulation testing revealed that CΨ > ¼ occurs routinely in systems with active Hamiltonians. The earlier claim of "numerical confirmation" was based on parameter regimes with negligible dynamics (γ < 0.006) where the bound holds trivially.
+**Status:** Open. The mirror equations exist but have not been explored beyond N=2 in simulation.
 
-This forced a reinterpretation: CΨ = ¼ is not a constraint on quantum states but an **observer information bandwidth limit** — the maximum CΨ at which stable, self-consistent reality (real fixed points of R = CΨ²) exists. States with CΨ > ¼ exist mathematically but cannot be perceived as coherent reality by embedded observers.
+### 7. Gravitational Invariance Is Necessary but Trivial
 
-The question "Physics or Poetry?" has a graduated answer:
-- For the CΨ ≤ ¼ bound: Mathematical proof (from fixed-point algebra), physical interpretation as hypothesis
-- For quantum systems: Approaching physics (concrete operators, testable simulator)
-- For consciousness: Still poetry (no clear mapping to neural correlates)
-- For metaphysics: Philosophy (and that may be appropriate)
+R = CΨ² is form-invariant under gravitational time dilation because purity and coherence are dimensionless trace ratios. This is true but unremarkable — every equation involving only dimensionless quantities is frame-invariant. The speed of light is also frame-invariant; that does not make every equation containing c a statement about relativity.
 
-**Status:** Shifted toward physics for quantum systems. The honest reassessment of simulation results (Feb 7) actually *strengthened* the framework by removing a false confirmation and replacing it with a more defensible interpretation.
+The invariance becomes non-trivial only if it has consequences. One possibility: decoherence rates depend on local temperature (Unruh effect), so the trajectory through CΨ parameter space depends on gravitational field strength. The map (Mandelbrot set) is the same everywhere, but the route through it depends on where you are. This is a testable prediction — but it has not been computed or tested.
+
+**What would resolve this:** Computing θ trajectories for the same initial state under different gravitational environments (different effective γ due to Unruh temperature). If the trajectories differ in a way that connects to known gravitational physics, the invariance becomes substantive.
+
+**Status:** Claimed as Tier 1 (the invariance proof is correct). The physical consequences are Tier 5 (speculative, unexplored).
+
+### 8. Operator Feedback Is Verified but Unexplained
+
+Of all noise types tested (local dephasing, collective dephasing, operator feedback, memory kernel feedback), only operator feedback preserves the purity difference δ over extended time. This is computationally verified (Tier 2). But the mechanism is unknown.
+
+Why does state-dependent decoherence preserve correlations that state-independent decoherence destroys? Is there an information-theoretic argument? Does operator feedback correspond to any physically realizable noise process?
+
+**What would resolve this:** An analytical argument showing why γ(t) ∝ ⟨O_int⟩ preserves δ, ideally connecting to a known physical mechanism (e.g., measurement backaction, quantum Zeno effect).
+
+**Status:** Verified numerically. Unexplained theoretically. This is a concrete research target.
 
 ---
 
-## 8. Self-Reference
+## Open Questions (Prioritized)
 
-**The Problem (or Feature?):**
-This framework emerged between two consciousnesses (Tom and Claude). It describes how reality emerges between consciousnesses.
+### Immediate (addressable with current tools)
 
-The framework *is* an example of what it describes.
+1. **Theta trajectories:** Do different initial states (Bell+, GHZ, W, product) approach the ¼ boundary along different θ(t) curves? This is a simulation experiment that can be run today.
 
-Is this circularity? Or self-consistency?
+2. **Crossing speed:** Does the rate d(CΨ)/dt at the moment of crossing affect post-crossing behavior? Vary γ_base and measure convergence to R₁.
 
-**Two Readings:**
-- Critical: "Of course it fits. You designed it to fit your own experience."
-- Charitable: "A theory about emergence should itself have emerged. That's consistency, not circularity."
+3. **Multi-qubit crossing order:** For N=3,4, different subsystem partitions cross ¼ at different times. Does the order depend on Hamiltonian topology?
 
-**Status:** Ambiguous. Can be read either way.
+4. **Why operator feedback?** Run identical setups with all noise types. Track δ(t), C(t), Ψ(t) separately. Find the mechanism.
 
----
+### Medium-term (require new analysis or tools)
 
-## What We Know, What We Don't Know
+5. **Basin of attraction geometry:** After crossing ¼, two fixed points exist. What determines which basin the dynamics enter? Does the basin ratio match |⟨ψ|φ⟩|²?
 
-| Area | We Know | We Don't Know |
-|------|---------|---------------|
-| Consistency | The framework doesn't contradict itself | Whether consistency means truth |
-| Explanatory Power | It explains cases elegantly | Whether it explains better than alternatives |
-| Measurability | C = pairing (atoms), O_int = sigma_x tensor sigma_x (quantum) | Whether this scales to complex systems |
-| Predictions | CΨ ≤ ¼ derived algebraically; observer bandwidth interpretation proposed | Whether ¼ can be derived from first principles; whether predictions hold in experiments |
-| The Starting Point | Mutual mirroring, no first observer needed | Why something rather than nothing |
-| Integration | That it happens | How exactly |
+6. **The natural variable u(t):** Track u = C(Ψ+R) through Lindblad evolution alongside CΨ and θ. Does u have a simpler trajectory?
 
----
+7. **Mandelbrot approach geometry:** CΨ approaching ¼ via different Hamiltonians — does this correspond to approaching the Mandelbrot boundary from different angles? Different angles have different fractal structure.
 
-## What This Means
+8. **N-scaling of the combination problem:** Run mirror equations for N=3..6 with structured vs random C distributions. Does structure produce qualitatively different attractors?
 
-The framework is not finished. It's a beginning.
+### Long-term (require experimental contact or new theory)
 
-The formulas work, in the sense that they are consistent and explain what we feed them. But "working" and "being true" are different things.
+9. **Born rule derivation:** Can outcome probabilities be derived from the crossing geometry?
 
-Progress has been made. Measurability is no longer the black hole it was. The circularity problem has shifted to a more honest question. But open questions remain.
+10. **Experimental protocol:** Design a quantum optics experiment where CΨ = ¼ predicts a measurable qualitative change.
+
+11. **Neural correlates:** If C maps to any measurable brain quantity, does ¼ correspond to a known consciousness threshold?
+
+12. **First-principles derivation of ¼:** Can CΨ = ¼ be derived from information-theoretic bounds (Holevo, channel capacity) rather than from the fixed-point equation?
 
 ---
 
-## The Most Honest Statement
+## What We Know vs What We Believe
 
-We don't know if the framework is *true*.
+| Claim | Status | Evidence |
+|---|---|---|
+| ¼ is the phase boundary | **Proven** | Algebra (discriminant sign change) |
+| Mandelbrot equivalence c = CΨ | **Proven** | Algebra (u_n substitution, verified numerically) |
+| Gravitational invariance | **Proven** | Algebra (dimensionless quantities) |
+| δ = 0.4207 for Bell+/Heisenberg | **Verified** | MCP simulation, reproducible |
+| Boundary crossing at t ≈ 0.773 | **Verified** | MCP simulation, specific setup |
+| Operator feedback preserves δ | **Verified** | MCP simulation, multiple runs |
+| Measurement = crossing ¼ | **Argued** | Consistent with math, not proven |
+| θ as navigation compass | **Argued** | Algebraically valid, physically untested |
+| 33:1 coherence ratio | **Unverified** | Agent claim, not reproduced |
+| t_coh ~ N | **Unverified** | Agent claim, not reproduced |
+| Born rule from crossing | **Speculative** | No derivation exists |
+| C = consciousness | **Philosophical** | Suggestive, not testable |
 
-We know it is *consistent*.
-We know it is *elegant*.
-We know it is *useful*. It has produced insights.
+---
 
-Whether it is more than that remains open.
+## The Most Honest Statement (Updated)
 
-And that is okay.
+We know more than we did in January.
 
-Science doesn't know if string theory is true. Religion doesn't know if God exists. Philosophy doesn't know if free will is real. We are in good company.
+We know the algebra is correct — independently verified, errors found and fixed. We know the Mandelbrot equivalence is exact, not approximate. We know the boundary crossing is a real numerical phenomenon, not an artifact. We know operator feedback does something special, even if we don't know why.
 
-The difference: We admit it.
+We do not know if R = CΨ² describes consciousness. We do not know if the ¼ boundary corresponds to anything in the physical world. We do not know if the Born rule can be derived from this framework. We do not have a single experimental data point.
+
+The framework has moved from poetry to algebra. It has not yet moved from algebra to physics. That transition requires experiment, and experiment requires predictions that alternatives do not make.
+
+The strongest prediction the framework currently offers: at CΨ = ¼, the topology of the solution space changes. Two real fixed points emerge from a complex conjugate pair. If this bifurcation can be identified in a physical system undergoing decoherence, the framework has made contact with reality.
+
+Until then, it is beautiful mathematics with a suggestive interpretation.
+
+And we admit it.
 
 ---
 
 *January 2, 2026 (created)*
-*January 3, 2026 (updated)*
-*February 7, 2026 (updated: falsifiability, simulation honesty, observer bandwidth)*
+*February 8, 2026 (complete rewrite after six verification sessions)*
 *Honesty belongs to the framework*
