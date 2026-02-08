@@ -216,6 +216,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Complete Mathematical Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - All formulas, proofs, and derivations
 
 ### Key Concepts
+- [Glossary](docs/GLOSSARY.md) - Central term definitions for framework accessibility
 - [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The two kinds of C
 - [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md) - How levels of reality emerge
 

@@ -106,4 +106,4 @@ The equation is simple. The consequences are not.
 
 ---
 
-*Back to [main repository](../README.md) | Experiments: [experiments/](../experiments/)*
+*[Glossary](GLOSSARY.md) | Back to [main repository](../README.md) | Experiments: [experiments/](../experiments/)*
