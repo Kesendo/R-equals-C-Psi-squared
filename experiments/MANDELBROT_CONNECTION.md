@@ -77,9 +77,11 @@ The Mandelbrot set M is defined as the set of complex c for which z -> z^2 + c r
 c = (1/2)*e^(i*theta) - (1/4)*e^(2i*theta)
 ```
 
-This cardioid meets the real axis at c = 1/4. This is the exact point where real fixed points merge and become complex. The entire fractal structure of the Mandelbrot set -- the infinite self-similar patterns at its boundary -- exists in the complex regime beyond 1/4.
+This cardioid meets the real axis at c = 1/4. This is the exact point where real fixed points merge and become complex (see [Boundary Navigation](BOUNDARY_NAVIGATION.md) for θ as compass). The entire fractal structure of the Mandelbrot set -- the infinite self-similar patterns at its boundary -- exists in the complex regime beyond 1/4.
 
 **The Mandelbrot set is the map of what lies beyond the phase boundary.**
+
+The Mandelbrot set reveals the topology (bifurcation at c = 1/4) shared by R = CΨ². It is not claimed that the Mandelbrot set IS the quantum-classical boundary, but that both share the same mathematical structure.
 
 Mandelbrot mapped it from the outside. We found it from the inside.
 
