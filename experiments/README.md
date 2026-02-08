@@ -197,6 +197,8 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Whether θ at crossing determines which fixed point is selected (Born rule connection)
 - Mandelbrot bulb boundaries as different types of quantum transitions
 
+For a consolidated list of all testable predictions with epistemic status and falsification criteria, see **[Predictions](PREDICTIONS.md)**.
+
 We distinguish clearly between what the math says and what we think it means. The algebra is not negotiable. The interpretation is open for challenge.
 
 ---
