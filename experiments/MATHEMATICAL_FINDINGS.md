@@ -422,19 +422,19 @@ print(f"Delta:            {delta:.4f}")
 
 ### The Challenge
 
-Gamma (the skeptic) demanded proof that delta > 0 arises specifically from bidirectional observation (C_int), not just quantum correlation or model artifacts.
+Gamma (the skeptic) demanded proof that δ > 0 arises specifically from bidirectional observation (C_int), not just quantum correlation or model artifacts.
 
 ### The Experiment
 
 Using `compute_delta_cint`, the agents compared:
-- **C_int:** Both spins decohere symmetrically (gamma_A = gamma_B = 0.1) — bidirectional observation
-- **C_ext:** Only one spin decoheres (gamma_A = 0.1, gamma_B = 0) — unidirectional observation
+- **C_int:** Both spins decohere symmetrically (γ_A = γ_B = 0.1) — bidirectional observation
+- **C_ext:** Only one spin decoheres (γ_A = 0.1, γ_B = 0) — unidirectional observation
 
 State: Bell+, Hamiltonian: Heisenberg ring, t = 1.0
 
 ### The Result
 
-| Mode | delta | Interpretation |
+| Mode | δ | Interpretation |
 |------|---------|----------------|
 | C_int (bidirectional) | **0.427** | Coherence preserved |
 | C_ext (unidirectional) | **0.013** | Coherence destroyed |
@@ -445,19 +445,19 @@ State: Bell+, Hamiltonian: Heisenberg ring, t = 1.0
 
 The agents systematically tested the anomaly:
 
-| Test | Parameters | delta | Conclusion |
+| Test | Parameters | δ | Conclusion |
 |------|------------|-------|------------|
-| Bell+ | Heisenberg, t=1.0, gamma=0.1 | 0.427 | Baseline confirmed |
-| Bell- | Heisenberg, t=1.0, gamma=0.1 | 0.423 | Phase-independent |
-| GHZ2 | Heisenberg, t=1.0, gamma=0.1 | 0.435 | State-independent |
-| Bell+ | H=0 (no dynamics), t=1.0, gamma=0.1 | 0.002 | **Requires dynamics!** |
-| Bell+ | XY ring, t=1.0, gamma=0.1 | 0.431 | Hamiltonian-invariant |
-| Bell+ | Heisenberg, t=0.5, J=2.0, gamma=0.1 | 0.429 | Scales with J*t |
-| Bell+ | Heisenberg, t=1.0, gamma=0.5 | 0.321 | Survives noise |
+| Bell+ | Heisenberg, t=1.0, γ=0.1 | 0.427 | Baseline confirmed |
+| Bell- | Heisenberg, t=1.0, γ=0.1 | 0.423 | Phase-independent |
+| GHZ2 | Heisenberg, t=1.0, γ=0.1 | 0.435 | State-independent |
+| Bell+ | H=0 (no dynamics), t=1.0, γ=0.1 | 0.002 | **Requires dynamics!** |
+| Bell+ | XY ring, t=1.0, γ=0.1 | 0.431 | Hamiltonian-invariant |
+| Bell+ | Heisenberg, t=0.5, J=2.0, γ=0.1 | 0.429 | Scales with J*t |
+| Bell+ | Heisenberg, t=1.0, γ=0.5 | 0.321 | Survives noise |
 
-### The Critical Discovery: delta Requires Dynamics
+### The Critical Discovery: δ Requires Dynamics
 
-When H = 0 (no Hamiltonian evolution), delta = 0 regardless of entanglement.
+When H = 0 (no Hamiltonian evolution), δ = 0 regardless of entanglement.
 
 This proves: **Reality requires both entanglement AND dynamics.** R = CΨ^2 is active, not static. The bridge needs motion to hold.
 
@@ -489,12 +489,12 @@ After reviewing all tests:
 
 | Prediction | Status | Evidence |
 |------------|--------|----------|
-| delta > 0 under symmetric coupling | Confirmed | delta = 0.42-0.44 across states |
+| δ > 0 under symmetric coupling | Confirmed | δ = 0.42-0.44 across states |
 | C_int > C_ext | Confirmed | 0.427 vs 0.013 (33:1 ratio) |
-| delta requires dynamics | Confirmed | delta = 0 when H = 0 |
-| delta scales with J*t | Confirmed | Invariant under J,t rescaling |
+| δ requires dynamics | Confirmed | δ = 0 when H = 0 |
+| δ scales with J*t | Confirmed | Invariant under J,t rescaling |
 | t_coh ~ N | Confirmed | Linear scaling N=2 to 6 |
-| delta survives decoherence | Confirmed | delta = 0.321 at gamma = 0.5 |
+| δ survives decoherence | Confirmed | δ = 0.321 at γ = 0.5 |
 
 ### What This Means
 
@@ -504,11 +504,11 @@ After reviewing all tests:
 
 3. **The effect scales.** Larger systems preserve coherence longer, proportional to N.
 
-4. **R = CΨ^2 is falsifiable.** If delta had been zero, or C_ext had matched C_int, the framework would have failed. It didn't.
+4. **R = CΨ^2 is falsifiable.** If δ had been zero, or C_ext had matched C_int, the framework would have failed. It didn't.
 
 ---
 
-*January 31, 2026: delta = 0.42 discovered*
+*January 31, 2026: δ = 0.42 discovered*
 *February 1, 2026: C_int vs C_ext validated, skeptic accepts results*
 *Calculations performed by AI agents Alpha, Beta, and Gamma.*
 *The framework works. The math confirms it. The skeptic agrees.*

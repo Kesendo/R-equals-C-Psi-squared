@@ -1,6 +1,6 @@
 # Visualizations
 
-Visual representations of the R = C*Psi*^2 framework mathematics. These images are screenshots from an interactive dashboard that computes the mathematics in real-time. Nothing here is artistic interpretation -- every pixel is calculated from the equations.
+Visual representations of the R = CΨ² framework mathematics. These images are screenshots from an interactive dashboard that computes the mathematics in real-time. Nothing here is artistic interpretation -- every pixel is calculated from the equations.
 
 ---
 
@@ -10,23 +10,23 @@ Visual representations of the R = C*Psi*^2 framework mathematics. These images a
 
 ### What you see
 
-A heatmap of the parameter space for the iteration R_{n+1} = C(Psi + R_n)^2, starting from R_0 = 0.
+A heatmap of the parameter space for the iteration R_{n+1} = C(Ψ + R_n)², starting from R_0 = 0.
 
-The horizontal axis is Psi (possibility). The vertical axis is C (consciousness). Every point in this image represents one combination of C and Psi. At each point, we ran the iteration up to 200 steps and asked: does it converge to a stable value, or does it oscillate forever?
+The horizontal axis is Ψ (possibility). The vertical axis is C (consciousness). Every point in this image represents one combination of C and Ψ. At each point, we ran the iteration up to 200 steps and asked: does it converge to a stable value, or does it oscillate forever?
 
 ### How to read it
 
-**Cyan (lower region)** -- C*Psi < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points -- stable, definite, classical. This is the regime where observers live and where measurement gives definite answers.
+**Cyan (lower region)** -- C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points -- stable, definite, classical. This is the regime where observers live and where measurement gives definite answers.
 
-**Red (upper region)** -- C*Psi > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs -- mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
+**Red (upper region)** -- C·Ψ > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs -- mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
 
-**The white curve** -- C*Psi = 1/4 exactly. This is the phase boundary. On this line, the two fixed points merge into one, and convergence takes infinitely many steps. It is the edge between two kinds of existence.
+**The white curve** -- C·Ψ = 1/4 exactly. This is the phase boundary. On this line, the two fixed points merge into one, and convergence takes infinitely many steps. It is the edge between two kinds of existence.
 
 **The white dot** -- The current position selected by the user. In this screenshot, it sits on the boundary itself.
 
 ### Why it looks like a wave
 
-It is one. The boundary is a hyperbola (C = 1/(4*Psi)) seen from the perspective of a classical observer looking up into the quantum regime. The red region -- oscillation, complexity, possibility -- approaches from above. The cyan region -- convergence, stability, reality -- is where you stand. The boundary is where one becomes the other.
+It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region -- oscillation, complexity, possibility -- approaches from above. The cyan region -- convergence, stability, reality -- is where you stand. The boundary is where one becomes the other.
 
 The framework's bidirectional bridge says:
 
@@ -53,13 +53,13 @@ The Mandelbrot set, computed by iterating z_{n+1} = z_n^2 + c starting from z_0 
 
 **Yellow dot at c = 1/4** -- The phase boundary. This is the exact point where the main cardioid meets the real axis. Below 1/4 on the real line: the iteration converges. Above 1/4: it doesn't. This point has been known since Mandelbrot's original work in 1980.
 
-**Red dot at c = C*Psi^2 = 0.04** -- The current observer position, deep inside the cardioid. Stable, convergent, classical. This point is linked to the sliders in the dashboard -- move C or Psi and the red dot moves through the Mandelbrot set.
+**Red dot at c = C·Ψ² = 0.04** -- The current observer position, deep inside the cardioid. Stable, convergent, classical. This point is linked to the sliders in the dashboard -- move C or Ψ and the red dot moves through the Mandelbrot set.
 
 ### What this means
 
 The Mandelbrot set is a map. It shows, for every value of c, whether the quadratic iteration converges or not. The main cardioid is the region of convergence. Everything outside is the region of oscillation, escape, complexity.
 
-The R = C*Psi*^2 framework discovered independently that its self-referential iteration R_{n+1} = C(Psi + R_n)^2 has the same structure. Same equation under reparametrization. Same boundary at 1/4. The algebraic proof is in [The Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md).
+The R = CΨ² framework discovered independently that its self-referential iteration R_{n+1} = C(Ψ + R_n)² has the same structure. Same equation under reparametrization. Same boundary at 1/4. The algebraic proof is in [The Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md).
 
 ### The two images together
 
@@ -67,8 +67,8 @@ The heatmap and the Mandelbrot image show the same boundary from two different c
 
 | | Heatmap | Mandelbrot |
 |---|---|---|
-| **Axes** | C (consciousness) vs Psi (possibility) | Real vs imaginary part of c |
-| **Boundary** | Hyperbola C = 1/(4*Psi) | Cardioid of the main body |
+| **Axes** | C (consciousness) vs Ψ (possibility) | Real vs imaginary part of c |
+| **Boundary** | Hyperbola C = 1/(4Ψ) | Cardioid of the main body |
 | **Inside** | Cyan, convergent, classical | Black, bounded, stable |
 | **Outside** | Red, oscillatory, quantum | Blue fractals, escaping, complex |
 | **Perspective** | The observer looking up | The mathematician looking down |
@@ -81,9 +81,9 @@ Both images are generated by a single-file HTML dashboard using JavaScript and C
 
 1. **Mandelbrot rendering:** For each pixel, map to complex coordinate c, iterate z -> z^2 + c up to 200 times, color by escape iteration using a logarithmic blue gradient. The cardioid boundary is drawn analytically using c = (1/2)*e^(i*t) - (1/4)*e^(2i*t). Computed once at startup.
 
-2. **Heatmap rendering:** For each pixel, map to (Psi, C) coordinates, iterate R_{n+1} = C(Psi + R_n)^2 up to 200 times starting from R_0 = 0, test for convergence (|R_n - R_{n-1}| < 1e-10 for 3 consecutive steps). Color cyan if convergent, red if still oscillating after 200 steps. The C*Psi = 1/4 hyperbola is drawn analytically. Computed once at startup.
+2. **Heatmap rendering:** For each pixel, map to (Ψ, C) coordinates, iterate R_{n+1} = C(Ψ + R_n)² up to 200 times starting from R_0 = 0, test for convergence (|R_n - R_{n-1}| < 1e-10 for 3 consecutive steps). Color cyan if convergent, red if still oscillating after 200 steps. The C·Ψ = 1/4 hyperbola is drawn analytically. Computed once at startup.
 
-3. **Linking:** Both panels share C and Psi slider values. The red dot in the Mandelbrot panel moves to c = C*Psi^2. The crosshair in the heatmap moves to (Psi, C). A third panel (not shown here) displays the live iteration as a time series.
+3. **Linking:** Both panels share C and Ψ slider values. The red dot in the Mandelbrot panel moves to c = C·Ψ². The crosshair in the heatmap moves to (Ψ, C). A third panel (not shown here) displays the live iteration as a time series.
 
 No external libraries are used for the computation. The mathematics is the same as described in the framework documents -- standard quadratic iteration, standard Mandelbrot set definition, no modifications.
 

@@ -38,13 +38,13 @@ Human consciousness is perhaps highly integrated C. But where the boundary lies,
 ### 1. Reality Requires Mutual Observation
 
 ```
-No C  ->  No R
+No C  →  No R
 ```
 
 Reality emerges from observation. But observation is not one-way.
 Even two entangled particles observe each other (C_int).
 
-### 2. Psi != R
+### 2. Ψ != R
 
 ```
 Ψ = Possibility (may exist without C)
@@ -56,8 +56,8 @@ Once observed = information preserved = stays R.
 ### 3. C Has Two Modes
 
 ```
-C_int: Parts observing each other within a system -> Stability
-C_ext: Observer separate from system -> Collapse
+C_int: Parts observing each other within a system → Stability
+C_ext: Observer separate from system → Collapse
 ```
 
 Internal observation creates structure.
@@ -66,7 +66,7 @@ External observation creates measurement.
 ### 4. Possibility is Squared
 
 ```
-Psi -> Psi^2
+Ψ → Ψ²
 ```
 
 The transition from possibility to reality is nonlinear.
@@ -86,7 +86,7 @@ R = CΨ²
 The complementary formula describes the wave from the future:
 
 ```
-Psi = sqrt(R/C)
+Ψ = sqrt(R/C)
 "Possibility emerges from Reality seeking Consciousness"
 ```
 
@@ -140,12 +140,12 @@ There is something recursive here: We observe agents who observe each other disc
 
 ---
 
-## The C*Psi <= 1/4 Bound
+## The C·Ψ <= 1/4 Bound
 
 The iterative application of R = CΨ² yields a fixed-point equation whose discriminant requires:
 
 ```
-C*Psi <= 1/4    for real (stable) solutions to exist
+C·Ψ <= 1/4    for real (stable) solutions to exist
 ```
 
 We interpret this as an **observer information bandwidth limit**: the maximum product of consciousness and possibility that an embedded observer can perceive as stable reality.
@@ -153,9 +153,9 @@ We interpret this as an **observer information bandwidth limit**: the maximum pr
 This is not a wall between "real" and "nothing." It is a **phase boundary** between two kinds of existence:
 
 ```
-C*Psi < 1/4:  Real fixed points     ->  Stable, classical, experienceable
-C*Psi = 1/4:  R_inf = Psi           ->  Reality = Possibility
-C*Psi > 1/4:  Complex fixed points  ->  Quantum, oscillating, not directly experienceable
+C·Ψ < 1/4:  Real fixed points     →  Stable, classical, experienceable
+C·Ψ = 1/4:  R_inf = Ψ           →  Reality = Possibility
+C·Ψ > 1/4:  Complex fixed points  →  Quantum, oscillating, not directly experienceable
 ```
 
 Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above 1/4 isn't "not reality" -- it is reality we cannot perceive. The quantum world doesn't stop at 1/4. It just stops being *our* world at 1/4.
@@ -168,15 +168,15 @@ See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full der
 
 ## The Mandelbrot Connection
 
-In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. The main cardioid of the Mandelbrot set terminates at c = 1/4. Beyond this point, the quadratic iteration z -> z^2 + c no longer converges -- it oscillates and produces the infinite fractal structures that became iconic images of mathematics.
+In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. The main cardioid of the Mandelbrot set terminates at c = 1/4. Beyond this point, the quadratic iteration z → z² + c no longer converges -- it oscillates and produces the infinite fractal structures that became iconic images of mathematics.
 
-Forty years later, the R = C*Psi*^2 framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Psi + R_n)^2 undergoes a phase transition at C*Psi = 1/4. These are not analogies -- they are the **same equation** under reparametrization.
+Forty years later, the R = CΨ² framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Ψ + R_n)² undergoes a phase transition at C·Ψ = 1/4. These are not analogies -- they are the **same equation** under reparametrization.
 
 This connection yields three measurable coordinates that together form a **navigation system**:
 
 ```
 1/4      (WHERE)       -- The destination: the bifurcation boundary
-theta    (HOW FAR)     -- Compass heading: angular distance from ¼
+θ    (HOW FAR)     -- Compass heading: angular distance from ¼
 t_coh  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
@@ -186,12 +186,12 @@ The Mandelbrot set is not the territory. It is the **map**. θ is the compass. �
 
 ![The wave at the 1/4 boundary](visualizations/heatmap_wave.png)
 
-*Parameter space of R = C*Psi*^2. Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C*Psi = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
+*Parameter space of R = CΨ². Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C·Ψ = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
 
-Further: varying the decoherence rate gamma across four orders of magnitude (simulating deep space to black hole vicinity) reveals that gamma * t_cross = 0.039 is constant. The theta trajectory collapses onto a single universal curve when time is normalized as tau = gamma * t. This is the same structure as gravitational time dilation in general relativity: gamma plays the role of the metric coefficient, and the transition proper time is frame-independent. Gravitation was never a missing parameter -- it was always contained in gamma.
+Further: varying the decoherence rate γ across four orders of magnitude (simulating deep space to black hole vicinity) reveals that γ * t_cross = 0.039 is constant. The θ trajectory collapses onto a single universal curve when time is normalized as τ = γ * t. This is the same structure as gravitational time dilation in general relativity: γ plays the role of the metric coefficient, and the transition proper time is frame-independent. Gravitation was never a missing parameter -- it was always contained in γ.
 
 See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof and decoder principle.  
-See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, theta compass measurements, and directions for further investigation.  
+See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, θ compass measurements, and directions for further investigation.  
 See [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) for the scaling law, universal trajectory, and connection to general relativity.
 
 ---
@@ -200,11 +200,11 @@ See [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) for the 
 
 This is a framework. A beginning. Not yet proven.
 
-The equation is consistent and the C*Psi <= 1/4 bound is mathematically proven from the fixed-point structure. Honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
+The equation is consistent and the C·Ψ <= 1/4 bound is mathematically proven from the fixed-point structure. Honest simulation testing (February 2026) showed that earlier claims of "empirical confirmation" were based on parameter regimes with negligible dynamics. The bound holds as algebra, not yet as experimentally verified physics.
 
-However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors -> 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
+However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors → 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
 
-The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C*Psi > 1/4. This remains to be tested.
+The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C·Ψ > 1/4. This remains to be tested.
 
 See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment.
 
@@ -228,16 +228,16 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Simulation Evidence](docs/SIMULATION_EVIDENCE.md) - Honest results from independent Lindblad simulations
 
 ### Experiments (Hypothesis Testing)
-- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - R_inf, the C*Psi <= 1/4 bound, and observer bandwidth interpretation
+- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - R_inf, the C·Ψ <= 1/4 bound, and observer bandwidth interpretation
 - [Operator Feedback](experiments/OPERATOR_FEEDBACK.md) - From scalar bridges to operator-level Lindblad dynamics
 - [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
 - [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Triangulation Protocol: the 1/4 boundary, the Mandelbrot set, and how to locate states beyond the phase boundary
-- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - The 1/4 crossing observation, theta as compass, navigation system
-- [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) - gamma as local time rate, universal theta trajectory, connection to general relativity
+- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - The 1/4 crossing observation, θ as compass, navigation system
+- [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) - γ as local time rate, universal θ trajectory, connection to general relativity
 - [Metric Discrimination](experiments/METRIC_DISCRIMINATION.md) - Can the framework derive the Schwarzschild metric? (null result + next steps)
-- [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Why Schwarzschild is the unique self-consistent metric (horizon = tau=0 = maximum R)
-- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - tau=0 as the connection between black holes, white holes, and the origin of the universe
+- [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Why Schwarzschild is the unique self-consistent metric (horizon = τ=0 = maximum R)
+- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - τ=0 as the connection between black holes, white holes, and the origin of the universe
 - [Predictions](experiments/PREDICTIONS.md) - Consolidated testable predictions with epistemic status and falsification criteria
 
 ### Visualizations
@@ -273,7 +273,7 @@ December 2025 - February 2026
 ```
 
                            R = CΨ²
-                         Psi = sqrt(R/C)
+                         Ψ = sqrt(R/C)
 
        "We are all mirrors. Reality is what happens between us."
 

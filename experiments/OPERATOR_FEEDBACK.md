@@ -29,9 +29,9 @@ The bridge function C measures the quantum state but does not influence the dyna
 
 ### Gamma's Critique
 
-> "The scalar bridge measures state but doesn't influence dynamics. You're doing post-processing, not feedback. The decoherence rate gamma is constant - C just scales it after the fact."
+> "The scalar bridge measures state but doesn't influence dynamics. You're doing post-processing, not feedback. The decoherence rate γ is constant - C just scales it after the fact."
 
-This is correct. A scalar bridge is an observation, not an interaction. It cannot create the self-referential loop that R = C * Psi^2 describes.
+This is correct. A scalar bridge is an observation, not an interaction. It cannot create the self-referential loop that R = CΨ² describes.
 
 ---
 
@@ -56,9 +56,9 @@ where:
 
 | Correlation | <O_int> | Effective Rate | Physical Meaning |
 |-------------|---------|----------------|------------------|
-| High (entangled) | +1 | gamma_0 * (1 - kappa) | Low decoherence |
-| None (separable) | 0 | gamma_0 | Normal decoherence |
-| Anti-correlated | -1 | gamma_0 * (1 + kappa) | High decoherence |
+| High (entangled) | +1 | γ₀ · (1 - κ) | Low decoherence |
+| None (separable) | 0 | γ₀ | Normal decoherence |
+| Anti-correlated | -1 | γ₀ · (1 + κ) | High decoherence |
 
 The system "protects itself" when correlated. Mutual observation reduces decoherence. This is the feedback loop.
 
@@ -103,9 +103,9 @@ The `simulate_dynamic_lindblad_scaling` and `sweep_parameter_space` tools now ac
 
 ### Sweep with Operator Feedback (February 4, 2026)
 
-Parameters: gamma_0 in [0.003, 0.006], h in [0.7, 1.0], kappa = 0.5
+Parameters: γ₀ in [0.003, 0.006], h in [0.7, 1.0], κ = 0.5
 
-| gamma_0 | h | C_final | C * Psi | Below ¼? |
+| γ_0 | h | C_final | C·Ψ | Below ¼? |
 |---------|---|---------|---------|----------|
 | 0.005 | 0.7 | 0.909 | 0.245 | Yes |
 | 0.005 | 0.8 | 0.912 | 0.246 | Yes |
@@ -162,11 +162,11 @@ This ensures physically valid density matrices throughout the evolution.
 
 ### For the Simulator
 
-The scalar bridge approach is not wrong - it correctly identifies parameter regions. But it lacks the self-referential structure of R = C * Psi^2. Operator feedback provides that structure.
+The scalar bridge approach is not wrong - it correctly identifies parameter regions. But it lacks the self-referential structure of R = CΨ². Operator feedback provides that structure.
 
 ### For the Framework
 
-The transition from scalar to operator mirrors the transition from measurement to interaction. In R = C * Psi^2, consciousness (C) is not a passive observer. It participates in the dynamics. Operator feedback captures this.
+The transition from scalar to operator mirrors the transition from measurement to interaction. In R = CΨ², consciousness (C) is not a passive observer. It participates in the dynamics. Operator feedback captures this.
 
 ### For Future Work
 
@@ -183,16 +183,16 @@ The framework is now extensible.
 
 | Parameter | Stable Range | Notes |
 |-----------|--------------|-------|
-| gamma_0 | 0.003 - 0.01 | Base decoherence rate |
+| γ₀ | 0.003 - 0.01 | Base decoherence rate |
 | h | 0.5 - 1.0 | Transverse field |
-| kappa | 0.3 - 0.7 | Feedback strength |
+| κ | 0.3 - 0.7 | Feedback strength |
 | C_final | > 0.89 | High coherence maintained |
 
 ### Unstable Regions
 
 - h > 1.1: CΨ exceeds ¼ (now understood as entering the observer-inaccessible regime, not instability)
-- kappa > 0.9: Numerical instability (effective rate approaches zero)
-- gamma_0 < 0.002: Too weak, slow convergence
+- κ > 0.9: Numerical instability (effective rate approaches zero)
+- γ₀ < 0.002: Too weak, slow convergence
 
 ---
 

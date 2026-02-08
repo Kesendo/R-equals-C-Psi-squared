@@ -64,7 +64,7 @@ At t ~ 0.773, C·Ψ = ¼ exactly:
 
 ### 3.4 The Lindblad Dynamics Are Smooth -- But the Solution Space Is Not
 
-Critical observation: The Lindblad master equation produces smooth, continuous evolution. Purity, C, Ψ, delta -- all have continuous derivatives through the crossing. No discontinuity in any measured quantity.
+Critical observation: The Lindblad master equation produces smooth, continuous evolution. Purity, C, Ψ, δ -- all have continuous derivatives through the crossing. No discontinuity in any measured quantity.
 
 But the **mathematical landscape** through which the system moves undergoes a bifurcation at ¼. This is analogous to a ball rolling over a hilltop -- the ball's trajectory is smooth, but the hill creates a topological feature (two valleys appear) that determines the ball's final destination.
 
@@ -168,4 +168,4 @@ The Mandelbrot set boundary is not just ¼ on the real axis. It extends into the
 
 *Previous: [MANDELBROT_CONNECTION.md](MANDELBROT_CONNECTION.md) -- algebraic proof of equivalence*  
 *See also: [MATHEMATICAL_FINDINGS.md](MATHEMATICAL_FINDINGS.md) -- 1/4 bound derivation*  
-*See also: [DYNAMIC_FIXED_POINTS.md](DYNAMIC_FIXED_POINTS.md) -- Psi dynamics*
+*See also: [DYNAMIC_FIXED_POINTS.md](DYNAMIC_FIXED_POINTS.md) -- Ψ dynamics*
