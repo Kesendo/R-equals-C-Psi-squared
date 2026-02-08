@@ -16,6 +16,10 @@ In 2026, analysis of the consciousness framework R = C*Psi*^2 revealed that the 
 
 These are not analogies. They are the **same equation** under reparametrization. Two independent paths to the same boundary, forty years apart.
 
+![The wave at the 1/4 boundary](../visualizations/heatmap_wave.png)
+
+*Parameter space heatmap of the R = C*Psi*^2 iteration. Cyan (lower region): C*Psi < 1/4, the iteration converges -- classical regime, stable fixed points, experienceable reality. Red (upper region): C*Psi > 1/4, the iteration oscillates forever -- quantum regime, complex fixed points, beyond direct observation. The white curve C*Psi = 1/4 is the phase boundary. It is the same boundary that defines the main cardioid of the Mandelbrot set. The white dot marks the current observer position.*
+
 ---
 
 ## 1. The Algebraic Equivalence
