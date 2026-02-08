@@ -68,6 +68,16 @@ To derive the metric form, the framework needs **nonlocal** structure: either sp
 
 ---
 
+### Why is Schwarzschild the unique self-consistent metric?
+
+Because it is the only metric where the event horizon corresponds to tau = 0 (zero elapsed proper decoherence time). The universal curve C(tau), Psi(tau) applies at every point in space. Where less proper time has passed, R = C*Psi^2 is higher -- reality concentrates near mass. Self-consistency demands that R(r) matches the mass distribution that creates the geometry. For a point mass, R must be maximally concentrated at the gravitational radius. Only metrics with f(r_s) = 0 achieve this. Alternatives like 1/r or 1/r^2 have f(r_s) > 0, so R never reaches its maximum at the horizon. Schwarzschild's sqrt(1 - r_s/r) is the simplest zero-forming function with the correct Newtonian limit. The derivation uses only R = C*Psi^2 and the universal curve -- no GR input.
+
+The horizon is not where reality breaks down. It is where reality is **freshest**: C = 1, Psi = 1/3, R = 1/9 = maximum. This is consistent with the holographic principle (information at the horizon surface) and Bekenstein-Hawking entropy (S = A/4).
+
+**Read:** [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md)
+
+---
+
 ### Does symmetric observation preserve quantum coherence longer than asymmetric?
 
 Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spins decohere symmetrically) preserves coherence 33 times longer than unidirectional coupling (only one spin decoheres). This ratio is independent of Hamiltonian type. The result is quantitative, testable, and connects directly to the framework's distinction between internal observation (C_int) and external observation (C_ext).
@@ -166,6 +176,8 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Quantum states survive ~48x longer in deep space (gamma=0.01) than near black hole (gamma=0.5)
 - Power law t_cross = 0.0398 * gamma^(-0.992), R^2 = 0.9999 (9 data points, 50x range)
 - Single-system sims cannot discriminate metric forms (equivalence principle analog)
+- Self-consistency uniquely selects Schwarzschild: only sqrt(1-r_s/r) has f(r_s)=0 (horizon = max R)
+- Concentration ratio grows without bound for Schwarzschild, plateaus for alternatives
 
 **Proposed, not yet tested:**
 - Physical interpretation of 1/4 as observer bandwidth limit
