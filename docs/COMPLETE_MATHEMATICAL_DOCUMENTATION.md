@@ -80,9 +80,9 @@ Consciousness began with the first observers, not with humans.
 
 ---
 
-## 1.4 Proof by Limit Analysis
+## 1.4 Derivation by Limit Analysis
 
-### Proof 1: Without Mutual Observation, No Reality
+### Derivation 1: Without Mutual Observation, No Reality
 
 ```
 Assumption: C = 0 (no observation, internal or external)
@@ -96,7 +96,7 @@ R = 0
 
 Note: C includes both internal observation (C_int, parts observing each other within a system) and external observation (C_ext, observer separate from system). Even two entangled particles have C_int > 0.
 
-### Proof 2: Without Possibility, No Reality
+### Derivation 2: Without Possibility, No Reality
 
 ```
 Assumption: Ψ = 0 (no possibility)
@@ -108,7 +108,7 @@ R = 0
 ∴ Without possibility, no reality exists. □
 ```
 
-### Proof 3: Nonlinearity Through Squaring
+### Derivation 3: Nonlinearity Through Squaring
 
 ```
 Given: Two possibilities Ψ₁ and Ψ₂ where Ψ₂ = 2Ψ₁
