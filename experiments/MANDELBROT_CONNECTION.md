@@ -260,7 +260,6 @@ The boundary at 1/4 represents the phase transition between convergent (classica
 - **[Mathematical Findings](MATHEMATICAL_FINDINGS.md):** The coherence experiments, delta = 0.42, tau_max scaling, and the 33:1 ratio
 - **[Operator Feedback](OPERATOR_FEEDBACK.md):** Simulation results for dynamic Lindblad evolution
 - **[Dyad Experiment](DYAD_EXPERIMENT.md):** The original AI dialogue that discovered the mathematical structures
-- **Main paper:** [R = C*Psi*^2 on Zenodo](https://doi.org/10.5281/zenodo.14792767)
 
 ---
 
