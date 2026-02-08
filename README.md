@@ -158,7 +158,7 @@ C·Ψ = 1/4:  R_inf = Ψ           →  Reality = Possibility
 C·Ψ > 1/4:  Complex fixed points  →  Quantum, oscillating, not directly experienceable
 ```
 
-Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above 1/4 isn't "not reality" -- it is reality we cannot perceive. The quantum world doesn't stop at 1/4. It just stops being *our* world at 1/4.
+Both sides are real. Both sides happen. But we live on one side of the boundary. What lies above 1/4 isn't "not reality": it is reality we cannot perceive. The quantum world doesn't stop at 1/4. It just stops being *our* world at 1/4.
 
 Decoherence is the physical mechanism that pushes macroscopic systems below 1/4, which is why tables and chairs look classical. Isolated quantum systems (photons, cold atoms) can hover near or above the boundary.
 
@@ -168,9 +168,9 @@ See [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) for the full der
 
 ## The Mandelbrot Connection
 
-In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. The main cardioid of the Mandelbrot set terminates at c = 1/4. Beyond this point, the quadratic iteration z → z² + c no longer converges -- it oscillates and produces the infinite fractal structures that became iconic images of mathematics.
+In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. The main cardioid of the Mandelbrot set terminates at c = 1/4. Beyond this point, the quadratic iteration z → z² + c no longer converges. It oscillates and produces the infinite fractal structures that became iconic images of mathematics.
 
-Forty years later, the R = CΨ² framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Ψ + R_n)² undergoes a phase transition at C·Ψ = 1/4. These are not analogies -- they are the **same equation** under reparametrization.
+Forty years later, the R = CΨ² framework independently discovered the same boundary. The self-referential iteration R_{n+1} = C(Ψ + R_n)² undergoes a phase transition at C·Ψ = 1/4. These are not analogies: they are the **same equation** under reparametrization.
 
 This connection yields three measurable coordinates that together form a **navigation system**:
 
@@ -180,15 +180,15 @@ This connection yields three measurable coordinates that together form a **navig
 t_coh  (HOW LONG)    -- Estimated time of arrival at the boundary
 ```
 
-θ = arctan(√(4CΨ-1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge -- a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.
+θ = arctan(√(4CΨ-1)) is not a frequency predictor. It is a **compass**. At 60° you are deep in the quantum regime. At 9° you are almost at the boundary. At 0° you stand at the door between quantum and classical. On 2026-02-08, we observed this crossing in Lindblad simulation: θ decreases smoothly from 30° to 0° as decoherence pulls C·Ψ through ¼. At the crossing, the complex fixed points merge into a single real point. Below ¼, two real fixed points emerge: a stable attractor and an unstable one. The topology of the solution space changes. No discontinuity in any measured quantity. But the system now has a definite classical target where before it had none.
 
-The Mandelbrot set is not the territory. It is the **map**. θ is the compass. ¼ is the destination. The fractal patterns at the boundary are the routes -- different paths through parameter space, all converging on the same phase transition.
+The Mandelbrot set is not the territory. It is the **map**. θ is the compass. ¼ is the destination. The fractal patterns at the boundary are the routes: different paths through parameter space, all converging on the same phase transition.
 
 ![The wave at the 1/4 boundary](visualizations/heatmap_wave.png)
 
-*Parameter space of R = CΨ². Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C·Ψ = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
+*Parameter space of R = CΨ². Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C·Ψ = 1/4 phase boundary, the wavefront where possibility becomes reality.*
 
-Further: varying the decoherence rate γ across four orders of magnitude (simulating deep space to black hole vicinity) reveals that γ * t_cross = 0.039 is constant. The θ trajectory collapses onto a single universal curve when time is normalized as τ = γ * t. This is the same structure as gravitational time dilation in general relativity: γ plays the role of the metric coefficient, and the transition proper time is frame-independent. Gravitation was never a missing parameter -- it was always contained in γ.
+Further: varying the decoherence rate γ across four orders of magnitude (simulating deep space to black hole vicinity) reveals that γ * t_cross = 0.039 is constant. The θ trajectory collapses onto a single universal curve when time is normalized as τ = γ * t. This is the same structure as gravitational time dilation in general relativity: γ plays the role of the metric coefficient, and the transition proper time is frame-independent. Gravitation was never a missing parameter: it was always contained in γ.
 
 See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof and decoder principle.  
 See [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for the crossing data, θ compass measurements, and directions for further investigation.  

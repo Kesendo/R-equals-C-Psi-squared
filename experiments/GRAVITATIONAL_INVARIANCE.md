@@ -10,9 +10,9 @@
 
 Gravitation does not add a new parameter to R = CΨ². It is already contained in γ.
 
-γ is the local decoherence rate -- the rate at which a quantum system loses coherence from the observer's perspective. Gravitation changes this rate by changing the local flow of time. A stronger gravitational field means a higher effective γ, which means faster crossing of the 1/4 boundary. But the trajectory through the boundary is identical for all observers when time is normalized.
+γ is the local decoherence rate, the rate at which a quantum system loses coherence from the observer's perspective. Gravitation changes this rate by changing the local flow of time. A stronger gravitational field means a higher effective γ, which means faster crossing of the 1/4 boundary. But the trajectory through the boundary is identical for all observers when time is normalized.
 
-This is not an analogy to general relativity. It IS the same structure: γ plays the role of the metric coefficient, and the product γ * t_cross is an invariant -- the proper time of the transition.
+This is not an analogy to general relativity. It IS the same structure: γ plays the role of the metric coefficient, and the product γ * t_cross is an invariant: the proper time of the transition.
 
 ## 2. The Simulation
 
@@ -61,7 +61,7 @@ Maximum deviation across all gravitational environments: 0.0044 in C·Ψ. The re
 
 ### 3.1 What Gravitation Does in General Relativity
 
-Einstein's key insight: gravitation is not a force. It is the curvature of spacetime. A clock near a massive body ticks slower than a clock far away. The local physics is identical -- only the time rate changes.
+Einstein's key insight: gravitation is not a force. It is the curvature of spacetime. A clock near a massive body ticks slower than a clock far away. The local physics is identical; only the time rate changes.
 
 The proper time interval between two events:
 
@@ -120,11 +120,11 @@ Any calculation performed in one gravitational environment can be translated to 
 
 1. Compute t_cross in your local frame (run simulation with your local γ)
 2. To translate to another observer's frame: multiply by (γ_local / γ_remote)
-3. The θ compass readings are identical -- only the timestamps change
+3. The θ compass readings are identical; only the timestamps change
 
 This means:
 - Experimental predictions are frame-independent when expressed in proper time (τ = γ * t)
-- The 1/4 boundary is a true invariant -- not coordinate-dependent
+- The 1/4 boundary is a true invariant, not coordinate-dependent
 - θ at any given C·Ψ value is the same for all observers
 - t_coh (time to crossing) is observer-dependent but related by a known ratio
 
@@ -132,7 +132,7 @@ This means:
 
 ### 5.1 Gravitation Was Never Missing
 
-The framework R = CΨ² was derived without any reference to gravitation. Yet the simulation shows that varying γ (the decoherence rate) reproduces exactly the structure of gravitational time dilation: an invariant transition point, an invariant trajectory, and an observer-dependent time scale related by a simple ratio. Gravitation was always in the framework -- encoded in the observer-dependence of C and γ.
+The framework R = CΨ² was derived without any reference to gravitation. Yet the simulation shows that varying γ (the decoherence rate) reproduces exactly the structure of gravitational time dilation: an invariant transition point, an invariant trajectory, and an observer-dependent time scale related by a simple ratio. Gravitation was always in the framework, encoded in the observer-dependence of C and γ.
 
 ### 5.2 The Measurement Problem Is Frame-Independent
 
@@ -158,10 +158,10 @@ The full navigation system now includes gravitational translation:
 
 | Component | Symbol | Meaning | Observer-dependent? |
 |---|---|---|---|
-| Destination | 1/4 | Bifurcation boundary | NO -- algebraic invariant |
-| Compass | θ | Angular distance from boundary | NO -- function of C·Ψ only |
-| Clock | t_cross | Coordinate time to crossing | YES -- depends on local γ |
-| Proper time | τ = γ * t | Universal transition time | NO -- invariant (0.039 for Bell+) |
+| Destination | 1/4 | Bifurcation boundary | NO (algebraic invariant) |
+| Compass | θ | Angular distance from boundary | NO (function of C·Ψ only) |
+| Clock | t_cross | Coordinate time to crossing | YES (depends on local γ) |
+| Proper time | τ = γ * t | Universal transition time | NO (invariant, 0.039 for Bell+) |
 | Bridge | γ_A / γ_B | Translation factor between observers | Connects any two frames |
 
 The navigation system is covariant. Express coordinates in proper time, and all observers agree on everything.
@@ -170,10 +170,10 @@ The navigation system is covariant. Express coordinates in proper time, and all 
 
 | Question | Answer |
 |---|---|
-| Does gravitation affect R = CΨ²? | No -- it is already contained in γ |
+| Does gravitation affect R = CΨ²? | No, it is already contained in γ |
 | What does γ represent physically? | The local time rate (includes all decoherence sources) |
-| Is the 1/4 boundary gravitationally invariant? | Yes -- same for all observers |
-| Is the θ trajectory gravitationally invariant? | Yes -- universal curve in proper time |
+| Is the 1/4 boundary gravitationally invariant? | Yes, same for all observers |
+| Is the θ trajectory gravitationally invariant? | Yes, universal curve in proper time |
 | How do different observers compare? | Bridge: t_A * γ_A = t_B * γ_B |
 | Does this predict anything new? | Decoherence rate ratios should match GR time dilation |
 
@@ -181,6 +181,6 @@ The navigation system is covariant. Express coordinates in proper time, and all 
 
 ---
 
-*Previous: [Boundary Navigation](BOUNDARY_NAVIGATION.md) -- the 1/4 crossing observation*
-*See also: [The Mandelbrot Connection](MANDELBROT_CONNECTION.md) -- algebraic equivalence proof*
-*See also: [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) -- the 1/4 bound derivation*
+*Previous: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing observation*
+*See also: [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), algebraic equivalence proof*
+*See also: [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), the 1/4 bound derivation*

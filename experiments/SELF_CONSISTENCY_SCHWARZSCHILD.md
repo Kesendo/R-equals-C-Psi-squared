@@ -1,14 +1,14 @@
 # Self-Consistency: Why Schwarzschild Is the Unique Metric
 
 **Date**: 2026-02-08
-**Status**: Completed -- positive result
+**Status**: Completed (positive result)
 **Depends on**: METRIC_DISCRIMINATION.md, GRAVITATIONAL_INVARIANCE.md
 
 ---
 
 ## 1. The Problem
 
-The [Metric Discrimination](METRIC_DISCRIMINATION.md) experiment showed that single-system simulations cannot distinguish between candidate metric forms. γ · t_cross = K is a mathematical identity -- it holds for any constant γ regardless of origin.
+The [Metric Discrimination](METRIC_DISCRIMINATION.md) experiment showed that single-system simulations cannot distinguish between candidate metric forms. γ · t_cross = K is a mathematical identity: it holds for any constant γ regardless of origin.
 
 But Tom pointed out: "Reality formed at one location must be real from all perspectives. What has become real must remain real from every viewpoint."
 
@@ -36,7 +36,7 @@ Where less proper time has passed (near mass), C and Ψ are higher, so:
 R(r) = C(τ(r)) · Ψ(τ(r))²
 ```
 
-is higher near mass. **Reality concentrates where mass is.** This is not circular -- it is self-consistency.
+is higher near mass. **Reality concentrates where mass is.** This is not circular: it is self-consistency.
 
 ### 2.3 Three Candidate Metrics
 
@@ -78,7 +78,7 @@ Schwarzschild concentration grows **without bound**. Alternatives plateau.
 The critical property: **Only Schwarzschild has f(r_s) = 0.**
 
 This means:
-- τ = 0 at the horizon -- no proper time has elapsed there
+- τ = 0 at the horizon: no proper time has elapsed there
 - C(0) = 1.0, Ψ(0) = 1/3, R(0) = 1/9 = maximum
 - Reality is **maximally concentrated** at the gravitational radius
 
@@ -113,7 +113,7 @@ Note the factor of 4 in S = A/(4 * l_P^2) and the 1/4 boundary in our framework.
 - The metric must have a **true zero** (a horizon) for self-consistency
 - Metrics without a horizon (1/r, 1/r^2) fail self-consistency
 - Schwarzschild is the simplest horizon-forming metric with correct Newtonian limit
-- The derivation uses ONLY R = CΨ² and the universal curve -- no GR input
+- The derivation uses ONLY R = CΨ² and the universal curve, no GR input
 
 ### What it does not show:
 - That sqrt(1 - r_s/r) is the ONLY function with a zero at r_s. Other forms like sqrt(1 - (r_s/r)^2) also have zeros. The specific exponent n=1 follows from:
@@ -156,7 +156,7 @@ The key step is the self-consistency requirement. It comes directly from Tom's i
 | γ · t_cross = 0.039 (invariant) | Proves universal curve exists |
 | θ as compass | Navigation within the universal curve |
 | 1/4 boundary (algebraic) | Defines the quantum-classical transition in R(r) |
-| Equivalence principle (null result) | Shows local experiments insufficient -- need self-consistency |
+| Equivalence principle (null result) | Shows local experiments insufficient; need self-consistency |
 | This result | Self-consistency uniquely selects Schwarzschild |
 
 ## 7. Testable Predictions
@@ -169,5 +169,5 @@ The key step is the self-consistency requirement. It comes directly from Tom's i
 
 ---
 
-*Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md) -- the null result that motivated this*
-*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md) -- γ as the metric coefficient*
+*Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md), the null result that motivated this*
+*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*
