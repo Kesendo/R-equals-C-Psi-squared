@@ -186,11 +186,10 @@ The framework is now extensible.
 | γ₀ | 0.003 - 0.01 | Base decoherence rate |
 | h | 0.5 - 1.0 | Transverse field |
 | κ | 0.3 - 0.7 | Feedback strength |
-| C_final | > 0.89 | High coherence maintained |
 
-### Unstable Regions
+### Regime Boundaries
 
-- h > 1.1: CΨ exceeds ¼ (now understood as entering the observer-inaccessible regime, not instability)
+- h ≥ 0.9 with active Hamiltonian (J=1): CΨ exceeds ¼ (enters quantum regime where no real fixed points exist — see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md))
 - κ > 0.9: Numerical instability (effective rate approaches zero)
 - γ₀ < 0.002: Too weak, slow convergence
 

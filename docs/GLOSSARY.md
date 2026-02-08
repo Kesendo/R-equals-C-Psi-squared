@@ -24,8 +24,8 @@
 | **θ** | Angular coordinate | θ = arctan(√(4CΨ - 1)). Compass indicating proximity to 1/4 boundary. |
 | **τ** | Proper decoherence time | τ = γ · t. Universal clock normalized by local decoherence rate. |
 | **t_cross** | Crossing time | Coordinate time at which C·Ψ crosses the 1/4 boundary. |
-| **t_coh** | Coherence time | Maximum time a quantum system maintains coherence. Scales linearly with N. |
-| **δ** | Purity difference | δ = Tr(ρ²) - Tr(ρ_predicted²). Measures excess coherence from symmetric coupling. |
+| **t_coh** | Coherence time | Maximum time a quantum system maintains coherence. Linear N-scaling hypothesized but unverified. |
+| **δ** | Purity difference | δ = Tr(ρ²) - Tr(ρ_predicted²). Difference between closed-system and open-system purity under specific parameters. |
 
 ---
 

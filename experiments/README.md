@@ -92,17 +92,17 @@ Black holes are local remnants of the initial τ = 0 condition, regions that hav
 
 ### Does symmetric observation preserve quantum coherence longer than asymmetric?
 
-Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spins decohere symmetrically) preserves coherence 33 times longer than unidirectional coupling (only one spin decoheres). This ratio is independent of Hamiltonian type. The result is quantitative, testable, and connects directly to the framework's distinction between internal observation (C_int) and external observation (C_ext).
+This is an open hypothesis. Local LLM agents reported a 33:1 coherence ratio for bidirectional vs unidirectional coupling using a tool (`compute_delta_cint`) that is no longer available. MCP verification (2026-02-08) could not reproduce these results. The hypothesis is physically interesting and testable, but currently unverified.
 
-**Read:** [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 8
+**Read:** [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 9
 
 ---
 
 ### How does quantum coherence scale with system size?
 
-For ring-coupled spin systems under symmetric decoherence, the maximum coherence time t_coh scales linearly with the number of spins N. This is a specific, testable prediction that distinguishes the framework from models predicting exponential decay with N.
+The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled spin systems. This could not be independently verified. If confirmed, it would distinguish the framework from models predicting exponential decay with N.
 
-**Read:** [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 8
+**Read:** [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 9
 
 ---
 
@@ -170,9 +170,13 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Complex fixed points above 1/4 with frequency θ
 
 **Computationally verified:**
+- Operator feedback mechanism: γ_eff = γ₀(1-κ⟨O_int⟩) produces physically valid dynamics
+- CΨ > ¼ occurs routinely with strong Hamiltonians (h ≥ 0.9), disproving earlier low-dynamics "confirmations"
+
+**Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling
 - t_coh ~ N linear scaling
-- δ = 0.42 for symmetric configurations
+- δ = 0.42 framing as "unexplained coherence" (calculation valid, interpretation corrected)
 
 **Empirically observed (2026-02-08):**
 - θ decreases continuously from 60° to 0° as decoherence pulls C·Ψ toward ¼
