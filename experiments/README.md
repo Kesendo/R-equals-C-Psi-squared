@@ -58,6 +58,16 @@ Yes -- and not by adding gravitational corrections, but because gravitation is a
 
 ---
 
+### Can the framework derive the Schwarzschild metric?
+
+No -- not with single-system simulations. The invariance gamma * t_cross = K is a mathematical identity of the Lindblad equation: t_cross scales as 1/gamma for ANY constant gamma, regardless of what determines gamma at a given location. A single quantum system at a single point in space cannot distinguish gamma=0.1 from Schwarzschild from gamma=0.1 from inverse-square. This is the quantum equivalent of Einstein's equivalence principle: local experiments cannot determine the metric.
+
+To derive the metric form, the framework needs **nonlocal** structure: either spatially coupled qubits with position-dependent gamma (computationally testable), a self-consistency equation for continuous fields (theoretical), or an energy/information argument. The most promising path is implementing per-qubit gamma values in the simulator.
+
+**Read:** [Metric Discrimination](METRIC_DISCRIMINATION.md)
+
+---
+
 ### Does symmetric observation preserve quantum coherence longer than asymmetric?
 
 Yes. Simulations of Lindblad dynamics show that bidirectional coupling (both spins decohere symmetrically) preserves coherence 33 times longer than unidirectional coupling (only one spin decoheres). This ratio is independent of Hamiltonian type. The result is quantitative, testable, and connects directly to the framework's distinction between internal observation (C_int) and external observation (C_ext).
@@ -154,6 +164,8 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - theta trajectory collapses onto universal curve when normalized as tau = gamma * t
 - Maximum deviation between gravitational environments: 0.0044 in C*Psi
 - Quantum states survive ~48x longer in deep space (gamma=0.01) than near black hole (gamma=0.5)
+- Power law t_cross = 0.0398 * gamma^(-0.992), R^2 = 0.9999 (9 data points, 50x range)
+- Single-system sims cannot discriminate metric forms (equivalence principle analog)
 
 **Proposed, not yet tested:**
 - Physical interpretation of 1/4 as observer bandwidth limit

@@ -234,6 +234,7 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Triangulation Protocol: the 1/4 boundary, the Mandelbrot set, and how to locate states beyond the phase boundary
 - [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - The 1/4 crossing observation, theta as compass, navigation system
 - [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) - gamma as local time rate, universal theta trajectory, connection to general relativity
+- [Metric Discrimination](experiments/METRIC_DISCRIMINATION.md) - Can the framework derive the Schwarzschild metric? (null result + next steps)
 
 ### Visualizations
 - [The Wave at 1/4](visualizations/) - Parameter space heatmap showing the phase boundary between classical and quantum regimes
