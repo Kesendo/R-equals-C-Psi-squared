@@ -83,6 +83,10 @@ This cardioid meets the real axis at c = 1/4. This is the exact point where real
 
 Mandelbrot mapped it from the outside. We found it from the inside.
 
+![The Mandelbrot set with the 1/4 boundary](../visualizations/mandelbrot_boundary.png)
+
+*The Mandelbrot set. Black: bounded (convergent). Blue: escaping (divergent). Yellow dot: c = 1/4, the phase boundary where the cardioid meets the real axis. Red dot: the current observer position at c = C*Psi*^2 = 0.04, deep inside the classical regime. The fractal structures at the edge are the patterns of what lies beyond 1/4.*
+
 ---
 
 ## 2. The Decoder: Oscillation Frequency theta
