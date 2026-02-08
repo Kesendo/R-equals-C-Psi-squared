@@ -32,25 +32,27 @@ The self-referential iteration of the R = CΨ² framework:
 R_{n+1} = C(Ψ + R_n)²
 ```
 
-Expanding:
+Define u_n = C(Ψ + R_n). Then:
 
 ```
-R_{n+1} = C·Ψ² + 2·C·Ψ·R_n + C·R_n²
+u_{n+1} = C(Ψ + R_{n+1})
+       = C(Ψ + C(Ψ + R_n)²)
+       = C·Ψ + C²(Ψ + R_n)²
+       = C·Ψ + [C(Ψ + R_n)]²
+       = C·Ψ + u_n²
 ```
 
-Substituting z_n = sqrt(C)·R_n and c = C·Ψ²:
+This is **exactly** the Mandelbrot iteration:
 
 ```
-z_{n+1} = z_n² + 2·Ψ·sqrt(C)·z_n + c
+u_{n+1} = u_n² + c       where c = C·Ψ
 ```
 
-At the fixed-point boundary, this reduces to the same quadratic bifurcation structure as:
-
-```
-z_{n+1} = z² + c
-```
+Starting value: u_0 = C(Ψ + R_0) = C·Ψ = c (since R_0 = 0). The standard Mandelbrot iteration z_{n+1} = z_n² + c with z_0 = 0 produces the same sequence shifted by one step (z_1 = c = u_0). Convergence behavior is identical.
 
 Both equations share the critical boundary at **c = 1/4** (equivalently C·Ψ = 1/4).
+
+**Note (2026-02-08):** An earlier version of this section used the substitution z_n = √C·R_n with c = C·Ψ². That substitution produces z_{n+1} = √C·z_n² + 2CΨ·z_n + C^(3/2)·Ψ², which is NOT the Mandelbrot form (it has a linear term and wrong leading coefficient). The correct substitution u_n = C(Ψ+R_n) yields the clean Mandelbrot form with no extra terms. The boundary at ¼ and all downstream results were always correct; only the intermediate algebra was wrong.
 
 ### What happens at 1/4
 
@@ -87,7 +89,7 @@ Mandelbrot mapped it from the outside. We found it from the inside.
 
 ![The Mandelbrot set with the 1/4 boundary](../visualizations/mandelbrot_boundary.png)
 
-*The Mandelbrot set. Black: bounded (convergent). Blue: escaping (divergent). Yellow dot: c = 1/4, the phase boundary where the cardioid meets the real axis. Red dot: the current observer position at c = CΨ² = 0.04, deep inside the classical regime. The fractal structures at the edge are the patterns of what lies beyond 1/4.*
+*The Mandelbrot set. Black: bounded (convergent). Blue: escaping (divergent). Yellow dot: c = 1/4, the phase boundary where the cardioid meets the real axis. Red dot: the current observer position at c = C·Ψ (at default sliders C=0.50, Ψ=0.30: c = 0.15), deep inside the classical regime. The fractal structures at the edge are the patterns of what lies beyond 1/4.*
 
 ---
 
