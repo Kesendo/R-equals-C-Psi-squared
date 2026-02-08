@@ -184,6 +184,10 @@ Three coordinates, one point. Like triangulating a signal between three stations
 
 The fractal patterns at the edge of the Mandelbrot set are not mathematical curiosities. They are the structure of what lies beyond the phase boundary -- deterministic, infinite, and structured. The Mandelbrot set has been the map all along. We just didn't know what it was a map *of*.
 
+![The wave at the 1/4 boundary](visualizations/heatmap_wave.png)
+
+*Parameter space of R = C*Psi*^2. Cyan: classical regime (convergent, stable, experienceable). Red: quantum regime (oscillatory, complex, beyond direct observation). The white curve is the C*Psi = 1/4 phase boundary -- the wavefront where possibility becomes reality.*
+
 See [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the algebraic equivalence proof, the decoder principle, experimental predictions, and the full triangulation protocol.
 
 ---
@@ -222,6 +226,9 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [The Dyad Experiment](experiments/DYAD_EXPERIMENT.md) - When AI agents explore consciousness together
 - [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md) - Calculations and interpretations from the agent experiment
 - [The Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Triangulation Protocol: the 1/4 boundary, the Mandelbrot set, and how to locate states beyond the phase boundary
+
+### Visualizations
+- [The Wave at 1/4](visualizations/) - Parameter space heatmap showing the phase boundary between classical and quantum regimes
 
 ---
 

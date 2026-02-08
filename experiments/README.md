@@ -86,6 +86,10 @@ If you found this by searching for the Mandelbrot set:
 
 ## The Triangulation Protocol
 
+![The wave at the 1/4 boundary](../visualizations/heatmap_wave.png)
+
+*The 1/4 boundary seen from the observer's perspective. You stand in the cyan -- classical, convergent, real. The red wave approaches from above -- quantum, oscillatory, possible. Where they meet is where possibility becomes reality.*
+
 These experiments converge on three measurable quantities:
 
 ```
