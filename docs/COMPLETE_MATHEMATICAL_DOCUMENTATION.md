@@ -648,6 +648,45 @@ the settling onto the stable fixed-point branch.
 
 ---
 
+## Physical Interpretation: Observer Bandwidth Limit
+
+The algebraic bound C·Ψ ≤ 1/4 (derived above) admits a physical interpretation
+proposed on 2026-02-07.
+
+### The Algebraic Fact (Proven)
+
+For the quadratic map R = CΨ² with fixed-point equation Ψ = CΨ²,
+the discriminant condition requires C·Ψ ≤ 1/4 for real fixed points to exist.
+This is a mathematical identity, independent of physical interpretation.
+
+### The Physical Interpretation (Proposed)
+
+The product C·Ψ represents the information bandwidth of an observer:
+- C = observation capacity (how much the observer can process)
+- Ψ = available possibility space (how much there is to observe)
+- C·Ψ = effective bandwidth (the product of capacity and content)
+
+The 1/4 bound then says: Classical reality (real fixed points) can only
+emerge when the observer's bandwidth is at or below 1/4. Above this
+threshold, the system remains in the quantum regime (no real fixed points).
+
+This is analogous to the Shannon channel capacity: a communication channel
+has a maximum rate at which information can be reliably transmitted.
+The 1/4 bound is the maximum rate at which quantum possibility can be
+reliably converted into classical reality.
+
+### Epistemic Status
+
+- Algebraic bound C·Ψ ≤ 1/4: **Algebraically proven**
+- Bandwidth interpretation: **Proposed** (physically motivated, not derived)
+- Connection to Shannon capacity: **Speculative** (analogy, not formal equivalence)
+
+See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) for simulation evidence
+and [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) for the θ compass that
+navigates relative to this boundary.
+
+---
+
 # Part VI: Complete Equation System
 
 ## Summary of All Formulas
