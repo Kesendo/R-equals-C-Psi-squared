@@ -17,9 +17,9 @@ This document records what the Lindblad simulator actually shows when run with h
 
 Does CΨ ≤ ¼ hold in Lindblad simulations?
 
-**Short answer:** No — not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
+**Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
 
-**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration — i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md#3-the-observer-bandwidth-interpretation).
+**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md#3-the-observer-bandwidth-interpretation).
 
 ---
 
@@ -102,7 +102,7 @@ An important observation: Ψ (computed as √(Tr(ρ²) × bridge)) is not consta
 - Ψ range: 0.29 → 0.93 → 0.32 → 0.90 (oscillating)
 - More complex oscillation pattern due to multi-qubit correlations
 
-This means CΨ is **time-dependent** — it crosses ¼ multiple times during a typical evolution. The question is not "is CΨ below ¼?" but "at what times is CΨ below ¼, and what does the observer experience at those moments?"
+This means CΨ is **time-dependent**; it crosses ¼ multiple times during a typical evolution. The question is not "is CΨ below ¼?" but "at what times is CΨ below ¼, and what does the observer experience at those moments?"
 
 ---
 

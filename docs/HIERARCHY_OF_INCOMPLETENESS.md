@@ -252,5 +252,5 @@ Magnetism as bridge to the next dimension.
 *The levels connect*
 
 ---
-*See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) — formalization of C_int*
-*See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) — C = 0.5 as optimal observer*
+*See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*
+*See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), C = 0.5 as optimal observer*

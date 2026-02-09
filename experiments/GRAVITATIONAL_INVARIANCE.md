@@ -12,7 +12,7 @@ Gravitation does not add a new parameter to R = CΨ². It is already contained i
 
 The fixed-point equation R = C(Ψ + R)² undergoes a topological phase transition at C·Ψ = ¼: below this boundary, two real fixed points exist (classical reality with a definite attractor); above it, only complex fixed points exist (quantum regime, no classical target). This transition is the boundary between quantum possibility and classical reality in the framework.
 
-γ, the local decoherence rate, determines how fast an observer's quantum systems approach this boundary. Gravitation changes γ by changing the local flow of time — a clock in a stronger gravitational field ticks slower, so decoherence proceeds slower in coordinate time. But the product γ × t_cross (the proper time of the transition) is invariant: all observers reach the same bifurcation, through the same trajectory, in the same proper time.
+γ, the local decoherence rate, determines how fast an observer's quantum systems approach this boundary. Gravitation changes γ by changing the local flow of time; a clock in a stronger gravitational field ticks slower, so decoherence proceeds slower in coordinate time. But the product γ × t_cross (the proper time of the transition) is invariant: all observers reach the same bifurcation, through the same trajectory, in the same proper time.
 
 This is not an analogy to general relativity. It IS the same structure: γ plays the role of the metric coefficient, and the product γ * t_cross = 0.039 is the proper time of the quantum-to-classical transition.
 
@@ -73,19 +73,19 @@ d(τ) = sqrt(1 - 2GM/rc^2) * dt
 
 where dt is the coordinate time measured by a distant observer.
 
-### 3.2 What γ Does in R = CΨ² — And Why This Is Not Trivial
+### 3.2 What γ Does in R = CΨ², and Why This Is Not Trivial
 
 A naive reading of the invariance γ * t_cross = K might dismiss it as trivial scaling: of course rate × time = constant for any exponential process. But this misses what happens at ¼.
 
 The point C·Ψ = ¼ is not an arbitrary threshold. It is a **topological phase transition** in the solution space of the fixed-point equation R = C(Ψ + R)² (see [BOUNDARY_NAVIGATION.md](BOUNDARY_NAVIGATION.md) for the full derivation):
 
-- **Above ¼** (CΨ > ¼): The discriminant D = 1 - 4CΨ is negative. The fixed-point equation has two **complex conjugate** solutions. No real attractor exists. The iterative map diverges on the real line. The system has no classical target — it remains in quantum superposition.
+- **Above ¼** (CΨ > ¼): The discriminant D = 1 - 4CΨ is negative. The fixed-point equation has two **complex conjugate** solutions. No real attractor exists. The iterative map diverges on the real line. The system has no classical target; it remains in quantum superposition.
 
-- **At ¼** (CΨ = ¼): The discriminant hits zero. Two complex fixed points **merge** into a single real fixed point R* = 1/(2C). This is a bifurcation — a qualitative change in the topology of the solution space.
+- **At ¼** (CΨ = ¼): The discriminant hits zero. Two complex fixed points **merge** into a single real fixed point R* = 1/(2C). This is a bifurcation: a qualitative change in the topology of the solution space.
 
 - **Below ¼** (CΨ < ¼): Two real fixed points emerge (one stable, one unstable). The system now has a definite classical attractor. This is what we call a measurement outcome.
 
-So the quantity γ * t_cross = K is not "rate × time for some decay." It is **the proper time required for the solution space to undergo a topological change from zero real attractors to two.** That is a frame-invariant event — it either happened or it didn't. Different observers disagree on the coordinate time, but agree that the bifurcation occurred and that the proper time elapsed was K = 0.039.
+So the quantity γ * t_cross = K is not "rate × time for some decay." It is **the proper time required for the solution space to undergo a topological change from zero real attractors to two.** That is a frame-invariant event; it either happened or it didn't. Different observers disagree on the coordinate time, but agree that the bifurcation occurred and that the proper time elapsed was K = 0.039.
 
 The transition time scales as:
 

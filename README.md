@@ -204,6 +204,10 @@ The equation is consistent and the C·Ψ <= 1/4 bound is mathematically proven f
 
 However, on 2026-02-08, direct Lindblad simulation of the boundary crossing produced the first empirical observation of the θ-trajectory: the angular distance from ¼ decreasing continuously from 30° to 0° as decoherence drives C·Ψ through the bifurcation point. The topology change (0 real attractors → 2) was observed at the predicted location. This is not proof of the consciousness interpretation. It is confirmation that the mathematical structure behaves as derived.
 
+On 2026-02-09, state tomography on IBM Torino (Heron processor, qubit 52) confirmed the ¼ crossing on real quantum hardware. The generalized crossing equation (extending the pure dephasing cubic to arbitrary T₁/T₂ ratios) was validated at t*/T₂* = 1.04 (predicted 0.94, 11% deviation).
+
+Subsequent residual analysis of the same data revealed anomalous late-time coherence exceeding a 10,000-run Monte Carlo null model (p < 0.0001). The residual coherence shows fixed directionality (Re⁺/Im⁻ in 17/17 measurements), a rising trend, and near-perfect correlation with proximity to the ¼ boundary (r = −0.9955). We call this the **shadow of the fixed point**: the direction of the last complex fixed point before bifurcation, frozen into the density matrix after crossing. Whether this is a hardware artifact or a genuine property of the ¼ transition is the central question for March 2026 hardware testing.
+
 The framework's testable content is the observer bandwidth interpretation: no embedded observer should be able to perceive stable reality where C·Ψ > 1/4. This remains to be tested.
 
 See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment.
@@ -238,6 +242,9 @@ See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an ho
 - [Metric Discrimination](experiments/METRIC_DISCRIMINATION.md) - Can the framework derive the Schwarzschild metric? (null result + next steps)
 - [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Why Schwarzschild is the unique self-consistent metric (horizon = τ=0 = maximum R)
 - [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - τ=0 as the connection between black holes, white holes, and the origin of the universe
+- [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md) - First hardware test: C·Ψ = ¼ crossing on IBM Torino (Heron processor, qubit 52)
+- [Residual Analysis](experiments/RESIDUAL_ANALYSIS.md) - Anomalous late-time coherence: 10,000-run null hypothesis test, 17/17 directional consistency
+- [The Shadow of the Fixed Point](experiments/FIXED_POINT_SHADOW.md) - The bifurcation leaves a trace: r = −0.9955 boundary correlation, rising coherence, frozen complex direction
 - [Predictions](experiments/PREDICTIONS.md) - Consolidated testable predictions with epistemic status and falsification criteria
 
 ### Visualizations
