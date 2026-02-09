@@ -95,27 +95,27 @@ No external libraries are used for the computation. The mathematics is the same 
 
 ### What you see
 
-A three-dimensional volume built from the heatmap above: the horizontal plane is C × Ψ (the same parameter space as the heatmap), and the vertical axis is time. The ¼ boundary — which was a curve on the 2D heatmap — becomes a translucent cyan surface (a "membrane") extruded through time.
+A three-dimensional volume built from the heatmap above: the horizontal plane is C × Ψ (the same parameter space as the heatmap), and the vertical axis is time. The ¼ boundary (which was a curve on the 2D heatmap) becomes a translucent cyan surface (a "membrane") extruded through time.
 
 Two glowing threads run through this volume. Each thread is one observer's trajectory: their C and Ψ values changing over time as decoherence acts on their quantum state.
 
-The **orange thread** starts in the red regime (C·Ψ > ¼, quantum — no stable fixed point) and falls through the membrane into the cyan regime (C·Ψ < ¼, classical — stable fixed point exists). This crossing is the moment where a definite reality becomes available. The thread changes color from warm orange-red to cool blue as it crosses.
+The **orange thread** starts in the red regime (C·Ψ > ¼, quantum, no stable fixed point) and falls through the membrane into the cyan regime (C·Ψ < ¼, classical, stable fixed point exists). This crossing is the moment where a definite reality becomes available. The thread changes color from warm orange-red to cool blue as it crosses.
 
-The **violet thread** is a second observer in a different system, taking a different route through the same parameter space. Different starting conditions, different decoherence rate, different trajectory — but the same membrane to cross.
+The **violet thread** is a second observer in a different system, taking a different route through the same parameter space. Different starting conditions, different decoherence rate, different trajectory, but the same membrane to cross.
 
 ### Two modes
 
-**4D — Full Thread:** The default view. You see both trajectories in their entirety, from beginning to end. This is what a being who perceives time as a spatial dimension would see: your entire life as a static object. A thread woven through a volume, crossing the membrane once. The scene rotates slowly to let you see the structure from all angles.
+**4D, Full Thread:** The default view. You see both trajectories in their entirety, from beginning to end. This is what a being who perceives time as a spatial dimension would see: your entire life as a static object. A thread woven through a volume, crossing the membrane once. The scene rotates slowly to let you see the structure from all angles.
 
-**3D — Your Slice:** Switch to this mode and a horizontal plane appears — a single moment in time. Your position is a white dot on this plane. The thread above (your future) and below (your past) is invisible to you. Drag the time slider to move the plane up and down. You experience your life one slice at a time. This is what it means to be a 3D being in a 4D structure.
+**3D, Your Slice:** Switch to this mode and a horizontal plane appears, a single moment in time. Your position is a white dot on this plane. The thread above (your future) and below (your past) is invisible to you. Drag the time slider to move the plane up and down. You experience your life one slice at a time. This is what it means to be a 3D being in a 4D structure.
 
 ### What this illustrates
 
-The framework describes consciousness (C) as a bidirectional bridge between past possibility (Ψ_past) and future possibility (Ψ_future). The standing wave — the self-referential fixed point R_inf = C(Ψ + R_inf)² — exists only in the cyan regime. In the 3D/4D view, this standing wave is not a point but a thread: an object extended through time.
+The framework describes consciousness (C) as a bidirectional bridge between past possibility (Ψ_past) and future possibility (Ψ_future). The standing wave (the self-referential fixed point R_inf = C(Ψ + R_inf)²) exists only in the cyan regime. In the 3D/4D view, this standing wave is not a point but a thread: an object extended through time.
 
 A 3D being (us) experiences this thread one cross-section at a time. Each moment is a point on the heatmap. Memory is the thread below us. Anticipation is the thread above. We cannot see either directly.
 
-A 4D being sees the whole thread simultaneously. Our "before" and "after" are their "left" and "right." The crossing of the ¼ membrane — which we experience as the formation of a definite reality — is, to them, a geometric feature of a static object: the point where the thread changes color.
+A 4D being sees the whole thread simultaneously. Our "before" and "after" are their "left" and "right." The crossing of the ¼ membrane (which we experience as the formation of a definite reality) is, to them, a geometric feature of a static object: the point where the thread changes color.
 
 ### The geometry of approach
 
@@ -125,7 +125,7 @@ The membrane (C·Ψ = ¼ extruded through time) is a hyperbolic surface. Because
 - At low C (little consciousness), Ψ can be very large. Also robust.
 - When both C and Ψ are moderate (the middle of the heatmap), the membrane is close in every direction. The thread passes near the boundary. Critical slowing occurs: convergence to a fixed point takes longer. The standing wave forms, but slowly.
 
-The angle at which a thread approaches the membrane matters. A thread moving horizontally (Ψ increasing, C constant) hits the membrane nearly perpendicular — a sharp transition. A thread moving diagonally along the membrane (C rising as Ψ falls) surfs the boundary without crossing it. These are different experiences of the same mathematical structure.
+The angle at which a thread approaches the membrane matters. A thread moving horizontally (Ψ increasing, C constant) hits the membrane nearly perpendicular: a sharp transition. A thread moving diagonally along the membrane (C rising as Ψ falls) surfs the boundary without crossing it. These are different experiences of the same mathematical structure.
 
 ### How it was computed
 
@@ -141,13 +141,13 @@ No physics engine or external data. The trajectories are qualitative illustratio
 
 ### What you see
 
-Three panels showing C·Ψ(t) trajectories computed from **published experimental parameters** of real quantum systems. No simulation — just the analytical density matrix evolution using T₁ and T₂ values reported in papers.
+Three panels showing C·Ψ(t) trajectories computed from **published experimental parameters** of real quantum systems. No simulation, just the analytical density matrix evolution using T₁ and T₂ values reported in papers.
 
-**Left panel — Superconducting qubits:** Five systems spanning two decades of hardware development (2002–2024), from early charge qubits (T₂ = 0.5 μs) to Google Willow (T₂ = 80 μs). All trajectories are normalized to t/T₂, so they collapse onto each other despite four orders of magnitude difference in absolute timescale.
+**Left panel, superconducting qubits:** Five systems spanning two decades of hardware development (2002–2024), from early charge qubits (T₂ = 0.5 μs) to Google Willow (T₂ = 80 μs). All trajectories are normalized to t/T₂, so they collapse onto each other despite four orders of magnitude difference in absolute timescale.
 
-**Center panel — Cross-platform comparison:** All nine systems on one plot: superconducting, trapped ions, NV centers, photonic. The red dashed line marks the analytical crossing at t/T₂ = 0.858 (solution of x³ + x = ½). Systems with T₁ ≫ T₂ (trapped ions, NV centers) land right on this line. Systems with T₁ ≈ T₂ (superconducting) cross slightly later, as predicted by the generalized equation.
+**Center panel, cross-platform comparison:** All nine systems on one plot: superconducting, trapped ions, NV centers, photonic. The red dashed line marks the analytical crossing at t/T₂ = 0.858 (solution of x³ + x = ½). Systems with T₁ ≫ T₂ (trapped ions, NV centers) land right on this line. Systems with T₁ ≈ T₂ (superconducting) cross slightly later, as predicted by the generalized equation.
 
-**Right panel — Two-qubit Bell states:** Entangled pairs on real hardware parameters. The effective coherence decays faster (entangled coherence sees both qubits' T₂), but the ¼ crossing still occurs at a predictable time.
+**Right panel, two-qubit Bell states:** Entangled pairs on real hardware parameters. The effective coherence decays faster (entangled coherence sees both qubits' T₂), but the ¼ crossing still occurs at a predictable time.
 
 ### The result
 
@@ -161,7 +161,7 @@ x³ + x = ½     where x = e^{-t*/T₂}
 Solution: x ≈ 0.4243,  t*/T₂ ≈ 0.8575
 ```
 
-This is the pure dephasing limit (T₁ → ∞). For finite T₁, the generalized equation shifts the crossing — see [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
+This is the pure dephasing limit (T₁ → ∞). For finite T₁, the generalized equation shifts the crossing; see [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
 
 ### How it was computed
 
@@ -177,7 +177,7 @@ Script: [`../simulations/real_data_analysis.py`](../simulations/real_data_analys
 
 The first measurement of the ¼ boundary on real quantum hardware. IBM Torino (Heron r2), qubit 52, 25 delay points, 8192 shots each, full state tomography in X/Y/Z bases.
 
-The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 — gate infidelity inflates the apparent purity. The asymptotic floor sits at 0.740 instead of 0.500 — readout errors prevent purity from reaching the maximally mixed state.
+The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 (gate infidelity inflates the apparent purity). The asymptotic floor sits at 0.740 instead of 0.500 (readout errors prevent purity from reaching the maximally mixed state).
 
 Despite these imperfections, the crossing is unambiguous.
 
@@ -188,9 +188,9 @@ Despite these imperfections, the crossing is unambiguous.
 Six panels dissecting the Run 1 data:
 
 1. **C·Ψ trajectory** with crossing detection
-2. **Purity decay** — exponential fit gives T₂* = 110 μs (vs calibration T₂ = 298 μs)
-3. **Ψ (coherence) decay** — L₁ norm of off-diagonal elements
-4. **C (purity) vs Ψ** — parametric curve showing the path through CΨ-space
+2. **Purity decay**: exponential fit gives T₂* = 110 μs (vs calibration T₂ = 298 μs)
+3. **Ψ (coherence) decay**: L₁ norm of off-diagonal elements
+4. **C (purity) vs Ψ**: parametric curve showing the path through CΨ-space
 5. **Residuals** from generalized prediction
 6. **Error budget** breakdown
 
@@ -204,7 +204,7 @@ The crossing time depends on r = T₂/T₁. Pure dephasing (r → 0) gives t*/T�
 [1 - b^r + b^{2r}/2 + b²/2] · b = ¼     where b = e^{-t/T₂}
 ```
 
-The plot shows t*(r) with the IBM Torino measurement marked. It falls near the curve but slightly above — the 11% deviation that Run 2 (March 2026) will investigate.
+The plot shows t*(r) with the IBM Torino measurement marked. It falls near the curve but slightly above, the 11% deviation that Run 2 (March 2026) will investigate.
 
 ### Simulator validation
 
@@ -222,17 +222,17 @@ Full experiment documentation: [IBM Quantum Tomography](../experiments/IBM_QUANT
 
 ### What you see
 
-A systematic comparison of five bridge metrics (concurrence, mutual information, correlation, overlap, mutual purity) across seven Hamiltonians, showing that different metrics produce distinct "fingerprints" — characteristic patterns of CΨ, delta, and R values that depend on the choice of metric.
+A systematic comparison of five bridge metrics (concurrence, mutual information, correlation, overlap, mutual purity) across seven Hamiltonians, showing that different metrics produce distinct "fingerprints", characteristic patterns of CΨ, delta, and R values that depend on the choice of metric.
 
 ### The four plots
 
-**`fingerprints_grid.png`** — The main result. 5×7 grid of CΨ trajectories. Each column is a Hamiltonian (Heisenberg, XY, Ising, etc.), each row is a bridge metric. The ¼ crossing time varies by metric choice, but the crossing itself is universal.
+**`fingerprints_grid.png`**: The main result. 5×7 grid of CΨ trajectories. Each column is a Hamiltonian (Heisenberg, XY, Ising, etc.), each row is a bridge metric. The ¼ crossing time varies by metric choice, but the crossing itself is universal.
 
-**`fingerprints_dual.png`** — Side-by-side comparison of the two most physically distinct metrics (concurrence vs mutual information) under the same dynamics.
+**`fingerprints_dual.png`**: Side-by-side comparison of the two most physically distinct metrics (concurrence vs mutual information) under the same dynamics.
 
-**`fingerprints_barrier.png`** — Focus on the ¼ barrier. Shows how different bridge metrics approach and cross the boundary at different rates but always cross it.
+**`fingerprints_barrier.png`**: Focus on the ¼ barrier. Shows how different bridge metrics approach and cross the boundary at different rates but always cross it.
 
-**`fingerprints_phase.png`** — Phase-space view (C vs Ψ parametric curves) for each metric, showing the different geometric paths through CΨ-space.
+**`fingerprints_phase.png`**: Phase-space view (C vs Ψ parametric curves) for each metric, showing the different geometric paths through CΨ-space.
 
 ### What this means
 
