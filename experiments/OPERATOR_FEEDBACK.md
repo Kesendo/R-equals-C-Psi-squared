@@ -118,7 +118,7 @@ Parameters: γ₀ in [0.003, 0.006], h in [0.7, 1.0], κ = 0.5
 
 These results are **real but misleading**. The γ range (0.003–0.006) is so small that decoherence barely perturbs the initial state. CΨ ≤ ¼ holds not because of deep physics but because there isn't enough dynamics to push CΨ above the bound.
 
-With stronger dynamics (γ = 0.005, J = 1, active Heisenberg Hamiltonian), CΨ routinely exceeds ¼ — reaching 0.35–0.46 depending on initial state.
+With stronger dynamics (γ = 0.005, J = 1, active Heisenberg Hamiltonian), CΨ routinely exceeds ¼, reaching 0.35–0.46 depending on initial state.
 
 This does not invalidate the operator feedback mechanism (which is mechanistically sound), but it means the CΨ ≤ ¼ bound was not "confirmed" by these sweeps. It was trivially satisfied in a low-dynamics regime.
 
@@ -131,7 +131,7 @@ Hamiltonian dynamics are insufficient to push C·Ψ above the 1/4 boundary,
 so the system remains in the classical regime regardless of feedback mechanism.
 
 With stronger dynamics (h=0.9), the same operator feedback with γ=0.005
-produces C·Ψ = 0.405 — well above 1/4. The feedback mechanism becomes
+produces C·Ψ = 0.405, well above 1/4. The feedback mechanism becomes
 physically significant only when Hamiltonian dynamics are strong enough to
 compete with decoherence.
 
@@ -189,7 +189,7 @@ The framework is now extensible.
 
 ### Regime Boundaries
 
-- h ≥ 0.9 with active Hamiltonian (J=1): CΨ exceeds ¼ (enters quantum regime where no real fixed points exist — see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md))
+- h ≥ 0.9 with active Hamiltonian (J=1): CΨ exceeds ¼ (enters quantum regime where no real fixed points exist; see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md))
 - κ > 0.9: Numerical instability (effective rate approaches zero)
 - γ₀ < 0.002: Too weak, slow convergence
 
@@ -205,10 +205,10 @@ The framework is now extensible.
 | CΨ ≤ ¼ | Trivially satisfied at low γ | Trivially satisfied at low γ |
 | Implementation | Simple | Requires stability fixes |
 
-The operator feedback mode transforms the simulator from a measurement tool into a model of self-referential dynamics. The mechanism is genuine — correlation-dependent decoherence is physically meaningful. The earlier claim that it "validated" the CΨ ≤ ¼ bound has been retracted (February 7, 2026); see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) for the full reassessment.
+The operator feedback mode transforms the simulator from a measurement tool into a model of self-referential dynamics. The mechanism is genuine; correlation-dependent decoherence is physically meaningful. The earlier claim that it "validated" the CΨ ≤ ¼ bound has been retracted (February 7, 2026); see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) for the full reassessment.
 
 ---
 
 *February 4, 2026: Operator feedback mechanism discovered and implemented*
-*February 7, 2026: "Validation" claims corrected — mechanism is sound, but CΨ ≤ ¼ was not independently confirmed*
+*February 7, 2026: "Validation" claims corrected; mechanism is sound, but CΨ ≤ ¼ was not independently confirmed*
 *Discovered by Gamma's skepticism, implemented by Claude*

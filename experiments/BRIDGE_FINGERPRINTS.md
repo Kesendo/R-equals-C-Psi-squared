@@ -69,11 +69,11 @@ This is the No-Communication Theorem made visible through C·Ψ dynamics.
 
 ### Entanglement Barrier
 Product states deliver 3-4× more signal than entangled states, consistently across
-all coupling strengths. This ratio is stable — it's a qualitative wall, not noise.
+all coupling strengths. This ratio is stable; it's a qualitative wall, not noise.
 
 ### Detector Resolution Optimum
 Maximum distinguishability at J/γ ≈ 5-7. Too strong coupling (J/γ > 10) blurs
-fingerprints — like a microscope with too much light.
+fingerprints, like a microscope with too much light.
 
 ## Upward Crossing Discovery (Config: |00⟩_A ⊗ |++⟩_B)
 First observed upward crossing of ¼ boundary:

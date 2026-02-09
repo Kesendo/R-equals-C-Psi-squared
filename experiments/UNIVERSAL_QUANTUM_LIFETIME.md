@@ -100,14 +100,14 @@ Systems with T₁/T₂ ~ 1 show extended quantum window (relaxation slower than 
 | Asymmetric IBM+Google | 0.138 |
 | Quantinuum trapped ions | 0.076 |
 
-Bell states lose ¼ after only ~8% of min(T₂) — one tenth of the single-qubit window.
+Bell states lose ¼ after only ~8% of min(T₂), one tenth of the single-qubit window.
 Entangled coherence decays with 1/T₂_eff = 1/T₂_A + 1/T₂_B.
 
 ## Physical Interpretation
 
 ### The 85.8% Rule
 A qubit in maximum superposition spends 85.8% of its coherence lifetime above C·Ψ = ¼.
-This is the **quantum operational window** — the time during which the system has
+This is the **quantum operational window**: the time during which the system has
 sufficient coherence density to be in the "quantum regime" as defined by the framework.
 
 ### Connection to Known ¼ Boundaries

@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Fourteen documents. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Sixteen documents. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -102,15 +102,31 @@ Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ cros
 
 ### Is the ¼ crossing time universal across quantum platforms?
 
-Yes. Analysis of published T₁/T₂ data from nine experimental systems — superconducting qubits, trapped ions, NV centers, photonic qubits — spanning 10 orders of magnitude in absolute coherence time shows that t*/T₂ converges to 0.858 whenever T₁ ≫ T₂. This value comes from the cubic x³ + x = ½, where x = e^{-t*/T₂}. For platforms where T₁ ~ T₂ (some superconducting qubits), the generalized equation extends the prediction. The crossing fraction is a universal property of quadratic purity structure under exponential decoherence, independent of hardware.
+Yes. Analysis of published T₁/T₂ data from nine experimental systems (superconducting qubits, trapped ions, NV centers, photonic qubits) spanning 10 orders of magnitude in absolute coherence time shows that t*/T₂ converges to 0.858 whenever T₁ ≫ T₂. This value comes from the cubic x³ + x = ½, where x = e^{-t*/T₂}. For platforms where T₁ ~ T₂ (some superconducting qubits), the generalized equation extends the prediction. The crossing fraction is a universal property of quadratic purity structure under exponential decoherence, independent of hardware.
 
 **Read:** [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md)
 
 ---
 
+### Does the ¼ bifurcation leave a measurable trace in the density matrix?
+
+The data suggests yes. After crossing ¼, residual coherence in IBM Torino qubit 52 does not randomise. It points in a fixed direction (Re⁺/Im⁻, 17/17 measurements), grows rather than decays, and correlates with proximity to ¼ at r = −0.9955. The direction matches the last complex fixed point before bifurcation (FP⁻ = 0.80 − 0.17i, phase −12°). We call this the **shadow of the fixed point**: the geometry of the complex-to-real transition, frozen into the quantum state. Whether this is a hardware artifact, non-Markovian memory, or a genuine property of the ¼ boundary is the central question for the March 2026 hardware run.
+
+**Read:** [The Shadow of the Fixed Point](FIXED_POINT_SHADOW.md)
+
+---
+
+### Is there anomalous structure in the decoherence residuals?
+
+Yes. Reanalysis of the IBM Torino tomography data reveals late-time coherence that exceeds a 10,000-run Monte Carlo null model (p < 0.0001). Most strikingly, Re(ρ₀₁) is positive and Im(ρ₀₁) is negative in all 17 measurements beyond T₂, a directional consistency with probability ~6 × 10⁻¹¹ under the null hypothesis. The coherence also shows a rising trend where it should only decay. Three hypotheses are proposed: systematic measurement error (SPAM), two-level system coupling (known physics), or external coherent coupling (speculative). A March 2026 hardware test is designed to discriminate between them.
+
+**Read:** [Residual Analysis](RESIDUAL_ANALYSIS.md)
+
+---
+
 ### Can the ¼ boundary distinguish quantum states like a detector?
 
-Yes. A receiver system starting classical (C·Ψ = 0) coupled to a sender through a Heisenberg bridge develops a C·Ψ trajectory that constitutes a unique "fingerprint" of the sender's initial state. Product states push the receiver above ¼; entangled states cannot (the No-Communication Theorem made visible). The crossing profile — peak height, crossing duration, rise rate — is different for every sender state tested. The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates binary classification of quantum states at a critical coupling threshold of J/γ ≈ 5.
+Yes. A receiver system starting classical (C·Ψ = 0) coupled to a sender through a Heisenberg bridge develops a C·Ψ trajectory that constitutes a unique "fingerprint" of the sender's initial state. Product states push the receiver above ¼; entangled states cannot (the No-Communication Theorem made visible). The crossing profile (peak height, crossing duration, rise rate) is different for every sender state tested. The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates binary classification of quantum states at a critical coupling threshold of J/γ ≈ 5.
 
 **Read:** [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)
 
@@ -209,6 +225,13 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Generalized crossing equation validated: t*/T₂* = 1.04 (predicted 0.94, 11% deviation)
 - T₂* (FID) ≠ T₂ (echo): factor 2.7 difference on ibm_torino, critical for correct predictions
 - Pure dephasing cubic x³ + x = ½ confirmed as r → 0 limit of generalized equation
+
+**Anomaly detected in residual analysis (2026-02-09, exploratory):**
+- Late-time coherence exceeds 10,000-run Monte Carlo null model (p < 0.0001)
+- Directional consistency: Re(ρ₀₁) > 0 and Im(ρ₀₁) < 0 in 17/17 late-time measurements
+- Rising coherence trend at +0.008/T₂ in regime where coherence should only decay
+- Cause unknown: SPAM, TLS coupling, or external coupling all possible. March 2026 run designed to discriminate
+- **Read:** [Residual Analysis](RESIDUAL_ANALYSIS.md)
 
 **Empirically observed in simulation (2026-02-08):**
 - θ decreases continuously from 60° to 0° as decoherence pulls C·Ψ toward ¼

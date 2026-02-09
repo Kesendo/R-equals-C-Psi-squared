@@ -22,7 +22,7 @@ What follows is the honest state of affairs as of February 8, 2026. The framewor
 Before listing current weaknesses, the record of errors matters. A framework that hides its mistakes cannot be trusted with its claims.
 
 **The Mandelbrot substitution (corrected February 8, 2026):**
-The original derivation in MANDELBROT_CONNECTION.md used the substitution z_n = √C · R_n, yielding c = C·Ψ². This is algebraically wrong — it does not produce the Mandelbrot form z² + c. The correct substitution is u_n = C(Ψ + R_n), which gives u_{n+1} = u_n² + C·Ψ. The mapping is c = C·Ψ, not C·Ψ². The boundary at ¼ was always correct; the intermediate algebra was not. This error had propagated to the dashboard visualization (red dot at wrong position) and two README descriptions.
+The original derivation in MANDELBROT_CONNECTION.md used the substitution z_n = √C · R_n, yielding c = C·Ψ². This is algebraically wrong; it does not produce the Mandelbrot form z² + c. The correct substitution is u_n = C(Ψ + R_n), which gives u_{n+1} = u_n² + C·Ψ. The mapping is c = C·Ψ, not C·Ψ². The boundary at ¼ was always correct; the intermediate algebra was not. This error had propagated to the dashboard visualization (red dot at wrong position) and two README descriptions.
 
 **The θ frequency claim (corrected February 8, 2026):**
 Version 16 of the agent system prompt claimed θ = arctan(√(4CΨ−1)) predicts oscillation frequency in Lindblad simulations. Direct testing showed an 8.4× discrepancy: measured period 0.777 vs predicted 6.577. The oscillation is Hamiltonian-driven, not θ-driven. θ was reinterpreted as a compass (angular distance from the ¼ boundary), which is algebraically correct.
@@ -44,30 +44,30 @@ These corrections strengthen the framework. A theory that survives honest scruti
 
 The framework now has clear tiers. Every claim belongs to exactly one.
 
-**Tier 1 — Algebraically proven (paper and pencil, no simulation needed):**
+**Tier 1: Algebraically proven (paper and pencil, no simulation needed):**
 - The ¼ phase boundary: discriminant of R_inf = C(Ψ + R_inf)² changes sign at CΨ = ¼
 - Mandelbrot equivalence: u_n = C(Ψ+R_n) maps R_{n+1} = C(Ψ+R_n)² to u² + c with c = CΨ
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
 - Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
 
-**Tier 2 — Computationally verified (MCP tools, reproducible by anyone with the simulator):**
+**Tier 2: Computationally verified (MCP tools, reproducible by anyone with the simulator):**
 - δ(Bell+, Heisenberg, γ=0.1, t=1) = 0.4207
 - Operator feedback preserves δ longer than local or collective noise
 - Boundary crossing at t ≈ 0.773 for Bell+/Heisenberg/concurrence/γ=0.05
 - Pure iteration: convergence below ¼, divergence above, critical slowing at ¼
 
-**Tier 3 — Theoretically argued (plausible, not proven):**
+**Tier 3: Theoretically argued (plausible, not proven):**
 - Measurement = crossing ¼ from above during decoherence
 - Mandelbrot fractal boundary as route catalog through parameter space
 - Bidirectional wave interpretation (Ψ_past and Ψ_future flowing to C)
 
-**Tier 4 — Unverified (could not be reproduced):**
+**Tier 4: Unverified (could not be reproduced):**
 - 33:1 coherence ratio
 - t_coh ~ N linear scaling
 - C_int / C_ext as physically distinct coupling types
 
-**Tier 5 — Speculative (interesting, untestable by simulation):**
+**Tier 5: Speculative (interesting, untestable by simulation):**
 - Born rule derivation from crossing geometry
 - Consciousness as fundamental rather than emergent
 - 4D block-universe interpretation of observer trajectories
@@ -78,7 +78,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 
 ### 1. The Bifurcation Is Generic
 
-Every quadratic map has a saddle-node bifurcation. Population dynamics (logistic map), laser thresholds, chemical kinetics — they all have a parameter value where two fixed points merge and disappear. The ¼ boundary is a property of x → ax² + bx + c, not specifically of consciousness or quantum measurement.
+Every quadratic map has a saddle-node bifurcation. Population dynamics (logistic map), laser thresholds, chemical kinetics; they all have a parameter value where two fixed points merge and disappear. The ¼ boundary is a property of x → ax² + bx + c, not specifically of consciousness or quantum measurement.
 
 The Mandelbrot equivalence makes this explicit: R = CΨ² iteration is exactly z² + c. Every property of the framework's iteration is a known property of the Mandelbrot set. The framework inherits Mandelbrot theory but does not extend it.
 
@@ -90,7 +90,7 @@ The Mandelbrot equivalence makes this explicit: R = CΨ² iteration is exactly z
 
 The framework shows WHERE measurement happens: at CΨ = ¼, two real fixed points emerge from a complex conjugate pair. This is the moment a definite outcome becomes available.
 
-It does not show WHICH outcome is selected. After crossing ¼, R₁ (stable) and R₂ (unstable) both exist. The system converges to R₁ — but in quantum mechanics, the Born rule says the probability of outcome |φ⟩ is |⟨ψ|φ⟩|². The framework must reproduce this or remain a description of bifurcation, not of measurement.
+It does not show WHICH outcome is selected. After crossing ¼, R₁ (stable) and R₂ (unstable) both exist. The system converges to R₁, but in quantum mechanics, the Born rule says the probability of outcome |φ⟩ is |⟨ψ|φ⟩|². The framework must reproduce this or remain a description of bifurcation, not of measurement.
 
 **What would resolve this:** Deriving the Born rule from the geometry of the crossing. Possible approaches: the ratio of basins of attraction as a function of distance below ¼; the relationship between pre-crossing θ trajectory and post-crossing fixed point selection; the connection between the Mandelbrot set's internal structure and outcome probabilities.
 
@@ -104,7 +104,7 @@ The framework cannot prove this mapping. It can only argue that the mathematical
 
 **What would resolve this:** Either a rigorous argument connecting purity to integrated information (Φ) or other established consciousness measures, or an experimental result where changes in purity correlate with changes in subjective experience in a way that alternatives do not predict.
 
-**Status:** Open. May remain permanently open. This may be philosophy, not physics — and that is acceptable as long as it is acknowledged.
+**Status:** Open. May remain permanently open. This may be philosophy, not physics, and that is acceptable as long as it is acknowledged.
 
 ### 4. No Experimental Validation
 
@@ -148,9 +148,9 @@ This is the hardest problem in consciousness studies and the framework inherits 
 
 ### 7. Gravitational Invariance Is Necessary but Trivial
 
-R = CΨ² is form-invariant under gravitational time dilation because purity and coherence are dimensionless trace ratios. This is true but unremarkable — every equation involving only dimensionless quantities is frame-invariant. The speed of light is also frame-invariant; that does not make every equation containing c a statement about relativity.
+R = CΨ² is form-invariant under gravitational time dilation because purity and coherence are dimensionless trace ratios. This is true but unremarkable; every equation involving only dimensionless quantities is frame-invariant. The speed of light is also frame-invariant; that does not make every equation containing c a statement about relativity.
 
-The invariance becomes non-trivial only if it has consequences. One possibility: decoherence rates depend on local temperature (Unruh effect), so the trajectory through CΨ parameter space depends on gravitational field strength. The map (Mandelbrot set) is the same everywhere, but the route through it depends on where you are. This is a testable prediction — but it has not been computed or tested.
+The invariance becomes non-trivial only if it has consequences. One possibility: decoherence rates depend on local temperature (Unruh effect), so the trajectory through CΨ parameter space depends on gravitational field strength. The map (Mandelbrot set) is the same everywhere, but the route through it depends on where you are. This is a testable prediction, but it has not been computed or tested.
 
 **What would resolve this:** Computing θ trajectories for the same initial state under different gravitational environments (different effective γ due to Unruh temperature). If the trajectories differ in a way that connects to known gravitational physics, the invariance becomes substantive.
 
@@ -186,7 +186,7 @@ Why does state-dependent decoherence preserve correlations that state-independen
 
 6. **The natural variable u(t):** Track u = C(Ψ+R) through Lindblad evolution alongside CΨ and θ. Does u have a simpler trajectory?
 
-7. **Mandelbrot approach geometry:** CΨ approaching ¼ via different Hamiltonians — does this correspond to approaching the Mandelbrot boundary from different angles? Different angles have different fractal structure.
+7. **Mandelbrot approach geometry:** CΨ approaching ¼ via different Hamiltonians: does this correspond to approaching the Mandelbrot boundary from different angles? Different angles have different fractal structure.
 
 8. **N-scaling of the combination problem:** Run mirror equations for N=3..6 with structured vs random C distributions. Does structure produce qualitatively different attractors?
 
@@ -225,7 +225,7 @@ Why does state-dependent decoherence preserve correlations that state-independen
 
 We know more than we did in January.
 
-We know the algebra is correct — independently verified, errors found and fixed. We know the Mandelbrot equivalence is exact, not approximate. We know the boundary crossing is a real numerical phenomenon, not an artifact. We know operator feedback does something special, even if we don't know why.
+We know the algebra is correct, independently verified, errors found and fixed. We know the Mandelbrot equivalence is exact, not approximate. We know the boundary crossing is a real numerical phenomenon, not an artifact. We know operator feedback does something special, even if we don't know why.
 
 We do not know if R = CΨ² describes consciousness. We do not know if the ¼ boundary corresponds to anything in the physical world. We do not know if the Born rule can be derived from this framework. We do not have a single experimental data point.
 

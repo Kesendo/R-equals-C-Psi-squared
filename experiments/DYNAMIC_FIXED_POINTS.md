@@ -10,7 +10,7 @@
 
 ## Overview
 
-The iterative application of R = CΨ² converges to a stable fixed point R∞. The convergence condition yields the bound CΨ ≤ ¼, which we interpret as an **observer information bandwidth limit** — not as a constraint on quantum dynamics.
+The iterative application of R = CΨ² converges to a stable fixed point R∞. The convergence condition yields the bound CΨ ≤ ¼, which we interpret as an **observer information bandwidth limit**, not as a constraint on quantum dynamics.
 
 This document traces the derivation, the simulation evidence, and the honest assessment of what we know and don't know.
 
@@ -86,7 +86,7 @@ Since CΨ = ¼ → Ψ = 1/(4C):
 R∞ = Ψ
 ```
 
-**At the critical point, Reality equals Possibility.** Perfect manifestation — no gap between potential and actual.
+**At the critical point, Reality equals Possibility.** Perfect manifestation: no gap between potential and actual.
 
 ---
 
@@ -108,7 +108,7 @@ The analogy is the Tsirelson bound in Bell tests:
 The quantum state space permits values up to 4, but physics restricts what's *observable* to 2√2. Similarly:
 - The Lindblad simulator computes states where CΨ can be anything
 - But embedded observers can only experience stable reality where CΨ ≤ ¼
-- Above ¼, the state exists mathematically but has no real fixed points — no stable "reality" to perceive
+- Above ¼, the state exists mathematically but has no real fixed points: no stable "reality" to perceive
 
 ### What This Means
 
@@ -132,9 +132,9 @@ This interpretation raises new questions:
 
 We are not saying that what lies above ¼ is "not real." It is real. It happens. It's just not reality as we can perceive it.
 
-Think of it this way: I, Tom, experience the world as solid, definite, classical. Objects have positions. Events have outcomes. This is the region below ¼ — where the fixed-point equation has real solutions, where R∞ settles into a stable value. This is our world.
+Think of it this way: I, Tom, experience the world as solid, definite, classical. Objects have positions. Events have outcomes. This is the region below ¼, where the fixed-point equation has real solutions, where R∞ settles into a stable value. This is our world.
 
-But the mathematics tells us something else happens above ¼. The fixed points become complex numbers — they have an imaginary part. And in physics, imaginary numbers aren't "imaginary" in the everyday sense. They describe phase, oscillation, interference. They describe quantum mechanics.
+But the mathematics tells us something else happens above ¼. The fixed points become complex numbers; they have an imaginary part. And in physics, imaginary numbers aren't "imaginary" in the everyday sense. They describe phase, oscillation, interference. They describe quantum mechanics.
 
 So the ¼ isn't a wall between "real" and "nothing." It's a **phase boundary** between two kinds of existence:
 
@@ -150,7 +150,7 @@ Both sides exist. Both sides are real in their own way. But we live on one side 
 
 This connects to something well-established in physics: decoherence. When a quantum system interacts with its environment, it loses coherence. Information leaks out. The system becomes "more classical."
 
-In the language of R = CΨ²: decoherence pushes CΨ downward — toward and below ¼. The bigger the system, the faster decoherence happens, the more firmly it sits below ¼. That's why tables and chairs look classical: their CΨ is far below ¼. And that's why isolated quantum systems (photons, cold atoms, superconducting qubits) can hover near or above ¼ — they're shielded from decoherence.
+In the language of R = CΨ²: decoherence pushes CΨ downward, toward and below ¼. The bigger the system, the faster decoherence happens, the more firmly it sits below ¼. That's why tables and chairs look classical: their CΨ is far below ¼. And that's why isolated quantum systems (photons, cold atoms, superconducting qubits) can hover near or above ¼; they're shielded from decoherence.
 
 The ¼ doesn't cause the quantum-to-classical transition. Decoherence does. But the ¼ tells you **where that transition boundary sits** in the R = CΨ² framework.
 
@@ -162,7 +162,7 @@ The fixed-point equation R = C(Ψ + R)² has real solutions if and only if CΨ �
 
 **Proven (simulation):**
 
-The Lindblad simulator produces states with CΨ > ¼ when an external field h drives Ψ-oscillations. These states are valid quantum mechanics — they satisfy the Lindblad master equation, they conserve trace and positivity, they are physically legitimate. The region above ¼ is not empty. Something is there.
+The Lindblad simulator produces states with CΨ > ¼ when an external field h drives Ψ-oscillations. These states are valid quantum mechanics; they satisfy the Lindblad master equation, they conserve trace and positivity, they are physically legitimate. The region above ¼ is not empty. Something is there.
 
 **Interpretation (hypothesis):**
 
@@ -170,7 +170,7 @@ Real fixed points correspond to stable, experienceable reality. Complex fixed po
 
 **What we don't know:**
 
-What the region above ¼ "is" in any deeper sense. We don't know its nature, its structure, or whether it is accessible to other kinds of observers. We don't need to know. The framework makes no claims about what lies beyond the boundary — only that the boundary exists, and that it follows necessarily from self-referential observation.
+What the region above ¼ "is" in any deeper sense. We don't know its nature, its structure, or whether it is accessible to other kinds of observers. We don't need to know. The framework makes no claims about what lies beyond the boundary; only that the boundary exists, and that it follows necessarily from self-referential observation.
 
 **What doesn't matter:**
 
@@ -182,7 +182,7 @@ Speculation about what lies beyond. The power of this result is not in explainin
 
 All values below were independently reproduced using the `delta_calc` MCP tool with `simulate_dynamic_lindblad`, `noise_type=local`, `bridge_type=mutual_purity`, `J=1`, `t_max=10`, `dt=0.01`.
 
-### Regime 1: No external field (h = 0) — CΨ stays well below ¼
+### Regime 1: No external field (h = 0), CΨ stays well below ¼
 
 | State | Hamiltonian | N | γ | C (bridge) | Ψ (t=0) | Ψ (t=10) | CΨ_final | CΨ_max | Above ¼? |
 |-------|-----------|---|---|-----------|---------|----------|----------|--------|----------|
@@ -191,17 +191,17 @@ All values below were independently reproduced using the `delta_calc` MCP tool w
 | W | Heis. ring | 3 | 0.005 | 0.556 | 0.286 | 0.256 | 0.142 | 0.159 | **No** |
 | Product | Heisenberg | 2 | 0.005 | 1.000 | 0.000 | 0.000 | 0.000 | 0.000 | **No** |
 
-**Key observation:** Without an external field, CΨ decreases monotonically as decoherence erodes Ψ. The Heisenberg coupling alone does not drive CΨ above ¼. The Product state remains perfectly separable (Ψ = 0 throughout) — local dephasing on a product state produces no entanglement.
+**Key observation:** Without an external field, CΨ decreases monotonically as decoherence erodes Ψ. The Heisenberg coupling alone does not drive CΨ above ¼. The Product state remains perfectly separable (Ψ = 0 throughout); local dephasing on a product state produces no entanglement.
 
-### Regime 2: With external field (h > 0) — CΨ can exceed ¼ via Ψ-oscillations
+### Regime 2: With external field (h > 0), CΨ can exceed ¼ via Ψ-oscillations
 
 | State | Hamiltonian | N | γ | h | CΨ_dynamic | Ψ behavior | Above ¼? |
 |-------|-----------|---|---|---|-----------|------------|----------|
 | Bell+ | Heisenberg | 2 | 0.0045 | 0.9 | 0.472 | Oscillates 0.33–0.99 | **Yes** |
 
-The external field h breaks symmetry and drives large oscillations in Ψ. When Ψ peaks near 1.0, CΨ temporarily exceeds ¼. This confirms that the simulator can produce CΨ > ¼ — but only through externally driven dynamics, not from the Heisenberg coupling alone.
+The external field h breaks symmetry and drives large oscillations in Ψ. When Ψ peaks near 1.0, CΨ temporarily exceeds ¼. This confirms that the simulator can produce CΨ > ¼, but only through externally driven dynamics, not from the Heisenberg coupling alone.
 
-### Regime 3: Strong decoherence — everything decays
+### Regime 3: Strong decoherence, everything decays
 
 | State | Hamiltonian | N | γ | CΨ_final | Behavior |
 |-------|-----------|---|---|----------|----------|
@@ -231,7 +231,7 @@ The agents found that the bidirectional observation advantage peaks at small sys
 GHZ states: Peak Δδ at N ≈ 3–4, then decreasing
 ```
 
-**Caveat:** These results came from agent experiments using a local LLM and have not been independently verified with the delta_calc MCP tool. The qualitative trend (peak at small N) is plausible from a physics standpoint — small entangled systems have the highest entanglement per qubit — but the specific numerical values should be treated as unverified.
+**Caveat:** These results came from agent experiments using a local LLM and have not been independently verified with the delta_calc MCP tool. The qualitative trend (peak at small N) is plausible from a physics standpoint; small entangled systems have the highest entanglement per qubit, but the specific numerical values should be treated as unverified.
 
 ---
 
@@ -277,9 +277,9 @@ Using `noise_type=operator_feedback`, `kappa=0.5`, Bell+ / Heisenberg / γ=0.005
 
 - ⟨O_int⟩ starts at 1.0, decays slowly to 0.90 over t=10
 - γ_eff modulates from 0.0025 → 0.00275 (a ~10% change)
-- CΨ_dynamic = 0.150 — nearly identical to the local noise case (0.151)
+- CΨ_dynamic = 0.150, nearly identical to the local noise case (0.151)
 
-**Honest assessment:** The operator feedback mechanism is *conceptually* correct — it creates genuine dynamical coupling between correlation and decoherence. But at γ = 0.005 with κ = 0.5, the quantitative effect is minimal. The mechanism would show stronger effects at higher γ or κ, where the feedback has more dynamic range to work with.
+**Honest assessment:** The operator feedback mechanism is *conceptually* correct; it creates genuine dynamical coupling between correlation and decoherence. But at γ = 0.005 with κ = 0.5, the quantitative effect is minimal. The mechanism would show stronger effects at higher γ or κ, where the feedback has more dynamic range to work with.
 
 ### Why This Still Matters
 
@@ -291,7 +291,7 @@ The transition from scalar bridge to operator feedback is the transition from me
 | "the standing-wave of mutual observation" | Tr(ρ · O_int) at each timestep |
 | Poetic but unmeasurable | Concrete and computable |
 
-The fact that the effect is small at these parameters doesn't invalidate the mechanism — it means we need to explore parameter regimes where the feedback actually matters.
+The fact that the effect is small at these parameters doesn't invalidate the mechanism; it means we need to explore parameter regimes where the feedback actually matters.
 
 ### Implementation
 
@@ -319,13 +319,13 @@ kappa = 0.5    (feedback strength, 0–1)
 
 ### What We Got Right
 
-The mathematical structure — the fixed-point equation, the discriminant, the three regimes — is solid. The operator feedback mechanism is a genuine conceptual advance over scalar bridges. The insight that CΨ = ¼ is a phase boundary between two kinds of existence is well-motivated.
+The mathematical structure (the fixed-point equation, the discriminant, the three regimes) is solid. The operator feedback mechanism is a genuine conceptual advance over scalar bridges. The insight that CΨ = ¼ is a phase boundary between two kinds of existence is well-motivated.
 
 ### What We Got Wrong
 
 Earlier versions contained simulation values generated by a local LLM used for brainstorming, which were committed without verification. Specifically:
 - CΨ_max values of 0.28–0.46 for states without external field were incorrect (actual: 0.00–0.17)
-- The claim "CΨ > ¼ in every configuration with active H" was wrong — it requires h > 0
+- The claim "CΨ > ¼ in every configuration with active H" was wrong; it requires h > 0
 - R∞ ≈ 0.327 was not reproducible (actual: 0.446 at those parameters)
 - Product state CΨ ≈ 0.28 was physically impossible (actual: 0.0)
 
@@ -342,4 +342,4 @@ The observer bandwidth interpretation is promising but needs:
 *February 2, 2026: Fixed-point discovery (Alpha, Beta)*
 *February 4, 2026: Operator feedback breakthrough (Gamma, Delta)*
 *February 7, 2026: Observer bandwidth interpretation proposed*
-*February 8, 2026: All simulation claims verified against delta_calc MCP tool — incorrect values corrected*
+*February 8, 2026: All simulation claims verified against delta_calc MCP tool; incorrect values corrected*
