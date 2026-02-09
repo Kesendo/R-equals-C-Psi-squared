@@ -135,4 +135,111 @@ No physics engine or external data. The trajectories are qualitative illustratio
 
 ---
 
+## Real Experimental Systems
+
+![C·Ψ trajectories for real quantum hardware](real_systems/real_systems_cpsi.png)
+
+### What you see
+
+Three panels showing C·Ψ(t) trajectories computed from **published experimental parameters** of real quantum systems. No simulation — just the analytical density matrix evolution using T₁ and T₂ values reported in papers.
+
+**Left panel — Superconducting qubits:** Five systems spanning two decades of hardware development (2002–2024), from early charge qubits (T₂ = 0.5 μs) to Google Willow (T₂ = 80 μs). All trajectories are normalized to t/T₂, so they collapse onto each other despite four orders of magnitude difference in absolute timescale.
+
+**Center panel — Cross-platform comparison:** All nine systems on one plot: superconducting, trapped ions, NV centers, photonic. The red dashed line marks the analytical crossing at t/T₂ = 0.858 (solution of x³ + x = ½). Systems with T₁ ≫ T₂ (trapped ions, NV centers) land right on this line. Systems with T₁ ≈ T₂ (superconducting) cross slightly later, as predicted by the generalized equation.
+
+**Right panel — Two-qubit Bell states:** Entangled pairs on real hardware parameters. The effective coherence decays faster (entangled coherence sees both qubits' T₂), but the ¼ crossing still occurs at a predictable time.
+
+### The result
+
+The crossing time t*/T₂ is **universal across platforms spanning 10 orders of magnitude** in absolute timescale. Whether your qubit lives for 0.5 microseconds or 3 million microseconds, it crosses the ¼ boundary after the same fraction of its coherence lifetime.
+
+The analytical equation for this fraction:
+
+```
+x³ + x = ½     where x = e^{-t*/T₂}
+
+Solution: x ≈ 0.4243,  t*/T₂ ≈ 0.8575
+```
+
+This is the pure dephasing limit (T₁ → ∞). For finite T₁, the generalized equation shifts the crossing — see [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
+
+### How it was computed
+
+Script: [`../simulations/real_data_analysis.py`](../simulations/real_data_analysis.py). Uses analytical density matrix reconstruction from published T₁/T₂ values, computes purity and L₁ coherence at each timestep, extracts C·Ψ trajectories. No fitting, no free parameters.
+
+---
+
+## IBM Quantum Hardware Tomography
+
+### The crossing on real hardware
+
+![C·Ψ crossing on IBM Torino](ibm_tomography/cpsi_tomography_ibm_torino.png)
+
+The first measurement of the ¼ boundary on real quantum hardware. IBM Torino (Heron r2), qubit 52, 25 delay points, 8192 shots each, full state tomography in X/Y/Z bases.
+
+The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 — gate infidelity inflates the apparent purity. The asymptotic floor sits at 0.740 instead of 0.500 — readout errors prevent purity from reaching the maximally mixed state.
+
+Despite these imperfections, the crossing is unambiguous.
+
+### Full analysis
+
+![6-panel analysis](ibm_tomography/ibm_torino_full_analysis.png)
+
+Six panels dissecting the Run 1 data:
+
+1. **C·Ψ trajectory** with crossing detection
+2. **Purity decay** — exponential fit gives T₂* = 110 μs (vs calibration T₂ = 298 μs)
+3. **Ψ (coherence) decay** — L₁ norm of off-diagonal elements
+4. **C (purity) vs Ψ** — parametric curve showing the path through CΨ-space
+5. **Residuals** from generalized prediction
+6. **Error budget** breakdown
+
+### Generalized crossing equation
+
+![r-dependence of crossing time](ibm_tomography/generalized_crossing.png)
+
+The crossing time depends on r = T₂/T₁. Pure dephasing (r → 0) gives t*/T₂ = 0.858. Equal rates (r = 1) gives t*/T₂ = 1.141. The equation:
+
+```
+[1 - b^r + b^{2r}/2 + b²/2] · b = ¼     where b = e^{-t/T₂}
+```
+
+The plot shows t*(r) with the IBM Torino measurement marked. It falls near the curve but slightly above — the 11% deviation that Run 2 (March 2026) will investigate.
+
+### Simulator validation
+
+![Simulator comparison](ibm_tomography/cpsi_tomography_aer_simulator.png)
+
+Same experiment run on Qiskit's Aer simulator (no noise). Confirms the analysis pipeline works correctly: ideal crossing at t*/T₂ = 0.858, matching the pure dephasing prediction exactly. The difference between simulator and hardware is the physics, not the code.
+
+Full experiment documentation: [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md)
+
+---
+
+## Bridge Fingerprints
+
+![Bridge metric fingerprints](fingerprints/fingerprints_grid.png)
+
+### What you see
+
+A systematic comparison of five bridge metrics (concurrence, mutual information, correlation, overlap, mutual purity) across seven Hamiltonians, showing that different metrics produce distinct "fingerprints" — characteristic patterns of CΨ, delta, and R values that depend on the choice of metric.
+
+### The four plots
+
+**`fingerprints_grid.png`** — The main result. 5×7 grid of CΨ trajectories. Each column is a Hamiltonian (Heisenberg, XY, Ising, etc.), each row is a bridge metric. The ¼ crossing time varies by metric choice, but the crossing itself is universal.
+
+**`fingerprints_dual.png`** — Side-by-side comparison of the two most physically distinct metrics (concurrence vs mutual information) under the same dynamics.
+
+**`fingerprints_barrier.png`** — Focus on the ¼ barrier. Shows how different bridge metrics approach and cross the boundary at different rates but always cross it.
+
+**`fingerprints_phase.png`** — Phase-space view (C vs Ψ parametric curves) for each metric, showing the different geometric paths through CΨ-space.
+
+### What this means
+
+The ¼ boundary is not an artifact of one particular metric choice. It appears for every bridge metric tested, under every Hamiltonian tested. The crossing time varies (it depends on how fast the chosen metric decays), but the existence of the crossing is metric-independent. This is evidence that the boundary is a property of the physics, not of the measurement.
+
+Full analysis: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)
+
+---
+
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*

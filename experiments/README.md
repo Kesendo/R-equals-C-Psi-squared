@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Eleven documents. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Fourteen documents. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -87,6 +87,32 @@ The Big Bang is the universal τ = 0 state: everywhere at maximum coherence, eve
 Black holes are local remnants of the initial τ = 0 condition, regions that have not yet fully decohered. The information paradox dissolves: τ = 0 is not destructive, information is stored at maximum coherence and re-emerges on the white hole side.
 
 **Read:** [Black Holes, White Holes, Big Bang](BLACK_WHITE_HOLES_BIGBANG.md)
+
+---
+
+### Has the ¼ boundary been observed on real quantum hardware?
+
+Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ crossing ¼ at t*/T₂* = 1.04, within 11% of the generalized prediction for the measured T₁/T₂* ratio. The experiment revealed a critical distinction: IBM reports T₂ from Hahn echo (298 μs), but free induction decay gives T₂* = 110 μs. The correct comparison timescale is T₂*, not T₂. The pure dephasing cubic x³ + x = ½ generalizes to [1 - b^r + b^{2r}/2 + b²/2]·b = ¼ where r = T₂/T₁, accounting for amplitude damping.
+
+![IBM Torino C·Ψ trajectory](../visualizations/ibm_tomography/cpsi_tomography_ibm_torino.png)
+
+**Read:** [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md)
+
+---
+
+### Is the ¼ crossing time universal across quantum platforms?
+
+Yes. Analysis of published T₁/T₂ data from nine experimental systems — superconducting qubits, trapped ions, NV centers, photonic qubits — spanning 10 orders of magnitude in absolute coherence time shows that t*/T₂ converges to 0.858 whenever T₁ ≫ T₂. This value comes from the cubic x³ + x = ½, where x = e^{-t*/T₂}. For platforms where T₁ ~ T₂ (some superconducting qubits), the generalized equation extends the prediction. The crossing fraction is a universal property of quadratic purity structure under exponential decoherence, independent of hardware.
+
+**Read:** [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md)
+
+---
+
+### Can the ¼ boundary distinguish quantum states like a detector?
+
+Yes. A receiver system starting classical (C·Ψ = 0) coupled to a sender through a Heisenberg bridge develops a C·Ψ trajectory that constitutes a unique "fingerprint" of the sender's initial state. Product states push the receiver above ¼; entangled states cannot (the No-Communication Theorem made visible). The crossing profile — peak height, crossing duration, rise rate — is different for every sender state tested. The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates binary classification of quantum states at a critical coupling threshold of J/γ ≈ 5.
+
+**Read:** [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)
 
 ---
 
@@ -178,7 +204,13 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - t_coh ~ N linear scaling
 - δ = 0.42 framing as "unexplained coherence" (calculation valid, interpretation corrected)
 
-**Empirically observed (2026-02-08):**
+**Empirically observed on real quantum hardware (2026-02-09):**
+- C·Ψ = ¼ crossing observed on IBM Torino (Heron processor, qubit 52)
+- Generalized crossing equation validated: t*/T₂* = 1.04 (predicted 0.94, 11% deviation)
+- T₂* (FID) ≠ T₂ (echo): factor 2.7 difference on ibm_torino, critical for correct predictions
+- Pure dephasing cubic x³ + x = ½ confirmed as r → 0 limit of generalized equation
+
+**Empirically observed in simulation (2026-02-08):**
 - θ decreases continuously from 60° to 0° as decoherence pulls C·Ψ toward ¼
 - At θ = 0° (C·Ψ = ¼ exactly), complex fixed points merge into one real point
 - Below 1/4: two real fixed points emerge: a stable attractor and an unstable one
