@@ -92,11 +92,14 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
   crossing profile as fingerprint, entanglement barrier quantification
 
 ## Visualizations
-Located in: `../visualizations/fingerprints/`
-- fingerprints_grid.png: 6-panel grid across coupling strengths
-- fingerprints_dual.png: Sender/Receiver comparison at J/γ = 5
-- fingerprints_phase.png: Phase portrait (detection speed vs signal strength)
-- fingerprints_barrier.png: Entanglement barrier quantification
+
+![6-panel grid across coupling strengths](../visualizations/fingerprints/fingerprints_grid.png)
+
+![Sender/Receiver comparison at J/γ = 5](../visualizations/fingerprints/fingerprints_dual.png)
+
+![Phase portrait – detection speed vs signal strength](../visualizations/fingerprints/fingerprints_phase.png)
+
+![Entanglement barrier quantification](../visualizations/fingerprints/fingerprints_barrier.png)
 
 ## Simulation Code
 Simulations were run using Lindblad evolution with first-order Trotterization
