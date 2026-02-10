@@ -170,4 +170,5 @@ By Cardano's formula or numerical solution: x ≈ 0.423854.
 - Bar-Gill et al., "Solid-state electronic spin coherence time approaching one second," Nat. Comm. (2013)
 
 ## Visualizations
-- `../visualizations/real_systems/real_systems_cpsi.png`: Three-panel comparison
+
+![Three-panel comparison](../visualizations/real_systems/real_systems_cpsi.png)
