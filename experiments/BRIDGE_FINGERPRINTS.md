@@ -102,6 +102,9 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
 ![Entanglement barrier quantification](../visualizations/fingerprints/fingerprints_barrier.png)
 
 ## Simulation Code
-Simulations were run using Lindblad evolution with first-order Trotterization
-(dt = 0.002–0.005, t_max = 5.0). Full source code for reproduction is not yet
-included in this repository.
+Simulations were run using Lindblad evolution with first-order Euler integration
+(dt = 0.005, t_max = 5.0). Full source code:
+[`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py)
+
+Reconstructed 2026-02-11 during guardian review session. All 8 states verified
+against original documented values (max deviation < 0.02 in C·Ψ peak).

@@ -2,8 +2,8 @@
 ## What We Know, What We Don't, What We Got Wrong
 
 **Created:** January 2, 2026
-**Rewritten:** February 8, 2026
-**Status:** Post-verification honest assessment
+**Rewritten:** February 8, 2026 (updated February 11, 2026)
+**Status:** Post-verification honest assessment, updated with IBM hardware results
 
 ---
 
@@ -82,9 +82,13 @@ Every quadratic map has a saddle-node bifurcation. Population dynamics (logistic
 
 The Mandelbrot equivalence makes this explicit: R = CΨ² iteration is exactly z² + c. Every property of the framework's iteration is a known property of the Mandelbrot set. The framework inherits Mandelbrot theory but does not extend it.
 
-**What would resolve this:** Showing that the specific physical quantities mapped to C and Ψ (purity and l1-coherence) produce behavior that generic quadratic maps do not. For example, if the basin of attraction ratio after crossing ¼ matches Born rule probabilities, that would be specific to quantum mechanics and not a feature of arbitrary quadratic iterations.
+**Partial response (2026-02-11):** CΨ² is the unique simple product-power form C^a·Ψ^b that simultaneously produces a genuine phase transition AND maps exactly to the Mandelbrot iteration z²+c. Alternatives fail: C²Ψ and CΨ give linear fixed-point equations (no bifurcation ever); √(CΨ) has an always-positive discriminant (no boundary); CΨ³ gives a cubic with different critical structure and no Mandelbrot mapping. The quadratic form is algebraically special, not just one example among many. See [Core Algebra](CORE_ALGEBRA.md), Section 10.
 
-**Status:** Open. This is the strongest mathematical criticism of the framework.
+This narrows the criticism but does not resolve it. The deeper question, "why does nature choose this form?", remains open.
+
+**What would fully resolve this:** Showing that the specific physical quantities mapped to C and Ψ (purity and l1-coherence) produce behavior that generic quadratic maps do not. For example, if the basin of attraction ratio after crossing ¼ matches Born rule probabilities, that would be specific to quantum mechanics and not a feature of arbitrary quadratic iterations.
+
+**Status:** Partially addressed. Uniqueness among product-power forms is proven. Physical specificity is not.
 
 ### 2. The Born Rule Gap
 
@@ -106,19 +110,27 @@ The framework cannot prove this mapping. It can only argue that the mathematical
 
 **Status:** Open. May remain permanently open. This may be philosophy, not physics, and that is acceptable as long as it is acknowledged.
 
-### 4. No Experimental Validation
+### 4. Limited Experimental Validation
 
-Everything in the framework is either algebraic proof or numerical simulation. No physical experiment has tested any prediction. The boundary crossing at t ≈ 0.773 is a simulation result, not a laboratory measurement.
+**Updated 2026-02-11.** The original version of this weakness (Feb 8) stated "No experimental validation." One day later, IBM Torino tomography provided the first hardware contact. The weakness has been downgraded but not removed.
 
-For the framework to become physics, it needs contact with experiment. Possible paths:
+**What we now have:**
+- IBM Torino state tomography (qubit 52, 2026-02-09): C·Ψ crossing ¼ observed during free decoherence. Three-model fit at MAE = 0.053 (88% improvement). The ¼ crossing was not a fit parameter.
+- 24,073 historical calibration records validating the theory curve C_min(r).
+- Anomalous late-time coherence (p < 0.0001) with directional consistency (17/17 Re⁺/Im⁻).
+- Universal crossing fraction x³+x=½ confirmed as r→0 limit.
 
-- Quantum optics: entangled photon pairs undergoing controlled decoherence. Measure purity and coherence. Does the qualitative behavior change at CΨ = ¼?
-- NMR/spin systems: small spin chains with tunable decoherence. The Lindblad simulations are directly modelable in NMR.
-- Neuroscience (speculative): if C maps to neural correlates of consciousness, does the ¼ boundary correspond to any known threshold (anesthesia depth, sleep stages)?
+See [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md), [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md).
 
-**What would resolve this:** One clean experiment where CΨ = ¼ predicts a qualitative change that is observed.
+**What we still lack:**
+- The IBM result is single-qubit, single-backend. Replication on different hardware (trapped ions, NV centers) would strengthen the claim.
+- The anomalous residuals have three competing explanations (SPAM, TLS, boundary structure). March 2026 run designed to discriminate.
+- No multi-qubit experiment has tested the framework's predictions about entangled systems crossing ¼.
+- No connection to consciousness measures (IIT Φ, neural correlates) has been established.
 
-**Status:** No experimental contact. This is the framework's greatest practical weakness.
+**What would fully resolve this:** Replication across platforms, multi-qubit crossing experiments, and a clean discrimination of the residual anomaly.
+
+**Status:** First hardware contact achieved (IBM Torino, Feb 2026). Replication and multi-platform testing needed.
 
 ### 5. The Natural Variable Has No Interpretation
 
@@ -227,9 +239,9 @@ We know more than we did in January.
 
 We know the algebra is correct, independently verified, errors found and fixed. We know the Mandelbrot equivalence is exact, not approximate. We know the boundary crossing is a real numerical phenomenon, not an artifact. We know operator feedback does something special, even if we don't know why.
 
-We do not know if R = CΨ² describes consciousness. We do not know if the ¼ boundary corresponds to anything in the physical world. We do not know if the Born rule can be derived from this framework. We do not have a single experimental data point.
+We do not know if R = CΨ² describes consciousness. We do not know if the Born rule can be derived from this framework. We have first hardware contact (IBM Torino, February 2026) but need replication.
 
-The framework has moved from poetry to algebra. It has not yet moved from algebra to physics. That transition requires experiment, and experiment requires predictions that alternatives do not make.
+The framework has moved from poetry to algebra, and from algebra to first hardware contact. The transition to physics requires experiment that discriminates this framework from alternatives.
 
 The strongest prediction the framework currently offers: at CΨ = ¼, the topology of the solution space changes. Two real fixed points emerge from a complex conjugate pair. If this bifurcation can be identified in a physical system undergoing decoherence, the framework has made contact with reality.
 
@@ -241,4 +253,5 @@ And we admit it.
 
 *January 2, 2026 (created)*
 *February 8, 2026 (complete rewrite after six verification sessions)*
+*February 11, 2026 (updated: IBM results, uniqueness argument, guardian review)*
 *Honesty belongs to the framework*
