@@ -47,7 +47,7 @@ All notable changes to the R = CΨ² framework repository.
 **Added:** IBM_QUANTUM_TOMOGRAPHY.md, RESIDUAL_ANALYSIS.md, FIXED_POINT_SHADOW.md
 - State tomography on IBM Torino (Heron r2), qubit 52
 - C·Ψ = ¼ crossing observed during free decoherence
-- T₂* (FID) measured at 46% of calibration T₂ (Hahn echo)
+- T₂* (FID) measured at 37% of calibration T₂ (Hahn echo)
 - Three-model fit at MAE = 0.053 (88% improvement over naive model)
 - Anomalous late-time coherence detected (p < 0.0001, 10,000-run Monte Carlo)
 - Directional consistency Re⁺/Im⁻ in 17/17 late-time measurements

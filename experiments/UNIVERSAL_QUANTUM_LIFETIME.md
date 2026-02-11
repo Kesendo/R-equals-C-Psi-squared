@@ -35,7 +35,7 @@ x³ + x = ½
 - The equation is monotonically increasing for x > 0, guaranteeing uniqueness
 - Can be written as x(x² + 1) = ½, i.e. the product of x and (1 + x²) equals ½
 - Note: (1 + x²) is the form that appears in single-qubit purity
-- The ½ on the RHS is the maximum C·Ψ for a single qubit
+- The ½ on the RHS comes from the prefactor in C·Ψ = ½(1+x²)·x at the boundary C·Ψ = ¼
 
 ### Validity Conditions
 - Exact when T₁ ≫ T₂ (pure dephasing dominance)

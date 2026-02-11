@@ -92,7 +92,7 @@ Black holes are local remnants of the initial τ = 0 condition, regions that hav
 
 ### Has the ¼ boundary been observed on real quantum hardware?
 
-Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ crossing ¼ during free decoherence. The experiment revealed that IBM’s calibration T₂ (Hahn echo, 298 μs) is not the relevant timescale – free induction decay gives T₂* = 162 μs, 46% shorter. With this correction and accounting for the imperfect initial state (6% gate error), the generalized crossing equation [1 - b^r + b^{2r}/2 + b²/2]·b = ¼ fits the full 25-point tomography curve at MAE = 0.053 (88% improvement over the naive model). The ¼ crossing point itself was not a fit parameter; it emerges naturally from the global curve shape.
+Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ crossing ¼ during free decoherence. The experiment revealed that IBM’s calibration T₂ (Hahn echo, 298 μs) is not the relevant timescale – free induction decay gives T₂* = 110 μs, 2.7× shorter. With this correction and accounting for the imperfect initial state (6% gate error), the generalized crossing equation [1 - b^r + b^{2r}/2 + b²/2]·b = ¼ fits the full 25-point tomography curve at MAE = 0.053 (88% improvement over the naive model). The ¼ crossing point itself was not a fit parameter; it emerges naturally from the global curve shape.
 
 Subsequent analysis of 24,073 historical calibration records (181 days, 133 qubits) confirmed the theory curve C_min(r) against real hardware data. 10.1% of all calibration snapshots show r below the critical threshold r*, and 12 qubits cross ¼ almost every day. Because calibration systematically overestimates T₂, the true crossing rate under free evolution is likely much higher.
 
@@ -232,7 +232,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 
 **Empirically observed on real quantum hardware (2026-02-09):**
 - C·Ψ = ¼ crossing observed on IBM Torino (Heron processor, qubit 52)
-- T₂* (FID) ≠ T₂ (echo): T₂* is 46% shorter (162 vs 298 μs), critical for correct predictions
+- T₂* (FID) ≠ T₂ (echo): T₂* is 2.7× shorter (110 vs 298 μs), critical for correct predictions
 - Three-model comparison: naive (MAE 0.43) → initial-state corrected (0.41) → fitted T₂* (0.053), 88% improvement
 - Fitted model hits ¼ crossing exactly, though ¼ was not a fit parameter
 - Pure dephasing cubic x³ + x = ½ confirmed as r → 0 limit of generalized equation

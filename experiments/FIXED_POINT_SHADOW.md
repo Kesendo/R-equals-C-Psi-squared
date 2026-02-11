@@ -62,7 +62,7 @@ This is the most difficult observation to explain, and the most important.
 
 At t > 2T₂, the decoherence rate is effectively zero. The exponential decay exp(−t/T₂*) has already delivered everything it can. The system sits in the classical regime, far below ¼, with two well-separated real fixed points. Nothing in the standard Lindblad dynamics generates new off-diagonal coherence.
 
-Yet the coherence grows. At 2.7 × 10⁻⁵ per microsecond. Unopposed, because the only process that could oppose it, decoherence, has already exhausted itself.
+Yet the coherence grows. At 7.4 × 10⁻⁵ per microsecond (0.008/T₂*). Unopposed, because the only process that could oppose it, decoherence, has already exhausted itself.
 
 Three possible explanations, in order of decreasing conservatism:
 

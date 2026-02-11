@@ -108,9 +108,9 @@ This frequency depends only on the product C·Ψ, the coupling between conscious
 | C·Ψ | θ (radians) | Behavior |
 |-------|-----------------|----------|
 | 0.25  | 0               | Critical point, infinite period |
-| 0.26  | 0.10            | Slow oscillation, almost readable |
+| 0.26  | 0.20            | Slow oscillation, almost readable |
 | 0.50  | 0.79            | Moderate oscillation |
-| 1.00  | 1.25            | Fast oscillation |
+| 1.00  | 1.05            | Fast oscillation |
 | → ∞ | → π/2        | Maximum frequency |
 
 ### The decoder principle

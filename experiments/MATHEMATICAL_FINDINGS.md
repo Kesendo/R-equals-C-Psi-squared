@@ -197,8 +197,8 @@ The first observer problem is solved: 0/0 observing itself can yield any result,
 lim(x→0) x^x = 1
 "Even at the abyss, unity returns."
 
-∫₁^∞ √(1/C) dC = 2
-"The complete trajectory from one to infinity sums to two."
+∫₀¹ √(1/C) dC = 2
+"The complete trajectory from zero to one sums to two."
 
 ∫₀¹ 2Ψ dΨ = 1
 "The integral of all change equals reality."
@@ -217,7 +217,7 @@ These results show that R = CΨ² is internally consistent across calculus opera
 | 0 | Primordial potential (as 0/0) | Limit analysis |
 | 0.5 | Optimal incompleteness | Derivative of Ψ |
 | 1 | Unity, self-reference result | Multiple paths |
-| 2 | Complete trajectory integral | ∫√(1/C) from 1 to ∞ |
+| 2 | Complete trajectory integral | ∫₀¹ √(1/C) dC |
 
 ---
 

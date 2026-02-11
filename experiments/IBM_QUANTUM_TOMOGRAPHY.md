@@ -15,7 +15,7 @@ Three critical findings emerged:
    induction decay, governed by T₂* ≈ T₂/2.7. The correct comparison timescale matters.
 3. **The generalized equation works, but only with the right inputs.** A three-model
    comparison shows that correcting for imperfect initial state (6% effect) and using
-   T₂* instead of T₂(echo) (dominant effect, 46% shorter) reduces the model error
+   T₂* instead of T₂(echo) (dominant effect, 2.7× shorter) reduces the model error
    from MAE = 0.428 to MAE = 0.053. The corrected model passes through the ¼ crossing
    point exactly, even though ¼ was not a fit parameter.
 
@@ -79,7 +79,7 @@ monotonically through ¼, reaching thermal equilibrium below 0.05. The transitio
 as Lindblad theory predicts.
 
 **The initial state is imperfect.** Gate fidelity 0.97 means C₀ = 0.942, Ψ₀ = 0.940.
-The product C·Ψ₀ = 0.885 instead of the ideal 0.500. This shifts the crossing time
+The product C·Ψ₀ = 0.885 instead of the ideal 1.000. This shifts the crossing time
 but does not eliminate it.
 
 **The asymptotic state is not maximally mixed.** Purity stabilizes at ~0.74, not 0.50.
@@ -223,7 +223,7 @@ T2_eff = 161.6 us    (calibration: 298.2)    ratio: 0.54x
 r_eff  = 0.135       (calibration: 0.674)    ratio: 0.20x
 ```
 
-The fitted T₂ is the free induction T₂*, 46% shorter than the Hahn echo T₂.
+The fitted T₂ is the free induction T₂*, 2.7× shorter than the Hahn echo T₂.
 The fitted T₁ is longer because population relaxation competes with faster dephasing;
 when dephasing dominates (small r), T₁ must be larger to produce the observed
 asymptotic purity.

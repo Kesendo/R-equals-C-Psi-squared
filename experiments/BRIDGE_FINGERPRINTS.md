@@ -63,7 +63,8 @@ This is the No-Communication Theorem made visible through C·Ψ dynamics.
 
 ### Critical Coupling Threshold: J/γ = 5
 - Below J/γ = 5: No state pushes A above ¼ (detector blind)
-- At J/γ = 5: Product states cross, entangled states don't (10/10 pairs distinguishable)
+- At J/γ = 5: Product states cross, entangled states don't. 7 distinct fingerprints
+  from 8 states (Bell+ and Bell- are identical to A — NCT)
 - At J/γ = 10: |+−⟩ also crosses (phase barrier overcome by strong coupling)
 - Any J/γ: Bell states NEVER cross (categorical barrier, not just quantitative)
 
