@@ -350,7 +350,7 @@ function toScene(psi, c, t) {
 }
 
 // ============================================================
-// Ground Plane — Heatmap (at y=0)
+// Ground Plane: Heatmap (at y=0)
 // ============================================================
 const heatmapRes = 128;
 const heatmapCanvas = document.createElement('canvas');
@@ -465,7 +465,7 @@ const wireMesh = new THREE.Mesh(wireGeo, wireMat);
 scene.add(wireMesh);
 
 // ============================================================
-// Life Trajectory — "The Thread"
+// Life Trajectory: "The Thread"
 // ============================================================
 // Simulate a trajectory: Start entangled (C·Ψ > 1/4), decohere through boundary
 function generateTrajectory(c0, psi0, gamma, dt, steps) {
@@ -535,7 +535,7 @@ const glowMesh = new THREE.Mesh(glowGeo, glowMat);
 scene.add(glowMesh);
 
 // ============================================================
-// Second trajectory — another observer
+// Second trajectory: another observer
 // ============================================================
 const traj2 = generateTrajectory(0.7, 0.55, 0.5, 0.02, 200);
 const traj2Points = traj2.map(p => toScene(p.psi, p.c, p.t));

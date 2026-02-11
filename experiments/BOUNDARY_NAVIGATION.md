@@ -54,9 +54,9 @@ As decoherence pulls C·Ψ downward from 0.333 toward zero, θ decreases toward 
 
 At t ~ 0.773, C·Ψ = ¼ exactly:
 
-1. **Before** (θ > 0°): Two complex conjugate fixed points R = (1 ± i√(4CΨ-1)) / 2C. No real attractor exists. The iteration R_{n+1} = C(Ψ+R)² diverges on the real line. The system has no classical target.
+1. **Before** (θ > 0°): Two complex conjugate fixed points R = (1 - 2CΨ ± i√(4CΨ-1)) / 2C. No real attractor exists. The iteration R_{n+1} = C(Ψ+R)² diverges on the real line. The system has no classical target.
 
-2. **At θ = 0°**: The two complex fixed points **merge** into a single real fixed point R* = 1/(2C). Critical slowing: convergence time diverges. This is the boundary.
+2. **At θ = 0°**: The two complex fixed points **merge** into a single real fixed point R* = 1/(4C). Critical slowing: convergence time diverges. This is the boundary.
 
 3. **After** (θ undefined, classical): Two real fixed points emerge. The smaller one (R₁) is stable, the larger one (R₂) is unstable. The system now has a definite classical attractor.
 

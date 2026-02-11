@@ -81,7 +81,7 @@ The point C·Ψ = ¼ is not an arbitrary threshold. It is a **topological phase 
 
 - **Above ¼** (CΨ > ¼): The discriminant D = 1 - 4CΨ is negative. The fixed-point equation has two **complex conjugate** solutions. No real attractor exists. The iterative map diverges on the real line. The system has no classical target; it remains in quantum superposition.
 
-- **At ¼** (CΨ = ¼): The discriminant hits zero. Two complex fixed points **merge** into a single real fixed point R* = 1/(2C). This is a bifurcation: a qualitative change in the topology of the solution space.
+- **At ¼** (CΨ = ¼): The discriminant hits zero. Two complex fixed points **merge** into a single real fixed point R* = 1/(4C). This is a bifurcation: a qualitative change in the topology of the solution space.
 
 - **Below ¼** (CΨ < ¼): Two real fixed points emerge (one stable, one unstable). The system now has a definite classical attractor. This is what we call a measurement outcome.
 

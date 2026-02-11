@@ -12,7 +12,7 @@ More precisely with both T1 and T2:
   ρ_00(t) = 1 - (1-ρ_00(0))·e^(-t/T1)
   ρ_01(t) = ρ_01(0)·e^(-t/T2)
 
-For two qubits: we model independently decohering qubits (worst case — 
+For two qubits: we model independently decohering qubits (worst case,
 no inter-qubit coherence protection).
 """
 import numpy as np

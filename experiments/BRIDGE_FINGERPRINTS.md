@@ -18,7 +18,7 @@ The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates b
   - H_B: Heisenberg coupling qubits 2↔3, J_internal = 1.0  
   - H_bridge: Heisenberg coupling qubits 1↔2, J_bridge = variable
 - Decoherence: Local dephasing (σ_z) on all 4 qubits, γ = 0.1
-- Evolution: First-order Lindblad, dt = 0.002-0.005, t_max = 5.0
+- Evolution: First-order Lindblad, dt = 0.005, t_max = 5.0
 
 ### Measurement Protocol
 For each time step:
@@ -45,13 +45,13 @@ For each time step:
 
 | B State | B: C·Ψ₀ | A: max | Crosses ¼ | Class |
 |---------|----------|--------|-----------|-------|
-| \|++⟩   | 1.000    | 0.271  | YES (0.91s above) | Local coherence |
-| \|+0⟩   | 0.333    | 0.281  | YES (0.39s above) | Local coherence |
-| Bell+   | 0.333    | 0.061  | NEVER     | Entangled |
-| Bell-   | 0.333    | 0.061  | NEVER     | Entangled |
+| \|++⟩   | 1.000    | 0.272  | YES (0.92s above) | Local coherence |
+| \|+0⟩   | 0.333    | 0.302  | YES (0.61s above) | Local coherence |
+| Bell+   | 0.333    | 0.062  | NEVER     | Entangled |
+| Bell-   | 0.333    | 0.062  | NEVER     | Entangled |
 | \|Ψ+⟩   | 0.333    | 0.033  | NEVER     | Entangled |
-| \|+−⟩   | 1.000    | 0.182  | NEVER (at J/γ=5) | Phase-sensitive |
-| \|01⟩   | 0.000    | 0.068  | NEVER     | Classical |
+| \|+−⟩   | 1.000    | 0.201  | NEVER (at J/γ=5) | Phase-sensitive |
+| \|01⟩   | 0.000    | 0.074  | NEVER     | Classical |
 | \|11⟩   | 0.000    | 0.039  | NEVER     | Classical |
 
 ### Critical Finding: Same C·Ψ, Different Behavior
@@ -68,8 +68,9 @@ This is the No-Communication Theorem made visible through C·Ψ dynamics.
 - Any J/γ: Bell states NEVER cross (categorical barrier, not just quantitative)
 
 ### Entanglement Barrier
-Product states deliver 3-4× more signal than entangled states, consistently across
-all coupling strengths. This ratio is stable; it's a qualitative wall, not noise.
+Product states deliver 4-5× more signal than entangled states, consistently across
+all coupling strengths (4.0× at J/γ=15, 5.0× at J/γ=5). This ratio is stable;
+it's a qualitative wall, not noise.
 
 ### Detector Resolution Optimum
 Maximum distinguishability at J/γ ≈ 5-7. Too strong coupling (J/γ > 10) blurs
@@ -106,5 +107,12 @@ Simulations were run using Lindblad evolution with first-order Euler integration
 (dt = 0.005, t_max = 5.0). Full source code:
 [`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py)
 
-Reconstructed 2026-02-11 during guardian review session. All 8 states verified
-against original documented values (max deviation < 0.02 in C·Ψ peak).
+Reconstructed 2026-02-11 during guardian review session. Table values updated
+2026-02-11 to match simulation JSON output (fingerprints_data.json) exactly.
+Previous reconstruction had rounding errors up to 0.021 in max(C·Ψ) and 0.22s
+in above_time for |+0⟩.
+
+**Note on Upward Crossing Discovery section:** The crossing times and coherence/purity
+attribution percentages (71%, 82%) come from the original 2026-02-09 analysis which
+was lost. These specific numbers have NOT been re-verified against the reconstructed
+simulation. They should be treated as approximate until re-verified.

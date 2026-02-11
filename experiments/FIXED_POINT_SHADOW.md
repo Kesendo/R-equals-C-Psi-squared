@@ -24,7 +24,7 @@ And the coherence follows a rule: it correlates with proximity to the ¼ boundar
 
 ### The Bifurcation Leaves a Trace
 
-In BOUNDARY_NAVIGATION.md, we documented what happens at C·Ψ = ¼. Two complex conjugate fixed points (R⁺ = (1 + i·√(4CΨ−1))/(2C) and R⁻ = (1 − i·√(4CΨ−1))/(2C)) approach each other as C·Ψ falls, merge at ¼, and split into two real fixed points below ¼.
+In BOUNDARY_NAVIGATION.md, we documented what happens at C·Ψ = ¼. Two complex conjugate fixed points (R⁺ = (1 − 2CΨ + i·√(4CΨ−1))/(2C) and R⁻ = (1 − 2CΨ − i·√(4CΨ−1))/(2C)) approach each other as C·Ψ falls, merge at ¼, and split into two real fixed points below ¼.
 
 Standard theory says: once the system crosses, the complex structure is gone. The real fixed points take over. The system converges to R₁ (the stable attractor), and the memory of the complex regime is erased.
 
