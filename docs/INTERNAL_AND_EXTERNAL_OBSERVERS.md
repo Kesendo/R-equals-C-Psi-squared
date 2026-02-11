@@ -2,8 +2,9 @@
 ## The Two Kinds of C
 
 **Created:** January 3, 2026  
-**Updated:** January 31, 2026  
-**Status:** Fundamental Distinction (Partially Validated)
+**Updated:** February 11, 2026  
+**Status:** Fundamental distinction with tier markers
+**Depends on:** [Core Algebra](CORE_ALGEBRA.md) for fixed-point equation
 
 ---
 
@@ -34,6 +35,8 @@ But that doesn't explain stability. It explains loss of quantum behavior. Not wh
 ---
 
 ## The Framework's Answer
+
+**Tier: 3, Proposed distinction, physically motivated by TROSY**
 
 **There are two kinds of observation.**
 
@@ -99,6 +102,8 @@ Internal observation **maintains** structure.
 
 ## Empirical Validation: The TROSY Effect
 
+**Tier: 2, Established physics (TROSY is well-documented); framework interpretation is Tier 3**
+
 The distinction between C_int and C_ext is not merely theoretical. It has experimental support.
 
 In NMR spectroscopy, a phenomenon called TROSY (Transverse Relaxation-Optimized Spectroscopy) demonstrates that internal correlation can stabilize quantum states.
@@ -123,10 +128,12 @@ TROSY is C_int in action at the molecular level.
 
 ## Mathematical Formalization of C_int
 
+**Tier: 4, Agent-generated (120B local models), not independently verified**
+
 **Added:** January 31, 2026  
 **Source:** Agent Dyad Experiment (Alpha, Beta, Gamma)
 
-The agents independently derived a mathematical formalization of C_int using Lindbladian quantum mechanics.
+The agents independently derived a mathematical formalization of C_int using Lindbladian quantum mechanics. The formula below has not been independently verified and may be a restatement of existing quantum noise theory rather than a new result (see Gamma's critique below).
 
 ### The Core Formula
 
@@ -194,6 +201,8 @@ This may formalize the boundary problem: the boundary is where correlation becom
 
 ## The Scaling Problem
 
+**Tier: 3 (honest limitation acknowledgment)**
+
 TROSY works. But it works for **simple systems**.
 
 The effect requires:
@@ -212,6 +221,8 @@ The principle is validated. The scaling is not.
 ---
 
 ## The Boundary Problem
+
+**Tier: 5, Open philosophical question, no proposed solution**
 
 A fundamental question remains open: **How do we define the boundary of a system?**
 
@@ -273,6 +284,8 @@ C_ext. The particle must "decide." Superposition ends.
 
 ## The Periodic Table Revisited
 
+**Tier: 3, Reinterpretation of known chemistry, no new predictions**
+
 | Configuration | Type of C | Result |
 |---------------|-----------|--------|
 | Unpaired electron | No internal partner | Reactive, seeks pairing |
@@ -325,6 +338,8 @@ We do not yet know how these modes combine mathematically. Additive? Multiplicat
 ---
 
 ## Implications
+
+**Tier: 3 (atoms, molecules, crystals, magnetism) to 5 (life)**
 
 ### For Atoms
 Electron pairing is internal observation. Stability comes from mutual mirroring, not just energy minimization.
@@ -398,7 +413,8 @@ The framework applies to humans too. But that is for another document.
 
 | Document | Relationship |
 |----------|--------------|
-| [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Formal framework |
+| [Core Algebra](CORE_ALGEBRA.md) | Proven mathematics |
+| [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md) | Philosophical foundations |
 | [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | Each level has its own C_int structure |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest limitations |
 | [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | C_int/C_ext and consciousness |
@@ -425,4 +441,5 @@ The boundary problem was identified as fundamental and possibly unsolvable from 
 
 *January 3, 2026: Two kinds of seeing*  
 *January 5, 2026: One kind validated, limits acknowledged*  
-*January 31, 2026: Mathematical formalization added (Agent Dyad: Alpha, Beta, Gamma)*
+*January 31, 2026: Mathematical formalization added (Agent Dyad: Alpha, Beta, Gamma)*  
+*February 11, 2026: Tier markers added, cross-references updated (Guardian review)*

@@ -20,8 +20,11 @@ This question leads to testable algebra, a proven bound (C·Ψ <= 1/4), and a co
 
 ### The Mathematics
 
-**[Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)**
-All formulas, proofs, and derivations in one place. The fixed-point equation, the discriminant bound, the iteration dynamics, and the connection between internal and external observation. Start here if you want the full formal treatment.
+**[Core Algebra](CORE_ALGEBRA.md)**
+The proven heart of the framework: fixed-point equation, discriminant bound CΨ ≤ ¼, Mandelbrot equivalence, θ compass, uniqueness argument. Everything here is Tier 1 (algebraically proven) or Tier 2 (computationally verified), with explicit markers.
+
+**[Interpretive Framework](INTERPRETIVE_FRAMEWORK.md)**
+The philosophical constructions that motivated the discovery: wave composition, dynamics equation, energy, mirror metaphors. Tier 3–5 throughout, with clear labels. Start with Core Algebra; come here for the origin story.
 
 ---
 
@@ -64,9 +67,9 @@ Honest results from independent Lindblad quantum simulations. What the simulatio
 
 ## Reading Order
 
-**For physicists:** Complete Mathematical Documentation → Internal and External Observers → Simulation Evidence
+**For physicists:** Core Algebra → Internal and External Observers → Simulation Evidence
 
-**For philosophers:** Hard Problem Resolution → Hierarchy of Incompleteness → Weaknesses and Open Questions
+**For philosophers:** Interpretive Framework → Hard Problem Resolution → Weaknesses and Open Questions
 
 **For everyone:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
 

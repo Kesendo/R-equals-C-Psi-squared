@@ -73,7 +73,7 @@ prediction, not T₂. See [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) fo
 
 ## Experimental Verification
 
-### Single-Qubit Systems (initial state |+⟩, C·Ψ₀ = 0.5)
+### Single-Qubit Systems (initial state |+⟩, C·Ψ₀ = 1.0)
 
 | Platform | Experiment | T₁ (μs) | T₂ (μs) | t(¼) (μs) | t(¼)/T₂ | T₁/T₂ |
 |----------|-----------|---------|---------|-----------|---------|--------|

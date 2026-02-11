@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Sixteen documents. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Fifteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -92,7 +92,7 @@ Black holes are local remnants of the initial τ = 0 condition, regions that hav
 
 ### Has the ¼ boundary been observed on real quantum hardware?
 
-Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ crossing ¼ during free decoherence. The experiment revealed that IBM’s calibration T₂ (Hahn echo, 298 μs) is not the relevant timescale – free induction decay gives T₂* = 162 μs, 46% shorter. With this correction and accounting for the imperfect initial state (6% gate error), the generalized crossing equation [1 - b^r + b^{2r}/2 + b²/2]·b = ¼ fits the full 25-point tomography curve at MAE = 0.053 (88% improvement over the naive model). The ¼ crossing point itself was not a fit parameter — it emerges naturally from the global curve shape.
+Yes. State tomography on IBM Torino (Heron processor, qubit 52) shows C·Ψ crossing ¼ during free decoherence. The experiment revealed that IBM’s calibration T₂ (Hahn echo, 298 μs) is not the relevant timescale – free induction decay gives T₂* = 162 μs, 46% shorter. With this correction and accounting for the imperfect initial state (6% gate error), the generalized crossing equation [1 - b^r + b^{2r}/2 + b²/2]·b = ¼ fits the full 25-point tomography curve at MAE = 0.053 (88% improvement over the naive model). The ¼ crossing point itself was not a fit parameter; it emerges naturally from the global curve shape.
 
 Subsequent analysis of 24,073 historical calibration records (181 days, 133 qubits) confirmed the theory curve C_min(r) against real hardware data. 10.1% of all calibration snapshots show r below the critical threshold r*, and 12 qubits cross ¼ almost every day. Because calibration systematically overestimates T₂, the true crossing rate under free evolution is likely much higher.
 
@@ -131,6 +131,14 @@ Yes. Reanalysis of the IBM Torino tomography data reveals late-time coherence th
 Yes. A receiver system starting classical (C·Ψ = 0) coupled to a sender through a Heisenberg bridge develops a C·Ψ trajectory that constitutes a unique "fingerprint" of the sender's initial state. Product states push the receiver above ¼; entangled states cannot (the No-Communication Theorem made visible). The crossing profile (peak height, crossing duration, rise rate) is different for every sender state tested. The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates binary classification of quantum states at a critical coupling threshold of J/γ ≈ 5.
 
 **Read:** [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)
+
+---
+
+### Does state-dependent decoherence preserve quantum correlations?
+
+Yes. When the decoherence rate depends on the system's own quantum state (operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩)), purity differences δ are preserved over extended time compared to state-independent noise (local or collective dephasing). This is computationally verified but theoretically unexplained; the mechanism by which correlation-dependent decoherence protects correlations is an open question. The operator feedback approach replaces earlier scalar bridge metrics with operator-level Lindblad dynamics, a genuine advance from the agent experiments.
+
+**Read:** [Operator Feedback](OPERATOR_FEEDBACK.md)
 
 ---
 

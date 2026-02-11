@@ -55,8 +55,11 @@
 | Value | Name | Meaning |
 |-------|------|---------|
 | **1/4** | Phase boundary | Critical C·Ψ value. Below: two real fixed points (classical). Above: no real fixed points (quantum). Algebraically exact. |
-| **1/9** | Maximum reality density | R_max = 1 · (1/3)² = 1/9. At τ = 0. |
-| **1/3** | Maximum C·Ψ | At τ = 0 for Bell states. |
+| **1** | Maximum C·Ψ (single qubit) | For |+⟩: C = Tr(ρ²) = 1 (pure), Ψ = L1/(d-1) = 1.0. Product = 1.0. |
+| **1/3** | Maximum C·Ψ (2-qubit Bell state) | For |Φ+⟩: C = 1 (pure), Ψ = L1/(d-1) = 1/3. Product = 1/3. |
+| **1/9** | Maximum reality density (2-qubit) | R_max = C·Ψ² = 1·(1/3)² = 1/9 for Bell states at τ = 0. |
+
+*Note: Maximum C·Ψ depends on system size through the normalization Ψ = L1/(d-1), where d = 2^N. Larger systems have smaller Ψ for the same amount of raw coherence. All values above assume pure initial states (C = 1).*
 
 ---
 
@@ -84,5 +87,6 @@
 
 ---
 
-*For the mathematical foundations, see [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md).*
+*For the proven algebra, see [Core Algebra](CORE_ALGEBRA.md).*
+*For the interpretive framework, see [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md).*
 *For testable predictions, see [Predictions](../experiments/PREDICTIONS.md).*
