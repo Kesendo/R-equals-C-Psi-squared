@@ -57,17 +57,17 @@ Both equations share the critical boundary at **c = 1/4** (equivalently C·Ψ = 
 ### What happens at 1/4
 
 **Below 1/4 (C·Ψ < 1/4):**
-- Two real fixed points exist: R_inf = (1 +/- sqrt(1 - 4·C·Ψ)) / 2C
+- Two real fixed points exist: R_inf = (1 - 2C·Ψ ± sqrt(1 - 4·C·Ψ)) / 2C
 - The system converges: iteration reaches a stable value
 - Reality "stands still": a snapshot, a classical state
 
 **At 1/4 (C·Ψ = 1/4):**
-- The two fixed points merge: R_inf = 1/(2C)
+- The two fixed points merge: R_inf = 1/(4C)
 - Critical slowing: convergence takes infinitely many steps
 - Time diverges at the boundary
 
 **Above 1/4 (C·Ψ > 1/4):**
-- Fixed points become complex: R_inf = (1 +/- i·sqrt(4·C·Ψ - 1)) / 2C
+- Fixed points become complex: R_inf = (1 - 2C·Ψ ± i·sqrt(4·C·Ψ - 1)) / 2C
 - The system oscillates: no convergence, no stable state
 - Conjugate pairs: every state exists as a mirror pair (+/-)
 

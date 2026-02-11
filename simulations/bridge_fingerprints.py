@@ -1,5 +1,5 @@
 """
-Bridge Fingerprint Experiment — Reconstructed Simulation
+Bridge Fingerprint Experiment, Reconstructed Simulation
 
 Two coupled 2-qubit systems (A = receiver, B = sender) connected through a
 Heisenberg bridge. System A starts classical (|00⟩, C·Ψ = 0). System B starts
