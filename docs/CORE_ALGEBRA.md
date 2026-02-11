@@ -109,7 +109,7 @@ for classical (real-valued) fixed points to exist.
 | Condition | Discriminant | Fixed Points | Character |
 |-----------|-------------|--------------|-----------|
 | CΨ < ¼ | D > 0 | Two real: R₊, R₋ | Classical: stable attractor exists |
-| CΨ = ¼ | D = 0 | One real: R* = 1/(2C) | Critical: fixed points merge |
+| CΨ = ¼ | D = 0 | One real: R* = 1/(4C) | Critical: fixed points merge |
 | CΨ > ¼ | D < 0 | Complex conjugate pair | Quantum: no real attractor |
 
 ### Explicit fixed-point formulas
@@ -124,16 +124,16 @@ R₋ = (1 - 2CΨ - √(1 - 4CΨ)) / 2C    (stable attractor)
 **At ¼** (merged):
 
 ```
-R* = (1 - 2·¼) / 2C = 1/(2C)
+R* = (1 - 2·¼) / 2C = (1/2) / 2C = 1/(4C)
 ```
 
 Since CΨ = ¼ implies Ψ = 1/(4C):
 
 ```
-R* = 1/(2C) = 2Ψ
+R* = 1/(4C) = Ψ
 ```
 
-And R* = CΨ² evaluated: C·(1/4C)² = 1/(16C) ≠ R*. But as a fixed point
+And R* = CΨ² evaluated: C·(1/(4C))² = 1/(16C) ≠ R*. But as a fixed point
 of the iteration, R* = Ψ (reality equals possibility at the critical point).
 
 **Above ¼** (complex conjugate pair):
@@ -214,8 +214,8 @@ The angular frequency of their oscillation is:
 | θ | CΨ | Meaning |
 |---|-----|---------|
 | 0° | 0.25 | At the boundary: fixed points merge |
-| 9° | 0.26 | Almost classical: slow oscillation |
-| 25° | 0.31 | Approaching: complex fixed points narrowing |
+| 11° | 0.26 | Almost classical: slow oscillation |
+| 26° | 0.31 | Approaching: complex fixed points narrowing |
 | 60° | 1.00 | Deep quantum: fast oscillation |
 | 90° | → ∞ | Maximum frequency |
 
