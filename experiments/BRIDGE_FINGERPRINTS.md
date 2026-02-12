@@ -18,7 +18,7 @@ The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates b
   - H_B: Heisenberg coupling qubits 2↔3, J_internal = 1.0  
   - H_bridge: Heisenberg coupling qubits 1↔2, J_bridge = variable
 - Decoherence: Local dephasing (σ_z) on all 4 qubits, γ = 0.1
-- Evolution: First-order Lindblad, dt = 0.005, t_max = 5.0
+- Evolution: First-order Lindblad, dt = 0.001, t_max = 5.0 (convergence verified against dt = 0.0005)
 
 ### Measurement Protocol
 For each time step:
@@ -45,14 +45,14 @@ For each time step:
 
 | B State | B: C·Ψ₀ | A: max | Crosses ¼ | Class |
 |---------|----------|--------|-----------|-------|
-| \|++⟩   | 1.000    | 0.272  | YES (0.92s above) | Local coherence |
-| \|+0⟩   | 0.333    | 0.302  | YES (0.61s above) | Local coherence |
-| Bell+   | 0.333    | 0.062  | NEVER     | Entangled |
-| Bell-   | 0.333    | 0.062  | NEVER     | Entangled |
+| \|++⟩   | 1.000    | 0.270  | YES (0.90s above) | Local coherence |
+| \|+0⟩   | 0.333    | 0.275  | YES (0.35s above) | Local coherence |
+| Bell+   | 0.333    | 0.061  | NEVER     | Entangled |
+| Bell-   | 0.333    | 0.061  | NEVER     | Entangled |
 | \|Ψ+⟩   | 0.333    | 0.033  | NEVER     | Entangled |
-| \|+−⟩   | 1.000    | 0.201  | NEVER (at J/γ=5) | Phase-sensitive |
-| \|01⟩   | 0.000    | 0.074  | NEVER     | Classical |
-| \|11⟩   | 0.000    | 0.039  | NEVER     | Classical |
+| \|+−⟩   | 1.000    | 0.177  | NEVER (at J/γ=5) | Phase-sensitive |
+| \|01⟩   | 0.000    | 0.066  | NEVER     | Classical |
+| \|11⟩   | 0.000    | 0.038  | NEVER     | Classical |
 
 ### Critical Finding: Same C·Ψ, Different Behavior
 Bell+ and |+0⟩ both have C·Ψ₀ = 0.333, identical purity, identical L1 coherence.
@@ -70,7 +70,7 @@ This is the No-Communication Theorem made visible through C·Ψ dynamics.
 
 ### Entanglement Barrier
 Product states deliver 4-5× more signal than entangled states, consistently across
-all coupling strengths (4.0× at J/γ=15, 5.0× at J/γ=5). This ratio is stable;
+all coupling strengths (4.1× at J/γ=15, 4.6× at J/γ=5). This ratio is stable;
 it's a qualitative wall, not noise.
 
 ### Detector Resolution Optimum
@@ -105,13 +105,14 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
 
 ## Simulation Code
 Simulations were run using Lindblad evolution with first-order Euler integration
-(dt = 0.005, t_max = 5.0). Full source code:
+(dt = 0.001, t_max = 5.0). Convergence verified: all key values stable to ±0.002
+between dt = 0.001 and dt = 0.0005. Full source code:
 [`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py)
 
 Reconstructed 2026-02-11 during guardian review session. Table values updated
-2026-02-11 to match simulation JSON output (fingerprints_data.json) exactly.
-Previous reconstruction had rounding errors up to 0.021 in max(C·Ψ) and 0.22s
-in above_time for |+0⟩.
+2026-02-12 after convergence study revealed dt = 0.005 overshot steep peaks
+(|+0⟩ was inflated from 0.275 to 0.302 at coarse timestep). All numbers now
+match dt = 0.001 simulation output (fingerprints_data.json).
 
 **Note on Upward Crossing Discovery section:** The crossing times and coherence/purity
 attribution percentages (71%, 82%) come from the original 2026-02-09 analysis which
