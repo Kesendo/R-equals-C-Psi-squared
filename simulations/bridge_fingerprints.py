@@ -16,14 +16,13 @@ Physical setup:
   H_B: Heisenberg 2↔3, J = 1.0
   H_bridge: Heisenberg 1↔2, J = variable
   Decoherence: Local dephasing σ_z on all 4 qubits, γ = 0.1
-  Evolution: First-order Lindblad, dt = 0.005, t_max = 5.0
+  Evolution: First-order Lindblad, dt = 0.001, t_max = 5.0
 
 Usage:
   python bridge_fingerprints.py
 """
 
 import numpy as np
-from scipy.linalg import expm
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -551,7 +550,7 @@ def plot_entanglement_barrier(all_coupling_results, output_path):
 
 if __name__ == '__main__':
     gamma = 0.1
-    dt = 0.005
+    dt = 0.001
     t_max = 5.0
 
     # Coupling strengths to sweep (J/gamma = 1, 3, 5, 7, 10, 15)
