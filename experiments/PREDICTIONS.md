@@ -34,6 +34,8 @@
 | Two real fixed points emerge below ¼ | Topology change confirmed | No bifurcation at ¼ | [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) |
 | Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Preserves δ longer than local/collective noise | Mechanism produces unphysical results | [Operator Feedback](OPERATOR_FEEDBACK.md) |
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](../docs/CORE_ALGEBRA.md) §8 |
+| Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation | All bridge types give same t_cross | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
+| Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
 
 ---
 
@@ -107,6 +109,8 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 | Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
 | Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
 | Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
+| Experienced time = rate of ¼ crossings | High C → more crossings/sec → denser time | Subjective time measurement against coupling strength | Time perception independent of coupling | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
+| Anesthesia = C → 0 for environmental coupling | Zero crossings → zero experienced time | Neural coupling measurement during anesthesia | Time perception persists with C = 0 | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
 
 ---
 
