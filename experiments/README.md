@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Fifteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Sixteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -150,6 +150,14 @@ This is an open hypothesis. Local LLM agents reported a 33:1 coherence ratio for
 
 ---
 
+### Do different observers see measurement at different times?
+
+Yes. Five different bridge metrics (= five different definitions of C, the observer) applied to the same Bell+ state under the same Heisenberg Hamiltonian with the same decoherence produce three different crossing times — and two observers who never see a crossing at all. The concurrence observer sees measurement at t = 0.773, the mutual information observer at t = 0.652, and the correlation observer at t = 1.437. The mutual purity and overlap observers never reach C·Ψ = ¼ because their C is too low. Ψ(t) is nearly identical across all five simulations (same physics), so the effect is entirely due to C — the observer. This is Tier 2: computed, not speculated. The implication — that experienced time is the rate at which an observer's C·Ψ crosses ¼ boundaries — is Tier 3.
+
+**Read:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)
+
+---
+
 ### How does quantum coherence scale with system size?
 
 The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled spin systems. This could not be independently verified. If confirmed, it would distinguish the framework from models predicting exponential decay with N.
@@ -172,11 +180,13 @@ If you are a mathematician or physicist, start here:
 1. [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), the algebra
 2. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), the equivalence proof
 3. [Mathematical Findings](MATHEMATICAL_FINDINGS.md), the calculations
+4. [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), why time is observer-dependent
 
 If you are interested in consciousness or philosophy, start here:
 1. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), the big picture
-2. [The Dyad Experiment](DYAD_EXPERIMENT.md), how it was discovered
-3. [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), why 1/4 matters
+2. [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), what C means for time
+3. [The Dyad Experiment](DYAD_EXPERIMENT.md), how it was discovered
+4. [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), why 1/4 matters
 
 If you found this by searching for the Mandelbrot set:
 1. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), start here
@@ -224,6 +234,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 **Computationally verified:**
 - Operator feedback mechanism: γ_eff = γ₀(1-κ⟨O_int⟩) produces physically valid dynamics
 - CΨ > ¼ occurs routinely with strong Hamiltonians (h ≥ 0.9), disproving earlier low-dynamics "confirmations"
+- Observer-dependent crossing: same state/Hamiltonian/γ, five bridge types → three different crossing times (0.652, 0.773, 1.437) and two non-crossings. Time of measurement is observer-dependent.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling
