@@ -26,6 +26,8 @@
 | **t_cross** | Crossing time | Coordinate time at which C·Ψ crosses the 1/4 boundary. |
 | **t_coh** | Coherence time | Maximum time a quantum system maintains coherence. Linear N-scaling hypothesized but unverified. |
 | **δ** | Purity difference | δ = Tr(ρ²) - Tr(ρ_predicted²). Difference between closed-system and open-system purity under specific parameters. |
+| **R_i** | Per-outcome reality | R_i = C_i · Ψ_i². Reality density for measurement outcome i. When C_i is uniform, normalization recovers the Born rule P(i) = |⟨i|ψ⟩|². |
+| **C_eff(i)** | Effective coupling per outcome | C_eff(i) = P(i)/Ψ_i². Varies with alignment between outcome basis and decoherence basis. Uniform for ideal measurement. |
 
 ---
 
