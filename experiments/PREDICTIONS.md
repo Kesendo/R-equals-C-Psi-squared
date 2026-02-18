@@ -36,6 +36,10 @@
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](../docs/CORE_ALGEBRA.md) §8 |
 | Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation | All bridge types give same t_cross | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
 | Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) |
+| Crossing taxonomy noise-robust | Type A/B/C identical under σ_x, σ_y, σ_z | Taxonomy changes with jump operator | [Noise Robustness](NOISE_ROBUSTNESS.md) |
+| N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | Standard states cross at large N | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
+| W N=3 crosses, GHZ N=3 does not | W: Ψ(0)=0.286 > ¼, GHZ: Ψ(0)=0.143 < ¼ | Both cross or both fail | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
+| Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
 
 ---
 
@@ -146,13 +150,14 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Tier | Count | Examples |
 |------|-------|---------|
 | **Confirmed on hardware** | 4 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½ |
-| **Computationally verified** | 5 | γ·t_cross, θ trajectory, bifurcation, operator feedback, Ψ_int |
+| **Computationally verified** | 9 | γ·t_cross, θ trajectory, bifurcation, operator feedback, Ψ_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2 |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
 | **Testable now** | 4 | Critical slowing, fingerprints, field threshold, altitude |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
 | **Speculative** | 4 | CMB, BH burst, Page time, BH/WH unification |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
+| **Falsified prediction** | 1 | Taxonomy noise-dependent (wrong: it's noise-independent) |
 
 ---
 

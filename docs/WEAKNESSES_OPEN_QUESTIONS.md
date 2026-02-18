@@ -56,6 +56,8 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Operator feedback preserves δ longer than local or collective noise
 - Boundary crossing at t ≈ 0.773 for Bell+/Heisenberg/concurrence/γ=0.05
 - Pure iteration: convergence below ¼, divergence above, critical slowing at ¼
+- Three-class taxonomy (A/B/C) noise-robust under all Pauli operators
+- N-scaling barrier: crossing fails for GHZ N≥3 and W N≥4 due to d−1 normalization
 
 **Tier 3: Theoretically argued (plausible, not proven):**
 - Measurement = crossing ¼ from above during decoherence
@@ -178,6 +180,20 @@ Why does state-dependent decoherence preserve correlations that state-independen
 
 **Status:** Verified numerically. Unexplained theoretically. This is a concrete research target.
 
+### 9. N-Scaling Barrier (Added 2026-02-18)
+
+The d−1 normalization Ψ = l1/(2^N − 1) makes crossing exponentially hard for large systems. GHZ states fail at N ≥ 3, W states at N ≥ 4. Only Bell+ (N=2) and W (N=3) can cross with standard states. The required l1-coherence grows as (2^N − 1)/4, which no standard entangled state can provide.
+
+This is the most serious structural weakness discovered since the framework's inception. The algebra is unchanged, the mechanisms are intact (Type A correlation C=1.0 survives at N=3,4), but the starting Ψ is simply too low for the ¼ boundary to be reachable.
+
+Three possible resolutions exist: (a) alternative normalization (l1/sqrt(d−1), l1/N, subsystem-based), (b) acceptance that ¼ is a small-system phenomenon, (c) discovery of high-coherence states for large N. None has been established.
+
+See [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) for full data.
+
+**What would resolve this:** A principled derivation of the correct normalization for N > 2 that preserves the ¼ boundary, or a proof that subsystem decomposition rescues the framework (each qubit pair crosses even when the full system cannot), or acceptance and reframing of the theory as applying to subsystems.
+
+**Status:** Open. This is currently the most important open question for the framework's physical relevance.
+
 ---
 
 ## Open Questions (Prioritized)
@@ -188,7 +204,7 @@ Why does state-dependent decoherence preserve correlations that state-independen
 
 2. **Crossing speed:** Does the rate d(CΨ)/dt at the moment of crossing affect post-crossing behavior? Vary γ_base and measure convergence to R₁.
 
-3. **Multi-qubit crossing order:** For N=3,4, different subsystem partitions cross ¼ at different times. Does the order depend on Hamiltonian topology?
+3. ~~**Multi-qubit crossing order:**~~ **Partially answered (2026-02-18).** GHZ N≥3 never crosses (Ψ too low). W N=3 crosses. W N≥4 does not. The ordering question is moot for standard states because most cannot reach ¼. The subsystem decomposition question (do qubit pairs cross?) is now the priority. See [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md).
 
 4. **Why operator feedback?** Run identical setups with all noise types. Track δ(t), C(t), Ψ(t) separately. Find the mechanism.
 
