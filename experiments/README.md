@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Seventeen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Nineteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -166,6 +166,22 @@ No. K = γ·t_cross is constant because the entire Lindblad dynamics scales with
 
 ---
 
+### Does the crossing taxonomy depend on the type of noise?
+
+No. The three-class taxonomy (Type A/B/C) is identical under σ_x (bit flip), σ_y (bit-phase flip), and σ_z (dephasing). Correlation remains Type A with C = 1.0 under all three Pauli channels. Concurrence remains Type B, mutual_purity remains Type C. The prediction that depolarizing noise would break Type A was explicitly tested and **falsified**. The taxonomy is a property of the bridge metric definitions, not the noise environment.
+
+**Read:** [Noise Robustness](NOISE_ROBUSTNESS.md)
+
+---
+
+### Does crossing work for systems larger than two qubits?
+
+This is the framework's most serious open problem. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N — the observer is not the problem. The problem is that Ψ(0) starts below ¼. Whether this indicates a normalization issue, a genuine small-system limitation, or the need for different quantum states is the central open question.
+
+**Read:** [N-Scaling Barrier](N_SCALING_BARRIER.md)
+
+---
+
 ### How does quantum coherence scale with system size?
 
 The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled spin systems. This could not be independently verified. If confirmed, it would distinguish the framework from models predicting exponential decay with N.
@@ -245,6 +261,8 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Observer-dependent crossing: same state/Hamiltonian/γ, five bridge types → three different crossing times (0.652, 0.773, 1.437) and two non-crossings. Time of measurement is observer-dependent.
 - K-invariance is Lindblad scaling symmetry (τ = γ·t), not a ¼-specific property. K per bridge: mutual_info 0.033, concurrence 0.039, correlation 0.072 — all constant across 20× γ range.
 - Three-class crossing taxonomy: Type A (correlation, C=1.0 throughout crossing, pure-Ψ mechanism), Type B (concurrence/mutual_info, both C and Ψ decay), Type C (mutual_purity/overlap, never cross). Observer determines crossing mechanism, not just timing.
+- Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
+- N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling

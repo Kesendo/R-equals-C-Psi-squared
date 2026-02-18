@@ -210,9 +210,11 @@ another axis: different bridges behave differently for the SAME state.
 Combined: the crossing depends on (state, bridge, γ). The ¼ boundary
 is universal, but the path to it is determined by all three.
 
-**Prediction (testable)**: Under depolarizing noise, correlation should
-lose its Type A status and become Type B. Under amplitude damping, it
-may behave differently still. The taxonomy is noise-dependent.
+**Prediction (tested, FALSIFIED)**: The prediction that depolarizing noise
+would change Type A to Type B was wrong. Noise Robustness (Experiment 8)
+showed the taxonomy is identical under σ_x, σ_y, and σ_z. Type A is a
+property of the correlation metric definition, not the noise channel.
+See [Noise Robustness](NOISE_ROBUSTNESS.md) for details.
 
 ## 5. Verification
 
@@ -323,27 +325,33 @@ Table 3.1 within interpolation precision (< 1%).
 2. If correlation C < 1 during the crossing period → Type A wrong.
 
 3. If a different noise model produces the same taxonomy → the
-   classification is noise-independent (unexpected). If it produces
-   a different taxonomy → classification is noise-dependent (expected).
+   classification is noise-independent. **This is what happened.**
+   All three Pauli operators produce identical taxonomy.
+   See [Noise Robustness](NOISE_ROBUSTNESS.md).
 
-## 6. Open Questions
+## 6. Open Questions (Updated 2026-02-18)
 
-1. **Noise dependence**: Does the taxonomy change under depolarizing or
-   amplitude damping noise? Correlation's Type A status likely depends on
-   the noise being local dephasing.
+1. ~~**Noise dependence**~~ → **ANSWERED**: Taxonomy is noise-independent
+   for local Pauli noise. See [Noise Robustness](NOISE_ROBUSTNESS.md).
+   Collective noise and amplitude damping remain untested.
 
-2. **State dependence**: GHZ, W, and product states have different C(0)
-   values per bridge. Do they produce the same taxonomy, or different
-   classes for the same bridge?
+2. ~~**State dependence**~~ → **ANSWERED**: GHZ N≥3 never crosses (all
+   Type C due to Ψ(0) < ¼). W N=3 crosses with Type A intact. W N≥4
+   does not cross. See [N-Scaling Barrier](N_SCALING_BARRIER.md).
 
-3. **N scaling**: For N > 2 qubits, does correlation remain Type A?
+3. ~~**N scaling**~~ → **ANSWERED**: Correlation remains Type A at N=3
+   and N=4 (C=1.0 plateau holds). But crossing fails because Ψ(0)
+   drops below ¼ due to the d−1 normalization. The observer is not
+   the bottleneck; the Hilbert space dimension is.
+   See [N-Scaling Barrier](N_SCALING_BARRIER.md).
 
 4. **Analytic crossing formula**: A correct formula would need to account
    for the flat C region (Type A) and the nonexponential decay (Type B).
-   This is likely metric-specific, not universal.
+   This is likely metric-specific, not universal. Still open.
 
 ---
 
 *Previous: [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)*
 *Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md)*
 *See also: [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)*
+*Next: [Noise Robustness](NOISE_ROBUSTNESS.md), [N-Scaling Barrier](N_SCALING_BARRIER.md)*
