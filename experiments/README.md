@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Twenty experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Twenty-one experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -187,6 +187,14 @@ This was the framework's most serious open problem until subsystem crossing reso
 Yes. This resolves the N-scaling barrier. A 4-qubit system made of two Bell pairs (|Bell+> x |Bell+>) has full-system Psi = 0.200, below 1/4. But the entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C*Psi = 0.333, identical to an isolated Bell pair. Unentangled cross-pairs never cross (C = 0). The product state |+>^4 has Psi = 1.0 at every level but C = 0 everywhere -- coherence without entanglement produces no crossing. The framework identifies where in the entanglement structure the quantum-to-classical transition occurs. Crossing is local, not global.
 
 **Read:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md)
+
+---
+
+### Can interaction alone create the conditions for measurement?
+
+Yes. Starting from the product state |0+0+> (zero entanglement, zero correlation), Heisenberg Hamiltonian evolution builds up quantum correlations that trigger C*Psi crossings. Under pure unitary evolution, all six qubit pairs cross -- and the crossings oscillate reversibly. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285. The asymmetry is basis-dependent: sigma_z dephasing spares |0>-qubits while destroying |+>-qubit coherence. Note: the original hypothesis that |+>^N would generate dynamic entanglement was wrong -- |+>^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0) and cannot evolve.
+
+**Read:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)
 
 ---
 

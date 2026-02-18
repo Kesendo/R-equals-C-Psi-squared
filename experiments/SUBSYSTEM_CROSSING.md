@@ -251,8 +251,14 @@ for i, t in enumerate(tlist):
 2. For cluster states and other graph-structured entanglement, does
    the crossing pattern reproduce the graph topology exactly?
 
-3. Can dynamical entanglement generation from a product state create
-   crossings? (|+>^4 under Heisenberg should build entanglement.)
+3. ~~Can dynamical entanglement generation from a product state create
+   crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+>^N,
+   which is an eigenstate of the isotropic Heisenberg Hamiltonian. The
+   state |0+0+> (not an eigenstate, energy variance = 20) generates
+   crossings from zero initial entanglement. Under pure unitary
+   evolution all 6 pairs cross. With dephasing (gamma = 0.05), only
+   pair (0,2) crosses at t = 0.285 because |0>-qubits are immune to
+   sigma_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
 
 4. What is the minimum per-pair entanglement needed for crossing?
 

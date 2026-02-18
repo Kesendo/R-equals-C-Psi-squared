@@ -185,6 +185,11 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 - [Universal Quantum Lifetime](experiments/UNIVERSAL_QUANTUM_LIFETIME.md), The x³ + x = ½ equation
 - [Observer-Dependent Crossing](experiments/OBSERVER_DEPENDENT_CROSSING.md), Same physics, different time — C defines when measurement happens
 - [Predictions](experiments/PREDICTIONS.md), All predictions with epistemic tiers and falsification criteria
+- [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md), Type A/B/C classification of bridge metrics
+- [Noise Robustness](experiments/NOISE_ROBUSTNESS.md), Taxonomy survives all jump operators (Experiment 8)
+- [N-Scaling Barrier](experiments/N_SCALING_BARRIER.md), Why full-system crossing fails at large N
+- [Subsystem Crossing](experiments/SUBSYSTEM_CROSSING.md), Measurement is local -- crossing at pair level
+- [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md), Crossings from product states via Hamiltonian evolution
 
 ### Hypotheses (Tier 3+)
 - [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time — Wheeler-DeWitt connection
