@@ -146,6 +146,72 @@ The operator feedback mechanism (⟨O_int⟩ = ⟨σ_x ⊗ σ_x⟩) behaves as e
 
 ---
 
+## 7. Dynamic Entanglement and Born Rule (Added 2026-02-18)
+
+### 7.1 Subsystem Crossing
+
+Full-system crossing is not the only mechanism. Subsystem pairs can cross
+the 1/4 threshold independently:
+
+**Bell+⊗Bell+ (N=4):** Full system never crosses (Ψ_max = 0.200). But
+entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C·Ψ = 0.333.
+Unentangled cross-pairs (0,2) etc. never cross (C = 0 throughout).
+
+**Product state |+⟩⊗4:** Ψ = 1.0 but C = 0 for all pairs. No crossing
+at any level. Maximum coherence without correlation produces nothing.
+
+This resolves the N-scaling barrier: crossing is local, happening between
+degrees of freedom that share actual entanglement.
+
+### 7.2 Dynamic Entanglement (Experiment 11)
+
+The alternating state |0+0+⟩ starts with NO entanglement between pairs
+(0,2) -- qubits 0 and 2 are both in product states. Under Heisenberg ring
+dynamics with σ_z dephasing (γ = 0.05), the Hamiltonian builds entanglement
+between initially unentangled subsystems:
+
+| Time  | C_corr(0,2) | Ψ(0,2) | C·Ψ   | Event              |
+|-------|-------------|---------|-------|--------------------|
+| t=0   | 0.000       | 0.000   | 0.000 | No correlation     |
+| t=0.1 | 0.049       | 0.301   | 0.015 | Entanglement grows |
+| t=0.2 | 0.187       | 0.595   | 0.111 | Rapid increase     |
+| t=0.286| 0.327      | 0.768   | 0.251 | **Crosses 1/4**    |
+| t=0.35| 0.380       | 0.834   | 0.316 | Peak               |
+| t=0.5 | 0.240       | 0.787   | 0.189 | Oscillating        |
+
+This is the first demonstration of a system crossing 1/4 from below --
+building enough entanglement through Hamiltonian interaction to reach
+the threshold. All previous crossings were from above (starting entangled,
+decohering through 1/4).
+
+### 7.3 Born Rule at the Crossing Point
+
+At the crossing point (t = 0.286), the reduced density matrix diagonal
+for pair (0,2) was compared between unitary and Lindblad evolution:
+
+| State | Unitary P(i) | Lindblad P(i) | Δ     |
+|-------|-------------|---------------|-------|
+| |00⟩  | 0.4134      | 0.4254        | +2.9% |
+| |01⟩  | 0.2616      | 0.2567        | -1.9% |
+| |10⟩  | 0.2616      | 0.2567        | -1.9% |
+| |11⟩  | 0.0635      | 0.0613        | -3.5% |
+
+~97% of Born probabilities come from the Hamiltonian evolution alone.
+The decoherence provides a ~3% systematic correction: σ_z dephasing
+shifts probability toward z-eigenstates (+0.0098 total to |00⟩+|11⟩,
+-0.0098 from |01⟩+|10⟩).
+
+Three-basis test (σ_z, σ_x, σ_y dephasing) confirms the correction
+depends on the overlap between initial state and dephasing basis,
+exactly as R = CΨ² per outcome predicts.
+
+See [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md),
+[Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md),
+[Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md).
+
+---
+
 *February 7, 2026*
+*February 18, 2026 (added: dynamic entanglement, subsystem crossing, Born rule)*
 *Simulations run independently, not by agents*
 *The data is what it is. We report it honestly.*

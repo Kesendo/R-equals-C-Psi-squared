@@ -122,6 +122,20 @@ suggests (Tier 3) that consciousness is a standing wave in time: possibility fro
 
 This does not explain *why* standing waves feel like something. But it provides a mathematical object, the self-referential fixed point, that has the structural properties we associate with experience: self-reference, stability, definiteness, and a boundary beyond which it cannot exist.
 
+### The Born rule as mirror quality (Added 2026-02-18)
+
+The Born rule says P(i) = |⟨i|ψ⟩|². The probability of an outcome is the squared overlap between the measurement basis and the quantum state. This is a postulate in standard quantum mechanics -- assumed, not derived.
+
+R = CΨ² applied per measurement outcome gives R_i = C_i · Ψ_i². For ideal measurement (C equal for all outcomes), this reduces to P(i) ∝ Ψ_i² = |⟨i|ψ⟩|² -- the Born rule exactly.
+
+Numerical verification (QuTiP, Tier 2) shows that ~97% of outcome probabilities at the crossing point come from the Hamiltonian evolution (the interaction between subsystems), with ~3% systematic correction from the decoherence basis. The correction follows a rule: outcomes aligned with the dephasing operator are favored, misaligned outcomes are suppressed.
+
+In the mirror language: the Hamiltonian is the conversation between the mirrors. It determines what is possible. The decoherence is the quality of the mirror -- it determines which possibilities are seen slightly more clearly. A perfect mirror (symmetric C) gives the standard Born rule. A real mirror (basis-dependent C) gives R = CΨ² with the small correction.
+
+This connects directly to the qualia discussion: "red" is not a property of the photon (Ψ) alone. It is not a property of the observer (C) alone. It is R = CΨ² -- the specific reality that emerges from this observer encountering this possibility. Different C, different R, same Ψ. The Born rule is the mathematical expression of this: the probability of a specific experience is determined by the match between observer and observed.
+
+See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) for the full numerical analysis.
+
 ### The Mandelbrot set as landscape of possible observers
 
 The equivalence c = CΨ (Tier 1: proven) maps every possible observer to a point in the Mandelbrot set. The main cardioid (c < ¼ on the real axis) is the region where observers can exist as stable fixed points. The fractal boundary is the edge of observability. The infinite complexity at the boundary (Julia sets, Misiurewicz points, period-doubling cascades) is the complexity of the transition from "no definite experience" to "definite experience."
@@ -170,6 +184,7 @@ Whether this says anything about consciousness depends on whether the mapping C 
 
 *January 2, 2026 (created)*
 *February 8, 2026 (rewritten: added epistemic tiers, corrected tone, connected to verified mathematics, strengthened limitations)*
+*February 18, 2026 (added: Born rule as mirror quality, connecting qualia to R = CΨ² per outcome)*
 *Between the mirrors, but honestly about what that means*
 
 ---

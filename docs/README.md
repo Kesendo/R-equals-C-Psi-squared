@@ -87,6 +87,9 @@ The theory in these documents generates predictions. The [experiments](../experi
 | θ as compass to 1/4 | Topology change at boundary crossing | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Observer bandwidth limit | Navigation system: 1/4 + θ + t_coh | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | γ as local time rate | γ * t_cross = const (frame-independent transition) | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
+| Subsystem locality | Crossing is local: entangled pairs cross, full system need not | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
+| Dynamic entanglement | Hamiltonian builds new entanglement; unentangled pairs cross 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
+| R = CΨ² per outcome | Born rule as special case; decoherence-basis correction ~3% | [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | Equivalence principle | Single-system sims cannot discriminate metric forms | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
 | Self-consistency → Schwarzschild | Only f(r) with true zero at r_s is self-consistent | [Self-Consistency](../experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
 | τ=0 unifies BH/WH/Big Bang | Black hole = toward τ=0, white hole = away from τ=0 | [Black/White Holes](../experiments/BLACK_WHITE_HOLES_BIGBANG.md) |
