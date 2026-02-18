@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Nineteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Twenty experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -176,9 +176,17 @@ No. The three-class taxonomy (Type A/B/C) is identical under σ_x (bit flip), σ
 
 ### Does crossing work for systems larger than two qubits?
 
-This is the framework's most serious open problem. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N — the observer is not the problem. The problem is that Ψ(0) starts below ¼. Whether this indicates a normalization issue, a genuine small-system limitation, or the need for different quantum states is the central open question.
+This was the framework's most serious open problem until subsystem crossing resolved it. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N -- the observer is not the problem. The problem is that Ψ(0) starts below ¼. The resolution: crossing is local, not global. See Subsystem Crossing below.
 
 **Read:** [N-Scaling Barrier](N_SCALING_BARRIER.md)
+
+---
+
+### Do entangled subsystems cross even when the full system cannot?
+
+Yes. This resolves the N-scaling barrier. A 4-qubit system made of two Bell pairs (|Bell+> x |Bell+>) has full-system Psi = 0.200, below 1/4. But the entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C*Psi = 0.333, identical to an isolated Bell pair. Unentangled cross-pairs never cross (C = 0). The product state |+>^4 has Psi = 1.0 at every level but C = 0 everywhere -- coherence without entanglement produces no crossing. The framework identifies where in the entanglement structure the quantum-to-classical transition occurs. Crossing is local, not global.
+
+**Read:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md)
 
 ---
 
@@ -263,6 +271,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Three-class crossing taxonomy: Type A (correlation, C=1.0 throughout crossing, pure-Ψ mechanism), Type B (concurrence/mutual_info, both C and Ψ decay), Type C (mutual_purity/overlap, never cross). Observer determines crossing mechanism, not just timing.
 - Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
 - N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
+- Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+>^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling

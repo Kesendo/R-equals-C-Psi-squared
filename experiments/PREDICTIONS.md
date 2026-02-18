@@ -40,6 +40,10 @@
 | N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | Standard states cross at large N | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
 | W N=3 crosses, GHZ N=3 does not | W: Ψ(0)=0.286 > ¼, GHZ: Ψ(0)=0.143 < ¼ | Both cross or both fail | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
 | Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
+| Subsystem pairs cross when full system cannot | Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.073 despite full-system Psi=0.200 | Pairs fail to cross | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
+| Non-entangled pairs never cross | Bell+xBell+ cross-pairs (0,2) etc: C=0, l1=0 at all times | Cross-pairs eventually develop coherence | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
+| Product state: Psi=1 but C=0 means no crossing | |+>^4: every pair has Psi=1.0 and C=0.000 permanently | Product state pairs develop nonzero C | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
+| GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
 
 ---
 
@@ -150,7 +154,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Tier | Count | Examples |
 |------|-------|---------|
 | **Confirmed on hardware** | 4 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½ |
-| **Computationally verified** | 9 | γ·t_cross, θ trajectory, bifurcation, operator feedback, Ψ_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2 |
+| **Computationally verified** | 13 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
 | **Testable now** | 4 | Critical slowing, fingerprints, field threshold, altitude |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
