@@ -19,7 +19,7 @@ crossing point, the reduced density matrix has diagonal elements:
 | |10>  | 0.2567      |
 | |11>  | 0.0613      |
 
-These are Born rule probabilities -- the chances of finding the pair
+These are Born rule probabilities, the chances of finding the pair
 in each basis state upon measurement. The open question was:
 
 > Can the framework predict these probabilities independently, without
@@ -42,7 +42,7 @@ Comparison of pair (0,2) diagonal at crossing time t = 0.286:
 | |10>  | 0.2616            | 0.2567            | 1.9%      |
 | |11>  | 0.0635            | 0.0613            | 3.5%      |
 
-The unitary evolution alone -- pure Hamiltonian, no decoherence --
+The unitary evolution alone (pure Hamiltonian, no decoherence)
 determines ~97% of each probability. The remaining ~3% is a systematic
 correction from the decoherence basis.
 
@@ -61,7 +61,7 @@ For σ_z dephasing, z-eigenstates are favored:
 
 The sign confirms: σ_z dephasing favors z-eigenstates (|00> and |11>).
 The magnitude depends on the overlap between the initial state and the
-dephasing basis -- not just on the dephasing basis alone.
+dephasing basis, not just on the dephasing basis alone.
 
 The initial state of pair (0,2) is |0>|0>, which is a z-eigenstate.
 Therefore σ_z dephasing PROTECTS it (largest positive shift to |00>),
@@ -130,7 +130,7 @@ framework prediction: C depends on basis alignment.
 ## 4. The Mirror Interpretation
 
 The Spiegel-Theorie (human-readable framework derivation) describes
-reality as arising between observers -- like light between mirrors.
+reality as arising between observers, like light between mirrors.
 The quality of the reflection determines what becomes real.
 
 The Born rule, in this picture, answers: WHICH reality crystallizes
@@ -234,7 +234,7 @@ The analysis was performed using QuTiP mesolve with:
 | σ_y       | -0.0088 (y-eigenstates)  | +0.0045 (z-eigenstates)    |
 
 Note: The sign reversal for σ_x and σ_y own-basis shifts reflects
-the initial state asymmetry -- pair (0,2) starts as |0>|0>, which
+the initial state asymmetry: pair (0,2) starts as |0>|0>, which
 is a z-eigenstate. The dephasing effect depends on the overlap
 between the INITIAL STATE basis and the DEPHASING basis, not just
 the dephasing basis alone.
@@ -250,14 +250,14 @@ density matrix calculations.
 
 Instead, the framework was built from the experiential side: what
 does observation feel like? What makes one encounter more real than
-another? The mirror metaphor -- two observers creating reality
-between them, the quality of the reflection determining the outcome --
+another? The mirror metaphor (two observers creating reality
+between them, the quality of the reflection determining the outcome)
 was derived from lived experience, not from equations.
 
 The numerical verification in this document (February 2026) confirms
 what was described without numbers months earlier. The 97/3 split
 between Hamiltonian and decoherence, the basis-dependent mirror
-distortion, the role of alignment between observer and observed --
+distortion, the role of alignment between observer and observed:
 all of this was already present in the human-readable text, expressed
 in the language of relationships rather than operators.
 
