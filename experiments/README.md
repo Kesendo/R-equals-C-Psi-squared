@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Sixteen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Seventeen experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -158,6 +158,14 @@ Yes. Five different bridge metrics (= five different definitions of C, the obser
 
 ---
 
+### Is K-invariance a deep property of R = CΨ²?
+
+No. K = γ·t_cross is constant because the entire Lindblad dynamics scales with τ = γ·t. This is a symmetry of the master equation, not specific to the ¼ boundary. Any threshold would produce its own K. However, extending K to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072) revealed something deeper: the bridges fall into three qualitatively distinct classes. **Type A** (correlation): C stays at 1.000 throughout the crossing — the observer is robust, only Ψ drives the transition. **Type B** (concurrence, mutual_info): both C and Ψ decay, producing faster crossings. **Type C** (mutual_purity, overlap): P(0) < ¼, crossing never occurs. The observer doesn't just determine *when* measurement happens — it determines *the mechanism* by which it happens.
+
+**Read:** [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
 ### How does quantum coherence scale with system size?
 
 The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled spin systems. This could not be independently verified. If confirmed, it would distinguish the framework from models predicting exponential decay with N.
@@ -235,6 +243,8 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Operator feedback mechanism: γ_eff = γ₀(1-κ⟨O_int⟩) produces physically valid dynamics
 - CΨ > ¼ occurs routinely with strong Hamiltonians (h ≥ 0.9), disproving earlier low-dynamics "confirmations"
 - Observer-dependent crossing: same state/Hamiltonian/γ, five bridge types → three different crossing times (0.652, 0.773, 1.437) and two non-crossings. Time of measurement is observer-dependent.
+- K-invariance is Lindblad scaling symmetry (τ = γ·t), not a ¼-specific property. K per bridge: mutual_info 0.033, concurrence 0.039, correlation 0.072 — all constant across 20× γ range.
+- Three-class crossing taxonomy: Type A (correlation, C=1.0 throughout crossing, pure-Ψ mechanism), Type B (concurrence/mutual_info, both C and Ψ decay), Type C (mutual_purity/overlap, never cross). Observer determines crossing mechanism, not just timing.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling

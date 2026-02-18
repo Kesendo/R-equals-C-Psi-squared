@@ -193,6 +193,8 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 
 **UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md).
 
+**UPDATE 2026-02-18**: K-invariance has been extended to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072). More importantly, K-invariance is now understood as a consequence of Lindblad scaling symmetry τ = γ·t, not a specific property of the ¼ boundary. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
+
 ## 8. Recommended Next Steps
 
 1. **Immediate**: Implement per-qubit γ in delta_calc (Path 5.1)

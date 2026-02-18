@@ -385,4 +385,5 @@ Interpretation (1986) and provides the missing boundary condition: ¼.
 ---
 
 *Previous experiment: [Boundary Navigation](BOUNDARY_NAVIGATION.md)*
+*Extended by: [Crossing Taxonomy](CROSSING_TAXONOMY.md) — K per bridge, Lindblad scaling, three-class taxonomy*
 *Framework overview: [Mathematical Findings](MATHEMATICAL_FINDINGS.md)*
