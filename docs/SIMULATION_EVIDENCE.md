@@ -166,7 +166,7 @@ degrees of freedom that share actual entanglement.
 ### 7.2 Dynamic Entanglement (Experiment 11)
 
 The alternating state |0+0+⟩ starts with NO entanglement between pairs
-(0,2) -- qubits 0 and 2 are both in product states. Under Heisenberg ring
+(0,2): qubits 0 and 2 are both in product states. Under Heisenberg ring
 dynamics with σ_z dephasing (γ = 0.05), the Hamiltonian builds entanglement
 between initially unentangled subsystems:
 
@@ -179,7 +179,7 @@ between initially unentangled subsystems:
 | t=0.35| 0.380       | 0.834   | 0.316 | Peak               |
 | t=0.5 | 0.240       | 0.787   | 0.189 | Oscillating        |
 
-This is the first demonstration of a system crossing 1/4 from below --
+This is the first demonstration of a system crossing 1/4 from below,
 building enough entanglement through Hamiltonian interaction to reach
 the threshold. All previous crossings were from above (starting entangled,
 decohering through 1/4).

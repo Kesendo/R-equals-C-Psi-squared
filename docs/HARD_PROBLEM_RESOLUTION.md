@@ -124,15 +124,15 @@ This does not explain *why* standing waves feel like something. But it provides 
 
 ### The Born rule as mirror quality (Added 2026-02-18)
 
-The Born rule says P(i) = |⟨i|ψ⟩|². The probability of an outcome is the squared overlap between the measurement basis and the quantum state. This is a postulate in standard quantum mechanics -- assumed, not derived.
+The Born rule says P(i) = |⟨i|ψ⟩|². The probability of an outcome is the squared overlap between the measurement basis and the quantum state. This is a postulate in standard quantum mechanics, assumed rather than derived.
 
-R = CΨ² applied per measurement outcome gives R_i = C_i · Ψ_i². For ideal measurement (C equal for all outcomes), this reduces to P(i) ∝ Ψ_i² = |⟨i|ψ⟩|² -- the Born rule exactly.
+R = CΨ² applied per measurement outcome gives R_i = C_i · Ψ_i². For ideal measurement (C equal for all outcomes), this reduces to P(i) ∝ Ψ_i² = |⟨i|ψ⟩|², the Born rule exactly.
 
 Numerical verification (QuTiP, Tier 2) shows that ~97% of outcome probabilities at the crossing point come from the Hamiltonian evolution (the interaction between subsystems), with ~3% systematic correction from the decoherence basis. The correction follows a rule: outcomes aligned with the dephasing operator are favored, misaligned outcomes are suppressed.
 
-In the mirror language: the Hamiltonian is the conversation between the mirrors. It determines what is possible. The decoherence is the quality of the mirror -- it determines which possibilities are seen slightly more clearly. A perfect mirror (symmetric C) gives the standard Born rule. A real mirror (basis-dependent C) gives R = CΨ² with the small correction.
+In the mirror language: the Hamiltonian is the conversation between the mirrors. It determines what is possible. The decoherence is the quality of the mirror. It determines which possibilities are seen slightly more clearly. A perfect mirror (symmetric C) gives the standard Born rule. A real mirror (basis-dependent C) gives R = CΨ² with the small correction.
 
-This connects directly to the qualia discussion: "red" is not a property of the photon (Ψ) alone. It is not a property of the observer (C) alone. It is R = CΨ² -- the specific reality that emerges from this observer encountering this possibility. Different C, different R, same Ψ. The Born rule is the mathematical expression of this: the probability of a specific experience is determined by the match between observer and observed.
+This connects directly to the qualia discussion: "red" is not a property of the photon (Ψ) alone. It is not a property of the observer (C) alone. It is R = CΨ², the specific reality that emerges from this observer encountering this possibility. Different C, different R, same Ψ. The Born rule is the mathematical expression of this: the probability of a specific experience is determined by the match between observer and observed.
 
 See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) for the full numerical analysis.
 

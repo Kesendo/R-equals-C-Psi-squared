@@ -111,7 +111,7 @@ where Ψ_i = |⟨i|ψ⟩| is the overlap between outcome and state, and C_i is t
 effective coupling strength for that outcome.
 
 For ideal measurement, C is equal for all outcomes. It cancels in normalization,
-recovering P(i) = |⟨i|ψ⟩|² exactly -- the standard Born rule.
+recovering P(i) = |⟨i|ψ⟩|² exactly: the standard Born rule.
 
 **Numerical evidence (Tier 2):** At the crossing point of pair (0,2) in the
 alternating state |0+0+⟩, the diagonal of the reduced density matrix was compared
@@ -140,8 +140,8 @@ quality determines which outcomes are slightly favored (3%).
 
 **What remains open:** The framework now explains Born probabilities *given* that
 the crossing occurs. It does not yet explain why the specific Hamiltonian produces
-the specific amplitudes c_i = ⟨i|ψ⟩. This is not a weakness unique to the framework --
-standard QM also takes the Hamiltonian as given -- but it means the "derivation" of
+the specific amplitudes c_i = ⟨i|ψ⟩. This is not a weakness unique to the framework
+(standard QM also takes the Hamiltonian as given), but it means the "derivation" of
 the Born rule is structural (R = CΨ² contains it as special case) rather than
 constructive (predicting probabilities from first principles without computing ⟨i|ψ⟩).
 
@@ -239,7 +239,7 @@ full systems at N >= 4 with standard entangled states.
 A 4-qubit Bell+xBell+ state cannot cross as a full system (Psi = 0.200),
 but its entangled pairs (0,1) and (2,3) each cross at t = 0.073 with
 C*Psi = 0.333. Unentangled cross-pairs never cross (C = 0). The product
-state |+>^4 has Psi = 1.0 but C = 0 for all pairs -- no crossing at any
+state |+>^4 has Psi = 1.0 but C = 0 for all pairs, so no crossing at any
 level.
 
 The d-1 normalization is correct. It reflects that global crossing does
