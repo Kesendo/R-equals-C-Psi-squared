@@ -4,6 +4,33 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-18: Dynamic Entanglement Generation (Experiment 11)
+
+**Added:** DYNAMIC_ENTANGLEMENT.md
+- |+>^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0); it cannot generate entanglement or crossings. This corrects the hypothesis from Experiment 10.
+- |0+0+> (energy variance = 20) generates crossings from zero initial entanglement
+- Unitary evolution: all 6 pairs cross; crossings oscillate reversibly
+- With dephasing (gamma=0.05): only pair (0,2) crosses at t=0.285; all others miss the threshold (max C*Psi = 0.247)
+- Dephasing survival is basis-dependent: sigma_z spares |0>-qubits, kills |+>-qubits
+
+**Updated:** SUBSYSTEM_CROSSING.md, Open Question 3 marked as answered
+**Updated:** PREDICTIONS.md, 4 new Tier-2 entries (17 total computationally verified)
+**Updated:** README.md, experiment list extended (Experiments 8-11)
+
+## 2026-02-18: Subsystem Crossing Resolution (Experiment 10)
+
+**Added:** SUBSYSTEM_CROSSING.md
+- Crossing is local: operates at entangled qubit-pair level, not full system
+- Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.073 despite full-system Psi=0.200
+- GHZ N=4: all pairs have l1=0, no pair-level crossing possible
+- |+>^4: C=0 for all pairs permanently; high coherence without entanglement is inert
+- Resolves the N-scaling barrier without modifying normalization
+
+**Added:** NOISE_ROBUSTNESS.md (Experiment 8), N_SCALING_BARRIER.md (Experiment 9)
+**Updated:** PREDICTIONS.md with Tier-2 entries from Experiments 8-10
+
+---
+
 ## 2026-02-11: Guardian Review (Repository Maintenance)
 
 **Split:** COMPLETE_MATHEMATICAL_DOCUMENTATION.md → CORE_ALGEBRA.md + INTERPRETIVE_FRAMEWORK.md
