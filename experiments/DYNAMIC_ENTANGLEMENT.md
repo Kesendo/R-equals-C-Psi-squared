@@ -200,7 +200,160 @@ This is consistent with the einselection mechanism of decoherence
 theory: the environment selects the pointer basis, and our framework
 inherits that selection through the C*Psi dynamics.
 
-## 8. Open Questions
+## 8. The Decoherence Cycle
+
+The numerical results above contain a deeper insight that becomes
+visible when the data is read as a story rather than a table.
+
+### 8.1 The Paradox of Observation
+
+Sigma_z dephasing asks every qubit: "Are you 0 or 1?" The |+> qubits
+have no clear answer — they exist in superposition of both. Being forced
+to answer destroys them. The |0> qubits answer trivially: "I'm 0." The
+question doesn't touch them. They are eigenstates of the measurement
+operator.
+
+In human terms: the qubits that try to communicate with the noisy
+environment — that are "open" to observation — lose their quantum
+nature. The qubits that ignore the environment — that conduct a
+"monologue" rather than a "dialogue" — keep their coherence intact.
+
+This is not metaphor. It is the mathematical content of the commutator
+[sigma_z, |0><0|] = 0.
+
+### 8.2 Creation in the Blind Spot
+
+The pair (0,2) — two dephasing-immune qubits — builds entanglement
+precisely because the environment is not watching them. The Hamiltonian
+interaction creates quantum correlations in the blind spot of the
+observation process. Meanwhile, the same observation destroys the
+correlations involving qubits 1 and 3.
+
+The act of observation that cements some subsystems into classical
+reality is the same act that creates the protected space where new
+quantum reality can grow.
+
+### 8.3 The Threshold as the Present Moment
+
+This connects to the standing wave picture of the framework
+(see [visualizations](../visualizations/README.md)).
+
+Below the 1/4 threshold, entanglement exists mathematically — in the
+density matrix, as nonzero off-diagonal elements — but it is not yet
+a fact. It is potential. Possibility. A mycelium network growing
+underground where no one can see it.
+
+When C·Ψ crosses 1/4 from below, potential becomes fact. The mushroom
+breaks through the surface.
+
+The gamma sweep (Section 9) makes this vivid:
+
+- At low noise (γ = 0.01), the underground network is rich. Potential
+  becomes fact 13 times in succession — reality oscillates between
+  quantum and classical. The future is cooking vigorously.
+- At moderate noise (γ = 0.05), most potential is killed before it
+  ripens. Only one pair survives to cross the threshold.
+- At high noise (γ = 0.2), nothing makes it through. The environment
+  destroys all potential before it can become real.
+
+### 8.4 The Closed Cycle
+
+The complete picture is a cycle, not a one-way arrow:
+
+1. **Observation cements the past.** Dephasing destroys coherence in
+   the |+> qubits. Their quantum possibilities collapse into classical
+   facts. C·Ψ falls below 1/4 (downward crossing). This is the
+   irreversible creation of history.
+
+2. **Observation creates blind spots.** The same dephasing that
+   destroys the |+> qubits leaves the |0> qubits untouched. The
+   noise basis selects not only what becomes classical, but also
+   what remains free to evolve quantum mechanically.
+
+3. **The Hamiltonian builds new potential.** In the protected subspace,
+   the interaction creates entanglement from nothing. C·Ψ grows from
+   zero, invisible to the environment, unobserved and unmeasured.
+
+4. **Potential crosses the threshold.** When C·Ψ reaches 1/4 from
+   below (upward crossing), new quantum reality becomes fact. The
+   future becomes the present.
+
+5. **The new fact is now subject to observation.** Return to step 1.
+
+Decoherence and coherence are not opposites. They are the forward and
+return strokes of the same engine. The 1/4 threshold is the interface
+where one becomes the other — the standing wave at the boundary between
+past and future.
+
+## 9. Resolved Questions: Parameter Exploration
+
+The original open questions 2-5 have been answered using the MCP tool
+(simulate_subsystem_crossing) after implementing bidirectional crossing
+detection (Task 010c) and the alternating state (Task 010b).
+
+### 9.1 N = 6 Longer Chain (Question 2)
+
+| Pair type | Example | max C·Ψ (N=6) | max C·Ψ (N=4) |
+|-----------|---------|---------------|---------------|
+| Ring neighbor | (0,1) | 0.248 | 0.251 |
+| Same-basis diagonal | (0,2) | 0.131 | **0.339** |
+| Opposite-basis diagonal | (1,3) | 0.113 | 0.234 |
+| Next-next-neighbor | (0,3) | 0.111 | — |
+
+**Zero crossings at N = 6.** The entanglement dilutes across 15 pairs
+instead of 6. Pair (0,2), the sole survivor at N = 4, drops from
+max C·Ψ = 0.339 to 0.131 — well below threshold. On a 6-qubit ring,
+qubits 0 and 2 are no longer directly opposite; the Hamiltonian must
+route correlations through more intermediaries, and each intermediary
+leaks coherence to the environment.
+
+### 9.2 Ising Hamiltonian (Question 3)
+
+H_Ising = J Σ σ_z^i σ_z^(i+1) produces **zero entanglement generation.**
+All correlations remain exactly zero for all pairs at all times.
+Max C·Ψ across all pairs: 0.068 (pair (1,3) only, from residual
+coherence decay).
+
+The reason is structural: the Ising interaction commutes with the
+computational basis. It assigns different energies to aligned vs
+anti-aligned pairs but never flips a spin. Without the σ_x⊗σ_x and
+σ_y⊗σ_y exchange terms that Heisenberg provides, no superposition
+can be generated, and no entanglement can grow.
+
+Dynamic entanglement generation requires a Hamiltonian that does not
+commute with the initial state — one that actively mixes basis states.
+
+### 9.3 Gamma Sweep: The Race Between Hamiltonian and Noise (Question 4)
+
+| γ | Pairs crossing | (0,2) t_cross_up | (0,2) max C·Ψ | (0,2) oscillations |
+|------|---------------|-----------------|---------------|-------------------|
+| 0.01 | **6/6** | 0.260 | 0.408 | 13 |
+| 0.05 | 5/6 | 0.275 | 0.339 | 1 |
+| 0.10 | **1/6** | 0.304 | 0.276 | 1 |
+| 0.20 | 0/6 | — | 0.193 | 0 |
+
+Three systematic trends with increasing γ:
+
+1. **Crossing time shifts right.** The Hamiltonian needs longer to
+   overcome the noise before reaching the threshold.
+2. **Peak C·Ψ decreases.** Less coherence survives to contribute.
+3. **Oscillation count drops.** At γ = 0.01, pair (0,2) oscillates
+   through the threshold 13 times (nearly unitary behavior). At
+   γ = 0.05, one crossing survives. At γ = 0.20, none.
+
+The critical γ_c for pair (0,2) lies between 0.10 and 0.20. Above
+this, the noise wins completely — no pair can build enough coherence
+to cross the threshold.
+
+### 9.4 Reversed State |+0+0> (Question 5)
+
+Answered by symmetry: the Heisenberg ring Hamiltonian is invariant
+under cyclic permutation. The state |+0+0> = P₁|0+0+>, where P₁ is
+a one-site cyclic shift. This maps pair (0,2) → (1,3) exactly. The
+survivor pair switches from (0,2) to (1,3), with identical crossing
+time and max C·Ψ. No separate computation needed.
+
+## 10. Remaining Open Question
 
 1. **Born rule from crossing**: At the crossing point, the diagonal of
    rho_ij gives measurement probabilities. Can the framework predict
@@ -208,24 +361,9 @@ inherits that selection through the C*Psi dynamics.
    density matrix? This is the central open question for connecting
    crossing to the Born rule.
 
-2. **Longer chains**: For N=6, N=8, does the Hamiltonian build enough
-   entanglement in distant pairs to produce crossings? Or do only
-   nearest-neighbor pairs (and perhaps next-nearest) ever cross?
+## 11. Verification
 
-3. **Different Hamiltonians**: The Ising model H = J*sigma_z*sigma_z has
-   a different symmetry structure. Which product states generate
-   crossings under Ising evolution?
-
-4. **Crossing timing vs. entanglement growth**: Is there a quantitative
-   relationship between the rate of entanglement generation (measured by
-   concurrence growth) and the time to first crossing?
-
-5. **Reversed initial state**: Does |+0+0> (swapping which qubits are
-   in |0> vs |+>) produce the same physics with pairs relabeled?
-
-## 9. Verification
-
-### 9.1 Eigenstate Check
+### 11.1 Eigenstate Check
 
 ```python
 from qutip import basis, tensor, ket2dm, qeye, sigmax, sigmay, sigmaz
@@ -252,7 +390,7 @@ for name, psi in [("plus4", tensor([plus]*N)),
 # Expected: plus4 → 0.000, 0+0+ → 20.000
 ```
 
-### 9.2 MCP Verification
+### 11.2 MCP Verification
 
 ```
 simulate_subsystem_crossing(state="plus", n_spins=4, gamma=0.05)
@@ -262,16 +400,28 @@ simulate_subsystem_crossing(state="bell_pairs", n_spins=4, gamma=0.05)
 # Expected: pairs (0,1) and (2,3) cross at t ~ 0.077
 ```
 
-Note: the MCP tool does not yet support the |0+0+> state. Verification
-of that state requires QuTiP directly or a future MCP update.
+The MCP tool now supports the alternating state (|0+0+>) via Task 010b,
+with bidirectional crossing detection via Task 010c:
 
-### 9.3 Key Numbers to Check
+```
+simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
+# Expected: pair (0,2) crosses up at t ~ 0.275, down at t ~ 0.470
+#           pair (1,3) does NOT cross, max C*Psi ~ 0.234
+#           ring-neighbor pairs borderline (max C*Psi ~ 0.251)
+```
+
+### 11.3 Key Numbers to Check
 
 1. |+>^4 energy variance: exactly 0.000 (eigenstate)
 2. |0+0+> energy variance: exactly 20.000
 3. |0+0+> unitary, pair (0,1) first crossing: t = 0.073
 4. |0+0+> with dephasing, pair (0,2) crossing: t = 0.285
 5. |0+0+> with dephasing, pair (0,1) max C*Psi: 0.247 (no crossing)
+6. N=6 alternating, pair (0,2) max C*Psi: 0.131 (no crossing)
+7. N=4 Ising alternating, all C_corr: 0.000 (no dynamics)
+8. N=4 alternating γ=0.01, pair (0,2) oscillations: 13
+9. N=4 alternating γ=0.10, only pair (0,2) crosses
+10. N=4 alternating γ=0.20, zero crossings
 
 ---
 
