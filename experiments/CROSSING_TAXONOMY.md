@@ -219,24 +219,90 @@ may behave differently still. The taxonomy is noise-dependent.
 ### 5.1 How to Reproduce
 
 ```python
-# Using delta_calc MCP tool: simulate_dynamic_lindblad
-# Run for each (bridge, gamma) pair:
+# Requirements: pip install qutip numpy
+import numpy as np
+from qutip import (basis, tensor, ket2dm, qeye, sigmaz, sigmax, sigmay,
+                   mesolve, concurrence as qt_concurrence, entropy_mutual)
 
-bridges = ["concurrence", "mutual_info", "correlation",
-           "mutual_purity", "overlap"]
+# Bell+ state
+up, dn = basis(2, 0), basis(2, 1)
+bell_plus = (tensor(up, up) + tensor(dn, dn)).unit()
+rho0 = ket2dm(bell_plus)
+
+# Heisenberg Hamiltonian (J=1, h=0)
+sx, sy, sz = sigmax(), sigmay(), sigmaz()
+I2 = qeye(2)
+H = (tensor(sx, sx) + tensor(sy, sy) + tensor(sz, sz))
+
+# Local dephasing: sigma_z on each qubit
+c_ops_fn = lambda gamma: [
+    np.sqrt(gamma) * tensor(sz, I2),
+    np.sqrt(gamma) * tensor(I2, sz)
+]
+
+# Bridge metrics
+def bridge_concurrence(rho):
+    return qt_concurrence(rho)
+
+def bridge_correlation(rho):
+    rhoA = rho.ptrace(0)
+    rhoB = rho.ptrace(1)
+    pAB = (rho * rho).tr().real
+    pA = (rhoA * rhoA).tr().real
+    pB = (rhoB * rhoB).tr().real
+    return max(0, min(1, (pAB - pA * pB) / (1 - pA * pB)))
+
+def bridge_mutual_info(rho):
+    mi = entropy_mutual(rho, [0], [1])
+    return min(1.0, mi / np.log(2))  # normalized to [0,1]
+
+def psi_l1(rho):
+    """L1 coherence normalized by (d-1)"""
+    rho_arr = rho.full()
+    d = rho_arr.shape[0]
+    off_diag = np.sum(np.abs(rho_arr)) - np.sum(np.abs(np.diag(rho_arr)))
+    return off_diag / (d - 1)
+
+# Run simulation
 gammas = [0.01, 0.05, 0.10, 0.20]
+bridges = {
+    "concurrence": bridge_concurrence,
+    "mutual_info": bridge_mutual_info,
+    "correlation": bridge_correlation,
+}
 
-# Common parameters:
-state = "Bell+"
-hamiltonian = "heisenberg"
-J = 1
-noise_type = "local"
+t_max = 10.0
 dt = 0.01
-t_max = 8  # increase for small gamma + correlation
+tlist = np.arange(0, t_max + dt, dt)
 
-# Extract crossing time by interpolating where C(t)*Psi(t) = 0.25
-# Compute K = gamma * t_cross for each run
+for bridge_name, bridge_fn in bridges.items():
+    for gamma in gammas:
+        result = mesolve(H, rho0, tlist, c_ops_fn(gamma), [])
+        for i, t in enumerate(tlist):
+            rho_t = result.states[i]
+            C = bridge_fn(rho_t)
+            psi = psi_l1(rho_t)
+            P = C * psi
+            if i > 0:
+                rho_prev = result.states[i-1]
+                C_prev = bridge_fn(rho_prev)
+                psi_prev = psi_l1(rho_prev)
+                P_prev = C_prev * psi_prev
+                if P_prev >= 0.25 and P < 0.25:
+                    # linear interpolation
+                    t_cross = tlist[i-1] + dt * (P_prev - 0.25) / (P_prev - P)
+                    K = gamma * t_cross
+                    print(f"{bridge_name:15s} gamma={gamma:.2f}  "
+                          f"t_cross={t_cross:.3f}  K={K:.4f}  "
+                          f"C_at_cross={C:.3f}")
+                    break
+        else:
+            print(f"{bridge_name:15s} gamma={gamma:.2f}  never crosses")
 ```
+
+Note: QuTiP's `concurrence()` and `entropy_mutual()` are standard functions.
+The correlation bridge uses the formula from Section 3.5. Results should match
+Table 3.1 within interpolation precision (< 1%).
 
 ### 5.2 Key Checks
 
