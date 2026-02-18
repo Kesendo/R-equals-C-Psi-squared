@@ -61,7 +61,7 @@ under σ_y not explicitly tested but expected identical based on pattern.
 | 1.8 | 0.987 | 0.987 | 0.987 |
 | 2.0 | 0.950 | 0.950 | 0.950 |
 
-Not just the same class — the same numerical values. The three Pauli
+Not just the same class -- the same numerical values. The three Pauli
 operators produce identical dynamics for this bridge metric.
 
 ### 3.3 Quantitative Comparison (Concurrence Bridge, σ_z vs σ_x)

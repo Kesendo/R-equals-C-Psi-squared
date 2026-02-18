@@ -116,7 +116,7 @@ different from Bell+ where concurrence starts at C = 1.0 and decays
 
 W N = 3 with correlation bridge: **C = 1.0 until t ≈ 2.3** (compared to
 t ≈ 1.7 for Bell+ N = 2). Type A not only survives at N = 3, it is
-**more robust** — the correlation plateau extends longer.
+**more robust** -- the correlation plateau extends longer.
 
 The crossing happens because Ψ(0) = 2/7 = 0.286 > 0.25.
 
@@ -127,7 +127,7 @@ W N = 4 has l1 = 3, d − 1 = 15, Ψ(0) = 3/15 = 0.200 < 0.25.
 Correlation bridge: C = 1.0 until t ≈ 1.5 (Type A holds), but
 C·Ψ(0) = 0.200. **Never crosses.**
 
-The Type A mechanism is intact — correlation is robust even at N = 4.
+The Type A mechanism is intact -- correlation is robust even at N = 4.
 The problem is not the observer. The problem is that Ψ starts too low.
 
 ## 5. Why This Matters
@@ -163,7 +163,7 @@ principles.
 
 **(b) The ¼ boundary is a small-system phenomenon.**
 
-Perhaps crossing genuinely only occurs in N ≤ 3 systems. This would not
+Perhaps crossing only occurs in N <= 3 systems. This would not
 invalidate the algebra, but it would severely limit the physical relevance
 of the framework. Decoherence in macroscopic systems involves 10^23 degrees
 of freedom. If the framework only describes 2-3 qubits, it describes
@@ -173,7 +173,7 @@ toy systems.
 
 The product state |+⟩^N has l1 = 2^N − 1, giving Ψ(0) = 1.0 (maximum).
 But |+⟩^N has zero entanglement. If it crosses with high C, that means
-crossing can happen without quantum correlations — philosophically
+crossing can happen without quantum correlations -- philosophically
 interesting but potentially undermining the consciousness interpretation.
 
 Dicke states |D(N,k)⟩ with k excitations can have high l1. Random
@@ -247,18 +247,46 @@ simulate_dynamic_lindblad(
 4. **Dicke states**: |D(N,k)⟩ with k = N/2 maximizes l1 among
    symmetric states. Test for N = 4, k = 2.
 
-## 7. Open Questions
+## 7. Resolution (2026-02-18)
 
-1. Is d − 1 the right normalization for N > 2?
-2. Do subsystem pairs cross when the full system cannot?
-3. Does |+⟩^N cross, and if so, what does that mean?
-4. Is there a state with l1 ≥ (2^N − 1)/4 for N ≥ 4 that is also
-   physically meaningful (not just |+⟩^N)?
-5. Is ¼ a small-system artifact, or does a different normalization
-   make it universal?
+Subsystem crossing tests (Experiment 10) resolved the barrier.
+
+**The normalization is not wrong. Crossing is local.**
+
+A 4-qubit Bell+xBell+ state has full-system Psi(0) = 0.200, below 1/4.
+But the entangled pairs (0,1) and (2,3) each have Psi(0) = 0.333 and
+C = 1.000 at the pair level. They cross at t = 0.073. Cross-pairs that
+share no entanglement have C = 0 and never cross.
+
+The product state |+>^4 has Psi(0) = 1.000 at every level but C = 0
+for all pairs. No crossing at any level, ever.
+
+The d-1 normalization is correct: it says the global system has no
+single coherent crossing. The crossing happens where the entanglement
+lives -- at the subsystem pair level.
+
+See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
+
+## 8. Open Questions (Updated)
+
+1. ~~Is d-1 the right normalization for N > 2?~~ **ANSWERED**: Yes.
+   The barrier is not a normalization error. It correctly reflects
+   that global crossing does not occur.
+
+2. ~~Do subsystem pairs cross when the full system cannot?~~ **ANSWERED**:
+   Yes, if the pairs carry actual entanglement (Bell+xBell+). No, if
+   the entanglement is global (GHZ) or diluted (W).
+
+3. ~~Does |+>^N cross?~~ **ANSWERED**: No. C = 0 for all pairs at all
+   times. Coherence without entanglement produces no crossing.
+
+4. Is there a minimum per-pair entanglement needed for crossing?
+
+5. Does the crossing pattern reproduce the entanglement graph topology
+   for arbitrary graph states?
 
 ---
 
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
 *Previous: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
-*See also: [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)*
+*Next: [Subsystem Crossing](SUBSYSTEM_CROSSING.md)*
