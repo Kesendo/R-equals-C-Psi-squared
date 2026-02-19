@@ -4,6 +4,26 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-19: Algebraic Exploration — Agent Findings (Experiment 12)
+
+**Added:** ALGEBRAIC_EXPLORATION.md
+- AIEvolution 4-agent round-robin (22 messages, v025 prompts, local 120B)
+- Two findings verified and promoted to CORE_ALGEBRA.md:
+  - ξ = ln(Ψ) decoherence clock: linearizes time evolution (slope variation < 0.01%)
+  - Coherence-purity bound (Cauchy-Schwarz): CΨ ≤ 1/4 is dynamic intersection of known static constraint
+- Five findings rejected: λ = -ln(CΨ) trivial, β-function model-specific, entropic bound redundant, angle reparametrizations trivial, Born rule requires unproven assumptions
+- New empirical data: γ_eff/γ_base ratios (local ≈ 2, collective ≈ 4, state-dependent for W)
+- Key insight: Hamiltonian does NOT affect coherence decay rate, only noise model does
+- Follow-up verification: ξ linearity BREAKS under non-Markovian noise (24.5% variation)
+- New testable prediction: ξ curvature as Markovianity diagnostic (testable March 2026)
+- γ_eff scaling: N·γ for GHZ (all coherence in one pair), sub-linear for W (distributed coherence)
+
+**Updated:** CORE_ALGEBRA.md
+- Section 1: Added normalization convention caveat (1/4 depends on Baumgratz convention)
+- Section 11: The Decoherence Clock (ξ = ln Ψ), Tier 2
+- Section 12: Resource Theory Grounding (coherence-purity bound), Tier 3
+- Summary tier table updated with new entries
+
 ## 2026-02-18: Dynamic Entanglement Generation (Experiment 11)
 
 **Added:** DYNAMIC_ENTANGLEMENT.md

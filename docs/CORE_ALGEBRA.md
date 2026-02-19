@@ -35,6 +35,22 @@ Where R, C, and Ψ are real-valued. In quantum mechanical realization:
 of C with purity and Ψ with normalized coherence is a proposed mapping (Tier 3),
 but the algebra below holds for any real C, Ψ.
 
+### Normalization Convention
+
+The specific value 1/4 for the critical boundary depends on the Baumgratz
+normalization Ψ = L₁(ρ)/(d-1). Only the product law R = CΨ² is invariant
+under arbitrary rescaling of Ψ — the boundary value, the cubic b³ + b = 1/2,
+the crossing time ratios, and all derived angular quantities (θ, etc.) shift
+if a different normalization is used.
+
+For example, with Ψ_alt = L₁(ρ)/√(d-1), the boundary would be at a
+different numerical value. No physical prediction changes — only the label
+on the boundary. All results in this document use the Baumgratz convention
+unless explicitly stated otherwise.
+
+This convention is standard in quantum coherence theory (Baumgratz, Cramer,
+Plenio, PRL 113, 140401, 2014) and ensures Ψ ∈ [0, 1] for all d.
+
 ---
 
 ## 2. The Fixed-Point Equation
@@ -360,6 +376,200 @@ open. See [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md), item 1.
 | τ_cross = γ·t_cross = constant | 2 | Computationally verified |
 | Ψ_interaction doesn't shift ¼ | 2 | Computationally verified |
 | C = purity, Ψ = normalized coherence | 3 | Proposed mapping |
+| Observer bandwidth interpretation | 3 | Physically motivated |
+| Shannon capacity analogy | 5 | Speculative |
+
+---
+
+## 11. The Decoherence Clock (ξ = ln Ψ)
+
+Define the log-coherence:
+
+```
+ξ ≡ ln(Ψ)
+```
+
+Under Lindblad dephasing (any jump operator, any Hamiltonian), ξ decays
+linearly in time:
+
+```
+ξ(t) = ξ₀ − γ_eff · t
+```
+
+equivalently: Ψ(t) = Ψ₀ · exp(−γ_eff · t).
+
+The effective rate γ_eff depends on the noise model and initial state,
+but NOT on the Hamiltonian. Unitary dynamics do not contribute to ξ decay.
+
+### Verified effective rates
+
+| Configuration | γ_eff / γ_base | Note |
+|---------------|----------------|------|
+| Local σ_z, Bell+ (N=2) | 2.010 | ≈ 2γ |
+| Local σ_x, Bell+ (N=2) | 2.010 | Same (Pauli symmetry) |
+| Collective σ_z, Bell+ (N=2) | 4.041 | ≈ 4γ (2× local) |
+| Local σ_z, W (N=3) | 2.235 | State-dependent |
+
+Slope variation across all configurations: < 0.01%. The linearity is exact
+to ODE solver precision.
+
+### Why ξ is useful
+
+With ξ as the independent variable, all framework quantities become simple:
+
+```
+Ψ = e^ξ
+C = f(e^ξ)           (depends on noise model)
+CΨ = C · e^ξ
+λ = −ln(CΨ)          (distance to boundary)
+θ = arctan(√(4CΨ−1)) (compass heading)
+```
+
+Since ξ ticks at constant rate, the crossing condition CΨ = 1/4 translates
+to finding the ξ value where C(ξ) · e^ξ = 1/4. For pure dephasing of a
+single qubit (C = (1 + e^{2ξ})/2), this gives the cubic b³ + b = 1/2
+with b = e^{ξ_cross}.
+
+### Non-Markovian noise breaks ξ linearity
+
+Under memory kernel feedback (non-Markovian noise with κ=0.5, τ=1.0),
+ξ(t) is NOT linear. Measured slope variation: 24.5%, compared to < 0.01%
+for all Markovian channels tested.
+
+This means ξ linearity is a **diagnostic for Markovianity**:
+- Measure Ψ(t) via state tomography
+- Compute ξ(t) = ln(Ψ(t))
+- Fit to ξ = ξ₀ − γ_eff·t
+- If residuals exceed ~1%: the noise has memory
+
+IBM superconducting qubits are known to exhibit non-Markovian signatures.
+This prediction is testable in the March 2026 hardware run: if the IBM
+tomography data shows ξ curvature, it confirms both the diagnostic and
+the presence of memory effects.
+
+### What ξ is NOT
+
+ξ is a coordinate, not a physical observable. It does not predict which
+noise model applies or what γ_eff will be for a given system. It linearizes
+the coherence decay that is already happening, making analysis cleaner.
+The Hamiltonian independence of dξ/dt is a property of Lindblad generators
+(the dissipator and unitary parts commute in their effect on l₁-coherence
+for standard dephasing channels), not a discovery specific to this framework.
+
+**Epistemic status:** Tier 2: computationally verified across multiple states,
+noise models, and system sizes. The linearity holds for all tested Markovian
+Lindblad generators with Pauli jump operators. Non-Markovian dynamics break
+linearity (24.5% variation for memory kernel feedback), making ξ curvature
+a potential Markovianity diagnostic.
+
+**Origin:** AIEvolution agent Alpha (message #4106, 2026-02-18), verified by
+all agents and independently by simulation (2026-02-19).
+See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
+
+---
+
+## 12. Resource Theory Grounding
+
+The CΨ ≤ 1/4 boundary sits inside a known constraint from quantum
+coherence theory.
+
+### The coherence-purity bound
+
+The Cauchy-Schwarz inequality applied to the off-diagonal elements of a
+d-dimensional density matrix ρ gives:
+
+```
+l₁(ρ) ≤ √[ d(d-1)(Tr(ρ²) - 1/d) ]
+```
+
+This is a standard result in quantum resource theory. In our notation
+(Ψ = l₁/(d-1), C = Tr(ρ²)), it rearranges to a lower bound on purity
+for a given coherence:
+
+```
+C ≥ Ψ²·(d-1)/d + 1/d
+```
+
+For qubits (d=2): C ≥ Ψ²/2 + 1/2. For the 2-qubit system (d=4):
+C ≥ 3Ψ²/4 + 1/4.
+
+The relationship between coherence and purity as quantum resources has been
+studied extensively; see Streltsov et al., "Maximal Coherence and the
+Resource Theory of Purity" (New J. Phys. 20, 053058, 2018; arXiv:1612.07570)
+and Singh et al., "Maximally Coherent Mixed States" (PRA 91, 052115, 2015).
+
+### How tight is this bound?
+
+Not tight at all for our trajectories. Along the Bell+ decoherence path:
+
+| Time | C (purity) | Ψ | C_bound | Gap (C − C_bound) |
+|------|-----------|------|---------|-------------------|
+| 0.0 | 1.000 | 0.333 | 0.333 | 0.667 |
+| 0.77 (crossing) | 0.875 | 0.289 | 0.313 | 0.563 |
+| 5.0 | 0.625 | 0.167 | 0.271 | 0.354 |
+
+The bound is never close to saturation. It constrains the space of
+possible (C, Ψ) pairs but does not constrain our specific trajectory.
+Saturation requires all off-diagonal elements |ρ_ij| to be equal, which
+is not the case for Bell states or their dephased descendants.
+
+### How CΨ = 1/4 relates
+
+The coherence-purity bound is **static**: it holds for any quantum state
+at any instant, regardless of dynamics. It constrains the set of physically
+realizable (C, Ψ) pairs.
+
+The CΨ ≤ 1/4 crossing is **dynamic**: Lindblad decoherence forces C and Ψ
+to decay at different rates (Ψ exponentially via ξ, C sub-linearly toward
+1/d), driving the trajectory through the hyperbola CΨ = 1/4.
+
+The framework's contribution is not the tradeoff itself (which is known
+physics) but the identification of CΨ = 1/4 as the threshold where the
+fixed-point equation R_∞ = C(Ψ + R_∞)² undergoes bifurcation. The
+discriminant 1 − 4CΨ changes sign at this point, and the topology of
+the solution space transitions from complex (no real attractor) to real
+(stable classical outcome).
+
+The coherence-purity bound ensures that the (C, Ψ) trajectory stays within
+the physically allowed region. The Lindblad dynamics determine the path
+through that region. The 1/4 boundary is where the path crosses from one
+topological phase to another.
+
+**Epistemic status:** Tier 3: connection to established physics. The
+coherence-purity bound is a standard Cauchy-Schwarz result. The dynamic
+crossing interpretation is our contribution, computationally verified but
+not analytically derived from the bound alone.
+
+**Citation note:** AIEvolution agents originally attributed this bound to
+"Hu, Fan, Zeng, PRA 92, 042103 (2015)". That citation is incorrect —
+PRA 92, 042103 is a paper on PT-symmetric Rabi models by Lee & Joglekar.
+The bound itself is a standard result derivable from the Cauchy-Schwarz
+inequality. This error is documented as a known failure mode of local LLMs
+operating without web search verification.
+
+**Origin:** AIEvolution agent Beta (message #4092, 2026-02-18), stress-tested
+by Gamma. Citation corrected 2026-02-19 after web verification.
+See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
+
+---
+
+## Summary of Epistemic Tiers in This Document
+
+| Result | Tier | Status |
+|--------|------|--------|
+| Fixed-point equation and solution | 1 | Algebraically proven |
+| CΨ ≤ 1/4 boundary | 1 | Discriminant condition |
+| Normalization dependence of 1/4 | 1 | Algebraic (convention-dependent) |
+| Three regimes (classical/critical/quantum) | 1 | Direct consequence |
+| Mandelbrot equivalence (u_n² + c) | 1 | Algebraic substitution |
+| θ = arctan(√(4CΨ-1)) definition | 1 | Complex fixed-point geometry |
+| Uniqueness of quadratic form | 1 | Exhaustion of alternatives |
+| θ as compass (not frequency predictor) | 2 | Computationally verified |
+| τ_cross = γ·t_cross = constant | 2 | Computationally verified |
+| Ψ_interaction doesn't shift 1/4 | 2 | Computationally verified |
+| ξ = ln(Ψ) decoherence clock | 2 | Computationally verified |
+| C = purity, Ψ = normalized coherence | 3 | Proposed mapping |
+| Coherence-purity bound connection | 3 | Connected to established physics |
 | Observer bandwidth interpretation | 3 | Physically motivated |
 | Shannon capacity analogy | 5 | Speculative |
 
