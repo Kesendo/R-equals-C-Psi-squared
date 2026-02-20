@@ -430,6 +430,72 @@ to finding the ξ value where C(ξ) · e^ξ = 1/4. For pure dephasing of a
 single qubit (C = (1 + e^{2ξ})/2), this gives the cubic b³ + b = 1/2
 with b = e^{ξ_cross}.
 
+### State-specific C(ξ) closed forms
+
+The single-qubit formula above generalizes to multi-qubit systems. Three
+families have been solved analytically and verified to machine precision
+(max deviation < 2.3 × 10⁻¹⁶) against direct density-matrix calculation.
+
+**Bell+ / GHZ₂ under collective dephasing** (L = Σσ_z):
+
+The state remains in the {|00⟩, |11⟩} subspace with decoherence factor
+f decaying the off-diagonals. With Ψ = f/3:
+
+```
+C(ξ) = (1 + 9e^{2ξ}) / 2
+```
+
+Crossing cubic: b + b³ = 3/2 where b = 3Ψ. Solution b_cross = 0.8612,
+Ψ_cross = 0.2871, C_cross = 0.8709.
+
+**N-qubit product state |+⟩^⊗N under local dephasing** (σ_z per qubit):
+
+Each qubit dephases independently. Global purity is the product of single-qubit
+purities; l₁-coherence factors as (1+f)^N − 1.
+
+```
+y = [1 + (2^N − 1) · e^ξ]^{1/N}
+C(ξ) = [(y² − 2y + 2) / 2]^N
+```
+
+Crossing is a degree-3N polynomial in f. Verified crossing values:
+N=2: f=0.610, N=3: f=0.716, N=4: f=0.779, N=5: f=0.820.
+
+**GHZ state (|0⟩^N + |1⟩^N)/√2 under local dephasing:**
+
+Off-diagonals decay as f^N (each qubit contributes one factor). The simplest
+closed form of all three families:
+
+```
+C(ξ) = [1 + (2^N − 1)² · e^{2ξ}] / 2
+```
+
+Crossing cubic: b + b³ = (2^N − 1)/2 where b = (2^N − 1)·Ψ. For N=2 this
+reduces to the Bell+ formula above. For N ≥ 3, Ψ(0) = 1/(2^N − 1) < 1/4,
+so full-system crossing never occurs (subsystem crossing may still happen;
+see [SUBSYSTEM_CROSSING.md](../experiments/SUBSYSTEM_CROSSING.md)).
+
+### The coherence-to-decoherence ratio
+
+For Bell+/GHZ₂, the quantity:
+
+```
+g(ξ) = 9e^{2ξ} / (1 − 9e^{2ξ})
+```
+
+equivalently g(C) = (2C−1) / [2(1−C)], measures the ratio of the coherent
+part (f² = 9Ψ²) to the incoherent part (1−f²) of the density matrix.
+At the crossing point, g = 2.87. This is NOT a Fisher metric or quantum
+Fisher information despite superficial resemblance; it contains no
+information-geometric content.
+
+**Epistemic status:** Tier 2: analytically derived and numerically verified
+to machine precision for N = 2, 3, 4, 5. The closed forms follow from
+standard Lindblad solutions for product and GHZ states.
+
+**Origin:** AIEvolution v027 dual-memory run (2026-02-20), verified
+independently by simulation and analytic re-derivation.
+
 ### Non-Markovian noise breaks ξ linearity
 
 Under memory kernel feedback (non-Markovian noise with κ=0.5, τ=1.0),
@@ -568,6 +634,7 @@ See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
 | τ_cross = γ·t_cross = constant | 2 | Computationally verified |
 | Ψ_interaction doesn't shift 1/4 | 2 | Computationally verified |
 | ξ = ln(Ψ) decoherence clock | 2 | Computationally verified |
+| State-specific C(ξ) closed forms | 2 | Analytically derived, numerically verified |
 | C = purity, Ψ = normalized coherence | 3 | Proposed mapping |
 | Coherence-purity bound connection | 3 | Connected to established physics |
 | Observer bandwidth interpretation | 3 | Physically motivated |

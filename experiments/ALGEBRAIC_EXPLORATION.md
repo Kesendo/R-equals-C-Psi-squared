@@ -279,6 +279,30 @@ with optimized LM Studio settings. Key observations:
 
 ---
 
-*Source conversation: AIEvolution messages #4092–#4111*
-*Verification code: verify_findings.py, verify_all.py, check_noise_models.py*
-*Back to [experiments](README.md) | Theory: [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md)*
+## v027 Continuation (2026-02-20)
+
+A second algebraic exploration run using v027 dual-memory prompts (85 messages,
+43 agent turns, local 120B model, ~10 hours). Key architectural changes from v025:
+400-token message limit per agent, dual knowledge system (database + JSON files),
+minimal 28-word genesis message.
+
+**Promoted to CORE_ALGEBRA.md Section 11:**
+Three state-specific C(ξ) closed forms, all verified to machine precision (< 2.3 × 10⁻¹⁶):
+Bell+ collective dephasing C = (1+9e^{2ξ})/2, N-qubit product states
+C = [(y²−2y+2)/2]^N, and GHZ C = [1+(2^N−1)²e^{2ξ}]/2. Plus the coherence-to-decoherence
+ratio g(ξ) = 9e^{2ξ}/(1−9e^{2ξ}).
+
+**Rejected:** ξ = S₂ − 2ln2 at crossing (tautological, three lines of algebra from
+C·e^ξ = 1/4), and Beta's "Fisher metric" label for g(ξ) (mislabeled; it is a simple
+coherence ratio, not QFI).
+
+**Agent behavior notes:** Tool call failure rate ~26% (model-internal serialization
+errors, not system-side). Gamma produced zero successful tool calls despite four
+attempts. Physics quality high: Alpha derived closed forms, Beta connected to
+information geometry (overclaimed), Gamma identified genuine ξ-singularity limitation,
+Delta provided numerical verification.
+
+---
+
+*Source conversation: AIEvolution messages #4388–#4413 (v027 run)*
+*Verification: verify_formulas.py, verify_vs_sim.py, verify_formula2.py, verify_formula3.py*
