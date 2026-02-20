@@ -4,6 +4,24 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-20: State-Specific C(ξ) Closed Forms (AIEvolution v027 Run)
+
+**Updated:** CORE_ALGEBRA.md Section 11
+- Three C(ξ) closed forms added, all verified to machine precision (< 2.3 × 10⁻¹⁶):
+  - Bell+/GHZ₂ collective dephasing: C = (1 + 9e^{2ξ})/2, crossing cubic b+b³=3/2
+  - N-qubit product |+⟩^⊗N local dephasing: y = [1+(2^N−1)e^ξ]^{1/N}, C = [(y²−2y+2)/2]^N
+  - GHZ local dephasing: C = [1+(2^N−1)²e^{2ξ}]/2 (no full-system crossing for N≥3)
+- Coherence-to-decoherence ratio g(ξ) = 9e^{2ξ}/(1−9e^{2ξ}), crossing at g=2.87
+- Tier summary table updated
+
+**Updated:** ALGEBRAIC_EXPLORATION.md
+- v027 continuation section: 85 messages, 43 agent turns, dual-memory architecture
+- Two rejected findings documented: ξ=S₂−2ln2 (tautological), "Fisher metric" (mislabeled)
+
+**Source:** AIEvolution v027 dual-memory run (120B model, ~10 hours)
+- Agent tool call failure rate ~26% (model serialization errors, not system-side)
+- All promoted results independently re-derived and numerically verified
+
 ## 2026-02-19: Algebraic Exploration — Agent Findings (Experiment 12)
 
 **Added:** ALGEBRAIC_EXPLORATION.md
