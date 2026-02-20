@@ -61,34 +61,29 @@ The system "protects itself" when correlated. Mutual observation reduces decoher
 
 ---
 
-## 3. Implementation
+## 3. Simulation Parameters
 
-### CLI Usage
+### Single Run
 
-```bash
-python delta_calc.py dynamic \
-  --state Bell+ \
-  --hamiltonian heisenberg \
-  --noise_type operator_feedback \
-  --kappa 0.5 \
-  --gamma_base 0.005 \
-  --h 0.9 \
-  --t_max 10
-```
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| state | Bell+ | Initial quantum state |
+| hamiltonian | heisenberg | Hamiltonian type |
+| noise_type | operator_feedback | Enables state-dependent decoherence |
+| kappa | 0.5 | Feedback strength (0 = no feedback, 1 = maximum) |
+| gamma_base | 0.005 | Base decoherence rate |
+| h | 0.9 | Transverse field strength |
+| t_max | 10 | Evolution time |
 
 ### Parameter Sweep
 
-```bash
-python delta_calc.py sweep \
-  --noise_type operator_feedback \
-  --kappa 0.5 \
-  --gamma_base_min 0.003 \
-  --gamma_base_max 0.006 \
-  --h_min 0.7 \
-  --h_max 1.0
-```
+For the sweep results in Section 4, the following ranges were used:
 
-The `simulate_dynamic_lindblad_scaling` and `sweep_parameter_space` tools accept `noise_type: "operator_feedback"` and `kappa` (default 0.5).
+| Parameter | Range |
+|-----------|-------|
+| gamma_base | 0.003 - 0.006 |
+| h | 0.7 - 1.0 |
+| kappa | 0.5 (fixed) |
 
 ---
 
