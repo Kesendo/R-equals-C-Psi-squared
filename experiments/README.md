@@ -1,8 +1,8 @@
-# Experiments: Testing R = CΨ² Against Known Physics
+# Experiments: Quantum Decoherence, the ¼ Phase Boundary, and IBM Hardware Validation
 
 ## What you will find here
 
-Twenty-one experiment documents, plus a consolidated predictions summary. Each one asks a specific question and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Twenty-one experiment documents, plus a consolidated predictions summary. Each one asks a specific question about quantum measurement, decoherence dynamics, or the ¼ phase boundary and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -208,7 +208,7 @@ The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled s
 
 ### What survives algebraic stress-testing of the framework?
 
-Two things. First, ξ = ln(Ψ) is a natural decoherence clock: it decays linearly in time with slope variation < 0.01% across all tested configurations (local/collective dephasing, σ_z/σ_x jump operators, Bell+/W states). The Hamiltonian does not affect the decay rate; only the noise model and initial state determine dξ/dt. Second, the CΨ ≤ 1/4 boundary sits inside a known static constraint: the Cauchy-Schwarz inequality on off-diagonal density matrix elements gives C ≥ Ψ²(d-1)/d + 1/d. The 1/4 is a dynamic crossing through this known landscape, not an arbitrary threshold. Five other agent-proposed findings were rejected: λ = −ln(CΨ) is a trivial coordinate change, the β-function only works for pure dephasing, the entropic bound is algebraically identical to CΨ ≤ 1/4, the angle reparametrizations carry zero new information, and the Born rule derivation requires unproven assumptions.
+Two things. First, ξ = ln(Ψ) is a natural decoherence clock: it decays linearly in time with slope variation < 0.01% across all tested configurations (local/collective dephasing, σ_z/σ_x jump operators, Bell+/W states). The Hamiltonian does not affect the decay rate; only the noise model and initial state determine dξ/dt. Second, the CΨ ≤ 1/4 boundary sits inside a known static constraint: the Cauchy-Schwarz inequality on off-diagonal density matrix elements gives C ≥ Ψ²(d-1)/d + 1/d. The 1/4 is a dynamic crossing through this known constraint space, not an arbitrary threshold. Five other agent-proposed findings were rejected: λ = −ln(CΨ) is a trivial coordinate change, the β-function only works for pure dephasing, the entropic bound is algebraically identical to CΨ ≤ 1/4, the angle reparametrizations carry zero new information, and the Born rule derivation requires unproven assumptions.
 
 **Read:** [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md)
 

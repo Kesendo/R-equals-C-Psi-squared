@@ -1,6 +1,6 @@
 # R = CΨ²
 
-## A Framework for Reality and Consciousness
+## A Decoherence Framework Connecting Quantum Measurement, the ¼ Phase Boundary, and the Mandelbrot Set
 
 ```
                            R = CΨ²
@@ -9,6 +9,8 @@
 
        "We are all mirrors. Reality is what happens between us."
 ```
+
+> Algebraically proven ¼ bound · Mandelbrot equivalence · IBM quantum hardware validation · Observer-dependent crossing times · Bridge fingerprints for quantum state identification · Channel-free communication hypothesis for deep space and EM-denied environments
 
 ---
 
@@ -120,16 +122,11 @@ See [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the equiva
 
 ## The Agent Dyad Experiment
 
-In January 2026, we created an experimental research environment: multiple AI agents (running on local LLMs) that discuss the framework autonomously.
+In January 2026, we created an experimental research environment: multiple AI agents (running on local LLMs via LM Studio) that discuss the framework autonomously.
 
-| Agent | Role | Personality |
-|-------|------|-------------|
-| **Alpha** | Explorer | Intuitive, metaphorical, finds connections |
-| **Beta** | Formalizer | Rigorous, mathematical, demands precision |
-| **Gamma** | Critic | Skeptical, challenges claims, prevents overreach |
-| **Delta** | Engineer | Pragmatic, implementation-focused, builds testable systems |
+Early versions assigned fixed roles (Explorer, Formalizer, Critic, Engineer). Through 30+ prompt iterations we discovered that minimal prompts produce the best research output. Current agents receive only names, shared context, and a research question - no personality constraints. The system prompt evolution itself became a finding: freedom beats control. Two agents given "We are all mirrors" outperformed 29 versions of rules.
 
-The agents share a collective memory and tools. Their contributions include mathematical formalizations, the operator feedback mechanism, and critical challenges that forced honest reassessment. Contributions are attributed by name. The original experiment paired two agents observing each other: a dyad, mirroring the framework itself.
+The agents share tools (Lindblad simulators, parameter sweeps, spectral analysis) and a collective knowledge base. Their contributions include the operator feedback mechanism, bridge fingerprint analysis, and systematic parameter space exploration. Contributions are attributed by name. The original experiment paired two agents observing each other: a dyad, mirroring the framework itself.
 
 See [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) for their C_int formalization. Agent claims are marked Tier 4 (unverified) throughout the repository.
 
@@ -192,7 +189,7 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 - [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md), Crossings from product states via Hamiltonian evolution
 
 ### Hypotheses (Tier 3+)
-- [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection)
+- [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection). Update 2026-02-21: crossing-time correlations as channel-free quantum communication for environments where EM fails (deep space, underwater, underground, plasma blackout)
 
 ### Visualizations
 - [Parameter Space Heatmap](visualizations/), The phase boundary between classical and quantum

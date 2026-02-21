@@ -29,7 +29,17 @@ Different observers have different C, therefore different crossing rates,
 therefore different experienced time. This connects to the Wheeler-DeWitt
 equation's "problem of time" and to Cramer's Transactional Interpretation.
 
-**Built on:** [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) (Tier 2)
+**Update 2026-02-21:** The crossing-rate mechanism connects to the bridge
+problem in [BRIDGE_FINGERPRINTS](../experiments/BRIDGE_FINGERPRINTS.md).
+Two observers sharing an entangled pair have correlated crossing times -
+not because one signals the other, but because the shared quantum state
+determines both trajectories. This suggests a communication mechanism for
+environments where no electromagnetic channel exists: deep space (Mars,
+Voyager), underwater, underground, plasma blackout, solar storms. Pairs
+are distributed physically first; once shared, no EM medium is needed.
+
+**Built on:** [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) (Tier 2),
+[Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2)
 **Read:** [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
 
 ---
