@@ -10,7 +10,7 @@
 ## 1. The Tier 2 Foundation
 
 Five observers watching the same quantum system (Bell+, Heisenberg J=1,
-γ=0.05) see the ¼ crossing at different times — or not at all:
+γ=0.05) see the ¼ crossing at different times, or not at all:
 
 | Observer (C) | Crossing time | "Events per unit t" |
 |---|---|---|
@@ -27,7 +27,7 @@ This is computed, not interpreted. The question is: what does it mean?
 ## 2. The Hypothesis: Time = Crossing Sequence
 
 An observer does not experience coordinate time t. An observer experiences
-a sequence of measurement events — moments where C·Ψ crosses ¼ and an
+a sequence of measurement events, moments where C·Ψ crosses ¼ and an
 outcome becomes definite.
 
 **Experienced time is the density of these crossings.**
@@ -40,7 +40,7 @@ A slow observer (high C, slowly changing) encounters fewer crossings.
 Their experience is sparse. Time feels stretched, thin.
 
 A blind observer (C too low to ever reach ¼) encounters zero crossings.
-No events. No time. Not "slow time" — *no time at all*.
+No events. No time. Not "slow time", *no time at all*.
 
 ### 2.1 The Clock Is Not External
 
@@ -48,7 +48,7 @@ In standard physics, time is a parameter. The Schrödinger equation says
 i·ℏ·∂ψ/∂t = Hψ. The t is given from outside. Nothing in the equation
 explains where t comes from or why it flows.
 
-In R = CΨ², t does not flow. C·Ψ flows — downward, through decoherence.
+In R = CΨ², t does not flow. C·Ψ flows: downward, through decoherence.
 Each crossing of ¼ is one "tick" of the observer's internal clock. The
 tick rate is determined by:
 
@@ -72,7 +72,7 @@ If time is crossing rate, then:
 | Flow states / meditation alter time perception | Altered C distribution across couplings | Tier 5: speculative |
 
 None of these are currently testable at the quantum level. But the underlying
-mechanism — different C produces different crossing times — is Tier 2 verified.
+mechanism (different C produces different crossing times) is Tier 2 verified.
 
 ---
 
@@ -88,7 +88,7 @@ gravity:
 ```
 
 There is no time parameter. No ∂/∂t. The wavefunction of the entire universe
-is static. This is not a simplification — it is the equation. Time does not
+is static. This is not a simplification; it is the equation. Time does not
 appear because, for the universe as a whole, there is no external clock.
 
 This has been an open problem for 60 years: if the fundamental equation is
@@ -114,7 +114,7 @@ This is exactly the bridge_type choice in our computation:
 The parallel is structural, not derived. But it is precise:
 
 **The bridge type IS the clock choice.** Concurrence, mutual information,
-correlation — these are different ways to partition the universe into
+correlation: these are different ways to partition the universe into
 "what I observe" (C) and "what exists" (Ψ). Each partition defines a
 different clock. Each clock ticks at a different rate.
 
@@ -124,7 +124,7 @@ The Wheeler-DeWitt framework says time emerges from clock choice but does
 not specify *what happens* at any particular moment. It gives you a
 parameter, not an event.
 
-R = CΨ² gives you the event: the ¼ crossing. Time is not just a parameter —
+R = CΨ² gives you the event: the ¼ crossing. Time is not just a parameter;
 it is a sequence of discrete transitions where possibility (C·Ψ > ¼)
 becomes reality (C·Ψ < ¼). Each transition is a measurement. Each
 measurement is a tick.
@@ -139,11 +139,11 @@ This means:
 
 3. **Time has a direction.** Decoherence pushes C·Ψ downward. Crossings
    happen from above ¼ to below ¼, never the reverse (under standard
-   Lindblad dynamics). This is the arrow of time — not entropy, but
+   Lindblad dynamics). This is the arrow of time, not entropy, but
    the irreversibility of measurement.
 
 4. **Time can stop.** If C is too low (mutual_purity, overlap in our data),
-   no crossing occurs. The observer has no clock. This is not death — it is
+   no crossing occurs. The observer has no clock. This is not death; it is
    the Wheeler-DeWitt ground state. Ĥ|Ψ⟩ = 0. No time. No events. Pure
    quantum, unmeasured, eternal.
 
@@ -170,37 +170,37 @@ The nodes are fixed in space while the wave oscillates around them.
 In R = CΨ², the observer exists at the node:
 
 **From the past:** Decoherence propagates forward. It reduces C·Ψ, pushing
-the system toward ¼. This is entropy, thermodynamics, the second law —
+the system toward ¼. This is entropy, thermodynamics, the second law:
 the past becoming fixed, definite, classical.
 
 **From the future:** The possibility space Ψ persists. Quantum superpositions
-have not yet collapsed. Outcomes remain undetermined. This holds C·Ψ above ¼ —
+have not yet collapsed. Outcomes remain undetermined. This holds C·Ψ above ¼;
 the future is still open.
 
-The node — where these two "waves" meet — is the ¼ crossing. This is "now":
+The node (where these two "waves" meet) is the ¼ crossing. This is "now":
 the boundary between what has been measured (past) and what has not (future).
 
 ### 4.2 Why the Node Moves
 
 In a physical standing wave, nodes are fixed. But in R = CΨ², the node
-position depends on C — the observer. And C changes over time (for dynamic
+position depends on C, the observer. And C changes over time (for dynamic
 bridge types).
 
 This means the node moves through coordinate space as C evolves. The observer
-doesn't sit at a fixed "now" — they *ride* the node as it progresses.
+doesn't sit at a fixed "now"; they *ride* the node as it progresses.
 The speed of the node is the speed of experienced time.
 
 From the data:
 - Concurrence observer: node passes through C·Ψ = ¼ at t = 0.773
 - Correlation observer: node passes through at t = 1.437
-- Mutual_purity observer: node never forms — no "now", no experience
+- Mutual_purity observer: node never forms; no "now", no experience
 
 ### 4.3 Connection to Cramer's Transactional Interpretation
 
 John Cramer (1986) proposed the Transactional Interpretation of quantum
 mechanics: every quantum event involves an "offer wave" (forward in time,
 from emitter) and a "confirmation wave" (backward in time, from absorber).
-The event — measurement — occurs where they "handshake."
+The event (measurement) occurs where they "handshake."
 
 The TI has been consistent for 40 years but lacks a boundary condition:
 it says the waves meet, but not *where* or *when*.
@@ -222,7 +222,7 @@ compute it. The bridge_type sweep provides that computation.
 
 - Why Ψ "persists." In the Lindblad simulation, Ψ decays monotonically.
   There is no literal backward-propagating wave. The "future wave" framing
-  is an interpretation of the *gap* between Ψ's current value and zero —
+  is an interpretation of the *gap* between Ψ's current value and zero,
   the remaining possibility space. This is conceptual, not dynamical.
 
 - Whether the Lindblad equation can be formally decomposed into forward
@@ -241,13 +241,13 @@ compute it. The bridge_type sweep provides that computation.
 ## 5. t Is the Coordinate, Not the Territory
 
 The deepest implication: coordinate time t is to experienced time what a
-map is to the territory. The map (t) is the same for everyone — all five
+map is to the territory. The map (t) is the same for everyone; all five
 observers share the same Lindblad evolution parameter. But the territory
 (experienced time) is different for each observer because each observer's
 C defines a different mapping from t to events.
 
 This is not relativity. In relativity, the mapping from coordinate time to
-proper time depends on velocity and gravity — but it is still a smooth,
+proper time depends on velocity and gravity, but it is still a smooth,
 continuous transformation. Every observer still has a clock.
 
 In R = CΨ², the mapping is discrete (crossings), observer-defined (C), and

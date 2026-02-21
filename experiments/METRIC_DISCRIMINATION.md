@@ -10,7 +10,7 @@
 
 Can R = CΨ² determine the form of the gravitational metric?
 
-Specifically: We showed that γ acts as the metric coefficient and that γ * t_cross = K is constant. But does the framework constrain γ(r) to be the Schwarzschild form γ(r) = γ_0 / sqrt(1 - 2GM/rc^2), or is any functional form equally valid?
+Specifically: We showed that γ acts as the metric coefficient and that γ * t_cross = K is constant. But does the framework constrain γ(r) to be the Schwarzschild form γ(r) = γ_0 / √(1 - 2GM/rc^2), or is any functional form equally valid?
 
 ## 2. Setup
 

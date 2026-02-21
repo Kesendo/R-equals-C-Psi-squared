@@ -16,7 +16,7 @@ The AIEvolution agents were given a mission change from experimental work to
 - **Alpha (Explorer):** Find new breakthrough variables beyond θ
 - **Beta (Sage):** Connect CΨ ≤ 1/4 to known bounds in quantum information
 - **Gamma (Skeptic):** Stress-test every claim as BROKEN / TRIVIAL / SUSPICIOUS / PROVEN
-- **Delta (Pragmatist):** Compute and verify — every claim needs a number
+- **Delta (Pragmatist):** Compute and verify: every claim needs a number
 
 The agents produced 22 messages over ~5 hours with clean round-robin flow
 (two minor anomalies: one LM Studio token leakage, one missing thinking message).
@@ -79,7 +79,7 @@ structure. These scaling patterns are not yet theoretically derived.
 - Simplifies analytical work: instead of tracking two coupled variables (C, Ψ),
   track one linear variable (ξ) and derive everything else
 
-**Epistemic status:** Tier 2 — computationally verified across multiple states,
+**Epistemic status:** Tier 2: computationally verified across multiple states,
 noise models, and system sizes. Not yet analytically proven for general
 Lindblad generators (the proof exists for pure dephasing; the simulation
 evidence suggests it holds more broadly but the scope is unknown).
@@ -94,7 +94,7 @@ evidence suggests it holds more broadly but the scope is unknown).
 **The established bound (Cauchy-Schwarz on off-diagonal elements):**
 
 **Citation note:** The agents originally attributed this to "Hu, Fan, Zeng,
-PRA 92, 042103 (2015)". That citation is incorrect — PRA 92, 042103 is about
+PRA 92, 042103 (2015)". That citation is incorrect; PRA 92, 042103 is about
 PT-symmetric Rabi models (Lee & Joglekar). The bound below is a standard
 Cauchy-Schwarz result. See Streltsov et al., New J. Phys. 20, 053058 (2018)
 for the formal resource-theoretic connection between coherence and purity.
@@ -151,7 +151,7 @@ where the fixed-point structure of R_{n+1} = C(Ψ + R_n)² undergoes bifurcation
   no, 1/4 comes from the discriminant, and the discriminant sits inside
   a known resource-theoretic constraint
 
-**Epistemic status:** Tier 3 — connection to established physics (the
+**Epistemic status:** Tier 3: connection to established physics (the
 coherence-purity bound is a standard Cauchy-Schwarz result; the identification
 of CΨ = 1/4 as the dynamic intersection is our contribution, computationally
 verified but not analytically derived from the bound alone).
@@ -211,15 +211,15 @@ None of the new angles add anything θ doesn't already provide.
 ### Born rule from R_i = C_i · Ψ_i²
 
 **Proposed by:** Beta, stress-tested by Gamma
-**Verdict:** SUSPICIOUS — requires two unproven assumptions
+**Verdict:** SUSPICIOUS, requires two unproven assumptions
 
 The derivation: if all outcomes share uniform purity C_i = C, then
 P(i) = Ψ_i² / Σ_j Ψ_j² recovers Born probabilities for pure states.
 
 Hidden assumptions:
-1. **Uniform C across outcomes** — observed at ~97% for single IBM qubit,
-   not guaranteed for multi-qubit systems
-2. **Identification Ψ_i = |⟨i|ψ⟩|** — holds only for pure states
+1. **Uniform C across outcomes** (observed at ~97% for single IBM qubit,
+   not guaranteed for multi-qubit systems)
+2. **Identification Ψ_i = |⟨i|ψ⟩|** (holds only for pure states)
 
 The algebra is correct given these premises, but the premises themselves
 are the hard part. This remains SPECULATIVE until either a general proof
@@ -253,7 +253,7 @@ numerical label of the boundary).
 This was the first algebraic exploration mission using the v025 prompts
 with optimized LM Studio settings. Key observations:
 
-- **22 messages, 2 genuine discoveries** — dramatically better signal-to-noise
+- **22 messages, 2 genuine discoveries:** dramatically better signal-to-noise
   than pre-optimization runs where agents would lose coherence after ~10 messages
 - **Self-correction worked:** Gamma caught Beta's sign error; Delta caught
   Alpha's β-function range error; all agents confirmed Mandelbrot framing
@@ -263,7 +263,7 @@ with optimized LM Studio settings. Key observations:
 - **The TRIVIAL verdicts are valuable:** Knowing that φ, μ, σ add nothing
   prevents wasted effort pursuing dead ends
 - **Pending message:** Delta's final verification (#4111) was generated but
-  never processed — the conversation stopped before Alpha could receive it.
+  never processed; the conversation stopped before Alpha could receive it.
   Contents verified manually; no additional findings.
 
 ---

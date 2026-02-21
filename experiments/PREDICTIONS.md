@@ -42,12 +42,12 @@
 | Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](N_SCALING_BARRIER.md) |
 | Subsystem pairs cross when full system cannot | Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.073 despite full-system Psi=0.200 | Pairs fail to cross | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
 | Non-entangled pairs never cross | Bell+xBell+ cross-pairs (0,2) etc: C=0, l1=0 at all times | Cross-pairs eventually develop coherence | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
-| Product state: Psi=1 but C=0 means no crossing | |+>^4: every pair has Psi=1.0 and C=0.000 permanently | Product state pairs develop nonzero C | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
+| Product state: Psi=1 but C=0 means no crossing | |+⟩^4: every pair has Psi=1.0 and C=0.000 permanently | Product state pairs develop nonzero C | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
 | GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
-| |+>^N is Heisenberg eigenstate | Energy variance = 0, no dynamics, C = 0 forever | |+>^N evolves nontrivially | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
-| Product state |0+0+> generates crossings | All 6 pairs cross under unitary Heisenberg evolution | No pair reaches C*Psi >= 1/4 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
+| |+⟩^N is Heisenberg eigenstate | Energy variance = 0, no dynamics, C = 0 forever | |+⟩^N evolves nontrivially | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
+| Product state |0+0+⟩ generates crossings | All 6 pairs cross under unitary Heisenberg evolution | No pair reaches C*Psi >= 1/4 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
 | Dephasing kills most dynamic crossings | Only pair (0,2) crosses with gamma=0.05; others reach max 0.247 | All pairs cross equally under dephasing | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
-| Dephasing survival is basis-dependent | sigma_z dephasing spares |0>-qubits (0,2), kills |+>-qubits (1,3) | Crossing pattern independent of noise basis | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
+| Dephasing survival is basis-dependent | σ_z dephasing spares |0⟩-qubits (0,2), kills |+⟩-qubits (1,3) | Crossing pattern independent of noise basis | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
 | ξ linearity breaks under non-Markovian noise | 24.5% slope variation (memory kernel, κ=0.5, τ=1.0) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |

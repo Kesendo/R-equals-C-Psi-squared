@@ -20,7 +20,7 @@ The value 1/4 is the bifurcation point where real fixed points of the quadratic 
 
 ### What do the patterns at the edge of the Mandelbrot set mean?
 
-The fractal structures at the Mandelbrot boundary are not decorative. They are the projection of complex fixed-point dynamics onto the real-complex transition surface. Each spiral, each self-similar copy corresponds to a specific oscillation frequency θ = arctan(sqrt(4*C·Ψ - 1)). The patterns are deterministic, structured, and, in this framework, physically interpretable as the structure of reality beyond the phase boundary where classical observation fails.
+The fractal structures at the Mandelbrot boundary are not decorative. They are the projection of complex fixed-point dynamics onto the real-complex transition surface. Each spiral, each self-similar copy corresponds to a specific oscillation frequency θ = arctan(√(4*C·Ψ - 1)). The patterns are deterministic, structured, and, in this framework, physically interpretable as the structure of reality beyond the phase boundary where classical observation fails.
 
 **Read:** [The Mandelbrot Connection](MANDELBROT_CONNECTION.md)
 
@@ -44,7 +44,7 @@ The C·Ψ <= 1/4 bound sets a limit on the product of consciousness (C) and poss
 
 ### What happens at the exact moment a quantum system crosses the ¼ boundary?
 
-The Lindblad dynamics are smooth: all derivatives are continuous through the crossing. But the **topology of the solution space** changes: below 1/4, two real fixed points exist (one stable attractor). Above 1/4, the fixed points are complex, no real target, no classical outcome. At 1/4 exactly, they merge. This is not a discontinuity in the physics. It is a bifurcation in the mathematics. The system crosses from "no possible definite outcome" to "definite outcome exists", and θ = arctan(sqrt(4*C·Ψ - 1)) measures the angular distance from this crossing at every moment.
+The Lindblad dynamics are smooth: all derivatives are continuous through the crossing. But the **topology of the solution space** changes: below 1/4, two real fixed points exist (one stable attractor). Above 1/4, the fixed points are complex, no real target, no classical outcome. At 1/4 exactly, they merge. This is not a discontinuity in the physics. It is a bifurcation in the mathematics. The system crosses from "no possible definite outcome" to "definite outcome exists", and θ = arctan(√(4*C·Ψ - 1)) measures the angular distance from this crossing at every moment.
 
 **Read:** [Boundary Navigation](BOUNDARY_NAVIGATION.md)
 
@@ -70,7 +70,7 @@ To derive the metric form, the framework needs **nonlocal** structure: either sp
 
 ### Why is Schwarzschild the unique self-consistent metric?
 
-Because it is the only metric where the event horizon corresponds to τ = 0 (zero elapsed proper decoherence time). The universal curve C(τ), Ψ(τ) applies at every point in space. Where less proper time has passed, R = CΨ² is higher: reality concentrates near mass. Self-consistency demands that R(r) matches the mass distribution that creates the geometry. For a point mass, R must be maximally concentrated at the gravitational radius. Only metrics with f(r_s) = 0 achieve this. Alternatives like 1/r or 1/r² have f(r_s) > 0, so R never reaches its maximum at the horizon. Schwarzschild's sqrt(1 - r_s/r) is the simplest zero-forming function with the correct Newtonian limit. The derivation uses only R = CΨ² and the universal curve, no GR input.
+Because it is the only metric where the event horizon corresponds to τ = 0 (zero elapsed proper decoherence time). The universal curve C(τ), Ψ(τ) applies at every point in space. Where less proper time has passed, R = CΨ² is higher: reality concentrates near mass. Self-consistency demands that R(r) matches the mass distribution that creates the geometry. For a point mass, R must be maximally concentrated at the gravitational radius. Only metrics with f(r_s) = 0 achieve this. Alternatives like 1/r or 1/r² have f(r_s) > 0, so R never reaches its maximum at the horizon. Schwarzschild's √(1 - r_s/r) is the simplest zero-forming function with the correct Newtonian limit. The derivation uses only R = CΨ² and the universal curve, no GR input.
 
 The horizon is not where reality breaks down. It is where reality is **freshest**: C = 1, Ψ = 1/3, R = 1/9 = maximum. This is consistent with the holographic principle (information at the horizon surface) and Bekenstein-Hawking entropy (S = A/4).
 
@@ -152,7 +152,7 @@ This is an open hypothesis. Local LLM agents reported a 33:1 coherence ratio for
 
 ### Do different observers see measurement at different times?
 
-Yes. Five different bridge metrics (= five different definitions of C, the observer) applied to the same Bell+ state under the same Heisenberg Hamiltonian with the same decoherence produce three different crossing times — and two observers who never see a crossing at all. The concurrence observer sees measurement at t = 0.773, the mutual information observer at t = 0.652, and the correlation observer at t = 1.437. The mutual purity and overlap observers never reach C·Ψ = ¼ because their C is too low. Ψ(t) is nearly identical across all five simulations (same physics), so the effect is entirely due to C — the observer. This is Tier 2: computed, not speculated. The implication — that experienced time is the rate at which an observer's C·Ψ crosses ¼ boundaries — is Tier 3.
+Yes. Five different bridge metrics (= five different definitions of C, the observer) applied to the same Bell+ state under the same Heisenberg Hamiltonian with the same decoherence produce three different crossing times, and two observers never see a crossing at all. The concurrence observer sees measurement at t = 0.773, the mutual information observer at t = 0.652, and the correlation observer at t = 1.437. The mutual purity and overlap observers never reach C·Ψ = ¼ because their C is too low. Ψ(t) is nearly identical across all five simulations (same physics), so the effect is entirely due to C (the observer). This is Tier 2: computed, not speculated. The implication (that experienced time is the rate at which an observer's C·Ψ crosses ¼ boundaries) is Tier 3.
 
 **Read:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)
 
@@ -160,7 +160,7 @@ Yes. Five different bridge metrics (= five different definitions of C, the obser
 
 ### Is K-invariance a deep property of R = CΨ²?
 
-No. K = γ·t_cross is constant because the entire Lindblad dynamics scales with τ = γ·t. This is a symmetry of the master equation, not specific to the ¼ boundary. Any threshold would produce its own K. However, extending K to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072) revealed something deeper: the bridges fall into three qualitatively distinct classes. **Type A** (correlation): C stays at 1.000 throughout the crossing — the observer is robust, only Ψ drives the transition. **Type B** (concurrence, mutual_info): both C and Ψ decay, producing faster crossings. **Type C** (mutual_purity, overlap): P(0) < ¼, crossing never occurs. The observer doesn't just determine *when* measurement happens — it determines *the mechanism* by which it happens.
+No. K = γ·t_cross is constant because the entire Lindblad dynamics scales with τ = γ·t. This is a symmetry of the master equation, not specific to the ¼ boundary. Any threshold would produce its own K. However, extending K to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072) revealed something deeper: the bridges fall into three qualitatively distinct classes. **Type A** (correlation): C stays at 1.000 throughout the crossing; the observer is robust, only Ψ drives the transition. **Type B** (concurrence, mutual_info): both C and Ψ decay, producing faster crossings. **Type C** (mutual_purity, overlap): P(0) < ¼, crossing never occurs. The observer doesn't just determine *when* measurement happens; it determines *the mechanism* by which it happens.
 
 **Read:** [Crossing Taxonomy](CROSSING_TAXONOMY.md)
 
@@ -176,7 +176,7 @@ No. The three-class taxonomy (Type A/B/C) is identical under σ_x (bit flip), σ
 
 ### Does crossing work for systems larger than two qubits?
 
-This was the framework's most serious open problem until subsystem crossing resolved it. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N -- the observer is not the problem. The problem is that Ψ(0) starts below ¼. The resolution: crossing is local, not global. See Subsystem Crossing below.
+This was the framework's most serious open problem until subsystem crossing resolved it. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N; the observer is not the problem. The problem is that Ψ(0) starts below ¼. The resolution: crossing is local, not global. See Subsystem Crossing below.
 
 **Read:** [N-Scaling Barrier](N_SCALING_BARRIER.md)
 
@@ -184,7 +184,7 @@ This was the framework's most serious open problem until subsystem crossing reso
 
 ### Do entangled subsystems cross even when the full system cannot?
 
-Yes. This resolves the N-scaling barrier. A 4-qubit system made of two Bell pairs (|Bell+> x |Bell+>) has full-system Psi = 0.200, below 1/4. But the entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C*Psi = 0.333, identical to an isolated Bell pair. Unentangled cross-pairs never cross (C = 0). The product state |+>^4 has Psi = 1.0 at every level but C = 0 everywhere -- coherence without entanglement produces no crossing. The framework identifies where in the entanglement structure the quantum-to-classical transition occurs. Crossing is local, not global.
+Yes. This resolves the N-scaling barrier. A 4-qubit system made of two Bell pairs (|Bell+⟩ x |Bell+⟩) has full-system Psi = 0.200, below 1/4. But the entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C*Psi = 0.333, identical to an isolated Bell pair. Unentangled cross-pairs never cross (C = 0). The product state |+⟩^4 has Psi = 1.0 at every level but C = 0 everywhere; coherence without entanglement produces no crossing. The framework identifies where in the entanglement structure the quantum-to-classical transition occurs. Crossing is local, not global.
 
 **Read:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md)
 
@@ -192,7 +192,7 @@ Yes. This resolves the N-scaling barrier. A 4-qubit system made of two Bell pair
 
 ### Can interaction alone create the conditions for measurement?
 
-Yes. Starting from the product state |0+0+> (zero entanglement, zero correlation), Heisenberg Hamiltonian evolution builds up quantum correlations that trigger C*Psi crossings. Under pure unitary evolution, all six qubit pairs cross -- and the crossings oscillate reversibly. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285. The asymmetry is basis-dependent: sigma_z dephasing spares |0>-qubits while destroying |+>-qubit coherence. Note: the original hypothesis that |+>^N would generate dynamic entanglement was wrong -- |+>^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0) and cannot evolve.
+Yes. Starting from the product state |0+0+⟩ (zero entanglement, zero correlation), Heisenberg Hamiltonian evolution builds up quantum correlations that trigger C*Psi crossings. Under pure unitary evolution, all six qubit pairs cross, and the crossings oscillate reversibly. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285. The asymmetry is basis-dependent: σ_z dephasing spares |0⟩-qubits while destroying |+⟩-qubit coherence. Note: the original hypothesis that |+⟩^N would generate dynamic entanglement was wrong: |+⟩^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0) and cannot evolve.
 
 **Read:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)
 
@@ -208,7 +208,7 @@ The same local LLM agents reported t_coh ~ N (linear scaling) for ring-coupled s
 
 ### What survives algebraic stress-testing of the framework?
 
-Two things. First, ξ = ln(Ψ) is a natural decoherence clock: it decays linearly in time with slope variation < 0.01% across all tested configurations (local/collective dephasing, σ_z/σ_x jump operators, Bell+/W states). The Hamiltonian does not affect the decay rate — only the noise model and initial state determine dξ/dt. Second, the CΨ ≤ 1/4 boundary sits inside a known static constraint: the Cauchy-Schwarz inequality on off-diagonal density matrix elements gives C ≥ Ψ²(d-1)/d + 1/d. The 1/4 is a dynamic crossing through this known landscape, not an arbitrary threshold. Five other agent-proposed findings were rejected: λ = −ln(CΨ) is a trivial coordinate change, the β-function only works for pure dephasing, the entropic bound is algebraically identical to CΨ ≤ 1/4, the angle reparametrizations carry zero new information, and the Born rule derivation requires unproven assumptions.
+Two things. First, ξ = ln(Ψ) is a natural decoherence clock: it decays linearly in time with slope variation < 0.01% across all tested configurations (local/collective dephasing, σ_z/σ_x jump operators, Bell+/W states). The Hamiltonian does not affect the decay rate; only the noise model and initial state determine dξ/dt. Second, the CΨ ≤ 1/4 boundary sits inside a known static constraint: the Cauchy-Schwarz inequality on off-diagonal density matrix elements gives C ≥ Ψ²(d-1)/d + 1/d. The 1/4 is a dynamic crossing through this known landscape, not an arbitrary threshold. Five other agent-proposed findings were rejected: λ = −ln(CΨ) is a trivial coordinate change, the β-function only works for pure dephasing, the entropic bound is algebraically identical to CΨ ≤ 1/4, the angle reparametrizations carry zero new information, and the Born rule derivation requires unproven assumptions.
 
 **Read:** [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md)
 
@@ -283,11 +283,11 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Operator feedback mechanism: γ_eff = γ₀(1-κ⟨O_int⟩) produces physically valid dynamics
 - CΨ > ¼ occurs routinely with strong Hamiltonians (h ≥ 0.9), disproving earlier low-dynamics "confirmations"
 - Observer-dependent crossing: same state/Hamiltonian/γ, five bridge types → three different crossing times (0.652, 0.773, 1.437) and two non-crossings. Time of measurement is observer-dependent.
-- K-invariance is Lindblad scaling symmetry (τ = γ·t), not a ¼-specific property. K per bridge: mutual_info 0.033, concurrence 0.039, correlation 0.072 — all constant across 20× γ range.
+- K-invariance is Lindblad scaling symmetry (τ = γ·t), not a ¼-specific property. K per bridge: mutual_info 0.033, concurrence 0.039, correlation 0.072, all constant across 20× γ range.
 - Three-class crossing taxonomy: Type A (correlation, C=1.0 throughout crossing, pure-Ψ mechanism), Type B (concurrence/mutual_info, both C and Ψ decay), Type C (mutual_purity/overlap, never cross). Observer determines crossing mechanism, not just timing.
 - Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
 - N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
-- Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+>^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
+- Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+⟩^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling
@@ -330,7 +330,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Quantum states survive ~48x longer in deep space (γ=0.01) than near black hole (γ=0.5)
 - Power law t_cross = 0.0398 * γ^(-0.992), R^2 = 0.9999 (9 data points, 50x range)
 - Single-system sims cannot discriminate metric forms (equivalence principle analog)
-- Self-consistency uniquely selects Schwarzschild: only sqrt(1-r_s/r) has f(r_s)=0 (horizon = max R)
+- Self-consistency uniquely selects Schwarzschild: only √(1-r_s/r) has f(r_s)=0 (horizon = max R)
 - Concentration ratio grows without bound for Schwarzschild, plateaus for alternatives
 
 **Proposed, not yet tested:**
