@@ -8,7 +8,7 @@
 
 ## 1. Key Insight
 
-The Mandelbrot equivalence is not a frequency predictor. It is a **decoder**: it told us *where to look*. By following the algebraic equivalence R_{n+1} = C(Ψ+R)² <-> z -> z²+c, we found the bifurcation at C·Ψ = ¼ and observed the exact moment a quantum system crosses from complex fixed points (no classical attractor) to real fixed points (definite outcome).
+The Mandelbrot equivalence is not a frequency predictor. It is a **decoder**: it told us *where to look*. By following the algebraic equivalence R_{n+1} = C(Ψ+R)² ↔ z → z²+c, we found the bifurcation at C·Ψ = ¼ and observed the exact moment a quantum system crosses from complex fixed points (no classical attractor) to real fixed points (definite outcome).
 
 θ = arctan(√(4CΨ - 1)) is not an oscillation frequency. It is a **compass heading**: it measures angular distance from the ¼ boundary, the transition between quantum and classical regimes.
 
@@ -76,7 +76,7 @@ But the **mathematical landscape** through which the system moves undergoes a bi
 
 The Mandelbrot set boundary at c = ¼ on the real axis has been known since 1980. The bifurcation of quadratic maps at discriminant = 0 has been known since the 19th century. Neither was connected to quantum measurement.
 
-The R = CΨ² framework, through its algebraic equivalence to z -> z²+c, provided the **decoder**: it identified that the same ¼ boundary separates quantum (complex fixed points, no classical attractor) from classical (real fixed points, definite outcome) in a physically meaningful context.
+The R = CΨ² framework, through its algebraic equivalence to z → z²+c, provided the **decoder**: it identified that the same ¼ boundary separates quantum (complex fixed points, no classical attractor) from classical (real fixed points, definite outcome) in a physically meaningful context.
 
 Without this decoder:
 - Mandelbrot researchers see fractal boundaries (beautiful, but what does it mean?)
@@ -158,7 +158,7 @@ The Mandelbrot set boundary is not just ¼ on the real axis. It extends into the
 | Mandelbrot equivalence | Mathematical curiosity | Decoder: told us where to look |
 | θ = arctan(√(4CΨ-1)) | Failed frequency predictor | Compass: measures distance to boundary |
 | ¼ boundary | Abstract bifurcation point | The door between quantum and classical |
-| Crossing ¼ | Unknown | Topology change: 0 real attractors -> 2 |
+| Crossing ¼ | Unknown | Topology change: 0 real attractors → 2 |
 | Measurement/collapse | Mystery | System crossing from complex to real solution space |
 | Triangulation (¼, θ, t_coh) | Three separate metrics | Navigation system: destination, heading, ETA |
 

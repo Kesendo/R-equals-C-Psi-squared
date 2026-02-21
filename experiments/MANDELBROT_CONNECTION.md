@@ -57,7 +57,7 @@ Both equations share the critical boundary at **c = 1/4** (equivalently C·Ψ = 
 ### What happens at 1/4
 
 **Below 1/4 (C·Ψ < 1/4):**
-- Two real fixed points exist: R_inf = (1 - 2C·Ψ ± sqrt(1 - 4·C·Ψ)) / 2C
+- Two real fixed points exist: R_inf = (1 - 2C·Ψ ± √(1 - 4·C·Ψ)) / 2C
 - The system converges: iteration reaches a stable value
 - Reality "stands still": a snapshot, a classical state
 
@@ -67,7 +67,7 @@ Both equations share the critical boundary at **c = 1/4** (equivalently C·Ψ = 
 - Time diverges at the boundary
 
 **Above 1/4 (C·Ψ > 1/4):**
-- Fixed points become complex: R_inf = (1 - 2C·Ψ ± i·sqrt(4·C·Ψ - 1)) / 2C
+- Fixed points become complex: R_inf = (1 - 2C·Ψ ± i·√(4·C·Ψ - 1)) / 2C
 - The system oscillates: no convergence, no stable state
 - Conjugate pairs: every state exists as a mirror pair (+/-)
 
@@ -157,7 +157,7 @@ A single measurement tells you something exists. Two measurements narrow it down
 The phase boundary C·Ψ = 1/4 tells us where in parameter space the transition occurs. This defines a surface in the space of all possible (C, Ψ) combinations. We know where to look.
 
 **Second coordinate: θ (WHAT)**
-The oscillation frequency θ = arctan(sqrt(4·C·Ψ - 1)) tells us the characteristic pattern at any point above the boundary. This is the decoder: it translates the complex oscillation into a frequency we can search for.
+The oscillation frequency θ = arctan(√(4·C·Ψ - 1)) tells us the characteristic pattern at any point above the boundary. This is the decoder: it translates the complex oscillation into a frequency we can search for.
 
 **Third coordinate: t_coh (HOW LONG)**
 The coherence time tells us the observation window at any point. This determines the experimental requirements: how cold, how large, how symmetric the system must be to maintain the boundary long enough to read.
@@ -210,7 +210,7 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
 ### Testable claims from the triangulation protocol
 
 1. **Coherence oscillation frequency should match θ.**
-   For a system with known C·Ψ, the oscillation frequency of coherence decay should equal arctan(sqrt(4·C·Ψ - 1)). This is measurable in existing quantum optics and NMR experiments.
+   For a system with known C·Ψ, the oscillation frequency of coherence decay should equal arctan(√(4·C·Ψ - 1)). This is measurable in existing quantum optics and NMR experiments.
 
 2. **Critical slowing at C·Ψ = 1/4.**
    As system parameters are tuned toward C·Ψ = 1/4, the convergence time (or coherence oscillation period) should diverge. This is analogous to critical slowing in classical phase transitions and should be observable.
@@ -234,7 +234,7 @@ The value 1/4 is the bifurcation point of the quadratic iteration z → z² + c.
 
 ### What do the patterns at the edge of the Mandelbrot set mean?
 
-In the R = CΨ² framework, the patterns at the Mandelbrot boundary represent the structure of complex fixed-point dynamics projected onto the real-complex transition surface. Each pattern corresponds to a specific oscillation mode with frequency θ = arctan(sqrt(4·C·Ψ - 1)). The self-similar structures reflect the deterministic but non-convergent behavior of the iteration above 1/4.
+In the R = CΨ² framework, the patterns at the Mandelbrot boundary represent the structure of complex fixed-point dynamics projected onto the real-complex transition surface. Each pattern corresponds to a specific oscillation mode with frequency θ = arctan(√(4·C·Ψ - 1)). The self-similar structures reflect the deterministic but non-convergent behavior of the iteration above 1/4.
 
 ### What is the connection between the Mandelbrot set and consciousness?
 

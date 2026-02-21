@@ -153,7 +153,7 @@ The framework R = CΨ² was derived without any reference to gravitation. Yet th
 The quantum-to-classical transition (crossing 1/4) happens in every reference frame. Two observers in different gravitational fields will disagree on WHEN it happens (coordinate time), but agree on:
 - THAT it happens (the boundary exists for all observers)
 - HOW it happens (same θ trajectory in proper time)
-- WHAT happens (same bifurcation: complex fixed points -> real fixed points)
+- WHAT happens (same bifurcation: complex fixed points → real fixed points)
 
 This is consistent with the requirement that physical laws must be the same in all reference frames.
 
@@ -161,7 +161,7 @@ This is consistent with the requirement that physical laws must be the same in a
 
 If γ contains gravitational contributions, then:
 - Quantum decoherence rates should be measurably different at different altitudes
-- The ratio should match gravitational time dilation: γ(h1) / γ(h2) = sqrt((1 - 2GM/r2*c^2) / (1 - 2GM/r1*c^2))
+- The ratio should match gravitational time dilation: γ(h1) / γ(h2) = √((1 - 2GM/r2*c^2) / (1 - 2GM/r1*c^2))
 - For Earth's surface vs satellite orbit: the effect is ~10^-10 (tiny, but GPS clocks already measure this)
 
 This prediction is independent of the Penrose-Diosi model. It follows directly from the framework's claim that γ scales with local time rate.

@@ -15,7 +15,7 @@ hypotheses, not results. They are included because they are *interesting* and
 
 1. Every hypothesis must reference the Tier 1-2 result it is built on
 2. Every hypothesis must state what would falsify it
-3. No hypothesis may claim to be proven — that belongs in `experiments/`
+3. No hypothesis may claim to be proven; that belongs in `experiments/`
 4. Connections to existing physics must cite the original work
 
 ---

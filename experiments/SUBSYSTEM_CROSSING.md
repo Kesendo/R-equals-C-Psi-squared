@@ -27,7 +27,7 @@ subsystems, not at the full-system level.**
 |-----------|-------|
 | **N** | 4 qubits |
 | **Hamiltonian** | Heisenberg ring (J = 1, h = 0) |
-| **Noise** | local dephasing (sigma_z per qubit) |
+| **Noise** | local dephasing (σ_z per qubit) |
 | **gamma** | 0.05 |
 | **dt** | 0.01, t_max = 5.0 |
 
@@ -42,10 +42,10 @@ Three initial states tested:
 
 | State | Description | Full-system Psi(0) |
 |-------|-------------|-------------------|
-| **GHZ** | (|0000> + |1111>)/sqrt(2) | 0.067 |
-| **W** | (|1000> + |0100> + |0010> + |0001>)/2 | 0.200 |
-| **Bell+xBell+** | |Bell+>_01 x |Bell+>_23 | 0.200 |
-| **|+>^4** | Product state, no entanglement | 1.000 |
+| **GHZ** | (|0000⟩ + |1111⟩)/√(2) | 0.067 |
+| **W** | (|1000⟩ + |0100⟩ + |0010⟩ + |0001⟩)/2 | 0.200 |
+| **Bell+xBell+** | |Bell+⟩_01 x |Bell+⟩_23 | 0.200 |
+| **|+⟩^4** | Product state, no entanglement | 1.000 |
 
 ## 3. Results
 
@@ -61,13 +61,13 @@ Three initial states tested:
 | (2,3) | 0.000 | 0.000 | 0.333 | 0.000 | NO |
 
 Every pair has **exactly zero** l1-coherence. The subsystem density matrices
-are diagonal: rho_ij = (|00><00| + |11><11|)/2. Classical correlation
+are diagonal: rho_ij = (|00⟩⟨00| + |11⟩⟨11|)/2. Classical correlation
 (both qubits agree), zero quantum coherence. The Psi = 0 persists at all
 times. These pairs never had quantum coherence to lose.
 
 This is correct: GHZ entanglement is global. If you trace out any two
 qubits, the remaining pair carries no off-diagonal terms. The entanglement
-exists only in the full superposition |0000> + |1111>, which is invisible
+exists only in the full superposition |0000⟩ + |1111⟩, which is invisible
 at the pair level.
 
 ### 3.2 W N=4: Subsystem Pairs Start Below the Barrier
@@ -112,7 +112,7 @@ The framework correctly identifies which degrees of freedom undergo the
 quantum-to-classical transition, even when the global metric says nothing
 happens.
 
-### 3.4 |+>^4: Maximum Coherence, Zero Crossing
+### 3.4 |+⟩^4: Maximum Coherence, Zero Crossing
 
 | Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Crosses? |
 |------|-------|--------|-----------|----------|----------|
@@ -161,7 +161,7 @@ Different entanglement topologies produce different crossing patterns:
 | GHZ | Global only | None (no pair-level coherence) |
 | W | Distributed weak | None (too diluted) |
 | Bell+xBell+ | Two local pairs | Exactly the two entangled pairs |
-| |+>^4 | None | None (C = 0 everywhere) |
+| |+⟩^4 | None | None (C = 0 everywhere) |
 
 The framework does not just say "crossing happens." It identifies WHERE
 in the entanglement structure crossing occurs, and WHERE it does not.
@@ -223,7 +223,7 @@ for i, t in enumerate(tlist):
 
 1. Bell+xBell+ pair (0,1): must start at C*Psi = 0.333 and cross 1/4.
 2. Bell+xBell+ pair (0,2): must have l1 = 0, C = 0 at all times.
-3. |+>^4 all pairs: must have C = 0.000 at all times despite Psi = 1.0.
+3. |+⟩^4 all pairs: must have C = 0.000 at all times despite Psi = 1.0.
 4. GHZ all pairs: must have l1 = 0.000 at all times.
 
 ### 5.3 What Could Extend This
@@ -234,12 +234,12 @@ for i, t in enumerate(tlist):
 2. **Cluster states**: Graph states have entanglement along specific
    edges. Does the crossing pattern match the graph structure exactly?
 
-3. **Dynamically generated entanglement**: Start from |+>^N (C=0), let
+3. **Dynamically generated entanglement**: Start from |+⟩^N (C=0), let
    the Hamiltonian build entanglement. Does C grow and eventually
    produce crossings? This would show the Hamiltonian creating the
    conditions for measurement.
 
-4. **Partial entanglement**: States between |+>^4 and Bell+xBell+.
+4. **Partial entanglement**: States between |+⟩^4 and Bell+xBell+.
    Is there a threshold entanglement needed for pair crossing?
 
 ## 6. Open Questions
@@ -252,13 +252,13 @@ for i, t in enumerate(tlist):
    the crossing pattern reproduce the graph topology exactly?
 
 3. ~~Can dynamical entanglement generation from a product state create
-   crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+>^N,
+   crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+⟩^N,
    which is an eigenstate of the isotropic Heisenberg Hamiltonian. The
-   state |0+0+> (not an eigenstate, energy variance = 20) generates
+   state |0+0+⟩ (not an eigenstate, energy variance = 20) generates
    crossings from zero initial entanglement. Under pure unitary
    evolution all 6 pairs cross. With dephasing (gamma = 0.05), only
-   pair (0,2) crosses at t = 0.285 because |0>-qubits are immune to
-   sigma_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
+   pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to
+   σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
 
 4. What is the minimum per-pair entanglement needed for crossing?
 

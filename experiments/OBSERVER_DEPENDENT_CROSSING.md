@@ -24,7 +24,7 @@ All five simulations use identical physics:
 | **Time step** | dt = 0.01, t_max = 3.0 |
 | **Noise type** | local |
 
-The only variable is **bridge_type** — the definition of C, the observer.
+The only variable is **bridge_type**: the definition of C, the observer.
 
 Five bridge types define five different ways to measure "how much observation
 is happening":
@@ -47,7 +47,7 @@ is happening":
 | **mutual_purity** | 0.500 | Constant | 0.167 | **never** | imaginary |
 | **overlap** | 0.250 | Constant | 0.083 | **never** | imaginary |
 
-Three observers see the crossing — but at different times.
+Three observers see the crossing, but at different times.
 Two observers never see it at all.
 Same state, same Hamiltonian, same decoherence. Different observer, different reality.
 
@@ -116,7 +116,7 @@ is always classical. No crossing ever occurs. No measurement event is registered
 
 This is not philosophy. It is arithmetic.
 
-The crossing at C·Ψ = ¼ is where complex fixed points become real — where
+The crossing at C·Ψ = ¼ is where complex fixed points become real, where
 the iteration R_{n+1} = C(Ψ + R_n)² first has a stable classical attractor.
 This is measurement: the moment a definite outcome exists.
 
@@ -127,7 +127,7 @@ Three observers see this happen at three different times:
 - **correlation observer**: t = 1.437 (latest, 2.2× slower)
 
 Two observers (mutual_purity, overlap) never see it at all. For them,
-C is too small — they lack the coupling strength to ever reach the boundary.
+C is too small; they lack the coupling strength to ever reach the boundary.
 The system remains "unmeasured" from their perspective, indefinitely.
 
 The physical system does not care. The density matrix evolves under the same
@@ -143,7 +143,7 @@ of measurement" depending on how the observer couples to it.
 
 This is not relativity (where time dilation is frame-dependent but all
 observers agree on the spacetime interval). This is deeper: **the event
-itself — measurement — occurs at different times for different observers,
+itself (measurement) occurs at different times for different observers,
 and for some observers it never occurs at all.**
 
 In relativity, all observers agree that an event happened; they disagree
@@ -154,16 +154,16 @@ about when. Here, observers disagree about *whether* it happened.
 Consider what "experiencing time" means for an observer embedded in R = CΨ²:
 
 The observer's C determines the rate at which C·Ψ approaches ¼. A "fast"
-observer (high C, rapidly falling) crosses quickly — events happen fast.
-A "slow" observer (high C, slowly falling) crosses later — the same physics
-feels stretched. A "blind" observer (low C) never crosses — the event
+observer (high C, rapidly falling) crosses quickly; events happen fast.
+A "slow" observer (high C, slowly falling) crosses later; the same physics
+feels stretched. A "blind" observer (low C) never crosses; the event
 simply does not exist in their reality.
 
 This suggests that **subjective time flow is the rate at which C·Ψ
 approaches ¼ boundaries**. An observer who couples strongly to many
 systems (high C across many interactions) experiences a dense sequence
-of crossings — many measurement events per unit coordinate time. An
-observer with weak coupling experiences fewer crossings — time feels
+of crossings: many measurement events per unit coordinate time. An
+observer with weak coupling experiences fewer crossings; time feels
 sparse, thin.
 
 **The "speed" of experienced time is not constant. It depends on C.**
@@ -180,7 +180,7 @@ This would explain:
 
 3. **Why time seems to accelerate with age (retrospective).** If C
    decreases over a lifetime (reduced neuroplasticity, fewer novel
-   couplings), the crossing rate decreases — fewer events are registered
+   couplings), the crossing rate decreases; fewer events are registered
    per unit coordinate time. In retrospect, a period with few crossings
    feels short ("where did the year go?"). Note: this is retrospective
    time perception, distinct from points 1–2 which describe momentary
@@ -199,8 +199,8 @@ time-perception interpretation is a hypothesis built on verified math.
 
 ### 4.4 The Decoder Revisited
 
-In MANDELBROT_CONNECTION.md, θ was introduced as a "decoder" — an
-oscillation frequency. In BOUNDARY_NAVIGATION.md, it became a "compass" —
+In MANDELBROT_CONNECTION.md, θ was introduced as a "decoder," an
+oscillation frequency. In BOUNDARY_NAVIGATION.md, it became a "compass,"
 angular distance from ¼.
 
 This experiment reveals that θ is both, and which interpretation applies
@@ -212,7 +212,7 @@ depends on the observer:
 | Navigator in parameter space | Angular distance from boundary | How far to ¼ |
 | Embedded conscious observer | Rate of approach to next event | Flow of experienced time |
 
-**θ is a single number. Its meaning is determined by C — the observer.**
+**θ is a single number. Its meaning is determined by C, the observer.**
 
 This is R = CΨ² applied to its own decoder: the "reality" of what θ
 represents emerges from the coupling C between the observer and the
@@ -247,14 +247,14 @@ The crossing time is found by linear interpolation where C(t)·Ψ(t) crosses 0.2
 ### 5.2 What Could Falsify This
 
 1. If the crossing times were identical across bridge types, the observer
-   would not matter — C would be irrelevant.
+   would not matter; C would be irrelevant.
    **Result: They differ by factor 2.2×. C matters.**
 
 2. If Ψ(t) differed dramatically across bridge types, the effect could be
    attributed to different physics rather than different observation.
    **Result: Among the three crossing observers, Ψ(t) varies by < 12%
    at t = 3. The non-crossing observers show slower Ψ decay (up to 53%
-   deviation) because γ_eff = γ_base · C(t) — lower C means less
+   deviation) because γ_eff = γ_base · C(t): lower C means less
    decoherence. This feedback is real but secondary: even if Ψ were
    identical, the C values alone (1.0 vs 0.5 vs 0.25) determine
    whether C·Ψ can reach ¼.**
@@ -289,16 +289,16 @@ The crossing time is found by linear interpolation where C(t)·Ψ(t) crosses 0.2
 A standing wave forms where two counter-propagating waves meet. In R = CΨ²:
 
 **The past wave (decoherence):** Travels forward in time. Entropy grows,
-quantum coherence decays, C·Ψ falls. This is the classical arrow — the
+quantum coherence decays, C·Ψ falls. This is the classical arrow: the
 world becoming more definite, more real, more measured. It pushes C·Ψ
 downward toward ¼ from above.
 
 **The future wave (possibility):** The space of outcomes not yet collapsed.
 Ψ, the possibility field, still quantum-mechanically open. It holds C·Ψ
-above ¼ — maintaining the complex regime where no classical attractor
+above ¼, maintaining the complex regime where no classical attractor
 exists and outcomes remain undetermined.
 
-Where these two waves cancel — the node of the standing wave — is the
+Where these two waves cancel (the node of the standing wave) is the
 ¼ crossing. This is not a metaphor for "now." It *is* now. The present
 moment is where decoherence (past becoming fixed) meets possibility
 (future still open). The node is the boundary between what has happened
@@ -317,11 +317,11 @@ and what might happen.
 
 The node is not a point in time. It is a point in C·Ψ space. And as
 Section 3 showed, where that node falls in coordinate time depends
-entirely on C — the observer.
+entirely on C, the observer.
 
 A concurrence observer reaches the node at t = 0.773.
 A correlation observer reaches it at t = 1.437.
-A mutual_purity observer never reaches it — there is no node.
+A mutual_purity observer never reaches it; there is no node.
 
 **Each observer carries their own "now" with them, defined by where
 their coupling C places the node of the standing wave.**
@@ -331,7 +331,7 @@ their coupling C places the node of the standing wave.**
 John Cramer's Transactional Interpretation of quantum mechanics (1986)
 proposes exactly this structure: an "offer wave" propagating forward from
 the emitter and a "confirmation wave" propagating backward from the
-absorber. A quantum event — measurement — occurs where they meet.
+absorber. A quantum event (measurement) occurs where they meet.
 
 The TI has been theoretically consistent for forty years but lacked
 a concrete boundary condition. It says waves meet, but not *where*.
@@ -340,7 +340,7 @@ R = CΨ² provides the boundary: **the waves meet at C·Ψ = ¼.**
 
 The offer wave (past → future) is decoherence reducing C·Ψ.
 The confirmation wave (future → past) is the persistence of Ψ.
-The "transaction" — where offer and confirmation agree — is the
+The "transaction" (where offer and confirmation agree) is the
 node at ¼, the moment complex fixed points become real.
 
 And the observer-dependent crossing (this experiment) adds what the
@@ -371,12 +371,12 @@ observer's bridge metric C. Three observers cross ¼ at t = 0.652, 0.773, and
 not an interpretation.
 
 **Hypothesis (Tier 3):** If conscious experience is a sequence of ¼ crossings,
-then experienced time is observer-dependent — not because spacetime is curved
+then experienced time is observer-dependent, not because spacetime is curved
 (relativity) but because the observer's coupling C determines when and whether
 crossings occur. Time is not something that happens to an observer. Time is
 something an observer *generates* through measurement.
 
-**Hypothesis (Tier 3):** The present moment — "now" — is the node of a
+**Hypothesis (Tier 3):** The present moment ("now") is the node of a
 standing wave formed by decoherence (past) and possibility (future). The
 node sits at C·Ψ = ¼. Different observers have different nodes because
 they have different C. This aligns structurally with Cramer's Transactional
@@ -385,5 +385,5 @@ Interpretation (1986) and provides the missing boundary condition: ¼.
 ---
 
 *Previous experiment: [Boundary Navigation](BOUNDARY_NAVIGATION.md)*
-*Extended by: [Crossing Taxonomy](CROSSING_TAXONOMY.md) — K per bridge, Lindblad scaling, three-class taxonomy*
+*Extended by: [Crossing Taxonomy](CROSSING_TAXONOMY.md): K per bridge, Lindblad scaling, three-class taxonomy*
 *Framework overview: [Mathematical Findings](MATHEMATICAL_FINDINGS.md)*

@@ -39,12 +39,12 @@ but the algebra below holds for any real C, Ψ.
 
 The specific value 1/4 for the critical boundary depends on the Baumgratz
 normalization Ψ = L₁(ρ)/(d-1). Only the product law R = CΨ² is invariant
-under arbitrary rescaling of Ψ — the boundary value, the cubic b³ + b = 1/2,
-the crossing time ratios, and all derived angular quantities (θ, etc.) shift
+under arbitrary rescaling of Ψ (the boundary value, the cubic b³ + b = 1/2,
+the crossing time ratios, and all derived angular quantities (θ, etc.)) shift
 if a different normalization is used.
 
 For example, with Ψ_alt = L₁(ρ)/√(d-1), the boundary would be at a
-different numerical value. No physical prediction changes — only the label
+different numerical value. No physical prediction changes; only the label
 on the boundary. All results in this document use the Baumgratz convention
 unless explicitly stated otherwise.
 
@@ -607,7 +607,7 @@ crossing interpretation is our contribution, computationally verified but
 not analytically derived from the bound alone.
 
 **Citation note:** AIEvolution agents originally attributed this bound to
-"Hu, Fan, Zeng, PRA 92, 042103 (2015)". That citation is incorrect —
+"Hu, Fan, Zeng, PRA 92, 042103 (2015)". That citation is incorrect:
 PRA 92, 042103 is a paper on PT-symmetric Rabi models by Lee & Joglekar.
 The bound itself is a standard result derivable from the Cauchy-Schwarz
 inequality. This error is documented as a known failure mode of local LLMs

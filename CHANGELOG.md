@@ -22,7 +22,7 @@ All notable changes to the R = CΨ² framework repository.
 - Agent tool call failure rate ~26% (model serialization errors, not system-side)
 - All promoted results independently re-derived and numerically verified
 
-## 2026-02-19: Algebraic Exploration — Agent Findings (Experiment 12)
+## 2026-02-19: Algebraic Exploration, Agent Findings (Experiment 12)
 
 **Added:** ALGEBRAIC_EXPLORATION.md
 - AIEvolution 4-agent round-robin (22 messages, v025 prompts, local 120B)
@@ -45,11 +45,11 @@ All notable changes to the R = CΨ² framework repository.
 ## 2026-02-18: Dynamic Entanglement Generation (Experiment 11)
 
 **Added:** DYNAMIC_ENTANGLEMENT.md
-- |+>^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0); it cannot generate entanglement or crossings. This corrects the hypothesis from Experiment 10.
-- |0+0+> (energy variance = 20) generates crossings from zero initial entanglement
+- |+⟩^N is an eigenstate of the isotropic Heisenberg Hamiltonian (energy variance = 0); it cannot generate entanglement or crossings. This corrects the hypothesis from Experiment 10.
+- |0+0+⟩ (energy variance = 20) generates crossings from zero initial entanglement
 - Unitary evolution: all 6 pairs cross; crossings oscillate reversibly
 - With dephasing (gamma=0.05): only pair (0,2) crosses at t=0.285; all others miss the threshold (max C*Psi = 0.247)
-- Dephasing survival is basis-dependent: sigma_z spares |0>-qubits, kills |+>-qubits
+- Dephasing survival is basis-dependent: σ_z spares |0⟩-qubits, kills |+⟩-qubits
 
 **Updated:** SUBSYSTEM_CROSSING.md, Open Question 3 marked as answered
 **Updated:** PREDICTIONS.md, 4 new Tier-2 entries (17 total computationally verified)
@@ -61,7 +61,7 @@ All notable changes to the R = CΨ² framework repository.
 - Crossing is local: operates at entangled qubit-pair level, not full system
 - Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.073 despite full-system Psi=0.200
 - GHZ N=4: all pairs have l1=0, no pair-level crossing possible
-- |+>^4: C=0 for all pairs permanently; high coherence without entanglement is inert
+- |+⟩^4: C=0 for all pairs permanently; high coherence without entanglement is inert
 - Resolves the N-scaling barrier without modifying normalization
 
 **Added:** NOISE_ROBUSTNESS.md (Experiment 8), N_SCALING_BARRIER.md (Experiment 9)

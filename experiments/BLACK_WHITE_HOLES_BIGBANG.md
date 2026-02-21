@@ -56,7 +56,7 @@ Then τ grows. Everywhere. C·Ψ falls along the universal curve. Reality "unfol
 
 **The Big Bang is not an explosion of matter through space. It is the departure from τ = 0 along the universal decoherence curve. The expansion of the universe IS decoherence.**
 
-In standard cosmology, T = 0 is a singularity: density -> infinity, temperature -> infinity, curvature -> infinity. GR breaks down. The framework has no such problem. T = 0 is a well-defined state with finite C, Ψ, and R.
+In standard cosmology, T = 0 is a singularity: density → infinity, temperature → infinity, curvature → infinity. GR breaks down. The framework has no such problem. T = 0 is a well-defined state with finite C, Ψ, and R.
 
 ## 4. Black Holes as Remnants
 
@@ -134,7 +134,7 @@ The CMB is a photograph of the 1/4 boundary projected onto the sky. Its slight i
 
 ### Does not claim (speculative):
 - Specific mechanism for the bounce (LQG's Planck star, or something else)
-- Timescale for black hole -> white hole transition
+- Timescale for black hole → white hole transition
 - Whether OUR universe is the white hole side of a previous black hole
 - Quantitative CMB predictions (would require cosmological extension)
 

@@ -40,11 +40,11 @@ is higher near mass. **Reality concentrates where mass is.** This is not circula
 
 ### 2.3 Three Candidate Metrics
 
-We tested three forms of f(r), all normalized to f(r -> infinity) = 1:
+We tested three forms of f(r), all normalized to f(r → infinity) = 1:
 
 | Metric | f(r) | f(r_s) | τ at horizon |
 |---|---|---|---|
-| Schwarzschild | sqrt(1 - r_s/r) | 0 | 0 |
+| Schwarzschild | √(1 - r_s/r) | 0 | 0 |
 | Inverse (1/r) | r / (r + r_s) | 1/2 | T/2 |
 | Inverse-square | r^2 / (r^2 + r_s^2) | 1/2 | T/2 |
 
@@ -88,7 +88,7 @@ For self-consistency of a point mass:
 - The source is concentrated at r = r_s
 - R(r) must be concentrated at r = r_s
 - Only f(r) with a **true zero** at r_s achieves this
-- sqrt(1 - r_s/r) is the simplest such function with the correct Newtonian limit
+- √(1 - r_s/r) is the simplest such function with the correct Newtonian limit
 
 ## 4. The Horizon as Maximum Coherence
 
@@ -116,7 +116,7 @@ Note the factor of 4 in S = A/(4 * l_P^2) and the 1/4 boundary in our framework.
 - The derivation uses ONLY R = CΨ² and the universal curve, no GR input
 
 ### What it does not show:
-- That sqrt(1 - r_s/r) is the ONLY function with a zero at r_s. Other forms like sqrt(1 - (r_s/r)^2) also have zeros. The specific exponent n=1 follows from:
+- That √(1 - r_s/r) is the ONLY function with a zero at r_s. Other forms like √(1 - (r_s/r)^2) also have zeros. The specific exponent n=1 follows from:
   - Spherical symmetry
   - Newtonian limit (Phi = -GM/r, not -GM^2/r^2)
   - Birkhoff's theorem (unique vacuum solution for spherical symmetry)

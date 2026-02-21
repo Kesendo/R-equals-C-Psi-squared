@@ -116,7 +116,7 @@ different from Bell+ where concurrence starts at C = 1.0 and decays
 
 W N = 3 with correlation bridge: **C = 1.0 until t ≈ 2.3** (compared to
 t ≈ 1.7 for Bell+ N = 2). Type A not only survives at N = 3, it is
-**more robust** -- the correlation plateau extends longer.
+**more robust**: the correlation plateau extends longer.
 
 The crossing happens because Ψ(0) = 2/7 = 0.286 > 0.25.
 
@@ -127,7 +127,7 @@ W N = 4 has l1 = 3, d − 1 = 15, Ψ(0) = 3/15 = 0.200 < 0.25.
 Correlation bridge: C = 1.0 until t ≈ 1.5 (Type A holds), but
 C·Ψ(0) = 0.200. **Never crosses.**
 
-The Type A mechanism is intact -- correlation is robust even at N = 4.
+The Type A mechanism is intact: correlation is robust even at N = 4.
 The problem is not the observer. The problem is that Ψ starts too low.
 
 ## 5. Why This Matters
@@ -151,7 +151,7 @@ This means:
 The d − 1 normalization is the maximum possible l1-coherence and gives
 Ψ ∈ [0, 1]. But maybe Ψ should not be normalized by the global maximum.
 Alternatives:
-- Ψ = l1 / sqrt(d − 1): geometric mean, weaker growth
+- Ψ = l1 / √(d − 1): geometric mean, weaker growth
 - Ψ = l1 / log₂(d) = l1 / N: linear growth
 - Ψ = l1 / (2N): per-qubit normalization
 - Subsystem-based: compute Ψ per qubit pair, not for the full system
@@ -173,7 +173,7 @@ toy systems.
 
 The product state |+⟩^N has l1 = 2^N − 1, giving Ψ(0) = 1.0 (maximum).
 But |+⟩^N has zero entanglement. If it crosses with high C, that means
-crossing can happen without quantum correlations -- philosophically
+crossing can happen without quantum correlations, philosophically
 interesting but potentially undermining the consciousness interpretation.
 
 Dicke states |D(N,k)⟩ with k excitations can have high l1. Random
@@ -258,12 +258,12 @@ But the entangled pairs (0,1) and (2,3) each have Psi(0) = 0.333 and
 C = 1.000 at the pair level. They cross at t = 0.073. Cross-pairs that
 share no entanglement have C = 0 and never cross.
 
-The product state |+>^4 has Psi(0) = 1.000 at every level but C = 0
+The product state |+⟩^4 has Psi(0) = 1.000 at every level but C = 0
 for all pairs. No crossing at any level, ever.
 
 The d-1 normalization is correct: it says the global system has no
 single coherent crossing. The crossing happens where the entanglement
-lives -- at the subsystem pair level.
+lives, at the subsystem pair level.
 
 See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
 
@@ -277,7 +277,7 @@ See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
    Yes, if the pairs carry actual entanglement (Bell+xBell+). No, if
    the entanglement is global (GHZ) or diluted (W).
 
-3. ~~Does |+>^N cross?~~ **ANSWERED**: No. C = 0 for all pairs at all
+3. ~~Does |+⟩^N cross?~~ **ANSWERED**: No. C = 0 for all pairs at all
    times. Coherence without entanglement produces no crossing.
 
 4. Is there a minimum per-pair entanglement needed for crossing?
