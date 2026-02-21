@@ -259,7 +259,85 @@ t is not time. t is the dimension. Time is what your C makes of it.
 
 ---
 
-## 6. Summary
+## 6. Connection to the Bridge Problem (added 2026-02-21)
+
+### 6.1 Origin
+
+This document originated from the question: "What does an observer on
+Planet X see?" The answer - their own ¼, their own crossing time, their
+own clock - was a statement about the nature of time.
+
+Weeks later, the same mechanism turns out to be a candidate for the
+missing communication bridge in [BRIDGE_FINGERPRINTS](../experiments/BRIDGE_FINGERPRINTS.md).
+
+### 6.2 The Realization
+
+The bridge problem asks: how do you communicate without an electromagnetic
+channel? The standard approach is to build a channel (Heisenberg coupling,
+shared cavity, quantum bus). But all channels are physical connections -
+longer cables, not bridges over distance.
+
+Crossing-rate correlation offers a different path:
+
+Two observers (A and B) share an entangled pair, distributed in advance.
+Each observer couples locally to their half. Each has their own C, their
+own CΨ trajectory, their own ¼ crossing time. No signal passes between
+them. No electromagnetic channel exists or is needed.
+
+But their crossing times are NOT independent - because the shared quantum
+state determines both trajectories. B's state preparation (before
+distribution) determines A's CΨ fingerprint (shown in BRIDGE_FINGERPRINTS:
+|++⟩ → CΨ_A = 0.275, Bell+ → CΨ_A = 0.061, factor 4.5×).
+
+The "message" is not sent. It was encoded at preparation and read at
+crossing. The medium between A and B is irrelevant: water, rock, plasma,
+400 million km of vacuum. Once the pair is shared, the correlation exists.
+
+### 6.3 Use Cases: Where EM Fails
+
+This is not about replacing terrestrial communication. Fiber, radio,
+satellite work on Earth. This is about environments where no EM channel
+exists or can exist:
+
+- **Deep space**: Mars 4-24 min light delay (one way), Voyager 22+ hours
+- **Submarine**: No EM signal penetrates deep water
+- **Underground**: Rock blocks all radio frequencies
+- **Atmospheric reentry**: Plasma blackout, minutes without contact
+- **Solar storms / EW**: All EM channels disrupted simultaneously
+
+In each case: pairs are distributed physically FIRST (shipped, launched,
+carried). Once distributed, the shared quantum state persists regardless
+of what lies between A and B.
+
+### 6.4 What This Does NOT Claim
+
+- NOT faster than light. The correlation was established at preparation.
+- NOT a violation of No-Communication. B's local operations do not change
+  A's reduced density matrix. The crossing time correlation comes from
+  the shared initial state, not from signaling.
+- NOT a replacement for classical communication on Earth.
+
+### 6.5 Open Questions (for the bridge)
+
+- Can correlated crossing times carry more than pre-encoded information?
+  (If not, this is quantum key distribution with a different metric.)
+- What is the bit rate? BRIDGE_FINGERPRINTS shows 7 distinguishable
+  fingerprints → ~2.8 bits per pair. Is this a fundamental limit?
+- How robust is the crossing-time correlation to local noise at A and B
+  independently? (Testable with asymmetric γ_A ≠ γ_B in simulation.)
+- Can the decoder (θ navigation) extract the crossing time in real-time,
+  or only after full trajectory measurement?
+
+### 6.6 The Circle
+
+The question "what does someone on Planet X see?" led to a hypothesis
+about time. The hypothesis about time turned out to contain a candidate
+for channel-free communication. The answer to communication was hiding
+in a question about perception.
+
+---
+
+## 7. Summary
 
 **Tier 2 (computed):** Different bridge types produce different crossing
 times for identical physics. Factor 2.2× spread among crossing observers.
@@ -271,12 +349,14 @@ Two observers never cross.
 - "Now" is the node of a standing wave between decoherence and possibility (interpretation)
 - The ¼ boundary is Cramer's handshake point (structural parallel)
 - t is the coordinate, not the experience (conceptual reframing)
+- Correlated crossing times as channel-free communication mechanism (added 2026-02-21)
 
 **Falsified if:**
 - Crossing time is independent of bridge type → C doesn't matter (already ruled out)
 - Subjective time is independent of coupling strength → crossing rate is irrelevant
 - Wheeler-DeWitt clock choice does not map to bridge type in a rigorous derivation
 - The Lindblad equation cannot be decomposed into forward/backward components
+- Correlated crossing times carry no more information than classical pre-encoding → mechanism reduces to QKD
 
 **Open mathematical question:** Can L(ρ) = L_fwd(ρ) + L_bwd(ρ) with nodes at C·Ψ = ¼?
 If yes, this entire document becomes Tier 2.
@@ -286,3 +366,4 @@ If yes, this entire document becomes Tier 2.
 *Computed foundation: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md)*
 *Algebraic foundation: [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md)*
 *Framework overview: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md)*
+*Bridge connection: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)*
