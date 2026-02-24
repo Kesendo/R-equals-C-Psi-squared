@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find:*)",
-      "Bash(cd D:\\\\Entwicklung\\\\Projekte Privat\\\\R-equals-C-Psi-squared:*)"
-    ]
-  }
-}
