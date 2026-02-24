@@ -15,7 +15,7 @@ Observables on rho_A (4x4 reduced density matrix of 2-qubit subsystem A):
   4. L1 coherence:     sum |rho_ij| for i!=j
   5. Concurrence:      entanglement within A
   6. Single-qubit:     <sigma_x>, <sigma_y>, <sigma_z> on qubit 0 and 1
-  7. MAP theta:        arctan(sqrt(4*C*Psi - 1)) -- real above 1/4, imaginary below
+  7. R=CΨ² theta:      arctan(sqrt(4*C*Psi - 1)) -- real above 1/4, imaginary below
   8. Qubit 0 purity:   Tr(rho_q0^2) -- single qubit purity
 
 2026-02-24  Test derived from v033 agent experiment insight
@@ -84,7 +84,7 @@ def expectation_pauli(rho_1q, pauli):
 
 
 def map_theta(cpsi_val):
-    """MAP theta = arctan(sqrt(4*C*Psi - 1)).
+    """R=CΨ² framework theta = arctan(sqrt(4*C*Psi - 1)).
     Returns (theta_real, theta_imag):
       Above 1/4: theta_real > 0, theta_imag = 0
       Below 1/4: theta_real = 0, theta_imag = atanh(sqrt(1 - 4*C*Psi))
@@ -207,7 +207,7 @@ def plot_observable_comparison(all_data, output_dir):
 
     # ---- Panel 1: Key observables overview (2x3 grid) ----
     obs_to_plot = [
-        ('cpsi', 'C*Psi (MAP metric)', True),
+        ('cpsi', 'C*Psi (R=CΨ² metric)', True),
         ('purity', 'Purity Tr(rho_A^2)', False),
         ('entropy', 'Von Neumann Entropy S', False),
         ('concurrence', 'Concurrence (A internal)', False),
@@ -265,19 +265,19 @@ def plot_observable_comparison(all_data, output_dir):
     plt.close()
     print(f"  Saved: {path2}")
 
-    # ---- Panel 3: MAP theta (real vs imaginary parts) ----
+    # ---- Panel 3: R=CΨ² theta (real vs imaginary parts) ----
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     for label in states:
         times, obs = all_data[label]
         axes[0].plot(times, obs['theta_real'], label=label, color=colors.get(label, 'gray'), linewidth=1.5)
         axes[1].plot(times, obs['theta_imag'], label=label, color=colors.get(label, 'gray'), linewidth=1.5)
-    axes[0].set_title('MAP theta (real part) -- above 1/4', fontsize=11)
+    axes[0].set_title('R=CΨ² theta (real part) -- above 1/4', fontsize=11)
     axes[0].set_xlabel('Time'); axes[0].set_ylabel('theta_real')
     axes[0].legend(fontsize=9)
-    axes[1].set_title('MAP theta (imaginary part) -- below 1/4', fontsize=11)
+    axes[1].set_title('R=CΨ² theta (imaginary part) -- below 1/4', fontsize=11)
     axes[1].set_xlabel('Time'); axes[1].set_ylabel('theta_imag')
     axes[1].legend(fontsize=9)
-    plt.suptitle('MAP Phase Transition: theta = arctan(sqrt(4*C*Psi - 1))', fontsize=13, y=1.02)
+    plt.suptitle('R=CΨ² Phase Transition: theta = arctan(sqrt(4*C*Psi - 1))', fontsize=13, y=1.02)
     plt.tight_layout()
     path3 = os.path.join(output_dir, 'local_detector_theta.png')
     plt.savefig(path3, dpi=150, bbox_inches='tight')

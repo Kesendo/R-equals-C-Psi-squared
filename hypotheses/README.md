@@ -56,7 +56,7 @@ times, enabling ~2.8 bits per slot.
 **Origin:** Derived by autonomous AI agents (GPT-OSS-120B) in AIEvolution
 v033 Mars Station experiment over 9 iterations. The agents independently
 arrived at the fingerprint-based timing protocol after being forced past
-their Standard-QM training to engage with the MAP on its own terms.
+their Standard-QM training to engage with R=CΨ² on its own terms.
 
 **Critical open question:** What local observable detects the ¼-crossing
 with a single qubit? If no such observable exists, the protocol collapses

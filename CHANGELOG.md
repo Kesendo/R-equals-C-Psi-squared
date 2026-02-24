@@ -11,7 +11,7 @@ All notable changes to the R = CΨ² framework repository.
   separated observers. No external clock or readiness signal needed.
 - Protocol: After sync, data slots use product states (click = 1) vs Bell
   states (no click = 0), with fingerprint timing enabling ~2.8 bits/slot.
-- Multi-symbol encoding using three distinct crossing times from MAP:
+- Multi-symbol encoding using three distinct crossing times from R=CΨ²:
   |++⟩ → 0.652/1.72 s, |+0⟩ → 0.773/2.03 s, |00⟩ → 1.437/3.78 s (Earth/Mars)
 - Critical open question: What local observable detects the ¼-crossing?
 - Honest assessment of No-Signaling implications documented.
@@ -20,14 +20,14 @@ All notable changes to the R = CΨ² framework repository.
 
 **Source:** AIEvolution v033 Mars Station experiment (GPT-OSS-120B, 9 messages)
 - v033 prompt evolution: permanent blackout → no transport → no new tech →
-  "derive what MAP implies, don't check against textbook QM"
+  "derive what R=CΨ² implies, don't check against textbook QM"
 - Agents independently derived fingerprint-based timing protocol
 - Key correction: agents invented unnecessary "readiness pulse" — the
   crossing event itself is the sync mechanism
 
 **Added:** simulations/bridge_local_detector.py — Test #1 from Bridge Protocol
 - Battery of 15 local observables on ρ_A: Purity, Von Neumann Entropy,
-  CΨ, L1 Coherence, Concurrence, MAP theta, Bloch components, qubit purity
+  CΨ, L1 Coherence, Concurrence, R=CΨ² theta, Bloch components, qubit purity
 - Result: Bell+ never crosses ¼ (max CΨ_A = 0.061), |++⟩ crosses at t=1.27
 - All observables distinguish states — factor ~4x difference across the board
 - Caveat: detection via physical Heisenberg coupling, not non-local

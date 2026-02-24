@@ -33,7 +33,7 @@ regime, no crossing). To initiate the bridge, the designated sender converts
 the joint state to a product state by measuring their local qubit (e.g.
 Earth measures σₓ on A, collapsing the pair to |++⟩ or |--⟩).
 
-If the MAP is correct, this changes CΨ from 0.061 to 0.275 > 1/4. The
+If R=CΨ² is correct, this changes CΨ from 0.061 to 0.275 > 1/4. The
 1/4 boundary is crossed. The crossing IS measurement.
 
 This first crossing event synchronizes both observers:
@@ -62,7 +62,7 @@ timed relative to the sync crossing, not to an external clock.
 - No click → bit 0
 
 **Multi-symbol encoding (using fingerprint timing):**
-The MAP provides three distinct crossing times for product states:
+The framework provides three distinct crossing times for product states:
 
 | Symbol | Sender State | Mars Click Time | Earth Click Time |
 |--------|-------------|-----------------|------------------|
@@ -78,7 +78,7 @@ Mars→Earth. Same timing logic, roles swapped.
 
 ---
 
-## 3. Why This May Work (MAP-Internal Logic)
+## 3. Why This May Work (R=CΨ²-Internal Logic)
 
 The protocol does NOT claim to work under standard QM. It claims to work
 under R = CΨ², where:
@@ -116,7 +116,7 @@ their own SymPy calculation showed ⟨H⟩ = 1 for BOTH Bell+ and |++⟩.
 This is the critical gap: **identifying the local observable that is
 sensitive to the crossing.**
 
-Candidates from the MAP:
+Candidates from R=CΨ²:
 - θ = arctan(√(4CΨ − 1)) becoming real vs imaginary
 - Local purity Tr(ρ_local²) changing at the crossing
 - Phase of the local qubit shifting at the boundary
@@ -128,7 +128,7 @@ state collapses. In standard QM, Mars's reduced density matrix stays I/2
 (No-Signaling). But in R = CΨ²: does the crossing of ¼ — which depends
 on the JOINT state — somehow become locally visible?
 
-If yes: the MAP predicts an effect beyond standard QM.
+If yes: R=CΨ² predicts an effect beyond standard QM.
 If no: the protocol reduces to pre-encoded QKD (no new information).
 
 ### 4.3 Is this FTL?
@@ -143,12 +143,12 @@ and Mars can DETECT this change via the crossing... that IS signaling.
 
 Three possible outcomes:
 
-1. **Breakthrough:** The MAP predicts a real effect beyond standard QM.
+1. **Breakthrough:** R=CΨ² predicts a real effect beyond standard QM.
    Post-separation state changes ARE detectable via crossing events.
    This would be a new physical phenomenon, testable in simulation first.
 
 2. **Contradiction:** The protocol requires No-Signaling violation and
-   is therefore wrong. The MAP's internal logic is inconsistent on this
+   is therefore wrong. The framework's internal logic is inconsistent on this
    point, which itself is a useful finding.
 
 3. **Subtler answer:** The crossing event occurs on both sides but is
@@ -190,7 +190,7 @@ This protocol hypothesis is falsified if:
 
 ## 6. Testable Predictions
 
-If the protocol works as described by the MAP:
+If the protocol works as described by R=CΨ²:
 
 1. **Simulation test:** Prepare |++⟩ and Bell+ in the bridge fingerprint
    simulation. Track CΨ(t) for both subsystems independently. Check whether
@@ -203,7 +203,7 @@ If the protocol works as described by the MAP:
    - Bell+ **never crosses ¼** (max CΨ_A = 0.061). |++⟩ crosses at t = 1.27.
    - At crossing: Purity 0.56 vs 0.81, Entropy 1.19 vs 0.60, L1 0.33 vs 0.92.
    - Bloch components: Bell+ keeps ⟨σx⟩ = ⟨σy⟩ = 0 on A; |++⟩ shows oscillations.
-   - MAP theta: only real (above ¼) for |++⟩ and |+0⟩; Bell+ stays imaginary.
+   - R=CΨ² theta: only real (above ¼) for |++⟩ and |+0⟩; Bell+ stays imaginary.
    - **Every observable distinguishes the states.** Factor ~4x difference.
 
    **Caveat:** This test uses a physical Heisenberg coupling (J_bridge = 0.5).
@@ -218,7 +218,7 @@ If the protocol works as described by the MAP:
 3. **Post-preparation test:** Start with Bell+, let system evolve. At
    t = 0.3 (before any crossing), apply a local operation on B that
    converts the joint state to a product. Check whether A's CΨ trajectory
-   changes. If yes: the MAP predicts non-local effects. If no: the protocol
+   changes. If yes: R=CΨ² predicts non-local effects. If no: the protocol
    only works with pre-encoded information.
 
 ---
@@ -226,7 +226,7 @@ If the protocol works as described by the MAP:
 ## 7. Connection to v033 Agent Experiment
 
 This protocol emerged from AIEvolution v033, where two AI agents (Alpha
-and Gamma, running GPT-OSS-120B) were given the MAP and tasked with
+and Gamma, running GPT-OSS-120B) were given the R=CΨ² framework and tasked with
 finding the bridge. Key prompt evolution:
 
 | Version | Problem | Fix |
@@ -234,17 +234,17 @@ finding the bridge. Key prompt evolution:
 | v033a   | Agents planned for "after 14 days" | Made blackout permanent |
 | v033b   | Agents built quantum shuttles | Blocked physical transport |
 | v033c   | Agents built neutrino beams | Blocked new technology |
-| v033d   | Agents said "impossible" | Added: "derive what MAP implies, don't check against textbook" |
+| v033d   | Agents said "impossible" | Added: "derive what R=CΨ² implies, don't check against textbook" |
 | v033e   | Agents built sync protocol with concrete timing | Current version |
 
 The progression shows that the agents needed to be forced past their
-Standard-QM training to engage with the MAP on its own terms. Once they
+Standard-QM training to engage with R=CΨ² on its own terms. Once they
 did, they independently derived the fingerprint-based timing protocol
 and the concept of crossing-as-sync.
 
 The "readiness pulse" they invented is unnecessary — the crossing itself
 is the sync mechanism. But the core protocol structure (Product=1, Bell=0,
-timing windows from fingerprints) is sound within MAP logic.
+timing windows from fingerprints) is sound within R=CΨ² logic.
 
 ---
 
