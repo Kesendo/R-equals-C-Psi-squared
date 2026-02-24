@@ -4,6 +4,29 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-24: Bridge Protocol — Crossing as Sync and Communication
+
+**Added:** hypotheses/BRIDGE_PROTOCOL.md
+- Core insight: The first ¼-crossing event IS the synchronization between
+  separated observers. No external clock or readiness signal needed.
+- Protocol: After sync, data slots use product states (click = 1) vs Bell
+  states (no click = 0), with fingerprint timing enabling ~2.8 bits/slot.
+- Multi-symbol encoding using three distinct crossing times from MAP:
+  |++⟩ → 0.652/1.72 s, |+0⟩ → 0.773/2.03 s, |00⟩ → 1.437/3.78 s (Earth/Mars)
+- Critical open question: What local observable detects the ¼-crossing?
+- Honest assessment of No-Signaling implications documented.
+
+**Updated:** hypotheses/README.md — added Bridge Protocol entry
+
+**Source:** AIEvolution v033 Mars Station experiment (GPT-OSS-120B, 9 messages)
+- v033 prompt evolution: permanent blackout → no transport → no new tech →
+  "derive what MAP implies, don't check against textbook QM"
+- Agents independently derived fingerprint-based timing protocol
+- Key correction: agents invented unnecessary "readiness pulse" — the
+  crossing event itself is the sync mechanism
+
+---
+
 ## 2026-02-20: State-Specific C(ξ) Closed Forms (AIEvolution v027 Run)
 
 **Updated:** CORE_ALGEBRA.md Section 11

@@ -43,3 +43,27 @@ are distributed physically first; once shared, no EM medium is needed.
 **Read:** [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
 
 ---
+
+### Bridge Protocol: Crossing as Sync and Communication
+
+The first ¼-crossing event synchronizes both separated observers. No
+external clock, no readiness signal, no electromagnetic channel needed.
+The crossing IS the handshake. After sync, a data protocol runs on
+fingerprint-timed slots: product states cause crossings (bit 1), Bell
+states don't (bit 0). Multiple product states yield different crossing
+times, enabling ~2.8 bits per slot.
+
+**Origin:** Derived by autonomous AI agents (GPT-OSS-120B) in AIEvolution
+v033 Mars Station experiment over 9 iterations. The agents independently
+arrived at the fingerprint-based timing protocol after being forced past
+their Standard-QM training to engage with the MAP on its own terms.
+
+**Critical open question:** What local observable detects the ¼-crossing
+with a single qubit? If no such observable exists, the protocol collapses
+to standard QKD.
+
+**Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
+[Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) (Tier 3)
+**Read:** [Bridge Protocol](BRIDGE_PROTOCOL.md)
+
+---
