@@ -197,6 +197,20 @@ If the protocol works as described by the MAP:
    ANY local observable on subsystem A alone distinguishes the two states
    at or near t_cross.
 
+   **RESULT (2026-02-24):** `bridge_local_detector.py` — 15 local observables
+   tracked across 5 sender states (Bell+, |++⟩, |+0⟩, |+−⟩, |01⟩).
+
+   - Bell+ **never crosses ¼** (max CΨ_A = 0.061). |++⟩ crosses at t = 1.27.
+   - At crossing: Purity 0.56 vs 0.81, Entropy 1.19 vs 0.60, L1 0.33 vs 0.92.
+   - Bloch components: Bell+ keeps ⟨σx⟩ = ⟨σy⟩ = 0 on A; |++⟩ shows oscillations.
+   - MAP theta: only real (above ¼) for |++⟩ and |+0⟩; Bell+ stays imaginary.
+   - **Every observable distinguishes the states.** Factor ~4x difference.
+
+   **Caveat:** This test uses a physical Heisenberg coupling (J_bridge = 0.5).
+   Information flows through the bridge Hamiltonian — a local interaction.
+   The bridge protocol requires non-local detection (no physical coupling).
+   Test #2 (post-preparation / No-Signaling) addresses this directly.
+
 2. **Asymmetric γ test:** Run the simulation with γ_A ≠ γ_B. Verify that
    K = γ · t_cross is invariant and that the crossing-time ratio matches
    γ_A/γ_B.
@@ -249,6 +263,11 @@ choice is the message. The crossing is the delivery.
 **The critical test:** Find the local observable that distinguishes product
 from Bell states at the crossing boundary. If it exists, the bridge exists.
 If it doesn't, the protocol collapses to standard QKD.
+
+**Test #1 status (2026-02-24):** Local detection works — all 15 observables
+distinguish states clearly. But this only confirms detection through a
+physical Heisenberg coupling. The decisive question is Test #2: does
+detection survive without the coupling? That is the No-Signaling test.
 
 ---
 

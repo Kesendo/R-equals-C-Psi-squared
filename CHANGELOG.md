@@ -25,6 +25,14 @@ All notable changes to the R = CΨ² framework repository.
 - Key correction: agents invented unnecessary "readiness pulse" — the
   crossing event itself is the sync mechanism
 
+**Added:** simulations/bridge_local_detector.py — Test #1 from Bridge Protocol
+- Battery of 15 local observables on ρ_A: Purity, Von Neumann Entropy,
+  CΨ, L1 Coherence, Concurrence, MAP theta, Bloch components, qubit purity
+- Result: Bell+ never crosses ¼ (max CΨ_A = 0.061), |++⟩ crosses at t=1.27
+- All observables distinguish states — factor ~4x difference across the board
+- Caveat: detection via physical Heisenberg coupling, not non-local
+- Visualizations: local_detector/{overview, bloch, theta, differences}.png
+
 ---
 
 ## 2026-02-20: State-Specific C(ξ) Closed Forms (AIEvolution v027 Run)
