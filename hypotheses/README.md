@@ -62,6 +62,10 @@ their Standard-QM training to engage with the MAP on its own terms.
 with a single qubit? If no such observable exists, the protocol collapses
 to standard QKD.
 
+**Test #1 (2026-02-24):** All 15 local observables distinguish Bell+ from
+product states — factor ~4x. But detection runs through physical Heisenberg
+coupling. The decisive No-Signaling test (Test #2) is next.
+
 **Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) (Tier 3)
 **Read:** [Bridge Protocol](BRIDGE_PROTOCOL.md)
