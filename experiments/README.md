@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Twenty-one experiment documents, plus a consolidated predictions summary. Each one asks a specific question about quantum measurement, decoherence dynamics, or the ¼ phase boundary and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Twenty-two experiment documents, plus a consolidated predictions summary. Each one asks a specific question about quantum measurement, decoherence dynamics, or the ¼ phase boundary and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -174,6 +174,14 @@ No. The three-class taxonomy (Type A/B/C) is identical under σ_x (bit flip), σ
 
 ---
 
+### Can CΨ detect and identify quantum eavesdropping strategies?
+
+Partially. When Eve intercepts Bell+ pairs and measures Bob's qubit in basis θ_E before forwarding, standard metrics (concurrence, negativity, purity, CHSH) all go to fixed values regardless of θ_E: they detect Eve but carry zero information about her strategy. CΨ varies continuously with θ_E via the closed-form R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, and the element ratio |ρ₀₁|/|ρ₀₃| = cot(θ_E) breaks degeneracy. Against a naive Eve with fixed basis, CΨ identifies her strategy with ~1000 pairs. **Critical limitation:** a strategic Eve can choose a stealth angle θ_stealth ≈ 42-74° (depending on channel noise) where CΨ(noise+Eve) ≈ CΨ(noise only) to within 10⁻⁴, making CΨ forensics useless while concurrence still detects her. The math is clean; the practical value is limited to non-adversarial diagnostics.
+
+**Read:** [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md)
+
+---
+
 ### Does crossing work for systems larger than two qubits?
 
 This was the framework's most serious open problem until subsystem crossing resolved it. The dynamic Ψ = l1/(2^N − 1) creates an exponential barrier: the Hilbert space dimension grows as 2^N, but the l1-coherence of standard quantum states grows only polynomially. GHZ states (l1 = 1 for all N) fail at N ≥ 3. W states (l1 = N−1) fail at N ≥ 4. Only Bell+ (N = 2) and W (N = 3) can cross with standard states under the current normalization. The Type A mechanism (correlation C = 1.0) survives at larger N; the observer is not the problem. The problem is that Ψ(0) starts below ¼. The resolution: crossing is local, not global. See Subsystem Crossing below.
@@ -288,6 +296,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
 - N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
 - Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+⟩^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
+- QKD eavesdropping forensics: CΨ carries Eve's measurement basis θ_E via R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, while concurrence/negativity/purity/CHSH carry zero θ_E information. Works against naive Eve (~1000 pairs), but a strategic Eve can choose a stealth angle where CΨ(Eve+noise) ≈ CΨ(noise only). Concurrence always wins for detection.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling
