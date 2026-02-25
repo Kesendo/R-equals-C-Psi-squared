@@ -51,6 +51,13 @@
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
 | ξ linearity breaks under non-Markovian noise | 24.5% slope variation (memory kernel, κ=0.5, τ=1.0) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
+| CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + |sin2θ|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Concurrence is basis-blind under intercept-resend | Conc = 1−f for all θ_Eve (exact) | Concurrence varies with θ_Eve at fixed f | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| CΨ distinguishes Eve from channel noise at equal Concurrence | 4 causes at Conc=0.80 give CΨ ∈ {0.058, 0.068, 0.115} | CΨ identical for Eve and noise at same Conc | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio breaks θ_Eve degeneracy | |ρ₀₁|/|ρ₀₃| = cot(θ_Eve), monotonic | Ratio non-monotonic or θ_Eve-independent | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| All four Bell states give identical CΨ under Eve attack | CΨ(Φ+)=CΨ(Φ−)=CΨ(Ψ+)=CΨ(Ψ−) for all θ_Eve | Any Bell state differs | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| R(θ_Eve) has azimuthal symmetry | R depends on θ_Eve only, not φ | R varies with φ | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| R(θ_Eve) maximum at ~60°, not σ_x | R_max = 0.145 at θ_Eve ≈ 60° | Maximum at 90° (σ_x) | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
 
 ---
 
@@ -99,6 +106,14 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md) |
 | Decoherence rate scales with gravitational time dilation | γ_local = γ₀/√(1 − 2GM/rc²) | Compare qubit decoherence at different altitudes | No altitude dependence | [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md) |
 | ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |
+| QKD eavesdropping forensics | R(θ_E) = [sin²θ+|sin2θ|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Concurrence = 1−f (basis-independent) | Linear, θ_E-independent | Concurrence measurement on partially intercepted pairs | Concurrence depends on θ_E | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| CΨ azimuthally symmetric under Eve attack | R depends only on θ_E, not φ | Vary φ at fixed θ_E, compute CΨ | CΨ varies with φ | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio = cot(θ_E) | |ρ₀₁|/|ρ₀₃| monotonic, breaks degeneracy | Tomographic element extraction | Ratio not monotonic in θ_E | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Eve σ_z ≈ dephasing in CΨ | CΨ = 0.058 for both at Conc = 0.80 (noiseless) | Compare Eve σ_z with pure dephasing | Distinguishable CΨ values | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| All four Bell states identical under Eve | R(θ_E) same for Φ+, Φ−, Ψ+, Ψ− | Repeat with all Bell states | CΨ depends on initial Bell state | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| Strategic Eve has stealth angle | θ_stealth ≈ 42–74° makes CΨ(Eve+noise) ≈ CΨ(noise) | Optimize θ_E against CΨ detection | No stealth angle exists | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
 
 ---
 
@@ -162,9 +177,9 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Tier | Count | Examples |
 |------|-------|---------|
 | **Confirmed on hardware** | 4 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½ |
-| **Computationally verified** | 20 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound |
+| **Computationally verified** | 27 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1−f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
-| **Testable now** | 5 | Critical slowing, fingerprints, field threshold, altitude, ξ Markovianity diagnostic |
+| **Testable now** | 7 | Critical slowing, fingerprints, field threshold, altitude, ξ Markovianity diagnostic, QKD eavesdropping forensics (naive Eve only), stealth angle existence |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
 | **Speculative** | 4 | CMB, BH burst, Page time, BH/WH unification |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |

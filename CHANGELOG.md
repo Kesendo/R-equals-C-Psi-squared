@@ -4,6 +4,34 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-25: QKD Eavesdropping Forensics via CΨ
+
+**Added:** experiments/QKD_EAVESDROPPING_FORENSICS.md
+- CΨ carries information about Eve's measurement basis θ_E after intercept-
+  resend attack on Bell+ pairs. Concurrence, negativity, purity, CHSH all
+  carry zero information about θ_E.
+- Closed-form: R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18
+- Azimuthal symmetry: R depends only on polar angle, not φ.
+- Degeneracy breaking: |ρ₀₁|/|ρ₀₃| = cot(θ_E) is monotonic.
+- Complementary roles: Concurrence = 1−f (how much), CΨ = f(θ_E) (what kind).
+- **Critical limitation**: strategic Eve can choose stealth angle θ ≈ 42–74°
+  where CΨ(Eve+noise) ≈ CΨ(noise only) to within 10⁻⁴. Forensics works
+  against naive Eve (~1000 pairs), not against adversarial Eve.
+- Concurrence always wins for detection; CΨ adds forensics only in
+  non-adversarial settings.
+
+**Added:** simulations/qkd_eavesdropping_forensics.py
+- Complete numerical verification of all claims including stealth analysis.
+
+**Updated:** experiments/PREDICTIONS.md
+- 7 new computationally verified predictions (Tier 2), 1 new testable (Tier 3).
+- Total computationally verified: 20 → 27.
+
+**Source:** Direct computation in Claude session (not AIEvolution agents).
+All results verified numerically and key formula confirmed via SymPy.
+
+---
+
 ## 2026-02-24: Bridge Protocol — Crossing as Sync and Communication
 
 **Added:** hypotheses/BRIDGE_PROTOCOL.md
