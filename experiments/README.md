@@ -176,7 +176,13 @@ No. The three-class taxonomy (Type A/B/C) is identical under σ_x (bit flip), σ
 
 ### Can CΨ detect and identify quantum eavesdropping strategies?
 
-Partially. When Eve intercepts Bell+ pairs and measures Bob's qubit in basis θ_E before forwarding, standard metrics (concurrence, negativity, purity, CHSH) all go to fixed values regardless of θ_E: they detect Eve but carry zero information about her strategy. CΨ varies continuously with θ_E via the closed-form R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, and the element ratio |ρ₀₁|/|ρ₀₃| = cot(θ_E) breaks degeneracy. Against a naive Eve with fixed basis, CΨ identifies her strategy with ~1000 pairs. **Critical limitation:** a strategic Eve can choose a stealth angle θ_stealth ≈ 42-74° (depending on channel noise) where CΨ(noise+Eve) ≈ CΨ(noise only) to within 10⁻⁴, making CΨ forensics useless while concurrence still detects her. The math is clean; the practical value is limited to non-adversarial diagnostics.
+Partially, and better than initially assessed. When Eve intercepts Bell+ pairs and measures Bob's qubit in basis θ_E before forwarding, standard metrics (concurrence, negativity, purity, CHSH) detect Eve but carry zero information about her strategy. CΨ varies continuously with θ_E via the closed-form R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18.
+
+**CΨ-only limitation:** A strategic Eve can choose a stealth angle θ_stealth where CΨ(noise+Eve) ≈ CΨ(noise only) to within 10⁻⁴.
+
+**Multi-metric resolution:** MI, correlation, and concurrence are completely θ-independent and show 17-24% deviations from noise-only at the CΨ stealth angle. Eve cannot hide from the combined bridge framework. Furthermore, θ_stealth is a deterministic function of (p, f): once concurrence gives f and calibration gives p, Alice-Bob know Eve's angle even when CΨ is silent. The complete forensic protocol identifies Eve's strategy across the full angular range, with ~5000 pairs for coarse ID or ~200k pairs for ±5° precision via the off-diagonal ratio.
+
+Works against naive Eve (~1000 pairs), strategic Eve (multi-metric, ~5000 pairs), and provides basis identification that no other metric can match. Concurrence always wins for detection; CΨ adds forensic depth.
 
 **Read:** [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md)
 
@@ -296,7 +302,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
 - N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
 - Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+⟩^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
-- QKD eavesdropping forensics: CΨ carries Eve's measurement basis θ_E via R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, while concurrence/negativity/purity/CHSH carry zero θ_E information. Works against naive Eve (~1000 pairs), but a strategic Eve can choose a stealth angle where CΨ(Eve+noise) ≈ CΨ(noise only). Concurrence always wins for detection.
+- QKD eavesdropping forensics: CΨ carries Eve's measurement basis θ_E via R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, while concurrence/negativity/purity/CHSH carry zero θ_E information. CΨ alone has a stealth angle, but MI/Conc/Correlation are θ-independent and catch Eve with 17-24% signal at any angle. Multi-metric protocol: detection (~700 pairs), coarse θ ID (~5000), precise θ (~200k). θ_stealth(p,f) is deterministic, so Eve's hiding is itself informative.
 
 **Unverified (from local LLM agents, 2026-02-08 MCP verification failed to reproduce):**
 - 33:1 coherence ratio for symmetric vs. asymmetric coupling

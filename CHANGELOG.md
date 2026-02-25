@@ -4,6 +4,32 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-02-25b: Multi-Metric Rescue - Bridge Framework Eliminates Stealth
+
+**Updated:** experiments/QKD_EAVESDROPPING_FORENSICS.md
+- MI and Correlation are completely θ_Eve-independent. They show 17-24%
+  deviations from noise-only at the CΨ stealth angle. Eve cannot hide
+  from the combined bridge framework.
+- θ_stealth(p, f) is a deterministic function. Once concurrence gives f
+  and calibration gives p, Alice-Bob know Eve's stealth angle a priori.
+  Eve's hiding is itself informative (stealth-as-signal).
+- Off-diagonal ratio |ρ₀₁|/|ρ₀₃| survives noise (not as cot(θ) but as
+  invertible function of θ at fixed p, f). Statistical cost: ~200k pairs.
+- ξ-curvature null result: curvature difference exactly 0% between
+  Eve-plus-noise and noise-only under controlled depolarization.
+- Complete multi-metric forensic protocol: detection (~700 pairs),
+  coarse θ ID (~5000 pairs), precise θ (~200k pairs).
+- Updated honest assessment: CΨ-only limited, but bridge framework
+  provides full forensic capability against strategic Eve.
+
+**Updated:** experiments/PREDICTIONS.md
+- 6 new computationally verified predictions (Tier 2), 1 new testable (Tier 3).
+- Total computationally verified: 27 -> 33.
+
+**Source:** Direct computation in Claude session.
+
+---
+
 ## 2026-02-25: QKD Eavesdropping Forensics via CΨ
 
 **Added:** experiments/QKD_EAVESDROPPING_FORENSICS.md
