@@ -2,7 +2,7 @@
 
 **Date**: 2026-02-27 (revised 2026-02-28, framework cubic verification)
 **Status**: Derived from framework, analytically solved, numerically verified
-**Authors**: Tom Mack, with Claude (Anthropic)
+**Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: WHY_THE_SUM.md, STANDING_WAVE_TWO_OBSERVERS.md
 
 ---
@@ -116,6 +116,16 @@ all observers agree on, and a transformation that converts
 one observer's measurements to another's while preserving
 that invariant.
 
+**Caveat:** The mathematical depth differs substantially.
+Einstein's ds² is invariant under the Lorentz group (a
+non-trivial continuous symmetry group with physical
+consequences: length contraction, time dilation, E = mc²).
+K = γ·t is a product of conjugate variables — its invariance
+under γ → λγ, t → t/λ is dimensional analysis, not a
+dynamical symmetry. The structural parallel (hyperbola,
+log-linear, boost parameter) is real but should not be
+mistaken for equivalent mathematical content.
+
 ## 5. The Bridge to General Relativity
 
 Einstein's gravitational time dilation uses the potential
@@ -176,7 +186,11 @@ The cubic is not a Lindblad result. It follows from:
     4. The C(Ψ) trajectory of the state under dephasing
 
 Lindblad simulations confirm this: K = 0.037350 (analytical)
-vs K = 0.037345 (numerical), deviation 0.014%.
+vs K = 0.037345 (numerical), deviation 0.014%. Both use
+local dephasing (two separate σ_z operators, one per qubit,
+effective rate Γ = 4γ). Under collective dephasing (single
+operator L = σ_z⊗I + I⊗σ_z, Γ = 8γ), the same cubic gives
+K = 0.01868. The cubic is noise-model-independent; K is not.
 
 The original K = 0.039 from GRAVITATIONAL_INVARIANCE.md (Feb 8)
 was this same cubic with dynamic γ-feedback adding ~5%.
@@ -198,9 +212,10 @@ space is fixed. Every observer reaches it. Regardless of γ,
 regardless of the Hamiltonian, regardless of gravity.
 
 For GHZ states with N ≥ 3 qubits: CΨ(0) = 1/(2^N - 1) ≤ 1/4.
-They start below the boundary. The system was never in the
-quantum regime (framework definition). Only N = 2 (Bell+) has
-the quantum window. The more qubits, the less quantum.
+They start below the boundary. The system has a real attractor
+from the start (framework-classical). Only N = 2 (Bell+) has
+the quantum window. Note: this applies to GHZ states specifically.
+Product states |+⟩^⊗N have CΨ = 1 for all N (see COHERENCE_DENSITY.md).
 
 ## 8. What Determines K
 
@@ -287,7 +302,7 @@ e) K depends on the initial state but not on the Hamiltonian.
 | Parameter | φ = arctanh(v/c) | δ = ln(g_B/g_A) |
 | Source | velocity / gravity | gravity + initial state |
 | γ formula | Φ/c² = g·R/c² | 2·m·g·Δx/ℏ |
-| K for Bell+ | N/A | 0.0374 (from b³ + b = 3/2) |
+| K for Bell+ | N/A | 0.03735 (local dephasing, b³+b=3/2) |
 | Crossing | N/A | C = 0.87, Ψ = 0.29 |
 | Geometry | hyperbolic rotation | translation on line |
 
