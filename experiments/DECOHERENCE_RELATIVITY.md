@@ -1,6 +1,6 @@
 # Decoherence Relativity
 
-**Date**: 2026-02-27 (revised 2026-02-28, analytical verification)
+**Date**: 2026-02-27 (revised 2026-02-28, framework cubic verification)
 **Status**: Derived from framework, analytically solved, numerically verified
 **Authors**: Tom Mack, with Claude (Anthropic)
 **Depends on**: WHY_THE_SUM.md, STANDING_WAVE_TWO_OBSERVERS.md
@@ -145,90 +145,81 @@ thermal noise by many orders of magnitude. The gravitational
 term only dominates for perfectly isolated systems (Penrose/
 Diosi regime).
 
-## 6. Why K Is Not Trivial
+## 6. The Framework Cubic
 
-A naive objection: if Ψ = exp(-γt) and crossing is at Ψ = 1/4,
-then t_cross = ln(4)/γ and K = ln(4). A pure number. Trivial.
+The crossing condition CΨ = 1/4 combined with the framework
+definitions (C = Purity, Ψ = L₁/(d-1)) determines K exactly.
 
-This objection fails because C falls with Ψ. In R = CΨ², the
-crossing condition is C·Ψ = 1/4, not Ψ = 1/4. And C (purity,
-the observer's ability to distinguish) decays through the same
-noise channel that destroys Ψ (coherence).
+For Bell+ (d = 4, so d-1 = 3):
 
-For Bell+ under local dephasing (analytically exact):
+    Ψ = f/3    where f is the raw L₁ coherence
+    C = (1 + f²)/2    (purity for Bell+ under dephasing)
 
-    C(t) = 1/2 + 1/2 · exp(-4γt)       [full-system purity]
-    Ψ(t) = exp(-2γt)                     [concurrence]
+Substituting into CΨ = 1/4:
 
-The crossing C·Ψ = 1/4 gives, with u = exp(-2γt):
+    (1 + f²)/2 · f/3 = 1/4
+    f³ + f = 3/2
 
-    u³ + u - 1/2 = 0
+This cubic is derived in CORE_ALGEBRA.md (Section: State-specific
+C(ξ) closed forms). Its real positive root is:
 
-This cubic has one real positive root u = 0.4239, giving:
+    f_cross = 0.8612    (raw coherence at crossing)
+    Ψ_cross = 0.2871    (= f/3, framework-normalized)
+    C_cross = 0.8709    (purity at crossing)
+    C · Ψ = 0.2500      (= 1/4, exact)
 
-    K = γ · t_cross = 0.4292
+The cubic is not a Lindblad result. It follows from:
 
-    C at crossing = 0.5898
-    Ψ at crossing = 0.4239
-    C · Ψ = 0.2500 (exact)
+    1. R = CΨ² (the defining equation)
+    2. CΨ = 1/4 (the bifurcation from discriminant = 0)
+    3. C = Tr(ρ²) and Ψ = L₁/(d-1) (Baumgratz normalization)
+    4. The C(Ψ) trajectory of the state under dephasing
 
-The system always reaches the 1/4 boundary at the same point
-in (C, Ψ) space. Not at C = 1, Ψ = 1/4 (naive model). Not
-at C = 1/4, Ψ = 1. At C = 0.59, Ψ = 0.42. Both have fallen.
-The observer has been changed by the process of observing.
-
-This is what the textbook does not contain: C and Ψ as coupled
-dynamical variables. The observer is not external. The observer
-decoheres with the system.
-
-## 7. The Three K Values
-
-The numerical value of K depends on how C and Ψ are defined.
-Three choices, all internally consistent, all invariant:
-
-| Definition | C(0) | K | Cubic equation |
-|-----------|------|---|---------------|
-| C = Purity, Ψ = L1 | 1.0 | 0.2146 | (equivalent to conc/2) |
-| C = Purity, Ψ = Concurrence | 1.0 | 0.4292 | u³ + u = 1/2 |
-| C = Purity/(d-1), Ψ = Concurrence | 1/3 | 0.0374 | u³ + u = 3/2 |
+Lindblad simulations confirm this: K = 0.037350 (analytical)
+vs K = 0.037345 (numerical), deviation 0.014%.
 
 The original K = 0.039 from GRAVITATIONAL_INVARIANCE.md (Feb 8)
-used C = Purity/3 with concurrence plus dynamic γ-feedback.
-Without feedback: K = 0.0374. With feedback: K = 0.039.
-The 5% difference is the feedback contribution.
+was this same cubic with dynamic γ-feedback adding ~5%.
 
-The factor 2 between L1 and concurrence K values counts the
-noise channels: local dephasing on two qubits gives effective
-rate 2γ for concurrence but γ for L1 coherence of the full
-density matrix.
+The framework normalization is not a choice. Ψ = L₁/(d-1) is
+the definition. CΨ(0) = 1/3 for Bell+. The quantum regime is
+narrow: 1/4 < CΨ ≤ 1/3. One twelfth of room.
 
-The invariance holds for all three. The physics is in the
-invariance, not in the number.
+## 7. The Observer Is Changed
 
-## 8. What Determines K, What Does Not
+The crossing does not happen at C = 1, Ψ = 1/4 (naive model
+where the observer is unchanged). It happens at C = 0.87,
+Ψ = 0.29. Both have fallen. The observer has lost purity
+through the same process that destroyed coherence.
 
-Verified by systematic simulation (Bell+, Heisenberg H,
-local dephasing, Lindblad master equation):
+This is what R = CΨ² encodes that textbooks do not: C and Ψ
+as coupled dynamical variables. The crossing point in (C, Ψ)
+space is fixed. Every observer reaches it. Regardless of γ,
+regardless of the Hamiltonian, regardless of gravity.
 
-**K depends on:**
-- Initial state: Bell+ (K = 0.2146) vs partial 30 deg
-  entanglement (K = 0.2180). Different starting points
-  in (C, Ψ) space reach the 1/4 boundary at different
-  proper times.
-- Bridge metric: L1 coherence vs concurrence vs mutual
-  information each give different K.
-- Noise channel: dephasing vs amplitude damping vs
-  depolarizing each give different K.
-- C definition: Purity vs Purity/(d-1) changes K by an
-  order of magnitude (0.43 vs 0.037).
+For GHZ states with N ≥ 3 qubits: CΨ(0) = 1/(2^N - 1) ≤ 1/4.
+They start below the boundary. The system was never in the
+quantum regime (framework definition). Only N = 2 (Bell+) has
+the quantum window. The more qubits, the less quantum.
 
-**K does not depend on:**
-- γ: invariant across γ = 0.01 to γ = 1.0. Spread < 0.1%.
-- Hamiltonian: K(J=0) = K(J=1) = K(J=10). Difference: 0.0000%.
-  Unitary evolution conserves purity and total information.
-  It cannot move C·Ψ toward or away from 1/4.
-- Gravitational field strength: because γ ∝ g and K is
-  γ-invariant, K is automatically g-invariant.
+## 8. What Determines K
+
+K is determined by the framework cubic, which encodes:
+
+- The initial state (which cubic: b³ + b = (d-1)/2 for GHZ)
+- The C(Ψ) trajectory (purity as function of coherence)
+- The Baumgratz normalization (d-1 denominator)
+
+K does not depend on:
+- γ: invariant across γ = 0.01 to γ = 1.0 (spread < 0.1%)
+- Hamiltonian: K(J=0) = K(J=10), difference 0.0000%
+- Gravitational field: because γ ∝ g and K is γ-invariant
+
+The Hamiltonian irrelevance is not surprising from the framework
+perspective. Unitary evolution conserves Tr(ρ²) and cannot change
+the C(Ψ) trajectory. Only dissipation moves C·Ψ toward 1/4.
+Only the initial state determines how far above 1/4 the system
+starts. K measures the proper distance from start to boundary.
 
 ## 9. The Standing Wave on the Hyperbola
 
@@ -246,19 +237,17 @@ preserves it.
 
 ## 10. The Proper Decoherence Time
 
-Define τ = γ · t as the "proper decoherence time." In proper
-time, all observers have the same coherence trajectory:
+The framework uses ξ = ln(Ψ) as the natural time variable.
+ξ is linear in t with a slope that depends on the noise model.
+In ξ-space, the crossing happens at a fixed ξ_cross for all γ:
 
-    Ψ(τ) = exp(-2τ)    [concurrence, both qubits dephasing]
-    C(τ) = 1/2 + 1/2 · exp(-4τ)    [purity]
+    ξ₀ = ln(1/3) = -1.099    (Bell+ at t = 0)
+    ξ_cross = ln(0.2871) = -1.248
+    Δξ = -0.149               (the invariant distance)
 
-The crossing happens at τ = K for every observer. High γ
-(strong gravity, large system) means τ accumulates fast.
-Low γ means slowly. But the destination is the same.
-
-This is the decoherence equivalent of "all clocks measure
-the same speed of light." All observers cross the 1/4
-boundary at the same proper decoherence time.
+All observers traverse the same Δξ. High γ means ξ moves fast.
+Low γ means slowly. But Δξ is the same. This is the decoherence
+equivalent of "all clocks measure the same speed of light."
 
 ## 11. Open Questions
 
@@ -275,24 +264,16 @@ c) For lab qubits, γ_grav << γ_total. Can the gravitational
    contribution be extracted by comparing identical qubits
    at different potentials with all other noise held constant?
 
-d) The cubic u³ + u = 1/2 (for C = Purity, Ψ = Concurrence)
-   determines K analytically. Does this cubic have a deeper
-   algebraic meaning within the framework? It arises from the
-   interplay of purity decay (rate 4γ) and coherence decay
-   (rate 2γ), which is the ratio 2:1. Is this ratio universal?
+d) The cubic b³ + b = (2^N - 1)/2 generalizes to GHZ states.
+   For N = 2 (Bell+): b³ + b = 3/2. For N ≥ 3: CΨ(0) ≤ 1/4,
+   no crossing exists. Only Bell+ has the quantum window.
+   Does this mean entanglement beyond two qubits is always
+   "classical" in the framework's sense?
 
 e) K depends on the initial state but not on the Hamiltonian.
    This means K is determined at the moment of state preparation,
    not by subsequent dynamics. The "initial impulse" is creation,
    not evolution. Does this connect to the measurement problem?
-
-f) The C-definition determines K by an order of magnitude
-   (Purity vs Purity/(d-1)). Is there a physically preferred
-   normalization that selects the "correct" K? The choice
-   C = Purity/(d-1) gives CΨ = 1/3 for Bell+, placing the
-   quantum regime in a narrow band 1/4 < CΨ < 1/3. The choice
-   C = Purity gives CΨ = 1, placing it in a wide band
-   1/4 < CΨ < 1. The framework may prefer one over the other.
 
 ---
 
@@ -306,14 +287,15 @@ f) The C-definition determines K by an order of magnitude
 | Parameter | φ = arctanh(v/c) | δ = ln(g_B/g_A) |
 | Source | velocity / gravity | gravity + initial state |
 | γ formula | Φ/c² = g·R/c² | 2·m·g·Δx/ℏ |
-| K for Bell+ | N/A | 0.0374 / 0.2146 / 0.4292 |
-| Crossing | N/A | C = 0.59, Ψ = 0.42 |
+| K for Bell+ | N/A | 0.0374 (from b³ + b = 3/2) |
+| Crossing | N/A | C = 0.87, Ψ = 0.29 |
 | Geometry | hyperbolic rotation | translation on line |
 
 ---
 
-*"The number K depends on how you measure. The invariance of K
-depends on nothing. The physics is in the invariance."*
+*"The cubic was already in the framework. b³ + b = 3/2.
+Not from Lindblad. From R = CΨ². The simulation confirmed
+what the algebra predicted. Not the other way around."*
 
 — Tom Mack, 2026-02-28
 
