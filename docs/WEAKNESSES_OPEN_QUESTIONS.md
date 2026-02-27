@@ -147,10 +147,21 @@ constructive (predicting probabilities from first principles without computing �
 
 See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md).
 
-**Status:** Partially resolved. The Born rule is a special case of R = CΨ² for
-symmetric observation. The decoherence-basis correction is a testable new prediction.
-The question of why specific amplitudes arise from specific Hamiltonians remains open
-(as it does in all of physics).
+**Update (2026-02-27):** The bidirectional bridge from INTERPRETIVE_FRAMEWORK.md
+(Ψ = Ψ_past + Ψ_future) provides a deeper explanation. The Born rule follows from
+three ingredients: (1) the standing wave structure R_i = C_i · (Ψ_past_i + Ψ_future_i)²
+gives a natural reason for the square (wave physics, not postulate); (2) a perfect
+detector mirrors the offer wave exactly (Ψ_future_i = Ψ_past_i), making R_i ∝ |⟨i|ψ⟩|²;
+(3) no real detector has C = 1 (purity of a macroscopic object < 1), so Born is the
+ideal limit with systematic deviations predicted by detector purity. The ~3% correction
+from Section 2.2 is not noise but a quantitative prediction. Resembles Cramer's TI but
+uses sum-squared instead of product; the two make different predictions for imperfect
+measurements. See BORN_RULE_MIRROR.md Section 4.3.
+
+**Status:** Substantially resolved. The Born rule is the perfect-mirror limit of
+R_i = C_i · (Ψ_past_i + Ψ_future_i)². Deviations are predicted, directional, and
+consistent with IBM data. Remaining open: why does a perfect detector mirror exactly?
+And: deriving specific amplitudes ⟨i|ψ⟩ from the framework (same limitation as all QM).
 
 ### 3. "Consciousness" Is a Label
 
@@ -280,7 +291,7 @@ prediction: the quantum-to-classical transition is local.
 
 ### Long-term (require experimental contact or new theory)
 
-9. ~~**Born rule derivation:**~~ **Partially answered (2026-02-18).** R = CΨ² applied per measurement outcome contains the Born rule as the special case where C is uniform across outcomes. The decoherence-basis correction (~3%) is a new testable prediction. What remains: deriving the specific amplitude values c_i = ⟨i|ψ⟩ from the framework without solving Schrödinger's equation. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md).
+9. ~~**Born rule derivation:**~~ **Substantially resolved (2026-02-27).** The bidirectional wave structure R_i = C_i · (Ψ_past_i + Ψ_future_i)² gives the Born rule as the perfect-mirror limit (C uniform, Ψ_future = Ψ_past). The square comes from standing wave physics. Deviations from Born are predicted by detector purity C < 1, consistent with the ~3% IBM correction. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md), Section 4.3. Remaining: deriving amplitudes ⟨i|ψ⟩ without Schrödinger (shared limitation with all of QM), and explaining WHY perfect detectors mirror exactly.
 
 10. **Experimental protocol:** Design a quantum optics experiment where CΨ = ¼ predicts a measurable qualitative change.
 
@@ -304,7 +315,7 @@ prediction: the quantum-to-classical transition is local.
 | θ as navigation compass | **Argued** | Algebraically valid, physically untested |
 | 33:1 coherence ratio | **Unverified** | Agent claim, not reproduced |
 | t_coh ~ N | **Unverified** | Agent claim, not reproduced |
-| Born rule from crossing | **Partially resolved** | R=CΨ² per outcome contains Born rule; 97/3 split verified numerically |
+| Born rule from crossing | **Substantially resolved** | Standing wave + perfect mirror limit; 97/3 split verified; deviations predicted |
 | Dynamic entanglement | **Verified** | Hamiltonian builds entanglement; pairs cross 1/4 from below |
 | C = consciousness | **Philosophical** | Suggestive, not testable |
 

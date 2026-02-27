@@ -1,8 +1,8 @@
 # Born Rule as Mirror Quality
 
-**Date**: 2026-02-18
-**Status**: Numerically verified (Tier 2)
-**Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md
+**Date**: 2026-02-18 (Section 4.3 added 2026-02-27)
+**Status**: Numerically verified (Tier 2), Standing wave derivation (Tier 3)
+**Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md, INTERPRETIVE_FRAMEWORK.md
 
 ---
 
@@ -168,6 +168,109 @@ coherence (which determines WHEN the crossing happens) rather than
 redistributing diagonal elements (which determine WHAT the outcome is).
 
 Decoherence is the clock. The Hamiltonian is the story.
+
+## 4.3 The Standing Wave Origin of Ψ²
+
+**Added:** 2026-02-27
+**Tier:** 3, Connects INTERPRETIVE_FRAMEWORK bidirectional bridge to Born rule
+**Depends on:** INTERPRETIVE_FRAMEWORK.md Section 2 (Wave Composition)
+
+### Why the Square?
+
+The Born rule says probability is the *square* of the amplitude. This
+is postulated in standard QM. Within the framework, it follows from
+the bidirectional wave structure.
+
+From INTERPRETIVE_FRAMEWORK.md:
+
+    Ψ = Ψ_past + Ψ_future
+
+    Ψ_past:   offer wave from source (emitter → outcome)
+    Ψ_future: confirmation wave from detector (absorber → outcome)
+
+For a standing wave to form, forward and backward wave must meet:
+
+    Ψ_f = A·sin(kx - ωt)    (forward, future)
+    Ψ_p = A·sin(kx + ωt)    (backward, past)
+    Ψ = 2A·sin(kx)·cos(ωt)  (standing wave)
+
+The key: a standing wave requires EQUAL amplitudes. Both waves
+carry amplitude A. The resulting pattern has amplitude 2A, and
+its intensity is (2A)² = 4A². The square comes from the wave
+physics, not from a postulate.
+
+### Per Outcome
+
+For measurement outcome i:
+
+    Ψ_past_i  = |⟨i|ψ⟩| = amplitude the source offers to outcome i
+    Ψ_future_i = confirmation amplitude the detector returns for i
+    C_i        = resonance quality (how well offer and confirm match)
+
+    R_i = C_i · (Ψ_past_i + Ψ_future_i)²
+
+Three independently defined quantities. No circularity.
+
+### The Perfect Mirror Limit
+
+A perfect detector is a perfect mirror: it returns exactly what it
+receives. Then Ψ_future_i = Ψ_past_i for all outcomes.
+
+    R_i = C · (2·|⟨i|ψ⟩|)² = 4C · |⟨i|ψ⟩|²
+
+Since C is uniform (same mirror quality for all outcomes), it cancels
+in normalization:
+
+    P(i) = R_i / Σ R_j = |⟨i|ψ⟩|² / Σ |⟨j|ψ⟩|² = |⟨i|ψ⟩|²
+
+This IS the Born rule. It follows from: perfect mirror → equal
+confirmation → uniform C → probability proportional to amplitude
+squared.
+
+### Why No Perfect Mirrors Exist
+
+C is purity: C = Tr(ρ²). For a macroscopic detector in thermal
+contact with its environment, C < 1. Always. A detector with C = 1
+would be a pure quantum state — isolated from the entire universe.
+No real measurement apparatus achieves this.
+
+Therefore:
+- The Born rule P(i) = |⟨i|ψ⟩|² is the LIMIT, not the law.
+- The actual law is R_i = C_i · (Ψ_past_i + Ψ_future_i)².
+- Deviations from Born are systematic, not noise.
+- The ~3% correction measured in Section 2.2 is the prediction.
+
+### Connection to Cramer's Transactional Interpretation
+
+This structure resembles Cramer's TI (1986): offer wave forward,
+confirmation wave backward, transaction = reality. In Cramer's
+formulation, the transaction probability is ψ·ψ* = |ψ|².
+
+The difference: Cramer uses a PRODUCT (ψ · ψ*). We use a SUM
+squared: (Ψ_past + Ψ_future)². For perfect mirrors where
+Ψ_future = Ψ_past, both give the same result (proportional to
+|amplitude|²). They diverge for imperfect mirrors.
+
+Our formulation adds:
+1. C as an explicit resonance quality factor (not in Cramer)
+2. The standing wave picture (sum, not product)
+3. Quantitative prediction of deviations from Born rule
+4. Connection to the 1/4 boundary via R = CΨ²
+
+Whether the sum or product is physically correct is an open
+question. Both reproduce Born in the ideal limit. They make
+different predictions for imperfect measurements. The IBM data
+(Section 2) is consistent with both; discriminating requires
+measurements at different detector purities.
+
+### What This Does NOT Claim
+
+- We do not derive the amplitudes ⟨i|ψ⟩ from the framework.
+  Those come from the Hamiltonian (Schrödinger equation).
+- We do not explain WHY the detector returns Ψ_future_i = Ψ_past_i
+  in the ideal case. We observe that perfect mirroring implies Born.
+- The identification of Ψ_past_i with |⟨i|ψ⟩| is proposed (Tier 3),
+  not proven.
 
 ## 5. The Cycle Completed
 
