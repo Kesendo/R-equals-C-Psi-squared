@@ -2,7 +2,7 @@
 
 **Date**: 2026-02-28
 **Status**: Numerically verified, analytically derived
-**Authors**: Tom Mack, with Claude (Anthropic)
+**Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: CORE_ALGEBRA.md, DECOHERENCE_RELATIVITY.md
 
 ---
@@ -29,16 +29,21 @@ CΨ(0) for pure states (C = 1, so CΨ = Ψ = L₁/(d-1)):
 | |++⟩ | 2 | none | 1.000 | quantum |
 | |+++⟩ | 3 | none | 1.000 | quantum |
 | Bell+ | 2 | maximal | 0.333 | quantum |
-| W₃ | 3 | partial | 0.286 | quantum |
-| GHZ₃ | 3 | maximal | 0.143 | classical |
-| GHZ₄ | 4 | maximal | 0.067 | classical |
+| W₃ | 3 | genuine tripartite | 0.286 | quantum |
+| GHZ₃ | 3 | maximal | 0.143 | attractor exists |
+| GHZ₄ | 4 | maximal | 0.067 | attractor exists |
 
 An unentangled product state |+⟩^⊗N has CΨ = 1 for every N.
 A maximally entangled GHZ state has CΨ = 1/(2^N - 1), which
 falls below 1/4 at N = 3.
 
-The framework says: |+++⟩ (zero entanglement) is more quantum
-than GHZ₃ (maximum entanglement).
+The framework says: |+++⟩ (zero entanglement) has higher
+coherence density than GHZ₃ (maximum entanglement).
+
+**Terminology note:** GHZ₃ is unambiguously quantum — it
+violates the Mermin inequality. "CΨ < 1/4" means the
+framework's fixed-point equation has a real attractor, not
+that the state is classical in the conventional sense.
 
 ## 3. Why This Is Not a Bug
 
@@ -51,7 +56,7 @@ Under local dephasing (γ = 0.05 per qubit):
 | |+++⟩ | 1.000 | 3.35 | 0.167 |
 | Bell+ | 0.333 | 0.75 | 0.037 |
 | W₃ | 0.286 | 0.29 | 0.014 |
-| GHZ₃ | 0.143 | — | no crossing |
+| GHZ₃ | 0.143 | — | no crossing (attractor from start) |
 
 |+++⟩ survives 4.5x longer than Bell+. |++++⟩ survives 3.3x
 longer than Bell+. The product state is objectively more
@@ -72,13 +77,14 @@ elements. When those two elements decay, the system crosses
 1/4. That takes K/γ = 0.75 seconds.
 
 |+++⟩ distributes its coherence across all 56 off-diagonal
-elements. Local dephasing attacks them one channel at a time.
-The collective CΨ stays above 1/4 much longer because there
-is more to destroy.
+elements. Local dephasing (N simultaneous σ_z channels) affects
+different matrix elements through each channel. The collective
+CΨ stays above 1/4 much longer because there is more to destroy.
 
 The Baumgratz normalization Ψ = L₁/(d-1) measures exactly
 this: coherence density. Not total coherence. Not entanglement.
-The fraction of off-diagonal space that is occupied.
+It is proportional to the sum of off-diagonal magnitudes,
+normalized by the maximum possible for a d-dimensional system.
 
 ## 4. What CΨ Actually Measures
 
@@ -101,11 +107,11 @@ When CΨ ≤ 1/4: too few degrees of freedom are active. A
 real attractor forms. The system has a definite classical
 outcome.
 
-GHZ₃ uses 4% of its capacity. That is not enough. The
-remaining 96% is already classical (diagonal). The two
-off-diagonal elements are entangled, yes. But two elements
-in a 64-element space cannot prevent a classical attractor
-from forming.
+GHZ₃ uses 4% of its off-diagonal capacity. That is not enough
+to prevent a real attractor. The remaining 96% is diagonal.
+The two off-diagonal elements are entangled, yes — GHZ₃
+violates Bell-type inequalities — but two elements in a
+64-element space do not push CΨ above 1/4.
 
 ## 5. The Threshold for Partial Entanglement
 
@@ -118,9 +124,8 @@ The crossing CΨ = 1/4 gives sin(2α) = 3/4:
     α_threshold = arcsin(3/4)/2 = 24.3°
 
 Below 24.3°: the state has too little coherence density.
-A real attractor exists from the start. No quantum-to-
-classical transition occurs because the system was never
-fully quantum.
+A real attractor exists from the start. No crossing occurs
+because CΨ was never above 1/4.
 
 Bell+ is α = 45°. The maximum. CΨ = 1/3. Only 1/12 above
 the boundary. The most entangled two-qubit state is barely
@@ -138,10 +143,11 @@ For |+⟩^⊗N under local dephasing:
 | 4 | 0.125 | 0.291 |
 | 5 | 0.099 | 0.231 |
 
-K shrinks roughly as 1/N. More qubits means each channel
-contributes more to the collective CΨ decay. The system is
-more quantum (CΨ = 1 always) but reaches the boundary
-faster per noise channel.
+K decreases with N, approaching 1/N scaling for large N
+(ratio K(1)/(N·K(N)) ≈ 0.86 across tested range). More
+qubits means each channel contributes more to the collective
+CΨ decay. The system starts equally quantum (CΨ = 1 always)
+but reaches the boundary faster per noise channel.
 
 This is the tradeoff: high coherence density protects
 against individual noise events, but more qubits mean more
@@ -166,9 +172,9 @@ elements in a 4×4 matrix (Bell+) and twelve off-diagonal
 elements in a 4×4 matrix (|++⟩) give different CΨ even
 though the first is entangled and the second is not.
 
-The framework says: reality emerges when coherence density
-drops below 1/4. Not when entanglement is lost. Not when
-purity drops. When the product of purity and coherence
+The framework says: a real attractor forms when coherence
+density drops below 1/4. Not when entanglement is lost. Not
+when purity drops. When the product of purity and coherence
 density crosses the algebraic threshold.
 
 ## 8. The Cubic Generalizes
