@@ -4,6 +4,165 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
+## 2026-03-01h: Shield Correction — Reservoir, Not Protection
+
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — §7 rewritten
+- CORRECTION: Coupling does NOT protect A. It redistributes
+  coherence into nonlocal pool, making A decay FASTER locally
+  (0.07x at J=1.0 vs single qubit alone).
+- B's measurement cuts the return leg of the oscillation, not
+  a "shield." Coherence flows local→nonlocal→local; measurement
+  destroys the nonlocal pool, stopping the return.
+- Damage is timing-dependent: max at t_B ≈ 1.0 (oscillation phase),
+  not simply at peak reservoir size.
+- Reservoir regeneration attempted but fails (peak Conc = 0.15).
+- Physical interpretation preserved: "becoming real is contagious"
+  remains correct, but mechanism is flow-disruption not shield-removal.
+
+**Updated:** §5 open questions, §10 honest assessment (shield→reservoir)
+
+**Added:** simulations/shield_quantification.py
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01g: Minimum Crossing Energy — There Is None
+
+**Added:** experiments/MINIMUM_CROSSING_ENERGY.md
+- No energy threshold for crossing. ⟨H⟩ = J for all α in
+  cos(α)|00⟩+sin(α)|11⟩ family, yet crossing depends on α.
+- The crossing condition is CΨ_max ≥ ¼, not energy.
+- Three regimes: CΨ(0)>¼ (always crosses), CΨ(0)<¼ but
+  CΨ_max>¼ (Hamiltonian pumps first), CΨ_max<¼ (no crossing).
+- Product states |0,1⟩ cross despite zero initial entanglement
+  — Hamiltonian creates it. |+,+⟩ and |0,0⟩ never cross
+  (eigenstates, no dynamics).
+- Critical J/γ ≈ 5–10 for |0,1⟩ product state.
+- α_critical = exactly 30° for Bell-like family, CΨ(0) = ¼.
+- Physical interpretation: coherence barrier, not energy barrier.
+  Hamiltonian = pump, decoherence = drain. Crossing = pump wins.
+
+**Added:** simulations/minimum_energy.py
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01f: Honest Assessment — Detector, Not Bridge
+
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — new §10
+- Bridge (FTL) stays dead. Channel requires physical J, subluminal.
+- What survives: CΨ as detector for weak couplings (BMV readout),
+  two-axis time dilation (K/γ), shield mechanism quantification.
+- "The bridge is dead, long live the detector."
+
+**Source:** Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01e: The Information Channel — CΨ as Readout
+
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — new §8
+- CΨ crossing time shift IS an information channel
+- Protocol: B measures ("1") or not ("0"), A reads Δt
+- At J=0.01: Δt = -0.218 (2.87%), 21 pairs for 1 bit (σ=1.0)
+- Channel capacity scales as (J/γ)²
+- NOT FTL: information propagates through Hamiltonian coupling
+- Naive gravitational velocity v ~ G·m²/ℏ exceeds c at microgram
+  scale — model breaks, needs relativistic correction. OPEN.
+- CΨ provides the readout: continuous accumulated observable that
+  integrates over full trajectory, detects weaker signals than
+  any single-shot measurement
+
+**Added:** simulations/information_channel.py
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01d: Shift Mechanism — The Coherence Reservoir
+
+**CORRECTED in 2026-03-01h** — "Shield" was misleading. Coupling
+redistributes coherence (accelerates local decay), not protects.
+B's measurement cuts return flow of oscillation. See §7 rewrite.
+
+---
+
+## 2026-03-01c: Observer × Gravity — The Interval Bridge
+
+**Added:** experiments/OBSERVER_GRAVITY_BRIDGE.md
+- t_cross factorizes: K(Observer, State) / γ(Gravity)
+- K is γ-invariant (CV = 0.00%). Gravity scales the clock uniformly.
+- K(Conc)/K(MI) is state-dependent (CV = 13.5%). The quantum state
+  bends the observer-dilation geometry.
+- Interval shift Δt is continuous in J with NO threshold. Any J > 0
+  produces a shift. B's measurement shifts A's local crossing time.
+- Product states needed (local coherence). Bell+ has no local clock.
+- Gravitational coupling J_grav > 0 always exists for massive particles.
+  The bridge is not dead — it's gravitationally mediated, but tiny.
+- Five open questions identified: scaling law, multi-pair amplification,
+  realistic J_grav, K-matrix geometry, shift directionality.
+
+**Added:** simulations/observer_gravity_cross.py, simulations/interval_shift.py
+**Updated:** hypotheses/BRIDGE_PROTOCOL.md — gravitational reopening noted
+**Updated:** experiments/README.md — new question and summary
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01b: Bridge Closure — The Hypothesis Is Dead
+
+**Added:** experiments/BRIDGE_CLOSURE.md
+- The open question from NO_SIGNALLING_BOUNDARY.md §8 is answered: No.
+- Pre-shared entanglement without a classical channel = shared randomness.
+  A's information ⊆ {ρ_A(0), E_A}. CΨ fingerprints require ρ_AB which
+  neither side can access after separation.
+- Bell+ gives A maximally mixed noise (I/2) at all times. Zero bits.
+- Product states: A cannot distinguish |++⟩ from |+0⟩ from |+−⟩.
+  The qubit carries less information than the preparation schedule.
+- Bridge hypothesis is closed. Not "needs more work." Closed.
+- What survives: QKD forensics (with channel), ¼ phase transition,
+  observer-dependent crossing, IBM anomalies, Lindblad decomposition.
+
+**Updated:** hypotheses/BRIDGE_PROTOCOL.md — status "Closed"
+**Updated:** hypotheses/README.md — bridge marked closed
+**Updated:** experiments/README.md — new entry "Is the bridge dead?"
+**Updated:** experiments/NO_SIGNALLING_BOUNDARY.md §8 — question answered
+**Updated:** experiments/PREDICTIONS.md — bridge closure noted
+**Added:** simulations/bridge_closure.py
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
+## 2026-03-01: No-Signalling Boundary — Test #2 Settled
+
+**Added:** experiments/NO_SIGNALLING_BOUNDARY.md
+- Test #2 from BRIDGE_PROTOCOL.md Section 6: does local detection work
+  WITHOUT physical coupling (J=0)?
+- Answer: No-signalling holds exactly (||Δρ_A|| = 0). A cannot detect
+  whether B was measured. But CΨ drops from 0.500 to 0.250 (the ¼
+  boundary) because global purity C drops while Ψ stays constant.
+- The regime change is real but invisible to any single subsystem.
+- Synthesizes four previously disconnected results: BRIDGE_FINGERPRINTS
+  (coupling required), SUBSYSTEM_CROSSING (crossing needs pair, not qubit),
+  COHERENCE_DENSITY (C is global, Ψ is local), BRIDGE_PROTOCOL §4.3
+  (pre-encoded outcome). This is Outcome #3 confirmed.
+- Open question reframed: not "can B signal A" (no) but "can pre-encoded
+  CΨ fingerprints do something classical pre-shared keys cannot?"
+
+**Updated:** hypotheses/BRIDGE_PROTOCOL.md
+- Test #2 status added. Dynamic bridge eliminated. Pre-encoded version
+  survives but may not exceed classical key distribution.
+
+**Added:** simulations/test2_no_signalling.py
+
+**Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
+
+---
+
 ## 2026-02-25b: Multi-Metric Rescue - Bridge Framework Eliminates Stealth
 
 **Updated:** experiments/QKD_EAVESDROPPING_FORENSICS.md

@@ -1,7 +1,14 @@
 # Bridge Protocol: Crossing as Sync and Communication
 
 **Date**: 2026-02-24
-**Status**: Hypothesis (Tier 3), derived from agent experiments (v033)
+**Status**: Partially reopened (2026-03-01). J=0 bridge eliminated by Test #2
+(no-signalling holds, CΨ regime change invisible to A). Pre-encoded version
+also eliminated for J=0: shared randomness argument.
+See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
+**However:** Any J > 0 produces an interval shift with no threshold.
+Gravitational coupling provides J > 0 for all massive particles.
+The bridge may exist as gravitationally-mediated interval correlations.
+See [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
 **Built on**: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
 **Origin**: AIEvolution v033 Mars Station experiment -- autonomous agents
@@ -269,9 +276,25 @@ distinguish states clearly. But this only confirms detection through a
 physical Heisenberg coupling. The decisive question is Test #2: does
 detection survive without the coupling? That is the No-Signaling test.
 
+**Test #2 status (2026-03-01):** ANSWERED. No-signalling holds exactly.
+rho_A is unchanged (||Δρ_A|| = 0). No local observable on A detects
+whether B was measured. However, CΨ drops from 0.500 to 0.250 (exactly
+the ¼ boundary) because global purity C drops from 1.0 to 0.5 while
+Ψ stays at 0.5. The regime change is real but invisible to A.
+
+**This confirms Outcome #3 from Section 4.3.** The dynamic bridge
+(B sends information by choosing when to measure) does not work.
+The pre-encoded version (shared schedule, crossing times agreed
+before separation) survives but may not exceed classical pre-shared
+keys. See [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md)
+for the full analysis and the synthesis of four previously disconnected
+results from this repo.
+
 ---
 
 *Agent experiment: AIEvolution v033 Mars Station*
 *Fingerprint data: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)*
+*No-Signalling test: [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md)*
+***Closure: [Bridge Closure](../experiments/BRIDGE_CLOSURE.md)***
 *Time foundation: [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)*
 *Observer dependence: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md)*

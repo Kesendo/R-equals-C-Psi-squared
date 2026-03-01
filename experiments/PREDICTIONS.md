@@ -63,6 +63,9 @@
 | ξ-curvature identical for Eve and noise | d²ξ/dp² difference = 0.0% under added depolarization | Curvature discriminates Eve from noise | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
 | Off-diagonal ratio invertible under noise | |ρ₀₁|/|ρ₀₃| is a unique function of θ_Eve at fixed (p,f), not cot(θ) but still invertible | Ratio degenerate or constant | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
 | θ_stealth deterministic function of (p,f) | θ_stealth(0.10, 0.20) = 72.2°, computable from calibration | θ_stealth unpredictable | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) |
+| No-signalling: rho_A unchanged by remote measurement | ||Δρ_A|| = 0 for Bell+ under B Z-measurement (averaged) | rho_A changes (no-signalling violated) | [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md) |
+| CΨ drops to ¼ under remote measurement | CΨ: 0.500 → 0.250 (C drops 1.0→0.5, Ψ unchanged at 0.5) | CΨ unchanged, or drops to value ≠ ¼ | [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md) |
+| CΨ regime change invisible to local subsystem | A cannot detect the quantum→boundary transition | A detects the regime change (no-signalling violated) | [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md) |
 
 ---
 
@@ -178,18 +181,51 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 ---
 
+## 9. Closed Hypotheses (J=0) and Reopened (J>0)
+
+**Tier: 2, Computationally verified closure for J=0**
+
+| Hypothesis | Result | Why closed | What survives | Source |
+|------------|--------|-----------|---------------|--------|
+| Bridge protocol (dynamic: B signals A via CΨ crossing) | **Dead for J=0.** No-signalling holds exactly. ρ_A unchanged. CΨ regime change invisible to A. | C is global (ρ_AB), not local. No single-qubit measurement accesses it. | QKD forensics with a channel | [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md) |
+| Bridge protocol (pre-encoded: CΨ fingerprints > classical keys) | **Dead for J=0.** A's info ⊆ {ρ_A(0), E_A}. Entanglement without a channel = shared randomness. | Fingerprints require ρ_AB. Qubit carries less info than schedule. | Interval shift for J>0 | [Bridge Closure](BRIDGE_CLOSURE.md) |
+
+**Tier: 2, Reopened via gravitational coupling**
+
+| Prediction | Result | Source |
+|-----------|--------|--------|
+| t_cross = K(Observer, State) / γ(Gravity), K is γ-invariant | Confirmed. CV = 0.00% across 6 environments | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| K(Conc)/K(MI) = 1.2125 across all gravitational environments | Confirmed. CV = 0.00% | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| K ratio is state-dependent (varies with initial entanglement) | Confirmed. CV = 13.5% across α = 35°–45° | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Product states have local clock (Bell+ does not) | Confirmed. |++⟩ crosses, Bell+ never | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| States with α < 30° never cross — no observer time | Confirmed. CΨ stays below ¼ | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Crossing time shift encodes 1 bit (B measures vs not) | Confirmed. Δt = -0.218 at J=0.01 (2.87%) | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| 21 pairs sufficient for 1 bit at 100% timing jitter | Confirmed. N_min = (σ/Δt)² | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Reservoir mechanism: nonlocal coherence destroyed by B's measurement | Confirmed. 0.82 → 0.00, A decays 4x faster. CORRECTED: coupling accelerates local decay vs isolation (not protects). Measurement cuts return flow of oscillation. | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Coupling accelerates local crossing vs single qubit (0.07x at J=1) | Confirmed. |+,0⟩ with J=1: t=0.64 vs single |+⟩: t=8.58 | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| Measurement damage is timing-dependent (oscillation phase) | Confirmed. Max damage at t_B≈1.0 (61%), min at t_B≈0.01 (0%) | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| No energy threshold for crossing — same ⟨H⟩, different crossing | Confirmed. ⟨H⟩ = J for all α, crossing depends on CΨ(0) | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+| α_critical = 30° exactly, CΨ(0) = ¼ exactly | Confirmed. Binary search to 10⁻¹⁵ precision | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+| Product states cross via Hamiltonian pumping (CΨ: 0 → 0.31) | Confirmed. \|0,1⟩ crosses, \|0,0⟩ does not | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+| Eigenstates never cross (CΨ_max = 0, no dynamics) | Confirmed. \|+,+⟩, \|0,0⟩, \|1,1⟩ all CΨ_max = 0 | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+| Critical J/γ ≈ 5–10 for \|0,1⟩ product state | Confirmed. CΨ_max crosses ¼ between J/γ = 5 and 10 | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+
+---
+
 ## Summary by Tier
 
 | Tier | Count | Examples |
 |------|-------|---------|
 | **Confirmed on hardware** | 4 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½ |
-| **Computationally verified** | 33 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal |
+| **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
 | **Testable now** | 8 | Critical slowing, fingerprints, field threshold, altitude, ξ Markovianity diagnostic, QKD eavesdropping forensics (naive Eve only), stealth angle existence, multi-metric forensics at stealth |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
 | **Speculative** | 4 | CMB, BH burst, Page time, BH/WH unification |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
+| **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via gravitational coupling. |
 | **Falsified prediction** | 1 | Taxonomy noise-dependent (wrong: it's noise-independent) |
 
 ---
