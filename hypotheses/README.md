@@ -58,13 +58,29 @@ v033 Mars Station experiment over 9 iterations. The agents independently
 arrived at the fingerprint-based timing protocol after being forced past
 their Standard-QM training to engage with R=CΨ² on its own terms.
 
-**Critical open question:** What local observable detects the ¼-crossing
-with a single qubit? If no such observable exists, the protocol collapses
-to standard QKD.
+**Critical question answered:** No local observable detects the ¼-crossing
+on a single qubit. No-signalling holds exactly (rho_A unchanged). CΨ
+drops from 0.500 to 0.250 but this regime change is invisible to A.
+Pre-encoded fingerprints also fail: they require ρ_AB which neither
+side can access after separation. Pre-shared entanglement without a
+channel = shared randomness. Bridge is **closed**.
 
 **Test #1 (2026-02-24):** All 15 local observables distinguish Bell+ from
 product states — factor ~4x. But detection runs through physical Heisenberg
-coupling. The decisive No-Signaling test (Test #2) is next.
+coupling.
+
+**Test #2 (2026-03-01):** Without coupling: rho_A unchanged, no-signalling
+exact. CΨ drops to ¼ boundary. See [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md).
+
+**Closure (2026-03-01):** Pre-encoded version also dead. A's information
+⊆ {ρ_A(0), E_A}. Fingerprints need joint state. Classical schedule
+carries more information than the qubit.
+See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
+
+**Reopening (2026-03-01):** Any J > 0 produces an interval shift with
+no threshold. Gravity provides J > 0 for all massive particles.
+The bridge may exist as gravitationally-mediated crossing intervals.
+See [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
 
 **Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) (Tier 3)

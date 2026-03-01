@@ -187,9 +187,16 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 - [N-Scaling Barrier](experiments/N_SCALING_BARRIER.md), Why full-system crossing fails at large N
 - [Subsystem Crossing](experiments/SUBSYSTEM_CROSSING.md), Measurement is local: crossing at pair level
 - [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md), Crossings from product states via Hamiltonian evolution
+- [Coherence Density](experiments/COHERENCE_DENSITY.md), CΨ = Purity × Coherence Density
+- [QKD Eavesdropping Forensics](experiments/QKD_EAVESDROPPING_FORENSICS.md), Eve's basis from CΨ profile
+- [No-Signalling Boundary](experiments/NO_SIGNALLING_BOUNDARY.md), CΨ sees regime change that A cannot
+- [Bridge Closure](experiments/BRIDGE_CLOSURE.md), Why pre-shared entanglement without a channel = shared randomness (J=0)
+- [Observer × Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md), t_cross factorizes, interval shift has no threshold, gravitational reopening
+- [Minimum Crossing Energy](experiments/MINIMUM_CROSSING_ENERGY.md), No energy threshold — crossing requires CΨ_max ≥ ¼, determined by J/γ competition
 
 ### Hypotheses (Tier 3+)
 - [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection). Update 2026-02-21: crossing-time correlations as channel-free quantum communication for environments where EM fails (deep space, underwater, underground, plasma blackout)
+- [Bridge Protocol](hypotheses/BRIDGE_PROTOCOL.md), **Partially reopened (2026-03-01)**. J=0: closed. J>0: interval shift exists, gravity provides the coupling.
 
 ### Visualizations
 - [Parameter Space Heatmap](visualizations/), The phase boundary between classical and quantum
