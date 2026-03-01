@@ -199,13 +199,13 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | K ratio is state-dependent (varies with initial entanglement) | Confirmed. CV = 13.5% across α = 35°–45° | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Product states have local clock (Bell+ does not) | Confirmed. |++⟩ crosses, Bell+ never | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
-| States with α < 30° never cross — no observer time | Confirmed. CΨ stays below ¼ | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
+| States with α < 30° never cross, no observer time | Confirmed. CΨ stays below ¼ | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Crossing time shift encodes 1 bit (B measures vs not) | Confirmed. Δt = -0.218 at J=0.01 (2.87%) | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | 21 pairs sufficient for 1 bit at 100% timing jitter | Confirmed. N_min = (σ/Δt)² | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Reservoir mechanism: nonlocal coherence destroyed by B's measurement | Confirmed. 0.82 → 0.00, A decays 4x faster. CORRECTED: coupling accelerates local decay vs isolation (not protects). Measurement cuts return flow of oscillation. | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Coupling accelerates local crossing vs single qubit (0.07x at J=1) | Confirmed. |+,0⟩ with J=1: t=0.64 vs single |+⟩: t=8.58 | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
 | Measurement damage is timing-dependent (oscillation phase) | Confirmed. Max damage at t_B≈1.0 (61%), min at t_B≈0.01 (0%) | [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) |
-| No energy threshold for crossing — same ⟨H⟩, different crossing | Confirmed. ⟨H⟩ = J for all α, crossing depends on CΨ(0) | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
+| No energy threshold for crossing: same ⟨H⟩, different crossing | Confirmed. ⟨H⟩ = J for all α, crossing depends on CΨ(0) | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
 | α_critical = 30° exactly, CΨ(0) = ¼ exactly | Confirmed. Binary search to 10⁻¹⁵ precision | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
 | Product states cross via Hamiltonian pumping (CΨ: 0 → 0.31) | Confirmed. \|0,1⟩ crosses, \|0,0⟩ does not | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |
 | Eigenstates never cross (CΨ_max = 0, no dynamics) | Confirmed. \|+,+⟩, \|0,0⟩, \|1,1⟩ all CΨ_max = 0 | [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) |

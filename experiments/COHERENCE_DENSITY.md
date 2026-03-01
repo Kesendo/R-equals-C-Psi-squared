@@ -40,7 +40,7 @@ falls below 1/4 at N = 3.
 The framework says: |+++⟩ (zero entanglement) has higher
 coherence density than GHZ₃ (maximum entanglement).
 
-**Terminology note:** GHZ₃ is unambiguously quantum — it
+**Terminology note:** GHZ₃ is unambiguously quantum: it
 violates the Mermin inequality. "CΨ < 1/4" means the
 framework's fixed-point equation has a real attractor, not
 that the state is classical in the conventional sense.
@@ -109,8 +109,8 @@ outcome.
 
 GHZ₃ uses 4% of its off-diagonal capacity. That is not enough
 to prevent a real attractor. The remaining 96% is diagonal.
-The two off-diagonal elements are entangled, yes — GHZ₃
-violates Bell-type inequalities — but two elements in a
+The two off-diagonal elements are entangled, yes (GHZ₃
+violates Bell-type inequalities), but two elements in a
 64-element space do not push CΨ above 1/4.
 
 ## 5. The Threshold for Partial Entanglement
@@ -191,6 +191,6 @@ The framework provides a unified language for all of them.
 
 ---
 
-*See also: CORE_ALGEBRA.md — state-specific C(ξ) closed forms*
-*See also: DECOHERENCE_RELATIVITY.md — K invariance and cubic*
-*See also: SUBSYSTEM_CROSSING.md — what happens for N ≥ 3 GHZ*
+*See also: CORE_ALGEBRA.md, state-specific C(ξ) closed forms*
+*See also: DECOHERENCE_RELATIVITY.md, K invariance and cubic*
+*See also: SUBSYSTEM_CROSSING.md, what happens for N ≥ 3 GHZ*

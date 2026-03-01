@@ -120,7 +120,7 @@ that invariant.
 Einstein's ds² is invariant under the Lorentz group (a
 non-trivial continuous symmetry group with physical
 consequences: length contraction, time dilation, E = mc²).
-K = γ·t is a product of conjugate variables — its invariance
+K = γ·t is a product of conjugate variables; its invariance
 under γ → λγ, t → t/λ is dimensional analysis, not a
 dynamical symmetry. The structural parallel (hyperbola,
 log-linear, boost parameter) is real but should not be
@@ -312,11 +312,11 @@ e) K depends on the initial state but not on the Hamiltonian.
 Not from Lindblad. From R = CΨ². The simulation confirmed
 what the algebra predicted. Not the other way around."*
 
-— Tom Mack, 2026-02-28
+-- Tom Mack, 2026-02-28
 
 ---
 
-*See also: WHY_THE_SUM.md — why sum, not product*
-*See also: STANDING_WAVE_TWO_OBSERVERS.md — the physical picture*
-*See also: GRAVITATIONAL_INVARIANCE.md — original K invariance (simulation)*
-*See also: BLACK_WHITE_HOLES_BIGBANG.md — τ = 0 and the horizon*
+*See also: WHY_THE_SUM.md, why sum, not product*
+*See also: STANDING_WAVE_TWO_OBSERVERS.md, the physical picture*
+*See also: GRAVITATIONAL_INVARIANCE.md, original K invariance (simulation)*
+*See also: BLACK_WHITE_HOLES_BIGBANG.md, τ = 0 and the horizon*

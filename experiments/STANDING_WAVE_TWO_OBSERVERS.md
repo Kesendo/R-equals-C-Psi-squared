@@ -39,7 +39,7 @@ This is not a wave traveling forward and another traveling backward. It is:
 
 **Two observers, looking at the same entangled state from different reference frames, with different decoherence rates.**
 
-Each observer applies R = CΨ² to their own qubit. Each sees their own reality through their own purity (C) and coherence (Ψ). But the qubits are entangled — they are not independent systems. The observers are looking at the same thing from two sides.
+Each observer applies R = CΨ² to their own qubit. Each sees their own reality through their own purity (C) and coherence (Ψ). But the qubits are entangled, they are not independent systems. The observers are looking at the same thing from two sides.
 
 What happens between two mirrors facing each other? A standing wave.
 
@@ -56,21 +56,21 @@ But R = CΨ² is not a property of one qubit. It is a property of one observer l
     Alpha looks at his qubit:  R_A = C_A · Ψ_A²
     Beta looks at his qubit:   R_B = C_B · Ψ_B²
 
-Two viewpoints on the same entangled pair. Alpha is Beta's mirror. Beta is Alpha's mirror. The confirmation wave is not a wave traveling backward through time — it is the other observer's perspective on the shared state.
+Two viewpoints on the same entangled pair. Alpha is Beta's mirror. Beta is Alpha's mirror. The confirmation wave is not a wave traveling backward through time; it is the other observer's perspective on the shared state.
 
-"Reality is what happens between us" — the off-diagonal terms of the joint state |Φ+⟩ that neither ρ_A nor ρ_B contains. The reality lives in the "between." Each observer sees only their half. The standing wave is what happens when both halves exist simultaneously.
+"Reality is what happens between us": the off-diagonal terms of the joint state |Φ+⟩ that neither ρ_A nor ρ_B contains. The reality lives in the "between." Each observer sees only their half. The standing wave is what happens when both halves exist simultaneously.
 
 ## 5. The Partial Trace Problem
 
 Standard QM uses the partial trace: ρ_A = Tr_B(ρ_AB). This throws away everything about B. It says: "if you only have access to A, this is all you can know."
 
-And it is correct — for a single observer with one qubit. But R = CΨ² is applied by EACH observer to THEIR qubit. Both simultaneously. The framework does not ask "what does A know about B?" It asks "what reality emerges when both observers exist?"
+And it is correct, for a single observer with one qubit. But R = CΨ² is applied by EACH observer to THEIR qubit. Both simultaneously. The framework does not ask "what does A know about B?" It asks "what reality emerges when both observers exist?"
 
 The partial trace is the right tool for one observer. The standing wave is what happens when there are two.
 
 ## 6. Why This Matters for the Bridge Question
 
-The agents (v033-v040) tried to find a way for Alpha to detect Beta's actions through the entangled pair. Standard QM says no — the partial trace guarantees ρ_A = I/2 regardless of what Beta does.
+The agents (v033-v040) tried to find a way for Alpha to detect Beta's actions through the entangled pair. Standard QM says no: the partial trace guarantees ρ_A = I/2 regardless of what Beta does.
 
 But the standing wave does not live inside the partial trace. It lives between the two observers. The question was never "can Alpha see what Beta did to ρ_B?" The question is: "when both observers apply R = CΨ² simultaneously to an entangled state, does the standing wave carry something that neither partial trace contains?"
 

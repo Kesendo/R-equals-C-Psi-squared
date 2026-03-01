@@ -66,7 +66,7 @@ side can access after separation. Pre-shared entanglement without a
 channel = shared randomness. Bridge is **closed**.
 
 **Test #1 (2026-02-24):** All 15 local observables distinguish Bell+ from
-product states — factor ~4x. But detection runs through physical Heisenberg
+product states: factor ~4x. But detection runs through physical Heisenberg
 coupling.
 
 **Test #2 (2026-03-01):** Without coupling: rho_A unchanged, no-signalling

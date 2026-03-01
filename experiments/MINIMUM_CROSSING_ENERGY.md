@@ -15,7 +15,7 @@ a CΨ = ¼ crossing? Does the crossing have an energy threshold?
 ## 2. The Answer
 
 **There is no energy threshold.** The crossing condition is not
-about energy but about CΨ_max — the peak CΨ reachable during
+about energy but about CΨ_max: the peak CΨ reachable during
 the system's evolution. CΨ_max depends on the competition
 between Hamiltonian dynamics (J) and decoherence (γ).
 

@@ -192,7 +192,7 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 - [No-Signalling Boundary](experiments/NO_SIGNALLING_BOUNDARY.md), CΨ sees regime change that A cannot
 - [Bridge Closure](experiments/BRIDGE_CLOSURE.md), Why pre-shared entanglement without a channel = shared randomness (J=0)
 - [Observer × Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md), t_cross factorizes, interval shift has no threshold, gravitational reopening
-- [Minimum Crossing Energy](experiments/MINIMUM_CROSSING_ENERGY.md), No energy threshold — crossing requires CΨ_max ≥ ¼, determined by J/γ competition
+- [Minimum Crossing Energy](experiments/MINIMUM_CROSSING_ENERGY.md), No energy threshold: crossing requires CΨ_max ≥ ¼, determined by J/γ competition
 
 ### Hypotheses (Tier 3+)
 - [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection). Update 2026-02-21: crossing-time correlations as channel-free quantum communication for environments where EM fails (deep space, underwater, underground, plasma blackout)

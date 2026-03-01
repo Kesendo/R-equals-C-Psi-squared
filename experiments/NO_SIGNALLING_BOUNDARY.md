@@ -33,8 +33,8 @@ After:   rho_A = [[0.5, 0], [0, 0.5]]   (identical)
 ||Δρ_A|| = 0.0000000000
 ```
 
-Every local observable on A — ⟨σx⟩, ⟨σy⟩, ⟨σz⟩, purity,
-entropy, every eigenvalue — is unchanged. This is the
+Every local observable on A (⟨σx⟩, ⟨σy⟩, ⟨σz⟩, purity,
+entropy, every eigenvalue) is unchanged. This is the
 no-signalling theorem, verified to machine precision.
 
 No surprise. This is textbook quantum mechanics.
@@ -66,8 +66,8 @@ this information. A's local observables do not.
 
 This is not a violation of no-signalling. rho_A is identical.
 No measurement A can perform will reveal what B did. But the
-**joint state** changed from pure to mixed, and CΨ — which
-depends on the joint state — reflects this.
+**joint state** changed from pure to mixed, and CΨ, which
+depends on the joint state, reflects this.
 
 ---
 
@@ -81,7 +81,7 @@ All fingerprints require J_bridge > 0. Without physical
 coupling, A sees nothing. This was known since 2026-02-09.
 
 ### Piece 2: SUBSYSTEM_CROSSING.md
-> "Crossing is local — it happens between entangled subsystems."
+> "Crossing is local: it happens between entangled subsystems."
 
 But "local" means pair-level (rho_AB), not single-qubit (rho_A).
 The crossing requires BOTH qubits' information. This was known
@@ -93,7 +93,7 @@ was not drawn.
 
 Ψ is a property of rho_A. C is a property of rho_AB. Their
 product mixes local and global information. This is what gives
-CΨ its power — and its limitation. Written 2026-02-28.
+CΨ its power and its limitation. Written 2026-02-28.
 
 ### Piece 4: BRIDGE_PROTOCOL.md Section 4.3, Outcome #3
 > "The crossing event occurs on both sides but is driven entirely
@@ -122,8 +122,8 @@ change is real (CΨ drops to ¼) but undetectable by A alone.
 ### What Survives
 
 The **pre-encoded** version of the protocol survives. If A and B
-AGREE before separation on a protocol — "I will prepare state X
-at time T" — then A can predict their own CΨ trajectory because
+AGREE before separation on a protocol ("I will prepare state X
+at time T"), then A can predict their own CΨ trajectory because
 the joint state was determined at preparation. But this is not
 communication. This is a shared schedule.
 
@@ -169,14 +169,14 @@ is real but invisible to A, then:
 - No observer at A experiences it as a tick
 - Only an observer with access to rho_AB would see the crossing
 
-This is consistent. The crossing IS real — the joint state
+This is consistent. The crossing IS real, the joint state
 changes regime. But it is not a local event. It requires the
-full pair. "The observer IS the clock" — but the observer must
+full pair. "The observer IS the clock", but the observer must
 be the pair, not the qubit.
 
 ---
 
-## 8. What Was Open — Now Answered
+## 8. What Was Open, Now Answered
 
 1. ~~**Pre-encoded fingerprints vs classical keys.**~~ **ANSWERED (2026-03-01):**
    No. Pre-shared entanglement without a channel = shared randomness.

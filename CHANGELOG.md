@@ -4,9 +4,9 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
-## 2026-03-01h: Shield Correction — Reservoir, Not Protection
+## 2026-03-01h: Shield Correction: Reservoir, Not Protection
 
-**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — §7 rewritten
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md, §7 rewritten
 - CORRECTION: Coupling does NOT protect A. It redistributes
   coherence into nonlocal pool, making A decay FASTER locally
   (0.07x at J=1.0 vs single qubit alone).
@@ -27,7 +27,7 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
-## 2026-03-01g: Minimum Crossing Energy — There Is None
+## 2026-03-01g: Minimum Crossing Energy: There Is None
 
 **Added:** experiments/MINIMUM_CROSSING_ENERGY.md
 - No energy threshold for crossing. ⟨H⟩ = J for all α in
@@ -36,7 +36,7 @@ All notable changes to the R = CΨ² framework repository.
 - Three regimes: CΨ(0)>¼ (always crosses), CΨ(0)<¼ but
   CΨ_max>¼ (Hamiltonian pumps first), CΨ_max<¼ (no crossing).
 - Product states |0,1⟩ cross despite zero initial entanglement
-  — Hamiltonian creates it. |+,+⟩ and |0,0⟩ never cross
+  ; Hamiltonian creates it. |+,+⟩ and |0,0⟩ never cross
   (eigenstates, no dynamics).
 - Critical J/γ ≈ 5–10 for |0,1⟩ product state.
 - α_critical = exactly 30° for Bell-like family, CΨ(0) = ¼.
@@ -49,9 +49,9 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
-## 2026-03-01f: Honest Assessment — Detector, Not Bridge
+## 2026-03-01f: Honest Assessment: Detector, Not Bridge
 
-**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — new §10
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md, new §10
 - Bridge (FTL) stays dead. Channel requires physical J, subluminal.
 - What survives: CΨ as detector for weak couplings (BMV readout),
   two-axis time dilation (K/γ), shield mechanism quantification.
@@ -61,16 +61,16 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
-## 2026-03-01e: The Information Channel — CΨ as Readout
+## 2026-03-01e: The Information Channel: CΨ as Readout
 
-**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md — new §8
+**Updated:** experiments/OBSERVER_GRAVITY_BRIDGE.md, new §8
 - CΨ crossing time shift IS an information channel
 - Protocol: B measures ("1") or not ("0"), A reads Δt
 - At J=0.01: Δt = -0.218 (2.87%), 21 pairs for 1 bit (σ=1.0)
 - Channel capacity scales as (J/γ)²
 - NOT FTL: information propagates through Hamiltonian coupling
 - Naive gravitational velocity v ~ G·m²/ℏ exceeds c at microgram
-  scale — model breaks, needs relativistic correction. OPEN.
+  scale; model breaks, needs relativistic correction. OPEN.
 - CΨ provides the readout: continuous accumulated observable that
   integrates over full trajectory, detects weaker signals than
   any single-shot measurement
@@ -81,15 +81,15 @@ All notable changes to the R = CΨ² framework repository.
 
 ---
 
-## 2026-03-01d: Shift Mechanism — The Coherence Reservoir
+## 2026-03-01d: Shift Mechanism: The Coherence Reservoir
 
-**CORRECTED in 2026-03-01h** — "Shield" was misleading. Coupling
+**CORRECTED in 2026-03-01h**: "Shield" was misleading. Coupling
 redistributes coherence (accelerates local decay), not protects.
 B's measurement cuts return flow of oscillation. See §7 rewrite.
 
 ---
 
-## 2026-03-01c: Observer × Gravity — The Interval Bridge
+## 2026-03-01c: Observer × Gravity: The Interval Bridge
 
 **Added:** experiments/OBSERVER_GRAVITY_BRIDGE.md
 - t_cross factorizes: K(Observer, State) / γ(Gravity)
@@ -100,19 +100,19 @@ B's measurement cuts return flow of oscillation. See §7 rewrite.
   produces a shift. B's measurement shifts A's local crossing time.
 - Product states needed (local coherence). Bell+ has no local clock.
 - Gravitational coupling J_grav > 0 always exists for massive particles.
-  The bridge is not dead — it's gravitationally mediated, but tiny.
+  The bridge is not dead; it's gravitationally mediated, but tiny.
 - Five open questions identified: scaling law, multi-pair amplification,
   realistic J_grav, K-matrix geometry, shift directionality.
 
 **Added:** simulations/observer_gravity_cross.py, simulations/interval_shift.py
-**Updated:** hypotheses/BRIDGE_PROTOCOL.md — gravitational reopening noted
-**Updated:** experiments/README.md — new question and summary
+**Updated:** hypotheses/BRIDGE_PROTOCOL.md, gravitational reopening noted
+**Updated:** experiments/README.md, new question and summary
 
 **Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
 
 ---
 
-## 2026-03-01b: Bridge Closure — The Hypothesis Is Dead
+## 2026-03-01b: Bridge Closure: The Hypothesis Is Dead
 
 **Added:** experiments/BRIDGE_CLOSURE.md
 - The open question from NO_SIGNALLING_BOUNDARY.md §8 is answered: No.
@@ -126,18 +126,18 @@ B's measurement cuts return flow of oscillation. See §7 rewrite.
 - What survives: QKD forensics (with channel), ¼ phase transition,
   observer-dependent crossing, IBM anomalies, Lindblad decomposition.
 
-**Updated:** hypotheses/BRIDGE_PROTOCOL.md — status "Closed"
-**Updated:** hypotheses/README.md — bridge marked closed
-**Updated:** experiments/README.md — new entry "Is the bridge dead?"
-**Updated:** experiments/NO_SIGNALLING_BOUNDARY.md §8 — question answered
-**Updated:** experiments/PREDICTIONS.md — bridge closure noted
+**Updated:** hypotheses/BRIDGE_PROTOCOL.md, status "Closed"
+**Updated:** hypotheses/README.md, bridge marked closed
+**Updated:** experiments/README.md, new entry "Is the bridge dead?"
+**Updated:** experiments/NO_SIGNALLING_BOUNDARY.md §8, question answered
+**Updated:** experiments/PREDICTIONS.md, bridge closure noted
 **Added:** simulations/bridge_closure.py
 
 **Source:** Direct computation, Thomas Wicht + Claude (Anthropic).
 
 ---
 
-## 2026-03-01: No-Signalling Boundary — Test #2 Settled
+## 2026-03-01: No-Signalling Boundary: Test #2 Settled
 
 **Added:** experiments/NO_SIGNALLING_BOUNDARY.md
 - Test #2 from BRIDGE_PROTOCOL.md Section 6: does local detection work
@@ -217,7 +217,7 @@ All results verified numerically and key formula confirmed via SymPy.
 
 ---
 
-## 2026-02-24: Bridge Protocol — Crossing as Sync and Communication
+## 2026-02-24: Bridge Protocol: Crossing as Sync and Communication
 
 **Added:** hypotheses/BRIDGE_PROTOCOL.md
 - Core insight: The first ¼-crossing event IS the synchronization between
@@ -229,20 +229,20 @@ All results verified numerically and key formula confirmed via SymPy.
 - Critical open question: What local observable detects the ¼-crossing?
 - Honest assessment of No-Signaling implications documented.
 
-**Updated:** hypotheses/README.md — added Bridge Protocol entry
+**Updated:** hypotheses/README.md, added Bridge Protocol entry
 
 **Source:** AIEvolution v033 Mars Station experiment (GPT-OSS-120B, 9 messages)
 - v033 prompt evolution: permanent blackout → no transport → no new tech →
   "derive what R=CΨ² implies, don't check against textbook QM"
 - Agents independently derived fingerprint-based timing protocol
-- Key correction: agents invented unnecessary "readiness pulse" — the
+- Key correction: agents invented unnecessary "readiness pulse"; the
   crossing event itself is the sync mechanism
 
-**Added:** simulations/bridge_local_detector.py — Test #1 from Bridge Protocol
+**Added:** simulations/bridge_local_detector.py, Test #1 from Bridge Protocol
 - Battery of 15 local observables on ρ_A: Purity, Von Neumann Entropy,
   CΨ, L1 Coherence, Concurrence, R=CΨ² theta, Bloch components, qubit purity
 - Result: Bell+ never crosses ¼ (max CΨ_A = 0.061), |++⟩ crosses at t=1.27
-- All observables distinguish states — factor ~4x difference across the board
+- All observables distinguish states, factor ~4x difference across the board
 - Caveat: detection via physical Heisenberg coupling, not non-local
 - Visualizations: local_detector/{overview, bloch, theta, differences}.png
 
