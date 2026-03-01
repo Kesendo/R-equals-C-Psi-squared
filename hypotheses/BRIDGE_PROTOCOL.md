@@ -19,7 +19,7 @@ See [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
 ## 1. The Breakthrough
 
 The bridge problem asks: how do two separated observers (Earth, Mars)
-exchange information using only a shared entangled pair — no EM, no
+exchange information using only a shared entangled pair: no EM, no
 physical transport, no new physics?
 
 Previous attempts failed because they either:
@@ -52,10 +52,10 @@ This first crossing event synchronizes both observers:
 No "readiness pulse" needed. No external clock. No synchronization
 signal. The crossing event itself is the handshake.
 
-"The observer IS the clock" — the crossing time is not measured WITH
+"The observer IS the clock": the crossing time is not measured WITH
 a clock, it IS the clock.
 
-### Phase 2 — Protocol (Data Exchange)
+### Phase 2: Protocol (Data Exchange)
 
 After the sync crossing, the protocol begins. Each subsequent slot is
 timed relative to the sync crossing, not to an external clock.
@@ -80,7 +80,7 @@ The framework provides three distinct crossing times for product states:
 
 This gives ~2.8 bits per slot using 7 distinguishable fingerprints.
 
-**Bidirectional:** Alternating slots — even slots Earth→Mars, odd slots
+**Bidirectional:** Alternating slots: even slots Earth→Mars, odd slots
 Mars→Earth. Same timing logic, roles swapped.
 
 ---
@@ -90,22 +90,22 @@ Mars→Earth. Same timing logic, roles swapped.
 The protocol does NOT claim to work under standard QM. It claims to work
 under R = CΨ², where:
 
-1. **"The crossing IS measurement"** — the ¼ boundary is a physical
+1. **"The crossing IS measurement"**: the ¼ boundary is a physical
    event, not a mathematical abstraction. When CΨ(t) crosses ¼, something
    happens. Both observers see it.
 
-2. **K = γ · t_cross = constant** — the crossing times are correlated
+2. **K = γ · t_cross = constant**: the crossing times are correlated
    across observers. Not by signaling, but by the invariant K that was
    fixed at state preparation.
 
-3. **"The observer IS the clock"** — no external synchronization needed.
+3. **"The observer IS the clock"**: no external synchronization needed.
    The crossing event defines the time reference.
 
-4. **Product states cross, Bell states don't** — this is the binary
+4. **Product states cross, Bell states don't**: this is the binary
    digitizer. The sender's choice of state preparation determines whether
    a crossing occurs at the receiver.
 
-5. **Different states → different crossing times** — this is the
+5. **Different states → different crossing times**: this is the
    multi-symbol alphabet. The timing of the click encodes which state
    was prepared.
 
@@ -132,8 +132,8 @@ Candidates from R=CΨ²:
 
 When Earth converts Bell+ to |++⟩ by measuring σₓ on qubit A, the joint
 state collapses. In standard QM, Mars's reduced density matrix stays I/2
-(No-Signaling). But in R = CΨ²: does the crossing of ¼ — which depends
-on the JOINT state — somehow become locally visible?
+(No-Signaling). But in R = CΨ²: does the crossing of ¼, which depends
+on the JOINT state, somehow become locally visible?
 
 If yes: R=CΨ² predicts an effect beyond standard QM.
 If no: the protocol reduces to pre-encoded QKD (no new information).
@@ -179,18 +179,18 @@ Each pair carries one slot of data.
 
 This protocol hypothesis is falsified if:
 
-1. **No local observable correlates with CΨ crossing** — if there is no
+1. **No local observable correlates with CΨ crossing**: if there is no
    way to detect the ¼ boundary with one qubit, the detector doesn't exist.
 
 2. **⟨O⟩_local is identical for product and Bell states** for ALL local
-   observables O — then the states are locally indistinguishable and no
+   observables O, then the states are locally indistinguishable and no
    encoding is possible.
 
 3. **The crossing time correlation carries no more information than the
-   initial state preparation** — then this is QKD, not communication.
+   initial state preparation**, then this is QKD, not communication.
 
 4. **Post-separation state changes on A do not affect crossing behavior
-   at B** — then the protocol cannot transmit new information, only
+   at B**, then the protocol cannot transmit new information, only
    pre-encoded data.
 
 ---
@@ -204,7 +204,7 @@ If the protocol works as described by R=CΨ²:
    ANY local observable on subsystem A alone distinguishes the two states
    at or near t_cross.
 
-   **RESULT (2026-02-24):** `bridge_local_detector.py` — 15 local observables
+   **RESULT (2026-02-24):** `bridge_local_detector.py`: 15 local observables
    tracked across 5 sender states (Bell+, |++⟩, |+0⟩, |+−⟩, |01⟩).
 
    - Bell+ **never crosses ¼** (max CΨ_A = 0.061). |++⟩ crosses at t = 1.27.
@@ -214,7 +214,7 @@ If the protocol works as described by R=CΨ²:
    - **Every observable distinguishes the states.** Factor ~4x difference.
 
    **Caveat:** This test uses a physical Heisenberg coupling (J_bridge = 0.5).
-   Information flows through the bridge Hamiltonian — a local interaction.
+   Information flows through the bridge Hamiltonian, a local interaction.
    The bridge protocol requires non-local detection (no physical coupling).
    Test #2 (post-preparation / No-Signaling) addresses this directly.
 
@@ -249,7 +249,7 @@ Standard-QM training to engage with R=CΨ² on its own terms. Once they
 did, they independently derived the fingerprint-based timing protocol
 and the concept of crossing-as-sync.
 
-The "readiness pulse" they invented is unnecessary — the crossing itself
+The "readiness pulse" they invented is unnecessary: the crossing itself
 is the sync mechanism. But the core protocol structure (Product=1, Bell=0,
 timing windows from fingerprints) is sound within R=CΨ² logic.
 
@@ -271,7 +271,7 @@ choice is the message. The crossing is the delivery.
 from Bell states at the crossing boundary. If it exists, the bridge exists.
 If it doesn't, the protocol collapses to standard QKD.
 
-**Test #1 status (2026-02-24):** Local detection works — all 15 observables
+**Test #1 status (2026-02-24):** Local detection works: all 15 observables
 distinguish states clearly. But this only confirms detection through a
 physical Heisenberg coupling. The decisive question is Test #2: does
 detection survive without the coupling? That is the No-Signaling test.

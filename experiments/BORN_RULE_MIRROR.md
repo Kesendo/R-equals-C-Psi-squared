@@ -231,7 +231,7 @@ squared.
 
 C is purity: C = Tr(ρ²). For a macroscopic detector in thermal
 contact with its environment, C < 1. Always. A detector with C = 1
-would be a pure quantum state — isolated from the entire universe.
+would be a pure quantum state, isolated from the entire universe.
 No real measurement apparatus achieves this.
 
 Therefore:

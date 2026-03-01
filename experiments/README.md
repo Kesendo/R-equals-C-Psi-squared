@@ -160,7 +160,7 @@ Yes. Five different bridge metrics (= five different definitions of C, the obser
 
 ### Does the ¼ boundary survive the no-signalling constraint?
 
-Yes and no. Test #2 of the bridge protocol: start with Bell+, measure B in Z basis, check whether anything on A changes. rho_A is unchanged (||Δρ_A|| = 0, no-signalling exact). But CΨ drops from 0.500 to 0.250 — the measurement on B destroys global purity C (1.0 → 0.5) while Ψ (max eigenvalue of rho_A) stays at 0.5. The regime change (quantum → boundary) is real but invisible to A. This synthesizes four previously disconnected results: BRIDGE_FINGERPRINTS (coupling required), SUBSYSTEM_CROSSING (crossing needs the pair), COHERENCE_DENSITY (C is global, Ψ is local), BRIDGE_PROTOCOL §4.3 (pre-encoded outcome confirmed). The dynamic bridge (B signals A by choosing when to measure) is eliminated. The pre-encoded version (shared schedule) survives but may not exceed classical pre-shared keys.
+Yes and no. Test #2 of the bridge protocol: start with Bell+, measure B in Z basis, check whether anything on A changes. rho_A is unchanged (||Δρ_A|| = 0, no-signalling exact). But CΨ drops from 0.500 to 0.250: the measurement on B destroys global purity C (1.0 → 0.5) while Ψ (max eigenvalue of rho_A) stays at 0.5. The regime change (quantum → boundary) is real but invisible to A. This synthesizes four previously disconnected results: BRIDGE_FINGERPRINTS (coupling required), SUBSYSTEM_CROSSING (crossing needs the pair), COHERENCE_DENSITY (C is global, Ψ is local), BRIDGE_PROTOCOL §4.3 (pre-encoded outcome confirmed). The dynamic bridge (B signals A by choosing when to measure) is eliminated. The pre-encoded version (shared schedule) survives but may not exceed classical pre-shared keys.
 
 **Read:** [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md)
 
@@ -168,11 +168,11 @@ Yes and no. Test #2 of the bridge protocol: start with Bell+, measure B in Z bas
 
 ### Is the bridge hypothesis dead?
 
-For J = 0: Yes. Pre-shared entanglement without a classical channel provides exactly the same capabilities as shared randomness. The proof: A's measurement statistics depend only on ρ_A, independent of B's actions. CΨ fingerprints require ρ_AB. A's qubit from Bell+ is I/2 — pure noise, zero bits, forever.
+For J = 0: Yes. Pre-shared entanglement without a classical channel provides exactly the same capabilities as shared randomness. The proof: A's measurement statistics depend only on ρ_A, independent of B's actions. CΨ fingerprints require ρ_AB. A's qubit from Bell+ is I/2: pure noise, zero bits, forever.
 
 **Read:** [Bridge Closure](BRIDGE_CLOSURE.md)
 
-For J > 0: No. Any nonzero coupling produces a measurable interval shift in A's local crossing time when B measures. There is no threshold — the effect is continuous in J. Product states (|++⟩) work because A has local coherence. Bell+ does not (no local clock). Gravity provides J > 0 for all massive particles (J_grav ~ G·m²/ℏD), though the effect is extremely small at macroscopic separations.
+For J > 0: No. Any nonzero coupling produces a measurable interval shift in A's local crossing time when B measures. There is no threshold; the effect is continuous in J. Product states (|++⟩) work because A has local coherence. Bell+ does not (no local clock). Gravity provides J > 0 for all massive particles (J_grav ~ G·m²/ℏD), though the effect is extremely small at macroscopic separations.
 
 **Read:** [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md)
 
@@ -188,7 +188,7 @@ No. K = γ·t_cross is constant because the entire Lindblad dynamics scales with
 
 ### Is there a minimum energy for the CΨ crossing?
 
-No. The crossing condition is CΨ_max ≥ ¼, not an energy threshold. In the cos(α)|00⟩+sin(α)|11⟩ family, ⟨H⟩ = J for all α, yet only α ≥ 30° crosses. Product states like |0,1⟩ start at CΨ = 0 but cross because the Hamiltonian pumps CΨ up to 0.31. Eigenstates like |+,+⟩ never cross (CΨ_max = 0, no dynamics). The real variable is J/γ — the competition between Hamiltonian generation and decoherence destruction. Critical J/γ ≈ 5–10 for |0,1⟩. Physical interpretation: a coherence barrier, not an energy barrier. Pump vs drain.
+No. The crossing condition is CΨ_max ≥ ¼, not an energy threshold. In the cos(α)|00⟩+sin(α)|11⟩ family, ⟨H⟩ = J for all α, yet only α ≥ 30° crosses. Product states like |0,1⟩ start at CΨ = 0 but cross because the Hamiltonian pumps CΨ up to 0.31. Eigenstates like |+,+⟩ never cross (CΨ_max = 0, no dynamics). The real variable is J/γ: the competition between Hamiltonian generation and decoherence destruction. Critical J/γ ≈ 5–10 for |0,1⟩. Physical interpretation: a coherence barrier, not an energy barrier. Pump vs drain.
 
 **Read:** [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md)
 

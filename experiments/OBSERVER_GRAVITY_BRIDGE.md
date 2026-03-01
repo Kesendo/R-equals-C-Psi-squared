@@ -153,7 +153,7 @@ The question is not "can we build this device?" The question is:
 "does gravity provide a universal, always-on bridge between all
 massive quantum systems?"
 
-If yes, then the bridge closure is technically wrong — the bridge
+If yes, then the bridge closure is technically wrong: the bridge
 EXISTS, it's just too weak to use for communication. The statement
 should be: "The bridge exists for all massive particles but is
 practically inaccessible at macroscopic separations."
@@ -187,13 +187,13 @@ CΨ landscape where intervals are correlated."
 3. K(Conc)/K(MI) is state-dependent (CV = 13.5% across states).
 4. Interval shift Δt is continuous in J, no threshold.
 5. Product states work (local coherence). Bell+ does not (no local clock).
-6. States with α < 30° never cross — no observer time exists.
+6. States with α < 30° never cross; no observer time exists.
 
 ### Tier 3 (Hypothesis, Physically Grounded)
 
 7. Gravity provides J > 0 for all massive pairs.
 8. Therefore a gravitational interval shift exists in principle.
-9. The bridge is not dead — it's gravitationally mediated.
+9. The bridge is not dead; it's gravitationally mediated.
 
 ### Tier 4+ (Speculative)
 
@@ -262,7 +262,7 @@ compared to a single isolated qubit:
 
 The Hamiltonian moves coherence FROM local TO nonlocal. This
 drains A's local coherence faster than dephasing alone would.
-The coupling is not a shield — it is a **redistribution engine**.
+The coupling is not a shield; it is a **redistribution engine**.
 
 ### 7.3 What B's Measurement Actually Does
 
@@ -283,8 +283,8 @@ at t_B = 1.0.
 | Concurrence             | 0.000    | 0.000    | 0.000      |
 | Nonlocal coherence      | 0.819    | 0.000    | **−0.819** |
 
-A sees no instantaneous change. But the nonlocal coherence —
-0.82 units of off-diagonal weight in the joint state — is
+A sees no instantaneous change. But the nonlocal coherence,
+0.82 units of off-diagonal weight in the joint state, is
 destroyed completely.
 
 **The aftermath:**
@@ -315,7 +315,7 @@ keeps cycling back from the joint state.
 
 B's measurement destroys the return path. The drain continues
 (Hamiltonian still active), but the reservoir that fed coherence
-back is gone. This is why A's decay accelerates further — not
+back is gone. This is why A's decay accelerates further, not
 because a "shield" was removed, but because the return leg
 of a two-way flow was cut.
 
@@ -365,7 +365,7 @@ superposition."
 
 The corrected mechanical translation: The coupling creates a
 dynamic coherence flow between A and B. Coherence oscillates
-between local and nonlocal degrees of freedom — a two-way
+between local and nonlocal degrees of freedom, a two-way
 street. B's measurement destroys the nonlocal pool, cutting
 the return flow. A's local coherence, which was being partially
 replenished by the oscillation, now drains without return.
@@ -373,10 +373,10 @@ replenished by the oscillation, now drains without return.
 The coupling does NOT protect A. It redistributes A's coherence
 into a shared pool. This makes A decay faster locally (compared
 to isolation), but creates the oscillating equilibrium. B's
-measurement disrupts this equilibrium — removing the return
+measurement disrupts this equilibrium, removing the return
 leg while the drain continues.
 
-**Becoming real is contagious** — not because B "protects" A,
+**Becoming real is contagious**, not because B "protects" A,
 but because B's definite-ness collapses the shared coherence
 flow that A's dynamics depended on.
 
@@ -418,7 +418,7 @@ A reads:
 | 1.000 | 7.583  | 0.399  | -7.184 | -94.74% |
 
 The shift is always negative (§7: shield destruction).
-At J = 0.01 the shift is 2.87% — easily detectable.
+At J = 0.01 the shift is 2.87%, easily detectable.
 
 ### 8.3 Multi-Pair Amplification
 
@@ -433,7 +433,7 @@ At J = 0.01 (Δt = 0.218):
 - σ = 10.0 (1000% jitter): N_min ≈ 2100 pairs
 
 The channel works. 1 bit per ~21 pairs at worst-case jitter.
-Rate scales as (J/γ)² — quadratic in coupling strength.
+Rate scales as (J/γ)², quadratic in coupling strength.
 
 ### 8.4 Not FTL
 
@@ -458,7 +458,7 @@ Mass-dependent velocity estimates:
 The naive formula breaks above ~microgram scale. This means
 either the gravitational coupling model is incomplete, relativistic
 corrections are needed, or Penrose-Diosi doesn't apply at that
-scale. **Open question** — needs careful analysis.
+scale. **Open question**: needs careful analysis.
 
 ### 8.5 What CΨ Adds
 
@@ -469,7 +469,7 @@ mechanism**.
 A single-shot qubit measurement gives a binary outcome with
 quantum projection noise. The crossing time is a continuous,
 accumulated observable that integrates over the entire decoherence
-trajectory. It's a stethoscope for weak quantum couplings —
+trajectory. It's a stethoscope for weak quantum couplings:
 it makes signals readable that no single measurement could resolve.
 
 The crossing time is also self-calibrating: A knows K and γ_A,
@@ -501,15 +501,15 @@ whether gravity generates entanglement. CΨ crossing times could
 provide a more sensitive readout than standard entanglement witnesses.
 
 **Two-axis time dilation.** t = K(Observer, State) / γ(Gravity).
-GR knows one axis. CΨ knows two. The K-ratio is state-dependent —
+GR knows one axis. CΨ knows two. The K-ratio is state-dependent:
 the quantum state bends the observer-dilation geometry. If the
 K-matrix has a deeper geometric structure, this connects quantum
 mechanics to gravity in a new way.
 
 **The reservoir mechanism.** Coupling redistributes coherence into
 a shared nonlocal pool, creating a dynamic oscillating equilibrium.
-Measurement disrupts this equilibrium — the return flow is cut
-while the drain continues. This is not "entanglement protects" —
+Measurement disrupts this equilibrium: the return flow is cut
+while the drain continues. This is not "entanglement protects";
 coupling actually accelerates local decay vs isolation. But the
 measurement-induced disruption is quantifiable via CΨ crossing
 time shift. Relevant for understanding decoherence dynamics in

@@ -2,7 +2,7 @@
 
 **Date**: 2026-03-01
 **Status**: Closed (Tier 2). The bridge protocol cannot work. This is not
-a limitation of the framework — it is a consequence of quantum mechanics.
+a limitation of the framework; it is a consequence of quantum mechanics.
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: NO_SIGNALLING_BOUNDARY.md, BRIDGE_FINGERPRINTS.md,
 BRIDGE_PROTOCOL.md (hypothesis), QKD_EAVESDROPPING_FORENSICS.md
@@ -102,7 +102,7 @@ entanglement alone (no classical channel) is also achievable with
 shared classical randomness alone.
 
 The CΨ framework does not violate this. CΨ provides genuine new
-capabilities — but only in settings where A and B can compare their
+capabilities, but only in settings where A and B can compare their
 measurements (QKD forensics, state verification, crossing-time
 correlation). All of these require a classical channel.
 
