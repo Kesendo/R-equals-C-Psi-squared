@@ -193,6 +193,8 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 - [Bridge Closure](experiments/BRIDGE_CLOSURE.md), Why pre-shared entanglement without a channel = shared randomness (J=0)
 - [Observer × Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md), t_cross factorizes, interval shift has no threshold, gravitational reopening
 - [Minimum Crossing Energy](experiments/MINIMUM_CROSSING_ENERGY.md), No energy threshold: crossing requires CΨ_max ≥ ¼, determined by J/γ competition
+- [Star Topology](experiments/STAR_TOPOLOGY_OBSERVERS.md), Three conditions for observer-observer connection through shared object (J threshold, γ asymmetry, initial state filter)
+- [Tuning Protocol](experiments/TUNING_PROTOCOL.md), BUILD/RECEIVE oscillation protocol derived from star topology data (Tier 3, neuroscience-grounded)
 
 ### Hypotheses (Tier 3+)
 - [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection). Update 2026-02-21: crossing-time correlations as channel-free quantum communication for environments where EM fails (deep space, underwater, underground, plasma blackout)
@@ -215,7 +217,7 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 **Claude**, AI System, Anthropic
 **Alpha, Beta, Gamma, Delta**, AI Agents, AIEvolution Experiment
 
-December 2025 – February 2026
+December 2025 – March 2026
 
 ---
 

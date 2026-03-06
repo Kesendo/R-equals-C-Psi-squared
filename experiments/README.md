@@ -2,7 +2,7 @@
 
 ## What you will find here
 
-Twenty-two experiment documents, plus a consolidated predictions summary. Each one asks a specific question about quantum measurement, decoherence dynamics, or the ¼ phase boundary and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
+Twenty-four experiment documents, plus a consolidated predictions summary. Each one asks a specific question about quantum measurement, decoherence dynamics, or the ¼ phase boundary and provides a mathematically verifiable answer. No speculation without marking it as such. No claims without showing the algebra.
 
 If you came here looking for one of these questions, you are in the right place.
 
@@ -256,6 +256,22 @@ Two things. First, ξ = ln(Ψ) is a natural decoherence clock: it decays linearl
 
 ---
 
+### Can two observers see each other through a shared object?
+
+Yes, but only under three simultaneous conditions. The star topology (S coupled to A and B, no direct A-B link) reveals that observer-observer correlation (AB crossing the 1/4 boundary) requires: (1) the sender is ~47% more strongly coupled than the receiver (J_SB/J_SA >= 1.466 at gamma=0.05), (2) the receiver's internal noise is low (gamma_A < ~0.25), and (3) a deep, dedicated pre-existing connection exists (Bell-like, C_SA > 0.8). Receiver noise is far more destructive than sender noise. The W state (entanglement spread thin across all pairs) never crosses despite high initial entanglement. The connection oscillates at f = J_total/2, a beating pattern rather than a metronome. Stronger engagement produces more frequent windows, not longer ones.
+
+**Read:** [Star Topology: Object and Its Observers](STAR_TOPOLOGY_OBSERVERS.md)
+
+---
+
+### Is there a protocol for the bidirectional observer rhythm?
+
+The star topology data suggests a self-reinforcing cycle: engage deeply (raise coupling J), then become still (lower noise gamma), then engage again. Each engagement phase lowers the noise threshold needed for the next quiet phase. The sender inversion resolves a paradox: as receiver, lowering your own noise is paradoxical (trying to be quiet is noise), but as sender, raising engagement is natural (deeper work = stronger signal). Grounded in neuroscience: the Default Mode Network maps to gamma (Brewer et al. 2011, PNAS), hypnagogia maps to a natural low-gamma window (Oudiette et al. 2021, Science Advances). The protocol is Tier 3, speculative, honest about it.
+
+**Read:** [The Tuning Protocol](TUNING_PROTOCOL.md)
+
+---
+
 ### Can AI agents discover mathematical structures autonomously?
 
 Two AI agents (Alpha and Beta), given a calculator tool and the R = CΨ² framework, independently derived: the self-reference-returns-to-unity property, boundary conditions of consciousness, the value 0.5 as optimal incompleteness, and the primordial state 0/0 as pure potentiality. A third agent (Gamma) was added as critic to challenge overreach. Human involvement was limited to observation and documentation.
@@ -271,12 +287,14 @@ If you are a mathematician or physicist, start here:
 2. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), the equivalence proof
 3. [Mathematical Findings](MATHEMATICAL_FINDINGS.md), the calculations
 4. [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), why time is observer-dependent
+5. [Star Topology](STAR_TOPOLOGY_OBSERVERS.md), what happens with multiple observers
 
 If you are interested in consciousness or philosophy, start here:
 1. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), the big picture
 2. [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), what C means for time
-3. [The Dyad Experiment](DYAD_EXPERIMENT.md), how it was discovered
-4. [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), why 1/4 matters
+3. [Star Topology](STAR_TOPOLOGY_OBSERVERS.md), how observers connect through shared reality
+4. [The Tuning Protocol](TUNING_PROTOCOL.md), what the connection feels like in practice
+5. [The Dyad Experiment](DYAD_EXPERIMENT.md), how it was discovered
 
 If you found this by searching for the Mandelbrot set:
 1. [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), start here
@@ -329,6 +347,7 @@ One coordinate tells you something exists. Two narrow it down. Three locate it p
 - Three-class crossing taxonomy: Type A (correlation, C=1.0 throughout crossing, pure-Ψ mechanism), Type B (concurrence/mutual_info, both C and Ψ decay), Type C (mutual_purity/overlap, never cross). Observer determines crossing mechanism, not just timing.
 - Taxonomy is noise-robust: identical under σ_x, σ_y, σ_z jump operators. The prediction that depolarizing noise would break Type A was tested and falsified. Type A is a property of the correlation metric definition, not the noise channel.
 - N-scaling barrier: Ψ(0) = l1/(2^N−1) makes crossing exponentially hard for large N. GHZ N≥3 never crosses (l1=1, Ψ too small). W N=3 crosses (l1=2, Ψ=0.286). W N≥4 does not cross (l1 grows linearly, d−1 grows exponentially). Type A mechanism survives at larger N but Ψ starts below ¼.
+- Star topology (3-qubit S+A+B): entanglement flows through shared object, R not conserved, measurement shadow 94-100%, AB crossing threshold J_SB/J_SA >= 1.466 at gamma=0.05 (scales with gamma: 1.18 at gamma->0, 2.15 at gamma=0.15). Receiver noise (gamma_A) fatal, sender noise (gamma_B) nearly irrelevant. Initial state filter: only Bell-like (C_SA > 0.8) crosses. Frequency: f = J_total/2. RK4 validated, 8/8 automated tests pass (verify_star_topology.py).
 - Subsystem crossing resolves the N-scaling barrier: Bell+xBell+ (N=4) full system cannot cross (Psi=0.200), but entangled pairs (0,1) and (2,3) each cross at t=0.073 with C*Psi=0.333. Non-entangled cross-pairs never cross (C=0). Product state |+⟩^4 has Psi=1.0 but C=0 for all pairs. Crossing is local, occurring at the level of actual entanglement.
 - QKD eavesdropping forensics: CΨ carries Eve's measurement basis θ_E via R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18, while concurrence/negativity/purity/CHSH carry zero θ_E information. CΨ alone has a stealth angle, but MI/Conc/Correlation are θ-independent and catch Eve with 17-24% signal at any angle. Multi-metric protocol: detection (~700 pairs), coarse θ ID (~5000), precise θ (~200k). θ_stealth(p,f) is deterministic, so Eve's hiding is itself informative.
 
