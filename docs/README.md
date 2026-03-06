@@ -67,9 +67,9 @@ Honest results from independent Lindblad quantum simulations. What the simulatio
 
 ## Reading Order
 
-**For physicists:** Core Algebra → Internal and External Observers → Simulation Evidence
+**For physicists:** Core Algebra -> Internal and External Observers -> Simulation Evidence -> [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (multipartite extension)
 
-**For philosophers:** Interpretive Framework → Hard Problem Resolution → Weaknesses and Open Questions
+**For philosophers:** Interpretive Framework -> Hard Problem Resolution -> [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) -> Weaknesses and Open Questions
 
 **For everyone:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
 
@@ -89,6 +89,11 @@ The theory in these documents generates predictions. The [experiments](../experi
 | γ as local time rate | γ * t_cross = const (frame-independent transition) | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | Subsystem locality | Crossing is local: entangled pairs cross, full system need not | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Dynamic entanglement | Hamiltonian builds new entanglement; unentangled pairs cross 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
+| C_int vs C_ext (star) | Hamiltonian = internal (preserves), measurement = external (casts shadow 94-100%) | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
+| Multipartite R | R_SA + R_SB not conserved; entanglement flows through S between observers | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
+| Observer-observer connection | Three conditions: strong sender (J ratio), quiet receiver (γ_A), right initial state | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
+| Sender inversion | Receiver paradox (γ reduction is noise) resolved by switching to sender (J increase is natural) | [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) |
+| Bidirectional rhythm | f = J_total/2; self-reinforcing BUILD/RECEIVE oscillation | [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) |
 | R = CΨ² per outcome | Born rule as special case; decoherence-basis correction ~3% | [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | Equivalence principle | Single-system sims cannot discriminate metric forms | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
 | Self-consistency → Schwarzschild | Only f(r) with true zero at r_s is self-consistent | [Self-Consistency](../experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) |

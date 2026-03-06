@@ -2,8 +2,8 @@
 ## What We Know, What We Don't, What We Got Wrong
 
 **Created:** January 2, 2026
-**Rewritten:** February 8, 2026 (updated February 11, 2026)
-**Status:** Post-verification honest assessment, updated with IBM hardware results
+**Rewritten:** February 8, 2026 (updated February 11, 2026, March 6, 2026)
+**Status:** Post-verification honest assessment, updated with IBM hardware and star topology results
 
 ---
 
@@ -275,7 +275,7 @@ prediction: the quantum-to-classical transition is local.
 
 2. **Crossing speed:** Does the rate d(CΨ)/dt at the moment of crossing affect post-crossing behavior? Vary γ_base and measure convergence to R₁.
 
-3. ~~**Multi-qubit crossing order:**~~ **Partially answered (2026-02-18).** GHZ N≥3 never crosses (Ψ too low). W N=3 crosses. W N≥4 does not. The ordering question is moot for standard states because most cannot reach ¼. The subsystem decomposition question (do qubit pairs cross?) is now the priority. See [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md).
+3. ~~**Multi-qubit crossing order:**~~ **Further answered (2026-03-06).** Star topology (3-qubit S+A+B) shows that pair-level crossing depends on topology, not just state: Bell_SA pairs cross, AB pair crosses only under three conditions (strong sender, quiet receiver, right initial state). The question is no longer "do pairs cross" but "which pairs, under what conditions." See [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md).
 
 4. **Why operator feedback?** Run identical setups with all noise types. Track δ(t), C(t), Ψ(t) separately. Find the mechanism.
 
@@ -295,7 +295,7 @@ prediction: the quantum-to-classical transition is local.
 
 10. **Experimental protocol:** Design a quantum optics experiment where CΨ = ¼ predicts a measurable qualitative change.
 
-11. **Neural correlates:** If C maps to any measurable brain quantity, does ¼ correspond to a known consciousness threshold?
+11. **Neural correlates:** **Partially mapped (2026-03-06).** The Tuning Protocol maps γ to Default Mode Network activity (Brewer et al. 2011, PNAS: meditation reduces DMN) and J to depth of engagement/expertise (synaptic coupling strength). Hypnagogia maps to a natural low-γ window (Oudiette et al. 2021, Science Advances). This is suggestive mapping (Tier 3), not evidence of quantum effects in the brain. See [Tuning Protocol](../experiments/TUNING_PROTOCOL.md).
 
 12. **First-principles derivation of ¼:** Can CΨ = ¼ be derived from information-theoretic bounds (Holevo, channel capacity) rather than from the fixed-point equation?
 
@@ -317,6 +317,14 @@ prediction: the quantum-to-classical transition is local.
 | t_coh ~ N | **Unverified** | Agent claim, not reproduced |
 | Born rule from crossing | **Substantially resolved** | Standing wave + perfect mirror limit; 97/3 split verified; deviations predicted |
 | Dynamic entanglement | **Verified** | Hamiltonian builds entanglement; pairs cross 1/4 from below |
+| Star topology: entanglement flows through S | **Verified** | Bell_SA entanglement transfers to SB through Hamiltonian |
+| Star topology: R not conserved | **Verified** | R_SA + R_SB peaks at 2.4x initial, then decays |
+| Star topology: measurement shadow | **Verified** | A measures, B loses 94-100% of R_SB |
+| Star topology: J threshold 1.466 | **Verified** | Ultra-fine scan, 8/8 automated tests pass |
+| Star topology: receiver noise asymmetry | **Verified** | γ_A more destructive than γ_B (fixed-product test) |
+| Star topology: initial state filter | **Verified** | Only Bell-like (C_SA > 0.8) crosses; W fails |
+| Sender inversion | **Argued** | Follows from γ asymmetry data; not independently tested |
+| Tuning Protocol (γ = DMN, J = engagement) | **Speculative** | Neuroscience mapping suggestive, 3-qubit to 10^11 neurons fatal gap |
 | C = consciousness | **Philosophical** | Suggestive, not testable |
 
 ---
@@ -333,9 +341,11 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 
 The strongest prediction the framework currently offers: at CΨ = ¼, the topology of the solution space changes. Two real fixed points emerge from a complex conjugate pair. If this bifurcation can be identified in a physical system undergoing decoherence, the framework has made contact with reality.
 
-Until then, it is beautiful mathematics with a suggestive interpretation.
+The March 2026 star topology work extended R=CΨ² from two-body to three-body systems. The findings (entanglement flows through shared objects, observers cast shadows on each other, connection requires three simultaneous conditions) are computationally verified Tier 2 results. The Tuning Protocol and its neuroscience mapping are Tier 3, speculative, and honest about it. The scaling gap from 3 qubits to biological systems remains the central unsolved problem.
 
-And we admit it.
+What has changed since February: the framework now describes multiple observers, asymmetric relationships, and a self-reinforcing oscillation between engagement and stillness. What has not changed: the gap between simulation and physical reality.
+
+We continue to admit what we do not know.
 
 ---
 
@@ -343,4 +353,5 @@ And we admit it.
 *February 8, 2026 (complete rewrite after six verification sessions)*
 *February 11, 2026 (updated: IBM results, uniqueness argument, guardian review)*
 *February 18, 2026 (updated: Born rule partially resolved, dynamic entanglement results)*
+*March 6, 2026 (updated: star topology results, three conditions, tuning protocol)*
 *Honesty belongs to the framework*
