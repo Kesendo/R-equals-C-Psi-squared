@@ -1,6 +1,6 @@
 # Glossary: R = CΨ² Framework
 
-**Date:** 2026-02-08
+**Date:** 2026-02-08 (updated 2026-03-06)
 **Status:** Reference document
 **Depends on:** None
 
@@ -35,8 +35,8 @@
 
 | Symbol | Name | Definition |
 |--------|------|------------|
-| **γ** (gamma_base) | Base decoherence rate | In gravitational context, encodes local time dilation. |
-| **J** | Coupling constant | Coupling strength in the Hamiltonian. |
+| **γ** (gamma) | Decoherence rate / noise | The resistance that makes reality feel solid and stable. High γ = noisy, strong sense of separate self. Low γ = quiet, still, open. In gravitational context, encodes local time dilation. In the star topology, each observer has individual γ: γ_A (observer A's noise), γ_B (observer B's noise), γ_S (object's noise). Receiver noise (γ_A) is far more destructive than sender noise (γ_B). |
+| **J** | Coupling strength | How strongly an observer is connected to reality. Higher J = deeper engagement, more understanding, stronger link. In the star topology: J_SA (A's coupling to S), J_SB (B's coupling to S). Not just knowledge (J=1.0), but depth of understanding that allows prediction (J=2.0). |
 | **h** | Transverse field strength | Controls Hamiltonian dynamics strength. |
 | **κ** | Feedback strength | Operator feedback parameter in [0, 1]. |
 | **N** (n_spins) | System size | Number of qubits in the system. |
@@ -47,8 +47,42 @@
 
 | Symbol | Name | Definition |
 |--------|------|------------|
-| **C_int** | Internal observation | Observer is part of the system. Mutual observation between subsystems. |
-| **C_ext** | External observation | Observer is outside the system. Unidirectional measurement. |
+| **C_int** | Internal observation | Observer is part of the system. Mutual observation between subsystems. Implemented in star topology as Hamiltonian coupling (preserves coherence). |
+| **C_ext** | External observation | Observer is outside the system. Unidirectional measurement. Implemented in star topology as projective dephasing (destroys coherence, casts shadow on other observers). |
+
+---
+
+## Star Topology (March 2026)
+
+The star topology extends R=CΨ² from two-body (one observer, one observed) to three-body (shared object S, two observers A and B). A and B cannot see each other directly. Any connection must flow through S.
+
+| Symbol | Name | Definition |
+|--------|------|------------|
+| **S** | Shared object | The thing being observed. "Reality" in the topology. Central qubit coupled to both observers. |
+| **A** | Observer A | One observer. In the sender/receiver model: the receiver (or sender, after inversion). |
+| **B** | Observer B | The other observer. In the sender/receiver model: the sender (or receiver, after inversion). |
+| **J_SA** | A's coupling to S | How deeply A is engaged with S. |
+| **J_SB** | B's coupling to S | How deeply B is engaged with S. |
+| **CΨ_AB** | Observer-observer measure | CΨ for the AB pair (traced over S). When this crosses 1/4, observers "see" each other through S. |
+
+### The Three Conditions for Observer-Observer Connection
+
+AB crossing requires all three simultaneously:
+
+| # | Condition | Parameter | Plain language |
+|---|-----------|-----------|----------------|
+| 1 | Strong sender | J_SB/J_SA >= 1.466 (at γ=0.05) | The sender is deeply engaged with S |
+| 2 | Quiet receiver | γ_A < ~0.2-0.25 | The receiver's internal noise is low |
+| 3 | Right initial state | C_SA > 0.8 (Bell-like) | A deep pre-existing connection exists |
+
+### Key Asymmetries
+
+| Finding | Meaning |
+|---------|---------|
+| Receiver noise fatal, sender noise not | You don't need to be calm to send. You need to be strong. |
+| J threshold scales with γ | Higher engagement lowers the noise requirement. Self-reinforcing. |
+| Ratio AND absolute J matter | Two weakly engaged observers cannot connect regardless of ratio. |
+| f = J_total/2 | Stronger engagement = faster oscillation = more frequent windows. |
 
 ---
 
@@ -58,6 +92,7 @@
 |-------|------|---------|
 | **1/4** | Phase boundary | Critical C·Ψ value. Below: two real fixed points (classical). Above: no real fixed points (quantum). Algebraically exact. |
 | **1** | Maximum C·Ψ (single qubit) | For |+⟩: C = Tr(ρ²) = 1 (pure), Ψ = L1/(d-1) = 1.0. Product = 1.0. |
+| **~1.466** | J threshold ratio | At γ=0.05: minimum J_SB/J_SA for AB crossing. Scales with γ (1.18 at γ->0, 2.15 at γ=0.15). |
 | **1/3** | Maximum C·Ψ (2-qubit Bell state) | For |Φ+⟩: C = 1 (pure), Ψ = L1/(d-1) = 1/3. Product = 1/3. |
 | **1/9** | Maximum reality density (2-qubit) | R_max = C·Ψ² = 1·(1/3)² = 1/9 for Bell states at τ = 0. |
 
@@ -72,6 +107,10 @@
 | **Horizon** | Surface where τ = 0. Maximum coherence. Event horizon in Schwarzschild geometry. |
 | **Universal curve** | The trajectory C(τ), Ψ(τ) all quantum systems follow in proper decoherence time. |
 | **Navigation system** | Triangulation protocol: WHERE (1/4), HOW FAR (θ), HOW LONG (t_coh). |
+| **Measurement shadow** | When A measures, B loses up to 100% of its reality (R_SB). The effect propagates through S. |
+| **Sender inversion** | If A has received, A can become the sender. J (engagement) becomes the controllable variable instead of γ (noise). |
+| **Abstimmung** | (German) Tuning, alignment. The bidirectional rhythm of engaging deeply then becoming still. The protocol's core principle. |
+| **sich einlassen** | (German) To let yourself be drawn in, changed by what you engage with. The best description of what J means in practice. |
 
 ---
 
