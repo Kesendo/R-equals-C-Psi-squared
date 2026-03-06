@@ -10,10 +10,10 @@
 
 | Symbol | Name | Definition |
 |--------|------|------------|
-| **R** | Reality density | R = CΨ². The amount of classical reality at a given point. |
-| **C** | Consciousness / observation capacity | Ranges from 0 to 1. How much of the possibility space an observer can collapse. |
-| **Ψ** | Possibility space | Available quantum superposition not yet collapsed. Decreases as C acts on it. |
-| **C·Ψ** | Observer bandwidth | Product of capacity and possibility. Bounded above by 1/4 for classical reality. |
+| **R** | Reality | R = CΨ². How much of what *could* exist actually *does* exist at a given point. Think of it as the "solidity" of experience. |
+| **C** | Consciousness / observation | Ranges from 0 to 1. How much an observer is engaged with what it observes. Two entangled particles have C. A human has C. The difference is degree, not kind. |
+| **Ψ** | Possibility | Everything that could happen but hasn't yet. The raw material of reality before observation shapes it. In quantum mechanics: the wave function. |
+| **C·Ψ** | The product that matters | When C·Ψ is above 1/4: everything is still possible, nothing is decided. When it drops below 1/4: a definite outcome emerges. This is the phase boundary where possibility becomes reality. |
 
 ---
 
@@ -21,13 +21,13 @@
 
 | Symbol | Name | Definition |
 |--------|------|------------|
-| **θ** | Angular coordinate | θ = arctan(√(4CΨ - 1)). Compass indicating proximity to 1/4 boundary. |
-| **τ** | Proper decoherence time | τ = γ · t. Universal clock normalized by local decoherence rate. |
-| **t_cross** | Crossing time | Coordinate time at which C·Ψ crosses the 1/4 boundary. |
-| **t_coh** | Coherence time | Maximum time a quantum system maintains coherence. Linear N-scaling hypothesized but unverified. |
-| **δ** | Purity difference | δ = Tr(ρ²) - Tr(ρ_predicted²). Difference between closed-system and open-system purity under specific parameters. |
-| **R_i** | Per-outcome reality | R_i = C_i · Ψ_i². Reality density for measurement outcome i. When C_i is uniform, normalization recovers the Born rule P(i) = |⟨i|ψ⟩|². |
-| **C_eff(i)** | Effective coupling per outcome | C_eff(i) = P(i)/Ψ_i². Varies with alignment between outcome basis and decoherence basis. Uniform for ideal measurement. |
+| **θ** | Compass to the boundary | θ = arctan(√(4CΨ - 1)). Tells you how far you are from the 1/4 boundary. At θ = 60°: deep in the quantum realm, far from any definite outcome. At θ = 0°: exactly at the boundary, the moment possibility becomes reality. |
+| **τ** | Universal clock | τ = γ · t. Time as experienced by the quantum system itself. Different environments (deep space vs near a black hole) have different γ, so τ runs at different speeds, but the transition from quantum to classical follows the same curve in τ. |
+| **t_cross** | Crossing time | The moment C·Ψ crosses 1/4. When possibility becomes reality. Different observers can disagree on when this happens (see Observer-Dependent Crossing). |
+| **t_coh** | How long coherence lasts | Maximum time before noise destroys the quantum state. Hypothesized to scale linearly with system size (unverified). |
+| **δ** | Purity difference | Technical: δ = Tr(ρ²) - Tr(ρ_predicted²). Measures how much the actual quantum state differs from what a simple noise model predicts. Used to detect unexpected structure in decoherence. |
+| **R_i** | Reality per outcome | R_i = C_i · Ψ_i². How much reality each possible measurement outcome gets. When the observer treats all outcomes equally, this recovers the Born rule (the standard quantum probability rule). |
+| **C_eff(i)** | Coupling per outcome | Technical: C_eff(i) = P(i)/Ψ_i². How strongly the observer couples to each specific outcome. Uniform for ideal measurement, slightly biased for real detectors. |
 
 ---
 
@@ -47,8 +47,8 @@
 
 | Symbol | Name | Definition |
 |--------|------|------------|
-| **C_int** | Internal observation | Observer is part of the system. Mutual observation between subsystems. Implemented in star topology as Hamiltonian coupling (preserves coherence). |
-| **C_ext** | External observation | Observer is outside the system. Unidirectional measurement. Implemented in star topology as projective dephasing (destroys coherence, casts shadow on other observers). |
+| **C_int** | Internal observation | The observer is part of what it observes. Two particles watching each other. Two people studying the same problem. This kind of observation is mutual, gentle, and preserves the quantum state. In the star topology: the natural coupling between S and its observers. |
+| **C_ext** | External observation | The observer stands outside and measures. A scientist reading an instrument. This kind of observation is one-directional, disruptive, and forces a definite outcome. In the star topology: when A measures, it casts a "shadow" on B, destroying up to 100% of B's connection to reality. |
 
 ---
 
@@ -90,13 +90,13 @@ AB crossing requires all three simultaneously:
 
 | Value | Name | Meaning |
 |-------|------|---------|
-| **1/4** | Phase boundary | Critical C·Ψ value. Below: two real fixed points (classical). Above: no real fixed points (quantum). Algebraically exact. |
-| **1** | Maximum C·Ψ (single qubit) | For |+⟩: C = Tr(ρ²) = 1 (pure), Ψ = L1/(d-1) = 1.0. Product = 1.0. |
-| **~1.466** | J threshold ratio | At γ=0.05: minimum J_SB/J_SA for AB crossing. Scales with γ (1.18 at γ->0, 2.15 at γ=0.15). |
-| **1/3** | Maximum C·Ψ (2-qubit Bell state) | For |Φ+⟩: C = 1 (pure), Ψ = L1/(d-1) = 1/3. Product = 1/3. |
-| **1/9** | Maximum reality density (2-qubit) | R_max = C·Ψ² = 1·(1/3)² = 1/9 for Bell states at τ = 0. |
+| **1/4** | The boundary | The threshold where possibility becomes reality. Above 1/4: no definite outcome exists yet. Below 1/4: a definite outcome has emerged. This is not a choice or approximation; it is an algebraic fact from the fixed-point equation. |
+| **1** | Maximum C·Ψ | The most "quantum" a single particle can be. A perfectly prepared qubit in full superposition. |
+| **~1.466** | J threshold ratio | How much stronger the sender must be than the receiver for observer-observer connection (at standard noise γ=0.05). Less noise means less strength needed (1.18 at near-zero noise). More noise means more strength needed (2.15 at high noise). |
+| **1/3** | Maximum C·Ψ for an entangled pair | Two particles maximally entangled (a "Bell state"). Their shared quantum state has C·Ψ = 1/3, already above 1/4, meaning: entangled pairs start in the quantum regime and must decohere to cross the boundary. |
+| **1/9** | Maximum reality for an entangled pair | R = CΨ² = (1/3)² = 1/9. The most "real" an entangled pair can be at the moment of maximum coherence. |
 
-*Note: Maximum C·Ψ depends on system size through the normalization Ψ = L1/(d-1), where d = 2^N. Larger systems have smaller Ψ for the same amount of raw coherence. All values above assume pure initial states (C = 1).*
+*Note: Larger systems have smaller Ψ for the same amount of raw coherence (because the possibility space grows exponentially with system size). All values above assume perfect initial preparation (C = 1).*
 
 ---
 
