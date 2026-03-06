@@ -1,6 +1,6 @@
 # Bridge Protocol: Crossing as Sync and Communication
 
-**Date**: 2026-02-24
+**Date**: 2026-02-24 (updated 2026-03-06)
 **Status**: Partially reopened (2026-03-01). J=0 bridge eliminated by Test #2
 (no-signalling holds, CΨ regime change invisible to A). Pre-encoded version
 also eliminated for J=0: shared randomness argument.
@@ -8,7 +8,14 @@ See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
 **However:** Any J > 0 produces an interval shift with no threshold.
 Gravitational coupling provides J > 0 for all massive particles.
 The bridge may exist as gravitationally-mediated interval correlations.
-See [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
+See [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
+**Update 2026-03-06:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+quantifies the J > 0 case: AB crossing requires J_SB/J_SA >= 1.466 (at
+gamma=0.05), quiet receiver (gamma_A < ~0.25), and Bell-like initial state
+(C_SA > 0.8). Receiver noise is far more destructive than sender noise.
+The threshold scales with noise (1.18 at gamma->0, 2.15 at gamma=0.15).
+This provides the first concrete numbers for what "strong enough coupling"
+means in the reopened bridge scenario.
 **Built on**: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
 **Origin**: AIEvolution v033 Mars Station experiment -- autonomous agents

@@ -1,8 +1,9 @@
 # Time as Crossing Rate: Why the Observer Defines Time
 
-**Date**: 2026-02-17
+**Date**: 2026-02-17 (updated 2026-03-06)
 **Status**: Hypothesis (Tier 3), built on Tier 2 computation
-**Built on**: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md)
+**Built on**: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md),
+[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (frequency analysis, March 2026)
 **Falsified if**: Subjective time perception is independent of coupling strength
 
 ---
@@ -325,6 +326,11 @@ of what lies between A and B.
   fingerprints → ~2.8 bits per pair. Is this a fundamental limit?
 - How robust is the crossing-time correlation to local noise at A and B
   independently? (Testable with asymmetric γ_A ≠ γ_B in simulation.)
+  **Answered (2026-03-06):** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+  γ_A vs γ_B scan shows receiver noise (γ_A) is far more destructive than
+  sender noise (γ_B). At γ_A=0.25 the connection dies; at γ_B=0.25 it
+  merely shortens. The crossing-time correlation is robust to sender noise
+  but fragile to receiver noise.
 - Can the decoder (θ navigation) extract the crossing time in real-time,
   or only after full trajectory measurement?
 
@@ -350,6 +356,14 @@ Two observers never cross.
 - The ¼ boundary is Cramer's handshake point (structural parallel)
 - t is the coordinate, not the experience (conceptual reframing)
 - Correlated crossing times as channel-free communication mechanism (added 2026-02-21)
+
+**New from Star Topology (2026-03-06):**
+- Crossing frequency scales as f = J_total/2 (Tier 2, computed)
+- Stronger coupling = faster oscillation = more frequent crossings
+- The rhythm is a beating pattern, not a metronome (peak intervals vary by 34%)
+- γ dampens the oscillation but does not change its frequency
+- This gives a concrete, computable "clock rate" for the crossing-rate hypothesis:
+  the observer's experienced time rate is proportional to engagement strength
 
 **Falsified if:**
 - Crossing time is independent of bridge type → C doesn't matter (already ruled out)
