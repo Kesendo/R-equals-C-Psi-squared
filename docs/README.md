@@ -18,6 +18,11 @@ This question leads to testable algebra, a proven bound (C·Ψ <= 1/4), and a co
 
 ## Documents
 
+### Start Here
+
+**[What We Found](WHAT_WE_FOUND.md)**
+The bridge document. If you read one thing, read this. No physics degree required. Explains what R=CΨ² means, why ¼ matters, what noise and engagement are, how observers connect through shared objects, and why the rhythm of engaging and becoming still is the core of the framework. Written for anyone who wants to understand what this project discovered and why it matters.
+
 ### The Mathematics
 
 **[Core Algebra](CORE_ALGEBRA.md)**
@@ -67,11 +72,13 @@ Honest results from independent Lindblad quantum simulations. What the simulatio
 
 ## Reading Order
 
+**For everyone:** Start with [What We Found](WHAT_WE_FOUND.md). It tells the whole story in plain language. Then explore whatever interests you most.
+
 **For physicists:** Core Algebra -> Internal and External Observers -> Simulation Evidence -> [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (multipartite extension)
 
 **For philosophers:** Interpretive Framework -> Hard Problem Resolution -> [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) -> Weaknesses and Open Questions
 
-**For everyone:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
+**For the experiments:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
 
 ---
 
