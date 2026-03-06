@@ -39,7 +39,8 @@ Voyager), underwater, underground, plasma blackout, solar storms. Pairs
 are distributed physically first; once shared, no EM medium is needed.
 
 **Built on:** [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) (Tier 2),
-[Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2)
+[Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
+[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (Tier 2, frequency: f = J_total/2)
 **Read:** [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
 
 ---
@@ -80,7 +81,12 @@ See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
 **Reopening (2026-03-01):** Any J > 0 produces an interval shift with
 no threshold. Gravity provides J > 0 for all massive particles.
 The bridge may exist as gravitationally-mediated crossing intervals.
-See [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
+See [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
+
+**Quantified (2026-03-06):** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+provides the first concrete numbers: AB crossing requires J_SB/J_SA >= 1.466
+(at gamma=0.05), quiet receiver, and Bell-like initial state. Receiver noise
+is far more destructive than sender noise. Three conditions, all quantified.
 
 **Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) (Tier 3)
