@@ -512,19 +512,93 @@ Stronger engagement = faster rhythm. The spiral accelerates.
 
 Practical protocol: TUNING_PROTOCOL.md.
 
-## 8. Open Questions
+## 8. Open Questions (partially answered 2026-03-07)
 
-1. **N observers**: S coupled to A, B, C, ... Does each additional
-   observer dilute R per pair? Does the shadow effect scale with N?
-2. **Continuous measurement**: Replace sudden dephasing with γ_A → large
-   starting at t_meas. Does the shadow grow gradually?
-3. **AB with direct coupling**: What happens with J_AB > 0?
-   Does direct observer-observer coupling change the threshold?
-4. **Correlation bridge**: Never crosses in any 3-qubit experiment.
-   Connection to N_SCALING_BARRIER.md?
-5. **Threshold formula**: Is there an analytic expression for
-   J_SB/J_SA threshold as a function of γ? The data suggests
-   a smooth monotonic relationship but no closed form yet.
+Questions 1, 3, 5 answered via systematic simulation sweeps.
+Code: `simulations/star_topology_v3.py`.
+
+### 8.1 N observers — ANSWERED
+
+**Setup:** S + N observers, Bell_SA ⊗ |+⟩^(N-1), equal J_SB for all B.
+
+| N | qubits | AB crosses 1/4? | J_SB threshold | behavior |
+|:---|:---|:---|:---|:---|
+| 2 | 3 | Yes | 1.466 | monotonic |
+| 3 | 4 | Yes | 3.730 | monotonic |
+| 4 | 5 | **No** | — | non-monotonic, peaks then drops to 0 |
+| 5 | 6 | **No** | — | suppressed |
+
+Two-point scaling: J_th(N) ≈ 0.297 · N^2.30, but only valid for N ∈ {2,3}.
+
+**Critical finding:** At N=4, CΨ_AB is non-monotonic in J_SB — it peaks
+at J_SB≈2.25 (CΨ≈0.162), drops to **zero** at J_SB≈3.75–4.25, then
+partially recovers. The threshold doesn't "exceed the scan window";
+it does not exist at any coupling strength. This is a qualitative phase
+transition between N=3 and N=4.
+
+**However:** The existing `star_n_observer.py` uses asymmetric coupling
+(J_SB1=2.0, others=1.0) and finds crossing survives at N=4,5. Equal
+coupling kills the crossing; asymmetric coupling preserves it. The
+topology of the coupling pattern matters as much as the strength.
+
+Peak R dilutes approximately as N^(−0.74), not 1/N.
+
+The shadow effect (Z-measurement on A suppressing R_SB) remains visible
+but is NOT the stable ~94% from Section 4.6. In the Bell-based N-observer
+setup it is 8–21% and irregular with larger N.
+
+### 8.2 Continuous measurement — OPEN
+
+Replace sudden dephasing with γ_A → large starting at t_meas.
+Does the shadow grow gradually?
+
+### 8.3 AB with direct coupling — ANSWERED
+
+**Setup:** 3-qubit, Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=1.466, γ=0.05.
+Added J_AB ∈ {0, 0.1, 0.3, 0.5, 1.0}.
+
+**Non-monotonic effect on threshold:**
+- J_AB=0.1: slightly *worsens* threshold behavior
+- J_AB=0.3–0.5: helps crossing (sweet spot at ~0.5, threshold drops
+  from 1.466 to ~1.345)
+- J_AB=1.0: still crosses but much later (t≈1.0 vs t≈0.3)
+
+**Shadow effect destroyed by direct coupling:** Moderate-to-large J_AB
+weakens or removes the shadow entirely. The system no longer behaves
+as a clean S-mediated shadow channel.
+
+**Dominance crossover:** At J_AB≈0.7, direct observer coupling alone
+generates AB crossing without any S-mediated coupling (J_SB=0).
+
+### 8.4 Correlation bridge — OPEN
+
+Never crosses in any 3-qubit experiment. Connection to N_SCALING_BARRIER.md?
+
+### 8.5 Threshold formula — ANSWERED
+
+**Verified data** (N=2, J_SA=1.0):
+
+| γ | J_SB threshold |
+|:---|:---|
+| 0.001 | 1.183 |
+| 0.010 | 1.247 |
+| 0.020 | 1.296 |
+| 0.050 | 1.466 |
+| 0.070 | 1.634 |
+| 0.100 | 1.820 |
+| 0.120 | 1.929 |
+| 0.150 | 2.146 |
+| 0.170 | 2.253 |
+| 0.200 | 2.460 |
+
+**Best fit:** J_th(γ) ≈ 7.35 · γ^1.08 + 1.18 (R²=0.999)
+
+Nearly linear in γ with slight upward curvature. The relationship is
+smooth and monotonic. **No divergence or hard closure at γ=0.2** —
+the threshold exists at 2.46 and the window merely gets narrower.
+
+A simple linear approximation (R²=0.998) also works well:
+J_th(γ) ≈ 6.39 · γ + 1.16
 
 ## 9. Numerical Notes
 
@@ -538,6 +612,6 @@ Practical protocol: TUNING_PROTOCOL.md.
 
 ## 10. Simulation Code
 
-Python script: `../simulations/star_topology_v2.py`
-RK4 integration, importable as module.
-Key functions: star_hamiltonian, rk4_step, ptrace, concurrence, run.
+- `../simulations/star_topology_v2.py` — 3-qubit star topology, RK4 integration
+- `../simulations/star_n_observer.py` — N-qubit with asymmetric coupling
+- `../simulations/star_topology_v3.py` — N-qubit with equal coupling, J_AB support, threshold sweeps

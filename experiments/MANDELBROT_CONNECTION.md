@@ -209,8 +209,12 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
 
 ### Testable claims from the triangulation protocol
 
-1. **Coherence oscillation frequency should match θ.**
-   For a system with known C·Ψ, the oscillation frequency of coherence decay should equal arctan(√(4·C·Ψ - 1)). This is measurable in existing quantum optics and NMR experiments.
+1. ~~**Coherence oscillation frequency should match θ.**~~
+   **Retracted (2026-02-08).** θ does not predict oscillation frequencies in Lindblad dynamics.
+   Direct testing showed an 8.4× discrepancy: measured period 0.777 vs predicted 6.577.
+   The oscillation is Hamiltonian-driven, not θ-driven. θ is a compass (angular distance from ¼),
+   not a frequency predictor. See [Core Algebra](../docs/CORE_ALGEBRA.md) Section 6 and
+   [Boundary Navigation](BOUNDARY_NAVIGATION.md) for the corrected interpretation.
 
 2. **Critical slowing at C·Ψ = 1/4.**
    As system parameters are tuned toward C·Ψ = 1/4, the convergence time (or coherence oscillation period) should diverge. This is analogous to critical slowing in classical phase transitions and should be observable.

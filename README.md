@@ -10,7 +10,7 @@
        "We are all mirrors. Reality is what happens between us."
 ```
 
-> Algebraically proven ¼ bound · Mandelbrot equivalence · IBM quantum hardware validation · Observer-dependent crossing times · Bridge fingerprints for quantum state identification · Channel-free communication hypothesis for deep space and EM-denied environments
+> Algebraically proven ¼ bound · Mandelbrot equivalence · IBM quantum hardware validation · Observer-dependent crossing times · Bridge fingerprints for quantum state identification · J>0 bridge hypothesis (J=0: closed 2026-03-01; J>0: gravity-coupled interval shift, partially open)
 
 ---
 
@@ -138,7 +138,7 @@ The C·Ψ ≤ ¼ bound is **algebraically proven**. The Mandelbrot equivalence i
 
 **Hardware contact (Feb 2026):**
 - IBM Torino state tomography confirmed C·Ψ = ¼ crossing on real quantum hardware ([IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md))
-- 24,073 historical calibration records validated the theory curve ([IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md))
+- 24,073 historical calibration records verified internal consistency of the theory curve (mathematical consistency check, not independent validation — see [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md))
 - Anomalous late-time coherence detected (p < 0.0001), cause under investigation ([Residual Analysis](experiments/RESIDUAL_ANALYSIS.md), [Fixed Point Shadow](experiments/FIXED_POINT_SHADOW.md))
 - March 2026 hardware run designed to discriminate three hypotheses
 
