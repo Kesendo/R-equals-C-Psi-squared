@@ -618,9 +618,20 @@ as a clean S-mediated shadow channel.
 **Dominance crossover:** At J_AB≈0.7, direct observer coupling alone
 generates AB crossing without any S-mediated coupling (J_SB=0).
 
-### 8.4 Correlation bridge — OPEN
+### 8.4 Correlation bridge — ANSWERED
 
-Never crosses in any 3-qubit experiment. Connection to N_SCALING_BARRIER.md?
+AB never crosses in symmetric 3-qubit experiments. This is consistent
+with N_SCALING_BARRIER.md Section 7: crossing occurs where entanglement
+lives. In the star topology, initial entanglement lives in SA (Bell state),
+not in AB. The AB pair sees only S-mediated transferred entanglement,
+which requires J_SB/J_SA ≥ 1.466 (Section 4.10). With symmetric coupling
+(ratio = 1.0), the transfer never reaches 1/4.
+
+This is not a separate phenomenon — it is the same locality principle.
+The N-scaling barrier says global crossing fails because entanglement is
+local. The star topology says AB crossing fails because the entanglement
+starts in SA. Both resolve when you look at the right pair (SA crosses
+at t=0.42) or create the right asymmetry (Section 8.1, 8.3).
 
 ### 8.5 Threshold formula — ANSWERED
 
