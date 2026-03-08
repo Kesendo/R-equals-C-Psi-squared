@@ -12,6 +12,12 @@ equivalence, θ compass, uniqueness argument. **Tier 1–2 only.**
 The philosophical constructions that motivated the discovery: wave composition,
 dynamics, energy, mirror metaphors. **Tier 3–5, with explicit markers.**
 
+
+**Tier:** 1-3 (Mixed: some proven, some speculative)
+**Status:** Historical document from early framework development
+**Scope:** Full mathematical documentation including speculative extensions
+**Does not establish:** That all sections are equally established
+
 ---
 
 *Why the split?* The original document mixed algebraically proven results (discriminant

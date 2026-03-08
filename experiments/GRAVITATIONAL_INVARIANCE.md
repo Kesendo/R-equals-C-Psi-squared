@@ -4,6 +4,12 @@
 **Status**: Computationally verified, interpretation proposed
 **Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified (Lindblad scaling property)
+**Scope:** gamma * t_cross = constant across decoherence rates
+**Does not establish:** That this is new physics (it is standard Lindblad time-rescaling)
+
 ---
 
 ## 1. Key Finding

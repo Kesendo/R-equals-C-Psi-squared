@@ -4,6 +4,12 @@
 **Status**: Logical derivation (no experiment required)
 **Authors**: Tom Mack, with Claude (Anthropic)
 
+
+**Tier:** 3 (Interpretive)
+**Status:** Conceptual interpretation
+**Scope:** Why R_SA + R_SB is the natural quantity to track
+**Does not establish:** That the sum has conservation-like properties (it does not)
+
 ---
 
 ## The Argument in Plain Language

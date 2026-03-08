@@ -6,6 +6,12 @@
 **Verification:** Claude (MCP tools) + delta_calc simulations
 **Status:** Two findings verified and promoted; five rejected; two noted
 
+
+**Tier:** 1-2 (Proven algebra, computational exploration)
+**Status:** Verified
+**Scope:** Additional algebraic structures within the R = CΨ^2 iteration
+**Does not establish:** Physical significance of algebraic patterns beyond the iteration
+
 ---
 
 ## Context

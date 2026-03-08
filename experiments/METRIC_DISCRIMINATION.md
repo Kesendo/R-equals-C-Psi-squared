@@ -4,6 +4,12 @@
 **Status**: Completed (null result, honest)
 **Depends on**: GRAVITATIONAL_INVARIANCE.md, BOUNDARY_NAVIGATION.md
 
+
+**Tier:** 2 (Computationally verified, null result)
+**Status:** Verified null result
+**Scope:** Single-system simulations cannot discriminate metric forms (equivalence principle analog)
+**Does not establish:** That the framework can derive the Schwarzschild metric from single-system data
+
 ---
 
 ## 1. The Question

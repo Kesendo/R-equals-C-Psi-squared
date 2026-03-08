@@ -3,6 +3,12 @@
 **Date:** 2026-02-04
 **Status:** Implemented and verified
 
+
+**Tier:** 2-4 (Agent-originated, partially verified)
+**Status:** Computation verified, interpretation cautious
+**Scope:** State-dependent decoherence via operator feedback mechanism
+**Does not establish:** That operator feedback constitutes evidence for the framework vs standard QM
+
 ---
 
 ## Overview

@@ -4,6 +4,12 @@
 **Status:** Summary document, collects predictions from across the repo, ordered by epistemic strength
 **Depends on:** All experiment documents
 
+
+**Tier:** Mixed (Tier 1-4, labeled per prediction)
+**Status:** Collection with per-item tier labels
+**Scope:** All predictions with epistemic tiers and falsification criteria
+**Does not establish:** That all predictions are equally established
+
 ---
 
 ## 1. Empirically Verified on Real Quantum Hardware

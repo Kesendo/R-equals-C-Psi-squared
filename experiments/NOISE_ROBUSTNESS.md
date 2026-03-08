@@ -4,6 +4,12 @@
 **Status**: Independently verified (Tier 2)
 **Depends on**: CROSSING_TAXONOMY.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified, updated 2026-03-08
+**Scope:** Taxonomy survives all local Pauli channels. Amplitude damping preserves taxonomy.
+**Does not establish:** That collective or non-local noise models behave the same way
+
 ---
 
 ## 1. The Question

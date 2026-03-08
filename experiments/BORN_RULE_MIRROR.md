@@ -4,6 +4,12 @@
 **Status**: Numerically verified (Tier 2), Standing wave derivation (Tier 3)
 **Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md, INTERPRETIVE_FRAMEWORK.md
 
+
+**Tier:** 2-3 (Computation + interpretation)
+**Status:** Verified numerics, speculative interpretation
+**Scope:** CΨ per measurement outcome and Born rule connection (~97% from Hamiltonian)
+**Does not establish:** That the Born rule is derived from R = CΨ^2
+
 ---
 
 ## 1. The Question

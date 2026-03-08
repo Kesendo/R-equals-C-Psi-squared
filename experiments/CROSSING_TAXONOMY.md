@@ -4,6 +4,12 @@
 **Status**: Independently verified (Tier 2)
 **Depends on**: OBSERVER_DEPENDENT_CROSSING.md, METRIC_DISCRIMINATION.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified, updated 2026-03-08
+**Scope:** Type A/B/C classification of bridge metrics under decoherence
+**Does not establish:** That the taxonomy implies different 'kinds of consciousness'
+
 ---
 
 ## 1. The Question

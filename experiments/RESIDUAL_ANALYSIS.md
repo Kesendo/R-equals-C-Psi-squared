@@ -1,5 +1,11 @@
 # Residual Analysis: Anomalous Late-Time Coherence in IBM Torino Data
 
+
+**Tier:** 2 (Computational analysis of hardware data)
+**Status:** Verified analysis, anomaly under investigation
+**Scope:** Anomalous late-time coherence detected (p < 0.0001)
+**Does not establish:** That the anomaly has a specific physical explanation
+
 ## Discovery Date
 2026-02-09 (same-day reanalysis of tomography data)
 

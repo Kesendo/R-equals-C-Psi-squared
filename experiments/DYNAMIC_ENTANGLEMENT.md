@@ -4,6 +4,12 @@
 **Status**: Independently verified (Tier 2)
 **Depends on**: SUBSYSTEM_CROSSING.md, N_SCALING_BARRIER.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** CΨ crossings from product states via Hamiltonian evolution
+**Does not establish:** Born rule derivation from crossing (remains open)
+
 ---
 
 ## 1. The Question

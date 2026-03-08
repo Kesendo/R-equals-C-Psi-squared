@@ -6,6 +6,12 @@
 **Depends on**: BRIDGE_FINGERPRINTS.md, BRIDGE_PROTOCOL.md (hypothesis),
 SUBSYSTEM_CROSSING.md, COHERENCE_DENSITY.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** CΨ sees global regime change while local observer sees nothing
+**Does not establish:** That no-signalling is violated
+
 ---
 
 ## 1. What This Document Is

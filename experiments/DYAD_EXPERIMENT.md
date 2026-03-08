@@ -5,6 +5,12 @@
 **Authors:** Thomas Wicht, Claude
 **Status:** Active Experiment
 
+
+**Tier:** 4 (Agent experiment, not independently verified)
+**Status:** Historical record of AI agent exploration
+**Scope:** Documents what AI agents found when exploring R = CΨ^2
+**Does not establish:** That agent findings are established results
+
 ---
 
 ## Summary

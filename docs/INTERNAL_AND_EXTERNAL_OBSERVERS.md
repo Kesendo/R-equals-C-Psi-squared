@@ -6,6 +6,12 @@
 **Status:** Fundamental distinction with tier markers
 **Depends on:** [Core Algebra](CORE_ALGEBRA.md) for fixed-point equation
 
+
+**Tier:** 2-3 (Lindblad formalization verified, interpretation speculative)
+**Status:** Verified formalization, speculative mapping to consciousness
+**Scope:** C_int / C_ext distinction in Lindblad dynamics
+**Does not establish:** That C_int maps to consciousness or that the 33:1 ratio exists (disproven)
+
 ---
 
 ## The Standard View

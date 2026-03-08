@@ -5,6 +5,12 @@
 **Rewritten:** February 8, 2026 (updated February 11, 2026, March 6, 2026)
 **Status:** Post-verification honest assessment, updated with IBM hardware and star topology results
 
+
+**Tier:** Meta
+**Status:** Living document
+**Scope:** Honest assessment of limitations and what would falsify the framework
+**Does not establish:** That the framework has no weaknesses
+
 ---
 
 ## Why This File Exists
