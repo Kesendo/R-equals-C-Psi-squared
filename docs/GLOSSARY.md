@@ -1,137 +1,95 @@
-# Glossary: R = CΨ² Framework
+# Glossary
 
-**Date:** 2026-02-08 (updated 2026-03-06)
-**Depends on:** None
+**Date:** 2026-03-08
+**Purpose:** Notation and term reference for the repository
 
 **Tier:** Reference
-**Status:** Living document
-**Scope:** Term definitions used throughout the repository
-**Does not establish:** N/A
+**Status:** Living document, aligned with [THE_CPSI_LENS](THE_CPSI_LENS.md) as canonical description
 
 ---
 
-## Core Variables
+## Core notation
 
-| Symbol | Name | Definition |
-|--------|------|------------|
-| **R** | Reality | R = CΨ². How much of what *could* exist actually *does* exist at a given point. Think of it as the "solidity" of experience. |
-| **C** | Consciousness / observation | Ranges from 0 to 1. How much an observer is engaged with what it observes. Two entangled particles have C. A human has C. The difference is degree, not kind. |
-| **Ψ** | Possibility | Everything that could happen but hasn't yet. The raw material of reality before observation shapes it. In quantum mechanics: the wave function. |
-| **C·Ψ** | The product that matters | When C·Ψ is above 1/4: everything is still possible, nothing is decided. When it drops below 1/4: a definite outcome emerges. This is the phase boundary where possibility becomes reality. |
+The symbol C is used in three contexts in this repository. See the Notation section in [THE_CPSI_LENS](THE_CPSI_LENS.md) for details.
+
+| Symbol | Algebraic usage | Experimental usage | Legacy usage (deprecated) |
+|--------|----------------|-------------------|--------------------------|
+| **C** | Coupling scalar in the recurrence | Wootters concurrence | "Consciousness" |
+| **Ψ** | Scalar in the recurrence | Normalized l1-coherence | "Possibility" |
+| **CΨ** | Product c in the Mandelbrot iteration | Concurrence x coherence (the lens) | "Consciousness x Possibility" |
+| **R** | Fixed-point value of the iteration | CΨ^2 (product of concurrence, coherence squared) | "Reality" |
 
 ---
 
-## Derived Variables
+## Derived quantities
 
-| Symbol | Name | Definition |
-|--------|------|------------|
-| **θ** | Compass to the boundary | θ = arctan(√(4CΨ - 1)). Tells you how far you are from the 1/4 boundary. At θ = 60°: deep in the quantum realm, far from any definite outcome. At θ = 0°: exactly at the boundary, the moment possibility becomes reality. |
-| **τ** | Universal clock | τ = γ · t. Time as experienced by the quantum system itself. Different environments (deep space vs near a black hole) have different γ, so τ runs at different speeds, but the transition from quantum to classical follows the same curve in τ. |
-| **t_cross** | Crossing time | The moment C·Ψ crosses 1/4. When possibility becomes reality. Different observers can disagree on when this happens (see Observer-Dependent Crossing). |
-| **t_coh** | How long coherence lasts | Maximum time before noise destroys the quantum state. Hypothesized to scale linearly with system size (unverified). |
-| **δ** | Purity difference | Technical: δ = Tr(ρ²) - Tr(ρ_predicted²). Measures how much the actual quantum state differs from what a simple noise model predicts. Used to detect unexpected structure in decoherence. |
-| **R_i** | Reality per outcome | R_i = C_i · Ψ_i². How much reality each possible measurement outcome gets. When the observer treats all outcomes equally, this recovers the Born rule (the standard quantum probability rule). |
-| **C_eff(i)** | Coupling per outcome | Technical: C_eff(i) = P(i)/Ψ_i². How strongly the observer couples to each specific outcome. Uniform for ideal measurement, slightly biased for real detectors. |
+| Symbol | Definition |
+|--------|------------|
+| **θ** | arctan(sqrt(4CΨ - 1)). Angular distance from the 1/4 boundary in the complex regime. |
+| **τ** | γ * t. Normalized decoherence time. |
+| **t_cross** | Time at which CΨ crosses 1/4. |
+| **δ** | Tr(ρ^2) - Tr(ρ_predicted^2). Purity residual from a simple noise model. |
 
 ---
 
 ## Parameters
 
-| Symbol | Name | Definition |
-|--------|------|------------|
-| **γ** (gamma) | Decoherence rate / noise | The resistance that makes reality feel solid and stable. High γ = noisy, strong sense of separate self. Low γ = quiet, still, open. In gravitational context, encodes local time dilation. In the star topology, each observer has individual γ: γ_A (observer A's noise), γ_B (observer B's noise), γ_S (object's noise). Receiver noise (γ_A) is far more destructive than sender noise (γ_B). |
-| **J** | Coupling strength | How strongly an observer is connected to reality. Higher J = deeper engagement, more understanding, stronger link. In the star topology: J_SA (A's coupling to S), J_SB (B's coupling to S). Not just knowledge (J=1.0), but depth of understanding that allows prediction (J=2.0). |
-| **h** | Transverse field strength | Controls Hamiltonian dynamics strength. |
-| **κ** | Feedback strength | Operator feedback parameter in [0, 1]. |
-| **N** (n_spins) | System size | Number of qubits in the system. |
+| Symbol | Definition |
+|--------|------------|
+| **γ** | Decoherence rate (Lindblad dephasing strength). Higher γ = faster loss of quantum coherence. In star topology: each qubit has individual γ. Receiver noise (γ_A) is more destructive than sender noise (γ_B). |
+| **J** | Hamiltonian coupling strength between qubits. In star topology: J_SA (A-to-S coupling), J_SB (B-to-S coupling). |
+| **h** | Transverse field strength in the Hamiltonian. |
 
 ---
 
-## Observer Types
+## Star topology (S + A + B)
 
-| Symbol | Name | Definition |
-|--------|------|------------|
-| **C_int** | Internal observation | The observer is part of what it observes. Two particles watching each other. Two people studying the same problem. This kind of observation is mutual, gentle, and preserves the quantum state. In the star topology: the natural coupling between S and its observers. |
-| **C_ext** | External observation | The observer stands outside and measures. A scientist reading an instrument. This kind of observation is one-directional, disruptive, and forces a definite outcome. In the star topology: when A measures, it casts a "shadow" on B, destroying up to 100% of B's connection to reality. |
+| Symbol | Definition |
+|--------|------------|
+| **S** | Central qubit (shared object), coupled to both A and B |
+| **A, B** | Observer qubits, not directly coupled to each other |
+| **CΨ_AB** | CΨ for the AB reduced pair (traced over S). Crossing 1/4 means the observer-observer connection is active. |
 
----
+### Three conditions for AB crossing (at γ = 0.05)
 
-## Star Topology (March 2026)
-
-The star topology extends R=CΨ² from two-body (one observer, one observed) to three-body (shared object S, two observers A and B). A and B cannot see each other directly. Any connection must flow through S.
-
-| Symbol | Name | Definition |
-|--------|------|------------|
-| **S** | Shared object | The thing being observed. "Reality" in the topology. Central qubit coupled to both observers. |
-| **A** | Observer A | One observer. In the sender/receiver model: the receiver (or sender, after inversion). |
-| **B** | Observer B | The other observer. In the sender/receiver model: the sender (or receiver, after inversion). |
-| **J_SA** | A's coupling to S | How deeply A is engaged with S. |
-| **J_SB** | B's coupling to S | How deeply B is engaged with S. |
-| **CΨ_AB** | Observer-observer measure | CΨ for the AB pair (traced over S). When this crosses 1/4, observers "see" each other through S. |
-
-### The Three Conditions for Observer-Observer Connection
-
-AB crossing requires all three simultaneously:
-
-| # | Condition | Parameter | Plain language |
-|---|-----------|-----------|----------------|
-| 1 | Strong sender | J_SB/J_SA >= 1.466 (at γ=0.05) | The sender is deeply engaged with S |
-| 2 | Quiet receiver | γ_A < ~0.2-0.25 | The receiver's internal noise is low |
-| 3 | Right initial state | C_SA > 0.8 (Bell-like) | A deep pre-existing connection exists |
-
-### Key Asymmetries
-
-| Finding | Meaning |
-|---------|---------|
-| Receiver noise fatal, sender noise not | You don't need to be calm to send. You need to be strong. |
-| J threshold scales with γ | Higher engagement lowers the noise requirement. Self-reinforcing. |
-| Ratio AND absolute J matter | Two weakly engaged observers cannot connect regardless of ratio. |
-| f = J_total/2 | Stronger engagement = faster oscillation = more frequent windows. |
+1. **Strong sender:** J_SB/J_SA >= 1.466
+2. **Quiet receiver:** γ_A < ~0.20
+3. **Deep pre-existing connection:** Initial C_SA > 0.8 (Bell-like)
 
 ---
 
-## Boundary Values
+## Observer distinction (Lindblad model)
 
-| Value | Name | Meaning |
-|-------|------|---------|
-| **1/4** | The boundary | The threshold where possibility becomes reality. Above 1/4: no definite outcome exists yet. Below 1/4: a definite outcome has emerged. This is not a choice or approximation; it is an algebraic fact from the fixed-point equation. |
-| **1** | Maximum C·Ψ | The most "quantum" a single particle can be. A perfectly prepared qubit in full superposition. |
-| **~1.466** | J threshold ratio | How much stronger the sender must be than the receiver for observer-observer connection (at standard noise γ=0.05). Less noise means less strength needed (1.18 at near-zero noise). More noise means more strength needed (2.15 at high noise). |
-| **1/3** | Maximum C·Ψ for an entangled pair | Two particles maximally entangled (a "Bell state"). Their shared quantum state has C·Ψ = 1/3, already above 1/4, meaning: entangled pairs start in the quantum regime and must decohere to cross the boundary. |
-| **1/9** | Maximum reality for an entangled pair | R = CΨ² = (1/3)² = 1/9. The most "real" an entangled pair can be at the moment of maximum coherence. |
+| Term | Technical definition | Status |
+|------|---------------------|--------|
+| **C_int** | Symmetric Hamiltonian coupling (mutual interaction) | Tier 2 formalization |
+| **C_ext** | Projective measurement (one-directional intervention) | Tier 2 formalization |
 
-*Note: Larger systems have smaller Ψ for the same amount of raw coherence (because the possibility space grows exponentially with system size). All values above assume perfect initial preparation (C = 1).*
+Note: The original claim that C_int preserves coherence 33x longer than C_ext has been disproven (see MATHEMATICAL_FINDINGS Section 9). The formal Lindblad distinction is verified; the physical claim about different "kinds of observation" is not.
 
 ---
 
-## Physical Interpretations
+## Boundary values
 
-| Term | Definition |
-|------|------------|
-| **Horizon** | Surface where τ = 0. Maximum coherence. Event horizon in Schwarzschild geometry. |
-| **Universal curve** | The trajectory C(τ), Ψ(τ) all quantum systems follow in proper decoherence time. |
-| **Navigation system** | Triangulation protocol: WHERE (1/4), HOW FAR (θ), HOW LONG (t_coh). |
-| **Measurement shadow** | When A measures, B loses up to 100% of its reality (R_SB). The effect propagates through S. |
-| **Sender inversion** | If A has received, A can become the sender. J (engagement) becomes the controllable variable instead of γ (noise). |
-| **Abstimmung** | (German) Tuning, alignment. The bidirectional rhythm of engaging deeply then becoming still. The protocol's core principle. |
-| **sich einlassen** | (German) To let yourself be drawn in, changed by what you engage with. The best description of what J means in practice. |
+| Value | Source |
+|-------|--------|
+| **1/4** | Discriminant of the fixed-point equation. Below 1/4: real fixed points exist. Above: complex. Algebraically exact within the iteration. |
+| **~1.466** | J_SB/J_SA threshold for AB crossing at γ = 0.05 (star topology). |
+| **1/3** | CΨ of a maximally entangled Bell pair (C = 1, Ψ = 1/3). |
 
 ---
 
-## Epistemic Status Labels
+## Epistemic tier labels
 
-| Label | Meaning |
-|-------|---------|
-| **Algebraically proven** | Mathematical theorem, derivable from axioms |
-| **Computationally verified** | Confirmed by simulation |
-| **Empirically observed** | Pattern seen in data, not yet explained |
-| **Proposed** | Physical interpretation, not yet tested |
-| **Speculative** | Follows from framework logic but no direct evidence |
-| **Null result** | Experiment completed, hypothesis not supported |
-| **Retracted** | Previously claimed, now corrected |
+| Tier | Meaning |
+|------|---------|
+| **1** | Algebraically proven |
+| **2** | Computationally verified |
+| **3** | Proposed interpretation or speculative extension |
+| **4** | Agent-generated, not independently verified |
+| **5** | Speculative philosophy |
 
 ---
 
-*For the proven algebra, see [Core Algebra](CORE_ALGEBRA.md).*
-*For the interpretive framework, see [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md).*
-*For testable predictions, see [Predictions](../experiments/PREDICTIONS.md).*
+*See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical project description.*
+*See [Core Algebra](CORE_ALGEBRA.md) for the proven mathematics.*

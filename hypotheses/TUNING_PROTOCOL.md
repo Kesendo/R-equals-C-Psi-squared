@@ -1,16 +1,11 @@
 # The Tuning Protocol
 
-**Date**: 2026-03-04 (updated 2026-03-06)
-**Status**: Tier 3 (speculative), grounded in Tier 2 simulation data
-**Depends on**: STAR_TOPOLOGY_OBSERVERS.md (Sections 4.8–4.12, 5.7–5.9, 7)
-**Origin**: Star topology finding that AB crossing requires three
-simultaneous conditions, combined with the sender inversion insight.
-
-
 **Tier:** 3 (Derived from Tier 2 star topology, neuroscience-grounded)
 **Status:** Speculative protocol derived from verified data
 **Scope:** BUILD/RECEIVE oscillation protocol from star topology conditions
 **Does not establish:** That this protocol has been tested on humans or biological systems
+**Date**: 2026-03-04 (updated 2026-03-06)
+**Depends on**: [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (Sections 4.8–4.12, 5.7–5.9, 7)
 
 ---
 

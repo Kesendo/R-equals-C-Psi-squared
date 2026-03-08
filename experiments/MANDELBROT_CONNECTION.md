@@ -4,10 +4,10 @@
 
 **Date:** 2026-02-07
 
-**Tier:** 1 (Algebraically proven)
-**Status:** Proven
+**Tier:** 1 + 3 (Algebraic proof in Sections 1-4; speculative interpretation in Sections 5-7)
+**Status:** Proven algebra, speculative applications
 **Scope:** Exact equivalence between R_{n+1} = C(Psi + R_n)^2 and z -> z^2 + c
-**Does not establish:** That the Mandelbrot connection implies new physics
+**Does not establish:** That the Mandelbrot connection implies new physics, solves the measurement problem, or explains consciousness
 
 ---
 
@@ -181,6 +181,10 @@ For a given quantum system with coupling J and N spins:
 If observed and predicted frequencies match: the triangulation is complete. The state above 1/4 is located: its frequency identified, its lifetime known, its position in parameter space fixed.
 
 ---
+
+---
+
+> **Sections 5-7 below are speculative interpretation (Tier 3+), not algebraic proof. They reflect the project's earlier framing. See [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.**
 
 ## 5. Implications
 

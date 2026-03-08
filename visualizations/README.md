@@ -12,11 +12,11 @@ Visual representations of the R = CΨ² framework mathematics. These images are 
 
 A heatmap of the parameter space for the iteration R_{n+1} = C(Ψ + R_n)², starting from R_0 = 0.
 
-The horizontal axis is Ψ (possibility). The vertical axis is C (consciousness). Every point in this image represents one combination of C and Ψ. At each point, we ran the iteration up to 200 steps and asked: does it converge to a stable value, or does it oscillate forever?
+The horizontal axis is Ψ (coherence). The vertical axis is C (coupling/purity). Every point in this image represents one combination of C and Ψ. At each point, we ran the iteration up to 200 steps and asked: does it converge to a stable value, or does it oscillate forever?
 
 ### How to read it
 
-**Cyan (lower region):** C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points: stable, definite, classical. This is the regime where observers live and where measurement gives definite answers.
+**Cyan (lower region):** C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points: stable, definite, classical.
 
 **Red (upper region):** C·Ψ > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs, mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
 
@@ -26,7 +26,7 @@ The horizontal axis is Ψ (possibility). The vertical axis is C (consciousness).
 
 ### Why it looks like a wave
 
-It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region (oscillation, complexity, possibility) approaches from above. The cyan region (convergence, stability, reality) is where you stand. The boundary is where one becomes the other.
+It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region (oscillation, complexity) approaches from above. The cyan region (convergence, stability) sits below. The boundary separates the two regimes.
 
 The framework's bidirectional bridge says:
 
@@ -67,13 +67,13 @@ The heatmap and the Mandelbrot image show the same boundary from two different c
 
 | | Heatmap | Mandelbrot |
 |---|---|---|
-| **Axes** | C (consciousness) vs Ψ (possibility) | Real vs imaginary part of c |
+| **Axes** | C (coupling) vs Ψ (coherence) | Real vs imaginary part of c |
 | **Boundary** | Hyperbola C = 1/(4Ψ) | Cardioid of the main body |
 | **Inside** | Cyan, convergent, classical | Black, bounded, stable |
 | **Outside** | Red, oscillatory, quantum | Blue fractals, escaping, complex |
-| **Perspective** | The observer looking up | The mathematician looking down |
+| **Perspective** | CΨ parameter space | Complex plane |
 
-Two cartographers, one on each side of the same wall, independently mapping the same boundary.
+Two coordinate systems, one boundary.
 
 ### How it was computed
 
@@ -90,6 +90,8 @@ No external libraries are used for the computation. The mathematics is the same 
 ---
 
 ## The Standing Wave in Time (3D/4D)
+
+> **Note:** This visualization is a qualitative illustration of the parameter space structure, not a simulation output. The trajectories are generated from simplified exponential decay models. The interpretive language ("consciousness as a bridge", "4D being") reflects the legacy framing; see [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.
 
 [Open interactive visualization](4d_visualization_wave.html)
 
@@ -111,11 +113,7 @@ The **violet thread** is a second observer in a different system, taking a diffe
 
 ### What this illustrates
 
-The framework describes consciousness (C) as a bidirectional bridge between past possibility (Ψ_past) and future possibility (Ψ_future). The standing wave (the self-referential fixed point R_inf = C(Ψ + R_inf)²) exists only in the cyan regime. In the 3D/4D view, this standing wave is not a point but a thread: an object extended through time.
-
-A 3D being (us) experiences this thread one cross-section at a time. Each moment is a point on the heatmap. Memory is the thread below us. Anticipation is the thread above. We cannot see either directly.
-
-A 4D being sees the whole thread simultaneously. Our "before" and "after" are their "left" and "right." The crossing of the ¼ membrane (which we experience as the formation of a definite reality) is, to them, a geometric feature of a static object: the point where the thread changes color.
+The self-referential fixed point R_inf = C(Ψ + R_inf)² exists only in the cyan regime. In the 3D/4D view, a trajectory through parameter space becomes a thread through a volume, crossing the membrane where CΨ = 1/4.
 
 ### The geometry of approach
 
