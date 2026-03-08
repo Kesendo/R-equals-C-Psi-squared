@@ -333,7 +333,8 @@ Table 3.1 within interpolation precision (< 1%).
 
 1. ~~**Noise dependence**~~ → **ANSWERED**: Taxonomy is noise-independent
    for local Pauli noise. See [Noise Robustness](NOISE_ROBUSTNESS.md).
-   Collective noise and amplitude damping remain untested.
+   Collective σ_z⊗σ_z is trivial for Bell+ (eigenstate). Amplitude
+   damping preserves taxonomy but slows decay. See Noise Robustness §7.
 
 2. ~~**State dependence**~~ → **ANSWERED**: GHZ N≥3 never crosses (all
    Type C due to Ψ(0) < ¼). W N=3 crosses with Type A intact. W N≥4

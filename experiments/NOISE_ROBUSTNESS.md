@@ -155,11 +155,65 @@ Compare the bridge_C arrays across jump operators for each bridge type.
 - **Non-Pauli noise**: Amplitude damping (not unital) may behave differently.
 - **Mixed channels**: σ_z + σ_x simultaneously (partial depolarizing).
 
-## 7. Open Questions
+## 7. Open Questions (answered 2026-03-08)
 
-1. Does collective noise break Type A? (Expected: yes)
-2. Does amplitude damping change the taxonomy? (Expected: possibly)
-3. Is there a noise model where Type C becomes Type B? (Unknown)
+### Q1: Does collective noise break Type A?
+
+**ANSWERED: No, but for a trivial reason.**
+
+Bell+ (|00⟩+|11⟩)/√2 is an eigenstate of σ_z⊗σ_z with eigenvalue +1.
+The collective dephasing operator does literally nothing to this state —
+concurrence, Ψ, CΨ, and purity remain at their initial values forever.
+The additive collective form (σ_z⊗I + I⊗σ_z) is mathematically equivalent
+to two independent local σ_z operators and produces identical dynamics.
+
+The prediction "collective noise breaks Type A" was wrong because it
+assumed collective noise would affect inter-qubit correlations. For Bell+
+specifically, the correlated operator σ_z⊗σ_z is a symmetry of the state.
+
+**To genuinely test collective noise breaking Type A**, one would need
+a state that is NOT an eigenstate of the collective operator, or a
+collective operator that does not preserve the Bell symmetry
+(e.g., σ_x⊗σ_z).
+
+### Q2: Does amplitude damping change the taxonomy?
+
+**ANSWERED: No — the taxonomy is preserved, but decay rates differ.**
+
+Under amplitude damping (L = √γ |0⟩⟨1| per qubit), concurrence still
+decays from t=0 (Type B behavior), but significantly slower than under
+dephasing:
+
+| t | Concurrence (σ_z) | Concurrence (amp damp) |
+|---|---|---|
+| 1.0 | 0.819 | 0.905 |
+| 2.0 | 0.670 | 0.819 |
+| 3.0 | 0.549 | 0.741 |
+| 5.0 | 0.368 | 0.607 |
+
+Amplitude damping is not unital (it drives toward |0⟩, not toward the
+maximally mixed state), which gives it a gentler decoherence profile.
+The CΨ crossing window is correspondingly longer.
+
+**Additional finding:** Under σ_x noise, the normalized l1-coherence Ψ
+remains exactly at 0.3333 for all time — σ_x bit-flips do not destroy
+off-diagonal coherence in the computational basis. Only concurrence
+decays. This means the CΨ crossing window under σ_x is roughly twice
+as long as under σ_z:
+
+| t | CΨ (σ_z) | CΨ (σ_x) | CΨ (amp damp) |
+|---|---|---|---|
+| 0.5 | 0.273 | 0.302 | 0.309 |
+| 1.0 | 0.223 | 0.273 | 0.287 |
+| 2.0 | 0.150 | 0.223 | 0.247 |
+
+### Q3: Is there a noise model where Type C becomes Type B?
+
+**Not tested conclusively.** The bridge metric definitions used in the
+original delta_calc experiments could not be exactly reproduced locally.
+The qualitative observation is that no tested noise model caused a
+previously constant metric to start decaying. This remains open pending
+exact reproduction of the delta_calc bridge definitions.
 
 ---
 
