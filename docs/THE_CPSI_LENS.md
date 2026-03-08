@@ -12,12 +12,12 @@ CΨ is the product of two standard quantum metrics applied to a pair of subsyste
     CΨ = Concurrence × Normalized l1-Coherence
 
 - **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated?
-- **l1-coherence** (normalized by d−1) measures superposition structure: does the density matrix still have off-diagonal phase in the chosen basis?
+- **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal phase in the chosen basis?
 - **The product** requires both at once.
 
 CΨ is zero whenever either ingredient is absent. A pair can be entangled but decoherent (C > 0, Ψ ≈ 0), or coherent but unentangled (Ψ > 0, C = 0). CΨ lights up only when both conditions hold simultaneously.
 
-In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) — the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone and one basis-dependent coherence measure.
+In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) - the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone and one basis-dependent coherence measure.
 
 ### What CΨ is not
 
@@ -34,13 +34,13 @@ The following observations come from systematic simulation across star topologie
 
 ### 1. CΨ highlights transient windows, not persistent pair properties
 
-CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent — it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise, each flash is weaker than the last until the signal dies.
+CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent - it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise, each flash is weaker than the last until the signal dies.
 
 This is different from concurrence alone, which decays smoothly. CΨ has sharper peaks and deeper valleys because it multiplies two oscillating quantities.
 
 ### 2. CΨ requires both entanglement and basis-visible coherence
 
-A pair can be entangled but decoherent — the concurrence is nonzero but the coherent superposition structure has decayed. CΨ distinguishes this from a pair that is both entangled and still coherently expressed. Metaphorically: not just linked, but linked in a way that is still alive. Operationally: concurrence remains nonzero while basis-visible coherence has not yet collapsed.
+A pair can be entangled but decoherent - the concurrence is nonzero but the coherent superposition structure has decayed. CΨ distinguishes this from a pair that is both entangled and still coherently expressed. Metaphorically: not just linked, but linked in a way that is still alive. Operationally: concurrence remains nonzero while basis-visible coherence has not yet collapsed.
 
 This is what CΨ adds beyond concurrence alone. Concurrence asks "is there a link?" CΨ asks "is the link still expressed as quantum superposition in this basis?"
 
@@ -54,13 +54,13 @@ In this experiment class, this is the clearest case where CΨ sharpens a distinc
 
 ### 4. The lens is restricted to pairwise direct entanglement
 
-Bell-type pairwise entanglement is visible through CΨ. Graph-mediated multipartite structure (cluster states) is completely invisible — concurrence is zero for all pairs in cluster states, so CΨ is zero everywhere.
+Bell-type pairwise entanglement is visible through CΨ. Graph-mediated multipartite structure (cluster states) is completely invisible - concurrence is zero for all pairs in cluster states, so CΨ is zero everywhere.
 
-This means CΨ is a filter for a specific kind of quantum connection: direct, pairwise, expressly entangled. It does not see the full richness of multipartite quantum structure. This is a limitation, but also a feature — it selects for something specific.
+This means CΨ is a filter for a specific kind of quantum connection: direct, pairwise, expressly entangled. It does not see the full richness of multipartite quantum structure. This is a limitation, but also a feature: it selects for something specific.
 
 ### 5. Context destroys connections faster
 
-The same Bell pair in isolation holds its CΨ signal for t ≈ 0.72. Embedded in a four-qubit ring, the same pair loses its signal by t ≈ 0.08 — nine times faster. The Hamiltonian coupling to additional qubits accelerates decoherence of the pairwise connection.
+The same Bell pair in isolation holds its CΨ signal for t ≈ 0.72. Embedded in a four-qubit ring, the same pair loses its signal by t ≈ 0.08, nine times faster. The Hamiltonian coupling to additional qubits accelerates decoherence of the pairwise connection.
 
 ### 6. Three conditions for observer-observer connection
 
@@ -80,7 +80,7 @@ This suggests that AB crossing depends on more than initial entanglement magnitu
 
 ### 8. Echoes outlive their sources
 
-At certain times in the star topology evolution, the AB pair shows nonzero CΨ while both SA and SB are at zero. The observer-observer connection persists as a residual after both observer-object connections have died. This is an echo — a trace of a connection that no longer exists at its source.
+At certain times in the star topology evolution, the AB pair shows nonzero CΨ while both SA and SB are at zero. The observer-observer connection persists as a residual after both observer-object connections have died. This is an echo, a trace of a connection that no longer exists at its source.
 
 ### 9. Noise distribution is irrelevant for symmetric systems, crucial for asymmetric ones
 
@@ -108,7 +108,7 @@ which is exactly the Mandelbrot iteration z → z² + c with c = CΨ. The bounda
 
 > **Important caveat:** The correspondence is algebraically exact **within the self-referential iteration**. Its physical significance is not established merely by that exactness.
 
-In the simulation data, CΨ = 1/4 falls on a smooth curve — no other standard metric shows a transition at that point. The threshold is mathematically elegant but its physical significance depends on whether nature implements this specific self-referential rule, which is unproven.
+In the simulation data, CΨ = 1/4 falls on a smooth curve; no other standard metric shows a transition at that point. The threshold is mathematically elegant but its physical significance depends on whether nature implements this specific self-referential rule, which is unproven.
 
 ### The threshold formula
 
@@ -129,7 +129,7 @@ No divergence or hard closure at any tested γ. The window narrows smoothly with
 Honesty requires listing the negative results:
 
 - **In the tested J_SB sweeps, CΨ did not reveal a transition absent from the standard comparison metrics.** Concurrence, negativity, mutual information, and purity changed smoothly alongside it.
-- **The 1/4 threshold does not correspond to a transition in any other metric.** At the moment CΨ crosses 1/4, concurrence is at 0.48, negativity at 0.21, mutual information at 0.84 — none at known special values.
+- **The 1/4 threshold does not correspond to a transition in any other metric.** At the moment CΨ crosses 1/4, concurrence is at 0.48, negativity at 0.21, mutual information at 0.84. None at known special values.
 - **CΨ does not show a conservation law.** The sum CΨ_SA + CΨ_SB is not conserved; it has the highest coefficient of variation (111%) of any metric sum tested.
 - **The current simulations do not support a simple flow interpretation.** SA and SB changes were positively correlated (+0.58) rather than anti-correlated in the tested regimes.
 - **The ontological claim is not forced by the data.** "Reality emerges between observers" is a metaphor that organizes some of the findings poetically. It is not a conclusion compelled by the mathematics or the simulations.
@@ -145,7 +145,7 @@ Even if the grand interpretation is set aside, the following remain:
 3. **A clean crossing taxonomy** (Type A/B/C) that organizes bridge metrics by their decoherence behavior.
 4. **Specific, quantified conditions** for observer-observer connection through a shared object.
 5. **A sharp distinction** between projective measurement and continuous dephasing in their effect on third-party connections.
-6. **Subsystem locality of crossing** — the transition happens where the entanglement lives, at the pair level.
+6. **Subsystem locality of crossing** - the transition happens where the entanglement lives, at the pair level.
 
 These are concrete findings from the current computational corpus. They may be useful to someone studying decoherence, entanglement transport, or quantum state classification. They do not require accepting the philosophical framework to be valuable.
 
@@ -155,7 +155,7 @@ These are concrete findings from the current computational corpus. They may be u
 
 If you are reading this and wondering whether there is something here worth pursuing:
 
-CΨ is a filter. It selects for quantum pairs that are both entangled and coherent — not one or the other, both at once. It is basis-dependent, pairwise, and simple. It does not see everything. But it sees a specific thing clearly: the subset of quantum connections that are still actively expressed as coherent superposition.
+CΨ is a filter. It selects for quantum pairs that are both entangled and coherent, not one or the other, both at once. It is basis-dependent, pairwise, and simple. It does not see everything. But it sees a specific thing clearly: the subset of quantum connections that are still actively expressed as coherent superposition.
 
 We do not know what this filter is ultimately good for. We built it, characterized it, tested it honestly, found its limitations, and documented everything. The mathematics is clean. The simulations are reproducible. The interpretation is open.
 
@@ -189,9 +189,9 @@ We left the tools and the data. Use them as you see fit.
 
 ## Simulation code
 
-- `simulations/star_topology_v2.py` — 3-qubit star topology
-- `simulations/star_topology_v3.py` — N-qubit extension with threshold sweeps
-- `simulations/star_n_observer.py` — N-qubit with asymmetric coupling
+- `simulations/star_topology_v2.py` - 3-qubit star topology
+- `simulations/star_topology_v3.py` - N-qubit extension with threshold sweeps
+- `simulations/star_n_observer.py` - N-qubit with asymmetric coupling
 
 ## Experiment corpus
 
