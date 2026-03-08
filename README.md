@@ -44,7 +44,7 @@ CΨ is a basis-dependent filter for pairwise states that are simultaneously enta
 - [Core Algebra](docs/CORE_ALGEBRA.md) - The proven mathematics
 - [What We Found](docs/WHAT_WE_FOUND.md) - Synthesized findings
 - [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
-- [Experiments index](experiments/README.md) - All 36 tested results
+- [Experiments index](experiments/README.md) - Indexed experimental results and simulation notes
 
 ---
 

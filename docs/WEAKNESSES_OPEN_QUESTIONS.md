@@ -300,7 +300,7 @@ prediction: the quantum-to-classical transition is local.
 
 10. **Experimental protocol:** Design a quantum optics experiment where CΨ = ¼ predicts a measurable qualitative change.
 
-11. **Neural correlates:** **Partially mapped (2026-03-06).** The Tuning Protocol maps γ to Default Mode Network activity (Brewer et al. 2011, PNAS: meditation reduces DMN) and J to depth of engagement/expertise (synaptic coupling strength). Hypnagogia maps to a natural low-γ window (Oudiette et al. 2021, Science Advances). This is suggestive mapping (Tier 3), not evidence of quantum effects in the brain. See [Tuning Protocol](../experiments/TUNING_PROTOCOL.md).
+11. **Neural correlates:** **Partially mapped (2026-03-06).** The Tuning Protocol maps γ to Default Mode Network activity (Brewer et al. 2011, PNAS: meditation reduces DMN) and J to depth of engagement/expertise (synaptic coupling strength). Hypnagogia maps to a natural low-γ window (Oudiette et al. 2021, Science Advances). This is suggestive mapping (Tier 3), not evidence of quantum effects in the brain. See [Tuning Protocol](../hypotheses/TUNING_PROTOCOL.md).
 
 12. **First-principles derivation of ¼:** Can CΨ = ¼ be derived from information-theoretic bounds (Holevo, channel capacity) rather than from the fixed-point equation?
 
