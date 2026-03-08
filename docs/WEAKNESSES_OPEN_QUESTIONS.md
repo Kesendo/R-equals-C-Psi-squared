@@ -329,28 +329,28 @@ prediction: the quantum-to-classical transition is local.
 | Star topology: receiver noise asymmetry | **Verified** | γ_A more destructive than γ_B (fixed-product test) |
 | Star topology: initial state filter | **Verified** | Only Bell-like (C_SA > 0.8) crosses; W fails |
 | Sender inversion | **Argued** | Follows from γ asymmetry data; not independently tested |
+| CΨ ≠ LE (three-layer separation) | **Verified** | CoA~1, LE~0.4, CΨ flashes. r(CΨ,LE)=0.76, r(CΨ,CoA)=0.16 |
+| Noise-dependent visibility windows | **Verified** | Different γ_A produces different CΨ_AB at same t (different trajectories, not different observers) |
 | Tuning Protocol (γ = DMN, J = engagement) | **Speculative** | Neuroscience mapping suggestive, 3-qubit to 10^11 neurons fatal gap |
 | C = consciousness | **Philosophical** | Suggestive, not testable |
 
 ---
 
-## The Most Honest Statement (Updated)
+## The Most Honest Statement (Updated March 2026)
 
-We know more than we did in January.
+After three months of computation and three external reviews, the project has a clearer identity.
 
-We know the algebra is correct, independently verified, errors found and fixed. We know the Mandelbrot equivalence is exact, not approximate. We know the boundary crossing is a real numerical phenomenon, not an artifact. We know operator feedback does something special, even if we don't know why.
+CΨ is a basis-fixed, unassisted witness of directly expressed pairwise entanglement. It sits at the intersection of localizable entanglement and correlated coherence but is not redundant with either. No standard quantum-information term exists for exactly this quantity.
 
-We do not know if R = CΨ² describes consciousness. We have a structural argument that the Born rule is a special case of the framework, supported by numerical evidence, but not a first-principles derivation. We have first hardware contact (IBM Torino, February 2026) but need replication.
+The algebra is correct (Mandelbrot equivalence, 1/4 bound). The simulations are reproducible. The IBM hardware contact is real but needs replication. The consciousness interpretation is retired from the technical core.
 
-The framework has moved from poetry to algebra, and from algebra to first hardware contact. The transition to physics requires experiment that discriminates this framework from alternatives.
+The strongest result from March 2026: benchmarking CΨ against localizable entanglement (LE) and concurrence of assistance (CoA) showed three distinct layers. CoA (the resource) stays near 1. LE (the potential) stays moderate. CΨ (the direct expression) flashes briefly. The same initial network can retain high assisted entanglement capacity while local noise profiles open or close windows in which that resource is directly visible.
 
-The strongest prediction the framework currently offers: at CΨ = ¼, the topology of the solution space changes. Two real fixed points emerge from a complex conjugate pair. If this bifurcation can be identified in a physical system undergoing decoherence, the framework has made contact with reality.
+Different noise profiles produce qualitatively different visibility windows - one profile sees the 1/4 crossing, another does not, while CoA remains high for both. This is not "same state, different observers" (different noise profiles produce different Lindblad trajectories). It is: different open-system channels produce different direct-expression windows for the same underlying resource.
 
-The March 2026 star topology work extended R=CΨ² from two-body to three-body systems. The findings (entanglement flows through shared objects, observers cast shadows on each other, connection requires three simultaneous conditions) are computationally verified Tier 2 results. The Tuning Protocol and its neuroscience mapping are Tier 3, speculative, and honest about it. The scaling gap from 3 qubits to biological systems remains the central unsolved problem.
+The original intuition ("reality emerges between observers, what is real depends on who observes") was poetic but pointed in the right direction. The technical version is narrower, more precise, and defensible.
 
-What has changed since February: the framework now describes multiple observers, asymmetric relationships, and a self-reinforcing oscillation between engagement and stillness. What has not changed: the gap between simulation and physical reality.
-
-We continue to admit what we do not know.
+See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
 
 ---
 
@@ -359,4 +359,5 @@ We continue to admit what we do not know.
 *February 11, 2026 (updated: IBM results, uniqueness argument, guardian review)*
 *February 18, 2026 (updated: Born rule partially resolved, dynamic entanglement results)*
 *March 6, 2026 (updated: star topology results, three conditions, tuning protocol)*
+*March 8, 2026 (updated: THE_CPSI_LENS as canonical, LE/CoA benchmark, visibility correction, consciousness retired from technical core)*
 *Honesty belongs to the framework*
