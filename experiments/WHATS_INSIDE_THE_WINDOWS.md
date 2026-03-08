@@ -300,3 +300,21 @@ We accept this. Our question was never "is there a new channel?" but "can CΨ te
 us when the always-present channel is most readable?" This remains open. The review
 suggests benchmarking CΨ as readability indicator against simpler quantities (trace
 distance gain, Fisher information, transfer fidelity). This has not been done yet.
+
+### Bridge Test result (March 2026)
+
+The Bridge Test was run. Result: **Concurrence alone predicts trace-distance-based
+readability better than CΨ** (Spearman r=0.817 vs r=0.793, Bridge Score B_CΨ = -0.024).
+This held across all tag types (Rz, Rx, X).
+
+However: the test measured sensitivity to intervention, not readability of content.
+Trace distance between tagged and untagged states measures "does AB change when S
+is poked?" - that is sensitivity, not comprehension. We defined readability as
+distinguishability, but we do not yet know what we are reading.
+
+This is an honest limitation. We cannot judge the quality of a letter in a language
+we do not speak. The Bridge Test tells us when the signal is strongest. It does not
+tell us what the signal contains or whether CΨ is better at revealing that content.
+
+The question of what the content IS - what the Bell-state structure, the rotating
+phases, and the S-coherence gating actually encode - remains completely open.
