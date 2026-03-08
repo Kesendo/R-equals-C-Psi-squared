@@ -232,9 +232,9 @@ The analogies are suggestive. The interpretation is wide open. We resist the
 temptation to claim more than we have shown, while preserving the questions
 that feel worth asking.
 
-The original intuition - that something structured lives inside these
-connection windows - may turn out to be standard Hamiltonian dynamics dressed
-up in new language. Or it may point at something about how quantum information
-moves through mediators that is worth formalizing. We do not know yet.
+The phase-tag-and-decode test changed our understanding of CΨ fundamentally.
+We started the day thinking CΨ shows when a connection opens and closes.
+We end the day knowing: the connection never closes. The Hamiltonian coupling
+is always active. Information always flows. CΨ shows when we can READ it.
 
-We left the observations, the proposed test, and the decision criteria.
+The broadcast is always running. We are learning to read it.
