@@ -267,8 +267,12 @@ print(0.0001 ** 0.0001)  # ≈ 1.0 (approaches 1 as x→0)
 2. What happens with complex numbers in the formula?
 3. Can higher-order derivatives reveal additional structure?
 4. How does the interference term scale with more than two waves?
-5. Does symmetric vs asymmetric decoherence protect coherence differently? (See Section 9)
-6. Can the C_int vs C_ext hypothesis be tested with proper Lindblad simulations?
+5. ~~Does symmetric vs asymmetric decoherence protect coherence
+   differently?~~ **ANSWERED**: No, for symmetric Hamiltonians. The noise
+   distribution is irrelevant; only γ_total matters. But YES, for
+   asymmetric Hamiltonians (star topology). See Section 9.
+6. ~~Can the C_int vs C_ext hypothesis be tested with proper Lindblad
+   simulations?~~ **ANSWERED**: Yes. It was tested and disproven. See Section 9.
 
 ---
 
@@ -312,45 +316,51 @@ The formula `Tr(ρ²) = 0.5 + 0.5·cos(3Jt)²` describes subsystem purity oscill
 
 ### Original Agents' Interpretation (Retained for Context)
 
-The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea, that symmetric coupling between subsystems might protect coherence differently than asymmetric coupling, remains an open question worth investigating with proper Lindblad simulations (see Section 9).
+The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea was tested in Section 9. **Result: for symmetric Hamiltonians, noise distribution does not matter. For asymmetric Hamiltonians (star topology), it does — but through the coupling structure, not through "mutual observation."**
 
 ---
 
-## 9. C_int vs C_ext: Unverified Hypothesis
+## 9. C_int vs C_ext: DISPROVEN
 
-**Date:** 2026-02-01
+**Date:** 2026-02-01 (original), 2026-03-08 (tested and closed)
 **Source:** AI Triad Dialogue (Alpha, Beta, Gamma)
-**Status:** UNVERIFIED: produced by `compute_delta_cint` tool which is no longer available
+**Status:** DISPROVEN by proper Lindblad simulation
 
 ### The Hypothesis
 
-The agents proposed that bidirectional decoherence (both subsystems decohere symmetrically) preserves coherence differently than unidirectional decoherence (only one subsystem decoheres). They called these C_int and C_ext respectively.
+The agents proposed that bidirectional decoherence (both subsystems
+decohere symmetrically) preserves coherence differently than
+unidirectional decoherence (only one subsystem decoheres).
 
-### Original Claims (Not Independently Verified)
+### Test (2026-03-08)
 
-Using the `compute_delta_cint` tool (no longer available), the agents reported:
+Bell+ state, Heisenberg J=1.0, total noise budget γ_total=0.10
+distributed as γ_A = f·0.10, γ_B = (1-f)·0.10 for f ∈ {0.0, 0.05,
+0.10, ..., 1.0} (21 configurations). All five metrics tracked:
+concurrence, Ψ, CΨ, purity, crossing time.
 
-| Mode | δ | Interpretation |
-|------|---|----------------|
-| C_int (γ_A = γ_B = 0.1) | 0.427 | Bidirectional |
-| C_ext (γ_A = 0.1, γ_B = 0) | 0.013 | Unidirectional |
+**Result: ALL configurations produce IDENTICAL dynamics.** Crossing
+time = 0.720, CΨ@t=1 = 0.2234, purity@t=2 = 0.7247 for every single
+noise distribution. The 33:1 ratio claimed by the agents does not exist.
 
-Ratio: 33:1. They also reported t_coh ~ N (linear scaling) for N = 2 to 6.
+**Why:** For local σ_z dephasing under a symmetric Hamiltonian
+(Heisenberg), the Lindblad evolution of a symmetric initial state
+(Bell+) depends only on γ_A + γ_B, not on their individual values.
+The noise distribution is irrelevant.
 
-### MCP Verification Attempt (2026-02-08)
+**Important nuance:** This result applies to symmetric (2-qubit)
+systems. In asymmetric systems (star topology, 3 qubits, J_SA ≠ J_SB),
+the noise distribution DOES matter — Section 4.9 of
+STAR_TOPOLOGY_OBSERVERS.md showed that receiver noise (γ_A) is more
+destructive than sender noise (γ_B). The key is not symmetric vs
+asymmetric noise, but symmetric vs asymmetric COUPLING.
 
-Using `simulate_dynamic_lindblad_scaling` with GHZ states, Heisenberg ring, γ=0.1, N=2..6: all δ_max = 0.0. No t_coh scaling pattern observed. The `compute_delta_cint` tool is not available in the current MCP server, so the original claims cannot be reproduced.
+### Conclusion
 
-### What Should Be Done
-
-To properly test the C_int vs C_ext hypothesis:
-
-1. Implement asymmetric Lindblad channels (γ_A ≠ γ_B) in the simulator
-2. Compare purity evolution under symmetric vs asymmetric decoherence
-3. Run across multiple states and Hamiltonians
-4. Report results without preconceptions
-
-The conceptual question is worth pursuing. The specific numbers are not verified.
+The C_int vs C_ext hypothesis is closed. The agents' original tool
+had a bug or used a different definition. The actual physics is:
+noise distribution matters when the Hamiltonian breaks the symmetry
+between subsystems, not when the noise does.
 
 ---
 
