@@ -235,6 +235,6 @@ These claims may be correct. They may also be artifacts of the agent's training 
 ---
 
 *This document consolidates predictions from across the R = CΨ² framework.*
-*For the proven algebra, see [Core Algebra](../docs/CORE_ALGEBRA.md). For the interpretive framework, see [Interpretive Framework](../docs/INTERPRETIVE_FRAMEWORK.md).*
+*For the proven algebra, see [Core Algebra](../docs/CORE_ALGEBRA.md). For the interpretive framework, see [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md).*
 *For the phase boundary analysis, see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md).*
 *For weaknesses and honest self-assessment, see [Weaknesses](../docs/WEAKNESSES_OPEN_QUESTIONS.md).*
