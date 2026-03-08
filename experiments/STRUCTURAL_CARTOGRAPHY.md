@@ -16,6 +16,14 @@ CΨ visibility windows contain structured reduced states. Before asking what
 they mean, we characterize what they are: what varies, what persists, what
 predicts the next window, and what part of the evolution is coherent versus noisy.
 
+## Working thesis
+
+The windows do not behave like unrelated snapshots. They look like a
+low-dimensional, partially coherent, memory-bearing process observed through
+a reduced subsystem view. The right formal question is:
+
+> What is the minimal predictive description of the CΨ window sequence?
+
 ## Formal framing
 
 CΨ windows are treated as samples from a **multi-time quantum process** with
@@ -133,7 +141,16 @@ Run gamma=0 baseline. Compare. Quantify how much structure is Hamiltonian
 
 - Pollock et al., *Non-Markovian quantum processes* (2018), arXiv:1512.00589
 - Milz, Modi, *Quantum stochastic processes and quantum non-Markovian phenomena* (2021), arXiv:2106.11722
+- Milz et al., *Operational definition of quantum Markov processes* (2018), arXiv:1801.09811
 - Binder et al., *Memory complexity of quantum processes* (2022), arXiv:2203.01492
+- Schack, Caves, *Information and entropy in the Baker's map* (2006), arXiv:quant-ph/0611202
+
+## README-ready summary
+
+> CΨ windows are analyzed as a structured reduced-state process with persistent
+> symmetries, coherent drift, and finite predictive memory. The aim is structural
+> cartography: map invariants, transformations, and compressibility first;
+> interpret later.
 
 ---
 
