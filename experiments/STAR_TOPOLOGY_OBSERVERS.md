@@ -525,16 +525,22 @@ Code: `simulations/star_topology_v3.py`.
 |:---|:---|:---|:---|:---|
 | 2 | 3 | Yes | 1.466 | monotonic |
 | 3 | 4 | Yes | 3.730 | monotonic |
-| 4 | 5 | **No** | — | non-monotonic, peaks then drops to 0 |
+| 4 | 5 | **No** | — | peak CΨ stays below 0.19 |
 | 5 | 6 | **No** | — | suppressed |
 
 Two-point scaling: J_th(N) ≈ 0.297 · N^2.30, but only valid for N ∈ {2,3}.
 
-**Critical finding:** At N=4, CΨ_AB is non-monotonic in J_SB — it peaks
-at J_SB≈2.25 (CΨ≈0.162), drops to **zero** at J_SB≈3.75–4.25, then
-partially recovers. The threshold doesn't "exceed the scan window";
-it does not exist at any coupling strength. This is a qualitative phase
-transition between N=3 and N=4.
+At N=4 with equal coupling, peak CΨ_AB rises slowly with J_SB (0.164 at
+J_SB=2.0, 0.188 at J_SB=4.5) but never reaches 1/4. The signal is
+monotonically increasing, not non-monotonic.
+
+**Correction (2026-03-08):** An earlier version of this section reported
+a "zero window" at J_SB≈3.75–4.25. This was a sampling artifact caused
+by coarse time sampling (every 0.2 time units) that caught oscillation
+zeros instead of peaks. With fine sampling the signal is nonzero and
+smoothly increasing everywhere. The threshold genuinely does not exist
+for equal coupling, but the reason is quantitative (peak CΨ_AB stays
+below 0.19), not a dramatic extinction.
 
 **However:** Asymmetric coupling rescues the crossing for both N=4 and N=5.
 With [J_SA, J_SB1, J_SB2, ...] = [1.0, 2.0, x, x, ...], the crossing
