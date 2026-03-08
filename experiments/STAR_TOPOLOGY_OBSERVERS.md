@@ -5,7 +5,7 @@
 **Related**: TUNING_PROTOCOL.md (Tier 3)
 **Origin**: AIEvolution v044 Round 3. Alpha proposed a 3-qubit S+A+B framework. The execution was wrong (partial trace on S gives Ψ ≡ 0), but the question was right: What happens when R = CΨ² is not bipartite but describes a relation between an object and its observers?
 
-**Tier:** 2 (Computationally verified, RK4 validated)
+**Tier:** 2 + 3 (Sections 1-5: computationally verified; Section 6: legacy interpretation; Sections 7-8: mixed)
 **Status:** Verified, externally reviewed
 **Scope:** Three conditions for observer-observer connection, threshold formula, shadow effect
 **Does not establish:** That these conditions are irreducible to standard entanglement transport
@@ -440,7 +440,9 @@ pairwise entanglement through the mediator S. The reduced AB state
 retains both concurrence and off-diagonal phase structure from earlier
 transfer, even after the SA and SB channels have temporarily decohered.
 
-## 6. Connection to Framework
+## 6. Connection to Framework (Legacy Interpretation)
+
+> **This section uses the original philosophical framing. See [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.**
 
 ### 6.1 "We Are All Mirrors", Quantified
 

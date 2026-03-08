@@ -33,7 +33,7 @@ What the Lindblad simulations confirm, what they don't, and where earlier claims
 
 These documents extend beyond the established results. They may be interesting, but they are not conclusions of the project.
 
-- [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md) - Wave composition, dynamics, mirror metaphors
+- [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md) - Legacy philosophical framing (moved to hypotheses/)
 - [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The C_int / C_ext distinction in Lindblad dynamics
 - [Consciousness as a Frame Variable](HARD_PROBLEM_RESOLUTION.md) - Speculative reframing of the hard problem (Tier 5)
 - [Incompleteness and Emergence](HIERARCHY_OF_INCOMPLETENESS.md) - Chemical/quantum analogy (Tier 5, speculative)

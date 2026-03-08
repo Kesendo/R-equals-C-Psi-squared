@@ -1,3 +1,14 @@
+# Interpretive Framework (Legacy)
+## Historical philosophical framing that motivated the R = CΨ² project
+
+> **This document is not part of the repository's evidence base.** It preserves the original philosophical interpretation that motivated the project. The current canonical description is [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md), which treats CΨ as a composite quantum diagnostic rather than a statement about consciousness and reality.
+
+**Tier:** 3-5 (Interpretive and speculative throughout)
+**Status:** Legacy document, preserved for historical context
+**Scope:** The philosophical constructions that motivated discovery
+**Does not establish:** That consciousness is a physical variable, that "reality" requires observation, or that the philosophical framing is supported by the computational results
+
+---
 
 # Part I: The Fundamental Equations
 
