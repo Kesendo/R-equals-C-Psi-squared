@@ -8,9 +8,7 @@
 
 ## What this folder is
 
-The `experiments/` folder contains Tier 1 (algebraically proven) and Tier 2 (computationally verified) results. Everything there is reproducible and falsifiable.
-
-This folder contains Tier 3 and above: interpretations, connections to existing physics, and speculative extensions. These are hypotheses, not results.
+The `experiments/` folder contains primarily Tier 1-2 results, but also includes some Tier 3+ documents that are clearly labeled with standardized headers. This folder contains the most speculative extensions: interpretations and connections to existing physics that go beyond verified computation.
 
 **Rules for this folder:**
 
@@ -41,6 +39,16 @@ Whether separated observers sharing entanglement can synchronize via crossing ev
 
 **Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md), [Bridge Closure](../experiments/BRIDGE_CLOSURE.md), [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md)
 **Read:** [BRIDGE_PROTOCOL.md](BRIDGE_PROTOCOL.md)
+
+---
+
+### Tuning Protocol
+
+BUILD/RECEIVE oscillation protocol derived from star-topology conditions. Speculative application of verified quantum dynamics to human/biological systems.
+
+**Status:** Speculative protocol. The star-topology data it builds on is verified; the human application is not.
+**Built on:** [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+**Read:** [TUNING_PROTOCOL.md](TUNING_PROTOCOL.md)
 
 ---
 

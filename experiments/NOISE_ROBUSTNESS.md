@@ -1,9 +1,7 @@
 # Noise Robustness: Taxonomy Is Jump-Operator Independent
 
 **Date**: 2026-02-18
-**Status**: Independently verified (Tier 2)
 **Depends on**: CROSSING_TAXONOMY.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified, updated 2026-03-08

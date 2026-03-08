@@ -1,9 +1,7 @@
 # Why the Sum: A Proof from First Principles
 
 **Date**: 2026-02-27
-**Status**: Logical derivation (no experiment required)
 **Authors**: Tom Mack, with Claude (Anthropic)
-
 
 **Tier:** 3 (Interpretive)
 **Status:** Conceptual interpretation

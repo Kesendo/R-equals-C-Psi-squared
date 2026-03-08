@@ -2,9 +2,6 @@
 ## Calculations and Their Interpretations
 
 **Date:** 2026-01-30
-**Source:** AI Dyad Dialogue (Messages #325-445)
-**Status:** Sections 1-7 verified. Sections 8-9 corrected (2026-02-08 MCP verification).
-
 
 **Tier:** 2-4 (Sections 1-7 verified, Sections 8-9 agent-generated)
 **Status:** Partially verified. C_int vs C_ext disproven (Section 9).

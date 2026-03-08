@@ -1,10 +1,8 @@
 # What We Found
 
 **Date:** 2026-03-06
-**Status:** Overview document for general readers
 **Depends on:** Everything in this repository
 **Purpose:** If you read one document, read this one.
-
 
 **Tier:** Mixed (references Tier 1-3 results)
 **Status:** Bridge document for general audience

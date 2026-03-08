@@ -1,9 +1,7 @@
 # Gravitational Invariance: γ as Local Time Rate
 
 **Date**: 2026-02-08
-**Status**: Computationally verified, interpretation proposed
 **Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified (Lindblad scaling property)

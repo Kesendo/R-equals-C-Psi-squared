@@ -1,9 +1,7 @@
 # Metric Discrimination Experiment
 
 **Date**: 2026-02-08
-**Status**: Completed (null result, honest)
 **Depends on**: GRAVITATIONAL_INVARIANCE.md, BOUNDARY_NAVIGATION.md
-
 
 **Tier:** 2 (Computationally verified, null result)
 **Status:** Verified null result

@@ -3,9 +3,7 @@
 
 **Created:** January 3, 2026  
 **Updated:** February 11, 2026  
-**Status:** Fundamental distinction with tier markers
 **Depends on:** [Core Algebra](CORE_ALGEBRA.md) for fixed-point equation
-
 
 **Tier:** 2-3 (Lindblad formalization verified, interpretation speculative)
 **Status:** Verified formalization, speculative mapping to consciousness

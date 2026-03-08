@@ -1,11 +1,9 @@
 # Observer × Gravity: The Interval Bridge
 
 **Date**: 2026-03-01
-**Status**: Computationally verified (Tier 2), interpretation active
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: OBSERVER_DEPENDENT_CROSSING.md, GRAVITATIONAL_INVARIANCE.md,
 DECOHERENCE_RELATIVITY.md, BRIDGE_CLOSURE.md
-
 
 **Tier:** 2-3 (Computation verified, interpretation speculative)
 **Status:** Verified computation, speculative interpretation

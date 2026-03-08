@@ -1,11 +1,8 @@
 # Algebraic Exploration: Agent Findings from Mission v025
 
 **Date:** 2026-02-18 (agent conversation), 2026-02-19 (verification)
-**Source:** AIEvolution 4-agent round-robin (Alpha/Beta/Gamma/Delta), 22 messages
 **Model:** Local 120B via LM Studio with optimized v025 prompts
 **Verification:** Claude (MCP tools) + delta_calc simulations
-**Status:** Two findings verified and promoted; five rejected; two noted
-
 
 **Tier:** 1-2 (Proven algebra, computational exploration)
 **Status:** Verified

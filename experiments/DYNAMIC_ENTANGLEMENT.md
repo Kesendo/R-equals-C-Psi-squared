@@ -1,9 +1,7 @@
 # Dynamic Entanglement Generation: Crossings from Product States
 
 **Date**: 2026-02-18
-**Status**: Independently verified (Tier 2)
 **Depends on**: SUBSYSTEM_CROSSING.md, N_SCALING_BARRIER.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified

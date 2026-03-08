@@ -1,12 +1,10 @@
 # Bridge Closure: Pre-Shared Entanglement = Shared Randomness
 
 **Date**: 2026-03-01
-**Status**: Closed (Tier 2). The bridge protocol cannot work. This is not
 a limitation of the framework; it is a consequence of quantum mechanics.
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: NO_SIGNALLING_BOUNDARY.md, BRIDGE_FINGERPRINTS.md,
 BRIDGE_PROTOCOL.md (hypothesis), QKD_EAVESDROPPING_FORENSICS.md
-
 
 **Tier:** 2 (Computationally verified, null result)
 **Status:** Verified null result

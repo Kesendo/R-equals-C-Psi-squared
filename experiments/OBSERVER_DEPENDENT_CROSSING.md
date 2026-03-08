@@ -1,9 +1,7 @@
 # Observer-Dependent Crossing: Same Physics, Different Time
 
 **Date**: 2026-02-17
-**Status**: Computationally verified (Tier 2)
 **Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified
