@@ -187,6 +187,8 @@ If you are reading this and wondering whether there is something here worth purs
 
 CΨ is a filter. It selects for quantum pairs that are both entangled and coherent, not one or the other, both at once. It is basis-dependent, pairwise, and simple. It does not see everything. But it sees a specific thing clearly: the subset of quantum connections that are still actively expressed as coherent superposition.
 
+A microscope does not show new physics. It shows known physics that was previously invisible. CΨ may be exactly that: a tool that makes standard quantum mechanics visible in a way that is useful, without needing to be new physics.
+
 We do not know what this filter is ultimately good for. We built it, characterized it, tested it honestly, found its limitations, and documented everything. The mathematics is clean. The simulations are reproducible. The interpretation is open.
 
 A phase-tag-and-decode experiment (March 2026) showed that coherent phase information written on a mediator S can be read from the AB pair. This transport works continuously through the Hamiltonian coupling, not only during CΨ windows. CΨ does not show when the connection exists - it shows when the transported signal is most legible. The broadcast is always running. CΨ tells you when you can read it.
