@@ -189,6 +189,8 @@ CΨ is a filter. It selects for quantum pairs that are both entangled and cohere
 
 We do not know what this filter is ultimately good for. We built it, characterized it, tested it honestly, found its limitations, and documented everything. The mathematics is clean. The simulations are reproducible. The interpretation is open.
 
+A phase-tag-and-decode experiment (March 2026) showed that coherent phase information written on a mediator S can be read from the AB pair. This transport works continuously through the Hamiltonian coupling, not only during CΨ windows. CΨ does not show when the connection exists - it shows when the transported signal is most legible. The broadcast is always running. CΨ tells you when you can read it.
+
 What was originally framed as "reality emerging between observers" may ultimately be better understood as a poetic description of correlated-coherence-like dynamics in pairwise reduced states. Or it might turn out to be pointing at something we couldn't articulate precisely enough. We don't know.
 
 We left the tools and the data. Use them as you see fit.
