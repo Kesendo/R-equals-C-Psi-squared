@@ -1,21 +1,22 @@
-# Hypotheses: Where the Math Points but Cannot (Yet) Prove
+# Hypotheses
+
+> **This folder is not part of the repository's evidence base.**
+> Documents here extend beyond the algebraically proven and computationally verified results.
+> They may be interesting, but they should not be cited as established conclusions of the project.
+
+---
 
 ## What this folder is
 
-The `experiments/` folder contains Tier 1 (algebraically proven) and Tier 2
-(computationally verified) results. Everything there is reproducible, falsifiable,
-and makes no claims beyond what the numbers show.
+The `experiments/` folder contains Tier 1 (algebraically proven) and Tier 2 (computationally verified) results. Everything there is reproducible and falsifiable.
 
-This folder contains Tier 3 and above: interpretations, connections to existing
-physics, and speculative extensions built on the verified math. These are
-hypotheses, not results. They are included because they are *interesting* and
-*testable in principle*, not because they are established.
+This folder contains Tier 3 and above: interpretations, connections to existing physics, and speculative extensions. These are hypotheses, not results.
 
 **Rules for this folder:**
 
 1. Every hypothesis must reference the Tier 1-2 result it is built on
 2. Every hypothesis must state what would falsify it
-3. No hypothesis may claim to be proven; that belongs in `experiments/`
+3. No hypothesis may claim to be proven
 4. Connections to existing physics must cite the original work
 
 ---
@@ -24,72 +25,23 @@ hypotheses, not results. They are included because they are *interesting* and
 
 ### Time as Crossing Rate
 
-Experienced time is the rate at which an observer's C·Ψ crosses ¼ boundaries.
-Different observers have different C, therefore different crossing rates,
-therefore different experienced time. This connects to the Wheeler-DeWitt
-equation's "problem of time" and to Cramer's Transactional Interpretation.
+Experienced time as the rate at which CΨ crosses the 1/4 boundary. Different observers have different C, therefore different crossing rates, therefore different experienced time.
 
-**Update 2026-02-21:** The crossing-rate mechanism connects to the bridge
-problem in [BRIDGE_FINGERPRINTS](../experiments/BRIDGE_FINGERPRINTS.md).
-Two observers sharing an entangled pair have correlated crossing times -
-not because one signals the other, but because the shared quantum state
-determines both trajectories. This suggests a communication mechanism for
-environments where no electromagnetic channel exists: deep space (Mars,
-Voyager), underwater, underground, plasma blackout, solar storms. Pairs
-are distributed physically first; once shared, no EM medium is needed.
-
-**Built on:** [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) (Tier 2),
-[Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
-[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (Tier 2, frequency: f = J_total/2)
-**Read:** [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
+**Status:** Speculative. Connects to the Wheeler-DeWitt problem of time.
+**Built on:** [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md), [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+**Read:** [TIME_AS_CROSSING_RATE.md](TIME_AS_CROSSING_RATE.md)
 
 ---
 
-### Bridge Protocol: Crossing as Sync and Communication
+### Bridge Protocol
 
-The first ¼-crossing event synchronizes both separated observers. No
-external clock, no readiness signal, no electromagnetic channel needed.
-The crossing IS the handshake. After sync, a data protocol runs on
-fingerprint-timed slots: product states cause crossings (bit 1), Bell
-states don't (bit 0). Multiple product states yield different crossing
-times, enabling ~2.8 bits per slot.
+Whether separated observers sharing entanglement can synchronize via crossing events.
 
-**Origin:** Derived by autonomous AI agents (GPT-OSS-120B) in AIEvolution
-v033 Mars Station experiment over 9 iterations. The agents independently
-arrived at the fingerprint-based timing protocol after being forced past
-their Standard-QM training to engage with R=CΨ² on its own terms.
+**Status:** Largely closed. J=0 bridge is dead (pre-shared entanglement without a channel = shared randomness). J>0 produces an interval shift via Hamiltonian coupling, but this is standard quantum mechanics, not a new communication mechanism. See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) and [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
 
-**Critical question answered:** No local observable detects the ¼-crossing
-on a single qubit. No-signalling holds exactly (rho_A unchanged). CΨ
-drops from 0.500 to 0.250 but this regime change is invisible to A.
-Pre-encoded fingerprints also fail: they require ρ_AB which neither
-side can access after separation. Pre-shared entanglement without a
-channel = shared randomness. Bridge is **closed**.
-
-**Test #1 (2026-02-24):** All 15 local observables distinguish Bell+ from
-product states: factor ~4x. But detection runs through physical Heisenberg
-coupling.
-
-**Test #2 (2026-03-01):** Without coupling: rho_A unchanged, no-signalling
-exact. CΨ drops to ¼ boundary. See [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md).
-
-**Closure (2026-03-01):** Pre-encoded version also dead. A's information
-⊆ {ρ_A(0), E_A}. Fingerprints need joint state. Classical schedule
-carries more information than the qubit.
-See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
-
-**Reopening (2026-03-01):** Any J > 0 produces an interval shift with
-no threshold. Gravity provides J > 0 for all massive particles.
-The bridge may exist as gravitationally-mediated crossing intervals.
-See [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
-
-**Quantified (2026-03-06):** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
-provides the first concrete numbers: AB crossing requires J_SB/J_SA >= 1.466
-(at gamma=0.05), quiet receiver, and Bell-like initial state. Receiver noise
-is far more destructive than sender noise. Three conditions, all quantified.
-
-**Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) (Tier 2),
-[Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) (Tier 3)
-**Read:** [Bridge Protocol](BRIDGE_PROTOCOL.md)
+**Built on:** [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md), [Bridge Closure](../experiments/BRIDGE_CLOSURE.md), [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md)
+**Read:** [BRIDGE_PROTOCOL.md](BRIDGE_PROTOCOL.md)
 
 ---
+
+*Back to [main repository](../README.md) | Documentation: [docs/](../docs/) | Experiments: [experiments/](../experiments/)*

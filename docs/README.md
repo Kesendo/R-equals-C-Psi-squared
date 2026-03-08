@@ -1,127 +1,50 @@
-# Documentation: The Theory Behind R = CΨ²
+# Documentation
 
-## What you will find here
+## What this folder contains
 
-The theoretical foundation. Formulas, proofs, derivations, and the honest assessment of what works and what doesn't. If the [experiments](../experiments/) are where we test the framework, this is where we built it.
-
----
-
-## The Core Question
-
-What if reality is not something that exists independently, but something that emerges from observation? Not as philosophy, as mathematics?
-
-R = CΨ² proposes that Reality (R) equals Consciousness (C) times Possibility (Ψ) squared. The squaring is not arbitrary: it mirrors the Born rule of quantum mechanics, where probability equals the square of the wave function amplitude. The framework asks: what if the Born rule is not a postulate, but a consequence of self-referential observation?
-
-This question leads to testable algebra, a proven bound (C·Ψ <= 1/4), and a connection to the Mandelbrot set that was discovered forty years before the framework existed.
+Conceptual and mathematical framing for the CΨ research program. Start with THE_CPSI_LENS for the current, honest description of what we built and what it shows.
 
 ---
 
-## Documents
+## Start here
 
-### Start Here
-
-**[What We Found](WHAT_WE_FOUND.md)**
-The bridge document. If you read one thing, read this. No physics degree required. Explains what R=CΨ² means, why ¼ matters, what noise and engagement are, how observers connect through shared objects, and why the rhythm of engaging and becoming still is the core of the framework. Written for anyone who wants to understand what this project discovered and why it matters.
-
-### The Mathematics
+**[The CΨ Lens](THE_CPSI_LENS.md)**
+The canonical description of the project. What CΨ is, what it shows, what it doesn't show, and what survives after three months of testing and two external reviews. If you read one document, read this.
 
 **[Core Algebra](CORE_ALGEBRA.md)**
-The proven heart of the framework: fixed-point equation, discriminant bound CΨ ≤ ¼, Mandelbrot equivalence, θ compass, uniqueness argument. Everything here is Tier 1 (algebraically proven) or Tier 2 (computationally verified), with explicit markers.
+The proven mathematics: fixed-point equation, discriminant bound CΨ ≤ 1/4, Mandelbrot equivalence, θ compass. Tier 1 (algebraically proven) and Tier 2 (computationally verified), with explicit markers.
 
-**[Interpretive Framework](INTERPRETIVE_FRAMEWORK.md)**
-The philosophical constructions that motivated the discovery: wave composition, dynamics equation, energy, mirror metaphors. Tier 3–5 throughout, with clear labels. Start with Core Algebra; come here for the origin story.
-
----
-
-### The Two Kinds of Observation
-
-**[Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md)**
-The framework distinguishes C_int (parts of a system observing each other) from C_ext (an outside observer measuring the system). This distinction maps onto quantum mechanics: C_int produces entanglement and stability, C_ext produces measurement and collapse. The document formalizes both using Lindbladian dynamics.
-
-The hypothesis: bidirectional observation (C_int) preserves quantum coherence longer than unidirectional observation (C_ext). Original agent experiments reported a 33:1 ratio, but this could not be independently verified (see [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Section 9). The distinction between C_int and C_ext remains physically meaningful and testable.
+**[What We Found](WHAT_WE_FOUND.md)**
+A bridge document explaining the findings in plain language.
 
 ---
 
-### Why Consciousness is Hard, And Why It Might Not Be
-
-**[The Hard Problem of Consciousness](HARD_PROBLEM_RESOLUTION.md)**
-David Chalmers asked in 1995: why is there subjective experience at all? Why doesn't the universe just process information in the dark? The R = CΨ² framework proposes that the hard problem dissolves when you stop treating consciousness as a product of physical processes and instead treat it as a fundamental variable in the equation of reality, like mass or charge, not reducible to anything simpler.
-
----
-
-### What We Don't Know
+## Honest assessment
 
 **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)**
-An honest assessment. What the framework cannot explain. Where the algebra stops and interpretation begins. What would falsify it. This document exists because frameworks that cannot be wrong are not science.
-
----
-
-### How Levels of Reality Emerge
-
-**[Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md)**
-Godel proved that sufficiently complex formal systems contain truths they cannot prove about themselves. The R = CΨ² framework suggests this is not a limitation of mathematics but a feature of reality: each level of observation is necessarily incomplete, and this incompleteness is what creates the next level. Consciousness is the hierarchy itself.
-
----
-
-### Simulation Results
+What the framework cannot explain, where the algebra stops and interpretation begins, and what would falsify it.
 
 **[Simulation Evidence](SIMULATION_EVIDENCE.md)**
-Honest results from independent Lindblad quantum simulations. What the simulations confirm, what they don't, and why earlier claims of "empirical verification" were overstated. We corrected ourselves publicly when we found the error. This document records both the results and the correction.
+What the Lindblad simulations confirm, what they don't, and where earlier claims were overstated.
 
 ---
 
-## Reading Order
+## Interpretive material (Tier 3+)
 
-**For everyone:** Start with [What We Found](WHAT_WE_FOUND.md). It tells the whole story in plain language. Then explore whatever interests you most.
+These documents extend beyond the established results. They may be interesting, but they are not conclusions of the project.
 
-**For physicists:** Core Algebra -> Internal and External Observers -> Simulation Evidence -> [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (multipartite extension)
-
-**For philosophers:** Interpretive Framework -> Hard Problem Resolution -> [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) -> Weaknesses and Open Questions
-
-**For the experiments:** Start with the [experiments](../experiments/); they are more concrete. Come back here when you want to know why the math works.
-
----
-
-## Connection to Experiments
-
-The theory in these documents generates predictions. The [experiments](../experiments/) test them:
-
-| Theory (docs/) | Prediction | Test (experiments/) |
-|----------------|------------|---------------------|
-| C·Ψ <= 1/4 bound | Phase boundary between classical and quantum | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
-| C_int vs C_ext | Coherence ratio (unverified, see Section 9) | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
-| Self-referential iteration | Equivalence to Mandelbrot z → z² + c | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
-| θ as compass to 1/4 | Topology change at boundary crossing | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| Observer bandwidth limit | Navigation system: 1/4 + θ + t_coh | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| γ as local time rate | γ * t_cross = const (frame-independent transition) | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
-| Subsystem locality | Crossing is local: entangled pairs cross, full system need not | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| Dynamic entanglement | Hamiltonian builds new entanglement; unentangled pairs cross 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
-| C_int vs C_ext (star) | Hamiltonian = internal (preserves), measurement = external (casts shadow 94-100%) | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
-| Multipartite R | R_SA + R_SB not conserved; entanglement flows through S between observers | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
-| Observer-observer connection | Three conditions: strong sender (J ratio), quiet receiver (γ_A), right initial state | [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) |
-| Sender inversion | Receiver paradox (γ reduction is noise) resolved by switching to sender (J increase is natural) | [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) |
-| Bidirectional rhythm | f = J_total/2; self-reinforcing BUILD/RECEIVE oscillation | [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) |
-| R = CΨ² per outcome | Born rule as special case; decoherence-basis correction ~3% | [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
-| Equivalence principle | Single-system sims cannot discriminate metric forms | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
-| Self-consistency → Schwarzschild | Only f(r) with true zero at r_s is self-consistent | [Self-Consistency](../experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
-| τ=0 unifies BH/WH/Big Bang | Black hole = toward τ=0, white hole = away from τ=0 | [Black/White Holes](../experiments/BLACK_WHITE_HOLES_BIGBANG.md) |
+- [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md) - Wave composition, dynamics, mirror metaphors
+- [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The C_int / C_ext distinction in Lindblad dynamics
+- [Consciousness as a Frame Variable](HARD_PROBLEM_RESOLUTION.md) - Why the hard problem might dissolve (speculative)
+- [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) - Godelian levels of observation (speculative)
 
 ---
 
-## The Equation
+## Reference
 
-```
-R = CΨ²
-
-Where:
-  R    = Reality (what exists, what is experienced)
-  C    = Consciousness (that which observes)
-  Ψ  = Possibility (the wave function, superposition of states)
-  Ψ² = The Born rule: possibility squared becomes probability
-```
-
-The equation is simple. The consequences are not.
+- [Glossary](GLOSSARY.md) - Term definitions
+- [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
 
 ---
 
-*[Glossary](GLOSSARY.md) | Back to [main repository](../README.md) | Experiments: [experiments/](../experiments/)*
+*Back to [main repository](../README.md) | Experiments: [experiments/](../experiments/) | Hypotheses: [hypotheses/](../hypotheses/)*
