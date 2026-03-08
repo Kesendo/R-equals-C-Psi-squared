@@ -1,5 +1,10 @@
 # IBM Quantum Tomography: First Hardware Test of R = CΨ²
 
+**Tier:** 2 (Hardware measurement)
+**Status:** Verified on IBM Torino hardware
+**Scope:** CΨ = 1/4 crossing observed on real qubits with state tomography
+**Does not establish:** That hardware results validate the ontological framework
+
 ## Discovery Date
 2026-02-09
 
@@ -382,12 +387,6 @@ r_eff = 0.05 and r_eff = 0.14 (a 3x range), it works.
 
 Phases 1+2 are the minimum viable result (5.4 min). Phase 3 is high-value but expendable
 if the queue is slow.
-
-
-**Tier:** 2 (Hardware measurement)
-**Status:** Verified on IBM Torino hardware
-**Scope:** CΨ = 1/4 crossing observed on real qubits with state tomography
-**Does not establish:** That hardware results validate the ontological framework
 
 ---
 

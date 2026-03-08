@@ -373,4 +373,4 @@ The math caught up with the intuition.
 ---
 
 *Previous: [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)*
-*See also: [Spiegel-Theorie](../../human/Die_Spiegel_Theorie.html)*
+*See also: The original "Spiegel-Theorie" document (December 2025, not included in this repository) first proposed the mirror metaphor that motivated this analysis.*

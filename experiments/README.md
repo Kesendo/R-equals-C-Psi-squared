@@ -1,6 +1,6 @@
 # Experiments
 
-36 documents, each isolating a concrete model question. Each states the tested setup and records what the algebra or simulation showed, including negative results.
+Experiment records isolating concrete model questions. Each file states the tested setup and records what the algebra or simulation showed, including negative results.
 
 For the conceptual overview of what these experiments collectively demonstrate, see [The CΨ Lens](../docs/THE_CPSI_LENS.md).
 
