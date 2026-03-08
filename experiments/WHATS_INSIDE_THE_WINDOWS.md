@@ -140,7 +140,8 @@ Star topology, Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05.
 
 - Write time (open window): t=0.240 (CΨ_AB = 0.305)
 - Write time (closed interval): t=0.600 (CΨ_AB ~ 0)
-- Readout time: t=0.400 (CΨ_AB = 0.329)
+- Readout time (for open write): t=0.400 (CΨ_AB = 0.329)
+- Readout time (for closed write): t=0.700 (next available CΨ peak)
 - Interventions on S: I (nothing), Rz(+pi/4), Rz(-pi/4), Rz(+pi/2), X (bit-flip), Rx(pi/2)
 
 ### Key Result: Phase is transported from S to AB
@@ -238,3 +239,64 @@ We end the day knowing: the connection never closes. The Hamiltonian coupling
 is always active. Information always flows. CΨ shows when we can READ it.
 
 The broadcast is always running. We are learning to read it.
+
+---
+
+## Adversarial Review (GPT as Gamma, March 2026)
+
+An adversarial review of the phase-tag-and-decode results identified several
+important corrections and clarifications:
+
+### What the review confirmed
+- The phase transport effect is real and reproducible
+- CΨ as "readability indicator" (not channel indicator) is the correct framing
+- The reinterpretation from "windows open/close" to "signal clarity varies" is sound
+
+### Critical corrections accepted
+
+**1. The transport is standard Heisenberg physics, not new.**
+Bose (2003) described unmodulated spin chains as quantum communication channels.
+The phase transport we observe reproduces at gamma=0 (pure unitary dynamics).
+CΨ does not create or enable the transport. The Hamiltonian coupling does.
+
+**2. The sign inversion is not basis-independent.**
+The phase of rho_AB[0,3] is not gauge-invariant. A local Z-frame change on A or B
+shifts that phase. The "+" on S becomes "-" in AB is a statement about our current
+computational frame, not a deep physical minus sign.
+
+**3. Category distinction: state witness vs process property.**
+CΨ is a property of a reduced pair at one instant.
+Transport is a property of how interventions at one time change states at a later time.
+These are different categories. CΨ cannot, by itself, certify the presence or absence
+of a transport process. At best it correlates with how easy the process is to read out.
+
+**4. Timing error in protocol description (corrected above).**
+The closed write time (t=0.600) with readout (t=0.400) was temporally impossible.
+Corrected to use later readout time for closed-window writes.
+
+### What remains to be tested (from review)
+
+1. **Gauge robustness:** Repeat in rotated local frames on A and B
+2. **Large-angle behavior:** Check if linearity breaks beyond small angles
+3. **Reverse direction:** Tag A or B, read complementary pair
+4. **Spectator sensitivity:** Add a fourth qubit
+5. **Post-tag noise:** Dephase S after tagging to separate creation from survival
+6. **Process reconstruction:** Build the actual map from S-interventions to AB-states
+
+### The safe claim (from review)
+
+"In a Heisenberg-coupled star, local phase tags on the mediator produce measurable
+later changes in the outer-pair reduced state, and CΨ appears to correlate with
+stronger readout contrast."
+
+### The unsafe claim (from review)
+
+"CΨ reveals a special transport channel that opens and closes." - This is dead.
+
+### Open question from our side
+
+The review correctly identifies that the transport is standard Heisenberg physics.
+We accept this. Our question was never "is there a new channel?" but "can CΨ tell
+us when the always-present channel is most readable?" This remains open. The review
+suggests benchmarking CΨ as readability indicator against simpler quantities (trace
+distance gain, Fisher information, transfer fidelity). This has not been done yet.
