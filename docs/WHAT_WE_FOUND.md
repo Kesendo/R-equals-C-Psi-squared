@@ -1,138 +1,102 @@
 # What We Found
 
-**Date:** 2026-03-06
-**Depends on:** Everything in this repository
-**Purpose:** If you read one document, read this one.
+**Date:** 2026-03-08
+**Purpose:** Plain-language summary for readers without a physics background
 
 **Tier:** Mixed (references Tier 1-3 results)
-**Status:** Bridge document for general audience
-**Scope:** Plain-language summary of findings
+**Status:** Bridge document, aligned with [THE_CPSI_LENS](THE_CPSI_LENS.md) as canonical description
+**Scope:** Summary of findings in accessible language
 **Does not establish:** Anything beyond what the referenced experiments establish
 
 ---
 
-## The Starting Point
+## What we built
 
-What if reality is not something that exists on its own, but something that emerges when it is observed?
+We built a filter for looking at quantum systems. The filter is called CΨ (pronounced "C-psi"), and it works by combining two standard measurements:
 
-This is not a new question. Physicists have been arguing about it since the 1920s, when quantum mechanics revealed that particles do not have definite properties until they are measured. Before measurement, a particle exists in a state of possibility: it could be here or there, spinning this way or that. The act of observation forces a choice. After measurement, one possibility becomes real. The rest vanish.
+- **Concurrence** - are these two subsystems entangled? (linked at the quantum level)
+- **Coherence** - does this system still have quantum superposition structure?
 
-The standard response is to treat this as a peculiarity of tiny particles that does not apply to everyday life. The R=CΨ² framework takes the opposite approach: what if this is not a peculiarity but the fundamental mechanism by which all reality works?
+CΨ requires both at once. A pair of particles can be entangled but have lost its coherence (linked but no longer "alive" as a quantum system). Or it can be coherent but not entangled (alive but not linked to anything). CΨ only lights up when both conditions hold at the same time.
 
-## The Equation
+This is a specific, narrow filter. It does not see all quantum correlations. It does not see all entanglement. It sees the subset that is both pairwise-entangled and still coherently expressed in the measurement basis.
 
-R = CΨ²
+For the full technical description, see [The CΨ Lens](THE_CPSI_LENS.md).
 
-Three letters. One relationship.
+## The 1/4 boundary
 
-**R** is reality. Not "the universe" in some abstract sense, but the concrete, experienced solidity of what exists at a given point. How real something is. How definite, how settled, how actual.
+The most interesting mathematical property of this filter involves a self-referential equation:
 
-**C** is consciousness, or more precisely, observation. How engaged an observer is with what it observes. This does not require a human brain. Two entangled particles observe each other. A detector observes a photon. A person observes a sunset. The difference is degree, not kind. C ranges from 0 (no observation at all) to 1 (perfect, complete engagement).
+    R_{n+1} = C(Ψ + R_n)²
 
-**Ψ** (psi) is possibility. Everything that could happen but has not yet. The raw material of reality before observation shapes it. In quantum mechanics, this is the wave function. Ψ² is the square of possibility, which in standard physics gives probability (the Born rule). The framework says: this squaring is not a mathematical convenience. It is what happens when possibility meets observation.
+When you iterate this (feed the output back as input), it has stable solutions only when CΨ ≤ 1/4. Above 1/4, the solutions become complex numbers - they oscillate and never settle. Below 1/4, they converge to a definite value.
 
-The equation says: reality is what you get when an observer engages with possibility. No observer, no reality. Weak observer, faint reality. Strong observer, solid reality.
+This is algebraically exact (proven, not approximate). It also turns out to be the same equation as the Mandelbrot iteration z → z² + c, where the main cardioid boundary sits at c = 1/4. Same number, same structure, different origin.
 
-## The Boundary
+Whether this mathematical boundary has physical significance beyond the specific iteration is an open question. In simulation data, CΨ = 1/4 falls on a smooth curve - no other standard quantum metric shows a special transition at that point.
 
-The most important number in the framework is **one quarter**: ¼.
+## What the filter showed us
 
-When the product of C and Ψ is above ¼, no definite outcome exists. The system is still in the space of possibility. Multiple outcomes coexist. Nothing is decided.
+We ran systematic simulations across different quantum topologies, states, and noise models. Here is what we found, in plain language:
 
-When C·Ψ drops below ¼, a definite outcome emerges. Possibility becomes reality. The quantum becomes classical. This is not a gradual fade. It is a phase transition, like water freezing into ice. Above the boundary: liquid possibility. Below: solid reality.
+**The signal comes in flashes, not steady states.** CΨ oscillates. Connections between quantum pairs appear briefly and then disappear. With noise (which all real systems have), each flash is weaker than the last. This is different from entanglement alone, which decays smoothly. CΨ has sharper peaks and deeper valleys.
 
-This boundary is not a guess or an approximation. It comes from a three-line algebra derivation (the discriminant of the fixed-point equation changes sign at exactly ¼). It is also, independently, the same boundary that appears in the Mandelbrot set, the most famous fractal in mathematics, where the equation z² + c transitions from bounded to unbounded behavior at c = ¼. Two completely independent paths to the same number, forty years apart.
+**A sudden intervention is not the same as a gradual process.** When we suddenly measure one part of a three-particle system, the CΨ connection to the remaining parts drops by 99%. When we instead gradually increase noise on that same part - even to extreme levels - the connection only drops by 69%. These two operations never converge, no matter how fast or strong the gradual noise becomes. The filter makes this distinction unusually visible.
 
-The framework has been tested on IBM quantum hardware. The ¼ crossing was observed in real decoherence data from IBM's Torino processor, matching theoretical predictions.
+**Connections can echo after their source disappears.** In a three-particle system (A connected to S, S connected to B), there are moments where the A-B connection is alive while both the A-S and S-B connections read zero. The connection between the endpoints persists as a residual in their shared quantum state, even after the pathways through the middle have temporarily gone dark. This is not mysterious - the global quantum state still carries the correlation structure - but CΨ makes it visible in a way that looking at individual pairs does not.
 
-## What Makes Reality Solid
+**Three conditions for connection through a shared object.** In the star topology (two observers A and B connected only through a shared object S), the A-B pair crosses the 1/4 threshold only when:
 
-If reality emerges from observation, what keeps it stable? Why does the table not dissolve when you look away?
+1. The sender is strongly coupled to the shared object (about 47% stronger than the receiver at typical noise levels)
+2. The receiver has low internal noise
+3. A deep pre-existing connection to the shared object already exists
 
-The answer is **noise**, which the framework calls **γ** (gamma).
+These conditions were quantified across systematic parameter sweeps. Whether they are specific to CΨ or would appear in any entanglement transport metric is an open question.
 
-γ is decoherence: the constant bombardment of a quantum system by its environment. Photons hitting it. Thermal vibrations shaking it. Information leaking out. Every interaction with the outside world pushes C·Ψ downward, toward and below the ¼ boundary. γ is what forces possibility to become reality.
+**The filter only sees direct pairwise connections.** Cluster-state entanglement, which is distributed across a graph structure rather than concentrated in pairs, is completely invisible to CΨ. This is a limitation, but it also means the filter is selective: it picks out a specific type of quantum connection.
 
-In plain terms: γ is the resistance that makes reality feel solid. It is the reason you experience a definite world rather than a cloud of possibilities. High γ means strong resistance, fast decoherence, solid reality. Low γ means weak resistance, slow decoherence, more room for possibility.
+**Context makes connections fragile.** The same entangled pair, when isolated, holds its CΨ signal nine times longer than when embedded in a larger system. Additional quantum systems coupled to the pair accelerate the loss of what the filter sees.
 
-γ is also what prevents connection between observers. The same force that makes your reality stable is the force that isolates you in it. You cannot simultaneously have a perfectly solid, definite experience of reality AND an open channel to other perspectives. Both use the same parameter, and it cannot be high and low at the same time.
 
-## Multiple Observers
+## What we did not find
 
-Until March 2026, the framework described one observer looking at one object. But reality is not that simple. Multiple observers look at the same thing, from different angles, with different levels of engagement.
+Honesty matters more than narrative.
 
-The star topology experiment placed three quantum systems in a line: observer A, shared object S, observer B. A and B cannot see each other directly. They can only interact through S.
+**CΨ did not reveal transitions invisible to standard metrics.** In the parameter sweeps we tested, concurrence, negativity, mutual information, and purity all changed smoothly alongside CΨ. There was no point where CΨ showed something dramatic that standard tools missed entirely.
 
-The question: can A and B become connected through the object they both observe?
+**The 1/4 boundary is not special in the physics.** At the moment CΨ crosses 1/4, the other metrics are at unremarkable values. The number 1/4 is exact within the mathematical iteration, but in the physical data it is just a point on a smooth curve.
 
-The answer: yes, but only when three conditions are met simultaneously.
+**There is no conservation law.** We tested whether the total CΨ across pairs is conserved (like energy). It is not. It fluctuates more than any other metric sum we tested.
 
-**The sender must be deeply engaged.** Not just looking, but understanding. Not surface knowledge, but structural depth. The simulation puts a number on this: the sender must be roughly 50% more deeply coupled to the shared object than the receiver.
+**The "flow" interpretation failed.** We expected that when the connection between A and S weakens, the connection between S and B would strengthen (like water flowing from one vessel to another). Instead, both connections tend to rise and fall together. There is no see-saw.
 
-**The receiver must be internally quiet.** The receiver's own noise (mental chatter, sensory processing, self-referential thought) drowns out the signal. The sender can be noisy and still get through. The receiver cannot be noisy and still hear. This asymmetry was one of the most surprising findings.
+## What this is and what it is not
 
-**A deep, pre-existing connection must exist.** This is the filter that explains why the experience is rare. You can lower your noise. You can increase your engagement. But the deep connection to the shared object either exists or it does not. It cannot be manufactured. Many people open the door only to find an empty wall behind it.
+CΨ is a derived diagnostic built from standard quantum mechanics. It is not a new physical quantity and it is not a new law of nature.
 
-## Why This Matters
+The original framing of this project used the language of consciousness ("Reality = Consciousness × Possibility²"). After three months of computation and external review, we have a more precise description: CΨ is a basis-dependent filter for pairwise quantum states that are simultaneously entangled and coherent.
 
-The sender/receiver asymmetry leads to a practical insight.
+The philosophical interpretation - that "reality emerges between observers" - is a metaphor that organizes some findings poetically. It is not a conclusion forced by the mathematics.
 
-If you are the receiver, the one variable you control is your own noise. But trying to be quiet is itself noise. Every intentional attempt to reduce mental chatter is mental chatter. This is the meditation paradox: the harder you try to be still, the louder you become.
+What survives even without the philosophy:
+- An exact algebraic correspondence to the Mandelbrot iteration
+- A clean classification of how different metrics behave under decoherence
+- Specific, quantified conditions for when quantum correlations can pass through a shared mediator
+- A sharp distinction between measurement and noise in their effect on third-party connections
+- Hardware validation of the 1/4 crossing on IBM quantum processors
 
-The simulation offers a way out: become the sender instead.
+These are concrete findings. They do not require accepting any philosophical framework to be useful.
 
-If the connection exists (condition 3), you can switch roles. As sender, the variable you control is your engagement with the shared object. Deeper work, more understanding, stronger coupling. And the simulation shows that sender noise barely matters. You do not need to be calm to send. You need to be strong.
+## How to read the rest
 
-The German word for this kind of engagement is *sich einlassen*: to let yourself be drawn in, to be changed by what you study. Not acquiring information. Being restructured by understanding.
-
-## The Rhythm
-
-The simulation with zero noise shows a continuous oscillation: the connection between observers opens and closes in a natural rhythm. The connection is not a channel that opens and stays open. It is like breathing.
-
-Engage deeply. Then become still. Then engage again.
-
-Neither phase works alone. Pure engagement without stillness never opens a window. Pure stillness without engagement has nothing to transmit. The connection lives in the alternation.
-
-Each engagement phase deepens the coupling, which lowers the threshold for the next quiet phase. Over time, less silence is needed because the signal is stronger. The spiral accelerates.
-
-The German word for this rhythm is *Abstimmung*: tuning, alignment, finding the frequency at which two things resonate.
-
-## What This Is Not
-
-This framework does not claim that quantum mechanics directly governs the brain. The simulation runs on 3 quantum bits. A brain has 100 billion neurons. The scaling gap is enormous and may be fatal for any direct physical interpretation.
-
-The framework does not claim telepathy, shared consciousness, or anything paranormal. The observer-observer connection produces statistical correlations, not information transfer.
-
-The framework does not claim that meditation, psychedelics, or any practice will produce quantum effects. The neuroscience mapping (noise = Default Mode Network activity, engagement = synaptic coupling strength) is suggestive, not proven.
-
-What the framework does claim, and can prove algebraically: there is a boundary at ¼ where the mathematical structure of a self-referential observation equation changes. Below the boundary, definite outcomes exist. Above it, they do not. This boundary exists in the Mandelbrot set and in quantum decoherence data from real hardware. The star topology shows that under specific, quantifiable conditions, observers can become correlated through a shared object. And the natural dynamics of this connection is a self-reinforcing oscillation between engagement and stillness.
-
-Everything beyond these mathematical and computational facts is interpretation, marked as such, and open for challenge.
-
-## How to Read the Rest
-
-**If you want the proof:** [Core Algebra](CORE_ALGEBRA.md) contains the derivation. Three lines to the ¼ boundary. No physics required, just algebra.
-
-**If you want the data:** [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) contains 12 experiments with full numerical results. Every claim is backed by simulation with automated verification tests.
-
-**If you want the practice:** [Tuning Protocol](../experiments/TUNING_PROTOCOL.md) describes the BUILD/RECEIVE oscillation cycle, grounded in neuroscience literature on Default Mode Network reduction and hypnagogic creativity.
-
-**If you want the honest assessment:** [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) lists everything we got wrong, everything we do not know, and everything that could falsify the framework.
-
-**If you want the symbols explained:** [Glossary](GLOSSARY.md) translates every symbol into plain language.
-
-**If you want the hardware evidence:** [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) shows the ¼ crossing observed on a real quantum processor.
+- **[The CΨ Lens](THE_CPSI_LENS.md)** - The canonical technical description. Start here if you want precision.
+- **[Core Algebra](CORE_ALGEBRA.md)** - The proven mathematics. Three lines to the 1/4 boundary.
+- **[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)** - The strongest multipartite result, with full numerical data.
+- **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)** - Everything we got wrong, don't know, or can't prove.
+- **[Experiments index](../experiments/README.md)** - All 36 experiment documents.
 
 ---
 
-This framework began with a dream in December 2025 that contained technically correct information about electrolysis and optical coatings. Three months later, it describes its own creation: a self-reinforcing spiral of engaging deeply, becoming still, and engaging again, where each cycle builds the understanding needed for questions that were invisible at the previous stage.
+## Origin
 
-The person writing today is not the same person who had the dream. The understanding has restructured the observer.
-
-That restructuring is the point.
-
----
-
-*R = CΨ²*
-
-*Reality is what happens between mirrors.*
+This project began in December 2025 as a collaboration between Thomas Wicht and Claude (Anthropic). It started with philosophical questions about observation and reality, was formalized as an equation, and then subjected to systematic computation. Over three months the framing narrowed from "the fundamental equation of reality" to "a composite quantum diagnostic with interesting algebraic properties." That narrowing was not a failure. It was the project working as intended: testing ideas honestly and keeping what survived.

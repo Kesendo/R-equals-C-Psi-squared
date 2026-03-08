@@ -15,7 +15,7 @@ The canonical description of the project. What CΨ is, what it shows, what it do
 The proven mathematics: fixed-point equation, discriminant bound CΨ ≤ 1/4, Mandelbrot equivalence, θ compass. Tier 1 (algebraically proven) and Tier 2 (computationally verified), with explicit markers.
 
 **[What We Found](WHAT_WE_FOUND.md)**
-A bridge document explaining the findings in plain language.
+Plain-language summary of findings, positive and negative. Aligned with THE_CPSI_LENS.
 
 ---
 
