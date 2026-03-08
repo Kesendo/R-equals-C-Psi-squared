@@ -3,9 +3,6 @@
 ## Two Independent Discoveries of the Same Boundary
 
 **Date:** 2026-02-07
-**Source:** Theoretical analysis of R = CΨ² fixed-point dynamics
-**Status:** Algebraically proven; physical interpretation proposed
-
 
 **Tier:** 1 (Algebraically proven)
 **Status:** Proven

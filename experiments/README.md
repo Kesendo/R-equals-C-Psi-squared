@@ -52,7 +52,7 @@ For the conceptual overview of what these experiments collectively demonstrate, 
 - [Predictions](PREDICTIONS.md) - All predictions with epistemic tiers and falsification criteria
 - [Standing Wave Two Observers](STANDING_WAVE_TWO_OBSERVERS.md) - Interpretive
 - [Why The Sum](WHY_THE_SUM.md) - Interpretive
-- [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol (Tier 3, neuroscience-grounded)
+- [Tuning Protocol](../hypotheses/TUNING_PROTOCOL.md) - Moved to hypotheses/ (Tier 3, speculative protocol)
 
 ## Speculative extensions (Tier 3+)
 

@@ -1,9 +1,7 @@
 # Testable Predictions of R = CΨ²
 
 **Date:** 2026-02-09 (created), 2026-02-11 (restructured)
-**Status:** Summary document, collects predictions from across the repo, ordered by epistemic strength
 **Depends on:** All experiment documents
-
 
 **Tier:** Mixed (Tier 1-4, labeled per prediction)
 **Status:** Collection with per-item tier labels

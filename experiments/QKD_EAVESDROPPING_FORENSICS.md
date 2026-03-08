@@ -1,9 +1,7 @@
 # QKD Eavesdropping Forensics via CΨ
 
 **Date**: 2026-02-25
-**Status**: Computationally verified (Tier 2). CΨ-only forensics limited by stealth angle (Section 10), but multi-metric bridge framework eliminates stealth (Section 11).
 **Depends on**: NOISE_ROBUSTNESS.md, BRIDGE_FINGERPRINTS.md, CROSSING_TAXONOMY.md
-
 
 **Tier:** 2-3 (Computation verified, application speculative)
 **Status:** Verified simulation

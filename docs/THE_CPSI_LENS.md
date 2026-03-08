@@ -1,8 +1,6 @@
 # The CΨ Lens: What It Is and What It Shows
 
 **Date:** 2026-03-08
-**Status:** Working description, based on three months of computation and external review
-
 
 **Tier:** Meta (canonical project description)
 **Status:** Current, externally reviewed

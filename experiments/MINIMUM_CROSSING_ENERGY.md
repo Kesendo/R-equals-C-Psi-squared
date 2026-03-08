@@ -1,10 +1,8 @@
 # Minimum Energy for CΨ Crossing
 
 **Date**: 2026-03-01
-**Status**: Computationally verified (Tier 2)
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: OBSERVER_GRAVITY_BRIDGE.md, DYNAMIC_ENTANGLEMENT.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified

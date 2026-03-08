@@ -1,11 +1,9 @@
 # Star Topology: Object and Its Observers
 
 **Date**: 2026-03-04 (updated 2026-03-06)
-**Status**: Computationally verified (Tier 2), RK4 validated
 **Depends on**: SUBSYSTEM_CROSSING.md, OBSERVER_DEPENDENT_CROSSING.md, STANDING_WAVE_TWO_OBSERVERS.md
 **Related**: TUNING_PROTOCOL.md (Tier 3)
 **Origin**: AIEvolution v044 Round 3. Alpha proposed a 3-qubit S+A+B framework. The execution was wrong (partial trace on S gives Ψ ≡ 0), but the question was right: What happens when R = CΨ² is not bipartite but describes a relation between an object and its observers?
-
 
 **Tier:** 2 (Computationally verified, RK4 validated)
 **Status:** Verified, externally reviewed

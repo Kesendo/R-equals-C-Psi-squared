@@ -1,10 +1,8 @@
 # Decoherence Relativity
 
 **Date**: 2026-02-27 (revised 2026-02-28, framework cubic verification)
-**Status**: Derived from framework, analytically solved, numerically verified
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: WHY_THE_SUM.md, STANDING_WAVE_TWO_OBSERVERS.md
-
 
 **Tier:** 3 (Speculative interpretation)
 **Status:** Model-level observation, not a physical claim

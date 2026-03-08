@@ -1,9 +1,7 @@
 # Glossary: R = CΨ² Framework
 
 **Date:** 2026-02-08 (updated 2026-03-06)
-**Status:** Reference document
 **Depends on:** None
-
 
 **Tier:** Reference
 **Status:** Living document

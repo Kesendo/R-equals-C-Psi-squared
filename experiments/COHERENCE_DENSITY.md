@@ -1,10 +1,8 @@
 # Coherence Density: What the 1/4 Boundary Actually Measures
 
 **Date**: 2026-02-28
-**Status**: Numerically verified, analytically derived
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: CORE_ALGEBRA.md, DECOHERENCE_RELATIVITY.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified

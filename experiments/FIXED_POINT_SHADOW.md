@@ -1,9 +1,7 @@
 # The Shadow of the Fixed Point
 
 **Date**: 2026-02-09  
-**Status**: Hypothesis, grounded in data  
 **Depends on**: BOUNDARY_NAVIGATION.md, RESIDUAL_ANALYSIS.md, IBM_QUANTUM_TOMOGRAPHY.md
-
 
 **Tier:** 2-3 (Verified computation, speculative interpretation)
 **Status:** Verified numerics

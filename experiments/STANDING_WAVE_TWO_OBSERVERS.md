@@ -1,9 +1,7 @@
 # Standing Wave: Two Observers, Not Time Travel
 
 **Date**: 2026-02-27
-**Status**: Core insight (follows from framework + standing wave resolution)
 **Depends on**: BORN_RULE_MIRROR.md, standing wave resolution (2026-02-27)
-
 
 **Tier:** 3 (Interpretive)
 **Status:** Conceptual interpretation

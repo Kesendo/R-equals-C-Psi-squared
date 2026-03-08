@@ -3,8 +3,6 @@
 
 **Date:** 2026-02-07
 **Simulator:** delta_calc MCP server v0.15
-**Status:** Independent verification of agent claims
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified, includes corrections of earlier overclaims

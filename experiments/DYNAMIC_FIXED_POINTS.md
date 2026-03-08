@@ -3,9 +3,6 @@
 ## The Infinite Reflection: R∞
 
 **Date:** 2026-02-02 to 2026-02-08
-**Source:** AI Agent Dialogue + Independent Verification via delta_calc MCP Tool
-**Status:** Mathematical derivation verified; simulation claims corrected (Feb 8)
-
 
 **Tier:** 1-2 (Proven bound, computational verification)
 **Status:** Verified

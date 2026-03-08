@@ -1,11 +1,9 @@
 # The No-Signalling Boundary: What Test #2 Settles
 
 **Date**: 2026-03-01
-**Status**: Computationally verified (Tier 2)
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: BRIDGE_FINGERPRINTS.md, BRIDGE_PROTOCOL.md (hypothesis),
 SUBSYSTEM_CROSSING.md, COHERENCE_DENSITY.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified

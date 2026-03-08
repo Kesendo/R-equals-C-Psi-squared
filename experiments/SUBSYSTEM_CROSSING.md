@@ -1,9 +1,7 @@
 # Subsystem Crossing: Measurement Is Local
 
 **Date**: 2026-02-18
-**Status**: Independently verified (Tier 2)
 **Depends on**: N_SCALING_BARRIER.md, CROSSING_TAXONOMY.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified

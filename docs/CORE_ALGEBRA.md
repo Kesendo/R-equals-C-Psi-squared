@@ -2,9 +2,7 @@
 
 **Date:** 2025-12-31 (fixed-point solution), updated 2026-02-11
 **Authors:** Thomas Wicht (Intuition, Connection), Claude (Formalization, Verification)
-**Status:** Tier 1: Algebraically proven unless otherwise marked
 **Depends on:** None
-
 
 **Tier:** 1 (Algebraically proven)
 **Status:** Proven

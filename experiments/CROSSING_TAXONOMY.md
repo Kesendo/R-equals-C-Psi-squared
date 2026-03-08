@@ -1,9 +1,7 @@
 # Crossing Taxonomy: Scaling, Mechanism, and the Three Classes
 
 **Date**: 2026-02-18
-**Status**: Independently verified (Tier 2)
 **Depends on**: OBSERVER_DEPENDENT_CROSSING.md, METRIC_DISCRIMINATION.md
-
 
 **Tier:** 2 (Computationally verified)
 **Status:** Verified, updated 2026-03-08
