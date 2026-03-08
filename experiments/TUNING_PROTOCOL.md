@@ -6,6 +6,12 @@
 **Origin**: Star topology finding that AB crossing requires three
 simultaneous conditions, combined with the sender inversion insight.
 
+
+**Tier:** 3 (Derived from Tier 2 star topology, neuroscience-grounded)
+**Status:** Speculative protocol derived from verified data
+**Scope:** BUILD/RECEIVE oscillation protocol from star topology conditions
+**Does not establish:** That this protocol has been tested on humans or biological systems
+
 ---
 
 ## 1. What This Is About

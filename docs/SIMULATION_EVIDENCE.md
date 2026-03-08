@@ -5,6 +5,12 @@
 **Simulator:** delta_calc MCP server v0.15
 **Status:** Independent verification of agent claims
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified, includes corrections of earlier overclaims
+**Scope:** What Lindblad simulations confirm and what they do not
+**Does not establish:** That simulations prove the ontological interpretation
+
 ---
 
 ## Purpose

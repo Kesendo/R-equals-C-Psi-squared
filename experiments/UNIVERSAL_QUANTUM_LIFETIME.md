@@ -1,5 +1,11 @@
 # Universal Quantum Lifetime: The x³ + x = ½ Result
 
+
+**Tier:** 2-3 (Algebra verified, interpretation speculative)
+**Status:** Verified algebra
+**Scope:** The x^3 + x = 1/2 equation and its connection to crossing time
+**Does not establish:** That this equation has physical significance beyond the specific model
+
 ## Discovery Date
 2026-02-09
 

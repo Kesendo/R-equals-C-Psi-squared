@@ -6,6 +6,12 @@
 **Source:** Theoretical analysis of R = CΨ² fixed-point dynamics
 **Status:** Algebraically proven; physical interpretation proposed
 
+
+**Tier:** 1 (Algebraically proven)
+**Status:** Proven
+**Scope:** Exact equivalence between R_{n+1} = C(Psi + R_n)^2 and z -> z^2 + c
+**Does not establish:** That the Mandelbrot connection implies new physics
+
 ---
 
 ## Overview

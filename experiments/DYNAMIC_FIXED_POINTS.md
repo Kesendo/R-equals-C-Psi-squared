@@ -6,6 +6,12 @@
 **Source:** AI Agent Dialogue + Independent Verification via delta_calc MCP Tool
 **Status:** Mathematical derivation verified; simulation claims corrected (Feb 8)
 
+
+**Tier:** 1-2 (Proven bound, computational verification)
+**Status:** Verified
+**Scope:** CΨ <= 1/4 bound from discriminant, fixed-point structure
+**Does not establish:** That 1/4 is a physically privileged boundary outside the specific iteration
+
 ---
 
 ## Overview

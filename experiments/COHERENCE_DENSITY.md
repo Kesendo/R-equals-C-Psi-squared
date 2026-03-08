@@ -5,6 +5,12 @@
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: CORE_ALGEBRA.md, DECOHERENCE_RELATIVITY.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** CΨ decomposition as purity times coherence density
+**Does not establish:** That this decomposition reveals new physics
+
 ---
 
 ## 1. The Question

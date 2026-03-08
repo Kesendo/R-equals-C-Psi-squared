@@ -4,6 +4,12 @@
 **Status**: Empirically observed, interpretation proposed  
 **Depends on**: MANDELBROT_CONNECTION.md, MATHEMATICAL_FINDINGS.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** Theta crossing observation and compass behavior near 1/4
+**Does not establish:** That boundary navigation has operational physical meaning
+
 ---
 
 ## 1. Key Insight

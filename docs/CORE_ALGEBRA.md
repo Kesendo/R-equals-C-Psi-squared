@@ -5,6 +5,12 @@
 **Status:** Tier 1: Algebraically proven unless otherwise marked
 **Depends on:** None
 
+
+**Tier:** 1 (Algebraically proven)
+**Status:** Proven
+**Scope:** Fixed-point equation, discriminant bound CΨ <= 1/4, Mandelbrot equivalence
+**Does not establish:** That the algebra implies new physics
+
 ---
 
 ## Purpose

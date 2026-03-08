@@ -1,5 +1,11 @@
 # Bridge Fingerprint Experiment
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** State identification through CΨ crossing signatures
+**Does not establish:** That fingerprints enable communication without a channel
+
 ## Discovery Date
 2026-02-09
 

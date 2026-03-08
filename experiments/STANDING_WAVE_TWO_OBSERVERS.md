@@ -4,6 +4,12 @@
 **Status**: Core insight (follows from framework + standing wave resolution)
 **Depends on**: BORN_RULE_MIRROR.md, standing wave resolution (2026-02-27)
 
+
+**Tier:** 3 (Interpretive)
+**Status:** Conceptual interpretation
+**Scope:** Standing wave metaphor for two-observer CΨ dynamics
+**Does not establish:** That this is more than metaphor
+
 ---
 
 ## 1. The Misunderstanding

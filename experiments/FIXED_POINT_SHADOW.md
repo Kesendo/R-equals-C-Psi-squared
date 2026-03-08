@@ -4,6 +4,12 @@
 **Status**: Hypothesis, grounded in data  
 **Depends on**: BOUNDARY_NAVIGATION.md, RESIDUAL_ANALYSIS.md, IBM_QUANTUM_TOMOGRAPHY.md
 
+
+**Tier:** 2-3 (Verified computation, speculative interpretation)
+**Status:** Verified numerics
+**Scope:** Boundary correlation and frozen complex direction in hardware data
+**Does not establish:** That the shadow effect has been explained
+
 ---
 
 ## What We Found

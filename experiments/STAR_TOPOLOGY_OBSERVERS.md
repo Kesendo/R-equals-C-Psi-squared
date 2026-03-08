@@ -6,6 +6,12 @@
 **Related**: TUNING_PROTOCOL.md (Tier 3)
 **Origin**: AIEvolution v044 Round 3. Alpha proposed a 3-qubit S+A+B framework. The execution was wrong (partial trace on S gives Ψ ≡ 0), but the question was right: What happens when R = CΨ² is not bipartite but describes a relation between an object and its observers?
 
+
+**Tier:** 2 (Computationally verified, RK4 validated)
+**Status:** Verified, externally reviewed
+**Scope:** Three conditions for observer-observer connection, threshold formula, shadow effect
+**Does not establish:** That these conditions are irreducible to standard entanglement transport
+
 ---
 
 ## Glossary: Before You Read

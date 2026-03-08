@@ -5,6 +5,12 @@
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: OBSERVER_GRAVITY_BRIDGE.md, DYNAMIC_ENTANGLEMENT.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** No energy threshold for crossing; determined by J/gamma competition
+**Does not establish:** That crossing requires minimum energy in a fundamental sense
+
 ---
 
 ## 1. The Question

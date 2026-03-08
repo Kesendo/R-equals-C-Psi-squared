@@ -5,6 +5,12 @@
 **Authors**: Thomas Wicht, with Claude (Anthropic)
 **Depends on**: WHY_THE_SUM.md, STANDING_WAVE_TWO_OBSERVERS.md
 
+
+**Tier:** 3 (Speculative interpretation)
+**Status:** Model-level observation, not a physical claim
+**Scope:** Gamma as local time rate shows Lorentz-like structure in log space
+**Does not establish:** That decoherence is gravitational time dilation
+
 ---
 
 ## 1. The Initial State Is the Impulse

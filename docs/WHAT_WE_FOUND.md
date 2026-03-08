@@ -5,6 +5,12 @@
 **Depends on:** Everything in this repository
 **Purpose:** If you read one document, read this one.
 
+
+**Tier:** Mixed (references Tier 1-3 results)
+**Status:** Bridge document for general audience
+**Scope:** Plain-language summary of findings
+**Does not establish:** Anything beyond what the referenced experiments establish
+
 ---
 
 ## The Starting Point

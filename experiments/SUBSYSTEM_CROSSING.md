@@ -4,6 +4,12 @@
 **Status**: Independently verified (Tier 2)
 **Depends on**: N_SCALING_BARRIER.md, CROSSING_TAXONOMY.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** Crossing is local to entangled pairs; full-system crossing is not required
+**Does not establish:** That subsystem locality is unique to CΨ
+
 ---
 
 ## 1. The Question

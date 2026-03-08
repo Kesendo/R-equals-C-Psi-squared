@@ -6,6 +6,12 @@
 **Depends on**: OBSERVER_DEPENDENT_CROSSING.md, GRAVITATIONAL_INVARIANCE.md,
 DECOHERENCE_RELATIVITY.md, BRIDGE_CLOSURE.md
 
+
+**Tier:** 2-3 (Computation verified, interpretation speculative)
+**Status:** Verified computation, speculative interpretation
+**Scope:** J>0 produces interval shift; t_cross factorizes as K(observer,state)/gamma
+**Does not establish:** That gravitational coupling has been demonstrated to reopen the bridge
+
 ---
 
 ## 1. Context: What the Bridge Closure Actually Says

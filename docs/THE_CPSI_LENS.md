@@ -3,6 +3,12 @@
 **Date:** 2026-03-08
 **Status:** Working description, based on three months of computation and external review
 
+
+**Tier:** Meta (canonical project description)
+**Status:** Current, externally reviewed
+**Scope:** What CΨ is, what it shows, what it does not show
+**Does not establish:** See the document itself for explicit negative results
+
 ---
 
 ## What CΨ is

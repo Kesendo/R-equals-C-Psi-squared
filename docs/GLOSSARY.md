@@ -4,6 +4,12 @@
 **Status:** Reference document
 **Depends on:** None
 
+
+**Tier:** Reference
+**Status:** Living document
+**Scope:** Term definitions used throughout the repository
+**Does not establish:** N/A
+
 ---
 
 ## Core Variables

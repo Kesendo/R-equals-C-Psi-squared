@@ -4,6 +4,12 @@
 **Status**: Computationally verified (Tier 2). CΨ-only forensics limited by stealth angle (Section 10), but multi-metric bridge framework eliminates stealth (Section 11).
 **Depends on**: NOISE_ROBUSTNESS.md, BRIDGE_FINGERPRINTS.md, CROSSING_TAXONOMY.md
 
+
+**Tier:** 2-3 (Computation verified, application speculative)
+**Status:** Verified simulation
+**Scope:** Eve's measurement basis can be inferred from CΨ profile structure
+**Does not establish:** That this has been tested against real QKD implementations
+
 ---
 
 ## 1. The Question

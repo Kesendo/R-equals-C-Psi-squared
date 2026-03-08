@@ -7,6 +7,12 @@ a limitation of the framework; it is a consequence of quantum mechanics.
 **Depends on**: NO_SIGNALLING_BOUNDARY.md, BRIDGE_FINGERPRINTS.md,
 BRIDGE_PROTOCOL.md (hypothesis), QKD_EAVESDROPPING_FORENSICS.md
 
+
+**Tier:** 2 (Computationally verified, null result)
+**Status:** Verified null result
+**Scope:** J=0 bridge is closed: pre-shared entanglement without a channel = shared randomness
+**Does not establish:** That a communication bridge can work without coupling
+
 ---
 
 ## 1. What This Document Settles

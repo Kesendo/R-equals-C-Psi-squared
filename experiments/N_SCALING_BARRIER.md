@@ -4,6 +4,12 @@
 **Status**: Independently verified (Tier 2)
 **Depends on**: CROSSING_TAXONOMY.md, NOISE_ROBUSTNESS.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified, updated 2026-03-08
+**Scope:** Full-system crossing fails at large N; resolved by pair-level analysis
+**Does not establish:** That the d-1 normalization is wrong (it is correct)
+
 ---
 
 ## 1. The Question

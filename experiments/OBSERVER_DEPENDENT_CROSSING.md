@@ -4,6 +4,12 @@
 **Status**: Computationally verified (Tier 2)
 **Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
 
+
+**Tier:** 2 (Computationally verified)
+**Status:** Verified
+**Scope:** Same physics produces different crossing times depending on metric choice
+**Does not establish:** That different observers literally experience different times
+
 ---
 
 ## 1. The Question
