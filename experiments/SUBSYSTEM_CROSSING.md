@@ -244,9 +244,16 @@ for i, t in enumerate(tlist):
 
 ## 6. Open Questions
 
-1. Does the crossing time t=0.073 for Bell+xBell+ pairs match the
+1. ~~Does the crossing time t=0.073 for Bell+xBell+ pairs match the
    isolated Bell+ crossing time, or does the ring Hamiltonian coupling
-   to other qubits modify it?
+   to other qubits modify it?~~ **ANSWERED (2026-03-08):** It does NOT
+   match. Isolated Bell+ (2 qubits, Heisenberg J=1, γ=0.05) crosses
+   down through 1/4 at t=0.720. The same Bell pairs embedded in a
+   4-qubit ring cross at t=0.080 — nine times faster. The ring
+   Hamiltonian couples each pair to additional qubits, which accelerates
+   decoherence of the pair subsystem. Cross-pairs (no initial
+   entanglement) never cross, confirming that the crossing pattern
+   reproduces the entanglement graph exactly.
 
 2. For cluster states and other graph-structured entanglement, does
    the crossing pattern reproduce the graph topology exactly?

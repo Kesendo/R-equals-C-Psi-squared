@@ -280,10 +280,25 @@ See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
 3. ~~Does |+⟩^N cross?~~ **ANSWERED**: No. C = 0 for all pairs at all
    times. Coherence without entanglement produces no crossing.
 
-4. Is there a minimum per-pair entanglement needed for crossing?
+4. ~~Is there a minimum per-pair entanglement needed for crossing?~~
+   **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a
+   simple threshold. Using parametric Bell states (α|00⟩+√(1-α²)|11⟩)⊗|+⟩
+   in the star topology (J_SA=1.0, J_SB=2.0, γ=0.05), there are TWO
+   separate crossing windows: one near α≈0.05 (C_SA≈0.10, almost |11⟩)
+   and one at α≈0.47–0.85 (C_SA≈0.83–0.90, Bell-like). Between them
+   is a dead zone where higher entanglement does NOT help. The minimum
+   C_SA(0) depends on J_SB: at J_SB=2.0 even C_SA≈0.10 suffices, at
+   J_SB=1.5 you need C_SA≈0.99. The structure of the state matters as
+   much as the entanglement strength.
 
-5. Does the crossing pattern reproduce the entanglement graph topology
-   for arbitrary graph states?
+5. ~~Does the crossing pattern reproduce the entanglement graph topology
+   for arbitrary graph states?~~ **ANSWERED (2026-03-08):** Only for
+   Bell-type entanglement. Cluster states (|+⟩^N with CZ gates) have
+   zero concurrence on ALL pairs, including graph edges. CZ gates create
+   a type of entanglement that is invisible to Wootters concurrence.
+   Since CΨ = C × Ψ and C=0 everywhere, cluster states never cross at
+   any pair. The framework distinguishes fundamentally between Bell-type
+   and graph-state entanglement — only the former produces crossing.
 
 ---
 
