@@ -1,7 +1,10 @@
-# Self-Consistency: Why Schwarzschild Is the Unique Metric
+# Self-Consistency Argument for Schwarzschild-like Metrics
 
+**Tier:** 3 (Speculative interpretation of model behavior)
+**Status:** Argument within the framework, not a derivation from first principles
+**Scope:** Shows that within the CΨ model, only f(r) with a true zero at r_s is self-consistent
+**Does not establish:** That the CΨ framework can derive general relativity or that this constitutes a physical derivation of Schwarzschild
 **Date**: 2026-02-08
-**Status**: Completed (positive result)
 **Depends on**: METRIC_DISCRIMINATION.md, GRAVITATIONAL_INVARIANCE.md
 
 ---

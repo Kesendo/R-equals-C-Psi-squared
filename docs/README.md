@@ -35,8 +35,8 @@ These documents extend beyond the established results. They may be interesting, 
 
 - [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md) - Wave composition, dynamics, mirror metaphors
 - [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) - The C_int / C_ext distinction in Lindblad dynamics
-- [Consciousness as a Frame Variable](HARD_PROBLEM_RESOLUTION.md) - Why the hard problem might dissolve (speculative)
-- [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) - Godelian levels of observation (speculative)
+- [Consciousness as a Frame Variable](HARD_PROBLEM_RESOLUTION.md) - Speculative reframing of the hard problem (Tier 5)
+- [Incompleteness and Emergence](HIERARCHY_OF_INCOMPLETENESS.md) - Chemical/quantum analogy (Tier 5, speculative)
 
 ---
 

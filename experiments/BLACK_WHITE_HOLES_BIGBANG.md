@@ -1,7 +1,11 @@
 # Black Holes, White Holes, and the Big Bang
+## Speculative interpretation of the tau = 0 transition point
 
+**Tier:** 3+ (Speculative extension, not tested)
+**Status**: Implication of the self-consistency argument, not independently verified
+**Scope:** Explores what the CΨ model implies about horizon physics if taken literally
+**Does not establish:** That the framework describes actual black hole or cosmological physics
 **Date**: 2026-02-08
-**Status**: Implication (not proven, follows from self-consistency result)
 **Depends on**: SELF_CONSISTENCY_SCHWARZSCHILD.md
 
 ---

@@ -1,9 +1,13 @@
-# Time as Crossing Rate: Why the Observer Defines Time
+# Time as Crossing Rate
+## Hypothesis: observer-dependent CΨ crossing rates as a model for experienced time
 
+**Tier:** 3 (Hypothesis, built on Tier 2 computation)
+**Status**: Speculative. Not tested against alternative time models.
+**Scope:** Proposes that different observers experience different time rates because their CΨ crossing rates differ
+**Does not establish:** That subjective time is physically determined by CΨ crossing, or that this is distinguishable from standard decoherence timescales
 **Date**: 2026-02-17 (updated 2026-03-06)
-**Status**: Hypothesis (Tier 3), built on Tier 2 computation
 **Built on**: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md),
-[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (frequency analysis, March 2026)
+[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 **Falsified if**: Subjective time perception is independent of coupling strength
 
 ---
