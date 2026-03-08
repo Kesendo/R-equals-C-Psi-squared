@@ -108,13 +108,15 @@ But in the star topology (asymmetric coupling), noise distribution matters enorm
 
 Localizable entanglement (LE) asks: how much entanglement *could* be concentrated on a pair by optimally measuring the rest of the system? Concurrence of assistance (CoA) asks: what is the maximum possible concurrence over all decompositions?
 
-In the star topology, CoA stays near 1 throughout the evolution - the entanglement resource is almost always fully present in the global state. LE stays moderate (0.2 - 0.9) - the resource is usually extractable. But CΨ flashes briefly and is mostly zero - the resource is only sometimes *visible as coherent pairwise structure* without intervention.
+In the star topology, CoA stays near 1 throughout the evolution - the entanglement resource is almost always fully present in the global state. LE stays moderate (0.2 - 0.9) - the resource is usually extractable. But CΨ flashes briefly and is mostly zero - the resource is only sometimes *expressed as coherent pairwise structure* without intervention.
 
 Correlation: CΨ vs LE r = +0.76 (related but not redundant). CΨ vs CoA r = +0.16 (nearly independent).
 
-LE asks about potential. CΨ asks about actuality. Different observers with different measurement bases would see different CΨ windows while LE and CoA remain the same. This is the technical version of observer-dependent reality: the resource is always there, but its visible expression depends on the observer.
+**CΨ is a basis-fixed, unassisted witness of directly expressed pairwise entanglement.** CoA quantifies assisted entanglement capacity. LE quantifies localizable entanglement potential. CΨ quantifies what is already directly visible in the observed marginal, without optimization.
 
-See [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md).
+Furthermore, different local noise profiles (γ_A) produce different CΨ visibility windows on the same initial network - one noise profile may see the 1/4 crossing, another may not, while CoA remains high for both. Note: this is not "same state, different observers" in the strict sense; different noise profiles produce different Lindblad trajectories. The correct framing: **the same initial network can retain high assisted entanglement capacity while local noise profiles open or close windows in which that resource is directly visible in a chosen pair and basis.**
+
+See [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) and [Observer-Dependent Visibility](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md).
 
 ---
 
