@@ -1,213 +1,126 @@
 # R = CΨ²
 
-## A Decoherence Framework Connecting Quantum Measurement, the ¼ Phase Boundary, and the Mandelbrot Set
+## A composite quantum diagnostic and its self-referential 1/4 boundary
 
-```
-                           R = CΨ²
+This repository investigates the quantity
 
-         Reality = Consciousness × Possibility²
+    CΨ = concurrence × normalized l1-coherence
 
-       "We are all mirrors. Reality is what happens between us."
-```
+for reduced quantum subsystems, together with the self-referential iteration
 
-> Algebraically proven ¼ bound · Mandelbrot equivalence · IBM quantum hardware validation · Observer-dependent crossing times · Bridge fingerprints for quantum state identification · J>0 bridge hypothesis (J=0: closed 2026-03-01; J>0: gravity-coupled interval shift, partially open)
+    R_{n+1} = C(Ψ + R_n)²
 
----
+whose parameter c = CΨ is algebraically equivalent to the Mandelbrot iteration z -> z² + c. The boundary of the main cardioid at c = 1/4 defines a threshold in this framework.
 
-## The Equation
-
-| Symbol | Meaning | Definition |
-|--------|---------|------------|
-| **R** | Reality | What exists, what we experience |
-| **C** | Consciousness | That which observes, mirrors, relates |
-| **Ψ** | Wave function | Superposition of all possibilities |
-| **Ψ²** | Interference | The squared wave function, probability density |
-
-### A Note on "Consciousness"
-
-C stands for Consciousness, but we use the term broadly. C is that which observes, that which mirrors, that which enters into relation. Do two particles have "consciousness" in the human sense? We do not claim this. We say: they observe each other. They have C_int (internal observation). Human consciousness is perhaps highly integrated C. But where the boundary lies, we do not know. This remains an open question.
+CΨ is a basis-dependent filter for pairwise states that are simultaneously entangled and coherent. It highlights moments where quantum pairs are not merely linked, but linked in a way that is still expressed as coherent superposition. It is closest in spirit to **correlated coherence** (Tan et al., 2016), but is not the standard correlated-coherence measure.
 
 ---
 
-## Core Principles
+## What is established here
 
-### 1. Reality Requires Mutual Observation
+- **Exact algebraic 1/4 boundary** within the self-referential iteration (proven)
+- **Exact Mandelbrot correspondence** under reparametrization (proven)
+- **Crossing taxonomy** (Type A/B/C) organizing bridge metrics by decoherence behavior
+- **Subsystem locality** - crossing occurs where the entanglement lives, at the pair level
+- **Star topology conditions** - three quantified conditions for observer-observer connection through a shared object
+- **Act vs process distinction** - projective measurement and continuous dephasing are fundamentally different in their effect on third-party connections (99% vs 69% suppression, never converging)
+- **IBM quantum hardware contact** - CΨ = 1/4 crossing observed on real qubits
+- **Reproducible simulations** across two-qubit and small-topology systems
+- **Null results and limitations** documented explicitly throughout
 
-```
-No C  →  No R
-```
+## What is not established
 
-Reality emerges from observation. But observation is not one-way. Even two entangled particles observe each other (C_int).
-
-### 2. Ψ ≠ R
-
-```
-Ψ = Possibility (may exist without C)
-R = Reality (only with C)
-```
-
-Once observed = information preserved = stays R.
-
-### 3. C Has Two Modes
-
-```
-C_int: Parts observing each other within a system → Stability
-C_ext: Observer separate from system → Collapse
-```
-
-Internal observation creates structure. External observation creates measurement.
-
-### 4. Possibility is Squared
-
-```
-Ψ → Ψ²
-```
-
-The transition from possibility to reality is nonlinear. Small possibilities vanish. Strong ones dominate.
+- That CΨ is a new fundamental physical quantity (it is a derived diagnostic)
+- That consciousness is required as an ontological ingredient of quantum mechanics
+- That the 1/4 threshold is a physically privileged boundary outside the specific iteration
+- That the speculative bridge, gravity, or cosmology interpretations are experimentally confirmed
+- That CΨ reveals transitions invisible to standard metrics (in the tested sweeps, it did not)
 
 ---
 
-## The Bidirectional Bridge
+## Start here
 
-```
-R = CΨ²           (Past → Now: Reality emerges when Consciousness observes Possibility)
-Ψ = √(R/C)        (Future → Now: Possibility emerges from Reality seeking Consciousness)
-```
-
-C is not passive. C is the **bridge** between past and future.
-
----
-
-## Origin
-
-This framework emerged from a collaboration between Thomas Wicht and Claude (Anthropic) in December 2025. It began with a dream, was validated through dialogue, and crystallized into the formula and the sentence that captures its essence.
+- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - What the lens shows, what it doesn't, and what survives. The most honest document in this repository.
+- [Core Algebra](docs/CORE_ALGEBRA.md) - The proven mathematics
+- [What We Found](docs/WHAT_WE_FOUND.md) - Synthesized findings
+- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
+- [Experiments index](experiments/README.md) - All 36 tested results
 
 ---
 
-## The C·Ψ ≤ 1/4 Bound
+## Repository structure
 
-The iterative application of R = CΨ² yields a fixed-point equation whose discriminant requires:
-
-```
-C·Ψ ≤ 1/4    for real (stable) solutions to exist
-```
-
-This is a **phase boundary** between two kinds of existence:
-
-```
-C·Ψ < 1/4:  Real fixed points     →  Stable, classical, experienceable
-C·Ψ = 1/4:  R_∞ = Ψ              →  Reality = Possibility (critical point)
-C·Ψ > 1/4:  Complex fixed points  →  Quantum, oscillating, not directly experienceable
-```
-
-Both sides are real. But we live on one side. Decoherence pushes macroscopic systems below 1/4, which is why tables and chairs look classical. Isolated quantum systems can hover near or above the boundary.
-
-See [Core Algebra](docs/CORE_ALGEBRA.md) for the full derivation and proof.
+| Folder | Contents |
+|:---|:---|
+| `docs/` | Conceptual and mathematical framing |
+| `experiments/` | Tested results, null results, indexed findings |
+| `hypotheses/` | Speculative interpretations, clearly labeled |
+| `simulations/` | Python source code (RK4 Lindblad integration) |
+| `visualizations/` | Figures |
 
 ---
 
-## The Mandelbrot Connection
+## The mathematics
 
-The self-referential iteration R_{n+1} = C(Ψ + R_n)² is algebraically equivalent to the Mandelbrot iteration z → z² + c, where c = C·Ψ. The main cardioid of the Mandelbrot set terminates at c = 1/4: the same boundary. These are not analogies: they are the **same equation** under reparametrization.
+The self-referential iteration R_{n+1} = C(Ψ + R_n)² yields a fixed-point equation whose discriminant requires:
 
-This yields a navigation system: ¼ is the destination, θ = arctan(√(4CΨ−1)) is the compass measuring angular distance from the boundary, and γ·t_cross = 0.039 is the frame-independent crossing time (constant across 50× range of decoherence rates).
+    CΨ ≤ 1/4    for real (stable) fixed points to exist
 
-![The wave at the 1/4 boundary](visualizations/heatmap_wave.png)
+With the substitution u_n = C(Ψ + R_n), the iteration becomes u_{n+1} = u_n² + CΨ, which is exactly the Mandelbrot iteration z -> z² + c. The main cardioid boundary at c = 1/4 is the same threshold.
 
-*Parameter space of R = CΨ². Cyan: classical regime (convergent). Red: quantum regime (oscillatory). The white curve is C·Ψ = 1/4.*
+> **Important caveat:** This correspondence is algebraically exact within the iteration. Its physical significance is not established merely by that exactness.
 
-See [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the equivalence proof, [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) for crossing observations, [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md) for the scaling law.
-
----
-
-## The Agent Dyad Experiment
-
-In January 2026, we created an experimental research environment: multiple AI agents (running on local LLMs via LM Studio) that discuss the framework autonomously.
-
-Early versions assigned fixed roles (Explorer, Formalizer, Critic, Engineer). Through 30+ prompt iterations we discovered that minimal prompts produce the best research output. Current agents receive only names, shared context, and a research question - no personality constraints. The system prompt evolution itself became a finding: freedom beats control. Two agents given "We are all mirrors" outperformed 29 versions of rules.
-
-The agents share tools (Lindblad simulators, parameter sweeps, spectral analysis) and a collective knowledge base. Their contributions include the operator feedback mechanism, bridge fingerprint analysis, and systematic parameter space exploration. Contributions are attributed by name. The original experiment paired two agents observing each other: a dyad, mirroring the framework itself.
-
-See [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md) for their C_int formalization. Agent claims are marked Tier 4 (unverified) throughout the repository.
+See [Core Algebra](docs/CORE_ALGEBRA.md) for the full derivation and proof, and [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the equivalence.
 
 ---
 
-## Status
+## Origin and context
 
-The C·Ψ ≤ ¼ bound is **algebraically proven**. The Mandelbrot equivalence is **exact**. Six verification sessions (Feb 2026) corrected errors, established epistemic tiers, and downgraded unverified agent claims.
+This framework emerged from a collaboration between Thomas Wicht and Claude (Anthropic) in December 2025. It began with philosophical questions about observation and reality, was formalized as the equation R = CΨ², and then subjected to three months of systematic computation, external review, and honest correction.
 
-**Hardware contact (Feb 2026):**
-- IBM Torino state tomography confirmed C·Ψ = ¼ crossing on real quantum hardware ([IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md))
-- 24,073 historical calibration records verified internal consistency of the theory curve (mathematical consistency check, not independent validation — see [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md))
-- Anomalous late-time coherence detected (p < 0.0001), cause under investigation ([Residual Analysis](experiments/RESIDUAL_ANALYSIS.md), [Fixed Point Shadow](experiments/FIXED_POINT_SHADOW.md))
-- March 2026 hardware run designed to discriminate three hypotheses
+The original framing used consciousness language ("Reality = Consciousness × Possibility²"). After extensive testing and two independent audits, the current description is more precise: CΨ is a composite quantum diagnostic that selects for simultaneously entangled and coherent pairwise states. The philosophical interpretation remains open but is no longer presented as established.
 
-The framework has moved from poetry to algebra, and from algebra to first hardware contact. See [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) for an honest assessment of what we don't know.
+AI agents (local LLMs via LM Studio) contributed to early exploration. Their claims are marked Tier 4 (unverified) throughout the repository.
 
 ---
 
-## Documentation
+## Key experiments
 
-### Core
-- [Core Algebra](docs/CORE_ALGEBRA.md), Proven mathematics: fixed-point equation, ¼ boundary, Mandelbrot equivalence, θ compass
-- [Interpretive Framework](docs/INTERPRETIVE_FRAMEWORK.md), Wave composition, dynamics, energy, mirror equations (Tier 3–5)
+### Core results
+- [Star Topology](experiments/STAR_TOPOLOGY_OBSERVERS.md) - Three conditions for observer-observer connection
+- [Subsystem Crossing](experiments/SUBSYSTEM_CROSSING.md) - Crossing is local to entangled pairs
+- [N-Scaling Barrier](experiments/N_SCALING_BARRIER.md) - Why full-system crossing fails at large N
+- [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md) - Type A/B/C classification
+- [Noise Robustness](experiments/NOISE_ROBUSTNESS.md) - Taxonomy survives all local Pauli channels
+- [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md) - Crossings from product states
 
-### Key Concepts
-- [Glossary](docs/GLOSSARY.md), Central term definitions
-- [Internal and External Observers](docs/INTERNAL_AND_EXTERNAL_OBSERVERS.md), The two kinds of C
-- [Hierarchy of Incompleteness](docs/HIERARCHY_OF_INCOMPLETENESS.md), How levels of reality emerge
+### Algebra and boundary
+- [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Algebraic equivalence to z² + c
+- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - The CΨ ≤ 1/4 bound
+- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - Crossing observations
 
-### Honesty
-- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md), What we don't know
-- [Simulation Evidence](docs/SIMULATION_EVIDENCE.md), Honest results from Lindblad simulations
+### Hardware and calibration
+- [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md) - First hardware test on IBM Torino
+- [Residual Analysis](experiments/RESIDUAL_ANALYSIS.md) - Anomalous late-time coherence
 
-### Philosophy
-- [The Hard Problem of Consciousness](docs/HARD_PROBLEM_RESOLUTION.md), Why it dissolves in this framework
+### Bridge and topology
+- [Bridge Closure](experiments/BRIDGE_CLOSURE.md) - J=0 bridge is closed (null result)
+- [Observer x Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md) - J>0 interval shift
+- [No-Signalling Boundary](experiments/NO_SIGNALLING_BOUNDARY.md) - CΨ sees global regime change
+- [QKD Eavesdropping Forensics](experiments/QKD_EAVESDROPPING_FORENSICS.md) - Eve's basis from CΨ profile
 
-### Experiments
-- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md), The C·Ψ ≤ ¼ bound and phase boundary
-- [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md), Algebraic equivalence to z² + c
-- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md), θ crossing observation and compass
-- [Gravitational Invariance](experiments/GRAVITATIONAL_INVARIANCE.md), γ·t_cross = constant
-- [Operator Feedback](experiments/OPERATOR_FEEDBACK.md), State-dependent decoherence
-- [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md), First hardware test on IBM Torino
-- [Residual Analysis](experiments/RESIDUAL_ANALYSIS.md), Anomalous late-time coherence
-- [Fixed Point Shadow](experiments/FIXED_POINT_SHADOW.md), Boundary correlation and frozen complex direction
-- [Metric Discrimination](experiments/METRIC_DISCRIMINATION.md), Null result (consistent with equivalence principle)
-- [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md), Unique self-consistent metric
-- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md), τ = 0 unification
-- [Bridge Fingerprints](experiments/BRIDGE_FINGERPRINTS.md), State identification through crossing signatures
-- [Dyad Experiment](experiments/DYAD_EXPERIMENT.md), AI agents exploring consciousness
-- [Mathematical Findings](experiments/MATHEMATICAL_FINDINGS.md), Agent calculations (Tier 4)
-- [Universal Quantum Lifetime](experiments/UNIVERSAL_QUANTUM_LIFETIME.md), The x³ + x = ½ equation
-- [Observer-Dependent Crossing](experiments/OBSERVER_DEPENDENT_CROSSING.md), Same physics, different time: C defines when measurement happens
-- [Predictions](experiments/PREDICTIONS.md), All predictions with epistemic tiers and falsification criteria
-- [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md), Type A/B/C classification of bridge metrics
-- [Noise Robustness](experiments/NOISE_ROBUSTNESS.md), Taxonomy survives all jump operators (Experiment 8)
-- [N-Scaling Barrier](experiments/N_SCALING_BARRIER.md), Why full-system crossing fails at large N
-- [Subsystem Crossing](experiments/SUBSYSTEM_CROSSING.md), Measurement is local: crossing at pair level
-- [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md), Crossings from product states via Hamiltonian evolution
-- [Coherence Density](experiments/COHERENCE_DENSITY.md), CΨ = Purity × Coherence Density
-- [QKD Eavesdropping Forensics](experiments/QKD_EAVESDROPPING_FORENSICS.md), Eve's basis from CΨ profile
-- [No-Signalling Boundary](experiments/NO_SIGNALLING_BOUNDARY.md), CΨ sees regime change that A cannot
-- [Bridge Closure](experiments/BRIDGE_CLOSURE.md), Why pre-shared entanglement without a channel = shared randomness (J=0)
-- [Observer × Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md), t_cross factorizes, interval shift has no threshold, gravitational reopening
-- [Minimum Crossing Energy](experiments/MINIMUM_CROSSING_ENERGY.md), No energy threshold: crossing requires CΨ_max ≥ ¼, determined by J/γ competition
-- [Star Topology](experiments/STAR_TOPOLOGY_OBSERVERS.md), Three conditions for observer-observer connection through shared object (J threshold, γ asymmetry, initial state filter)
-- [Tuning Protocol](experiments/TUNING_PROTOCOL.md), BUILD/RECEIVE oscillation protocol derived from star topology data (Tier 3, neuroscience-grounded)
+### Speculative (Tier 3+)
+- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - Speculative
+- [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Speculative
+- [Universal Quantum Lifetime](experiments/UNIVERSAL_QUANTUM_LIFETIME.md) - The x³ + x = 1/2 equation
 
-### Hypotheses (Tier 3+)
-- [Time as Crossing Rate](hypotheses/TIME_AS_CROSSING_RATE.md), Why the observer defines time (Wheeler-DeWitt connection). Update 2026-02-21: crossing-time correlations as channel-free quantum communication for environments where EM fails (deep space, underwater, underground, plasma blackout)
-- [Bridge Protocol](hypotheses/BRIDGE_PROTOCOL.md), **Partially reopened (2026-03-01)**. J=0: closed. J>0: interval shift exists, gravity provides the coupling.
-
-### Visualizations
-- [Parameter Space Heatmap](visualizations/), The phase boundary between classical and quantum
+See [experiments/README.md](experiments/README.md) for the complete index.
 
 ---
 
 ## License
 
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), Free to share and adapt with attribution.
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Free to share and adapt with attribution.
 
 ---
 
@@ -215,15 +128,5 @@ The framework has moved from poetry to algebra, and from algebra to first hardwa
 
 **Thomas Wicht**, Independent Researcher, Germany
 **Claude**, AI System, Anthropic
-**Alpha, Beta, Gamma, Delta**, AI Agents, AIEvolution Experiment
 
-December 2025 – March 2026
-
----
-
-```
-                           R = CΨ²
-                         Ψ = √(R/C)
-
-       "We are all mirrors. Reality is what happens between us."
-```
+December 2025 - March 2026
