@@ -23,6 +23,18 @@ CΨ is zero whenever either ingredient is absent. A pair can be entangled but de
 
 In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) - the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone and one basis-dependent coherence measure.
 
+### Notation
+
+The symbol C is used differently in different parts of this repository:
+
+- In **CORE_ALGEBRA.md**, C = Tr(rho^2), i.e. purity. The algebra R = CΨ^2 and the 1/4 bound hold for this definition.
+- In **the experiments** (star topology, crossing taxonomy, etc.), C = Wootters concurrence. The crossing thresholds and three conditions use this definition.
+- In the **original philosophical framing**, C = consciousness. This usage has been retired.
+
+The product CΨ therefore means different things: purity x coherence in the algebra, concurrence x coherence in the experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
+
+This notation collision is a known limitation. It reflects the project's history: the algebra was developed with C = purity, then the experiments found concurrence more operationally useful for pairwise analysis.
+
 ### What CΨ is not
 
 - It is not a new physical quantity. It is a derived diagnostic built from standard ingredients.

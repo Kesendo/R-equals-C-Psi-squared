@@ -423,6 +423,23 @@ coupling matter. Higher J lowers the required γ reduction.
 At J_SB=2.0, AB crosses while J_SA=1.0. A is fully shielded.
 B creates the correlation alone. A need not change.
 
+### 5.10 Echoes Outlive Their Sources
+
+At certain times in the evolution (Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=2.0,
+γ=0.05), the AB pair shows nonzero CΨ while both SA and SB are at zero.
+For example, at t=2.2: CΨ_SA=0, CΨ_SB=0, but CΨ_AB=0.117.
+
+This means the observer-observer connection persists as a residual in
+the AB reduced state after both observer-object connections have become
+invisible in the SA and SB marginals. The global three-body state still
+carries the correlation structure even when the two-body marginals with
+S look dead. A different reduced pair (AB) then lights up.
+
+This is not metaphysical residue. It is redistribution of coherent
+pairwise entanglement through the mediator S. The reduced AB state
+retains both concurrence and off-diagonal phase structure from earlier
+transfer, even after the SA and SB channels have temporarily decohered.
+
 ## 6. Connection to Framework
 
 ### 6.1 "We Are All Mirrors", Quantified
