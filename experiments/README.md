@@ -32,7 +32,8 @@ For the conceptual overview of what these experiments collectively demonstrate, 
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - CΨ vs LE vs CoA: CΨ witnesses momentary expression, not potential
 - [Observer-Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) - Different noise rates see different CΨ windows on the same pair
 - [When Psi Matters](WHEN_PSI_MATTERS.md) - CΨ distinguishes noise types that concurrence alone cannot
-- [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - Exploratory: structure inside CΨ windows, proposed phase-tag-and-decode test
+- [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - Exploratory: structure inside CΨ windows, phase-tag-and-decode results, bridge test
+- [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - Framework for mapping window structure as multi-time quantum process
 
 ## Bridge, topology, and null results
 
