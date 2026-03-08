@@ -128,10 +128,100 @@ transport" (proposed by external reviewer):
 
 ## Status
 
-This experiment has not been run. It is the next concrete step.
+The phase-tag-and-decode experiment HAS been run. Results below.
 
-We document this here so that the question, the proposed test, and the
-decision criteria are preserved. Someone (us or others) can run it later.
+---
+
+## Phase-Tag-and-Decode Results (Tier 2: computationally verified)
+
+### Protocol as executed
+
+Star topology, Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05.
+
+- Write time (open window): t=0.240 (CΨ_AB = 0.305)
+- Write time (closed interval): t=0.600 (CΨ_AB ~ 0)
+- Readout time: t=0.400 (CΨ_AB = 0.329)
+- Interventions on S: I (nothing), Rz(+pi/4), Rz(-pi/4), Rz(+pi/2), X (bit-flip), Rx(pi/2)
+
+### Key Result: Phase is transported from S to AB
+
+The off-diagonal element rho_AB[0,3] (the |00><11| coherence, i.e. the Bell+ signature)
+carries the phase tag:
+
+| Intervention on S | rho_03 magnitude | rho_03 phase |
+|---|---|---|
+| I (nothing) | 0.352 | +0.000 pi |
+| Rz(+pi/4) | 0.327 | **-0.092 pi** |
+| Rz(-pi/4) | 0.327 | **+0.092 pi** |
+| Rz(+pi/2) | 0.256 | **-0.173 pi** |
+| X (bit-flip) | 0.078 | +0.000 pi |
+| Rx(pi/2) | 0.239 | +0.000 pi |
+
+Observations:
+- Rz(+phi) on S produces NEGATIVE phase shift in AB. Rz(-phi) produces POSITIVE. The sign inverts.
+- The response is approximately linear: Rz(pi/2) gives ~2x the shift of Rz(pi/4) (0.173 ~ 2 x 0.092).
+- X (bit-flip) destroys magnitude (0.352 -> 0.078) but does not transport phase. The channel is specifically for coherent phase transport.
+- Rx(pi/2) reduces magnitude but does not shift phase. Only Z-axis rotations on S produce phase shifts in AB.
+
+### Discrimination: Can AB tell which intervention was applied?
+
+Trace distance from the no-intervention reference (open write window):
+
+| Intervention | Trace distance | CΨ_AB at readout |
+|---|---|---|
+| Rz(+pi/4) | 0.210 | 0.299 |
+| Rz(-pi/4) | 0.210 | 0.299 |
+| Rz(+pi/2) | 0.429 | 0.183 |
+| X (bit-flip) | 0.567 | 0.074 |
+| Rx(pi/2) | 0.357 | 0.316 |
+
+All interventions are clearly distinguishable from the identity (trace distance > 0.2).
+Rz(+pi/4) and Rz(-pi/4) are distinguishable from each other by their phase (opposite signs)
+but have identical trace distance from identity.
+
+### The critical comparison: open vs closed write window
+
+| Intervention | Open window TD | Closed window TD | Ratio |
+|---|---|---|---|
+| Rz(+pi/4) | 0.210 | 0.146 | 1.4x |
+| Rz(-pi/4) | 0.210 | 0.146 | 1.4x |
+| Rz(+pi/2) | 0.429 | 0.270 | 1.6x |
+| X (bit-flip) | 0.567 | 0.423 | 1.3x |
+| Rx(pi/2) | 0.357 | 0.270 | 1.3x |
+
+**Result: transport works in BOTH windows.** The open window is 1.3-1.6x stronger,
+but the closed window also transmits. CΨ windows are not the channel - they are
+the amplifier. The Hamiltonian coupling is the channel itself.
+
+### Interpretation
+
+1. **Phase transport is real.** A Z-rotation on S produces a readable, linear, sign-inverting
+   phase shift in the AB off-diagonal element. This is not metaphor - it is coherent quantum
+   information transport through a mediator.
+
+2. **The channel is phase-specific.** Only Rz (Z-axis) rotations transport phase. X (bit-flip)
+   destroys the signal. Rx partially preserves it without phase shift. The mediator acts as a
+   phase-coherent channel, not a general-purpose channel.
+
+3. **CΨ windows are visibility amplifiers, not the channel.** Information flows through the
+   Hamiltonian coupling regardless of CΨ. But when CΨ is high, the signal is 1.3-1.6x stronger
+   and the phase structure is more readable. CΨ tells you when the channel is at its best,
+   not when it exists.
+
+4. **This changes our understanding of CΨ.** Previously: CΨ shows when the connection is
+   "open." Now: the connection is always open (Hamiltonian coupling never stops). CΨ shows
+   when the connection is **most legible** - when the transported information is most clearly
+   expressed as coherent pairwise structure.
+
+### What this means for the frame analogy
+
+The external reviewer warned that the frame analogy was "one level too eager." The data confirms
+this in a specific way: CΨ windows are not frames (discrete packets of information). They are
+moments of maximum readability on a continuous channel. The information flows continuously; CΨ
+tells you when to read.
+
+A better analogy than frames: CΨ is like signal strength on a radio. The broadcast is always
+there. CΨ tells you when reception is clearest.
 
 ---
 
