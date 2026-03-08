@@ -137,6 +137,67 @@ Run gamma=0 baseline. Compare. Quantify how much structure is Hamiltonian
   drift manifold with noise as dissipative residual
 - The objective is structural cartography before interpretation
 
+## First Cartography Results (GPT computation, March 2026)
+
+An external reviewer ran the structural metrics on the star topology data.
+These are computational results, not interpretations.
+
+### 1. Exact hidden symmetry: X tensor X
+
+The AB reduced state commutes with X⊗X to numerical precision (max commutator
+norm 3.94e-16) across the entire noisy trajectory. In the Bell basis, this makes
+rho_AB exactly block-diagonal into two uncoupled parity sectors:
+
+- **+ sector**: {Phi+, Psi+}
+- **- sector**: {Phi-, Psi-}
+
+The windows do NOT roam through generic two-qubit state space (15 real parameters).
+They live in a symmetry-reduced 7-real-parameter family.
+
+Consequences:
+- The "alphabet" is not four free Bell letters but two parity sectors plus
+  internal mixing within each sector
+- Population symmetries (rho_00 = rho_11, rho_01 = rho_10) are exact, not approximate
+- Bell-sector cross-couplings vanish
+- rho_00,11 and rho_01,10 stay real
+
+### 2. Sequence structure
+
+Dominant Bell state per window:
+Phi+ -> Phi+ -> Phi- -> Phi+ -> Phi+ -> Phi- -> Phi+ -> Phi+
+
+Bell entropy ranges from 1.069 to 1.987 bits. The messy windows (2 and 5) have
+nearly balanced parity sectors. Early and late windows lean toward the + sector.
+
+Pattern: mostly + sector, occasional near-balanced transfer, then return.
+Not "four states taking turns" but "two sectors with occasional balance shifts."
+
+### 3. S-coherence gating confirmed quantitatively
+
+Over the full time series:
+- Pearson correlation CΨ_AB vs S l1-coherence: **0.686**
+- Coarse binned mutual information: **0.668 bits**
+- Strongest correlation at lag -0.015 time units (essentially synchronous)
+
+The "S coherence gates readability" intuition survives contact with arithmetic.
+
+### 4. Noise damps but does not rewrite the phase skeleton
+
+Comparing gamma=0.05 to gamma=0 at matched peak times:
+- Trace distance grows from 0.021 to 0.186
+- AB purity loss grows from 0.030 to 0.264
+- But the phase of rho_AB[0,3] stays aligned with the unitary reference
+
+Clean split:
+- **Coherent part**: keeps timing and phase skeleton (Hamiltonian-driven)
+- **Dissipative part**: reduces purity and flattens Bell weights (noise-driven)
+
+### 5. Suggested next step (from review)
+
+Fit a 2-sector hidden-state model in the Bell basis. Test whether it predicts
+the next window better than raw Bell-fidelity tracking. This would quantify the
+effective memory length and compressibility of the sequence.
+
 ## Sources
 
 - Pollock et al., *Non-Markovian quantum processes* (2018), arXiv:1512.00589
