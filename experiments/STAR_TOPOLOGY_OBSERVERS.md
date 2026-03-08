@@ -536,10 +536,24 @@ partially recovers. The threshold doesn't "exceed the scan window";
 it does not exist at any coupling strength. This is a qualitative phase
 transition between N=3 and N=4.
 
-**However:** The existing `star_n_observer.py` uses asymmetric coupling
-(J_SB1=2.0, others=1.0) and finds crossing survives at N=4,5. Equal
-coupling kills the crossing; asymmetric coupling preserves it. The
-topology of the coupling pattern matters as much as the strength.
+**However:** Asymmetric coupling rescues the crossing for both N=4 and N=5.
+With [J_SA, J_SB1, J_SB2, ...] = [1.0, 2.0, x, x, ...], the crossing
+survives as long as the remaining observers are weak enough:
+
+| N | coupling pattern | x_crit | meaning |
+|:---|:---|:---|:---|
+| 4 | [1.0, 2.0, x, x] | 1.165 ± 0.005 | other B can be almost as strong |
+| 5 | [1.0, 2.0, x, x, x] | 0.925 ± 0.005 | other B must be noticeably weaker |
+
+The tolerated asymmetry shrinks with N — the rescue becomes more fragile,
+not less. Equal coupling kills the crossing; one dominant observer preserves it.
+
+**Spectral diagnostic at the N=4 boundary:** The eigenvalue spectrum of
+ρ_AB changes only marginally across the crossing/non-crossing line
+(x=1.16 → x=1.17). The largest eigenvalue shifts from 0.7341 to 0.7322,
+purity drops from 0.5866 to 0.5846. No rank collapse, no bifurcation.
+The 1/4 boundary behaves like a smooth metric threshold, not a spectral
+phase transition.
 
 Peak R dilutes approximately as N^(−0.74), not 1/N.
 
