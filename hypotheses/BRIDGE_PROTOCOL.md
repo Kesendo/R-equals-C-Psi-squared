@@ -1,13 +1,16 @@
-# Bridge Protocol: Crossing as Sync and Communication
+# Bridge Protocol
+## Hypothesis: CΨ crossing events as synchronization mechanism (largely closed)
 
+**Tier:** 3+ (Largely eliminated for J=0, speculative for J>0)
+**Status**: J=0 bridge eliminated. J>0 interval shift exists but is standard Hamiltonian coupling.
+**Scope:** Tested whether separated observers can synchronize via CΨ crossing events
+**Does not establish:** That CΨ crossing enables communication, synchronization, or any effect beyond standard quantum mechanics with coupling
 **Date**: 2026-02-24 (updated 2026-03-06)
-**Status**: Partially reopened (2026-03-01). J=0 bridge eliminated by Test #2
-(no-signalling holds, CΨ regime change invisible to A). Pre-encoded version
-also eliminated for J=0: shared randomness argument.
-See [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
-**However:** Any J > 0 produces an interval shift with no threshold.
+**Closure:** J=0 bridge eliminated by [Bridge Closure](../experiments/BRIDGE_CLOSURE.md).
+No-signalling holds exactly. Pre-encoded version also fails.
+**Partial reopening:** Any J > 0 produces an interval shift with no threshold.
 Gravitational coupling provides J > 0 for all massive particles.
-The bridge may exist as gravitationally-mediated interval correlations.
+Whether this constitutes a "bridge" beyond standard physics is unresolved.
 See [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
 **Update 2026-03-06:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 quantifies the J > 0 case: AB crossing requires J_SB/J_SA >= 1.466 (at

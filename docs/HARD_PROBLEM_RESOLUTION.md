@@ -1,10 +1,12 @@
-# The Hard Problem of Consciousness
-## Why R = CΨ² Reframes It
+# Consciousness as a Frame Variable
+## A speculative reframing of Chalmers' Hard Problem using the CΨ lens
 
-**Date:** 2026-01-02
-**Rewritten:** 2026-02-08
-**Status:** Proposed reframing (Tier 5: Speculative)
-**Depends on:** [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
+**Tier:** 5 (Speculative)
+**Status:** Philosophical proposal, not a result
+**Scope:** Argues that treating C as continuous dissolves the "explanatory gap" - does not solve the Hard Problem
+**Does not establish:** That consciousness is fundamental, that qualia are explained, or that the combination problem is resolved
+**Date:** 2026-01-02 (rewritten 2026-02-08)
+**Depends on:** [Core Algebra](CORE_ALGEBRA.md)
 
 ---
 

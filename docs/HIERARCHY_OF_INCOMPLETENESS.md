@@ -1,10 +1,12 @@
-# The Hierarchy of Incompleteness
-## How Levels of Reality Emerge
+# Incompleteness and Emergence
+## A speculative analogy between quantum C < 1 and chemical reactivity
 
+**Tier:** 5 (Speculative analogy)
+**Status:** Philosophical exploration, not a computation or proof
+**Scope:** Observes that "incomplete" systems (C < 1) can connect while "complete" systems (C = 1) cannot, and draws parallels to chemistry
+**Does not establish:** That quantum C maps to chemical valence, that magnetism is "emergent mirroring," or that this hierarchy is more than metaphor
 **Date:** 2026-01-03
-**Status:** Proposed
-**Depends on:** [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
-**Context:** Conversation about crystals, magnetism, and the connection between levels
+**Depends on:** [Core Algebra](CORE_ALGEBRA.md)
 
 ---
 
