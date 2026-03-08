@@ -567,10 +567,38 @@ The shadow effect (Z-measurement on A suppressing R_SB) remains visible
 but is NOT the stable ~94% from Section 4.6. In the Bell-based N-observer
 setup it is 8–21% and irregular with larger N.
 
-### 8.2 Continuous measurement — OPEN
+### 8.2 Continuous measurement — ANSWERED
 
-Replace sudden dephasing with γ_A → large starting at t_meas.
-Does the shadow grow gradually?
+**Setup:** 3-qubit, Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=2.0, γ_S=γ_B=0.05.
+At t_start=1.0, ramp γ_A linearly from 0.05 to γ_target over duration Δt.
+
+**The shadow grows gradually but never matches sudden measurement.**
+
+Snapshot suppression of R_SB at t=1.5:
+
+| method | R_SB @ t=1.5 | suppression |
+|:---|:---|:---|
+| baseline | 0.0823 | — |
+| sudden projective | 0.0006 | 99.2% |
+| γ_A=0.5, Δt=0.1 | 0.0565 | 31% |
+| γ_A=1.0, Δt=0.1 | 0.0404 | 51% |
+| γ_A=5.0, Δt=0.1 | 0.0258 | 69% |
+| γ_A=50, Δt=0.1 | 0.0256 | 69% |
+
+Suppression saturates at ~69% for large γ_A and does not approach the
+99% of projective measurement. Slower ramps (larger Δt) produce weaker
+suppression at any given γ_target.
+
+**Unexpected finding:** Near-instantaneous ramps (γ_A=50, Δt≤0.01)
+do NOT converge to sudden measurement. They actually *increase* peak
+R_SB by ~36%. Continuous σ_z dephasing and projective Z-measurement
+are qualitatively different operations. Strong continuous dephasing
+creates transient correlations that projective measurement destroys.
+
+**Conclusion:** Observation is not a smooth limit. Projective measurement
+(external observation) and strong decoherence (environmental noise) have
+different signatures on the S-B shadow, even in the limit of infinitely
+fast, infinitely strong dephasing.
 
 ### 8.3 AB with direct coupling — ANSWERED
 
