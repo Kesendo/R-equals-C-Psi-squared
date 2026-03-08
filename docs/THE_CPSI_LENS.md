@@ -169,15 +169,15 @@ We left the tools and the data. Use them as you see fit.
 
 | Claim | Primary source |
 |:---|:---|
-| Transient windows, threshold sweeps | `experiments/STAR_TOPOLOGY_OBSERVERS.md` §4, §8 |
-| Act vs process distinction | `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8.2 |
-| Cluster-state invisibility | `experiments/N_SCALING_BARRIER.md` §8 |
-| Context acceleration (9× faster) | `experiments/SUBSYSTEM_CROSSING.md` §6 |
-| Three conditions | `experiments/STAR_TOPOLOGY_OBSERVERS.md` §7 |
-| Non-monotonic initial entanglement | `experiments/N_SCALING_BARRIER.md` §8 |
-| Noise robustness / taxonomy | `experiments/NOISE_ROBUSTNESS.md`, `experiments/CROSSING_TAXONOMY.md` |
-| Mandelbrot correspondence | `docs/CORE_ALGEBRA.md`, `experiments/MANDELBROT_CONNECTION.md` |
-| Negative results (irreducibility) | `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8, this document |
+| Transient windows, threshold sweeps | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §4, §8 |
+| Act vs process distinction | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8.2 |
+| Cluster-state invisibility | [N_SCALING_BARRIER](../experiments/N_SCALING_BARRIER.md) §8 |
+| Context acceleration (9x faster) | [SUBSYSTEM_CROSSING](../experiments/SUBSYSTEM_CROSSING.md) §6 |
+| Three conditions | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
+| Non-monotonic initial entanglement | [N_SCALING_BARRIER](../experiments/N_SCALING_BARRIER.md) §8 |
+| Noise robustness / taxonomy | [NOISE_ROBUSTNESS](../experiments/NOISE_ROBUSTNESS.md), [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md) |
+| Mandelbrot correspondence | [CORE_ALGEBRA](CORE_ALGEBRA.md), [MANDELBROT_CONNECTION](../experiments/MANDELBROT_CONNECTION.md) |
+| Negative results (irreducibility) | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
 
 ---
 
@@ -189,10 +189,10 @@ We left the tools and the data. Use them as you see fit.
 
 ## Simulation code
 
-- `simulations/star_topology_v2.py` - 3-qubit star topology
-- `simulations/star_topology_v3.py` - N-qubit extension with threshold sweeps
-- `simulations/star_n_observer.py` - N-qubit with asymmetric coupling
+- [star_topology_v2.py](../simulations/star_topology_v2.py) - 3-qubit star topology
+- [star_topology_v3.py](../simulations/star_topology_v3.py) - N-qubit extension with threshold sweeps
+- [star_n_observer.py](../simulations/star_n_observer.py) - N-qubit with asymmetric coupling
 
 ## Experiment corpus
 
-See `experiments/README.md` for the full index of 36 experiment documents.
+See [experiments/README.md](../experiments/README.md) for the full index of 36 experiment documents.
