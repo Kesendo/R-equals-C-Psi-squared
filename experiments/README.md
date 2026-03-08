@@ -29,6 +29,7 @@ For the conceptual overview of what these experiments collectively demonstrate, 
 - [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) - Same physics, different crossing time depending on metric choice
 - [Metric Discrimination](METRIC_DISCRIMINATION.md) - Null result: single-system sims cannot discriminate metric forms (equivalence principle analog)
 - [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) - No energy threshold; crossing requires CΨ_max ≥ 1/4, determined by J/γ competition
+- [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - CΨ vs LE vs CoA: CΨ witnesses momentary expression, not potential
 
 ## Bridge, topology, and null results
 
