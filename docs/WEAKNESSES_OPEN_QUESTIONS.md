@@ -75,7 +75,8 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 **Tier 4: Unverified (could not be reproduced):**
 - 33:1 coherence ratio
 - t_coh ~ N linear scaling
-- C_int / C_ext as physically distinct coupling types
+- C_int / C_ext 33:1 coherence ratio (disproven, see MATHEMATICAL_FINDINGS Section 9)
+- C_int / C_ext as distinct coupling types with measurably different coherence protection (noise distribution irrelevant for symmetric Hamiltonians; the formal Lindblad distinction is Tier 2, the physical claim is disproven)
 
 **Tier 5: Speculative (interesting, untestable by simulation):**
 - Consciousness as fundamental rather than emergent
