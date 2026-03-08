@@ -31,6 +31,7 @@ For the conceptual overview of what these experiments collectively demonstrate, 
 - [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md) - No energy threshold; crossing requires CΨ_max ≥ 1/4, determined by J/γ competition
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - CΨ vs LE vs CoA: CΨ witnesses momentary expression, not potential
 - [Observer-Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) - Different noise rates see different CΨ windows on the same pair
+- [When Psi Matters](WHEN_PSI_MATTERS.md) - CΨ distinguishes noise types that concurrence alone cannot
 
 ## Bridge, topology, and null results
 
