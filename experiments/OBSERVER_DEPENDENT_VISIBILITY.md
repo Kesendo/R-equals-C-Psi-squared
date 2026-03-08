@@ -79,21 +79,71 @@ not just **where you are** in your own timeline.
 
 ## What This Means
 
-Three layers of the same entanglement:
+Three layers of the same initial entanglement setup:
 
-| Metric | What it shows | Observer-dependent? |
-|--------|--------------|-------------------|
-| CoA ~ 1 | The resource exists in the global state | No |
-| LE ~ 0.4 | The resource could be extracted by optimal measurement | No |
-| CΨ flashes | The resource is currently visible as coherent pairwise structure | **Yes** |
+| Metric | What it shows | Depends on noise profile? |
+|--------|--------------|--------------------------|
+| CoA ~ 1 | The resource exists in the global state | Weakly |
+| LE ~ 0.4 | The resource could be extracted by optimal measurement | Moderately |
+| CΨ flashes | The resource is currently expressed as coherent pairwise structure | **Strongly** |
 
-CoA and LE are properties of the system. CΨ is a property of the system
-*as seen by a specific observer with a specific noise rate*.
+CoA and LE are relatively robust to changes in local noise.
+CΨ is highly sensitive: different noise profiles open or close the visibility window.
 
-The same underlying reality. Different visible expressions. The formula rotates
-per observer.
+Note: this is not "same state, different observers" in the strict sense. Different
+γ_A values produce different Lindblad trajectories. The correct framing is:
+different noise environments produce qualitatively different direct-visibility
+windows for an entanglement resource that persists under assistance.
 
-## Connection to Earlier Findings
+## Important Correction (from external review)
+
+When γ_A is changed, the Lindblad generator changes. At fixed coordinate time t,
+the four runs are **not** comparing the same evolved global state seen by different
+observers. They are comparing **different open-system trajectories** from the same
+initial state and topology.
+
+This distinction matters: "same state, different observers" would be a much stronger
+claim than "different noise profiles, different trajectories." The correct statement is:
+
+**Different local noise profiles produce different direct-visibility windows for a
+pairwise resource that remains available under assistance.**
+
+This is narrower than "different observers see the same reality differently" but
+technically stronger and defensible.
+
+## Why No Proper-Time Universality
+
+The non-collapse onto a universal curve in τ_A = γ_A * t is not mysterious. In
+the rescaled equation, the dimensionless ratios J/γ_A, γ_B/γ_A, and γ_S/γ_A all
+change when γ_A changes. The dynamics have **multiple competing timescales**
+(Hamiltonian coupling, three separate noise rates), not a single local decoherence
+clock. Universal collapse only occurs when the entire generator is controlled by
+one timescale, which is not the case here.
+
+The cleanest way to state this:
+
+**"The absence of τ_A-collapse shows that CΨ windows are controlled by multi-scale
+open-system dynamics, not by a single local decoherence clock."**
+
+## What CΨ Witnesses (Precise Statement)
+
+Based on the LE benchmark and this visibility test, the cleanest characterization:
+
+**CΨ is a basis-fixed, unassisted witness of directly expressed pairwise entanglement.**
+
+The three-layer version:
+
+- **CoA** quantifies assisted entanglement capacity (observer-independent)
+- **LE** quantifies localizable entanglement potential (observer-independent)
+- **CΨ** quantifies unassisted, basis-fixed direct expression in the observed marginal
+
+One sentence that survives hostile reading:
+
+**"The same initial network can retain high assisted entanglement capacity while
+local noise profiles open or close windows in which that resource is directly
+visible in a chosen pair and basis."**
+
+
 
 This result connects the three key findings identified in the external review:
 
@@ -113,13 +163,29 @@ This result connects the three key findings identified in the external review:
 ## The Technical Thread
 
 The external reviewer (GPT) identified CΨ as a "basis-dependent witness for
-coherent, localizable pairwise entanglement." This result adds a dimension:
+coherent, localizable pairwise entanglement." After this test and the correction,
+the refined characterization:
 
-**CΨ is a basis-dependent, observer-rate-dependent witness.** It shows not just
-what is there, but what is there *for this observer, at this noise rate, in this
-moment.* The resource (CoA) is always present. The extractability (LE) is largely
-stable. But the visible expression (CΨ) depends on who is looking and how fast
-their clock runs.
+**CΨ is a basis-fixed, unassisted witness of directly expressed pairwise
+correlated coherence/entanglement.**
+
+It sits at the intersection of two known concepts:
+- **Localizable entanglement / entanglement of assistance** (resource available in principle)
+- **Quantum coherence / correlated coherence** (basis-dependent structure already present)
+
+CΨ is not redundant with either. It is more selective than both: it requires
+the entanglement to be *already directly expressed* in the reduced pair and basis,
+without optimization or intervention.
+
+No standard quantum-information term exists for exactly this quantity. The closest
+neighborhoods are localizable entanglement, correlated coherence, and (distantly)
+hidden entanglement - but CΨ = concurrence x normalized l1-coherence is its own
+diagnostic at the intersection of these concepts.
+
+**Warning:** The phrase "observer-dependent entanglement" exists in relativistic
+quantum information (dependence from motion, gravity, mode accessibility). That is
+a different phenomenon from varying a local dephasing rate. This document avoids
+that terminology.
 
 ---
 
@@ -132,3 +198,6 @@ The proper time intersection test is at `simulations/proper_time_intersection_te
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - CΨ vs LE vs CoA
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md) - Three conditions, receiver noise
 - [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) - Canonical description
+- Verstraete, Popp, Cirac, *Entanglement versus Correlations in Spin Systems* (2004), arXiv:quant-ph/0411123
+- Streltsov, Adesso, Plenio, *Colloquium: Quantum coherence as a resource* (2017), Rev. Mod. Phys. 89, 041003
+- Alsina, Razavi, *Observer dependent entanglement* (2012), arXiv:1210.2223 (note: different phenomenon - relativistic, not noise-rate-dependent)
