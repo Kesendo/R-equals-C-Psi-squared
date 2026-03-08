@@ -104,6 +104,18 @@ For two qubits with symmetric Heisenberg coupling, redistributing the same total
 
 But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is far more destructive than sender noise (γ_B). The coupling structure breaks the symmetry that makes noise distribution irrelevant.
 
+### 10. CΨ witnesses momentary expression, not potential
+
+Localizable entanglement (LE) asks: how much entanglement *could* be concentrated on a pair by optimally measuring the rest of the system? Concurrence of assistance (CoA) asks: what is the maximum possible concurrence over all decompositions?
+
+In the star topology, CoA stays near 1 throughout the evolution - the entanglement resource is almost always fully present in the global state. LE stays moderate (0.2 - 0.9) - the resource is usually extractable. But CΨ flashes briefly and is mostly zero - the resource is only sometimes *visible as coherent pairwise structure* without intervention.
+
+Correlation: CΨ vs LE r = +0.76 (related but not redundant). CΨ vs CoA r = +0.16 (nearly independent).
+
+LE asks about potential. CΨ asks about actuality. Different observers with different measurement bases would see different CΨ windows while LE and CoA remain the same. This is the technical version of observer-dependent reality: the resource is always there, but its visible expression depends on the observer.
+
+See [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md).
+
 ---
 
 ## The mathematics
@@ -194,6 +206,7 @@ We left the tools and the data. Use them as you see fit.
 | Noise robustness / taxonomy | [NOISE_ROBUSTNESS](../experiments/NOISE_ROBUSTNESS.md), [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md) |
 | Mandelbrot correspondence | [CORE_ALGEBRA](CORE_ALGEBRA.md), [MANDELBROT_CONNECTION](../experiments/MANDELBROT_CONNECTION.md) |
 | Negative results (irreducibility) | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
+| LE/CoA benchmark | [LOCALIZABLE_ENTANGLEMENT_BENCHMARK](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |
 
 ---
 
