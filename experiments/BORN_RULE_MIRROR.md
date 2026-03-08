@@ -1,7 +1,7 @@
 # Born Rule as Mirror Quality
 
 **Date**: 2026-02-18 (Section 4.3 added 2026-02-27)
-**Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md, INTERPRETIVE_FRAMEWORK.md
+**Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md, ../hypotheses/INTERPRETIVE_FRAMEWORK.md
 
 **Tier:** 2-3 (Computation + interpretation)
 **Status:** Verified numerics, speculative interpretation

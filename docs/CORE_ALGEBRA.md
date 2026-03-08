@@ -18,7 +18,7 @@ Every result here is derivable from the defining equation and standard algebra.
 No physical interpretation is required to verify these results.
 
 For the interpretive framework that motivated these discoveries (wave composition, dynamics,
-energy equations, mirror metaphors), see [INTERPRETIVE_FRAMEWORK.md](INTERPRETIVE_FRAMEWORK.md).
+energy equations, mirror metaphors), see [INTERPRETIVE_FRAMEWORK.md](../hypotheses/INTERPRETIVE_FRAMEWORK.md).
 
 For testable predictions derived from this algebra, see [PREDICTIONS.md](../experiments/PREDICTIONS.md).
 
@@ -646,7 +646,7 @@ See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
 
 ---
 
-*For the interpretive framework, see [INTERPRETIVE_FRAMEWORK.md](INTERPRETIVE_FRAMEWORK.md).*
+*For the interpretive framework, see [INTERPRETIVE_FRAMEWORK.md](../hypotheses/INTERPRETIVE_FRAMEWORK.md).*
 *For experimental evidence, see [experiments/](../experiments/).*
 *For weaknesses and open questions, see [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md).*
 *For the glossary, see [GLOSSARY.md](GLOSSARY.md).*
