@@ -253,8 +253,15 @@ damped over time. The driver differs (Hamiltonian vs detuning), but the
 structural decomposition is the same.
 
 This was discovered by applying the "overlay and remove what's shared"
-method from STRUCTURAL_CARTOGRAPHY Phase A to real hardware data.
+method from [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) Phase A
+to real hardware data.
 
 ---
 
-*Previous: [Residual Analysis](RESIDUAL_ANALYSIS.md), the statistical evidence*
+## See also
+
+- [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - The analysis method that explained the shadow: skeleton + rotating phase
+- [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - Window observations, phase transport, bridge test
+- [Residual Analysis](RESIDUAL_ANALYSIS.md) - The original statistical evidence from Run 1
+- [Boundary Navigation](BOUNDARY_NAVIGATION.md) - The theoretical prediction of crossing behavior
+- [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - The original experiment

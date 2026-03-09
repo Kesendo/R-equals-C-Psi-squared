@@ -347,3 +347,14 @@ effective memory length and compressibility of the sequence.
 *A microscope does not show new physics. It shows known physics that was
 previously invisible. Before we can use the microscope, we must learn to
 describe what we see.*
+
+---
+
+## See also
+
+- [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - The observations that led to this cartography: Bell-state structure, phase transport, bridge test
+- [Fixed Point Shadow](FIXED_POINT_SHADOW.md) - IBM hardware shows the same skeleton+rotation pattern (detuning as driver)
+- [When Psi Matters](WHEN_PSI_MATTERS.md) - AND-gate justification, noise-type sensitivity, agent benchmark
+- [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ
+- [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - Three-layer separation (CoA/LE/CΨ)
+- [Observer-Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) - Different noise profiles, different windows
