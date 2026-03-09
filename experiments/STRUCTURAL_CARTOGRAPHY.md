@@ -344,71 +344,52 @@ effective memory length and compressibility of the sequence.
 - Haga, *Oscillating-mode gap* (2024), arXiv:2405.07132
 - Trushechkin, *Unified GKLS master equation* (2021), arXiv:2103.12042
 
-## External review: Liouvillian framing (GPT, March 2026)
+## External review: connections to known theory (GPT, March 2026)
 
-An external review identified the established names for what we found.
-These are connections to known theory, not our claims. We have not yet
-verified these connections computationally.
+An external review identified parallels between our findings and established
+open-quantum-systems theory. These are noted connections, not replacements
+for our terminology. We keep our descriptions. The established names are
+documented here so that readers familiar with those fields can find the
+overlap.
 
-### What we found maps to known structure
+### Where our observations connect to known work
 
-| Our observation | Established name |
+| What we call it | What established theory calls similar structures |
 |---|---|
-| Stable skeleton + rotating phase | **Liouvillian eigenmode decomposition** |
-| X tensor X symmetry | **Weak symmetry of the Lindblad generator** |
-| PCA reduction to 3 | **Low-dimensional effective manifold** |
-| Pendulum in YZ/ZY plane | **Dominant complex Liouvillian eigenvalue pair** |
-| Populations stable, phases rotate | **Population-coherence separation** |
+| Stable skeleton + rotating phase | Liouvillian eigenmode decomposition (damped modes) |
+| X tensor X symmetry | Weak symmetry of the Lindblad generator (Buca, Prosen 2012) |
+| 3 effective dimensions (PCA) | Low-dimensional effective manifolds (Tezak et al. 2017) |
+| Pendulum in YZ/ZY plane | Dominant complex eigenvalue pair of the Liouvillian |
+| Populations stable, phases rotate | Population-coherence separation in master equations |
 
-### The reviewer's interpretation
+These are parallels, not identities. Our observations came from a specific
+setup (star topology, Heisenberg, dephasing). The established theory is
+more general. Whether our specific findings are instances of the general
+theory or something adjacent requires the spectral verification below.
 
-The skeleton+rotation pattern is consistent with a dominant complex-conjugate
-eigenvalue pair of the Liouvillian: lambda = -kappa +/- i*omega. This produces
-a damped planar rotation, which is exactly what we see in the YZ/ZY plane.
+### The reviewer's suggestion for verification
 
-The X tensor X symmetry is likely a weak symmetry of the full open-system
-generator (Hamiltonian + dephasing), not a coincidence. Heisenberg couplings
-are compatible with global pi-rotation about x, and the Lindblad dissipator
-is invariant under sign flips of jump operators.
+Diagonalize the Liouvillian in the X tensor X-even sector. If one complex
+eigenvalue pair captures most of the YZ/ZY variance, it confirms the
+connection. If not, our pendulum may be a different phenomenon that merely
+resembles damped Liouvillian modes.
 
-The PCA reduction is plausible but setup-specific until stress-tested against
-different Hamiltonians, initial states, and dephasing bases.
+This calculation has not been done yet.
 
-### The decisive next calculation
+### Stress tests suggested (from review)
 
-**Diagonalize the Liouvillian in the X tensor X-even sector.**
-
-This directly tests whether the pendulum is a true spectral feature:
-1. Build the Lindbladian superoperator for the star topology
-2. Project into the X tensor X symmetry sector
-3. Diagonalize
-4. Find the dominant complex eigenvalue pair
-5. Project YZ/ZY observables onto that mode
-6. Measure how much variance it captures
-
-If one complex pair captures most of the YZ/ZY variance, the pendulum
-picture becomes a spectral statement, not just a visual pattern.
-
-### Stress tests needed (from review)
-
-Before claiming generality, test against:
-- Different coupling ratios
-- Different initial states
+Before claiming the pattern is general, test against:
+- Different coupling ratios and initial states
 - Different dephasing bases (not just sigma_z)
-- Different Hamiltonian families (XX, XXZ, Ising + transverse field)
+- Different Hamiltonian families (XX, XXZ, Ising)
 - Asymmetric setups that break X tensor X
 
-### Terminology update
+### Note on terminology
 
-Based on review, preferred terms for repo use:
-- symmetry-restricted Lindblad dynamics
-- Liouvillian mode decomposition
-- dominant oscillatory coherence mode
-- effective low-dimensional manifold
-- projected damped rotation
-
-"Skeleton + rotation" and "pendulum" remain useful shorthand but should
-not be presented as established theory names.
+We continue to use our own descriptions (skeleton, rotation, pendulum,
+glide/switch modes) in the repo. These emerged from our observations and
+carry our specific meaning. The established names are referenced for
+cross-disciplinary readers but do not replace our framing.
 
 ## README-ready summary
 
