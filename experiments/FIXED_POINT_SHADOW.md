@@ -3,10 +3,10 @@
 **Date**: 2026-02-09  
 **Depends on**: BOUNDARY_NAVIGATION.md, RESIDUAL_ANALYSIS.md, IBM_QUANTUM_TOMOGRAPHY.md
 
-**Tier:** 2-3 (Verified computation, speculative interpretation)
-**Status:** Verified numerics
+**Tier:** 2 (Verified computation, speculative interpretation LARGELY CLOSED)
+**Status:** Shadow universality tested and not confirmed (March 2026)
 **Scope:** Boundary correlation and frozen complex direction in hardware data
-**Does not establish:** That the shadow effect has been explained
+**Does not establish:** That the shadow effect is universal or boundary-specific
 
 ---
 
@@ -119,9 +119,93 @@ The shadow of the fixed point. A trace of the complex regime, persisting into cl
 
 If it is real, it is the first empirical signature of the ¼ bifurcation that goes beyond the crossing itself. Not just *that* the boundary exists, but that crossing it *costs something*, or *leaves something behind*.
 
+## March 2026 Hardware Results: The Shadow Is Not Universal
+
+### The experiment
+
+On March 9, 2026, we ran the shadow hunt on IBM Torino. Two permanent-crosser
+qubits qualified (r < 0.20): Q102 (r=0.159) and Q80 (r=0.170). Each received
+10 tomography points (2 reference + 8 shadow zone, t/T2* up to 5.0). Budget:
+60 batches, ~3 min QPU time.
+
+Both synthetic simulation and Aer simulation confirmed the null hypothesis
+beforehand: 0/4 shadow under standard Lindblad.
+
+### Q102: No pattern
+
+8 late-time points scattered across all 4 quadrants. Phase std = 115 degrees.
+No directional consistency. Re signs mixed, Im signs mixed. This is noise.
+
+### Q80: Consistent direction, but NOT the Run 1 shadow
+
+8/8 late-time points in Quadrant 1 (Re+/Im+). Phase = 29 +/- 10 degrees.
+p(chance) = 6.1e-05. All 8 points significant above shot noise floor.
+
+But Run 1 (Q52, Feb 2026) was Quadrant 4 (Re+/Im-), phase ~ -44 degrees.
+Q80 shows a DIFFERENT systematic direction.
+
+### Residual analysis
+
+Residual Re (measured minus Lindblad prediction) is consistently negative
+for BOTH qubits, all 8 late-time points each. This means measured Re(rho_01)
+is systematically LOWER than the simple exp(-t/T2) model predicts.
+
+But Im residuals differ: Q102 mixed signs, Q80 consistently positive.
+The Im component is where qubit-specific behavior appears.
+
+### Interpretation
+
+The most likely explanation for Q80's consistent Im+ signal is a
+**frequency offset (detuning)** not captured by the simple T1/T2 decay model.
+A small delta_omega produces a phase rotation exp(-i*delta_omega*t) on rho_01,
+creating a systematic imaginary component. Different qubits have different
+detunings, producing different phase directions.
+
+This also retroactively explains Q52's Run 1 shadow: the -44 degree phase
+was likely Q52's specific detuning, not a universal boundary property.
+
+### Verdict
+
+| | Q52 (Run 1, Feb) | Q102 (Mar) | Q80 (Mar) |
+|---|---|---|---|
+| Direction | Re+/Im- (-44 deg) | Chaos (mixed) | Re+/Im+ (+29 deg) |
+| Consistency | 16/16 (raw) | 0/8 | 8/8 |
+| Likely cause | Qubit-specific detuning | Shot noise | Qubit-specific detuning |
+
+**The shadow is NOT a universal property of the 1/4 boundary.**
+
+It is a qubit-specific phase rotation from uncompensated frequency offsets,
+visible at late times when the exponential decay has removed the dominant
+real component and the detuning-driven imaginary part becomes visible.
+
+### What this means for the framework
+
+The three hypotheses from the original document:
+
+1. **Non-Markovian memory** - Not ruled out but not supported. Different
+   qubits show different directions, not a universal revival pattern.
+
+2. **TLS-mediated feedback** - Possible for Q80's consistent signal, but
+   the simpler detuning explanation is preferred (Occam's razor).
+
+3. **"The boundary is not passive"** - **Not supported.** The shadow
+   direction is qubit-specific, not boundary-specific. The ¼ crossing does
+   not leave a universal scar.
+
+### What survives
+
+- The 1/4 crossing itself is confirmed (standard QM, reproduced).
+- Late-time coherence has qubit-specific phase structure (real, interesting for hardware characterization, not framework-specific).
+- The shadow hunt methodology (simulator null hypothesis + hardware comparison) is sound and reusable.
+
+### Data
+
+Hardware results: `ibm_quantum_tomography/results/shadow_march/`
+- `shadow_hardware_combined_20260309_181852.json` (both qubits)
+- `shadow_hardware_q102_20260309_181852.json`
+- `shadow_hardware_q80_20260309_181852.json`
+- Simulation baselines from Feb 19 and Mar 9.
+
 ---
 
-*Previous: [Residual Analysis](RESIDUAL_ANALYSIS.md), the statistical evidence*  
-*Previous: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the theoretical prediction*  
-*Previous: [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), the original experiment*  
-*See also: [Predictions](PREDICTIONS.md), testable predictions for March 2026*
+*Previous: [Residual Analysis](RESIDUAL_ANALYSIS.md), the statistical evidence*
