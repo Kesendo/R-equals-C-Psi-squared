@@ -266,6 +266,52 @@ periodic sector switches at the turning points.
 
 Script: simulations/window_xor.py
 
+### Shift Analysis: SWAP, YZ/ZY Symmetry, Time-Shift
+
+Three complementary tests on the window structure. Script: simulations/shift_analysis.py
+
+**SWAP Test: A and B are NOT symmetric.**
+
+Every window shows moderate to strong A/B asymmetry (TD 0.07-0.44). But the
+asymmetry DAMPS over time: Window 2 has TD=0.44 (strong), Window 6 has TD=0.07
+(nearly symmetric). The system becomes more A/B-symmetric despite asymmetric
+coupling (J_SA=1.0 vs J_SB=2.0).
+
+The SWAP difference has exactly four non-zero Pauli components: IX=-0.057,
+XI=+0.057, YZ=+0.012, ZY=-0.012. Perfectly antisymmetric: what A has, B lacks,
+and vice versa.
+
+**YZ/ZY Symmetry: Glide mode is a SYMMETRIC rotor.**
+
+Decomposing each window's YZ and ZY components into symmetric (c+) and
+antisymmetric (c-) combinations:
+
+| Pair | Mode | c+/c- ratio | Type |
+|---|---|---|---|
+| 0->1 | Glide | 5.7 | Symmetric |
+| 1->2 | Switch | 1.7 | Mixed |
+| 2->3 | Switch | 0.8 | Mixed |
+| 3->4 | Glide | 5.5 | Symmetric |
+| 4->5 | Switch | 0.6 | Mixed |
+
+In glide mode, c+ dominates c- by factor 5-6. Both qubits rotate equally -
+the rotation respects A/B symmetry despite asymmetric coupling. In switch mode,
+the symmetry breaks (c+/c- near 1).
+
+**Time-Shift: Period-2 structure in cosine similarity.**
+
+Comparing windows at various lags k:
+
+| Lag | Example pairs | Avg cosine similarity |
+|---|---|---|
+| k=1 | adjacent | +0.42 |
+| k=2 | skip-1 (1 vs 3, 4 vs 6) | +0.43 (cos up to +0.913) |
+| k=4 | skip-3 (0 vs 4, 3 vs 7) | +0.44 (cos up to +0.896) |
+
+Windows within the same mode (both glide, or both switch) have very high
+similarity even across multiple steps. The pattern repeats with period ~3
+(glide-glide-switch). Amplitude decays but structure returns.
+
 ### Operation Search: Which transform maps one window to the next?
 
 Tested all 16 two-qubit Pauli operations (IxI through ZxZ) plus continuous
