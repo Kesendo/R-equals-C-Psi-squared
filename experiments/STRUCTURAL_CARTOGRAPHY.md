@@ -225,6 +225,47 @@ The phase skeleton is entirely Hamiltonian. Noise only affects amplitude/purity.
 - Estimate effective memory length: does window N predict window N+1?
 - Test: is the sector-switch pattern periodic or does it drift?
 
+### Window XOR: What is NOT shared between windows?
+
+Overlaying the two sharpest windows (0 and 1) and removing what they share:
+
+**88% of Window 0 is also in Window 1.** Only 12-17% is unique to either.
+
+The difference concentrates in specific matrix elements:
+
+| What | Phase change W0 to W1 | Interpretation |
+|---|---|---|
+| Diagonal (populations) | **0.000** | Identical. The "who is in what state" is stable. |
+| rho_03, rho_30 (Phi+ core) | **0.000** | Identical. The main correlation is the skeleton. |
+| rho_02, rho_20, rho_13, rho_31 | **+0.787 pi** | Almost 180 deg rotation |
+| rho_01, rho_10, rho_23, rho_32 | **+0.633 pi** | More than half rotation |
+
+**The skeleton stays. The cross-connections rotate.**
+
+The Phi+ correlation (|00> <-> |11>) is the stable backbone shared by all windows.
+What changes from window to window is the phase of the cross-couplings - the elements
+that connect |00> to |10>, |01> to |11>, etc. And they rotate by nearly the same
+amount (~0.7 pi), suggesting a single rotational degree of freedom.
+
+In Pauli space, the difference is 87.3% in just two directions (YZ: 58.5%, ZY: 28.8%).
+This is a rotation in one plane, not a generic change.
+
+**Glide-mode differences alternate in direction:**
+- 0->1: direction D
+- 3->4: direction -D (cos = -0.886, almost exactly opposite)
+- 6->7: direction +D again (cos = +0.831)
+
+This is a pendulum in Pauli space. Each glide pushes the state in the opposite
+direction of the previous glide. The sector switches (hard transitions) are the
+turning points.
+
+**Summary:** The windows share a stable skeleton (Phi+ correlation + populations).
+What changes is a single rotational degree of freedom in the cross-coupling phases.
+The system is a damped pendulum oscillating in one plane of Pauli space, with
+periodic sector switches at the turning points.
+
+Script: simulations/window_xor.py
+
 
 
 An external reviewer ran the structural metrics on the star topology data.
