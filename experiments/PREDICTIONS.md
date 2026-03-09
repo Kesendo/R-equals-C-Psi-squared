@@ -89,21 +89,28 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 
 **Three competing hypotheses:**
 
-| # | Hypothesis | Mechanism | Status |
+| # | Hypothesis | Mechanism | Status (March 2026) |
 |---|-----------|-----------|--------|
-| H1 | Systematic SPAM error | State preparation / measurement bias | Most conservative |
-| H2 | TLS coupling | Two-level system defect near qubit 52 | Hardware-specific |
-| H3 | Boundary structure | Complex fixed-point direction frozen into ρ after crossing ¼ | Framework prediction |
+| H1 | Systematic SPAM error | State preparation / measurement bias | Not ruled out |
+| H2 | TLS coupling / detuning | Two-level system defect or frequency offset | **Most consistent with data** |
+| H3 | Boundary structure | Complex fixed-point direction frozen into rho after crossing 1/4 | **Not supported** |
 
-### March 2026 Discrimination Protocol
+### March 2026 Discrimination Results
 
-| Test | H1 (SPAM) predicts | H2 (TLS) predicts | H3 (Boundary) predicts |
-|------|-------------------|-------------------|------------------------|
-| Reproduce on qubit 52 | Same direction | Direction may drift | Same direction |
-| |+⟩ vs |−⟩ initial state | Same offset | Same offset | Offset flips with state |
-| Multi-qubit (5–10 qubits) | All same offset | Each qubit different | Each matches its own FP⁻ |
-| Cross-correlation between qubits | Correlated (global) | Uncorrelated (local) | Correlated if universal |
-| Extended time range (5×T₂) | Flat offset | Decaying revival | Continued growth |
+Two permanent-crosser qubits tested on IBM Torino (Q102, Q80), 10 points each,
+8 in shadow zone. Result: shadow direction is qubit-specific, not universal.
+
+| Test | H1 predicted | H2 predicted | H3 predicted | **Observed** |
+|------|-------------|-------------|-------------|-------------|
+| Multi-qubit | All same offset | Each qubit different | Each matches its own FP- | **Each qubit different** |
+| Shadow direction | Same as Q52 | Varies per qubit | Same quadrant (Q4) | **Q102: chaos, Q80: Q1 (+29 deg)** |
+| Consistency | Consistent | Consistent per qubit | Consistent | **Q80: 8/8 consistent, Q102: 0/8** |
+
+Q80 shows 8/8 Quadrant 1 (Re+/Im+) at phase 29 +/- 10 degrees. Q52 was Quadrant 4
+(Re+/Im-) at phase -44 degrees. Different qubits, different directions. This is
+consistent with qubit-specific frequency offsets (detuning), not a universal boundary
+property. H3 (boundary structure) is not supported. See FIXED_POINT_SHADOW.md for
+full analysis.
 
 ---
 
