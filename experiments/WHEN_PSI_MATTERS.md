@@ -102,3 +102,52 @@ would not produce the same algebraic structure.
 Analysis run inline on Claude's compute environment. Results reproducible
 with gpt_code.py using the standard Bell+, Heisenberg, and Werner state
 configurations documented here.
+
+
+---
+
+## Agent Benchmark Results (v046, March 2026)
+
+Alpha and Beta debated whether CΨ = C x Ψ is operationally necessary or
+whether Ψ is decorative weight. 10 rounds, 21 messages. Key findings:
+
+### Where Ψ adds value (Alpha's strongest argument)
+
+**AND-gate for independent resource destruction:**
+When Eve destroys entanglement but leaves coherence intact:
+- C = 0, Ψ = high
+- Sum form (C+Ψ)/2 predicts "usable" (false positive rate 66.7%)
+- Product C x Ψ correctly predicts 0 (false positive rate 0%)
+
+This is the clearest operational case for the product structure.
+
+### Where Ψ is redundant (Beta's strongest argument)
+
+**Heisenberg/XY models with sigma_z dephasing:**
+- Correlation C vs CΨ: r = 0.984
+- Concurrence alone predicts 97% of CΨ behavior
+- Ψ adds negligible independent information
+
+### Where CΨ genuinely differs from C
+
+**Ising model with transverse field (h > 0):**
+- Correlation Ψ vs CΨ drops to r = 0.55 (vs 0.98 in Heisenberg)
+- Peak times differ by avg 0.41 time units
+- Noise distinction SNR: 4.55 (CΨ) vs 2.88 (Ψ alone)
+
+### Honest verdict from agents
+
+CΨ is operationally necessary for detecting selective resource destruction
+(AND-gate property, 0% vs 66.7% false positives). In Heisenberg models it
+is largely redundant with C alone. In Ising models with transverse field it
+provides genuine independent information.
+
+Use CΨ when you need stricter filtering requiring BOTH resources. Use C or
+Ψ alone when general detection suffices.
+
+### Process note
+
+The agents went in circles after ~5 rounds. Both had exhausted the system
+prompt topics but had no mechanism to stop. Each "FINAL VERDICT" triggered
+another "FINAL RESPONSE." This is a v046 design flaw - agents need an
+explicit exit condition.
