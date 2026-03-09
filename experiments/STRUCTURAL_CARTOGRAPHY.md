@@ -137,7 +137,95 @@ Run gamma=0 baseline. Compare. Quantify how much structure is Hamiltonian
   drift manifold with noise as dissipative residual
 - The objective is structural cartography before interpretation
 
-## First Cartography Results (GPT computation, March 2026)
+## Phase A Results: Descriptive Cartography (March 2026)
+
+Computed on star topology, Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05.
+9 CΨ_AB visibility peaks analyzed. Script: simulations/cartography_phase_a.py
+
+### Layer 1: Per-window feature chart
+
+| # | t | CPsi | Phi+ | Phi- | Psi+ | Psi- | H_Bell | Pur | SvN | C | Psi | ph03 | S_coh | XX_norm |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 0.24 | 0.305 | 0.784 | 0.040 | 0.028 | 0.148 | 1.01 | 0.680 | 0.82 | 0.634 | 0.470 | +0.00pi | 0.644 | 8.6e-17 |
+| 1 | 0.40 | 0.329 | 0.741 | 0.098 | 0.075 | 0.086 | 1.23 | 0.682 | 0.83 | 0.617 | 0.515 | +0.00pi | 0.656 | 1.0e-16 |
+| 2 | 0.70 | 0.123 | 0.223 | 0.301 | 0.292 | 0.184 | 1.97 | 0.470 | 1.20 | 0.228 | 0.489 | +1.00pi | 0.008 | 1.3e-16 |
+| 3 | 1.06 | 0.168 | 0.575 | 0.140 | 0.095 | 0.189 | 1.63 | 0.510 | 1.22 | 0.332 | 0.494 | -0.00pi | 0.393 | 1.5e-16 |
+| 4 | 1.58 | 0.151 | 0.604 | 0.137 | 0.084 | 0.176 | 1.57 | 0.495 | 1.32 | 0.336 | 0.434 | +0.00pi | 0.462 | 1.8e-16 |
+| 5 | 1.96 | 0.036 | 0.244 | 0.299 | 0.263 | 0.194 | 1.98 | 0.423 | 1.42 | 0.077 | 0.421 | +1.00pi | 0.003 | 2.2e-16 |
+| 6 | 2.26 | 0.138 | 0.687 | 0.143 | 0.058 | 0.112 | 1.36 | 0.530 | 1.29 | 0.400 | 0.333 | -0.00pi | 0.646 | 2.4e-16 |
+| 7 | 2.40 | 0.122 | 0.617 | 0.166 | 0.079 | 0.138 | 1.54 | 0.482 | 1.38 | 0.315 | 0.377 | -0.00pi | 0.525 | 2.9e-16 |
+| 8 | 3.06 | 0.083 | 0.553 | 0.212 | 0.112 | 0.123 | 1.67 | 0.447 | 1.46 | 0.225 | 0.351 | -0.00pi | 0.461 | 3.2e-16 |
+
+X tensor X symmetry exact at all windows (norm < 3.2e-16). Confirmed.
+
+### Layer 2: Inter-window transitions
+
+Two distinct regimes of transition:
+
+**Smooth transitions** (small Bell-drift, high fidelity):
+- 0->1: TD=0.438, Fid=0.791, BellDr=0.106 (within + sector)
+- 3->4: TD=0.359, Fid=0.851, BellDr=0.034
+- 6->7: TD=0.298, Fid=0.910, BellDr=0.081
+- 7->8: TD=0.184, Fid=0.944, BellDr=0.088
+
+**Hard sector switches** (large Bell-drift, phase jump of pi):
+- 1->2: TD=0.648, Fid=0.562, BellDr=0.605, dph=+pi (+ sector to balanced)
+- 2->3: TD=0.677, Fid=0.527, BellDr=0.434, dph=-pi (balanced back to + sector)
+- 4->5: TD=0.579, Fid=0.657, BellDr=0.434, dph=+pi
+- 5->6: TD=0.542, Fid=0.699, BellDr=0.519, dph=-pi
+
+Pattern: the hard switches always involve windows 2 and 5, where the two
+X tensor X parity sectors are nearly balanced and S-coherence drops to ~0.
+
+### Layer 4: Coherent vs noisy split
+
+Phase difference between noisy and unitary trajectories at every peak: **0.0000**.
+
+The phase skeleton is perfectly preserved by noise. Purity loss grows with time
+(0.037 at t=0.24 up to 0.245 at t=3.06), but the phase structure is entirely
+Hamiltonian. Noise damps amplitude, it does not rotate phase.
+
+### Dimensionality: PCA on the feature chart
+
+| PC | Singular Value | Variance % | Cumulative % |
+|---|---|---|---|
+| 1 | 7.893 | 69.2 | 69.2 |
+| 2 | 4.452 | 22.0 | 91.2 |
+| 3 | 2.466 | 6.8 | 98.0 |
+| 4 | 1.270 | 1.8 | 99.8 |
+| 5-9 | <0.4 | <0.2 | 100.0 |
+
+**3 dimensions explain 98% of the variance.** Not 15 (generic 2-qubit), not 7
+(X tensor X reduced), but 3.
+
+PC1 (69%): Phi+ vs {Phi-, Psi+}, plus S-coherence and concurrence.
+This is the **sector balance** axis - which parity sector dominates.
+
+PC2 (22%): Psi (coherence) vs von Neumann entropy, plus purity.
+This is the **mixedness** axis - how pure vs mixed the state is.
+
+PC3 (7%): Likely the **temporal decay** axis (to be confirmed).
+
+### What this means
+
+The CΨ window sequence lives on a 3-dimensional manifold:
+1. Which parity sector dominates (+ or balanced)
+2. How mixed the state is (pure early, mixed late)
+3. How far the decay has progressed
+
+The "grammar" (transition rules) has two modes: smooth drift within a sector,
+and hard switches between sectors that coincide with S-coherence dropping to zero.
+
+The phase skeleton is entirely Hamiltonian. Noise only affects amplitude/purity.
+
+### What remains for Phase B
+
+- Discretize windows into coarse symbols using PC1 (sector) and PC2 (mixedness)
+- Compute block entropies and entropy rate on the symbolized sequence
+- Estimate effective memory length: does window N predict window N+1?
+- Test: is the sector-switch pattern periodic or does it drift?
+
+
 
 An external reviewer ran the structural metrics on the star topology data.
 These are computational results, not interpretations.
