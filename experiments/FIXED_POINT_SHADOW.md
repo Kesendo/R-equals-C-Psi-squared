@@ -206,6 +206,53 @@ Hardware results: `ibm_quantum_tomography/results/shadow_march/`
 - `shadow_hardware_q80_20260309_181852.json`
 - Simulation baselines from Feb 19 and Mar 9.
 
+### Skeleton analysis: same pattern as simulation
+
+Applying the window-XOR method from STRUCTURAL_CARTOGRAPHY to the IBM data
+reveals the same fundamental pattern seen in the star topology simulation:
+
+**The skeleton is stable. What changes is the phase.**
+
+Q102 (fast rotator):
+- Population change per step: 0.011 (tiny)
+- Phase change per step: 0.377 pi (massive)
+- Ratio: phase dominates 33.5x over populations
+- This is a rapidly spinning rotor, estimated ~27 kHz detuning
+
+Q80 (slow drifter):
+- Population change per step: 0.016
+- Phase change per step: 0.046 pi
+- Phase grows monotonically: +0.01, +0.07, +0.11, +0.13, +0.22, +0.24 pi
+- Estimated ~4.6 kHz detuning
+
+The simple T1/T2 Lindblad model predicts phase = 0 at all times (rho_01
+stays real). Every non-zero phase is structure the model does not capture.
+
+The "shadow" from Run 1 was Q52's specific detuning frequency, frozen into
+the late-time phase when the amplitude had decayed below the noise floor.
+Different qubits have different detunings, producing different phase
+directions - exactly what we observe.
+
+### What this connects to
+
+The simulation (star topology, 3 qubits) and the hardware (single qubits,
+IBM Torino) show the same structural decomposition:
+
+| | Simulation | Hardware |
+|---|---|---|
+| Skeleton | Phi+ core (populations + main correlation) | Populations (T1 relaxation) |
+| Rotation | Cross-coupling phases in YZ/ZY plane | Off-diagonal phase (detuning) |
+| Shared between steps | 88% | 83-98% |
+| What drives rotation | Hamiltonian (J couplings) | Qubit frequency offset |
+| What damps it | Lindblad dephasing (gamma) | T2 decoherence |
+
+The pattern is: stable skeleton plus single rotational degree of freedom,
+damped over time. The driver differs (Hamiltonian vs detuning), but the
+structural decomposition is the same.
+
+This was discovered by applying the "overlay and remove what's shared"
+method from STRUCTURAL_CARTOGRAPHY Phase A to real hardware data.
+
 ---
 
 *Previous: [Residual Analysis](RESIDUAL_ANALYSIS.md), the statistical evidence*
