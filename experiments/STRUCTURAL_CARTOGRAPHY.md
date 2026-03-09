@@ -329,11 +329,86 @@ effective memory length and compressibility of the sequence.
 
 ## Sources
 
+### Process tensor / multi-time dynamics
 - Pollock et al., *Non-Markovian quantum processes* (2018), arXiv:1512.00589
 - Milz, Modi, *Quantum stochastic processes and quantum non-Markovian phenomena* (2021), arXiv:2106.11722
 - Milz et al., *Operational definition of quantum Markov processes* (2018), arXiv:1801.09811
 - Binder et al., *Memory complexity of quantum processes* (2022), arXiv:2203.01492
 - Schack, Caves, *Information and entropy in the Baker's map* (2006), arXiv:quant-ph/0611202
+
+### Liouvillian symmetry and mode structure (from external review, March 2026)
+- Buca, Prosen, *Symmetry reductions of the Lindblad equation* (2012), arXiv:1203.0943
+- Kawabata et al., *Symmetry of Open Quantum Systems* (2023), arXiv:2212.00605
+- van Caspel, Gritsev, *Symmetry-protected coherent relaxation* (2018), arXiv:1802.05293
+- Tezak et al., *Low dimensional manifolds for open quantum systems* (2017), arXiv:1704.05369
+- Haga, *Oscillating-mode gap* (2024), arXiv:2405.07132
+- Trushechkin, *Unified GKLS master equation* (2021), arXiv:2103.12042
+
+## External review: Liouvillian framing (GPT, March 2026)
+
+An external review identified the established names for what we found.
+These are connections to known theory, not our claims. We have not yet
+verified these connections computationally.
+
+### What we found maps to known structure
+
+| Our observation | Established name |
+|---|---|
+| Stable skeleton + rotating phase | **Liouvillian eigenmode decomposition** |
+| X tensor X symmetry | **Weak symmetry of the Lindblad generator** |
+| PCA reduction to 3 | **Low-dimensional effective manifold** |
+| Pendulum in YZ/ZY plane | **Dominant complex Liouvillian eigenvalue pair** |
+| Populations stable, phases rotate | **Population-coherence separation** |
+
+### The reviewer's interpretation
+
+The skeleton+rotation pattern is consistent with a dominant complex-conjugate
+eigenvalue pair of the Liouvillian: lambda = -kappa +/- i*omega. This produces
+a damped planar rotation, which is exactly what we see in the YZ/ZY plane.
+
+The X tensor X symmetry is likely a weak symmetry of the full open-system
+generator (Hamiltonian + dephasing), not a coincidence. Heisenberg couplings
+are compatible with global pi-rotation about x, and the Lindblad dissipator
+is invariant under sign flips of jump operators.
+
+The PCA reduction is plausible but setup-specific until stress-tested against
+different Hamiltonians, initial states, and dephasing bases.
+
+### The decisive next calculation
+
+**Diagonalize the Liouvillian in the X tensor X-even sector.**
+
+This directly tests whether the pendulum is a true spectral feature:
+1. Build the Lindbladian superoperator for the star topology
+2. Project into the X tensor X symmetry sector
+3. Diagonalize
+4. Find the dominant complex eigenvalue pair
+5. Project YZ/ZY observables onto that mode
+6. Measure how much variance it captures
+
+If one complex pair captures most of the YZ/ZY variance, the pendulum
+picture becomes a spectral statement, not just a visual pattern.
+
+### Stress tests needed (from review)
+
+Before claiming generality, test against:
+- Different coupling ratios
+- Different initial states
+- Different dephasing bases (not just sigma_z)
+- Different Hamiltonian families (XX, XXZ, Ising + transverse field)
+- Asymmetric setups that break X tensor X
+
+### Terminology update
+
+Based on review, preferred terms for repo use:
+- symmetry-restricted Lindblad dynamics
+- Liouvillian mode decomposition
+- dominant oscillatory coherence mode
+- effective low-dimensional manifold
+- projected damped rotation
+
+"Skeleton + rotation" and "pendulum" remain useful shorthand but should
+not be presented as established theory names.
 
 ## README-ready summary
 
