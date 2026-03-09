@@ -266,6 +266,56 @@ periodic sector switches at the turning points.
 
 Script: simulations/window_xor.py
 
+### Operation Search: Which transform maps one window to the next?
+
+Tested all 16 two-qubit Pauli operations (IxI through ZxZ) plus continuous
+rotations on each adjacent window pair. Script: simulations/window_operations.py
+
+**Key finding: no single-qubit rotation helps. Only correlated operations work.**
+
+Rz_A alone: 0% improvement at any angle, for any pair.
+Rz_B alone: 0% improvement.
+Ry_A, Ry_B alone: 0% improvement.
+Rz_AB (both qubits together, 180 deg): 32% improvement.
+
+The rotation lives in the correlation space, not in either qubit individually.
+
+**Two different grammar rules for two transition modes:**
+
+| Pair | Mode | Best operation | Improvement | What it means |
+|---|---|---|---|---|
+| 0->1 | Glide | YxY / ZxZ | 32% | Correlated rotation (both qubits together) |
+| 1->2 | Switch | IxZ / XxY | 20% | Single-qubit-B operation (breaks sector balance) |
+| 2->3 | Switch | XxY / IxZ | 47% | Single-qubit-B operation |
+| 3->4 | Glide | IxI (nothing) | 0% | Windows already maximally similar |
+| 4->5 | Switch | IxZ / XxY | 31% | Single-qubit-B operation |
+| 5->6 | Switch | XxY / IxZ | 4% | Single-qubit-B operation |
+| 6->7 | Glide | ZxZ / YxY | 36% | Correlated rotation |
+| 7->8 | Glide | IxI (nothing) | 0% | Windows already maximally similar |
+
+**No universal operation exists.** The best single operation across all pairs is
+IxI (identity) - doing nothing is better than any fixed transform applied to every
+pair. The grammar is pair-specific.
+
+**Interpretation:**
+
+Glide mode = correlated rotation (ZxZ/YxY). Both qubits must rotate together.
+This is an entanglement-preserving operation - it acts on the correlation structure,
+not on individual qubits. This confirms the pendulum lives in the correlation space.
+
+Switch mode = single-qubit operation on B (IxZ/XxY). Only B is affected. This
+asymmetry makes sense: B is the more strongly coupled observer (J_SB=2.0 > J_SA=1.0).
+The sector switch is driven by the strongly coupled side.
+
+Quiet glide (3->4, 7->8) = no operation needed. These are the passages where the
+damping has slowed the pendulum almost to a stop. The windows are nearly identical
+because the system is approaching its steady state in that sector.
+
+**The grammar in one sentence:** Between windows, the system either rotates both
+qubits together (correlated glide in the entanglement space) or flips the strongly
+coupled qubit alone (sector switch). There is no universal operation - the rule
+depends on which mode the system is in.
+
 
 
 An external reviewer ran the structural metrics on the star topology data.
