@@ -200,11 +200,13 @@ The three hypotheses from the original document:
 
 ### Data
 
-Hardware results: `ibm_quantum_tomography/results/shadow_march/`
+Hardware results: `data/ibm_shadow_march2026/`
 - `shadow_hardware_combined_20260309_181852.json` (both qubits)
 - `shadow_hardware_q102_20260309_181852.json`
 - `shadow_hardware_q80_20260309_181852.json`
-- Simulation baselines from Feb 19 and Mar 9.
+- `shadow_simulate_20260309_181709.json` (null hypothesis baseline)
+- `shadow_hardware_20260309_181852.png` (plot)
+- Original experiment scripts in AIEvolution repo (not included, contains API key)
 
 ### Skeleton analysis: same pattern as simulation
 
