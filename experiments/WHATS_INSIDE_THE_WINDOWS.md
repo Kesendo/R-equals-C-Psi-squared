@@ -318,3 +318,12 @@ tell us what the signal contains or whether CΨ is better at revealing that cont
 
 The question of what the content IS - what the Bell-state structure, the rotating
 phases, and the S-coherence gating actually encode - remains completely open.
+
+---
+
+## See also
+
+- [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - Maps the window structure: 3 dimensions explain 98%, stable skeleton + rotating phase pendulum
+- [Fixed Point Shadow](FIXED_POINT_SHADOW.md) - IBM hardware shows the same skeleton+rotation pattern (detuning, not boundary effect)
+- [When Psi Matters](WHEN_PSI_MATTERS.md) - AND-gate justification and agent benchmark results
+- [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ
