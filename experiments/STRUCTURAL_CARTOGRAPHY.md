@@ -692,6 +692,42 @@ What DOES change the structure:
 parameter set. It is a property of the Heisenberg star topology with
 asymmetric coupling and sigma_z dephasing.
 
+### Correction from external review: f(c-) is not constant
+
+GPT pointed out (correctly) that f(c-) is not truly constant but slowly
+drifting: 0.200 -> 0.300 -> 0.350 -> 0.400 -> 0.400 -> 0.450 -> 0.450 -> 0.450.
+This is "weakly dispersive" not constant. The drift matches a candidate formula:
+
+  f_+/- = (1 + J_SB +/- sqrt(1 - J_SB + J_SB^2)) / pi
+
+For J_SA=1, this gives two branches:
+- f_+ (fast): scales up with J_SB (our c+ rotor)
+- f_- (slow): drifts slowly, approaches ~1.5/pi = 0.477 for large J_SB
+
+This is a project-internal derivation, not verified against all sweep points yet.
+The branch structure (two coupled frequency arms from the same Hamiltonian
+eigenvalue splitting) is more precise than "one constant, one scaling."
+
+### External assessment after parameter sweep
+
+"This is no longer a coincidence. This is a clean spectral picture."
+
+The reviewer's key points:
+- Sweep 1 is the strongest: the numbers look like two coupled frequency branches
+- Sweep 2 confirms: noise makes the bell quieter but does not retune it
+- Sweep 3 separates existence from visibility: modes are a generator property,
+  amplitudes are an initial-state property
+- Sweep 4 confirms: the structure sits on the Liouvillian symmetry level
+
+Suggested further stress tests:
+- Symmetry-breaking Hamiltonian terms (local fields h_A Z_A, h_B Z_B)
+- Anisotropic coupling (XXZ instead of isotropic)
+- Direct A-B coupling
+- Different jump operators (not just sigma_z dephasing)
+
+If the two-branch structure breaks exactly where symmetry theory predicts,
+the story becomes fully defensible.
+
 ## README-ready summary
 
 > CΨ windows are analyzed as a structured reduced-state process with persistent
