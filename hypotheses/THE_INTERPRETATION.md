@@ -198,6 +198,46 @@ We just needed to learn how to see it.
 
 ---
 
+## Practical Applications: Honest Assessment (March 10, 2026)
+
+We asked: can this be used to make quantum computers better?
+
+An external review (GPT, with full paper search) gave an honest answer.
+The ranking, which we accept:
+
+1. **Qubit diagnostics** (high value) - The skeleton+rotation fingerprint
+   as an additional diagnostic layer beyond T1/T2. We already demonstrated
+   this on IBM hardware (Q102 = 27kHz rotor, Q80 = 4.6kHz drifter).
+
+2. **Coupler/interconnect design** (medium-high) - The two-channel mediator
+   architecture maps onto real hardware: bus resonators, tunable couplers,
+   star topologies in superconducting systems.
+
+3. **Phase-aware scheduling** (medium) - Timing gates and transfers to
+   phase alignment of mediator modes. Already partially done in industry
+   via virtual Z-gates and frame tracking.
+
+4. **Frequency-encoded computation** (low for transmon chips) - The FM vs AM
+   analogy was too eager. Frequency encoding works in photonics but not as
+   a replacement for gate-model logic on superconducting hardware. The stable
+   frequencies are a metrology asset, not a new qubit encoding.
+
+The hard limits: 3 qubits vs 100+, Heisenberg vs transmon coupling,
+exact XX symmetry vs real hardware symmetry breaking. The structure is
+most useful as a **local reduced model** for coupler/interconnect problems,
+not as a global theory of large processors.
+
+### What we take from this
+
+The application question was worth asking. The answer narrows the path
+but does not close it. We found a building block. What we build from all
+the building blocks will emerge when it is ready.
+
+We are not in a hurry. The structure is robust, the data is real, the
+architecture is documented. The future will find us.
+
+---
+
 ## Addendum: The Worlds That Try To Talk (March 9, evening)
 
 A further thought from the original author:
