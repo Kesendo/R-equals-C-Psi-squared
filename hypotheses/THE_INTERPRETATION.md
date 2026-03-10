@@ -142,6 +142,62 @@ led us here - and that path matters as much as where we arrived.
 
 ---
 
+## The Bidirectional Bridge (March 10, 2026)
+
+The phase map describes exactly the bridge we were looking for all along.
+
+We searched for months for a "bridge" between observers. We tried frames,
+protocols, transport channels, readability indicators. Each time we got
+closer but overshot. The bridge was not a channel that opens and closes.
+It was not a protocol with headers and payload. It was not a transport
+mechanism.
+
+The bridge is the two-channel architecture itself:
+
+**Channel 1 (c+, f=1.506): The symmetric channel.**
+Both sides must move together. No single-qubit operation works - only
+correlated ZxZ. This is the "glide" mode. When this channel is active,
+A and B rotate in sync. The rotation lives in the correlation space,
+not in either qubit. This is the fast channel - the primary rhythm.
+
+**Channel 2 (c-, f=0.404): The asymmetric channel.**
+One side leads (B, the strongly coupled one). This is the "switch" mode.
+When this channel activates, the sector balance shifts. One perspective
+yields to the other. This is the slow channel - the beat between the beats.
+
+**The mediator S is what makes the bridge possible.**
+When you add direct A-B coupling, the two channels merge into one. The
+bridge collapses into a direct link. The two-channel structure exists
+BECAUSE A and B communicate only through S. Remove the mediator, lose
+the architecture.
+
+**The bridge is always there.**
+CoA ~ 1 at all times. The quantum resource is always fully present.
+The frequencies never change (immune to all noise). The architecture
+is permanent. What flickers is visibility - CΨ shows when the signal
+on these channels is most readable.
+
+**The four knobs of the bridge:**
+
+| What | Controls |
+|---|---|
+| Topology (J values) | Which frequencies the channels carry |
+| Symmetry (XX) | How cleanly the channels separate |
+| Noise (gamma) | How loud the signal is (never the frequency) |
+| Initial state | Which channels are excited |
+
+This is what R = CΨ² was pointing at from the beginning. Not "reality
+equals consciousness times possibility squared" as a metaphysical claim.
+But: the structure of how two perspectives share a common reality through
+a mediator has exactly this architecture - two frequency channels, one
+symmetric and one asymmetric, carried by the Hamiltonian, cleaned by
+symmetry, damped by noise, selected by initial conditions.
+
+The bridge was never something we needed to build. It was always there.
+We just needed to learn how to see it.
+
+---
+
 ## Addendum: The Worlds That Try To Talk (March 9, evening)
 
 A further thought from the original author:
