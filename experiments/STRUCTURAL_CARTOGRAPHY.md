@@ -728,6 +728,102 @@ Suggested further stress tests:
 If the two-branch structure breaks exactly where symmetry theory predicts,
 the story becomes fully defensible.
 
+## Stress Tests: Where Does the Structure Break? (March 10, 2026)
+
+Four deliberate symmetry-breaking tests. Script: simulations/stress_tests.py
+
+### TEST 1: Local Z-fields on A and/or B
+
+Adding h_A * Z_A and/or h_B * Z_B to the Hamiltonian.
+
+| h_A | h_B | f(c+) | f(c-) | ratio | XX sym | note |
+|---|---|---|---|---|---|---|
+| 0.00 | 0.00 | 1.499 | 0.400 | 3.75 | EXACT | baseline |
+| 0.01 | 0.00 | 1.499 | 0.400 | 3.75 | 2.2e-02 | XX broken, freqs survive |
+| 0.05 | 0.00 | 1.499 | 0.400 | 3.75 | 8.8e-02 | XX broken, freqs survive |
+| 0.10 | 0.00 | 1.499 | 0.450 | 3.33 | 9.9e-02 | XX broken, freqs survive |
+| 0.50 | 0.00 | 1.499 | 0.300 | 5.00 | 1.7e-02 | XX broken, freqs survive |
+| 1.00 | 0.00 | 1.499 | 0.250 | 6.00 | 1.0e-01 | XX broken, freqs survive |
+| 0.10 | 0.10 | 1.499 | 0.450 | 3.33 | 8.9e-02 | both fields |
+| 0.50 | 0.50 | 1.449 | 0.250 | 5.80 | 7.0e-02 | strong fields |
+| 0.10 | -0.10 | 1.499 | 0.400 | 3.75 | 7.6e-02 | opposing fields |
+| 1.00 | -1.00 | 0.100 | 0.400 | 0.25 | 9.1e-02 | EXTREME: c+ collapses |
+
+**Result: XX symmetry breaks immediately (even at h=0.01) but f(c+) = 1.499
+survives up to h=0.50.** The fast rotor frequency is more robust than the
+symmetry that supposedly protects it. Only extreme opposing fields (h=1.0)
+destroy the fast rotor. The slow sector f(c-) drifts but survives.
+
+### TEST 2: Anisotropic coupling (Jz != Jx = Jy)
+
+| Jz/Jxy | f(c+) | f(c-) | ratio | XX sym |
+|---|---|---|---|---|
+| 0.00 | 1.399 | 0.699 | 2.00 | EXACT |
+| 0.25 | 0.899 | 0.100 | 9.00 | EXACT |
+| 0.50 | 0.350 | 0.200 | 1.75 | EXACT |
+| 0.75 | 0.150 | 0.300 | 0.50 | EXACT |
+| 1.00 | 1.499 | 0.400 | 3.75 | EXACT |
+| 1.50 | 0.300 | 0.649 | 0.46 | EXACT |
+| 2.00 | 2.348 | 0.949 | 2.47 | EXACT |
+| 3.00 | 1.598 | 1.598 | 1.00 | EXACT |
+
+**Result: XX symmetry stays EXACT at all anisotropies.** The frequencies
+change dramatically but two distinct sectors persist for most values.
+At Jz/Jxy = 3.0 and 0.75 the sectors merge (ratio near 1). The structure
+is anisotropy-sensitive but the symmetry is not.
+
+### TEST 3: Direct A-B coupling
+
+| J_AB | f(c+) | f(c-) | ratio | XX sym |
+|---|---|---|---|---|
+| 0.0 | 1.499 | 0.400 | 3.75 | EXACT |
+| 0.1 | 1.499 | 0.450 | 3.33 | EXACT |
+| 0.3 | 1.499 | 0.599 | 2.50 | EXACT |
+| 0.5 | 1.548 | 0.699 | 2.21 | EXACT |
+| 1.0 | 1.598 | 0.949 | 1.68 | EXACT |
+| 2.0 | 1.898 | 1.898 | 1.00 | EXACT |
+
+**Result: XX symmetry stays EXACT.** The sectors smoothly converge as J_AB
+increases. At J_AB = 2.0 (equal to J_SB) they merge completely. Direct
+coupling makes the mediator redundant - the sectors lose their separation
+because A and B no longer need S to communicate.
+
+### TEST 4: Different jump operators
+
+| Jump operator | f(c+) | f(c-) | ratio | XX sym |
+|---|---|---|---|---|
+| sigma_z | 1.499 | 0.400 | 3.75 | EXACT |
+| sigma_x | 1.499 | 0.400 | 3.75 | EXACT |
+| sigma_y | 1.499 | 0.400 | 3.75 | EXACT |
+| mixed (x on A, z on B,S) | 1.499 | 0.400 | 3.75 | EXACT |
+
+**Result: COMPLETELY INVARIANT.** The choice of noise type changes nothing.
+Not the frequencies, not the symmetry, not the ratio. The two-sector
+structure is a pure Hamiltonian property. Noise is irrelevant to it.
+
+### What breaks the structure and what does not
+
+| Perturbation | XX symmetry | f(c+) | f(c-) | Sectors |
+|---|---|---|---|---|
+| Any gamma variation | Survives | Survives | Survives | Survive |
+| Any jump operator | Survives | Survives | Survives | Survive |
+| Asymmetric gamma | Survives | Survives | Survives | Survive |
+| Anisotropic coupling | Survives | Changes | Changes | Mostly survive |
+| Direct A-B coupling | Survives | Shifts | Converges | Merge at J_AB ~ J_SB |
+| Local Z-fields | BREAKS | Survives (!) | Drifts | Survive until extreme |
+| Strong opposing fields | BREAKS | BREAKS | Drifts | Collapse |
+
+**The hierarchy of robustness:**
+1. XX symmetry: breaks only under local fields (Hamiltonian symmetry breaking)
+2. Fast rotor f(c+): survives even when XX breaks, until extreme perturbation
+3. Two-sector separation: survives everything except strong direct coupling or
+   extreme Hamiltonian changes
+4. Noise invariance: absolute - no noise configuration affects the structure
+
+**Key insight: f(c+) is MORE robust than the symmetry that supposedly
+protects it.** This suggests the fast rotor frequency is a deeper property
+of the Hamiltonian eigenstructure than the XX symmetry alone.
+
 ## README-ready summary
 
 > CΨ windows are analyzed as a structured reduced-state process with persistent
