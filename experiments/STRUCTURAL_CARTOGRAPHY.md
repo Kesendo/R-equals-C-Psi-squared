@@ -797,9 +797,14 @@ because A and B no longer need S to communicate.
 | sigma_y | 1.499 | 0.400 | 3.75 | EXACT |
 | mixed (x on A, z on B,S) | 1.499 | 0.400 | 3.75 | EXACT |
 
-**Result: COMPLETELY INVARIANT.** The choice of noise type changes nothing.
-Not the frequencies, not the symmetry, not the ratio. The two-sector
-structure is a pure Hamiltonian property. Noise is irrelevant to it.
+**Result: Robust within all tested jump operator families.** sigma_x, sigma_y,
+and mixed operators all produce identical frequencies and exact XX symmetry.
+The frequencies are Hamiltonian-dominated; the tested noise channels affect
+primarily decay rates, not mode frequencies.
+
+Note: this does not prove immunity against all possible noise channels.
+Non-unital channels or strongly symmetry-breaking dissipators have not been
+tested and could behave differently.
 
 ### What breaks the structure and what does not
 
@@ -823,6 +828,61 @@ structure is a pure Hamiltonian property. Noise is irrelevant to it.
 **Key insight: f(c+) is MORE robust than the symmetry that supposedly
 protects it.** This suggests the fast rotor frequency is a deeper property
 of the Hamiltonian eigenstructure than the XX symmetry alone.
+
+### Phase Map of Mechanisms
+
+The stress tests separate four independent roles. This is the core diagram
+of the project.
+
+```
+                    | XX symmetry | Frequencies | Sector separation | Amplitudes |
+--------------------|-------------|-------------|-------------------|------------|
+Coupling strength   |  preserves  |   SETS      |      SETS         |   sets     |
+  (J_SA, J_SB)     |             |  (scales)   |   (widens)        |            |
+                    |             |             |                   |            |
+Coupling anisotropy |  preserves  |  CHANGES    |     changes       |  changes   |
+  (Jz != Jxy)      |             | (reshuffles)|                   |            |
+                    |             |             |                   |            |
+Local fields        |   BREAKS    |  survives   |     survives      |  changes   |
+  (h_A, h_B)       |  (immediate)|  (robust!)  |   (until extreme) |            |
+                    |             |             |                   |            |
+Direct A-B coupling |  preserves  |   shifts    |     MERGES        |  changes   |
+  (J_AB)           |             |  (slightly) |  (sectors fuse)   |            |
+                    |             |             |                   |            |
+Noise strength      |  preserves  |  preserves  |     preserves     |   DAMPS    |
+  (gamma)          |             |  (immune)   |     (immune)      |  (primary) |
+                    |             |             |                   |            |
+Noise type          |  preserves  |  preserves  |     preserves     |  preserves |
+  (sigma_x/y/z)    |  (within    |  (within    |     (within       |  (within   |
+                    |   tested)   |   tested)   |      tested)      |   tested)  |
+                    |             |             |                   |            |
+Initial state       |  depends    |  preserves  |     preserves     |  SELECTS   |
+                    | (W breaks)  | (always)    |     (always)      | (excites   |
+                    |             |             |                   |  or not)   |
+```
+
+Reading the map:
+
+**Column 1 (XX symmetry):** Broken only by local fields. Everything else
+preserves it. It is a Hamiltonian symmetry, not a noise property.
+
+**Column 2 (Frequencies):** Set by coupling strengths and anisotropy.
+Immune to noise. Survive even when XX symmetry breaks. These are the
+deepest property - pure Hamiltonian eigenstructure.
+
+**Column 3 (Sector separation):** Set by the mediator topology. Merges
+when A and B couple directly (mediator becomes redundant). Survives
+everything else including symmetry breaking.
+
+**Column 4 (Amplitudes):** Damped by noise, selected by initial state.
+The "what you can see" column. The music stays the same; noise makes it
+quieter, initial state determines which instruments you hear.
+
+**The separation of roles in one sentence:**
+
+> Topology sets the frequencies. Symmetry cleans the sectors. Noise damps
+> the signal. Initial state selects what is visible. These four roles are
+> independent.
 
 ## README-ready summary
 
