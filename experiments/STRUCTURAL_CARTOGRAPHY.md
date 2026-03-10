@@ -587,6 +587,26 @@ pattern. But it is carried by a cluster of modes, not one perfect eigenvalue pai
 
 Script: simulations/liouvillian_diagonalization.py (GPT original, paths adjusted)
 
+### External assessment of the spectral results (GPT, March 2026)
+
+"Not sensational in the popular sense, but scientifically damn useful."
+
+The reviewer's honest assessment:
+- The 1.506/0.404 sector separation is real structure, not cherry-picking
+- Multiple independent approaches converge on the same value (Hamilton gap,
+  exact Liouvillian, reduced AB model, observed window timing)
+- The slow 0.404 mode is almost more interesting than the fast one, because
+  it confirms the switches are a separate spectral feature, not just noise
+- BUT: everything sits on one model, one initial state, one dephasing setup
+
+The decisive next test: **parameter sweeps**. If the two-sector structure
+survives under different J_SB, different gamma, different initial states,
+and small symmetry breaks, then it has substance beyond this specific case.
+
+Current honest status:
+- Strong enough to keep working on. Not strong enough to claim generality.
+- The numbers are real. The question is how far they extend.
+
 ## README-ready summary
 
 > CΨ windows are analyzed as a structured reduced-state process with persistent
