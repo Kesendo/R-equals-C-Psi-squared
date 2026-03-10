@@ -440,6 +440,10 @@ effective memory length and compressibility of the sequence.
 - Haga, *Oscillating-mode gap* (2024), arXiv:2405.07132
 - Trushechkin, *Unified GKLS master equation* (2021), arXiv:2103.12042
 
+### Pointer states and decoherence-free subspaces (from evening review)
+- Zurek, *Decoherence, einselection, and the quantum origins of the classical* (2003), arXiv:quant-ph/0105127
+- Lidar, *Review of Decoherence Free Subspaces, Noiseless Subsystems, and Dynamical Decoupling* (2012), arXiv:1208.5791
+
 ## External review: connections to known theory (GPT, March 2026)
 
 An external review identified parallels between our findings and established
@@ -463,22 +467,46 @@ setup (star topology, Heisenberg, dephasing). The established theory is
 more general. Whether our specific findings are instances of the general
 theory or something adjacent requires the spectral verification below.
 
-### The reviewer's suggestion for verification
+### Evening update review (March 9, second round)
 
-Diagonalize the Liouvillian in the X tensor X-even sector. If one complex
-eigenvalue pair captures most of the YZ/ZY variance, it confirms the
-connection. If not, our pendulum may be a different phenomenon that merely
-resembles damped Liouvillian modes.
+Five specific questions answered:
 
-This calculation has not been done yet.
+**1. Correlation-only operations.** The reviewer clarified: this is not "local
+operations are impossible" - rather, the inter-window difference vector has
+almost no weight in local Pauli directions (IX, IY, IZ, XI, YI, ZI) and sits
+primarily in the correlated block (XX, XY, ..., ZZ). This is stronger than
+just having a global symmetry. Concrete test: project each window difference
+onto local vs correlated Pauli basis and compare fractions for glide vs switch.
 
-### Stress tests suggested (from review)
+**2. Damping A/B asymmetry.** Equal gamma does NOT automatically force A/B
+symmetry when the Hamiltonian breaks SWAP symmetry (J_SA != J_SB). The
+observed convergence is better read as **decay of antisymmetric modes** - a
+dynamic effect of the specific mode spectrum, not a general theorem.
+Test: track antisymmetric observables (ZI - IZ), (XI - IX) and fit their decay.
 
-Before claiming the pattern is general, test against:
-- Different coupling ratios and initial states
-- Different dephasing bases (not just sigma_z)
-- Different Hamiltonian families (XX, XXZ, Ising)
-- Asymmetric setups that break X tensor X
+**3. Symmetric rotor (c+ dominates in glide).** Consistent with the glide mode
+projecting onto a **symmetric, underdamped eigenoperator** of the Liouvillian.
+Switch mode is where additional odd-sector components become visible.
+Repo shorthand: glide = dominant even-sector rotor, switch = mixing event.
+
+**4. Period-3 recurrence.** The reviewer derived a candidate frequency formula
+from the star-topology Hamiltonian eigenstructure:
+
+  f_dom = (J_SA + J_SB + sqrt(J_SA^2 - J_SA*J_SB + J_SB^2)) / pi
+
+For J_SA=1.0, J_SB=2.0: f_dom = (3 + sqrt(3)) / pi = 1.506
+
+This is a project-internal derivation from the model, not a standard formula.
+To be verified against FFT of the actual feature time series.
+
+**5. Perspective as selection.** Three formal families near this idea:
+- Einselection / pointer states (Zurek 2003): environment selects preferred bases
+- Decoherence-free subspaces (Lidar 2012): noise algebra determines robust sectors
+- Parameterized Lindbladians: different noise parameters = different slices of the
+  same reduced dynamics
+
+The reviewer suggests studying {rho_AB(t; gamma_A)} as a surface in state space:
+does the window family stay topologically similar? Are there regime transitions?
 
 ### Note on terminology
 
