@@ -540,6 +540,53 @@ glide/switch modes) in the repo. These emerged from our observations and
 carry our specific meaning. The established names are referenced for
 cross-disciplinary readers but do not replace our framing.
 
+## Liouvillian Diagonalization Results (GPT computation, March 2026)
+
+The external reviewer diagonalized the full 3-qubit Liouvillian superoperator
+(64x64 matrix) and projected the c+, c-, and aX observables onto the eigenmodes.
+
+This was the test that was defined as "the point where the story upgrades from
+good structural guess to actual spectral claim."
+
+### Result: Two distinct frequency sectors confirmed
+
+**Fast symmetric rotor (c+ coordinate):**
+- Dominant frequency: f = 1.506 cycles/time
+- Multiple nearby decay branches (decay rates ~0.10 to ~0.17)
+- This is the mode that drives the glide transitions
+
+**Slow antisymmetric/mixing sector (c- and aX coordinates):**
+- Frequency: f = 0.404 cycles/time
+- Decay rate: ~0.13
+- This is the mode involved in sector switches
+
+**Effective AB model verification:**
+- A reduced model on the active coordinates (IX, XI, XX, YY, YZ, ZY, ZZ)
+  independently recovers the fast rotor at f_eff = 1.497
+- The dominant eigenmode is clearly c+ dominated
+
+### What this confirms
+
+| Our observation | Spectral confirmation |
+|---|---|
+| Pendulum in YZ/ZY plane | Dominant complex eigenvalue pair at f=1.506 in c+ |
+| Glide mode is symmetric rotor | c+ sector carries the fast oscillation |
+| Switch mode breaks symmetry | c-/aX sector has separate, slower frequency |
+| Period-3 recurrence | Consistent with f=1.506 sampling at window intervals |
+| f = J_total/2 = 1.500 | Matches f=1.506 from Liouvillian (0.4% difference) |
+
+### Important caveat
+
+The exact diagonalization shows multiple nearby oscillatory branches, not a
+single clean mode. The robust statement is:
+- A dominant fast symmetric frequency block around 1.506
+- A separate slow antisymmetric/mixing block around 0.404
+
+The pendulum picture is now a **verified spectral feature**, not just a visual
+pattern. But it is carried by a cluster of modes, not one perfect eigenvalue pair.
+
+Script: simulations/liouvillian_diagonalization.py (GPT original, paths adjusted)
+
 ## README-ready summary
 
 > CΨ windows are analyzed as a structured reduced-state process with persistent
