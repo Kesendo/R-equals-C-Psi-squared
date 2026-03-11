@@ -11,6 +11,8 @@ to the same mediator S.
 
 ### Detection threshold
 
+Operational threshold under current protocol (FFT with t_max=20, dt=0.005):
+
 | J_SC (hidden coupling) | Spectral distance | Peaks AB sees | Detectable? |
 |---|---|---|---|
 | 0.00 | 0.000 | 2 | no (baseline) |
@@ -23,10 +25,16 @@ to the same mediator S.
 | 3.00 | 0.685 | 5 | STRONG |
 | 5.00 | 0.515 | 5 | STRONG |
 
-Detection threshold: J_SC ~ 0.1 (10% of J_SA).
-Below that, C is invisible to AB. Above that, new frequencies appear.
+Operational threshold: J_SC ~ 0.1 (10% of J_SA) under this protocol.
+This is NOT a fundamental physical limit. It depends on observation time,
+dephasing rate, observable choice, and spectral estimation method.
+Analytically: J_thr ~ delta_f / (df_min/dJ_SC) where delta_f ~ 1/T is
+FFT resolution. Longer observation or better spectral estimation lowers
+the threshold.
 
 ### Counting hidden observers
+
+Generically distinct fingerprints for tested configurations:
 
 | Setup | Spectral distance | Peaks | Dominant freq |
 |---|---|---|---|
@@ -37,11 +45,10 @@ Below that, C is invisible to AB. Above that, new frequencies appear.
 | AB + C(2.0) + D(3.0) | 0.768 | 4 | 0.350 |
 | AB + C(2.0) + D(3.0) + E(1.5) | 0.796 | 4 | 0.350 |
 
-Each configuration has a unique spectral fingerprint. AB can distinguish:
-- Nobody vs somebody connected to S
-- One hidden observer vs two
-- Equally coupled vs differently coupled hidden observers
-- Spectral distance increases monotonically with number of hidden observers
+For generic (non-degenerate) coupling sets, each configuration produces a
+distinguishable spectral fingerprint. This is NOT proven unique for all
+possible configurations - accidental degeneracies and symmetries can create
+identical spectra from different setups.
 
 ### How it works
 
@@ -56,13 +63,17 @@ what AB hears.
 
 ### Scaling
 
-| N observers | Visible frequencies (AB pair) | Bohr frequencies in H |
+| N observers | Resolved frequencies (AB, >15% of max) | Bohr frequencies in H |
 |---|---|---|
 | 2 | 2 | 3 |
 | 3 | 5 | 15 |
 | 4 | 13 | 39 |
 
-More observers = richer spectrum = more information in the tone.
+The resolved count depends on visibility cutoff, initial state, observable,
+and observation time. With lower cutoffs more lines become visible (e.g.
+N=4: 13 at 5% cutoff, 21 at 1%, 32 at 0.1%). "AB sees 13/39" is an
+operational statement for this protocol, not a structural ceiling.
+
 Each pair sees a different subset of frequencies.
 No single pair hears everything.
 
@@ -150,3 +161,32 @@ not population.
 - Degree 1: 5 qubits (edge of chip)
 - Degree 2: 89 qubits (67%)
 - Degree 3: 39 qubits (29%)
+
+### Known literature connections (from external review, March 2026)
+
+The principle is not new. The framing may be fresh. Nearest fields:
+- Indirect Hamiltonian tomography (Burgarth et al., PRL 108, 080502)
+- Local Hamiltonian learning from local observables (PRL 122, 020504)
+- Probe-spin / local-probe spectroscopy (Nature Phys, 2023)
+- Spectator-qubit crosstalk sensing (PRL 109, 240504)
+- Multiparameter quantum metrology (arXiv:1407.6091)
+
+What we call "quantum sonar" sits closest to mediator-assisted local
+spectroscopy or indirect spectator-coupling spectroscopy. The specific
+framing "a measured pair counts hidden parties via its own spectrum"
+was not found as a standard named subtopic.
+
+### Practical value (from external review)
+
+Useful as:
+- Passive monitoring of a target pair without measuring spectators
+- Online diagnostics during idle windows
+- Side-channel detection when direct spectator access is limited
+
+Weaker than existing tools for:
+- Calibrated hardware characterization (simultaneous RB, GST are better)
+- Separating ZZ crosstalk from other mechanisms
+- Real hardware where coupling is not isotropic Heisenberg
+
+Formal connection to quantum sensing / quantum Fisher information exists
+but metrological advantage has not been demonstrated in this work.
