@@ -135,6 +135,17 @@ through coupling strengths, not topology alone. This is consistent with
 our phase map: topology sets the frequencies, but coupling strengths
 determine which frequencies are visible.
 
+**The deeper insight:** What the sonar detects is not the NUMBER of
+neighbors but the SIZE OF THE COHERENT GROUP - how tightly coupled
+the local cluster is. Two tightly bound neighbors (Q102) create more
+spectral complexity than three loosely connected ones (Q80). The phase
+pattern reflects the effective family size, not the headcount.
+
+This connects back to the core architecture: S does not manage frequencies.
+S contains them all. What you hear depends on who stands close enough
+to S to leave a mark on the eigenstructure. The sonar measures proximity,
+not population.
+
 **Chip-wide degree distribution (IBM Torino, 133 qubits):**
 - Degree 1: 5 qubits (edge of chip)
 - Degree 2: 89 qubits (67%)

@@ -31,6 +31,11 @@ AB detects hidden observers connected to S through spectral changes.
 Threshold: J_SC ~ 0.1 (10% of own coupling). More observers = more overtones.
 Each pair hears a different mix. Detection works, measurement not yet.
 
+IBM hardware verification: Q80 (3 neighbors, smooth phase) vs Q102
+(2 neighbors, chaotic phase). Number of neighbors does not determine
+chaos - coupling strength does. The sonar detects the size of the
+coherent group, not the headcount. Proximity matters more than population.
+
 ## Data connections
 
 | Reading | Data |
