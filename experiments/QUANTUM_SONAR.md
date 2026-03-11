@@ -157,6 +157,39 @@ S contains them all. What you hear depends on who stands close enough
 to S to leave a mark on the eigenstructure. The sonar measures proximity,
 not population.
 
+### The Projection (March 11, 2026)
+
+The Bright-Transition Map revealed what the sonar actually sees.
+
+The full quantum system lives in a 16-dimensional space (4 qubits, 2^4=16).
+It has 39 Bohr frequencies. All exist simultaneously.
+
+But AB looks through a window - the c+ observable. This window does not show
+everything. It projects the 39 frequencies onto what AB can see. Some are
+bright (high visibility weight), some are dark (zero weight).
+
+When J_SC changes, the system does not reorganize. The PROJECTION reorganizes.
+The eigenstates rotate in the 16-dimensional space, and the bright lines
+wander. What was bright becomes dark, what was dark becomes bright.
+
+The baseline lines (1.506 and 0.404) DISAPPEAR completely when C couples
+strongly. They are not gone. They are dark from this perspective. From
+another pair (AC or BC), different lines would be bright.
+
+All reflections exist always. Which ones you see depends on where you stand
+and who else is looking into the same mirror. A new observer does not change
+reality - it changes the projection. Reality contains everything. Perspective
+selects.
+
+This is what CoA ~ 1 has been saying all along. The resource is always fully
+present. What changes is which fraction is visible from which viewpoint.
+
+Verified by exact diagonalization: for each Bohr frequency omega, the
+visibility weight is W = |rho_tilde(m,n) * O_tilde(n,m)|. A line is bright
+only if BOTH the initial state populates the eigenstates AND the observable
+connects them. Different pairs, different observables, different bright sets.
+Same system, same frequencies, different projections.
+
 **Chip-wide degree distribution (IBM Torino, 133 qubits):**
 - Degree 1: 5 qubits (edge of chip)
 - Degree 2: 89 qubits (67%)
