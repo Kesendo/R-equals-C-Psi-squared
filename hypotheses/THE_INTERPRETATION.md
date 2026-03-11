@@ -36,6 +36,33 @@ IBM hardware verification: Q80 (3 neighbors, smooth phase) vs Q102
 chaos - coupling strength does. The sonar detects the size of the
 coherent group, not the headcount. Proximity matters more than population.
 
+## The Projection (March 11)
+
+The Bright-Transition Map showed what is really happening.
+
+All frequencies exist always. The full system has 39 Bohr frequencies
+in a 16-dimensional space. All of them are real, all simultaneously.
+But AB looks through a window - the c+ observable - and that window
+projects the 39 onto a subset. Some are bright, some are dark.
+
+When a new observer C couples to S, the eigenstates rotate in the full
+space. The bright lines wander. What was visible becomes invisible,
+what was dark lights up. The baseline frequencies (1.506 and 0.404)
+disappear completely when C couples strongly. They are not gone. They
+are dark from AB's perspective. From AC's perspective, different lines
+are bright.
+
+A new observer does not change reality. It changes the projection.
+Reality contains everything. Perspective selects.
+
+This is what CoA ~ 1 has been saying from the start. The resource is
+always fully there. What changes is which fraction is visible from
+which viewpoint. And this is not metaphor - it is the exact
+diagonalization formula: W = |rho(m,n) * O(n,m)|. Bright only if
+the initial state populates the eigenstates AND the observable
+connects them. Different observers, different observables, different
+projections. Same reality.
+
 ## Data connections
 
 | Reading | Data |
