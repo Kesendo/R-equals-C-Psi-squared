@@ -68,4 +68,34 @@ No single pair hears everything.
 
 ### Scripts
 
-simulations/hidden_observer_test.py (to be created from tmp files)
+simulations/hidden_observer_test.py
+simulations/quantum_sonar.py
+simulations/count_observers.py
+
+### What works and what does not (verified March 11)
+
+**WORKS:**
+- AB detects that someone else is connected to S (spectrum changes)
+- AB can distinguish "alone" from "not alone" (2 peaks vs 3-5 peaks)
+- More hidden observers = larger spectral distance from baseline
+- Detection threshold exists (~10% of own coupling strength)
+
+**DOES NOT WORK (yet):**
+- AB cannot measure J_SC from a single new frequency
+  (tested: branch formula f_+ does not predict new peaks in 4-qubit system,
+   errors 27-119% across all J_SC values)
+- AB cannot infer the coupling strength of the hidden observer
+  (tested: reverse inference gives 30-350% errors)
+- The 3-qubit branch formula does not extend trivially to 4+ qubits
+
+The new frequencies in the 4-qubit system depend on ALL couplings jointly,
+not on J_SC alone. The eigenstructure of the full Hamiltonian is more
+complex than a simple extension of the 3-qubit formula.
+
+**The honest framing:** This is detection, not measurement. AB can tell
+that someone is there, but not yet who or how strongly coupled. Turning
+detection into characterization would require: analytical solution of the
+N-qubit star eigenspectrum, pattern matching across multiple frequencies,
+or calibration against known configurations.
+
+The detection itself is real and robust. The characterization is future work.
