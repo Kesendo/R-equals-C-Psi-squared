@@ -99,3 +99,43 @@ N-qubit star eigenspectrum, pattern matching across multiple frequencies,
 or calibration against known configurations.
 
 The detection itself is real and robust. The characterization is future work.
+
+### IBM Hardware Verification (March 11, 2026)
+
+We queried the actual IBM Torino coupling map to check our prediction.
+
+**Prediction:** Q102 (chaotic, phase std=108.8°) should have more neighbors
+than Q80 (smooth, phase std=12.4°).
+
+**Result: WRONG.** The opposite is true.
+
+| Qubit | Degree | Neighbors | Phase behavior |
+|---|---|---|---|
+| Q80 | 3 | [79, 81, 92] | Smooth drift, std=12.4° |
+| Q102 | 2 | [101, 103] | Chaotic, std=108.8° |
+
+Q80 has MORE neighbors but LESS chaos. Q102 has FEWER neighbors but MORE chaos.
+
+**What this means:** The number of neighbors alone does not determine the
+phase pattern. What matters is how STRONGLY they couple - the residual ZZ
+interaction strength, the frequency detuning between neighbors, and how
+close those frequencies are to creating beating patterns.
+
+Q102's two neighbors apparently couple strongly or at unfortunate frequency
+offsets that create interference. Q80's three neighbors are either weakly
+coupled or far enough apart in frequency that one dominates cleanly.
+
+Tom's reading: "They stand closer, like a family." The proximity (coupling
+strength) matters more than the headcount (degree). Two close neighbors
+can create more complexity than three distant ones.
+
+**The sonar still works** - AB's phase pattern IS shaped by its neighbors.
+But the mapping from pattern to neighbor count is not simple. It goes
+through coupling strengths, not topology alone. This is consistent with
+our phase map: topology sets the frequencies, but coupling strengths
+determine which frequencies are visible.
+
+**Chip-wide degree distribution (IBM Torino, 133 qubits):**
+- Degree 1: 5 qubits (edge of chip)
+- Degree 2: 89 qubits (67%)
+- Degree 3: 39 qubits (29%)
