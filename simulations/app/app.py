@@ -5,7 +5,6 @@ Interactive 3-qubit open Heisenberg star (S-A-B) with real-time control.
 import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 from physics import run_simulation, INITIAL_STATES
 
 st.set_page_config(
@@ -21,7 +20,21 @@ C_MINUS = "#FF6B35"
 C_CONC = "#A855F7"
 C_PSI = "#22C55E"
 C_CPSI = "#FACC15"
-BG = "rgba(0,0,0,0)"
+
+# === Chart layout helper ===
+_DARK_MARGIN = dict(l=50, r=20, t=40, b=40)
+
+
+def dark_layout(fig, title, height=250, **kwargs):
+    """Apply consistent dark theme layout to a Plotly figure."""
+    kwargs.setdefault('margin', _DARK_MARGIN)
+    fig.update_layout(
+        title=title,
+        template="plotly_dark",
+        height=height,
+        **kwargs,
+    )
+
 
 # === Sidebar: 5 Regulators ===
 with st.sidebar:
@@ -45,7 +58,7 @@ with st.sidebar:
 
     st.header("5 · Bath geometry")
     eta = st.slider("η  (0 = local, 1 = correlated)", 0.0, 1.0, 0.0, 0.05)
-    phi = st.slider("φ  (0 = ZZ, π/2 = XX)", 0.0, float(np.pi / 2), 0.0, 0.05,
+    phi = st.slider("φ  (0 = ZZ, π/2 = XX)", 0.0, np.pi / 2, 0.0, 0.05,
                      format="%.2f")
     if phi > 0:
         st.caption(f"φ = {phi:.2f} rad  ({np.degrees(phi):.0f}°)")
@@ -53,31 +66,33 @@ with st.sidebar:
     st.divider()
     t_max = st.slider("Simulation time", 5.0, 60.0, 20.0, 5.0)
 
-# === Run simulation ===
-res = run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi, state_name,
-                     t_max=t_max)
+
+# === Run simulation (cached) ===
+@st.cache_data
+def cached_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi, state_name, t_max):
+    return run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi, state_name,
+                          t_max=t_max)
+
+
+res = cached_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi, state_name, t_max)
 
 # === Title ===
 st.markdown("## ⚛️ Five Regulator Simulator")
 st.caption("3-qubit open Heisenberg star  S(0)–A(1)–B(2)  ·  Lindblad RK4")
 
 # === Main plot: c+(t) and c-(t) ===
-fig = make_subplots(rows=1, cols=1)
+fig = go.Figure()
 fig.add_trace(go.Scatter(x=res['times'], y=res['c_plus'],
                           mode='lines', name='c₊(t)',
                           line=dict(color=C_PLUS, width=2)))
 fig.add_trace(go.Scatter(x=res['times'], y=res['c_minus'],
                           mode='lines', name='c₋(t)',
                           line=dict(color=C_MINUS, width=2)))
-fig.update_layout(
-    title="Sector Dynamics",
-    xaxis_title="Time",
-    yaxis_title="Amplitude",
-    template="plotly_dark",
-    height=400,
-    margin=dict(l=60, r=30, t=50, b=50),
-    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-)
+dark_layout(fig, "Sector Dynamics", height=400,
+            xaxis_title="Time", yaxis_title="Amplitude",
+            margin=dict(l=60, r=30, t=50, b=50),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02,
+                        xanchor="right", x=1))
 st.plotly_chart(fig, use_container_width=True)
 
 # === Optional: C*Psi plot ===
@@ -94,14 +109,9 @@ with st.expander("C·Ψ dynamics", expanded=False):
                                line=dict(color=C_CPSI, width=2)))
     fig2.add_hline(y=0.25, line_dash="dot", line_color="white",
                     annotation_text="¼ boundary", annotation_font_color="white")
-    fig2.update_layout(
-        title="Concurrence, Coherence & C·Ψ",
-        xaxis_title="Time",
-        yaxis_title="Value",
-        template="plotly_dark",
-        height=350,
-        margin=dict(l=60, r=30, t=50, b=50),
-    )
+    dark_layout(fig2, "Concurrence, Coherence & C·Ψ", height=350,
+                xaxis_title="Time", yaxis_title="Value",
+                margin=dict(l=60, r=30, t=50, b=50))
     st.plotly_chart(fig2, use_container_width=True)
 
 # === Indicators ===
@@ -123,16 +133,9 @@ with col1:
     fig_fft.add_trace(go.Scatter(x=res['fft_freqs'][mask], y=res['fft_cm'][mask],
                                   mode='lines', name='c₋',
                                   line=dict(color=C_MINUS, width=1.5)))
-    fig_fft.update_layout(
-        title="FFT spectrum",
-        xaxis_title="Frequency",
-        yaxis_title="Amplitude",
-        template="plotly_dark",
-        height=250,
-        margin=dict(l=50, r=20, t=40, b=40),
-        showlegend=True,
-        legend=dict(font=dict(size=10)),
-    )
+    dark_layout(fig_fft, "FFT spectrum",
+                xaxis_title="Frequency", yaxis_title="Amplitude",
+                showlegend=True, legend=dict(font=dict(size=10)))
     st.plotly_chart(fig_fft, use_container_width=True)
 
 with col2:
@@ -148,13 +151,7 @@ with col2:
         text=[f"{res['a_cp']:.4f}", f"{res['a_cm']:.4f}"],
         textposition='outside',
     ))
-    fig_bar.update_layout(
-        title="Peak amplitudes",
-        template="plotly_dark",
-        height=250,
-        margin=dict(l=50, r=20, t=40, b=40),
-        yaxis_title="Amplitude",
-    )
+    dark_layout(fig_bar, "Peak amplitudes", yaxis_title="Amplitude")
     st.plotly_chart(fig_bar, use_container_width=True)
 
 with col3:
@@ -173,14 +170,7 @@ with col3:
                                  line=dict(color="#F472B6", width=1.5)))
     fig_xx.add_hline(y=1e-6, line_dash="dot", line_color="gray",
                       annotation_text="threshold")
-    fig_xx.update_layout(
-        title="XX commutator",
-        xaxis_title="Time",
-        template="plotly_dark",
-        height=250,
-        margin=dict(l=50, r=20, t=40, b=40),
-        yaxis_type="log",
-    )
+    dark_layout(fig_xx, "XX commutator", xaxis_title="Time", yaxis_type="log")
     st.plotly_chart(fig_xx, use_container_width=True)
 
 # === Phase map summary ===

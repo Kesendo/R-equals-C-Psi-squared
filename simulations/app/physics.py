@@ -84,23 +84,25 @@ def build_jump_ops(gamma, eta=0.0, phi=0.0):
 
 # === Lindblad integrator ===
 
-def lindblad_rhs(rho, H, L_ops):
-    """dρ/dt from Lindblad master equation."""
+def precompute_lindblad(L_ops):
+    """Precompute (L, L†, L†L) triples for the simulation loop."""
+    return [(L, L.conj().T, L.conj().T @ L) for L in L_ops]
+
+
+def lindblad_rhs(rho, H, L_triples):
+    """dρ/dt from Lindblad master equation. L_triples = [(L, L†, L†L), ...]."""
     drho = -1j * (H @ rho - rho @ H)
-    for L in L_ops:
-        Ld = L.conj().T
-        LdL = Ld @ L
+    for L, Ld, LdL in L_triples:
         drho += L @ rho @ Ld - 0.5 * (LdL @ rho + rho @ LdL)
     return drho
 
 
-def rk4_step(rho, H, L_ops, dt):
+def rk4_step(rho, H, L_triples, dt):
     """One RK4 step with numerical hygiene."""
-    f = lambda r: lindblad_rhs(r, H, L_ops)
-    k1 = f(rho) * dt
-    k2 = f(rho + k1 / 2) * dt
-    k3 = f(rho + k2 / 2) * dt
-    k4 = f(rho + k3) * dt
+    k1 = lindblad_rhs(rho, H, L_triples) * dt
+    k2 = lindblad_rhs(rho + k1 / 2, H, L_triples) * dt
+    k3 = lindblad_rhs(rho + k2 / 2, H, L_triples) * dt
+    k4 = lindblad_rhs(rho + k3, H, L_triples) * dt
     rho_new = rho + (k1 + 2 * k2 + 2 * k3 + k4) / 6
     # Hermiticity + trace normalization
     rho_new = (rho_new + rho_new.conj().T) / 2
@@ -178,6 +180,7 @@ INITIAL_STATES = {
 _YZ = np.kron(sy, sz)
 _ZY = np.kron(sz, sy)
 _XX = np.kron(sx, sx)
+_YY = np.kron(sy, sy)
 
 
 def compute_cplusminus(rho_ab):
@@ -195,11 +198,10 @@ def xx_commutator_norm(rho_ab):
 
 def concurrence_2q(rho_ab):
     """Wootters concurrence for a 2-qubit density matrix."""
-    yy = np.kron(sy, sy)
-    rho_tilde = yy @ rho_ab.conj() @ yy
+    rho_tilde = _YY @ rho_ab.conj() @ _YY
     R = rho_ab @ rho_tilde
-    eigenvalues = np.sort(np.real(np.sqrt(np.maximum(np.linalg.eigvals(R), 0))))[::-1]
-    return max(0.0, eigenvalues[0] - eigenvalues[1] - eigenvalues[2] - eigenvalues[3])
+    ev = np.sort(np.sqrt(np.maximum(np.real(np.linalg.eigvals(R)), 0)))[::-1]
+    return max(0.0, ev[0] - ev[1] - ev[2] - ev[3])
 
 
 def l1_coherence(rho):
@@ -231,16 +233,6 @@ def fft_analysis(signal, dt):
     return pf[idx], ps[idx], pf, ps
 
 
-# === Skeleton fraction ===
-
-def skeleton_fraction(rho_list):
-    """Tr(ρ_avg²) / mean(Tr(ρ(t)²)). Equals 1 iff state is constant."""
-    rho_avg = np.mean(rho_list, axis=0)
-    p_avg = np.real(np.trace(rho_avg @ rho_avg))
-    p_inst = np.mean([np.real(np.trace(r @ r)) for r in rho_list])
-    return p_avg / p_inst if p_inst > 1e-15 else 0.0
-
-
 # === Main simulation ===
 
 def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
@@ -248,10 +240,12 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
     """Run full Lindblad simulation. Returns results dict."""
 
     H = star_hamiltonian(J_SA, J_SB, xy_ratio)
-    L_ops = build_jump_ops(gamma, eta, phi)
+    L_triples = precompute_lindblad(build_jump_ops(gamma, eta, phi))
 
-    init_fn = INITIAL_STATES.get(initial_state_name, bell_sa_plus_b)
-    rho = init_fn()
+    if initial_state_name not in INITIAL_STATES:
+        raise ValueError(f"Unknown state: {initial_state_name!r}. "
+                         f"Choose from: {list(INITIAL_STATES)}")
+    rho = INITIAL_STATES[initial_state_name]()
 
     n_steps = int(t_max / dt)
 
@@ -261,7 +255,11 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
     xx_comms = np.zeros(n_steps + 1)
     concs = np.zeros(n_steps + 1)
     psis = np.zeros(n_steps + 1)
-    rho_ab_list = []
+
+    # Incremental skeleton: accumulate rho_sum and purity_sum
+    d_ab = 4
+    rho_ab_sum = np.zeros((d_ab, d_ab), dtype=complex)
+    purity_sum = 0.0
 
     for i in range(n_steps + 1):
         times[i] = i * dt
@@ -270,10 +268,12 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
         xx_comms[i] = xx_commutator_norm(rho_ab)
         concs[i] = concurrence_2q(rho_ab)
         psis[i] = psi_norm(rho_ab)
-        rho_ab_list.append(rho_ab)
+
+        rho_ab_sum += rho_ab
+        purity_sum += np.real(np.trace(rho_ab @ rho_ab))
 
         if i < n_steps:
-            rho = rk4_step(rho, H, L_ops, dt)
+            rho = rk4_step(rho, H, L_triples, dt)
 
     # FFT
     f_cp, a_cp, fft_f, fft_cp = fft_analysis(c_plus, dt)
@@ -282,15 +282,15 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
     # Amplitude ratio
     amp_ratio = a_cp / a_cm if a_cm > 1e-10 else float('inf')
 
-    # XX symmetry (use mean of last 10% for robustness)
+    # XX symmetry (mean of last 10% for robustness)
     xx_final = np.mean(xx_comms[-max(1, len(xx_comms) // 10):])
-    xx_sym = xx_final < 1e-6
 
-    # Skeleton
-    skel = skeleton_fraction(rho_ab_list)
-
-    # C*Psi product
-    cpsi = concs * psis
+    # Skeleton fraction (incremental)
+    n_samples = n_steps + 1
+    rho_avg = rho_ab_sum / n_samples
+    p_avg = np.real(np.trace(rho_avg @ rho_avg))
+    p_mean = purity_sum / n_samples
+    skel = p_avg / p_mean if p_mean > 1e-15 else 0.0
 
     return {
         'times': times,
@@ -298,7 +298,7 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
         'c_minus': c_minus,
         'concurrence': concs,
         'psi': psis,
-        'cpsi': cpsi,
+        'cpsi': concs * psis,
         'f_cp': f_cp, 'f_cm': f_cm,
         'a_cp': a_cp, 'a_cm': a_cm,
         'amp_ratio': amp_ratio,
@@ -307,6 +307,6 @@ def run_simulation(J_SA, J_SB, xy_ratio, gamma, eta, phi,
         'fft_cm': fft_cm,
         'xx_comms': xx_comms,
         'xx_final': xx_final,
-        'xx_sym': xx_sym,
+        'xx_sym': xx_final < 1e-6,
         'skeleton': skel,
     }
