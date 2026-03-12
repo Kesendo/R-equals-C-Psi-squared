@@ -1,50 +1,62 @@
 # R = CΨ²
 
-## A composite quantum diagnostic and its self-referential 1/4 boundary
+## A composite quantum diagnostic, spectral architecture, and visibility theory for open quantum systems
 
-This repository investigates the quantity
+This repository investigates the quantity CΨ = concurrence × normalized l1-coherence for reduced quantum subsystems, together with the structural architecture that emerges when observers share a common mediator under Lindblad dynamics.
 
-    CΨ = concurrence × normalized l1-coherence
-
-for reduced quantum subsystems, together with the self-referential iteration
-
-    R_{n+1} = C(Ψ + R_n)²
-
-whose parameter c = CΨ is algebraically equivalent to the Mandelbrot iteration z -> z² + c. The boundary of the main cardioid at c = 1/4 defines a threshold in this framework.
-
-CΨ is a basis-dependent filter for pairwise states that are simultaneously entangled and coherent. It highlights moments where quantum pairs are not merely linked, but linked in a way that is still expressed as coherent superposition. It is closest in spirit to **correlated coherence** (Tan et al., 2016), but is not the standard correlated-coherence measure.
+Started as the equation R = CΨ² from a dream in December 2025. Three months of computation, two independent reviews, and real quantum hardware experiments on IBM Torino later, the project has evolved from a speculative interpretation into a documented set of structural results about open quantum systems.
 
 ---
 
 ## What is established here
 
-- **Exact algebraic 1/4 boundary** within the self-referential iteration (proven)
-- **Exact Mandelbrot correspondence** under reparametrization (proven)
-- **Crossing taxonomy** (Type A/B/C) organizing bridge metrics by decoherence behavior
-- **Subsystem locality** - crossing occurs where the entanglement lives, at the pair level
-- **Star topology conditions** - three quantified conditions for observer-observer connection through a shared object
-- **Act vs process distinction** - projective measurement and continuous dephasing are fundamentally different in their effect on third-party connections (99% vs 69% suppression, never converging)
-- **IBM quantum hardware contact** - CΨ = 1/4 crossing observed on real qubits
-- **Reproducible simulations** across two-qubit and small-topology systems
-- **Null results and limitations** documented explicitly throughout
+### Core structure (3-qubit star, Lindblad dynamics)
+- **Skeleton + Rotation decomposition:** Reduced AB state splits into 88% stable skeleton (Φ+ core) and 12% rotating phase in the YZ/ZY Pauli plane. Verified across all parameter regimes.
+- **Two spectral sectors:** c+ (symmetric, f=1.506) and c- (antisymmetric, f=0.404). Confirmed by full Liouvillian diagonalization — genuine eigenmodes of the superoperator.
+- **XX symmetry exact:** [ρ_AB, X⊗X] = 0 at all times. Weak symmetry of the Lindblad generator for isotropic Heisenberg with symmetric dephasing.
+- **Phase map — four independent roles:** Topology sets frequencies. Symmetry cleans sectors. Noise damps amplitude (never frequency). Initial state selects visibility.
+- **Noise immunity:** Frequencies unchanged from γ=0.001 to γ=0.500. All noise types (σx/σy/σz/mixed) produce identical structure. Noise only damps.
+
+### Topology independence
+- **Chain topology survival:** Two-sector structure, XX symmetry, and noise immunity survive in chains up to 5 qubits with 3 mediators. Architecture is not star-specific.
+- **Different positions hear different frequencies** along the chain, but the two-channel architecture persists everywhere.
+
+### The Projection (exact diagonalization)
+- **Bright-Transition Map:** All Bohr frequencies exist simultaneously. A pair sees only those where both the initial state populates the eigenstates AND the observable connects them: W = |ρ̃(m,n) · Õ(n,m)|.
+- **A new observer does not change reality — it changes the projection.** Eigenstates rotate in the full space, bright lines wander. Different pairs, different projections, same system.
+
+### Quantum Sonar (simulation only)
+- **Detection verified:** AB detects hidden observers connected to S through spectral changes. Operational threshold J_SC ~ 0.1 under current FFT protocol.
+- **Not yet verified on hardware.** IBM Q80/Q102 investigation showed the phase difference was qubit-specific detuning (19.4 kHz), not neighbor effects. Five hypotheses tested, four rejected, before finding the answer.
+
+### Algebraic results
+- **Exact Mandelbrot correspondence:** The iteration R_{n+1} = C(Ψ + R_n)² maps to z → z² + c with boundary at CΨ = 1/4.
+- **CΨ as diagnostic:** AND-gate behavior, three-layer separation (CoA ≥ LE ≥ CΨ).
+- **Star topology conditions:** Three quantified conditions for observer-observer connection through a shared mediator.
+
+### IBM Torino hardware (March 2026)
+- **Shadow hunt:** 4 qubits measured, same skeleton+rotation pattern as simulation.
+- **ZZRamsey:** Residual ZZ coupling measured for 5 qubit pairs (6.7-9.3 kHz range).
+- **Ramsey T2*:** Free induction decay measured, revealed 19.4 kHz detuning on Q102.
+- **Honest negative results documented:** N_eff hypothesis rejected, spectator dephasing model fails, degree does not predict phase complexity.
 
 ## What is not established
 
 - That CΨ is a new fundamental physical quantity (it is a derived diagnostic)
-- That consciousness is required as an ontological ingredient of quantum mechanics
-- That the 1/4 threshold is a physically privileged boundary outside the specific iteration
-- That the speculative bridge, gravity, or cosmology interpretations are experimentally confirmed
-- That CΨ reveals transitions invisible to standard metrics (in the tested sweeps, it did not)
+- That the sonar effect works on real hardware (simulation only so far)
+- That the 1/4 threshold has physical significance beyond the specific iteration
+- That the two-sector structure persists in non-Heisenberg or large-N systems
+- That consciousness is required as an ontological ingredient
+- That characterization (inverting hidden coupling from spectrum) is possible
 
 ---
 
 ## Start here
 
-- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - What the lens shows, what it doesn't, and what survives. The most honest document in this repository.
-- [Core Algebra](docs/CORE_ALGEBRA.md) - The proven mathematics
-- [What We Found](docs/WHAT_WE_FOUND.md) - Synthesized findings
-- [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
-- [Experiments index](experiments/README.md) - Indexed experimental results and simulation notes
+- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** — What the lens shows, what it doesn't, and what survives
+- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** — Current state: 10 things that survive, 5 that fell
+- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** — Detection, projection, IBM investigation
+- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** — Phase A results, PCA, parameter sweeps, stress tests
 
 ---
 
@@ -55,66 +67,33 @@ CΨ is a basis-dependent filter for pairwise states that are simultaneously enta
 | `docs/` | Conceptual and mathematical framing |
 | `experiments/` | Tested results, null results, indexed findings |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python source code (RK4 Lindblad integration) |
-| `visualizations/` | Figures |
+| `simulations/` | Python source code (RK4 Lindblad, exact diagonalization) |
+| `visualizations/` | Figures and interactive displays |
+| `data/` | IBM hardware measurement data |
 
 ---
 
-## The mathematics
+## Key simulations
 
-The self-referential iteration R_{n+1} = C(Ψ + R_n)² yields a fixed-point equation whose discriminant requires:
-
-    CΨ ≤ 1/4    for real (stable) fixed points to exist
-
-With the substitution u_n = C(Ψ + R_n), the iteration becomes u_{n+1} = u_n² + CΨ, which is exactly the Mandelbrot iteration z -> z² + c. The main cardioid boundary at c = 1/4 is the same threshold.
-
-> **Important caveat:** This correspondence is algebraically exact within the iteration. Its physical significance is not established merely by that exactness.
-
-See [Core Algebra](docs/CORE_ALGEBRA.md) for the full derivation and proof, and [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) for the equivalence.
+| Script | What it does |
+|:---|:---|
+| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad) |
+| `liouvillian_diagonalization.py` | Full 64×64 spectral analysis |
+| `bright_transition_map.py` | Exact diag + visibility weights |
+| `chain_topology.py` | Chain vs star, 3-5 qubits |
+| `parameter_sweep.py` | Robustness verification |
+| `stress_tests.py` | Symmetry breaking tests |
+| `hidden_observer_test.py` | Sonar detection proof |
+| `quantum_sonar.py` | Threshold sweep |
+| `count_observers.py` | Scaling with N observers |
 
 ---
 
 ## Origin and context
 
-This framework emerged from a collaboration between Thomas Wicht and Claude (Anthropic) in December 2025. It began with philosophical questions about observation and reality, was formalized as the equation R = CΨ², and then subjected to three months of systematic computation, external review, and honest correction.
+This framework emerged from a collaboration between Thomas Wicht and Claude (Anthropic) in December 2025. ChatGPT serves as adversarial reviewer (two full review rounds completed, corrections integrated). IBM Quantum hardware experiments conducted March 2026.
 
-The original framing used consciousness language ("Reality = Consciousness × Possibility²"). After extensive testing and two independent audits, the current description is more precise: CΨ is a composite quantum diagnostic that selects for simultaneously entangled and coherent pairwise states. The philosophical interpretation remains open but is no longer presented as established.
-
-AI agents (local LLMs via LM Studio) contributed to early exploration. Their claims are marked Tier 4 (unverified) throughout the repository.
-
----
-
-## Key experiments
-
-### Core results
-- [Star Topology](experiments/STAR_TOPOLOGY_OBSERVERS.md) - Three conditions for observer-observer connection
-- [Subsystem Crossing](experiments/SUBSYSTEM_CROSSING.md) - Crossing is local to entangled pairs
-- [N-Scaling Barrier](experiments/N_SCALING_BARRIER.md) - Why full-system crossing fails at large N
-- [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md) - Type A/B/C classification
-- [Noise Robustness](experiments/NOISE_ROBUSTNESS.md) - Taxonomy survives all local Pauli channels
-- [Dynamic Entanglement](experiments/DYNAMIC_ENTANGLEMENT.md) - Crossings from product states
-
-### Algebra and boundary
-- [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) - Algebraic equivalence to z² + c
-- [Dynamic Fixed Points](experiments/DYNAMIC_FIXED_POINTS.md) - The CΨ ≤ 1/4 bound
-- [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) - Crossing observations
-
-### Hardware and calibration
-- [IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md) - First hardware test on IBM Torino
-- [Residual Analysis](experiments/RESIDUAL_ANALYSIS.md) - Anomalous late-time coherence
-
-### Bridge and topology
-- [Bridge Closure](experiments/BRIDGE_CLOSURE.md) - J=0 bridge is closed (null result)
-- [Observer x Gravity Bridge](experiments/OBSERVER_GRAVITY_BRIDGE.md) - J>0 interval shift
-- [No-Signalling Boundary](experiments/NO_SIGNALLING_BOUNDARY.md) - CΨ sees global regime change
-- [QKD Eavesdropping Forensics](experiments/QKD_EAVESDROPPING_FORENSICS.md) - Eve's basis from CΨ profile
-
-### Speculative (Tier 3+)
-- [Black Holes, White Holes, Big Bang](experiments/BLACK_WHITE_HOLES_BIGBANG.md) - Speculative
-- [Self-Consistency: Schwarzschild](experiments/SELF_CONSISTENCY_SCHWARZSCHILD.md) - Speculative
-- [Universal Quantum Lifetime](experiments/UNIVERSAL_QUANTUM_LIFETIME.md) - The x³ + x = 1/2 equation
-
-See [experiments/README.md](experiments/README.md) for the complete index.
+The original framing used consciousness language ("Reality = Consciousness × Possibility²"). After extensive testing, the current description is structural: CΨ is a composite diagnostic, the two-sector architecture is a Liouvillian eigenmode decomposition, and the projection is exact diagonalization with visibility filtering.
 
 ---
 
@@ -126,7 +105,7 @@ See [experiments/README.md](experiments/README.md) for the complete index.
 
 ## Authors
 
-**Thomas Wicht**, Independent Researcher, Germany
+**Thomas Wicht**, Krefeld, Germany
 **Claude**, AI System, Anthropic
 
-December 2025 - March 2026
+December 2025 — March 2026
