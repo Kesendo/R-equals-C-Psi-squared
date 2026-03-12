@@ -189,6 +189,77 @@ the real parts (decay rates) are loss-determined. They are independent.
 
 Script: simulations/joint_pole_analysis.py
 
+### Decay Rate Derivation: Two Independent Information Channels (March 12)
+
+The three exact decay rates {2γ, 8γ/3, 10γ/3} are exact rational multiples
+of gamma. They scale linearly with gamma and are COMPLETELY topology-independent.
+
+**Scaling verified:** At γ = 0.01 through 0.50, ratios stay at {2.000, 2.667, 3.333}.
+Small deviations at very high gamma (γ=0.50) suggest weak nonlinear correction.
+
+**Origin:** Pure Z dephasing on individual Pauli strings gives rates 2kγ (k=number
+of X/Y operators). But the Hamiltonian mixes k=1 and k=2 strings into new
+Liouvillian eigenmodes with intermediate decay rates 8γ/3 and 10γ/3.
+
+**Selective noise test — which qubit contributes which rate:**
+
+| Noise on | Decay rates (multiples of γ) |
+|---|---|
+| S only | 10 fractional values, complex structure |
+| A only | Same as S only (symmetric role) |
+| B only | {0.667, 0.889, 1.111, 1.333} |
+| S+A+B (all) | {2.000, 2.667, 3.333, 4.000} — clean rationals |
+
+The clean {2, 8/3, 10/3, 4} structure emerges ONLY when all three qubits
+are equally dephased. Individual qubit noise gives messier rates.
+
+**THE KEY DISCOVERY: 4-qubit decay rates become topology-dependent!**
+
+| System | Decay rates (multiples of γ) |
+|---|---|
+| 3-qubit star [1,2] | {2.0, 2.667, 3.333, 4.0} — FIXED for all J |
+| 4-qubit star [1,1,1] | {2.0, 2.667, 2.844, 3.0, 3.667, 4.0, ...} |
+| 4-qubit star [1,2,3] | {2.0, 2.875, 3.0, 3.410, 3.609, 4.0, ...} |
+| 4-qubit star [0.5,1,3] | {2.0, 3.0, 3.234, 3.416, 3.827, 4.0, ...} |
+
+The boundary values (2γ and 2nγ) are always present. But the INTERNAL
+decay rates shift with coupling in 4+ qubit systems.
+
+**Two independent information channels (3-qubit system):**
+
+FREQUENCY CHANNEL:
+  -> Carries information about TOPOLOGY (who is connected)
+  -> Changes with J values, does NOT change with noise
+  -> Sensitive to hidden observers
+  -> This is the "what is the network?" channel
+
+DECAY CHANNEL:
+  -> Carries information about NOISE (what is the environment)
+  -> Changes with gamma, does NOT change with topology
+  -> Exact rational multiples of gamma
+  -> This is the "what is the environment?" channel
+
+**Four consequences:**
+
+1. You can characterize noise without knowing topology
+   (measure decay rate, divide by known coefficient, get gamma)
+
+2. You can characterize topology without knowing noise
+   (measure frequencies, they encode J values directly)
+
+3. Hidden observer detection uses ONLY the frequency channel
+   (decay rates are blind to topology changes)
+
+4. The slow mode (2γ) is a PROTECTED CHANNEL
+   (decays slowest, information in c- survives longest)
+
+**Critical limit:** This perfect frequency-decay orthogonality holds
+ONLY for the 3-qubit isotropic Heisenberg system with symmetric dephasing.
+At 4+ qubits, topology leaks into decay rates. The 3-qubit system is a
+special case with unusually clean separation.
+
+Script: simulations/decay_derivation.py
+
 
 ## What this means for the project
 
