@@ -72,6 +72,39 @@ spectator-qubit crosstalk sensing (PRL 109), multiparameter quantum metrology.
 Useful as passive monitoring or side-channel detection.
 Weaker than simultaneous RB or GST for calibrated hardware characterization.
 
+## Correlated Bath Sweep (March 12, 2026)
+
+GPT's experiment: test if correlated noise (shared bath on A+B) breaks
+the "noise only damps" rule. Two knobs: eta (local→correlated) and
+phi (ZZ bath→XX bath).
+
+**Frequencies: COMPLETELY IMMUNE.** f(c+)=1.499 and f(c-)=0.400 in every
+single configuration. Local, correlated ZZ, correlated XX, all mixtures.
+
+**Amplitude ratio flips:**
+
+| Bath geometry | A+/A- | Dominant sector |
+|---|---|---|
+| Local (baseline) | 1.22 | c+ dominates |
+| Correlated ZZ (eta=1, phi=0) | 1.09 | c+ still |
+| Correlated mixed (eta=1, phi=0.5) | 0.73 | c- takes over |
+| Correlated XX (eta=1, phi=1) | 0.46 | c- dominates |
+
+**XX symmetry:** Breaks at mixed correlated bath (phi=0.1-0.9) but
+survives at both extremes (pure ZZ AND pure XX). Mixing breaks it.
+
+**Result: GPT's prediction #1 confirmed.** Bath geometry is a sector
+selector. Frequencies never move. But the bath chooses which channel
+is louder. The phase map needs a fifth role:
+
+1. Topology sets frequencies
+2. Symmetry cleans sectors
+3. Noise damps amplitude
+4. Initial state selects visibility
+5. **Bath geometry selects which sector dominates**
+
+Script: simulations/correlated_bath_sweep.py
+
 ## Scripts
 
 - simulations/hidden_observer_test.py — detection proof

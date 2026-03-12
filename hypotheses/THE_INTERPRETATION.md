@@ -20,10 +20,14 @@ Channel 2 (c-, f=0.404): asymmetric, B alone drives it (IxZ). Switch mode.
 Direct A-B coupling merges channels — mediator creates the richness.
 The bridge was always there. CΨ shows when it is most readable.
 
-## Four independent roles (phase map)
+## Five independent roles (updated phase map, March 12)
 
 Topology sets frequencies. Symmetry cleans sectors. Noise damps signal.
-Initial state selects visibility. These four are independent.
+Initial state selects visibility. Bath geometry selects which sector dominates.
+
+The fifth role was discovered via correlated bath sweep: a shared XX bath
+on A+B inverts the amplitude ratio from c+ dominant (1.22) to c- dominant
+(0.46) without touching the frequencies. The bath is a sector selector.
 
 ## Chain topology (March 12)
 
@@ -62,7 +66,7 @@ The sonar effect is real in simulation. The IBM data does not demonstrate it.
 1. Skeleton + rotation (88%/12%, never challenged)
 2. Two spectral sectors: c+ fast, c- slow (Liouvillian confirmed)
 3. XX symmetry exact (Hamiltonian property, all topologies)
-4. Phase map: four independent roles
+4. Phase map: five independent roles (bath geometry added March 12)
 5. Noise immunity of frequencies (all sweeps, all topologies)
 6. Two-sector structure in chains (4 and 5 qubits)
 7. The Projection (exact diagonalization, bright-transition map)
