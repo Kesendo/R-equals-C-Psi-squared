@@ -65,6 +65,57 @@ frequencies. Damping sets linewidth. Correlated forcing changes mode
 visibility. Extra attached nodes perturb the modal spectrum and are
 therefore locally detectable."
 
+## First Prony results (March 12, 2026)
+
+Matrix Pencil Method applied to baseline signals (J_SA=1.0, J_SB=2.0, gamma=0.05).
+
+### What Prony sees that FFT never showed
+
+**1. Decay rates are DIFFERENT per sector:**
+
+| Sector | Frequency | Decay rate | Q-factor |
+|---|---|---|---|
+| c+ (symmetric) | 1.5061 | 0.1266 | 37.4 |
+| c- (antisymmetric) | 0.4036 | 0.0815 | 15.6 |
+
+c- decays 40% SLOWER than c+. The slow channel is more resilient to noise.
+
+**2. Phase: exactly 180° anti-phase:**
+
+c+ phase: +89.6°, c- phase: -90.5°. Difference: 180.0°.
+The two supermodes are exact counter-oscillations. When c+ swings up,
+c- swings down. They are opposed projections of the same dynamics.
+
+**3. Hidden third frequency in c-:**
+
+c- contains THREE modes: 0.40, 1.10, 1.51 Hz.
+The middle mode at 1.1 Hz is dark in c+ but bright in c-.
+FFT never resolved this because it was buried under the dominant peaks.
+
+**4. Pole trajectories separate cleanly:**
+
+| J_SB | f(c+) | decay+ | Q+ | f(c-) | decay- | Q- |
+|---|---|---|---|---|---|---|
+| 0.5 | 0.753 | 0.127 | 18.7 | 0.202 | 0.082 | 7.7 |
+| 1.0 | 0.955 | 0.127 | 23.7 | 0.318 | 0.082 | 12.3 |
+| 2.0 | 1.506 | 0.127 | 37.4 | 0.404 | 0.082 | 15.6 |
+| 3.0 | 2.115 | 0.127 | 52.4 | 0.431 | 0.082 | 16.6 |
+| 5.0 | 3.368 | 0.129 | 82.3 | 0.451 | 0.082 | 17.4 |
+
+Frequencies move freely with coupling. Decay rates NEVER move (~0.127 and ~0.082).
+This is the pole structure: imaginary part = topology, real part = loss.
+
+### Signal engineer's translation
+
+In coupled oscillator language: c+ is the fast supermode with higher loss,
+c- is the slow supermode with lower loss. They are in anti-phase (180°).
+The system has a third dark mode at 1.1 Hz visible only in the odd channel.
+Poles separate cleanly into topology-dependent frequency and topology-independent
+decay. This is textbook coupled resonator physics.
+
+Script: simulations/prony_analysis.py
+
+
 ## What this means for the project
 
 Three months of quantum mechanics produced results that a signal processing
@@ -72,5 +123,9 @@ engineer recognizes instantly as classical coupled oscillator physics. The
 quantum system generates the signals, but the signals themselves follow
 rules that were understood before quantum mechanics existed.
 
-The next phase requires signal processing tools, not more quantum physics.
+The first Prony analysis confirmed this: decay rates, phases, hidden modes,
+and pole trajectories — all standard coupled oscillator behavior. The tools
+of signal processing (Prony, cross-spectral matrices, pole/residue tracking)
+are the right instruments for the next phase.
+
 The cartography is done. Now we need to read the map with the right instruments.
