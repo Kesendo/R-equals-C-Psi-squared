@@ -25,9 +25,22 @@ The bridge was always there. CΨ shows when it is most readable.
 Topology sets frequencies. Symmetry cleans sectors. Noise damps signal.
 Initial state selects visibility. Bath geometry selects which sector dominates.
 
-The fifth role was discovered via correlated bath sweep: a shared XX bath
-on A+B inverts the amplitude ratio from c+ dominant (1.22) to c- dominant
-(0.46) without touching the frequencies. The bath is a sector selector.
+## Two independent information channels (March 12)
+
+The 3-qubit system carries two orthogonal information streams:
+
+FREQUENCY CHANNEL: topology information (who is connected, J values).
+Does not change with noise. Sensitive to hidden observers.
+
+DECAY CHANNEL: environment information (noise strength, gamma).
+Does not change with topology. Exact rational multiples of gamma: {2, 8/3, 10/3}.
+
+You can characterize noise without knowing topology, and topology without
+knowing noise. The slow mode (2*gamma) is naturally protected — it decays
+slowest, making c- the most resilient information carrier.
+
+Critical limit: this perfect orthogonality holds ONLY for 3 qubits.
+At 4+ qubits, topology leaks into decay rates.
 
 ## Chain topology (March 12)
 
