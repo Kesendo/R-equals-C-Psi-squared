@@ -115,6 +115,33 @@ decay. This is textbook coupled resonator physics.
 
 Script: simulations/prony_analysis.py
 
+### Corrections from review (March 12, evening)
+
+**1. The 180° anti-phase is a sign convention, not a discovery.**
+c+ = sum, c- = difference. Same pole appears with opposite sign in each channel.
+That IS 180°. It is the definition of the channel basis, not new physics.
+
+**2. Different decay rates = different poles, not different channels.**
+A pole cannot decay differently depending on which channel observes it.
+What is happening: c+ is dominated by a MORE DAMPED pole, c- by a LESS
+DAMPED pole. This is sector-specific damping: the loss mechanism couples
+more strongly to one modal sector than the other.
+
+Correct wording: "The dominant mode observed in c- has a substantially
+smaller decay rate than the dominant mode observed in c+."
+
+**3. The hidden 1.1 Hz mode is classical modal observability.**
+Its residue in c+ is near zero due to symmetry cancellation. Prediction:
+slightly break the symmetry and the mode should leak into c+.
+
+### Next steps (from signal review)
+
+1. Joint-fit A, B, c+, c- with SHARED pole set (not independent fits)
+2. Plot poles in complex plane across topology sweep
+3. Deliberately break symmetry to test 1.1 Hz mode leakage
+4. Track residue vectors [r_A, r_B, r_c+, r_c-] per pole
+5. Bootstrap Prony fits for confidence intervals
+
 
 ## What this means for the project
 
