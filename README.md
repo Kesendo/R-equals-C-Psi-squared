@@ -21,7 +21,7 @@ The system naturally separates into two independent information channels: a freq
 2. **Symmetry** cleans the sector separation (XX weak symmetry)
 3. **Noise strength** damps amplitude, never changes frequency (real part of poles)
 4. **Initial state** selects which sectors are excited
-5. **Bath geometry** selects which sector dominates — correlated XX bath inverts the amplitude ratio from c+ dominant (1.22) to c- dominant (0.46) without touching frequencies
+5. **Bath geometry** selects which sector dominates: a correlated XX bath inverts the amplitude ratio from c+ dominant (1.22) to c- dominant (0.46) without touching frequencies
 
 ### Signal processing view
 - The entire structure maps to a **coupled oscillator network with normal-mode splitting**
@@ -51,7 +51,7 @@ The system naturally separates into two independent information channels: a freq
 - **This orthogonality breaks at 4+ qubits** - decay rates become topology-dependent. The 3-qubit case has an unusually clean separation.
 
 ### Algebraic results
-- **Exact Mandelbrot correspondence:** R_{n+1} = C(Ψ + R_n)² maps to z → z² + c
+- **Exact Mandelbrot correspondence:** R_{n+1} = C(Ψ + R_n)² maps to z -> z² + c
 - **CΨ as diagnostic:** AND-gate behavior, three-layer separation (CoA ≥ LE ≥ CΨ)
 - **Star topology conditions:** Three quantified conditions for observer-observer connection
 
