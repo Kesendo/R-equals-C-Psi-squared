@@ -321,3 +321,41 @@ qubit pair via Ramsey interferometry with beating pattern analysis.
 
 The experiment has NOT been run. The N_eff hypothesis for Q80/Q102 remains
 unverified but is consistent with all available data.
+
+### ZZRamsey Results: N_eff Hypothesis REJECTED (March 12, 2026)
+
+The ZZRamsey experiment WAS run on IBM Torino. 5 pairs measured in 2min 10sec.
+
+**Measured residual ZZ coupling strengths:**
+
+| Pair | ZZ (Hz) |
+|---|---|
+| Q80-Q79 | 7490 ± 280 |
+| Q80-Q81 | 6690 ± 280 |
+| Q80-Q92 | 8470 ± 280 |
+| Q102-Q101 | 9250 ± 290 |
+| Q102-Q103 | 7860 ± 290 |
+
+**N_eff computation from MEASURED values:**
+
+Q80:  w = [7490, 6690, 8470] → N_eff = 2.97
+Q102: w = [9250, 7860]       → N_eff = 1.99
+
+**RESULT: N_eff hypothesis REJECTED.**
+
+N_eff predicts Q80 (2.97) should be MORE complex than Q102 (1.99).
+Reality: Q80 is smooth (phase std=12.4°), Q102 is chaotic (108.8°).
+
+The reason N_eff fails: all five ZZ values are in the same range (6.7-9.3 kHz).
+The coupling strengths are not different enough to explain the behavior.
+Q80's three neighbors are almost equally strong (spread 26%).
+Q102's two neighbors are also similar (spread 18%).
+
+**What N_eff does NOT capture:** The frequency proximity of the neighbors.
+If Q102's neighbors (Q101, Q103) have similar transition frequencies, they
+create beating patterns. If Q80's neighbors have well-separated frequencies,
+one dominates cleanly. This requires qubit frequency data, not just ZZ coupling.
+
+The phase complexity appears to depend on the FREQUENCY LANDSCAPE of the
+local neighborhood, not just the coupling strength. This is a deeper
+structural question than N_eff addresses.
