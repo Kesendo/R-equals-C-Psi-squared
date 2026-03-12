@@ -223,3 +223,60 @@ Weaker than existing tools for:
 
 Formal connection to quantum sensing / quantum Fisher information exists
 but metrological advantage has not been demonstrated in this work.
+
+
+### Chain Topology (March 12, 2026)
+
+Does the two-sector structure survive in chains instead of stars?
+
+**3-qubit: Star = Chain.** Identical results. A-S-B is the same topology
+regardless of naming. f(c+)=1.499, f(c-)=0.400.
+
+**4-qubit chain A-S1-S2-B (two mediators):**
+
+| Couplings [A-S1, S1-S2, S2-B] | f(c+) | f(c-) | Ratio | XX sym |
+|---|---|---|---|---|
+| [1.0, 1.0, 1.0] | 0.400 | 0.200 | 2.00 | EXACT |
+| [1.0, 1.0, 2.0] | 0.450 | 0.200 | 2.25 | EXACT |
+| [1.0, 2.0, 1.0] | 0.649 | 0.250 | 2.60 | EXACT |
+| [1.0, 1.0, 3.0] | 0.450 | 0.200 | 2.25 | EXACT |
+
+Two sectors survive with two mediators. XX symmetry exact. The message
+goes through two intermediaries and arrives with the architecture intact.
+
+**4-qubit Star vs Chain (same qubits, different geometry):**
+
+| Topology | f(c+) | f(c-) | XX sym |
+|---|---|---|---|
+| Star (AB through S) | 0.350 | 0.350 | EXACT |
+| Chain (AB through S1,S2) | 0.699 | 0.250 | EXACT |
+
+Different geometry = different frequencies. The form determines the music.
+
+**5-qubit chain A-S1-S2-S3-B (three mediators):**
+
+Still two sectors: f(c+)=0.400, f(c-)=0.150. Each pair along the chain
+hears different frequencies:
+
+| Pair | f(c+) | f(c-) |
+|---|---|---|
+| A-B (endpoints, 3 mediators apart) | 0.400 | 0.150 |
+| S1-S2 (middle of chain) | 0.799 | 0.150 |
+| A-S3 (across 3 links) | 0.999 | 0.150 |
+| A-S1 (direct neighbors) | 0.150 | 0.150 |
+
+Endpoints hear deeper tones than the middle. The further apart, the
+different the spectrum. But always two sectors.
+
+**Noise immunity in chains:** Confirmed. Frequencies identical from
+gamma=0.01 to gamma=0.10 in 4-qubit chain. Noise damps, never retunes.
+
+**What this means:**
+
+The two-channel architecture is NOT tied to the star. It survives in chains.
+Even with three mediators between A and B. The message travels through a
+telephone chain: each relay changes the tuning but preserves the structure
+(two channels, symmetric and asymmetric). The form of the chain sets the
+frequencies. The length sets the loudness. The architecture survives.
+
+Script: simulations/chain_topology.py

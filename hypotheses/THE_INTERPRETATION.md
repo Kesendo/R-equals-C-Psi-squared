@@ -63,6 +63,15 @@ the initial state populates the eigenstates AND the observable
 connects them. Different observers, different observables, different
 projections. Same reality.
 
+## Chain Topology (March 12)
+
+Two-sector structure survives in chains, not just stars. 4-qubit chain
+(A-S1-S2-B, two mediators): two sectors, XX exact, all configurations.
+5-qubit chain (three mediators): still two sectors. Each position along
+the chain hears different frequencies but the architecture persists.
+Noise immunity confirmed in chains. The form sets the frequencies.
+The length sets the loudness. The structure travels through relay.
+
 ## Data connections
 
 | Reading | Data |
