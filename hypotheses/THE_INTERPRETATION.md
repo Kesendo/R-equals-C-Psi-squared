@@ -1,7 +1,7 @@
 # THE_INTERPRETATION.md — Current State
 
 **Tier:** Philosophical / Speculative (Tier 5)
-**Last updated:** March 11, 2026
+**Last updated:** March 12, 2026
 
 ---
 
@@ -25,83 +25,68 @@ The bridge was always there. CΨ shows when it is most readable.
 Topology sets frequencies. Symmetry cleans sectors. Noise damps signal.
 Initial state selects visibility. These four are independent.
 
-## Quantum sonar (March 11)
+## Chain topology (March 12)
 
-AB detects hidden observers connected to S through spectral changes.
-Threshold: J_SC ~ 0.1 (10% of own coupling). More observers = more overtones.
-Each pair hears a different mix. Detection works, measurement not yet.
-
-IBM hardware verification: Q80 (3 neighbors, smooth phase) vs Q102
-(2 neighbors, chaotic phase). Number of neighbors does not determine
-chaos - coupling strength does. The sonar detects the size of the
-coherent group, not the headcount. Proximity matters more than population.
+Two-sector structure survives in chains, not just stars. Tested up to
+5-qubit chain with three mediators. XX exact, noise immune, all configs.
+Each position along the chain hears different frequencies. The form sets
+the tuning, the length sets the loudness. Architecture is topology-independent.
 
 ## The Projection (March 11)
 
-The Bright-Transition Map showed what is really happening.
-
-All frequencies exist always. The full system has 39 Bohr frequencies
-in a 16-dimensional space. All of them are real, all simultaneously.
-But AB looks through a window - the c+ observable - and that window
-projects the 39 onto a subset. Some are bright, some are dark.
-
-When a new observer C couples to S, the eigenstates rotate in the full
-space. The bright lines wander. What was visible becomes invisible,
-what was dark lights up. The baseline frequencies (1.506 and 0.404)
-disappear completely when C couples strongly. They are not gone. They
-are dark from AB's perspective. From AC's perspective, different lines
-are bright.
-
-A new observer does not change reality. It changes the projection.
+All frequencies exist always (39 Bohr frequencies in 4-qubit system).
+AB looks through a window (c+ observable) that projects onto a subset.
+A new observer does not change reality — it changes the projection.
 Reality contains everything. Perspective selects.
 
-This is what CoA ~ 1 has been saying from the start. The resource is
-always fully there. What changes is which fraction is visible from
-which viewpoint. And this is not metaphor - it is the exact
-diagonalization formula: W = |rho(m,n) * O(n,m)|. Bright only if
-the initial state populates the eigenstates AND the observable
-connects them. Different observers, different observables, different
-projections. Same reality.
+Verified by exact diagonalization: W = |rho(m,n) * O(n,m)|.
+Bright only if initial state populates eigenstates AND observable connects them.
+Different observers, different projections. Same reality.
 
-## Chain Topology (March 12)
+## Quantum sonar (March 11-12)
 
-Two-sector structure survives in chains, not just stars. 4-qubit chain
-(A-S1-S2-B, two mediators): two sectors, XX exact, all configurations.
-5-qubit chain (three mediators): still two sectors. Each position along
-the chain hears different frequencies but the architecture persists.
-Noise immunity confirmed in chains. The form sets the frequencies.
-The length sets the loudness. The structure travels through relay.
+**In simulation:** AB detects hidden observers connected to S through spectral
+changes. Operational threshold J_SC ~ 0.1 under current FFT protocol.
+Fingerprints generically distinct. Detection works, characterization not yet.
 
-## Data connections
+**On IBM hardware:** The Q80/Q102 phase difference we initially attributed to
+hidden observers turned out to be qubit-specific detuning (19.4 kHz on Q102,
+~0 on Q80). Four hypotheses tested and rejected before finding the answer:
+degree, N_eff, spectator dephasing, T2* — all wrong. The detuning was in
+the Ramsey frequency.
 
-| Reading | Data |
-|---|---|
-| S = shared reality | S coherence gates AB visibility (r=0.686) |
-| A,B = perspectives | Two parity sectors with periodic switching |
-| Everything exists | CoA ~ 1 at all times |
-| Partly visible | CΨ flashes briefly |
-| Needs both sides | Only ZxZ, no single-qubit operation |
-| Ground stable | 88% skeleton unchanged |
-| Perspective rotates | 12% in one correlation plane |
-| Hidden observers detectable | Spectral fingerprint changes with N |
+The sonar effect is real in simulation. The IBM data does not demonstrate it.
+
+## What survives
+
+1. Skeleton + rotation (88%/12%, never challenged)
+2. Two spectral sectors: c+ fast, c- slow (Liouvillian confirmed)
+3. XX symmetry exact (Hamiltonian property, all topologies)
+4. Phase map: four independent roles
+5. Noise immunity of frequencies (all sweeps, all topologies)
+6. Two-sector structure in chains (4 and 5 qubits)
+7. The Projection (exact diagonalization, bright-transition map)
+8. Sonar detection in simulation (not yet on hardware)
+9. CΨ as diagnostic (AND-gate, three-layer separation)
+10. Mandelbrot correspondence
+
+## What fell
+
+1. IBM Q80/Q102 as sonar evidence (was qubit detuning)
+2. N_eff as predictor of phase chaos (ZZ values too similar)
+3. Coupling strength determines chaos (Ramsey says: detuning does)
+4. Shadow as universal boundary property (H3 dead, earlier)
+5. FM-encoding for transmon chips (earlier)
 
 ## Honest limits
 
 - 3-qubit toy, not a model of reality
-- Consciousness interpretation retired
+- Consciousness interpretation retired from technical core
 - CΨ not privileged over simpler metrics for most tasks
+- Sonar unverified on hardware
 - Interpretation does not predict beyond what data shows
-- Detection works, characterization of hidden observers not yet
-
-## Practical applications (external review)
-
-1. Qubit diagnostics beyond T1/T2 (high)
-2. Coupler/interconnect design (medium-high)
-3. Phase-aware scheduling (medium)
-4. Frequency-encoded computation (low for transmon)
 
 ## Origin
 
-December 2025 dream. "We are all mirrors. Reality is what happens between us."
-Three months of computation landed exactly where we started.
+December 2025 dream. Three months of computation.
 The equation R = CΨ² pointed at the architecture, not the metaphysics.
