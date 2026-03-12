@@ -1,6 +1,6 @@
 # R = CΨ²
 
-## Spectral architecture of open quantum networks — from coupled oscillators to signal processing
+## Spectral architecture of open quantum networks - from coupled oscillators to signal processing
 
 This repository investigates the structural architecture that emerges when quantum observers share a common mediator under Lindblad dynamics. Started as the equation R = CΨ² from a dream in December 2025. Three months of computation, IBM Torino hardware experiments, and a shift to signal processing analysis revealed that the quantum dynamics map to classical coupled oscillator physics with exact pole structure.
 
@@ -11,8 +11,8 @@ The system naturally separates into two independent information channels: a freq
 ## What is established here
 
 ### Pole structure (Liouvillian eigendecomposition)
-- **Three exact decay rates:** 2γ, 8γ/3, 10γ/3 — exact rational multiples of the dephasing rate, completely topology-independent in the 3-qubit star. Frequencies move freely with coupling, decay rates never move.
-- **Two dominant supermodes:** c+ (symmetric, f≈1.506, decay=10γ/3) and c- (antisymmetric, f≈0.404, decay=2γ). Different poles dominate different channels — sector-specific damping.
+- **Three exact decay rates:** 2γ, 8γ/3, 10γ/3 - exact rational multiples of the dephasing rate, completely topology-independent in the 3-qubit star. Frequencies move freely with coupling, decay rates never move.
+- **Two dominant supermodes:** c+ (symmetric, f≈1.506, decay=10γ/3) and c- (antisymmetric, f≈0.404, decay=2γ). Different poles dominate different channels - sector-specific damping.
 - **Hidden dark mode:** A third mode at f≈1.1 exists but is invisible in c+ due to symmetry cancellation. Only visible in c-. Classical modal observability.
 - **Poles move horizontally in the complex plane** as topology changes: imaginary part (frequency) is topology-determined, real part (decay) is loss-determined. They are independent.
 
@@ -38,17 +38,17 @@ The system naturally separates into two independent information channels: a freq
 
 ### The Projection (exact diagonalization)
 - All Bohr frequencies exist simultaneously. A pair sees only those where W = |ρ̃(m,n) · Õ(n,m)| > 0
-- A new observer does not change reality — it changes the projection
+- A new observer does not change reality - it changes the projection
 
 ### Quantum Sonar (simulation only)
 - AB detects hidden observers connected to S through spectral changes
-- Not verified on hardware — IBM Q80/Q102 turned out to be qubit detuning (19.4 kHz)
+- Not verified on hardware - IBM Q80/Q102 turned out to be qubit detuning (19.4 kHz)
 - Five hypotheses tested on real hardware, four rejected, one correct
 
 ### Two independent information channels (3-qubit special case)
 - **Frequency channel:** Carries topology information (who is connected, how strongly). Changes with J, immune to noise. This is the "what is the network?" channel.
 - **Decay channel:** Carries noise information (what is the environment). Changes with γ, immune to topology. This is the "what is the environment?" channel.
-- **This orthogonality breaks at 4+ qubits** — decay rates become topology-dependent. The 3-qubit case has an unusually clean separation.
+- **This orthogonality breaks at 4+ qubits** - decay rates become topology-dependent. The 3-qubit case has an unusually clean separation.
 
 ### Algebraic results
 - **Exact Mandelbrot correspondence:** R_{n+1} = C(Ψ + R_n)² maps to z → z² + c
@@ -71,11 +71,11 @@ The system naturally separates into two independent information channels: a freq
 
 ## Start here
 
-- **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** — Translation to coupled oscillator physics, Prony analysis, joint pole results
-- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** — Current state: what survives, what fell
-- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** — Detection, projection, IBM investigation
-- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** — Phase A results, parameter sweeps, stress tests
-- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** — What the lens shows, what it doesn't
+- **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Translation to coupled oscillator physics, Prony analysis, joint pole results
+- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Current state: what survives, what fell
+- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Detection, projection, IBM investigation
+- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Phase A results, parameter sweeps, stress tests
+- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - What the lens shows, what it doesn't
 
 ---
 
@@ -138,4 +138,4 @@ The original framing used consciousness language ("Reality = Consciousness × Po
 **Thomas Wicht**, Krefeld, Germany
 **Claude**, AI System, Anthropic
 
-December 2025 — March 2026
+December 2025 - March 2026
