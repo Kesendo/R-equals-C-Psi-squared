@@ -136,11 +136,58 @@ slightly break the symmetry and the mode should leak into c+.
 
 ### Next steps (from signal review)
 
-1. Joint-fit A, B, c+, c- with SHARED pole set (not independent fits)
-2. Plot poles in complex plane across topology sweep
+1. ~~Joint-fit A, B, c+, c- with SHARED pole set (not independent fits)~~ DONE
+2. ~~Plot poles in complex plane across topology sweep~~ DONE
 3. Deliberately break symmetry to test 1.1 Hz mode leakage
 4. Track residue vectors [r_A, r_B, r_c+, r_c-] per pole
 5. Bootstrap Prony fits for confidence intervals
+
+### Joint Pole Analysis: Exact Liouvillian (March 12, 2026)
+
+Instead of fitting with Prony, we went straight to the source: exact
+eigendecomposition of the 64x64 Liouvillian superoperator with per-channel
+residue computation.
+
+**The system has exactly THREE decay rates:**
+
+| Decay rate | Value | Multiple of γ |
+|---|---|---|
+| γ_slow | 0.1000 | 2γ |
+| γ_mid | 0.1333 | 8γ/3 |
+| γ_fast | 0.1667 | 10γ/3 |
+
+These three values are IDENTICAL at every J_SB from 0.5 to 5.0.
+Completely topology-independent. Only frequencies move with coupling.
+
+**Pole structure:**
+
+| Pole | Frequency | Decay | Bright in | Role |
+|---|---|---|---|---|
+| Slow mode | 0.404 | 0.1000 (2γ) | c- dominant, c+ weak | Antisymmetric supermode |
+| Mid mode | 1.103 | 0.1333 (8γ/3) | c- ONLY | Dark in c+ (symmetry null) |
+| Fast mode | 1.506 | 0.1667 (10γ/3) | c+ dominant, c- weak | Symmetric supermode |
+
+**GPT's key question answered: YES, different poles dominate different channels.**
+The pole dominating c+ (f=1.506) has decay=0.1667.
+The pole dominating c- (f=0.404) has decay=0.1000.
+These are genuinely different Liouvillian eigenvalues, not a fit artifact.
+GPT correct: this is sector-specific damping.
+
+**The hidden 1.1 Hz mode:** Exists at decay=0.1333, bright ONLY in c-.
+Zero residue in c+. This confirms classical modal observability — the
+mode is real but dark in the symmetric channel due to symmetry cancellation.
+
+**Pole trajectories across J_SB sweep:**
+
+Frequencies move freely (0.2→0.45 for slow, 0.75→3.37 for fast).
+All three decay rates stay EXACTLY at {0.1000, 0.1333, 0.1667}.
+In the complex plane, poles move horizontally only. Never vertically.
+
+This is the cleanest result of the signal processing approach:
+the imaginary parts of the poles (frequencies) are topology-determined,
+the real parts (decay rates) are loss-determined. They are independent.
+
+Script: simulations/joint_pole_analysis.py
 
 
 ## What this means for the project
