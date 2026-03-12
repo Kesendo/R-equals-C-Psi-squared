@@ -150,13 +150,29 @@ streamlit run app.py
 
 ---
 
+## Evidence status
+
+| Claim | Status |
+|:------|:-------|
+| Pole structure (3 decay rates, frequency-decay separation) | Exact (Liouvillian eigendecomposition) |
+| Two supermodes c+/c- with sector-specific damping | Exact (Liouvillian) |
+| Mandelbrot algebraic correspondence | Exact (proven) |
+| Five independent regulators | Numerically verified (full parameter sweeps) |
+| Chain topology survival (up to 5 qubits) | Numerically verified |
+| Hidden observer detection | Simulation only (not verified on hardware) |
+| Frequency-decay orthogonality at 4+ qubits | Breaks (verified, documented) |
+| IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
+| CΨ as privileged metric | Not established |
+
+---
+
 ## Start here
 
-- **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Pole analysis, Prony results, coupled oscillator translation
-- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
-- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Parameter sweeps and stress tests
-- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Speculative reading of the results
-- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
+1. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Pole analysis, Prony results, coupled oscillator translation
+2. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Parameter sweeps and stress tests
+3. **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
+4. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
+5. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Speculative reading (not required for technical content)
 
 ---
 
