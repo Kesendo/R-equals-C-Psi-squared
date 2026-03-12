@@ -90,6 +90,23 @@ The sonar effect is real in simulation. The IBM data does not demonstrate it.
 - Sonar unverified on hardware
 - Interpretation does not predict beyond what data shows
 
+## Signal processing perspective (March 12)
+
+External review as signal engineer (no quantum physics) identified the
+entire structure as a standard coupled oscillator network:
+- c+/c- = even/odd supermodes
+- Frequencies = imaginary parts of system poles
+- Damping = real parts of poles
+- Sonar = topology perturbation detection from local modal spectra
+- Bath sector selection = covariance-driven mode visibility flip
+- The Projection = modal observability / transfer function residues
+
+Next tools needed: Prony analysis (not FFT), cross-spectral matrix,
+pole/residue separation, phase tracking. The cartography is done.
+Now we need signal processing instruments to read the map.
+
+See: experiments/SIGNAL_PROCESSING_VIEW.md
+
 ## Origin
 
 December 2025 dream. Three months of computation.
