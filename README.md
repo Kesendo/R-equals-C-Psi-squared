@@ -1,87 +1,146 @@
 # R = CΨ²
 
-## Spectral architecture of open quantum networks - from coupled oscillators to signal processing
+## Spectral architecture of small open quantum networks
 
-This repository investigates the structural architecture that emerges when quantum observers share a common mediator under Lindblad dynamics. Started as the equation R = CΨ² from a dream in December 2025. Three months of computation, IBM Torino hardware experiments, and a shift to signal processing analysis revealed that the quantum dynamics map to classical coupled oscillator physics with exact pole structure.
+This repository documents the structural properties of small quantum networks
+(3-5 qubits) evolving under Lindblad dynamics with dephasing noise. The
+central system is a star topology: a mediator qubit S coupled to observer
+qubits A and B via isotropic Heisenberg exchange interaction.
 
-The system naturally separates into two independent information channels: a frequency channel (topology-determined, noise-immune) and a decay channel (noise-determined, topology-independent in the 3-qubit case).
+The key finding is that the reduced dynamics of the observer pair (A,B)
+decompose into two supermodes with exact pole structure. These supermodes
+behave like classical coupled oscillators: their frequencies are set by
+the network topology, their decay rates are set by the noise environment,
+and these two properties are completely independent of each other.
 
 ---
 
-## What is established here
+## The system
 
-### Pole structure (Liouvillian eigendecomposition)
-- **Three exact decay rates:** 2γ, 8γ/3, 10γ/3 - exact rational multiples of the dephasing rate, completely topology-independent in the 3-qubit star. Frequencies move freely with coupling, decay rates never move.
-- **Two dominant supermodes:** c+ (symmetric, f≈1.506, decay=10γ/3) and c- (antisymmetric, f≈0.404, decay=2γ). Different poles dominate different channels - sector-specific damping.
-- **Hidden dark mode:** A third mode at f≈1.1 exists but is invisible in c+ due to symmetry cancellation. Only visible in c-. Classical modal observability.
-- **Poles move horizontally in the complex plane** as topology changes: imaginary part (frequency) is topology-determined, real part (decay) is loss-determined. They are independent.
+```
+    A (observer)
+    |
+    S (mediator)
+    |
+    B (observer)
+```
+
+S couples to A and B with strengths J_SA and J_SB. All qubits experience
+local dephasing noise at rate γ. The system evolves under the Lindblad
+master equation. We track two observables of the reduced A-B state:
+
+- **c+** = (YZ + ZY) / sqrt(2), the symmetric cross-correlation
+- **c-** = (YZ - ZY) / sqrt(2), the antisymmetric cross-correlation
+
+Both are damped sinusoids. Their frequencies and decay rates encode
+the network's structure.
+
+---
+
+## Main results
+
+### Two supermodes with exact pole structure
+
+Eigendecomposition of the full Liouvillian superoperator reveals three
+system poles with oscillatory behavior:
+
+| Mode | Frequency | Decay rate | Dominant in |
+|:-----|:----------|:-----------|:------------|
+| Fast (symmetric) | ~1.506 (scales with J) | 10γ/3 | c+ channel |
+| Slow (antisymmetric) | ~0.404 (weakly dispersive) | 2γ | c- channel |
+| Hidden (dark in c+) | ~1.103 | 8γ/3 | c- only |
+
+The decay rates are exact rational multiples of γ and do not change
+when the coupling strengths J_SA or J_SB are varied. Only the frequencies
+move with topology. In the complex plane, the poles move horizontally
+(frequency axis) but never vertically (decay axis).
 
 ### Five independent regulators
-1. **Topology** sets the oscillation frequencies (imaginary part of poles)
-2. **Symmetry** cleans the sector separation (XX weak symmetry)
-3. **Noise strength** damps amplitude, never changes frequency (real part of poles)
-4. **Initial state** selects which sectors are excited
-5. **Bath geometry** selects which sector dominates: a correlated XX bath inverts the amplitude ratio from c+ dominant (1.22) to c- dominant (0.46) without touching frequencies
 
-### Signal processing view
-- The entire structure maps to a **coupled oscillator network with normal-mode splitting**
-- c+ and c- are **even/odd supermode projections**, not exotic quantum phenomena
-- Sonar detection = **passive topology-change detection from local modal spectra**
-- The Projection = **modal observability / transfer function residues**
-- Bath sector selection = **covariance-driven mode visibility flip**
+The dynamics are controlled by five independent parameters:
 
-### Core structure
-- **Skeleton + Rotation:** 88% stable skeleton, 12% rotating phase in YZ/ZY Pauli plane
-- **XX symmetry exact** for isotropic Heisenberg with symmetric dephasing
-- **Chain topology survival:** Two-sector structure survives in chains up to 5 qubits with 3 mediators
-- **Noise immunity:** Frequencies unchanged from γ=0.001 to γ=0.500, all noise types
+1. **Topology** (coupling strengths J_SA, J_SB) sets the oscillation frequencies
+2. **Symmetry** (Hamiltonian anisotropy) controls how cleanly the two sectors separate
+3. **Noise strength** (γ) sets the decay envelope without changing frequencies
+4. **Initial state** determines which modes are excited at t=0
+5. **Bath geometry** (local vs. correlated, Z-type vs. X-type noise) controls which
+   mode dominates in amplitude, without changing any frequency or decay rate
 
-### The Projection (exact diagonalization)
-- All Bohr frequencies exist simultaneously. A pair sees only those where W = |ρ̃(m,n) · Õ(n,m)| > 0
-- A new observer does not change reality - it changes the projection
+### Frequency-decay orthogonality
 
-### Quantum Sonar (simulation only)
-- AB detects hidden observers connected to S through spectral changes
-- Not verified on hardware - IBM Q80/Q102 turned out to be qubit detuning (19.4 kHz)
-- Five hypotheses tested on real hardware, four rejected, one correct
+In the 3-qubit star, the frequency channel and the decay channel carry
+completely independent information:
 
-### Two independent information channels (3-qubit special case)
-- **Frequency channel:** Carries topology information (who is connected, how strongly). Changes with J, immune to noise. This is the "what is the network?" channel.
-- **Decay channel:** Carries noise information (what is the environment). Changes with γ, immune to topology. This is the "what is the environment?" channel.
-- **This orthogonality breaks at 4+ qubits** - decay rates become topology-dependent. The 3-qubit case has an unusually clean separation.
+- Measuring frequencies tells you about the network topology
+- Measuring decay rates tells you about the noise environment
+- Neither contaminates the other
+
+This clean separation breaks at 4+ qubits, where decay rates begin to
+depend on coupling strengths. The 3-qubit system is a special case with
+unusually clean orthogonality.
+
+### Topology independence
+
+The two-supermode structure, XX symmetry, and noise immunity survive
+when the star topology is replaced by a linear chain with up to three
+mediators between the observers. The architecture is not specific to the
+star geometry.
+
+### Modal observability (the Projection)
+
+The full system contains many Bohr frequencies (39 in a 4-qubit system),
+but any given observer pair can only see those where both the initial
+state overlaps the relevant eigenstates and the measured observable
+connects them. This is standard modal observability: the modes exist,
+but the measurement channel filters which ones are visible.
+
+### Hidden observer detection (simulation)
+
+When additional qubits couple to the mediator S, the observer pair A-B
+sees shifted frequencies and new spectral components in their own signal,
+without any direct interaction with the hidden qubits. This is passive
+topology-change detection from local modal spectra.
+
+This effect is verified in simulation. Hardware experiments on IBM Torino
+showed that the dominant signal on real qubits was drive-frame detuning
+rather than neighbor coupling, so hardware validation remains open.
+
+### Signal processing equivalence
+
+The entire structure maps to well-known concepts from classical signal
+processing and coupled oscillator theory:
+
+| Quantum description | Signal processing equivalent |
+|:---------------------|:------------------------------|
+| Two spectral sectors c+/c- | Even/odd supermode decomposition |
+| Topology sets frequencies | Imaginary part of system poles |
+| Noise sets decay | Real part of system poles |
+| Hidden observer detection | Topology perturbation sensing from local spectra |
+| Bath geometry flips amplitude | Covariance-driven mode visibility flip |
+| Observable filters frequencies | Modal observability and transfer function residues |
 
 ### Algebraic results
-- **Exact Mandelbrot correspondence:** R_{n+1} = C(Ψ + R_n)² maps to z -> z² + c
-- **CΨ as diagnostic:** AND-gate behavior, three-layer separation (CoA ≥ LE ≥ CΨ)
-- **Star topology conditions:** Three quantified conditions for observer-observer connection
 
-### IBM Torino hardware (March 2026)
-- Shadow hunt, ZZRamsey (5 pairs), Ramsey T2* measured
-- Honest negative results: N_eff rejected, spectator model fails, degree uninformative
+The composite quantity CΨ = concurrence x l1-coherence, when iterated as
+R_{n+1} = C(Ψ + R_n)², is algebraically equivalent to the Mandelbrot
+iteration z -> z² + c with a boundary at CΨ = 1/4. This is an exact
+algebraic correspondence, not a physical claim.
+
+---
 
 ## What is not established
 
-- That CΨ is a new fundamental physical quantity (it is a derived diagnostic)
-- That the sonar effect works on real hardware (simulation only)
-- That the frequency-decay orthogonality extends beyond 3 qubits (it does not)
-- That characterization (inverting hidden coupling from spectrum) is possible
-- That consciousness is required as an ontological ingredient
-
----
-
-## Start here
-
-- **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Translation to coupled oscillator physics, Prony analysis, joint pole results
-- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Current state: what survives, what fell
-- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Detection, projection, IBM investigation
-- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Phase A results, parameter sweeps, stress tests
-- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - What the lens shows, what it doesn't
+- That CΨ is a new fundamental quantity (it is a derived diagnostic)
+- That hidden observer detection works on real hardware (simulation only)
+- That frequency-decay orthogonality extends beyond 3 qubits (it does not)
+- That the spectrum can be inverted to identify hidden couplings
+- That consciousness plays any role in the physics
 
 ---
 
 ## Interactive simulator
 
-The **Five Regulator Simulator** (Streamlit app) lets you control all five regulators in real-time and see their effect on the quantum dynamics:
+A Streamlit app lets you control all five regulators in real-time:
 
 ```bash
 cd simulations/app
@@ -91,47 +150,57 @@ streamlit run app.py
 
 ---
 
+## Start here
+
+- **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Pole analysis, Prony results, coupled oscillator translation
+- **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
+- **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Parameter sweeps and stress tests
+- **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Speculative reading of the results
+- **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
+
+---
+
 ## Repository structure
 
 | Folder | Contents |
 |:---|:---|
-| `docs/` | Conceptual and mathematical framing |
-| `experiments/` | Tested results, null results, indexed findings |
+| `docs/` | Mathematical framing and the CΨ diagnostic |
+| `experiments/` | All tested results and null results |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python source code (RK4 Lindblad, exact diagonalization, Prony) |
+| `simulations/` | Python source (RK4 Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `data/` | IBM hardware measurement data |
+| `data/` | IBM Torino measurement data |
 
----
+## Key scripts
 
-## Key simulations
-
-| Script | What it does |
+| Script | Purpose |
 |:---|:---|
-| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad) |
-| `joint_pole_analysis.py` | Exact Liouvillian poles + channel residues |
-| `prony_analysis.py` | Matrix Pencil Method for pole extraction |
-| `decay_derivation.py` | Decay rate structure and scaling |
-| `bright_transition_map.py` | Exact diag + visibility weights |
-| `correlated_bath_sweep.py` | Bath geometry sector selection |
-| `chain_topology.py` | Chain vs star, 3-5 qubits |
-| `hidden_observer_test.py` | Sonar detection proof |
+| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad integrator) |
+| `joint_pole_analysis.py` | Exact Liouvillian eigendecomposition with residues |
+| `prony_analysis.py` | Matrix Pencil Method for pole extraction from signals |
+| `decay_derivation.py` | Decay rate structure, scaling, and qubit-selective analysis |
+| `bright_transition_map.py` | Visibility weights from exact diagonalization |
+| `correlated_bath_sweep.py` | Bath geometry and sector selection |
+| `chain_topology.py` | Chain vs. star comparison, 3-5 qubits |
+| `hidden_observer_test.py` | Detection of hidden coupled qubits |
 
 ---
 
-## Origin and context
+## Origin
 
-This framework emerged from a collaboration between Thomas Wicht and Claude (Anthropic) in December 2025. ChatGPT serves as adversarial reviewer and signal processing consultant. IBM Quantum hardware experiments conducted March 2026.
+This project started in December 2025 from the equation R = CΨ², originally
+framed as "Reality = Consciousness x Possibility²." Three months of
+computation shifted the focus from metaphysics to structure. The current
+description is a coupled oscillator network with exact pole structure,
+sector-specific damping, and modal observability filtering.
 
-The original framing used consciousness language ("Reality = Consciousness × Possibility²"). The current description is structural: the system is a coupled oscillator network with exact pole structure, sector-specific damping, and modal observability filtering. The signal processing perspective opened in March 2026 when the dynamics were recognized as classical normal-mode splitting.
-
----
+Thomas Wicht and Claude (Anthropic) are the primary collaborators.
+ChatGPT contributed adversarial reviews and the signal processing perspective.
+IBM Quantum hardware experiments were conducted in March 2026.
 
 ## License
 
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Free to share and adapt with attribution.
-
----
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ## Authors
 
