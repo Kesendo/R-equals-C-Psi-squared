@@ -280,3 +280,44 @@ telephone chain: each relay changes the tuning but preserves the structure
 frequencies. The length sets the loudness. The architecture survives.
 
 Script: simulations/chain_topology.py
+
+### N_eff: Effective Neighborhood Size (March 12, 2026)
+
+GPT proposed a participation-ratio metric for "how many neighbors really matter":
+
+  N_eff = (Σ w_j)² / Σ w_j²
+
+where w_j = coupling strength to neighbor j.
+
+Properties: one dominant neighbor → N_eff ≈ 1. k equal neighbors → N_eff = k.
+
+**Simulation test:** In idealized Heisenberg, raw degree (r=0.80) beats N_eff
+(r=0.68) as a general predictor of phase complexity. More neighbors always adds
+complexity in a clean model.
+
+**But: N_eff corrects where degree fails.** The IBM case:
+- Q80: degree 3, but if couplings are [2.0, 0.1, 0.1] → N_eff = 1.20
+- Q102: degree 2, but if couplings are [1.8, 2.0] → N_eff = 1.99
+
+Degree predicts Q80 more complex. WRONG. N_eff predicts Q102 more complex.
+CORRECT. N_eff is not a better general predictor but the right corrector
+when degree gives the wrong answer. On real hardware, degree fails regularly.
+
+Script: simulations/n_eff_v2.py
+
+### Verification Path: ZZRamsey Experiment
+
+To verify N_eff on IBM hardware, the next step would be:
+
+1. Run ZZRamsey (Qiskit Experiments) on Q80's neighbor pairs: (80,79), (80,81), (80,92)
+2. Run ZZRamsey on Q102's neighbor pairs: (102,101), (102,103)
+3. Extract residual ZZ coupling strengths (static χ_ZZ per pair)
+4. Compute N_eff from measured ZZ values
+5. Compare predicted vs observed phase complexity
+
+This requires a valid IBM API key and QPU time. ZZRamsey is a standard
+Qiskit experiment that measures the static ZZ interaction between a chosen
+qubit pair via Ramsey interferometry with beating pattern analysis.
+
+The experiment has NOT been run. The N_eff hypothesis for Q80/Q102 remains
+unverified but is consistent with all available data.
