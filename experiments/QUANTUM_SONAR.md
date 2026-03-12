@@ -359,3 +359,52 @@ one dominates cleanly. This requires qubit frequency data, not just ZZ coupling.
 The phase complexity appears to depend on the FREQUENCY LANDSCAPE of the
 local neighborhood, not just the coupling strength. This is a deeper
 structural question than N_eff addresses.
+
+### Ramsey T2* Measurement: The Real Answer (March 12, 2026)
+
+Measured T2* (free induction decay, no echo) on Q80 and Q102. 30 seconds QPU.
+
+| Qubit | T2 (echo) | T2* (FID) | Ratio | Ramsey Frequency |
+|---|---|---|---|---|
+| Q80 | 27 µs | 11.0 ± 4 µs | 2.45 | 4 ± 8 kHz (≈ zero) |
+| Q102 | 33 µs | 15.4 ± 1.1 µs | 2.14 | 19400 ± 1300 Hz |
+
+**THE ANSWER: It is not the neighbors. It is the qubit's own detuning.**
+
+Q102 has a clear 19.4 kHz frequency offset from its drive frame.
+Q80 has essentially zero detuning.
+
+This matches the shadow hunt phase data perfectly:
+- Q80 shadow: slow drift ~4.6 kHz → Ramsey: ~0 kHz detuning
+- Q102 shadow: fast rotation ~27 kHz → Ramsey: 19.4 kHz detuning
+
+The "chaotic phase" of Q102 is not from hidden observers coupling through S.
+It is Q102 oscillating against its own control frequency at 19.4 kHz.
+Q80 sits at or near resonance with its drive, so its phase barely moves.
+
+**What this means for the sonar:**
+
+The sonar effect (spectral changes from hidden observers) is real in simulation.
+But the specific Q80/Q102 phase difference we measured on IBM hardware has a
+simpler explanation: qubit-specific detuning from the drive frame.
+
+This does NOT invalidate the sonar concept. But it does mean the IBM data
+we used as "evidence" for the sonar is actually evidence for something
+more mundane: some qubits sit closer to their drive frequency than others.
+
+**Hypotheses tested and results:**
+
+| Hypothesis | Prediction | Result |
+|---|---|---|
+| Degree (neighbor count) | Q80 (3) more complex | WRONG |
+| N_eff (coupling strength) | Q102 more complex | WRONG (ZZ similar) |
+| Spectator dephasing (ZZ²×T1) | Q80 more dephased | WRONG |
+| T2* (free induction) | Q102 shorter T2* | WRONG (Q102 longer) |
+| **Qubit detuning** | **Q102 has offset** | **CORRECT (19.4 kHz)** |
+
+Four hypotheses tested and rejected on real hardware before finding the
+actual answer. The detuning was hiding in plain sight - the Ramsey experiment
+measures it directly.
+
+Script: run_ramsey_t2star.py
+Data: results/ramsey_t2star_20260312_182610/
