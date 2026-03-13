@@ -128,7 +128,7 @@ The results above use h=0.7 (weak transverse field). In this regime, Hamiltonian
 
 With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4. The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
 
-See [Simulation Evidence](../docs/SIMULATION_EVIDENCE.md) for strong-dynamics results.
+See [Simulation Evidence](SIMULATION_EVIDENCE.md) for strong-dynamics results.
 
 ---
 
