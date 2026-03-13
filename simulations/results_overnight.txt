@@ -1,0 +1,19 @@
+================================================================================
+OVERNIGHT COMPUTATION
+Started: 2026-03-13 22:58:51
+Machine: 128GB RAM, Intel Core Ultra 9 285k
+Expected runtime: 4-12 hours
+================================================================================
+
+============================================================
+### TEST 1: N=8 star topology (65536x65536 SPARSE)
+============================================================
+This needs ~20-40GB RAM with sparse methods.
+Dense would need 64GB just for the matrix - impossible to diagonalize.
+Strategy: sparse build + ARPACK eigenvalue extraction in spectral windows.
+    Building sparse Hamiltonian (256x256)...
+    Building sparse Liouvillian (65536x65536)...
+    Sparse Liouvillian: 524,032 nonzeros (1.22e-04 density)
+    Memory: ~0.01 GB (vs 68.7 GB dense)
+    Build time: 0.2s
+    Window 1/8: sigma = -0.7200 ...
