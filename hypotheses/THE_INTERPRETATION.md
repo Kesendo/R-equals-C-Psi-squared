@@ -120,18 +120,22 @@ Now we need signal processing instruments to read the map.
 
 See: experiments/SIGNAL_PROCESSING_VIEW.md
 
-## Next direction: Exceptional Point connection (March 13)
+## Exceptional Point test: NEGATIVE (March 13, 2026)
 
-Literature review (Cowork Claude) found a paper from March 11, 2026
-(arXiv:2603.10654) that introduces graph-symmetry-resolved EP detection
-for open quantum systems with correlated dephasing - exactly our setup.
+Tested whether CΨ = 1/4 corresponds to a Liouvillian Exceptional Point.
 
-Key question: Is CΨ = 1/4 an Exceptional Point in the Liouvillian?
-If yes, the 1/4 boundary has a physical explanation (eigenvalue coalescence),
-not just an algebraic one (Mandelbrot discriminant).
+Three sweeps: gamma (3-qubit), J_SB (3-qubit), gamma (2-qubit).
+EP_strength (eigenvector conditioning) and eigenvalue gap tracked.
 
-Test: diagonalize Liouvillian near CΨ = 1/4, check for eigenvalue coalescence
-and diverging eigenvector conditioning. See docs/LITERATURE_REVIEW_MARCH_2026.md.
+Result: NO connection found. EP_strength follows gamma monotonically,
+not CΨ. No peak at 1/4, no eigenvalue coalescence, no eigenvector
+collapse. CΨ = 1/4 remains algebraically exact (Mandelbrot discriminant)
+but has no detected connection to Liouvillian exceptional points.
+
+The 2-qubit system showed CΨ_max = 1/3 for ALL gamma - it never reaches
+1/4 by varying dephasing alone.
+
+Script: simulations/ep_test.py
 
 ## Origin
 

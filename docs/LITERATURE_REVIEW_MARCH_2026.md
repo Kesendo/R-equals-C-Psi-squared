@@ -63,20 +63,17 @@ The EP connection could clarify this.
 
 ## Three prioritized research directions
 
-### Direction 1: Exceptional Point Connection (HIGHEST PRIORITY)
+### Direction 1: Exceptional Point Connection (TESTED - NEGATIVE)
 
 **Hypothesis:** CΨ = 1/4 is (or correlates with) a Liouvillian Exceptional Point.
 
-**Why:** If confirmed, we have a first-principles physical explanation for the
-1/4 boundary that is not just algebraic but physically motivated. EPs are
-established physics - this would make our results immediately connectable.
+**Result:** Tested March 13, 2026. Three sweeps (gamma 3-qubit, J_SB 3-qubit,
+gamma 2-qubit). EP_strength and eigenvalue gap tracked. NO connection found.
+EP_strength follows gamma monotonically, not CΨ. No peak at 1/4, no eigenvalue
+coalescence. The 2-qubit system showed CΨ_max = 1/3 for all gamma values.
 
-**Steps:**
-1. Diagonalize Liouvillian at CΨ -> 1/4, look for eigenvalue coalescence
-2. Implement EP-Strength E from Paper 4 (Graph Symmetry)
-3. Check if eigenvector conditioning diverges at the 1/4 point
-4. For 2-qubit: analytically check if discriminant (1-4CΨ) matches EP condition
-5. If confirmed: test if EP survives in exact (non-Markovian) model (Paper 1)
+CΨ = 1/4 remains algebraically exact but has no detected EP connection.
+Script: simulations/ep_test.py
 
 ### Direction 2: Graph Symmetry Decomposition
 
