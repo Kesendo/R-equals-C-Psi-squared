@@ -154,6 +154,35 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## 4-qubit breakdown mapped (March 13, 2026)
+
+The 3-to-4 qubit transition is now precisely characterized.
+
+Fixed rates (topology-independent at ANY N):
+  2g  (minimum, always present)
+  2Ng (maximum, always present: 4g at N=3, 6g at N=4, 8g at N=5)
+
+The 3-qubit special case: ALL rates are fixed {2g, 8g/3, 10g/3, 4g}.
+The system is too small for the middle rates to move.
+
+At 4 qubits: only boundary rates {2g, 4g, 6g} stay fixed. Everything
+between 3g and 5g wanders freely with coupling strengths. The middle
+rates form continuous bands that shift with J.
+
+At 5 qubits: massive rate spectrum (2g to 8g), only boundaries fixed.
+
+The gamma scaling also breaks at 4 qubits: rates in gamma units are
+NOT constant when gamma changes. The rates depend on BOTH gamma and J.
+
+Pattern: boundary = 2g (always) and 2Ng (always). Interior = free.
+The 3-qubit case has no room for interior rates to move.
+
+This transition from discrete to continuous rate structure is the
+exact point where "clean spectral architecture" becomes "real physics."
+Studying this transition may reveal scaling laws for larger systems.
+
+Script: simulations/four_qubit_breakdown.py
+
 ## z* is not a direct observable (March 13, 2026)
 
 Tested whether z* = (1-sqrt(1-4*CPsi))/2 can be read directly from the
