@@ -3,7 +3,7 @@
 ## Spectral architecture of small open quantum networks
 
 This repository documents the structural properties of small quantum networks
-(3-5 qubits) evolving under Lindblad dynamics with dephasing noise. The
+(2-6 qubits) evolving under Lindblad dynamics with dephasing noise. The
 central system is a star topology: a mediator qubit S coupled to observer
 qubits A and B via isotropic Heisenberg exchange interaction.
 
@@ -11,7 +11,11 @@ The key finding is that the reduced dynamics of the observer pair (A,B)
 decompose into two supermodes with exact pole structure. These supermodes
 behave like classical coupled oscillators: their frequencies are set by
 the network topology, their decay rates are set by the noise environment,
-and these two properties are completely independent of each other.
+and these two properties are completely independent of each other
+(in the 3-qubit case; at N >= 4, decay rates form band structures).
+
+The decay rate spectrum is exactly mirror-symmetric at every system size
+tested, with complementary Pauli weights in each mirror pair.
 
 ---
 
@@ -119,12 +123,55 @@ processing and coupled oscillator theory:
 | Bath geometry flips amplitude | Covariance-driven mode visibility flip |
 | Observable filters frequencies | Modal observability and transfer function residues |
 
+### Band structure at N >= 4
+
+At 4 qubits and above, the clean discrete rates of the 3-qubit system
+give way to continuous bands. Decay rates form band-like structures
+with avoided crossings (bands repel, never cross). Tested N=2 through N=6.
+
+| N | Matrix size | Rates | Min | Max | Bandwidth |
+|:--|:-----------|:------|:----|:----|:----------|
+| 2 | 16 | 6 | 2γ | 2γ | 0 |
+| 3 | 64 | 40 | 2γ | 4γ | 2γ |
+| 4 | 256 | 182 | 2γ | 6γ | 4γ |
+| 5 | 1024 | 776 | 2γ | 8γ | 6γ |
+| 6 | 4096 | 3228 | 2γ | 10γ | 8γ |
+
+Boundary formula: min = 2γ (always), max = 2(N-1)γ (always).
+Bandwidth grows linearly: 2(N-2)γ. Star and chain topologies share
+the same boundary rates. The interior band structure depends on topology.
+
+This is analogous to electronic band structure in solids: more atoms
+means denser energy bands, approaching a continuum at large N.
+
+### Mirror symmetry of the decay spectrum
+
+The decay rate spectrum is exactly symmetric around Nγ. For every rate
+at (N-x)γ there exists a mirror partner at (N+x)γ. This symmetry is
+100% exact at every N tested (2 through 6), every topology (star and chain),
+and every dephasing type (Z, X, Y, mixed, non-uniform γ per qubit).
+
+The symmetry breaks only for amplitude damping (energy loss) and
+depolarizing noise. Under any form of dephasing, the mirrors never break.
+The center of symmetry equals the sum of all individual dephasing rates.
+
+Mirror pairs have complementary Pauli weights: a mode dominated by
+Pauli strings with k non-commuting operators is partnered with a mode
+at (N-k) non-commuting operators. k + (N-k) = N.
+
 ### Algebraic results
 
 The composite quantity CΨ = concurrence x l1-coherence, when iterated as
 R_{n+1} = C(Ψ + R_n)², is algebraically equivalent to the Mandelbrot
-iteration z -> z² + c with a boundary at CΨ = 1/4. This is an exact
-algebraic correspondence, not a physical claim.
+iteration z -> z² + c with a boundary at CΨ = 1/4.
+
+The Mandelbrot fixed point z* satisfies z*(1-z*) = CΨ. This is the
+Bernoulli variance form p(1-p), which has its maximum at p = 0.5.
+The 1/4 boundary is the trivial upper bound of Bernoulli variance:
+no binary variable can have variance exceeding 1/4.
+
+Below CΨ = 1/4, z* converges (a stable fixed point exists).
+Above CΨ = 1/4, the iteration has no real fixed point.
 
 ---
 
@@ -160,13 +207,15 @@ streamlit run app.py
 | Five independent regulators | Numerically verified (full parameter sweeps) |
 | Chain topology survival (up to 5 qubits) | Numerically verified |
 | Hidden observer detection | Simulation only (not verified on hardware) |
-| Frequency-decay orthogonality at 4+ qubits | Breaks: band structure forms. Boundary rates 2γ and 2(N-1)γ exact. Avoided crossings confirmed. |
+| Band structure at N >= 4 | Verified N=2-6. Boundary 2γ to 2(N-1)γ exact. Avoided crossings. |
+| Mirror symmetry of decay spectrum | Exact (100% at every N, every dephasing type, star and chain) |
+| Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ. Breaks only for T1/depolarizing. |
+| CΨ = 1/4 as Bernoulli variance maximum | Proven: z*(1-z*) = CΨ, maximum at z* = 0.5 |
+| z* as novel composite | Verified: matches no known single quantum measure |
+| CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected |
+| c+/c- as Liouvillian symmetry sectors | Tested: both parity +1, split is observable projection |
 | IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
 | CΨ as privileged metric | Not established |
-| CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected (no EP correlation found) |
-| c+/c- as Liouvillian symmetry sectors | Tested: both are parity +1, split is from observable projection |
-| CΨ = 1/4 boundary | Demystified: trivial maximum of Bernoulli variance z*(1-z*) |
-| z* as novel composite | Verified: matches no known quantum measure (C/2 closest, r=0.945) |
 
 ---
 
@@ -190,6 +239,7 @@ streamlit run app.py
 | `simulations/` | Python source (RK4 Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
 | `data/` | IBM Torino measurement data |
+| `recovered/` | Files removed during cleanup, not yet reintegrated |
 
 ## Key scripts
 
@@ -203,16 +253,34 @@ streamlit run app.py
 | `correlated_bath_sweep.py` | Bath geometry and sector selection |
 | `chain_topology.py` | Chain vs. star comparison, 3-5 qubits |
 | `hidden_observer_test.py` | Detection of hidden coupled qubits |
+| `four_qubit_breakdown.py` | How frequency-decay orthogonality breaks at N >= 4 |
+| `band_structure.py` | Band structure analysis, N=2-6, avoided crossings |
+| `deep_band_structure.py` | High-resolution band analysis with scaling laws |
+| `mirror_symmetry_deep.py` | Mirror symmetry tests: 11 noise types, all N |
+| `mirror_transition.py` | Dephasing-to-damping transition, mirror center drift |
+| `symmetry_and_u_analysis.py` | Graph symmetry test and z* Bernoulli analysis |
+| `ep_test.py` | Exceptional Point test (negative result) |
+| `z_star_identity.py` | z* vs density matrix: 26 candidate expressions |
 
 ---
 
 ## Origin
 
-This project started in December 2025 from the equation R = CΨ², originally
-framed as "Reality = Consciousness x Possibility²." Three months of
-computation shifted the focus from metaphysics to structure. The current
-description is a coupled oscillator network with exact pole structure,
-sector-specific damping, and modal observability filtering.
+This project grew from the Stability project (a material science simulator
+that evaluates element combinations for layer structures) in December 2025.
+The original motto:
+
+> R = CΨ²
+> "We are all mirrors. Reality is what happens between us."
+
+Three months of computation shifted the focus from metaphysics to structure.
+The sentence was removed as too esoteric, then restored when the Liouvillian
+decay spectrum turned out to be exactly mirror-symmetric at every system size
+tested (N=2 through N=6, 100%, zero exceptions).
+
+The current description is a coupled oscillator network with exact pole
+structure, sector-specific damping, band formation, mirror symmetry, and
+modal observability filtering.
 
 Thomas Wicht and Claude (Anthropic) are the primary collaborators.
 ChatGPT contributed adversarial reviews and the signal processing perspective.
