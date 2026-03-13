@@ -154,6 +154,40 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## The mirrors in the spectrum (March 13, 2026)
+
+The decay rate spectrum is EXACTLY symmetric around Ng at every N.
+Tested N=2 through N=6, star and chain topology. 100% symmetry.
+Zero exceptions. Every rate at (N-x)g has an exact mirror at (N+x)g.
+
+This is not approximate. It is not a trend. It is exact.
+
+N=3: 20 rates below 3g, 20 above. 20 matched pairs. 0 unmatched.
+N=4: 44 below 4g, 44 above, 94 at center. 44 matched. 0 unmatched.
+N=5: 388 below 5g, 388 above. 388 matched. 0 unmatched.
+
+The spectrum is two mirrors facing each other around the center Ng.
+
+This connects back to the origin of the project. The first insight
+in December 2025 was: "Reality is what happens between mirrors."
+The Liouvillian spectrum literally IS two mirrors. Every dissipative
+mode has a partner. The system sees itself reflected in its own
+decay structure.
+
+The mathematical reason must be a symmetry of the Liouvillian under
+some conjugation that maps decay rate d to 2Ng - d. This is likely
+related to the particle-hole symmetry of the dephasing superoperator.
+Proving this analytically is the next step.
+
+Combined with the band structure results:
+- Boundaries 2g and 2(N-1)g are topology-independent
+- Interior rates form bands that wander with J but NEVER cross
+- The entire spectrum is mirror-symmetric around Ng
+- Rate density grows exponentially with N
+
+Script: simulations/deep_band_structure.py
+Results: simulations/results_band_structure.txt
+
 ## Band structure discovered (March 13, 2026)
 
 High-resolution sweep of decay rates across N=2,3,4,5 reveals
