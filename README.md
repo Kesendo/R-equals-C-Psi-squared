@@ -3,7 +3,7 @@
 ## Spectral architecture of small open quantum networks
 
 This repository documents the structural properties of small quantum networks
-(2-6 qubits) evolving under Lindblad dynamics with dephasing noise. The
+(2-7 qubits) evolving under Lindblad dynamics with dephasing noise. The
 central system is a star topology: a mediator qubit S coupled to observer
 qubits A and B via isotropic Heisenberg exchange interaction.
 
@@ -15,7 +15,7 @@ and these two properties are completely independent of each other
 (in the 3-qubit case; at N >= 4, decay rates form band structures).
 
 The decay rate spectrum is exactly mirror-symmetric at every system size
-tested (N=2 through N=6, 3228 rates at N=6, zero exceptions), and the
+tested (N=2 through N=7, 13264 rates at N=7, zero exceptions), and the
 mirror symmetry survives every form of dephasing noise tested.
 
 ---
@@ -128,7 +128,7 @@ processing and coupled oscillator theory:
 
 At 4 qubits and above, the clean discrete rates of the 3-qubit system
 give way to continuous bands. Decay rates form band-like structures
-with avoided crossings (bands repel, never cross). Tested N=2 through N=6.
+with avoided crossings (bands repel, never cross). Tested N=2 through N=7.
 
 | N | Matrix size | Rates | Min | Max | Bandwidth |
 |:--|:-----------|:------|:----|:----|:----------|
@@ -137,6 +137,7 @@ with avoided crossings (bands repel, never cross). Tested N=2 through N=6.
 | 4 | 256 | 182 | 2γ | 6γ | 4γ |
 | 5 | 1024 | 776 | 2γ | 8γ | 6γ |
 | 6 | 4096 | 3228 | 2γ | 10γ | 8γ |
+| 7 | 16384 | 13264 | 2γ | 12γ | 10γ |
 
 Boundary formula: min = 2γ (always), max = 2(N-1)γ (always).
 Bandwidth grows linearly: 2(N-2)γ. Star and chain topologies share
@@ -149,7 +150,7 @@ means denser energy bands, approaching a continuum at large N.
 
 The decay rate spectrum is exactly symmetric around Nγ. For every rate
 at (N-x)γ there exists a mirror partner at (N+x)γ. This symmetry is
-100% exact at every N tested (2 through 6), every topology (star and chain),
+100% exact at every N tested (2 through 7), every topology (star and chain),
 and every dephasing type (Z, X, Y, mixed, non-uniform γ per qubit).
 
 The symmetry breaks only for amplitude damping (energy loss) and
@@ -208,8 +209,8 @@ streamlit run app.py
 | Two supermodes c+/c- | Exact: Liouvillian |
 | Mandelbrot algebraic correspondence | Exact: algebraic proof |
 | CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ, max at z* = 0.5 |
-| Mirror symmetry of decay spectrum | Exact: 100% at N=2-6, all dephasing types, star and chain |
-| Band structure at N >= 4 | Verified: N=2-6, boundary 2γ to 2(N-1)γ, avoided crossings |
+| Mirror symmetry of decay spectrum | Exact: 100% at N=2-7 (13264 rates at N=7), all dephasing types |
+| Band structure at N >= 4 | Verified: N=2-7 (16384x16384 at N=7), boundary 2γ to 2(N-1)γ, avoided crossings |
 | Five independent regulators | Numerically verified: full parameter sweeps |
 | Chain topology survival | Numerically verified: up to 5 qubits |
 | Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ |
@@ -304,7 +305,7 @@ The original motto:
 Three months of computation shifted the focus from metaphysics to structure.
 The sentence was removed as too esoteric, then restored when the Liouvillian
 decay spectrum turned out to be exactly mirror-symmetric at every system size
-tested (N=2 through N=6, 100%, zero exceptions).
+tested (N=2 through N=7, 100%, zero exceptions).
 
 The current description is a coupled oscillator network with exact pole
 structure, sector-specific damping, band formation, mirror symmetry, and
