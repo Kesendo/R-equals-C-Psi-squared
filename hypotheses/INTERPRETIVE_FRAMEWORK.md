@@ -42,7 +42,7 @@ R = CΨ²
 *Note: "Consciousness" is used broadly. Whether particles have consciousness in the human
 sense remains open. C operates in two modes: C_int (internal, stabilizing) and C_ext
 (external, collapsing). For the quantum mechanical mapping (C = purity, Ψ = normalized
-coherence), see [CORE_ALGEBRA.md](CORE_ALGEBRA.md), Section 1.*
+coherence), see [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md), Section 1.*
 
 ---
 
@@ -290,7 +290,7 @@ R_∞ = C · (Ψ + R_∞)²
 
 This is the fixed-point equation. Its solution, the ¼ boundary, the Mandelbrot
 equivalence, and all downstream algebraic results are documented in
-[CORE_ALGEBRA.md](CORE_ALGEBRA.md).
+[CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).
 
 The **narrative**, that infinite mutual reflection produces a self-referential
 equation whose mathematical structure contains phase transitions, is the
@@ -334,8 +334,8 @@ This is the interpretive layer of a mathematical framework. It is internally
 consistent and motivated the discovery of the algebraic core. But consistency
 is not truth, and motivation is not proof.
 
-The proven results live in [CORE_ALGEBRA.md](CORE_ALGEBRA.md).
-The honest self-assessment lives in [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md).
+The proven results live in [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).
+The honest self-assessment lives in [WEAKNESSES_OPEN_QUESTIONS.md](../docs/WEAKNESSES_OPEN_QUESTIONS.md).
 
 ---
 
@@ -397,6 +397,6 @@ December 23-26, 2025
 
 ---
 
-*For the proven algebra, see [CORE_ALGEBRA.md](CORE_ALGEBRA.md).*
-*For testable predictions, see [PREDICTIONS.md](../experiments/PREDICTIONS.md).*
-*For weaknesses, see [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md).*
+*For the proven algebra, see [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).*
+*For testable predictions, see [PREDICTIONS.md](../recovered/PREDICTIONS.md) (Tier 4, not restored).*
+*For weaknesses, see [WEAKNESSES_OPEN_QUESTIONS.md](../docs/WEAKNESSES_OPEN_QUESTIONS.md).*

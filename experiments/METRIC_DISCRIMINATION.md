@@ -204,7 +204,7 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 
 **The experiment confirms the invariance law to high precision but honestly reports that metric discrimination requires additional structure beyond what the current simulator provides.**
 
-**UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md). [FALLEN]
+**UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) (Tier 4, not restored). [FALLEN]
 
 **UPDATE 2026-02-18**: K-invariance has been extended to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072). More importantly, K-invariance is now understood as a consequence of Lindblad scaling symmetry τ = γ·t, not a specific property of the ¼ boundary. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
 
