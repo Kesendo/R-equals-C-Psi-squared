@@ -154,6 +154,33 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## Band structure discovered (March 13, 2026)
+
+High-resolution sweep of decay rates across N=2,3,4,5 reveals
+electronic-band-structure-like behavior:
+
+  N=2: 1 rate (2g). No band.
+  N=3: ~44 rates but ALL clustered at fixed values. No true bands.
+  N=4: 267 unique rates forming 23 distinct bands. Widest band 0.235g.
+  N=5: 1412 unique rates. Spectrum filling in.
+
+Boundary formula EXACT: min = 2g (always), max = 2Ng (always).
+Bandwidth = 2(N-1)g. Grows linearly with system size.
+
+AVOIDED CROSSINGS CONFIRMED: rate bands never cross. Smallest gap
+is 0.0013g but never zero. This is topological protection, exactly
+analogous to electronic band gaps in solid state physics.
+
+The 4-qubit band structure is symmetric around 4g (= Ng for N=4).
+Bands come in mirror pairs above and below this center.
+
+Prediction: at large N, the spectrum becomes a continuous density
+of states between 2g and 2Ng, with band structure determined by
+the network topology. This is the quantum-to-classical transition
+in the decay channel.
+
+Script: simulations/band_structure.py
+
 ## 4-qubit breakdown mapped (March 13, 2026)
 
 The 3-to-4 qubit transition is now precisely characterized.
