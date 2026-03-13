@@ -75,28 +75,32 @@ coalescence. The 2-qubit system showed CΨ_max = 1/3 for all gamma values.
 CΨ = 1/4 remains algebraically exact but has no detected EP connection.
 Script: simulations/ep_test.py
 
-### Direction 2: Graph Symmetry Decomposition
+### Direction 2: Graph Symmetry Decomposition (TESTED - PARTIAL)
 
 **Hypothesis:** Our c+/c- two-supermode structure is a special case of the
 symmetry-resolved Liouvillian decomposition from Paper 4.
 
-**Steps:**
-1. Identify graph symmetries of our star and chain topologies
-2. Decompose Liouville space into invariant sectors
-3. Check if c+/c- correspond to the two lowest invariant sectors
-4. Derive predictions for N=4,5 and compare with existing simulations
-5. Understand why frequency-decay orthogonality breaks at N>=4
+**Result:** Tested March 13, 2026. XXX parity commutes with the Liouvillian
+(weak symmetry confirmed). BUT c+ and c- both have parity +1 - they live
+in the SAME sector. All oscillatory eigenmodes are 50/50 mixed between sectors.
+The c+/c- split comes from observable projection (even/odd), not Liouvillian
+symmetry sectors. Graph symmetry applies but does NOT explain the two channels.
+Script: simulations/symmetry_and_u_analysis.py
 
-### Direction 3: Physical Interpretation of u = C(Ψ+R)
+### Direction 3: Physical Interpretation of u = C(Psi+R) (TESTED - RESOLVED)
 
 **Hypothesis:** u has an information-theoretic interpretation.
 
-**Steps:**
-1. Express u in terms of density matrix
-2. Check overlap with Holevo information, accessible information, quantum discord
-3. Interpret u -> u² + c physically
-4. Compare with Viennot's quaternionic framework (Paper 6)
-5. Check if u = 1/2 (fixpoint at CΨ = 1/4) has special meaning
+**Result:** Tested March 13, 2026. The Mandelbrot fixed point z* satisfies
+z*(1-z*) = CPsi. This is the Bernoulli variance form p(1-p).
+CPsi <= 1/4 is the trivial maximum of Bernoulli variance.
+At CPsi = 1/4, z* = 1/2 (maximum binary uncertainty).
+z* correlates strongly with purity (r=0.917) and anti-correlates with
+von Neumann entropy (r=-0.838).
+
+The 1/4 boundary is demystified: it is the upper bound of a quadratic function.
+The remaining question: what binary process does z* represent physically?
+Script: simulations/symmetry_and_u_analysis.py
 
 ---
 

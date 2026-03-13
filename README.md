@@ -164,6 +164,8 @@ streamlit run app.py
 | IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
 | CΨ as privileged metric | Not established |
 | CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected (no EP correlation found) |
+| c+/c- as Liouvillian symmetry sectors | Tested: both are parity +1, split is from observable projection |
+| CΨ = 1/4 boundary | Demystified: trivial maximum of Bernoulli variance z*(1-z*) |
 
 ---
 
