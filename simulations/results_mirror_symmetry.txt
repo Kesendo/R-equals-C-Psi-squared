@@ -1,0 +1,195 @@
+================================================================================
+MIRROR SYMMETRY DEEP DIVE
+Started: 2026-03-13 20:55:35
+================================================================================
+
+### TEST 1: Uniform Z dephasing (baseline)
+All qubits same gamma, Z noise, Heisenberg coupling
+  N=3: center=0.150, symmetry=100.0%, matched=20/20
+  N=4: center=0.200, symmetry=100.0%, matched=44/44
+  N=5: center=0.250, symmetry=100.0%, matched=388/388
+
+### TEST 2: Non-uniform Z dephasing
+Each qubit has different gamma. Does mirror symmetry survive?
+  N=3, gammas=[0.03, 0.05, 0.07]: center=sum(gamma)=0.1500 -> EXACT
+  N=3, gammas=[0.03, 0.05, 0.07]: center=N*avg(gamma)=0.1500 -> EXACT
+  N=3, gammas=[0.03, 0.05, 0.07]: center=sum(gamma)/2=0.0750 -> EXACT
+    Rate range: [0.0800, 0.2200]
+    Midpoint of range: 0.1500
+    Symmetry around midpoint: 100.0%
+  N=4, gammas=[0.03, 0.05, 0.07, 0.1]: center=sum(gamma)=0.2500 -> EXACT
+  N=4, gammas=[0.03, 0.05, 0.07, 0.1]: center=N*avg(gamma)=0.2500 -> EXACT
+  N=4, gammas=[0.03, 0.05, 0.07, 0.1]: center=sum(gamma)/2=0.1250 -> EXACT
+    Rate range: [0.0817, 0.4183]
+    Midpoint of range: 0.2500
+    Symmetry around midpoint: 100.0%
+  N=5, gammas=[0.03, 0.05, 0.07, 0.1, 0.15]: center=sum(gamma)=0.4000 -> EXACT
+  N=5, gammas=[0.03, 0.05, 0.07, 0.1, 0.15]: center=N*avg(gamma)=0.4000 -> EXACT
+  N=5, gammas=[0.03, 0.05, 0.07, 0.1, 0.15]: center=sum(gamma)/2=0.2000 -> EXACT
+    Rate range: [0.0850, 0.7150]
+    Midpoint of range: 0.4000
+    Symmetry around midpoint: 100.0%
+
+### TEST 3: X dephasing (instead of Z)
+Replace Z jump operators with X. Does symmetry hold?
+  N=3: center=0.150, symmetry=100.0%, rates=[0.1000, 0.2000]
+  N=4: center=0.200, symmetry=100.0%, rates=[0.1000, 0.3000]
+  N=5: center=0.250, symmetry=100.0%, rates=[0.1000, 0.4000]
+
+### TEST 4: Y dephasing
+  N=3: center=0.150, symmetry=100.0%, rates=[0.1000, 0.2000]
+  N=4: center=0.200, symmetry=100.0%, rates=[0.1000, 0.3000]
+  N=5: center=0.250, symmetry=100.0%, rates=[0.1000, 0.4000]
+
+### TEST 5: Mixed noise (Z on qubit 0, X on others)
+This breaks the noise uniformity. Does symmetry survive?
+  N=3: center Ng=100.0%, center midpoint=100.0%
+    rates=[0.0822, 0.2178], mid=0.1500
+  N=4: center Ng=100.0%, center midpoint=100.0%
+    rates=[0.0744, 0.3256], mid=0.2000
+  N=5: center Ng=100.0%, center midpoint=100.0%
+    rates=[0.0696, 0.4304], mid=0.2500
+
+### TEST 6: XXZ coupling (J_xy=1, J_zz=delta*J)
+Does symmetry depend on isotropic Heisenberg?
+  delta=0.00: Ng symmetry=100.0%, midpoint symmetry=100.0%, center_mid=0.2000
+  delta=0.25: Ng symmetry=100.0%, midpoint symmetry=100.0%, center_mid=0.2000
+  delta=0.50: Ng symmetry=100.0%, midpoint symmetry=100.0%, center_mid=0.2000
+  delta=1.00: Ng symmetry=100.0%, midpoint symmetry=100.0%, center_mid=0.2000
+  delta=2.00: Ng symmetry=100.0%, midpoint symmetry=100.0%, center_mid=0.2000
+
+### TEST 7: XY coupling only (no ZZ)
+  N=3: symmetry=100.0%, rates=[0.1000, 0.2000]
+  N=4: symmetry=100.0%, rates=[0.1000, 0.3000]
+  N=5: symmetry=100.0%, rates=[0.1000, 0.4000]
+
+### TEST 8: Pauli weight of mirror-paired eigenmodes
+What distinguishes a mode from its mirror partner?
+For Z dephasing, a Pauli string with k non-commuting ops decays at 2kg.
+Mirror pairs should have complementary Pauli weights.
+
+  Oscillatory modes with Pauli decomposition:
+    rate/g |     freq |                     top Pauli components
+-----------------------------------------------------------------
+     2.000 |   0.4040 | avg_XY=1.000 | IXI:0.099, IXZ:0.099, IYI:0.099
+     2.000 |   0.4040 | avg_XY=1.000 | IYI:0.099, ZXZ:0.099, IXZ:0.099
+     2.000 |   0.4040 | avg_XY=1.000 | ZXI:0.099, IXZ:0.099, ZYZ:0.099
+     2.000 |   0.4040 | avg_XY=1.000 | ZXI:0.099, ZYZ:0.099, IXZ:0.099
+     2.000 |   1.5060 | avg_XY=1.000 | XII:0.099, XIZ:0.099, XZI:0.099
+     2.000 |   1.5060 | avg_XY=1.000 | XII:0.099, YZZ:0.099, XZI:0.099
+     2.000 |   1.5060 | avg_XY=1.000 | XII:0.099, YZZ:0.099, YIZ:0.099
+     2.000 |   1.5060 | avg_XY=1.000 | XIZ:0.099, XZI:0.099, YIZ:0.099
+     2.667 |   0.4030 | avg_XY=1.464 | IZI:0.114, ZIZ:0.114, IXY:0.099
+     2.667 |   0.4030 | avg_XY=1.464 | IZI:0.114, ZIZ:0.114, IYX:0.099
+     2.667 |   0.4030 | avg_XY=1.464 | ZIZ:0.114, IZI:0.114, ZXY:0.099
+     2.667 |   0.4030 | avg_XY=1.464 | ZIZ:0.114, IZI:0.114, ZYX:0.099
+     2.667 |   1.1030 | avg_XY=1.357 | IIX:0.083, ZZX:0.083, YYX:0.083
+     2.667 |   1.1030 | avg_XY=1.357 | IIY:0.083, ZZY:0.083, ZZX:0.083
+     2.667 |   1.1030 | avg_XY=1.357 | IIY:0.084, ZZY:0.084, XXY:0.084
+     2.667 |   1.1030 | avg_XY=1.357 | ZZY:0.083, IIY:0.083, IIX:0.083
+     2.667 |   1.5060 | avg_XY=1.464 | IZZ:0.114, ZII:0.114, XIY:0.099
+     2.667 |   1.5060 | avg_XY=1.464 | IZZ:0.114, ZII:0.114, XZY:0.099
+     2.667 |   1.5060 | avg_XY=1.464 | IZZ:0.114, ZII:0.114, YZX:0.099
+     3.333 |   0.4030 | avg_XY=1.536 | XYX:0.115, YXY:0.113, XZI:0.099
+     3.333 |   0.4030 | avg_XY=1.536 | YXY:0.114, XYX:0.114, YZI:0.099
+     3.333 |   0.4030 | avg_XY=1.536 | YXY:0.126, YZI:0.109, YIZ:0.109
+     3.333 |   1.1030 | avg_XY=1.643 | XXI:0.084, YYI:0.084, ZZI:0.084
+     3.333 |   1.1030 | avg_XY=1.643 | XXZ:0.083, YYZ:0.083, YYI:0.083
+     3.333 |   1.1030 | avg_XY=1.643 | XXZ:0.087, YYZ:0.087, IIZ:0.087
+     3.333 |   1.1030 | avg_XY=1.643 | YYI:0.083, XXI:0.083, XXZ:0.083
+     3.333 |   1.5060 | avg_XY=1.536 | XYY:0.114, YXX:0.114, IYZ:0.099
+     3.333 |   1.5060 | avg_XY=1.536 | YXX:0.114, XYY:0.113, IXZ:0.099
+     3.333 |   1.5060 | avg_XY=1.536 | YXX:0.114, XYY:0.114, IXZ:0.099
+     3.333 |   1.5060 | avg_XY=1.536 | YXX:0.114, XYY:0.114, ZXI:0.099
+     4.000 |   0.4040 | avg_XY=2.000 | XIX:0.099, XIY:0.099, XZX:0.099
+     4.000 |   0.4040 | avg_XY=2.000 | XIY:0.099, XZX:0.099, YIX:0.099
+     4.000 |   0.4040 | avg_XY=2.000 | YZY:0.100, XIY:0.100, XZX:0.100
+     4.000 |   0.4040 | avg_XY=2.000 | YZY:0.105, YIX:0.105, XIY:0.105
+     4.000 |   1.5060 | avg_XY=2.000 | IXX:0.099, IXY:0.099, IYX:0.099
+     4.000 |   1.5060 | avg_XY=2.000 | IXY:0.099, IYX:0.099, ZXX:0.099
+     4.000 |   1.5060 | avg_XY=2.000 | IYY:0.099, ZYX:0.099, ZXY:0.099
+     4.000 |   1.5060 | avg_XY=2.000 | ZXX:0.100, IXY:0.100, IYX:0.100
+
+### TEST 9: Searching for the conjugation operator
+If L has eigenvalue lambda, the mirror symmetry means
+there exists an operator C such that C*L*C^-1 has eigenvalue -conj(lambda) + 2Ng
+
+For Z dephasing, the candidate is the 'spin flip' superoperator
+that maps X->X, Y->Y, Z->-Z on each qubit (or equivalently X on each qubit).
+
+  [S_X, L_Hamiltonian] = 0.00e+00  COMMUTES
+  [S_X, L_Dissipator] = 0.00e+00  COMMUTES
+  {S_X, L_Dissipator} = 2.77e+00  NO
+
+  Comparing eigenvalues of L vs S_X*L*S_X:
+  Are they equal? (S_X commutes): True
+  ||L + S_X*L*S_X|| / ||L|| = 2.000000
+  ||L - S_X*L*S_X|| / ||L|| = 0.000000
+
+  Check decomposition:
+  ||SLS - (L_H - L_D)|| = 2.77e+00
+  ||SLS - L_H + L_D|| = 2.77e+00
+
+  Tr(L) = -9.6000+0.0000j
+  Tr(L_H) = 0.0000+0.0000j
+  Tr(L_D) = -9.6000+0.0000j
+  Tr(L_D) / d^2 = -0.150000+0.000000j
+  N * gamma = 0.150000
+  2 * N * gamma = 0.300000
+
+### TEST 10: Amplitude damping (T1 decay)
+Jump operator = sqrt(gamma) * sigma_minus (not Z)
+This is physically different from dephasing. Does symmetry hold?
+  N=3: Ng symmetry=0.0%, midpoint symmetry=100.0%
+    rates=[0.0250, 0.1250], mid=0.0750
+  N=4: Ng symmetry=0.0%, midpoint symmetry=100.0%
+    rates=[0.0250, 0.1750], mid=0.1000
+
+### TEST 11: Depolarizing noise (X+Y+Z on each qubit)
+  N=3: Ng symmetry=0.0%, midpoint symmetry=100.0%
+    rates=[0.1222, 0.1667], mid=0.1444
+  N=4: Ng symmetry=0.0%, midpoint symmetry=70.6%
+    rates=[0.1500, 0.2333], mid=0.1917
+
+================================================================================
+SUMMARY
+================================================================================
+
+Questions answered:
+
+1. Non-uniform dephasing: Does mirror symmetry survive?
+   -> Check results above. If center shifts, what determines it?
+
+2. X/Y dephasing: Same symmetry as Z?
+   -> For isotropic Heisenberg, X/Y/Z noise should all give symmetry
+      (since H commutes with global rotations)
+
+3. Mixed noise types: Z on some, X on others?
+   -> This explicitly breaks the uniform structure
+
+4. XXZ anisotropy: Does coupling type matter?
+   -> If symmetry breaks with delta != 1, it's Heisenberg-specific
+
+5. XY coupling: No ZZ term?
+   -> Tests whether ZZ in H is essential
+
+6. Amplitude damping: Different physics entirely?
+   -> Dephasing preserves energy, amplitude damping doesn't
+
+7. Depolarizing: All three noise channels?
+   -> Maximum symmetry of noise
+
+8. Conjugation operator: What maps rate d -> 2Ng - d?
+   -> S_X = X^n superoperator is the candidate.
+      If [S_X, L_H] = 0 and {S_X, L_D} = 0, then
+      S_X L S_X = L_H - L_D, and the symmetry follows.
+
+KEY INSIGHT: The mirror symmetry likely comes from:
+  - Hamiltonian part L_H COMMUTES with X^n (Heisenberg is isotropic)
+  - Dissipator part L_D ANTI-COMMUTES with X^n (Z dephasing flips under X)
+  - This means S_X*L*S_X = L_H - L_D
+  - Combined with L = L_H + L_D, the eigenvalue spectrum has the
+    reflection symmetry around the mean dissipation rate.
+
+Completed: 2026-03-13 20:55:51
+================================================================================

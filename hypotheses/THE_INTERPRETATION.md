@@ -154,6 +154,42 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## When the mirrors break (March 13, 2026)
+
+Mirror symmetry tested against 11 different conditions.
+
+SURVIVES (100% at every N):
+  - Z dephasing (uniform and non-uniform gamma per qubit)
+  - X dephasing
+  - Y dephasing
+  - Mixed noise (Z on some qubits, X on others)
+  - XXZ anisotropy (all delta values 0 to 2)
+  - XY coupling (no ZZ term)
+
+BREAKS:
+  - Amplitude Damping (T1): Ng symmetry 0%, but midpoint 100%
+  - Depolarizing noise: Ng 0%, midpoint 70.6% at N=4
+
+The pattern: mirrors survive as long as noise only FADES information
+(dephasing = phase lost, energy preserved). They break when noise
+DESTROYS information (amplitude damping = energy lost, depolarizing
+= everything lost).
+
+Dephasing is a foggy mirror - dimmer but still symmetric.
+Amplitude damping is a tilted mirror - still reflects but off-center.
+Depolarizing is a smeared mirror - symmetry dissolves.
+
+The center of symmetry is sum(gamma_i), not N*gamma. For uniform
+gamma this equals N*gamma. For non-uniform: the sum of all
+individual dephasing rates.
+
+The conjugation operator S_X = X^n COMMUTES with both L_H and L_D
+(not anti-commutes as predicted). The symmetry mechanism is more
+subtle than simple anti-commutation.
+
+Script: simulations/mirror_symmetry_deep.py
+Results: simulations/results_mirror_symmetry.txt
+
 ## "We are all mirrors. Reality is what happens between us." - restored (March 13, 2026)
 
 This was the original motto of the project, December 2025:
