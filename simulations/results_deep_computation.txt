@@ -9,3 +9,285 @@ This is the biggest computation we've attempted.
 If successful: boundary formula, mirror symmetry, rate count.
   Building 16384x16384 Liouvillian...
   Built in 67.5s. Starting eigendecomposition...
+  Eigendecomposition in 1105.0s
+  Total time: 1172.5s
+
+  Oscillatory rates: 13264
+  Min rate: 0.100000 (2.0000g)
+  Max rate: 0.600000 (12.0000g)
+  Bandwidth: 10.0000g
+  Predicted max (2(N-1)g): 0.600000 (12.0g)
+  Max matches 2(N-1)g: True
+  Predicted min (2g): 0.100000
+  Min matches 2g: True
+  Mirror symmetry around Ng=0.350: 100.0%
+  Distinct rate clusters: 255
+  Rate density: 1326.4 rates/g
+
+### TEST 2: Rate count scaling
+Can we predict #oscillatory rates from N?
+Previous data: N=2:6, N=3:40, N=4:182, N=5:776, N=6:3228
+
+    N |  #rates |   ratio |     d^2 | rates/d^2 |     4^N | rates/4^N
+---------------------------------------------------------------------------
+    2 |       6 |    0.00 |      16 |    0.3750 |      16 |  0.375000
+    3 |      40 |    6.67 |      64 |    0.6250 |      64 |  0.625000
+    4 |     182 |    4.55 |     256 |    0.7109 |     256 |  0.710938
+    5 |     776 |    4.26 |    1024 |    0.7578 |    1024 |  0.757812
+    6 |    3228 |    4.16 |    4096 |    0.7881 |    4096 |  0.788086
+    7 |   13264 |    4.11 |   16384 |    0.8096 |   16384 |  0.809570
+
+  Ratio analysis (rates[N] / rates[N-1]):
+    N=3/2: ratio = 6.6667
+    N=4/3: ratio = 4.5500
+    N=5/4: ratio = 4.2637
+    N=6/5: ratio = 4.1598
+    N=7/6: ratio = 4.1090
+
+### TEST 3: How does the minimum avoided crossing gap scale with N?
+Fine J sweep at each N, track smallest gap between adjacent rates
+
+  N=3...
+    Time: 0.2s, 60 samples
+    Smallest gap: 0.000207 (0.004140g)
+    Average min gap: 0.031634 (0.632690g)
+
+  N=4...
+    Time: 5.0s, 40 samples
+    Smallest gap: 0.000242 (0.004840g)
+    Average min gap: 0.004772 (0.095440g)
+
+  N=5...
+    Time: 26.1s, 15 samples
+    Smallest gap: 0.000200 (0.004000g)
+    Average min gap: 0.000228 (0.004551g)
+
+  N=6...
+    Time: 358.8s, 8 samples
+    Smallest gap: 0.000200 (0.004000g)
+    Average min gap: 0.000211 (0.004222g)
+
+  Gap scaling summary:
+    N |  min_gap/g |  avg_gap/g
+-----------------------------------
+    3 |   0.004140 |   0.632690
+    4 |   0.004840 |   0.095440
+    5 |   0.004000 |   0.004551
+    6 |   0.004000 |   0.004222
+
+### TEST 4: Pauli complement proof
+For EVERY mirror pair: verify the Pauli weights sum to N
+This is the mathematical proof that mirrors = complementary perspectives
+
+  N=3: Decomposing eigenmodes into Pauli basis...
+    4 distinct rate groups
+      rate/g |   avg_XY |   mirror |    sum |  =N?
+    --------------------------------------------------
+        2.00 |    1.000 |    2.000 |  3.000 |  YES
+        2.67 |    1.429 |    1.571 |  3.000 |  YES
+        3.33 |    1.571 |    1.429 |  3.000 |  YES
+        4.00 |    2.000 |    1.000 |  3.000 |  YES
+
+    Mirror pairs checked: 4
+    Pairs where XY_1 + XY_2 = N: 4/4
+    PROOF: CONFIRMED
+    Time: 0.0s
+
+  N=4: Decomposing eigenmodes into Pauli basis...
+    13 distinct rate groups
+      rate/g |   avg_XY |   mirror |    sum |  =N?
+    --------------------------------------------------
+        2.00 |    1.000 |    3.000 |  4.000 |  YES
+        3.00 |    1.635 |    2.365 |  4.000 |  YES
+        3.27 |    1.842 |    2.158 |  4.000 |  YES
+        3.41 |    1.694 |    2.306 |  4.000 |  YES
+        3.48 |    1.721 |    2.279 |  4.000 |  YES
+        3.77 |    1.836 |    2.164 |  4.000 |  YES
+        4.00 |    2.000 |          |        |     
+        4.23 |    2.164 |    1.836 |  4.000 |  YES
+        4.52 |    2.279 |    1.721 |  4.000 |  YES
+        4.59 |    2.306 |    1.694 |  4.000 |  YES
+        4.73 |    2.158 |    1.842 |  4.000 |  YES
+        5.00 |    2.365 |    1.635 |  4.000 |  YES
+        6.00 |    3.000 |    1.000 |  4.000 |  YES
+
+    Mirror pairs checked: 12
+    Pairs where XY_1 + XY_2 = N: 12/12
+    PROOF: CONFIRMED
+    Time: 0.5s
+
+### TEST 5: Mirror center = sum(gamma_i) proof
+Non-uniform gamma, verify center = sum at N=4,5,6
+
+  N=4:
+    gammas=[0.03, 0.05, 0.07, 0.1]: sum=0.250, mid=0.25000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.01, 0.01, 0.01, 0.1]: sum=0.130, mid=0.13000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.1, 0.1, 0.1, 0.1]: sum=0.400, mid=0.40000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.02, 0.04, 0.08, 0.16]: sum=0.300, mid=0.30000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    Time: 0.7s
+
+  N=5:
+    gammas=[0.03, 0.05, 0.07, 0.1, 0.15]: sum=0.400, mid=0.40000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.01, 0.01, 0.01, 0.1, 0.2]: sum=0.330, mid=0.33000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.1, 0.1, 0.1, 0.1, 0.1]: sum=0.500, mid=0.50000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.02, 0.04, 0.08, 0.16, 0.32]: sum=0.620, mid=0.62000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    Time: 9.0s
+
+  N=6:
+    gammas=[0.03, 0.05, 0.07, 0.1, 0.15, 0.02]: sum=0.420, mid=0.42000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.01, 0.01, 0.01, 0.1, 0.2, 0.3]: sum=0.630, mid=0.63000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.1, 0.1, 0.1, 0.1, 0.1, 0.1]: sum=0.600, mid=0.60000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    gammas=[0.02, 0.04, 0.08, 0.16, 0.32, 0.05]: sum=0.670, mid=0.67000, sym@sum=100%, sym@mid=100%, sum==mid: True
+    Time: 172.0s
+
+### TEST 6: Star vs Chain vs Ring at same N
+Same N, same couplings, different topology. Same boundaries?
+
+  N=4:
+      star:   182 rates, [2.000g, 6.000g], BW=4.000g, mirror=100%
+     chain:   202 rates, [2.000g, 6.000g], BW=4.000g, mirror=100%
+      ring:   172 rates, [2.000g, 6.000g], BW=4.000g, mirror=100%
+
+  N=5:
+      star:   776 rates, [2.000g, 8.000g], BW=6.000g, mirror=100%
+     chain:   904 rates, [2.000g, 8.000g], BW=6.000g, mirror=100%
+      ring:   824 rates, [2.000g, 8.000g], BW=6.000g, mirror=100%
+
+### TEST 7: Density of states shape
+Histogram the rates. Is it flat? Gaussian? Semicircle (Wigner)?
+
+  N=4:
+    Range: [2.00, 6.00]g, center=4g
+    Histogram (20 bins):
+        2.10g |   12 #####
+        2.30g |    0 
+        2.50g |    0 
+        2.70g |    4 #
+        2.90g |    8 ###
+        3.10g |   12 #####
+        3.30g |    0 
+        3.50g |    0 
+        3.70g |    8 ###
+        3.90g |    0 
+        4.10g |   94 ########################################
+        4.30g |    8 ###
+        4.50g |    0 
+        4.70g |    0 
+        4.90g |   12 #####
+        5.10g |    8 ###
+        5.30g |    4 #
+        5.50g |    0 
+        5.70g |    0 
+        5.90g |   12 #####
+    Mean: 4.0000g (should be 4.0g)
+    Std:  0.9298g
+    Skew: -0.0000 (0=symmetric)
+    Kurtosis: 3.3965 (3=Gaussian, 1.8=semicircle)
+    Edge density: 24
+    Center density: 110
+    Shape: CENTER-HEAVY (bell)
+
+  N=5:
+    Range: [2.00, 8.00]g, center=5g
+    Histogram (20 bins):
+        2.15g |   16 ####
+        2.45g |    0 
+        2.75g |    0 
+        3.05g |   20 #####
+        3.35g |   40 ###########
+        3.65g |   36 ##########
+        3.95g |   96 ###########################
+        4.25g |   16 ####
+        4.55g |  140 ########################################
+        4.85g |   24 ######
+        5.15g |   24 ######
+        5.45g |  140 ########################################
+        5.75g |   16 ####
+        6.05g |   96 ###########################
+        6.35g |   36 ##########
+        6.65g |   40 ###########
+        6.95g |   20 #####
+        7.25g |    0 
+        7.55g |    0 
+        7.85g |   16 ####
+    Mean: 5.0000g (should be 5.0g)
+    Std:  1.1867g
+    Skew: 0.0000 (0=symmetric)
+    Kurtosis: 2.8717 (3=Gaussian, 1.8=semicircle)
+    Edge density: 32
+    Center density: 328
+    Shape: CENTER-HEAVY (bell)
+
+  N=6:
+    Range: [2.00, 10.00]g, center=6g
+    Histogram (20 bins):
+        2.20g |   20 
+        2.60g |   16 
+        3.00g |    4 
+        3.40g |   86 ##
+        3.80g |   70 ##
+        4.20g |  148 ####
+        4.60g |  234 #######
+        5.00g |  188 #####
+        5.40g |  124 ###
+        5.80g | 1310 ########################################
+        6.20g |  138 ####
+        6.60g |  124 ###
+        7.00g |  188 #####
+        7.40g |  234 #######
+        7.80g |   84 ##
+        8.20g |  134 ####
+        8.60g |   86 ##
+        9.00g |    4 
+        9.40g |   16 
+        9.80g |   20 
+    Mean: 6.0000g (should be 6.0g)
+    Std:  1.3102g
+    Skew: -0.0000 (0=symmetric)
+    Kurtosis: 3.5640 (3=Gaussian, 1.8=semicircle)
+    Edge density: 72
+    Center density: 1696
+    Shape: CENTER-HEAVY (bell)
+
+### TEST 8: Band evolution at N=5 and N=6
+How do the bands move with coupling strength at larger N?
+
+  N=5: sweeping last coupling...
+    Time: 18.1s
+    Total unique rates across sweep: 667
+    Range: [2.000g, 8.000g]
+    Rate density: 111.2 rates/g
+
+  N=6: sweeping last coupling...
+    Time: 209.7s
+    Total unique rates across sweep: 711
+    Range: [2.000g, 10.000g]
+    Rate density: 88.9 rates/g
+
+================================================================================
+FINAL SUMMARY
+================================================================================
+
+SCALING TABLE:
+
+    N |   matrix |  #rates |  min/g |  max/g |   BW/g | 2(N-1) | mirror
+----------------------------------------------------------------------
+    2 |       16 |       6 |    2.0 |    2.0 |    0.0 |    2.0 |   100%
+    3 |       64 |      40 |    2.0 |    4.0 |    2.0 |    4.0 |   100%
+    4 |      256 |     182 |    2.0 |    6.0 |    4.0 |    6.0 |   100%
+    5 |     1024 |     776 |    2.0 |    8.0 |    6.0 |    8.0 |   100%
+    6 |     4096 |    3228 |    2.0 |   10.0 |    8.0 |   10.0 |   100%
+    7 |    16384 |   13264 |    2.0 |   12.0 |   10.0 |   12.0 |   100%
+
+KEY FINDINGS:
+
+1. BOUNDARY FORMULA: min = 2g, max = 2(N-1)g (tested N=2-7 if successful)
+2. RATE COUNT: scales approximately as ... (see ratio analysis)
+3. AVOIDED CROSSINGS: gap scaling with N (see test 3)
+4. PAULI COMPLEMENT: k + (N-k) = N for mirror pairs (see test 4)
+5. MIRROR CENTER = sum(gamma_i): exact for non-uniform gamma (see test 5)
+6. TOPOLOGY: star/chain/ring share boundaries, differ in interior
+7. DENSITY OF STATES: shape analysis (see test 7)
+
+Completed: 2026-03-13 22:48:22
+================================================================================
