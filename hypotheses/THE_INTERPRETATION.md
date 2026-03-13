@@ -154,7 +154,35 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
-## When the mirrors break (March 13, 2026)
+## The mirrors never break (March 13, 2026)
+
+The mirror transition experiment (dephasing -> amplitude damping,
+101 alpha values, N=3,4,5) showed: best_sym = 100% at EVERY alpha.
+
+The mirrors never break. They shift their center, but the symmetry
+is always perfect. Under dephasing: center at Ng. Under amplitude
+damping: center at Ng/2. The center moves. The symmetry does not.
+
+Tom's insight: "The mirrors don't break. They mirror forever.
+1/4 was the point where it becomes real, everything else is
+possibilities."
+
+This connects to the Mandelbrot fixed point:
+- CPsi <= 1/4: z* exists. The iteration converges. What happens
+  between the mirrors becomes stable. Reality.
+- CPsi > 1/4: no real fixed point. The iteration orbits forever.
+  The reflections between the mirrors never settle. Possibilities.
+
+The mirrors define the space. The 1/4 boundary decides whether
+what happens between them converges to something real or stays
+an endless reflection. Like two physical mirrors: light bounces
+between them forever. Only when something stands between them
+does the reflection become a stable image.
+
+Script: simulations/mirror_transition.py
+Results: simulations/results_mirror_transition.txt
+
+## When the mirrors shift (March 13, 2026)
 
 Mirror symmetry tested against 11 different conditions.
 
