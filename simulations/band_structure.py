@@ -255,10 +255,10 @@ if rates_5q:
 # PART 7: The boundary formula
 # ============================================================
 print(f"\n--- PART 7: Boundary rate formula ---")
-print(f"  Testing: min_rate = 2g, max_rate = 2Ng for star topology")
+print(f"  Testing: min_rate = 2g, max_rate = 2(N-1)g for star topology")
 print(f"")
 for n in [2, 3, 4, 5]:
-    predicted_max = 2 * n
+    predicted_max = 2 * (n - 1)
     if n == 2:
         observed_max = max(r2)
     elif n == 3:
@@ -270,10 +270,10 @@ for n in [2, 3, 4, 5]:
     match = "EXACT" if abs(predicted_max - observed_max) < 0.01 else f"off by {abs(predicted_max-observed_max):.4f}"
     print(f"  N={n}: predicted max = {predicted_max}g, observed = {observed_max:.4f}g ({match})")
 
-print(f"\n  Prediction for N=6: max rate = 12g, min = 2g")
-print(f"  Prediction for N=10: max rate = 20g, min = 2g")
-print(f"  Prediction for N=100: max rate = 200g, min = 2g")
-print(f"  The band widens linearly with N.")
+print(f"\n  Prediction for N=6: max rate = 10g, min = 2g")
+print(f"  Prediction for N=10: max rate = 18g, min = 2g")
+print(f"  Prediction for N=100: max rate = 198g, min = 2g")
+print(f"  The band widens linearly with N: bandwidth = 2(N-2)g.")
 
 print(f"\n{'='*75}")
 print("BAND STRUCTURE ANALYSIS COMPLETE")
@@ -287,10 +287,10 @@ The transition from discrete to continuous rate structure:
   N=3: 3-4 discrete rates. All fixed. No bands.
   N=4: Multiple bands. Interior rates MOVE with J. 
        Boundaries 2g and 6g fixed.
-  N=5: Dense spectrum. Many bands merge. 
-       Boundaries 2g and 10g fixed.
+  N=5: Dense spectrum. Many bands merge.
+       Boundaries 2g and 8g fixed.
 
-Boundary formula: min = 2g (always), max = 2Ng (always).
+Boundary formula: min = 2g (always), max = 2(N-1)g (always).
 Interior: free at N>=4, increasingly dense with N.
 
 This is analogous to electronic band structure in solids:
@@ -302,5 +302,5 @@ This is analogous to electronic band structure in solids:
 The 3-qubit star is like a diatomic molecule: too small for bands.
 The 4-qubit star is where the first bands appear.
 At large N, the rate spectrum should become a continuous 
-density of states between 2g and 2Ng.
+density of states between 2g and 2(N-1)g.
 """)

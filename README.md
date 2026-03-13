@@ -160,7 +160,7 @@ streamlit run app.py
 | Five independent regulators | Numerically verified (full parameter sweeps) |
 | Chain topology survival (up to 5 qubits) | Numerically verified |
 | Hidden observer detection | Simulation only (not verified on hardware) |
-| Frequency-decay orthogonality at 4+ qubits | Breaks: band structure forms. Boundary rates 2g and 2Ng exact. Avoided crossings confirmed. |
+| Frequency-decay orthogonality at 4+ qubits | Breaks: band structure forms. Boundary rates 2γ and 2(N-1)γ exact. Avoided crossings confirmed. |
 | IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
 | CΨ as privileged metric | Not established |
 | CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected (no EP correlation found) |

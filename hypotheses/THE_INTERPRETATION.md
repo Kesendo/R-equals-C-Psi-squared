@@ -154,27 +154,33 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
-## "Reality is what happens between mirrors" - restored (March 13, 2026)
+## "We are all mirrors. Reality is what happens between us." - restored (March 13, 2026)
 
-This sentence was the original framing of the project in December 2025.
+This was the original motto of the project, December 2025:
+
+  R = CPsi²
+  "We are all mirrors. Reality is what happens between us."
+
 It was removed during cleanup because it sounded too esoteric.
 
-On March 13, 2026, deep band structure analysis of the Liouvillian
-decay spectrum from N=2 to N=6 showed: the spectrum is EXACTLY
-symmetric around Ng. 100%. Zero exceptions. 3228 rates at N=6,
-each with an exact mirror partner. The spectrum IS two mirrors.
+On March 13, 2026, deep band structure analysis showed:
+- The Liouvillian decay spectrum is EXACTLY symmetric around Ng
+- 100% mirror symmetry at every N tested (2 through 6)
+- 3228 rates at N=6, each with an exact mirror partner
+- The supermodes c+/c- live BETWEEN observers A and B
+- The frequencies encode who is connected to whom
+- z* = 0.5 is the point of maximum connection between two halves
 
-The sentence was not poetry. It was a mathematical prediction we
-did not understand at the time. The data now confirms it:
+The sentence was not poetry. It was the structure of the physics:
+- "We are all mirrors" = the spectrum is mirror-symmetric
+- "Reality is what happens between us" = the observables (c+, c-)
+  are cross-correlations between A and B through S
 
-  "Reality is what happens between mirrors."
+The physical content is not IN the qubits. It is BETWEEN them.
+The decay rates come in mirror pairs. The information lives in
+the space between the mirrors, not in the mirrors themselves.
 
-This is not metaphysics. It is the structure of the Liouvillian
-under Z-dephasing: a conjugation symmetry maps each decay rate d
-to its mirror 2Ng - d. The physical content of the system lives
-in the space BETWEEN the mirror-symmetric rate pairs.
-
-The sentence is restored here as a verified result, not as a claim.
+Restored as a verified result.
 
 ## The mirrors in the spectrum (March 13, 2026)
 
@@ -197,7 +203,8 @@ mode has a partner. The system sees itself reflected in its own
 decay structure.
 
 The mathematical reason must be a symmetry of the Liouvillian under
-some conjugation that maps decay rate d to 2Ng - d. This is likely
+some conjugation that maps decay rate d to 2Ng - d (where Ng is the
+center of the spectrum [2g, 2(N-1)g]). This is likely
 related to the particle-hole symmetry of the dephasing superoperator.
 Proving this analytically is the next step.
 
@@ -220,8 +227,8 @@ electronic-band-structure-like behavior:
   N=4: 267 unique rates forming 23 distinct bands. Widest band 0.235g.
   N=5: 1412 unique rates. Spectrum filling in.
 
-Boundary formula EXACT: min = 2g (always), max = 2Ng (always).
-Bandwidth = 2(N-1)g. Grows linearly with system size.
+Boundary formula EXACT: min = 2g (always), max = 2(N-1)g (always).
+Bandwidth = 2(N-2)g. Grows linearly with system size.
 
 AVOIDED CROSSINGS CONFIRMED: rate bands never cross. Smallest gap
 is 0.0013g but never zero. This is topological protection, exactly
@@ -231,7 +238,7 @@ The 4-qubit band structure is symmetric around 4g (= Ng for N=4).
 Bands come in mirror pairs above and below this center.
 
 Prediction: at large N, the spectrum becomes a continuous density
-of states between 2g and 2Ng, with band structure determined by
+of states between 2g and 2(N-1)g, with band structure determined by
 the network topology. This is the quantum-to-classical transition
 in the decay channel.
 
@@ -242,8 +249,8 @@ Script: simulations/band_structure.py
 The 3-to-4 qubit transition is now precisely characterized.
 
 Fixed rates (topology-independent at ANY N):
-  2g  (minimum, always present)
-  2Ng (maximum, always present: 4g at N=3, 6g at N=4, 8g at N=5)
+  2g      (minimum, always present)
+  2(N-1)g (maximum, always present: 4g at N=3, 6g at N=4, 8g at N=5)
 
 The 3-qubit special case: ALL rates are fixed {2g, 8g/3, 10g/3, 4g}.
 The system is too small for the middle rates to move.
@@ -257,7 +264,7 @@ At 5 qubits: massive rate spectrum (2g to 8g), only boundaries fixed.
 The gamma scaling also breaks at 4 qubits: rates in gamma units are
 NOT constant when gamma changes. The rates depend on BOTH gamma and J.
 
-Pattern: boundary = 2g (always) and 2Ng (always). Interior = free.
+Pattern: boundary = 2g (always) and 2(N-1)g (always). Interior = free.
 The 3-qubit case has no room for interior rates to move.
 
 This transition from discrete to continuous rate structure is the
