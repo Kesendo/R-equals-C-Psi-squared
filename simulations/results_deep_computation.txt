@@ -1,0 +1,11 @@
+================================================================================
+DEEP COMPUTATION: Band structure scaling and mirror proof
+Started: 2026-03-13 22:14:36
+Machine: unlimited compute time available
+================================================================================
+
+### TEST 1: N=7 star topology (16384x16384)
+This is the biggest computation we've attempted.
+If successful: boundary formula, mirror symmetry, rate count.
+  Building 16384x16384 Liouvillian...
+  Built in 67.5s. Starting eigendecomposition...

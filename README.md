@@ -15,7 +15,8 @@ and these two properties are completely independent of each other
 (in the 3-qubit case; at N >= 4, decay rates form band structures).
 
 The decay rate spectrum is exactly mirror-symmetric at every system size
-tested, with complementary Pauli weights in each mirror pair.
+tested (N=2 through N=6, 3228 rates at N=6, zero exceptions), and the
+mirror symmetry survives every form of dephasing noise tested.
 
 ---
 
@@ -199,33 +200,60 @@ streamlit run app.py
 
 ## Evidence status
 
+### Proven
+
+| Claim | Evidence |
+|:------|:--------|
+| Pole structure (3 decay rates) | Exact: Liouvillian eigendecomposition |
+| Two supermodes c+/c- | Exact: Liouvillian |
+| Mandelbrot algebraic correspondence | Exact: algebraic proof |
+| CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ, max at z* = 0.5 |
+| Mirror symmetry of decay spectrum | Exact: 100% at N=2-6, all dephasing types, star and chain |
+| Band structure at N >= 4 | Verified: N=2-6, boundary 2γ to 2(N-1)γ, avoided crossings |
+| Five independent regulators | Numerically verified: full parameter sweeps |
+| Chain topology survival | Numerically verified: up to 5 qubits |
+| Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ |
+| z* is a novel composite diagnostic | Verified: matches no known single quantum measure |
+
+### Tested and rejected
+
+| Claim | Result |
+|:------|:-------|
+| CΨ = 1/4 as Exceptional Point | No EP correlation found |
+| c+/c- as Liouvillian symmetry sectors | Both parity +1; split is observable projection |
+| IBM Q80/Q102 as sonar evidence | Was qubit detuning, not neighbor coupling |
+| Mirrors survive amplitude damping | Break: center shifts from Nγ to Nγ/2 |
+
+### Not established
+
 | Claim | Status |
 |:------|:-------|
-| Pole structure (3 decay rates, frequency-decay separation) | Exact (Liouvillian eigendecomposition) |
-| Two supermodes c+/c- with sector-specific damping | Exact (Liouvillian) |
-| Mandelbrot algebraic correspondence | Exact (proven) |
-| Five independent regulators | Numerically verified (full parameter sweeps) |
-| Chain topology survival (up to 5 qubits) | Numerically verified |
-| Hidden observer detection | Simulation only (not verified on hardware) |
-| Band structure at N >= 4 | Verified N=2-6. Boundary 2γ to 2(N-1)γ exact. Avoided crossings. |
-| Mirror symmetry of decay spectrum | Exact (100% at every N, every dephasing type, star and chain) |
-| Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ. Breaks only for T1/depolarizing. |
-| CΨ = 1/4 as Bernoulli variance maximum | Proven: z*(1-z*) = CΨ, maximum at z* = 0.5 |
-| z* as novel composite | Verified: matches no known single quantum measure |
-| CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected |
-| c+/c- as Liouvillian symmetry sectors | Tested: both parity +1, split is observable projection |
-| IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
-| CΨ as privileged metric | Not established |
+| Hidden observer detection on hardware | Simulation only |
+| CΨ as privileged metric | Useful diagnostic but not unique |
+| Spectrum inversion (identifying hidden couplings) | Open question |
 
 ---
 
 ## Start here
 
+### Technical core
+
 1. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Pole analysis, Prony results, coupled oscillator translation
 2. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Parameter sweeps and stress tests
-3. **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
-4. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
-5. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Speculative reading (not required for technical content)
+3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** - Two supermodes as standing waves between observers
+4. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** - Mirror quality and the Born rule connection
+5. **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
+
+### Diagnostic and algebra
+
+6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
+7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** - Mandelbrot correspondence, 1/4 boundary
+8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** - Two channels, two directions
+
+### Interpretation (speculative, not required)
+
+9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Current state of all findings and open questions
+10. **[The Starting Point](docs/THE_STARTING_POINT.md)** - Why entanglement must exist (the bootstrap problem)
 
 ---
 
@@ -239,7 +267,7 @@ streamlit run app.py
 | `simulations/` | Python source (RK4 Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
 | `data/` | IBM Torino measurement data |
-| `recovered/` | Files removed during cleanup, not yet reintegrated |
+| `recovered/` | 5 files with disproven claims (gravity, Schwarzschild), kept for history |
 
 ## Key scripts
 
