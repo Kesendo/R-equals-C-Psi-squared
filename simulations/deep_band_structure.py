@@ -95,8 +95,8 @@ for n_q in range(2, max_n + 1):
         log(f"    Min rate: {min(rates):.4f}g")
         log(f"    Max rate: {max(rates):.4f}g")
         log(f"    Bandwidth: {max(rates)-min(rates):.4f}g")
-        log(f"    Predicted max (2N): {2*n_q}g")
-        log(f"    Max matches 2N: {abs(max(rates) - 2*n_q) < 0.01}")
+        log(f"    Predicted max 2(N-1): {2*(n_q-1)}g")
+        log(f"    Max matches 2(N-1): {abs(max(rates) - 2*(n_q-1)) < 0.01}")
         
         # Count distinct rate values (cluster within 0.005)
         unique = []
@@ -220,14 +220,14 @@ for n_q in range(3, min(max_n+1, 6)):
 # TEST 4: Symmetry of band structure around center
 # ============================================================
 log("\n### TEST 4: Is the band structure symmetric around Ng?")
-log("At uniform J=1, center should be at Ng")
+log("At uniform J=1, center = (min+max)/2 = (2 + 2(N-1))/2 = Ng")
 
 for n_q in range(3, min(max_n+1, 6)):
     bonds = star_bonds(n_q, [1.0]*(n_q-1))
     try:
         L = build_liouvillian(n_q, bonds, gamma)
         rates = get_osc_rates(L, gamma)
-        center = n_q  # predicted center = Ng
+        center = n_q  # center = Ng = (2 + 2(N-1))/2
         
         # For each rate below center, check if mirror exists above
         below = [r for r in rates if r < center - 0.01]
@@ -294,8 +294,8 @@ for n_q in range(3, min(max_n+1, 6)):
 # TEST 6: Scaling laws summary
 # ============================================================
 log("\n### TEST 6: Scaling summary table")
-log(f"\n  {'N':>3} | {'Liouv':>8} | {'#rates':>7} | {'min':>6} | {'max':>6} | {'BW':>6} | {'2N':>4} | {'max=2N':>6}")
-log("-" * 65)
+log(f"\n  {'N':>3} | {'Liouv':>8} | {'#rates':>7} | {'min':>6} | {'max':>6} | {'BW':>6} | {'2(N-1)':>7} | {'max=2(N-1)':>11}")
+log("-" * 75)
 
 # Collect from what we computed
 for n_q in range(2, max_n + 1):
@@ -306,10 +306,10 @@ for n_q in range(2, max_n + 1):
         lo = min(rates) if rates else 0
         hi = max(rates) if rates else 0
         bw = hi - lo
-        pred = 2 * n_q
+        pred = 2 * (n_q - 1)
         match = "YES" if abs(hi - pred) < 0.01 else "NO"
         liouv_size = (2**n_q)**2
-        log(f"  {n_q:>3} | {liouv_size:>8} | {len(rates):>7} | {lo:>6.2f} | {hi:>6.2f} | {bw:>6.2f} | {pred:>4} | {match:>6}")
+        log(f"  {n_q:>3} | {liouv_size:>8} | {len(rates):>7} | {lo:>6.2f} | {hi:>6.2f} | {bw:>6.2f} | {pred:>7} | {match:>11}")
     except:
         log(f"  {n_q:>3} | FAILED")
 
