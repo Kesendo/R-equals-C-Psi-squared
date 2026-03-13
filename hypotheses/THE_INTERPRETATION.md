@@ -154,6 +154,30 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## z* is not a direct observable (March 13, 2026)
+
+Tested whether z* = (1-sqrt(1-4*CPsi))/2 can be read directly from the
+density matrix eigenvalues or any single quantum quantity.
+
+79 data points, 26 candidate expressions tested. Best correlations:
+  C^2:        r = 0.951, max_error = 0.251
+  C/2:        r = 0.941, max_error = 0.231
+  Purity:     r = 0.912, max_error = 0.478
+  Negativity: r = 0.903, max_error = 0.301
+
+No exact match found. CPsi cannot be expressed as a simple function of
+the density matrix eigenvalues alone. The ratio CPsi/(Purity-0.25)
+varies from 0.18 to 0.85 across the trajectory.
+
+z* requires BOTH concurrence (entanglement, from rho*rho_tilde) AND
+l1-coherence (off-diagonal elements). These live in different parts
+of the density matrix. There is no shortcut.
+
+This confirms CPsi is genuinely composite: it measures something that
+neither pure entanglement nor pure coherence can capture alone.
+
+Script: simulations/z_star_identity.py
+
 ## Outside-in: from materials to qubits (March 13, 2026)
 
 The project trajectory was outside-in:
