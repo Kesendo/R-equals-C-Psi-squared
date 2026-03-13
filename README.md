@@ -163,6 +163,7 @@ streamlit run app.py
 | Frequency-decay orthogonality at 4+ qubits | Breaks (verified, documented) |
 | IBM Q80/Q102 as sonar evidence | Rejected (was qubit detuning) |
 | CΨ as privileged metric | Not established |
+| CΨ = 1/4 as Liouvillian Exceptional Point | Tested and rejected (no EP correlation found) |
 
 ---
 
