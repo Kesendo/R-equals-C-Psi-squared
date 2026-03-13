@@ -119,7 +119,7 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
 Simulations were run using Lindblad evolution with first-order Euler integration
 (dt = 0.001, t_max = 5.0). Convergence verified: all key values stable to ±0.002
 between dt = 0.001 and dt = 0.0005. Full source code:
-[`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py)
+`simulations/bridge_fingerprints.py` (script lost during cleanup)
 
 Reconstructed 2026-02-11 during guardian review session. Table values updated
 2026-02-12 after convergence study revealed dt = 0.005 overshot steep peaks

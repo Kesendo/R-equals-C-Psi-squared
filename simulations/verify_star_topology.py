@@ -1,5 +1,5 @@
 """
-STAR TOPOLOGY — CLAIMS VERIFICATION
+STAR TOPOLOGY -- CLAIMS VERIFICATION
 ====================================
 Verifies all key findings documented in STAR_TOPOLOGY_OBSERVERS.md
 against star_topology_v2.py simulation.
@@ -26,7 +26,7 @@ def ab_cpsi_max(state="Bell_SA+B", J_SA=1.0, J_SB=1.0,
     mx = 0.0
     for step in range(steps + 1):
         if step % 10 == 0:
-            rp = ptrace(rho, 0)  # trace out S → AB
+            rp = ptrace(rho, 0)  # trace out S -> AB
             cpsi = concurrence(rp) * psi_norm(rp)
             if cpsi > mx:
                 mx = cpsi
@@ -42,7 +42,7 @@ def check(name, condition):
 
 def main():
     print("╔══════════════════════════════════════════════╗")
-    print("║   STAR TOPOLOGY v2 — CLAIMS VERIFICATION    ║")
+    print("║   STAR TOPOLOGY v2 -- CLAIMS VERIFICATION    ║")
     print("╚══════════════════════════════════════════════╝\n")
 
     ok = 0
@@ -60,18 +60,18 @@ def main():
 
     # 2. Strong B: AB crosses
     v = ab_cpsi_max(J_SB=2.0)
-    run(f"Strong B J=1,2: AB max={v:.4f} ≥ 0.25", v >= 0.25)
+    run(f"Strong B J=1,2: AB max={v:.4f} >= 0.25", v >= 0.25)
 
     # 3. Threshold at J_SB ≈ 1.466
     v1 = ab_cpsi_max(J_SB=1.465)
     v2 = ab_cpsi_max(J_SB=1.4655)
-    run(f"Threshold: J=1.465→{v1:.6f} NO, J=1.4655→{v2:.6f} YES",
+    run(f"Threshold: J=1.465->{v1:.6f} NO, J=1.4655->{v2:.6f} YES",
         v1 < 0.25 and v2 >= 0.25)
 
     # 4. Receiver noise more destructive than sender noise
     v_a = ab_cpsi_max(J_SB=2.0, gA=0.25, gB=0.05)
     v_b = ab_cpsi_max(J_SB=2.0, gA=0.05, gB=0.25)
-    run(f"γ_A=0.25 kills ({v_a:.4f}), γ_B=0.25 doesn't ({v_b:.4f})",
+    run(f"gamma_A=0.25 kills ({v_a:.4f}), gamma_B=0.25 doesn't ({v_b:.4f})",
         v_a < 0.25 and v_b >= 0.25)
 
     # 5. Only Bell state crosses, W and |0++⟩ don't
@@ -81,13 +81,13 @@ def main():
     run(f"Bell={vb:.3f} YES, W={vw:.3f} NO, |0++⟩={v0:.3f} NO",
         vb >= 0.25 and vw < 0.25 and v0 < 0.25)
 
-    # 6. Weak A → observers see each other
+    # 6. Weak A -> observers see each other
     v = ab_cpsi_max(J_SA=0.3, J_SB=1.0)
-    run(f"Weak A (J=0.3,1): AB max={v:.4f} ≥ 0.25", v >= 0.25)
+    run(f"Weak A (J=0.3,1): AB max={v:.4f} >= 0.25", v >= 0.25)
 
-    # 7. Low γ lowers threshold
+    # 7. Low gamma lowers threshold
     v = ab_cpsi_max(J_SB=1.2, gS=0.001, gA=0.001, gB=0.001)
-    run(f"γ=0.001, J_SB=1.2: AB max={v:.4f} ≥ 0.25", v >= 0.25)
+    run(f"gamma=0.001, J_SB=1.2: AB max={v:.4f} >= 0.25", v >= 0.25)
 
     # 8. R_SA + R_SB not conserved
     H = star_hamiltonian(1.0, 1.0)

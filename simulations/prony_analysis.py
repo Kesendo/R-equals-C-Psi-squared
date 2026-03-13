@@ -155,7 +155,7 @@ def generate_signals(J_SA=1.0, J_SB=2.0, gamma=0.05, dt=0.02, t_max=20.0):
 if __name__ == "__main__":
     print("=" * 70)
     print("PRONY ANALYSIS: Complex poles from damped quantum signals")
-    print("Signal processing view — no quantum jargon")
+    print("Signal processing view -- no quantum jargon")
     print("=" * 70)
     
     # Generate baseline signals
@@ -244,11 +244,11 @@ if __name__ == "__main__":
         phase_diff = modes_cp[0]['phase'] - modes_cm[0]['phase']
         print(f"  Phase difference c+ vs c-: {phase_diff:+.4f} rad ({math.degrees(phase_diff):+.1f} deg)")
         if abs(abs(phase_diff) - math.pi/2) < 0.3:
-            print(f"  >>> Near quadrature (90 deg) — orthogonal modes <<<")
+            print(f"  >>> Near quadrature (90 deg) -- orthogonal modes <<<")
         elif abs(phase_diff) < 0.3:
-            print(f"  >>> Near in-phase — modes aligned <<<")
+            print(f"  >>> Near in-phase -- modes aligned <<<")
         elif abs(abs(phase_diff) - math.pi) < 0.3:
-            print(f"  >>> Near anti-phase (180 deg) — modes opposed <<<")
+            print(f"  >>> Near anti-phase (180 deg) -- modes opposed <<<")
     
     print(f"\n{'='*70}")
     print("PRONY ANALYSIS COMPLETE")
