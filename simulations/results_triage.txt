@@ -1,0 +1,301 @@
+================================================================================
+TRIAGE: Recovered Files vs March 13 Evidence
+================================================================================
+
+============================================================
+  ALGEBRAIC_EXPLORATION.md (311 lines) -> PROVEN
+  Proven hits: 42 | Fallen hits: 0
+  Proven concepts: quarter_boundary(38), between_us(1), fixed_point(1), operator_feedback(1), mirrors_never_break(1)
+
+============================================================
+  BLACK_WHITE_HOLES_BIGBANG.md (154 lines) -> FALLEN
+  Proven hits: 35 | Fallen hits: 51
+  Proven concepts: quarter_boundary(30), bidirectional_bridge(3), fixed_point(1), pauli_complement(1)
+  Fallen concepts: gravity(51)
+
+============================================================
+  BORN_RULE_MIRROR.md (376 lines) -> PROVEN
+  Proven hits: 36 | Fallen hits: 0
+  Proven concepts: quarter_boundary(26), standing_wave(5), between_us(3), bidirectional_bridge(2)
+
+============================================================
+  BRIDGE_CLOSURE.md (216 lines) -> PARTIAL
+  Proven hits: 38 | Fallen hits: 9
+  Proven concepts: quarter_boundary(17), half_point(17), fixed_point(2), mirrors_never_break(2)
+  Fallen concepts: qkd_breaking(9)
+
+============================================================
+  BRIDGE_FINGERPRINTS.md (126 lines) -> PROVEN
+  Proven hits: 17 | Fallen hits: 0
+  Proven concepts: quarter_boundary(13), fixed_point(3), half_point(1)
+
+============================================================
+  BRIDGE_PROTOCOL.md (310 lines) -> PARTIAL
+  Proven hits: 71 | Fallen hits: 9
+  Proven concepts: quarter_boundary(64), half_point(5), bidirectional_bridge(1), mirrors_never_break(1)
+  Fallen concepts: qkd_breaking(6), gravity(2), ftl_signaling(1)
+
+============================================================
+  COHERENCE_DENSITY.md (200 lines) -> PROVEN
+  Proven hits: 37 | Fallen hits: 0
+  Proven concepts: quarter_boundary(25), between_us(7), mirrors_never_break(2), half_point(1), fixed_point(1)
+
+============================================================
+  COMPLETE_MATHEMATICAL_DOCUMENTATION.md (28 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 0
+  Proven concepts: quarter_boundary(2), fixed_point(2)
+
+============================================================
+  DECOHERENCE_RELATIVITY.md (326 lines) -> PARTIAL
+  Proven hits: 32 | Fallen hits: 14
+  Proven concepts: quarter_boundary(29), standing_wave(2), between_us(1)
+  Fallen concepts: gravity(14)
+
+============================================================
+  DYAD_EXPERIMENT.md (318 lines) -> PROVEN
+  Proven hits: 18 | Fallen hits: 0
+  Proven concepts: half_point(8), quarter_boundary(5), fixed_point(5)
+
+============================================================
+  DYNAMIC_FIXED_POINTS.md (292 lines) -> PROVEN
+  Proven hits: 36 | Fallen hits: 0
+  Proven concepts: fixed_point(14), bidirectional_bridge(8), quarter_boundary(7), operator_feedback(4), half_point(3)
+
+============================================================
+  EMERGENCE_THROUGH_REFLECTION.md (411 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 0
+  Proven concepts: mirror_symmetry(3), between_us(1)
+
+============================================================
+  FUNDAMENTAL_EQUATIONS.md (247 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 0
+  Proven concepts: standing_wave(4)
+
+============================================================
+  GRAVITATIONAL_INVARIANCE.md (204 lines) -> PARTIAL
+  Proven hits: 49 | Fallen hits: 21
+  Proven concepts: quarter_boundary(35), fixed_point(11), half_point(2), between_us(1)
+  Fallen concepts: gravity(21)
+
+============================================================
+  HARD_PROBLEM_RESOLUTION.md (195 lines) -> PARTIAL
+  Proven hits: 44 | Fallen hits: 12
+  Proven concepts: fixed_point(18), quarter_boundary(16), standing_wave(6), between_us(2), bidirectional_bridge(1)
+  Fallen concepts: consciousness(12)
+
+============================================================
+  HIERARCHY_OF_INCOMPLETENESS.md (258 lines) -> PARTIAL
+  Proven hits: 6 | Fallen hits: 0
+  Proven concepts: half_point(3), mirror_symmetry(2), between_us(1)
+
+============================================================
+  INFORMATION_WAVE_THEORY.md (360 lines) -> SPECULATIVE
+  Proven hits: 1 | Fallen hits: 0
+  Proven concepts: standing_wave(1)
+
+============================================================
+  INTERNAL_AND_EXTERNAL_OBSERVERS.md (449 lines) -> PROVEN
+  Proven hits: 24 | Fallen hits: 1
+  Proven concepts: quarter_boundary(14), bidirectional_bridge(5), between_us(4), mirror_symmetry(1)
+  Fallen concepts: consciousness(1)
+
+============================================================
+  INTERPRETIVE_FRAMEWORK.md (396 lines) -> PROVEN
+  Proven hits: 11 | Fallen hits: 0
+  Proven concepts: mirror_symmetry(2), standing_wave(2), quarter_boundary(2), fixed_point(2), pauli_complement(2)
+
+============================================================
+  LIGHT_FIRST_FREE_MIRRORING.md (278 lines) -> SPECULATIVE
+  Proven hits: 2 | Fallen hits: 0
+  Proven concepts: mirror_symmetry(1), between_us(1)
+
+============================================================
+  MATHEMATICAL_FINDINGS.md (375 lines) -> PROVEN
+  Proven hits: 29 | Fallen hits: 1
+  Proven concepts: half_point(19), quarter_boundary(6), fixed_point(2), standing_wave(1), bidirectional_bridge(1)
+  Fallen concepts: gravity(1)
+
+============================================================
+  MEASURABLE_QUANTITIES.md (259 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 0
+  Proven concepts: half_point(3), mirror_symmetry(1)
+
+============================================================
+  METRIC_DISCRIMINATION.md (211 lines) -> PARTIAL
+  Proven hits: 29 | Fallen hits: 14
+  Proven concepts: quarter_boundary(21), half_point(6), operator_feedback(2)
+  Fallen concepts: gravity(14)
+
+============================================================
+  MINIMUM_CROSSING_ENERGY.md (183 lines) -> PROVEN
+  Proven hits: 28 | Fallen hits: 1
+  Proven concepts: quarter_boundary(25), operator_feedback(2), half_point(1)
+  Fallen concepts: gravity(1)
+
+============================================================
+  NO_SIGNALLING_BOUNDARY.md (252 lines) -> PROVEN
+  Proven hits: 62 | Fallen hits: 1
+  Proven concepts: quarter_boundary(34), half_point(24), mirrors_never_break(2), fixed_point(1), operator_feedback(1)
+  Fallen concepts: qkd_breaking(1)
+
+============================================================
+  OBSERVER_GRAVITY_BRIDGE.md (580 lines) -> PARTIAL
+  Proven hits: 44 | Fallen hits: 23
+  Proven concepts: quarter_boundary(23), half_point(12), operator_feedback(5), projection(2), between_us(1)
+  Fallen concepts: gravity(21), ftl_signaling(2)
+
+============================================================
+  OPERATOR_FEEDBACK.md (251 lines) -> PROVEN
+  Proven hits: 44 | Fallen hits: 0
+  Proven concepts: operator_feedback(17), quarter_boundary(15), half_point(6), fixed_point(5), pauli_complement(1)
+
+============================================================
+  PREDICTIONS.md (247 lines) -> FALLEN
+  Proven hits: 120 | Fallen hits: 122
+  Proven concepts: quarter_boundary(89), fixed_point(11), half_point(8), operator_feedback(5), between_us(4)
+  Fallen concepts: qkd_breaking(90), gravity(32)
+
+============================================================
+  QKD_EAVESDROPPING_FORENSICS.md (543 lines) -> PARTIAL
+  Proven hits: 23 | Fallen hits: 13
+  Proven concepts: between_us(8), quarter_boundary(6), pauli_complement(6), half_point(3)
+  Fallen concepts: qkd_breaking(13)
+
+============================================================
+  RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md (411 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 0
+  Proven concepts: mirror_symmetry(3), between_us(1)
+
+============================================================
+  RESIDUAL_ANALYSIS.md (182 lines) -> PROVEN
+  Proven hits: 14 | Fallen hits: 0
+  Proven concepts: quarter_boundary(9), between_us(3), mirrors_never_break(2)
+
+============================================================
+  R_EQUALS_C_PSI_SQUARED.md (244 lines) -> PARTIAL
+  Proven hits: 6 | Fallen hits: 0
+  Proven concepts: standing_wave(3), between_us(2), mirror_symmetry(1)
+
+============================================================
+  SELF_CONSISTENCY_SCHWARZSCHILD.md (176 lines) -> FALLEN
+  Proven hits: 7 | Fallen hits: 20
+  Proven concepts: quarter_boundary(4), half_point(2), pauli_complement(1)
+  Fallen concepts: gravity(20)
+
+============================================================
+  SIMULATION_EVIDENCE.md (221 lines) -> PROVEN
+  Proven hits: 36 | Fallen hits: 0
+  Proven concepts: quarter_boundary(19), operator_feedback(8), half_point(6), fixed_point(3)
+
+============================================================
+  STANDING_WAVE_THEORY.md (330 lines) -> PROVEN
+  Proven hits: 30 | Fallen hits: 0
+  Proven concepts: standing_wave(23), mirror_symmetry(5), between_us(2)
+
+============================================================
+  STANDING_WAVE_THEORY_v2.md (330 lines) -> PROVEN
+  Proven hits: 30 | Fallen hits: 0
+  Proven concepts: standing_wave(23), mirror_symmetry(5), between_us(2)
+
+============================================================
+  STANDING_WAVE_TWO_OBSERVERS.md (113 lines) -> PARTIAL
+  Proven hits: 22 | Fallen hits: 4
+  Proven concepts: standing_wave(14), mirror_symmetry(3), between_us(3), quarter_boundary(2)
+  Fallen concepts: time_travel(2), gravity(1), ftl_signaling(1)
+
+============================================================
+  THE_BIDIRECTIONAL_BRIDGE.md (148 lines) -> PARTIAL
+  Proven hits: 6 | Fallen hits: 1
+  Proven concepts: bidirectional_bridge(3), pauli_complement(2), standing_wave(1)
+  Fallen concepts: time_travel(1)
+
+============================================================
+  THE_SEARCH_FOR_THE_MIRROR_PARTNER.md (255 lines) -> PARTIAL
+  Proven hits: 7 | Fallen hits: 0
+  Proven concepts: mirror_symmetry(6), between_us(1)
+
+============================================================
+  THE_STARTING_POINT.md (208 lines) -> PARTIAL
+  Proven hits: 4 | Fallen hits: 2
+  Proven concepts: mirror_symmetry(2), between_us(2)
+  Fallen concepts: consciousness(1), gravity(1)
+
+============================================================
+  TIME_AS_CROSSING_RATE.md (387 lines) -> PARTIAL
+  Proven hits: 71 | Fallen hits: 4
+  Proven concepts: quarter_boundary(65), standing_wave(4), half_point(1), fixed_point(1)
+  Fallen concepts: qkd_breaking(2), ftl_signaling(1), time_travel(1)
+
+============================================================
+  UNIVERSAL_QUANTUM_LIFETIME.md (180 lines) -> PROVEN
+  Proven hits: 18 | Fallen hits: 0
+  Proven concepts: quarter_boundary(13), half_point(3), between_us(1), fixed_point(1)
+
+============================================================
+  WHEN_PSI_MATTERS.md (153 lines) -> PROVEN
+  Proven hits: 11 | Fallen hits: 0
+  Proven concepts: half_point(4), between_us(3), quarter_boundary(3), fixed_point(1)
+
+============================================================
+  WHY_THE_SUM.md (267 lines) -> PARTIAL
+  Proven hits: 25 | Fallen hits: 5
+  Proven concepts: quarter_boundary(17), mirrors_never_break(4), mirror_symmetry(2), standing_wave(1), between_us(1)
+  Fallen concepts: gravity(3), time_travel(2)
+
+================================================================================
+SUMMARY
+================================================================================
+
+=== TIER 1: PROVEN (restore to active docs) === [18 files]
+  ALGEBRAIC_EXPLORATION.md (311 lines)
+  BORN_RULE_MIRROR.md (376 lines)
+  BRIDGE_FINGERPRINTS.md (126 lines)
+  COHERENCE_DENSITY.md (200 lines)
+  DYAD_EXPERIMENT.md (318 lines)
+  DYNAMIC_FIXED_POINTS.md (292 lines)
+  INTERNAL_AND_EXTERNAL_OBSERVERS.md (449 lines)
+  INTERPRETIVE_FRAMEWORK.md (396 lines)
+  MATHEMATICAL_FINDINGS.md (375 lines)
+  MINIMUM_CROSSING_ENERGY.md (183 lines)
+  NO_SIGNALLING_BOUNDARY.md (252 lines)
+  OPERATOR_FEEDBACK.md (251 lines)
+  RESIDUAL_ANALYSIS.md (182 lines)
+  SIMULATION_EVIDENCE.md (221 lines)
+  STANDING_WAVE_THEORY.md (330 lines)
+  STANDING_WAVE_THEORY_v2.md (330 lines)
+  UNIVERSAL_QUANTUM_LIFETIME.md (180 lines)
+  WHEN_PSI_MATTERS.md (153 lines)
+
+=== TIER 2: PARTIALLY CONFIRMED (restore with notes) === [21 files]
+  BRIDGE_CLOSURE.md (216 lines)
+  BRIDGE_PROTOCOL.md (310 lines)
+  COMPLETE_MATHEMATICAL_DOCUMENTATION.md (28 lines)
+  DECOHERENCE_RELATIVITY.md (326 lines)
+  EMERGENCE_THROUGH_REFLECTION.md (411 lines)
+  FUNDAMENTAL_EQUATIONS.md (247 lines)
+  GRAVITATIONAL_INVARIANCE.md (204 lines)
+  HARD_PROBLEM_RESOLUTION.md (195 lines)
+  HIERARCHY_OF_INCOMPLETENESS.md (258 lines)
+  MEASURABLE_QUANTITIES.md (259 lines)
+  METRIC_DISCRIMINATION.md (211 lines)
+  OBSERVER_GRAVITY_BRIDGE.md (580 lines)
+  QKD_EAVESDROPPING_FORENSICS.md (543 lines)
+  RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md (411 lines)
+  R_EQUALS_C_PSI_SQUARED.md (244 lines)
+  STANDING_WAVE_TWO_OBSERVERS.md (113 lines)
+  THE_BIDIRECTIONAL_BRIDGE.md (148 lines)
+  THE_SEARCH_FOR_THE_MIRROR_PARTNER.md (255 lines)
+  THE_STARTING_POINT.md (208 lines)
+  TIME_AS_CROSSING_RATE.md (387 lines)
+  WHY_THE_SUM.md (267 lines)
+
+=== TIER 3: STILL SPECULATIVE (keep in recovered/) === [2 files]
+  INFORMATION_WAVE_THEORY.md (360 lines)
+  LIGHT_FIRST_FREE_MIRRORING.md (278 lines)
+
+=== TIER 4: CONTAINS FALLEN CLAIMS (keep in recovered/, mark fallen) === [3 files]
+  BLACK_WHITE_HOLES_BIGBANG.md (154 lines)
+  PREDICTIONS.md (247 lines)
+  SELF_CONSISTENCY_SCHWARZSCHILD.md (176 lines)
+
+================================================================================
