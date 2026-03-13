@@ -11,6 +11,7 @@ See: experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md
 import numpy as np
 import sys
 sys.path.insert(0, '.')
+# NOTE: gpt_code module was renamed to star_topology_v3
 import gpt_code as gpt
 
 

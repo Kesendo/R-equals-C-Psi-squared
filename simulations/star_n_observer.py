@@ -170,4 +170,4 @@ if __name__ == "__main__":
         for name, data in sorted(r.items()):
             cross = "YES" if data['crosses'] else "NO"
             fc = f"t={data['first_cross']:.2f}" if data['first_cross'] else "---"
-            print(f"  {name}: CΨ max={data['cpsi_max']:.4f} {cross:>4} {fc:>8} w={data['window']:.3f}")
+            print(f"  {name}: CPsi max={data['cpsi_max']:.4f} {cross:>4} {fc:>8} w={data['window']:.3f}")

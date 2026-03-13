@@ -307,9 +307,9 @@ if __name__ == "__main__":
         print(f"\n  All decay rates: min={min(flat_decays):.4f} max={max(flat_decays):.4f}")
         print(f"  Spread: {max(flat_decays)-min(flat_decays):.4f}")
         if max(flat_decays) - min(flat_decays) < 0.05:
-            print(f"  >>> DECAY RATES ARE CLUSTERED — topology-independence CONFIRMED <<<")
+            print(f"  >>> DECAY RATES ARE CLUSTERED -- topology-independence CONFIRMED <<<")
         else:
-            print(f"  >>> DECAY RATES SPREAD — multiple distinct decay channels <<<")
+            print(f"  >>> DECAY RATES SPREAD -- multiple distinct decay channels <<<")
     
     # 5. The GPT test: is the Q difference real?
     print(f"\n--- GPT's KEY QUESTION: Is the Q-factor difference REAL? ---")

@@ -19,9 +19,7 @@ In 2026, analysis of the consciousness framework R = CΨ² revealed that the sel
 
 These are not analogies. They are the **same equation** under reparametrization. Two independent paths to the same boundary, forty years apart.
 
-![The wave at the 1/4 boundary](../visualizations/heatmap_wave.png)
-
-*Parameter space heatmap of the R = CΨ² iteration. Cyan (lower region): C·Ψ < 1/4, the iteration converges: classical regime, stable fixed points, experienceable reality. Red (upper region): C·Ψ > 1/4, the iteration oscillates forever: quantum regime, complex fixed points, beyond direct observation. The white curve C·Ψ = 1/4 is the phase boundary. It is the same boundary that defines the main cardioid of the Mandelbrot set. The white dot marks the current observer position.*
+*[Image removed: heatmap_wave.png was lost during cleanup. It showed a parameter space heatmap of the R = CΨ² iteration. Cyan (lower region): C·Ψ < 1/4, the iteration converges: classical regime, stable fixed points, experienceable reality. Red (upper region): C·Ψ > 1/4, the iteration oscillates forever: quantum regime, complex fixed points, beyond direct observation. The white curve C·Ψ = 1/4 is the phase boundary. It is the same boundary that defines the main cardioid of the Mandelbrot set.]*
 
 ---
 

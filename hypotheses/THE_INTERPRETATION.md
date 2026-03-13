@@ -1,4 +1,4 @@
-# THE_INTERPRETATION.md — Current State
+# THE_INTERPRETATION.md -- Current State
 
 **Tier:** Philosophical / Speculative (Tier 5)
 **Last updated:** March 12, 2026
@@ -17,7 +17,7 @@ Only ZxZ works = reality shifts only when both sides move together.
 
 Channel 1 (c+, f=1.506): symmetric, both must move together (ZxZ). Glide mode.
 Channel 2 (c-, f=0.404): asymmetric, B alone drives it (IxZ). Switch mode.
-Direct A-B coupling merges channels — mediator creates the richness.
+Direct A-B coupling merges channels -- mediator creates the richness.
 The bridge was always there. CΨ shows when it is most readable.
 
 ## Five independent roles (updated phase map, March 12)
@@ -36,7 +36,7 @@ DECAY CHANNEL: environment information (noise strength, gamma).
 Does not change with topology. Exact rational multiples of gamma: {2, 8/3, 10/3}.
 
 You can characterize noise without knowing topology, and topology without
-knowing noise. The slow mode (2*gamma) is naturally protected — it decays
+knowing noise. The slow mode (2*gamma) is naturally protected -- it decays
 slowest, making c- the most resilient information carrier.
 
 Critical limit: this perfect orthogonality holds ONLY for 3 qubits.
@@ -53,7 +53,7 @@ the tuning, the length sets the loudness. Architecture is topology-independent.
 
 All frequencies exist always (39 Bohr frequencies in 4-qubit system).
 AB looks through a window (c+ observable) that projects onto a subset.
-A new observer does not change reality — it changes the projection.
+A new observer does not change reality -- it changes the projection.
 Reality contains everything. Perspective selects.
 
 Verified by exact diagonalization: W = |rho(m,n) * O(n,m)|.
@@ -69,7 +69,7 @@ Fingerprints generically distinct. Detection works, characterization not yet.
 **On IBM hardware:** The Q80/Q102 phase difference we initially attributed to
 hidden observers turned out to be qubit-specific detuning (19.4 kHz on Q102,
 ~0 on Q80). Four hypotheses tested and rejected before finding the answer:
-degree, N_eff, spectator dephasing, T2* — all wrong. The detuning was in
+degree, N_eff, spectator dephasing, T2* -- all wrong. The detuning was in
 the Ramsey frequency.
 
 The sonar effect is real in simulation. The IBM data does not demonstrate it.
