@@ -4,3 +4,9 @@ __pycache__/
 *.pyc
 GPT_Prompts/
 ClaudeTasks/
+compute/**/bin/
+compute/**/obj/
+compute/**/.vs/
+*.vsidx
+*.suo
+*.user
