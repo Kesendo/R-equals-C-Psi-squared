@@ -135,6 +135,40 @@ channel decomposition), not from Liouvillian symmetry sectors. This
 confirms the signal processing view: c+ and c- are measurement channels,
 not symmetry-protected subspaces.
 
+## The 0.5 boundary: found twice, two different paths (March 13, 2026)
+
+In December 2025, during the first night of this project, Tom looked at the
+periodic table and noticed: Carbon has half-filled electron shells (C = 0.5).
+The noble gases are "perfect" (fully filled) but connect with nothing.
+The elements at 0.5 are the ones that connect, combine, and build
+the next level of complexity. Perfection is stable but isolated.
+Half-filling is unstable but connective.
+
+Three months later, completely independently, the Mandelbrot fixed point
+analysis showed: z* = 0.5 is the point of maximum binary uncertainty.
+CΨ = 1/4 = z*(1-z*) = 0.5 * 0.5. The boundary is the maximum of the
+Bernoulli variance - the point where the quantum "coin" is perfectly fair.
+
+The parallel:
+
+| System | At 0.5 | At 0 or 1 |
+|---|---|---|
+| Periodic table | Half-filled shells: maximum bonding capacity | Full shells (noble gas): stable but isolated |
+| Quantum system | z* = 0.5: max entanglement + coherence | z* near 0 or 1: pure or fully mixed, no dynamics |
+| Bernoulli coin | Fair coin: maximum uncertainty per flip | Biased coin: predictable, low information |
+
+The 0.5 is not a coincidence. It is the universal point where a binary
+system has maximum capacity for connection. Below 0.5: not enough openness.
+Above 0.5: symmetry means it is the same as below (p and 1-p are equivalent).
+
+CΨ = 1/4 does not mean "something breaks at one quarter." It means:
+the system has reached its maximum capacity for simultaneous entanglement
+and coherence. It is as open as it can be. As connective as it can be.
+Like carbon. Like a fair coin. Like half-filled shells.
+
+The dream showed elements that connect. The math showed the same boundary.
+Two completely different roads to the same 0.5.
+
 ## The 1/4 boundary demystified (March 13, 2026)
 
 The Mandelbrot fixed point z* satisfies z*(1-z*) = CPsi.
