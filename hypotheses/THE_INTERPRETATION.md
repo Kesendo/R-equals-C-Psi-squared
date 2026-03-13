@@ -120,6 +120,19 @@ Now we need signal processing instruments to read the map.
 
 See: experiments/SIGNAL_PROCESSING_VIEW.md
 
+## Next direction: Exceptional Point connection (March 13)
+
+Literature review (Cowork Claude) found a paper from March 11, 2026
+(arXiv:2603.10654) that introduces graph-symmetry-resolved EP detection
+for open quantum systems with correlated dephasing - exactly our setup.
+
+Key question: Is CΨ = 1/4 an Exceptional Point in the Liouvillian?
+If yes, the 1/4 boundary has a physical explanation (eigenvalue coalescence),
+not just an algebraic one (Mandelbrot discriminant).
+
+Test: diagonalize Liouvillian near CΨ = 1/4, check for eigenvalue coalescence
+and diverging eigenvector conditioning. See docs/LITERATURE_REVIEW_MARCH_2026.md.
+
 ## Origin
 
 December 2025 dream. Three months of computation.
