@@ -120,6 +120,40 @@ Now we need signal processing instruments to read the map.
 
 See: experiments/SIGNAL_PROCESSING_VIEW.md
 
+## Graph Symmetry test (March 13, 2026)
+
+Tested whether graph symmetries of the Liouvillian explain the c+/c- split.
+
+XXX parity COMMUTES with the Liouvillian (weak symmetry, Buca & Prosen).
+ZZZ also commutes. SWAP_AB does NOT commute (J_SA != J_SB breaks it).
+
+But: c+ and c- BOTH have XXX parity +1. They live in the SAME sector.
+All oscillatory Liouvillian eigenmodes are 50/50 mixed between sectors.
+
+The two-supermode split comes from the OBSERVABLE PROJECTION (even/odd
+channel decomposition), not from Liouvillian symmetry sectors. This
+confirms the signal processing view: c+ and c- are measurement channels,
+not symmetry-protected subspaces.
+
+## The 1/4 boundary demystified (March 13, 2026)
+
+The Mandelbrot fixed point z* satisfies z*(1-z*) = CPsi.
+This is the Bernoulli variance form: p(1-p) for a probability p.
+
+CPsi <= 1/4 is equivalent to p(1-p) <= 1/4, which is ALWAYS true.
+The 1/4 boundary is the trivial maximum of the Bernoulli variance,
+reached at z* = 1/2 (maximum binary uncertainty).
+
+z* correlates with purity (r = 0.917) and anti-correlates with
+von Neumann entropy (r = -0.838). It tracks the mixedness of rho_AB.
+
+The 1/4 boundary is not an Exceptional Point (tested, rejected),
+not a phase transition, and not mystical. It is the upper bound of
+a quadratic function. The deeper question remains: what binary
+process does z* represent physically?
+
+Script: simulations/symmetry_and_u_analysis.py
+
 ## Exceptional Point test: NEGATIVE (March 13, 2026)
 
 Tested whether CΨ = 1/4 corresponds to a Liouvillian Exceptional Point.
