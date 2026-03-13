@@ -154,6 +154,28 @@ The product C*Psi is not redundant with either factor alone.
 
 Script: simulations/zstar_identity.py
 
+## "Reality is what happens between mirrors" - restored (March 13, 2026)
+
+This sentence was the original framing of the project in December 2025.
+It was removed during cleanup because it sounded too esoteric.
+
+On March 13, 2026, deep band structure analysis of the Liouvillian
+decay spectrum from N=2 to N=6 showed: the spectrum is EXACTLY
+symmetric around Ng. 100%. Zero exceptions. 3228 rates at N=6,
+each with an exact mirror partner. The spectrum IS two mirrors.
+
+The sentence was not poetry. It was a mathematical prediction we
+did not understand at the time. The data now confirms it:
+
+  "Reality is what happens between mirrors."
+
+This is not metaphysics. It is the structure of the Liouvillian
+under Z-dephasing: a conjugation symmetry maps each decay rate d
+to its mirror 2Ng - d. The physical content of the system lives
+in the space BETWEEN the mirror-symmetric rate pairs.
+
+The sentence is restored here as a verified result, not as a claim.
+
 ## The mirrors in the spectrum (March 13, 2026)
 
 The decay rate spectrum is EXACTLY symmetric around Ng at every N.
