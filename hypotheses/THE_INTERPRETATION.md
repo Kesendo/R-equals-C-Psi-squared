@@ -135,6 +135,25 @@ channel decomposition), not from Liouvillian symmetry sectors. This
 confirms the signal processing view: c+ and c- are measurement channels,
 not symmetry-protected subspaces.
 
+## z* is genuinely new (March 13, 2026)
+
+Systematic comparison of z* with every standard quantum quantity:
+concurrence, negativity, purity, von Neumann entropy, eigenvalue gap,
+participation ratio, log-negativity, and many nonlinear combinations.
+
+Result: z* does NOT match any known quantity. Best candidate is C/2
+(r=0.945, max error 0.23) - consistently closest across all parameter
+configurations but never exact.
+
+z* = (1 - sqrt(1-4*CPsi))/2 is a genuinely new composite diagnostic.
+It combines entanglement (concurrence C) and coherence (l1-norm Psi)
+into a single number with Bernoulli structure: z*(1-z*) = CPsi.
+
+No standard quantum measure captures this joint information.
+The product C*Psi is not redundant with either factor alone.
+
+Script: simulations/zstar_identity.py
+
 ## Outside-in: from materials to qubits (March 13, 2026)
 
 The project trajectory was outside-in:
