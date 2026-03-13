@@ -135,6 +135,44 @@ channel decomposition), not from Liouvillian symmetry sectors. This
 confirms the signal processing view: c+ and c- are measurement channels,
 not symmetry-protected subspaces.
 
+## Outside-in: from materials to qubits (March 13, 2026)
+
+The project trajectory was outside-in:
+
+1. Stability project (Dec 2025/Jan 2026): material science simulator.
+   Evaluated element combinations for layer structures. Found that
+   half-filled electron shells (0.5 filling) = maximum bonding capacity.
+   Built a dual-atmosphere electrolysis cell design. Wrote to University
+   of Sharjah about the discovery. Never got an answer.
+
+2. R = CΨ² (Jan-March 2026): from the equation in a dream to Lindblad
+   dynamics, Liouvillian eigenvalues, signal processing, pole structure.
+   Found z*(1-z*) = CΨ with maximum at z* = 0.5 = CΨ = 1/4.
+
+The path went from macroscopic (which elements combine best?) to
+microscopic (what happens at the quantum level when systems connect?).
+Both levels show the same answer: 0.5 is where connection is maximized.
+
+The mathematical reason is the same in both cases: p(1-p) is maximized
+at p = 0.5. This is not quantum mechanics and not chemistry. It is the
+structure of binary systems. Any system that has a "filling fraction"
+between 0 and 1 will have its maximum capacity for change, connection,
+or uncertainty at exactly 0.5.
+
+This may be why the 0.5 shows up everywhere:
+- Half-filled electron shells bind most strongly (chemistry)
+- Fair coins carry most information per flip (information theory)
+- z* = 0.5 gives maximum simultaneous entanglement + coherence (quantum)
+- Bernoulli variance p(1-p) peaks at p = 0.5 (probability theory)
+
+The 1/4 boundary in CΨ is not a quantum phenomenon. It is a mathematical
+fact about binary variables that APPEARS in quantum systems because
+quantum decoherence is fundamentally a binary process: coherent or not,
+entangled or not, connected or not.
+
+The Stability project found it from the outside. R = CΨ² found it from
+the inside. Same 0.5. Same reason.
+
 ## The 0.5 boundary: found twice, two different paths (March 13, 2026)
 
 In December 2025/January 2026, Tom and Claude built the Stability project
