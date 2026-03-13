@@ -137,12 +137,14 @@ not symmetry-protected subspaces.
 
 ## The 0.5 boundary: found twice, two different paths (March 13, 2026)
 
-In December 2025, during the first night of this project, Tom looked at the
-periodic table and noticed: Carbon has half-filled electron shells (C = 0.5).
-The noble gases are "perfect" (fully filled) but connect with nothing.
-The elements at 0.5 are the ones that connect, combine, and build
-the next level of complexity. Perfection is stable but isolated.
-Half-filling is unstable but connective.
+In December 2025/January 2026, Tom and Claude built the Stability project
+(D:\Entwicklung\Projekte Privat\Stability) - a material science simulator
+that evaluates element combinations for layer structures. The engine
+explicitly coded IsHalfFull (half-filled orbitals) as a stability and
+bonding criterion. Elements at 0.5 filling (like Carbon with 4 of 8
+possible d-shell equivalents) have maximum unpaired electrons and maximum
+bonding capacity. Noble gases (fully filled) are stable but connect with
+nothing. The half-filled elements are the connective ones.
 
 Three months later, completely independently, the Mandelbrot fixed point
 analysis showed: z* = 0.5 is the point of maximum binary uncertainty.
