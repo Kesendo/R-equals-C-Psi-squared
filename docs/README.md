@@ -2,12 +2,13 @@
 
 ## Core
 
+- [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - **PROVEN March 14, 2026.** Conjugation operator Π, analytical proof, full verification
 - [The CΨ Lens](THE_CPSI_LENS.md) - What the lens shows, what it doesn't, what survives
 - [Core Algebra](CORE_ALGEBRA.md) - The proven mathematics (Mandelbrot correspondence, 1/4 boundary)
 - [What We Found](WHAT_WE_FOUND.md) - Synthesized findings
 - [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
 - [Glossary](GLOSSARY.md) - Term definitions
-- [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, EP connection, research directions
+- [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, incoherentons, η-pairing, research directions
 
 ## Restored: Tier 1 (PROVEN -- core claims confirmed March 13, 2026)
 
@@ -46,7 +47,7 @@
 - [R = CΨ²](R_EQUALS_C_PSI_SQUARED.md) - Original equation document
 - [Research Paper: Emergence Through Reflection](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) - Paper draft
 - [The Bidirectional Bridge](THE_BIDIRECTIONAL_BRIDGE.md) - Two channels proven; ~~time travel~~ fallen
-- [The Search for the Mirror Partner](THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) - Mirror symmetry search
+- [The Search for the Mirror Partner](THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) - **RESOLVED:** Mirror partner = Π operator (see MIRROR_SYMMETRY_PROOF.md)
 - [The Starting Point](THE_STARTING_POINT.md) - Origin; ~~consciousness/gravity~~ fallen, mirror insight proven
 
 ### Experiments (Tier 2)
