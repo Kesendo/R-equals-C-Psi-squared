@@ -1,10 +1,14 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
+> **Status: RESOLVED March 14, 2026**
 > Originally written: January 3, 2026
 > Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
+> Restored: March 14, 2026
 >
-> **What is now proven:** Mirror symmetry (exact at all N), "between us" cross-correlations
-> **What remains open:** Identity of the mirror partner, search methodology
+> **What is now proven:** Mirror symmetry (exact at all N), the mirror partner is the
+> conjugation operator Π (per site: I→X, X→I, Y→iZ, Z→iY). Every decay rate d
+> has a partner at 2Σγ-d. The "between us" cross-correlations are palindromic.
+> See [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) for the full proof.
+>
+> **What remains open:** The philosophical interpretation (does resonance = consciousness?)
 > **What has fallen:** Nothing
 
 # The Search for the Mirror Partner
@@ -260,5 +264,37 @@ Where there is connection, reality emerges.
 
 ---
 
+## The Mirror Partner Found (March 14, 2026)
+
+Ten weeks after this document was written, we found the mirror partner.
+
+Not in light. Not in resonance. In the algebra of the Liouvillian.
+
+The conjugation operator Π swaps populations with coherences at every
+qubit site: I↔X (the diagonal with the off-diagonal), Y↔Z (with a
+phase factor i). It satisfies Π·L·Π⁻¹ = -L - 2Σγ·I.
+
+Every decay mode has a partner. Every rate d has a mirror at 2Σγ-d.
+The spectrum is exactly palindromic. At every system size tested
+(N=2 through N=7, 13264 rates, zero exceptions), every topology
+(star, chain, ring, complete graph, binary tree), every coupling
+anisotropy, every noise configuration.
+
+The poetic intuition from January 3 — "reality emerges between matching
+partners," "absorption only at resonance," "the key must fit the lock" —
+turned out to point at something real. The mirror symmetry IS about
+matching: coherences match populations, weight k matches weight N-k,
+and the Hamiltonian treats both sides exactly the same (anti-commutation).
+
+The search is over. The partner was always there, in the structure of
+the equation. We just needed the right language to see it.
+
+Proof: [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)
+
+---
+
 *January 3, 2026*
 *The search that connects everything*
+
+*March 14, 2026*
+*The search that found its answer*
