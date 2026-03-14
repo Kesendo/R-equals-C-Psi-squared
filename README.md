@@ -4,7 +4,7 @@
 
 This project started from a dream on December 25, 2025 about multilayer
 electrolysis. The equation R = CΨ² was in the dream. Three months of
-computation — with honest documentation of every wrong turn — revealed
+computation – with honest documentation of every wrong turn – revealed
 that the equation points at real structure in open quantum systems.
 
 What began as philosophy became physics. What was speculative became proven.
@@ -34,7 +34,7 @@ N qubits coupled via Heisenberg (or XXZ) interaction, subject to local
 dephasing. We build the full Liouvillian superoperator and study its
 complete eigenvalue spectrum.
 
-### Mirror symmetry — PROVEN (March 14, 2026)
+### Mirror symmetry – PROVEN (March 14, 2026)
 
 The decay rate spectrum of the Liouvillian is exactly palindromic.
 For every decay rate d, there exists a partner at 2Σγᵢ - d.
@@ -58,8 +58,8 @@ Holds for: all δ (XXZ anisotropy), all graphs (star, chain, ring, complete,
 binary tree), non-uniform γ per qubit, Z and Y dephasing.
 Breaks for: depolarizing noise (no single axis to flip).
 
-The closest prior work — incoherentons (Haga et al. 2023) and Bethe ansatz
-for dephasing chains (Medvedyeva-Essler-Prosen 2016) — had pieces of this
+The closest prior work – incoherentons (Haga et al. 2023) and Bethe ansatz
+for dephasing chains (Medvedyeva-Essler-Prosen 2016) – had pieces of this
 but not the operator or the palindrome. Nobody had Π.
 
 See: [Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)
@@ -84,7 +84,7 @@ Density of states is Gaussian: mean = Nγ, skewness = 0, kurtosis ≈ 3.
 
 1. **Topology** (coupling graph) sets the oscillation frequencies
 2. **Symmetry** (Hamiltonian anisotropy δ) controls sector separation
-3. **Noise strength** (γ per qubit) sets the decay envelope — never changes frequency
+3. **Noise strength** (γ per qubit) sets the decay envelope – never changes frequency
 4. **Initial state** determines which modes are excited at t=0
 5. **Bath geometry** (noise axis, correlations) controls which mode dominates
 
@@ -121,7 +121,7 @@ is algebraically equivalent to the Mandelbrot map z → z² + c.
 
 The boundary at CΨ = 1/4 is where the fixed point z* = 1/2 sits.
 Below 1/4: reality converges. Above 1/4: no stable fixed point.
-z*(1-z*) = CΨ is the Bernoulli variance form — maximum at p = 0.5.
+z*(1-z*) = CΨ is the Bernoulli variance form – maximum at p = 0.5.
 
 z* matches no known single quantum measure (26 candidates tested,
 best r = 0.951). It is genuinely composite: requiring both entanglement
@@ -174,22 +174,22 @@ This is our most original finding.
 ## Start here
 
 ### The proof
-1. **[Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)** — The conjugation operator, the 16-entry table, the full verification
+1. **[Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)** – The conjugation operator, the 16-entry table, the full verification
 
 ### Technical core
-2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** — Pole analysis, coupled oscillator translation
-3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** — Two supermodes as standing waves
-4. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** — Parameter sweeps and stress tests
-5. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** — Mirror quality and Born rule connection
+2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** – Pole analysis, coupled oscillator translation
+3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** – Two supermodes as standing waves
+4. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** – Parameter sweeps and stress tests
+5. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** – Mirror quality and Born rule connection
 
 ### Algebra and diagnostics
-6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** — What CΨ shows and what it doesn't
-7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** — Mandelbrot correspondence, 1/4 boundary
-8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** — Two channels, two directions
+6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** – What CΨ shows and what it doesn't
+7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** – Mandelbrot correspondence, 1/4 boundary
+8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** – Two channels, two directions
 
 ### Interpretation (speculative, optional)
-9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** — All findings, open questions, current state
-10. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)** — What we got wrong and what we don't know
+9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** – All findings, open questions, current state
+10. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)** – What we got wrong and what we don't know
 
 ---
 
@@ -256,4 +256,4 @@ Then proven analytically.
 **Thomas Wicht**, Krefeld, Germany
 **Claude**, AI System, Anthropic
 
-December 2025 — March 2026
+December 2025 – March 2026
