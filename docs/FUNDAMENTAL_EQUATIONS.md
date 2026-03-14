@@ -119,6 +119,11 @@ Where:
 
 ## V. The Complete Theory in Three Equations
 
+> **Tier markers (added March 14, 2026):**
+> - (1) R = C * Psi^2: **Tier 1** (algebraically proven, computationally verified)
+> - (2) dR/dt = N * I * D: **Tier 5** (speculative, never verified computationally or analytically)
+> - (3) D_max = N * A / kappa: **Tier 5** (speculative, constants undefined)
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │

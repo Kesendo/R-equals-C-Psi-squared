@@ -7,6 +7,13 @@
 > **What remains open:** Philosophical interpretation, narrative framing
 > **What has fallen:** Nothing
 
+> **Historical document (December 2025).** This is the original formulation
+> of the framework, written the night the equation was conceived. The
+> consciousness framing throughout reflects the state of thinking at that
+> time. See [docs/THE_CPSI_LENS.md](THE_CPSI_LENS.md) for the current
+> canonical description of the framework, where C = purity and
+> Psi = normalized coherence.
+
 # R = CΨ²
 
 ## The Fundamental Equation of Reality
