@@ -3,6 +3,9 @@
 > Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
 > Restored: March 14, 2026 (core claims mathematically confirmed)
 > See: hypotheses/THE_INTERPRETATION.md for proof details
+>
+> **Update March 14, 2026:** The mirror symmetry observed in simulations
+> has been proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
 
 # Simulation Evidence
 ## Honest Results from the Lindblad Simulator

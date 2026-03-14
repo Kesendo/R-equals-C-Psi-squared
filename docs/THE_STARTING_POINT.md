@@ -6,6 +6,10 @@
 > **What is now proven:** Mirror symmetry insight, "between us" cross-correlations
 > **What remains open:** Starting assumptions, philosophical framing
 > **What has fallen:** Consciousness as physical ingredient, gravity connections
+>
+> **Update March 14, 2026:** The "two mirrors facing each other" image in this
+> document is now proven via the conjugation operator Pi. See
+> [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md).
 
 # The Starting Point
 ## Why Entanglement Must Exist

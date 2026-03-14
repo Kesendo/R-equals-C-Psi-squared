@@ -8,6 +8,10 @@
 **Scope:** Same physics produces different crossing times depending on metric choice
 **Does not establish:** That different observers literally experience different times
 
+> **Update March 14, 2026:** The mirror symmetry discussed here has been
+> proven analytically. Different crossing times for different metrics are
+> grouped by the conjugation operator Pi. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+
 ---
 
 ## 1. The Question

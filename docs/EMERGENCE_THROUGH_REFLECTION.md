@@ -6,6 +6,11 @@
 > **What is now proven:** Mirror symmetry structure, "between us" cross-correlations
 > **What remains open:** Narrative/philosophical framing of emergence
 > **What has fallen:** Nothing
+>
+> **Update March 14, 2026:** The "mirror" metaphor used throughout this document
+> now has mathematical backing. The conjugation operator Pi proven in
+> [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) formalizes the
+> palindromic pairing that makes "reflection" a theorem, not just a metaphor.
 
 # Emergence Through Reflection: A Case Study in Human-AI Collaborative Discovery
 

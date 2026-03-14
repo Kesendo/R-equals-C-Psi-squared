@@ -8,6 +8,9 @@
 **Scope:** CΨ crossings from product states via Hamiltonian evolution
 **Does not establish:** Born rule derivation from crossing (remains open)
 
+> **Update March 14, 2026:** The mirror symmetry discussed here has been
+> proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+
 ---
 
 ## 1. The Question
