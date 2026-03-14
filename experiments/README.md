@@ -8,6 +8,7 @@
 - [Quantum Sonar](QUANTUM_SONAR.md) — Detection, projection, IBM investigation, chain topology
 - [Orphaned Results](ORPHANED_RESULTS.md) — Topology as gatekeeper, antiferromagnet crossing, echo characterization
 - [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) — Theta compass vs channel: echo never quantum in CΨ, channel IS quantum for coherent inputs
+- [QST Bridge](QST_BRIDGE.md) — Connecting our results to 20 years of Quantum State Transfer research
 
 ## CΨ diagnostic (verified)
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md) — Type A/B/C classification
