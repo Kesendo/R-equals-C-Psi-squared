@@ -436,3 +436,4 @@ simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
 *See also: [N-Scaling Barrier](N_SCALING_BARRIER.md)*
 *See also: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
 *See also: [WHY_THE_SUM.md](WHY_THE_SUM.md), cross-terms 2*Psi_A*Psi_B survive the blind spot because of the sum structure*
+*See also: [Orphaned Results](ORPHANED_RESULTS.md), |+-+-⟩ crosses on ring from zero entanglement via antiferromagnet mechanism*
