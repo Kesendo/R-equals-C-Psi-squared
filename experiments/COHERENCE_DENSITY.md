@@ -35,9 +35,9 @@ CΨ(0) for pure states (C = 1, so CΨ = Ψ = L₁/(d-1)):
 
 | State | N qubits | Entanglement | CΨ(0) | Regime |
 |-------|----------|-------------|-------|--------|
-| |+⟩ | 1 | none | 1.000 | quantum |
-| |++⟩ | 2 | none | 1.000 | quantum |
-| |+++⟩ | 3 | none | 1.000 | quantum |
+| \|+⟩ | 1 | none | 1.000 | quantum |
+| \|++⟩ | 2 | none | 1.000 | quantum |
+| \|+++⟩ | 3 | none | 1.000 | quantum |
 | Bell+ | 2 | maximal | 0.333 | quantum |
 | W₃ | 3 | genuine tripartite | 0.286 | quantum |
 | GHZ₃ | 3 | maximal | 0.143 | attractor exists |
@@ -61,9 +61,9 @@ Under local dephasing (γ = 0.05 per qubit):
 
 | State | CΨ(0) | t_cross | K |
 |-------|-------|---------|---|
-| |+⟩ | 1.000 | 8.58 | 0.429 |
-| |++⟩ | 1.000 | 4.94 | 0.247 |
-| |+++⟩ | 1.000 | 3.35 | 0.167 |
+| \|+⟩ | 1.000 | 8.58 | 0.429 |
+| \|++⟩ | 1.000 | 4.94 | 0.247 |
+| \|+++⟩ | 1.000 | 3.35 | 0.167 |
 | Bell+ | 0.333 | 0.75 | 0.037 |
 | W₃ | 0.286 | 0.29 | 0.014 |
 | GHZ₃ | 0.143 | — | no crossing (attractor from start) |
@@ -77,10 +77,10 @@ Why? Count the off-diagonal elements:
 | State | d | Off-diag elements | Fraction of d²-d |
 |-------|---|------------------|-----------------|
 | Bell+ | 4 | 2 | 2/12 = 17% |
-| |++⟩ | 4 | 12 | 12/12 = 100% |
+| \|++⟩ | 4 | 12 | 12/12 = 100% |
 | GHZ₃ | 8 | 2 | 2/56 = 4% |
 | W₃ | 8 | 6 | 6/56 = 11% |
-| |+++⟩ | 8 | 56 | 56/56 = 100% |
+| \|+++⟩ | 8 | 56 | 56/56 = 100% |
 
 Bell+ concentrates all its quantum coherence in two matrix
 elements. When those two elements decay, the system crosses

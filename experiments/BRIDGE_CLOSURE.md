@@ -51,10 +51,10 @@ MORE information than A's qubit, because the qubit loses B's part:
 | Preparation | ρ_A | A can distinguish? |
 |-------------|-----|-------------------|
 | Bell+ | I/2 | From other Bell states: NO |
-| |++⟩ | |+⟩⟨+| | From |+0⟩ or |+−⟩: NO |
-| |+0⟩ | |+⟩⟨+| | From |++⟩ or |+−⟩: NO |
-| |+−⟩ | |+⟩⟨+| | From |++⟩ or |+0⟩: NO |
-| |00⟩ | |0⟩⟨0| | From Bell+: YES |
+| \|++⟩ | \|+⟩⟨+\| | From \|+0⟩ or \|+−⟩: NO |
+| \|+0⟩ | \|+⟩⟨+\| | From \|++⟩ or \|+−⟩: NO |
+| \|+−⟩ | \|+⟩⟨+\| | From \|++⟩ or \|+0⟩: NO |
+| \|00⟩ | \|0⟩⟨0\| | From Bell+: YES |
 
 A's qubit carries at most 1 bit (which rho_A was prepared).
 The schedule carries log₂(N_states) bits per pair.

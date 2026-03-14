@@ -36,11 +36,11 @@ all times.
 
 | State | Var(H) = ⟨H^2⟩ - ⟨H⟩^2 | Eigenstate? |
 |-------|------------------------|-------------|
-| |+⟩^4 | 0.000 | YES |
-| |0⟩^4 | 0.000 | YES |
-| |0101⟩ (Neel) | 16.000 | no |
-| |0+0+⟩ | 20.000 | no |
-| |0001⟩ | 8.000 | no |
+| \|+⟩^4 | 0.000 | YES |
+| \|0⟩^4 | 0.000 | YES |
+| \|0101⟩ (Neel) | 16.000 | no |
+| \|0+0+⟩ | 20.000 | no |
+| \|0001⟩ | 8.000 | no |
 
 Both |+⟩^N and |0⟩^N are eigenstates of the isotropic Heisenberg
 Hamiltonian (zero energy variance). This is a consequence of SU(2)
@@ -148,10 +148,10 @@ Pair (0,2) at t = 0.285, reduced density matrix diagonal:
 
 | Basis state | Probability | Initial |
 |-------------|-------------|---------|
-| |00⟩ | 0.061 | 1.000 |
-| |01⟩ | 0.257 | 0.000 |
-| |10⟩ | 0.257 | 0.000 |
-| |11⟩ | 0.425 | 0.000 |
+| \|00⟩ | 0.061 | 1.000 |
+| \|01⟩ | 0.257 | 0.000 |
+| \|10⟩ | 0.257 | 0.000 |
+| \|11⟩ | 0.425 | 0.000 |
 
 The |01⟩ = |10⟩ symmetry is exact (to numerical precision) and follows
 from the equivalence of qubits 0 and 2 in the ring topology with the
