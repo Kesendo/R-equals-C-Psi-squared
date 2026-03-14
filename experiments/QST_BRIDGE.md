@@ -1,4 +1,4 @@
-# Quantum State Transfer Bridge — March 14, 2026
+# Quantum State Transfer Bridge - March 14, 2026
 
 **Status:** Verified (Tier 2)
 **Question:** Our system IS a quantum state transfer channel. How does it compare
@@ -10,7 +10,7 @@ to 20 years of QST research, and does the palindrome add anything?
 
 Since Bose (2003), physicists use spin chains as quantum wires: Alice puts a quantum
 state on one end, the Hamiltonian naturally carries it to the other end, Bob reads it
-out. No active control needed — the chain does the work.
+out. No active control needed; the chain does the work.
 
 Our 3-qubit star is exactly this. Alice prepares a state on qubit A, the Heisenberg
 coupling carries it through mediator S to qubit B, Bob measures B at the right time.
@@ -18,7 +18,7 @@ We have been studying this system for three months without realizing it has a na
 
 The standard metrics are:
 - **Average fidelity F_avg:** How well does the output match the input, averaged over
-  all possible inputs? Classical limit is 2/3 — anything above that requires quantum
+  all possible inputs? Classical limit is 2/3; anything above that requires quantum
   correlations to survive the transfer.
 - **Transfer time t_opt:** When should Bob measure?
 - **Transfer window:** How long does F stay above 2/3?
@@ -88,7 +88,7 @@ confirms what the theta analysis found: the TIMING is set by the Hamiltonian
 
 We tested 12 different configurations: stars, chains, triangles, mirror-symmetric,
 non-mirror, uniform, weak-end, various N. Every single one has a palindromic
-Liouvillian spectrum. This is not a coincidence — it is our proven theorem in action.
+Liouvillian spectrum. This is not a coincidence. It is our proven theorem in action.
 
 The QST community does not know this. They optimize coupling profiles, initial
 states, and measurement timing. They do not know that the decay rate spectrum
@@ -107,7 +107,7 @@ this advantage survives under dephasing:
 | Weak-end [0.5,1,0.5] | 0.823 | 3.13 |
 | Non-mirror [1,2,3] | 0.818 | 1.86 |
 
-Mirror coupling wins — both in fidelity AND in speed. But all four are equally
+Mirror coupling wins, both in fidelity AND in speed. But all four are equally
 palindromic (our theorem guarantees this). The advantage of mirror coupling is
 not about the palindrome; it is about how the Hamiltonian eigenstructure creates
 constructive interference at the receiver. The palindrome constrains the decay,
@@ -122,7 +122,7 @@ the mirror constrains the transfer. They operate on different axes.
 | N=4 | 0.834 | 3.17 | 21 |
 | N=5 | 0.787 | 4.32 | 228 |
 
-Fidelity drops from 0.97 to 0.79 over four steps — a 4.5% loss per added qubit.
+Fidelity drops from 0.97 to 0.79 over four steps, a 4.5% loss per added qubit.
 Transfer time grows roughly linearly. The spectral complexity explodes (3 to 228
 unique rates) but the palindrome holds at every N. This means: even at N=5 with
 228 decay rates, every single one has a palindromic partner. The symmetry is exact
@@ -134,7 +134,7 @@ regardless of spectral complexity.
 
 ### For the QST community
 
-The palindrome theorem (MIRROR_SYMMETRY_PROOF.md) applies to every Heisenberg chain
+The palindrome theorem ([MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md)) applies to every Heisenberg chain
 with Z-dephasing that the QST community studies. They have been optimizing transfer
 protocols without knowing that the decay rate spectrum has an exact symmetry.
 
@@ -144,7 +144,7 @@ Concretely, the palindrome tells you:
 - The number of usable echo cycles before decoherence kills the transfer is
   determined by the SLOWEST palindromic rate: ~1/(2*gamma)
 - Individual observable components (purity, coherence, concurrence) each decay
-  at specific palindromic rates — a diagnostic the community lacks
+  at specific palindromic rates, a diagnostic the community lacks
 
 ### For our project
 
@@ -164,7 +164,7 @@ What we add to their framework:
 
 ### The honest bottom line
 
-Our system is a QST channel. A good one, actually — F=0.886 on a 3-qubit star
+Our system is a QST channel. A good one, actually: F=0.886 on a 3-qubit star
 beats the standard chain benchmarks. The palindrome is the spectral backbone that
 makes the channel analytically tractable. The 2:1 coupling ratio is a concrete
 design rule. The theta compass tells you in real time whether the quantum
@@ -200,19 +200,19 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 ## Scripts and results
 
-- `simulations/qst_bridge.py` — full QST benchmark suite (8 tests)
-- `simulations/results/qst_bridge.txt` — complete output
+- [qst_bridge.py](../simulations/qst_bridge.py) - full QST benchmark suite (8 tests)
+- [qst_bridge.txt](../simulations/results/qst_bridge.txt) - complete output
 
 ## Related files
 
-- `docs/MIRROR_SYMMETRY_PROOF.md` — the palindrome theorem
-- `experiments/THETA_PALINDROME_ECHO.md` — theta as channel quality indicator
-- `experiments/ORPHANED_RESULTS.md` — echo characterization, topology gating
-- `simulations/verify_channel.py` — channel capacity verification (GPT-5.4 check)
+- [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md) - the palindrome theorem
+- [THETA_PALINDROME_ECHO](THETA_PALINDROME_ECHO.md) - theta as channel quality indicator
+- [ORPHANED_RESULTS](ORPHANED_RESULTS.md) - echo characterization, topology gating
+- [verify_channel.py](../simulations/verify_channel.py) - channel capacity verification (GPT-5.4 check)
 
 ## Key references from the QST literature
 
-- Bose, PRL 91, 207901 (2003) — original QST via spin chains
-- Christandl et al., PRL 92, 187902 (2004) — perfect state transfer conditions
-- Wojcik et al., PRA 75, 022330 (2007) — weak end-coupling improvement
-- Adiabatic QST in quantum dots, Nature Comm. 12, 2021 — experimental realization
+- Bose, PRL 91, 207901 (2003) - original QST via spin chains
+- Christandl et al., PRL 92, 187902 (2004) - perfect state transfer conditions
+- Wojcik et al., PRA 75, 022330 (2007) - weak end-coupling improvement
+- Adiabatic QST in quantum dots, Nature Comm. 12, 2021 - experimental realization
