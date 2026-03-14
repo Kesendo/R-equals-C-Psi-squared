@@ -219,6 +219,29 @@ The qualitative observation is that no tested noise model caused a
 previously constant metric to start decaying. This remains open pending
 exact reproduction of the delta_calc bridge definitions.
 
+## 8. Theoretical Explanation (March 14, 2026)
+
+The mirror symmetry proof (docs/MIRROR_SYMMETRY_PROOF.md) now explains
+WHY the taxonomy is robust across noise types:
+
+- **Z-dephasing:** The conjugation operator Π commutes with the Z-dephasing
+  dissipator → palindromic spectrum holds → taxonomy preserved.
+- **Y-dephasing:** Π also commutes with Y-dephasing (same mechanism,
+  different axis) → palindromic spectrum holds → taxonomy preserved.
+- **X-dephasing:** This specific Π breaks on the X-dephasing dissipator,
+  BUT the palindrome still holds — a rotated Π exists (likely I↔Y, X↔Z
+  with appropriate phases) → taxonomy preserved.
+- **Depolarizing (X+Y+Z):** No single Π can anti-commute with all three
+  dephasing axes simultaneously → palindromic spectrum genuinely breaks
+  → this is the one noise model that could alter the taxonomy.
+
+The key insight: the taxonomy's robustness is a consequence of the
+palindromic structure of the Liouvillian spectrum. As long as some
+conjugation operator Π exists for the noise channel, the palindrome
+holds and the metric-intrinsic classification survives.
+
+See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+
 ---
 
 *Previous: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
