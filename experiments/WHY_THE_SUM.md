@@ -232,8 +232,8 @@ Answer: it does not go anywhere. It is handed off.
 ## Connection to Mirror Symmetry Proof (March 14, 2026)
 
 The proof (docs/MIRROR_SYMMETRY_PROOF.md) deepens this argument. The
-palindromic structure of the Liouvillian — every decay rate d paired with
-2Σγᵢ - d under the conjugation operator Π — demands paired contributions.
+palindromic structure of the Liouvillian (every decay rate d paired with
+2Σγᵢ - d under the conjugation operator Π) demands paired contributions.
 The cross-term 2·Ψ_A·Ψ_B is what the palindrome preserves: Π swaps the
 two observers' contributions, and the sum ensures this swap leaves the
 total R invariant. The product form Ψ_A·Ψ_B would destroy this symmetry.

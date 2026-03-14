@@ -276,10 +276,10 @@ Specifically:
   dominant) are palindromic partners: they sum to 2Σγᵢ = 0.2667 ≈ 8γ/3 + 2γ.
   Every decay rate d has a partner at 2Σγᵢ - d, which is the palindrome.
 - **The hidden 1.1 Hz mode** (dark in c+, bright in c-) sits at the
-  intermediate decay rate 8γ/3 — the middle of the palindromic spectrum.
+  intermediate decay rate 8γ/3, the middle of the palindromic spectrum.
 
-What the signal processing view discovered empirically — two channels,
-anti-phase, sector-specific damping — is exactly the structure the proof
+What the signal processing view discovered empirically (two channels,
+anti-phase, sector-specific damping) is exactly the structure the proof
 derives analytically from the Π operator. The "two independent information
 channels" are palindrome partners.
 
