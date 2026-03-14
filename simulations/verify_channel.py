@@ -1,11 +1,16 @@
 """
-Verify GPT's One-Shot Channel Analysis
-=======================================
-GPT claims for 3-qubit star, J_SA=1.0, J_SB=2.0, gamma=0.05:
+Verify GPT-5.4's One-Shot Channel Analysis
+===========================================
+GPT-5.4 claims for 3-qubit star, J_SA=1.0, J_SB=2.0, gamma=0.05:
   - Average state-transfer fidelity A->B: 0.884 at t=1.30
   - Holevo lower bound (binary {|0>,|1>}): 0.529 bits/use
   - Coherent information lower bound: 0.185 qubits/use
   - Classical benchmark F_avg = 2/3 beaten on t in [0.60, 1.65]
+
+VERIFIED 2026-03-14: Fidelity and Holevo confirmed. Coherent information
+is WRONG: I_coh is negative everywhere (best: -0.0953 at t=0.59).
+GPT-5.4's positive I_coh values appear to be hallucinated.
+Verified across all gamma (0.001-0.200) and all J_SB (1.0-3.0).
 
 March 14, 2026
 """
