@@ -229,7 +229,7 @@ WHY the taxonomy is robust across noise types:
 - **Y-dephasing:** Π also commutes with Y-dephasing (same mechanism,
   different axis) → palindromic spectrum holds → taxonomy preserved.
 - **X-dephasing:** This specific Π breaks on the X-dephasing dissipator,
-  BUT the palindrome still holds — a rotated Π exists (likely I↔Y, X↔Z
+  BUT the palindrome still holds: a rotated Π exists (likely I↔Y, X↔Z
   with appropriate phases) → taxonomy preserved.
 - **Depolarizing (X+Y+Z):** No single Π can anti-commute with all three
   dephasing axes simultaneously → palindromic spectrum genuinely breaks
