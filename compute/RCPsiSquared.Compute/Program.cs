@@ -4,16 +4,16 @@ using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Compute;
 
-// Try to use Intel MKL for maximum performance
+bool mklAvailable = false;
 try
 {
     Control.UseNativeMKL();
+    mklAvailable = true;
     Console.WriteLine("MKL Provider: ACTIVE (Intel native LAPACK)");
 }
-catch
+catch (Exception ex)
 {
-    Console.WriteLine("MKL Provider: not available, using managed fallback");
-    Console.WriteLine("  Install MathNet.Numerics.Providers.MKL for 5-10x speedup");
+    Console.WriteLine($"MKL Provider: not available ({ex.GetType().Name}), using managed fallback");
 }
 
 var outputPath = Path.Combine(
@@ -39,7 +39,7 @@ Log($"Machine: {Environment.ProcessorCount} cores, {GC.GetGCMemoryInfo().TotalAv
 Log("=" + new string('=', 79));
 
 // ============================================================
-// BENCHMARK: Compare N=3..7 timing vs Python
+// BENCHMARK N=2 to N=7
 // ============================================================
 Log("\n### BENCHMARK: Liouvillian eigendecomposition timing");
 Log($"{"N",4} | {"Matrix",8} | {"Build(ms)",10} | {"Eigen(ms)",10} | {"Total(ms)",10} | {"Rates",7} | {"Mirror",7}");
@@ -49,25 +49,58 @@ var rateCounts = new Dictionary<int, int>();
 
 for (int nQ = 2; nQ <= 7; nQ++)
 {
-    sw.Restart();
+    int d = 1 << nQ;
+    int d2 = d * d;
     var bonds = Topology.Star(nQ, Enumerable.Repeat(1.0, nQ - 1).ToArray());
     var gammas = Enumerable.Repeat(gamma, nQ).ToArray();
-    var L = Liouvillian.Build(nQ, bonds, gammas);
-    var buildMs = sw.ElapsedMilliseconds;
 
-    sw.Restart();
-    var rates = Liouvillian.GetOscillatoryRates(L);
-    var eigenMs = sw.ElapsedMilliseconds;
+    List<double> rates;
 
-    var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
-    rateCounts[nQ] = rates.Count;
+    if (nQ <= 6)
+    {
+        // Standard path: MathNet KroneckerProduct + MKL Evd
+        sw.Restart();
+        var L = Liouvillian.Build(nQ, bonds, gammas);
+        var buildMs = sw.ElapsedMilliseconds;
 
-    int d2 = (1 << nQ) * (1 << nQ);
-    Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+        sw.Restart();
+        rates = Liouvillian.GetOscillatoryRates(L);
+        var eigenMs = sw.ElapsedMilliseconds;
+
+        var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
+        rateCounts[nQ] = rates.Count;
+        Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+    }
+    else
+    {
+        // N>=7: Direct element-wise build (no Kronecker) + direct MKL eigen
+        Log($"  (N={nQ}: direct build + direct MKL eigen - no Kronecker, no 2GB limit)");
+
+        sw.Restart();
+        var rawData = Liouvillian.BuildDirectRaw(nQ, bonds, gammas, msg => Log($"    {msg}"));
+        var buildMs = sw.ElapsedMilliseconds;
+        Log($"  Build: {buildMs}ms ({buildMs / 1000.0:F1}s)");
+
+        if (mklAvailable)
+        {
+            Log($"  Eigen via direct MKL (all {Environment.ProcessorCount} cores)...");
+            sw.Restart();
+            rates = Liouvillian.GetOscillatoryRatesMklRaw(rawData, d2);
+            var eigenMs = sw.ElapsedMilliseconds;
+
+            var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
+            rateCounts[nQ] = rates.Count;
+            Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+        }
+        else
+        {
+            Log($"  MKL not available - skipping N={nQ} (managed too slow)");
+        }
+    }
 }
 
 // ============================================================
-// TEST: Complete topology survey at N=4,5,6
+// TOPOLOGY SURVEY at N=4,5,6
 // ============================================================
 Log("\n### TOPOLOGY SURVEY: Star, Chain, Ring, Complete, Tree");
 
@@ -105,15 +138,12 @@ foreach (int nQ in new[] { 4, 5, 6 })
                     $"{(rates.Max() - rates.Min()) / gamma,7:F3} | {mirror.Score,7:P0} | {ms,7}");
             }
         }
-        catch (Exception ex)
-        {
-            Log($"  {name,10} | FAILED: {ex.Message}");
-        }
+        catch (Exception ex) { Log($"  {name,10} | FAILED: {ex.Message}"); }
     }
 }
 
 // ============================================================
-// TEST: Non-uniform J + non-uniform gamma (hardest mirror test)
+// STRESS TEST: Non-uniform J AND gamma
 // ============================================================
 Log("\n### STRESS TEST: Non-uniform J AND gamma combined");
 
@@ -146,54 +176,6 @@ foreach (int nQ in new[] { 4, 5, 6 })
 }
 
 // ============================================================
-// N=8 ATTEMPT (65536x65536 dense - needs ~64GB for matrix + ~64GB for eigen)
-// ============================================================
-Log("\n### N=8 ATTEMPT (65536x65536 dense)");
-Log("This requires ~64GB RAM for the matrix alone.");
-Log("With MKL, eigendecomposition should be 5-10x faster than numpy.");
-
-try
-{
-    int nQ = 8;
-    int d = 1 << nQ; // 256
-    int d2 = d * d;  // 65536
-    Log($"  Matrix size: {d2}x{d2} = {(long)d2 * d2 * 16 / 1e9:F1} GB (complex doubles)");
-
-    sw.Restart();
-    Log("  Building Liouvillian...");
-    var bonds = Topology.Star(nQ, Enumerable.Repeat(1.0, nQ - 1).ToArray());
-    var gammas = Enumerable.Repeat(gamma, nQ).ToArray();
-    var L = Liouvillian.Build(nQ, bonds, gammas);
-    Log($"  Built in {sw.ElapsedMilliseconds}ms ({sw.Elapsed.TotalMinutes:F1} min)");
-
-    Log("  Starting eigendecomposition (this will take a while)...");
-    sw.Restart();
-    var rates = Liouvillian.GetOscillatoryRates(L);
-    Log($"  Eigendecomposition: {sw.ElapsedMilliseconds}ms ({sw.Elapsed.TotalMinutes:F1} min)");
-
-    if (rates.Count > 0)
-    {
-        var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
-        Log($"\n  === N=8 RESULTS ===");
-        Log($"  Oscillatory rates: {rates.Count}");
-        Log($"  Min: {rates.Min() / gamma:F4}g");
-        Log($"  Max: {rates.Max() / gamma:F4}g");
-        Log($"  Predicted max 2(N-1)g: {2 * (nQ - 1)}g");
-        Log($"  Mirror symmetry: {mirror.Score:P1}");
-        rateCounts[nQ] = rates.Count;
-    }
-}
-catch (OutOfMemoryException)
-{
-    Log("  OUT OF MEMORY. N=8 dense requires more RAM than available.");
-    Log("  Consider: sparse methods or block-Lanczos approach.");
-}
-catch (Exception ex)
-{
-    Log($"  FAILED: {ex.Message}");
-}
-
-// ============================================================
 // SUMMARY
 // ============================================================
 Log("\n" + new string('=', 80));
@@ -206,12 +188,10 @@ foreach (var kvp in rateCounts.OrderBy(x => x.Key))
 {
     int n = kvp.Key;
     int count = kvp.Value;
-    int d2 = (1 << n) * (1 << n);
-    Log($"{n,4} | {d2,8} | {count,8} | {"2.0",7} | {2 * (n - 1),7:F1} | {2 * (n - 2),7:F1} | {(double)count / Math.Pow(4, n),10:F6}");
+    int d2v = (1 << n) * (1 << n);
+    Log($"{n,4} | {d2v,8} | {count,8} | {"2.0",7} | {2 * (n - 1),7:F1} | {2 * (n - 2),7:F1} | {(double)count / Math.Pow(4, n),10:F6}");
 }
 
 Log($"\nCompleted: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 Log(new string('=', 80));
-
 Console.WriteLine($"\n>>> Results saved to: {outputPath}");
-Console.WriteLine(">>> C# compute engine finished.");
