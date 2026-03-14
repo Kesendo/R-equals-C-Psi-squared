@@ -59,7 +59,7 @@ def star_bonds(n_q, couplings):
     return [(0, i, couplings[i-1]) for i in range(1, n_q)]
 
 gamma = 0.05
-outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_band_structure.txt"
+outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\band_structure.txt"
 f = open(outfile, "w")
 
 def log(msg):

@@ -100,7 +100,7 @@ def check_mirror_symmetry(rates, center, tol=0.005):
         'center': center,
     }
 
-outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_mirror_symmetry.txt"
+outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\mirror_symmetry.txt"
 f = open(outfile, "w")
 
 def log(msg):

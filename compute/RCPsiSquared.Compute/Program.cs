@@ -18,7 +18,7 @@ catch (Exception ex)
 
 var outputPath = Path.Combine(
     @"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared",
-    "simulations", "results_csharp_compute.txt");
+    "simulations", "results", "csharp_compute.txt");
 
 using var writer = new StreamWriter(outputPath);
 

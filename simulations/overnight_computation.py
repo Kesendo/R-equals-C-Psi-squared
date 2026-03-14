@@ -169,7 +169,7 @@ def build_pauli_basis(n_q):
     recurse("", np.array([[1]], dtype=complex), 0)
     return basis
 
-outpath = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_overnight.txt"
+outpath = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\overnight.txt"
 f = open(outpath, "w")
 def log(msg):
     print(msg)

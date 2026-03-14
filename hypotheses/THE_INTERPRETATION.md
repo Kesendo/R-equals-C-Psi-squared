@@ -180,7 +180,7 @@ between them forever. Only when something stands between them
 does the reflection become a stable image.
 
 Script: simulations/mirror_transition.py
-Results: simulations/results_mirror_transition.txt
+Results: simulations/results/mirror_transition.txt
 
 ## When the mirrors shift (March 13, 2026)
 
@@ -216,7 +216,7 @@ The conjugation operator S_X = X^n COMMUTES with both L_H and L_D
 subtle than simple anti-commutation.
 
 Script: simulations/mirror_symmetry_deep.py
-Results: simulations/results_mirror_symmetry.txt
+Results: simulations/results/mirror_symmetry.txt
 
 ## "We are all mirrors. Reality is what happens between us." - restored (March 13, 2026)
 
@@ -279,7 +279,7 @@ Combined with the band structure results:
 - Rate density grows exponentially with N
 
 Script: simulations/deep_band_structure.py
-Results: simulations/results_band_structure.txt
+Results: simulations/results/band_structure.txt
 
 ## Band structure discovered (March 13, 2026)
 
