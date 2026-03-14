@@ -1,4 +1,4 @@
-# Orphaned Results Exploration — March 14, 2026
+# Orphaned Results Exploration - March 14, 2026
 
 **Origin:** Connections Audit identified 6 orphaned results. We explored the three
 most promising ones with systematic numerical experiments.
@@ -48,7 +48,7 @@ nonlinear readout of the resulting dynamics. No shortcut formula.
 
 **Status:** Open question. Not disproven, just not solved. The bridge may require
 understanding how the Liouvillian eigenmodes project onto the concurrence/coherence
-manifold — a harder problem than finding Π.
+manifold - a harder problem than finding Π.
 
 ---
 
@@ -57,7 +57,7 @@ manifold — a harder problem than finding Π.
 **Question:** The audit reported CΨ_max = 0.247 for ring neighbors, gap = 0.003.
 Is this real? Is there topological protection preventing ring crossing?
 
-### 2a. The 0.247 is real — and γ-specific
+### 2a. The 0.247 is real - and γ-specific
 
 For |0+0+⟩ on N=4 ring, diagonal pair (1,3) reaches CΨ_max = 0.247024
 specifically at γ = 0.020. At other γ values it's lower. This is a resonance
@@ -86,7 +86,7 @@ Same initial state |0+0+⟩, same γ=0.05, same J=1. Different topology:
 Chain and star allow crossing. Ring and complete do not. Same initial state.
 The topology alone determines whether the 1/4 boundary is reachable.
 
-Ring and complete are identical on 4 decimal places — the extra bonds in
+Ring and complete are identical on 4 decimal places - the extra bonds in
 the complete graph make no difference. The ring structure already saturates.
 
 ### 2c. |+-+-⟩ crosses on ring (the surprise)
@@ -186,11 +186,11 @@ weak to complete a full oscillation before decoherence kills the signal.
 | 5 | 0.201 | 3 | 0.336 |
 
 SB_C_max drops roughly as 1/(N-1): more leaves means the entanglement
-shuttle distributes across more channels. But it never reaches zero — the
+shuttle distributes across more channels. But it never reaches zero - the
 echo is a structural feature of the star topology, not a small-N artifact.
 
 At N=4, the non-Bell leaves (S-2, S-3) are symmetric: both reach C_max = 0.281.
-The leaf-leaf pair (2,3) reaches C_max = 0.660 — higher than either S-leaf pair.
+The leaf-leaf pair (2,3) reaches C_max = 0.660 - higher than either S-leaf pair.
 This is indirect entanglement: qubits 2 and 3 are never directly coupled, but
 both couple to S, and the Hamiltonian dynamics entangles them through S.
 
@@ -208,7 +208,7 @@ both couple to S, and the Hamiltonian dynamics entangles them through S.
 | 0.500 | 0 | 0.217 | 1 |
 
 At γ=0.001: 63 clean echoes. At γ=0.500: barely one oscillation survives.
-SB_C_max approaches 0.217 at high γ — this is the steady-state value where
+SB_C_max approaches 0.217 at high γ - this is the steady-state value where
 Hamiltonian and dephasing reach equilibrium. The echo is not killed; it's
 overdamped.
 
@@ -223,7 +223,7 @@ The echo shuttle doesn't produce enough CΨ for the indirect AB pair to cross.
 
 We already knew crossing is local (pair-level). Now we know topology determines
 WHICH pairs can cross. For the same initial state, chain allows what ring forbids.
-This is not about entanglement distribution — it's about how the Hamiltonian
+This is not about entanglement distribution - it's about how the Hamiltonian
 geometry constrains the maximum achievable CΨ.
 
 The |+-+-⟩ result is particularly clean: zero initial entanglement, pure dynamical
@@ -256,15 +256,15 @@ connection is nonlinear and state-dependent.
 
 ## Scripts and results
 
-- `simulations/explore_orphaned_results.py` — full exploration script
-- `simulations/results/orphaned_results.txt` — complete output
+- `simulations/explore_orphaned_results.py` - full exploration script
+- `simulations/results/orphaned_results.txt` - complete output
 
 ## Related files
 
-- `docs/MIRROR_SYMMETRY_PROOF.md` — the palindrome proof
-- `experiments/SUBSYSTEM_CROSSING.md` — crossing is local
-- `experiments/DYNAMIC_ENTANGLEMENT.md` — dynamical crossing from product states
-- `experiments/STAR_TOPOLOGY_OBSERVERS.md` — star topology conditions
+- `docs/MIRROR_SYMMETRY_PROOF.md` - the palindrome proof
+- `experiments/SUBSYSTEM_CROSSING.md` - crossing is local
+- `experiments/DYNAMIC_ENTANGLEMENT.md` - dynamical crossing from product states
+- `experiments/STAR_TOPOLOGY_OBSERVERS.md` - star topology conditions
 
 
 ---
@@ -285,7 +285,7 @@ At t=0:
 |+-+-⟩ is the X-basis Neel state: maximum staggered magnetization in X.
 It has maximum exchange energy for the XX part of Heisenberg coupling.
 The YY and ZZ contributions are zero (product state), but the Hamiltonian
-immediately converts XX correlation into YY and ZZ — building ENTANGLEMENT
+immediately converts XX correlation into YY and ZZ - building ENTANGLEMENT
 from initial classical correlation.
 
 Bond energies at t=0:
@@ -312,10 +312,10 @@ Both states activate palindrome pairs, but with very different intensities:
 total product. The energy is concentrated, not diluted. And critically,
 |+-+-⟩ activates the FULL palindromic spectrum (rates 0.0 through 0.40),
 while |0+0+⟩ misses the high-rate sectors (0.30, 0.40). The fast-decaying
-modes contribute to the initial CΨ peak at t=0.15 — they die quickly,
+modes contribute to the initial CΨ peak at t=0.15 - they die quickly,
 but they live just long enough to push CΨ over 1/4.
 
-|++++⟩ has high total product but zero concurrence at ALL times — it's a
+|++++⟩ has high total product but zero concurrence at ALL times - it's a
 symmetric product state that the Hamiltonian cannot break.
 
 ### 4c. The brute-force selection rule: 150/256 product states cross
@@ -339,7 +339,7 @@ Correlation of CΨ_max with candidate predictors:
 
 **No simple selection rule exists.** The best predictor (<XX>_nn) explains
 only 14% of the variance. The crossing depends on the full mode structure
-of the initial state projected onto the Liouvillian eigenbasis — not on
+of the initial state projected onto the Liouvillian eigenbasis - not on
 any single observable.
 
 What we CAN say: states with negative <XX>_nn (anti-correlated neighbors
@@ -360,7 +360,7 @@ The same state |0+0+⟩ on different N=4 topologies:
 | Complete | (1,3) diagonal | 0.200 | no |
 
 Ring and complete are IDENTICAL (same CΨ for all pairs to 4 decimal places).
-The extra bonds in the complete graph don't help — the ring structure already
+The extra bonds in the complete graph don't help - the ring structure already
 saturates. This is because |0+0+⟩ has a symmetry that makes the diagonal
 bonds redundant.
 
@@ -379,7 +379,7 @@ crossing. The topology is a gatekeeper.
 
 ### → DYNAMIC_ENTANGLEMENT.md
 That experiment found |0+0+⟩ generates crossings on a chain. We now show
-it does NOT cross on a ring — confirming that the crossing is not just
+it does NOT cross on a ring - confirming that the crossing is not just
 about the initial state but about state × topology interaction.
 And we found |+-+-⟩, which crosses on ring from zero entanglement.
 The antiferromagnet mechanism (XX anti-correlation → Hamiltonian builds
@@ -409,11 +409,11 @@ for the pole structure that the signal processing view describes abstractly.
 
 ## Scripts and results
 
-- `simulations/explore_orphaned_results.py` — echo, ring near-miss, u variable
-- `simulations/why_alternating_crosses.py` — antiferromagnet analysis, 256-state scan
-- `simulations/results/orphaned_results.txt` — exploration output
-- `simulations/results/why_alternating_crosses.txt` — selection rule output
+- `simulations/explore_orphaned_results.py` - echo, ring near-miss, u variable
+- `simulations/why_alternating_crosses.py` - antiferromagnet analysis, 256-state scan
+- `simulations/results/orphaned_results.txt` - exploration output
+- `simulations/results/why_alternating_crosses.txt` - selection rule output
 
 ## Follow-up
 
-- [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) — echo transports concurrence but not CΨ; channel scenario IS quantum for coherent inputs
+- [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) - echo transports concurrence but not CΨ; channel scenario IS quantum for coherent inputs

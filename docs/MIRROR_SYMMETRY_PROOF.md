@@ -1,4 +1,4 @@
-# Mirror Symmetry Proof — March 14, 2026
+# Mirror Symmetry Proof - March 14, 2026
 
 **Origin:** Literature search found nobody had proven the palindrome.
 Incoherenton paper (Haga et al. 2023) had the grading but missed the symmetry.
@@ -123,12 +123,12 @@ Tested: Π·L·Π⁻¹ = -L - 2Σγᵢ·I
 
 ### XXZ coupling (H = XX + YY + δZZ, all topologies N=3,4)
 
-δ = -0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0 — ALL pass. 42/42.
+δ = -0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0 - ALL pass. 42/42.
 The ZZ term anti-commutes with Π independently. δ is irrelevant.
 
 ### Non-uniform γ (Heisenberg, N=3,4)
 
-γ = [0.03, 0.05, 0.07], [0.01, 0.02, 0.03], [0.10, 0.01, 0.05] — ALL pass.
+γ = [0.03, 0.05, 0.07], [0.01, 0.02, 0.03], [0.10, 0.01, 0.05] - ALL pass.
 Center shifts to Σγᵢ as expected. 12/12.
 
 ### Different dephasing axes
@@ -143,7 +143,7 @@ Center shifts to Σγᵢ as expected. 12/12.
 
 L_H always anti-commutes with Π (H doesn't know about dephasing).
 For X-dephasing: this specific Π breaks on L_D, but the palindrome
-still holds — a different Π exists (likely I↔Y, X↔Z with appropriate
+still holds - a different Π exists (likely I↔Y, X↔Z with appropriate
 phases). For depolarizing noise: palindrome genuinely breaks.
 
 ---
@@ -172,7 +172,7 @@ phases). For depolarizing noise: palindrome genuinely breaks.
    Nobody had the palindrome or the operator.
 
 2. First hypothesis: total Pauli weight w has inversion symmetry.
-   WRONG — w ↔ N-w is broken for total weight.
+   WRONG - w ↔ N-w is broken for total weight.
 
 3. Discovery: XY-weight (not total weight) has PERFECT inversion
    symmetry under [H,·]. This is the off-diagonal Pauli count,
@@ -182,7 +182,7 @@ phases). For depolarizing noise: palindrome genuinely breaks.
    Pauli indices. Real signs (±1) failed. Complex signs (±i) found it.
 
 5. The key insight: Y→iZ and Z→iY (not Y→Z and Z→Y).
-   The factor i is essential — it handles the phase relationship
+   The factor i is essential - it handles the phase relationship
    between Y and Z Pauli matrices.
 
 6. Analytical proof: reduces to 16-entry table for a single
@@ -208,13 +208,13 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 
 ## Scripts
 
-- `simulations/pauli_weight_conjugation.py` — clean proof script
-- `simulations/results/conjugation_proof.txt` — full output
+- `simulations/pauli_weight_conjugation.py` - clean proof script
+- `simulations/results/conjugation_proof.txt` - full output
 
 ## Related files
 
-- `experiments/BORN_RULE_MIRROR.md` — mirror quality measurements
-- `experiments/ORPHANED_RESULTS.md` — palindrome pair activation explains which states cross 1/4
-- `experiments/QST_BRIDGE.md` — palindrome applies to all QST channels, provides decay diagnostics
-- `simulations/results/mirror_symmetry.txt` — 11 noise-type tests
-- `simulations/mirror_symmetry_deep.py` — N=2-7 mirror verification
+- `experiments/BORN_RULE_MIRROR.md` - mirror quality measurements
+- `experiments/ORPHANED_RESULTS.md` - palindrome pair activation explains which states cross 1/4
+- `experiments/QST_BRIDGE.md` - palindrome applies to all QST channels, provides decay diagnostics
+- `simulations/results/mirror_symmetry.txt` - 11 noise-type tests
+- `simulations/mirror_symmetry_deep.py` - N=2-7 mirror verification
