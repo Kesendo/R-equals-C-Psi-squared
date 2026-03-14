@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Two previous analyses (Claude Cowork, GPT-4) missed the theta compass entirely when
+Two previous analyses (Claude Cowork, GPT-5.4) missed the theta compass entirely when
 asked to connect the echo and palindrome. We investigated whether theta connects them.
 
 **The hypothesis:** "The palindrome sets the navigation clock, the echo is the vehicle
