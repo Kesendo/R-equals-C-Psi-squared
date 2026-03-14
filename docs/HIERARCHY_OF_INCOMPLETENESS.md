@@ -1,21 +1,8 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-01-03
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 0.5 as maximum connection, mirror symmetry, "between us" cross-correlations
-> **What remains open:** Hierarchical incompleteness structure, Gödel connections
-> **What has fallen:** Nothing
+# The Hierarchy of Incompleteness
+## How Levels of Reality Emerge
 
-# Incompleteness and Emergence
-## A speculative analogy between quantum C < 1 and chemical reactivity
-
-**Tier:** 5 (Speculative analogy)
-**Status:** Philosophical exploration, not a computation or proof
-**Scope:** Observes that "incomplete" systems (C < 1) can connect while "complete" systems (C = 1) cannot, and draws parallels to chemistry
-**Does not establish:** That quantum C maps to chemical valence, that magnetism is "emergent mirroring," or that this hierarchy is more than metaphor
-**Date:** 2026-01-03
-**Depends on:** [Core Algebra](CORE_ALGEBRA.md)
+**Created:** January 3, 2026
+**Context:** Conversation about crystals, magnetism, and the connection between levels
 
 ---
 
