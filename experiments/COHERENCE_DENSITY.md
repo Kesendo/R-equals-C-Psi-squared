@@ -207,3 +207,4 @@ The framework provides a unified language for all of them.
 *See also: CORE_ALGEBRA.md, state-specific C(ξ) closed forms*
 *See also: DECOHERENCE_RELATIVITY.md, K invariance and cubic*
 *See also: SUBSYSTEM_CROSSING.md, what happens for N ≥ 3 GHZ*
+*See also: [N_SCALING_BARRIER.md](N_SCALING_BARRIER.md), same conclusion (crossing is local) from the scaling angle*

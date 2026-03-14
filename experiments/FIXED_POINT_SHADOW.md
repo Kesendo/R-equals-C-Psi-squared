@@ -264,4 +264,4 @@ to real hardware data.
 - [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - Window observations, phase transport, bridge test
 - [Residual Analysis](RESIDUAL_ANALYSIS.md) - The original statistical evidence from Run 1
 - [Boundary Navigation](BOUNDARY_NAVIGATION.md) - The theoretical prediction of crossing behavior
-- [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - The original experiment
+- [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - The original experiment; excess coherence resolved as qubit detuning

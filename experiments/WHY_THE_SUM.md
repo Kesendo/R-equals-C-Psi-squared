@@ -294,3 +294,4 @@ We are all mirrors."*
 *See also: BORN_RULE_MIRROR.md, Born rule as perfect-mirror limit*
 *See also: BLACK_WHITE_HOLES_BIGBANG.md, τ = 0 and the horizon*
 *See also: SHADOW_RUN_PLAN.md, March 2026 experimental test*
+*See also: [DYNAMIC_ENTANGLEMENT.md](DYNAMIC_ENTANGLEMENT.md), the decoherence cycle depends on the sum preserving cross-terms through the blind spot*

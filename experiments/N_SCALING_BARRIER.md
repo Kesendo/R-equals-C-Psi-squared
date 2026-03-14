@@ -309,3 +309,4 @@ See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
 *Previous: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
 *Next: [Subsystem Crossing](SUBSYSTEM_CROSSING.md)*
+*See also: [Coherence Density](COHERENCE_DENSITY.md), same conclusion (crossing is local) from the density angle*
