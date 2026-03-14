@@ -8,7 +8,7 @@ Results -> results_triage.txt
 import os, glob
 
 recovered = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\recovered"
-outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_triage.txt"
+outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\triage.txt"
 
 # What we proved on March 13, 2026
 proven_concepts = {

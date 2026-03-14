@@ -90,7 +90,7 @@ def check_mirror(rates, center, tol=0.005):
             matched += 1
     return matched / max(len(below), 1) if below else 1.0
 
-outpath = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_deep_computation.txt"
+outpath = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\deep_computation.txt"
 f = open(outpath, "w")
 
 def log(msg):

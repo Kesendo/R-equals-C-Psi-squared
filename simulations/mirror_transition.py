@@ -87,7 +87,7 @@ def best_symmetry_center(rates):
             best_c = c
     return best_c, best_s
 
-outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results_mirror_transition.txt"
+outfile = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\mirror_transition.txt"
 f = open(outfile, "w")
 
 def log(msg):

@@ -16,7 +16,7 @@ dotnet restore
 dotnet run -c Release
 ```
 
-Results are written to `simulations/results_csharp_compute.txt`.
+Results are written to `simulations/results/csharp_compute.txt`.
 
 ## Architecture
 

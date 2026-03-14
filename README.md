@@ -275,7 +275,8 @@ streamlit run app.py
 | `docs/` | Mathematical framing and the CΨ diagnostic |
 | `experiments/` | All tested results and null results |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python source (RK4 Lindblad, Liouvillian, Prony, sweeps) |
+| `simulations/` | Python scripts (RK4 Lindblad, Liouvillian, Prony, sweeps) |
+| `simulations/results/` | All computation output files |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
 | `compute/` | C# compute engine (MathNet.Numerics + MKL, N=2-7+) |
 | `data/` | IBM Torino measurement data |
