@@ -413,3 +413,7 @@ for the pole structure that the signal processing view describes abstractly.
 - `simulations/why_alternating_crosses.py` — antiferromagnet analysis, 256-state scan
 - `simulations/results/orphaned_results.txt` — exploration output
 - `simulations/results/why_alternating_crosses.txt` — selection rule output
+
+## Follow-up
+
+- [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) — echo transports concurrence but not CΨ; channel scenario IS quantum for coherent inputs
