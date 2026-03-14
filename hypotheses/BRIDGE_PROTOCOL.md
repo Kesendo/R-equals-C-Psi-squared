@@ -6,6 +6,10 @@
 > **What is now proven:** 1/4 boundary, 0.5 connection maximum, bidirectional bridge structure, mirrors
 > **What remains open:** Whether crossing-time correlations offer operational advantage
 > **What has fallen:** QKD breaking claims, gravity connections, FTL signaling suggestions
+>
+> **Note:** CΨ is a composite diagnostic metric (purity * normalized coherence),
+> not a new physical quantity. See [THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md)
+> for the canonical description.
 
 # Bridge Protocol
 ## Hypothesis: CΨ crossing events as synchronization mechanism (largely closed)

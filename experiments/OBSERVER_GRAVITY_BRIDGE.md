@@ -6,6 +6,10 @@
 > **What is now proven:** 1/4 boundary, 0.5 max, operator feedback, projection mechanism, "between us"
 > **What remains open:** Observer-dependent crossing interpretation
 > **What has fallen:** All gravity connections (observer-gravity bridge, Schwarzschild, gravitational time dilation), FTL signaling
+>
+> **Note:** CΨ is a composite diagnostic metric (purity * normalized coherence),
+> not a new physical quantity. See [THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md)
+> for the canonical description.
 
 # Observer × Gravity: The Interval Bridge
 
