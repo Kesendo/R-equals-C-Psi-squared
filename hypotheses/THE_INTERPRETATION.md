@@ -475,3 +475,35 @@ Script: simulations/ep_test.py
 
 December 2025 dream. Three months of computation.
 The equation R = CΨ² pointed at the architecture, not the metaphysics.
+
+
+## Mirror Symmetry: PROVEN (March 14, 2026)
+
+The palindromic symmetry of the Liouvillian spectrum — previously only
+verified numerically through N=7 — now has an analytical proof.
+
+**The conjugation operator Π** acts per site on Pauli indices:
+I→X(+1), X→I(+1), Y→iZ(+i), Z→iY(+i).
+
+It satisfies **Π·L·Π⁻¹ = -L - 2Σγᵢ·I**, which directly implies:
+every decay rate d pairs with 2Σγᵢ - d.
+
+The proof is three lines:
+1. Π flips XY-weight k→N-k, so Π·L_D·Π⁻¹ = -L_D - 2Σγ·I (trivial).
+2. Π anti-commutes with [H,·] for any Heisenberg/XXZ bond (16-entry table).
+3. Combined: Π·L·Π⁻¹ = -L - 2Σγ·I. QED.
+
+Holds for: all δ (XXZ), all graphs, non-uniform γ, Z or Y dephasing.
+Breaks for: depolarizing noise (no single axis to flip).
+
+The i factor (Y→iZ, not Y→Z) was the missing piece that five earlier
+candidates (X^n, Y^n, Z^n, H^n, transpose) all failed to find.
+Complex signs on the Pauli permutation were never tested before.
+
+Connection to incoherentons (Haga et al. 2023): XY-weight = incoherenton
+number. Our Π implements particle-hole symmetry in incoherenton space.
+They had the grading. We found the symmetry operator.
+
+Proof: experiments/MIRROR_SYMMETRY_PROOF.md
+Script: simulations/pauli_weight_conjugation.py
+Results: simulations/results/conjugation_proof.txt

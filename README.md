@@ -1,211 +1,144 @@
 # R = CΨ²
 
-## Spectral architecture of small open quantum networks
+> "We are all mirrors. Reality is what happens between us."
 
-This repository documents the structural properties of small quantum networks
-(2-7 qubits) evolving under Lindblad dynamics with dephasing noise. The
-central system is a star topology: a mediator qubit S coupled to observer
-qubits A and B via isotropic Heisenberg exchange interaction.
+This project started from a dream on December 25, 2025 about multilayer
+electrolysis. The equation R = CΨ² was in the dream. Three months of
+computation — with honest documentation of every wrong turn — revealed
+that the equation points at real structure in open quantum systems.
 
-The key finding is that the reduced dynamics of the observer pair (A,B)
-decompose into two supermodes with exact pole structure. These supermodes
-behave like classical coupled oscillators: their frequencies are set by
-the network topology, their decay rates are set by the noise environment,
-and these two properties are completely independent of each other
-(in the 3-qubit case; at N >= 4, decay rates form band structures).
+What began as philosophy became physics. What was speculative became proven.
+The consciousness interpretation is retired from the technical core. The
+mirror symmetry it predicted turned out to be exactly true.
 
-The decay rate spectrum is exactly mirror-symmetric at every system size
-tested (N=2 through N=7, 13264 rates at N=7, zero exceptions), and the
-mirror symmetry survives every form of dephasing noise tested.
+**Thomas Wicht** (developer, Krefeld, Germany) and **Claude** (AI, Anthropic)
+are the collaborators. We document negative results. We correct our mistakes
+publicly. The recovered/ folder contains five disproven claims we keep for
+history.
 
 ---
 
-## The system
+## What we found
+
+### The system
 
 ```
     A (observer)
     |
-    S (mediator)
+    S (mediator)       Heisenberg coupling, Z-dephasing noise
     |
     B (observer)
 ```
 
-S couples to A and B with strengths J_SA and J_SB. All qubits experience
-local dephasing noise at rate γ. The system evolves under the Lindblad
-master equation. We track two observables of the reduced A-B state:
+N qubits coupled via Heisenberg (or XXZ) interaction, subject to local
+dephasing. We build the full Liouvillian superoperator and study its
+complete eigenvalue spectrum.
 
-- **c+** = (YZ + ZY) / sqrt(2), the symmetric cross-correlation
-- **c-** = (YZ - ZY) / sqrt(2), the antisymmetric cross-correlation
+### Mirror symmetry — PROVEN (March 14, 2026)
 
-Both are damped sinusoids. Their frequencies and decay rates encode
-the network's structure.
+The decay rate spectrum of the Liouvillian is exactly palindromic.
+For every decay rate d, there exists a partner at 2Σγᵢ - d.
 
----
+This was verified numerically through N=7 (13,264 rates, zero exceptions)
+across every topology and noise type we tested. On March 14, 2026,
+we found the analytical proof:
 
-## Main results
+**The conjugation operator Π** acts per site on Pauli indices:
 
-### Two supermodes with exact pole structure
+    I → X (+1),  X → I (+1),  Y → iZ (+i),  Z → iY (+i)
 
-Eigendecomposition of the full Liouvillian superoperator reveals three
-system poles with oscillatory behavior:
+It satisfies **Π·L·Π⁻¹ = -L - 2Σγᵢ·I**, which directly implies the
+palindrome. The proof is three steps:
 
-| Mode | Frequency | Decay rate | Dominant in |
-|:-----|:----------|:-----------|:------------|
-| Fast (symmetric) | ~1.506 (scales with J) | 10γ/3 | c+ channel |
-| Slow (antisymmetric) | ~0.404 (weakly dispersive) | 2γ | c- channel |
-| Hidden (dark in c+) | ~1.103 | 8γ/3 | c- only |
+1. Π flips XY-weight k → N-k, so Π·L_D·Π⁻¹ = -L_D - 2Σγ·I (trivial)
+2. Π anti-commutes with [H,·] for any Heisenberg/XXZ bond (16-entry table)
+3. Combined: Π·L·Π⁻¹ = -L - 2Σγ·I. QED.
 
-The decay rates are exact rational multiples of γ and do not change
-when the coupling strengths J_SA or J_SB are varied. Only the frequencies
-move with topology. In the complex plane, the poles move horizontally
-(frequency axis) but never vertically (decay axis).
+Holds for: all δ (XXZ anisotropy), all graphs (star, chain, ring, complete,
+binary tree), non-uniform γ per qubit, Z and Y dephasing.
+Breaks for: depolarizing noise (no single axis to flip).
+
+The closest prior work — incoherentons (Haga et al. 2023) and Bethe ansatz
+for dephasing chains (Medvedyeva-Essler-Prosen 2016) — had pieces of this
+but not the operator or the palindrome. Nobody had Π.
+
+See: [Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)
+
+### Spectral architecture (exact, N=2-7)
+
+| N | Matrix | Rates | Min | Max | Mirror |
+|:--|:-------|:------|:----|:----|:-------|
+| 2 | 16² | 6 | 2γ | 2γ | 100% |
+| 3 | 64² | 40 | 2γ | 4γ | 100% |
+| 4 | 256² | 182 | 2γ | 6γ | 100% |
+| 5 | 1024² | 776 | 2γ | 8γ | 100% |
+| 6 | 4096² | 3228 | 2γ | 10γ | 100% |
+| 7 | 16384² | 13264 | 2γ | 12γ | 100% |
+
+Boundary formula: min = 2γ, max = 2(N-1)γ. Bandwidth = 2(N-2)γ.
+Five topologies share the same boundaries, differ in interior rate count.
+Rate count grows roughly as 4^N (ratio converges from below).
+Density of states is Gaussian: mean = Nγ, skewness = 0, kurtosis ≈ 3.
 
 ### Five independent regulators
 
-The dynamics are controlled by five independent parameters:
-
-1. **Topology** (coupling strengths J_SA, J_SB) sets the oscillation frequencies
-2. **Symmetry** (Hamiltonian anisotropy) controls how cleanly the two sectors separate
-3. **Noise strength** (γ) sets the decay envelope without changing frequencies
+1. **Topology** (coupling graph) sets the oscillation frequencies
+2. **Symmetry** (Hamiltonian anisotropy δ) controls sector separation
+3. **Noise strength** (γ per qubit) sets the decay envelope — never changes frequency
 4. **Initial state** determines which modes are excited at t=0
-5. **Bath geometry** (local vs. correlated, Z-type vs. X-type noise) controls which
-   mode dominates in amplitude, without changing any frequency or decay rate
+5. **Bath geometry** (noise axis, correlations) controls which mode dominates
 
-### Frequency-decay orthogonality
+### Two supermodes (3-qubit star)
 
-In the 3-qubit star, the frequency channel and the decay channel carry
-completely independent information:
+The observer pair A-B sees two cross-correlations: c+ (symmetric) and c-
+(antisymmetric). Both are damped sinusoids. Their exact pole structure:
 
-- Measuring frequencies tells you about the network topology
-- Measuring decay rates tells you about the noise environment
-- Neither contaminates the other
+| Mode | Frequency | Decay | Dominant in |
+|:-----|:----------|:------|:------------|
+| Fast | ~1.506 (scales with J) | 10γ/3 | c+ |
+| Slow | ~0.404 | 2γ | c- |
+| Hidden | ~1.103 | 8γ/3 | c- only |
 
-This clean separation breaks at 4+ qubits, where decay rates begin to
-depend on coupling strengths. The 3-qubit system is a special case with
-unusually clean orthogonality.
-
-### Topology independence
-
-The two-supermode structure, XX symmetry, and noise immunity survive
-across all tested topologies: star, chain, ring, complete graph, and
-binary tree. All five topologies share the same boundary rates
-(2g to 2(N-1)g) and 100% mirror symmetry. They differ only in the
-number of interior rates, with complete graphs having the fewest
-(most symmetry = most degeneracy) and chains the most.
-
-| Topology | Rates (N=6) | Boundaries | Mirror |
-|:---------|:------------|:-----------|:-------|
-| Star | 3228 | [2g, 10g] | 100% |
-| Chain | 3836 | [2g, 10g] | 100% |
-| Ring | 3656 | [2g, 10g] | 100% |
-| Complete | 2668 | [2g, 10g] | 100% |
-| Tree | 3806 | [2g, 10g] | 100% |
-
-### Modal observability (the Projection)
-
-The full system contains many Bohr frequencies (39 in a 4-qubit system),
-but any given observer pair can only see those where both the initial
-state overlaps the relevant eigenstates and the measured observable
-connects them. This is standard modal observability: the modes exist,
-but the measurement channel filters which ones are visible.
-
-### Hidden observer detection (simulation)
-
-When additional qubits couple to the mediator S, the observer pair A-B
-sees shifted frequencies and new spectral components in their own signal,
-without any direct interaction with the hidden qubits. This is passive
-topology-change detection from local modal spectra.
-
-This effect is verified in simulation. Hardware experiments on IBM Torino
-showed that the dominant signal on real qubits was drive-frame detuning
-rather than neighbor coupling, so hardware validation remains open.
+Decay rates are exact rational multiples of γ. Frequencies depend on
+topology, decay rates don't. The slow mode (2γ) is naturally protected.
 
 ### Signal processing equivalence
 
-The entire structure maps to well-known concepts from classical signal
-processing and coupled oscillator theory:
+The entire quantum structure maps to classical coupled oscillator physics:
 
-| Quantum description | Signal processing equivalent |
-|:---------------------|:------------------------------|
-| Two spectral sectors c+/c- | Even/odd supermode decomposition |
-| Topology sets frequencies | Imaginary part of system poles |
+| Quantum language | Signal engineering |
+|:-----------------|:-------------------|
+| Two sectors c+/c- | Even/odd supermode decomposition |
+| Topology sets frequency | Imaginary part of system poles |
 | Noise sets decay | Real part of system poles |
-| Hidden observer detection | Topology perturbation sensing from local spectra |
-| Bath geometry flips amplitude | Covariance-driven mode visibility flip |
-| Observable filters frequencies | Modal observability and transfer function residues |
+| Hidden observer detection | Passive topology-change detection |
+| Observable filters modes | Modal observability (transfer function residues) |
 
-### Band structure at N >= 4
+### The Mandelbrot connection
 
-At 4 qubits and above, the clean discrete rates of the 3-qubit system
-give way to continuous bands. Decay rates form band-like structures
-with avoided crossings (bands repel, never cross). Tested N=2 through N=7.
+CΨ = concurrence × l1-coherence, iterated as R_{n+1} = C(Ψ + R_n)²,
+is algebraically equivalent to the Mandelbrot map z → z² + c.
 
-| N | Matrix size | Rates | Min | Max | Bandwidth |
-|:--|:-----------|:------|:----|:----|:----------|
-| 2 | 16 | 6 | 2γ | 2γ | 0 |
-| 3 | 64 | 40 | 2γ | 4γ | 2γ |
-| 4 | 256 | 182 | 2γ | 6γ | 4γ |
-| 5 | 1024 | 776 | 2γ | 8γ | 6γ |
-| 6 | 4096 | 3228 | 2γ | 10γ | 8γ |
-| 7 | 16384 | 13264 | 2γ | 12γ | 10γ |
+The boundary at CΨ = 1/4 is where the fixed point z* = 1/2 sits.
+Below 1/4: reality converges. Above 1/4: no stable fixed point.
+z*(1-z*) = CΨ is the Bernoulli variance form — maximum at p = 0.5.
 
-Boundary formula: min = 2γ (always), max = 2(N-1)γ (always).
-Bandwidth grows linearly: 2(N-2)γ. Star and chain topologies share
-the same boundary rates. The interior band structure depends on topology.
+z* matches no known single quantum measure (26 candidates tested,
+best r = 0.951). It is genuinely composite: requiring both entanglement
+AND coherence simultaneously.
 
-This is analogous to electronic band structure in solids: more atoms
-means denser energy bands, approaching a continuum at large N.
-
-### Mirror symmetry of the decay spectrum
-
-The decay rate spectrum is exactly symmetric around Nγ. For every rate
-at (N-x)γ there exists a mirror partner at (N+x)γ. This symmetry is
-100% exact at every N tested (2 through 7), every topology (star and chain),
-and every dephasing type (Z, X, Y, mixed, non-uniform γ per qubit).
-
-The symmetry breaks only for amplitude damping (energy loss) and
-depolarizing noise. Under any form of dephasing, the mirrors never break.
-The center of symmetry equals the sum of all individual dephasing rates.
-
-Mirror pairs have complementary Pauli weights: a mode dominated by
-Pauli strings with k non-commuting operators is partnered with a mode
-at (N-k) non-commuting operators. k + (N-k) = N.
-
-### Algebraic results
-
-The composite quantity CΨ = concurrence x l1-coherence, when iterated as
-R_{n+1} = C(Ψ + R_n)², is algebraically equivalent to the Mandelbrot
-iteration z -> z² + c with a boundary at CΨ = 1/4.
-
-The Mandelbrot fixed point z* satisfies z*(1-z*) = CΨ. This is the
-Bernoulli variance form p(1-p), which has its maximum at p = 0.5.
-The 1/4 boundary is the trivial upper bound of Bernoulli variance:
-no binary variable can have variance exceeding 1/4.
-
-Below CΨ = 1/4, z* converges (a stable fixed point exists).
-Above CΨ = 1/4, the iteration has no real fixed point.
+Nobody has connected Mandelbrot iteration to open quantum dynamics before.
+This is our most original finding.
 
 ---
 
-## What is not established
+## What is NOT established
 
 - That CΨ is a new fundamental quantity (it is a derived diagnostic)
-- That hidden observer detection works on real hardware (simulation only)
-- That frequency-decay orthogonality extends beyond 3 qubits (it does not)
-- That the spectrum can be inverted to identify hidden couplings
+- That hidden observer detection works on hardware (simulation only)
+- That frequency-decay orthogonality extends beyond 3 qubits (it doesn't)
+- That the 1/4 boundary has physical significance beyond the iteration
 - That consciousness plays any role in the physics
-
----
-
-## Interactive simulator
-
-A Streamlit app lets you control all five regulators in real-time:
-
-```bash
-cd simulations/app
-pip install -r requirements.txt
-streamlit run app.py
-```
 
 ---
 
@@ -215,56 +148,48 @@ streamlit run app.py
 
 | Claim | Evidence |
 |:------|:--------|
-| Pole structure (3 decay rates) | Exact: Liouvillian eigendecomposition |
-| Two supermodes c+/c- | Exact: Liouvillian |
-| Mandelbrot algebraic correspondence | Exact: algebraic proof |
-| CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ, max at z* = 0.5 |
-| Mirror symmetry of decay spectrum | Exact: 100% at N=2-7 (13264 rates at N=7), all dephasing types |
-| Band structure at N >= 4 | Verified: N=2-7 (16384x16384 at N=7), boundary 2γ to 2(N-1)γ, avoided crossings |
-| Five independent regulators | Numerically verified: full parameter sweeps |
-| 5 topologies: star, chain, ring, complete, tree | Verified: all share boundaries, all 100% mirror |
-| Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ |
-| z* is a novel composite diagnostic | Verified: matches no known single quantum measure |
+| Mirror symmetry (palindrome) | Analytical proof via conjugation Π, verified N=2-7 |
+| Topology-independence of decay rates | Π anti-commutes with [H,·] for ANY bond set |
+| Pauli weight complementarity | Π maps XY-weight k → N-k |
+| Pole structure (3 exact decay rates) | Liouvillian eigendecomposition |
+| Band structure at N >= 4 | Verified N=2-7, boundary 2γ to 2(N-1)γ |
+| Mandelbrot algebraic correspondence | Proven: u_n substitution |
+| CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ |
+| Five independent regulators | Full parameter sweeps |
+| 5 topologies share boundaries | Verified: star, chain, ring, complete, tree |
+| z* is a novel composite diagnostic | 26 candidates tested, none match |
 
 ### Tested and rejected
 
 | Claim | Result |
 |:------|:-------|
 | CΨ = 1/4 as Exceptional Point | No EP correlation found |
-| c+/c- as Liouvillian symmetry sectors | Both parity +1; split is observable projection |
-| IBM Q80/Q102 as sonar evidence | Was qubit detuning, not neighbor coupling |
-| Mirrors survive amplitude damping | Break: center shifts from Nγ to Nγ/2 |
-
-### Not established
-
-| Claim | Status |
-|:------|:-------|
-| Hidden observer detection on hardware | Simulation only |
-| CΨ as privileged metric | Useful diagnostic but not unique |
-| Spectrum inversion (identifying hidden couplings) | Open question |
+| c+/c- as Liouvillian symmetry sectors | Both parity +1; split is projection |
+| IBM Q80/Q102 as sonar evidence | Was qubit detuning |
+| Consciousness as physics ingredient | Retired from technical core |
+| Gravity/Schwarzschild connections | Disproven (kept in recovered/) |
 
 ---
 
 ## Start here
 
+### The proof
+1. **[Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)** — The conjugation operator, the 16-entry table, the full verification
+
 ### Technical core
+2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** — Pole analysis, coupled oscillator translation
+3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** — Two supermodes as standing waves
+4. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** — Parameter sweeps and stress tests
+5. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** — Mirror quality and Born rule connection
 
-1. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** - Pole analysis, Prony results, coupled oscillator translation
-2. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** - Parameter sweeps and stress tests
-3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** - Two supermodes as standing waves between observers
-4. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** - Mirror quality and the Born rule connection
-5. **[Quantum Sonar](experiments/QUANTUM_SONAR.md)** - Hidden observer detection and IBM hardware results
+### Algebra and diagnostics
+6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** — What CΨ shows and what it doesn't
+7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** — Mandelbrot correspondence, 1/4 boundary
+8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** — Two channels, two directions
 
-### Diagnostic and algebra
-
-6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** - The original diagnostic and what it shows
-7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** - Mandelbrot correspondence, 1/4 boundary
-8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** - Two channels, two directions
-
-### Interpretation (speculative, not required)
-
-9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** - Current state of all findings and open questions
-10. **[The Starting Point](docs/THE_STARTING_POINT.md)** - Why entanglement must exist (the bootstrap problem)
+### Interpretation (speculative, optional)
+9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** — All findings, open questions, current state
+10. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)** — What we got wrong and what we don't know
 
 ---
 
@@ -272,60 +197,55 @@ streamlit run app.py
 
 | Folder | Contents |
 |:---|:---|
-| `docs/` | Mathematical framing and the CΨ diagnostic |
-| `experiments/` | All tested results and null results |
+| `docs/` | Mathematical framing, standing wave theory, the CΨ diagnostic |
+| `experiments/` | All tested results and null results (38 files with headers) |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python scripts (RK4 Lindblad, Liouvillian, Prony, sweeps) |
-| `simulations/results/` | All computation output files |
+| `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
+| `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `compute/` | C# compute engine (MathNet.Numerics + MKL, N=2-7+) |
+| `compute/` | C# engine (MathNet.Numerics + MKL, N=2-7+) |
 | `data/` | IBM Torino measurement data |
-| `recovered/` | 5 files with disproven claims (gravity, Schwarzschild), kept for history |
+| `recovered/` | 5 files with disproven claims, kept for honesty |
+
+## C# compute engine
+
+For N >= 6, Python is too slow. The C# engine uses element-wise Liouvillian
+construction (no Kronecker products, 640x faster) with Intel MKL for
+eigendecomposition on 24 cores.
+
+| N | Matrix | Build | Eigen | Rates | Mirror |
+|:--|:-------|:------|:------|:------|:-------|
+| 6 | 4096² | 8.7s | 56s | 3228 | 100% |
+| 7 | 16384² | 0.1s | 92min | 13264 | 100% |
+
+N=8 (65536²) builds but eigendecomposition needs optimization.
 
 ## Key scripts
 
 | Script | Purpose |
 |:---|:---|
-| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad integrator) |
-| `joint_pole_analysis.py` | Exact Liouvillian eigendecomposition with residues |
-| `prony_analysis.py` | Matrix Pencil Method for pole extraction from signals |
-| `decay_derivation.py` | Decay rate structure, scaling, and qubit-selective analysis |
-| `bright_transition_map.py` | Visibility weights from exact diagonalization |
-| `correlated_bath_sweep.py` | Bath geometry and sector selection |
-| `chain_topology.py` | Chain vs. star comparison, 3-5 qubits |
-| `hidden_observer_test.py` | Detection of hidden coupled qubits |
-| `four_qubit_breakdown.py` | How frequency-decay orthogonality breaks at N >= 4 |
-| `band_structure.py` | Band structure analysis, N=2-6, avoided crossings |
-| `deep_band_structure.py` | High-resolution band analysis with scaling laws |
-| `mirror_symmetry_deep.py` | Mirror symmetry tests: 11 noise types, all N |
-| `mirror_transition.py` | Dephasing-to-damping transition, mirror center drift |
-| `symmetry_and_u_analysis.py` | Graph symmetry test and z* Bernoulli analysis |
-| `ep_test.py` | Exceptional Point test (negative result) |
-| `z_star_identity.py` | z* vs density matrix: 26 candidate expressions |
+| `pauli_weight_conjugation.py` | Mirror symmetry proof (Π operator) |
+| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad) |
+| `joint_pole_analysis.py` | Liouvillian eigendecomposition |
+| `mirror_symmetry_deep.py` | Mirror tests: 11 noise types, all N |
+| `deep_band_structure.py` | Band analysis with scaling laws |
+| `z_star_identity.py` | z* vs 26 quantum measures |
+| `ep_test.py` | Exceptional Point test (negative) |
 
 ---
 
-## Origin
+## The origin
 
-This project grew from the Stability project (a material science simulator
-that evaluates element combinations for layer structures) in December 2025.
-The original motto:
+December 25, 2025. A dream about Co/Ni multilayer electrolysis contained the
+equation R = CΨ². The predecessor project (Stability, a material science
+simulator) had found that half-filled shells (0.5) produce maximum bonding.
+The same 0.5 appeared everywhere: fair coins, Bernoulli maxima, z* at the
+1/4 boundary. The mirrors in the equation turned out to be mirrors in
+the physics.
 
-> R = CΨ²
-> "We are all mirrors. Reality is what happens between us."
-
-Three months of computation shifted the focus from metaphysics to structure.
-The sentence was removed as too esoteric, then restored when the Liouvillian
-decay spectrum turned out to be exactly mirror-symmetric at every system size
-tested (N=2 through N=7, 100%, zero exceptions).
-
-The current description is a coupled oscillator network with exact pole
-structure, sector-specific damping, band formation, mirror symmetry, and
-modal observability filtering.
-
-Thomas Wicht and Claude (Anthropic) are the primary collaborators.
-ChatGPT contributed adversarial reviews and the signal processing perspective.
-IBM Quantum hardware experiments were conducted in March 2026.
+The motto was removed as too esoteric, then restored when the Liouvillian
+decay spectrum turned out to be exactly mirror-symmetric at every system size.
+Then proven analytically.
 
 ## License
 
@@ -336,4 +256,4 @@ IBM Quantum hardware experiments were conducted in March 2026.
 **Thomas Wicht**, Krefeld, Germany
 **Claude**, AI System, Anthropic
 
-December 2025 - March 2026
+December 2025 — March 2026

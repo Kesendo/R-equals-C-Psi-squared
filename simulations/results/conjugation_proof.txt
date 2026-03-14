@@ -1,0 +1,75 @@
+# Conjugation Proof Results — March 14, 2026
+# Π per site: I→X(+1), X→I(+1), Y→iZ(+i), Z→iY(+i)
+# Claim: Π·L·Π⁻¹ = -L - 2Σγ·I
+
+## Core verification (N=3,4,5 × 5 topologies)
+
+  N         Topo     Π·L_H·Π⁻¹=-L_H     Π·L_D·Π⁻¹=-L_D-2Nγ     Π·L·Π⁻¹=-L-2Nγ   Palindrome
+------------------------------------------------------------------------------------------
+  3         star                  ✓                      ✓                  ✓        64/64
+  3        chain                  ✓                      ✓                  ✓        64/64
+  3         ring                  ✓                      ✓                  ✓        64/64
+  3     complete                  ✓                      ✓                  ✓        64/64
+  4         star                  ✓                      ✓                  ✓      256/256
+  4        chain                  ✓                      ✓                  ✓      256/256
+  4         ring                  ✓                      ✓                  ✓      256/256
+  4     complete                  ✓                      ✓                  ✓      256/256
+  4  binary_tree                  ✓                      ✓                  ✓      256/256
+  5         star                  ✓                      ✓                  ✓    1024/1024
+  5        chain                  ✓                      ✓                  ✓    1024/1024
+  5         ring                  ✓                      ✓                  ✓    1024/1024
+  5     complete                  ✓                      ✓                  ✓    1024/1024
+  5  binary_tree                  ✓                      ✓                  ✓    1024/1024
+
+14/14 passed.
+
+## XXZ coupling (H = XX + YY + δ·ZZ, Z-dephasing γ=0.05)
+
+δ = -0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0
+N=3 × star,chain,ring: 21/21 passed
+N=4 × star,chain,ring: 21/21 passed
+Total: 42/42 passed. δ is irrelevant to the proof.
+
+## Non-uniform γ (Heisenberg δ=1)
+
+  N     Topo             γ_values      err_L      shift     center   Palindrome
+  3     star  [0.03, 0.05, 0.07]          ✓     0.3000     0.1500        64/64
+  3     star  [0.01, 0.02, 0.03]          ✓     0.1200     0.0600        64/64
+  3     star  [0.10, 0.01, 0.05]          ✓     0.3200     0.1600        64/64
+  4    chain  [0.03, 0.05, 0.07, 0.04]    ✓     0.3800     0.1900      256/256
+  4    chain  [0.10, 0.01, 0.05, 0.02]    ✓     0.3600     0.1800      256/256
+
+12/12 passed. Center = Σγᵢ, shift = 2Σγᵢ.
+
+## Dephasing axis dependence
+
+  Axis       Π·L_H    Π·L_D    Palindrome   Notes
+  Z            ✓        ✓        ✓           Proof holds exactly
+  Y            ✓        ✓        ✓           Proof holds exactly (Y and Z symmetric in Π)
+  X            ✓        ✗        ✓           THIS Π breaks on L_D, but palindrome holds
+  mixed ZX     ✓        ✗        ✓           Same: Π breaks on L_D, palindrome survives
+  depolarizing ✓        ✗        ✗           Palindrome genuinely breaks
+
+Key insight: L_H always anti-commutes with Π regardless of dephasing.
+For X-dephasing, a different Π exists (rotate the per-site map accordingly).
+For depolarizing: no single-axis Π can work — palindrome breaks.
+
+## Analytical proof (2-qubit, all δ)
+
+Π·[H_δ, σ] = -[H_δ, Π(σ)] verified for all 16 two-qubit Pauli strings.
+δ = 0.0, 0.5, 1.0, 2.0: ALL pass. 4/16 trivial (commute with H), 12/16 nontrivial.
+
+The anti-commutation extends to any N and any graph because:
+1. Π acts site-by-site (tensor product)
+2. H is a sum of 2-site bonds
+3. Each bond satisfies the anti-commutation independently
+
+## Discovery path
+
+1. Literature search → incoherentons + Bethe ansatz, nobody had palindrome
+2. Tested total Pauli weight inversion → BROKEN
+3. Tested XY-weight inversion → PERFECT (key insight: count X,Y not all non-I)
+4. Searched Π as permutation+signs on Pauli indices
+5. Real signs (±1) failed, complex signs (±i) succeeded
+6. The i factor on Y→Z and Z→Y is essential
+7. Analytical proof: 16-entry table for single Heisenberg bond, then extend
