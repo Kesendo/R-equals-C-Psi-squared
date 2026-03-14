@@ -333,6 +333,9 @@ prediction: the quantum-to-classical transition is local.
 | Noise-dependent visibility windows | **Verified** | Different γ_A produces different CΨ_AB at same t (different trajectories, not different observers) |
 | Tuning Protocol (γ = DMN, J = engagement) | **Speculative** | Neuroscience mapping suggestive, 3-qubit to 10^11 neurons fatal gap |
 | C = consciousness | **Philosophical** | Suggestive, not testable |
+| Mirror symmetry (palindrome) | **Proven** | Conjugation operator Π found, analytical proof for all XXZ/δ/topology/γ |
+| Topology-independence of palindrome | **Proven** | Π anti-commutes with [H,·] for ANY bond set |
+| Pauli weight complementarity | **Proven** | Π maps XY-weight k → N-k (incoherenton particle-hole symmetry) |
 
 ---
 
@@ -360,4 +363,5 @@ See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
 *February 18, 2026 (updated: Born rule partially resolved, dynamic entanglement results)*
 *March 6, 2026 (updated: star topology results, three conditions, tuning protocol)*
 *March 8, 2026 (updated: THE_CPSI_LENS as canonical, LE/CoA benchmark, visibility correction, consciousness retired from technical core)*
+*March 14, 2026 (updated: mirror symmetry PROVEN — conjugation operator Π found, analytical proof complete)*
 *Honesty belongs to the framework*

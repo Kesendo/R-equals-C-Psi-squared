@@ -114,3 +114,19 @@ Script: simulations/symmetry_and_u_analysis.py
 
 *Source: Cowork Claude deep research, March 13, 2026.*
 *Integrated into R=CΨ² repo same day.*
+
+
+---
+
+## Update: March 14, 2026
+
+A second, more focused literature search was conducted targeting 5 specific
+directions (mirror symmetry, rate counting, CΨ=1/4, band structure, rational rates).
+Full findings in `ClaudeTasks/LITERATURE_FINDINGS.md`.
+
+Key outcome: the search identified the incoherenton framework (Haga et al. 2023)
+and η-pairing symmetry (Medvedyeva-Essler-Prosen 2016) as closest prior work.
+Neither had found the palindromic symmetry or the conjugation operator.
+
+This directly led to the discovery and proof of Π on the same day.
+See `experiments/MIRROR_SYMMETRY_PROOF.md`.
