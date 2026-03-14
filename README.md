@@ -62,7 +62,7 @@ The closest prior work – incoherentons (Haga et al. 2023) and Bethe ansatz
 for dephasing chains (Medvedyeva-Essler-Prosen 2016) – had pieces of this
 but not the operator or the palindrome. Nobody had Π.
 
-See: [Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)
+See: [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
 
 ### Spectral architecture (exact, N=2-7)
 
@@ -174,7 +174,7 @@ This is our most original finding.
 ## Start here
 
 ### The proof
-1. **[Mirror Symmetry Proof](experiments/MIRROR_SYMMETRY_PROOF.md)** – The conjugation operator, the 16-entry table, the full verification
+1. **[Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)** – The conjugation operator, the 16-entry table, the full verification
 
 ### Technical core
 2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** – Pole analysis, coupled oscillator translation

@@ -504,6 +504,6 @@ Connection to incoherentons (Haga et al. 2023): XY-weight = incoherenton
 number. Our Π implements particle-hole symmetry in incoherenton space.
 They had the grading. We found the symmetry operator.
 
-Proof: experiments/MIRROR_SYMMETRY_PROOF.md
+Proof: docs/MIRROR_SYMMETRY_PROOF.md
 Script: simulations/pauli_weight_conjugation.py
 Results: simulations/results/conjugation_proof.txt
