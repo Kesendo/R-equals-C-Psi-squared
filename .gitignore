@@ -11,3 +11,4 @@ compute/**/.vs/
 *.vsidx
 *.suo
 *.user
+simulations/results/csharp_compute_*.txt
