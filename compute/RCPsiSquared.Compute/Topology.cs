@@ -69,7 +69,7 @@ public static class Topology
     public static Matrix<Complex> BuildHamiltonian(int nQubits, Bond[] bonds)
     {
         int d = 1 << nQubits;
-        var H = DenseMatrix.Create(d, d, Complex.Zero);
+        Matrix<Complex> H = DenseMatrix.Create(d, d, Complex.Zero);
         foreach (var bond in bonds)
             foreach (var pType in bond.PauliTypes)
                 H += bond.J * PauliOps.At(PauliMap[pType], bond.QubitA, nQubits)
