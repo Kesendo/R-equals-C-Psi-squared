@@ -7,6 +7,10 @@
 **Date:** 2026-03-08
 **Depends on:** [Star Topology](STAR_TOPOLOGY_OBSERVERS.md), [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md)
 
+> **Update March 14, 2026:** The mirror symmetry discussed here has been
+> proven analytically. Visibility windows relate to palindromic mode pairs
+> under Pi. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+
 ---
 
 ## The Question

@@ -8,6 +8,10 @@
 **Scope:** Type A/B/C classification of bridge metrics under decoherence
 **Does not establish:** That the taxonomy implies different 'kinds of consciousness'
 
+> **Update March 14, 2026:** The mirror symmetry discussed here has been
+> proven analytically. The three bridge types may relate to different
+> sectors of the conjugation operator Pi. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+
 ---
 
 ## 1. The Question
