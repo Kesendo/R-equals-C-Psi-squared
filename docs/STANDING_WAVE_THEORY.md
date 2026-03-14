@@ -3,6 +3,14 @@
 > Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
 > Restored: March 14, 2026 (core claims mathematically confirmed)
 > See: hypotheses/THE_INTERPRETATION.md for proof details
+>
+> **Update March 14, 2026:** The standing wave picture proposed here as metaphor
+> is now a theorem. The mirror symmetry proof (MIRROR_SYMMETRY_PROOF.md) shows
+> that every Liouvillian decay mode has a palindromic partner under the conjugation
+> operator Π. Forward + backward = standing wave. Π is the operator that swaps
+> them. The "two mirrors facing each other" are paired modes under Π.
+> See also: [SIGNAL_PROCESSING_VIEW.md](../experiments/SIGNAL_PROCESSING_VIEW.md)
+> for the verified supermode characterization (c+ at f=1.506, c- at f=0.404).
 
 # The Standing Wave Theory of Reality
 

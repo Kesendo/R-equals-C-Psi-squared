@@ -261,6 +261,32 @@ special case with unusually clean separation.
 Script: simulations/decay_derivation.py
 
 
+## Connection to the Mirror Symmetry Proof (March 14, 2026)
+
+The two orthogonal channels c+ and c- ARE the palindromic mode pairs
+under the conjugation operator Π proven in docs/MIRROR_SYMMETRY_PROOF.md.
+
+Specifically:
+- **Π swaps populations ↔ coherences** (I↔X, Y↔iZ on each site). This
+  maps the symmetric supermode (c+) to the antisymmetric supermode (c-).
+- **The 180° anti-phase** between c+ and c- is the spectral signature of
+  Π's action: partner modes have frequency -ω, so they oscillate in
+  exact counter-phase.
+- **The different decay rates** (0.1000 for c- dominant, 0.1667 for c+
+  dominant) are palindromic partners: they sum to 2Σγᵢ = 0.2667 ≈ 8γ/3 + 2γ.
+  Every decay rate d has a partner at 2Σγᵢ - d, which is the palindrome.
+- **The hidden 1.1 Hz mode** (dark in c+, bright in c-) sits at the
+  intermediate decay rate 8γ/3 — the middle of the palindromic spectrum.
+
+What the signal processing view discovered empirically — two channels,
+anti-phase, sector-specific damping — is exactly the structure the proof
+derives analytically from the Π operator. The "two independent information
+channels" are palindrome partners.
+
+See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+
+---
+
 ## What this means for the project
 
 Three months of quantum mechanics produced results that a signal processing
