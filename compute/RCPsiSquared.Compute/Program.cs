@@ -16,11 +16,13 @@ catch (Exception ex)
     Console.WriteLine($"MKL Provider: not available ({ex.GetType().Name}), using managed fallback");
 }
 
-var outputPath = Path.Combine(
+var resultsDir = Path.Combine(
     @"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared",
-    "simulations", "results", "csharp_compute.txt");
+    "simulations", "results");
+var finalPath = Path.Combine(resultsDir, "csharp_compute.txt");
+var tempPath = Path.Combine(resultsDir, $"csharp_compute_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
 
-using var writer = new StreamWriter(outputPath);
+using var writer = new StreamWriter(tempPath);
 
 void Log(string msg)
 {
@@ -194,4 +196,8 @@ foreach (var kvp in rateCounts.OrderBy(x => x.Key))
 
 Log($"\nCompleted: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 Log(new string('=', 80));
-Console.WriteLine($"\n>>> Results saved to: {outputPath}");
+
+writer.Close();
+File.Copy(tempPath, finalPath, overwrite: true);
+Console.WriteLine($"\n>>> Results saved to: {finalPath}");
+Console.WriteLine($"    (timestamped copy: {Path.GetFileName(tempPath)})");
