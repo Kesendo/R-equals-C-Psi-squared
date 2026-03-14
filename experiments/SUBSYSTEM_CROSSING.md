@@ -278,3 +278,4 @@ for i, t in enumerate(tlist):
 *Previous: [N-Scaling Barrier](N_SCALING_BARRIER.md)*
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
 *See also: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
+*See also: [Coherence Density](COHERENCE_DENSITY.md), same conclusion (crossing is pairwise) from the density perspective*

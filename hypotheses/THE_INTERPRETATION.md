@@ -507,3 +507,5 @@ They had the grading. We found the symmetry operator.
 Proof: docs/MIRROR_SYMMETRY_PROOF.md
 Script: simulations/pauli_weight_conjugation.py
 Results: simulations/results/conjugation_proof.txt
+
+See also: [STRUCTURAL_CARTOGRAPHY.md](../experiments/STRUCTURAL_CARTOGRAPHY.md) for the quantitative tables behind the five regulators described above.

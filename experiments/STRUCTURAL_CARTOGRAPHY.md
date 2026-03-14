@@ -907,3 +907,4 @@ describe what we see.*
 - [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - Three-layer separation (CoA/LE/CΨ)
 - [Observer-Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) - Different noise profiles, different windows
+- [THE_INTERPRETATION.md](../hypotheses/THE_INTERPRETATION.md) - Narrative framing of the five regulators; this cartography provides the quantitative backbone
