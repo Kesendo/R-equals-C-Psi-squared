@@ -65,7 +65,7 @@ optimum for the star geometry.
 Without any noise, the star achieves F=0.937 (not perfect because the star
 geometry isn't designed for PST). Each unit of dephasing costs proportionally:
 
-| Dephasing rate | Fidelity | Loss from noiseless | Cost per unit gamma |
+| Dephasing rate | Fidelity | Loss from noiseless | Cost per unit γ |
 |---------------|----------|--------------------|--------------------|
 | 0.000 | 0.937 | 0.000 | -- |
 | 0.001 | 0.936 | 0.001 | 1.1 |
@@ -74,14 +74,14 @@ geometry isn't designed for PST). Each unit of dephasing costs proportionally:
 | 0.100 | 0.842 | 0.095 | 0.9 |
 | 0.200 | 0.772 | 0.164 | 0.8 |
 
-The fidelity loss scales almost linearly with gamma up to gamma=0.05.
+The fidelity loss scales almost linearly with γ up to γ=0.05.
 This linearity is a consequence of the palindromic spectrum: the dominant
-decay rate is 8*gamma/3, which is linear in gamma. At higher gamma, the
+decay rate is 8γ/3, which is linear in γ. At higher γ, the
 relationship becomes sublinear because the Hamiltonian can no longer complete
 a full transfer cycle before decoherence intervenes.
 
 The transfer time stays constant at t=1.32 regardless of noise level. This
-confirms what the theta analysis found: the TIMING is set by the Hamiltonian
+confirms what the θ analysis found: the TIMING is set by the Hamiltonian
 (Bohr frequencies), the QUALITY is set by the dephasing (palindromic rates).
 
 ### 4. Every Heisenberg chain with Z-dephasing is palindromic
@@ -139,10 +139,10 @@ with Z-dephasing that the QST community studies. They have been optimizing trans
 protocols without knowing that the decay rate spectrum has an exact symmetry.
 
 Concretely, the palindrome tells you:
-- The decay rates come in pairs summing to 2*N*gamma
-- The slowest rate (2*gamma for uniform dephasing) is paired with the fastest
+- The decay rates come in pairs summing to 2Nγ
+- The slowest rate (2γ for uniform dephasing) is paired with the fastest
 - The number of usable echo cycles before decoherence kills the transfer is
-  determined by the SLOWEST palindromic rate: ~1/(2*gamma)
+  determined by the SLOWEST palindromic rate: ~1/(2γ)
 - Individual observable components (purity, coherence, concurrence) each decay
   at specific palindromic rates, a diagnostic the community lacks
 
@@ -157,8 +157,8 @@ The QST framework gives us:
 
 What we add to their framework:
 - The palindromic spectral theorem (new, proven)
-- The component-wise decay diagnostics (C~2*gamma, Psi~10*gamma/3, Conc~8*gamma/3)
-- The theta compass as channel quality indicator (r=0.87 with fidelity)
+- The component-wise decay diagnostics (C~2γ, Ψ~10γ/3, Conc~8γ/3)
+- The θ compass as channel quality indicator (r=0.87 with fidelity)
 - The topology gating result (same state, different graph = different transfer)
 - The antiferromagnet crossing discovery (|+-+-⟩ activates ring neighbors)
 
@@ -167,7 +167,7 @@ What we add to their framework:
 Our system is a QST channel. A good one, actually: F=0.886 on a 3-qubit star
 beats the standard chain benchmarks. The palindrome is the spectral backbone that
 makes the channel analytically tractable. The 2:1 coupling ratio is a concrete
-design rule. The theta compass tells you in real time whether the quantum
+design rule. The θ compass tells you in real time whether the quantum
 information is still alive.
 
 None of this is "beyond standard quantum mechanics." It is standard quantum
@@ -180,7 +180,7 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 1. **Contact QST experimentalists.** The semiconductor quantum dot group
    (Nature Comm. 2021) has built spin chains with tunable couplings. Our star
-   with 2:1 ratio is directly implementable on their platform. The 8*gamma/3
+   with 2:1 ratio is directly implementable on their platform. The 8γ/3
    envelope prediction is testable.
 
 2. **Compute channel capacity properly.** The Holevo bound (0.534 bits) is a
@@ -209,7 +209,7 @@ That is the contribution: not new physics, but new understanding of existing phy
 ## Related files
 
 - [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md) - the palindrome theorem
-- [THETA_PALINDROME_ECHO](THETA_PALINDROME_ECHO.md) - theta as channel quality indicator
+- [THETA_PALINDROME_ECHO](THETA_PALINDROME_ECHO.md) - θ as channel quality indicator
 - [ORPHANED_RESULTS](ORPHANED_RESULTS.md) - echo characterization, topology gating
 - [verify_channel.py](../simulations/verify_channel.py) - channel capacity verification (GPT-5.4 check)
 
