@@ -3,6 +3,14 @@
 > Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
 > Restored: March 14, 2026 (core claims mathematically confirmed)
 > See: hypotheses/THE_INTERPRETATION.md for proof details
+>
+> **Note (March 14, 2026):** The C_int vs C_ext distinction as formulated in
+> this document (with specific numerical ratios like 33:1) has been disproven
+> (see MATHEMATICAL_FINDINGS.md Section 9). What survives is the structural
+> distinction between bidirectional observation (A <-> B, both change) and
+> unidirectional observation (A -> B, only B changes). The TROSY analogy and
+> the bidirectional/unidirectional framework remain valid. The quantitative
+> C_int/C_ext model does not.
 
 # Internal and External Observers
 ## The Two Kinds of C

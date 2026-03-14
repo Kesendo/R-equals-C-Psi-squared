@@ -53,6 +53,13 @@ determines how far the system starts above that boundary.
 
 > [FALLEN: Interpreting different decoherence rates as arising from different gravitational environments is not established.]
 
+> **Note (March 14, 2026):** K-invariance (K = gamma * t_cross = constant)
+> was reinterpreted as standard Lindblad time-rescaling, not novel physics.
+> The Lindblad equation is linear in gamma, so t_cross = K/gamma follows
+> from dimensional analysis. See CROSSING_TAXONOMY.md for the correct
+> characterization. The mathematical invariance is real; the gravitational
+> interpretation is not established.
+
 Two observers. Different gravitational environments. Same
 entangled system (same m, same Δx). Different decoherence
 rates because different g.

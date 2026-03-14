@@ -7,6 +7,14 @@
 > **What remains open:** Relationship between framework and consciousness studies
 > **What has fallen:** Consciousness as required physical ingredient, consciousness as explanation for the hard problem
 
+> **Historical document.** The consciousness interpretation has been retired
+> from the technical core of the project. The standing wave mathematics and
+> fixed-point structure discussed below remain valid, but the framing of C
+> as "consciousness" is no longer part of the evidence base.
+> See [THE_CPSI_LENS.md](THE_CPSI_LENS.md) for the canonical description of
+> the framework. See [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md)
+> for honest limitations.
+
 # Consciousness as a Frame Variable
 ## A speculative reframing of Chalmers' Hard Problem using the CΨ lens
 

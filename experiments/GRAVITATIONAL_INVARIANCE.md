@@ -132,6 +132,8 @@ This is why the framework needs no gravitational correction term. C is observer-
 
 ## 4. The Bridge Between Observers
 
+> [FALLEN: This entire section interprets the K = gamma * t_cross invariance as a gravitational bridge between observers. The invariance is standard Lindblad time-rescaling (see CROSSING_TAXONOMY.md), not a gravitational time dilation formula. The body text below retains its original language for historical completeness, but the gravitational interpretation is not established.]
+
 Two observers in different gravitational fields see different t_cross values. How do they compare notes?
 
 Observer A (Earth, γ_A = 0.05): "The Bell state crossed 1/4 at t = 0.773"
@@ -147,9 +149,11 @@ Therefore: t_B = t_A * (γ_A / γ_B) = 0.773 * (0.05 / 0.20) = 0.193
 
 > [FALLEN: Calling this the "gravitational time dilation formula" and gamma ratio a "redshift factor" is not established.]
 
-This is the gravitational time dilation formula, derived from the framework without invoking GR explicitly. The ratio γ_A / γ_B is the "redshift factor" between observers.
+This is the gravitational time dilation formula, derived from the framework without invoking GR explicitly. The ratio γ_A / γ_B is the "redshift factor" between observers. [FALLEN]
 
 ### 4.1 What This Enables
+
+> [FALLEN: The claims below follow from Lindblad scaling, not from gravitational physics. The time-rescaling t_cross = K/gamma is standard, not a frame translation between gravitational environments.]
 
 Any calculation performed in one gravitational environment can be translated to another:
 
