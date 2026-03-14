@@ -46,10 +46,10 @@ Three initial states tested:
 
 | State | Description | Full-system Psi(0) |
 |-------|-------------|-------------------|
-| **GHZ** | (|0000⟩ + |1111⟩)/√(2) | 0.067 |
-| **W** | (|1000⟩ + |0100⟩ + |0010⟩ + |0001⟩)/2 | 0.200 |
-| **Bell+xBell+** | |Bell+⟩_01 x |Bell+⟩_23 | 0.200 |
-| **|+⟩^4** | Product state, no entanglement | 1.000 |
+| **GHZ** | (\|0000⟩ + \|1111⟩)/√(2) | 0.067 |
+| **W** | (\|1000⟩ + \|0100⟩ + \|0010⟩ + \|0001⟩)/2 | 0.200 |
+| **Bell+xBell+** | \|Bell+⟩\_01 x \|Bell+⟩\_23 | 0.200 |
+| **\|+⟩^4** | Product state, no entanglement | 1.000 |
 
 ## 3. Results
 
@@ -116,7 +116,7 @@ The framework correctly identifies which degrees of freedom undergo the
 quantum-to-classical transition, even when the global metric says nothing
 happens.
 
-### 3.4 |+⟩^4: Maximum Coherence, Zero Crossing
+### 3.4 \|+⟩^4: Maximum Coherence, Zero Crossing
 
 | Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Crosses? |
 |------|-------|--------|-----------|----------|----------|
@@ -165,7 +165,7 @@ Different entanglement topologies produce different crossing patterns:
 | GHZ | Global only | None (no pair-level coherence) |
 | W | Distributed weak | None (too diluted) |
 | Bell+xBell+ | Two local pairs | Exactly the two entangled pairs |
-| |+⟩^4 | None | None (C = 0 everywhere) |
+| \|+⟩^4 | None | None (C = 0 everywhere) |
 
 The framework does not just say "crossing happens." It identifies WHERE
 in the entanglement structure crossing occurs, and WHERE it does not.
