@@ -87,9 +87,19 @@ unusually clean orthogonality.
 ### Topology independence
 
 The two-supermode structure, XX symmetry, and noise immunity survive
-when the star topology is replaced by a linear chain with up to three
-mediators between the observers. The architecture is not specific to the
-star geometry.
+across all tested topologies: star, chain, ring, complete graph, and
+binary tree. All five topologies share the same boundary rates
+(2g to 2(N-1)g) and 100% mirror symmetry. They differ only in the
+number of interior rates, with complete graphs having the fewest
+(most symmetry = most degeneracy) and chains the most.
+
+| Topology | Rates (N=6) | Boundaries | Mirror |
+|:---------|:------------|:-----------|:-------|
+| Star | 3228 | [2g, 10g] | 100% |
+| Chain | 3836 | [2g, 10g] | 100% |
+| Ring | 3656 | [2g, 10g] | 100% |
+| Complete | 2668 | [2g, 10g] | 100% |
+| Tree | 3806 | [2g, 10g] | 100% |
 
 ### Modal observability (the Projection)
 
@@ -212,7 +222,7 @@ streamlit run app.py
 | Mirror symmetry of decay spectrum | Exact: 100% at N=2-7 (13264 rates at N=7), all dephasing types |
 | Band structure at N >= 4 | Verified: N=2-7 (16384x16384 at N=7), boundary 2γ to 2(N-1)γ, avoided crossings |
 | Five independent regulators | Numerically verified: full parameter sweeps |
-| Chain topology survival | Numerically verified: up to 5 qubits |
+| 5 topologies: star, chain, ring, complete, tree | Verified: all share boundaries, all 100% mirror |
 | Mirrors survive all dephasing | Verified: Z, X, Y, mixed, non-uniform γ |
 | z* is a novel composite diagnostic | Verified: matches no known single quantum measure |
 
@@ -267,6 +277,7 @@ streamlit run app.py
 | `hypotheses/` | Speculative interpretations, clearly labeled |
 | `simulations/` | Python source (RK4 Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
+| `compute/` | C# compute engine (MathNet.Numerics + MKL, N=2-7+) |
 | `data/` | IBM Torino measurement data |
 | `recovered/` | 5 files with disproven claims (gravity, Schwarzschild), kept for history |
 
