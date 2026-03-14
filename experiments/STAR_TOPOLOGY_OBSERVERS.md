@@ -136,11 +136,11 @@ Per pair: l1-coherence, Ψ = l1/(d-1), concurrence, R = C·Ψ².
 
 | State | Description | Motivation |
 |-------|-------------|------------|
-| GHZ | (|000⟩+|111⟩)/√2 | Global entanglement, known to fail at pair level |
-| W | (|001⟩+|010⟩+|100⟩)/√3 | Distributed entanglement across all pairs |
-| Bell_SA ⊗ |+⟩_B | S,A entangled; B fresh observer | Asymmetric: one observer connected, one arriving |
-| |+⟩^3 | Product state, max local coherence | Baseline: no entanglement anywhere |
-| |0⟩_S ⊗ |+⟩_A ⊗ |+⟩_B | S classical, observers quantum | Hamiltonian builds entanglement dynamically |
+| GHZ | (\|000⟩+\|111⟩)/√2 | Global entanglement, known to fail at pair level |
+| W | (\|001⟩+\|010⟩+\|100⟩)/√3 | Distributed entanglement across all pairs |
+| Bell_SA ⊗ \|+⟩_B | S,A entangled; B fresh observer | Asymmetric: one observer connected, one arriving |
+| \|+⟩^3 | Product state, max local coherence | Baseline: no entanglement anywhere |
+| \|0⟩_S ⊗ \|+⟩_A ⊗ \|+⟩_B | S classical, observers quantum | Hamiltonian builds entanglement dynamically |
 
 ### 3.5 Measurement Experiment
 
@@ -330,9 +330,9 @@ All states, γ_A=0.001 (silent receiver), J_SB=2.0:
 |-------|---------|-----------|----------|
 | GHZ | 0.000 | 0.000 | NO |
 | W | 0.667 | 0.148 | NO |
-| Bell_SA⊗|+⟩_B | 1.000 | 0.357 | YES |
-| |0++⟩ | 0.000 | 0.194 | NO |
-| |+++⟩ | 0.000 | 0.000 | NO |
+| Bell_SA⊗\|+⟩_B | 1.000 | 0.357 | YES |
+| \|0++⟩ | 0.000 | 0.194 | NO |
+| \|+++⟩ | 0.000 | 0.000 | NO |
 
 Only Bell_SA⊗|+⟩_B crosses. W has high entanglement (C_SA=0.667)
 but distributes it across all pairs, none strong enough.

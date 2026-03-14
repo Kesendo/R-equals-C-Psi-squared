@@ -24,10 +24,10 @@ crossing point, the reduced density matrix has diagonal elements:
 
 | State | Probability |
 |-------|-------------|
-| |00⟩  | 0.4254      |
-| |01⟩  | 0.2567      |
-| |10⟩  | 0.2567      |
-| |11⟩  | 0.0613      |
+| \|00⟩  | 0.4254      |
+| \|01⟩  | 0.2567      |
+| \|10⟩  | 0.2567      |
+| \|11⟩  | 0.0613      |
 
 These are Born rule probabilities, the chances of finding the pair
 in each basis state upon measurement. The open question was:
@@ -47,10 +47,10 @@ Comparison of pair (0,2) diagonal at crossing time t = 0.286:
 
 | State | Unitary (no noise) | Lindblad (γ=0.05) | Deviation |
 |-------|-------------------|-------------------|-----------|
-| |00⟩  | 0.4134            | 0.4254            | 2.9%      |
-| |01⟩  | 0.2616            | 0.2567            | 1.9%      |
-| |10⟩  | 0.2616            | 0.2567            | 1.9%      |
-| |11⟩  | 0.0635            | 0.0613            | 3.5%      |
+| \|00⟩  | 0.4134            | 0.4254            | 2.9%      |
+| \|01⟩  | 0.2616            | 0.2567            | 1.9%      |
+| \|10⟩  | 0.2616            | 0.2567            | 1.9%      |
+| \|11⟩  | 0.0635            | 0.0613            | 3.5%      |
 
 The unitary evolution alone (pure Hamiltonian, no decoherence)
 determines ~97% of each probability. The remaining ~3% is a systematic
@@ -128,10 +128,10 @@ Computing C_eff = P(i) / Ψ_i² for each basis state at the crossing:
 
 | State | P(i)   | Ψ_i    | C_eff  |
 |-------|--------|--------|--------|
-| |00⟩  | 0.4254 | 0.2274 | 8.22   |
-| |01⟩  | 0.2567 | 0.2139 | 5.61   |
-| |10⟩  | 0.2567 | 0.2139 | 5.61   |
-| |11⟩  | 0.0613 | 0.1127 | 4.82   |
+| \|00⟩  | 0.4254 | 0.2274 | 8.22   |
+| \|01⟩  | 0.2567 | 0.2139 | 5.61   |
+| \|10⟩  | 0.2567 | 0.2139 | 5.61   |
+| \|11⟩  | 0.0613 | 0.1127 | 4.82   |
 
 The z-eigenstate |00⟩ has the highest effective coupling. The
 z-superposition states have lower coupling. This confirms the
