@@ -124,10 +124,10 @@ between pure unitary evolution and Lindblad evolution with dephasing:
 
 | State | Unitary P(i) | Lindblad P(i) | Deviation |
 |-------|-------------|---------------|-----------|
-| |00⟩  | 0.4134      | 0.4254        | 2.9%      |
-| |01⟩  | 0.2616      | 0.2567        | 1.9%      |
-| |10⟩  | 0.2616      | 0.2567        | 1.9%      |
-| |11⟩  | 0.0635      | 0.0613        | 3.5%      |
+| \|00⟩ | 0.4134      | 0.4254        | 2.9%      |
+| \|01⟩ | 0.2616      | 0.2567        | 1.9%      |
+| \|10⟩ | 0.2616      | 0.2567        | 1.9%      |
+| \|11⟩ | 0.0635      | 0.0613        | 3.5%      |
 
 ~97% of Born probabilities come from the Hamiltonian (the interaction between
 subsystems). ~3% is a systematic correction from the decoherence basis alignment.
