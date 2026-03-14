@@ -173,3 +173,4 @@ The Mandelbrot set boundary is not just ¼ on the real axis. It extends into the
 *Previous: [MANDELBROT_CONNECTION.md](MANDELBROT_CONNECTION.md), algebraic proof of equivalence*
 *See also: [MATHEMATICAL_FINDINGS.md](MATHEMATICAL_FINDINGS.md), 1/4 bound derivation*
 *See also: [DYNAMIC_FIXED_POINTS.md](DYNAMIC_FIXED_POINTS.md), Ψ dynamics*
+*See also: [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md), theta as channel quality indicator (r=0.87 with fidelity)*

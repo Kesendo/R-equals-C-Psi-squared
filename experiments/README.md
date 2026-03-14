@@ -7,6 +7,7 @@
 - [Fixed Point Shadow](FIXED_POINT_SHADOW.md) — Shadow investigation, IBM skeleton analysis
 - [Quantum Sonar](QUANTUM_SONAR.md) — Detection, projection, IBM investigation, chain topology
 - [Orphaned Results](ORPHANED_RESULTS.md) — Topology as gatekeeper, antiferromagnet crossing, echo characterization
+- [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) — Theta compass vs channel: echo never quantum in CΨ, channel IS quantum for coherent inputs
 
 ## CΨ diagnostic (verified)
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md) — Type A/B/C classification
