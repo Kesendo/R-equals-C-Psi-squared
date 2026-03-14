@@ -697,3 +697,7 @@ J_th(γ) ≈ 6.39 · γ + 1.16
 - `../simulations/star_topology_v2.py` — 3-qubit star topology, RK4 integration
 - `../simulations/star_n_observer.py` — N-qubit with asymmetric coupling
 - `../simulations/star_topology_v3.py` — N-qubit with equal coupling, J_AB support, threshold sweeps
+
+---
+
+*See also: [Orphaned Results](ORPHANED_RESULTS.md), echo effect fully characterized: Bohr frequencies, 8γ/3 envelope decay, N=4,5 scaling*

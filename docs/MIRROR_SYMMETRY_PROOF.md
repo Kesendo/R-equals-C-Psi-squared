@@ -214,5 +214,6 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 ## Related files
 
 - `experiments/BORN_RULE_MIRROR.md` — mirror quality measurements
+- `experiments/ORPHANED_RESULTS.md` — palindrome pair activation explains which states cross 1/4
 - `simulations/results/mirror_symmetry.txt` — 11 noise-type tests
 - `simulations/mirror_symmetry_deep.py` — N=2-7 mirror verification

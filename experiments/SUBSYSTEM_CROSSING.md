@@ -279,3 +279,4 @@ for i, t in enumerate(tlist):
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
 *See also: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
 *See also: [Coherence Density](COHERENCE_DENSITY.md), same conclusion (crossing is pairwise) from the density perspective*
+*See also: [Orphaned Results](ORPHANED_RESULTS.md), topology as gatekeeper: same state crosses on chain but not ring*

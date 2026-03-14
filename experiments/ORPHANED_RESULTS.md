@@ -265,3 +265,151 @@ connection is nonlinear and state-dependent.
 - `experiments/SUBSYSTEM_CROSSING.md` — crossing is local
 - `experiments/DYNAMIC_ENTANGLEMENT.md` — dynamical crossing from product states
 - `experiments/STAR_TOPOLOGY_OBSERVERS.md` — star topology conditions
+
+
+---
+
+## 4. Why |+-+-⟩ Crosses: The Antiferromagnet Effect (New Discovery)
+
+**Question:** What makes |+-+-⟩ special? It has zero entanglement, yet crosses
+1/4 on a ring. |0+0+⟩ with zero entanglement does not. What's the difference?
+
+### 4a. Physical mechanism: XX anti-correlation → Hamiltonian builds entanglement
+
+At t=0:
+```
+|+-+-⟩:  <XX>_neighbors = -1.000  (ANTI-correlated in X)
+|0+0+⟩:  <XX>_neighbors =  0.000  (uncorrelated)
+```
+
+|+-+-⟩ is the X-basis Neel state: maximum staggered magnetization in X.
+It has maximum exchange energy for the XX part of Heisenberg coupling.
+The YY and ZZ contributions are zero (product state), but the Hamiltonian
+immediately converts XX correlation into YY and ZZ — building ENTANGLEMENT
+from initial classical correlation.
+
+Bond energies at t=0:
+```
+|+-+-⟩:  every bond = -1.000,  total <H> = -4.000
+|0+0+⟩:  every bond =  0.000,  total <H> =  0.000
+```
+
+|+-+-⟩ sits at the BOTTOM of the energy landscape. Maximum coupling energy.
+|0+0+⟩ sits at zero energy. No driving force.
+
+### 4b. Eigenmode activation: concentrated vs diluted
+
+Both states activate palindrome pairs, but with very different intensities:
+
+| State | Active pairs | Total pair product | Crosses? |
+|-------|-------------|-------------------|----------|
+| \|+-+-⟩ | 33/128 | 4.505 | YES (0.284) |
+| \|0+0+⟩ | 43/128 | 1.202 | no (0.136) |
+| \|++++⟩ | 25/128 | 3.024 | no (0.000) |
+| Bell01+Bell23 | 40/128 | 1.586 | YES (0.333) |
+
+|+-+-⟩ activates FEWER palindrome pairs than |0+0+⟩, but with 3.75x more
+total product. The energy is concentrated, not diluted. And critically,
+|+-+-⟩ activates the FULL palindromic spectrum (rates 0.0 through 0.40),
+while |0+0+⟩ misses the high-rate sectors (0.30, 0.40). The fast-decaying
+modes contribute to the initial CΨ peak at t=0.15 — they die quickly,
+but they live just long enough to push CΨ over 1/4.
+
+|++++⟩ has high total product but zero concurrence at ALL times — it's a
+symmetric product state that the Hamiltonian cannot break.
+
+### 4c. The brute-force selection rule: 150/256 product states cross
+
+Tested ALL 256 product states |abcd⟩ with a,b,c,d in {0, 1, +, -} on N=4 ring:
+
+**150 of 256 (59%) cross the 1/4 boundary.**
+
+Top-20 crossers all share: <H> = 0, var(H) = 8, CΨ_max = 0.509.
+These are states with exactly one Z-eigenstate (0 or 1) and three
+X-eigenstates (+/-), with at least two neighbors having opposite X.
+
+Correlation of CΨ_max with candidate predictors:
+
+| Predictor | Correlation r |
+|-----------|--------------|
+| Energy <H> | -0.343 |
+| Energy variance var(H) | 0.092 |
+| Staggered X magnetization | 0.000 |
+| <XX> nearest neighbors | -0.370 |
+
+**No simple selection rule exists.** The best predictor (<XX>_nn) explains
+only 14% of the variance. The crossing depends on the full mode structure
+of the initial state projected onto the Liouvillian eigenbasis — not on
+any single observable.
+
+What we CAN say: states with negative <XX>_nn (anti-correlated neighbors
+in X) tend to cross more. But many states with zero <XX>_nn also cross
+(the top-20 all have <XX>_nn = 0). The selection is about which
+PALINDROME PAIRS get activated and how strongly, not about any local
+observable.
+
+### 4d. Ring vs other topologies
+
+The same state |0+0+⟩ on different N=4 topologies:
+
+| Topology | Best pair | CΨ_max | Crosses? |
+|----------|----------|--------|----------|
+| Star | (0,2) hub-leaf | 0.351 | YES |
+| Chain | (1,2) interior | 0.310 | YES |
+| Ring | (1,3) diagonal | 0.200 | no |
+| Complete | (1,3) diagonal | 0.200 | no |
+
+Ring and complete are IDENTICAL (same CΨ for all pairs to 4 decimal places).
+The extra bonds in the complete graph don't help — the ring structure already
+saturates. This is because |0+0+⟩ has a symmetry that makes the diagonal
+bonds redundant.
+
+Chain allows crossing because the interior pair (1,2) has a privileged
+position: both qubits are connected to the rest of the chain on both sides,
+creating a richer mode structure.
+
+---
+
+## Connections to existing results
+
+### → SUBSYSTEM_CROSSING.md
+We proved crossing is local (pair-level). Now we add: topology determines
+WHICH pairs can cross. Same state, same noise, different graph → different
+crossing. The topology is a gatekeeper.
+
+### → DYNAMIC_ENTANGLEMENT.md
+That experiment found |0+0+⟩ generates crossings on a chain. We now show
+it does NOT cross on a ring — confirming that the crossing is not just
+about the initial state but about state × topology interaction.
+And we found |+-+-⟩, which crosses on ring from zero entanglement.
+The antiferromagnet mechanism (XX anti-correlation → Hamiltonian builds
+entanglement) is a new physical pathway to crossing.
+
+### → MIRROR_SYMMETRY_PROOF.md
+The palindrome pair activation analysis directly connects the proof to
+crossing dynamics. Which palindrome pairs are excited by the initial state
+determines whether CΨ can reach 1/4. The proof explains the architecture;
+this experiment shows how states navigate that architecture.
+
+### → STAR_TOPOLOGY_OBSERVERS.md
+The echo effect (Section 3) explains the entanglement shuttle mechanism
+that was observed but never characterized. The Bohr frequencies set the
+rhythm, the middle palindromic rate (8γ/3) sets the envelope decay.
+
+### → STANDING_WAVE_THEORY.md
+The echo is literally the standing wave oscillating. SA ↔ SB entanglement
+sloshes back and forth at Bohr frequencies. The palindrome proof (Π swaps
+forward and backward modes) is the operator that makes the standing wave.
+
+### → SIGNAL_PROCESSING_VIEW.md
+The echo analysis provides the concrete numbers (periods, decay rates)
+for the pole structure that the signal processing view describes abstractly.
+
+---
+
+## Scripts and results
+
+- `simulations/explore_orphaned_results.py` — echo, ring near-miss, u variable
+- `simulations/why_alternating_crosses.py` — antiferromagnet analysis, 256-state scan
+- `simulations/results/orphaned_results.txt` — exploration output
+- `simulations/results/why_alternating_crosses.txt` — selection rule output

@@ -6,6 +6,7 @@
 - [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) — Skeleton + rotation decomposition
 - [Fixed Point Shadow](FIXED_POINT_SHADOW.md) — Shadow investigation, IBM skeleton analysis
 - [Quantum Sonar](QUANTUM_SONAR.md) — Detection, projection, IBM investigation, chain topology
+- [Orphaned Results](ORPHANED_RESULTS.md) — Topology as gatekeeper, antiferromagnet crossing, echo characterization
 
 ## CΨ diagnostic (verified)
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md) — Type A/B/C classification
