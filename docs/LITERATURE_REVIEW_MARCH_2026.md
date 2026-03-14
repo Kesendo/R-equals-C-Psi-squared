@@ -129,4 +129,4 @@ and η-pairing symmetry (Medvedyeva-Essler-Prosen 2016) as closest prior work.
 Neither had found the palindromic symmetry or the conjugation operator.
 
 This directly led to the discovery and proof of Π on the same day.
-See `experiments/MIRROR_SYMMETRY_PROOF.md`.
+See `docs/MIRROR_SYMMETRY_PROOF.md`.
