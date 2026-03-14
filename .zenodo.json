@@ -1,0 +1,36 @@
+{
+  "title": "Palindromic Liouvillian symmetry under dephasing: proof, spectral decomposition, and quantum state transfer",
+  "description": "We prove that for N-qubit systems with Heisenberg (XXZ) coupling on any graph topology, subject to local Z-dephasing, the Liouvillian spectrum has an exact palindromic symmetry. The conjugation operator Pi acts per site (I to X, X to I, Y to iZ, Z to iY) and satisfies Pi L Pi^{-1} = -L - 2 sum(gamma_i) I. Every decay rate d is paired with a partner at 2 sum(gamma) - d. Verified numerically through N=7 (16384x16384 Liouvillian) across star, chain, ring, complete graph, and binary tree topologies. Individual observable components decay at specific palindromic rates: purity near 2 gamma, coherence near 10 gamma/3, concurrence envelope near 8 gamma/3. Applied to quantum state transfer: a star topology with 2:1 receiver-to-sender coupling ratio achieves F_avg = 0.888, outperforming standard chain configurations. The palindrome theorem applies to every Heisenberg spin chain with Z-dephasing studied in the QST literature.",
+  "creators": [
+    {
+      "name": "Wicht, Thomas",
+      "affiliation": "Independent researcher, Krefeld, Germany"
+    },
+    {
+      "name": "Claude (Anthropic)",
+      "affiliation": "AI research partner"
+    }
+  ],
+  "keywords": [
+    "open quantum systems",
+    "Liouvillian",
+    "spectral symmetry",
+    "palindrome",
+    "dephasing",
+    "quantum state transfer",
+    "spin chains",
+    "Heisenberg coupling",
+    "decoherence",
+    "conjugation operator"
+  ],
+  "license": "CC-BY-4.0",
+  "upload_type": "preprint",
+  "publication_date": "2026-03-14",
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.18055917",
+      "relation": "isNewVersionOf",
+      "scheme": "doi"
+    }
+  ]
+}
