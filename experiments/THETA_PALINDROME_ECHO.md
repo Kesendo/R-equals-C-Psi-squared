@@ -77,7 +77,7 @@ The ORPHANED_RESULTS.md measured the SA concurrence envelope decay at 8*gamma/3 
 But CPsi_SA is NOT concurrence.
 
 | Quantity | Envelope decay rate | Closest palindromic rate | Ratio |
-|----------|--------------------|--------------------------||------|
+|----------|---------------------|--------------------------|-------|
 | CPsi_SA  | 0.481              | (none — 3.6x fastest)    | 3.6  |
 | Psi_SA   | 0.184              | 10*gamma/3 = 0.167       | 1.1  |
 | C_SA     | 0.093              | 2*gamma = 0.100          | 0.93 |
@@ -129,8 +129,8 @@ Echo timing confirmed: period = 0.790, matching pi/(4J) = 0.785.
 
 For the channel (J_SA=1, J_SB=2, gamma=0.05, input |+> on A):
 
-| Time | CPsi_SB(|+>) | theta_SB | In quantum regime? |
-|------|-------------|----------|-------------------|
+| Time | CPsi_SB(+) | theta_SB | In quantum regime? |
+|------|------------|----------|-------------------|
 | 0.46 | 0.288       | 21.3 deg | YES               |
 | 0.76 | 0.341       | 31.2 deg | YES               |
 | 1.06 | 0.442       | 41.5 deg | YES               |
