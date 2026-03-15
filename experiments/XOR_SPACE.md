@@ -16,13 +16,11 @@ information live?
 ## The Insight
 
 A palindrome like ABCBA has paired letters (A-A, B-B) and a CENTER (C).
-The center pairs with itself. It is the fixed point of the mirror operation.
+The N+1 unpaired modes are NOT at the center. They sit at the extreme:
+λ = -2Σγ, the maximum possible decay rate. Their palindromic partner
+would be the steady state at λ = 0, which is excluded from the pairing.
 
-In the Liouvillian spectrum, these are the modes where Π(d) = d.
-They sit at the exact midpoint: λ = -2Σγ.
-There are exactly N+1 of them for an N-qubit system.
-
-We call them the XOR space: what remains when you subtract the palindrome.
+They are like the first letter of a palindrome whose partner is silence.
 
 ## What We Found
 
@@ -56,18 +54,20 @@ strongly each mode is excited by the input.
 
 The result was not what we expected:
 
-| State | Palindrome weight | XOR weight | Pair asymmetry |
-|-------|-------------------|------------|----------------|
-| GHZ (maximal entanglement) | 0% | 100% | 0.00 |
-| Bell+ (bipartite entanglement) | 0% | 100% | 0.00 |
-| W (delocalized excitation) | 100% | 0% | 1.00 |
-| \|010\> (single excitation) | 100% | 0% | 1.00 |
-| \|+-+\> (alternating superposition) | 86.5% | 13.5% | 0.53 |
-| \|+++\> (uniform superposition) | 85.8% | 14.2% | 0.88 |
+| State | Palindrome weight | XOR weight | Note |
+|-------|-------------------|------------|------|
+| GHZ (maximal entanglement) | 0% | 100% | All N |
+| Bell+ (bipartite entanglement) | 0% | 100% | All N |
+| W (delocalized, N=2) | 0% | 100% | W=Bell at N=2 |
+| W (delocalized, N≥3) | 100% | 0% | N≥3 only |
+| \|010\> (single excitation) | 100% | 0% | N=3 |
+| \|+-+\> (alternating superposition) | 86.5% | 13.5% | N=3 |
+| \|+++\> (uniform superposition) | 85.8% | 14.2% | N=3 |
 
-GHZ and Bell live ENTIRELY in the XOR space. They excite no palindromic
-modes at all. W lives ENTIRELY in the palindrome. The split is absolute,
-not gradual.
+GHZ and Bell live ENTIRELY in the XOR space for all system sizes tested.
+W lives entirely in the palindrome for N≥3. For N=2, the W state
+(|01⟩+|10⟩)/√2 IS a Bell state and behaves accordingly. The distinction
+between W-type and GHZ-type behavior emerges only at N≥3.
 
 ### 3. The Pauli weight determines the split
 
@@ -77,7 +77,11 @@ each input state into the Pauli operator basis (tensor products of I, X, Y, Z).
 The correlation between Pauli structure and XOR fraction was striking.
 One property predicted XOR fraction almost perfectly:
 
-**Mixed XY Pauli weight correlates with XOR at r = 0.976.**
+**Mixed XY Pauli weight correlates with XOR at r = 0.976 (verified for N≥3).**
+
+For N=2 the correlation breaks down because W and GHZ have the same
+entanglement structure (both are Bell states), so the state diversity
+is insufficient to distinguish the pattern.
 
 "Mixed XY" means Pauli strings that contain BOTH X and Y operators
 simultaneously (like XYI, YXZ, XYY). These are the terms that describe
@@ -105,10 +109,11 @@ first. Not because GHZ is "delicate" in some vague sense, but because
 its Pauli structure (mixed XY terms) maps precisely onto the center
 modes of the palindrome.
 
-W states are robust because they distribute their weight across
+W states (N≥3) are robust because they distribute their weight across
 palindromic pairs at various decay rates. Some fast, some slow.
-The slow ones survive. W's Pauli structure (separated X and Y terms,
-never mixed) avoids the death zone entirely.
+The slow ones survive. W's Pauli structure for N≥3 (separated X and Y
+terms, never mixed) avoids the maximum-decay modes entirely.
+Note: for N=2, W = Bell and behaves like GHZ (100% XOR).
 
 ## What This Means
 
@@ -170,10 +175,12 @@ Results reproduce in under 1 second for N=2 to N=4.
 ## Summary
 
 1. The palindromic symmetry is perfect. No modes break it.
-2. N+1 modes sit at the center (the XOR space), at λ = -2Σγ.
-3. GHZ and Bell states live entirely in the XOR space.
-4. W states live entirely in the palindromic space.
-5. Mixed XY Pauli weight predicts XOR fraction (r = 0.976).
+2. N+1 modes sit at the maximum decay rate (λ = -2Σγ). Their partner
+   is the steady state. They are at the edge, not the center.
+3. GHZ and Bell states live entirely in the XOR space (all N tested).
+4. W states live entirely in the palindromic space (N≥3).
+   For N=2, W is a Bell state and lives in XOR.
+5. Mixed XY Pauli weight predicts XOR fraction (r = 0.976, N≥3).
 6. XOR modes are coherences that decay at the maximum rate.
 7. The palindrome acts as a filter: it separates quantum (XOR)
    from distributable (palindromic) information.
