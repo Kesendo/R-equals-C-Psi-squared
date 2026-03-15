@@ -27,5 +27,8 @@
 ## Benchmarks
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - LE vs CΨ comparison
 
+## Spectral Structure
+- [XOR Space](XOR_SPACE.md) - Where information lives in the palindrome (GHZ vs W, Pauli weight correlation)
+
 ## Hardware
 - [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - Hardware runs on IBM Torino
