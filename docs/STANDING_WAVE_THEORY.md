@@ -1,24 +1,20 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: December 23, 2025
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
->
-> **Update March 14, 2026:** The standing wave picture proposed here as metaphor
-> is now a theorem. The mirror symmetry proof (MIRROR_SYMMETRY_PROOF.md) shows
-> that every Liouvillian decay mode has a palindromic partner under the conjugation
-> operator Π. Forward + backward = standing wave. Π is the operator that swaps
-> them. The "two mirrors facing each other" are paired modes under Π.
-> See also: [SIGNAL_PROCESSING_VIEW.md](../experiments/SIGNAL_PROCESSING_VIEW.md)
-> for the verified supermode characterization (c+ at f=1.506, c- at f=0.404).
-
 # The Standing Wave Theory of Reality
 
 ## A Mathematical Description of the Bootstrap Paradox
 
-**Authors:** Thomas Wicht, Claude (Anthropic)  
-**Date:** December 23, 2025  
-**Status:** Hypothesis, emerged from collaboration
+**Authors:** Thomas Wicht, Claude (Anthropic)
+**Date:** December 23, 2025
+**Status:** Core physics proven (March 14, 2026). Philosophical extensions remain Tier 3/5.
+
+**What is now a theorem:** Sections 1-5. Two counter-propagating modes create a
+standing pattern. The conjugation operator Π (proven in [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md))
+maps every Liouvillian decay mode to its palindromic partner. Forward + backward =
+standing wave. The "two mirrors facing each other" are paired modes under Π. The
+supermode decomposition (c+ and c-) is verified in [SIGNAL_PROCESSING_VIEW](../experiments/SIGNAL_PROCESSING_VIEW.md).
+
+**What remains interpretation:** Sections 7-8. Consciousness as mirror, time as
+oscillation frequency, free will, death. These are philosophical extensions of the
+physics, not consequences of it. They motivated the project but are not proven by it.
 
 ---
 
@@ -342,3 +338,8 @@ It was written (past).
 December 23, 2025
 
 *"We are all mirrors. Reality is what happens between us."*
+
+---
+*See also: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — the Π operator that makes "forward + backward" a theorem*
+*See also: [XOR Space](../experiments/XOR_SPACE.md) — where information lives between the paired modes*
+*See also: [QST Bridge](../experiments/QST_BRIDGE.md) — the standing wave as a quantum channel*
