@@ -54,6 +54,9 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
 - Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
+- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π·L·Π⁻¹ = -L - 2Σγ·I for ANY Heisenberg+dephasing system. Every decay rate d paired with 2Σγ-d. Verified N=2-7, all topologies. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+- **Topology-independence:** Π anti-commutes with [H,·] for any bond set (chain, ring, star, arbitrary graph)
+- **Exact decay rates:** 2γ (c+), 8γ/3 (concurrence envelope), 10γ/3 (c-) for N=3 systems. Topology-independent.
 
 **Tier 2: Computationally verified (MCP tools, reproducible by anyone with the simulator):**
 - δ(Bell+, Heisenberg, γ=0.1, t=1) = 0.4207
@@ -63,6 +66,11 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Three-class taxonomy (A/B/C) noise-robust under all Pauli operators
 - N-scaling barrier: crossing fails for GHZ N>=3 and W N>=4 due to d-1 normalization
 - Subsystem crossing: entangled pairs cross independently even when full system cannot; product state (Psi=1, C=0) never crosses
+- **QST Bridge (verified March 14, 2026):** Star with J_SB/J_SA = 2:1 achieves F_avg = 0.888, beating chains (0.852-0.872). Timing set by Hamiltonian, quality by palindromic rates. Holevo capacity 0.534 bits. See [QST Bridge](../experiments/QST_BRIDGE.md)
+- **XOR Space (verified March 16, 2026):** N+1 modes at λ=-2Σγ carry all GHZ/Bell weight (100% XOR). W states (N≥3) live 100% in palindromic modes. Mixed XY Pauli weight predicts XOR fraction at r=0.976 (N≥3). XOR modes are off-diagonal coherences at maximum decay rate. See [XOR Space](../experiments/XOR_SPACE.md)
+- **θ as channel quality indicator:** θ_SB > 0 correlates with F > 2/3 at r = 0.87. Not an echo navigator but a channel quality measure. See [Theta Palindrome Echo](../experiments/THETA_PALINDROME_ECHO.md)
+- **Echo characterization:** Period ~π/(4J), envelope 8γ/3, peak C_SB = 0.598 (N=3), ~1/(N-1) scaling
+- **Palindromic Radio (negative result, March 15, 2026):** Searched Breakthrough Listen data for palindromic spectral signatures. Spiral galaxies (NGC2403, NGC6503) both show score ~0.94 regardless of sky position. The symmetry is astrophysical (bandpass + galaxy structure), not artificial. Detector needs refinement to distinguish natural from engineered symmetry.
 - Dynamic entanglement: alternating |0+0+⟩ builds entanglement from initially unentangled pairs; pair (0,2) crosses 1/4 from below at t≈0.286
 - Born rule recovery: ~97% of crossing-point probabilities from unitary evolution; ~3% systematic correction from decoherence basis alignment
 
@@ -246,6 +254,8 @@ Why does state-dependent decoherence preserve correlations that state-independen
 
 **Status:** Verified numerically. Unexplained theoretically. This is a concrete research target.
 
+**Update (2026-03-16):** The palindromic spectral structure may provide a partial explanation. Operator feedback modifies effective dephasing rates in a state-dependent way, which could shift weight between palindromic pairs and XOR modes during evolution. If feedback keeps information in slowly-decaying palindromic modes rather than the XOR drain, this would explain the δ preservation. Not yet computed; requires tracking mode populations under operator feedback dynamics.
+
 ### 9. N-Scaling Barrier (Added 2026-02-18, Resolved 2026-02-18)
 
 The d-1 normalization Psi = l1/(2^N - 1) makes crossing impossible for
@@ -276,7 +286,7 @@ prediction: the quantum-to-classical transition is local.
 
 ### Immediate (addressable with current tools)
 
-1. **Theta trajectories:** Do different initial states (Bell+, GHZ, W, product) approach the ¼ boundary along different θ(t) curves? This is a simulation experiment that can be run today.
+1. ~~**Theta trajectories:**~~ **Answered (2026-03-15).** θ is not a trajectory navigator but a channel quality indicator. θ_SB > 0 correlates with F > 2/3 (r=0.87). In the echo scenario, CΨ_SB never reaches 1/4 (max 0.168), so θ is undefined. In the channel scenario with coherent inputs, CΨ_SB = 0.442, θ = 41.5°. See [Theta Palindrome Echo](../experiments/THETA_PALINDROME_ECHO.md).
 
 2. **Crossing speed:** Does the rate d(CΨ)/dt at the moment of crossing affect post-crossing behavior? Vary γ_base and measure convergence to R₁.
 
@@ -302,7 +312,11 @@ prediction: the quantum-to-classical transition is local.
 
 11. **Neural correlates:** **Partially mapped (2026-03-06).** The Tuning Protocol maps γ to Default Mode Network activity (Brewer et al. 2011, PNAS: meditation reduces DMN) and J to depth of engagement/expertise (synaptic coupling strength). Hypnagogia maps to a natural low-γ window (Oudiette et al. 2021, Science Advances). This is suggestive mapping (Tier 3), not evidence of quantum effects in the brain. See [Tuning Protocol](../hypotheses/TUNING_PROTOCOL.md).
 
-12. **First-principles derivation of ¼:** Can CΨ = ¼ be derived from information-theoretic bounds (Holevo, channel capacity) rather than from the fixed-point equation?
+12. ~~**First-principles derivation of ¼:**~~ **Reframed (2026-03-16).** The ¼ boundary is now understood from two directions: algebraically (discriminant of quadratic) and spectrally (palindromic rate structure determines how fast systems approach it). The Liouvillian palindrome IS the first-principles structure. The question shifts to: can the palindromic symmetry be derived from information-theoretic axioms rather than from the specific form of Z-dephasing?
+
+13. **XOR space applications (added 2026-03-16):** Can the XOR drain be slowed via error correction or decoherence-free subspaces? Does the XOR/palindrome split change for non-Heisenberg models (XY-only, Ising, DM interactions)? Is there a state that maximizes palindromic weight while keeping high entanglement (the optimal QST input)?
+
+14. **Repeater design rules (added 2026-03-16):** The XOR space analysis suggests concrete design rules for quantum repeaters: W-encoding over GHZ, avoid mixed XY Pauli weight, star topology with 2:1 coupling. These are testable engineering predictions. Can they be validated against existing repeater benchmarks?
 
 ---
 
@@ -336,24 +350,39 @@ prediction: the quantum-to-classical transition is local.
 | Mirror symmetry (palindrome) | **Proven** | Conjugation operator Π found, analytical proof for all XXZ/δ/topology/γ |
 | Topology-independence of palindrome | **Proven** | Π anti-commutes with [H,·] for ANY bond set |
 | Pauli weight complementarity | **Proven** | Π maps XY-weight k → N-k (incoherenton particle-hole symmetry) |
+| QST: star 2:1 beats chains | **Verified** | F_avg = 0.888 vs 0.852-0.872, Holevo 0.534 bits |
+| QST: timing/quality separation | **Verified** | Timing from Hamiltonian (Bohr frequencies), quality from palindromic rates |
+| XOR: GHZ → 100% fastest-decay modes | **Verified** | N=2,3,4, all topologies. XOR modes at λ=-2Σγ |
+| XOR: W → 100% palindromic modes (N≥3) | **Verified** | N=3,4, chain+star. W=Bell at N=2 (different behavior) |
+| XOR: Mixed XY Pauli weight predicts split | **Verified** | r=0.976 for N≥3. Not valid for N=2 (insufficient state diversity) |
+| XOR: palindrome as spectral filter | **Verified** | Separates quantum-fragile (XOR) from distributable (palindromic) information |
+| Palindromic radio: spectral symmetry search | **Negative** | Spiral galaxies inherently palindromic. Astrophysical, not artificial. Detector too coarse. |
+| Echo: entanglement oscillation period | **Verified** | Period ~π/(4J), envelope 8γ/3, peak C_SB=0.598 (N=3) |
+| θ as channel quality indicator | **Verified** | r=0.87 with F>2/3 threshold. Not a trajectory compass. |
 
 ---
 
-## The Most Honest Statement (Updated March 2026)
+## The Most Honest Statement (Updated March 16, 2026)
 
-After three months of computation and three external reviews, the project has a clearer identity.
+After three months of computation, three external reviews, and a weekend that produced a proof, a DOI, and two new discoveries, the project has its clearest identity yet.
 
-CΨ is a basis-fixed, unassisted witness of directly expressed pairwise entanglement. It sits at the intersection of localizable entanglement and correlated coherence but is not redundant with either. No standard quantum-information term exists for exactly this quantity.
+The strongest results from March 14-16, 2026:
 
-The algebra is correct (Mandelbrot equivalence, 1/4 bound). The simulations are reproducible. The IBM hardware contact is real but needs replication. The consciousness interpretation is retired from the technical core.
+**The palindromic Liouvillian symmetry is proven.** The conjugation operator Π maps every decay rate d to 2Σγ-d. This holds for every Heisenberg system under Z-dephasing, every topology, every system size tested (N=2-7). It connects to the incoherenton framework (Haga et al. 2024) via Pauli weight complementarity: Π is the particle-hole transformation in incoherenton space.
 
-The strongest result from March 2026: benchmarking CΨ against localizable entanglement (LE) and concurrence of assistance (CoA) showed three distinct layers. CoA (the resource) stays near 1. LE (the potential) stays moderate. CΨ (the direct expression) flashes briefly. The same initial network can retain high assisted entanglement capacity while local noise profiles open or close windows in which that resource is directly visible.
+**The palindrome is a spectral filter.** The XOR space analysis showed that GHZ states route 100% of their weight to the fastest-decaying modes (at λ=-2Σγ), while W states (N≥3) route 100% to palindromic pairs at various rates. Mixed XY Pauli weight predicts this split at r=0.976. This explains GHZ fragility and W robustness from first principles.
 
-Different noise profiles produce qualitatively different visibility windows - one profile sees the 1/4 crossing, another does not, while CoA remains high for both. This is not "same state, different observers" (different noise profiles produce different Lindblad trajectories). It is: different open-system channels produce different direct-expression windows for the same underlying resource.
+**Quantum state transfer follows the palindrome.** Star topology with 2:1 coupling ratio achieves F_avg=0.888, beating chains. Timing is set by Hamiltonian frequencies, quality by palindromic decay rates. These are concrete, testable predictions for quantum repeater design.
 
-The original intuition ("reality emerges between observers, what is real depends on who observes") was poetic but pointed in the right direction. The technical version is narrower, more precise, and defensible.
+**An honest negative result.** A palindromic symmetry search on Breakthrough Listen radio telescope data showed that spiral galaxies are inherently spectrally symmetric. The detector worked (it distinguished galaxies from point sources) but was too coarse to isolate artificial signatures from astrophysical structure.
+
+CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise entanglement. The consciousness interpretation is retired from the technical core. The algebra is correct, the simulations are reproducible, the palindrome is proven, and the engineering implications (repeater design rules) are concrete.
+
+Emails have been sent to two research groups (Haga/Nakagawa at Osaka/Tokyo for the incoherenton connection, Nichol at Rochester for experimental QST). Zenodo v2.0 published. Awaiting responses.
 
 See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
+See [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.
+See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 
 ---
 
@@ -363,5 +392,6 @@ See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
 *February 18, 2026 (updated: Born rule partially resolved, dynamic entanglement results)*
 *March 6, 2026 (updated: star topology results, three conditions, tuning protocol)*
 *March 8, 2026 (updated: THE_CPSI_LENS as canonical, LE/CoA benchmark, visibility correction, consciousness retired from technical core)*
-*March 14, 2026 (updated: mirror symmetry PROVEN — conjugation operator Π found, analytical proof complete)*
+*March 14, 2026 (updated: mirror symmetry PROVEN, conjugation operator Π found, analytical proof complete)*
+*March 16, 2026 (updated: QST bridge verified, XOR space discovered, palindromic radio negative result, theta reinterpreted as channel indicator, repeater design rules proposed)*
 *Honesty belongs to the framework*
