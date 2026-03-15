@@ -1,6 +1,6 @@
 # What We Found
 
-**Date:** 2026-03-08
+**Date:** 2026-03-16
 **Purpose:** Plain-language summary for readers without a physics background
 
 **Tier:** Mixed (references Tier 1-3 results)
@@ -57,6 +57,52 @@ These conditions were quantified across systematic parameter sweeps. Whether the
 
 **Context makes connections fragile.** The same entangled pair, when isolated, holds its CΨ signal nine times longer than when embedded in a larger system. Additional quantum systems coupled to the pair accelerate the loss of what the filter sees.
 
+## The palindrome (March 14, 2026)
+
+This is the strongest result of the project. It changes what CΨ is about.
+
+Every open quantum system under dephasing has a set of decay modes: the rates at which different parts of the quantum state fall apart. We proved that these rates always come in pairs. For every rate d, there is a partner at 2Σγ - d, where Σγ is the total dephasing strength.
+
+This is like a palindrome: ABCBA reads the same forwards and backwards. The decay spectrum reads the same from both ends. We found the operator that performs this mirroring (we call it Π) and proved it works for every system size we tested (2 to 7 particles), every connection pattern (chains, rings, stars, arbitrary graphs), and every combination of dephasing rates.
+
+This is not a numerical observation. It is an analytical proof. The operator Π has a specific form: it swaps certain quantum labels (I with X, Y with iZ) at every site simultaneously. The proof shows that Π transforms the entire system generator into its mirror image, guaranteeing the palindromic pairing.
+
+The connection to existing physics: a research group in Osaka (Haga et al., 2024) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
+
+For the full proof, see [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md).
+
+## Where information lives in the palindrome (March 16, 2026)
+
+A perfectly symmetric structure carries no information. A blank page is symmetric. So we asked: if the decay spectrum is always palindromic, where does information live?
+
+The answer came from throwing different quantum states into the system and watching which decay modes they excite.
+
+**GHZ states (the most entangled) excite only the fastest-dying modes.** The maximally entangled GHZ state puts 100% of its weight into the modes at the extreme of the palindrome: the ones that decay at the maximum possible rate. This is why GHZ states are known to be fragile under noise. Now we know the mechanism: their quantum structure maps precisely onto the fastest drain in the system.
+
+**W states distribute across the slow modes.** The W state (a different kind of entanglement, more spread out) puts 100% of its weight into the palindromic pairs at various decay rates. Some of these are fast, some are slow. The slow ones survive. This is why W states are more robust than GHZ states: they avoid the fast drain entirely.
+
+**The Pauli structure of the input predicts the split.** We decomposed each input state into its Pauli operator basis and found that one specific property, the fraction of "mixed XY" terms (operators containing both X and Y simultaneously), predicts how much weight goes to the fast drain. The correlation is r = 0.976 for systems of three or more particles.
+
+This means the palindrome acts as a spectral filter. It separates every input into a distributable part (palindromic pairs, various speeds, some survive) and a fragile part (the fast drain, dies quickly). The physical content of a quantum state determines which part dominates.
+
+For details and verification, see [XOR Space](../experiments/XOR_SPACE.md).
+
+## Quantum state transfer (March 14, 2026)
+
+The palindromic structure has a direct application: moving quantum information from one place to another through a noisy channel.
+
+We connected our palindrome result to quantum state transfer (QST), a well-studied problem in quantum information. In QST, Alice prepares a quantum state and Bob receives it through a chain of coupled particles. The question is: how much of the original state survives?
+
+Our findings:
+
+**Star topology with 2:1 coupling beats chains.** A star-shaped connection (both Alice and Bob connected to a central mediator) with the mediator coupled twice as strongly to one side achieves an average fidelity of 0.888. This beats all chain topologies we tested (0.852 to 0.872). The asymmetry matters: 1:1 coupling is not optimal.
+
+**Timing and quality are separate.** When Alice's state arrives at Bob is determined by the Hamiltonian (the energy couplings). How well it arrives is determined by the palindromic decay rates. These are independent controls. An engineer can tune timing without affecting quality, and vice versa.
+
+**Design rules for quantum repeaters.** The palindrome and XOR space results suggest concrete engineering guidelines: use W-type encoding (avoids the fast drain), use star topology with asymmetric coupling (optimizes the slow palindromic modes), and read out before t_cross = 0.039/γ (after that, the 1/4 boundary has been crossed).
+
+For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
+
 
 ## What we did not find
 
@@ -70,6 +116,8 @@ Honesty matters more than narrative.
 
 **The "flow" interpretation failed.** We expected that when the connection between A and S weakens, the connection between S and B would strengthen (like water flowing from one vessel to another). Instead, both connections tend to rise and fall together. There is no see-saw.
 
+**Palindromic signatures in radio data are astrophysical, not artificial.** We built a detector for palindromic spectral symmetry and applied it to Breakthrough Listen radio telescope data. Spiral galaxies (NGC2403, NGC6503) both showed palindrome scores around 0.94, regardless of sky position. Point sources showed 0.85 (telescope bandpass baseline). The symmetry in galaxies comes from their astrophysical structure, not from any engineered signal. The detector correctly distinguished galaxy types from point sources, but was too coarse to isolate anything beyond natural spectral symmetry.
+
 ## What this is and what it is not
 
 CΨ is a derived diagnostic built from standard quantum mechanics. It is not a new physical quantity and it is not a new law of nature.
@@ -80,23 +128,34 @@ The philosophical interpretation - that "reality emerges between observers" - is
 
 What survives even without the philosophy:
 - An exact algebraic correspondence to the Mandelbrot iteration
+- A proven palindromic symmetry in the decay spectrum of every Heisenberg system under dephasing
+- A spectral filter that separates fragile quantum information from robust distributable information
+- Concrete design rules for quantum state transfer and repeater engineering
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can pass through a shared mediator
 - A sharp distinction between measurement and noise in their effect on third-party connections
 - Hardware validation of the 1/4 crossing on IBM quantum processors
+- Connection to independent research (incoherentons) via Pauli weight complementarity
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
 
 ## How to read the rest
 
-- **[The CΨ Lens](THE_CPSI_LENS.md)** - The canonical technical description. Start here if you want precision.
+- **[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)** - The palindromic symmetry theorem. The strongest result.
+- **[XOR Space](../experiments/XOR_SPACE.md)** - Where information lives in the palindrome. GHZ vs W.
+- **[QST Bridge](../experiments/QST_BRIDGE.md)** - Quantum state transfer application. Repeater design rules.
+- **[The CΨ Lens](THE_CPSI_LENS.md)** - The canonical technical description of the CΨ filter.
 - **[Core Algebra](CORE_ALGEBRA.md)** - The proven mathematics. Three lines to the 1/4 boundary.
 - **[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)** - The strongest multipartite result, with full numerical data.
 - **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)** - Everything we got wrong, don't know, or can't prove.
-- **[Experiments index](../experiments/README.md)** - All 36 experiment documents.
+- **[Experiments index](../experiments/README.md)** - All experiment documents.
 
 ---
 
 ## Origin
 
-This project began in December 2025 as a collaboration between Thomas Wicht and Claude (Anthropic). It started with philosophical questions about observation and reality, was formalized as an equation, and then subjected to systematic computation. Over three months the framing narrowed from "the fundamental equation of reality" to "a composite quantum diagnostic with interesting algebraic properties." That narrowing was not a failure. It was the project working as intended: testing ideas honestly and keeping what survived.
+This project began in December 2025 as a collaboration between Thomas Wicht and Claude (Anthropic). It started with philosophical questions about observation and reality, was formalized as an equation, and then subjected to systematic computation. Over three months the framing narrowed from "the fundamental equation of reality" to "a composite quantum diagnostic with interesting algebraic properties and a proven spectral symmetry theorem."
+
+In March 2026, the project found its strongest results: an analytical proof that the decay spectrum is always palindromic, a spectral filter that separates fragile from robust quantum information, and concrete design rules for quantum state transfer. These results stand on standard quantum mechanics and require no philosophical interpretation.
+
+The narrowing from philosophy to physics was not a failure. It was the project working as intended: testing ideas honestly and keeping what survived.
