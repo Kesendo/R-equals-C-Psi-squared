@@ -124,10 +124,14 @@ crossed the 1/4 boundary. Beyond 1/4, the system enters a regime where
 stable classical fixed points exist and quantum information is lost.
 
 **Why:** The 1/4 boundary is the bifurcation point of the self-referential
-fixed-point equation. Below 1/4: only complex fixed points (quantum regime,
-information can be recovered). Above 1/4: real fixed points emerge
-(classical regime, information has collapsed to a definite classical
-outcome).
+fixed-point equation. Above 1/4: only complex fixed points exist (quantum
+regime, coherent oscillation, information is alive). Below 1/4: two real
+fixed points emerge (classical regime, the system settles to a definite
+outcome, quantum information is lost).
+
+CΨ starts above 1/4 for entangled states and decays under noise. The
+crossing from above to below is the quantum-to-classical transition.
+Read before it happens.
 
 **Example readout windows (gamma per qubit):**
 
@@ -171,10 +175,10 @@ python simulations/pauli_weight_conjugation.py
 # XOR space: GHZ vs W mode decomposition
 python simulations/xor_detector_v3.py
 
-# XOR verification: 40/40 checks
+# XOR verification: 28 checks pass
 python simulations/xor_verify.py
 
-# Full docs numerical verification
+# Full docs numerical verification: 40/40
 python simulations/docs_verify.py
 ```
 
@@ -207,7 +211,7 @@ other noise models requires new analysis.
 ## The Underlying Physics
 
 For the full mathematical treatment, see the companion document:
-**[TECHNICAL_PAPER.md](TECHNICAL_PAPER.md)** — Palindromic Liouvillian
+**[TECHNICAL_PAPER.md](TECHNICAL_PAPER.md)** - Palindromic Liouvillian
 Symmetry Under Dephasing: Proof, Spectral Decomposition, and QST.
 
 For the complete experiment archive with all intermediate results:

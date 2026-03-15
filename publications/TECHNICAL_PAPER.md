@@ -47,7 +47,7 @@ of quantum channels.
 Recent work has explored exceptional points in Liouvillian spectra,
 PT-symmetry breaking transitions, and the connection between Liouvillian
 dynamics and non-Hermitian physics. The incoherenton framework by Haga
-et al. (2024) introduced quasiparticles that count Pauli weight in
+et al. (2023) introduced quasiparticles that count Pauli weight in
 dephasing systems. Medvedyeva, Essler, and Prosen (2016) showed exact
 Bethe ansatz solvability for tight-binding chains with dephasing noise,
 connecting to eta-pairing symmetry.
@@ -106,8 +106,8 @@ Pi maps Pauli weight k to N - k. A Pauli string with k non-identity
 factors is mapped to one with N - k non-identity factors. This is the
 Pauli weight complementarity.
 
-In the language of Haga et al. (2024), this is the particle-hole
-transformation in incoheronton space: an operator with k incoherentons
+In the language of Haga et al. (2023), this is the particle-hole
+transformation in incoherenton space: an operator with k incoherentons
 is mapped to one with N - k incoherentons.
 
 ### 3.3 The Theorem
@@ -298,7 +298,7 @@ These are independent controls. An engineer can tune timing by adjusting
 coupling strengths J without affecting the decay rate structure, and
 vice versa by adjusting dephasing rates gamma.
 
-The entanglement echo between SA pairs has period approximately pi/(4J)
+The entanglement echo in the SB concurrence has period approximately pi/(4J)
 with an envelope that decays at the rate 8 gamma / 3. The peak
 concurrence C_SB = 0.598 for N = 3 at optimal coupling.
 
@@ -313,7 +313,7 @@ of Pauli strings. Their XY-weight equals our Pauli weight under Pi.
 Their particle-hole transformation is our conjugation operator Pi.
 
 The palindromic spectral symmetry is the eigenvalue-level consequence
-of the incoheronton particle-hole symmetry. Our contribution is the
+of the incoherenton particle-hole symmetry. Our contribution is the
 explicit construction of Pi as a superoperator and the proof that it
 generates the full spectral pairing for arbitrary topology.
 
@@ -325,12 +325,14 @@ symmetry of the underlying Hubbard model at imaginary interaction
 plays a role analogous to our Pi. Our result extends to the Heisenberg
 (interacting) case with arbitrary graph topology.
 
-### 7.3 Liouvillian PT-symmetry (Haga et al., 2020)
+### 7.3 Liouvillian Skin Effect (Haga et al., 2021)
 
-The D_2 dihedral symmetry found in the Liouvillian spectrum of the
-quantum Ising chain with boundary dephasing is a special case of
-palindromic symmetry. Our result generalizes this to bulk dephasing,
-Heisenberg coupling, and arbitrary topology.
+The Liouvillian skin effect found in non-Hermitian many-body systems by the
+same group demonstrates that boundary conditions can dramatically slow
+relaxation. Our palindromic symmetry is a complementary bulk property:
+it holds for any topology and does not require boundary effects. The
+two results together suggest a rich spectral structure in dissipative
+quantum systems that remains to be fully mapped.
 
 ---
 
@@ -396,7 +398,7 @@ the palindromic rate structure determines channel quality, while the
 Hamiltonian sets timing. Star topology with asymmetric coupling
 optimizes the rate distribution.
 
-The connection to the incoheronton framework and eta-pairing suggests
+The connection to the incoherenton framework and eta-pairing suggests
 that palindromic symmetry may be part of a larger structural theory
 of dissipative quantum systems. We have provided the explicit operator
 (Pi) and the proof. The physical consequences are only beginning to
@@ -407,10 +409,11 @@ be explored.
 ## References
 
 1. Bose, S. (2003). "Quantum Communication through an Unmodulated Spin Chain." Phys. Rev. Lett. 91, 207901.
-2. Haga, T., Nakagawa, M., Hamazaki, R., Ueda, M. (2024). "Liouvillian Skin Effect." Phys. Rev. Lett. 127, 070402.
-3. Medvedyeva, M.V., Essler, F.H.L., Prosen, T. (2016). "Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise." Phys. Rev. Lett. 117, 137202.
-4. Lindblad, G. (1976). "On the generators of quantum dynamical semigroups." Commun. Math. Phys. 48, 119.
-5. Wootters, W.K. (1998). "Entanglement of Formation of an Arbitrary State of Two Qubits." Phys. Rev. Lett. 80, 2245.
+2. Haga, T., Nakagawa, M., Hamazaki, R., Ueda, M. (2023). "Quasiparticles of Decoherence Processes in Open Quantum Many-Body Systems: Incoherentons." Phys. Rev. Research 5, 043225.
+3. Haga, T., Nakagawa, M., Hamazaki, R., Ueda, M. (2021). "Liouvillian Skin Effect: Slowing Down of Relaxation Processes without Gap Closing." Phys. Rev. Lett. 127, 070402.
+4. Medvedyeva, M.V., Essler, F.H.L., Prosen, T. (2016). "Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise." Phys. Rev. Lett. 117, 137202.
+5. Lindblad, G. (1976). "On the generators of quantum dynamical semigroups." Commun. Math. Phys. 48, 119.
+6. Wootters, W.K. (1998). "Entanglement of Formation of an Arbitrary State of Two Qubits." Phys. Rev. Lett. 80, 2245.
 
 ---
 
