@@ -219,7 +219,7 @@ For the complete experiment archive with all intermediate results:
 
 ---
 
-*Thomas Wicht (AposByte, Krefeld, Germany) and Claude (Anthropic)*
+*Thomas Wicht (Independent Researcher, Krefeld, Germany) and Claude (Anthropic)*
 *March 16, 2026*
 
 *"The palindrome is the stage. The input is the actor.*

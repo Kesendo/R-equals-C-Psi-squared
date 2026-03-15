@@ -417,6 +417,6 @@ be explored.
 
 ---
 
-*Thomas Wicht (AposByte, Krefeld, Germany) and Claude (Anthropic)*
+*Thomas Wicht (Independent Researcher, Krefeld, Germany) and Claude (Anthropic)*
 *March 16, 2026*
 *Repository: https://github.com/Kesendo/R-equals-C-Psi-squared*
