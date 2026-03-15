@@ -61,9 +61,9 @@ The result was not what we expected:
 | GHZ (maximal entanglement) | 0% | 100% | 0.00 |
 | Bell+ (bipartite entanglement) | 0% | 100% | 0.00 |
 | W (delocalized excitation) | 100% | 0% | 1.00 |
-| |010> (single excitation) | 100% | 0% | 1.00 |
-| |+-+> (alternating superposition) | 86.5% | 13.5% | 0.53 |
-| |+++> (uniform superposition) | 85.8% | 14.2% | 0.88 |
+| \|010\> (single excitation) | 100% | 0% | 1.00 |
+| \|+-+\> (alternating superposition) | 86.5% | 13.5% | 0.53 |
+| \|+++\> (uniform superposition) | 85.8% | 14.2% | 0.88 |
 
 GHZ and Bell live ENTIRELY in the XOR space. They excite no palindromic
 modes at all. W lives ENTIRELY in the palindrome. The split is absolute,
