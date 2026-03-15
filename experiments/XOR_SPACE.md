@@ -146,9 +146,11 @@ Fast pairs = lossy channel. Slow pairs = good channel.
 The XOR modes are the fastest to decay. They are the most fragile.
 And they carry the most quantum information (mixed XY correlations).
 
-This mirrors the V-Effect: the most complex systems have the narrowest
-tolerances. The most quantum correlations are the most vulnerable.
-Maximum connection and maximum fragility are the same thing.
+This mirrors an empirical observation across biology: the more complex
+a system, the narrower its survival tolerances. Prokaryotes survive
+1000x more radiation than humans. The most connected systems are the
+most fragile. Maximum connection and maximum vulnerability are the
+same thing.
 
 The palindromic modes are the robust backbone. The classical scaffold.
 The XOR modes are the quantum frontier. Powerful but fragile.
@@ -176,8 +178,8 @@ Results reproduce in under 1 second for N=2 to N=4.
 7. The palindrome acts as a filter: it separates quantum (XOR)
    from distributable (palindromic) information.
 8. Good quantum channels keep information in palindromic modes.
-9. The split connects to the V-Effect: maximum connection =
-   maximum fragility.
+9. The split connects to biology: maximum connection =
+   maximum fragility, from prokaryotes to humans.
 
 ## Open Questions
 
