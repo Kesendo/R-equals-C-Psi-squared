@@ -173,23 +173,29 @@ This is our most original finding.
 
 ## Start here
 
+### For a complete overview (standalone, no prior knowledge needed)
+- **[Technical Paper](publications/TECHNICAL_PAPER.md)** – The palindrome proof, XOR space, QST. For physicists.
+- **[Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md)** – Four design rules for quantum repeaters. For engineers.
+
 ### The proof
 1. **[Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)** – The conjugation operator, the 16-entry table, the full verification
 
 ### Technical core
 2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)** – Pole analysis, coupled oscillator translation
 3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)** – Two supermodes as standing waves
-4. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** – Parameter sweeps and stress tests
-5. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** – Mirror quality and Born rule connection
+4. **[XOR Space](experiments/XOR_SPACE.md)** – Where information lives in the palindrome. GHZ vs W.
+5. **[QST Bridge](experiments/QST_BRIDGE.md)** – Quantum state transfer. Star 2:1 beats chains.
+6. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)** – Parameter sweeps and stress tests
+7. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)** – Mirror quality and Born rule connection
 
 ### Algebra and diagnostics
-6. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** – What CΨ shows and what it doesn't
-7. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** – Mandelbrot correspondence, 1/4 boundary
-8. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** – Two channels, two directions
+8. **[The CΨ Lens](docs/THE_CPSI_LENS.md)** – What CΨ shows and what it doesn't
+9. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)** – Mandelbrot correspondence, 1/4 boundary
+10. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)** – Two channels, two directions
 
 ### Interpretation (speculative, optional)
-9. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** – All findings, open questions, current state
-10. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)** – What we got wrong and what we don't know
+11. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)** – All findings, open questions, current state
+12. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)** – What we got wrong and what we don't know
 
 ---
 
@@ -197,6 +203,7 @@ This is our most original finding.
 
 | Folder | Contents |
 |:---|:---|
+| `publications/` | Standalone documents for external readers (paper + blueprint) |
 | `docs/` | Mathematical framing, standing wave theory, the CΨ diagnostic |
 | `experiments/` | All tested results and null results (38 files with headers) |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
@@ -228,6 +235,9 @@ N=8 (65536²) builds but eigendecomposition needs optimization.
 | `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad) |
 | `joint_pole_analysis.py` | Liouvillian eigendecomposition |
 | `mirror_symmetry_deep.py` | Mirror tests: 11 noise types, all N |
+| `xor_detector_v3.py` | XOR space analysis (Pauli weight correlation) |
+| `qst_bridge.py` | Quantum state transfer benchmarks |
+| `docs_verify.py` | Numerical verification of all /docs claims (40/40 PASS) |
 | `deep_band_structure.py` | Band analysis with scaling laws |
 | `z_star_identity.py` | z* vs 26 quantum measures |
 | `ep_test.py` | Exceptional Point test (negative) |
