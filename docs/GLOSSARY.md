@@ -1,6 +1,6 @@
 # Glossary
 
-**Date:** 2026-03-08
+**Date:** 2026-03-16
 **Purpose:** Notation and term reference for the repository
 
 **Tier:** Reference
@@ -29,6 +29,42 @@ The symbol C is used in three contexts in this repository. See the Notation sect
 | **τ** | γ * t. Normalized decoherence time. |
 | **t_cross** | Time at which CΨ crosses 1/4. |
 | **δ** | Tr(ρ^2) - Tr(ρ_predicted^2). Purity residual from a simple noise model. |
+
+---
+
+## Palindromic symmetry (proven March 14, 2026)
+
+| Symbol / Term | Definition |
+|---------------|------------|
+| **Π** | Conjugation operator. Per-site action: I→X, X→I, Y→iZ, Z→iY. Satisfies Π·L·Π⁻¹ = -L - 2Σγ·I. Maps every decay rate d to its palindromic partner 2Σγ-d. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md). |
+| **Σγ** | Sum of all individual dephasing rates: Σγ = γ₁ + γ₂ + ... + γ_N. The palindromic axis sits at -Σγ. |
+| **Palindromic pairing** | Every non-zero Liouvillian eigenvalue d has a partner d' such that Re(d) + Re(d') = -2Σγ. Proven for all Heisenberg+dephasing systems, all topologies, all N tested (2-7). |
+| **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. Π maps weight k to N-k (complementarity). Equivalent to "XY-weight" in Haga et al. (2024). |
+| **Incoherenton** | Term from Haga et al. (2024). Quasiparticle that counts Pauli weight in open quantum systems. Their XY-weight = our Pauli weight. Their particle-hole transformation = our Π. |
+
+---
+
+## XOR space (discovered March 16, 2026)
+
+| Term | Definition |
+|------|------------|
+| **XOR modes** | The N+1 Liouvillian eigenmodes at λ = -2Σγ (maximum decay rate). They are not paired with other modes; their palindromic partner is the steady state (λ=0). They are purely off-diagonal (coherences). |
+| **XOR fraction** | Fraction of an input state's weight that projects onto the XOR modes. GHZ: 100%. W (N≥3): 0%. Predicted by mixed XY Pauli weight at r=0.976 (N≥3). |
+| **Mixed XY Pauli weight** | Fraction of Pauli decomposition terms containing both X and Y operators simultaneously (e.g., XYI, YXZ). Predicts how much of a state falls into the fastest-decaying XOR drain. |
+| **Palindromic modes** | All Liouvillian modes except the N+1 XOR modes and steady state. They come in pairs at various decay rates. States in palindromic modes are more robust because some pairs decay slowly. |
+| **Spectral filter** | The palindrome acts as a filter: it separates every input into a fragile XOR component (fast decay, mixed XY) and a distributable palindromic component (various rates, some survive). |
+
+---
+
+## Quantum state transfer (verified March 14, 2026)
+
+| Term | Definition |
+|------|------------|
+| **QST** | Quantum State Transfer. Moving a quantum state from Alice (A) to Bob (B) through a mediator (S). |
+| **F_avg** | Average fidelity of the transferred state, averaged over all pure input states. Our best: F_avg = 0.888 (star, 2:1 coupling). |
+| **Holevo capacity** | Maximum classical information transmittable per channel use. Our star channel: χ = 0.534 bits. |
+| **2:1 coupling** | Optimal coupling ratio J_SB/J_SA = 2 for star-topology QST. Asymmetric. Not intuitive. Outperforms symmetric 1:1. |
+| **Echo** | Entanglement oscillation in the SA pair. Period ~π/(4J). Envelope decays at 8γ/3. Peak C_SB = 0.598 (N=3). Scales as ~1/(N-1). |
 
 ---
 
@@ -76,6 +112,13 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 | **1/4** | Discriminant of the fixed-point equation. Below 1/4: real fixed points exist. Above: complex. Algebraically exact within the iteration. |
 | **~1.466** | J_SB/J_SA threshold for AB crossing at γ = 0.05 (star topology). |
 | **1/3** | CΨ of a maximally entangled Bell pair (C = 1, Ψ = 1/3). |
+| **2γ** | Decay rate of the c+ supermode (even, slow). Topology-independent for N=3. |
+| **8γ/3** | Decay rate of the concurrence envelope. Topology-independent for N=3. |
+| **10γ/3** | Decay rate of the c- supermode (odd, fast). Topology-independent for N=3. |
+| **-2Σγ** | Location of XOR modes (maximum decay rate). Always N+1 modes here. |
+| **0.888** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
+| **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |
+| **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
 
 ---
 
@@ -93,3 +136,5 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 
 *See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical project description.*
 *See [Core Algebra](CORE_ALGEBRA.md) for the proven mathematics.*
+*See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
+*See [XOR Space](../experiments/XOR_SPACE.md) for the spectral filter discovery.*
