@@ -67,7 +67,7 @@ This is like a palindrome: ABCBA reads the same forwards and backwards. The deca
 
 This is not a numerical observation. It is an analytical proof. The operator Π has a specific form: it swaps certain quantum labels (I with X, Y with iZ) at every site simultaneously. The proof shows that Π transforms the entire system generator into its mirror image, guaranteeing the palindromic pairing.
 
-The connection to existing physics: a research group in Osaka (Haga et al., 2024) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
+The connection to existing physics: a research group in Osaka (Haga et al., 2023) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
 
 For the full proof, see [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md).
 

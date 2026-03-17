@@ -39,8 +39,8 @@ The symbol C is used in three contexts in this repository. See the Notation sect
 | **Π** | Conjugation operator. Per-site action: I→X, X→I, Y→iZ, Z→iY. Satisfies Π·L·Π⁻¹ = -L - 2Σγ·I. Maps every decay rate d to its palindromic partner 2Σγ-d. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md). |
 | **Σγ** | Sum of all individual dephasing rates: Σγ = γ₁ + γ₂ + ... + γ_N. The palindromic axis sits at -Σγ. |
 | **Palindromic pairing** | Every non-zero Liouvillian eigenvalue d has a partner d' such that Re(d) + Re(d') = -2Σγ. Proven for all Heisenberg+dephasing systems, all topologies, all N tested (2-7). |
-| **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. Π maps weight k to N-k (complementarity). Equivalent to "XY-weight" in Haga et al. (2024). |
-| **Incoherenton** | Term from Haga et al. (2024). Quasiparticle that counts Pauli weight in open quantum systems. Their XY-weight = our Pauli weight. Their particle-hole transformation = our Π. |
+| **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. Π maps weight k to N-k (complementarity). Equivalent to "XY-weight" in Haga et al. (2023). |
+| **Incoherenton** | Term from Haga et al. (2023). Quasiparticle that counts Pauli weight in open quantum systems. Their XY-weight = our Pauli weight. Their particle-hole transformation = our Π. |
 
 ---
 

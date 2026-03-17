@@ -176,12 +176,16 @@ Liouvillian for systems of size N = 2 through 8.
 | 5 | 32 | 1024 | 1018 | 1012 | 6 |
 | 6 | 64 | 4096 | 4083 | 4076 | 7 |
 | 7 | 128 | 16384 | 16370 | 16362 | 8 |
-| 8 | 256 | 65536 | 54118* | 39836* | 9 |
+| 8 | 256 | 65536 | - | - | 9 (predicted) |
 
-*N=8: 54118 oscillatory rates extracted (|Im(lambda)| > 0.05). Of these,
-19918 below-center and 19918 above-center were palindromically paired (100%).
-The remaining rates sit at the center. Full spectrum: eigenvalue-only LAPACK
-via OpenBLAS ILP64, 10.6 hours on 24 cores, 68.7 GB native memory.
+*N=8 note: Full diagonalization via OpenBLAS ILP64 (eigenvalue-only, no
+eigenvectors) computed all 65536 eigenvalues. The oscillatory rate filter
+(|Im(lambda)| > 0.05) extracted 54118 rates, of which 19918 below-center
+and 19918 above-center were palindromically paired (100% mirror score).
+14282 rates at or near the center were not individually classified. The
+N+1 = 9 prediction for XOR modes at -2 Sigma_gamma is consistent with
+prior N but was not separately verified at N=8. Computation: 10.6 hours
+on 24 cores, 68.7 GB native memory.*
 
 The N + 1 "unpaired" modes are not broken symmetry. They sit at the
 palindromic axis itself (lambda = -2 Sigma_gamma) and are their own
@@ -312,7 +316,7 @@ concurrence C_SB = 0.598 for N = 3 at optimal coupling.
 
 ## 7. Connection to Existing Work
 
-### 7.1 Incoherentons (Haga et al., 2024)
+### 7.1 Incoherentons (Haga et al., 2023)
 
 The incoherenton framework counts quasiparticles based on the XY-weight
 of Pauli strings. Their XY-weight equals our Pauli weight under Pi.
