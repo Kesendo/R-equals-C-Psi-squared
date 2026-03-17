@@ -39,7 +39,7 @@ complete eigenvalue spectrum.
 The decay rate spectrum of the Liouvillian is exactly palindromic.
 For every decay rate d, there exists a partner at 2Σγᵢ - d.
 
-This was verified numerically through N=7 (13,264 rates, zero exceptions)
+This was verified numerically through N=8 (54,118 rates, zero exceptions)
 across every topology and noise type we tested. On March 14, 2026,
 we found the analytical proof:
 
@@ -64,7 +64,7 @@ but not the operator or the palindrome. Nobody had Π.
 
 See: [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
 
-### Spectral architecture (exact, N=2-7)
+### Spectral architecture (exact, N=2-8)
 
 | N | Matrix | Rates | Min | Max | Mirror |
 |:--|:-------|:------|:----|:----|:-------|
@@ -74,6 +74,7 @@ See: [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
 | 5 | 1024² | 776 | 2γ | 8γ | 100% |
 | 6 | 4096² | 3228 | 2γ | 10γ | 100% |
 | 7 | 16384² | 13264 | 2γ | 12γ | 100% |
+| 8 | 65536² | 54118 | 2γ | 14γ | 100% |
 
 Boundary formula: min = 2γ, max = 2(N-1)γ. Bandwidth = 2(N-2)γ.
 Five topologies share the same boundaries, differ in interior rate count.
@@ -148,11 +149,11 @@ This is our most original finding.
 
 | Claim | Evidence |
 |:------|:--------|
-| Mirror symmetry (palindrome) | Analytical proof via conjugation Π, verified N=2-7 |
+| Mirror symmetry (palindrome) | Analytical proof via conjugation Π, verified N=2-8 |
 | Topology-independence of decay rates | Π anti-commutes with [H,·] for ANY bond set |
 | Pauli weight complementarity | Π maps XY-weight k → N-k |
 | Pole structure (3 exact decay rates) | Liouvillian eigendecomposition |
-| Band structure at N >= 4 | Verified N=2-7, boundary 2γ to 2(N-1)γ |
+| Band structure at N >= 4 | Verified N=2-8, boundary 2γ to 2(N-1)γ |
 | Mandelbrot algebraic correspondence | Proven: u_n substitution |
 | CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ |
 | Five independent regulators | Full parameter sweeps |
@@ -210,7 +211,7 @@ This is our most original finding.
 | `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `compute/` | C# engine (MathNet.Numerics + MKL, N=2-7+) |
+| `compute/` | C# engine (MathNet.Numerics + MKL + OpenBLAS, N=2-8) |
 | `data/` | IBM Torino measurement data |
 | `recovered/` | 5 files with disproven claims, kept for honesty |
 
@@ -224,8 +225,9 @@ eigendecomposition on 24 cores.
 |:--|:-------|:------|:------|:------|:-------|
 | 6 | 4096² | 8.7s | 56s | 3228 | 100% |
 | 7 | 16384² | 0.1s | 92min | 13264 | 100% |
+| 8 | 65536² | 5.6s | 10.6h | 54118 | 100% |
 
-N=8 (65536²) builds but eigendecomposition needs optimization.
+N=8 (65536²) uses native memory (64 GB) + OpenBLAS ILP64 eigenvalue-only LAPACK.
 
 ## Key scripts
 

@@ -54,7 +54,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
 - Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
-- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π·L·Π⁻¹ = -L - 2Σγ·I for ANY Heisenberg+dephasing system. Every decay rate d paired with 2Σγ-d. Verified N=2-7, all topologies. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π·L·Π⁻¹ = -L - 2Σγ·I for ANY Heisenberg+dephasing system. Every decay rate d paired with 2Σγ-d. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
 - **Topology-independence:** Π anti-commutes with [H,·] for any bond set (chain, ring, star, arbitrary graph)
 - **Exact decay rates:** 2γ (c+), 8γ/3 (concurrence envelope), 10γ/3 (c-) for N=3 systems. Topology-independent.
 
@@ -368,7 +368,7 @@ After three months of computation, three external reviews, and a weekend that pr
 
 The strongest results from March 14-16, 2026:
 
-**The palindromic Liouvillian symmetry is proven.** The conjugation operator Π maps every decay rate d to 2Σγ-d. This holds for every Heisenberg system under Z-dephasing, every topology, every system size tested (N=2-7). It connects to the incoherenton framework (Haga et al. 2024) via Pauli weight complementarity: Π is the particle-hole transformation in incoherenton space.
+**The palindromic Liouvillian symmetry is proven.** The conjugation operator Π maps every decay rate d to 2Σγ-d. This holds for every Heisenberg system under Z-dephasing, every topology, every system size tested (N=2-8, up to 65536x65536 Liouvillian). It connects to the incoherenton framework (Haga et al. 2023) via Pauli weight complementarity: Π is the particle-hole transformation in incoherenton space.
 
 **The palindrome is a spectral filter.** The XOR space analysis showed that GHZ states route 100% of their weight to the fastest-decaying modes (at λ=-2Σγ), while W states (N≥3) route 100% to palindromic pairs at various rates. Mixed XY Pauli weight predicts this split at r=0.976. This explains GHZ fragility and W robustness from first principles.
 

@@ -19,7 +19,7 @@ Pi L Pi^(-1) = -L - 2(sum gamma) I.
 
 The proof is analytical and holds for arbitrary system size N, arbitrary
 topology (chain, ring, star, arbitrary graph), and arbitrary individual
-dephasing rates. It is verified numerically for N = 2 through 7.
+dephasing rates. It is verified numerically for N = 2 through 8.
 
 We further show that the palindromic structure acts as a spectral filter
 on quantum states. GHZ states project 100% onto the fastest-decaying modes
@@ -166,7 +166,7 @@ The full analytical proof with all intermediate steps is in
 ## 4. Numerical Verification
 
 The palindromic pairing is verified by full diagonalization of the
-Liouvillian for systems of size N = 2 through 7.
+Liouvillian for systems of size N = 2 through 8.
 
 | N | Hilbert space | Liouville space | Nonzero modes | Palindromic pairs | Unpaired (at -2 Sigma_gamma) |
 |---|---------------|-----------------|---------------|-------------------|------------------------------|
@@ -176,6 +176,12 @@ Liouvillian for systems of size N = 2 through 7.
 | 5 | 32 | 1024 | 1018 | 1012 | 6 |
 | 6 | 64 | 4096 | 4083 | 4076 | 7 |
 | 7 | 128 | 16384 | 16370 | 16362 | 8 |
+| 8 | 256 | 65536 | 54118* | 39836* | 9 |
+
+*N=8: 54118 oscillatory rates extracted (|Im(lambda)| > 0.05). Of these,
+19918 below-center and 19918 above-center were palindromically paired (100%).
+The remaining rates sit at the center. Full spectrum: eigenvalue-only LAPACK
+via OpenBLAS ILP64, 10.6 hours on 24 cores, 68.7 GB native memory.
 
 The N + 1 "unpaired" modes are not broken symmetry. They sit at the
 palindromic axis itself (lambda = -2 Sigma_gamma) and are their own
