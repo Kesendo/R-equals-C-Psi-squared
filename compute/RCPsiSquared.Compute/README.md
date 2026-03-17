@@ -62,10 +62,10 @@ Match: YES - ILP64 path validated! N=8 is safe.
 
 ```bash
 # Full suite: N=2-7 benchmark + topology survey + stress tests + N=8
-# Warning: N=7 alone takes ~70 minutes
+# Warning: N=7 alone takes ~92 minutes
 dotnet run -c Release
 
-# N=8 only (skip N=2-7): needs ~73 GB free RAM, takes 1-2 hours
+# N=8 only (skip N=2-7): needs ~73 GB free RAM, takes ~10 hours
 # Close all other applications first
 dotnet run -c Release -- n8
 
@@ -102,4 +102,4 @@ Results are written to `simulations/results/csharp_compute.txt`.
 
 ## Performance vs Python
 
-With MKL active, expect 5-10x speedup for eigendecomposition and 10-50x for matrix construction. N=7 that took 18 minutes in Python completes in ~70 minutes in C# (larger matrix via direct build).
+With MKL active, expect 5-10x speedup for eigendecomposition and 10-50x for matrix construction. N=7 that took 18 minutes in Python completes in ~92 minutes in C# (larger matrix via direct build). N=8 took 10.6 hours via OpenBLAS ILP64 on 24 cores.
