@@ -14,4 +14,10 @@
     <PackageReference Include="MathNet.Numerics.Providers.MKL" Version="5.0.0" />
   </ItemGroup>
 
+  <!-- OpenBLAS native DLL for direct LAPACK zgeev_ (eigenvalue-only path for N=8) -->
+  <ItemGroup>
+    <Content Include="native\libopenblas.dll" CopyToOutputDirectory="PreserveNewest" Link="libopenblas.dll" />
+    <Content Include="native\libopenblas64.dll" CopyToOutputDirectory="PreserveNewest" Link="libopenblas64.dll" />
+  </ItemGroup>
+
 </Project>

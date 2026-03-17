@@ -8,6 +8,8 @@ ClaudeTasks/
 compute/**/bin/
 compute/**/obj/
 compute/**/.vs/
+compute/**/native/*.dll
+compute/**/*.zip
 *.vsidx
 *.suo
 *.user

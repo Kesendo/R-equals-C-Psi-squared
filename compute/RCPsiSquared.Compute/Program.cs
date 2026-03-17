@@ -1,8 +1,15 @@
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Compute;
+
+// Usage: dotnet run -c Release              -> full suite (N=2-7 + topology + stress + N=8)
+//        dotnet run -c Release -- n8        -> N=8 only (skip everything else)
+//        dotnet run -c Release -- validate  -> N=5 eigenvalue-only validation only
+bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
+bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
 
 bool mklAvailable = false;
 try
@@ -33,6 +40,7 @@ void Log(string msg)
 
 const double gamma = 0.05;
 var sw = new Stopwatch();
+var rateCounts = new Dictionary<int, int>();
 
 Log("=" + new string('=', 79));
 Log("R=CPsi^2 COMPUTE ENGINE (C#/.NET + MKL)");
@@ -40,14 +48,14 @@ Log($"Started: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 Log($"Machine: {Environment.ProcessorCount} cores, {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / 1e9:F1} GB RAM");
 Log("=" + new string('=', 79));
 
+if (!n8Only && !validateOnly)
+{
 // ============================================================
 // BENCHMARK N=2 to N=7
 // ============================================================
 Log("\n### BENCHMARK: Liouvillian eigendecomposition timing");
 Log($"{"N",4} | {"Matrix",8} | {"Build(ms)",10} | {"Eigen(ms)",10} | {"Total(ms)",10} | {"Rates",7} | {"Mirror",7}");
 Log(new string('-', 70));
-
-var rateCounts = new Dictionary<int, int>();
 
 for (int nQ = 2; nQ <= 7; nQ++)
 {
@@ -101,6 +109,189 @@ for (int nQ = 2; nQ <= 7; nQ++)
     }
 }
 
+} // end if (!n8Only && !validateOnly) -- skip N=2-7 benchmark
+
+// ============================================================
+// VALIDATION: eigenvalue-only vs z_eigen at N=5
+// ============================================================
+if (!n8Only && mklAvailable)
+{
+    Log("\n### VALIDATION: Eigenvalue-only LAPACK path (N=5)");
+    int nQv = 5;
+    int dv = 1 << nQv;
+    int d2v = dv * dv;
+    var bondsV = Topology.Star(nQv, Enumerable.Repeat(1.0, nQv - 1).ToArray());
+    var gammasV = Enumerable.Repeat(gamma, nQv).ToArray();
+
+    var rawV = Liouvillian.BuildDirectRaw(nQv, bondsV, gammasV);
+
+    // Copy for eigenvalue-only (zgeev destroys input)
+    var rawCopy = new Complex[rawV.Length];
+    Array.Copy(rawV, rawCopy, rawV.Length);
+
+    // Old path: z_eigen (with eigenvectors)
+    sw.Restart();
+    var ratesOld = Liouvillian.GetOscillatoryRatesMklRaw(rawV, d2v);
+    var msOld = sw.ElapsedMilliseconds;
+
+    // New path: zgeev eigenvalue-only (will use OpenBLAS if MKL zgeev_ unavailable)
+    try
+    {
+        sw.Restart();
+        var ratesNew = Liouvillian.GetOscillatoryRatesEigenvaluesOnly(rawCopy, d2v, msg => Log($"  {msg}"));
+        var msNew = sw.ElapsedMilliseconds;
+
+        // Compare
+        bool match = ratesOld.Count == ratesNew.Count;
+        if (match)
+        {
+            for (int i = 0; i < ratesOld.Count; i++)
+            {
+                if (Math.Abs(ratesOld[i] - ratesNew[i]) > 0.001)
+                { match = false; break; }
+            }
+        }
+        Log($"  z_eigen:   {ratesOld.Count} rates in {msOld}ms");
+        Log($"  zgeev(N):  {ratesNew.Count} rates in {msNew}ms");
+        Log($"  Match: {(match ? "YES - eigenvalue-only path validated!" : "NO - MISMATCH!")}");
+
+        if (!match)
+        {
+            Log($"  WARNING: Results differ. Old={ratesOld.Count} New={ratesNew.Count}");
+            Log($"  First 5 old: {string.Join(", ", ratesOld.Take(5).Select(r => r.ToString("F6")))}");
+            Log($"  First 5 new: {string.Join(", ", ratesNew.Take(5).Select(r => r.ToString("F6")))}");
+        }
+    }
+    catch (Exception ex)
+    {
+        Log($"  Eigenvalue-only path FAILED: {ex.GetType().Name}: {ex.Message}");
+        Log($"  Tried: libMathNetNumericsMKL, mkl_rt.2, libopenblas");
+    }
+}
+
+// ============================================================
+// VALIDATION: ILP64 smoke test at N=5 via native memory path
+// ============================================================
+if (!n8Only && mklAvailable)
+{
+    Log("\n### VALIDATION: ILP64 (64-bit int) path via native memory (N=5)");
+    int nQi = 5;
+    int di = 1 << nQi;
+    int d2i = di * di;
+    var bondsI = Topology.Star(nQi, Enumerable.Repeat(1.0, nQi - 1).ToArray());
+    var gammasI = Enumerable.Repeat(gamma, nQi).ToArray();
+
+    try
+    {
+        // Build into native memory (same path N=8 will use)
+        var ptrI = Liouvillian.BuildDirectNative(nQi, bondsI, gammasI, msg => Log($"  {msg}"));
+
+        // Force ILP64 by calling EigenvaluesOnlyNativeIlp64 through the public API
+        // We temporarily lower the threshold — or just call native path directly
+        sw.Restart();
+        var ratesIlp = Liouvillian.GetOscillatoryRatesNativeIlp64(ptrI, d2i, msg => Log($"  {msg}"));
+        var msIlp = sw.ElapsedMilliseconds;
+
+        unsafe { NativeMemory.Free((void*)ptrI); }
+
+        // Compare with known-good LP64 result
+        var rawRef = Liouvillian.BuildDirectRaw(nQi, bondsI, gammasI);
+        var ratesRef = Liouvillian.GetOscillatoryRatesMklRaw(rawRef, d2i);
+
+        bool match = ratesRef.Count == ratesIlp.Count;
+        if (match)
+        {
+            for (int i = 0; i < ratesRef.Count; i++)
+            {
+                if (Math.Abs(ratesRef[i] - ratesIlp[i]) > 0.001)
+                { match = false; break; }
+            }
+        }
+        Log($"  z_eigen (LP64):       {ratesRef.Count} rates");
+        Log($"  zgeev ILP64 (native): {ratesIlp.Count} rates in {msIlp}ms");
+        Log($"  Match: {(match ? "YES - ILP64 path validated! N=8 is safe." : "NO - MISMATCH! Do NOT attempt N=8.")}");
+    }
+    catch (Exception ex)
+    {
+        Log($"  ILP64 path FAILED: {ex.GetType().Name}: {ex.Message}");
+        Log($"  N=8 cannot proceed without a working ILP64 LAPACK.");
+    }
+}
+
+if (validateOnly)
+{
+    Log($"\nValidation complete: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+    writer.Close();
+    return;
+}
+
+// ============================================================
+// N=8 ATTEMPT: Native memory + eigenvalue-only LAPACK
+// ============================================================
+if (mklAvailable)
+{
+    Log("\n### N=8 ATTEMPT: 65536x65536 matrix (~64 GB)");
+    Log($"Available RAM: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / 1e9:F1} GB");
+
+    int nQ8 = 8;
+    int d8 = 1 << nQ8;
+    int d2_8 = d8 * d8;
+    long totalElements = (long)d2_8 * d2_8;
+    Log($"Matrix: {d2_8}x{d2_8} = {totalElements:N0} elements = {totalElements * 16.0 / 1e9:F1} GB");
+
+    var bonds8 = Topology.Star(nQ8, Enumerable.Repeat(1.0, nQ8 - 1).ToArray());
+    var gammas8 = Enumerable.Repeat(gamma, nQ8).ToArray();
+
+    // Ensure OpenBLAS uses all cores for the long eigen
+    MklDirect.ConfigureThreads(Environment.ProcessorCount, msg => Log($"  {msg}"));
+
+    try
+    {
+        // Phase 1: Build into native memory (parallel fill + page warm-up)
+        sw.Restart();
+        var matrixPtr = Liouvillian.BuildDirectNative(nQ8, bonds8, gammas8, msg => Log($"  {msg}"));
+        var buildMs = sw.ElapsedMilliseconds;
+        Log($"  Build: {buildMs}ms ({buildMs / 1000.0:F1}s)");
+
+        // Phase 2: Eigenvalues only (no eigenvectors, ILP64 for n>46340)
+        Log($"  Eigen via direct LAPACK zgeev ILP64 (eigenvalues only, {Environment.ProcessorCount} cores)...");
+        sw.Restart();
+        var rates = Liouvillian.GetOscillatoryRatesNative(matrixPtr, d2_8, msg => Log($"  {msg}"));
+        var eigenMs = sw.ElapsedMilliseconds;
+
+        // Free native memory immediately
+        unsafe { System.Runtime.InteropServices.NativeMemory.Free((void*)matrixPtr); }
+        Log($"  Native memory freed.");
+
+        if (rates.Count > 0)
+        {
+            var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ8 * gamma);
+            rateCounts[nQ8] = rates.Count;
+            Log($"\n  N=8 RESULT:");
+            Log($"  {nQ8,4} | {d2_8,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+            Log($"  Min rate: {rates.Min() / gamma:F3}g  Max rate: {rates.Max() / gamma:F3}g  BW: {(rates.Max() - rates.Min()) / gamma:F3}g");
+            Log($"  Palindrome: {mirror.Score:P1} ({mirror.Matched} pairs matched)");
+        }
+    }
+    catch (OutOfMemoryException ex)
+    {
+        Log($"  OOM: {ex.Message}");
+        Log($"  N=8 requires ~64 GB contiguous memory. Close all other applications and retry.");
+    }
+    catch (Exception ex)
+    {
+        Log($"  FAILED: {ex.GetType().Name}: {ex.Message}");
+        if (ex.Message.Contains("zgeev"))
+            Log($"  zgeev_ not found. May need Intel oneAPI MKL (mkl_rt.2.dll) or rebuild libMathNetNumericsMKL with LAPACK exports.");
+    }
+}
+else
+{
+    Log("\n### N=8: SKIPPED (MKL not available)");
+}
+
+if (!n8Only && !validateOnly)
+{
 // ============================================================
 // TOPOLOGY SURVEY at N=4,5,6
 // ============================================================
@@ -176,6 +367,8 @@ foreach (int nQ in new[] { 4, 5, 6 })
         }
     }
 }
+
+} // end if (!n8Only) -- skip topology + stress tests
 
 // ============================================================
 // SUMMARY
