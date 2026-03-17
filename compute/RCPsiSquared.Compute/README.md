@@ -22,12 +22,31 @@ dotnet restore
 
 The eigenvalue-only path (required for N=8) calls LAPACK `zgeev_` directly via OpenBLAS. Two builds are needed: LP64 for validation and ILP64 for N=8.
 
+**Windows (PowerShell):**
+```powershell
+cd compute\RCPsiSquared.Compute
+New-Item -ItemType Directory -Force native
+
+# LP64 (32-bit integer LAPACK, for validation at N<=7)
+Invoke-WebRequest -Uri "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.31/OpenBLAS-0.3.31-x64.zip" -OutFile OpenBLAS-LP64.zip
+Expand-Archive OpenBLAS-LP64.zip -DestinationPath temp-lp64
+Copy-Item temp-lp64\win64\bin\libopenblas.dll native\libopenblas.dll
+
+# ILP64 (64-bit integer LAPACK, required for N=8)
+Invoke-WebRequest -Uri "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.31/OpenBLAS-0.3.31-x64-64.zip" -OutFile OpenBLAS-ILP64.zip
+Expand-Archive OpenBLAS-ILP64.zip -DestinationPath temp-ilp64
+Copy-Item temp-ilp64\win64-64\bin\libopenblas.dll native\libopenblas64.dll
+
+# Cleanup
+Remove-Item OpenBLAS-LP64.zip, OpenBLAS-ILP64.zip, temp-lp64, temp-ilp64 -Recurse -Force
+```
+
 **Linux/macOS/Git Bash:**
 ```bash
 cd compute/RCPsiSquared.Compute
 mkdir -p native
 
-# LP64 (32-bit integer LAPACK, for validation at N≤7)
+# LP64 (32-bit integer LAPACK, for validation at N<=7)
 curl -LO https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.31/OpenBLAS-0.3.31-x64.zip
 unzip OpenBLAS-0.3.31-x64.zip win64/bin/libopenblas.dll -d .
 cp win64/bin/libopenblas.dll native/libopenblas.dll
