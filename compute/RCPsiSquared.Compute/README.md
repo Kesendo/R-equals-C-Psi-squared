@@ -119,8 +119,16 @@ Results are written to `simulations/results/csharp_compute.txt`.
 2. **LAPACK int overflow**: internal offset `lda×n` = 4.29B > `int32`. Solved with ILP64 OpenBLAS (`USE64BITINT`).
 3. **Eigenvector memory**: MathNet's `z_eigen` always computes eigenvectors (3×64 GB = 192 GB). Solved with direct `zgeev_` JOBVL='N',JOBVR='N' (64 GB + 1 GB workspace).
 
-## Performance vs Python
+## Performance
 
-With MKL active, expect 5-10x speedup for eigendecomposition and 10-50x for matrix construction. N=7 that took 18 minutes in Python completes in ~92 minutes in C# (larger matrix via direct build). N=8 took 10.6 hours via OpenBLAS ILP64 on 24 cores.
+The C# engine's main advantage is matrix construction: `BuildDirectRaw` (element-wise, no Kronecker products) is orders of magnitude faster than Python's numpy Kronecker approach. Eigendecomposition speed is comparable since both call LAPACK under the hood.
+
+| N | Build (C#) | Eigen (C#) | Engine |
+|---|------------|------------|--------|
+| 6 | 8.7s | 56s | MathNet + MKL |
+| 7 | 0.1s | 92min | Direct build + MKL z_eigen |
+| 8 | 5.6s | 10.6h | Native memory + OpenBLAS ILP64 zgeev |
+
+N=7 and N=8 are only feasible in C# due to the direct build path (no Kronecker, no 2GB .NET limit). Python's numpy/scipy cannot build the 16384x16384 or 65536x65536 Liouvillian in reasonable time or memory.
 
 All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 11.
