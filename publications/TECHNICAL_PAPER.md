@@ -185,7 +185,7 @@ and 19918 above-center were palindromically paired (100% mirror score).
 14282 rates at or near the center were not individually classified. The
 N+1 = 9 prediction for XOR modes at -2 Sigma_gamma is consistent with
 prior N but was not separately verified at N=8. Computation: 10.6 hours
-on 24 cores, 68.7 GB native memory.*
+on 24 cores (Intel Core Ultra 9 285k, 128 GB RAM), 68.7 GB native memory.*
 
 The N + 1 "unpaired" modes are not broken symmetry. They sit at the
 palindromic axis itself (lambda = -2 Sigma_gamma) and are their own

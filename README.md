@@ -228,6 +228,7 @@ eigendecomposition on 24 cores.
 | 8 | 65536² | 5.6s | 10.6h | 54118 | 100% |
 
 N=8 (65536²) uses native memory (64 GB) + OpenBLAS ILP64 eigenvalue-only LAPACK.
+All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
 
 ## Key scripts
 

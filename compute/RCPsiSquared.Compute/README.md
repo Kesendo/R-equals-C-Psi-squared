@@ -103,3 +103,5 @@ Results are written to `simulations/results/csharp_compute.txt`.
 ## Performance vs Python
 
 With MKL active, expect 5-10x speedup for eigendecomposition and 10-50x for matrix construction. N=7 that took 18 minutes in Python completes in ~92 minutes in C# (larger matrix via direct build). N=8 took 10.6 hours via OpenBLAS ILP64 on 24 cores.
+
+All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 11.
