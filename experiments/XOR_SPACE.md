@@ -57,17 +57,20 @@ The result was not what we expected:
 | State | Palindrome weight | XOR weight | Note |
 |-------|-------------------|------------|------|
 | GHZ (maximal entanglement) | 0% | 100% | All N |
-| Bell+ (bipartite entanglement) | 0% | 100% | All N |
+| Bell+ (bipartite, N=2) | 0% | 100% | Bell=GHZ at N=2 |
+| Bell+ (bipartite, N≥3) | 100% | 0% | Hamming dist 2, not N |
 | W (delocalized, N=2) | 0% | 100% | W=Bell at N=2 |
 | W (delocalized, N≥3) | 100% | 0% | N≥3 only |
 | \|010\> (single excitation) | 100% | 0% | N=3 |
 | \|+-+\> (alternating superposition) | 86.5% | 13.5% | N=3 |
 | \|+++\> (uniform superposition) | 85.8% | 14.2% | N=3 |
 
-GHZ and Bell live ENTIRELY in the XOR space for all system sizes tested.
-W lives entirely in the palindrome for N≥3. For N=2, the W state
-(|01⟩+|10⟩)/√2 IS a Bell state and behaves accordingly. The distinction
-between W-type and GHZ-type behavior emerges only at N≥3.
+GHZ lives ENTIRELY in the XOR space for all system sizes tested.
+Bell+ only lives in XOR at N=2 (where Bell=GHZ). At N≥3, Bell(0,1)
+creates coherences with Hamming distance 2 (only 2 bits differ), which
+sit at Re(λ) = -4γ, not -2Nγ. So Bell is palindromic at N≥3.
+Only GHZ (Hamming distance N) reaches the XOR position.
+W lives entirely in the palindrome for N≥3.
 
 ### 3. The Pauli weight determines the split
 
@@ -177,7 +180,8 @@ Results reproduce in under 1 second for N=2 to N=4.
 1. The palindromic symmetry is perfect. No modes break it.
 2. N+1 modes sit at the maximum decay rate (λ = -2Σγ). Their partner
    is the steady state. They are at the edge, not the center.
-3. GHZ and Bell states live entirely in the XOR space (all N tested).
+3. GHZ lives entirely in the XOR space (all N tested). Bell+ is XOR
+   only at N=2 (=GHZ). At N≥3, Bell is palindromic (Hamming distance 2).
 4. W states live entirely in the palindromic space (N≥3).
    For N=2, W is a Bell state and lives in XOR.
 5. Mixed XY Pauli weight predicts XOR fraction (r = 0.976, N≥3).
@@ -199,7 +203,7 @@ Results reproduce in under 1 second for N=2 to N=4.
 
 ---
 
-*March 16, 2026*
+*March 16, 2026 (original). Updated March 18, 2026 (non-Heisenberg, Bell correction)*
 *The palindrome is the stage. The input is the actor.*
 *The XOR is where quantum information goes to die -- fast.*
 

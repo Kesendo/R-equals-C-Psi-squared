@@ -1,0 +1,335 @@
+==========================================================================================
+XOR SPACE FOR NON-HEISENBERG MODELS (v2 -- corrected)
+Date: 2026-03-18 18:23:22.076494
+==========================================================================================
+
+FIXES FROM v1:
+  1. XOR% = xor_weight / (xor_weight + pal_weight)  [steady EXCLUDED]
+     v1 included steady in denominator -> GHZ showed 50% instead of 100%
+  2. Correlation uses structurally diverse states, not Haar random
+  3. Ising 2^N XOR modes documented as physical (not a bug)
+
+==========================================================================================
+TEST 1: XOR fraction for GHZ and W (dynamic weight, steady excluded)
+XOR% = fraction of DYNAMIC weight in modes at Re(lambda) = -2*N*gamma
+==========================================================================================
+
+  N=3 chain, gamma=0.05
+  Mixed XY Pauli weight: GHZ=0.3750, W=0.0000
+
+  Model               #XOR  GHZ_XOR  GHZ_Pal  GHZ_Sdy   W_XOR   W_Pal
+  --------------------------------------------------------------------
+  Heisenberg             4   100.0%     0.0%    50.0%    0.0%  100.0%
+  XY-only                4   100.0%     0.0%    50.0%    0.0%  100.0%
+  Ising                  8   100.0%     0.0%    50.0%    0.0%  100.0%
+  XX alone               2    14.0%    86.0%    12.0%    0.0%  100.0%
+  YY alone               2    11.8%    88.2%    12.6%    0.0%  100.0%
+  DM (XY-YX)             4   100.0%     0.0%    50.0%    0.0%  100.0%
+  XXZ d=0.5              4   100.0%     0.0%    50.0%    0.0%  100.0%
+  XXZ d=2.0              4   100.0%     0.0%    50.0%    0.0%  100.0%
+  Heis+DM                4   100.0%     0.0%    50.0%    0.0%  100.0%
+  XZ alone               2     7.4%    92.6%     6.7%    0.0%  100.0%
+  ZX alone               2     6.4%    93.6%     6.1%    0.0%  100.0%
+
+  N=4 chain, gamma=0.05
+  Mixed XY Pauli weight: GHZ=0.3750, W=0.0000
+
+  Model               #XOR  GHZ_XOR  GHZ_Pal  GHZ_Sdy   W_XOR   W_Pal
+  --------------------------------------------------------------------
+  Heisenberg             5   100.0%     0.0%    50.0%    0.0%  100.0%
+  XY-only                5   100.0%     0.0%    50.0%    0.0%  100.0%
+  Ising                 16   100.0%     0.0%    50.0%    0.0%  100.0%
+  XX alone               2    14.2%    85.8%    12.5%    0.0%  100.0%
+  YY alone               2    14.0%    86.0%    12.3%    0.0%  100.0%
+  DM (XY-YX)             5   100.0%     0.0%    50.0%    0.0%  100.0%
+  XXZ d=0.5              5   100.0%     0.0%    50.0%    0.0%  100.0%
+  XXZ d=2.0              5   100.0%     0.0%    50.0%    0.0%  100.0%
+  Heis+DM                5   100.0%     0.0%    50.0%    0.0%  100.0%
+  XZ alone               2     6.9%    93.1%     5.8%    0.0%  100.0%
+  ZX alone               2     6.6%    93.4%     6.2%    0.0%  100.0%
+
+==========================================================================================
+TEST 2: XOR mode count and steady-state count
+Key: #XOR modes = #steady states (XOR modes are palindromic
+partners of steady states, left unpaired when steady is excluded)
+==========================================================================================
+
+  N=3, target Re(lambda) = -0.30
+
+  Model               #Steady   #XOR  #Osc  Sdy=XOR  Expected         Rule
+  ------------------------------------------------------------------------
+  Heisenberg                4      4     0      YES         4        N+1=4
+  XY-only                   4      4     0      YES         4        N+1=4
+  Ising                     8      8     0      YES         8        2^N=8
+  XX alone                  2      2     0      YES         2       varies
+  YY alone                  2      2     0      YES         2       varies
+  DM (XY-YX)                4      4     0      YES         4        N+1=4
+  XXZ d=0.5                 4      4     0      YES         4        N+1=4
+  XXZ d=2.0                 4      4     0      YES         4        N+1=4
+  Heis+DM                   4      4     0      YES         4        N+1=4
+  XZ alone                  2      2     0      YES         2       varies
+  ZX alone                  2      2     0      YES         2       varies
+
+  N=4, target Re(lambda) = -0.40
+
+  Model               #Steady   #XOR  #Osc  Sdy=XOR  Expected         Rule
+  ------------------------------------------------------------------------
+  Heisenberg                5      5     0      YES         5        N+1=5
+  XY-only                   5      5     0      YES         5        N+1=5
+  Ising                    16     16     0      YES        16       2^N=16
+  XX alone                  2      2     0      YES         2       varies
+  YY alone                  2      2     0      YES         2       varies
+  DM (XY-YX)                5      5     0      YES         5        N+1=5
+  XXZ d=0.5                 5      5     0      YES         5        N+1=5
+  XXZ d=2.0                 5      5     0      YES         5        N+1=5
+  Heis+DM                   5      5     0      YES         5        N+1=5
+  XZ alone                  2      2     0      YES         2       varies
+  ZX alone                  2      2     0      YES         2       varies
+
+  --- Ising eigenvalue distribution by Hamming distance ---
+  For Ising (ZZ): Re(lambda) = -2*gamma*d_H(m,n)
+  #modes at d_H=h is 2^N * C(N,h)
+
+  N=3:
+    d_H=0: Re(lambda)= -0.000  count=   8  expected=2^3*C(3,0)=   8  ok
+    d_H=1: Re(lambda)= -0.100  count=  24  expected=2^3*C(3,1)=  24  ok
+    d_H=2: Re(lambda)= -0.200  count=  24  expected=2^3*C(3,2)=  24  ok
+    d_H=3: Re(lambda)= -0.300  count=   8  expected=2^3*C(3,3)=   8  ok
+    d_H=0 = steady states, d_H=3 = XOR modes
+    Pairs: d_H=h <-> d_H=3-h (sum of Re = -0.300 = -2*N*gamma)
+
+  N=4:
+    d_H=0: Re(lambda)= -0.000  count=  16  expected=2^4*C(4,0)=  16  ok
+    d_H=1: Re(lambda)= -0.100  count=  64  expected=2^4*C(4,1)=  64  ok
+    d_H=2: Re(lambda)= -0.200  count=  96  expected=2^4*C(4,2)=  96  ok
+    d_H=3: Re(lambda)= -0.300  count=  64  expected=2^4*C(4,3)=  64  ok
+    d_H=4: Re(lambda)= -0.400  count=  16  expected=2^4*C(4,4)=  16  ok
+    d_H=0 = steady states, d_H=4 = XOR modes
+    Pairs: d_H=h <-> d_H=4-h (sum of Re = -0.400 = -2*N*gamma)
+
+  CLASSIFICATION RULES (derived from steady-state count):
+  - [H, Sigma Z_k] = 0 (magnetization conserving): N+1 steady, N+1 XOR
+    Applies to: Heisenberg, XY, XXZ, DM (XY-YX), Heis+DM
+  - [H, Z_k] = 0 for each k (fully diagonal): 2^N steady, 2^N XOR
+    Applies to: Ising (ZZ only)
+  - Neither: reduced symmetry, fewer steady/XOR modes
+    Applies to: XX alone, YY alone, XZ alone, ZX alone
+
+==========================================================================================
+TEST 3: Diverse input states (dynamic XOR fraction)
+==========================================================================================
+
+  Heisenberg:
+  State            XOR%     Pal%  Steady%    MixedXY
+  --------------------------------------------------
+  |000>            0.0%     0.0%   100.0%     0.0000
+  |010>            0.0%   100.0%    33.3%     0.0000
+  |+00>            0.0%   100.0%    29.9%     0.0000
+  |+++>           14.2%    85.8%    12.4%     0.0000
+  |+-+>           13.5%    86.5%    11.8%     0.0000
+  GHZ            100.0%     0.0%    50.0%     0.3750
+  W                0.0%   100.0%    23.5%     0.0000
+  Bell(0,1)        0.0%   100.0%    30.5%     0.0000
+
+  Ising:
+  State            XOR%     Pal%  Steady%    MixedXY
+  --------------------------------------------------
+  |000>            0.0%     0.0%   100.0%     0.0000
+  |010>            0.0%     0.0%   100.0%     0.0000
+  |+00>            0.0%   100.0%    50.0%     0.0000
+  |+++>           14.3%    85.7%    12.5%     0.0000
+  |+-+>           14.3%    85.7%    12.5%     0.0000
+  GHZ            100.0%     0.0%    50.0%     0.3750
+  W                0.0%   100.0%    33.3%     0.0000
+  Bell(0,1)        0.0%   100.0%    50.0%     0.0000
+
+  DM (XY-YX):
+  State            XOR%     Pal%  Steady%    MixedXY
+  --------------------------------------------------
+  |000>            0.0%     0.0%   100.0%     0.0000
+  |010>            0.0%   100.0%    33.3%     0.0000
+  |+00>            0.0%   100.0%    31.0%     0.0000
+  |+++>            4.2%    95.8%    11.1%     0.0000
+  |+-+>            4.1%    95.9%    11.0%     0.0000
+  GHZ            100.0%     0.0%    50.0%     0.3750
+  W                0.0%   100.0%    33.3%     0.0000
+  Bell(0,1)        0.0%   100.0%    32.9%     0.0000
+
+  XX alone:
+  State            XOR%     Pal%  Steady%    MixedXY
+  --------------------------------------------------
+  |000>            0.0%   100.0%    24.9%     0.0000
+  |010>            0.0%   100.0%    23.3%     0.0000
+  |+00>            0.0%   100.0%    10.3%     0.0000
+  |+++>            4.4%    95.6%     4.2%     0.0000
+  |+-+>            5.2%    94.8%     4.8%     0.0000
+  GHZ             14.0%    86.0%    12.0%     0.3750
+  W                0.0%   100.0%    15.1%     0.0000
+  Bell(0,1)        0.0%   100.0%    20.5%     0.0000
+
+==========================================================================================
+TEST 4: Mixed XY Pauli weight vs dynamic XOR fraction
+Original: r=0.976 at N=3 (xor_detector_v3.py, 7 structured states)
+v1 got r=0.028 at N=4 due to wrong normalization + random states
+==========================================================================================
+
+  --- Part A: N=3 (same states as xor_verify.py) ---
+
+  Heisenberg: r = 0.9840
+    |000>    mxy=0.0000  xor=0.0000
+    |010>    mxy=0.0000  xor=0.0000
+    |+00>    mxy=0.0000  xor=0.0000
+    |+++>    mxy=0.0000  xor=0.1424
+    |+-+>    mxy=0.0000  xor=0.1346
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+
+  XY-only: r = 0.9861
+    |000>    mxy=0.0000  xor=0.0000
+    |010>    mxy=0.0000  xor=0.0000
+    |+00>    mxy=0.0000  xor=0.0000
+    |+++>    mxy=0.0000  xor=0.1300
+    |+-+>    mxy=0.0000  xor=0.1286
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+
+  Ising: r = 0.9829
+    |000>    mxy=0.0000  xor=0.0000
+    |010>    mxy=0.0000  xor=0.0000
+    |+00>    mxy=0.0000  xor=0.0000
+    |+++>    mxy=0.0000  xor=0.1429
+    |+-+>    mxy=0.0000  xor=0.1429
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+
+  DM (XY-YX): r = 0.9986
+    |000>    mxy=0.0000  xor=0.0000
+    |010>    mxy=0.0000  xor=0.0000
+    |+00>    mxy=0.0000  xor=0.0000
+    |+++>    mxy=0.0000  xor=0.0415
+    |+-+>    mxy=0.0000  xor=0.0413
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+
+  Heis+DM: r = 0.9892
+    |000>    mxy=0.0000  xor=0.0000
+    |010>    mxy=0.0000  xor=0.0000
+    |+00>    mxy=0.0000  xor=0.0000
+    |+++>    mxy=0.0000  xor=0.1048
+    |+-+>    mxy=0.0000  xor=0.1229
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+
+  --- Part B: N=4 (analogous structured states) ---
+
+  Heisenberg: r = 0.9981
+    |0000>   mxy=0.0000  xor=0.0000
+    |0100>   mxy=0.0000  xor=0.0000
+    |1010>   mxy=0.0000  xor=0.0000
+    |+000>   mxy=0.0000  xor=0.0000
+    |++++>   mxy=0.0000  xor=0.0266
+    |+-+->   mxy=0.0000  xor=0.0591
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+    Bell01   mxy=0.0000  xor=0.0000
+
+  XY-only: r = 1.0000
+    |0000>   mxy=0.0000  xor=0.0000
+    |0100>   mxy=0.0000  xor=0.0000
+    |1010>   mxy=0.0000  xor=0.0000
+    |+000>   mxy=0.0000  xor=0.0000
+    |++++>   mxy=0.0000  xor=0.0046
+    |+-+->   mxy=0.0000  xor=0.0046
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+    Bell01   mxy=0.0000  xor=0.0000
+
+  Ising: r = 0.9961
+    |0000>   mxy=0.0000  xor=0.0000
+    |0100>   mxy=0.0000  xor=0.0000
+    |1010>   mxy=0.0000  xor=0.0000
+    |+000>   mxy=0.0000  xor=0.0000
+    |++++>   mxy=0.0000  xor=0.0667
+    |+-+->   mxy=0.0000  xor=0.0667
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+    Bell01   mxy=0.0000  xor=0.0000
+
+  DM (XY-YX): r = 1.0000
+    |0000>   mxy=0.0000  xor=0.0000
+    |0100>   mxy=0.0000  xor=0.0000
+    |1010>   mxy=0.0000  xor=0.0000
+    |+000>   mxy=0.0000  xor=0.0000
+    |++++>   mxy=0.0000  xor=0.0021
+    |+-+->   mxy=0.0000  xor=0.0021
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+    Bell01   mxy=0.0000  xor=0.0000
+
+  Heis+DM: r = 0.9996
+    |0000>   mxy=0.0000  xor=0.0000
+    |0100>   mxy=0.0000  xor=0.0000
+    |1010>   mxy=0.0000  xor=0.0000
+    |+000>   mxy=0.0000  xor=0.0000
+    |++++>   mxy=0.0000  xor=0.0140
+    |+-+->   mxy=0.0000  xor=0.0255
+    GHZ      mxy=0.3750  xor=1.0000
+    W        mxy=0.0000  xor=0.0000
+    Bell01   mxy=0.0000  xor=0.0000
+
+==========================================================================================
+TEST 5: Star topology (hub = site 0)
+==========================================================================================
+
+  N=4, star, gamma=0.05
+
+  Model               #Sdy  #XOR   GHZ XOR%     W XOR%
+  ----------------------------------------------------
+  Heisenberg             5     5     100.0%       0.0%
+  Ising                 16    16     100.0%       0.0%
+  DM                     5     5     100.0%       0.0%
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+
+v1 ANOMALIES RESOLVED:
+  1. GHZ '50% XOR' -> now 100% XOR (of dynamic weight)
+     Cause: v1 included steady state in denominator
+     GHZ has ~50% steady + ~50% XOR + 0% palindromic
+     Dynamic fraction: 50/(50+0) = 100% XOR
+
+  2. Correlation r=0.028 -> recovered with correct method (see TEST 4)
+     Cause: v1 used (a) wrong normalization compressing all fractions,
+     and (b) 50 Haar-random states that cluster near identical mixed-XY
+     weight (~0.29), giving no spread for correlation.
+     Fix: exclude steady from denom + use structured diverse states.
+
+  3. Ising 8 XOR modes -> confirmed as physical (2^N for diagonal H)
+     Cause: Ising H=ZZ commutes with all Z_k, so all 2^N diagonal
+     operators are steady states. Their palindromic partners (the 2^N
+     bitwise-complement coherences |m><~m|) sit at Re=-2*N*gamma.
+     Hamming distance analysis confirms: d_H(m,~m) = N for all m.
+
+KEY FINDINGS:
+  - GHZ -> 100% dynamic XOR for all magnetization-conserving models
+    (Heisenberg, XY, XXZ, DM, Heis+DM -- all satisfy [H, Sigma Z_k]=0)
+  - GHZ -> partial XOR for single-axis models (XX, YY, XZ, ZX alone)
+  - W -> 0% XOR for ALL models tested (universally palindromic)
+  - XOR mode count = #steady states for ALL models:
+      N+1  for magnetization-conserving models ([H, Sigma Z_k] = 0)
+      2^N  for fully diagonal models ([H, Z_k] = 0 for each k)
+      varies for single-axis models (reduced symmetry)
+  - No XOR modes with nonzero Im(lambda) found for any model
+
+DISCREPANCY WITH XOR_SPACE.md:
+  XOR_SPACE.md claims 'Bell+ -> 100% XOR, All N'. This is WRONG for N>=3.
+  Bell(0,1) = (|00..0> + |11 0..0>)/sqrt(2) creates coherences with
+  Hamming distance d_H=2 (only 2 bits differ), not N. These sit at
+  Re(lambda) = -4*gamma, NOT at -2*N*gamma. So Bell -> palindromic, not XOR.
+  Only GHZ (d_H=N for all bits) reaches the max-decay XOR position.
+  The claim holds only at N=2 where Bell = GHZ.
+
+==========================================================================================
+Completed: 2026-03-18 18:23:27.844260
+==========================================================================================
