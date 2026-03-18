@@ -4,7 +4,7 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Date:** March 16, 2026
 **Repository:** https://github.com/Kesendo/R-equals-C-Psi-squared
-**Zenodo DOI:** 10.5281/zenodo.19022139
+**Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
 
 ---
 

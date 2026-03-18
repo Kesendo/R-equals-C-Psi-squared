@@ -56,4 +56,4 @@ Claude (Anthropic)
 
 If you use this work, please cite:
 Wicht, T. & Claude. (2026). Palindromic Liouvillian Symmetry Under Dephasing.
-Zenodo. https://doi.org/10.5281/zenodo.19022139
+Zenodo. https://doi.org/10.5281/zenodo.19100007
