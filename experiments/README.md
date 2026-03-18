@@ -29,6 +29,7 @@
 
 ## Spectral Structure
 - [XOR Space](XOR_SPACE.md) - Where information lives in the palindrome (GHZ vs W, Pauli weight correlation)
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) - Palindrome beyond Heisenberg: all standard models, two Pi families, alternating operators, depolarizing noise
 
 ## Hardware
 - [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - Hardware runs on IBM Torino

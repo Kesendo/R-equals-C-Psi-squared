@@ -1,0 +1,310 @@
+==========================================================================================
+NON-HEISENBERG DEEP ANALYSIS
+Started: 2026-03-17 18:04:02.241765
+Output: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\non_heisenberg_deep.txt
+==========================================================================================
+
+==========================================================================================
+SECTION 1: Single Pauli-pair terms
+Each term tested alone with Z-dephasing
+==========================================================================================
+
+  N=3:
+  Term      Perfect       MaxErr      MeanErr
+  --------------------------------------------
+  XX            YES     3.36e-14     2.61e-15
+  XY            YES     9.83e-15     1.41e-15
+  XZ            YES     8.12e-15     1.15e-15
+  YX            YES     9.83e-15     1.73e-15
+  YY            YES     1.10e-14     1.35e-15
+  YZ            YES     8.04e-15     1.17e-15
+  ZX            YES     1.03e-14     1.30e-15
+  ZY            YES     6.21e-15     1.17e-15
+  ZZ            YES     2.78e-17     2.38e-17
+
+  N=4:
+  Term      Perfect       MaxErr      MeanErr
+  --------------------------------------------
+  XX            YES     2.00e-14     2.98e-15
+  XY            YES     3.24e-14     3.92e-15
+  XZ            YES     2.66e-14     3.56e-15
+  YX            YES     3.03e-14     4.23e-15
+  YY            YES     4.05e-14     3.61e-15
+  YZ            YES     4.01e-14     4.15e-15
+  ZX            YES     2.82e-14     3.74e-15
+  ZY            YES     2.05e-14     3.52e-15
+  ZZ            YES     2.78e-17     7.40e-18
+
+  N=5:
+  Term      Perfect       MaxErr      MeanErr
+  --------------------------------------------
+  XX            YES     7.56e-14     4.33e-15
+  XY            YES     5.54e-14     6.49e-15
+  XZ            YES     6.25e-14     7.35e-15
+  YX            YES     7.26e-14     6.41e-15
+  YY            YES     6.61e-14     4.24e-15
+  YZ            YES     5.86e-14     6.79e-15
+  ZX            YES     4.45e-14     5.83e-15
+  ZY            YES     5.00e-14     5.85e-15
+  ZZ            YES     5.55e-17     4.03e-17
+
+==========================================================================================
+SECTION 2: All 2-term combinations (N=3, Z-deph)
+==========================================================================================
+
+  Combo         Perfect       MaxErr
+  ------------------------------------
+  XX+XY              NO     3.27e-03
+  XX+XZ             YES     2.14e-14
+  XX+YX              NO     3.27e-03
+  XX+YY             YES     2.05e-14
+  XX+YZ             YES     1.04e-14
+  XX+ZX             YES     1.19e-14
+  XX+ZY             YES     1.13e-14
+  XX+ZZ             YES     1.11e-14
+  XY+XZ              NO     8.89e-03
+  XY+YX             YES     1.34e-14
+  XY+YY              NO     3.27e-03
+  XY+YZ              NO     1.68e-02
+  XY+ZX              NO     1.68e-02
+  XY+ZY              NO     8.89e-03
+  XY+ZZ             YES     2.06e-14
+  XZ+YX              NO     1.68e-02
+  XZ+YY             YES     8.91e-15
+  XZ+YZ             YES     1.16e-14
+  XZ+ZX             YES     1.76e-14
+  XZ+ZY              NO     4.99e-02
+  XZ+ZZ             YES     2.21e-14
+  YX+YY              NO     3.27e-03
+  YX+YZ              NO     8.89e-03
+  YX+ZX              NO     8.89e-03
+  YX+ZY              NO     1.68e-02
+  YX+ZZ             YES     1.25e-14
+  YY+YZ             YES     9.60e-15
+  YY+ZX             YES     1.43e-14
+  YY+ZY             YES     2.37e-14
+  YY+ZZ             YES     1.11e-14
+  YZ+ZX              NO     4.99e-02
+  YZ+ZY             YES     1.90e-14
+  YZ+ZZ             YES     2.62e-14
+  ZX+ZY             YES     1.35e-14
+  ZX+ZZ             YES     1.24e-14
+  ZY+ZZ             YES     1.72e-14
+
+  PALINDROMIC: 22/36
+  BROKEN: 14/36
+
+  Broken combinations (sorted by error):
+    YZ+ZX        err=4.9941e-02
+    XZ+ZY        err=4.9941e-02
+    YX+ZY        err=1.6839e-02
+    XY+YZ        err=1.6839e-02
+    XZ+YX        err=1.6839e-02
+    XY+ZX        err=1.6839e-02
+    XY+XZ        err=8.8935e-03
+    XY+ZY        err=8.8935e-03
+    YX+ZX        err=8.8935e-03
+    YX+YZ        err=8.8935e-03
+    XX+XY        err=3.2699e-03
+    XX+YX        err=3.2699e-03
+    YX+YY        err=3.2699e-03
+    XY+YY        err=3.2699e-03
+
+==========================================================================================
+SECTION 3: N-scaling of broken combinations
+Testing the worst broken cases at N=3,4,5,6
+==========================================================================================
+
+  Combo                     N=3        N=4        N=5        N=6
+  --------------------------------------------------------------
+  YZ+ZX                4.99e-02   3.56e-02   4.68e-02   7.65e-02
+  XZ+ZY                4.99e-02   3.56e-02   4.68e-02   7.65e-02
+  YX+ZY                1.68e-02   2.79e-02   3.86e-02   5.32e-02
+  XY+YZ                1.68e-02   2.79e-02   3.86e-02   5.32e-02
+  XZ+YX                1.68e-02   2.79e-02   3.86e-02   5.32e-02
+  XX+YY (ctrl)               OK         OK         OK         OK
+  Heisenberg                 OK         OK         OK         OK
+
+==========================================================================================
+SECTION 4: Dephasing axis dependence
+Same Hamiltonian, three dephasing axes (N=3)
+==========================================================================================
+
+  Model                  Z-deph     X-deph     Y-deph
+  ----------------------------------------------------
+  Heisenberg                 OK         OK         OK
+  XY-only                    OK         OK         OK
+  Ising                      OK         OK         OK
+  XX alone                   OK         OK         OK
+  DM                         OK         OK         OK
+  XX+XY                3.27e-03         OK         OK
+  XY+YZ                1.68e-02   1.68e-02   4.99e-02
+
+==========================================================================================
+SECTION 5: Does the error depend on coefficient ratio?
+Testing XX+XY with varying J_XY/J_XX (N=3, Z-deph)
+==========================================================================================
+
+     J_XY/J_XX       MaxErr  Perfect
+  ------------------------------------
+         0.001     1.41e-03       NO
+         0.010     1.42e-02       NO
+         0.050     3.97e-02       NO
+         0.100     2.95e-02       NO
+         0.200     6.57e-03       NO
+         0.500     3.01e-03       NO
+         1.000     3.27e-03       NO
+         2.000     3.45e-03       NO
+         5.000     3.52e-03       NO
+        10.000     3.54e-03       NO
+       100.000     3.54e-03       NO
+
+  XY+YZ with varying ratio:
+     J_YZ/J_XY       MaxErr  Perfect
+  ------------------------------------
+         0.001     3.99e-05       NO
+         0.010     4.29e-03       NO
+         0.100     3.69e-02       NO
+         0.500     2.61e-02       NO
+         1.000     1.68e-02       NO
+         2.000     3.52e-02       NO
+        10.000     4.95e-02       NO
+
+==========================================================================================
+SECTION 6: Gamma dependence of the breaking
+XX+XY at different gamma values (N=3)
+==========================================================================================
+
+         gamma       MaxErr    Err/gamma
+  ----------------------------------------
+         0.001     1.31e-06       0.0013
+         0.005     3.27e-05       0.0065
+         0.010     1.31e-04       0.0131
+         0.020     5.23e-04       0.0261
+         0.050     3.27e-03       0.0654
+         0.100     1.31e-02       0.1312
+         0.200     5.32e-02       0.2659
+         0.500     3.72e-01       0.7436
+         1.000     1.33e+00       1.3290
+
+==========================================================================================
+SECTION 7: Does Pi L Pi^-1 = -L - 2Sg*I hold?
+Direct check of the conjugation relation for each model
+==========================================================================================
+  Building Pi operator...
+
+  Model                    ||Pi L Pi^-1 + L + 2Sg||   Palindrome
+  ----------------------------------------------------------------
+  Heisenberg                           0.000000e+00          YES
+  XY-only                              0.000000e+00          YES
+  Ising                                0.000000e+00          YES
+  DM                                   3.200000e+01          YES
+  XX+XY                                2.262742e+01 err=3.27e-03
+  XY+YZ                                3.919184e+01 err=1.68e-02
+  XX+YY(1,2)                           0.000000e+00          YES
+  All9 uniform                         6.400000e+01          YES
+  Random                               5.786474e+01 err=1.58e-02
+
+==========================================================================================
+SECTION 8: Analytical decomposition
+Which part of the Hamiltonian breaks Pi L Pi^-1 = -L - 2Sg?
+The Hamiltonian commutator: [H,.] should anti-commute with Pi
+Check: Pi [H,rho] Pi^-1 = -[H, Pi rho Pi^-1] ?
+==========================================================================================
+
+  Term          ||Pi[H,.]+[H,.]Pi||    Anti-commutes
+  ----------------------------------------------------
+  XX                   0.000000e+00              YES
+  XY                   1.600000e+01  NO (1.6000e+01)
+  XZ                   1.600000e+01  NO (1.6000e+01)
+  YX                   1.600000e+01  NO (1.6000e+01)
+  YY                   0.000000e+00              YES
+  YZ                   2.262742e+01  NO (2.2627e+01)
+  ZX                   1.600000e+01  NO (1.6000e+01)
+  ZY                   2.262742e+01  NO (2.2627e+01)
+  ZZ                   0.000000e+00              YES
+
+  Same analysis for bond (1,2):
+  Term          ||Pi[H,.]+[H,.]Pi||    Anti-commutes
+  ----------------------------------------------------
+  XX                   0.000000e+00              YES
+  XY                   1.600000e+01  NO (1.6000e+01)
+  XZ                   1.600000e+01  NO (1.6000e+01)
+  YX                   1.600000e+01  NO (1.6000e+01)
+  YY                   0.000000e+00              YES
+  YZ                   2.262742e+01  NO (2.2627e+01)
+  ZX                   1.600000e+01  NO (1.6000e+01)
+  ZY                   2.262742e+01  NO (2.2627e+01)
+  ZZ                   0.000000e+00              YES
+
+==========================================================================================
+SECTION 9: Could there be a DIFFERENT Pi for broken models?
+If the standard Pi doesn't work for XX+XY, maybe a modified one does
+The eigenvalue check showed palindrome even when Pi doesn't anti-commute
+This would mean there exists ANOTHER symmetry operator
+==========================================================================================
+
+  Ultra-precise palindrome check (tol sweep):
+
+  Heisenberg:
+    Eigenvalues: 60
+    Partner error - min:    0.00e+00
+    Partner error - max:    1.35e-14
+    Partner error - median: 2.57e-15
+    Partner error - mean:   3.55e-15
+    Errors > 1e-8:  0
+    Errors > 1e-4:  0
+    Errors > 1e-2:  0
+
+  XX+XY:
+    Eigenvalues: 62
+    Partner error - min:    1.75e-16
+    Partner error - max:    3.27e-03
+    Partner error - median: 8.85e-05
+    Partner error - mean:   6.49e-04
+    Errors > 1e-8:  52
+    Errors > 1e-4:  22
+    Errors > 1e-2:  0
+
+  XY+YZ:
+    Eigenvalues: 63
+    Partner error - min:    1.94e-16
+    Partner error - max:    1.68e-02
+    Partner error - median: 4.34e-03
+    Partner error - mean:   5.68e-03
+    Errors > 1e-8:  59
+    Errors > 1e-4:  47
+    Errors > 1e-2:  15
+
+  XZ+ZY:
+    Eigenvalues: 63
+    Partner error - min:    5.89e-17
+    Partner error - max:    4.99e-02
+    Partner error - median: 3.32e-02
+    Partner error - mean:   2.17e-02
+    Errors > 1e-8:  50
+    Errors > 1e-4:  50
+    Errors > 1e-2:  48
+
+==========================================================================================
+SECTION 10: Non-uniform gamma
+Does the palindrome survive non-uniform dephasing for broken combos?
+==========================================================================================
+
+  Heisenberg:
+    gamma=[0.05, 0.05, 0.05] -> YES
+    gamma=[0.01, 0.05, 0.1] -> YES
+    gamma=[0.02, 0.08, 0.15] -> YES
+
+  XX+XY:
+    gamma=[0.05, 0.05, 0.05] -> err=3.27e-03
+    gamma=[0.01, 0.05, 0.1] -> err=9.00e-02
+    gamma=[0.02, 0.08, 0.15] -> err=1.30e-01
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+
+Completed: 2026-03-17 18:09:26.350017
+See detailed analysis above for conclusions.
+Key sections: 7 (Pi operator), 8 (anti-commutation), 9 (ultra-precise check)

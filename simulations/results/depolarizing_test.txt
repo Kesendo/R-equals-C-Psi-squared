@@ -1,0 +1,68 @@
+================================================================================
+DEPOLARIZING NOISE PALINDROME TEST
+Started: 2026-03-18 06:19:00.639611
+================================================================================
+
+================================================================================
+TEST 1: Z-dephasing vs Depolarizing (N=3)
+gamma=0.05 per site, depol uses gamma/3 per channel
+================================================================================
+
+  Model                      Z-deph        Depol
+  ------------------------------------------------
+  Heisenberg                     OK err=3.33e-02
+  XY-only                        OK err=3.33e-02
+  Ising                          OK err=3.33e-02
+  XX alone                       OK err=3.33e-02
+  DM (XY-YX)                     OK err=3.33e-02
+  XXZ delta=2                    OK err=3.33e-02
+  Heis+DM                        OK err=3.33e-02
+
+================================================================================
+TEST 2: Center search for depolarizing noise
+Maybe the palindrome axis is NOT at -2*sum_gamma for depol
+================================================================================
+
+  Depol spectrum (Heisenberg N=3):
+  Min Re: -4.0000g
+  Max Re: -1.3333g
+  Expected center (Z-deph): -3.0000g
+  Empirical center: -2.6667g
+  Palindrome around empirical center: err=4.45e-02
+
+  Center sweep:
+    center=0.500*N*gamma: err=1.61e-01
+    center=0.667*N*gamma: err=1.11e-01
+    center=0.750*N*gamma: err=8.61e-02
+    center=1.000*N*gamma: err=3.33e-02
+    center=1.333*N*gamma: err=1.33e-01
+    center=1.500*N*gamma: err=1.83e-01
+    center=2.000*N*gamma: err=3.33e-01
+    center=3.000*N*gamma: err=6.33e-01
+
+================================================================================
+TEST 3: N=4 confirmation
+================================================================================
+
+  Model                      Z-deph        Depol
+  ------------------------------------------------
+  Heisenberg                     OK err=6.67e-02
+  XY-only                        OK err=6.67e-02
+  Ising                          OK err=6.67e-02
+  DM (XY-YX)                     OK err=6.67e-02
+
+  N=4 Depol empirical center: -3.3333g
+  Palindrome at empirical center: err=7.08e-02
+
+================================================================================
+TEST 4: Amplitude damping (non-dephasing, for comparison)
+L_k = sqrt(gamma) * sigma_minus = sqrt(gamma) * (X - iY)/2
+================================================================================
+  Amplitude damping: err=1.50e-01
+  Empirical center: -1.7500g
+  At empirical center: err=2.50e-02
+  Min: -3.0000g  Max: -0.5000g
+
+================================================================================
+Completed: 2026-03-18 06:19:02.121894
+================================================================================

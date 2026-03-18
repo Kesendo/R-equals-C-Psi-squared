@@ -348,10 +348,12 @@ quantum systems that remains to be fully mapped.
 
 ## 8. Open Questions
 
-1. **Non-Heisenberg models.** Does the palindromic symmetry extend to
-   XY-only, Ising, or Dzyaloshinskii-Moriya interactions? Pi's
-   construction relies on the SU(2) invariance of Heisenberg coupling.
-   Breaking this symmetry may break the palindrome.
+1. ~~**Non-Heisenberg models.**~~ **ANSWERED (March 17-18, 2026).** The palindrome
+   holds for ALL standard models: XY-only, Ising, XXZ, DM, Heisenberg+DM, and
+   every single Pauli-pair term individually. Two Pi families exist (P1: I<->X,Y<->Z
+   and P4: I<->Y,X<->Z). XY/YX terms require non-uniform alternating operators.
+   Full compatibility matrix: 34/36 two-term combinations explained algebraically.
+   See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md).
 
 2. **Non-dephasing dissipation.** What happens under amplitude damping,
    thermal noise, or correlated dissipation? The proof relies on the

@@ -36,9 +36,9 @@ The symbol C is used in three contexts in this repository. See the Notation sect
 
 | Symbol / Term | Definition |
 |---------------|------------|
-| **Π** | Conjugation operator. Per-site action: I→X, X→I, Y→iZ, Z→iY. Satisfies Π·L·Π⁻¹ = -L - 2Σγ·I. Maps every decay rate d to its palindromic partner 2Σγ-d. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md). |
+| **Π** | Conjugation operator. Per-site action: I→X, X→I, Y→iZ, Z→iY. Satisfies Π·L·Π⁻¹ = -L - 2Σγ·I. Maps every decay rate d to its palindromic partner 2Σγ-d. This is one member of the P1 family. A second family P4 (I↔Y, X↔Z) supports additional terms (XZ, ZX). XY/YX terms require non-uniform (alternating) operators. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md). |
 | **Σγ** | Sum of all individual dephasing rates: Σγ = γ₁ + γ₂ + ... + γ_N. The palindromic axis sits at -Σγ. |
-| **Palindromic pairing** | Every non-zero Liouvillian eigenvalue d has a partner d' such that Re(d) + Re(d') = -2Σγ. Proven for all Heisenberg+dephasing systems, all topologies, all N tested (2-7). |
+| **Palindromic pairing** | Every non-zero Liouvillian eigenvalue d has a partner d' such that Re(d) + Re(d') = -2Σγ. Proven for Heisenberg+dephasing, verified for all standard models (XY, Ising, XXZ, DM) under single-axis dephasing. Depolarizing noise breaks palindrome at err ≈ γ·2(N-2)/3. Verified N=2-8. |
 | **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. Π maps weight k to N-k (complementarity). Equivalent to "XY-weight" in Haga et al. (2023). |
 | **Incoherenton** | Term from Haga et al. (2023). Quasiparticle that counts Pauli weight in open quantum systems. Their XY-weight = our Pauli weight. Their particle-hole transformation = our Π. |
 
@@ -137,4 +137,5 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 *See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical project description.*
 *See [Core Algebra](CORE_ALGEBRA.md) for the proven mathematics.*
 *See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
+*See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*
 *See [XOR Space](../experiments/XOR_SPACE.md) for the spectral filter discovery.*

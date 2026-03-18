@@ -1,0 +1,448 @@
+==========================================================================================
+ALGEBRAIC PI OPERATOR SEARCH
+Started: 2026-03-17 20:15:11.437883
+==========================================================================================
+
+==========================================================================================
+STEP 1: Enumerate valid per-site maps for Z-dephasing
+==========================================================================================
+  Undephased set: {I, Z} (commute with Z)
+  Dephased set:   {X, Y} (anti-commute with Z)
+  Valid permutations: 4
+  Phase choices per permutation: 4^4 = 256
+  Total candidate maps: 1024
+
+  The 4 permutation structures:
+    P1: I->X, X->I, Y->Z, Z->Y
+    P2: I->X, X->Z, Y->I, Z->Y
+    P3: I->Y, X->I, Y->Z, Z->X
+    P4: I->Y, X->Z, Y->I, Z->X
+
+  Known Pi (index 10): I->+1X, X->+1I, Y->+iZ, Z->+iY
+
+==========================================================================================
+STEP 2: Test anti-commutation {Q, [H,.]} = 0 for each map and term
+==========================================================================================
+
+  Valid maps per Hamiltonian term:
+  Term    #Maps
+  --------------
+  XX         64
+  XY          0
+  XZ         16
+  YX          0
+  YY         64
+  YZ         16
+  ZX         16
+  ZY         16
+  ZZ        128
+
+  All 9 terms have valid maps: NO — problem!
+  MISSING: ['XY', 'YX']
+
+  Known Pi supports: ['XX', 'YY', 'ZZ']
+
+  Distinct support patterns: 9
+
+  {XX, XZ, YY, ZX, ZZ} — 8 maps
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    I->+1Y, X->-iZ, Y->-1I, Z->+iX
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->-1Y, X->-iZ, Y->+1I, Z->+iX
+    ... (8 total)
+
+  {XX, YY, YZ, ZY, ZZ} — 8 maps
+    I->+1X, X->-1I, Y->+iZ, Z->-iY
+    I->+1X, X->-1I, Y->-iZ, Z->+iY
+    I->-1X, X->+1I, Y->+iZ, Z->-iY
+    I->-1X, X->+1I, Y->-iZ, Z->+iY
+    ... (8 total)
+
+  {XX, YY, ZZ} — 16 maps
+    I->+1X, X->+1I, Y->+iZ, Z->+iY
+    I->+1X, X->+1I, Y->-iZ, Z->-iY
+    I->-1X, X->-1I, Y->+iZ, Z->+iY
+    I->-1X, X->-1I, Y->-iZ, Z->-iY
+    ... (16 total)
+
+  {XZ, ZX} — 8 maps
+    I->+1Y, X->+iZ, Y->-1I, Z->+iX
+    I->+1Y, X->-iZ, Y->-1I, Z->-iX
+    I->-1Y, X->+iZ, Y->+1I, Z->+iX
+    I->-1Y, X->-iZ, Y->+1I, Z->-iX
+    ... (8 total)
+
+  {YZ, ZY} — 8 maps
+    I->+1X, X->-1I, Y->+iZ, Z->+iY
+    I->+1X, X->-1I, Y->-iZ, Z->-iY
+    I->-1X, X->+1I, Y->+iZ, Z->+iY
+    I->-1X, X->+1I, Y->-iZ, Z->-iY
+    ... (8 total)
+
+  {XX} — 32 maps
+    I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    I->+1X, X->+1I, Y->-1Z, Z->-1Y
+    I->+1X, X->-1I, Y->+1Z, Z->-1Y
+    I->+1X, X->-1I, Y->-1Z, Z->+1Y
+    ... (32 total)
+
+  {YY} — 32 maps
+    I->+1X, X->+iI, Y->+iZ, Z->-1Y
+    I->+1X, X->+iI, Y->-iZ, Z->+1Y
+    I->+1X, X->-iI, Y->+iZ, Z->+1Y
+    I->+1X, X->-iI, Y->-iZ, Z->-1Y
+    ... (32 total)
+
+  {ZZ} — 96 maps
+    I->+1X, X->+iI, Y->+1Z, Z->-iY
+    I->+1X, X->+iI, Y->-1Z, Z->+iY
+    I->+1X, X->-iI, Y->+1Z, Z->+iY
+    I->+1X, X->-iI, Y->-1Z, Z->-iY
+    ... (96 total)
+
+  {(none)} — 816 maps
+    I->+1X, X->+1I, Y->+1Z, Z->-1Y
+    I->+1X, X->+1I, Y->+1Z, Z->+iY
+    I->+1X, X->+1I, Y->+1Z, Z->-iY
+    I->+1X, X->+1I, Y->-1Z, Z->+1Y
+    ... (816 total)
+
+  Site-swap symmetry check:
+  (Q=MxM commutes with site swap, so XY and YX should have same maps)
+  XY maps == YX maps: True (|XY|=0, |YX|=0)
+  XZ maps == ZX maps: True (|XZ|=16, |ZX|=16)
+  YZ maps == ZY maps: True (|YZ|=16, |ZY|=16)
+
+==========================================================================================
+STEP 2c: Non-uniform maps Q = M1 x M2 (M1 != M2) for missing terms
+==========================================================================================
+  Missing terms with uniform Q: ['XY', 'YX']
+  Testing all 1024 x 1024 = 1048576 pairs...
+
+  XY: 2048 valid non-uniform pairs (M1 x M2 where M1!=M2 allowed)
+    Chain-compatible (both M1xM2 and M2xM1 work): 256
+    M1: I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    M2: I->+1Y, X->+1Z, Y->+1I, Z->+1X [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    M2: I->+1Y, X->-1Z, Y->+1I, Z->-1X [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    M2: I->+1Y, X->+iZ, Y->+1I, Z->+iX [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    M2: I->+1Y, X->-iZ, Y->+1I, Z->-iX [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+1Z, Z->+1Y
+    M2: I->-1Y, X->+1Z, Y->-1I, Z->+1X [2-site only]
+    ---
+
+  YX: 2048 valid non-uniform pairs (M1 x M2 where M1!=M2 allowed)
+    Chain-compatible (both M1xM2 and M2xM1 work): 256
+    M1: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2: I->+1Y, X->-iZ, Y->+1I, Z->-iX [chain-OK]
+    ---
+    M1: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2: I->+1Y, X->-iZ, Y->-1I, Z->+iX [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2: I->+1Y, X->-iZ, Y->+iI, Z->+1X [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2: I->+1Y, X->-iZ, Y->-iI, Z->-1X [2-site only]
+    ---
+    M1: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2: I->-1Y, X->+iZ, Y->+1I, Z->-iX [2-site only]
+    ---
+
+==========================================================================================
+STEP 3: Compatibility table for 2-term combinations
+==========================================================================================
+
+  Combo        Compat  #Shared
+  ----------------------------
+  XX+XY            NO        0
+  XX+XZ           YES        8
+  XX+YX            NO        0
+  XX+YY           YES       32
+  XX+YZ           YES        8
+  XX+ZX           YES        8
+  XX+ZY           YES        8
+  XX+ZZ           YES       32
+  XY+XZ            NO        0
+  XY+YX            NO        0
+  XY+YY            NO        0
+  XY+YZ            NO        0
+  XY+ZX            NO        0
+  XY+ZY            NO        0
+  XY+ZZ            NO        0
+  XZ+YX            NO        0
+  XZ+YY           YES        8
+  XZ+YZ            NO        0
+  XZ+ZX           YES       16
+  XZ+ZY            NO        0
+  XZ+ZZ           YES        8
+  YX+YY            NO        0
+  YX+YZ            NO        0
+  YX+ZX            NO        0
+  YX+ZY            NO        0
+  YX+ZZ            NO        0
+  YY+YZ           YES        8
+  YY+ZX           YES        8
+  YY+ZY           YES        8
+  YY+ZZ           YES       32
+  YZ+ZX            NO        0
+  YZ+ZY           YES       16
+  YZ+ZZ           YES        8
+  ZX+ZY            NO        0
+  ZX+ZZ           YES        8
+  ZY+ZZ           YES        8
+
+  Compatible: 17/36
+  Incompatible: 19/36
+
+==========================================================================================
+STEP 4: Compare with numerical results
+==========================================================================================
+  Numerical broken combos: 14
+  Algebraic broken combos: 19
+
+  MATCH: NO — Discrepancy detected!
+  Broken algebraically but NOT numerically: ['XY+YX', 'XY+ZZ', 'XZ+YZ', 'YX+ZZ', 'ZX+ZY']
+    => No per-site Pauli-to-Pauli Q exists, yet palindrome holds
+    => May need non-Pauli-permutation Q or non-per-site Q
+
+==========================================================================================
+STEP 4b: Non-uniform Q = M1 x M2 for discrepant combos
+==========================================================================================
+  Combos palindromic numerically but no uniform Q: ['XY+YX', 'XY+ZZ', 'XZ+YZ', 'YX+ZZ', 'ZX+ZY']
+
+  XY+YX: 256 chain-compatible non-uniform pairs
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+1Y, X->-iZ, Y->+1I, Z->-iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->-1Y, X->+iZ, Y->-1I, Z->+iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+iY, X->+1Z, Y->+iI, Z->+1X
+    ---
+    ... (256 total)
+
+  XY+ZZ: 128 chain-compatible non-uniform pairs
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+1Y, X->-iZ, Y->+1I, Z->-iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->-1Y, X->+iZ, Y->-1I, Z->+iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+iY, X->+1Z, Y->+iI, Z->+1X
+    ---
+    ... (128 total)
+
+  XZ+YZ: 0 chain-compatible non-uniform pairs
+    NO Pauli-to-Pauli Q (uniform or non-uniform)!
+    => Q must involve Pauli MIXING or non-tensor-product structure
+
+  YX+ZZ: 128 chain-compatible non-uniform pairs
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+1Y, X->-iZ, Y->+1I, Z->-iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->-1Y, X->+iZ, Y->-1I, Z->+iX
+    ---
+    M1[XIZY]: I->+1X, X->+1I, Y->+iZ, Z->+iY
+    M2[YZIX]: I->+iY, X->+1Z, Y->+iI, Z->+1X
+    ---
+    ... (128 total)
+
+  ZX+ZY: 0 chain-compatible non-uniform pairs
+    NO Pauli-to-Pauli Q (uniform or non-uniform)!
+    => Q must involve Pauli MIXING or non-tensor-product structure
+
+  All discrepant combos resolved by non-uniform Q: NO
+
+==========================================================================================
+STEP 5: Shared Q operators for each palindromic 2-term combo
+==========================================================================================
+
+  XX+XZ: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  XX+YY: 32 shared maps [P(XIZY)×16, P(YZIX)×16]
+    I->+iY, X->+1Z, Y->+iI, Z->+1X
+    I->+1X, X->+1I, Y->+iZ, Z->+iY
+    ... (32 total)
+
+  XX+YZ: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+  XX+ZX: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  XX+ZY: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+  XX+ZZ: 32 shared maps [P(XIZY)×16, P(YZIX)×16]
+    I->+iY, X->+1Z, Y->+iI, Z->+1X
+    I->+1X, X->+1I, Y->+iZ, Z->+iY
+    ... (32 total)
+
+  XZ+YY: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  XZ+ZX: 16 shared maps [P(YZIX)×16]
+    I->-1Y, X->+iZ, Y->+1I, Z->+iX
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    ... (16 total)
+
+  XZ+ZZ: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  YY+YZ: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+  YY+ZX: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  YY+ZY: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+  YY+ZZ: 32 shared maps [P(XIZY)×16, P(YZIX)×16]
+    I->+iY, X->+1Z, Y->+iI, Z->+1X
+    I->+1X, X->+1I, Y->+iZ, Z->+iY
+    ... (32 total)
+
+  YZ+ZY: 16 shared maps [P(XIZY)×16]
+    I->-iX, X->+iI, Y->+1Z, Z->+1Y
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    ... (16 total)
+
+  YZ+ZZ: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+  ZX+ZZ: 8 shared maps [P(YZIX)×8]
+    I->-1Y, X->+iZ, Y->+1I, Z->-iX
+    I->+1Y, X->+iZ, Y->-1I, Z->-iX
+    ... (8 total)
+
+  ZY+ZZ: 8 shared maps [P(XIZY)×8]
+    I->-iX, X->+iI, Y->+1Z, Z->-1Y
+    I->-iX, X->+iI, Y->-1Z, Z->+1Y
+    ... (8 total)
+
+==========================================================================================
+STEP 6: Confirm no shared Q for broken combos
+==========================================================================================
+  XX+XY: 0 shared  (|XX|=64, |XY|=0, intersection empty)
+  XX+YX: 0 shared  (|XX|=64, |YX|=0, intersection empty)
+  XY+XZ: 0 shared  (|XY|=0, |XZ|=16, intersection empty)
+  XY+YX: 0 shared  (|XY|=0, |YX|=0, intersection empty)
+  XY+YY: 0 shared  (|XY|=0, |YY|=64, intersection empty)
+  XY+YZ: 0 shared  (|XY|=0, |YZ|=16, intersection empty)
+  XY+ZX: 0 shared  (|XY|=0, |ZX|=16, intersection empty)
+  XY+ZY: 0 shared  (|XY|=0, |ZY|=16, intersection empty)
+  XY+ZZ: 0 shared  (|XY|=0, |ZZ|=128, intersection empty)
+  XZ+YX: 0 shared  (|XZ|=16, |YX|=0, intersection empty)
+  XZ+YZ: 0 shared  (|XZ|=16, |YZ|=16, intersection empty)
+  XZ+ZY: 0 shared  (|XZ|=16, |ZY|=16, intersection empty)
+  YX+YY: 0 shared  (|YX|=0, |YY|=64, intersection empty)
+  YX+YZ: 0 shared  (|YX|=0, |YZ|=16, intersection empty)
+  YX+ZX: 0 shared  (|YX|=0, |ZX|=16, intersection empty)
+  YX+ZY: 0 shared  (|YX|=0, |ZY|=16, intersection empty)
+  YX+ZZ: 0 shared  (|YX|=0, |ZZ|=128, intersection empty)
+  YZ+ZX: 0 shared  (|YZ|=16, |ZX|=16, intersection empty)
+  ZX+ZY: 0 shared  (|ZX|=16, |ZY|=16, intersection empty)
+
+==========================================================================================
+VERIFICATION: Spot-check algebraic Q on actual Lindbladian (N=3)
+==========================================================================================
+
+  N=3, gamma=0.05, bonds=[(0, 1), (1, 2)]
+
+  Test                                  ||QLQ^-1+L+2Sg||  Map(s)
+  ---------------------------------------------------------------------------------------------------------
+  Known Pi + Heisenberg                               OK  I->+1X, X->+1I, Y->+iZ, Z->+iY
+  Map for XX alone                                    OK  I->+1X, X->+1I, Y->+1Z, Z->+1Y
+  Map for XZ alone                                    OK  I->+1Y, X->+iZ, Y->-1I, Z->+iX
+  Map for YY alone                                    OK  I->+1X, X->+1I, Y->+iZ, Z->+iY
+  Map for YZ alone                                    OK  I->+1X, X->-1I, Y->+iZ, Z->+iY
+  Map for ZX alone                                    OK  I->+1Y, X->+iZ, Y->-1I, Z->+iX
+  Map for ZY alone                                    OK  I->+1X, X->-1I, Y->+iZ, Z->+iY
+  Map for ZZ alone                                    OK  I->+1X, X->+1I, Y->+iZ, Z->+iY
+
+  --- Non-uniform Q verification (alternating M1-M2-M1 for N=3) ---
+  Non-unif Q for XY                                   OK  M1=I->+1X, X->+1I, Y->+iZ, Z->+iY
+                                                          M2=I->+1Y, X->-iZ, Y->+1I, Z->-iX
+  Non-unif Q for XY+YX                                OK  M1=I->+1X, X->+1I, Y->+iZ, Z->+iY
+                                                          M2=I->+1Y, X->-iZ, Y->+1I, Z->-iX
+  Non-unif Q for XY+ZZ                                OK  M1=I->+1X, X->+1I, Y->+iZ, Z->+iY
+                                                          M2=I->+1Y, X->-iZ, Y->+1I, Z->-iX
+  Non-unif Q for YX+ZZ                                OK  M1=I->+1X, X->+1I, Y->+iZ, Z->+iY
+                                                          M2=I->+1Y, X->-iZ, Y->+1I, Z->-iX
+
+==========================================================================================
+SUMMARY: The Pi Operator Family for Z-Dephasing
+==========================================================================================
+
+  Each Pauli-pair Hamiltonian term has its own set of valid
+  conjugation operators Q. Two terms are 'compatible' if and
+  only if their valid Q-sets intersect (share a common Q).
+
+  Pi families (by support set):
+  Support set                               #Maps  Example
+  ------------------------------------------------------------------------------------------
+  XX, XZ, YY, ZX, ZZ                            8  I->+1Y, X->+iZ, Y->-1I, Z->-iX
+  XX, YY, YZ, ZY, ZZ                            8  I->+1X, X->-1I, Y->+iZ, Z->-iY
+  XX, YY, ZZ                                   16  I->+1X, X->+1I, Y->+iZ, Z->+iY
+  XZ, ZX                                        8  I->+1Y, X->+iZ, Y->-1I, Z->+iX
+  YZ, ZY                                        8  I->+1X, X->-1I, Y->+iZ, Z->+iY
+  XX                                           32  I->+1X, X->+1I, Y->+1Z, Z->+1Y
+  YY                                           32  I->+1X, X->+iI, Y->+iZ, Z->-1Y
+  ZZ                                           96  I->+1X, X->+iI, Y->+1Z, Z->-iY
+  (no terms)                                  816  I->+1X, X->+1I, Y->+1Z, Z->-1Y
+
+  Compatibility result:
+    Compatible 2-term combos:   17/36
+    Incompatible 2-term combos: 19/36
+    Matches numerical data:     NO
+
+==========================================================================================
+BONUS: Compatibility matrix (. = compatible, X = broken)
+==========================================================================================
+
+       XX  XY  XZ  YX  YY  YZ  ZX  ZY  ZZ
+  XX   .  X  .  X  .  .  .  .  . 
+  XY   X  .  X  X  X  X  X  X  X 
+  XZ   .  X  .  X  .  X  .  X  . 
+  YX   X  X  X  .  X  X  X  X  X 
+  YY   .  X  .  X  .  .  .  .  . 
+  YZ   .  X  X  X  .  .  X  .  . 
+  ZX   .  X  .  X  .  X  .  X  . 
+  ZY   .  X  X  X  .  .  X  .  . 
+  ZZ   .  X  .  X  .  .  .  .  . 
+
+==========================================================================================
+Completed: 2026-03-17 20:18:05.659947
+==========================================================================================

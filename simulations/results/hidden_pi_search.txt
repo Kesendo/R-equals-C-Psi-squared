@@ -1,0 +1,708 @@
+==========================================================================================
+HIDDEN PI OPERATOR SEARCH
+N=3, gamma=0.05, Z-dephasing
+Started: 2026-03-17 18:22:24.025045
+==========================================================================================
+
+==========================================================================================
+CONTROL: Known Pi on Heisenberg
+==========================================================================================
+  ||Pi L Pi^-1 + L + 2Sg|| = 0.0000e+00
+  Eigenvector Q construction: OK: 32 pairs
+
+  === Heisenberg (control) ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 6.0602e+00 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 9.2228e+00 (DIFFERENT)
+  Nonzero entries: 1002/4096 (24.5%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XIX -> 0.7512+0.1113j * IXI
+    YIY -> -0.7361+0.1537j * ZXZ
+    XZX -> -0.1637-0.5611j * ZYZ
+    YIX -> -0.5776+0.0503j * IYZ
+    XIY -> -0.5776+0.0503j * ZYI
+    XXI -> 0.4817+0.1305j * XII
+    IXX -> 0.4817+0.1305j * IIX
+    IYY -> -0.4666+0.1345j * ZZX
+    YYI -> -0.4666+0.1345j * XZZ
+    YZY -> 0.0420+0.4492j * IYI
+    XZY -> -0.4462+0.0131j * ZYI
+    YZX -> -0.4462+0.0131j * IYZ
+    XXZ -> -0.1447-0.4116j * ZZY
+    ZXX -> -0.1447-0.4116j * YZZ
+    XXX -> 0.4350+0.0036j * ZZI
+    XXX -> 0.4350+0.0036j * IZZ
+    XXX -> 0.4350+0.0036j * III
+    XXX -> 0.4350+0.0036j * ZIZ
+    III -> -0.4330+0.0000j * XYY
+    III -> 0.4330-0.0000j * XXX
+    ... (1824 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 8 targets (NOT clean)
+    Site 0, X: maps to 30 targets (NOT clean)
+    Site 0, Y: maps to 30 targets (NOT clean)
+    Site 0, Z: maps to 32 targets (NOT clean)
+    Site 1, I: maps to 8 targets (NOT clean)
+    Site 1, X: maps to 30 targets (NOT clean)
+    Site 1, Y: maps to 30 targets (NOT clean)
+    Site 1, Z: maps to 28 targets (NOT clean)
+    Site 2, I: maps to 8 targets (NOT clean)
+    Site 2, X: maps to 30 targets (NOT clean)
+    Site 2, Y: maps to 30 targets (NOT clean)
+    Site 2, Z: maps to 32 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: DM (XY-YX)
+Comps: {'XY': 1, 'YX': -1}
+==========================================================================================
+  Known Pi residual: 3.2000e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  Q is singular, using pseudoinverse
+  ||Q L Q^-1 + L + 2Sg|| = 1.6028e+01
+
+  === DM (XY-YX) ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 7.5277e+00 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.0052e+01 (DIFFERENT)
+  Nonzero entries: 1051/4096 (25.7%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XYX -> 0.0000-0.7165j * ZZZ
+    XXZ -> -0.5633+0.0288j * XIZ
+    ZYY -> 0.5633-0.0288j * IZX
+    YYZ -> 0.5633-0.0288j * XZI
+    ZXX -> -0.5633+0.0288j * ZIX
+    YYY -> 0.0020-0.4927j * ZIZ
+    ZZY -> -0.3091-0.3823j * YXZ
+    YII -> -0.3091-0.3823j * ZYX
+    XIY -> 0.3153-0.3751j * ZYI
+    XYX -> 0.0000-0.4665j * III
+    YXY -> -0.4665+0.0000j * ZIZ
+    YXY -> -0.4665+0.0000j * IZZ
+    YXY -> -0.4665+0.0000j * ZZI
+    YII -> -0.1526-0.4075j * YXZ
+    ZZY -> -0.1526-0.4075j * ZYX
+    YZX -> -0.0592-0.4288j * IXZ
+    XII -> -0.4094+0.0909j * YXZ
+    ZZX -> -0.4094+0.0909j * ZYX
+    YII -> -0.2174+0.3564j * XYZ
+    ZZY -> -0.2174+0.3564j * ZXY
+    ... (1568 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 8 targets (NOT clean)
+    Site 0, X: maps to 24 targets (NOT clean)
+    Site 0, Y: maps to 24 targets (NOT clean)
+    Site 0, Z: maps to 20 targets (NOT clean)
+    Site 1, I: maps to 8 targets (NOT clean)
+    Site 1, X: maps to 30 targets (NOT clean)
+    Site 1, Y: maps to 30 targets (NOT clean)
+    Site 1, Z: maps to 20 targets (NOT clean)
+    Site 2, I: maps to 8 targets (NOT clean)
+    Site 2, X: maps to 24 targets (NOT clean)
+    Site 2, Y: maps to 24 targets (NOT clean)
+    Site 2, Z: maps to 20 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: XY alone
+Comps: {'XY': 1}
+==========================================================================================
+  Known Pi residual: 2.2627e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 6.6470e+04
+
+  === XY alone ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 7.2222e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.4044e+01 (DIFFERENT)
+  Nonzero entries: 2048/4096 (50.0%)
+
+  Pauli-to-Pauli mapping (top entries):
+    IYZ -> 1.3929-1.5255j * IYX
+    IYZ -> -1.7697+0.2175j * YZX
+    IYZ -> -1.4053+0.8037j * XIY
+    ZXI -> -0.0199+1.6077j * YZX
+    ZXI -> -1.0147-1.2419j * IYX
+    IIY -> 0.3652-1.5607j * XYZ
+    XII -> -0.5572-1.4406j * YXI
+    ZZX -> 1.2370+0.9183j * XIY
+    IYZ -> 0.0804-1.5230j * XYZ
+    IIY -> 0.2940-1.4441j * IYX
+    ZZX -> -1.4286-0.2121j * XYZ
+    ZZX -> -0.0989-1.4391j * YXI
+    ZZY -> -1.2916+0.6203j * YXI
+    YII -> -1.2916+0.6203j * YXI
+    ZZX -> -1.2490+0.6535j * IYX
+    ZZX -> 1.2018+0.6717j * IXY
+    ZZX -> 1.2018+0.6717j * XYI
+    IIY -> -0.6718+1.1684j * XIY
+    IIY -> 0.2838+1.2446j * IXY
+    IIY -> 0.2838+1.2446j * XYI
+    ... (600 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 14 targets (NOT clean)
+    Site 0, Y: maps to 16 targets (NOT clean)
+    Site 0, Z: maps to 12 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 12 targets (NOT clean)
+    Site 1, Y: maps to 12 targets (NOT clean)
+    Site 1, Z: maps to 6 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 16 targets (NOT clean)
+    Site 2, Y: maps to 14 targets (NOT clean)
+    Site 2, Z: maps to 12 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: YX alone
+Comps: {'YX': 1}
+==========================================================================================
+  Known Pi residual: 2.2627e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 4.1648e+04
+
+  === YX alone ===
+  det(Q) = 0.000000-0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 3.6958e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.2129e+01 (DIFFERENT)
+  Nonzero entries: 2048/4096 (50.0%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XZZ -> -0.8130+0.9862j * XZY
+    ZYI -> -1.0769-0.1338j * YIX
+    III -> -0.0009-1.0282j * XYX
+    IIX -> -0.8526+0.5348j * XZY
+    IXZ -> 0.9486-0.2114j * IXX
+    IXZ -> 0.9486-0.2114j * YYI
+    ZZZ -> 0.9710+0.0009j * YXY
+    ZYI -> 0.1729-0.8923j * XXZ
+    ZYI -> 0.1729-0.8923j * ZYY
+    YII -> 0.8360-0.3191j * XZY
+    ZZY -> 0.8921-0.0075j * IXY
+    IIY -> -0.1301-0.8552j * XXZ
+    YZZ -> -0.1301-0.8552j * ZYY
+    IIY -> -0.1301-0.8552j * ZYY
+    YZZ -> -0.1301-0.8552j * XXZ
+    YII -> 0.6410+0.5457j * YIX
+    YXI -> -0.7690-0.2605j * ZYI
+    IYX -> -0.7690-0.2605j * ZYI
+    XZZ -> 0.6997-0.3640j * IXY
+    IXZ -> 0.1488+0.7651j * XYZ
+    ... (764 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 16 targets (NOT clean)
+    Site 0, Y: maps to 14 targets (NOT clean)
+    Site 0, Z: maps to 12 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 12 targets (NOT clean)
+    Site 1, Y: maps to 12 targets (NOT clean)
+    Site 1, Z: maps to 6 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 14 targets (NOT clean)
+    Site 2, Y: maps to 16 targets (NOT clean)
+    Site 2, Z: maps to 12 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: XZ alone
+Comps: {'XZ': 1}
+==========================================================================================
+  Known Pi residual: 2.2627e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 2.0451e+06
+
+  === XZ alone ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 3.4715e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.2178e+01 (DIFFERENT)
+  Nonzero entries: 3328/4096 (81.2%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XIZ -> 0.3347-1.4697j * YXI
+    XII -> -1.3983+0.2091j * XZX
+    IZX -> -1.2711+0.2917j * YXI
+    XII -> -1.1054+0.5419j * XZY
+    ZXZ -> -1.1319-0.1233j * YXI
+    ZII -> -0.4629+1.0190j * YXI
+    YYZ -> -0.4629+1.0190j * YXI
+    YYI -> -0.9404+0.5852j * ZYX
+    ZIZ -> -0.9404+0.5852j * ZYX
+    YYI -> 0.4036+1.0076j * XZY
+    ZIZ -> 0.4036+1.0076j * XZY
+    III -> -0.0393+1.0001j * YYY
+    IIZ -> -0.9885+0.0393j * YYX
+    ZXI -> 0.8900+0.0358j * YXI
+    XZI -> -0.6551+0.5369j * YXI
+    IXZ -> -0.6551+0.5369j * YXI
+    IZY -> -0.7184-0.2865j * XZX
+    YII -> -0.3645+0.6717j * YXI
+    ZYZ -> 0.3645-0.6717j * YXI
+    ZZI -> 0.7530+0.0007j * XXX
+    ... (1008 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 26 targets (NOT clean)
+    Site 0, Y: maps to 28 targets (NOT clean)
+    Site 0, Z: maps to 26 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 34 targets (NOT clean)
+    Site 1, Y: maps to 26 targets (NOT clean)
+    Site 1, Z: maps to 26 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 12 targets (NOT clean)
+    Site 2, Y: maps to 12 targets (NOT clean)
+    Site 2, Z: maps to 2 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: ZX alone
+Comps: {'ZX': 1}
+==========================================================================================
+  Known Pi residual: 2.2627e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 4.6387e+17
+
+  === ZX alone ===
+  det(Q) = -0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 1.8799e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.1224e+01 (DIFFERENT)
+  Nonzero entries: 1904/4096 (46.5%)
+
+  Pauli-to-Pauli mapping (top entries):
+    IXZ -> -0.8613-0.0951j * YYZ
+    ZZZ -> 0.0044+0.7500j * YXX
+    IZZ -> 0.7500-0.0044j * XXX
+    XZI -> -0.4681+0.5289j * YYZ
+    ZIZ -> 0.4093-0.5626j * XYZ
+    IYY -> 0.4093-0.5626j * XYZ
+    ZIZ -> -0.6536-0.1607j * YYZ
+    IYY -> -0.6536-0.1607j * YYZ
+    YZI -> 0.5694+0.2981j * XZX
+    XZI -> -0.4656-0.4273j * YZX
+    IXZ -> -0.0922-0.6097j * XYZ
+    YII -> -0.3478-0.4517j * IXZ
+    YII -> 0.3478+0.4517j * ZXZ
+    XII -> 0.4517-0.3478j * IXZ
+    XII -> -0.4517+0.3478j * ZXZ
+    XYX -> 0.3478+0.4517j * IXZ
+    XYX -> -0.3478-0.4517j * ZXZ
+    YYX -> 0.4517-0.3478j * IXZ
+    YYX -> -0.4517+0.3478j * ZXZ
+    ZIX -> -0.2758+0.4787j * YZX
+    ... (1512 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 26 targets (NOT clean)
+    Site 0, Y: maps to 26 targets (NOT clean)
+    Site 0, Z: maps to 2 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 34 targets (NOT clean)
+    Site 1, Y: maps to 26 targets (NOT clean)
+    Site 1, Z: maps to 26 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 26 targets (NOT clean)
+    Site 2, Y: maps to 28 targets (NOT clean)
+    Site 2, Z: maps to 26 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: YZ alone
+Comps: {'YZ': 1}
+==========================================================================================
+  Known Pi residual: 3.2000e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 4.5407e+06
+
+  === YZ alone ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 6.9754e+02 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 2.9906e+01 (DIFFERENT)
+  Nonzero entries: 3328/4096 (81.2%)
+
+  Pauli-to-Pauli mapping (top entries):
+    IZY -> 1.6971-6.2309j * YZX
+    ZYZ -> 1.2100-5.1318j * YZX
+    IZY -> -2.5496-4.5644j * ZXX
+    IZX -> 4.3821+2.0501j * YZX
+    YII -> 2.3636-3.3116j * XYI
+    IZX -> 2.4921-2.7047j * XYI
+    YYI -> -3.4303-1.1591j * YZX
+    IZZ -> -3.4303-1.1591j * YZX
+    ZYZ -> -3.2591-1.3054j * XYI
+    YZI -> -0.7178+3.4180j * YZX
+    IYZ -> -0.7178+3.4180j * YZX
+    ZYZ -> -2.4022-2.2463j * ZXX
+    ZYZ -> -3.1545+0.2057j * YZY
+    YII -> 2.5440-1.8516j * ZXX
+    IZY -> -2.6810-1.5766j * XYI
+    YII -> 0.3034-2.8850j * ZXY
+    IZY -> -2.1787+1.7906j * ZXY
+    YYI -> -2.4319+1.2870j * ZXX
+    IZZ -> -2.4319+1.2870j * ZXX
+    ZYI -> 0.9974-2.5210j * YZX
+    ... (1008 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 28 targets (NOT clean)
+    Site 0, Y: maps to 26 targets (NOT clean)
+    Site 0, Z: maps to 26 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 26 targets (NOT clean)
+    Site 1, Y: maps to 34 targets (NOT clean)
+    Site 1, Z: maps to 26 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 12 targets (NOT clean)
+    Site 2, Y: maps to 12 targets (NOT clean)
+    Site 2, Z: maps to 2 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: ZY alone
+Comps: {'ZY': 1}
+==========================================================================================
+  Known Pi residual: 3.2000e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 6.7839e+17
+
+  === ZY alone ===
+  det(Q) = 0.000000-0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 2.5628e+03 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 5.5045e+01 (DIFFERENT)
+  Nonzero entries: 2424/4096 (59.2%)
+
+  Pauli-to-Pauli mapping (top entries):
+    IIZ -> -0.8355+7.8262j * ZYX
+    ZXX -> -0.8355+7.8262j * ZYX
+    ZIZ -> -0.8371+7.8254j * ZYX
+    IXX -> -0.8371+7.8254j * ZYX
+    IIX -> -0.6928+7.1654j * ZYX
+    ZXZ -> 0.6928-7.1654j * ZYX
+    ZIX -> -0.6935+7.1643j * ZYX
+    IXZ -> 0.6935-7.1643j * ZYX
+    ZIZ -> -0.8567+6.3067j * IYX
+    IXX -> -0.8567+6.3067j * IYX
+    IIZ -> -0.8584+6.3059j * IYX
+    ZXX -> -0.8584+6.3059j * IYX
+    ZIX -> -0.6774+5.8663j * IYX
+    IXZ -> 0.6774-5.8663j * IYX
+    IIX -> -0.6781+5.8652j * IYX
+    ZXZ -> 0.6781-5.8652j * IYX
+    IIX -> -5.6356-0.2152j * YZY
+    ZXZ -> 5.6356+0.2152j * YZY
+    ZIX -> -5.6239-0.1996j * YZY
+    IXZ -> 5.6239+0.1996j * YZY
+    ... (1496 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 26 targets (NOT clean)
+    Site 0, Y: maps to 26 targets (NOT clean)
+    Site 0, Z: maps to 2 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 26 targets (NOT clean)
+    Site 1, Y: maps to 34 targets (NOT clean)
+    Site 1, Z: maps to 26 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 27 targets (NOT clean)
+    Site 2, Y: maps to 26 targets (NOT clean)
+    Site 2, Z: maps to 26 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: XY+YX symmetric
+Comps: {'XY': 1, 'YX': 1}
+==========================================================================================
+  Known Pi residual: 3.2000e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  Q is singular, using pseudoinverse
+  ||Q L Q^-1 + L + 2Sg|| = 1.6031e+01
+
+  === XY+YX symmetric ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 1.3235e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.0227e+01 (DIFFERENT)
+  Nonzero entries: 1522/4096 (37.2%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XYI -> -0.3064-0.7991j * ZZX
+    IXY -> -0.3064-0.7991j * XII
+    YXZ -> 0.1635+0.7848j * ZZX
+    ZYX -> 0.1635+0.7848j * XII
+    ZYX -> -0.0082+0.7806j * ZZX
+    YXZ -> -0.0082+0.7806j * XII
+    ZYX -> -0.2911-0.7087j * IIX
+    YXZ -> -0.2911-0.7087j * XZZ
+    YXZ -> -0.1164-0.7502j * IIX
+    ZYX -> -0.1164-0.7502j * XZZ
+    IYX -> 0.6105+0.1934j * ZZY
+    YXI -> 0.6105+0.1934j * YII
+    ZZZ -> -0.0131+0.6355j * XYX
+    IYX -> 0.1830-0.5703j * XII
+    YXI -> 0.1830-0.5703j * ZZX
+    IXY -> -0.1585-0.5633j * ZZX
+    XYI -> -0.1585-0.5633j * XII
+    III -> -0.5411+0.0131j * YXY
+    ZYX -> 0.4947+0.0102j * IIY
+    YXZ -> 0.4947+0.0102j * YZZ
+    ... (1568 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 8 targets (NOT clean)
+    Site 0, X: maps to 24 targets (NOT clean)
+    Site 0, Y: maps to 24 targets (NOT clean)
+    Site 0, Z: maps to 20 targets (NOT clean)
+    Site 1, I: maps to 8 targets (NOT clean)
+    Site 1, X: maps to 30 targets (NOT clean)
+    Site 1, Y: maps to 30 targets (NOT clean)
+    Site 1, Z: maps to 20 targets (NOT clean)
+    Site 2, I: maps to 8 targets (NOT clean)
+    Site 2, X: maps to 24 targets (NOT clean)
+    Site 2, Y: maps to 24 targets (NOT clean)
+    Site 2, Z: maps to 20 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: All9 uniform
+Comps: {'XX': 1, 'XY': 1, 'XZ': 1, 'YX': 1, 'YY': 1, 'YZ': 1, 'ZX': 1, 'ZY': 1, 'ZZ': 1}
+==========================================================================================
+  Known Pi residual: 6.4000e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 5.1713e+03
+
+  === All9 uniform ===
+  det(Q) = 0.000000-0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 5.6806e+00 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 9.7846e+00 (DIFFERENT)
+  Nonzero entries: 4096/4096 (100.0%)
+
+  Pauli-to-Pauli mapping (top entries):
+    III -> -0.2500+0.2500j * XYY
+    III -> 0.2500-0.2500j * XYX
+    III -> 0.2500-0.2500j * XXY
+    III -> 0.2500-0.2500j * YXX
+    III -> 0.2500-0.2500j * YYY
+    III -> -0.2500+0.2500j * XXX
+    III -> -0.2500+0.2500j * YXY
+    III -> -0.2500+0.2500j * YYX
+    ZII -> -0.2755+0.2184j * XXX
+    ZII -> 0.2755-0.2184j * XYX
+    ZII -> 0.2755-0.2184j * YXY
+    ZII -> -0.2755+0.2184j * YYY
+    YII -> 0.3072-0.1470j * YYZ
+    YII -> -0.3072+0.1470j * XYZ
+    XII -> 0.3072-0.1470j * XXZ
+    XII -> -0.3072+0.1470j * YXZ
+    IIX -> -0.2547-0.2168j * ZYY
+    IIX -> 0.2547+0.2168j * ZYX
+    IIY -> -0.2547-0.2168j * ZXX
+    IIY -> 0.2547+0.2168j * ZXY
+    ... (3556 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 8 targets (NOT clean)
+    Site 0, X: maps to 51 targets (NOT clean)
+    Site 0, Y: maps to 51 targets (NOT clean)
+    Site 0, Z: maps to 34 targets (NOT clean)
+    Site 1, I: maps to 8 targets (NOT clean)
+    Site 1, X: maps to 51 targets (NOT clean)
+    Site 1, Y: maps to 51 targets (NOT clean)
+    Site 1, Z: maps to 48 targets (NOT clean)
+    Site 2, I: maps to 8 targets (NOT clean)
+    Site 2, X: maps to 51 targets (NOT clean)
+    Site 2, Y: maps to 51 targets (NOT clean)
+    Site 2, Z: maps to 34 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+MODEL: ZZ+XY
+Comps: {'ZZ': 1, 'XY': 1}
+==========================================================================================
+  Known Pi residual: 2.2627e+01 (BROKEN)
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 6.7255e+03
+
+  === ZZ+XY ===
+  det(Q) = -0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 5.9145e+00 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 9.6321e+00 (DIFFERENT)
+  Nonzero entries: 1984/4096 (48.4%)
+
+  Pauli-to-Pauli mapping (top entries):
+    III -> -1.0478-0.0013j * YXY
+    ZZZ -> -0.0013-0.9480j * XYX
+    IXI -> 0.6014-0.0982j * XIX
+    ZXZ -> -0.6014+0.0982j * YIY
+    YXI -> -0.0593+0.5337j * XII
+    IYX -> -0.0593+0.5337j * ZZX
+    YII -> 0.5296-0.0882j * XYI
+    ZZY -> 0.5296-0.0882j * IXY
+    ZXY -> -0.5037+0.0478j * IIY
+    XYZ -> -0.5037+0.0478j * YZZ
+    ZIZ -> 0.0282-0.4998j * YYY
+    ZII -> 0.4944+0.0065j * XYY
+    IIZ -> 0.4944+0.0065j * YYX
+    ZZI -> -0.0293-0.4869j * XXY
+    IZZ -> -0.0293-0.4869j * YXX
+    IYI -> -0.0400+0.4450j * XZX
+    ZYZ -> 0.0400-0.4450j * YZY
+    ZXX -> -0.4366+0.0161j * YYY
+    ZIZ -> -0.4366+0.0161j * YZI
+    ZIZ -> -0.4366+0.0161j * ZIY
+    ... (1004 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to 2 targets (NOT clean)
+    Site 0, X: maps to 10 targets (NOT clean)
+    Site 0, Y: maps to 20 targets (NOT clean)
+    Site 0, Z: maps to 20 targets (NOT clean)
+    Site 1, I: maps to 2 targets (NOT clean)
+    Site 1, X: maps to 20 targets (NOT clean)
+    Site 1, Y: maps to 20 targets (NOT clean)
+    Site 1, Z: maps to 10 targets (NOT clean)
+    Site 2, I: maps to 2 targets (NOT clean)
+    Site 2, X: maps to 20 targets (NOT clean)
+    Site 2, Y: maps to 10 targets (NOT clean)
+    Site 2, Z: maps to 20 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+SUMMARY: Per-site Pauli maps for each model
+Format: I->?, X->?, Y->?, Z->?  (per site, if factorizable)
+==========================================================================================
+
+  Known Pi (Z-dephasing):  I->+1*X, X->+1*I, Y->+i*Z, Z->+i*Y
+  This is the operator that works for XX, YY, ZZ terms.
+
+  If the hidden Q operators are also per-site tensor products,
+  we can read off the per-site transformation rule for each model.
+  If they all share the same per-site rule, there's a universal Pi
+  we haven't recognized. If they differ, the family is genuinely diverse.
+
+==========================================================================================
+BONUS: Construct Q for Heisenberg under X-dephasing and Y-dephasing
+(Should reveal the rotated Pi operators)
+==========================================================================================
+
+  --- X-dephasing ---
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 1.8363e+03
+
+  === Heisenberg + X-dephasing ===
+  det(Q) = 0.000000-0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 9.2189e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.3913e+01 (DIFFERENT)
+  Nonzero entries: 4096/4096 (100.0%)
+
+  Pauli-to-Pauli mapping (top entries):
+    ZXX -> -1.1465-0.9999j * XYY
+    XXZ -> -1.1465-0.9999j * YYX
+    XZX -> -1.1675-0.9747j * YXY
+    XXZ -> -1.0514-1.0248j * YXY
+    ZXX -> -1.0514-1.0248j * YXY
+    XZX -> -1.0514-1.0248j * YYX
+    XZX -> -1.0514-1.0248j * XYY
+    ZXX -> -1.0724-0.9997j * YYX
+    XXZ -> -1.0724-0.9997j * XYY
+    YYY -> -0.0321-0.9785j * III
+    YXX -> 0.7294+0.3893j * YXY
+    XXY -> 0.7294+0.3893j * YXY
+    XYX -> 0.7294+0.3893j * YYX
+    XYX -> 0.7294+0.3893j * XYY
+    YXX -> 0.7427+0.3260j * YYX
+    XXY -> 0.7427+0.3260j * XYY
+    IYI -> -0.7563+0.2579j * YXY
+    IIY -> -0.7664+0.1870j * XYY
+    YII -> -0.7664+0.1870j * YYX
+    XZX -> -0.6129-0.4606j * XZZ
+    ... (1796 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to NOTHING
+    Site 0, X: maps to 30 targets (NOT clean)
+    Site 0, Y: maps to 30 targets (NOT clean)
+    Site 0, Z: maps to 30 targets (NOT clean)
+    Site 1, I: maps to NOTHING
+    Site 1, X: maps to 26 targets (NOT clean)
+    Site 1, Y: maps to 30 targets (NOT clean)
+    Site 1, Z: maps to 30 targets (NOT clean)
+    Site 2, I: maps to NOTHING
+    Site 2, X: maps to 30 targets (NOT clean)
+    Site 2, Y: maps to 30 targets (NOT clean)
+    Site 2, Z: maps to 30 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+  --- Y-dephasing ---
+  Q construction: OK: 32 pairs
+  ||Q L Q^-1 + L + 2Sg|| = 1.4056e+03
+
+  === Heisenberg + Y-dephasing ===
+  det(Q) = 0.000000+0.000000j (magnitude 0.000000)
+  ||Q^dag Q - I|| = 2.6472e+01 (NOT unitary)
+  Q^2[0,0] ~ 0, not involutory
+  ||Q - Pi_known|| = 1.0530e+01 (DIFFERENT)
+  Nonzero entries: 4096/4096 (100.0%)
+
+  Pauli-to-Pauli mapping (top entries):
+    XXX -> 0.1951+0.9564j * YYY
+    XYX -> 0.0601-0.9594j * IIZ
+    XYX -> 0.0601-0.9594j * ZII
+    YXX -> 0.0601-0.9594j * IZI
+    XXY -> 0.0601-0.9594j * IZI
+    YXX -> 0.1465-0.9212j * ZII
+    XXY -> 0.1465-0.9212j * IIZ
+    XYX -> 0.6480+0.4781j * XYY
+    XYX -> 0.6480+0.4781j * YYX
+    YXX -> 0.6480+0.4781j * YXY
+    XXY -> 0.6480+0.4781j * YXY
+    XXY -> 0.0007-0.7144j * ZII
+    YXX -> 0.0007-0.7144j * IIZ
+    YXX -> 0.6589+0.2716j * YYX
+    XXY -> 0.6589+0.2716j * XYY
+    XYX -> 0.0871-0.6762j * IZI
+    YXX -> 0.6347+0.1825j * XYY
+    XXY -> 0.6347+0.1825j * YYX
+    XYX -> 0.6457-0.0240j * YXY
+    XXX -> 0.2997-0.5291j * III
+    ... (1796 total nonzero mappings)
+
+  Per-site factorization test:
+    Site 0, I: maps to NOTHING
+    Site 0, X: maps to 30 targets (NOT clean)
+    Site 0, Y: maps to 30 targets (NOT clean)
+    Site 0, Z: maps to 30 targets (NOT clean)
+    Site 1, I: maps to NOTHING
+    Site 1, X: maps to 30 targets (NOT clean)
+    Site 1, Y: maps to 26 targets (NOT clean)
+    Site 1, Z: maps to 30 targets (NOT clean)
+    Site 2, I: maps to NOTHING
+    Site 2, X: maps to 30 targets (NOT clean)
+    Site 2, Y: maps to 30 targets (NOT clean)
+    Site 2, Z: maps to 30 targets (NOT clean)
+  -> Q is NOT a simple per-site tensor product
+
+==========================================================================================
+Completed: 2026-03-17 18:22:24.409029
+==========================================================================================

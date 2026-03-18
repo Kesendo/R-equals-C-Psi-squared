@@ -54,7 +54,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
 - Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
-- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π·L·Π⁻¹ = -L - 2Σγ·I for ANY Heisenberg+dephasing system. Every decay rate d paired with 2Σγ-d. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Pi satisfies Pi L Pi^-1 = -L - 2(sum gamma) I. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. Originally proven for Heisenberg+Z-dephasing. March 17-18 tests show palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heisenberg+DM) under single-axis dephasing. Two Pi families found (P1 and P4) plus non-uniform alternating operators for XY/YX terms. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
 - **Topology-independence:** Π anti-commutes with [H,·] for any bond set (chain, ring, star, arbitrary graph)
 - **Exact decay rates:** 2γ (c+), 8γ/3 (concurrence envelope), 10γ/3 (c-) for N=3 systems. Topology-independent.
 
@@ -314,9 +314,11 @@ prediction: the quantum-to-classical transition is local.
 
 12. ~~**First-principles derivation of ¼:**~~ **Reframed (2026-03-16).** The ¼ boundary is now understood from two directions: algebraically (discriminant of quadratic) and spectrally (palindromic rate structure determines how fast systems approach it). The Liouvillian palindrome IS the first-principles structure. The question shifts to: can the palindromic symmetry be derived from information-theoretic axioms rather than from the specific form of Z-dephasing?
 
-13. **XOR space applications (added 2026-03-16):** Can the XOR drain be slowed via error correction or decoherence-free subspaces? Does the XOR/palindrome split change for non-Heisenberg models (XY-only, Ising, DM interactions)? Is there a state that maximizes palindromic weight while keeping high entanglement (the optimal QST input)?
+13. ~~**XOR space applications (added 2026-03-16):**~~ **Partially answered (2026-03-17).** The palindrome holds for ALL standard models under single-axis dephasing, so the XOR/palindrome split is expected to hold too. NOT YET VERIFIED for non-Heisenberg XOR decomposition specifically. Remaining: error correction for XOR drain, optimal QST input state.
 
 14. **Repeater design rules (added 2026-03-16):** The XOR space analysis suggests concrete design rules for quantum repeaters: W-encoding over GHZ, avoid mixed XY Pauli weight, star topology with 2:1 coupling. These are testable engineering predictions. Can they be validated against existing repeater benchmarks?
+
+15. **Depolarizing noise corrections (added 2026-03-18):** Under depolarizing noise (X+Y+Z), the palindrome breaks with err = gamma * 2(N-2)/3. This is linear in gamma (not quadratic like cross-term breaking). For practical hardware (gamma ~ 0.001), the error is < 0.1%. Can this systematic correction be incorporated into the design rules as a quantitative fidelity adjustment?
 
 ---
 
@@ -359,6 +361,11 @@ prediction: the quantum-to-classical transition is local.
 | Palindromic radio: spectral symmetry search | **Negative** | Spiral galaxies inherently palindromic. Astrophysical, not artificial. Detector too coarse. |
 | Echo: entanglement oscillation period | **Verified** | Period ~π/(4J), envelope 8γ/3, peak C_SB=0.598 (N=3) |
 | θ as channel quality indicator | **Verified** | r=0.87 with F>2/3 threshold. Not a trajectory compass. |
+| Non-Heisenberg palindrome | **Verified** | ALL standard models (XY, Ising, XXZ, DM, Heis+DM) palindromic under single-axis deph. N=3,4. |
+| Two Pi families (P1, P4) | **Verified** | Algebraic enumeration: 1024 candidates, 208 valid, 2 families + alternating operators |
+| Alternating Q for XY/YX/DM | **Verified** | Non-uniform M1-M2-M1 operator. Verified on N=3 Lindbladian. |
+| Compatibility matrix (34/36) | **Verified** | 17 uniform + 3 non-uniform compatible. 14 broken = exact match numerical. 2 need Pauli-mixing Q. |
+| Depol breaks palindrome | **Verified** | err = gamma * 2(N-2)/3. Hamiltonian-independent. Linear in gamma and N. |
 
 ---
 
@@ -394,4 +401,5 @@ See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 *March 8, 2026 (updated: THE_CPSI_LENS as canonical, LE/CoA benchmark, visibility correction, consciousness retired from technical core)*
 *March 14, 2026 (updated: mirror symmetry PROVEN, conjugation operator Π found, analytical proof complete)*
 *March 16, 2026 (updated: QST bridge verified, XOR space discovered, palindromic radio negative result, theta reinterpreted as channel indicator, repeater design rules proposed)*
+*March 18, 2026 (updated: Non-Heisenberg palindrome verified for all standard models. Two Pi families + alternating operators found algebraically. Depolarizing noise breaks at err~gamma*2(N-2)/3. N=8 verified 54118 rates 100% paired.)*
 *Honesty belongs to the framework*

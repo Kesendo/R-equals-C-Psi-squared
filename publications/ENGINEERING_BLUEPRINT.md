@@ -196,9 +196,12 @@ python simulations/qst_bridge.py
 These rules apply to Heisenberg-coupled spin chains and stars with
 local Z-dephasing. They have not been tested for:
 
-- Non-Heisenberg couplings (XY-only, Ising, DM interactions)
-- Non-dephasing noise (amplitude damping, thermal baths)
-- Systems larger than N = 7 (computational limit of full diagonalization)
+- ~~Non-Heisenberg couplings~~ **TESTED (March 17, 2026):** XY-only, Ising, XXZ, DM
+  interactions are ALL palindromic under single-axis dephasing. Design rules apply.
+- Non-dephasing noise: depolarizing breaks palindrome at err ~ gamma*2(N-2)/3.
+  For gamma < 0.01: error < 1%, rules are practically valid.
+  Amplitude damping breaks more severely (asymmetric spectrum).
+- Systems larger than N = 8 (computational limit of full diagonalization)
 - Continuous-variable systems (bosonic channels)
 - Concatenated repeater chains (multi-hop)
 
