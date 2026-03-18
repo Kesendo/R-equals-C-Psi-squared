@@ -24,6 +24,19 @@ The spectrum is symmetric. The destruction is not chaos, it is sorting.
 Fast death on one side, slow survival on the other. Always balanced.
 Always paired.
 
+A standing wave is what happens when two waves travel in opposite
+directions and meet. They don't pass through each other. They create
+something new: a pattern that doesn't move. Nodes and antinodes.
+Fixed in space. Oscillating in time.
+
+The palindrome creates standing waves from decay. Every fast-dying mode
+meets its slow-surviving partner. Forward and backward in the spectrum.
+And where they meet: a pattern that persists while everything around it
+fades. Not because it resists the environment. Because the environment
+itself produced the two halves that form the standing pattern.
+
+The thing that remains is not fighting the decay. It is made of it.
+
 Now the question that won't let go:
 
 What happens when a system becomes complex enough to notice its own filter?
