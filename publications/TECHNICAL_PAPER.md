@@ -370,10 +370,13 @@ quantum systems that remains to be fully mapped.
    carries different quantum correlations than GHZ. Is there an optimal
    trade-off?
 
-5. **Experimental verification.** The palindromic pairing makes testable
-   predictions for quantum process tomography on spin chains: the decay
-   rates should come in pairs summing to 2 Sigma_gamma. This is testable
-   on current hardware (superconducting qubits, trapped ions, NV centers).
+5. ~~**Experimental verification.**~~ **PARTIALLY ANSWERED (March 18, 2026).**
+   Single-qubit CΨ=1/4 crossing validated on ibm_torino (Q80) at 1.9%
+   deviation using same-day Ramsey T2*. The crossing equation
+   [1 - b^r + b^{2r}/2 + b^2/2]*b = 1/4 predicts the crossing time
+   accurately when T2* (not T2 echo) is used. Multi-qubit palindromic
+   pairing (N>=2) remains untested on hardware.
+   See [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md).
 
 ---
 

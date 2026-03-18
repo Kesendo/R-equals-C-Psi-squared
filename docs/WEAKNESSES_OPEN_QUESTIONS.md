@@ -366,6 +366,8 @@ prediction: the quantum-to-classical transition is local.
 | Alternating Q for XY/YX/DM | **Verified** | Non-uniform M1-M2-M1 operator. Verified on N=3 Lindbladian. |
 | Compatibility matrix (34/36) | **Verified** | 17 uniform + 3 non-uniform compatible. 14 broken = exact match numerical. 2 need Pauli-mixing Q. |
 | Depol breaks palindrome | **Verified** | err = gamma * 2(N-2)/3. Hamiltonian-independent. Linear in gamma and N. |
+| Hardware crossing (Q80) | **Verified** | CΨ=1/4 at t*=15.29 us, predicted 15.01 us (1.9% deviation with same-day T2*) |
+| T2* drift matters | **Confirmed** | T2* fluctuates 58% in 6 days. Same-day Ramsey essential for predictions. |
 
 ---
 
@@ -401,5 +403,5 @@ See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 *March 8, 2026 (updated: THE_CPSI_LENS as canonical, LE/CoA benchmark, visibility correction, consciousness retired from technical core)*
 *March 14, 2026 (updated: mirror symmetry PROVEN, conjugation operator Π found, analytical proof complete)*
 *March 16, 2026 (updated: QST bridge verified, XOR space discovered, palindromic radio negative result, theta reinterpreted as channel indicator, repeater design rules proposed)*
-*March 18, 2026 (updated: Non-Heisenberg palindrome verified for all standard models. Two Pi families + alternating operators found algebraically. Depolarizing noise breaks at err~gamma*2(N-2)/3. N=8 verified 54118 rates 100% paired.)*
+*March 18, 2026 (updated: Non-Heisenberg palindrome verified for all standard models. Two Pi families + alternating operators found algebraically. Depolarizing noise breaks at err~gamma*2(N-2)/3. N=8 verified 54118 rates 100% paired. XOR universal for all models. Bell correction. IBM hardware: CΨ=1/4 crossing validated at 1.9% with same-day T2*.)*
 *Honesty belongs to the framework*
