@@ -1,0 +1,355 @@
+{
+  "experiment": "palindrome_validation",
+  "timestamp": "20260318_191348",
+  "mode": "hardware",
+  "backend": "ibm_torino",
+  "framework": "R = CPsi^2",
+  "qubit": {
+    "qubit": 80,
+    "T1_us": 159.0,
+    "T2star_us": 11.0,
+    "T2echo_us": 27.0
+  },
+  "calibration_day_of": {
+    "T1_us": 143.0830382210972,
+    "T2_us": 24.717302510601687,
+    "note": "T2 from IBM is T2(echo), not T2*"
+  },
+  "shots": 8192,
+  "prediction": {
+    "t_star_us": 9.471345964884334,
+    "t_star_over_T2star": 0.8610314513531212,
+    "b_star": 0.4227258362373341,
+    "C_at_crossing": 0.5913998591267383,
+    "psi_at_crossing": 0.4227258362373341,
+    "r": 0.0768784346262091
+  },
+  "measured_crossing_us": 15.292395172770803,
+  "measured_crossing_over_T2star": 1.390217742979164,
+  "deviation_from_prediction": 0.5291862916260428,
+  "verdict": {
+    "crossing_found": true,
+    "measured_t_over_T2star": 1.3902,
+    "predicted_t_over_T2star": 0.861,
+    "deviation": 0.5292,
+    "deviation_percent": 61.5,
+    "pure_dephasing_limit": 0.858,
+    "summary": "Crossing at t*/T2* = 1.390 (predicted 0.861, deviation 61.5%). DOES NOT VALIDATE T2*-based palindrome prediction."
+  },
+  "analysis": [
+    {
+      "delay_us": 0.0,
+      "t_over_T2star": 0.0,
+      "C_measured": 0.938008,
+      "psi_measured": 0.935162,
+      "cpsi_measured": 0.87719,
+      "cpsi_theory_T2star": 1.0,
+      "cpsi_theory_T2echo": 1.0,
+      "cpsi_deviation_T2star": -0.12281,
+      "cpsi_deviation_T2echo": -0.12281,
+      "rho_00": 0.519287,
+      "rho_11": 0.480713,
+      "rho_01_abs": 0.467581,
+      "rho_01_phase_deg": 0.85
+    },
+    {
+      "delay_us": 3.3,
+      "t_over_T2star": 0.3,
+      "C_measured": 0.842864,
+      "psi_measured": 0.817208,
+      "cpsi_measured": 0.688795,
+      "cpsi_theory_T2star": 0.573886,
+      "cpsi_theory_T2echo": 0.789226,
+      "cpsi_deviation_T2star": 0.114909,
+      "cpsi_deviation_T2echo": -0.100431,
+      "rho_00": 0.566895,
+      "rho_11": 0.433105,
+      "rho_01_abs": 0.408604,
+      "rho_01_phase_deg": 3.22
+    },
+    {
+      "delay_us": 6.6,
+      "t_over_T2star": 0.6,
+      "C_measured": 0.760947,
+      "psi_measured": 0.701076,
+      "cpsi_measured": 0.533482,
+      "cpsi_theory_T2star": 0.357613,
+      "cpsi_theory_T2echo": 0.632518,
+      "cpsi_deviation_T2star": 0.175869,
+      "cpsi_deviation_T2echo": -0.099037,
+      "rho_00": 0.587158,
+      "rho_11": 0.412842,
+      "rho_01_abs": 0.350538,
+      "rho_01_phase_deg": 6.7
+    },
+    {
+      "delay_us": 9.35,
+      "t_over_T2star": 0.85,
+      "C_measured": 0.703252,
+      "psi_measured": 0.600463,
+      "cpsi_measured": 0.422277,
+      "cpsi_theory_T2star": 0.253603,
+      "cpsi_theory_T2echo": 0.53199,
+      "cpsi_deviation_T2star": 0.168673,
+      "cpsi_deviation_T2echo": -0.109714,
+      "rho_00": 0.607178,
+      "rho_11": 0.392822,
+      "rho_01_abs": 0.300231,
+      "rho_01_phase_deg": 10.28
+    },
+    {
+      "delay_us": 11.0,
+      "t_over_T2star": 1.0,
+      "C_measured": 0.665844,
+      "psi_measured": 0.49439,
+      "cpsi_measured": 0.329186,
+      "cpsi_theory_T2star": 0.20984,
+      "cpsi_theory_T2echo": 0.481796,
+      "cpsi_deviation_T2star": 0.119346,
+      "cpsi_deviation_T2echo": -0.152609,
+      "rho_00": 0.647705,
+      "rho_11": 0.352295,
+      "rho_01_abs": 0.247195,
+      "rho_01_phase_deg": 0.25
+    },
+    {
+      "delay_us": 13.2,
+      "t_over_T2star": 1.2,
+      "C_measured": 0.643913,
+      "psi_measured": 0.449121,
+      "cpsi_measured": 0.289195,
+      "cpsi_theory_T2star": 0.165429,
+      "cpsi_theory_T2echo": 0.424382,
+      "cpsi_deviation_T2star": 0.123766,
+      "cpsi_deviation_T2echo": -0.135187,
+      "rho_00": 0.646729,
+      "rho_11": 0.353271,
+      "rho_01_abs": 0.22456,
+      "rho_01_phase_deg": 12.21
+    },
+    {
+      "delay_us": 19.8,
+      "t_over_T2star": 1.8,
+      "C_measured": 0.625191,
+      "psi_measured": 0.26482,
+      "cpsi_measured": 0.165563,
+      "cpsi_theory_T2star": 0.086288,
+      "cpsi_theory_T2echo": 0.299565,
+      "cpsi_deviation_T2star": 0.079275,
+      "cpsi_deviation_T2echo": -0.134002,
+      "rho_00": 0.71228,
+      "rho_11": 0.28772,
+      "rho_01_abs": 0.13241,
+      "rho_01_phase_deg": -22.38
+    },
+    {
+      "delay_us": 44.0,
+      "t_over_T2star": 4.0,
+      "C_measured": 0.614091,
+      "psi_measured": 0.028933,
+      "cpsi_measured": 0.017768,
+      "cpsi_theory_T2star": 0.009803,
+      "cpsi_theory_T2echo": 0.108634,
+      "cpsi_deviation_T2star": 0.007965,
+      "cpsi_deviation_T2echo": -0.090866,
+      "rho_00": 0.738403,
+      "rho_11": 0.261597,
+      "rho_01_abs": 0.014467,
+      "rho_01_phase_deg": -5.33
+    }
+  ],
+  "raw_tomography": [
+    {
+      "delay_us": 0.0,
+      "density_matrix_real": [
+        [
+          0.5192871093750004,
+          0.467529296875
+        ],
+        [
+          0.467529296875,
+          0.4807128906250005
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.0069580078125
+        ],
+        [
+          -0.0069580078125,
+          0.0
+        ]
+      ],
+      "fidelity": 0.9675292968750003
+    },
+    {
+      "delay_us": 3.3,
+      "density_matrix_real": [
+        [
+          0.5668945312500004,
+          0.407958984375
+        ],
+        [
+          0.407958984375,
+          0.4331054687500005
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.02294921875
+        ],
+        [
+          -0.02294921875,
+          0.0
+        ]
+      ],
+      "fidelity": 0.9079589843750003
+    },
+    {
+      "delay_us": 6.6,
+      "density_matrix_real": [
+        [
+          0.5871582031250004,
+          0.34814453125
+        ],
+        [
+          0.34814453125,
+          0.41284179687500056
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.0408935546875
+        ],
+        [
+          -0.0408935546875,
+          0.0
+        ]
+      ],
+      "fidelity": 0.8481445312500002
+    },
+    {
+      "delay_us": 9.35,
+      "density_matrix_real": [
+        [
+          0.6071777343750003,
+          0.29541015625
+        ],
+        [
+          0.29541015625,
+          0.3928222656250006
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.0535888671875
+        ],
+        [
+          -0.0535888671875,
+          0.0
+        ]
+      ],
+      "fidelity": 0.7954101562499999
+    },
+    {
+      "delay_us": 11.0,
+      "density_matrix_real": [
+        [
+          0.6477050781250003,
+          0.2471923828125
+        ],
+        [
+          0.2471923828125,
+          0.3522949218750006
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.0010986328125
+        ],
+        [
+          -0.0010986328125,
+          0.0
+        ]
+      ],
+      "fidelity": 0.7471923828125002
+    },
+    {
+      "delay_us": 13.2,
+      "density_matrix_real": [
+        [
+          0.6467285156250004,
+          0.219482421875
+        ],
+        [
+          0.219482421875,
+          0.3532714843750006
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          0.0474853515625
+        ],
+        [
+          -0.0474853515625,
+          0.0
+        ]
+      ],
+      "fidelity": 0.7194824218750007
+    },
+    {
+      "delay_us": 19.8,
+      "density_matrix_real": [
+        [
+          0.7122802734375003,
+          0.1224365234375
+        ],
+        [
+          0.1224365234375,
+          0.28771972656250067
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          -0.0504150390625
+        ],
+        [
+          0.0504150390625,
+          0.0
+        ]
+      ],
+      "fidelity": 0.6224365234375003
+    },
+    {
+      "delay_us": 44.0,
+      "density_matrix_real": [
+        [
+          0.7384033203125003,
+          0.014404296875
+        ],
+        [
+          0.014404296875,
+          0.2615966796875007
+        ]
+      ],
+      "density_matrix_imag": [
+        [
+          0.0,
+          -0.0013427734375
+        ],
+        [
+          0.0013427734375,
+          0.0
+        ]
+      ],
+      "fidelity": 0.5144042968750004
+    }
+  ]
+}
