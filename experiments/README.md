@@ -34,3 +34,6 @@
 ## Hardware
 - [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - Hardware runs on IBM Torino
 - [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) - CΨ=1/4 crossing validated at 1.9% (March 18, 2026)
+
+## The question after the proof
+- [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering

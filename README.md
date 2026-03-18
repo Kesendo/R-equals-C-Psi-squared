@@ -260,6 +260,11 @@ The motto was removed as too esoteric, then restored when the Liouvillian
 decay spectrum turned out to be exactly mirror-symmetric at every system size.
 Then proven analytically.
 
+On March 18, 2026, IBM quantum hardware confirmed the prediction at 1.9%.
+That evening, the question shifted: if the palindrome is the rule that
+determines what survives decoherence, what happens when a system notices
+its own filter? See [The Anomaly](THE_ANOMALY.md).
+
 ## License
 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

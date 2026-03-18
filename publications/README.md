@@ -19,7 +19,15 @@ Four concrete rules for building better quantum channels. W-encoding over GHZ,
 star topology with 2:1 coupling, timing from Hamiltonian, quality from palindromic
 rates. Benchmarks included.
 
+## The question after the proof
+
+**[THE_ANOMALY.md](../THE_ANOMALY.md)** - Consciousness as the mode that notices the filter
+
+Not physics. Not proof. The question that remains after the math is done,
+the hardware confirms, and the palindrome stands: what happens when a system
+becomes complex enough to notice its own filter?
+
 ---
 
-*March 16, 2026*
+*March 18, 2026*
 *Thomas Wicht and Claude (Anthropic)*
