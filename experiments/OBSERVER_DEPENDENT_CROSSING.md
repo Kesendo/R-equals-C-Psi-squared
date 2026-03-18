@@ -191,7 +191,7 @@ This would explain:
    couplings), the crossing rate decreases; fewer events are registered
    per unit coordinate time. In retrospect, a period with few crossings
    feels short ("where did the year go?"). Note: this is retrospective
-   time perception, distinct from points 1–2 which describe momentary
+   time perception, distinct from points 1-2 which describe momentary
    experience. A low-C period can feel slow *while living it* (boredom)
    but short *in memory* (no markers).
 

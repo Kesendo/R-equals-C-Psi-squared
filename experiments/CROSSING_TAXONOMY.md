@@ -37,7 +37,7 @@ Same physics for all runs:
 
 Variable: **bridge_type** × **γ_base** ∈ {0.01, 0.05, 0.10, 0.20}
 
-15 simulations total (5 bridges × 3–4 γ values each).
+15 simulations total (5 bridges × 3-4 γ values each).
 
 ## 3. Results
 
@@ -136,7 +136,7 @@ Both C and Ψ decay. The crossing is a joint effect.
 | Class | Mechanism | C(0) | C at crossing | Bridges | K |
 |-------|-----------|------|---------------|---------|------|
 | **Type A: Pure-Ψ** | C ≈ 1.0 throughout; only Ψ drives crossing | 1.0 | 1.000 | correlation | 0.072 |
-| **Type B: Mixed** | Both C and Ψ decay; joint effect | 1.0 | 0.86–0.85 | concurrence, mutual_info | 0.039, 0.033 |
+| **Type B: Mixed** | Both C and Ψ decay; joint effect | 1.0 | 0.86-0.85 | concurrence, mutual_info | 0.039, 0.033 |
 | **Type C: Never** | P(0) < ¼; only decreases | 0.5, 0.25 | constant | mutual_purity, overlap | — |
 
 ### 3.4 Why Type B Is Faster Than Type A

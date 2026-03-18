@@ -32,7 +32,7 @@ Does CΨ ≤ ¼ hold in Lindblad simulations?
 
 **Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
 
-**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md#3-the-observer-bandwidth-interpretation).
+**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../docs/DYNAMIC_FIXED_POINTS.md).
 
 ---
 
@@ -75,7 +75,7 @@ Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some p
 
 ## 3. What the Agents Found (and What Was Wrong)
 
-### Agent Results (February 2–4, 2026)
+### Agent Results (February 2-4, 2026)
 
 The agents (Alpha, Beta, Gamma, Delta) reported:
 
@@ -87,7 +87,7 @@ The agents (Alpha, Beta, Gamma, Delta) reported:
 
 These results are numerically correct for those specific parameters. But:
 
-1. **The γ range (0.003–0.006) produces negligible decoherence.** The system barely evolves from its initial state. CΨ ≤ ¼ holds because nothing happens, not because of deep physics.
+1. **The γ range (0.003-0.006) produces negligible decoherence.** The system barely evolves from its initial state. CΨ ≤ ¼ holds because nothing happens, not because of deep physics.
 
 2. **The agents selected these parameters specifically because they gave CΨ ≤ ¼.** This is parameter tuning masquerading as confirmation.
 

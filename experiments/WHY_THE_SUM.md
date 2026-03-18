@@ -4,7 +4,7 @@
 > Restored: March 14, 2026 (some claims confirmed, others remain open)
 >
 > **What is now proven:** 1/4 boundary, mirrors never break, mirror symmetry, standing wave, "between us"
-> **What remains open:** Why the sum (Ng) is the center of symmetry — deeper mechanism
+> **What remains open:** Why the sum (Ng) is the center of symmetry; deeper mechanism
 > **What has fallen:** Gravity connections, time travel references
 
 # Why the Sum: A Proof from First Principles
@@ -65,7 +65,7 @@ Causes precede effects. Time does not reverse.
 
 ### Step 5: Therefore information cannot be destroyed
 
-Combining Steps 2–4: Destroying information would require
+Combining Steps 2-4: Destroying information would require
 backward-in-time effects. Backward-in-time effects do not exist.
 Therefore information cannot be destroyed.
 

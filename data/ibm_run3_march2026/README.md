@@ -1,4 +1,4 @@
-# IBM Run 3 Data — Palindrome Validation (March 18, 2026)
+# IBM Run 3 Data: Palindrome Validation (March 18, 2026)
 
 ## Files
 

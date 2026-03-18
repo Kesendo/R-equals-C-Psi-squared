@@ -6,7 +6,7 @@ C# compute engine for Liouvillian spectral analysis of open quantum networks (2-
 
 - .NET 10.0 SDK
 - Intel MKL (via MathNet NuGet, auto-restored)
-- OpenBLAS 0.3.31 (native DLLs, manual setup — see below)
+- OpenBLAS 0.3.31 (native DLLs, manual setup; see below)
 - ~8 GB RAM for N=7, ~73 GB for N=8
 
 ## Setup

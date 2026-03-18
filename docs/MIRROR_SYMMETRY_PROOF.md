@@ -217,4 +217,4 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 - `experiments/ORPHANED_RESULTS.md` - palindrome pair activation explains which states cross 1/4
 - `experiments/QST_BRIDGE.md` - palindrome applies to all QST channels, provides decay diagnostics
 - `simulations/results/mirror_symmetry.txt` - 11 noise-type tests
-- `simulations/mirror_symmetry_deep.py` - N=2-7 mirror verification
+- `simulations/mirror_symmetry_deep.py` - N=2-8 mirror verification

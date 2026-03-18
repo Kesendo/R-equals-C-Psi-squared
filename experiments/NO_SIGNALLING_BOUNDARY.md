@@ -58,8 +58,8 @@ CΨ = C × Ψ where C = Tr(ρ²) is global purity and
 
 **Convention note:** This document uses Ψ = max eigenvalue of ρ_A (local, = 0.5 for Bell+),
 not the CORE_ALGEBRA convention Ψ = L₁(ρ)/(d−1) (= 0.333 for Bell+). The numerical values
-0.500 → 0.250 are specific to this convention. The core argument — that C drops (1.0 → 0.5)
-while ρ_A is unchanged, shifting the regime from quantum to boundary — holds under any
+0.500 → 0.250 are specific to this convention. The core argument, that C drops (1.0 → 0.5)
+while ρ_A is unchanged, shifting the regime from quantum to boundary, holds under any
 consistent definition of Ψ.
 
 ```

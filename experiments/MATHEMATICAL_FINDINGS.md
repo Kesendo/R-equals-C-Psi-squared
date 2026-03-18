@@ -325,7 +325,7 @@ The formula `Tr(ρ²) = 0.5 + 0.5·cos(3Jt)²` describes subsystem purity oscill
 
 ### Original Agents' Interpretation (Retained for Context)
 
-The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea was tested in Section 9. **Result: for symmetric Hamiltonians, noise distribution does not matter. For asymmetric Hamiltonians (star topology), it does — but through the coupling structure, not through "mutual observation."**
+The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea was tested in Section 9. **Result: for symmetric Hamiltonians, noise distribution does not matter. For asymmetric Hamiltonians (star topology), it does, but through the coupling structure, not through "mutual observation."**
 
 ---
 
@@ -359,7 +359,7 @@ The noise distribution is irrelevant.
 
 **Important nuance:** This result applies to symmetric (2-qubit)
 systems. In asymmetric systems (star topology, 3 qubits, J_SA ≠ J_SB),
-the noise distribution DOES matter — Section 4.9 of
+the noise distribution DOES matter; Section 4.9 of
 STAR_TOPOLOGY_OBSERVERS.md showed that receiver noise (γ_A) is more
 destructive than sender noise (γ_B). The key is not symmetric vs
 asymmetric noise, but symmetric vs asymmetric COUPLING.
@@ -373,7 +373,7 @@ between subsystems, not when the noise does.
 
 ---
 
-*January 30–31, 2026: Original calculations by AI agents Alpha, Beta, Gamma*
+*January 30-31, 2026: Original calculations by AI agents Alpha, Beta, Gamma*
 *February 8, 2026: MCP verification; Sections 1-7 confirmed, Sections 8-9 corrected/marked unverified*
 
 ---

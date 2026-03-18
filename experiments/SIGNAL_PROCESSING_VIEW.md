@@ -1,4 +1,4 @@
-# Signal Processing View — March 12, 2026
+# Signal Processing View: March 12, 2026
 
 **Origin:** GPT review as signal processing engineer, no quantum physics.
 **Verdict:** "This does not look mysterious. It looks like a small coupled
@@ -174,7 +174,7 @@ These are genuinely different Liouvillian eigenvalues, not a fit artifact.
 GPT correct: this is sector-specific damping.
 
 **The hidden 1.1 Hz mode:** Exists at decay=0.1333, bright ONLY in c-.
-Zero residue in c+. This confirms classical modal observability — the
+Zero residue in c+. This confirms classical modal observability: the
 mode is real but dark in the symmetric channel due to symmetry cancellation.
 
 **Pole trajectories across J_SB sweep:**
@@ -201,14 +201,14 @@ Small deviations at very high gamma (γ=0.50) suggest weak nonlinear correction.
 of X/Y operators). But the Hamiltonian mixes k=1 and k=2 strings into new
 Liouvillian eigenmodes with intermediate decay rates 8γ/3 and 10γ/3.
 
-**Selective noise test — which qubit contributes which rate:**
+**Selective noise test: which qubit contributes which rate:**
 
 | Noise on | Decay rates (multiples of γ) |
 |---|---|
 | S only | 10 fractional values, complex structure |
 | A only | Same as S only (symmetric role) |
 | B only | {0.667, 0.889, 1.111, 1.333} |
-| S+A+B (all) | {2.000, 2.667, 3.333, 4.000} — clean rationals |
+| S+A+B (all) | {2.000, 2.667, 3.333, 4.000}, clean rationals |
 
 The clean {2, 8/3, 10/3, 4} structure emerges ONLY when all three qubits
 are equally dephased. Individual qubit noise gives messier rates.
@@ -217,7 +217,7 @@ are equally dephased. Individual qubit noise gives messier rates.
 
 | System | Decay rates (multiples of γ) |
 |---|---|
-| 3-qubit star [1,2] | {2.0, 2.667, 3.333, 4.0} — FIXED for all J |
+| 3-qubit star [1,2] | {2.0, 2.667, 3.333, 4.0}, FIXED for all J |
 | 4-qubit star [1,1,1] | {2.0, 2.667, 2.844, 3.0, 3.667, 4.0, ...} |
 | 4-qubit star [1,2,3] | {2.0, 2.875, 3.0, 3.410, 3.609, 4.0, ...} |
 | 4-qubit star [0.5,1,3] | {2.0, 3.0, 3.234, 3.416, 3.827, 4.0, ...} |
@@ -295,7 +295,7 @@ quantum system generates the signals, but the signals themselves follow
 rules that were understood before quantum mechanics existed.
 
 The first Prony analysis confirmed this: decay rates, phases, hidden modes,
-and pole trajectories — all standard coupled oscillator behavior. The tools
+and pole trajectories, all standard coupled oscillator behavior. The tools
 of signal processing (Prony, cross-spectral matrices, pole/residue tracking)
 are the right instruments for the next phase.
 

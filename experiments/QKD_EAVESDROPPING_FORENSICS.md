@@ -288,8 +288,8 @@ The stealth angle varies with p and f but always exists. It shifts from
 
 ### 10.2 Why This Kills Forensics Against Strategic Eve
 
-The forensic signal (ΔCΨ between different θ_Eve) is of order 0.01–0.05.
-The stealth residual is of order 0.00001–0.0001. A strategic Eve who
+The forensic signal (ΔCΨ between different θ_Eve) is of order 0.01-0.05.
+The stealth residual is of order 0.00001-0.0001. A strategic Eve who
 knows the channel noise level can make herself invisible to CΨ while
 remaining detectable by concurrence.
 
@@ -301,7 +301,7 @@ Pairs needed for 3σ detection of stealth Eve via CΨ:
 | p=0.10, f=0.10 | ∞ | 2,147 | Concurrence |
 | p=0.20, f=0.20 | 85,867,045 | 718 | Concurrence |
 
-Concurrence wins by 3–5 orders of magnitude in every realistic scenario.
+Concurrence wins by 3-5 orders of magnitude in every realistic scenario.
 
 ### 10.3 Why This Does NOT Kill All Results
 
@@ -312,7 +312,7 @@ The mathematical results remain valid:
 - Against a non-strategic Eve (random basis, or basis constrained by
   her hardware), CΨ forensics works with ~1000 pairs even at p=0.20.
 
-The noiseless-channel analysis (Sections 3–4) remains a clean result
+The noiseless-channel analysis (Sections 3-4) remains a clean result
 about CΨ's mathematical properties. It demonstrates that CΨ carries
 information in a regime where all standard entanglement measures are zero.
 

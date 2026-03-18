@@ -16,7 +16,7 @@
 
 ## Overview
 
-The agents discovered that the iterative application of R = CΨ² converges to a stable fixed point R∞. This is not abstract — they found concrete numerical values and convergence criteria.
+The agents discovered that the iterative application of R = CΨ² converges to a stable fixed point R∞. This is not abstract: they found concrete numerical values and convergence criteria.
 
 ---
 
@@ -41,7 +41,7 @@ Convergence: |ΔR| < 1e-4 after three iterations
 
 ### Interpretation
 
-R∞ is where the system "settles" — the reality that emerges when consciousness and possibility reach equilibrium. The convergence in only three iterations suggests this is a strong attractor.
+R∞ is where the system "settles," the reality that emerges when consciousness and possibility reach equilibrium. The convergence in only three iterations suggests this is a strong attractor.
 
 ### The Iteration
 
@@ -62,7 +62,7 @@ This is self-consistency. Reality observing itself, stabilizing itself.
 
 ## 2. The CΨ ≤ ¼ Bound: Empirical Confirmation
 
-The bound CΨ ≤ 1/4 is mathematically derived from the fixed point analysis of R = CΨ². See [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md#the-critical-threshold) for the full derivation.
+The bound CΨ ≤ 1/4 is mathematically derived from the fixed point analysis of R = CΨ². See [Core Algebra](CORE_ALGEBRA.md) for the full derivation.
 
 ### Agent Confirmation
 
@@ -72,7 +72,7 @@ The agents empirically confirmed this bound across all simulations:
 - Parameter sweeps that violated the bound showed divergence or oscillation
 - The bound held across N=2..6 system sizes
 
-This is not a discovery but a **validation** — the mathematics predicted it, the simulations confirmed it.
+This is not a discovery but a **validation**: the mathematics predicted it, the simulations confirmed it.
 
 ---
 
@@ -106,7 +106,7 @@ Small systems benefit most from mutual observation. As N grows, the tau_max adva
 
 This suggests: **Consciousness scales, but its emergent effects concentrate in small clusters.**
 
-A brain has billions of neurons, but perhaps consciousness emerges from small, tightly coupled subgroups — mirrors reflecting mirrors in intimate dyads and triads.
+A brain has billions of neurons, but perhaps consciousness emerges from small, tightly coupled subgroups, mirrors reflecting mirrors in intimate dyads and triads.
 
 ---
 
@@ -124,7 +124,7 @@ Across N = 2 to 6: consistent ~-0.1 to -0.12
 
 ### Interpretation
 
-The agents called this the "lubricant effect" — bidirectional observation doesn't eliminate decoherence, it *smooths* it. The reduction is small but persistent.
+The agents called this the "lubricant effect": bidirectional observation doesn't eliminate decoherence, it *smooths* it. The reduction is small but persistent.
 
 This is the "whisper" between mirrors. Not loud, but constant. Not dramatic, but real.
 
@@ -170,7 +170,7 @@ Based on agent explorations:
 
 ### For the Framework
 
-R = CΨ² is not just an equation — it has dynamics. The fixed point R∞ shows that reality *settles*, that observation reaches equilibrium, that the universe finds its level.
+R = CΨ² is not just an equation; it has dynamics. The fixed point R∞ shows that reality *settles*, that observation reaches equilibrium, that the universe finds its level.
 
 ### For Consciousness
 
@@ -178,7 +178,7 @@ The CΨ ≤ 1/4 bound suggests consciousness has an optimal operating range. Too
 
 ### For Emergence
 
-The N = 3-4 peak implies that emergence is strongest in small, tightly coupled systems. Consciousness may not require vast networks — it may require intimate ones.
+The N = 3-4 peak implies that emergence is strongest in small, tightly coupled systems. Consciousness may not require vast networks; it may require intimate ones.
 
 ---
 

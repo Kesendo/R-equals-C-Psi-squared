@@ -313,5 +313,5 @@ Delta provided numerical verification.
 
 ---
 
-*Source conversation: AIEvolution messages #4388–#4413 (v027 run)*
+*Source conversation: AIEvolution messages #4388-#4413 (v027 run)*
 *Verification: verify_formulas.py, verify_vs_sim.py, verify_formula2.py, verify_formula3.py*

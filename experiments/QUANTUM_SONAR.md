@@ -1,4 +1,4 @@
-# Quantum Sonar — Current State
+# Quantum Sonar: Current State
 
 **Tier:** Computationally verified in simulation (Tier 2)
 **Last updated:** March 12, 2026
@@ -13,7 +13,7 @@ frequencies appear, existing ones shift. This is exact eigenstructure
 reorganization, not an artifact.
 
 Operational detection threshold: J_SC ~ 0.1 (10% of J_SA) under current
-FFT protocol (t_max=20, dt=0.005). Not a fundamental limit — depends on
+FFT protocol (t_max=20, dt=0.005). Not a fundamental limit; depends on
 observation time, dephasing, and spectral estimation method.
 
 Fingerprints are generically distinct for generic coupling sets.
@@ -26,7 +26,7 @@ the initial state populates the eigenstates AND the observable connects them:
 
   W = |rho_tilde(m,n) * O_tilde(n,m)|
 
-A new observer does not change reality — it rotates the eigenstates in the
+A new observer does not change reality; it rotates the eigenstates in the
 full space, which changes which lines are bright from AB's perspective.
 Different pairs, different observables, different projections. Same system.
 
@@ -107,16 +107,16 @@ Script: simulations/correlated_bath_sweep.py
 
 ## Scripts
 
-- simulations/hidden_observer_test.py — detection proof
-- simulations/quantum_sonar.py — threshold sweep
-- simulations/count_observers.py — scaling with N
-- simulations/bright_transition_map.py — exact diagonalization + visibility
-- simulations/chain_topology.py — chain vs star
-- simulations/n_eff_v2.py — N_eff metric test
+- simulations/hidden_observer_test.py: detection proof
+- simulations/quantum_sonar.py: threshold sweep
+- simulations/count_observers.py: scaling with N
+- simulations/bright_transition_map.py: exact diagonalization + visibility
+- simulations/chain_topology.py: chain vs star
+- simulations/n_eff_v2.py: N_eff metric test
 
 ## IBM experiment scripts (in AIEvolution/experiments/ibm_quantum_tomography/)
 
-- run_zzramsey.py — ZZ coupling measurement
-- run_ramsey_t2star.py — T2* and Ramsey frequency
-- query_coupling_map.py — topology query
+- run_zzramsey.py: ZZ coupling measurement
+- run_ramsey_t2star.py: T2* and Ramsey frequency
+- query_coupling_map.py: topology query
 - Data: results/zz_ramsey_*/ and results/ramsey_t2star_*/

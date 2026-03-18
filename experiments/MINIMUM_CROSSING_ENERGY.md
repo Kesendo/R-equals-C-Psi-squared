@@ -106,7 +106,7 @@ For |0,1⟩ product state, sweeping J/γ:
 | 50.0  | 0.323  | YES      |
 | 100.0 | 0.328  | YES      |
 
-Critical J/γ ≈ 5–10 for this state. Below this ratio,
+Critical J/γ ≈ 5-10 for this state. Below this ratio,
 decoherence wins before the Hamiltonian can build enough
 entanglement. Above it, the Hamiltonian wins.
 
@@ -162,7 +162,7 @@ CΨ_max depends on four factors:
    σ_z⊗σ_z alone (Ising) would behave differently.
 
 3. **J/γ ratio**: Competition between generation and destruction.
-   Critical ratio is state-dependent (≈5–10 for |0,1⟩).
+   Critical ratio is state-dependent (≈5-10 for |0,1⟩).
 
 4. **Symmetry sector**: States within a single eigenspace of H
    have CΨ_max = CΨ(0). No dynamics to pump.

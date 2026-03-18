@@ -166,8 +166,8 @@ Compare the bridge_C arrays across jump operators for each bridge type.
 **ANSWERED: No, but for a trivial reason.**
 
 Bell+ (|00⟩+|11⟩)/√2 is an eigenstate of σ_z⊗σ_z with eigenvalue +1.
-The collective dephasing operator does literally nothing to this state —
-concurrence, Ψ, CΨ, and purity remain at their initial values forever.
+The collective dephasing operator does literally nothing to this state.
+Concurrence, Ψ, CΨ, and purity remain at their initial values forever.
 The additive collective form (σ_z⊗I + I⊗σ_z) is mathematically equivalent
 to two independent local σ_z operators and produces identical dynamics.
 
@@ -182,7 +182,7 @@ collective operator that does not preserve the Bell symmetry
 
 ### Q2: Does amplitude damping change the taxonomy?
 
-**ANSWERED: No — the taxonomy is preserved, but decay rates differ.**
+**ANSWERED: No, the taxonomy is preserved, but decay rates differ.**
 
 Under amplitude damping (L = √γ |0⟩⟨1| per qubit), concurrence still
 decays from t=0 (Type B behavior), but significantly slower than under
@@ -200,7 +200,7 @@ maximally mixed state), which gives it a gentler decoherence profile.
 The CΨ crossing window is correspondingly longer.
 
 **Additional finding:** Under σ_x noise, the normalized l1-coherence Ψ
-remains exactly at 0.3333 for all time — σ_x bit-flips do not destroy
+remains exactly at 0.3333 for all time. σ_x bit-flips do not destroy
 off-diagonal coherence in the computational basis. Only concurrence
 decays. This means the CΨ crossing window under σ_x is roughly twice
 as long as under σ_z:

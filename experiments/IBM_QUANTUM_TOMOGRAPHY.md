@@ -328,14 +328,14 @@ match the equation when T₂* is used instead of T₂.
    known error sources (initial state imperfection and T₂ vs T₂* discrepancy).
 5. **The crossing is real; the calibration-based timing prediction is not.** The generalized
    equation using IBM calibration values (T₁ = 221 μs, T₂ = 298 μs) predicts t*/T₂ = 1.250,
-   but the observed crossing is t*/T₂ = 0.385 — a 3.25× mismatch. Against the raw data,
+   but the observed crossing is t*/T₂ = 0.385, a 3.25× mismatch. Against the raw data,
    the calibration-based model (MAE = 0.177) performs worse than the simplest pure-dephasing
    reference (MAE = 0.120). The 88% MAE improvement to 0.053 belongs to **Model 3 only**,
    which fits T₁ and T₂ freely to the tomography data (T₁_eff = 598.5 μs, T₂_eff = 161.6 μs).
    The generalized equation is structurally correct; it requires effective coherence parameters
-   beyond the listed calibration values. See “Post-Run Analysis” for the three-model breakdown.
+   beyond the listed calibration values. See "Post-Run Analysis" for the three-model breakdown.
 6. **The ¼ crossing emerges from a global fit.** Model 3 was not told about ¼.
-   It hits the crossing naturally, confirming the equation's structural validity —
+   It hits the crossing naturally, confirming the equation's structural validity,
    provided effective (fitted) rather than calibration T₁/T₂ values are used.
 7. **Crossing is common.** 84% of qubits on ibm_torino cross ¼ at least once
    in 181 days of calibration data, and 12 qubits cross every single day.

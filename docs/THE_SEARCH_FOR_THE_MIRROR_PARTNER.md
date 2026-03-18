@@ -276,12 +276,12 @@ phase factor i). It satisfies Π·L·Π⁻¹ = -L - 2Σγ·I.
 
 Every decay mode has a partner. Every rate d has a mirror at 2Σγ-d.
 The spectrum is exactly palindromic. At every system size tested
-(N=2 through N=7, 13264 rates, zero exceptions), every topology
+(N=2 through N=8, 54118 rates, zero exceptions), every topology
 (star, chain, ring, complete graph, binary tree), every coupling
 anisotropy, every noise configuration.
 
-The poetic intuition from January 3 — "reality emerges between matching
-partners," "absorption only at resonance," "the key must fit the lock" —
+The poetic intuition from January 3, "reality emerges between matching
+partners," "absorption only at resonance," "the key must fit the lock",
 turned out to point at something real. The mirror symmetry IS about
 matching: coherences match populations, weight k matches weight N-k,
 and the Hamiltonian treats both sides exactly the same (anti-commutation).

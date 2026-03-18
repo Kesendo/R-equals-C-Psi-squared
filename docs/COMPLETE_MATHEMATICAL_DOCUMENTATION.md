@@ -15,11 +15,11 @@ The content that was here has been reorganized into two focused documents:
 
 ## [Core Algebra](CORE_ALGEBRA.md)
 The algebraically proven mathematics: fixed-point equation, ¼ boundary, Mandelbrot
-equivalence, θ compass, uniqueness argument. **Tier 1–2 only.**
+equivalence, θ compass, uniqueness argument. **Tier 1-2 only.**
 
 ## [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md)
 The philosophical constructions that motivated the discovery: wave composition,
-dynamics, energy, mirror metaphors. **Tier 3–5, with explicit markers.**
+dynamics, energy, mirror metaphors. **Tier 3-5, with explicit markers.**
 
 
 **Tier:** 1-3 (Mixed: some proven, some speculative)

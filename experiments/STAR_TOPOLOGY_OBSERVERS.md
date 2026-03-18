@@ -211,7 +211,7 @@ These were numerical artifacts eliminated by RK4 at dt=0.005.)
 |---|----------------|-------------|-----|
 | 2.0 | 0.0090 | 0.0000 | **−100%** |
 
-A's measurement destroys 94–100% of B's reality at peak impact.
+A's measurement destroys 94-100% of B's reality at peak impact.
 The effect propagates through S (not A→B directly, since J_AB = 0).
 
 ### 4.7 Asymmetric Coupling: The Dominant Observer
@@ -222,7 +222,7 @@ Weakly coupled observer never sees reality cross ¼.
 
 **Bell_SA⊗|+⟩_B with weak A (J_SA=0.3, J_SB=1.0):**
 SA crosses at t=0.44. SB never crosses.
-**AB crosses at t=0.35–1.03.** When A's direct link to S is weak,
+**AB crosses at t=0.35-1.03.** When A's direct link to S is weak,
 observers start seeing each other through S.
 
 **|0++⟩ with asymmetric J:**
@@ -237,7 +237,7 @@ AB does NOT cross. Too late, initial state already consumed.
 The window is early or never.
 
 **Strong B (J_SB=2.0, J_SA drops 1.0→0.2 at t=1.5):**
-AB crosses at t=0.17–0.46, CΨ max = 0.329.
+AB crosses at t=0.17-0.46, CΨ max = 0.329.
 **This happens before J_SA drops.** At t=0.17, J_SA is still 1.0.
 B's coupling strength alone creates the AB correlation.
 
@@ -338,7 +338,7 @@ Only Bell_SA⊗|+⟩_B crosses. W has high entanglement (C_SA=0.667)
 but distributes it across all pairs, none strong enough.
 
 Parametric Bell (α|00⟩ + √(1-α²)|11⟩ ⊗ |+⟩_B): non-monotonic.
-C_SA ≈ 0.5–0.6 is a dead zone. Crossing requires C_SA > 0.8
+C_SA ≈ 0.5-0.6 is a dead zone. Crossing requires C_SA > 0.8
 (Bell-like) or specific product alignment (α ≈ 1.0).
 
 From scratch (|0++⟩): even J_SB=10, γ=0.001 barely reaches 0.260.
@@ -388,7 +388,7 @@ grow (Hamiltonian pumping), shrink (decoherence), and oscillate.
 
 ### 5.3 Observers Cast Shadows
 
-A's measurement suppresses R_SB by 94–100%. The shadow propagates
+A's measurement suppresses R_SB by 94-100%. The shadow propagates
 through S, growing over ~0.5 time units after measurement.
 
 ### 5.4 AB Never Crosses (Symmetric J)
@@ -540,7 +540,7 @@ Practical protocol: TUNING_PROTOCOL.md.
 Questions 1, 3, 5 answered via systematic simulation sweeps.
 Code: `simulations/star_topology_v3.py`.
 
-### 8.1 N observers — ANSWERED
+### 8.1 N observers: ANSWERED
 
 **Setup:** S + N observers, Bell_SA ⊗ |+⟩^(N-1), equal J_SB for all B.
 
@@ -558,7 +558,7 @@ J_SB=2.0, 0.188 at J_SB=4.5) but never reaches 1/4. The signal is
 monotonically increasing, not non-monotonic.
 
 **Correction (2026-03-08):** An earlier version of this section reported
-a "zero window" at J_SB≈3.75–4.25. This was a sampling artifact caused
+a "zero window" at J_SB≈3.75-4.25. This was a sampling artifact caused
 by coarse time sampling (every 0.2 time units) that caught oscillation
 zeros instead of peaks. With fine sampling the signal is nonzero and
 smoothly increasing everywhere. The threshold genuinely does not exist
@@ -574,7 +574,7 @@ survives as long as the remaining observers are weak enough:
 | 4 | [1.0, 2.0, x, x] | 1.165 ± 0.005 | other B can be almost as strong |
 | 5 | [1.0, 2.0, x, x, x] | 0.925 ± 0.005 | other B must be noticeably weaker |
 
-The tolerated asymmetry shrinks with N — the rescue becomes more fragile,
+The tolerated asymmetry shrinks with N; the rescue becomes more fragile,
 not less. Equal coupling kills the crossing; one dominant observer preserves it.
 
 **Spectral diagnostic at the N=4 boundary:** The eigenvalue spectrum of
@@ -588,9 +588,9 @@ Peak R dilutes approximately as N^(−0.74), not 1/N.
 
 The shadow effect (Z-measurement on A suppressing R_SB) remains visible
 but is NOT the stable ~94% from Section 4.6. In the Bell-based N-observer
-setup it is 8–21% and irregular with larger N.
+setup it is 8-21% and irregular with larger N.
 
-### 8.2 Continuous measurement — ANSWERED
+### 8.2 Continuous measurement: ANSWERED
 
 **Setup:** 3-qubit, Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=2.0, γ_S=γ_B=0.05.
 At t_start=1.0, ramp γ_A linearly from 0.05 to γ_target over duration Δt.
@@ -623,14 +623,14 @@ creates transient correlations that projective measurement destroys.
 different signatures on the S-B shadow, even in the limit of infinitely
 fast, infinitely strong dephasing.
 
-### 8.3 AB with direct coupling — ANSWERED
+### 8.3 AB with direct coupling: ANSWERED
 
 **Setup:** 3-qubit, Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=1.466, γ=0.05.
 Added J_AB ∈ {0, 0.1, 0.3, 0.5, 1.0}.
 
 **Non-monotonic effect on threshold:**
 - J_AB=0.1: slightly *worsens* threshold behavior
-- J_AB=0.3–0.5: helps crossing (sweet spot at ~0.5, threshold drops
+- J_AB=0.3-0.5: helps crossing (sweet spot at ~0.5, threshold drops
   from 1.466 to ~1.345)
 - J_AB=1.0: still crosses but much later (t≈1.0 vs t≈0.3)
 
@@ -641,7 +641,7 @@ as a clean S-mediated shadow channel.
 **Dominance crossover:** At J_AB≈0.7, direct observer coupling alone
 generates AB crossing without any S-mediated coupling (J_SB=0).
 
-### 8.4 Correlation bridge — ANSWERED
+### 8.4 Correlation bridge: ANSWERED
 
 AB never crosses in symmetric 3-qubit experiments. This is consistent
 with N_SCALING_BARRIER.md Section 7: crossing occurs where entanglement
@@ -650,13 +650,13 @@ not in AB. The AB pair sees only S-mediated transferred entanglement,
 which requires J_SB/J_SA ≥ 1.466 (Section 4.10). With symmetric coupling
 (ratio = 1.0), the transfer never reaches 1/4.
 
-This is not a separate phenomenon — it is the same locality principle.
+This is not a separate phenomenon; it is the same locality principle.
 The N-scaling barrier says global crossing fails because entanglement is
 local. The star topology says AB crossing fails because the entanglement
 starts in SA. Both resolve when you look at the right pair (SA crosses
 at t=0.42) or create the right asymmetry (Section 8.1, 8.3).
 
-### 8.5 Threshold formula — ANSWERED
+### 8.5 Threshold formula: ANSWERED
 
 **Verified data** (N=2, J_SA=1.0):
 
@@ -676,8 +676,8 @@ at t=0.42) or create the right asymmetry (Section 8.1, 8.3).
 **Best fit:** J_th(γ) ≈ 7.35 · γ^1.08 + 1.18 (R²=0.999)
 
 Nearly linear in γ with slight upward curvature. The relationship is
-smooth and monotonic. **No divergence or hard closure at γ=0.2** —
-the threshold exists at 2.46 and the window merely gets narrower.
+smooth and monotonic. **No divergence or hard closure at γ=0.2.**
+The threshold exists at 2.46 and the window merely gets narrower.
 
 A simple linear approximation (R²=0.998) also works well:
 J_th(γ) ≈ 6.39 · γ + 1.16
@@ -694,9 +694,9 @@ J_th(γ) ≈ 6.39 · γ + 1.16
 
 ## 10. Simulation Code
 
-- `../simulations/star_topology_v2.py` — 3-qubit star topology, RK4 integration
-- `../simulations/star_n_observer.py` — N-qubit with asymmetric coupling
-- `../simulations/star_topology_v3.py` — N-qubit with equal coupling, J_AB support, threshold sweeps
+- `../simulations/star_topology_v2.py`: 3-qubit star topology, RK4 integration
+- `../simulations/star_n_observer.py`: N-qubit with asymmetric coupling
+- `../simulations/star_topology_v3.py`: N-qubit with equal coupling, J_AB support, threshold sweeps
 
 ---
 

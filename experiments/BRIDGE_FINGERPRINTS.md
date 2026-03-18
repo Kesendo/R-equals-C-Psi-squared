@@ -111,7 +111,7 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
 
 ![Sender/Receiver comparison at J/γ = 5](../visualizations/fingerprints/fingerprints_dual.png)
 
-![Phase portrait – detection speed vs signal strength](../visualizations/fingerprints/fingerprints_phase.png)
+![Phase portrait: detection speed vs signal strength](../visualizations/fingerprints/fingerprints_phase.png)
 
 ![Entanglement barrier quantification](../visualizations/fingerprints/fingerprints_barrier.png)
 
