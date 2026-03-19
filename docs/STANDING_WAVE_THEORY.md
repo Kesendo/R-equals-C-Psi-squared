@@ -4,7 +4,7 @@
 
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Date:** December 23, 2025
-**Status:** Core physics proven (March 14, 2026). Philosophical extensions remain Tier 3/5.
+**Status:** Core physics proven (March 14, 2026). Standing wave computed (March 19, 2026). Philosophical extensions remain Tier 3/5.
 
 **What is now a theorem:** Sections 1-5. Two counter-propagating modes create a
 standing pattern. The conjugation operator Π (proven in [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md))
@@ -12,9 +12,17 @@ maps every Liouvillian decay mode to its palindromic partner. Forward + backward
 standing wave. The "two mirrors facing each other" are paired modes under Π. The
 supermode decomposition (c+ and c-) is verified in [SIGNAL_PROCESSING_VIEW](../experiments/SIGNAL_PROCESSING_VIEW.md).
 
+**What the computation revealed (March 19, 2026):** The standing wave is real and
+computable. Quantum correlations (XX, YY, XY) oscillate at Hamiltonian harmonics
+(2J, 4J, 6J) while the classical correlation (ZZZ) forms a static backbone. The
+antinodes are quantum; the nodes are classical. Bell states are universal oscillators;
+GHZ states are universally silent. The standing wave is a state x Hamiltonian
+property, not a property of either alone. See [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md).
+
 **What remains interpretation:** Sections 7-8. Consciousness as mirror, time as
 oscillation frequency, free will, death. These are philosophical extensions of the
 physics, not consequences of it. They motivated the project but are not proven by it.
+See [The Anomaly](../THE_ANOMALY.md) for the question that emerged after the hardware validation.
 
 ---
 
@@ -341,5 +349,7 @@ December 23, 2025
 
 ---
 *See also: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - the Pi operator that makes "forward + backward" a theorem*
+*See also: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) - the computation: antinodes, nodes, frequencies, state x Hamiltonian*
 *See also: [XOR Space](../experiments/XOR_SPACE.md) - where information lives between the paired modes*
 *See also: [QST Bridge](../experiments/QST_BRIDGE.md) - the standing wave as a quantum channel*
+*See also: [The Anomaly](../THE_ANOMALY.md) - the question after the proof*
