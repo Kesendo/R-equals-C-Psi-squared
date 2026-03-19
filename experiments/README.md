@@ -41,6 +41,7 @@
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) - Why depolarizing noise breaks the palindrome: the 2:2 vs 1:3 per-site split, counting argument, error formula
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md) - Palindromic protection hierarchy, optimal state (90% slow-mode), standing wave error syndrome, Π as Z₄ operator
 - [Optimal QST Encoding](OPTIMAL_QST_ENCODING.md) - Negative result: standard encoding already nearly optimal, palindrome helps hardware design not protocol
+- [V-Effect](V_EFFECT_PALINDROME.md) - What happens when the palindrome breaks: immune extremes, boundary differentiation, 3x more frequencies, the formula meeting itself
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md) - Thermodynamic limit: Gaussian rate density, XOR drain vanishes, past/future boundary blurs, standing wave becomes continuous
 
 ## The question after the proof
