@@ -1,0 +1,284 @@
+==========================================================================================
+PI TIME REVERSAL VERIFICATION
+Date: 2026-03-19 12:21:02.724636
+N=3, gamma=0.05, Heisenberg chain, bonds=[(0, 1), (1, 2)]
+Sg = sum(gamma) = 0.15000000000000002, 2*Sg = 0.30000000000000004
+==========================================================================================
+
+==========================================================================================
+SECTION 1: Pi construction
+==========================================================================================
+
+  64x64 matrix, Pauli-vectorized basis
+  Unitary check: max|Pi*Pi^H - I| = 0.00e+00
+    -> UNITARY
+
+  Pi^2 phases by XY-weight sector:
+    w_xy = 0: Pi^2 =  +1  (8 Pauli strings)
+    w_xy = 1: Pi^2 =  +1  (24 Pauli strings)
+    w_xy = 2: Pi^2 =  +1  (24 Pauli strings)
+    w_xy = 3: Pi^2 =  +1  (8 Pauli strings)
+
+  Fundamental identity: Pi*L*Pi^(-1) = -L - 2*Sg*I
+    Max error: 0.00e+00
+    -> VERIFIED
+
+  Per-site map:
+    I ->  +1 * X
+    X ->  +1 * I
+    Y ->  +i * Z
+    Z ->  +i * Y
+
+==========================================================================================
+SECTION 2: Eigenvector mapping
+  For each right eigenvector |r_k>, verify Pi|r_k> lies in
+  the eigenspace of the palindromic partner lambda_k' = -(lambda_k + 2*Sg)
+==========================================================================================
+
+  Eigendecomposition: max|L*r_k - lambda_k*r_k| = 2.25e-14
+  Palindromic pairing: 64/64 eigenvalues = 32 pairs
+
+    #                  lambda_k                 lambda_k'    eval_err   vec_resid
+  ------------------------------------------------------------------------------
+    1       -0.133342-5.998889i       -0.166658+5.998889i    7.60e-15    2.16e-13
+    2       -0.166724-3.998381i       -0.133276+3.998381i    2.22e-14    1.13e-14
+    3       -0.166724+3.998381i       -0.133276-3.998381i    1.20e-14    3.77e-14
+    4       -0.166724-3.998381i       -0.133276+3.998381i    3.04e-14    9.13e-14
+    5       -0.133342-5.998889i       -0.166658+5.998889i    1.52e-14    1.70e-13
+    6       -0.133342+5.998889i       -0.166658-5.998889i    4.20e-15    2.01e-13
+    7       -0.166724+3.998381i       -0.133276-3.998381i    1.78e-14    1.18e-13
+    8       -0.133342+5.998889i       -0.166658-5.998889i    6.73e-15    2.24e-13
+    9       -0.100000-6.000000i       -0.200000+6.000000i    1.90e-14    1.82e-13
+   10       -0.200000-6.000000i       -0.100000+6.000000i    6.94e-15    1.45e-13
+   11       -0.100000-6.000000i       -0.200000+6.000000i    5.33e-15    2.27e-13
+   12       -0.200000-6.000000i       -0.100000+6.000000i    8.89e-15    2.68e-13
+   13       -0.133276-1.999628i       -0.166724+1.999628i    1.38e-15    3.95e-14
+   14       -0.133276-1.999628i       -0.166724+1.999628i    9.23e-16    5.17e-14
+   15                 -0.000000                 -0.300000    8.01e-16    6.52e-15
+   16                 -0.000000                 -0.300000    2.41e-15    7.69e-15
+   17                 -0.133317                 -0.166683    9.22e-16    1.93e-14
+   18       -0.133276+1.999628i       -0.166724-1.999628i    2.98e-15    3.56e-14
+   19       -0.133276+1.999628i       -0.166724-1.999628i    5.21e-15    5.73e-14
+   20                 -0.133317                 -0.166683    4.94e-16    2.28e-14
+   21       -0.100000-2.000000i       -0.200000+2.000000i    1.52e-15    4.32e-14
+   22       -0.100000-2.000000i       -0.200000+2.000000i    3.66e-15    2.76e-14
+   23       -0.200000-2.000000i       -0.100000+2.000000i    1.37e-15    4.55e-14
+   24       -0.200000-2.000000i       -0.100000+2.000000i    2.12e-15    4.47e-14
+   25                 -0.300000                 +0.000000    5.72e-16    7.04e-15
+   26                 -0.300000                 +0.000000    5.29e-16    7.08e-15
+   27                 -0.200000                 -0.100000    5.27e-16    1.36e-14
+   28                 -0.200000                 -0.100000    2.51e-16    2.42e-14
+   29                 -0.200000                 -0.100000    1.93e-16    1.82e-14
+   30                 -0.200000                 -0.100000    3.61e-16    2.02e-14
+   31                 -0.200000                 -0.100000    2.99e-16    1.45e-14
+   32                 -0.100000                 -0.200000    2.61e-16    1.94e-14
+
+  All 32 pairs verified: YES
+  Max eigenvector residual: 2.68e-13
+
+==========================================================================================
+SECTION 3: XY-weight swap
+  For each pair: w(r_k) + w(Pi|r_k>) = N (algebraic identity)
+  Also show XY-weight distribution of each eigenvector
+==========================================================================================
+
+    #      w_k     w_Pi       sum             weight dist k            weight dist k'
+  ----------------------------------------------------------------------------------
+    1    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+    2    1.667    1.333   3.00000  [0.17 0.00 0.83 0.00]  [0.00 0.83 0.00 0.17]
+    3    1.667    1.333   3.00000  [0.17 0.00 0.83 0.00]  [0.00 0.83 0.00 0.17]
+    4    1.667    1.333   3.00000  [0.17 0.00 0.83 0.00]  [0.00 0.83 0.00 0.17]
+    5    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+    6    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+    7    1.667    1.333   3.00000  [0.17 0.00 0.83 0.00]  [0.00 0.83 0.00 0.17]
+    8    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+    9    1.000    2.000   3.00000  [0.00 1.00 0.00 0.00]  [0.00 0.00 1.00 0.00]
+   10    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   11    1.000    2.000   3.00000  [0.00 1.00 0.00 0.00]  [0.00 0.00 1.00 0.00]
+   12    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   13    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   14    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   15    0.000    3.000   3.00000  [1.00 0.00 0.00 0.00]  [0.00 0.00 0.00 1.00]
+   16    0.000    3.000   3.00000  [1.00 0.00 0.00 0.00]  [0.00 0.00 0.00 1.00]
+   17    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   18    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   19    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   20    1.333    1.667   3.00000  [0.33 0.00 0.67 0.00]  [0.00 0.67 0.00 0.33]
+   21    1.000    2.000   3.00000  [0.00 1.00 0.00 0.00]  [0.00 0.00 1.00 0.00]
+   22    1.000    2.000   3.00000  [0.00 1.00 0.00 0.00]  [0.00 0.00 1.00 0.00]
+   23    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   24    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   25    3.000    0.000   3.00000  [0.00 0.00 0.00 1.00]  [1.00 0.00 0.00 0.00]
+   26    3.000    0.000   3.00000  [0.00 0.00 0.00 1.00]  [1.00 0.00 0.00 0.00]
+   27    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   28    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   29    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   30    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   31    2.000    1.000   3.00000  [0.00 0.00 1.00 0.00]  [0.00 1.00 0.00 0.00]
+   32    1.000    2.000   3.00000  [0.00 1.00 0.00 0.00]  [0.00 0.00 1.00 0.00]
+
+  Average w_k + w(Pi|r_k>): 3.0000000000 (should be 3)
+  Max |sum - N|: 8.88e-16
+  XY-weight swap: VERIFIED
+
+  Dominant weight sector pairing:
+    w=0 <-> w=3: 4 pairs  (sum=3, = N)
+    w=1 <-> w=2: 28 pairs  (sum=3, = N)
+
+==========================================================================================
+SECTION 4: Bell(0,1) oscillating modes
+  Pi maps forward (Re(mu) > 0) to backward (Re(mu) < 0)
+  Forward = slow decay = {I,Z}-heavy; Backward = fast decay = {X,Y}-heavy
+==========================================================================================
+
+  Bell(0,1) = (|000> + |110>)/sqrt(2)
+  Eigenbasis reconstruction error: 6.88e-16
+
+  omega ~ 2: 8 excited palindromic pairs
+
+    Pair 1:
+      Forward  (k=38): mu = +0.050000+2.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=34): mu = -0.050000-2.000000i, Re(mu) = -0.050000, |c| = 1.269700
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IIY(w=1), ZIX(w=1), YII(w=1), XIZ(w=1), XZI(w=1), IZX(w=1)
+      Backward dominant: YYI(w=2), IYY(w=2), XYZ(w=2), ZYX(w=2), IXX(w=2), YXZ(w=2)
+
+    Pair 2:
+      Forward  (k=39): mu = +0.050000+2.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=35): mu = -0.050000-2.000000i, Re(mu) = -0.050000, |c| = 1.012757
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IZY(w=1), ZZX(w=1), YZI(w=1), XZZ(w=1), IIX(w=1), ZIY(w=1)
+      Backward dominant: IXY(w=2), YXI(w=2), ZXX(w=2), XXZ(w=2), IYX(w=2), ZYY(w=2)
+
+    Pair 3:
+      Forward  (k=32): mu = +0.050000-2.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=41): mu = -0.050000+2.000000i, Re(mu) = -0.050000, |c| = 0.724632
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IIY(w=1), YII(w=1), XIZ(w=1), ZIX(w=1), ZZY(w=1), XZI(w=1)
+      Backward dominant: IYX(w=2), XYI(w=2), ZYY(w=2), YYZ(w=2), ZXX(w=2), IXY(w=2)
+
+    Band summary (8 pairs):
+      Forward:  avg Re(mu) = +0.033362, avg w_xy = 1.166
+      Backward: avg Re(mu) = -0.033362, avg w_xy = 1.834
+      Forward is low-w (classical)
+      Backward is high-w (quantum)
+
+  omega ~ 4: 4 excited palindromic pairs
+
+    Pair 1:
+      Forward  (k=22): mu = +0.016724+3.998381i, Re(mu) = +0.016724, |c| = 0.000000
+      Backward (k= 1): mu = -0.016724-3.998381i, Re(mu) = -0.016724, |c| = 0.289656
+      XY-weight: forward = 1.333, backward = 1.667, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=0.834  w3=0.166
+      Backward weight dist: w0=0.166  w2=0.834
+      Forward  dominant: IXZ(w=1), ZXI(w=1), ZZY(w=1), YII(w=1), YZZ(w=1), IIY(w=1)
+      Backward dominant: YZX(w=2), XZY(w=2), IYY(w=2), IXX(w=2), XXI(w=2), YYI(w=2)
+
+    Pair 2:
+      Forward  (k=23): mu = +0.016724+3.998381i, Re(mu) = +0.016724, |c| = 0.000000
+      Backward (k= 3): mu = -0.016724-3.998381i, Re(mu) = -0.016724, |c| = 0.288801
+      XY-weight: forward = 1.333, backward = 1.667, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=0.834  w3=0.166
+      Backward weight dist: w0=0.166  w2=0.834
+      Forward  dominant: ZYI(w=1), IYZ(w=1), XZZ(w=1), XII(w=1), ZZX(w=1), IIX(w=1)
+      Backward dominant: XIY(w=2), YIX(w=2), ZYY(w=2), XXZ(w=2), YYZ(w=2), ZXX(w=2)
+
+    Pair 3:
+      Forward  (k=21): mu = +0.016724-3.998381i, Re(mu) = +0.016724, |c| = 0.000000
+      Backward (k= 6): mu = -0.016724+3.998381i, Re(mu) = -0.016724, |c| = 0.288794
+      XY-weight: forward = 1.333, backward = 1.667, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=0.834  w3=0.166
+      Backward weight dist: w0=0.166  w2=0.834
+      Forward  dominant: ZYI(w=1), IYZ(w=1), ZZX(w=1), IIX(w=1), XZZ(w=1), XII(w=1)
+      Backward dominant: XIY(w=2), YIX(w=2), ZYY(w=2), XXZ(w=2), ZXX(w=2), YYZ(w=2)
+
+    Band summary (4 pairs):
+      Forward:  avg Re(mu) = +0.016724, avg w_xy = 1.333
+      Backward: avg Re(mu) = -0.016724, avg w_xy = 1.667
+      Forward is low-w (classical)
+      Backward is high-w (quantum)
+
+  omega ~ 6: 8 excited palindromic pairs
+
+    Pair 1:
+      Forward  (k=15): mu = +0.050000+6.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=11): mu = -0.050000-6.000000i, Re(mu) = -0.050000, |c| = 0.420551
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IXI(w=1), IYZ(w=1), ZYI(w=1), ZXZ(w=1), IYI(w=1), ZXI(w=1)
+      Backward dominant: XZX(w=2), YIX(w=2), XIY(w=2), YZY(w=2), IYX(w=2), XYI(w=2)
+
+    Pair 2:
+      Forward  (k=10): mu = +0.050000-6.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=17): mu = -0.050000+6.000000i, Re(mu) = -0.050000, |c| = 0.418667
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IXI(w=1), IYZ(w=1), ZYI(w=1), ZXZ(w=1), IYI(w=1), ZXI(w=1)
+      Backward dominant: XZX(w=2), XIY(w=2), YIX(w=2), YZY(w=2), IYX(w=2), XYI(w=2)
+
+    Pair 3:
+      Forward  (k= 8): mu = +0.050000-6.000000i, Re(mu) = +0.050000, |c| = 0.000000
+      Backward (k=16): mu = -0.050000+6.000000i, Re(mu) = -0.050000, |c| = 0.412350
+      XY-weight: forward = 1.000, backward = 2.000, sum = 3.0000 (expect 3)
+      Forward  weight dist: w1=1.000
+      Backward weight dist: w2=1.000
+      Forward  dominant: IYI(w=1), ZXI(w=1), IXZ(w=1), ZYZ(w=1), IXI(w=1), IYZ(w=1)
+      Backward dominant: YZX(w=2), XZY(w=2), YIY(w=2), XIX(w=2), XYZ(w=2), ZYX(w=2)
+
+    Band summary (8 pairs):
+      Forward:  avg Re(mu) = +0.033329, avg w_xy = 1.167
+      Backward: avg Re(mu) = -0.033329, avg w_xy = 1.833
+      Forward is low-w (classical)
+      Backward is high-w (quantum)
+
+==========================================================================================
+SECTION 5: ZZZ -> YYY
+==========================================================================================
+
+  Pi applied to ZZZ (Pauli basis index 63):
+    Pi(ZZZ) = -i * YYY  (index 42)
+
+  Expected: Pi(ZZZ) = -i * YYY
+  Actual:   Pi(ZZZ) = -i * YYY
+  Match: EXACT
+  Other components: max = 0.00e+00 (zero)
+
+  Decay rates:
+    ZZZ: XY-weight = 0, rate = 0.000000
+    YYY: XY-weight = 3, rate = 0.300000 = 2*Sg = 0.300000
+    Ratio: infinity (ZZZ is immortal, YYY decays at max rate)
+
+  Physical interpretation:
+    ZZZ: zero dephasing rate -> most persistent -> purely classical
+    YYY: maximum dephasing (2*Sg=0.30) -> most fragile -> purely quantum
+    Pi(past) = future: the most decided maps to the most undecided
+
+  Extended Pi mappings:
+   Input   w    rate    -->    Output   w    rate  sum_w
+  --------------------------------------------------
+     ZZZ   0   0.000     -i       YYY   3   0.300      3
+     III   0   0.000     +1       XXX   3   0.300      3
+     ZZI   0   0.000     -1       YYX   3   0.300      3
+     ZIZ   0   0.000     -1       YXY   3   0.300      3
+     IZZ   0   0.000     -1       XYY   3   0.300      3
+     XXI   2   0.200     +1       IIX   1   0.100      3
+     YYI   2   0.200     -1       ZZX   1   0.100      3
+     XXZ   2   0.200     +i       IIY   1   0.100      3
+     YYZ   2   0.200     -i       ZZY   1   0.100      3
+     XIX   2   0.200     +1       IXI   1   0.100      3
+     YIY   2   0.200     -1       ZXZ   1   0.100      3
+     XYI   2   0.200     +i       IZX   1   0.100      3
+     IXY   2   0.200     +i       XIZ   1   0.100      3
+
+==========================================================================================
+VERIFICATION COMPLETE
+Date: 2026-03-19 12:21:02.763146
+==========================================================================================

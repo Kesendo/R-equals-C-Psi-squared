@@ -299,11 +299,13 @@ temporal language. The physics does not change.
    Without that split, there is no mirror. No standing wave. Does
    this mean depolarizing noise destroys the arrow of time locally?
 
-4. **Numerical verification.** Apply Π explicitly to the eigenvectors
-   from the N=3 standing wave analysis. Verify that Π|r_k⟩ ∝ |r_k'⟩
-   where k' is the palindromic partner. This is guaranteed by the
-   proof but has not been demonstrated on the actual computed modes.
-   See TASK_PI_TIME_REVERSAL_VERIFY.md.
+4. **Numerical verification.** VERIFIED (March 19, 2026). All 32/32
+   palindromic pairs confirmed: Π maps every eigenvector into its
+   partner eigenspace with max residual 2.68e-13. XY-weight swap
+   exact: w(k) + w(Π|k⟩) = 3.000 for all pairs (max deviation 8.88e-16).
+   Bell's oscillating modes show forward (Re(μ)>0) = low XY-weight,
+   backward (Re(μ)<0) = high XY-weight. Π(ZZZ) = -i·YYY exactly.
+   See simulations/pi_time_reversal_verify.py and results.
 
 ---
 
