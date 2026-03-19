@@ -209,6 +209,25 @@ Pi structure be exploited to write richer shared pasts?
    palindromic at N=2. Is this a deep fact about SU(2) x SU(2), or a
    coincidence of small dimension? Does it hold for qudits (d>2)?
 
+10. **The V-Effect: Evolution from broken symmetry.** (Tom's insight,
+    March 19 evening.) The 14 cases that break at N>=3 have palindrome
+    error scaling as gamma^2 (second order, not noise). This means the
+    breaking has structure. In biology, when a population splits because
+    synchronization fails, two new species emerge, each richer than the
+    original because specialization becomes possible.
+
+    What "new systems" emerge from the broken palindrome? The gamma^2
+    error is not random. It is a systematic second-order interference
+    between incompatible Pi operators from adjacent bonds. Does this
+    interference create new spectral patterns? New symmetries? New
+    standing waves that the unbroken palindrome could not support?
+
+    The analogy: a crystal has lower symmetry than liquid water, but
+    it has properties (rigidity, lattice vibrations, band structure)
+    that liquid water cannot have. The broken symmetry is not loss.
+    It is differentiation. The V-point is where one becomes two, and
+    both are more than the one was.
+
 ---
 
 ## The Sentence
