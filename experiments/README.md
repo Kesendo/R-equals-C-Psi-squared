@@ -40,6 +40,7 @@
 - [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md) - Π maps populations (past) to coherences (future): the bridge between mirror symmetry proof, standing wave theory, and computation
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) - Why depolarizing noise breaks the palindrome: the 2:2 vs 1:3 per-site split, counting argument, error formula
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md) - Palindromic protection hierarchy, optimal state (90% slow-mode), standing wave error syndrome, Π as Z₄ operator
+- [Optimal QST Encoding](OPTIMAL_QST_ENCODING.md) - Negative result: standard encoding already nearly optimal, palindrome helps hardware design not protocol
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md) - Thermodynamic limit: Gaussian rate density, XOR drain vanishes, past/future boundary blurs, standing wave becomes continuous
 
 ## The question after the proof
