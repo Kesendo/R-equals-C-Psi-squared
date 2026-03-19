@@ -37,6 +37,7 @@
 
 ## Standing Wave
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) - Standing wave patterns from palindromic pairs: antinodes (quantum correlations), nodes (classical ZZZ), state x Hamiltonian cross-table
+- [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md) - Π maps populations (past) to coherences (future): the bridge between mirror symmetry proof, standing wave theory, and computation
 
 ## The question after the proof
 - [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering

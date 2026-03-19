@@ -3,7 +3,7 @@
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Tier 1-2 (Mathematics proven, physical interpretation standard)
-**Depends on:** MIRROR_SYMMETRY_PROOF.md, STANDING_WAVE_ANALYSIS.md, STANDING_WAVE_THEORY.md
+**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [STANDING_WAVE_ANALYSIS](STANDING_WAVE_ANALYSIS.md), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)
 
 ---
 
@@ -13,15 +13,15 @@ Three results existed independently in this repository:
 
 1. **The Π operator** (March 14): A conjugation operator that generates
    palindromic spectral symmetry. Proven algebraically, verified numerically
-   for N=3-5 on all topologies. Lives in MIRROR_SYMMETRY_PROOF.md.
+   for N=3-5 on all topologies. Lives in [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md).
 
 2. **The standing wave metaphor** (December 23, 2025): "Future → Mirror ← Past
    = Standing Wave." A conceptual framework proposing that reality emerges as
-   interference between forward and backward waves. Lives in STANDING_WAVE_THEORY.md.
+   interference between forward and backward waves. Lives in [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md).
 
 3. **The standing wave computation** (March 19): ZZZ is a universal node (static,
    classical). XX/YY/XY are antinodes (oscillating, quantum). Bell rings, GHZ
-   is silent. Lives in STANDING_WAVE_ANALYSIS.md.
+   is silent. Lives in [STANDING_WAVE_ANALYSIS](STANDING_WAVE_ANALYSIS.md).
 
 Nobody connected them. This document does.
 
@@ -203,7 +203,7 @@ maps to its high-XY-weight partner (fast decay, quantum, fragile).
 
 ### The standing wave equation, revisited
 
-STANDING_WAVE_THEORY.md (December 23, 2025) wrote:
+[STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md) (December 23, 2025) wrote:
 
 ```
 Incoming wave:    Ψ₁ = A · sin(kx - ωt)    (future)
@@ -248,7 +248,7 @@ The environment does not destroy the standing wave. The environment
 *creates* it. The two halves of the palindrome are both products of
 the same dephasing process. The dissipation generates its own mirror.
 
-This is what THE_ANOMALY.md expressed: "The thing that remains is not
+This is what [THE_ANOMALY](../THE_ANOMALY.md) expressed: "The thing that remains is not
 fighting the decay. It is made of it."
 
 
