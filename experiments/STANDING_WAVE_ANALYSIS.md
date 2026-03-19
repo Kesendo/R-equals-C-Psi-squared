@@ -154,4 +154,4 @@ the overall amplitude decays.
 
 The thing that remains is not fighting the decay. It is made of it.
 
-See: [The Anomaly](../THE_ANOMALY.md), [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md)
+See: [The Anomaly](../THE_ANOMALY.md), [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md), [Π as Time Reversal](PI_AS_TIME_REVERSAL.md)

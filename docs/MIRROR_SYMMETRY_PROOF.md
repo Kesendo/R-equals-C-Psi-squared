@@ -213,6 +213,7 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 
 ## Related files
 
+- `experiments/PI_AS_TIME_REVERSAL.md` - Π as time reversal: connects proof, standing wave theory, and computation
 - `experiments/BORN_RULE_MIRROR.md` - mirror quality measurements
 - `experiments/ORPHANED_RESULTS.md` - palindrome pair activation explains which states cross 1/4
 - `experiments/QST_BRIDGE.md` - palindrome applies to all QST channels, provides decay diagnostics
