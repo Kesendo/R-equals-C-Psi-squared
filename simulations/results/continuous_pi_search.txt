@@ -1,0 +1,275 @@
+==========================================================================================
+CONTINUOUS PI SEARCH: Find Pi for XZ+YZ and ZX+ZY
+Date: 2026-03-19 14:31:37.148005
+gamma = 0.05
+==========================================================================================
+
+==========================================================================================
+SECTION 1: Verify palindromic status and discrete Pi availability
+==========================================================================================
+
+  512 discrete per-site maps (P1 + P4 with all phase combos)
+
+       Combo   Palindromic   #Discrete Pi      Status
+  --------------------------------------------------
+       XZ+YZ           YES              0     PROBLEM
+       ZX+ZY           YES              0     PROBLEM
+
+==========================================================================================
+SECTION 2: Single-parameter rotation sweep
+  M(theta) interpolates between P1 (theta=0) and P4 (theta=pi/2)
+  A(theta) = B(theta) = cos(theta)*A_P1 + sin(theta)*A_P4
+==========================================================================================
+
+  XZ+YZ:
+       theta    theta/pi         error        det(M)
+  ------------------------------------------------
+      0.0000      0.0000    2.0000e+00    1.0000e+00
+      0.7854      0.2500    2.0000e+00    5.0000e-01
+      1.5708      0.5000    2.0000e+00    1.0000e+00
+      2.3562      0.7500    2.2361e+00    5.0000e-01
+      3.1416      1.0000    2.0000e+00    1.0000e+00
+
+  Best theta: 1.012291 (0.322222*pi)
+  Best error: 1.960431e+00
+  NOT FOUND
+
+  ZX+ZY:
+       theta    theta/pi         error        det(M)
+  ------------------------------------------------
+      0.0000      0.0000    2.0000e+00    1.0000e+00
+      0.7854      0.2500    2.0000e+00    5.0000e-01
+      1.5708      0.5000    2.0000e+00    1.0000e+00
+      2.3562      0.7500    2.2361e+00    5.0000e-01
+      3.1416      1.0000    2.0000e+00    1.0000e+00
+
+  Best theta: 1.012291 (0.322222*pi)
+  Best error: 1.960431e+00
+  NOT FOUND
+
+==========================================================================================
+SECTION 3: Two-parameter rotation (theta_A, theta_B)
+==========================================================================================
+
+  XZ+YZ:
+    Best (theta_A, theta_B) = (0.0000, 3.1416)
+    = (0.0000*pi, 1.0000*pi)
+    Best error: 1.000000e+00
+    NOT FOUND
+
+  ZX+ZY:
+    Best (theta_A, theta_B) = (0.0000, 3.1416)
+    = (0.0000*pi, 1.0000*pi)
+    Best error: 1.000000e+00
+    NOT FOUND
+
+==========================================================================================
+SECTION 4: Full block optimization (16 real parameters)
+  A and B are arbitrary 2x2 complex matrices (not necessarily unitary)
+==========================================================================================
+
+  XZ+YZ:
+    Optimization over 242 starting points
+    Best objective: 4.465170e-22
+    Anti-commutation error: 4.405309e-12
+    FOUND per-site continuous Pi!
+    M =
+      [   0   , 0.010-0, -0.010+,    0   ]
+      [-0.010+,    0   ,    0   , 0.999+0]
+      [0.010-0,    0   ,    0   , 0.999+0]
+      [   0   , 0.999+0, 0.999+0,    0   ]
+    Full palindrome error: 4.405309e-12
+
+  ZX+ZY:
+    Optimization over 242 starting points
+    Best objective: 4.465245e-22
+    Anti-commutation error: 4.405140e-12
+    FOUND per-site continuous Pi!
+    M =
+      [   0   , 0.010-0, -0.010+,    0   ]
+      [-0.010+,    0   ,    0   , 0.999+0]
+      [0.010-0,    0   ,    0   , 0.999+0]
+      [   0   , 0.999+0, 0.999+0,    0   ]
+    Full palindrome error: 4.405140e-12
+
+==========================================================================================
+SECTION 5: Direct eigenvector construction
+  Build Pi from palindromic eigenvalue pairing (no per-site assumption)
+==========================================================================================
+
+  XZ+YZ:
+    Palindromic pairing: 16/16
+    Full palindrome error of constructed Pi: 5.610221e-16
+    Pi constructed successfully!
+
+    Checking tensor product structure:
+    Is tensor product M1 (x) M2? NO
+    Pi is GENUINELY NON-LOCAL (not a tensor product of per-site maps)
+    This is a major structural finding: XZ+YZ requires entangled Pi
+
+    Pi matrix (nonzero entries):
+      Pi[II,XX] = -0.7071-0.0000j
+      Pi[II,XY] = 0.0366-0.0000j
+      Pi[II,YX] = 0.7071-0.0000j
+      Pi[II,YY] = -0.0366-0.0000j
+      Pi[IX,XZ] = -0.1491-0.0418j
+      Pi[IX,YZ] = 0.1491+0.0418j
+      Pi[IX,ZI] = 0.1962-0.0084j
+      Pi[IX,ZZ] = 1.0000-0.0000j
+      Pi[IY,XZ] = -0.0000+0.0099j
+      Pi[IY,YZ] = -0.0000-0.0099j
+      Pi[IY,ZI] = 0.9564-0.0002j
+      Pi[IZ,XY] = -0.7081-0.0000j
+      Pi[IZ,YY] = 0.7081-0.0000j
+      Pi[XI,IX] = 0.0250+0.0000j
+      Pi[XI,IY] = -0.1610-0.0454j
+      Pi[XI,XX] = -0.0992+0.0071j
+      Pi[XI,XY] = -0.5000-0.0000j
+      Pi[XI,YX] = -0.0992+0.0071j
+      Pi[XI,YY] = -0.5000-0.0000j
+      Pi[XI,ZX] = 0.5995+0.0000j
+      Pi[XI,ZY] = -0.4525+0.0000j
+      Pi[XX,II] = -0.7071+0.0000j
+      Pi[XX,IZ] = -0.0366-0.0000j
+      Pi[XX,XZ] = 0.4782-0.0001j
+      Pi[XX,YZ] = -0.4782+0.0001j
+      Pi[XX,ZI] = -0.0239-0.0099j
+      Pi[XY,IZ] = -0.7062-0.0000j
+      Pi[XY,XI] = -0.5000+0.0000j
+      Pi[XY,XZ] = -0.0981+0.0042j
+      Pi[XY,YI] = 0.5000-0.0000j
+      Pi[XY,YZ] = 0.0981-0.0042j
+      Pi[XY,ZI] = -0.1442-0.0420j
+      Pi[XY,ZZ] = 0.0250-0.0000j
+      Pi[XZ,IY] = 0.0261+0.0108j
+      Pi[XZ,XX] = 0.5229-0.0001j
+      Pi[XZ,YX] = 0.5229-0.0001j
+      Pi[XZ,ZX] = 0.3749+0.0000j
+      Pi[XZ,ZY] = 0.5434+0.0000j
+      Pi[YI,IX] = -0.0250-0.0000j
+      Pi[YI,IY] = 0.1610+0.0454j
+      Pi[YI,XX] = 0.0992-0.0071j
+      Pi[YI,XY] = 0.5000+0.0000j
+      Pi[YI,YX] = 0.0992-0.0071j
+      Pi[YI,YY] = 0.5000+0.0000j
+      Pi[YI,ZX] = 0.5995+0.0000j
+      Pi[YI,ZY] = -0.4525-0.0000j
+      Pi[YX,II] = 0.7071+0.0000j
+      Pi[YX,IZ] = 0.0366+0.0000j
+      Pi[YX,XZ] = 0.4782-0.0001j
+      Pi[YX,YZ] = -0.4782+0.0001j
+      Pi[YX,ZI] = -0.0239-0.0099j
+      Pi[YY,IZ] = 0.7062+0.0000j
+      Pi[YY,XI] = -0.5000+0.0000j
+      Pi[YY,XZ] = -0.0981+0.0042j
+      Pi[YY,YI] = 0.5000-0.0000j
+      Pi[YY,YZ] = 0.0981-0.0042j
+      Pi[YY,ZI] = -0.1442-0.0420j
+      Pi[YY,ZZ] = 0.0250-0.0000j
+      Pi[YZ,IY] = -0.0261-0.0108j
+      Pi[YZ,XX] = -0.5229+0.0001j
+      Pi[YZ,YX] = -0.5229+0.0001j
+      Pi[YZ,ZX] = 0.3749+0.0000j
+      Pi[YZ,ZY] = 0.5434-0.0000j
+      Pi[ZI,IY] = 1.0458-0.0003j
+      Pi[ZI,XX] = -0.0000-0.0108j
+      Pi[ZI,YX] = -0.0000-0.0108j
+      Pi[ZX,XI] = 0.5484+0.0000j
+      Pi[ZX,XZ] = 0.4567-0.0000j
+      Pi[ZX,YI] = 0.5484-0.0000j
+      Pi[ZX,YZ] = 0.4567-0.0000j
+      Pi[ZY,XI] = -0.3784-0.0000j
+      Pi[ZY,XZ] = 0.6051+0.0000j
+      Pi[ZY,YI] = -0.3784+0.0000j
+      Pi[ZY,YZ] = 0.6051+0.0000j
+      Pi[ZZ,IX] = 1.0000+0.0000j
+      Pi[ZZ,IY] = -0.1983+0.0143j
+      Pi[ZZ,XX] = 0.1560+0.0458j
+      Pi[ZZ,YX] = 0.1560+0.0458j
+
+  ZX+ZY:
+    Palindromic pairing: 16/16
+    Full palindrome error of constructed Pi: 5.723845e-16
+    Pi constructed successfully!
+
+    Checking tensor product structure:
+    Is tensor product M1 (x) M2? NO
+    Pi is GENUINELY NON-LOCAL (not a tensor product of per-site maps)
+    This is a major structural finding: XZ+YZ requires entangled Pi
+
+    Pi matrix (nonzero entries):
+      Pi[II,XX] = 0.7071-0.0000j
+      Pi[II,XY] = -0.7071+0.0000j
+      Pi[II,YX] = 0.0152-0.0597j
+      Pi[II,YY] = -0.0152+0.0597j
+      Pi[IX,XI] = 0.0250-0.0000j
+      Pi[IX,XX] = -0.0135+0.0928j
+      Pi[IX,XY] = -0.0135+0.0928j
+      Pi[IX,XZ] = 0.7071+0.0000j
+      Pi[IX,YI] = 0.1281+0.1484j
+      Pi[IX,YX] = -0.5000+0.0000j
+      Pi[IX,YY] = -0.5000+0.0000j
+      Pi[IY,XI] = -0.0250+0.0000j
+      Pi[IY,XX] = 0.0135-0.0928j
+      Pi[IY,XY] = 0.0135-0.0928j
+      Pi[IY,XZ] = 0.7071+0.0000j
+      Pi[IY,YI] = -0.1281-0.1484j
+      Pi[IY,YX] = 0.5000+0.0000j
+      Pi[IY,YY] = 0.5000+0.0000j
+      Pi[IZ,XX] = 0.0000+0.0264j
+      Pi[IZ,XY] = -0.0000+0.0264j
+      Pi[IZ,YI] = 1.0533+0.0007j
+      Pi[XI,IZ] = 0.0127-0.1771j
+      Pi[XI,ZX] = 0.1179+0.1361j
+      Pi[XI,ZY] = -0.1179-0.1361j
+      Pi[XI,ZZ] = 1.0000+0.0000j
+      Pi[XX,II] = 0.7071+0.0000j
+      Pi[XX,IZ] = -0.0238+0.0238j
+      Pi[XX,ZI] = -0.0151+0.0595j
+      Pi[XX,ZX] = 0.4753+0.0003j
+      Pi[XX,ZY] = -0.4753-0.0003j
+      Pi[XY,II] = -0.7071-0.0000j
+      Pi[XY,IZ] = -0.0238+0.0238j
+      Pi[XY,ZI] = 0.0151-0.0595j
+      Pi[XY,ZX] = 0.4753+0.0003j
+      Pi[XY,ZY] = -0.4753-0.0003j
+      Pi[XZ,IX] = 0.7071+0.0000j
+      Pi[XZ,IY] = 0.7071-0.0000j
+      Pi[YI,IZ] = 0.9506+0.0006j
+      Pi[YI,ZX] = -0.0000-0.0238j
+      Pi[YI,ZY] = 0.0000+0.0238j
+      Pi[YX,IX] = -0.5000+0.0000j
+      Pi[YX,IY] = 0.5000-0.0000j
+      Pi[YX,IZ] = 0.1183+0.1317j
+      Pi[YX,ZI] = 0.7044+0.0000j
+      Pi[YX,ZX] = -0.0064+0.0886j
+      Pi[YX,ZY] = 0.0064-0.0886j
+      Pi[YX,ZZ] = 0.0250-0.0000j
+      Pi[YY,IX] = -0.5000+0.0000j
+      Pi[YY,IY] = 0.5000-0.0000j
+      Pi[YY,IZ] = 0.1183+0.1317j
+      Pi[YY,ZI] = -0.7044+0.0000j
+      Pi[YY,ZX] = -0.0064+0.0886j
+      Pi[YY,ZY] = 0.0064-0.0886j
+      Pi[YY,ZZ] = 0.0250-0.0000j
+      Pi[YZ,ZX] = 0.7071-0.0000j
+      Pi[YZ,ZY] = 0.7071-0.0000j
+      Pi[ZI,YX] = 0.7098+0.0000j
+      Pi[ZI,YY] = -0.7098-0.0000j
+      Pi[ZX,XX] = 0.5267+0.0003j
+      Pi[ZX,XY] = 0.5267+0.0003j
+      Pi[ZX,YI] = 0.0263-0.0264j
+      Pi[ZX,YZ] = 0.7071-0.0000j
+      Pi[ZY,XX] = -0.5267-0.0003j
+      Pi[ZY,XY] = -0.5267-0.0003j
+      Pi[ZY,YI] = -0.0263+0.0264j
+      Pi[ZY,YZ] = 0.7071+0.0000j
+      Pi[ZZ,XI] = 1.0000+0.0000j
+      Pi[ZZ,XX] = -0.1288-0.1438j
+      Pi[ZZ,XY] = -0.1288-0.1438j
+      Pi[ZZ,YI] = -0.0269+0.1856j
+
+==========================================================================================
+SEARCH COMPLETE
+Date: 2026-03-19 14:35:06.386394
+==========================================================================================

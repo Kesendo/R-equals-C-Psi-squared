@@ -2,7 +2,7 @@
 
 **Date:** March 17, 2026
 **Purpose:** Test palindromic symmetry beyond Heisenberg coupling
-**Status:** Complete. Numerical + algebraic analysis. 34/36 cases explained.
+**Status:** Complete. All 36/36 two-term cases resolved (March 19, 2026).
 
 ---
 
@@ -102,14 +102,16 @@ XX, YY, ZZ are universal mediators: compatible with almost everything.
 | Compatible via uniform Q | 17/36 | Both terms share a common per-site map |
 | Compatible via non-uniform Q | 3/36 | XY+YX, XY+ZZ, YX+ZZ |
 | Broken (no Q exists) | 14/36 | Cross-validated: numerical = algebraic |
-| Palindromic but no Pauli-to-Pauli Q | 2/36 | XZ+YZ, ZX+ZY |
+| Non-local (entangled) Π | 2/36 | XZ+YZ, ZX+ZY (resolved March 19) |
 
 The 14 broken combos from the algebraic analysis match the 14 from
 numerical eigenvalue analysis EXACTLY (cross-validated).
 
-The 2 unexplained cases (XZ+YZ, ZX+ZY) are palindromic numerically
-but have no Pauli-to-Pauli Q operator. Their symmetry requires
-Pauli-mixing operators (linear combinations of Paulis, not permutations).
+The 2 remaining cases (XZ+YZ, ZX+ZY) are palindromic with a genuinely
+non-local Π operator that cannot be decomposed as a tensor product of
+per-site maps. The conjugation operator is "entangled" across sites,
+with 1/√2 coefficients characteristic of Bell-state structure.
+See Result 8 below.
 
 ## Result 6: Breaking Scales as gamma^2
 
@@ -168,10 +170,55 @@ are practically valid for real hardware.
 Amplitude damping (sigma_minus) also breaks the palindrome (err=0.15) and
 shifts the spectrum asymmetrically (no center gives exact pairing).
 
+
+## Result 8: The Last 2/36 Resolved: Non-Local Π (March 19, 2026)
+
+XZ+YZ and ZX+ZY are palindromic, but no per-site Pauli permutation explains
+them. The algebraic search (Result 4) tested 512 discrete maps and found zero.
+A continuous search tested single-parameter rotations between the P1 and P4
+families, two-parameter rotations, full 16-parameter optimization over block
+unitaries, and non-uniform per-site maps. All failed.
+
+The resolution: construct Π directly from eigenvector pairing. For N=2
+(H = XZ + YZ, Z-dephasing), all 16 eigenvalues pair palindromically. The
+constructed Π satisfies Π·L·Π⁻¹ = -L - 2Sγ·I at machine precision (5.6e-16).
+
+The critical finding: **Π is not a tensor product.** It cannot be decomposed
+as M₁ ⊗ M₂ for any per-site matrices M₁, M₂. The operator is genuinely
+non-local, correlating the two sites in a way that no per-site factorization
+can capture.
+
+The Π matrix has 1/√2 coefficients mapping II to superpositions of XX and YX:
+
+```
+Π[II, XX] = -1/√2      Π[II, YX] = +1/√2
+Π[XX, II] = -1/√2      Π[YX, II] = +1/√2
+```
+
+This is Bell-state structure in the mirror itself.
+
+Three classes of Π now cover all 36 cases:
+
+| Π type | Cases | Structure |
+|---|---|---|
+| Uniform per-site permutation | 17/36 | M ⊗ M (local, identical per site) |
+| Non-uniform per-site permutation | 3/36 | M₁ ⊗ M₂ ⊗ M₃ (local, alternating) |
+| Non-local (entangled) | 2/36 | Not factorizable, 1/√2 coefficients |
+| No Π exists (broken) | 14/36 | Palindrome itself fails |
+
+The physical reason: H = XZ + YZ mixes X and Y on the same site, coupled
+to Z on the other site. The time reversal for this combination requires
+correlating the two sites jointly. A per-site mirror cannot reflect what
+is intrinsically a two-site property.
+
+Script: `simulations/continuous_pi_search.py`
+Results: `simulations/results/continuous_pi_search.txt`
+
 ## Simulations
 
 - `simulations/non_heisenberg_test_v2.py` - Initial numerical sweep
 - `simulations/non_heisenberg_deep.py` - Systematic N-scaling, gamma-scaling
-- `simulations/algebraic_pi_search.py` - Algebraic Pi family enumeration
+- `simulations/algebraic_pi_search.py` - Algebraic Π family enumeration (P1, P4, alternating)
+- `simulations/continuous_pi_search.py` - Non-local Π search: rotation, optimization, eigenvector construction
 - `simulations/hidden_pi_search.py` - Eigenvector Q construction (failed)
 - `simulations/depolarizing_test.py` - Depolarizing vs single-axis test

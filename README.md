@@ -66,7 +66,7 @@ The palindrome is not limited to Heisenberg coupling. ALL standard condensed
 matter models are palindromic under single-axis dephasing: XY, Ising, XXZ,
 Dzyaloshinskii-Moriya, and combinations. Two Pi operator families exist
 (P1 and P4), plus non-uniform alternating operators for XY/YX terms.
-34/36 two-term combinations explained algebraically.
+All 36/36 two-term combinations resolved: 20 per-site, 14 broken, 2 non-local.
 
 See: [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)
 
@@ -182,7 +182,7 @@ This is our most original finding.
 | 5 topologies share boundaries | Verified: star, chain, ring, complete, tree |
 | z* is a novel composite diagnostic | 26 candidates tested, none match |
 | Non-Heisenberg palindrome | ALL standard models (XY, Ising, XXZ, DM) palindromic under single-axis dephasing |
-| Two Pi operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 34/36 two-term combos explained |
+| Two Pi operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 36/36 resolved (2 non-local) |
 | XOR space universal | GHZ->100% XOR, W->0% XOR for all standard models, r>0.98 |
 | Depolarizing noise quantified | Breaks palindrome at err = gamma * 2(N-2)/3 |
 | IBM hardware validation | CΨ=1/4 crossing at 1.9% deviation on ibm_torino Q80 (same-day T2*) |

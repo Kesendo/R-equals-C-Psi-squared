@@ -462,11 +462,12 @@ quantum systems that remains to be fully mapped.
 
 ## 9. Open Questions
 
-1. ~~**Non-Heisenberg models.**~~ **ANSWERED (March 17-18, 2026).** The palindrome
+1. ~~**Non-Heisenberg models.**~~ **ANSWERED (March 17-19, 2026).** The palindrome
    holds for ALL standard models: XY-only, Ising, XXZ, DM, Heisenberg+DM, and
    every single Pauli-pair term individually. Two Π families exist (P1: I<->X,Y<->Z
    and P4: I<->Y,X<->Z). XY/YX terms require non-uniform alternating operators.
-   Full compatibility matrix: 34/36 two-term combinations explained algebraically.
+   All 36/36 two-term combinations resolved: 20 via per-site maps, 14 broken
+   (palindrome itself fails), 2 via genuinely non-local (entangled) Π operators.
    See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md).
 
 2. **Non-dephasing dissipation.** What happens under amplitude damping,

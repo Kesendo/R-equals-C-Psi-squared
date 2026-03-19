@@ -364,7 +364,7 @@ prediction: the quantum-to-classical transition is local.
 | Non-Heisenberg palindrome | **Verified** | ALL standard models (XY, Ising, XXZ, DM, Heis+DM) palindromic under single-axis deph. N=3,4. |
 | Two Pi families (P1, P4) | **Verified** | Algebraic enumeration: 1024 candidates, 208 valid, 2 families + alternating operators |
 | Alternating Q for XY/YX/DM | **Verified** | Non-uniform M1-M2-M1 operator. Verified on N=3 Lindbladian. |
-| Compatibility matrix (34/36) | **Verified** | 17 uniform + 3 non-uniform compatible. 14 broken = exact match numerical. 2 need Pauli-mixing Q. |
+| Compatibility matrix (36/36) | **Verified** | 17 uniform + 3 non-uniform + 2 non-local Π. 14 broken = exact match numerical. |
 | Depol breaks palindrome | **Verified** | err = gamma * 2(N-2)/3. Hamiltonian-independent. Linear in gamma and N. |
 | Hardware crossing (Q80) | **Verified** | CΨ=1/4 at t*=15.29 us, predicted 15.01 us (1.9% deviation with same-day T2*) |
 | T2* drift matters | **Confirmed** | T2* fluctuates 58% in 6 days. Same-day Ramsey essential for predictions. |
