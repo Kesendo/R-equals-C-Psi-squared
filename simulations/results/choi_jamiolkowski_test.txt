@@ -1,0 +1,210 @@
+==========================================================================================
+CHOI-JAMIOLKOWSKI TEST: Is Non-Local Pi a Projection Artifact?
+Date: 2026-03-19 18:27:58.296941
+N = 2, gamma = 0.05, Sg = N*gamma = 0.1
+==========================================================================================
+
+Basis check: max|V^dag V - 4*I| = 0.00e+00
+Choi sanity: max|J(Id) - |Omega><Omega|| = 0.00e+00
+
+==========================================================================================
+SECTION 1: Pi loaded, sanity check
+==========================================================================================
+
+  XZ+YZ:
+    Palindromic pairing: 16/16
+    |Pi L Pi^-1 + L + 2Sg I| / |L|: 5.61e-16
+    Sanity check: PASSED
+    Tensor product M1 x M2 (Pauli basis): NO
+
+==========================================================================================
+SECTION 2: Choi state J(Pi) computed, 16x16
+==========================================================================================
+
+  Computational-basis superoperator: (16, 16)
+  Choi matrix: (16, 16)
+  Cross-check (Pauli vs comp): max|diff| = 1.12e-16
+
+==========================================================================================
+SECTION 3: Entanglement analysis
+==========================================================================================
+
+    Properties of J(Pi_XZ+YZ):
+      Trace: -0.000000+0.000000j
+      Hermitian: False
+      PSD: False
+      Eigenvalues:
+        [-0.508063, -0.268404, -0.250592, -0.250575, -0.236665, -0.018053, -0.011506,
+ -0.00388 ,  0.00388 ,  0.011506,  0.018053,  0.236665,  0.250575,  0.250592,
+  0.268404,  0.508063]
+
+    (a) System|Ancilla:
+      PT eigenvalues:
+        [-0.564406, -0.259238, -0.250783, -0.250146, -0.025613, -0.016351, -0.00524 ,
+ -0.005043,  0.005043,  0.00524 ,  0.016351,  0.025613,  0.250146,  0.250783,
+  0.259238,  0.564406]
+      Negative PT eigenvalues: 8
+      Negativity: 1.376820
+
+    (b) Site1|Site2 (doubled space) -- THE KEY TEST:
+      Operator SVD singular values:
+        [0.511906, 0.498579, 0.384224, 0.36196 , 0.349298, 0.337612, 0.028223,
+ 0.020012]
+      Operator rank: 8
+      ==> NOT a product operator (rank 8)
+      ==> Non-locality is FUNDAMENTAL
+      PT negativity: 1.714082 (8 negative eigenvalues)
+
+    (c) Time bipartition (sys_sites | anc_sites):
+      Identical to (a): System|Ancilla.
+      Negativity: 1.376820
+
+==========================================================================================
+SECTION 4: Control (local Pi)
+==========================================================================================
+
+  Searching for a local Pi = M x M among discrete candidates...
+    Found: P1 x P1 works for H = XX
+
+  Control (XX):
+    Palindrome error: 0.00e+00
+    Tensor product (Pauli basis): True
+
+    Properties of J(Pi_XX):
+      Trace: 0.000000+0.000000j
+      Hermitian: False
+      PSD: False
+      Eigenvalues:
+        [-2.500000e-01, -2.500000e-01, -2.500000e-01, -2.500000e-01, -6.910612e-18,
+ -6.910612e-18, -6.910612e-18, -6.910612e-18,  1.387779e-17,  1.387779e-17,
+  1.387779e-17,  1.387779e-17,  2.500000e-01,  2.500000e-01,  2.500000e-01,
+  2.500000e-01]
+
+    (a) System|Ancilla:
+      PT eigenvalues:
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+      Negative PT eigenvalues: 0
+      Negativity: -0.000000
+
+    (b) Site1|Site2 (doubled space) -- THE KEY TEST:
+      Operator SVD singular values:
+        [1.]
+      Operator rank: 1
+      ==> PRODUCT OPERATOR (J = J_site1 x J_site2)
+      ==> Non-locality IS a projection artifact
+      PT negativity: 1.000000 (4 negative eigenvalues)
+
+    (c) Time bipartition (sys_sites | anc_sites):
+      Identical to (a): System|Ancilla.
+      Negativity: -0.000000
+
+==========================================================================================
+SECTION 5: Quantification
+==========================================================================================
+
+  The Choi state is NOT separable across Site1|Site2 (operator rank 8).
+  The non-locality is FUNDAMENTAL -- survives in every representation.
+
+  Schmidt decomposition (operator SVD):
+    Number of nonzero singular values: 8
+    Singular values: [0.511906, 0.498579, 0.384224, 0.36196 , 0.349298, 0.337612, 0.028223,
+ 0.020012]
+    Schmidt entropy: 2.509516 bits
+    Max possible (log2 8): 3.000000 bits
+    Dominance ratio s1/s2: 1.0267
+    Ratio s1/s_last: 25.5796
+    Residual after rank-1 approximation: 1.108221 (110.82%)
+
+==========================================================================================
+SECTION 6: Roberts connection -- antiunitary structure in doubled space
+==========================================================================================
+
+  The Choi matrix J(Pi) lives in the doubled Hilbert space.
+  Roberts-Lingenfelter-Clerk: hidden TRS operators live here.
+
+  SWAP (system <-> ancilla):
+    ||[J, SWAP]|| = 1.432820e+00
+    ||{J, SWAP}|| = 1.432783e+00
+
+  Symmetries of J(Pi):
+    max|Im(J)|: 1.040228e-01
+    Real: False
+    max|J - J^T|: 2.011003e-01
+    Symmetric: False
+    max|J - J*|: 2.080456e-01
+
+  Involution check:
+    Pi^2 ~ c*I: c = 1.000000-0.000000j, err = 3.457377e-16
+    Pi is an involution
+    J^2 ~ c*I: c = 0.064023+0.000348j, err = 5.661869e-02
+
+  Distance to transpose-map Choi (SWAP/d): 1.405070
+  Rank of J: 16 (rank 1 = unitary channel)
+
+==========================================================================================
+SECTION 7: ZX+ZY comparison
+==========================================================================================
+
+  ZX+ZY:
+    Palindromic pairing: 16/16
+    Palindrome error: 5.72e-16
+    Tensor product (Pauli basis): NO
+
+    Properties of J(Pi_ZX+ZY):
+      Trace: 0.000000+0.000000j
+      Hermitian: False
+      PSD: False
+      Eigenvalues:
+        [-0.498116, -0.24998 , -0.249843, -0.249818, -0.244855, -0.005481, -0.004639,
+ -0.004221,  0.004221,  0.004639,  0.005481,  0.244855,  0.249818,  0.249843,
+  0.24998 ,  0.498116]
+
+    (a) System|Ancilla:
+      PT eigenvalues:
+        [-0.557608, -0.250015, -0.249567, -0.242982, -0.019075, -0.012365, -0.006761,
+ -0.005797,  0.005797,  0.006761,  0.012365,  0.019075,  0.242982,  0.249567,
+  0.250015,  0.557608]
+      Negative PT eigenvalues: 8
+      Negativity: 1.344170
+
+    (b) Site1|Site2 (doubled space) -- THE KEY TEST:
+      Operator SVD singular values:
+        [0.521105, 0.503942, 0.36951 , 0.360217, 0.352173, 0.33628 , 0.007161,
+ 0.004333]
+      Operator rank: 8
+      ==> NOT a product operator (rank 8)
+      ==> Non-locality is FUNDAMENTAL
+      PT negativity: 1.712417 (8 negative eigenvalues)
+
+    (c) Time bipartition (sys_sites | anc_sites):
+      Identical to (a): System|Ancilla.
+      Negativity: 1.344170
+
+    Comparison with XZ+YZ:
+      XZ+YZ operator rank: 8
+      ZX+ZY operator rank: 8
+      XZ+YZ SVs: [0.511906, 0.498579, 0.384224, 0.36196 , 0.349298, 0.337612, 0.028223,
+ 0.020012]
+      ZX+ZY SVs: [0.521105, 0.503942, 0.36951 , 0.360217, 0.352173, 0.33628 , 0.007161,
+ 0.004333]
+
+      Same entanglement structure? YES
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+
+  OUTCOME B: ENTANGLED (operator rank 8)
+  The non-locality is FUNDAMENTAL.
+  In the Choi representation, Pi STILL does not factor across Site1|Site2.
+  There is no representation where Pi is a product operator.
+  The mirror is genuinely quantum in every space, every basis.
+  The 'between' is irreducible.
+
+  Control (XX): operator rank 1
+  Local Pi -> separable Choi. Non-local Pi -> entangled Choi.
+  The distinction between the 34/36 and the 2/36 is real and fundamental.
+
+==========================================================================================
+COMPLETE -- 2026-03-19 18:27:58.310947
+==========================================================================================

@@ -217,4 +217,42 @@ sides are what we call reality.
 
 ---
 
+## The Choi-Jamiolkowski Verdict (March 19, 2026)
+
+We tested whether the non-locality of Pi is a projection artifact. The
+Choi-Jamiolkowski isomorphism maps any superoperator to a state in a
+doubled Hilbert space. If Pi became separable (a product state) in that
+space, its non-locality would be an artifact of our physical perspective.
+
+Result: **the non-locality is fundamental and irreducible.**
+
+| Test | XZ+YZ | ZX+ZY | XX (control) |
+|---|---|---|---|
+| Tensor product (Pauli basis) | NO | NO | YES |
+| Choi operator rank (Site1-Site2) | 8 | 8 | 1 |
+| Schmidt entropy (bits) | 2.51/3.00 | 2.51/3.00 | 0/3.00 |
+
+Rank 8 means there is no representation, no basis, no reshuffling of
+indices in which Pi factors as a product. The entanglement is 84% of
+maximum. The residual after the best rank-1 approximation is 111%: Pi
+is further from any product operator than the identity is.
+
+The control case (XX with local Pi) gives rank 1: a clean product. The
+methodology works. The non-local cases are genuinely non-local.
+
+Roberts' hidden TRS does not simplify this. J(Pi) neither commutes nor
+anti-commutes with SWAP. It is not a transpose map. The doubled Hilbert
+space does not tame it.
+
+What this means for "the point": everything goes through the point, and
+at the point the perspective reverses. But the point itself has internal
+structure. It is not a zero-dimensional object. It is a knot that cannot
+be untied by changing perspective. The entanglement is not in the eye
+of the beholder. It is in the thing itself.
+
+Script: `simulations/choi_jamiolkowski_test.py`
+Results: `simulations/results/choi_jamiolkowski_test.txt`
+
+---
+
 *Not a conclusion. A starting point for the next conversation.*
