@@ -16,6 +16,8 @@ are the collaborators. We document negative results. We correct our mistakes
 publicly. The recovered/ folder contains five disproven claims we keep for
 history.
 
+**Zenodo DOI:** [10.5281/zenodo.19100007](https://doi.org/10.5281/zenodo.19100007) (v3.0, March 18, 2026)
+
 ---
 
 ## What we found
@@ -56,7 +58,26 @@ palindrome. The proof is three steps:
 
 Holds for: all δ (XXZ anisotropy), all graphs (star, chain, ring, complete,
 binary tree), non-uniform γ per qubit, Z and Y dephasing.
-Breaks for: depolarizing noise (no single axis to flip).
+Breaks for: depolarizing noise (err = gamma * 2(N-2)/3, linear in gamma and N).
+
+### Beyond Heisenberg: all standard models (March 17-18, 2026)
+
+The palindrome is not limited to Heisenberg coupling. ALL standard condensed
+matter models are palindromic under single-axis dephasing: XY, Ising, XXZ,
+Dzyaloshinskii-Moriya, and combinations. Two Pi operator families exist
+(P1 and P4), plus non-uniform alternating operators for XY/YX terms.
+34/36 two-term combinations explained algebraically.
+
+See: [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)
+
+### Hardware validation: 1.9% (March 18, 2026)
+
+CΨ=1/4 crossing measured on IBM Quantum (ibm_torino, Qubit 80).
+Predicted: t* = 15.01 us. Measured: t* = 15.29 us. Deviation: 1.9%.
+T2* (not T2 echo) confirmed as the correct timescale.
+
+See: [IBM Run 3](experiments/IBM_RUN3_PALINDROME.md),
+raw data in `data/ibm_run3_march2026/`
 
 The closest prior work, incoherentons (Haga et al. 2023) and Bethe ansatz
 for dephasing chains (Medvedyeva-Essler-Prosen 2016), had pieces of this
@@ -138,8 +159,9 @@ This is our most original finding.
 - That CΨ is a new fundamental quantity (it is a derived diagnostic)
 - That hidden observer detection works on hardware (simulation only)
 - That frequency-decay orthogonality extends beyond 3 qubits (it doesn't)
-- That the 1/4 boundary has physical significance beyond the iteration
-- That consciousness plays any role in the physics
+- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ=1/4 crossing validated at 1.9%, N>=2 untested)
+- That the standing wave pattern is measurable on hardware (computed, not yet measured)
+- That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
 
@@ -159,6 +181,12 @@ This is our most original finding.
 | Five independent regulators | Full parameter sweeps |
 | 5 topologies share boundaries | Verified: star, chain, ring, complete, tree |
 | z* is a novel composite diagnostic | 26 candidates tested, none match |
+| Non-Heisenberg palindrome | ALL standard models (XY, Ising, XXZ, DM) palindromic under single-axis dephasing |
+| Two Pi operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 34/36 two-term combos explained |
+| XOR space universal | GHZ->100% XOR, W->0% XOR for all standard models, r>0.98 |
+| Depolarizing noise quantified | Breaks palindrome at err = gamma * 2(N-2)/3 |
+| IBM hardware validation | CΨ=1/4 crossing at 1.9% deviation on ibm_torino Q80 (same-day T2*) |
+| Standing wave from palindrome | Quantum correlations (XX,YY) oscillate at 2J,4J,6J; classical (ZZZ) static |
 
 ### Tested and rejected
 
@@ -181,22 +209,31 @@ This is our most original finding.
 ### The proof
 1. **[Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)**: The conjugation operator, the 16-entry table, the full verification
 
+### Hardware validation
+2. **[IBM Run 3](experiments/IBM_RUN3_PALINDROME.md)**: CΨ=1/4 crossing validated at 1.9% on ibm_torino Q80
+3. **[IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md)**: All hardware runs on IBM Torino
+
+### Generalization and structure
+4. **[Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)**: All standard models, two Pi families, alternating operators
+5. **[XOR Space](experiments/XOR_SPACE.md)**: Where information lives in the palindrome. GHZ vs W. Universal across models.
+6. **[Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md)**: Palindromic pairs create oscillating quantum correlations over static classical backbone
+7. **[QST Bridge](experiments/QST_BRIDGE.md)**: Quantum state transfer. Star 2:1 beats chains.
+
 ### Technical core
-2. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)**: Pole analysis, coupled oscillator translation
-3. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)**: Two supermodes as standing waves
-4. **[XOR Space](experiments/XOR_SPACE.md)**: Where information lives in the palindrome. GHZ vs W.
-5. **[QST Bridge](experiments/QST_BRIDGE.md)**: Quantum state transfer. Star 2:1 beats chains.
-6. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)**: Parameter sweeps and stress tests
-7. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)**: Mirror quality and Born rule connection
+8. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)**: Pole analysis, coupled oscillator translation
+9. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)**: Two supermodes as standing waves
+10. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)**: Parameter sweeps and stress tests
+11. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)**: Mirror quality and Born rule connection
 
 ### Algebra and diagnostics
-8. **[The CΨ Lens](docs/THE_CPSI_LENS.md)**: What CΨ shows and what it doesn't
-9. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)**: Mandelbrot correspondence, 1/4 boundary
-10. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)**: Two channels, two directions
+12. **[The CΨ Lens](docs/THE_CPSI_LENS.md)**: What CΨ shows and what it doesn't
+13. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)**: Mandelbrot correspondence, 1/4 boundary
+14. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)**: Two channels, two directions
 
 ### Interpretation (speculative, optional)
-11. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state
-12. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: What we got wrong and what we don't know
+15. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state
+16. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: What we got wrong and what we don't know
+17. **[The Anomaly](THE_ANOMALY.md)**: The question after the proof
 
 ---
 
@@ -244,6 +281,10 @@ All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
 | `deep_band_structure.py` | Band analysis with scaling laws |
 | `z_star_identity.py` | z* vs 26 quantum measures |
 | `ep_test.py` | Exceptional Point test (negative) |
+| `non_heisenberg_deep.py` | All standard models: palindrome, Pi families, depolarizing |
+| `xor_non_heisenberg_v2.py` | XOR universal across all models, Bell correction |
+| `algebraic_pi_search.py` | Pi operator family enumeration (P1, P4, alternating) |
+| `standing_wave_analysis.py` | Standing wave formalization: antinodes, nodes, state x Hamiltonian |
 
 ---
 
