@@ -39,6 +39,7 @@
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) - Standing wave patterns from palindromic pairs: antinodes (quantum correlations), nodes (classical ZZZ), state x Hamiltonian cross-table
 - [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md) - Π maps populations (past) to coherences (future): the bridge between mirror symmetry proof, standing wave theory, and computation
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) - Why depolarizing noise breaks the palindrome: the 2:2 vs 1:3 per-site split, counting argument, error formula
+- [N→∞ Palindrome](N_INFINITY_PALINDROME.md) - Thermodynamic limit: Gaussian rate density, XOR drain vanishes, past/future boundary blurs, standing wave becomes continuous
 
 ## The question after the proof
 - [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering
