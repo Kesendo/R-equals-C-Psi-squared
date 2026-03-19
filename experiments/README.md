@@ -35,5 +35,8 @@
 - [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - Hardware runs on IBM Torino
 - [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) - CΨ=1/4 crossing validated at 1.9% (March 18, 2026)
 
+## Standing Wave
+- [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) - Standing wave patterns from palindromic pairs: antinodes (quantum correlations), nodes (classical ZZZ), state x Hamiltonian cross-table
+
 ## The question after the proof
 - [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering
