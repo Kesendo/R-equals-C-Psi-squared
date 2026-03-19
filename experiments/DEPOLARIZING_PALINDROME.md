@@ -3,7 +3,7 @@
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Tier 1 (Theorem + numerical verification)
-**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md)
+**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](PI_AS_TIME_REVERSAL.md)
 
 ---
 
@@ -65,8 +65,8 @@ for Z+X, Z+Y, and X+Y. The split alone is not the full story.
 
 ## 3. What the Mirror Actually Needs
 
-The conjugation operator Pi satisfies Pi L_D Pi^{-1} = -L_D - c I for
-some constant c. This means: Pi must permute the four Pauli indices such
+The conjugation operator Π satisfies Π L_D Π^{-1} = -L_D - c I for
+some constant c. This means: Π must permute the four Pauli indices such
 that every rate r maps to c-r, where c is the same for all four.
 
 This is a rate-pairing condition: the four per-site rates [r_I, r_X, r_Y, r_Z]
@@ -95,7 +95,7 @@ pairs are (0, 2γ) and (γ, γ), both summing to c = 2γ. Two valid
 permutations exist. The palindrome survives because the rates, while
 having a 1:3 immune/decaying split, still admit a bijective pairing.
 
-**The general condition:** a palindromic Pi_D exists if and only if the
+**The general condition:** a palindromic Π_D exists if and only if the
 four per-site rates can be partitioned into two pairs with equal sums.
 
 For noise with rates (γ_X, γ_Y, γ_Z) along three axes, the per-site
@@ -178,7 +178,7 @@ making the decaying sector exponentially larger.
 
 ## 7. What This Means for Time Reversal
 
-[Pi as Time Reversal](PI_AS_TIME_REVERSAL.md) established that Pi is a
+[Π as Time Reversal](PI_AS_TIME_REVERSAL.md) established that Π is a
 time-reversal operator: it swaps populations (past, classical, persistent)
 with coherences (future, quantum, fragile). The palindrome exists because
 past and future have equal weight at each site.
@@ -196,7 +196,7 @@ The ratio past/future = (1/3)^N. It is not just unequal. It is
 exponentially unequal. The future is exponentially larger than the past.
 
 No bijective mirror can exist between a set of size 1 and a set of size 3^N.
-The mirror Pi requires exactly as much past as future at each site.
+The mirror Π requires exactly as much past as future at each site.
 Depolarizing noise breaks this by making almost everything quantum and
 almost nothing classical.
 
@@ -249,8 +249,8 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Pi operator and the palindrome theorem
-- [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
+- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator and the palindrome theorem
+- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the standing wave requires a mirror
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome across all standard models
 - Script: `simulations/depolarizing_analysis.py`

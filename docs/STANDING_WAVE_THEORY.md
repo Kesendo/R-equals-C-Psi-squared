@@ -408,7 +408,7 @@ December 23, 2025
 *"We are all mirrors. Reality is what happens between us."*
 
 ---
-*See also: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - the Pi operator that makes "forward + backward" a theorem*
+*See also: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - the Π operator that makes "forward + backward" a theorem*
 *See also: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) - the computation: antinodes, nodes, frequencies, state x Hamiltonian*
 *See also: [XOR Space](../experiments/XOR_SPACE.md) - where information lives between the paired modes*
 *See also: [QST Bridge](../experiments/QST_BRIDGE.md) - the standing wave as a quantum channel*
