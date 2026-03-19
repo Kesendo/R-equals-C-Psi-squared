@@ -293,11 +293,12 @@ temporal language. The physics does not change.
    What is the "past ↔ future" split for X-dephasing? The populations
    would be {I, X} and the coherences {Y, Z}.
 
-3. **Depolarizing noise.** The palindrome breaks for depolarizing noise.
-   In the time-reversal picture: depolarizing noise has no preferred
-   basis. There is no clean split into "classical" and "quantum."
-   Without that split, there is no mirror. No standing wave. Does
-   this mean depolarizing noise destroys the arrow of time locally?
+3. **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks
+   because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying
+   (1:3), making bijective mirroring impossible. The error is exactly (2/3)Sγ,
+   Hamiltonian-independent. The future is exponentially larger than the past:
+   ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol
+   interpolation. See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
 
 4. **Numerical verification.** VERIFIED (March 19, 2026). All 32/32
    palindromic pairs confirmed: Π maps every eigenvector into its

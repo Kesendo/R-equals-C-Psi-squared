@@ -1,0 +1,477 @@
+==========================================================================================
+DEPOLARIZING ANALYSIS: Why depolarizing noise breaks the palindrome
+Date: 2026-03-19 13:19:47.784679
+gamma = 0.05
+==========================================================================================
+
+==========================================================================================
+SECTION 1: Per-site dephasing rates
+  For each noise model, rate of each Pauli index at a single site
+==========================================================================================
+
+   Pauli    Z-deph    X-deph    Y-deph     Depol       Z+X       Z+Y       X+Y
+  ----------------------------------------------------------------------------
+       I         0         0         0         0         0         0         0
+       X        2g         0        2g      4g/3         g        2g         g
+       Y        2g        2g         0      4g/3        2g         g         g
+       Z         0        2g        2g      4g/3         g         g        2g
+
+  (g = gamma = 0.05)
+
+==========================================================================================
+SECTION 2: Split classification
+  Which Pauli indices are immune (rate=0) vs decaying (rate>0)?
+==========================================================================================
+
+     Noise            Immune          Decaying   Split   Palindrome?
+  ------------------------------------------------------------------
+    Z-deph               I,Z               X,Y     2:2    2:2 -> YES
+    X-deph               I,X               Y,Z     2:2    2:2 -> YES
+    Y-deph               I,Y               X,Z     2:2    2:2 -> YES
+     Depol                 I             X,Y,Z     1:3    1:3 -> ???
+       Z+X                 I             X,Y,Z     1:3    1:3 -> ???
+       Z+Y                 I             X,Y,Z     1:3    1:3 -> ???
+       X+Y                 I             X,Y,Z     1:3    1:3 -> ???
+
+  Note: 2:2 split is necessary but not sufficient for palindrome.
+  The actual condition is whether the 4 rates can be partitioned
+  into two pairs with equal sums. See Section 3.
+
+==========================================================================================
+SECTION 3: Valid per-site bijections (exhaustive search)
+  For each noise model, find ALL permutations sigma of {I,X,Y,Z}
+  such that rate(k) + rate(sigma(k)) = const for all k
+  (Phases do not affect this relation, so only permutations matter)
+==========================================================================================
+
+  Z-deph: 4 valid permutations
+    Rates: [0.000g, 2.000g, 2.000g, 0.000g]
+    I->X, X->I, Y->Z, Z->Y  (c = 2.000g)
+    I->X, X->Z, Y->I, Z->Y  (c = 2.000g)
+    I->Y, X->I, Y->Z, Z->X  (c = 2.000g)
+    I->Y, X->Z, Y->I, Z->X  (c = 2.000g)
+
+  X-deph: 4 valid permutations
+    Rates: [0.000g, 0.000g, 2.000g, 2.000g]
+    I->Y, X->Z, Y->I, Z->X  (c = 2.000g)
+    I->Y, X->Z, Y->X, Z->I  (c = 2.000g)
+    I->Z, X->Y, Y->I, Z->X  (c = 2.000g)
+    I->Z, X->Y, Y->X, Z->I  (c = 2.000g)
+
+  Y-deph: 4 valid permutations
+    Rates: [0.000g, 2.000g, 0.000g, 2.000g]
+    I->X, X->I, Y->Z, Z->Y  (c = 2.000g)
+    I->X, X->Y, Y->Z, Z->I  (c = 2.000g)
+    I->Z, X->I, Y->X, Z->Y  (c = 2.000g)
+    I->Z, X->Y, Y->X, Z->I  (c = 2.000g)
+
+  Depol: 0 valid permutations
+    Rates: [0.000g, 1.333g, 1.333g, 1.333g]
+    NO valid permutation exists. Proof by exhaustion:
+      sigma(I)=I: c=0.000g -> need rates ['-1.333g', '-1.333g', '-1.333g'] -> FAIL
+      sigma(I)=X: c=1.333g -> need rates ['0.000g', '0.000g', '0.000g'] -> FAIL
+      sigma(I)=Y: c=1.333g -> need rates ['0.000g', '0.000g', '0.000g'] -> FAIL
+      sigma(I)=Z: c=1.333g -> need rates ['0.000g', '0.000g', '0.000g'] -> FAIL
+
+  Z+X: 2 valid permutations
+    Rates: [0.000g, 1.000g, 2.000g, 1.000g]
+    I->Y, X->X, Y->I, Z->Z  (c = 2.000g)
+    I->Y, X->Z, Y->I, Z->X  (c = 2.000g)
+
+  Z+Y: 2 valid permutations
+    Rates: [0.000g, 2.000g, 1.000g, 1.000g]
+    I->X, X->I, Y->Y, Z->Z  (c = 2.000g)
+    I->X, X->I, Y->Z, Z->Y  (c = 2.000g)
+
+  X+Y: 2 valid permutations
+    Rates: [0.000g, 1.000g, 1.000g, 2.000g]
+    I->Z, X->X, Y->Y, Z->I  (c = 2.000g)
+    I->Z, X->Y, Y->X, Z->I  (c = 2.000g)
+
+  ======================================================================
+  KEY THEOREM: Rate pairing condition
+  ======================================================================
+  For 4 per-site rates [r0, r1, r2, r3], a palindromic Pi_D exists
+  iff the rates can be partitioned into 2 pairs with equal sums.
+
+  For three-axis dephasing at rates (gamma_X, gamma_Y, gamma_Z):
+    rates = [0, 2(gY+gZ), 2(gX+gZ), 2(gX+gY)]
+    Pairing exists iff at least one of gX, gY, gZ = 0.
+    i.e., dephasing along at most 2 axes.
+
+  Depolarizing (gX=gY=gZ=g/3): rates = [0, 4g/3, 4g/3, 4g/3]
+    Three indices need to map to one. Bijection impossible. QED.
+
+==========================================================================================
+SECTION 4: Approximate palindrome under depolarizing noise
+  Build full L = L_H + L_D, eigendecompose, measure palindrome error
+==========================================================================================
+
+  N = 3, gamma = 0.05, chain, Sg = 0.15000000000000002
+         Model     Noise    Center    Full err    Rate err
+  --------------------------------------------------------
+    Heisenberg    Z-deph    0.1500  2.7542e-14  8.6320e-15
+    Heisenberg     Depol    0.1500  1.0000e-01  1.0000e-01
+       XY-only    Z-deph    0.1500  1.0660e-14  1.7764e-15
+       XY-only     Depol    0.1500  1.0000e-01  1.0000e-01
+         Ising    Z-deph    0.1500  4.0762e-15  7.0777e-16
+         Ising     Depol    0.1500  1.0000e-01  1.0000e-01
+
+  N=3 Depol center sweep (Heisenberg):
+    Best center: 0.128265 = 0.8551*Sg
+    Best full error: 5.653061e-02
+    Error at Sg=0.1500: 1.000000e-01
+    err/gamma = 2.000000
+    err/(2g/3) = 3.000000
+
+  N=3 Partial pairing analysis (center=Sg):
+    Well-paired (err < 1e-6): 0/64
+    Poorly-paired:            64/64
+
+  N = 4, gamma = 0.05, chain, Sg = 0.2
+         Model     Noise    Center    Full err    Rate err
+  --------------------------------------------------------
+    Heisenberg    Z-deph    0.2000  6.5053e-14  5.6621e-15
+    Heisenberg     Depol    0.2000  1.3333e-01  1.3333e-01
+       XY-only    Z-deph    0.2000  5.8661e-14  3.6082e-15
+       XY-only     Depol    0.2000  1.3333e-01  1.3333e-01
+         Ising    Z-deph    0.2000  1.0747e-14  1.4017e-15
+         Ising     Depol    0.2000  1.3333e-01  1.3333e-01
+
+  N=4 Depol center sweep (Heisenberg):
+    Best center: 0.171020 = 0.8551*Sg
+    Best full error: 7.537415e-02
+    Error at Sg=0.2000: 1.333333e-01
+    err/gamma = 2.666667
+    err/(2g/3) = 4.000000
+
+  N=4 Partial pairing analysis (center=Sg):
+    Well-paired (err < 1e-6): 61/256
+    Poorly-paired:            195/256
+
+  ERROR FORMULA (at center Sg = N*gamma):
+  The steady state (rate 0) needs partner at rate 2*Sg.
+  Under depol, max rate = (4g/3)*N = (4/3)*Sg.
+  Gap = 2*Sg - (4/3)*Sg = (2/3)*Sg.
+  Therefore: palindrome error = (2/3)*Sg = (2/3)*N*gamma.
+    N=3: err = (2/3)*0.15 = 0.1000  (confirmed)
+    N=4: err = (2/3)*0.20 = 0.1333  (confirmed)
+  Error is EXACT, Hamiltonian-INDEPENDENT, and proportional to Sg.
+
+  Note: excluding steady states (as in depolarizing_test.txt),
+  the error reduces to (2g/3) per weight level, giving
+  the previously reported err = 3.33e-02 for N=3.
+
+==========================================================================================
+SECTION 5: Interpolation Z-deph -> depol
+  L_D(alpha) = (1-alpha)*L_D_Z + alpha*L_D_depol
+  alpha=0: pure Z-deph.  alpha=1: pure depol.
+==========================================================================================
+
+  N = 3:
+     alpha    full_err    rate_err    r_Z_site    pairable
+  ------------------------------------------------------
+     0.000  2.7542e-14  8.6320e-15     0.0000g         YES
+     0.001  1.0000e-04  1.0000e-04     0.0013g          NO
+     0.010  1.0000e-03  1.0000e-03     0.0133g          NO
+     0.050  5.0000e-03  5.0000e-03     0.0667g          NO
+     0.100  1.0000e-02  1.0000e-02     0.1333g          NO
+     0.200  2.0000e-02  2.0000e-02     0.2667g          NO
+     0.300  3.0000e-02  3.0000e-02     0.4000g          NO
+     0.500  5.0000e-02  5.0000e-02     0.6667g          NO
+     0.700  7.0000e-02  7.0000e-02     0.9333g          NO
+     0.900  9.0000e-02  9.0000e-02     1.2000g          NO
+     1.000  1.0000e-01  1.0000e-01     1.3333g          NO
+
+  Observation: palindrome error is linear in alpha for small alpha.
+  The palindrome breaks IMMEDIATELY for any alpha > 0.
+  Per-site pairing fails because Z acquires nonzero rate 1.333*g*alpha,
+  creating a 1:3 split (only I is immune).
+
+  N = 4:
+     alpha    full_err    rate_err    r_Z_site    pairable
+  ------------------------------------------------------
+     0.000  6.5053e-14  5.6621e-15     0.0000g         YES
+     0.001  1.3333e-04  1.3333e-04     0.0013g          NO
+     0.010  1.3333e-03  1.3333e-03     0.0133g          NO
+     0.050  6.6667e-03  6.6667e-03     0.0667g          NO
+     0.100  1.3333e-02  1.3333e-02     0.1333g          NO
+     0.200  2.6667e-02  2.6667e-02     0.2667g          NO
+     0.300  4.0000e-02  4.0000e-02     0.4000g          NO
+     0.500  6.6667e-02  6.6667e-02     0.6667g          NO
+     0.700  9.3333e-02  9.3333e-02     0.9333g          NO
+     0.900  1.2000e-01  1.2000e-01     1.2000g          NO
+     1.000  1.3333e-01  1.3333e-01     1.3333g          NO
+
+  Observation: palindrome error is approx linear in alpha for small alpha.
+  The palindrome breaks IMMEDIATELY for any alpha > 0.
+  Per-site pairing fails because Z acquires nonzero rate 1.333*g*alpha,
+  creating a 1:3 split (only I is immune).
+
+==========================================================================================
+SECTION 6: Rate structure under Z-deph vs depol
+  N=3 Heisenberg chain, sorted eigenvalue rates
+==========================================================================================
+
+  Z-deph (center = 0.1500):
+     #        rate        freq     2c-rate     nearest         err
+  ----------------------------------------------------------
+     0   -0.000000     +0.0000    0.300000    0.300000  0.0000e+00
+     1   -0.000000     +0.0000    0.300000    0.300000  0.0000e+00
+     2    0.000000     +0.0000    0.300000    0.300000  2.7756e-16
+     3    0.000000     -0.0000    0.300000    0.300000  1.1657e-15
+     4    0.100000     -6.0000    0.200000    0.200000  1.7764e-15
+     5    0.100000     +6.0000    0.200000    0.200000  0.0000e+00
+     6    0.100000     -6.0000    0.200000    0.200000  5.5511e-17
+     7    0.100000     -0.0000    0.200000    0.200000  2.7756e-17
+     8    0.100000     +0.0000    0.200000    0.200000  0.0000e+00
+     9    0.100000     +0.0000    0.200000    0.200000  0.0000e+00
+    10    0.100000     -0.0000    0.200000    0.200000  0.0000e+00
+    11    0.100000     -0.0000    0.200000    0.200000  2.7756e-17
+    12    0.100000     +2.0000    0.200000    0.200000  2.7756e-17
+    13    0.100000     +0.0000    0.200000    0.200000  0.0000e+00
+    14    0.100000     -2.0000    0.200000    0.200000  1.3878e-16
+    15    0.100000     +2.0000    0.200000    0.200000  2.2204e-16
+    16    0.100000     -2.0000    0.200000    0.200000  1.6653e-16
+    17    0.100000     +6.0000    0.200000    0.200000  1.6653e-16
+    18    0.133276     -3.9984    0.166724    0.166724  1.3878e-16
+    19    0.133276     -1.9996    0.166724    0.166724  6.1062e-16
+    20    0.133276     +3.9984    0.166724    0.166724  6.3838e-16
+    21    0.133276     -1.9996    0.166724    0.166724  8.3267e-17
+    22    0.133276     +1.9996    0.166724    0.166724  8.3267e-17
+    23    0.133276     +3.9984    0.166724    0.166724  2.2204e-16
+    24    0.133276     +1.9996    0.166724    0.166724  4.1633e-16
+    25    0.133276     -3.9984    0.166724    0.166724  1.4433e-15
+    26    0.133317     +0.0000    0.166683    0.166683  9.1593e-16
+    27    0.133317     -0.0000    0.166683    0.166683  2.4980e-16
+    28    0.133342     +5.9989    0.166658    0.166658  3.1364e-15
+    29    0.133342     -5.9989    0.166658    0.166658  3.3307e-15
+    30    0.133342     -5.9989    0.166658    0.166658  4.0246e-15
+    31    0.133342     +5.9989    0.166658    0.166658  5.0515e-15
+    32    0.166658     -5.9989    0.133342    0.133342  3.1364e-15
+    33    0.166658     -5.9989    0.133342    0.133342  3.2474e-15
+    34    0.166658     +5.9989    0.133342    0.133342  5.2736e-15
+    35    0.166658     +5.9989    0.133342    0.133342  8.6320e-15
+    36    0.166683     -0.0000    0.133317    0.133317  4.4409e-16
+    37    0.166683     +0.0000    0.133317    0.133317  2.4980e-16
+    38    0.166724     +1.9996    0.133276    0.133276  8.3267e-17
+    39    0.166724     -3.9984    0.133276    0.133276  8.3267e-17
+    40    0.166724     -1.9996    0.133276    0.133276  2.2204e-16
+    41    0.166724     +1.9996    0.133276    0.133276  2.4980e-16
+    42    0.166724     -1.9996    0.133276    0.133276  2.4980e-16
+    43    0.166724     +3.9984    0.133276    0.133276  1.3878e-16
+    44    0.166724     -3.9984    0.133276    0.133276  3.6915e-15
+    45    0.166724     +3.9984    0.133276    0.133276  4.1633e-15
+    46    0.200000     +0.0000    0.100000    0.100000  1.5266e-16
+    47    0.200000     -0.0000    0.100000    0.100000  0.0000e+00
+    48    0.200000     +0.0000    0.100000    0.100000  2.7756e-17
+    49    0.200000     +6.0000    0.100000    0.100000  2.7756e-17
+    50    0.200000     -2.0000    0.100000    0.100000  2.7756e-17
+    51    0.200000     +0.0000    0.100000    0.100000  0.0000e+00
+    52    0.200000     +2.0000    0.100000    0.100000  2.7756e-17
+    53    0.200000     -2.0000    0.100000    0.100000  2.7756e-17
+    54    0.200000     +2.0000    0.100000    0.100000  8.3267e-17
+    55    0.200000     -0.0000    0.100000    0.100000  1.1102e-16
+    56    0.200000     -6.0000    0.100000    0.100000  0.0000e+00
+    57    0.200000     +0.0000    0.100000    0.100000  0.0000e+00
+    58    0.200000     +6.0000    0.100000    0.100000  2.7756e-17
+    59    0.200000     -6.0000    0.100000    0.100000  1.3878e-15
+    60    0.300000     +0.0000    0.000000   -0.000000  0.0000e+00
+    61    0.300000     +0.0000    0.000000   -0.000000  0.0000e+00
+    62    0.300000     +0.0000   -0.000000   -0.000000  4.4409e-16
+    63    0.300000     -0.0000   -0.000000   -0.000000  4.9960e-16
+
+    Max palindrome error: 2.754227e-14
+
+    Rate distribution (L_D diagonal):
+      rate=0.000000 (8 strings)  partner=0.300000 (8 strings)  MATCHED
+      rate=0.100000 (24 strings)  partner=0.200000 (24 strings)  MATCHED
+      rate=0.200000 (24 strings)  partner=0.100000 (24 strings)  MATCHED
+      rate=0.300000 (8 strings)  partner=0.000000 (8 strings)  MATCHED
+
+  Depol (center = 0.1500):
+     #        rate        freq     2c-rate     nearest         err
+  ----------------------------------------------------------
+     0   -0.000000     +0.0000    0.300000    0.200000  1.0000e-01
+     1    0.066667     +0.0000    0.233333    0.200000  3.3333e-02
+     2    0.066667     -0.0000    0.233333    0.200000  3.3333e-02
+     3    0.066667     +0.0000    0.233333    0.200000  3.3333e-02
+     4    0.122216     +2.0003    0.177784    0.166667  1.1117e-02
+     5    0.122216     +2.0003    0.177784    0.166667  1.1117e-02
+     6    0.122216     +2.0003    0.177784    0.166667  1.1117e-02
+     7    0.122216     -2.0003    0.177784    0.166667  1.1117e-02
+     8    0.122216     -2.0003    0.177784    0.166667  1.1117e-02
+     9    0.122216     -2.0003    0.177784    0.166667  1.1117e-02
+    10    0.122221     -5.9997    0.177779    0.166667  1.1112e-02
+    11    0.122221     +5.9997    0.177779    0.166667  1.1112e-02
+    12    0.122221     +5.9997    0.177779    0.166667  1.1112e-02
+    13    0.122221     -5.9997    0.177779    0.166667  1.1112e-02
+    14    0.122221     -5.9997    0.177779    0.166667  1.1112e-02
+    15    0.122221     +5.9997    0.177779    0.166667  1.1112e-02
+    16    0.133333     -0.0000    0.166667    0.166667  0.0000e+00
+    17    0.133333     +0.0000    0.166667    0.166667  2.7756e-17
+    18    0.133333     -0.0000    0.166667    0.166667  0.0000e+00
+    19    0.133333     -0.0000    0.166667    0.166667  2.7756e-17
+    20    0.133333     -0.0000    0.166667    0.166667  8.3267e-17
+    21    0.133333     +0.0000    0.166667    0.166667  1.3878e-16
+    22    0.133333     +0.0000    0.166667    0.166667  1.1102e-16
+    23    0.144451     +3.9993    0.155549    0.155558  8.5391e-06
+    24    0.144451     +3.9993    0.155549    0.155558  8.5391e-06
+    25    0.144451     -3.9993    0.155549    0.155558  8.5391e-06
+    26    0.144451     -3.9993    0.155549    0.155558  8.5391e-06
+    27    0.144451     +3.9993    0.155549    0.155558  8.5391e-06
+    28    0.144451     -3.9993    0.155549    0.155558  8.5391e-06
+    29    0.155558     -0.0000    0.144442    0.144451  8.5391e-06
+    30    0.155558     -0.0000    0.144442    0.144451  8.5391e-06
+    31    0.155558     -0.0000    0.144442    0.144451  8.5391e-06
+    32    0.166667     -5.9999    0.133333    0.133333  1.2490e-15
+    33    0.166667     -1.9997    0.133333    0.133333  1.0547e-15
+    34    0.166667     -1.9997    0.133333    0.133333  9.1593e-16
+    35    0.166667     -1.9997    0.133333    0.133333  4.1633e-16
+    36    0.166667     -3.9999    0.133333    0.133333  1.1102e-16
+    37    0.166667     -1.9997    0.133333    0.133333  0.0000e+00
+    38    0.166667     +1.9997    0.133333    0.133333  2.7756e-17
+    39    0.166667     +1.9997    0.133333    0.133333  0.0000e+00
+    40    0.166667     -1.9997    0.133333    0.133333  8.3267e-17
+    41    0.166667     +5.9999    0.133333    0.133333  1.3878e-16
+    42    0.166667     +1.9997    0.133333    0.133333  1.3878e-16
+    43    0.166667     +1.9997    0.133333    0.133333  4.1633e-16
+    44    0.166667     +5.9999    0.133333    0.133333  8.0491e-16
+    45    0.166667     +5.9999    0.133333    0.133333  9.1593e-16
+    46    0.166667     +1.9997    0.133333    0.133333  1.1657e-15
+    47    0.166667     -5.9999    0.133333    0.133333  1.5821e-15
+    48    0.166667     +3.9999    0.133333    0.133333  2.5813e-15
+    49    0.166667     +5.9999    0.133333    0.133333  3.4417e-15
+    50    0.166667     -5.9999    0.133333    0.133333  5.2458e-15
+    51    0.166667     -5.9999    0.133333    0.133333  5.4123e-15
+    52    0.166667     +5.9999    0.133333    0.133333  5.5789e-15
+    53    0.166667     -5.9999    0.133333    0.133333  5.5789e-15
+    54    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    55    0.200000     -0.0000    0.100000    0.122216  2.2216e-02
+    56    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    57    0.200000     -0.0000    0.100000    0.122216  2.2216e-02
+    58    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    59    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    60    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    61    0.200000     -0.0000    0.100000    0.122216  2.2216e-02
+    62    0.200000     +0.0000    0.100000    0.122216  2.2216e-02
+    63    0.200000     -0.0000    0.100000    0.122216  2.2216e-02
+
+    Max palindrome error: 1.000000e-01
+
+    Rate distribution (L_D diagonal):
+      rate=0.000000 (1 strings)  partner=0.300000 (0 strings)  MISMATCH 1 vs 0
+      rate=0.066667 (9 strings)  partner=0.233333 (0 strings)  MISMATCH 9 vs 0
+      rate=0.133333 (27 strings)  partner=0.166667 (0 strings)  MISMATCH 27 vs 0
+      rate=0.200000 (27 strings)  partner=0.100000 (0 strings)  MISMATCH 27 vs 0
+
+==========================================================================================
+SECTION 7: Weight distribution and counting argument
+  Under Z-deph: 'weight' = XY-weight (sites with X or Y)
+  Under depol: 'weight' = non-I weight (sites with X, Y, or Z)
+==========================================================================================
+
+  N = 3:
+
+    Z-deph: XY-weight sectors
+       w     count   partner w   p_count     match
+    --------------------------------------------
+       0         8           3         8     EQUAL
+       1        24           2        24     EQUAL
+       2        24           1        24     EQUAL
+       3         8           0         8     EQUAL
+    Total: 64 = 4^3 = 64
+
+    Depol: non-I weight sectors
+       w     count   partner w   p_count     ratio     match
+    ------------------------------------------------------
+       0         1           3        27      0.04   UNEQUAL
+       1         9           2        27      0.33   UNEQUAL
+       2        27           1         9      3.00   UNEQUAL
+       3        27           0         1     27.00   UNEQUAL
+    Total: 64 = 4^3 = 64
+
+  N = 4:
+
+    Z-deph: XY-weight sectors
+       w     count   partner w   p_count     match
+    --------------------------------------------
+       0        16           4        16     EQUAL
+       1        64           3        64     EQUAL
+       2        96           2        96     EQUAL
+       3        64           1        64     EQUAL
+       4        16           0        16     EQUAL
+    Total: 256 = 4^4 = 256
+
+    Depol: non-I weight sectors
+       w     count   partner w   p_count     ratio     match
+    ------------------------------------------------------
+       0         1           4        81      0.01   UNEQUAL
+       1        12           3       108      0.11   UNEQUAL
+       2        54           2        54      1.00     EQUAL
+       3       108           1        12      9.00   UNEQUAL
+       4        81           0         1     81.00   UNEQUAL
+    Total: 256 = 4^4 = 256
+
+  ======================================================================
+  THE COUNTING ARGUMENT
+  ======================================================================
+
+  Under Z-deph: weight-w sector has C(N,w) * 2^w * 2^(N-w) = C(N,w)*2^N strings.
+  Its partner weight-(N-w) has C(N,N-w)*2^N = C(N,w)*2^N. ALWAYS EQUAL.
+  Reason: per-site split is 2:2, so each weight factor is 2^k * 2^(N-k) = 2^N.
+
+  Under depol: weight-w sector has C(N,w) * 3^w * 1^(N-w) = C(N,w)*3^w strings.
+  Its partner weight-(N-w) has C(N,w)*3^(N-w). Ratio = 3^(N-2w).
+  UNEQUAL for w != N/2. No bijection between weight sectors possible.
+
+  Root cause: per-site split is 1:3 (one immune, three decaying).
+  The factors 1^(N-w) * 3^w vs 1^w * 3^(N-w) are asymmetric.
+
+  GENERAL THEOREM: The palindrome requires equal per-site split (m:m).
+  For 4 Pauli indices, the only equal split is 2:2.
+  Any split 1:3 or 0:4 breaks the weight-sector bijection.
+
+  However, even with a 1:3 split, if the three decaying rates
+  are NOT all equal, a rate-pairing may still exist (Section 3).
+  But the COUNTING obstruction remains: weight sectors have different
+  sizes, so no per-site Pi can biject them.
+
+  Resolution: for two-axis dephasing (e.g., Z+X), the rate pairing
+  works AND a different Pi exists -- not the Z-deph Pi, but one that
+  swaps the two immune/decaying pairs correctly. The counting works
+  because the relevant 'weight' is defined by the specific Pi, not
+  by the non-I count.
+
+==========================================================================================
+SECTION 7b: Time reversal interpretation
+==========================================================================================
+
+  Under Z-deph:
+    Past  = {I,Z} per site = 2 choices = populations = classical
+    Future = {X,Y} per site = 2 choices = coherences = quantum
+    Mirror (Pi): swaps past <-> future, bijectively.
+    Equal choices means equal past and future. Time is symmetric.
+
+  Under depol:
+    Past  = {I} per site = 1 choice = only the identity survives
+    Future = {X,Y,Z} per site = 3 choices = everything else decays
+    Mirror: would need to map 1 -> 3 per site. IMPOSSIBLE.
+    There are 3x more ways to be quantum than classical.
+    The future is bigger than the past. Time reversal is broken.
+
+  Quantitatively:
+    Z-deph: |past|/|future| = 2^N / 2^N = 1 (balanced)
+    Depol:  |past|/|future| = 1^N / 3^N = (1/3)^N (exponentially unbalanced)
+
+  For N=3: past has 1 string (III), future has 63 strings. Ratio = 1:63.
+  For N=4: past has 1 string, future has 255. Ratio = 1:255.
+
+  The mirror cannot reflect everything because the future is exponentially
+  larger than the past. This is why depolarizing noise breaks time reversal.
+
+
+==========================================================================================
+ANALYSIS COMPLETE
+Date: 2026-03-19 13:19:50.728585
+==========================================================================================
