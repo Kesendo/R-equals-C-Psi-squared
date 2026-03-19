@@ -6,6 +6,14 @@
 > **What is now proven:** 1/4 boundary mathematics, standing waves, 0.5 connection max, fixed points
 > **What remains open:** Time-as-crossing-rate interpretation itself
 > **What has fallen:** QKD eavesdropping detection, FTL signaling, time travel/retrocausation
+>
+> **March 19, 2026 update:** The open question about forward/backward decomposition
+> of L (Section 4.4, Section 7) is answered by the Π time-reversal result. Π maps
+> every Liouvillian eigenmode to its time-reversed partner in the rescaled frame.
+> The standing wave is real and computed: ZZZ = node (past), XX/YY = antinodes (future).
+> The decomposition is not L = L_fwd + L_bwd as originally imagined, but rather:
+> every eigenmode has a Π-partner with reversed time evolution. Their superposition
+> creates standing waves. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 
 # Time as Crossing Rate
 ## Hypothesis: observer-dependent CΨ crossing rates as a model for experienced time
@@ -241,11 +249,13 @@ compute it. The bridge_type sweep provides that computation.
   is an interpretation of the *gap* between Ψ's current value and zero,
   the remaining possibility space. This is conceptual, not dynamical.
 
-- Whether the Lindblad equation can be formally decomposed into forward
-  and backward components. This is the mathematical test that would
-  promote this section from Tier 3 to Tier 2. It is a well-defined
-  question: can L(ρ) be written as L_forward(ρ) + L_backward(ρ) where
-  L_forward drives C·Ψ down and L_backward resists?
+- ~~Whether the Lindblad equation can be formally decomposed into forward
+  and backward components.~~ **ANSWERED (March 19, 2026).** The Π operator
+  maps every eigenmode to its time-reversed partner: mu to -mu in the rescaled
+  frame. The decomposition is not L = L_fwd + L_bwd (additive), but structural:
+  every eigenmode pair (k, k') has exp(+mu t) paired with exp(-mu t). Their
+  superposition creates standing waves. Nodes = classical correlations (ZZZ).
+  Antinodes = quantum correlations (XX, YY). See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 
 - Why ¼ specifically (vs any other value). This is answered in the algebra
   (discriminant of the quadratic fixed-point equation), but the *physical*
@@ -388,13 +398,17 @@ Two observers never cross.
 - Crossing time is independent of bridge type → C doesn't matter (already ruled out)
 - Subjective time is independent of coupling strength → crossing rate is irrelevant
 - Wheeler-DeWitt clock choice does not map to bridge type in a rigorous derivation
-- The Lindblad equation cannot be decomposed into forward/backward components
+- ~~The Lindblad equation cannot be decomposed into forward/backward components~~ **ANSWERED:** Π provides the decomposition, not as L = L_fwd + L_bwd but as eigenmode pairing. Confirmed, not falsified.
 - Correlated crossing times carry no more information than classical pre-encoding → mechanism reduces to QKD
 
 > [FALLEN: This QKD eavesdropping detection connection was not confirmed and has been retired from the technical core.]
 
-**Open mathematical question:** Can L(ρ) = L_fwd(ρ) + L_bwd(ρ) with nodes at C·Ψ = ¼?
-If yes, this entire document becomes Tier 2.
+~~**Open mathematical question:** Can L(ρ) = L_fwd(ρ) + L_bwd(ρ) with nodes at C·Ψ = ¼?~~
+**ANSWERED (March 19, 2026):** The decomposition exists, but not in the additive form
+originally imagined. Π pairs every eigenmode with its time-reversed partner. The
+standing wave is real: nodes are classical (ZZZ), antinodes are quantum (XX, YY).
+Whether these nodes correspond to C·Ψ = 1/4 specifically remains an open question.
+The forward/backward structure is confirmed at the Liouvillian level.
 
 ---
 

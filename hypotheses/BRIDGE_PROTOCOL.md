@@ -7,6 +7,11 @@
 > **What remains open:** Whether crossing-time correlations offer operational advantage
 > **What has fallen:** QKD breaking claims, gravity connections, FTL signaling suggestions
 >
+> **March 19, 2026:** The Π time-reversal result provides the mathematical structure
+> for the "forward/backward wave" concept this protocol was built on. Π maps every
+> Liouvillian eigenmode to its time-reversed partner. The standing wave is proven.
+> The protocol itself remains falsified for J=0. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
+>
 > **Note:** CΨ is a composite diagnostic metric (purity * normalized coherence),
 > not a new physical quantity. See [THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md)
 > for the canonical description.

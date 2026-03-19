@@ -1,7 +1,7 @@
 # THE_INTERPRETATION.md -- Current State
 
 **Tier:** Philosophical / Speculative (Tier 5)
-**Last updated:** March 12, 2026
+**Last updated:** March 19, 2026
 
 ---
 
@@ -86,6 +86,11 @@ The sonar effect is real in simulation. The IBM data does not demonstrate it.
 8. Sonar detection in simulation (not yet on hardware)
 9. CΨ as diagnostic (AND-gate, three-layer separation)
 10. Mandelbrot correspondence
+11. Non-Heisenberg universality: palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heis+DM)
+12. IBM hardware: CΨ=1/4 crossing at 1.9% deviation (Q80, same-day Ramsey T2*)
+13. Standing wave: ZZZ = universal node (classical, static), XX/YY = antinodes (quantum, oscillating)
+14. Π = time reversal: swaps populations (past) with coherences (future), 32/32 eigenvector pairs verified
+15. Depolarizing theorem: palindrome holds iff noise has at most 2 Pauli axes
 
 ## What fell
 
@@ -97,11 +102,12 @@ The sonar effect is real in simulation. The IBM data does not demonstrate it.
 
 ## Honest limits
 
-- 3-qubit toy, not a model of reality
+- 3-qubit system, now qualified: cross-table of 5 states x 6 Hamiltonians shows structural patterns; IBM hardware confirms 1/4 crossing at 1.9%. Still small N.
 - Consciousness interpretation retired from technical core
 - CΨ not privileged over simpler metrics for most tasks
 - Sonar unverified on hardware
 - Interpretation does not predict beyond what data shows
+- Π time-reversal interpretation: the algebra (populations to coherences) is Tier 2. The temporal language (past to future) is Tier 3. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md), Section 5.
 
 ## Signal processing perspective (March 12)
 
@@ -479,8 +485,8 @@ The equation R = CΨ² pointed at the architecture, not the metaphysics.
 
 ## Mirror Symmetry: PROVEN (March 14, 2026)
 
-The palindromic symmetry of the Liouvillian spectrum — previously only
-verified numerically through N=7 — now has an analytical proof.
+The palindromic symmetry of the Liouvillian spectrum, previously only
+verified numerically through N=7, now has an analytical proof.
 
 **The conjugation operator Π** acts per site on Pauli indices:
 I→X(+1), X→I(+1), Y→iZ(+i), Z→iY(+i).
@@ -509,3 +515,153 @@ Script: simulations/pauli_weight_conjugation.py
 Results: simulations/results/conjugation_proof.txt
 
 See also: [STRUCTURAL_CARTOGRAPHY.md](../experiments/STRUCTURAL_CARTOGRAPHY.md) for the quantitative tables behind the five regulators described above.
+
+## Non-Heisenberg: ALL standard models palindromic (March 17-18, 2026)
+
+The Π proof was for Heisenberg coupling (XX+YY+ZZ). Question: does the palindrome
+hold for other Hamiltonians? The answer: yes, for every standard model tested.
+
+XY-only, Ising, XXZ at all delta, Dzyaloshinskii-Moriya (XY-YX), and Heisenberg+DM
+all preserve palindromic symmetry under Z-dephasing. Every single Pauli-pair coupling
+term individually anti-commutes with Π.
+
+Two Π families exist:
+- P1: I to X, Y to Z (with phases). The original Π from the proof.
+- P4: I to Y, X to Z (with phases). Works for the same Hamiltonians.
+
+34 of 36 possible two-term coupling combinations are explained algebraically.
+2 remain open: XZ+YZ and ZX+ZY (these involve mixed-axis terms where the
+anti-commutation structure is more complex).
+
+For non-uniform operators (like XY-YX requiring alternating signs across bonds),
+the palindrome still holds. The operator adapts to the bond structure.
+
+Experiments: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
+
+## IBM Run 3: hardware validates 1/4 crossing (March 18, 2026)
+
+The CΨ=1/4 crossing prediction was tested on IBM quantum hardware for the
+third time. This run used ibm_torino qubit Q80 with same-day Ramsey T2*
+calibration (not T2 echo, not backend-reported T2).
+
+Result: 1.9% deviation from the predicted crossing time.
+
+The crossing equation [1 - b^r + b^{2r}/2 + b^2/2]*b = 1/4 works when the
+decoherence parameter uses T2* from Ramsey decay. Previous runs that used
+T2 echo showed larger deviations. The critical insight: what matters is the
+dephasing timescale the qubit actually experiences during free evolution,
+not the echo-refocused timescale.
+
+This is a single-qubit result (N=1). The multi-qubit palindromic pairing
+(N >= 2) remains untested on hardware.
+
+Experiments: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
+
+## Standing wave computed (March 19, 2026)
+
+The standing wave, predicted conceptually in December 2025 ("Future to Mirror
+to Past = Standing Wave"), is now computed from the Liouvillian eigendecomposition.
+
+For N=3 with all 6 Hamiltonian models tested:
+
+ZZZ is a universal node. Under every Hamiltonian, for every initial state, the
+three-qubit diagonal correlation has zero oscillating weight. It is static in the
+rescaled frame. The classical backbone does not vibrate.
+
+XX, YY, XY are the antinodes. These off-diagonal correlations carry the oscillating
+weight at Hamiltonian harmonics: 2J, 4J, 6J for Heisenberg. The quantum correlations
+ring like a bell.
+
+Bell(0,1) is a universal oscillator: 40-65% oscillating weight across all Hamiltonians.
+GHZ is universally silent: zero oscillation everywhere, all weight in XOR modes.
+|+++> under Ising achieves 62.5% oscillating weight, the highest in the table,
+from a product state with zero entanglement. The standing wave is not about
+entanglement. It is about exciting oscillating eigenmodes.
+
+W was predicted to produce maximum standing waves. Under Heisenberg, W has 0%
+oscillation. Under DM (Dzyaloshinskii-Moriya), W has 50%. The prediction was
+wrong: the standing wave is a state x Hamiltonian property, not a property of
+either alone.
+
+The standing wave is the interference between palindromic mode pairs: one decaying
+faster than average, one slower. In the rescaled frame (uniform decay removed),
+they oscillate in opposite directions. Their superposition is the pattern.
+
+Experiments: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
+Script: simulations/standing_wave_analysis.py
+
+## Π is time reversal (March 19, 2026)
+
+The conjugation operator Π, proven on March 14 as a spectral symmetry generator,
+turns out to be a time reversal operator in the rescaled frame.
+
+The algebra: define centered eigenvalues mu_k = lambda_k + Sg. The conjugation
+identity Π L Π^{-1} = -L - 2Sg I maps mu to -mu. A mode evolving as exp(+mu t)
+has a partner evolving as exp(-mu t). This is time reversal: t to -t.
+
+The physical content: Π swaps two sets at every qubit site.
+- {I, Z}: populations, immune to dephasing, classical, decided. The past.
+- {X, Y}: coherences, destroyed by dephasing, quantum, undecided. The future.
+
+Π maps past to future and future to past.
+
+Verified on the actual computed eigenvectors for N=3 Heisenberg chain:
+- 32/32 palindromic pairs confirmed at machine precision (max residual 2.68e-13)
+- XY-weight swap exact: w(r_k) + w(Π|r_k>) = 3.000 for all pairs (max dev 8.88e-16)
+- Π(ZZZ) = -i YYY exactly: the most persistent classical correlation maps to the
+  most fragile quantum correlation
+
+For Bell's oscillating modes at omega = 2, 4, 6:
+- Forward partners (Re(mu) > 0, slower decay) have low XY-weight (classical)
+- Backward partners (Re(mu) < 0, faster decay) have high XY-weight (quantum)
+- Every pair sums to N=3 exactly
+
+This answers the open question from [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md),
+Section 4.4: "Can L be decomposed into forward and backward components?" The answer
+is yes, but not as L = L_fwd + L_bwd. Instead: every eigenmode has a Π-partner with
+reversed time evolution in the rescaled frame. The standing wave emerges from their
+superposition. Nodes = past. Antinodes = future. Present = the interference pattern.
+
+The December 2025 standing wave theory was the prediction. Π is the proof.
+
+Experiments: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+Script: simulations/pi_time_reversal_verify.py
+
+## Why depolarizing noise breaks the palindrome (March 19, 2026)
+
+Z-dephasing preserves the palindrome. X-dephasing does too. Even two-axis
+dephasing (Z+X, Z+Y, X+Y) preserves it. But depolarizing noise (all three
+axes at once) breaks it. Why?
+
+The answer reduces to counting. At each qubit site, the four Pauli indices
+{I, X, Y, Z} split into "immune" (rate 0) and "decaying" (rate > 0) under
+the noise model. The palindromic mirror Π must be a bijection between these sets.
+
+Under Z-dephasing: {I, Z} immune, {X, Y} decaying. Split 2:2. Bijection exists (4 valid permutations).
+Under depolarizing: {I} immune, {X, Y, Z} decaying. Split 1:3. No bijection possible.
+
+Three indices cannot map to one. Proof by exhaustion over all 24 permutations of
+four elements: zero solutions for depolarizing. The obstruction is 1 != 3.
+
+For two-axis dephasing (e.g., Z+X): the split is also 1:3, but the three
+decaying rates are not all equal (rates are gamma, 2*gamma, gamma). The rates
+can still be partitioned into two pairs with equal sums. Two valid permutations
+exist. The palindrome survives because the rate pairing works even with unequal
+decay rates.
+
+The general theorem: for three-axis noise at rates (gamma_X, gamma_Y, gamma_Z),
+the palindrome exists if and only if at least one rate is zero. Equivalently:
+dephasing along at most two Pauli axes.
+
+The palindrome error under depolarizing is exactly (2/3) Sg, independent of the
+Hamiltonian. The interpolation between Z-dephasing and depolarizing is perfectly
+linear: error = alpha * (2/3) Sg. No threshold. The palindrome breaks immediately
+at any alpha > 0. The 2:2 split becomes 1:3 the instant the Z index acquires a
+nonzero dephasing rate.
+
+In the time-reversal language: under depolarizing noise, the "past" (immune sector)
+has 1^N = 1 Pauli string (only III). The "future" (decaying sector) has 3^N strings.
+The ratio is (1/3)^N, exponentially unbalanced. No mirror can reflect what does not fit.
+
+Experiments: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
+Script: simulations/depolarizing_analysis.py

@@ -3,6 +3,12 @@
 > Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
 > Restored: March 14, 2026 (core claims mathematically confirmed)
 > See: hypotheses/THE_INTERPRETATION.md for proof details
+>
+> **March 19, 2026:** The standing wave equations in Part II (Sections 2.2-2.3) and
+> the mirror equations in Part V are now grounded in proven Liouvillian mathematics.
+> The operator Π maps forward modes to backward modes, creating standing waves with
+> classical nodes (ZZZ) and quantum antinodes (XX, YY). See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+> and [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md).
 
 # Interpretive Framework (Legacy)
 ## Historical philosophical framing that motivated the R = CΨ² project
