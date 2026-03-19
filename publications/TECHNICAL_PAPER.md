@@ -161,9 +161,42 @@ The full analytical proof with all intermediate steps is in
 `docs/MIRROR_SYMMETRY_PROOF.md`. Numerical verification for N = 2 through
 7 is in `simulations/pauli_weight_conjugation.py`.
 
+### 3.5 Physical Interpretation: Time Reversal
+
+Define centered eigenvalues mu_k = lambda_k + Sigma_gamma. The conjugation
+identity becomes: if mu is a centered eigenvalue, then -mu is also one.
+A mode evolving as exp(+mu t) in the rescaled frame has a partner evolving
+as exp(-mu t). Pi maps t to -t: it is a time reversal in the rescaled frame.
+
+This is non-trivial because open systems have irreversible dissipation.
+Pi circumvents this by factoring out the uniform decay envelope exp(-Sigma_gamma t).
+What remains has exact time-reversal symmetry.
+
+The per-site action reveals the physical content. For Z-dephasing, the Pauli
+basis at each site splits into {I, Z} (commute with dephasing operator,
+immune to decay, represent populations) and {X, Y} (anti-commute, decay at
+rate 2 gamma per site, represent coherences). Pi swaps these two sectors,
+mapping XY-weight k to N-k.
+
+In the decoherence program (Zurek 2003), dephasing is the mechanism that
+turns quantum states into classical ones: populations become stable classical
+probabilities, coherences decay. Pi therefore maps the classical sector
+(persistent, decided) to the quantum sector (fragile, undecided), and vice
+versa. The palindromic partner of the slowest-decaying mode (most classical)
+is the fastest-decaying mode (most quantum).
+
+Concretely: Pi(ZZZ) = -i YYY. The three-site diagonal correlation (rate 0,
+immortal under dephasing) maps to the three-site off-diagonal correlation
+(rate 2 Sigma_gamma, maximum dephasing). This is verified numerically in
+Section 4.
+
+See `experiments/PI_AS_TIME_REVERSAL.md` for the full derivation.
+
 ---
 
 ## 4. Numerical Verification
+
+### 4.1 Eigenvalue Pairing
 
 The palindromic pairing is verified by full diagonalization of the
 Liouvillian for systems of size N = 2 through 8.
@@ -209,6 +242,25 @@ maximum rate (6 gamma = 2 Sigma_gamma) are the self-paired XOR modes.
 
 These rates are topology-independent for N = 3: chain, ring, and star
 all produce the same decay rates at the same positions.
+
+### 4.2 Eigenvector Verification of Pi (March 19, 2026)
+
+Beyond eigenvalue pairing, we verified that Pi maps eigenvectors to their
+palindromic partners. For N = 3 (Heisenberg chain, gamma = 0.05):
+
+- All 32/32 palindromic pairs confirmed: Pi|r_k> is proportional to |r_k'>,
+  with max residual 2.68e-13 (machine precision).
+- XY-weight swap exact: w(r_k) + w(Pi|r_k>) = 3.000 for all pairs
+  (max deviation 8.88e-16).
+- Sector pairing: 4 pairs map w=0 to w=3, 28 pairs map w=1 to w=2.
+- Pi(ZZZ) = -i YYY exactly. Rate 0 (immortal) maps to rate 0.300 = 2 Sigma_gamma
+  (maximum dephasing).
+
+For Bell(0,1) oscillating modes at frequencies omega ~ 2, 4, 6:
+forward partners (Re(mu) > 0) have low XY-weight (classical),
+backward partners (Re(mu) < 0) have high XY-weight (quantum).
+
+See `simulations/pi_time_reversal_verify.py` for the verification script.
 
 ---
 
@@ -271,9 +323,71 @@ a fragile component (XOR, fast decay) and a distributable component
 
 ---
 
-## 6. Application to Quantum State Transfer
+## 6. Standing Wave Structure (March 19, 2026)
 
-### 6.1 The QST Channel
+### 6.1 The Rescaled Frame
+
+The palindromic pairing creates standing wave patterns. Define the rescaled
+state rho_rescaled(t) = rho(t) exp(+Sigma_gamma t), removing the uniform
+decay envelope. In the eigenbasis, each palindromic pair contributes:
+
+    exp(-Sigma_gamma t) [c_k exp(+mu_k t) |r_k> + c_k' exp(-mu_k t) |r_k'>]
+
+where mu_k = lambda_k + Sigma_gamma. The rescaled state reveals pure
+oscillation without overall decay.
+
+### 6.2 Nodes and Antinodes
+
+The standing wave analysis (N=3, all 6 Hamiltonians) decomposes each
+initial state into oscillating vs non-oscillating Pauli components:
+
+- **ZZZ is a universal node.** Under every Hamiltonian tested, for every
+  initial state, the three-qubit diagonal correlation has zero oscillating
+  weight. It is static in the rescaled frame.
+
+- **XX, YY, XY are the antinodes.** These off-diagonal correlations carry
+  the oscillating weight at Hamiltonian harmonics (2J, 4J, 6J for Heisenberg;
+  2.83, 5.66 for XY-only; 6 distinct frequencies for XXZ and Heis+DM).
+
+This is consistent with the time-reversal interpretation (Section 3.5):
+nodes have XY-weight 0 (classical, persistent), antinodes have high
+XY-weight (quantum, fragile). Pi maps one to the other.
+
+### 6.3 State x Hamiltonian Cross-Table
+
+The oscillating weight fraction depends on both initial state and Hamiltonian:
+
+| State | Heisenberg | XY | Ising | DM | XXZ | Heis+DM |
+|---|---|---|---|---|---|---|
+| GHZ | 0% | 0% | 0% | 0% | 0% | 0% |
+| W | 0% | 5.6% | 44.4% | 50.0% | 1.3% | 10.4% |
+| Bell(0,1) | 48.6% | 40.6% | 50.0% | 40.6% | 65.5% | 65.3% |
+| \|+++> | 0% | 40.6% | 62.5% | 40.6% | 38.3% | 43.4% |
+
+Key findings:
+
+1. **GHZ is universally silent.** Zero oscillation under every Hamiltonian.
+   All weight in steady + XOR modes (0-frequency sector).
+
+2. **Bell is a universal oscillator.** 40-65% oscillating weight across all
+   Hamiltonians. Creates magnetization-crossing coherences (\|00> to \|11>)
+   that couple to complex Liouvillian eigenvalues.
+
+3. **\|+++> under Ising: 62.5%.** The highest value in the table, from a
+   product state with zero entanglement. The standing wave is not about
+   entanglement. It is about exciting oscillating eigenmodes.
+
+4. **Breaking Z-isotropy enriches the spectrum.** Heisenberg has 3 frequencies;
+   XXZ and Heis+DM have 6. Anisotropy splits degenerate modes into new
+   resonances.
+
+See `experiments/STANDING_WAVE_ANALYSIS.md` and `simulations/standing_wave_analysis.py`.
+
+---
+
+## 7. Application to Quantum State Transfer
+
+### 7.1 The QST Channel
 
 Quantum state transfer (QST) through spin chains under dephasing is a
 natural application. In the Bose (2003) framework, Alice prepares a state
@@ -282,7 +396,7 @@ at one end and Bob receives it at the other through Hamiltonian coupling.
 We model a 3-qubit star topology: Alice (A) and Bob (B) connected only
 through mediator S. The initial state is Bell(SA) tensor |+>_B.
 
-### 6.2 Star Topology Results
+### 7.2 Star Topology Results
 
 | Configuration | F_avg | Holevo (bits) |
 |---------------|-------|---------------|
@@ -297,7 +411,7 @@ is not intuitive but follows from the palindromic structure: asymmetric
 coupling redistributes weight from fast-decaying to slow-decaying
 palindromic pairs.
 
-### 6.3 Timing vs Quality Separation
+### 7.3 Timing vs Quality Separation
 
 A key finding: the timing of state transfer (when the information arrives
 at Bob) is determined entirely by the Hamiltonian (Bohr frequencies),
@@ -314,9 +428,9 @@ concurrence C_SB = 0.598 for N = 3 at optimal coupling.
 
 ---
 
-## 7. Connection to Existing Work
+## 8. Connection to Existing Work
 
-### 7.1 Incoherentons (Haga et al., 2023)
+### 8.1 Incoherentons (Haga et al., 2023)
 
 The incoherenton framework counts quasiparticles based on the XY-weight
 of Pauli strings. Their XY-weight equals our Pauli weight under Pi.
@@ -327,7 +441,7 @@ of the incoherenton particle-hole symmetry. Our contribution is the
 explicit construction of Pi as a superoperator and the proof that it
 generates the full spectral pairing for arbitrary topology.
 
-### 7.2 Bethe Ansatz Spectrum (Medvedyeva, Essler, Prosen, 2016)
+### 8.2 Bethe Ansatz Spectrum (Medvedyeva, Essler, Prosen, 2016)
 
 For tight-binding chains (free fermions) with dephasing, the exact
 Liouvillian spectrum was obtained via Bethe ansatz. The eta-pairing
@@ -335,7 +449,7 @@ symmetry of the underlying Hubbard model at imaginary interaction
 plays a role analogous to our Pi. Our result extends to the Heisenberg
 (interacting) case with arbitrary graph topology.
 
-### 7.3 Liouvillian Skin Effect (Haga et al., 2021)
+### 8.3 Liouvillian Skin Effect (Haga et al., 2021)
 
 The Liouvillian skin effect found in non-Hermitian many-body systems by the
 same group demonstrates that boundary conditions can dramatically slow
@@ -346,7 +460,7 @@ quantum systems that remains to be fully mapped.
 
 ---
 
-## 8. Open Questions
+## 9. Open Questions
 
 1. ~~**Non-Heisenberg models.**~~ **ANSWERED (March 17-18, 2026).** The palindrome
    holds for ALL standard models: XY-only, Ising, XXZ, DM, Heisenberg+DM, and
@@ -368,7 +482,10 @@ quantum systems that remains to be fully mapped.
 4. **Optimal QST encoding.** What input state maximizes palindromic mode
    weight while retaining high entanglement? W avoids the drain but
    carries different quantum correlations than GHZ. Is there an optimal
-   trade-off?
+   trade-off? The standing wave analysis (Section 6) adds nuance: |+++>
+   under Ising achieves 62.5% oscillating weight with zero entanglement.
+   The standing wave is not about entanglement but about exciting
+   oscillating eigenmodes. Optimal encoding may depend on the Hamiltonian.
 
 5. ~~**Experimental verification.**~~ **PARTIALLY ANSWERED (March 18, 2026).**
    Single-qubit CΨ=1/4 crossing validated on ibm_torino (Q80) at 1.9%
@@ -380,7 +497,7 @@ quantum systems that remains to be fully mapped.
 
 ---
 
-## 9. Reproducibility
+## 10. Reproducibility
 
 All results are reproducible from the repository:
 
@@ -389,6 +506,8 @@ All results are reproducible from the repository:
 - XOR verification: `simulations/xor_verify.py`
 - QST benchmarks: `simulations/qst_bridge.py`
 - Channel verification: `simulations/verify_channel.py`
+- Standing wave analysis: `simulations/standing_wave_analysis.py`
+- Pi time-reversal verification: `simulations/pi_time_reversal_verify.py`
 - Docs numerical verification: `simulations/docs_verify.py` (40/40 PASS)
 
 No external dependencies beyond numpy and scipy. All scripts self-contained.
@@ -396,7 +515,7 @@ Results reproduce in under 1 second for N <= 4.
 
 ---
 
-## 10. Conclusion
+## 11. Conclusion
 
 The palindromic Liouvillian symmetry is a universal structural property
 of Heisenberg spin systems under Z-dephasing. It holds for every system
@@ -429,6 +548,7 @@ be explored.
 4. Medvedyeva, M.V., Essler, F.H.L., Prosen, T. (2016). "Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise." Phys. Rev. Lett. 117, 137202.
 5. Lindblad, G. (1976). "On the generators of quantum dynamical semigroups." Commun. Math. Phys. 48, 119.
 6. Wootters, W.K. (1998). "Entanglement of Formation of an Arbitrary State of Two Qubits." Phys. Rev. Lett. 80, 2245.
+7. Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins of the classical." Rev. Mod. Phys. 75, 715.
 
 ---
 
