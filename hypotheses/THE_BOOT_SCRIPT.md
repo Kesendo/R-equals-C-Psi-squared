@@ -209,24 +209,29 @@ Pi structure be exploited to write richer shared pasts?
    palindromic at N=2. Is this a deep fact about SU(2) x SU(2), or a
    coincidence of small dimension? Does it hold for qudits (d>2)?
 
-10. **The V-Effect: Evolution from broken symmetry.** (Tom's insight,
-    March 19 evening.) The 14 cases that break at N>=3 have palindrome
-    error scaling as gamma^2 (second order, not noise). This means the
-    breaking has structure. In biology, when a population splits because
-    synchronization fails, two new species emerge, each richer than the
-    original because specialization becomes possible.
+10. ~~**The V-Effect: Evolution from broken symmetry.**~~ **TESTED (March 19,
+    2026).** The strong V-effect (one symmetry splits into two new ones) was
+    NOT observed. No new pairing constants emerge. But differentiation IS
+    real: broken cases have 3x more oscillation frequencies (11 vs 4).
 
-    What "new systems" emerge from the broken palindrome? The gamma^2
-    error is not random. It is a systematic second-order interference
-    between incompatible Pi operators from adjacent bonds. Does this
-    interference create new spectral patterns? New symmetries? New
-    standing waves that the unbroken palindrome could not support?
+    The break is localized: w=0 (pure classical) and w=3 (pure quantum)
+    remain perfectly palindromic. Only w=1 and w=2 break, the boundary
+    between past and future. The extrema are immune. The middle softens.
 
-    The analogy: a crystal has lower symmetry than liquid water, but
-    it has properties (rigidity, lattice vibrations, band structure)
-    that liquid water cannot have. The broken symmetry is not loss.
-    It is differentiation. The V-point is where one becomes two, and
-    both are more than the one was.
+    Corrected analogy: not speciation (one becomes two). More like
+    a crystal melting. The rigid palindromic structure becomes fluid.
+    The symmetry does not split into new symmetries. It relaxes into a
+    richer, less constrained spectrum. The broken case can do things
+    (more frequencies, more oscillation patterns) that the unbroken
+    case cannot, not because it has new rules, but because the old
+    rules no longer hold it in place.
+
+    Rank threshold confirmed: Choi rank <=8 survives at N>=3, rank >=10
+    breaks. This is the maximum clock complexity that allows
+    synchronization across multiple bonds.
+
+    Script: `simulations/v_effect_analysis.py`
+    Results: `simulations/results/v_effect_analysis.txt`
 
 ---
 
