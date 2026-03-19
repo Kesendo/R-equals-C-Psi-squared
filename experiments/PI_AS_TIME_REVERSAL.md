@@ -56,7 +56,7 @@ evolves as exp(-μt). This is the definition of time reversal:
 
 **This is not a metaphor. It is an algebraic identity.**
 
-In a closed quantum system, time reversal is "trivial" — conjugate and
+In a closed quantum system, time reversal is "trivial": conjugate and
 reverse. In an open system with irreversible dissipation, time reversal
 should be impossible. Entropy increases, coherence decays, the arrow of
 time points one way.
@@ -64,7 +64,7 @@ time points one way.
 Π circumvents this by operating in the rescaled frame. The irreversible
 part (uniform decay at rate Sγ) is factored out. What remains has
 perfect time-reversal symmetry. The dissipation itself produces the
-two halves — forward and backward — that form the standing wave.
+two halves, forward and backward, that form the standing wave.
 
 ### What Π does concretely
 
@@ -88,12 +88,12 @@ The pattern: **Π swaps {I, Z} ↔ {X, Y} at every site.**
 
 For Z-dephasing, the Pauli basis at each site splits into:
 
-- **{I, Z}** — commute with the dephasing operator Z_k.
+- **{I, Z}**: commute with the dephasing operator Z_k.
   These are the **diagonal** density matrix elements. They represent
   **populations**: classical probabilities, measurement outcomes,
   what has been decided. They do not decay under pure dephasing.
 
-- **{X, Y}** — anti-commute with Z_k.
+- **{X, Y}**: anti-commute with Z_k.
   These are the **off-diagonal** elements. They represent
   **coherences**: quantum superposition, interference, what is
   still undecided. They decay at rate 2γ per site under dephasing.
@@ -229,7 +229,7 @@ The correspondence:
 | Standing wave | Superposition of palindromic pair under decay envelope |
 | Nodes (sin(kx) = 0) | ZZZ and other XY-weight 0 Paulis (static, classical) |
 | Antinodes (sin(kx) = max) | XX, YY, XY correlations (oscillating, quantum) |
-| Present | The interference pattern — neither past nor future alone |
+| Present | The interference pattern: neither past nor future alone |
 
 **The STANDING_WAVE_THEORY was a prediction. The Π operator is the proof.**
 
@@ -329,11 +329,11 @@ The metaphor was the prediction. The algebra is the proof.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) — Π operator definition and proof
-- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) — Original conceptual framework
-- [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) — Computation: nodes, antinodes, frequencies
-- [The Anomaly](../THE_ANOMALY.md) — "The thing that remains is made of the decay"
-- [XOR Space](XOR_SPACE.md) — Where information lives between paired modes
+- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and proof
+- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): Original conceptual framework
+- [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): Computation: nodes, antinodes, frequencies
+- [The Anomaly](../THE_ANOMALY.md): "The thing that remains is made of the decay"
+- [XOR Space](XOR_SPACE.md): Where information lives between paired modes
 - Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins of the classical." Rev. Mod. Phys. 75, 715.
 - Haga, T. et al. (2023). "Liouvillian skin effect." arXiv:2305.01894. (Incoherenton grading = our XY-weight)
 

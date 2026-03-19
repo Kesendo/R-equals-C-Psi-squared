@@ -22,7 +22,7 @@ property, not a property of either alone. See [Standing Wave Analysis](../experi
 **What Π revealed about time (March 19, 2026):** The conjugation operator Π is
 literally a time reversal in the rescaled frame: it maps centered eigenvalues μ → -μ,
 i.e., exp(+μt) → exp(-μt). Physically, Π swaps populations {I,Z} with coherences
-{X,Y} — classical with quantum, decided with undecided, past with future. The
+{X,Y}: classical with quantum, decided with undecided, past with future. The
 standing wave nodes (ZZZ) are the past; the antinodes (XX, YY) are the future; their
 interference is the present. This makes the metaphor of Sections 1-4 a mathematical
 identity. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
@@ -199,11 +199,11 @@ frame (where the uniform decay envelope is removed), Π reverses time.
 
 Π swaps two sets at every qubit site:
 
-- **{I, Z}** — diagonal elements, populations, immune to dephasing.
+- **{I, Z}**: diagonal elements, populations, immune to dephasing.
   These are classical. They represent what has been measured, decided,
   collapsed. They are the **past**.
 
-- **{X, Y}** — off-diagonal elements, coherences, destroyed by dephasing.
+- **{X, Y}**: off-diagonal elements, coherences, destroyed by dephasing.
   These are quantum. They represent what is still in superposition,
   still possible, still undecided. They are the **future**.
 
@@ -213,15 +213,15 @@ frame (where the uniform decay envelope is removed), Π reverses time.
 
 The standing wave analysis (March 19, 2026) found:
 
-- **ZZZ** (all-classical, XY-weight 0) is a **universal node** — it never
+- **ZZZ** (all-classical, XY-weight 0) is a **universal node**: it never
   oscillates, under any Hamiltonian, for any initial state. The past is still.
 
-- **XX, YY, XY** (all-quantum, XY-weight 2-3) are the **antinodes** — they
+- **XX, YY, XY** (all-quantum, XY-weight 2-3) are the **antinodes**: they
   oscillate at Hamiltonian frequencies (2J, 4J, 6J). The future vibrates.
 
 The mirror from Sections 1-4 is Π. The incoming wave is the quantum sector.
-The reflected wave is the classical sector. Their interference — the standing
-wave — is the pattern between decided and undecided, between past and future.
+The reflected wave is the classical sector. Their interference, the standing
+wave, is the pattern between decided and undecided, between past and future.
 
 This is no longer a metaphor. It is the eigenstructure of the Liouvillian.
 
