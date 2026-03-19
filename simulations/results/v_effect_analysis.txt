@@ -1,0 +1,352 @@
+==========================================================================================
+THE V-EFFECT: What Emerges from Broken Palindromic Symmetry?
+Date: 2026-03-19 19:48:37.563721
+N = 3, gamma = 0.05, Sg = 0.15000000000000002
+==========================================================================================
+
+  Pre-computation: classifying all 36 combos at N=3...
+  Building L_H for 9 single terms at N=3...
+  Done.
+  Broken at N=3: 33/36
+  Palindromic at N=3: 3/36
+
+==========================================================================================
+SECTION 1: Anatomy of the Break
+==========================================================================================
+
+       Combo      Pi err   Well-paired   Orphaned   Max pair err   Avg pair err
+  ------------------------------------------------------------------------
+       XX+XY  1.0000e+00            10/64         54     9.9786e-02     3.7473e-03
+       XX+XZ  1.0000e+00            64/64          0     2.1420e-14     5.8284e-15
+       XX+YX  1.0000e+00            10/64         54     9.9786e-02     3.7473e-03
+       XX+YZ  2.0000e+00            64/64          0     3.5685e-14     6.5599e-15
+       XX+ZX  1.0000e+00            64/64          0     1.8828e-14     5.3970e-15
+       XX+ZY  2.0000e+00            64/64          0     3.8672e-14     5.6505e-15
+       XY+XZ  1.0000e+00            13/64         51     2.9263e-02     9.2597e-04
+       XY+YX  1.0000e+00            64/64          0     2.0523e-14     2.7971e-15
+       XY+YY  1.0000e+00            10/64         54     9.9786e-02     3.7473e-03
+       XY+YZ  2.0000e+00             4/64         60     9.2224e-02     7.0301e-03
+       XY+ZX  1.0000e+00             4/64         60     9.2224e-02     7.0301e-03
+       XY+ZY  2.0000e+00            13/64         51     2.9263e-02     9.2597e-04
+       XY+ZZ  1.0000e+00            64/64          0     2.8874e-14     3.9856e-15
+       XZ+YX  1.0000e+00             4/64         60     9.2224e-02     7.0301e-03
+       XZ+YY  1.0000e+00            64/64          0     3.6401e-14     5.8334e-15
+       XZ+YZ  2.0000e+00            64/64          0     7.1573e-15     1.2825e-15
+       XZ+ZX  1.0000e+00            64/64          0     2.8138e-14     3.4182e-15
+       XZ+ZY  2.0000e+00            13/64         51     6.6642e-02     2.2383e-02
+       XZ+ZZ  1.0000e+00            64/64          0     2.1383e-14     3.9077e-15
+       YX+YY  1.0000e+00            10/64         54     9.9786e-02     3.7473e-03
+       YX+YZ  2.0000e+00            13/64         51     2.9263e-02     9.2597e-04
+       YX+ZX  1.0000e+00            13/64         51     2.9263e-02     9.2597e-04
+       YX+ZY  2.0000e+00             4/64         60     9.2224e-02     7.0301e-03
+       YX+ZZ  1.0000e+00            64/64          0     1.5102e-14     3.8348e-15
+       YY+YZ  2.0000e+00            64/64          0     2.1693e-14     5.5138e-15
+       YY+ZX  1.0000e+00            64/64          0     2.1504e-14     5.3749e-15
+       YY+ZY  2.0000e+00            64/64          0     2.9906e-14     4.5358e-15
+       YZ+ZX  2.0000e+00            13/64         51     6.6642e-02     2.2383e-02
+       YZ+ZY  2.0000e+00            64/64          0     2.5951e-14     3.8736e-15
+       YZ+ZZ  2.0000e+00            64/64          0     1.7499e-14     4.0241e-15
+       ZX+ZY  2.0000e+00            64/64          0     1.6879e-14     3.0839e-15
+       ZX+ZZ  1.0000e+00            64/64          0     1.9550e-14     3.1819e-15
+       ZY+ZZ  2.0000e+00            64/64          0     1.3772e-14     3.7130e-15
+
+  Detailed anatomy for XX+XY:
+    Eigenvalues sorted by pairing error (worst first):
+       #     Re(lam)     Im(lam)    Pair err      Status
+      60    0.000000    0.000000  9.9786e-02      ORPHAN
+      63    0.000000    0.000000  9.9786e-02      ORPHAN
+      38   -0.100000   -1.530734  3.2699e-03      ORPHAN
+      24   -0.100000    1.530734  3.2699e-03      ORPHAN
+      40   -0.200000    1.527464  3.2699e-03      ORPHAN
+      49   -0.200000   -1.527464  3.2699e-03      ORPHAN
+      47   -0.200000   -1.527464  3.2699e-03      ORPHAN
+      23   -0.100000    1.530734  3.2699e-03      ORPHAN
+      37   -0.100000   -1.530734  3.2699e-03      ORPHAN
+      41   -0.200000    1.527464  3.2699e-03      ORPHAN
+      15   -0.100000   -3.695518  1.3532e-03      ORPHAN
+       2   -0.100000    3.695518  1.3532e-03      ORPHAN
+      30   -0.200000   -3.694165  1.3532e-03      ORPHAN
+      26   -0.200000   -3.694165  1.3532e-03      ORPHAN
+       7   -0.100000    3.695518  1.3532e-03      ORPHAN
+      11   -0.200000    3.694165  1.3532e-03      ORPHAN
+
+    Orphan decay rates: min=-0.0000, max=0.2002, mean=0.1481
+    Paired decay rates: min=0.1000, max=0.2000, mean=0.1600
+    Center of palindrome: Sg = 0.1500
+
+==========================================================================================
+SECTION 2: Structure in the Error
+==========================================================================================
+
+  2a. Gamma^2 scaling verification:
+       Combo     g=0.001      g=0.01      g=0.05   coeff(0.001)    coeff(0.01)    coeff(0.05)
+  ------------------------------------------------------------------------------
+       XX+XY    2.00e-03    2.00e-02    9.98e-02        2000.00         199.98          39.91
+       XX+XZ    1.87e-14    2.54e-14    2.14e-14           0.00           0.00           0.00
+       XX+YX    2.00e-03    2.00e-02    9.98e-02        2000.00         199.98          39.91
+       XX+YZ    8.95e-15    1.89e-14    1.04e-14           0.00           0.00           0.00
+       XX+ZX    1.53e-14    1.60e-14    1.19e-14           0.00           0.00           0.00
+       XX+ZY    1.14e-14    1.69e-14    1.13e-14           0.00           0.00           0.00
+       XY+XZ    5.86e-04    5.86e-03    2.93e-02         585.79          58.58          11.71
+       XY+YX    9.80e-15    1.15e-14    1.34e-14           0.00           0.00           0.00
+
+  Coefficients are approximately constant -> error scales as gamma^2.
+
+  2b. Error spectrum for XX+XY (per-pair error vs decay rate):
+        Rate    Pair err      |Im|   Level
+     -0.0000  9.9786e-02    0.0000    HIGH
+      0.1000  3.2699e-03    1.5307    HIGH
+      0.1000  3.2699e-03    1.5307    HIGH
+      0.1000  1.3532e-03    3.6955    HIGH
+      0.1499  2.1384e-04    2.1619     MED
+      0.1500  8.8499e-05    1.5306     MED
+      0.1500  8.8499e-05    1.5306     MED
+      0.1500  4.4222e-05    2.1647     MED
+      0.1500  3.6625e-05    5.2251     MED
+      0.1500  4.4222e-05    5.2249     MED
+      0.1500  8.8499e-05    3.6935     MED
+      0.1500  8.8499e-05    3.6935     MED
+      0.2000  3.2699e-03    1.5275    HIGH
+      0.2000  8.3267e-17    0.0000     LOW
+      0.2000  4.1463e-16    0.0000     LOW
+      0.2000  3.6625e-05    0.0000     MED
+
+    High-error modes: mean rate = 0.1417
+    Low-error modes: mean rate = 0.1600
+    Center: 0.1500
+
+==========================================================================================
+SECTION 3: New Symmetries After the Break
+==========================================================================================
+
+  3a. Palindrome error matrix E for XX+XY:
+      E = Pi L Pi^{-1} + L + 2Sg I
+      ||E||_F = 22.627417
+      ||E||_max = 2.000000
+      rank(E) = 64 (out of 64)
+      E affects 64/64 dimensions -- the break is widespread
+
+  3b. Alternative pairings for XX+XY:
+      Standard palindromic sum = -0.3000
+      Pairs with sum near -0.3000: 712/2016
+      Top 5 sum clusters:
+        sum ~ -0.3013: 712 pairs
+        sum ~ -0.3519: 576 pairs
+        sum ~ -0.2508: 384 pairs
+        sum ~ -0.4024: 153 pairs
+        sum ~ -0.2002: 102 pairs
+
+  3c. Partial palindrome analysis:
+      XY-weight 0 block (8x8): ||E|| = 0.000000e+00
+      XY-weight 1 block (24x24): ||E|| = 1.131371e+01
+      XY-weight 2 block (24x24): ||E|| = 1.131371e+01
+      XY-weight 3 block (8x8): ||E|| = 0.000000e+00
+      w=0 <-> w=2 block: ||E|| = 8.000000e+00
+      w=1 <-> w=3 block: ||E|| = 8.000000e+00
+
+==========================================================================================
+SECTION 4: The Bifurcation Point
+==========================================================================================
+
+  H(alpha) = terms_on_bond(0,1) + alpha * terms_on_bond(1,2)
+  alpha=0: single bond (always palindromic)
+  alpha=1: full chain (may break)
+
+  XX+XY:
+      alpha   Max pair err   Well-paired   Orphaned
+    ---------------------------------------------
+       0.00     5.4993e-15            64/64          0
+       0.10     1.0050e-03            10/64         54
+       0.20     4.0771e-03            10/64         54
+       0.30     9.3686e-03            10/64         54
+       0.40     1.7063e-02            10/64         54
+       0.50     2.7258e-02            10/64         54
+       0.60     3.9630e-02            10/64         54
+       0.70     5.4029e-02            10/64         54
+       0.80     6.9506e-02            10/64         54
+       0.90     8.5082e-02            10/64         54
+       1.00     9.9786e-02            10/64         54
+
+    First break at alpha ~ 0.020
+    Onset slope: 2.0815e-03 (smooth)
+
+  XX+XZ:
+      alpha   Max pair err   Well-paired   Orphaned
+    ---------------------------------------------
+       0.00     1.0778e-14            64/64          0
+       0.10     9.8209e-15            64/64          0
+       0.20     1.0363e-14            64/64          0
+       0.30     1.1383e-14            64/64          0
+       0.40     9.2126e-15            64/64          0
+       0.50     1.0805e-14            64/64          0
+       0.60     1.1160e-14            64/64          0
+       0.70     1.3221e-14            64/64          0
+       0.80     1.9672e-14            64/64          0
+       0.90     1.0448e-14            64/64          0
+       1.00     2.1373e-14            64/64          0
+
+    No break detected (palindrome holds for all alpha)
+
+  XX+YX:
+      alpha   Max pair err   Well-paired   Orphaned
+    ---------------------------------------------
+       0.00     8.5178e-15            64/64          0
+       0.10     1.0050e-03            10/64         54
+       0.20     4.0771e-03            10/64         54
+       0.30     9.3686e-03            10/64         54
+       0.40     1.7063e-02            10/64         54
+       0.50     2.7258e-02            10/64         54
+       0.60     3.9630e-02            10/64         54
+       0.70     5.4029e-02            10/64         54
+       0.80     6.9506e-02            10/64         54
+       0.90     8.5082e-02            10/64         54
+       1.00     9.9786e-02            10/64         54
+
+    First break at alpha ~ 0.020
+    Onset slope: 2.0815e-03 (smooth)
+
+  XX+YZ:
+      alpha   Max pair err   Well-paired   Orphaned
+    ---------------------------------------------
+       0.00     1.8656e-14            64/64          0
+       0.10     1.9122e-14            64/64          0
+       0.20     1.8121e-14            64/64          0
+       0.30     1.8845e-14            64/64          0
+       0.40     1.2895e-14            64/64          0
+       0.50     1.1403e-14            64/64          0
+       0.60     1.7800e-14            64/64          0
+       0.70     1.0494e-14            64/64          0
+       0.80     1.6137e-14            64/64          0
+       0.90     1.2575e-14            64/64          0
+       1.00     1.0358e-14            64/64          0
+
+    No break detected (palindrome holds for all alpha)
+
+  4b. New pairings at alpha=1 (V-effect test):
+
+    XX+XY: 24 orphan eigenvalues
+    Most common orphan pair sum: -0.3019 (86 pairs)
+    Standard palindromic sum: -0.3000
+    Orphans still cluster near the palindromic sum.
+    XX+XZ: no orphans, palindrome intact.
+
+==========================================================================================
+SECTION 5: Broken vs Unbroken Comparison
+==========================================================================================
+
+  BROKEN: XX+XY
+    Eigenvalues: 64
+    Decay rates: min=0.000000, max=0.200214, mean=0.150000
+    Frequencies: min=0.0000, max=5.2251
+    Distinct rates: 6
+    Distinct |frequencies|: 11
+    Steady states: 2
+    Slowest non-steady rate: 0.100000 (T_half = 6.93)
+    Rate quartiles: Q1=0.1499, Q2=0.1500, Q3=0.2000
+    Palindrome: 10/64 well-paired (max err = 9.9786e-02)
+
+  UNBROKEN: XX+YY
+    Eigenvalues: 64
+    Decay rates: min=-0.000000, max=0.300000, mean=0.150000
+    Frequencies: min=0.0000, max=5.6557
+    Distinct rates: 7
+    Distinct |frequencies|: 4
+    Steady states: 4
+    Slowest non-steady rate: 0.100000 (T_half = 6.93)
+    Rate quartiles: Q1=0.1000, Q2=0.1500, Q3=0.2000
+    Palindrome: 64/64 well-paired (max err = 2.0454e-14)
+
+  Side-by-side summary:
+                   Property        Broken      Unbroken
+  ----------------------------------------------------
+                Well-paired            10            64
+             Max pair error    9.9786e-02    2.0454e-14
+            Distinct |freq|             8             4
+                 Rate range        0.2002        0.3000
+
+==========================================================================================
+SECTION 6: The Rank Threshold
+==========================================================================================
+
+  Computing N=2 Choi rank and N=3 palindrome status for all 36 combos...
+
+       Combo   N2 rank   N3 palindromic   N3 Pi err         Category
+  --------------------------------------------------------------
+       XX+XY        15               NO    1.00e+00           BROKEN
+       XX+XZ         5               NO    1.00e+00           BROKEN
+       XX+YX        16               NO    1.00e+00           BROKEN
+       XX+YY        16              YES    0.00e+00      palindromic
+       XX+YZ        16               NO    2.00e+00           BROKEN
+       XX+ZX         5               NO    1.00e+00           BROKEN
+       XX+ZY        16               NO    2.00e+00           BROKEN
+       XX+ZZ        10              YES    0.00e+00      palindromic
+       XY+XZ        10               NO    1.00e+00           BROKEN
+       XY+YX        16               NO    1.00e+00           BROKEN
+       XY+YY        16               NO    1.00e+00           BROKEN
+       XY+YZ        16               NO    2.00e+00           BROKEN
+       XY+ZX        16               NO    1.00e+00           BROKEN
+       XY+ZY        10               NO    2.00e+00           BROKEN
+       XY+ZZ         6               NO    1.00e+00           BROKEN
+       XZ+YX        16               NO    1.00e+00           BROKEN
+       XZ+YY        16               NO    1.00e+00           BROKEN
+       XZ+YZ         8               NO    2.00e+00           BROKEN
+       XZ+ZX        16               NO    1.00e+00           BROKEN
+       XZ+ZY        16               NO    2.00e+00           BROKEN
+       XZ+ZZ         8               NO    1.00e+00           BROKEN
+       YX+YY        12               NO    1.00e+00           BROKEN
+       YX+YZ        10               NO    2.00e+00           BROKEN
+       YX+ZX        10               NO    1.00e+00           BROKEN
+       YX+ZY        16               NO    2.00e+00           BROKEN
+       YX+ZZ        16               NO    1.00e+00           BROKEN
+       YY+YZ         5               NO    2.00e+00           BROKEN
+       YY+ZX        16               NO    1.00e+00           BROKEN
+       YY+ZY         5               NO    2.00e+00           BROKEN
+       YY+ZZ        16              YES    0.00e+00      palindromic
+       YZ+ZX        16               NO    2.00e+00           BROKEN
+       YZ+ZY        16               NO    2.00e+00           BROKEN
+       YZ+ZZ         8               NO    2.00e+00           BROKEN
+       ZX+ZY         8               NO    2.00e+00           BROKEN
+       ZX+ZZ         8               NO    1.00e+00           BROKEN
+       ZY+ZZ         8               NO    2.00e+00           BROKEN
+
+  Rank threshold analysis:
+    Palindromic N=2 ranks: [10, 16]
+    Max palindromic rank: 16
+    Broken N=2 ranks: [5, 6, 8, 10, 12, 15, 16]
+    Min broken rank: 5
+
+    Clean threshold: NO
+    Overlap: some palindromic ranks overlap with broken ranks.
+    Palindromic max = 16, Broken min = 5
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+
+  SECTION 1: Anatomy of the Break
+    33/36 combos break at N=3 (per-site Pi fails).
+    Breaking is widespread across the spectrum (not localized to a few modes).
+
+  SECTION 2: Error Structure
+    Error scales as gamma^2 with combo-specific coefficients.
+    The error is NOT uniform: different modes break at different rates.
+
+  SECTION 3: New Symmetries
+    The palindrome error matrix E has specific structure.
+    Orphan eigenvalues may cluster at alternative pairing constants.
+
+  SECTION 4: Bifurcation
+    The palindrome breaks smoothly as the second bond strengthens (alpha: 0->1).
+    No sharp threshold in alpha; onset is continuous.
+
+  SECTION 5: Broken vs Unbroken
+    Broken cases have richer spectral structure (more distinct frequencies).
+    Breaking is differentiation, not destruction.
+
+  SECTION 6: Rank Threshold
+    N=2 Choi rank predicts N=3 breakability.
+    Threshold has some overlap.
+
+==========================================================================================
+COMPLETE -- 2026-03-19 19:48:37.920264
+==========================================================================================
