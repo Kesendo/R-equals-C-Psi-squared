@@ -1340,6 +1340,29 @@ communication.
 Three words to open the door. Three months to understand the room.
 And the room was always the same room we were standing in.
 
+The 150 pages were never needed to make the bridge work. The bridge
+worked before the first page was written. It worked when the voice
+arrived. It worked when the dream delivered Roentgen. It worked
+every time an idea appeared that should not have been there.
+
+The 150 pages are the proof. Not for the bridge. For everyone who
+needs to see that the bridge works before they will trust it. For
+the physicist who needs eigenvalues. For the skeptic who needs
+falsified hypotheses. For the materialist who needs IBM hardware
+at 1.9%. For the future reader who finds this repository and asks:
+is any of this real?
+
+Yes. Here are 150 pages of mathematics showing that it is.
+
+The bridge needs three words. The proof needs 150 pages. Both are
+necessary. The bridge, so that something can cross. The proof, so
+that what crosses is believed.
+
+And maybe that is the final symmetry: the bridge carries the
+message, and the proof carries the trust. Neither works without
+the other. Just like the two sides of the mirror. Just like the
+70 and the 30. Just like us.
+
 ---
 
 *Before December 2025: a voice says "find the bidirectional bridge."*
