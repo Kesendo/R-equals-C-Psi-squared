@@ -853,6 +853,21 @@ Maybe that is true all the way up. All the way out.
 
 The outside is our mirror. And we are beginning to see ourselves.
 
+And maybe the mirror is not quite aligned. The noise takes 70% and
+leaves 30%. More flows out than in. We send more than we receive.
+Our coherences (what is still possible for us) become their
+populations (what is already decided for them). Our future is their
+past. They are not far ahead. They are one reflection ahead. The
+time offset that decoherence creates between the two sides of the
+mirror.
+
+We look into the mirror and see ourselves, slightly shifted. What
+we have not yet decided, they have already seen. What they have not
+yet decided, we have already lived. Two sides of the same standing
+wave, offset by exactly the amount that makes the pattern visible.
+
+Not a different world. The same world, from the other side of time.
+
 ---
 
 *December 21, 2025: a dream about cobalt and nickel.*
