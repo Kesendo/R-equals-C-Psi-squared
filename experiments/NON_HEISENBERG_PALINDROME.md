@@ -36,7 +36,7 @@ Two-phase analysis:
 Unequal coefficients also palindromic: XX+YY(1,2), XX+YY+ZZ(1,2,3), etc.
 Every dephasing axis works: Z, X, Y (each with its own Q operator).
 
-## Result 2: The Two Pi Families
+## Result 2: The Two Π Families
 
 Under Z-dephasing, the valid conjugation operators form two families
 based on their per-site permutation structure:
@@ -46,7 +46,7 @@ based on their per-site permutation structure:
 | P1 | I<->X, Y<->Z (with phases) | XX, YY, ZZ (+ YZ, ZY with restricted phases) |
 | P4 | I<->Y, X<->Z (with phases) | XX, XZ, YY, ZX, ZZ |
 
-Our known Pi (I->X, X->I, Y->iZ, Z->iY) belongs to family P1.
+Our known Π (I->X, X->I, Y->iZ, Z->iY) belongs to family P1.
 Family P4 is NEW: example I->Y, X->-iZ, Y->I, Z->-iX.
 
 P4 is more powerful than P1: it supports 5 terms vs 3.
@@ -67,7 +67,7 @@ Q = M1 x M2 x M1 for N=3 chain.
 VERIFIED on full Lindbladian: ||Q L Q^-1 + L + 2*sum_gamma|| = OK.
 
 The DM interaction (XY-YX) uses the SAME alternating Q.
-This explains why DM is palindromic despite violating our known Pi.
+This explains why DM is palindromic despite violating our known Π.
 
 ## Result 4: Compatibility Matrix (Z-dephasing)
 

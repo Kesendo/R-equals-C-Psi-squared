@@ -9,7 +9,7 @@
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. Visibility windows relate to palindromic mode pairs
-> under Pi. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+> under Π. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 

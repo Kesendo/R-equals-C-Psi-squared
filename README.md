@@ -64,7 +64,7 @@ Breaks for: depolarizing noise (err = gamma * 2(N-2)/3, linear in gamma and N).
 
 The palindrome is not limited to Heisenberg coupling. ALL standard condensed
 matter models are palindromic under single-axis dephasing: XY, Ising, XXZ,
-Dzyaloshinskii-Moriya, and combinations. Two Pi operator families exist
+Dzyaloshinskii-Moriya, and combinations. Two Π operator families exist
 (P1 and P4), plus non-uniform alternating operators for XY/YX terms.
 All 36/36 two-term combinations resolved: 20 per-site, 14 broken, 2 non-local.
 
@@ -182,7 +182,7 @@ This is our most original finding.
 | 5 topologies share boundaries | Verified: star, chain, ring, complete, tree |
 | z* is a novel composite diagnostic | 26 candidates tested, none match |
 | Non-Heisenberg palindrome | ALL standard models (XY, Ising, XXZ, DM) palindromic under single-axis dephasing |
-| Two Pi operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 36/36 resolved (2 non-local) |
+| Two Π operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 36/36 resolved (2 non-local) |
 | XOR space universal | GHZ->100% XOR, W->0% XOR for all standard models, r>0.98 |
 | Depolarizing noise quantified | Breaks palindrome at err = gamma * 2(N-2)/3 |
 | IBM hardware validation | CΨ=1/4 crossing at 1.9% deviation on ibm_torino Q80 (same-day T2*) |
@@ -214,7 +214,7 @@ This is our most original finding.
 3. **[IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md)**: All hardware runs on IBM Torino
 
 ### Generalization and structure
-4. **[Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)**: All standard models, two Pi families, alternating operators
+4. **[Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)**: All standard models, two Π families, alternating operators
 5. **[XOR Space](experiments/XOR_SPACE.md)**: Where information lives in the palindrome. GHZ vs W. Universal across models.
 6. **[Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md)**: Palindromic pairs create oscillating quantum correlations over static classical backbone
 7. **[QST Bridge](experiments/QST_BRIDGE.md)**: Quantum state transfer. Star 2:1 beats chains.
@@ -281,9 +281,9 @@ All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
 | `deep_band_structure.py` | Band analysis with scaling laws |
 | `z_star_identity.py` | z* vs 26 quantum measures |
 | `ep_test.py` | Exceptional Point test (negative) |
-| `non_heisenberg_deep.py` | All standard models: palindrome, Pi families, depolarizing |
+| `non_heisenberg_deep.py` | All standard models: palindrome, Π families, depolarizing |
 | `xor_non_heisenberg_v2.py` | XOR universal across all models, Bell correction |
-| `algebraic_pi_search.py` | Pi operator family enumeration (P1, P4, alternating) |
+| `algebraic_pi_search.py` | Π operator family enumeration (P1, P4, alternating) |
 | `standing_wave_analysis.py` | Standing wave formalization: antinodes, nodes, state x Hamiltonian |
 
 ---

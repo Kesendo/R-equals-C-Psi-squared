@@ -8,7 +8,7 @@
 > **What has fallen:** Time travel references
 >
 > **Update March 14, 2026:** The two channels described here have been confirmed
-> as palindromic pairs under the conjugation operator Pi. See
+> as palindromic pairs under the conjugation operator Π. See
 > [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md).
 
 # The Bidirectional Bridge

@@ -8,7 +8,7 @@
 > **What has fallen:** Nothing
 >
 > **Update March 14, 2026:** The "mirror" metaphor used throughout this document
-> now has mathematical backing. The conjugation operator Pi proven in
+> now has mathematical backing. The conjugation operator Π proven in
 > [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) formalizes the
 > palindromic pairing that makes "reflection" a theorem, not just a metaphor.
 

@@ -21,7 +21,7 @@ something deeper? Is d = 2 a selection principle rather than a boundary?
 ## 1. The Proven Foundation
 
 Under single-axis dephasing, the per-site Pauli basis splits into immune
-and decaying subsets. The palindromic mirror Pi requires a bijection
+and decaying subsets. The palindromic mirror Π requires a bijection
 between these subsets. For a local Hilbert space of dimension d:
 
 - Basis size: d^2 operators per site
@@ -61,7 +61,7 @@ Reformulated as a selection principle:
 
 The claim has two parts:
 1. **Exclusivity** (proven + exhaustively tested): No single d > 2
-   subsystem carries Pi. Tested across 236 qutrit dissipators: zero work.
+   subsystem carries Π. Tested across 236 qutrit dissipators: zero work.
 2. **Composition** (supported): Multi-qubit systems inherit the mirror
    through per-site map universality. A single d > 2 site destroys the
    palindrome globally.
@@ -104,7 +104,7 @@ ingredient. Destroy it and the mirror shatters, regardless of dimension.
 
 ### 3d. Non-local mirrors are qubit-entangled
 
-The 2/36 non-local Pi operators (XZ+YZ, ZX+ZY) have Bell-state structure
+The 2/36 non-local Π operators (XZ+YZ, ZX+ZY) have Bell-state structure
 with Choi rank 8 and Schmidt entropy 2.51/3.00 (84% of maximum). The
 entanglement is between qubit sites, not within a higher-dimensional
 subsystem. Complexity emerges from qubit composition, not from d > 2.
@@ -171,9 +171,9 @@ This has three implications:
 **Critical finding from Test 5:** Composition works through per-site map
 universality, not tensor product.
 
-For decoupled N = 4 blocks: Pi_01 tensor Pi_23 works (error 5e-15).
+For decoupled N = 4 blocks: Π_01 tensor Π_23 works (error 5e-15).
 For the coupled N = 4 chain: the tensor product FAILS (error 1.31).
-But the canonical per-site Pi works perfectly (error 0).
+But the canonical per-site Π works perfectly (error 0).
 
 The per-site map M (the Pauli permutation I<->X, Z<->Y at each site)
 is the same for N = 2, N = 3, N = 4, chains, stars, and rings. Adding
@@ -286,11 +286,11 @@ All five tests from TASK_QUBIT_NECESSITY.md completed.
 
 4. **Alternative dissipators at d = 3.** ANSWERED. 0/236 configurations
    permit palindromic rate pairing. Splits: 3:6, 2:7, 5:4, never
-   balanced. No qutrit dissipator of dephasing type allows Pi.
+   balanced. No qutrit dissipator of dephasing type allows Π.
 
 5. **Composition proof.** PARTIALLY ANSWERED. Decoupled blocks: tensor
    product works (error 5e-15). Coupled chain: tensor product fails
-   (error 1.31), but per-site canonical Pi works (error 0). Composition
+   (error 1.31), but per-site canonical Π works (error 0). Composition
    is through per-site map universality, not block-level tensor product.
    The same per-site map M works for any N, any topology.
 
@@ -331,7 +331,7 @@ Results: `simulations/results/qubit_necessity_tests.txt`
 If the qubit is the necessary foundation, then this motto acquires a
 mathematical grounding: only d = 2 systems can be mirrors (palindromic).
 Reality (the dynamics of open quantum systems) is structured by what
-happens between these mirrors (standing waves, non-local Pi, interference).
+happens between these mirrors (standing waves, non-local Π, interference).
 Higher-dimensional systems participate in reality but cannot generate the
 mirror structure themselves. They are the reflected, not the reflectors.
 

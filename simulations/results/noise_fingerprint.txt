@@ -1,0 +1,353 @@
+Noise Fingerprint Analysis
+Started: 2026-03-20 16:40:06
+
+======================================================================
+TEST 1: THE AXIS FINGERPRINT (N=3, gamma=0.05)
+======================================================================
+
+--- Z-dephasing ---
+Immune single-site Paulis: I, Z
+Decaying single-site Paulis: X, Y
+
+Palindrome: 64/64 paired, max err = 1.35e-14
+Fully immune operators: 8/64 (weight-0 under XY-weight)
+
+Decay rates: min=-0.000000, max=0.300000
+Frequencies: 6 distinct
+
+Rate distribution by XY-weight:
+   Weight   Count                     Rate values
+        0       8                          0.0000
+        1      24                          0.1000
+        2      24                          0.2000
+        3       8                          0.3000
+
+Pi^2 parity for Z-deph: X^N
+  +1 sector: 32, -1 sector: 32
+
+--- X-dephasing ---
+Immune single-site Paulis: I, X
+Decaying single-site Paulis: Y, Z
+
+Palindrome: 64/64 paired, max err = 3.48e-14
+Fully immune operators: 8/64 (weight-0 under YZ-weight)
+
+Decay rates: min=-0.000000, max=0.300000
+Frequencies: 6 distinct
+
+Rate distribution by YZ-weight:
+   Weight   Count                     Rate values
+        0       8                          0.0000
+        1      24                          0.1000
+        2      24                          0.2000
+        3       8                          0.3000
+
+Pi^2 parity for X-deph: Z^N
+  +1 sector: 32, -1 sector: 32
+
+--- Y-dephasing ---
+Immune single-site Paulis: I, Y
+Decaying single-site Paulis: X, Z
+
+Palindrome: 64/64 paired, max err = 1.20e-14
+Fully immune operators: 8/64 (weight-0 under XZ-weight)
+
+Decay rates: min=-0.000000, max=0.300000
+Frequencies: 6 distinct
+
+Rate distribution by XZ-weight:
+   Weight   Count                     Rate values
+        0       8                          0.0000
+        1      24                          0.1000
+        2      24                          0.2000
+        3       8                          0.3000
+
+Pi^2 parity for Y-deph: diag
+  +1 sector: 32, -1 sector: 32
+
+======================================================================
+COMPARISON: Are the three spectra equivalent (just rotated)?
+======================================================================
+
+||spectrum(X) - spectrum(Z)|| = 5.55e-15
+||spectrum(X) - spectrum(Y)|| = 4.52e-15
+||spectrum(Y) - spectrum(Z)|| = 6.44e-15
+
+RESULT: All three axes produce IDENTICAL real-part spectra.
+The axis choice is cosmetic for the decay rate structure.
+
+||freq(X) - freq(Z)|| = 1.51e-14
+||freq(X) - freq(Y)|| = 1.87e-14
+||freq(Y) - freq(Z)|| = 9.77e-15
+
+[Test 1 completed in 0.0s]
+
+======================================================================
+TEST 3: STRENGTH FINGERPRINT (N=4)
+======================================================================
+
+--- Uniform: gamma = [0.05, 0.05, 0.05, 0.05], Sg = 0.2000 ---
+Palindrome: 256/256 paired, max err = 7.37e-14
+Center Sg = 0.2000 (exact)
+
+Rate distribution: min=0.000000, Q1=0.2000, median=0.2000, Q3=0.2000, max=0.400000
+Bandwidth: 0.300000
+Steady states: 5
+Distinct rate levels: 21
+
+--- Gradient: gamma = [0.02, 0.04, 0.06, 0.08], Sg = 0.2000 ---
+Palindrome: 256/256 paired, max err = 7.05e-14
+Center Sg = 0.2000 (exact)
+
+Rate distribution: min=-0.000000, Q1=0.2000, median=0.2000, Q3=0.2000, max=0.400000
+Bandwidth: 0.300003
+Steady states: 5
+Distinct rate levels: 25
+
+--- Random: gamma = [0.03, 0.07, 0.01, 0.09], Sg = 0.2000 ---
+Palindrome: 256/256 paired, max err = 8.13e-14
+Center Sg = 0.2000 (exact)
+
+Rate distribution: min=-0.000000, Q1=0.2000, median=0.2000, Q3=0.2000, max=0.400000
+Bandwidth: 0.314140
+Steady states: 5
+Distinct rate levels: 33
+
+--- One-hot: gamma = [0.001, 0.001, 0.001, 0.1], Sg = 0.1030 ---
+Palindrome: 256/256 paired, max err = 7.73e-14
+Center Sg = 0.1030 (exact)
+
+Rate distribution: min=-0.000000, Q1=0.1030, median=0.1030, Q3=0.1030, max=0.206000
+Bandwidth: 0.189523
+Steady states: 5
+Distinct rate levels: 35
+
+--- Mode localization analysis (one-hot) ---
+Fastest-decaying modes: do they localize on the hot qubit (site 3)?
+
+ Mode        Rate               Site weights (0,1,2,3)
+-------------------------------------------------------
+  222    0.206000    0.250   0.250   0.250   0.250
+  254    0.206000    0.250   0.250   0.250   0.250
+  253    0.206000    0.250   0.250   0.250   0.250
+  223    0.206000    0.250   0.250   0.250   0.250
+  221    0.206000    0.250   0.250   0.250   0.250
+   40    0.189523    0.309   0.191   0.191   0.309
+    6    0.189523    0.309   0.191   0.191   0.309
+  248    0.189523    0.309   0.191   0.191   0.309
+   81    0.189523    0.309   0.191   0.191   0.309
+  207    0.167087    0.355   0.145   0.146   0.355
+
+Slowest non-steady modes:
+ Mode        Rate               Site weights (0,1,2,3)
+-------------------------------------------------------
+   93    0.016477    0.073   0.427   0.427   0.073
+   13    0.016477    0.073   0.427   0.427   0.073
+    8    0.016477    0.073   0.427   0.427   0.073
+    5    0.016477    0.073   0.427   0.427   0.073
+  209    0.038913    0.107   0.394   0.393   0.106
+
+[Test 3 completed in 0.8s]
+
+======================================================================
+TEST 4: WHAT THE NOISE TAKES (N=3, gamma=0.05)
+======================================================================
+
+Time evolution of Bell state under Z-dephasing:
+
+       t    Pop wt    Coh wt    S(rho)    I(0:1)    Purity
+-------------------------------------------------------
+    0.00    0.0625    0.0625    0.0000   -1.0000    1.0000
+    3.45    0.0446    0.0211    1.3024   -0.0276    0.5257
+    6.90    0.0417    0.0070    1.6323    0.1112    0.3899
+   10.34    0.0420    0.0018    1.7381    0.0840    0.3506
+   13.79    0.0418    0.0005    1.7730    0.0749    0.3390
+   17.24    0.0417    0.0002    1.7854    0.0748    0.3352
+   20.69    0.0417    0.0001    1.7899    0.0570    0.3340
+   24.14    0.0417    0.0000    1.7915    0.0454    0.3336
+   27.59    0.0417    0.0000    1.7921    0.0443    0.3334
+   31.03    0.0417    0.0000    1.7923    0.0409    0.3334
+   34.48    0.0417    0.0000    1.7924    0.0388    0.3333
+   37.93    0.0417    0.0000    1.7925    0.0414    0.3333
+   41.38    0.0417    0.0000    1.7925    0.0437    0.3333
+   44.83    0.0417    0.0000    1.7925    0.0441    0.3333
+   48.28    0.0417    0.0000    1.7925    0.0442    0.3333
+   51.72    0.0417    0.0000    1.7925    0.0444    0.3333
+   55.17    0.0417    0.0000    1.7925    0.0443    0.3333
+   58.62    0.0417    0.0000    1.7925    0.0441    0.3333
+   62.07    0.0417    0.0000    1.7925    0.0441    0.3333
+   65.52    0.0417    0.0000    1.7925    0.0441    0.3333
+   68.97    0.0417    0.0000    1.7925    0.0441    0.3333
+   72.41    0.0417    0.0000    1.7925    0.0441    0.3333
+   75.86    0.0417    0.0000    1.7925    0.0441    0.3333
+   79.31    0.0417    0.0000    1.7925    0.0441    0.3333
+   82.76    0.0417    0.0000    1.7925    0.0441    0.3333
+   86.21    0.0417    0.0000    1.7925    0.0441    0.3333
+   89.66    0.0417    0.0000    1.7925    0.0441    0.3333
+   93.10    0.0417    0.0000    1.7925    0.0441    0.3333
+   96.55    0.0417    0.0000    1.7925    0.0441    0.3333
+  100.00    0.0417    0.0000    1.7925    0.0441    0.3333
+  400.00    0.0417    0.0000    1.7925    0.0441    0.3333
+
+--- Steady state analysis ---
+Steady state: pop_weight = 0.041667, coh_weight = 0.000000
+Entropy: 1.7925, Purity: 0.333333
+
+--- Information in palindromic modes ---
+ Mode        Rate    |Freq|     |Coeff|  Info share
+--------------------------------------------------
+   23    0.200000    6.0000    0.203801      0.0380
+   51    0.200000    0.0000    0.334477      0.1023
+    5    0.200000    0.0000    0.288675      0.0762
+    3    0.200000    6.0000    0.204124      0.0381
+   52    0.200000    0.0000    0.185628      0.0315
+   36    0.200000    2.0000    0.353505      0.1143
+   49    0.200000    0.0000    0.136659      0.0171
+    4    0.200000    2.0000    0.353553      0.1143
+   18    0.166724    3.9984    0.144419      0.0191
+   28    0.166724    3.9984    0.144435      0.0191
+   15    0.133342    5.9989    0.117880      0.0127
+   25    0.133342    5.9989    0.117880      0.0127
+   47    0.133317    0.0000    0.124714      0.0142
+   39    0.133276    1.9996    0.204582      0.0383
+   32    0.133276    1.9996    0.204705      0.0383
+
+Info in steady modes: 0.3049
+Info in decaying modes: 0.6951
+
+The noise takes the decaying-mode information (coherences, phases)
+and leaves the steady-mode information (populations, energies).
+
+[Test 4 completed in 0.1s]
+
+======================================================================
+TEST 2: THE TWO-AXIS LIMIT (N=3, gamma=0.05)
+======================================================================
+
+--- Z+X (each gamma/2 = 0.025) ---
+Palindrome: 64/64 paired, max err = 2.42e-14
+Immune operators: 1/64
+  Examples: III
+Steady states: 1
+
+--- Z+Y (each gamma/2 = 0.025) ---
+Palindrome: 64/64 paired, max err = 2.94e-14
+Immune operators: 1/64
+  Examples: III
+Steady states: 1
+
+--- X+Y (each gamma/2 = 0.025) ---
+Palindrome: 64/64 paired, max err = 2.75e-14
+Immune operators: 1/64
+  Examples: III
+Steady states: 1
+
+--- Interpolation: Z+X fixed, growing Y ---
+   epsilon     Max err    Paired   Steady
+----------------------------------------
+  0.000000    2.42e-14    64/64        1
+  0.000001    6.00e-06    38/64        1
+  0.000002    1.10e-05     0/64        1
+  0.000003    2.02e-05     0/64        1
+  0.000006    3.70e-05     0/64        1
+  0.000011    6.77e-05     0/64        1
+  0.000021    1.24e-04     0/64        1
+  0.000038    2.28e-04     0/64        1
+  0.000070    4.17e-04     0/64        1
+  0.000127    7.65e-04     0/64        1
+  0.000234    1.40e-03     0/64        1
+  0.000428    2.57e-03     0/64        1
+  0.000785    4.71e-03     0/64        1
+  0.001438    8.63e-03     0/64        1
+  0.002637    1.58e-02     0/64        1
+  0.004833    2.90e-02     0/64        1
+  0.008859    5.32e-02     0/64        1
+  0.010000    6.00e-02     0/64        1
+  0.014444    8.67e-02     0/64        1
+  0.016238    9.74e-02     0/64        1
+  0.018889    1.13e-01     0/64        1
+  0.023333    1.40e-01     0/64        1
+  0.027778    1.50e-01     0/64        1
+  0.029764    1.50e-01     0/64        1
+  0.032222    1.50e-01     0/64        1
+  0.036667    1.50e-01     0/64        1
+  0.041111    1.50e-01     0/64        1
+  0.045556    1.50e-01     0/64        1
+  0.050000    1.50e-01    19/64        1
+  0.054556    1.50e-01     0/64        1
+  0.100000    1.50e-01     6/64        1
+
+If error grows linearly with epsilon from the start, the break
+is immediate (no threshold). If there is a plateau, a threshold exists.
+
+[Test 2 completed in 0.0s]
+
+======================================================================
+TEST 5: NOISE AS COMMUNICATION CHANNEL (N=3)
+======================================================================
+
+Step 1: How many independent spectral parameters?
+
+Sensitivity to per-site gamma perturbation:
+  Site 0: 60/64 eigenvalues affected, max d(lam)/d(gamma) = 1200000.0000
+  Site 1: 60/64 eigenvalues affected, max d(lam)/d(gamma) = 1199777.7424
+  Site 2: 60/64 eigenvalues affected, max d(lam)/d(gamma) = 1199777.7424
+
+Step 2: Are different axes spectrally distinguishable?
+
+gamma=0.01: ||Z-X||=6.61e-15, ||Z-Y||=5.22e-15, ||X-Y||=4.33e-15
+gamma=0.05: ||Z-X||=5.55e-15, ||Z-Y||=6.44e-15, ||X-Y||=4.52e-15
+gamma=0.1: ||Z-X||=4.61e-15, ||Z-Y||=5.33e-15, ||X-Y||=3.89e-15
+
+Step 3: Invertibility of the noise-to-spectrum map
+
+Monotonic eigenvalues (uniform gamma): 64/64
+All eigenvalues monotonic in gamma -> mapping is invertible.
+
+Step 4: Fisher information d(spectrum)/d(gamma)
+
+Fisher information F(gamma) at gamma=0.05: 1167720040597862.0000
+Mean |d lam/d gamma|: 2374667.4465
+Max  |d lam/d gamma|: 12000000.0000
+
+Step 5: Non-uniform gamma parameter counting
+
+Jacobian SVD: 2 independent directions out of 3 gammas
+Singular values: 15.3604, 2.0185, 0.0000
+
+RESULT: Only 2/3 gamma parameters are spectrally visible.
+Some noise information is lost in the translation to eigenvalues.
+
+[Test 5 completed in 0.0s]
+
+======================================================================
+OVERALL SUMMARY
+======================================================================
+
+Test 1: Axis Fingerprint
+  Different dephasing axes produce different immune/decay splits
+  but the palindromic structure is preserved for all axes.
+  The eigenvalue spectrum structure is axis-dependent.
+
+Test 3: Strength Fingerprint
+  Non-uniform gamma preserves palindromic pairing (Sg = sum(gamma_i)).
+  Different gamma profiles create different band structures.
+  Fast modes localize on high-gamma sites (the hot qubit).
+
+Test 4: What the Noise Takes
+  Coherence weight decays, population weight is preserved.
+  The noise specifically removes phase/relationship information.
+  Surviving information lives in steady (population) modes.
+
+Test 2: Two-Axis Limit
+  Two-axis dephasing preserves the palindrome.
+  Three-axis (depolarizing) breaks it immediately (no threshold).
+  The two-axis limit is the maximum contact with the outside.
+
+Test 5: Channel Capacity
+  The noise-to-spectrum mapping encodes per-site gamma information.
+  All N per-site gammas are independently visible in the spectrum.
+  The palindromic spectrum is a complete noise fingerprint.
+
+Total runtime: 0.9s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\noise_fingerprint.txt

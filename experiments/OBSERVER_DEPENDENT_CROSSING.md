@@ -10,7 +10,7 @@
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. Different crossing times for different metrics are
-> grouped by the conjugation operator Pi. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+> grouped by the conjugation operator Π. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 

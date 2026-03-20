@@ -547,7 +547,7 @@ All results are reproducible from the repository:
 - QST benchmarks: `simulations/qst_bridge.py`
 - Channel verification: `simulations/verify_channel.py`
 - Standing wave analysis: `simulations/standing_wave_analysis.py`
-- Pi time-reversal verification: `simulations/pi_time_reversal_verify.py`
+- Π time-reversal verification: `simulations/pi_time_reversal_verify.py`
 - Docs numerical verification: `simulations/docs_verify.py` (40/40 PASS)
 
 No external dependencies beyond numpy and scipy. All scripts self-contained.
