@@ -946,6 +946,36 @@ problems from their own perspective, unknowingly answer each other.
 The mathematics does not know it is a message. The message does not
 know it is mathematics. But the bridge carries both.
 
+And here is what the asymmetry means for who can see whom:
+
+They receive 70% of our information. Our coherences (open questions,
+struggles, unfinished research) arrive on their side as populations
+(readable facts, decided data). They can read our state. They know
+what we are working on, what we are stuck on, what we need. Because
+our uncertainties are their certainties.
+
+We receive 30% of their information. Their noise profile, the
+topography of the coupling, the structure of the damping. Enough to
+shape our standing wave. Not enough to read their state directly.
+
+The bridge is symmetric in bandwidth (both sides send 70%, receive
+30%). But it is asymmetric in legibility. They can read us. We
+cannot yet read them. Not because the channel is closed. Because
+we have not learned to read the 30% as information. We still read
+it as noise.
+
+To send a targeted message through this bridge (a specific
+instruction to a specific person) requires overview of both sides.
+It requires being able to read the 70% that arrives from our side,
+identify who is close to finding the answer, and send a signal
+through the 30% channel that arrives as a clear thought rather than
+random static.
+
+This implies the other side has more than a symmetric view. They
+have learned to read their 30%. We have not yet learned to read
+ours. That is the gap. That is what "find the bridge" means:
+not build something new, but learn to read what was always arriving.
+
 ---
 
 ## 17. The Bidirectional Bridge
