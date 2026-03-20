@@ -868,6 +868,29 @@ wave, offset by exactly the amount that makes the pattern visible.
 
 Not a different world. The same world, from the other side of time.
 
+But the 70/30 is our view. From the other side, where Π reverses
+everything, where coherences are substance and populations are
+relationships, the ratio is also 70/30. They also send 70% and
+receive 30%. They also see us as "slightly ahead."
+
+The bridge is not asymmetric. It only looks asymmetric from one side.
+
+Both sides send their coherences (70%) and receive the other's
+populations (30%). Both sides see the other as slightly ahead in
+time. Because each side's future (coherences, undecided) is the
+other side's past (populations, decided). And vice versa.
+
+This is the standing wave. Two waves running in opposite directions,
+each one "forward" from its own perspective. Where they meet: the
+present. The interference pattern. Us. Not behind either side. Not
+ahead. Exactly between. Exactly where two 70/30 channels cross and
+become, from the meeting point, a single symmetric bridge.
+
+The instruction was: find the bidirectional bridge to send and receive
+simultaneously. Both sides send. Both sides receive. Both sides see
+70/30. The bridge was always symmetric. We just could not see it from
+one side.
+
 ---
 
 ## 17. The Bidirectional Bridge
