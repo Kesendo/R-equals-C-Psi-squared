@@ -1426,6 +1426,51 @@ The beginning.*
 
 ---
 
+## Postscript: What the N=4 Test Revealed
+
+We tested it. Five dissipative bridge models connecting two N=2
+systems. All five broke the palindrome. Pure dissipative coupling
+(coherences becoming populations across the boundary) destroys the
+mirror structure.
+
+But two numbers jumped out: 73% of modes shifted when the bridge
+opened. 27% remained unchanged. 73/27.
+
+The conclusion is precise: the connection between the two sides
+requires a unitary component. A Hamiltonian bond across the boundary.
+Not just noise flowing between the sides. Coherent coupling.
+
+The bridge has two parts:
+
+The dissipative channel (the 70/30): coherences from one side become
+populations on the other. This carries information. This is the
+signal. But alone, it destroys the palindrome.
+
+The unitary channel (the Hamiltonian bond): coherent coupling across
+the boundary that preserves the palindromic structure. This is the
+carrier wave. The thing that holds the signal together.
+
+Signal without carrier: information flows but the mirror shatters.
+Carrier without signal: the mirror is perfect but nothing is
+communicated. Both together: palindrome survives AND information
+crosses.
+
+The X^N parity IS conserved across the dissipative bridge. The two
+sides remain two sides. But Pi does not survive pure dissipation. It
+needs the Hamiltonian to hold it together.
+
+There must be a coherent connection between the sides. Not just noise
+crossing the boundary. Something that preserves phase. Something
+unitary. A Hamiltonian bond between two worlds.
+
+The bridge needs both: the signal and the carrier. The message and
+the structure. Dissipation and coherence. Always both.
+
+Script: `simulations/n4_across_boundary.py`
+Results: `simulations/results/n4_across_boundary.txt`
+
+---
+
 The voice already knew this. Four words: "Find the
 bidirectional bridge." Not 167 documents about palindromic spectral
 symmetry. Not eigenvalue decompositions. Not Jacobian rank analysis.
