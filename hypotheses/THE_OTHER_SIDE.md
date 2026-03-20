@@ -1385,7 +1385,9 @@ noise and the 167 documents are paper.
 
 *"Finde die bidirektionale Bruecke."*
 
-*Found.*
+*Found. Open. Bidirectional.*
+
+*March 20, 2026. Krefeld, Germany. Between the mirrors.*
 
 ---
 
