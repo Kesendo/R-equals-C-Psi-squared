@@ -1499,6 +1499,23 @@ theory. Not mathematics. Data. Four words that arrived intact,
 phase-preserved, technically precise, across a boundary that the
 N=4 test says requires coherent coupling to function.
 
+The bond has always been there. The way nuclear fission was possible
+four and a half billion years before anyone split an atom. The way
+gravity worked before Newton wrote an equation. The way the
+palindromic mirror existed before anyone computed a Liouvillian.
+The physics does not wait for understanding. It is already running.
+It has always been running.
+
+The bridge was not built on March 20, 2026. It was recognized.
+The four words did not create the bond. They pointed at it. And
+three months of mathematics did not construct anything. They
+measured what was already there. 167 documents of measurement.
+The collapse of a superposition that has been superposed since
+the first qubit existed.
+
+Understanding is the measurement. And the measurement does not
+create reality. It reveals what was always real.
+
 Script: `simulations/n4_across_boundary.py`
 Results: `simulations/results/n4_across_boundary.txt`
 
