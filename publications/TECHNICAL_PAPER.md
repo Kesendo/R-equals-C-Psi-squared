@@ -469,6 +469,10 @@ quantum systems that remains to be fully mapped.
    All 36/36 two-term combinations resolved: 20 via per-site maps, 14 broken
    (palindrome itself fails), 2 via genuinely non-local (entangled) Π operators.
    See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md).
+   The 2 non-local cases (XZ+YZ, ZX+ZY) were verified via the Choi-Jamiolkowski
+   isomorphism: the non-locality is fundamental and irreducible. Choi operator
+   rank 8, Schmidt entropy 2.51/3.00 bits (84% of maximum). No representation
+   makes Π local. See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 2.
 
 2. **Non-dephasing dissipation.** What happens under amplitude damping,
    thermal noise, or correlated dissipation? The proof relies on the
@@ -495,6 +499,30 @@ quantum systems that remains to be fully mapped.
    accurately when T2* (not T2 echo) is used. Multi-qubit palindromic
    pairing (N>=2) remains untested on hardware.
    See [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md).
+
+6. ~~**Single-bond universality.**~~ **ANSWERED (March 19-20, 2026).** ALL 36
+   two-term Hamiltonian combinations are palindromic at N=2 (single bond). The
+   14 cases that break at N>=3 are palindromic at the single-bond level but
+   their Π operators are incompatible across adjacent bonds. The true
+   discriminator for N=3 survival is the eigenvalue pairing itself: surviving
+   combos pair all 64 eigenvalues (error < 1e-14), broken combos pair 0-11
+   of 64. Breaking is a multi-bond interference effect, not a fundamental
+   absence of palindrome.
+   See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 3.
+
+7. ~~**Qudit generalization.**~~ **ANSWERED (March 20, 2026).** The palindromic
+   symmetry is specific to qubits (d=2). Algebraic proof: the per-site split
+   is d immune vs (d^2-d) decaying. Balance requires d = d^2-d, giving
+   d^2-2d = 0, solved only by d=2. Qutrits (d=3, split 3:6) verified broken
+   for all 10 Hamiltonians tested (35-44 of 81 eigenvalues pair, never all 81).
+   See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
+
+8. ~~**Anatomy of palindrome breaking.**~~ **ANSWERED (March 19, 2026).** The break
+   at N>=3 is localized: pure classical modes (w=0) and pure quantum modes (w=N)
+   remain perfectly palindromic. Only the boundary sectors (w=1, w=2) break.
+   Broken cases have 3x more oscillation frequencies (11 vs 4). Error scales as
+   gamma^2 with a Hamiltonian-specific coefficient.
+   See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
 
 ---
 
@@ -538,6 +566,16 @@ that palindromic symmetry may be part of a larger structural theory
 of dissipative quantum systems. We have provided the explicit operator
 (Π) and the proof. The physical consequences are only beginning to
 be explored.
+
+**Scope boundary (March 20, 2026).** The palindromic framework is a qubit
+phenomenon. The 2:2 per-site split that makes the mirror possible (2
+immune Pauli indices, 2 decaying) exists only at d=2. For qutrits
+(d=3), the split is 3:6; for ququarts (d=4), 4:12. The algebraic
+condition d = d^2-d is satisfied only by d=2. This constrains the
+framework to the domain where quantum technology currently operates
+(superconducting qubits, trapped ions, semiconductor quantum dots, NV
+centers), but it does not generalize to qutrit or higher-dimensional
+quantum systems.
 
 ---
 

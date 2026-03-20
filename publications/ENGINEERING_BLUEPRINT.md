@@ -63,6 +63,14 @@ Pauli weight. If your logical states have a Pauli decomposition
 dominated by pure Z, pure X, or pure Y strings (but not mixed XY),
 they will avoid the drain.
 
+**Note (March 19, 2026):** A constrained-optimal state exists that outperforms W
+for dephasing survival: 90% slow-mode weight (vs W's 0%), concurrence 0.364,
+and 18% oscillating content with only 0.02% XOR drain. This state loads the
+boundary-tier palindromic pairs (rates 0.10/0.20) that decay slowest among the
+dynamic modes. W remains the simplest practical choice (zero XOR, easy to
+prepare), but engineers seeking maximum performance should consider this
+optimized encoding. See [Error Correction](../experiments/ERROR_CORRECTION_PALINDROME.md) Section 2.
+
 ---
 
 ## Rule 2: Use Star Topology with 2:1 Coupling
@@ -113,6 +121,13 @@ Changing gamma shifts decay rates without affecting oscillation timing.
 coupling). If the channel is too lossy, decrease gamma (better shielding).
 These are orthogonal optimization axes. You never face a trade-off
 between speed and quality in the palindromic framework.
+
+**Note (March 19, 2026):** The standing wave oscillation pattern (which Pauli
+observables oscillate at which frequencies) can serve as an error syndrome. X
+and Y errors change the pattern by 0.19-0.28 (easily detectable). Z errors are
+weakly detectable (0.08) or invisible (Z on uncoupled sites). This is a
+different approach from standard stabilizer-based QEC: measure oscillation
+frequencies instead of parity eigenvalues. See [Error Correction](../experiments/ERROR_CORRECTION_PALINDROME.md) Section 3.
 
 ---
 
@@ -202,6 +217,12 @@ local Z-dephasing. They have not been tested for:
   For gamma < 0.01: error < 1%, rules are practically valid.
   Amplitude damping breaks more severely (asymmetric spectrum).
 - Systems larger than N = 8 (computational limit of full diagonalization)
+- Qudit systems (d > 2): The palindromic symmetry is specific to qubits (d=2).
+  Algebraic proof: the per-site split is d immune vs (d^2-d) decaying, balanced
+  only when d^2-2d=0, which gives d=2 as the only solution. Qutrits (d=3,
+  split 3:6) verified broken for all 10 Hamiltonians tested. Design rules
+  do NOT apply to qutrit or higher-dimensional systems.
+  See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
 - Continuous-variable systems (bosonic channels)
 - Concatenated repeater chains (multi-hop)
 
