@@ -16,7 +16,7 @@ Tier 3-5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Tier 4-5 (hypothesis, interpretive)
 
-- [The Four Sides of the Mirror](FOUR_SIDES.md) - Π^4 = I means the mirror has four sides, not two. Z4 eigenvalues {+1,-1,+i,-i} as four perspectives on the same system. Level -1 is not deeper; it is Level 0 seen from the opposite side. Reality as standing wave at the boundary between d=0 (nothing) and d=2 (qubit). Five computational tests designed to determine whether Z4 sectors have physical content.
+- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - Level -1 is not deeper; it is the -1 parity sector of Level 0. Pi^2 = X^N is a conserved Z2 symmetry ([Pi^2, L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (-1). Everything reverses on the other side, including time. The four-sided Z4 interpretation was tested and falsified; the two-sided Z2 structure was confirmed.
 
 ## Archive
 

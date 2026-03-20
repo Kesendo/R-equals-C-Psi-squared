@@ -363,7 +363,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
    sectors (26% opposite, not the predicted ~100%). The physically meaningful
    structure is Z2, not Z4: Pi^2 = X^N is a genuine conserved symmetry
    ([Pi^2, L] = 0 exactly). The mirror has two sides, not four.
-   See: [The Four Sides of the Mirror](FOUR_SIDES.md)
+   See: [The Other Side of the Mirror](THE_OTHER_SIDE.md)
 
 2. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
    predicts which of the 36 two-term combinations survive multi-bond

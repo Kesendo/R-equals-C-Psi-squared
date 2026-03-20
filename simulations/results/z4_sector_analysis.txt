@@ -1,0 +1,172 @@
+Z4 Sector Analysis: Five Tests
+Started: 2026-03-20 12:37:37
+gamma = 0.05
+
+======================================================================
+TEST 1: Z4 SECTOR CLASSIFICATION (N=3)
+======================================================================
+
+Pi^4 = I check: max error = 0.00e+00
+  Pi eigenvalue +1: multiplicity 16
+  Pi eigenvalue -1: multiplicity 16
+  Pi eigenvalue +i: multiplicity 16
+  Pi eigenvalue -i: multiplicity 16
+
+ Idx   Re(lam)   Im(lam) Sector Quality  XY-wt
+--------------------------------------------------
+   0  -0.13334  -5.99889     -1  0.2929  1.333
+   1  -0.16672  -3.99838     +1  0.2929  1.667
+   2  -0.16672   3.99838     +1  0.2929  1.667
+   3  -0.16672  -3.99838     -i  0.2929  1.667
+   4  -0.13334  -5.99889     -i  0.2929  1.333
+   5  -0.13334   5.99889     -1  0.2929  1.333
+   6  -0.16672   3.99838     -i  0.2929  1.667
+   7  -0.13334   5.99889     -i  0.2929  1.333
+   8  -0.10000  -6.00000     +1  0.2929  1.000
+   9  -0.20000  -6.00000     -1  0.2929  2.000
+  10  -0.10000  -6.00000     +1  0.2929  1.000
+  11  -0.20000  -6.00000     +i  0.2929  2.000
+  12  -0.16666  -5.99889     -1  0.2929  1.667
+  13  -0.16666  -5.99889     -1  0.2929  1.667
+  14  -0.10000   6.00000     -1  0.2929  1.000
+  15  -0.10000   6.00000     -1  0.2929  1.000
+  16  -0.20000   6.00000     +1  0.2929  2.000
+  17  -0.20000   6.00000     -i  0.2929  2.000
+  18  -0.16666   5.99889     +i  0.2929  1.667
+  19  -0.16666   5.99889     -1  0.2929  1.667
+  59  -0.20000   0.00000     -i  0.2929  2.000
+  60   0.00000   0.00000     +1  0.2929  0.000
+  61  -0.30000   0.00000     +1  0.2929  3.000
+  62  -0.30000   0.00000     +1  0.2929  3.000
+  63   0.00000   0.00000     +1  0.2929  0.000
+
+Sector statistics:
+ Sector  Count  Avg XY-wt  Avg Re(lam)  Avg Quality
+-------------------------------------------------------
+     +1     27     1.3704    -0.137037       0.2929
+     -1     13     1.5897    -0.158974       0.2929
+     +i     13     1.4615    -0.146146       0.2929
+     -i     11     1.7577    -0.175768       0.2929
+
+[Test 1 completed in 0.0s]
+
+======================================================================
+TEST 2: PALINDROMIC PAIRS ACROSS Z4 SECTORS
+======================================================================
+
+Total palindromic pairs found: 32
+
+Sector pairing distribution:
+    Sector pair  Count           Hypothesis
+---------------------------------------------
+       (+1, +1)      7          self-paired
+       (+1, +i)      4           UNEXPECTED
+       (+1, -1)      2  EXPECTED (opposite)
+       (+1, -i)      7           UNEXPECTED
+       (+i, +i)      2          self-paired
+       (+i, -1)      2           UNEXPECTED
+       (+i, -i)      3  EXPECTED (opposite)
+       (-1, -1)      4          self-paired
+       (-1, -i)      1           UNEXPECTED
+
+Opposite-sector pairs: 5/19 (26.3%)
+NOT CONFIRMED: pairs scatter across sectors
+
+[Test 2 completed in 0.0s]
+
+======================================================================
+TEST 3: PI^2 ANALYSIS
+======================================================================
+
+Pi^2 action on single-site Pauli basis (from first site):
+  III -> +1.0+0.0j * III
+  XII -> +1.0+0.0j * XII
+  YII -> -1.0+0.0j * YII
+  ZII -> -1.0+0.0j * ZII
+
+Expected: I->I, X->X, Y->-Y, Z->-Z
+
+Pi^2 eigenvalues: +1 x 32, -1 x 32
+
+[Pi^2, L] max element: 0.00e+00
+Pi^2 COMMUTES with L: it is a conserved symmetry!
+
+||Pi^2 - X^N|| = 0.0000
+Pi^2 = X^N parity
+||Pi^2 - Z^N|| = 2.0000
+
+Pi^2 diagonal structure:
+  III: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  IIX: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  IIY: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IIZ: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IXI: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  IXX: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  IXY: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IXZ: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IYI: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IYX: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IYY: Pi^2 diag = +1.0 (expected (-1)^2 = +1.0)
+  IYZ: Pi^2 diag = +1.0 (expected (-1)^2 = +1.0)
+  IZI: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IZX: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  IZY: Pi^2 diag = +1.0 (expected (-1)^2 = +1.0)
+  IZZ: Pi^2 diag = +1.0 (expected (-1)^2 = +1.0)
+  XII: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  XIX: Pi^2 diag = +1.0 (expected (-1)^0 = +1.0)
+  XIY: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+  XIZ: Pi^2 diag = -1.0 (expected (-1)^1 = -1.0)
+
+L eigenvectors classified by Pi^2 eigenvalue:
+  Pi^2 = +1 sector: 5 eigenvectors
+  Pi^2 = -1 sector: 2 eigenvectors
+  Unclassified: 57
+
+[Test 3 completed in 0.0s]
+
+======================================================================
+TEST 4: STANDING WAVE FOUR-FOLD STRUCTURE
+======================================================================
+
+Palindromic pairs by Z4 sector pairing:
+  +1/-1: 2 pairs, 1 oscillating, freq range [0.0000, 2.0000]
+  +i/-i: 3 pairs, 3 oscillating, freq range [2.0000, 5.9989]
+  self: 0 pairs
+  other: 27 pairs, 16 oscillating, freq range [0.0000, 6.0000]
+
+Distinct oscillation frequencies by sector pairing:
+  +1/-1 frequencies: [np.float64(2.0)]
+  +i/-i frequencies: [np.float64(2.0), np.float64(3.9984), np.float64(5.9989)]
+
+Observable decomposition by Z4 sector pairing:
+  III (w=0): +1/-1=0.0%  +i/-i=12.5%  self=0.0%
+  IIZ (w=0): +1/-1=8.3%  +i/-i=25.0%  self=0.0%
+  IXX (w=2): +1/-1=0.0%  +i/-i=12.5%  self=0.0%
+  IZI (w=0): +1/-1=9.5%  +i/-i=9.5%  self=0.0%
+  IZZ (w=0): +1/-1=4.0%  +i/-i=10.7%  self=0.0%
+  XXI (w=2): +1/-1=15.0%  +i/-i=1.7%  self=0.0%
+  XXX (w=3): +1/-1=10.1%  +i/-i=6.5%  self=0.0%
+  XXY (w=3): +1/-1=14.8%  +i/-i=1.9%  self=0.0%
+  XYI (w=2): +1/-1=0.0%  +i/-i=4.2%  self=0.0%
+  XYX (w=3): +1/-1=4.2%  +i/-i=37.5%  self=0.0%
+
+[Test 4 completed in 0.0s]
+
+======================================================================
+TEST 5: N-DEPENDENCE OF Z4 STRUCTURE
+======================================================================
+
+  N   Dim                        Sectors                      Avg XY-wt by sector  Avg Quality
+-----------------------------------------------------------------------------------------------
+  2    16        +1:11, -1:1, +i:2, -i:2       +1:1.00, -1:1.00, +i:1.00, -i:1.00       0.3662
+  3    64     +1:27, -1:13, +i:13, -i:11       +1:1.37, -1:1.59, +i:1.46, -i:1.76       0.2929
+  4   256     +1:85, -1:72, +i:43, -i:56       +1:1.99, -1:2.05, +i:2.05, -i:1.91       0.2991
+  5  1024 +1:337, -1:218, +i:241, -i:228       +1:2.48, -1:2.53, +i:2.52, -i:2.48       0.2929
+
+Expected: equal sector populations (4^N / 4 each),
+  differentiation in XY-weight persists across N.
+
+[Test 5 completed in 26.0s]
+
+Total runtime: 26.1s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\z4_sector_analysis.txt
