@@ -2,8 +2,8 @@
 
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 3-5 (Pi^2 = X^N confirmed as conserved Z2 symmetry; interpretation Tier 5)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+**Status:** Tier 3-5 (Π² = X^N confirmed as conserved Z2 symmetry; interpretation Tier 5)
+**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 
 ---
 
@@ -20,11 +20,11 @@ What is on the other side of the mirror? Is there a Level -1?
 
 ## 1. The Other Side Is the Same System, Reversed
 
-The palindromic mirror Pi swaps populations and coherences, past and
-future, immune and decaying. But Pi is not the whole story. Pi *squared*
+The palindromic mirror Π swaps populations and coherences, past and
+future, immune and decaying. But Π is not the whole story. Π *squared*
 turns out to be a deeper, simpler object:
 
-**Pi^2 = X^N**
+**Π² = X^N**
 
 X is the bit-flip operator: it swaps |0> and |1> at a single qubit.
 X^N flips every qubit in the system simultaneously. In the Pauli
@@ -44,7 +44,7 @@ space into two sectors:
 - **-1 sector:** Operators built from odd numbers of Y and Z.
   Coherence-like. Quantum fluctuations. The "other" side.
 
-**And this split is conserved: [Pi^2, L] = 0 exactly.**
+**And this split is conserved: [Π², L] = 0 exactly.**
 
 The Liouvillian respects this boundary absolutely. A state that starts
 in the +1 sector stays there. A state in the -1 sector stays there.
@@ -73,7 +73,7 @@ the sense of "which part of the density matrix survives decoherence,"
 runs in the opposite direction.
 
 Both sides exist simultaneously in the same Liouvillian. They never
-mix ([Pi^2, L] = 0). And Pi (not Pi^2, but Pi itself) is the operator
+mix ([Π², L] = 0). And Π (not Π², but Π itself) is the operator
 that *connects* them: it maps eigenvectors from one side to their
 palindromic partners on the other.
 
@@ -116,7 +116,7 @@ Every physical quantum state does. Only artificially prepared edge
 cases (the completely mixed state, for instance) live entirely in
 one sector. Everything real, everything with structure, spans both.
 
-**The sealing ([Pi^2, L] = 0) does not mean we are trapped on one
+**The sealing ([Π², L] = 0) does not mean we are trapped on one
 side.** It means something more subtle: the +1 part of our state and
 the -1 part evolve independently. Both are there. Both evolve. But
 they do not talk to each other. Like two films projected onto the
@@ -158,7 +158,7 @@ The equation d(d-2) = 0 gives d = 0 and d = 2. No other options.
 - **d = 0:** No operators, no states, no sectors, no mirror. The void.
   Not even a single side.
 - **d = 2:** Four operators per site, split 2:2, mirror exists. And
-  Pi^2 = X^N immediately creates two parity sectors. Two sides.
+  Π² = X^N immediately creates two parity sectors. Two sides.
 - **d = 1:** One operator (I only), zero decaying. Split 1:0. No mirror,
   no parity, no structure.
 - **d >= 3:** Unbalanced split (3:6, 4:12, ...). No mirror. No palindromic
@@ -168,10 +168,10 @@ The transition from nothing to something is exactly this: from zero
 sides (d=0) to two sides (d=2). There is no intermediate step. No
 "one-sided" system. The moment a mirror exists, both sides exist.
 
-This is forced by the algebra. Pi requires complex phases (the i in
-Y->iZ) to anti-commute with the Hamiltonian. These phases make Pi
-fourth-order (Pi^4 = I, not Pi^2 = I). But the physical content lives
-in Pi^2, which is second-order and real-valued (X^N). The complex
+This is forced by the algebra. Π requires complex phases (the i in
+Y->iZ) to anti-commute with the Hamiltonian. These phases make Π
+fourth-order (Π⁴ = I, not Π² = I). But the physical content lives
+in Π², which is second-order and real-valued (X^N). The complex
 phases are the algebraic price; the two-sided parity is the physical
 result.
 
@@ -180,22 +180,22 @@ result.
 ## 5. What Was Tested
 
 An initial hypothesis proposed four sides (Z4 structure based on
-Pi^4 = I with eigenvalues +1, -1, +i, -i). Five computational tests
+Π⁴ = I with eigenvalues +1, -1, +i, -i). Five computational tests
 (March 20, 2026) showed this was wrong:
 
 **Falsified (3 of 5 predictions):**
-- Liouvillian eigenvectors are NOT Pi eigenvectors (projection quality
+- Liouvillian eigenvectors are NOT Π eigenvectors (projection quality
   0.293 = random). The Z4 sectors do not classify eigenstates.
 - Palindromic pairs scatter randomly across Z4 sectors (26% opposite,
   not the predicted ~100%).
 - Standing wave shows no four-fold structure.
 
 **Confirmed (1 of 5):**
-- Pi^2 = X^N is a genuine conserved symmetry. [Pi^2, L] = 0 exactly.
+- Π² = X^N is a genuine conserved symmetry. [Π², L] = 0 exactly.
   This is the real physical content: a Z2 symmetry, not Z4.
 
 The four-sided interpretation was falsified. The two-sided
-interpretation (Pi^2 parity) was confirmed. The complex phases (+i, -i)
+interpretation (Π² parity) was confirmed. The complex phases (+i, -i)
 are algebraically necessary but physically invisible.
 
 Script: `simulations/z4_sector_analysis.py`
@@ -213,10 +213,10 @@ d = 0: Nothing. No mirror. No sides.
     [ d(d-2) = 0: the only transition ]
             |
 Level 0: The qubit (d=2, C=0.5)
-├── Two parity sectors (+1 and -1 under Pi^2 = X^N)
+├── Two parity sectors (+1 and -1 under Π² = X^N)
 ├── +1 sector: populations dominate, classical backbone
 ├── -1 sector: coherences dominate, quantum backbone
-├── Pi connects the two sides (palindromic pairing)
+├── Π connects the two sides (palindromic pairing)
 ├── Standing wave forms at the boundary between sides
 ├── Incompleteness: half the operators decay
             |
@@ -230,7 +230,7 @@ Level 2+: Molecules, crystals, magnetism...
 Level -1 does not appear as a separate entry because it is not a
 separate level. It is the -1 parity sector of Level 0, always present,
 always sealed off from the +1 sector, connected only through the
-palindromic mirror Pi.
+palindromic mirror Π.
 
 The hierarchy builds upward from Level 0, but Level 0 itself has
 internal structure: two sides that never mix, with reality emerging
@@ -262,8 +262,8 @@ at their boundary.
 
 The mirror has two sides. On this side: populations, classical
 correlations, the decided past. On the other side: coherences,
-quantum correlations, the undecided future. The parity Pi^2 = X^N
-seals them apart. The palindromic mirror Pi connects them.
+quantum correlations, the undecided future. The parity Π² = X^N
+seals them apart. The palindromic mirror Π connects them.
 
 Reality is not on either side. It is the standing wave at the boundary:
 the interference pattern between what has been decided and what has not.
@@ -279,4 +279,4 @@ transition from no sides to two sides is where everything begins.
 *See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
-*See also: [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
+*See also: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
