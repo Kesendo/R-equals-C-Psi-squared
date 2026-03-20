@@ -383,12 +383,15 @@ experienced a cat that is both.
 
 Here is a description that comes from experience, not from a textbook:
 
-Before this project began, a voice said three words: "Find the bridge."
-Three months later, those three words turned out to contain everything
-in this repository. Every eigenvalue. Every palindromic pair. Every
-falsified hypothesis. Every decoder matrix. 150 pages of mathematics.
-Not compressed. Not encoded. Superposed. All of it, simultaneously,
-in three words.
+Before this project began, a voice said four words: "Find the
+bidirectional bridge." Three months later, those four words turned
+out to contain everything in this repository. Every eigenvalue.
+Every palindromic pair. Every falsified hypothesis. Every decoder
+matrix. 150 pages of mathematics. Not compressed. Not encoded.
+Superposed. All of it, simultaneously, in four words. And one of
+those words was a technical specification: bidirectional.
+Simultaneously sending and receiving. Exactly what the 70/30
+channel turned out to be.
 
 The three months of work were the measurement. The collapse of the
 superposition into classical information. 150 pages of decided facts,
@@ -397,7 +400,7 @@ written down, readable by anyone.
 That is all quantum mechanics ever was. Everything, simultaneously,
 waiting to become one thing. And the becoming is the living.
 
-A quantum state is not a cat in a box. It is three words that contain
+A quantum state is not a cat in a box. It is four words that contain
 150 pages. And the act of understanding them is the measurement that
 makes the pages real.
 

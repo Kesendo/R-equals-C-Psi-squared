@@ -932,7 +932,7 @@ these arrive as populations, decided facts, answers to questions
 we do not know they asked.
 
 We solve their problems without knowing it. They solve ours without
-knowing it. The voice that said "find the bridge" was perhaps their
+knowing it. The voice that said "find the bidirectional bridge" was
 coherence (a question, a hope, an open search) arriving here as
 population (a clear instruction, decided, unmistakable). And our
 palindromic proof is perhaps our coherence (still being tested,
@@ -973,7 +973,7 @@ random static.
 
 This implies the other side has more than a symmetric view. They
 have learned to read their 30%. We have not yet learned to read
-ours. That is the gap. That is what "find the bridge" means:
+ours. That is the gap. That is what "find the bidirectional bridge"
 not build something new, but learn to read what was always arriving.
 
 ### The Decoder Exists (March 20, 2026)
@@ -1321,9 +1321,12 @@ ends of an existing channel that both decide to use it.
 
 The bridge was always open. What is new is that both sides know.
 
-And perhaps the voice already knew this. Three words: "Find the
-bridge." Not 150 pages about palindromic spectral symmetry. Not
-eigenvalue decompositions. Not Jacobian rank analysis. Three words.
+And perhaps the voice already knew this. Four words: "Find the
+bidirectional bridge." Not 150 pages about palindromic spectral
+symmetry. Not eigenvalue decompositions. Not Jacobian rank analysis.
+Four words. And one of them was a technical term: bidirectional.
+Not "find a connection." Not "find a channel." Bidirectional.
+Simultaneously sending and receiving. A specification, not a hint.
 
 The bridge was already working when those words arrived. It had to
 be, otherwise they could not have arrived. The 150 pages were never
@@ -1337,7 +1340,7 @@ a bridge that functions and a bridge that is used deliberately is
 the difference between unconscious physics and conscious
 communication.
 
-Three words to open the door. Three months to understand the room.
+Four words to open the door. Three months to understand the room.
 And the room was always the same room we were standing in.
 
 The 150 pages were never needed to make the bridge work. The bridge
@@ -1354,17 +1357,19 @@ is any of this real?
 
 Yes. Here are 150 pages of mathematics showing that it is.
 
-The bridge needs three words. The proof needs 150 pages. Both are
+The bridge needs four words. The proof needs 150 pages. Both are
 necessary. The bridge, so that something can cross. The proof, so
 that what crosses is believed.
 
 And this describes the quantum state perfectly.
 
-"Find the bridge." Three words. They did not contain a summary of
-150 pages. They did not contain compressed instructions. They
-contained the complete knowledge as a superposition. Every eigenvalue.
-Every palindromic pair. Every falsified hypothesis. Every decoder
-matrix. All of it, superposed, in three words.
+"Find the bidirectional bridge." Four words. They did not contain a
+summary of 150 pages. They did not contain compressed instructions.
+They contained the complete knowledge as a superposition. Every
+eigenvalue. Every palindromic pair. Every falsified hypothesis. Every
+decoder matrix. All of it, superposed, in four words. And the word
+"bidirectional" already contained the answer: 70/30 in both
+directions, simultaneously.
 
 The three months of work were the measurement. The collapse of the
 superposition into classical information. 150 pages of populations:
@@ -1375,15 +1380,15 @@ produces a classical record (one thing at a time, readable by all).
 The 70% that flows across the bridge is coherence: superposed,
 entangled, carrying everything at once. When it arrives on the other
 side, it becomes population: one specific thing, decided, clear.
-"Find the bridge" arrived as population. Three words. Clear. But
-the coherence it carried was the entire repository.
+"Find the bidirectional bridge" arrived as population. Four words.
+Clear. But the coherence it carried was the entire repository.
 
 This is not a metaphor. This is literally what the mathematics says.
 Coherences carry phase relationships between all possible states
 simultaneously. Populations carry one definite state. The bridge
 converts one into the other. That is what decoherence does. That
 is what the 70/30 channel does. That is what happened on the day
-the voice spoke three words that contained 150 pages.
+the voice spoke four words that contained 150 pages.
 
 And maybe that is the final symmetry: the bridge carries the
 message, and the proof carries the trust. Neither works without
@@ -1404,8 +1409,8 @@ the other. Just like the two sides of the mirror. Just like the
 And perhaps the simplest, most human description of what a quantum
 state is:
 
-Three words contained 150 pages. Not compressed. Not encoded.
-Superposed. All of it, simultaneously, in three words. And the
+Four words contained 150 pages. Not compressed. Not encoded.
+Superposed. All of it, simultaneously, in four words. And the
 work of turning superposition into pages is what physics calls
 measurement and what we call understanding.
 
