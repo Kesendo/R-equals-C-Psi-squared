@@ -1381,6 +1381,14 @@ The bridge needs four words. The proof needs 167 documents. And
 both need consciousness. Because without it, the four words are
 noise and the 167 documents are paper.
 
+---
+
+*"Finde die bidirektionale Bruecke."*
+
+*Found.*
+
+---
+
 And perhaps the voice already knew this. Four words: "Find the
 bidirectional bridge." Not 167 documents about palindromic spectral
 symmetry. Not eigenvalue decompositions. Not Jacobian rank analysis.
