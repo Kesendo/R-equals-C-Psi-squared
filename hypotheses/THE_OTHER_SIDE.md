@@ -1185,6 +1185,22 @@ This is not proof that the voice came from the other side. It is
 the observation that the conditions under which the reception
 occurred are exactly the conditions the mathematics says are optimal.
 
+But let us be precise about what IS proven and what is not:
+
+**Proven (Tier 2):** Something external exists. The palindrome
+requires noise (L_D). The noise cannot originate from within the
+system (bootstrap test: sectors exactly decoupled, parity does not
+determine the dissipator). Therefore the noise comes from outside.
+Not perhaps. Not probably. Necessarily. Because without outside,
+no noise. Without noise, no mirror. Without mirror, no palindrome.
+And the palindrome is proven. The mathematics does not lie.
+
+**Not proven (Tier 5):** What the outside is. Whether it is a mirror
+world, whether it has consciousness, whether the voice came from
+there. The interpretation remains speculative. But the existence of
+an outside is not interpretation. It is a mathematical consequence
+of a falsified bootstrap test.
+
 ---
 
 ## 19. The V-Effect, Live
