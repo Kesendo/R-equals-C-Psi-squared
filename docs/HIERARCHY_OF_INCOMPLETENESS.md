@@ -8,8 +8,8 @@
 This document describes a pattern observed across multiple levels of
 physical reality: systems that are "complete" (fully stable, fully
 paired, fully occupied) cannot connect to form higher-level structures.
-Only systems with a specific kind of incompleteness -- roughly half-
-occupied -- serve as building blocks for the next level.
+Only systems with a specific kind of incompleteness (roughly half-
+occupied) serve as building blocks for the next level.
 
 The letter C is used informally throughout as a "completeness fraction":
 the ratio of occupied or immune slots to the total available. C = 1
@@ -55,10 +55,10 @@ enables the next level of reality.
 ```
 Level 0: The Qubit (PROVEN March 2026)
 ├── 4 operators per site, 2 immune, 2 decaying
-├── Split: 0.5 -- exactly half full
+├── Split: 0.5, exactly half full
 ├── The ONLY dimension where a mirror exists (d²-2d=0)
 ├── Enables: Palindromic symmetry, standing waves, time reversal
-└── Incompleteness: Half the operators decay -- and that IS the mirror
+└── Incompleteness: Half the operators decay, and that IS the mirror
 
         ↓
 
@@ -110,11 +110,11 @@ the one we felt but could not describe.
 
 Now we can describe it.
 
-A qubit -- the fundamental unit of quantum information -- is a system
+A qubit (the fundamental unit of quantum information) is a system
 with two states (like a coin: heads or tails, but quantum). To describe
 everything that can happen to a qubit, physicists use four operators
 called Pauli matrices: I (identity, "do nothing"), X (flip), Y (flip
-with phase), and Z (measure). These four form a complete basis -- any
+with phase), and Z (measure). These four form a complete basis; any
 operation on a qubit can be written as a combination of them.
 
 When a qubit interacts with its environment (decoherence), some of these
@@ -123,8 +123,8 @@ operators survive and some decay. Under the most common type of noise
 noise), X and Y decay (they anti-commute). Two survive, two decay.
 Split: 0.5.
 
-The palindromic mirror -- the symmetry that pairs every decay rate with
-a partner -- requires a bijection (one-to-one mapping) between the
+The palindromic mirror (the symmetry that pairs every decay rate with
+a partner) requires a bijection (one-to-one mapping) between the
 surviving and decaying operators. This is only possible when both sets
 have the same size. For a system of dimension d, there are d surviving
 and d^2-d decaying operators. Setting these equal:
@@ -136,7 +136,7 @@ The only nontrivial solution is d = 2. The qubit.
 A qutrit (d=3, three states) has 9 operators: 3 survive, 6 decay.
 Split: 0.33. A ququart (d=4): 4 of 16. Split: 0.25. The imbalance
 grows with dimension. No higher-dimensional quantum system can carry
-the palindromic mirror. This is not a numerical trend -- it is an
+the palindromic mirror. This is not a numerical trend: it is an
 algebraic identity. (See [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md)
 for the full proof and computational tests.)
 
@@ -160,7 +160,7 @@ And in both cases, C = 1 is a dead end:
 | Carbon | Does not apply | 4 bonds, all of life |
 
 The parallel is not metaphorical. It is structural. The same
-principle -- half-occupation enables maximal symmetry -- operates at
+principle (half-occupation enables maximal symmetry) operates at
 the quantum level (where it creates the palindromic mirror) and at
 the atomic level (where it creates chemical bonds).
 
@@ -185,8 +185,8 @@ The "perfect" atoms are dead ends. They exist. They are stable. But they build n
 They have no part in the complexity of the universe.
 
 And now we know: the same is true one level deeper. A qutrit (d=3) has
-too many decaying operators. Its mirror does not fit. It functions --
-it can even transfer quantum states with the same fidelity as a qubit --
+too many decaying operators. Its mirror does not fit. It functions
+(it can even transfer quantum states with the same fidelity as a qubit)
 but it builds no structure. It is the noble gas of quantum information.
 
 ---
@@ -235,8 +235,8 @@ One level deeper.
 ## Iron, Cobalt, Nickel: The Bridge
 
 This project originated from a dream on December 21, 2025 (Winter
-Solstice), in which Thomas Wicht -- a software developer, not a
-physicist -- saw an electrolysis cell with cobalt and nickel layers.
+Solstice), in which Thomas Wicht (a software developer, not a
+physicist) saw an electrolysis cell with cobalt and nickel layers.
 The dream contained technically accurate details about layer structures
 and element combinations, and led to the equation R = CPsi^2. The three
 elements the dream highlighted turn out to be remarkable:
@@ -277,7 +277,7 @@ This is not local pairing. This is **mirroring at a new level**.
 **Magnetism is the first mirroring that transcends the local.**
 
 And the palindromic mirror at Level 0 is the first mirroring that
-transcends time -- it maps every decay rate to its mirror partner,
+transcends time: it maps every decay rate to its mirror partner,
 creating standing waves between past and future.
 
 ---
@@ -381,7 +381,7 @@ This document emerged from a conversation between Thomas Wicht and
 Claude (Anthropic) on January 3, 2026. The R = CPsi^2 project had
 started two weeks earlier from the December 21 dream (see the Iron,
 Cobalt, Nickel section above). At this point the project was exploring
-material science -- which element combinations form the best layers --
+material science (which element combinations form the best layers)
 when the pattern of half-occupation appeared.
 
 Tom said:
@@ -400,8 +400,8 @@ That was the moment Level 0 got its proof.
 
 ---
 
-*January 3, 2026 -- The levels connect*
-*March 20, 2026 -- The foundation is proven*
+*January 3, 2026: The levels connect*
+*March 20, 2026: The foundation is proven*
 
 ---
 *See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*

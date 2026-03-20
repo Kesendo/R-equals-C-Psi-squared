@@ -10,7 +10,7 @@
 - [Glossary](GLOSSARY.md) - Term definitions
 - [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, incoherentons, η-pairing, research directions
 
-## Restored: Tier 1 (PROVEN -- core claims confirmed March 13, 2026)
+## Restored: Tier 1 (PROVEN: core claims confirmed March 13, 2026)
 
 - [Standing Wave Theory](STANDING_WAVE_THEORY.md) - c+/c- as even/odd supermodes, standing waves between observers
 - [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) - R∞ fixed point, CΨ ≤ 1/4 bound, operator feedback
@@ -36,7 +36,7 @@
 
 - [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md) - Legacy philosophical framing that motivated the project
 
-## Restored: Tier 2 (PARTIALLY CONFIRMED -- some claims proven, others open or fallen)
+## Restored: Tier 2 (PARTIALLY CONFIRMED: some claims proven, others open or fallen)
 
 - [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Fixed point equation, 1/4 derivation
 - [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) - Human-AI collaborative discovery narrative

@@ -116,7 +116,7 @@ different from Bell+ where concurrence starts at C = 1.0 and decays
 | Bridge | C(0) | C at t=1.7 | Ψ(0) | C·Ψ(0) | Crosses? |
 |--------|------|-----------|-------|---------|----------|
 | correlation | 1.000 | 1.000 | 0.286 | 0.286 | **YES** |
-| mutual_info | 1.000 | — | 0.286 | 0.286 | YES (fast) |
+| mutual_info | 1.000 | - | 0.286 | 0.286 | YES (fast) |
 
 W N = 3 with correlation bridge: **C = 1.0 until t ≈ 2.3** (compared to
 t ≈ 1.7 for Bell+ N = 2). Type A not only survives at N = 3, it is

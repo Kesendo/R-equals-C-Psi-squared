@@ -225,7 +225,7 @@ When correlation is high (+1):  gamma = gamma_0 * (1 - kappa)  (low decoherence)
 When correlation is low (-1):   gamma = gamma_0 * (1 + kappa)  (high decoherence)
 ```
 
-This creates genuine dynamical coupling between measurement and decoherence -- not a post-processing artifact.
+This creates genuine dynamical coupling between measurement and decoherence, not a post-processing artifact.
 
 ### Validation Results
 

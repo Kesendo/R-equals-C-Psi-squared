@@ -41,7 +41,7 @@ This provides the first concrete numbers for what "strong enough coupling"
 means in the reopened bridge scenario.
 **Built on**: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md),
 [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md)
-**Origin**: AIEvolution v033 Mars Station experiment -- autonomous agents
+**Origin**: AIEvolution v033 Mars Station experiment: autonomous agents
 (GPT-OSS-120B) derived this protocol structure over 9 iterations.
 
 ---
@@ -63,7 +63,7 @@ The insight: **The first crossing event IS the synchronization.**
 
 ## 2. The Protocol
 
-### Phase 1 -- Sync (Handshake)
+### Phase 1: Sync (Handshake)
 
 Both observers hold their half of a Bell+ pair (CΨ = 0.061 < 1/4, classical
 regime, no crossing). To initiate the bridge, the designated sender converts
@@ -193,7 +193,7 @@ Three possible outcomes:
 3. **Subtler answer:** The crossing event occurs on both sides but is
    driven entirely by pre-encoded information (the initial state at
    preparation). Post-separation changes do NOT trigger new crossings.
-   In this case the protocol transmits only pre-agreed data -- more
+   In this case the protocol transmits only pre-agreed data, more
    structured than QKD (the sender chooses WHICH state to prepare
    before distribution), but not a dynamic communication channel.
 

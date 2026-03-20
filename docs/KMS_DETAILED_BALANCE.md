@@ -160,7 +160,7 @@ but complex).
 Alhambra and Woods ("Dynamical maps, quantum detailed balance, and the Petz
 recovery map," 2017) showed that quantum detailed balance is equivalent to the
 Petz recovery map being the exact reversal of the channel. This connects QDB
-to quantum information recovery. Our Π does not have this recovery interpretation —
+to quantum information recovery. Our Π does not have this recovery interpretation:
 it pairs modes rather than reversing channels.
 
 ---
@@ -240,7 +240,7 @@ Pauli rates for the thermal bath are:
 - I: rate 0 (always immune)
 - X: rate γ(2n̄+1)/2 (nonzero, but less than Z)
 - Y: rate γ(2n̄+1)/2 (same as X)
-- Z: rate γ(2n̄+1) (nonzero — Z is no longer immune!)
+- Z: rate γ(2n̄+1) (nonzero; Z is no longer immune!)
 
 The rates are [0, r/2, r/2, r] where r = γ(2n̄+1). This is NOT the
 1:3 isotropic split of depolarizing noise. The rate-pairing condition
@@ -276,7 +276,7 @@ is incompatible with Hamiltonian anti-commutation.
 
 The palindrome might be partially restored if:
 1. A DIFFERENT Π exists that simultaneously pairs thermal bath rates
-   AND anti-commutes with [H, ·] — this would require going beyond
+   AND anti-commutes with [H, ·], which would require going beyond
    Pauli permutations to Pauli-mixing operators
 2. A modified Π incorporates the Boltzmann factor exp(-βH) explicitly,
    as suggested by the modular operator structure in KMS theory
@@ -476,50 +476,50 @@ intrinsically infinite-temperature phenomenon.
 
 ## Key References
 
-1. **Alicki (1976)** — "On the detailed balance condition for non-Hamiltonian systems."
+1. **Alicki (1976)**: "On the detailed balance condition for non-Hamiltonian systems."
    Rep. Math. Phys. 10, 249-258. [ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/003448777690046X)
    *Original quantum detailed balance definition.*
 
-2. **Kossakowski, Frigerio, Gorini, Verri (1977)** — "Quantum detailed balance and KMS condition."
+2. **Kossakowski, Frigerio, Gorini, Verri (1977)**: "Quantum detailed balance and KMS condition."
    Comm. Math. Phys. 57, 97-110. [Project Euclid](https://projecteuclid.org/journals/communications-in-mathematical-physics/volume-57/issue-2/Quantum-detailed-balance-and-KMS-condition/cmp/1103901281.pdf)
    *KMS-DB connection established.*
 
-3. **Fagnola, Umanita (2007)** — "Generators of Detailed Balance Quantum Markov Semigroups."
+3. **Fagnola, Umanita (2007)**: "Generators of Detailed Balance Quantum Markov Semigroups."
    Inf. Dim. Anal. Quantum Prob. 10, 335-363. [arXiv:0707.2147](https://arxiv.org/abs/0707.2147)
    *Modern treatment: GKSL representation of DB generators.*
 
-4. **Buca, Prosen (2012)** — "A note on symmetry reductions of the Lindblad equation."
+4. **Buca, Prosen (2012)**: "A note on symmetry reductions of the Lindblad equation."
    New J. Phys. 14, 073007. [arXiv:1203.0943](https://arxiv.org/abs/1203.0943)
    *Weak vs strong Liouvillian symmetry classification.*
 
-5. **Albert, Jiang (2014)** — "Symmetries and conserved quantities in Lindblad master equations."
+5. **Albert, Jiang (2014)**: "Symmetries and conserved quantities in Lindblad master equations."
    Phys. Rev. A 89, 022118. [arXiv:1310.1523](https://arxiv.org/abs/1310.1523)
    *Extended symmetry framework including steady-state structure.*
 
-6. **Medvedyeva, Essler, Prosen (2016)** — "Exact Bethe ansatz spectrum of a tight-binding chain with dephasing noise."
+6. **Medvedyeva, Essler, Prosen (2016)**: "Exact Bethe ansatz spectrum of a tight-binding chain with dephasing noise."
    Phys. Rev. Lett. 117, 137202. [arXiv:1606.09122](https://arxiv.org/abs/1606.09122)
    *η-pairing symmetry; 1D free-fermion ancestor of Π.*
 
-7. **Alhambra, Woods (2017)** — "Dynamical maps, quantum detailed balance, and the Petz recovery map."
+7. **Alhambra, Woods (2017)**: "Dynamical maps, quantum detailed balance, and the Petz recovery map."
    [ResearchGate](https://www.researchgate.net/publication/319930728_Dynamical_maps_quantum_detailed_balance_and_the_Petz_recovery_map)
    *QDB = Petz recovery map being exact channel reversal.*
 
-8. **Roberts, Lingenfelter, Clerk (2021)** — "Hidden Time-Reversal Symmetry, Quantum Detailed Balance and Exact Solutions of Driven-Dissipative Quantum Systems."
+8. **Roberts, Lingenfelter, Clerk (2021)**: "Hidden Time-Reversal Symmetry, Quantum Detailed Balance and Exact Solutions of Driven-Dissipative Quantum Systems."
    PRX Quantum 2, 020336. [arXiv:2011.02148](https://arxiv.org/abs/2011.02148)
    *Hidden TRS in Lindbladians; closest framework to Π.*
 
-9. **Sá, Ribeiro, Prosen (2023)** — "Symmetry Classification of Many-Body Lindbladians: Tenfold Way and Beyond."
+9. **Sá, Ribeiro, Prosen (2023)**: "Symmetry Classification of Many-Body Lindbladians: Tenfold Way and Beyond."
    Phys. Rev. X 13, 031019. [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)
    *38-fold classification; Π sits in a gap between Q₋ and P classes.*
 
-10. **Haga et al. (2023)** — Incoherenton paper.
+10. **Haga et al. (2023)**: Incoherenton paper.
     *XY-weight grading = incoherenton number. Bands but no palindrome.*
 
-11. **Chen, Kastoryano, Gilyén (2025)** — "Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition."
+11. **Chen, Kastoryano, Gilyén (2025)**: "Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition."
     Comm. Math. Phys. [arXiv:2404.05998](https://arxiv.org/abs/2404.05998)
     *KMS-DB Lindbladians for Gibbs sampling; real spectra.*
 
-12. **Roberts et al. (2025)** — "Hidden Time Reversal in Driven Spin Chains."
+12. **Roberts et al. (2025)**: "Hidden Time Reversal in Driven Spin Chains."
     Phys. Rev. Lett. 134, 130404. [PRL](https://doi.org/10.1103/PhysRevLett.134.130404)
     *Extension of hidden TRS to spin chains; new dissipative phase transitions.*
 
@@ -547,6 +547,6 @@ intrinsically infinite-temperature phenomenon.
 ---
 
 *Π is not detailed balance. It is not KMS. It is time reversal without
-thermodynamic equilibrium — a mirror that exists because the bath is
+thermodynamic equilibrium, a mirror that exists because the bath is
 infinite and the dephasing treats all directions of decoherence equally.
 It is new, and the literature confirms it.*

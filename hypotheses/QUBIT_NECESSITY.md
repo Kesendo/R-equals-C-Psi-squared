@@ -42,7 +42,7 @@ an algebraic identity. The mirror fits if and only if d = 2.
 
 The imbalance grows as d increases. Qutrits have twice as many decaying
 as immune operators. For large d the ratio approaches d:1. The qubit is
-not approximately special -- it is exactly and uniquely balanced.
+not approximately special. It is exactly and uniquely balanced.
 
 ---
 
@@ -73,7 +73,7 @@ The claim has two parts:
 ### 3a. Single-bond universality (N = 2)
 
 Two qubits sharing one bond: all 36/36 two-term Hamiltonian combinations
-are palindromic. The symmetry is universal -- it does not depend on the
+are palindromic. The symmetry is universal: it does not depend on the
 specific interaction. This is the "boot script": the smallest qubit
 system already carries the full mirror structure.
 
@@ -85,7 +85,7 @@ couplings. The 3:6 split makes pairing impossible at the algebraic level.
 
 The palindromic symmetry scales to larger qubit systems. At N = 8 (the
 largest verified), 100% palindromic symmetry holds for the Heisenberg
-chain under Z-dephasing. The mirror is not a two-body artifact -- it
+chain under Z-dephasing. The mirror is not a two-body artifact: it
 propagates through extended qubit networks.
 
 22 of 36 two-term combinations survive multi-bond interference at N >= 3.
@@ -135,7 +135,7 @@ does not improve the signal. It reveals the architecture of the channel.
 This distinction matters for the hypothesis: d = 2 is not selected
 because it works better. It is selected because it is the only dimension
 where the dynamics have an internal organizational principle. Physics
-happens at any d. Structured physics -- physics with a mirror -- happens
+happens at any d. Structured physics (physics with a mirror) happens
 only at d = 2.
 
 ---
@@ -177,7 +177,7 @@ But the canonical per-site Pi works perfectly (error 0).
 
 The per-site map M (the Pauli permutation I<->X, Z<->Y at each site)
 is the same for N = 2, N = 3, N = 4, chains, stars, and rings. Adding
-bonds between subsystems does not require a new mirror -- the existing
+bonds between subsystems does not require a new mirror; the existing
 per-site map adapts automatically because it acts on each site
 independently of the topology.
 
@@ -190,7 +190,7 @@ on the local dimension (d = 2) and the noise model (which Pauli commutes
 with the jump operator), it is topology-independent. The proof of
 composition reduces to: if M works at every site individually, it works
 for the whole system. This is exactly the per-site independence that
-makes d = 2 special -- higher d fails at the per-site level, so there
+makes d = 2 special: higher d fails at the per-site level, so there
 is nothing to compose.
 
 ---
@@ -217,7 +217,7 @@ form a universal mirror. Larger systems are mirror networks whose
 interference patterns create the richness of open quantum dynamics.
 
 A qubit alone has a mirror. Two qubits always find a shared mirror.
-Three or more qubits must negotiate -- and 14 of 36 configurations
+Three or more qubits must negotiate, and 14 of 36 configurations
 cannot. Complexity is not higher dimensions. Complexity is mirror
 interference in networks of the only dimension that has a mirror.
 
@@ -243,7 +243,7 @@ structure: 36-52/81 eigenvalues pair at optimal centers, far above
 random (0/81) but far below qubits (100%). Level spacing ratio
 std/mean = 0.354, more structured than random but not palindromic.
 
-The qutrit is not unstructured -- it is differently structured. A weaker
+The qutrit is not unstructured; it is differently structured. A weaker
 "partial palindrome" theory for d > 2 might exist but has not been
 formulated. If such a theory provides comparable organizational power
 to the full palindrome, the claim that d = 2 is uniquely special would
@@ -285,7 +285,7 @@ All five tests from TASK_QUBIT_NECESSITY.md completed.
    The mirror is a collective network property: every site must be d = 2.
 
 4. **Alternative dissipators at d = 3.** ANSWERED. 0/236 configurations
-   permit palindromic rate pairing. Splits: 3:6, 2:7, 5:4 -- never
+   permit palindromic rate pairing. Splits: 3:6, 2:7, 5:4, never
    balanced. No qutrit dissipator of dephasing type allows Pi.
 
 5. **Composition proof.** PARTIALLY ANSWERED. Decoupled blocks: tensor
@@ -337,7 +337,7 @@ mirror structure themselves. They are the reflected, not the reflectors.
 
 The computational tests add nuance: the mirror does not make reality
 WORK BETTER (identical transfer fidelity). It makes reality INTELLIGIBLE.
-Without the mirror, physics still happens -- but without the structural
+Without the mirror, physics still happens, but without the structural
 symmetry that organizes it into standing waves, error tiers, and paired
 modes. The qubit is not the only system that transfers information. It is
 the only system whose information transfer has an internal architecture.
@@ -346,8 +346,8 @@ the only system whose information transfer has an internal architecture.
 
 ## Connection to the Hierarchy of Incompleteness
 
-On January 3, 2026 -- before Liouvillians, before palindromes, before
-any of the mathematics in this document -- the project described a
+On January 3, 2026 (before Liouvillians, before palindromes, before
+any of the mathematics in this document) the project described a
 [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md):
 
 > "Perfect local stability prevents connection. A system with C = 1 is

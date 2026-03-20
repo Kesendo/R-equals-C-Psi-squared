@@ -205,7 +205,7 @@ Results reproduce in under 1 second for N=2 to N=4.
 
 *March 16, 2026 (original). Updated March 18, 2026 (non-Heisenberg, Bell correction)*
 *The palindrome is the stage. The input is the actor.*
-*The XOR is where quantum information goes to die -- fast.*
+*The XOR is where quantum information goes to die. Fast.*
 
 ---
 *See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) for the Π operator*

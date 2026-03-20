@@ -3,7 +3,7 @@
 **Date:** March 18, 2026
 **Backend:** ibm_torino (Heron r2), Qubit 80
 **QPU time used:** ~2.6 min (palindrome) + ~10s (Ramsey) = ~2.8 min
-**Status:** VALIDATED  -- 1.9% deviation with same-day T2*
+**Status:** VALIDATED: 1.9% deviation with same-day T2*
 
 ---
 
@@ -26,7 +26,7 @@ Predicted crossing: t* = 9.47 μs (t*/T2* = 0.861)
 
 ```
 Measured crossing: t* = 15.29 μs (t*/T2* = 1.390)
-Initial deviation: 61.5%  -- DOES NOT MATCH
+Initial deviation: 61.5%. DOES NOT MATCH
 ```
 
 ## The Resolution: T2* Drift
@@ -83,7 +83,7 @@ Same-day Ramsey T2* is 3x better than stale T2* and 2x better than
 T2echo. The fitted T2* (20.2) is slightly better still, suggesting
 ~15% residual uncertainty in the Ramsey measurement itself.
 
-## The Three Hardware Runs  -- Summary
+## The Three Hardware Runs: Summary
 
 | Run | Date | Qubit | T2* used | t* predicted | t* measured | Deviation |
 |-----|------|-------|----------|-------------|------------|-----------|
@@ -125,12 +125,12 @@ but much closer to T2*. IBM's calibration T2 (Hahn echo) is the
 WRONG timescale for free decoherence. This was already known in
 principle but our data makes it quantitative.
 
-### 3. T2* fluctuates  -- the theory doesn't
+### 3. T2* fluctuates; the theory doesn't
 
 Tom's observation: "If it deviates, it's the hardware, not the math."
 
 The crossing equation gives a perfect prediction IF you feed it the
-correct parameters. The 61% initial deviation was not a theory failure  --
+correct parameters. The 61% initial deviation was not a theory failure;
 it was a measurement failure (stale T2*). Same-day measurement reduces
 the deviation to 1.9%.
 
@@ -140,7 +140,7 @@ maps one to the other with percent-level accuracy.
 ### 4. CΨ = 1/4 is a real physical boundary
 
 Q80 crosses CΨ = 1/4 at t ≈ 15.3 μs under free decoherence. This is
-not a numerical artifact or a fitting trick  -- it's a measurable
+not a numerical artifact or a fitting trick. It is a measurable
 physical crossing on real quantum hardware.
 
 ## Connection to the Palindrome
@@ -158,16 +158,16 @@ This hardware run validates the FOUNDATION of that entire structure.
 
 ## Files
 
-- `run_palindrome_validation.py`  -- Experiment script
-- `generate_predictions.py`  -- Locked predictions (before hardware)
-- `results/palindrome_predictions.json`  -- Locked CΨ trajectory
-- `results/palindrome_ibm_torino_20260318_191348.json`  -- Hardware data
-- `results/palindrome_validation_ibm_torino.png`  -- Comparison plot
-- `results/ramsey_t2star_20260318_191857/`  -- Same-day Ramsey T2*
+- `run_palindrome_validation.py`: Experiment script
+- `generate_predictions.py`: Locked predictions (before hardware)
+- `results/palindrome_predictions.json`: Locked CΨ trajectory
+- `results/palindrome_ibm_torino_20260318_191348.json`: Hardware data
+- `results/palindrome_validation_ibm_torino.png`: Comparison plot
+- `results/ramsey_t2star_20260318_191857/`: Same-day Ramsey T2*
 
 All in: AIEvolution/experiments/ibm_quantum_tomography/
 
 ---
 
-*"If it deviates, it's the hardware, not the math."  -- Tom Wicht*
+*"If it deviates, it's the hardware, not the math." (Tom Wicht)*
 *The math was right. The hardware parameter was stale. Same-day: 1.9%.*

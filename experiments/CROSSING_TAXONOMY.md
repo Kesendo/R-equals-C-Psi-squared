@@ -60,12 +60,12 @@ Comparison at identical γ·t products reveals a universal scaling:
 
 | Scaled time τ = γ·t | Bridge | γ = 0.01 | γ = 0.05 | γ = 0.20 |
 |----------------------|--------|----------|----------|----------|
-| τ = 0.005 | concurrence C | 0.980385 | 0.980354 | — |
-| τ = 0.005 | concurrence Ψ | 0.326795 | 0.326785 | — |
-| τ = 0.020 | concurrence C | — | 0.925794 | 0.925392 |
-| τ = 0.020 | concurrence Ψ | — | 0.308598 | 0.308464 |
-| τ = 0.050 | correlation C | 1.000000 | 1.000000 | — |
-| τ = 0.050 | correlation Ψ | 0.272899 | 0.272856 | — |
+| τ = 0.005 | concurrence C | 0.980385 | 0.980354 | - |
+| τ = 0.005 | concurrence Ψ | 0.326795 | 0.326785 | - |
+| τ = 0.020 | concurrence C | - | 0.925794 | 0.925392 |
+| τ = 0.020 | concurrence Ψ | - | 0.308598 | 0.308464 |
+| τ = 0.050 | correlation C | 1.000000 | 1.000000 | - |
+| τ = 0.050 | correlation Ψ | 0.272899 | 0.272856 | - |
 
 **C and Ψ are functions of τ = γ·t, not of t alone.**
 
@@ -137,7 +137,7 @@ Both C and Ψ decay. The crossing is a joint effect.
 |-------|-----------|------|---------------|---------|------|
 | **Type A: Pure-Ψ** | C ≈ 1.0 throughout; only Ψ drives crossing | 1.0 | 1.000 | correlation | 0.072 |
 | **Type B: Mixed** | Both C and Ψ decay; joint effect | 1.0 | 0.86-0.85 | concurrence, mutual_info | 0.039, 0.033 |
-| **Type C: Never** | P(0) < ¼; only decreases | 0.5, 0.25 | constant | mutual_purity, overlap | — |
+| **Type C: Never** | P(0) < ¼; only decreases | 0.5, 0.25 | constant | mutual_purity, overlap | - |
 
 ### 3.4 Why Type B Is Faster Than Type A
 

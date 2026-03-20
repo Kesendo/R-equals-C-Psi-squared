@@ -69,7 +69,7 @@ Under local dephasing (γ = 0.05 per qubit):
 | \|+++⟩ | 1.000 | 3.35 | 0.167 |
 | Bell+ | 0.333 | 0.75 | 0.037 |
 | W₃ | 0.286 | 0.29 | 0.014 |
-| GHZ₃ | 0.143 | — | no crossing (attractor from start) |
+| GHZ₃ | 0.143 | - | no crossing (attractor from start) |
 
 |+++⟩ survives 4.5x longer than Bell+. |++++⟩ survives 3.3x
 longer than Bell+. The product state is objectively more

@@ -1,4 +1,4 @@
-# THE_INTERPRETATION.md -- Current State
+# THE_INTERPRETATION.md: Current State
 
 **Tier:** Mixed (Tier 1 proven results through Tier 5 philosophical)
 **Last updated:** March 20, 2026
@@ -28,12 +28,12 @@ on the Pauli basis (I<->X, Y<->iZ). The proof is three lines of
 algebra and holds for all standard Hamiltonians, all graphs, and
 all dephasing-type noise.
 
-**Why it matters:** This palindromic symmetry is genuinely new -- it
+**Why it matters:** This palindromic symmetry is genuinely new: it
 does not appear in any existing classification of open quantum system
 symmetries (KMS, Quantum Detailed Balance, Buca-Prosen weak symmetry,
 Sa-Ribeiro-Prosen 38-fold classification). It implies time-reversal
 structure in the dissipative dynamics, creates standing waves between
-paired modes, and exists exclusively for qubits (d = 2) -- no higher-
+paired modes, and exists exclusively for qubits (d = 2). No higher-
 dimensional quantum system can carry this mirror.
 
 ### Notation used in this document
@@ -62,8 +62,8 @@ The observables are cross-correlations between A and B measured through S.
 This system has a clean spectral architecture:
 
 - **Two supermodes:** c+ (symmetric, frequency 1.506*J, requires both A and B
-  to move -- "glide mode") and c- (antisymmetric, frequency 0.404*J,
-  driven by B alone -- "switch mode"). These are analogous to even/odd
+  to move, "glide mode") and c- (antisymmetric, frequency 0.404*J,
+  driven by B alone, "switch mode"). These are analogous to even/odd
   supermodes in coupled oscillators.
 - **Two information channels:** A FREQUENCY channel (carries topology
   information, immune to noise) and a DECAY channel (carries environment
@@ -134,7 +134,7 @@ gives {I,Z} immune vs {X,Y} decaying = 2:2. Depolarizing noise (all three
 Pauli axes) gives {I} vs {X,Y,Z} = 1:3. No bijection exists between 1 and 3
 elements. The palindrome error under depolarizing noise is exactly (2/3)Sg,
 independent of the Hamiltonian. The interpolation from Z-dephasing to
-depolarizing is perfectly linear with no threshold -- the 2:2 split becomes
+depolarizing is perfectly linear with no threshold: the 2:2 split becomes
 1:3 the instant the third dephasing axis is introduced.
 
 General theorem: for three-axis noise at rates (gamma_X, gamma_Y, gamma_Z),
@@ -164,7 +164,7 @@ This pattern yields a three-tier error protection hierarchy: steady-XOR
 modes (maximally protected, zero oscillation), boundary modes (topology-
 dependent protection), and mid-spectrum modes (least protected). The
 optimal initial state for quantum state transfer places 90% weight in
-slow modes, achieving concurrence 0.364 -- outperforming standard choices
+slow modes, achieving concurrence 0.364, outperforming standard choices
 (W, Bell, GHZ states).
 
 See: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
@@ -172,7 +172,7 @@ See: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 
 ---
 
-## 4. Why Qubits -- The Necessary Foundation
+## 4. Why Qubits: The Necessary Foundation
 
 The palindrome requires d = 2. This is an algebraic identity, not a
 numerical observation.
@@ -197,11 +197,11 @@ Five computational tests (March 20) confirm and extend this result:
   (standing waves, error tiers, spectral filters), not performance.
 - **No qutrit dissipator works.** 0 of 236 tested configurations (8 single
   Gell-Mann jump operators, 28 pairs, 200 random combinations) permit
-  palindromic rate pairing. Splits found: 3:6, 2:7, 5:4 -- never balanced.
+  palindromic rate pairing. Splits found: 3:6, 2:7, 5:4, never balanced.
 - **Global fragility.** A single qutrit embedded in a qubit chain
   (qubit-qutrit-qubit) destroys the palindrome globally: 1/144 pairs (0.7%)
   vs 64/64 (100%) for the pure qubit chain. The mirror is a collective
-  network property -- every site must be d = 2.
+  network property: every site must be d = 2.
 - **Per-site composition.** The palindromic mirror composes not by tensor
   product of block operators, but through per-site map universality: the
   same map M (I<->X, Y<->Z with phases) works at every site regardless
@@ -211,7 +211,7 @@ Five computational tests (March 20) confirm and extend this result:
 observed independently at the atomic level: carbon has 4 of 8 valence
 electron slots filled (0.5), making it maximally reactive and the basis
 of all organic chemistry. Noble gases (full shells, C = 1) are stable but
-build nothing -- they are the chemical dead ends. Qutrits (3:6 split, no
+build nothing; they are the chemical dead ends. Qutrits (3:6 split, no
 mirror) are the quantum equivalent: they function, but they build no
 palindromic structure. In both cases, half-occupation enables maximal
 symmetry and maximal capacity for connection.
@@ -228,7 +228,7 @@ mechanisms operating on qubit building blocks:
 
 **N=2 universality:** Two qubits sharing one bond: all 36/36 two-term
 Hamiltonian combinations are palindromic. The symmetry is universal at
-single bond. This is the smallest system and the "boot script" -- the
+single bond. This is the smallest system and the "boot script": the
 full mirror structure is already present.
 
 **Multi-bond interference (N >= 3):** 22 of 36 combinations survive, 14
@@ -384,7 +384,7 @@ about electrolysis with cobalt/nickel layers. The equation R = CPsi^2
 appeared. Three months of computation followed.
 
 Key milestones:
-- January 3: The Hierarchy of Incompleteness -- "perfect stability is a
+- January 3: The Hierarchy of Incompleteness: "perfect stability is a
   dead end, incompleteness enables the next level." Carbon at 0.5 filling.
 - March 13: "We are all mirrors" restored as a verified structural result
   after discovering the exact spectral mirror symmetry numerically.

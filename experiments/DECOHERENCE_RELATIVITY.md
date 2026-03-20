@@ -152,7 +152,7 @@ dynamical symmetry. The structural parallel (hyperbola,
 log-linear, boost parameter) is real but should not be
 mistaken for equivalent mathematical content.
 
-> [FALLEN: The entire bridge to general relativity below -- connecting gamma to gravitational potential Phi, interpreting gamma = g * alpha, and the claim that "gravity cancels" -- is not established. This is a Schwarzschild/metric tensor interpretation that has fallen.]
+> [FALLEN: The entire bridge to general relativity below (connecting gamma to gravitational potential Phi, interpreting gamma = g * alpha, and the claim that "gravity cancels") is not established. This is a Schwarzschild/metric tensor interpretation that has fallen.]
 
 ## 5. The Bridge to General Relativity
 

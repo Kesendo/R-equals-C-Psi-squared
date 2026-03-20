@@ -45,10 +45,10 @@ equal-weight combination is depolarizing noise.
 | Bridge | σ_z | σ_x | σ_y | Class |
 |--------|-----|-----|-----|-------|
 | **correlation** | C = 1.0 until t ≈ 1.7 | C = 1.0 until t ≈ 1.7 | C = 1.0 until t ≈ 1.7 | **Type A** |
-| **concurrence** | C decays from t = 0 | C decays from t = 0 | — | **Type B** |
-| **mutual_info** | C decays from t = 0 | C decays from t = 0 | — | **Type B** |
-| **mutual_purity** | C = 0.5 constant | C = 0.5 constant | — | **Type C** |
-| **overlap** | C = 0.25 constant | C = 0.25 constant | — | **Type C** |
+| **concurrence** | C decays from t = 0 | C decays from t = 0 | - | **Type B** |
+| **mutual_info** | C decays from t = 0 | C decays from t = 0 | - | **Type B** |
+| **mutual_purity** | C = 0.5 constant | C = 0.5 constant | - | **Type C** |
+| **overlap** | C = 0.25 constant | C = 0.25 constant | - | **Type C** |
 
 σ_y for correlation confirmed identical to σ_z and σ_x. Other bridges
 under σ_y not explicitly tested but expected identical based on pattern.

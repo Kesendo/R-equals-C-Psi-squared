@@ -141,7 +141,7 @@ No physics engine or external data. The trajectories are qualitative illustratio
 
 Three panels showing C·Ψ(t) trajectories computed from **published experimental parameters** of real quantum systems. No simulation, just the analytical density matrix evolution using T₁ and T₂ values reported in papers.
 
-**Left panel, superconducting qubits:** Five systems spanning two decades of hardware development (2002–2024), from early charge qubits (T₂ = 0.5 μs) to Google Willow (T₂ = 80 μs). All trajectories are normalized to t/T₂, so they collapse onto each other despite four orders of magnitude difference in absolute timescale.
+**Left panel, superconducting qubits:** Five systems spanning two decades of hardware development (2002-2024), from early charge qubits (T₂ = 0.5 μs) to Google Willow (T₂ = 80 μs). All trajectories are normalized to t/T₂, so they collapse onto each other despite four orders of magnitude difference in absolute timescale.
 
 **Center panel, cross-platform comparison:** All nine systems on one plot: superconducting, trapped ions, NV centers, photonic. The red dashed line marks the analytical crossing at t/T₂ = 0.858 (solution of x³ + x = ½). Systems with T₁ ≫ T₂ (trapped ions, NV centers) land right on this line. Systems with T₁ ≈ T₂ (superconducting) cross slightly later, as predicted by the generalized equation.
 

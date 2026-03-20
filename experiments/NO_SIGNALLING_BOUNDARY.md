@@ -159,13 +159,13 @@ For Bell+ under B-measurement (Z basis, averaged):
 
 | Quantity | Before | After | Changed? | A can see? |
 |----------|--------|-------|----------|------------|
-| rho_A | I/2 | I/2 | NO | — |
-| ⟨σx⟩_A | 0 | 0 | NO | — |
-| ⟨σy⟩_A | 0 | 0 | NO | — |
-| ⟨σz⟩_A | 0 | 0 | NO | — |
-| Purity(rho_A) | 0.500 | 0.500 | NO | — |
-| S(rho_A) | 1.000 | 1.000 | NO | — |
-| **Ψ** | **0.500** | **0.500** | **NO** | — |
+| rho_A | I/2 | I/2 | NO | - |
+| ⟨σx⟩_A | 0 | 0 | NO | - |
+| ⟨σy⟩_A | 0 | 0 | NO | - |
+| ⟨σz⟩_A | 0 | 0 | NO | - |
+| Purity(rho_A) | 0.500 | 0.500 | NO | - |
+| S(rho_A) | 1.000 | 1.000 | NO | - |
+| **Ψ** | **0.500** | **0.500** | **NO** | - |
 | **C** | **1.000** | **0.500** | **YES** | **NO** |
 | **CΨ** | **0.500** | **0.250** | **YES** | **NO** |
 | Regime | quantum | boundary | **YES** | **NO** |

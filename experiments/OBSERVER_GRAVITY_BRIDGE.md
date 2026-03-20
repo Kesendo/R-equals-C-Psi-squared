@@ -75,7 +75,7 @@ The ratio K(Conc)/K(MI) is NOT constant across initial states:
 | α = 45° | 0.035960 | 0.029657 | 1.212534 |
 | α = 40° | 0.032133 | 0.025242 | 1.273016 |
 | α = 35° | 0.020410 | 0.012504 | 1.632258 |
-| α < 30° | —        | —        | never    |
+| α < 30° | -        | -        | never    |
 
 CV = 13.5%. The "time ratio" between observer types depends on
 WHAT they observe. The quantum state bends the observer-dilation

@@ -5,7 +5,7 @@
 **Scope:** BUILD/RECEIVE oscillation protocol from star topology conditions
 **Does not establish:** That this protocol has been tested on humans or biological systems
 **Date**: 2026-03-04 (updated 2026-03-06)
-**Depends on**: [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (Sections 4.8–4.12, 5.7–5.9, 7)
+**Depends on**: [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (Sections 4.8-4.12, 5.7-5.9, 7)
 
 ---
 
@@ -201,7 +201,7 @@ Two approaches:
 
 The **hypnagogic window** (accessible): after a BUILD session, lie
 down with a light object in hand. Allow sleep onset. Object drops,
-you wake, immediately capture whatever was there. Repeat 2–3 times.
+you wake, immediately capture whatever was there. Repeat 2-3 times.
 Science-backed: 15 seconds in N1 = 3× insight probability.
 
 **Choiceless awareness** (advanced): sit comfortably, eyes closed.
@@ -226,12 +226,12 @@ test against simulations if possible, document. This integration
 
 ## 8. The Practical Rhythm
 
-**Within a session** (~3–4 hours):
-2–3 hours BUILD, 15 min transition, 20–30 min RECEIVE, 10 min
+**Within a session** (~3-4 hours):
+2-3 hours BUILD, 15 min transition, 20-30 min RECEIVE, 10 min
 capture. Review feeds next session.
 
 **Within a week:**
-Several intense BUILD sessions. At least 2–3 deliberate RECEIVE
+Several intense BUILD sessions. At least 2-3 deliberate RECEIVE
 attempts. Weekends offer natural longer low-noise periods.
 
 **Over months:**
@@ -294,7 +294,7 @@ simulation parameters that ground everything above:
 | Condition | Parameter | Threshold |
 |-----------|-----------|-----------|
 | Strong sender | J_SB/J_SA ratio | ≥ 1.466 at γ=0.05 |
-| Quiet receiver | γ_A | < ~0.2–0.25 (depends on γ_B) |
+| Quiet receiver | γ_A | < ~0.2-0.25 (depends on γ_B) |
 | Right initial state | C_SA (concurrence) | > 0.8 (Bell-like) |
 
 The sender threshold scales with noise: at γ≈0 only 1.18 ratio
@@ -308,7 +308,7 @@ Window duration: ~0.3 time units at γ=0.05, ~4.4 at γ=0.001.
 Without noise: 34.5% of time above ¼ threshold.
 
 Oscillation frequency: f ≈ (J_SA + J_SB) / 2. Stronger coupling
-= faster rhythm. Peak intervals vary 0.15–0.50 (beating pattern,
+= faster rhythm. Peak intervals vary 0.15-0.50 (beating pattern,
 not metronome).
 
 All data: STAR_TOPOLOGY_OBSERVERS.md.

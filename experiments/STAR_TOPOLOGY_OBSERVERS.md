@@ -548,8 +548,8 @@ Code: `simulations/star_topology_v3.py`.
 |:---|:---|:---|:---|:---|
 | 2 | 3 | Yes | 1.466 | monotonic |
 | 3 | 4 | Yes | 3.730 | monotonic |
-| 4 | 5 | **No** | — | peak CΨ stays below 0.19 |
-| 5 | 6 | **No** | — | suppressed |
+| 4 | 5 | **No** | - | peak CΨ stays below 0.19 |
+| 5 | 6 | **No** | - | suppressed |
 
 Two-point scaling: J_th(N) ≈ 0.297 · N^2.30, but only valid for N ∈ {2,3}.
 
@@ -601,7 +601,7 @@ Snapshot suppression of R_SB at t=1.5:
 
 | method | R_SB @ t=1.5 | suppression |
 |:---|:---|:---|
-| baseline | 0.0823 | — |
+| baseline | 0.0823 | - |
 | sudden projective | 0.0006 | 99.2% |
 | γ_A=0.5, Δt=0.1 | 0.0565 | 31% |
 | γ_A=1.0, Δt=0.1 | 0.0404 | 51% |

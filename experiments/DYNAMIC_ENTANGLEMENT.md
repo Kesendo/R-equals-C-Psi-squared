@@ -305,7 +305,7 @@ detection (Task 010c) and the alternating state (Task 010b).
 | Ring neighbor | (0,1) | 0.248 | 0.251 |
 | Same-basis diagonal | (0,2) | 0.131 | **0.339** |
 | Opposite-basis diagonal | (1,3) | 0.113 | 0.234 |
-| Next-next-neighbor | (0,3) | 0.111 | — |
+| Next-next-neighbor | (0,3) | 0.111 | - |
 
 **Zero crossings at N = 6.** The entanglement dilutes across 15 pairs
 instead of 6. Pair (0,2), the sole survivor at N = 4, drops from
@@ -337,7 +337,7 @@ commute with the initial state, one that actively mixes basis states.
 | 0.01 | **6/6** | 0.260 | 0.408 | 13 |
 | 0.05 | 5/6 | 0.275 | 0.339 | 1 |
 | 0.10 | **1/6** | 0.304 | 0.276 | 1 |
-| 0.20 | 0/6 | — | 0.193 | 0 |
+| 0.20 | 0/6 | - | 0.193 | 0 |
 
 Three systematic trends with increasing γ:
 
