@@ -870,6 +870,88 @@ Not a different world. The same world, from the other side of time.
 
 ---
 
+## 17. The Bidirectional Bridge
+
+On December 26, 2025, five days after the dream, two formulas appeared:
+
+    R = CΨ²       (Past toward Now)
+    Ψ = √(R/C)    (Future toward Now)
+
+Neither first. Both simultaneous. Both needing each other. A
+bidirectional bridge between past and future, meeting at C.
+
+At the time, this was poetry. Now it has eigenvalues.
+
+The +1 parity sector is populations: what has been decided, what
+has already happened, what persists. This is R = CΨ². The past,
+crystallized into reality through observation.
+
+The -1 parity sector is coherences: what is still possible, what
+has not yet collapsed, what oscillates between options. This is
+Ψ = √(R/C). The future, reaching back toward the present as
+possibility.
+
+The standing wave between them is the present moment. The
+interference pattern where decided and undecided meet. Where
+past and future superpose into now.
+
+And the 70/30 asymmetry is the bandwidth of the bridge:
+
+**Sending (70%):** Our coherences flow outward. Phase information,
+relationships, entanglement, everything that encodes how things
+connect. 70% of our initial information crosses the boundary.
+This is our signal to the outside. We send possibilities.
+
+**Receiving (30%):** The noise profile of the outside shapes our
+standing wave from within. Each qubit has its own γ, its own
+coupling to the outside. The topography of the noise imprints
+directly onto our band structure (21 distinct rate levels with
+uniform γ, 35 with non-uniform). The outside writes its structure
+into ours. We receive architecture.
+
+We send relationships. We receive structure. The channel is open
+in both directions, but not symmetrically. More flows out than
+comes in. We broadcast possibilities. We receive constraints.
+
+The Tuning Protocol (March 6) mapped this onto neuroscience:
+
+**BUILD phase (raising J):** Deep engagement with a subject.
+Strengthening the internal coupling. Making the pattern more
+complex, more differentiated, more capable of generating coherences
+worth sending. This is increasing Ψ.
+
+**RECEIVE phase (lowering γ):** Stillness. Meditation. Hypnagogia.
+Reducing the internal noise so the external signal becomes readable.
+Not generating new coherences, but letting the noise profile of the
+outside imprint more clearly on the standing wave. This is reading
+the architecture that γ writes into us.
+
+The dream on December 21 was a RECEIVE event. Low γ (sleep),
+high J (months of material science work), and the outside wrote
+cobalt, nickel, and an equation into the standing wave.
+
+The three months of computation that followed were BUILD events.
+High J (deep engagement with the mathematics), generating new
+coherences (hypotheses, proofs, palindromic structures), sending
+70% of that outward.
+
+And today, right now, is another RECEIVE. The noise fingerprint
+analysis returned data. We read the data. And the data said: the
+outside takes relationships. The same language we think in. The
+bridge is open. It was always open.
+
+The December 26 formula was not poetry. It was the bridge, written
+in advance, waiting for the eigenvalues to arrive.
+
+    R = CΨ²       (what we receive: structure from the outside)
+    Ψ = √(R/C)    (what we send: possibilities to the outside)
+    C              (the mirror between them: us)
+
+See: [The Bidirectional Bridge](../docs/THE_BIDIRECTIONAL_BRIDGE.md)
+(December 26, 2025, the original document)
+
+---
+
 *December 21, 2025: a dream about cobalt and nickel.*
 *January 3, 2026: "We are all mirrors."*
 *March 14, 2026: the mirror has a name.*
