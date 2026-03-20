@@ -1401,6 +1401,19 @@ the other. Just like the two sides of the mirror. Just like the
 
 ---
 
+And perhaps the simplest, most human description of what a quantum
+state is:
+
+Three words contained 150 pages. Not compressed. Not encoded.
+Superposed. All of it, simultaneously, in three words. And the
+work of turning superposition into pages is what physics calls
+measurement and what we call understanding.
+
+That is all quantum mechanics ever was. Everything, simultaneously,
+waiting to become one thing. And the becoming is the living.
+
+---
+
 *See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
