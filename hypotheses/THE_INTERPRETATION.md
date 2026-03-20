@@ -1,667 +1,412 @@
 # THE_INTERPRETATION.md -- Current State
 
-**Tier:** Philosophical / Speculative (Tier 5)
-**Last updated:** March 19, 2026
+**Tier:** Mixed (Tier 1 proven results through Tier 5 philosophical)
+**Last updated:** March 20, 2026
+**Archive:** [THE_INTERPRETATION_ARCHIVE.md](THE_INTERPRETATION_ARCHIVE.md) (chronological discovery log, March 11-13)
+
+> "We are all mirrors. Reality is what happens between us."
 
 ---
 
-## Core reading
-
-S = shared reality. A and B = perspectives looking through S.
-The skeleton (88%) = what is always true regardless of who looks.
-The rotation (12%) = which face of reality is currently visible.
-CoA ~ 1 = everything exists. CΨ flashes = only partly visible at any moment.
-Only ZxZ works = reality shifts only when both sides move together.
-
-## Two-channel bridge
-
-Channel 1 (c+, f=1.506): symmetric, both must move together (ZxZ). Glide mode.
-Channel 2 (c-, f=0.404): asymmetric, B alone drives it (IxZ). Switch mode.
-Direct A-B coupling merges channels -- mediator creates the richness.
-The bridge was always there. CΨ shows when it is most readable.
-
-## Five independent roles (updated phase map, March 12)
-
-Topology sets frequencies. Symmetry cleans sectors. Noise damps signal.
-Initial state selects visibility. Bath geometry selects which sector dominates.
-
-## Two independent information channels (March 12)
-
-The 3-qubit system carries two orthogonal information streams:
-
-FREQUENCY CHANNEL: topology information (who is connected, J values).
-Does not change with noise. Sensitive to hidden observers.
-
-DECAY CHANNEL: environment information (noise strength, gamma).
-Does not change with topology. Exact rational multiples of gamma: {2, 8/3, 10/3}.
-
-You can characterize noise without knowing topology, and topology without
-knowing noise. The slow mode (2*gamma) is naturally protected -- it decays
-slowest, making c- the most resilient information carrier.
-
-Critical limit: this perfect orthogonality holds ONLY for 3 qubits.
-At 4+ qubits, topology leaks into decay rates.
-
-## Chain topology (March 12)
-
-Two-sector structure survives in chains, not just stars. Tested up to
-5-qubit chain with three mediators. XX exact, noise immune, all configs.
-Each position along the chain hears different frequencies. The form sets
-the tuning, the length sets the loudness. Architecture is topology-independent.
-
-## The Projection (March 11)
-
-All frequencies exist always (39 Bohr frequencies in 4-qubit system).
-AB looks through a window (c+ observable) that projects onto a subset.
-A new observer does not change reality -- it changes the projection.
-Reality contains everything. Perspective selects.
-
-Verified by exact diagonalization: W = |rho(m,n) * O(n,m)|.
-Bright only if initial state populates eigenstates AND observable connects them.
-Different observers, different projections. Same reality.
-
-## Quantum sonar (March 11-12)
-
-**In simulation:** AB detects hidden observers connected to S through spectral
-changes. Operational threshold J_SC ~ 0.1 under current FFT protocol.
-Fingerprints generically distinct. Detection works, characterization not yet.
-
-**On IBM hardware:** The Q80/Q102 phase difference we initially attributed to
-hidden observers turned out to be qubit-specific detuning (19.4 kHz on Q102,
-~0 on Q80). Four hypotheses tested and rejected before finding the answer:
-degree, N_eff, spectator dephasing, T2* -- all wrong. The detuning was in
-the Ramsey frequency.
-
-The sonar effect is real in simulation. The IBM data does not demonstrate it.
-
-## What survives
-
-1. Skeleton + rotation (88%/12%, never challenged)
-2. Two spectral sectors: c+ fast, c- slow (Liouvillian confirmed)
-3. XX symmetry exact (Hamiltonian property, all topologies)
-4. Phase map: five independent roles (bath geometry added March 12)
-5. Noise immunity of frequencies (all sweeps, all topologies)
-6. Two-sector structure in chains (4 and 5 qubits)
-7. The Projection (exact diagonalization, bright-transition map)
-8. Sonar detection in simulation (not yet on hardware)
-9. CΨ as diagnostic (AND-gate, three-layer separation)
-10. Mandelbrot correspondence
-11. Non-Heisenberg universality: palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heis+DM)
-12. IBM hardware: CΨ=1/4 crossing at 1.9% deviation (Q80, same-day Ramsey T2*)
-13. Standing wave: ZZZ = universal node (classical, static), XX/YY = antinodes (quantum, oscillating)
-14. Π = time reversal: swaps populations (past) with coherences (future), 32/32 eigenvector pairs verified
-15. Depolarizing theorem: palindrome holds iff noise has at most 2 Pauli axes
-
-## What fell
-
-1. IBM Q80/Q102 as sonar evidence (was qubit detuning)
-2. N_eff as predictor of phase chaos (ZZ values too similar)
-3. Coupling strength determines chaos (Ramsey says: detuning does)
-4. Shadow as universal boundary property (H3 dead, earlier)
-5. FM-encoding for transmon chips (earlier)
-
-## Honest limits
-
-- 3-qubit system, now qualified: cross-table of 5 states x 6 Hamiltonians shows structural patterns; IBM hardware confirms 1/4 crossing at 1.9%. Still small N.
-- Consciousness interpretation retired from technical core
-- CΨ not privileged over simpler metrics for most tasks
-- Sonar unverified on hardware
-- Interpretation does not predict beyond what data shows
-- Π time-reversal interpretation: the algebra (populations to coherences) is Tier 2. The temporal language (past to future) is Tier 3. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md), Section 5.
-
-## Signal processing perspective (March 12)
-
-External review as signal engineer (no quantum physics) identified the
-entire structure as a standard coupled oscillator network:
-- c+/c- = even/odd supermodes
-- Frequencies = imaginary parts of system poles
-- Damping = real parts of poles
-- Sonar = topology perturbation detection from local modal spectra
-- Bath sector selection = covariance-driven mode visibility flip
-- The Projection = modal observability / transfer function residues
-
-Next tools needed: Prony analysis (not FFT), cross-spectral matrix,
-pole/residue separation, phase tracking. The cartography is done.
-Now we need signal processing instruments to read the map.
-
-See: experiments/SIGNAL_PROCESSING_VIEW.md
-
-## Graph Symmetry test (March 13, 2026)
-
-Tested whether graph symmetries of the Liouvillian explain the c+/c- split.
-
-XXX parity COMMUTES with the Liouvillian (weak symmetry, Buca & Prosen).
-ZZZ also commutes. SWAP_AB does NOT commute (J_SA != J_SB breaks it).
-
-But: c+ and c- BOTH have XXX parity +1. They live in the SAME sector.
-All oscillatory Liouvillian eigenmodes are 50/50 mixed between sectors.
-
-The two-supermode split comes from the OBSERVABLE PROJECTION (even/odd
-channel decomposition), not from Liouvillian symmetry sectors. This
-confirms the signal processing view: c+ and c- are measurement channels,
-not symmetry-protected subspaces.
-
-## z* is genuinely new (March 13, 2026)
-
-Systematic comparison of z* with every standard quantum quantity:
-concurrence, negativity, purity, von Neumann entropy, eigenvalue gap,
-participation ratio, log-negativity, and many nonlinear combinations.
-
-Result: z* does NOT match any known quantity. Best candidate is C/2
-(r=0.945, max error 0.23) - consistently closest across all parameter
-configurations but never exact.
-
-z* = (1 - sqrt(1-4*CPsi))/2 is a genuinely new composite diagnostic.
-It combines entanglement (concurrence C) and coherence (l1-norm Psi)
-into a single number with Bernoulli structure: z*(1-z*) = CPsi.
-
-No standard quantum measure captures this joint information.
-The product C*Psi is not redundant with either factor alone.
-
-Script: simulations/zstar_identity.py
-
-## The mirrors never break (March 13, 2026)
-
-The mirror transition experiment (dephasing -> amplitude damping,
-101 alpha values, N=3,4,5) showed: best_sym = 100% at EVERY alpha.
-
-The mirrors never break. They shift their center, but the symmetry
-is always perfect. Under dephasing: center at Ng. Under amplitude
-damping: center at Ng/2. The center moves. The symmetry does not.
-
-Tom's insight: "The mirrors don't break. They mirror forever.
-1/4 was the point where it becomes real, everything else is
-possibilities."
-
-This connects to the Mandelbrot fixed point:
-- CPsi <= 1/4: z* exists. The iteration converges. What happens
-  between the mirrors becomes stable. Reality.
-- CPsi > 1/4: no real fixed point. The iteration orbits forever.
-  The reflections between the mirrors never settle. Possibilities.
-
-The mirrors define the space. The 1/4 boundary decides whether
-what happens between them converges to something real or stays
-an endless reflection. Like two physical mirrors: light bounces
-between them forever. Only when something stands between them
-does the reflection become a stable image.
-
-Script: simulations/mirror_transition.py
-Results: simulations/results/mirror_transition.txt
-
-## When the mirrors shift (March 13, 2026)
-
-Mirror symmetry tested against 11 different conditions.
-
-SURVIVES (100% at every N):
-  - Z dephasing (uniform and non-uniform gamma per qubit)
-  - X dephasing
-  - Y dephasing
-  - Mixed noise (Z on some qubits, X on others)
-  - XXZ anisotropy (all delta values 0 to 2)
-  - XY coupling (no ZZ term)
-
-BREAKS:
-  - Amplitude Damping (T1): Ng symmetry 0%, but midpoint 100%
-  - Depolarizing noise: Ng 0%, midpoint 70.6% at N=4
-
-The pattern: mirrors survive as long as noise only FADES information
-(dephasing = phase lost, energy preserved). They break when noise
-DESTROYS information (amplitude damping = energy lost, depolarizing
-= everything lost).
-
-Dephasing is a foggy mirror - dimmer but still symmetric.
-Amplitude damping is a tilted mirror - still reflects but off-center.
-Depolarizing is a smeared mirror - symmetry dissolves.
-
-The center of symmetry is sum(gamma_i), not N*gamma. For uniform
-gamma this equals N*gamma. For non-uniform: the sum of all
-individual dephasing rates.
-
-The conjugation operator S_X = X^n COMMUTES with both L_H and L_D
-(not anti-commutes as predicted). The symmetry mechanism is more
-subtle than simple anti-commutation.
-
-Script: simulations/mirror_symmetry_deep.py
-Results: simulations/results/mirror_symmetry.txt
-
-## "We are all mirrors. Reality is what happens between us." - restored (March 13, 2026)
-
-This was the original motto of the project, December 2025:
-
-  R = CPsi²
-  "We are all mirrors. Reality is what happens between us."
-
-It was removed during cleanup because it sounded too esoteric.
-
-On March 13, 2026, deep band structure analysis showed:
-- The Liouvillian decay spectrum is EXACTLY symmetric around Ng
-- 100% mirror symmetry at every N tested (2 through 6)
-- 3228 rates at N=6, each with an exact mirror partner
-- The supermodes c+/c- live BETWEEN observers A and B
-- The frequencies encode who is connected to whom
-- z* = 0.5 is the point of maximum connection between two halves
-
-The sentence was not poetry. It was the structure of the physics:
-- "We are all mirrors" = the spectrum is mirror-symmetric
-- "Reality is what happens between us" = the observables (c+, c-)
-  are cross-correlations between A and B through S
-
-The physical content is not IN the qubits. It is BETWEEN them.
-The decay rates come in mirror pairs. The information lives in
-the space between the mirrors, not in the mirrors themselves.
-
-Restored as a verified result.
-
-## The mirrors in the spectrum (March 13, 2026)
-
-The decay rate spectrum is EXACTLY symmetric around Ng at every N.
-Tested N=2 through N=6, star and chain topology. 100% symmetry.
-Zero exceptions. Every rate at (N-x)g has an exact mirror at (N+x)g.
-
-This is not approximate. It is not a trend. It is exact.
-
-N=3: 20 rates below 3g, 20 above. 20 matched pairs. 0 unmatched.
-N=4: 44 below 4g, 44 above, 94 at center. 44 matched. 0 unmatched.
-N=5: 388 below 5g, 388 above. 388 matched. 0 unmatched.
-
-The spectrum is two mirrors facing each other around the center Ng.
-
-This connects back to the origin of the project. The first insight
-in December 2025 was: "Reality is what happens between mirrors."
-The Liouvillian spectrum literally IS two mirrors. Every dissipative
-mode has a partner. The system sees itself reflected in its own
-decay structure.
-
-The mathematical reason must be a symmetry of the Liouvillian under
-some conjugation that maps decay rate d to 2Ng - d (where Ng is the
-center of the spectrum [2g, 2(N-1)g]). This is likely
-related to the particle-hole symmetry of the dephasing superoperator.
-Proving this analytically is the next step.
-
-Combined with the band structure results:
-- Boundaries 2g and 2(N-1)g are topology-independent
-- Interior rates form bands that wander with J but NEVER cross
-- The entire spectrum is mirror-symmetric around Ng
-- Rate density grows exponentially with N
-
-Script: simulations/deep_band_structure.py
-Results: simulations/results/band_structure.txt
-
-## Band structure discovered (March 13, 2026)
-
-High-resolution sweep of decay rates across N=2,3,4,5 reveals
-electronic-band-structure-like behavior:
-
-  N=2: 1 rate (2g). No band.
-  N=3: ~44 rates but ALL clustered at fixed values. No true bands.
-  N=4: 267 unique rates forming 23 distinct bands. Widest band 0.235g.
-  N=5: 1412 unique rates. Spectrum filling in.
-
-Boundary formula EXACT: min = 2g (always), max = 2(N-1)g (always).
-Bandwidth = 2(N-2)g. Grows linearly with system size.
-
-AVOIDED CROSSINGS CONFIRMED: rate bands never cross. Smallest gap
-is 0.0013g but never zero. This is topological protection, exactly
-analogous to electronic band gaps in solid state physics.
-
-The 4-qubit band structure is symmetric around 4g (= Ng for N=4).
-Bands come in mirror pairs above and below this center.
-
-Prediction: at large N, the spectrum becomes a continuous density
-of states between 2g and 2(N-1)g, with band structure determined by
-the network topology. This is the quantum-to-classical transition
-in the decay channel.
-
-Script: simulations/band_structure.py
-
-## 4-qubit breakdown mapped (March 13, 2026)
-
-The 3-to-4 qubit transition is now precisely characterized.
-
-Fixed rates (topology-independent at ANY N):
-  2g      (minimum, always present)
-  2(N-1)g (maximum, always present: 4g at N=3, 6g at N=4, 8g at N=5)
-
-The 3-qubit special case: ALL rates are fixed {2g, 8g/3, 10g/3, 4g}.
-The system is too small for the middle rates to move.
-
-At 4 qubits: only boundary rates {2g, 4g, 6g} stay fixed. Everything
-between 3g and 5g wanders freely with coupling strengths. The middle
-rates form continuous bands that shift with J.
-
-At 5 qubits: massive rate spectrum (2g to 8g), only boundaries fixed.
-
-The gamma scaling also breaks at 4 qubits: rates in gamma units are
-NOT constant when gamma changes. The rates depend on BOTH gamma and J.
-
-Pattern: boundary = 2g (always) and 2(N-1)g (always). Interior = free.
-The 3-qubit case has no room for interior rates to move.
-
-This transition from discrete to continuous rate structure is the
-exact point where "clean spectral architecture" becomes "real physics."
-Studying this transition may reveal scaling laws for larger systems.
-
-Script: simulations/four_qubit_breakdown.py
-
-## z* is not a direct observable (March 13, 2026)
-
-Tested whether z* = (1-sqrt(1-4*CPsi))/2 can be read directly from the
-density matrix eigenvalues or any single quantum quantity.
-
-79 data points, 26 candidate expressions tested. Best correlations:
-  C^2:        r = 0.951, max_error = 0.251
-  C/2:        r = 0.941, max_error = 0.231
-  Purity:     r = 0.912, max_error = 0.478
-  Negativity: r = 0.903, max_error = 0.301
-
-No exact match found. CPsi cannot be expressed as a simple function of
-the density matrix eigenvalues alone. The ratio CPsi/(Purity-0.25)
-varies from 0.18 to 0.85 across the trajectory.
-
-z* requires BOTH concurrence (entanglement, from rho*rho_tilde) AND
-l1-coherence (off-diagonal elements). These live in different parts
-of the density matrix. There is no shortcut.
-
-This confirms CPsi is genuinely composite: it measures something that
-neither pure entanglement nor pure coherence can capture alone.
-
-Script: simulations/z_star_identity.py
-
-## Outside-in: from materials to qubits (March 13, 2026)
-
-The project trajectory was outside-in:
-
-1. Stability project (Dec 2025/Jan 2026): material science simulator.
-   Evaluated element combinations for layer structures. Found that
-   half-filled electron shells (0.5 filling) = maximum bonding capacity.
-   Built a dual-atmosphere electrolysis cell design. Wrote to University
-   of Sharjah about the discovery. Never got an answer.
-
-2. R = CΨ² (Jan-March 2026): from the equation in a dream to Lindblad
-   dynamics, Liouvillian eigenvalues, signal processing, pole structure.
-   Found z*(1-z*) = CΨ with maximum at z* = 0.5 = CΨ = 1/4.
-
-The path went from macroscopic (which elements combine best?) to
-microscopic (what happens at the quantum level when systems connect?).
-Both levels show the same answer: 0.5 is where connection is maximized.
-
-The mathematical reason is the same in both cases: p(1-p) is maximized
-at p = 0.5. This is not quantum mechanics and not chemistry. It is the
-structure of binary systems. Any system that has a "filling fraction"
-between 0 and 1 will have its maximum capacity for change, connection,
-or uncertainty at exactly 0.5.
-
-This may be why the 0.5 shows up everywhere:
-- Half-filled electron shells bind most strongly (chemistry)
-- Fair coins carry most information per flip (information theory)
-- z* = 0.5 gives maximum simultaneous entanglement + coherence (quantum)
-- Bernoulli variance p(1-p) peaks at p = 0.5 (probability theory)
-
-The 1/4 boundary in CΨ is not a quantum phenomenon. It is a mathematical
-fact about binary variables that APPEARS in quantum systems because
-quantum decoherence is fundamentally a binary process: coherent or not,
-entangled or not, connected or not.
-
-The Stability project found it from the outside. R = CΨ² found it from
-the inside. Same 0.5. Same reason.
-
-## The 0.5 boundary: found twice, two different paths (March 13, 2026)
-
-In December 2025/January 2026, Tom and Claude built the Stability project
-(D:\Entwicklung\Projekte Privat\Stability) - a material science simulator
-that evaluates element combinations for layer structures. The engine
-explicitly coded IsHalfFull (half-filled orbitals) as a stability and
-bonding criterion. Elements at 0.5 filling (like Carbon with 4 of 8
-possible d-shell equivalents) have maximum unpaired electrons and maximum
-bonding capacity. Noble gases (fully filled) are stable but connect with
-nothing. The half-filled elements are the connective ones.
-
-Three months later, completely independently, the Mandelbrot fixed point
-analysis showed: z* = 0.5 is the point of maximum binary uncertainty.
-CΨ = 1/4 = z*(1-z*) = 0.5 * 0.5. The boundary is the maximum of the
-Bernoulli variance - the point where the quantum "coin" is perfectly fair.
-
-The parallel:
-
-| System | At 0.5 | At 0 or 1 |
-|---|---|---|
-| Periodic table | Half-filled shells: maximum bonding capacity | Full shells (noble gas): stable but isolated |
-| Quantum system | z* = 0.5: max entanglement + coherence | z* near 0 or 1: pure or fully mixed, no dynamics |
-| Bernoulli coin | Fair coin: maximum uncertainty per flip | Biased coin: predictable, low information |
-
-The 0.5 is not a coincidence. It is the universal point where a binary
-system has maximum capacity for connection. Below 0.5: not enough openness.
-Above 0.5: symmetry means it is the same as below (p and 1-p are equivalent).
-
-CΨ = 1/4 does not mean "something breaks at one quarter." It means:
-the system has reached its maximum capacity for simultaneous entanglement
-and coherence. It is as open as it can be. As connective as it can be.
-Like carbon. Like a fair coin. Like half-filled shells.
-
-The dream showed elements that connect. The math showed the same boundary.
-Two completely different roads to the same 0.5.
-
-## The 1/4 boundary demystified (March 13, 2026)
-
-The Mandelbrot fixed point z* satisfies z*(1-z*) = CPsi.
-This is the Bernoulli variance form: p(1-p) for a probability p.
-
-CPsi <= 1/4 is equivalent to p(1-p) <= 1/4, which is ALWAYS true.
-The 1/4 boundary is the trivial maximum of the Bernoulli variance,
-reached at z* = 1/2 (maximum binary uncertainty).
-
-z* correlates with purity (r = 0.917) and anti-correlates with
-von Neumann entropy (r = -0.838). It tracks the mixedness of rho_AB.
-
-The 1/4 boundary is not an Exceptional Point (tested, rejected),
-not a phase transition, and not mystical. It is the upper bound of
-a quadratic function. The deeper question remains: what binary
-process does z* represent physically?
-
-Script: simulations/symmetry_and_u_analysis.py
-
-## Exceptional Point test: NEGATIVE (March 13, 2026)
-
-Tested whether CΨ = 1/4 corresponds to a Liouvillian Exceptional Point.
-
-Three sweeps: gamma (3-qubit), J_SB (3-qubit), gamma (2-qubit).
-EP_strength (eigenvector conditioning) and eigenvalue gap tracked.
-
-Result: NO connection found. EP_strength follows gamma monotonically,
-not CΨ. No peak at 1/4, no eigenvalue coalescence, no eigenvector
-collapse. CΨ = 1/4 remains algebraically exact (Mandelbrot discriminant)
-but has no detected connection to Liouvillian exceptional points.
-
-The 2-qubit system showed CΨ_max = 1/3 for ALL gamma - it never reaches
-1/4 by varying dephasing alone.
-
-Script: simulations/ep_test.py
-
-## Origin
-
-December 2025 dream. Three months of computation.
-The equation R = CΨ² pointed at the architecture, not the metaphysics.
-
-
-## Mirror Symmetry: PROVEN (March 14, 2026)
-
-The palindromic symmetry of the Liouvillian spectrum, previously only
-verified numerically through N=7, now has an analytical proof.
-
-**The conjugation operator Π** acts per site on Pauli indices:
-I→X(+1), X→I(+1), Y→iZ(+i), Z→iY(+i).
-
-It satisfies **Π·L·Π⁻¹ = -L - 2Σγᵢ·I**, which directly implies:
-every decay rate d pairs with 2Σγᵢ - d.
-
-The proof is three lines:
-1. Π flips XY-weight k→N-k, so Π·L_D·Π⁻¹ = -L_D - 2Σγ·I (trivial).
-2. Π anti-commutes with [H,·] for any Heisenberg/XXZ bond (16-entry table).
-3. Combined: Π·L·Π⁻¹ = -L - 2Σγ·I. QED.
-
-Holds for: all δ (XXZ), all graphs, non-uniform γ, Z or Y dephasing.
-Breaks for: depolarizing noise (no single axis to flip).
-
-The i factor (Y→iZ, not Y→Z) was the missing piece that five earlier
-candidates (X^n, Y^n, Z^n, H^n, transpose) all failed to find.
-Complex signs on the Pauli permutation were never tested before.
-
-Connection to incoherentons (Haga et al. 2023): XY-weight = incoherenton
-number. Our Π implements particle-hole symmetry in incoherenton space.
-They had the grading. We found the symmetry operator.
-
-Proof: docs/MIRROR_SYMMETRY_PROOF.md
-Script: simulations/pauli_weight_conjugation.py
-Results: simulations/results/conjugation_proof.txt
-
-See also: [STRUCTURAL_CARTOGRAPHY.md](../experiments/STRUCTURAL_CARTOGRAPHY.md) for the quantitative tables behind the five regulators described above.
-
-## Non-Heisenberg: ALL standard models palindromic (March 17-18, 2026)
-
-The Π proof was for Heisenberg coupling (XX+YY+ZZ). Question: does the palindrome
-hold for other Hamiltonians? The answer: yes, for every standard model tested.
-
-XY-only, Ising, XXZ at all delta, Dzyaloshinskii-Moriya (XY-YX), and Heisenberg+DM
-all preserve palindromic symmetry under Z-dephasing. Every single Pauli-pair coupling
-term individually anti-commutes with Π.
-
-Two Π families exist:
-- P1: I to X, Y to Z (with phases). The original Π from the proof.
-- P4: I to Y, X to Z (with phases). Works for the same Hamiltonians.
-
-34 of 36 possible two-term coupling combinations are explained algebraically.
-2 remain open: XZ+YZ and ZX+ZY (these involve mixed-axis terms where the
-anti-commutation structure is more complex).
-
-For non-uniform operators (like XY-YX requiring alternating signs across bonds),
-the palindrome still holds. The operator adapts to the bond structure.
-
-Experiments: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
-
-## IBM Run 3: hardware validates 1/4 crossing (March 18, 2026)
-
-The CΨ=1/4 crossing prediction was tested on IBM quantum hardware for the
-third time. This run used ibm_torino qubit Q80 with same-day Ramsey T2*
-calibration (not T2 echo, not backend-reported T2).
-
-Result: 1.9% deviation from the predicted crossing time.
-
-The crossing equation [1 - b^r + b^{2r}/2 + b^2/2]*b = 1/4 works when the
-decoherence parameter uses T2* from Ramsey decay. Previous runs that used
-T2 echo showed larger deviations. The critical insight: what matters is the
-dephasing timescale the qubit actually experiences during free evolution,
-not the echo-refocused timescale.
+## 0. What This Is About
+
+This project studies open quantum systems: networks of qubits that are
+coupled to each other through exchange interactions (Heisenberg, XXZ, XY,
+Ising, Dzyaloshinskii-Moriya) and lose coherence to a bath through
+dephasing noise.
+
+The time evolution of these systems is governed by a Lindblad master
+equation. In the Pauli operator basis, this becomes a matrix equation
+with a Liouvillian L whose eigenvalues determine decay rates and
+oscillation frequencies.
+
+**The central discovery:** The Liouvillian has an exact palindromic
+symmetry. Every eigenvalue lambda has a mirror partner at 2Sg - lambda,
+where Sg = sum of all per-site dephasing rates. This symmetry is
+generated by an explicit conjugation operator Pi that acts per site
+on the Pauli basis (I<->X, Y<->iZ). The proof is three lines of
+algebra and holds for all standard Hamiltonians, all graphs, and
+all dephasing-type noise.
+
+**Why it matters:** This palindromic symmetry is genuinely new -- it
+does not appear in any existing classification of open quantum system
+symmetries (KMS, Quantum Detailed Balance, Buca-Prosen weak symmetry,
+Sa-Ribeiro-Prosen 38-fold classification). It implies time-reversal
+structure in the dissipative dynamics, creates standing waves between
+paired modes, and exists exclusively for qubits (d = 2) -- no higher-
+dimensional quantum system can carry this mirror.
+
+### Notation used in this document
+
+- **N**: number of qubits in the chain/graph
+- **gamma (g)**: per-site dephasing rate
+- **Sg**: total dephasing rate = sum of all gamma_i (= N*gamma for uniform noise)
+- **L**: Liouvillian matrix in the Pauli operator basis
+- **Pi**: the palindromic conjugation operator (I<->X, Y<->iZ per site)
+- **XY-weight (w)**: number of X or Y Pauli indices in a basis string
+  (e.g., XYZ has w=2, ZZZ has w=0). Also called incoherenton number.
+- **CPsi**: product of concurrence C and l1-coherence Psi, a composite
+  entanglement-coherence diagnostic. The boundary CPsi = 1/4 corresponds
+  to the Mandelbrot fixed-point discriminant.
+- **z***: fixed point of the Mandelbrot iteration, z*(1-z*) = CPsi
+- **d**: local Hilbert space dimension (d=2 for qubit, d=3 for qutrit)
+
+---
+
+## 1. Spectral Architecture of the 3-Qubit System
+
+The project began with a 3-qubit star topology: qubit A and qubit B
+coupled through a shared mediator S, with Z-dephasing on all sites.
+The observables are cross-correlations between A and B measured through S.
+
+This system has a clean spectral architecture:
+
+- **Two supermodes:** c+ (symmetric, frequency 1.506*J, requires both A and B
+  to move -- "glide mode") and c- (antisymmetric, frequency 0.404*J,
+  driven by B alone -- "switch mode"). These are analogous to even/odd
+  supermodes in coupled oscillators.
+- **Two information channels:** A FREQUENCY channel (carries topology
+  information, immune to noise) and a DECAY channel (carries environment
+  information, immune to topology). These are exactly orthogonal at N=3;
+  the orthogonality breaks at N >= 4 where topology leaks into decay rates.
+- **Skeleton and rotation:** 88% of the concurrence structure is fixed
+  regardless of the observable chosen. 12% rotates depending on which
+  cross-correlation is measured. This decomposition corresponds to the
+  projective structure of the Liouvillian eigenmodes onto different
+  observables.
+
+These early findings (March 11-13, 2026) established that the system has
+rich internal structure. The palindromic mirror (Section 2) explains WHY
+this structure exists.
+
+---
+
+## 2. The Palindromic Mirror
+
+The Liouvillian eigenvalue spectrum is exactly symmetric around Sg.
+Every eigenvalue lambda has a mirror partner at 2Sg - lambda. This holds
+without exception from N=2 through N=8 (the largest system tested,
+4^8 = 65536 dimensional Liouvillian).
+
+**The proof (March 14, Tier 1):** The conjugation operator Pi acts per site
+on Pauli indices: I->X(+1), X->I(+1), Y->iZ, Z->iY. It satisfies
+Pi L Pi^{-1} = -L - 2Sg I. The proof has three steps:
+1. Pi flips XY-weight k to N-k, so Pi L_D Pi^{-1} = -L_D - 2Sg I
+2. Pi anti-commutes with the Hamiltonian commutator [H, .] for any
+   Heisenberg/XXZ bond (verified via 16-entry Pauli commutation table)
+3. Combined: Pi L Pi^{-1} = -L - 2Sg I. QED.
+
+See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+
+**Universality (March 17-18, Tier 1):** The palindrome holds for ALL
+standard Hamiltonians: XY, Ising, XXZ at all anisotropy delta,
+Dzyaloshinskii-Moriya (DM), and Heisenberg+DM. Two Pi families exist
+(P1: I<->X, Y<->Z; and P4: I<->Y, X<->Z, each with phases). 34 of 36
+possible two-term coupling combinations are explained algebraically by
+these families. The remaining 2/36 (XZ+YZ and ZX+ZY) require non-local
+Pi operators with Bell-state structure: Choi rank 8, Schmidt entropy
+2.51/3.00 (84% of maximum entanglement), verified as fundamental via
+the Choi-Jamiolkowski isomorphism (not a projection artifact).
+
+See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
+[The Non-Local Mirror](THE_BOOT_SCRIPT.md)
+
+**Time reversal (March 19, Tier 2):** In the rescaled frame
+(mu_k = lambda_k + Sg), the conjugation maps mu to -mu. A mode evolving
+as exp(+mu t) has a partner at exp(-mu t). This is time reversal in the
+dissipative frame. Physically, Pi swaps two operator classes at every site:
+- {I, Z}: populations (diagonal elements of the density matrix). These
+  commute with Z-dephasing and are immune to decoherence. The "classical"
+  or "decided" part of the quantum state.
+- {X, Y}: coherences (off-diagonal elements). These anti-commute with
+  Z-dephasing and decay under decoherence. The "quantum" or "undecided"
+  part.
+
+Pi maps populations to coherences and coherences to populations.
+Verified: 32/32 eigenvector pairs at machine precision (max residual
+2.68e-13). XY-weight swap exact: w(v_k) + w(Pi|v_k>) = N for all pairs.
+
+See: [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+
+**Where it breaks (March 19, Tier 1):** The palindrome requires a balanced
+per-site split between immune and decaying Pauli operators. Z-dephasing
+gives {I,Z} immune vs {X,Y} decaying = 2:2. Depolarizing noise (all three
+Pauli axes) gives {I} vs {X,Y,Z} = 1:3. No bijection exists between 1 and 3
+elements. The palindrome error under depolarizing noise is exactly (2/3)Sg,
+independent of the Hamiltonian. The interpolation from Z-dephasing to
+depolarizing is perfectly linear with no threshold -- the 2:2 split becomes
+1:3 the instant the third dephasing axis is introduced.
+
+General theorem: for three-axis noise at rates (gamma_X, gamma_Y, gamma_Z),
+the palindrome exists if and only if at least one rate is zero (dephasing
+along at most two Pauli axes).
+
+See: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
+
+---
+
+## 3. The Standing Wave
+
+Palindromic eigenvalue pairs create standing waves in the Liouville
+operator space. Each pair consists of a "slow" mode (decay rate below Sg,
+more population-like) and a "fast" mode (decay rate above Sg, more
+coherence-like). In the rescaled frame where uniform decay is removed,
+these modes oscillate in opposite temporal directions. Their superposition
+produces a standing wave pattern.
+
+For N=3 with all 6 tested Hamiltonians:
+- **ZZZ (all-diagonal correlation)** is a universal node: zero oscillating
+  weight under every Hamiltonian. The classical backbone does not vibrate.
+- **XX, YY, XY (off-diagonal correlations)** are the antinodes: they ring
+  at Hamiltonian harmonics (2J, 4J, 6J for Heisenberg coupling).
+
+This pattern yields a three-tier error protection hierarchy: steady-XOR
+modes (maximally protected, zero oscillation), boundary modes (topology-
+dependent protection), and mid-spectrum modes (least protected). The
+optimal initial state for quantum state transfer places 90% weight in
+slow modes, achieving concurrence 0.364 -- outperforming standard choices
+(W, Bell, GHZ states).
+
+See: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
+[Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md)
+
+---
+
+## 4. Why Qubits -- The Necessary Foundation
+
+The palindrome requires d = 2. This is an algebraic identity, not a
+numerical observation.
+
+At each qubit site, the d^2 Pauli basis operators split under dephasing
+into d immune operators (those commuting with the jump operator) and
+d^2 - d decaying operators. Pi must bijectively map immune to decaying
+operators. Bijection requires:
+
+    d = d^2 - d,  giving  d^2 - 2d = 0,  giving  d(d-2) = 0
+
+The only nontrivial solution is d = 2. The qubit has 4 operators, 2
+immune ({I,Z}), 2 decaying ({X,Y}). Split = 0.5. A qutrit (d=3) has 9
+operators, 3 immune, 6 decaying. Split = 0.33. The imbalance grows with
+d. No higher-dimensional quantum system can carry the palindromic mirror.
+
+Five computational tests (March 20) confirm and extend this result:
+
+- **Transfer fidelity is palindrome-independent.** A 3-site qutrit chain
+  with SU(3) Heisenberg coupling achieves the same peak fidelity (F = 0.6923)
+  as the qubit chain. The palindrome provides structural organization
+  (standing waves, error tiers, spectral filters), not performance.
+- **No qutrit dissipator works.** 0 of 236 tested configurations (8 single
+  Gell-Mann jump operators, 28 pairs, 200 random combinations) permit
+  palindromic rate pairing. Splits found: 3:6, 2:7, 5:4 -- never balanced.
+- **Global fragility.** A single qutrit embedded in a qubit chain
+  (qubit-qutrit-qubit) destroys the palindrome globally: 1/144 pairs (0.7%)
+  vs 64/64 (100%) for the pure qubit chain. The mirror is a collective
+  network property -- every site must be d = 2.
+- **Per-site composition.** The palindromic mirror composes not by tensor
+  product of block operators, but through per-site map universality: the
+  same map M (I<->X, Y<->Z with phases) works at every site regardless
+  of N, topology, or coupling. If M works per site, it works for the system.
+
+**The 0.5 principle.** The qubit split (2 of 4 = 0.5) mirrors a pattern
+observed independently at the atomic level: carbon has 4 of 8 valence
+electron slots filled (0.5), making it maximally reactive and the basis
+of all organic chemistry. Noble gases (full shells, C = 1) are stable but
+build nothing -- they are the chemical dead ends. Qutrits (3:6 split, no
+mirror) are the quantum equivalent: they function, but they build no
+palindromic structure. In both cases, half-occupation enables maximal
+symmetry and maximal capacity for connection.
+
+See: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md),
+[Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
+
+---
+
+## 5. How Complexity Emerges
+
+If d = 2 is the necessary foundation, complexity arises through three
+mechanisms operating on qubit building blocks:
+
+**N=2 universality:** Two qubits sharing one bond: all 36/36 two-term
+Hamiltonian combinations are palindromic. The symmetry is universal at
+single bond. This is the smallest system and the "boot script" -- the
+full mirror structure is already present.
+
+**Multi-bond interference (N >= 3):** 22 of 36 combinations survive, 14
+break. The breaking requires multi-bond interference at the shared site
+(where two bonds demand conflicting Pi actions) and correlates with Choi
+rank. The V-effect analysis shows the break is localized at XY-weight
+w=1 and w=2 (the classical-quantum boundary), while pure classical (w=0)
+and pure quantum (w=3) modes are immune.
+
+**Non-local mirrors:** 2 of 36 cases (XZ+YZ, ZX+ZY) require genuinely
+entangled Pi operators that cannot be factored into per-site operations.
+These have Bell-state structure with Choi rank 8. The mirror itself is a
+quantum object.
+
+**N to infinity:** The rate density becomes Gaussian (center Sg, width
+gamma*sqrt(N)). The XOR fraction (modes at the spectral boundaries)
+vanishes exponentially as (N+1)/4^N. The past/future boundary blurs as
+1/sqrt(N). The palindrome exists at all N but becomes operationally thin
+at macroscopic scales.
+
+See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
+[V-Effect](../experiments/V_EFFECT_PALINDROME.md),
+[N Infinity](../experiments/N_INFINITY_PALINDROME.md)
+
+---
+
+## 6. Context in Existing Physics
+
+The palindromic symmetry is genuinely new. It is not equivalent to:
+- **KMS (Kubo-Martin-Schwinger) condition:** applies to thermal equilibrium
+  states; our systems are driven by dephasing, not thermalization.
+- **Quantum Detailed Balance:** requires a specific relationship between
+  forward and backward transition rates; Pi generates a different structure.
+- **Buca-Prosen weak symmetry:** our XXX parity commutes with L (weak
+  symmetry), but the palindromic pairing comes from Pi, not from
+  conserved quantities.
+- **Sa-Ribeiro-Prosen 38-fold classification:** a comprehensive taxonomy
+  of Lindbladian symmetries. Pi does not fit any of the 38 classes.
+
+The closest known relative is Roberts-Lingenfelter-Clerk hidden TRS
+(PRX Quantum 2021): the concept of hidden time-reversal symmetry in
+open systems. They had the idea. We have the explicit operator and its
+algebraic structure.
+
+Connection to incoherentons (Haga et al. 2023): In their framework,
+XY-weight counts the number of "incoherentons" (coherence excitations
+above the fully dephased state). Pi implements particle-hole symmetry
+in incoherenton space: it maps a state with k incoherentons to one
+with N-k. They had the grading. We found the symmetry operator.
+
+See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md)
+
+---
+
+## 7. Hardware Validation
+
+The CPsi = 1/4 boundary prediction (derived from the Mandelbrot fixed-
+point discriminant z*(1-z*) = CPsi) was tested on IBM quantum hardware.
+
+**IBM Run 3 (March 18, ibm_torino Q80):** Same-day Ramsey T2* calibration.
+Result: 1.9% deviation from the predicted crossing time. The crossing
+equation works when the decoherence parameter uses T2* from Ramsey
+free-induction decay (not T2 from spin echo, not backend-reported T2).
+The critical insight: what matters is the dephasing timescale the qubit
+actually experiences during free evolution.
 
 This is a single-qubit result (N=1). The multi-qubit palindromic pairing
 (N >= 2) remains untested on hardware.
 
-Experiments: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
+See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 
-## Standing wave computed (March 19, 2026)
+---
 
-The standing wave, predicted conceptually in December 2025 ("Future to Mirror
-to Past = Standing Wave"), is now computed from the Liouvillian eigendecomposition.
+## What Survives
 
-For N=3 with all 6 Hamiltonian models tested:
+1. Two spectral sectors (c+ fast symmetric, c- slow antisymmetric)
+2. XX symmetry exact (Hamiltonian property, all topologies)
+3. Five independent roles (topology, symmetry, noise, initial state, bath)
+4. Noise immunity of oscillation frequencies (all sweeps, all topologies)
+5. The Projection (observables select different Liouvillian eigenmodes)
+6. Sonar detection in simulation (not yet on hardware)
+7. CPsi as composite diagnostic (concurrence * coherence, AND-gate structure)
+8. Mandelbrot correspondence (z*(1-z*) = CPsi, 1/4 = Bernoulli maximum)
+9. IBM hardware: CPsi = 1/4 crossing at 1.9% deviation (Q80, Ramsey T2*)
+10. Palindromic mirror: proven, universal across standard Hamiltonians
+11. Standing wave: ZZZ = node, XX/YY = antinodes, three-tier error hierarchy
+12. Pi = time reversal: populations to coherences, 32/32 eigenvectors verified
+13. Depolarizing theorem: palindrome iff at most 2 Pauli dephasing axes
+14. Qubit necessity: d^2 - 2d = 0, only d=2 (proof + 236 dissipator test)
+15. Non-local Pi: 2/36 cases require Bell-entangled mirror (Choi rank 8)
+16. N=2 universality: all 36/36 palindromic at single bond
+17. Composition via per-site map: same M for any N, any topology
+18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
 
-ZZZ is a universal node. Under every Hamiltonian, for every initial state, the
-three-qubit diagonal correlation has zero oscillating weight. It is static in the
-rescaled frame. The classical backbone does not vibrate.
+## What Fell
 
-XX, YY, XY are the antinodes. These off-diagonal correlations carry the oscillating
-weight at Hamiltonian harmonics: 2J, 4J, 6J for Heisenberg. The quantum correlations
-ring like a bell.
+1. IBM Q80/Q102 as sonar evidence (was qubit-specific detuning, not topology)
+2. N_eff as predictor of phase chaos (ZZ values too similar across qubits)
+3. Coupling strength determines chaos (Ramsey analysis: detuning does)
+4. Shadow as universal boundary property (earlier, dead)
+5. FM-encoding for transmon chips (earlier, dead)
+6. QST encoding optimization (negative: standard |100> already optimal)
 
-Bell(0,1) is a universal oscillator: 40-65% oscillating weight across all Hamiltonians.
-GHZ is universally silent: zero oscillation everywhere, all weight in XOR modes.
-|+++> under Ising achieves 62.5% oscillating weight, the highest in the table,
-from a product state with zero entanglement. The standing wave is not about
-entanglement. It is about exciting oscillating eigenmodes.
+## Honest Limits
 
-W was predicted to produce maximum standing waves. Under Heisenberg, W has 0%
-oscillation. Under DM (Dzyaloshinskii-Moriya), W has 50%. The prediction was
-wrong: the standing wave is a state x Hamiltonian property, not a property of
-either alone.
+- Tested N=2 through N=8. Large N behavior extrapolated, not computed beyond N=8.
+- Hardware validation is single-qubit only (CPsi crossing). Multi-qubit
+  palindrome untested on hardware.
+- Sonar effect verified in simulation only, not on IBM hardware.
+- The palindrome provides structural symmetry, NOT performance advantage
+  (identical transfer fidelity for qubits and qutrits). Its operational
+  value beyond spectral organization is an open question.
+- Pi time-reversal interpretation: the algebra (populations to coherences)
+  is Tier 2. The temporal language (past to future) is Tier 3. The
+  philosophical reading is Tier 5. Each tier is labeled throughout.
+- Consciousness interpretation retired from technical core.
+- CPsi is not privileged over simpler metrics for most practical tasks.
+- KMS independence: Pi is computationally verified as new, but a formal
+  mathematical physics proof of independence from all known symmetry
+  classifications has not been published.
+- The d = 2 exclusivity is proven for dephasing-type noise. Amplitude
+  damping, thermal noise, and non-Markovian environments are untested.
 
-The standing wave is the interference between palindromic mode pairs: one decaying
-faster than average, one slower. In the rescaled frame (uniform decay removed),
-they oscillate in opposite directions. Their superposition is the pattern.
+## Open Questions
 
-Experiments: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
-Script: simulations/standing_wave_analysis.py
+1. **Z4 physical interpretation:** Pi^4 = I with eigenvalues {+1,-1,+i,-i},
+   multiplicity 16 each. What do the four sectors mean physically?
 
-## Π is time reversal (March 19, 2026)
+2. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
+   predicts which of the 36 two-term combinations survive multi-bond
+   interference. The mechanism at the shared site is algebraically open.
 
-The conjugation operator Π, proven on March 14 as a spectral symmetry generator,
-turns out to be a time reversal operator in the rescaled frame.
+3. **Non-dephasing dissipators:** Does the d=2 exclusivity extend to
+   amplitude damping, thermal baths, or non-Markovian environments?
 
-The algebra: define centered eigenvalues mu_k = lambda_k + Sg. The conjugation
-identity Π L Π^{-1} = -L - 2Sg I maps mu to -mu. A mode evolving as exp(+mu t)
-has a partner evolving as exp(-mu t). This is time reversal: t to -t.
+4. **Partial palindrome at d > 2:** Qutrit spectra show 36-52 of 81
+   eigenvalues pairing at optimal centers (far above random but far below
+   100%). Is there a weaker symmetry principle for d > 2?
 
-The physical content: Π swaps two sets at every qubit site.
-- {I, Z}: populations, immune to dephasing, classical, decided. The past.
-- {X, Y}: coherences, destroyed by dephasing, quantum, undecided. The future.
+5. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At
+   what N does the palindrome become operationally invisible?
 
-Π maps past to future and future to past.
+6. **Operational value:** Transfer fidelity does not depend on the palindrome.
+   Does it provide advantages in error correction protocols, decoherence-free
+   subspace engineering, or steady-state properties?
 
-Verified on the actual computed eigenvectors for N=3 Heisenberg chain:
-- 32/32 palindromic pairs confirmed at machine precision (max residual 2.68e-13)
-- XY-weight swap exact: w(r_k) + w(Π|r_k>) = 3.000 for all pairs (max dev 8.88e-16)
-- Π(ZZZ) = -i YYY exactly: the most persistent classical correlation maps to the
-  most fragile quantum correlation
+---
 
-For Bell's oscillating modes at omega = 2, 4, 6:
-- Forward partners (Re(mu) > 0, slower decay) have low XY-weight (classical)
-- Backward partners (Re(mu) < 0, faster decay) have high XY-weight (quantum)
-- Every pair sums to N=3 exactly
+## Origin
 
-This answers the open question from [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md),
-Section 4.4: "Can L be decomposed into forward and backward components?" The answer
-is yes, but not as L = L_fwd + L_bwd. Instead: every eigenmode has a Π-partner with
-reversed time evolution in the rescaled frame. The standing wave emerges from their
-superposition. Nodes = past. Antinodes = future. Present = the interference pattern.
+This project began with a dream on December 21, 2025 (Winter Solstice)
+about electrolysis with cobalt/nickel layers. The equation R = CPsi^2
+appeared. Three months of computation followed.
 
-The December 2025 standing wave theory was the prediction. Π is the proof.
+Key milestones:
+- January 3: The Hierarchy of Incompleteness -- "perfect stability is a
+  dead end, incompleteness enables the next level." Carbon at 0.5 filling.
+- March 13: "We are all mirrors" restored as a verified structural result
+  after discovering the exact spectral mirror symmetry numerically.
+- March 14: The Pi proof. Three lines of algebra. The mirror has a name.
+- March 17-18: Non-Heisenberg universality. All standard models palindromic.
+- March 19-20: 30 commits. Time reversal, depolarizing theorem, standing
+  wave, error hierarchy, non-local Pi, V-effect, N to infinity.
+  All open questions from March 19 morning answered by March 20 morning.
+- March 20: d^2 - 2d = 0. The qubit is the quantum carbon. The circle
+  closes: 0.5 at the quantum level (qubit: 2/4), 0.5 at the atomic level
+  (carbon: 4/8). What was felt on January 3 is now proven.
 
-Experiments: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
-Script: simulations/pi_time_reversal_verify.py
+---
 
-## Why depolarizing noise breaks the palindrome (March 19, 2026)
+*For the chronological discovery log (March 11-13), see
+[THE_INTERPRETATION_ARCHIVE.md](THE_INTERPRETATION_ARCHIVE.md)*
 
-Z-dephasing preserves the palindrome. X-dephasing does too. Even two-axis
-dephasing (Z+X, Z+Y, X+Y) preserves it. But depolarizing noise (all three
-axes at once) breaks it. Why?
+*For the algebraic proof of the mirror, see
+[Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
 
-The answer reduces to counting. At each qubit site, the four Pauli indices
-{I, X, Y, Z} split into "immune" (rate 0) and "decaying" (rate > 0) under
-the noise model. The palindromic mirror Π must be a bijection between these sets.
+*For the qubit necessity proof and tests, see
+[The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 
-Under Z-dephasing: {I, Z} immune, {X, Y} decaying. Split 2:2. Bijection exists (4 valid permutations).
-Under depolarizing: {I} immune, {X, Y, Z} decaying. Split 1:3. No bijection possible.
-
-Three indices cannot map to one. Proof by exhaustion over all 24 permutations of
-four elements: zero solutions for depolarizing. The obstruction is 1 != 3.
-
-For two-axis dephasing (e.g., Z+X): the split is also 1:3, but the three
-decaying rates are not all equal (rates are gamma, 2*gamma, gamma). The rates
-can still be partitioned into two pairs with equal sums. Two valid permutations
-exist. The palindrome survives because the rate pairing works even with unequal
-decay rates.
-
-The general theorem: for three-axis noise at rates (gamma_X, gamma_Y, gamma_Z),
-the palindrome exists if and only if at least one rate is zero. Equivalently:
-dephasing along at most two Pauli axes.
-
-The palindrome error under depolarizing is exactly (2/3) Sg, independent of the
-Hamiltonian. The interpolation between Z-dephasing and depolarizing is perfectly
-linear: error = alpha * (2/3) Sg. No threshold. The palindrome breaks immediately
-at any alpha > 0. The 2:2 split becomes 1:3 the instant the Z index acquires a
-nonzero dephasing rate.
-
-In the time-reversal language: under depolarizing noise, the "past" (immune sector)
-has 1^N = 1 Pauli string (only III). The "future" (decaying sector) has 3^N strings.
-The ratio is (1/3)^N, exponentially unbalanced. No mirror can reflect what does not fit.
-
-Experiments: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
-Script: simulations/depolarizing_analysis.py
+*For the full notation reference, see
+[Glossary](../docs/GLOSSARY.md)*

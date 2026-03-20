@@ -1,0 +1,162 @@
+Qubit Necessity: Five Computational Tests
+Started: 2026-03-20 10:38:43
+gamma = 0.05
+
+======================================================================
+TEST 1: QST COMPARISON — QUBIT CHAIN VS QUTRIT CHAIN
+======================================================================
+
+Qubit chain (d=2, N=3):
+  Hilbert dim = 8, Liouville dim = 64
+  Palindromic pairing: 64/64
+  Max transfer fidelity: 0.6923 at t=1.11
+  Oscillating modes: 40/64
+  Decay rate range: [-0.3000, 0.0000]
+
+Qutrit chain (d=3, N=3):
+  Hilbert dim = 27, Liouville dim = 729
+  Palindromic pairing (center=0.300): 82/729
+  Pairing at center=0.200: 29/729
+  Pairing at center=0.400: 507/729
+  Pairing at center=0.600: 10/729
+  Max transfer fidelity: 0.6923 at t=1.11
+  Oscillating modes: 512/729
+  Decay rate range: [-0.3000, 0.0000]
+
+Comparison:
+                            Qubit     Qutrit
+     Palindromic pairs         64         82
+      Max QST fidelity     0.6923     0.6923
+     Oscillating modes         40        512
+
+[Test 1 completed in 20.9s]
+
+======================================================================
+TEST 2: QUTRIT EIGENVALUE STRUCTURE
+======================================================================
+
+N=2 qutrit chain: 81 eigenvalues
+
+Pairing check at various centers:
+  center=0.200: 36/81 paired
+  center=0.300: 52/81 paired
+  Best center: 0.0000 with 1/81 paired
+
+Magnitude pairing (|lambda_i| = |lambda_j|): 80/81
+Conjugate pairs (complex eigenvalues): 36/81
+Level spacing: mean=0.066667, std=0.023570, std/mean=0.354
+  (Poisson ~ 1.0, GUE ~ 0.52)
+Random matrix pairing at center=0: 0/81
+
+Eigenvalue spectrum (sorted by real part):
+    0:  -0.200000 +   4.000000i
+    1:  -0.200000 +   4.000000i
+    2:  -0.200000 +  -0.000000i
+    3:  -0.200000 +  -4.000000i
+    4:  -0.200000 +   0.000000i
+    5:  -0.200000 +   0.000000i
+    6:  -0.200000 +   0.000000i
+    7:  -0.200000 +  -0.000000i
+    8:  -0.200000 +   0.000000i
+    9:  -0.200000 +   0.000000i
+   75:  -0.000000 +   0.000000i
+   76:  -0.000000 +   0.000000i
+   77:   0.000000 +   0.000000i
+   78:   0.000000 +   0.000000i
+   79:   0.000000 +   0.000000i
+   80:   0.000000 +  -0.000000i
+
+[Test 2 completed in 0.0s]
+
+======================================================================
+TEST 3: HYBRID CHAIN — QUBIT-QUTRIT-QUBIT
+======================================================================
+
+System: qubit(d=2) - qutrit(d=3) - qubit(d=2)
+Total Hilbert dim = 12, Liouville dim = 144
+
+Palindromic pairing search (hybrid chain):
+  Best center: 0.0000 with 1/144 paired (tol=1e-4)
+  At center=0.0000, tol=1e-03: 1/144 paired
+  At center=0.0000, tol=1e-02: 1/144 paired
+  At center=0.0000, tol=5e-02: 1/144 paired
+
+Control: pure qubit N=3 chain: 64/64 paired
+
+Spectral comparison:
+                                Hybrid   Pure qubit
+          Total eigenvalues        144           64
+          Oscillating modes         96           40
+     Best palindromic pairs          1           64
+       Palindromic fraction       0.7%       100.0%
+
+[Test 3 completed in 0.1s]
+
+======================================================================
+TEST 4: EXHAUSTIVE QUTRIT DISSIPATOR SEARCH
+======================================================================
+
+Phase 1: Single Gell-Mann matrix as jump operator (8 cases)
+   Jump op  Immune  Decaying    Split  Pairs?
+--------------------------------------------------
+        l1       3         6      3:6      no
+        l2       3         6      3:6      no
+        l3       3         6      3:6      no
+        l4       2         7      2:7      no
+        l5       2         7      2:7      no
+        l6       2         7      2:7      no
+        l7       2         7      2:7      no
+        l8       5         4      5:4      no
+  Phase 1 result: 0/8 have valid rate pairing
+
+Phase 2: Pairs of Gell-Mann matrices as jump operators (28 cases)
+  Phase 2 result: 0/28 have valid rate pairing
+
+Phase 3: Random linear combinations of Gell-Mann matrices (100 samples)
+  Phase 3 result: 0/100 have valid rate pairing
+
+Phase 3b: Random pairs of linear combinations (100 samples)
+  Phase 3b result: 0/100 have valid rate pairing
+
+SUMMARY: 0/236 dissipator configurations allow rate pairing
+  NO qutrit dissipator permits a palindromic Pi.
+  The exclusivity claim extends beyond diagonal dephasing:
+  d=2 is necessary for ANY physically motivated dephasing noise.
+
+[Test 4 completed in 0.0s]
+
+======================================================================
+TEST 5: COMPOSITION PROOF — TENSOR PRODUCT OF Pi OPERATORS
+======================================================================
+
+N=2 Heisenberg: 16/16 paired, error=2.61e-15
+
+DECOUPLED N=4 (bonds (0,1) and (2,3) only):
+  Pi_tensor = Pi_2 x Pi_2
+  Palindrome error: 5.15e-15
+  PASS: tensor product Pi works for decoupled blocks
+
+COUPLED N=4 (bonds (0,1), (1,2), (2,3)):
+  Pi_tensor = Pi_2 x Pi_2
+  Palindrome error: 1.31e+00
+  FAIL: tensor product Pi FAILS for coupled chain
+
+  Eigenvector-constructed Pi_4:
+  Paired: 256/256
+  Palindrome error: 2.16e-14
+  ||Pi_tensor - Pi_eigvec|| / ||Pi_eigvec|| = 1.0774
+
+  Canonical per-site Pi_4 (I<->X, Y<->Z):
+  Palindrome error: 0.00e+00
+  PASS
+
+COMPOSITION SUMMARY:
+  Decoupled: Pi_2 x Pi_2 works perfectly (error 5.15e-15)
+  Coupled: Pi_2 x Pi_2 FAILS (error 1.31e+00)
+  But canonical per-site Pi works (error 0.00e+00)
+  The per-site Pi adapts to the coupled topology automatically
+
+[Test 5 completed in 1.7s]
+
+Total runtime: 22.8s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\qubit_necessity_tests.txt
