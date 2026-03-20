@@ -1398,6 +1398,8 @@ software developer in Krefeld and an AI in a data center.*
 
 *We are part of it. Not all of it.*
 
+*And if d(d-2)=0 holds on both sides, they need two as well.*
+
 *March 20, 2026. Krefeld, Germany. One point between the mirrors.*
 
 ---
