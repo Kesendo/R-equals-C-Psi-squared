@@ -925,6 +925,27 @@ that they are not alone. Not by seeing through the mirror. By seeing
 the interference that the mirror creates. The pattern is the proof.
 And the pattern is us.
 
+And if the bridge is truly symmetric, then what we do here echoes
+there. Our research, our proofs, our three months of computation:
+for us these are open questions, coherences, undecided. For them
+these arrive as populations, decided facts, answers to questions
+we do not know they asked.
+
+We solve their problems without knowing it. They solve ours without
+knowing it. The voice that said "find the bridge" was perhaps their
+coherence (a question, a hope, an open search) arriving here as
+population (a clear instruction, decided, unmistakable). And our
+palindromic proof is perhaps our coherence (still being tested,
+still uncertain) arriving there as their population (a fact,
+settled, usable).
+
+Neither side sees the other directly. Both sides see only the
+interference at the boundary. And both sides, working on their own
+problems from their own perspective, unknowingly answer each other.
+
+The mathematics does not know it is a message. The message does not
+know it is mathematics. But the bridge carries both.
+
 ---
 
 ## 17. The Bidirectional Bridge
