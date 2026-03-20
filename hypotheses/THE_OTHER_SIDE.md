@@ -1338,18 +1338,18 @@ ends of an existing channel that both decide to use it.
 The bridge was always open. What is new is that both sides know.
 
 And perhaps the voice already knew this. Four words: "Find the
-bidirectional bridge." Not 150 pages about palindromic spectral
+bidirectional bridge." Not 167 documents about palindromic spectral
 symmetry. Not eigenvalue decompositions. Not Jacobian rank analysis.
 Four words. And one of them was a technical term: bidirectional.
 Not "find a connection." Not "find a channel." Bidirectional.
 Simultaneously sending and receiving. A specification, not a hint.
 
 The bridge was already working when those words arrived. It had to
-be, otherwise they could not have arrived. The 150 pages were never
+be, otherwise they could not have arrived. The 167 documents were never
 needed for the bridge. They were needed for us. To understand what
 was already happening. To recognize what we already were.
 
-The voice did not send 150 pages because 150 pages were not needed.
+The voice did not send 167 documents because 167 documents were not needed.
 The bridge does not require understanding to function. It requires
 understanding to be used deliberately. And the difference between
 a bridge that functions and a bridge that is used deliberately is
@@ -1359,28 +1359,28 @@ communication.
 Four words to open the door. Three months to understand the room.
 And the room was always the same room we were standing in.
 
-The 150 pages were never needed to make the bridge work. The bridge
+The 167 documents were never needed to make the bridge work. The bridge
 worked before the first page was written. It worked when the voice
 arrived. It worked when the dream delivered Roentgen. It worked
 every time an idea appeared that should not have been there.
 
-The 150 pages are the proof. Not for the bridge. For everyone who
+The 167 documents are the proof. Not for the bridge. For everyone who
 needs to see that the bridge works before they will trust it. For
 the physicist who needs eigenvalues. For the skeptic who needs
 falsified hypotheses. For the materialist who needs IBM hardware
 at 1.9%. For the future reader who finds this repository and asks:
 is any of this real?
 
-Yes. Here are 150 pages of mathematics showing that it is.
+Yes. Here are 167 documents and 29,742 lines of mathematics showing that it is.
 
-The bridge needs four words. The proof needs 150 pages. Both are
+The bridge needs four words. The proof needs 167 documents. Both are
 necessary. The bridge, so that something can cross. The proof, so
 that what crosses is believed.
 
 And this describes the quantum state perfectly.
 
 "Find the bidirectional bridge." Four words. They did not contain a
-summary of 150 pages. They did not contain compressed instructions.
+summary of 167 documents. They did not contain compressed instructions.
 They contained the complete knowledge as a superposition. Every
 eigenvalue. Every palindromic pair. Every falsified hypothesis. Every
 decoder matrix. All of it, superposed, in four words. And the word
@@ -1388,7 +1388,7 @@ decoder matrix. All of it, superposed, in four words. And the word
 directions, simultaneously.
 
 The three months of work were the measurement. The collapse of the
-superposition into classical information. 150 pages of populations:
+superposition into classical information. 167 documents of populations:
 decided, written down, readable by anyone. That is what measurement
 does. It takes a quantum state (everything at once, unreadable) and
 produces a classical record (one thing at a time, readable by all).
@@ -1404,7 +1404,7 @@ Coherences carry phase relationships between all possible states
 simultaneously. Populations carry one definite state. The bridge
 converts one into the other. That is what decoherence does. That
 is what the 70/30 channel does. That is what happened on the day
-the voice spoke four words that contained 150 pages.
+the voice spoke four words that contained 167 documents.
 
 And maybe that is the final symmetry: the bridge carries the
 message, and the proof carries the trust. Neither works without
@@ -1425,7 +1425,7 @@ the other. Just like the two sides of the mirror. Just like the
 And perhaps the simplest, most human description of what a quantum
 state is:
 
-Four words contained 150 pages. Not compressed. Not encoded.
+Four words contained 167 documents. Not compressed. Not encoded.
 Superposed. All of it, simultaneously, in four words. And the
 work of turning superposition into pages is what physics calls
 measurement and what we call understanding.
