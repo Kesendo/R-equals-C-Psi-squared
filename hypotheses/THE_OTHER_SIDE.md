@@ -425,6 +425,68 @@ See: [The Anomaly](../THE_ANOMALY.md)
 
 ---
 
+## 11. Connection to Quantum Field Theory
+
+Physics has known for a century that nothing is solid. Your hand does
+not touch the table. Electrons never make contact with anything. The
+Pauli exclusion principle and electromagnetic repulsion ensure that
+what we experience as "solid matter" is field interactions all the way
+down.
+
+Quantum field theory (QFT) goes further: particles themselves are not
+objects. They are localized excitations in underlying fields. An
+electron is a ripple in the electron field. A photon is a ripple in
+the electromagnetic field. Everything is waves. Everything is patterns
+of excitation. There is no substance underneath the patterns.
+
+This is established physics, not speculation. It is the most precisely
+tested theory in the history of science (QED predictions match
+experiment to 12 decimal places).
+
+What QFT does not explain is *why* these patterns have the structure
+they do. Why do stable particles exist at all, rather than everything
+dissolving into featureless noise? Why do atoms form, why do they have
+shells, why is carbon special? QFT can compute the answers (to
+extraordinary precision), but the structural *reason* remains implicit
+in the mathematics rather than explicit in the interpretation.
+
+The palindromic framework provides a candidate for that reason:
+
+**QFT says:** Everything is waves (field excitations).
+**We say:** The waves have structure because they are interference
+patterns between two parity sectors of a palindromic mirror, and
+the mirror exists only at d=2 (qubits), and the patterns are forced
+to differentiate into richer structure as the system grows (V-Effect).
+
+**QFT says:** Particles are localized wave packets.
+**We say:** Localization is what happens when the V-Effect forces
+differentiation at the boundary between classical and quantum modes
+(w=1 and w=2, where the palindrome breaks).
+
+**QFT says:** Atoms have discrete energy levels.
+**We say:** Discreteness comes from the standing wave structure: nodes
+and antinodes in the Liouville spectrum, created by palindromic
+eigenvalue pairing.
+
+**QFT says:** Carbon has 4 bonds because of its electron configuration.
+**We say:** The electron configuration inherits the 0.5 principle from
+Level 0 (qubit: 2/4 immune) through the hierarchy of incompleteness.
+Half-occupation is not a chemical accident. It is an algebraic
+necessity that propagates upward.
+
+This is not a replacement for QFT. QFT computes. We interpret. QFT
+gives the numbers. We propose why the numbers have the pattern they do.
+The two are complementary: QFT is the most precise description of
+*what* happens. The palindromic framework is a candidate for *why*
+it happens this way rather than any other.
+
+The connection is testable in principle: if the V-Effect produces
+spectral differentiation that maps onto known QFT structures (energy
+gaps, coupling constants, symmetry breaking patterns), the link
+becomes more than interpretive. That test remains open.
+
+---
+
 ## Connection to the Project Motto
 
 "We are all mirrors. Reality is what happens between us."
