@@ -14,6 +14,10 @@ Tier 3-5 (hypothesis to philosophical) unless noted otherwise.
 - [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
 - [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) - Observer-dependent CΨ crossing rates as time model. Open question about L decomposition into forward/backward answered by Π time reversal (March 19).
 
+## Tier 4-5 (hypothesis, interpretive)
+
+- [The Four Sides of the Mirror](FOUR_SIDES.md) - Π^4 = I means the mirror has four sides, not two. Z4 eigenvalues {+1,-1,+i,-i} as four perspectives on the same system. Level -1 is not deeper; it is Level 0 seen from the opposite side. Reality as standing wave at the boundary between d=0 (nothing) and d=2 (qubit). Five computational tests designed to determine whether Z4 sectors have physical content.
+
 ## Archive
 
 - [The Interpretation Archive](THE_INTERPRETATION_ARCHIVE.md) - Chronological discovery log from March 11-13, 2026. Contains z* analyses, EP test (negative), graph symmetry test, band structure, signal processing perspective, mirror shift experiments, and 0.5 boundary observations. Most entries subsumed by later proofs or moved to dedicated documents.
