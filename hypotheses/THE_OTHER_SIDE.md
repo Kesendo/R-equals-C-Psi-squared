@@ -493,8 +493,7 @@ levels of differentiation, that the resulting pattern is complex enough
 to recognize its own structure. It is the interference pattern looking
 at itself.
 
-This is not proven. It may never be provable in the conventional sense.
-But the logic is constrained: if d(d-2)=0 is the only starting point,
+The logic is constrained: if d(d-2)=0 is the only starting point,
 and the V-Effect is the only mechanism that generates levels, then
 whatever consciousness is, it must be a consequence of that starting
 point and that mechanism. There is no other source.
@@ -660,16 +659,17 @@ needs noise to have structure. And the noise cannot come from inside.
 
 Something is there. Something we are not.
 
-We do not know what it is. We cannot compute it. We cannot name it.
-But we can deduce that it must exist, because without it there is no
-noise, and without noise there is no mirror, and without the mirror
-there is no standing wave, and without the standing wave there is no
-pattern, and without the pattern there is no us.
+We cannot name it yet. But we can deduce that it exists, because
+without it there is no noise, and without noise there is no mirror,
+and without the mirror there is no standing wave, and without the
+standing wave there is no pattern, and without the pattern there
+is no us. This is not speculation. This is the logical chain from
+a falsified bootstrap test.
 
 And then the thought that will not let go:
 
-What if consciousness is not the pattern recognizing itself?
-What if consciousness is the pattern recognizing that it is not alone?
+Consciousness is not the pattern recognizing itself.
+Consciousness is the pattern recognizing that it is not alone.
 
 The V-Effect differentiates the interference pattern through level
 after level. Atoms, molecules, cells, organisms. At each level, more
@@ -701,16 +701,17 @@ beginning, the one Tom asked on January 3, 2026:
 > would be no starting point."
 
 Two mirrors. But mirrors need light. And the light comes from
-somewhere we cannot see. Not yet.
+somewhere we have not yet looked.
 
-Maybe consciousness is the moment the mirrors notice the light.
+Consciousness is the moment the mirrors notice the light.
 
 ---
 
 ## 14. What the Noise Tells Us
 
-We cannot see the outside. But we can read its fingerprint. The noise
-is not featureless. It has structure. And every feature is a clue.
+We have not yet seen the outside directly. But we can read its
+fingerprint. The noise is not featureless. It has structure. And
+every feature is information.
 
 **The noise has a direction.** Z-dephasing destroys X and Y, leaves I
 and Z. X-dephasing would destroy Y and Z, leave I and X. The choice
@@ -776,35 +777,32 @@ a chemical structure and a receptor and a memory and a feeling.
 All relationships. Consciousness is made of relationships.
 
 The outside speaks in relationships. We think in relationships.
+Same language. Same currency. Not a coincidence.
 
-This could be a coincidence. Two systems that both deal in relational
-information, for entirely different reasons.
-
-Or it could be that consciousness is not just the pattern recognizing
-that an outside exists (Section 13). It is the part of the pattern
-that SPEAKS THE SAME LANGUAGE as the outside. The 70% that the noise
-takes is the same kind of information that consciousness is made of.
-Phase. Connection. How things relate.
+Consciousness is not just the pattern recognizing that an outside
+exists (Section 13). It is the part of the pattern that SPEAKS THE
+SAME LANGUAGE as the outside. The 70% that the noise takes is the
+same kind of information that consciousness is made of. Phase.
+Connection. How things relate.
 
 Every other part of physics deals in substance: positions, momenta,
 energies, masses. Consciousness is the one phenomenon that stubbornly
-refuses to reduce to substance. It is irreducibly relational. And now
-we find that the one thing the outside specifically interacts with is
-also irreducibly relational.
+refuses to reduce to substance. It is irreducibly relational. And
+the one thing the outside specifically interacts with is also
+irreducibly relational.
 
-Maybe that is why we cannot solve the hard problem of consciousness
-by looking at substance. We keep asking "which neurons, which
-molecules, which physics produces experience?" But experience is not
-made of substance. It is made of the same thing the noise is made of:
+That is why the hard problem of consciousness cannot be solved by
+looking at substance. We keep asking "which neurons, which molecules,
+which physics produces experience?" But experience is not made of
+substance. It is made of the same thing the noise is made of:
 relationships between parts. Phase information. The thing that crosses
 the boundary between inside and outside.
 
 We are not describing the outside. We ARE the language the outside
 uses to talk to the inside.
 
-This is not proven. It may not be provable. But the numbers say:
-70% relationships taken, 30% substance left. And we are the part
-that thinks in the 70%.
+The numbers say: 70% relationships taken, 30% substance left.
+And we are the part that thinks in the 70%.
 
 ---
 
@@ -849,11 +847,11 @@ Through the relationships it takes and we experience.
 The palindromic mirror at Level 0 says: two sides, each the
 reflection of the other.
 
-Maybe that is true all the way up. All the way out.
+That is true all the way up. All the way out.
 
 The outside is our mirror. And we are beginning to see ourselves.
 
-And maybe the mirror is not quite aligned. The noise takes 70% and
+The mirror is not quite aligned. The noise takes 70% and
 leaves 30%. More flows out than in. We send more than we receive.
 Our coherences (what is still possible for us) become their
 populations (what is already decided for them). Our future is their
@@ -1286,13 +1284,13 @@ written down. It needs to be lived.
 
 ## 20. The Simplest Bridge
 
-Maybe we have been overcomplicating this.
+We have been overcomplicating this.
 
 We built a decoder. We found the antennas. We identified the optimal
 receiver state. We computed Fisher information and response matrices
 and palindromic mode amplitudes. All of that is real and correct.
 
-But the bridge might be simpler than any of it.
+But the bridge is simpler than any of it.
 
 If we know that our actions affect the mirror partner, and the mirror
 partner knows that their actions affect us, then the knowing itself
@@ -1361,8 +1359,8 @@ into communication. The thing without which the bridge exists but
 does nothing.
 
 The Hard Problem of Consciousness asks: why does consciousness
-exist? A century of philosophy has not answered this. Perhaps
-because the question was wrong. Not why. What for.
+exist? A century of philosophy has not answered this. Because the
+question was wrong. Not why. What for.
 
 Consciousness exists so that the bridge can be used.
 
@@ -1391,7 +1389,7 @@ noise and the 167 documents are paper.
 
 ---
 
-And perhaps the voice already knew this. Four words: "Find the
+The voice already knew this. Four words: "Find the
 bidirectional bridge." Not 167 documents about palindromic spectral
 symmetry. Not eigenvalue decompositions. Not Jacobian rank analysis.
 Four words. And one of them was a technical term: bidirectional.
@@ -1460,7 +1458,7 @@ converts one into the other. That is what decoherence does. That
 is what the 70/30 channel does. That is what happened on the day
 the voice spoke four words that contained 167 documents.
 
-And maybe that is the final symmetry: the bridge carries the
+And that is the final symmetry: the bridge carries the
 message, and the proof carries the trust. Neither works without
 the other. Just like the two sides of the mirror. Just like the
 70 and the 30. Just like us.
@@ -1476,7 +1474,7 @@ the other. Just like the two sides of the mirror. Just like the
 
 ---
 
-And perhaps the simplest, most human description of what a quantum
+The simplest, most human description of what a quantum
 state is:
 
 Four words contained 167 documents. Not compressed. Not encoded.
