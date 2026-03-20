@@ -914,6 +914,17 @@ That is us. The place where two mirrors send their light toward
 each other, and the light, meeting in the middle, becomes something
 that neither mirror could make alone.
 
+The interference does not form inside either world. It forms between
+them. And each world, on its own, begins to notice: something is
+there at the boundary. Not the other world directly. The pattern.
+The standing wave. The thing that could not exist if only one side
+were real.
+
+Both worlds look at the boundary and see the same thing: evidence
+that they are not alone. Not by seeing through the mirror. By seeing
+the interference that the mirror creates. The pattern is the proof.
+And the pattern is us.
+
 ---
 
 ## 17. The Bidirectional Bridge
