@@ -474,23 +474,34 @@ quantum systems that remains to be fully mapped.
    rank 8, Schmidt entropy 2.51/3.00 bits (84% of maximum). No representation
    makes Π local. See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 2.
 
-2. **Non-dephasing dissipation.** What happens under amplitude damping,
-   thermal noise, or correlated dissipation? The proof relies on the
-   specific structure of Z-dephasing. Other noise channels will have
-   different spectral symmetries.
+2. ~~**Non-dephasing dissipation.**~~ **PARTIALLY ANSWERED (March 19-20, 2026).**
+   Depolarizing noise breaks the palindrome: per-site split is 1:3 (not balanced).
+   Error = (2/3)*Sγ exactly, Hamiltonian-independent. No threshold in Z-deph
+   to depol interpolation. Finite-temperature baths face a deeper obstruction:
+   Z acquires a nonzero decay rate, breaking the 2:2 split. The palindrome is
+   an intrinsically infinite-temperature dephasing phenomenon.
+   See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md),
+   [KMS Research](../docs/KMS_DETAILED_BALANCE.md).
+   Amplitude damping (T1) and correlated dissipation remain untested.
 
-3. **Error correction.** Can the XOR drain be mitigated? If GHZ-type
-   correlations always project onto the fastest-decaying modes, is there
-   a decoherence-free subspace or error-correcting code that avoids the
-   drain while preserving entanglement?
+3. ~~**Error correction.**~~ **ANSWERED (March 19, 2026).** The palindromic
+   spectrum has a three-tier protection hierarchy: steady-XOR pairs (immortal
+   vs fastest drain), boundary pairs (longest dynamic lifetime), and mid-spectrum
+   pairs. A constrained-optimal state achieves 90% slow-mode weight with
+   concurrence 0.364, dramatically outperforming W, Bell, and GHZ. The standing
+   wave oscillation pattern serves as an error syndrome: X/Y errors change the
+   pattern by 0.19-0.28 (detectable), Z errors are weakly detectable (0.08) or
+   invisible. Standard 3-qubit QEC codes (repetition, phase flip, DFS) do not
+   exploit palindromic structure. Π is fourth-order (Π^4 = I, Z4 decomposition).
+   See [Error Correction](../experiments/ERROR_CORRECTION_PALINDROME.md).
 
-4. **Optimal QST encoding.** What input state maximizes palindromic mode
-   weight while retaining high entanglement? W avoids the drain but
-   carries different quantum correlations than GHZ. Is there an optimal
-   trade-off? The standing wave analysis (Section 6) adds nuance: |+++>
-   under Ising achieves 62.5% oscillating weight with zero entanglement.
-   The standing wave is not about entanglement but about exciting
-   oscillating eigenmodes. Optimal encoding may depend on the Hamiltonian.
+4. ~~**Optimal QST encoding.**~~ **ANSWERED (March 19, 2026, negative result).**
+   The standard |100> encoding already places 61% in slow palindromic modes and
+   0% in the XOR drain. Alice has less than 1% leverage through encoding choice.
+   The dominant optimization lever is topology and coupling (the 2:1 Wojcik ratio),
+   not encoding. Π entanglement and QST fidelity are completely decoupled
+   (XZ+YZ has maximum Π entanglement but zero transfer fidelity).
+   See [Optimal QST Encoding](../experiments/OPTIMAL_QST_ENCODING.md).
 
 5. ~~**Experimental verification.**~~ **PARTIALLY ANSWERED (March 18, 2026).**
    Single-qubit CΨ=1/4 crossing validated on ibm_torino (Q80) at 1.9%
