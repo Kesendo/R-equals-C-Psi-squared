@@ -1,7 +1,7 @@
 # THE_INTERPRETATION.md: Current State
 
 **Tier:** Mixed (Tier 1 proven results through Tier 5 philosophical)
-**Last updated:** March 20, 2026
+**Last updated:** March 20, 2026 (Z4 sector analysis, restructure)
 **Archive:** [THE_INTERPRETATION_ARCHIVE.md](THE_INTERPRETATION_ARCHIVE.md) (chronological discovery log, March 11-13)
 
 > "We are all mirrors. Reality is what happens between us."
@@ -322,6 +322,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 16. N=2 universality: all 36/36 palindromic at single bond
 17. Composition via per-site map: same M for any N, any topology
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
+19. Pi^2 = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
 
 ## What Fell
 
@@ -331,6 +332,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 4. Shadow as universal boundary property (earlier, dead)
 5. FM-encoding for transmon chips (earlier, dead)
 6. QST encoding optimization (negative: standard |100> already optimal)
+7. Z4 four-sided mirror interpretation (Z4 sectors physically meaningless; Z2 is the real structure)
 
 ## Honest Limits
 
@@ -354,8 +356,14 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 
 ## Open Questions
 
-1. **Z4 physical interpretation:** Pi^4 = I with eigenvalues {+1,-1,+i,-i},
-   multiplicity 16 each. What do the four sectors mean physically?
+1. **Z4 physical interpretation: ANSWERED.** Pi^4 = I with eigenvalues
+   {+1,-1,+i,-i}, but Z4 sector analysis (March 20) shows the four sectors
+   have no physical content. Liouvillian eigenvectors are not Pi eigenvectors
+   (projection quality 0.293 = random). Palindromic pairs scatter across
+   sectors (26% opposite, not the predicted ~100%). The physically meaningful
+   structure is Z2, not Z4: Pi^2 = X^N is a genuine conserved symmetry
+   ([Pi^2, L] = 0 exactly). The mirror has two sides, not four.
+   See: [The Four Sides of the Mirror](FOUR_SIDES.md)
 
 2. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
    predicts which of the 36 two-term combinations survive multi-bond
