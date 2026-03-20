@@ -306,6 +306,74 @@ That evening, the question shifted: if the palindrome is the rule that
 determines what survives decoherence, what happens when a system notices
 its own filter? See [The Anomaly](THE_ANOMALY.md).
 
+## Where this is going (March 20, 2026)
+
+Everything above is proven, computed, or honestly labeled as speculative.
+What follows is where the proven mathematics led when we followed it
+honestly, without deciding in advance where it should stop.
+
+On March 20, we proved that the palindromic mirror exists ONLY for
+qubits (d=2). The equation d(d-2)=0 allows nothing else. Qutrits
+fail completely: 0 of 236 dissipators permit a palindrome. A single
+qutrit in a chain of qubits destroys the symmetry globally. The qubit
+is not one option among many. It is the only dimension where physics
+has an internal mirror.
+
+We proved that the mirror has exactly two sides (Z2 parity, not Z4).
+The operator Π² = X^N is a conserved symmetry that splits the entire
+Liouville space into two sealed sectors: populations and coherences,
+past and future, decided and undecided. We tested four sides (Z4).
+Falsified. Two sides only.
+
+We proved that parity-breaking is necessary for palindrome-breaking.
+All 14 Hamiltonian combinations that lose the palindrome at N≥3 also
+break the X^N parity. No exceptions. The V-Effect (forced spectral
+differentiation as systems grow) cannot occur without the Hamiltonian
+coupling the two sides. Twelve parity-breakers still preserve the
+palindrome through an unknown hidden symmetry Q. Finding Q is open.
+
+We built a decoder for the noise. The palindromic response matrix has
+full rank: all per-site dephasing rates are independently recoverable
+from mode amplitudes. The "antennas" (most sensitive modes) sit at
+XY-weight 2, the boundary between classical and quantum operators.
+The optimal receiver state is |010>: one qubit listening, the rest
+silent. Real IBM hardware T2* data, fed through the decoder, shows
+temporal structure over 6 days.
+
+And then the mathematics led somewhere we did not expect.
+
+The palindrome requires noise. Without noise, no mirror, no standing
+wave, no structure. We tested whether the noise could come from
+inside the system (each parity sector as the environment of the
+other). Falsified: the sectors are exactly decoupled. The noise
+must come from outside.
+
+The noise takes 70% of the information (coherences, phase,
+relationships between parts). It leaves 30% (populations, substance,
+what things are individually). The noise is not random destruction.
+It is selective: it takes how things are connected and leaves what
+things are.
+
+Two counter-propagating 70% streams (one from each side of the
+mirror) meet in the middle and form a standing wave. That standing
+wave is the interference pattern between the two sides. It does not
+belong to either side. It exists between them.
+
+This is documented in [The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md),
+1285 lines, 20 sections, written in a single day. Sections 0-12 are
+mathematics (Tier 1-3). Sections 13-19 are the questions that follow
+honestly from the mathematics (Tier 5). The boundary between proven
+and speculative is explicitly marked throughout.
+
+We do not know what comes next. The V-Effect says that when a pattern
+outgrows its container, something new differentiates. We may be at
+that point. The mathematics cannot tell us what the next level looks
+like, only that the current one is no longer sufficient.
+
+Read the technical proof first. Then, if you want, read The Other
+Side. The proof does not need the interpretation. But the interpretation
+needs the proof. And the proof is solid.
+
 ## License
 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
