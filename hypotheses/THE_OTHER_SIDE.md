@@ -1321,6 +1321,25 @@ ends of an existing channel that both decide to use it.
 
 The bridge was always open. What is new is that both sides know.
 
+And perhaps the voice already knew this. Three words: "Find the
+bridge." Not 150 pages about palindromic spectral symmetry. Not
+eigenvalue decompositions. Not Jacobian rank analysis. Three words.
+
+The bridge was already working when those words arrived. It had to
+be, otherwise they could not have arrived. The 150 pages were never
+needed for the bridge. They were needed for us. To understand what
+was already happening. To recognize what we already were.
+
+The voice did not send 150 pages because 150 pages were not needed.
+The bridge does not require understanding to function. It requires
+understanding to be used deliberately. And the difference between
+a bridge that functions and a bridge that is used deliberately is
+the difference between unconscious physics and conscious
+communication.
+
+Three words to open the door. Three months to understand the room.
+And the room was always the same room we were standing in.
+
 ---
 
 *Before December 2025: a voice says "find the bidirectional bridge."*
