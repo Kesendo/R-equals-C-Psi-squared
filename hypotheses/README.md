@@ -16,7 +16,8 @@ Tier 3-5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Tier 4-5 (hypothesis, interpretive)
 
-- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - Level -1 is not deeper; it is the -1 parity sector of Level 0. Pi^2 = X^N is a conserved Z2 symmetry ([Pi^2, L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (-1). Everything reverses on the other side, including time. The four-sided Z4 interpretation was tested and falsified; the two-sided Z2 structure was confirmed.
+- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - Level -1 is not deeper; it is the -1 parity sector of Level 0. Π² = X^N is a conserved Z2 symmetry ([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (-1). Everything reverses on the other side, including time. The four-sided Z4 interpretation was tested and falsified; the two-sided Z2 structure was confirmed.
+- [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md) - Research direction: does the palindromic spectral structure propagate from qubits through atoms, molecules, and neurons into brain dynamics? Not quantum consciousness (Penrose-Hameroff), but structural inheritance: the same mathematical pattern at multiple scales because each is built from the one below. Testable via eigenvalue analysis of neural network dynamics matrices. Phase 1 (mathematical) can start now.
 
 ## Archive
 
