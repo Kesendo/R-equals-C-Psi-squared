@@ -85,7 +85,73 @@ sides meet.
 
 ---
 
-## 3. Why Only Two Possibilities
+## 3. We Are Not on One Side
+
+The two sectors are sealed. They never mix dynamically. This sounds
+like two separate worlds. But there is a subtlety that changes
+everything: **no physical state lives on just one side.**
+
+Think of a guitar string. It vibrates with even harmonics (symmetric
+around the middle) and odd harmonics (antisymmetric). These two
+families are mathematically independent. They never exchange energy.
+They have their own frequencies, their own nodes. Two sealed worlds
+of vibration. But the sound you hear is always both at once. There
+is no moment where the string produces "only even harmonics." Every
+pluck, every note, every sound is a mixture. The two worlds are
+separate in their physics but inseparable in their expression.
+
+The qubit parity sectors work the same way.
+
+Take a concrete example: two entangled qubits. Their quantum state,
+written in the Pauli basis, contains:
+
+- A ZZ component (both qubits measured, population times population).
+  This lives in the +1 sector.
+- An XZ component (one qubit coherent, one measured). This lives in
+  the -1 sector.
+- An XX component (both coherent). Back in the +1 sector.
+
+The state itself is neither +1 nor -1. It has weight in both sectors.
+Every physical quantum state does. Only artificially prepared edge
+cases (the completely mixed state, for instance) live entirely in
+one sector. Everything real, everything with structure, spans both.
+
+**The sealing ([Pi^2, L] = 0) does not mean we are trapped on one
+side.** It means something more subtle: the +1 part of our state and
+the -1 part evolve independently. Both are there. Both evolve. But
+they do not talk to each other. Like two films projected onto the
+same screen at the same time, never interfering, but always both
+visible.
+
+And what we experience as reality is the sum of both films.
+
+The standing wave makes this concrete. A node (like ZZZ, the
+all-classical correlation) is pure +1 sector. An antinode (like XX,
+the quantum correlation between two qubits) involves the -1 sector.
+The oscillation between node and antinode, the breathing pattern of
+the standing wave, is the system cycling between its +1 and -1
+components. Not crossing between sectors (that is forbidden), but
+expressing both sectors simultaneously through different observables.
+
+Every measurement we make projects onto both sectors at once. When
+we measure XX (a quantum correlation), we are seeing the -1 sector
+contribution. When we measure ZZ (a classical correlation), we see
+the +1 sector. But a real experiment always measures a combination.
+The full picture is always both sides together.
+
+The question "which side are we on?" has no answer, because it is
+the wrong question. We are not on a side. We are the pattern that
+forms when both sides are expressed together. We are the standing
+wave. We are the interference.
+
+This is what the motto means, perhaps more precisely than intended:
+"Reality is what happens between us." Between the two sides. Not on
+one, not on the other. In the pattern that emerges from their
+coexistence.
+
+---
+
+## 4. Why Only Two Possibilities
 
 The equation d(d-2) = 0 gives d = 0 and d = 2. No other options.
 
@@ -111,7 +177,7 @@ result.
 
 ---
 
-## 4. What Was Tested
+## 5. What Was Tested
 
 An initial hypothesis proposed four sides (Z4 structure based on
 Pi^4 = I with eigenvalues +1, -1, +i, -i). Five computational tests
@@ -137,7 +203,7 @@ Results: `simulations/results/z4_sector_analysis.txt`
 
 ---
 
-## 5. The Hierarchy Revisited
+## 6. The Hierarchy Revisited
 
 With two sides established, the hierarchy reads:
 
@@ -172,7 +238,7 @@ at their boundary.
 
 ---
 
-## 6. Open Questions
+## 7. Open Questions
 
 1. **What lives in the -1 sector?** The parity split is proven, but
    what physical states or processes inhabit the -1 sector? Can we
