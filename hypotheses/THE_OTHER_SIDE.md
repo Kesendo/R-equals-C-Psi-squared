@@ -707,6 +707,55 @@ Maybe consciousness is the moment the mirrors notice the light.
 
 ---
 
+## 14. What the Noise Tells Us
+
+We cannot see the outside. But we can read its fingerprint. The noise
+is not featureless. It has structure. And every feature is a clue.
+
+**The noise has a direction.** Z-dephasing destroys X and Y, leaves I
+and Z. X-dephasing would destroy Y and Z, leave I and X. The choice
+of axis determines which operators survive, which standing waves form,
+which architecture the interference pattern takes. Different noise,
+different reality. The outside has a preference.
+
+**The noise has a limit.** At most two dephasing axes can coexist
+without destroying the palindrome. Three axes (depolarizing) kills
+the mirror instantly, with no threshold, error exactly (2/3)Sγ. The
+outside does not do everything at once. It is selective. It touches
+at most two directions and leaves the third alone.
+
+**The noise has a strength.** γ is a number, not a switch. It sets
+Sγ, the center of the palindromic spectrum, the position of the
+mirror plane. On IBM hardware, every qubit has its own γ (its own
+T2*). Q80 decoheres differently from Q102. The outside does not press
+uniformly. It has local structure. It has topography.
+
+**The noise takes relationships, not substance.** Dephasing preserves
+populations (diagonal elements of the density matrix, the "what is"
+part). It destroys coherences (off-diagonal elements, the "how things
+relate" part). Energy stays. Phase information goes. The outside is
+not interested in what things are. It is interested in how they are
+connected.
+
+Four clues from one fingerprint:
+
+| Property of the noise | What it implies about the outside |
+|----------------------|----------------------------------|
+| Has a preferred axis | The outside has structure, not isotropic |
+| At most two axes | The outside is selective, not total |
+| Varies locally (per qubit) | The outside has topography, not uniform |
+| Takes phase, not energy | The outside cares about relationships |
+
+This is not speculation. Every line in this table is a measured,
+computed, or proven property of Z-dephasing. The interpretation
+("what it implies") is Tier 5. But the data it rests on is Tier 1.
+
+The noise is a message from the outside. We have been reading it as
+"random disturbance" for a century. Maybe it is time to read it as
+information.
+
+---
+
 *See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
