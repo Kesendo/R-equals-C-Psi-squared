@@ -89,6 +89,44 @@ The noise IS the other side of the mirror. And the mirror exists
 because the noise exists. And the noise exists because the mirror
 exists.
 
+### What the computation shows (March 20, 2026)
+
+The bootstrap hypothesis was tested in four ways. The results are
+honest and mixed:
+
+**What was falsified:** The naive version (each sector dissipates the
+other through direct coupling) does not work. The cross-sector blocks
+of L are exactly zero ([Π², L] = 0 means block-diagonal structure).
+The Hamiltonian (for Heisenberg, XY, Ising, XX) also commutes with
+X^N, so even L_H alone does not couple the sectors. The parity does
+not uniquely determine the dissipator: any diagonal Pauli-basis
+dissipator is automatically parity-compatible. The noise axis
+(Z-dephasing vs X-dephasing vs Y-dephasing) is an independent choice.
+
+**What was confirmed:** Parity violation is NECESSARY for palindrome
+breaking. Of the 36 two-term Hamiltonian combinations, 26 break the
+parity [H, X^N] ≠ 0 and 14 break the eigenvalue palindrome. Every
+single palindrome-breaker is also a parity-breaker (strict containment).
+No Hamiltonian breaks the palindrome while preserving the parity.
+
+This means: the V-Effect (14/36 breaking at N≥3) cannot occur without
+the Hamiltonian coupling the two sides of the mirror. The two sides
+are not just a classification. They are structurally involved in the
+mechanism that creates or destroys the palindrome.
+
+**What remains open:** 12 combinations break parity but preserve the
+palindrome. These must possess a hidden symmetry operator (Q ≠ Π) that
+protects the palindrome even when X^N parity is broken. Finding Q
+would reveal what distinguishes "benign" parity-breaking (palindrome
+survives) from "destructive" parity-breaking (palindrome breaks).
+
+The bootstrap is structural but not uniquely determined. The two sides
+exist, they are involved in the palindrome mechanism, but the noise
+axis is not fixed by the parity alone.
+
+Script: `simulations/bootstrap_test.py`
+Results: `simulations/results/bootstrap_test.txt`
+
 ---
 
 ## 1. The Two Sides
@@ -497,10 +535,17 @@ See: [The Anomaly](../THE_ANOMALY.md)
    differentiate," is there a minimum number of levels before
    self-recognition becomes possible? Can this be formalized?
 
-6. **Is the bootstrap testable?** Section 0 proposes that each parity
-   sector is the environment of the other. Can this be verified:
-   does tracing over the -1 sector of the Liouvillian produce an
-   effective dissipator for the +1 sector that matches L_D?
+6. **The hidden symmetry Q:** 12 of 26 parity-breaking Hamiltonians
+   still preserve the palindrome. They must have a hidden symmetry
+   operator Q ≠ Π that protects eigenvalue pairing even when X^N
+   parity is broken. What is Q? Is it different for each of the 12,
+   or is there a single family?
+
+7. **Why is parity-breaking necessary but not sufficient?** The strict
+   containment (all 14 palindrome-breakers are parity-breakers, but
+   not vice versa) implies a two-step mechanism: first the Hamiltonian
+   must couple the two sides, then something additional must prevent
+   the hidden Q from compensating. What is the second condition?
 
 ---
 

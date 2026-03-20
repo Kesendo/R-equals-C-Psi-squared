@@ -1,0 +1,365 @@
+Bootstrap Test: Is Each Side the Environment of the Other?
+Started: 2026-03-20 16:11:58
+gamma = 0.05
+
+======================================================================
+TEST 1: SECTOR PROJECTION OF FULL LIOUVILLIAN (N=3)
+======================================================================
+
+Question: Are the +1 and -1 parity sectors coupled through L?
+If [Pi^2, L] = 0, then L is block-diagonal and cross-sector
+blocks L_pm and L_mp must be zero.
+
+[Pi^2, L] max element: 0.00e+00
+CONFIRMED: Pi^2 commutes with L exactly.
+
++1 sector: 32 basis elements
+-1 sector: 32 basis elements
+
+||L_pm|| (max element): 0.00e+00
+||L_mp|| (max element): 0.00e+00
+||L_pp|| (max element): 2.00e+00
+||L_mm|| (max element): 2.00e+00
+
+RESULT: Cross-sector blocks are ZERO.
+The sectors are exactly decoupled in the full Liouvillian.
+The bootstrap cannot work through direct coupling in L.
+This is an important NEGATIVE result for the naive bootstrap.
+
+[Pi^2, L_H] max element: 0.00e+00
+[Pi^2, L_D] max element: 0.00e+00
+Both L_H and L_D individually commute with Pi^2.
+
+[Test 1 completed in 0.0s]
+
+======================================================================
+TEST 2: HAMILTONIAN-ONLY SECTOR ANALYSIS (N=3)
+======================================================================
+
+Question: Does L_H alone respect parity? Does H commute with X^N
+in the Hilbert space sense? If not, the Hamiltonian couples the
+two parity sectors and tracing over one produces effective dissipation.
+
+--- Heisenberg Hamiltonian (XX+YY+ZZ) ---
+[H_Heisenberg, X^N] max element: 0.00e+00
+H_Heisenberg commutes with X^N in Hilbert space.
+
+[Pi^2, L_H_Heisenberg] max element: 0.00e+00
+
+XY-only (XX+YY):
+  [H, X^N] = 0.00e+00   [Pi^2, L_H] = 0.00e+00
+Ising (ZZ):
+  [H, X^N] = 0.00e+00   [Pi^2, L_H] = 0.00e+00
+XX alone:
+  [H, X^N] = 0.00e+00   [Pi^2, L_H] = 0.00e+00
+DM (XY-YX):
+  [H, X^N] = 4.00e+00   [Pi^2, L_H] = 4.00e+00
+
+SUMMARY: If all norms are zero, the Hamiltonian never couples
+the parity sectors, and the Nakajima-Zwanzig projection is trivial.
+
+[Test 2 completed in 0.0s]
+
+======================================================================
+TEST 4: BROKEN-PARITY HAMILTONIANS (N=3)
+======================================================================
+
+For each of the 36 two-term Hamiltonian combinations:
+  1. Does [H, X^N] = 0 in Hilbert space? (parity-commuting)
+  2. Does the eigenvalue palindrome survive? (lambda_k + lambda_k' = -2Sg)
+  3. Does the Pi conjugation hold? (Pi L Pi^-1 + L + 2Sg I = 0)
+  4. Cross-reference: is parity-breaking = eigenvalue-palindrome-breaking?
+
+Note: Pi-conjugation breaks for 33/36 combos (known from V-Effect work).
+The relevant palindrome measure is eigenvalue pairing (14/36 break).
+
+     Combo     [H,X^N]    Paired      Pi err    Parity   EvalPal     PiPal
+---------------------------------------------------------------------------
+     XX+XY    2.00e+00    10/64    1.00e+00     BREAK     BREAK     BREAK
+     XX+XZ    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XX+YX    2.00e+00    10/64    1.00e+00     BREAK     BREAK     BREAK
+     XX+YY    0.00e+00    64/64    0.00e+00        OK        OK        OK
+     XX+YZ    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     XX+ZX    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XX+ZY    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     XX+ZZ    0.00e+00    64/64    0.00e+00        OK        OK        OK
+     XY+XZ    2.00e+00    13/64    1.00e+00     BREAK     BREAK     BREAK
+     XY+YX    4.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XY+YY    2.00e+00    10/64    1.00e+00     BREAK     BREAK     BREAK
+     XY+YZ    2.00e+00     4/64    2.00e+00     BREAK     BREAK     BREAK
+     XY+ZX    2.00e+00     4/64    1.00e+00     BREAK     BREAK     BREAK
+     XY+ZY    2.00e+00    13/64    2.00e+00     BREAK     BREAK     BREAK
+     XY+ZZ    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XZ+YX    2.00e+00     4/64    1.00e+00     BREAK     BREAK     BREAK
+     XZ+YY    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XZ+YZ    2.00e+00    64/64    2.00e+00     BREAK        OK     BREAK
+     XZ+ZX    4.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     XZ+ZY    2.00e+00    13/64    2.00e+00     BREAK     BREAK     BREAK
+     XZ+ZZ    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     YX+YY    2.00e+00    10/64    1.00e+00     BREAK     BREAK     BREAK
+     YX+YZ    2.00e+00    13/64    2.00e+00     BREAK     BREAK     BREAK
+     YX+ZX    2.00e+00    13/64    1.00e+00     BREAK     BREAK     BREAK
+     YX+ZY    2.00e+00     4/64    2.00e+00     BREAK     BREAK     BREAK
+     YX+ZZ    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     YY+YZ    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     YY+ZX    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     YY+ZY    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     YY+ZZ    0.00e+00    64/64    0.00e+00        OK        OK        OK
+     YZ+ZX    2.00e+00    13/64    2.00e+00     BREAK     BREAK     BREAK
+     YZ+ZY    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     YZ+ZZ    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+     ZX+ZY    2.00e+00    64/64    2.00e+00     BREAK        OK     BREAK
+     ZX+ZZ    2.00e+00    64/64    1.00e+00     BREAK        OK     BREAK
+     ZY+ZZ    0.00e+00    64/64    2.00e+00        OK        OK     BREAK
+
+Parity-breaking ([H,X^N] != 0): 26/36
+Eigenvalue palindrome breaking:  14/36
+Pi-conjugation breaking:         33/36
+
+--- Cross-reference: parity vs eigenvalue palindrome ---
+Break both parity AND eigenvalue palindrome: 14
+  XX+XY
+  XX+YX
+  XY+XZ
+  XY+YY
+  XY+YZ
+  XY+ZX
+  XY+ZY
+  XZ+YX
+  XZ+ZY
+  YX+YY
+  YX+YZ
+  YX+ZX
+  YX+ZY
+  YZ+ZX
+Break only parity (eigenvalues still pair): 12
+  XX+XZ
+  XX+ZX
+  XY+YX
+  XY+ZZ
+  XZ+YY
+  XZ+YZ
+  XZ+ZX
+  XZ+ZZ
+  YX+ZZ
+  YY+ZX
+  ZX+ZY
+  ZX+ZZ
+Break only eigenvalue palindrome (parity OK): 0
+Break neither (fully palindromic): 10
+  XX+YY
+  XX+YZ
+  XX+ZY
+  XX+ZZ
+  YY+YZ
+  YY+ZY
+  YY+ZZ
+  YZ+ZY
+  YZ+ZZ
+  ZY+ZZ
+
+RESULT: CONTAINMENT.
+All 14 eigenvalue-palindrome-breakers are also
+parity-breakers. But 12 parity-breakers maintain
+eigenvalue palindrome (they have a hidden symmetry operator Q != Pi).
+
+Parity violation is NECESSARY but not SUFFICIENT for eigenvalue
+palindrome breaking. Some Hamiltonians break [H, X^N] = 0 but
+possess an alternative conjugation operator that preserves pairing.
+
+[Test 4 completed in 0.1s]
+
+======================================================================
+TEST 3: THE SUBTLER BOOTSTRAP (N=3)
+======================================================================
+
+Question: What is the most general dissipator that commutes with
+X^N parity? If L_D is uniquely determined (up to gamma), then the
+parity ALONE forces the noise. No external environment needed.
+
+Step 1: Structure of parity-compatible diagonal dissipators
+
++1 sector: 32 elements
+-1 sector: 32 elements
+
+Step 2: Which single-site dephasing operators commute with X^N?
+
+A dephasing operator M at site k gives L_D(rho) = gamma*(M rho M - rho).
+In Pauli basis: rate for P is -2*gamma * (number of sites where
+[M, P_site] != 0).
+
+  Dephasing by Z:
+    [L_D, Pi^2] = 0.00e+00
+    Immune/Decaying: 8/56
+    Unique rates: 4
+  Dephasing by X:
+    [L_D, Pi^2] = 0.00e+00
+    Immune/Decaying: 8/56
+    Unique rates: 4
+  Dephasing by Y:
+    [L_D, Pi^2] = 0.00e+00
+    Immune/Decaying: 8/56
+    Unique rates: 4
+  Dephasing by Z+X:
+    [L_D, Pi^2] = 0.00e+00
+    Immune/Decaying: 1/63
+    Unique rates: 4
+  Dephasing by arbitrary:
+    [L_D, Pi^2] = 0.00e+00
+    Immune/Decaying: 1/63
+    Unique rates: 4
+
+Step 3: Parameterize ALL parity-compatible Lindblad dissipators
+
+Single-site dephasing operators M such that M-conjugation
+commutes with X-conjugation at that site:
+
+X-conjugation acts as: I->I, X->X, Y->-Y, Z->-Z
+M-conjugation must map {I,X} to {I,X} and {Y,Z} to {Y,Z}.
+
+Numerical scan: which directions M = cos(th)*Z + sin(th)*cos(ph)*X
+                + sin(th)*sin(ph)*Y commute with X-conjugation?
+
+Compatible directions found: 216 out of 2664 tested
+
+Compatible (theta, phi) values:
+  Z-axis (theta=0 or pi): 72 phi values
+  theta=0.087: 2 phi values
+  theta=0.174: 2 phi values
+  theta=0.262: 2 phi values
+  theta=0.349: 2 phi values
+  theta=0.436: 2 phi values
+  theta=0.524: 2 phi values
+  theta=0.611: 2 phi values
+  theta=0.698: 2 phi values
+  theta=0.785: 2 phi values
+
+Step 4: Uniqueness analysis
+
+Rate structures for the three axis-aligned dephasing operators:
+
+   Pauli   Z-deph rate   X-deph rate   Y-deph rate
+  ------------------------------------------------
+  Z-deph: 8 immune, 56 decaying, unique rates: 4
+  X-deph: 8 immune, 56 decaying, unique rates: 4
+  Y-deph: 8 immune, 56 decaying, unique rates: 4
+
+Parity compatibility of axis-aligned dephasing:
+  Z-deph: [L_D, Pi^2] = 0.00e+00
+  X-deph: [L_D, Pi^2] = 0.00e+00
+  Y-deph: [L_D, Pi^2] = 0.00e+00
+
+Step 5: Does parity uniquely determine the dissipator?
+
+Z-dephasing immune set size: 8
+Pi^2 = +1 sector size: 32
+Overlap: 4
+Z-immune but Pi^2=-1: 4
+Pi^2=+1 but not Z-immune: 28
+
+RESULT: Z-dephasing immune set != Pi^2 +1 sector.
+The noise and the parity do not align perfectly.
+
+  Z-immune but Pi^2=-1: IIZ (XY-weight=0)
+  Z-immune but Pi^2=-1: IZI (XY-weight=0)
+  Z-immune but Pi^2=-1: ZII (XY-weight=0)
+  Z-immune but Pi^2=-1: ZZZ (XY-weight=0)
+  Pi^2=+1 but Z-decaying: IIX (XY-weight=1)
+  Pi^2=+1 but Z-decaying: IXI (XY-weight=1)
+  Pi^2=+1 but Z-decaying: IXX (XY-weight=2)
+  Pi^2=+1 but Z-decaying: IYY (XY-weight=2)
+  Pi^2=+1 but Z-decaying: IYZ (XY-weight=1)
+  Pi^2=+1 but Z-decaying: IZY (XY-weight=1)
+  Pi^2=+1 but Z-decaying: XII (XY-weight=1)
+  Pi^2=+1 but Z-decaying: XIX (XY-weight=2)
+  Pi^2=+1 but Z-decaying: XXI (XY-weight=2)
+  Pi^2=+1 but Z-decaying: XXX (XY-weight=3)
+  Pi^2=+1 but Z-decaying: XYY (XY-weight=3)
+  Pi^2=+1 but Z-decaying: XYZ (XY-weight=2)
+  Pi^2=+1 but Z-decaying: XZY (XY-weight=2)
+  Pi^2=+1 but Z-decaying: XZZ (XY-weight=1)
+  Pi^2=+1 but Z-decaying: YIY (XY-weight=2)
+  Pi^2=+1 but Z-decaying: YIZ (XY-weight=1)
+  Pi^2=+1 but Z-decaying: YXY (XY-weight=3)
+  Pi^2=+1 but Z-decaying: YXZ (XY-weight=2)
+  Pi^2=+1 but Z-decaying: YYI (XY-weight=2)
+  Pi^2=+1 but Z-decaying: YYX (XY-weight=3)
+  Pi^2=+1 but Z-decaying: YZI (XY-weight=1)
+  Pi^2=+1 but Z-decaying: YZX (XY-weight=2)
+  Pi^2=+1 but Z-decaying: ZIY (XY-weight=1)
+  Pi^2=+1 but Z-decaying: ZXY (XY-weight=2)
+  Pi^2=+1 but Z-decaying: ZXZ (XY-weight=1)
+  Pi^2=+1 but Z-decaying: ZYI (XY-weight=1)
+  Pi^2=+1 but Z-decaying: ZYX (XY-weight=2)
+  Pi^2=+1 but Z-decaying: ZZX (XY-weight=1)
+
+Detailed comparison: Z-dephasing rates vs Pi^2 sector
+
+   Pauli   XY-wt   YZ-ct   Pi^2    Z-rate
+----------------------------------------
+     IIX       1       0     +1    -0.100
+     IIZ       0       1     -1    -0.000
+     IXI       1       0     +1    -0.100
+     IXX       2       0     +1    -0.200
+     IYY       2       2     +1    -0.200
+     IYZ       1       2     +1    -0.100
+     IZI       0       1     -1    -0.000
+     IZY       1       2     +1    -0.100
+     XII       1       0     +1    -0.100
+     XIX       2       0     +1    -0.200
+     XXI       2       0     +1    -0.200
+     XXX       3       0     +1    -0.300
+     XYY       3       2     +1    -0.300
+     XYZ       2       2     +1    -0.200
+     XZY       2       2     +1    -0.200
+     XZZ       1       2     +1    -0.100
+     YIY       2       2     +1    -0.200
+     YIZ       1       2     +1    -0.100
+     YXY       3       2     +1    -0.300
+     YXZ       2       2     +1    -0.200
+  ...
+
+CONCLUSION:
+
+If the +1 sector and the Z-immune set are different, then
+Z-dephasing is NOT uniquely determined by parity. The parity
+determines a sector split, but the noise kills a different set.
+The bootstrap is structural (both arise from d=2) but not
+uniquely determined: the parity does not force a specific L_D.
+
+Free parameters for single-site dephasing: 2N+1 = 7 (2 angles per site + 1 gamma)
+Parity compatibility does NOT constrain these parameters.
+
+The bootstrap is real but NOT uniquely determined by parity alone.
+The noise type (Z-dephasing vs X-dephasing vs other) is an
+independent choice. d(d-2)=0 forces d=2 and forces the parity,
+but does not force which Pauli axis the noise acts on.
+[Test 3 completed in 0.1s]
+
+======================================================================
+OVERALL SUMMARY
+======================================================================
+
+Test 1: Cross-sector coupling in full Liouvillian
+  [Pi^2, L] = 0 -> sectors are exactly decoupled.
+  The naive bootstrap (sectors couple through L) is falsified.
+
+Test 2: Hamiltonian-only analysis
+  [H, X^N] = 0 for Heisenberg and standard Hamiltonians.
+  DM interaction (XY-YX) DOES break parity.
+  Nakajima-Zwanzig projection is trivial for parity-preserving H.
+
+Test 4: Parity vs eigenvalue palindrome (CONTAINMENT)
+  26 parity-breaking, 14 eigenvalue-palindrome-breaking
+  All 14 eigenvalue-breakers are parity-breakers.
+  But 12 parity-breakers keep eigenvalue pairing (hidden Q != Pi).
+  Parity violation is NECESSARY but not SUFFICIENT.
+
+Test 3: Uniqueness of the dissipator
+  Parity [Pi^2, L_D] = 0 does NOT constrain the dissipator type.
+  Any diagonal dissipator in the Pauli basis is parity-compatible.
+  The noise axis (Z vs X vs Y) is NOT determined by parity alone.
+  The bootstrap is structural but not uniquely determined.
+
+Total runtime: 0.3s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\bootstrap_test.txt
