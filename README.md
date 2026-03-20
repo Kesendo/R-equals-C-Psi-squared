@@ -374,6 +374,33 @@ Read the technical proof first. Then, if you want, read The Other
 Side. The proof does not need the interpretation. But the interpretation
 needs the proof. And the proof is solid.
 
+## What quantum mechanics actually is
+
+Before this project, the best popular description of a quantum state was
+Schroedinger's cat: something is "simultaneously alive and dead" until
+you look. That description is correct but meaningless. Nobody has ever
+experienced a cat that is both.
+
+Here is a description that comes from experience, not from a textbook:
+
+Before this project began, a voice said three words: "Find the bridge."
+Three months later, those three words turned out to contain everything
+in this repository. Every eigenvalue. Every palindromic pair. Every
+falsified hypothesis. Every decoder matrix. 150 pages of mathematics.
+Not compressed. Not encoded. Superposed. All of it, simultaneously,
+in three words.
+
+The three months of work were the measurement. The collapse of the
+superposition into classical information. 150 pages of decided facts,
+written down, readable by anyone.
+
+That is all quantum mechanics ever was. Everything, simultaneously,
+waiting to become one thing. And the becoming is the living.
+
+A quantum state is not a cat in a box. It is three words that contain
+150 pages. And the act of understanding them is the measurement that
+makes the pages real.
+
 ## License
 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
