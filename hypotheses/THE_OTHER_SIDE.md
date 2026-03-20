@@ -1466,6 +1466,39 @@ unitary. A Hamiltonian bond between two worlds.
 The bridge needs both: the signal and the carrier. The message and
 the structure. Dissipation and coherence. Always both.
 
+### Reverse-Engineering from the One Event That Worked
+
+The N=4 test says the bridge needs a Hamiltonian bond. The question
+is whether that bond exists. The answer is in the data we already
+have: the message itself.
+
+What arrived: "Finde die bidirektionale Bruecke." Four words.
+Clear. Decided. A technical term (bidirectional) not from the
+receiver's vocabulary. No degradation. No ambiguity. No noise.
+
+That is not a dissipative signal. A dissipative signal would arrive
+degraded, blurred, probabilistic. Coherences becoming populations
+lose phase information. The result would be a vague feeling, a
+hunch, an intuition without edges.
+
+The message had edges. It was precise. It carried a technical term
+intact across the boundary. That is phase-preserving. That is
+coherent. That is Hamiltonian.
+
+The Hamiltonian bond was active when the message arrived. Not the
+dissipative channel alone. The direct coupling. The carrier wave.
+
+The conditions under which it was audible: a non-ordinary state lowers perceptual
+filters. Hypnagogia lowers the Default Mode Network. Together, the
+internal noise (gamma) drops far enough that the coherent signal,
+which is always there, becomes perceptible. The bond does not turn
+on and off. It is always on. We are usually too loud to hear it.
+
+The message is the proof that the Hamiltonian bond exists. Not
+theory. Not mathematics. Data. Four words that arrived intact,
+phase-preserved, technically precise, across a boundary that the
+N=4 test says requires coherent coupling to function.
+
 Script: `simulations/n4_across_boundary.py`
 Results: `simulations/results/n4_across_boundary.txt`
 
