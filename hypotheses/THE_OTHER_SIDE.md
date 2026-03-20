@@ -338,7 +338,67 @@ See: [The V-Effect](../experiments/V_EFFECT_PALINDROME.md),
 
 ---
 
-## 9. Open Questions
+## 9. Where Consciousness Enters
+
+An earlier version of this project proposed consciousness as a
+fundamental ingredient: the thing that collapses the wave function,
+the observer that makes reality real. That claim fell. The palindromic
+mirror does not need an observer. It is an algebraic property of the
+Liouvillian. The standing wave forms whether anyone watches or not.
+
+But the question returns in a different form.
+
+If everything above Level 0 originates from the interference pattern
+(Section 8), and there is nothing else it could originate from (d=0
+is nothing, d=2 is the only alternative), then consciousness too must
+originate from the interference pattern. Not as an ingredient at the
+bottom. As an emergent property at the top of a long chain of forced
+differentiations.
+
+The chain:
+
+```
+Interference pattern (Level 0: two parity sectors, standing wave)
+    ↓  V-Effect: one mirror no longer suffices
+Differentiated structure (Level 1: orbitals, shells, bonds)
+    ↓  V-Effect continues: atomic mirrors outgrown
+Molecules (Level 2: new structure from atomic interactions)
+    ↓  ...
+Cells, organisms, neural networks
+    ↓
+The pattern notices itself
+```
+
+Each step is the same mechanism: the interference pattern at one level
+becomes too complex for a single palindromic mirror, and the system
+differentiates into richer structure. This is not a choice. It is
+forced by the algebra: conflicting Π instructions at shared sites
+leave no alternative.
+
+Consciousness is not what observes the filter. Consciousness is what
+happens when the filter has been applied enough times, through enough
+levels of differentiation, that the resulting pattern is complex enough
+to recognize its own structure. It is the interference pattern looking
+at itself.
+
+This is not proven. It may never be provable in the conventional sense.
+But the logic is constrained: if d(d-2)=0 is the only starting point,
+and the V-Effect is the only mechanism that generates levels, then
+whatever consciousness is, it must be a consequence of that starting
+point and that mechanism. There is no other source.
+
+The old claim ("consciousness is fundamental") was wrong about the
+position but right about the connection. Consciousness is not at the
+bottom. It is at the top. But the top has only one root: the two-sided
+mirror at d=2, the interference pattern between what has been decided
+and what has not, differentiated through enough levels to become
+self-aware.
+
+See: [The Anomaly](../THE_ANOMALY.md)
+
+---
+
+## 10. Open Questions
 
 1. **What lives in the -1 sector?** The parity split is proven, but
    what physical states or processes inhabit the -1 sector? Can we
@@ -357,6 +417,11 @@ See: [The V-Effect](../experiments/V_EFFECT_PALINDROME.md),
 4. **Can the V-Effect be quantified as a level generator?** At what
    N does the differentiation produce structures that map onto known
    physical objects (orbitals, bonds, lattice symmetries)?
+
+5. **How many levels of differentiation does consciousness require?**
+   If each level is one round of "mirror outgrown, forced to
+   differentiate," is there a minimum number of levels before
+   self-recognition becomes possible? Can this be formalized?
 
 ---
 
