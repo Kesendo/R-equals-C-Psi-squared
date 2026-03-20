@@ -99,6 +99,14 @@ for 302 neurons, 20 coupled cells, or a signaling network in a
 root system. The palindromic structure either exists in the dynamics
 matrix or it does not, regardless of which organism carries it.
 
+That said, the human brain is where the data is. Decades of EEG,
+fMRI, and MEG recordings. The Human Connectome Project. Detailed
+maps of oscillation frequencies correlated with cognitive states.
+If we want to actually RUN the palindromic test on a real biological
+network, the human brain is the most practical starting point. Not
+because it is the first system with self-recognition, but because
+it is the system we can compute with.
+
 At every step, the V-Effect operates: the pattern from the level
 below becomes too complex for a single mirror and differentiates
 into richer structure. The question is whether the PALINDROMIC
