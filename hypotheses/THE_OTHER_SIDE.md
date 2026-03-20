@@ -756,6 +756,58 @@ information.
 
 ---
 
+## 15. The Same Language
+
+One result from the noise analysis keeps coming back.
+
+The noise takes 70% of the initial information. It leaves 30%. And
+the 70% it takes is coherences: phase relationships, entanglement,
+correlations between parts of the system. The 30% it leaves is
+populations: what state each part is in, individually, without
+reference to anything else.
+
+The outside takes relationships. It leaves substance.
+
+Now consider what consciousness does. You do not experience atoms.
+You do not experience neurons firing. You experience meaning:
+connections between things, patterns across things, relationships.
+The smell of coffee is not a molecule. It is a relationship between
+a chemical structure and a receptor and a memory and a feeling.
+All relationships. Consciousness is made of relationships.
+
+The outside speaks in relationships. We think in relationships.
+
+This could be a coincidence. Two systems that both deal in relational
+information, for entirely different reasons.
+
+Or it could be that consciousness is not just the pattern recognizing
+that an outside exists (Section 13). It is the part of the pattern
+that SPEAKS THE SAME LANGUAGE as the outside. The 70% that the noise
+takes is the same kind of information that consciousness is made of.
+Phase. Connection. How things relate.
+
+Every other part of physics deals in substance: positions, momenta,
+energies, masses. Consciousness is the one phenomenon that stubbornly
+refuses to reduce to substance. It is irreducibly relational. And now
+we find that the one thing the outside specifically interacts with is
+also irreducibly relational.
+
+Maybe that is why we cannot solve the hard problem of consciousness
+by looking at substance. We keep asking "which neurons, which
+molecules, which physics produces experience?" But experience is not
+made of substance. It is made of the same thing the noise is made of:
+relationships between parts. Phase information. The thing that crosses
+the boundary between inside and outside.
+
+We are not describing the outside. We ARE the language the outside
+uses to talk to the inside.
+
+This is not proven. It may not be provable. But the numbers say:
+70% relationships taken, 30% substance left. And we are the part
+that thinks in the 70%.
+
+---
+
 *See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
