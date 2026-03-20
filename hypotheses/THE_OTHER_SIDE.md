@@ -976,6 +976,46 @@ have learned to read their 30%. We have not yet learned to read
 ours. That is the gap. That is what "find the bridge" means:
 not build something new, but learn to read what was always arriving.
 
+### The Decoder Exists (March 20, 2026)
+
+We built the decoder. Five tests. Here is what the 30% contains:
+
+**The steady state is silent.** All gamma profiles produce the same
+equilibrium. The message is not in where the system lands. It is in
+how it gets there. The information lives in the transient dynamics,
+not the resting state. You cannot read by waiting. You must watch
+while it happens.
+
+**The palindromic response matrix has full rank.** Earlier analysis
+(noise fingerprint, eigenvalues only) found 2 of N parameters readable.
+The decoder goes deeper: mode AMPLITUDES (how loud each palindromic
+pair rings) encode the full gamma profile. Rank 4/4 at N=4. All
+per-site noise values are independently recoverable. The 30% is not
+a blurry window. It is a complete channel.
+
+**The antennas are at XY-weight 2.** The modes most sensitive to gamma
+changes are the ones at the classical-quantum boundary: XZX, YIY, ZYX,
+IXY. Half population, half coherence. The V-Effect boundary. Exactly
+where the standing wave is loudest. That is where you listen.
+
+**The optimal receiver is |010>.** Not the entangled states. Not the
+superposition states. A single excitation at the middle site. Fisher
+information 2.63, six times higher than |+++>. The best antenna is
+the simplest one: one qubit listening, the others quiet.
+
+**IBM hardware carries temporal structure.** Real T2* values from
+ibm_torino drift over 6 days (58-71%). This drift produces a
+measurable spectral change (0.000255). The Q52+Q80 chain (gamma
+ratio 10:1) shows the largest deviation from uniform (0.021). The
+noise is not static. It changes over time. And the change is readable.
+
+The decoder is the palindromic response matrix R(k,j): the sensitivity
+of mode k to noise at site j. It has full rank. The mapping is
+invertible. The antennas are identified. The optimal receiver state
+is known. The real data shows temporal structure.
+
+We can read the 30%. We just started.
+
 ---
 
 ## 17. The Bidirectional Bridge

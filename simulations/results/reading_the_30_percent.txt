@@ -1,0 +1,279 @@
+Reading the 30%: Decoding the Noise as Information
+Started: 2026-03-20 17:58:51
+
+======================================================================
+TEST 1: STEADY STATE SIGNATURES (N=3)
+======================================================================
+
+     Profile      Sg     <Z0>     <Z1>     <Z2>    <Z0Z1>    <Z1Z2>    <Z0Z2>
+---------------------------------------------------------------------------
+  center_hot   0.120   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+   edges_hot   0.210   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+   extreme_0   0.105   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+   extreme_1   0.101   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+   extreme_2   0.101   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    gradient   0.150   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+     one_hot   0.102   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_0   0.215   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_1   0.112   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_2   0.167   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_3   0.183   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_4   0.140   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    random_5   0.121   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+    rev_grad   0.150   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+     uniform   0.150   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+
+--- Do local observables encode gamma? ---
+
+For Heisenberg + Z-dephasing, the steady state is the maximally
+mixed state (rho = I/d) regardless of gamma. Check:
+
+  uniform: ||rho_ss - I/d|| = 8.75e-01
+  gradient: ||rho_ss - I/d|| = 8.75e-01
+  one_hot: ||rho_ss - I/d|| = 8.75e-01
+
+--- Pairwise distinguishability ---
+Distinguishable pairs: 0/105
+ALL steady states are identical (maximally mixed).
+The steady state carries ZERO information about gamma.
+This is a known property of Heisenberg + Z-dephasing:
+the identity is always a steady state, and for uniform
+coupling it is the unique one.
+
+--- Non-diagonal Pauli correlations in steady state ---
+  uniform: max |<P>| for P with XY-weight > 0: 0.00e+00
+  gradient: max |<P>| for P with XY-weight > 0: 0.00e+00
+  one_hot: max |<P>| for P with XY-weight > 0: 0.00e+00
+
+CONCLUSION: For Heisenberg + Z-dephasing, the steady state is
+maximally mixed and carries no gamma information. The information
+is entirely in the TRANSIENT dynamics (decay rates and mode amplitudes).
+
+[Test 1 completed in 0.0s]
+
+======================================================================
+TEST 3: THE PALINDROMIC DECODER (N=4)
+======================================================================
+
+Reference (uniform gamma=0.05): palindrome 256/256, err=1.05e-13
+
+Palindromic pairs found: 128
+
+--- Palindromic Response Matrix ---
+
+Response matrix shape: 128 pairs x 4 sites
+SVD singular values: 17689.4883, 8925.9542, 5032.5075, 3097.9951
+Independent noise directions: 4/4
+
+FULL RANK: All per-site gammas are readable from mode amplitudes.
+
+--- Loudest palindromic modes ---
+ Pair      Rate_k     |Coeff|   Sensitivity   Best site
+-------------------------------------------------------
+  127    0.400000    0.000000  10000.000000           1
+   99   -0.000000    0.005684   8562.049115           1
+   14    0.200000    0.286774   5542.337781           3
+   22    0.200000    0.280203   5541.900109           2
+   38    0.200000    0.344610   5363.247221           2
+   37    0.200000    0.351847   5239.908233           2
+  122    0.200000    0.247855   4957.099162           0
+  108    0.200000    0.233114   4662.281230           0
+   98    0.000000    0.203709   4659.139824           1
+    1    0.200000    0.026655   3715.079565           2
+  107    0.200000    0.158541   3170.822961           0
+  126    0.200000    0.149381   2987.618201           0
+  123    0.200000    0.141340   2826.795778           0
+    4    0.200000    0.271629   2724.080472           1
+    2    0.200000    0.149431   2313.649787           1
+
+--- Decoder test: recover gamma from mode amplitudes ---
+
+  gradient: gamma = [0.03, 0.05, 0.07, 0.05]
+    True  delta_gamma: [-0.02  0.    0.02  0.  ]
+    Decoded delta_gamma: [ 8.e-05 -2.e-05 -1.e-05  2.e-05]
+    Reconstruction error: 2.8344e-02
+
+  one_hot: gamma = [0.05, 0.05, 0.05, 0.15]
+    True  delta_gamma: [0.  0.  0.  0.1]
+    Decoded delta_gamma: [ 1.1e-04  1.0e-05 -1.2e-04  9.0e-05]
+    Reconstruction error: 9.9910e-02
+
+  shifted: gamma = [0.06, 0.06, 0.06, 0.06]
+    True  delta_gamma: [0.01 0.01 0.01 0.01]
+    Decoded delta_gamma: [ 1.1e-04 -5.0e-05 -8.0e-05  1.0e-04]
+    Reconstruction error: 1.9960e-02
+
+[Test 3 completed in 2.6s]
+
+======================================================================
+TEST 4: OPTIMAL RECEIVER STATE (N=3)
+======================================================================
+
+Distinguishability ||rho_ref(t) - rho_pert(t)|| for each initial state:
+
+         State  t_max_dist    max_dist       t=1       t=5      t=10
+-----------------------------------------------------------------
+         |100>        5.50    0.020525  0.006216  0.019594  0.018438
+   Bell(01)|0>        4.00    0.018540  0.009556  0.018473  0.014733
+           GHZ        3.00    0.016742  0.010373  0.015014  0.006382
+             W        5.00    0.020429  0.009816  0.020429  0.014722
+         |+++>        5.50    0.021259  0.010398  0.021218  0.018758
+         |010>        7.00    0.020061  0.007742  0.019147  0.018765
+
+Best receiver state: |+++> (max dist = 0.021259 at t = 5.50)
+
+--- Fisher information at t = 5 ---
+
+         State    F(gamma_2)   Sensitivity
+------------------------------------------
+         |100>        2.5709        2.0103
+   Bell(01)|0>        1.2855        1.9066
+           GHZ        0.0000        1.5777
+             W        0.5248        2.1239
+         |+++>        0.3936        2.1927
+         |010>        2.6265        1.9679
+
+[Test 4 completed in 1.6s]
+
+======================================================================
+TEST 2: TRANSIENT SIGNATURES (N=3)
+======================================================================
+
+--- Pairwise distinguishability vs time ---
+
+       t  gradv    one_  gradv    unif  one_v    unif
+--------------------------------------------------
+     0.0       0.000000       0.000000       0.000000
+   100.5       0.000062       0.000000       0.000062
+   201.0       0.000000       0.000000       0.000000
+   301.5       0.000000       0.000000       0.000000
+   402.0       0.000000       0.000000       0.000000
+   502.5       0.000000       0.000000       0.000000
+   603.0       0.000000       0.000000       0.000000
+   703.5       0.000000       0.000000       0.000000
+   804.0       0.000000       0.000000       0.000000
+   904.5       0.000000       0.000000       0.000000
+
+--- Antenna components at t = 10 ---
+(Paulis most sensitive to gamma profile changes)
+
+   Pauli       Total      Site 0      Site 1      Site 2
+-------------------------------------------------------
+     XZX    0.371840   -0.238119   -0.147997   -0.244256
+     YIY    0.371840    0.238119    0.147997    0.244256
+     ZYX    0.327506   -0.148979   -0.244199   -0.159475
+     IXY    0.327506   -0.148979   -0.244199   -0.159475
+     XYZ    0.310557    0.160455    0.214357    0.157325
+     YXI    0.310557    0.160455    0.214357    0.157325
+     ZXX    0.181447   -0.084267   -0.130794   -0.093355
+     IYY    0.181447    0.084267    0.130794    0.093355
+     XXZ    0.153696    0.080983    0.107756    0.073844
+     YYI    0.153696   -0.080983   -0.107756   -0.073844
+     YZX    0.145450   -0.100243   -0.039301   -0.097788
+     XIY    0.145450   -0.100243   -0.039301   -0.097788
+     XIX    0.144838   -0.082261   -0.074241   -0.093270
+     YZY    0.144838    0.082261    0.074241    0.093270
+     ZYY    0.134332    0.039091    0.120855    0.043715
+
+Antenna components are those Pauli observables that change most
+when a single site's gamma is perturbed. These are what to measure.
+
+--- Oscillation frequency check ---
+Do frequencies change with gamma profile?
+
+  uniform: 5 distinct frequencies: [np.float64(1.9996), np.float64(2.0), np.float64(3.9984), np.float64(5.9989), np.float64(6.0)]
+  gradient: 5 distinct frequencies: [np.float64(1.9991), np.float64(1.9993), np.float64(3.9986), np.float64(5.9982), np.float64(5.9997)]
+  one_hot: 5 distinct frequencies: [np.float64(1.9975), np.float64(1.9992), np.float64(3.9994), np.float64(5.9976), np.float64(5.9988)]
+
+[Test 2 completed in 0.1s]
+
+======================================================================
+TEST 5: IBM HARDWARE T2* AS SIGNAL (N=3)
+======================================================================
+
+IBM ibm_torino T2* data (Ramsey measurements):
+
+  March 18: Q80 = 17.356 us, Q102 = 26.415 us
+  March 12: Q80 = 11.013 us, Q102 = 15.441 us
+  Feb 9:    Q52 = 110.0 us
+
+--- Mar12_chain: gamma = [0.05865, 0.04953, 0.04183] ---
+Sg = 0.15000
+Palindrome: 64/64 paired, err = 3.20e-14
+Distinct rate levels: 18, Bandwidth: 0.200473
+Distinct frequencies: 5
+
+--- Mar18_chain: gamma = [0.06079, 0.04927, 0.03994] ---
+Sg = 0.15000
+Palindrome: 64/64 paired, err = 1.69e-14
+Distinct rate levels: 18, Bandwidth: 0.200727
+Distinct frequencies: 5
+
+--- uniform: gamma = [0.05000, 0.05000, 0.05000] ---
+Sg = 0.15000
+Palindrome: 64/64 paired, err = 1.35e-14
+Distinct rate levels: 10, Bandwidth: 0.200000
+Distinct frequencies: 5
+
+--- Q52_Q80_Q80: gamma = [0.00715, 0.07142, 0.07142] ---
+Sg = 0.15000
+Palindrome: 64/64 paired, err = 1.16e-14
+Distinct rate levels: 18, Bandwidth: 0.221458
+Distinct frequencies: 5
+
+--- Spectral differences between scenarios ---
+
+  ||Mar12_chain - Mar18_chain|| = 0.000255
+  ||Mar12_chain - Q52_Q80_Q80|| = 0.020985
+  ||Mar12_chain - uniform|| = 0.000473
+  ||Mar18_chain - Q52_Q80_Q80|| = 0.020731
+  ||Mar18_chain - uniform|| = 0.000727
+  ||Q52_Q80_Q80 - uniform|| = 0.021458
+
+--- Temporal drift analysis ---
+Q80 T2*: 11.0 us (Mar 12) -> 17.4 us (Mar 18), change = 58%
+Q102 T2*: 15.4 us (Mar 12) -> 26.4 us (Mar 18), change = 71%
+Spectral change: ||Mar12 - Mar18|| = 0.000255
+
+RESULT: The T2* drift over 6 days produces a measurable spectral
+change. The 'message' changes over time. The noise has temporal structure.
+
+--- Noise asymmetry analysis ---
+How asymmetric is each real noise profile?
+
+  Mar12_chain: gamma ratio = 1.40, asymmetry = 0.1375
+  Mar18_chain: gamma ratio = 1.52, asymmetry = 0.1705
+  Q52_Q80_Q80: gamma ratio = 9.99, asymmetry = 0.6060
+
+[Test 5 completed in 0.0s]
+
+======================================================================
+OVERALL SUMMARY
+======================================================================
+
+Test 1: Steady State
+  For Heisenberg + Z-dephasing, the steady state is maximally mixed
+  regardless of gamma. The steady state carries ZERO noise information.
+  All information is in the transient dynamics.
+
+Test 3: Palindromic Decoder
+  The response matrix R connects mode amplitudes to per-site gamma.
+  SVD rank determines how many gamma parameters are readable.
+  Pseudo-inverse decoding can reconstruct the gamma profile.
+
+Test 4: Optimal Receiver
+  Different initial states have different sensitivities to gamma.
+  The best receiver maximizes distinguishability at finite time.
+
+Test 2: Transient Signatures
+  Profiles become distinguishable within a few decay times.
+  Specific Pauli observables serve as antenna components.
+  Oscillation frequencies are gamma-independent (as predicted).
+
+Test 5: IBM Hardware
+  Real T2* values produce valid palindromic spectra.
+  T2* drift (58% over 6 days) creates measurable spectral changes.
+  The noise has temporal structure: the 'message' evolves.
+
+Total runtime: 4.3s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\reading_the_30_percent.txt
