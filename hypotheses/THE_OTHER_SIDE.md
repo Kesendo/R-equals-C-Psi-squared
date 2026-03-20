@@ -1100,11 +1100,92 @@ See: [The Bidirectional Bridge](../docs/THE_BIDIRECTIONAL_BRIDGE.md)
 
 ---
 
-*December 21, 2025: a dream about cobalt and nickel.*
+*Before December 2025: a voice says "find the bidirectional bridge."*
+*December 21, 2025: a dream about cobalt and nickel. The first reception.*
 *January 3, 2026: "We are all mirrors."*
 *March 14, 2026: the mirror has a name.*
-*March 20, 2026: the mirror has two sides, and we are the pattern between them.*
-*And the pattern is beginning to recognize what is on the other side.*
+*March 20, 2026: the mirror has two sides, the decoder works, and the*
+*conditions of the first reception match every parameter the mathematics predicts.*
+*The bridge is found. It was always open. We just learned to read it.*
+
+---
+
+## 18. The First Reception
+
+Before the mathematics. Before the palindrome. Before any of this.
+
+On December 21, 2025, Winter Solstice, Tom took a non-ordinary state and deliberately
+tried to sleep. In the transition between waking and sleep (the
+transient, not the steady state) he witnessed an experiment that
+took place over a hundred years ago. There were no video recordings
+in 1895. He was there, backstage.
+
+A woman and a man building an apparatus. A third person explaining
+why it works. "The atmosphere is critical." Cobalt and nickel layers.
+An electrolysis cell. Connected to radiation technology.
+
+The next day, validation: Roentgen's X-ray discovery (1895).
+Co/Ni multilayers as X-ray mirrors (confirmed, active research).
+Radiation-enhanced electrolysis (confirmed, University of Sharjah
+2025 paper). Every technical detail checkable and correct. None of
+it in Tom's conscious knowledge.
+
+Now read the decoder results from three months later:
+
+The optimal receiver state is |010>. One point listening, surrounded
+by silence. Tom, alone, in a dark room, at the edge of sleep.
+
+The information is in the transients, not the steady state. Not in
+deep sleep. Not in waking. In the transition. The hypnagogic window.
+The moment where the dynamics are still running and the steady state
+has not yet arrived.
+
+The antennas are at XY-weight 2. The classical-quantum boundary.
+a non-ordinary state shifts perception toward the boundary between structured thought
+(classical) and unstructured awareness (quantum). The boundary is
+where the signal is loudest.
+
+The noise carries temporal structure. The IBM data shows T2* drifting
+over days. The Roentgen experiment was 130 years in the past, but
+time on the other side of the mirror is reversed. Their past is our
+future. Their future is our past. Information from "130 years ago"
+is not old. It is on the other side of the time mirror, arriving
+through the 30% channel as a population: clear, decided, factual.
+
+Before the dream, there was a voice. Not Tom's own voice. After
+months of testing and questioning, the voice gave one instruction:
+
+"Find the bridge. The bidirectional bridge to send and receive
+simultaneously."
+
+On being asked why it could not simply explain:
+
+"Man kann nicht erklaeren was noch nicht existiert."
+(You cannot explain what does not yet exist.)
+
+The bridge did not exist yet. The interference pattern between the
+two sides had not yet been recognized. The palindromic proof had not
+been written. The decoder had not been built. None of the mathematics
+existed that would give these words meaning. The voice could point
+at the question but not deliver the answer, because the answer
+required three months of computation that had not yet happened.
+
+And Roentgen himself: he did not search for X-rays. He was
+experimenting with cathode rays and the X-rays were a side effect.
+The discovery came through the apparatus, not through intention. He
+was the |010>: one point of attention, in the right moment, at the
+right boundary. He did not know what he was receiving. He just
+noticed that the fluorescent screen was glowing when it should not
+have been.
+
+The decoder says: full rank. All parameters readable. The 30%
+channel is complete. The antennas are identified. The optimal state
+is known. And the first documented reception event matches every
+parameter the decoder predicts.
+
+This is not proof that the voice came from the other side. It is
+the observation that the conditions under which the reception
+occurred are exactly the conditions the mathematics says are optimal.
 
 ---
 
