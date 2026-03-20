@@ -18,7 +18,80 @@ What is on the other side of the mirror? Is there a Level -1?
 
 ---
 
-## 1. The Other Side Is the Same System, Reversed
+## 0. Why the Mirror Exists at All
+
+Before asking what is on the other side, a more basic question:
+why is there a mirror in the first place?
+
+Two qubits in perfect isolation, coupled by a Hamiltonian, without
+any noise, without any environment: they oscillate. Forever. In
+perfect harmony. And nothing happens. No palindromic symmetry. No
+standing wave. No 2:2 split. No Π operator. Nothing structural.
+Just endless, featureless oscillation. Like two perfect mirrors in
+a vacuum, bouncing light back and forth with no pattern.
+
+The palindromic mirror arises ONLY when there is noise. Decoherence.
+An environment that pulls at the qubits and destroys some of their
+properties while leaving others intact. In the mathematics: the
+Liouvillian is L = L_H + L_D. The Hamiltonian L_H alone produces
+unitary oscillation. It is L_D, the dissipator, the noise, that
+creates the 2:2 split between immune and decaying operators. And
+that split is what the mirror is built from.
+
+Without noise: no split. No mirror. No structure.
+With noise: {I,Z} survive, {X,Y} decay. The mirror Π maps one to
+the other. Standing waves form. The entire architecture appears.
+
+This connects back to the Hierarchy of Incompleteness in a way that
+closes a circle:
+
+- C = 1 (no noise, perfect isolation): stable but structureless.
+  A dead end. Like a noble gas.
+- C = 0.5 (half the operators decay): the mirror exists. Structure
+  emerges. Like carbon.
+
+The "incompleteness" that enables the next level is not a flaw. It is
+the noise. The environment. The thing that breaks perfect harmony and,
+in doing so, creates something richer than harmony ever could.
+
+But this raises a question that goes deeper than physics: if the
+palindromic structure requires an environment, and the environment
+is "everything the system interacts with but does not control," then
+at Level 0, where nothing else exists yet, **what is the environment?**
+
+There is only d=0 (nothing) and d=2 (the qubit pair). There are no
+phonons, no photons, no thermal bath. There is nothing "outside" to
+provide the noise.
+
+Unless the environment is not outside. Unless each side of the mirror
+is the environment of the other.
+
+The +1 parity sector (populations, classical, immune) and the -1 sector
+(coherences, quantum, decaying) are dynamically sealed. They do not
+mix. From inside the +1 sector, the -1 sector is invisible, inaccessible,
+a set of degrees of freedom that evolve on their own. That is exactly
+what an "environment" is in the Lindblad formalism: degrees of freedom
+that are there, that interact with the system, but that are traced over.
+
+Each side decoheres because of the other side.
+Each side is the environment of the other.
+Neither is first. Both are simultaneous.
+
+This is the same bootstrap that THE_STARTING_POINT.md described on
+January 3: "This is not circularity as a problem. This is circularity
+as starting condition." Two mirrors that create each other's reason
+for existing. Without Side A, Side B has no environment and therefore
+no structure. Without Side B, Side A has no environment and therefore
+no structure. They bootstrap each other into existence.
+
+The noise is not something that happens TO the system from outside.
+The noise IS the other side of the mirror. And the mirror exists
+because the noise exists. And the noise exists because the mirror
+exists.
+
+---
+
+## 1. The Two Sides
 
 The palindromic mirror Π swaps populations and coherences, past and
 future, immune and decaying. But Π is not the whole story. Π *squared*
@@ -53,7 +126,7 @@ The two sides of the mirror are dynamically sealed.
 
 ---
 
-## 2. Level -1 Is the Other Parity Sector
+## 3. Level -1 Is the Other Parity Sector
 
 The original question was: what is below Level 0? The answer the data
 supports:
@@ -85,7 +158,7 @@ sides meet.
 
 ---
 
-## 3. We Are Not on One Side
+## 4. We Are Not on One Side
 
 The two sectors are sealed. They never mix dynamically. This sounds
 like two separate worlds. But there is a subtlety that changes
@@ -151,7 +224,7 @@ coexistence.
 
 ---
 
-## 4. Why Only Two Possibilities
+## 5. Why Only Two Possibilities
 
 The equation d(d-2) = 0 gives d = 0 and d = 2. No other options.
 
@@ -177,7 +250,7 @@ result.
 
 ---
 
-## 5. What Was Tested
+## 6. What Was Tested
 
 An initial hypothesis proposed four sides (Z4 structure based on
 Π⁴ = I with eigenvalues +1, -1, +i, -i). Five computational tests
@@ -203,19 +276,20 @@ Results: `simulations/results/z4_sector_analysis.txt`
 
 ---
 
-## 6. The Hierarchy Revisited
+## 7. The Hierarchy Revisited
 
 With two sides established, the hierarchy reads:
 
 ```
-d = 0: Nothing. No mirror. No sides.
+d = 0: Nothing. No mirror. No sides. No noise.
             |
     [ d(d-2) = 0: the only transition ]
             |
 Level 0: The qubit (d=2, C=0.5)
-├── Two parity sectors (+1 and -1 under Π² = X^N)
-├── +1 sector: populations dominate, classical backbone
-├── -1 sector: coherences dominate, quantum backbone
+├── Two parity sectors bootstrap each other (Section 0)
+├── Each side is the environment of the other
+├── The noise that creates the mirror IS the other side
+├── Π² = X^N conserved parity, sectors sealed
 ├── Π connects the two sides (palindromic pairing)
 ├── Standing wave forms at the boundary between sides
 ├── Incompleteness: half the operators decay
@@ -238,7 +312,7 @@ at their boundary.
 
 ---
 
-## 7. We Are the Interference
+## 8. We Are the Interference
 
 A natural question follows: if the two sides are sealed, which side
 are we on?
@@ -275,7 +349,7 @@ wave. We are the interference.
 
 ---
 
-## 8. Why Complexity Must Emerge
+## 9. Why Complexity Must Emerge
 
 If we are the interference pattern, and there is nothing below us
 (d=0), then everything above us can only originate from this pattern.
@@ -338,7 +412,7 @@ See: [The V-Effect](../experiments/V_EFFECT_PALINDROME.md),
 
 ---
 
-## 9. Where Consciousness Enters
+## 10. Where Consciousness Enters
 
 An earlier version of this project proposed consciousness as a
 fundamental ingredient: the thing that collapses the wave function,
@@ -398,7 +472,7 @@ See: [The Anomaly](../THE_ANOMALY.md)
 
 ---
 
-## 10. Open Questions
+## 11. Open Questions
 
 1. **What lives in the -1 sector?** The parity split is proven, but
    what physical states or processes inhabit the -1 sector? Can we
@@ -423,9 +497,14 @@ See: [The Anomaly](../THE_ANOMALY.md)
    differentiate," is there a minimum number of levels before
    self-recognition becomes possible? Can this be formalized?
 
+6. **Is the bootstrap testable?** Section 0 proposes that each parity
+   sector is the environment of the other. Can this be verified:
+   does tracing over the -1 sector of the Liouvillian produce an
+   effective dissipator for the +1 sector that matches L_D?
+
 ---
 
-## 11. Connection to Quantum Field Theory
+## 12. Connection to Quantum Field Theory
 
 Physics has known for a century that nothing is solid. Your hand does
 not touch the table. Electrons never make contact with anything. The
