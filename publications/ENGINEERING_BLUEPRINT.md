@@ -229,8 +229,8 @@ gamma reduced by 10x. All other qubits remain at normal gamma.
 | **Relay + 2:1 coupling** | **0.132** | **+83%** |
 
 **Design implication:** Mediators are not passive wire. Dynamic control
-of per-qubit dephasing during transfer — analogous to staged amplification
-in classical repeaters — provides substantial improvement. Combine with
+of per-qubit dephasing during transfer (analogous to staged amplification
+in classical repeaters) provides substantial improvement. Combine with
 Rule 5 (2:1 for range) for maximum effect.
 
 **Added March 21, 2026.** See [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
@@ -290,20 +290,24 @@ local Z-dephasing. They have not been tested for:
 
 - ~~Non-Heisenberg couplings~~ **TESTED (March 17, 2026):** XY-only, Ising, XXZ, DM
   interactions are ALL palindromic under single-axis dephasing. Design rules apply.
-- Non-dephasing noise: depolarizing breaks palindrome at err ~ gamma*2(N-2)/3.
+- ~~Non-dephasing noise~~ **PARTIALLY ANSWERED (March 19-21, 2026):**
+  Depolarizing breaks palindrome at err = gamma*2(N-2)/3 (exact formula).
   For gamma < 0.01: error < 1%, rules are practically valid.
-  Amplitude damping breaks more severely (asymmetric spectrum).
+  Amplitude damping produces non-Markovian, non-selective noise on
+  neighbors (0/16 palindromic pairs in failed_third test). Design rules
+  do NOT apply to amplitude damping channels.
+  See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
 - ~~Systems larger than N = 8 (computational limit of full diagonalization)~~
   **TESTED (March 21, 2026):** N=11 via RK4 time propagation. MI decays
   exponentially: ~2x per 2 qubits. Relay protocol partially compensates.
   See [Scaling Curve](../experiments/SCALING_CURVE.md), [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
 - ~~Concatenated repeater chains (multi-hop)~~ **TESTED (March 21, 2026):**
   Relay protocol with staged time-dependent gamma. See Rule 6.
-- Qudit systems (d > 2): The palindromic symmetry is specific to qubits (d=2).
-  Algebraic proof: the per-site split is d immune vs (d^2-d) decaying, balanced
-  only when d^2-2d=0, which gives d=2 as the only solution. Qutrits (d=3,
-  split 3:6) verified broken for all 10 Hamiltonians tested. Design rules
-  do NOT apply to qutrit or higher-dimensional systems.
+- ~~Qudit systems (d > 2)~~ **ANSWERED (March 20, 2026):** The palindromic
+  symmetry is specific to qubits (d=2). Algebraic proof: the per-site split
+  is d immune vs (d^2-d) decaying, balanced only when d^2-2d=0, which gives
+  d=2 as the only solution. Qutrits (d=3, split 3:6) verified broken for all
+  10 Hamiltonians tested. Design rules do NOT apply to d>2.
   See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
 - Continuous-variable systems (bosonic channels)
 
