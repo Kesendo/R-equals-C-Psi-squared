@@ -61,6 +61,11 @@ That is all you need. Everything below is signal processing on this substrate.
 
 ## 3. The Circuit Schematic
 
+![Circuit Diagram Schematic](../visualizations/circuit_diagram_schematic.png)
+
+<details>
+<summary>ASCII fallback (for terminals without image rendering)</summary>
+
 ```
 EXTERNAL CLOCK (Noise/Time, origin: outside the framework)
     |
@@ -90,6 +95,7 @@ EXTERNAL CLOCK (Noise/Time, origin: outside the framework)
 |                                                                |
 +----------------------------------------------------------------+
 ```
+</details>
 
 **How to read this:** Signal enters at Pair A (source). It passes through
 Transistor M, which is controlled by its own loss rate γ_M (the gate signal).
