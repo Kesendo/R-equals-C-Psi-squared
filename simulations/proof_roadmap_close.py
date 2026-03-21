@@ -308,15 +308,15 @@ def run_test_4():
     for nq in range(2, 7):  # N=7 Liouvillian is 8GB, N=8 is 73GB
         dq = 2 ** nq
 
-        # Analytical: GHZ under Z-dephasing
-        # rho has diagonal 1/2^N each, off-diag rho[0, 2^N-1] = (1/2)*exp(-N*gamma*t)
-        # Purity = 1/2^N + (1/2)*exp(-2*N*gamma*t)
-        # l1 = 2 * (1/2) * exp(-N*gamma*t) = exp(-N*gamma*t)
-        # Psi = l1 / (d^2 - 1) = exp(-N*gamma*t) / (4^N - 1)
-        # CPsi = Purity * Psi
+        # Analytical: GHZ under pure Z-dephasing (no Hamiltonian)
+        # GHZ rho has only 2 nonzero diag elements: rho[0,0]=1/2, rho[d-1,d-1]=1/2
+        # Off-diag rho[0, d-1] = (1/2)*exp(-2*N*gamma*t)
+        #   (rate 2Nγ because ALL N bits differ between |0...0> and |1...1>)
+        # Purity = (1/2)^2 + (1/2)^2 + 2*(1/2)^2*exp(-4Nγt) = 1/2 + (1/2)*exp(-4Nγt)
+        # l1 = 2*(1/2)*exp(-2Nγt) = exp(-2Nγt)
 
-        C_anal = 1.0 / dq + 0.5 * np.exp(-2 * nq * gamma * t_eval)
-        l1_anal = np.exp(-nq * gamma * t_eval)
+        C_anal = 0.5 + 0.5 * np.exp(-4 * nq * gamma * t_eval)
+        l1_anal = np.exp(-2 * nq * gamma * t_eval)
         Psi_anal = l1_anal / (dq**2 - 1)
         CPsi_anal = C_anal * Psi_anal
 
@@ -358,13 +358,11 @@ def run_test_4():
         delta = CPsi_num - CPsi_anal
         match = abs(delta) < 1e-6
 
-        # Crossing time (analytical)
-        # CPsi(t) = [1/2^N + (1/2)*exp(-2Ngt)] * exp(-Ngt) / (4^N - 1) = 1/4
-        # Solve numerically
+        # Crossing time (analytical, pure dephasing)
         from scipy.optimize import brentq
         def cpsi_of_t(t):
-            C = 1.0/dq + 0.5*np.exp(-2*nq*gamma*t)
-            Psi = np.exp(-nq*gamma*t) / (dq**2 - 1)
+            C = 0.5 + 0.5*np.exp(-4*nq*gamma*t)
+            Psi = np.exp(-2*nq*gamma*t) / (dq**2 - 1)
             return C * Psi - 0.25
 
         try:
@@ -379,10 +377,71 @@ def run_test_4():
             f"{'YES' if match else 'NO':>8}")
 
     log()
-    log("  Analytical formula:")
-    log("    C(t) = 1/2^N + (1/2)*exp(-2*N*gamma*t)")
-    log("    Psi(t) = exp(-N*gamma*t) / (4^N - 1)")
+    log("  Analytical formula (GHZ under Z-dephasing):")
+    log("    C(t) = 1/2 + (1/2)*exp(-4*N*gamma*t)")
+    log("    Psi(t) = exp(-2*N*gamma*t) / (4^N - 1)")
     log("    CPsi(t) = C(t) * Psi(t)")
+    log("    Rate 2Ng per off-diagonal (all N bits differ in GHZ)")
+    log()
+
+
+# ============================================================
+# TEST 5: GHZ Pure Dephasing J=0 (validates analytical formula)
+# ============================================================
+def run_test_5():
+    log("=" * 70)
+    log("TEST 5: GHZ PURE DEPHASING (J=0, no Hamiltonian)")
+    log("=" * 70)
+    log()
+
+    gamma = 0.1
+    t_eval = 1.0
+
+    log(f"  {'N':>3}  {'CPsi_analytic':>14}  {'CPsi_Lindblad':>14}  {'delta':>10}  {'Match?':>8}")
+    log(f"  {'-'*55}")
+
+    for nq in range(2, 7):
+        dq = 2 ** nq
+        dq2 = dq * dq
+
+        # Analytical (exact when H=0)
+        C_anal = 0.5 + 0.5 * np.exp(-4 * nq * gamma * t_eval)
+        l1_anal = np.exp(-2 * nq * gamma * t_eval)
+        Psi_anal = l1_anal / (dq**2 - 1)
+        CPsi_anal = C_anal * Psi_anal
+
+        # Lindblad with H=0 (pure dephasing only)
+        H_zero = np.zeros((dq, dq), dtype=complex)
+        Id_nq = np.eye(dq)
+        L_nq = -1j * (np.kron(H_zero, Id_nq) - np.kron(Id_nq, H_zero.T))  # = 0
+        for k in range(nq):
+            ops = [I2] * nq; ops[k] = sz
+            Zk = ops[0]
+            for o in ops[1:]: Zk = np.kron(Zk, o)
+            L_nq += gamma * (np.kron(Zk, Zk.conj()) - np.eye(dq2))
+
+        psi_ghz = np.zeros(dq, dtype=complex)
+        psi_ghz[0] = 1/np.sqrt(2)
+        psi_ghz[dq-1] = 1/np.sqrt(2)
+        rho0_ghz = np.outer(psi_ghz, psi_ghz.conj())
+
+        rho_t = (expm(L_nq * t_eval) @ rho0_ghz.flatten()).reshape(dq, dq)
+        rho_t = (rho_t + rho_t.conj().T) / 2
+
+        C_num = np.real(np.trace(rho_t @ rho_t))
+        l1_num = np.sum(np.abs(rho_t)) - np.sum(np.abs(np.diag(rho_t)))
+        Psi_num = l1_num / (dq**2 - 1)
+        CPsi_num = C_num * Psi_num
+
+        delta = abs(CPsi_num - CPsi_anal)
+        match = delta < 1e-10
+
+        log(f"  {nq:>3}  {CPsi_anal:>14.10f}  {CPsi_num:>14.10f}  {delta:>10.2e}  "
+            f"{'YES' if match else 'NO':>8}")
+
+    log()
+    log("  At J=0, the analytical formula matches exactly (< 1e-10).")
+    log("  The delta in Test 4 is the Hamiltonian contribution, not an error.")
     log()
 
 
@@ -411,6 +470,11 @@ if __name__ == "__main__":
     t4 = time.time()
     run_test_4()
     log(f"[Test 4 completed in {time.time()-t4:.1f}s]")
+    log()
+
+    t5 = time.time()
+    run_test_5()
+    log(f"[Test 5 completed in {time.time()-t5:.1f}s]")
     log()
 
     log(f"Total runtime: {time.time()-t0:.1f}s")

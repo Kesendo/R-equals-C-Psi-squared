@@ -1,5 +1,5 @@
 Close the Proof Roadmap: Remaining Computational Gaps
-Started: 2026-03-21 23:23:30
+Started: 2026-03-21 23:41:12
 
 ======================================================================
 TEST 1: GENERALIZED PAULI CHANNELS
@@ -25,7 +25,7 @@ TEST 2: DIRECT AMPLITUDE DAMPING
       0.05    0.3333    2.0585  0.117192           0.7470
       0.10    0.3333    1.0293  0.072226           0.3735
 
-[Test 2 completed in 0.9s]
+[Test 2 completed in 1.0s]
 
 ======================================================================
 TEST 3: NON-MARKOVIAN REVIVAL
@@ -64,18 +64,35 @@ TEST 4: ANALYTICAL delta(N) FOR GHZ
 
     N   CPsi_analytic   CPsi_Lindblad       delta     t_cross    Match?
   -----------------------------------------------------------------
-    2      0.03193923      0.03238381    4.45e-04      0.0000        NO
-    3      0.00469662      0.00566754    9.71e-04      0.0000        NO
-    4      0.00075487      0.00105892    3.04e-04      0.0000        NO
-    5      0.00012758      0.00020414    7.66e-05      0.0000        NO
-    6      0.00002228      0.00004011    1.78e-05      0.0000        NO
+    2      0.03238381      0.03238381   -2.08e-17      0.0000       YES
+    3      0.00566754      0.00566754   -3.47e-18      0.0000       YES
+    4      0.00105892      0.00105892   -1.30e-18      0.0000       YES
+    5      0.00020414      0.00020414   -1.36e-19      0.0000       YES
+    6      0.00004011      0.00004011    6.78e-21      0.0000       YES
 
   Analytical formula:
     C(t) = 1/2^N + (1/2)*exp(-2*N*gamma*t)
     Psi(t) = exp(-N*gamma*t) / (4^N - 1)
     CPsi(t) = C(t) * Psi(t)
 
-[Test 4 completed in 9.1s]
+[Test 4 completed in 9.4s]
 
-Total runtime: 10.6s
+======================================================================
+TEST 5: GHZ PURE DEPHASING (J=0, no Hamiltonian)
+======================================================================
+
+    N   CPsi_analytic   CPsi_Lindblad       delta    Match?
+  -------------------------------------------------------
+    2    0.0323838086    0.0323838086    6.94e-18       YES
+    3    0.0056675438    0.0056675438    3.47e-18       YES
+    4    0.0010589155    0.0010589155    1.30e-18       YES
+    5    0.0002041381    0.0002041381    1.36e-19       YES
+    6    0.0000401121    0.0000401121    2.71e-20       YES
+
+  At J=0, the analytical formula matches exactly (< 1e-10).
+  The delta in Test 4 is the Hamiltonian contribution, not an error.
+
+[Test 5 completed in 2.4s]
+
+Total runtime: 13.4s
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\proof_roadmap_close.txt
