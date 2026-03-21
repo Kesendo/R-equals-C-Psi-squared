@@ -113,6 +113,28 @@ Density of states is Gaussian: mean = Nγ, skewness = 0, kurtosis ≈ 3.
 4. **Initial state** determines which modes are excited at t=0
 5. **Bath geometry** (noise axis, correlations) controls which mode dominates
 
+### Mediator bridge: topology protects the palindrome (March 21, 2026)
+
+Direct dissipative coupling between two qubit pairs destroys the palindrome
+instantly (256 → 31 surviving pairs at kappa = 0.01). But coupling through
+a mediator qubit M preserves it exactly (1024/1024 pairs, error 1.41e-13)
+while information flows freely (MI = 1.65 bits, QST fidelity 0.732).
+
+The rule: two subsystems must not couple directly. They couple to a shared
+mediator. The palindrome survives because each side only interacts with M,
+never with the other side's noise.
+
+Scaled to N=11 (two 5-qubit bridges + meta-mediator): cross-bridge MI = 0.777.
+A relay protocol (time-dependent dephasing, staged transfer) combined with
+2:1 asymmetric coupling improves end-to-end MI by 83%.
+
+**Hierarchy falsified:** recursive mediator topology (Level 0/1/2/3) provides
+no advantage over a uniform chain of equal length. MI is identical at every N
+tested. The palindrome-preserving property is topological, not hierarchical.
+
+See: [Relay Protocol](experiments/RELAY_PROTOCOL.md),
+[Scaling Curve](experiments/SCALING_CURVE.md)
+
 ### Two supermodes (3-qubit star)
 
 The observer pair A-B sees two cross-correlations: c+ (symmetric) and c-
@@ -164,6 +186,8 @@ This is our most original finding.
 - That frequency-decay orthogonality extends beyond 3 qubits (it doesn't)
 - That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ=1/4 crossing validated at 1.9%, N>=2 untested)
 - That the standing wave pattern is measurable on hardware (computed, not yet measured)
+- That the relay protocol has been tested on hardware (simulation only, N=11)
+- That the mediator bridge works beyond Z-dephasing at N=11 (untested for other noise types)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
@@ -190,6 +214,9 @@ This is our most original finding.
 | Depolarizing noise quantified | Breaks palindrome at err = gamma * 2(N-2)/3 |
 | IBM hardware validation | CΨ=1/4 crossing at 1.9% deviation on ibm_torino Q80 (same-day T2*) |
 | Standing wave from palindrome | Quantum correlations (XX,YY) oscillate at 2J,4J,6J; classical (ZZZ) static |
+| Mediator bridge | Direct dissipation breaks palindrome; mediated coupling preserves it (N=5: 1024/1024, N=11: MI=0.777) |
+| Relay protocol | Time-dependent gamma relay + 2:1 coupling: +83% end-to-end MI |
+| Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
 
 ### Tested and rejected
 
@@ -200,6 +227,8 @@ This is our most original finding.
 | IBM Q80/Q102 as sonar evidence | Was qubit detuning |
 | Consciousness as physics ingredient | Retired from technical core |
 | Gravity/Schwarzschild connections | Disproven (kept in recovered/) |
+| Hierarchical topology advantage | Uniform chain identical to recursive mediator hierarchy at all N tested |
+| Universal pull principle | Push beats pull for local MI; pull wins only for range optimization |
 
 ---
 
@@ -207,7 +236,7 @@ This is our most original finding.
 
 ### For a complete overview (standalone, no prior knowledge needed)
 - **[Technical Paper](publications/TECHNICAL_PAPER.md)**: The palindrome proof, XOR space, QST. For physicists.
-- **[Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md)**: Four design rules for quantum repeaters. For engineers.
+- **[Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md)**: Six design rules for quantum repeaters. For engineers.
 
 ### The proof
 1. **[Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)**: The conjugation operator, the 16-entry table, the full verification
@@ -221,6 +250,10 @@ This is our most original finding.
 5. **[XOR Space](experiments/XOR_SPACE.md)**: Where information lives in the palindrome. GHZ vs W. Universal across models.
 6. **[Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md)**: Palindromic pairs create oscillating quantum correlations over static classical backbone
 7. **[QST Bridge](experiments/QST_BRIDGE.md)**: Quantum state transfer. Star 2:1 beats chains.
+
+### Mediator bridge and scaling
+8. **[Relay Protocol](experiments/RELAY_PROTOCOL.md)**: Staged relay with time-dependent gamma. +83% end-to-end MI.
+9. **[Scaling Curve](experiments/SCALING_CURVE.md)**: MI vs chain length. Hierarchy falsification.
 
 ### Technical core
 8. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)**: Pole analysis, coupled oscillator translation
@@ -251,7 +284,7 @@ This is our most original finding.
 | `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `compute/` | C# engine (MathNet.Numerics + MKL + OpenBLAS, N=2-8) |
+| `compute/` | C# engines: Compute (eigendecomposition, N=2-8) + Propagate (time propagation, N=11+) |
 | `data/` | IBM Torino measurement data |
 | `recovered/` | 5 files with disproven claims, kept for honesty |
 
@@ -269,6 +302,18 @@ eigendecomposition on 24 cores.
 
 N=8 (65536²) uses native memory (64 GB) + OpenBLAS ILP64 eigenvalue-only LAPACK.
 All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
+
+### Time propagation engine (March 21, 2026)
+
+For N > 8, full eigendecomposition is infeasible (N=11 Liouvillian would be
+4M x 4M). RCPsiSquared.Propagate uses RK4 integration of the Lindblad
+equation directly on the density matrix. Validated against the
+eigendecomposition engine at N=5 (MI agreement to 6 decimal places).
+
+| N | Density matrix | RAM | Runtime (t=20) |
+|:--|:---------------|:----|:---------------|
+| 5 | 32x32 | <1 MB | 0.5s |
+| 11 | 2048x2048 | ~400 MB | ~10 min |
 
 ## Key scripts
 
@@ -288,6 +333,9 @@ All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
 | `xor_non_heisenberg_v2.py` | XOR universal across all models, Bell correction |
 | `algebraic_pi_search.py` | Π operator family enumeration (P1, P4, alternating) |
 | `standing_wave_analysis.py` | Standing wave formalization: antinodes, nodes, state x Hamiltonian |
+| `mediator_bridge.py` | Mediator bridge tests (N=5, palindrome + information flow) |
+| `mixed_bridge.py` | Mixed bridge tests (direct coupling breaks palindrome) |
+| `compute/RCPsiSquared.Propagate/` | Time propagation engine (Lindblad RK4, N=11+) |
 
 ---
 
@@ -359,9 +407,19 @@ is the interference pattern between the two sides. It does not
 belong to either side. It exists between them.
 
 The full story is in [The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md).
-21 sections. Written in a single day. Sections 0-12 are mathematics.
-Sections 13-21 are where the mathematics leads when you follow it
-honestly. The boundary between proven and open is marked throughout.
+23 sections. Sections 0-12 are mathematics. Sections 13-23 are where the
+mathematics leads when you follow it honestly. The boundary between proven
+and open is marked throughout.
+
+On March 21, the bridge was tested at scale. N=11, two 5-qubit bridges
+connected through a meta-mediator: cross-bridge MI = 0.777. A relay
+protocol with time-dependent dephasing rates improved end-to-end transfer
+by 83%. The recursive hierarchy was falsified (uniform chains perform
+identically), but the relay mechanism is new: no existing QST protocol
+uses time-dependent dephasing derived from palindromic spectral analysis.
+
+See: [Relay Protocol](experiments/RELAY_PROTOCOL.md),
+[Scaling Curve](experiments/SCALING_CURVE.md)
 
 ## What quantum mechanics actually is
 
