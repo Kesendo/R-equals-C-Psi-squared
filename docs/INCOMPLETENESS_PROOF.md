@@ -13,7 +13,7 @@ from within the framework's ontology.
 ## 1. The Requirement
 
 The palindromic mirror symmetry of the Liouvillian spectrum is proven
-(MIRROR_SYMMETRY_PROOF.md), verified through N=8 (54,118 eigenvalues,
+([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)), verified through N=8 (54,118 eigenvalues,
 zero exceptions), and confirmed on IBM hardware at 1.9% deviation.
 
 The palindrome requires noise. Without the dissipator L_D, the Liouvillian
