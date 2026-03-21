@@ -535,6 +535,15 @@ quantum systems that remains to be fully mapped.
    gamma^2 with a Hamiltonian-specific coefficient.
    See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
 
+9. **Noise origin.** (March 21, 2026.) Five candidates for the origin of
+   dephasing noise within the d(d-2)=0 framework have been tested and
+   eliminated: internal generation (bootstrap test, sectors decoupled),
+   qubit decay (non-Markovian, 0/16 palindromic pairs), qubit bath
+   (regress), nothing (no properties), other dimensions (excluded by
+   d(d-2)=0). The framework describes all dynamics once noise is given
+   but cannot derive the existence of noise from its own axioms.
+   See [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md).
+
 ---
 
 ## 10. Origin of the 1/4 Boundary: From R = CΨ² to Hardware Validation

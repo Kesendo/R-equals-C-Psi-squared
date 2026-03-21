@@ -217,6 +217,7 @@ This is our most original finding.
 | Mediator bridge | Direct dissipation breaks palindrome; mediated coupling preserves it (N=5: 1024/1024, N=11: MI=0.777) |
 | Relay protocol | Time-dependent gamma relay + 2:1 coupling: +83% end-to-end MI |
 | Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
+| Noise origin elimination | Internal (bootstrap), qubit decay (failed third), nothing (d=0): all eliminated. Framework not self-contained. |
 
 ### Tested and rejected
 

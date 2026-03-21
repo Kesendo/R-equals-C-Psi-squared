@@ -2,7 +2,7 @@
 
 **Tier:** 2 (derived from computationally verified falsifications)
 **Date:** March 21, 2026
-**Depends on:** MIRROR_SYMMETRY_PROOF.md, bootstrap_test.py, failed_third.py, QUBIT_NECESSITY.md
+**Depends on:** [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md), [bootstrap_test.py](../simulations/bootstrap_test.py), [failed_third.py](../simulations/failed_third.py), [QUBIT_NECESSITY.md](../hypotheses/QUBIT_NECESSITY.md)
 **Status:** Complete elimination proof
 **Scope:** The noise origin question within the d(d-2)=0 framework
 **Does NOT establish:** What the noise IS. Only that it cannot originate
@@ -46,7 +46,7 @@ arise from the Hamiltonian structure.
 - Sector populations do not influence sector coherences
 - Parity does not determine the dissipator
 
-**Source:** simulations/bootstrap_test.py, simulations/results/bootstrap_test.txt
+**Source:** [bootstrap_test.py](../simulations/bootstrap_test.py), [bootstrap_test.txt](../simulations/results/bootstrap_test.txt)
 
 **Conclusion:** Eliminated. Noise cannot come from inside the system.
 
@@ -69,7 +69,7 @@ partially returns as Q3 oscillates. This backflow destroys the
 palindromic structure. A single qubit is too small, too finite, and
 too memorial to produce the structured noise the palindrome requires.
 
-**Source:** simulations/failed_third.py, simulations/results/failed_third.txt
+**Source:** [failed_third.py](../simulations/failed_third.py), [failed_third.txt](../simulations/results/failed_third.txt)
 
 **Conclusion:** Eliminated. A decaying qubit cannot produce palindromic
 noise on its neighbors.
@@ -107,7 +107,7 @@ operators versus d dephasing operators. This is balanced only when
 d^2-2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
 
-**Source:** hypotheses/QUBIT_NECESSITY.md (the counting argument)
+**Source:** [QUBIT_NECESSITY.md](../hypotheses/QUBIT_NECESSITY.md) (the counting argument)
 
 **Conclusion:** Eliminated by the framework's own algebra.
 
@@ -147,7 +147,7 @@ The identification is already in the framework:
 - Without noise: unitary oscillation, reversible, no time arrow
 - With noise: coherences decay irreversibly, creating a before and after
 - The operator Pi is literally time reversal: it maps exp(+mu*t) to
-  exp(-mu*t), forward to backward (PI_AS_TIME_REVERSAL.md)
+  exp(-mu*t), forward to backward ([PI_AS_TIME_REVERSAL.md](../experiments/PI_AS_TIME_REVERSAL.md))
 - The 70/30 split IS the time arrow: 70% of information flows
   irreversibly from coherence (undecided, future) to population
   (decided, past). The remaining 30% is what has already been decided.

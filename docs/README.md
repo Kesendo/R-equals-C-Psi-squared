@@ -9,6 +9,7 @@
 - [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
 - [Glossary](GLOSSARY.md) - Term definitions
 - [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, incoherentons, η-pairing, research directions
+- [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Noise origin elimination: all candidates within d(d-2)=0 eliminated. Framework boundary.
 
 ## Restored: Tier 1 (PROVEN: core claims confirmed March 13, 2026)
 
