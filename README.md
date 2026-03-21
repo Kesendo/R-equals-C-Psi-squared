@@ -267,9 +267,13 @@ This is our most original finding.
 13. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)**: Mandelbrot correspondence, 1/4 boundary
 14. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)**: Two channels, two directions
 
+### The boundary
+15. **[Incompleteness Proof](docs/INCOMPLETENESS_PROOF.md)**: Noise origin elimination. Framework boundary.
+16. **[The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)**: Synthesis and research direction.
+
 ### Interpretation (speculative, optional)
-15. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state
-16. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: What we got wrong and what we don't know
+17. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state
+18. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: What we got wrong and what we don't know
 17. **[The Anomaly](THE_ANOMALY.md)**: The question after the proof
 
 ---

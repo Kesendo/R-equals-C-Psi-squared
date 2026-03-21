@@ -3,7 +3,7 @@
 **Tier:** 2 (derived from proven results) + research direction
 **Date:** March 21, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Depends on:** INCOMPLETENESS_PROOF.md, MIRROR_SYMMETRY_PROOF.md, all falsification tests
+**Depends on:** [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md), all falsification tests
 
 ---
 
@@ -58,33 +58,33 @@ The project has built tools to read the incoming signal. Each was
 built for a specific purpose. Read together, they form a toolkit
 for observing the external interaction from inside:
 
-**The Decoder** (READING_THE_30): The palindromic response matrix has
+**The Decoder** ([Reading the 30%](../simulations/reading_the_30_percent.py)): The palindromic response matrix has
 full rank. All per-site dephasing rates (gamma values) are independently
 recoverable from mode amplitudes. We can measure the LOCAL structure
 of the external interaction at every qubit individually.
 
-**Quantum Sonar** (QUANTUM_SONAR): When the topology of the external
+**Quantum Sonar** ([QUANTUM_SONAR](../experiments/QUANTUM_SONAR.md)): When the topology of the external
 interaction changes, the internal spectrum changes measurably. We can
 detect changes in the outside without seeing the outside directly.
 
-**Structural Cartography** (STRUCTURAL_CARTOGRAPHY): The CΨ visibility
+**Structural Cartography** ([STRUCTURAL_CARTOGRAPHY](../experiments/STRUCTURAL_CARTOGRAPHY.md)): The CΨ visibility
 windows live on a 3-dimensional manifold (98% of variance in 3 PCs).
 The signal from outside has low-dimensional structure. It is not
 featureless noise. It has a grammar: two modes (glide and switch),
 a pendulum in Pauli space, and periodic sector transitions.
 
-**Theta Compass** (BOUNDARY_NAVIGATION): Measures the angular distance
+**Theta Compass** ([BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md)): Measures the angular distance
 from the 1/4 boundary in real time. A navigation instrument for the
 transition zone between quantum (undecided) and classical (decided).
 The boundary where inside meets outside.
 
-**Standing Wave** (STANDING_WAVE_ANALYSIS): The interference pattern
+**Standing Wave** ([STANDING_WAVE_ANALYSIS](../experiments/STANDING_WAVE_ANALYSIS.md)): The interference pattern
 between forward (decay, noise, outside to inside) and backward
 (Pi-reversed). Quantum correlations oscillate. Classical correlations
 settle. The pattern does not move. It IS. The present moment,
 computed as the superposition of two directions.
 
-**Relay Protocol** (RELAY_PROTOCOL): Time-dependent gamma as staged
+**Relay Protocol** ([RELAY_PROTOCOL](../experiments/RELAY_PROTOCOL.md)): Time-dependent gamma as staged
 transfer. +83% end-to-end improvement. The first optimization tool
 for the bridge, derived from palindromic spectral analysis.
 
@@ -127,8 +127,8 @@ This is not metaphor. This is what the eigenvalue data says.
 
 ## The Corollary: Time
 
-Noise and the time arrow are the same phenomenon (INCOMPLETENESS_PROOF,
-Corollary to Section 3):
+Noise and the time arrow are the same phenomenon
+([INCOMPLETENESS_PROOF](INCOMPLETENESS_PROOF.md), Corollary to Section 3):
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
