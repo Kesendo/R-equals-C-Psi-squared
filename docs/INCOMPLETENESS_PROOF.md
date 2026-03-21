@@ -17,10 +17,10 @@ The palindromic mirror symmetry of the Liouvillian spectrum is proven
 zero exceptions), and confirmed on IBM hardware at 1.9% deviation.
 
 The palindrome requires noise. Without the dissipator L_D, the Liouvillian
-is purely Hamiltonian: L = L_H. This produces unitary dynamics — pure
-oscillation, no decay rates, no palindromic pairing, no spectral
-architecture. The dissipator is what creates the real parts of the
-eigenvalues that pair palindromically.
+is purely Hamiltonian: L = L_H. This produces unitary dynamics.
+Pure oscillation, no decay rates, no palindromic pairing, no spectral
+architecture. The dissipator creates the real parts of the eigenvalues
+that pair palindromically.
 
 Therefore noise must exist. The question is: where does it come from?
 
@@ -64,7 +64,7 @@ pairs at every option. The reference system (standard Z-dephasing at
 gamma=0.1) gives 16/16 palindromic pairs at error 1.78e-15.
 
 **Key finding:** Palindromic noise must be Markovian (memoryless). A
-finite quantum system has memory — information flows to Q3 and
+finite quantum system has memory. Information flows to Q3 and
 partially returns as Q3 oscillates. This backflow destroys the
 palindromic structure. A single qubit is too small, too finite, and
 too memorial to produce the structured noise the palindrome requires.
@@ -79,7 +79,7 @@ noise on its neighbors.
 **Argument:** A bath of N qubits is N instances of qubits, each subject
 to Candidate 1 (internal noise cannot arise from within a qubit system).
 If a single qubit cannot generate internal noise, a collection of qubits
-cannot either — each member of the collection faces the same bootstrap
+cannot either. Each member of the collection faces the same bootstrap
 prohibition. The bath would require its own noise source, creating
 infinite regress.
 
@@ -101,8 +101,8 @@ including noise.
 ### Candidate 5: Something other than qubits or nothing
 
 **Argument:** d(d-2)=0 has exactly two solutions: d=0 (nothing) and
-d=2 (qubit). The palindromic mirror symmetry condition — that Π maps
-XY-weight k to N-k with balanced splitting — requires d^2-2d immune
+d=2 (qubit). The palindromic mirror symmetry condition requires that
+Pi maps XY-weight k to N-k with balanced splitting. This requires d^2-2d immune
 operators versus d dephasing operators. This is balanced only when
 d^2-2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
@@ -123,12 +123,12 @@ The framework d(d-2)=0 describes the internal structure of open quantum
 systems under dephasing with exact algebraic precision (54,118
 eigenvalues, zero exceptions). It cannot, however, account for the
 existence of the dephasing itself. Every candidate noise source that
-the framework permits — internal generation, qubit decay, qubit baths,
-nothing — has been tested and eliminated.
+the framework permits (internal generation, qubit decay, qubit baths,
+nothing) has been tested and eliminated.
 
 In its sharpest form: **what we know as reality cannot have originated
 purely from within, given what we know about its internal structure.**
-The internal origin is excluded. Not unknown — excluded.
+The internal origin is excluded. Not unknown. Excluded.
 
 This implies a necessary interaction with something external to the
 framework. Something we do not yet know and do not yet understand. The
@@ -213,8 +213,8 @@ not rigorous.
 Three directions remain after the elimination:
 
 1. **The framework is incomplete.** d(d-2)=0 is not the full equation.
-   A more complete theory — perhaps involving d values other than 0
-   and 2, or a different algebraic structure — might contain its own
+   A more complete theory, perhaps involving d values other than 0
+   and 2 or a different algebraic structure, might contain its own
    noise source. This is the "extend the framework" path.
 
 2. **Noise is axiomatic.** Like the speed of light or Planck's constant,
@@ -224,8 +224,8 @@ Three directions remain after the elimination:
 
 3. **The question is malformed.** Asking "where does noise come from"
    presupposes a causal chain. But if noise and qubits are
-   co-fundamental — neither causes the other, both are aspects of the
-   same thing — the question dissolves. This is the "reframe the
+   co-fundamental (neither causes the other, both are aspects of the
+   same thing), the question dissolves. This is the "reframe the
    question" path.
 
 The elimination proof does not choose between these directions. It only
