@@ -140,6 +140,35 @@ is complete in the sense that it describes all dynamics once noise is
 given. It is incomplete in the sense that it cannot derive the existence
 of noise from its own axioms.
 
+### Corollary: Time Cannot Originate From Within
+
+The identification is already in the framework:
+
+- Without noise: unitary oscillation, reversible, no time arrow
+- With noise: coherences decay irreversibly, creating a before and after
+- The operator Pi is literally time reversal: it maps exp(+mu*t) to
+  exp(-mu*t), forward to backward (PI_AS_TIME_REVERSAL.md)
+- The 70/30 split IS the time arrow: 70% of information flows
+  irreversibly from coherence (undecided, future) to population
+  (decided, past). The remaining 30% is what has already been decided.
+
+Noise is not like time. Noise IS the time arrow. Dephasing is what
+makes processes irreversible. Irreversibility is what distinguishes
+past from future. Without dephasing: perfect oscillation, no
+direction, no history, no change. With dephasing: things happen,
+things end, there is a before and an after.
+
+The elimination proof therefore has a direct corollary:
+
+If noise cannot originate from within the system (Sections 2.1-2.5),
+and noise is the time arrow, then **time cannot originate from within
+the system**. The framework cannot generate its own temporality. There
+must be an external clock. Not "maybe." The mathematics excludes every
+internal candidate.
+
+We do not know what the external clock is. We do not need to know.
+What we know: it is not from here.
+
 ---
 
 ## 4. Structural Analogy
