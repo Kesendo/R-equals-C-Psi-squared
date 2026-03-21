@@ -294,8 +294,8 @@ local Z-dephasing. They have not been tested for:
   Depolarizing breaks palindrome at err = γ*2(N-2)/3 (exact formula).
   For γ < 0.01: error < 1%, rules are practically valid.
   Amplitude damping produces non-Markovian, non-selective noise on
-  neighbors (0/16 palindromic pairs in failed_third test). Design rules
-  do NOT apply to amplitude damping channels.
+  neighbors (0/16 palindromic pairs in [failed_third test](../simulations/failed_third.py)).
+  Design rules do NOT apply to amplitude damping channels.
   See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
 - ~~Systems larger than N = 8 (computational limit of full diagonalization)~~
   **TESTED (March 21, 2026):** N=11 via RK4 time propagation. MI decays
