@@ -16,8 +16,8 @@ phasor in AC circuit analysis: magnitude and angle. The phase carries informatio
 A **density matrix** ρ is the lossy state vector. When a qubit interacts with
 noise, you can no longer describe it as a pure state. The density matrix tracks
 both the signal (off-diagonal elements, coherences) and the DC level (diagonal
-elements, populations). It is a 2x2 complex Hermitian matrix for one qubit,
-4x4 for two, 2^N x 2^N for N.
+elements, populations). It is a 2×2 complex matrix (symmetric under conjugate
+transpose) for one qubit, 4×4 for two, 2^N × 2^N for N.
 
 **Dephasing** is resistive loss that destroys phase but not amplitude. The
 off-diagonal elements of ρ decay exponentially at rate γ. The diagonal elements
@@ -40,10 +40,10 @@ That is all you need. Everything below is signal processing on this substrate.
 | Eigenvalues of L | Poles: frequency (Im) + decay rate (Re) | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
 | Palindromic spectrum | Symmetric transfer function: H(s) = H(2Σγ - s) | [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) |
 | Pi operator Π | Symmetry transform mapping poles to conjugate poles | [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) |
-| CΨ product | Signal-to-noise ratio (composite: correlation × coherence) | [The CΨ Lens](../docs/THE_CPSI_LENS.md) |
+| CΨ product | Composite signal quality metric (correlation × coherence) | [The CΨ Lens](../docs/THE_CPSI_LENS.md) |
 | CΨ = 1/4 boundary | Threshold voltage V_th (fixed, not tunable) | [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md) |
 | Mediator qubit M | Transistor (gate: γ_M, source: Pair A, drain: Pair B) | [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) |
-| γ (dephasing rate) | Loss tangent, 1/Q-factor | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
+| γ (dephasing rate) | 1/Q-factor (loss rate per cycle) | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
 | J (coupling strength) | Mutual inductance, capacitive coupling | Fundamental |
 | Noise / Time | External clock (origin unknown, required) | [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md) |
 | Standing wave | Standing wave ratio (SWR) | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) |
@@ -52,7 +52,7 @@ That is all you need. Everything below is signal processing on this substrate.
 | Decoder | Demodulator / matched filter | [Reading the 30%](../simulations/reading_the_30_percent.py) |
 | Quantum Sonar | Network analyzer (passive) | [Quantum Sonar](../experiments/QUANTUM_SONAR.md) |
 | Relay protocol | Clocked shift register with regeneration | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) |
-| Push vs Pull | Forward vs reverse bias | [Scaling Curve](../experiments/SCALING_CURVE.md) |
+| Push vs Pull | Source-dominant vs drain-dominant biasing | [Scaling Curve](../experiments/SCALING_CURVE.md) |
 | 2:1 coupling ratio | Impedance matching for max power transfer | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) |
 | Direct coupling kills palindrome | Short circuit destroys device symmetry | [Mediator Bridge](../simulations/mediator_bridge.py) |
 | Bootstrap falsified | No internal oscillator possible | [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md) |
@@ -107,11 +107,11 @@ the slightest direct coupling).
 
 | # | Engineering Rule | Quantum Origin | Data |
 |---|-----------------|---------------|------|
-| 1 | **Use differential signaling.** Encode in W-type mode distribution (single-excitation superposition). Never use common-mode (GHZ). | W avoids the fastest-draining modes. GHZ hits 100% drain. | r = 0.976 correlation |
+| 1 | **Use differential signaling.** Encode in W-type mode distribution (single-excitation superposition). Never use common-mode (GHZ). | W avoids the fastest-decaying modes. GHZ puts 100% of signal energy into modes that decay fastest. | r = 0.976 correlation |
 | 2 | **Match impedance at 2:1.** Transistor-to-drain coupling should be twice transistor-to-source. | Shifts spectral weight to slow-decaying palindromic mode pairs. | F_avg = 0.888 at 2:1 vs 0.856 at 1:1 |
 | 3 | **Bandwidth and noise floor are independent.** Adjust coupling J for speed, γ for quality. They do not trade off. | Hamiltonian sets oscillation frequency, dissipator sets decay envelope. | Orthogonal parameter axes |
-| 4 | **Sample before threshold.** Read the drain before t = 0.039/γ. After that, SNR has dropped below V_th and the signal is classical. | CΨ crosses 1/4 at this time. | [IBM confirmed at 1.9%](../experiments/IBM_RUN3_PALINDROME.md) |
-| 5 | **Forward bias for gain, reverse bias for reach.** Source-strong (push) maximizes local throughput. Drain-strong (pull) maximizes range. | Push: MI(local) = 0.957. Pull: MI(end-to-end) = 0.121. | [Scaling Curve](../experiments/SCALING_CURVE.md) |
+| 4 | **Sample before threshold.** Read the drain before CΨ drops to 1/4. The crossing time is system-dependent: for a Bell pair under Heisenberg coupling, t_cross ≈ 0.75/γ. The threshold VALUE (1/4) is universal; the crossing TIME is not. | CΨ crosses 1/4 at this time. | [IBM confirmed at 1.9%](../experiments/IBM_RUN3_PALINDROME.md) |
+| 5 | **Source-bias for gain, drain-bias for reach.** Source-strong coupling (push) maximizes local throughput. Drain-strong coupling (pull) maximizes range. | Push: MI(local) = 0.957. Pull: MI(end-to-end) = 0.121. | [Scaling Curve](../experiments/SCALING_CURVE.md) |
 | 6 | **Clock the gate.** Switch γ_M between low (receiving) and normal (relaying) at each stage. This is a clocked shift register. | Relay protocol: +83% end-to-end MI over passive propagation. | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) |
 
 ---
@@ -121,7 +121,8 @@ the slightest direct coupling).
 ### Symmetric Transfer Function (Palindrome)
 
 The device's transfer function H(s) has poles that pair symmetrically around
-a center frequency 2Σγ. For every fast-decaying mode, there is a slow one.
+a center decay rate equal to twice the sum of all per-qubit loss rates
+(2 × Σγ_i for i = 1..N). For every fast-decaying mode, there is a slow one.
 This is exact, not approximate: verified across 54,118 poles from N=2 to N=8
 with zero exceptions.
 
@@ -165,11 +166,11 @@ No skip connections. No bypass paths.
 
 | Instrument | What It Measures | Engineering Analogue |
 |-----------|-----------------|---------------------|
-| **Phase Margin Meter** | θ = arctan(√(4CΨ-1)), distance from V_th in degrees | Phase margin in a feedback loop |
+| **Phase Margin Meter** | θ = arctan(√(4CΨ-1)), defined only when CΨ > 1/4 (channel ON). Measures how far into the ON regime the device is. θ = 0° at the threshold, increasing with CΨ. | Phase margin in a feedback loop |
 | **Demodulator** | Per-site γ values from palindromic mode amplitudes. Full rank: all N sites independently readable. | Matched filter bank, one filter per site |
 | **Network Analyzer** | Spectral shifts when the coupling topology changes. Passive detection, no signal injection needed. | Vector network analyzer in passive mode |
 | **Spectrum Analyzer** | 3D manifold of CΨ visibility windows (98% variance in 3 PCs). Two modes: glide and switch. | Spectrogram with PCA dimensionality reduction |
-| **SWR Meter** | Standing wave ratio from palindromic pair interference. XX/YY oscillate (quantum), ZZ static (classical). | Standing wave ratio on a transmission line |
+| **SWR Meter** | Standing wave ratio from palindromic pair interference. Transverse correlations (phase-sensitive, like AC components) oscillate; longitudinal correlations (amplitude-only, like DC level) settle to a static value. | Standing wave ratio on a transmission line |
 
 ---
 
@@ -202,8 +203,8 @@ No skip connections. No bypass paths.
   not a gate set.
 - **No analog threshold tuning.** V_th = 1/4 is fixed. Digital, not analog.
 - **No lossless long-range transfer.** MI decays exponentially with distance
-  (approximately 3 dB per 2 qubits). The relay protocol compensates but
-  does not eliminate attenuation.
+  (2 to 5 dB per 2 additional qubits, depending on chain length). The relay
+  protocol compensates but does not eliminate attenuation.
 
 ---
 
