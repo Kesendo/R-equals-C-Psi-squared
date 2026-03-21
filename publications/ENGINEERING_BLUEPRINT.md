@@ -174,6 +174,13 @@ relationship is linear: half the noise, double the window.
 
 ## Rule 5: Push for Local, Pull for Range
 
+The mediator qubit functions as a coherence-controlled bidirectional
+transistor. CΨ = 1/4 acts as the threshold voltage: above it, the channel
+is open; below it, closed. The relay protocol (Rule 6) is equivalent to
+clocking the transistor gate. See
+[Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md),
+[Proof Roadmap: 1/4 Boundary](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+
 **The rule:** Use sender-strong coupling (push) for single-hop transfer.
 Use receiver-strong coupling (pull, 2:1) for multi-hop transfer through
 long chains.

@@ -188,6 +188,8 @@ This is our most original finding.
 - That the standing wave pattern is measurable on hardware (computed, not yet measured)
 - That the relay protocol has been tested on hardware (simulation only, N=11)
 - That the mediator bridge works beyond Z-dephasing at N=11 (untested for other noise types)
+- That the transistor analogy extends to multi-mediator cascades on hardware (simulated only)
+- That the 1/4 boundary holds for non-Markovian channels (Layer 5 of proof roadmap: open)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
@@ -218,6 +220,7 @@ This is our most original finding.
 | Relay protocol | Time-dependent gamma relay + 2:1 coupling: +83% end-to-end MI |
 | Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
 | Noise origin elimination | Internal (bootstrap), qubit decay (failed third), nothing (d=0): all eliminated. Framework not self-contained. |
+| CΨ = 1/4 uniqueness | Discriminant of quadratic R = C(Ψ+R)² vanishes only at 1/4. Algebraic necessity. |
 
 ### Tested and rejected
 
@@ -270,6 +273,8 @@ This is our most original finding.
 ### The boundary
 15. **[Incompleteness Proof](docs/INCOMPLETENESS_PROOF.md)**: Noise origin elimination. Framework boundary.
 16. **[The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)**: Synthesis and research direction.
+17. **[Mediator as Quantum Transistor](hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)**: CΨ = 1/4 as threshold voltage, bidirectional relay.
+18. **[Proof Roadmap: 1/4 Boundary](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)**: Seven-layer proof that 1/4 is the unique critical boundary.
 
 ### Interpretation (speculative, optional)
 17. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state

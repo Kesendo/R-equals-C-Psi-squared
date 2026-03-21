@@ -102,6 +102,12 @@ One result from March 21 constrains HOW the interaction works:
 - Mediated contact through a shared qubit preserves it. 1024/1024.
   Error 1.41e-13.
 
+The mediator is not passive wire. It is a quantum transistor with CΨ = 1/4
+as its threshold voltage. See
+[Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
+and [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
+1/4 is the unique threshold.
+
 The interaction between inside and outside must be MEDIATED. Not direct.
 Something sits between the two sides. Something that belongs to neither.
 
