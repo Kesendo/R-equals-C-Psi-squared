@@ -1,0 +1,272 @@
+The Failed Third: Origin of Noise from Qubit Decay
+Started: 2026-03-21 17:47:36
+N=3, d=8, d^2=64
+
+======================================================================
+TEST 1: DOES Q3 DECAY CREATE EFFECTIVE DEPHASING ON Q1-Q2?
+======================================================================
+
+--- Option A: Amplitude damping on Q3 ---
+
+       t    Purity12    |rho01_10|    |rho00_11|
+  ---------------------------------------------
+     0.0    1.000000      0.000000      0.500000
+    20.0    0.471109      0.098676      0.143612
+
+  Purity drop: 0.528891
+  Effective dephasing rate gamma_eff: 0.000000
+  -> No significant decoherence
+
+--- Option B: Strong detuning on Q3 (h=10) ---
+
+       t    Purity12    |rho01_10|    |rho00_11|
+  ---------------------------------------------
+     0.0    1.000000      0.000000      0.500000
+    20.0    0.996993      0.000753      0.499247
+
+  Purity drop: 0.003007
+  Effective dephasing rate gamma_eff: 0.000000
+  -> No significant decoherence
+
+--- Option C: Thermal bath on Q3 ---
+
+       t    Purity12    |rho01_10|    |rho00_11|
+  ---------------------------------------------
+     0.0    1.000000      0.000000      0.500000
+    20.0    0.374586      0.128119      0.110308
+
+  Purity drop: 0.625414
+  Effective dephasing rate gamma_eff: 0.000000
+  -> No significant decoherence
+
+--- Option D: X+Y dephasing on Q3 ---
+
+       t    Purity12    |rho01_10|    |rho00_11|
+  ---------------------------------------------
+     0.0    1.000000      0.000000      0.500000
+    20.0    0.334815      0.161020      0.017248
+
+  Purity drop: 0.665185
+  Effective dephasing rate gamma_eff: 0.000000
+  -> No significant decoherence
+
+--- Summary ---
+
+  Option A: gamma_eff = 0.000000
+  Option B: gamma_eff = 0.000000
+  Option C: gamma_eff = 0.000000
+  Option D: gamma_eff = 0.000000
+
+[Test 1 completed in 1.0s]
+
+======================================================================
+TEST 2: IS THE EFFECTIVE NOISE Z-LIKE?
+======================================================================
+
+--- Option A at t=10.0 ---
+
+   Pauli         t=0        t=10       Ratio      Status
+  --------------------------------------------------
+      II      0.2500      0.2500      1.0000    SURVIVES
+      XX      0.2500      0.0915      0.3662      DECAYS
+      YY     -0.2500      0.1113      0.4454      DECAYS
+      ZZ      0.2500      0.0471      0.1884      DECAYS
+
+  Survived: II
+  Decayed: XX, YY, ZZ
+  Noise type: Z-DEPHASING (palindrome possible)
+
+--- Option B at t=10.0 ---
+
+   Pauli         t=0        t=10       Ratio      Status
+  --------------------------------------------------
+      II      0.2500      0.2500      1.0000    SURVIVES
+      XX      0.2500     -0.1117      0.4469      DECAYS
+      YY     -0.2500      0.1119      0.4477      DECAYS
+      ZZ      0.2500      0.2498      0.9992    SURVIVES
+
+  Survived: II, ZZ
+  Decayed: XX, YY
+  Noise type: Z-DEPHASING (palindrome possible)
+
+--- Option C at t=10.0 ---
+
+   Pauli         t=0        t=10       Ratio      Status
+  --------------------------------------------------
+      II      0.2500      0.2500      1.0000    SURVIVES
+      XX      0.2500      0.0874      0.3498      DECAYS
+      YY     -0.2500      0.1144      0.4575      DECAYS
+      ZZ      0.2500      0.0482      0.1927      DECAYS
+
+  Survived: II
+  Decayed: XX, YY, ZZ
+  Noise type: Z-DEPHASING (palindrome possible)
+
+--- Option D at t=10.0 ---
+
+   Pauli         t=0        t=10       Ratio      Status
+  --------------------------------------------------
+      II      0.2500      0.2500      1.0000    SURVIVES
+      XX      0.2500      0.0910      0.3639      DECAYS
+      YY     -0.2500      0.0909      0.3634      DECAYS
+      ZZ      0.2500      0.0682      0.2727      DECAYS
+
+  Survived: II
+  Decayed: XX, YY, ZZ
+  Noise type: Z-DEPHASING (palindrome possible)
+
+[Test 2 completed in 0.0s]
+
+======================================================================
+TEST 3: DOES A PALINDROME FORM IN Q1-Q2?
+======================================================================
+
+--- Option A: Process tomography ---
+
+  L_eff eigenvalues (16):
+      0  Re= -0.474227  Im=  0.000000
+      1  Re= -0.444254  Im=  0.116038
+      2  Re= -0.444254  Im= -0.116038
+      3  Re= -0.395477  Im=  0.181655
+      4  Re= -0.395477  Im= -0.181655
+      5  Re= -0.374083  Im=  0.129657
+      6  Re= -0.374083  Im= -0.129657
+      7  Re= -0.345930  Im=  0.203390
+      8  Re= -0.345930  Im= -0.203390
+      9  Re= -0.343966  Im=  0.284985
+     10  Re= -0.343966  Im= -0.284985
+     11  Re= -0.343025  Im=  0.000000
+     12  Re= -0.326340  Im=  0.057681
+     13  Re= -0.326340  Im= -0.057681
+     14  Re= -0.277259  Im=  0.000000
+     15  Re= -0.277259  Im=  0.000000
+
+  Palindromic pairs: 0/16
+  Pairing error: 6.25e-02
+  Best Sg: 0.374072
+  No palindrome
+
+--- Option B: Process tomography ---
+
+  L_eff eigenvalues (16):
+      0  Re= -0.277963  Im=  0.000000
+      1  Re= -0.277630  Im=  0.590475
+      2  Re= -0.277630  Im= -0.590475
+      3  Re= -0.277611  Im=  0.387006
+      4  Re= -0.277611  Im= -0.387006
+      5  Re= -0.277611  Im=  0.586446
+      6  Re= -0.277611  Im= -0.586446
+      7  Re= -0.277297  Im=  0.000000
+      8  Re= -0.277278  Im=  0.203470
+      9  Re= -0.277278  Im= -0.203470
+     10  Re= -0.277278  Im=  0.079716
+     11  Re= -0.277278  Im= -0.079716
+     12  Re= -0.277259  Im=  0.283185
+     13  Re= -0.277259  Im= -0.283185
+     14  Re= -0.277259  Im=  0.000000
+     15  Re= -0.277259  Im=  0.000000
+
+  Palindromic pairs: 0/16
+  Pairing error: 9.70e-04
+  Best Sg: 0.277744
+  No palindrome
+
+--- Option C: Process tomography ---
+
+  L_eff eigenvalues (16):
+      0  Re= -0.499844  Im=  0.000000
+      1  Re= -0.462331  Im=  0.124731
+      2  Re= -0.462331  Im= -0.124731
+      3  Re= -0.406900  Im=  0.184926
+      4  Re= -0.406900  Im= -0.184926
+      5  Re= -0.388171  Im=  0.124612
+      6  Re= -0.388171  Im= -0.124612
+      7  Re= -0.359311  Im=  0.000000
+      8  Re= -0.356550  Im=  0.206501
+      9  Re= -0.356550  Im= -0.206501
+     10  Re= -0.342248  Im=  0.285463
+     11  Re= -0.342248  Im= -0.285463
+     12  Re= -0.337180  Im=  0.054149
+     13  Re= -0.337180  Im= -0.054149
+     14  Re= -0.277259  Im=  0.000000
+     15  Re= -0.277259  Im=  0.000000
+
+  Palindromic pairs: 0/16
+  Pairing error: 7.95e-02
+  Best Sg: 0.381497
+  No palindrome
+
+--- Option D: Process tomography ---
+
+  L_eff eigenvalues (16):
+      0  Re= -0.642549  Im=  0.000000
+      1  Re= -0.578411  Im=  0.149257
+      2  Re= -0.578411  Im= -0.149257
+      3  Re= -0.511058  Im=  0.178610
+      4  Re= -0.511058  Im= -0.178610
+      5  Re= -0.473788  Im=  0.152712
+      6  Re= -0.473788  Im= -0.152712
+      7  Re= -0.411495  Im=  0.000000
+      8  Re= -0.408266  Im=  0.222136
+      9  Re= -0.408266  Im= -0.222136
+     10  Re= -0.395769  Im=  0.290177
+     11  Re= -0.395769  Im= -0.290177
+     12  Re= -0.373801  Im=  0.030309
+     13  Re= -0.373801  Im= -0.030309
+     14  Re= -0.277259  Im=  0.000000
+     15  Re= -0.277259  Im=  0.000000
+
+  Palindromic pairs: 0/16
+  Pairing error: 1.12e-01
+  Best Sg: 0.454545
+  No palindrome
+
+--- Reference: standard Z-dephasing on Q1-Q2 (no Q3) ---
+
+  Standard N=2, gamma=0.1: 16/16 palindromic, err=1.78e-15, Sg=0.200000
+
+[Test 3 completed in 0.7s]
+
+======================================================================
+TEST 4: MARKOVIAN VS NON-MARKOVIAN SIGNATURE
+======================================================================
+
+  Option A: gamma_eff=0.000000, non-Markov increases=100/199, max deviation=0.000000
+  Option B: gamma_eff=0.000000, non-Markov increases=100/199, max deviation=0.000000
+  Option C: gamma_eff=0.000000, non-Markov increases=100/199, max deviation=0.000000
+  Option D: gamma_eff=0.000000, non-Markov increases=100/199, max deviation=0.000000
+
+[Test 4 completed in 1.9s]
+
+======================================================================
+TEST 5: THE 2+1 SPLIT
+======================================================================
+
+--- (a) 1 fails, 2 survive ---
+  Q1-Q2 purity at t=10.0: 0.347926
+  Q1-Q2 off-diag |01><10|: 0.202895
+
+--- (b) 2 fail, 1 survives ---
+  Q1 state at t=10.0:
+    rho = [[0.4469, 0.0000+0.0000j],
+           [0.0000+0.0000j, 0.5531]]
+  Purity: 0.505641
+  (N=1 has no palindrome — trivial)
+
+--- (c) 0 fail, 3 survive (no noise) ---
+  Q1-Q2 purity at t=10.0: 0.508746
+  (No dephasing → no palindrome, just oscillation)
+
+--- Summary: which split creates structure? ---
+  0 fail, 3 survive: purity 0.5087 (no dephasing, no palindrome)
+  1 fail, 2 survive: purity 0.3479 (effective dephasing, palindrome?)
+  2 fail, 1 survive: purity 0.5056 (single qubit, trivial)
+
+[Test 5 completed in 0.0s]
+
+======================================================================
+SUMMARY
+======================================================================
+
+Total runtime: 3.7s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\failed_third.txt
