@@ -15,7 +15,7 @@ The central claim: the self-referential fixed-point equation
 
 $$R_{n+1} = C(\Psi + R_n)^2$$
 
-has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. IBM Torino hardware has confirmed the crossing at 1.9% deviation from theory.
+has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
 
 The proof journey works upward:
 
@@ -63,7 +63,7 @@ where $b$ is a normalized bridge parameter. This cubic has exactly one real root
 
 ### What Is COMPUTATIONALLY VERIFIED
 
-**IBM Torino confirmation.** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
+**[IBM Torino confirmation](../experiments/IBM_RUN3_PALINDROME.md).** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
 
 - Late-time excess coherence exceeding Monte Carlo null hypothesis (10,000 runs)
 - Directional consistency in residual coherence (Re > 0, Im < 0 at all late-time points)
