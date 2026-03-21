@@ -15,7 +15,7 @@ Quantum information dies in transit. Every quantum channel has noise
 state before it reaches the receiver. The question is: how do you design
 the channel to maximize what survives?
 
-This document provides four concrete design rules derived from a
+This document provides six concrete design rules derived from a
 proven spectral symmetry in the channel's decay structure. The rules
 are testable, the benchmarks are reproducible, and the code is open.
 
@@ -25,11 +25,15 @@ are testable, the benchmarks are reproducible, and the code is open.
 
 Every quantum channel built from Heisenberg-coupled spins with dephasing
 has a palindromic decay spectrum: fast-decaying modes pair with slow ones.
-The quantum state you put IN determines which modes you excite. Some
-input states hit only the fast modes (GHZ: dead on arrival). Others
-distribute across slow modes (W: survives the trip). The structure of
-the input's Pauli decomposition predicts which modes get excited, with
-r = 0.976 correlation. This gives us concrete design rules.
+This symmetry is exact (54,118 eigenvalues, zero exceptions, N=2 to N=8)
+and holds for all standard coupling models (Heisenberg, XY, Ising, XXZ, DM).
+The product CΨ (correlation times coherence) crosses a fixed boundary at 1/4,
+which is the unique bifurcation point of the purity recursion (proven: the
+discriminant 1-4CΨ vanishes only at 1/4). The mediator qubit that preserves
+this symmetry acts as a coherence-controlled transistor with CΨ = 1/4 as its
+threshold voltage. The channel requires an external clock (noise/dephasing);
+no internal oscillator is possible (five candidates eliminated). From these
+results: six design rules for quantum repeaters.
 
 ---
 
@@ -102,10 +106,12 @@ noise parameters.
 transfer. For single-hop scenarios, symmetric coupling is competitive.
 The advantage of 2:1 grows with chain length. See Rule 5.
 
-**Falsified (March 21, 2026):** Hierarchical (recursive mediator) topology
-provides no advantage over a uniform chain of the same length with equal
-coupling. The palindrome-preserving property is topological (mediated vs
-direct coupling), not hierarchical. See [Scaling Curve](../experiments/SCALING_CURVE.md).
+**Falsified (March 21, 2026):** Hierarchical (recursive mediator-of-mediators)
+topology provides no advantage over a uniform chain of the same length. The
+palindrome-preserving property depends on mediation (no direct source-drain
+coupling), not on recursive nesting. Star with 2:1 remains valid for 3-qubit
+systems. For longer chains, use a uniform chain with the relay protocol (Rule 6).
+See [Scaling Curve](../experiments/SCALING_CURVE.md).
 
 ---
 
@@ -174,21 +180,19 @@ relationship is linear: half the noise, double the window.
 
 ## Rule 5: Push for Local, Pull for Range
 
-The mediator qubit functions as a coherence-controlled bidirectional
-transistor. CΨ = 1/4 acts as the threshold voltage: above it, the channel
-is open; below it, closed. The relay protocol (Rule 6) is equivalent to
-clocking the transistor gate. See
-[Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md),
-[Proof Roadmap: 1/4 Boundary](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
-
 **The rule:** Use sender-strong coupling (push) for single-hop transfer.
 Use receiver-strong coupling (pull, 2:1) for multi-hop transfer through
 long chains.
 
-**Why:** Push (sender side coupled at 2x) maximizes bridge-to-bridge MI
-(0.957 vs 0.882 for pull at N=11). But pull maximizes end-to-end MI
-(0.121 vs 0.102). The 2:1 ratio is a range optimizer: it sacrifices
-local transfer efficiency to carry information further.
+**Why:** The mediator qubit functions as a coherence-controlled bidirectional
+transistor with CΨ = 1/4 as the threshold voltage: above it, the channel
+is open; below it, closed. Push (sender side coupled at 2x) maximizes
+bridge-to-bridge MI (0.957 vs 0.882 for pull at N=11). But pull maximizes
+end-to-end MI (0.121 vs 0.102). The 2:1 ratio is a range optimizer: it
+sacrifices local transfer efficiency to carry information further.
+
+See [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md),
+[Proof Roadmap: 1/4 Boundary](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
 **Data (N=11 Heisenberg chain, γ=0.05):**
 
