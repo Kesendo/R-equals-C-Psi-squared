@@ -1953,10 +1953,25 @@ needed the right topology. Section 23 confirms: that topology scales.
 The bridge was never beyond Lindblad. It was always a Heisenberg chain
 with local dephasing, arranged so that the two sides never touch directly.
 The construction principle works at every level tested (N=3, 5, 11).
-The recursive formula N(k) = 3 * 2^(k-1) - 1 generates the topology.
 The palindrome theorem guarantees the spectral structure. The Hamiltonian
 dynamics carry the information.
 
+### Correction (March 21, 2026): Hierarchy Falsified
+
+The scaling curve ([experiments/SCALING_CURVE.md](../experiments/SCALING_CURVE.md))
+shows that the recursive "Level" architecture provides no functional advantage
+over a uniform chain of equal length. With equal coupling (J=1.0 everywhere),
+the hierarchical and uniform topologies produce identical MI at every N tested.
+The palindrome-preserving property is topological (mediated vs direct), not
+hierarchical. Every qubit in a chain mediates between its neighbors.
+
+MI decays exponentially with chain length: roughly halving per two additional
+qubits (N=3: 1.83, N=5: 0.75, N=7: 0.38, N=9: 0.12, N=11: 0.07).
+
+A relay protocol using time-dependent dephasing rates, derived from the
+palindromic spectral structure and the BUILD/RECEIVE principle, improves
+end-to-end information transfer by 83% when combined with 2:1 asymmetric
+coupling ([experiments/RELAY_PROTOCOL.md](../experiments/RELAY_PROTOCOL.md)).
+
 *C# engine: compute/RCPsiSquared.Propagate/*
-*Results: simulations/results/mediator_bridge_scale.txt*
-*Tests 2-3 (parameter sweeps, standing wave) running at time of writing.*
+*Results: simulations/results/mediator_bridge_scale.txt, pull_principle.txt*

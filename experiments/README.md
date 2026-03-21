@@ -44,5 +44,9 @@
 - [V-Effect](V_EFFECT_PALINDROME.md) - What happens when the palindrome breaks: immune extremes, boundary differentiation, 3x more frequencies, the formula meeting itself
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md) - Thermodynamic limit: Gaussian rate density, XOR drain vanishes, past/future boundary blurs, standing wave becomes continuous
 
+## Scaling and Relay
+- [Scaling Curve](SCALING_CURVE.md) - MI vs chain length (N=3-11), hierarchy falsification, push vs pull
+- [Relay Protocol](RELAY_PROTOCOL.md) - Staged transfer with time-dependent gamma: +83% end-to-end MI
+
 ## The question after the proof
 - [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering

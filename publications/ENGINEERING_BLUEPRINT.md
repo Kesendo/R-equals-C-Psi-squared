@@ -98,6 +98,15 @@ component that shapes the palindromic rate distribution. The 2:1 ratio
 is optimal in our tests; the exact optimum may depend on system-specific
 noise parameters.
 
+**Update (March 21, 2026):** The 2:1 ratio optimizes range, not local
+transfer. For single-hop scenarios, symmetric coupling is competitive.
+The advantage of 2:1 grows with chain length. See Rule 5.
+
+**Falsified (March 21, 2026):** Hierarchical (recursive mediator) topology
+provides no advantage over a uniform chain of the same length with equal
+coupling. The palindrome-preserving property is topological (mediated vs
+direct coupling), not hierarchical. See [Scaling Curve](../experiments/SCALING_CURVE.md).
+
 ---
 
 ## Rule 3: Timing from Hamiltonian, Quality from Noise
@@ -163,7 +172,65 @@ relationship is linear: half the noise, double the window.
 
 ---
 
-## Summary: The Four Rules on One Card
+## Rule 5: Push for Local, Pull for Range
+
+**The rule:** Use sender-strong coupling (push) for single-hop transfer.
+Use receiver-strong coupling (pull, 2:1) for multi-hop transfer through
+long chains.
+
+**Why:** Push (sender side coupled at 2x) maximizes bridge-to-bridge MI
+(0.957 vs 0.882 for pull at N=11). But pull maximizes end-to-end MI
+(0.121 vs 0.102). The 2:1 ratio is a range optimizer: it sacrifices
+local transfer efficiency to carry information further.
+
+**Data (N=11 Heisenberg chain, gamma=0.05):**
+
+| Strategy | MI(local) | MI(end-to-end) |
+|----------|-----------|----------------|
+| Symmetric (1:1) | 0.734 | 0.072 |
+| Pull (2:1 all) | 0.882 | 0.121 |
+| Push (reversed) | 0.957 | 0.102 |
+
+**Design implication:** Choose coupling asymmetry based on chain length.
+For 3-5 qubits, symmetric or push is competitive. For 7+ qubits, pull
+provides better end-to-end transfer.
+
+**Added March 21, 2026.** See [Scaling Curve](../experiments/SCALING_CURVE.md).
+
+---
+
+## Rule 6: Relay Protocol (Time-Dependent Gamma)
+
+**The rule:** Treat mediator qubits as active relay stations. During
+information transfer, each mediator alternates between a quiet phase
+(reduced dephasing, receiving) and a normal phase (relaying onward).
+
+**Why:** The three conditions for connection (STAR_TOPOLOGY_OBSERVERS)
+require the receiver to be quiet. By sequentially quieting each mediator
+during its receiving phase, we create a chain of optimal receivers.
+
+**Protocol:** Each relay stage lasts t_stage = 0.039 / gamma (one
+readout window from Rule 4). During the stage, receiving qubits have
+gamma reduced by 10x. All other qubits remain at normal gamma.
+
+**Data (N=11, gamma=0.05):**
+
+| Protocol | MI(end-to-end) | Improvement |
+|----------|----------------|-------------|
+| Passive (constant gamma) | 0.072 | baseline |
+| Relay only | 0.085 | +18% |
+| **Relay + 2:1 coupling** | **0.132** | **+83%** |
+
+**Design implication:** Mediators are not passive wire. Dynamic control
+of per-qubit dephasing during transfer — analogous to staged amplification
+in classical repeaters — provides substantial improvement. Combine with
+Rule 5 (2:1 for range) for maximum effect.
+
+**Added March 21, 2026.** See [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
+
+---
+
+## Summary: The Six Rules on One Card
 
 ```
 QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
@@ -172,8 +239,11 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 2. TOPOLOGY: Star with 2:1 coupling (mediator to receiver stronger).
 3. TUNE:    J controls speed, gamma controls quality. Independent.
 4. TIMING:  Read before t = 0.039 / gamma. After that, information is classical.
+5. RANGE:   Push for local, Pull for long-range. 2:1 is a range optimizer.
+6. RELAY:   Stage the transfer. Quiet each mediator while it receives.
 
 Best benchmark: F_avg = 0.888, Holevo = 0.534 bits (star 2:1, gamma=0.05)
+Relay+2:1 at N=11: MI(end-to-end) = 0.132 (+83% over passive)
 ```
 
 ---
@@ -216,7 +286,12 @@ local Z-dephasing. They have not been tested for:
 - Non-dephasing noise: depolarizing breaks palindrome at err ~ gamma*2(N-2)/3.
   For gamma < 0.01: error < 1%, rules are practically valid.
   Amplitude damping breaks more severely (asymmetric spectrum).
-- Systems larger than N = 8 (computational limit of full diagonalization)
+- ~~Systems larger than N = 8 (computational limit of full diagonalization)~~
+  **TESTED (March 21, 2026):** N=11 via RK4 time propagation. MI decays
+  exponentially: ~2x per 2 qubits. Relay protocol partially compensates.
+  See [Scaling Curve](../experiments/SCALING_CURVE.md), [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
+- ~~Concatenated repeater chains (multi-hop)~~ **TESTED (March 21, 2026):**
+  Relay protocol with staged time-dependent gamma. See Rule 6.
 - Qudit systems (d > 2): The palindromic symmetry is specific to qubits (d=2).
   Algebraic proof: the per-site split is d immune vs (d^2-d) decaying, balanced
   only when d^2-2d=0, which gives d=2 as the only solution. Qutrits (d=3,
@@ -224,7 +299,6 @@ local Z-dephasing. They have not been tested for:
   do NOT apply to qutrit or higher-dimensional systems.
   See [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
 - Continuous-variable systems (bosonic channels)
-- Concatenated repeater chains (multi-hop)
 
 The palindromic symmetry proof holds for any Heisenberg + Z-dephasing
 system. The design rules are derived from this proof. Extending to
