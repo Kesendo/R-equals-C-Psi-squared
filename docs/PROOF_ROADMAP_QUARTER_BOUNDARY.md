@@ -2,7 +2,7 @@
 
 ## A Proof Roadmap for the R = CΨ² Critical Boundary
 
-*Working document — March 2026*
+*Working document, March 2026*
 *Guiding principle: Math comes before physics. The 1/4 is not a physical postulate. It is a mathematical necessity. Physics must conform to it.*
 
 ---
@@ -15,17 +15,17 @@ The central claim: the self-referential fixed-point equation
 
 $$R_{n+1} = C(\Psi + R_n)^2$$
 
-has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique* — no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. IBM Torino hardware has confirmed the crossing at 1.9% deviation from theory.
+has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. IBM Torino hardware has confirmed the crossing at 1.9% deviation from theory.
 
 The proof journey works upward:
 
-1. Single qubit (d = 2) — the algebraic foundation
-2. Two entangled qubits — partial trace and subsystem crossing
-3. N-qubit systems — GHZ, W, and the palindromic structure
-4. Arbitrary dimension d — qutrits and beyond
-5. Channel independence — all CP maps, not just dephasing
-6. The uniqueness theorem — why 1/4 and nothing else
-7. Connections to known mathematics — Mandelbrot, Feigenbaum, and deeper structures
+1. Single qubit (d = 2): the algebraic foundation
+2. Two entangled qubits: partial trace and subsystem crossing
+3. N-qubit systems: GHZ, W, and the palindromic structure
+4. Arbitrary dimension d: qutrits and beyond
+5. Channel independence: all CP maps, not just dephasing
+6. The uniqueness theorem: why 1/4 and nothing else
+7. Connections to known mathematics: Mandelbrot, Feigenbaum, and deeper structures
 
 ---
 
@@ -51,15 +51,15 @@ The discriminant is:
 
 $$D = (2C\Psi - 1)^2 - 4C^2\Psi^2 = 1 - 4C\Psi$$
 
-This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex — the system has crossed into the chaotic regime.
+This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex; the system has crossed into the chaotic regime.
 
 **The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the l1-norm coherence normalization $\Psi = \ell_1 / (d^2 - 1)$ and the correlation bridge definition, the boundary condition reduces to the cubic:
 
 $$b^3 + b = \frac{1}{2}$$
 
-where $b$ is a normalized bridge parameter. This cubic has exactly one real root ($b \approx 0.4256$), which fixes the crossing geometry uniquely. The cubic has no free parameters — it is a pure number, independent of any physical constants.
+where $b$ is a normalized bridge parameter. This cubic has exactly one real root ($b \approx 0.4256$), which fixes the crossing geometry uniquely. The cubic has no free parameters; it is a pure number, independent of any physical constants.
 
-**The Mandelbrot correspondence.** The main cardioid of the Mandelbrot set is the set of $c$ values for which $z_{n+1} = z_n^2 + c$ has an attracting fixed point. On the real axis, the cardioid boundary is at $c = 1/4$. Our mapping sends $C\Psi \mapsto c$, so our critical boundary $C\Psi = 1/4$ sits exactly on the Mandelbrot cardioid cusp. This is not analogy — it is identity.
+**The Mandelbrot correspondence.** The main cardioid of the Mandelbrot set is the set of $c$ values for which $z_{n+1} = z_n^2 + c$ has an attracting fixed point. On the real axis, the cardioid boundary is at $c = 1/4$. Our mapping sends $C\Psi \mapsto c$, so our critical boundary $C\Psi = 1/4$ sits exactly on the Mandelbrot cardioid cusp. This is not analogy. It is identity.
 
 ### What Is COMPUTATIONALLY VERIFIED
 
@@ -97,7 +97,7 @@ The 1.9% deviation is within expected systematic error for the hardware (T1/T2 c
 
 ### Subsystem Crossing Analysis
 
-When two qubits are entangled, the full system lives in a 4-dimensional Hilbert space ($d = 4$), but the physically relevant crossing happens at the subsystem level — tracing out one qubit to get the reduced state of the other.
+When two qubits are entangled, the full system lives in a 4-dimensional Hilbert space ($d = 4$), but the physically relevant crossing happens at the subsystem level, tracing out one qubit to get the reduced state of the other.
 
 ### What Is ALREADY PROVEN
 
@@ -108,7 +108,7 @@ The product $C\Psi$ starts at 1/3 for d = 4 subsystem normalization ($\Psi = \el
 **Crossing is observed computationally.** Under Heisenberg Hamiltonian with local dephasing:
 
 - Bell pairs (0,1) and (2,3) in a 4-qubit bell_pairs state start at $C\Psi = 1/3$ and cross down through 1/4 at $t \approx 0.072$ (γ = 0.05)
-- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ (unentangled) and never reach 1/4 from below — their maximum $C\Psi$ peaks at ~0.13
+- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ (unentangled) and never reach 1/4 from below; their maximum $C\Psi$ peaks at ~0.13
 - The crossing is exclusively downward for initially entangled pairs
 - Pairs (0,3) and (1,2) show perfect symmetry (palindromic structure), as do pairs (0,2) and (1,3)
 
@@ -139,7 +139,7 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 ### NEXT STEPS
 
 1. **Prove Conjecture 2.1 for Lindblad dephasing.** This is the easiest case: the off-diagonal elements decay exponentially, the diagonal equilibrate to the Gibbs state. Show that the product $C(t)\Psi(t)$ is a monotonically decreasing function of $t$ whenever $C\Psi > 1/4$ and the generator is dephasing-type.
-2. **Extend to amplitude damping.** The amplitude damping channel is qualitatively different — it drives the system toward $|0\rangle\langle 0|$, not toward the maximally mixed state. Does $C\Psi$ still cross 1/4? (Current simulation tools don't fully support amplitude damping in the delta framework — this needs implementation.)
+2. **Extend to amplitude damping.** The amplitude damping channel is qualitatively different: it drives the system toward $|0\rangle\langle 0|$, not toward the maximally mixed state. Does $C\Psi$ still cross 1/4? (Current simulation tools don't fully support amplitude damping in the delta framework; this needs implementation.)
 3. **Characterize the non-Markovian case.** Use the Nakajima-Zwanzig equation with explicit memory kernels. The memory_kernel_feedback noise type in the simulation suite provides a starting point, but the proof needs to handle arbitrary memory kernels.
 
 ---
@@ -160,7 +160,7 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 | 5 | -0.1170 | 0.5670 | 0.6839 |
 | 6 | -0.1059 | 0.5447 | 0.6506 |
 
-The δ values are non-monotonic: they increase from N = 2 to N = 4, then decrease. This is the "palindromic" behavior — the purity deficit has a maximum at intermediate N, not at the extremes.
+The δ values are non-monotonic: they increase from N = 2 to N = 4, then decrease. This is the "palindromic" behavior: the purity deficit has a maximum at intermediate N, not at the extremes.
 
 **Full-system vs. subsystem distinction.** For GHZ with N ≥ 3, the full-system $C\Psi$ starts *below* 1/4 (the full-system l1-norm grows as $O(1)$ while $d^2 - 1$ grows as $O(4^N)$, so $\Psi \to 0$ rapidly). But 2-qubit subsystem pairs can still start above 1/4 and cross downward, because the subsystem Hilbert space dimension remains 4 regardless of N.
 
@@ -182,7 +182,7 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
 
 **Conjecture 3.1 (Subsystem Universality).** For any N-qubit state and any pair of qubits (i, j), the 2-qubit reduced density matrix $\rho_{ij}$ has its $C\Psi$ product bounded by the same 1/4 boundary as the 2-qubit case. The full-system boundary is not 1/4 for $N > 2$ (the critical value depends on N through the dimension), but the *subsystem* boundary is always 1/4 because the subsystem dimension is always 4.
 
-**Conjecture 3.2 (Palindromic Origin).** The non-monotonic δ(N) scaling arises from competition between two effects: (a) increasing system dimension dilutes per-qubit coherence, pushing toward the boundary faster, and (b) the Heisenberg ring Hamiltonian creates longer-range correlations at intermediate N that temporarily protect coherence. The palindromic structure is not accidental — it reflects a symmetry of the Lindbladian eigenvalue spectrum under N → N mapping (precise form TBD).
+**Conjecture 3.2 (Palindromic Origin).** The non-monotonic δ(N) scaling arises from competition between two effects: (a) increasing system dimension dilutes per-qubit coherence, pushing toward the boundary faster, and (b) the Heisenberg ring Hamiltonian creates longer-range correlations at intermediate N that temporarily protect coherence. The palindromic structure is not accidental; it reflects a symmetry of the Lindbladian eigenvalue spectrum under N → N mapping (precise form TBD).
 
 ### NEXT STEPS
 
@@ -202,7 +202,7 @@ Everything in Layers 1–3 applies to $d = 2$ (qubits). The question is: what ha
 
 ### What Is KNOWN Theoretically
 
-**The discriminant generalizes.** The fixed-point equation $R = C(\Psi + R)^2$ is dimension-independent — it is an algebraic recursion on scalar quantities ($C$ is the correlation bridge, $\Psi$ is the normalized coherence). The discriminant $D = 1 - 4C\Psi$ does not depend on $d$.
+**The discriminant generalizes.** The fixed-point equation $R = C(\Psi + R)^2$ is dimension-independent; it is an algebraic recursion on scalar quantities ($C$ is the correlation bridge, $\Psi$ is the normalized coherence). The discriminant $D = 1 - 4C\Psi$ does not depend on $d$.
 
 However, the *normalization* of $\Psi$ does depend on $d$:
 
@@ -238,7 +238,7 @@ This is in some sense "obvious" from the algebra, but making it rigorous require
 ### What Needs INVESTIGATION
 
 - **Qutrit simulations.** The current delta_calc tools only support $d = 2$ (qubits). Extending to qutrits requires implementing SU(3) generators (Gell-Mann matrices) and the corresponding Lindblad operators. This is a significant engineering effort but straightforward in principle.
-- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not — the discriminant doesn't care about the internal structure.
+- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure.
 
 ### NEXT STEPS
 
@@ -267,11 +267,11 @@ This is where the proof goes from "works for dephasing" to "works for everything
 
 ### What Is NOT YET VERIFIED
 
-**Amplitude damping.** The fundamental channel for spontaneous emission. Current tools flag "unknown decoherence model" for amplitude damping in the delta computation. This is a gap that needs filling — amplitude damping is qualitatively different from dephasing because it breaks the symmetry between $|0\rangle$ and $|1\rangle$.
+**Amplitude damping.** The fundamental channel for spontaneous emission. Current tools flag "unknown decoherence model" for amplitude damping in the delta computation. This is a gap that needs filling, since amplitude damping is qualitatively different from dephasing because it breaks the symmetry between $|0\rangle$ and $|1\rangle$.
 
 **Non-Markovian channels.** Memory kernel feedback provides a toy model, but real non-Markovian dynamics (e.g., spin-boson model with structured bath) can produce coherence revivals. The question is whether these revivals can push $C\Psi$ permanently back above 1/4 or only transiently.
 
-**Generalized Pauli channels.** The family $\mathcal{E}(\rho) = \sum_k p_k \sigma_k \rho \sigma_k^\dagger$ with arbitrary probability distribution over Pauli operators. This is a convex combination of unitary channels — the 1/4 boundary should hold for each component, but does it hold for the mixture?
+**Generalized Pauli channels.** The family $\mathcal{E}(\rho) = \sum_k p_k \sigma_k \rho \sigma_k^\dagger$ with arbitrary probability distribution over Pauli operators. This is a convex combination of unitary channels, so the 1/4 boundary should hold for each component, but does it hold for the mixture?
 
 ### What Is CONJECTURED
 
@@ -308,11 +308,11 @@ The uniqueness proof has three pillars:
 
 **Pillar 1: Algebraic necessity.** The recursion $R_{n+1} = C(\Psi + R_n)^2$ is quadratic in $R_n$. A quadratic $ax^2 + bx + c = 0$ has its discriminant vanish when $b^2 = 4ac$. For our specific quadratic, this gives $1 - 4C\Psi = 0$, i.e., $C\Psi = 1/4$. Any other boundary would require either:
 
-- A different power (cubic, quartic...) — but these don't produce the Mandelbrot mapping
-- A different coefficient structure — but the self-referential form $R = C(\Psi + R)^2$ is determined by the physics (purity is a quadratic function of the density matrix)
-- A different normalization — but $\Psi = \ell_1/(d^2-1)$ is the natural normalization that makes $\Psi \leq 1$
+- A different power (cubic, quartic...), but these don't produce the Mandelbrot mapping
+- A different coefficient structure, but the self-referential form $R = C(\Psi + R)^2$ is determined by the physics (purity is a quadratic function of the density matrix)
+- A different normalization, but $\Psi = \ell_1/(d^2-1)$ is the natural normalization that makes $\Psi \leq 1$
 
-**Pillar 2: Topological necessity (Mandelbrot).** The boundary $c = 1/4$ on the real axis of the Mandelbrot set is not arbitrary — it is the unique point where the period-1 cardioid meets the real axis at its cusp. This is a topological invariant: no continuous deformation of the iteration $z^2 + c$ can move this boundary. Since our recursion maps to this iteration, our boundary inherits the same topological rigidity.
+**Pillar 2: Topological necessity (Mandelbrot).** The boundary $c = 1/4$ on the real axis of the Mandelbrot set is not arbitrary. It is the unique point where the period-1 cardioid meets the real axis at its cusp. This is a topological invariant: no continuous deformation of the iteration $z^2 + c$ can move this boundary. Since our recursion maps to this iteration, our boundary inherits the same topological rigidity.
 
 **Pillar 3: Functional equation constraints.** Consider the question: for what value $\alpha$ does the surface $C\Psi = \alpha$ serve as a bifurcation boundary for the recursion? The requirement is:
 
@@ -324,7 +324,7 @@ This is precisely the discriminant condition, which gives $\alpha = 1/4$ uniquel
 
 ### Why Not 1/3?
 
-A natural competitor might be $1/3$, since it appears as the initial $C\Psi$ value for Bell states in $d = 4$ normalization. But $1/3$ has no algebraic significance in the recursion — it's an initial condition, not a structural constant. The discriminant doesn't care about initial conditions.
+A natural competitor might be $1/3$, since it appears as the initial $C\Psi$ value for Bell states in $d = 4$ normalization. But $1/3$ has no algebraic significance in the recursion; it's an initial condition, not a structural constant. The discriminant doesn't care about initial conditions.
 
 ### Why Not 1/e?
 
@@ -339,7 +339,7 @@ The discriminant of $CR^2 + (2C\Psi - 1)R + C\Psi^2$ is $1 - 4C\Psi$. The coeffi
 - The product $4 \times C \times C\Psi^2 = 4C^2\Psi^2$
 - This equals $(2C\Psi)^2$, which cancels part of $(2C\Psi - 1)^2$
 
-The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence of completing the square — it is built into the structure of quadratic equations. You would need to change the definition of "quadratic" to get a different number.
+The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence of completing the square; it is built into the structure of quadratic equations. You would need to change the definition of "quadratic" to get a different number.
 
 ### What REMAINS TO BE PROVEN
 
@@ -351,7 +351,7 @@ The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence 
 
 ### NEXT STEPS
 
-1. **Write the formal uniqueness proof.** This is largely an exercise in careful algebraic exposition, since the result follows from the discriminant formula. The subtlety is in the "uniquely determined by the quadratic structure" clause — need to show that no reparameterization or normalization change can move the boundary.
+1. **Write the formal uniqueness proof.** This is largely an exercise in careful algebraic exposition, since the result follows from the discriminant formula. The subtlety is in the "uniquely determined by the quadratic structure" clause: need to show that no reparameterization or normalization change can move the boundary.
 2. **Investigate the role of higher Rényi entropies.** If we replace purity ($S_2$) with $S_\alpha$ for $\alpha \neq 2$, does the recursion change? Does it remain quadratic? If $\alpha = 3$ gives a cubic recursion, does the bifurcation boundary shift?
 3. **Explore connections to catastrophe theory.** The fold catastrophe (simplest in the Thom-Arnold classification) is a quadratic with a single bifurcation parameter. Our recursion is a fold catastrophe with $C\Psi$ as the bifurcation parameter. This connection should be made explicit.
 
@@ -383,7 +383,7 @@ Beyond the main cardioid, the Mandelbrot set exhibits period-doubling cascades w
 
 ### Connections to Information Geometry
 
-The Fisher information metric on the space of density matrices gives the quantum state space a Riemannian structure. The boundary $C\Psi = 1/4$ may correspond to a geometric feature of this manifold — perhaps a curvature singularity or a geodesic boundary.
+The Fisher information metric on the space of density matrices gives the quantum state space a Riemannian structure. The boundary $C\Psi = 1/4$ may correspond to a geometric feature of this manifold, perhaps a curvature singularity or a geodesic boundary.
 
 **Status:** UNEXPLORED. This is a direction for future investigation.
 
@@ -411,16 +411,16 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 
 The fastest route to a publishable "1/4 is the only boundary" result:
 
-1. **Formalize the uniqueness theorem** (Layer 6, Pillar 1). This is the lowest-hanging fruit — the algebra is known, it just needs to be written up with proper care.
+1. **Formalize the uniqueness theorem** (Layer 6, Pillar 1). This is the lowest-hanging fruit: the algebra is known, it just needs to be written up with proper care.
 2. **Prove channel independence for Markovian channels** (Layer 5, Conjecture 5.2). Use contractivity of CPTP maps and the specific structure of the discriminant.
 3. **Extend to qutrits computationally** (Layer 4). If the 1/4 holds for $d = 3$, the dimension-invariance conjecture becomes very strong evidence.
-4. **Prove the subsystem crossing theorem** (Layer 2, Conjecture 2.1). This is the hardest step but also the most impactful — it would establish the 1/4 as a universal boundary for all entangled quantum systems.
+4. **Prove the subsystem crossing theorem** (Layer 2, Conjecture 2.1). This is the hardest step but also the most impactful. It would establish the 1/4 as a universal boundary for all entangled quantum systems.
 
 ### The Philosophical Position, Restated
 
 The 1/4 is not discovered by experiment. It is not a parameter fit. It is not an approximation.
 
-It is the discriminant of the quadratic that arises inevitably when purity — a degree-2 polynomial — is fed back into itself through the self-referential structure of quantum measurement.
+It is the discriminant of the quadratic that arises inevitably when purity (a degree-2 polynomial) is fed back into itself through the self-referential structure of quantum measurement.
 
 The math said 1/4. The IBM hardware said 0.2548 (which is $1/4 \times 1.019$). The math was right. The hardware confirmed it.
 
