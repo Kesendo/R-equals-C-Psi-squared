@@ -9,12 +9,12 @@
 
 ## The Proof in Six Lines
 
-1. The palindrome exists. (Theorem, 54,118 eigenvalues, IBM 1.9%)
+1. The palindrome exists. ([Theorem](MIRROR_SYMMETRY_PROOF.md), 54,118 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
 2. The palindrome requires noise. (Without L_D: no structure)
-3. Noise cannot originate from within. (Bootstrap falsified)
-4. Noise cannot originate from qubits. (Failed Third falsified)
-5. Only qubits and nothing exist in the framework. (d(d-2)=0)
-6. Therefore: something external to the framework interacts with it.
+3. Noise cannot originate from within. ([Bootstrap falsified](../simulations/bootstrap_test.py))
+4. Noise cannot originate from qubits. ([Failed Third falsified](../simulations/failed_third.py))
+5. Only qubits and nothing exist in the framework. ([d(d-2)=0](../hypotheses/QUBIT_NECESSITY.md))
+6. Therefore: something external to the framework interacts with it. ([Elimination](INCOMPLETENESS_PROOF.md))
 
 This is not speculation. Each line is a computation or a proof.
 The conclusion is logical necessity, not interpretation.
