@@ -437,10 +437,10 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 | Layer | Status | Key Gap |
 |-------|--------|---------|
 | 1. Qubit (d=2) | **Mostly proven** | Product-power uniqueness needs formal publication |
-| 2. Two entangled qubits | **Computationally verified** | Need proof for arbitrary CPTP maps. Amplitude damping + non-Markovian partially tested (March 21). |
-| 3. N-qubit systems | **Proven + verified to N=11** | Palindrome proven analytically (all graphs). MI scaling measured. Analytic δ(N) formula open. |
+| 2. Two entangled qubits | **Computationally verified** | Need proof for arbitrary CPTP maps. Amplitude damping + non-Markovian tested (March 21). |
+| 3. N-qubit systems | **Proven + verified to N=11** | Palindrome proven analytically (all graphs). MI scaling measured. GHZ δ(N) formula approximate (Hamiltonian mixing). |
 | 4. Arbitrary dimension | **Answered: d=2 only** | Qutrits tested and break palindrome (d²-2d=0). CΨ=1/4 discriminant is d-independent. |
-| 5. Channel independence | **Partially verified** | Amplitude damping partially tested (non-Markovian, breaks palindrome). Generalized Pauli channels open. |
+| 5. Channel independence | **VERIFIED (all standard channels)** | Z, X, Y dephasing, depolarizing, asymmetric Pauli, amplitude damping: all cross at 1/4. Non-Markovian revival cannot push CΨ back above 1/4 (absorbing boundary). |
 | 6. Uniqueness theorem | **Algebraically clear, not formal** | Rigorous theorem + proof of quadratic necessity |
 | 7. Known math connections | **Mapped but not exploited** | Full cardioid, Feigenbaum, catastrophe theory |
 

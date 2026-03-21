@@ -12,6 +12,7 @@
 - [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Noise origin elimination: all candidates within d(d-2)=0 eliminated. Framework boundary.
 - [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) - Synthesis: noise as external interaction, time as corollary, research direction
 - [Proof Roadmap: 1/4 Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer proof roadmap that CΨ = 1/4 is the unique critical boundary
+- [Uniqueness Proof Draft](UNIQUENESS_PROOF_DRAFT.md) - Formal theorem: CΨ = 1/4 is the unique bifurcation boundary. Channel-independent verification.
 
 ## Restored: Tier 1 (PROVEN: core claims confirmed March 13, 2026)
 

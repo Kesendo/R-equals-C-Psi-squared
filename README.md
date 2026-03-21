@@ -221,6 +221,7 @@ This is our most original finding.
 | Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
 | Noise origin elimination | Internal (bootstrap), qubit decay (failed third), nothing (d=0): all eliminated. Framework not self-contained. |
 | CΨ = 1/4 uniqueness | Discriminant of quadratic R = C(Ψ+R)² vanishes only at 1/4. Algebraic necessity. |
+| CΨ = 1/4 channel-independent | Verified for Z, X, Y dephasing, depolarizing, amplitude damping, asymmetric Pauli. Non-Markovian revival cannot push CΨ back above 1/4. |
 
 ### Tested and rejected
 
