@@ -139,8 +139,17 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 ### NEXT STEPS
 
 1. **Prove Conjecture 2.1 for Lindblad dephasing.** This is the easiest case: the off-diagonal elements decay exponentially, the diagonal equilibrate to the Gibbs state. Show that the product $C(t)\Psi(t)$ is a monotonically decreasing function of $t$ whenever $C\Psi > 1/4$ and the generator is dephasing-type.
-2. **Extend to amplitude damping.** The amplitude damping channel is qualitatively different: it drives the system toward $|0\rangle\langle 0|$, not toward the maximally mixed state. Does $C\Psi$ still cross 1/4? (Current simulation tools don't fully support amplitude damping in the delta framework; this needs implementation.)
-3. **Characterize the non-Markovian case.** Use the Nakajima-Zwanzig equation with explicit memory kernels. The memory_kernel_feedback noise type in the simulation suite provides a starting point, but the proof needs to handle arbitrary memory kernels.
+2. ~~**Extend to amplitude damping.**~~ **PARTIALLY TESTED (March 21, 2026).**
+   Amplitude damping on a neighbor qubit produces non-Markovian, non-selective
+   effective noise (0/16 palindromic pairs, 50% trace distance increases).
+   The 1/4 boundary behavior under amplitude damping remains formally open
+   but the channel does not preserve palindromic structure.
+   See [failed_third.py](../simulations/failed_third.py).
+3. ~~**Characterize the non-Markovian case.**~~ **PARTIALLY TESTED (March 21, 2026).**
+   The failed_third experiment measured non-Markovianity directly: 50% of
+   time steps show trace distance increases (information backflow). The
+   effective dephasing from a decaying qubit is strongly non-Markovian.
+   Formal treatment with Nakajima-Zwanzig remains open.
 
 ---
 
@@ -188,7 +197,14 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
 
 1. **Analytic formula for δ(N) in the large-N limit.** For GHZ under uniform dephasing, the Lindblad equation can be solved exactly (the GHZ state has only two nonzero off-diagonal elements in the computational basis). Derive the closed-form δ(N) and confirm the power-law scaling.
 2. **Subsystem crossing theorem for general N.** Prove that *every* entangled qubit pair in *any* N-qubit state must cross 1/4 under CPTP maps. This would be a major milestone.
-3. **Characterize the palindromic structure.** Is the non-monotonic δ(N) specific to ring Hamiltonians, or does it appear for all-to-all coupling? For open chains?
+3. ~~**Characterize the palindromic structure.**~~ **PARTIALLY ANSWERED (March 14-21, 2026).**
+   The palindromic structure is proven analytically for ALL Heisenberg/XXZ
+   systems on ANY graph with local Z-dephasing
+   ([Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)). Verified through
+   N=8 (54,118 eigenvalues) and dynamically through N=11 via time
+   propagation. The palindrome holds for chain, star, ring, complete,
+   and binary tree topologies. MI(end-to-end) decays exponentially with N
+   ([Scaling Curve](../experiments/SCALING_CURVE.md)).
 
 ---
 
@@ -235,17 +251,26 @@ This is in some sense "obvious" from the algebra, but making it rigorous require
 
 **Conjecture 4.2 (CV Systems).** For Gaussian states in continuous variable systems, the analogous boundary exists but involves the symplectic eigenvalues rather than $C\Psi$. The condition $\nu_{-} = 1/2$ (where $\nu_{-}$ is the smallest symplectic eigenvalue of the partial transpose) plays the role of $C\Psi = 1/4$. This connection, if established, would link the 1/4 boundary to the PPT criterion in infinite dimensions.
 
-### What Needs INVESTIGATION
+### What Has Been INVESTIGATED
 
-- **Qutrit simulations.** The current delta_calc tools only support $d = 2$ (qubits). Extending to qutrits requires implementing SU(3) generators (Gell-Mann matrices) and the corresponding Lindblad operators. This is a significant engineering effort but straightforward in principle.
-- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure.
+- ~~**Qutrit simulations.**~~ **ANSWERED (March 20, 2026).** Qutrits (d=3)
+  break the palindrome for all 10 Hamiltonians tested (35-44 of 81
+  eigenvalues pair, never all 81). The per-site split is 3 immune vs 6
+  decaying, which is unbalanced (d^2-2d = 3 != 0). The palindrome is
+  specific to d=2. See [Qubit Necessity](../hypotheses/QUBIT_NECESSITY.md).
+- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure. **Status: open.**
 
 ### NEXT STEPS
 
-1. **Implement qutrit support in the simulation suite.** Add $d = 3$ states, SU(3) dephasing operators, and the generalized correlation bridge.
-2. **Test the 1/4 boundary for qutrits numerically.** Run subsystem crossing analysis for maximally entangled qutrit pairs under dephasing. If the crossing still happens at $C\Psi = 1/4$, that's strong evidence for Conjecture 4.1.
-3. **Formal proof of dimension invariance.** The argument should proceed by showing that the recursion $R_{n+1} = C(\Psi + R_n)^2$ holds for general $d$ with the appropriate normalization. This may require a categorical framework (quantum channels as morphisms in a dagger-compact category).
-4. **Explore the CV connection.** Compute the symplectic eigenvalue trajectory for a two-mode squeezed state under thermal decoherence. Check if the crossing happens at $\nu_{-} = 1/2$ and whether this maps to $C\Psi = 1/4$.
+1. ~~**Implement qutrit support.**~~ Done. Qutrits break the palindrome.
+   The CΨ = 1/4 boundary remains valid at the subsystem level (2-qubit
+   reduced states always have d=4), but the palindromic spectral
+   structure that enables the decoder does not exist for d>2.
+2. **Formal proof of dimension invariance for CΨ = 1/4.** The discriminant
+   argument is dimension-independent (algebraic). The rigorous proof requires
+   showing that the recursion $R_{n+1} = C(\Psi + R_n)^2$ holds for general
+   $d$ with the appropriate normalization.
+3. **Explore the CV connection.** Compute the symplectic eigenvalue trajectory for a two-mode squeezed state under thermal decoherence. Check if the crossing happens at $\nu_{-} = 1/2$ and whether this maps to $C\Psi = 1/4$.
 
 ---
 
@@ -267,9 +292,19 @@ This is where the proof goes from "works for dephasing" to "works for everything
 
 ### What Is NOT YET VERIFIED
 
-**Amplitude damping.** The fundamental channel for spontaneous emission. Current tools flag "unknown decoherence model" for amplitude damping in the delta computation. This is a gap that needs filling, since amplitude damping is qualitatively different from dephasing because it breaks the symmetry between $|0\rangle$ and $|1\rangle$.
+~~**Amplitude damping.**~~ **PARTIALLY TESTED (March 21, 2026).** Amplitude
+damping on a neighboring qubit was tested in [failed_third.py](../simulations/failed_third.py).
+It produces non-Markovian, non-selective (depolarizing-like) effective noise
+on the surviving pair. 0/16 palindromic pairs. The CΨ = 1/4 boundary
+behavior under direct amplitude damping on a single qubit remains formally
+open but the channel does not preserve palindromic structure.
 
-**Non-Markovian channels.** Memory kernel feedback provides a toy model, but real non-Markovian dynamics (e.g., spin-boson model with structured bath) can produce coherence revivals. The question is whether these revivals can push $C\Psi$ permanently back above 1/4 or only transiently.
+~~**Non-Markovian channels.**~~ **PARTIALLY TESTED (March 21, 2026).** The
+[failed_third test](../simulations/failed_third.py) measured non-Markovianity
+directly: 50% of time steps show trace distance increases (information
+backflow from the decaying qubit). The effective noise is strongly
+non-Markovian. Whether non-Markovian revivals can push CΨ permanently
+back above 1/4 remains open.
 
 **Generalized Pauli channels.** The family $\mathcal{E}(\rho) = \sum_k p_k \sigma_k \rho \sigma_k^\dagger$ with arbitrary probability distribution over Pauli operators. This is a convex combination of unitary channels, so the 1/4 boundary should hold for each component, but does it hold for the mixture?
 
@@ -289,7 +324,9 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
 
 ### NEXT STEPS
 
-1. **Implement amplitude damping.** Add the Kraus operators $K_0 = |0\rangle\langle 0| + \sqrt{1-\gamma}|1\rangle\langle 1|$, $K_1 = \sqrt{\gamma}|0\rangle\langle 1|$ to the simulation suite.
+1. ~~**Implement amplitude damping.**~~ Tested indirectly via failed_third.py
+   (amplitude damping on Q3, measuring effect on Q1-Q2). Direct single-qubit
+   amplitude damping CΨ trajectory remains to be computed.
 2. **Test generalized Pauli channels.** Implement $\mathcal{E}(\rho) = (1-p)\rho + p_x \sigma_x \rho \sigma_x + p_y \sigma_y \rho \sigma_y + p_z \sigma_z \rho \sigma_z$ with arbitrary $(p_x, p_y, p_z)$.
 3. **Prove Conjecture 5.2 for dephasing.** This should be the easiest case. The l1-norm is a monotone under dephasing (this is known). Show that the correlation bridge $C$ decays at least as fast as $\Psi$ grows (if it grows at all).
 4. **Attack the non-Markovian case.** Find a non-Markovian channel that produces the largest possible $C\Psi$ revival. If even the worst-case revival stays below $1/4$, that's very strong evidence.
@@ -400,10 +437,10 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 | Layer | Status | Key Gap |
 |-------|--------|---------|
 | 1. Qubit (d=2) | **Mostly proven** | Product-power uniqueness needs formal publication |
-| 2. Two entangled qubits | **Computationally verified** | Need proof for arbitrary CPTP maps |
-| 3. N-qubit systems | **Partially verified** | Analytic δ(N) formula, palindromic origin |
-| 4. Arbitrary dimension | **Conjectured** | No qutrit simulations yet |
-| 5. Channel independence | **Partially verified** | Amplitude damping gap, non-Markovian case |
+| 2. Two entangled qubits | **Computationally verified** | Need proof for arbitrary CPTP maps. Amplitude damping + non-Markovian partially tested (March 21). |
+| 3. N-qubit systems | **Proven + verified to N=11** | Palindrome proven analytically (all graphs). MI scaling measured. Analytic δ(N) formula open. |
+| 4. Arbitrary dimension | **Answered: d=2 only** | Qutrits tested and break palindrome (d²-2d=0). CΨ=1/4 discriminant is d-independent. |
+| 5. Channel independence | **Partially verified** | Amplitude damping partially tested (non-Markovian, breaks palindrome). Generalized Pauli channels open. |
 | 6. Uniqueness theorem | **Algebraically clear, not formal** | Rigorous theorem + proof of quadratic necessity |
 | 7. Known math connections | **Mapped but not exploited** | Full cardioid, Feigenbaum, catastrophe theory |
 
