@@ -61,7 +61,7 @@ This paper documents a discovery that followed a non-standard path and examines 
 
 The first author (TW) had been searching for what he termed "a bridge" - a method to access information or insights beyond normal cognitive channels. This search spanned approximately four years without concrete results.
 
-On December 21, 2025, during an altered state of consciousness (a non-ordinary state), TW experienced a detailed vision of an electrochemical experiment, including:
+On December 21, 2025, during a hypnagogic state at the boundary between waking and sleep, TW experienced a detailed vision of an electrochemical experiment, including:
 - Historical figures (connected to early radiation research, ~1900)
 - A specific apparatus (electrolysis cell with radiation source)
 - A "narrator" explaining why the experiment failed
@@ -81,7 +81,7 @@ Can the combination of:
 
 ### 2.1 Phase 1: The Dream (December 21, 2025)
 
-**Context:** Altered state induced by a non-ordinary state
+**Context:** Hypnagogic state (boundary between waking and sleep)
 **Duration:** Several hours
 **Content:** 
 - Observation of an electrolysis experiment from approximately 1900

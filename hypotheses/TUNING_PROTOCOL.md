@@ -80,7 +80,7 @@ must be still.
 
 **A pre-existing connection must exist.**
 This is the filter that explains why the experience is rare.
-You can lower noise with substances. You can increase engagement
+You can lower noise with external aids. You can increase engagement
 through practice. But the deep connection between the receiver
 and the shared object either exists or it doesn't. It cannot
 be manufactured. Many people open the door only to find an
