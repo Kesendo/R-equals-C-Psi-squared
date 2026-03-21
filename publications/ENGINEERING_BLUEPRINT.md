@@ -83,7 +83,7 @@ the mediator-to-sender coupling.
 distribution. Asymmetric coupling (2:1) shifts more weight to the
 slow-decaying palindromic pairs, improving channel quality.
 
-**Benchmarks (gamma = 0.05 per qubit):**
+**Benchmarks (γ = 0.05 per qubit):**
 
 | Configuration | Avg Fidelity | Holevo Capacity (bits) |
 |---------------|-------------|------------------------|
@@ -113,21 +113,21 @@ direct coupling), not hierarchical. See [Scaling Curve](../experiments/SCALING_C
 
 **The rule:** Tune WHEN information arrives by adjusting coupling
 strengths (J). Tune HOW WELL it arrives by adjusting dephasing rates
-(gamma). These are independent controls.
+(γ). These are independent controls.
 
 **Why:** The Hamiltonian determines the Bohr frequencies that set the
 oscillation period of entanglement transfer. The dephasing rates
 determine the palindromic decay structure that sets the envelope.
 Changing J shifts oscillation timing without affecting decay rates.
-Changing gamma shifts decay rates without affecting oscillation timing.
+Changing γ shifts decay rates without affecting oscillation timing.
 
 **Key numbers:**
 - Entanglement echo period: approximately pi / (4J)
-- Envelope decay rate: 8 gamma / 3 (for the concurrence, N=3)
-- Approximate readout time: t_cross = 0.039 / gamma
+- Envelope decay rate: 8γ/3 (for the concurrence, N=3)
+- Approximate readout time: t_cross = 0.039/γ
 
 **Design implication:** If the channel is too slow, increase J (stronger
-coupling). If the channel is too lossy, decrease gamma (better shielding).
+coupling). If the channel is too lossy, decrease γ (better shielding).
 These are orthogonal optimization axes. You never face a trade-off
 between speed and quality in the palindromic framework.
 
@@ -142,8 +142,8 @@ frequencies instead of parity eigenvalues. See [Error Correction](../experiments
 
 ## Rule 4: Read Before the Boundary
 
-**The rule:** Read out the receiver's state before t_cross = 0.039 / gamma.
-After this time, the product C * Psi (concurrence times coherence) has
+**The rule:** Read out the receiver's state before t_cross = 0.039/γ.
+After this time, the product CΨ (concurrence times coherence) has
 crossed the 1/4 boundary. Beyond 1/4, the system enters a regime where
 stable classical fixed points exist and quantum information is lost.
 
@@ -157,16 +157,16 @@ CΨ starts above 1/4 for entangled states and decays under noise. The
 crossing from above to below is the quantum-to-classical transition.
 Read before it happens.
 
-**Example readout windows (gamma per qubit):**
+**Example readout windows (γ per qubit):**
 
-| gamma | t_cross | Window |
+| γ | t_cross | Window |
 |-------|---------|--------|
 | 0.01 | 3.9 | Almost 4 time units |
 | 0.05 | 0.78 | Less than 1 time unit |
 | 0.10 | 0.39 | Very fast readout needed |
 | 0.50 | 0.078 | Extremely tight |
 
-**Design implication:** Lower noise (smaller gamma) gives you a longer
+**Design implication:** Lower noise (smaller γ) gives you a longer
 readout window. This is another reason to invest in shielding. The
 relationship is linear: half the noise, double the window.
 
@@ -190,7 +190,7 @@ long chains.
 (0.121 vs 0.102). The 2:1 ratio is a range optimizer: it sacrifices
 local transfer efficiency to carry information further.
 
-**Data (N=11 Heisenberg chain, gamma=0.05):**
+**Data (N=11 Heisenberg chain, γ=0.05):**
 
 | Strategy | MI(local) | MI(end-to-end) |
 |----------|-----------|----------------|
@@ -206,7 +206,7 @@ provides better end-to-end transfer.
 
 ---
 
-## Rule 6: Relay Protocol (Time-Dependent Gamma)
+## Rule 6: Relay Protocol (Time-Dependent γ)
 
 **The rule:** Treat mediator qubits as active relay stations. During
 information transfer, each mediator alternates between a quiet phase
@@ -216,15 +216,15 @@ information transfer, each mediator alternates between a quiet phase
 require the receiver to be quiet. By sequentially quieting each mediator
 during its receiving phase, we create a chain of optimal receivers.
 
-**Protocol:** Each relay stage lasts t_stage = 0.039 / gamma (one
-readout window from Rule 4). During the stage, receiving qubits have
-gamma reduced by 10x. All other qubits remain at normal gamma.
+**Protocol:** Each relay stage lasts t_stage = 0.039/γ (one readout
+window from Rule 4). During the stage, receiving qubits have γ reduced
+by 10x. All other qubits remain at normal γ.
 
-**Data (N=11, gamma=0.05):**
+**Data (N=11, γ=0.05):**
 
 | Protocol | MI(end-to-end) | Improvement |
 |----------|----------------|-------------|
-| Passive (constant gamma) | 0.072 | baseline |
+| Passive (constant γ) | 0.072 | baseline |
 | Relay only | 0.085 | +18% |
 | **Relay + 2:1 coupling** | **0.132** | **+83%** |
 
@@ -291,8 +291,8 @@ local Z-dephasing. They have not been tested for:
 - ~~Non-Heisenberg couplings~~ **TESTED (March 17, 2026):** XY-only, Ising, XXZ, DM
   interactions are ALL palindromic under single-axis dephasing. Design rules apply.
 - ~~Non-dephasing noise~~ **PARTIALLY ANSWERED (March 19-21, 2026):**
-  Depolarizing breaks palindrome at err = gamma*2(N-2)/3 (exact formula).
-  For gamma < 0.01: error < 1%, rules are practically valid.
+  Depolarizing breaks palindrome at err = γ*2(N-2)/3 (exact formula).
+  For γ < 0.01: error < 1%, rules are practically valid.
   Amplitude damping produces non-Markovian, non-selective noise on
   neighbors (0/16 palindromic pairs in failed_third test). Design rules
   do NOT apply to amplitude damping channels.
@@ -302,7 +302,7 @@ local Z-dephasing. They have not been tested for:
   exponentially: ~2x per 2 qubits. Relay protocol partially compensates.
   See [Scaling Curve](../experiments/SCALING_CURVE.md), [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
 - ~~Concatenated repeater chains (multi-hop)~~ **TESTED (March 21, 2026):**
-  Relay protocol with staged time-dependent gamma. See Rule 6.
+  Relay protocol with staged time-dependent γ. See Rule 6.
 - ~~Qudit systems (d > 2)~~ **ANSWERED (March 20, 2026):** The palindromic
   symmetry is specific to qubits (d=2). Algebraic proof: the per-site split
   is d immune vs (d^2-d) decaying, balanced only when d^2-2d=0, which gives
