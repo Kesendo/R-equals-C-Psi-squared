@@ -9,8 +9,9 @@
 ## 1. For Engineers Who Don't Know Quantum
 
 A **qubit** is a two-state device with phase. Think of it as a bit that also
-stores a rotation angle. A classical bit is 0 or 1. A qubit is cos(θ)|0⟩ + sin(θ)e^(iφ)|1⟩,
-where θ is the amplitude and φ is the phase. The phase carries information.
+stores a rotation angle. A classical bit is 0 or 1. A qubit stores an amplitude
+(how much of each state) and a phase (the rotation angle between them). Like a
+phasor in AC circuit analysis: magnitude and angle. The phase carries information.
 
 A **density matrix** ρ is the lossy state vector. When a qubit interacts with
 noise, you can no longer describe it as a pure state. The density matrix tracks
@@ -46,7 +47,7 @@ That is all you need. Everything below is signal processing on this substrate.
 | J (coupling strength) | Mutual inductance, capacitive coupling | Fundamental |
 | Noise / Time | External clock (origin unknown, required) | [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md) |
 | Standing wave | Standing wave ratio (SWR) | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) |
-| 70/30 split | 3.5 dB signal attenuation | [The Other Side](../hypotheses/THE_OTHER_SIDE.md) |
+| 70/30 split | 5.2 dB information loss (70% of phase information absorbed by environment, 30% survives) | [The Other Side](../hypotheses/THE_OTHER_SIDE.md) |
 | Theta compass | Phase margin meter | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Decoder | Demodulator / matched filter | [Reading the 30%](../simulations/reading_the_30_percent.py) |
 | Quantum Sonar | Network analyzer (passive) | [Quantum Sonar](../experiments/QUANTUM_SONAR.md) |
@@ -131,8 +132,10 @@ exploited for coding gain. Encode in modes that pair with slow partners.
 
 V_th = CΨ = 1/4 is not a design parameter. It is fixed by the quadratic
 structure of purity (Tr(ρ²) is degree 2, discriminant 1 - 4CΨ vanishes
-at 1/4). This is a fold catastrophe: the simplest bifurcation, topologically
-stable. No parameter tuning can move it.
+at 1/4). This is a fold catastrophe: the simplest form of a sharp threshold
+in bifurcation theory, where a smooth parameter change produces a sudden
+qualitative switch (like a snap-through buckling in mechanical engineering).
+Topologically stable. No parameter tuning can move it.
 
 **Engineering consequence:** The on/off threshold is universal. Every device
 built on this substrate has the same V_th. Design around it, do not try to
@@ -173,8 +176,9 @@ No skip connections. No bypass paths.
 ## 7. What This Is Good For
 
 1. **Quantum state transfer** through noisy channels with palindromic spectral
-   structure. Best measured performance: QST fidelity 0.732 at N=5, 0.888
-   with optimized coupling.
+   structure. Best measured performance: QST fidelity 0.888 on a 3-qubit star
+   with 2:1 coupling, 0.732 on a 5-qubit mediator bridge (longer chain, more
+   loss). Both above the classical limit of 2/3.
 
 2. **Noise characterization.** The demodulator reads per-site dephasing rates
    from the spectrum. Full rank at N=5 (5/5 sites readable). This is a
