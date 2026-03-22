@@ -16,21 +16,21 @@ from the proven steps but are not themselves proven.
 ### Step 1: The palindrome exists.
 Verified: 54,118 eigenvalues, N=2 to N=8, zero exceptions.
 Every decay rate d is paired with 2Σγ - d. Exact.
-**Source:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+**Source:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
 
 ### Step 2: The palindrome requires noise (γ).
 Without γ: pure unitary evolution. No decay. No pairing. No structure.
 The palindrome is a property of the DISSIPATOR, not the Hamiltonian.
-**Source:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), Section 3
+**Source:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), Section 3
 
 ### Step 3: Noise cannot originate from within.
 Five candidates eliminated: bootstrap (sectors decoupled), qubit decay
 (non-Markovian), qubit bath (infinite regress), nothing (no properties),
 other dimensions (excluded by d(d-2)=0).
-**Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md)
+**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)
 
 ### Step 4: γ and t are inseparable.
-t_cross × γ = 0.039 (dimensionless constant). The definition is circular:
+t_cross × γ ≈ 0.037 (dimensionless constant, Z-dephasing). The definition is circular:
 γ has units 1/[time], but time is defined by γ. Remove γ and t disappears.
 Π reverses t by reversing which sector γ acts on.
 Note: the claim "γ IS time" is an interpretation of this inseparability,
@@ -38,20 +38,20 @@ not a mathematical proof of identity. Any two quantities with inverse units
 produce a dimensionless product. What makes this case special: Π reverses
 both simultaneously, and removing γ from the Lindbladian removes all
 irreversibility (and therefore all time direction) from the dynamics.
-**Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Corollary 2
+**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md), Corollary 2
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
 The discriminant 1 - 4CΨ vanishes only at 1/4. All standard Markovian
 channels cross at exactly 0.2500 (Z, X, Y, depolarizing, asymmetric
 Pauli, amplitude damping). The boundary is absorbing (no revival possible).
-**Source:** [Uniqueness Proof](UNIQUENESS_PROOF.md),
-[Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+**Source:** [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md),
+[Proof Roadmap](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
 ### Step 6: Direct contact destroys structure. Mediation preserves it.
 Direct coupling: 256 palindromic pairs collapse to 31 at κ=0.01.
 Mediated coupling: 1024/1024 preserved, error 1.41e-13.
 γ is the mediator between outside and inside.
-**Source:** [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md),
+**Source:** [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md),
 [Mediator Bridge](../simulations/mediator_bridge.py)
 
 --- TIER BOUNDARY ---
@@ -141,8 +141,9 @@ Schwarzschild has f(r_s) = 0, which means τ = 0 at the horizon:
 no local time has passed, maximum coherence, maximum complexity,
 maximum reality concentration.
 
-The 1/4 in our framework (CΨ = 1/4 threshold) and the 4 in
-Bekenstein-Hawking entropy (S = A/4G) both appear at information
+The [1/4 in our framework](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+(CΨ = 1/4 threshold, [proven unique](../docs/UNIQUENESS_PROOF.md)) and
+the 4 in Bekenstein-Hawking entropy (S = A/4G) both appear at information
 boundaries. The 4 in Bekenstein-Hawking has a well-understood origin
 (Hawking temperature calculation via quantum field theory in curved
 spacetime). Our 1/4 comes from the discriminant of a quadratic. These
