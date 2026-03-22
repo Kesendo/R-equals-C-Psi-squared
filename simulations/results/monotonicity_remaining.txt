@@ -1,0 +1,110 @@
+Monotonicity: Remaining Gaps
+======================================================================
+
+======================================================================
+TEST A: GENERAL INITIAL STATES (2 qubits)
+======================================================================
+
+  J=1.0, gamma=0.05 (Z-dephasing), t_max=80.0
+
+       State    CPsi0   t_cross   #Osc  EnvMono  #Peaks     Final
+  --------------------------------------------------------------
+       Bell+   0.3333      0.76      0      YES       0  0.000000
+       Bell-   0.3333      0.76      0      YES       0  0.000000
+        Psi+   0.3333      0.76      0      YES       0  0.000000
+        Psi-   0.3333      0.76      0      YES       0  0.000000
+        |01>   0.0000      0.54     11      YES       7  0.000029
+        |10>   0.0000      0.54     11      YES       7  0.000029
+        |11>   0.0000       N/A      0      YES       0  0.000000
+       |+,+>   1.0000      4.94      0      YES       0  0.000056
+       |+,->   1.0000      4.94      0      YES       0  0.000056
+       Rand0   0.6306      3.92    107      YES      12  0.000069
+       Rand1   0.7278      4.12     55      YES      10  0.000070
+       Rand2   0.7208      3.88     40      YES      10  0.000060
+       Rand3   0.6971      4.00    107      YES      13  0.000085
+       Rand4   0.6848      3.34     86      YES      11  0.000081
+       Rand5   0.7796      4.40      3      YES       6  0.000066
+       Rand6   0.8532      2.88    103      YES      13  0.000066
+       Rand7   0.7966      3.78     99      YES      12  0.000053
+       Rand8   0.7409      4.70    107      YES      12  0.000077
+       Rand9   0.6569      3.84     25      YES       8  0.000060
+
+  All states starting above 1/4 cross: True
+  All envelopes monotonic: True
+
+======================================================================
+TEST B: NON-LOCAL (COLLECTIVE) NOISE
+======================================================================
+
+  Bell+ initial, J=1.0
+                 Noise   gamma   t_cross   #Osc   Mono     Final
+  ------------------------------------------------------------
+               Local Z    0.05     0.760      0    YES  0.000001
+          Collective Z    0.05     0.760      0    YES  0.000001
+               Local X    0.05     1.740      0    YES  0.166667
+          Collective X    0.05     1.740      0    YES  0.166667
+        Collective Z+X    0.05     1.020      0    YES  0.037046
+     Anti-correlated Z    0.05     NEVER      0    YES  0.333333
+
+               Local Z    0.10     0.380      0    YES  0.000000
+          Collective Z    0.10     0.380      0    YES  0.000000
+               Local X    0.10     0.880      0    YES  0.166667
+          Collective X    0.10     0.880      0    YES  0.166667
+        Collective Z+X    0.10     0.520      0    YES  0.037037
+     Anti-correlated Z    0.10     NEVER      0    YES  0.333333
+
+  Key question: does collective noise change the monotonicity?
+
+======================================================================
+TEST C: N > 2 SUBSYSTEM CΨ
+======================================================================
+
+  N=3, state=GHZ, J=1.0, gamma=0.05, d=8
+      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+  ----------------------------------------------------
+  (0,1)       0.0000       N/A      0      YES  0.000000
+  (1,2)       0.0000       N/A      0      YES  0.000000
+  All subsystems cross 1/4: True  (1.8s)
+
+  N=3, state=W, J=1.0, gamma=0.05, d=8
+      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+  ----------------------------------------------------
+  (0,1)       0.1235       N/A      0      YES  0.000025
+  (1,2)       0.1235       N/A      0      YES  0.000025
+  All subsystems cross 1/4: True  (3.5s)
+
+  N=4, state=GHZ, J=1.0, gamma=0.05, d=16
+      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+  ----------------------------------------------------
+  (0,1)       0.0000       N/A      0      YES  0.000000
+  (1,2)       0.0000       N/A      0      YES  0.000000
+  (2,3)       0.0000       N/A      0      YES  0.000000
+  All subsystems cross 1/4: True  (76.5s)
+
+  N=4, state=W, J=1.0, gamma=0.05, d=16
+      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+  ----------------------------------------------------
+  (0,1)       0.0833       N/A      0      YES  0.000021
+  (1,2)       0.0833       N/A      0      YES  0.000021
+  (2,3)       0.0833       N/A      0      YES  0.000021
+  All subsystems cross 1/4: True  (152.1s)
+
+  N=5, state=GHZ, J=1.0, gamma=0.05, d=32
+      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+  ----------------------------------------------------
+  (0,1)       0.0000       N/A      0      YES  0.000000
+  (1,2)       0.0000       N/A      0      YES  0.000000
+  (2,3)       0.0000       N/A      0      YES  0.000000
+  (3,4)       0.0000       N/A      0      YES  0.000000
+  All subsystems cross 1/4: True  (107.7s)
+
+======================================================================
+OVERALL VERDICT
+======================================================================
+
+A: General initial states — envelope monotonic?
+B: Collective noise — still crosses 1/4?
+C: N>2 subsystems — all pairs cross 1/4?
+
+Total runtime: 293.7s (4.9 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\monotonicity_remaining.txt
