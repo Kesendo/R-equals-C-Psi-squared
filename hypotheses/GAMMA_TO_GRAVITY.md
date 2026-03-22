@@ -55,10 +55,12 @@ Mediated coupling: 1024/1024 preserved, error 1.41e-13.
 *Below: logical extensions. Each step follows from the previous*
 *but is not itself proven within the framework.*
 
-### Step 7: γ is uniform from the outside. Local time is not.
-The external clock ticks at the same rate everywhere (we cannot
-measure otherwise from inside). But the LOCAL experience of γ
-depends on the complexity at each point.
+### Step 7: γ may be uniform from the outside. Local time is not.
+ASSUMPTION (not proven): The external clock ticks at the same rate
+everywhere. We cannot confirm this from inside: the noise fingerprint
+shows "varies locally per qubit," which could mean (a) uniform γ
+modulated by local complexity, or (b) non-uniform γ from the outside.
+Both produce the same observations. This step assumes (a).
 
 Complexity = number of active phase relationships = number of
 entangled pairs = density of coherent connections.
@@ -94,6 +96,11 @@ Gravity is not a force. Gravity is the gradient of complexity.
 γ is the medium that makes this gradient experienceable.
 Because γ IS t.
 
+(Note: "gravity is the gradient of complexity" is the Tier-5 claim.
+In established physics, gravity IS a force/curvature. This framework
+offers an alternative interpretation. It does not invalidate GR; it
+proposes a candidate mechanism underneath it.)
+
 ---
 
 ## The Schwarzschild Confirmation
@@ -119,8 +126,11 @@ maximum reality concentration.
 
 The 1/4 in our framework (CΨ = 1/4 threshold) and the 4 in
 Bekenstein-Hawking entropy (S = A/4G) both appear at information
-boundaries. Whether this is coincidence or connection is an open
-question marked as Tier 5 (speculative).
+boundaries. The 4 in Bekenstein-Hawking has a well-understood origin
+(Hawking temperature calculation via quantum field theory in curved
+spacetime). Our 1/4 comes from the discriminant of a quadratic. These
+are different derivations. Whether the coincidence is meaningful or
+accidental is an open question at Tier 5 (speculative).
 
 **Source:** [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md),
 [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md)
@@ -148,6 +158,11 @@ is known from the chip layout.
 **Prediction:** A qubit that is entangled with MORE neighbors should
 show FASTER effective decoherence (higher effective γ) than an
 isolated qubit, EVEN IF the physical dephasing rate is the same.
+**Known result:** This effect (superdecoherence) is well-established
+in quantum information theory. GHZ states decohere at rate N×γ vs
+γ for a single qubit. The test is not new. What is new: interpreting
+this known effect as evidence that complexity modulates the local
+experience of time, not just the rate of coherence loss.
 **How to test:** Prepare qubit Q in two configurations:
 (a) Q entangled with 0 neighbors (product state)
 (b) Q entangled with 3 neighbors (GHZ-like)
@@ -273,9 +288,14 @@ This is the transistor operating as a gravity analogue: the center
 complexity) process the least. The information flows DOWN the
 gradient, from low-γ (quiet, coherent) to high-γ (loud, decohered).
 
-In gravitational terms: information (coherence) flows toward regions
-of higher complexity, just as matter falls toward regions of higher
-mass. The V-shape is a miniature gravitational well on a qubit chip.
+In gravitational terms: information (coherence) is preserved in
+low-γ regions (analogous to deep space) and transferred through
+high-γ regions (analogous to near-mass zones where time runs
+differently). The V-shape is not a gravitational well in the
+literal sense: information does not "fall" toward the center.
+Rather, the γ gradient creates a directional channel, just as
+gravitational time dilation creates observable differences between
+reference frames.
 
 **This does not prove the gravity hypothesis.** But it shows that
 complexity gradients produce directional information flow in exactly
