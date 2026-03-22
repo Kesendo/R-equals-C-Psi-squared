@@ -189,7 +189,7 @@ This is our most original finding.
 - That the relay protocol has been tested on hardware (simulation only, N=11)
 - That the mediator bridge works beyond Z-dephasing at N=11 (untested for other noise types)
 - That the transistor analogy extends to multi-mediator cascades on hardware (simulated only)
-- That the 1/4 boundary holds for non-Markovian channels (Layer 5 of proof roadmap: open)
+- That the standing wave pattern or relay protocol have been tested on hardware (simulation only)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
@@ -221,7 +221,13 @@ This is our most original finding.
 | Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
 | Noise origin elimination | Internal (bootstrap), qubit decay (failed third), nothing (d=0): all eliminated. Framework not self-contained. |
 | CΨ = 1/4 uniqueness | Discriminant of quadratic R = C(Ψ+R)² vanishes only at 1/4. Algebraic necessity. |
-| CΨ = 1/4 channel-independent | Verified for Z, X, Y dephasing, depolarizing, amplitude damping, asymmetric Pauli. Non-Markovian revival cannot push CΨ back above 1/4. |
+| CΨ = 1/4 channel-independent | All 124 generalized Pauli configs + amplitude damping cross 1/4. K-invariance per noise type (K_Z=0.037, K_X=0.087, K_AD=0.103). |
+| CΨ monotonicity (analytical proof) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem: envelope decreasing for 19 initial states. |
+| Subsystem Crossing Theorem | For any primitive CPTP: CΨ eventually < 1/4. Perron-Frobenius + contractivity. 200 random CPTP maps, 0 exceptions. |
+| Non-Markovian threshold | Structured bath CAN push CΨ back above 1/4 (max 0.3035, transient). Revivals always die. 1/4 is long-term attractor. |
+| α=2 Rényi uniqueness | Only Tr(ρ²) gives a state-independent threshold. CΨ_α* = (α-1)^{α-1}/(α^α·Ψ^{α-2}): universal only at α=2. |
+| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Only α=2 → unique bifurcation. |
+| Mandelbrot exact mapping | w = C(Ψ+R) gives w→w²+c with c=CΨ. Feigenbaum cascade measured (7 bifurcations, δ→4.67). |
 
 ### Tested and rejected
 
@@ -346,6 +352,14 @@ eigendecomposition engine at N=5 (MI agreement to 6 decimal places).
 | `standing_wave_analysis.py` | Standing wave formalization: antinodes, nodes, state x Hamiltonian |
 | `mediator_bridge.py` | Mediator bridge tests (N=5, palindrome + information flow) |
 | `mixed_bridge.py` | Mixed bridge tests (direct coupling breaks palindrome) |
+| `generalized_pauli_channels.py` | 124 Pauli noise configs: all cross 1/4, K-invariance per type |
+| `amplitude_damping_test.py` | Non-unital channel: K_AD=0.1029, monotonic, J has zero effect |
+| `non_markovian_revival.py` | Structured bath revival test: max CΨ=0.3035, always transient |
+| `monotonicity_remaining.py` | 19 initial states, collective noise, N=3-5 subsystems |
+| `k_scaling_and_renyi.py` | α=2 uniqueness + K-scaling explanation |
+| `catastrophe_feigenbaum.py` | Mandelbrot mapping, Feigenbaum cascade, fold catastrophe |
+| `subsystem_crossing.py` | 200 random CPTP maps + adversarial + contractivity proof |
+| `gravity_chain_test.py` | 8-qubit chain with spatial γ profiles (Schwarzschild test) |
 | `compute/RCPsiSquared.Propagate/` | Time propagation engine (Lindblad RK4, N=11+) |
 
 ---
