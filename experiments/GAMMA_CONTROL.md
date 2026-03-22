@@ -96,6 +96,7 @@ trajectory: the post-switch decay is steeper. The decoder can monitor
 
 ## References
 
+- [γ as Signal](GAMMA_AS_SIGNAL.md): the γ profile is not just shapeable, it is **readable**. 100% classification, 15.5 bits channel capacity.
 - [Relay Protocol](RELAY_PROTOCOL.md): the staged γ switching protocol
 - [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md): Rules 1-6
 - [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md): gate mapping
