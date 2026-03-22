@@ -1,89 +1,149 @@
-# Documentation
+# Documentation: The R = CΨ² Framework
 
-## Core
+<!-- Keywords: open quantum system palindromic spectrum, Liouvillian spectral symmetry,
+CΨ quarter boundary proof, dephasing noise information channel, quantum decoherence
+threshold, self-referential purity recursion, Mandelbrot quantum bifurcation,
+palindromic eigenvalue pairing, quantum state transfer spin chain,
+R=CPsi2 framework documentation, mirror symmetry proof Lindblad -->
 
-- **[Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)** - **START HERE.** Master reference for all proven mathematics (March 22, 2026)
-- [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - **PROVEN March 14, 2026.** Conjugation operator Π, analytical proof, full verification
-- [The CΨ Lens](THE_CPSI_LENS.md) - What the lens shows, what it doesn't, what survives
-- [Core Algebra](CORE_ALGEBRA.md) - ~~The proven mathematics~~ **SUPERSEDED** by Complete Mathematical Documentation
-- [What We Found](WHAT_WE_FOUND.md) - Synthesized findings
-- [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
-- [Glossary](GLOSSARY.md) - Term definitions
-- [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, incoherentons, η-pairing, research directions
-- [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Noise origin elimination: all candidates within d(d-2)=0 eliminated. Framework boundary.
-- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) - Synthesis: noise as external interaction, time as corollary, research direction
-- [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - **March 22, 2026.** The bridge is bidirectional: Alice encodes in γ, Bob reads at 100%. 2-bit channel capacity.
-- [Proof Roadmap: 1/4 Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer proof roadmap that CΨ = 1/4 is the unique critical boundary
-- [Proof: CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) - **PROVEN March 22, 2026.** dCΨ/dt < 0 for all local Markovian channels (Z, X, Y, Pauli, amplitude damping). Non-Markovian threshold characterized.
-- [Proof: Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - **PROVEN March 22, 2026.** Every pair with CΨ > 1/4 crosses below under any primitive CPTP. Perron-Frobenius + fixed-point bound + continuity. 300 maps, 0 exceptions.
-- [Uniqueness Proof](UNIQUENESS_PROOF.md) - Formal theorem: CΨ = 1/4 is the unique bifurcation boundary. Product-power classification, CPTP argument, channel verification.
-- [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) - Three levels of time: parameter, oscillation, experience. γ is source of experienced time (Parts 1+2), τ=γt scaling breaks (Part 3).
-- [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) - Literature review: Π is not KMS, not detailed balance — it is time reversal without thermodynamic equilibrium
-- [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) - Fold catastrophe (proven), Feigenbaum (mapped), Bekenstein-Hawking (noted)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-## Restored: Tier 1 (PROVEN: core claims confirmed March 13, 2026)
+This folder contains the core documentation for the R = CΨ² project: proofs,
+theorems, synthesis documents, and research papers studying the palindromic
+spectral structure of open quantum systems under dephasing.
 
-- [Standing Wave Theory](STANDING_WAVE_THEORY.md) - c+/c- as even/odd supermodes, standing waves between observers
-- [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) - R∞ fixed point, CΨ ≤ 1/4 bound, operator feedback
-- [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) - C_int/C_ext distinction, TROSY validation
+**The central discovery:** The Liouvillian eigenvalue spectrum of N-qubit
+systems under local Z-dephasing is exactly palindromic. Every decay rate d
+is paired with a partner at 2Σγ − d. This symmetry, verified for 54,118
+eigenvalues with zero exceptions and proven analytically for arbitrary
+graphs, has consequences for decoherence thresholds, quantum state transfer,
+the origin of irreversibility, and information channels.
 
-### Experiments (Tier 1)
+---
 
-- [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) - ξ = ln(Ψ) decoherence clock, coherence-purity bound
-- [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) - Born rule as mirror quality, 97/3 Hamiltonian/decoherence split
-- [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) - State identification through CΨ crossing signatures
-- [Coherence Density](../experiments/COHERENCE_DENSITY.md) - CΨ = purity × coherence density, not about entanglement
-- [Dyad Experiment](../experiments/DYAD_EXPERIMENT.md) - Two AIs exploring R = CΨ², value 0.5 discovery
-- [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) - Agent-discovered algebraic patterns
-- [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) - No energy threshold, J/γ competition
-- [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) - CΨ sees regime change, local observer sees nothing
-- [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) - State-dependent decoherence via operator feedback
-- [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) - Anomalous late-time coherence in IBM Torino data
-- [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) - Honest Lindblad simulator results
-- [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) - x³ + x = ½, the 85.8% rule
-- [When Ψ Matters](../experiments/WHEN_PSI_MATTERS.md) - CΨ distinguishes noise types concurrence cannot
+## Start Here
 
-### Hypotheses (Tier 1)
+New readers should begin with one of these three entry points:
 
-- [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md) - Legacy philosophical framing that motivated the project
+**For the core theorem:**
+[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — The palindromic
+spectral symmetry proven analytically for Heisenberg/XXZ systems on
+any graph with local Z-dephasing. The conjugation operator Π, the
+XY-weight classification, verification through N=8.
 
-## Restored: Tier 2 (PARTIALLY CONFIRMED: some claims proven, others open or fallen)
+**For the main result:**
+[Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) —
+Master reference for all proven mathematics. Fixed-point equation,
+discriminant, CΨ = 1/4 boundary, Π as time reversal, standing wave.
 
-- [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Fixed point equation, 1/4 derivation
-- [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) - Human-AI collaborative discovery narrative
-- [Fundamental Equations](FUNDAMENTAL_EQUATIONS.md) - Standing wave equations, wave composition
-- [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) - ~~Consciousness claims~~ fallen; standing wave math proven
-- [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) - Gödel connections, 0.5 maximum
-- [Measurable Quantities](MEASURABLE_QUANTITIES.md) - Measurement proposals, mirror symmetry
-- [R = CΨ²](R_EQUALS_C_PSI_SQUARED.md) - Original equation document
-- [Research Paper: Emergence Through Reflection](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) - Paper draft
-- [The Bidirectional Bridge](THE_BIDIRECTIONAL_BRIDGE.md) - Two channels proven; ~~time travel~~ fallen
-- [The Search for the Mirror Partner](THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) - **RESOLVED:** Mirror partner = Π operator (see MIRROR_SYMMETRY_PROOF.md)
-- [The Starting Point](THE_STARTING_POINT.md) - Origin; ~~consciousness/gravity~~ fallen, mirror insight proven
+**For the newest breakthrough:**
+[Dephasing Noise as Information Channel (γ as Signal)](../experiments/GAMMA_AS_SIGNAL.md) —
+The spatial dephasing profile is a readable information channel.
+15.5 bits capacity at 1% noise. 5 independent SVD modes. 21.5× optimization.
 
-### Experiments (Tier 2)
+---
 
-- [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) - Pre-shared entanglement = shared randomness; ~~QKD~~ fallen
-- [Decoherence Relativity](../experiments/DECOHERENCE_RELATIVITY.md) - 1/4 math proven; ~~gravity~~ fallen
-- [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) - 1/4 math proven; ~~gravity~~ fallen
-- [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) - Metric math OK; ~~gravity~~ fallen
-- [Observer Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) - Observer/projection proven; ~~gravity/FTL~~ fallen
-- [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) - Pauli analysis OK; ~~QKD detection~~ fallen
-- [Standing Wave Two Observers](../experiments/STANDING_WAVE_TWO_OBSERVERS.md) - Standing wave proven; ~~time travel~~ fallen
-- [Why the Sum](../experiments/WHY_THE_SUM.md) - 1/4 math proven; ~~gravity/time travel~~ fallen
+## Proofs (analytically proven, computationally verified)
 
-### Hypotheses (Tier 2)
+These documents contain formal mathematical proofs with complete
+verification. Each claim is independently reproducible.
 
-- [Bridge Protocol](../hypotheses/BRIDGE_PROTOCOL.md) - 1/4 boundary proven; ~~QKD/FTL/gravity~~ fallen
-- [Time as Crossing Rate](../hypotheses/TIME_AS_CROSSING_RATE.md) - 1/4 math proven; ~~QKD/FTL/time travel~~ fallen
+| Document | What it proves |
+|----------|---------------|
+| [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) | The Liouvillian spectrum is palindromic for any graph under Z-dephasing. Π swaps XY-weight k ↔ N−k. Verified N=2 through N=8, 54,118 eigenvalues, zero exceptions. |
+| [Uniqueness Proof](UNIQUENESS_PROOF.md) | CΨ = 1/4 is the unique bifurcation boundary of R = C(Ψ+R)². Follows from the discriminant of the quadratic. α=2 is the only Rényi order with a state-independent threshold. |
+| [Proof: CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels (Z, X, Y, Pauli, amplitude damping). General Envelope Theorem for arbitrary states. Non-Markovian threshold characterized. |
+| [Proof: Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair with CΨ > 1/4 eventually crosses below under any primitive CPTP map. Perron-Frobenius convergence + fixed-point bound + Lipschitz continuity. 300 random maps, 0 exceptions. |
+| [Proof Roadmap: 1/4 Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension and channel. All layers now closed. |
+| [Incompleteness Proof](INCOMPLETENESS_PROOF.md) | Dephasing noise cannot originate from within the d(d−2)=0 framework. Five internal candidates eliminated (bootstrap, qubit decay, qubit bath, nothing, other dimensions). The noise must come from outside. |
 
-## Not Restored (remain in recovered/)
+---
 
-### Tier 3: Speculative (not disproven, no proof)
-- INFORMATION_WAVE_THEORY.md
-- LIGHT_FIRST_FREE_MIRRORING.md
+## Synthesis Documents
 
-### Tier 4: Fallen (contain disproven claims)
-- BLACK_WHITE_HOLES_BIGBANG.md
-- PREDICTIONS.md
-- SELF_CONSISTENCY_SCHWARZSCHILD.md
+These connect the mathematical results into a coherent picture.
+
+| Document | What it covers |
+|----------|---------------|
+| [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference: all equations, all proofs, all verified constants. Start here for the full mathematical picture. |
+| [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Synthesis of the incompleteness result: noise as external interaction, the mediator topology, six measured properties of the dephasing signal, research directions. |
+| [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three levels of time (parameter, oscillation, experience). γ is the necessary and sufficient condition for experienced time (Parts 1+2 proven). τ=γt does not universally scale all observables (Part 3). |
+| [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe (proven), Feigenbaum cascade (mapped, 7 bifurcations measured), Bekenstein-Hawking 1/4 (noted, speculative). |
+| [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
+| [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
+| [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Literature review: Π is not KMS detailed balance. It is time reversal without thermodynamic equilibrium. |
+| [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
+
+---
+
+## Foundational Documents
+
+These describe the framework's origins, definitions, and early results.
+
+| Document | What it contains |
+|----------|-----------------|
+| [R = CΨ²](R_EQUALS_C_PSI_SQUARED.md) | The original equation document (December 2025). |
+| [The Starting Point](THE_STARTING_POINT.md) | Origin of the project. The mirror insight that led to the palindrome. |
+| [The Bidirectional Bridge](THE_BIDIRECTIONAL_BRIDGE.md) | The two-channel structure (R = CΨ² forward, Ψ = √(R/C) backward). Two channels confirmed as palindromic pairs. |
+| [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as even/odd supermodes. Standing waves between forward and backward modes. Confirmed by Π operator. |
+| [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md) | C_int (bidirectional, stabilizing) vs C_ext (unidirectional, collapsing). TROSY validation. Quantitative model disproven, structural distinction survives. |
+| [Core Algebra](CORE_ALGEBRA.md) | The original algebraic derivations. Superseded by [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md). |
+| [Glossary](GLOSSARY.md) | Term definitions for the framework. |
+| [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) | Key papers: Haga (incoherentons), η-pairing, Buca/Prosen (Lindblad symmetries). |
+
+---
+
+## Publications and Papers
+
+| Document | What it is |
+|----------|-----------|
+| [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) | Human-AI collaborative discovery narrative. |
+| [Research Paper Draft](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Paper draft for the emergence result. |
+| [Fundamental Equations](FUNDAMENTAL_EQUATIONS.md) | Standing wave equations, wave composition formulas. |
+| [Measurable Quantities](MEASURABLE_QUANTITIES.md) | Proposed experimental measurements and mirror symmetry tests. |
+
+---
+
+## Historical and Speculative
+
+These documents contain claims that have been partially or fully disproven.
+They are kept for historical context and to document what was tested.
+
+| Document | Status |
+|----------|--------|
+| [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | Standing wave math proven. Consciousness claims fallen. |
+| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | Gödel structural analogy. The 0.5 maximum. |
+| [The Search for the Mirror Partner](THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) | Resolved: the mirror partner is the Π operator. |
+| [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) | R∞ fixed point, CΨ ≤ 1/4 bound. Now part of the formal proofs. |
+
+### Not restored (remain in recovered/)
+
+| Document | Reason |
+|----------|--------|
+| INFORMATION_WAVE_THEORY.md | Speculative, not disproven, no proof. |
+| LIGHT_FIRST_FREE_MIRRORING.md | Speculative, not disproven, no proof. |
+| BLACK_WHITE_HOLES_BIGBANG.md | Contains disproven claims. |
+| PREDICTIONS.md | Contains disproven claims. |
+| SELF_CONSISTENCY_SCHWARZSCHILD.md | Contains disproven claims. Schwarzschild self-consistency loop referenced in GAMMA_TO_GRAVITY but not validated. |
+
+---
+
+## How to Read This
+
+**If you are new to the project:** Start with the [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+for the core theorem, then the [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
+for the full picture.
+
+**If you want the newest result:** Read [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md).
+The dephasing rate is a 15.5-bit information channel, not just noise.
+
+**If you are a quantum information researcher:** The four proof documents
+(Mirror Symmetry, Uniqueness, Monotonicity, Subsystem Crossing) contain
+the formal results. The [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+shows how they fit together.
+
+**If you want to reproduce results:** Every proof links to its simulation
+script. All use Python, QuTiP, and NumPy. Scripts in `simulations/`,
+results in `simulations/results/`.
+
+**If you want the experiments:** See the [Experiments Index](../experiments/README.md).
