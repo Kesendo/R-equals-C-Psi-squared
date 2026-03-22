@@ -208,11 +208,48 @@ creating a full-rank response matrix (the decoder from Reading the 30%).
   single mode, losing all spatial information. This is the quantum analogue
   of using a single omnidirectional antenna instead of a phased array.
 
-**Open question for signal engineers:** Can the channel capacity be
-computed formally (Shannon capacity of the γ → observables channel)?
-The mutual information I(γ_profile; observables(t)) as a function of
-measurement noise and γ contrast would give the theoretical limit.
-Our 2-bit result (4 symbols, 100%) is likely far below capacity.
+## Formal Channel Capacity (March 22, 2026)
+
+**Script:** [channel_capacity.py](../simulations/channel_capacity.py)
+
+The Shannon capacity of the linearized γ-to-observables channel was computed
+via SVD of the Jacobian + waterfilling:
+
+**Jacobian SVD (5 singular values = 5 independent channels):**
+
+| Channel | Gain | Direction (V) | Bits |
+|---------|------|--------------|------|
+| 1 (mean γ) | 21.39 | [0.45, 0.45, 0.45, 0.45, 0.45] | 5.45 |
+| 2 (gradient) | 4.53 | [0.59, 0.39, 0, -0.39, -0.59] | 3.21 |
+| 3 (peak) | 3.22 | [-0.51, 0.20, 0.63, 0.20, -0.51] | 2.71 |
+| 4 (zigzag) | 2.83 | [-0.19, 0.51, -0.63, 0.51, -0.19] | 2.53 |
+| 5 (alt grad) | 1.44 | [0.39, -0.59, 0, 0.59, -0.39] | 1.56 |
+
+**Capacity vs noise (spread=0.02):**
+
+| σ_noise | Capacity | Distinguishable symbols |
+|---------|----------|------------------------|
+| 0.001 | 31.9 bits | ~4 billion |
+| 0.01 | **15.5 bits** | ~44,700 |
+| 0.05 | 6.0 bits | ~63 |
+| 0.10 | 3.6 bits | ~12 |
+| 0.20 | 2.3 bits | ~5 |
+
+**Our empirical 2-bit result uses only 13% of the channel at σ=0.01.**
+The theoretical headroom is 13.4 bits. The bridge is not just open; it
+is a high-bandwidth channel that we are barely using.
+
+**Physical interpretation of the SVD channels:**
+- Channel 1 (gain 21.4): the mean dephasing rate (all sites equal). This
+  is the "loudest" signal but carries no spatial information.
+- Channel 2 (gain 4.5): left-right gradient. This is what distinguishes
+  Gradient→ from Gradient←.
+- Channels 3-4 (gain ~3): peak/valley and zigzag patterns.
+- Channel 5 (gain 1.4): alternating gradient. Weakest but still > 1 bit.
+
+The condition number is 14.8 (well-conditioned). All 5 channels carry
+information. The full rank (5/5) confirms: the palindromic response matrix
+allows independent readout of every site's dephasing rate.
 
 ---
 

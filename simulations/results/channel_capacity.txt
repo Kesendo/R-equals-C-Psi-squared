@@ -1,0 +1,86 @@
+Formal Channel Capacity of the Bidirectional Bridge
+======================================================================
+
+STEP 1: JACOBIAN A = dy/dg
+----------------------------------------
+  Feature dimension: 150 (6 times x 25 features)
+  Input dimension: 5 (N=5 gamma values)
+  Jacobian shape: 150 x 5
+
+STEP 2: SVD OF JACOBIAN
+----------------------------------------
+  Singular values: 21.3935, 4.5342, 3.2165, 2.8291, 1.4430
+  Condition number: 14.8
+  Effective rank (sv > 1% of max): 5
+
+  Each singular value = gain of one independent channel:
+    Channel 1: gain = 21.3935, direction = [0.45, 0.45, 0.45, 0.45, 0.45]
+    Channel 2: gain = 4.5342, direction = [0.59, 0.39, 0.00, -0.39, -0.59]
+    Channel 3: gain = 3.2165, direction = [-0.51, 0.20, 0.63, 0.20, -0.51]
+    Channel 4: gain = 2.8291, direction = [-0.19, 0.51, -0.63, 0.51, -0.19]
+    Channel 5: gain = 1.4430, direction = [0.39, -0.59, -0.00, 0.59, -0.39]
+
+STEP 3: CHANNEL CAPACITY (Waterfilling)
+----------------------------------------
+
+   P_gamma    s=0.001    s=0.005    s=0.010    s=0.020    s=0.050    s=0.100    s=0.200
+  -------------------------------------------------------------------------------------
+     0.010      26.93      15.45      10.82       7.00       3.62       2.29       1.37
+     0.020      31.93      20.35      15.45      10.82       5.99       3.62       2.29
+     0.030      34.85      23.25      18.30      13.47       7.89       4.85       2.99
+     0.040      36.92      25.32      20.35      15.45       9.47       5.99       3.62
+     0.050      38.53      26.93      21.95      17.01      10.82       7.00       4.24
+
+  (Values in bits per channel use)
+
+  Reference case: spread=0.02, sigma=0.01
+  Total capacity: 15.45 bits
+
+   Channel      Gain     Power       SNR      Bits
+  --------------------------------------------
+         1   21.3935  0.000415    1898.6      5.45
+         2    4.5342  0.000410      84.3      3.21
+         3    3.2165  0.000405      41.9      2.71
+         4    2.8291  0.000403      32.2      2.53
+         5    1.4430  0.000367       7.6      1.56
+
+STEP 4: CAPACITY vs NOISE (spread=0.02)
+----------------------------------------
+
+     sigma  C (bits)  2^C symbols  vs empirical
+  --------------------------------------------
+     0.001     31.93  4079867305.6     >> 2 bits
+     0.005     20.35    1335225.8     >> 2 bits
+     0.010     15.45      44704.1     >> 2 bits
+     0.020     10.82       1808.6     >> 2 bits
+     0.050      5.99         63.4     >> 2 bits
+     0.100      3.62         12.3     >> 2 bits
+     0.200      2.29          4.9     >> 2 bits
+     0.500      1.11          2.2      < 2 bits
+
+STEP 5: CODEBOOK VERIFICATION
+----------------------------------------
+
+  Rate (bits)  n_symbols  sigma=0.01  sigma=0.05  sigma=0.10
+  --------------------------------------------------------
+            1          2        0.0%       15.2%       31.0%
+            2          4        0.0%       10.4%       25.6%
+            3          8        0.0%        6.2%       24.6%
+            4         16        0.0%       15.0%       48.0%
+            5         32        0.4%       24.8%       58.0%
+            6         64        0.4%       43.6%       75.4%
+            8        256        0.6%       58.2%       84.0%
+
+======================================================================
+SUMMARY
+======================================================================
+
+  Channel: gamma_profile (R^5) -> observables (R^150)
+  Singular values: 21.394, 4.534, 3.217, 2.829, 1.443
+  Effective rank: 5/5
+  Capacity at sigma=0.01, spread=0.02: 15.45 bits (44704 symbols)
+  Our empirical result: 2 bits (4 symbols, 100%)
+  Theoretical headroom: 13.4 bits above our test
+
+Total runtime: 19.5s (0.3 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\channel_capacity.txt
