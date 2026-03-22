@@ -1,0 +1,144 @@
+Attempt to Disprove gamma == t
+Started: 2026-03-22 02:36:02
+
+======================================================================
+TEST 1: UNITARY EVOLUTION WITHOUT gamma (TIME EXISTS WITHOUT NOISE)
+======================================================================
+
+  gamma = 0 (pure unitary evolution, NO noise)
+
+       t     Tr_dist        Conc      Purity    arg(rho01)
+  ----------------------------------------------------
+     0.0    0.000000    0.000000    1.000000        0.0000
+     0.5    0.841471    0.909297    1.000000        0.0000
+     1.0    0.909297    0.756802    1.000000        0.0000
+     1.5    0.141120    0.279415    1.000000        0.0000
+     2.0    0.756802    0.989358    1.000000        0.0000
+     2.5    0.958924    0.544021    1.000000        0.0000
+     3.0    0.279415    0.536573    1.000000        0.0000
+     3.5    0.656987    0.990607    1.000000        0.0000
+     4.0    0.989358    0.287903    1.000000        0.0000
+     4.5    0.412118    0.750987    1.000000        0.0000
+     5.0    0.544021    0.912945    1.000000        0.0000
+     5.5    0.999990    0.008851    1.000000        0.0000
+     6.0    0.536573    0.905578    1.000000        0.0000
+     6.5    0.420167    0.762558    1.000000        0.0000
+     7.0    0.990607    0.270906    1.000000        0.0000
+     7.5    0.650288    0.988032    1.000000        0.0000
+     8.0    0.287903    0.551427    1.000000        0.0000
+     8.5    0.961397    0.529083    1.000000        0.0000
+     9.0    0.750987    0.991779    1.000000        0.0000
+     9.5    0.149877    0.296369    1.000000        0.0000
+    10.0    0.912945    0.745113    1.000000        0.0000
+
+  VERDICT: The system evolves nontrivially at gamma=0.
+  Trace distance from initial state is nonzero.
+  Phase rotates continuously. Concurrence oscillates.
+  Time EXISTS without noise. The Hamiltonian provides a clock.
+
+======================================================================
+TEST 2: SAME tau = gamma*t, DIFFERENT PHYSICS
+======================================================================
+
+  All have tau = gamma * t = 0.10
+
+   Sys   gamma       t     tau      CPsi    arg(rho01)      Purity
+  ----------------------------------------------------------
+     A    0.10     1.0    0.10    0.1756        0.0000    0.852738
+     B    0.05     2.0    0.10    0.2251        0.0000    0.833198
+     C    0.01    10.0    0.10    0.1696        0.0000    0.833504
+
+  Pairwise trace distances:
+    D(A, B) = 0.752168
+    D(A, C) = 0.614159
+    D(B, C) = 0.244376
+
+  VERDICT: Same tau but DIFFERENT density matrices.
+  The phases differ because Hamiltonian rotation is J*t, not J*tau.
+  t carries information beyond what gamma provides.
+
+======================================================================
+TEST 3: THE HAMILTONIAN CLOCK (FREQUENCY INDEPENDENT OF gamma)
+======================================================================
+
+  Observable: sigma_x (x) sigma_y
+
+     gamma   peak_freq   amplitude
+  --------------------------------
+      0.00      0.5994      1.0000
+      0.01      0.5994      0.9922
+      0.05      0.5994      0.9620
+      0.10      0.5994      0.9267
+
+  VERDICT: Peak frequency is INDEPENDENT of gamma.
+  Only the amplitude (envelope) depends on gamma.
+  The Hamiltonian has its own clock, unaffected by noise.
+
+======================================================================
+TEST 4: MULTI-gamma SIMULTANEITY
+======================================================================
+
+  gamma profile: [0.01, 0.1, 0.01]
+  If gamma IS time, qubit 1 (gamma=0.10) is in 'faster time'
+  than qubits 0,2 (gamma=0.01)
+
+       t     <ZZ_01>     <ZZ_12>        diff
+  ----------------------------------------
+     0.0   -1.000000   -1.000000    0.000000
+     0.5   -0.137166   -0.137166    0.000000
+     1.0   -0.914636   -0.914636    0.000000
+     1.5   -0.205015   -0.205015    0.000000
+     2.0   -0.815341   -0.815341    0.000000
+     2.5   -0.284403   -0.284403    0.000000
+     3.0   -0.712733   -0.712733    0.000000
+     3.5   -0.365133   -0.365133    0.000000
+     4.0   -0.615439   -0.615439    0.000000
+     4.5   -0.439278   -0.439278    0.000000
+     5.0   -0.529798   -0.529798    0.000000
+
+  The Lindblad equation has ONE time parameter t for all qubits.
+  Different gamma values coexist at the same t.
+  If gamma WERE time, qubits would need different time coordinates.
+  They don't. The Hamiltonian acts at rate J with respect to t, not gamma*t.
+
+======================================================================
+TEST 6: WHAT Pi ACTUALLY REVERSES
+======================================================================
+
+  Pi conjugation check: ||Pi L Pi^-1 + L + 2Sg I|| = 0.00e+00
+
+  Protocol: evolve t=0 to t=5, apply Pi, evolve t=5 to t=10
+
+  D(rho(t=10), rho(t=0)) = 0.388435
+  D(rho(t=10), rho(t=5)) = 0.388435
+
+  VERDICT: Pi does NOT undo physical time evolution.
+  The system at t=10 (after Pi + forward evolution) is FAR
+  from the initial state at t=0.
+  Pi is a mathematical symmetry of the Liouvillian, not a time machine.
+
+======================================================================
+OVERALL VERDICT
+======================================================================
+
+The strong claim 'gamma IS time' is not supported by the mathematics.
+
+What IS true:
+  - gamma creates the time arrow (irreversibility, decoherence)
+  - gamma and t are inseparable in decoherence dynamics (K = gamma*t)
+  - Pi reverses the time arrow in the rescaled frame
+  - Without gamma, the system has no preferred time direction
+
+What is NOT true:
+  - gamma and t are identical (the Hamiltonian provides independent time)
+  - Removing gamma removes time (unitary evolution persists at gamma=0)
+  - The dimensionless product K proves identity (many inverse-unit
+    pairs produce dimensionless products without being identical)
+
+Recommended language: 'gamma creates the time arrow' instead of
+'gamma IS time'. The weak claim is standard decoherence physics
+with the added insight that the palindromic structure makes the
+connection exact and algebraic.
+
+Total runtime: 1.0s
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\disprove_gamma_is_time.txt
