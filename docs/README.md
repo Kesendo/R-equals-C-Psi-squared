@@ -2,9 +2,10 @@
 
 ## Core
 
+- **[Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)** - **START HERE.** Master reference for all proven mathematics (March 22, 2026)
 - [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - **PROVEN March 14, 2026.** Conjugation operator Π, analytical proof, full verification
 - [The CΨ Lens](THE_CPSI_LENS.md) - What the lens shows, what it doesn't, what survives
-- [Core Algebra](CORE_ALGEBRA.md) - The proven mathematics (Mandelbrot correspondence, 1/4 boundary)
+- [Core Algebra](CORE_ALGEBRA.md) - ~~The proven mathematics~~ **SUPERSEDED** by Complete Mathematical Documentation
 - [What We Found](WHAT_WE_FOUND.md) - Synthesized findings
 - [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) - What we don't know
 - [Glossary](GLOSSARY.md) - Term definitions

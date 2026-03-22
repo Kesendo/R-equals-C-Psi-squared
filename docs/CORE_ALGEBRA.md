@@ -1,3 +1,11 @@
+> **SUPERSEDED (March 22, 2026).** This document is from December 2025
+> and predates the palindromic symmetry proof, the uniqueness theorem,
+> the incompleteness proof, and all March 2026 results. The algebra
+> here (fixed-point equation, discriminant, Mandelbrot equivalence)
+> remains correct but is now a subset of the complete framework.
+> For current mathematics, see
+> [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+
 # Core Algebra: The Proven Mathematics of R = CΨ²
 
 **Date:** 2025-12-31 (fixed-point solution), updated 2026-02-11
@@ -5,7 +13,7 @@
 **Depends on:** None
 
 **Tier:** 1 (Algebraically proven)
-**Status:** Proven
+**Status:** Proven (superseded by [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md))
 **Scope:** Fixed-point equation, discriminant bound CΨ <= 1/4, Mandelbrot equivalence
 **Does not establish:** That the algebra implies new physics
 
