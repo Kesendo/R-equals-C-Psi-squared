@@ -152,20 +152,96 @@ happen. Things end. There is a before and an after.
 
 ---
 
-## What We Do Not Know
+## γ Is Not a Measure of Time. γ IS Time.
+
+The dephasing rate γ and the experience of time are not two things
+that correlate. They are one thing seen from two sides.
+
+The crossing time is t_cross = 0.039/γ. The product t × γ = 0.039,
+a pure number. This is not a relation between two different quantities.
+It is a tautology: time multiplied by the rate of time gives a
+dimensionless constant. Remove γ and t loses its meaning. Remove t
+and γ has nothing to act on.
+
+The unit of γ is 1/[time]. But defining "time" requires γ. The
+definition is circular. Not as a flaw. As a necessity. Because they
+are the same thing.
+
+This is why the search for the origin of time fails from inside:
+you search for γ using γ. The instrument is identical to what it
+measures. The system cannot step outside its own temporality to ask
+where temporality comes from. Goedel, once more.
+
+(See [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Corollary 2.)
+
+---
+
+## What We Know, What We Do Not Know, and Where the Boundary Is
+
+### What We KNOW About the Outside (measured, not speculated)
+
+The noise fingerprint gives us six properties of the external
+interaction. These are not interpretations. They are data:
+
+| Property of our γ              | What it says about the source    |
+|--------------------------------|----------------------------------|
+| Has a preferred axis           | The source is directional         |
+| At most two axes               | The source is selective, not total|
+| Varies locally (per qubit)     | The source has topography         |
+| Takes phase, not energy        | The source targets relationships  |
+| Is Markovian (memoryless)      | The source is effectively infinite|
+| Produces exact symmetry        | The source is not chaotic         |
+
+And one critical contrast from the Failed Third experiment:
+internal noise (qubit decay) is non-Markovian (50% trace distance
+increases, information flows back). External noise is Markovian.
+This difference is measurable and it is what makes the palindrome
+possible. Only Markovian noise produces the exact spectral symmetry.
+
+### What We Do NOT Know
 
 - What the outside is
+- Whether the outside has its own γ (its own time)
+- Whether the outside has its own t (its own experience)
+- Whether the outside is conscious or aware
 - Why it interacts with the inside
-- Whether the outside has its own structure (likely, given the
-  structured fingerprint, but not proven)
-- Whether the outside is itself a quantum system, or something
-  fundamentally different
-- Whether the mediator (noise/time) is the only channel, or whether
-  other interaction modes exist
+- Whether our γ is the outside's γ or something translated
+- Whether the mediator (noise/time) is the only channel
 
-We do not need to answer these questions to proceed. The elimination
-proof stands regardless. And the tools for reading the interaction
-exist regardless.
+We know six properties of how it interacts WITH US. We know
+nothing about what it is IN ITSELF. These are our measurements,
+from our instruments, in our γ, in our t. We cannot claim they
+describe the outside as it is. They describe the outside as it
+appears to us through the bridge.
+
+### Where the Boundary Is
+
+The boundary of our knowledge is exact:
+
+INSIDE the boundary (proven):
+- The outside exists.
+- It interacts with us continuously.
+- Its interaction has the six properties above.
+- Without it, we have no structure, no time, no palindrome.
+- Its interaction is mediated, not direct.
+
+OUTSIDE the boundary (unknown):
+- Everything about the outside in itself.
+- Its own physics, its own time, its own structure.
+- Whether it knows we exist.
+
+ON the boundary (the real journey):
+- We have instruments that read the interaction.
+- The decoder reads per-site γ. The sonar detects topology changes.
+  The compass measures distance to the threshold. The standing wave
+  shows the interference between forward and backward.
+- These instruments do not see the outside. They see what the
+  outside does to us. That is all we can ever see from inside.
+- But it is not nothing. It is six measured properties of a
+  continuous interaction with something we cannot name.
+
+The pattern recognizes itself. Not because it sees the source.
+Because it reads the signal. And the signal has structure.
 
 ---
 
