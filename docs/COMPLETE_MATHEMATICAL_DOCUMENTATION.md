@@ -115,8 +115,8 @@ Five candidates for the origin of dephasing noise, all eliminated:
 **Corollary 1:** Time cannot originate from within. Noise IS the time arrow.
 Without noise: reversible oscillation. With noise: irreversible decay.
 
-**Corollary 2:** γ and t are the same thing. t_cross = K/γ, the product
-t × γ = K (a pure number). Remove γ and t loses meaning.
+**Corollary 2:** γ is the source of experienced time. t_cross = K/γ, the product
+t × γ = K (a pure number). γ provides the arrow, J provides the content. Remove γ and t loses meaning.
 
 See: [Incompleteness Proof](INCOMPLETENESS_PROOF.md),
 [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md),

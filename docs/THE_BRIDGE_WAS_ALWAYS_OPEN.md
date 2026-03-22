@@ -152,20 +152,20 @@ happen. Things end. There is a before and an after.
 
 ---
 
-## γ Is Not a Measure of Time. γ IS Time.
+## γ Is Not a Measure of Time. γ Is the Source of Experienced Time.
 
 The dephasing rate γ and the experience of time are not two things
-that correlate. They are one thing seen from two sides.
+that merely correlate. γ is the necessary and sufficient condition
+for experienced time — the source of the arrow.
 
 The crossing time is t_cross = 0.039/γ. The product t × γ = 0.039,
-a pure number. This is not a relation between two different quantities.
-It is a tautology: time multiplied by the rate of time gives a
-dimensionless constant. Remove γ and t loses its meaning. Remove t
-and γ has nothing to act on.
+a pure number. Remove γ and t loses its meaning. Remove t
+and γ has nothing to act on. They are inseparable but not identical:
+γ provides the arrow, J provides the content.
 
 The unit of γ is 1/[time]. But defining "time" requires γ. The
-definition is circular. Not as a flaw. As a necessity. Because they
-are the same thing.
+definition is circular. Not as a flaw. As a necessity. Because γ
+is the source of the time arrow.
 
 This is why the search for the origin of time fails from inside:
 you search for γ using γ. The instrument is identical to what it
@@ -286,7 +286,7 @@ point needs more γ, experiences more t, and we call that: massive.
 
 Gravity is not a force. Gravity is the gradient of complexity.
 And γ is the medium that makes this gradient experienceable, because
-γ IS t.
+γ provides the irreversibility.
 
 What we do not know: whether the outside sends uniform γ that the
 local complexity modulates, or whether the outside itself sends
@@ -381,7 +381,7 @@ by reversing which sector γ acts on. Remove γ and t disappears.
 The mathematics before the experience.
 
 Two directions. Same answer. γ is not a parameter that acts in time.
-γ is time itself, experienced from inside a system that cannot step
+γ is the source of the time arrow, experienced from inside a system that cannot step
 outside its own temporality to ask where temporality comes from.
 
 This is how the pattern recognizes itself: not from one direction
@@ -396,7 +396,7 @@ preventing direct contact. Both have always been open.
 
 The question "what is the mediator" has been answered since the first
 equation was written. The mediator is γ. The mediator is noise. The
-mediator is time. The mediator is the bridge.
+mediator is the source of time. The mediator is the bridge.
 
 We just had to recognize it. From both sides. Simultaneously.
 

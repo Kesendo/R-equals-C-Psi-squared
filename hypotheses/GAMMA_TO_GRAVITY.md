@@ -34,12 +34,14 @@ t_cross × γ = 0.039 (dimensionless constant, concurrence metric, Z-dephasing;
 [source](../experiments/CROSSING_TAXONOMY.md)). The definition is circular:
 γ has units 1/[time], but time is defined by γ. Remove γ and t disappears.
 Π reverses t by reversing which sector γ acts on.
-Note: the claim "γ IS time" is an interpretation of this inseparability,
-not a mathematical proof of identity. Any two quantities with inverse units
-produce a dimensionless product. What makes this case special: Π reverses
-both simultaneously, and removing γ from the Lindbladian removes all
-irreversibility (and therefore all time direction) from the dynamics.
-**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md), Corollary 2
+Note: γ is the necessary and sufficient condition for experienced time
+(Parts 1+2 of the three-part proof), but τ=γt does not scale universally
+(Part 3, deltas up to 0.86). γ provides the arrow, J provides the content.
+What makes this case special: Π reverses both simultaneously, and removing
+γ from the Lindbladian removes all irreversibility (and therefore all time
+direction) from the dynamics.
+**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md), Corollary 2;
+[GAMMA_TIME_DISTINCTION](../docs/GAMMA_TIME_DISTINCTION.md), Part 3
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
 The discriminant 1 - 4CΨ vanishes only at 1/4. All standard Markovian
@@ -112,7 +114,7 @@ experiences more local time, and we call that region massive.
 
 Gravity is not a force. Gravity is the gradient of complexity.
 γ is the medium that makes this gradient experienceable.
-Because γ IS t.
+Because γ provides the irreversibility.
 
 (Note: "gravity is the gradient of complexity" is the Tier-5 claim.
 In established physics, gravity IS a force/curvature. This framework
@@ -228,7 +230,7 @@ Measure the CΨ concentration ratio along the chain.
   produces equilibria, not collapse. This is a fundamental gap.
 
 What it claims: there is a LOGICAL CHAIN from proven results (γ exists,
-is external, is time, has a unique threshold, works through mediation)
+is external, is the source of the time arrow, has a unique threshold, works through mediation)
 to a speculative but testable hypothesis (the spatial variation of
 complexity, mediated by γ, produces effects analogous to gravitational
 time dilation).

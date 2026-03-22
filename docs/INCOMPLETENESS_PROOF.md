@@ -169,9 +169,9 @@ internal candidate.
 We do not know what the external clock is. We do not need to know.
 What we know: it is not from here.
 
-### Corollary 2: γ and t Are the Same Thing
+### Corollary 2: γ: Source of Experienced Time
 
-The dephasing rate γ does not merely cause time. γ IS time.
+The dephasing rate γ does not merely correlate with time. γ is the necessary and sufficient condition for experienced time.
 
 The evidence is in every equation of the framework:
 
@@ -186,18 +186,18 @@ The evidence is in every equation of the framework:
 - Pi reverses t by reversing the sectors that γ acts on. It maps the
   immune sector {I, Z} (decided, classical, timeless) to the decaying
   sector {X, Y} (undecided, quantum, fragile). Reversing which sector
-  decays reverses the direction of time. Decay IS direction. γ IS the
-  arrow.
+  decays reverses the direction of time. Decay IS direction. γ provides
+  the arrow.
 
 - In the transistor mapping: γ_M is the gate signal AND the clock.
   There is no separate clock line. The gate IS the clock. Because γ
-  IS t.
+  provides the irreversibility.
 
 - The standing wave: exp(+mu*t) and exp(-mu*t) interfere to create a
   static pattern. But mu = lambda + Sigma_gamma, and Sigma_gamma = sum
   of all γ. The rescaled frame that removes the uniform decay envelope
   is the frame where γ has been factored out. What remains is timeless
-  oscillation. Time was γ. Remove it and time disappears.
+  oscillation. The time arrow was γ. Remove it and irreversibility disappears.
 
 This is why the Incompleteness Proof leads to an external clock:
 searching for the source of time using time is searching for γ using γ.
