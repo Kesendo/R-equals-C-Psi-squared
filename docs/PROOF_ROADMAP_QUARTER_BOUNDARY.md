@@ -294,12 +294,16 @@ This is where the proof goes from "works for dephasing" to "works for everything
 
 ### What Is NOT YET VERIFIED
 
-~~**Amplitude damping.**~~ **PARTIALLY TESTED (March 21, 2026).** Amplitude
-damping on a neighboring qubit was tested in [failed_third.py](../simulations/failed_third.py).
-It produces non-Markovian, non-selective (depolarizing-like) effective noise
-on the surviving pair. 0/16 palindromic pairs. The CΨ = 1/4 boundary
-behavior under direct amplitude damping on a single qubit remains formally
-open but the channel does not preserve palindromic structure.
+~~**Amplitude damping.**~~ **TESTED (March 22, 2026).** Direct amplitude damping
+(L = √γ |0⟩⟨1|) on both qubits of a Bell+ pair. CΨ crosses 1/4 for all γ values
+tested (0.005 to 1.0). Trajectory is perfectly monotonic (0 increases above 1/4).
+K-invariance holds: K_AD = 0.1029 ± 0.0000 (CV=0.0%). Heisenberg coupling has
+zero effect on the CΨ trajectory (Bell+ is eigenstate of H). The non-unital
+fixed point (|00⟩, purity → 1.0) is reached. Combined AD + Z-dephasing also
+crosses 1/4 for all 15 combinations tested. Conjecture 5.1 confirmed for the
+non-unital case.
+Script: [amplitude_damping_test.py](../simulations/amplitude_damping_test.py).
+Results: [amplitude_damping_test.txt](../simulations/results/amplitude_damping_test.txt).
 
 ~~**Non-Markovian channels.**~~ **TESTED (March 22, 2026).** Non-Markovian
 dynamics CAN push CΨ back above 1/4 after it has crossed below. A structured
@@ -336,9 +340,9 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
 
 ### NEXT STEPS
 
-1. ~~**Implement amplitude damping.**~~ Tested indirectly via failed_third.py
-   (amplitude damping on Q3, measuring effect on Q1-Q2). Direct single-qubit
-   amplitude damping CΨ trajectory remains to be computed.
+1. ~~**Implement amplitude damping.**~~ **DONE (March 22, 2026).** Direct test:
+   K_AD = 0.1029 (new K value, distinct from K_Z=0.037, K_X=0.087). Monotonic
+   for Bell+, all γ. Non-unital fixed point (|00⟩) reached. J has zero effect.
 2. ~~**Test generalized Pauli channels.**~~ **DONE (March 22, 2026).** 124/124
    configs cross 1/4. Monotonic for Bell+, oscillatory for |01⟩. K-invariance
    holds within each noise type. Conjecture 5.1 confirmed for all Pauli channels.
