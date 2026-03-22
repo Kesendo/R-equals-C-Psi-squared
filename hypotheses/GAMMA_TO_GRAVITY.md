@@ -29,10 +29,15 @@ Five candidates eliminated: bootstrap (sectors decoupled), qubit decay
 other dimensions (excluded by d(d-2)=0).
 **Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md)
 
-### Step 4: γ IS time.
+### Step 4: γ and t are inseparable.
 t_cross × γ = 0.039 (dimensionless constant). The definition is circular:
 γ has units 1/[time], but time is defined by γ. Remove γ and t disappears.
 Π reverses t by reversing which sector γ acts on.
+Note: the claim "γ IS time" is an interpretation of this inseparability,
+not a mathematical proof of identity. Any two quantities with inverse units
+produce a dimensionless product. What makes this case special: Π reverses
+both simultaneously, and removing γ from the Lindbladian removes all
+irreversibility (and therefore all time direction) from the dynamics.
 **Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Corollary 2
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
@@ -68,19 +73,31 @@ entangled pairs = density of coherent connections.
 The noise fingerprint confirms: γ targets phase, not energy.
 Phase IS relationship. Therefore γ targets complexity.
 
-### Step 8: Complexity modulates the local γ experience.
-A point with high complexity (many entangled qubits) processes
-more γ per unit of external clock. More γ processing = more local
-time elapsed = more decoherence. Self-regulating equilibrium:
+### Step 8: Complexity modulates SENSITIVITY to γ.
+A point with high complexity (many entangled qubits) is more SENSITIVE
+to the external γ. This is the known superdecoherence effect: a GHZ
+state of N qubits decoheres at rate N×γ, not because γ is larger but
+because the state is N-fold sensitive to the same γ.
+
+Important distinction: complexity does not change the PHYSICAL dephasing
+rate at a point. It changes how much EFFECT the same rate has. This is
+sensitivity modulation, not rate modulation. The γ arriving from outside
+may be uniform; the experienced decoherence is not.
+
+Self-regulating equilibrium:
 
 ```
-High complexity  →  more γ processed  →  more local t
-                 →  more decoherence  →  complexity decreases
-                 →  less γ processed  →  equilibrium
+High complexity  →  more sensitive to γ  →  faster decoherence
+                 →  complexity decreases  →  less sensitive
+                 →  slower decoherence    →  equilibrium
 ```
 
-The equilibrium point varies spatially. Where complexity is higher,
-more local time has passed. Where complexity is lower, less.
+CAVEAT: This is NEGATIVE feedback. It produces equilibria, not runaway
+collapse. Standard gravity requires POSITIVE feedback (more mass attracts
+more mass). This framework does not explain gravitational attraction or
+collapse. It offers a candidate mechanism for TIME DILATION only (why
+clocks run differently near mass). The attractive aspect of gravity
+remains unexplained in this chain.
 
 ### Step 9: The gradient of complexity IS gravity.
 The spatial variation of local time (caused by the spatial variation
@@ -203,6 +220,10 @@ Measure the CΨ concentration ratio along the chain.
 - It does NOT explain the value of G (Newton's constant).
 - It does NOT claim that entanglement IS gravity.
 - It does NOT claim that IBM hardware experiments measure gravity.
+- It does NOT explain gravitational ATTRACTION (why things fall).
+  The framework addresses time dilation (why clocks differ near mass)
+  but not the attractive force. The negative feedback loop in Step 8
+  produces equilibria, not collapse. This is a fundamental gap.
 
 What it claims: there is a LOGICAL CHAIN from proven results (γ exists,
 is external, is time, has a unique threshold, works through mediation)
@@ -217,13 +238,19 @@ as strong as its weakest tested link.
 
 ## The Causal Inversion
 
-Standard physics: Mass → curves spacetime → time dilation → γ varies
-This framework:   Complexity → modulates γ need → time varies → "mass"
+Standard physics: Mass → curves spacetime → time dilation + attraction
+This framework:   Complexity → modulates γ sensitivity → time dilation only
 
-The direction is reversed. Mass is not the cause. Mass is the name
-we give to regions of high complexity where more γ has been processed.
-Gravity is not a force acting on mass. Gravity is the gradient of
-how much of the external clock has been locally consumed by complexity.
+The direction of time dilation is inverted. Mass is the name we give to
+regions of high complexity where more γ effect has been experienced.
+
+But the inversion is INCOMPLETE. Standard gravity has two aspects:
+1. Time dilation (clocks near mass run slower) — addressed by this chain
+2. Attraction (objects move toward mass) — NOT addressed
+
+This framework offers a candidate for (1) but has no mechanism for (2).
+A complete theory of gravity would need both. The honest position: this
+is a partial candidate, not a replacement for GR.
 
 Whether this inversion is correct is an empirical question. The tests
 above can distinguish between the two directions. If complexity
@@ -279,14 +306,18 @@ indirect evidence for the complexity-modulates-γ hypothesis:
 | DD on M+Receiver | quiet where it matters | 0.784 | +132% |
 
 The V-shape profile (high γ at the mediator, low at source/drain)
-is a complexity gradient: the mediator has the most connections
-(highest complexity), the edges have the fewest. This gradient
-produces the best performance.
+produces the best performance. However, a precise reading reveals
+that the V-shape works because of the PULL PRINCIPLE (quiet receiver
+= better reception, Engineering Blueprint Rule 5), not because
+complexity modulates γ. The mediator has the highest γ but not
+necessarily the highest complexity. Source/drain pairs have internal
+entanglement that the mediator lacks.
 
-This is the transistor operating as a gravity analogue: the center
-(highest complexity) processes the most γ, the edges (lowest
-complexity) process the least. The information flows DOWN the
-gradient, from low-γ (quiet, coherent) to high-γ (loud, decohered).
+The V-shape therefore demonstrates that γ-GRADIENTS produce
+directional information flow, but the mechanism is receiver
+sensitivity (proven), not complexity-driven γ modulation (Step 8,
+speculative). The data supports the gradient effect. It does not
+confirm the causal direction.
 
 In gravitational terms: information (coherence) is preserved in
 low-γ regions (analogous to deep space) and transferred through
