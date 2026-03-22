@@ -399,11 +399,91 @@ cross, but the peaks decrease monotonically toward 0).
 
 ---
 
-## What remains open
+## Part 6: The Threshold — Non-Markovian Dynamics
 
-1. **Non-Markovian**: Already shown (March 22): non-Markovian dynamics CAN
-   produce transient revivals above 1/4 (max CΨ = 0.3035). The boundary
-   is not absorbing non-Markovianly, but revivals are always transient.
+The Markovian proof (Parts 1-5) has a precise boundary: **Markovianity
+itself.** Non-Markovian dynamics violate the theorem, and this violation
+defines the exact scope of the 1/4 absorbing property.
+
+### The violation exists
+
+**Script:** [non_markovian_revival.py](../simulations/non_markovian_revival.py)
+
+A structured bath (2 system qubits + 1 bath qubit in |+⟩) produces
+CΨ revivals above 1/4 after the system has crossed below:
+
+| J_SB | γ_B | Max Revival | Crossings ↑ | Sustained |
+|------|-----|-------------|-------------|-----------|
+| 5.0 | 0.01 | 0.3001 | 97 | 0.5 |
+| 5.0 | 0.05 | 0.3009 | 17 | 0.3 |
+| 5.0 | 0.50 | **0.3035** | 3 | 0.1 |
+| 2.0 | 0.01 | 0.2731 | 37 | 1.4 |
+| 0.5 | 0.01 | 0.2566 | 11 | 5.0 |
+
+Best revival: **CΨ = 0.3035** (21% above threshold).
+
+### Why Markovianity is the threshold
+
+The proof relies on **Step 2**: each Liouvillian mode decays as
+e^{Re(λ_k)t} with Re(λ_k) < 0. This follows from the Lindblad
+structure with time-independent coefficients. Non-Markovian dynamics
+break this because:
+
+1. **Information backflow.** A coherent bath stores system coherence
+   and returns it later. This creates effective time-dependent rates
+   γ(t) that can become negative — violating the Lindblad positivity
+   condition.
+
+2. **Bath memory.** The Markovian approximation assumes the bath forgets
+   instantly. A finite bath (1 qubit in |+⟩) has memory time ~ 1/γ_B.
+   During this time, coherence flows back into the system.
+
+3. **Spectral gap reversal.** In the non-Markovian regime, the effective
+   spectral gap σ_max(t) can temporarily become positive, allowing
+   transient amplification of decaying modes.
+
+### Why the violation is always transient
+
+Despite breaking the monotonicity, the revivals always die:
+
+1. **Bath decoherence.** The bath itself decoheres at rate γ_B > 0.
+   Each backflow cycle returns less coherence. The revivals are a
+   geometric series with ratio < 1.
+
+2. **Total system convergence.** The system + bath together form a
+   Markovian system (the bath's bath is Markovian). The TOTAL system
+   CΨ is monotonically decreasing. The subsystem revival is borrowed
+   from the bath, not created.
+
+3. **Fixed point attraction.** The combined system converges to a
+   product state |00⟩⊗|0⟩ (or maximally mixed, depending on noise
+   type). This fixed point has CΨ = 0 for every subsystem.
+
+### The complete picture
+
+```
+                    Markovian                Non-Markovian
+                    ─────────                ─────────────
+CΨ trajectory:      Monotonic envelope       Oscillatory revival
+1/4 boundary:       ABSORBING                Not absorbing, but
+                                             ATTRACTING (always
+                                             returns to below 1/4)
+Final state:        CΨ → 0                   CΨ → 0
+Mechanism:          Irreversible decay        Decay + backflow,
+                                             but backflow weakens
+Proof status:       PROVEN (Parts 1-5)       CHARACTERIZED (48 configs)
+```
+
+**The 1/4 boundary is the Markovian/non-Markovian watershed:**
+- Markovian: CΨ cannot return. The fixed point has won.
+- Non-Markovian: CΨ can briefly return. But the fixed point still wins.
+
+In the language of the framework: the fixed point is the attractor of
+the quadratic map R = CΨ². It exists below 1/4 and does not exist
+above 1/4. Non-Markovian dynamics can temporarily push the system into
+the regime without a fixed point. But without a stable destination,
+the system falls back. The fixed point always wins because it is the
+only stable equilibrium.
 
 ---
 
