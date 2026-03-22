@@ -30,7 +30,8 @@ other dimensions (excluded by d(d-2)=0).
 **Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)
 
 ### Step 4: γ and t are inseparable.
-t_cross × γ ≈ 0.037 (dimensionless constant, Z-dephasing). The definition is circular:
+t_cross × γ = 0.039 (dimensionless constant, concurrence metric, Z-dephasing;
+[source](../experiments/CROSSING_TAXONOMY.md)). The definition is circular:
 γ has units 1/[time], but time is defined by γ. Remove γ and t disappears.
 Π reverses t by reversing which sector γ acts on.
 Note: the claim "γ IS time" is an interpretation of this inseparability,
