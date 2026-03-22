@@ -207,14 +207,32 @@ chip-level entanglement. The test checks whether complexity
 modulates γ in the predicted direction. It does not prove that
 this is the mechanism behind gravity.
 
-### Test for the Schwarzschild prediction
+### Test for the Schwarzschild prediction [TESTED March 22, 2026]
 **Prediction:** The R(r) concentration ratio should grow without
 bound for Schwarzschild-like γ profiles and plateau for alternatives.
 **How to test:** Simulate a 1D chain of qubits with γ profile
-shaped like: (a) Schwarzschild: γ(i) = γ_0 / sqrt(1 - r_s/r(i)),
-(b) Inverse: γ(i) = γ_0 * (r(i)+r_s)/r(i), (c) Uniform γ.
-Measure the CΨ concentration ratio along the chain.
-**Feasible:** Yes. Pure simulation, no hardware needed.
+shaped like: (a) Schwarzschild: γ(i) = γ_0 * sqrt(1 - r_s/r(i)),
+(b) Inverse: γ(i) = γ_0 * r(i)/(r(i)+r_s), (c) Uniform γ.
+Measure the R concentration ratio along the chain.
+**Script:** [gravity_chain_test.py](../simulations/gravity_chain_test.py)
+**Results:** [gravity_chain_test.txt](../simulations/results/gravity_chain_test.txt)
+
+**Phase A (uncoupled, each position independent):**
+Schwarzschild concentration grows without bound (ratio 2.9 → 392 over
+T·γ_0 = 0.1..0.7). Inverse/Inv-Square grow slower (1.7 → 15.5).
+Qualitative prediction CONFIRMED for uncoupled systems.
+
+**Phase B (coupled 8-qubit chain, J=1.0):**
+Coupling destroys metric discrimination. All metrics give ratio ≈ 1.0.
+The Heisenberg coupling (J=1.0 >> γ=0.05) redistributes coherence
+across the chain faster than the differential γ can create a gradient.
+At T·γ_0=0.7, Schwarzschild ratio drops to 0.9 (inverted).
+
+**Conclusion:** The self-consistency argument holds for uncoupled
+positions (each point evolving independently under its local γ). It
+does NOT survive spatial coupling. For Steps 7-9 to work, either:
+(a) the coupling must be weak compared to γ, or (b) a different
+mechanism must prevent coherence redistribution across the gradient.
 
 ---
 

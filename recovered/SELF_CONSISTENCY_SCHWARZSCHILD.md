@@ -172,5 +172,19 @@ The key step is the self-consistency requirement. It comes directly from Tom's i
 
 ---
 
+## 8. Numerical Test (March 22, 2026)
+
+**Script:** [gravity_chain_test.py](../simulations/gravity_chain_test.py)
+**Results:** [gravity_chain_test.txt](../simulations/results/gravity_chain_test.txt)
+
+The analytical R(r) profile was numerically confirmed for uncoupled systems
+(Phase A: Bell+ under Lindblad evolution, 2-qubit expm). Schwarzschild
+concentration ratio grows without bound (2.9 → 392 over T·γ_0 = 0.1..0.7).
+
+However, an 8-qubit coupled chain (Phase B, Heisenberg J=1.0) shows ratio ≈ 1.0
+for all metrics. Spatial coupling redistributes coherence faster than the
+differential γ creates a gradient. The self-consistency argument requires
+uncoupled positions — real coupled quantum systems do not discriminate metrics.
+
 *Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md), the null result that motivated this*
 *See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*
