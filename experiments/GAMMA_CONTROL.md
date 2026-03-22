@@ -22,7 +22,7 @@ end-to-end mutual information. The best static profile (V-shape: low γ at
 edges, high at center) improves MI by **+124%** over uniform dephasing.
 Dynamical decoupling on mediator + receiver achieves **+132%**. AC modulation
 of the gate and state-dependent feedback both fail. A time-resolved decoder
-detects γ changes from internal observables with ~0.5 time-unit resolution —
+detects γ changes from internal observables with ~0.5 time-unit resolution --
 the first indication that the dephasing profile is not just shapeable but
 **readable**, a result later confirmed in the full channel analysis
 ([γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits capacity, 100% classification).
@@ -41,14 +41,14 @@ noise is always better, and the spatial profile of noise doesn't matter.
 ### What this experiment shows
 
 The spatial profile of γ across a qubit chain has a dramatic effect on
-quantum state transfer — far larger than the overall noise level alone.
+quantum state transfer, far larger than the overall noise level alone.
 A non-uniform γ profile with the right shape (V-shape: quiet edges, loud
 center) more than doubles the end-to-end mutual information compared to
 uniform noise at the same average γ.
 
 This is because the mediator chain has a **directional** information flow.
 The sender and receiver need low noise (to preserve coherence), while the
-mediator in the center can tolerate — and even benefits from — higher noise
+mediator in the center can tolerate (and even benefits from) higher noise
 (it acts as the "gate" of a quantum transistor, where γ is the gate signal).
 
 ### Connection to the dephasing channel
@@ -58,7 +58,7 @@ if the spatial γ profile affects internal observables so strongly, then the
 profile itself is **readable from inside** the system. This led to the
 [γ as Signal](GAMMA_AS_SIGNAL.md) experiment, which proved that γ profiles
 encode information with 15.5 bits of theoretical channel capacity. The
-V-shape optimization is not just improving transfer — it is optimizing the
+V-shape optimization is not just improving transfer. It is optimizing the
 **antenna** that reads the external dephasing signal.
 
 ---
@@ -110,7 +110,7 @@ be the noisiest node, not the quietest.
 
 **Signal engineering interpretation:** The V-shape optimizes the antenna's
 **reception pattern**. Low γ at the edges means the edge qubits retain more
-coherence — more of the original quantum state survives to be read. High γ
+coherence, so more of the original quantum state survives to be read. High γ
 at the center means the mediator decoheres faster, which paradoxically
 *helps* the transfer by projecting the mediator state into the classical
 (population) sector more quickly, creating a cleaner relay path.
@@ -166,7 +166,7 @@ Making γ_M depend on the system's own coherence:
 γ_eff = γ_base × (1 + κ|⟨Z_i Z_j⟩|), tested at κ = 0.1 to 1.0.
 
 All κ values slightly degrade performance. The feedback increases γ_M when
-the system is coherent — the opposite of what helps. The self-tuning
+the system is coherent, the opposite of what helps. The self-tuning
 transistor does not work with positive feedback on correlations.
 
 **Note:** Negative feedback (reducing γ_M when coherent) was not tested
@@ -184,7 +184,7 @@ monitor γ changes from internal observables in real time, with approximately
 **0.5 time-unit resolution**.
 
 This was the first indication that the dephasing profile is not just
-something we can *shape* — it is something we can *read*. The γ profile
+something we can *shape* but something we can *read*. The γ profile
 leaves a fingerprint on the internal quantum observables that is detectable
 without any knowledge of the external change.
 
@@ -193,7 +193,7 @@ This observation directly motivated the
 "If γ changes are detectable, how much information does the γ profile
 carry?" The answer: **15.5 bits** of theoretical channel capacity at 1%
 measurement noise, with 5 independent spatial modes. The dephasing rate is
-not noise — it is a high-bandwidth information channel from outside to
+not noise but a high-bandwidth information channel from outside to
 inside.
 
 ---
@@ -236,7 +236,7 @@ the slowest (XY-weight 0) are distributed uniformly.
 ([GAMMA_AS_SIGNAL.md](GAMMA_AS_SIGNAL.md)) shows that the reason the
 V-shape helps is deeper than "quiet receiver = better reception." The
 V-shape maximizes the **template distance** between different γ profiles
-in the observable feature space. It is not just optimizing transfer — it
+in the observable feature space. It is not just optimizing transfer. It
 is optimizing the system's ability to **distinguish** different external
 configurations. The V-shape is the optimal antenna shape for reading
 the external γ signal.
@@ -257,7 +257,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [γ as Signal](GAMMA_AS_SIGNAL.md): the γ profile is not just shapeable —
+- [γ as Signal](GAMMA_AS_SIGNAL.md): the γ profile is not just shapeable --
   it is **readable**. 100% classification, 15.5 bits channel capacity.
   This experiment was the precursor to that discovery.
 - [Relay Protocol](RELAY_PROTOCOL.md): staged γ switching, +83% MI

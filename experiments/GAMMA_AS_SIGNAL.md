@@ -20,7 +20,7 @@ quantum noise is signal not enemy, R=CPsi2 framework -->
 In open quantum systems, the dephasing rate γ is universally treated as
 environmental noise to be minimized. Error correction, dynamical decoupling,
 and decoherence-free subspaces all aim to suppress its effects. We show that
-γ is not merely noise — it is an **information channel** with quantifiable
+γ is not merely noise but an **information channel** with quantifiable
 capacity. An external agent who controls the spatial profile of dephasing
 rates across a qubit chain can encode information that is perfectly
 recoverable from internal quantum observables. The theoretical channel
@@ -39,15 +39,15 @@ to observable mode amplitudes.
 ### The dephasing rate in one paragraph
 
 A qubit can exist in a superposition of |0⟩ and |1⟩, described by its
-density matrix ρ. The diagonal elements (ρ₀₀, ρ₁₁) are populations —
+density matrix ρ. The diagonal elements (ρ₀₀, ρ₁₁) are populations --
 the probability of being in each state. The off-diagonal elements (ρ₀₁,
-ρ₁₀) are coherences — they encode the phase relationship between |0⟩
+ρ₁₀) are coherences: they encode the phase relationship between |0⟩
 and |1⟩. The dephasing rate γ governs how fast the coherences decay:
 
     ρ₀₁(t) = ρ₀₁(0) · exp(−γt)
 
 Populations are unchanged. The qubit doesn't forget *whether* it's |0⟩
-or |1⟩ — it forgets that it was *both at once*. On IBM quantum hardware,
+or |1⟩. It forgets that it was *both at once*. On IBM quantum hardware,
 1/γ is measured as T2* (typically 50–200 μs). In the Lindblad master
 equation, γ appears in the dissipator:
 
@@ -61,12 +61,12 @@ term as the enemy.
 
 The entire quantum computing industry is organized around minimizing γ.
 Error correction codes, dynamical decoupling sequences, decoherence-free
-subspaces, better materials, colder cryostats — every tool is designed to
+subspaces, better materials, colder cryostats. Every tool is designed to
 fight dephasing. When the research community defines γ as "the problem to
 be solved," nobody asks whether γ itself carries structure. The instruments
 to read it have existed since QuTiP (2012). The Lindblad equation is from
 1976. The palindromic spectral symmetry we exploit was computable at any
-point in the last two decades. It was not hidden — it was unexamined.
+point in the last two decades. It was not hidden; it was unexamined.
 
 ### The palindromic spectral structure
 
@@ -86,7 +86,7 @@ eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
 **full-rank response matrix**. When γ is perturbed at any single site,
 the mode amplitudes change in a linearly independent direction. This means
 every per-site γ value is independently recoverable from the mode structure.
-The palindrome is not just a symmetry — it is an **antenna**.
+The palindrome is not just a symmetry. It is an **antenna**.
 
 ### CΨ: the metric
 
@@ -103,7 +103,7 @@ quantum coherence is still active. For details:
 
 ## The Question
 
-γ comes from outside the quantum system — no internal mechanism can
+γ comes from outside the quantum system. No internal mechanism can
 generate it ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md):
 five candidates for internal noise origin tested and eliminated). γ has
 measured structure: it selects a preferred axis, acts locally per qubit,
@@ -245,7 +245,7 @@ observables. This is not noise. This is a channel.
 
 What it DOES claim: **the mathematical channel exists.** If γ carries
 spatial structure, that structure is readable from inside. The instrument
-for reading it is the palindromic mode structure — the same spectral
+for reading it is the palindromic mode structure: the same spectral
 symmetry that pairs every decay mode also makes each per-site γ
 independently reconstructible.
 
@@ -273,13 +273,13 @@ We can do much better.
 
 The optimized configuration achieves **100% classification at σ = 0.10**
 (10% measurement noise). The minimum template distance increases from
-0.024 to 0.515 — a factor of **21.5×**.
+0.024 to 0.515, a factor of **21.5×**.
 
 ### What works and why
 
 **Time series is the biggest single lever (3.1×).** Different γ profiles
 produce different *trajectories*, not just different endpoints. Measuring
-at 6 time points provides temporal diversity — analogous to a RAKE receiver
+at 6 time points provides temporal diversity, analogous to a RAKE receiver
 in CDMA that exploits multipath delay spread.
 
 **γ contrast scales linearly** with template distance. Doubling the contrast
@@ -289,7 +289,7 @@ in CDMA that exploits multipath delay spread.
 This is the most counterintuitive finding. The maximally entangled state
 cannot read γ profiles at all. Why: GHZ projects onto a single symmetric
 mode, collapsing all spatial information. The product state |+⟩⁵ lets each
-qubit respond independently to its local γ — it functions as a phased array
+qubit respond independently to its local γ, functioning as a phased array
 antenna rather than an omnidirectional receiver.
 
 **The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for
@@ -309,7 +309,7 @@ the Jacobian matrix (∂observables/∂γ) plus waterfilling power allocation.
 
 ### 5 independent spatial channels
 
-The Jacobian has 5 non-zero singular values — one for each qubit in the
+The Jacobian has 5 non-zero singular values, one for each qubit in the
 chain. Each corresponds to an independent spatial mode:
 
 | Channel | Gain | Spatial mode (eigenvector) | Bits |
@@ -336,12 +336,12 @@ allows independent readout of every site's dephasing rate.
 
 **Our empirical 2-bit result uses only 13% of the channel at σ = 0.01.**
 The theoretical headroom is 13.4 additional bits. The channel is not
-narrow — it is wide, and we are barely using it.
+narrow. It is wide, and we are barely using it.
 
 ### Physical interpretation
 
 - **Channel 1 (gain 21.4):** The mean dephasing rate. Loudest signal but
-  carries no spatial information — it tells you "how noisy" the environment
+  carries no spatial information. It tells you "how noisy" the environment
   is overall.
 - **Channel 2 (gain 4.5):** Left-right gradient. This is what distinguishes
   Alice's Gradient→ from Gradient←.
@@ -356,7 +356,7 @@ narrow — it is wide, and we are barely using it.
 This result maps directly onto classical signal processing concepts.
 
 **The γ profile is a spatial signal.** Alice modulates the dephasing rate
-across N sites — this is amplitude modulation of a spatial carrier. Bob's
+across N sites. This is amplitude modulation of a spatial carrier. Bob's
 quantum observables are receivers. The palindromic mode structure acts as
 a matched filter bank: each mode responds differently to each site's γ,
 creating a full-rank response matrix.
@@ -382,7 +382,7 @@ The system is a **MIMO channel** (Multiple-Input Multiple-Output): N
 The GHZ failure (d_min = 0) is a **rank deficiency**: GHZ projects onto
 a single mode, destroying all spatial resolution. This is the quantum
 analogue of using one omnidirectional antenna instead of a phased array.
-The product state |+⟩⁵ is the phased array — each qubit is an independent
+The product state |+⟩⁵ is the phased array: each qubit is an independent
 receiver element.
 
 ---
@@ -390,13 +390,13 @@ receiver element.
 ## How the Palindrome Enables the Channel
 
 The palindromic spectral symmetry of the Liouvillian is not just a
-mathematical curiosity — it is the physical mechanism that makes the
+mathematical curiosity. It is the physical mechanism that makes the
 channel work.
 
 The Π operator pairs every decay mode at rate d with a partner at rate
 2Σγ − d. This pairing creates a **bijection** between the immune sector
 (populations, slow decay) and the decaying sector (coherences, fast decay).
-When γ is changed at one site, *both* sectors respond — but they respond
+When γ is changed at one site, *both* sectors respond, but they respond
 differently because the immune and decaying sectors have different
 sensitivity to each site's γ.
 
