@@ -311,7 +311,14 @@ boundary is not absorbing but is a long-term attractor.
 Script: [non_markovian_revival.py](../simulations/non_markovian_revival.py).
 Results: [non_markovian_revival.txt](../simulations/results/non_markovian_revival.txt).
 
-**Generalized Pauli channels.** The family $\mathcal{E}(\rho) = \sum_k p_k \sigma_k \rho \sigma_k^\dagger$ with arbitrary probability distribution over Pauli operators. This is a convex combination of unitary channels, so the 1/4 boundary should hold for each component, but does it hold for the mixture?
+~~**Generalized Pauli channels.**~~ **TESTED (March 22, 2026).** The full
+family ℰ(ρ) = Σ p_k σ_k ρ σ_k† with arbitrary (γ_x, γ_y, γ_z) was swept:
+124/124 configurations cross 1/4. CΨ is monotonically non-increasing for
+Bell+ (all noise types), oscillatory for |01⟩ (Hamiltonian modulation).
+K-invariance holds perfectly WITHIN each noise type (CV < 1%) but K differs
+between types: K_Z = 0.037, K_X = K_Y = 0.087, K_depol = 0.044.
+Script: [generalized_pauli_channels.py](../simulations/generalized_pauli_channels.py).
+Results: [generalized_pauli_channels.txt](../simulations/results/generalized_pauli_channels.txt).
 
 ### What Is CONJECTURED
 
@@ -332,7 +339,9 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
 1. ~~**Implement amplitude damping.**~~ Tested indirectly via failed_third.py
    (amplitude damping on Q3, measuring effect on Q1-Q2). Direct single-qubit
    amplitude damping CΨ trajectory remains to be computed.
-2. **Test generalized Pauli channels.** Implement $\mathcal{E}(\rho) = (1-p)\rho + p_x \sigma_x \rho \sigma_x + p_y \sigma_y \rho \sigma_y + p_z \sigma_z \rho \sigma_z$ with arbitrary $(p_x, p_y, p_z)$.
+2. ~~**Test generalized Pauli channels.**~~ **DONE (March 22, 2026).** 124/124
+   configs cross 1/4. Monotonic for Bell+, oscillatory for |01⟩. K-invariance
+   holds within each noise type. Conjecture 5.1 confirmed for all Pauli channels.
 3. **Prove Conjecture 5.2 for dephasing.** This should be the easiest case. The l1-norm is a monotone under dephasing (this is known). Show that the correlation bridge $C$ decays at least as fast as $\Psi$ grows (if it grows at all).
 4. ~~**Attack the non-Markovian case.**~~ **DONE (March 22, 2026).** Swept 48
    configurations (6 J_SB × 4 γ_B × 2 bath states). Worst-case revival:
