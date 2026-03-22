@@ -1,5 +1,12 @@
 # R = CΨ²
 
+<!-- Keywords: palindromic Liouvillian spectral symmetry, open quantum system dephasing,
+CΨ quarter boundary proof, quantum decoherence information channel, Lindblad master
+equation eigenvalue pairing, dephasing noise as signal, quantum MIMO channel capacity,
+quantum state transfer spin chain, IBM quantum hardware validation, self-referential
+purity recursion Mandelbrot, conjugation operator Pi time reversal, R=CPsi2 framework,
+palindromic eigenvalue spectrum proof, quantum noise channel 15 bits -->
+
 > "We are all mirrors. Reality is what happens between us."
 
 A dream on December 21, 2025 contained technically correct information
@@ -23,6 +30,47 @@ as what we got right.
 
 ---
 
+## Three results that matter
+
+### 1. The palindromic spectrum (proven)
+
+The Liouvillian eigenvalue spectrum of any Heisenberg/XXZ spin system
+under local Z-dephasing is exactly palindromic: every decay rate d has
+a partner at 2Σγ − d. Proven analytically via the conjugation operator Π.
+Verified N=2 through N=8 (54,118 eigenvalues, zero exceptions). Holds for
+all standard coupling models (XY, Ising, XXZ, DM). Confirmed on IBM Torino
+at 1.9% deviation.
+
+→ [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
+→ [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md)
+
+### 2. The CΨ = 1/4 boundary (proven, unique)
+
+The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
+1/4: the discriminant of the self-referential purity recursion R = C(Ψ+R)².
+All standard quantum channels cross this boundary. The boundary is absorbing
+under Markovian dynamics (proven analytically). α=2 (purity) is the unique
+Rényi order with a state-independent threshold.
+
+→ [Uniqueness Proof](docs/UNIQUENESS_PROOF.md)
+→ [CΨ Monotonicity Proof](docs/PROOF_MONOTONICITY_CPSI.md)
+→ [Proof Roadmap (7 layers, all closed)](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+
+### 3. Dephasing noise is a readable information channel (March 22, 2026)
+
+The spatial profile of dephasing rates across a qubit chain is not noise
+to be minimized. It is an information channel with **15.5 bits** of
+theoretical capacity at 1% measurement noise. Five independent spatial
+modes (SVD of the Jacobian). 100% classification accuracy for 4-symbol
+alphabets. After optimization: **21.5× wider channel**, tolerating 17%
+measurement noise. The palindromic mode structure is the antenna.
+
+→ **[Dephasing Noise as Information Channel](experiments/GAMMA_AS_SIGNAL.md)**
+→ [Practical γ Control (+124% MI)](experiments/GAMMA_CONTROL.md)
+→ [Bridge Optimization Results](simulations/results/bridge_optimization.txt)
+
+---
+
 ## What we found
 
 ### The system
@@ -42,7 +90,7 @@ complete eigenvalue spectrum.
 ### Mirror symmetry: PROVEN (March 14, 2026)
 
 The decay rate spectrum of the Liouvillian is exactly palindromic.
-For every decay rate d, there exists a partner at 2Σγᵢ - d.
+For every decay rate d, there exists a partner at 2Σγᵢ − d.
 
 This was verified numerically through N=8 (54,118 rates, zero exceptions)
 across every topology and noise type we tested. On March 14, 2026,
@@ -52,16 +100,16 @@ we found the analytical proof:
 
     I → X (+1),  X → I (+1),  Y → iZ (+i),  Z → iY (+i)
 
-It satisfies **Π·L·Π⁻¹ = -L - 2Σγᵢ·I**, which directly implies the
+It satisfies **Π·L·Π⁻¹ = −L − 2Σγᵢ·I**, which directly implies the
 palindrome. The proof is three steps:
 
-1. Π flips XY-weight k → N-k, so Π·L_D·Π⁻¹ = -L_D - 2Σγ·I (trivial)
+1. Π flips XY-weight k → N−k, so Π·L_D·Π⁻¹ = −L_D − 2Σγ·I (trivial)
 2. Π anti-commutes with [H,·] for any Heisenberg/XXZ bond (16-entry table)
-3. Combined: Π·L·Π⁻¹ = -L - 2Σγ·I. QED.
+3. Combined: Π·L·Π⁻¹ = −L − 2Σγ·I. QED.
 
 Holds for: all δ (XXZ anisotropy), all graphs (star, chain, ring, complete,
 binary tree), non-uniform γ per qubit, Z and Y dephasing.
-Breaks for: depolarizing noise (err = gamma * 2(N-2)/3, linear in gamma and N).
+Breaks for: depolarizing noise (err = γ × 2(N−2)/3, linear in γ and N).
 
 ### Beyond Heisenberg: all standard models (March 17-18, 2026)
 
@@ -71,22 +119,22 @@ Dzyaloshinskii-Moriya, and combinations. Two Π operator families exist
 (P1 and P4), plus non-uniform alternating operators for XY/YX terms.
 All 36/36 two-term combinations resolved: 20 per-site, 14 broken, 2 non-local.
 
-See: [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)
+→ [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)
 
 ### Hardware validation: 1.9% (March 18, 2026)
 
-CΨ=1/4 crossing measured on IBM Quantum (ibm_torino, Qubit 80).
-Predicted: t* = 15.01 us. Measured: t* = 15.29 us. Deviation: 1.9%.
+CΨ = 1/4 crossing measured on IBM Quantum (ibm_torino, Qubit 80).
+Predicted: t* = 15.01 μs. Measured: t* = 15.29 μs. Deviation: 1.9%.
 T2* (not T2 echo) confirmed as the correct timescale.
 
-See: [IBM Run 3](experiments/IBM_RUN3_PALINDROME.md),
+→ [IBM Run 3](experiments/IBM_RUN3_PALINDROME.md),
 raw data in `data/ibm_run3_march2026/`
 
-The closest prior work, incoherentons (Haga et al. 2023) and Bethe ansatz
-for dephasing chains (Medvedyeva-Essler-Prosen 2016), had pieces of this
+The closest prior work: incoherentons (Haga et al. 2023) and Bethe ansatz
+for dephasing chains (Medvedyeva-Essler-Prosen 2016) had pieces of this
 but not the operator or the palindrome. Nobody had Π.
 
-See: [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
+→ [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
 
 ### Spectral architecture (exact, N=2-8)
 
@@ -100,7 +148,7 @@ See: [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
 | 7 | 16384² | 13264 | 2γ | 12γ | 100% |
 | 8 | 65536² | 54118 | 2γ | 14γ | 100% |
 
-Boundary formula: min = 2γ, max = 2(N-1)γ. Bandwidth = 2(N-2)γ.
+Boundary formula: min = 2γ, max = 2(N−1)γ. Bandwidth = 2(N−2)γ.
 Five topologies share the same boundaries, differ in interior rate count.
 Rate count grows roughly as 4^N (ratio converges from below).
 Density of states is Gaussian: mean = Nγ, skewness = 0, kurtosis ≈ 3.
@@ -116,7 +164,7 @@ Density of states is Gaussian: mean = Nγ, skewness = 0, kurtosis ≈ 3.
 ### Mediator bridge: topology protects the palindrome (March 21, 2026)
 
 Direct dissipative coupling between two qubit pairs destroys the palindrome
-instantly (256 → 31 surviving pairs at kappa = 0.01). But coupling through
+instantly (256 → 31 surviving pairs at κ = 0.01). But coupling through
 a mediator qubit M preserves it exactly (1024/1024 pairs, error 1.41e-13)
 while information flows freely (MI = 1.65 bits, QST fidelity 0.732).
 
@@ -124,7 +172,7 @@ The rule: two subsystems must not couple directly. They couple to a shared
 mediator. The palindrome survives because each side only interacts with M,
 never with the other side's noise.
 
-Scaled to N=11 (two 5-qubit bridges + meta-mediator): cross-bridge MI = 0.777.
+Scaled to N=11 via RK4 time propagation: cross-bridge MI = 0.777.
 A relay protocol (time-dependent dephasing, staged transfer) combined with
 2:1 asymmetric coupling improves end-to-end MI by 83%.
 
@@ -132,50 +180,44 @@ A relay protocol (time-dependent dephasing, staged transfer) combined with
 no advantage over a uniform chain of equal length. MI is identical at every N
 tested. The palindrome-preserving property is topological, not hierarchical.
 
-See: [Relay Protocol](experiments/RELAY_PROTOCOL.md),
+→ [Relay Protocol](experiments/RELAY_PROTOCOL.md),
 [Scaling Curve](experiments/SCALING_CURVE.md)
 
-### Two supermodes (3-qubit star)
+### The dephasing channel (March 22, 2026)
 
-The observer pair A-B sees two cross-correlations: c+ (symmetric) and c-
-(antisymmetric). Both are damped sinusoids. Their exact pole structure:
+The palindromic spectrum creates a full-rank response matrix: perturbing γ
+at any single site changes the mode amplitudes in a linearly independent
+direction. This means every per-site dephasing rate is independently
+recoverable from internal quantum observables. The palindrome is an antenna.
 
-| Mode | Frequency | Decay | Dominant in |
-|:-----|:----------|:------|:------------|
-| Fast | ~1.506 (scales with J) | 10γ/3 | c+ |
-| Slow | ~0.404 | 2γ | c- |
-| Hidden | ~1.103 | 8γ/3 | c- only |
+An external agent ("Alice") who encodes information in the spatial γ profile
+can be decoded by an internal observer ("Bob") measuring quantum observables:
 
-Decay rates are exact rational multiples of γ. Frequencies depend on
-topology, decay rates don't. The slow mode (2γ) is naturally protected.
+| Measurement noise | Classification accuracy | Capacity |
+|:-----------------|:----------------------|:---------|
+| σ = 0 (perfect) | 100% | 2 bits (empirical) |
+| σ = 0.01 (1%) | 100% (optimized) | 15.5 bits (theoretical) |
+| σ = 0.10 (10%) | 100% (optimized) | 3.6 bits |
+| σ = 0.17 (17%) | ~100% (optimized) | ~2.3 bits |
 
-### Signal processing equivalence
+The channel has 5 independent spatial modes (SVD of the Jacobian).
+Optimization through time-series measurements, extended features, and
+increased γ contrast widens the channel by 21.5×.
 
-The entire quantum structure maps to classical coupled oscillator physics:
+Key finding: GHZ states are completely blind (d_min = 0). Product states
+|+⟩⁵ are the optimal antenna. Entanglement hurts; each qubit must respond
+independently to its local γ.
 
-| Quantum language | Signal engineering |
-|:-----------------|:-------------------|
-| Two sectors c+/c- | Even/odd supermode decomposition |
-| Topology sets frequency | Imaginary part of system poles |
-| Noise sets decay | Real part of system poles |
-| Hidden observer detection | Passive topology-change detection |
-| Observable filters modes | Modal observability (transfer function residues) |
+→ **[Full analysis](experiments/GAMMA_AS_SIGNAL.md)**
 
 ### The Mandelbrot connection
 
-CΨ = concurrence × l1-coherence, iterated as R_{n+1} = C(Ψ + R_n)²,
-is algebraically equivalent to the Mandelbrot map z → z² + c.
-
-The boundary at CΨ = 1/4 is where the fixed point z* = 1/2 sits.
-Below 1/4: reality converges. Above 1/4: no stable fixed point.
-z*(1-z*) = CΨ is the Bernoulli variance form: maximum at p = 0.5.
-
-z* matches no known single quantum measure (26 candidates tested,
-best r = 0.951). It is genuinely composite: requiring both entanglement
-AND coherence simultaneously.
+CΨ iterated as R_{n+1} = C(Ψ + R_n)² is algebraically equivalent to
+the Mandelbrot map z → z² + c with c = CΨ. The boundary at CΨ = 1/4 is
+the cusp of the main cardioid. The Feigenbaum cascade was measured on the
+recursion (7 period-doubling bifurcations, δ → 4.67).
 
 Nobody has connected Mandelbrot iteration to open quantum dynamics before.
-This is our most original finding.
 
 ---
 
@@ -183,132 +225,123 @@ This is our most original finding.
 
 - That CΨ is a new fundamental quantity (it is a derived diagnostic)
 - That hidden observer detection works on hardware (simulation only)
-- That frequency-decay orthogonality extends beyond 3 qubits (it doesn't)
-- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ=1/4 crossing validated at 1.9%, N>=2 untested)
-- That the standing wave pattern is measurable on hardware (computed, not yet measured)
+- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ = 1/4 crossing validated at 1.9%, N ≥ 2 untested)
 - That the relay protocol has been tested on hardware (simulation only, N=11)
-- That the mediator bridge works beyond Z-dephasing at N=11 (untested for other noise types)
-- That the transistor analogy extends to multi-mediator cascades on hardware (simulated only)
-- That the standing wave pattern or relay protocol have been tested on hardware (simulation only)
+- That the standing wave pattern is measurable on hardware (computed, not measured)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
 
 ## Evidence status
 
-### Proven
+### Proven (analytical + computational verification)
 
 | Claim | Evidence |
 |:------|:--------|
-| Mirror symmetry (palindrome) | Analytical proof via conjugation Π, verified N=2-8 |
-| Topology-independence of decay rates | Π anti-commutes with [H,·] for ANY bond set |
-| Pauli weight complementarity | Π maps XY-weight k → N-k |
-| Pole structure (3 exact decay rates) | Liouvillian eigendecomposition |
-| Band structure at N >= 4 | Verified N=2-8, boundary 2γ to 2(N-1)γ |
-| Mandelbrot algebraic correspondence | Proven: u_n substitution |
-| CΨ = 1/4 is Bernoulli variance maximum | Proven: z*(1-z*) = CΨ |
-| Five independent regulators | Full parameter sweeps |
-| 5 topologies share boundaries | Verified: star, chain, ring, complete, tree |
-| z* is a novel composite diagnostic | 26 candidates tested, none match |
-| Non-Heisenberg palindrome | ALL standard models (XY, Ising, XXZ, DM) palindromic under single-axis dephasing |
-| Two Π operator families | P1 (I<->X, Y<->Z) and P4 (I<->Y, X<->Z), 36/36 resolved (2 non-local) |
-| XOR space universal | GHZ->100% XOR, W->0% XOR for all standard models, r>0.98 |
-| Depolarizing noise quantified | Breaks palindrome at err = gamma * 2(N-2)/3 |
-| IBM hardware validation | CΨ=1/4 crossing at 1.9% deviation on ibm_torino Q80 (same-day T2*) |
-| Standing wave from palindrome | Quantum correlations (XX,YY) oscillate at 2J,4J,6J; classical (ZZZ) static |
-| Mediator bridge | Direct dissipation breaks palindrome; mediated coupling preserves it (N=5: 1024/1024, N=11: MI=0.777) |
-| Relay protocol | Time-dependent gamma relay + 2:1 coupling: +83% end-to-end MI |
-| Scaling curve | MI decays exponentially with N (factor ~2 per 2 qubits) |
-| Noise origin elimination | Internal (bootstrap), qubit decay (failed third), nothing (d=0): all eliminated. Framework not self-contained. |
-| CΨ = 1/4 uniqueness | Discriminant of quadratic R = C(Ψ+R)² vanishes only at 1/4. Algebraic necessity. |
-| CΨ = 1/4 channel-independent | All 124 generalized Pauli configs + amplitude damping cross 1/4. K-invariance per noise type (K_Z=0.037, K_X=0.087, K_AD=0.103). |
-| CΨ monotonicity (analytical proof) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem: envelope decreasing for 19 initial states. |
-| Subsystem Crossing Theorem | For any primitive CPTP: CΨ eventually < 1/4. Perron-Frobenius + contractivity. 200 random CPTP maps, 0 exceptions. |
-| Non-Markovian threshold | Structured bath CAN push CΨ back above 1/4 (max 0.3035, transient). Revivals always die. 1/4 is long-term attractor. |
-| α=2 Rényi uniqueness | Only Tr(ρ²) gives a state-independent threshold. CΨ_α* = (α-1)^{α-1}/(α^α·Ψ^{α-2}): universal only at α=2. |
-| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Only α=2 → unique bifurcation. |
-| Mandelbrot exact mapping | w = C(Ψ+R) gives w→w²+c with c=CΨ. Feigenbaum cascade measured (7 bifurcations, δ→4.67). |
+| Mirror symmetry (palindrome) | Analytical proof via Π, verified N=2-8, 54,118 eigenvalues |
+| Π maps XY-weight k → N−k | Algebraic identity |
+| All standard models palindromic | XY, Ising, XXZ, DM under single-axis dephasing. Two Π families (P1, P4) |
+| CΨ = 1/4 unique boundary | Discriminant of R = C(Ψ+R)². α=2 is the only universal Rényi threshold |
+| CΨ monotonicity (Markovian) | dCΨ/dt < 0 for all local Markovian channels. Envelope Theorem for arbitrary states |
+| Subsystem Crossing Theorem | Perron-Frobenius + contractivity. 300 random CPTP maps, 0 exceptions |
+| Non-Markovian threshold | Revivals up to CΨ = 0.3035, always transient. 48 configs tested |
+| All channels cross 1/4 | Z, X, Y, depolarizing, asymmetric Pauli, amplitude damping (124/124) |
+| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable |
+| Mandelbrot exact mapping | w = C(Ψ+R) gives w → w² + c. Feigenbaum: 7 bifurcations, δ → 4.67 |
+| Noise origin elimination | Bootstrap, qubit decay, bath, nothing, other d: all eliminated |
+| IBM hardware validation | CΨ = 1/4 at 1.9% deviation on ibm_torino Q80 |
+| Mediator bridge | Direct coupling breaks palindrome; mediated preserves it (1024/1024) |
+| Relay protocol | +83% MI with time-dependent γ and 2:1 coupling |
+| γ profile is readable | 100% classification, 15.5 bits capacity, 5 SVD modes, 21.5× optimization |
+| Standing wave from palindrome | XX/YY oscillate, ZZZ static. Π = time reversal in rescaled frame |
 
 ### Tested and rejected
 
 | Claim | Result |
 |:------|:-------|
 | CΨ = 1/4 as Exceptional Point | No EP correlation found |
-| c+/c- as Liouvillian symmetry sectors | Both parity +1; split is projection |
-| IBM Q80/Q102 as sonar evidence | Was qubit detuning |
-| Consciousness as physics ingredient | Retired from technical core |
-| Gravity/Schwarzschild connections | Disproven (kept in recovered/) |
-| Hierarchical topology advantage | Uniform chain identical to recursive mediator hierarchy at all N tested |
-| Universal pull principle | Push beats pull for local MI; pull wins only for range optimization |
+| c+/c− as Liouvillian symmetry sectors | Both parity +1; split is projection, not symmetry |
+| IBM Q80/Q102 as sonar evidence | Was qubit detuning, not neighbor coupling |
+| Hierarchical topology advantage | Uniform chain identical to recursive hierarchy at all N |
+| Universal pull principle | Push beats pull locally; pull wins only for range |
+| AC γ modulation | No resonance at any frequency (palindromic modes decouple from AC) |
+| State-dependent γ feedback | Slightly harmful (positive feedback increases γ when coherent) |
 
 ---
 
 ## Start here
 
-### For a complete overview (standalone, no prior knowledge needed)
-- **[Technical Paper](publications/TECHNICAL_PAPER.md)**: The palindrome proof, XOR space, QST. For physicists.
-- **[Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md)**: Six design rules for quantum repeaters. For engineers.
+### Standalone documents (no prior knowledge needed)
 
-### The proof
-1. **[Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)**: The conjugation operator, the 16-entry table, the full verification
+| Document | Audience | What it covers |
+|:---------|:---------|:---------------|
+| [Technical Paper](publications/TECHNICAL_PAPER.md) | Physicists | The palindrome proof, XOR space, QST, all March 22 updates |
+| [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md) | QST engineers | Six design rules for quantum repeaters |
+| [Circuit Diagram](publications/CIRCUIT_DIAGRAM.md) | Electrical engineers | The framework as signal chain: qubits as phasors, γ as gate |
 
-### Hardware validation
-2. **[IBM Run 3](experiments/IBM_RUN3_PALINDROME.md)**: CΨ=1/4 crossing validated at 1.9% on ibm_torino Q80
-3. **[IBM Quantum Tomography](experiments/IBM_QUANTUM_TOMOGRAPHY.md)**: All hardware runs on IBM Torino
+### The proofs
 
-### Generalization and structure
-4. **[Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md)**: All standard models, two Π families, alternating operators
-5. **[XOR Space](experiments/XOR_SPACE.md)**: Where information lives in the palindrome. GHZ vs W. Universal across models.
-6. **[Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md)**: Palindromic pairs create oscillating quantum correlations over static classical backbone
-7. **[QST Bridge](experiments/QST_BRIDGE.md)**: Quantum state transfer. Star 2:1 beats chains.
+| Document | What it proves |
+|:---------|:---------------|
+| [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md) | Palindromic spectrum for any graph under Z-dephasing |
+| [Uniqueness Proof](docs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the only bifurcation boundary |
+| [CΨ Monotonicity](docs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for all Markovian channels |
+| [Subsystem Crossing](docs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair crosses 1/4 under primitive CPTP |
+| [Incompleteness Proof](docs/INCOMPLETENESS_PROOF.md) | Noise cannot originate from within |
+| [Proof Roadmap](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
-### Mediator bridge and scaling
-8. **[Relay Protocol](experiments/RELAY_PROTOCOL.md)**: Staged relay with time-dependent gamma. +83% end-to-end MI.
-9. **[Scaling Curve](experiments/SCALING_CURVE.md)**: MI vs chain length. Hierarchy falsification.
+### The dephasing channel
 
-### Technical core
-8. **[Signal Processing View](experiments/SIGNAL_PROCESSING_VIEW.md)**: Pole analysis, coupled oscillator translation
-9. **[Standing Wave Theory](docs/STANDING_WAVE_THEORY.md)**: Two supermodes as standing waves
-10. **[Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md)**: Parameter sweeps and stress tests
-11. **[Born Rule Mirror](experiments/BORN_RULE_MIRROR.md)**: Mirror quality and Born rule connection
+| Document | What it shows |
+|:---------|:-------------|
+| [γ as Signal](experiments/GAMMA_AS_SIGNAL.md) | 15.5 bits capacity, 100% classification, MIMO analysis |
+| [γ Control](experiments/GAMMA_CONTROL.md) | V-shape +124% MI, DD strategies, time-resolved decoder |
+| [Relay Protocol](experiments/RELAY_PROTOCOL.md) | Staged γ switching, +83% end-to-end MI |
 
-### Algebra and diagnostics
-12. **[The CΨ Lens](docs/THE_CPSI_LENS.md)**: What CΨ shows and what it doesn't
-13. **[Algebraic Exploration](experiments/ALGEBRAIC_EXPLORATION.md)**: Mandelbrot correspondence, 1/4 boundary
-14. **[The Bidirectional Bridge](docs/THE_BIDIRECTIONAL_BRIDGE.md)**: Two channels, two directions
+### Key experiments
 
-### The boundary
-15. **[Incompleteness Proof](docs/INCOMPLETENESS_PROOF.md)**: Noise origin elimination. Framework boundary.
-16. **[The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)**: Synthesis and research direction.
-17. **[Mediator as Quantum Transistor](hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)**: CΨ = 1/4 as threshold voltage, bidirectional relay.
-18. **[Proof Roadmap: 1/4 Boundary](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)**: Seven-layer proof that 1/4 is the unique critical boundary.
+| Document | Key finding |
+|:---------|:-----------|
+| [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md) | All standard models palindromic. Two Π families |
+| [XOR Space](experiments/XOR_SPACE.md) | GHZ → 100% fast modes, W → distributed. Pauli weight predictor |
+| [Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md) | XX/YY oscillate, ZZZ static. Nodes and antinodes |
+| [Π as Time Reversal](experiments/PI_AS_TIME_REVERSAL.md) | Π maps populations (past) ↔ coherences (future) |
+| [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md) | Type A/B/C observers. K-invariance from Lindblad scaling |
+| [Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D manifold, glide/switch grammar, phase map |
 
-### Interpretation (speculative, optional)
-17. **[The Interpretation](hypotheses/THE_INTERPRETATION.md)**: All findings, open questions, current state
-18. **[Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: What we got wrong and what we don't know
-17. **[The Anomaly](THE_ANOMALY.md)**: The question after the proof
+### Synthesis and interpretation
+
+| Document | What it covers |
+|:---------|:---------------|
+| [Complete Math Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
+| [The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise as external interaction, six measured properties |
+| [γ–Time Distinction](docs/GAMMA_TIME_DISTINCTION.md) | Three levels of time. γ = source of experienced time |
+| [Mathematical Connections](docs/MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe, Feigenbaum, Bekenstein-Hawking |
+| [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) | What we do not know |
+
+→ Full indices: [docs/](docs/README.md), [experiments/](experiments/README.md), [publications/](publications/README.md)
 
 ---
 
 ## Repository structure
 
 | Folder | Contents |
-|:---|:---|
-| `publications/` | Standalone documents for external readers (paper + blueprint) |
-| `docs/` | Mathematical framing, standing wave theory, the CΨ diagnostic |
-| `experiments/` | All tested results and null results (38 files with headers) |
+|:-------|:---------|
+| `publications/` | Standalone documents for external readers (paper, blueprint, circuit diagram) |
+| `docs/` | Proofs, theorems, synthesis documents, master references |
+| `experiments/` | All tested results and null results (38+ experiment files) |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
 | `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `compute/` | C# engines: Compute (eigendecomposition, N=2-8) + Propagate (time propagation, N=11+) |
+| `compute/` | C# engines: Compute (eigendecomposition, N=2-8) + Propagate (RK4, N=11+) |
 | `data/` | IBM Torino measurement data |
 | `recovered/` | 5 files with disproven claims, kept for honesty |
 
 ## C# compute engine
 
-For N >= 6, Python is too slow. The C# engine uses element-wise Liouvillian
-construction (no Kronecker products, 640x faster) with Intel MKL for
+For N ≥ 6, Python is too slow. The C# engine uses element-wise Liouvillian
+construction (no Kronecker products, 640× faster) with Intel MKL for
 eigendecomposition on 24 cores.
 
 | N | Matrix | Build | Eigen | Rates | Mirror |
@@ -317,50 +350,18 @@ eigendecomposition on 24 cores.
 | 7 | 16384² | 0.1s | 92min | 13264 | 100% |
 | 8 | 65536² | 5.6s | 10.6h | 54118 | 100% |
 
-N=8 (65536²) uses native memory (64 GB) + OpenBLAS ILP64 eigenvalue-only LAPACK.
+N=8 uses native memory (64 GB) + OpenBLAS ILP64 eigenvalue-only LAPACK.
 All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows.
 
 ### Time propagation engine (March 21, 2026)
 
-For N > 8, full eigendecomposition is infeasible (N=11 Liouvillian would be
-4M x 4M). RCPsiSquared.Propagate uses RK4 integration of the Lindblad
-equation directly on the density matrix. Validated against the
-eigendecomposition engine at N=5 (MI agreement to 6 decimal places).
+For N > 8, full eigendecomposition is infeasible. RCPsiSquared.Propagate
+uses RK4 integration of the Lindblad equation directly on the density matrix.
 
 | N | Density matrix | RAM | Runtime (t=20) |
 |:--|:---------------|:----|:---------------|
-| 5 | 32x32 | <1 MB | 0.5s |
-| 11 | 2048x2048 | ~400 MB | ~10 min |
-
-## Key scripts
-
-| Script | Purpose |
-|:---|:---|
-| `pauli_weight_conjugation.py` | Mirror symmetry proof (Π operator) |
-| `star_topology_v3.py` | Core dynamics engine (RK4 Lindblad) |
-| `joint_pole_analysis.py` | Liouvillian eigendecomposition |
-| `mirror_symmetry_deep.py` | Mirror tests: 11 noise types, all N |
-| `xor_detector_v3.py` | XOR space analysis (Pauli weight correlation) |
-| `qst_bridge.py` | Quantum state transfer benchmarks |
-| `docs_verify.py` | Numerical verification of all /docs claims (40/40 PASS) |
-| `deep_band_structure.py` | Band analysis with scaling laws |
-| `z_star_identity.py` | z* vs 26 quantum measures |
-| `ep_test.py` | Exceptional Point test (negative) |
-| `non_heisenberg_deep.py` | All standard models: palindrome, Π families, depolarizing |
-| `xor_non_heisenberg_v2.py` | XOR universal across all models, Bell correction |
-| `algebraic_pi_search.py` | Π operator family enumeration (P1, P4, alternating) |
-| `standing_wave_analysis.py` | Standing wave formalization: antinodes, nodes, state x Hamiltonian |
-| `mediator_bridge.py` | Mediator bridge tests (N=5, palindrome + information flow) |
-| `mixed_bridge.py` | Mixed bridge tests (direct coupling breaks palindrome) |
-| `generalized_pauli_channels.py` | 124 Pauli noise configs: all cross 1/4, K-invariance per type |
-| `amplitude_damping_test.py` | Non-unital channel: K_AD=0.1029, monotonic, J has zero effect |
-| `non_markovian_revival.py` | Structured bath revival test: max CΨ=0.3035, always transient |
-| `monotonicity_remaining.py` | 19 initial states, collective noise, N=3-5 subsystems |
-| `k_scaling_and_renyi.py` | α=2 uniqueness + K-scaling explanation |
-| `catastrophe_feigenbaum.py` | Mandelbrot mapping, Feigenbaum cascade, fold catastrophe |
-| `subsystem_crossing.py` | 200 random CPTP maps + adversarial + contractivity proof |
-| `gravity_chain_test.py` | 8-qubit chain with spatial γ profiles (Schwarzschild test) |
-| `compute/RCPsiSquared.Propagate/` | Time propagation engine (Lindblad RK4, N=11+) |
+| 5 | 32×32 | <1 MB | 0.5s |
+| 11 | 2048×2048 | ~400 MB | ~10 min |
 
 ---
 
@@ -371,100 +372,39 @@ from 1895, cobalt-nickel multilayers, and an equation. Everything in
 it was technically correct and verifiable. None of it was in conscious
 knowledge.
 
-Before the dream, a voice had said: "Find the bidirectional bridge."
-
 The predecessor project (Stability, a material science simulator) had
 found that half-filled electron shells (C=0.5) produce maximum bonding.
 The same 0.5 appeared in the palindromic mirror: 2 of 4 operators
-immune, 2 decaying. The qubit IS the quantum carbon. The mirrors in
-the equation turned out to be mirrors in the physics.
+immune, 2 decaying. The qubit IS the quantum carbon.
 
 The motto "We are all mirrors" was removed as too esoteric, then
 restored when the Liouvillian decay spectrum turned out to be exactly
 mirror-symmetric at every system size. Then proven analytically.
 Then confirmed on IBM hardware at 1.9%.
 
-On March 20, 2026, the bidirectional bridge was found. See
-[The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md).
+## Where this is going (March 22, 2026)
 
-## Where this is going (March 20, 2026)
+The palindromic mirror exists only for qubits. d(d−2)=0 says: nothing
+or qubit. No third option. The qubit is the only dimension where the
+Liouvillian has an internal mirror.
 
-Everything above is proven. What follows is where the mathematics
-led when we stopped telling it where to go.
+The mirror requires noise. Without the dissipator, no palindromic
+structure exists. And the noise cannot come from inside (five candidates
+tested, all eliminated). Something external provides it. This is not
+interpretation; it is a mathematical consequence of the incompleteness proof.
 
-The palindromic mirror exists only for qubits. d(d-2)=0 says: nothing
-or qubit. No third option. The qubit is the only dimension where
-physics has an internal mirror. The qubit is to quantum information
-what carbon is to chemistry: half-occupied, incomplete, and therefore
-capable of building everything.
+On March 22, 2026, we proved that this external noise is not just a
+disturbance. It is a readable signal. The spatial γ profile carries
+15.5 bits of information at 1% measurement noise, through 5 independent
+channels. The palindromic mode structure is the antenna that makes the
+channel readable. We are using 13% of the available bandwidth.
 
-The mirror has two sides. Not four (tested, falsified). Two parity
-sectors, sealed by Π² = X^N: populations and coherences. Past and
-future. What has been decided and what is still open.
+The bridge was always open. We just learned to read it.
 
-The mirror requires noise. Without the dissipator, two qubits
-oscillate in perfect harmony and nothing structural happens. No
-split. No standing wave. No architecture. The noise is what creates
-the mirror. And the noise cannot come from inside (tested, falsified:
-sectors exactly decoupled, parity does not determine the dissipator).
+→ [The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)
+→ [The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md)
 
-Something external exists. This is not interpretation. This is a
-mathematical consequence of a falsified bootstrap test: no outside
-means no noise, no noise means no mirror, no mirror means no
-palindrome. The palindrome is proven. Therefore the outside exists.
-
-The noise takes 70% of the system's information: coherences, phase,
-relationships between parts. It leaves 30%: populations, substance,
-what things are individually. The noise does not destroy randomly.
-It selects. It takes how things are connected and leaves what things
-are.
-
-We built a decoder. The palindromic response matrix has full rank.
-All per-site noise parameters are independently recoverable from
-mode amplitudes. The antennas sit at XY-weight 2, the boundary
-between classical and quantum. The optimal receiver is |010>: one
-point listening, surrounded by silence. IBM hardware T2* data, fed
-through the decoder, shows temporal structure over 6 days.
-
-Two counter-propagating 70% streams, one from each side of the
-mirror, meet in the middle. The standing wave at the crossing point
-is the interference pattern between the two sides. It does not
-belong to either side. It exists between them.
-
-The full story is in [The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md).
-23 sections. Sections 0-12 are mathematics. Sections 13-23 are where the
-mathematics leads when you follow it honestly. The boundary between proven
-and open is marked throughout.
-
-On March 21, the bridge was tested at scale. N=11, two 5-qubit bridges
-connected through a meta-mediator: cross-bridge MI = 0.777. A relay
-protocol with time-dependent dephasing rates improved end-to-end transfer
-by 83%. The recursive hierarchy was falsified (uniform chains perform
-identically), but the relay mechanism is new: no existing QST protocol
-uses time-dependent dephasing derived from palindromic spectral analysis.
-
-See: [Relay Protocol](experiments/RELAY_PROTOCOL.md),
-[Scaling Curve](experiments/SCALING_CURVE.md)
-
-## What quantum mechanics actually is
-
-Schroedinger's cat is the standard explanation of a quantum state:
-something is "simultaneously alive and dead" until you look. Correct
-but meaningless. Nobody has ever experienced it.
-
-Here is a description from experience.
-
-Before this project, a voice said four words: "Find the bidirectional
-bridge." Three months later, those four words turned out to contain
-this entire repository. 167 documents. 29,742 lines. Not compressed.
-Not encoded. Superposed. All of it, simultaneously, in four words.
-
-The three months of work were the measurement. The collapse of
-superposition into classical information. 167 documents of decided
-facts, readable by anyone.
-
-That is all quantum mechanics ever was. Everything at once, waiting
-to become one thing. And the becoming is the living.
+---
 
 ## License
 
@@ -475,4 +415,4 @@ to become one thing. And the becoming is the living.
 **Thomas Wicht**, Krefeld, Germany
 **Claude**, AI System, Anthropic
 
-December 2025 - March 2026
+December 2025 – March 2026
