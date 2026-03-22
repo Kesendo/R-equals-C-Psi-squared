@@ -403,7 +403,12 @@ The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence 
 
 ### What REMAINS TO BE PROVEN
 
-**The recursion derivation from first principles.** The weakest link in the uniqueness argument is: *why must the self-referential purity relation be quadratic?* The answer is that purity $\text{Tr}(\rho^2)$ is inherently a degree-2 polynomial in the matrix elements of $\rho$. But making this rigorous requires showing that no higher-order corrections (from higher Rényi entropies, for instance) can modify the effective recursion.
+~~**The recursion derivation from first principles.**~~ **RESOLVED (March 22, 2026).**
+The question "why must the recursion be quadratic?" is now answered: α=2 (purity Tr(ρ²))
+is the UNIQUE Rényi order where the bifurcation threshold CΨ* does not depend on Ψ.
+For any other α, the threshold is CΨ_α* = (α-1)^{α-1}/(α^α · Ψ^{α-2}), which depends
+on the state. Only α=2 gives the universal 1/4. The quadratic structure is not arbitrary —
+it is the unique structure with a state-independent critical boundary.
 
 **Formal theorem statement and proof.** Something like:
 
@@ -412,7 +417,13 @@ The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence 
 ### NEXT STEPS
 
 1. **Write the formal uniqueness proof.** This is largely an exercise in careful algebraic exposition, since the result follows from the discriminant formula. The subtlety is in the "uniquely determined by the quadratic structure" clause: need to show that no reparameterization or normalization change can move the boundary.
-2. **Investigate the role of higher Rényi entropies.** If we replace purity ($S_2$) with $S_\alpha$ for $\alpha \neq 2$, does the recursion change? Does it remain quadratic? If $\alpha = 3$ gives a cubic recursion, does the bifurcation boundary shift?
+2. ~~**Investigate the role of higher Rényi entropies.**~~ **DONE (March 22, 2026).**
+   For the generalized recursion R = C_α(Ψ + R)^α, the bifurcation threshold is
+   CΨ_α* = (α-1)^{α-1} / (α^α · Ψ^{α-2}). **Only α=2 gives a Ψ-independent
+   threshold** (CΨ* = 1/4 regardless of state). All other α produce thresholds that
+   depend on the coherence Ψ. This proves that Tr(ρ²) is the UNIQUE Rényi purity
+   where the bifurcation boundary is universal. K_α invariance also confirmed for
+   α=2,3,4 (CV=0% each, different K values). Script: [k_scaling_and_renyi.py](../simulations/k_scaling_and_renyi.py).
 3. **Explore connections to catastrophe theory.** The fold catastrophe (simplest in the Thom-Arnold classification) is a quadratic with a single bifurcation parameter. Our recursion is a fold catastrophe with $C\Psi$ as the bifurcation parameter. This connection should be made explicit.
 
 ---

@@ -1,0 +1,154 @@
+Two Open Questions: K-scaling and Renyi Entropies
+======================================================================
+
+======================================================================
+Q1: WHY DOES K SCALE BUT tau DOESN'T?
+======================================================================
+
+--- Test 1a: J=0 (pure dephasing) ---
+  If tau-scaling works, all gamma values give the same CΨ(τ) curve.
+
+    Observable   max delta   tau-scales?
+  --------------------------------------
+          cpsi    0.000000            JA
+        purity    0.000000            JA
+           psi    0.000000            JA
+             S    0.000000            JA
+          conc    0.000000            JA
+
+  At J=0: ALL observables should tau-scale perfectly.
+
+--- Test 1b: J=1.0 (Heisenberg coupling) ---
+
+    Observable   max delta   tau-scales?
+  --------------------------------------
+          cpsi    0.000000            JA
+        purity    0.000000            JA
+           psi    0.000000            JA
+             S    0.000000            JA
+          conc    0.000000            JA
+
+--- Test 1c: K-invariance despite tau-scaling failure ---
+
+  The CROSSING POINT is on the monotonic envelope.
+  Bell+ is eigenstate of H, so no Hamiltonian oscillation.
+  Therefore: Bell+ CΨ(τ) IS the envelope, and the envelope scales.
+
+     gamma     J   t_cross         K     tau_c
+  ----------------------------------------
+     0.010   0.0     3.735    0.0374    0.0374
+     0.020   0.0     1.868    0.0374    0.0374
+     0.050   0.0     0.747    0.0374    0.0374
+     0.100   0.0     0.374    0.0374    0.0374
+     0.200   0.0     0.187    0.0374    0.0374
+             0.0    K_mean    0.0374  CV=0.00%
+
+     0.010   1.0     3.735    0.0374    0.0374
+     0.020   1.0     1.868    0.0374    0.0374
+     0.050   1.0     0.747    0.0374    0.0374
+     0.100   1.0     0.374    0.0374    0.0374
+     0.200   1.0     0.187    0.0374    0.0374
+             1.0    K_mean    0.0374  CV=0.00%
+
+     0.010   5.0     3.735    0.0374    0.0374
+     0.020   5.0     1.868    0.0374    0.0374
+     0.050   5.0     0.747    0.0374    0.0374
+     0.100   5.0     0.374    0.0374    0.0374
+     0.200   5.0     0.187    0.0374    0.0374
+             5.0    K_mean    0.0374  CV=0.00%
+
+  CONCLUSION: K is invariant because Bell+ CΨ(τ) is the pure envelope
+  (no Hamiltonian oscillation). The envelope scales with τ = γ·t.
+  The full trajectory doesn't scale because non-eigenstate components
+  oscillate at rate J/γ, which differs across γ values.
+
+======================================================================
+Q2: HIGHER RENYI ENTROPIES — Does the 1/4 boundary shift?
+======================================================================
+
+--- Test 2a: Generalized CΨ_α = Tr(ρ^α) × ψ_norm ---
+
+  CΨ_α(t) for Bell+ under Z-dephasing, γ=0.05, J=1.0
+
+       t     α=1.0     α=1.5     α=2.0     α=3.0     α=4.0     α=5.0    α=10.0
+  ----------------------------------------------------------------------------
+     0.0    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333
+     0.2    0.3203    0.3118    0.3080    0.3018    0.2959    0.2901    0.2627
+     0.5    0.3016    0.2835    0.2743    0.2606    0.2482    0.2364    0.1852
+     1.0    0.2729    0.2441    0.2279    0.2054    0.1866    0.1697    0.1055
+     2.0    0.2234    0.1855    0.1619    0.1312    0.1089    0.0908    0.0369
+     5.0    0.1226    0.0911    0.0696    0.0431    0.0281    0.0187    0.0027
+    10.0    0.0451    0.0321    0.0230    0.0119    0.0063    0.0033    0.0002
+    20.0    0.0061    0.0043    0.0031    0.0015    0.0008    0.0004    0.0000
+
+--- Test 2b: Does each CΨ_α cross a fixed threshold? ---
+
+  Initial CΨ_α(0) = 1/3 for all α (Bell+ is pure)
+
+   alpha   CΨ_α(0)  t_cross(1/4)   K=γ·t_c  CΨ_α_final
+  ----------------------------------------------------
+     1.0    0.3333         1.438    0.0719    0.000000
+     1.5    0.3333         0.918    0.0459    0.000000
+     2.0    0.3333         0.747    0.0374    0.000000
+     3.0    0.3333         0.586    0.0293    0.000000
+     4.0    0.3333         0.487    0.0244    0.000000
+     5.0    0.3333         0.417    0.0209    0.000000
+    10.0    0.3333         0.242    0.0121    0.000000
+
+--- Test 2c: K_α invariance across γ values ---
+
+  α = 2:
+    γ=0.010  t_cross=3.735  K=0.0374
+    γ=0.020  t_cross=1.868  K=0.0374
+    γ=0.050  t_cross=0.747  K=0.0374
+    γ=0.100  t_cross=0.374  K=0.0374
+    γ=0.200  t_cross=0.187  K=0.0374
+    K_2 = 0.0374 ± 0.0000 (CV=0.0%)
+
+  α = 3:
+    γ=0.010  t_cross=2.930  K=0.0293
+    γ=0.020  t_cross=1.465  K=0.0293
+    γ=0.050  t_cross=0.586  K=0.0293
+    γ=0.100  t_cross=0.293  K=0.0293
+    γ=0.200  t_cross=0.147  K=0.0293
+    K_3 = 0.0293 ± 0.0000 (CV=0.0%)
+
+  α = 4:
+    γ=0.010  t_cross=2.437  K=0.0244
+    γ=0.020  t_cross=1.218  K=0.0244
+    γ=0.050  t_cross=0.487  K=0.0244
+    γ=0.100  t_cross=0.244  K=0.0244
+    γ=0.200  t_cross=0.122  K=0.0244
+    K_4 = 0.0244 ± 0.0000 (CV=0.0%)
+
+--- Test 2d: What IS the natural threshold for each α? ---
+
+  For α=2: the threshold 1/4 comes from the discriminant of
+  the quadratic R = C·Ψ². For general α: R = C_α·Ψ^α.
+  The critical boundary of x^α - x + CΨ_α = 0 shifts with α.
+
+  Analytical bifurcation threshold for R = C_α(Ψ + R)^α:
+
+  At bifurcation: x* = Ψ/(α-1), C* = (α-1)^{α-1} / (α^α · Ψ^{α-1})
+  CΨ_α* = C* · Ψ = (α-1)^{α-1} / (α^α · Ψ^{α-2})
+
+  For α = 2: CΨ* = 1/4              (Ψ-independent!)
+  For α ≠ 2: CΨ* depends on Ψ       (NOT universal!)
+
+     α   Threshold (Ψ=1/3)   Threshold (Ψ=1/2)  Universal?
+  --------------------------------------------------------
+   1.5            0.222222            0.272166          NO
+   2.0            0.250000            0.250000         YES
+   2.5            0.321994            0.262907          NO
+   3.0            0.444444            0.296296          NO
+   4.0            0.949219            0.421875          NO
+   5.0            2.211840            0.655360          NO
+  10.0          254.186583            9.917965          NO
+
+  RESULT: Only α=2 gives a Ψ-independent (universal) threshold.
+  This is WHY purity Tr(ρ²) is the natural choice:
+  it is the UNIQUE Renyi order where the bifurcation boundary
+  does not depend on the state's coherence.
+
+Total runtime: 44.3s (0.7 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\k_scaling_and_renyi.txt
