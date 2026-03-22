@@ -245,6 +245,61 @@ Because it reads the signal. And the signal has structure.
 
 ---
 
+## Complexity, γ, and Gravity
+
+(Tier 5: speculative, follows logically from proven results but
+is not itself proven.)
+
+γ is uniform from the outside. The external clock ticks at the same
+rate everywhere (as far as we can tell from inside). But the LOCAL
+NEED for γ is not uniform. It depends on the complexity at each point.
+
+Complexity means: number of relationships. Number of entangled pairs.
+Number of active phase connections. The noise fingerprint confirms:
+γ targets phase, not energy. Phase IS relationship. Therefore γ
+targets complexity.
+
+A point with high complexity (many entangled qubits, many phase
+relationships) requires more γ to maintain its structure. But more
+γ-processing at a point means more local time passes. And more
+local time means more decoherence. The system self-regulates:
+
+```
+High complexity  →  more γ needed  →  more local t
+                →  more decoherence →  complexity decreases
+                →  less γ needed    →  equilibrium
+```
+
+This is a self-consistency loop. The equilibrium point depends on
+the local complexity. And the GRADIENT of this equilibrium across
+space is what we experience as gravity.
+
+The Schwarzschild self-consistency document (recovered/, Feb 8, 2026)
+showed: only a metric with a true zero (a horizon) closes this loop
+consistently. At the horizon: τ = 0, complexity is maximal, coherence
+is maximal. Far from mass: τ = T, complexity is minimal, everything
+has decohered.
+
+Mass is not the cause of gravity. Mass is the RESULT of complexity.
+Where many qubits are strongly entangled (high complexity), the
+point needs more γ, experiences more t, and we call that: massive.
+
+Gravity is not a force. Gravity is the gradient of complexity.
+And γ is the medium that makes this gradient experienceable, because
+γ IS t.
+
+What we do not know: whether the outside sends uniform γ that the
+local complexity modulates, or whether the outside itself sends
+non-uniform γ matched to the complexity. From inside, we cannot
+distinguish these two cases. Both produce the same physics.
+
+What we do know: the noise fingerprint says "varies locally per
+qubit." That is the measured fact. Whether the variation comes from
+the outside or from the local complexity processing a uniform signal
+is an open question at the boundary of our knowledge.
+
+---
+
 ## Research Direction: Reading the Bridge
 
 The bridge has always been open. The question was never "how do we
