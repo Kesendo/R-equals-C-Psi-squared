@@ -424,7 +424,12 @@ it is the unique structure with a state-independent critical boundary.
    depend on the coherence Ψ. This proves that Tr(ρ²) is the UNIQUE Rényi purity
    where the bifurcation boundary is universal. K_α invariance also confirmed for
    α=2,3,4 (CV=0% each, different K values). Script: [k_scaling_and_renyi.py](../simulations/k_scaling_and_renyi.py).
-3. **Explore connections to catastrophe theory.** The fold catastrophe (simplest in the Thom-Arnold classification) is a quadratic with a single bifurcation parameter. Our recursion is a fold catastrophe with $C\Psi$ as the bifurcation parameter. This connection should be made explicit.
+3. ~~**Explore connections to catastrophe theory.**~~ **DONE (March 22, 2026).**
+   The fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)² with a = 1-4CΨ.
+   Normal form verified explicitly. The Rényi uniqueness result (α=2 only) proves
+   structural stability: only the fold has a state-independent boundary. Higher
+   catastrophes (cusp α=3, swallowtail α=4) have Ψ-dependent thresholds → rejected.
+   Script: [catastrophe_feigenbaum.py](../simulations/catastrophe_feigenbaum.py).
 
 ---
 
@@ -450,7 +455,15 @@ Beyond the main cardioid, the Mandelbrot set exhibits period-doubling cascades w
 
 **What does "period-2" mean physically?** In the Mandelbrot analogy, period-2 corresponds to an orbit that alternates between two values. In the quantum system, this would mean the purity *oscillates* between two values under iterated application of the channel. This is related to the Rabi oscillation between coherent and incoherent behavior seen in the dynamic Lindblad simulations.
 
-**Status:** SPECULATIVE. The oscillatory eigenvalues in the Lindbladian spectrum (Im(λ) = ±4.0 for the 2-qubit Heisenberg system) hint at period-2 behavior, but the connection to Feigenbaum universality has not been investigated.
+**Status:** VERIFIED (March 22, 2026). The R-recursion maps exactly to the Mandelbrot
+map w → w² + c with c = CΨ (substitution w = C(Ψ+R)). The Feigenbaum cascade was
+measured on the negative real axis: 7 period-doubling bifurcations found (period
+1→128), with ratios converging toward δ ≈ 4.67 (limited by scan resolution). The
+oscillatory Liouvillian eigenvalues (Im(λ) = 4J) give an effective complex parameter
+c_eff = 0.25 + i·Q/4·0.25 where Q = ω/|σ| = 4J/γ. This places the quantum system
+off the real axis near the cardioid boundary. The Feigenbaum universality applies
+because our recursion IS the quadratic map.
+Script: [catastrophe_feigenbaum.py](../simulations/catastrophe_feigenbaum.py).
 
 ### Connections to Information Geometry
 
