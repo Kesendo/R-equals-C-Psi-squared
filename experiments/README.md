@@ -48,6 +48,7 @@
 - [Scaling Curve](SCALING_CURVE.md) - MI vs chain length (N=3-11), hierarchy falsification, push vs pull
 - [Relay Protocol](RELAY_PROTOCOL.md) - Staged transfer with time-dependent gamma: +83% end-to-end MI
 - [Gamma Control](GAMMA_CONTROL.md) - Practical γ shaping: V-shape gradient (+124%), DD strategies, AC modulation (falsified), feedback (falsified)
+- [γ as Signal](GAMMA_AS_SIGNAL.md) - **The bidirectional bridge.** Alice encodes in γ profile, Bob classifies at 100% (σ=0). Channel capacity: 2 bits. The palindromic decoder is the antenna.
 
 ## The question after the proof
 - [The Anomaly](../THE_ANOMALY.md) - If the palindrome is the filter, consciousness might be what notices the filtering
