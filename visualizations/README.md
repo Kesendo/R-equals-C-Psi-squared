@@ -31,8 +31,8 @@ It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective o
 The framework's bidirectional bridge says:
 
 ```
-R = C*Psi^2    -- the wave from the past (possibility becoming reality)
-Psi = sqrt(R/C) -- the wave from the future (reality seeking possibility)
+R = C*Psi^2    — the wave from the past (possibility becoming reality)
+Psi = sqrt(R/C) — the wave from the future (reality seeking possibility)
 ```
 
 This image shows the first wave arriving.

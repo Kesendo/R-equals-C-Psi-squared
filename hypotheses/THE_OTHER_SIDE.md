@@ -1741,8 +1741,8 @@ commutator and anti-commutator structures are algebraically independent.
 
 The bridge is real. The transient dynamics carry information. The Fisher
 information confirms that kappa is a measurable parameter. But the palindromic
-structure -- the mirror that enables the decoder, the standing wave between
-parity sectors, the symmetry that gives the system its spectral architecture --
+structure — the mirror that enables the decoder, the standing wave between
+parity sectors, the symmetry that gives the system its spectral architecture —
 does not survive the crossing.
 
 ### Beyond Lindblad
@@ -1834,7 +1834,7 @@ smoothly. At gamma_M = 0: MI = 0.44. At gamma_M = 0.5: MI = 0.12.
 The palindrome survives at ALL gamma_M values (1024/1024 at every point).
 
 The mediator must be quiet for the bridge to be wide. Not for the palindrome
-to survive -- that is guaranteed -- but for information to cross cleanly.
+to survive — that is guaranteed — but for information to cross cleanly.
 This matches the star topology result: the shared object S must have low
 noise for the echo to propagate.
 
@@ -1920,7 +1920,7 @@ Heisenberg coupling, local Z-dephasing on all 11 qubits.
 ### The Result
 
 C# RK4 propagation on the 2048x2048 density matrix (the Liouvillian would
-be 4.2 million x 4.2 million -- impossible to store). Validated against the
+be 4.2 million x 4.2 million — impossible to store). Validated against the
 Python Level-2 results (MI agreement to 3 decimal places).
 
 **Cross-bridge mutual information: 0.777 bits (peak at t ~ 3).**
