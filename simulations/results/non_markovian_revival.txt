@@ -1,0 +1,226 @@
+Non-Markovian CΨ Revival Test
+======================================================================
+Question: Can non-Markovian dynamics push CΨ back above 1/4?
+
+======================================================================
+TEST 1: MARKOVIAN BASELINE (constant γ, J>0)
+======================================================================
+
+  γ=0.05, J=1.0, state=Bell+, t_max=60.0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.000001
+
+  γ=0.05, J=1.0, state=|01>, t_max=60.0
+    Crossings: 2 down, 2 up
+    First below 1/4: t=0.54
+    Max revival after first drop: CΨ=0.2516 at t=1.08
+    Longest sustained above 1/4 (after first drop): 0.18
+    Final CΨ: 0.000380
+
+  γ=0.01, J=1.0, state=Bell+, t_max=60.0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=3.74
+    Final CΨ: 0.015244
+
+  γ=0.1, J=1.0, state=Bell+, t_max=60.0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.38
+    Final CΨ: 0.000000
+
+======================================================================
+TEST 2: STRUCTURED BATH (S1-S2 entangled, B coupled to S2)
+======================================================================
+
+  System: S1-S2 Bell+, Bath: B=|0>
+  J_sys=1.0, t_max=100.0
+
+  J_SB=0.5, γ_B=0.1, γ_S=0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.66
+    Final CΨ: 0.001749
+
+  J_SB=1.0, γ_B=0.1, γ_S=0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.26
+    Final CΨ: 0.000008
+
+  J_SB=2.0, γ_B=0.1, γ_S=0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.12
+    Final CΨ: 0.000008
+
+  J_SB=1.0, γ_B=0.05, γ_S=0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.26
+    Final CΨ: 0.000684
+
+  J_SB=1.0, γ_B=0.5, γ_S=0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.28
+    Final CΨ: 0.000000
+
+  J_SB=1.0, γ_B=0.01, γ_S=0
+    Crossings: 4 down, 3 up
+    First below 1/4: t=0.26
+    Max revival after first drop: CΨ=0.2529 at t=6.14
+    Longest sustained above 1/4 (after first drop): 0.42
+    Final CΨ: 0.039313
+
+  J_SB=0.5, γ_B=0.1, γ_S=0.01
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.58
+    Final CΨ: 0.000112
+
+  J_SB=1.0, γ_B=0.1, γ_S=0.01
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.26
+    Final CΨ: 0.000001
+
+  BEST REVIVAL: CΨ=0.2529 (J_SB=1.0, γ_B=0.1, γ_S=0.01)
+  *** CΨ CROSSED BACK ABOVE 1/4! ***
+
+======================================================================
+TEST 3: PULSED γ (dephasing on/off periodically)
+======================================================================
+
+  γ=0.05 (on/off), J=1.0, T_on=2, T_off=2
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.000008
+
+  γ=0.05 (on/off), J=1.0, T_on=1, T_off=3
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.001123
+
+  γ=0.05 (on/off), J=1.0, T_on=3, T_off=1
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.000000
+
+  γ=0.05 (on/off), J=1.0, T_on=0.5, T_off=4.5
+    Crossings: 1 down, 0 up
+    First below 1/4: t=5.26
+    Final CΨ: 0.022969
+
+  γ=0.05 (on/off), J=1.0, T_on=5, T_off=5
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.000008
+
+  γ=0.05 (on/off), J=1.0, T_on=10, T_off=10
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.76
+    Final CΨ: 0.000008
+
+======================================================================
+TEST 4: OSCILLATING γ(t) = γ_0 * max(0, 1 + A·sin(ωt))
+======================================================================
+
+  γ_0=0.05, A=0.9, ω=1.0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.60
+    Final CΨ: 0.000000
+
+  γ_0=0.05, A=0.9, ω=0.5
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.66
+    Final CΨ: 0.000000
+
+  γ_0=0.05, A=0.9, ω=2.0
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.54
+    Final CΨ: 0.000000
+
+  γ_0=0.05, A=1.0, ω=1.0 (γ touches 0)
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.60
+    Final CΨ: 0.000000
+
+  γ_0=0.05, A=1.0, ω=0.3 (slow, γ touches 0)
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.68
+    Final CΨ: 0.000000
+
+  γ_0=0.05, A=1.5, ω=1.0 (γ clips at 0)
+    Crossings: 1 down, 0 up
+    First below 1/4: t=0.56
+    Final CΨ: 0.000000
+
+======================================================================
+TEST 5: WORST-CASE SWEEP (maximize revival above 1/4)
+======================================================================
+
+  Sweeping J_SB × γ_B × bath_state (6×4×2 = 48 configs)
+
+    J_SB     γ_B   Bath    ↓    ↑    MaxRev    Sust     Final
+  --------------------------------------------------------------
+     0.1    0.01    |0>    1    0    0.0000     0.0    0.0921
+     0.1    0.01    |+>    5    4    0.2509     6.6    0.1113 ***
+     0.1    0.05    |0>    1    0    0.0000     0.0    0.0365
+     0.1    0.05    |+>    1    0    0.0000     0.0    0.0412
+     0.1    0.10    |0>    1    0    0.0000     0.0    0.0296
+     0.1    0.10    |+>    1    0    0.0000     0.0    0.0332
+     0.1    0.50    |0>    1    0    0.0000     0.0    0.0465
+     0.1    0.50    |+>    1    0    0.0000     0.0    0.0487
+     0.3    0.01    |0>    2    1    0.2501     1.9    0.0784 ***
+     0.3    0.01    |+>    9    8    0.2523     4.8    0.1177 ***
+     0.3    0.05    |0>    1    0    0.0000     0.0    0.0243
+     0.3    0.05    |+>    2    1    0.2508     0.8    0.0380 ***
+     0.3    0.10    |0>    1    0    0.0000     0.0    0.0136
+     0.3    0.10    |+>    1    0    0.0000     0.0    0.0256
+     0.3    0.50    |0>    1    0    0.0000     0.0    0.0010
+     0.3    0.50    |+>    1    0    0.0000     0.0    0.0060
+     0.5    0.01    |0>    2    1    0.2509     0.9    0.0820 ***
+     0.5    0.01    |+>   12   11    0.2566     5.0    0.1314 ***
+     0.5    0.05    |0>    1    0    0.0000     0.0    0.0113
+     0.5    0.05    |+>    3    2    0.2539     1.0    0.0284 ***
+     0.5    0.10    |0>    1    0    0.0000     0.0    0.0030
+     0.5    0.10    |+>    1    0    0.0000     0.0    0.0160
+     0.5    0.50    |0>    1    0    0.0000     0.0    0.0000
+     0.5    0.50    |+>    1    0    0.0000     0.0    0.0009
+     1.0    0.01    |0>    4    3    0.2529     0.4    0.0461 ***
+     1.0    0.01    |+>   18   17    0.2562     1.6    0.1016 ***
+     1.0    0.05    |0>    1    0    0.0000     0.0    0.0022
+     1.0    0.05    |+>    5    4    0.2544     0.6    0.0129 ***
+     1.0    0.10    |0>    1    0    0.0000     0.0    0.0001
+     1.0    0.10    |+>    1    0    0.0000     0.0    0.0031
+     1.0    0.50    |0>    1    0    0.0000     0.0    0.0000
+     1.0    0.50    |+>    1    0    0.0000     0.0    0.0000
+     2.0    0.01    |0>    3    2    0.2605     0.2    0.0395 ***
+     2.0    0.01    |+>   38   37    0.2731     1.4    0.1036 ***
+     2.0    0.05    |0>    1    0    0.0000     0.0    0.0015
+     2.0    0.05    |+>    7    6    0.2630     0.5    0.0089 ***
+     2.0    0.10    |0>    1    0    0.0000     0.0    0.0000
+     2.0    0.10    |+>    3    2    0.2586     0.2    0.0006 ***
+     2.0    0.50    |0>    1    0    0.0000     0.0    0.0000
+     2.0    0.50    |+>    1    0    0.0000     0.0    0.0000
+     5.0    0.01    |0>   10    9    0.2887     0.1    0.0195 ***
+     5.0    0.01    |+>   98   97    0.3001     0.5    0.0866 ***
+     5.0    0.05    |0>    2    1    0.2687     0.1    0.0011 ***
+     5.0    0.05    |+>   18   17    0.3009     0.3    0.0110 ***
+     5.0    0.10    |0>    2    1    0.2605     0.1    0.0000 ***
+     5.0    0.10    |+>   13   12    0.2950     0.2    0.0015 ***
+     5.0    0.50    |0>    1    0    0.0000     0.0    0.0000
+     5.0    0.50    |+>    4    3    0.3035     0.1    0.0000 ***
+
+  BEST REVIVAL: CΨ = 0.3035
+  Parameters: J_SB=5.0, γ_B=0.5, bath=|+>
+  *** NON-MARKOVIAN REVIVAL ABOVE 1/4 FOUND! ***
+  The 1/4 boundary is NOT absorbing under non-Markovian dynamics.
+
+======================================================================
+SUMMARY
+======================================================================
+
+If ANY test shows sustained CΨ > 1/4 after first crossing below:
+  → 1/4 is NOT an absorbing boundary under non-Markovian dynamics
+  → Layer 5 remains OPEN
+
+If NO test shows revival above 1/4:
+  → Strong evidence that 1/4 is absorbing even non-Markovianly
+  → Layer 5 can be considered closed (pending formal proof)
+
+Total runtime: 415.7s (6.9 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\non_markovian_revival.txt

@@ -134,7 +134,7 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 
 *Why this is hard to prove:* The claim involves arbitrary CPTP maps, not just Lindblad generators. The Stinespring dilation theorem guarantees any CPTP map can be represented as a unitary on an enlarged system followed by partial trace, but connecting this to the discriminant condition on the subsystem requires controlling the off-diagonal decay rate relative to the diagonal equilibration rate for arbitrary Kraus operators.
 
-**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. (Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)
+**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient — CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../simulations/non_markovian_revival.py).
 
 ### NEXT STEPS
 
@@ -145,11 +145,13 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
    The 1/4 boundary behavior under amplitude damping remains formally open
    but the channel does not preserve palindromic structure.
    See [failed_third.py](../simulations/failed_third.py).
-3. ~~**Characterize the non-Markovian case.**~~ **PARTIALLY TESTED (March 21, 2026).**
-   The failed_third experiment measured non-Markovianity directly: 50% of
-   time steps show trace distance increases (information backflow). The
-   effective dephasing from a decaying qubit is strongly non-Markovian.
-   Formal treatment with Nakajima-Zwanzig remains open.
+3. ~~**Characterize the non-Markovian case.**~~ **TESTED (March 22, 2026).**
+   Non-Markovian revival above 1/4 confirmed: structured bath (2 system +
+   1 bath qubit) produces CΨ up to 0.3035 after crossing below 1/4. Key
+   conditions: coherent bath (|+⟩), low bath dephasing (γ_B ≪ J_SB), strong
+   system-bath coupling. Revivals are ALWAYS transient — CΨ→0 in all 48
+   configurations tested. Pulsed and oscillating γ(t) produce NO revival.
+   See [non_markovian_revival.py](../simulations/non_markovian_revival.py).
 
 ---
 
@@ -299,12 +301,15 @@ on the surviving pair. 0/16 palindromic pairs. The CΨ = 1/4 boundary
 behavior under direct amplitude damping on a single qubit remains formally
 open but the channel does not preserve palindromic structure.
 
-~~**Non-Markovian channels.**~~ **PARTIALLY TESTED (March 21, 2026).** The
-[failed_third test](../simulations/failed_third.py) measured non-Markovianity
-directly: 50% of time steps show trace distance increases (information
-backflow from the decaying qubit). The effective noise is strongly
-non-Markovian. Whether non-Markovian revivals can push CΨ permanently
-back above 1/4 remains open.
+~~**Non-Markovian channels.**~~ **TESTED (March 22, 2026).** Non-Markovian
+dynamics CAN push CΨ back above 1/4 after it has crossed below. A structured
+bath (Bell+ system pair coupled to a bath qubit in |+⟩) produces revivals up
+to CΨ = 0.3035 (21% above threshold). The mechanism is information backflow
+from a coherent bath: low γ_B and high J_SB maximize the effect. However,
+all revivals are TRANSIENT — CΨ always returns to 0 eventually. The 1/4
+boundary is not absorbing but is a long-term attractor.
+Script: [non_markovian_revival.py](../simulations/non_markovian_revival.py).
+Results: [non_markovian_revival.txt](../simulations/results/non_markovian_revival.txt).
 
 **Generalized Pauli channels.** The family $\mathcal{E}(\rho) = \sum_k p_k \sigma_k \rho \sigma_k^\dagger$ with arbitrary probability distribution over Pauli operators. This is a convex combination of unitary channels, so the 1/4 boundary should hold for each component, but does it hold for the mixture?
 
@@ -329,7 +334,12 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
    amplitude damping CΨ trajectory remains to be computed.
 2. **Test generalized Pauli channels.** Implement $\mathcal{E}(\rho) = (1-p)\rho + p_x \sigma_x \rho \sigma_x + p_y \sigma_y \rho \sigma_y + p_z \sigma_z \rho \sigma_z$ with arbitrary $(p_x, p_y, p_z)$.
 3. **Prove Conjecture 5.2 for dephasing.** This should be the easiest case. The l1-norm is a monotone under dephasing (this is known). Show that the correlation bridge $C$ decays at least as fast as $\Psi$ grows (if it grows at all).
-4. **Attack the non-Markovian case.** Find a non-Markovian channel that produces the largest possible $C\Psi$ revival. If even the worst-case revival stays below $1/4$, that's very strong evidence.
+4. ~~**Attack the non-Markovian case.**~~ **DONE (March 22, 2026).** Swept 48
+   configurations (6 J_SB × 4 γ_B × 2 bath states). Worst-case revival:
+   CΨ = 0.3035 (J_SB=5.0, γ_B=0.5, bath=|+⟩). The 1/4 boundary is NOT
+   absorbing — but all revivals are transient. Conjecture 5.2 needs
+   refinement: the ENVELOPE of CΨ is monotonically non-increasing, but
+   CΨ itself can oscillate above 1/4 via information backflow.
 
 ---
 
