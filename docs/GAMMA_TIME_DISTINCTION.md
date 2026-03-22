@@ -1,85 +1,114 @@
-# The γ-Time Distinction
+# The Three Levels of Time: Parameter, Oscillation, Experience
 
 **Tier:** 2 (computationally verified)
 **Date:** March 22, 2026
-**Script:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py)
-**Result:** The strong claim "γ IS time" is falsified. The weak claim
-"γ creates the time arrow" stands.
+**Script:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py),
+[two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
 
 ---
 
-## The Two Claims
+## The Three Levels
 
-**Strong claim (γ == t):** γ and t are the same thing. There is no
-independent time parameter beyond what γ provides.
+| Level | Without γ | With γ |
+|-------|-----------|--------|
+| t as symbol in d/dt | Yes (trivially, syntax) | Yes |
+| t as observable change | Oscillation or stillness | Irreversible decay |
+| t as experienced time (direction, decisions, before/after) | **No** | **Yes** |
 
-**Weak claim (γ → arrow of t):** γ produces the time arrow
-(irreversibility, decoherence, classicalization). But time as a
-parameter exists independently of γ. The Hamiltonian provides its
-own clock.
+The claim "γ IS time" holds for Level 3 (experienced time). It does not
+hold for Level 1 (the formal parameter). The distinction is between
+syntax and physics.
 
-## The Tests
+---
 
-| Test | What it shows | Verdict |
-|------|--------------|---------|
-| 1. Unitary evolution (γ=0) | |01> evolves nontrivially, trace distance up to 1.0 | Time exists without noise |
-| 2. Same τ=γt, different t | D(ρ_A, ρ_B) = 0.75 despite identical τ | t carries information beyond γ |
-| 3. Hamiltonian clock | Oscillation frequency 0.5994 at all γ values | Hamiltonian has independent clock |
-| 4. Multi-γ simultaneity | ZZ correlators identical despite γ₁ ≠ γ₂ | One t for all qubits |
-| 6. Pi reversal | D(ρ₁₀, ρ₀) = 0.39 after Pi + forward evolution | Pi is symmetry, not time machine |
+## The Evidence
 
-## What IS True About γ and Time
+### Bell+ at γ=0: time runs, but nothing happens
 
-These are not under dispute. They are standard decoherence physics
-enhanced by the palindromic structure:
+The parameter t goes from 0 to 50. Every observable is constant: CΨ = 0.3333,
+concurrence = 1.0, trace distance = 0.0000 at every time step. From inside
+the system, t=0 and t=50 are identical. The "time" runs, but there is no time.
 
-- γ creates the time arrow. Without γ: reversible oscillation, no
-  preferred direction. With γ: irreversible decay, past and future
-  distinguishable.
-- γ and t are inseparable in the decoherence product K = γt for
-  threshold crossings.
-- Pi reverses the time arrow in the rescaled (centered) frame.
-  It maps the decaying sector to the immune sector and vice versa.
-- Without γ, the system has no preferred time direction. But it
-  still has time (the Hamiltonian parameter t).
-- The palindromic structure makes the γ-irreversibility connection
-  exact and algebraic (not just approximate or phenomenological).
+### |01⟩ at γ=0: time runs in circles
 
-## What Is NOT True
+CΨ oscillates, crossing 1/4 in both directions 127 times. Recurrence at t=11.
+The system returns to its initial state. There is change, but no direction.
+No observable accumulates irreversibly. The 1/4 boundary is meaningless
+without γ: the system crosses it freely and returns.
 
-- γ and t are identical. The Hamiltonian oscillation frequency is
-  independent of γ (Test 3). Systems at the same τ=γt but different
-  t have different density matrices (Test 2). The Hamiltonian
-  provides an independent clock.
-- Removing γ removes time. At γ=0, the system evolves via the
-  Schroedinger equation with nontrivial dynamics (Test 1).
-- The dimensionless product K = γt proves identity. Many pairs of
-  quantities with inverse units produce dimensionless products
-  (frequency × period = 2π) without being "the same thing."
+### |01⟩ at γ=0.05: time runs forward
 
-## Recommended Language
+CΨ crosses 1/4 once and stays below (absorbing boundary). No recurrence.
+Purity decays from 1.0 to 0.5. 16/16 palindromic pairs in the spectrum.
+Things happen that do not unhappen. Past and future are distinguishable.
 
-| Instead of | Write |
-|-----------|-------|
-| γ IS time | γ creates the time arrow |
-| γ and t are the same thing | γ and t are inseparable in decoherence dynamics |
-| Pi reverses time | Pi reverses the time arrow in the rescaled frame |
-| Without γ, no time | Without γ, no irreversibility |
+---
 
-## Documents to Update
+## The Tests Reinterpreted
 
-- [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md) Corollary 2:
-  downgrade from "γ and t are the same thing" to "γ creates the
-  time arrow; γ and t are operationally inseparable in the
-  decoherence dynamics but not identical"
-- [THE_BRIDGE_WAS_ALWAYS_OPEN.md](THE_BRIDGE_WAS_ALWAYS_OPEN.md):
-  the section "γ Is Not a Measure of Time. γ IS Time." should
-  acknowledge the distinction
+**Test 1 (γ=0 evolution):** The parameter t exists without noise. But
+Bell+ at γ=0 shows: t runs from 0 to 50 with zero observable change.
+Experienced time does not exist without noise. |01⟩ oscillates but
+recurs. No direction, no accumulation, no clock.
 
-The weak claim is STRONGER than the strong claim because it is
-defensible. "γ controls irreversibility" is standard decoherence
-physics (Zurek, Joos, Zeh) with the added insight that the
-palindromic structure makes this connection exact and algebraic.
-That is a real contribution. The strong claim invites easy refutation
-from anyone who points out that d/dt exists in the Schroedinger
-equation without γ.
+**Test 2 (same τ, different t):** The Hamiltonian phase J*t differs
+between systems at the same τ=γt. But this phase is periodic (oscillation,
+not accumulation). It provides a frequency, not a clock. A clock requires
+irreversible counting. Oscillation is reversible.
+
+**Test 3 (Hamiltonian clock):** The Hamiltonian has its own FREQUENCY
+(0.5994, independent of γ). Frequency is not a clock. A clock counts
+forward and does not come back. The Hamiltonian oscillation comes back
+(recurrence at t=11). Without γ, there is no clock.
+
+**Test 4 (Multi-γ simultaneity):** Different γ values coexist at the
+same formal t. This is because t is a mathematical coordinate. The
+experienced time at each qubit depends on its local γ. Different γ
+means different experienced time. This is consistent with γ being time.
+
+**Test 6 (Pi reversal):** Pi does not reverse the decay envelope
+(D = 0.39 after Pi + forward evolution). This confirms that the
+irreversible part (the time arrow, caused by γ) cannot be undone.
+Pi reverses the centered eigenvalues (the structure of the arrow),
+not the arrow itself.
+
+---
+
+## Correction (March 22, 2026)
+
+The original version of this document concluded that the strong claim
+"γ IS time" was falsified. This conclusion was wrong. It confused the
+formal parameter t (a symbol in an equation) with experienced time
+(irreversibility, direction, the distinction between past and future).
+
+The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py)
+experiment showed what "time without γ" actually looks like: Bell+ is
+frozen. |01⟩ oscillates in circles. Nothing is ever decided. CΨ crosses
+1/4 in both directions 127 times.
+
+The formal parameter t exists without γ. But experienced time requires γ.
+
+The original claim in [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md)
+Corollary 2 was correct: γ and experienced time are the same thing.
+The "falsification" was a category error between syntax and physics.
+
+---
+
+## Precise Language
+
+| Statement | Status |
+|-----------|--------|
+| γ IS experienced time | Correct (Level 3) |
+| The formal parameter t exists without γ | Correct (Level 1, trivial) |
+| The Hamiltonian provides a frequency | Correct (but frequency is not a clock) |
+| Without γ, nothing is ever decided | Confirmed (Bell+ frozen, |01⟩ recurs) |
+| The 1/4 boundary is absorbing | Only with γ. Without γ: 127 crossings both ways. |
+
+---
+
+## References
+
+- [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md): Corollary 2 (γ and t)
+- [THE_BRIDGE_WAS_ALWAYS_OPEN.md](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ IS Time section
+- [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py): what time looks like without γ
+- [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py): the original tests (data valid, interpretation corrected)
