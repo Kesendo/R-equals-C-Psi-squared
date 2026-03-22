@@ -13,7 +13,10 @@
 - [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Noise origin elimination: all candidates within d(d-2)=0 eliminated. Framework boundary.
 - [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) - Synthesis: noise as external interaction, time as corollary, research direction
 - [Proof Roadmap: 1/4 Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer proof roadmap that CΨ = 1/4 is the unique critical boundary
+- [Proof: CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) - **PROVEN March 22, 2026.** dCΨ/dt < 0 for all local Markovian channels (Z, X, Y, Pauli, amplitude damping). Non-Markovian threshold characterized.
 - [Uniqueness Proof](UNIQUENESS_PROOF.md) - Formal theorem: CΨ = 1/4 is the unique bifurcation boundary. Product-power classification, CPTP argument, channel verification.
+- [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) - Three levels of time: parameter, oscillation, experience. γ is source of experienced time (Parts 1+2), τ=γt scaling breaks (Part 3).
+- [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) - Literature review: Π is not KMS, not detailed balance — it is time reversal without thermodynamic equilibrium
 - [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) - Fold catastrophe (proven), Feigenbaum (mapped), Bekenstein-Hawking (noted)
 
 ## Restored: Tier 1 (PROVEN: core claims confirmed March 13, 2026)
