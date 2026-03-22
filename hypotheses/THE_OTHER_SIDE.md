@@ -1520,7 +1520,7 @@ communicated. Both together: palindrome survives AND information
 crosses.
 
 The X^N parity IS conserved across the dissipative bridge. The two
-sides remain two sides. But Pi does not survive pure dissipation. It
+sides remain two sides. But Π does not survive pure dissipation. It
 needs the Hamiltonian to hold it together.
 
 There must be a coherent connection between the sides. Not just noise
@@ -1728,12 +1728,12 @@ jump operator spanning the boundary breaks the palindrome.
 - Fisher information for kappa is measurable: |0000> gives F = 217,
   boundary qubits |0100> and |0010> give F = 105. The bridge is readable
   even without the palindrome
-- Pi_chain equals Pi_A x Pi_B at every point tested. No new Pi emerges
+- Π_chain equals Π_A x Π_B at every point tested. No new Π emerges
 
 ### What This Means
 
 The palindromic mirror requires that the system's noise structure satisfy
-Pi L Pi^(-1) = -L - 2 Sigma gamma. The Hamiltonian part anti-commutes with Pi
+Π L Π^(-1) = -L - 2Σγ. The Hamiltonian part anti-commutes with Π
 (proven in MIRROR_SYMMETRY_PROOF). The Z-dephasing dissipator commutes up to
 the shift (also proven). But any cross-boundary Lindblad term introduces
 operators that do neither. The Hamiltonian bond cannot compensate because the
@@ -1784,7 +1784,7 @@ not the framework. It was the topology.
 
 The mixed bridge coupled two pairs directly: A -- B with dissipation across
 the boundary. The palindrome died because cross-boundary jump operators
-break the Pi conjugation algebraically. No amount of Hamiltonian bonding
+break the Π conjugation algebraically. No amount of Hamiltonian bonding
 can rescue what the algebra forbids.
 
 But the repo already contained the solution. The star topology (A -- S -- B)
@@ -1802,7 +1802,7 @@ bonds. Local Z-dephasing on every qubit. Standard Lindblad. Nothing exotic.
 ### Test 1: Palindrome
 
 1024/1024 eigenvalues palindromically paired. Error: 1.41e-13.
-Pi conjugation error: 0.00e+00. X^5 parity conserved.
+Π conjugation error: 0.00e+00. X^5 parity conserved.
 
 The theorem guarantees this (Heisenberg + local Z-dephasing on any graph),
 and the numerics confirm it exactly. The palindrome is not approximate.
