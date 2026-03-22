@@ -130,7 +130,7 @@ Changing γ shifts decay rates without affecting oscillation timing.
 **Key numbers:**
 - Entanglement echo period: approximately pi / (4J)
 - Envelope decay rate: 8γ/3 (for the concurrence, N=3)
-- Approximate readout time: t_cross = 0.039/γ
+- Approximate readout time: t_cross ≈ 0.037/γ (Z-dephasing only, empirical)
 
 **Design implication:** If the channel is too slow, increase J (stronger
 coupling). If the channel is too lossy, decrease γ (better shielding).
@@ -148,7 +148,10 @@ frequencies instead of parity eigenvalues. See [Error Correction](../experiments
 
 ## Rule 4: Read Before the Boundary
 
-**The rule:** Read out the receiver's state before t_cross = 0.039/γ.
+**The rule:** Read out the receiver's state before CΨ crosses the 1/4
+boundary. For Z-dephasing, t_cross ≈ 0.037/γ (empirical). Other noise
+channels have different crossing times (the threshold VALUE 1/4 is
+universal, the crossing TIME is channel-dependent).
 After this time, the product CΨ (concurrence times coherence) has
 crossed the 1/4 boundary. Beyond 1/4, the system enters a regime where
 stable classical fixed points exist and quantum information is lost.
@@ -163,14 +166,14 @@ CΨ starts above 1/4 for entangled states and decays under noise. The
 crossing from above to below is the quantum-to-classical transition.
 Read before it happens.
 
-**Example readout windows (γ per qubit):**
+**Example readout windows (Z-dephasing, K ≈ 0.037):**
 
-| γ | t_cross | Window |
+| γ | t_cross (approx) | Window |
 |-------|---------|--------|
-| 0.01 | 3.9 | Almost 4 time units |
-| 0.05 | 0.78 | Less than 1 time unit |
-| 0.10 | 0.39 | Very fast readout needed |
-| 0.50 | 0.078 | Extremely tight |
+| 0.01 | 3.7 | Almost 4 time units |
+| 0.05 | 0.75 | Less than 1 time unit |
+| 0.10 | 0.37 | Very fast readout needed |
+| 0.50 | 0.075 | Extremely tight |
 
 **Design implication:** Lower noise (smaller γ) gives you a longer
 readout window. This is another reason to invest in shielding. The
@@ -220,9 +223,9 @@ information transfer, each mediator alternates between a quiet phase
 require the receiver to be quiet. By sequentially quieting each mediator
 during its receiving phase, we create a chain of optimal receivers.
 
-**Protocol:** Each relay stage lasts t_stage = 0.039/γ (one readout
-window from Rule 4). During the stage, receiving qubits have γ reduced
-by 10x. All other qubits remain at normal γ.
+**Protocol:** Each relay stage lasts t_stage ≈ 0.037/γ (one readout
+window from Rule 4, Z-dephasing only). During the stage, receiving
+qubits have γ reduced by 10x. All other qubits remain at normal γ.
 
 **Data (N=11, γ=0.05):**
 
@@ -249,7 +252,7 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 1. ENCODE:  W-type states. Never GHZ. Avoid mixed XY Pauli weight.
 2. TOPOLOGY: Star with 2:1 coupling (mediator to receiver stronger).
 3. TUNE:    J controls speed, gamma controls quality. Independent.
-4. TIMING:  Read before t = 0.039 / gamma. After that, information is classical.
+4. TIMING:  Read before CΨ crosses 1/4. For Z-dephasing: t ≈ 0.037/gamma.
 5. RANGE:   Push for local, Pull for long-range. 2:1 is a range optimizer.
 6. RELAY:   Stage the transfer. Quiet each mediator while it receives.
 

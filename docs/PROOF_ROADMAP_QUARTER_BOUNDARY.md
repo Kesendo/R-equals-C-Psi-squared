@@ -57,7 +57,7 @@ This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the bound
 
 $$b^3 + b = \frac{1}{2}$$
 
-where $b$ is a normalized bridge parameter. This cubic has exactly one real root ($b \approx 0.4256$), which fixes the crossing geometry uniquely. The cubic has no free parameters; it is a pure number, independent of any physical constants.
+where $b$ is a normalized bridge parameter. This cubic has exactly one real root ($b \approx 0.4239$), which fixes the crossing geometry uniquely. The cubic has no free parameters; it is a pure number, independent of any physical constants.
 
 **The Mandelbrot correspondence.** The main cardioid of the Mandelbrot set is the set of $c$ values for which $z_{n+1} = z_n^2 + c$ has an attracting fixed point. On the real axis, the cardioid boundary is at $c = 1/4$. Our mapping sends $C\Psi \mapsto c$, so our critical boundary $C\Psi = 1/4$ sits exactly on the Mandelbrot cardioid cusp. This is not analogy. It is identity.
 
