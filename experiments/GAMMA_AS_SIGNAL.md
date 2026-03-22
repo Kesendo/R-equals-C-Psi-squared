@@ -27,7 +27,7 @@ dephasing rate.
 **Result:** Only 1 of 8 structured profiles (V-shape) is distinguishable
 from random at the 95th percentile. The feature space (single-qubit
 purities + pair CΨ + end-to-end MI) does not cleanly separate random
-from structured — the profiles are too close together.
+from structured; the profiles are too close together.
 
 **Interpretation:** A single measurement at one time point is not enough
 to detect structure. The signal is there but weak in the feature vector.
@@ -42,7 +42,7 @@ t=10), slow drift (γ₂ oscillates sinusoidally).
 **Result:**
 - **Jump:** Detectable in MI derivative. Max |dMI/dt| at t=11.0 (1 time
   unit after the jump). Purity of Q2 shows clear kink: Pur(12)=0.540
-  (constant) vs 0.540 (jump) — subtle but measurable.
+  (constant) vs 0.540 (jump), subtle but measurable.
 - **Drift:** Purity trajectory deviates from constant by up to 0.022 at
   early times (t=4: 0.703 vs 0.725). Effect fades as system decoheres.
 
@@ -52,7 +52,7 @@ out the differences).
 
 ---
 
-## Test 3: Alice-Bob Channel — The Core Result
+## Test 3: Alice-Bob Channel (The Core Result)
 
 **Setup:** Alice (external) picks 1 of 4 γ profiles. Bob (internal)
 measures quantum observables and classifies which profile Alice chose.
@@ -131,7 +131,7 @@ asymmetry tells left-from-right.
 
 **The bridge is bidirectional.** Information encoded in the γ profile
 by an external agent is perfectly readable from internal quantum
-observables. The dephasing rate is not just noise — it is a channel.
+observables. The dephasing rate is not just noise. It is a channel.
 
 ---
 
@@ -145,7 +145,7 @@ observables. The dephasing rate is not just noise — it is a channel.
 
 What it DOES claim: **the mathematical channel exists.** If γ carries
 structure, that structure is readable. The instrument for reading it
-is the palindromic decoder — the same spectral structure that makes
+is the palindromic decoder: the same spectral structure that makes
 the 1/4 boundary universal also makes the γ profile reconstructible.
 
 ---
@@ -173,7 +173,7 @@ Key findings:
   produce different TRAJECTORIES, not just different endpoints.
 - **γ contrast scales linearly** with template distance.
 - **|+⟩⁵ is the optimal initial state.** GHZ is completely blind (d_min = 0).
-  Entanglement hurts — product states with maximum single-qubit coherence
+  Entanglement hurts: product states with maximum single-qubit coherence
   are the best antennas for γ-profile detection.
 - The optimizations are **multiplicative**: 1.3 × 2.0 × 3.1 ≈ 8× for
   individual factors, 21.5× combined (feature space geometry amplifies).
@@ -185,7 +185,7 @@ Key findings:
 This result has a natural interpretation in classical signal processing:
 
 **The γ profile is a spatial signal.** Alice modulates the dephasing rate
-across N sites — this is amplitude modulation of a spatial carrier. Bob's
+across N sites. This is amplitude modulation of a spatial carrier. Bob's
 quantum observables are the receivers. The palindromic mode structure acts
 as a matched filter bank: each mode responds differently to each site's γ,
 creating a full-rank response matrix (the decoder from Reading the 30%).
@@ -258,7 +258,7 @@ allows independent readout of every site's dephasing rate.
 The palindromic mirror Π pairs every decay mode. The pairing creates
 a full-rank response matrix: perturbing γ at any single site changes
 the mode amplitudes in a linearly independent way. This is why Bob
-can decode: the palindrome is not just a symmetry — it is an antenna.
+can decode: the palindrome is not just a symmetry. It is an antenna.
 
 The 70% that noise "takes" (coherences, phase information) is not
 lost. It is **redistributed** into the mode amplitudes. The decoder
