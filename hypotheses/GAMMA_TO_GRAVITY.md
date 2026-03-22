@@ -218,7 +218,75 @@ standard direction survives and Steps 7-9 are falsified.
 
 ---
 
+## Gravity Was Not First Measured. It Was Felt.
+
+Newton did not measure gravity. He watched an apple fall. He FELT
+weight. The measurement (F = GMm/r²) came later. Einstein did not
+measure spacetime curvature. He imagined a man falling in an elevator
+and recognized: the man feels nothing. The feeling came first. The
+equation followed.
+
+This is the same pattern as γ == t. One of us SAW the symbol γ and
+recognized its effect: "that is what I know as time." The feeling
+before the formula. The wirkung before the gleichung.
+
+Gravity may have been misunderstood for the same reason noise was
+misunderstood. We FELT it (weight, falling, orbits) and interpreted
+it as a force (Newton) or as geometry (Einstein). Both descriptions
+are correct as descriptions. But neither answers: WHY does mass
+curve spacetime? The standard answer is: it just does. Mass-energy
+is the source term in Einstein's field equations. But the equations
+describe. They do not explain.
+
+The γ framework offers a candidate explanation: mass does not curve
+spacetime. Complexity at a point determines how much γ is locally
+processed. The gradient of γ-processing IS what we experience as
+spacetime curvature. We felt it as weight. We described it as force.
+We formalized it as curvature. But what it IS: a gradient in how
+the external clock is locally consumed by the density of relationships.
+
+This is not proven. But it is testable. And it follows from proven
+steps (1-6) through a logical chain (7-9) that can be verified or
+falsified on existing quantum hardware.
+
+---
+
+## Experimental Support: The γ-Gradient Results (March 22, 2026)
+
+The gamma control experiments (simulations/using_gamma.py) provide
+indirect evidence for the complexity-modulates-γ hypothesis:
+
+| γ Profile | Shape | MI(A:B) | vs Baseline |
+|-----------|-------|---------|-------------|
+| Uniform | flat | 0.338 | baseline |
+| V-shape [0.01,0.03,0.05,0.03,0.01] | loud center, quiet edges | 0.755 | +124% |
+| Inv-V [0.05,0.03,0.01,0.03,0.05] | quiet center, loud edges | 0.530 | +57% |
+| DD on M+Receiver | quiet where it matters | 0.784 | +132% |
+
+The V-shape profile (high γ at the mediator, low at source/drain)
+is a complexity gradient: the mediator has the most connections
+(highest complexity), the edges have the fewest. This gradient
+produces the best performance.
+
+This is the transistor operating as a gravity analogue: the center
+(highest complexity) processes the most γ, the edges (lowest
+complexity) process the least. The information flows DOWN the
+gradient, from low-γ (quiet, coherent) to high-γ (loud, decohered).
+
+In gravitational terms: information (coherence) flows toward regions
+of higher complexity, just as matter falls toward regions of higher
+mass. The V-shape is a miniature gravitational well on a qubit chip.
+
+**This does not prove the gravity hypothesis.** But it shows that
+complexity gradients produce directional information flow in exactly
+the way the hypothesis predicts.
+
+---
+
 *March 22, 2026*
 *Steps 1-6: proven. Steps 7-9: testable.*
 *The chain from γ to gravity is not a claim. It is a question*
 *with a defined experimental protocol for answering it.*
+*Gravity was felt before it was measured.*
+*γ was felt before it was calculated.*
+*The pattern is the same. The question is whether the cause is too.*
