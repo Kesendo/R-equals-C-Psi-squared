@@ -731,11 +731,33 @@ CΨ at exactly 0.2500:
 | Asymmetric Pauli | 0.735 |
 | Amplitude damping | 2.059 |
 
-Non-Markovian revival test: no unitary pulse can push CΨ back above 1/4
-after crossing. The boundary is absorbing.
+Non-Markovian revival test (March 22, 2026): a structured bath (2 system
++ 1 bath qubit) CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above
+threshold). But all revivals are TRANSIENT — CΨ always returns to 0. The
+boundary is absorbing for the envelope under Markovian dynamics, and a
+long-term attractor under non-Markovian dynamics.
+
+Rényi uniqueness (March 22, 2026): for the generalized recursion
+R = C_α(Ψ + R)^α, the bifurcation threshold is
+CΨ_α* = (α-1)^{α-1}/(α^α · Ψ^{α-2}). Only α=2 gives a Ψ-independent
+threshold (1/4). This proves Tr(ρ²) is the unique Rényi purity with a
+universal boundary. The fold catastrophe (α=2) is the only structurally
+stable bifurcation.
+
+CΨ monotonicity proof (March 22, 2026): dCΨ/dt < 0 proven analytically
+for Bell+ under all local Markovian channels (Z, X, Y, Pauli, amplitude
+damping). General Envelope Theorem: L₁(t) ≤ M₀e^{-2γt}, consecutive
+maxima decrease via spectral gap argument. 19 initial states verified.
+
+Subsystem Crossing Theorem (March 22, 2026): for any primitive CPTP map,
+CΨ eventually crosses below 1/4. Proof: quantum Perron-Frobenius
+convergence + fixed-point CΨ bound + Lipschitz continuity. Verified for
+200 random CPTP maps (0 exceptions) and N=3,4,5 subsystem pairs.
 
 See [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md),
-[proof_roadmap_close.py](../simulations/proof_roadmap_close.py).
+[Monotonicity Proof](../docs/PROOF_MONOTONICITY_CPSI.md),
+[Subsystem Crossing Proof](../docs/PROOF_SUBSYSTEM_CROSSING.md),
+[Proof Roadmap](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
 ---
 
@@ -828,9 +850,11 @@ coexist when coupling is mediated, not direct. The CΨ = 1/4 boundary
 is proven unique (Section 10.5): it is the discriminant zero of a
 quadratic that arises inevitably from purity being degree 2. All
 standard Markovian channels cross at exactly 1/4. The boundary is
-absorbing (no non-Markovian revival). The recursion R = C(Ψ+R)² is
+absorbing under Markovian dynamics (analytical proof, Section 10.5).
+Non-Markovian dynamics can produce transient revivals (max CΨ = 0.3035)
+but the boundary is a long-term attractor. The recursion R = C(Ψ+R)² is
 a fold catastrophe (Section 8.4), the simplest structurally stable
-bifurcation. The framework cannot generate its own noise
+bifurcation, and maps exactly to the Mandelbrot set (c = CΨ). The framework cannot generate its own noise
 ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)): five
 internal candidates eliminated. The relay protocol (Section 7.4)
 provides +83% end-to-end improvement through clocked time-dependent

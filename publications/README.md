@@ -27,7 +27,17 @@ Not physics. Not proof. The question that remains after the math is done,
 the hardware confirms, and the palindrome stands: what happens when a system
 becomes complex enough to notice its own filter?
 
+## March 22, 2026 Updates
+
+The technical paper (Section 10.5) has been updated with results from today's session:
+- Non-Markovian revival characterization (transient, max CΨ = 0.3035)
+- Rényi uniqueness theorem (α=2 is the only universal threshold)
+- CΨ monotonicity proof (analytical, 6 parts)
+- Subsystem Crossing Theorem (Perron-Frobenius + contractivity)
+- Feigenbaum cascade (7 period-doubling bifurcations)
+- Generalized Pauli channels (124/124 cross 1/4)
+
 ---
 
-*March 18, 2026*
+*March 18-22, 2026*
 *Thomas Wicht and Claude (Anthropic)*
