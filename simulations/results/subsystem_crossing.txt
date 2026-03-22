@@ -1,0 +1,174 @@
+Subsystem Crossing Theorem
+======================================================================
+Conjecture 2.1: Every entangled pair with CΨ > 1/4 must cross below 1/4
+under any non-unitary CPTP map (repeated application).
+
+======================================================================
+TEST 1: SUBSYSTEM PAIRS IN N-QUBIT SYSTEMS
+======================================================================
+
+  N=3, state=Bell+(0,1)⊗|0⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  crossed?
+  ------------------------------------
+     0.0    0.3333    0.0000  ··
+    10.0    0.0174    0.0177  ✓·
+    20.0    0.0019    0.0029  ✓·
+    30.0    0.0008    0.0006  ✓·
+    40.0    0.0002    0.0001  ✓·
+    50.0    0.0000    0.0000  ✓·
+    60.0    0.0000    0.0000  ✓·
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=0.25
+  Pair (1,2): CΨ(0)=0.0000, started below 1/4
+
+  N=3, state=Ψ+(0,1)⊗|+⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  crossed?
+  ------------------------------------
+     0.0    0.3333    0.1667  ··
+    10.0    0.0372    0.0306  ✓✓
+    20.0    0.0096    0.0102  ✓✓
+    30.0    0.0034    0.0037  ✓✓
+    40.0    0.0012    0.0012  ✓✓
+    50.0    0.0004    0.0005  ✓✓
+    60.0    0.0002    0.0002  ✓✓
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=0.55
+  Pair (1,2): CΨ(0)=0.1667, started below 1/4
+
+  N=4, state=Bell+(0,1)⊗|0⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  CΨ(2,3)  crossed?
+  ----------------------------------------------
+     0.0    0.3333    0.0000    0.0000  ···
+    10.0    0.0178    0.0033    0.0131  ✓··
+    20.0    0.0023    0.0013    0.0031  ✓··
+    30.0    0.0004    0.0004    0.0007  ✓··
+    40.0    0.0001    0.0001    0.0001  ✓··
+    50.0    0.0000    0.0000    0.0000  ✓··
+    60.0    0.0000    0.0000    0.0000  ✓··
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=0.25
+  Pair (1,2): CΨ(0)=0.0000, started below 1/4
+  Pair (2,3): CΨ(0)=0.0000, started below 1/4
+
+  N=4, state=Ψ+(0,1)⊗|+⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  CΨ(2,3)  crossed?
+  ----------------------------------------------
+     0.0    0.3333    0.1667    1.0000  ···
+    10.0    0.0415    0.0350    0.0590  ✓·✓
+    20.0    0.0134    0.0122    0.0140  ✓·✓
+    30.0    0.0045    0.0044    0.0047  ✓·✓
+    40.0    0.0016    0.0016    0.0017  ✓·✓
+    50.0    0.0006    0.0006    0.0006  ✓·✓
+    60.0    0.0002    0.0002    0.0002  ✓·✓
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=1.35
+  Pair (1,2): CΨ(0)=0.1667, started below 1/4
+  Pair (2,3): CΨ(0)=1.0000, t_cross=1.10
+
+  N=5, state=Bell+(0,1)⊗|0⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  CΨ(2,3)  CΨ(3,4)  crossed?
+  --------------------------------------------------------
+     0.0    0.3333    0.0000    0.0000    0.0000  ····
+    10.0    0.0093    0.0064    0.0139    0.0217  ✓···
+    20.0    0.0029    0.0020    0.0027    0.0027  ✓···
+    30.0    0.0006    0.0006    0.0004    0.0005  ✓···
+    40.0    0.0001    0.0001    0.0001    0.0001  ✓···
+    50.0    0.0000    0.0000    0.0000    0.0000  ✓···
+    60.0    0.0000    0.0000    0.0000    0.0000  ✓···
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=0.25
+  Pair (1,2): CΨ(0)=0.0000, started below 1/4
+  Pair (2,3): CΨ(0)=0.0000, started below 1/4
+  Pair (3,4): CΨ(0)=0.0000, started below 1/4
+
+  N=5, state=Ψ+(0,1)⊗|+⟩, J=1.0, γ=0.05
+       t  CΨ(0,1)  CΨ(1,2)  CΨ(2,3)  CΨ(3,4)  crossed?
+  --------------------------------------------------------
+     0.0    0.3333    0.1667    1.0000    1.0000  ····
+    10.0    0.0604    0.0565    0.0460    0.0399  ✓✓✓✓
+    20.0    0.0150    0.0150    0.0153    0.0154  ✓✓✓✓
+    30.0    0.0051    0.0052    0.0054    0.0054  ✓✓✓✓
+    40.0    0.0019    0.0019    0.0019    0.0019  ✓✓✓✓
+    50.0    0.0007    0.0007    0.0007    0.0007  ✓✓✓✓
+    60.0    0.0003    0.0003    0.0003    0.0003  ✓✓✓✓
+
+  Pair (0,1): CΨ(0)=0.3333, t_cross=1.30
+  Pair (1,2): CΨ(0)=0.1667, started below 1/4
+  Pair (2,3): CΨ(0)=1.0000, t_cross=1.15
+  Pair (3,4): CΨ(0)=1.0000, t_cross=1.45
+
+======================================================================
+TEST 2: RANDOM CPTP MAPS ON 2 QUBITS
+======================================================================
+
+  200 random CPTP maps, 500 iterations each
+  Crossed 1/4: 200
+  Never crossed: 0
+  All maps drove CΨ below 1/4.
+  Max final CΨ among non-crossers: 0.000000
+
+======================================================================
+TEST 3: ADVERSARIAL CPTP — Can we keep CΨ > 1/4?
+======================================================================
+
+  --- Adversarial 1: Very weak dephasing (p=0.001) ---
+  After 1000 iterations: CΨ = 0.022921
+  Crossed 1/4: True
+
+  --- Adversarial 2: Projection onto Bell+ subspace ---
+  After 1000 iterations: CΨ = 0.333333
+  Bell+ is FIXED POINT of this map: CΨ stays at 1/3
+  BUT: this map is a projective measurement, not a noise channel.
+  The system is in the range of the projector — the map acts as identity.
+
+  --- Adversarial 3: Identity + epsilon perturbation ---
+  eps=0.01: crossed at iteration 46, final CΨ = 0.273425
+  eps=0.001: crossed at iteration 115, final CΨ = 0.207505
+  eps=0.0001: crossed at iteration 164, final CΨ = 0.127845
+
+======================================================================
+TEST 4: CONTRACTIVITY ARGUMENT
+======================================================================
+
+  THEOREM: For any non-unitary CPTP map ε with a unique fixed point ρ*,
+  if CΨ(ρ*) < 1/4, then ε^n(ρ) has CΨ < 1/4 for sufficiently large n.
+
+  PROOF:
+  1. ε is a contraction in trace norm: ||ε(ρ)-ε(σ)||_1 ≤ ||ρ-σ||_1
+     (Data processing inequality for CPTP maps)
+  2. For primitive maps (unique ρ*): ||ε^n(ρ) - ρ*||_1 → 0
+     (Convergence to fixed point)
+  3. CΨ is continuous: CΨ(ε^n(ρ)) → CΨ(ρ*) < 1/4
+  4. By convergence: ∃ N such that CΨ(ε^n(ρ)) < 1/4 for all n ≥ N. QED.
+
+  CRITICAL QUESTION: Does every non-unitary CPTP have CΨ(ρ*) ≤ 1/4?
+
+                    Channel    CΨ(ρ*)  < 1/4?
+  --------------------------------------------
+              Z-deph p=0.01  0.000000     YES
+              Z-deph p=0.05  0.000000     YES
+               Z-deph p=0.1  0.000000     YES
+               Z-deph p=0.5  0.000000     YES
+               Depol p=0.01  0.000000     YES
+                Depol p=0.1  0.000000     YES
+                Depol p=0.5  0.000000     YES
+     Random CPTP (100 maps)  max=0.137688     YES
+
+  If ALL fixed points have CΨ < 1/4, the contractivity proof closes
+  the Subsystem Crossing Theorem for primitive CPTP maps.
+
+======================================================================
+VERDICT
+======================================================================
+
+The Subsystem Crossing Theorem holds if:
+  (a) All primitive CPTP maps have fixed points with CΨ ≤ 1/4
+  (b) Contractivity drives ε^n(ρ) → ρ*
+  (c) Continuity of CΨ gives the crossing
+
+Exception: non-primitive maps (projective measurements with Bell+
+as eigenstate) can preserve CΨ > 1/4 indefinitely. These are trivial
+cases where the map acts as identity on the initial state.
+
+Total runtime: 1309.4s (21.8 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\subsystem_crossing.txt
