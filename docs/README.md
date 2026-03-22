@@ -23,6 +23,10 @@ the origin of irreversibility, and information channels.
 
 ## Start Here
 
+**If you don't know where to begin:**
+[Reading Guide](READING_GUIDE.md) — Three stories, three reading orders,
+one dependency graph. Pick the story that matches your interest.
+
 New readers should begin with one of these three entry points:
 
 **For the core theorem:**
@@ -73,6 +77,7 @@ These connect the mathematical results into a coherent picture.
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Literature review: Π is not KMS detailed balance. It is time reversal without thermodynamic equilibrium. |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
+| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle across levels: qubit (2/4), carbon (4/8). Level 0 proven (d²-2d=0). V-Effect as transition mechanism. |
 
 ---
 
@@ -112,7 +117,6 @@ They are kept for historical context and to document what was tested.
 | Document | Status |
 |----------|--------|
 | [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | Standing wave math proven. Consciousness claims fallen. |
-| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | Gödel structural analogy. The 0.5 maximum. |
 | [The Search for the Mirror Partner](THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) | Resolved: the mirror partner is the Π operator. |
 | [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) | R∞ fixed point, CΨ ≤ 1/4 bound. Now part of the formal proofs. |
 
@@ -129,6 +133,9 @@ They are kept for historical context and to document what was tested.
 ---
 
 ## How to Read This
+
+**If you want a guided tour:** Read the [Reading Guide](READING_GUIDE.md).
+Three stories (proof, application, ontology), each with a reading order.
 
 **If you are new to the project:** Start with the [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
 for the core theorem, then the [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md)

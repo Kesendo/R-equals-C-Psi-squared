@@ -11,11 +11,8 @@
 
 ## 1. What This Is About
 
-In December 2025, a dream delivered technically correct information
-about electrolysis and Co/Ni multilayers, information that was
-verifiable but not present in conscious knowledge. That dream
-became the origin of R=CΨ², a framework for modeling how
-possibility becomes reality.
+In December 2025, the equation R=CΨ² appeared — a framework for
+modeling how possibility becomes reality.
 
 Three months later, the framework describes its own creation.
 
@@ -34,7 +31,7 @@ here is an attempt to formalize what we discovered by doing it.
 Each stage builds the understanding needed for the next stage,
 which could not have been anticipated from the previous one:
 
-  **December**: A dream delivers technically correct information.
+  **December**: The equation R=CΨ² appears.
   Question born: "What if R=CΨ²?"
 
   **January**: The ¼ boundary is formalized and validated on IBM
@@ -52,8 +49,8 @@ have individual relationships to reality. You cannot see the sender
 inversion before you understand that noise is asymmetric. Each level
 of understanding opens a door that was previously not even visible.
 
-The person asking today's questions is not the same person who had
-the dream in December. The understanding has restructured the
+The person asking today's questions is not the same person who started
+in December. The understanding has restructured the
 observer. That restructuring is the point.
 
 ## 3. The Three Conditions

@@ -170,6 +170,54 @@ enough to have a mirror, and stable enough to carry one.
 
 ---
 
+## The Mechanism: How Level 0 Becomes Level 1
+
+*Added March 22, 2026*
+
+The hierarchy describes a pattern: incompleteness at level N enables
+level N+1. But what is the *mechanism*? How does the qubit's C = 0.5
+actually generate higher-level structure?
+
+The answer is in the [V-Effect](../experiments/V_EFFECT_PALINDROME.md).
+
+At N=2 (one bond between two qubits), all 36 Pauli-pair Hamiltonians
+are palindromic. The mirror is perfect. C = 0.5 at each site, and the
+system is fully paired. This is Level 0: complete within itself.
+
+At N=3 (two bonds), a second mirror enters. And 14 of 36 combinations
+break. The breaking is not random. It maps directly onto the hierarchy's
+vocabulary:
+
+| Hierarchy concept | V-Effect realization |
+|---|---|
+| C = 0.5 (half full, open) | w=1, w=2 boundary modes (partly classical, partly quantum) |
+| C = 1 (full, dead end) | w=0, w=3 extreme modes (purely classical or purely quantum) |
+| Open valence | Orphaned mode (pair sum -0.3019 instead of -0.3000, remembers its partner) |
+| Bond creates complexity | 11 distinct frequencies instead of 4 |
+| Stability vs. openness trade-off | 2 steady states instead of 4 |
+
+The immune sectors (w=0 and w=3) are the noble gases of the Liouville
+spectrum: fully decided or fully undecided, stable from every angle,
+building nothing. The boundary sectors (w=1 and w=2) are the carbon:
+half-decided, half-open, and precisely where the palindrome breaks.
+
+The 54 orphaned modes behave like atoms with open valences. They
+"remember" the complete configuration (pair sum within 1% of the
+palindromic value) but cannot reach it, because two Π operators from
+adjacent bonds give contradictory instructions. This frustration — not
+randomness, not collapse — is what releases 11 frequencies from 4.
+Constraint becomes diversity.
+
+The V-Effect is the hierarchy in action at Level 0. It shows that the
+transition from one level to the next is not gradual accumulation but
+*topological*: at any nonzero second-bond strength α, all 54 boundary
+modes orphan simultaneously (the topology of the break is sudden),
+while the error magnitude grows smoothly (the metric is gradual).
+This is exactly the character of a new bond forming: the connection
+is either there or not (topology), but its strength varies (metric).
+
+---
+
 ## Noble Gases: Proof by Absence
 
 | Element | Electrons | C | Reactivity | Structures |
@@ -232,30 +280,6 @@ One level deeper.
 
 ---
 
-## Iron, Cobalt, Nickel: The Bridge
-
-This project originated from a dream on December 21, 2025 (Winter
-Solstice), in which Thomas Wicht (a software developer, not a
-physicist) saw an electrolysis cell with cobalt and nickel layers.
-The dream contained technically accurate details about layer structures
-and element combinations, and led to the equation R = CPsi^2. The three
-elements the dream highlighted turn out to be remarkable:
-
-| Element | Protons | Local C | Magnetic | Note |
-|---------|---------|---------|----------|------|
-| Iron | 26 | < 1 (4 unpaired) | Strong | Most stable atomic nucleus |
-| Cobalt | 27 | < 1 (3 unpaired) | Medium | Just before magic number |
-| Nickel | 28 | < 1 (2 unpaired) | Weaker | Magic proton number |
-
-These three are unique:
-- **Stable enough** to exist (near binding energy maximum)
-- **Incomplete enough** to connect (unpaired d-electrons)
-- **Magnetic** because their incompleteness creates collective order
-
-They unite stability and connectivity. That is rare.
-
----
-
 ## Magnetism as Emergent Mirroring
 
 **Local view:**
@@ -309,26 +333,6 @@ d = d² - d    →    d = 2    →    C = 0.5
 
 ---
 
-## Why the Dream Showed These Elements
-
-The December 21 dream did not show:
-- The perfect elements (noble gases)
-- The simplest elements (hydrogen, helium)
-- The heaviest elements (uranium, plutonium)
-
-It showed:
-- The most stable (highest binding energy)
-- The most connectable (unpaired electrons)
-- The magnetic (collective order)
-
-**Iron, cobalt, nickel are the sweet spot.**
-
-Stable enough to be. Incomplete enough to become.
-
-That is perhaps the message: Don't seek perfection. Seek the point where stability and openness meet.
-
----
-
 ## Connection to the Mirror Theory
 
 > "We are all mirrors. Reality is what happens between us."
@@ -370,40 +374,17 @@ These are next steps. Not today.
 4. **Every level has its own form of mirroring**
 5. **The qubit mirror is the deepest level** (proven: d²-2d=0)
 6. **Magnetism is the first macroscopic mirroring**
-7. **The dream showed elements that unite both**
+7. **The V-Effect is the mechanism between levels**
 8. **The principle scales from qubits to humans**
-
----
-
-## Origin
-
-This document emerged from a conversation between Thomas Wicht and
-Claude (Anthropic) on January 3, 2026. The R = CPsi^2 project had
-started two weeks earlier from the December 21 dream (see the Iron,
-Cobalt, Nickel section above). At this point the project was exploring
-material science (which element combinations form the best layers)
-when the pattern of half-occupation appeared.
-
-Tom said:
-> "Maybe magnetism emerges from this, which enables the more complex stability."
-
-That was the moment the levels connected.
-
-Not magnetism as byproduct.
-Magnetism as bridge to the next dimension.
-
-On March 20, 2026, the bottom level connected too. Tom saw "Spin-1/2
-particles, photon polarisation, superconducting circuits with two energy
-levels" and said: "That's like carbon. Perfectly incomplete."
-
-That was the moment Level 0 got its proof.
 
 ---
 
 *January 3, 2026: The levels connect*
 *March 20, 2026: The foundation is proven*
+*March 22, 2026: The mechanism is identified (V-Effect)*
 
 ---
 *See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*
 *See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), C = 0.5 as optimal observer*
 *See also: [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md), the algebraic proof*
+*See also: [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md), the transition mechanism*

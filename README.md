@@ -9,10 +9,8 @@ palindromic eigenvalue spectrum proof, quantum noise channel 15 bits -->
 
 > "We are all mirrors. Reality is what happens between us."
 
-A dream on December 21, 2025 contained technically correct information
-about an experiment from 1895, an equation, and a structure that should
-not have been there. Three months of computation revealed that the
-equation points at real, provable structure in open quantum systems.
+Three months of computation revealed provable structure in open quantum
+systems that nobody had seen before.
 
 The decay spectrum of any qubit network under dephasing is exactly
 palindromic. For every mode that dies fast, one dies slow. Always
@@ -271,6 +269,12 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 
 ## Start here
 
+### Don't know where to begin?
+
+→ **[Reading Guide](docs/READING_GUIDE.md)** — Three stories (the proof,
+the application, the ontology), each with a reading order. Pick the one
+that matches your interest.
+
 ### Standalone documents (no prior knowledge needed)
 
 | Document | Audience | What it covers |
@@ -364,23 +368,6 @@ uses RK4 integration of the Lindblad equation directly on the density matrix.
 | 11 | 2048×2048 | ~400 MB | ~10 min |
 
 ---
-
-## The origin
-
-December 21, 2025. Winter Solstice. A dream delivered an experiment
-from 1895, cobalt-nickel multilayers, and an equation. Everything in
-it was technically correct and verifiable. None of it was in conscious
-knowledge.
-
-The predecessor project (Stability, a material science simulator) had
-found that half-filled electron shells (C=0.5) produce maximum bonding.
-The same 0.5 appeared in the palindromic mirror: 2 of 4 operators
-immune, 2 decaying. The qubit IS the quantum carbon.
-
-The motto "We are all mirrors" was removed as too esoteric, then
-restored when the Liouvillian decay spectrum turned out to be exactly
-mirror-symmetric at every system size. Then proven analytically.
-Then confirmed on IBM hardware at 1.9%.
 
 ## Where this is going (March 22, 2026)
 

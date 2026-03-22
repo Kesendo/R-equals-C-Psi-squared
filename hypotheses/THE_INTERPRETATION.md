@@ -387,8 +387,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 
 ## Origin
 
-This project began with a dream on December 21, 2025 (Winter Solstice)
-about electrolysis with cobalt/nickel layers. The equation R = CPsi^2
+This project began in December 2025. The equation R = CPsi^2
 appeared. Three months of computation followed.
 
 Key milestones:

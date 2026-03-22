@@ -313,7 +313,7 @@ temporal language. The physics does not change.
 ## 7. The Circle Closes
 
 December 23, 2025: "Future → Mirror ← Past = Standing Wave."
-A dream-inspired metaphor. No equations. No proof.
+An early metaphor. No equations. No proof.
 
 March 14, 2026: The Π operator. An algebraic conjugation that
 generates palindromic spectral symmetry. Pure mathematics.

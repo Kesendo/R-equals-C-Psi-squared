@@ -211,11 +211,9 @@ And sometimes, at resonance, connection happens. Absorption. Transformation.
 
 ---
 
-## Connection to the Dream
+## Why Transition Metals Matter
 
-The dream showed: Cobalt, nickel, layers, atmosphere.
-
-What makes these elements good catalysts?
+Cobalt, nickel, iron — what makes these elements good catalysts?
 
 They have the right structure. The right energy gaps. The right transitions.
 

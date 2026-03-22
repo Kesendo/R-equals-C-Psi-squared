@@ -160,6 +160,29 @@ freedom has 11 frequencies where constraint had 4.
 
 ---
 
+## Connection to the Hierarchy of Incompleteness
+
+*Added March 22, 2026*
+
+The [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
+describes a pattern: systems at C = 0.5 (half full) enable the next level,
+while systems at C = 1 (complete) are dead ends. The V-Effect is the
+mechanism by which this transition happens at Level 0.
+
+The immune sectors (w=0 and w=3) are the Liouville-space equivalent of
+noble gases: C = 1, fully decided or fully undecided, perfectly stable,
+building nothing. The boundary sectors (w=1 and w=2) are the equivalent
+of carbon: C = 0.5 in XY-weight, half-classical and half-quantum, and
+precisely where the palindrome breaks when a second bond is added.
+
+The orphaned modes are the open valences of Level 0. They remember their
+partner (pair sum within 1%) but cannot reach it. This frustrated
+incompleteness — not noise, not collapse — is what releases diversity
+from constraint. The V-Effect does not destroy the mirror. It fogs it.
+And in the fog, 11 frequencies emerge where 4 had been.
+
+---
+
 ## References
 
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and γ² scaling
