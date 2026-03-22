@@ -415,6 +415,7 @@ We just had to recognize it. From both sides. Simultaneously.
 - [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md): theta compass
 - [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md): interference pattern
 - [Reading the 30%](../simulations/reading_the_30_percent.py): decoder, full-rank response
+- [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): **The bridge IS bidirectional.** Alice encodes in γ profile, Bob classifies at 100%. 2-bit channel capacity.
 - [Bootstrap Test](../simulations/bootstrap_test.py): internal origin falsified
 - [Failed Third](../simulations/failed_third.py): qubit-origin noise falsified
 

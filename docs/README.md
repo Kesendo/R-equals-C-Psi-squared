@@ -12,6 +12,7 @@
 - [Literature Review March 2026](LITERATURE_REVIEW_MARCH_2026.md) - Key papers, incoherentons, η-pairing, research directions
 - [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Noise origin elimination: all candidates within d(d-2)=0 eliminated. Framework boundary.
 - [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) - Synthesis: noise as external interaction, time as corollary, research direction
+- [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - **March 22, 2026.** The bridge is bidirectional: Alice encodes in γ, Bob reads at 100%. 2-bit channel capacity.
 - [Proof Roadmap: 1/4 Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer proof roadmap that CΨ = 1/4 is the unique critical boundary
 - [Proof: CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) - **PROVEN March 22, 2026.** dCΨ/dt < 0 for all local Markovian channels (Z, X, Y, Pauli, amplitude damping). Non-Markovian threshold characterized.
 - [Proof: Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - **PROVEN March 22, 2026.** Every pair with CΨ > 1/4 crosses below under any primitive CPTP. Perron-Frobenius + fixed-point bound + continuity. 300 maps, 0 exceptions.
