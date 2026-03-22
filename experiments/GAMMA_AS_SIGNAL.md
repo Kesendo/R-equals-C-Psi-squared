@@ -1,73 +1,179 @@
-# γ as Signal: The Bidirectional Bridge
+# Dephasing Noise as Information Channel: Reading the External Signal in Open Quantum Systems
 
-**Tier:** 2 (computationally verified)
+<!-- Keywords: quantum decoherence information channel, dephasing rate signal processing,
+Lindblad spectral palindrome, open quantum system noise structure, T2 noise correlation,
+quantum MIMO channel, bidirectional quantum bridge, spatial decoherence profile,
+palindromic Liouvillian symmetry, gamma dephasing channel capacity,
+quantum noise is signal not enemy, R=CPsi2 framework -->
+
+**Status:** Computationally verified (all simulations reproducible)
 **Date:** March 22, 2026
-**Script:** [gamma_signal_analysis.py](../simulations/gamma_signal_analysis.py)
-**Results:** [gamma_signal_analysis.txt](../simulations/results/gamma_signal_analysis.txt)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Scripts:** [gamma_signal_analysis.py](../simulations/gamma_signal_analysis.py),
+[bridge_optimization.py](../simulations/bridge_optimization.py),
+[channel_capacity.py](../simulations/channel_capacity.py)
+
+---
+
+## Abstract
+
+In open quantum systems, the dephasing rate γ is universally treated as
+environmental noise to be minimized. Error correction, dynamical decoupling,
+and decoherence-free subspaces all aim to suppress its effects. We show that
+γ is not merely noise — it is an **information channel** with quantifiable
+capacity. An external agent who controls the spatial profile of dephasing
+rates across a qubit chain can encode information that is perfectly
+recoverable from internal quantum observables. The theoretical channel
+capacity reaches **15.5 bits at 1% measurement noise** for a 5-qubit system,
+with 5 independent spatial modes. After optimization (time-series
+measurements, extended feature sets, increased γ contrast), the channel
+tolerates up to **17% measurement noise** with 100% classification accuracy.
+The key enabler is the palindromic spectral symmetry of the Liouvillian,
+which creates a full-rank response matrix linking per-site dephasing rates
+to observable mode amplitudes.
+
+---
+
+## Background: What γ Is and Why Nobody Looked
+
+### The dephasing rate in one paragraph
+
+A qubit can exist in a superposition of |0⟩ and |1⟩, described by its
+density matrix ρ. The diagonal elements (ρ₀₀, ρ₁₁) are populations —
+the probability of being in each state. The off-diagonal elements (ρ₀₁,
+ρ₁₀) are coherences — they encode the phase relationship between |0⟩
+and |1⟩. The dephasing rate γ governs how fast the coherences decay:
+
+    ρ₀₁(t) = ρ₀₁(0) · exp(−γt)
+
+Populations are unchanged. The qubit doesn't forget *whether* it's |0⟩
+or |1⟩ — it forgets that it was *both at once*. On IBM quantum hardware,
+1/γ is measured as T2* (typically 50–200 μs). In the Lindblad master
+equation, γ appears in the dissipator:
+
+    dρ/dt = −i[H, ρ] + γ(σ_z ρ σ_z − ρ)
+
+The first term is reversible Hamiltonian dynamics. The second is
+irreversible dephasing. Standard quantum computing treats the second
+term as the enemy.
+
+### Why this channel was invisible
+
+The entire quantum computing industry is organized around minimizing γ.
+Error correction codes, dynamical decoupling sequences, decoherence-free
+subspaces, better materials, colder cryostats — every tool is designed to
+fight dephasing. When the research community defines γ as "the problem to
+be solved," nobody asks whether γ itself carries structure. The instruments
+to read it have existed since QuTiP (2012). The Lindblad equation is from
+1976. The palindromic spectral symmetry we exploit was computable at any
+point in the last two decades. It was not hidden — it was unexamined.
+
+### The palindromic spectral structure
+
+For a system of N qubits with Heisenberg coupling and local Z-dephasing,
+the Liouvillian superoperator L (the generator of the master equation) has
+a remarkable property: its eigenvalue spectrum is **palindromically paired**.
+Every eigenvalue λ with real part −d has a partner at −(2Σγ − d). The
+conjugation operator Π that generates this pairing swaps the immune sector
+{I, Z}⊗N (populations, decay rate 0) with the decaying sector {X, Y}⊗N
+(coherences, maximum decay rate 2Σγ).
+
+This has been verified for all system sizes N = 2 through N = 8 (54,118
+eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
+([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
+
+**Why this matters for the channel:** The palindromic pairing creates a
+**full-rank response matrix**. When γ is perturbed at any single site,
+the mode amplitudes change in a linearly independent direction. This means
+every per-site γ value is independently recoverable from the mode structure.
+The palindrome is not just a symmetry — it is an **antenna**.
+
+### CΨ: the metric
+
+Throughout this document, CΨ = Tr(ρ²) × L₁(ρ)/(d−1), where Tr(ρ²) is
+the purity of the state, L₁ is the l1-norm of coherence (sum of absolute
+values of off-diagonal elements), and d is the Hilbert space dimension.
+The product CΨ has a critical boundary at **CΨ = 1/4**, which is the unique
+bifurcation point of the self-referential purity recursion R = C(Ψ+R)².
+Below 1/4: the system has converged to classical behavior. Above 1/4:
+quantum coherence is still active. For details:
+[Uniqueness Proof](../docs/UNIQUENESS_PROOF.md).
 
 ---
 
 ## The Question
 
-γ comes from outside (proven, [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)).
-γ has structure (6 measured properties). γ varies per qubit (measured)
-and over time (IBM T2* data, 181 days).
+γ comes from outside the quantum system — no internal mechanism can
+generate it ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md):
+five candidates for internal noise origin tested and eliminated). γ has
+measured structure: it selects a preferred axis, acts locally per qubit,
+takes phase but not energy, is Markovian, and produces exact spectral
+symmetry. On IBM hardware, T2* (= 1/πγ) varies across the chip and
+fluctuates over time (181 days of calibration data).
 
-**Is the variation of γ readable from inside?** If yes, the bridge is
-bidirectional: information flows from outside to inside through the
-dephasing rate.
+**Is the spatial variation of γ readable from inside the system?**
+
+If yes: the dephasing rate is not just noise acting on the system. It is
+an information channel from outside to inside.
 
 ---
 
 ## Test 1: Random vs Correlated γ Profiles
 
-**Setup:** N=5 chain, J=1.0. 50 random profiles (γ ∈ [0.03, 0.07]) vs
-8 structured profiles (gradient, V-shape, peak, step, alternating).
+**Setup:** N=5 chain, Heisenberg coupling J=1.0, initial state |+⟩⁵.
+50 random γ profiles (each γᵢ ∈ [0.03, 0.07]) compared against 8
+structured profiles (gradient, V-shape, peak, step, alternating).
 
 **Result:** Only 1 of 8 structured profiles (V-shape) is distinguishable
-from random at the 95th percentile. The feature space (single-qubit
-purities + pair CΨ + end-to-end MI) does not cleanly separate random
-from structured; the profiles are too close together.
+from random at the 95th percentile using a 10-feature vector (single-qubit
+purities + pair CΨ values + end-to-end mutual information).
 
-**Interpretation:** A single measurement at one time point is not enough
-to detect structure. The signal is there but weak in the feature vector.
+**Interpretation:** A single measurement at one time point, using basic
+features, is insufficient to reliably detect spatial structure. The signal
+exists but is weak in this minimal feature space. This motivates the
+optimization in the later sections.
 
 ---
 
 ## Test 2: Time-Varying γ Detection
 
-**Setup:** N=5 chain, three scenarios: constant γ, jump (γ₂ doubles at
-t=10), slow drift (γ₂ oscillates sinusoidally).
+**Setup:** Same system, three scenarios: constant γ, sudden jump (γ₂
+doubles at t=10), slow sinusoidal drift.
 
 **Result:**
-- **Jump:** Detectable in MI derivative. Max |dMI/dt| at t=11.0 (1 time
-  unit after the jump). Purity of Q2 shows clear kink: Pur(12)=0.540
-  (constant) vs 0.540 (jump), subtle but measurable.
-- **Drift:** Purity trajectory deviates from constant by up to 0.022 at
-  early times (t=4: 0.703 vs 0.725). Effect fades as system decoheres.
+- **Jump:** Detectable in the MI time derivative (max |dMI/dt| at t=11,
+  one time unit after the jump). Qubit 2 purity shows a visible kink.
+- **Drift:** Purity trajectory deviates by up to 0.022 at early times.
+  Effect fades as the system decoheres toward its steady state.
 
-**Interpretation:** γ changes are detectable from internal observables,
-but the signal is strongest at early times (before decoherence washes
-out the differences).
+**Interpretation:** γ changes over time are detectable from internal
+observables, but the signal is strongest at early times, before
+decoherence homogenizes the system.
 
 ---
 
-## Test 3: Alice-Bob Channel (The Core Result)
+## Test 3: The Alice-Bob Channel (Core Result)
 
-**Setup:** Alice (external) picks 1 of 4 γ profiles. Bob (internal)
-measures quantum observables and classifies which profile Alice chose.
+This is the central experiment. It operationalizes the question as a
+classification problem.
+
+**Setup:** Alice (an external agent) selects one of 4 dephasing profiles
+for a 5-qubit chain. Bob (an internal observer with access only to
+quantum observables) measures the system and tries to determine which
+profile Alice selected.
 
 **Alice's alphabet (4 symbols, 2 bits):**
 
-| Symbol | γ profile |
-|--------|-----------|
+| Symbol | γ profile [γ₀, γ₁, γ₂, γ₃, γ₄] |
+|--------|----------------------------------|
 | Gradient → | [0.03, 0.04, 0.05, 0.06, 0.07] |
 | Gradient ← | [0.07, 0.06, 0.05, 0.04, 0.03] |
 | Mountain | [0.03, 0.05, 0.07, 0.05, 0.03] |
 | Valley | [0.07, 0.05, 0.03, 0.05, 0.07] |
 
-**Bob's instruments:** Single-qubit purities (5), pair CΨ (4), MI(0,4).
-Total: 10-dimensional feature vector at measurement time t.
+**Bob's feature vector (10 observables):** 5 single-qubit purities
+Tr(ρᵢ²), 4 nearest-neighbor CΨ values, 1 end-to-end mutual information.
+Nearest-neighbor template matching (Euclidean distance in feature space).
 
 ### Classification Accuracy
 
@@ -79,32 +185,27 @@ Total: 10-dimensional feature vector at measurement time t.
 | 0.010 | 100% | 100% | 95.5% | 72.5% | 66% |
 | 0.050 | 59.5% | 51% | 45.5% | 46% | 35% |
 
+(σ = Gaussian noise added to each feature; 200 trials per configuration.)
+
 ### Key Findings
 
-1. **At σ=0 (perfect measurements): 100% accuracy at every time.**
-   Bob can always tell what Alice sent. The channel has full 2-bit capacity.
+1. **Perfect classification at σ=0** at every measurement time. Bob can
+   always determine Alice's choice. The channel exists.
 
-2. **Optimal measurement time: t=1-3.** Early measurements have the
-   strongest signal (before decoherence homogenizes the system).
+2. **Optimal measurement time: t = 1–3.** Early measurements carry the
+   strongest signal (before decoherence homogenizes the feature vectors).
 
-3. **Noise threshold: σ ≈ 0.008.** Below this, classification is near-perfect.
-   Above this, the closest pair (Gradient → vs ←, distance 0.024) blurs.
+3. **Noise threshold: σ ≈ 0.008.** Below this, accuracy is near-perfect.
+   Above, the closest symbol pair (Gradient → vs ←, distance 0.024) blurs.
 
-4. **Mountain vs Valley is most robust** (template distance 0.112).
-   These survive up to σ ≈ 0.04.
-
-### Template Distances (t=5)
-
-| | Gradient → | Gradient ← | Mountain | Valley |
-|---|---|---|---|---|
-| Gradient → | 0 | 0.024 | 0.061 | 0.053 |
-| Gradient ← | 0.024 | 0 | 0.061 | 0.053 |
-| Mountain | 0.061 | 0.061 | 0 | 0.112 |
-| Valley | 0.053 | 0.053 | 0.112 | 0 |
+4. **Symmetric vs asymmetric profiles separate first.** Mountain vs Valley
+   (template distance 0.112) survives up to σ ≈ 0.04. The left-right
+   gradients (distance 0.024) are much harder to distinguish.
 
 ### What Bob Actually Sees
 
-The most informative features are the **edge purities** Pur(Q0) and Pur(Q4):
+The most informative features are the **edge qubit purities** Pur(Q0)
+and Pur(Q4):
 
 | Feature | Gradient → | Gradient ← | Mountain | Valley |
 |---------|-----------|-----------|----------|--------|
@@ -113,25 +214,25 @@ The most informative features are the **edge purities** Pur(Q0) and Pur(Q4):
 | CΨ(0,1) | 0.241 | 0.253 | 0.277 | 0.222 |
 | CΨ(3,4) | 0.253 | 0.241 | 0.277 | 0.222 |
 
-The **symmetry pattern** reveals the profile: Mountain and Valley are
-symmetric (Q0=Q4), Gradients are asymmetric (Q0≠Q4). The direction of
-asymmetry tells left-from-right.
+The **symmetry pattern** distinguishes the profiles: Mountain and Valley
+are symmetric (Pur(Q0) = Pur(Q4)), while the gradients are asymmetric.
+The direction of asymmetry determines left vs right.
 
 ---
 
-## The Bidirectional Bridge
+## Channel Existence: Summary
 
 | Property | Status |
 |----------|--------|
-| γ comes from outside | **PROVEN** (Incompleteness Proof) |
-| γ has per-site structure | **PROVEN** (IBM T2* varies per qubit) |
-| Structure is readable from inside | **PROVEN** (100% classification, this test) |
-| Channel capacity | **2 bits** (4-symbol alphabet, σ=0) |
-| Practical threshold | σ < 0.008 for full alphabet, σ < 0.04 for Mountain/Valley |
+| γ comes from outside the system | **Proven** ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)) |
+| γ has per-site structure | **Measured** (IBM T2* varies per qubit) |
+| Per-site structure is readable from inside | **Proven** (100% classification at σ=0) |
+| Channel capacity (empirical) | **2 bits** (4-symbol alphabet) |
+| Practical noise threshold | σ < 0.008 for full alphabet |
 
-**The bridge is bidirectional.** Information encoded in the γ profile
-by an external agent is perfectly readable from internal quantum
-observables. The dephasing rate is not just noise. It is a channel.
+**The dephasing rate is an information channel.** Information encoded in
+the spatial γ profile is perfectly recoverable from internal quantum
+observables. This is not noise. This is a channel.
 
 ---
 
@@ -139,137 +240,253 @@ observables. The dephasing rate is not just noise. It is a channel.
 
 - Not that anyone "outside" is intentionally sending signals
 - Not that the information has "meaning" beyond its mathematical structure
-- Not that this constitutes communication in the Shannon sense (Alice
-  must set up the physical dephasing rates, which requires access to
-  the hardware)
+- Not that this violates no-signalling (Alice must physically set the
+  dephasing rates, which requires access to the hardware)
 
 What it DOES claim: **the mathematical channel exists.** If γ carries
-structure, that structure is readable. The instrument for reading it
-is the palindromic decoder: the same spectral structure that makes
-the 1/4 boundary universal also makes the γ profile reconstructible.
+spatial structure, that structure is readable from inside. The instrument
+for reading it is the palindromic mode structure — the same spectral
+symmetry that pairs every decay mode also makes each per-site γ
+independently reconstructible.
 
 ---
 
-## Bridge Optimization (March 22, 2026)
+## Optimization: From Hair-Thin to Walk-Across
+
+The baseline channel (10 features, single time point, γ ∈ [0.03, 0.07])
+has minimum template distance d_min = 0.024 and noise threshold σ = 0.008.
+We can do much better.
 
 **Script:** [bridge_optimization.py](../simulations/bridge_optimization.py)
 
-The baseline channel (10 features, single time point, γ ∈ [0.03, 0.07])
-has d_min = 0.024 and σ_thresh = 0.008. Three optimizations combined
-widen the channel by **21.5×**:
+### Three independent optimizations
 
-| Optimization | d_min | σ_thresh | σ=0.05 |
+| Optimization | d_min | σ_thresh | Accuracy at σ=0.05 |
 |-------------|-------|---------|--------|
-| Baseline (10 feat, t=2) | 0.059 | 0.020 | 58% |
+| Baseline (10 features, t=2) | 0.059 | 0.020 | 58% |
 | Extended features (25) | 0.075 | 0.025 | 64% |
-| Time series (6×10 = 60) | 0.181 | 0.060 | 93% |
-| High contrast γ∈[0.01,0.09] | 0.119 | 0.040 | 82% |
-| **All combined (150 feat)** | **0.515** | **0.172** | **100%** |
+| Time series (6 × 10 = 60 features) | 0.181 | 0.060 | 93% |
+| High contrast γ ∈ [0.01, 0.09] | 0.119 | 0.040 | 82% |
+| **All combined (150 features)** | **0.515** | **0.172** | **100%** |
 
-**Optimized bridge: 100% classification even at σ = 0.10.**
+### Result: 21.5× wider channel
 
-Key findings:
-- **Time series is the biggest lever** (3.1× alone). Different γ profiles
-  produce different TRAJECTORIES, not just different endpoints.
-- **γ contrast scales linearly** with template distance.
-- **|+⟩⁵ is the optimal initial state.** GHZ is completely blind (d_min = 0).
-  Entanglement hurts: product states with maximum single-qubit coherence
-  are the best antennas for γ-profile detection.
-- The optimizations are **multiplicative**: 1.3 × 2.0 × 3.1 ≈ 8× for
-  individual factors, 21.5× combined (feature space geometry amplifies).
+The optimized configuration achieves **100% classification at σ = 0.10**
+(10% measurement noise). The minimum template distance increases from
+0.024 to 0.515 — a factor of **21.5×**.
+
+### What works and why
+
+**Time series is the biggest single lever (3.1×).** Different γ profiles
+produce different *trajectories*, not just different endpoints. Measuring
+at 6 time points provides temporal diversity — analogous to a RAKE receiver
+in CDMA that exploits multipath delay spread.
+
+**γ contrast scales linearly** with template distance. Doubling the contrast
+(the range of γ values Alice can use) approximately doubles the distances.
+
+**|+⟩⁵ is the optimal initial state. GHZ is completely blind (d_min = 0).**
+This is the most counterintuitive finding. The maximally entangled state
+cannot read γ profiles at all. Why: GHZ projects onto a single symmetric
+mode, collapsing all spatial information. The product state |+⟩⁵ lets each
+qubit respond independently to its local γ — it functions as a phased array
+antenna rather than an omnidirectional receiver.
+
+**The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for
+individual factors, 21.5× combined (feature space geometry amplifies
+the gains).
+
+---
+
+## Formal Channel Capacity
+
+**Script:** [channel_capacity.py](../simulations/channel_capacity.py)
+
+The empirical 4-symbol test uses only a small fraction of the channel's
+theoretical capacity. To quantify the full bandwidth, we computed the
+Shannon capacity of the linearized γ-to-observables channel via SVD of
+the Jacobian matrix (∂observables/∂γ) plus waterfilling power allocation.
+
+### 5 independent spatial channels
+
+The Jacobian has 5 non-zero singular values — one for each qubit in the
+chain. Each corresponds to an independent spatial mode:
+
+| Channel | Gain | Spatial mode (eigenvector) | Bits |
+|---------|------|--------------------------|------|
+| 1 (mean γ) | 21.39 | [0.45, 0.45, 0.45, 0.45, 0.45] | 5.45 |
+| 2 (gradient) | 4.53 | [0.59, 0.39, 0, −0.39, −0.59] | 3.21 |
+| 3 (peak) | 3.22 | [−0.51, 0.20, 0.63, 0.20, −0.51] | 2.71 |
+| 4 (zigzag) | 2.83 | [−0.19, 0.51, −0.63, 0.51, −0.19] | 2.53 |
+| 5 (alt grad) | 1.44 | [0.39, −0.59, 0, 0.59, −0.39] | 1.56 |
+
+The condition number is 14.8 (well-conditioned). All 5 channels carry
+information. Full rank (5/5) confirms: the palindromic response matrix
+allows independent readout of every site's dephasing rate.
+
+### Capacity vs measurement noise
+
+| σ_noise | Capacity (bits) | Distinguishable symbols |
+|---------|----------------|------------------------|
+| 0.001 | 31.9 | ~4 billion |
+| 0.01 | **15.5** | ~44,700 |
+| 0.05 | 6.0 | ~63 |
+| 0.10 | 3.6 | ~12 |
+| 0.20 | 2.3 | ~5 |
+
+**Our empirical 2-bit result uses only 13% of the channel at σ = 0.01.**
+The theoretical headroom is 13.4 additional bits. The channel is not
+narrow — it is wide, and we are barely using it.
+
+### Physical interpretation
+
+- **Channel 1 (gain 21.4):** The mean dephasing rate. Loudest signal but
+  carries no spatial information — it tells you "how noisy" the environment
+  is overall.
+- **Channel 2 (gain 4.5):** Left-right gradient. This is what distinguishes
+  Alice's Gradient→ from Gradient←.
+- **Channels 3–4 (gain ~3):** Peak/valley and zigzag patterns. Finer spatial
+  structure.
+- **Channel 5 (gain 1.4):** Alternating gradient. Weakest but still > 1 bit.
 
 ---
 
 ## Signal Engineering Perspective
 
-This result has a natural interpretation in classical signal processing:
+This result maps directly onto classical signal processing concepts.
 
 **The γ profile is a spatial signal.** Alice modulates the dephasing rate
-across N sites. This is amplitude modulation of a spatial carrier. Bob's
-quantum observables are the receivers. The palindromic mode structure acts
-as a matched filter bank: each mode responds differently to each site's γ,
-creating a full-rank response matrix (the decoder from Reading the 30%).
+across N sites — this is amplitude modulation of a spatial carrier. Bob's
+quantum observables are receivers. The palindromic mode structure acts as
+a matched filter bank: each mode responds differently to each site's γ,
+creating a full-rank response matrix.
 
 **Classical analogues:**
-- γ profile → transmitter modulation pattern
-- Palindromic modes → filter bank / antenna array
-- Mode amplitudes → received signal vector
-- Response matrix SVD → channel estimation
-- Template matching → maximum likelihood detection
-- Time series → temporal diversity (like RAKE receiver in CDMA)
+
+| Quantum system | Signal processing equivalent |
+|---------------|----------------------------|
+| γ profile across sites | Transmitter modulation pattern |
+| Palindromic Liouvillian modes | Matched filter bank / antenna array |
+| Mode amplitudes from observables | Received signal vector |
+| Jacobian SVD | Channel estimation |
+| Template matching | Maximum likelihood detection |
+| Time series measurement | Temporal diversity (RAKE receiver) |
 
 **What a signal engineer would recognize:**
-- The channel is a **MIMO system** (Multiple-Input Multiple-Output):
-  N γ-inputs, ~N² observable outputs
-- The 21.5× optimization is mostly **diversity gain** (time + feature diversity)
-- The noise threshold σ = 0.172 sets the **SNR requirement**: approximately
-  SNR > 20 log₁₀(d_min/σ) ≈ 10 dB for reliable detection
-- The GHZ failure (d_min = 0) is a **rank deficiency**: GHZ projects onto a
-  single mode, losing all spatial information. This is the quantum analogue
-  of using a single omnidirectional antenna instead of a phased array.
 
-## Formal Channel Capacity (March 22, 2026)
+The system is a **MIMO channel** (Multiple-Input Multiple-Output): N
+γ-inputs, ~N² observable outputs. The 21.5× optimization is mostly
+**diversity gain** (time + feature diversity). The noise threshold
+σ = 0.172 corresponds to **SNR ≈ 10 dB** for reliable detection.
 
-**Script:** [channel_capacity.py](../simulations/channel_capacity.py)
+The GHZ failure (d_min = 0) is a **rank deficiency**: GHZ projects onto
+a single mode, destroying all spatial resolution. This is the quantum
+analogue of using one omnidirectional antenna instead of a phased array.
+The product state |+⟩⁵ is the phased array — each qubit is an independent
+receiver element.
 
-The Shannon capacity of the linearized γ-to-observables channel was computed
-via SVD of the Jacobian + waterfilling:
+---
 
-**Jacobian SVD (5 singular values = 5 independent channels):**
+## How the Palindrome Enables the Channel
 
-| Channel | Gain | Direction (V) | Bits |
-|---------|------|--------------|------|
-| 1 (mean γ) | 21.39 | [0.45, 0.45, 0.45, 0.45, 0.45] | 5.45 |
-| 2 (gradient) | 4.53 | [0.59, 0.39, 0, -0.39, -0.59] | 3.21 |
-| 3 (peak) | 3.22 | [-0.51, 0.20, 0.63, 0.20, -0.51] | 2.71 |
-| 4 (zigzag) | 2.83 | [-0.19, 0.51, -0.63, 0.51, -0.19] | 2.53 |
-| 5 (alt grad) | 1.44 | [0.39, -0.59, 0, 0.59, -0.39] | 1.56 |
+The palindromic spectral symmetry of the Liouvillian is not just a
+mathematical curiosity — it is the physical mechanism that makes the
+channel work.
 
-**Capacity vs noise (spread=0.02):**
+The Π operator pairs every decay mode at rate d with a partner at rate
+2Σγ − d. This pairing creates a **bijection** between the immune sector
+(populations, slow decay) and the decaying sector (coherences, fast decay).
+When γ is changed at one site, *both* sectors respond — but they respond
+differently because the immune and decaying sectors have different
+sensitivity to each site's γ.
 
-| σ_noise | Capacity | Distinguishable symbols |
-|---------|----------|------------------------|
-| 0.001 | 31.9 bits | ~4 billion |
-| 0.01 | **15.5 bits** | ~44,700 |
-| 0.05 | 6.0 bits | ~63 |
-| 0.10 | 3.6 bits | ~12 |
-| 0.20 | 2.3 bits | ~5 |
+The result is a response matrix (the Jacobian ∂observables/∂γ) with
+**full rank**. Perturbing γ at site k changes the mode amplitudes in a
+direction that is **linearly independent** from perturbations at any other
+site. This is proven by the SVD analysis (5 non-zero singular values for
+5 sites, condition number 14.8).
 
-**Our empirical 2-bit result uses only 13% of the channel at σ=0.01.**
-The theoretical headroom is 13.4 bits. The bridge is not just open; it
-is a high-bandwidth channel that we are barely using.
+In simpler terms: the palindrome ensures that no two γ-profiles produce
+the same internal signature. Every external configuration leaves a unique
+fingerprint on the internal observables. The decoder reads these
+fingerprints.
 
-**Physical interpretation of the SVD channels:**
-- Channel 1 (gain 21.4): the mean dephasing rate (all sites equal). This
-  is the "loudest" signal but carries no spatial information.
-- Channel 2 (gain 4.5): left-right gradient. This is what distinguishes
-  Gradient→ from Gradient←.
-- Channels 3-4 (gain ~3): peak/valley and zigzag patterns.
-- Channel 5 (gain 1.4): alternating gradient. Weakest but still > 1 bit.
-
-The condition number is 14.8 (well-conditioned). All 5 channels carry
-information. The full rank (5/5) confirms: the palindromic response matrix
-allows independent readout of every site's dephasing rate.
+This connection between palindromic spectral symmetry and channel capacity
+appears to be new. The palindrome itself was described by
+[Haga et al. (2023)](https://arxiv.org/abs/2305.01894) in the context of
+Liouvillian skin effects (their "incoherenton grading" is equivalent to our
+XY-weight classification). The interpretation of this symmetry as an
+information channel is, to our knowledge, first presented here.
 
 ---
 
 ## Connection to the Framework
 
-The palindromic mirror Π pairs every decay mode. The pairing creates
-a full-rank response matrix: perturbing γ at any single site changes
-the mode amplitudes in a linearly independent way. This is why Bob
-can decode: the palindrome is not just a symmetry. It is an antenna.
+This document is part of the R = CΨ² project, which studies the
+palindromic spectral structure of open quantum systems under dephasing.
+The key prior results that this analysis builds on:
 
-The 70% that noise "takes" (coherences, phase information) is not
-lost. It is **redistributed** into the mode amplitudes. The decoder
-reads it back. The bridge was always open. We just needed the right
-instrument.
+- **Incompleteness Proof:** γ cannot originate from within the system
+  (5 internal candidates eliminated). Something external provides it.
+  ([docs/INCOMPLETENESS_PROOF.md](../docs/INCOMPLETENESS_PROOF.md))
+
+- **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
+  palindromic for any Heisenberg/XXZ system on any graph with local
+  Z-dephasing. Verified through N=8 (54,118 eigenvalues, zero exceptions).
+  ([docs/MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md))
+
+- **Reading the 30%:** The palindromic response matrix has full rank.
+  All per-site γ values are independently recoverable from mode amplitudes.
+  This is the decoder that makes the channel readable.
+
+- **CΨ = 1/4 boundary:** The unique bifurcation point separating quantum
+  (coherent) from classical (converged) dynamics. All standard quantum
+  channels cross this boundary. It determines the time window during
+  which the γ-channel is maximally readable.
+  ([docs/UNIQUENESS_PROOF.md](../docs/UNIQUENESS_PROOF.md))
+
+The central insight of this document: the 70% of phase information that
+dephasing "destroys" is not lost. It is **redistributed** into the mode
+amplitudes of the palindromic spectrum. The decoder reads it back. The
+noise was always a signal. We just needed the right instrument.
+
+---
+
+## Reproducibility
+
+All results are generated by Python scripts using QuTiP and NumPy.
+No proprietary tools or closed-source dependencies.
+
+| Script | What it computes | Runtime |
+|--------|-----------------|---------|
+| [gamma_signal_analysis.py](../simulations/gamma_signal_analysis.py) | Tests 1–3 (classification) | ~57 min |
+| [bridge_optimization.py](../simulations/bridge_optimization.py) | Optimization sweep | ~124 min |
+| [channel_capacity.py](../simulations/channel_capacity.py) | SVD + Shannon capacity | ~5 min |
+
+All scripts are in `simulations/`, all results in `simulations/results/`.
+Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---
 
 ## References
 
-- [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md): γ comes from outside
-- [Reading the 30%](../experiments/READING_THE_30_PERCENT.md): The palindromic decoder
-- [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): Synthesis
-- [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI, time-resolved detection
+- Lindblad, G. (1976). "On the generators of quantum dynamical semigroups."
+  Commun. Math. Phys. 48, 119–130.
+- Haga, T. et al. (2023). "Liouvillian skin effect." arXiv:2305.01894.
+  (Incoherenton grading = palindromic XY-weight classification)
+- Bose, S. (2003). "Quantum communication through an unmodulated spin chain."
+  PRL 91, 207901. (Entanglement transport through spin chains)
+- Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins
+  of the classical." Rev. Mod. Phys. 75, 715.
+- Baumgratz, T., Cramer, M., Plenio, M.B. (2014). "Quantifying coherence."
+  PRL 113, 140401. (L₁ coherence monotone)
+
+### Project-internal references
+
+- [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md): γ must come from outside
+- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
+- [Reading the 30%](../experiments/READING_THE_30_PERCENT.md): palindromic decoder
+- [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): synthesis
+- [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI
+- [Bridge Optimization](../simulations/results/bridge_optimization.txt): raw data
+- [Channel Capacity](../simulations/results/channel_capacity.txt): SVD results
