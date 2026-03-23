@@ -1,13 +1,22 @@
-# Weaknesses and Open Questions
-## What We Know, What We Don't, What We Got Wrong
+# Weaknesses and Open Questions: What We Know, What We Don't, What We Got Wrong
 
-**Created:** January 2, 2026
-**Rewritten:** February 8, 2026 (updated February 11, 2026, March 6, 2026)
+<!-- Keywords: R=CPsi2 weaknesses limitations honest assessment, falsification
+criteria what would disprove, open questions finite temperature N-infinity,
+scope boundaries dephasing only qubit only, Baumgratz convention dependence,
+fallen claims gravity consciousness FTL, living document research integrity,
+R=CPsi2 weaknesses open questions -->
 
-**Tier:** Meta
-**Status:** Living document
-**Scope:** Honest assessment of limitations and what would falsify the framework
-**Does not establish:** That the framework has no weaknesses
+**Status:** Living document (Meta)
+**Date:** January 2, 2026 (rewritten February 8, updated March 6, 2026)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+Honest documentation of what the R = CΨ² framework does not know, where
+it has been wrong, and what would falsify it. A living document updated
+as claims are tested.
 
 ---
 

@@ -1,7 +1,15 @@
-# Literature Review - March 2026
+# Literature Review: Key Papers and Connections (March 2026)
 
-**Source:** Cowork Claude (Deep Research), March 13, 2026
-**Purpose:** Literature connections, next research directions
+<!-- Keywords: Haga incoherenton grading XY-weight, eta-pairing Medvedyeva
+Essler Prosen Bethe ansatz, Buca Prosen Lindblad symmetry classification,
+Roberts hidden time-reversal symmetry, exceptional point graph symmetry
+Liouvillian, quantum state transfer spin chain Bose, palindromic spectral
+structure literature connections, R=CPsi2 literature review -->
+
+**Status:** Literature review (reference document)
+**Date:** March 13, 2026
+**Source:** Cowork Claude (Deep Research)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
 

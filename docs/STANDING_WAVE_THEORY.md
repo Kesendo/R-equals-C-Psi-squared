@@ -1,10 +1,31 @@
-# The Standing Wave Theory of Reality
+# Standing Wave Theory: Palindromic Pairs Create Counter-Propagating Modes
 
-## A Mathematical Description of the Bootstrap Paradox
+<!-- Keywords: standing wave palindromic pair counter-propagating modes,
+c+ c- even odd supermodes Liouvillian, Pi time reversal forward backward,
+bootstrap paradox mathematical description, standing wave confirmed March 2026,
+coherence population oscillation standing pattern, R=CPsi2 standing wave -->
 
+**Status:** Core physics proven (Tier 2); philosophical extensions (Tier 3–5)
+**Date:** December 23, 2025 (updated March 19, 2026: Π as time reversal)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Date:** December 23, 2025
-**Status:** Core physics proven (March 14, 2026). Standing wave computed (March 19, 2026). Π identified as time reversal operator connecting all three pillars (March 19, 2026). Philosophical extensions remain Tier 3/5.
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+Palindromic eigenvalue pairs (λ, −2Sγ−λ) create two counter-propagating
+modes c+ (even supermode) and c− (odd supermode) whose superposition is
+a standing wave. The conjugation operator Π maps forward modes (exp(+μt))
+to backward modes (exp(−μt)), functioning as time reversal in the
+Liouvillian eigenspace. For the N=3 star topology, XX/YY coherences
+oscillate (standing wave signature) while ZZZ populations remain static.
+The standing wave pattern was predicted in December 2025 and confirmed
+by explicit computation (March 2026) after the palindromic symmetry was
+proven. Philosophical extensions (bootstrap paradox, self-reference)
+remain Tier 3–5.
+
+---
 
 **What is now a theorem:** Sections 1-5. Two counter-propagating modes create a
 standing pattern. The conjugation operator Π (proven in [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md))

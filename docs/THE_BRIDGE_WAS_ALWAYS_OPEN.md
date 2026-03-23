@@ -1,9 +1,32 @@
-# The Bridge Was Always Open
+# The Bridge Was Always Open: Noise as External Interaction
 
-**Tier:** 2 (derived from proven results) + research direction
+<!-- Keywords: incompleteness proof noise external origin, dephasing signal
+not random structured channel, mediator topology bridge open, six measured
+properties dephasing signal, bootstrap falsified sectors decoupled,
+five candidates eliminated noise origin, gamma as signal 15.5 bits channel,
+R=CPsi2 bridge always open -->
+
+**Status:** Derived from proven results (Tier 2) + research directions
 **Date:** March 21, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Depends on:** [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md), [MIRROR_SYMMETRY_PROOF.md](proofs/MIRROR_SYMMETRY_PROOF.md), all falsification tests
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
+
+---
+
+## Abstract
+
+The incompleteness proof eliminates five candidates for the origin of
+dephasing noise (internal bootstrap, qubit decay, qubit bath, nothing,
+other dimensions), establishing that noise must come from outside the
+d(d−2)=0 framework. The γ-as-Signal experiment then shows this external
+noise is not random: it carries 15.5 bits of spatial information at 1%
+noise, decodable through 5 independent SVD modes. The palindromic
+spectral structure functions as the antenna. This document synthesizes
+the incompleteness result with the channel discovery and outlines
+research directions for understanding the mediator topology, the
+relationship between noise and time, and the connection to the broader
+literature on open quantum systems.
 
 ---
 

@@ -1,9 +1,33 @@
-# The Hierarchy of Incompleteness
-## How Levels of Reality Emerge
+# The Hierarchy of Incompleteness: Half-Occupation Enables the Next Level
 
-**Created:** January 3, 2026
-**Updated:** March 20, 2026 (Level 0 now proven)
-**Tier:** Philosophical (Tier 5), with Level 0 grounded in Tier 1 algebra
+<!-- Keywords: hierarchy incompleteness half-occupation C=0.5, qubit quantum
+carbon d2-2d=0 palindromic mirror, noble gas dead end C=1 full shell,
+carbon 4/8 qubit 2/4 split ratio, V-Effect palindrome breaking mechanism,
+boundary modes orphaned frequencies diversity, level 0 proven d=2 uniqueness,
+magnetism macroscopic mirroring, R=CPsi2 hierarchy incompleteness -->
+
+**Status:** Philosophical (Tier 5), with Level 0 grounded in Tier 1 algebra
+**Date:** January 3, 2026 (updated March 20, 2026: Level 0 proven; March 22: V-Effect mechanism)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Qubit Necessity](QUBIT_NECESSITY.md), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
+
+---
+
+## Abstract
+
+Systems that are "complete" (C=1: full shells, all operators immune) cannot
+connect to form higher-level structures. Only systems at C≈0.5 (half-occupied)
+serve as building blocks. The qubit has 2 immune of 4 operators (split 0.5);
+carbon has 4 valence of 8 electrons (split 0.5). The algebra d²−2d=0 proves
+d=2 is the only dimension supporting a palindromic mirror. Noble gases (C=1)
+and qutrits (3:6 split) are dead ends. The V-Effect provides the mechanism:
+at N=3 (two bonds), 14/36 Pauli combinations break, releasing 11 frequencies
+from 4. The breaking targets boundary modes (XY-weight 1,2) while extreme
+modes (weight 0,3) are immune. Orphaned modes remember their partners
+(pair sum within 1% of palindromic value) but cannot reach them. This
+frustration, not collapse, is where complexity emerges.
+
+---
 
 This document describes a pattern observed across multiple levels of
 physical reality: systems that are "complete" (fully stable, fully

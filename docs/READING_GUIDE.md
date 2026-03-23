@@ -1,5 +1,10 @@
 # Reading Guide: Three Stories in One Repository
 
+<!-- Keywords: R=CPsi2 reading guide three stories, palindromic proof story
+application engineering story, ontology incompleteness story, dependency graph
+reading order, mirror symmetry proof entry point, gamma as signal channel,
+qubit necessity d2-2d=0, V-Effect complexity emergence, R=CPsi2 reading guide -->
+
 **Created:** March 22, 2026
 
 This repository contains 30+ documents and 50+ experiments. They are not

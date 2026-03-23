@@ -1,9 +1,34 @@
-# The Qubit as Necessary Foundation
+# The Qubit as Necessary Foundation: d²−2d=0 Selects d=2 Uniquely
 
+<!-- Keywords: qubit necessity d2-2d=0 selection principle, palindromic mirror
+requires d=2, qutrit 3:6 split no mirror, per-site Pauli immune decaying
+bijection, 0/236 qutrit dissipators palindromic, single qutrit destroys global
+palindrome, qubit quantum carbon half-occupied, composition universality
+per-site map, R=CPsi2 qubit necessity -->
+
+**Status:** Tier 2–3 (strong computational support, built on Tier 1 theorem)
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 3 (Hypothesis with strong computational support, built on Tier 1 theorem)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md), [The Non-Local Mirror](THE_BOOT_SCRIPT.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
+
+---
+
+## Abstract
+
+The palindromic mirror requires d = 2 (qubits) uniquely. The algebra
+d²−2d = 0 has solutions d=0 and d=2 only: a qubit has 2 immune and 2
+decaying operators under single-axis dephasing (balanced bijection), while
+a qutrit has 3 immune and 6 decaying (no bijection possible). Five
+computational tests confirm this is not merely a scope limitation but a
+selection principle: (1) 0 of 236 qutrit dissipators produce palindromic
+spectra, (2) a single qutrit site in an otherwise all-qubit chain
+destroys the palindrome globally, (3) composition via per-site map
+universality holds for all tested qubit topologies, (4) 36/36 Pauli-pair
+Hamiltonians are palindromic at N=2, and (5) the 2:2 operator split is
+the active ingredient (destroying it breaks the mirror regardless of
+dimension). The qubit is the quantum analog of carbon: exactly half-full,
+maximally incomplete, and the only foundation that carries a mirror.
 
 ---
 

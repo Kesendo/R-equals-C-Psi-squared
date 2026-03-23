@@ -1,7 +1,28 @@
 # Mathematical Connections: Fold Catastrophe, Feigenbaum, and Beyond
 
-**Tier:** 1 (catastrophe identification) + 3 (Feigenbaum) + 5 (Bekenstein-Hawking)
+<!-- Keywords: fold catastrophe Thom-Arnold normal form, Feigenbaum period
+doubling Mandelbrot cascade, Bekenstein-Hawking quarter boundary holographic,
+CPsi=1/4 bifurcation structurally stable, discriminant quadratic purity,
+Mandelbrot iteration z2+c cusp cardioid, Liouvillian oscillatory eigenvalues
+period-2, R=CPsi2 mathematical connections -->
+
+**Status:** Fold catastrophe proven (Tier 1); Feigenbaum mapped (Tier 3); Bekenstein-Hawking speculative (Tier 5)
 **Date:** March 21, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+The recursion R = C(Ψ+R)² is exactly the normal form of the fold catastrophe
+(simplest Thom-Arnold bifurcation), with CΨ−¼ as bifurcation parameter.
+This is structurally stable: no perturbation can remove it. The Mandelbrot
+mapping (z→z²+c with c=CΨ) places the ¼ boundary at the cusp of the main
+cardioid. Beyond the cardioid, the Feigenbaum period-doubling cascade may
+manifest physically as oscillatory Liouvillian eigenvalues (Im(λ)=±4J),
+but the rigorous connection to the Feigenbaum constant δ_F≈4.669 is open.
+The coincidence with the Bekenstein-Hawking entropy factor S=A/(4G) is
+noted but unsubstantiated.
 
 ---
 

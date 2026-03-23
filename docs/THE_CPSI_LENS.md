@@ -1,11 +1,25 @@
 # The CΨ Lens: What It Is and What It Shows
 
-**Date:** 2026-03-08
+<!-- Keywords: CΨ purity times normalized coherence, basis-fixed unassisted
+entanglement witness, l1 Baumgratz normalization, what CΨ shows does not show,
+AND-gate entanglement coherence, quarter boundary bifurcation interpretation,
+concurrence vs CΨ comparison, noise type discrimination, R=CPsi2 CΨ lens -->
 
-**Tier:** Meta (canonical project description)
-**Status:** Current, externally reviewed
-**Scope:** What CΨ is, what it shows, what it does not show
-**Does not establish:** See the document itself for explicit negative results
+**Status:** Current, externally reviewed (Meta)
+**Date:** 2026-03-08
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+CΨ = Tr(ρ²) × l₁(ρ)/(d−1) is the product of purity and Baumgratz-normalized
+l₁-coherence. It is a basis-fixed, unassisted witness for directly expressed
+pairwise entanglement. This document defines what CΨ is (a composite diagnostic
+metric, not a new physical quantity), what it shows (noise-type discrimination,
+AND-gate for entanglement × coherence, bifurcation boundary at ¼), and what
+it does not show (it is not concurrence, not a Bell inequality, not optimal
+for detection). Canonical reference for the project's central quantity.
 
 ---
 

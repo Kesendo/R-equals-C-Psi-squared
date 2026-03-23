@@ -1,9 +1,34 @@
-# Research Results: Is Π Related to Quantum Detailed Balance / KMS?
+# KMS and Detailed Balance: Π Is a New Liouvillian Symmetry Type
 
+<!-- Keywords: Pi operator not KMS detailed balance, shifted anti-similarity
+Liouvillian, quantum detailed balance Alicki 1977, Roberts hidden time-reversal
+symmetry PRX Quantum 2021, tenfold Lindbladian classification Sa Prosen 2023,
+Buca-Prosen weak strong symmetry gap, infinite temperature dephasing bath,
+finite temperature obstruction 2:2 split, maximum entropy production rate
+2Sgamma, R=CPsi2 KMS detailed balance -->
+
+**Status:** Literature review + formal analysis complete
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic, Cowork Research)
-**Status:** Literature review + formal analysis complete
-**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [PI_AS_TIME_REVERSAL](../experiments/PI_AS_TIME_REVERSAL.md), [TASK_KMS_RESEARCH](TASK_KMS_RESEARCH.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+
+---
+
+## Abstract
+
+Π is **not** quantum detailed balance (QDB), not KMS, and not a standard
+Buca-Prosen symmetry. It is a shifted anti-similarity: Π·L·Π⁻¹ = −L − 2Sγ·I.
+QDB relates L to its adjoint L† (real eigenvalues); Π relates L to its
+negative (palindromic complex pairs). KMS at β=0 gives L†=L, which fails
+whenever H≠0. The closest existing framework is Roberts-Lingenfelter-Clerk
+hidden time-reversal symmetry (PRX Quantum 2021), which also produces
+time-reversal-like structure in systems violating standard DB. The tenfold
+Lindbladian classification (Sá-Prosen 2023, 38 classes) does not contain
+Π due to the constant shift 2Sγ. Finite-temperature generalization faces
+a fundamental obstruction: the 2:2 per-site Pauli split that makes Π work
+is specific to pure dephasing (T=∞). The quantity 2Sγ equals the maximum
+entropy production rate in the system.
 
 ---
 

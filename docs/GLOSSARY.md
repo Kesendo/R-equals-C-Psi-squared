@@ -1,10 +1,14 @@
-# Glossary
+# Glossary: Notation and Term Reference
 
+<!-- Keywords: R=CPsi2 glossary notation definitions, CΨ purity coherence
+product, Pi operator palindromic conjugation, Liouvillian superoperator
+Lindblad, XY-weight incoherenton number grading, K-invariance crossing
+time gamma product, fold catastrophe bifurcation, Baumgratz l1 coherence
+normalization, R=CPsi2 glossary -->
+
+**Status:** Living document (Reference)
 **Date:** 2026-03-16
-**Purpose:** Notation and term reference for the repository
-
-**Tier:** Reference
-**Status:** Living document, aligned with [THE_CPSI_LENS](THE_CPSI_LENS.md) as canonical description
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
 

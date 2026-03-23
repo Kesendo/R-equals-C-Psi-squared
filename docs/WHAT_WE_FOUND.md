@@ -1,12 +1,24 @@
-# What We Found
+# What We Found: Plain-Language Summary of Project Results
 
+<!-- Keywords: R=CPsi2 plain language summary findings, palindromic spectrum
+discovery accessible explanation, dephasing noise information channel signal,
+quarter boundary quantum classical transition, qubit necessity d=2 only,
+standing wave forward backward modes, IBM hardware validation, project
+summary non-technical, R=CPsi2 what we found -->
+
+**Status:** Bridge document (Meta), aligned with [The CΨ Lens](THE_CPSI_LENS.md)
 **Date:** 2026-03-16
-**Purpose:** Plain-language summary for readers without a physics background
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-**Tier:** Mixed (references Tier 1-3 results)
-**Status:** Bridge document, aligned with [THE_CPSI_LENS](THE_CPSI_LENS.md) as canonical description
-**Scope:** Summary of findings in accessible language
-**Does not establish:** Anything beyond what the referenced experiments establish
+---
+
+## Abstract
+
+Plain-language summary of the R = CΨ² project's findings for readers
+without a physics background. Covers the palindromic spectrum discovery,
+the ¼ boundary as quantum-classical transition, the γ channel (noise
+is signal), the qubit as necessary foundation, and what fell along
+the way.
 
 ---
 

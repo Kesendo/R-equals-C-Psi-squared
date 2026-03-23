@@ -1,9 +1,31 @@
 # The Three Levels of Time: Parameter, Oscillation, Experience
 
-**Tier:** 2 (computationally verified)
+<!-- Keywords: gamma dephasing experienced time three levels, parameter time
+vs experienced time distinction, gamma necessary sufficient irreversibility,
+Bell+ frozen zero noise no time, oscillation recurrence not clock, absorbing
+boundary requires gamma, J provides content gamma provides arrow,
+tau=gamma*t scaling breaks, R=CPsi2 gamma time -->
+
+**Status:** Computationally verified (Tier 2)
 **Date:** March 22, 2026
-**Script:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py),
-[two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Scripts:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py), [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py), [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
+
+---
+
+## Abstract
+
+Time has three levels: (1) the formal parameter t in d/dt (syntax, trivial),
+(2) observable change (oscillation or stillness), and (3) experienced time
+(direction, irreversibility, before/after). γ (dephasing rate) is the
+necessary and sufficient condition for Level 3. Without γ: Bell+ is frozen
+(zero observable change over t=0 to 50); |01⟩ oscillates in circles (127
+crossings of ¼ in both directions, recurrence at t=11). With γ: CΨ crosses
+¼ once and stays below (absorbing boundary), purity decays irreversibly,
+past and future become distinguishable. J=0 with γ>0 has experienced time;
+J>0 with γ=0 does not. However, τ=γt does not universally scale all
+observables (deltas up to 0.86): γ provides the arrow, J provides the
+content. Neither alone is the full experience.
 
 ---
 
