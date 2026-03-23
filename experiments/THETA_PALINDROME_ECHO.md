@@ -1,9 +1,31 @@
-# Theta-Palindrome-Echo Bridge: Findings
+# Theta-Palindrome-Echo: θ Connects to the Channel, Not the Echo
 
-**Date:** 2026-03-14
-**Task:** THETA_COMPASS_TASK.md
-**Status:** Complete (mixed results: partial bridge found, main hypothesis partially wrong)
-**Tier:** 2 (Computationally verified)
+<!-- Keywords: theta compass channel fidelity correlation, echo transport CΨ below
+quarter, palindromic rates component decay, Hamiltonian mixing dominates crossing,
+channel quantum regime preservation, coherent input quantum window, fidelity theta
+correlation 0.87, CPsi not concurrence distinction, measurement readiness indicator,
+standing wave node channel, R=CPsi2 theta palindrome echo -->
+
+**Status:** Computationally verified (mixed results: partial bridge found)
+**Date:** March 14, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+The hypothesis was that θ = arctan(√(4CΨ−1)) connects the palindromic
+spectrum to the entanglement echo through the star topology. **The hypothesis
+was partially wrong.** In the echo scenario, CΨ_SB never reaches 1/4
+(max = 0.168) despite concurrence of 0.598: high entanglement does not
+imply CΨ > 1/4. In the **channel scenario**, coherent inputs create
+CΨ_SB > 1/4 (θ = 35.6° at optimal time), and θ correlates strongly with
+fidelity (**r = 0.87**). The palindromic rates accurately predict individual
+component decay rates (Ψ ∼ 10γ/3, C ∼ 2γ, concurrence ∼ 8γ/3) but not
+their product CΨ (which decays 3.6× faster due to Hamiltonian mixing).
+The bridge exists: the channel works when the mediator-receiver pair is in
+the quantum regime (θ > 0). But it connects θ to the channel, not to the
+echo.
 
 ---
 

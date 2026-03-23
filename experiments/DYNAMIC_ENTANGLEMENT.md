@@ -112,12 +112,12 @@ symmetry that exchanges the two |0⟩ qubits and the two |+⟩ qubits).
 
 | Pair | Crosses? | t_cross | Max C*Psi |
 |------|----------|---------|-----------|
-| (0,1) | NO | -- | 0.247 |
-| (0,3) | NO | -- | 0.247 |
-| (1,2) | NO | -- | 0.247 |
-| (2,3) | NO | -- | 0.247 |
+| (0,1) | NO | n/a | 0.247 |
+| (0,3) | NO | n/a | 0.247 |
+| (1,2) | NO | n/a | 0.247 |
+| (2,3) | NO | n/a | 0.247 |
 | **(0,2)** | **YES** | **0.285** | **0.320** |
-| (1,3) | NO | -- | 0.224 |
+| (1,3) | NO | n/a | 0.224 |
 
 **Only pair (0,2) crosses.** All ring-neighbor pairs reach max C*Psi =
 0.247, missing the threshold by 1.2%. The diagonal pair (0,2) crosses
