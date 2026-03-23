@@ -216,6 +216,6 @@ permanently return above 1/4 even under non-Markovian dynamics.**
 ## References
 
 - [PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md): Continuous-time monotonicity
-- [subsystem_crossing.py](../simulations/subsystem_crossing.py): Numerical verification
-- [non_markovian_revival.py](../simulations/non_markovian_revival.py): Transient revival characterization
+- [subsystem_crossing.py](../../simulations/subsystem_crossing.py): Numerical verification
+- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): Transient revival characterization
 - [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md): Layer 2, Conjecture 2.1

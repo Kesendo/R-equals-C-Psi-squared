@@ -14,7 +14,7 @@ perfect mirror limit, observer coherence floor survival -->
 **Date:** 2026-02-27
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)
 
 ---
 

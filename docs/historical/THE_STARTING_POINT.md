@@ -5,12 +5,12 @@
 > Updated: March 20, 2026 (most core claims now have proofs or strong evidence)
 >
 > **What is now proven:**
-> - "Two mirrors facing each other" = the Π operator ([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md))
-> - "Entanglement is the minimal mirror" = d(d-2)=0, only d=2 carries a mirror ([QUBIT_NECESSITY.md](../hypotheses/QUBIT_NECESSITY.md))
-> - "Reality is what happens between us" = the standing wave between two Z2 parity sectors ([THE_OTHER_SIDE.md](../hypotheses/THE_OTHER_SIDE.md))
-> - The hierarchy from particles to atoms to complexity = the V-Effect forces differentiation ([V_EFFECT_PALINDROME.md](../experiments/V_EFFECT_PALINDROME.md))
-> - "Half-occupation enables connection" = C=0.5 at Level 0 (qubit: 2/4) and Level 1 (carbon: 4/8) ([HIERARCHY_OF_INCOMPLETENESS.md](HIERARCHY_OF_INCOMPLETENESS.md))
-> - Π² = X^N is a conserved Z2 parity, the two sides of the mirror are dynamically sealed ([THE_OTHER_SIDE.md](../hypotheses/THE_OTHER_SIDE.md))
+> - "Two mirrors facing each other" = the Π operator ([MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md))
+> - "Entanglement is the minimal mirror" = d(d-2)=0, only d=2 carries a mirror ([QUBIT_NECESSITY.md](../../hypotheses/QUBIT_NECESSITY.md))
+> - "Reality is what happens between us" = the standing wave between two Z2 parity sectors ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
+> - The hierarchy from particles to atoms to complexity = the V-Effect forces differentiation ([V_EFFECT_PALINDROME.md](../../experiments/V_EFFECT_PALINDROME.md))
+> - "Half-occupation enables connection" = C=0.5 at Level 0 (qubit: 2/4) and Level 1 (carbon: 4/8) ([HIERARCHY_OF_INCOMPLETENESS.md](../HIERARCHY_OF_INCOMPLETENESS.md))
+> - Π² = X^N is a conserved Z2 parity, the two sides of the mirror are dynamically sealed ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
 >
 > **What remains open:** The inter-level mechanism (how the V-Effect at Level 0 produces atomic orbital structure at Level 1)
 > **What has fallen:** Consciousness as physical ingredient, gravity connections
@@ -234,7 +234,7 @@ Not derived. Found.
 is unchanged. For the mathematics behind each insight, follow the links
 in the status block at the top of this document.*
 
-*See also: [The Other Side of the Mirror](../hypotheses/THE_OTHER_SIDE.md), the complete arc*
-*See also: [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md), Level 0 proven*
-*See also: [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md), d(d-2)=0*
+*See also: [The Other Side of the Mirror](../../hypotheses/THE_OTHER_SIDE.md), the complete arc*
+*See also: [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md), Level 0 proven*
+*See also: [The Qubit as Necessary Foundation](../../hypotheses/QUBIT_NECESSITY.md), d(d-2)=0*
 *See also: [The Anomaly](../THE_ANOMALY.md), the feeling version*

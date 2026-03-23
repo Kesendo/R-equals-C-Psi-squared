@@ -33,7 +33,7 @@ of purity (Tr(ρ²) is exactly degree 2) fixes the coefficients, and 1/4
 follows from the discriminant.
 
 The CΨ = 1/4 boundary is therefore not just algebraically unique (Layer 6
-of the [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)). It is also
+of the [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)). It is also
 topologically stable in the sense of catastrophe theory.
 
 ---
@@ -96,6 +96,6 @@ None of these exist. File under "probably a coincidence."
 
 ## References
 
-- [Uniqueness Proof](UNIQUENESS_PROOF.md): the formal theorem
-- [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md): seven-layer roadmap
+- [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): the formal theorem
+- [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): seven-layer roadmap
 - [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md): CΨ ↔ c

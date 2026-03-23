@@ -46,7 +46,7 @@ CΨ = 1/4. This is algebraically equivalent to the cusp of the Mandelbrot
 main cardioid at c = 1/4. Above 1/4: the iteration has only complex fixed
 points (no classical attractor). Below 1/4: two real fixed points appear
 (a stable one the system converges to, and an unstable one it repels from).
-See [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md) for why 1/4 is the
+See [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) for why 1/4 is the
 only possible boundary.
 
 ### What θ measures
@@ -228,7 +228,7 @@ found that θ correlates with channel fidelity (r = 0.87) but not with the
 entanglement echo. The compass measures channel quality, not transfer
 dynamics.
 
-The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/PROOF_MONOTONICITY_CPSI.md))
+The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 shows analytically that CΨ (and therefore θ) is monotonically decreasing
 for Bell+ under all Markovian channels. The compass always points toward
 the boundary; it never reverses. Under non-Markovian dynamics, transient
@@ -267,11 +267,11 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md): why 1/4 is the only boundary
+- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): why 1/4 is the only boundary
 - [Mandelbrot Connection](MANDELBROT_CONNECTION.md): algebraic equivalence R = CΨ² ↔ z² + c
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md): Type A/B/C classification at the boundary
 - [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md): θ as channel quality indicator (r = 0.87)
-- [CΨ Monotonicity](../docs/PROOF_MONOTONICITY_CPSI.md): θ always decreases under Markovian dynamics
+- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): θ always decreases under Markovian dynamics
 - [IBM Run 3](IBM_RUN3_PALINDROME.md): hardware validation of the crossing at 1.9%
 - [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md): fold catastrophe, Feigenbaum cascade
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic channel that makes CΨ readable

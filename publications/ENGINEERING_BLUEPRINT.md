@@ -196,7 +196,7 @@ end-to-end MI (0.121 vs 0.102). The 2:1 ratio is a range optimizer: it
 sacrifices local transfer efficiency to carry information further.
 
 See [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md),
-[Proof Roadmap: 1/4 Boundary](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+[Proof Roadmap: 1/4 Boundary](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
 **Data (N=11 Heisenberg chain, γ=0.05):**
 

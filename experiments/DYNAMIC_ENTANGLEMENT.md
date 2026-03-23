@@ -28,7 +28,7 @@ A γ sweep reveals the race: at γ=0.01, 13 oscillations; at γ=0.05, one
 crossing; at γ=0.20, zero.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
-> proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+> proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 

@@ -262,7 +262,7 @@ palindromic structure of the Liouvillian spectrum. As long as some
 conjugation operator Π exists for the noise channel, the palindrome
 holds and the metric-intrinsic classification survives.
 
-See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+See: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 

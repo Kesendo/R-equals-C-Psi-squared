@@ -38,14 +38,14 @@ That is all you need. Everything below is signal processing on this substrate.
 | Lindblad dissipator L_D | Loss channel (resistive load per node) | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
 | Liouvillian L = L_H + L_D | Transfer function H(s) with poles and zeros | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
 | Eigenvalues of L | Poles: frequency (Im) + decay rate (Re) | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
-| Palindromic spectrum | Symmetric transfer function: H(s) = H(2Σγ - s) | [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) |
-| Pi operator Π | Symmetry transform mapping poles to conjugate poles | [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md) |
+| Palindromic spectrum | Symmetric transfer function: H(s) = H(2Σγ - s) | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) |
+| Pi operator Π | Symmetry transform mapping poles to conjugate poles | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) |
 | CΨ product | Composite signal quality metric (correlation × coherence) | [The CΨ Lens](../docs/THE_CPSI_LENS.md) |
-| CΨ = 1/4 boundary | Threshold voltage V_th (fixed, not tunable) | [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md) |
+| CΨ = 1/4 boundary | Threshold voltage V_th (fixed, not tunable) | [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) |
 | Mediator qubit M | Transistor (gate: γ_M, source: Pair A, drain: Pair B) | [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) |
 | γ (dephasing rate) | 1/Q-factor (loss rate per cycle) | [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md) |
 | J (coupling strength) | Mutual inductance, capacitive coupling | Fundamental |
-| Noise / Time | External clock (origin unknown, required) | [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md) |
+| Noise / Time | External clock (origin unknown, required) | [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) |
 | Standing wave | Standing wave ratio (SWR) | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) |
 | 70/30 split | 5.2 dB information loss (70% of phase information absorbed by environment, 30% survives) | [The Other Side](../hypotheses/THE_OTHER_SIDE.md) |
 | Theta compass | Phase margin meter | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
@@ -55,7 +55,7 @@ That is all you need. Everything below is signal processing on this substrate.
 | Push vs Pull | Source-dominant vs drain-dominant biasing | [Scaling Curve](../experiments/SCALING_CURVE.md) |
 | 2:1 coupling ratio | Impedance matching for max power transfer | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) |
 | Direct coupling kills palindrome | Short circuit destroys device symmetry | [Mediator Bridge](../simulations/mediator_bridge.py) |
-| Bootstrap falsified | No internal oscillator possible | [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md) |
+| Bootstrap falsified | No internal oscillator possible | [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) |
 
 ---
 
@@ -221,9 +221,9 @@ No skip connections. No bypass paths.
 - [Technical Paper](TECHNICAL_PAPER.md): Full mathematical treatment
 
 ### The proofs behind the design rules
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Why the transfer function is symmetric
-- [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md): Why V_th = 1/4 is fixed
-- [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md): Why no internal clock
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Why the transfer function is symmetric
+- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): Why V_th = 1/4 is fixed
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): Why no internal clock
 - [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md): Fold catastrophe identification
 
 ### The transistor and relay

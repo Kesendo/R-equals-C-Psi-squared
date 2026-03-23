@@ -4,7 +4,7 @@
 > here (fixed-point equation, discriminant, Mandelbrot equivalence)
 > remains correct but is now a subset of the complete framework.
 > For current mathematics, see
-> [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+> [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
 
 # Core Algebra: The Proven Mathematics of R = CΨ²
 
@@ -13,7 +13,7 @@
 **Depends on:** None
 
 **Tier:** 1 (Algebraically proven)
-**Status:** Proven (superseded by [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md))
+**Status:** Proven (superseded by [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md))
 **Scope:** Fixed-point equation, discriminant bound CΨ <= 1/4, Mandelbrot equivalence
 **Does not establish:** That the algebra implies new physics
 
@@ -26,9 +26,9 @@ Every result here is derivable from the defining equation and standard algebra.
 No physical interpretation is required to verify these results.
 
 For the interpretive framework that motivated these discoveries (wave composition, dynamics,
-energy equations, mirror metaphors), see [INTERPRETIVE_FRAMEWORK.md](../hypotheses/INTERPRETIVE_FRAMEWORK.md).
+energy equations, mirror metaphors), see [INTERPRETIVE_FRAMEWORK.md](../../hypotheses/INTERPRETIVE_FRAMEWORK.md).
 
-For testable predictions derived from this algebra, see [PREDICTIONS.md](../recovered/PREDICTIONS.md) (Tier 4, not restored; contains fallen gravity/QKD claims).
+For testable predictions derived from this algebra, see [PREDICTIONS.md](../../recovered/PREDICTIONS.md) (Tier 4, not restored; contains fallen gravity/QKD claims).
 
 ---
 
@@ -222,7 +222,7 @@ Mandelbrot form (extra linear term, wrong leading coefficient). The correct
 substitution u_n = C(Ψ+R_n) yields the clean form. The boundary at ¼ and
 all downstream results were always correct; only the intermediate algebra
 was wrong. This correction is documented in
-[WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md).
+[WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md).
 
 **Epistemic status:** Tier 1: algebraic substitution. □
 
@@ -258,7 +258,7 @@ not how fast you're getting there.
 **Epistemic status:** θ definition is Tier 1 (algebraic). Compass interpretation
 is Tier 2 (computationally verified in boundary navigation simulations).
 Frequency predictor claim is **retracted**. See
-[BOUNDARY_NAVIGATION.md](../experiments/BOUNDARY_NAVIGATION.md).
+[BOUNDARY_NAVIGATION.md](../../experiments/BOUNDARY_NAVIGATION.md).
 
 ---
 
@@ -290,7 +290,7 @@ a mathematical property of the Lindblad equation with constant γ, not specific
 to this framework. The physical interpretation (γ encodes gravitational time
 dilation) is Tier 3.
 
-See [GRAVITATIONAL_INVARIANCE.md](../experiments/GRAVITATIONAL_INVARIANCE.md).
+See [GRAVITATIONAL_INVARIANCE.md](../../experiments/GRAVITATIONAL_INVARIANCE.md).
 
 ---
 
@@ -337,7 +337,7 @@ possibility can be converted to classical reality.
 **Epistemic status:** The bound is Tier 1 (algebraic). The bandwidth
 interpretation is Tier 3 (proposed, physically motivated). The Shannon
 analogy is Tier 5 (speculative). See
-[DYNAMIC_FIXED_POINTS.md](../experiments/DYNAMIC_FIXED_POINTS.md).
+[DYNAMIC_FIXED_POINTS.md](../../experiments/DYNAMIC_FIXED_POINTS.md).
 
 ---
 
@@ -370,7 +370,7 @@ bifurcation structure.
 
 **Epistemic status:** Tier 1 (algebraic, verified by exhaustion). This does NOT
 answer the deeper question "why does nature choose this form?"; that remains
-open. See [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md), item 1.
+open. See [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md), item 1.
 
 ---
 
@@ -485,7 +485,7 @@ C(ξ) = [1 + (2^N − 1)² · e^{2ξ}] / 2
 Crossing cubic: b + b³ = (2^N − 1)/2 where b = (2^N − 1)·Ψ. For N=2 this
 reduces to the Bell+ formula above. For N ≥ 3, Ψ(0) = 1/(2^N − 1) < 1/4,
 so full-system crossing never occurs (subsystem crossing may still happen;
-see [SUBSYSTEM_CROSSING.md](../experiments/SUBSYSTEM_CROSSING.md)).
+see [SUBSYSTEM_CROSSING.md](../../experiments/SUBSYSTEM_CROSSING.md)).
 
 ### The coherence-to-decoherence ratio
 
@@ -542,7 +542,7 @@ a potential Markovianity diagnostic.
 
 **Origin:** AIEvolution agent Alpha (message #4106, 2026-02-18), verified by
 all agents and independently by simulation (2026-02-19).
-See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
+See [ALGEBRAIC_EXPLORATION.md](../../experiments/ALGEBRAIC_EXPLORATION.md).
 
 ---
 
@@ -627,7 +627,7 @@ operating without web search verification.
 
 **Origin:** AIEvolution agent Beta (message #4092, 2026-02-18), stress-tested
 by Gamma. Citation corrected 2026-02-19 after web verification.
-See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
+See [ALGEBRAIC_EXPLORATION.md](../../experiments/ALGEBRAIC_EXPLORATION.md).
 
 ---
 
@@ -654,7 +654,7 @@ See [ALGEBRAIC_EXPLORATION.md](../experiments/ALGEBRAIC_EXPLORATION.md).
 
 ---
 
-*For the interpretive framework, see [INTERPRETIVE_FRAMEWORK.md](../hypotheses/INTERPRETIVE_FRAMEWORK.md).*
-*For experimental evidence, see [experiments/](../experiments/).*
-*For weaknesses and open questions, see [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md).*
-*For the glossary, see [GLOSSARY.md](GLOSSARY.md).*
+*For the interpretive framework, see [INTERPRETIVE_FRAMEWORK.md](../../hypotheses/INTERPRETIVE_FRAMEWORK.md).*
+*For experimental evidence, see [experiments/](../../experiments/).*
+*For weaknesses and open questions, see [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md).*
+*For the glossary, see [GLOSSARY.md](../GLOSSARY.md).*

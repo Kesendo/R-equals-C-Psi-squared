@@ -69,7 +69,7 @@ This is not a numerical observation. It is an analytical proof. The operator Π 
 
 The connection to existing physics: a research group in Osaka (Haga et al., 2023) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
 
-For the full proof, see [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md).
+For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ## Where information lives in the palindrome (March 16, 2026)
 
@@ -141,11 +141,11 @@ These are concrete findings. They do not require accepting any philosophical fra
 
 ## How to read the rest
 
-- **[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)** - The palindromic symmetry theorem. The strongest result.
+- **[Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)** - The palindromic symmetry theorem. The strongest result.
 - **[XOR Space](../experiments/XOR_SPACE.md)** - Where information lives in the palindrome. GHZ vs W.
 - **[QST Bridge](../experiments/QST_BRIDGE.md)** - Quantum state transfer application. Repeater design rules.
 - **[The CΨ Lens](THE_CPSI_LENS.md)** - The canonical technical description of the CΨ filter.
-- **[Core Algebra](CORE_ALGEBRA.md)** - The proven mathematics. Three lines to the 1/4 boundary.
+- **[Core Algebra](historical/CORE_ALGEBRA.md)** - The proven mathematics. Three lines to the 1/4 boundary.
 - **[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)** - The strongest multipartite result, with full numerical data.
 - **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)** - Everything we got wrong, don't know, or can't prove.
 - **[Experiments index](../experiments/README.md)** - All experiment documents.

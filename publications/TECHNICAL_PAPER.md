@@ -610,7 +610,7 @@ character. See [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md).
    (regress), nothing (no properties), other dimensions (excluded by
    d(d-2)=0). The framework describes all dynamics once noise is given
    but cannot derive the existence of noise from its own axioms.
-   See [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md).
+   See [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md).
 
 ---
 
@@ -754,10 +754,10 @@ CΨ eventually crosses below 1/4. Proof: quantum Perron-Frobenius
 convergence + fixed-point CΨ bound + Lipschitz continuity. Verified for
 200 random CPTP maps (0 exceptions) and N=3,4,5 subsystem pairs.
 
-See [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md),
-[Monotonicity Proof](../docs/PROOF_MONOTONICITY_CPSI.md),
-[Subsystem Crossing Proof](../docs/PROOF_SUBSYSTEM_CROSSING.md),
-[Proof Roadmap](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+See [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md),
+[Monotonicity Proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md),
+[Subsystem Crossing Proof](../docs/proofs/PROOF_SUBSYSTEM_CROSSING.md),
+[Proof Roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
 ---
 
@@ -855,7 +855,7 @@ Non-Markovian dynamics can produce transient revivals (max CΨ = 0.3035)
 but the boundary is a long-term attractor. The recursion R = C(Ψ+R)² is
 a fold catastrophe (Section 8.4), the simplest structurally stable
 bifurcation, and maps exactly to the Mandelbrot set (c = CΨ). The framework cannot generate its own noise
-([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)): five
+([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)): five
 internal candidates eliminated. The relay protocol (Section 7.4)
 provides +83% end-to-end improvement through clocked time-dependent
 dephasing. Six design rules are documented in the

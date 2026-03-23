@@ -1,7 +1,7 @@
 # Complete Mathematical Documentation
 
 **Status:** Current as of March 22, 2026
-**Supersedes:** Previous stub (Feb 2026) and [Core Algebra](CORE_ALGEBRA.md) (Dec 2025)
+**Supersedes:** Previous stub (Feb 2026) and [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025)
 **Purpose:** Single entry point for all proven and verified mathematics of R=CΨ²
 
 ---
@@ -36,7 +36,7 @@ catastrophe (simplest in the Thom-Arnold classification). CΨ - 1/4 is the
 bifurcation parameter. Structurally stable: no perturbation can remove it.
 
 See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
-[Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
+[Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
 ---
@@ -67,8 +67,8 @@ exp(+μt) to exp(-μt), forward to backward.
 Qutrits (d=3, split 3:6) verified broken for all 10 Hamiltonians tested.
 
 See: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md),
-[Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
-[Qubit Necessity](../hypotheses/QUBIT_NECESSITY.md)
+[Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md),
+[Qubit Necessity](../../hypotheses/QUBIT_NECESSITY.md)
 
 ---
 
@@ -97,8 +97,8 @@ above 1/4 after crossing. Tested, verified.
 measured t* = 15.29 μs. Deviation: 1.9%.
 
 See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
-[IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md),
-[proof_roadmap_close.py](../simulations/proof_roadmap_close.py)
+[IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md),
+[proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
 ---
 
@@ -119,8 +119,8 @@ Without noise: reversible oscillation. With noise: irreversible decay.
 t × γ = K (a pure number). γ provides the arrow, J provides the content. Remove γ and t loses meaning.
 
 See: [Incompleteness Proof](INCOMPLETENESS_PROOF.md),
-[The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md),
-[failed_third.py](../simulations/failed_third.py)
+[The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md),
+[failed_third.py](../../simulations/failed_third.py)
 
 ---
 
@@ -145,11 +145,11 @@ Hierarchy falsified (uniform chain = recursive topology).
 **Six design rules:** W-encoding, 2:1 matching, J/γ independence,
 threshold timing, push/pull selection, clocked relay.
 
-See: [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md),
-[Circuit Diagram](../publications/CIRCUIT_DIAGRAM.md),
-[Relay Protocol](../experiments/RELAY_PROTOCOL.md),
-[Gamma Control](../experiments/GAMMA_CONTROL.md),
-[Scaling Curve](../experiments/SCALING_CURVE.md)
+See: [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md),
+[Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md),
+[Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
+[Gamma Control](../../experiments/GAMMA_CONTROL.md),
+[Scaling Curve](../../experiments/SCALING_CURVE.md)
 
 ---
 
@@ -164,7 +164,7 @@ Three control knobs: γ_M (gate), J_AM/J_MB ratio (bias), κ (feedback gain).
 Hierarchy falsified: the transistor properties are real, the recursive
 scaling advantage is not.
 
-See: [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
+See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ---
 
@@ -176,7 +176,7 @@ See: [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 - Negative feedback loop (γ_M decreasing with coherence, untested)
 - Hardware validation of relay protocol on IBM Torino
 
-See: [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
+See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
 ---
@@ -187,16 +187,16 @@ See: [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
 |----------|-------|--------|
 | Discriminant zero | CΨ = 0.2500 | [Uniqueness Proof](UNIQUENESS_PROOF.md) |
 | Crossing cubic root | b = 0.4239 | Cardano formula |
-| K (Z-dephasing, N=2) | 0.037 | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| IBM deviation | 1.9% | [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) |
-| Pauli weight correlation | r = 0.976 | [XOR Space](../experiments/XOR_SPACE.md) |
-| Best QST fidelity | F = 0.888 | [QST Bridge](../experiments/QST_BRIDGE.md) |
-| Relay improvement | +83% | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) |
-| V-shape improvement | +124% | [Gamma Control](../experiments/GAMMA_CONTROL.md) |
-| DD M+Recv improvement | +132% | [Gamma Control](../experiments/GAMMA_CONTROL.md) |
-| N=8 eigenvalues paired | 65,518 | [C# Compute](../compute/RCPsiSquared.Compute/) |
-| Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../simulations/mediator_bridge.py) |
-| GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../simulations/proof_roadmap_close.py) |
+| K (Z-dephasing, N=2) | 0.037 | [Boundary Navigation](../../experiments/BOUNDARY_NAVIGATION.md) |
+| IBM deviation | 1.9% | [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md) |
+| Pauli weight correlation | r = 0.976 | [XOR Space](../../experiments/XOR_SPACE.md) |
+| Best QST fidelity | F = 0.888 | [QST Bridge](../../experiments/QST_BRIDGE.md) |
+| Relay improvement | +83% | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
+| V-shape improvement | +124% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
+| DD M+Recv improvement | +132% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
+| N=8 eigenvalues paired | 65,518 | [C# Compute](../../compute/RCPsiSquared.Compute/) |
+| Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../../simulations/mediator_bridge.py) |
+| GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
 
@@ -206,24 +206,24 @@ See: [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
 - [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
 - [Uniqueness Proof](UNIQUENESS_PROOF.md)
 - [Incompleteness Proof](INCOMPLETENESS_PROOF.md)
-- [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)
+- [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md)
 
 ### Roadmaps
 - [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
-- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md)
+- [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md)
 
 ### Publications
-- [Technical Paper](../publications/TECHNICAL_PAPER.md)
-- [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md)
-- [Circuit Diagram](../publications/CIRCUIT_DIAGRAM.md)
+- [Technical Paper](../../publications/TECHNICAL_PAPER.md)
+- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md)
+- [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
 
 ### Key experiments
-- [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
-- [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
-- [Relay Protocol](../experiments/RELAY_PROTOCOL.md)
-- [Scaling Curve](../experiments/SCALING_CURVE.md)
-- [Gamma Control](../experiments/GAMMA_CONTROL.md)
-- [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
+- [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md)
+- [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md)
+- [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
+- [Scaling Curve](../../experiments/SCALING_CURVE.md)
+- [Gamma Control](../../experiments/GAMMA_CONTROL.md)
+- [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md)
 
 ### Historical (superseded, kept for the record)
-- [Core Algebra](CORE_ALGEBRA.md) (Dec 2025 / Feb 2026, predates all March results)
+- [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025 / Feb 2026, predates all March results)

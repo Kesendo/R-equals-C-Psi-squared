@@ -235,7 +235,7 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
    **Retracted (2026-02-08).** θ does not predict oscillation frequencies in Lindblad dynamics.
    Direct testing showed an 8.4× discrepancy: measured period 0.777 vs predicted 6.577.
    The oscillation is Hamiltonian-driven, not θ-driven. θ is a compass (angular distance from ¼),
-   not a frequency predictor. See [Core Algebra](../docs/CORE_ALGEBRA.md) Section 6 and
+   not a frequency predictor. See [Core Algebra](../docs/historical/CORE_ALGEBRA.md) Section 6 and
    [Boundary Navigation](BOUNDARY_NAVIGATION.md) for the corrected interpretation.
 
 2. **Critical slowing at C·Ψ = 1/4.**

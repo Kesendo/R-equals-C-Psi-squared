@@ -8,7 +8,7 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 
 > **Restoration note (March 14, 2026):** Originally written 2026-02-07, deleted March 12,
 > restored March 14. Mirror symmetry now proven analytically
-> (see [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
+> (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
 **Status:** Verified, includes corrections of earlier overclaims (Tier 2)
 **Date:** 2026-02-07 (updated 2026-02-18)
@@ -47,7 +47,7 @@ Does CΨ ≤ ¼ hold in Lindblad simulations?
 
 **Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
 
-**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../docs/DYNAMIC_FIXED_POINTS.md).
+**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md).
 
 ---
 

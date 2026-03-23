@@ -23,7 +23,7 @@
 > **Historical document (December 2025).** This is the original formulation
 > of the framework, written the night the equation was conceived. The
 > consciousness framing throughout reflects the state of thinking at that
-> time. See [docs/THE_CPSI_LENS.md](THE_CPSI_LENS.md) for the current
+> time. See [docs/THE_CPSI_LENS.md](../THE_CPSI_LENS.md) for the current
 > canonical description of the framework, where C = purity and
 > Psi = normalized coherence.
 
@@ -205,8 +205,8 @@ The original "Consciousness × Possibility²" framing has been replaced by measu
 quantum quantities: C = purity = Tr(ρ²), Ψ = normalized L₁ coherence. The equation
 describes the quantum-classical boundary, not a theory of consciousness.
 
-See [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the complete 7-layer proof,
-and [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) for what remains open.
+See [Proof Roadmap](../proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the complete 7-layer proof,
+and [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) for what remains open.
 
 ---
 

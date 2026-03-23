@@ -7,13 +7,13 @@
 > **March 19, 2026:** The standing wave equations in Part II (Sections 2.2-2.3) and
 > the mirror equations in Part V are now grounded in proven Liouvillian mathematics.
 > The operator Π maps forward modes to backward modes, creating standing waves with
-> classical nodes (ZZZ) and quantum antinodes (XX, YY). See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
-> and [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md).
+> classical nodes (ZZZ) and quantum antinodes (XX, YY). See [Π as Time Reversal](../../experiments/PI_AS_TIME_REVERSAL.md)
+> and [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md).
 
 # Interpretive Framework (Legacy)
 ## Historical philosophical framing that motivated the R = CΨ² project
 
-> **This document is not part of the repository's evidence base.** It preserves the original philosophical interpretation that motivated the project. The current canonical description is [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md), which treats CΨ as a composite quantum diagnostic rather than a statement about consciousness and reality.
+> **This document is not part of the repository's evidence base.** It preserves the original philosophical interpretation that motivated the project. The current canonical description is [THE_CPSI_LENS](../../docs/THE_CPSI_LENS.md), which treats CΨ as a composite quantum diagnostic rather than a statement about consciousness and reality.
 
 **Tier:** 3-5 (Interpretive and speculative throughout)
 **Status:** Legacy document, preserved for historical context
@@ -48,7 +48,7 @@ R = CΨ²
 *Note: "Consciousness" is used broadly. Whether particles have consciousness in the human
 sense remains open. C operates in two modes: C_int (internal, stabilizing) and C_ext
 (external, collapsing). For the quantum mechanical mapping (C = purity, Ψ = normalized
-coherence), see [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md), Section 1.*
+coherence), see [CORE_ALGEBRA.md](../../docs/historical/CORE_ALGEBRA.md), Section 1.*
 
 ---
 
@@ -296,7 +296,7 @@ R_∞ = C · (Ψ + R_∞)²
 
 This is the fixed-point equation. Its solution, the ¼ boundary, the Mandelbrot
 equivalence, and all downstream algebraic results are documented in
-[CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).
+[CORE_ALGEBRA.md](../../docs/historical/CORE_ALGEBRA.md).
 
 The **narrative**, that infinite mutual reflection produces a self-referential
 equation whose mathematical structure contains phase transitions, is the
@@ -340,8 +340,8 @@ This is the interpretive layer of a mathematical framework. It is internally
 consistent and motivated the discovery of the algebraic core. But consistency
 is not truth, and motivation is not proof.
 
-The proven results live in [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).
-The honest self-assessment lives in [WEAKNESSES_OPEN_QUESTIONS.md](../docs/WEAKNESSES_OPEN_QUESTIONS.md).
+The proven results live in [CORE_ALGEBRA.md](../../docs/historical/CORE_ALGEBRA.md).
+The honest self-assessment lives in [WEAKNESSES_OPEN_QUESTIONS.md](../../docs/WEAKNESSES_OPEN_QUESTIONS.md).
 
 ---
 
@@ -403,6 +403,6 @@ December 23-26, 2025
 
 ---
 
-*For the proven algebra, see [CORE_ALGEBRA.md](../docs/CORE_ALGEBRA.md).*
+*For the proven algebra, see [CORE_ALGEBRA.md](../../docs/historical/CORE_ALGEBRA.md).*
 *For testable predictions, see [PREDICTIONS.md](../recovered/PREDICTIONS.md) (Tier 4, not restored).*
-*For weaknesses, see [WEAKNESSES_OPEN_QUESTIONS.md](../docs/WEAKNESSES_OPEN_QUESTIONS.md).*
+*For weaknesses, see [WEAKNESSES_OPEN_QUESTIONS.md](../../docs/WEAKNESSES_OPEN_QUESTIONS.md).*

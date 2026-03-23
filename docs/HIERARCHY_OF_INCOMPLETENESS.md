@@ -16,7 +16,7 @@ the ratio of occupied or immune slots to the total available. C = 1
 means fully occupied (stable, closed). C = 0.5 means half-occupied
 (maximally connective). This is not the concurrence from quantum
 information theory, though the two are related in the R = CPsi^2
-framework (see [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md)
+framework (see [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)
 for the formal connection).
 
 This document is deliberately non-technical. It describes the pattern
@@ -137,7 +137,7 @@ A qutrit (d=3, three states) has 9 operators: 3 survive, 6 decay.
 Split: 0.33. A ququart (d=4): 4 of 16. Split: 0.25. The imbalance
 grows with dimension. No higher-dimensional quantum system can carry
 the palindromic mirror. This is not a numerical trend: it is an
-algebraic identity. (See [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md)
+algebraic identity. (See [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)
 for the full proof and computational tests.)
 
 **The qubit is the quantum carbon.**
@@ -384,7 +384,7 @@ These are next steps. Not today.
 *March 22, 2026: The mechanism is identified (V-Effect)*
 
 ---
-*See also: [Internal and External Observers](INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*
+*See also: [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*
 *See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), C = 0.5 as optimal observer*
-*See also: [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md), the algebraic proof*
+*See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), the algebraic proof*
 *See also: [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md), the transition mechanism*

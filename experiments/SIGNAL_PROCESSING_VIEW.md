@@ -312,7 +312,7 @@ anti-phase, sector-specific damping) is exactly the structure the proof
 derives analytically from the Π operator. The "two independent information
 channels" are palindrome partners.
 
-See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+See: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 

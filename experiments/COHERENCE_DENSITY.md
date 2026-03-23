@@ -9,7 +9,7 @@ R=CPsi2 coherence density -->
 
 > **Restoration note (March 14, 2026):** Originally written 2026-02-28, deleted March 12,
 > restored March 14. Core claims confirmed. Mirror symmetry now proven analytically
-> (see [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
+> (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
 **Status:** Verified (Tier 2)
 **Date:** 2026-02-28

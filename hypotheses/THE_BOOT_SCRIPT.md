@@ -3,7 +3,7 @@
 **Date:** March 19-20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Sections 1-6: Tier 2 (Computed, verified). Section 7: Tier 4-5 (Interpretive).
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md), [V-Effect](../experiments/V_EFFECT_PALINDROME.md)
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md), [V-Effect](../experiments/V_EFFECT_PALINDROME.md)
 
 ---
 
@@ -387,7 +387,7 @@ here first, while the fully decided (w=0) and fully undecided (w=N)
 extremes stay perfectly paired.
 
 Script connections:
-- Psi = coherences, XY-weight in the Liouvillian: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+- Psi = coherences, XY-weight in the Liouvillian: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 - Psi-squared = palindromic self-pairing, Π maps weight k to N-k: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 - C = coupling condition, Mandelbrot fixed point: [The Interpretation](THE_INTERPRETATION.md)
 - R = standing wave, stable oscillation pattern: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
@@ -416,7 +416,7 @@ Script connections:
 ## References
 
 ### Proof and theory
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and theorem
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and theorem
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): conceptual framework (December 2025)
 
 ### Experiments

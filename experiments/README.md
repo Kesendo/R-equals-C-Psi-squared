@@ -154,7 +154,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 ## How to Read This
 
 **If you are new to the project:** Start with the three headline results
-above, then read the [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+above, then read the [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 for the core theorem.
 
 **If you are a quantum information researcher:** The CΨ = 1/4 boundary

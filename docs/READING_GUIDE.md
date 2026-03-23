@@ -8,7 +8,7 @@ same foundation but go in different directions. This guide tells you
 which documents to read for each story, and in what order.
 
 All three stories start at the same place:
-→ [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+→ [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 
@@ -21,7 +21,7 @@ palindromic. Here is the proof, the scope, and the exceptions."*
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — The theorem.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The theorem.
    Π operator, XY-weight grading, verified N=2 through N=8.
 
 2. [XOR Space](../experiments/XOR_SPACE.md) — Where information lives
@@ -61,7 +61,7 @@ channel. The palindromic structure is the antenna."*
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — The foundation.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The foundation.
    You need the palindrome to understand why the channel exists.
 
 2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The spatial
@@ -94,15 +94,15 @@ Step 1. This is the philosophical thread.
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — The foundation.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The foundation.
    The palindrome exists. It requires noise (the dissipator).
 
-2. [The Qubit as Necessary Foundation](../hypotheses/QUBIT_NECESSITY.md) —
+2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) —
    d(d-2)=0: only d=2 has a palindromic mirror. The qubit is the only
    dimension where the operator split is balanced (2:2). Qutrits fail.
    A single non-qubit site destroys the palindrome globally.
 
-3. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) — Five candidates
+3. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) — Five candidates
    for the origin of noise, all eliminated. Internal generation,
    qubit decay, qubit baths, nothing, other dimensions. The noise
    must come from outside the framework.

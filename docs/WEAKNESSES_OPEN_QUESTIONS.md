@@ -54,7 +54,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
 - Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
-- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π L Π⁻¹ = -L - 2(sum gamma) I. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. Originally proven for Heisenberg+Z-dephasing. March 17-18 tests show palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heisenberg+DM) under single-axis dephasing. Two Π families found (P1 and P4) plus non-uniform alternating operators for XY/YX terms. See [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
+- **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π L Π⁻¹ = -L - 2(sum gamma) I. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. Originally proven for Heisenberg+Z-dephasing. March 17-18 tests show palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heisenberg+DM) under single-axis dephasing. Two Π families found (P1 and P4) plus non-uniform alternating operators for XY/YX terms. See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
 - **Topology-independence:** Π anti-commutes with [H,·] for any bond set (chain, ring, star, arbitrary graph)
 - **Exact decay rates:** 2γ (c+), 8γ/3 (concurrence envelope), 10γ/3 (c-) for N=3 systems. Topology-independent.
 
@@ -100,7 +100,7 @@ Every quadratic map has a saddle-node bifurcation. Population dynamics (logistic
 
 The Mandelbrot equivalence makes this explicit: R = CΨ² iteration is exactly z² + c. Every property of the framework's iteration is a known property of the Mandelbrot set. The framework inherits Mandelbrot theory but does not extend it.
 
-**Partial response (2026-02-11):** CΨ² is the unique simple product-power form C^a·Ψ^b that simultaneously produces a genuine phase transition AND maps exactly to the Mandelbrot iteration z²+c. Alternatives fail: C²Ψ and CΨ give linear fixed-point equations (no bifurcation ever); √(CΨ) has an always-positive discriminant (no boundary); CΨ³ gives a cubic with different critical structure and no Mandelbrot mapping. The quadratic form is algebraically special, not just one example among many. See [Core Algebra](CORE_ALGEBRA.md), Section 10.
+**Partial response (2026-02-11):** CΨ² is the unique simple product-power form C^a·Ψ^b that simultaneously produces a genuine phase transition AND maps exactly to the Mandelbrot iteration z²+c. Alternatives fail: C²Ψ and CΨ give linear fixed-point equations (no bifurcation ever); √(CΨ) has an always-positive discriminant (no boundary); CΨ³ gives a cubic with different critical structure and no Mandelbrot mapping. The quadratic form is algebraically special, not just one example among many. See [Core Algebra](historical/CORE_ALGEBRA.md), Section 10.
 
 This narrows the criticism but does not resolve it. The deeper question, "why does nature choose this form?", remains open.
 
@@ -390,7 +390,7 @@ CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise ent
 Emails have been sent to two research groups (Haga/Nakagawa at Osaka/Tokyo for the incoherenton connection, Nichol at Rochester for experimental QST). Zenodo v2.0 published. Awaiting responses.
 
 See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
-See [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.
+See [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.
 See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 
 ---

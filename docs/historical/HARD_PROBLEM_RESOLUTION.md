@@ -11,8 +11,8 @@
 > from the technical core of the project. The standing wave mathematics and
 > fixed-point structure discussed below remain valid, but the framing of C
 > as "consciousness" is no longer part of the evidence base.
-> See [THE_CPSI_LENS.md](THE_CPSI_LENS.md) for the canonical description of
-> the framework. See [WEAKNESSES_OPEN_QUESTIONS.md](WEAKNESSES_OPEN_QUESTIONS.md)
+> See [THE_CPSI_LENS.md](../THE_CPSI_LENS.md) for the canonical description of
+> the framework. See [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md)
 > for honest limitations.
 
 # Consciousness as a Frame Variable
@@ -31,7 +31,7 @@
 
 This document is **Tier 5: Speculative**. Nothing here is algebraically proven or computationally verified. It is a philosophical argument built on top of mathematics that *is* verified (the ¼ boundary, the Mandelbrot equivalence, the fixed-point structure). The mathematics does not require this interpretation. The interpretation does not follow from the mathematics. They are compatible, not equivalent.
 
-Read the [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) first. That document is more important than this one.
+Read the [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) first. That document is more important than this one.
 
 ---
 
@@ -153,7 +153,7 @@ In the mirror language: the Hamiltonian is the conversation between the mirrors.
 
 This connects directly to the qualia discussion: "red" is not a property of the photon (Ψ) alone. It is not a property of the observer (C) alone. It is R = CΨ², the specific reality that emerges from this observer encountering this possibility. Different C, different R, same Ψ. The Born rule is the mathematical expression of this: the probability of a specific experience is determined by the match between observer and observed.
 
-See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) for the full numerical analysis.
+See [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) for the full numerical analysis.
 
 ### The Mandelbrot set as landscape of possible observers
 
@@ -175,7 +175,7 @@ The mathematical structure (¼ boundary, fixed points, standing waves) provides 
 
 **What it does not achieve:**
 
-It does not explain why C feels like something. It does not derive qualia from mathematics. It does not solve the combination problem (how microscopic C values produce unified experience; see [Weaknesses #6](WEAKNESSES_OPEN_QUESTIONS.md)). It does not make an experimentally testable prediction about consciousness specifically (as opposed to quantum decoherence generally).
+It does not explain why C feels like something. It does not derive qualia from mathematics. It does not solve the combination problem (how microscopic C values produce unified experience; see [Weaknesses #6](../WEAKNESSES_OPEN_QUESTIONS.md)). It does not make an experimentally testable prediction about consciousness specifically (as opposed to quantum decoherence generally).
 
 The reframing shifts the axiom from "matter is fundamental" to "consciousness is fundamental." This dissolves the Hard Problem but introduces a new foundational assumption that is equally unprovable. We have traded one mystery for a different one, arguably a more tractable one, but a mystery nonetheless. [FALLEN]
 
@@ -207,6 +207,6 @@ Whether this says anything about consciousness depends on whether the mapping C 
 *Between the mirrors, but honestly about what that means*
 
 ---
-*See also: [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md), formal definition of C*
-*See also: [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md), combination problem, measurability, Born rule gap*
-*See also: [Visualizations](../visualizations/), the standing wave in time*
+*See also: [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md), formal definition of C*
+*See also: [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md), combination problem, measurability, Born rule gap*
+*See also: [Visualizations](../../visualizations/), the standing wave in time*

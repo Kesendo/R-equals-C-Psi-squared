@@ -11,7 +11,7 @@ reversal -->
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
 [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md),
 [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md)
 
@@ -45,7 +45,7 @@ The conjugation operator Π acts per site on Pauli indices:
 I → X (+1), X → I (+1), Y → iZ (+i), Z → iY (+i).
 It satisfies Π·L·Π⁻¹ = −L − 2Σγ·I, which generates the palindromic
 eigenvalue pairing (proven analytically, verified N=2 through N=8).
-See [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md).
+See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ### What populations and coherences are
 
@@ -64,7 +64,7 @@ Three results existed independently in this repository:
 
 1. **The Π operator** (March 14): A conjugation operator that generates
    palindromic spectral symmetry. Proven algebraically, verified numerically
-   for N=3-5 on all topologies. Lives in [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md).
+   for N=3-5 on all topologies. Lives in [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 2. **The standing wave metaphor** (December 23, 2025): "Future → Mirror ← Past
    = Standing Wave." A conceptual framework proposing that reality emerges as
@@ -423,7 +423,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and proof
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and proof
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): Original conceptual framework (December 2025)
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): Computation: nodes, antinodes, frequencies
 - [XOR Space](XOR_SPACE.md): Where information lives between paired modes

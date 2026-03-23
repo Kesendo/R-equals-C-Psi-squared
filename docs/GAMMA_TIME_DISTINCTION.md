@@ -94,7 +94,7 @@ not scale universally (deltas up to 0.86). Experienced time is not γ
 alone. γ provides the arrow. J provides the content. Neither alone is
 the full experience.
 
-The original claim in [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md)
+The original claim in [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md)
 Corollary 2 was correct in spirit but too strong in letter: γ is the
 source of experienced time, not identical to it.
 
@@ -204,7 +204,7 @@ ist erlebte Zeit.**
 
 ## References
 
-- [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md): Corollary 2 (γ: source of experienced time)
+- [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md): Corollary 2 (γ: source of experienced time)
 - [THE_BRIDGE_WAS_ALWAYS_OPEN.md](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as source of experienced time
 - [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py): what time looks like without γ
 - [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py): the original tests (data valid, interpretation corrected)

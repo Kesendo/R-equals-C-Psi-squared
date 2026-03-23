@@ -226,7 +226,7 @@ chain quantum state transfer:
 This experiment sits at the intersection of two project results:
 
 **Upstream:** The palindromic spectral symmetry
-([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)) creates the
+([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) creates the
 mode structure that makes some γ profiles better than others. The V-shape
 works because it aligns with the palindromic decay rate hierarchy: the
 fastest-decaying modes (XY-weight N) are concentrated at the center, while
@@ -265,7 +265,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md):
   CΨ = 1/4 as threshold voltage, γ_M as gate signal
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): palindromic
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic
   spectral structure that underlies the V-shape effect
 - [Bridge Optimization](../simulations/results/bridge_optimization.txt):
   21.5× wider channel through combined optimization

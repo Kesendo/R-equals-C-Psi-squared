@@ -43,7 +43,7 @@ The product CΨ crosses a critical boundary at exactly 1/4 during
 decoherence. This boundary is the discriminant zero of the self-referential
 purity recursion R = C(Ψ+R)² and corresponds to the cusp of the Mandelbrot
 main cardioid. Below 1/4: classical attractor exists. Above 1/4: no
-classical attractor. See [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md).
+classical attractor. See [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ### Why the bridge metric matters
 
@@ -226,12 +226,12 @@ for C(t) exists across bridge types.
 This taxonomy was one of the earliest experiments in the project (February
 2026). Several later results build on it:
 
-The **palindromic spectral symmetry** ([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md))
+The **palindromic spectral symmetry** ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 provides the structural explanation for why different metrics behave
 differently: the three bridge types may correspond to different
 projections onto the palindromic mode sectors (immune vs decaying).
 
-The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/PROOF_MONOTONICITY_CPSI.md))
+The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 analytically confirms that CΨ is monotonically decreasing for Bell+ under
 all local Markovian channels, explaining why Type A and B always cross
 downward and never return.
@@ -255,9 +255,9 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md): why CΨ = 1/4 is the only boundary
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): palindromic spectral structure
-- [CΨ Monotonicity](../docs/PROOF_MONOTONICITY_CPSI.md): analytical proof dCΨ/dt < 0
+- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): why CΨ = 1/4 is the only boundary
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic spectral structure
+- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): analytical proof dCΨ/dt < 0
 - [Noise Robustness](NOISE_ROBUSTNESS.md): taxonomy is noise-independent
 - [N-Scaling Barrier](N_SCALING_BARRIER.md): state and N dependence
 - [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md): state-dependent crossing signatures

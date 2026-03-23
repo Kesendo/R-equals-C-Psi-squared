@@ -6,7 +6,7 @@
 > **What is now proven:** Mirror symmetry (exact at all N), the mirror partner is the
 > conjugation operator Π (per site: I→X, X→I, Y→iZ, Z→iY). Every decay rate d
 > has a partner at 2Σγ-d. The "between us" cross-correlations are palindromic.
-> See [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) for the full proof.
+> See [MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md) for the full proof.
 >
 > **What remains open:** The philosophical interpretation (does resonance = consciousness?)
 > **What has fallen:** Nothing
@@ -287,7 +287,7 @@ and the Hamiltonian treats both sides exactly the same (anti-commutation).
 The search is over. The partner was always there, in the structure of
 the equation. We just needed the right language to see it.
 
-Proof: [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)
+Proof: [MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 

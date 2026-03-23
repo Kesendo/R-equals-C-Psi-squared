@@ -15,7 +15,7 @@ The central claim: the self-referential fixed-point equation
 
 $$R_{n+1} = C(\Psi + R_n)^2$$
 
-has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
+has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
 
 The proof journey works upward:
 
@@ -63,7 +63,7 @@ where $b$ is a normalized bridge parameter. This cubic has exactly one real root
 
 ### What Is COMPUTATIONALLY VERIFIED
 
-**[IBM Torino confirmation](../experiments/IBM_RUN3_PALINDROME.md).** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
+**[IBM Torino confirmation](../../experiments/IBM_RUN3_PALINDROME.md).** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
 
 - Late-time excess coherence exceeding Monte Carlo null hypothesis (10,000 runs)
 - Directional consistency in residual coherence (Re > 0, Im < 0 at all late-time points)
@@ -94,7 +94,7 @@ The 1.9% deviation is within expected systematic error for the hardware (T1/T2 c
    UNIQUE Rényi order where the bifurcation threshold is state-independent.
    This implies CΨ² (purity × coherence²) is not just one among many
    product-powers — it is the ONLY one with a universal boundary. See
-   [k_scaling_and_renyi.py](../simulations/k_scaling_and_renyi.py).
+   [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 
 ---
 
@@ -144,7 +144,7 @@ channels, numerically verified for 300 random CPTP maps (max CΨ(ρ*) = 0.138).
 Only exception: non-primitive maps (e.g., projective measurements preserving
 Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
 
-**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient — CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../simulations/non_markovian_revival.py).
+**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient — CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
 ### NEXT STEPS
 
@@ -155,14 +155,14 @@ Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSI
    initial states (10 Haar-random). See [PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md).
 2. ~~**Extend to amplitude damping.**~~ **DONE (March 22, 2026).**
    Direct test: K_AD = 0.1029, perfectly monotonic, non-unital fixed point
-   (|00⟩) reached. See [amplitude_damping_test.py](../simulations/amplitude_damping_test.py).
+   (|00⟩) reached. See [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
 3. ~~**Characterize the non-Markovian case.**~~ **TESTED (March 22, 2026).**
    Non-Markovian revival above 1/4 confirmed: structured bath (2 system +
    1 bath qubit) produces CΨ up to 0.3035 after crossing below 1/4. Key
    conditions: coherent bath (|+⟩), low bath dephasing (γ_B ≪ J_SB), strong
    system-bath coupling. Revivals are ALWAYS transient — CΨ→0 in all 48
    configurations tested. Pulsed and oscillating γ(t) produce NO revival.
-   See [non_markovian_revival.py](../simulations/non_markovian_revival.py).
+   See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
 ---
 
@@ -210,7 +210,7 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
 
 1. ~~**Analytic formula for δ(N) in the large-N limit.**~~ **DONE.**
    Closed-form: C(t) = 1/2^N + (1/2)·exp(-2Nγt), Ψ(t) = exp(-Nγt)/(2^N-1).
-   Verified to Δ < 1e-17 for N=2..6. See [proof_roadmap_close.py](../simulations/proof_roadmap_close.py).
+   Verified to Δ < 1e-17 for N=2..6. See [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py).
 2. ~~**Subsystem crossing theorem for general N.**~~ **PROVEN (March 22, 2026).**
    Three-step proof: Perron-Frobenius convergence + fixed-point CΨ < 1/4
    + Lipschitz continuity. Verified for N=3,4,5 subsystem pairs and 300
@@ -222,7 +222,7 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
    N=8 (54,118 eigenvalues) and dynamically through N=11 via time
    propagation. The palindrome holds for chain, star, ring, complete,
    and binary tree topologies. MI(end-to-end) decays exponentially with N
-   ([Scaling Curve](../experiments/SCALING_CURVE.md)).
+   ([Scaling Curve](../../experiments/SCALING_CURVE.md)).
 
 ---
 
@@ -275,7 +275,7 @@ This is in some sense "obvious" from the algebra, but making it rigorous require
   break the palindrome for all 10 Hamiltonians tested (35-44 of 81
   eigenvalues pair, never all 81). The per-site split is 3 immune vs 6
   decaying, which is unbalanced (d^2-2d = 3 != 0). The palindrome is
-  specific to d=2. See [Qubit Necessity](../hypotheses/QUBIT_NECESSITY.md).
+  specific to d=2. See [Qubit Necessity](../../hypotheses/QUBIT_NECESSITY.md).
 - **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure. **Status: open.**
 
 ### NEXT STEPS
@@ -325,8 +325,8 @@ zero effect on the CΨ trajectory (Bell+ is eigenstate of H). The non-unital
 fixed point (|00⟩, purity → 1.0) is reached. Combined AD + Z-dephasing also
 crosses 1/4 for all 15 combinations tested. Conjecture 5.1 confirmed for the
 non-unital case.
-Script: [amplitude_damping_test.py](../simulations/amplitude_damping_test.py).
-Results: [amplitude_damping_test.txt](../simulations/results/amplitude_damping_test.txt).
+Script: [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
+Results: [amplitude_damping_test.txt](../../simulations/results/amplitude_damping_test.txt).
 
 ~~**Non-Markovian channels.**~~ **TESTED (March 22, 2026).** Non-Markovian
 dynamics CAN push CΨ back above 1/4 after it has crossed below. A structured
@@ -335,8 +335,8 @@ to CΨ = 0.3035 (21% above threshold). The mechanism is information backflow
 from a coherent bath: low γ_B and high J_SB maximize the effect. However,
 all revivals are TRANSIENT — CΨ always returns to 0 eventually. The 1/4
 boundary is not absorbing but is a long-term attractor.
-Script: [non_markovian_revival.py](../simulations/non_markovian_revival.py).
-Results: [non_markovian_revival.txt](../simulations/results/non_markovian_revival.txt).
+Script: [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
+Results: [non_markovian_revival.txt](../../simulations/results/non_markovian_revival.txt).
 
 ~~**Generalized Pauli channels.**~~ **TESTED (March 22, 2026).** The full
 family ℰ(ρ) = Σ p_k σ_k ρ σ_k† with arbitrary (γ_x, γ_y, γ_z) was swept:
@@ -344,8 +344,8 @@ family ℰ(ρ) = Σ p_k σ_k ρ σ_k† with arbitrary (γ_x, γ_y, γ_z) was sw
 Bell+ (all noise types), oscillatory for |01⟩ (Hamiltonian modulation).
 K-invariance holds perfectly WITHIN each noise type (CV < 1%) but K differs
 between types: K_Z = 0.037, K_X = K_Y = 0.087, K_depol = 0.044.
-Script: [generalized_pauli_channels.py](../simulations/generalized_pauli_channels.py).
-Results: [generalized_pauli_channels.txt](../simulations/results/generalized_pauli_channels.txt).
+Script: [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py).
+Results: [generalized_pauli_channels.txt](../../simulations/results/generalized_pauli_channels.txt).
 
 ### What Is CONJECTURED
 
@@ -453,13 +453,13 @@ it is the unique structure with a state-independent critical boundary.
    threshold** (CΨ* = 1/4 regardless of state). All other α produce thresholds that
    depend on the coherence Ψ. This proves that Tr(ρ²) is the UNIQUE Rényi purity
    where the bifurcation boundary is universal. K_α invariance also confirmed for
-   α=2,3,4 (CV=0% each, different K values). Script: [k_scaling_and_renyi.py](../simulations/k_scaling_and_renyi.py).
+   α=2,3,4 (CV=0% each, different K values). Script: [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 3. ~~**Explore connections to catastrophe theory.**~~ **DONE (March 22, 2026).**
    The fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)² with a = 1-4CΨ.
    Normal form verified explicitly. The Rényi uniqueness result (α=2 only) proves
    structural stability: only the fold has a state-independent boundary. Higher
    catastrophes (cusp α=3, swallowtail α=4) have Ψ-dependent thresholds → rejected.
-   Script: [catastrophe_feigenbaum.py](../simulations/catastrophe_feigenbaum.py).
+   Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
 
 ---
 
@@ -493,7 +493,7 @@ oscillatory Liouvillian eigenvalues (Im(λ) = 4J) give an effective complex para
 c_eff = 0.25 + i·Q/4·0.25 where Q = ω/|σ| = 4J/γ. This places the quantum system
 off the real axis near the cardioid boundary. The Feigenbaum universality applies
 because our recursion IS the quadratic map.
-Script: [catastrophe_feigenbaum.py](../simulations/catastrophe_feigenbaum.py).
+Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
 
 ### Connections to Information Geometry
 

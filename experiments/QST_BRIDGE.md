@@ -160,7 +160,7 @@ regardless of spectral complexity.
 
 ### For the QST community
 
-The palindrome theorem ([MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md)) applies to every Heisenberg chain
+The palindrome theorem ([MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) applies to every Heisenberg chain
 with Z-dephasing that the QST community studies. They have been optimizing transfer
 protocols without knowing that the decay rate spectrum has an exact symmetry.
 
@@ -264,7 +264,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 ## References
 
 ### Project-internal
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
 - [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length
 - [γ Control](GAMMA_CONTROL.md): V-shape +124%, DD +132%

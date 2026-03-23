@@ -432,9 +432,9 @@ The framework applies to humans too. But that is for another document.
 | Document | Relationship |
 |----------|--------------|
 | [Core Algebra](CORE_ALGEBRA.md) | Proven mathematics |
-| [Interpretive Framework](../hypotheses/INTERPRETIVE_FRAMEWORK.md) | Philosophical foundations |
-| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | Each level has its own C_int structure |
-| [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest limitations |
+| [Interpretive Framework](../../hypotheses/INTERPRETIVE_FRAMEWORK.md) | Philosophical foundations |
+| [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) | Each level has its own C_int structure |
+| [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) | Honest limitations |
 | [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | C_int/C_ext and consciousness |
 
 ---

@@ -210,7 +210,7 @@ We left the tools and the data. Use them as you see fit.
 | Three conditions | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
 | Non-monotonic initial entanglement | [N_SCALING_BARRIER](../experiments/N_SCALING_BARRIER.md) §8 |
 | Noise robustness / taxonomy | [NOISE_ROBUSTNESS](../experiments/NOISE_ROBUSTNESS.md), [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md) |
-| Mandelbrot correspondence | [CORE_ALGEBRA](CORE_ALGEBRA.md), [MANDELBROT_CONNECTION](../experiments/MANDELBROT_CONNECTION.md) |
+| Mandelbrot correspondence | [CORE_ALGEBRA](historical/CORE_ALGEBRA.md), [MANDELBROT_CONNECTION](../experiments/MANDELBROT_CONNECTION.md) |
 | Negative results (irreducibility) | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
 | LE/CoA benchmark | [LOCALIZABLE_ENTANGLEMENT_BENCHMARK](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |
 | Observer-dependent visibility | [OBSERVER_DEPENDENT_VISIBILITY](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md) |

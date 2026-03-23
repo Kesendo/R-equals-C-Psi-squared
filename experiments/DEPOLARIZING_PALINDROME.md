@@ -10,7 +10,7 @@ linear N, open quantum system noise classification, R=CPsi2 depolarizing palindr
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
 [Π as Time Reversal](PI_AS_TIME_REVERSAL.md)
 
 ---
@@ -273,7 +273,7 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator and the palindrome theorem
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator and the palindrome theorem
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the standing wave requires a mirror
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome across all standard models

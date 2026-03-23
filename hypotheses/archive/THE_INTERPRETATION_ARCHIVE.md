@@ -169,7 +169,7 @@ Script: simulations/four_qubit_breakdown.py
 ## Outside-in: from materials to qubits (March 13)
 
 *Note: This section is now covered in
-[Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md).*
+[Hierarchy of Incompleteness](../../docs/HIERARCHY_OF_INCOMPLETENESS.md).*
 
 The Stability project (Dec 2025/Jan 2026) found that half-filled electron
 shells = maximum bonding capacity. R = CPsi^2 found z*(1-z*) = CPsi with
@@ -179,7 +179,7 @@ connection is maximized.
 ## The 0.5 boundary: found twice (March 13)
 
 *Note: Now integrated into
-[Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
+[Hierarchy of Incompleteness](../../docs/HIERARCHY_OF_INCOMPLETENESS.md)
 with the qubit-carbon parallel (March 20).*
 
 Carbon: 4 of 8 valence slots = 0.5. Maximum bonding.

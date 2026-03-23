@@ -137,7 +137,7 @@ With stronger dynamics (γ = 0.005, J = 1, active Heisenberg Hamiltonian), CΨ r
 
 This does not invalidate the operator feedback mechanism (which is mechanistically sound), but it means the CΨ ≤ ¼ bound was not "confirmed" by these sweeps. It was trivially satisfied in a low-dynamics regime.
 
-See [Dynamic Fixed Points](../docs/DYNAMIC_FIXED_POINTS.md) for the revised interpretation of CΨ = ¼ as an observer information bandwidth limit.
+See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md) for the revised interpretation of CΨ = ¼ as an observer information bandwidth limit.
 
 ### Parameter Regime Note
 

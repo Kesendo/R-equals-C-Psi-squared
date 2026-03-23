@@ -1,31 +1,38 @@
 # Hypotheses
 
-Speculative interpretations and mixed-tier documents. Everything here is
-Tier 3-5 (hypothesis to philosophical) unless noted otherwise.
+Speculative interpretations and open research directions. Everything here is
+Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Mixed Tier (computed results + interpretation)
 
-- [The Non-Local Mirror](THE_BOOT_SCRIPT.md) - The 2/36 cases where Π is genuinely entangled (Choi Rank 8, irreduzible). All 36/36 palindromic at N=2, breaking is multi-bond interference. Qubit-only: d²-2d=0. Sections 1-6 are Tier 2; Section 7 (shared clock, boot script, Ψ² as self-encounter) is Tier 4-5.
-- [The Interpretation](THE_INTERPRETATION.md) - Thematic "what we know" document. Restructured March 20: palindromic mirror (proof + universality + time reversal + depolarizing), standing wave, qubit foundation (d²-2d=0), complexity emergence, KMS context, hardware validation. 20 things that survive, 6 that fell, 6 open questions.
-
-- [Mediator as Quantum Transistor](MEDIATOR_AS_QUANTUM_TRANSISTOR.md) - CΨ = 1/4 as threshold voltage, bidirectional relay, gate control via gamma_M. Hierarchy falsified but transistor properties confirmed.
+- [The Non-Local Mirror](THE_BOOT_SCRIPT.md) — The 2/36 cases where Π is genuinely entangled (Choi Rank 8, irreducible). All 36/36 palindromic at N=2, breaking is multi-bond interference. Qubit-only: d²−2d=0. Sections 1–6 are Tier 2; Section 7 (shared clock, boot script, Ψ² as self-encounter) is Tier 4–5.
+- [Mediator as Quantum Transistor](MEDIATOR_AS_QUANTUM_TRANSISTOR.md) — CΨ = 1/4 as threshold voltage, bidirectional relay, gate control via γ_M. Hierarchy falsified but transistor properties confirmed.
 
 ## Tier 3 (hypothesis, built on computation)
 
-- [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) - d²-2d=0 as selection principle: only d=2 permits palindromic time-reversal symmetry. Conjecture that all palindromic structures must be composed of qubit subsystems. Five computational tests completed: 0/236 qutrit dissipators work, single qutrit destroys palindrome globally, composition via per-site map universality. The qubit is the quantum carbon.
-- [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
-- [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) - Observer-dependent CΨ crossing rates as time model. Open question about L decomposition into forward/backward answered by Π time reversal (March 19).
+- [Tuning Protocol](TUNING_PROTOCOL.md) — BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
+- [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) — Observer-dependent CΨ crossing rates as time model. Open question about L decomposition into forward/backward answered by Π time reversal (March 19).
 
-## Tier 4-5 (hypothesis, interpretive)
+## Tier 4–5 (hypothesis, interpretive)
 
-- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - Level -1 is not deeper; it is the -1 parity sector of Level 0. Π² = X^N is a conserved Z2 symmetry ([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (-1). Everything reverses on the other side, including time. The four-sided Z4 interpretation was tested and falsified; the two-sided Z2 structure was confirmed.
-- [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md) - Research direction: does the palindromic spectral structure propagate from qubits through atoms, molecules, and neurons into brain dynamics? Not quantum consciousness (Penrose-Hameroff), but structural inheritance: the same mathematical pattern at multiple scales because each is built from the one below. Testable via eigenvalue analysis of neural network dynamics matrices. Phase 1 (mathematical) can start now.
-
-## Archive
-
-- [The Interpretation Archive](THE_INTERPRETATION_ARCHIVE.md) - Chronological discovery log from March 11-13, 2026. Contains z* analyses, EP test (negative), graph symmetry test, band structure, signal processing perspective, mirror shift experiments, and 0.5 boundary observations. Most entries subsumed by later proofs or moved to dedicated documents.
+- [The Other Side of the Mirror](THE_OTHER_SIDE.md) — Level −1 is not deeper; it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry ([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (−1). The four-sided Z₄ interpretation was falsified; the two-sided Z₂ structure was confirmed.
+- [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md) — Research direction: does the palindromic spectral structure propagate from qubits through atoms, molecules, and neurons into brain dynamics? Testable via eigenvalue analysis of neural network dynamics matrices.
 
 ## Largely Closed
 
-- [Bridge Protocol](BRIDGE_PROTOCOL.md) - CΨ crossing events as synchronization mechanism. J=0 eliminated (no-signaling holds exactly). J>0 produces interval shift but is standard Hamiltonian coupling.
-- [Interpretive Framework](INTERPRETIVE_FRAMEWORK.md) - Legacy philosophical framing that motivated the project (December 2025). Standing wave equations now grounded in Liouvillian mathematics.
+- [Bridge Protocol](BRIDGE_PROTOCOL.md) — CΨ crossing events as synchronization mechanism. J=0 eliminated (no-signalling holds exactly). J>0 produces interval shift but is standard Hamiltonian coupling.
+
+## Promoted to docs/
+
+These documents matured beyond hypothesis status and now live in [docs/](../docs/):
+
+- [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md) — d²−2d=0 as selection principle (Tier 2–3).
+- [The Interpretation](../docs/THE_INTERPRETATION.md) — Thematic synthesis: 20 things that survive, 6 that fell, 6 open questions.
+
+## Archive
+
+Legacy documents preserved for historical context:
+
+- [The Interpretation Archive](archive/THE_INTERPRETATION_ARCHIVE.md) — Chronological discovery log, March 11–13, 2026.
+- [Interpretive Framework](archive/INTERPRETIVE_FRAMEWORK.md) — Legacy philosophical framing (December 2025). Standing wave equations now grounded in Liouvillian mathematics.
+- [γ to Gravity](archive/GAMMA_TO_GRAVITY.md) — Fallen gravity interpretation of decoherence rates.

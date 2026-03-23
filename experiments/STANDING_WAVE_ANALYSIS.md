@@ -35,7 +35,7 @@ nor the Hamiltonian alone determines which correlations oscillate.
 ### How the palindrome creates standing waves
 
 The Liouvillian superoperator L generates the master equation dρ/dt = L(ρ).
-The palindromic symmetry ([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md))
+The palindromic symmetry ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 pairs every eigenvalue: if λ is an eigenvalue, so is −2Σγ − λ. Define
 centered eigenvalues μ_k = λ_k + Σγ. Then every palindromic pair has
 +μ and −μ, symmetric around zero.
@@ -60,7 +60,7 @@ others remain static (nodes).
 
 CΨ = Tr(ρ²) × L₁/(d−1) is the product of state purity and normalized
 coherence, with a critical boundary at CΨ = 1/4
-([Uniqueness Proof](../docs/UNIQUENESS_PROOF.md)). The palindromic
+([Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md)). The palindromic
 eigenvalue pairing that creates the standing wave is the same structure
 that makes the CΨ = 1/4 boundary universal and that enables the dephasing
 channel ([γ as Signal](GAMMA_AS_SIGNAL.md)).
@@ -220,7 +220,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): Π maps populations ↔ coherences (past ↔ future)
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the conceptual framework (December 2025)
 - [XOR Space](XOR_SPACE.md): GHZ → XOR drain (explains 0% oscillation)

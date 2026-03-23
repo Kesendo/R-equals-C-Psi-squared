@@ -80,7 +80,7 @@ conjugation operator Π that generates this pairing swaps the immune sector
 
 This has been verified for all system sizes N = 2 through N = 8 (54,118
 eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
-([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
+([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
 **Why this matters for the channel:** The palindromic pairing creates a
 **full-rank response matrix**. When γ is perturbed at any single site,
@@ -97,14 +97,14 @@ The product CΨ has a critical boundary at **CΨ = 1/4**, which is the unique
 bifurcation point of the self-referential purity recursion R = C(Ψ+R)².
 Below 1/4: the system has converged to classical behavior. Above 1/4:
 quantum coherence is still active. For details:
-[Uniqueness Proof](../docs/UNIQUENESS_PROOF.md).
+[Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ---
 
 ## The Question
 
 γ comes from outside the quantum system. No internal mechanism can
-generate it ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md):
+generate it ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md):
 five candidates for internal noise origin tested and eliminated). γ has
 measured structure: it selects a preferred axis, acts locally per qubit,
 takes phase but not energy, is Markovian, and produces exact spectral
@@ -224,7 +224,7 @@ The direction of asymmetry determines left vs right.
 
 | Property | Status |
 |----------|--------|
-| γ comes from outside the system | **Proven** ([Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)) |
+| γ comes from outside the system | **Proven** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)) |
 | γ has per-site structure | **Measured** (IBM T2* varies per qubit) |
 | Per-site structure is readable from inside | **Proven** (100% classification at σ=0) |
 | Channel capacity (empirical) | **2 bits** (4-symbol alphabet) |
@@ -428,12 +428,12 @@ The key prior results that this analysis builds on:
 
 - **Incompleteness Proof:** γ cannot originate from within the system
   (5 internal candidates eliminated). Something external provides it.
-  ([docs/INCOMPLETENESS_PROOF.md](../docs/INCOMPLETENESS_PROOF.md))
+  ([docs/INCOMPLETENESS_PROOF.md](../docs/proofs/INCOMPLETENESS_PROOF.md))
 
 - **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
   palindromic for any Heisenberg/XXZ system on any graph with local
   Z-dephasing. Verified through N=8 (54,118 eigenvalues, zero exceptions).
-  ([docs/MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md))
+  ([docs/MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 
 - **Reading the 30%:** The palindromic response matrix has full rank.
   All per-site γ values are independently recoverable from mode amplitudes.
@@ -443,7 +443,7 @@ The key prior results that this analysis builds on:
   (coherent) from classical (converged) dynamics. All standard quantum
   channels cross this boundary. It determines the time window during
   which the γ-channel is maximally readable.
-  ([docs/UNIQUENESS_PROOF.md](../docs/UNIQUENESS_PROOF.md))
+  ([docs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
 
 The central insight of this document: the 70% of phase information that
 dephasing "destroys" is not lost. It is **redistributed** into the mode
@@ -483,8 +483,8 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ### Project-internal references
 
-- [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md): γ must come from outside
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): γ must come from outside
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
 - [Reading the 30%](../experiments/READING_THE_30_PERCENT.md): palindromic decoder
 - [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): synthesis
 - [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI

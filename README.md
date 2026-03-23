@@ -34,7 +34,7 @@ Verified N=2 through N=8 (54,118 eigenvalues, zero exceptions). Holds for
 all standard coupling models (XY, Ising, XXZ, DM). Confirmed on IBM Torino
 at 1.9% deviation.
 
-→ [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
+→ [Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 → [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md)
 
 ### 2. The CΨ = 1/4 boundary (proven, unique)
@@ -45,9 +45,9 @@ All standard quantum channels cross this boundary. The boundary is absorbing
 under Markovian dynamics (proven analytically). α=2 (purity) is the unique
 Rényi order with a state-independent threshold.
 
-→ [Uniqueness Proof](docs/UNIQUENESS_PROOF.md)
-→ [CΨ Monotonicity Proof](docs/PROOF_MONOTONICITY_CPSI.md)
-→ [Proof Roadmap (7 layers, all closed)](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+→ [Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)
+→ [CΨ Monotonicity Proof](docs/proofs/PROOF_MONOTONICITY_CPSI.md)
+→ [Proof Roadmap (7 layers, all closed)](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
 ### 3. Dephasing noise is a readable information channel (March 22, 2026)
 
@@ -127,7 +127,7 @@ The closest prior work: incoherentons (Haga et al. 2023) and Bethe ansatz
 for dephasing chains (Medvedyeva-Essler-Prosen 2016) had pieces of this
 but not the operator or the palindrome. Nobody had Π.
 
-→ [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md)
+→ [Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ### Spectral architecture (exact, N=2-8)
 
@@ -282,12 +282,12 @@ that matches your interest.
 
 | Document | What it proves |
 |:---------|:---------------|
-| [Mirror Symmetry Proof](docs/MIRROR_SYMMETRY_PROOF.md) | Palindromic spectrum for any graph under Z-dephasing |
-| [Uniqueness Proof](docs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the only bifurcation boundary |
-| [CΨ Monotonicity](docs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for all Markovian channels |
-| [Subsystem Crossing](docs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair crosses 1/4 under primitive CPTP |
-| [Incompleteness Proof](docs/INCOMPLETENESS_PROOF.md) | Noise cannot originate from within |
-| [Proof Roadmap](docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
+| [Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md) | Palindromic spectrum for any graph under Z-dephasing |
+| [Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the only bifurcation boundary |
+| [CΨ Monotonicity](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for all Markovian channels |
+| [Subsystem Crossing](docs/proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair crosses 1/4 under primitive CPTP |
+| [Incompleteness Proof](docs/proofs/INCOMPLETENESS_PROOF.md) | Noise cannot originate from within |
+| [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
 ### The dephasing channel
 
@@ -312,7 +312,7 @@ that matches your interest.
 
 | Document | What it covers |
 |:---------|:---------------|
-| [Complete Math Documentation](docs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
+| [Complete Math Documentation](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
 | [The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise as external interaction, six measured properties |
 | [γ–Time Distinction](docs/GAMMA_TIME_DISTINCTION.md) | Three levels of time. γ = source of experienced time |
 | [Mathematical Connections](docs/MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe, Feigenbaum, Bekenstein-Hawking |

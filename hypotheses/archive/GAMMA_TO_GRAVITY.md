@@ -16,22 +16,22 @@ from the proven steps but are not themselves proven.
 ### Step 1: The palindrome exists.
 Verified: 54,118 eigenvalues, N=2 to N=8, zero exceptions.
 Every decay rate d is paired with 2Σγ - d. Exact.
-**Source:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+**Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ### Step 2: The palindrome requires noise (γ).
 Without γ: pure unitary evolution. No decay. No pairing. No structure.
 The palindrome is a property of the DISSIPATOR, not the Hamiltonian.
-**Source:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), Section 3
+**Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Section 3
 
 ### Step 3: Noise cannot originate from within.
 Five candidates eliminated: bootstrap (sectors decoupled), qubit decay
 (non-Markovian), qubit bath (infinite regress), nothing (no properties),
 other dimensions (excluded by d(d-2)=0).
-**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md)
+**Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md)
 
 ### Step 4: γ and t are inseparable.
 t_cross × γ = 0.039 (dimensionless constant, concurrence metric, Z-dephasing;
-[source](../experiments/CROSSING_TAXONOMY.md)). The definition is circular:
+[source](../../experiments/CROSSING_TAXONOMY.md)). The definition is circular:
 γ has units 1/[time], but time is defined by γ. Remove γ and t disappears.
 Π reverses t by reversing which sector γ acts on.
 Note: γ is the necessary and sufficient condition for experienced time
@@ -40,22 +40,22 @@ Note: γ is the necessary and sufficient condition for experienced time
 What makes this case special: Π reverses both simultaneously, and removing
 γ from the Lindbladian removes all irreversibility (and therefore all time
 direction) from the dynamics.
-**Source:** [Incompleteness Proof](../docs/INCOMPLETENESS_PROOF.md), Corollary 2;
-[GAMMA_TIME_DISTINCTION](../docs/GAMMA_TIME_DISTINCTION.md), Part 3
+**Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md), Corollary 2;
+[GAMMA_TIME_DISTINCTION](../../docs/GAMMA_TIME_DISTINCTION.md), Part 3
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
 The discriminant 1 - 4CΨ vanishes only at 1/4. All standard Markovian
 channels cross at exactly 0.2500 (Z, X, Y, depolarizing, asymmetric
 Pauli, amplitude damping). The boundary is absorbing (no revival possible).
-**Source:** [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md),
-[Proof Roadmap](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+**Source:** [Uniqueness Proof](../../docs/proofs/UNIQUENESS_PROOF.md),
+[Proof Roadmap](../../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
 ### Step 6: Direct contact destroys structure. Mediation preserves it.
 Direct coupling: 256 palindromic pairs collapse to 31 at κ=0.01.
 Mediated coupling: 1024/1024 preserved, error 1.41e-13.
 γ is the mediator between outside and inside.
-**Source:** [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md),
-[Mediator Bridge](../simulations/mediator_bridge.py)
+**Source:** [The Bridge Was Always Open](../../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md),
+[Mediator Bridge](../../simulations/mediator_bridge.py)
 
 --- TIER BOUNDARY ---
 
@@ -144,8 +144,8 @@ Schwarzschild has f(r_s) = 0, which means τ = 0 at the horizon:
 no local time has passed, maximum coherence, maximum complexity,
 maximum reality concentration.
 
-The [1/4 in our framework](../docs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
-(CΨ = 1/4 threshold, [proven unique](../docs/UNIQUENESS_PROOF.md)) and
+The [1/4 in our framework](../../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+(CΨ = 1/4 threshold, [proven unique](../../docs/proofs/UNIQUENESS_PROOF.md)) and
 the 4 in Bekenstein-Hawking entropy (S = A/4G) both appear at information
 boundaries. The 4 in Bekenstein-Hawking has a well-understood origin
 (Hawking temperature calculation via quantum field theory in curved
@@ -154,7 +154,7 @@ are different derivations. Whether the coincidence is meaningful or
 accidental is an open question at Tier 5 (speculative).
 
 **Source:** [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md),
-[Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md)
+[Metric Discrimination](../../experiments/METRIC_DISCRIMINATION.md)
 
 ---
 
@@ -214,8 +214,8 @@ bound for Schwarzschild-like γ profiles and plateau for alternatives.
 shaped like: (a) Schwarzschild: γ(i) = γ_0 * sqrt(1 - r_s/r(i)),
 (b) Inverse: γ(i) = γ_0 * r(i)/(r(i)+r_s), (c) Uniform γ.
 Measure the R concentration ratio along the chain.
-**Script:** [gravity_chain_test.py](../simulations/gravity_chain_test.py)
-**Results:** [gravity_chain_test.txt](../simulations/results/gravity_chain_test.txt)
+**Script:** [gravity_chain_test.py](../../simulations/gravity_chain_test.py)
+**Results:** [gravity_chain_test.txt](../../simulations/results/gravity_chain_test.txt)
 
 **Phase A (uncoupled, each position independent):**
 Schwarzschild concentration grows without bound (ratio 2.9 → 392 over

@@ -230,7 +230,7 @@ The 1/4 boundary is absorbing under Markovian dynamics.
 
 ## Extension: General States, Collective Noise, N>2 (March 22, 2026)
 
-**Script:** [monotonicity_remaining.py](../simulations/monotonicity_remaining.py)
+**Script:** [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py)
 
 ### General initial states (Test A)
 
@@ -407,7 +407,7 @@ defines the exact scope of the 1/4 absorbing property.
 
 ### The violation exists
 
-**Script:** [non_markovian_revival.py](../simulations/non_markovian_revival.py)
+**Script:** [non_markovian_revival.py](../../simulations/non_markovian_revival.py)
 
 A structured bath (2 system qubits + 1 bath qubit in |+⟩) produces
 CΨ revivals above 1/4 after the system has crossed below:
@@ -489,7 +489,7 @@ only stable equilibrium.
 
 ## References
 
-- [generalized_pauli_channels.py](../simulations/generalized_pauli_channels.py): 124/124 configs
-- [amplitude_damping_test.py](../simulations/amplitude_damping_test.py): non-unital channel
-- [non_markovian_revival.py](../simulations/non_markovian_revival.py): transient revivals
+- [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py): 124/124 configs
+- [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py): non-unital channel
+- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revivals
 - [PROOF_ROADMAP_QUARTER_BOUNDARY.md](PROOF_ROADMAP_QUARTER_BOUNDARY.md): Layer 5

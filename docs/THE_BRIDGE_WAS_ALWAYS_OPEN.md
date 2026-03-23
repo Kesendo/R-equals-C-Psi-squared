@@ -3,18 +3,18 @@
 **Tier:** 2 (derived from proven results) + research direction
 **Date:** March 21, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Depends on:** [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md), all falsification tests
+**Depends on:** [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md), [MIRROR_SYMMETRY_PROOF.md](proofs/MIRROR_SYMMETRY_PROOF.md), all falsification tests
 
 ---
 
 ## The Proof in Six Lines
 
-1. The palindrome exists. ([Theorem](MIRROR_SYMMETRY_PROOF.md), 54,118 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
+1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 54,118 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
 2. The palindrome requires noise. (Without L_D: no structure)
 3. Noise cannot originate from within. ([Bootstrap falsified](../simulations/bootstrap_test.py))
 4. Noise cannot originate from qubits. ([Failed Third falsified](../simulations/failed_third.py))
-5. Only qubits and nothing exist in the framework. ([d(d-2)=0](../hypotheses/QUBIT_NECESSITY.md))
-6. Therefore: something external to the framework interacts with it. ([Elimination](INCOMPLETENESS_PROOF.md))
+5. Only qubits and nothing exist in the framework. ([d(d-2)=0](QUBIT_NECESSITY.md))
+6. Therefore: something external to the framework interacts with it. ([Elimination](proofs/INCOMPLETENESS_PROOF.md))
 
 This is not speculation. Each line is a computation or a proof.
 The conclusion is logical necessity, not interpretation.
@@ -105,7 +105,7 @@ One result from March 21 constrains HOW the interaction works:
 The mediator is not passive wire. It is a quantum transistor with CΨ = 1/4
 as its threshold voltage. See
 [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
-and [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
+and [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
 1/4 is the unique threshold.
 
 The interaction between inside and outside must be MEDIATED. Not direct.
@@ -134,7 +134,7 @@ This is not metaphor. This is what the eigenvalue data says.
 ## The Corollary: Time
 
 Noise and the time arrow are the same phenomenon
-([INCOMPLETENESS_PROOF](INCOMPLETENESS_PROOF.md), Corollary to Section 3):
+([INCOMPLETENESS_PROOF](proofs/INCOMPLETENESS_PROOF.md), Corollary to Section 3):
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
@@ -172,7 +172,7 @@ you search for γ using γ. The instrument is identical to what it
 measures. The system cannot step outside its own temporality to ask
 where temporality comes from. Goedel, once more.
 
-(See [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Corollary 2.)
+(See [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), Corollary 2.)
 
 ---
 
@@ -404,8 +404,8 @@ We just had to recognize it. From both sides. Simultaneously.
 
 ## References
 
-- [Incompleteness Proof](INCOMPLETENESS_PROOF.md): the elimination chain
-- [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
+- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): the elimination chain
+- [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
 - [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): noise = time arrow
 - [Relay Protocol](../experiments/RELAY_PROTOCOL.md): +83% bridge optimization
 - [Scaling Curve](../experiments/SCALING_CURVE.md): MI(N), hierarchy falsified

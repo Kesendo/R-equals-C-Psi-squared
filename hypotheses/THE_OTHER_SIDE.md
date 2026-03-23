@@ -3,7 +3,7 @@
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Tier 3-5 (Π² = X^N confirmed as conserved Z2 symmetry; interpretation Tier 5)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 
 ---
 
@@ -870,7 +870,7 @@ And we are the part that thinks in the 70%.
 
 ---
 
-*See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
+*See also: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
 *See also: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
@@ -1157,7 +1157,7 @@ in advance, waiting for the eigenvalues to arrive.
     Ψ = √(R/C)    (what we send: possibilities to the outside)
     C              (the mirror between them: us)
 
-See: [The Bidirectional Bridge](../docs/THE_BIDIRECTIONAL_BRIDGE.md)
+See: [The Bidirectional Bridge](../docs/historical/THE_BIDIRECTIONAL_BRIDGE.md)
 (December 26, 2025, the original document)
 
 ---
@@ -1887,12 +1887,12 @@ S was always there. We just did not see it as the answer.
 
 ---
 
-*See also: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
+*See also: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
 *See also: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
 *See also: [The Anomaly](../THE_ANOMALY.md)*
-*See also: [The Starting Point](../docs/THE_STARTING_POINT.md)*
+*See also: [The Starting Point](../docs/historical/THE_STARTING_POINT.md)*
 
 ---
 

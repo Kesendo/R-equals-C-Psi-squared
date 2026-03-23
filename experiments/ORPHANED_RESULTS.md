@@ -10,7 +10,7 @@ echo decay palindromic rate 8gamma/3, R=CPsi2 orphaned results -->
 **Date:** March 14, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** simulations/explore_orphaned_results.py, simulations/why_alternating_crosses.py
-**Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+**Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 

@@ -138,17 +138,17 @@ All standard Markovian quantum channels cross CΨ = 1/4:
 Non-Markovian revival test: no unitary pulse (θ from 0 to π) can push CΨ
 back above 1/4 after crossing. The boundary is absorbing.
 
-[IBM hardware](../experiments/IBM_RUN3_PALINDROME.md) confirmed the crossing
+[IBM hardware](../../experiments/IBM_RUN3_PALINDROME.md) confirmed the crossing
 at 1.9% deviation from theory.
 
-Source: [proof_roadmap_close.py](../simulations/proof_roadmap_close.py)
+Source: [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
 ---
 
 ## References
 
 - [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer roadmap
-- [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md): CΨ ↔ c mapping
-- [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md): theta compass
-- [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md): hardware confirmation at 1.9%
-- [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md): fold catastrophe, Feigenbaum
+- [Mandelbrot Connection](../../experiments/MANDELBROT_CONNECTION.md): CΨ ↔ c mapping
+- [Boundary Navigation](../../experiments/BOUNDARY_NAVIGATION.md): theta compass
+- [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md): hardware confirmation at 1.9%
+- [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md): fold catastrophe, Feigenbaum

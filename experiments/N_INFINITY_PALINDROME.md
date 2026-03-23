@@ -11,7 +11,7 @@ R=CPsi2 N infinity palindrome -->
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
 [Π as Time Reversal](PI_AS_TIME_REVERSAL.md),
 [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md)
 
@@ -209,7 +209,7 @@ dissipative continuum rather than a discrete pairing of individual modes.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): the Π proof at all N
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the Π proof at all N
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): past/future interpretation
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md): the 2:2 counting argument
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): discrete structure at N=3

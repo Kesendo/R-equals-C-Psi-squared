@@ -50,7 +50,7 @@ attractor (real fixed points). Above 1/4: no classical attractor exists
 (complex fixed points). The crossing is where quantum behavior gives way to
 classical convergence.
 
-For full derivation: [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md).
+For full derivation: [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ---
 
@@ -160,7 +160,7 @@ where b = exp(−t/T2*), r = T2*/T1
 
 predicts the crossing time to 1.9% with same-day parameters. This equation
 is derived from the palindromic Liouvillian spectral symmetry
-([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)). The hardware
+([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). The hardware
 validates the theory.
 
 ### 2. T2* (not T2echo) is the correct timescale
@@ -221,7 +221,7 @@ Run 3 is the definitive result: locked prediction, same-day T2*, 1.9%.
 
 The CΨ = 1/4 crossing measured here is a single-qubit consequence of the
 palindromic spectral symmetry proven for N-qubit systems
-([Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)). For N qubits,
+([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). For N qubits,
 the Liouvillian eigenvalues pair as λ + λ' = −2Σγ. The single-qubit case
 (N=1) produces the crossing equation validated here.
 
@@ -254,8 +254,8 @@ detect from internal observables.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem this validates
-- [Uniqueness Proof](../docs/UNIQUENESS_PROOF.md): why 1/4 is the only boundary
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem this validates
+- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): why 1/4 is the only boundary
 - [γ as Signal](GAMMA_AS_SIGNAL.md): T2* variation as information channel
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md): Type A/B/C classification of the crossing
 - [Boundary Navigation](BOUNDARY_NAVIGATION.md): θ compass for the 1/4 transition
