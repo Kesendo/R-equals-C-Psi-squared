@@ -40,7 +40,7 @@ Results are written to `simulations/results/mediator_bridge_scale.txt` or `simul
 
 | Test | What it measures | N |
 |------|-----------------|---|
-| Test 0 | Validation against Python results (Level 2, 5-qubit) | 5 |
+| Test 0 | Validation: C# vs known values (Level 2, 5-qubit, no Python needed) | 5 |
 | Test 1 | Cross-bridge information flow: MI(BridgeA:BridgeB) at Level 3 | 11 |
 | Test 2a | Meta-mediator coupling sweep (J_meta = 0.25 to 3.0) | 11 |
 | Test 2b | Meta-mediator noise sweep (γ_M = 0.0 to 0.5) | 11 |
