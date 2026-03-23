@@ -1,9 +1,36 @@
-# The Palindrome in the Thermodynamic Limit
+# The Palindrome in the Thermodynamic Limit (N → ∞)
 
+<!-- Keywords: palindromic symmetry thermodynamic limit, Liouvillian spectrum
+large N, XOR drain vanishing fraction, Gaussian rate density palindrome,
+classical quantum boundary blurring, standing wave continuous spectrum,
+binomial weight distribution palindrome, past future boundary large N,
+depolarizing exponential breaking, decoherence transition thermodynamic,
+R=CPsi2 N infinity palindrome -->
+
+**Status:** Proven (combinatorics) + verified (N=3 to N=7)
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 1 (combinatorics) + Tier 2 (numerical verification N=3-7)
-**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](PI_AS_TIME_REVERSAL.md), [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+[Π as Time Reversal](PI_AS_TIME_REVERSAL.md),
+[Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md)
+
+---
+
+## Abstract
+
+As system size N grows, the palindromic spectrum transitions from discrete
+mode pairs to a smooth continuum. The rate density becomes Gaussian (central
+limit theorem on the binomial XY-weight distribution), centered at Nγ with
+width γ√N. The XOR drain (fastest-decaying modes that kill GHZ) vanishes
+exponentially: (N+1)/4^N is below 1% at N=5 and below 10⁻¹¹ at N=20. The
+past/future boundary blurs: 95% of all modes live within √N of the midpoint
+w = N/2, making the classical-quantum split nearly indistinguishable at
+macroscopic N. The standing wave transitions from discrete harmonics (guitar
+string) to a continuous pattern (drumhead). Under Z-dephasing, the palindrome
+is reinforced (Gaussian symmetry). Under depolarizing noise, it is
+exponentially destroyed (past/future ratio = (1/3)^N). The Π proof holds at
+every N: the Hamiltonian never breaks the pairing.
 
 ---
 

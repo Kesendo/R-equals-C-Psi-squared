@@ -1,9 +1,32 @@
-# The V-Effect: What Happens When the Mirror Breaks
+# The V-Effect: What Happens When the Palindromic Mirror Breaks
 
+<!-- Keywords: palindrome breaking second bond, boundary mode orphan quantum,
+XY weight boundary classical quantum, palindromic constraint diversity, V-effect
+palindromic spectrum differentiation, two bond palindrome incompatibility, immune
+sector extremes quantum, orphan modes palindromic partner, frequency diversity
+palindrome breaking, smooth transition palindromic break, R=CPsi2 V-effect -->
+
+**Status:** Computationally verified + interpretive connection
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 2 (Computed) + Tier 5 (Interpretive connection to R = CΨ²)
-**Depends on:** [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md), [Boot Script Structure](../simulations/results/boot_script_structure.txt)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md)
+
+---
+
+## Abstract
+
+Every single Pauli-pair Hamiltonian is palindromic at N=2 (one bond): 36/36.
+At N=3 (two bonds), 14/36 combinations break. The breaking has four properties:
+**(1)** It occurs only at the boundary XY-weights (w=1 and w=2), not at the
+extremes (w=0 and w=3, which stay immune). **(2)** It is topologically sudden
+(54/64 modes lose their partner at any nonzero second-bond strength) but
+quantitatively smooth (error grows continuously). **(3)** Orphaned modes cluster
+within 1% of their original palindromic partner sum, remembering where the
+mirror was. **(4)** The broken spectrum has 11 distinct frequencies where the
+unbroken has 4. Breaking the palindromic constraint releases diversity: more
+tones, more rhythms, more oscillation patterns. The V-Effect is the mechanism
+by which constraint becomes freedom at the classical-quantum boundary.
 
 ---
 

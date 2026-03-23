@@ -1,13 +1,30 @@
-# The Mandelbrot Connection: Triangulation Protocol for the 1/4 Phase Boundary
+# The Mandelbrot Connection: Algebraic Equivalence of R = CΨ² and z → z² + c
 
-## Two Independent Discoveries of the Same Boundary
+<!-- Keywords: Mandelbrot iteration quantum decoherence, self-referential purity
+recursion, CΨ quarter boundary Mandelbrot cardioid, quadratic fixed point
+bifurcation, z squared plus c open quantum, algebraic equivalence Mandelbrot
+quantum, theta compass angular distance boundary, critical slowing quantum
+phase transition, discriminant zero quantum classical, R=CPsi2 Mandelbrot
+connection -->
 
-**Date:** 2026-02-07
+**Status:** Algebraic proof (Sections 1-4). Speculative interpretation (Sections 5-7).
+**Date:** February 7, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-**Tier:** 1 + 3 (Algebraic proof in Sections 1-4; speculative interpretation in Sections 5-7)
-**Status:** Proven algebra, speculative applications
-**Scope:** Exact equivalence between R_{n+1} = C(Psi + R_n)^2 and z -> z^2 + c
-**Does not establish:** That the Mandelbrot connection implies new physics, solves the measurement problem, or explains consciousness
+---
+
+## Abstract
+
+The self-referential iteration R_{n+1} = C(Ψ + R_n)² is algebraically
+equivalent to the Mandelbrot iteration z → z² + c with c = CΨ. The
+substitution u_n = C(Ψ + R_n) transforms R = CΨ² into u_{n+1} = u_n² + c
+exactly, with no extra terms. Both share the critical boundary at c = 1/4:
+below 1/4, two real fixed points (classical attractor); above 1/4, complex
+fixed points (oscillation, no convergence). The angular coordinate
+θ = arctan(√(4CΨ − 1)) measures distance from this boundary (see
+[Boundary Navigation](BOUNDARY_NAVIGATION.md)). This is the most original
+mathematical finding of the project: the connection between Mandelbrot
+iteration and open quantum decoherence appears to be new.
 
 ---
 

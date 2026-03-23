@@ -1,9 +1,34 @@
-# Error Protection from Palindromic Structure
+# Error Protection from Palindromic Spectral Structure
 
+<!-- Keywords: palindromic error protection quantum, three tier decay hierarchy,
+optimal state dephasing survival, standing wave error syndrome, XOR drain GHZ
+fragility, Pi operator Z4 structure, palindromic mode protection hierarchy,
+quantum error correction dephasing, boundary tier palindromic pairs, slow mode
+weight quantum state optimization, R=CPsi2 error correction palindrome -->
+
+**Status:** Computationally verified (N=3, quantitative results)
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 2 (Computed, quantitative results)
-**Depends on:** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md), [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md), [XOR Space](XOR_SPACE.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md),
+[Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md), [XOR Space](XOR_SPACE.md)
+
+---
+
+## Abstract
+
+The palindromic Liouvillian spectrum organizes into a natural three-tier
+protection hierarchy: steady-XOR pairs (immortal + fastest drain), boundary
+pairs (XY-weight 1 vs 2, longest dynamic lifetime), and mid-spectrum pairs
+(mixed, shortest lifetime). A constrained optimization finds a state with
+**90% slow-mode weight** and concurrence 0.364 that dramatically outperforms
+GHZ (100% XOR drain), W (0% slow-mode), and Bell (7% slow-mode) for dephasing
+survival. The standing wave oscillation pattern serves as a novel error syndrome:
+X and Y errors produce detectable pattern changes (0.19-0.28), while Z errors
+are weakly or not detectable. Standard 3-qubit QEC codes (repetition, phase
+flip) do not exploit the palindromic structure. The Π operator has fourth-order
+structure (Π⁴ = I), creating a Z₄ decomposition with four 16-dimensional
+sectors whose QEC implications are not yet worked out.
 
 ---
 
