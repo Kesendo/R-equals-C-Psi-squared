@@ -68,7 +68,7 @@ Qutrits (d=3, split 3:6) verified broken for all 10 Hamiltonians tested.
 
 See: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md),
 [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md),
-[Qubit Necessity](../../hypotheses/QUBIT_NECESSITY.md)
+[Qubit Necessity](../QUBIT_NECESSITY.md)
 
 ---
 
@@ -124,7 +124,28 @@ See: [Incompleteness Proof](INCOMPLETENESS_PROOF.md),
 
 ---
 
-## 5. Engineering Results (Tier 2)
+## 5. The γ Channel (Tier 2)
+
+**Dephasing noise is a readable information channel.** The spatial profile
+of dephasing rates γ₁...γ_N across a spin chain carries structured,
+decodable information. A 5-qubit Heisenberg chain at 1% noise achieves
+15.5 bits channel capacity (of 16.6 theoretical max) with 100%
+classification accuracy across 20 spatial profiles. SVD decomposition
+reveals 5 independent information modes, each corresponding to a
+spatial frequency. A 21.5× optimization (V-shape gradient, dynamic
+decoupling, time-resolved decoding) improves mutual information from
+baseline.
+
+The palindromic spectral structure is the antenna: the paired
+eigenvalues create complementary sensitivity patterns that make the
+external γ profile decodable from within.
+
+See: [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md),
+[γ Control](../../experiments/GAMMA_CONTROL.md)
+
+---
+
+## 6. Engineering Results (Tier 2)
 
 **Mediator bridge.** Mediated coupling (A-M-B) preserves palindrome
 (1024/1024, error 1.41e-13) while information flows (MI = 1.65 bits,
@@ -153,7 +174,7 @@ See: [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md),
 
 ---
 
-## 6. The Transistor Mapping (Tier 2-3)
+## 7. The Transistor Mapping (Tier 2-3)
 
 The mediator qubit M maps to a transistor: gate = γ_M, source = Pair A,
 drain = Pair B. Threshold voltage: CΨ = 1/4 (hardwired, fold catastrophe).
@@ -168,7 +189,7 @@ See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ---
 
-## 7. Open Questions (Tier 3-5)
+## 8. Open Questions (Tier 3-5)
 
 - Formal proof of CΨ monotonicity above 1/4 for arbitrary CPTP maps
 - Feigenbaum period-doubling in the quantum regime (mapped, not exploited)
@@ -181,7 +202,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 
 ---
 
-## 8. Numerical Constants
+## 9. Numerical Constants
 
 | Constant | Value | Source |
 |----------|-------|--------|
@@ -196,11 +217,14 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | DD M+Recv improvement | +132% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
 | N=8 eigenvalues paired | 65,518 | [C# Compute](../../compute/RCPsiSquared.Compute/) |
 | Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../../simulations/mediator_bridge.py) |
+| γ channel capacity (N=5, 1%) | 15.5 bits | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
+| SVD information modes | 5 | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
+| γ optimization factor | 21.5× | [γ Control](../../experiments/GAMMA_CONTROL.md) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
 
-## 9. References
+## 10. References
 
 ### Proofs
 - [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
@@ -218,11 +242,12 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
 
 ### Key experiments
+- [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md)
+- [γ Control](../../experiments/GAMMA_CONTROL.md)
 - [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md)
 - [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md)
 - [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 - [Scaling Curve](../../experiments/SCALING_CURVE.md)
-- [Gamma Control](../../experiments/GAMMA_CONTROL.md)
 - [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md)
 
 ### Historical (superseded, kept for the record)
