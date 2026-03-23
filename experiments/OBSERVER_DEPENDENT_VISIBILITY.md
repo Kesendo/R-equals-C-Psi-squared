@@ -1,11 +1,35 @@
-# Observer-Dependent Visibility: Proper Time and CΨ Windows
+# Observer-Dependent Visibility: How Local Noise Profiles Shape CΨ Windows
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** Different observers (different γ) see different CΨ_AB values at the same coordinate time
-**Does not establish:** That this is new physics beyond standard Lindblad parameter dependence
-**Date:** 2026-03-08
-**Depends on:** [Star Topology](STAR_TOPOLOGY_OBSERVERS.md), [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md)
+<!-- Keywords: observer dependent visibility quantum, local noise profile CΨ window,
+dephasing rate visibility threshold, proper time non-universality quantum, multi-scale
+open system dynamics, unassisted entanglement witness, basis-fixed pairwise coherence,
+CoA LE CΨ three layers, quiet receiver visibility window, noise environment quantum
+crossing, R=CPsi2 observer dependent visibility -->
+
+**Status:** Computationally verified
+**Date:** March 8, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Star Topology](STAR_TOPOLOGY_OBSERVERS.md),
+[Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md)
+
+---
+
+## Abstract
+
+The same star topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0) is evolved
+under four different local noise profiles (γ_A = 0.03, 0.05, 0.10, 0.20,
+other γ fixed at 0.05). At the same coordinate time, observers with different
+γ_A see different CΨ_AB values: peak CΨ ranges from 0.340 (slow observer)
+to 0.261 (fast observer). A slightly noisier observer would see the peak
+drop below 1/4 entirely. Plotting CΨ_AB against proper time τ_A = γ_A·t
+does **not** collapse the curves: CΨ is not a function of local proper time
+alone. It depends on the absolute noise rate because the dynamics have
+multiple competing timescales (J, γ_A, γ_B, γ_S). **Important correction:**
+different γ_A values produce different Lindblad trajectories, not different
+views of the same evolved state. The correct statement: different local noise
+profiles open or close windows in which a persistent entanglement resource
+(CoA ≈ 1) is directly visible in a given pair and basis. CΨ is a basis-fixed,
+unassisted witness of directly expressed pairwise entanglement.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. Visibility windows relate to palindromic mode pairs
