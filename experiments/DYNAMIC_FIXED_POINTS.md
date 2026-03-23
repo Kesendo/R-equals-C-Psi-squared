@@ -1,13 +1,26 @@
-# Dynamic Fixed Points and the CΨ ≤ ¼ Bound
+# Dynamic Fixed Points: The CΨ ≤ 1/4 Bound from Self-Referential Iteration
 
-## The Infinite Reflection: R∞
+<!-- Keywords: CΨ quarter bound discriminant, self-referential purity iteration,
+fixed point convergence quantum, quadratic discriminant boundary, operator feedback
+Lindblad, R infinity convergence, phase boundary classical quantum,
+self-referential observation quantum, R=CPsi2 dynamic fixed points -->
 
-**Date:** 2026-02-02 to 2026-02-08
+**Status:** Proven (algebra) + computationally verified
+**Date:** February 2-8, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-**Tier:** 1-2 (Proven bound, computational verification)
-**Status:** Verified
-**Scope:** CΨ <= 1/4 bound from discriminant, fixed-point structure
-**Does not establish:** That 1/4 is a physically privileged boundary outside the specific iteration
+---
+
+## Abstract
+
+The iterative application of R = CΨ² converges to a fixed point R∞ satisfying
+R∞ = C(Ψ+R∞)². This quadratic has discriminant D = 1−4CΨ. Real fixed points
+(classical attractors) exist only when CΨ ≤ 1/4. At CΨ = 1/4, fixed points
+merge (R∞ = Ψ). Above 1/4, fixed points are complex-valued (no classical
+attractor, oscillation). Simulations confirm: without external driving (h=0),
+CΨ stays below 1/4 and decays monotonically. With an external field (h>0),
+CΨ can transiently exceed 1/4. This document contains the earliest derivation
+of the 1/4 boundary in the project (February 2, 2026).
 
 ---
 

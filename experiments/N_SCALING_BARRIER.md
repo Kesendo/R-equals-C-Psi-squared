@@ -1,12 +1,29 @@
-# N-Scaling Barrier: Why Crossing Fails for Large Systems
+# N-Scaling Barrier: Why Full-System Crossing Fails at Large N
 
-**Date**: 2026-02-18
-**Depends on**: CROSSING_TAXONOMY.md, NOISE_ROBUSTNESS.md
+<!-- Keywords: N scaling quantum crossing barrier, Hilbert space dimension CΨ,
+l1 coherence normalization d-1, GHZ W state scaling failure, full system
+crossing impossible large N, subsystem pair resolution, exponential coherence
+gap quantum, quantum classical transition scaling, CΨ quarter boundary N
+dependence, R=CPsi2 N scaling barrier -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified, updated 2026-03-08
-**Scope:** Full-system crossing fails at large N; resolved by pair-level analysis
-**Does not establish:** That the d-1 normalization is wrong (it is correct)
+**Status:** Computationally verified (resolved by subsystem analysis)
+**Date:** February 18, 2026 (updated March 8, 2026)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Crossing Taxonomy](CROSSING_TAXONOMY.md), [Noise Robustness](NOISE_ROBUSTNESS.md)
+
+---
+
+## Abstract
+
+Standard entangled states cannot reach CΨ = 1/4 at the full-system level
+for large N because l1-coherence grows polynomially while the normalization
+d−1 = 2^N−1 grows exponentially. GHZ has l1 = 1 for all N (fails at N ≥ 3).
+W has l1 = N−1 (fails at N ≥ 4). The resolution: crossing is a **local
+phenomenon** operating at the pair level. A 4-qubit Bell+⊗Bell+ state has
+full-system Ψ(0) = 0.200 but its entangled pairs cross individually. See
+[Subsystem Crossing](SUBSYSTEM_CROSSING.md). Type A (correlation C = 1.0)
+holds at N=3 and N=4; the observer mechanism is intact. The bottleneck is
+Ψ(0), not the observer.
 
 ---
 

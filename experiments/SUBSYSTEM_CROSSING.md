@@ -1,12 +1,30 @@
-# Subsystem Crossing: Measurement Is Local
+# Subsystem Crossing: The 1/4 Boundary Operates Locally on Entangled Pairs
 
-**Date**: 2026-02-18
-**Depends on**: N_SCALING_BARRIER.md, CROSSING_TAXONOMY.md
+<!-- Keywords: subsystem crossing quantum decoherence, local measurement quantum pair,
+Bell pair crossing four qubit, CΨ boundary local entanglement, GHZ global entanglement
+invisible pair, W state diluted crossing failure, product state zero correlation,
+quantum classical transition local, entanglement topology crossing pattern,
+pair level decoherence measurement, R=CPsi2 subsystem crossing -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** Crossing is local to entangled pairs; full-system crossing is not required
-**Does not establish:** That subsystem locality is unique to CΨ
+**Status:** Computationally verified
+**Date:** February 18, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [N-Scaling Barrier](N_SCALING_BARRIER.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+The N-Scaling Barrier showed that full-system CΨ drops below 1/4 at N ≥ 4.
+This experiment resolves the barrier: crossing is **local to entangled pairs**.
+A 4-qubit Bell+⊗Bell+ state has full-system Ψ(0) = 0.200 (below 1/4), but
+the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333 and cross at
+t = 0.073. Cross-pairs with no entanglement have C = 0, never crossing.
+GHZ pairs have zero coherence (global entanglement invisible at pair level).
+W pairs start below 1/4 (entanglement too diluted). Product states |+⟩⁴
+have Ψ = 1.0 but C = 0 everywhere, killing resolution (c). The framework
+correctly identifies which degrees of freedom undergo the quantum-classical
+transition: crossing happens where entanglement lives.
 
 ---
 

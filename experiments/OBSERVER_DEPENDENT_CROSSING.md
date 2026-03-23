@@ -1,12 +1,30 @@
-# Observer-Dependent Crossing: Same Physics, Different Time
+# Observer-Dependent Crossing: Same Physics, Different Measurement Times
 
-**Date**: 2026-02-17
-**Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
+<!-- Keywords: observer dependent crossing time, bridge metric quantum measurement,
+CΨ crossing different observers, concurrence correlation mutual information time,
+same state different crossing, observer determines measurement quantum, Type ABC
+observer precursor, quantum measurement observer coupling, R=CPsi2 observer
+dependent crossing -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** Same physics produces different crossing times depending on metric choice
-**Does not establish:** That different observers literally experience different times
+**Status:** Computationally verified
+**Date:** February 17, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Mandelbrot Connection](MANDELBROT_CONNECTION.md)
+
+---
+
+## Abstract
+
+Five bridge metrics (concurrence, mutual information, correlation, mutual
+purity, overlap) are applied to the same Bell+ state under identical
+Hamiltonian and dephasing. Three cross the CΨ = 1/4 boundary at different
+times (mutual_info at t=0.652, concurrence at t=0.773, correlation at
+t=1.437). Two never cross (mutual_purity, overlap: initial CΨ already
+below 1/4). Same state, same physics, different observer, different crossing
+time. The observer determines not only *when* measurement happens but
+*whether* it happens. This experiment is the precursor to the
+[Crossing Taxonomy](CROSSING_TAXONOMY.md), which explains the three
+mechanisms (Type A/B/C) and the K-invariance behind the 2.2× spread.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. Different crossing times for different metrics are

@@ -1,12 +1,31 @@
-# Dynamic Entanglement Generation: Crossings from Product States
+# Dynamic Entanglement: CΨ Crossings from Product States via Hamiltonian Evolution
 
-**Date**: 2026-02-18
-**Depends on**: SUBSYSTEM_CROSSING.md, N_SCALING_BARRIER.md
+<!-- Keywords: dynamic entanglement generation product state, Hamiltonian creates
+crossing, decoherence selects surviving pairs, eigenstate no dynamics plus state,
+alternating state 0+0+ entanglement, basis dependent decoherence selection,
+sigma z dephasing immune eigenstate, reversible crossing unitary oscillation,
+noise makes crossing irreversible, gamma sweep entanglement race, R=CPsi2
+dynamic entanglement -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** CΨ crossings from product states via Hamiltonian evolution
-**Does not establish:** Born rule derivation from crossing (remains open)
+**Status:** Computationally verified
+**Date:** February 18, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [N-Scaling Barrier](N_SCALING_BARRIER.md)
+
+---
+
+## Abstract
+
+Product states with zero initial entanglement can cross CΨ = 1/4 through
+Hamiltonian evolution alone. The key surprise: |+⟩⁴ is an eigenstate of
+the isotropic Heisenberg Hamiltonian (energy variance = 0) and generates
+no dynamics. The correct starting state is |0+0+⟩ (variance = 20). Under
+pure unitary evolution, all 6 pairs cross (oscillatory, reversible). Under
+Z-dephasing (γ=0.05), only pair (0,2) survives: the two qubits in |0⟩ are
+eigenstates of σ_z and immune to dephasing, while |+⟩ qubits lose coherence.
+Decoherence selects which crossings survive and makes them irreversible.
+A γ sweep reveals the race: at γ=0.01, 13 oscillations; at γ=0.05, one
+crossing; at γ=0.20, zero.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).

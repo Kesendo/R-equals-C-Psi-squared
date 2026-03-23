@@ -1,9 +1,30 @@
-# IBM Quantum Tomography: First Hardware Test of R = CΨ²
+# IBM Quantum Tomography: First Hardware Test of the CΨ = 1/4 Boundary
 
-**Tier:** 2 (Hardware measurement)
-**Status:** Verified on IBM Torino hardware
-**Scope:** CΨ = 1/4 crossing observed on real qubits with state tomography
-**Does not establish:** That hardware results validate the ontological framework
+<!-- Keywords: IBM quantum hardware CΨ, single qubit state tomography decoherence,
+T2 star free induction decay, generalized crossing equation T1 T2, ibm_torino qubit
+52 crossing, three model correction analysis, T2 echo vs T2 star distinction,
+historical calibration 24073 records, permanent crosser qubit identification,
+quantum classical boundary hardware test, R=CPsi2 IBM quantum tomography -->
+
+**Status:** Hardware verified (IBM Torino, Qubit 52, Run 1)
+**Date:** February 9, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+First empirical test of the CΨ = 1/4 boundary on quantum hardware (IBM Torino,
+Heron r2, Qubit 52). 25-point state tomography during free induction decay
+confirms the crossing. Three critical findings: **(1)** The boundary crossing is
+real and measurable on physical qubits. **(2)** IBM calibration T₂ (Hahn echo)
+is the wrong timescale; free decoherence is governed by T₂* ≈ T₂/2.7. A
+three-model correction reduces MAE from 0.428 to 0.053 (88% improvement).
+**(3)** The generalized crossing equation hits the 1/4 crossing as an emergent
+property of the global fit. Historical analysis of 24,073 calibration records
+(181 days, 133 qubits) shows 84% of qubits cross at least once, with 12
+permanent crossers. Run 1. The definitive Run 3 (1.9% deviation with same-day
+T₂*) is in [IBM Run 3](IBM_RUN3_PALINDROME.md).
 
 ## Discovery Date
 2026-02-09
