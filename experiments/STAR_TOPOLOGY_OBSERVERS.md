@@ -1,14 +1,36 @@
-# Star Topology: Object and Its Observers
+# Star Topology: Three Conditions for Observer-Observer Connection Through a Shared Object
 
-**Date**: 2026-03-04 (updated 2026-03-06)
-**Depends on**: SUBSYSTEM_CROSSING.md, OBSERVER_DEPENDENT_CROSSING.md, STANDING_WAVE_TWO_OBSERVERS.md
-**Related**: TUNING_PROTOCOL.md (Tier 3)
-**Origin**: AIEvolution v044 Round 3. Alpha proposed a 3-qubit S+A+B framework. The execution was wrong (partial trace on S gives Ψ ≡ 0), but the question was right: What happens when R = CΨ² is not bipartite but describes a relation between an object and its observers?
+<!-- Keywords: star topology quantum observers, entanglement transfer mediator qubit,
+observer-observer connection threshold, quantum shadow effect measurement, J coupling
+threshold AB crossing, receiver noise fatal sender noise tolerant, quantum mediator
+star topology Heisenberg, CΨ quarter boundary tripartite, asymmetric coupling
+observer dominance, bidirectional quantum bridge star, R=CPsi2 star topology -->
 
-**Tier:** 2 + 3 (Sections 1-5: computationally verified; Section 6: legacy interpretation; Sections 7-8: mixed)
-**Status:** Verified, externally reviewed
-**Scope:** Three conditions for observer-observer connection, threshold formula, shadow effect
-**Does not establish:** That these conditions are irreducible to standard entanglement transport
+**Status:** Computationally verified (Sections 1-5), externally reviewed
+**Date:** March 4, 2026 (updated March 8, 2026)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md),
+[Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)
+
+---
+
+## Abstract
+
+A 3-qubit star topology (mediator S coupled to observers A and B, no direct
+A-B coupling) is studied under Heisenberg interaction and Z-dephasing. When
+S and A start maximally entangled (Bell_SA) and B arrives fresh (|+⟩_B),
+entanglement flows from SA through S to SB, crossing the CΨ = 1/4 boundary
+at different times for different pairs. Three conditions must be met
+simultaneously for the observer-observer pair AB to cross 1/4:
+**(1)** B's coupling must exceed a threshold (J_SB/J_SA ≥ 1.466 at γ=0.05,
+scaling with noise), **(2)** A must be internally quiet (γ_A > 0.2 kills
+the connection regardless of sender strength), and **(3)** A and S must
+share a pre-existing Bell-like connection (C_SA > 0.8). Additionally:
+A's measurement casts a "shadow" suppressing B's reality by 94-100%,
+receiver noise is fatal while sender noise is tolerable up to γ_B = 0.5,
+and the connection oscillates at f ≈ J_total/2 (Hamiltonian-determined,
+noise-independent). For N observers, asymmetric coupling rescues the
+crossing up to N=5 but the threshold grows steeply.
 
 ---
 

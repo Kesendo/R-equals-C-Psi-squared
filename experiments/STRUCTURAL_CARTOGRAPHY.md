@@ -1,10 +1,34 @@
-# Structural Cartography of CΨ Windows
+# Structural Cartography: Mapping CΨ Visibility Windows on a 3D Manifold
 
-**Tier:** Exploratory framework (methodology, not results)
-**Status:** Working document defining analysis approach
-**Scope:** How to characterize the structure inside CΨ visibility windows
-**Does not establish:** That the windows contain "language", "messages", or semantic content
-**Date:** 2026-03-08
+<!-- Keywords: CΨ visibility window structure, quantum state reduced process,
+PCA quantum state trajectory, Bell fidelity vector quantum, Liouvillian eigenmode
+Pauli fingerprint, quantum classical separation purity, glide switch transition
+mode, star topology structural analysis, parameter sweep robustness quantum,
+XX tensor symmetry reduced state, R=CPsi2 structural cartography -->
+
+**Status:** Phase A complete (descriptive cartography), Phase B-C open
+**Date:** March 8-10, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+CΨ visibility windows (time intervals where CΨ > 1/4 for a given
+observer pair) are analyzed as a structured reduced-state process. PCA
+on 9 windows of the star topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0,
+γ=0.05) reveals that **3 dimensions explain 98% of the variance**: sector
+balance (69%), mixedness (22%), and temporal decay (7%). The windows do
+not roam through generic 15-parameter two-qubit state space; they live on
+a 7-parameter X⊗X-symmetric subspace. Two transition modes exist:
+**glide** (smooth correlated rotation in YZ/ZY Pauli plane, both qubits
+together) and **switch** (hard sector flip via single-qubit-B operation,
+coinciding with S-coherence dropping to zero). The phase skeleton is
+entirely Hamiltonian (noise damps amplitude but does not rotate phase).
+Parameter sweeps confirm robustness: frequencies are noise-independent,
+the two-sector structure survives all tested perturbations, and four
+independent mechanisms are mapped (topology → frequencies, symmetry →
+sectors, noise → damping, initial state → visibility).
 
 ---
 
