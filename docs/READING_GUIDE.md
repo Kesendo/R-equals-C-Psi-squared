@@ -124,11 +124,19 @@ Step 1. This is the philosophical thread.
    time. Without γ: oscillation, no direction. With γ: irreversibility,
    before and after. And γ cannot come from inside (Step 3).
 
+7. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The noise that
+   comes from outside is not random. It is a readable information
+   channel: 15.5 bits capacity, 5 independent modes. The palindromic
+   structure is the antenna that makes the external signal decodable.
+   This closes the loop: noise must exist (Step 3), noise carries
+   structure (Step 7), and that structure is readable from inside.
+
 **After this you know:** Why qubits are special (not just useful but
 algebraically unique). Why noise is necessary (not a disturbance but
 the time arrow). Why it cannot come from inside (not unknown but
-excluded). And why the breaking at the boundary between mirrors is
-where complexity is born.
+excluded). Why the breaking at the boundary between mirrors is
+where complexity is born. And that the external noise is a readable
+channel, not random disturbance.
 
 **The one-line version:** *Incompleteness is not weakness.
 Incompleteness is potential.*

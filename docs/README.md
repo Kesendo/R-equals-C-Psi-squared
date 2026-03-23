@@ -154,3 +154,6 @@ script. All use Python, QuTiP, and NumPy. Scripts in `simulations/`,
 results in `simulations/results/`.
 
 **If you want the experiments:** See the [Experiments Index](../experiments/README.md).
+
+**If you want a guided path through the material:** See the [Reading Guide](READING_GUIDE.md),
+which organizes everything into three stories: the proof, the application, and the ontology.

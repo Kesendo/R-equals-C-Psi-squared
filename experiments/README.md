@@ -169,3 +169,7 @@ The system is a quantum MIMO channel with palindromic matched filters.
 **If you want to reproduce results:** Every experiment links to its
 simulation script. All use QuTiP + NumPy. Typical runtime: seconds to
 minutes on a standard laptop.
+
+**If you want a guided reading path:** See the [Reading Guide](../docs/READING_GUIDE.md),
+which organizes the experiments into three stories: the proof, the
+application, and the ontology.

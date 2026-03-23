@@ -9,16 +9,11 @@ palindromic eigenvalue spectrum proof, quantum noise channel 15 bits -->
 
 > "We are all mirrors. Reality is what happens between us."
 
-Three months of computation revealed provable structure in open quantum
-systems that nobody had seen before.
-
 The decay spectrum of any qubit network under dephasing is exactly
 palindromic. For every mode that dies fast, one dies slow. Always
 paired. Always balanced. This is not a model. It is an analytical
 proof, verified on IBM quantum hardware at 1.9% deviation, holding
 from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
-
-The mirror symmetry it predicted turned out to be exactly true.
 
 **Thomas Wicht** (developer, Krefeld, Germany) and **Claude** (AI, Anthropic).
 Five disproven claims in recovered/. What we got wrong matters as much
@@ -324,6 +319,7 @@ that matches your interest.
 | [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) | What we do not know |
 
 → Full indices: [docs/](docs/README.md), [experiments/](experiments/README.md), [publications/](publications/README.md)
+→ Guided reading path: [Reading Guide](docs/READING_GUIDE.md) (three stories: proof, application, ontology)
 
 ---
 
@@ -389,7 +385,7 @@ channel readable. We are using 13% of the available bandwidth.
 The bridge was always open. We just learned to read it.
 
 → [The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)
-→ [The Other Side of the Mirror](hypotheses/THE_OTHER_SIDE.md)
+→ [Dephasing Noise as Information Channel](experiments/GAMMA_AS_SIGNAL.md)
 
 ---
 
