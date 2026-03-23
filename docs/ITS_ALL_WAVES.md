@@ -19,11 +19,13 @@ If the foundation of structured quantum dynamics is exclusively wave-based
 (proven: palindromic eigenvalue pairs produce counter-propagating modes
 whose superposition is a standing wave), and if higher levels emerge
 through structural reorganization without introducing new physics
-(demonstrated: the V-Effect at N=3 produces 11 frequencies from 4
+(demonstrated at N=2→N=3: the V-Effect produces 11 frequencies from 4
 using the same Lindblad equation), then no level of the hierarchy can
-contain anything that is not a wave. This is not a physical hypothesis.
-It is a closure property of the mathematical framework. The argument
-has eight links; seven are proven, one is demonstrated.
+contain anything that is not a wave. This is a closure property of the
+mathematical framework. The argument has eight links: six are proven,
+one is demonstrated for a single transition, and the conclusion is
+conditional on that demonstration generalizing. The chain is deductively
+valid; its empirical reach depends on one open premise.
 
 ---
 
@@ -47,12 +49,19 @@ This is not numerical. It is algebraic identity.
 **Status:** Proven. See [Qubit Necessity](QUBIT_NECESSITY.md).
 Verified: 0/236 qutrit dissipators produce palindromic spectra.
 
-### Link 2: Something exists, therefore d=2
+### Link 2: If palindromic structure exists, then d=2
 
-d = 0 has no operators, no states, no properties. If anything exists
-at all, d = 2. The qubit is not a choice. It is the only option.
+d = 0 has no operators, no states, no properties. It cannot carry
+structure of any kind. If a system exists that has palindromic spectral
+symmetry under dephasing, then d = 2. The qubit is not a choice among
+options. It is the only dimension that supports this symmetry.
 
-**Status:** Proven (by elimination).
+Note: this does not prove that all of reality must be qubit-based. It
+proves that the palindromic mirror, and everything that follows from it
+(standing waves, time reversal, the ¼ boundary), requires d = 2.
+
+**Status:** Proven (by elimination). The scope condition ("if palindromic
+structure exists") is the honest boundary of this link.
 
 ### Link 3: The 2:2 split under dephasing
 
@@ -131,20 +140,28 @@ between waves. The complexity is made of waves.
 
 This is the closure argument.
 
-**Premise A:** Level 0 consists exclusively of standing wave modes
-(Links 1-5).
+**Premise A (proven):** Level 0 consists exclusively of standing wave
+modes (Links 1-5).
 
-**Premise B:** Higher levels emerge from Level 0 through operations
-that do not introduce new fundamental constituents (Link 7).
+**Premise B (demonstrated for N=2→N=3, not proven in general):** Higher
+levels emerge through operations that do not introduce new fundamental
+constituents (Link 7).
 
-**Conclusion:** No level of the hierarchy can contain anything that
-is not a wave.
+**Conclusion:** If Premise B holds at all levels, then no level of the
+hierarchy can contain anything that is not a wave.
 
 This is set-theoretic closure. If a set M contains only elements of
 type W, and every operation on M produces only combinations of elements
 from M, then the closure of M under those operations contains only type W.
 
 You cannot build water from Lego bricks.
+
+**Strength of the conclusion:** The conclusion is as strong as Premise B.
+Premise A is proven. Premise B is demonstrated at one transition (V-Effect)
+and consistent with known physics at higher levels (Schrödinger equation,
+LCAO, phonon theory all use wave modes). But a mathematical proof by
+induction across all levels does not exist. The argument is deductively
+valid; its empirical reach depends on whether Premise B generalizes.
 
 ---
 
@@ -179,25 +196,34 @@ the closure property holds explicitly at the transition from N=2 to N=3.
 
 ## The hierarchy, restated
 
-| Level | What exists | What it is, physically | Wave type |
-|-------|-------------|----------------------|-----------|
-| 0 | Qubit palindromic modes | c+/c− standing wave from Π pairing | Liouvillian eigenmodes |
-| 1 | Electron orbitals | Standing waves in Coulomb potential | Schrödinger eigenstates |
-| 2 | Molecular orbitals | Standing waves across bonded atoms | LCAO superpositions |
-| 3 | Crystal lattice vibrations | Phonons | Quantized displacement waves |
-| 4 | Magnetic order | Magnons (spin waves) | Collective spin excitations |
-| ... | ... | ... | ... |
+| Level | What exists | What it is, physically | Wave type | Source |
+|-------|-------------|----------------------|-----------|--------|
+| 0 | Qubit palindromic modes | c+/c− standing wave from Π pairing | Liouvillian eigenmodes | **This framework** |
+| 1 | Electron orbitals | Standing waves in Coulomb potential | Schrödinger eigenstates | Standard QM |
+| 2 | Molecular orbitals | Standing waves across bonded atoms | LCAO superpositions | Standard QM |
+| 3 | Crystal lattice vibrations | Phonons | Quantized displacement waves | Condensed matter |
+| 4 | Magnetic order | Magnons (spin waves) | Collective spin excitations | Condensed matter |
+| ... | ... | ... | ... | ... |
 
-Every level: waves. Not by analogy. By construction.
+Level 0 is proven within R=CΨ². Levels 1–4 are standard physics results
+that independently confirm the wave-mode pattern. The closure argument
+(Link 8) bridges them: if Level 0 feeds into Level 1, and both are
+wave-based, the transition preserves the type. But the bridge from
+Liouvillian eigenmodes (Level 0) to Schrödinger eigenstates (Level 1)
+is not formally constructed in this framework. It is consistent, not
+proven.
 
 ---
 
-## The Gödel connection
+## The incompleteness connection
 
-The incompleteness proof (Link 6) is structurally Gödelian: the system
-cannot explain its own foundation from within. The noise that creates
-time and structure must come from outside. But this does not make the
-system incomplete in a defeatist sense. It makes it a receiver.
+The incompleteness proof (Link 6) is structurally analogous to Gödel's
+incompleteness theorem: a sufficiently structured system cannot derive
+all truths about itself from within. Gödel proved this for formal
+logical systems; Link 6 proves it for the physical origin of dephasing.
+The analogy is structural, not formal (Gödel's theorem concerns
+statements in arithmetic; Link 6 concerns the source of a physical
+parameter). But the pattern is the same: self-reference hits a wall.
 
 And what it receives, it processes as waves (Link 8). And what it builds
 from those waves is more waves (Link 7). The system is closed under
