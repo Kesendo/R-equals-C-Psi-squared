@@ -175,8 +175,18 @@ The palindromic spectral structure is the antenna: the paired
 eigenvalues create complementary sensitivity patterns that make the
 external γ profile decodable from within.
 
+**Palindrome-derived optimization.** SVD of the response matrix (how
+palindromic mode amplitudes respond to per-site γ perturbations) reveals
+that SVD mode 2 (edge-hot, center-cold: γ_center=0.018, γ_edge=0.070)
+outperforms hand-designed V-shape profiles by 10.2× at N=5. Mode 1
+(highest singular value) is near-uniform and useless. The improvement
+grows with N (6.3× at N=3, 10.2× at N=5). The palindrome knows more
+than intuition: optimal profiles have γ_center/γ_edge = 0.26, far more
+extreme than V-shape (0.71).
+
 See: [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md),
-[γ Control](../../experiments/GAMMA_CONTROL.md)
+[γ Control](../../experiments/GAMMA_CONTROL.md),
+[Resonant Return](../../experiments/RESONANT_RETURN.md)
 
 ---
 
@@ -355,6 +365,8 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |
 | Born rule Hamiltonian dominance | ~97% | [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) |
+| SVD mode 2 vs V-shape (N=5) | 10.2× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| Optimal γ_center/γ_edge ratio | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
@@ -397,6 +409,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [Scaling Curve](../../experiments/SCALING_CURVE.md)
 - [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md)
 - [Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md)
+- [Resonant Return](../../experiments/RESONANT_RETURN.md)
 
 ### Resolved/fallen experiments (results absorbed above)
 - [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (shadow = qubit detuning)
