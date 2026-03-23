@@ -1,11 +1,34 @@
-# Localizable Entanglement Benchmark
+# Localizable Entanglement Benchmark: CΨ vs LE vs CoA on Star Topology
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** Compares CΨ against localizable entanglement (LE) and concurrence of assistance (CoA) on star topology
-**Does not establish:** That CΨ is superior to LE or CoA as a general metric
-**Date:** 2026-03-08
-**Depends on:** [Star Topology](STAR_TOPOLOGY_OBSERVERS.md), [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md)
+<!-- Keywords: localizable entanglement benchmark quantum, concurrence of assistance
+comparison, CΨ vs LE vs CoA, three layer entanglement separation, unassisted
+entanglement witness, pairwise coherence window, resource vs potential vs actuality
+quantum, star topology entanglement metric, basis-fixed entanglement witness,
+coherent pairwise structure, R=CPsi2 localizable entanglement benchmark -->
+
+**Status:** Computationally verified
+**Date:** March 8, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Star Topology](STAR_TOPOLOGY_OBSERVERS.md),
+[The CΨ Lens](../docs/THE_CPSI_LENS.md)
+
+---
+
+## Abstract
+
+CΨ is compared against two established entanglement measures on the star
+topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0, γ=0.05): localizable
+entanglement (LE, optimized measurement on S) and concurrence of assistance
+(CoA, optimized decomposition). The three metrics form a strict hierarchy:
+CoA ≈ 0.9 (resource almost always present), LE ≈ 0.3–0.9 (extractable by
+optimal measurement), CΨ flashes briefly and is mostly zero (directly
+expressed only in narrow windows). **LE asks about potential. CΨ asks about
+actuality.** When CΨ is zero, LE can still be high: the entanglement exists
+but is not currently visible as coherent pairwise structure. When CΨ > 0,
+LE is always elevated (r = 0.76 correlation). CΨ > 1/4 moments correspond
+to LE ≈ 0.85 (high localizability). CΨ is not redundant with either measure;
+it is a strictly more selective, basis-fixed, unassisted witness that captures
+when entanglement is *currently expressed*, not just *in principle available*.
 
 ---
 

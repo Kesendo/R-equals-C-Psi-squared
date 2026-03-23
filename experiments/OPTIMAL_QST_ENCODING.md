@@ -1,9 +1,32 @@
-# Optimal QST Encoding from Palindromic Structure
+# Optimal QST Encoding: Standard Encoding Is Already Nearly Optimal (Negative Result)
 
+<!-- Keywords: quantum state transfer encoding optimization, palindromic mode weight
+standard encoding, negative result encoding QST, topology coupling optimization,
+slow mode weight Alice encoding, XOR drain avoidance encoding, Wojcik coupling ratio
+hardware optimization, palindromic spectrum encoding leverage, quantum channel
+encoding negative result, hardware design not protocol, R=CPsi2 optimal QST encoding -->
+
+**Status:** Computationally verified (negative result)
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 2 (Computed, negative result for encoding optimization)
-**Depends on:** [QST Bridge](QST_BRIDGE.md), [Error Correction](ERROR_CORRECTION_PALINDROME.md), [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [QST Bridge](QST_BRIDGE.md), [Error Correction](ERROR_CORRECTION_PALINDROME.md),
+[Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md)
+
+---
+
+## Abstract
+
+Can Alice exploit the palindromic mode structure to encode quantum information
+more effectively for state transfer? **No.** The standard QST encoding (|100⟩,
+Alice excited) already places 61% of its weight in slow palindromic modes and
+0% in the XOR drain. Sweeping over all single-qubit preparations for Alice
+finds less than 5% improvement in slow-mode weight. The dominant optimization
+lever is not encoding but **hardware topology**: the 2:1 Wojcik coupling
+ratio shifts mode weight from fast to slow pairs at the structural level.
+The palindrome helps hardware design (which couplings, which topology), not
+protocol design (which encoding Alice uses). This is an important negative
+result: it tells engineers where NOT to invest optimization effort.
 
 ---
 
