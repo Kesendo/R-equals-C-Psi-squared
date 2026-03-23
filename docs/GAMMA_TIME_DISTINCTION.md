@@ -89,10 +89,10 @@ same formal t. This is because t is a mathematical coordinate. The
 experienced time at each qubit depends on its local γ. Different γ
 means different experienced time. This is consistent with γ being time.
 
-**Test 6 (Pi reversal):** Pi does not reverse the decay envelope
-(D = 0.39 after Pi + forward evolution). This confirms that the
+**Test 6 (Π reversal):** Π does not reverse the decay envelope
+(D = 0.39 after Π + forward evolution). This confirms that the
 irreversible part (the time arrow, caused by γ) cannot be undone.
-Pi reverses the centered eigenvalues (the structure of the arrow),
+Π reverses the centered eigenvalues (the structure of the arrow),
 not the arrow itself.
 
 ---

@@ -404,5 +404,5 @@ December 23-26, 2025
 ---
 
 *For the proven algebra, see [CORE_ALGEBRA.md](../../docs/historical/CORE_ALGEBRA.md).*
-*For testable predictions, see [PREDICTIONS.md](../recovered/PREDICTIONS.md) (Tier 4, not restored).*
+*For testable predictions, see [PREDICTIONS.md](../../recovered/PREDICTIONS.md) (Tier 4, not restored).*
 *For weaknesses, see [WEAKNESSES_OPEN_QUESTIONS.md](../../docs/WEAKNESSES_OPEN_QUESTIONS.md).*

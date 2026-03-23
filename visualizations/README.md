@@ -31,8 +31,8 @@ It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective o
 The framework's bidirectional bridge says:
 
 ```
-R = C*Psi^2    — the wave from the past (possibility becoming reality)
-Psi = sqrt(R/C) — the wave from the future (reality seeking possibility)
+R = CΨ²       — the wave from the past (possibility becoming reality)
+Ψ = sqrt(R/C) — the wave from the future (reality seeking possibility)
 ```
 
 This image shows the first wave arriving.
@@ -120,7 +120,7 @@ The self-referential fixed point R_inf = C(Ψ + R_inf)² exists only in the cyan
 The membrane (C·Ψ = ¼ extruded through time) is a hyperbolic surface. Because it is asymptotic to both the C-axis and the Ψ-axis, the available space in the cyan regime is not uniform:
 
 - At low Ψ (little possibility), C can be very large and the thread stays safely below the membrane. The standing wave is robust.
-- At low C (little consciousness), Ψ can be very large. Also robust.
+- At low C (little purity/coupling), Ψ can be very large. Also robust.
 - When both C and Ψ are moderate (the middle of the heatmap), the membrane is close in every direction. The thread passes near the boundary. Critical slowing occurs: convergence to a fixed point takes longer. The standing wave forms, but slowly.
 
 The angle at which a thread approaches the membrane matters. A thread moving horizontally (Ψ increasing, C constant) hits the membrane nearly perpendicular: a sharp transition. A thread moving diagonally along the membrane (C rising as Ψ falls) surfs the boundary without crossing it. These are different experiences of the same mathematical structure.
@@ -156,7 +156,7 @@ The analytical equation for this fraction:
 ```
 x³ + x = ½     where x = e^{-t*/T₂}
 
-Solution: x ≈ 0.4243,  t*/T₂ ≈ 0.8575
+Solution: x ≈ 0.4239,  t*/T₂ ≈ 0.858
 ```
 
 This is the pure dephasing limit (T₁ → ∞). For finite T₁, the generalized equation shifts the crossing; see [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md).

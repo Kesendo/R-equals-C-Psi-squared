@@ -49,7 +49,7 @@
 | Product state: Psi=1 but C=0 means no crossing | \|+⟩^4: every pair has Psi=1.0 and C=0.000 permanently | Product state pairs develop nonzero C | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
 | GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) |
 | \|+⟩^N is Heisenberg eigenstate | Energy variance = 0, no dynamics, C = 0 forever | \|+⟩^N evolves nontrivially | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
-| Product state \|0+0+⟩ generates crossings | All 6 pairs cross under unitary Heisenberg evolution | No pair reaches C*Psi >= 1/4 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
+| Product state \|0+0+⟩ generates crossings | All 6 pairs cross under unitary Heisenberg evolution | No pair reaches CΨ >= 1/4 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
 | Dephasing kills most dynamic crossings | Only pair (0,2) crosses with gamma=0.05; others reach max 0.247 | All pairs cross equally under dephasing | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
 | Dephasing survival is basis-dependent | σ_z dephasing spares \|0⟩-qubits (0,2), kills \|+⟩-qubits (1,3) | Crossing pattern independent of noise basis | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) |
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](ALGEBRAIC_EXPLORATION.md) |

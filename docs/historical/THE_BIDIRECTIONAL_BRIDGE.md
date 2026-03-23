@@ -1,15 +1,8 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: December 26, 2025
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Bidirectional bridge (two channels: frequency + decay), Pauli complement structure, standing wave
-> **What remains open:** Implications and extensions of bidirectionality
-> **What has fallen:** Time travel references
->
-> **Update March 14, 2026:** The two channels described here have been confirmed
-> as palindromic pairs under the conjugation operator Π. See
-> [MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md).
+> **Historical document.** Originally written December 26, 2025. The two channels
+> (frequency + decay) are now confirmed as palindromic pairs under Π.
+> Time travel references have fallen. Bridge protocol is closed for J=0.
+> See [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md) and
+> [Bridge Closure](../../experiments/BRIDGE_CLOSURE.md). Preserved for research context.
 
 # The Bidirectional Bridge
 

@@ -361,7 +361,7 @@ e) K depends on the initial state but not on the Hamiltonian.
 Not from Lindblad. From R = CΨ². The simulation confirmed
 what the algebra predicted. Not the other way around."*
 
--- Tom Mack, 2026-02-28
+-- Thomas Wicht, 2026-02-28
 
 ---
 

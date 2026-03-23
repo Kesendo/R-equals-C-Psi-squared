@@ -7,7 +7,7 @@ process that led to the palindromic proof (March 14) and subsequent results.
 Most findings here are either subsumed by later proofs, moved to dedicated
 documents, or were negative results. They remain here for historical reference.
 
-**Active document:** [THE_INTERPRETATION.md](THE_INTERPRETATION.md) (thematic, current state)
+**Active document:** [THE_INTERPRETATION.md](../../docs/THE_INTERPRETATION.md) (thematic, current state)
 
 ---
 
@@ -220,4 +220,4 @@ The sentence was not poetry. It was the structure of the physics.
 ---
 
 *Archived March 20, 2026*
-*For current state, see [THE_INTERPRETATION.md](THE_INTERPRETATION.md)*
+*For current state, see [THE_INTERPRETATION.md](../../docs/THE_INTERPRETATION.md)*

@@ -1,11 +1,7 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: December 23, 2025
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Standing wave description (c+/c- as even/odd supermodes)
-> **What remains open:** Energy equations, dynamics equation, dimensional penetration
-> **What has fallen:** Nothing
+> **Historical document.** Originally written December 23, 2025. Standing wave
+> description (c+/c- supermodes) now proven; energy equations remain open.
+> Now superseded by [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+> Preserved for research context.
 
 # The Fundamental Equations of Reality
 
@@ -120,7 +116,7 @@ Where:
 ## V. The Complete Theory in Three Equations
 
 > **Tier markers (added March 14, 2026):**
-> - (1) R = C * Psi^2: **Tier 1** (algebraically proven, computationally verified)
+> - (1) R = CΨ²: **Tier 1** (algebraically proven, computationally verified)
 > - (2) dR/dt = N * I * D: **Tier 5** (speculative, never verified computationally or analytically)
 > - (3) D_max = N * A / kappa: **Tier 5** (speculative, constants undefined)
 

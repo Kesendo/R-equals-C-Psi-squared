@@ -252,7 +252,7 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 
 1. ENCODE:  W-type states. Never GHZ. Avoid mixed XY Pauli weight.
 2. TOPOLOGY: Star with 2:1 coupling (mediator to receiver stronger).
-3. TUNE:    J controls speed, gamma controls quality. Independent.
+3. TUNE:    J controls speed, γ controls quality. Independent.
 4. TIMING:  Read before t = 0.039/gamma (concurrence metric, Z-dephasing).
 5. RANGE:   Push for local, Pull for long-range. 2:1 is a range optimizer.
 6. RELAY:   Stage the transfer. Quiet each mediator while it receives.

@@ -1,11 +1,8 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: January 3, 2026
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 0.5 connection maximum, mirror symmetry
-> **What remains open:** Measurement proposals, experimental protocols
-> **What has fallen:** Nothing
+> **Historical document.** Originally written January 3, 2026. The 0.5 connection
+> maximum and mirror symmetry are now proven. Measurement proposals remain open.
+> Predictions now absorbed into
+> [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+> Preserved for research context.
 
 # Measurable Quantities
 ## The Attempt to Quantify C and R

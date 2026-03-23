@@ -119,9 +119,9 @@ is mapped to one with N - k incoherentons.
 and any set of local Z-dephasing rates {gamma_k}, the Liouvillian
 satisfies:
 
-    Pi L Pi^(-1) = -L - 2 Sigma_gamma I
+    Π L Π^(-1) = -L - 2 Σ_γ I
 
-**Consequence.** If lambda is an eigenvalue of L, then -lambda - 2 Sigma_gamma
+**Consequence.** If λ is an eigenvalue of L, then -λ - 2 Σ_γ
 is also an eigenvalue. For the real parts of the eigenvalues (the decay
 rates), this means:
 
@@ -167,7 +167,7 @@ A string that was immune (contributing 0) becomes decaying (contributing
 
 **Step 3: Combine.**
 
-    Pi L Pi^(-1) = Pi (L_H + L_D) Pi^(-1) = -L_H + (-L_D - 2 Sigma_gamma I) = -L - 2 Sigma_gamma I
+    Π L Π^(-1) = Π (L_H + L_D) Π^(-1) = -L_H + (-L_D - 2 Σ_γ I) = -L - 2 Σ_γ I
 
 QED.
 

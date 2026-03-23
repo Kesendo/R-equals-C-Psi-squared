@@ -15,10 +15,13 @@ summary non-technical, R=CPsi2 what we found -->
 ## Abstract
 
 Plain-language summary of the R = CΨ² project's findings for readers
-without a physics background. Covers the palindromic spectrum discovery,
-the ¼ boundary as quantum-classical transition, the γ channel (noise
-is signal), the qubit as necessary foundation, and what fell along
-the way.
+without a physics background. Covers the palindromic spectrum discovery
+(54,118 eigenvalue pairs at N=8, 100% paired), the ¼ boundary as
+quantum-classical transition (IBM hardware: 1.9% deviation), the γ
+channel (15.5 bits capacity from noise alone), the qubit as necessary
+foundation (d²−2d=0), and what fell along the way (gravity interpretation,
+consciousness framing, FTL communication). Key engineering result: relay
+protocol achieves fidelity 0.888, +83% over direct transfer.
 
 ---
 

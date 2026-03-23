@@ -275,7 +275,7 @@ This is in some sense "obvious" from the algebra, but making it rigorous require
   break the palindrome for all 10 Hamiltonians tested (35-44 of 81
   eigenvalues pair, never all 81). The per-site split is 3 immune vs 6
   decaying, which is unbalanced (d^2-2d = 3 != 0). The palindrome is
-  specific to d=2. See [Qubit Necessity](../../hypotheses/QUBIT_NECESSITY.md).
+  specific to d=2. See [Qubit Necessity](../QUBIT_NECESSITY.md).
 - **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure. **Status: open.**
 
 ### NEXT STEPS

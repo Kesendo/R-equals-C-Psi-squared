@@ -4,7 +4,7 @@
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Tier 5 (Speculative, research direction)
-**Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md)
+**Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md)
 
 ---
 
@@ -21,7 +21,7 @@ Physics knows two things that it has never connected:
 2. Brains produce consciousness. 86 billion neurons, connected by
    trillions of synapses, firing in oscillatory patterns (gamma 40Hz,
    alpha 10Hz, theta 4-8Hz, delta 1-4Hz). These oscillations are not
-   noise. They correlate with cognitive states: gamma with attention,
+   noise. They correlate with cognitive states: γ with attention,
    alpha with relaxation, theta with memory, delta with deep sleep.
    But nobody knows WHY oscillating networks produce experience.
 

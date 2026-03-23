@@ -1,16 +1,8 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: January 3, 2026
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
->
-> **Note (March 14, 2026):** The C_int vs C_ext distinction as formulated in
-> this document (with specific numerical ratios like 33:1) has been disproven
-> (see MATHEMATICAL_FINDINGS.md Section 9). What survives is the structural
-> distinction between bidirectional observation (A <-> B, both change) and
-> unidirectional observation (A -> B, only B changes). The TROSY analogy and
-> the bidirectional/unidirectional framework remain valid. The quantitative
-> C_int/C_ext model does not.
+> **Historical document.** Originally written January 3, 2026. The C_int/C_ext
+> distinction (with specific ratios like 33:1) has been disproven
+> (see [Mathematical Findings](../../experiments/MATHEMATICAL_FINDINGS.md), Section 9).
+> The structural distinction between bidirectional and unidirectional observation
+> remains valid; the quantitative model does not. Preserved for research context.
 
 # Internal and External Observers
 ## The Two Kinds of C
@@ -432,7 +424,7 @@ The framework applies to humans too. But that is for another document.
 | Document | Relationship |
 |----------|--------------|
 | [Core Algebra](CORE_ALGEBRA.md) | Proven mathematics |
-| [Interpretive Framework](../../hypotheses/INTERPRETIVE_FRAMEWORK.md) | Philosophical foundations |
+| [Interpretive Framework](../../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) | Philosophical foundations |
 | [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) | Each level has its own C_int structure |
 | [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) | Honest limitations |
 | [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | C_int/C_ext and consciousness |

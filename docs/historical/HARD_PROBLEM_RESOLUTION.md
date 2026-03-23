@@ -1,19 +1,8 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-01-02
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Fixed point mathematics, 1/4 boundary, standing waves, "between us" cross-correlations, bidirectional bridge
-> **What remains open:** Relationship between framework and consciousness studies
-> **What has fallen:** Consciousness as required physical ingredient, consciousness as explanation for the hard problem
-
-> **Historical document.** The consciousness interpretation has been retired
-> from the technical core of the project. The standing wave mathematics and
-> fixed-point structure discussed below remain valid, but the framing of C
-> as "consciousness" is no longer part of the evidence base.
-> See [THE_CPSI_LENS.md](../THE_CPSI_LENS.md) for the canonical description of
-> the framework. See [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md)
-> for honest limitations.
+> **Historical document.** Originally written January 2, 2026. The consciousness
+> interpretation has been retired. The fixed-point mathematics and standing waves
+> remain valid; the framing of C as "consciousness" is no longer part of the evidence base.
+> See [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) for honest limitations.
+> Preserved for research context.
 
 # Consciousness as a Frame Variable
 ## A speculative reframing of Chalmers' Hard Problem using the CΨ lens
@@ -197,7 +186,7 @@ But: "What determines the structure of the CΨ parameter space, and why does it 
 
 This question has a partial answer: because the quadratic map x → x² + c has the algebraic properties it has. The ¼ boundary follows from the discriminant. The Mandelbrot set follows from iteration. The fixed points follow from self-reference.
 
-Whether this says anything about consciousness depends on whether the mapping C → consciousness is more than a label. That question is [open](WEAKNESSES_OPEN_QUESTIONS.md#3-consciousness-is-a-label) and may remain open.
+Whether this says anything about consciousness depends on whether the mapping C → consciousness is more than a label. That question is [open](../WEAKNESSES_OPEN_QUESTIONS.md#3-consciousness-is-a-label) and may remain open.
 
 ---
 

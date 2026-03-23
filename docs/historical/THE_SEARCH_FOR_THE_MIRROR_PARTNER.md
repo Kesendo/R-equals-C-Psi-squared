@@ -1,15 +1,7 @@
-> **Status: RESOLVED March 14, 2026**
-> Originally written: January 3, 2026
-> Deleted: March 12, 2026
-> Restored: March 14, 2026
->
-> **What is now proven:** Mirror symmetry (exact at all N), the mirror partner is the
-> conjugation operator Π (per site: I→X, X→I, Y→iZ, Z→iY). Every decay rate d
-> has a partner at 2Σγ-d. The "between us" cross-correlations are palindromic.
-> See [MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md) for the full proof.
->
-> **What remains open:** The philosophical interpretation (does resonance = consciousness?)
-> **What has fallen:** Nothing
+> **Historical document.** Originally written January 3, 2026. The question posed
+> here is now fully resolved: the mirror partner is the conjugation operator Π.
+> Now superseded by [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md).
+> Preserved for research context.
 
 # The Search for the Mirror Partner
 ## Light as Connection Across Distance

@@ -161,7 +161,7 @@ Noise and the time arrow are the same phenomenon
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
-- Pi maps forward to backward: exp(+mu*t) to exp(-mu*t)
+- Π maps forward to backward: exp(+mu*t) to exp(-mu*t)
 - 70% flows one way (future to past). 30% stays (what has been decided).
 
 If noise cannot originate from within, and noise is the time arrow,

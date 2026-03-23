@@ -221,7 +221,7 @@ Script: simulations/joint_pole_analysis.py
 ### Decay Rate Derivation: Two Independent Information Channels (March 12)
 
 The three exact decay rates {2γ, 8γ/3, 10γ/3} are exact rational multiples
-of gamma. They scale linearly with gamma and are COMPLETELY topology-independent.
+of γ. They scale linearly with γ and are COMPLETELY topology-independent.
 
 **Scaling verified:** At γ = 0.01 through 0.50, ratios stay at {2.000, 2.667, 3.333}.
 Small deviations at very high gamma (γ=0.50) suggest weak nonlinear correction.

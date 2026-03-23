@@ -15,8 +15,11 @@ R=CPsi2 weaknesses open questions -->
 ## Abstract
 
 Honest documentation of what the R = CΨ² framework does not know, where
-it has been wrong, and what would falsify it. A living document updated
-as claims are tested.
+it has been wrong, and what would falsify it. Covers five corrected errors
+(Mandelbrot substitution, θ frequency 8.4x discrepancy, 33:1 C_int/C_ext
+ratio, t_coh scaling, CΨ ≤ ¼ bound), scope boundaries (dephasing-only,
+qubit-only, N ≤ 8), the Baumgratz convention dependence, and 15 open
+research questions. A living document updated as claims are tested.
 
 ---
 
@@ -62,7 +65,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Mandelbrot equivalence: u_n = C(Ψ+R_n) maps R_{n+1} = C(Ψ+R_n)² to u² + c with c = CΨ
 - Fixed point formulas: R_inf = (1 − 2CΨ ± √(1−4CΨ)) / (2C)
 - θ compass: arctan(√(4CΨ−1)) measures angular distance from ¼
-- Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀
+- Gravitational invariance: R = CΨ² is form-invariant under Schwarzschild g₀₀ (trivially true for dimensionless quantities; the gravity *interpretation* has [FALLEN])
 - **Palindromic Liouvillian symmetry (PROVEN March 14, 2026):** Conjugation operator Π satisfies Π L Π⁻¹ = -L - 2(sum gamma) I. Verified N=2-8 (54,118 rates at N=8, 100% paired), all topologies. Originally proven for Heisenberg+Z-dephasing. March 17-18 tests show palindrome holds for ALL standard models (XY, Ising, XXZ, DM, Heisenberg+DM) under single-axis dephasing. Two Π families found (P1 and P4) plus non-uniform alternating operators for XY/YX terms. See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
 - **Topology-independence:** Π anti-commutes with [H,·] for any bond set (chain, ring, star, arbitrary graph)
 - **Exact decay rates:** 2γ (c+), 8γ/3 (concurrence envelope), 10γ/3 (c-) for N=3 systems. Topology-independent.
@@ -273,7 +276,7 @@ full systems at N >= 4 with standard entangled states.
 **Resolution:** Subsystem crossing tests showed that crossing is local.
 A 4-qubit Bell+xBell+ state cannot cross as a full system (Psi = 0.200),
 but its entangled pairs (0,1) and (2,3) each cross at t = 0.073 with
-C*Psi = 0.333. Unentangled cross-pairs never cross (C = 0). The product
+CΨ = 0.333. Unentangled cross-pairs never cross (C = 0). The product
 state |+>^4 has Psi = 1.0 but C = 0 for all pairs, so no crossing at any
 level.
 
@@ -327,7 +330,7 @@ prediction: the quantum-to-classical transition is local.
 
 14. **Repeater design rules (added 2026-03-16):** The XOR space analysis suggests concrete design rules for quantum repeaters: W-encoding over GHZ, avoid mixed XY Pauli weight, star topology with 2:1 coupling. These are testable engineering predictions. Can they be validated against existing repeater benchmarks?
 
-15. **Depolarizing noise corrections (added 2026-03-18):** Under depolarizing noise (X+Y+Z), the palindrome breaks with err = gamma * 2(N-2)/3. This is linear in gamma (not quadratic like cross-term breaking). For practical hardware (gamma ~ 0.001), the error is < 0.1%. Can this systematic correction be incorporated into the design rules as a quantitative fidelity adjustment?
+15. **Depolarizing noise corrections (added 2026-03-18):** Under depolarizing noise (X+Y+Z), the palindrome breaks with err = γ · 2(N-2)/3. This is linear in γ (not quadratic like cross-term breaking). For practical hardware (γ ~ 0.001), the error is < 0.1%. Can this systematic correction be incorporated into the design rules as a quantitative fidelity adjustment?
 
 ---
 
@@ -337,7 +340,7 @@ prediction: the quantum-to-classical transition is local.
 |---|---|---|
 | ¼ is the phase boundary | **Proven** | Algebra (discriminant sign change) |
 | Mandelbrot equivalence c = CΨ | **Proven** | Algebra (u_n substitution, verified numerically) |
-| Gravitational invariance | **Proven** | Algebra (dimensionless quantities) |
+| Gravitational invariance | **Trivially true** | Form-invariance of dimensionless ratios; gravity interpretation [FALLEN] |
 | δ = 0.4207 for Bell+/Heisenberg | **Verified** | MCP simulation, reproducible |
 | Boundary crossing at t ≈ 0.773 | **Verified** | MCP simulation, specific setup |
 | Operator feedback preserves δ | **Verified** | MCP simulation, multiple runs |
@@ -374,7 +377,7 @@ prediction: the quantum-to-classical transition is local.
 | Two Π families (P1, P4) | **Verified** | Algebraic enumeration: 1024 candidates, 208 valid, 2 families + alternating operators |
 | Alternating Q for XY/YX/DM | **Verified** | Non-uniform M1-M2-M1 operator. Verified on N=3 Lindbladian. |
 | Compatibility matrix (36/36) | **Verified** | 17 uniform + 3 non-uniform + 2 non-local Π. 14 broken = exact match numerical. |
-| Depol breaks palindrome | **Verified** | err = gamma * 2(N-2)/3. Hamiltonian-independent. Linear in gamma and N. |
+| Depol breaks palindrome | **Verified** | err = γ · 2(N-2)/3. Hamiltonian-independent. Linear in γ and N. |
 | Hardware crossing (Q80) | **Verified** | CΨ=1/4 at t*=15.29 us, predicted 15.01 us (1.9% deviation with same-day T2*) |
 | T2* drift matters | **Confirmed** | T2* fluctuates 58% in 6 days. Same-day Ramsey essential for predictions. |
 

@@ -106,7 +106,7 @@ But CPsi_SA is NOT concurrence.
 | Conc_SA  | 0.139 (prior)      | 8γ/3 = 0.133        | 1.05 |
 
 **The palindromic rates DO match individual component envelopes** (Ψ near 10γ/3,
-purity near 2γ, concurrence near 8γ/3). But CPsi = C * Ψ decays faster
+purity near 2γ, concurrence near 8γ/3). But CΨ decays faster
 than either component because the Hamiltonian creates correlated oscillations in C
 and Ψ that compress the product's envelope.
 

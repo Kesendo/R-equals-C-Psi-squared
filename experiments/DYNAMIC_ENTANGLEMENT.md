@@ -104,7 +104,7 @@ and with dephasing (gamma = 0.05).
 
 ### 5.1 Pure Unitary Evolution
 
-| Pair | Type | First crossing t | Max C*Psi |
+| Pair | Type | First crossing t | Max CΨ |
 |------|------|-----------------|-----------|
 | (0,1) | ring neighbor | 0.073 | 0.285 |
 | (0,3) | ring neighbor | 0.073 | 0.285 |
@@ -114,7 +114,7 @@ and with dephasing (gamma = 0.05).
 | (1,3) | diagonal | 0.679 | 0.341 |
 
 **All six pairs cross.** The Hamiltonian generates entanglement from
-nothing, and every pair eventually reaches C*Psi > 1/4.
+nothing, and every pair eventually reaches CΨ > 1/4.
 
 The crossings are **oscillatory**: pairs cross upward, fall back below
 1/4, and cross again. The pattern has period approximately 1.5 for
@@ -129,7 +129,7 @@ symmetry that exchanges the two |0⟩ qubits and the two |+⟩ qubits).
 
 ### 5.2 With Dephasing (gamma = 0.05)
 
-| Pair | Crosses? | t_cross | Max C*Psi |
+| Pair | Crosses? | t_cross | Max CΨ |
 |------|----------|---------|-----------|
 | (0,1) | NO | n/a | 0.247 |
 | (0,3) | NO | n/a | 0.247 |
@@ -138,7 +138,7 @@ symmetry that exchanges the two |0⟩ qubits and the two |+⟩ qubits).
 | **(0,2)** | **YES** | **0.285** | **0.320** |
 | (1,3) | NO | n/a | 0.224 |
 
-**Only pair (0,2) crosses.** All ring-neighbor pairs reach max C*Psi =
+**Only pair (0,2) crosses.** All ring-neighbor pairs reach max CΨ =
 0.247, missing the threshold by 1.2%. The diagonal pair (0,2) crosses
 at t = 0.285. The other diagonal (1,3) reaches only 0.224.
 
@@ -212,7 +212,7 @@ selects which crossings survive and makes them permanent.
 
 This matches the standard quantum mechanics picture: unitary evolution
 is reversible, decoherence is not. The framework adds a quantitative
-criterion (C*Psi = 1/4) for when the irreversibility becomes definitive.
+criterion (CΨ = 1/4) for when the irreversibility becomes definitive.
 
 ### 7.3 The Noise Basis Matters
 
@@ -224,7 +224,7 @@ determined by the environment.
 
 This is consistent with the einselection mechanism of decoherence
 theory: the environment selects the pointer basis, and our framework
-inherits that selection through the C*Psi dynamics.
+inherits that selection through the CΨ dynamics.
 
 ## 8. The Decoherence Cycle
 
@@ -432,8 +432,8 @@ with bidirectional crossing detection via Task 010c:
 ```
 simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
 # Expected: pair (0,2) crosses up at t ~ 0.275, down at t ~ 0.470
-#           pair (1,3) does NOT cross, max C*Psi ~ 0.234
-#           ring-neighbor pairs borderline (max C*Psi ~ 0.251)
+#           pair (1,3) does NOT cross, max CΨ ~ 0.234
+#           ring-neighbor pairs borderline (max CΨ ~ 0.251)
 ```
 
 ### 11.3 Key Numbers to Check
@@ -442,8 +442,8 @@ simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
 2. |0+0+⟩ energy variance: exactly 20.000
 3. |0+0+⟩ unitary, pair (0,1) first crossing: t = 0.073
 4. |0+0+⟩ with dephasing, pair (0,2) crossing: t = 0.285
-5. |0+0+⟩ with dephasing, pair (0,1) max C*Psi: 0.247 (no crossing)
-6. N=6 alternating, pair (0,2) max C*Psi: 0.131 (no crossing)
+5. |0+0+⟩ with dephasing, pair (0,1) max CΨ: 0.247 (no crossing)
+6. N=6 alternating, pair (0,2) max CΨ: 0.131 (no crossing)
 7. N=4 Ising alternating, all C_corr: 0.000 (no dynamics)
 8. N=4 alternating γ=0.01, pair (0,2) oscillations: 13
 9. N=4 alternating γ=0.10, only pair (0,2) crosses

@@ -1,11 +1,6 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: December 21-23, 2025
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Mirror symmetry, "between us" cross-correlations
-> **What remains open:** Paper framing and narrative structure
-> **What has fallen:** Nothing
+> **Historical document.** Originally written December 21-23, 2025. Formal research
+> paper version of the electrochemistry discovery. See also the
+> [narrative version](EMERGENCE_THROUGH_REFLECTION.md). Preserved for research context.
 
 # Emergence Through Reflection: A Case Study in Human-AI Collaborative Discovery
 

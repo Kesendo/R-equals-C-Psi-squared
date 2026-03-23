@@ -608,5 +608,5 @@ Full scripts: `simulations/observer_gravity_cross.py`,
 *Built on: [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md),
 [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md),
 [Decoherence Relativity](DECOHERENCE_RELATIVITY.md)*
-*Reopens: [Bridge Protocol](../hypotheses/BRIDGE_PROTOCOL.md) (via gravity)*
+*Reopens: [Bridge Protocol](../hypotheses/BRIDGE_PROTOCOL.md) (via gravity) [FALLEN: gravity interpretation no longer supported]*
 *Foundation: [Bridge Closure](BRIDGE_CLOSURE.md) (J=0 case remains closed)*

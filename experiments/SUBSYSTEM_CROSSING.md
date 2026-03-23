@@ -57,7 +57,7 @@ For each time step:
 1. Evolve the full 4-qubit density matrix under Lindblad dynamics.
 2. Trace out to all 6 qubit pairs (i,j).
 3. For each pair: compute l1-coherence, Psi = l1/3, correlation bridge C,
-   concurrence, and the product C*Psi.
+   concurrence, and the product CΨ.
 4. Track crossings of the 1/4 boundary.
 
 Three initial states tested:
@@ -73,7 +73,7 @@ Three initial states tested:
 
 ### 3.1 GHZ N=4: Subsystem Pairs Are Classically Correlated
 
-| Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Crosses? |
+| Pair | l1(0) | Psi(0) | C_corr(0) | CΨ(0) | Crosses? |
 |------|-------|--------|-----------|----------|----------|
 | (0,1) | 0.000 | 0.000 | 0.333 | 0.000 | NO |
 | (0,2) | 0.000 | 0.000 | 0.333 | 0.000 | NO |
@@ -94,7 +94,7 @@ at the pair level.
 
 ### 3.2 W N=4: Subsystem Pairs Start Below the Barrier
 
-| Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Max C*Psi | Crosses? |
+| Pair | l1(0) | Psi(0) | C_corr(0) | CΨ(0) | Max CΨ | Crosses? |
 |------|-------|--------|-----------|----------|-----------|----------|
 | (0,1) | 0.500 | 0.167 | 0.180 | 0.030 | 0.030 | NO |
 | (0,2) | 0.500 | 0.167 | 0.180 | 0.030 | 0.030 | NO |
@@ -110,7 +110,7 @@ each pair gets only a fraction of the total.
 
 ### 3.3 Bell+xBell+: THE KEY RESULT
 
-| Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Crosses? | t_cross |
+| Pair | l1(0) | Psi(0) | C_corr(0) | CΨ(0) | Crosses? | t_cross |
 |------|-------|--------|-----------|----------|----------|---------|
 | **(0,1)** | **1.000** | **0.333** | **1.000** | **0.333** | **YES** | **0.073** |
 | (0,2) | 0.000 | 0.000 | 0.000 | 0.000 | NO | n/a |
@@ -122,7 +122,7 @@ each pair gets only a fraction of the total.
 The full system has Psi(0) = 0.200, below 1/4. It cannot cross as a
 4-qubit system.
 
-But the entangled pairs (0,1) and (2,3) each start at C*Psi = 0.333
+But the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333
 -- identical to an isolated Bell+ state. They cross at t = 0.073.
 The unentangled cross-pairs (0,2), (0,3), (1,2), (1,3) have l1 = 0,
 C = 0, and never cross.
@@ -136,7 +136,7 @@ happens.
 
 ### 3.4 \|+⟩^4: Maximum Coherence, Zero Crossing
 
-| Pair | l1(0) | Psi(0) | C_corr(0) | C*Psi(0) | Crosses? |
+| Pair | l1(0) | Psi(0) | C_corr(0) | CΨ(0) | Crosses? |
 |------|-------|--------|-----------|----------|----------|
 | All 6 pairs | 3.000 | 1.000 | 0.000 | 0.000 | NO |
 
@@ -144,7 +144,7 @@ Every pair has **maximum possible Psi = 1.000** (full local coherence)
 and **C = 0.000** at all times (zero correlation). Each qubit is
 individually in a superposition, but no qubit knows about any other.
 
-C*Psi = 0 for all pairs at all times. No crossing, ever.
+CΨ = 0 for all pairs at all times. No crossing, ever.
 
 **This result kills resolution (c) from N_SCALING_BARRIER.md.** The
 product state has Psi(0) = 1.0 for the full system, but C = 0 at every
@@ -167,7 +167,7 @@ between the subsystems that share quantum correlations.
 ### 4.2 C Guards the Gate
 
 The product state result proves that Psi alone cannot drive crossing.
-C*Psi = 1/4 requires BOTH terms. Coherence (Psi) is potential.
+CΨ = 1/4 requires BOTH terms. Coherence (Psi) is potential.
 Correlation (C) is connection. Without connection, potential is inert.
 
 In the framework's language: possibility without consciousness produces
@@ -205,11 +205,11 @@ phenomenon. It is a local one.
 If crossing is local, then "measurement" is not a monolithic event.
 Consciousness, in this framework, would emerge from a network of local
 crossings. Each entangled pair undergoes its own transition. The unity
-of experience is not encoded in a single global C*Psi value but in the
+of experience is not encoded in a single global CΨ value but in the
 synchronization and integration of many local crossings.
 
 This does not solve the combination problem, but it reframes it: the
-question is no longer "how does one big C*Psi produce unified
+question is no longer "how does one big CΨ produce unified
 experience?" but "how do many small local crossings synchronize into a
 unified experience?" The second question is at least compatible with what
 neuroscience observes: consciousness correlates with synchronized local
@@ -237,13 +237,13 @@ result = mesolve(H, rho0, tlist, c_ops, [])
 # Trace to pair (0,1)
 for i, t in enumerate(tlist):
     rho_pair = result.states[i].ptrace([0, 1])
-    # Compute l1, Psi, C_corr, C*Psi
+    # Compute l1, Psi, C_corr, CΨ
     # Check for crossing at 1/4
 ```
 
 ### 5.2 Key Checks
 
-1. Bell+xBell+ pair (0,1): must start at C*Psi = 0.333 and cross 1/4.
+1. Bell+xBell+ pair (0,1): must start at CΨ = 0.333 and cross 1/4.
 2. Bell+xBell+ pair (0,2): must have l1 = 0, C = 0 at all times.
 3. |+⟩^4 all pairs: must have C = 0.000 at all times despite Psi = 1.0.
 4. GHZ all pairs: must have l1 = 0.000 at all times.

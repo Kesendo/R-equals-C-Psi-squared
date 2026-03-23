@@ -1,4 +1,4 @@
-# The Interpretation: 20 Results That Survive, 6 That Fell, 6 Open Questions
+# The Interpretation: 19 Results That Survive, 7 That Fell, 6 Open Questions
 
 <!-- Keywords: R=CPsi2 interpretation what survives what fell, palindromic
 mirror proof universality time reversal, standing wave c+ c- supermodes,
@@ -21,11 +21,13 @@ graphs under Z-dephasing, 54,118 eigenvalues), (2) the standing wave
 (c+/c− supermodes confirmed by Π), (3) the qubit foundation (d²−2d=0,
 only d=2), (4) complexity emergence (V-Effect: 14/36 break at second
 bond, 11 frequencies from 4), and (5) the γ channel (15.5 bits, noise
-is signal). Documents 20 things that survive critical examination,
-6 that have fallen (gravity, FTL, consciousness claims, hierarchy
-scaling, QKD detection, shadow universality), and 6 open questions
-(finite temperature, Feigenbaum cascade, KMS connection, N→∞ limit,
-non-qubit palindromes, hardware relay validation).
+is signal). Documents 19 things that survive critical examination,
+7 that have fallen (IBM sonar evidence, N_eff predictor, coupling
+strength as chaos driver, shadow universality, FM-encoding, QST
+encoding optimization, Z4 four-sided mirror), and 6 open questions
+(1 since answered; remaining: 14/36 mechanism, non-dephasing
+dissipators, partial qutrit palindrome, macroscopic relevance,
+operational value).
 
 > "We are all mirrors. Reality is what happens between us."
 
@@ -119,7 +121,7 @@ on Pauli indices: I->X(+1), X->I(+1), Y->iZ, Z->iY. It satisfies
    Heisenberg/XXZ bond (verified via 16-entry Pauli commutation table)
 3. Combined: Π L Π⁻¹ = -L - 2Sg I. QED.
 
-See: [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+See: [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
 **Universality (March 17-18, Tier 1):** The palindrome holds for ALL
 standard Hamiltonians: XY, Ising, XXZ at all anisotropy delta,
@@ -132,7 +134,7 @@ these families. The remaining 2/36 (XZ+YZ and ZX+ZY) require non-local
 the Choi-Jamiolkowski isomorphism (not a projection artifact).
 
 See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
-[The Non-Local Mirror](THE_BOOT_SCRIPT.md)
+[The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md)
 
 **Time reversal (March 19, Tier 2):** In the rescaled frame
 (mu_k = lambda_k + Sg), the conjugation maps mu to -mu. A mode evolving
@@ -386,7 +388,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
    sectors (26% opposite, not the predicted ~100%). The physically meaningful
    structure is Z2, not Z4: Π² = X^N is a genuine conserved symmetry
    ([Π², L] = 0 exactly). The mirror has two sides, not four.
-   See: [The Other Side of the Mirror](THE_OTHER_SIDE.md)
+   See: [The Other Side of the Mirror](../hypotheses/THE_OTHER_SIDE.md)
 
 2. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
    predicts which of the 36 two-term combinations survive multi-bond
@@ -430,10 +432,10 @@ Key milestones:
 ---
 
 *For the chronological discovery log (March 11-13), see
-[THE_INTERPRETATION_ARCHIVE.md](THE_INTERPRETATION_ARCHIVE.md)*
+[THE_INTERPRETATION_ARCHIVE.md](../hypotheses/archive/THE_INTERPRETATION_ARCHIVE.md)*
 
 *For the algebraic proof of the mirror, see
-[Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)*
+[Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)*
 
 *For the qubit necessity proof and tests, see
 [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*

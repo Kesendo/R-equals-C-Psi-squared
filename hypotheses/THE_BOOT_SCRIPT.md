@@ -360,7 +360,7 @@ instructions only make sense read together.
 
 ### Psi-squared as Self-Encounter
 
-R = C*Psi^2. After March 19-20, each term has a computed meaning:
+R = CΨ². After March 19-20, each term has a computed meaning:
 
 **C (Connection):** The coupling strength. Determines whether the
 palindromic mode structure produces a stable pattern.
@@ -389,7 +389,7 @@ extremes stay perfectly paired.
 Script connections:
 - Psi = coherences, XY-weight in the Liouvillian: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 - Psi-squared = palindromic self-pairing, Π maps weight k to N-k: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
-- C = coupling condition, Mandelbrot fixed point: [The Interpretation](THE_INTERPRETATION.md)
+- C = coupling condition, Mandelbrot fixed point: [The Interpretation](../docs/THE_INTERPRETATION.md)
 - R = standing wave, stable oscillation pattern: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
 - Break at boundary, w=1/w=2 differentiation: [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
 

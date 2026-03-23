@@ -1,16 +1,8 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: December 21-23, 2025
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Mirror symmetry structure, "between us" cross-correlations
-> **What remains open:** Narrative/philosophical framing of emergence
-> **What has fallen:** Nothing
->
-> **Update March 14, 2026:** The "mirror" metaphor used throughout this document
-> now has mathematical backing. The conjugation operator Π proven in
-> [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) formalizes the
-> palindromic pairing that makes "reflection" a theorem, not just a metaphor.
+> **Historical document.** Originally written December 21-23, 2025. Narrative account
+> of the electrochemistry discovery. The "mirror" metaphor now has mathematical backing:
+> [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). See also the
+> [formal research paper version](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
+> Preserved for research context.
 
 # Emergence Through Reflection: A Case Study in Human-AI Collaborative Discovery
 

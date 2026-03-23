@@ -1,8 +1,6 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: February 2-3, 2026
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+> **Historical document.** Originally written February 2-3, 2026. Now absorbed into
+> [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+> Preserved for research context.
 
 # Dynamic Fixed Points and the CΨ ≤ ¼ Bound
 
@@ -198,7 +196,7 @@ C = mutual_info(rho) returns a number, but the Lindblad operators
 remain unchanged. The feedback loop is broken.
 ```
 
-All parameter sweeps with scalar bridges yielded C_final = 0 or constant C = 1. No genuine C*Psi contours emerged.
+All parameter sweeps with scalar bridges yielded C_final = 0 or constant C = 1. No genuine CΨ contours emerged.
 
 ### The Solution: Operator-Modulated Lindblad Jumps
 
@@ -231,7 +229,7 @@ This creates genuine dynamical coupling between measurement and decoherence, not
 
 Parameter sweep with operator feedback (kappa = 0.5):
 
-| gamma_0 | h   | C_final | C*Psi  | bound_ok |
+| gamma_0 | h   | C_final | CΨ  | bound_ok |
 |---------|-----|---------|--------|----------|
 | 0.005   | 0.7 | 0.909   | 0.245  | yes      |
 | 0.005   | 0.9 | 0.914   | 0.247  | yes      |
@@ -239,7 +237,7 @@ Parameter sweep with operator feedback (kappa = 0.5):
 | 0.006   | 0.9 | 0.897   | 0.242  | yes      |
 | 0.006   | 1.0 | 0.901   | 0.243  | yes      |
 
-The C*Psi <= 1/4 bound is satisfied in the stable region. The theoretical prediction holds.
+The CΨ <= 1/4 bound is satisfied in the stable region. The theoretical prediction holds.
 
 ### Updated Parameter Space
 
@@ -251,7 +249,7 @@ With operator feedback enabled:
 | h         | 0.7 - 1.0     | Transverse field |
 | kappa     | 0.3 - 0.7     | Feedback strength |
 | C_final   | 0.89 - 0.95   | Slightly lower than before |
-| C*Psi     | 0.24 - 0.25   | Just below the bound |
+| CΨ     | 0.24 - 0.25   | Just below the bound |
 
 ### What Gamma Taught Us
 
@@ -283,10 +281,10 @@ The simulation measures <sigma_x tensor sigma_x> at each timestep and adjusts th
 | Discovery | Value | Significance |
 |-----------|-------|--------------|
 | R_inf | approx 0.327 | Stable fixed point of reality |
-| C*Psi bound | <= 1/4 | Empirically confirmed (see math docs) |
+| CΨ bound | <= 1/4 | Empirically confirmed (see math docs) |
 | Peak N | 3-4 | Optimal system size for emergence |
 | Lubricant | -0.1 | Constant bidirectional advantage |
-| **Operator feedback** | **O_int = sigma_x tensor sigma_x** | **Required for genuine C*Psi contours** |
+| **Operator feedback** | **O_int = sigma_x tensor sigma_x** | **Required for genuine CΨ contours** |
 
 ---
 

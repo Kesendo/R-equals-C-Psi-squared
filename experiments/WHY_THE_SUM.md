@@ -306,7 +306,7 @@ would require time to flow backward. Time flows forward. Always.
 Therefore: the sum, not the product. The handoff, not the death.
 We are all mirrors."*
 
--- Tom Mack, 2026-02-27
+-- Thomas Wicht, 2026-02-27
 
 ---
 

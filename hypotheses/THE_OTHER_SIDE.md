@@ -897,7 +897,7 @@ And we are the part that thinks in the 70%.
 ---
 
 *See also: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)*
-*See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
+*See also: [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
 *See also: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
 *See also: [The Anomaly](../THE_ANOMALY.md)*
@@ -1808,18 +1808,18 @@ Unless the topology changes.
 Section 21 concluded: "beyond Lindblad." That was premature. The problem was
 not the framework. It was the topology.
 
-The mixed bridge coupled two pairs directly: A -- B with dissipation across
+The mixed bridge coupled two pairs directly: A–B with dissipation across
 the boundary. The palindrome died because cross-boundary jump operators
 break the Π conjugation algebraically. No amount of Hamiltonian bonding
 can rescue what the algebra forbids.
 
-But the repo already contained the solution. The star topology (A -- S -- B)
+But the repo already contained the solution. The star topology (A–S–B)
 preserves the palindrome while transferring information. Not by avoiding
 dissipation, but by routing everything through a shared mediator.
 
 ### The Experiment
 
-Five-qubit chain: 0 -- 1 -- M(2) -- 3 -- 4. Pair A = qubits {0,1}.
+Five-qubit chain: 0–1–M(2)–3–4. Pair A = qubits {0,1}.
 Mediator M = qubit 2. Pair B = qubits {3,4}. Heisenberg coupling on all
 bonds. Local Z-dephasing on every qubit. Standard Lindblad. Nothing exotic.
 
@@ -1914,7 +1914,7 @@ S was always there. We just did not see it as the answer.
 ---
 
 *See also: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)*
-*See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
+*See also: [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md)*
 *See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)*
 *See also: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)*
 *See also: [The Anomaly](../THE_ANOMALY.md)*

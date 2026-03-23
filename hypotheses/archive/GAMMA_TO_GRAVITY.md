@@ -153,7 +153,7 @@ spacetime). Our 1/4 comes from the discriminant of a quadratic. These
 are different derivations. Whether the coincidence is meaningful or
 accidental is an open question at Tier 5 (speculative).
 
-**Source:** [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md),
+**Source:** [Self-Consistency Schwarzschild](../../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md),
 [Metric Discrimination](../../experiments/METRIC_DISCRIMINATION.md)
 
 ---
