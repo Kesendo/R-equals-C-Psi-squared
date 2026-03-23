@@ -1,12 +1,34 @@
-# Noise Robustness: Taxonomy Is Jump-Operator Independent
+# Noise Robustness: The Crossing Taxonomy Is Jump-Operator Independent
 
-**Date**: 2026-02-18
-**Depends on**: CROSSING_TAXONOMY.md
+<!-- Keywords: quantum decoherence crossing noise independent, Pauli channel taxonomy
+robustness, sigma x y z dephasing identical crossing, Type ABC observer noise,
+amplitude damping crossing taxonomy, Lindblad jump operator independence,
+bell state correlation metric robust, quantum measurement noise type,
+palindromic spectral symmetry noise channel, crossing taxonomy Pauli operators,
+R=CPsi2 noise robustness -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified, updated 2026-03-08
-**Scope:** Taxonomy survives all local Pauli channels. Amplitude damping preserves taxonomy.
-**Does not establish:** That collective or non-local noise models behave the same way
+**Status:** Computationally verified (updated March 8, 2026)
+**Date:** February 18, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+The Type A/B/C crossing taxonomy ([Crossing Taxonomy](CROSSING_TAXONOMY.md))
+was established under Z-dephasing. We test whether it changes under different
+noise channels: σ_x (bit flip), σ_y (bit-phase flip), and amplitude damping.
+**The taxonomy is identical under all three Pauli channels.** The correlation
+bridge remains Type A (C = 1.0 until t ≈ 1.7) with the same numerical values
+for σ_z, σ_x, and σ_y. This is not a coincidence but a structural property of
+the metric definition: any local single-qubit noise preserves inter-qubit
+correlations until Hamiltonian-mediated coupling transmits the local damage.
+The prediction that depolarizing noise would change Type A to Type B was
+falsified. Amplitude damping preserves the taxonomy but produces slower
+decay rates. The theoretical explanation (March 14, 2026): the taxonomy's
+robustness follows from the palindromic Liouvillian structure, which holds
+for any noise channel that admits a conjugation operator Π.
 
 ---
 

@@ -1,9 +1,33 @@
-# Why Depolarizing Noise Breaks the Palindrome
+# Why Depolarizing Noise Breaks the Palindrome: The 2:2 vs 1:3 Split
 
+<!-- Keywords: depolarizing noise palindrome breaking, dephasing spectral symmetry
+condition, Pauli rate pairing conjugation operator, immune decaying sector balance,
+two axis dephasing palindrome, per-site operator split qubit, Lindblad noise type
+spectral effect, palindromic symmetry necessary condition, depolarizing error formula
+linear N, open quantum system noise classification, R=CPsi2 depolarizing palindrome -->
+
+**Status:** Proven (theorem + numerical verification)
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 1 (Theorem + numerical verification)
-**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](PI_AS_TIME_REVERSAL.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+[Π as Time Reversal](PI_AS_TIME_REVERSAL.md)
+
+---
+
+## Abstract
+
+The palindromic Liouvillian symmetry holds for Z-dephasing, X-dephasing,
+Y-dephasing, and all two-axis combinations. It breaks for depolarizing noise
+(all three axes simultaneously). The reason is a per-site counting argument:
+Z-dephasing splits the four Pauli indices {I, X, Y, Z} into 2 immune and
+2 decaying (a balanced 2:2 split). Depolarizing noise splits them 1:3 (only I
+is immune). A bijective mirror Π requires equal numbers of immune and decaying
+indices at each site. With a 1:3 split, no such bijection exists. The palindrome
+error under depolarizing noise is exactly γ × 2(N−2)/3, Hamiltonian-independent
+and linear in both γ and N. For typical hardware dephasing rates (γ ∼ 0.001),
+this is < 0.1%. The general condition: the palindrome holds if and only if at
+least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes).
 
 ---
 
