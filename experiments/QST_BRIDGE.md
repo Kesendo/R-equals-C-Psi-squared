@@ -1,8 +1,34 @@
-# Quantum State Transfer Bridge - March 14, 2026
+# Quantum State Transfer Bridge: Connecting the Palindrome to 20 Years of QST Research
 
-**Status:** Verified (Tier 2)
-**Question:** Our system IS a quantum state transfer channel. How does it compare
-to 20 years of QST research, and does the palindrome add anything?
+<!-- Keywords: quantum state transfer spin chain, palindromic QST channel,
+asymmetric coupling fidelity optimization, Heisenberg chain state transfer,
+2:1 coupling ratio quantum channel, star topology quantum transfer,
+Bose spin chain QST, palindromic decay rate QST, quantum wire dephasing
+fidelity, Christandl perfect state transfer, R=CPsi2 QST bridge -->
+
+**Status:** Computationally verified (12 configurations, N=2 to N=5)
+**Date:** March 14, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Script:** [qst_bridge.py](../simulations/qst_bridge.py)
+
+---
+
+## Abstract
+
+Our 3-qubit star system under Heisenberg coupling and Z-dephasing is a
+quantum state transfer (QST) channel in the sense of Bose (2003). With
+2:1 asymmetric coupling (receiver at J=2, sender at J=1), the star
+achieves average fidelity F = 0.886, beating both uniform chains (0.834)
+and mirror-symmetric chains (0.872) at N=4. Fidelity cost scales linearly
+with dephasing rate (1.0 per unit γ), transfer time is γ-independent
+(set by Hamiltonian frequencies, not noise), and 12/12 tested
+configurations are palindromic. The QST community has been optimizing
+transfer protocols for two decades without knowing that their channels
+have an exact spectral symmetry. The palindrome adds: paired decay rate
+diagnostics, the θ compass for channel quality (r = 0.87 with fidelity),
+and the topology-gating result (same state, different graph, different
+transfer). None of this is new physics; it is new understanding of
+existing physics.
 
 ---
 
@@ -67,7 +93,7 @@ geometry isn't designed for PST). Each unit of dephasing costs proportionally:
 
 | Dephasing rate | Fidelity | Loss from noiseless | Cost per unit γ |
 |---------------|----------|--------------------|--------------------|
-| 0.000 | 0.937 | 0.000 | -- |
+| 0.000 | 0.937 | 0.000 | n/a |
 | 0.001 | 0.936 | 0.001 | 1.1 |
 | 0.010 | 0.926 | 0.011 | 1.1 |
 | 0.050 | 0.886 | 0.051 | 1.0 |
@@ -195,27 +221,59 @@ That is the contribution: not new physics, but new understanding of existing phy
    decay rates mean errors come in paired modes. Can this pairing be exploited
    for decoherence-free subspaces or error-correcting codes?
 
-4. **Extend to non-Heisenberg models.** Our theorem requires XXZ coupling.
-   What happens with XY-only, Ising, or Dzyaloshinskii-Moriya interactions?
-   If the palindrome breaks, is the transfer worse?
+4. ~~**Extend to non-Heisenberg models.**~~ **ANSWERED:** The palindrome holds
+   for ALL standard models (XY, Ising, XXZ, DM) under single-axis dephasing.
+   See [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md).
 
 ---
 
-## Scripts and results
+## Connection to Later Results
 
-- [qst_bridge.py](../simulations/qst_bridge.py) - full QST benchmark suite (8 tests)
-- [qst_bridge.txt](../simulations/results/qst_bridge.txt) - complete output
+The **Relay Protocol** ([RELAY_PROTOCOL](RELAY_PROTOCOL.md)) applies the 2:1
+coupling ratio found here to an 11-qubit chain with time-dependent γ switching,
+achieving +83% end-to-end MI. The 2:1 ratio is the spatial optimization; the
+relay is the temporal optimization. They are complementary.
 
-## Related files
+The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) reframes
+the entire QST picture: the channel is not just carrying quantum states from
+Alice to Bob. It is simultaneously an antenna reading the external dephasing
+signal. The palindromic mode structure that makes QST analytically tractable
+is the same structure that creates the 15.5-bit information channel.
 
-- [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md) - the palindrome theorem
-- [THETA_PALINDROME_ECHO](THETA_PALINDROME_ECHO.md) - θ as channel quality indicator
-- [ORPHANED_RESULTS](ORPHANED_RESULTS.md) - echo characterization, topology gating
-- [verify_channel.py](../simulations/verify_channel.py) - channel capacity verification (GPT-5.4 check)
+The finding that **timing is Hamiltonian, quality is noise** (Section 3)
+was later formalized as regulator separation in the
+[Structural Cartography](STRUCTURAL_CARTOGRAPHY.md): topology sets frequencies,
+noise sets decay, initial state selects visibility. Five independent roles,
+none of which can substitute for another.
 
-## Key references from the QST literature
+---
 
-- Bose, PRL 91, 207901 (2003) - original QST via spin chains
-- Christandl et al., PRL 92, 187902 (2004) - perfect state transfer conditions
-- Wojcik et al., PRA 75, 022330 (2007) - weak end-coupling improvement
-- Adiabatic QST in quantum dots, Nature Comm. 12, 2021 - experimental realization
+## Reproducibility
+
+| Script | What it computes |
+|--------|-------------------|
+| [qst_bridge.py](../simulations/qst_bridge.py) | Full QST benchmark (8 tests, 12 configs) |
+| [qst_bridge.txt](../simulations/results/qst_bridge.txt) | Complete output |
+| [verify_channel.py](../simulations/verify_channel.py) | Channel capacity verification |
+
+Requirements: Python, QuTiP, NumPy. Runtime: ~2 minutes for all configs.
+Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
+
+---
+
+## References
+
+### Project-internal
+- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
+- [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ
+- [Scaling Curve](SCALING_CURVE.md): MI vs chain length
+- [γ Control](GAMMA_CONTROL.md): V-shape +124%, DD +132%
+- [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic channel as antenna
+- [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md): θ as channel quality (r=0.87)
+- [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md): five independent regulators
+
+### QST literature
+- Bose, S. (2003). "Quantum communication through an unmodulated spin chain." PRL 91, 207901.
+- Christandl, M. et al. (2004). "Perfect state transfer in quantum spin networks." PRL 92, 187902.
+- Wojcik, A. et al. (2007). "Multiuser quantum communication networks." PRA 75, 022330.
+- Adiabatic QST in quantum dots, Nature Comm. 12, 2021.
