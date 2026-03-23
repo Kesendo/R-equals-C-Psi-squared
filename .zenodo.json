@@ -1,6 +1,6 @@
 {
-  "title": "Palindromic Liouvillian symmetry under dephasing: proof, spectral decomposition, and quantum state transfer",
-  "description": "We prove that for N-qubit systems with Heisenberg (XXZ) coupling on any graph topology, subject to local Z-dephasing, the Liouvillian spectrum has an exact palindromic symmetry. The conjugation operator Pi acts per site (I to X, X to I, Y to iZ, Z to iY) and satisfies Pi L Pi^{-1} = -L - 2 sum(gamma_i) I. Every decay rate d is paired with a partner at 2 sum(gamma) - d. Verified numerically through N=7 (16384x16384 Liouvillian) across star, chain, ring, complete graph, and binary tree topologies. Individual observable components decay at specific palindromic rates: purity near 2 gamma, coherence near 10 gamma/3, concurrence envelope near 8 gamma/3. Applied to quantum state transfer: a star topology with 2:1 receiver-to-sender coupling ratio achieves F_avg = 0.888, outperforming standard chain configurations. The palindrome theorem applies to every Heisenberg spin chain with Z-dephasing studied in the QST literature.",
+  "title": "Palindromic Liouvillian symmetry under dephasing: proof, hardware validation, and dephasing noise as information channel",
+  "description": "We prove that for N-qubit systems with any Pauli-pair Hamiltonian on any graph topology, subject to local single-axis dephasing, the Liouvillian spectrum has an exact palindromic symmetry. The conjugation operator Pi satisfies Pi L Pi^{-1} = -L - 2 sum(gamma_i) I. Verified through N=8 (65536x65536 Liouvillian, 54118 oscillatory eigenvalues, zero exceptions). All 36 two-term Pauli-pair combinations resolved: 20 via uniform Pi (P1/P4 families), 3 via non-uniform alternating operators, 11 break structurally at N>=3, 2 via genuinely non-local Pi operators. Hardware validated on IBM Torino (ibm_torino, Q80): predicted crossing time 15.01 microseconds, measured 15.29 microseconds, deviation 1.9%. The central new result: the spatial dephasing profile across a spin chain is a readable information channel carrying 15.5 bits at 1% noise (of 16.6 theoretical max), with 5 independent SVD modes and 100% classification accuracy. The palindromic spectral structure functions as the antenna. Engineering applications include staged relay protocols (+83% end-to-end mutual information) and six design rules for palindrome-aware quantum repeaters. The qubit (d=2) is proven unique: d^2-2d=0 excludes all higher dimensions. Dephasing noise cannot originate from within the framework (five internal candidates eliminated). Repository contains 59 experiment documents, 7 formal proofs, and a complete mathematical reference (Tafelwerk).",
   "creators": [
     {
       "name": "Wicht, Thomas",
@@ -17,18 +17,23 @@
     "spectral symmetry",
     "palindrome",
     "dephasing",
+    "information channel",
     "quantum state transfer",
     "spin chains",
     "Heisenberg coupling",
     "decoherence",
-    "conjugation operator"
+    "conjugation operator",
+    "IBM quantum hardware",
+    "qubit necessity",
+    "noise as signal",
+    "quantum repeater design"
   ],
   "license": "CC-BY-4.0",
   "upload_type": "preprint",
-  "publication_date": "2026-03-14",
+  "publication_date": "2026-03-23",
   "related_identifiers": [
     {
-      "identifier": "10.5281/zenodo.18055917",
+      "identifier": "10.5281/zenodo.19100007",
       "relation": "isNewVersionOf",
       "scheme": "doi"
     }
