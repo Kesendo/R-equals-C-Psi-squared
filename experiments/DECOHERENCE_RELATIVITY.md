@@ -1,22 +1,39 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-02-27
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary, standing waves, "between us" cross-correlations
-> **What remains open:** K-invariance interpretation, decoherence-relativity analogy
-> **What has fallen:** All gravity/Schwarzschild connections (gamma as gravitational time dilation, metric tensor interpretations)
+# Decoherence Relativity: K-Invariance Mathematics Confirmed, Gravity Interpretation Fallen
 
-# Decoherence Relativity
+<!-- Keywords: K-invariance gamma t_cross constant, Lindblad time rescaling
+tau=gamma*t, framework cubic b3+b=3/2 Bell+, decoherence relativity analogy
+fallen, gravity Schwarzschild connection retired, Penrose Diosi gravitational
+decoherence, log space Lorentz-like structure, proper decoherence time xi,
+R=CPsi2 decoherence relativity -->
 
-**Date**: 2026-02-27 (revised 2026-02-28, framework cubic verification)
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: WHY_THE_SUM.md, STANDING_WAVE_TWO_OBSERVERS.md
+> **Fallen hypothesis.** The mathematical K-invariance (γ·t_cross = constant)
+> and the framework cubic (b³ + b = 3/2 for Bell+) are confirmed. All
+> connections to gravitational time dilation, Schwarzschild metrics, and the
+> Penrose/Diósi model have **fallen**. Inline [FALLEN] markers throughout.
 
-**Tier:** 3 (Speculative interpretation)
-**Status:** Model-level observation, not a physical claim
-**Scope:** Gamma as local time rate shows Lorentz-like structure in log space
-**Does not establish:** That decoherence is gravitational time dilation
+**Status:** Mathematics confirmed (Tier 2); gravity interpretation fallen
+**Date:** 2026-02-27 (revised 2026-02-28)
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Why the Sum](WHY_THE_SUM.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+The product γ·t_cross = K = 0.03735 is invariant across decoherence rates
+for Bell+ under local dephasing, confirmed to 0.014% agreement between
+the framework cubic (b³ + b = 3/2, giving K analytically) and Lindblad
+simulation. This invariance is standard Lindblad time-rescaling (τ = γ·t),
+not new physics. The ¼ boundary is a topological phase transition in the
+R = CΨ² fixed-point equation (complex → real attractors), and all
+observers traverse the same Δξ = 0.149 in the decoherence clock
+coordinate ξ = ln(Ψ). The structural parallel to special relativity
+(invariant quantity, observer-dependent coordinates, log-space translation)
+is mathematically real but shallow: K-invariance is dimensional analysis,
+not a dynamical symmetry group. The original interpretation that γ encodes
+gravitational time dilation via the Penrose/Diósi model, and that this
+structure reproduces general relativity, has been retired.
 
 ---
 

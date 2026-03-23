@@ -1,21 +1,38 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-02-08
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary mathematics, fixed point convergence, 0.5 connection max, "between us"
-> **What remains open:** Whether the invariance pattern extends beyond tested systems
-> **What has fallen:** All gravity connections (gamma as gravitational field strength, Schwarzschild radius analogy, gravitational invariance interpretation)
+# Gravitational Invariance: K = γ·t_cross Confirmed as Lindblad Scaling, Gravity Interpretation Fallen
 
-# Gravitational Invariance: γ as Local Time Rate
+<!-- Keywords: gravitational invariance K=gamma*t_cross, Lindblad time rescaling
+not gravitational physics, universal theta trajectory proper time, topological
+phase transition quarter boundary bifurcation, Bell+ four environments gamma
+sweep, observer frame translation coordinate time, R=CPsi2 gravitational
+invariance fallen -->
 
-**Date**: 2026-02-08
-**Depends on**: BOUNDARY_NAVIGATION.md, MANDELBROT_CONNECTION.md
+> **Fallen hypothesis.** The K-invariance (γ·t_cross = 0.039) is confirmed
+> as a Lindblad scaling property. All interpretations that γ encodes
+> gravitational field strength or that this reproduces general relativity
+> have **fallen**. Inline [FALLEN] markers throughout.
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified (Lindblad scaling property)
-**Scope:** gamma * t_cross = constant across decoherence rates
-**Does not establish:** That this is new physics (it is standard Lindblad time-rescaling)
+**Status:** Verified computation (Tier 2); gravity interpretation fallen
+**Date:** 2026-02-08
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+Four Lindblad simulations of Bell+ under Heisenberg coupling with
+γ ranging from 0.01 to 0.50 confirm that γ·t_cross = K = 0.039 ± 0.001
+is constant. When time is normalized as τ = γ·t, all θ trajectories
+collapse onto a single curve (max deviation 0.0044 in CΨ). The ¼
+crossing is a topological phase transition: above ¼, the R = C(Ψ+R)²
+fixed-point equation has only complex solutions (no classical attractor);
+at ¼, two complex fixed points merge; below ¼, two real fixed points
+emerge. This K-invariance is standard Lindblad time-rescaling: solutions
+of the master equation depend only on γ·t, so t_cross = K/γ by
+construction. The original interpretation that γ plays the role of a
+gravitational metric coefficient, reproducing GR proper-time structure,
+has been retired. The mathematical invariance is real; the gravitational
+physics is not established.
 
 ---
 

@@ -1,24 +1,43 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-03-01
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary mathematics, 0.5 as max connection, fixed points, mirrors never break
-> **What remains open:** Whether pre-shared entanglement offers anything beyond classical shared randomness
-> **What has fallen:** QKD eavesdropping detection claims
+# Bridge Closure: Pre-Shared Entanglement Without a Channel Equals Shared Randomness
 
-# Bridge Closure: Pre-Shared Entanglement = Shared Randomness
+<!-- Keywords: bridge closure pre-shared entanglement shared randomness,
+no-signalling theorem J=0 no coupling, rho_A maximally mixed I/2 Bell+,
+CΨ fingerprint requires joint state rho_AB, dynamic bridge dead pre-encoded
+dead, J>0 local interaction not bridge, bridge protocol permanently closed,
+what survives quarter boundary observer-dependent crossing, R=CPsi2 bridge
+closure -->
 
-**Date**: 2026-03-01
-a limitation of the framework; it is a consequence of quantum mechanics.
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: NO_SIGNALLING_BOUNDARY.md, BRIDGE_FINGERPRINTS.md,
-BRIDGE_PROTOCOL.md (hypothesis), QKD_EAVESDROPPING_FORENSICS.md
+> **Restoration note (March 14, 2026):** Originally written 2026-03-01, deleted March 12,
+> restored March 14. Null result confirmed.
 
-**Tier:** 2 (Computationally verified, null result)
-**Status:** Verified null result
-**Scope:** J=0 bridge is closed: pre-shared entanglement without a channel = shared randomness
-**Does not establish:** That a communication bridge can work without coupling
+**Status:** Verified null result (Tier 2)
+**Date:** 2026-03-01
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Script:** simulations/bridge_closure.py
+**Depends on:** [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md), [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)
+
+---
+
+## Abstract
+
+The bridge protocol is permanently closed for J = 0 (zero coupling).
+After separation, A's measurement statistics P(a) = Tr[M_a·ρ_A] depend
+only on {ρ_A(0), E_A}, both available without any quantum resource. For
+Bell+ pairs, ρ_A = I/2 at all times regardless of B's actions (verified
+to machine precision across five time points and three B-actions). The
+CΨ fingerprints that distinguish different states require access to the
+joint state ρ_AB, which neither subsystem has after separation. A
+classical schedule ("pair 7 was prepared as |+0⟩") carries strictly more
+information than A's qubit. This is not a framework limitation but a
+consequence of the no-signalling theorem: any correlation achievable
+with shared entanglement alone (no classical channel) is also achievable
+with shared classical randomness alone. The dynamic bridge (B signals by
+choosing when to measure) and pre-encoded bridge (shared schedule with
+CΨ fingerprints) are both dead. What survives: ¼ boundary mathematics,
+observer-dependent crossing times, coherence density insights, and CΨ
+as a measurement tool in settings where A and B can compare results
+via a classical channel.
 
 ---
 

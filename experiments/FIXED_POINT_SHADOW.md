@@ -1,12 +1,37 @@
-# The Shadow of the Fixed Point
+# Fixed Point Shadow: Qubit-Specific Detuning, Not a Universal Boundary Effect
 
-**Date**: 2026-02-09  
-**Depends on**: BOUNDARY_NAVIGATION.md, RESIDUAL_ANALYSIS.md, IBM_QUANTUM_TOMOGRAPHY.md
+<!-- Keywords: fixed point shadow bifurcation residual coherence, IBM Torino
+qubit detuning frequency offset, CΨ quarter boundary crossing late-time
+coherence, skeleton plus rotating phase structural decomposition, non-Markovian
+memory TLS feedback, Q52 Q80 Q102 shadow direction comparison, complex fixed
+point approach direction frozen, Lindblad prediction deviation imaginary,
+R=CPsi2 fixed point shadow -->
 
-**Tier:** 2 (Verified computation, speculative interpretation LARGELY CLOSED)
-**Status:** Shadow universality tested and not confirmed (March 2026)
-**Scope:** Boundary correlation and frozen complex direction in hardware data
-**Does not establish:** That the shadow effect is universal or boundary-specific
+**Status:** Shadow universality not confirmed (Tier 2); effect is qubit-specific detuning
+**Date:** 2026-02-09 (original), March 2026 (hardware verdict)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Data:** data/ibm_shadow_march2026/
+**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)
+
+---
+
+## Abstract
+
+State tomography on IBM Torino (qubit 52, February 2026) revealed that
+residual coherence after the CΨ = ¼ crossing persisted with fixed
+direction (17/17 in the fourth quadrant), growing amplitude (+0.008/T₂),
+and near-perfect boundary correlation (r = −0.9955). Three hypotheses
+were proposed: non-Markovian memory, TLS-mediated feedback, and the
+boundary as active source. A follow-up shadow hunt (March 2026) tested
+Q80 and Q102 on IBM Torino. Q102 showed no directional pattern; Q80
+showed 8/8 consistency in quadrant 1 (Re+/Im+) at phase +29°, different
+from Q52's quadrant 4 at −44°. The shadow is not universal: it is
+qubit-specific frequency offset (detuning) that becomes visible at
+late times when exponential decay has removed the dominant real
+component. Applying the skeleton-plus-rotation decomposition from
+Structural Cartography to hardware data confirms the same pattern
+(stable populations + single rotational degree of freedom) in both
+simulation and hardware. The ¼ boundary does not leave a universal scar.
 
 ---
 

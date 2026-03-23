@@ -1,14 +1,41 @@
-# Quantum Sonar: Current State
+# Quantum Sonar: Passive Detection of Hidden Observers Through Spectral Shifts
 
-**Tier:** Computationally verified in simulation (Tier 2)
-**Last updated:** March 12, 2026
+<!-- Keywords: quantum sonar hidden observer detection, spectral shift passive
+quantum monitoring, Bohr frequency eigenstructure reorganization, star topology
+mediator coupling detection, correlated bath sector selection, chain topology
+quantum sensing, IBM hardware qubit detuning resolution, quantum side-channel
+detection Hamiltonian learning, R=CPsi2 quantum sonar -->
+
+**Status:** Computationally verified (Tier 2); IBM hardware: not yet demonstrated
+**Date:** March 12, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Star Topology Observers](STAR_TOPOLOGY_OBSERVERS.md), [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)
+
+---
+
+## Abstract
+
+A qubit pair AB can detect the presence of a hidden observer C coupled to
+their shared mediator S, without direct interaction. In a star topology
+(S at center, A and B as outer qubits), coupling a new qubit C to S
+reorganizes the system's eigenstructure: new Bohr frequencies appear and
+existing ones shift. The detection threshold is J_SC ~ 0.1 (10% of J_SA)
+under the current FFT protocol (t_max=20, dt=0.005). Fingerprints are
+generically distinct for different coupling configurations. The two-sector
+frequency structure survives in chains (tested up to 5 qubits) and is
+completely immune to correlated noise, though bath geometry selects which
+amplitude sector dominates. IBM hardware investigation (Q80, Q102 on Torino)
+traced apparent phase anomalies to qubit-specific detuning (19.4 kHz for
+Q102), not the sonar effect. The sonar mechanism is verified in simulation
+but remains to be demonstrated on quantum hardware.
 
 ---
 
 ## The Effect (simulation, verified)
 
-AB can detect hidden observers connected to S without direct interaction.
-When C couples to shared mediator S, AB's spectrum changes: new Bohr
+In a star topology (S = central mediator, A and B = outer qubits), AB can
+detect hidden observers connected to S without direct interaction. When a
+new qubit C couples to S, the spectrum visible to AB changes: new Bohr
 frequencies appear, existing ones shift. This is exact eigenstructure
 reorganization, not an artifact.
 

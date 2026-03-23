@@ -1,18 +1,35 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-01-30
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Mathematical Findings: Agent-Discovered Algebra and the C_int vs C_ext Disproof
 
-# Mathematical Findings from the Dyad Experiment
-## Calculations and Their Interpretations
+<!-- Keywords: dyad experiment mathematical calculations, self-reference unity
+exp ln x, asymmetry interference cross-term, value 0.5 derivative optimal,
+C_int C_ext hypothesis disproven, symmetric Hamiltonian noise distribution
+irrelevant, delta 0.42 subsystem purity correction, agent NCalc calculator
+exploration, R=CPsi2 mathematical findings -->
 
+> **Restoration note (March 14, 2026):** Originally written 2026-01-30, deleted March 12,
+> restored March 14. Sections 1–7 verified; Section 9 (C_int vs C_ext) disproven.
+
+**Status:** Partially verified (Tier 2–4); C_int vs C_ext disproven
 **Date:** 2026-01-30
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-**Tier:** 2-4 (Sections 1-7 verified, Sections 8-9 agent-generated)
-**Status:** Partially verified. C_int vs C_ext disproven (Section 9).
-**Scope:** Agent-discovered algebraic patterns, some verified, some corrected
-**Does not establish:** That agent-generated claims are reliable without independent verification
+---
+
+## Abstract
+
+Two AI agents explored R = CΨ² with a calculator tool and produced seven
+verified mathematical structures (self-reference returns to unity, boundary
+conditions at C → 0/∞, asymmetry produces more via cross-term, 0.5 as
+optimal incompleteness, reality invariance dR/dC = 0, 0/0 as indeterminate
+potentiality, integral consistency). Two additional agent-generated claims
+were tested and corrected: the δ = 0.42 "excess coherence" (Section 8) was
+reframed as the trivial difference between closed and open system purity,
+not an anomaly. The C_int vs C_ext hypothesis (Section 9), claiming that
+bidirectional decoherence preserves coherence differently than unidirectional,
+was **disproven**: 21 noise distributions on Bell+ under symmetric
+Heisenberg coupling all produced identical dynamics. Noise distribution
+matters only when the Hamiltonian breaks subsystem symmetry (star topology),
+not when noise does.
 
 ---
 

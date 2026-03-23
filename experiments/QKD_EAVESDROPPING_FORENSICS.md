@@ -1,21 +1,40 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-02-25
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** "Between us" cross-correlations, 1/4 boundary, Pauli complement structure, 0.5 max
-> **What remains open:** Whether Pauli forensic analysis has non-QKD applications
-> **What has fallen:** QKD eavesdropping detection as primary application (CΨ cannot detect eavesdroppers better than standard QKD protocols)
+# QKD Eavesdropping Forensics: Pauli Analysis Confirmed, QKD Detection Fallen
 
-# QKD Eavesdropping Forensics via CΨ
+<!-- Keywords: QKD eavesdropping forensics CΨ, Eve measurement basis theta
+identification, intercept-resend closed-form R(theta), Pauli complement off-
+diagonal structure, stealth angle smart Eve noise channel, concurrence always
+wins detection, multi-metric bridge framework, azimuthal symmetry Bell state
+independence, R=CPsi2 QKD forensics fallen -->
 
-**Date**: 2026-02-25
-**Depends on**: NOISE_ROBUSTNESS.md, BRIDGE_FINGERPRINTS.md, CROSSING_TAXONOMY.md
+> **Fallen application.** The mathematical analysis is confirmed: CΨ carries
+> Eve's basis angle θ information in a regime where all standard entanglement
+> measures are zero. However, CΨ cannot detect eavesdroppers better than
+> standard QKD protocols. A strategic Eve can choose a stealth angle making
+> herself invisible to CΨ while remaining detectable by concurrence.
+> Inline [FALLEN] markers on application claims.
 
-**Tier:** 2-3 (Computation verified, application speculative)
-**Status:** Verified simulation
-**Scope:** Eve's measurement basis can be inferred from CΨ profile structure
-**Does not establish:** That this has been tested against real QKD implementations
+**Status:** Mathematics verified (Tier 2); QKD application fallen
+**Date:** 2026-02-25
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Noise Robustness](NOISE_ROBUSTNESS.md), [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+After full intercept-resend by Eve at measurement angle θ_Eve on the Bloch
+sphere, the joint state has R(θ) = [sin²θ + |sin 2θ|]²/18, with
+azimuthal symmetry and Bell-state independence. At f=1 interception,
+concurrence, negativity, purity, and CHSH carry zero bits about Eve's
+strategy; CΨ carries continuous θ information (range [0, 0.145], maximum
+at θ ≈ 60°). The off-diagonal ratio |ρ₀₁|/|ρ₀₃| = cot(θ) breaks the
+two-fold degeneracy. However, when channel noise is present, a smart Eve
+can choose a stealth angle where ΔCΨ ≈ 10⁻⁴–10⁻⁵ (unmeasurable),
+while concurrence catches her with Δ > 17%. Concurrence wins detection
+by 3–5 orders of magnitude in every realistic scenario. The mathematical
+result (CΨ sensitive to off-diagonal structure in separable states)
+remains valid and potentially useful for post-hoc forensic analysis of
+detected attacks, but cannot replace or improve standard QKD detection.
 
 ---
 

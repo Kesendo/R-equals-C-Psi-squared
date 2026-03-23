@@ -1,16 +1,36 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-09
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Residual Analysis: Late-Time Coherence Anomaly in IBM Torino Qubit 52
 
-# Residual Analysis: Anomalous Late-Time Coherence in IBM Torino Data
+<!-- Keywords: IBM Torino qubit 52 residual coherence anomaly, late-time
+off-diagonal directional consistency, Monte Carlo null hypothesis p<0.0001,
+rising coherence trend post-decoherence, fourth quadrant phase clustering,
+SPAM error TLS coupling hypotheses, revival peak spacing T2/4, non-Markovian
+coherence revival, R=CPsi2 residual analysis -->
 
+> **Restoration note (March 14, 2026):** Originally written 2026-02-09, deleted March 12,
+> restored March 14. Analysis confirmed; cause resolved as qubit-specific detuning
+> (see [Fixed Point Shadow](FIXED_POINT_SHADOW.md)).
 
-**Tier:** 2 (Computational analysis of hardware data)
-**Status:** Verified analysis, anomaly under investigation
-**Scope:** Anomalous late-time coherence detected (p < 0.0001)
-**Does not establish:** That the anomaly has a specific physical explanation
+**Status:** Verified analysis (Tier 2); anomaly resolved as qubit detuning
+**Date:** 2026-02-09
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Fixed Point Shadow](FIXED_POINT_SHADOW.md)
+
+---
+
+## Abstract
+
+Reanalysis of IBM Torino qubit 52 tomography data revealed late-time
+coherence (t/T₂ > 1.25) exceeding all 10,000 Monte Carlo simulations
+(p < 0.0001), with 17/17 measurements showing consistent direction
+(Re+ / Im−, fourth quadrant; probability by chance: 6×10⁻¹¹), a rising
+trend (+0.008/T₂), and near-perfect boundary correlation (r = −0.9955).
+Three hypotheses were proposed: SPAM error, TLS coupling, and active
+boundary structure. The March 2026 follow-up (see Fixed Point Shadow)
+resolved the anomaly: the directional consistency is qubit-specific
+frequency detuning that becomes visible when exponential decay removes
+the dominant real component. Different qubits show different directions
+(Q80: +29°, Q52: −44°, Q102: random), confirming the effect is
+hardware-specific, not boundary-specific.
 
 ## Discovery Date
 2026-02-09 (same-day reanalysis of tomography data)

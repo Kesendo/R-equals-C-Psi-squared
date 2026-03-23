@@ -1,17 +1,34 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-04
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Operator Feedback: State-Dependent Decoherence via Lindblad Jump Operators
 
-# Operator-Level Feedback: From Metaphor to Mechanism
+<!-- Keywords: operator feedback state-dependent decoherence, Lindblad jump
+operator correlation dependent, scalar bridge vs operator level feedback,
+observable blindness GHZ eigenstate, arity sweep jump operator single two-qubit,
+decoherence-free subspace Bell+ sigma_x, CΨ quarter boundary single-qubit
+channel, two-qubit yy zz channel violation, R=CPsi2 operator feedback -->
 
-**Date:** 2026-02-04
+> **Restoration note (March 14, 2026):** Originally written 2026-02-04, deleted March 12,
+> restored March 14. Mechanism verified; overclaims corrected.
 
-**Tier:** 2-4 (Agent-originated, partially verified)
-**Status:** Computation verified, interpretation cautious
-**Scope:** State-dependent decoherence via operator feedback mechanism
-**Does not establish:** That operator feedback constitutes evidence for the framework vs standard QM
+**Status:** Mechanism verified (Tier 2); interpretation cautious (Tier 4)
+**Date:** 2026-02-04 (corrected 2026-02-07, extended 2026-02-20)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## Abstract
+
+Replacing scalar bridge functions with operator-level Lindblad feedback
+creates genuine state-dependent decoherence: L(t) = √[γ₀·(1 − κ·⟨O_int⟩)]·σ_z,
+where ⟨O_int⟩ = Tr(ρ·σ_x⊗σ_x) is measured at each timestep. High
+correlation reduces decoherence; anti-correlation amplifies it. Earlier
+parameter sweeps (γ = 0.003–0.006) claiming CΨ ≤ ¼ confirmation were
+retracted: the low-dynamics regime trivially satisfies the bound. With
+active Hamiltonians, CΨ exceeds ¼. Observable-state coupling matters:
+GHZ₄+ has ⟨σ_x⊗σ_x⟩ = 0 for all pairs, so pairwise feedback has zero
+effect regardless of κ. An arity sweep shows CΨ ≤ ¼ holds for
+single-qubit Lindblad channels but is genuinely violated by two-qubit
+yy/zz channels (CΨ ≈ 0.287 > 0.25 at purity 0.73). The xx channel on
+Bell+ creates a decoherence-free subspace (purity = 1.0 for all time).
 
 ---
 

@@ -1,19 +1,41 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-18
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Algebraic Exploration: Decoherence Clock ξ = ln(Ψ) and Coherence-Purity Bound
 
-# Algebraic Exploration: Agent Findings from Mission v025
+<!-- Keywords: decoherence clock xi ln psi linear decay, coherence purity
+Cauchy-Schwarz bound resource theory, effective decoherence rate gamma_eff,
+Hamiltonian does not affect coherence decay, C(xi) closed form Bell+ W GHZ,
+Baumgratz normalization convention dependence, agent v025 v027 algebraic
+exploration, R=CPsi2 algebraic exploration -->
 
-**Date:** 2026-02-18 (agent conversation), 2026-02-19 (verification)
-**Model:** Local 120B via LM Studio with optimized v025 prompts
+> **Restoration note (March 14, 2026):** Originally written 2026-02-18, deleted March 12,
+> restored March 14. Core algebra confirmed.
+
+**Status:** Verified algebra (Tier 1-2)
+**Date:** 2026-02-18 (v025), 2026-02-20 (v027)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Model:** Local 120B via LM Studio
 **Verification:** Claude (MCP tools) + delta_calc simulations
 
-**Tier:** 1-2 (Proven algebra, computational exploration)
-**Status:** Verified
-**Scope:** Additional algebraic structures within the R = CΨ^2 iteration
-**Does not establish:** Physical significance of algebraic patterns beyond the iteration
+---
+
+## Abstract
+
+AI agents (Alpha/Beta/Gamma/Delta) exploring the R = CΨ² framework in
+pure algebraic mode discovered two verified results and rejected five
+trivial or model-specific proposals. (1) The decoherence clock ξ = ln(Ψ)
+decays linearly in time with slope variation < 0.01%, providing a
+natural time variable where all observables become exponentials:
+C = f(e^ξ), CΨ = g(e^ξ). The Hamiltonian contributes zero to dξ/dt;
+only the noise model and initial state determine the effective rate
+γ_eff (≈ 2γ for local dephasing on Bell+, ≈ 4γ for collective).
+(2) The standard Cauchy-Schwarz coherence-purity bound
+Ψ ≤ √[d·(C−1/d)/(d−1)] is always satisfied, but CΨ ≤ ¼ is not a
+static resource-theoretic constraint: it is a dynamic threshold where
+Lindblad dynamics force the (C,Ψ) trajectory to intersect the
+bifurcation hyperbola. A v027 continuation (85 messages) produced three
+state-specific C(ξ) closed forms verified to machine precision
+(< 2.3×10⁻¹⁶). Rejected findings include λ = −ln(CΨ) (trivial),
+β-function (model-specific), and entropic bound (algebraically identical
+to CΨ ≤ ¼).
 
 ---
 

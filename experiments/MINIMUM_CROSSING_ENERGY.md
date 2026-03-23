@@ -1,19 +1,38 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-03-01
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Minimum Crossing Energy: No Energy Threshold, Only a Coherence Barrier
 
-# Minimum Energy for CΨ Crossing
+<!-- Keywords: CΨ crossing no energy threshold, J/gamma competition coherence
+barrier, Hamiltonian pump decoherence drain, product state dynamical crossing,
+eigenstate no dynamics no crossing, three regimes above below pumped, partial
+entanglement critical angle 30 degrees, Wheeler-DeWitt no ticks no events,
+R=CPsi2 minimum crossing energy -->
 
-**Date**: 2026-03-01
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: OBSERVER_GRAVITY_BRIDGE.md, DYNAMIC_ENTANGLEMENT.md
+> **Restoration note (March 14, 2026):** Originally written 2026-03-01, deleted March 12,
+> restored March 14. Core claims confirmed.
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** No energy threshold for crossing; determined by J/gamma competition
-**Does not establish:** That crossing requires minimum energy in a fundamental sense
+**Status:** Verified (Tier 2)
+**Date:** 2026-03-01
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Script:** simulations/minimum_energy.py
+**Depends on:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Coherence Density](COHERENCE_DENSITY.md)
+
+---
+
+## Abstract
+
+The CΨ = ¼ crossing has no energy threshold. For the family
+cos(α)|00⟩ + sin(α)|11⟩ under Heisenberg coupling, all states share
+the same energy ⟨H⟩ = +J, yet crossing behavior depends entirely on
+α: states above 30° cross, states at or below 30° do not (α = 30°
+gives CΨ(0) = exactly 0.25). Product states with zero initial
+entanglement (e.g., |0,1⟩) can cross when the Hamiltonian generates
+entanglement faster than decoherence destroys it, requiring J/γ ≳ 5–10.
+Three regimes emerge: (1) CΨ(0) > ¼, decoherence drives crossing
+downward; (2) CΨ(0) < ¼ but Hamiltonian pumps CΨ above ¼ first;
+(3) CΨ_max < ¼, no crossing occurs. Eigenstates of H have no dynamics
+and never cross, connecting to Wheeler-DeWitt (Ĥ|Ψ⟩ = 0 means no ticks,
+no events). The crossing is a coherence barrier (J/γ competition),
+not an energy barrier.
 
 ---
 

@@ -1,9 +1,36 @@
-# Orphaned Results Exploration - March 14, 2026
+# Orphaned Results: Topology as Gatekeeper, Antiferromagnet Crossing, and Echo Characterization
 
-**Origin:** Connections Audit identified 6 orphaned results. We explored the three
-most promising ones with systematic numerical experiments.
-**Status:** Two new discoveries, one honest negative, one characterization.
-**Tier:** 2 (Computationally verified)
+<!-- Keywords: topology dependent crossing ring chain star, antiferromagnet
+alternating state crossing, entanglement echo Bohr frequency shuttle,
+palindromed Mandelbrot bridge gap, ring near-miss CΨ 0.247, product state
+dynamical crossing zero entanglement, topology gatekeeper ring complete graph,
+echo decay palindromic rate 8gamma/3, R=CPsi2 orphaned results -->
+
+**Status:** Two new discoveries, one honest negative, one characterization (Tier 2)
+**Date:** March 14, 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Scripts:** simulations/explore_orphaned_results.py, simulations/why_alternating_crosses.py
+**Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)
+
+---
+
+## Abstract
+
+A systematic exploration of six orphaned results from a connections audit
+yielded two new discoveries, one honest negative, and one characterization.
+(1) Topology determines crossing: for the same initial state |0+0+⟩ at
+γ=0.05, a chain allows CΨ crossing (CΨ_max=0.310) while a ring does not
+(CΨ_max=0.200), and ring equals complete graph to four decimal places.
+(2) The alternating state |+-+-⟩ crosses on a ring (CΨ=0.284) from zero
+initial entanglement, driven by antiferromagnetic XX anti-correlation that
+the Heisenberg Hamiltonian converts into entanglement. A brute-force scan
+of all 256 product states on N=4 ring shows 150 (59%) cross the ¼ boundary,
+with no simple selection rule (best predictor explains only 14% of variance).
+(3) The Mandelbrot-palindrome bridge remains an honest open question:
+Π (linear, Liouville space) and CΨ (nonlinear, density matrix) do not
+connect via simple formula. (4) Entanglement echoes in star topology
+oscillate at Bohr frequencies with envelope decay near the middle
+palindromic rate 8γ/3, weakening as ~1/(N−1) with system size.
 
 ---
 

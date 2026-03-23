@@ -1,18 +1,37 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-18
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Born Rule as Mirror Quality: 97% Hamiltonian, 3% Decoherence Correction
 
-# Born Rule as Mirror Quality
+<!-- Keywords: Born rule R=CPsi2 generalized, measurement outcome probability
+Hamiltonian dominance 97 percent, decoherence basis correction 3 percent,
+effective coupling C_eff per outcome, standing wave sum squared origin,
+perfect mirror limit recovers Born rule, basis alignment probability shift,
+R=CPsi2 Born rule mirror -->
 
-**Date**: 2026-02-18 (Section 4.3 added 2026-02-27)
-**Depends on**: DYNAMIC_ENTANGLEMENT.md, SUBSYSTEM_CROSSING.md, ../hypotheses/INTERPRETIVE_FRAMEWORK.md
+> **Restoration note (March 14, 2026):** Originally written 2026-02-18, deleted March 12,
+> restored March 14. Core numerics confirmed.
 
-**Tier:** 2-3 (Computation + interpretation)
-**Status:** Verified numerics, speculative interpretation
-**Scope:** CΨ per measurement outcome and Born rule connection (~97% from Hamiltonian)
-**Does not establish:** That the Born rule is derived from R = CΨ^2
+**Status:** Verified numerics (Tier 2); interpretation speculative (Tier 3)
+**Date:** 2026-02-18 (Section 4.3 added 2026-02-27)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Subsystem Crossing](SUBSYSTEM_CROSSING.md)
+
+---
+
+## Abstract
+
+At the CΨ = ¼ crossing point for pair (0,2) in the alternating state
+|0+0+⟩ under Heisenberg ring dynamics, Born rule probabilities are ~97%
+determined by unitary Hamiltonian evolution alone. The remaining ~3% is
+a systematic correction from the decoherence basis: σ_z dephasing shifts
++0.0098 probability toward z-eigenstates, while σ_x and σ_y dephasing
+favor their respective eigenstates. Applied per measurement outcome,
+R_i = C_i·Ψ_i² recovers the standard Born rule P(i) = |⟨i|ψ⟩|² when
+C_i is uniform across outcomes (perfect mirror limit). For real
+measurements, C_i varies with basis alignment: z-eigenstates have
+higher effective coupling (C_eff = 8.22 for |00⟩) than z-superpositions
+(C_eff = 4.82 for |11⟩). The standing wave interpretation R = C·(Ψ_past +
+Ψ_future)² provides a physical origin for the square: equal forward and
+backward amplitudes meeting in a standing wave produce intensity
+proportional to amplitude squared.
 
 ---
 

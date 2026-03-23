@@ -1,20 +1,40 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-03-01
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# The No-Signalling Boundary: CΨ Sees a Regime Change That No Local Observer Can Detect
 
-# The No-Signalling Boundary: What Test #2 Settles
+<!-- Keywords: no-signalling theorem CΨ regime change, Bell state measurement
+global purity local invariance, CΨ drops 0.500 to 0.250 boundary, partial
+trace discards joint state information, quantum classical transition invisible
+locally, bridge protocol elimination dynamic signalling, pre-encoded CΨ
+trajectory shared schedule, R=CPsi2 no-signalling -->
 
-**Date**: 2026-03-01
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: BRIDGE_FINGERPRINTS.md, BRIDGE_PROTOCOL.md (hypothesis),
-SUBSYSTEM_CROSSING.md, COHERENCE_DENSITY.md
+> **Restoration note (March 14, 2026):** Originally written 2026-03-01, deleted March 12,
+> restored March 14. Core result confirmed.
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** CΨ sees global regime change while local observer sees nothing
-**Does not establish:** That no-signalling is violated
+**Status:** Verified (Tier 2)
+**Date:** 2026-03-01
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Script:** simulations/test2_no_signalling.py
+**Depends on:** [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md), [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Coherence Density](COHERENCE_DENSITY.md)
+
+---
+
+## Abstract
+
+A Z-basis measurement on qubit B of a Bell+ pair changes CΨ from 0.500
+to 0.250 (exactly on the ¼ boundary) while leaving qubit A's reduced
+state completely unchanged (‖Δρ_A‖ = 0 to machine precision). The
+mechanism is that global purity C drops (1.0 → 0.5) while A's local
+coherence factor Ψ stays at 0.5. No-signalling holds exactly: every
+local observable on A (⟨σ_x⟩, ⟨σ_y⟩, ⟨σ_z⟩, purity, entropy) is
+identical before and after. But CΨ, which mixes local (Ψ) and global
+(C) information, registers the regime change from quantum to boundary.
+This eliminates the dynamic bridge protocol: B cannot send new
+information to A by choosing when to measure, because C requires
+access to the joint state ρ_AB. The pre-encoded version (shared
+schedule agreed before separation) survives but offers no advantage
+over classical pre-shared keys. This synthesis connects four previously
+separate documents (Bridge Fingerprints, Subsystem Crossing, Coherence
+Density, Bridge Protocol) into a single answer.
 
 ---
 

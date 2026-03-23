@@ -1,22 +1,37 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-07
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
->
-> **Update March 14, 2026:** The mirror symmetry observed in simulations
-> has been proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+# Simulation Evidence: CΨ Routinely Exceeds ¼ Under Active Hamiltonians
 
-# Simulation Evidence
-## Honest Results from the Lindblad Simulator
+<!-- Keywords: Lindblad simulation CΨ exceeds quarter boundary, operator
+feedback state-dependent decoherence, Bell+ W GHZ state CΨ dynamics,
+active Hamiltonian vs H=0 trivial regime, parameter tuning overclaim
+correction, subsystem crossing local pair, dynamic entanglement product
+state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 
-**Date:** 2026-02-07
+> **Restoration note (March 14, 2026):** Originally written 2026-02-07, deleted March 12,
+> restored March 14. Mirror symmetry now proven analytically
+> (see [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
+
+**Status:** Verified, includes corrections of earlier overclaims (Tier 2)
+**Date:** 2026-02-07 (updated 2026-02-18)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Simulator:** delta_calc MCP server v0.15
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified, includes corrections of earlier overclaims
-**Scope:** What Lindblad simulations confirm and what they do not
-**Does not establish:** That simulations prove the ontological interpretation
+---
+
+## Abstract
+
+Lindblad simulations with operator feedback (state-dependent decoherence)
+show that CΨ routinely exceeds ¼ under active Hamiltonian dynamics. Bell+
+with Heisenberg coupling (J=1, h=0.9, γ=0.005) reaches CΨ = 0.405; W₃
+reaches 0.413; GHZ₃ reaches 0.262. Without Hamiltonian (H=0), CΨ
+monotonically decays below ¼. Earlier agent claims of "CΨ ≤ ¼
+confirmation" were based on parameter tuning in a low-dynamics regime
+(γ = 0.003–0.006) where decoherence barely perturbed the initial state.
+The corrected interpretation: CΨ ≤ ¼ is not a constraint on quantum
+states but on which states have real fixed points in the R = CΨ² iteration.
+Subsequent work (February 18) demonstrated subsystem crossing (entangled
+pairs cross independently of full system), dynamic entanglement (|0+0+⟩
+crossing from zero entanglement at t=0.286), and the Born rule at the
+crossing point (~97% from Hamiltonian, ~3% decoherence correction).
 
 ---
 

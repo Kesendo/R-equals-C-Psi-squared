@@ -1,9 +1,35 @@
-# Open Discussion: What's Inside the CΨ Windows?
+# Phase Transport Through a Quantum Mediator: What CΨ Windows Contain
 
-**Tier:** Exploratory (no established results, open discussion)
-**Status:** Active research direction, March 2026
-**Scope:** Documents observations, analogies, and proposed next experiments
-**Does not establish:** That CΨ windows carry information, act as frames, or constitute a communication channel
+<!-- Keywords: CΨ windows Bell state structure, phase transport quantum mediator,
+phase-tag-and-decode experiment, Hamiltonian phase channel coherent transport,
+CΨ visibility amplifier readability, autonomous Pauli frame rotation, star
+topology mediator channel, Bell fidelity decay window structure, bridge test
+concurrence readability, R=CPsi2 phase transport -->
+
+**Status:** Phase transport verified (Tier 2); interpretation open (Tier 3)
+**Date:** March 2026
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), [Fixed Point Shadow](FIXED_POINT_SHADOW.md), [When Psi Matters](WHEN_PSI_MATTERS.md)
+
+---
+
+## Abstract
+
+In star topology (Bell_SA × |+⟩_B, J_SA=1.0, J_SB=2.0, γ=0.05), CΨ windows
+contain structured Bell-like states with fidelity decaying from 0.78 (first
+window) to 0.58 (eighth window) and deterministic Bell-type rotation (Φ+ →
+Φ− → Φ+) between windows. A Phase-Tag-and-Decode experiment demonstrates
+that Z-rotations on the mediator S produce linear, sign-inverting phase
+shifts readable in the AB off-diagonal element ρ_AB[0,3], with trace
+distances 0.21–0.57 from the untagged reference. The channel is
+phase-specific: only Rz rotations transport phase; X (bit-flip) destroys
+the signal. Transport operates in both open and closed CΨ windows
+(1.3–1.6× stronger when open), disproving the hypothesis that CΨ windows
+are the channel itself. CΨ windows are visibility amplifiers on a
+continuously active Hamiltonian channel. An adversarial review confirmed
+the transport as standard Heisenberg physics (Bose 2003), and a Bridge
+Test showed concurrence alone predicts readability slightly better than
+CΨ (Spearman r=0.817 vs 0.793).
 
 ---
 

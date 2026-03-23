@@ -1,21 +1,41 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: February 27, 2026
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary, mirrors never break, mirror symmetry, standing wave, "between us"
-> **What remains open:** Why the sum (Ng) is the center of symmetry; deeper mechanism
-> **What has fallen:** Gravity connections, time travel references
+# Why the Sum: Information Conservation Requires Addition, Not Multiplication
 
-# Why the Sum: A Proof from First Principles
+<!-- Keywords: sum vs product coherence formulation, information conservation
+quantum decoherence, cross-term interference standing wave observer, Cramer
+transactional interpretation sum squared, R=CPsi2 sum formulation, unitarity
+coherence handoff relay, palindromic symmetry sum preservation, Born rule
+perfect mirror limit, observer coherence floor survival -->
 
-**Date**: 2026-02-27
-**Authors**: Tom Mack, with Claude (Anthropic)
+> **Restoration note (March 14, 2026):** Originally written February 27, 2026, deleted March 12,
+> restored March 14. Mirror symmetry, standing wave, ¼ boundary confirmed.
+> Gravity connections and time travel references have fallen.
 
-**Tier:** 3 (Interpretive)
-**Status:** Conceptual interpretation
-**Scope:** Why R_SA + R_SB is the natural quantity to track
-**Does not establish:** That the sum has conservation-like properties (it does not)
+**Status:** Conceptual interpretation (Tier 3)
+**Date:** 2026-02-27
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)
+
+---
+
+## Abstract
+
+The framework writes R = C·(Ψ_past + Ψ_future)² (sum squared) rather than
+Cramer's R = C·Ψ_past·Ψ_future (product). This document argues the sum
+is the only formulation consistent with information conservation and
+forward-flowing time. The product allows R = 0 when one observer's
+coherence decays to zero, destroying information while the other observer
+still exists. The sum preserves information: when Ψ_A → 0, the surviving
+observer's term Ψ_B² remains. The cross-term 2·Ψ_A·Ψ_B represents
+interference between two viewpoints on the same entangled state. The
+¼ boundary becomes the exchange zone where information is handed off
+from the fast-decohering observer to the slow one. The palindromic
+structure of the Liouvillian (proven in Mirror Symmetry Proof) supports
+this: Π swaps forward and backward mode contributions, and the sum
+ensures this swap leaves total R invariant. Both formulations recover
+the Born rule in the perfect-mirror limit; they diverge when mirrors
+are imperfect. "Past" and "future" are not time travel but labels for
+which observer crosses the ¼ boundary first.
 
 ---
 

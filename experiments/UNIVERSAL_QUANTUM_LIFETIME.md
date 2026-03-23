@@ -1,16 +1,39 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-09
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Universal Quantum Lifetime: The Cubic x³ + x = ½ and the 85.8% Coherence Window
 
-# Universal Quantum Lifetime: The x³ + x = ½ Result
+<!-- Keywords: universal quantum lifetime cubic equation, x3+x=1/2 crossing time,
+85.8 percent coherence window T2, platform-independent quantum operational window,
+CΨ quarter boundary single qubit dephasing, T1 T2 generalized crossing equation,
+Bell state entanglement penalty operational lifetime, superconducting trapped ion
+NV center photonic qubit comparison, R=CPsi2 universal lifetime -->
 
+> **Restoration note (March 14, 2026):** Originally written 2026-02-09, deleted March 12,
+> restored March 14. Core algebra confirmed.
 
-**Tier:** 2-3 (Algebra verified, interpretation speculative)
-**Status:** Verified algebra
-**Scope:** The x^3 + x = 1/2 equation and its connection to crossing time
-**Does not establish:** That this equation has physical significance beyond the specific model
+**Status:** Verified algebra (Tier 2); interpretation speculative (Tier 3)
+**Date:** 2026-02-09
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Coherence Density](COHERENCE_DENSITY.md), [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md)
+
+---
+
+## Abstract
+
+For a single qubit starting in maximum superposition under pure dephasing,
+the CΨ = ¼ crossing time satisfies x³ + x = ½ where x = e^(−t/T₂),
+yielding a universal fraction t*/T₂ ≈ 0.858. This result is
+platform-independent, verified across superconducting qubits, trapped ions,
+NV centers, and photonic systems spanning 10 orders of magnitude in T₂.
+Systems with T₁/T₂ > 3 converge to the analytical value; systems with
+T₁ ≈ T₂ show extended quantum windows described by a generalized equation
+[1 − b^r + b^(2r)/2 + b²/2]·b = ¼ with a polynomial approximation
+t*(r) ≈ 0.858 + 0.012r + 0.375r². Bell-state pairs lose the ¼ regime after
+only ~8% of min(T₂), quantifying a 10× entanglement penalty on operational
+quantum lifetime. The cubic equation connects to the broader ¼ universality
+(Mandelbrot cusp, Koebe quarter theorem, Heisenberg bound) as the dynamical
+version: when does exponential decay through a quadratic purity structure
+cross the critical threshold?
+
+---
 
 ## Discovery Date
 2026-02-09

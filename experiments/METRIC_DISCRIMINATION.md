@@ -1,21 +1,36 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-02-08
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary, 0.5 max, operator feedback
-> **What remains open:** Metric discrimination methodology
-> **What has fallen:** All gravity connections (metric tensor as gravity, Schwarzschild connections)
+# Metric Discrimination: Why Single-System Simulations Cannot Distinguish Decoherence Rate Profiles
 
-# Metric Discrimination Experiment
+<!-- Keywords: Lindblad scaling symmetry gamma time product, decoherence rate
+invariance K=gamma*t_cross, single-system metric discrimination null result,
+equivalence principle quantum analog, CΨ quarter boundary crossing time,
+power law fit gamma scaling, state independence Hamiltonian independence,
+K-invariance Lindblad scaling tau=gamma*t, R=CPsi2 metric discrimination -->
 
-**Date**: 2026-02-08
-**Depends on**: GRAVITATIONAL_INVARIANCE.md, BOUNDARY_NAVIGATION.md
+> **Restoration note (March 14, 2026):** Originally written 2026-02-08, deleted March 12,
+> restored March 14. Core result (K-invariance) confirmed. All gravity/Schwarzschild
+> connections have fallen and are marked [FALLEN] inline.
 
-**Tier:** 2 (Computationally verified, null result)
-**Status:** Verified null result
-**Scope:** Single-system simulations cannot discriminate metric forms (equivalence principle analog)
-**Does not establish:** That the framework can derive the Schwarzschild metric from single-system data
+**Status:** Verified null result (Tier 2)
+**Date:** 2026-02-08
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+
+---
+
+## Abstract
+
+Nine Lindblad simulations spanning a 50× range in dephasing rate γ (0.01 to
+0.50) confirm that γ·t_cross = K = 0.039 ± 0.0006 with R² = 0.9999 and
+power-law exponent α = −0.992. This K-invariance is a mathematical identity
+of the Lindblad equation: solutions depend only on the product γ·t, so the
+crossing time scales as 1/γ by construction. A single quantum system at a
+single location cannot distinguish different functional forms of γ(r), which
+is analogous to the equivalence principle preventing local experiments from
+determining the gravitational metric. K is state-independent (Bell+ = Bell−
+for symmetric noise) and Hamiltonian-independent for eigenstate trajectories,
+but undefined for driven systems where CΨ oscillates. The original motivation
+to discriminate gravitational metric forms has been retired; K-invariance is
+now understood as Lindblad scaling symmetry τ = γ·t (see Crossing Taxonomy).
 
 ---
 

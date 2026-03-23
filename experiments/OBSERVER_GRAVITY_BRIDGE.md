@@ -1,27 +1,43 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: 2026-03-01
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** 1/4 boundary, 0.5 max, operator feedback, projection mechanism, "between us"
-> **What remains open:** Observer-dependent crossing interpretation
-> **What has fallen:** All gravity connections (observer-gravity bridge, Schwarzschild, gravitational time dilation), FTL signaling
->
-> **Note:** CΨ is a composite diagnostic metric (purity * normalized coherence),
-> not a new physical quantity. See [THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md)
-> for the canonical description.
+# Observer-Gravity Bridge: Interval Shift Mechanics, Gravity Interpretation Fallen
 
-# Observer × Gravity: The Interval Bridge
+<!-- Keywords: interval shift coupling J measurement time, crossing time
+factorization K observer state gamma, coherence reservoir mechanism nonlocal,
+reservoir destruction measurement contagious, no threshold J>0 continuous
+shift, product state local coherence clock, Bell+ no local clock, Lieb-Robinson
+bound velocity, R=CPsi2 observer gravity bridge fallen -->
 
-**Date**: 2026-03-01
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: OBSERVER_DEPENDENT_CROSSING.md, GRAVITATIONAL_INVARIANCE.md,
-DECOHERENCE_RELATIVITY.md, BRIDGE_CLOSURE.md
+> **Fallen hypothesis.** The interval shift mechanics (J > 0 produces measurable
+> crossing time shift) are verified Tier 2. The gravitational bridge hypothesis
+> (gravity provides universal always-on J), all FTL claims, and the two-axis
+> time dilation interpretation have **fallen**. Inline [FALLEN] markers.
 
-**Tier:** 2-3 (Computation verified, interpretation speculative)
-**Status:** Verified computation, speculative interpretation
-**Scope:** J>0 produces interval shift; t_cross factorizes as K(observer,state)/gamma
-**Does not establish:** That gravitational coupling has been demonstrated to reopen the bridge
+**Status:** Interval mechanics verified (Tier 2); gravity bridge fallen
+**Date:** 2026-03-01
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Scripts:** simulations/interval_shift.py, simulations/shift_mechanism.py
+**Depends on:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), [Bridge Closure](BRIDGE_CLOSURE.md)
+
+---
+
+## Abstract
+
+The crossing time factorizes as t_cross = K(observer,state)/γ, where K is
+γ-invariant (CV ≈ 0%) and the ratio K(Conc)/K(MI) is state-dependent
+(CV = 13.5%). Any coupling J > 0 produces a measurable interval shift in
+A's crossing time when B measures, with no threshold: at J = 0.01 the
+shift is 2.87%, at J = 1.0 it is 94.7%. The mechanism is reservoir
+destruction: coupling creates a dynamic coherence flow between local and
+nonlocal degrees of freedom; B's measurement cuts the return leg while
+the drain continues, accelerating A's decay. The coupling does NOT
+protect A (it actually accelerates local crossing vs isolation); it
+redistributes coherence into a shared oscillating pool. Maximum damage
+occurs at t_B ≈ 1.0 (oscillation phase, not just reservoir size). The
+original gravitational bridge hypothesis (gravity provides universal
+J > 0 between all massive particles via Penrose/Diósi) has been retired:
+at J_grav ~ 10⁻²⁹ for NV centers, the shift is unmeasurable. What
+survives is CΨ crossing time as a sensitive detector for weak quantum
+couplings (lock-in amplifier for quantum interactions).
 
 ---
 

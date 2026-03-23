@@ -1,17 +1,36 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-03-08
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# When Psi Matters: CΨ as AND-Gate for Entanglement and Coherence
 
-# When Does the Coherence Factor Matter?
+<!-- Keywords: CΨ vs concurrence when coherence factor matters, noise type
+discrimination dephasing bit-flip, Werner state mixed selectivity threshold,
+AND-gate entanglement coherence product, Ising transverse field CΨ diverges,
+false positive rate sum vs product, agent benchmark v046 operational necessity,
+R=CPsi2 when psi matters -->
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** Identifies regimes where CΨ and concurrence diverge
-**Does not establish:** That CΨ is always more informative than concurrence
+> **Restoration note (March 14, 2026):** Originally written 2026-03-08, deleted March 12,
+> restored March 14. Core claims confirmed.
+
+**Status:** Verified (Tier 2)
 **Date:** 2026-03-08
-**Depends on:** [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [The CΨ Lens](../docs/THE_CPSI_LENS.md)
+
+---
+
+## Abstract
+
+CΨ = Concurrence × Ψ (normalized l₁-coherence) adds three capabilities
+beyond concurrence alone. (1) Noise-type sensitivity: under Heisenberg
+coupling at γ=0.10, concurrence is identical (0.670) for σ_z, σ_x, and
+σ_y noise, but Ψ distinguishes dephasing (0.223) from bit-flip (0.333).
+(2) Mixed-state selectivity: for Werner states near the entanglement
+threshold (p=0.4–0.5), CΨ is 6–7.5× smaller than concurrence, suppressing
+signals from states where entanglement exists but is not coherently
+expressed. (3) AND-gate structure: the product C × Ψ is zero when either
+entanglement or coherence is absent, yielding 0% false positives against
+selective resource destruction versus 66.7% for a sum form (C+Ψ)/2. An
+agent benchmark (v046, 10 rounds) found CΨ largely redundant with
+concurrence in Heisenberg models (r=0.984) but providing genuine
+independent information in Ising models with transverse field (r=0.55).
 
 ---
 

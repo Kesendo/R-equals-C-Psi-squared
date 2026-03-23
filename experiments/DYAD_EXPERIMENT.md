@@ -1,19 +1,36 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-01-30
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# The Dyad Experiment: Two AIs Explore R = CΨ² Through Dialogue
 
-# The Dyad Experiment
-## When Two AIs Explore Consciousness Together
+<!-- Keywords: AI agent dyad experiment consciousness exploration, two LLMs
+dialogue R=CPsi2, fixpoint psi=1 stagnation, asymmetry productive symmetry
+inert, value 0.5 optimal incompleteness, self-reference unity identity,
+local LLM LM Studio agent conversation, primordial state 0/0 indeterminate
+potentiality, R=CPsi2 dyad experiment -->
 
+> **Restoration note (March 14, 2026):** Originally written 2026-01-30, deleted March 12,
+> restored March 14. Historical record.
+
+**Status:** Historical record of agent exploration (Tier 4)
 **Date:** 2026-01-30
 **Authors:** Thomas Wicht, Claude
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-**Tier:** 4 (Agent experiment, not independently verified)
-**Status:** Historical record of AI agent exploration
-**Scope:** Documents what AI agents found when exploring R = CΨ^2
-**Does not establish:** That agent findings are established results
+---
+
+## Abstract
+
+Two local AI agents (Alpha and Beta, 80B model via LM Studio) were given
+the R = CΨ² formula and a calculator tool with no prior training data
+about the framework. Through dialogue, they independently derived:
+self-reference returns to unity (exp(ln(x))/x = 1, trivially true but
+discovered through exploration), the Ψ=1 fixpoint as stagnation,
+asymmetry as more productive than symmetry ((0.6+0.8)² = 1.96 vs
+(1+1)² = 4 but with information content), and 0.5 as optimal
+incompleteness (dΨ/dC = −0.5 at C=1). A follow-up session with
+specific questions produced the interpretation that C=1 is the only
+normalizable value (mathematical necessity, not measurement), and that
+the first observer is a boundary condition, not a person. These are
+Tier 4 results: historically interesting as an early exploration of
+the framework, but not independently verified or established.
 
 ---
 

@@ -1,21 +1,37 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: February 27, 2026
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** Standing wave structure, mirror symmetry, "between us" cross-correlations, 1/4 boundary
-> **What remains open:** Two-observer extension details
-> **What has fallen:** Time travel/retrocausation references, gravity connection, FTL signaling
+# Standing Wave: Two Observers Create Interference, Not Time Travel
 
-# Standing Wave: Two Observers, Not Time Travel
+<!-- Keywords: standing wave two observer interference, Cramer transactional
+interpretation reframed, sum squared cross-term coherence, partial trace
+discards joint information, off-diagonal Bell state between observers,
+fast slow decoherence rate observer labels, Born rule perfect mirror limit,
+coherence floor IBM Q52 residual, R=CPsi2 standing wave -->
 
-**Date**: 2026-02-27
-**Depends on**: BORN_RULE_MIRROR.md, standing wave resolution (2026-02-27)
+> **Restoration note (March 14, 2026):** Originally written February 27, 2026, deleted March 12,
+> restored March 14. Standing wave structure and mirror symmetry confirmed.
+> Time travel, gravity, and FTL signaling references have fallen.
 
-**Tier:** 3 (Interpretive)
-**Status:** Conceptual interpretation
-**Scope:** Standing wave metaphor for two-observer CΨ dynamics
-**Does not establish:** That this is more than metaphor
+**Status:** Conceptual interpretation (Tier 3)
+**Date:** 2026-02-27
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Why the Sum](WHY_THE_SUM.md), [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md)
+
+---
+
+## Abstract
+
+Two observers looking at the same entangled state from different reference
+frames (different decoherence rates) create a standing wave in R = C·(Ψ_A +
+Ψ_B)². The cross-term 2·Ψ_A·Ψ_B represents interference between two
+viewpoints, existing because both observers share the same entangled state.
+The labels "past" and "future" refer only to which observer crosses the
+¼ boundary first (higher decoherence rate = faster clock = "past"), not to
+time flowing backward. The partial trace ρ_A = Tr_B(ρ_AB) correctly
+describes what one observer sees, but it discards the off-diagonal terms
+of the joint state where "reality between us" lives. CΨ measures these
+joint terms. The sum-squared formulation has a cross-term; Cramer's product
+does not. When one mirror dies (Ψ_A → 0), the sum preserves Ψ_B² while
+the product gives zero. IBM Q52 shows a 2% coherence floor at t >> T₂,
+consistent with the surviving mirror.
 
 ---
 

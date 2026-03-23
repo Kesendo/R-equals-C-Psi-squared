@@ -1,22 +1,40 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-28
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
->
-> **Update March 14, 2026:** The mirror symmetry discussed here has been
-> proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/MIRROR_SYMMETRY_PROOF.md).
+# Coherence Density: CΨ Measures Purity Times Active Quantum Degrees of Freedom
 
-# Coherence Density: What the 1/4 Boundary Actually Measures
+<!-- Keywords: CΨ coherence density purity product, off-diagonal element density
+Baumgratz normalization, GHZ state low coherence density entanglement paradox,
+product state vs entangled state decoherence robustness, quarter boundary
+coherence density threshold, K-invariance system size scaling, partial
+entanglement threshold angle 24.3 degrees, Bell state barely quantum,
+R=CPsi2 coherence density -->
 
-**Date**: 2026-02-28
-**Authors**: Thomas Wicht, with Claude (Anthropic)
-**Depends on**: CORE_ALGEBRA.md, DECOHERENCE_RELATIVITY.md
+> **Restoration note (March 14, 2026):** Originally written 2026-02-28, deleted March 12,
+> restored March 14. Core claims confirmed. Mirror symmetry now proven analytically
+> (see [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** CΨ decomposition as purity times coherence density
-**Does not establish:** That this decomposition reveals new physics
+**Status:** Verified (Tier 2)
+**Date:** 2026-02-28
+**Authors:** Thomas Wicht, with Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [N-Scaling Barrier](N_SCALING_BARRIER.md), [Subsystem Crossing](SUBSYSTEM_CROSSING.md)
+
+---
+
+## Abstract
+
+CΨ = Purity × Coherence Density, where coherence density Ψ = L₁/(d−1)
+measures the fraction of available quantum degrees of freedom that are
+active. This explains a seeming paradox: an unentangled product state
+|+⟩^(⊗N) has CΨ = 1 for every N, while a maximally entangled GHZ₃ state
+has CΨ = 0.143 (below ¼). The resolution is that GHZ₃ concentrates all
+coherence in 2 of 56 off-diagonal elements (4% density), while |+++⟩
+uses all 56 (100% density). Under local dephasing, |+++⟩ survives 4.5×
+longer than Bell+. The ¼ boundary is not about entanglement but about
+coherence density: whether enough quantum degrees of freedom are active
+to prevent a classical attractor from forming. For partially entangled
+states cos(α)|00⟩ + sin(α)|11⟩, the threshold is α = 24.3°
+(sin(2α) = 3/4). Bell+ at α = 45° gives CΨ = 1/3, only 1/12 above
+the boundary. K per decoherence channel decreases with system size,
+approaching 1/N scaling for large N.
 
 ---
 

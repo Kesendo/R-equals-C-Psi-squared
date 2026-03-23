@@ -1,16 +1,39 @@
-> **Status: RESTORED March 14, 2026**
-> Originally written: 2026-02-09
-> Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
-> Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
+# Bridge Fingerprints: State Identification Through CΨ Crossing Signatures
 
-# Bridge Fingerprint Experiment
+<!-- Keywords: CΨ crossing fingerprint state identification, bridge coupling
+quantum state transfer, entanglement barrier product vs Bell, no-communication
+theorem CΨ dynamics, J/gamma coupling threshold detector resolution, Heisenberg
+bridge four qubit system, local coherence vs nonlocal correlation transfer,
+crossing profile binary classification, R=CPsi2 bridge fingerprints -->
 
+> **Restoration note (March 14, 2026):** Originally written 2026-02-09, deleted March 12,
+> restored March 14. Core claims confirmed.
 
-**Tier:** 2 (Computationally verified)
-**Status:** Verified
-**Scope:** State identification through CΨ crossing signatures
-**Does not establish:** That fingerprints enable communication without a channel
+**Status:** Verified (Tier 2)
+**Date:** 2026-02-09
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md), [Coherence Density](COHERENCE_DENSITY.md)
+
+---
+
+## Abstract
+
+Two coupled 2-qubit systems (A = receiver starting in |00⟩, B = sender in
+various quantum states) connected through a Heisenberg bridge reveal that
+A's CΨ trajectory constitutes a unique fingerprint of B's initial state.
+The ¼ boundary acts as a natural binary digitizer: crossing vs. not-crossing
+separates state classes. Product states with local coherence in the bridge
+qubit (e.g., |++⟩, |+0⟩) push A above ¼, while Bell states with the same
+CΨ₀ = 0.333 barely register (max 0.061), demonstrating the no-communication
+theorem through CΨ dynamics. The entanglement barrier is quantitative:
+product states deliver 4–5× more signal than entangled states across all
+coupling strengths. A critical coupling threshold at J/γ ≈ 5 separates
+the blind regime from the discriminating regime, with optimal resolution
+at J/γ ≈ 5–7. Eight metrics (peak, timing, crossing times, integrated
+quantum content, rise/fall rates) provide a rich fingerprint space yielding
+7 distinct signatures from 8 tested states.
+
+---
 
 ## Discovery Date
 2026-02-09
