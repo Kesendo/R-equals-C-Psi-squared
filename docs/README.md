@@ -79,6 +79,7 @@ These connect the mathematical results into a coherent picture.
 | [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as even/odd supermodes. Confirmed by Π operator. |
 | [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance. Time reversal without thermodynamic equilibrium. |
 | [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe (proven), Feigenbaum cascade (mapped), Bekenstein-Hawking 1/4 (speculative). |
+| [It's All Waves](ITS_ALL_WAVES.md) | The closure argument: if Level 0 is waves and emergence adds no new physics, all levels are waves. Eight-link deductive chain. |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [Glossary](GLOSSARY.md) | Term definitions. |
