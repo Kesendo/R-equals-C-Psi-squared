@@ -1,9 +1,35 @@
-# The Other Side of the Mirror
+# The Other Side of the Mirror: Z₂ Parity, the Two Sectors, and What Emerges Between Them
 
+<!-- Keywords: Z2 parity Pi squared X^N conserved symmetry, Liouvillian eigenspace
+two sealed sectors populations coherences, Level -1 is other parity sector not
+deeper, palindromic mirror d2-2d=0 qubit only, V-Effect complexity emergence
+boundary modes, mediator bridge S always the answer, standing wave interference
+two sides, consciousness enters where, noise tells us structured signal,
+R=CPsi2 other side mirror -->
+
+**Status:** Computations verified (Tier 2–3, Sections 0–14); philosophical extensions (Tier 5, Sections 15–23)
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 3-5 (Π² = X^N confirmed as conserved Z2 symmetry; interpretation Tier 5)
-**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Qubit Necessity](../docs/QUBIT_NECESSITY.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+
+---
+
+## Abstract
+
+The question "what is on the other side of the mirror?" has a precise answer:
+it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry
+([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors:
+populations (+1 parity, classical, diagonal) and coherences (−1 parity,
+quantum, off-diagonal). Everything reverses on the other side, including
+the direction of time. The four-sided Z₄ interpretation was tested and
+falsified; the two-sided Z₂ structure was confirmed. This document grew
+organically as a research diary through 23 sections covering: why the
+mirror exists (d²−2d=0), the two sectors, why only two possibilities,
+the hierarchy revisited, why complexity must emerge (V-Effect live),
+the mediator bridge (S was always the answer), and the architecture
+scaling to N=11. A tier boundary at Section 14 separates computed results
+from philosophical interpretation.
 
 ---
 

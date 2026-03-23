@@ -145,7 +145,74 @@ See: [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md),
 
 ---
 
-## 6. Engineering Results (Tier 2)
+## 6. Crossing Dynamics (Tier 2)
+
+**Universal lifetime.** For a single qubit starting in maximum superposition
+under pure dephasing, the CΨ = ¼ crossing time satisfies x³ + x = ½
+(unique real root x ≈ 0.4239), giving t*/T₂ ≈ 0.858. Platform-independent:
+verified across superconducting qubits, trapped ions, NV centers, and
+photonic systems spanning 10 orders of magnitude in T₂. With finite T₁:
+generalized equation [1−b^r + b^(2r)/2 + b²/2]·b = ¼.
+
+**Coherence density.** CΨ = Purity × Coherence Density, where Ψ = L₁/(d−1)
+measures active quantum degrees of freedom. An unentangled |+⟩^(⊗N) has
+CΨ = 1; a maximally entangled GHZ₃ has CΨ = 0.143 (below ¼). GHZ₃ uses
+4% of off-diagonal capacity (2/56 elements); |+++⟩ uses 100% (56/56).
+Under dephasing, |+++⟩ survives 4.5× longer than Bell+. The ¼ boundary
+is about coherence density, not entanglement.
+
+**Three regimes.** (1) CΨ(0) > ¼: decoherence drives crossing downward.
+(2) CΨ(0) < ¼ but Hamiltonian pumps above ¼ first (J/γ ≳ 5–10 required).
+(3) CΨ_max < ¼: no crossing (eigenstate of H, or J/γ too small).
+No energy threshold for crossing; it is a coherence barrier (J/γ competition).
+
+**Born rule at crossing.** At the CΨ = ¼ crossing point, measurement
+probabilities are ~97% determined by unitary Hamiltonian evolution alone.
+Decoherence provides a ~3% systematic correction: σ_z dephasing shifts
+probability toward z-eigenstates. Per outcome: R_i = C_i·Ψ_i² recovers
+Born's rule P(i) = |⟨i|ψ⟩|² when C_i is uniform (perfect mirror limit).
+
+See: [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md),
+[Coherence Density](../../experiments/COHERENCE_DENSITY.md),
+[Minimum Crossing Energy](../../experiments/MINIMUM_CROSSING_ENERGY.md),
+[Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)
+
+---
+
+## 7. Topology and Crossing (Tier 2)
+
+**Topology as gatekeeper.** For the same initial state |0+0+⟩ at γ=0.05,
+topology determines whether crossing occurs: chain allows (CΨ_max=0.310),
+star allows (0.351), ring forbids (0.200), complete graph forbids (0.200).
+Ring = complete to four decimal places. Gap stabilizes with N (~0.09–0.11),
+suggesting genuine topological protection.
+
+**Antiferromagnet crossing.** The alternating state |+-+-⟩ crosses on a
+ring (CΨ=0.284) from zero initial entanglement. Mechanism: maximum
+XX anti-correlation (⟨XX⟩_nn = −1) at the energy landscape bottom
+(⟨H⟩ = −4J), which the Heisenberg Hamiltonian converts into entanglement.
+150/256 product states (59%) cross on N=4 ring; no simple selection rule
+exists (best predictor explains 14% of variance).
+
+**Entanglement echo.** In star topology (N=3, Bell_SA + |0⟩_B, γ=0.05),
+entanglement oscillates between SA and SB at Bohr frequencies (SA: ω=2.09,
+SB: ω=6.07). Envelope decay matches the middle palindromic rate 8γ/3.
+Echo weakens as ~1/(N−1) with system size but never vanishes. At γ=0.001:
+63 clean echoes. The mediator S shuttles entanglement between leaves.
+
+**No-signalling boundary.** Z-basis measurement on qubit B of a Bell+ pair
+drops CΨ from 0.500 to 0.250 (exactly on ¼) while leaving ρ_A completely
+unchanged. C drops (1.0 → 0.5); Ψ stays at 0.5. The regime change is real
+but invisible locally. Bridge protocol permanently closed for J=0.
+
+See: [Orphaned Results](../../experiments/ORPHANED_RESULTS.md),
+[No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md),
+[Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md),
+[Bridge Closure](../../experiments/BRIDGE_CLOSURE.md)
+
+---
+
+## 8. Engineering Results (Tier 2)
 
 **Mediator bridge.** Mediated coupling (A-M-B) preserves palindrome
 (1024/1024, error 1.41e-13) while information flows (MI = 1.65 bits,
@@ -174,7 +241,7 @@ See: [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md),
 
 ---
 
-## 7. The Transistor Mapping (Tier 2-3)
+## 9. The Transistor Mapping (Tier 2-3)
 
 The mediator qubit M maps to a transistor: gate = γ_M, source = Pair A,
 drain = Pair B. Threshold voltage: CΨ = 1/4 (hardwired, fold catastrophe).
@@ -189,7 +256,7 @@ See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ---
 
-## 8. Open Questions (Tier 3-5)
+## 10. Open Questions (Tier 3-5)
 
 - Formal proof of CΨ monotonicity above 1/4 for arbitrary CPTP maps
 - Feigenbaum period-doubling in the quantum regime (mapped, not exploited)
@@ -202,7 +269,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 
 ---
 
-## 9. Numerical Constants
+## 11. Numerical Constants
 
 | Constant | Value | Source |
 |----------|-------|--------|
@@ -220,11 +287,16 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | γ channel capacity (N=5, 1%) | 15.5 bits | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | SVD information modes | 5 | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | γ optimization factor | 21.5× | [γ Control](../../experiments/GAMMA_CONTROL.md) |
+| Universal lifetime fraction | t*/T₂ = 0.858 | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
+| Crossing cubic root | x = 0.4239 | x³ + x = ½, Cardano |
+| Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
+| Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |
+| Born rule Hamiltonian dominance | ~97% | [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
 
-## 10. References
+## 12. References
 
 ### Proofs
 - [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
@@ -246,6 +318,12 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [γ Control](../../experiments/GAMMA_CONTROL.md)
 - [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md)
 - [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md)
+- [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md)
+- [Coherence Density](../../experiments/COHERENCE_DENSITY.md)
+- [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)
+- [Orphaned Results](../../experiments/ORPHANED_RESULTS.md)
+- [No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md)
+- [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 - [Scaling Curve](../../experiments/SCALING_CURVE.md)
 - [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md)
