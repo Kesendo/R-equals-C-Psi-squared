@@ -1,13 +1,64 @@
-# Π as Time Reversal: The Bridge Between Three Pillars
+# Π as Time Reversal: How the Palindrome Creates a Standing Wave Between Past and Future
 
+<!-- Keywords: Pi operator time reversal open quantum system, palindromic conjugation
+populations coherences, decoherence past future standing wave, Liouvillian time
+reversal rescaled frame, immune sector decaying sector swap, Zurek einselection
+palindrome, XY weight Pauli classification dephasing, quantum classical standing
+wave interference, palindromic spectral symmetry time arrow, R=CPsi2 Pi time
+reversal -->
+
+**Status:** Computationally verified (mathematics proven, physical interpretation standard)
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Tier 1-2 (Mathematics proven, physical interpretation standard)
-**Depends on:** [MIRROR_SYMMETRY_PROOF](../docs/MIRROR_SYMMETRY_PROOF.md), [STANDING_WAVE_ANALYSIS](STANDING_WAVE_ANALYSIS.md), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md),
+[Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md),
+[Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md)
 
 ---
 
-## The Problem
+## Abstract
+
+The conjugation operator Π that generates the palindromic spectral symmetry
+(Π·L·Π⁻¹ = −L − 2Σγ·I) has a concrete physical meaning: it swaps
+populations with coherences at every site. In the Pauli basis under
+Z-dephasing, Π maps the immune sector {I, Z}⊗N (diagonal elements,
+classical probabilities, what has been decided) to the decaying sector
+{X, Y}⊗N (off-diagonal elements, quantum superposition, what is still
+undecided). In the rescaled frame where the uniform decay envelope is
+factored out, this is algebraically identical to time reversal:
+Π maps exp(+μt) to exp(−μt). The standing wave between forward and
+backward modes is the interference of these two sectors: populations
+(past, decided) and coherences (future, undecided) meet in the present.
+ZZZ is always a node (static, classical). XX/YY are always antinodes
+(oscillating, quantum). This connects three independently discovered
+results: the Π operator (March 14), the standing wave theory (December
+2025), and the standing wave computation (March 19).
+
+---
+
+## Background
+
+### What Π does
+
+The conjugation operator Π acts per site on Pauli indices:
+I → X (+1), X → I (+1), Y → iZ (+i), Z → iY (+i).
+It satisfies Π·L·Π⁻¹ = −L − 2Σγ·I, which generates the palindromic
+eigenvalue pairing (proven analytically, verified N=2 through N=8).
+See [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md).
+
+### What populations and coherences are
+
+The density matrix ρ of a quantum system has diagonal elements
+(populations: the probability of being in each state) and off-diagonal
+elements (coherences: the phase relationships between states). Under
+Z-dephasing, populations are immune (they do not decay) and coherences
+decay at rate 2γ per site. In the Pauli basis, populations correspond
+to tensor products of {I, Z} and coherences to products involving
+{X, Y}. The XY-weight (number of X or Y factors) determines the decay
+rate: XY-weight k decays at rate 2kγ.
+
+### What this document shows
 
 Three results existed independently in this repository:
 
@@ -330,17 +381,54 @@ The metaphor was the prediction. The algebra is the proof.
 
 ---
 
-## References
+## Connection to Later Results
 
-- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and proof
-- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): Original conceptual framework
-- [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): Computation: nodes, antinodes, frequencies
-- [The Anomaly](../THE_ANOMALY.md): "The thing that remains is made of the decay"
-- [XOR Space](XOR_SPACE.md): Where information lives between paired modes
-- Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins of the classical." Rev. Mod. Phys. 75, 715.
-- Haga, T. et al. (2023). "Liouvillian skin effect." arXiv:2305.01894. (Incoherenton grading = our XY-weight)
+The **γ–Time Distinction** ([GAMMA_TIME_DISTINCTION](../docs/GAMMA_TIME_DISTINCTION.md))
+tested whether γ and time are identical. The result: γ is the necessary and
+sufficient condition for experienced time (irreversibility, direction,
+decisions), but the formal parameter t exists independently. Π provides
+the algebraic mechanism: it reverses the time arrow in the rescaled frame
+by swapping which sector decays. Without γ, there is no decaying sector,
+and Π has nothing to swap. The standing wave exists only because γ creates
+the two halves (immune and decaying) that Π maps onto each other.
+
+The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) shows
+that the same palindromic mode structure that creates the standing wave
+also functions as an antenna for reading external dephasing profiles.
+The standing wave describes how information oscillates *within* the
+system. The γ channel describes how information enters *from outside*.
+Both depend on the palindromic pairing generated by Π.
+
+The **IBM hardware validation** ([IBM_RUN3_PALINDROME](IBM_RUN3_PALINDROME.md))
+confirmed the CΨ = 1/4 crossing at 1.9%. The standing wave pattern
+predicted here has not yet been measured on hardware (it requires
+multi-qubit tomography, not single-qubit). This is an open experimental
+target.
 
 ---
 
-*"We are all mirrors. Reality is what happens between us."*
-*Now we know what the mirror is. It is Π.*
+## Reproducibility
+
+The Π operator verification and standing wave computation use the
+same Liouvillian eigendecomposition as the
+[Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md). The numerical
+verification (32/32 palindromic pairs confirmed, max residual 2.68×10⁻¹³,
+XY-weight swap exact to 8.88×10⁻¹⁶) is in
+`simulations/pi_time_reversal_verify.py`.
+
+Requirements: Python, QuTiP, NumPy.
+Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
+
+---
+
+## References
+
+- [Mirror Symmetry Proof](../docs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and proof
+- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): Original conceptual framework (December 2025)
+- [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): Computation: nodes, antinodes, frequencies
+- [XOR Space](XOR_SPACE.md): Where information lives between paired modes
+- [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md): Three levels of time, γ as source of the arrow
+- [γ as Signal](GAMMA_AS_SIGNAL.md): The palindromic mode structure as information channel
+- [IBM Run 3](IBM_RUN3_PALINDROME.md): Hardware validation of CΨ = 1/4 at 1.9%
+- Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins of the classical." Rev. Mod. Phys. 75, 715.
+- Haga, T. et al. (2023). "Liouvillian skin effect." arXiv:2305.01894. (Incoherenton grading = our XY-weight)
