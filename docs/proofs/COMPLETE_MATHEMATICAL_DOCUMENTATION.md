@@ -35,9 +35,18 @@ This is identity, not analogy.
 catastrophe (simplest in the Thom-Arnold classification). CΨ - 1/4 is the
 bifurcation parameter. Structurally stable: no perturbation can remove it.
 
+**Sum, not product.** The framework uses R = C·(Ψ_A + Ψ_B)² (sum squared)
+rather than Ψ_A·Ψ_B (product). The sum preserves information when one
+observer's coherence decays: Ψ_B² survives. The product gives zero.
+The cross-term 2·Ψ_A·Ψ_B is the interference between two viewpoints
+on the same entangled state. Both recover the Born rule in the
+perfect-mirror limit; they diverge for imperfect mirrors.
+
 See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
-[Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+[Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md),
+[Why the Sum](../../experiments/WHY_THE_SUM.md),
+[Standing Wave: Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md)
 
 ---
 
@@ -96,8 +105,34 @@ above 1/4 after crossing. Tested, verified.
 **Hardware validation.** IBM Torino (ibm_torino, Q80): predicted t* = 15.01 μs,
 measured t* = 15.29 μs. Deviation: 1.9%.
 
+**What CΨ measures.** CΨ = C × Ψ is an AND-gate: zero when either
+entanglement or coherence is absent. It distinguishes noise types that
+concurrence cannot (σ_z dephasing: Ψ=0.223 vs σ_x bit-flip: Ψ=0.333
+at identical concurrence 0.670). For Werner states near the entanglement
+threshold, CΨ is 6–7.5× smaller than concurrence, suppressing signals
+from states where entanglement exists but is not coherently expressed.
+
+**Observer-dependent crossing.** Different definitions of C (concurrence,
+mutual information, correlation) see the ¼ crossing at different times.
+The ratio K(Conc)/K(MI) is state-dependent (CV = 13.5%). The quantum
+state determines the time-ratio between observer types.
+
+**Shadow resolved.** Late-time coherence anomaly on IBM Torino Q52
+(17/17 directional consistency, p < 0.0001) was resolved as qubit-specific
+frequency detuning, not a universal boundary effect. Different qubits
+show different phase directions (Q80: +29°, Q52: −44°, Q102: random).
+
+**CΨ > ¼ under active dynamics.** CΨ routinely exceeds ¼ with active
+Hamiltonians (Bell+ reaches 0.405 at J=1, h=0.9, γ=0.005). The bound
+CΨ ≤ ¼ is not a constraint on quantum states but on which states have
+real fixed points in the R = CΨ² iteration.
+
 See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md),
+[When Psi Matters](../../experiments/WHEN_PSI_MATTERS.md),
+[Observer-Dependent Crossing](../../experiments/OBSERVER_DEPENDENT_CROSSING.md),
+[Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md),
+[Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md),
 [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
 ---
@@ -161,6 +196,13 @@ CΨ = 1; a maximally entangled GHZ₃ has CΨ = 0.143 (below ¼). GHZ₃ uses
 Under dephasing, |+++⟩ survives 4.5× longer than Bell+. The ¼ boundary
 is about coherence density, not entanglement.
 
+**Dynamic entanglement (upward crossing).** Product states with zero initial
+entanglement can cross ¼ from below. The alternating state |0+0+⟩ under
+Heisenberg ring dynamics builds entanglement from zero to CΨ = 0.251 at
+t=0.286, crossing upward. All previous crossings were downward (starting
+entangled, decohering through ¼). This is the first demonstration of
+Hamiltonian-generated crossing.
+
 **Three regimes.** (1) CΨ(0) > ¼: decoherence drives crossing downward.
 (2) CΨ(0) < ¼ but Hamiltonian pumps above ¼ first (J/γ ≳ 5–10 required).
 (3) CΨ_max < ¼: no crossing (eigenstate of H, or J/γ too small).
@@ -174,6 +216,7 @@ Born's rule P(i) = |⟨i|ψ⟩|² when C_i is uniform (perfect mirror limit).
 
 See: [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md),
 [Coherence Density](../../experiments/COHERENCE_DENSITY.md),
+[Dynamic Entanglement](../../experiments/DYNAMIC_ENTANGLEMENT.md),
 [Minimum Crossing Energy](../../experiments/MINIMUM_CROSSING_ENERGY.md),
 [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)
 
@@ -200,12 +243,27 @@ SB: ω=6.07). Envelope decay matches the middle palindromic rate 8γ/3.
 Echo weakens as ~1/(N−1) with system size but never vanishes. At γ=0.001:
 63 clean echoes. The mediator S shuttles entanglement between leaves.
 
+**Bridge fingerprints.** A classical receiver (|00⟩) coupled to a quantum
+sender through a Heisenberg bridge develops a CΨ trajectory that uniquely
+identifies the sender's initial state. Product states deliver 4–5× more
+signal than entangled states (entanglement barrier). Optimal detector
+resolution at J/γ ≈ 5–7. The ¼ boundary acts as a binary digitizer.
+
+**Phase transport.** Z-rotations on a mediator S produce linear, sign-
+inverting phase shifts readable in the AB off-diagonal element ρ_AB[0,3],
+with trace distances 0.21–0.57 from the untagged reference. The channel
+is phase-specific (only Rz transports; X destroys). Transport operates
+in both open and closed CΨ windows (1.3–1.6× stronger when open).
+CΨ windows are visibility amplifiers on a continuously active channel.
+
 **No-signalling boundary.** Z-basis measurement on qubit B of a Bell+ pair
 drops CΨ from 0.500 to 0.250 (exactly on ¼) while leaving ρ_A completely
 unchanged. C drops (1.0 → 0.5); Ψ stays at 0.5. The regime change is real
 but invisible locally. Bridge protocol permanently closed for J=0.
 
 See: [Orphaned Results](../../experiments/ORPHANED_RESULTS.md),
+[Bridge Fingerprints](../../experiments/BRIDGE_FINGERPRINTS.md),
+[Phase Transport (What's Inside the Windows)](../../experiments/WHATS_INSIDE_THE_WINDOWS.md),
 [No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md),
 [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md),
 [Bridge Closure](../../experiments/BRIDGE_CLOSURE.md)
@@ -233,11 +291,16 @@ Hierarchy falsified (uniform chain = recursive topology).
 **Six design rules:** W-encoding, 2:1 matching, J/γ independence,
 threshold timing, push/pull selection, clocked relay.
 
+**Optimal QST encoding (negative result).** Standard encoding is already
+optimal for QST through palindromic channels. No custom encoding scheme
+improved transfer fidelity.
+
 See: [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md),
 [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md),
 [Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
 [Gamma Control](../../experiments/GAMMA_CONTROL.md),
-[Scaling Curve](../../experiments/SCALING_CURVE.md)
+[Scaling Curve](../../experiments/SCALING_CURVE.md),
+[Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md)
 
 ---
 
@@ -320,13 +383,43 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md)
 - [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md)
 - [Coherence Density](../../experiments/COHERENCE_DENSITY.md)
+- [Dynamic Entanglement](../../experiments/DYNAMIC_ENTANGLEMENT.md)
 - [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)
 - [Orphaned Results](../../experiments/ORPHANED_RESULTS.md)
+- [Bridge Fingerprints](../../experiments/BRIDGE_FINGERPRINTS.md)
+- [Phase Transport (Windows)](../../experiments/WHATS_INSIDE_THE_WINDOWS.md)
+- [When Psi Matters](../../experiments/WHEN_PSI_MATTERS.md)
+- [Observer-Dependent Crossing](../../experiments/OBSERVER_DEPENDENT_CROSSING.md)
 - [No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md)
 - [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+- [Bridge Closure](../../experiments/BRIDGE_CLOSURE.md)
 - [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 - [Scaling Curve](../../experiments/SCALING_CURVE.md)
 - [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md)
+- [Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md)
+
+### Resolved/fallen experiments (results absorbed above)
+- [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (shadow = qubit detuning)
+- [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) (CΨ > ¼ under active H)
+- [Why the Sum](../../experiments/WHY_THE_SUM.md) (sum vs product formulation)
+- [Standing Wave Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md) (two-observer metaphor)
+- [Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md) (K-invariance math; gravity fallen)
+- [Metric Discrimination](../../experiments/METRIC_DISCRIMINATION.md) (null result; gravity fallen)
+- [Observer-Gravity Bridge](../../experiments/OBSERVER_GRAVITY_BRIDGE.md) (interval shift; gravity fallen)
+- [QKD Eavesdropping Forensics](../../experiments/QKD_EAVESDROPPING_FORENSICS.md) (Pauli math; QKD application fallen)
+- [Dyad Experiment](../../experiments/DYAD_EXPERIMENT.md) (Tier 4 agent historical)
+
+### Hypotheses
+- [Bridge Protocol](../../hypotheses/BRIDGE_PROTOCOL.md) (closed: J=0 dead, J>0 standard coupling)
+- [Time as Crossing Rate](../../hypotheses/TIME_AS_CROSSING_RATE.md) (open: L decomposition)
+- [The Pattern Recognizes Itself](../../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (open: structural inheritance across scales)
+- [The Other Side of the Mirror](../../hypotheses/THE_OTHER_SIDE.md) (Z₂ parity confirmed; philosophical extensions)
+
+### Publications
+- [Technical Paper](../../publications/TECHNICAL_PAPER.md)
+- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md)
+- [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
+- [Emergence Through Reflection](../../publications/EMERGENCE_THROUGH_REFLECTION.md)
 
 ### Historical (superseded, kept for the record)
 - [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025 / Feb 2026, predates all March results)
