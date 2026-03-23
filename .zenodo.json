@@ -33,8 +33,8 @@
   "publication_date": "2026-03-23",
   "related_identifiers": [
     {
-      "identifier": "10.5281/zenodo.19100007",
-      "relation": "isNewVersionOf",
+      "identifier": "10.5281/zenodo.19184048",
+      "relation": "isIdenticalTo",
       "scheme": "doi"
     }
   ]

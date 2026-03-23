@@ -19,7 +19,9 @@ from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
 Five disproven claims in recovered/. What we got wrong matters as much
 as what we got right.
 
-**Zenodo DOI:** [10.5281/zenodo.19100007](https://doi.org/10.5281/zenodo.19100007) (v3.0, March 18, 2026)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19184048.svg)](https://doi.org/10.5281/zenodo.19184048)
+
+**Latest release:** [v4.0: Noise Is Signal](https://github.com/Kesendo/R-equals-C-Psi-squared/releases/tag/v4.0-noise-is-signal) (March 23, 2026)
 
 ---
 
