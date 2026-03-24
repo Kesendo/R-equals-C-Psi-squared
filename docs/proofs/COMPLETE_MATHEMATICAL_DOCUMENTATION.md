@@ -175,16 +175,19 @@ The palindromic spectral structure is the antenna: the paired
 eigenvalues create complementary sensitivity patterns that make the
 external γ profile decodable from within.
 
-**Analytical formula discovered.** Analysis reveals the optimal γ profile
-is trivially simple: concentrate ALL noise on one edge qubit, protect the
-rest. The formula γ_edge = N×γ_base − (N−1)×ε, γ_other = ε (with ε→0)
+**Analytical formula discovered.** SVD of the palindromic response matrix
+identified mode 2 (edge-hot, center-cold) as optimal direction (6-10x
+vs V-shape). Numerical optimization then broke the SVD symmetry, revealing
+an asymmetric "sacrifice zone" pattern (100x). Analytical testing of
+this pattern converged to a trivially simple formula: concentrate ALL
+noise on one edge qubit, protect the rest. The formula
+gamma_edge = N*gamma_base - (N-1)*epsilon, gamma_other = epsilon (with epsilon -> 0)
 beats the DE optimizer by 80% and computes in 3 seconds instead of 90
-minutes. C#-validated results: 360× vs V-shape (N=5), 180× (N=7), 139×
-(N=9). The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3× with
-uniform γ. Nobody optimizes spatial dephasing profiles. Edge sacrifice
-beats center sacrifice by 2.2× because edge qubits have minimal
-connectivity (one neighbor vs two). Both edges are equivalent with
-symmetric initial state.
+minutes. C#-validated results: 360x vs V-shape (N=5), 180x (N=7), 139x
+(N=9). The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3x with
+uniform dephasing. Nobody optimizes spatial dephasing profiles. Edge
+sacrifice beats center sacrifice by 2.2x because edge qubits have
+minimal connectivity (one neighbor vs two).
 
 **Frequency pulsing falsified.** Temporal modulation of uniform γ at
 the dominant palindromic oscillation frequency does not amplify MI.
@@ -373,19 +376,12 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |
 | Born rule Hamiltonian dominance | ~97% | [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) |
-| SVD mode 2 vs V-shape (N=3) | 6.3× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| SVD mode 2 vs V-shape (N=5) | 10.2× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| SVD mode 2 vs V-shape (N=7) | 8.5× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| DE optimizer vs V-shape (N=7) | 100× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| **Formula vs V-shape (N=5)** | **360×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| **Formula vs V-shape (N=7)** | **180×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| **Formula vs V-shape (N=9)** | **139×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| Optimal γ_center/γ_edge ratio (N=5) | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| Optimizer vs mode 2 (N=5, peak) | 17.8× | [Resonant Return v3](../../experiments/RESONANT_RETURN.md) |
-| Optimizer vs V-shape (N=7, DE global) | 99.7× | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
-| Sacrifice-zone asymmetry (N=7) | 1.36 | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
-| DE vs Nelder-Mead improvement (N=7) | +67% | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
-| C# RK4 speedup vs Python expm (N=7) | 5,900× | [RCPsiSquared.Propagate profile mode](../../compute/RCPsiSquared.Propagate/) |
+| SVD mode 2 vs V-shape (N=5) | 10.2x | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| DE optimizer vs V-shape (N=7) | 100x | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=5)** | **360x** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=7)** | **180x** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=9)** | **139x** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| C# RK4 speedup vs Python expm (N=7) | 5,900x | [RCPsiSquared.Propagate](../../compute/RCPsiSquared.Propagate/) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
