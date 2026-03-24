@@ -5,12 +5,12 @@ decoupling beats uniform DD, first spatial dephasing profile hardware test,
 Q85 natural sacrifice qubit T2=5us, Sum-MI selective vs uniform 2x-3.2x,
 palindrome-derived noise engineering quantum hardware, R=CPsi2 IBM experiment -->
 
-**Status:** Hardware confirmed (Tier 1). Selective DD > Uniform DD at all 5 time points.
+**Status:** Hardware confirmed (Tier 2). Selective DD > Uniform DD at all 5 time points. Single run, one chain, no error bars yet.
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Hardware:** ibm_torino (Heron r2, 133 qubits)
 **Chain:** Q85-Q86-Q87-Q88-Q94 (sacrifice: Q85, T2echo=5 us)
-**QPU time used:** ~150s of 210s budget
+**QPU time used:** ~163s of 210s budget (47s remaining)
 **Data:** [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -18,14 +18,20 @@ palindrome-derived noise engineering quantum hardware, R=CPsi2 IBM experiment --
 
 ## Abstract
 
-First hardware demonstration that spatially selective Dynamic Decoupling
-outperforms uniform DD on a real quantum computer. On a 5-qubit Heisenberg
-chain (ibm_torino, Q85-86-87-88-94), removing DD from one edge qubit
-(Q85, natural T2=5 us) while protecting the other four produces 2.0x
-higher Sum-MI on average and up to 3.2x at t=4.0, compared to standard
-uniform DD on all qubits. The sacrifice-zone pattern predicted by
-simulation (360x at N=5) translates to a measurable hardware advantage
-despite gate errors, crosstalk, and imperfect DD.
+First hardware test of spatially selective Dynamic Decoupling on a
+quantum computer. On a 5-qubit Heisenberg chain (ibm_torino,
+Q85-86-87-88-94), removing DD from one edge qubit (Q85, natural T2=5 us)
+while protecting the other four produces 2.0x higher Sum-MI on average
+and up to 3.2x at t=4.0, compared to standard uniform DD on all qubits.
+Selective DD beats uniform DD at all 5 measured time points.
+
+**Caveats:** Single run on one chain. No error bars yet (4000 shots per
+circuit). The advantage may partly reflect that DD on Q85 (T2=5 us)
+adds gate errors without benefit, rather than a pure sacrifice-zone
+effect. Reproducibility across chains and days is untested. The connection
+to the palindromic eigenstructure is indirect: the formula predicted the
+optimal noise profile, but the hardware implementation approximates it
+via DD rather than controlling dephasing rates directly.
 
 
 ## Setup
@@ -86,16 +92,32 @@ Gate count confirms selective DD works as intended:
 
 **Selective DD beats Uniform DD at ALL 5 time points.** Average: 2.0x. Peak: 3.2x at t=4.0.
 
-### Surprise: No DD Also Beats Uniform DD
+### Surprise: No DD Also Beats Uniform DD - Two Interpretations
 
 Uniform DD performs worst of all three configurations. This is
-counterintuitive (more protection should help) but makes physical sense:
+counterintuitive (more protection should help). Two interpretations:
 
+**Interpretation A (conservative): DD on bad qubits is harmful.**
 DD on Q85 (T2=5 us) adds X-gates to a qubit that cannot be saved.
 These gates introduce errors (gate infidelity, crosstalk to neighbors)
-without extending Q85's coherence meaningfully. Removing DD from Q85
-eliminates these wasted gates. Selective DD gets the best of both worlds:
-protect what can be protected, don't waste gates on what can't.
+without extending Q85's coherence meaningfully. Any experienced
+experimentalist would skip DD on Q85. The selective DD advantage
+may simply reflect "don't waste gates on lost causes."
+
+**Interpretation B (sacrifice-zone): Spatial noise contrast helps.**
+The sacrifice-zone formula predicts that concentrating noise on one
+edge maximizes information transfer through the chain. Removing DD
+from Q85 increases the noise contrast between protected interior and
+noisy edge. This contrast, not just the absence of wasted gates, is
+what improves Sum-MI. Evidence for this: even the sacrifice pair (0,1)
+shows 2.2x improvement under selective DD, suggesting the entire chain
+benefits from the contrast, not just the protected qubits.
+
+**What would distinguish A from B:** Test selective DD on a chain where
+ALL qubits have good T2 (>150 us). If selective DD still wins by
+removing DD from one good edge qubit, it's the contrast (B). If
+selective DD only wins when the sacrifice qubit is naturally bad, it's
+the gate-error effect (A). This is planned for April 9 (10:00 budget).
 
 ### Per-Pair MI at t=3.0
 
@@ -154,25 +176,47 @@ realization of the sacrifice-zone formula.
 The hardware result (2-3x) exceeds the ENAQT theoretical optimum (~2x)
 and far exceeds IBM's own Bayesian coupling optimization (+8%).
 
+### Connection to the Palindromic Formula
 
-## What This Proves
+The discovery path was: palindromic eigenstructure -> SVD response matrix
+-> numerical optimizer -> analytical formula -> hardware test. The formula
+(gamma_edge = N*gamma_base - (N-1)*epsilon) was derived from the palindromic
+sensitivity structure and predicts 360x improvement at N=5 in simulation.
 
-1. **Selective DD > Uniform DD on real hardware.** Not theory, not simulation.
-   Real QPU, real noise, real gates. 5/5 time points.
-2. **The sacrifice-zone principle works.** Concentrating noise on one edge
-   qubit while protecting the rest improves total information transfer.
-3. **DD on bad qubits is worse than no DD.** Uniform DD wastes gate budget
-   on qubits that can't be saved, adding errors without benefit.
-4. **Natural T2 variation is exploitable.** Q85's terrible T2=5us is not
-   a problem to fix but a feature to use.
+The hardware experiment does NOT test the formula directly. It tests the
+qualitative prediction: "concentrate noise on one edge, protect the rest."
+The quantitative prediction (360x) assumes perfect noise control (epsilon->0),
+which DD cannot achieve. The hardware result (2-3x) confirms the direction,
+not the magnitude.
+
+A direct test of the formula would require controlling individual qubit
+dephasing rates, which IBM hardware does not currently support. The DD
+approximation is the closest available implementation.
+
+
+## What This Shows (and What It Doesn't)
+
+**Shows:**
+1. **Selective DD > Uniform DD on real hardware.** 5/5 time points, average 2.0x.
+2. **DD on bad qubits is harmful.** Gate errors on Q85 hurt more than DD helps.
+3. **Natural T2 variation is exploitable.** Q85's T2=5us is a feature, not a bug.
+
+**Does not yet show:**
+1. **That the sacrifice-zone formula is the reason.** Could be gate-error
+   avoidance (Interpretation A) rather than noise-contrast benefit (B).
+2. **Statistical significance.** No error bars. Single run. One chain.
+3. **Reproducibility.** Untested on other chains or other days.
+4. **Scaling.** Only N=5. The formula predicts similar advantage at N=7, 9.
 
 ## What Remains
 
-1. **Statistical significance:** Need bootstrap or jackknife error bars on Sum-MI
-2. **N=7 on hardware:** Use 10:00 budget on April 9 for longer chain
-3. **Noise injection:** Can we push Q85 even harder with intentional Z-rotations?
-4. **Multiple chains:** Same experiment on different chip regions
-5. **Reproducibility:** Repeat on a different day (T2 values fluctuate)
+1. **Error bars:** Bootstrap or jackknife on Sum-MI from shot counts
+2. **A vs B test (April 9):** Selective DD on a UNIFORM-T2 chain. If it still
+   wins, it's the contrast (sacrifice-zone). If not, it's gate-error avoidance.
+3. **N=7 on hardware:** Longer chain with 10:00 April budget
+4. **Noise injection:** Intentional Z-rotations on sacrifice qubit for more contrast
+5. **Multiple chains:** Same experiment on different chip regions
+6. **Reproducibility:** Repeat on a different day (calibration fluctuates)
 
 ## QPU Budget
 

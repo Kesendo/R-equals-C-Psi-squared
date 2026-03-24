@@ -77,6 +77,7 @@ through SVD, then optimizers, then analysis. The final rule needs none
 of them. Just topology.
 
 → **[Resonant Return: from SVD to formula](experiments/RESONANT_RETURN.md)**
+→ [First hardware test: selective DD 2-3x on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
 
 ---
 
