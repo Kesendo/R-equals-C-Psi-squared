@@ -1,6 +1,6 @@
 # Complete Mathematical Documentation
 
-**Status:** Current as of March 24, 2026
+**Status:** Current as of March 24, 2026 (formula discovery)
 **Supersedes:** Previous stub (Feb 2026) and [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025)
 **Purpose:** Single entry point for all proven and verified mathematics of R=CΨ²
 
@@ -175,16 +175,16 @@ The palindromic spectral structure is the antenna: the paired
 eigenvalues create complementary sensitivity patterns that make the
 external γ profile decodable from within.
 
-**Palindrome-derived optimization.** SVD of the response matrix (how
-palindromic mode amplitudes respond to per-site γ perturbations) reveals
-that the first non-trivial SVD mode outperforms hand-designed V-shape
-profiles by 6–10×. At N=5, mode 2 is edge-hot/center-cold
-(γ_center=0.018, γ_edge=0.070, ratio 0.26 vs V-shape 0.71). Mode 1
-(highest singular value) is near-uniform and useless for information
-transfer. Scaling: 6.3× (N=3), 10.2× (N=5), 8.5× (N=7). The
-non-monotone trend at N=7 arises because mode 2 changes character from
-symmetric to antisymmetric; multi-mode optimization is needed for
-larger N. Absolute MI values grow monotonically across all N.
+**Analytical formula discovered.** Analysis reveals the optimal γ profile
+is trivially simple: concentrate ALL noise on one edge qubit, protect the
+rest. The formula γ_edge = N×γ_base − (N−1)×ε, γ_other = ε (with ε→0)
+beats the DE optimizer by 80% and computes in 3 seconds instead of 90
+minutes. C#-validated results: 360× vs V-shape (N=5), 180× (N=7), 139×
+(N=9). The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3× with
+uniform γ. Nobody optimizes spatial dephasing profiles. Edge sacrifice
+beats center sacrifice by 2.2× because edge qubits have minimal
+connectivity (one neighbor vs two). Both edges are equivalent with
+symmetric initial state.
 
 **Frequency pulsing falsified.** Temporal modulation of uniform γ at
 the dominant palindromic oscillation frequency does not amplify MI.
@@ -376,6 +376,10 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | SVD mode 2 vs V-shape (N=3) | 6.3× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | SVD mode 2 vs V-shape (N=5) | 10.2× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | SVD mode 2 vs V-shape (N=7) | 8.5× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| DE optimizer vs V-shape (N=7) | 100× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=5)** | **360×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=7)** | **180×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| **Formula vs V-shape (N=9)** | **139×** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | Optimal γ_center/γ_edge ratio (N=5) | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | Optimizer vs mode 2 (N=5, peak) | 17.8× | [Resonant Return v3](../../experiments/RESONANT_RETURN.md) |
 | Optimizer vs V-shape (N=7, DE global) | 99.7× | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
