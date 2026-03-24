@@ -7,7 +7,7 @@ fallen claims gravity consciousness FTL, living document research integrity,
 R=CPsi2 weaknesses open questions -->
 
 **Status:** Living document (Meta)
-**Date:** January 2, 2026 (rewritten February 8, updated March 6, 2026)
+**Date:** January 2, 2026 (rewritten February 8, updated March 24, 2026)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
@@ -18,7 +18,7 @@ Honest documentation of what the R = CΨ² framework does not know, where
 it has been wrong, and what would falsify it. Covers five corrected errors
 (Mandelbrot substitution, θ frequency 8.4x discrepancy, 33:1 C_int/C_ext
 ratio, t_coh scaling, CΨ ≤ ¼ bound), scope boundaries (dephasing-only,
-qubit-only, N ≤ 8), the Baumgratz convention dependence, and 15 open
+qubit-only, N <= 9), the Baumgratz convention dependence, and 16 open
 research questions. A living document updated as claims are tested.
 
 ---
@@ -292,6 +292,38 @@ See [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) and
 **Status:** Resolved. The barrier is not a weakness but a correct physical
 prediction: the quantum-to-classical transition is local.
 
+### 10. Sacrifice-Zone Formula: Limitations (Added 2026-03-24)
+
+The closed-form formula for optimal spatial dephasing profiles (concentrate all
+noise on one edge qubit) achieves 139-360x improvement over V-shape profiles.
+But it has several limitations that must be stated honestly:
+
+**Not validated on hardware.** The formula is validated numerically (C# RK4
+propagation), not experimentally. An IBM hardware experiment with selective
+dynamical decoupling (protect N-1 qubits, sacrifice 1) is planned but not
+executed. Real hardware may have constraints (T2 crosstalk, pulse errors)
+that degrade the improvement.
+
+**Tested only with |+>^N initial state.** All formula results use the product
+state |+>^N. The Bell-state initial condition has not been tested. The formula
+may not be optimal for other initial states.
+
+**Assumes fixed mean(gamma) constraint.** The formula optimizes under the
+constraint that the average dephasing rate is fixed. Real hardware has different
+constraints: per-qubit T2 values, dynamical decoupling effectiveness that
+varies across the chip, minimum achievable noise floors.
+
+**Improvement factor decreases with N.** The improvement drops from 360x (N=5)
+to 180x (N=7) to 139x (N=9). Whether this continues to decrease, stabilizes,
+or has a minimum at some N is unknown.
+
+**No formal proof of optimality.** The formula beats all numerical optimizers
+tested, but there is no analytical proof that it is the global optimum. It
+could be a very good local optimum that a different approach would beat.
+
+**Status:** Strong numerical evidence. Hardware validation, broader initial
+states, and formal optimality proof needed.
+
 ---
 
 ## Open Questions (Prioritized)
@@ -305,6 +337,8 @@ prediction: the quantum-to-classical transition is local.
 3. ~~**Multi-qubit crossing order:**~~ **Further answered (2026-03-06).** Star topology (3-qubit S+A+B) shows that pair-level crossing depends on topology, not just state: Bell_SA pairs cross, AB pair crosses only under three conditions (strong sender, quiet receiver, right initial state). The question is no longer "do pairs cross" but "which pairs, under what conditions." See [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md).
 
 4. **Why operator feedback?** Run identical setups with all noise types. Track δ(t), C(t), Ψ(t) separately. Find the mechanism.
+
+5. ~~**Can spatial gamma profiles be optimized?**~~ **Resolved (2026-03-24).** Yes. A closed-form formula concentrates all noise on one edge qubit: gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape. Beats DE optimizer by 80% in 3 seconds vs 90 minutes. ENAQT literature achieves 2-3x with uniform noise. First spatial dephasing profile optimization. See [Resonant Return](../experiments/RESONANT_RETURN.md).
 
 ### Medium-term (require new analysis or tools)
 
@@ -330,7 +364,9 @@ prediction: the quantum-to-classical transition is local.
 
 14. **Repeater design rules (added 2026-03-16):** The XOR space analysis suggests concrete design rules for quantum repeaters: W-encoding over GHZ, avoid mixed XY Pauli weight, star topology with 2:1 coupling. These are testable engineering predictions. Can they be validated against existing repeater benchmarks?
 
-15. **Depolarizing noise corrections (added 2026-03-18):** Under depolarizing noise (X+Y+Z), the palindrome breaks with err = γ · 2(N-2)/3. This is linear in γ (not quadratic like cross-term breaking). For practical hardware (γ ~ 0.001), the error is < 0.1%. Can this systematic correction be incorporated into the design rules as a quantitative fidelity adjustment?
+15. **Formula scaling and optimality (added 2026-03-24):** The sacrifice-zone formula improvement decreases with N (360x -> 180x -> 139x). Does this stabilize? Is there a minimum N beyond which improvement grows again? And: is the formula provably optimal, or could a multi-site sacrifice strategy beat single-edge sacrifice at large N? Answering this requires either an analytical proof or testing at N >= 11 (currently limited by C# propagation time).
+
+16. **Depolarizing noise corrections (added 2026-03-18):** Under depolarizing noise (X+Y+Z), the palindrome breaks with err = γ · 2(N-2)/3. This is linear in γ (not quadratic like cross-term breaking). For practical hardware (γ ~ 0.001), the error is < 0.1%. Can this systematic correction be incorporated into the design rules as a quantitative fidelity adjustment?
 
 ---
 
@@ -379,15 +415,17 @@ prediction: the quantum-to-classical transition is local.
 | Compatibility matrix (36/36) | **Verified** | 17 uniform + 3 non-uniform + 2 non-local Π. 14 broken = exact match numerical. |
 | Depol breaks palindrome | **Verified** | err = γ · 2(N-2)/3. Hamiltonian-independent. Linear in γ and N. |
 | Hardware crossing (Q80) | **Verified** | CΨ=1/4 at t*=15.29 us, predicted 15.01 us (1.9% deviation with same-day T2*) |
+| Sacrifice-zone formula (edge sacrifice) | **Verified** | C# RK4: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape. Beats DE optimizer 80%. |
+| ENAQT comparison (first spatial optimization) | **Verified** | Literature: 2-3x uniform. IBM Bayesian: +8%. Ours: 139-360x spatial. |
 | T2* drift matters | **Confirmed** | T2* fluctuates 58% in 6 days. Same-day Ramsey essential for predictions. |
 
 ---
 
-## The Most Honest Statement (Updated March 16, 2026)
+## The Most Honest Statement (Updated March 24, 2026)
 
 After three months of computation, three external reviews, and a weekend that produced a proof, a DOI, and two new discoveries, the project has its clearest identity yet.
 
-The strongest results from March 14-16, 2026:
+The strongest results from March 14-24, 2026:
 
 **The palindromic Liouvillian symmetry is proven.** The conjugation operator Π maps every decay rate d to 2Σγ-d. This holds for every Heisenberg system under Z-dephasing, every topology, every system size tested (N=2-8, up to 65536x65536 Liouvillian). It connects to the incoherenton framework (Haga et al. 2023) via Pauli weight complementarity: Π is the particle-hole transformation in incoherenton space.
 
@@ -397,7 +435,9 @@ The strongest results from March 14-16, 2026:
 
 **An honest negative result.** A palindromic symmetry search on Breakthrough Listen radio telescope data showed that spiral galaxies are inherently spectrally symmetric. The detector worked (it distinguished galaxies from point sources) but was too coarse to isolate artificial signatures from astrophysical structure.
 
-CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise entanglement. The consciousness interpretation is retired from the technical core. The algebra is correct, the simulations are reproducible, the palindrome is proven, and the engineering implications (repeater design rules) are concrete.
+**A closed-form formula for spatial dephasing optimization.** Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9) vs hand-designed V-shape profiles. Beats the best numerical optimizer by 80% in 3 seconds instead of 90 minutes. The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3x with uniform dephasing. Nobody had optimized spatial dephasing profiles before. Not yet validated on hardware. See [Resonant Return](../experiments/RESONANT_RETURN.md).
+
+CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise entanglement. The consciousness interpretation is retired from the technical core. The algebra is correct, the simulations are reproducible, the palindrome is proven, and the engineering implications (repeater design rules, sacrifice-zone formula) are concrete.
 
 Emails have been sent to two research groups (Haga/Nakagawa at Osaka/Tokyo for the incoherenton connection, Nichol at Rochester for experimental QST). Zenodo v2.0 published. Awaiting responses.
 
@@ -416,4 +456,5 @@ See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 *March 14, 2026 (updated: mirror symmetry PROVEN, conjugation operator Π found, analytical proof complete)*
 *March 16, 2026 (updated: QST bridge verified, XOR space discovered, palindromic radio negative result, theta reinterpreted as channel indicator, repeater design rules proposed)*
 *March 18, 2026 (updated: Non-Heisenberg palindrome verified for all standard models. Two Π families + alternating operators found algebraically. Depolarizing noise breaks at err~gamma*2(N-2)/3. N=8 verified 54118 rates 100% paired. XOR universal for all models. Bell correction. IBM hardware: CΨ=1/4 crossing validated at 1.9% with same-day T2*.)*
+*March 24, 2026 (updated: sacrifice-zone formula discovered. 139-360x vs V-shape. First spatial dephasing profile optimization. New weakness #10 + open question #15 added. Formula not yet validated on hardware.)*
 *Honesty belongs to the framework*
