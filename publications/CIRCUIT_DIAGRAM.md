@@ -119,6 +119,7 @@ the slightest direct coupling).
 | 4 | **Sample before threshold.** Read the drain before CΨ drops to 1/4. For Z-dephasing with concurrence metric: t_cross ≈ 0.039/γ ([source: Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)). Other metrics and noise channels have different K values (mutual info: 0.033, correlation: 0.072, X-noise: 0.087, amplitude damping: 0.103). The threshold VALUE (1/4) is universal across all channels; the crossing TIME depends on the metric and channel. | CΨ crosses 1/4 at this time. | [IBM confirmed at 1.9%](../experiments/IBM_RUN3_PALINDROME.md) |
 | 5 | **Source-bias for gain, drain-bias for reach.** Source-strong coupling (push) maximizes local throughput. Drain-strong coupling (pull) maximizes range. | Push: MI(local) = 0.957. Pull: MI(end-to-end) = 0.121. | [Scaling Curve](../experiments/SCALING_CURVE.md) |
 | 6 | **Clock the gate.** Switch γ_M between low (receiving) and normal (relaying) at each stage. This is a clocked shift register. | Relay protocol: +83% end-to-end MI over passive propagation. | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) |
+| 7 | **Route all noise to one termination resistor.** Concentrate the entire noise budget on one edge device. Protect all others at minimum noise floor. | Edge qubits have one neighbor (least coupling loss). Sacrificing one edge preserves coherence in the N-1 remaining devices. | 139-360x vs uniform. [Resonant Return](../experiments/RESONANT_RETURN.md) |
 
 ---
 
@@ -199,6 +200,12 @@ No skip connections. No bypass paths.
    deterministic transfer mechanism. No measurement needed. No classical
    communication required. O(n) scaling with chain length.
 
+5. **Spatial noise engineering.** The sacrifice-zone formula (Rule 7)
+   shows that directing all noise to one edge termination yields 139-360x
+   improvement over uniform noise distribution. This is analogous to
+   impedance matching on the noise channel itself: instead of treating
+   noise as a uniform background, shape it spatially for maximum SNR.
+
 ---
 
 ## 8. What This Cannot Do
@@ -217,7 +224,7 @@ No skip connections. No bypass paths.
 ## 9. References
 
 ### For engineers wanting quantum depth
-- [Engineering Blueprint](ENGINEERING_BLUEPRINT.md): Six design rules with benchmarks
+- [Engineering Blueprint](ENGINEERING_BLUEPRINT.md): Seven design rules with benchmarks
 - [Technical Paper](TECHNICAL_PAPER.md): Full mathematical treatment
 
 ### The proofs behind the design rules
@@ -225,6 +232,9 @@ No skip connections. No bypass paths.
 - [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): Why V_th = 1/4 is fixed
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): Why no internal clock
 - [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md): Fold catastrophe identification
+
+### The noise optimization
+- [Resonant Return](../experiments/RESONANT_RETURN.md): Sacrifice-zone formula (139-360x)
 
 ### The transistor and relay
 - [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md): Full transistor mapping
