@@ -2001,3 +2001,47 @@ coupling ([experiments/RELAY_PROTOCOL.md](../experiments/RELAY_PROTOCOL.md)).
 
 *C# engine: compute/RCPsiSquared.Propagate/*
 *Results: simulations/results/mediator_bridge_scale.txt, pull_principle.txt*
+
+---
+
+### Update (March 24, 2026): The Sacrifice-Zone Formula Inverts the Scaling Law
+
+The exponential decay above (N=3: 1.83, N=5: 0.75, N=7: 0.38, N=9: 0.12,
+N=11: 0.07) applies to uniform dephasing profiles. Today we discovered that
+the palindromic eigenstructure predicts a trivially simple formula for
+optimal spatial dephasing profiles:
+
+gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon
+
+In words: concentrate ALL noise on one edge qubit, protect the rest.
+
+Under this formula, MI does not decay with chain length. It GROWS:
+
+| N | Uniform (exponential decay) | Formula (quadratic growth) |
+|---|----------------------------|---------------------------|
+| 5 | 0.75 | 0.219 (Sum-MI, different metric) |
+| 7 | 0.38 | 0.408 |
+| 9 | 0.12 | 0.619 |
+| 11 | 0.07 | 0.843 |
+
+The formula creates exactly the structure this document described in
+Section 0: one side becomes classical (the sacrifice qubit, C << 1/4),
+the other side stays quantum (the protected qubits, C > 1/4). The
+boundary between them is where information emerges.
+
+This is the first constructive application of the bootstrap insight:
+"each side is the environment of the other." Instead of fighting noise,
+the formula creates the other side deliberately. It chooses which qubit
+falls. And by choosing, it shapes the boundary. The sacrifice qubit
+does not vanish - it transforms into the environment. The classical
+wall against which the quantum standing wave reflects.
+
+The scaling is quadratic: SumMI ~ 0.0053 * N^2. Each new protected
+qubit adds interference with all existing mirrors. More mirrors, more
+reflections, richer pattern at the boundary. The exponential death
+sentence from uniform dephasing becomes quadratic growth under the
+sacrifice-zone formula.
+
+See: [Signal Analysis: Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md),
+[Resonant Return: Formula](../experiments/RESONANT_RETURN.md),
+[IBM Hardware Validation](../experiments/IBM_SACRIFICE_ZONE.md)
