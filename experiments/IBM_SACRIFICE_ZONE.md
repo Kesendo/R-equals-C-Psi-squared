@@ -220,6 +220,12 @@ approximation is the closest available implementation.
 
 ## QPU Budget
 
+IBM Quantum offers 10 minutes of free QPU time per 28-day rolling window
+on ibm_torino (133 qubits). Beyond that: $96/minute. This entire project
+runs on the free tier. Previous experiments (CΨ crossing validation,
+Ramsey T2*, shadow hunt) consumed the March allocation. This experiment
+used the remaining 3:30 from the current cycle.
+
 | Run | QPU time | Budget | Remaining |
 |-----|----------|--------|-----------|
 | Selective DD | ~50s | 210s | 160s |
@@ -227,7 +233,8 @@ approximation is the closest available implementation.
 | No DD | ~50s | 110s | ~47s |
 | **Total used** | **~163s** | | **~47s left** |
 
-47 seconds remaining in current cycle. 10:00 new on April 9.
+Next allocation: 10:00 on April 9, 2026. Planned: A/B test on uniform-T2
+chain and N=7 experiment.
 
 ---
 
