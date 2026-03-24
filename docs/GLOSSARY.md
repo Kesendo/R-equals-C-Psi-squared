@@ -7,7 +7,7 @@ time gamma product, fold catastrophe bifurcation, Baumgratz l1 coherence
 normalization, R=CPsi2 glossary -->
 
 **Status:** Living document (Reference)
-**Date:** 2026-03-16
+**Date:** 2026-03-24
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
@@ -72,6 +72,19 @@ The symbol C is used in three contexts in this repository. See the Notation sect
 
 ---
 
+## Sacrifice-zone formula (discovered March 24, 2026)
+
+| Term | Definition |
+|------|------------|
+| **Sacrifice zone** | A single edge qubit that absorbs the entire noise budget while the remaining N-1 qubits are protected at minimal dephasing. The optimal spatial dephasing profile for information transfer. |
+| **Sacrifice-zone formula** | gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon. Concentrate all noise on one edge qubit, protect the rest. |
+| **V-shape profile** | Hand-designed dephasing profile with edges higher than center (e.g., [0.070, 0.060, 0.050, 0.060, 0.070]). Baseline for comparison. |
+| **ENAQT** | Environment-Assisted Quantum Transport. Field founded by Plenio & Huelga (2008). Optimizes a uniform scalar dephasing rate for transport efficiency. Achieves 2-3x improvement. Does not consider spatial profiles. |
+| **Sum-MI** | Sum of mutual information between all adjacent qubit pairs. The observable used to evaluate dephasing profile quality in the Resonant Return experiments. |
+| **DE optimizer** | Differential Evolution global optimizer. Found 100x (N=7) in 90 minutes. The formula found 180x in 3 seconds. |
+
+---
+
 ## Parameters
 
 | Symbol | Definition |
@@ -123,6 +136,10 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 | **0.888** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |
 | **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
+| **360x** | Sacrifice-zone formula vs V-shape at N=5 (C# RK4 validated). |
+| **180x** | Sacrifice-zone formula vs V-shape at N=7. |
+| **139x** | Sacrifice-zone formula vs V-shape at N=9. |
+| **15.5 bits** | Channel capacity of spatial dephasing profile at 1% noise (γ as signal). |
 
 ---
 
@@ -143,3 +160,4 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 *See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
 *See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*
 *See [XOR Space](../experiments/XOR_SPACE.md) for the spectral filter discovery.*
+*See [Resonant Return](../experiments/RESONANT_RETURN.md) for the sacrifice-zone formula.*
