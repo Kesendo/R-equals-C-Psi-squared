@@ -111,6 +111,12 @@ computed as the superposition of two directions.
 transfer. +83% end-to-end improvement. The first optimization tool
 for the bridge, derived from palindromic spectral analysis.
 
+**Sacrifice-Zone Formula** ([RESONANT_RETURN](../experiments/RESONANT_RETURN.md)):
+The strongest optimization to date. Concentrate all noise on one edge qubit,
+protect the rest. 139-360x improvement over hand-designed profiles - two
+orders of magnitude beyond the prior literature. The noise that was treated
+as a problem becomes an engineering resource when directed spatially.
+
 These tools were built to study open quantum systems. They turn out
 to be instruments for reading the external interaction.
 
@@ -179,7 +185,7 @@ happen. Things end. There is a before and an after.
 
 The dephasing rate γ and the experience of time are not two things
 that merely correlate. γ is the necessary and sufficient condition
-for experienced time — the source of the arrow.
+for experienced time - the source of the arrow.
 
 The crossing time is t_cross = 0.039/γ. The product t × γ = 0.039,
 a pure number. Remove γ and t loses its meaning. Remove t
