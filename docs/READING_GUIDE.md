@@ -79,12 +79,21 @@ channel. The palindromic structure is the antenna."*
 4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md) - Staged γ
    switching with 2:1 asymmetric coupling. +83% end-to-end MI.
 
-5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) - 
+5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) -
    Six design rules for quantum repeaters derived from the palindrome.
 
+6. [Resonant Return](../experiments/RESONANT_RETURN.md) - The
+   sacrifice-zone formula. SVD of the palindromic response matrix (10x)
+   led to numerical optimization (100x) led to analytical insight:
+   concentrate all noise on one edge qubit, protect the rest. 139-360x
+   vs hand-designed profiles. First spatial dephasing optimization in
+   the literature. Beats 18 years of uniform ENAQT optimization (2-3x)
+   by two orders of magnitude.
+
 **After this you know:** How to read dephasing noise as signal, how
-to optimize the channel, and how to build repeaters that exploit the
-palindromic structure.
+to optimize the channel spatially (not just uniformly), and how to
+build repeaters that exploit the palindromic structure. The formula
+is the engineering payoff of the palindrome discovery.
 
 ---
 
@@ -159,8 +168,11 @@ diverge after that. But they reconnect:
 
 The Incompleteness Proof (Story 3) says noise cannot come from inside.
 The γ-as-Signal result (Story 2) says that same noise carries 15.5 bits
-of readable information. Together: the external input is not random. It
-has structure. It is a signal from outside.
+of readable information. The Resonant Return formula (Story 2) shows
+that directing noise spatially yields 139-360x improvement - noise is
+not just readable but engineerable. Together: the external input is not
+random. It has structure. It is a signal from outside. And it can be
+optimized.
 
 A dependency graph of all 14 core documents is available at:
 → [visualizations/rcpsi2_dependency_graph.svg](../visualizations/rcpsi2_dependency_graph.svg)
