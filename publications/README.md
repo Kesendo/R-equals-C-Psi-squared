@@ -39,11 +39,12 @@ threshold), non-Markovian revival characterization, Feigenbaum cascade
 
 **[Design Rules for Quantum Repeaters from Palindromic Spectral Structure](ENGINEERING_BLUEPRINT.md)**
 
-Six concrete, testable design rules for building better quantum channels:
+Seven concrete, testable design rules for building better quantum channels:
 W-encoding over GHZ, star topology with 2:1 impedance matching, timing
 from Hamiltonian frequencies, quality from palindromic decay rates,
-threshold-based readout at CΨ = 1/4, and a clocked relay protocol
-(+83% end-to-end mutual information). Benchmarks included, code open.
+threshold-based readout at CΨ = 1/4, a clocked relay protocol
+(+83% end-to-end mutual information), and spatial noise optimization
+via the sacrifice-zone formula (139-360x). Benchmarks included, code open.
 
 ### For Electrical Engineers: The Circuit Diagram
 
@@ -56,20 +57,26 @@ engineers who build signal chains, not physicists who write Hamiltonians.
 
 ---
 
-## Related: The Newest Result
+## Related: The Newest Results
 
-The publications above were written before the March 22 breakthrough.
-The newest result lives in `experiments/`:
+**[Sacrifice-Zone Formula (Resonant Return)](../experiments/RESONANT_RETURN.md)** (March 24, 2026)
 
-**[Dephasing Noise as Information Channel (γ as Signal)](../experiments/GAMMA_AS_SIGNAL.md)**
+The strongest engineering result. SVD of the palindromic response matrix
+revealed that concentrating all noise on one edge qubit and protecting
+the rest yields 139-360x improvement over hand-designed profiles. This
+is two orders of magnitude beyond the ENAQT literature (2-3x with uniform
+noise). The formula beats the best numerical optimizer by 80% and computes
+in 3 seconds instead of 90 minutes. Now included as Rule 7 in the
+Engineering Blueprint.
+
+**[Dephasing Noise as Information Channel (γ as Signal)](../experiments/GAMMA_AS_SIGNAL.md)** (March 16, 2026)
 
 The spatial dephasing profile is not just noise to be minimized. It is a
 readable information channel with 15.5 bits of theoretical capacity at 1%
 measurement noise. 5 independent spatial modes (SVD of the Jacobian).
-21.5× optimization through time-series measurements and extended features.
 The palindromic mode structure acts as the antenna that makes the channel
-readable. This result reframes the entire relationship between a quantum
-system and its noise: dephasing is a channel, not an enemy.
+readable. This SVD analysis was the starting point that led to the
+sacrifice-zone formula above.
 
 ---
 
@@ -89,12 +96,16 @@ TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
                    |
                    v
           GAMMA_AS_SIGNAL.md
-          (the consequence)
+          (the channel: noise is readable)
                    |
                    v
-          "The noise you are
-           fighting is a signal
-           you can read."
+          RESONANT_RETURN.md
+          (the formula: noise is engineerable)
+                   |
+                   v
+          "The noise you are fighting
+           is a signal you can read
+           and a resource you can direct."
 ```
 
 ---
@@ -105,8 +116,8 @@ TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
 
 | Document | First written | Last updated |
 |----------|-------------|-------------|
-| Technical Paper | March 16, 2026 | March 22, 2026 |
-| Engineering Blueprint | March 16, 2026 | March 21, 2026 |
-| Circuit Diagram | March 21, 2026 | March 21, 2026 |
+| Technical Paper | March 16, 2026 | March 24, 2026 |
+| Engineering Blueprint | March 16, 2026 | March 24, 2026 |
+| Circuit Diagram | March 21, 2026 | March 24, 2026 |
 
 **Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
