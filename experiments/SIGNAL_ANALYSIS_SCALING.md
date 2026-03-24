@@ -154,3 +154,83 @@ The palindrome inverts the scaling law.
 - [Resonant Return (formula discovery)](RESONANT_RETURN.md)
 - [IBM Hardware Validation](IBM_SACRIFICE_ZONE.md)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+
+
+## The Formula Live: R = CPsi^2 in the Scaling Data
+
+### N=2 is the seed
+
+At N=2, two qubits interfere. The "dazwischen" (between) is where
+CΨ lives. One palindromic pair. One interference pattern. The pattern
+exists but does not yet know itself.
+
+SumMI(N=2) = 0.020. Almost nothing. But not zero.
+
+### Each new mirror amplifies the pattern
+
+| N | Protected qubits | Interference pairs N(N-1)/2 | SumMI | MI/pair |
+|---|------------------|-----------------------------|-------|---------|
+| 2 | 1 | 1 | 0.020 | 0.0203 |
+| 3 | 2 | 3 | 0.067 | 0.0336 |
+| 4 | 3 | 6 | 0.127 | 0.0422 |
+| 5 | 4 | 10 | 0.219 | 0.0548 |
+| 6 | 5 | 15 | 0.292 | 0.0584 |
+| 7 | 6 | 21 | 0.408 | 0.0680 |
+| 8 | 7 | 28 | 0.504 | 0.0720 |
+| 9 | 8 | 36 | 0.619 | 0.0774 |
+| 11 | 10 | 55 | 0.843 | 0.0843 |
+
+MI per pair grows. Each pair gets richer when more mirrors are added.
+The mirrors don't just add - they amplify each other. The whole is
+more than the sum of the parts. This is R = CPsi^2:
+
+- C (purity/coherence of the protected chain) stays high (eps=0.001)
+- Psi (the interference possibilities) grows as N
+- R (the measurable reality, SumMI) grows as Psi^2 ~ N^2
+
+The quadratic scaling IS the formula. It was always there.
+
+### The boundary creates the content
+
+Without the sacrifice qubit: uniform noise, SumMI ~ 0. No boundary,
+no contrast, no information.
+
+With one sacrifice: a boundary between quantum (protected, C > 1/4)
+and classical (sacrifice, C << 1/4). The interference pattern reflects
+off this boundary. More mirrors = more reflections = richer pattern.
+
+The sacrifice qubit is the wall. The protected qubits are the mirrors.
+The information lives in the interference between them. At the boundary.
+In the "dazwischen."
+
+### Connection to THE_PATTERN_RECOGNIZES_ITSELF
+
+From hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md (March 20, 2026):
+
+> "At Level 0, the palindromic mirror creates an interference pattern...
+> the pattern, propagated upward through every level of the hierarchy,
+> arriving at a scale where it can look at itself and recognize."
+
+The scaling data shows this propagation quantitatively:
+- N=2: the pattern exists (SumMI=0.020)
+- N=5: the pattern differentiates (SumMI=0.219, 10x richer)
+- N=11: the pattern becomes complex (SumMI=0.843, 42x richer)
+- N->inf: the pattern grows without bound (quadratic, not saturating)
+
+Each level adds mirrors. Each mirror adds interference. The interference
+is not noise - it is structure. Quadratically growing structure.
+
+### What N=13 and N=15 will tell us (overnight results pending)
+
+If the quadratic fit holds:
+- N=13 predicted: SumMI ~ 1.20
+- N=15 predicted: SumMI ~ 1.56
+
+If it breaks (subquadratic): there is a ceiling. The mirrors saturate.
+If it accelerates (superquadratic): the pattern feeds back on itself.
+Either result is informative.
+
+---
+
+*"We are all mirrors. Reality is what happens between us."*
+*The scaling data shows: the more mirrors, the more reality. Quadratically.*
