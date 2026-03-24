@@ -16,18 +16,15 @@ fallen gravity FTL consciousness claims, R=CPsi2 interpretation -->
 ## Abstract
 
 Thematic synthesis of the R = CΨ² project as of March 2026. Organizes
-results into five pillars: (1) the palindromic mirror (proven for all
+results into six pillars: (1) the palindromic mirror (proven for all
 graphs under Z-dephasing, 54,118 eigenvalues), (2) the standing wave
-(c+/c− supermodes confirmed by Π), (3) the qubit foundation (d²−2d=0,
+(c+/c− supermodes confirmed by Π), (3) the qubit foundation (d²-2d=0,
 only d=2), (4) complexity emergence (V-Effect: 14/36 break at second
-bond, 11 frequencies from 4), and (5) the γ channel (15.5 bits, noise
-is signal). Documents 20 things that survive critical examination,
-7 that have fallen (IBM sonar evidence, N_eff predictor, coupling
-strength as chaos driver, shadow universality, FM-encoding, QST
-encoding optimization, Z4 four-sided mirror), and 6 open questions
-(1 since answered; remaining: 14/36 mechanism, non-dephasing
-dissipators, partial qutrit palindrome, macroscopic relevance,
-operational value).
+bond, 11 frequencies from 4), (5) the γ channel (15.5 bits, noise
+is signal), and (6) the engineering payoff (sacrifice-zone formula:
+139-360x improvement via spatial dephasing optimization, first in the
+literature). Documents 20 things that survive critical examination,
+7 that have fallen, and 6 open questions (2 since answered, 1 partially).
 
 > "We are all mirrors. Reality is what happens between us."
 
@@ -80,9 +77,14 @@ dimensional quantum system can carry this mirror.
 
 ## 1. Spectral Architecture of the 3-Qubit System
 
-The project began with a 3-qubit star topology: qubit A and qubit B
-coupled through a shared mediator S, with Z-dephasing on all sites.
-The observables are cross-correlations between A and B measured through S.
+The project began with the smallest non-trivial open quantum system:
+three qubits in a star topology (A-S-B), where observers A and B are
+coupled only through a shared mediator S. This is the minimal system
+where information must travel through a noisy intermediary - the
+fundamental building block of quantum networks and repeaters.
+
+Z-dephasing acts on all sites. The observables are cross-correlations
+between A and B measured through S.
 
 This system has a clean spectral architecture:
 
@@ -304,7 +306,17 @@ above the fully dephased state). Π implements particle-hole symmetry
 in incoherenton space: it maps a state with k incoherentons to one
 with N-k. They had the grading. We found the symmetry operator.
 
-See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md)
+**Environment-Assisted Quantum Transport (ENAQT):** The field founded
+by Plenio & Huelga (2008) showed that uniform dephasing noise can
+improve quantum transport efficiency by 2-3x. A 2025 IBM experiment
+used Bayesian coupling optimization for +8%. Both optimize scalar
+parameters (one noise level, or coupling strengths). Nobody in this
+literature optimizes spatial dephasing profiles. Our sacrifice-zone
+formula (Section 8) is the first to do so, achieving 139-360x - two
+orders of magnitude beyond prior work.
+
+See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md),
+[Literature Review](LITERATURE_REVIEW_MARCH_2026.md)
 
 ---
 
@@ -324,6 +336,65 @@ This is a single-qubit result (N=1). The multi-qubit palindromic pairing
 (N >= 2) remains untested on hardware.
 
 See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
+
+---
+
+## 8. Engineering Payoff: From Palindrome to Formula
+
+Sections 1-7 establish the theory. This section answers the question a
+reader will ask: what can you DO with it?
+
+**The γ channel (March 16).** The palindromic response matrix - the
+structure that maps spatial dephasing profiles to information transfer -
+has full rank. Every per-site dephasing rate is independently recoverable.
+At 1% noise, this channel carries 15.5 bits of spatial information through
+5 independent SVD modes with 100% classification accuracy. Dephasing noise
+is not random disturbance. It is a readable, structured information channel.
+
+See: [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md)
+
+**The sacrifice-zone formula (March 24).** The SVD analysis of the
+palindromic response matrix revealed that mode 2 (edge-hot, center-cold)
+is the optimal direction for information transfer: 10x improvement over
+hand-designed V-shape profiles. Numerical optimization (Nelder-Mead,
+Differential Evolution) then broke the SVD symmetry and found 60-100x
+by concentrating noise asymmetrically. Finally, analytical testing of the
+optimizer's convergence direction revealed a trivially simple closed-form
+rule:
+
+> Concentrate ALL noise on one edge qubit. Protect the rest.
+
+The formula: gamma_edge = N * gamma_base - (N-1) * epsilon,
+gamma_other = epsilon. One edge qubit absorbs the entire noise budget.
+The remaining N-1 qubits evolve nearly coherently.
+
+Why the edge? Edge qubits have only one neighbor. Sacrificing an edge
+qubit destroys the least inter-qubit correlation. A center qubit has
+two neighbors - sacrificing it cuts the chain in half.
+
+C#-validated results (RK4 propagation):
+
+| N | Formula vs V-shape | Formula vs DE optimizer | Compute time |
+|---|-------------------|----------------------|-------------|
+| 5 | 360x | - | 1 second |
+| 7 | 180x | +80% (in 3s vs 90 min) | 3 seconds |
+| 9 | 139x | - | 30 seconds |
+
+The ENAQT literature (Plenio & Huelga 2008+) optimizes a single uniform
+noise level and achieves 2-3x. We optimize WHERE the noise goes and
+achieve 139-360x. The difference is two orders of magnitude. Nobody in
+the literature had optimized spatial dephasing profiles before this work.
+
+The discovery path required the palindrome: without the SVD of the
+palindromic response matrix, there was no reason to try edge-heavy
+profiles. Without the C# propagation engine (5,900x faster than Python
+at N=7), numerical optimization at N>=7 was infeasible. The formula is
+the engineering payoff of the theoretical structure.
+
+Not yet validated on hardware. An IBM experiment with selective dynamical
+decoupling (protect N-1, sacrifice 1) is planned.
+
+See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 
 ---
 
@@ -348,7 +419,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 17. Composition via per-site map: same M for any N, any topology
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
-20. Sacrifice-zone formula: all noise on one edge qubit, 139-360x vs V-shape (N=5,7,9). First spatial dephasing optimization. Beats ENAQT literature (2-3x) by two orders of magnitude.
+20. Sacrifice-zone formula: 139-360x via spatial dephasing optimization (Section 8)
 
 ## What Fell
 
@@ -366,9 +437,10 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 - Hardware validation is single-qubit only (CPsi crossing). Multi-qubit
   palindrome untested on hardware.
 - Sonar effect verified in simulation only, not on IBM hardware.
-- The palindrome provides structural symmetry, NOT performance advantage
-  (identical transfer fidelity for qubits and qutrits). Its operational
-  value beyond spectral organization is an open question.
+- The palindrome alone does not improve transfer fidelity (identical for
+  qubits and qutrits). But the palindromic response matrix SVD led
+  directly to the sacrifice-zone formula (139-360x). The palindrome's
+  operational value is indirect: it reveals the optimization landscape.
 - Π time-reversal interpretation: the algebra (populations to coherences)
   is Tier 2. The temporal language (past to future) is Tier 3. The
   philosophical reading is Tier 5. Each tier is labeled throughout.
@@ -432,6 +504,10 @@ Key milestones:
 - March 20: d^2 - 2d = 0. The qubit is the quantum carbon. The circle
   closes: 0.5 at the quantum level (qubit: 2/4), 0.5 at the atomic level
   (carbon: 4/8). What was felt on January 3 is now proven.
+- March 24: The sacrifice-zone formula. SVD of the palindromic response
+  matrix (10x) led to numerical optimization (100x) led to a closed-form
+  rule: all noise on one edge, protect the rest. 139-360x vs V-shape.
+  First spatial dephasing optimization. The engineering payoff.
 
 ---
 
@@ -443,6 +519,9 @@ Key milestones:
 
 *For the qubit necessity proof and tests, see
 [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
+
+*For the sacrifice-zone formula, see
+[Resonant Return](../experiments/RESONANT_RETURN.md)*
 
 *For the full notation reference, see
 [Glossary](../docs/GLOSSARY.md)*
