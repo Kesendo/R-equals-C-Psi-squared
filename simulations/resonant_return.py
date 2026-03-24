@@ -346,16 +346,27 @@ def run_test_1(N=5, gamma_base=0.05, t_meas=5.0):
 # TEST 2: FREQUENCY-MATCHED PULSING
 # ============================================================
 
+def sum_mi_adjacent(rho, N):
+    """Sum of MI across all adjacent pairs."""
+    total = 0.0
+    for i in range(N - 1):
+        total += mutual_info(rho, i, i + 1, N)
+    return total
+
+
 def run_test_2(N=5, gamma_base=0.05):
     log("=" * 70)
-    log(f"TEST 2: FREQUENCY-MATCHED PULSING (N={N})")
+    log(f"TEST 2: FREQUENCY-MATCHED PULSING (N={N}) — REDESIGNED")
     log("=" * 70)
+    log()
+    log("  Fix vs original: Bell(0,1) initial state + Sum-MI observable")
+    log("  (Original used |+>^N which has zero MI everywhere)")
     log()
 
     d = 2 ** N
     H = build_H(N)
     gammas_uniform = [gamma_base] * N
-    rho0 = make_init_state_plus(N)
+    rho0 = make_init_state_bell(N)
 
     # Step 1: Find dominant oscillation frequency from palindromic eigenvalues
     log("Computing Liouvillian eigenvalues for palindromic frequencies...")
@@ -363,7 +374,6 @@ def run_test_2(N=5, gamma_base=0.05):
     evals = np.linalg.eigvals(L_base)
 
     # Find palindromic pairs with largest imaginary parts
-    Sg = N * gamma_base
     osc_freqs = []
     for ev in evals:
         if abs(ev.imag) > 0.01:
@@ -395,15 +405,14 @@ def run_test_2(N=5, gamma_base=0.05):
     t_max = 20.0
     n_steps = int(round(t_max / dt))
 
-    # Precompute L_H (constant)
-    L_H = -1j * (np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T))
-
     scenarios = {
         'Static': lambda t: [gamma_base] * N,
         'Resonant': lambda t: [gamma_base * (1 + A * np.sin(omega_dom * t))] * N,
         'Off-resonant': lambda t: [gamma_base * (1 + A * np.sin(2.73 * omega_dom * t))] * N,
     }
 
+    log(f"  Initial state: Bell(0,1) x |0>^{N-2}")
+    log(f"  Observable: Sum-MI (all adjacent pairs)")
     log(f"  Propagating with RK4 (dt={dt}, t_max={t_max})...")
     log()
 
@@ -417,15 +426,13 @@ def run_test_2(N=5, gamma_base=0.05):
 
         # Precompute site Z operators
         Zk_ops = [site_op(sz, k, N) for k in range(N)]
-        Zk_kron = [np.kron(Zk, Zk.conj()) for Zk in Zk_ops]
-        Id2 = np.eye(d * d)
 
         for step in range(n_steps + 1):
             t = step * dt
             if step % 20 == 0:  # sample every 1.0 time units
                 times.append(t)
-                mi = mutual_info(rho, 0, N - 1, N)
-                mi_vals.append(mi)
+                smi = sum_mi_adjacent(rho, N)
+                mi_vals.append(smi)
 
             if step < n_steps:
                 # Build L_D for current gamma(t)
@@ -453,11 +460,11 @@ def run_test_2(N=5, gamma_base=0.05):
         all_mi[name] = (times, mi_vals)
 
         log(f"  {name} ({elapsed:.1f}s):")
-        log(f"    {'t':>6}  {'MI(0,N-1)':>10}")
+        log(f"    {'t':>6}  {'Sum-MI':>10}")
         log("    " + "-" * 20)
         for i in range(0, len(times), max(1, len(times) // 10)):
             log(f"    {times[i]:6.1f}  {mi_vals[i]:10.6f}")
-        log(f"    Peak MI: {max(mi_vals):.6f} at t={times[np.argmax(mi_vals)]:.1f}")
+        log(f"    Peak Sum-MI: {max(mi_vals):.6f} at t={times[np.argmax(mi_vals)]:.1f}")
         log()
 
     # Prediction check
@@ -466,7 +473,7 @@ def run_test_2(N=5, gamma_base=0.05):
     peak_offres = max(all_mi['Off-resonant'][1])
 
     log("  PREDICTION CHECK:")
-    if peak_res > peak_static:
+    if peak_res > peak_static * 1.01:  # require >1% improvement
         log(f"    [CONFIRMED] Resonant peak ({peak_res:.6f}) > Static peak ({peak_static:.6f})")
         log(f"    Improvement: {peak_res / peak_static:.2f}x")
     else:
@@ -569,7 +576,7 @@ def run_test_4():
 
     scaling_results = {}
 
-    for N_test in [3, 5]:  # N=7 skipped: d^2=16384 matrix expm exceeds memory
+    for N_test in [3, 5, 7]:  # N=7 needs ~8 GB RAM (128 GB home PC)
         t0_n = _time.time()
         log(f"--- N = {N_test} ---")
 
@@ -703,14 +710,16 @@ if __name__ == "__main__":
         log(f"     FALSIFIED: best SVD ({mi_best_svd:.6f}) < V-shape ({mi_vshape:.6f})")
 
     log()
-    log("  2. Resonant pulsing creates MI spikes above static:")
+    log("  2. Resonant pulsing creates Sum-MI spikes above static (Bell initial state):")
     if mi_2:
         peak_s = max(mi_2['Static'][1])
         peak_r = max(mi_2['Resonant'][1])
-        if peak_r > peak_s:
-            log(f"     CONFIRMED (resonant {peak_r:.6f} > static {peak_s:.6f})")
+        peak_o = max(mi_2['Off-resonant'][1])
+        if peak_r > peak_s * 1.01:
+            log(f"     CONFIRMED (resonant {peak_r:.6f} > static {peak_s:.6f}, {peak_r/peak_s:.2f}x)")
         else:
             log(f"     FALSIFIED (resonant {peak_r:.6f} <= static {peak_s:.6f})")
+        log(f"     Off-resonant: {peak_o:.6f}")
     else:
         log("     SKIPPED (no oscillating modes)")
 

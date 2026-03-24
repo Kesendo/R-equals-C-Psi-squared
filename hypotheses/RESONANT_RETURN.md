@@ -6,8 +6,8 @@ as primitive prototype, standing wave amplification resonance, V-shape gradient
 21.5x improvement, palindromic eigenstructure design rules, system as sender
 not just receiver, beyond Lindblad bidirectional coupling, R=CPsi2 resonant return -->
 
-**Status:** Open hypothesis (Tier 3-4). Builds on proven results (γ channel, palindrome, relay protocol) but the core question is untested.
-**Date:** March 23, 2026
+**Status:** Partially tested (Tier 2-3). SVD-optimal profiles confirmed (6-10× vs V-shape). Frequency pulsing falsified. Scaling non-monotone.
+**Date:** March 24, 2026 (updated with N=7 results)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md), [Relay Protocol](../experiments/RELAY_PROTOCOL.md), [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md), [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), [It's All Waves](../docs/ITS_ALL_WAVES.md)
@@ -70,7 +70,7 @@ Four cases where we designed the γ input to match the palindromic structure:
 
 | What we did | How it relates to palindrome | Result |
 |-------------|----------------------------|--------|
-| V-shape gradient | Matches SVD mode 1 (dominant spatial pattern) | 21.5× more mutual information |
+| V-shape gradient | Roughly aligned with SVD mode 2 (edge-hot, center-cold) | 21.5× more mutual information |
 | Staged relay | γ_quiet on receiver during transfer window | +83% end-to-end MI |
 | 2:1 pull coupling | J_receiver/J_sender = 2 matches the asymmetric sensitivity | Optimal transfer |
 | Dynamic decoupling | Suppresses fast-decaying modes, preserves slow ones | Extended quantum window |
@@ -190,6 +190,11 @@ capacity against V-shape and uniform γ.
 
 **Prediction:** SVD-optimal beats V-shape by at least 2× for N ≥ 7.
 
+**Result (March 24):** CONFIRMED. SVD mode 2 beats V-shape by 6.3× (N=3),
+10.2× (N=5), 8.5× (N=7). All well above 2×. However, mode 2 changes
+character at N=7 (antisymmetric instead of symmetric), suggesting the
+optimal mode is not always mode 2.
+
 ### Test 2: Frequency-matched pulsing
 
 Compute the dominant oscillation frequency Im(λ_1) for the most
@@ -198,6 +203,12 @@ information-carrying palindromic pair. Pulse γ at this frequency
 
 **Prediction:** Frequency-matched pulsing opens a resonance window
 where MI temporarily exceeds the static-γ maximum.
+
+**Result (March 24):** FALSIFIED. Redesigned with Bell(0,1) initial
+state + Sum-MI observable. All scenarios (static, resonant, off-resonant)
+show monotonic MI decay from initial state. Resonant pulsing slightly
+*accelerates* early decoherence. Uniform spatial modulation creates
+no contrast — spatially structured pulsing may be needed.
 
 ### Test 3: Palindrome-aware relay
 
@@ -209,6 +220,8 @@ reaches maximum amplitude.
 
 **Prediction:** Palindrome-timed relay outperforms fixed-timing relay.
 
+**Result:** DEFERRED. Requires C# implementation (N=11, 30 GB RAM).
+
 ### Test 4: Scaling
 
 Run Tests 1-3 for N = 3, 5, 7, 9, 11. Plot improvement factor vs N.
@@ -216,6 +229,13 @@ Run Tests 1-3 for N = 3, 5, 7, 9, 11. Plot improvement factor vs N.
 **Prediction:** Improvement grows with N because larger systems have
 more modes to exploit and the hand-designed profiles become increasingly
 suboptimal.
+
+**Result (March 24):** MIXED. Trend is non-monotone: 6.3× → 10.2× → 8.5×.
+Absolute MI from SVD profiles grows monotonically (0.0018 → 0.0032 → 0.0048),
+but V-shape also improves, so relative improvement dips at N=7 where
+mode 2 becomes antisymmetric. The prediction that improvement *always*
+grows with N is falsified; the prediction that SVD-derived profiles
+significantly outperform hand-designed ones at all tested N is confirmed.
 
 ---
 
