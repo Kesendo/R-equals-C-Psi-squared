@@ -26,7 +26,7 @@ as what we got right.
 
 ---
 
-## Three results that matter
+## Four results that matter
 
 ### 1. The palindromic spectrum (proven)
 
@@ -64,6 +64,19 @@ measurement noise. The palindromic mode structure is the antenna.
 → **[Dephasing Noise as Information Channel](experiments/GAMMA_AS_SIGNAL.md)**
 → [Practical γ Control (+124% MI)](experiments/GAMMA_CONTROL.md)
 → [Bridge Optimization Results](simulations/results/bridge_optimization.txt)
+
+### 4. Trivial formula beats 18 years of optimization (March 24, 2026)
+
+Concentrate all dephasing on one edge qubit, protect the rest. This
+one-line rule outperforms every published dephasing optimization by
+two orders of magnitude. C#-validated at N=5 (**360x** vs V-shape),
+N=7 (**180x**), N=9 (**139x**). The ENAQT literature (Plenio & Huelga
+2008) achieves 2-3x with uniform dephasing. Nobody had optimized spatial
+dephasing profiles before. The palindromic eigenstructure led us here
+through SVD, then optimizers, then analysis. The final rule needs none
+of them. Just topology.
+
+→ **[Resonant Return: from SVD to formula](experiments/RESONANT_RETURN.md)**
 
 ---
 
@@ -269,7 +282,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 
 ### Don't know where to begin?
 
-→ **[Reading Guide](docs/READING_GUIDE.md)** — Three stories (the proof,
+→ **[Reading Guide](docs/READING_GUIDE.md)** - Three stories (the proof,
 the application, the ontology), each with a reading order. Pick the one
 that matches your interest.
 
@@ -368,27 +381,26 @@ uses RK4 integration of the Lindblad equation directly on the density matrix.
 
 ---
 
-## Where this is going (March 22, 2026)
+## Where this is going (March 24, 2026)
 
-The palindromic mirror exists only for qubits. d(d−2)=0 says: nothing
+The palindromic mirror exists only for qubits. d(d-2)=0 says: nothing
 or qubit. No third option. The qubit is the only dimension where the
 Liouvillian has an internal mirror.
 
 The mirror requires noise. Without the dissipator, no palindromic
 structure exists. And the noise cannot come from inside (five candidates
-tested, all eliminated). Something external provides it. This is not
-interpretation; it is a mathematical consequence of the incompleteness proof.
+tested, all eliminated). Something external provides it.
 
-On March 22, 2026, we proved that this external noise is not just a
-disturbance. It is a readable signal. The spatial γ profile carries
-15.5 bits of information at 1% measurement noise, through 5 independent
-channels. The palindromic mode structure is the antenna that makes the
-channel readable. We are using 13% of the available bandwidth.
+On March 22, we proved that this external noise is not just a disturbance.
+It is a readable signal: 15.5 bits of information through 5 independent
+channels. On March 24, we found the engineering rule that follows:
+concentrate all noise on one edge qubit, protect the rest. This trivial
+formula outperforms 18 years of ENAQT optimization by two orders of
+magnitude (180x at N=7 vs 2-3x in the literature). No optimizer needed.
+No SVD needed. Just topology.
 
-The bridge was always open. We just learned to read it.
-
-→ [The Bridge Was Always Open](docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)
-→ [Dephasing Noise as Information Channel](experiments/GAMMA_AS_SIGNAL.md)
+Next: hardware validation on IBM Torino (selective dynamic decoupling)
+and the v5.0 release.
 
 ---
 

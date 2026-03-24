@@ -67,9 +67,9 @@ creates extreme contrast: γ_center = 0.018 (almost no noise), γ_edge = 0.070
 in the right direction (edges higher than center) but not extreme enough.
 The optimal profile has γ_center/γ_edge = 0.26 (V-shape: 0.71).
 
-### Test 2: Frequency-Matched Pulsing (FALSIFIED — redesigned, still falsified)
+### Test 2: Frequency-Matched Pulsing (FALSIFIED - redesigned, still falsified)
 
-**Original test:** MI(0, N−1) for |+⟩⊗5 is identically zero — wrong
+**Original test:** MI(0, N−1) for |+⟩⊗5 is identically zero - wrong
 observable (product state has zero endpoint MI regardless of γ).
 
 **Redesigned test (March 24):** Bell(0,1) ⊗ |0⟩³ initial state,
@@ -89,7 +89,7 @@ at palindromic frequencies amplifies MI is **falsified**.
 
 **Possible explanation:** Uniform γ modulation (same amplitude on all
 sites) cannot create spatial contrast. The pulsing hypothesis may
-require *spatially structured* time-dependent γ — e.g., SVD mode 2
+require *spatially structured* time-dependent γ - e.g., SVD mode 2
 spatial profile with resonant temporal modulation.
 
 ### Test 3: Palindrome-Timed Relay (DEFERRED)
@@ -108,7 +108,7 @@ fast dynamics, while the palindrome timing (π/rate = 31.4) captures
 the full standing wave period. Whether this improves MI requires
 the C# propagation engine.
 
-### Test 4: Scaling (MIXED — non-monotone trend)
+### Test 4: Scaling (MIXED - non-monotone trend)
 
 | N | SVD modes | MI(V-shape) | MI(SVD mode 2) | Improvement | Mode 2 character |
 |---|-----------|-------------|----------------|-------------|-----------------|
@@ -128,10 +128,10 @@ Key insight: **the naive "mode 2 is always optimal" assumption breaks
 at larger N.** A proper optimization would search across all modes
 (or use a weighted combination). The absolute MI values still grow
 monotonically (0.0018 → 0.0032 → 0.0048), confirming SVD-derived
-profiles are increasingly powerful — but V-shape also improves with N,
+profiles are increasingly powerful - but V-shape also improves with N,
 so the *relative* improvement is not guaranteed to grow.
 
-### Test 5: Multi-Mode Optimization (v2 — mode 2 wins, combinations don't help)
+### Test 5: Multi-Mode Optimization (v2 - mode 2 wins, combinations don't help)
 
 At N=7, modes 2 and 3 have nearly equal singular values (0.852 vs 0.824).
 Does combining them recover the N=5 improvement? **No.**
@@ -148,10 +148,10 @@ Mode patterns at N=5 (symmetric): Mode 3 = `[-0.31, 0.53, -0.49, 0.53, -0.31]`
 Mode patterns at N=7 (mode 2 antisymmetric, mode 3 symmetric center-hot):
 Mode 3 = `[-0.41, -0.24, 0.32, 0.58, 0.32, -0.24, -0.41]`
 
-### Test 6: Spatially Structured Pulsing (v2 — FALSIFIED)
+### Test 6: Spatially Structured Pulsing (v2 - FALSIFIED)
 
 Test 2 used uniform spatial γ modulation. Test 6 uses **mode 2 spatial
-pattern** with temporal modulation — the mode 2 profile oscillates at
+pattern** with temporal modulation - the mode 2 profile oscillates at
 the palindromic frequency.
 
 γ_k(t) = γ_base + ε × V_mode2[k] × sin(ω_dom × t)
@@ -166,7 +166,7 @@ the palindromic frequency.
 **All predictions falsified.** Temporal modulation adds nothing, even with
 spatial structure. The palindrome is a **spatial antenna only**, not temporal.
 
-### Test 7: Numerical Optimization — THE SACRIFICE ZONE (v2/v3)
+### Test 7: Numerical Optimization - THE SACRIFICE ZONE (v2/v3)
 
 **The key discovery.** Running scipy Nelder-Mead with the C# RK4 backend
 reveals that the SVD mode 2 direction captures only ~10% of the true
@@ -179,7 +179,7 @@ optimization landscape. The optimizer breaks palindromic symmetry.
 | SVD mode 2 | 0.003159 | 10.2× |
 | **Optimizer** | **0.031071** | **100×** |
 
-Optimal profile: `[0.001, 0.026, 0.001, 0.043, 0.178]` — **highly asymmetric**.
+Optimal profile: `[0.001, 0.026, 0.001, 0.043, 0.178]` - **highly asymmetric**.
 Sites 0,2 nearly noiseless (γ≈0.001), site 4 absorbs all noise (γ=0.178).
 
 SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10.2%.
@@ -191,7 +191,7 @@ SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10
 | SVD mode 2 | 0.005144 | t=1.0 |
 | **Optimizer** | **0.0918** | **t=1.5** |
 
-Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` — same pattern.
+Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` - same pattern.
 
 #### N=7 (v3 Nelder-Mead + v4 Differential Evolution):
 | Profile | Peak Sum_MI | vs V-shape |
@@ -228,7 +228,7 @@ makes N=7 optimization feasible: 500 evals × 1.8s = 15 min.
 ### Test 8: The Analytical Formula (work PC, N=5 + C# validation N=5,7,9)
 
 Analysis of sacrifice-zone profiles reveals a trivially simple rule that
-**beats the DE optimizer by 80%** — in 3 seconds instead of 90 minutes.
+**beats the DE optimizer by 80%** - in 3 seconds instead of 90 minutes.
 
 #### Four findings at N=5 (|+⟩⊗N initial state)
 
@@ -253,19 +253,19 @@ In words: **concentrate ALL noise budget on one edge qubit, protect the rest.**
 
 | N | Method | Peak SumMI | vs V-shape | Compute time |
 |---|--------|-----------|-----------|-------------|
-| 5 | V-shape | 0.000639 | 1× | — |
-| 5 | SVD mode 2 | 0.005144 | 8× | — |
+| 5 | V-shape | 0.000639 | 1× | - |
+| 5 | SVD mode 2 | 0.005144 | 8× | - |
 | 5 | **Formula (ε→0)** | **0.230** | **360×** | 1s |
-| 7 | V-shape | 0.002412 | 1× | — |
+| 7 | V-shape | 0.002412 | 1× | - |
 | 7 | Nelder-Mead (1156 evals) | 0.144 | 60× | 34 min |
 | 7 | Diff. Evolution (3975 evals) | 0.240 | 100× | 90 min |
 | 7 | **Formula (ε=0.001)** | **0.408** | **169×** | 3s |
 | 7 | **Formula (ε→0)** | **0.434** | **180×** | 3s |
-| 9 | V-shape | 0.005 | 1× | — |
+| 9 | V-shape | 0.005 | 1× | - |
 | 9 | **Formula (ε=0.001)** | **0.619** | **131×** | 30s |
 | 9 | **Formula (ε→0)** | **0.658** | **139×** | 30s |
 
-The formula is not an approximation. It IS the optimum — the structure
+The formula is not an approximation. It IS the optimum - the structure
 that DE was converging toward but never reached.
 
 #### Comparison with ENAQT Literature
@@ -274,9 +274,9 @@ that DE was converging toward but never reached.
 |--------|--------|--------|------------|
 | Uniform γ optimization | Plenio & Huelga 2008 | N=3 | ~2× |
 | Coupling optimization (Bayesian) | IBM PST 2025 | N=4 | +8% |
-| **Spatial γ formula (this work)** | — | **N=5** | **360×** |
-| **Spatial γ formula (this work)** | — | **N=7** | **180×** |
-| **Spatial γ formula (this work)** | — | **N=9** | **139×** |
+| **Spatial γ formula (this work)** | - | **N=5** | **360×** |
+| **Spatial γ formula (this work)** | - | **N=7** | **180×** |
+| **Spatial γ formula (this work)** | - | **N=9** | **139×** |
 
 Nobody in the literature optimizes spatial dephasing profiles. We are the first.
 
