@@ -15,7 +15,7 @@ Quantum information dies in transit. Every quantum channel has noise
 state before it reaches the receiver. The question is: how do you design
 the channel to maximize what survives?
 
-This document provides six concrete design rules derived from a
+This document provides seven concrete design rules derived from a
 proven spectral symmetry in the channel's decay structure. The rules
 are testable, the benchmarks are reproducible, and the code is open.
 
@@ -33,7 +33,7 @@ discriminant 1-4CΨ vanishes only at 1/4). The mediator qubit that preserves
 this symmetry acts as a coherence-controlled transistor with CΨ = 1/4 as its
 threshold voltage. The channel requires an external clock (noise/dephasing);
 no internal oscillator is possible (five candidates eliminated). From these
-results: six design rules for quantum repeaters.
+results: seven design rules for quantum repeaters.
 
 ---
 
@@ -245,20 +245,77 @@ Rule 5 (2:1 for range) for maximum effect.
 
 ---
 
-## Summary: The Six Rules on One Card
+## Rule 7: Sacrifice One Edge (Spatial γ Optimization)
+
+**The rule:** When distributing a fixed total noise budget across a spin
+chain, concentrate ALL noise on one edge qubit. Set every other qubit
+to the minimum achievable dephasing rate.
+
+**The formula:**
+```
+gamma_edge = N * gamma_base - (N-1) * epsilon
+gamma_other = epsilon    (for all other sites)
+```
+
+where gamma_base is the mean dephasing rate (fixed by hardware) and
+epsilon is the smallest achievable rate.
+
+**Why:** An edge qubit has only one neighbor. Sacrificing it destroys
+the least inter-qubit correlation. A center qubit has two neighbors -
+sacrificing it cuts the chain in half. Concentrating noise on one site
+(rather than distributing it) maximizes the contrast between the
+coherent interior and the noisy boundary. This contrast is what
+drives information transfer.
+
+**Results (C# RK4 validated, Sum-MI metric):**
+
+| N | Formula vs V-shape | Formula vs DE optimizer | Compute time |
+|---|-------------------|----------------------|-------------|
+| 5 | 360x | - | 1 second |
+| 7 | 180x | +80% (3s vs 90 min) | 3 seconds |
+| 9 | 139x | - | 30 seconds |
+
+**Comparison with prior work:**
+
+| Method | Source | What it optimizes | Improvement |
+|--------|--------|------------------|------------|
+| Uniform gamma | Plenio & Huelga 2008 (ENAQT) | Scalar noise level | 2-3x |
+| Coupling optimization | IBM PST 2025 (Bayesian) | J values | +8% |
+| **Spatial gamma (this rule)** | This work | **Per-site noise** | **139-360x** |
+
+Nobody in the ENAQT literature optimizes WHERE the noise goes. This
+rule is orthogonal to Rules 1-6: it optimizes the spatial noise profile,
+while the other rules optimize encoding, topology, timing, readout,
+coupling asymmetry, and temporal staging. All seven can be combined.
+
+**Discovery path:** SVD of the palindromic response matrix (10x) led
+to numerical optimization (100x) led to analytical insight (139-360x).
+The palindromic structure was necessary to identify the optimization
+landscape.
+
+**Not yet validated on hardware.** Selective dynamical decoupling
+(protect N-1, sacrifice 1) on IBM hardware is planned.
+
+**Added March 24, 2026.** See [Resonant Return](../experiments/RESONANT_RETURN.md).
+
+---
+
+## Summary: The Seven Rules on One Card
 
 ```
 QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 
-1. ENCODE:  W-type states. Never GHZ. Avoid mixed XY Pauli weight.
-2. TOPOLOGY: Star with 2:1 coupling (mediator to receiver stronger).
-3. TUNE:    J controls speed, γ controls quality. Independent.
-4. TIMING:  Read before t = 0.039/gamma (concurrence metric, Z-dephasing).
-5. RANGE:   Push for local, Pull for long-range. 2:1 is a range optimizer.
-6. RELAY:   Stage the transfer. Quiet each mediator while it receives.
+1. ENCODE:    W-type states. Never GHZ. Avoid mixed XY Pauli weight.
+2. TOPOLOGY:  Star with 2:1 coupling (mediator to receiver stronger).
+3. TUNE:      J controls speed, γ controls quality. Independent.
+4. TIMING:    Read before t = 0.039/gamma (concurrence metric, Z-dephasing).
+5. RANGE:     Push for local, Pull for long-range. 2:1 is a range optimizer.
+6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
+7. SACRIFICE: All noise on one edge qubit. Protect the rest. (NEW)
 
 Best benchmark: F_avg = 0.888, Holevo = 0.534 bits (star 2:1, gamma=0.05)
 Relay+2:1 at N=11: MI(end-to-end) = 0.132 (+83% over passive)
+Sacrifice-zone formula: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape
 ```
 
 ---
