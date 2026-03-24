@@ -1,0 +1,239 @@
+=== RESONANT RETURN V2: MULTI-MODE OPTIMIZATION + SPATIALLY STRUCTURED PULSING ===
+Started: 2026-03-24 05:53:58
+
+======================================================================
+TEST A: MULTI-MODE OPTIMIZATION
+======================================================================
+
+==================================================
+N = 5 (method = expm)
+==================================================
+
+Computing response matrix SVD...
+  Singular values: 6.2837, 0.8150, 0.5031, 0.3765, 0.0715
+  Mode 1: [0.4235, 0.4615, 0.4641, 0.4615, 0.4235]
+  Mode 2: [0.4710, -0.0596, -0.7412, -0.0596, 0.4710]
+  Mode 3: [-0.3144, 0.5324, -0.4851, 0.5324, -0.3144]
+  Mode 4: [-0.6626, -0.2469, -0.0000, 0.2469, 0.6626]
+
+  V-shape:  Sum_MI = 0.000310
+  Mode 2:   Sum_MI = 0.003159 (10.19x vs V-shape)
+  Mode 2 profile: [0.0703, 0.0474, 0.0181, 0.0474, 0.0703]
+  Target max/min ratio: 3.89
+
+  RK4 validation: expm=0.003159, rk4=0.003159, diff=4.13e-08
+
+--- A1: Individual Modes ---
+  Mode 2: Sum_MI = 0.003159 (10.19x vs V-shape)
+    Profile: [0.0703, 0.0474, 0.0181, 0.0474, 0.0703]
+    max/min = 3.89, sigma = 0.8150
+  Mode 3: Sum_MI = 0.003070 (9.90x vs V-shape)
+    Profile: [0.0312, 0.0818, 0.0210, 0.0818, 0.0312]
+    max/min = 3.89, sigma = 0.5031
+  Mode 4: Sum_MI = 0.001992 (6.43x vs V-shape)
+    Profile: [0.0204, 0.0390, 0.0500, 0.0610, 0.0796]
+    max/min = 3.89, sigma = 0.3765
+
+--- A2: Mode 2+3 Combinations ---
+  w2=1.00, w3=0.00: Sum_MI = 0.003159 (10.19x vs V-shape)
+  w2=0.75, w3=0.25: Sum_MI = 0.001484 (4.79x vs V-shape)
+  w2=0.50, w3=0.50: Sum_MI = 0.000267 (0.86x vs V-shape)
+  w2=0.25, w3=0.75: Sum_MI = 0.000563 (1.82x vs V-shape)
+  w2=0.00, w3=1.00: Sum_MI = 0.003070 (9.90x vs V-shape)
+
+  Best: w2=1.00, w3=0.00 -> Sum_MI = 0.003159 (10.19x)
+
+N=5 completed in 8.4s
+
+==================================================
+N = 7 (method = rk4)
+==================================================
+
+Computing response matrix SVD...
+  Singular values: 6.4273, 0.8519, 0.8238, 0.4178, 0.3136, 0.1135, 0.0266
+  Mode 1: [0.3590, 0.3834, 0.3862, 0.3872, 0.3862, 0.3834, 0.3590]
+  Mode 2: [0.4223, 0.5023, 0.2634, 0.0000, -0.2634, -0.5023, -0.4223]
+  Mode 3: [-0.4092, -0.2382, 0.3238, 0.5847, 0.3238, -0.2382, -0.4092]
+  Mode 4: [0.4145, -0.4164, -0.2085, 0.4719, -0.2085, -0.4164, 0.4145]
+
+  V-shape:  Sum_MI = 0.000559
+  Mode 2:   Sum_MI = 0.004774 (8.54x vs V-shape)
+  Mode 2 profile: [0.0718, 0.0759, 0.0636, 0.0500, 0.0364, 0.0241, 0.0282]
+  Target max/min ratio: 3.16
+
+--- A1: Individual Modes ---
+  Mode 2: Sum_MI = 0.004774 (8.54x vs V-shape)
+    Profile: [0.0718, 0.0759, 0.0636, 0.0500, 0.0364, 0.0241, 0.0282]
+    max/min = 3.16, sigma = 0.8519
+  Mode 3: Sum_MI = 0.003282 (5.87x vs V-shape)
+    Profile: [0.0265, 0.0363, 0.0686, 0.0836, 0.0686, 0.0363, 0.0265]
+    max/min = 3.16, sigma = 0.8238
+  Mode 4: Sum_MI = 0.003446 (6.16x vs V-shape)
+    Profile: [0.0750, 0.0249, 0.0374, 0.0785, 0.0374, 0.0249, 0.0750]
+    max/min = 3.16, sigma = 0.4178
+
+--- A2: Mode 2+3 Combinations ---
+  w2=1.00, w3=0.00: Sum_MI = 0.004774 (8.54x vs V-shape)
+  w2=0.75, w3=0.25: Sum_MI = 0.004408 (7.89x vs V-shape)
+  w2=0.50, w3=0.50: Sum_MI = 0.003228 (5.77x vs V-shape)
+  w2=0.25, w3=0.75: Sum_MI = 0.002610 (4.67x vs V-shape)
+  w2=0.00, w3=1.00: Sum_MI = 0.003282 (5.87x vs V-shape)
+
+  Best: w2=1.00, w3=0.00 -> Sum_MI = 0.004774 (8.54x)
+
+N=7 completed in 33.9s
+
+==================================================
+A3: NUMERICAL OPTIMIZATION (N=5)
+==================================================
+
+  Starting point (mode 2): Sum_MI = 0.003159
+  Profile: [0.0703, 0.0474, 0.0181, 0.0474, 0.0703]
+  Mean: 0.050703
+
+  Running Nelder-Mead optimizer (max 500 evals)...
+    [150 evals] best = 0.027749
+    [300 evals] best = 0.030623
+    [400 evals] best = 0.030851
+    [450 evals] best = 0.030861
+    [500 evals] best = 0.031078
+
+  Optimizer finished: 500 evaluations in 189.8s
+  Converged: False (Maximum number of function evaluations has been exceeded.)
+  Optimized profile: [0.0010, 0.0264, 0.0010, 0.0432, 0.1784]
+  Mean: 0.050000
+  Optimized Sum_MI: 0.031071
+  Improvement over mode 2: 9.83x
+  SVD efficiency: 10.2%
+
+  SVD decomposition of optimal profile:
+    Mode 1: weight = -0.003140 (2.1% of ||delta||, sigma = 6.2837)
+    Mode 2: weight = +0.075506 (51.0% of ||delta||, sigma = 0.8150)
+    Mode 3: weight = -0.017392 (11.8% of ||delta||, sigma = 0.5031)
+    Mode 4: weight = +0.121691 (82.3% of ||delta||, sigma = 0.3765)
+    Mode 5: weight = +0.032646 (22.1% of ||delta||, sigma = 0.0715)
+  Residual: 1.12e-16 (should be ~0)
+
+======================================================================
+TEST B: SPATIALLY STRUCTURED PULSING (N=5)
+======================================================================
+
+  Dominant frequency: omega_dom = 4.4700
+  Mode 2 pattern: [0.47, -0.06, -0.74, -0.06, 0.47]
+  Mode 2 eps: 0.043098
+  Static mode 2 profile: [0.0703, 0.0474, 0.0181, 0.0474, 0.0703]
+
+  --- Static mode 2 (0.2s) ---
+         t      Sum-MI
+    --------------------
+       0.0    2.000000
+       2.0    0.679856
+       4.0    0.356584
+       6.0    0.186352
+       8.0    0.133474
+      10.0    0.074230
+      12.0    0.045952
+      14.0    0.034127
+      16.0    0.027710
+      18.0    0.022690
+      20.0    0.018480
+    Peak Sum-MI: 2.000000 at t=0.0
+
+  --- B1: Mode 2 x resonant (w_dom) (0.2s) ---
+         t      Sum-MI
+    --------------------
+       0.0    2.000000
+       2.0    0.664783
+       4.0    0.361768
+       6.0    0.189937
+       8.0    0.135926
+      10.0    0.073752
+      12.0    0.044953
+      14.0    0.032859
+      16.0    0.027094
+      18.0    0.022063
+      20.0    0.017942
+    Peak Sum-MI: 2.000000 at t=0.0
+
+  --- B2: Mode 2 x slow (w_dom/10) (0.2s) ---
+         t      Sum-MI
+    --------------------
+       0.0    2.000000
+       2.0    0.671272
+       4.0    0.355808
+       6.0    0.184359
+       8.0    0.130497
+      10.0    0.072043
+      12.0    0.044021
+      14.0    0.032239
+      16.0    0.026534
+      18.0    0.021779
+      20.0    0.017772
+    Peak Sum-MI: 2.000000 at t=0.0
+
+  --- B3: Mode 2 x 2*w_dom (0.2s) ---
+         t      Sum-MI
+    --------------------
+       0.0    2.000000
+       2.0    0.657551
+       4.0    0.361361
+       6.0    0.187271
+       8.0    0.132435
+      10.0    0.072493
+      12.0    0.044438
+      14.0    0.032451
+      16.0    0.026696
+      18.0    0.021804
+      20.0    0.017787
+    Peak Sum-MI: 2.000000 at t=0.0
+
+  COMPARISON:
+    Static mode 2                      : peak Sum_MI = 2.000000
+    B1: Mode 2 x resonant (w_dom)      : peak Sum_MI = 2.000000 (1.00x vs static)
+    B2: Mode 2 x slow (w_dom/10)       : peak Sum_MI = 2.000000 (1.00x vs static)
+    B3: Mode 2 x 2*w_dom               : peak Sum_MI = 2.000000 (1.00x vs static)
+
+  PREDICTION CHECK:
+    [FALSIFIED] B1 > static (temporal resonance helps): 2.000000 vs 2.000000
+    [FALSIFIED] B1 > B2 (resonant > slow): 2.000000 vs 2.000000
+    [FALSIFIED] B1 > B3 (fundamental > 2nd harmonic): 2.000000 vs 2.000000
+    [CONFIRMED] B2 ~ static (slow pulsing averages out): |2.000000 - 2.000000| / 2.000000 = 0.0000
+
+======================================================================
+SUMMARY
+======================================================================
+
+  TEST A - Multi-Mode Optimization:
+    N=5 (expm):
+      V-shape baseline:  0.000310
+      Mode 2:           0.003159 (10.19x)
+      Mode 3:           0.003070 (9.90x)
+      Mode 4:           0.001992 (6.43x)
+      Best combo (w2=1.00,w3=0.00): 0.003159 (10.19x)
+
+    N=7 (rk4):
+      V-shape baseline:  0.000559
+      Mode 2:           0.004774 (8.54x)
+      Mode 3:           0.003282 (5.87x)
+      Mode 4:           0.003446 (6.16x)
+      Best combo (w2=1.00,w3=0.00): 0.004774 (8.54x)
+
+  TEST A3 - Numerical Optimization (N=5):
+    Mode 2 Sum_MI:     0.003159
+    Optimized Sum_MI:  0.031071
+    Improvement:       9.83x
+    SVD efficiency:    10.2%
+
+  TEST B - Spatially Structured Pulsing (N=5):
+    Static mode 2:     2.000000
+    B1 (resonant):     2.000000 (1.00x)
+    B2 (slow):         2.000000 (1.00x)
+    B3 (2x freq):      2.000000 (1.00x)
+
+  KEY QUESTION: Does N=7 multi-mode recover the N=5 improvement?
+    N=5 best: 10.19x vs V-shape
+    N=7 best: 8.54x vs V-shape
+    -> NO: multi-mode does not fully recover (gap remains)
+
+Total runtime: 235.3s (3.9 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\resonant_return_v2.txt

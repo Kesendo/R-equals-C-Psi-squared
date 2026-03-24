@@ -1,9 +1,21 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.Numerics;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using RCPsiSquared.Propagate;
+
+// ============================================================
+// PROFILE MODE: lightweight single-evaluation, stdout only
+// ============================================================
+if (args.Length >= 1 && args[0] == "profile")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunProfileEvaluation(args);
+    return;
+}
 
 // ============================================================
 // OUTPUT
@@ -618,6 +630,98 @@ void RunPull3()
     }
 
     Log();
+}
+
+// ============================================================
+// PROFILE EVALUATION MODE
+// ============================================================
+void RunProfileEvaluation(string[] pArgs)
+{
+    // Usage: profile <N> <g1,g2,...,gN> [--tmax 20] [--dt 0.05]
+    if (pArgs.Length < 3)
+    {
+        Console.Error.WriteLine("Usage: profile <N> <g1,g2,...,gN> [--tmax 20] [--dt 0.05]");
+        Environment.Exit(1);
+        return;
+    }
+
+    int n = int.Parse(pArgs[1]);
+    var gammas = pArgs[2].Split(',')
+        .Select(s => double.Parse(s, CultureInfo.InvariantCulture))
+        .ToArray();
+
+    if (gammas.Length != n)
+    {
+        Console.Error.WriteLine($"ERROR: Expected {n} gamma values, got {gammas.Length}");
+        Environment.Exit(1);
+        return;
+    }
+
+    double tMax = 20.0;
+    double dt = 0.05;
+    for (int i = 3; i < pArgs.Length - 1; i++)
+    {
+        if (pArgs[i] == "--tmax")
+            tMax = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+        if (pArgs[i] == "--dt")
+            dt = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+    }
+
+    int d = 1 << n;
+
+    // Heisenberg chain Hamiltonian (J=1.0, N-1 bonds)
+    var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
+    var bonds = Topology.Chain(n, couplings);
+    var H = Topology.BuildHamiltonian(n, bonds);
+
+    // Initial state: |+>^N  (matches resonant_return.py Test 1 setup)
+    var psi = new Complex[d];
+    double psiNorm = 1.0 / Math.Sqrt(d);
+    for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+    var rho0 = DensityMatrixTools.PureState(psi);
+
+    // Propagator with user-specified gamma profile
+    var prop = new LindbladPropagator(H, gammas, n);
+
+    // Measure every 0.5 time units
+    double mInterval = 0.5;
+    int nMeas = (int)(tMax / mInterval) + 1;
+    var tMeas = new double[nMeas];
+    for (int i = 0; i < nMeas; i++) tMeas[i] = i * mInterval;
+
+    double bestSumMI = -1, bestT = 0, bestPeakMI = -1;
+    double cpsi01Best = 0, purBest = 0;
+    double sumMI5 = 0;
+
+    prop.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+    {
+        // Sum-MI: sum of MI(k, k+1) for all adjacent pairs
+        double sumMI = 0;
+        for (int k = 0; k < n - 1; k++)
+            sumMI += DensityMatrixTools.MutualInformation(rho, n,
+                new[] { k }, new[] { k + 1 });
+
+        // MI(0, N-1)
+        double mi0N = DensityMatrixTools.MutualInformation(rho, n,
+            new[] { 0 }, new[] { n - 1 });
+
+        if (sumMI > bestSumMI)
+        {
+            bestSumMI = sumMI;
+            bestT = t;
+            var rho01 = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, 1 });
+            var (cpsiVal, _, _) = DensityMatrixTools.ComputeCPsi(rho01);
+            cpsi01Best = cpsiVal;
+            purBest = DensityMatrixTools.Purity(rho);
+        }
+
+        if (mi0N > bestPeakMI) bestPeakMI = mi0N;
+        if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+    });
+
+    // Output: single machine-parseable line
+    Console.WriteLine(FormattableString.Invariant(
+        $"RESULT SumMI={bestSumMI:F6} PeakMI={bestPeakMI:F6} PeakT={bestT:F2} CPsi01={cpsi01Best:F6} Purity={purBest:F6} SumMI5={sumMI5:F6}"));
 }
 
 // ============================================================

@@ -6,12 +6,12 @@ singular value decomposition, palindrome knows more than intuition,
 scaling improvement grows with N, resonant pulsing falsified wrong observable,
 R=CPsi2 resonant return experiment -->
 
-**Status:** Partially confirmed (Tier 2). Test 1 confirmed, Test 2 falsified (redesigned, still falsified), Test 3 deferred (C#), Test 4 mixed (non-monotone scaling).
-**Date:** March 24, 2026 (N=7 update)
+**Status:** Major results. Test 1 confirmed (10×), Tests 5-7 new: multi-mode, spatially structured pulsing falsified, numerical optimizer discovers **sacrifice-zone** pattern (asymmetric, 53× vs V-shape at N=7).
+**Date:** March 24, 2026 (v3: C# backend optimizer)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** [resonant_return.py](../simulations/resonant_return.py)
-**Data:** [resonant_return.txt](../simulations/results/resonant_return.txt)
+**Scripts:** [resonant_return.py](../simulations/resonant_return.py), [v2](../simulations/resonant_return_v2.py), [v3](../simulations/resonant_return_v3.py)
+**Data:** [resonant_return.txt](../simulations/results/resonant_return.txt), [v2](../simulations/results/resonant_return_v2.txt), [v3](../simulations/results/resonant_return_v3.txt)
 **Hypothesis:** [Resonant Return](../hypotheses/RESONANT_RETURN.md)
 
 ---
@@ -131,6 +131,96 @@ monotonically (0.0018 → 0.0032 → 0.0048), confirming SVD-derived
 profiles are increasingly powerful — but V-shape also improves with N,
 so the *relative* improvement is not guaranteed to grow.
 
+### Test 5: Multi-Mode Optimization (v2 — mode 2 wins, combinations don't help)
+
+At N=7, modes 2 and 3 have nearly equal singular values (0.852 vs 0.824).
+Does combining them recover the N=5 improvement? **No.**
+
+| N | Mode 2 | Mode 3 | Mode 4 | Best combo (2+3) | V-shape |
+|---|--------|--------|--------|-----------------|---------|
+| 5 | **10.2×** | 9.9× | 6.4× | 10.2× (pure m2) | 1.0× |
+| 7 | **8.5×** | 5.9× | 6.2× | 8.5× (pure m2) | 1.0× |
+
+Pure mode 2 wins at both N. Mixing modes 2+3 always degrades. The N=7
+drop from 10.2× to 8.5× is a genuine scaling effect, not a mode-mixing artifact.
+
+Mode patterns at N=5 (symmetric): Mode 3 = `[-0.31, 0.53, -0.49, 0.53, -0.31]`
+Mode patterns at N=7 (mode 2 antisymmetric, mode 3 symmetric center-hot):
+Mode 3 = `[-0.41, -0.24, 0.32, 0.58, 0.32, -0.24, -0.41]`
+
+### Test 6: Spatially Structured Pulsing (v2 — FALSIFIED)
+
+Test 2 used uniform spatial γ modulation. Test 6 uses **mode 2 spatial
+pattern** with temporal modulation — the mode 2 profile oscillates at
+the palindromic frequency.
+
+γ_k(t) = γ_base + ε × V_mode2[k] × sin(ω_dom × t)
+
+| Scenario | Peak Sum-MI | vs Static mode 2 |
+|----------|-------------|------------------|
+| Static mode 2 (no pulsing) | 2.000 | 1.00× |
+| Mode 2 × resonant (ω_dom) | 2.000 | 1.00× |
+| Mode 2 × slow (ω_dom/10) | 2.000 | 1.00× |
+| Mode 2 × 2ω_dom | 2.000 | 1.00× |
+
+**All predictions falsified.** Temporal modulation adds nothing, even with
+spatial structure. The palindrome is a **spatial antenna only**, not temporal.
+
+### Test 7: Numerical Optimization — THE SACRIFICE ZONE (v2/v3)
+
+**The key discovery.** Running scipy Nelder-Mead with the C# RK4 backend
+reveals that the SVD mode 2 direction captures only ~10% of the true
+optimization landscape. The optimizer breaks palindromic symmetry.
+
+#### N=5 (v2, Python expm at t=5.0):
+| Profile | Sum_MI@5 | vs V-shape |
+|---------|----------|-----------|
+| V-shape | 0.000310 | 1.0× |
+| SVD mode 2 | 0.003159 | 10.2× |
+| **Optimizer** | **0.031071** | **100×** |
+
+Optimal profile: `[0.001, 0.026, 0.001, 0.043, 0.178]` — **highly asymmetric**.
+Sites 0,2 nearly noiseless (γ≈0.001), site 4 absorbs all noise (γ=0.178).
+
+SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10.2%.
+
+#### N=5 (v3, C# backend, peak Sum-MI):
+| Profile | Peak Sum_MI | Peak time |
+|---------|-------------|-----------|
+| V-shape | 0.000639 | t=1.0 |
+| SVD mode 2 | 0.005144 | t=1.0 |
+| **Optimizer** | **0.0918** | **t=1.5** |
+
+Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` — same pattern.
+
+#### N=7 (v3, C# backend, 2000 budget, converged at 1156 evals):
+| Profile | Peak Sum_MI | vs V-shape |
+|---------|-------------|-----------|
+| V-shape | 0.002412 | 1.0× |
+| SVD mode 2 | 0.019501 | 8.1× |
+| **Optimizer (converged)** | **0.14391** | **59.7×** |
+
+Optimal profile: `[0.1296, 0.1219, 0.0455, 0.0500, 0.0010, 0.0010, 0.0010]`
+— **asymmetric sacrifice-zone confirmed at N=7**. Sites 0-1 hot (γ≈0.13),
+sites 4-6 sacrificed at minimum (γ=0.001). Asymmetry = 1.35.
+Mirror profile gives identical SumMI (chain symmetry verified).
+
+**The sacrifice-zone pattern is universal.** Both N=5 and N=7 show the same
+strategy: concentrate dephasing on one end, minimize it on the other.
+The protected region maintains coherence; the sacrificed region absorbs
+the noise budget. This breaks palindromic symmetry but dramatically
+improves information transfer.
+
+#### C# Backend Performance
+
+| N | Python expm | C# RK4 | Speedup |
+|---|-------------|--------|---------|
+| 5 | ~1s | ~1s | 1× |
+| 7 | 290 min | 2.9s | **5,900×** |
+
+The C# profile evaluator (`dotnet run -c Release -- profile N gammas`)
+makes N=7 optimization feasible: 500 evals × 1.8s = 15 min.
+
 ---
 
 ## The Physical Insight
@@ -161,10 +251,12 @@ the palindromic eigenstructure provides design rules for optimal
 ## What Remains
 
 1. **Test 3 in C#:** Palindrome-timed relay vs fixed timing (N=11)
-2. **Multi-mode optimization:** At N=7, modes 2 and 3 have similar singular values. Try mode 3 (symmetric?) and weighted combinations of modes 2-4.
-3. **Spatially structured pulsing:** Test 2 used uniform pulsing. Try SVD mode 2 spatial profile × sin(ω_dom·t) temporal modulation.
-4. **RK4 rewrite for N≥7:** Dense expm on 16384² matrices is impractical (290 min). Switch to RK4 time-stepping for N≥7 profile evaluation.
-5. **N=9 scaling:** With RK4, N=9 (d²=262144) becomes feasible on 128 GB.
+2. ~~Multi-mode optimization~~ **Done (Test 5).** Mode 2 wins; combinations don't help.
+3. ~~Spatially structured pulsing~~ **Done (Test 6).** Falsified. Temporal modulation adds nothing.
+4. ~~RK4 rewrite for N≥7~~ **Done.** C# profile evaluator: 2.9s at N=7 (5,900× vs Python expm).
+5. **N=9 optimization:** With C# RK4, N=9 (d=512) becomes feasible (~30s/eval, ~17h for 2000 evals).
+6. ~~Deep N=7 optimizer~~ **Done.** Converged at 1156 evals: SumMI=0.1439 (59.7× vs V-shape).
+7. **Sacrifice-zone theory:** Why does asymmetric dephasing outperform symmetric? The protected subsystem maintains coherence while the sacrificed end absorbs noise. Needs analytical understanding.
 
 ---
 

@@ -1,0 +1,172 @@
+=== RESONANT RETURN V3: C# BACKEND OPTIMIZATION ===
+Started: 2026-03-24 06:23:46
+C# backend: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Propagate
+
+======================================================================
+TEST C: OPTIMIZER VALIDATION (N=5, C# backend)
+======================================================================
+
+  Target: reproduce Python v2 result SumMI5 ~ 0.031071
+  Using peak SumMI as objective (C# advantage over Python)
+
+  Running Nelder-Mead optimizer (N=5 validation, N=5, max 500 evals)...
+  Starting profile: [0.0703, 0.0474, 0.0181, 0.0474, 0.0703]
+  Starting SumMI: 0.005144
+
+    [  10 evals,   18.0s] best SumMI = 0.006147
+    [  20 evals,   34.3s] best SumMI = 0.009158
+    [  50 evals,   61.9s] best SumMI = 0.011979
+    [  70 evals,   78.0s] best SumMI = 0.011979
+    [  80 evals,   86.1s] best SumMI = 0.011979
+    [  90 evals,   94.2s] best SumMI = 0.011998
+    [ 100 evals,  102.3s] best SumMI = 0.012001
+    [ 110 evals,  112.0s] best SumMI = 0.012019
+    [ 120 evals,  123.3s] best SumMI = 0.012047
+    [ 130 evals,  139.4s] best SumMI = 0.012141
+    [ 140 evals,  155.6s] best SumMI = 0.012478
+    [ 150 evals,  171.7s] best SumMI = 0.015409
+    [ 160 evals,  187.6s] best SumMI = 0.034213
+    [ 170 evals,  200.3s] best SumMI = 0.079116
+    [ 180 evals,  208.2s] best SumMI = 0.083300
+    [ 200 evals,  224.0s] best SumMI = 0.087272
+    [ 210 evals,  231.9s] best SumMI = 0.087272
+    [ 220 evals,  239.8s] best SumMI = 0.087272
+    [ 230 evals,  247.7s] best SumMI = 0.087272
+    [ 240 evals,  255.6s] best SumMI = 0.087272
+    [ 270 evals,  281.1s] best SumMI = 0.087272
+    [ 280 evals,  289.1s] best SumMI = 0.087272
+    [ 290 evals,  298.6s] best SumMI = 0.087310
+    [ 310 evals,  325.7s] best SumMI = 0.087935
+    [ 320 evals,  341.5s] best SumMI = 0.089189
+    [ 330 evals,  354.2s] best SumMI = 0.091095
+    [ 340 evals,  362.1s] best SumMI = 0.091221
+    [ 350 evals,  370.0s] best SumMI = 0.091286
+    [ 360 evals,  377.9s] best SumMI = 0.091325
+    [ 380 evals,  394.0s] best SumMI = 0.091326
+    [ 390 evals,  403.5s] best SumMI = 0.091340
+    [ 400 evals,  411.4s] best SumMI = 0.091346
+    [ 410 evals,  424.1s] best SumMI = 0.091381
+    [ 420 evals,  440.0s] best SumMI = 0.091512
+    [ 430 evals,  451.1s] best SumMI = 0.091628
+    [ 440 evals,  459.0s] best SumMI = 0.091630
+    [ 450 evals,  467.1s] best SumMI = 0.091630
+    [ 460 evals,  476.6s] best SumMI = 0.091639
+    [ 470 evals,  484.5s] best SumMI = 0.091639
+    [ 480 evals,  495.5s] best SumMI = 0.091645
+    [ 490 evals,  510.3s] best SumMI = 0.091681
+    [ 500 evals,  526.9s] best SumMI = 0.091759
+
+  Optimizer finished: 500 evals in 526.9s (1.1s/eval)
+  Converged: False (Maximum number of function evaluations has been exceeded.)
+  Optimized profile: [0.0010, 0.0363, 0.0010, 0.0338, 0.1779]
+  Mean(gamma): 0.050000
+  Optimized SumMI: 0.091759
+  Best found during search: 0.091759
+  Full result: SumMI=0.091759 SumMI5=0.028345 PeakMI=0.020377 PeakT=1.50
+
+  VALIDATION:
+    Python v2 SumMI@5:  0.031071
+    C# optimizer SumMI5: 0.028345
+    C# optimizer SumMI (peak): 0.091759
+    Match: 91.2%
+    [PASS] Within 10% tolerance
+
+======================================================================
+TEST B: OPTIMIZER AT N=7 (C# backend)
+======================================================================
+
+  Key question: does N=7 also show asymmetric sacrifice-zone?
+  Starting from: N=7 SVD mode 2 profile
+
+  Running Nelder-Mead optimizer (N=7 optimizer, N=7, max 500 evals)...
+  Starting profile: [0.0718, 0.0759, 0.0636, 0.0500, 0.0364, 0.0241, 0.0282]
+  Starting SumMI: 0.019501
+
+    [  10 evals,   27.8s] best SumMI = 0.021057
+    [  20 evals,   53.5s] best SumMI = 0.024190
+    [  30 evals,   79.3s] best SumMI = 0.028291
+    [  40 evals,  104.5s] best SumMI = 0.036666
+    [  50 evals,  116.9s] best SumMI = 0.038222
+    [  60 evals,  129.6s] best SumMI = 0.038372
+    [ 100 evals,  185.2s] best SumMI = 0.039352
+    [ 110 evals,  202.8s] best SumMI = 0.039881
+    [ 130 evals,  246.0s] best SumMI = 0.042479
+    [ 140 evals,  271.4s] best SumMI = 0.045841
+    [ 150 evals,  297.7s] best SumMI = 0.051528
+    [ 160 evals,  323.2s] best SumMI = 0.064235
+    [ 170 evals,  341.0s] best SumMI = 0.069988
+    [ 180 evals,  353.9s] best SumMI = 0.070727
+    [ 190 evals,  369.3s] best SumMI = 0.073942
+    [ 220 evals,  412.6s] best SumMI = 0.075698
+    [ 230 evals,  435.3s] best SumMI = 0.078344
+    [ 240 evals,  460.5s] best SumMI = 0.083514
+    [ 250 evals,  485.9s] best SumMI = 0.092815
+    [ 260 evals,  509.0s] best SumMI = 0.102850
+    [ 270 evals,  521.9s] best SumMI = 0.105862
+    [ 280 evals,  534.6s] best SumMI = 0.105862
+    [ 290 evals,  547.6s] best SumMI = 0.105862
+    [ 300 evals,  568.3s] best SumMI = 0.108609
+    [ 310 evals,  586.2s] best SumMI = 0.111079
+    [ 320 evals,  609.6s] best SumMI = 0.117450
+    [ 330 evals,  630.1s] best SumMI = 0.126565
+    [ 340 evals,  642.8s] best SumMI = 0.127279
+    [ 350 evals,  655.4s] best SumMI = 0.127559
+    [ 360 evals,  668.2s] best SumMI = 0.127559
+    [ 370 evals,  680.9s] best SumMI = 0.127831
+    [ 410 evals,  736.6s] best SumMI = 0.128291
+    [ 420 evals,  751.7s] best SumMI = 0.128291
+    [ 430 evals,  764.4s] best SumMI = 0.128291
+    [ 440 evals,  782.0s] best SumMI = 0.128422
+    [ 450 evals,  794.5s] best SumMI = 0.128422
+    [ 460 evals,  807.2s] best SumMI = 0.128422
+    [ 470 evals,  827.2s] best SumMI = 0.128534
+    [ 490 evals,  859.8s] best SumMI = 0.128603
+    [ 500 evals,  879.7s] best SumMI = 0.128704
+
+  Optimizer finished: 500 evals in 879.7s (1.8s/eval)
+  Converged: False (Maximum number of function evaluations has been exceeded.)
+  Optimized profile: [0.1282, 0.1151, 0.0474, 0.0500, 0.0010, 0.0073, 0.0010]
+  Mean(gamma): 0.050000
+  Optimized SumMI: 0.128704
+  Best found during search: 0.128704
+  Full result: SumMI=0.128704 SumMI5=0.030627 PeakMI=0.013012 PeakT=2.00
+
+  COMPARISON (N=7, peak SumMI):
+    V-shape:            0.002412
+    Mode 2:             0.019501 (8.1x vs V-shape)
+    Optimizer:          0.128704 (53.4x vs V-shape)
+    Improvement over mode 2: 6.60x
+
+  PROFILE ANALYSIS:
+    Profile: [0.1282, 0.1151, 0.0474, 0.0500, 0.0010, 0.0073, 0.0010]
+    Mean: 0.0500
+    Min: 0.0010 at site 6
+    Max: 0.1282 at site 0
+    Std: 0.0492
+    Asymmetry (||g - g_mirror|| / ||g||): 1.3175
+    -> ASYMMETRIC (sacrifice-zone pattern)
+
+======================================================================
+SUMMARY
+======================================================================
+
+  N=5 optimizer (C# backend):
+    Best profile: [0.0010, 0.0363, 0.0010, 0.0338, 0.1779]
+    Peak SumMI: 0.091759
+    SumMI@5: 0.028345
+    Evals: 500, Time: 527s
+
+  N=7 optimizer (C# backend):
+    Best profile: [0.1282, 0.1151, 0.0474, 0.0500, 0.0010, 0.0073, 0.0010]
+    Peak SumMI: 0.128704
+    SumMI@5: 0.030627
+    Evals: 500, Time: 880s
+    vs Mode 2: 6.60x
+    vs V-shape: 53.4x
+
+  KEY FINDING:
+    N=7 optimizer finds ASYMMETRIC profile (asymmetry=1.32)
+    The sacrifice-zone pattern is universal, not a small-N artifact.
+
+Total runtime: 1415.7s (23.6 min)
+Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\resonant_return_v3.txt
