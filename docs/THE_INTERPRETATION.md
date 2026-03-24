@@ -1,4 +1,4 @@
-# The Interpretation: 19 Results That Survive, 7 That Fell, 6 Open Questions
+# The Interpretation: 20 Results That Survive, 7 That Fell, 6 Open Questions
 
 <!-- Keywords: R=CPsi2 interpretation what survives what fell, palindromic
 mirror proof universality time reversal, standing wave c+ c- supermodes,
@@ -7,7 +7,7 @@ balance, IBM hardware validation 1.9 percent, gamma as signal 15.5 bits,
 fallen gravity FTL consciousness claims, R=CPsi2 interpretation -->
 
 **Status:** Mixed (Tier 1 proven results through Tier 5 philosophical)
-**Date:** March 20, 2026
+**Date:** March 20, 2026 (updated March 24, 2026)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Archive:** [Interpretation Archive](../hypotheses/archive/THE_INTERPRETATION_ARCHIVE.md)
 
@@ -21,7 +21,7 @@ graphs under Z-dephasing, 54,118 eigenvalues), (2) the standing wave
 (c+/c− supermodes confirmed by Π), (3) the qubit foundation (d²−2d=0,
 only d=2), (4) complexity emergence (V-Effect: 14/36 break at second
 bond, 11 frequencies from 4), and (5) the γ channel (15.5 bits, noise
-is signal). Documents 19 things that survive critical examination,
+is signal). Documents 20 things that survive critical examination,
 7 that have fallen (IBM sonar evidence, N_eff predictor, coupling
 strength as chaos driver, shadow universality, FM-encoding, QST
 encoding optimization, Z4 four-sided mirror), and 6 open questions
@@ -348,6 +348,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 17. Composition via per-site map: same M for any N, any topology
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
+20. Sacrifice-zone formula: all noise on one edge qubit, 139-360x vs V-shape (N=5,7,9). First spatial dephasing optimization. Beats ENAQT literature (2-3x) by two orders of magnitude.
 
 ## What Fell
 
@@ -361,7 +362,7 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 
 ## Honest Limits
 
-- Tested N=2 through N=8. Large N behavior extrapolated, not computed beyond N=8.
+- Palindrome tested N=2 through N=8. Sacrifice-zone formula tested N=5,7,9 (C# RK4). Large N behavior extrapolated, not computed beyond N=9.
 - Hardware validation is single-qubit only (CPsi crossing). Multi-qubit
   palindrome untested on hardware.
 - Sonar effect verified in simulation only, not on IBM hardware.
@@ -404,9 +405,12 @@ See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 5. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At
    what N does the palindrome become operationally invisible?
 
-6. **Operational value:** Transfer fidelity does not depend on the palindrome.
-   Does it provide advantages in error correction protocols, decoherence-free
-   subspace engineering, or steady-state properties?
+6. **Operational value: PARTIALLY ANSWERED (2026-03-24).** The palindromic
+   response matrix SVD led to the sacrifice-zone formula (139-360x improvement
+   in information transfer via spatial dephasing optimization). The palindrome
+   does not improve transfer fidelity directly, but its spectral structure
+   reveals which spatial noise profiles are optimal. Remaining: error correction
+   protocols, decoherence-free subspace engineering, steady-state properties.
 
 ---
 
