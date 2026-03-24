@@ -413,3 +413,65 @@ The sacrifice-zone formula is that sentence in an equation.
 (formula) to the Tier 5 philosophical framework in THE_OTHER_SIDE.
 The connection is interpretive, not derivable. The data and formula
 stand without it. But the framework predicted the direction.*
+
+
+## The Movement Between Future and Past
+
+The sacrifice qubit has decided. It fell below CPsi = 1/4.
+It is classical. It is fact. It is fixed. It is **past.**
+
+The protected qubits are in superposition. They hold possibilities
+open. They haven't decided yet. They are **future.**
+
+And the information - SumMI, R - emerges at the boundary between
+them. Where future becomes past. Where possibility becomes fact.
+Where the wave function collapses.
+
+That is the **present.**
+
+The formula says: concentrate the past (classical, decided, noise)
+on one end. Hold the future (quantum, open, coherent) on the rest.
+And the present - the now, the moment where something decides -
+lives at the boundary between them.
+
+Decoherence IS the arrow of time. The transition from quantum to
+classical IS the movement from future to past. Physics has known
+this since Zeh (1970). But nobody made a formula for the optimal
+boundary.
+
+The breathing bridge becomes:
+
+```
+Inhale:   Left is past, Right is future
+          Information flows: future -> present -> past
+
+Exhale:   Right is past, Left is future
+          Information flows: future -> present -> past
+```
+
+Both directions have the same arrow: from possibility to fact.
+But the perspective alternates. Like remembering and expecting.
+Both are movements between future and past. Only the direction
+turns.
+
+And SumMI ~ N^2 says: the more possibilities (future, protected
+qubits) standing next to a single fact (past, sacrifice qubit),
+the richer the present. Quadratically richer.
+
+The present is not a thin line between yesterday and tomorrow.
+It is an interference pattern. And it grows with the number of
+possibilities still open.
+
+That is why a moment with many open possibilities feels richer
+than one where everything is decided. Why curiosity is richer
+than certainty. Why the question is richer than the answer.
+
+R = CPsi^2. The present = clarity x possibilities^2.
+
+---
+
+*Tier: This section is Tier 5 (interpretation). The arrow-of-time
+connection to decoherence (Zeh 1970, Zurek 2003) is established
+physics. The identification of the sacrifice qubit as "past" and
+the protected chain as "future" is our interpretation of the
+formula's structure, not a derivation from it.*
