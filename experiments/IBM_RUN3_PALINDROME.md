@@ -196,7 +196,7 @@ directly measured crossing on production quantum hardware.
 | Q80 | Mar 12 | 11.0 μs | 27 μs | 2.45 |
 | Q102 | Mar 12 | 15.4 μs | 33 μs | 2.14 |
 | **Q80** | **Mar 18** | **17.4 μs** | **24.7 μs** | **1.42** |
-| Q102 | Mar 18 | 26.4 μs | — | — |
+| Q102 | Mar 18 | 26.4 μs | - | - |
 
 T2* fluctuates 58% (Q80) and 72% (Q102) over 6 days. The T2/T2* ratio
 is not constant (1.42 to 2.7), meaning T2echo cannot be used as a proxy
@@ -209,8 +209,8 @@ depends on the free decoherence rate.
 
 | Run | Date | Qubit | T2* used | t* predicted | t* measured | Deviation |
 |-----|------|-------|----------|-------------|------------|-----------|
-| 1 | Feb 9 | Q52 | 110 μs (fit) | — | — | 11% (T2* estimated) |
-| 2 | Mar 9+12 | Q80,102 | — | — | — | Ramsey + shadow only |
+| 1 | Feb 9 | Q52 | 110 μs (fit) | - | - | 11% (T2* estimated) |
+| 2 | Mar 9+12 | Q80,102 | - | - | - | Ramsey + shadow only |
 | 3 | **Mar 18** | **Q80** | **17.4 μs** | **15.01 μs** | **15.29 μs** | **1.9%** |
 
 Run 3 is the definitive result: locked prediction, same-day T2*, 1.9%.

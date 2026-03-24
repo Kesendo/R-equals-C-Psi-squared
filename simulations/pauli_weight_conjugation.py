@@ -1,5 +1,5 @@
 """
-Pauli Weight Conjugation Proof — March 14, 2026
+Pauli Weight Conjugation Proof - March 14, 2026
 =================================================
 Proves the mirror symmetry palindrome analytically.
 

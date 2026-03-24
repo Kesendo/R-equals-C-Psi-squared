@@ -79,7 +79,7 @@ def generate_all_channels(J_SA=1.0, J_SB=2.0, gamma=0.05, dt=0.02, t_max=20.0):
 def exact_poles_from_liouvillian(J_SA=1.0, J_SB=2.0, gamma=0.05):
     """
     Extract EXACT complex poles from the Liouvillian superoperator.
-    No fitting needed — these are the TRUE system poles.
+    No fitting needed - these are the TRUE system poles.
     """
     n_q = 3
     d = 2**n_q  # 8

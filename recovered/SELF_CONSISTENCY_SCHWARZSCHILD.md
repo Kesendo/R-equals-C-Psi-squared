@@ -184,7 +184,7 @@ concentration ratio grows without bound (2.9 → 392 over T·γ_0 = 0.1..0.7).
 However, an 8-qubit coupled chain (Phase B, Heisenberg J=1.0) shows ratio ≈ 1.0
 for all metrics. Spatial coupling redistributes coherence faster than the
 differential γ creates a gradient. The self-consistency argument requires
-uncoupled positions — real coupled quantum systems do not discriminate metrics.
+uncoupled positions - real coupled quantum systems do not discriminate metrics.
 
 *Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md), the null result that motivated this*
 *See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*

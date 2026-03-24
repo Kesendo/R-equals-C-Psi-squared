@@ -1,13 +1,13 @@
 """
-Orphaned Results Deep Exploration — March 14, 2026
+Orphaned Results Deep Exploration - March 14, 2026
 ====================================================
 Run on Tom's machine (Intel Core Ultra 9 285k, 128GB RAM).
 No timeouts. Go deep.
 
 Three explorations:
-1. u = C(Ψ+R) under Π — connection between Mandelbrot and palindrome
-2. Ring near-miss — systematic scan across initial states and parameters  
-3. Echo effect — full characterization with Fourier analysis
+1. u = C(Ψ+R) under Π - connection between Mandelbrot and palindrome
+2. Ring near-miss - systematic scan across initial states and parameters  
+3. Echo effect - full characterization with Fourier analysis
 
 Uses eigendecomposition for fast time evolution.
 """
@@ -85,7 +85,7 @@ class FastEvolver:
         return rho
     
     def evolve_many(self, rho0, times):
-        """Batch evolution — much faster for many timepoints."""
+        """Batch evolution - much faster for many timepoints."""
         rho_vec0 = self.Vinv @ rho0.flatten()
         states = []
         for t in times:
@@ -146,11 +146,11 @@ def get_bonds(topo, N):
 
 
 # ================================================================
-# EXPLORATION 1: Π and physical observables — deep dive
+# EXPLORATION 1: Π and physical observables - deep dive
 # ================================================================
 def exploration_1():
     print("=" * 80)
-    print("EXPLORATION 1: Π, CΨ, z*, u — seeking the Mandelbrot-Palindrome bridge")
+    print("EXPLORATION 1: Π, CΨ, z*, u - seeking the Mandelbrot-Palindrome bridge")
     print("=" * 80)
     
     # Strategy: The Liouvillian eigenvalues are palindromic (proven).
@@ -259,11 +259,11 @@ def exploration_1():
 
 
 # ================================================================
-# EXPLORATION 2: Ring near-miss — systematic scan
+# EXPLORATION 2: Ring near-miss - systematic scan
 # ================================================================
 def exploration_2():
     print(f"\n{'=' * 80}")
-    print("EXPLORATION 2: Ring CΨ near-miss — systematic parameter scan")
+    print("EXPLORATION 2: Ring CΨ near-miss - systematic parameter scan")
     print("=" * 80)
     
     # The audit claims CΨ_max = 0.247 for ring neighbors.
@@ -418,11 +418,11 @@ def exploration_2():
 
 
 # ================================================================
-# EXPLORATION 3: Echo effect — full characterization
+# EXPLORATION 3: Echo effect - full characterization
 # ================================================================
 def exploration_3():
     print(f"\n{'=' * 80}")
-    print("EXPLORATION 3: Echo effect — entanglement oscillation through mediator")
+    print("EXPLORATION 3: Echo effect - entanglement oscillation through mediator")
     print("=" * 80)
     
     # The echo: SA starts with Bell entanglement, SB starts empty.
@@ -598,7 +598,7 @@ def exploration_3():
         print(f"  {J:>8.1f} {np.max(c_sb):>10.4f} {np.max(cp_ab):>12.6f} "
               f"{period:>12.4f}" + (f"  (π/J = {expected:.4f})" if not np.isnan(period) else ""))
 
-    # === Test 4: N=4,5 star — does the echo persist? ===
+    # === Test 4: N=4,5 star - does the echo persist? ===
     print(f"\n  --- Test 4: Echo in larger star topologies ---")
     
     for N_big in [4, 5]:

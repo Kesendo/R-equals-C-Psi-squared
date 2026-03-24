@@ -203,7 +203,7 @@ def gamma_profile(positions, r_s, gamma_0, f_metric):
 
 
 # ====================================================================
-# Section 3: Phase A — Analytical Baseline (2-qubit Bell+)
+# Section 3: Phase A - Analytical Baseline (2-qubit Bell+)
 # ====================================================================
 
 def run_phase_A():
@@ -328,7 +328,7 @@ def run_phase_A():
 
 
 # ====================================================================
-# Section 4: Phase B — Coupled 8-qubit chain
+# Section 4: Phase B - Coupled 8-qubit chain
 # ====================================================================
 
 def run_phase_B():
@@ -419,7 +419,7 @@ def run_phase_B():
 
 
 # ====================================================================
-# Section 5: Phase C — Comparison + Verdict
+# Section 5: Phase C - Comparison + Verdict
 # ====================================================================
 
 def run_phase_C(ratios_A, results_B):

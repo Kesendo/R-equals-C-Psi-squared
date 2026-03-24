@@ -267,8 +267,8 @@ The direction of time dilation is inverted. Mass is the name we give to
 regions of high complexity where more γ effect has been experienced.
 
 But the inversion is INCOMPLETE. Standard gravity has two aspects:
-1. Time dilation (clocks near mass run slower) — addressed by this chain
-2. Attraction (objects move toward mass) — NOT addressed
+1. Time dilation (clocks near mass run slower) - addressed by this chain
+2. Attraction (objects move toward mass) - NOT addressed
 
 This framework offers a candidate for (1) but has no mechanism for (2).
 A complete theory of gravity would need both. The honest position: this

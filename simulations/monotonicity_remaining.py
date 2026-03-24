@@ -2,9 +2,9 @@
 """
 Monotonicity: Remaining Gaps
 ==============================
-Test A: General initial states — is the CΨ ENVELOPE monotonic for |01⟩ etc.?
-Test B: Non-local (collective) noise — L = √γ(Z₁+Z₂)/√2
-Test C: N > 2 subsystem CΨ — do all 2-qubit subsystems cross 1/4?
+Test A: General initial states - is the CΨ ENVELOPE monotonic for |01⟩ etc.?
+Test B: Non-local (collective) noise - L = √γ(Z₁+Z₂)/√2
+Test C: N > 2 subsystem CΨ - do all 2-qubit subsystems cross 1/4?
 
 Script:  simulations/monotonicity_remaining.py
 Output:  simulations/results/monotonicity_remaining.txt
@@ -362,9 +362,9 @@ if __name__ == "__main__":
     log("OVERALL VERDICT")
     log("=" * 70)
     log()
-    log("A: General initial states — envelope monotonic?")
-    log("B: Collective noise — still crosses 1/4?")
-    log("C: N>2 subsystems — all pairs cross 1/4?")
+    log("A: General initial states - envelope monotonic?")
+    log("B: Collective noise - still crosses 1/4?")
+    log("C: N>2 subsystems - all pairs cross 1/4?")
     log()
 
     total = _time.time() - t_start

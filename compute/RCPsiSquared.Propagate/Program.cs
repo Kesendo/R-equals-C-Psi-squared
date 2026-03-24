@@ -353,7 +353,7 @@ void RunTest3()
 // ============================================================
 
 /// <summary>
-/// Part 1: Scaling curve — MI vs N for uniform chain and hierarchical mediator.
+/// Part 1: Scaling curve - MI vs N for uniform chain and hierarchical mediator.
 /// </summary>
 void RunPull1()
 {
@@ -435,7 +435,7 @@ void RunPull1()
 }
 
 /// <summary>
-/// Part 2: Pull optimization — 2:1 coupling at various levels.
+/// Part 2: Pull optimization - 2:1 coupling at various levels.
 /// </summary>
 void RunPull2()
 {
@@ -500,7 +500,7 @@ void RunPull2()
 }
 
 /// <summary>
-/// Part 3: Relay protocol — time-dependent gamma.
+/// Part 3: Relay protocol - time-dependent gamma.
 /// </summary>
 void RunPull3()
 {

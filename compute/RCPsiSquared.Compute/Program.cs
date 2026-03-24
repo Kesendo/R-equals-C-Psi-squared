@@ -187,7 +187,7 @@ if (!n8Only && mklAvailable)
         var ptrI = Liouvillian.BuildDirectNative(nQi, bondsI, gammasI, msg => Log($"  {msg}"));
 
         // Force ILP64 by calling EigenvaluesOnlyNativeIlp64 through the public API
-        // We temporarily lower the threshold — or just call native path directly
+        // We temporarily lower the threshold - or just call native path directly
         sw.Restart();
         var ratesIlp = Liouvillian.GetOscillatoryRatesNativeIlp64(ptrI, d2i, msg => Log($"  {msg}"));
         var msIlp = sw.ElapsedMilliseconds;

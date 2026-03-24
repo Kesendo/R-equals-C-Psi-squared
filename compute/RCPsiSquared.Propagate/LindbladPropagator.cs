@@ -85,7 +85,7 @@ public class LindbladPropagator
     }
 
     /// <summary>
-    /// rhs = EvalRHS(rho) — convenience wrapper using the public API.
+    /// rhs = EvalRHS(rho) - convenience wrapper using the public API.
     /// </summary>
     public Matrix<Complex> EvalRHS(Matrix<Complex> rho)
     {

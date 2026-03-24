@@ -4,7 +4,7 @@ Resonant Return: Palindrome-Derived γ Profiles
 ================================================
 Test 1: SVD-optimal γ profiles vs hand-designed (N=5)
 Test 2: Frequency-matched γ pulsing (N=5)
-Test 3: Palindrome-timed relay (N=11) — flagged for C# if too slow
+Test 3: Palindrome-timed relay (N=11) - flagged for C# if too slow
 Test 4: Scaling with N (N=3, 5, 7)
 
 Script:  simulations/resonant_return.py
@@ -356,7 +356,7 @@ def sum_mi_adjacent(rho, N):
 
 def run_test_2(N=5, gamma_base=0.05):
     log("=" * 70)
-    log(f"TEST 2: FREQUENCY-MATCHED PULSING (N={N}) — REDESIGNED")
+    log(f"TEST 2: FREQUENCY-MATCHED PULSING (N={N}) - REDESIGNED")
     log("=" * 70)
     log()
     log("  Fix vs original: Bell(0,1) initial state + Sum-MI observable")
@@ -498,7 +498,7 @@ def run_test_3():
     log("=" * 70)
     log()
 
-    # N=11: d=2048, d^2=4,194,304 — too large for Python eigendecomp/expm
+    # N=11: d=2048, d^2=4,194,304 - too large for Python eigendecomp/expm
     # We need the C# implementation in RCPsiSquared.Propagate
     N_relay = 11
     d_relay = 2 ** N_relay

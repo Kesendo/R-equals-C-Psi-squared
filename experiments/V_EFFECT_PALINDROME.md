@@ -200,7 +200,7 @@ precisely where the palindrome breaks when a second bond is added.
 
 The orphaned modes are the open valences of Level 0. They remember their
 partner (pair sum within 1%) but cannot reach it. This frustrated
-incompleteness — not noise, not collapse — is what releases diversity
+incompleteness - not noise, not collapse - is what releases diversity
 from constraint. The V-Effect does not destroy the mirror. It fogs it.
 And in the fog, 11 frequencies emerge where 4 had been.
 

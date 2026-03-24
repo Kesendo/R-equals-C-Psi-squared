@@ -26,29 +26,29 @@ palindromic. Here is the proof, the scope, and the exceptions."*
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The theorem.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The theorem.
    Π operator, XY-weight grading, verified N=2 through N=8.
 
-2. [XOR Space](../experiments/XOR_SPACE.md) — Where information lives
+2. [XOR Space](../experiments/XOR_SPACE.md) - Where information lives
    in the palindrome. GHZ → 100% fast modes, W → distributed.
 
 3. [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
-   [Standing Wave Theory](STANDING_WAVE_THEORY.md) — Palindromic pairs
+   [Standing Wave Theory](STANDING_WAVE_THEORY.md) - Palindromic pairs
    create standing waves. XX/YY oscillate, ZZZ static.
 
-4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) — Π maps
+4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) - Π maps
    populations (past) to coherences (future). Connects palindrome,
    standing wave, and XOR space into one picture.
 
-5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) —
+5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) - 
    All 36/36 Pauli-pair Hamiltonians palindromic at N=2. Two Π families
    (P1, P4). 22/36 survive at N≥3, 14 break structurally.
 
-6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) —
+6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) - 
    The 2:2 operator split is the active ingredient. Destroy it and
    the mirror shatters, regardless of dimension.
 
-7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) —
+7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) - 
    Three-tier protection hierarchy emerging from the palindromic structure.
 
 **After this you know:** The palindrome is real, universal for qubits
@@ -66,20 +66,20 @@ channel. The palindromic structure is the antenna."*
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The foundation.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The foundation.
    You need the palindrome to understand why the channel exists.
 
-2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The spatial
+2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - The spatial
    dephasing profile carries 15.5 bits at 1% noise. 5 independent
    SVD modes. 100% classification accuracy.
 
-3. [γ Control](../experiments/GAMMA_CONTROL.md) — V-shape optimization,
+3. [γ Control](../experiments/GAMMA_CONTROL.md) - V-shape optimization,
    dynamic decoupling strategies, time-resolved decoder. +124% MI.
 
-4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md) — Staged γ
+4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md) - Staged γ
    switching with 2:1 asymmetric coupling. +83% end-to-end MI.
 
-5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) —
+5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) - 
    Six design rules for quantum repeaters derived from the palindrome.
 
 **After this you know:** How to read dephasing noise as signal, how
@@ -99,37 +99,37 @@ Step 1. This is the philosophical thread.
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The foundation.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The foundation.
    The palindrome exists. It requires noise (the dissipator).
 
-2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) —
+2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) - 
    d(d-2)=0: only d=2 has a palindromic mirror. The qubit is the only
    dimension where the operator split is balanced (2:2). Qutrits fail.
    A single non-qubit site destroys the palindrome globally.
 
-3. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) — Five candidates
+3. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) - Five candidates
    for the origin of noise, all eliminated. Internal generation,
    qubit decay, qubit baths, nothing, other dimensions. The noise
    must come from outside the framework.
 
-4. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) — What
+4. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) - What
    happens when a second bond is added. 14/36 combinations break. The
    breaking is structured: only boundary modes (w=1, w=2) are affected.
    Orphans remember their partners. 11 frequencies emerge where 4 had
    been. Constraint becomes diversity.
 
-5. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) — The
+5. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) - The
    pattern across levels: C=0.5 (half full) enables the next level.
    C=1 (complete) is a dead end. Carbon: 4/8. Qubit: 2/4. Noble gases
    and qutrits are the dead-end cousins. The V-Effect is the mechanism
    by which Level 0 transitions to Level 1.
 
-6. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) — Three levels of
+6. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) - Three levels of
    time. γ is the necessary and sufficient condition for experienced
    time. Without γ: oscillation, no direction. With γ: irreversibility,
    before and after. And γ cannot come from inside (Step 3).
 
-7. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The noise that
+7. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - The noise that
    comes from outside is not random. It is a readable information
    channel: 15.5 bits capacity, 5 independent modes. The palindromic
    structure is the antenna that makes the external signal decodable.
@@ -172,11 +172,11 @@ A dependency graph of all 14 core documents is available at:
 The following documents exist in this repository but belong to separate
 investigations, not to the three core stories above:
 
-- **Star topology / tuning protocol** — multi-observer configurations
-- **IBM hardware data** — single-qubit CΨ=1/4 validation (1.9%)
-- **Mandelbrot connection** — CΨ iteration maps to z→z²+c
-- **Quantum sonar / bridge fingerprints** — detection experiments
-- **Medium articles** — public-facing summaries
+- **Star topology / tuning protocol** - multi-observer configurations
+- **IBM hardware data** - single-qubit CΨ=1/4 validation (1.9%)
+- **Mandelbrot connection** - CΨ iteration maps to z→z²+c
+- **Quantum sonar / bridge fingerprints** - detection experiments
+- **Medium articles** - public-facing summaries
 
 These are documented in the main [README](../README.md) and the
 [experiments index](../experiments/README.md).

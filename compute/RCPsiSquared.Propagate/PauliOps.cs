@@ -6,7 +6,7 @@ namespace RCPsiSquared.Propagate;
 
 /// <summary>
 /// Single-qubit Pauli matrices and tensor product utilities.
-/// Copied from RCPsiSquared.Compute — do not modify the original.
+/// Copied from RCPsiSquared.Compute - do not modify the original.
 /// </summary>
 public static class PauliOps
 {

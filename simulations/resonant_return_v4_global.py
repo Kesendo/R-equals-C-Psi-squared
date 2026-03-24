@@ -198,7 +198,7 @@ if __name__ == "__main__":
         log(f"  DE CONFIRMS NELDER-MEAD RESULT (within 2%)")
         log(f"  The sacrifice-zone at SumMI ~ {NELDER_BEST:.4f} is likely the GLOBAL optimum.")
     else:
-        log(f"  DE found worse result — may need more iterations.")
+        log(f"  DE found worse result - may need more iterations.")
     log()
 
     # Profile analysis

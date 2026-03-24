@@ -4,11 +4,11 @@ Generalized Pauli Channels: 1/4 Boundary Test
 ================================================
 ℰ(ρ) = (1-p)ρ + p_x σ_x ρ σ_x + p_y σ_y ρ σ_y + p_z σ_z ρ σ_z
 
-Test 1: Continuous Lindblad with (γ_x, γ_y, γ_z) sweep — does CΨ always cross 1/4?
-Test 2: Monotonicity check — is CΨ non-increasing above 1/4?
-Test 3: Palindromic eigenvalue pairing — does it survive non-Z noise?
-Test 4: K-invariance — does K = γ_eff × t_cross hold across noise types?
-Test 5: Discrete channel application — repeated ℰ^n
+Test 1: Continuous Lindblad with (γ_x, γ_y, γ_z) sweep - does CΨ always cross 1/4?
+Test 2: Monotonicity check - is CΨ non-increasing above 1/4?
+Test 3: Palindromic eigenvalue pairing - does it survive non-Z noise?
+Test 4: K-invariance - does K = γ_eff × t_cross hold across noise types?
+Test 5: Discrete channel application - repeated ℰ^n
 
 Script:  simulations/generalized_pauli_channels.py
 Output:  simulations/results/generalized_pauli_channels.txt
@@ -171,12 +171,12 @@ def eigenvalue_pairing(L):
 
 
 # ====================================================================
-# Test 1: Sweep (γ_x, γ_y, γ_z) — does CΨ always cross 1/4?
+# Test 1: Sweep (γ_x, γ_y, γ_z) - does CΨ always cross 1/4?
 # ====================================================================
 
 def test_1_sweep():
     log("=" * 70)
-    log("TEST 1: GENERALIZED PAULI SWEEP — Does CΨ always cross 1/4?")
+    log("TEST 1: GENERALIZED PAULI SWEEP - Does CΨ always cross 1/4?")
     log("=" * 70)
     log()
 
@@ -227,12 +227,12 @@ def test_1_sweep():
 
 
 # ====================================================================
-# Test 2: Monotonicity — is CΨ non-increasing above 1/4?
+# Test 2: Monotonicity - is CΨ non-increasing above 1/4?
 # ====================================================================
 
 def test_2_monotonicity():
     log("=" * 70)
-    log("TEST 2: MONOTONICITY — Is CΨ non-increasing above 1/4?")
+    log("TEST 2: MONOTONICITY - Is CΨ non-increasing above 1/4?")
     log("=" * 70)
     log()
 
@@ -282,7 +282,7 @@ def test_2_monotonicity():
 
 def test_3_palindrome():
     log("=" * 70)
-    log("TEST 3: PALINDROMIC PAIRING — Does it survive non-Z noise?")
+    log("TEST 3: PALINDROMIC PAIRING - Does it survive non-Z noise?")
     log("=" * 70)
     log()
 
@@ -330,7 +330,7 @@ def test_3_palindrome():
 
 def test_4_K_invariance():
     log("=" * 70)
-    log("TEST 4: K-INVARIANCE — Does K = γ_eff × t_cross hold?")
+    log("TEST 4: K-INVARIANCE - Does K = γ_eff × t_cross hold?")
     log("=" * 70)
     log()
 
@@ -382,7 +382,7 @@ def test_4_K_invariance():
 
 def test_5_discrete():
     log("=" * 70)
-    log("TEST 5: DISCRETE CHANNEL — Repeated ℰ^n application")
+    log("TEST 5: DISCRETE CHANNEL - Repeated ℰ^n application")
     log("=" * 70)
     log()
 

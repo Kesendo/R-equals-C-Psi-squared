@@ -274,7 +274,7 @@ for t in t_fine:
 
 # ================================================================
 print(f"\n{'='*80}")
-print("TEST 5: Noiseless vs Noisy QST — What Does Dephasing Cost?")
+print("TEST 5: Noiseless vs Noisy QST - What Does Dephasing Cost?")
 print("Same star, J_SA=1, J_SB=2, compare gamma=0 vs gamma=0.05")
 print(f"{'='*80}")
 

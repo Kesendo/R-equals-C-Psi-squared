@@ -523,7 +523,7 @@ def run_test_5():
     log(f"    rho = [[{rho_1[0,0].real:.4f}, {rho_1[0,1]:.4f}],")
     log(f"           [{rho_1[1,0]:.4f}, {rho_1[1,1].real:.4f}]]")
     log(f"  Purity: {pur_1:.6f}")
-    log(f"  (N=1 has no palindrome — trivial)")
+    log(f"  (N=1 has no palindrome - trivial)")
     log()
 
     # (c) 0 fail, 3 survive (pure Hamiltonian, no noise)

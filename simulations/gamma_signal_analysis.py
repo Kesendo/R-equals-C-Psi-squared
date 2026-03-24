@@ -2,9 +2,9 @@
 """
 Gamma as Signal: Can Bob read what Alice encodes in the γ profile?
 ====================================================================
-Test 1: Random vs correlated γ profiles — can the decoder distinguish?
-Test 2: Time-varying γ — detection from internal observables
-Test 3: Alice-Bob channel — classification accuracy and channel capacity
+Test 1: Random vs correlated γ profiles - can the decoder distinguish?
+Test 2: Time-varying γ - detection from internal observables
+Test 3: Alice-Bob channel - classification accuracy and channel capacity
 
 Script:  simulations/gamma_signal_analysis.py
 Output:  simulations/results/gamma_signal_analysis.txt
@@ -217,7 +217,7 @@ def test_1():
 
 def test_2():
     log("=" * 70)
-    log("TEST 2: TIME-VARYING γ — Detection from internal observables")
+    log("TEST 2: TIME-VARYING γ - Detection from internal observables")
     log("=" * 70)
     log()
 
@@ -309,7 +309,7 @@ def test_2():
 
 def test_3():
     log("=" * 70)
-    log("TEST 3: ALICE-BOB CHANNEL — Classification + Capacity")
+    log("TEST 3: ALICE-BOB CHANNEL - Classification + Capacity")
     log("=" * 70)
     log()
 

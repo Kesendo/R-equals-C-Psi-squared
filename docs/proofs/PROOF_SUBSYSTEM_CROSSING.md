@@ -41,7 +41,7 @@ This is the quantum analogue of ergodic convergence. ∎
 For Lindblad generators: L is primitive iff it has a unique steady state.
 Then ||e^{Lt}ρ₀ - ρ*||₁ ≤ C · e^{-λt} where λ > 0 is the spectral gap.
 
-### Step 2: Fixed-Point Bound — CΨ(ρ*) < 1/4
+### Step 2: Fixed-Point Bound - CΨ(ρ*) < 1/4
 
 This is the core of the proof. We show that the fixed point of any
 primitive CPTP map has CΨ ≤ 1/4.
@@ -91,7 +91,7 @@ For a general primitive CPTP map on d = 4:
 **Analytical argument:** For a primitive map, ρ* is full-rank (positive
 definite). A full-rank state with CΨ > 1/4 must have significant off-diagonal
 coherence AND purity simultaneously. But the primitivity condition requires
-that the map mixes the full state space — it cannot preserve the delicate
+that the map mixes the full state space - it cannot preserve the delicate
 balance between coherence and purity needed for CΨ > 1/4. Specifically:
 
 The off-diagonal elements of ρ* satisfy the fixed-point equation:
@@ -206,7 +206,7 @@ permanently return above 1/4 even under non-Markovian dynamics.**
 | N=3,4,5 Lindblad pairs | 10 pairs | ALL | 0 |
 | Random CPTP on Bell+ | 200 maps | 200/200 | 0 |
 | Adversarial (p=0.001) | 1 | YES (n=1000) | 0.023 |
-| Random fixed points | 100 maps | — | 0.138 |
+| Random fixed points | 100 maps | - | 0.138 |
 | Standard channels | 7 types | ALL | 0 |
 
 **Total: 300+ maps, 0 exceptions.**

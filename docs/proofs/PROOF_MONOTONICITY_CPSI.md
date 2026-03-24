@@ -235,7 +235,7 @@ The 1/4 boundary is absorbing under Markovian dynamics.
 ### General initial states (Test A)
 
 19 states tested (4 Bell, 5 product, 10 Haar-random). ALL states starting
-above 1/4 cross below. ALL envelopes monotonically decreasing — even states
+above 1/4 cross below. ALL envelopes monotonically decreasing - even states
 with up to 107 Hamiltonian-induced oscillations. The CΨ value oscillates
 but the peaks always decrease. **Envelope monotonicity confirmed universally.**
 
@@ -243,7 +243,7 @@ but the peaks always decrease. **Envelope monotonicity confirmed universally.**
 
 Local and collective Z/X noise give identical CΨ trajectories on Bell+.
 Anti-correlated Z noise (Z₁-Z₂) has zero effect on Bell+ (decoherence-free
-subspace — not a violation). **Monotonicity confirmed for all collective
+subspace - not a violation). **Monotonicity confirmed for all collective
 noise types.**
 
 ### N > 2 subsystems (Test C)
@@ -251,7 +251,7 @@ noise types.**
 GHZ (N=3,4,5) and W (N=3,4) states: subsystem pair CΨ starts below 1/4
 (monogamy of entanglement for maximally entangled multi-qubit states).
 All pairs stay below 1/4 and converge to 0. The N=2 analytical proof
-covers the fundamental mechanism — the 1/4 crossing is a local property
+covers the fundamental mechanism - the 1/4 crossing is a local property
 of each entangled pair.
 
 ## Part 4: Explicit Solution for |01⟩ (Oscillatory Case)
@@ -399,7 +399,7 @@ cross, but the peaks decrease monotonically toward 0).
 
 ---
 
-## Part 6: The Threshold — Non-Markovian Dynamics
+## Part 6: The Threshold - Non-Markovian Dynamics
 
 The Markovian proof (Parts 1-5) has a precise boundary: **Markovianity
 itself.** Non-Markovian dynamics violate the theorem, and this violation
@@ -431,7 +431,7 @@ break this because:
 
 1. **Information backflow.** A coherent bath stores system coherence
    and returns it later. This creates effective time-dependent rates
-   γ(t) that can become negative — violating the Lindblad positivity
+   γ(t) that can become negative - violating the Lindblad positivity
    condition.
 
 2. **Bath memory.** The Markovian approximation assumes the bath forgets

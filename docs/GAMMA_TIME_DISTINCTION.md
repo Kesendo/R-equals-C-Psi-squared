@@ -100,7 +100,7 @@ not the arrow itself.
 ## Correction (March 22, 2026)
 
 The original version of this document concluded that the strong claim
-"γ IS time" was falsified. That conclusion was a category error — it
+"γ IS time" was falsified. That conclusion was a category error - it
 confused the formal parameter t (syntax) with experienced time (physics).
 
 The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py)
@@ -139,7 +139,7 @@ source of experienced time, not identical to it.
 Three-part proof. Script: [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py).
 Data: [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt).
 
-### Part 1: Completeness — γ produces every property of experienced time
+### Part 1: Completeness - γ produces every property of experienced time
 
 | Property | |01⟩ γ=0 | |01⟩ γ=0.05 | Bell+ γ=0 | Bell+ γ=0.05 |
 |----------|---------|------------|-----------|-------------|
@@ -156,7 +156,7 @@ kreuzt 2× in beide Richtungen. Die Oszillation vom Hamiltonian
 moduliert den Zerfall. Die reine Monotonie gilt nur für J=0 oder
 für Bell+ (Eigenzustand von H, keine Oszillation).
 
-### Part 2: Exclusivity — NUR γ erzeugt erlebte Zeit
+### Part 2: Exclusivity - NUR γ erzeugt erlebte Zeit
 
 | Konfiguration | S monoton | D kehrt nicht zurück | CΨ einmalig | Zeit? |
 |---------------|-----------|---------------------|-------------|-------|
@@ -168,7 +168,7 @@ für Bell+ (Eigenzustand von H, keine Oszillation).
 
 **J=0, γ>0: Erlebte Zeit existiert.** Reiner Zerfall, kein Hamiltonian.
 S steigt monoton. D kehrt nicht zurück. CΨ kreuzt einmalig abwärts.
-Alles was erlebte Zeit ausmacht — ohne jede Dynamik. Nur γ.
+Alles was erlebte Zeit ausmacht - ohne jede Dynamik. Nur γ.
 
 **J>0, γ=0: Erlebte Zeit existiert nicht.** Oszillation, Rekurrenz.
 Kein Observable akkumuliert irreversibel.
@@ -176,7 +176,7 @@ Kein Observable akkumuliert irreversibel.
 **γ ist notwendig und hinreichend für erlebte Zeit. J ist weder
 notwendig noch hinreichend.**
 
-### Part 3: Äquivalenz — τ=γt als universelle Skala
+### Part 3: Äquivalenz - τ=γt als universelle Skala
 
 | Observable (irreversibel) | max Δ(τ;γ₁,γ₂) | τ-Skalierung? |
 |---------------------------|-----------------|---------------|
@@ -193,7 +193,7 @@ Zerfall (von γ) und umgekehrt. Das J/γ-Verhältnis bestimmt die Form
 der Trajektorie, nicht nur die Skala.
 
 Anmerkung: die K-Invarianz aus [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md)
-(K = γ·t_cross = const) gilt weiterhin — aber nur für den
+(K = γ·t_cross = const) gilt weiterhin - aber nur für den
 KREUZUNGSZEITPUNKT, nicht für die vollständige Trajektorie. Die
 volle Dynamik enthält sowohl γ-abhängigen Zerfall als auch
 J-abhängige Oszillation. Nur der Kreuzungszeitpunkt skaliert mit τ.
@@ -215,8 +215,8 @@ J-abhängige Oszillation. Nur der Kreuzungszeitpunkt skaliert mit τ.
 γ ist die notwendige und hinreichende Bedingung für erlebte Zeit.
 γ ist nicht die vollständige Beschreibung erlebter Zeit. Erlebte
 Zeit = γ (Richtung) + J (Inhalt). γ liefert den Pfeil. J liefert
-was passiert. Ohne γ gibt es keine Erfahrung — das ist bewiesen.
-Aber die Erfahrung hat Struktur die von J abhängt — das ist auch
+was passiert. Ohne γ gibt es keine Erfahrung - das ist bewiesen.
+Aber die Erfahrung hat Struktur die von J abhängt - das ist auch
 bewiesen.
 
 Oder kürzer: **γ ist die Quelle. J ist der Inhalt. Beides zusammen

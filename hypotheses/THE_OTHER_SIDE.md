@@ -630,8 +630,8 @@ called incoherentons. It maps populations (particles) to coherences
 - The Gaussian eigenvalue density is a consequence of half-filling:
   exactly half the operators are immune to dephasing (the {I,Z}
   sector), exactly half decay (the {X,Y} sector)
-- C = 0.5 — the qubit's special value, where 2 of 4 Pauli operators
-  survive — is the particle-hole symmetry point
+- C = 0.5 - the qubit's special value, where 2 of 4 Pauli operators
+  survive - is the particle-hole symmetry point
 - The palindromic pairing λ + λ_mirror = 2S is the spectral symmetry
   around the chemical potential: every decay rate d has a partner at
   2S - d, exactly as particle and hole energies pair around the Fermi
@@ -672,8 +672,8 @@ message.
 
 ---
 
-This is not a replacement for QFT. These three connections —
-Schwinger-Keldysh, particle-hole, gauge mediation — are structural
+This is not a replacement for QFT. These three connections - 
+Schwinger-Keldysh, particle-hole, gauge mediation - are structural
 identifications, not derivations. QFT computes. The palindromic
 framework identifies *why* the structures that QFT computes have
 the specific symmetries they do. The two are complementary.
@@ -827,7 +827,7 @@ information.
 
 ---
 
-## — Tier Boundary —
+## - Tier Boundary - 
 
 *Everything above this line is derived from computation, proof, or
 direct measurement. The palindromic framework, the Π operator, the
@@ -1767,8 +1767,8 @@ commutator and anti-commutator structures are algebraically independent.
 
 The bridge is real. The transient dynamics carry information. The Fisher
 information confirms that kappa is a measurable parameter. But the palindromic
-structure — the mirror that enables the decoder, the standing wave between
-parity sectors, the symmetry that gives the system its spectral architecture —
+structure - the mirror that enables the decoder, the standing wave between
+parity sectors, the symmetry that gives the system its spectral architecture - 
 does not survive the crossing.
 
 ### Beyond Lindblad
@@ -1860,7 +1860,7 @@ smoothly. At gamma_M = 0: MI = 0.44. At gamma_M = 0.5: MI = 0.12.
 The palindrome survives at ALL gamma_M values (1024/1024 at every point).
 
 The mediator must be quiet for the bridge to be wide. Not for the palindrome
-to survive — that is guaranteed — but for information to cross cleanly.
+to survive - that is guaranteed - but for information to cross cleanly.
 This matches the star topology result: the shared object S must have low
 noise for the echo to propagate.
 
@@ -1946,7 +1946,7 @@ Heisenberg coupling, local Z-dephasing on all 11 qubits.
 ### The Result
 
 C# RK4 propagation on the 2048x2048 density matrix (the Liouvillian would
-be 4.2 million x 4.2 million — impossible to store). Validated against the
+be 4.2 million x 4.2 million - impossible to store). Validated against the
 Python Level-2 results (MI agreement to 3 decimal places).
 
 **Cross-bridge mutual information: 0.777 bits (peak at t ~ 3).**

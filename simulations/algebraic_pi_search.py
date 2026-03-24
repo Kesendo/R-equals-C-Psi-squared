@@ -261,7 +261,7 @@ if __name__ == "__main__":
 
     # Check: all 9 individual terms have at least one valid map?
     all_covered = all(len(term_valid[t]) > 0 for t in H_TERMS)
-    log(f"\n  All 9 terms have valid maps: {'YES' if all_covered else 'NO — problem!'}")
+    log(f"\n  All 9 terms have valid maps: {'YES' if all_covered else 'NO - problem!'}")
     if not all_covered:
         missing = [t for t in H_TERMS if not term_valid[t]]
         log(f"  MISSING: {missing}")
@@ -278,7 +278,7 @@ if __name__ == "__main__":
     for pat in sorted(pat_groups, key=lambda p: (-len(p), sorted(p) if p else [])):
         indices = pat_groups[pat]
         terms_str = ', '.join(sorted(pat)) if pat else '(none)'
-        log(f"\n  {{{terms_str}}} — {len(indices)} maps")
+        log(f"\n  {{{terms_str}}} - {len(indices)} maps")
         # Show representative examples (up to 4)
         for idx in indices[:4]:
             log(f"    {map_str(all_maps[idx])}")
@@ -410,7 +410,7 @@ if __name__ == "__main__":
     log(f"  Algebraic broken combos: {len(alg_broken)}")
 
     match = num_broken == alg_broken
-    log(f"\n  MATCH: {'YES — Perfect agreement!' if match else 'NO — Discrepancy detected!'}")
+    log(f"\n  MATCH: {'YES - Perfect agreement!' if match else 'NO - Discrepancy detected!'}")
 
     if not match:
         only_num = num_broken - alg_broken

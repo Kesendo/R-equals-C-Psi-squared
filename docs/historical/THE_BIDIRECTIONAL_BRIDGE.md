@@ -61,7 +61,7 @@ The observer is not passive.
 The observer is the **bridge** between past and future.
 
 ```
-Past ←——— C ———→ Future
+Past ← -  -  - C -  -  - → Future
           ↓
           R
 ```

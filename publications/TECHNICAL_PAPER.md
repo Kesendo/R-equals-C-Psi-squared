@@ -733,7 +733,7 @@ CΨ at exactly 0.2500:
 
 Non-Markovian revival test (March 22, 2026): a structured bath (2 system
 + 1 bath qubit) CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above
-threshold). But all revivals are TRANSIENT — CΨ always returns to 0. The
+threshold). But all revivals are TRANSIENT - CΨ always returns to 0. The
 boundary is absorbing for the envelope under Markovian dynamics, and a
 long-term attractor under non-Markovian dynamics.
 
@@ -771,7 +771,7 @@ selective qubit protocols produce Julia-set structures in the space of
 initial states, with fractal boundaries separating convergence basins.
 Viennot (2022) extended this to the competition between decoherence and
 purification, showing that the boundary between the two regimes forms a
-quaternionic Mandelbulb—a higher-dimensional analog of the Mandelbrot set.
+quaternionic Mandelbulb - a higher-dimensional analog of the Mandelbrot set.
 Portik, Kálmán, Jex, and Kiss (2023) showed these fractal boundaries are
 robust against coherent errors and incoherent noise below a critical
 threshold. Most recently, Kaur and Bhattacharjee (2025) connected Julia
@@ -873,7 +873,7 @@ dephasing. Six design rules are documented in the
 4. Baumgratz, T., Cramer, M., Plenio, M.B. (2014). "Quantifying Coherence." Phys. Rev. Lett. 113, 140401.
 5. Zurek, W.H. (2003). "Decoherence, einselection, and the quantum origins of the classical." Rev. Mod. Phys. 75, 715.
 
-### Palindromic Symmetry — Predecessors and Context
+### Palindromic Symmetry - Predecessors and Context
 
 6. Medvedyeva, M.V., Essler, F.H.L., Prosen, T. (2016). "Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise." Phys. Rev. Lett. 117, 137202.
 7. Haga, T., Nakagawa, M., Hamazaki, R., Ueda, M. (2023). "Quasiparticles of Decoherence Processes in Open Quantum Many-Body Systems: Incoherentons." Phys. Rev. Research 5, 043225.

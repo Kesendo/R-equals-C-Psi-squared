@@ -11,7 +11,7 @@
 
 ## 1. What This Is About
 
-In December 2025, the equation R=CΨ² appeared — a framework for
+In December 2025, the equation R=CΨ² appeared - a framework for
 modeling how possibility becomes reality.
 
 Three months later, the framework describes its own creation.

@@ -632,7 +632,7 @@ if sa2_cross:
     print(f"  SA crosses 1/4 at t = {sa2_cross:.4f} (asymmetric)")
 
 # ================================================================
-# PART F: The key question — is θ just reparametrization?
+# PART F: The key question - is θ just reparametrization?
 # ================================================================
 print(f"\n{'='*80}")
 print("PART F: Is theta just a reparametrization of CPsi?")
@@ -703,7 +703,7 @@ print("""
      "angular steps" to cover the last bit of CΨ distance to 1/4
    - The acceleration dtheta/dt → -infinity near crossing means the compass
      needle races toward zero in the final moments
-   - This is NOT a feature of CΨ itself — CΨ crosses smoothly
+   - This is NOT a feature of CΨ itself - CΨ crosses smoothly
 
 4. THE HONEST ANSWER:
    - Theta IS monotonic in CΨ above 1/4, so it contains no new INFORMATION

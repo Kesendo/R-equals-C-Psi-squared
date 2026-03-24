@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-qubit_necessity_tests.py — Five computational tests for qubit necessity.
+qubit_necessity_tests.py - Five computational tests for qubit necessity.
 
 Test 1: QST Comparison (qubit chain vs qutrit chain)
 Test 2: Qutrit Eigenvalue Structure
@@ -211,7 +211,7 @@ def ptrace_general(rho, dims, keep):
 # ============================================================
 def run_test_1():
     log("=" * 70)
-    log("TEST 1: QST COMPARISON — QUBIT CHAIN VS QUTRIT CHAIN")
+    log("TEST 1: QST COMPARISON - QUBIT CHAIN VS QUTRIT CHAIN")
     log("=" * 70)
     log()
 
@@ -411,7 +411,7 @@ def run_test_2():
 def run_test_3():
     log()
     log("=" * 70)
-    log("TEST 3: HYBRID CHAIN — QUBIT-QUTRIT-QUBIT")
+    log("TEST 3: HYBRID CHAIN - QUBIT-QUTRIT-QUBIT")
     log("=" * 70)
     log()
 
@@ -649,7 +649,7 @@ def run_test_4():
 def run_test_5():
     log()
     log("=" * 70)
-    log("TEST 5: COMPOSITION PROOF — TENSOR PRODUCT OF Pi OPERATORS")
+    log("TEST 5: COMPOSITION PROOF - TENSOR PRODUCT OF Pi OPERATORS")
     log("=" * 70)
     log()
 

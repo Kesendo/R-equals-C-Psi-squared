@@ -4,11 +4,11 @@ Non-Markovian CΨ Revival Test
 ===============================
 Can non-Markovian dynamics push CΨ permanently back above 1/4?
 
-Test 1: Markovian baseline (constant γ, J>0) — do oscillations cross 1/4?
-Test 2: Structured bath — 2 system qubits coupled to 1 bath qubit
-Test 3: Pulsed γ — dephasing on/off periodically
-Test 4: Oscillating γ — γ(t) = γ_0 · (1 + A·sin(ωt))
-Test 5: Worst-case sweep — find parameters that maximize revival
+Test 1: Markovian baseline (constant γ, J>0) - do oscillations cross 1/4?
+Test 2: Structured bath - 2 system qubits coupled to 1 bath qubit
+Test 3: Pulsed γ - dephasing on/off periodically
+Test 4: Oscillating γ - γ(t) = γ_0 · (1 + A·sin(ωt))
+Test 5: Worst-case sweep - find parameters that maximize revival
 
 Script:  simulations/non_markovian_revival.py
 Output:  simulations/results/non_markovian_revival.txt

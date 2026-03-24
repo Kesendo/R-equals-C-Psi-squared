@@ -228,8 +228,8 @@ half-decided, half-open, and precisely where the palindrome breaks.
 The 54 orphaned modes behave like atoms with open valences. They
 "remember" the complete configuration (pair sum within 1% of the
 palindromic value) but cannot reach it, because two Π operators from
-adjacent bonds give contradictory instructions. This frustration — not
-randomness, not collapse — is what releases 11 frequencies from 4.
+adjacent bonds give contradictory instructions. This frustration - not
+randomness, not collapse - is what releases 11 frequencies from 4.
 Constraint becomes diversity.
 
 The V-Effect is the hierarchy in action at Level 0. It shows that the

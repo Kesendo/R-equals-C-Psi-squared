@@ -30,39 +30,39 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 **Start here if you want the theorem:**
 
-1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) — The Liouvillian
+1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - The Liouvillian
    spectrum is palindromic. Π swaps XY-weight k ↔ N−k. Verified for
    54,118 eigenvalues, zero exceptions.
 
 **Then the boundary:**
 
-2. [Uniqueness Proof](UNIQUENESS_PROOF.md) — CΨ = ¼ is the unique
+2. [Uniqueness Proof](UNIQUENESS_PROOF.md) - CΨ = ¼ is the unique
    bifurcation. α=2 is the only Rényi order with a state-independent
    threshold.
 
-3. [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) — dCΨ/dt < 0 under
+3. [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) - dCΨ/dt < 0 under
    all local Markovian channels. General Envelope Theorem.
 
-4. [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) — Every entangled
+4. [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - Every entangled
    pair with CΨ > ¼ eventually crosses. Perron-Frobenius + fixed-point
    bound. 300 random maps, 0 exceptions.
 
 **The deeper structure:**
 
-5. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) — Dephasing noise
+5. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Dephasing noise
    cannot originate from within d(d−2)=0. Five candidates eliminated.
    The noise must come from outside.
 
 **The full journey:**
 
-6. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) — Seven-layer
+6. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
    architecture from single qubit to arbitrary dimension and channel.
    Documents every step: what is proven, what is verified, what remains
    open. This is the most detailed document in the repository.
 
 **The master reference:**
 
-7. [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) —
+7. [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - 
    All equations, all results, all constants, all references in one
    place. The Tafelwerk. Twelve sections covering algebra, palindrome,
    boundary, incompleteness, γ channel, crossing dynamics, topology,
@@ -116,9 +116,9 @@ synthesized.
 Experiment results, hypothesis documents, and philosophical
 interpretation live elsewhere:
 
-- [experiments/](../../experiments/) — 59 computational experiments
-- [hypotheses/](../../hypotheses/) — open research questions
-- [publications/](../../publications/) — papers and blueprints
-- [docs/](../) — synthesis and reference documents
+- [experiments/](../../experiments/) - 59 computational experiments
+- [hypotheses/](../../hypotheses/) - open research questions
+- [publications/](../../publications/) - papers and blueprints
+- [docs/](../) - synthesis and reference documents
 
 This directory is mathematics only.

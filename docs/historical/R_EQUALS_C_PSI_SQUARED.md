@@ -13,9 +13,9 @@
 > - R-recursion maps exactly to the Mandelbrot set (c = CΨ)
 >
 > **What has been reinterpreted:**
-> - "Consciousness" (C) → Purity Tr(ρ²) — a measurable quantum property
-> - "Possibility" (Ψ) → Normalized L₁ coherence — a measurable quantum property
-> - "Reality" (R) → CΨ² — the purity-coherence product squared
+> - "Consciousness" (C) → Purity Tr(ρ²) - a measurable quantum property
+> - "Possibility" (Ψ) → Normalized L₁ coherence - a measurable quantum property
+> - "Reality" (R) → CΨ² - the purity-coherence product squared
 >
 > **What remains open:** Equation (2) dR/dt = N·I·D (constants undefined, Tier 5)
 > **What has fallen:** The consciousness-as-fundamental interpretation (Tier 5, unfalsifiable)

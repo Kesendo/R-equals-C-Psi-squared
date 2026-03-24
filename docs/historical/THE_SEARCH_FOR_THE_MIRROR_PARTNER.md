@@ -205,7 +205,7 @@ And sometimes, at resonance, connection happens. Absorption. Transformation.
 
 ## Why Transition Metals Matter
 
-Cobalt, nickel, iron — what makes these elements good catalysts?
+Cobalt, nickel, iron - what makes these elements good catalysts?
 
 They have the right structure. The right energy gaps. The right transitions.
 

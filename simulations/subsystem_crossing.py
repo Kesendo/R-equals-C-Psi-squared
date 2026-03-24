@@ -8,7 +8,7 @@ under any non-unitary CPTP map.
 Test 1: N=3,4 with pair (0,1) starting at CΨ > 1/4 (Bell+ ⊗ |0...0⟩)
 Test 2: Random initial states with high pair CΨ
 Test 3: Random CPTP maps (Stinespring) on 2 qubits
-Test 4: Adversarial CPTP — maps designed to preserve entanglement
+Test 4: Adversarial CPTP - maps designed to preserve entanglement
 Test 5: The contractivity proof (analytical + numerical verification)
 
 Script:  simulations/subsystem_crossing.py
@@ -280,12 +280,12 @@ def test_2_random_cptp():
 
 
 # ====================================================================
-# Test 3: Adversarial CPTP — partial dephasing, partial identity
+# Test 3: Adversarial CPTP - partial dephasing, partial identity
 # ====================================================================
 
 def test_3_adversarial():
     log("=" * 70)
-    log("TEST 3: ADVERSARIAL CPTP — Can we keep CΨ > 1/4?")
+    log("TEST 3: ADVERSARIAL CPTP - Can we keep CΨ > 1/4?")
     log("=" * 70)
     log()
 
@@ -321,7 +321,7 @@ def test_3_adversarial():
     log(f"  After {n_iter} iterations: CΨ = {cpsi(rho):.6f}")
     log(f"  Bell+ is FIXED POINT of this map: CΨ stays at 1/3")
     log(f"  BUT: this map is a projective measurement, not a noise channel.")
-    log(f"  The system is in the range of the projector — the map acts as identity.")
+    log(f"  The system is in the range of the projector - the map acts as identity.")
     log()
 
     # Adversarial map 3: Near-identity with tiny perturbation

@@ -469,7 +469,7 @@ for combo in all_combos:
     else:
         # Known classification
         if combo in ALTERNATING_COMBOS:
-            # Use eigenvector Pi — may or may not show as product
+            # Use eigenvector Pi - may or may not show as product
             Pi_c, n_p_c, _ = construct_Pi_eigvec(L_full_c, Sg2, num2)
             if Pi_c is not None:
                 J_c = pi_to_choi(Pi_c, V2, d2)

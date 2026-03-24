@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-mirror_structure_deep.py — The Structure of the Mirror
+mirror_structure_deep.py - The Structure of the Mirror
 Rank Threshold, Qudit Universality, Engineering, and Geometry
 
 Four open threads from the boot script investigation:
@@ -499,7 +499,7 @@ def run_section_2():
     log("=" * 70)
     log()
 
-    # ----- 2b: Per-site split analysis (do first — gives the structural answer) -----
+    # ----- 2b: Per-site split analysis (do first - gives the structural answer) -----
     log("--- 2b: Per-site split for d=3 (qutrits) ---")
     log()
 
@@ -814,7 +814,7 @@ def run_section_3():
     log("  This is correct: XZ and YZ are NOT exchange interactions.")
     log("  They do not swap spin excitations between sites.")
     log("  Only Heisenberg (XX+YY+ZZ) facilitates state transfer.")
-    log("  Pi entanglement is IRRELEVANT for QST — they measure")
+    log("  Pi entanglement is IRRELEVANT for QST - they measure")
     log("  completely different properties of the Hamiltonian.")
 
 
@@ -910,7 +910,7 @@ def run_section_4():
     log("  XX and XZ+YZ are BOTH palindromic, but with DIFFERENT Pi operators.")
     log("  Their mixture is NOT palindromic: no single Pi works for both.")
     log("  The palindrome exists only at the endpoints (alpha=0 and alpha=1).")
-    log("  SHARP phase transition — the mirror cannot interpolate between")
+    log("  SHARP phase transition - the mirror cannot interpolate between")
     log("  different palindromic symmetry classes.")
     log()
     log("  Contrast with Section 3b: Heisenberg-to-XZ+YZ interpolation SURVIVES")

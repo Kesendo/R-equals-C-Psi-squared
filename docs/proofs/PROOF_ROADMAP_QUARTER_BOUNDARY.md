@@ -93,7 +93,7 @@ The 1.9% deviation is within expected systematic error for the hardware (T1/T2 c
    The Rényi uniqueness theorem proves this from a deeper angle: α=2 is the
    UNIQUE Rényi order where the bifurcation threshold is state-independent.
    This implies CΨ² (purity × coherence²) is not just one among many
-   product-powers — it is the ONLY one with a universal boundary. See
+   product-powers - it is the ONLY one with a universal boundary. See
    [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 
 ---
@@ -144,7 +144,7 @@ channels, numerically verified for 300 random CPTP maps (max CΨ(ρ*) = 0.138).
 Only exception: non-primitive maps (e.g., projective measurements preserving
 Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
 
-**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient — CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
+**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient - CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
 ### NEXT STEPS
 
@@ -160,7 +160,7 @@ Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSI
    Non-Markovian revival above 1/4 confirmed: structured bath (2 system +
    1 bath qubit) produces CΨ up to 0.3035 after crossing below 1/4. Key
    conditions: coherent bath (|+⟩), low bath dephasing (γ_B ≪ J_SB), strong
-   system-bath coupling. Revivals are ALWAYS transient — CΨ→0 in all 48
+   system-bath coupling. Revivals are ALWAYS transient - CΨ→0 in all 48
    configurations tested. Pulsed and oscillating γ(t) produce NO revival.
    See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
@@ -333,7 +333,7 @@ dynamics CAN push CΨ back above 1/4 after it has crossed below. A structured
 bath (Bell+ system pair coupled to a bath qubit in |+⟩) produces revivals up
 to CΨ = 0.3035 (21% above threshold). The mechanism is information backflow
 from a coherent bath: low γ_B and high J_SB maximize the effect. However,
-all revivals are TRANSIENT — CΨ always returns to 0 eventually. The 1/4
+all revivals are TRANSIENT - CΨ always returns to 0 eventually. The 1/4
 boundary is not absorbing but is a long-term attractor.
 Script: [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 Results: [non_markovian_revival.txt](../../simulations/results/non_markovian_revival.txt).
@@ -376,7 +376,7 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
 4. ~~**Attack the non-Markovian case.**~~ **DONE (March 22, 2026).** Swept 48
    configurations (6 J_SB × 4 γ_B × 2 bath states). Worst-case revival:
    CΨ = 0.3035 (J_SB=5.0, γ_B=0.5, bath=|+⟩). The 1/4 boundary is NOT
-   absorbing — but all revivals are transient. Conjecture 5.2 needs
+   absorbing - but all revivals are transient. Conjecture 5.2 needs
    refinement: the ENVELOPE of CΨ is monotonically non-increasing, but
    CΨ itself can oscillate above 1/4 via information backflow.
 
@@ -433,7 +433,7 @@ The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence 
 The question "why must the recursion be quadratic?" is now answered: α=2 (purity Tr(ρ²))
 is the UNIQUE Rényi order where the bifurcation threshold CΨ* does not depend on Ψ.
 For any other α, the threshold is CΨ_α* = (α-1)^{α-1}/(α^α · Ψ^{α-2}), which depends
-on the state. Only α=2 gives the universal 1/4. The quadratic structure is not arbitrary —
+on the state. Only α=2 gives the universal 1/4. The quadratic structure is not arbitrary - 
 it is the unique structure with a state-independent critical boundary.
 
 **Formal theorem statement and proof.** Something like:

@@ -20,7 +20,7 @@ streamlit run app.py
 Opens at **http://localhost:8501** in your browser.
 
 > **Requirements:** Python 3.10+, numpy, scipy, streamlit, plotly.
-> No external API calls — everything runs locally.
+> No external API calls - everything runs locally.
 
 ---
 
@@ -37,13 +37,13 @@ via Heisenberg exchange interactions, forming a **star topology**:
     B
 ```
 
-The system evolves under the **Lindblad master equation** — unitary dynamics
+The system evolves under the **Lindblad master equation** - unitary dynamics
 from the Hamiltonian plus decoherence from the environment (dephasing noise).
 
 The simulator tracks two **dynamical sectors** in the A–B subsystem:
 
-- **c₊(t) = (⟨σ_y⊗σ_z⟩ + ⟨σ_z⊗σ_y⟩) / √2** — symmetric sector
-- **c₋(t) = (⟨σ_y⊗σ_z⟩ − ⟨σ_z⊗σ_y⟩) / √2** — antisymmetric sector
+- **c₊(t) = (⟨σ_y⊗σ_z⟩ + ⟨σ_z⊗σ_y⟩) / √2** - symmetric sector
+- **c₋(t) = (⟨σ_y⊗σ_z⟩ − ⟨σ_z⊗σ_y⟩) / √2** - antisymmetric sector
 
 These oscillate at **different frequencies** determined by the coupling topology,
 and their relative amplitudes are controlled by the bath geometry.
@@ -63,7 +63,7 @@ These set the **oscillation frequencies** of c₊ and c₋.
 | J_SB | 2.0 | S–B exchange strength |
 
 With the defaults, the FFT shows f(c₊) ≈ 1.50 and f(c₋) ≈ 0.40.
-Changing J_SB shifts frequencies — the two sectors always separate cleanly
+Changing J_SB shifts frequencies - the two sectors always separate cleanly
 as long as J_SA ≠ J_SB.
 
 ### 2. Symmetry (XY ratio)
@@ -80,7 +80,7 @@ H_pair = J · [ xy_ratio · (σ_x⊗σ_x + σ_y⊗σ_y) + σ_z⊗σ_z ]
 | 0.5 | XXZ model | Partial anisotropy |
 | 0.0 | Pure ZZ (Ising) | No spin-flip coupling, sectors collapse |
 
-Watch how reducing XY ratio changes the XX commutator — symmetry breaking
+Watch how reducing XY ratio changes the XX commutator - symmetry breaking
 becomes visible in real-time.
 
 ### 3. Noise Strength (γ)
@@ -93,10 +93,10 @@ by the Hamiltonian, while noise only controls how fast they decay.
 
 | γ | Regime |
 |---|--------|
-| 0.001 | Nearly unitary — slow decay, long coherence |
-| 0.05 | Standard — visible damping over 20 time units |
-| 0.5 | Strong noise — oscillations die within a few periods |
-| 1.0 | Overdamped — barely any oscillation visible |
+| 0.001 | Nearly unitary - slow decay, long coherence |
+| 0.05 | Standard - visible damping over 20 time units |
+| 0.5 | Strong noise - oscillations die within a few periods |
+| 1.0 | Overdamped - barely any oscillation visible |
 
 ### 4. Initial State
 
@@ -111,7 +111,7 @@ Which quantum state the system starts in. This selects **which sectors are excit
 
 ### 5. Bath Geometry (η, φ)
 
-Controls **how noise acts on A and B** — local vs. correlated, and in which basis.
+Controls **how noise acts on A and B** - local vs. correlated, and in which basis.
 
 **η (eta):** Interpolates between independent and collective noise on A–B.
 
@@ -130,7 +130,7 @@ Controls **how noise acts on A and B** — local vs. correlated, and in which ba
 | π/2 | XX bath | Bit-flip noise on A–B |
 
 The key observation: bath geometry can **flip the amplitude ratio** A₊/A₋,
-selecting which dynamical sector dominates — without changing the frequencies.
+selecting which dynamical sector dominates - without changing the frequencies.
 
 ---
 
@@ -145,9 +145,9 @@ Hover over the curves for exact values. Zoom and pan with the Plotly toolbar.
 
 Shows three quantities from the R = CΨ² framework:
 
-- **C** (purple) — Wootters concurrence of the A–B subsystem (entanglement)
-- **Ψ** (green) — Normalized L₁ coherence of ρ_AB
-- **C·Ψ** (yellow) — Their product, with the **¼ boundary** marked as a dotted line
+- **C** (purple) - Wootters concurrence of the A–B subsystem (entanglement)
+- **Ψ** (green) - Normalized L₁ coherence of ρ_AB
+- **C·Ψ** (yellow) - Their product, with the **¼ boundary** marked as a dotted line
 
 The ¼ boundary is algebraically guaranteed: C·Ψ·(1 − C·Ψ) ≤ ¼.
 Watch how different regulators push C·Ψ toward or away from this bound.
@@ -174,7 +174,7 @@ One-line summary at the bottom showing all key indicators at a glance.
 
 ### 1. Frequency control via topology
 Set J_SA = 1.0, vary J_SB from 0.5 to 5.0.
-Watch f(c₊) and f(c₋) shift — they track the coupling asymmetry.
+Watch f(c₊) and f(c₋) shift - they track the coupling asymmetry.
 
 ### 2. Noise is amplitude-only
 Set γ = 0.001, note the frequencies. Then increase to γ = 0.5.
@@ -182,7 +182,7 @@ The frequencies in the FFT stay the same; only the amplitudes shrink.
 
 ### 3. Bath sector selection
 Set η = 1.0 (fully correlated bath). Sweep φ from 0 to π/2.
-Watch the amplitude ratio A₊/A₋ flip — the bath selects which sector is visible.
+Watch the amplitude ratio A₊/A₋ flip - the bath selects which sector is visible.
 
 ### 4. Symmetry breaking
 Start with XY ratio = 1.0 (Heisenberg). The XX commutator should be ~0.
@@ -190,7 +190,7 @@ Slowly reduce toward 0 (Ising). Watch XX symmetry break and sectors merge.
 
 ### 5. State dependence
 Compare Bell_SA, W-state, and Product state at the same parameters.
-The two-sector structure is robust across initial states — only amplitudes change.
+The two-sector structure is robust across initial states - only amplitudes change.
 
 ### 6. Finding the ¼ boundary
 Open the C·Ψ panel. With Bell_SA state, J_SA = 1.0, J_SB = 2.0, γ = 0.05:
@@ -207,7 +207,7 @@ max C·Ψ ≈ 0.33 > ¼. Increase γ until C·Ψ no longer crosses the boundary.
 - **Integrator:** 4th-order Runge-Kutta (dt = 0.02, ~1000 steps for 20 time units)
 - **Numerical hygiene:** Hermiticity enforcement + trace renormalization every step
 - **Observables:** Partial traces, Wootters concurrence, L₁ coherence, FFT
-- **Performance:** ~150 ms per simulation — fast enough for real-time slider updates
+- **Performance:** ~150 ms per simulation - fast enough for real-time slider updates
 
 ### Architecture
 
@@ -221,7 +221,7 @@ simulations/app/
     └── config.toml     # Dark theme configuration
 ```
 
-The physics engine is self-contained — no imports from other simulation files.
+The physics engine is self-contained - no imports from other simulation files.
 It implements the same mathematics as `star_topology_v3.py` and
 `correlated_bath_sweep.py` in a minimal, focused package.
 

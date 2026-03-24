@@ -146,7 +146,7 @@ def sum_mi_adjacent(rho, N):
 
 
 # ============================================================
-# RK4 EVOLUTION (density matrix space — fast for large N)
+# RK4 EVOLUTION (density matrix space - fast for large N)
 # ============================================================
 
 def evolve_rk4(H, gammas, rho0, N, t_target, dt=0.05, Zk_ops=None):

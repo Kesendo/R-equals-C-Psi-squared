@@ -265,7 +265,7 @@ def question_1():
 
 def question_2():
     log("=" * 70)
-    log("Q2: HIGHER RENYI ENTROPIES — Does the 1/4 boundary shift?")
+    log("Q2: HIGHER RENYI ENTROPIES - Does the 1/4 boundary shift?")
     log("=" * 70)
     log()
 

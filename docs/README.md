@@ -23,16 +23,16 @@ the origin of irreversibility, and information channels.
 
 ## Start Here
 
-[Reading Guide](READING_GUIDE.md) — Three stories (proof, application,
+[Reading Guide](READING_GUIDE.md) - Three stories (proof, application,
 ontology), three reading orders, one dependency graph.
 
 Three entry points for new readers:
 
 | Interest | Start with |
 |----------|-----------|
-| The core theorem | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — Π operator, XY-weight grading, verified N=2 through N=8 |
-| The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) — Master reference for all proven results |
-| The newest breakthrough | [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — Dephasing noise is a 15.5-bit information channel |
+| The core theorem | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - Π operator, XY-weight grading, verified N=2 through N=8 |
+| The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Master reference for all proven results |
+| The newest breakthrough | [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - Dephasing noise is a 15.5-bit information channel |
 
 ---
 

@@ -5,12 +5,12 @@ Amplitude Damping: Direct CΨ Trajectory
 The non-unital channel. L = √γ |0⟩⟨1| (spontaneous decay to |0⟩).
 Fixed point: |00⟩ (pure state with CΨ = 0).
 
-Test 1: Pure amplitude damping (no H) — Bell+ trajectory
+Test 1: Pure amplitude damping (no H) - Bell+ trajectory
 Test 2: Amplitude damping + Heisenberg coupling
-Test 3: K-invariance — does K = γ·t_cross hold?
+Test 3: K-invariance - does K = γ·t_cross hold?
 Test 4: Combined amplitude damping + Z-dephasing
 Test 5: Asymmetric rates and various initial states
-Test 6: Monotonicity check — is CΨ non-increasing above 1/4?
+Test 6: Monotonicity check - is CΨ non-increasing above 1/4?
 
 Script:  simulations/amplitude_damping_test.py
 Output:  simulations/results/amplitude_damping_test.txt
@@ -264,7 +264,7 @@ def test_2_ad_with_H():
 
 def test_3_K_invariance():
     log("=" * 70)
-    log("TEST 3: K-INVARIANCE — K = γ_AD × t_cross")
+    log("TEST 3: K-INVARIANCE - K = γ_AD × t_cross")
     log("=" * 70)
     log()
 
@@ -304,7 +304,7 @@ def test_3_K_invariance():
 
 def test_4_combined():
     log("=" * 70)
-    log("TEST 4: COMBINED — Amplitude damping + Z-dephasing")
+    log("TEST 4: COMBINED - Amplitude damping + Z-dephasing")
     log("=" * 70)
     log()
 
@@ -369,12 +369,12 @@ def test_5_states():
 
 
 # ====================================================================
-# Test 6: Trajectory detail — CΨ over time for key cases
+# Test 6: Trajectory detail - CΨ over time for key cases
 # ====================================================================
 
 def test_6_trajectory():
     log("=" * 70)
-    log("TEST 6: TRAJECTORY DETAIL — CΨ(t) snapshots")
+    log("TEST 6: TRAJECTORY DETAIL - CΨ(t) snapshots")
     log("=" * 70)
     log()
 
