@@ -1,6 +1,6 @@
 # Complete Mathematical Documentation
 
-**Status:** Current as of March 22, 2026
+**Status:** Current as of March 24, 2026
 **Supersedes:** Previous stub (Feb 2026) and [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025)
 **Purpose:** Single entry point for all proven and verified mathematics of R=CΨ²
 
@@ -177,12 +177,20 @@ external γ profile decodable from within.
 
 **Palindrome-derived optimization.** SVD of the response matrix (how
 palindromic mode amplitudes respond to per-site γ perturbations) reveals
-that SVD mode 2 (edge-hot, center-cold: γ_center=0.018, γ_edge=0.070)
-outperforms hand-designed V-shape profiles by 10.2× at N=5. Mode 1
-(highest singular value) is near-uniform and useless. The improvement
-grows with N (6.3× at N=3, 10.2× at N=5). The palindrome knows more
-than intuition: optimal profiles have γ_center/γ_edge = 0.26, far more
-extreme than V-shape (0.71).
+that the first non-trivial SVD mode outperforms hand-designed V-shape
+profiles by 6–10×. At N=5, mode 2 is edge-hot/center-cold
+(γ_center=0.018, γ_edge=0.070, ratio 0.26 vs V-shape 0.71). Mode 1
+(highest singular value) is near-uniform and useless for information
+transfer. Scaling: 6.3× (N=3), 10.2× (N=5), 8.5× (N=7). The
+non-monotone trend at N=7 arises because mode 2 changes character from
+symmetric to antisymmetric; multi-mode optimization is needed for
+larger N. Absolute MI values grow monotonically across all N.
+
+**Frequency pulsing falsified.** Temporal modulation of uniform γ at
+the dominant palindromic oscillation frequency does not amplify MI.
+Tested with both |+⟩⊗N and Bell initial states; Sum-MI decays
+monotonically for all profiles. Spatial contrast (mode 2), not temporal
+modulation, is the mechanism.
 
 See: [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md),
 [γ Control](../../experiments/GAMMA_CONTROL.md),
@@ -365,8 +373,10 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |
 | Born rule Hamiltonian dominance | ~97% | [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) |
+| SVD mode 2 vs V-shape (N=3) | 6.3× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | SVD mode 2 vs V-shape (N=5) | 10.2× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
-| Optimal γ_center/γ_edge ratio | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| SVD mode 2 vs V-shape (N=7) | 8.5× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
+| Optimal γ_center/γ_edge ratio (N=5) | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 
 ---
