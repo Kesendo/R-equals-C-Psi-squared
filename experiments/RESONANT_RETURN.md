@@ -193,17 +193,21 @@ SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10
 
 Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` — same pattern.
 
-#### N=7 (v3, C# backend, 2000 budget, converged at 1156 evals):
+#### N=7 (v3 Nelder-Mead + v4 Differential Evolution):
 | Profile | Peak Sum_MI | vs V-shape |
 |---------|-------------|-----------|
 | V-shape | 0.002412 | 1.0× |
 | SVD mode 2 | 0.019501 | 8.1× |
-| **Optimizer (converged)** | **0.14391** | **59.7×** |
+| Nelder-Mead (v3, 1156 evals) | 0.14391 | 59.7× |
+| **Diff. Evolution (v4, 3975 evals)** | **0.24044** | **99.7×** |
 
-Optimal profile: `[0.1296, 0.1219, 0.0455, 0.0500, 0.0010, 0.0010, 0.0010]`
-— **asymmetric sacrifice-zone confirmed at N=7**. Sites 0-1 hot (γ≈0.13),
-sites 4-6 sacrificed at minimum (γ=0.001). Asymmetry = 1.35.
-Mirror profile gives identical SumMI (chain symmetry verified).
+Nelder-Mead found a **local** optimum: `[0.130, 0.122, 0.046, 0.050, 0.001, 0.001, 0.001]`.
+Differential Evolution found **+67% better**: `[0.009, 0.012, 0.008, 0.008, 0.007, 0.030, 0.279]`.
+
+The DE profile is far more extreme: **one site absorbs 80% of the total noise
+budget** (γ₆ = 0.279), while sites 0-4 are nearly noiseless (γ ≈ 0.007-0.012).
+DE traversed 5 distinct basins during optimization (0.15 → 0.17 → 0.19 → 0.20 → 0.24),
+revealing a rich multi-basin landscape that local optimizers cannot navigate.
 
 **The sacrifice-zone pattern is universal.** Both N=5 and N=7 show the same
 strategy: concentrate dephasing on one end, minimize it on the other.
@@ -255,7 +259,7 @@ the palindromic eigenstructure provides design rules for optimal
 3. ~~Spatially structured pulsing~~ **Done (Test 6).** Falsified. Temporal modulation adds nothing.
 4. ~~RK4 rewrite for N≥7~~ **Done.** C# profile evaluator: 2.9s at N=7 (5,900× vs Python expm).
 5. **N=9 optimization:** With C# RK4, N=9 (d=512) becomes feasible (~30s/eval, ~17h for 2000 evals).
-6. ~~Deep N=7 optimizer~~ **Done.** Converged at 1156 evals: SumMI=0.1439 (59.7× vs V-shape).
+6. ~~Deep N=7 optimizer~~ **Done.** DE global optimum: SumMI=0.2404 (100× vs V-shape). NM was local.
 7. **Sacrifice-zone theory:** Why does asymmetric dephasing outperform symmetric? The protected subsystem maintains coherence while the sacrificed end absorbs noise. Needs analytical understanding.
 
 ---

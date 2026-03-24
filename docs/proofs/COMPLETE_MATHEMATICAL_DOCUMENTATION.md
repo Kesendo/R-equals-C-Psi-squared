@@ -378,8 +378,9 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | SVD mode 2 vs V-shape (N=7) | 8.5× | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | Optimal γ_center/γ_edge ratio (N=5) | 0.26 | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | Optimizer vs mode 2 (N=5, peak) | 17.8× | [Resonant Return v3](../../experiments/RESONANT_RETURN.md) |
-| Optimizer vs V-shape (N=7, peak, converged) | 59.7× | [Resonant Return v3](../../experiments/RESONANT_RETURN.md) |
-| Sacrifice-zone asymmetry (N=7) | 1.32 | [Resonant Return v3](../../experiments/RESONANT_RETURN.md) |
+| Optimizer vs V-shape (N=7, DE global) | 99.7× | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
+| Sacrifice-zone asymmetry (N=7) | 1.36 | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
+| DE vs Nelder-Mead improvement (N=7) | +67% | [Resonant Return v4](../../experiments/RESONANT_RETURN.md) |
 | C# RK4 speedup vs Python expm (N=7) | 5,900× | [RCPsiSquared.Propagate profile mode](../../compute/RCPsiSquared.Propagate/) |
 | GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
 

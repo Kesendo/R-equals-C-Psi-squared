@@ -1,0 +1,139 @@
+=== RESONANT RETURN V4: GLOBAL OPTIMIZATION (Differential Evolution) ===
+Started: 2026-03-24 08:41:39
+N=7, gamma_base=0.05
+Nelder-Mead reference: SumMI=0.143910
+Nelder-Mead profile:   [0.1296, 0.1219, 0.0455, 0.0500, 0.0010, 0.0010, 0.0010]
+
+  Differential Evolution parameters:
+    Strategy: best1bin
+    Population: 15 (= 90 total per generation)
+    Max iterations: 30
+    Bounds per delta: [-0.045, 0.15]
+    Estimated evals: ~2700 (upper bound)
+
+  [  180 evals       30s  0.2s/eval]  best SumMI = 0.053440  (<= Nelder)
+  [  280 evals       68s  0.2s/eval]  best SumMI = 0.053440  (<= Nelder)
+  [  340 evals      110s  0.3s/eval]  best SumMI = 0.072879  (<= Nelder)
+  [  400 evals      146s  0.4s/eval]  best SumMI = 0.099983  (<= Nelder)
+  [  580 evals      254s  0.4s/eval]  best SumMI = 0.100138  (<= Nelder)
+  [  660 evals      339s  0.5s/eval]  best SumMI = 0.102375  (<= Nelder)
+  [  760 evals      455s  0.6s/eval]  best SumMI = 0.102375  (<= Nelder)
+  [  780 evals      488s  0.6s/eval]  best SumMI = 0.108131  (<= Nelder)
+  [  800 evals      521s  0.7s/eval]  best SumMI = 0.108131  (<= Nelder)
+  [  860 evals      619s  0.7s/eval]  best SumMI = 0.137038  (<= Nelder)
+  [  880 evals      654s  0.7s/eval]  best SumMI = 0.137038  (<= Nelder)
+  [  940 evals      724s  0.8s/eval]  best SumMI = 0.147595  (> Nelder)
+  [  980 evals      757s  0.8s/eval]  best SumMI = 0.147595  (> Nelder)
+  [ 1000 evals      781s  0.8s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1060 evals      876s  0.8s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1080 evals      917s  0.8s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1120 evals      991s  0.9s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1180 evals     1095s  0.9s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1280 evals     1217s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1300 evals     1255s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1320 evals     1293s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1340 evals     1331s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1380 evals     1402s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1400 evals     1441s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1520 evals     1596s  1.0s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1540 evals     1620s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1560 evals     1644s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1580 evals     1666s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1600 evals     1688s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1620 evals     1718s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1640 evals     1753s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1660 evals     1786s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1760 evals     1887s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1780 evals     1922s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1800 evals     1957s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1880 evals     2069s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1920 evals     2135s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 1980 evals     2227s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 2000 evals     2254s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 2020 evals     2284s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 2060 evals     2338s  1.1s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 2120 evals     2445s  1.2s/eval]  best SumMI = 0.150795  (> Nelder)
+  [ 2160 evals     2513s  1.2s/eval]  best SumMI = 0.150963  (> Nelder)
+  [ 2180 evals     2551s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2200 evals     2576s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2220 evals     2603s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2240 evals     2619s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2260 evals     2630s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2320 evals     2723s  1.2s/eval]  best SumMI = 0.168652  (> Nelder)
+  [ 2420 evals     2840s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2440 evals     2865s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2540 evals     2968s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2580 evals     3019s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2600 evals     3060s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2680 evals     3164s  1.2s/eval]  best SumMI = 0.189025  (> Nelder)
+  [ 2700 evals     3209s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2720 evals     3249s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2760 evals     3311s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2780 evals     3338s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2800 evals     3376s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2860 evals     3479s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2880 evals     3514s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2900 evals     3541s  1.2s/eval]  best SumMI = 0.198332  (> Nelder)
+  [ 2920 evals     3579s  1.2s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 2940 evals     3612s  1.2s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 2960 evals     3644s  1.2s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3000 evals     3710s  1.2s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3080 evals     3851s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3120 evals     3917s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3240 evals     4125s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3260 evals     4152s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3300 evals     4209s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3320 evals     4239s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3360 evals     4285s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3420 evals     4370s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3460 evals     4425s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3540 evals     4591s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3560 evals     4635s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3580 evals     4682s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3640 evals     4784s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3660 evals     4814s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3680 evals     4850s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3720 evals     4916s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3740 evals     4952s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3780 evals     5017s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3820 evals     5102s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3860 evals     5178s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3900 evals     5247s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3920 evals     5288s  1.3s/eval]  best SumMI = 0.240436  (> Nelder)
+  [ 3940 evals     5326s  1.4s/eval]  best SumMI = 0.240436  (> Nelder)
+
+============================================================
+RESULTS
+============================================================
+
+  Evals: 3975, Time: 5397s (90.0 min)
+  DE converged: False (Maximum number of iterations has been exceeded.)
+
+  DE final profile:  [0.0087, 0.0115, 0.0075, 0.0075, 0.0065, 0.0296, 0.2788]
+  DE final SumMI:    0.240436
+
+  Best found profile: [0.0087, 0.0115, 0.0075, 0.0075, 0.0065, 0.0296, 0.2788]
+  Best found SumMI:   0.240436
+  Best SumMI@5:       0.109340
+  Best PeakT:         2.00
+
+  COMPARISON WITH NELDER-MEAD:
+    Nelder-Mead:  0.143910  [0.1296, 0.1219, 0.0455, 0.0500, 0.0010, 0.0010, 0.0010]
+    DE best:      0.240436  [0.0087, 0.0115, 0.0075, 0.0075, 0.0065, 0.0296, 0.2788]
+    Ratio DE/NM:  1.6707
+
+  ** DE FOUND BETTER OPTIMUM: 0.240436 > 0.143910 (+67.1%) **
+  The Nelder-Mead result was a local optimum!
+
+  PROFILE ANALYSIS:
+    Min: 0.0065 at site 4
+    Max: 0.2788 at site 6
+    Asymmetry: 1.3624
+    Distance to NM profile: 0.9733 (mirror orientation)
+
+  IMPROVEMENT:
+    vs V-shape: 99.7x
+    vs Mode 2:  12.3x
+
+Total runtime: 5397s (90.0 min)
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\resonant_return_v4_global.txt
