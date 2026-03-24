@@ -18,8 +18,6 @@ single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment --
 
 ## Abstract
 
-## Abstract
-
 A trivially simple engineering rule for spatial dephasing profiles
 outperforms 18 years of uniform-noise optimization by two orders
 of magnitude: concentrate all noise on one edge qubit, protect the rest.
