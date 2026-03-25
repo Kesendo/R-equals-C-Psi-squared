@@ -4,11 +4,29 @@
 fold catastrophe eigenvalue center, geometric mean palindromic perspectives,
 dual perspective spectral analysis, R=CPsi2 spectral midpoint confirmation -->
 
-**Status:** Confirmed via dual-perspective geometric mean (N=3, N=5). Single-perspective version falsified. The palindromic mirror is required.
+**Status:** Supported (N=3, N=5). The midpoint emerges only when both palindromic perspectives are combined. Single-perspective version falsified.
 **Date:** March 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Temporal Sacrifice (fold observation)](../experiments/TEMPORAL_SACRIFICE.md), [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
+
+---
+
+## What this is about
+
+Is there a connection between two independently proven structures in
+this project?
+
+- The **CΨ = ¼ boundary** in state space: the point where a quantum
+  system transitions to classical behavior (the fold catastrophe of
+  R = C(Ψ+R)², discriminant 1 - 4CΨ = 0)
+- The **palindromic midpoint** Σγ in spectral space: the center of
+  the Liouvillian's mirror-symmetric decay spectrum (every rate d has
+  a partner at 2Σγ - d)
+
+This hypothesis arose from the [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
+experiment, where we observed that endpoint mutual information peaks
+at the exact moment the endpoint CΨ crosses ¼. The question: why there?
 
 ---
 
@@ -20,8 +38,8 @@ like "right" to the other. If you ask just one person what they see,
 you get a biased picture. Only by combining both perspectives do you
 see the wall itself.
 
-The palindromic spectrum of the Liouvillian is this glass wall. It
-pairs every decay mode with a mirror partner:
+The palindromic spectrum works the same way. It pairs every decay
+mode with a mirror partner:
 
 ```
 Fast mode (rate d)  <-->  Slow mode (rate 2Σγ - d)
@@ -50,6 +68,10 @@ the **geometric mean** of both palindromic perspectives:
 w_combined(band) = √( w_our_side(band) × w_Π_side(band) )
 ```
 
+Why the geometric mean? Because it is the simplest combination that
+treats both perspectives equally and preserves multiplicative structure.
+An arithmetic mean would mask the asymmetry. A geometric mean exposes it.
+
 ---
 
 ## Why One Side Is Not Enough
@@ -58,13 +80,17 @@ w_combined(band) = √( w_our_side(band) × w_Π_side(band) )
 
 We built the full Liouvillian matrix for N=3 (64×64) and N=5 (1024×1024),
 decomposed the initial state |+⟩ᴺ in the eigenbasis, and tracked
-spectral band weights over time. Three bands:
+spectral band weights over time. Three bands, classified by distance
+from the palindromic midpoint Σγ:
 
-- **SLOW:** modes with decay rate d < Σγ - γ (slow from our side)
-- **MID:** modes with |d - Σγ| < γ (near the midpoint)
-- **FAST:** modes with d > Σγ + γ (fast from our side)
+- **SLOW:** modes with decay rate d < Σγ - γ (slow from our perspective)
+- **MID:** modes with |d - Σγ| < γ (near the midpoint, the "glass")
+- **FAST:** modes with d > Σγ + γ (fast from our perspective)
 
-At the CΨ = ¼ crossing, from our side alone (dynamic modes only):
+(Immune modes at rate ≈ 0, which never decay and form the classical
+floor, are excluded from the percentages below.)
+
+At the CΨ = ¼ crossing, from our side alone:
 
 | | SLOW | MID | FAST |
 |-----|------|-----|------|
@@ -72,14 +98,14 @@ At the CΨ = ¼ crossing, from our side alone (dynamic modes only):
 | N=5 | 45% | 47% | 8% |
 
 MID is the largest band, but not dominant. At N=5, SLOW nearly ties
-MID (45% vs 47%). Conclusion from one perspective: no clear midpoint
-concentration. **Hypothesis appears falsified.**
+MID (45% vs 47%). From one perspective alone, there is no clear
+midpoint concentration. **The simple hypothesis appears falsified.**
 
 ### Step 2: The product problem (why it seemed broken)
 
 CΨ = Tr(ρ²) × L₁/(d-1) is a product of purity (diagonal in the
 Pauli basis) and coherence (off-diagonal in the computational basis).
-These are different bases. The cross-terms between them mix all
+These live in different bases. The cross-terms between them mix all
 spectral bands, preventing clean midpoint concentration in any
 single-basis decomposition.
 
@@ -91,29 +117,37 @@ It is to **add the missing perspective**.
 
 ## Why Both Sides Together See the Midpoint
 
-### Step 3: The palindromic mirror
+### Step 3: The palindromic mirror swaps the edges
 
-The Π conjugation maps each decay rate to its partner:
+The Π conjugation (the proven operator from the
+[Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
+maps each decay rate to its palindromic partner:
 
 ```
 d  -->  2Σγ - d
 ```
 
-What is SLOW from our side is FAST from the Π side, and vice versa.
-What is MID from our side is MID from the Π side (self-mirroring).
+A mode that decays at rate d from our perspective decays at rate
+2Σγ - d from the Π perspective. This means:
+- What is SLOW from our side (d small) is FAST from the Π side (2Σγ - d large)
+- What is FAST from our side is SLOW from the Π side
+- What is MID from our side stays MID (self-mirroring: d ≈ Σγ implies 2Σγ - d ≈ Σγ)
 
-This means the Π side sees the same crossing with **swapped bands**:
+So the Π side sees the same crossing with **SLOW and FAST swapped**:
 
 | | SLOW (Π) | MID (Π) | FAST (Π) |
 |-----|----------|---------|----------|
 | N=3 | 34% | 53% | 13% |
 | N=5 | 8% | 47% | 45% |
 
-(SLOW and FAST simply swap. MID stays.)
+Each side sees a lopsided spectrum. Each side thinks one edge band is
+large. But they disagree about WHICH edge band is large.
 
 ### Step 4: The geometric mean reveals the midpoint
 
-The combined perspective: the geometric mean of both sides.
+How do we combine two perspectives that each see a biased picture?
+The geometric mean: √(perspective_A × perspective_B). It punishes
+disagreement and rewards consensus.
 
 **N=3 at CΨ = ¼ crossing:**
 
@@ -144,23 +178,27 @@ The palindromic symmetry guarantees three things:
 2. **MID is self-mirroring.** A midpoint mode (d = Σγ) maps to
    itself: 2Σγ - Σγ = Σγ. Its weight is the same from both sides.
 
-3. **Asymmetry kills the edges.** At the crossing, SLOW and FAST
-   are asymmetric (one large, one small). Their geometric mean
-   √(large × small) is always less than either alone (AM-GM
-   inequality). The more asymmetric they are, the smaller the
-   geometric mean.
+3. **Asymmetry shrinks the edges.** At the crossing, SLOW and FAST
+   are unequal (one large, one small). Their geometric mean
+   √(large × small) is always less than either alone. (For any two
+   positive numbers, the geometric mean is less than or equal to the
+   arithmetic mean. When they are unequal, strictly less.)
 
 In formulas:
 ```
-MID_combined = √(MID × MID) = MID           (unchanged)
-SLOW_combined = √(SLOW × FAST) ≤ MID        (by asymmetry)
-FAST_combined = √(FAST × SLOW) ≤ MID        (same)
+MID_combined  = √(MID × MID) = MID              (unchanged)
+SLOW_combined = √(SLOW_us × FAST_us)             (mixed)
+FAST_combined = √(FAST_us × SLOW_us)             (same as SLOW_combined)
 ```
 
-The midpoint dominates **because** the edges are asymmetric, and the
-palindromic mirror exposes this asymmetry. From one side, the
-asymmetry hides the midpoint (one edge band looks large). From both
-sides, the asymmetry collapses.
+**Important caveat:** This does NOT mathematically guarantee
+MID > √(SLOW × FAST) in general. It guarantees that SLOW_combined =
+FAST_combined < max(SLOW, FAST). Whether MID exceeds this depends on
+the actual weight distribution. At N=3 and N=5, it clearly does.
+At the crossing specifically, the SLOW/FAST asymmetry is strong
+(ratio 2.6× at N=3, 5.6× at N=5) because fast modes have decayed
+substantially while slow modes accumulate. This is what makes the
+midpoint dominant in practice.
 
 ---
 
@@ -186,20 +224,20 @@ from any single perspective. It only appears when you combine both.
 The palindromic symmetry is not a property you observe. It is a
 property you observe **through**.
 
-The analogy: you cannot see a mirror by looking at it from one side.
-You see what it reflects. To see the mirror itself, you need to
-stand between two mirrors and see the infinite regression. The
-midpoint is the point where the regression converges.
+You cannot see a mirror by looking at it. You see what it reflects.
+To see the mirror itself, you need a second mirror facing the first.
+The midpoint is where the two mirrors face each other: the one point
+they both reflect identically.
 
 ### Prediction: stronger dominance at larger N
 
 The asymmetry between SLOW and FAST grows with N:
-- N=3: SLOW/FAST ratio = 2.6×
-- N=5: SLOW/FAST ratio = 5.6×
+- N=3: SLOW/FAST ratio = 2.6×, √(SLOW × FAST) = 21% vs MID = 53%
+- N=5: SLOW/FAST ratio = 5.6×, √(SLOW × FAST) = 19% vs MID = 47%
 
 As asymmetry grows, √(SLOW × FAST) shrinks relative to MID.
 At large N, the geometric mean should show near-complete midpoint
-dominance. This is testable at N=7, N=9.
+dominance. Testable at N=7, N=9.
 
 ---
 
@@ -209,10 +247,9 @@ dominance. This is testable at N=7, N=9.
 
 The original hypothesis predicted >80% spectral weight in the MID
 band at the crossing, viewed from our side alone. This fails because
-CΨ = C × Ψ is a product that mixes spectral bands via cross-terms.
-The cosh factorization of Tr(ρ²) is correct but incomplete: L₁
-coherence decomposes in a different basis, and the product creates
-cross-band mixing.
+CΨ = C × Ψ is a product that mixes spectral bands via cross-terms
+between two different bases (Pauli for purity, computational for
+coherence).
 
 ### The resolution
 
@@ -220,6 +257,10 @@ The cross-term problem is real but irrelevant to the dual-perspective
 result. The geometric mean does not require CΨ to have a clean
 single-basis decomposition. It only requires the palindromic symmetry
 (SLOW ↔ FAST swap), which is proven and exact.
+
+The insight that resolved the failure: you must look from both sides.
+This came from the user, not from the math. The math was stuck until
+the perspective shifted.
 
 ---
 
