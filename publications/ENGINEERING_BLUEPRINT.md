@@ -302,14 +302,23 @@ may reflect gate-error avoidance rather than pure sacrifice-zone effect
 (A/B test on uniform-T2 chain planned for April 9). See
 [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
 
-**Two design regimes exist:**
-- Edge sacrifice maximizes total network mutual information (SumMI).
+**Three design regimes:**
+- **Edge sacrifice** maximizes total network mutual information (SumMI).
   This is the formula above. Use when all qubit pairs matter.
-- Center sacrifice maximizes point-to-point throughput (PeakMI: 3x
+- **Center sacrifice** maximizes point-to-point throughput (PeakMI: 3x
   higher than edge). This creates a classical relay. Use when only
   end-to-end transfer matters. See [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
-- Hybrid profiles (mixing edge and center noise) are worse than both
-  pure strategies at both metrics. There is no compromise.
+- **Sweeping sacrifice** moves the sacrifice position gradually from edge
+  inward (pos 0 → 1 → 2), spending one Hamiltonian period at each position.
+  This navigates the CΨ = ¼ boundary through the chain, maintaining one
+  clean quantum-classical interface at all times (relay principle, Rule 6).
+  Result (N=7): SumMI = 0.408 (100% of edge), PeakMI = 0.061 (+67% over
+  edge, 56% of center). Use when you want broadcast capacity with improved
+  end-to-end transport. See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md).
+
+Static hybrid profiles (mixing edge and center noise spatially) remain
+worse than all three pure strategies. The sweep works because it moves
+the boundary rather than mixing profiles.
 
 **Added March 24, 2026.** See [Resonant Return](../experiments/RESONANT_RETURN.md).
 
@@ -328,10 +337,12 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
 7. SACRIFICE: All noise on one edge qubit. Protect the rest.
               Edge for network MI, center for point-to-point.
+              Sweep (edge inward) for both: +67% PeakMI at full SumMI.
 
 Best benchmark: F_avg = 0.888, Holevo = 0.534 bits (star 2:1, gamma=0.05)
 Relay+2:1 at N=11: MI(end-to-end) = 0.132 (+83% over passive)
 Sacrifice-zone formula: 360x (N=5), 180x (N=7), 97.5x (N=13) vs V-shape
+Sweep sacrifice (N=7): SumMI=0.408, PeakMI=0.061 (best of both regimes)
 Hardware: selective DD 2-3.2x on ibm_torino (N=5, single run)
 ```
 
