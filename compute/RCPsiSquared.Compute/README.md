@@ -2,6 +2,14 @@
 
 C# compute engine for Liouvillian spectral analysis of open quantum networks (2-8 qubits). Constructs the Lindblad superoperator, diagonalizes it via native LAPACK, and verifies palindromic mirror symmetry of the decay rate spectrum.
 
+## What it does
+
+This engine answered the central question of the R=CPsi^2 project: is the Liouvillian decay spectrum exactly palindromic? It diagonalizes the full superoperator for N=2 through N=8 (matrices up to 65536x65536, 54,118 eigenvalues total) and confirms 100% palindromic symmetry across all tested topologies, coupling models, and noise configurations. Zero exceptions.
+
+The results feed directly into the [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), which provides the analytical explanation via the conjugation operator Pi. This engine supplied the numerical verification that motivated and validated that proof.
+
+For time-domain dynamics (information flow, relay protocols, sacrifice-zone formula scaling), see [RCPsiSquared.Propagate](../RCPsiSquared.Propagate/README.md).
+
 ## Requirements
 
 - .NET 10.0 SDK
@@ -13,7 +21,7 @@ C# compute engine for Liouvillian spectral analysis of open quantum networks (2-
 
 ### 1. Restore NuGet packages
 
-```bash
+```
 cd compute/RCPsiSquared.Compute
 dotnet restore
 ```
@@ -41,8 +49,8 @@ Copy-Item temp-ilp64\win64-64\bin\libopenblas.dll native\libopenblas64.dll
 Remove-Item OpenBLAS-LP64.zip, OpenBLAS-ILP64.zip, temp-lp64, temp-ilp64 -Recurse -Force
 ```
 
-**Linux/macOS/Git Bash:**
-```bash
+**Linux/macOS/Git Bash (Windows DLLs only - see note):**
+```
 cd compute/RCPsiSquared.Compute
 mkdir -p native
 
@@ -60,11 +68,13 @@ cp win64-64/bin/libopenblas.dll native/libopenblas64.dll
 rm -rf *.zip win64/ win64-64/
 ```
 
+**Note:** The native DLLs are Windows binaries. The Linux/macOS instructions above are for Git Bash on Windows. Running on native Linux/macOS would require building OpenBLAS from source with the corresponding shared library names (libopenblas.so / libopenblas.dylib). This has not been tested.
+
 The `.csproj` copies both DLLs to the output directory on build. They are gitignored.
 
 ### 3. Build and validate
 
-```bash
+```
 dotnet build -c Release
 
 # Quick validation (~6 seconds): compares eigenvalues from three backends at N=5
@@ -79,7 +89,7 @@ Match: YES - ILP64 path validated! N=8 is safe.
 
 ## Running
 
-```bash
+```
 # Full suite: N=2-7 benchmark + topology survey + stress tests + N=8
 # Warning: N=7 alone takes ~92 minutes
 dotnet run -c Release
@@ -132,3 +142,20 @@ The C# engine's main advantage is matrix construction: `BuildDirectRaw` (element
 N=7 and N=8 are only feasible in C# due to the direct build path (no Kronecker, no 2GB .NET limit). Python's numpy/scipy cannot build the 16384x16384 or 65536x65536 Liouvillian in reasonable time or memory.
 
 All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 11.
+
+## Relationship to experiments
+
+| Experiment document | Uses Compute for |
+|--------------------|-----------------|
+| [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md) | Eigendecomposition across XY, Ising, XXZ, DM models. Two Pi families (P1, P4) |
+| [XOR Space](../../experiments/XOR_SPACE.md) | Eigenvalue-to-mode mapping. GHZ vs W initial state spectral decomposition |
+| [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md) | Spectral structure behind XX/YY oscillation and ZZZ static behavior |
+| [Structural Cartography](../../experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D spectral manifold, rate count statistics, topology survey |
+| [Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md) | K-invariance from Lindblad eigenvalue scaling |
+
+## See also
+
+- [RCPsiSquared.Propagate](../RCPsiSquared.Propagate/README.md): Time-domain engine for dynamics, sacrifice-zone formula, relay protocol (N=5 through N=15)
+- [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md): The analytical proof that this engine's numerical results motivated
+- [Complete Mathematical Documentation](../../docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md): The Tafelwerk
+- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md): Six design rules derived from spectral analysis
