@@ -4,7 +4,7 @@
 fold catastrophe eigenvalue center, palindromic pair cosh factorization, state space spectral space
 correspondence, discriminant zero spectral midpoint, R=CPsi2 spectral proof -->
 
-**Status:** Hypothesis. Motivated by sweep data (PeakMI peaks at CΨ = ¼ crossing, N=7). Not yet tested.
+**Status:** Simple form falsified (N=3, N=5: no midpoint concentration). Product structure of CΨ = C × Ψ prevents clean spectral correspondence. Revised conjecture open.
 **Date:** March 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -96,67 +96,114 @@ eigendecomposition.
 **Prediction:** >80% of the spectral weight at t\* comes from modes
 with |d − Σγ| < γ (within one γ of the midpoint).
 
-### Step 2: N=5, N=7 numerical verification
+**Result: NOT CONFIRMED.** See below.
 
-Same procedure at larger N where the rate distribution is richer.
-The Gaussian density of states (mean = Σγ, proven) predicts that
-midpoint concentration should increase with N.
+### Step 1–2 Results (March 25, 2026)
 
-### Step 3: Analytical bound on cosh corrections
+Eigendecomposition of the Liouvillian for N=3 (64×64) and N=5 (1024×1024),
+initial state |+⟩ᴺ, tracking spectral band weights |c_k · exp(−d_k · t)|
+grouped by distance from midpoint Σγ.
 
-Show that at t\* = K/γ (the crossing time from Crossing Taxonomy),
-the cosh terms satisfy:
+**N=3 at CΨ = ¼ crossing (T=5.0):**
+
+| Band | Weight | Dynamic (excl. immune) |
+|------|--------|------------------------|
+| IMMUNE (d ≈ 0) | 38% | – |
+| SLOW (d < Σγ − γ) | 8% | 13% |
+| **MID** (\|d − Σγ\| < γ) | **33%** | **53%** |
+| FAST (d > Σγ + γ) | 21% | 34% |
+
+**N=5 at CΨ = ¼ crossing (T=5.0):**
+
+| Band | Weight | Dynamic |
+|------|--------|---------|
+| IMMUNE | 12% | – |
+| SLOW | **40%** | **45%** |
+| **MID** | **42%** | **47%** |
+| FAST | 7% | 8% |
+
+MID is the largest dynamic band at both N, but not dominant.
+At N=5, MID and SLOW are nearly tied (42% vs 40%).
+
+### Why the simple form fails: the product problem
+
+The cosh factorization
 
 ```
-cosh((Σγ − d) · t*) ≤ C_bound  for modes contributing >ε to CΨ
+e^{-dt} + e^{-(2Σγ-d)t} = 2 · e^{-Σγt} · cosh((Σγ − d) · t)
 ```
 
-This would prove that the cosh corrections are bounded, making the
-midpoint envelope e^{-Σγt\*} the dominant factor.
+applies to **Tr(ρ²) alone** (a sum of squared Pauli components,
+grouped by XY-weight). But CΨ = Tr(ρ²) × L₁/(d−1) is a **product**
+of two quantities with different spectral decompositions:
 
-### Step 4: Connect ¼ to the midpoint algebraically
+- **Tr(ρ²)** decomposes in the Pauli basis (diagonal in XY-weight)
+- **L₁** = Σ_{i≠j} |ρ_{ij}| decomposes in the computational basis
+  (off-diagonal elements, NOT diagonal in XY-weight)
 
-The final step: show that CΨ = ¼ (discriminant D = 1 − 4CΨ = 0)
-is equivalent to the condition that the spectral centroid equals Σγ.
+The product creates cross-terms between the Pauli-weight sectors of
+purity and the computational-basis sectors of coherence. These
+cross-terms mix all spectral bands and prevent clean midpoint
+concentration. The N=5 data (SLOW ≈ MID at the crossing) directly
+reflects this mixing.
 
-Define spectral centroid: d̄(t) = Σ w_α(t) · d_α / Σ w_α(t)
-where w_α(t) = |c_α|² e^{-2d_α t} is the weight of mode α at time t.
+**Step 3 must address the product structure of CΨ, not treat it
+as a single spectral trace.** The cosh bound approach is insufficient.
 
-**Conjecture:** d̄(t\*) = Σγ when CΨ(t\*) = ¼.
+### What the data actually shows
+
+The crossing is not a spectral resonance at the midpoint. It is a
+**balance shift**: FAST modes decay away, SLOW modes accumulate, and
+the crossing happens when this rebalancing drives the CΨ product
+below ¼. The palindromic pairing ensures that this balance shift is
+symmetric (each fast mode's decay increases its slow partner's
+relative weight), but the crossing point depends on the specific
+product C × Ψ, not on the spectral centroid reaching Σγ.
+
+### Revised conjecture (open)
+
+The simple midpoint correspondence is falsified. A revised version
+might take one of these forms:
+
+1. **Balance ratio:** The crossing happens when the ratio of slow-band
+   to fast-band weight reaches a specific threshold (independent of N).
+2. **Product decomposition:** CΨ = C × Ψ might factor differently in
+   the palindromic pair basis, with each pair contributing a
+   C-component and a Ψ-component whose product has a cleaner
+   midpoint property.
+3. **It's not spectral at all:** The ¼ value might be purely algebraic
+   (discriminant of the quadratic recursion) with no clean spectral
+   interpretation. The fold catastrophe in state space and the
+   palindromic midpoint in spectral space may be independent
+   structures that both happen to be properties of the same system.
 
 ---
 
-## Why This Would Matter
+## What Was Confirmed
 
-If CΨ = ¼ corresponds to the spectral midpoint, then:
+The spectral analysis, while falsifying the midpoint hypothesis,
+confirms two things:
 
-1. The fold catastrophe is not just a state-space property but a
-   **spectral resonance**: the state is maximally balanced between
-   fast and slow modes.
+1. **The palindromic pair structure is visible in the time evolution:**
+   FAST and SLOW bands decay symmetrically around the midpoint, as
+   predicted by the cosh factorization of purity.
 
-2. The boundary between quantum and classical is the moment of
-   **maximum spectral symmetry**: the palindromic pairing is most
-   visible when neither side dominates.
-
-3. R = CΨ² peaks at the boundary because **both halves of the
-   palindrome contribute equally**: the slow modes haven't yet
-   dominated, the fast modes haven't yet died. Maximum interference.
-
-4. The relay timing K/γ would have a spectral interpretation:
-   it's the time when the spectral centroid reaches Σγ.
+2. **The CΨ = ¼ crossing is sharp and universal:** Both N=3 and N=5
+   cross at the same CΨ value (¼) at the same scaled time (T=5.0
+   for these parameters), confirming K-invariance from the
+   [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md).
 
 ---
 
 ## Known Constraints
 
-- N=2 is trivial (only one rate, midpoint = the rate). Not informative.
-- CΨ depends on the initial state (through c_α coefficients). The
-  hypothesis may hold for |+⟩ᴺ but not for arbitrary states.
-- The cosh factorization applies to purity but CΨ = C × Ψ involves
-  the PRODUCT of purity and coherence. Cross-terms complicate the
-  spectral decomposition.
-- Non-uniform γ changes the palindromic midpoint from Nγ to Σγᵢ
-  but the factorization still holds.
+- N=2 is trivial (only one rate). Not informative.
+- CΨ depends on the initial state. Results are for |+⟩ᴺ only.
+- The product CΨ = C × Ψ mixes purity and coherence bases.
+  This is the central obstacle, not a side constraint.
+- The spectral weight metric |c_k · exp(−d_k · t)| tracks weight
+  in vec(ρ), not weight in CΨ. A CΨ-aware metric might show
+  different band distributions.
 
 ---
 

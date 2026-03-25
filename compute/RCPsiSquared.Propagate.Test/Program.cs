@@ -29,6 +29,17 @@ if (args.Length >= 1 && args[0] == "staged")
 }
 
 // ============================================================
+// SPECTRAL MODE: eigendecomposition + midpoint analysis
+// ============================================================
+if (args.Length >= 1 && args[0] == "spectral")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunSpectralAnalysis(args);
+    return;
+}
+
+// ============================================================
 // SWEEP MODE: multi-phase gamma profile sweep
 // ============================================================
 if (args.Length >= 1 && args[0] == "sweep")
@@ -983,6 +994,175 @@ void RunSweepEvaluation(string[] pArgs)
     // Final RESULT line
     Console.WriteLine(FormattableString.Invariant(
         $"RESULT SumMI={bestSumMI:F6} PeakMI={bestPeakMI:F6} PeakT={bestT:F2} Stages={profiles.Count} StageTime={stageTime:F2}"));
+}
+
+// ============================================================
+// SPECTRAL ANALYSIS: eigendecomposition + midpoint hypothesis test
+// ============================================================
+void RunSpectralAnalysis(string[] pArgs)
+{
+    // Usage: spectral <N> [g1,g2,...,gN]
+    int n = pArgs.Length >= 2 ? int.Parse(pArgs[1]) : 3;
+    double[] gammas;
+    if (pArgs.Length >= 3 && pArgs[2].Contains(','))
+        gammas = pArgs[2].Split(',')
+            .Select(s => double.Parse(s, CultureInfo.InvariantCulture)).ToArray();
+    else
+        gammas = Enumerable.Repeat(0.05, n).ToArray();
+
+    int d = 1 << n;
+    int d2 = d * d;
+    double sumGamma = gammas.Sum();
+
+    Console.WriteLine($"=== SPECTRAL MIDPOINT ANALYSIS ===");
+    Console.WriteLine($"N={n}, d={d}, d²={d2}");
+    Console.WriteLine($"Gammas: [{string.Join(", ", gammas.Select(g => FormattableString.Invariant($"{g:F4}")))}]");
+    Console.WriteLine($"Σγ = {sumGamma:F4} (palindromic midpoint rate)");
+    Console.WriteLine();
+
+    // Build Hamiltonian (Heisenberg chain)
+    var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
+    var bonds = Topology.Chain(n, couplings);
+    var H = Topology.BuildHamiltonian(n, bonds);
+    var prop = new LindbladPropagator(H, gammas, n);
+
+    // Build Liouvillian matrix by probing with basis density matrices
+    // Vectorization: vec(ρ)[j*d + i] = ρ[i, j] (column-major stacking)
+    Console.WriteLine("Building Liouvillian matrix...");
+    var L = Matrix<Complex>.Build.Dense(d2, d2);
+    for (int col = 0; col < d2; col++)
+    {
+        var basis = Matrix<Complex>.Build.Dense(d, d);
+        int bRow = col % d, bCol = col / d;
+        basis[bRow, bCol] = Complex.One;
+        var Lbasis = prop.EvalRHS(basis);
+        for (int row = 0; row < d2; row++)
+            L[row, col] = Lbasis[row % d, row / d];
+    }
+
+    // Eigendecompose
+    Console.WriteLine("Eigendecomposing...");
+    var evd = L.Evd();
+    var eigenvalues = evd.EigenValues;
+    var V = evd.EigenVectors;
+
+    // Classify eigenvalues by decay rate bands
+    double gBand = gammas[0]; // band width = one γ_base
+    int nMid = 0, nSlow = 0, nFast = 0, nImmune = 0;
+    Console.WriteLine($"\nEigenvalue spectrum ({d2} modes):");
+    Console.WriteLine($"Band definition: SLOW (rate < {sumGamma - gBand:F3}), MID ({sumGamma - gBand:F3}-{sumGamma + gBand:F3}), FAST (> {sumGamma + gBand:F3}), IMMUNE (rate < 0.001)");
+
+    var modeInfo = new (double rate, double freq, string band, int idx)[d2];
+    for (int i = 0; i < d2; i++)
+    {
+        double rate = -eigenvalues[i].Real;
+        double freq = eigenvalues[i].Imaginary;
+        string band;
+        if (rate < 0.001) { band = "IMMUNE"; nImmune++; }
+        else if (Math.Abs(rate - sumGamma) < gBand) { band = "MID"; nMid++; }
+        else if (rate < sumGamma) { band = "SLOW"; nSlow++; }
+        else { band = "FAST"; nFast++; }
+        modeInfo[i] = (rate, freq, band, i);
+    }
+    Console.WriteLine($"  IMMUNE: {nImmune}  SLOW: {nSlow}  MID: {nMid}  FAST: {nFast}");
+    Console.WriteLine();
+
+    // Decompose initial state |+>^N
+    var psi = new Complex[d];
+    double psiNorm = 1.0 / Math.Sqrt(d);
+    for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+    var rho0 = DensityMatrixTools.PureState(psi);
+
+    // Vectorize rho0 (column-major)
+    var rho0vec = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(d2);
+    for (int j = 0; j < d; j++)
+        for (int i = 0; i < d; i++)
+            rho0vec[j * d + i] = rho0[i, j];
+
+    // Expansion coefficients: c = V^{-1} * rho0vec
+    Console.WriteLine("Computing eigenbasis decomposition of |+>^N...");
+    var coeffs = V.Solve(rho0vec);
+
+    // Initial weight distribution
+    double totW0 = 0, midW0 = 0, slowW0 = 0, fastW0 = 0, immW0 = 0;
+    for (int i = 0; i < d2; i++)
+    {
+        double w = coeffs[i].Magnitude;
+        totW0 += w;
+        if (modeInfo[i].band == "MID") midW0 += w;
+        else if (modeInfo[i].band == "SLOW") slowW0 += w;
+        else if (modeInfo[i].band == "FAST") fastW0 += w;
+        else immW0 += w;
+    }
+    Console.WriteLine($"Initial weights: IMMUNE={immW0/totW0:P1} SLOW={slowW0/totW0:P1} MID={midW0/totW0:P1} FAST={fastW0/totW0:P1}");
+    Console.WriteLine();
+
+    // Time evolution: track spectral bands and CΨ
+    Console.WriteLine("Time evolution (spectral weights at each CΨ measurement):");
+    Console.WriteLine(FormattableString.Invariant(
+        $"{"T",6} | {"CΨ(01)",8} | {"CΨ(0N)",8} | {"D=1-4CΨ",8} | {"IMMUNE",7} | {"SLOW",7} | {"MID",7} | {"FAST",7} | note"));
+
+    double prevCpsi01 = 1.0;
+    bool crossingFound = false;
+
+    for (double t = 0.1; t <= 10.0; t += 0.1)
+    {
+        // Spectral weights at time t
+        double totW = 0, midW = 0, slowW = 0, fastW = 0, immW = 0;
+        for (int i = 0; i < d2; i++)
+        {
+            double w = coeffs[i].Magnitude * Math.Exp(-modeInfo[i].rate * t);
+            totW += w;
+            if (modeInfo[i].band == "MID") midW += w;
+            else if (modeInfo[i].band == "SLOW") slowW += w;
+            else if (modeInfo[i].band == "FAST") fastW += w;
+            else immW += w;
+        }
+
+        // Reconstruct density matrix from eigenbasis for CΨ
+        var rhoVec = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(d2, Complex.Zero);
+        for (int i = 0; i < d2; i++)
+            rhoVec += coeffs[i] * Complex.Exp(eigenvalues[i] * t) * V.Column(i);
+
+        var rhoT = Matrix<Complex>.Build.Dense(d, d);
+        for (int j = 0; j < d; j++)
+            for (int i = 0; i < d; i++)
+                rhoT[i, j] = rhoVec[j * d + i];
+
+        // Enforce Hermiticity (numerical cleanup)
+        for (int i = 0; i < d; i++)
+        {
+            rhoT[i, i] = new Complex(rhoT[i, i].Real, 0);
+            for (int j = i + 1; j < d; j++)
+            {
+                var avg = (rhoT[i, j] + Complex.Conjugate(rhoT[j, i])) / 2.0;
+                rhoT[i, j] = avg;
+                rhoT[j, i] = Complex.Conjugate(avg);
+            }
+        }
+
+        var rho01 = DensityMatrixTools.PartialTrace(rhoT, n, new[] { 0, 1 });
+        var (cpsi01, _, _) = DensityMatrixTools.ComputeCPsi(rho01);
+        var rho0N = DensityMatrixTools.PartialTrace(rhoT, n, new[] { 0, n - 1 });
+        var (cpsi0N, _, _) = DensityMatrixTools.ComputeCPsi(rho0N);
+        double disc = 1 - 4 * cpsi01;
+
+        string note = "";
+        if (prevCpsi01 >= 0.25 && cpsi01 < 0.25 && !crossingFound)
+        {
+            note = " ← CΨ(01) CROSSES 1/4";
+            crossingFound = true;
+        }
+
+        // Print every 0.5 or at crossing
+        if (Math.Abs(t % 0.5) < 0.05 || note != "")
+        {
+            Console.WriteLine(FormattableString.Invariant(
+                $"{t,6:F2} | {cpsi01,8:F4} | {cpsi0N,8:F4} | {disc,8:F4} | {immW/totW,6:P0} | {slowW/totW,6:P0} | {midW/totW,6:P0} | {fastW/totW,6:P0} | {note}"));
+        }
+
+        prevCpsi01 = cpsi01;
+    }
 }
 
 // ============================================================
