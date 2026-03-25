@@ -1,0 +1,320 @@
+=== BOTH SIDES VISIBLE: IBM Torino Oscillating Qubits ===
+X = crosses 1/4 (quantum side active, classical side quiet)
+. = does not cross (classical side active, quantum side quiet)
+Our side and Pi side are exact complements.
+
+--- Qubit 72 ---
+Q72 (121/181 = 66%)
+
+Our side:  X...XXXXXX.XXX.XXXXXXXXXXXX...XXXXXXXXXX..X..X..XX.XXX.XXXXXXXXXXXXXXXXXX.XXX...XXXXXX..XXXXX.XXX...X.XXXX..XXXXXX.XX.XXXXXXXXX...XX....XX.XX.X......X..X.XX.X.XXXXXXXXX.....XX....XX
+Pi  side:  .XXX......X...X............XXX..........XX.XX.XX..X...X..................X...XXX......XX.....X...XXX.X....XX......X..X.........XXX..XXXX..X..X.XXXXXX.XX.X..X.X.........XXXXX..XXXX..
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  X...XXX | .XXX...  week 1
+  XXX.XXX | ...X...  week 2
+  .XXXXXX | X......  week 3
+  XXXXXX. | ......X  week 4
+  ..XXXXX | XX.....  week 5
+  XXXXX.. | .....XX  week 6
+  X..X..X | .XX.XX.  week 7
+  X.XXX.X | .X...X.  week 8
+  XXXXXXX | .......  week 9
+  XXXXXXX | .......  week 10
+  XXX.XXX | ...X...  week 11
+  ...XXXX | XXX....  week 12
+  XX..XXX | ..XX...  week 13
+  XX.XXX. | ..X...X  week 14
+  ..X.XXX | XX.X...  week 15
+  X..XXXX | .XX....  week 16
+  XX.XX.X | ..X..X.  week 17
+  XXXXXXX | .......  week 18
+  X...XX. | .XXX..X  week 19
+  ...XX.X | XXX..X.  week 20
+  X.X.... | .X.XXXX  week 21
+  ..X..X. | XX.XX.X  week 22
+  XX.X.XX | ..X.X..  week 23
+  XXXXXXX | .......  week 24
+  .....XX | XXXXX..  week 25
+  ....XX | XXXX..  week 26
+
+--- Qubit 98 ---
+Q98 (104/181 = 57%)
+
+Our side:  X..XXXXX.XXXXXXX.X.......X.XXX.X..XXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.X.X.X...XXX..XXXXXX..XX.X..XXXXXX.XX..X.X.........XXXXX...X...X........X.....XXX..........X..X....
+Pi  side:  .XX.....X.......X.XXXXXXX.X...X.XX..................X.............................X.X.X.XXX...XX......XX..X.XX......X..XX.X.XXXXXXXXX.....XXX.XXX.XXXXXXXX.XXXXX...XXXXXXXXXX.XX.XXXX
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  X..XXXX | .XX....  week 1
+  X.XXXXX | .X.....  week 2
+  XX.X... | ..X.XXX  week 3
+  ....X.X | XXXX.X.  week 4
+  XX.X..X | ..X.XX.  week 5
+  XXXXXXX | .......  week 6
+  XXXXXXX | .......  week 7
+  XXX.XXX | ...X...  week 8
+  XXXXXXX | .......  week 9
+  XXXXXXX | .......  week 10
+  XXXXXXX | .......  week 11
+  XXXXX.X | .....X.  week 12
+  .X.X... | X.X.XXX  week 13
+  XXX..XX | ...XX..  week 14
+  XXXX..X | ....XX.  week 15
+  X.X..XX | .X.XX..  week 16
+  XXXX.XX | ....X..  week 17
+  ..X.X.. | XX.X.XX  week 18
+  ....... | XXXXXXX  week 19
+  XXXXX.. | .....XX  week 20
+  .X...X. | X.XXX.X  week 21
+  ....... | XXXXXXX  week 22
+  X.....X | .XXXXX.  week 23
+  XX..... | ..XXXXX  week 24
+  .....X. | XXXXX.X  week 25
+  .X.... | X.XXXX  week 26
+
+--- Qubit 105 ---
+Q105 (103/181 = 56%)
+
+Our side:  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.XX..XXXX.XXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..X.XXXXXXX........XX..............................................................
+Pi  side:  ..............................................X..XX....X...X......................................XX.X.......XXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  XXXXXXX | .......  week 1
+  XXXXXXX | .......  week 2
+  XXXXXXX | .......  week 3
+  XXXXXXX | .......  week 4
+  XXXXXXX | .......  week 5
+  XXXXXXX | .......  week 6
+  XXXX.XX | ....X..  week 7
+  ..XXXX. | XX....X  week 8
+  XXX.XXX | ...X...  week 9
+  XXXXXXX | .......  week 10
+  XXXXXXX | .......  week 11
+  XXXXXXX | .......  week 12
+  XXXXXXX | .......  week 13
+  XXXXXXX | .......  week 14
+  ..X.XXX | XX.X...  week 15
+  XXXX... | ....XXX  week 16
+  .....XX | XXXXX..  week 17
+  ....... | XXXXXXX  week 18
+  ....... | XXXXXXX  week 19
+  ....... | XXXXXXX  week 20
+  ....... | XXXXXXX  week 21
+  ....... | XXXXXXX  week 22
+  ....... | XXXXXXX  week 23
+  ....... | XXXXXXX  week 24
+  ....... | XXXXXXX  week 25
+  ...... | XXXXXX  week 26
+
+--- Qubit 70 ---
+Q70 (47/181 = 25%)
+
+Our side:  ..................................XXX..X..XXXXX.X.XX...XX.....XX.X......X..X...........X.XX.....X...XX...X..XX......XX......X..X.....XX............X...X.XXX..XX..X.XXXX............X
+Pi  side:  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX...XX.XX.....X.X..XXX..XXXXX..X.XXXXXX.XX.XXXXXXXXXXX.X..XXXXX.XXX..XXX.XX..XXXXXX..XXXXXX.XX.XXXXX..XXXXXXXXXXXX.XXX.X...XX..XX.X....XXXXXXXXXXXX.
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  ....... | XXXXXXX  week 1
+  ....... | XXXXXXX  week 2
+  ....... | XXXXXXX  week 3
+  ....... | XXXXXXX  week 4
+  ......X | XXXXXX.  week 5
+  XX..X.. | ..XX.XX  week 6
+  XXXXX.X | .....X.  week 7
+  .XX...X | X..XXX.  week 8
+  X.....X | .XXXXX.  week 9
+  X.X.... | .X.XXXX  week 10
+  ..X..X. | XX.XX.X  week 11
+  ....... | XXXXXXX  week 12
+  ...X.XX | XXX.X..  week 13
+  .....X. | XXXXX.X  week 14
+  ..XX... | XX..XXX  week 15
+  X..XX.. | .XX..XX  week 16
+  ....XX. | XXXX..X  week 17
+  .....X. | XXXXX.X  week 18
+  .X..... | X.XXXXX  week 19
+  XX..... | ..XXXXX  week 20
+  ....... | XXXXXXX  week 21
+  X...X.X | .XXX.X.  week 22
+  XX..XX. | ..XX..X  week 23
+  .X.XXXX | X.X....  week 24
+  ....... | XXXXXXX  week 25
+  .....X | XXXXX.  week 26
+
+--- Qubit 68 ---
+Q68 (42/181 = 23%)
+
+Our side:  ....X.XX.XXXXX.XXXX....X..X...X.X..X.X.XXX.X....X.....X.X.....XX....X..X..X...XXX............X.....................X.X..............................X.....................X.X....XXX.
+Pi  side:  XXXX.X..X.....X....XXXX.XX.XXX.X.XX.X.X...X.XXXX.XXXXX.X.XXXXX..XXXX.XX.XX.XXX...XXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXX.X.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXX.X.XXXX...X
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  ....X.X | XXXX.X.  week 1
+  X.XXXXX | .X.....  week 2
+  .XXXX.. | X....XX  week 3
+  ..X..X. | XX.XX.X  week 4
+  ..X.X.. | XX.X.XX  week 5
+  X.X.XXX | .X.X...  week 6
+  .X....X | X.XXXX.  week 7
+  .....X. | XXXXX.X  week 8
+  X.....X | .XXXXX.  week 9
+  X....X. | .XXXX.X  week 10
+  .X..X.. | X.XX.XX  week 11
+  .XXX... | X...XXX  week 12
+  ....... | XXXXXXX  week 13
+  ..X.... | XX.XXXX  week 14
+  ....... | XXXXXXX  week 15
+  ....... | XXXXXXX  week 16
+  ...X.X. | XXX.X.X  week 17
+  ....... | XXXXXXX  week 18
+  ....... | XXXXXXX  week 19
+  ....... | XXXXXXX  week 20
+  ....... | XXXXXXX  week 21
+  .X..... | X.XXXXX  week 22
+  ....... | XXXXXXX  week 23
+  ....... | XXXXXXX  week 24
+  ..X.X.. | XX.X.XX  week 25
+  ..XXX. | XX...X  week 26
+
+--- Qubit 69 ---
+Q69 (40/181 = 22%)
+
+Our side:  .....X...XX.....XXX...X..........X.....X.......X...X.XX.XXXX.X.X.......XXXX..X........X...XX..XXX...X.....X..........................XX..X...XX.......X.X..X.........................
+Pi  side:  XXXXX.XXX..XXXXX...XXX.XXXXXXXXXX.XXXXX.XXXXXXX.XXX.X..X....X.X.XXXXXXX....XX.XXXXXXXX.XXX..XX...XXX.XXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXX..XX.XXX..XXXXXXX.X.XX.XXXXXXXXXXXXXXXXXXXXXXXXX
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  .....X. | XXXXX.X  week 1
+  ..XX... | XX..XXX  week 2
+  ..XXX.. | XX...XX  week 3
+  .X..... | X.XXXXX  week 4
+  .....X. | XXXXX.X  week 5
+  ....X.. | XXXX.XX  week 6
+  .....X. | XXXXX.X  week 7
+  ..X.XX. | XX.X..X  week 8
+  XXXX.X. | ....X.X  week 9
+  X...... | .XXXXXX  week 10
+  .XXXX.. | X....XX  week 11
+  X...... | .XXXXXX  week 12
+  ..X...X | XX.XXX.  week 13
+  X..XXX. | .XX...X  week 14
+  ..X.... | XX.XXXX  week 15
+  .X..... | X.XXXXX  week 16
+  ....... | XXXXXXX  week 17
+  ....... | XXXXXXX  week 18
+  ....... | XXXXXXX  week 19
+  XX..X.. | ..XX.XX  week 20
+  .XX.... | X..XXXX  week 21
+  ...X.X. | XXX.X.X  week 22
+  .X..... | X.XXXXX  week 23
+  ....... | XXXXXXX  week 24
+  ....... | XXXXXXX  week 25
+  ...... | XXXXXX  week 26
+
+--- Qubit 21 ---
+Q21 (149/181 = 82%)
+
+Our side:  ..............................XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Pi  side:  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.............................................................................XX........................................................................
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  ....... | XXXXXXX  week 1
+  ....... | XXXXXXX  week 2
+  ....... | XXXXXXX  week 3
+  ....... | XXXXXXX  week 4
+  ..XXXXX | XX.....  week 5
+  XXXXXXX | .......  week 6
+  XXXXXXX | .......  week 7
+  XXXXXXX | .......  week 8
+  XXXXXXX | .......  week 9
+  XXXXXXX | .......  week 10
+  XXXXXXX | .......  week 11
+  XXXXXXX | .......  week 12
+  XXXXXXX | .......  week 13
+  XXXXXXX | .......  week 14
+  XXXXXXX | .......  week 15
+  XX..XXX | ..XX...  week 16
+  XXXXXXX | .......  week 17
+  XXXXXXX | .......  week 18
+  XXXXXXX | .......  week 19
+  XXXXXXX | .......  week 20
+  XXXXXXX | .......  week 21
+  XXXXXXX | .......  week 22
+  XXXXXXX | .......  week 23
+  XXXXXXX | .......  week 24
+  XXXXXXX | .......  week 25
+  XXXXXX | ......  week 26
+
+--- Qubit 33 ---
+Q33 (147/181 = 81%)
+
+Our side:  XXXXXXXX..X..XXX.XX....X.........XXXXXXXXXXX.X.XXXXXXX..XX.X..X..XXXXXX.XXXXXXXXXXXXXXX.XXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.X..
+Pi  side:  ........XX.XX...X..XXXX.XXXXXXXXX...........X.X.......XX..X.XX.XX......X...............X...X.............................X.......................................................X.XX
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  XXXXXXX | .......  week 1
+  X..X..X | .XX.XX.  week 2
+  XX.XX.. | ..X..XX  week 3
+  ..X.... | XX.XXXX  week 4
+  .....XX | XXXXX..  week 5
+  XXXXXXX | .......  week 6
+  XX.X.XX | ..X.X..  week 7
+  XXXXX.. | .....XX  week 8
+  XX.X..X | ..X.XX.  week 9
+  ..XXXXX | XX.....  week 10
+  X.XXXXX | .X.....  week 11
+  XXXXXXX | .......  week 12
+  XXX.XXX | ...X...  week 13
+  .XXXXXX | X......  week 14
+  XXXXXXX | .......  week 15
+  XXXXXXX | .......  week 16
+  XXXXXXX | .......  week 17
+  XX.XXXX | ..X....  week 18
+  XXXXXXX | .......  week 19
+  XXXXXXX | .......  week 20
+  XXXXXXX | .......  week 21
+  XXXXXXX | .......  week 22
+  XXXXXXX | .......  week 23
+  XXXXXXX | .......  week 24
+  XXXXXXX | .......  week 25
+  XX.X.. | ..X.XX  week 26
+
+--- Qubit 47 ---
+Q47 (163/181 = 90%)
+
+Our side:  XXXXXX..XXXXXXXX..XXXXXXXXXXXX.XXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.XXXXXXX.XXXXXXXXXXXXXXXX.XXXXXXXXXXX...XXXXXXXXX.XXXXXXXXXXXX
+Pi  side:  ......XX........XX............X.........XX.........................XXXX................................................X.......X................X...........XXX.........X............
+XOR:       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Weekly (ours | theirs):
+  XXXXXX. | ......X  week 1
+  .XXXXXX | X......  week 2
+  XX..XXX | ..XX...  week 3
+  XXXXXXX | .......  week 4
+  XX.XXXX | ..X....  week 5
+  XXXXX.. | .....XX  week 6
+  XXXXXXX | .......  week 7
+  XXXXXXX | .......  week 8
+  XXXXXXX | .......  week 9
+  XXXX... | ....XXX  week 10
+  .XXXXXX | X......  week 11
+  XXXXXXX | .......  week 12
+  XXXXXXX | .......  week 13
+  XXXXXXX | .......  week 14
+  XXXXXXX | .......  week 15
+  XXXXXXX | .......  week 16
+  XXXXXXX | .......  week 17
+  .XXXXXX | X......  week 18
+  X.XXXXX | .X.....  week 19
+  XXXXXXX | .......  week 20
+  XXXX.XX | ....X..  week 21
+  XXXXXXX | .......  week 22
+  XX...XX | ..XXX..  week 23
+  XXXXXXX | .......  week 24
+  .XXXXXX | X......  week 25
+  XXXXXX | ......  week 26
+
