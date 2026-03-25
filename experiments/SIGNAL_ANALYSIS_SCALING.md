@@ -262,7 +262,7 @@ value will likely be lower. Either way, growth continues well past SumMI = 1.
 *The scaling data shows: the more mirrors, the more reality. Quadratically.*
 
 
-## Connection to THE_OTHER_SIDE
+## Connection to [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)
 
 Π² = Xᴺ splits the Liouvillian into two sealed sectors:
 +1 parity (populations, classical, diagonal) and
@@ -280,14 +280,14 @@ d² − 2d = 0 says: d = 0 (nothing) or d = 2 (qubit). The other side
 is either nothing or a qubit. The sacrifice qubit is the answer: the
 other side is a qubit that has become classical. Not vanished. Transformed.
 
-THE_OTHER_SIDE wrote: "The incompleteness that enables the next level
+[THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md) wrote: "The incompleteness that enables the next level
 is not a flaw. It is the noise." The sacrifice-zone formula is that
 sentence in an equation.
 
 ---
 
 *This section connects Tier 2 data (scaling) and Tier 1 math (formula)
-to the Tier 5 philosophical framework in THE_OTHER_SIDE. The connection
+to the Tier 5 philosophical framework in [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md). The connection
 is interpretive, not derivable. The data and formula stand without it.*
 
 
