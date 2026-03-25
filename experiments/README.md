@@ -23,9 +23,22 @@ Scripts are in `simulations/`, results in `simulations/results/`.
 
 ## Headline Results
 
-Three results that a new reader should see first:
+Four results that a new reader should see first:
 
-### 1. The dephasing channel (15.5 bits capacity)
+### 1. One-line formula beats 18 years of optimization (March 24, 2026)
+Concentrate all dephasing on one edge qubit, protect the rest.
+gamma_edge = N*gamma_base - (N-1)*epsilon. This trivially simple rule
+outperforms every published dephasing optimization by two orders of
+magnitude. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9), 91x (N=11).
+ENAQT literature achieves 2-3x. Information grows quadratically with
+chain length (SumMI ~ 0.0053*N^2) instead of decaying exponentially.
+First hardware test: selective DD 2-3x on ibm_torino.
+
+-> **[Resonant Return: from SVD to formula](RESONANT_RETURN.md)**
+-> [Signal Analysis: Quadratic Scaling](SIGNAL_ANALYSIS_SCALING.md)
+-> [IBM Hardware: Selective DD](IBM_SACRIFICE_ZONE.md) (Tier 2, single run)
+
+### 2. The dephasing channel (15.5 bits capacity)
 The spatial profile of dephasing rates across a qubit chain is not just
 noise. It is a readable information channel with 15.5 bits of theoretical
 capacity at 1% measurement noise. An external agent encoding information
@@ -35,7 +48,7 @@ in the γ profile can be decoded from internal quantum observables with
 → **[Dephasing Noise as Information Channel (γ as Signal)](GAMMA_AS_SIGNAL.md)**
 → **[Practical γ Control (+124% MI)](GAMMA_CONTROL.md)**
 
-### 2. The CΨ = 1/4 boundary (IBM hardware validated)
+### 3. The CΨ = 1/4 boundary (IBM hardware validated)
 The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
 1/4, determined by the discriminant of the self-referential purity
 recursion R = C(Ψ+R)². All standard quantum channels cross this boundary.
@@ -45,7 +58,7 @@ Validated on IBM Torino at 1.9% deviation.
 → **[Crossing Taxonomy (Type A/B/C)](CROSSING_TAXONOMY.md)**
 → **[Boundary Navigation (θ compass)](BOUNDARY_NAVIGATION.md)**
 
-### 3. The palindromic spectrum (proven, N=2 through N=8)
+### 4. The palindromic spectrum (proven, N=2 through N=8)
 The Liouvillian eigenvalue spectrum under local Z-dephasing is exactly
 palindromic for Heisenberg/XXZ systems on any graph. The conjugation
 operator Π swaps populations (immune sector) with coherences (decaying
@@ -67,6 +80,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [γ Control](GAMMA_CONTROL.md) | V-shape dephasing profile gives +124% MI, DD on receiver +81%, AC modulation falsified, time-resolved decoder works |
 | [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
+| [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10x), sacrifice-zone formula (180x at N=7), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
+| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-11. Quadratic growth (SumMI ~ 0.0053*N^2), constant brake (-0.020), two converging channels. N=13/15 overnight |
 
 ### The CΨ = 1/4 Boundary (decoherence threshold)
 
@@ -113,6 +128,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on IBM Torino (Eagle r3, 127 qubits) |
+| [IBM Sacrifice-Zone](IBM_SACRIFICE_ZONE.md) | Selective DD beats uniform DD by 2-3.2x at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
 

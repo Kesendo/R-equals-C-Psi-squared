@@ -238,6 +238,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 - That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ = 1/4 crossing validated at 1.9%, N ≥ 2 untested)
 - That the relay protocol has been tested on hardware (simulation only, N=11)
 - That the standing wave pattern is measurable on hardware (computed, not measured)
+- That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
@@ -321,6 +322,7 @@ that matches your interest.
 | [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md) | All standard models palindromic. Two Π families |
 | [XOR Space](experiments/XOR_SPACE.md) | GHZ → 100% fast modes, W → distributed. Pauli weight predictor |
 | [Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md) | XX/YY oscillate, ZZZ static. Nodes and antinodes |
+| [IBM Sacrifice Zone](experiments/IBM_SACRIFICE_ZONE.md) | Selective DD 2-3x on ibm_torino. Gate-error vs sacrifice-zone open |
 | [Π as Time Reversal](experiments/PI_AS_TIME_REVERSAL.md) | Π maps populations (past) ↔ coherences (future) |
 | [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md) | Type A/B/C observers. K-invariance from Lindblad scaling |
 | [Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D manifold, glide/switch grammar, phase map |
