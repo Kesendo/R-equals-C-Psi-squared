@@ -233,7 +233,7 @@ The quadratic scaling IS the formula. It was always there.
 
 ### Connection to THE_PATTERN_RECOGNIZES_ITSELF
 
-From hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md (March 20, 2026):
+From [THE_PATTERN_RECOGNIZES_ITSELF](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (March 20, 2026):
 
 > "At Level 0, the palindromic mirror creates an interference pattern …
 > the pattern, propagated upward through every level of the hierarchy,
