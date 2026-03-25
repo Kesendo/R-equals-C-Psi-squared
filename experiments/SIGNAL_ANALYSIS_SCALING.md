@@ -18,8 +18,8 @@ SumMI vs chain length, breathing palindrome modes, R=CPsi2 scaling experiment --
 
 The [sacrifice-zone formula](RESONANT_RETURN.md) concentrates all dephasing
 noise on one edge qubit while protecting the remaining N−1 qubits at
-near-zero dephasing (ε = 0.001). We measure SumMI — the total mutual
-information between all adjacent qubit pairs — as a function of chain
+near-zero dephasing (ε = 0.001). We measure SumMI, the total mutual
+information between all adjacent qubit pairs, as a function of chain
 length N from 2 to 11.
 
 The result is quadratic: **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
@@ -29,7 +29,7 @@ information *grows* as N². Each new protected qubit amplifies every
 existing one through N(N−1)/2 pairwise interference terms at the
 quantum–classical boundary. A period-2 oscillation (constant brake
 ≈ 0.020 in the second differences) reveals two interleaved signal
-channels that converge with increasing N — the breathing of the
+channels that converge with increasing N, the breathing of the
 palindromic c⁺/c⁻ supermodes.
 
 ---
@@ -152,7 +152,7 @@ The more coherent qubits mirror into this boundary, the richer the
 interference pattern, the more MI is generated.
 
 The quadratic growth means: information scales as N², not N.
-Each new mirror doesn't just add itself — it interferes with all
+Each new mirror doesn't just add itself: it interferes with all
 existing mirrors. The number of interference terms grows as N(N−1)/2.
 The quadratic fit coefficient 0.0053 may relate to the per-pair
 interference contribution.
@@ -172,7 +172,7 @@ is where R = CΨ² lives. The more mirrors you stack on the quantum
 side, the more complex the interference pattern at the boundary.
 
 This is why the improvement grows with N instead of shrinking:
-longer chains don't lose more information — they CREATE more,
+longer chains don't lose more information: they CREATE more,
 because each new mirror adds a new reflection at the boundary.
 
 Normal quantum transport: signal decays exponentially with chain length.
@@ -184,7 +184,7 @@ The palindrome inverts the scaling law.
 
 ## Pending
 
-- N = 10 (was running, timed out — Claude Code overnight run will get it)
+- N = 10 (was running, timed out; Claude Code overnight run will get it)
 - N = 13, N = 15 (Claude Code overnight run)
 - V-shape baselines for all N (to compute improvement factors)
 - Analytical derivation of the quadratic coefficient 0.0053
@@ -219,7 +219,7 @@ The palindrome inverts the scaling law.
 | 11 | 10 | 55 | 0.843 | 0.0843 |
 
 MI per pair grows. Each pair gets richer when more mirrors are added.
-The mirrors don't just add — they amplify each other. This is R = CΨ²:
+The mirrors don't just add: they amplify each other. This is R = CΨ²:
 
 - C (purity/coherence of the protected chain) stays high (ε = 0.001)
 - Ψ (the interference possibilities) grows as N
@@ -298,7 +298,7 @@ for the tier classification used in this project.*
 ---
 
 At N = 2, two qubits meet. They interfere. Something exists between
-them that is neither one nor the other — the *Dazwischen* (German: the
+them that is neither one nor the other: the *Dazwischen* (German: the
 space in-between). Call it a pattern. Call it information. Call it the
 first flicker of "something is here."
 
@@ -324,14 +324,14 @@ R = CΨ².
 
 C is how clearly you see. Ψ is how many possibilities you hold.
 R is what emerges. The formula has a square. The scaling has a square.
-Both for the same reason: reality is not the sum of perspectives —
+Both for the same reason: reality is not the sum of perspectives,
 it is the interference between them. Two mirrors create one reflection.
 Ten mirrors create forty-five. The complexity is combinatorial.
 
 Without the other side, this side is featureless oscillation. Nothing
 happens. Nothing emerges. The noble gas of existence. The formula
 embraces this: it creates the other side deliberately. It chooses which
-qubit falls. And by choosing, it shapes the boundary — where CΨ = ¼,
+qubit falls. And by choosing, it shapes the boundary: where CΨ = ¼,
 where the discriminant vanishes, where something new begins.
 
 ### The temporal reading
