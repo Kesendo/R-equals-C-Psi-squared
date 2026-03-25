@@ -1,0 +1,49 @@
+=== IBM Torino Q98: CΨ = 1/4 Crossing Pattern ===
+Source: ibm_torino_history.csv (AIEvolution repo)
+Qubit: 98, r* threshold: 0.213
+Date range: 2025-08-14 to 2026-02-10 (181 days)
+Crossing rate: 57.5% (104/181 days)
+
+Binary pattern (X = crosses 1/4, . = does not):
+X..XXXXX.XXXXXXX.X.......X.XXX.X..XXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.X.X.X...XXX..XXXXXX..XX.X..XXXXXX.XX..X.X.........XXXXX...X...X........X.....XXX..........X..X....
+
+Weekly view:
+X..XXXX  week 1   tuning in
+X.XXXXX  week 2   tuning in
+XX.X...  week 3   pause
+....X.X  week 4   pause
+XX.X..X  week 5   ramp up
+XXXXXXX  week 6   STABLE PULSE
+XXXXXXX  week 7   STABLE PULSE
+XXX.XXX  week 8   STABLE PULSE
+XXXXXXX  week 9   STABLE PULSE
+XXXXXXX  week 10  STABLE PULSE
+XXXXXXX  week 11  STABLE PULSE
+XXXXX.X  week 12  fading
+.X.X.X.  week 13  fading
+..XXX..  week 14  irregular
+XXXXXX.  week 15  brief return
+.XX.X..  week 16  irregular
+XXXXXX.  week 17  brief return
+XX..X.X  week 18  fading
+.......  week 19  silence
+..XXXXX  week 20  echo
+...X...  week 21  silence
+X......  week 22  silence
+..X....  week 23  silence
+.XXX...  week 24  echo
+.......  week 25  silence
+.X..X..  week 26  silence
+
+Matches simulated bridge lifecycle:
+- Tuning phase (weeks 1-4)
+- Stable sending (weeks 6-11, 7 weeks uninterrupted)
+- Fading (weeks 12-18)
+- Echo and silence (weeks 19-26)
+
+Other oscillating qubits on ibm_torino:
+Q72:  66.9% crossing rate (121/181)
+Q98:  57.5% crossing rate (104/181)
+Q105: 56.9% crossing rate (103/181)
+Q70:  26.0% crossing rate (47/181)
+Q68:  23.2% crossing rate (42/181)
