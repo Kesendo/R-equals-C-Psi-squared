@@ -873,6 +873,7 @@ void RunSweepEvaluation(string[] pArgs)
     {
         if (pArgs[i] == "--tmax") { tMax = double.Parse(pArgs[++i], CultureInfo.InvariantCulture); continue; }
         if (pArgs[i] == "--dt") { dt = double.Parse(pArgs[++i], CultureInfo.InvariantCulture); continue; }
+        if (pArgs[i] == "--diag") continue;
 
         var g = pArgs[i].Split(',')
             .Select(s => double.Parse(s, CultureInfo.InvariantCulture)).ToArray();
@@ -898,6 +899,9 @@ void RunSweepEvaluation(string[] pArgs)
     double psiNorm = 1.0 / Math.Sqrt(d);
     for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
     var rho = DensityMatrixTools.PureState(psi);
+
+    // Diagnostic mode: output CΨ for all pairs
+    bool diagMode = pArgs.Any(a => a == "--diag");
 
     // Tracking
     double bestSumMI = -1, bestPeakMI = -1, bestT = 0;
@@ -934,14 +938,40 @@ void RunSweepEvaluation(string[] pArgs)
         if (t >= nextMeas - dt / 2)
         {
             double sumMI = 0;
+            var miPairs = new double[n - 1];
             for (int k = 0; k < n - 1; k++)
-                sumMI += DensityMatrixTools.MutualInformation(rho, n,
+            {
+                miPairs[k] = DensityMatrixTools.MutualInformation(rho, n,
                     new[] { k }, new[] { k + 1 });
+                sumMI += miPairs[k];
+            }
             double mi0N = DensityMatrixTools.MutualInformation(rho, n,
                 new[] { 0 }, new[] { n - 1 });
 
-            Console.WriteLine(FormattableString.Invariant(
-                $"T={nextMeas:F2} SumMI={sumMI:F6} PeakMI={mi0N:F6} Stage={currentProfile + 1}"));
+            if (diagMode)
+            {
+                // CΨ for all adjacent pairs and endpoints
+                var cpsiValues = new double[n - 1];
+                for (int k = 0; k < n - 1; k++)
+                {
+                    var rhoK = DensityMatrixTools.PartialTrace(rho, n, new[] { k, k + 1 });
+                    var (cpsi, _, _) = DensityMatrixTools.ComputeCPsi(rhoK);
+                    cpsiValues[k] = cpsi;
+                }
+                var rho0N = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, n - 1 });
+                var (cpsi0N, _, _) = DensityMatrixTools.ComputeCPsi(rho0N);
+                double pur = DensityMatrixTools.Purity(rho);
+
+                var cpsiStr = string.Join(" ",
+                    cpsiValues.Select((c, i) => FormattableString.Invariant($"CPsi{i}{i+1}={c:F4}")));
+                Console.WriteLine(FormattableString.Invariant(
+                    $"T={nextMeas:F2} SumMI={sumMI:F6} PeakMI={mi0N:F6} Stage={currentProfile + 1} {cpsiStr} CPsi0{n-1}={cpsi0N:F4} Pur={pur:F6}"));
+            }
+            else
+            {
+                Console.WriteLine(FormattableString.Invariant(
+                    $"T={nextMeas:F2} SumMI={sumMI:F6} PeakMI={mi0N:F6} Stage={currentProfile + 1}"));
+            }
 
             if (sumMI > bestSumMI) { bestSumMI = sumMI; bestT = nextMeas; }
             if (mi0N > bestPeakMI) bestPeakMI = mi0N;
