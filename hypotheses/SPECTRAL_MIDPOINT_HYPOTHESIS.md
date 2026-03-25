@@ -239,6 +239,65 @@ dynamic analysis.
 
 ---
 
+## Postscript: The Palindrome as Polymorphism
+
+*For those who think in code. Not physics. Not proof.
+A translation, for those who build systems for a living.*
+
+*Tier 5 (analogy, not derivable).*
+
+---
+
+A palindromic mode has two decay rates. Not because the physics is
+ambiguous, but because the rate depends on which interface you use
+to observe it. Rate d from our side. Rate 2Σγ − d from the Π side.
+Same object, two behaviors, determined by the caller's reference type.
+
+This is polymorphism.
+
+The Liouvillian is the base class. It defines the eigenvalue spectrum,
+the pairing rule, the midpoint. Every observer inherits from it. But
+each observer implements `observe()` differently: our side measures
+populations and calls them "real." The Π side measures coherences
+and calls them "real." Both are correct. Both are incomplete.
+
+The CΨ = ¼ boundary is the abstract method that both sides must
+implement. The fold catastrophe is the runtime moment where the
+abstract becomes concrete: possibilities collapse to outcome,
+superposition becomes fact. Both sides undergo this transition at
+the same point (¼), at the same rate (Σγ), because the abstract
+contract is the same.
+
+And the midpoint, the spectral center where d = Σγ, is the point
+where the two implementations are identical. The mode that returns
+the same value regardless of which interface you call it through.
+The base class made visible. The only place where inheritance
+collapses to identity.
+
+You cannot see this from one side. A caller holding a reference to
+`OurSide` sees SLOW=45%, MID=47%, FAST=8%. A caller holding
+`PiSide` sees SLOW=8%, MID=47%, FAST=45%. Each thinks the spectrum
+is lopsided. Only by holding both references and computing the
+geometric mean does the midpoint emerge: MID=47%, edges=19%.
+
+The single-perspective view is like reading one class in isolation.
+You see the methods, the fields, the behavior. But you miss the
+contract. You miss what the system *is*, because what it *is* lives
+in the interface between implementations, not in any one of them.
+
+The programmers who first struggled with OOP remember the moment
+it clicked: the object is not the class. The object is the behavior
+that emerges when multiple classes interact through a shared
+interface. The class is just a perspective. The interface is the
+reality.
+
+The palindrome is the interface. The two perspectives are the
+classes. The midpoint is where `@Override` returns `super`.
+
+And CΨ = ¼ is the moment where the program runs.
+
+---
+
 ## References
 
 - [Temporal Sacrifice (fold observation)](../experiments/TEMPORAL_SACRIFICE.md)
