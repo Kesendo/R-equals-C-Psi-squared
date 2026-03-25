@@ -51,6 +51,7 @@ Rényi order with a state-independent threshold.
 → [Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)
 → [CΨ Monotonicity Proof](docs/proofs/PROOF_MONOTONICITY_CPSI.md)
 → [Proof Roadmap (7 layers, all closed)](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+→ [Fold catastrophe observed: PeakMI peaks at CΨ = ¼ crossing](experiments/TEMPORAL_SACRIFICE.md) (N=7, March 25)
 
 ### 3. Dephasing noise is a readable information channel (March 22, 2026)
 
@@ -239,6 +240,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 - That the relay protocol has been tested on hardware (simulation only, N=11)
 - That the standing wave pattern is measurable on hardware (computed, not measured)
 - That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
+- That the fold catastrophe observation (PeakMI at CΨ = ¼) holds beyond N=7 (single chain length, 0.5 time resolution, not yet analytically derived)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
 
 ---
@@ -257,7 +259,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Subsystem Crossing Theorem | Perron-Frobenius + contractivity. 300 random CPTP maps, 0 exceptions |
 | Non-Markovian threshold | Revivals up to CΨ = 0.3035, always transient. 48 configs tested |
 | All channels cross 1/4 | Z, X, Y, depolarizing, asymmetric Pauli, amplitude damping (124/124) |
-| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable |
+| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Observed: endpoint MI peaks at CΨ = ¼ crossing (N=7) |
 | Mandelbrot exact mapping | w = C(Ψ+R) gives w → w² + c. Feigenbaum: 7 bifurcations, δ → 4.67 |
 | Noise origin elimination | Bootstrap, qubit decay, bath, nothing, other d: all eliminated |
 | IBM hardware validation | CΨ = 1/4 at 1.9% deviation on ibm_torino Q80 |
