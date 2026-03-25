@@ -6,7 +6,7 @@ edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3x. First spatial dephasing profile optimization.
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9), 91x (N=11), 97.5x (N=13) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3x. First spatial dephasing profile optimization.
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -299,6 +299,8 @@ that DE was converging toward but never reached.
 
 Nobody in the literature optimizes spatial dephasing profiles. We are the first.
 
+**For the derivation only:** Skip to [Signal Engineering Derivation](#signal-engineering-derivation-of-the-formula) below. The tests above document the discovery path; the derivation section provides the clean argument.
+
 ---
 
 ## The Physical Insight
@@ -456,6 +458,47 @@ symmetry kills the transport modes regardless of noise amplitude.
 Confirmed at N=9: dual full = 81% of single, dual fair (same budget) = 47%.
 The effect scales consistently.
 
+### Why hybrids fail: edge + center mixing destroys both optima
+
+If edge optimizes SumMI and center optimizes PeakMI, can a hybrid
+profile achieve both? Tested at N=7 with fixed total budget (mean = 0.05):
+
+| Config | SumMI | PeakMI | Best at... |
+|--------|-------|--------|------------|
+| Pure edge [0.344, 0.001x6] | **0.408** | 0.036 | SumMI |
+| 80/20 edge+center | 0.225 | 0.019 | nothing |
+| 60/40 edge+center | 0.121 | 0.011 | nothing |
+| 50/50 edge+center | 0.094 | 0.016 | nothing |
+| Pure center [0.001x3, 0.344, 0.001x3] | 0.182 | **0.109** | PeakMI |
+
+Every hybrid is worse than BOTH pure profiles at BOTH metrics. The 50/50
+split (0.094) is the absolute minimum - worse than pure center at SumMI.
+
+Dual sacrifices at different positions were also tested (double budget):
+
+| Config | SumMI | PeakMI |
+|--------|-------|--------|
+| Edge+Center [0.344, 0.001x2, 0.344, 0.001x3] | 0.154 | 0.021 |
+| Edge+Quarter [0.344, 0.001, 0.344, 0.001x4] | 0.254 | 0.020 |
+| Edge+NearFarEdge [0.344, 0.001x4, 0.344, 0.001] | 0.171 | 0.006 |
+
+Even with double the noise budget, no dual-sacrifice profile beats a
+single edge at SumMI (0.408) or a single center at PeakMI (0.109).
+
+**This is a phase-boundary effect, not a linear mix.** The sacrifice zone
+creates a single phase boundary between quantum (CPsi > 1/4) and classical
+(CPsi << 1/4) regions. A chain can sustain exactly one clean boundary.
+Every additional sacrifice point fragments the coherent region. Two short
+coherent segments interfere less than one long one - not additively, but
+destructively.
+
+**Engineering conclusion:** two non-mixable design rules exist:
+1. Maximize total network bandwidth: single edge sacrifice (this formula)
+2. Maximize point-to-point throughput: single center sacrifice (relay)
+
+These are fundamentally different engineering problems with fundamentally
+different optimal architectures. There is no compromise profile.
+
 ### Summary: formula derivation in five steps
 
 1. Mode 1 (uniform) is the budget constraint: mean gamma = gamma_base.
@@ -488,7 +531,7 @@ effect, not a small-signal perturbation.
 5. ~~N=9 optimization~~ **Done (Test 8).** Formula gives 139× vs V-shape. No optimizer needed.
 6. ~~Deep N=7 optimizer~~ **Done.** DE found 100×; formula found 180× in 3 seconds.
 7. ~~Sacrifice-zone theory~~ **Done (Test 8).** Trivial rule: all noise on one edge, protect the rest.
-8. **IBM hardware experiment:** Selective DD (protect N−1, sacrifice 1) on ibm_torino. Budget: 13:30.
+8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2x on ibm_torino. See [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md). A/B test on uniform-T2 chain planned for April 9.
 9. **Bell-state initial condition:** Formula verified with |+⟩⊗N. Needs validation with Bell(0,1).
 10. ~~Hamiltonian eigenmode projection~~ **Done (Signal Engineering Derivation).** Position sweep confirms edge is optimal. Mode 2 projection + neighbor argument.
 
@@ -497,6 +540,10 @@ effect, not a small-signal perturbation.
 ## References
 
 - [Resonant Return (hypothesis)](../hypotheses/RESONANT_RETURN.md)
-- [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline
+- [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
 - [γ Control](GAMMA_CONTROL.md): V-shape 21.5× baseline
+- [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=13, quadratic growth
+- [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md): First hardware test, selective DD 2-3.2x
+- [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
+- [C# Propagate Engine](../compute/RCPsiSquared.Propagate/README.md): profile evaluator used for all N >= 5 results
