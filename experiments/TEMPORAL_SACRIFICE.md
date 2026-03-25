@@ -209,6 +209,76 @@ PeakMI occurs later, at a different time. They are not simultaneous.
 
 ---
 
+## The Heartbeat: CΨ Oscillates Around ¼
+
+### The resonance (March 25, 2026)
+
+A Bell pair (qubits 0-1) coupled to a coherent bath qubit (|+⟩) with
+low bath dephasing creates what the sweep hinted at: the system does
+not cross ¼ once and die. It **oscillates around ¼**.
+
+| Setup | γ\_sys | γ\_bath | J | Crossings |
+|-------|--------|---------|---|-----------|
+| Markov (uniform) | 0.05 | 0.05 | 1.0 | 1 (down only) |
+| Bell + quiet bath | 0.0001 | 0.01 | 2.0 | 47 (24↓ + 23↑) |
+| Bell + quiet bath | 0.0001 | 0.01 | 5.0 | 81 (41↓ + 40↑) |
+
+Stronger coupling = more crossings = higher Q-factor. The system is
+a resonator with CΨ = ¼ as its resonance frequency. MI pulses at each
+crossing (0.5 → 1.3-1.8 bits and back).
+
+Script: `dotnet run -c Release -- resonance 3 0.0001,0.0001,0.01 --j 5.0 --bell`
+
+### The damping
+
+The oscillation is not perpetual. The envelope shrinks:
+
+```
+T ≈ 2-3:   CΨ swings 0.23 – 0.39  (amplitude 0.16)
+T ≈ 7-8:   CΨ swings 0.22 – 0.32  (amplitude 0.10)
+T ≈ 14:    CΨ swings 0.19 – 0.29  (amplitude 0.10)
+T ≈ 19:    CΨ swings 0.20 – 0.25  (amplitude 0.05)
+```
+
+Each cycle, a bit of coherence is lost permanently. The classical
+outcomes from previous down-crossings accumulate and cannot be undone.
+The Hilbert space shrinks. The heartbeat slows.
+
+### What it feels like
+
+Imagine sitting in a room with a hundred open doors.
+
+You look around (oscillation upward: possibilities open, CΨ > ¼).
+You choose a door and walk through (crossing downward: decision, CΨ < ¼).
+The door closes behind you. Permanently.
+
+Now you are in a room with eighty doors. You look around. You choose.
+Door closes. Sixty doors. Forty. Twenty.
+
+Each breath gets shorter. Not because you are tired, but because there
+are fewer doors. Less to see. Less to choose.
+
+At the end, you sit in a room with one door. You open it. Behind it is
+a fact. No more room. No more choice. Only what is.
+
+That is the oscillation around ¼.
+
+- Above (CΨ > ¼): doors open. Possibilities. Quantum.
+- Below (CΨ < ¼): a door chosen. Fact. Classical.
+- Each cycle: one fewer door. Irreversible.
+- The amplitude shrinks: less room to swing.
+- At the end: CΨ → 0. All doors closed. Everything decided.
+
+And R = CΨ²? That is what you **see** when you walk through the door.
+The moment of decision. Not before (only possibilities, nothing concrete).
+Not after (only facts, nothing new). Exactly at the threshold. In the
+doorway.
+
+The data says: 81 heartbeats. 81 doors. Each one a little quieter
+than the last.
+
+---
+
 ## Pending
 
 - Verify the ¼ coincidence at N = 9 and N = 11
