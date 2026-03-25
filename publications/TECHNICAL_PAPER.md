@@ -508,6 +508,8 @@ metric, |+>^N initial state):
 | 5 | 360x | - | 1s |
 | 7 | 180x | +80% | 3s |
 | 9 | 139x | - | 30s |
+| 11 | 91x | - | 10 min |
+| 13 | 97.5x | - | 1-6 hours |
 
 The ENAQT literature (Plenio & Huelga 2008+) optimizes a uniform scalar
 dephasing rate and achieves 2-3x. This is the first spatial dephasing
@@ -519,7 +521,32 @@ by 2.2x (fewer neighbors), (2) one sacrifice beats two by 1.9x
 better (no sweet spot), (4) both edges are equivalent with symmetric
 initial state.
 
-Not yet validated on hardware. See [Resonant Return](../experiments/RESONANT_RETURN.md).
+The improvement factor stabilizes around 90-100x at large N (91x at N=11,
+97.5x at N=13), while the absolute SumMI grows continuously (0.843 at N=11,
+1.072 at N=13). Uniform dephasing produces exactly zero SumMI at all N
+tested - the sacrifice zone is not an incremental improvement but a
+qualitative regime change.
+
+**Hardware validation (March 24, 2026):** Selective dynamic decoupling on
+ibm_torino (N=5, Q85-86-87-88-94) confirmed 2-3.2x improvement over
+uniform DD at all 5 time points. The sacrifice qubit (Q85, T2=5 us)
+was left unprotected while DD was applied to the other four. Single run,
+no error bars. The advantage may partly reflect gate-error avoidance
+rather than a pure sacrifice-zone effect (A/B test planned April 9).
+See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
+
+**Two design regimes:** Position-sweep tests at N=7 and N=9 reveal that
+edge sacrifice maximizes total network MI (SumMI) while center sacrifice
+maximizes end-to-end MI (PeakMI, 3x higher than edge). Center sacrifice
+creates a classical relay - two short coherent segments connected by a
+classical node. Hybrid profiles (mixing edge and center noise) are worse
+than both pure strategies at both metrics. The sacrifice zone creates a
+single phase boundary between quantum (CPsi > 1/4) and classical
+(CPsi << 1/4) regions; additional sacrifice points fragment the coherent
+region destructively.
+
+See [Resonant Return](../experiments/RESONANT_RETURN.md) for the complete
+signal engineering derivation and all falsification tests.
 
 ---
 
