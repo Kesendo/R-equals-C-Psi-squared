@@ -82,7 +82,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10x), sacrifice-zone formula (180x at N=7), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
 | [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-13. Quadratic growth (SumMI ~ 0.0053*N^2), constant brake (-0.020), two converging channels |
-| [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Sweeping sacrifice position 0→1→2: endpoint MI peaks at the exact CΨ = ¼ crossing (fold catastrophe observed). Naive switching fails. Correlation inversion: endpoints become 6.8× dominant over adjacent pairs |
+| [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Fold catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing. With Bell+bath: CΨ oscillates around ¼ (81 crossings at J=5.0). MI pulses at each crossing. Damped: each cycle deposits irreversible reality |
 
 ### The CΨ = 1/4 Boundary (decoherence threshold)
 

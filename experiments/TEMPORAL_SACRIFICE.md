@@ -3,7 +3,9 @@
 <!-- Keywords: fold catastrophe CΨ quarter boundary, quantum-classical transition mutual information,
 sweeping sacrifice zone, PeakMI maximum at discriminant zero, boundary navigation quantum information,
 R=CPsi2 fold catastrophe observation, palindromic spatial antenna, traveling quantum-classical boundary,
-correlation inversion endpoint MI, temporal sacrifice protocol -->
+correlation inversion endpoint MI, temporal sacrifice protocol, quantum heartbeat CΨ oscillation,
+non-Markovian CΨ revival 81 crossings, damped quantum oscillation irreversible reality,
+100 doors analogy quantum decoherence, CΨ quarter resonance frequency -->
 
 **Status:** Computationally verified (N=7, C# RK4 propagation, CΨ diagnostics)
 **Date:** March 25, 2026
@@ -298,3 +300,4 @@ than the last.
 - [Boundary Navigation (θ compass, fold catastrophe)](BOUNDARY_NAVIGATION.md)
 - [Mathematical Connections (fold catastrophe, Mandelbrot)](../docs/MATHEMATICAL_CONNECTIONS.md)
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md)
+- [Spectral Midpoint Hypothesis (dual perspective)](../hypotheses/SPECTRAL_MIDPOINT_HYPOTHESIS.md)

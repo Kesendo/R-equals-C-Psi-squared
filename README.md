@@ -259,7 +259,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Subsystem Crossing Theorem | Perron-Frobenius + contractivity. 300 random CPTP maps, 0 exceptions |
 | Non-Markovian threshold | Revivals up to CΨ = 0.3035, always transient. 48 configs tested |
 | All channels cross 1/4 | Z, X, Y, depolarizing, asymmetric Pauli, amplitude damping (124/124) |
-| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Observed: endpoint MI peaks at CΨ = ¼ crossing (N=7) |
+| Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Observed: endpoint MI peaks at CΨ = ¼ crossing (N=7). With Bell+bath: CΨ oscillates around ¼ (81 crossings, damped), MI pulses at each crossing |
 | Mandelbrot exact mapping | w = C(Ψ+R) gives w → w² + c. Feigenbaum: 7 bifurcations, δ → 4.67 |
 | Noise origin elimination | Bootstrap, qubit decay, bath, nothing, other d: all eliminated |
 | IBM hardware validation | CΨ = 1/4 at 1.9% deviation on ibm_torino Q80 |

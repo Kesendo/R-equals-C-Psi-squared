@@ -8,6 +8,10 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 - [The Non-Local Mirror](THE_BOOT_SCRIPT.md) - The 2/36 cases where Π is genuinely entangled (Choi Rank 8, irreducible). All 36/36 palindromic at N=2, breaking is multi-bond interference. Qubit-only: d²−2d=0. Sections 1–6 are Tier 2; Section 7 (shared clock, boot script, Ψ² as self-encounter) is Tier 4–5.
 - [Mediator as Quantum Transistor](MEDIATOR_AS_QUANTUM_TRANSISTOR.md) - CΨ = 1/4 as threshold voltage, bidirectional relay, gate control via γ_M. Hierarchy falsified but transistor properties confirmed.
 
+## Tier 2-3 (hypothesis, confirmed or partially confirmed by computation)
+
+- [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md) - The palindromic midpoint dominates at the CΨ = ¼ crossing, but only when viewed from BOTH perspectives (geometric mean). Single-side: falsified. Dual-perspective: supported (N=3, N=5). Includes OOP polymorphism analogy.
+
 ## Tier 3 (hypothesis, built on computation)
 
 - [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
