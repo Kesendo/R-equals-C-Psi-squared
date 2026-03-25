@@ -1,0 +1,52 @@
+=== BRIDGE BANDWIDTH: Σγ SWEEP ===
+N=3, Bell(0,1)⊗|+>, J=5.0, tmax=30
+Sweep: γ_bath from 0.001 to 0.5, γ_sys=0.0001
+
+--- γ_bath=0.001, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 24 down + 24 up = 48
+
+--- γ_bath=0.005, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 69 down + 68 up = 137
+
+--- γ_bath=0.01, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 54 down + 53 up = 107
+
+--- γ_bath=0.02, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 30 down + 29 up = 59
+
+--- γ_bath=0.05, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 11 down + 10 up = 21
+
+--- γ_bath=0.1, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 6 down + 5 up = 11
+
+--- γ_bath=0.2, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 4 down + 3 up = 7
+
+--- γ_bath=0.5, Σγ= ---
+=== RESONANCE TEST: CΨ OSCILLATION ===
+Total crossings: 1 down + 0 up = 1
+
+
+=== FINE SWEEP around optimum ===
+--- γ_bath=0.002 ---
+Total crossings: 54 down + 53 up = 107
+--- γ_bath=0.003 ---
+Total crossings: 70 down + 69 up = 139
+--- γ_bath=0.004 ---
+Total crossings: 69 down + 68 up = 137
+--- γ_bath=0.005 ---
+Total crossings: 69 down + 68 up = 137
+--- γ_bath=0.006 ---
+Total crossings: 66 down + 65 up = 131
+--- γ_bath=0.007 ---
+Total crossings: 66 down + 65 up = 131
+--- γ_bath=0.008 ---
+Total crossings: 67 down + 66 up = 133
