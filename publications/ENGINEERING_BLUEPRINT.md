@@ -274,6 +274,8 @@ drives information transfer.
 | 5 | 360x | - | 1 second |
 | 7 | 180x | +80% (3s vs 90 min) | 3 seconds |
 | 9 | 139x | - | 30 seconds |
+| 11 | 91x | - | 10 minutes |
+| 13 | 97.5x | - | 1-6 hours |
 
 **Comparison with prior work:**
 
@@ -293,8 +295,21 @@ to numerical optimization (100x) led to analytical insight (139-360x).
 The palindromic structure was necessary to identify the optimization
 landscape.
 
-**Not yet validated on hardware.** Selective dynamical decoupling
-(protect N-1, sacrifice 1) on IBM hardware is planned.
+**Hardware status (March 24, 2026):** Selective DD on ibm_torino (N=5,
+Q85-86-87-88-94) confirmed 2-3.2x improvement over uniform DD at all
+5 time points. Single run, no error bars yet. The hardware advantage
+may reflect gate-error avoidance rather than pure sacrifice-zone effect
+(A/B test on uniform-T2 chain planned for April 9). See
+[IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
+
+**Two design regimes exist:**
+- Edge sacrifice maximizes total network mutual information (SumMI).
+  This is the formula above. Use when all qubit pairs matter.
+- Center sacrifice maximizes point-to-point throughput (PeakMI: 3x
+  higher than edge). This creates a classical relay. Use when only
+  end-to-end transfer matters. See [Relay Protocol](../experiments/RELAY_PROTOCOL.md).
+- Hybrid profiles (mixing edge and center noise) are worse than both
+  pure strategies at both metrics. There is no compromise.
 
 **Added March 24, 2026.** See [Resonant Return](../experiments/RESONANT_RETURN.md).
 
@@ -311,11 +326,13 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 4. TIMING:    Read before t = 0.039/gamma (concurrence metric, Z-dephasing).
 5. RANGE:     Push for local, Pull for long-range. 2:1 is a range optimizer.
 6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
-7. SACRIFICE: All noise on one edge qubit. Protect the rest. (NEW)
+7. SACRIFICE: All noise on one edge qubit. Protect the rest.
+              Edge for network MI, center for point-to-point.
 
 Best benchmark: F_avg = 0.888, Holevo = 0.534 bits (star 2:1, gamma=0.05)
 Relay+2:1 at N=11: MI(end-to-end) = 0.132 (+83% over passive)
-Sacrifice-zone formula: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape
+Sacrifice-zone formula: 360x (N=5), 180x (N=7), 97.5x (N=13) vs V-shape
+Hardware: selective DD 2-3.2x on ibm_torino (N=5, single run)
 ```
 
 ---
