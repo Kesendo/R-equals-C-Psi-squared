@@ -81,7 +81,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10x), sacrifice-zone formula (180x at N=7), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
-| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-11. Quadratic growth (SumMI ~ 0.0053*N^2), constant brake (-0.020), two converging channels. N=13/15 overnight |
+| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-13. Quadratic growth (SumMI ~ 0.0053*N^2), constant brake (-0.020), two converging channels |
+| [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Sweeping sacrifice position 0→1→2 gives +67% PeakMI at full SumMI. Naive switching fails (negative). Boundary navigation via traveling fold catastrophe |
 
 ### The CΨ = 1/4 Boundary (decoherence threshold)
 

@@ -1,0 +1,26 @@
+=== FORMULA SCALING RESULTS ===
+Started: 2026-03-25
+Gamma_base: 0.05
+
+Known results (from previous sessions):
+N=5:  Formula(eps=0.001)=0.219  Formula(eps->0)=0.230  V-shape=0.000639  Uniform=~0  Factor=360x
+N=7:  Formula(eps=0.001)=0.408  Formula(eps->0)=0.434  V-shape=0.002412  Uniform=~0  Factor=180x
+N=9:  Formula(eps=0.001)=0.619  Formula(eps->0)=0.658  V-shape=0.005     Uniform=~0  Factor=139x
+N=11: Formula(eps=0.001)=0.843  Formula(eps->0)=0.901  V-shape=0.009     Uniform=0.000  Factor=91x
+N=13: Formula(eps=0.001)=1.072  V-shape=0.011  Factor=97.5x
+
+Full RESULT lines from this and previous sessions:
+N=11 Formula(eps=0.001):  RESULT SumMI=0.843331 PeakMI=0.043592 PeakT=3.00 CPsi01=0.762936 Purity=0.169397 SumMI5=0.601282
+N=11 Formula(eps=0.0001): RESULT SumMI=0.900563 PeakMI=0.047267 PeakT=3.00 CPsi01=0.773356 Purity=0.175641 SumMI5=0.637648
+N=11 V-shape:             RESULT SumMI=0.009260 PeakMI=0.000146 PeakT=1.50 CPsi01=0.461920 Purity=0.105458 SumMI5=0.001677
+N=11 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.00 CPsi01=0.724516 Purity=0.351660 SumMI5=0.000000
+N=13 Formula(eps=0.001):  RESULT SumMI=1.072311 PeakMI=0.053159 PeakT=3.50 CPsi01=0.763631 Purity=0.124310 SumMI5=0.936860
+N=13 V-shape:             RESULT SumMI=0.011003 PeakMI=0.000087 PeakT=1.50 CPsi01=0.453043 Purity=0.070861 SumMI5=0.002465
+N=13 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
+
+New runs below:
+
+--- N=13 Uniform 2026-03-25 16:54 (wall: 5h04m) ---
+RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
+
+--- N=13 Formula eps=0.0001 2026-03-25 17:25:32 ---
