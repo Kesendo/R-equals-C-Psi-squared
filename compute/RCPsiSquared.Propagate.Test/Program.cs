@@ -40,6 +40,17 @@ if (args.Length >= 1 && args[0] == "spectral")
 }
 
 // ============================================================
+// RESONANCE MODE: CΨ oscillation around ¼ with structured bath
+// ============================================================
+if (args.Length >= 1 && args[0] == "resonance")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunResonanceTest(args);
+    return;
+}
+
+// ============================================================
 // SWEEP MODE: multi-phase gamma profile sweep
 // ============================================================
 if (args.Length >= 1 && args[0] == "sweep")
@@ -994,6 +1005,136 @@ void RunSweepEvaluation(string[] pArgs)
     // Final RESULT line
     Console.WriteLine(FormattableString.Invariant(
         $"RESULT SumMI={bestSumMI:F6} PeakMI={bestPeakMI:F6} PeakT={bestT:F2} Stages={profiles.Count} StageTime={stageTime:F2}"));
+}
+
+// ============================================================
+// RESONANCE TEST: CΨ oscillation around ¼ with structured bath
+// ============================================================
+void RunResonanceTest(string[] pArgs)
+{
+    // Usage: resonance <N> <g1,...,gN> [--tmax 20] [--j J_coupling]
+    int n = pArgs.Length >= 2 ? int.Parse(pArgs[1]) : 3;
+    double[] gammas;
+    if (pArgs.Length >= 3 && pArgs[2].Contains(','))
+        gammas = pArgs[2].Split(',')
+            .Select(s => double.Parse(s, CultureInfo.InvariantCulture)).ToArray();
+    else
+        gammas = new[] { 0.05, 0.05, 0.001 }; // default: 2 system + 1 quiet bath
+
+    double tMax = 20.0;
+    double jCoupling = 1.0;
+    for (int i = 3; i < pArgs.Length - 1; i++)
+    {
+        if (pArgs[i] == "--tmax") tMax = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+        if (pArgs[i] == "--j") jCoupling = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+    }
+
+    int d = 1 << n;
+    double dt = 0.01; // fine resolution for oscillation detection
+    double mInterval = 0.05; // measure every 0.05
+
+    Console.WriteLine($"=== RESONANCE TEST: CΨ OSCILLATION ===");
+    Console.WriteLine(FormattableString.Invariant(
+        $"N={n}, J={jCoupling:F2}, γ=[{string.Join(",", gammas.Select(g => FormattableString.Invariant($"{g:F4}")))}]"));
+    Console.WriteLine(FormattableString.Invariant($"Σγ={gammas.Sum():F4}, dt={dt}, tmax={tMax}"));
+    Console.WriteLine();
+
+    // Build Hamiltonian
+    var couplings = Enumerable.Repeat(jCoupling, n - 1).ToArray();
+    var bonds = Topology.Chain(n, couplings);
+    var H = Topology.BuildHamiltonian(n, bonds);
+
+    // Initial state: Bell(0,1)⊗|+>_rest if --bell, else |+>^N
+    bool bellInit = pArgs.Any(a => a == "--bell");
+    Complex[] psi;
+    if (bellInit && n >= 2)
+    {
+        // Bell(0,1): (|00...0> + |11...0>) / √2, with remaining qubits in |+>
+        // First build Bell pair on qubits 0,1
+        var bellPsi = new Complex[d];
+        bellPsi[0] = 1.0 / Math.Sqrt(2);
+        bellPsi[(1 << (n - 1)) | (1 << (n - 2))] = 1.0 / Math.Sqrt(2);
+        // Tensor with |+> on bath qubits: apply H gate to each bath qubit
+        // For simplicity: build Bell(0,1) ⊗ |+>^(N-2) directly
+        int dSys = 4; // 2 system qubits
+        int dBath = 1 << (n - 2);
+        psi = new Complex[d];
+        double bathNorm = 1.0 / Math.Sqrt(dBath);
+        for (int bIdx = 0; bIdx < dBath; bIdx++)
+        {
+            // |00>_sys ⊗ |bIdx>_bath
+            psi[(0 << (n - 2)) | bIdx] += (1.0 / Math.Sqrt(2)) * bathNorm;
+            // |11>_sys ⊗ |bIdx>_bath
+            psi[(3 << (n - 2)) | bIdx] += (1.0 / Math.Sqrt(2)) * bathNorm;
+        }
+        Console.WriteLine("Initial state: Bell(0,1) ⊗ |+>^(N-2)");
+    }
+    else
+    {
+        psi = new Complex[d];
+        double psiNorm = 1.0 / Math.Sqrt(d);
+        for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+        Console.WriteLine("Initial state: |+>^N");
+    }
+    var rho = DensityMatrixTools.PureState(psi);
+
+    var prop = new LindbladPropagator(H, gammas, n);
+
+    // Track crossings
+    double prevCpsi = 1.0;
+    int crossDown = 0, crossUp = 0;
+    double nextMeas = mInterval;
+    int totalSteps = (int)(tMax / dt);
+
+    Console.WriteLine(FormattableString.Invariant(
+        $"{"T",6} | {"CΨ(01)",8} | {"CΨ(0B)",8} | {"MI(01)",8} | {"MI(0B)",8} | {"Pur",7} | event"));
+
+    for (int step = 0; step < totalSteps; step++)
+    {
+        // RK4 step
+        var k1 = prop.EvalRHS(rho);
+        var k2 = prop.EvalRHS(rho + dt / 2 * k1);
+        var k3 = prop.EvalRHS(rho + dt / 2 * k2);
+        var k4 = prop.EvalRHS(rho + dt * k3);
+        rho = rho + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4);
+        rho = (rho + rho.ConjugateTranspose()) / 2.0;
+
+        double t = (step + 1) * dt;
+
+        if (t >= nextMeas - dt / 2)
+        {
+            // System CΨ (qubits 0-1, tracing out bath)
+            var rho01 = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, 1 });
+            var (cpsi01, _, _) = DensityMatrixTools.ComputeCPsi(rho01);
+
+            // System-bath CΨ
+            var rho0B = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, n - 1 });
+            var (cpsi0B, _, _) = DensityMatrixTools.ComputeCPsi(rho0B);
+
+            // MI at crossings
+            double mi01 = DensityMatrixTools.MutualInformation(rho, n, new[] { 0 }, new[] { 1 });
+            double mi0B = DensityMatrixTools.MutualInformation(rho, n, new[] { 0 }, new[] { n - 1 });
+            double pur = DensityMatrixTools.Purity(rho);
+
+            // Detect crossings (both directions)
+            string evt = "";
+            if (prevCpsi >= 0.25 && cpsi01 < 0.25) { crossDown++; evt = $" ↓ CROSS #{crossDown + crossUp}"; }
+            if (prevCpsi < 0.25 && cpsi01 >= 0.25) { crossUp++; evt = $" ↑ CROSS #{crossDown + crossUp}"; }
+
+            // Print at crossings, at 0.5 intervals, and at start
+            if (evt != "" || Math.Abs(t % 0.5) < mInterval || t < 0.2)
+            {
+                Console.WriteLine(FormattableString.Invariant(
+                    $"{t,6:F2} | {cpsi01,8:F4} | {cpsi0B,8:F4} | {mi01,8:F6} | {mi0B,8:F6} | {pur,6:F4} | {evt}"));
+            }
+
+            prevCpsi = cpsi01;
+            nextMeas += mInterval;
+        }
+    }
+
+    Console.WriteLine();
+    Console.WriteLine($"Total crossings: {crossDown} down + {crossUp} up = {crossDown + crossUp}");
 }
 
 // ============================================================
