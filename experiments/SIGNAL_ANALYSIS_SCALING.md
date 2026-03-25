@@ -4,7 +4,7 @@
 spatial dephasing profile, palindromic eigenstructure, N-qubit chain scaling,
 SumMI vs chain length, breathing palindrome modes, R=CPsi2 scaling experiment -->
 
-**Status:** Computationally verified (C# RK4, N = 2–11; N = 13, 15 pending)
+**Status:** Computationally verified (C# RK4, N = 2–13; N = 15 pending)
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -20,7 +20,7 @@ The [sacrifice-zone formula](RESONANT_RETURN.md) concentrates all dephasing
 noise on one edge qubit while protecting the remaining N−1 qubits at
 near-zero dephasing (ε = 0.001). We measure SumMI, the total mutual
 information between all adjacent qubit pairs, as a function of chain
-length N from 2 to 11.
+length N from 2 to 13.
 
 The result is quadratic: **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
 (residual std 0.0068). This inverts the standard quantum-transport scaling
@@ -61,8 +61,9 @@ palindromic c⁺/c⁻ supermodes.
 | 8 | 7 | 0.5043 | +0.0963 | 0.0720 |
 | 9 | 8 | 0.6190 | +0.1147 | 0.0774 |
 | 11 | 10 | 0.8430 | +0.2240 | 0.0843 |
+| 13 | 12 | 1.0723 | +0.2293 | 0.0894 |
 
-*N = 10 omitted: computation timed out. Resumed in overnight run.*
+*N = 10, 12 not yet computed.*
 
 
 ## Signal-Engineer Analysis
@@ -78,8 +79,8 @@ Predictions from quadratic fit:
 | N | Predicted | Measured | Error |
 |---|-----------|----------|-------|
 | 11 | 0.893 | 0.843 | 6% |
-| 13 | 1.204 | _(running)_ | |
-| 15 | 1.557 | _(running)_ | |
+| 13 | 1.204 | 1.072 | 12% |
+| 15 | 1.557 | _(pending)_ | |
 
 ### 2. Constant brake in second differences
 
@@ -133,6 +134,7 @@ N = 7:   0.0680
 N = 8:   0.0720
 N = 9:   0.0774
 N = 11:  0.0843
+N = 13:  0.0894
 ```
 
 Each pair gets better when you add more mirrors. The mirrors amplify
@@ -184,9 +186,10 @@ The palindrome inverts the scaling law.
 
 ## Pending
 
-- N = 10 (was running, timed out; Claude Code overnight run will get it)
-- N = 13, N = 15 (Claude Code overnight run)
+- N = 10, N = 12 (not yet computed)
+- N = 15 (next overnight run)
 - V-shape baselines for all N (to compute improvement factors)
+- Refit quadratic model including N = 13 (current fit overestimates by 12%)
 - Analytical derivation of the quadratic coefficient 0.0053
 - Understanding of the brake constant 0.020
 - Connection to palindromic eigenvalue density
@@ -217,6 +220,7 @@ The palindrome inverts the scaling law.
 | 8 | 7 | 28 | 0.504 | 0.0720 |
 | 9 | 8 | 36 | 0.619 | 0.0774 |
 | 11 | 10 | 55 | 0.843 | 0.0843 |
+| 13 | 12 | 78 | 1.072 | 0.0894 |
 
 MI per pair grows. Each pair gets richer when more mirrors are added.
 The mirrors don't just add: they amplify each other. This is R = CΨ²:
@@ -239,17 +243,18 @@ The scaling data shows this propagation quantitatively:
 - N = 2: the pattern exists (SumMI = 0.020)
 - N = 5: the pattern differentiates (SumMI = 0.219, 10× richer)
 - N = 11: the pattern becomes complex (SumMI = 0.843, 42× richer)
+- N = 13: the pattern deepens (SumMI = 1.072, 53× richer)
 - N → ∞: the pattern grows without bound (quadratic, not saturating)
 
-### What N = 13 and N = 15 will tell us (overnight results pending)
+### N = 13 result and outlook
 
-If the quadratic fit holds:
-- N = 13 predicted: SumMI ≈ 1.20
-- N = 15 predicted: SumMI ≈ 1.56
+N = 13 measured: SumMI = 1.072. The quadratic fit predicted 1.20 (12% too high,
+up from 6% at N = 11). The growth continues but the fit overestimates,
+suggesting a slightly subquadratic correction at larger N. The fit was
+trained on N = 2–11; a refit including N = 13 is pending.
 
-If it breaks (subquadratic): there is a ceiling. The mirrors saturate.
-If it accelerates (superquadratic): the pattern feeds back on itself.
-Either result is informative.
+N = 15 predicted (current fit): SumMI ≈ 1.56. Given the trend, the true
+value will likely be lower. Either way, growth continues well past SumMI = 1.
 
 ---
 
@@ -316,7 +321,7 @@ the mirror that the remaining qubits need in order to see themselves.
 The formula says: γ\_edge = N · γ\_base − (N−1) · ε.
 In plain language: one must fall so the rest can see.
 
-At N = 5, N = 7, N = 9, N = 11, the pattern repeats. Always one falls.
+At N = 5, N = 7, N = 9, N = 11, N = 13, the pattern repeats. Always one falls.
 Always the rest mirror. N mirrors create N(N−1)/2 pairs of reflections.
 The pattern recognizes itself through more and more eyes.
 
