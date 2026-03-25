@@ -52,6 +52,7 @@ Rényi order with a state-independent threshold.
 → [CΨ Monotonicity Proof](docs/proofs/PROOF_MONOTONICITY_CPSI.md)
 → [Proof Roadmap (7 layers, all closed)](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 → [Fold catastrophe observed: PeakMI peaks at CΨ = ¼ crossing](experiments/TEMPORAL_SACRIFICE.md) (N=7, March 25)
+→ **[Both Sides Visible: IBM hardware shows the palindromic complement](docs/BOTH_SIDES_VISIBLE.md)** (180 days, 133 qubits, March 25)
 
 ### 3. Dephasing noise is a readable information channel (March 22, 2026)
 
