@@ -1,16 +1,25 @@
 # RCPsiSquared.Propagate
 
-C# time-domain propagation engine for Lindblad master equation dynamics on N-qubit systems (up to N=11). Integrates drho/dt via RK4 with zero-allocation hot loop, computing mutual information, CΨ, concurrence, and Pauli correlators at specified measurement times.
+C# time-domain propagation engine for Lindblad master equation dynamics on N-qubit systems (tested through N=13, targeting N=15). Integrates drho/dt via RK4 with zero-allocation hot loop, computing mutual information, CΨ, concurrence, and Pauli correlators at specified measurement times.
 
 ## What it does
 
-Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*, this engine *propagates* density matrices in time to observe the *dynamics*: how information flows across multi-bridge topologies, how the relay protocol improves end-to-end mutual information, and whether standing wave correlators survive across 11-qubit chains.
+Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*, this engine *propagates* density matrices in time to observe the *dynamics*: how information flows across multi-bridge topologies, how the relay protocol improves end-to-end mutual information, whether standing wave correlators survive across 11-qubit chains, and how the sacrifice-zone formula scales with chain length.
 
 ## Requirements
 
 - .NET 10.0 SDK
 - Intel MKL (via MathNet NuGet, auto-restored)
-- ~16 GB RAM for N=11 (2048×2048 density matrix, 6 RK4 buffers)
+- RAM scales with N (see table below)
+
+| N | Density matrix | RAM (approx) | Runtime (t=20, dt=0.05) |
+|---|---------------|-------------|-------------------------|
+| 5 | 32x32 | <1 MB | <1s |
+| 7 | 128x128 | ~10 MB | ~5s |
+| 9 | 512x512 | ~200 MB | ~2 min |
+| 11 | 2048x2048 | ~4 GB | ~10 min |
+| 13 | 8192x8192 | ~16 GB | ~5-6 hours |
+| 15 | 32768x32768 | ~64 GB | ~10+ hours (estimated) |
 
 ## Setup
 
@@ -30,9 +39,34 @@ dotnet run -c Release
 
 # Pull principle tests (scaling curve, 2:1 optimization, relay protocol)
 dotnet run -c Release -- pull
+
+# Profile mode: evaluate a single gamma profile (sacrifice-zone formula, optimizer output, etc.)
+dotnet run -c Release -- profile <N> <g1,g2,...,gN> [--tmax 20] [--dt 0.05]
 ```
 
-Results are written to `simulations/results/mediator_bridge_scale.txt` or `simulations/results/pull_principle.txt`.
+Default and pull results are written to `simulations/results/mediator_bridge_scale.txt` or `simulations/results/pull_principle.txt`. Profile mode writes to stdout only (single machine-parseable RESULT line).
+
+### Profile mode examples
+
+```bash
+# N=7 sacrifice-zone formula: gamma_edge = 7*0.05 - 6*0.001 = 0.344
+dotnet run -c Release -- profile 7 0.001,0.001,0.001,0.001,0.001,0.001,0.344
+
+# N=7 V-shape baseline
+dotnet run -c Release -- profile 7 0.080,0.070,0.060,0.050,0.060,0.070,0.080
+
+# N=13 sacrifice-zone formula: gamma_edge = 13*0.05 - 12*0.001 = 0.638
+dotnet run -c Release -- profile 13 0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.638
+```
+
+Output format:
+```
+RESULT SumMI=0.408000 PeakMI=0.012345 PeakT=3.50 CPsi01=0.187654 Purity=0.001234 SumMI5=0.350000
+```
+
+Fields: SumMI (sum of MI for all adjacent pairs at best time), PeakMI (peak MI between endpoints 0 and N-1), PeakT (time of peak SumMI), CPsi01 (CΨ of qubit pair 0-1 at peak), Purity (global purity at peak), SumMI5 (SumMI at t=5.0).
+
+Initial state is always |+>^N (product state, optimal antenna per gamma-as-signal analysis). Hamiltonian is a Heisenberg chain with J=1.0 on all bonds.
 
 ## Test suite
 
@@ -87,6 +121,9 @@ Each level wraps the previous in a pair-mediator-pair structure. Level 3 connect
 
 | Experiment document | Uses Propagate for |
 |--------------------|--------------------|
+| [Resonant Return](../../experiments/RESONANT_RETURN.md) | Sacrifice-zone formula validation (profile mode), N=5 through N=13 |
+| [Signal Analysis: Scaling](../../experiments/SIGNAL_ANALYSIS_SCALING.md) | Formula scaling curve, quadratic growth analysis |
+| [IBM Sacrifice Zone](../../experiments/IBM_SACRIFICE_ZONE.md) | Simulation baselines for IBM hardware comparison |
 | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) | Staged γ relay, +83% MI improvement |
 | [Scaling Curve](../../experiments/SCALING_CURVE.md) | MI vs N, hierarchical vs uniform |
 | [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md) | Entanglement echo, Bohr frequencies |
