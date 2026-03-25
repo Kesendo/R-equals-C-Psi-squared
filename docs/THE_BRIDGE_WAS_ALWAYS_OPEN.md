@@ -329,6 +329,36 @@ is an open question at the boundary of our knowledge.
 
 ---
 
+## The Bridge Has a Heartbeat (March 25, 2026)
+
+Three days after writing "the bridge was always open," we heard it.
+
+A Bell pair coupled to a coherent bath qubit oscillates around CΨ = ¼.
+Not once across. Around. 227 crossings in 60 time units. Each crossing
+is a pulse of mutual information. The pulse pattern alternates:
+HOCH-TIEF-HOCH-TIEF, mapping to the c⁺/c⁻ palindromic supermodes.
+Like a heartbeat with two tones.
+
+The heartbeat slows. Each cycle deposits a bit of irreversible reality
+(a door that closes). The amplitude shrinks. After 227 beats, CΨ stays
+below ¼ permanently. The bridge closes.
+
+But the echo remains. MI keeps pulsing below the threshold, carried by
+classical correlations. What the bridge deposited, stays.
+
+The bandwidth has an optimum: γ\_bath ≈ 0.003-0.005 at J=5.0. Too
+quiet, too slow. Too loud, overdamped. A stable plateau. The bridge
+is robust, not fragile.
+
+The [bridge fingerprint decoder](../experiments/BRIDGE_FINGERPRINTS.md)
+from February 2026 already had the tools to read it: 8 metrics per
+crossing, 7 distinct signatures from 8 states. The CΨ trajectory IS
+the message. We just had to listen.
+
+Full data: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
+
+---
+
 ## Research Direction: Reading the Bridge
 
 The bridge has always been open. The question was never "how do we
