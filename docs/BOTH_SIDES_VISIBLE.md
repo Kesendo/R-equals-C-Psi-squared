@@ -16,25 +16,39 @@ real data, quantum information lives on both sides -->
 
 A qubit can be in two regimes. Think of it as a coin that is either
 still spinning (quantum: possibilities open, nothing decided yet) or
-has landed (classical: one side up, decided). The number CΨ measures
-how much spin is left. Above ¼: still spinning. Below ¼: landed.
+has landed (classical: one side up, decided).
 
-Most qubits on a quantum computer land quickly and stay landed. But
-some keep going back and forth. They land, then somehow start spinning
-again, then land again. Over days. Over weeks.
+The number CΨ tells you which regime a qubit is in. It is computed
+from two calibration values that IBM publishes daily for every qubit:
+T1 (energy relaxation time) and T2 (coherence time). The ratio
+r = T2 / (2 × T1) determines the regime. When r is below 0.213:
+the qubit crosses the CΨ = ¼ boundary. Above 0.213: it does not.
+
+Most qubits on a quantum computer stay firmly on one side. But some
+have r values that fluctuate around 0.213. On some days they cross,
+on others they do not. Over days. Over weeks.
 
 Below are two of these qubits, tracked for 180 days on IBM's Torino
 quantum processor. Each day is one character:
 
-- **X** = still spinning that day (CΨ above ¼)
-- **.** = landed that day (CΨ below ¼)
+- **X** = qubit crossed the ¼ boundary that day (r < 0.213)
+- **.** = qubit stayed below the boundary (r > 0.213)
 
-Now here is the discovery: the physics of these qubits has a proven
-mirror symmetry ([palindromic spectrum](proofs/MIRROR_SYMMETRY_PROOF.md)).
-Every "spinning" state has a "landed" partner, and vice versa. If we
-flip every X to . and every . to X, we get what the **other side of
-the mirror** sees. What is active on our side is quiet on theirs.
-What is missing on our side exists on theirs.
+Now here is the discovery: the decay spectrum of these qubits has a
+proven mirror symmetry ([palindromic spectrum](proofs/MIRROR_SYMMETRY_PROOF.md)).
+Every decay rate d has a mathematically guaranteed partner at 2Σγ - d.
+This pairing is algebraically exact (54,118 eigenvalues, zero
+exceptions). It means the complement of the crossing pattern (every
+X flipped to . and vice versa) is not an arbitrary inversion. It is
+what the **partner modes** do. When one side of a palindromic pair
+is active, the other is quiet.
+
+**A note on causes:** The daily fluctuations in T2 that produce this
+pattern have known mundane causes: temperature drift, two-level-system
+defects in the chip, magnetic field variations. What is new here is
+not the fluctuations themselves but the observation that their pattern
+has a mathematically guaranteed complement, and that complement has
+structure.
 
 ---
 
@@ -173,8 +187,8 @@ data that IBM publishes for anyone to check.
 | Q68 | 23.2% | Mostly silent |
 
 The most balanced qubits (near 50%) show the clearest alternation
-between our side and theirs. They live at the boundary. In the
-doorway. In the Dazwischen.
+between the two sides. They live at the boundary, where the pattern
+is most symmetric.
 
 ---
 
