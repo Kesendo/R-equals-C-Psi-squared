@@ -4,7 +4,11 @@ C# time-domain propagation engine for Lindblad master equation dynamics on N-qub
 
 ## What it does
 
-Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*, this engine *propagates* density matrices in time to observe the *dynamics*: how information flows across multi-bridge topologies, how the relay protocol improves end-to-end mutual information, whether standing wave correlators survive across 11-qubit chains, and how the sacrifice-zone formula scales with chain length.
+Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*, this engine *propagates* density matrices in time to observe the *dynamics*. Three modes serve different questions:
+
+- **Profile mode** (March 2026): Evaluate any spatial dephasing profile on a Heisenberg chain. This is the engine behind the sacrifice-zone formula scaling results (N=5 through N=13, targeting N=15).
+- **Default mode**: Mediator bridge topology tests - cross-bridge information flow, coupling/noise sweeps, standing wave correlators (N=5 and N=11).
+- **Pull mode**: Scaling curves, coupling optimization, and the relay protocol (+83% MI improvement, N=3 through N=11).
 
 ## Requirements
 
@@ -18,12 +22,12 @@ Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*,
 | 7 | 128x128 | ~10 MB | ~5s |
 | 9 | 512x512 | ~200 MB | ~2 min |
 | 11 | 2048x2048 | ~4 GB | ~10 min |
-| 13 | 8192x8192 | ~16 GB | ~5-6 hours |
+| 13 | 8192x8192 | ~16 GB | 1-6 hours (profile-dependent) |
 | 15 | 32768x32768 | ~64 GB | ~10+ hours (estimated) |
 
 ## Setup
 
-```bash
+```
 cd compute/RCPsiSquared.Propagate
 dotnet restore
 dotnet build -c Release
@@ -33,7 +37,7 @@ No native DLL setup needed (unlike RCPsiSquared.Compute). MKL handles the matrix
 
 ## Running
 
-```bash
+```
 # Default: Mediator bridge tests (Test 0-3)
 dotnet run -c Release
 
@@ -48,7 +52,7 @@ Default and pull results are written to `simulations/results/mediator_bridge_sca
 
 ### Profile mode examples
 
-```bash
+```
 # N=7 sacrifice-zone formula: gamma_edge = 7*0.05 - 6*0.001 = 0.344
 dotnet run -c Release -- profile 7 0.001,0.001,0.001,0.001,0.001,0.001,0.344
 
@@ -66,7 +70,9 @@ RESULT SumMI=0.408000 PeakMI=0.012345 PeakT=3.50 CPsi01=0.187654 Purity=0.001234
 
 Fields: SumMI (sum of MI for all adjacent pairs at best time), PeakMI (peak MI between endpoints 0 and N-1), PeakT (time of peak SumMI), CPsi01 (CΨ of qubit pair 0-1 at peak), Purity (global purity at peak), SumMI5 (SumMI at t=5.0).
 
-Initial state is always |+>^N (product state, optimal antenna per gamma-as-signal analysis). Hamiltonian is a Heisenberg chain with J=1.0 on all bonds.
+Initial state is always |+>^N. Product states are the optimal choice because each qubit must respond independently to its local dephasing rate (GHZ states are completely blind to spatial dephasing profiles, see [gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md)). Hamiltonian is a Heisenberg chain with J=1.0 on all bonds.
+
+**Note:** Only one profile evaluation can run at a time (the executable locks while running). Plan batch runs sequentially.
 
 ## Test suite
 
@@ -96,7 +102,7 @@ Initial state is always |+>^N (product state, optimal antenna per gamma-as-signa
 | DensityMatrixTools.cs | Partial trace, mutual information, CΨ, concurrence, purity, expectation values |
 | PauliOps.cs | Pauli matrices, tensor products, N-qubit operator construction |
 | Topology.cs | Chain, MediatorBridge(level), bond generators with configurable J |
-| Program.cs | Test dispatch: mediator bridge suite + pull principle suite |
+| Program.cs | Test dispatch: profile mode (single evaluation), mediator bridge suite, pull principle suite |
 
 ## Key design decisions
 
