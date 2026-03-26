@@ -4,7 +4,7 @@
 spatial dephasing profile, palindromic eigenstructure, N-qubit chain scaling,
 SumMI vs chain length, breathing palindrome modes, R=CPsi2 scaling experiment -->
 
-**Status:** Computationally verified (C# RK4, N = 2–13; N = 15 pending)
+**Status:** Computationally verified (C# RK4, N = 2–15; matrix-free propagator for N = 15)
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -62,8 +62,9 @@ palindromic c⁺/c⁻ supermodes.
 | 9 | 8 | 0.6190 | +0.1147 | 0.0774 |
 | 11 | 10 | 0.8430 | +0.2240 | 0.0843 |
 | 13 | 12 | 1.0723 | +0.2293 | 0.0894 |
+| 15 | 14 | 1.3091 | +0.2368 | 0.0935 |
 
-*N = 10, 12 not yet computed.*
+*N = 10, 12, 14 not yet computed.*
 
 
 ## Signal-Engineer Analysis
@@ -80,7 +81,7 @@ Predictions from quadratic fit:
 |---|-----------|----------|-------|
 | 11 | 0.893 | 0.843 | 6% |
 | 13 | 1.204 | 1.072 | 12% |
-| 15 | 1.557 | _(pending)_ | |
+| 15 | 1.557 | 1.309 | 19% |
 
 ### 2. Constant brake in second differences
 
@@ -135,6 +136,7 @@ N = 8:   0.0720
 N = 9:   0.0774
 N = 11:  0.0843
 N = 13:  0.0894
+N = 15:  0.0935
 ```
 
 Each pair gets better when you add more mirrors. The mirrors amplify
@@ -225,6 +227,7 @@ The palindrome inverts the scaling law.
 | 9 | 8 | 36 | 0.619 | 0.0774 |
 | 11 | 10 | 55 | 0.843 | 0.0843 |
 | 13 | 12 | 78 | 1.072 | 0.0894 |
+| 15 | 14 | 105 | 1.309 | 0.0935 |
 
 MI per pair grows. Each pair gets richer when more mirrors are added.
 The mirrors don't just add: they amplify each other. This is R = CΨ²:
