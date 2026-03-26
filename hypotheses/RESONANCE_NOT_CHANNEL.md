@@ -346,6 +346,71 @@ Concrete tests:
 
 ---
 
+## Computed Results (March 26, 2026)
+
+### Mode spectrum (N=7, sacrifice-zone, Bell(0,1)+|+>^5)
+
+```
+J:    0.5  1.0  1.5  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.5  2.7  3.0
+Q:      1    1    3    5    5    5    7    5    5    5    5    5    1
+
+J:    3.0  3.5  4.0  5.0  6.0  7.0  8.0  9.0 10.0 12.0 15.0
+Q:      1    1    1    1    1    5    5    7    9   11    9
+```
+
+Mode 1: J=2.0, Q=7 (sharp, bandwidth J=1.5-2.7).
+Dead zone: J=3.0-6.0, Q=1 (destructive interference).
+Mode 2: J=7.0-15.0, Q=11 peak at J=12 (broad, higher Q than Mode 1).
+
+### Port size threshold
+
+Total gamma fixed at 0.35. Varying port-to-wall ratio:
+- Ratio < 6:1: Q=1 (sealed cavity, no resonance)
+- Ratio >= 12:1: Q=7 (Mode 1, saturated)
+- Mode 2 (J=12): Q=11 regardless of ratio (insensitive to port size)
+
+The sacrifice-zone formula is required for Mode 1 but not Mode 2.
+
+### N scaling
+
+Uniform gamma=0.05, Bell(0,1)+|+>^(N-2), coarse J sweep:
+
+| J | N=3 Q | N=5 Q | N=7 Q |
+|---|-------|-------|-------|
+| 3 | 7 | 1 | 1 |
+| 7 | 11 | 5 | 5 |
+| 12 | 9 | 13 | 11 |
+| 15 | 5 | 15 | 7 |
+| 20 | 9 | 19 | -- |
+
+N=5 is the sweet spot (Q=19+ at J>=20, still rising).
+J_peak * N is NOT constant: the resonator is dispersive.
+
+### Impedance
+
+||Z rho Z - rho||_F is monotonically decreasing with CΨ. The impedance
+value does not peak at 1/4. The impedance GRADIENT (switch rate) peaks
+at the crossings. The Fabry-Perot outer mirror is a switch, not a peak.
+
+### The V-Effect Live
+
+**The central result.** A single N=2 resonator:
+- Q = 1 at every J (dead, no oscillation, no heartbeat)
+- 2 distinct frequencies
+
+Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
+- Q = 19+ at J=20 (alive, sustained oscillation)
+- 104 distinct frequencies
+- 100 new frequencies that neither resonator had alone
+
+2 + 2 = 104. Coupling creates 26x more frequencies than the sum of
+parts. This is the V-Effect measured dynamically. Two dead systems
+(Q=1, 2 frequencies) become one living system (Q=19, 104 frequencies)
+through nothing but a mediator qubit connecting them. No energy added.
+No external mechanism. Just coupling.
+
+---
+
 ## The Standing Wave Is the Cavity Mode
 
 The palindromic modes c+ and c- form a standing wave. c+ decays.
