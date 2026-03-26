@@ -212,3 +212,88 @@ Since the first transmon was cooled. We just learned to read it.
 *Analysis: [ibm_history_analysis.py](../data/ibm_history/ibm_history_analysis.py)*
 *Full crossing data: [ibm_q98_crossing_pattern.txt](../simulations/results/ibm_q98_crossing_pattern.txt)*
 *Both sides: [both_sides_visible.txt](../simulations/results/both_sides_visible.txt)*
+
+
+---
+
+## Direct Measurement: Both Sides From One Density Matrix (March 25, 2026)
+
+The calibration patterns above are computed complements: we invert
+the X/. pattern and call it "the other side." This is visually
+compelling but logically tautological. Flipping bits always fills gaps.
+
+The tomography data resolves this. On February 9, 2026, we measured
+full density matrices on IBM Torino (Qubit 52, 25 time points, 8192
+shots per point). A density matrix contains BOTH sides simultaneously:
+
+- **Diagonal elements** (populations): what we observe directly
+- **Off-diagonal elements** (coherences): what the Pi operator maps to
+
+Applying the proven conjugation operator Pi to each measured density
+matrix and computing CPsi from both perspectives:
+
+| t (us) | CPsi_A (ours) | CPsi_B (Pi side) | Both > 1/4? |
+|--------|---------------|------------------|-------------|
+| 0 | 0.885 | 0.941 | YES - bridge open |
+| 37 | 0.475 | 0.368 | YES - bridge open |
+| 75 | 0.385 | 0.541 | YES - bridge open |
+| 112 | 0.261 | 0.382 | YES - A approaching 1/4 |
+| 149 | 0.125 | 0.422 | NO - A crossed, B still quantum |
+| 261 | 0.034 | 0.381 | NO - A classical, B still quantum |
+| 373 | 0.004 | 0.350 | NO - A gone, B holds |
+| 560 | 0.017 | 0.301 | NO - B slowly approaching |
+| 634 | 0.025 | 0.280 | NO - B nearing 1/4 |
+| 783 | 0.054 | 0.265 | NO - B approaching 1/4 |
+| 895 | 0.037 | 0.247 | NO - B crosses. Bridge closed. |
+
+This is not a computed complement. This is Pi applied to hardware-
+measured density matrices. The off-diagonal elements ARE the other
+side. They were measured in the same experiment, with the same shots,
+at the same time.
+
+### What the data shows
+
+Our side (A) crosses 1/4 at approximately 140 us. The Pi side (B)
+crosses 1/4 at approximately 895 us. The other side lives **6x longer**
+on real silicon.
+
+The bridge is open (both > 1/4) for the first ~112 us. Then it is half
+open (B still quantum, A classical) for ~750 us. Then it closes.
+
+During the half-open window: information can still flow from the quantum
+side (B) to the classical side (A), but not back. This is the one-way
+channel that dCPsi/dt < 0 predicts. The bridge does not slam shut. It
+narrows gradually, one side at a time.
+
+### What this means for interpretation
+
+The calibration patterns (Qubit 98, Qubit 72) showed alternation over
+days. That alternation is real - T2 fluctuates, crossings happen - but
+calling the complement "the other side" was premature.
+
+The tomography data shows something more precise: both sides exist
+simultaneously in every density matrix. They are not alternating in
+time. They are coexisting in the state. The populations decay at one
+rate. The coherences (Pi-mapped partners) decay at another. The
+palindromic pairing is not a pattern across days. It is a structure
+within each measurement.
+
+The bridge is not something that opens and closes over days. It is
+something that exists in every quantum state, at every moment, and
+gradually narrows as decoherence transfers weight from the quantum
+side to the classical side. What the daily calibration patterns show
+is the CUMULATIVE result of this continuous process, sampled once per
+day at whatever T2 the qubit happens to have.
+
+### Data source
+
+- Backend: IBM Torino (ibm_torino)
+- Qubit: 52
+- Date: February 9, 2026
+- Shots: 8192 per circuit
+- Time points: 25 (0 to 895 us)
+- Tomography: Full single-qubit state tomography (3 bases: X, Y, Z)
+- Raw data: `data/ibm_history/ibm_torino_history.csv` (calibration),
+  original tomography JSON in AIEvolution experiment archive
+- Analysis: Pi conjugation applied to measured density matrices,
+  CPsi computed from both the original and Pi-transformed states
