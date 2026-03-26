@@ -187,12 +187,16 @@ The palindrome inverts the scaling law.
 ## Pending
 
 - N = 10, N = 12 (not yet computed)
-- N = 15 (next overnight run)
-- V-shape baselines for all N (to compute improvement factors)
+- N = 15 (next overnight run, ~10h per evaluation, ~64 GB RAM)
 - Refit quadratic model including N = 13 (current fit overestimates by 12%)
 - Analytical derivation of the quadratic coefficient 0.0053
 - Understanding of the brake constant 0.020
 - Connection to palindromic eigenvalue density
+
+## Completed
+
+- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13. Factors: 360x, 180x, 139x, 91x, 97.5x
+- ~~N = 13 all variants~~ Done: formula 1.072, eps->0 1.151, V-shape 0.011, uniform 0.000
 
 ---
 
