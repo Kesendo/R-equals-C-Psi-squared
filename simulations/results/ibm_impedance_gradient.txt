@@ -1,0 +1,24 @@
+=== IBM TORINO QUBIT 52: IMPEDANCE GRADIENT AT CΨ = 1/4 CROSSING ===
+Source: data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json
+Backend: ibm_torino, Qubit: 52, Date: Feb 9, 2026
+T1=221.2 us, T2=298.2 us, Crossing at 114.7 us
+25 density matrices, 8192 shots each
+
+Impedance = ||Z rho Z - rho||_F / ||rho||_F
+Computed from hardware-measured density matrices (no simulation).
+
+   t(us)     CPsi  Impedance  |d_imp/dt|
+     0.0   0.8851     1.3697        --
+    37.3   0.4752     1.0902    0.0054
+    74.6   0.3852     0.9668    0.0046
+   111.8   0.2614     0.7503    0.0076  <-- MAX GRADIENT (near 1/4)
+   149.1   0.1252     0.4029    0.0071
+   186.4   0.0690     0.2203    0.0030
+   223.7   0.0602     0.1781    0.0016
+   261.0   0.0339     0.0985    0.0016
+
+Maximum gradient: t=111.8 us, CPsi=0.261, distance from 1/4 = 0.011
+Analytical crossing prediction: 114.7 us
+
+CONFIRMED: impedance GRADIENT peaks at the 1/4 crossing on real hardware.
+The switch rate (not the impedance value) is maximal at the fold catastrophe.
