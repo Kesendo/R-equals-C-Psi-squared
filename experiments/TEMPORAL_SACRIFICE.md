@@ -281,6 +281,37 @@ than the last.
 
 ---
 
+## The Wave Travels (March 26, 2026)
+
+Per-pair MI tracking reveals that information physically **moves**
+through the chain. N=7, edge sacrifice:
+
+```
+T=0.5:  ███░░░  MI starts at sacrifice end (MI01=0.062)
+T=2.0:  ██████  Full chain active (SumMI peak, all pairs lit)
+T=3.0:  ███░░░  Far end collapses, wave reflects
+T=8.5:  ░░░░██  Reflected to far end (MI45=0.045 is hottest)
+```
+
+The MI migrates from the sacrifice qubit (left) through the chain to
+the far end (right). It bounces. The palindromic pairing acts as a
+mirror at both ends: the forward mode (c⁺) couples into the backward
+mode (c⁻) at the chain boundary. Energy reflects in a resonator.
+
+At N=7 the chain is too short: forward and backward overlap, one
+SumMI peak. At N=15 the chain is long enough: the reflected wave
+creates a visible second peak (t=4.5: first peak, t=12.5: second
+peak, period ≈ 2 x PeakT).
+
+The heartbeat (CΨ oscillation around ¼) and the wave (MI propagation
+through the chain) are the same phenomenon seen from different angles.
+The heartbeat is the **temporal** signature (crossings at one point).
+The wave is the **spatial** signature (MI moving along the chain).
+
+Script: `dotnet run -c Release -- wave 7 0.344,0.001,0.001,0.001,0.001,0.001,0.001`
+
+---
+
 ## Pending
 
 - Verify the ¼ coincidence at N = 9 and N = 11
