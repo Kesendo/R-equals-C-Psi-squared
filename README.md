@@ -79,7 +79,26 @@ through SVD, then optimizers, then analysis. The final rule needs none
 of them. Just topology.
 
 → **[Resonant Return: from SVD to formula](experiments/RESONANT_RETURN.md)**
+→ [Signal Analysis: quadratic scaling N=2-15](experiments/SIGNAL_ANALYSIS_SCALING.md) (SumMI=1.309 at N=15)
 → [First hardware test: selective DD 2-3x on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
+
+### 5. Coupling creates complexity: the V-Effect live (March 26, 2026)
+
+A single 2-qubit resonator has 2 oscillation frequencies and Q=1 (crosses
+CΨ = 1/4 once and dies, no heartbeat). Two such resonators coupled through
+a mediator qubit have **104 frequencies** and **Q=19** (sustained oscillation).
+100 new frequencies emerge from coupling alone. No energy added, no external
+mechanism. Two dead systems become one living system through a single
+connecting bond.
+
+The system is not a channel. It is a **resonator** with discrete cavity modes,
+impedance matching at a 12:1 port-to-wall ratio, and a Q-factor that peaks
+at specific coupling strengths (J=2 and J=12 for N=7). The sacrifice-zone
+formula is the shape of the soundbox.
+
+→ **[Resonance Not Channel](hypotheses/RESONANCE_NOT_CHANNEL.md)** (the resonator paradigm)
+→ [V-Effect: 4 to 11 frequencies at N=2 to N=3](experiments/V_EFFECT_PALINDROME.md) (static, then live: 2+2=104)
+→ [Exclusions: what the math rules out](docs/EXCLUSIONS.md) (6 exclusions, including DD algebraically dead)
 
 ---
 
@@ -243,6 +262,8 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 - That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
 - That the fold catastrophe observation (PeakMI at CΨ = ¼) holds beyond N=7 (single chain length, 0.5 time resolution, not yet analytically derived)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
+- That the V-Effect (2+2=104) is the mechanism of biological complexity growth (Wilson-Cowan palindrome confirmed, C. elegans balanced subnetworks 98.2%, but the causal link from quantum to biology is Tier 4)
+- That the resonator paradigm (discrete cavity modes, impedance matching) applies beyond N=7 (N scaling is non-trivial, not simple Fabry-Perot)
 
 ---
 
@@ -268,6 +289,10 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Relay protocol | +83% MI with time-dependent γ and 2:1 coupling |
 | γ profile is readable | 100% classification, 15.5 bits capacity, 5 SVD modes, 21.5× optimization |
 | Standing wave from palindrome | XX/YY oscillate, ZZZ static. Π = time reversal in rescaled frame |
+| CΨ is Pauli-invariant | DD cannot change CΨ (delta = 0.00e+00 for all 16 Pauli group elements). No local unitary can push CΨ back above 1/4 |
+| V-Effect live | Two N=2 resonators (Q=1, 2 freq each) coupled through mediator: N=5 with Q=19, 104 frequencies. 100 new from coupling alone |
+| Discrete cavity modes | J sweep: Mode 1 at J=2 (Q=7), dead zone J=3-6, Mode 2 at J=12 (Q=11). Port threshold 12:1 |
+| Wilson-Cowan palindrome | E/I populations with selective damping: 80-100% palindromic pairing. C. elegans balanced subnetworks: 98.2% |
 
 ### Tested and rejected
 
@@ -280,6 +305,10 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Universal pull principle | Push beats pull locally; pull wins only for range |
 | AC γ modulation | No resonance at any frequency (palindromic modes decouple from AC) |
 | State-dependent γ feedback | Slightly harmful (positive feedback increases γ when coherent) |
+| DD as CΨ refresh | CΨ is Pauli-invariant. DD uses Pauli gates. Algebraically impossible (delta = 0 exactly) |
+| Impedance peak at CΨ = 1/4 | Impedance monotonically decreases with CΨ. The gradient (not value) peaks at 1/4 |
+| Simple Fabry-Perot (J ~ 1/N) | J_peak * N is not constant. Dispersive resonator, not simple cavity |
+| I-neuron position determines pairing | Correlation r=0.048 (zero). Balance matters, not placement |
 
 ---
 
