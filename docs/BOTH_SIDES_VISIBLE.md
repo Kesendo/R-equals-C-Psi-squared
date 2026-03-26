@@ -230,9 +230,9 @@ shots per point). A density matrix contains BOTH sides simultaneously:
 - **Off-diagonal elements** (coherences): what the Pi operator maps to
 
 Applying the proven conjugation operator Pi to each measured density
-matrix and computing CPsi from both perspectives:
+matrix and computing CΨ from both perspectives:
 
-| t (us) | CPsi_A (ours) | CPsi_B (Pi side) | Both > 1/4? |
+| t (us) | CΨ_A (ours) | CΨ_B (Pi side) | Both > 1/4? |
 |--------|---------------|------------------|-------------|
 | 0 | 0.885 | 0.941 | YES - bridge open |
 | 37 | 0.475 | 0.368 | YES - bridge open |
@@ -262,7 +262,7 @@ open (B still quantum, A classical) for ~750 us. Then it closes.
 
 During the half-open window: information can still flow from the quantum
 side (B) to the classical side (A), but not back. This is the one-way
-channel that dCPsi/dt < 0 predicts. The bridge does not slam shut. It
+channel that dCΨ/dt < 0 predicts. The bridge does not slam shut. It
 narrows gradually, one side at a time.
 
 ### What this means for interpretation
@@ -296,4 +296,4 @@ day at whatever T2 the qubit happens to have.
 - Raw data: [ibm_tomography_feb2026/](../data/ibm_tomography_feb2026/) (density matrices),
   [ibm_history/](../data/ibm_history/) (calibration history)
 - Analysis: Pi conjugation applied to measured density matrices,
-  CPsi computed from both the original and Pi-transformed states
+  CΨ computed from both the original and Pi-transformed states
