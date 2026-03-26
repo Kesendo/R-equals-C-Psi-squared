@@ -96,3 +96,12 @@ Two-port J=12.0:  Total crossings: 6 down + 5 up = 11
   N=7 J=12  Total crossings: 6 down + 5 up = 11
   N=7 J=15  Total crossings: 4 down + 3 up = 7
   N=7 J=20  
+=== PHASE 1a: N=2 single resonator Q-factor, Bell(0,1), uniform gamma=0.05 ===
+N=2 J=1  Total crossings: 1 down + 0 up = 1
+N=2 J=2  Total crossings: 1 down + 0 up = 1
+N=2 J=3  Total crossings: 1 down + 0 up = 1
+N=2 J=5  Total crossings: 1 down + 0 up = 1
+N=2 J=7  Total crossings: 1 down + 0 up = 1
+N=2 J=10  Total crossings: 1 down + 0 up = 1
+N=2 J=15  Total crossings: 1 down + 0 up = 1
+N=2 J=20  Total crossings: 1 down + 0 up = 1
