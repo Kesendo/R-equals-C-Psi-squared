@@ -40,3 +40,24 @@ J=10.0  Total crossings: 5 down + 4 up = 9
 J=12.0  Total crossings: 6 down + 5 up = 11
 J=15.0  Total crossings: 5 down + 4 up = 9
 J=20.0  J=30.0  
+=== SWEEP 4a: Port size (epsilon), J=2.0, total gamma=0.35 ===
+eps=0.050 gsac=0.0500 ratio=1:1  Total crossings: 1 down + 0 up = 1
+eps=0.040 gsac=0.1100 ratio=3:1  Total crossings: 1 down + 0 up = 1
+eps=0.030 gsac=0.1700 ratio=6:1  Total crossings: 2 down + 1 up = 3
+eps=0.020 gsac=0.2300 ratio=12:1  Total crossings: 4 down + 3 up = 7
+eps=0.010 gsac=0.2900 ratio=29:1  Total crossings: 4 down + 3 up = 7
+eps=0.005 gsac=0.3200 ratio=64:1  Total crossings: 4 down + 3 up = 7
+eps=0.001 gsac=0.3440 ratio=344:1  Total crossings: 4 down + 3 up = 7
+eps=0.0001 gsac=0.3494 ratio=3494:1  Total crossings: 4 down + 3 up = 7
+
+=== SWEEP 4b: Port size at J=12.0 (mode 2) ===
+eps=0.050 gsac=0.0500  Total crossings: 6 down + 5 up = 11
+eps=0.020 gsac=0.2300  Total crossings: 6 down + 5 up = 11
+eps=0.010 gsac=0.2900  Total crossings: 6 down + 5 up = 11
+eps=0.005 gsac=0.3200  Total crossings: 6 down + 5 up = 11
+eps=0.001 gsac=0.3440  Total crossings: 6 down + 5 up = 11
+eps=0.0001 gsac=0.3494  Total crossings: 6 down + 5 up = 11
+
+=== SWEEP 4c: Two-port (both edges) ===
+Two-port J=2.0:   Total crossings: 2 down + 1 up = 3
+Two-port J=12.0:  Total crossings: 6 down + 5 up = 11
