@@ -40,6 +40,17 @@ if (args.Length >= 1 && args[0] == "spectral")
 }
 
 // ============================================================
+// WAVE MODE: per-pair MI to see energy flow through chain
+// ============================================================
+if (args.Length >= 1 && args[0] == "wave")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunWaveAnalysis(args);
+    return;
+}
+
+// ============================================================
 // RESONANCE MODE: CΨ oscillation around ¼ with structured bath
 // ============================================================
 if (args.Length >= 1 && args[0] == "resonance")
@@ -1005,6 +1016,92 @@ void RunSweepEvaluation(string[] pArgs)
     // Final RESULT line
     Console.WriteLine(FormattableString.Invariant(
         $"RESULT SumMI={bestSumMI:F6} PeakMI={bestPeakMI:F6} PeakT={bestT:F2} Stages={profiles.Count} StageTime={stageTime:F2}"));
+}
+
+// ============================================================
+// WAVE ANALYSIS: per-pair MI to see energy propagation
+// ============================================================
+void RunWaveAnalysis(string[] pArgs)
+{
+    // Usage: wave <N> <g1,...,gN> [--tmax 20]
+    if (pArgs.Length < 3)
+    {
+        Console.Error.WriteLine("Usage: wave <N> <g1,...,gN> [--tmax 20]");
+        Environment.Exit(1);
+        return;
+    }
+
+    int n = int.Parse(pArgs[1]);
+    var gammas = pArgs[2].Split(',')
+        .Select(s => double.Parse(s, CultureInfo.InvariantCulture)).ToArray();
+
+    double tMax = 20.0;
+    double dt = 0.05;
+    for (int i = 3; i < pArgs.Length - 1; i++)
+    {
+        if (pArgs[i] == "--tmax") tMax = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+    }
+
+    int d = 1 << n;
+
+    // Heisenberg chain
+    var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
+    var bonds = Topology.Chain(n, couplings);
+    var H = Topology.BuildHamiltonian(n, bonds);
+
+    // Initial state |+>^N
+    var psi = new Complex[d];
+    double psiNorm = 1.0 / Math.Sqrt(d);
+    for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+    var rho = DensityMatrixTools.PureState(psi);
+
+    var prop = new LindbladPropagator(H, gammas, n);
+
+    // Header
+    Console.Write(FormattableString.Invariant($"{"T",5}"));
+    for (int k = 0; k < n - 1; k++)
+        Console.Write(FormattableString.Invariant($" {"MI" + k + "" + (k+1),8}"));
+    Console.Write(FormattableString.Invariant($" {"SumMI",8} {"Purity",8}"));
+    Console.WriteLine();
+
+    double mInterval = 0.5;
+    double nextMeas = 0.0;
+    int totalSteps = (int)(tMax / dt);
+
+    for (int step = 0; step <= totalSteps; step++)
+    {
+        if (step > 0)
+        {
+            var k1 = prop.EvalRHS(rho);
+            var k2 = prop.EvalRHS(rho + dt / 2 * k1);
+            var k3 = prop.EvalRHS(rho + dt / 2 * k2);
+            var k4 = prop.EvalRHS(rho + dt * k3);
+            rho = rho + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4);
+            rho = (rho + rho.ConjugateTranspose()) / 2.0;
+        }
+
+        double t = step * dt;
+
+        if (t >= nextMeas - dt / 2)
+        {
+            Console.Write(FormattableString.Invariant($"{t,5:F1}"));
+
+            double sumMI = 0;
+            for (int k = 0; k < n - 1; k++)
+            {
+                double mi = DensityMatrixTools.MutualInformation(rho, n,
+                    new[] { k }, new[] { k + 1 });
+                sumMI += mi;
+                Console.Write(FormattableString.Invariant($" {mi,8:F4}"));
+            }
+
+            double pur = DensityMatrixTools.Purity(rho);
+            Console.Write(FormattableString.Invariant($" {sumMI,8:F4} {pur,8:F4}"));
+            Console.WriteLine();
+
+            nextMeas += mInterval;
+        }
+    }
 }
 
 // ============================================================
