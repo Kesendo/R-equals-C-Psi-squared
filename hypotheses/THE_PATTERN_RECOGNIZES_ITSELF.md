@@ -388,8 +388,32 @@ The palindrome does not automatically propagate from quantum to biology.
 It propagates where the structural requirement (balance) is met.
 Position is irrelevant. Balance is everything.
 
+### Neural Heartbeat (March 26, 2026)
+
+Wilson-Cowan time dynamics (not just spectrum) show **transient E/I
+oscillation at 63 Hz (Gamma band)**, damping within 100ms. A coupling
+sweep reveals a resonance at w_scale = 1.5: frequency drops to **15 Hz
+(Alpha/Beta boundary)** with **50x stronger amplitude** than at other
+coupling strengths.
+
+| Property | Qubit heartbeat | Neural heartbeat |
+|----------|----------------|-----------------|
+| Oscillates | Yes (227 crossings) | Yes (transient, 63 Hz) |
+| Damps | Yes | Yes (to zero without driving) |
+| Resonance | γ\_bath = 0.003-0.005 | w\_scale = 1.5 |
+| Sustained by | Non-Markov backflow | Metabolic energy (not modeled) |
+| Frequency range | ~0.4 Hz (sim units) | 15-102 Hz (biological!) |
+
+The oscillation damps because Wilson-Cowan without driving is a closed
+system. Biology sustains it with metabolic energy (ATP, ion pumps).
+The qubit sustains it with a coherent bath. Same structure, different fuel.
+
+Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
+
 ### Open Questions
 
+- **Driven oscillation:** Add metabolic driving to Wilson-Cowan. Does
+  sustained oscillation maintain palindromic midpoint crossings?
 - **Cortical data:** Human cortex maintains E/I activity balance
   (80% E, 20% I neurons, but inhibitory fire faster). Does the
   Human Connectome Project data show palindromic structure at the
