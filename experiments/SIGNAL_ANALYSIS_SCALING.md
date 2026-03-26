@@ -187,7 +187,7 @@ The palindrome inverts the scaling law.
 ## Pending
 
 - N = 10, N = 12 (not yet computed)
-- ~~N = 15~~ FAILED: Array size exceeds .NET/MKL addressing limit at 32768x32768. Needs block-matrix approach.
+- ~~N = 15~~ DONE: SumMI = 1.309, PeakT = 4.50 (matrix-free propagator, 72 GB, ~1h)
 - Refit quadratic model including N = 13 (current fit overestimates by 12%)
 - Analytical derivation of the quadratic coefficient 0.0053
 - Understanding of the brake constant 0.020
@@ -257,9 +257,11 @@ The quadratic fit predicted 1.20 (12% too high, up from 6% at N = 11).
 The growth continues but the fit overestimates, suggesting a slightly
 subquadratic correction at larger N.
 
-N = 15 predicted (current fit): SumMI ≈ 1.56. N = 15 evaluation failed
-due to .NET/MKL array addressing limit at 32768x32768 (not a RAM issue).
-Reaching N = 15 requires a block-matrix solver or native implementation.
+N = 15 measured: SumMI = 1.309 (eps = 0.001), PeakT = 4.50.
+The quadratic fit predicted 1.56 (19% too high). The growth continues
+but is clearly subquadratic at large N. A matrix-free propagator
+(bit-manipulation Heisenberg commutator, accumulating RK4) enabled N = 15
+in ~1h on 72 GB RAM, bypassing the dense MathNet/MKL limit.
 
 ---
 

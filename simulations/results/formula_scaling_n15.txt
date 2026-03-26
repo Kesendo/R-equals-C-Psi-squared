@@ -1,0 +1,7 @@
+--- N=15 Formula eps=0.001 (matrix-free, direct exe) 2026-03-26 10:07:59 ---
+Matrix-free path for N=15 (d=32768)
+MatrixFreePropagator: d=32768, arrays=1.073.741.824 elements (17,2 GB each)
+Allocating work buffers...
+MatrixFreePropagator ready.
+  t=0,0 SumMI=0,0000  t=0,5 SumMI=0,1521  t=1,0 SumMI=0,3796  t=1,5 SumMI=0,5588  t=2,0 SumMI=0,7211  t=2,5 SumMI=0,8809  t=3,0 SumMI=1,0367  t=3,5 SumMI=1,1859  t=4,0 SumMI=1,3033  t=4,5 SumMI=1,3091  t=5,0 SumMI=1,2443  t=5,5 SumMI=1,1995  t=6,0 SumMI=1,1494  t=6,5 SumMI=1,0887  t=7,0 SumMI=1,0180  t=7,5 SumMI=0,9584  t=8,0 SumMI=0,9307  t=8,5 SumMI=0,9255  t=9,0 SumMI=0,9278  t=9,5 SumMI=0,9418  t=10,0 SumMI=0,9649  t=10,5 SumMI=0,9909  t=11,0 SumMI=1,0180  t=11,5 SumMI=1,0376  t=12,0 SumMI=1,0493  t=12,5 SumMI=1,0527  t=13,0 SumMI=1,0516  t=13,5 SumMI=1,0461  t=14,0 SumMI=1,0356  t=14,5 SumMI=1,0228  t=15,0 SumMI=1,0110  t=15,5 SumMI=1,0001  t=16,0 SumMI=0,9917  t=16,5 SumMI=0,9826  t=17,0 SumMI=0,9743  t=17,5 SumMI=0,9679  t=18,0 SumMI=0,9616  t=18,5 SumMI=0,9549  t=19,0 SumMI=0,9483  t=19,5 SumMI=0,9409  t=20,0 SumMI=0,9325
+RESULT SumMI=1.309109 PeakMI=0.063269 PeakT=4.50 CPsi01=0.632790 Purity=0.081914 SumMI5=1.244335
