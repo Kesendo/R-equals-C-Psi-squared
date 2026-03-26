@@ -89,44 +89,122 @@ The Lindblad dissipator is:
 
 Look at the term (Z rho Z - rho). Its magnitude depends on rho.
 
-- **High coherence (CΨ > 1/4):** The off-diagonal elements of rho
-  are large. Z flips their sign. The difference Z rho Z - rho is
-  maximal. The system ABSORBS the gamma signal strongly.
+### What the impedance actually does (computed, March 26)
 
-- **Low coherence (CΨ < 1/4):** The off-diagonal elements are small.
-  Z rho Z approximately equals rho for the dominant diagonal part.
-  The difference is minimal. The system is nearly TRANSPARENT to
-  gamma.
+The impedance ||Z rho Z - rho||_F was computed across the full CΨ
+trajectory. The simple hypothesis "impedance peaks at 1/4" is
+**falsified.** The actual behavior:
 
-The system does not need a separate channel to "send back." Its
-quantum state IS the return signal. By having high or low coherence,
-it modulates its own absorption cross-section. Like an RFID tag:
-no battery, no transmitter. The tag modulates its antenna impedance,
-and the reader detects the modulation in the backscatter.
+| CΨ range | Impedance | Interpretation |
+|----------|-----------|---------------|
+| 0.3 - 0.5 | 2.79 (highest) | Maximum coherence = maximum absorption |
+| 0.2 - 0.3 | 2.59 | Approaching the fold |
+| 0.1 - 0.2 | 2.08 | Weakening coupling |
+| 0.0 - 0.1 | 0.55 | Nearly transparent |
 
-This is not metaphor. This is what the Lindblad equation says:
-the RATE at which gamma acts depends on the STATE that gamma acts on.
-The state is both the receiver and the response.
+Impedance is monotonically decreasing with CΨ. It does NOT peak at
+1/4. It peaks at CΨ_max (the initial state, maximum coherence) and
+falls continuously toward zero.
 
-### The heartbeat as impedance oscillation
+But what DOES peak at 1/4 is the **impedance gradient** -- the rate
+at which the coupling strength changes. At the fold catastrophe, the
+system switches from strongly coupled to weakly coupled in minimum
+time. Not the impedance itself is the signal. The SWITCH is the signal.
 
-The CΨ oscillation around 1/4 is not "alternating between send and
-receive." It is the impedance oscillating:
+Like an RFID tag: the tag does not transmit at maximum power. The tag
+SWITCHES its impedance, and the reader detects the switching in the
+backscatter. Each switch is one bit. Each CΨ crossing is one switch.
 
-| Phase | CΨ | Impedance | What happens |
-|-------|-----|-----------|-------------|
-| Quantum | > 1/4 | High absorption | System couples strongly to gamma |
-| Crossing | = 1/4 | Maximum change rate | Fold catastrophe. R peaks. Reality crystallizes. |
-| Classical | < 1/4 | Low absorption | System decouples from gamma |
-| Revival | back to > 1/4 | Re-coupling | Non-Markovian backflow restores coherence |
+### Two mirrors, not one
 
-Each crossing is not a "message." Each crossing is a moment where
-the impedance changes maximally -- and at that moment, the
-interference between inside (rho) and outside (gamma) produces
-maximum measurable reality (R = CΨ²).
+The falsification reveals something deeper. There are TWO boundaries,
+not one:
 
-81 crossings is not 81 messages. It is 81 moments of crystallization.
-81 doors that close. 81 facts that become real.
+| Boundary | CΨ value | What happens there |
+|----------|----------|-------------------|
+| Inner mirror | CΨ_max | Maximum coupling to gamma. System absorbs maximally. |
+| Outer mirror | CΨ = 1/4 | Fold catastrophe. Coupling breaks down. R crystallizes. |
+
+This is a **Fabry-Perot resonator.** Two mirrors, a cavity between
+them. The wave (coherence) bounces between the inner mirror (maximum
+absorption, maximum interaction with gamma) and the outer mirror
+(1/4, where reality leaks out). Each round trip is one heartbeat.
+
+The IBM Torino tomography (Qubit 52, Feb 9 2026) measured the cavity
+directly. Both sides have their OWN 1/4:
+
+```
+Mirror A (CΨ_A = 1/4)          Mirror B (CΨ_B = 1/4)
+our side crosses                Pi side crosses
+     |                                  |
+     |<---------- CAVITY ------------->|
+     |    here, both coexist:           |
+     |    classical AND quantum         |
+     |    decided AND open              |
+     |    R AND Psi                     |
+     |                                  |
+     149 us                         895 us
+```
+
+The cavity is 750 us wide. Not a point. A SPACE. A stage where
+reality emerges. The Spectral Midpoint Hypothesis (confirmed)
+says the geometric mean of both perspectives peaks at the center
+of this cavity. The midpoint is the resonance center.
+
+### The cavity has dimensions
+
+The Structural Cartography found that CΨ windows live on a
+3-dimensional manifold (98% of variance in 3 PCs). The stage
+is not flat. It has:
+
+1. **Width:** CΨ_A to CΨ_B distance (cavity length, 750 us on IBM)
+2. **Height:** Impedance gradient (how fast the coupling switches,
+   monotonic from CΨ_max to 0)
+3. **Depth:** Number of pairs crossing simultaneously (at N=7 fold:
+   3 pairs cross at T=5.50 -- CΨ01, CΨ56, CΨ06 all at once)
+
+Each heartbeat is a path through this three-dimensional space.
+Not a point on a line. A trajectory through a cavity.
+
+### What the resonator needs
+
+The Fabry-Perot picture explains all previous results:
+
+**Why low noise gives Q=0:** CΨ bounces only at the inner mirror
+(0.28 to 0.75). It never reaches the outer mirror (1/4). No leakage.
+No reality. Guitar string in vacuum -- vibration without sound.
+
+**Why too much noise gives Q=1:** CΨ crashes through 1/4 and never
+returns. The outer mirror is fully transparent. One flash, then
+silence. All energy leaks out at once.
+
+**Why there is an optimum:** Maximum Q when both mirrors have the
+right reflectivity. Inner mirror (coupling to gamma) strong enough
+to reflect the wave back inward. Outer mirror (1/4) partially
+reflecting -- enough to bounce back, enough leakage to let R out.
+
+**What biology found:** The right reflectivity for both mirrors.
+E/I balance = inner mirror calibration. Gamma threshold = outer
+mirror position. ATP = mirror maintenance (keeps reflectivity up
+against thermal degradation).
+
+### The heartbeat as cavity round-trip
+
+The CΨ oscillation is not "impedance oscillation." It is a wave
+bouncing between two mirrors:
+
+| Phase | What happens |
+|-------|-------------|
+| Outward (CΨ falling) | Wave moves from inner mirror toward outer mirror. Coupling weakens. |
+| Fold (CΨ = 1/4) | Wave hits outer mirror. Some leaks out as R. Some reflects back. |
+| Inward (CΨ rising) | Reflected wave moves back. Non-Markovian backflow. Coupling strengthens. |
+| Turn (CΨ_max) | Wave hits inner mirror. Maximum absorption. Reloads from gamma. |
+
+81 crossings = 81 round trips. Each round trip, the mirrors get a
+little less reflective (irreversible decoherence accumulates). The
+amplitude shrinks. The cavity degrades. Eventually: CΨ stays below
+1/4. The outer mirror has become fully transparent. All leaks out.
+Silence. Every door closed.
 
 ---
 
@@ -181,13 +259,15 @@ If the cortex is a resonator tuned to CΨ = 1/4, then:
 
 ---
 
-## What We Search For: The Q-Factor
+## What We Search For: The Cavity Q-Factor
 
 The old question was: "How do we build a bidirectional channel?"
-The new question is: **"What maximizes the Q-factor of the resonator?"**
+The new question is: **"What maximizes the Q-factor of the Fabry-Perot
+cavity between the two 1/4 mirrors?"**
 
-Q-factor = number of CΨ = 1/4 crossings before the oscillation damps
-below threshold permanently.
+Q-factor = number of CΨ = 1/4 crossings before the cavity degrades
+permanently. Each crossing = one round trip. Each round trip = one
+quantum of crystallized reality.
 
 Known Q-factors:
 
@@ -209,28 +289,35 @@ fork.
 
 ### What determines Q?
 
-From the data so far:
+From the data and the Fabry-Perot picture:
 
-1. **J/gamma ratio.** Coupling must be strong enough relative to
-   dissipation for coherence to flow back before it decays. J=5 at
-   gamma_bath=0.01 gives Q=81. J=1 at gamma_sac=0.344 gives Q=1.
-   The ratio matters, not the absolute values.
+1. **Inner mirror reflectivity (J/gamma ratio).** J-coupling must be
+   strong enough for coherence to bounce back before it decays. This
+   is the reflectivity of the inner mirror. J=5 at gamma_bath=0.01
+   gives Q=81 (high reflectivity). J=1 at gamma_sac=0.344 gives Q=1
+   (transparent mirror, no bounce).
 
-2. **Initial entanglement.** Product states (|+>^N) give Q=1.
-   Bell pairs give oscillation. Entanglement is the "potential
-   energy" that J-coupling can exchange with the reservoir.
+2. **Initial excitation (entanglement).** Product states (|+>^N)
+   give Q=1. Bell pairs give oscillation. Entanglement is the initial
+   amplitude of the wave inside the cavity. No excitation = nothing
+   to bounce.
 
-3. **Reservoir size.** N=3 with 1 bath qubit needs J=5 for Q=81.
-   N=7 with 5 reservoir qubits needs only J=2 for Q=7. Larger
-   reservoir = more backflow capacity = less J needed. But longer
-   chain = longer round-trip = slower oscillation.
+3. **Cavity length (reservoir size).** N=3 with 1 bath qubit needs
+   J=5 for Q=81. N=7 with 5 reservoir qubits needs only J=2 for Q=7.
+   Larger reservoir = longer cavity = more room for the wave to
+   propagate before hitting the mirror. But longer round-trip = slower
+   oscillation frequency.
 
-4. **Gamma profile (box shape).** The sacrifice-zone formula
-   concentrates noise on the edge, protects the interior. This
-   preserves the reservoir. The 360x MI improvement and the
-   Q-factor improvement likely share the same mechanism:
-   impedance matching between the "string" (gamma at the edge)
-   and the "box" (protected interior).
+4. **Outer mirror shape (gamma profile).** The sacrifice-zone formula
+   concentrates noise on the edge. This shapes the outer mirror --
+   determines WHERE reality leaks out and how much. The 360x MI
+   improvement is the difference between a flat mirror (uniform gamma)
+   and a curved mirror (sacrifice-zone) that focuses the leakage.
+
+5. **Cavity dimension (number of crossing pairs).** At N=7 fold:
+   3 pairs cross simultaneously (CΨ01, CΨ56, CΨ06). This is the
+   depth of the cavity. More simultaneous crossings = more reality
+   crystallizes per round trip.
 
 ### What to compute next
 
@@ -259,25 +346,31 @@ Concrete tests:
 
 ---
 
-## The Standing Wave Is the Answer
+## The Standing Wave Is the Cavity Mode
 
 The palindromic modes c+ and c- form a standing wave. c+ decays.
-c- grows (in the Π-reversed frame). Their interference is static
+c- grows (in the Pi-reversed frame). Their interference is static
 in the rescaled frame. This standing wave is not a consequence of
-the resonator. It IS the resonator.
+the resonator. It IS the cavity mode.
 
-The sacrifice-zone formula selects which standing wave pattern
-dominates. The J-coupling determines the wavelength. The gamma
-determines the amplitude. The initial state determines the
-excitation.
+In a Fabry-Perot, the standing wave exists between the two mirrors.
+Its nodes and antinodes are determined by the cavity length and the
+mirror properties. The palindromic c+/c- pair is exactly this: a
+standing pattern between the inner mirror (CΨ_max, maximum gamma
+absorption) and the outer mirror (CΨ = 1/4, where reality leaks out).
 
-R = CΨ² is not what the system produces. R is what the standing
-wave looks like at the fold point. At CΨ = 1/4, the discriminant
-vanishes, the two complex fixed points merge into one real fixed
-point, and for one moment the interference pattern becomes
-measurable. That moment is reality.
+The sacrifice-zone formula selects which cavity mode dominates.
+J-coupling determines the wavelength. Gamma determines the amplitude.
+The initial state determines the excitation level.
 
-Not sent. Not received. Resonated.
+R = CΨ^2 is not what the system produces. R is what LEAKS OUT of the
+cavity at the outer mirror. At CΨ = 1/4, the discriminant vanishes,
+the two complex fixed points merge into one real fixed point, and
+the standing wave pattern becomes measurable as classical reality.
+The fold is the point of maximum transmittance through the outer
+mirror.
+
+Not sent. Not received. Leaked out of a cavity at its resonance.
 
 ---
 
