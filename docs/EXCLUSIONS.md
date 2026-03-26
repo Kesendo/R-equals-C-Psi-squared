@@ -26,9 +26,10 @@ and what we cannot exclude.
 
 ## Exclusion 1: The structure requires d = 2
 
-**Basis:** d² - 2d = 0. The palindromic 2:2 split of Pauli indices
-(2 immune, 2 decaying) requires d² - 2d = 0. The only non-trivial
-solution is d = 2 (the qubit).
+**Basis:** Under single-axis dephasing, each qudit has d² Pauli-like
+operators: d are immune (diagonal), d²-d decay. The palindromic
+pairing requires equal counts: d = d²-d, giving d²-2d = 0. The only
+non-trivial solution is d = 2 (the qubit).
 
 **Verification:** Qutrits (d=3) tested against 10 Hamiltonians: 0/10
 palindromic. The equation d² - 2d = 3 - 6 = -3, not zero.
@@ -63,14 +64,18 @@ Sections 2.1-2.5.
 
 **Corollary:** γ provides the time arrow (without γ: unitary oscillation,
 no irreversibility, no before/after). If γ cannot originate internally,
-then time cannot originate internally.
+then time cannot originate internally. See
+[Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md),
+[γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
 
-**Ruled out:**
-- "The universe created its own time": the system cannot generate γ
-- "Time emerged from the Big Bang": an internal event cannot produce
-  the external parameter that makes events possible
-- "The time arrow is an approximation": dCΨ/dt < 0 is strict, not
-  approximate, under Markovian dynamics
+**Ruled out (within this framework):**
+- "The system created its own γ": five internal candidates eliminated
+- "γ emerged from an internal event": no internal mechanism produces
+  the Lindblad dephasing parameter (this is a statement about γ in
+  the Lindblad equation, not about cosmological time in general)
+- "The time arrow from dCΨ/dt < 0 is an approximation": it is strict
+  under Markovian dynamics (the Markov assumption itself is a
+  separate question)
 
 ---
 
@@ -91,14 +96,18 @@ as measured by CΨ).
 - "We can reconstruct the initial quantum state from present
   measurements": the quantum information has been irreversibly
   converted to classical correlations at each ¼ crossing
-- "Quantum information is preserved somewhere": under Markovian
-  dynamics, it is converted, not stored
+- "Quantum information is preserved in the reduced system": under
+  Markovian dynamics of the reduced system, it is converted to
+  classical correlation, not stored (the full system+environment
+  evolves unitarily, but the reduced system does not)
 - "The past is still quantum": everything that crossed ¼ is
   classically decided. The doors are closed.
 
 **Caveat:** Non-Markovian dynamics (structured bath) can temporarily
-push CΨ back above ¼. But revivals are always transient. CΨ goes
-to zero eventually. The past is delayed, not reversed.
+push CΨ back above ¼ (max revival: CΨ = 0.3035). But revivals are
+always transient. CΨ goes to zero eventually. The past is delayed,
+not reversed. See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
+for the oscillation data (227 crossings with Bell+bath).
 
 ---
 
@@ -109,6 +118,7 @@ to zero eventually. The past is delayed, not reversed.
 Pairing error < 10⁻¹³. Holds across all topologies (chain, star,
 ring, complete, binary tree) and all standard coupling models
 (Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya).
+See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md).
 
 **Proof:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 Three-step algebraic identity: Π flips XY-weight, Π anti-commutes
@@ -123,7 +133,8 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
   matrices)
 - "The symmetry emerged from random fluctuations": random processes
   do not produce algebraically exact symmetries with zero exceptions
-- "The laws of physics are statistical": this particular law is not
+- "This symmetry is statistical": the palindromic pairing is
+  algebraic, not the result of averaging or large numbers
 
 ---
 
@@ -170,10 +181,9 @@ The exclusions leave a narrow picture:
    Quantum possibility becoming classical fact. Irreversibly.
    Each crossing deposits a piece of decided reality.
 
-5. The classical world we observe is the accumulated record of
-   all past crossings. Not an illusion. Not an approximation.
-   The actual, irreversible result of quantum-to-classical
-   conversion at the fold catastrophe.
+5. What we measure classically is consistent with the irreversible
+   result of quantum-to-classical conversion at the fold catastrophe.
+   Each crossing deposits classical correlations that persist.
 
 ---
 
@@ -185,9 +195,10 @@ The exclusions leave a narrow picture:
 - Whether non-Markovian revivals (temporary return above ¼) have
   physical significance beyond transient fluctuations
 - Whether the structured patterns in IBM hardware calibration data
-  (Q98 crossing pattern) are the "bridge" or mundane hardware drift
+  ([Q98 crossing pattern](BOTH_SIDES_VISIBLE.md)) are the "bridge" or
+  mundane hardware drift
 - The nature of what existed "before" γ began (if that question is
-  even meaningful from inside)
+  even meaningful from inside, see [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md))
 
 These are open questions at the boundary of the framework's reach.
 They are not excluded. They are undecidable from within.
