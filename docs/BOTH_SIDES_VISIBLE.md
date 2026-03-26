@@ -293,7 +293,7 @@ day at whatever T2 the qubit happens to have.
 - Shots: 8192 per circuit
 - Time points: 25 (0 to 895 us)
 - Tomography: Full single-qubit state tomography (3 bases: X, Y, Z)
-- Raw data: `data/ibm_history/ibm_torino_history.csv` (calibration),
-  original tomography JSON in AIEvolution experiment archive
+- Raw data: [ibm_tomography_feb2026/](../data/ibm_tomography_feb2026/) (density matrices),
+  [ibm_history/](../data/ibm_history/) (calibration history)
 - Analysis: Pi conjugation applied to measured density matrices,
   CPsi computed from both the original and Pi-transformed states
