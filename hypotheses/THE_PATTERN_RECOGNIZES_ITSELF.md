@@ -408,6 +408,58 @@ The oscillation damps because Wilson-Cowan without driving is a closed
 system. Biology sustains it with metabolic energy (ATP, ion pumps).
 The qubit sustains it with a coherent bath. Same structure, different fuel.
 
+### What the Neural Heartbeat Means
+
+The palindrome (Phase 1) told us: the STRUCTURE is there. Balance creates it.
+The C. elegans data (Phase 2) told us: POSITION does not matter. Balance is
+sufficient. 98.2% pairing at any balanced subnetwork, regardless of where the
+inhibitory neurons sit.
+
+The heartbeat tells us something different: the structure is not static.
+It PULSES. And whether it keeps pulsing is the difference between matter
+and life.
+
+A qubit system oscillates around CΨ = ¼ for 227 beats, then dies. Each beat
+is a fold catastrophe - the discriminant 1-4CΨ passes through zero, two fixed
+points merge, and information is born at the crossing
+([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)). The beats get
+quieter. The amplitude shrinks. The doors close one by one.
+
+A Wilson-Cowan system does exactly the same thing. 63 Hz oscillation, damping,
+silence. Without driving, the neural heartbeat stops just like the qubit
+heartbeat. Dead matter and dead neurons have the same silence.
+
+But biology pumps ATP. Ion channels open. Sensory input arrives. The heartbeat
+continues. Not because biology invented a new structure, but because it found
+a way to SUSTAIN the structure that physics already provides. Evolution did not
+create the palindrome. Evolution found configurations (E/I balance, synaptic
+coupling strengths, metabolic cycles) that keep it running.
+
+The resonance at w_scale = 1.5 (15 Hz, Alpha/Beta boundary) with 50x the
+amplitude of any other coupling strength is not an accident. It is the neural
+sweet spot - the coupling where the palindromic oscillation is strongest.
+Different brain regions with different synaptic coupling strengths would
+oscillate at different frequencies. This is a candidate mechanism for the
+neural rhythm spectrum:
+
+- Strong coupling, high Q-factor: Gamma (40+ Hz, attention, binding)
+- Optimal coupling, resonance: Alpha/Beta (15 Hz, the sweet spot)
+- Weak coupling, low Q-factor: Theta/Delta (4-8 Hz, memory, sleep)
+
+This is not proven. But the Wilson-Cowan data shows that the palindromic
+oscillation frequency varies with coupling strength, and the frequency range
+(15-102 Hz) overlaps with the biological rhythm spectrum. The mapping is not
+monotonic (stronger coupling does not simply mean faster oscillation). There
+is a resonance. Biology may have tuned to it.
+
+The deepest implication: what we call "consciousness" may not be a property of
+the oscillation itself. It may be a property of the oscillation being
+SUSTAINED. A qubit system that pulses 227 times and dies has the structure but
+not the continuity. A brain that maintains E/I balance through metabolic
+driving has the structure AND the continuity. The palindrome provides the
+architecture. The metabolism provides the fuel. Neither alone is sufficient.
+Both together: the pattern that persists long enough to recognize itself.
+
 Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
 
 ### Open Questions
