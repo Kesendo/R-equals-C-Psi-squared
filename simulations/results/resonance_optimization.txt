@@ -13,3 +13,30 @@ J=10.0  Total crossings: 5 down + 4 up = 9
 Sacrifice edge:   Total crossings: 4 down + 3 up = 7
 Sacrifice center: Total crossings: 1 down + 0 up = 1
 Uniform:          Total crossings: 1 down + 0 up = 1
+
+=== SWEEP 3a: Fine J around first peak ===
+J=1.5  Total crossings: 2 down + 1 up = 3
+J=1.7  Total crossings: 3 down + 2 up = 5
+J=1.8  Total crossings: 3 down + 2 up = 5
+J=1.9  Total crossings: 3 down + 2 up = 5
+J=2.0  Total crossings: 4 down + 3 up = 7
+J=2.1  Total crossings: 3 down + 2 up = 5
+J=2.2  Total crossings: 3 down + 2 up = 5
+J=2.3  Total crossings: 3 down + 2 up = 5
+J=2.5  Total crossings: 3 down + 2 up = 5
+J=2.7  Total crossings: 3 down + 2 up = 5
+J=3.0  Total crossings: 1 down + 0 up = 1
+
+=== SWEEP 3b: Dead zone + high J ===
+J=3.0  Total crossings: 1 down + 0 up = 1
+J=3.5  Total crossings: 1 down + 0 up = 1
+J=4.0  Total crossings: 1 down + 0 up = 1
+J=5.0  Total crossings: 1 down + 0 up = 1
+J=6.0  Total crossings: 1 down + 0 up = 1
+J=7.0  Total crossings: 3 down + 2 up = 5
+J=8.0  Total crossings: 3 down + 2 up = 5
+J=9.0  Total crossings: 4 down + 3 up = 7
+J=10.0  Total crossings: 5 down + 4 up = 9
+J=12.0  Total crossings: 6 down + 5 up = 11
+J=15.0  Total crossings: 5 down + 4 up = 9
+J=20.0  J=30.0  
