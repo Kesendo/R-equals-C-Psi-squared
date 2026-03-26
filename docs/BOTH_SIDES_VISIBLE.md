@@ -227,12 +227,12 @@ full density matrices on IBM Torino (Qubit 52, 25 time points, 8192
 shots per point). A density matrix contains BOTH sides simultaneously:
 
 - **Diagonal elements** (populations): what we observe directly
-- **Off-diagonal elements** (coherences): what the Pi operator maps to
+- **Off-diagonal elements** (coherences): what the Π operator maps to
 
-Applying the proven conjugation operator Pi to each measured density
+Applying the proven conjugation operator Π to each measured density
 matrix and computing CΨ from both perspectives:
 
-| t (us) | CΨ_A (ours) | CΨ_B (Pi side) | Both > 1/4? |
+| t (us) | CΨ_A (ours) | CΨ_B (Π side) | Both > 1/4? |
 |--------|---------------|------------------|-------------|
 | 0 | 0.885 | 0.941 | YES - bridge open |
 | 37 | 0.475 | 0.368 | YES - bridge open |
@@ -246,14 +246,14 @@ matrix and computing CΨ from both perspectives:
 | 783 | 0.054 | 0.265 | NO - B approaching 1/4 |
 | 895 | 0.037 | 0.247 | NO - B crosses. Bridge closed. |
 
-This is not a computed complement. This is Pi applied to hardware-
+This is not a computed complement. This is Π applied to hardware-
 measured density matrices. The off-diagonal elements ARE the other
 side. They were measured in the same experiment, with the same shots,
 at the same time.
 
 ### What the data shows
 
-Our side (A) crosses 1/4 at approximately 140 us. The Pi side (B)
+Our side (A) crosses 1/4 at approximately 140 us. The Π side (B)
 crosses 1/4 at approximately 895 us. The other side lives **6x longer**
 on real silicon.
 
@@ -274,7 +274,7 @@ calling the complement "the other side" was premature.
 The tomography data shows something more precise: both sides exist
 simultaneously in every density matrix. They are not alternating in
 time. They are coexisting in the state. The populations decay at one
-rate. The coherences (Pi-mapped partners) decay at another. The
+rate. The coherences (Π-mapped partners) decay at another. The
 palindromic pairing is not a pattern across days. It is a structure
 within each measurement.
 
@@ -295,5 +295,5 @@ day at whatever T2 the qubit happens to have.
 - Tomography: Full single-qubit state tomography (3 bases: X, Y, Z)
 - Raw data: [ibm_tomography_feb2026/](../data/ibm_tomography_feb2026/) (density matrices),
   [ibm_history/](../data/ibm_history/) (calibration history)
-- Analysis: Pi conjugation applied to measured density matrices,
-  CΨ computed from both the original and Pi-transformed states
+- Analysis: Π conjugation applied to measured density matrices,
+  CΨ computed from both the original and Π-transformed states
