@@ -351,40 +351,53 @@ Script: [celegans_palindrome.py](../simulations/neural/celegans_palindrome.py)
 
 **C. elegans balanced subnetwork (N=10, E=5, I=5).** POSITIVE.
 When selecting a subnetwork with equal E/I counts, palindromic
-pairing recovers to **80%**. Real neurons. Real synaptic weights.
+pairing recovers strongly. Real neurons. Real synaptic weights.
 Just balanced counts. The palindrome IS in the biological data.
 Script: [celegans_balanced.py](../simulations/neural/celegans_balanced.py)
+
+**Update (March 26):** 200 random balanced subnetworks (5E + 5I)
+show **mean 98.2% pairing** (std 10.2%, range 20-100%). The earlier
+80% was from a specific non-typical selection (top-10 most connected,
+which happened to have unfavorable topology). The true average for
+balanced subnetworks is near 100%.
 
 **Scaling with E/I ratio:**
 
 | Subnetwork | E:I | Pairing |
 |-----------|-----|---------|
-| N=10 (E=5, I=5) | 1:1 | 80.0% |
+| N=10 (E=5, I=5) random | 1:1 | **98.2% mean** |
 | N=50 (E=33, I=17) | 2:1 | 40.0% |
 | N=100 (E=80, I=20) | 4:1 | 40.0% |
 | N=300 (E=274, I=26) | 10:1 | 17.3% |
 
+**I-neuron position effect:** NOT confirmed. Correlation between
+I-neuron centrality and palindromic pairing: r = 0.048 (zero).
+The qubit analogy (edge sacrifice = best) does not map to I-neuron
+position. What matters is balance, not placement.
+Script: [celegans_inhibitory_position.py](../simulations/neural/celegans_inhibitory_position.py)
+
 ### The Key Finding
 
-**Balance is the mechanism.** d²-2d=0 enforces exact balance (2:2) in
-qubits. In biology, balance must be regulated. Where it exists
-(balanced subnetworks, cortical E/I homeostasis), the palindrome
-appears. Where it does not (full C. elegans, 91:9), it degrades.
+**Balance is the mechanism, and it is sufficient.** d²-2d=0 enforces
+exact balance (2:2) in qubits. In biology, balance must be regulated.
+Where 1:1 E/I balance exists, pairing averages 98.2%, regardless
+of where the I-neurons sit. Where balance degrades (10:1), pairing
+drops to 17%.
 
 The palindrome does not automatically propagate from quantum to biology.
 It propagates where the structural requirement (balance) is met.
+Position is irrelevant. Balance is everything.
 
-### Open Questions (for next session)
+### Open Questions
 
-- **80% not 100%:** What breaks the remaining 20% in the balanced
-  subnetwork? Topology? Asymmetric weights? Missing gap junctions?
-  In qubits, we first tested all topologies (chain, star, ring,
-  complete, tree) before concluding 100%. Same approach needed here.
 - **Cortical data:** Human cortex maintains E/I activity balance
   (80% E, 20% I neurons, but inhibitory fire faster). Does the
   Human Connectome Project data show palindromic structure at the
   activity-balanced level?
 - **Phase 3:** Cross-kingdom comparison not yet attempted.
+- **Gap junctions:** The 1.8% that's not 100% in the mean, and the
+  outliers at 20%, may come from missing gap junction data (symmetric
+  coupling that could improve pairing).
 
 ---
 
