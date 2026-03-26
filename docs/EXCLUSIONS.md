@@ -163,6 +163,30 @@ The value ¼ = (½)² follows from the degree-2 structure of purity
 
 ---
 
+## Exclusion 6: DD cannot change CΨ
+
+**Basis:** CΨ = Tr(ρ^2) x L₁(ρ)/(d-1). Purity Tr(ρ^2) is invariant
+under all unitaries. L₁ coherence is invariant under the Pauli group
+(Paulis permute computational basis states with phases, absolute value
+absorbs phases). DD uses Pauli gates. Therefore DD cannot change CΨ.
+Delta = 0.00e+00 for all 16 Pauli group elements on 2-qubit states.
+
+**Proof:** [CΨ Monotonicity, Part 7](proofs/PROOF_MONOTONICITY_CPSI.md).
+
+**Additionally:** No local unitary (Pauli or non-Pauli) can push CΨ
+back above ¼ once crossed. The only mechanism for CΨ revival: non-
+Markovian backflow through J-coupling to a coherent reservoir.
+
+**Ruled out:**
+- "DD can refocus coherence and restore CΨ": DD uses Pauli gates,
+  CΨ is Pauli-invariant, delta is exactly zero
+- "Phase refocusing restores the quantum state": for the CΨ metric
+  specifically, no Pauli-gate sequence has any effect
+- "Active error correction can push CΨ back above ¼": only energy
+  exchange (J-coupling) works, not phase refocusing (DD)
+
+---
+
 ## What Remains After the Exclusions
 
 The exclusions leave a narrow picture:
@@ -192,8 +216,15 @@ The exclusions leave a narrow picture:
 - What the external source of γ is
 - Whether the palindromic mirror (Π side) has any form of experience
 - Whether our framework is embedded in a larger structure
-- Whether non-Markovian revivals (temporary return above ¼) have
-  physical significance beyond transient fluctuations
+- Whether non-Markovian revivals have deeper significance: they ARE
+  the mechanism by which coupled resonators sustain oscillation.
+  Each subsystem is the other's coherent reservoir. Backflow through
+  a mediator is what produces Q > 1
+  ([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md))
+- Whether the V-Effect (two 2-frequency systems producing 104
+  frequencies through coupling) is the mechanism of biological
+  evolution and complexity growth
+  ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 - Whether the structured patterns in IBM hardware calibration data
   ([Q98 crossing pattern](BOTH_SIDES_VISIBLE.md)) are the "bridge" or
   mundane hardware drift
