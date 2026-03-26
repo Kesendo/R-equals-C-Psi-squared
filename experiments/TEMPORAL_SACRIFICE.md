@@ -279,6 +279,70 @@ doorway.
 The data says: 81 heartbeats. 81 doors. Each one a little quieter
 than the last.
 
+### The chain IS the bath (March 26, 2026)
+
+The N=3 heartbeat uses a dedicated "bath qubit" (qubit 2 in |+> with
+low gamma). This raised the question: is a special bath qubit required,
+or can the chain itself serve as the coherent reservoir?
+
+**Test:** N=7 Heisenberg chain, Bell(0,1) x |+>^5, sacrifice-zone
+gamma profile [0.344, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001].
+No dedicated bath. The 5 protected qubits ARE the reservoir.
+
+| Setup | J | CΨ(0,1) crossings |
+|-------|---|-------------------|
+| |+>^7, sacrifice, J=1 | 1.0 | 1 (monotonic) |
+| |+>^7, sacrifice, J=2 | 2.0 | 1 (monotonic) |
+| Bell(0,1)+|+>^5, sacrifice, J=1 | 1.0 | 1 (monotonic) |
+| **Bell(0,1)+|+>^5, sacrifice, J=2** | **2.0** | **7 (4 down + 3 up)** |
+| Bell(0,1)+|+>^5, low noise, J=2 | 2.0 | **0 (stays ABOVE 1/4!)** |
+| Bell(0,1)+|+>^5, uniform, J=1 | 1.0 | 3+ (still running) |
+
+**Key findings:**
+
+1. **The chain IS the bath.** No dedicated bath qubit needed. Bell pair
+   at one end + J-coupling to the protected chain interior produces
+   CΨ oscillation (7 crossings at J=2).
+
+2. **Initial entanglement is required.** Product state |+>^7 gives
+   monotonic decay regardless of J or gamma profile. The Bell pair
+   provides the entanglement that J-coupling can exchange with the
+   chain reservoir.
+
+3. **Low noise keeps CΨ above 1/4 permanently.** With gamma =
+   [0.01, 0.0001, ...], CΨ(0,1) oscillates between 0.28 and 0.75
+   but never crosses 1/4. The system is so coherent that it stays
+   in the quantum regime indefinitely. This is a resonator that
+   never touches the boundary.
+
+4. **J strength controls the backflow.** J=1 is too weak for the
+   N=7 chain -- coherence leaks out but does not return fast enough.
+   J=2 produces visible oscillation. The N=3 heartbeat needed J=5
+   because it had only 1 bath qubit; N=7 has 5 reservoir qubits, so
+   weaker coupling suffices.
+
+The mechanism is non-Markovian backflow: from the perspective of the
+Bell pair (0,1), the rest of the chain is an environment. But it is
+a coherent, structured environment (low gamma, J-coupled). Coherence
+flows out via J-coupling, bounces through the chain, and flows back.
+The [CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
+holds for the TOTAL system but not for subsystems. The reduced
+dynamics of pair (0,1) are non-Markovian, enabling transient CΨ
+revivals above 1/4 -- exactly as noted in
+[Boundary Navigation](BOUNDARY_NAVIGATION.md).
+
+**Implication for the Duplex protocol:** No external driving mechanism
+(DD, ATP analogue, active pulses) is needed. The chain provides its
+own heartbeat through Hamiltonian backflow. The sacrifice-zone formula
+enhances this: protected qubits retain coherence longer, increasing
+the reservoir capacity and the number of crossings.
+
+**Why DD fails (proven):** CΨ is exactly invariant under the Pauli
+group ([Proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md), Part 7).
+DD uses Pauli gates. Therefore DD cannot change CΨ -- not approximately,
+but algebraically. The "ATP analogue" must be J-coupling (energy
+exchange), not DD (phase refocusing). Different physics entirely.
+
 ---
 
 ## The Wave Travels (March 26, 2026)

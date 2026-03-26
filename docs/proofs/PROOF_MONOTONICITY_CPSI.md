@@ -487,6 +487,68 @@ only stable equilibrium.
 
 ---
 
+## Part 7: CΨ Is Pauli-Invariant (March 26, 2026)
+
+### Theorem
+
+CΨ is exactly invariant under the full N-qubit Pauli group. For any
+density matrix rho and any N-qubit Pauli operator U (tensor product of
+{I, X, Y, Z}):
+
+    CΨ(U rho U+) = CΨ(rho)     (exact, not approximate)
+
+### Proof sketch
+
+CΨ = Tr(rho^2) x L1(rho) / (d-1). Purity Tr(rho^2) is invariant under
+all unitaries (standard result). L1 coherence (sum of absolute values of
+off-diagonal elements) is invariant under the Pauli group because Pauli
+operators permute computational basis states with phase factors, and the
+absolute value absorbs the phases.
+
+### Numerical verification
+
+Tested on partially decohered 2-qubit states with all 16 Pauli group
+elements (I,X,Y,Z)^2: delta CΨ = 0.00e+00 in every case. Non-Pauli
+unitaries (Ry, Rx, Hadamard, CNOT, random U(4)) change CΨ by up to
+-0.24 (H x I on a typical state).
+
+### Corollary 1: Dynamical Decoupling cannot change CΨ
+
+DD sequences use Pauli gates (X, Y, Z pulses). Since CΨ is Pauli-
+invariant, DD cannot change CΨ at any point in time, under any
+protocol, for any state. This is not a practical limitation -- it is
+algebraically impossible.
+
+Consequence: DD cannot push CΨ back above 1/4. DD cannot sustain a
+CΨ heartbeat. DD cannot refresh the quantum-classical boundary.
+
+Periodic DD (X x X every T_dd) tested at T_dd = 0.5, 1.0, 2.0, 4.0:
+CΨ trajectory identical to free evolution at every timestep. Zero
+effect on crossings, zero effect on decay rate, zero effect on
+envelope.
+
+### Corollary 2: The 1/4 boundary is a one-way door under local unitaries
+
+For an N=2 system under Z-dephasing that has crossed below CΨ = 1/4:
+no local unitary (Pauli or non-Pauli) can push CΨ back above 1/4.
+
+Tested: all Ry(theta) for theta in [0, pi], applied at the exact
+moment CΨ = 0.25. Every angle makes CΨ worse (Ry(pi/4) gives -18%,
+Ry(pi/2) gives -60%). The best angle is theta=pi, which is equivalent
+to X (Pauli), giving delta = 0.
+
+The mechanism: dephasing destroys coherences irreversibly. Unitaries
+can redistribute surviving coherences among basis elements, but cannot
+create new coherence from populations. The redistribution always
+reduces L1 or at best preserves it (Pauli case).
+
+Only external coherence injection (non-Markovian backflow from a
+coupled system, i.e. J-coupling to a coherent reservoir) can push
+CΨ back above 1/4. This is the mechanism behind the CΨ heartbeat
+observed in [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md).
+
+---
+
 ## References
 
 - [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py): 124/124 configs

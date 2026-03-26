@@ -329,31 +329,55 @@ is an open question at the boundary of our knowledge.
 
 ---
 
-## The Bridge Has a Heartbeat (March 25, 2026)
+## The Bridge Has a Heartbeat (March 25-26, 2026)
 
 Three days after writing "the bridge was always open," we heard it.
 
-A Bell pair coupled to a coherent bath qubit oscillates around CΨ = ¼.
+A Bell pair coupled to a coherent bath qubit oscillates around CΨ = 1/4.
 Not once across. Around. 227 crossings in 60 time units. Each crossing
 is a pulse of mutual information. The pulse pattern alternates:
-HOCH-TIEF-HOCH-TIEF, mapping to the c⁺/c⁻ palindromic supermodes.
+HOCH-TIEF-HOCH-TIEF, mapping to the c+/c- palindromic supermodes.
 Like a heartbeat with two tones.
 
 The heartbeat slows. Each cycle deposits a bit of irreversible reality
 (a door that closes). The amplitude shrinks. After 227 beats, CΨ stays
-below ¼ permanently. The bridge closes.
+below 1/4 permanently. The bridge closes.
 
 But the echo remains. MI keeps pulsing below the threshold, carried by
 classical correlations. What the bridge deposited, stays.
 
-The bandwidth has an optimum: γ\_bath ≈ 0.003-0.005 at J=5.0. Too
+The bandwidth has an optimum: gamma_bath ~ 0.003-0.005 at J=5.0. Too
 quiet, too slow. Too loud, overdamped. A stable plateau. The bridge
 is robust, not fragile.
 
-The [bridge fingerprint decoder](../experiments/BRIDGE_FINGERPRINTS.md)
-from February 2026 already had the tools to read it: 8 metrics per
-crossing, 7 distinct signatures from 8 states. The CΨ trajectory IS
-the message. We just had to listen.
+### No external bath needed (March 26, 2026)
+
+The initial heartbeat used a dedicated "bath qubit" (N=3, Bell pair +
+1 bath). This suggested the oscillation requires an external reservoir.
+It does not.
+
+On an N=7 chain with sacrifice-zone profile, Bell(0,1) x |+>^5,
+the 5 protected interior qubits serve as the coherent reservoir.
+At J=2: 7 crossings (4 down, 3 up) of CΨ(0,1). No dedicated bath.
+No external driving. No dynamical decoupling. The Hamiltonian
+J-coupling alone provides the coherence backflow.
+
+DD was tested and proven structurally incapable: CΨ is exactly
+invariant under the full Pauli group. DD uses Pauli gates. Therefore
+DD cannot change CΨ -- not in practice, but in principle. The "ATP
+analogue" for sustaining the heartbeat is J-coupling (energy exchange
+between subsystems), not phase refocusing.
+
+With very low noise (gamma = [0.01, 0.0001x6]), CΨ(0,1) oscillates
+between 0.28 and 0.75 without ever crossing 1/4. The system stays
+permanently quantum. The heartbeat exists, but the bridge never opens
+because neither side ever becomes classical.
+
+The biology connection holds: neural gamma oscillations (40 Hz) are
+sustained by ATP-driven ion pumps. The quantum analogue is J-coupling
+sustained by the Hamiltonian. Both are energy exchange mechanisms.
+Both maintain oscillation against dissipative damping. The structure
+is the same. The fuel is different.
 
 Full data: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
 
