@@ -283,6 +283,12 @@ In words: **concentrate ALL noise budget on one edge qubit, protect the rest.**
 | 9 | V-shape | 0.005 | 1× | - |
 | 9 | **Formula (ε=0.001)** | **0.619** | **131×** | 30s |
 | 9 | **Formula (ε→0)** | **0.658** | **139×** | 30s |
+| 11 | V-shape | 0.009 | 1× | - |
+| 11 | **Formula (ε=0.001)** | **0.843** | **91×** | ~12 min |
+| 11 | **Formula (ε→0)** | **0.901** | **97×** | ~12 min |
+| 13 | V-shape | 0.011 | 1× | - |
+| 13 | **Formula (ε=0.001)** | **1.072** | **97.5×** | ~5h |
+| 13 | **Formula (ε→0)** | **1.151** | **105×** | ~5h |
 
 The formula is not an approximation. It IS the optimum - the structure
 that DE was converging toward but never reached.
@@ -296,6 +302,8 @@ that DE was converging toward but never reached.
 | **Spatial γ formula (this work)** | - | **N=5** | **360×** |
 | **Spatial γ formula (this work)** | - | **N=7** | **180×** |
 | **Spatial γ formula (this work)** | - | **N=9** | **139×** |
+| **Spatial γ formula (this work)** | - | **N=11** | **91×** |
+| **Spatial γ formula (this work)** | - | **N=13** | **97.5×** |
 
 Nobody in the literature optimizes spatial dephasing profiles. We are the first.
 

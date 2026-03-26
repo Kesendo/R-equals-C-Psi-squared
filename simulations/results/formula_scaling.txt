@@ -7,7 +7,7 @@ N=5:  Formula(eps=0.001)=0.219  Formula(eps->0)=0.230  V-shape=0.000639  Uniform
 N=7:  Formula(eps=0.001)=0.408  Formula(eps->0)=0.434  V-shape=0.002412  Uniform=~0  Factor=180x
 N=9:  Formula(eps=0.001)=0.619  Formula(eps->0)=0.658  V-shape=0.005     Uniform=~0  Factor=139x
 N=11: Formula(eps=0.001)=0.843  Formula(eps->0)=0.901  V-shape=0.009     Uniform=0.000  Factor=91x
-N=13: Formula(eps=0.001)=1.072  V-shape=0.011  Factor=97.5x
+N=13: Formula(eps=0.001)=1.072  Formula(eps->0)=1.151  V-shape=0.011  Uniform=0.000  Factor=97.5x
 
 Full RESULT lines from this and previous sessions:
 N=11 Formula(eps=0.001):  RESULT SumMI=0.843331 PeakMI=0.043592 PeakT=3.00 CPsi01=0.762936 Purity=0.169397 SumMI5=0.601282
@@ -24,3 +24,28 @@ New runs below:
 RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
 
 --- N=13 Formula eps=0.0001 2026-03-25 17:25:32 ---
+RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi01=0.776469 Purity=0.131675 SumMI5=0.997861
+
+--- N=13 Formula eps=0.0001 (re-run PS) 2026-03-25 23:51:35 --- (killed, original run had result)
+
+N=13 Formula(eps=0.0001): RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi01=0.776469 Purity=0.131675 SumMI5=0.997861
+
+=== COMPLETE SUMMARY TABLE ===
+
+| N  | Formula(eps=0.001) | Formula(eps->0) | V-shape  | Uniform | Factor(F/V) |
+|----|-------------------|-----------------|----------|---------|-------------|
+| 2  | 0.0203            | -               | -        | -       | -           |
+| 3  | 0.0672            | -               | -        | -       | -           |
+| 4  | 0.1266            | -               | -        | -       | -           |
+| 5  | 0.219             | 0.230           | 0.000639 | ~0      | 360x        |
+| 6  | 0.2918            | -               | -        | -       | -           |
+| 7  | 0.408             | 0.434           | 0.002412 | ~0      | 180x        |
+| 8  | 0.5043            | -               | -        | -       | -           |
+| 9  | 0.619             | 0.658           | 0.005    | ~0      | 139x        |
+| 11 | 0.843             | 0.901           | 0.009    | 0.000   | 91x         |
+| 13 | 1.072             | 1.151           | 0.011    | 0.000   | 97.5x       |
+
+Wall-clock times (Home PC, Intel Core Ultra 9 285k, 128 GB RAM):
+N=11: ~12 min per evaluation (2048x2048 matrix)
+N=13: ~5h per evaluation (8192x8192 matrix)
+N=15: pending (32768x32768, estimated 10+ hours, ~64 GB RAM)

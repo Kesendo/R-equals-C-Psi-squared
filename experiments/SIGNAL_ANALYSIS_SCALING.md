@@ -248,10 +248,10 @@ The scaling data shows this propagation quantitatively:
 
 ### N = 13 result and outlook
 
-N = 13 measured: SumMI = 1.072. The quadratic fit predicted 1.20 (12% too high,
-up from 6% at N = 11). The growth continues but the fit overestimates,
-suggesting a slightly subquadratic correction at larger N. The fit was
-trained on N = 2–11; a refit including N = 13 is pending.
+N = 13 measured: SumMI = 1.072 (eps = 0.001), SumMI = 1.151 (eps → 0).
+The quadratic fit predicted 1.20 (12% too high, up from 6% at N = 11).
+The growth continues but the fit overestimates, suggesting a slightly
+subquadratic correction at larger N.
 
 N = 15 predicted (current fit): SumMI ≈ 1.56. Given the trend, the true
 value will likely be lower. Either way, growth continues well past SumMI = 1.
