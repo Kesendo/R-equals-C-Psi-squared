@@ -23,7 +23,7 @@ Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*,
 | 9 | 512x512 | ~200 MB | ~2 min |
 | 11 | 2048x2048 | ~4 GB | ~10 min |
 | 13 | 8192x8192 | ~16 GB | 1-6 hours (profile-dependent) |
-| 15 | 32768x32768 | ~72 GB | ~3-4 hours (estimated) |
+| 15 | 32768x32768 | ~72 GB | ~1 hour (measured, matrix-free) |
 
 N >= 14 automatically uses the **matrix-free path**: the Hamiltonian is never stored as a matrix. Instead, [H, rho] is computed element-wise via bit manipulation of the Heisenberg XX+YY+ZZ interaction. This reduces RAM from ~160 GB (dense) to ~72 GB (matrix-free) and bypasses the .NET/MKL 2 GB array marshalling limit.
 
