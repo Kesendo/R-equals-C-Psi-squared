@@ -387,6 +387,50 @@ The wave is the **spatial** signature (MI moving along the chain).
 
 Script: `dotnet run -c Release -- wave 7 0.344,0.001,0.001,0.001,0.001,0.001,0.001`
 
+### Hardware confirmation: IBM Torino (March 24, 2026)
+
+The sacrifice-zone experiment on IBM Torino (chain [Q85,Q86,Q87,Q88,Q94],
+no DD, 5 time points) shows the same pattern. Per-pair MI from hardware
+count data (8192 shots per circuit):
+
+```
+         Pair:  (0,1)   (1,2)   (2,3)   (3,4)
+t=1.0 us       .027    .019    .011    .017     edge dominant
+t=3.0 us       .006    .010    .015    .006     center dominant
+t=5.0 us       .007    .006    .016    .009     center holds
+```
+
+At t=1: pair (0,1) strongest (sacrifice edge). At t=3-5: pair (2,3)
+strongest (center). The MI migrates from the sacrifice end toward the
+center, matching the simulation pattern. Only 5 time points (coarse),
+but the direction of propagation is visible.
+
+This data was collected for the DD comparison experiment. The wave
+propagation was not the original goal but is present in the raw counts.
+
+Data: [sacrifice_zone_hw_no_dd](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_no_dd_20260324_191713.json)
+
+### Hardware confirmation: Impedance gradient (February 9, 2026)
+
+The impedance ||ZρZ - ρ|| was computed from 25 hardware-measured
+density matrices (IBM Torino, Qubit 52, state tomography, 8192 shots).
+
+The impedance VALUE falls monotonically with CΨ (confirming the
+simulation: no peak at ¼). The impedance GRADIENT peaks at the
+measurement point closest to the ¼ crossing:
+
+```
+t=74.6 us   CΨ=0.385   |d_imp/dt|=0.0046
+t=111.8 us  CΨ=0.261   |d_imp/dt|=0.0076  <-- MAXIMUM (distance from ¼: 0.011)
+t=149.1 us  CΨ=0.125   |d_imp/dt|=0.0071
+```
+
+The switch rate (not the absorption strength) peaks at the fold
+catastrophe. The outer mirror of the Fabry-Perot cavity is a switch.
+
+Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient.txt),
+[tomography_ibm_torino_20260209](../data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json)
+
 ---
 
 ## Pending

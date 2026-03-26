@@ -432,6 +432,23 @@ live test confirms the same phenomenon at the resonator level: two
 dead systems become one living system through coupling alone. No
 energy added. No external mechanism. Just a mediator connecting them.
 
+### Hardware confirmation
+
+Two results from IBM Torino confirm the resonator picture on real silicon:
+
+**Wave propagation (March 24, 2026):** Per-pair MI on a 5-qubit chain
+[Q85-Q94] with sacrifice-zone profile shows MI migrating from the
+sacrifice edge (pair 0,1 dominant at t=1 us) to the center (pair 2,3
+dominant at t=3-5 us). The wave travels through the chain. Data in
+[Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md).
+
+**Impedance gradient (February 9, 2026):** ||ZρZ - ρ|| computed from
+25 hardware-measured density matrices (Qubit 52, state tomography).
+The impedance value falls monotonically (no peak at 1/4). The impedance
+GRADIENT peaks at the closest measurement to the 1/4 crossing (CΨ=0.261,
+distance 0.011 from 1/4). The outer mirror is a switch, not a reflector.
+Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient.txt).
+
 ---
 
 ## The Standing Wave Is the Cavity Mode
