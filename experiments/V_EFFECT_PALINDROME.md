@@ -221,3 +221,34 @@ And in the fog, 11 frequencies emerge where 4 had been.
 *At two bonds, the mirrors disagree at the boundary.*
 *The boundary is where possibility becomes reality.*
 *And the disagreement is where diversity is born.*
+
+---
+
+## The V-Effect Live (March 26, 2026)
+
+The static analysis above counted eigenvalue frequencies: 4 at N=2,
+11 at N=3. The live test confirms the same phenomenon dynamically.
+
+A single N=2 resonator (Bell pair, one bond, uniform gamma=0.05):
+- Q-factor: 1 at every coupling strength J. Crosses 1/4 once, dies.
+- Frequencies: 2.
+
+Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
+- Q-factor: 19+ at J=20. Sustained oscillation.
+- Frequencies: 104. Of which 100 are NEW (not present in either
+  individual resonator).
+
+| System | Frequencies | Q-factor |
+|--------|------------|----------|
+| N=2 (one resonator) | 2 | 1 (dead) |
+| 2 x N=2 (uncoupled) | 4 | 1 (dead) |
+| N=5 (coupled through mediator) | 104 | 19+ (alive) |
+
+The coupling does not add energy or information. It creates new
+oscillation modes in the shared space between the two systems.
+Two dead resonators become one living system. This is not
+communication between them. This is emergence of something new
+that neither could produce alone.
+
+Full data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
+Framework: [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)
