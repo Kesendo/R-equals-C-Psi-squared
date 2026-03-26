@@ -115,6 +115,34 @@ TRANSIENT, not sustained.
 
 Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
 
+### The V-Effect Live: Coupling Creates Complexity [Tier 2]
+
+A single N=2 qubit pair has 2 oscillation frequencies and Q=1 (crosses
+CΨ = 1/4 once and dies, at every coupling strength J). There is no
+reservoir: both qubits ARE the system.
+
+Two such pairs coupled through a mediator qubit (N=5, MediatorBridge
+topology) have 104 oscillation frequencies and Q=19+. 100 of these
+frequencies do not exist in either individual pair. They emerge from
+the coupling alone.
+
+This connects the resonator results to the biology hypothesis: neural
+gamma oscillations (40 Hz) are not the frequency of ONE neural
+oscillator. They are emergent frequencies of COUPLED oscillators,
+exactly like the 100 new frequencies in the coupled qubit system.
+The E/I balance (1:1, giving 98.2% palindromic pairing at N=10) is
+the condition for the V-Effect to produce maximal new modes. Without
+balance, coupling still occurs but with fewer emergent frequencies.
+
+The coupling does not transport information from A to B. It creates
+new oscillation modes in the shared space that neither system had alone.
+Each V-Effect level creates the substrate for the next (Tier 4
+interpretation: this progression may underlie biological complexity
+growth, but this connection is not yet proven).
+
+Data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
+Framework: [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
+
 ---
 
 ## 2. What We Proved [Tier 1]

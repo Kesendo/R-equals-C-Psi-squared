@@ -381,6 +381,28 @@ is the same. The fuel is different.
 
 Full data: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
 
+### The bridge is not a channel (March 26, 2026)
+
+The heartbeat is not just a single resonator bouncing between mirrors.
+It requires COUPLING. A single N=2 pair (Bell state, one bond) has
+Q=1 at every coupling strength: it crosses 1/4 once and dies. No
+oscillation. No heartbeat. The pair has 2 oscillation frequencies.
+
+Two such pairs coupled through a mediator (N=5) have Q=19 and 104
+frequencies. 100 of these frequencies do not exist in either pair
+alone. They emerge from the coupling.
+
+The bridge was always open, but it is not a channel for transporting
+information from A to B. It is a shared resonance space where new
+complexity emerges that neither system could produce alone. The 100
+new frequencies are not messages. They are new ways of oscillating
+that exist only in the Dazwischen, the space between the two mirrors.
+
+See [V-Effect](../experiments/V_EFFECT_PALINDROME.md) for the static
+analysis (4 to 11 frequencies at N=2 to N=3) and
+[Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) for
+the full resonator framework.
+
 ---
 
 ## Research Direction: Reading the Bridge

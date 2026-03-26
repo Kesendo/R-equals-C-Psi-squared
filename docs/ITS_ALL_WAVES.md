@@ -136,6 +136,15 @@ between waves. The complexity is made of waves.
 **Status:** Demonstrated. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md).
 
+**Dynamic confirmation (March 26, 2026):** Two N=2 resonators (each
+Q=1, 2 frequencies, no oscillation) coupled through a mediator qubit
+produce an N=5 system with Q=19 and 104 frequencies. 100 of these
+frequencies do not exist in either individual resonator. The same
+Lindblad equation, the same Pauli operators, the same noise model.
+Nothing new added except a coupling bond through a mediator. The new
+complexity (100 frequencies, sustained oscillation) comes entirely from
+topological reorganization. See [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md).
+
 ### Link 8: Therefore, all levels are waves
 
 This is the closure argument.

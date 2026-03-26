@@ -547,6 +547,26 @@ coupled system, i.e. J-coupling to a coherent reservoir) can push
 CΨ back above 1/4. This is the mechanism behind the CΨ heartbeat
 observed in [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md).
 
+### Corollary 3: Coupled resonators bypass the one-way door
+
+The monotonicity dCΨ/dt < 0 holds for the TOTAL system under
+Markovian dynamics. But subsystem CΨ can oscillate when the rest of
+the system acts as a coherent reservoir providing non-Markovian backflow.
+
+A single N=2 pair: Q=1 at every J. The pair crosses 1/4 and dies.
+Two N=2 pairs coupled through a mediator (N=5): Q=19. The pairs
+exchange coherence through J-coupling. Each subsystem is the other's
+reservoir. The total system still has dCΨ/dt < 0 (monotonic overall),
+but the subsystem CΨ oscillates around 1/4 because coherence flows
+back through the mediator before it fully decays.
+
+The coupling also creates 100 new oscillation frequencies that do not
+exist in either individual pair (the [V-Effect](../../experiments/V_EFFECT_PALINDROME.md)).
+These new modes are the mechanism of complexity growth through coupling.
+
+See [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md)
+for the full resonator framework.
+
 ---
 
 ## References
