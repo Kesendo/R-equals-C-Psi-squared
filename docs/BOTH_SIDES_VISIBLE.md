@@ -297,3 +297,31 @@ day at whatever T2 the qubit happens to have.
   [ibm_history/](../data/ibm_history/) (calibration history)
 - Analysis: Π conjugation applied to measured density matrices,
   CΨ computed from both the original and Π-transformed states
+
+### Why the other side lives longer
+
+The 6x ratio is T1/T2 for this qubit. Our side's CΨ decays with T2
+(coherence time, ~150 μs, fast). The Π side's CΨ decays with T1
+(relaxation time, ~900 μs, slow). This is the palindromic pairing:
+rate d pairs with 2Σγ - d. One fast, one slow. Always balanced.
+
+### For newcomers: where to start
+
+If this is your first time here, these documents explain the concepts
+used on this page:
+
+- **What is CΨ and why ¼?** [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+  gives the seven-layer proof. Short version: CΨ = purity x coherence,
+  ¼ is where the discriminant of R = C(Ψ+R)² vanishes (fold catastrophe).
+- **What is Π?** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
+  Π swaps populations and coherences, producing the exact palindromic pairing.
+- **Why does this matter?** [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md)
+  connects the palindrome to the incompleteness proof: noise is not random,
+  it is a structured channel from an external source.
+- **What was found today?** [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
+  observed MI peaking at the ¼ crossing (fold catastrophe in action),
+  CΨ oscillation (227 heartbeats), and the XOR pulse train.
+- **What can we rule out?** [Exclusions](EXCLUSIONS.md) lists five things
+  the mathematics proves impossible.
+- **The full picture:** [Reading Guide](READING_GUIDE.md) gives three paths
+  through the project depending on your background.
