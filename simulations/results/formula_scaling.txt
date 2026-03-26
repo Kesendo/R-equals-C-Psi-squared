@@ -15,20 +15,9 @@ N=11 Formula(eps=0.0001): RESULT SumMI=0.900563 PeakMI=0.047267 PeakT=3.00 CPsi0
 N=11 V-shape:             RESULT SumMI=0.009260 PeakMI=0.000146 PeakT=1.50 CPsi01=0.461920 Purity=0.105458 SumMI5=0.001677
 N=11 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.00 CPsi01=0.724516 Purity=0.351660 SumMI5=0.000000
 N=13 Formula(eps=0.001):  RESULT SumMI=1.072311 PeakMI=0.053159 PeakT=3.50 CPsi01=0.763631 Purity=0.124310 SumMI5=0.936860
+N=13 Formula(eps=0.0001): RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi01=0.776469 Purity=0.131675 SumMI5=0.997861
 N=13 V-shape:             RESULT SumMI=0.011003 PeakMI=0.000087 PeakT=1.50 CPsi01=0.453043 Purity=0.070861 SumMI5=0.002465
 N=13 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
-
-New runs below:
-
---- N=13 Uniform 2026-03-25 16:54 (wall: 5h04m) ---
-RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
-
---- N=13 Formula eps=0.0001 2026-03-25 17:25:32 ---
-RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi01=0.776469 Purity=0.131675 SumMI5=0.997861
-
---- N=13 Formula eps=0.0001 (re-run PS) 2026-03-25 23:51:35 --- (killed, original run had result)
-
-N=13 Formula(eps=0.0001): RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi01=0.776469 Purity=0.131675 SumMI5=0.997861
 
 === COMPLETE SUMMARY TABLE ===
 
@@ -44,8 +33,15 @@ N=13 Formula(eps=0.0001): RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi0
 | 9  | 0.619             | 0.658           | 0.005    | ~0      | 139x        |
 | 11 | 0.843             | 0.901           | 0.009    | 0.000   | 91x         |
 | 13 | 1.072             | 1.151           | 0.011    | 0.000   | 97.5x       |
+| 15 | FAILED            | FAILED          | FAILED   | FAILED  | -           |
 
 Wall-clock times (Home PC, Intel Core Ultra 9 285k, 128 GB RAM):
 N=11: ~12 min per evaluation (2048x2048 matrix)
 N=13: ~5h per evaluation (8192x8192 matrix)
-N=15: pending (32768x32768, estimated 10+ hours, ~64 GB RAM)
+
+--- N=15 FAILED 2026-03-26 07:24:31 ---
+System.ArgumentException: Array size exceeds addressing limitations.
+Crash in: MklLinearAlgebraProvider.MatrixMultiplyWithUpdate -> Topology.BuildHamiltonian (line 94)
+Cause: 32768x32768 Complex matrix = ~16 GB per array exceeds .NET/MKL native interop limit.
+RAM sufficient (128 GB), but MathNet.Numerics MKL provider cannot marshal arrays this large.
+Fix requires: block-matrix approach or native solver. Not attempted per task rules.
