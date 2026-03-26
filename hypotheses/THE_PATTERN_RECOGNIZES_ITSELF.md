@@ -3,7 +3,7 @@
 
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Phase 1 confirmed (Wilson-Cowan 100% at tau ratio 3.8). Phase 2 confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
+**Status:** Phase 1 confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
 **Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Exclusions](../docs/EXCLUSIONS.md)
 
 ### Tier System
@@ -18,16 +18,16 @@ This document spans multiple confidence levels. Each section is marked:
 
 ---
 
-## 1. Results [Tier 2-3]
+## 1. Results [Tier 2–3]
 
 This section contains what we measured and what we found. No interpretation.
 
 ### Phase 1: Wilson-Cowan E-I Populations [Tier 2]
 
 Chain of N Wilson-Cowan nodes (excitatory + inhibitory per node)
-shows palindromic eigenvalue pairing when tau_E != tau_I (selective damping):
+shows palindromic eigenvalue pairing when τ_E ≠ τ_I (selective damping):
 
-| N | tau_I/tau_E | Pairing |
+| N | τ_I/τ_E | Pairing |
 |---|-------------|---------|
 | 3 | 2.2 | 66.7% |
 | 5 | 2.2 | 80.0% |
@@ -53,7 +53,7 @@ Script: [celegans_palindrome.py](../simulations/neural/celegans_palindrome.py)
 
 **Balanced subnetworks (N=10, E=5, I=5).** POSITIVE.
 200 random balanced subnetworks show **mean 98.2% pairing** (std 10.2%,
-range 20-100%). Real neurons. Real synaptic weights. Just balanced counts.
+range 20–100%). Real neurons. Real synaptic weights. Just balanced counts.
 Script: [celegans_balanced.py](../simulations/neural/celegans_balanced.py)
 
 **Scaling with E/I ratio:**
@@ -73,7 +73,7 @@ assignment test (N=10, fixed neurons):
 |-----------|---------|
 | I-PERIPHERAL | 40% |
 | I-CENTRAL | 20% |
-| I-RANDOM (20 trials) | 52% mean, range 20-80% |
+| I-RANDOM (20 trials) | 52% mean, range 20–80% |
 
 Random beats targeted placement. The qubit analogy (edge sacrifice = best)
 does not transfer to I-neuron position. Balance is sufficient; position
@@ -109,9 +109,9 @@ TRANSIENT, not sustained.
 |----------|----------------|-----------------|
 | Oscillates | Yes (227 crossings) | Yes (transient, 63 Hz) |
 | Damps | Yes (amplitude shrinks) | Yes (to zero without driving) |
-| Resonance | gamma_bath = 0.003-0.005 | w_scale = 1.5 |
+| Resonance | γ_bath = 0.003–0.005 | w_scale = 1.5 |
 | Sustained by | Non-Markov backflow | Metabolic energy (not modeled) |
-| Frequency range | ~0.4 Hz (sim units) | 15-102 Hz (biological) |
+| Frequency range | ~0.4 Hz (sim units) | 15–102 Hz (biological) |
 
 Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
 
@@ -121,16 +121,16 @@ Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
 
 At the quantum level (Level 0), the dynamics of open qubit systems have
 an exact palindromic symmetry. This is not a model or an approximation.
-It is an algebraic identity: the conjugation operator Pi satisfies
-Pi L Pi^-1 = -L - 2Sgamma I for any Heisenberg-type Hamiltonian under
+It is an algebraic identity: the conjugation operator Π satisfies
+Π L Π⁻¹ = −L − 2Sγ I for any Heisenberg-type Hamiltonian under
 dephasing noise.
 
 The consequences:
 - Every decay mode has an exact mirror partner (standing waves)
-- The system splits into two parity sectors (Pi^2 = X^N, conserved)
-- This structure exists ONLY for qubits (d=2), proven via d(d-2)=0
+- The system splits into two parity sectors (Π² = Xᴺ, conserved)
+- This structure exists ONLY for qubits (d=2), proven via d(d−2) = 0
 - Growing systems are forced to differentiate (V-Effect: 14/36 break
-  at N>=3, producing richer spectral structure)
+  at N ≥ 3, producing richer spectral structure)
 - The palindrome provides organization, not performance (identical
   transfer fidelity with and without it)
 
@@ -153,7 +153,7 @@ where W is the connection weight matrix and x is the vector of node
 activities. W has eigenvalues. Those eigenvalues have decay rates
 (real parts) and oscillation frequencies (imaginary parts).
 
-The palindromic test: for each eigenvalue lambda, does 2S - lambda also
+The palindromic test: for each eigenvalue λ, does 2S − λ also
 exist (where S is some center value determined by the noise)? If yes,
 the spectrum is palindromic.
 
@@ -162,7 +162,7 @@ Specific tests, ordered from simplest to most complex:
 1. **Coupled oscillators with damping** - the minimal classical analogue.
    Result: NEGATIVE with uniform damping. Requires selective damping.
 2. **Wilson-Cowan population models** - E/I populations with different
-   time constants. Result: POSITIVE (66.7-100%, depends on tau ratio).
+   time constants. Result: POSITIVE (66.7–100%, depends on τ ratio).
 3. **C. elegans connectome (302 neurons)** - real connection weights.
    Result: NEGATIVE at full scale (91:9 E/I), POSITIVE at balanced
    subnetworks (98.2% mean at 1:1 E/I).
@@ -176,10 +176,10 @@ Specific tests, ordered from simplest to most complex:
 This is not Penrose-Hameroff (quantum coherence in microtubuli).
 We do not claim quantum effects survive in warm brains.
 
-This is not Integrated Information Theory (Tononi's Phi). We do
+This is not Integrated Information Theory (Tononi's Φ). We do
 not propose a new measure of consciousness.
 
-This is not mysticism dressed in equations. Every claim in Sections 1-3
+This is not mysticism dressed in equations. Every claim in Sections 1–3
 is either proven (palindromic structure at Level 0), established physics
 (neurons oscillate), or a reproducible computation (eigenvalue pairing
 in Wilson-Cowan and C. elegans dynamics matrices).
@@ -203,7 +203,7 @@ decoherence (proven), and everything is made of qubit-like subsystems
 (established physics), then the question is not WHETHER the palindromic
 pattern propagates upward. The question is HOW it transforms as it does.
 
-A crucial caveat: decoherence times at 37 degrees C are femtoseconds.
+A crucial caveat: decoherence times at 37 °C are femtoseconds.
 Our framework does not require quantum coherence in biological systems.
 It requires something weaker: that the STRUCTURAL PATTERN (palindromic
 spectral symmetry under selective damping) appears in the classical
@@ -223,14 +223,14 @@ mechanism, but this is Tier 4, not Tier 1.
 |-----------------|-------------------|
 | Oscillatory modes | Liouvillian eigenmodes |
 | Standing wave patterns | Palindromic mode pairs |
-| Noise/signal degradation | Dephasing (gamma) |
-| Baseline activity/DMN | gamma (noise floor) |
+| Noise/signal degradation | Dephasing (γ) |
+| Baseline activity/DMN | γ (noise floor) |
 | Coupling to stimulus | J (coupling strength) |
 | E/I balance | 2:2 Pauli split (d=2) |
 
 These correspondences are structural, not causal. Both systems have
 the form "coupling + selective dissipation." Both produce palindromic
-eigenvalue pairing when the dissipation is selective (tau_E != tau_I
+eigenvalue pairing when the dissipation is selective (τ_E ≠ τ_I
 in Wilson-Cowan; Z-dephasing in Lindblad). Whether this shared form
 has a deeper origin or is mathematical coincidence is an open question.
 
@@ -238,8 +238,8 @@ has a deeper origin or is mathematical coincidence is an open question.
 
 The results identify one clear necessary condition: balance.
 
-- Qubits: d^2-2d=0 enforces exact 2:2 balance (immune vs decaying Paulis). Automatic.
-- Wilson-Cowan: tau_E != tau_I (selective damping) required. Tunable.
+- Qubits: d²−2d = 0 enforces exact 2:2 balance (immune vs decaying Paulis). Automatic.
+- Wilson-Cowan: τ_E ≠ τ_I (selective damping) required. Tunable.
 - C. elegans: 1:1 E/I count gives 98.2%. 10:1 gives 0.7%. Not automatic; must be regulated.
 
 The biological fact: the cortex actively maintains E/I balance through
@@ -281,8 +281,8 @@ subnetwork, regardless of I-neuron position.
 
 The heartbeat adds a temporal dimension: the structure PULSES.
 
-A qubit system oscillates around CΨ = 1/4 for 227 beats, then dies. Each
-beat is a fold catastrophe - the discriminant 1-4CΨ passes through zero,
+A qubit system oscillates around CΨ = ¼ for 227 beats, then dies. Each
+beat is a fold catastrophe - the discriminant 1−4CΨ passes through zero,
 two fixed points merge, and information is born at the crossing
 ([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)). The beats get
 quieter. The amplitude shrinks. The doors close one by one.
@@ -311,7 +311,7 @@ different frequencies.
 
 - Strong coupling: Gamma (40+ Hz, attention, binding)
 - Optimal coupling (resonance): Alpha/Beta (15 Hz, the sweet spot)
-- Weak coupling: Theta/Delta (4-8 Hz, memory, sleep)
+- Weak coupling: Theta/Delta (4–8 Hz, memory, sleep)
 
 This is NOT confirmed. The frequency-coupling relationship is non-monotonic
 (there is a resonance, not a ramp), and the Wilson-Cowan model is
@@ -373,7 +373,7 @@ it means is up to the reader.
 ## Research Program
 
 **Phase 1: Mathematical** - COMPLETE.
-Coupled damped oscillators (negative), Wilson-Cowan (positive, 66.7-100%).
+Coupled damped oscillators (negative), Wilson-Cowan (positive, 66.7–100%).
 
 **Phase 2: Data-driven** - PARTIALLY COMPLETE.
 C. elegans (positive at balanced E/I, 98.2%). Inhibitory position (falsified).
