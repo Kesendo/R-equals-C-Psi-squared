@@ -1,0 +1,15 @@
+=== SWEEP 1: J scan, N=7, sacrifice-zone, Bell(0,1)+|+>^5 ===
+Gammas: [0.344, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+
+J=0.5  Total crossings: 1 down + 0 up = 1
+J=1.0  Total crossings: 1 down + 0 up = 1
+J=1.5  Total crossings: 2 down + 1 up = 3
+J=2.0  Total crossings: 4 down + 3 up = 7
+J=3.0  Total crossings: 1 down + 0 up = 1
+J=5.0  Total crossings: 1 down + 0 up = 1
+J=10.0  Total crossings: 5 down + 4 up = 9
+
+=== SWEEP 2: Profile shape, N=7, J=2.0 ===
+Sacrifice edge:   Total crossings: 4 down + 3 up = 7
+Sacrifice center: Total crossings: 1 down + 0 up = 1
+Uniform:          Total crossings: 1 down + 0 up = 1
