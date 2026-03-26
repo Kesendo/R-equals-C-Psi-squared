@@ -669,19 +669,9 @@ void RunProfileEvaluation(string[] pArgs)
 
     int d = 1 << n;
 
-    // Heisenberg chain Hamiltonian (J=1.0, N-1 bonds)
+    // Heisenberg chain (J=1.0, N-1 bonds)
     var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
     var bonds = Topology.Chain(n, couplings);
-    var H = Topology.BuildHamiltonian(n, bonds);
-
-    // Initial state: |+>^N  (matches resonant_return.py Test 1 setup)
-    var psi = new Complex[d];
-    double psiNorm = 1.0 / Math.Sqrt(d);
-    for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
-    var rho0 = DensityMatrixTools.PureState(psi);
-
-    // Propagator with user-specified gamma profile
-    var prop = new LindbladPropagator(H, gammas, n);
 
     // Measure every 0.5 time units
     double mInterval = 0.5;
@@ -693,31 +683,85 @@ void RunProfileEvaluation(string[] pArgs)
     double cpsi01Best = 0, purBest = 0;
     double sumMI5 = 0;
 
-    prop.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+    if (n >= 14)
     {
-        // Sum-MI: sum of MI(k, k+1) for all adjacent pairs
-        double sumMI = 0;
-        for (int k = 0; k < n - 1; k++)
-            sumMI += DensityMatrixTools.MutualInformation(rho, n,
-                new[] { k }, new[] { k + 1 });
+        // Matrix-free path: no Hamiltonian matrix stored.
+        // Uses ~72 GB for N=15 instead of ~160 GB.
+        Console.Error.WriteLine($"Matrix-free path for N={n} (d={d})");
 
-        // MI(0, N-1)
-        double mi0N = DensityMatrixTools.MutualInformation(rho, n,
-            new[] { 0 }, new[] { n - 1 });
+        var mfH = new MatrixFreeHamiltonian(n, bonds);
 
-        if (sumMI > bestSumMI)
+        // Initial state: |+>^N as raw column-major Complex[]
+        var psi = new Complex[d];
+        double psiNorm = 1.0 / Math.Sqrt(d);
+        for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+        var rho0 = DensityMatrixToolsRaw.PureState(psi);
+        psi = null; // free psi early
+
+        var mfProp = new MatrixFreePropagator(mfH, gammas, n);
+
+        mfProp.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
         {
-            bestSumMI = sumMI;
-            bestT = t;
-            var rho01 = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, 1 });
-            var (cpsiVal, _, _) = DensityMatrixTools.ComputeCPsi(rho01);
-            cpsi01Best = cpsiVal;
-            purBest = DensityMatrixTools.Purity(rho);
-        }
+            double sumMI = 0;
+            for (int k = 0; k < n - 1; k++)
+                sumMI += DensityMatrixToolsRaw.MutualInformation(rho, d, n,
+                    new[] { k }, new[] { k + 1 });
 
-        if (mi0N > bestPeakMI) bestPeakMI = mi0N;
-        if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
-    });
+            double mi0N = DensityMatrixToolsRaw.MutualInformation(rho, d, n,
+                new[] { 0 }, new[] { n - 1 });
+
+            if (sumMI > bestSumMI)
+            {
+                bestSumMI = sumMI;
+                bestT = t;
+                var (cpsiVal, _, _) = DensityMatrixToolsRaw.ComputeCPsi01(rho, d, n);
+                cpsi01Best = cpsiVal;
+                purBest = DensityMatrixToolsRaw.Purity(rho, d * d);
+            }
+
+            if (mi0N > bestPeakMI) bestPeakMI = mi0N;
+            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+
+            Console.Error.Write($"\r  t={t:F1} SumMI={sumMI:F4}");
+        });
+        Console.Error.WriteLine();
+    }
+    else
+    {
+        // Dense path: MathNet matrices, for N <= 13
+        var H = Topology.BuildHamiltonian(n, bonds);
+
+        var psi = new Complex[d];
+        double psiNorm = 1.0 / Math.Sqrt(d);
+        for (int idx = 0; idx < d; idx++) psi[idx] = psiNorm;
+        var rho0 = DensityMatrixTools.PureState(psi);
+
+        var prop = new LindbladPropagator(H, gammas, n);
+
+        prop.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+        {
+            double sumMI = 0;
+            for (int k = 0; k < n - 1; k++)
+                sumMI += DensityMatrixTools.MutualInformation(rho, n,
+                    new[] { k }, new[] { k + 1 });
+
+            double mi0N = DensityMatrixTools.MutualInformation(rho, n,
+                new[] { 0 }, new[] { n - 1 });
+
+            if (sumMI > bestSumMI)
+            {
+                bestSumMI = sumMI;
+                bestT = t;
+                var rho01 = DensityMatrixTools.PartialTrace(rho, n, new[] { 0, 1 });
+                var (cpsiVal, _, _) = DensityMatrixTools.ComputeCPsi(rho01);
+                cpsi01Best = cpsiVal;
+                purBest = DensityMatrixTools.Purity(rho);
+            }
+
+            if (mi0N > bestPeakMI) bestPeakMI = mi0N;
+            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+        });
+    }
 
     // Output: single machine-parseable line
     Console.WriteLine(FormattableString.Invariant(
