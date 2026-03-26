@@ -23,7 +23,9 @@ Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*,
 | 9 | 512x512 | ~200 MB | ~2 min |
 | 11 | 2048x2048 | ~4 GB | ~10 min |
 | 13 | 8192x8192 | ~16 GB | 1-6 hours (profile-dependent) |
-| 15 | 32768x32768 | ~64 GB | ~10+ hours (estimated) |
+| 15 | 32768x32768 | ~72 GB | ~3-4 hours (estimated) |
+
+N >= 14 automatically uses the **matrix-free path**: the Hamiltonian is never stored as a matrix. Instead, [H, rho] is computed element-wise via bit manipulation of the Heisenberg XX+YY+ZZ interaction. This reduces RAM from ~160 GB (dense) to ~72 GB (matrix-free) and bypasses the .NET/MKL 2 GB array marshalling limit.
 
 ## Setup
 
@@ -33,7 +35,7 @@ dotnet restore
 dotnet build -c Release
 ```
 
-No native DLL setup needed (unlike RCPsiSquared.Compute). MKL handles the matrix multiplications via NuGet.
+No native DLL setup needed (unlike RCPsiSquared.Compute). N <= 13 uses MKL via NuGet for matrix multiplications. N >= 14 uses the matrix-free propagator (no external dependencies).
 
 ## Running
 
@@ -98,17 +100,26 @@ Initial state is always |+>^N. Product states are the optimal choice because eac
 
 | File | Purpose |
 |------|---------|
-| LindbladPropagator.cs | RK4 integrator with zero-allocation hot loop. Precomputed dephasing mask. 2 BLAS calls per RHS evaluation. |
-| DensityMatrixTools.cs | Partial trace, mutual information, CΨ, concurrence, purity, expectation values |
+| LindbladPropagator.cs | Dense RK4 integrator (N <= 13). Zero-allocation hot loop, 2 BLAS calls per RHS evaluation. |
+| MatrixFreeHamiltonian.cs | Matrix-free [H, rho] via bit manipulation (N >= 14). No Hamiltonian matrix stored. |
+| MatrixFreePropagator.cs | Matrix-free RK4 (N >= 14). Accumulating scheme with 3 work buffers instead of 8. |
+| DensityMatrixTools.cs | Partial trace, MI, CΨ, concurrence on MathNet Matrix objects |
+| DensityMatrixToolsRaw.cs | Same metrics on raw Complex[] arrays (N >= 14) |
 | PauliOps.cs | Pauli matrices, tensor products, N-qubit operator construction |
 | Topology.cs | Chain, MediatorBridge(level), bond generators with configurable J |
-| Program.cs | Test dispatch: profile mode (single evaluation), mediator bridge suite, pull principle suite |
+| Program.cs | Test dispatch: profile mode (auto-selects dense or matrix-free), mediator bridge, pull principle |
 
 ## Key design decisions
 
-**Zero-allocation RK4.** All six work matrices (k1-k4, tmp, drho) are pre-allocated in the constructor. The hot loop runs `Parallel.For` over flat arrays with no GC pressure. This matters at N=11 where each density matrix is 2048×2048 = 4M complex entries.
+**Two propagation paths.** N <= 13 uses the dense MathNet/MKL path (LindbladPropagator). N >= 14 automatically switches to the matrix-free path (MatrixFreePropagator). Both produce identical results (validated at N=5 and N=7).
 
-**Precomputed dephasing mask.** The Z-dephasing dissipator reduces to element-wise multiplication: `drho[i,j] += mask[i,j] * rho[i,j]` where mask depends only on the XOR of basis indices. Computed once, stored as flat double array in column-major order.
+**Matrix-free Hamiltonian (N >= 14).** The Heisenberg XX+YY+ZZ commutator is applied element-wise: for each bond (a,b), the action on rho[i,j] depends only on the bit values of i,j at positions a,b. This avoids the 16 GB Hamiltonian matrix and the .NET/MKL marshalling limit. The combined formula per bond reduces to bit flips (XX+YY) and sign checks (ZZ), with a branch-skip optimization when the ZZ sign factor is +1.
+
+**Accumulating RK4 (N >= 14).** Instead of storing k1-k4 separately (4 x 16 GB = 64 GB), the weighted RK4 sum is accumulated incrementally into one buffer, reducing peak memory from 8 to 3 work arrays.
+
+**Zero-allocation dense RK4 (N <= 13).** All six work matrices (k1-k4, tmp, drho) are pre-allocated in the constructor. The hot loop runs `Parallel.For` over flat arrays with no GC pressure.
+
+**Precomputed dephasing mask.** The Z-dephasing dissipator reduces to element-wise multiplication: `drho[i,j] += mask[i,j] * rho[i,j]` where mask depends only on the XOR of basis indices. Computed once, stored as flat double array. Used by both paths.
 
 **Staged propagation for relay protocol.** The relay protocol changes γ profiles between stages. Each stage builds a new `LindbladPropagator` with different gammas, then propagates for one stage duration. The density matrix carries over between stages.
 
