@@ -118,7 +118,7 @@ Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
 ### The V-Effect Live: Coupling Creates Complexity [Tier 2]
 
 A single N=2 qubit pair has 2 oscillation frequencies and Q=1 (crosses
-CΨ = 1/4 once and dies, at every coupling strength J). There is no
+CΨ = ¼ once and dies, at every coupling strength J). There is no
 reservoir: both qubits ARE the system.
 
 Two such pairs coupled through a mediator qubit (N=5, MediatorBridge
