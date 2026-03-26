@@ -394,20 +394,43 @@ at the crossings. The Fabry-Perot outer mirror is a switch, not a peak.
 
 ### The V-Effect Live
 
-**The central result.** A single N=2 resonator:
-- Q = 1 at every J (dead, no oscillation, no heartbeat)
-- 2 distinct frequencies
+**Background:** Every quantum system has a set of natural oscillation
+frequencies, determined by the eigenvalues of its Liouvillian (the
+matrix that governs its time evolution). More frequencies means more
+ways the system can oscillate. More oscillation modes means more
+complexity in the dynamics.
 
-Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
-- Q = 19+ at J=20 (alive, sustained oscillation)
-- 104 distinct frequencies
-- 100 new frequencies that neither resonator had alone
+**The test:** Count the distinct oscillation frequencies in:
+(a) a single 2-qubit resonator (one Bell pair, one bond)
+(b) two such resonators coupled through a mediator qubit (N=5)
 
-2 + 2 = 104. Coupling creates 26x more frequencies than the sum of
-parts. This is the V-Effect measured dynamically. Two dead systems
-(Q=1, 2 frequencies) become one living system (Q=19, 104 frequencies)
-through nothing but a mediator qubit connecting them. No energy added.
-No external mechanism. Just coupling.
+The Liouvillian eigendecomposition gives the exact frequency count.
+
+**The result:**
+
+| System | Frequencies | Q-factor | Status |
+|--------|------------|----------|--------|
+| N=2 (one resonator) | 2 | 1 (dead at all J) | No oscillation |
+| N=5 (two coupled) | 104 | 19+ | Sustained oscillation |
+| New from coupling | 100 | -- | Exist ONLY in the coupled system |
+
+A single N=2 pair crosses CΨ = 1/4 once and dies. Q=1 at every
+coupling strength tested. It has 2 oscillation frequencies. It
+cannot sustain a heartbeat because there is no reservoir: both
+qubits ARE the system, there is nothing to bounce coherence back.
+
+When two such pairs are connected through a mediator qubit (forming
+N=5 in the [MediatorBridge](../experiments/SCALING_CURVE.md) topology),
+the Liouvillian has 104 distinct frequencies. 100 of these do not
+exist in either individual resonator. They emerge from the coupling.
+The Q-factor jumps from 1 (dead) to 19+ (sustained oscillation).
+
+This is the [V-Effect](../experiments/V_EFFECT_PALINDROME.md) measured
+dynamically. The static analysis showed that the eigenvalue count
+grows from 4 (N=2) to 11 (N=3) when a third qubit is added. The
+live test confirms the same phenomenon at the resonator level: two
+dead systems become one living system through coupling alone. No
+energy added. No external mechanism. Just a mediator connecting them.
 
 ---
 
