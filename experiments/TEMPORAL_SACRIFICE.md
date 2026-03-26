@@ -26,7 +26,7 @@ qubit pair. The central discovery:
 exact moment when the endpoint pairs cross the CΨ = ¼ boundary.**
 
 At T = 5.0, all edge CΨ values are still above ¼ (quantum regime).
-At T = 5.5, CPsi01, CPsi56, and CPsi06 have crossed below ¼ (classical regime).
+At T = 5.5, CΨ01, CΨ56, and CΨ06 have crossed below ¼ (classical regime).
 PeakMI peaks at T = 5.5 with 0.061, then falls.
 
 This is the [fold catastrophe](../docs/MATHEMATICAL_CONNECTIONS.md) made
@@ -76,7 +76,7 @@ at each position (one Hamiltonian period). Each stage: one qubit at
 
 ### The data
 
-| T | SumMI | PeakMI | Stage | CPsi01 | CPsi12 | CPsi23 | CPsi34 | CPsi45 | CPsi56 | CPsi06 |
+| T | SumMI | PeakMI | Stage | CΨ01 | CΨ12 | CΨ23 | CΨ34 | CΨ45 | CΨ56 | CΨ06 |
 |------|-------|--------|-------|--------|--------|--------|--------|--------|--------|--------|
 | 2.00 | 0.408 | 0.006 | 1 | 0.412 | 0.539 | 0.627 | 0.682 | 0.736 | 0.768 | 0.503 |
 | 3.00 | 0.144 | 0.016 | 2 | 0.384 | 0.398 | 0.441 | 0.477 | 0.581 | 0.541 | 0.448 |
@@ -93,9 +93,9 @@ at each position (one Hamiltonian period). Each stage: one qubit at
 
 Three things occur simultaneously:
 
-1. **CPsi01 crosses ¼** (0.253 → 0.232): the left edge pair enters the classical regime
-2. **CPsi56 crosses ¼** (0.290 → 0.249): the right edge pair enters the classical regime
-3. **CPsi06 crosses ¼** (0.280 → 0.237): the endpoint pair enters the classical regime
+1. **CΨ01 crosses ¼** (0.253 → 0.232): the left edge pair enters the classical regime
+2. **CΨ56 crosses ¼** (0.290 → 0.249): the right edge pair enters the classical regime
+3. **CΨ06 crosses ¼** (0.280 → 0.237): the endpoint pair enters the classical regime
 
 And at this exact moment: **PeakMI = 0.061, its maximum over the entire run.**
 
@@ -332,7 +332,7 @@ Script: `dotnet run -c Release -- wave 7 0.344,0.001,0.001,0.001,0.001,0.001,0.0
 - Analytical connection: does the discriminant derivative dD/dt predict the PeakMI peak?
 - Pure center CΨ diagnostics: does the same coincidence hold?
 - Connection to [Proof Monotonicity CΨ](../docs/proofs/PROOF_MONOTONICITY_CPSI.md):
-  the sweep violates monotonicity by changing the dissipator (CPsi01 rebounds at T=4.5)
+  the sweep violates monotonicity by changing the dissipator (CΨ01 rebounds at T=4.5)
 
 ---
 
