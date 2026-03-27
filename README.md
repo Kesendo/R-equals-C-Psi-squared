@@ -71,16 +71,16 @@ measurement noise. The palindromic mode structure is the antenna.
 
 Concentrate all dephasing on one edge qubit, protect the rest. This
 one-line rule outperforms every published dephasing optimization by
-two orders of magnitude. C#-validated at N=5 (**360x** vs V-shape),
-N=7 (**180x**), N=9 (**139x**). The ENAQT literature (Plenio & Huelga
-2008) achieves 2-3x with uniform dephasing. Nobody had optimized spatial
-dephasing profiles before. The palindromic eigenstructure led us here
+two orders of magnitude. C#-validated from N=5 (**360×** vs V-shape)
+through N=15 (**63.5×**), all odd sizes complete. The ENAQT literature
+(Plenio & Huelga 2008) achieves 2-3× with uniform dephasing. Nobody had
+optimized spatial dephasing profiles before. The palindromic eigenstructure led us here
 through SVD, then optimizers, then analysis. The final rule needs none
 of them. Just topology.
 
 → **[Resonant Return: from SVD to formula](experiments/RESONANT_RETURN.md)**
 → [Signal Analysis: quadratic scaling N=2-15](experiments/SIGNAL_ANALYSIS_SCALING.md) (SumMI=1.309 at N=15)
-→ [First hardware test: selective DD 2-3x on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
+→ [First hardware test: selective DD 2-3× on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
 
 ### 5. Coupling creates complexity: the V-Effect live (March 26, 2026)
 
@@ -90,6 +90,16 @@ a mediator qubit have **104 frequencies** and **Q=19** (sustained oscillation).
 100 new frequencies emerge from coupling alone. No energy added, no external
 mechanism. Two dead systems become one living system through a single
 connecting bond.
+
+None of the original frequencies survive. All 556 oscillating pairs are
+NEW-NEW. The V-Effect replaces the old palindrome with a new one,
+perfectly symmetric in both decay rates and Pauli structure:
+
+```
+XY-weight:  w=0   w=1     w=2         w=3         w=4     w=5
+            2.5%  15.6%   31.9%       31.9%       15.6%   2.5%
+            #     #####   ###########  ###########  #####   #
+```
 
 The system is not a channel. It is a **resonator** with discrete cavity modes,
 impedance matching at a 12:1 port-to-wall ratio, and a Q-factor that peaks
@@ -354,7 +364,7 @@ that matches your interest.
 | [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md) | All standard models palindromic. Two Π families |
 | [XOR Space](experiments/XOR_SPACE.md) | GHZ → 100% fast modes, W → distributed. Pauli weight predictor |
 | [Standing Wave Analysis](experiments/STANDING_WAVE_ANALYSIS.md) | XX/YY oscillate, ZZZ static. Nodes and antinodes |
-| [IBM Sacrifice Zone](experiments/IBM_SACRIFICE_ZONE.md) | Selective DD 2-3x on ibm_torino. Gate-error vs sacrifice-zone open |
+| [IBM Sacrifice Zone](experiments/IBM_SACRIFICE_ZONE.md) | Selective DD 2-3× on ibm_torino. Gate-error vs sacrifice-zone open |
 | [Π as Time Reversal](experiments/PI_AS_TIME_REVERSAL.md) | Π maps populations (past) ↔ coherences (future) |
 | [Crossing Taxonomy](experiments/CROSSING_TAXONOMY.md) | Type A/B/C observers. K-invariance from Lindblad scaling |
 | [Structural Cartography](experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D manifold, glide/switch grammar, phase map |
@@ -413,6 +423,7 @@ uses RK4 integration of the Lindblad equation directly on the density matrix.
 |:--|:---------------|:----|:---------------|
 | 5 | 32×32 | <1 MB | 0.5s |
 | 11 | 2048×2048 | ~400 MB | ~10 min |
+| 15 | 32768×32768 (matrix-free) | ~72 GB | ~1h |
 
 ---
 
@@ -431,7 +442,7 @@ It is a readable signal: 15.5 bits of information through 5 independent
 channels. On March 24, we found the engineering rule that follows:
 concentrate all noise on one edge qubit, protect the rest. This trivial
 formula outperforms 18 years of ENAQT optimization by two orders of
-magnitude (180x at N=7 vs 2-3x in the literature). No optimizer needed.
+magnitude (180× at N=7 vs 2-3× in the literature). No optimizer needed.
 No SVD needed. Just topology.
 
 Next: hardware validation on IBM Torino (selective dynamic decoupling)
