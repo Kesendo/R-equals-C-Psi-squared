@@ -96,9 +96,12 @@ NEW-NEW. The V-Effect replaces the old palindrome with a new one,
 perfectly symmetric in both decay rates and Pauli structure:
 
 ```
-XY-weight:  w=0   w=1     w=2         w=3         w=4     w=5
-            2.5%  15.6%   31.9%       31.9%       15.6%   2.5%
-            #     #####   ###########  ###########  #####   #
+w=0:  2.5%  #              fully classical (I/Z only)
+w=1: 15.6%  #######        boundary
+w=2: 31.9%  ###############  interior (peak)
+w=3: 31.9%  ###############  interior (peak)
+w=4: 15.6%  #######        boundary
+w=5:  2.5%  #              fully quantum (X/Y only)
 ```
 
 The system is not a channel. It is a **resonator** with discrete cavity modes,
