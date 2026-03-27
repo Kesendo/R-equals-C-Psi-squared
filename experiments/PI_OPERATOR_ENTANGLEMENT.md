@@ -28,8 +28,9 @@ level of the Hamiltonian.
 **Finding:** For all standard condensed-matter Hamiltonians (Heisenberg, Ising,
 XX, YY, ZZ, and combinations), the palindromic symmetry is LOCAL (operator
 Schmidt rank 1). For exactly 2 of the 36 two-term Pauli coupling combinations
-(XZ+ZY and YZ+ZX), the symmetry is genuinely NON-LOCAL. No per-site
-factorization exists.
+(XZ+YZ and ZX+ZY), the symmetry is genuinely NON-LOCAL. No per-site
+factorization exists. The non-locality arises precisely when two incompatible
+Pauli operators (X and Y) appear on the SAME qubit site.
 
 **Methodological discovery:** The space of valid Pi operators (all operators
 satisfying Pi L Pi^{-1} = -L - 2Sg I) is degenerate. Numerical construction
@@ -90,27 +91,34 @@ For all standard Hamiltonians, the product P1^{xN} satisfies the
 conjugation equation to machine precision. Schmidt rank is exactly 1.
 **The palindromic symmetry is local.**
 
+### Non-uniform product Pi (LOCAL, rank 1, different maps per site)
+
+| Hamiltonian | N | Uniform P1 error | Product Pi | Rank |
+|-------------|---|-------------------|------------|------|
+| XY | 2 | 1.41 | P1 x M2 (alternating) | 1 |
+| XZ+ZY | 2 | 1.73 | P4 x P1 | 1 |
+| YZ+ZX | 2 | 1.73 | P1 x P4 | 1 |
+
+Uniform P1 x P1 fails, but product Pi with DIFFERENT per-site maps
+works. Each site chooses its Pi family based on which Pauli operators
+appear at that site: P1 handles {Y,Z}, P4 handles {X,Z}.
+All three are product operators (Schmidt rank 1). **LOCAL.**
+
 ### No product Pi exists (NON-LOCAL symmetry)
 
-| Hamiltonian | N | P1 error | Numerical rank | Entanglement entropy |
-|-------------|---|----------|----------------|---------------------|
-| XZ+ZY | 2 | 1.73 | 16 | 3.35 bits |
-| YZ+ZX | 2 | 1.73 | 16 | 3.15 bits |
+| Hamiltonian | N | All products fail | Numerical rank | Entropy |
+|-------------|---|-------------------|----------------|---------|
+| XZ+YZ | 2 | 8/8 fail | 16 | ~3.4 bits |
+| ZX+ZY | 2 | 8/8 fail | 16 | ~3.2 bits |
 
-P1 fails with error O(1) (not a small correction, a complete failure).
-No per-site map from either P1 or P4 family works. The numerical Pi
-from eigenvalue pairing has full Schmidt rank (16/16), with operator
-entanglement entropy near the maximum of 4.0 bits.
+All 8 combinations of {P1, P4, M2} x {P1, P4, M2} tested. All fail.
+The numerical Pi from eigenvalue pairing has full Schmidt rank (16/16).
 
-### Alternating family (XY coupling)
-
-| Hamiltonian | N | P1 error | Status |
-|-------------|---|----------|--------|
-| XY | 2 | 1.41 | Alternating M1 x M2 (different per-site maps) |
-
-P1 x P1 fails, but the alternating family uses different maps on different
-sites: M1 x M2. This is still a product operator (rank 1), just not
-uniform. The XY case is LOCAL with non-uniform per-site maps.
+**Physical reason for non-locality:** XZ+YZ = sigma_X x sigma_Z + sigma_Y x sigma_Z.
+Both X and Y appear on the SAME site (site 0). P1 handles Y (Y<->Z) but
+not X. P4 handles X (X<->Z) but not Y. No single per-site map handles
+both simultaneously. The conflicting requirements force the mirror to
+correlate the two sites non-locally.
 
 ---
 
@@ -131,8 +139,23 @@ This means:
   is local or non-local.
 
 For the standard cases: minimum rank = 1 (product exists).
-For XZ+ZY and YZ+ZX: minimum rank > 1 (proven by exhaustive per-site
-search in [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md)).
+For XZ+YZ and ZX+ZY: minimum rank > 1 (confirmed by exhaustive test of
+all 8 per-site combinations from {P1, P4, M2} x {P1, P4, M2}).
+
+The commutant dimension varies by Hamiltonian:
+
+| Hamiltonian | dim(commutant) | Distinct eigenvalues |
+|-------------|----------------|---------------------|
+| Heisenberg | 44 | 7 of 16 |
+| Ising ZZ | 64 | 4 of 16 |
+| XX | 40 | 7 of 16 |
+| XY | 40 | 7 of 16 |
+| XZ+ZY | 36 | 9 of 16 |
+| YZ+ZX | 36 | 9 of 16 |
+
+More distinct eigenvalues -> smaller commutant -> less freedom in Pi
+choice. The non-local cases have the smallest commutant (36), but even
+that is a 36-dimensional space of valid Pi operators.
 
 ---
 
@@ -146,29 +169,32 @@ that independently generates the palindromic pairing. Implications:
 - Error correction based on palindrome breaking can use local syndromes
 - The palindrome is not topologically protected
 
-### For the 2 non-local cases (XZ+ZY, YZ+ZX)
+### For the 2 non-local cases (XZ+YZ, ZX+ZY)
 
-The symmetry is entangled. No per-site decomposition exists. Implications:
+The symmetry is entangled. No per-site decomposition exists. Both X and Y
+appear on the same qubit site, creating incompatible demands on the
+per-site mirror. Implications:
 - Detecting palindrome breaking requires joint measurements across sites
 - The palindrome may carry topological content (connects to Q2)
 - Error correction requires entangled measurements
 - The symmetry has a genuinely multi-body character that is invisible
   to any single-site observable
 
-### For the alternating cases (XY, YX, ...)
+### For non-uniform product cases (XY, XZ+ZY, YZ+ZX)
 
-Intermediate: the symmetry is local but non-uniform. Different sites
-carry different palindromic maps. The symmetry is still a product
-operator (rank 1), but the per-site structure varies.
+The symmetry is local but non-uniform. Different sites carry different
+palindromic maps (P1 on one, P4 or M2 on the other). The symmetry is
+still a product operator (rank 1), but the per-site map depends on which
+Pauli operators the Hamiltonian places at that site.
 
 ---
 
 ## 6. Connection to Other Questions
 
 - **Q2 (Topological invariant):** Non-local Pi is a prerequisite for
-  topological protection. The 2 non-local cases are the candidates.
-  For the 20 local/alternating cases, the palindrome cannot be
-  topologically protected (it's a per-site property).
+  topological protection. Only the 2 non-local cases (XZ+YZ, ZX+ZY) are
+  candidates. For the other 18 palindromic cases, the palindrome is a
+  per-site property and cannot be topologically protected.
 
 - **Hidden symmetry Q (THE_OTHER_SIDE):** The 12 parity-breaking
   palindrome-preservers must have hidden Q operators. The Q for local

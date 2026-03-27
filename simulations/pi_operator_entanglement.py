@@ -270,6 +270,72 @@ def analyze_case(name, N, terms, topology='chain', J=1.0, gamma=0.05):
     return {'rank': rank, 'S': S, 'Pi': Pi}
 
 
+def build_single_site_map(pi_perm, pi_sign):
+    """Build the 4x4 vec-basis superoperator for one per-site Pauli map."""
+    PAULI_MATS = [I2, sx, sy, sz]
+    M_vec = np.zeros((4, 4), dtype=complex)
+    for col_idx in range(4):
+        i, j = col_idx // 2, col_idx % 2
+        result = np.zeros((2, 2), dtype=complex)
+        for a in range(4):
+            coeff = PAULI_MATS[a][j, i]
+            result += pi_sign[a] * coeff * 0.5 * PAULI_MATS[pi_perm[a]]
+        for row_idx in range(4):
+            k, l = row_idx // 2, row_idx % 2
+            M_vec[row_idx, col_idx] = result[k, l]
+    return M_vec
+
+
+def grouped_to_standard_perm(N):
+    """Build permutation matrix P: grouped vec -> standard vec for N qubits."""
+    d = 2**N
+    d2 = d * d
+    perm_to_std = np.zeros(d2, dtype=int)
+    for m in range(d2):
+        alphas = []
+        temp = m
+        for _ in range(N):
+            alphas.append(temp % 4)
+            temp //= 4
+        alphas.reverse()
+        i_bits = [a // 2 for a in alphas]
+        j_bits = [a % 2 for a in alphas]
+        i_val = sum(b * (2**(N - 1 - k)) for k, b in enumerate(i_bits))
+        j_val = sum(b * (2**(N - 1 - k)) for k, b in enumerate(j_bits))
+        perm_to_std[m] = d * i_val + j_val
+    P = np.zeros((d2, d2), dtype=complex)
+    for m_idx in range(d2):
+        P[perm_to_std[m_idx], m_idx] = 1.0
+    return P
+
+
+def build_analytical_pi_multi(N, site_maps):
+    """Build Pi from per-site maps (may differ per site) in standard vec basis.
+
+    site_maps: list of N (perm, sign) tuples, one per site.
+    """
+    M_vecs = [build_single_site_map(p, s) for p, s in site_maps]
+    Pi_grouped = M_vecs[0].copy()
+    for m in M_vecs[1:]:
+        Pi_grouped = np.kron(Pi_grouped, m)
+    P = grouped_to_standard_perm(N)
+    return P @ Pi_grouped @ P.conj().T
+
+
+def commutant_dimension(L, tol=1e-8):
+    """Dimension of {S : [S, L] = 0} = kernel of the adjoint map ad_L.
+
+    ad_L(S) = LS - SL. Vectorize: ad_L = L (x) I - I (x) L^T.
+    dim(ker(ad_L)) = number of singular values below tol.
+    """
+    d2 = L.shape[0]
+    eye = np.eye(d2, dtype=complex)
+    ad_L = np.kron(L, eye) - np.kron(eye, L.T)
+    sv = np.linalg.svd(ad_L, compute_uv=False)
+    dim = np.sum(sv < tol * sv[0]) if sv[0] > 0 else d2 * d2
+    return dim, sv
+
+
 def build_analytical_pi_product(N, pi_perm, pi_sign):
     """Build analytical product Pi = M_1 x M_2 x ... x M_N in standard vec basis.
 
@@ -482,6 +548,172 @@ if __name__ == '__main__':
         pi_perm=P1_PERM, pi_sign=P1_SIGN,
         topology='chain',
     )
+
+    # ==================================================================
+    # Q3.3: Alternating Pi for XY coupling
+    # ==================================================================
+    print("\n" + "=" * 60)
+    print("Q3.3: ALTERNATING Pi FOR XY COUPLING")
+    print("=" * 60)
+
+    # M2 from algebraic_pi_search: I->+1Y, X->-iZ, Y->+1I, Z->-iX
+    M2_PERM = {0: 2, 1: 3, 2: 0, 3: 1}   # I->Y, X->Z, Y->I, Z->X
+    M2_SIGN = {0: 1, 1: -1j, 2: 1, 3: -1j}
+
+    # N=2 XY: site 0 = P1, site 1 = M2
+    print("\n  N=2 XY + Z-deph [alternating P1 x M2]:")
+    H = build_hamiltonian(2, [(sx, sy)], J=1.0)
+    c_ops, sum_gamma = build_z_dephasing(2, 0.05)
+    L = build_liouvillian(H, c_ops)
+    Pi_alt = build_analytical_pi_multi(2, [
+        (P1_PERM, P1_SIGN),
+        (M2_PERM, M2_SIGN),
+    ])
+    err = verify_pi(Pi_alt, L, sum_gamma)
+    print(f"    Conjugation equation error: {err:.2e}")
+    if err < 1e-6:
+        perm = build_bipartition_perm_2q()
+        S = operator_schmidt(Pi_alt, perm, 4, 4)
+        rank = np.sum(S > 1e-10 * S[0])
+        print(f"    Schmidt rank: {rank}")
+        print(f"    >>> VERIFIED: alternating Pi is {'PRODUCT (LOCAL)' if rank == 1 else f'rank {rank}'}")
+    else:
+        print(f"    FAILED (error {err:.2e})")
+
+    # Also test M2 x P1 (reversed)
+    print("\n  N=2 XY + Z-deph [alternating M2 x P1]:")
+    Pi_alt2 = build_analytical_pi_multi(2, [
+        (M2_PERM, M2_SIGN),
+        (P1_PERM, P1_SIGN),
+    ])
+    err2 = verify_pi(Pi_alt2, L, sum_gamma)
+    print(f"    Conjugation equation error: {err2:.2e}")
+    if err2 < 1e-6:
+        S2 = operator_schmidt(Pi_alt2, perm, 4, 4)
+        rank2 = np.sum(S2 > 1e-10 * S2[0])
+        print(f"    Schmidt rank: {rank2}")
+        print(f"    >>> VERIFIED: reversed alternating Pi is {'PRODUCT (LOCAL)' if rank2 == 1 else f'rank {rank2}'}")
+    else:
+        print(f"    FAILED (error {err2:.2e})")
+
+    # Also test P4 for XZ+ZY (should also fail)
+    print("\n  N=2 XZ+ZY + Z-deph [test P4 - should also fail]:")
+    H_xz_zy = build_hamiltonian(2, [(sx, sz), (sz, sy)], J=1.0)
+    L_xz_zy = build_liouvillian(H_xz_zy, c_ops)
+    Pi_p4 = build_analytical_pi_multi(2, [
+        (P4_PERM, P4_SIGN),
+        (P4_PERM, P4_SIGN),
+    ])
+    err_p4 = verify_pi(Pi_p4, L_xz_zy, sum_gamma)
+    print(f"    P4 x P4 error: {err_p4:.2e} {'FAIL' if err_p4 > 1e-6 else 'OK'}")
+    Pi_p1p4 = build_analytical_pi_multi(2, [(P1_PERM, P1_SIGN), (P4_PERM, P4_SIGN)])
+    err_p1p4 = verify_pi(Pi_p1p4, L_xz_zy, sum_gamma)
+    print(f"    P1 x P4 error: {err_p1p4:.2e} {'FAIL' if err_p1p4 > 1e-6 else 'OK'}")
+    Pi_p4p1 = build_analytical_pi_multi(2, [(P4_PERM, P4_SIGN), (P1_PERM, P1_SIGN)])
+    err_p4p1 = verify_pi(Pi_p4p1, L_xz_zy, sum_gamma)
+    print(f"    P4 x P1 error: {err_p4p1:.2e} {'FAIL' if err_p4p1 > 1e-6 else 'OK'}")
+    Pi_m2m2 = build_analytical_pi_multi(2, [(M2_PERM, M2_SIGN), (M2_PERM, M2_SIGN)])
+    err_m2m2 = verify_pi(Pi_m2m2, L_xz_zy, sum_gamma)
+    print(f"    M2 x M2 error: {err_m2m2:.2e} {'FAIL' if err_m2m2 > 1e-6 else 'OK'}")
+    if err_p4p1 < 1e-6:
+        S_p4p1 = operator_schmidt(Pi_p4p1, perm, 4, 4)
+        rank_p4p1 = np.sum(S_p4p1 > 1e-10 * S_p4p1[0])
+        print(f"    !!! SURPRISE: P4 x P1 WORKS for XZ+ZY!")
+        print(f"    !!! Schmidt rank: {rank_p4p1}")
+        print(f"    !!! XZ+ZY is LOCAL with non-uniform per-site maps!")
+    else:
+        print(f"    >>> ALL per-site products fail for XZ+ZY: genuinely non-local")
+
+    # Test YZ+ZX with all per-site combinations
+    print(f"\n  N=2 YZ+ZX + Z-deph [testing all per-site combos]:")
+    H_yz_zx = build_hamiltonian(2, [(sy, sz), (sz, sx)], J=1.0)
+    L_yz_zx = build_liouvillian(H_yz_zx, c_ops)
+    combos = [
+        ("P1 x P1", P1_PERM, P1_SIGN, P1_PERM, P1_SIGN),
+        ("P4 x P4", P4_PERM, P4_SIGN, P4_PERM, P4_SIGN),
+        ("P1 x P4", P1_PERM, P1_SIGN, P4_PERM, P4_SIGN),
+        ("P4 x P1", P4_PERM, P4_SIGN, P1_PERM, P1_SIGN),
+        ("P1 x M2", P1_PERM, P1_SIGN, M2_PERM, M2_SIGN),
+        ("M2 x P1", M2_PERM, M2_SIGN, P1_PERM, P1_SIGN),
+        ("P4 x M2", P4_PERM, P4_SIGN, M2_PERM, M2_SIGN),
+        ("M2 x P4", M2_PERM, M2_SIGN, P4_PERM, P4_SIGN),
+    ]
+    found_product = False
+    for label, p1, s1, p2, s2 in combos:
+        Pi_test = build_analytical_pi_multi(2, [(p1, s1), (p2, s2)])
+        err_test = verify_pi(Pi_test, L_yz_zx, sum_gamma)
+        status = "OK" if err_test < 1e-6 else "FAIL"
+        print(f"    {label:10s} error: {err_test:.2e}  {status}")
+        if err_test < 1e-6:
+            S_test = operator_schmidt(Pi_test, perm, 4, 4)
+            rank_test = np.sum(S_test > 1e-10 * S_test[0])
+            print(f"               Schmidt rank: {rank_test} -> {'LOCAL' if rank_test == 1 else 'ENTANGLED'}")
+            found_product = True
+    if found_product:
+        print(f"    >>> SURPRISE: YZ+ZX also has a product Pi!")
+    else:
+        print(f"    >>> YZ+ZX: no product found among tested combinations")
+
+    # ==================================================================
+    # CRITICAL CHECK: Test the ACTUAL cases from NON_HEISENBERG_PALINDROME
+    # XZ+YZ = sigma_X x sigma_Z + sigma_Y x sigma_Z  (X and Y on SAME site)
+    # ZX+ZY = sigma_Z x sigma_X + sigma_Z x sigma_Y  (X and Y on SAME site)
+    # These are DIFFERENT from XZ+ZY and YZ+ZX tested above!
+    # ==================================================================
+    print(f"\n  --- CRITICAL: Testing actual NON_HEISENBERG cases ---")
+
+    for h_name, h_terms in [
+        ("XZ+YZ", [(sx, sz), (sy, sz)]),
+        ("ZX+ZY", [(sz, sx), (sz, sy)]),
+    ]:
+        print(f"\n  N=2 {h_name} + Z-deph [exhaustive per-site test]:")
+        H_test = build_hamiltonian(2, h_terms, J=1.0)
+        L_test = build_liouvillian(H_test, c_ops)
+        found = False
+        for label, p1, s1, p2, s2 in combos:
+            Pi_t = build_analytical_pi_multi(2, [(p1, s1), (p2, s2)])
+            err_t = verify_pi(Pi_t, L_test, sum_gamma)
+            status = "OK" if err_t < 1e-6 else ""
+            if err_t < 1e-6:
+                S_t = operator_schmidt(Pi_t, perm, 4, 4)
+                r_t = np.sum(S_t > 1e-10 * S_t[0])
+                print(f"    {label:10s} error: {err_t:.2e}  OK  rank={r_t}")
+                found = True
+            # Only print failures in compact form
+        if not found:
+            print(f"    All 8 per-site combinations FAIL.")
+            print(f"    >>> {h_name} is genuinely NON-LOCAL (confirmed)")
+        else:
+            print(f"    >>> {h_name} has a product Pi (LOCAL)")
+
+    # ==================================================================
+    # Q3.4: Commutant dimension (space of valid Pi operators)
+    # ==================================================================
+    print("\n" + "=" * 60)
+    print("Q3.4: DIMENSION OF VALID-Pi SPACE")
+    print("=" * 60)
+    print("\n  Space of valid Pi = Pi_0 * {S : [S,L]=0}")
+    print("  dim(valid Pi space) = dim(commutant of L)")
+
+    test_cases = [
+        ("N=2 Heisenberg", [(sx, sx), (sy, sy), (sz, sz)], 2),
+        ("N=2 Ising ZZ", [(sz, sz)], 2),
+        ("N=2 XX", [(sx, sx)], 2),
+        ("N=2 XY", [(sx, sy)], 2),
+        ("N=2 XZ+ZY", [(sx, sz), (sz, sy)], 2),
+        ("N=2 YZ+ZX", [(sy, sz), (sz, sx)], 2),
+    ]
+
+    for name, terms, N in test_cases:
+        H = build_hamiltonian(N, terms, J=1.0)
+        c_ops, sg = build_z_dephasing(N, 0.05)
+        L = build_liouvillian(H, c_ops)
+        dim, sv = commutant_dimension(L)
+        # Count distinct eigenvalues to understand degeneracy
+        evals = np.linalg.eigvals(L)
+        n_distinct = len(set(np.round(evals, 8)))
+        print(f"  {name:25s}  commutant dim = {dim:3d}  "
+              f"(L has {n_distinct} distinct eigenvalues of {len(evals)})")
 
     # --- Summary ---
     print("\n" + "=" * 60)
