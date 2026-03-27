@@ -142,6 +142,7 @@ growth, but this connection is not yet proven).
 
 Data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
 Framework: [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
+Energy budget: [Energy Partition](ENERGY_PARTITION.md) (all V-Effect oscillation is palindromic; unpaired modes are pure decay)
 
 ---
 
@@ -420,3 +421,4 @@ Remaining: larger connectomes, random controls.
 *See also: [Exclusions](../docs/EXCLUSIONS.md), what is ruled out*
 *See also: [Both Sides Visible](../docs/BOTH_SIDES_VISIBLE.md), the palindrome on IBM hardware*
 *See also: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md), fold catastrophe and heartbeat*
+*See also: [Energy Partition](ENERGY_PARTITION.md), where waves go when the palindrome breaks*
