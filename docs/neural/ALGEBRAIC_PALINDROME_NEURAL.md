@@ -75,105 +75,45 @@ on the pairing choice; an optimal pairing would give a lower residual.
 Both C. elegans and random controls use the same arbitrary pairing, so
 the COMPARISON remains valid even if absolute values could be improved.
 
-### Derivation of the palindrome condition
+### The condition and its derivation
 
-**Starting point (quantum).** In quantum open systems, the proven
-palindromic symmetry is
-([Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)):
-
-```
-Pi * L * Pi^{-1} = -L - 2*Sg * I
-```
-
-where L is the system's evolution operator, Pi swaps "immune" and
-"decaying" degrees of freedom, and Sg is the total dephasing rate.
-
-**Step 1: Identify the analogs.**
-
-| Quantum | Neural |
-|---------|--------|
-| L (Liouvillian) | J (Jacobian) |
-| Pi (Pauli weight swap) | Q (E-I swap permutation) |
-| Sg (dephasing rate) | S (to be determined) |
-
-Since Q is a permutation, Q^{-1} = Q. The neural condition becomes:
+The eigenvalues of J are palindromically paired if and only if:
 
 ```
 Q * J * Q + J + 2*S = 0
 ```
 
-**Step 2: Decompose J.** The Jacobian has two parts:
+where S = (1/tau_E + 1/tau_I) / 2 times the identity matrix.
+
+When this holds, every eigenvalue mu_k has a partner mu_k' with:
 
 ```
-J = D + W_eff
+mu_k + mu_k' = -(1/tau_E + 1/tau_I)
 ```
 
-- D = diag(-1/tau_i): self-decay (diagonal)
-- W_eff[i,j] = alpha * W[i,j] / tau_i: effective coupling (off-diagonal)
+**Full derivation in 6 steps:**
+[Proof: Palindromic Spectral Symmetry for Neural Networks](PROOF_PALINDROME_NEURAL.md)
 
-The palindrome condition becomes:
+The derivation starts from the quantum palindrome (Pi L Pi^{-1} = -L - 2Sg I),
+identifies J as L, Q as Pi, and S as Sg, then decomposes J = D + W_eff
+into self-decay (determines S) and coupling (determines the weight condition).
 
-```
-(Q*D*Q + D + 2*S) + (Q*W_eff*Q + W_eff) = 0
-```
+### The two requirements
 
-Since D and W_eff are independent, both terms must vanish separately.
+The condition splits into:
 
-**Step 3: Self-decay condition (determines S).**
+**(a) Self-decay:** automatically satisfied when tau_E != tau_I.
 
-Q swaps each E-neuron with its I-partner. So Q*D*Q has:
-- -1/tau_I where D had -1/tau_E (E-neuron position)
-- -1/tau_E where D had -1/tau_I (I-neuron position)
-
-At every position: (Q*D*Q)[i,i] + D[i,i] = -1/tau_I + (-1/tau_E)
-= -(1/tau_E + 1/tau_I).
-
-Setting Q*D*Q + D + 2S = 0 gives:
-
-```
-S = (1/tau_E + 1/tau_I) / 2 * I     (a scalar times the identity)
-```
-
-This is automatically satisfied whenever tau_E != tau_I.
-
-**Step 4: Coupling condition (the non-trivial requirement).**
-
-The remaining condition is:
-
-```
-Q * W_eff * Q + W_eff = 0
-```
-
-In components: W_eff[Q(i), Q(j)] + W_eff[i, j] = 0.
-
-Substituting W_eff[i,j] = alpha * W[i,j] / tau_i:
-
-```
-alpha * W[Q(i),Q(j)] / tau_{Q(i)} + alpha * W[i,j] / tau_i = 0
-```
-
-Solving for the partnered weight:
+**(b) Coupling antisymmetry:**
 
 ```
 W[Q(i), Q(j)] = -(tau_{Q(i)} / tau_i) * W[i, j]
 ```
 
-This says: when you swap each neuron with its E/I partner, the
-coupling must flip sign and scale by the time constant ratio.
-
-**Step 5: Eigenvalue pairing (consequence).**
-
-When Q*J*Q + J + 2S = 0 holds, the eigenvalues of J come in pairs.
-If mu is an eigenvalue: Q maps its eigenvector to an eigenvector
-of J with eigenvalue -(mu + 2S) = -mu - (1/tau_E + 1/tau_I).
-
-Therefore:
-
-```
-mu_k + mu_k' = -(1/tau_E + 1/tau_I)     for each palindromic pair
-```
-
-The decay rates mirror around -(1/tau_E + 1/tau_I) / 2.
+When you swap each neuron with its E/I partner, the coupling must
+flip sign and scale by the time constant ratio. Dale's Law provides
+the sign flip automatically
+(see [proof, Step 5](PROOF_PALINDROME_NEURAL.md#step-5-dales-law-provides-the-signs)).
 
 ---
 
