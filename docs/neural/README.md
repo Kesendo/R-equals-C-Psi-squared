@@ -51,12 +51,26 @@ networks, and if so, why?
 
 ---
 
+4. **Coupling two silent networks creates oscillation** (V-Effect).
+   Networks with perfect palindromic symmetry have zero oscillatory
+   modes. Coupling them through a mediator breaks the symmetry and
+   generates up to 62 correlation-space frequencies from zero. The
+   effect peaks at weak coupling and vanishes at strong coupling.
+
+5. **A thermal window exists** for approximate (biological) networks.
+   External drive creates oscillatory modes up to a peak (124
+   correlation frequencies at optimal drive), then destroys them.
+
+---
+
 ## Documents
 
 | Document | What it covers |
 |----------|---------------|
-| [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Results: C. elegans test, standing wave, validation |
-| [Proof](proofs/PROOF_PALINDROME_NEURAL.md) | Full derivation in 6 steps from quantum to neural |
+| [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
+| [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling creates oscillation, thermal window, 2× law |
+| [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
+| [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | Why exact symmetry is needed, coupling window |
 
 ---
 
