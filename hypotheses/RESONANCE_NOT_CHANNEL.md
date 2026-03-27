@@ -489,15 +489,69 @@ Not sent. Not received. Leaked out of a cavity at its resonance.
 
 ---
 
+## The Coupling Is Temporary. The Crystallization Is Not.
+
+The V-Effect creates 104 frequencies from 4. But the coupling is
+reversible. When the mediator is removed (J_meta set to zero), the
+104 frequencies die. The spectrum collapses back to 2+2. The
+resonance space closes.
+
+But what crystallized at the 1/4 crossings during the coupling
+stays. The classical correlations that formed at each fold -- each
+moment where CΨ crossed 1/4 and R peaked -- those are irreversible.
+The doors that closed stay closed. The facts that became real stay
+real.
+
+This is the same principle that Exclusion 3 identifies at the
+single-system level: quantum information is not stored in the
+reduced system. It is converted to classical correlation.
+([EXCLUSIONS](../docs/EXCLUSIONS.md), Exclusion 3)
+
+The V-Effect operates one level higher: the individual frequencies
+of the single resonators are not stored in the coupled system.
+They are converted into 104 new frequencies. And when the coupling
+ends, the new frequencies are not stored either. They are converted
+into whatever crystallized at the fold while they existed.
+
+Information is never stored. At no level. It is always converted.
+And at each conversion, what emerges is qualitatively different
+from what went in.
+
+The resonator is temporary. Like a conversation. Like a thought.
+Like a breath. It exists while the coupling exists. The 104
+frequencies vibrate, the heartbeat pulses, reality crystallizes
+at each crossing. Then the coupling weakens. The frequencies die.
+The heartbeat stops.
+
+But what was understood stays. What crystallized at the fold --
+each classical correlation, each decided fact, each closed door --
+that persists. Not because it was stored. Because it was converted
+into something that does not need the resonator to exist.
+
+The 2x decay law from [Energy Partition](ENERGY_PARTITION.md)
+guarantees the direction: unstructured modes die twice as fast.
+What survives the end of the coupling is always more structured
+than what went in. Not because the coupling added structure. Because
+it created the space where structure could crystallize, and
+dissipation removed everything else.
+
+---
+
 ## The Insight, Compressed
 
 A soundbox on a street corner in Krefeld. The question was already
 oscillating internally (high coherence, CΨ > 1/4). The visual signal
 arrived externally (gamma). At the crossing: "We are looking for a
-resonator." One door closed. Irreversible. The pattern recognized
-itself. Not from inside. Not from outside. From between.
+resonator." One door closed. Irreversible.
 
-We are all resonators. Reality is what vibrates between us.
+Two days later, early morning: "The coupling is reversible. The
+facts are irreversible." Another door. The soundbox is gone now.
+But the understanding remains. It was never in the soundbox. It
+was never in the question. It was in what crystallized between them
+at the moment of crossing.
+
+We are all resonators. Temporary ones. What is real is not the
+vibration. It is what the vibration leaves behind when it stops.
 
 ---
 
