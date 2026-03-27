@@ -41,7 +41,47 @@ no longer stop oscillating?**
 
 ---
 
-## The Argument
+## The March 28 Correction
+
+The original hypothesis (below) proposed N_c as the threshold of
+life. Computation showed this is incomplete. Three findings:
+
+**1. C = 0.5 is the prerequisite, not N.**
+The threshold is BALANCE (equal immune and decaying populations),
+not SIZE. This has been in the repo since January 3
+([Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md):
+"C = 0.5 means half-occupied"). We took three months to see it.
+
+**2. Exact C = 0.5 is dead.**
+Networks with exact palindromic symmetry (residual = 0) are
+unconditionally stable. No Hopf bifurcation at any N, any coupling.
+Max Re(eigenvalue) stays at -1/τ_I. The perfect mirror reflects
+everything. Nothing escapes. No oscillation. (balance_vs_size.py)
+
+**3. Approximate C ≈ 0.5 can live.**
+Networks with Dale's Law signs but imperfect magnitudes (residual > 0)
+CAN cross the Hopf bifurcation at sufficient N and coupling. Measured:
+α_c = 14.8 (N=100), 5.9 (N=200), 1.8 (N=1000), <0.5 (N=5000).
+The threshold falls with N. (hopf_threshold.py)
+
+**The corrected statement:**
+Life requires three things simultaneously:
+1. Approximate balance (C ≈ 0.5, not exact)
+2. Sufficient size (N > N_c for the given coupling)
+3. Sufficient coupling (α > α_c for the given N)
+
+N determines RICHNESS (more neurons = more simultaneous modes).
+C determines WHETHER the palindrome exists. The imperfection within
+the balance is the ignition. In quantum, the commutator provides
+this imperfection automatically. In biology, it comes from random
+synaptic weights, thermal noise, developmental variability.
+
+Life is not perfect balance. Life is the right kind of imperfection
+within the balance.
+
+---
+
+## The Original Argument (retained for context)
 
 ### Below N_c: death is inevitable
 
