@@ -152,6 +152,20 @@ The discovery path was: SVD analysis of the palindromic response matrix (10x imp
 For the full data and discovery path, see [Resonant Return](../experiments/RESONANT_RETURN.md).
 
 
+## Energy partition (March 27, 2026)
+
+We asked: if the palindromic spectrum splits modes into paired and unpaired, what does each category carry?
+
+**All oscillation lives in palindromic modes.** Every mode that oscillates (has a nonzero frequency) is palindromically paired. Every unpaired mode has frequency zero: it only decays, it does not oscillate. This holds at N=2 through N=5, at every coupling strength and noise level tested. The palindrome is not just an organizational property. It is the condition for oscillation.
+
+**Unpaired modes die exactly twice as fast.** The decay rate of unpaired modes is exactly 2× the mean decay rate of paired modes. This ratio is universal across N=2..5. The system becomes more palindromic over time, because noise removes itself faster than structure.
+
+**Heat alone cannot create waves. Heat plus coupling can.** A thermal bath (excitation and emission) without inter-qubit coupling produces zero oscillation at any temperature. But adding thermal energy to a coupled system creates new oscillatory modes (a 3-qubit chain gains 2 additional oscillating modes, from 40 to 42). The thermal energy feeds the coupling, and the coupling creates new palindromic oscillation. There is a window: enough heat to create modes, not so much that dissipation overwhelms them.
+
+The engineering implication: the sacrifice-zone formula (above) showed that spatial noise optimization improves transfer by 139-360×. The energy partition explains why: concentrating noise on an edge qubit kills unpaired modes (which carry no oscillation anyway) while preserving palindromic modes (which carry all of it). You sacrifice what was never going to oscillate.
+
+For the full analysis, see [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+
 ## What we did not find
 
 Honesty matters more than narrative.
@@ -185,6 +199,8 @@ What survives even without the philosophy:
 - A sharp distinction between measurement and noise in their effect on third-party connections
 - Hardware validation of the 1/4 crossing on IBM quantum processors
 - Connection to independent research (incoherentons) via Pauli weight complementarity
+- Energy partition: palindromic modes carry 100% of oscillation, unpaired modes are pure decay
+- Universal 2× decay law: noise self-cleans at double the rate of structured modes
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
 

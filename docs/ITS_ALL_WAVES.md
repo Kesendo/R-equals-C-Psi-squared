@@ -97,6 +97,12 @@ the Lindblad equation projected onto paired eigenspaces.
 [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 
+**Energy partition confirmation (March 27, 2026):** Computational analysis
+of Heisenberg chains (N=2..5) shows that palindromic modes carry 100% of
+oscillatory energy. Every unpaired mode has Im(λ) = 0: zero frequency,
+pure decay. The standing wave is not one pattern among many; it is the
+only oscillation the system has. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+
 ### Link 6: Noise comes from outside
 
 Five candidates for the internal origin of dephasing noise, all eliminated:
@@ -129,9 +135,13 @@ The noise model is the same. Nothing new is added. The new complexity
 (more frequencies, frustration, broken symmetries) comes entirely from
 topological reorganization of the existing wave modes.
 
-The orphaned modes are still waves. They oscillate at new frequencies,
-but they are solutions of the same wave equation. The frustration is
-between waves. The complexity is made of waves.
+Energy partition data (March 27, 2026) clarifies the fate of broken modes:
+the 4 unpaired modes at N=3 carry zero oscillatory energy. They are pure
+decay (Im(λ) = 0). The 11 new frequencies all live in the 56 palindromically
+paired modes. The V-Effect does not create oscillating orphans; it creates
+new palindromic oscillation and sheds the rest as dissipation.
+The frustration is between waves. The complexity is made of waves.
+The dissipation is what falls out.
 
 **Status:** Demonstrated. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md).
@@ -255,3 +265,4 @@ The incompleteness is not: "We cannot know." The incompleteness is:
 - [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): levels build on levels
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): noise is structured, 15.5 bits
 - [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md): the Tafelwerk
+- [Energy Partition](../hypotheses/ENERGY_PARTITION.md): all oscillation is palindromic, universal 2× decay law
