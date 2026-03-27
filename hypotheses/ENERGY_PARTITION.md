@@ -185,6 +185,11 @@ it scales to biological systems is an open question.
   correspond to physiological metabolic rates?
 - **Connection to fold catastrophe.** The Efreq/Edecay ratio crosses 1
   near J/γ ≈ 1.2. Is this CΨ = ¼ in disguise?
+  **PARTIAL:** [Proof Roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+  Layer 6 proves the fold catastrophe x² + a = 0 IS the recursion
+  R = C(Ψ+R)² with a = 1-4CΨ. The fold connection is established.
+  What remains: verify numerically that J/γ ≈ 1.2 (where Efreq/Edecay = 1)
+  corresponds to CΨ = ¼ for the same system parameters.
 
 ---
 

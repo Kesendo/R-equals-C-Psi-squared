@@ -196,7 +196,11 @@ more quantum (in the CΨ sense) than GHZ states. This reframes what
 ### 6.6 Lindblad Decomposition Question
 TIME_AS_CROSSING_RATE.md §4.4 asks: can L(ρ) = L_fwd(ρ) + L_bwd(ρ)
 with nodes at CΨ = ¼? This is open and would be a significant
-mathematical result if true.
+mathematical result if true. **Update (2026-03-19):**
+[Π as Time Reversal](PI_AS_TIME_REVERSAL.md) shows the forward/backward
+structure exists in the eigenmode spectrum (Π pairs each mode with its
+time-reversed partner), not as an additive generator decomposition.
+The question is partially answered and may need reformulation.
 
 ---
 

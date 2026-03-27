@@ -138,7 +138,7 @@ This interpretation raises new questions:
 
 2. **Testable predictions:** Can we identify physical systems that approach CΨ = ¼ and show measurably different behavior at or above the threshold?
 
-3. **Connection to decoherence:** Is the transition at CΨ = ¼ related to the quantum-to-classical transition? Does decoherence naturally drive systems toward CΨ ≤ ¼?
+3. ~~**Connection to decoherence:** Is the transition at CΨ = ¼ related to the quantum-to-classical transition? Does decoherence naturally drive systems toward CΨ ≤ ¼?~~ **ANSWERED (2026-03-22):** Yes. CΨ is strictly monotonically decreasing under all local Markovian channels. The 1/4 boundary is absorbing: once crossed, CΨ cannot return under Markovian dynamics. Non-Markovian revivals are transient (max 0.3035). See [Proof: CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md).
 
 ---
 

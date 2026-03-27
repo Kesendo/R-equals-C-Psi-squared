@@ -289,7 +289,12 @@ for i, t in enumerate(tlist):
    pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to
    σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
 
-4. What is the minimum per-pair entanglement needed for crossing?
+4. ~~What is the minimum per-pair entanglement needed for crossing?~~
+   **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a
+   simple threshold. Two separate crossing windows exist for parametric
+   Bell states; a dead zone lies between them. The minimum C_SA(0)
+   depends on coupling strength J_SB. See
+   [N-Scaling Barrier](N_SCALING_BARRIER.md) Section 8, Q4.
 
 ---
 

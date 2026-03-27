@@ -565,6 +565,12 @@ See: [The Anomaly](../THE_ANOMALY.md)
    operator Q ≠ Π that protects eigenvalue pairing even when X^N
    parity is broken. What is Q? Is it different for each of the 12,
    or is there a single family?
+   **PARTIAL (2026-03-19):** [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
+   identifies three conjugation operator families: uniform P1/P4,
+   alternating M1×M2×M1 (for XY/YX terms), and non-local entangled Π
+   (2 cases). These are candidates for Q. The explicit mapping from
+   the 12 parity-breaking preservers onto these families has not been
+   constructed.
 
 7. **Why is parity-breaking necessary but not sufficient?** The strict
    containment (all 14 palindrome-breakers are parity-breakers, but

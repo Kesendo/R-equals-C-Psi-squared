@@ -384,7 +384,13 @@ tested against the Lindblad dynamics beyond the analogy level.
 equation can be decomposed into forward-propagating (decoherence) and
 backward-propagating (recoherence) components whose interference
 pattern has nodes at C·Ψ = ¼. This is a well-defined mathematical
-question with a definite answer.
+question with a definite answer. **Update (2026-03-19):**
+[Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) shows
+the decomposition exists at the eigenmode level: Π pairs every
+forward mode (low XY-weight, populations) with its backward partner
+(high XY-weight, coherences). The standing wave emerges from this
+pairing. What remains open: whether the node structure connects to
+CΨ = 1/4 specifically.
 
 ---
 
