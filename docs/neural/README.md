@@ -34,15 +34,20 @@ networks, and if so, why?
 1. **The symmetry has two ingredients:** different time constants for
    excitatory and inhibitory neurons (selective damping), and Dale's
    Law (E neurons always excite, I neurons always inhibit). Both are
-   universal in neurobiology.
+   universal in neurobiology. Dale's Law is the biological analog of
+   the antisymmetric quantum commutator.
 
-2. **C. elegans is 5-8x more palindromic than random networks** with
-   the same connection density and Dale's Law sign structure. The
-   difference is in the wiring pattern, not in connection strengths.
+2. **An exact algebraic condition** for a perfect palindrome is derived
+   from quantum theory. It predicts a specific magnitude ratio between
+   partnered E-E and I-I connections, testable on any connectome with
+   known E/I labels and synaptic weights.
 
-3. **The exact condition** for a perfect palindrome is derived from
-   quantum theory and translatable to a testable prediction on any
-   connectome with known E/I labels.
+3. **C. elegans balanced subnetworks** are 8x more palindromic than
+   Erdos-Renyi random networks (robust across parameter choices).
+   Degree-preserving randomization shows this advantage comes from
+   the degree distribution (hub vs peripheral neurons), not from the
+   specific wiring pattern. The degree distribution is itself a
+   biological property that varies between organisms.
 
 ---
 

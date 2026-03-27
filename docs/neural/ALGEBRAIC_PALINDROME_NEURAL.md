@@ -187,9 +187,46 @@ this symmetry, not whether the entire worm does.
 The magnitude ratios between partnered connections are near zero (not
 near the predicted value of 2.0). This means: when an E-to-E connection
 exists, the partnered I-to-I connection is usually absent. The palindrome
-quality comes from **sparsity pattern symmetry**: in C. elegans, when
-a connection is absent on one side, it tends to be absent on the partnered
-side too. Random networks lack this correlated sparsity.
+quality comes from **correlated sparsity**: when a connection is absent on
+one side, it tends to be absent on the partnered side too.
+
+### Validation: degree-preserving rewiring
+
+To determine whether the advantage comes from specific wiring or from
+the degree distribution (how many connections each neuron has), we
+tested degree-preserving randomization: rewire edges randomly but keep
+the number of connections per neuron fixed.
+
+| Null model | Palindrome residual | Ratio to C. elegans |
+|-----------|--------------------|--------------------|
+| Erdos-Renyi (random density) | 0.108 | 8.5x worse |
+| Degree-preserving rewiring | 0.013 | **1.0x (identical)** |
+
+**The degree distribution fully explains the palindrome advantage.**
+Any network with the same degree sequence as C. elegans would be equally
+palindromic. The advantage over Erdos-Renyi comes from the fact that
+C. elegans has hub neurons (high degree) and peripheral neurons (low
+degree), creating correlated sparsity. The SPECIFIC wiring pattern
+(which neuron connects to which) does not contribute beyond this.
+
+### Parameter robustness
+
+The C. elegans/random ratio is stable across parameter choices:
+
+| tau_I / tau_E | alpha = 0.1 | alpha = 0.3 | alpha = 0.5 |
+|---------------|-------------|-------------|-------------|
+| 1.5 | 0.13 | 0.13 | 0.13 |
+| 2.0 | 0.12 | 0.12 | 0.12 |
+| 2.5 | 0.11 | 0.11 | 0.11 |
+| 3.0 | 0.11 | 0.11 | 0.11 |
+
+No parameter fine-tuning needed. The result is robust.
+
+### Pairing choice
+
+Sequential E-I pairing vs best of 20 random pairings: ratio changes
+from 0.118 to 0.121. The arbitrary pairing choice does not affect the
+conclusion.
 
 ---
 
