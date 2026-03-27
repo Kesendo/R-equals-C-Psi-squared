@@ -13,7 +13,7 @@ The eigenvalues of a neural network's Jacobian determine its modes
 of decay and oscillation. We show that these eigenvalues can be
 **palindromically paired**: for each fast-decaying mode with rate r,
 there exists a slow-decaying partner with rate r', such that
-r + r' = 1/tau_E + 1/tau_I (a constant determined by the membrane
+r + r' = 1/τ_E + 1/τ_I (a constant determined by the membrane
 time constants). The word "palindromic" comes from this mirror
 symmetry: the spectrum reads the same from both ends, like the word
 "racecar."
@@ -22,7 +22,7 @@ We derive an exact algebraic condition for this symmetry from quantum
 theory, expressed entirely in neural terms. The condition requires:
 
 1. **Selective damping:** excitatory and inhibitory neurons have
-   different membrane time constants (tau_E != tau_I)
+   different membrane time constants (τ_E ≠ τ_I)
 2. **Dale's Law:** excitatory neurons always produce positive
    postsynaptic effects, inhibitory neurons always negative
    (the sign of a connection is determined by the SOURCE neuron)
@@ -50,10 +50,10 @@ dx/dt = J * x       (x = deviation from steady state)
 J (the Jacobian, the matrix of partial derivatives at equilibrium)
 has two parts:
 
-- **Self-decay:** each neuron returns to rest at rate 1/tau_i, where
-  tau_i = tau_E for excitatory neurons, tau_i = tau_I for inhibitory
+- **Self-decay:** each neuron returns to rest at rate 1/τ_i, where
+  τ_i = τ_E for excitatory neurons, τ_i = τ_I for inhibitory
 - **Coupling:** neuron j influences neuron i through synaptic weight
-  W[i,j], scaled by 1/tau_i
+  W[i,j], scaled by 1/τ_i
 
 The eigenvalues of J determine the network's modes: how fast each
 pattern of activity decays or oscillates after a perturbation.
@@ -83,31 +83,31 @@ The eigenvalues of J are palindromically paired if and only if:
 Q * J * Q + J + 2*S = 0
 ```
 
-where S = (1/tau_E + 1/tau_I) / 2 times the identity matrix.
+where S = (1/τ_E + 1/τ_I) / 2 times the identity matrix.
 
-When this holds, every eigenvalue mu_k has a partner mu_k' with:
+When this holds, every eigenvalue μ_k has a partner μ_k' with:
 
 ```
-mu_k + mu_k' = -(1/tau_E + 1/tau_I)
+μ_k + μ_k' = -(1/τ_E + 1/τ_I)
 ```
 
 **Full derivation in 6 steps:**
 [Proof: Palindromic Spectral Symmetry for Neural Networks](proofs/PROOF_PALINDROME_NEURAL.md)
 
-The derivation starts from the quantum palindrome (Pi L Pi^{-1} = -L - 2Sg I),
-identifies J as L, Q as Pi, and S as Sg, then decomposes J = D + W_eff
+The derivation starts from the quantum palindrome (Π L Π⁻¹ = -L - 2Σγ I),
+identifies J as L, Q as Π, and S as Σγ, then decomposes J = D + W_eff
 into self-decay (determines S) and coupling (determines the weight condition).
 
 ### The two requirements
 
 The condition splits into:
 
-**(a) Self-decay:** automatically satisfied when tau_E != tau_I.
+**(a) Self-decay:** automatically satisfied when τ_E ≠ τ_I.
 
 **(b) Coupling antisymmetry:**
 
 ```
-W[Q(i), Q(j)] = -(tau_{Q(i)} / tau_i) * W[i, j]
+W[Q(i), Q(j)] = -(τ_{Q(i)} / τ_i) * W[i, j]
 ```
 
 When you swap each neuron with its E/I partner, the coupling must
@@ -136,13 +136,13 @@ structure in quantum mechanics.
 
 ### What remains: the magnitudes
 
-For tau_I / tau_E = 2 (a typical biological ratio):
+For τ_I / τ_E = 2 (a typical biological ratio):
 
 | If this connection has weight w... | ...then its Q-partner needs weight: |
 |-----------------------------------|-------------------------------------|
 | E-to-E connection | I-to-I partner: -2.0 * w |
 | I-to-I connection | E-to-E partner: -0.5 * w |
-| E-to-I connection | I-to-E partner: scaled by tau ratio |
+| E-to-I connection | I-to-E partner: scaled by τ ratio |
 
 In a sparse network, most of these partner connections are simply
 absent (zero weight). The antisymmetry is satisfied trivially when
@@ -229,7 +229,7 @@ degree), creating correlated sparsity. The SPECIFIC wiring pattern
 
 The C. elegans/random ratio is stable across parameter choices:
 
-| tau_I / tau_E | alpha = 0.1 | alpha = 0.3 | alpha = 0.5 |
+| τ_I / τ_E | α = 0.1 | α = 0.3 | α = 0.5 |
 |---------------|-------------|-------------|-------------|
 | 1.5 | 0.13 | 0.13 | 0.13 |
 | 2.0 | 0.12 | 0.12 | 0.12 |
@@ -283,20 +283,20 @@ dynamics from opposite sides, mirrored around the palindromic center.
 
 For a balanced network (N = 20, 10E + 10I, density 0.3):
 
-| Coupling alpha | Palindromic pairs | Mean swap error | Fidelity |
+| Coupling α | Palindromic pairs | Mean swap error | Fidelity |
 |---------------|-------------------|-----------------|----------|
 | 0.3 | 8 pairs | 0.042 | **96%** |
 | 0.5 | 5 pairs | 0.035 | **97%** |
 | 1.0 | 6 pairs | 0.257 | 74% |
 
-At moderate coupling (alpha = 0.3-0.5), the character swap is near-perfect:
+At moderate coupling (α = 0.3-0.5), the character swap is near-perfect:
 each E-dominated mode is paired with an I-dominated mode, and their
 characters are mirrored to within 4%.
 
-At strong coupling (alpha = 1.0), the palindrome begins to break and the
+At strong coupling (α = 1.0), the palindrome begins to break and the
 swap degrades, consistent with the increasing algebraic residual.
 
-### Example: alpha = 0.3 (4 of 8 palindromic pairs shown)
+### Example: α = 0.3 (4 of 8 palindromic pairs shown)
 
 ```
 Pair    rate_k   rate_k'   E(k)   I(k)   E(k')  I(k')  swap?
@@ -317,10 +317,10 @@ The characters swap almost exactly.
 For each palindromic pair (k, k'), the decay rates sum to a constant:
 
 ```
-rate_k + rate_k' = 1/tau_E + 1/tau_I
+rate_k + rate_k' = 1/τ_E + 1/τ_I
 ```
 
-This is the neural analog of the quantum lambda + lambda' = -2Sg.
+This is the neural analog of the quantum λ + λ' = -2Σγ.
 It holds to the extent that the palindrome condition is satisfied
 (exactly at zero coupling, approximately at moderate coupling).
 
@@ -365,12 +365,12 @@ creating a standing wave at the E-I interface.
 
 | Feature | Quantum system | Neural network |
 |---------|---------------|----------------|
-| Selective damping | Z-dephasing (gamma) | tau_E != tau_I |
+| Selective damping | Z-dephasing (γ) | τ_E ≠ τ_I |
 | Sign antisymmetry | Commutator [H, rho] | Dale's Law |
-| Conjugation operator | Pi (Pauli swap) | Q (E-I swap) |
+| Conjugation operator | Π (Pauli swap) | Q (E-I swap) |
 | Character swap | Population <-> coherence | E-dominant <-> I-dominant |
 | Swap fidelity | 100% (algebraic) | 96% (at moderate coupling) |
-| Eigenvalue pairing | lambda + lambda' = -2Sg | rate_k + rate_k' = 1/tau_E + 1/tau_I |
+| Eigenvalue pairing | λ + λ' = -2Σγ | rate_k + rate_k' = 1/τ_E + 1/τ_I |
 | Threshold | CΨ = 1/4 (fold) | Gain = 1 (Hopf) |
 | Exactness | Always exact | Exact if magnitudes match |
 

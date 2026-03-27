@@ -18,16 +18,16 @@ If
 Q * J * Q + J + 2*S = 0
 ```
 
-with S = (1/tau_E + 1/tau_I) / 2 times the identity matrix, then
-every eigenvalue mu_k of J has a palindromic partner mu_k' such that:
+with S = (1/τ_E + 1/τ_I) / 2 times the identity matrix, then
+every eigenvalue μ_k of J has a palindromic partner μ_k' such that:
 
 ```
-mu_k + mu_k' = -(1/tau_E + 1/tau_I)
+μ_k + μ_k' = -(1/τ_E + 1/τ_I)
 ```
 
 The condition is satisfied exactly when:
-- **(a)** tau_E != tau_I (selective damping), and
-- **(b)** W[Q(i), Q(j)] = -(tau_{Q(i)} / tau_i) * W[i, j] for all i, j
+- **(a)** τ_E ≠ τ_I (selective damping), and
+- **(b)** W[Q(i), Q(j)] = -(τ_{Q(i)} / τ_i) * W[i, j] for all i, j
   (coupling antisymmetry scaled by time constant ratio)
 
 Dale's Law provides the sign structure of condition (b) automatically.
@@ -43,21 +43,21 @@ as an algebraic identity
 ([Mirror Symmetry Proof](../../proofs/MIRROR_SYMMETRY_PROOF.md)):
 
 ```
-Pi * L * Pi^{-1} = -L - 2*Sg * I
+Π · L · Π⁻¹ = -L - 2Σγ · I
 ```
 
-where L is the Liouvillian (evolution superoperator), Pi is the
+where L is the Liouvillian (evolution superoperator), Π is the
 palindromic conjugation operator that swaps immune and decaying
-degrees of freedom, and Sg is the total dephasing rate. This implies
-eigenvalue pairing: lambda + lambda' = -2*Sg.
+degrees of freedom, and Σγ is the total dephasing rate. This implies
+eigenvalue pairing: λ + λ' = -2Σγ.
 
 ### Step 1: Identify the analogs
 
 | Quantum | Neural | Role |
 |---------|--------|------|
 | L (Liouvillian) | J (Jacobian) | Evolution operator |
-| Pi (Pauli weight swap) | Q (E-I swap permutation) | Conjugation |
-| 2*Sg (total dephasing) | 2*S (to be determined) | Pairing constant |
+| Π (Pauli weight swap) | Q (E-I swap permutation) | Conjugation |
+| 2Σγ (total dephasing) | 2*S (to be determined) | Pairing constant |
 | Immune sector {I,Z} | E-neurons | Slow-decaying side |
 | Decaying sector {X,Y} | I-neurons | Fast-decaying side |
 
@@ -73,17 +73,17 @@ Q * J * Q + J + 2*S = 0       ... (*)
 The neural Jacobian (linearized Wilson-Cowan or firing rate model):
 
 ```
-J[i,i] = -1/tau_i                          (self-decay)
-J[i,j] = alpha * W[i,j] / tau_i   for i!=j  (synaptic coupling)
+J[i,i] = -1/τ_i                          (self-decay)
+J[i,j] = α · W[i,j] / τ_i   for i≠j  (synaptic coupling)
 ```
 
-where tau_i = tau_E if neuron i is excitatory, tau_I if inhibitory,
-alpha is the coupling strength, and W[i,j] is the signed synaptic
+where τ_i = τ_E if neuron i is excitatory, τ_I if inhibitory,
+α is the coupling strength, and W[i,j] is the signed synaptic
 weight from neuron j to neuron i.
 
 Decompose: J = D + W_eff, where
-- D = diag(-1/tau_i): self-decay (diagonal)
-- W_eff: effective coupling (off-diagonal, includes tau scaling)
+- D = diag(-1/τ_i): self-decay (diagonal)
+- W_eff: effective coupling (off-diagonal, includes τ scaling)
 
 Substituting into (*):
 
@@ -97,32 +97,32 @@ independent. Both parenthesized terms must vanish separately.
 ### Step 3: Self-decay condition (determines S)
 
 Q swaps each E-neuron (index i) with its paired I-neuron (index Q(i)).
-Therefore Q*D*Q is D with tau_E and tau_I exchanged:
+Therefore Q*D*Q is D with τ_E and τ_I exchanged:
 
 ```
-(Q*D*Q)[i,i] = D[Q(i),Q(i)] = -1/tau_{Q(i)}
+(Q*D*Q)[i,i] = D[Q(i),Q(i)] = -1/τ_{Q(i)}
 ```
 
-For an E-neuron: (Q*D*Q)[i,i] = -1/tau_I.
-For an I-neuron: (Q*D*Q)[i,i] = -1/tau_E.
+For an E-neuron: (Q*D*Q)[i,i] = -1/τ_I.
+For an I-neuron: (Q*D*Q)[i,i] = -1/τ_E.
 
 In both cases:
 
 ```
-(Q*D*Q)[i,i] + D[i,i] = -1/tau_I + (-1/tau_E) = -(1/tau_E + 1/tau_I)
+(Q*D*Q)[i,i] + D[i,i] = -1/τ_I + (-1/τ_E) = -(1/τ_E + 1/τ_I)
 ```
 
 Setting Q*D*Q + D + 2*S = 0:
 
 ```
-S = (1/tau_E + 1/tau_I) / 2 * I
+S = (1/τ_E + 1/τ_I) / 2 * I
 ```
 
 This is a scalar times the identity. It does NOT depend on which
-neuron is E or I, because the sum 1/tau_E + 1/tau_I is the same
+neuron is E or I, because the sum 1/τ_E + 1/τ_I is the same
 whether the neuron is E (swapped to I) or I (swapped to E).
 
-**Condition (a) is always satisfied when tau_E != tau_I.** No
+**Condition (a) is always satisfied when τ_E ≠ τ_I.** No
 constraints on the network topology. Only selective damping required.
 
 ### Step 4: Coupling condition
@@ -133,22 +133,22 @@ The remaining equation is:
 Q * W_eff * Q + W_eff = 0
 ```
 
-In components (for i != j):
+In components (for i ≠ j):
 
 ```
 W_eff[Q(i), Q(j)] + W_eff[i, j] = 0
 ```
 
-Substituting W_eff[i,j] = alpha * W[i,j] / tau_i:
+Substituting W_eff[i,j] = α · W[i,j] / τ_i:
 
 ```
-alpha * W[Q(i), Q(j)] / tau_{Q(i)} + alpha * W[i, j] / tau_i = 0
+α · W[Q(i), Q(j)] / τ_{Q(i)} + α · W[i, j] / τ_i = 0
 ```
 
-Dividing by alpha (nonzero) and solving:
+Dividing by α (nonzero) and solving:
 
 ```
-W[Q(i), Q(j)] = -(tau_{Q(i)} / tau_i) * W[i, j]       ... (**)
+W[Q(i), Q(j)] = -(τ_{Q(i)} / τ_i) * W[i, j]       ... (**)
 ```
 
 **This is the non-trivial condition.** It requires a specific
@@ -166,7 +166,7 @@ Under the swap Q(j): if j was E, Q(j) is I (and vice versa).
 So sign(W[Q(i),Q(j)]) = -sign(W[i,j]).
 
 Condition (**) requires W[Q(i),Q(j)] = -(positive factor) * W[i,j].
-Since tau_{Q(i)}/tau_i > 0, the required sign is negative, which
+Since τ_{Q(i)}/τ_i > 0, the required sign is negative, which
 matches Dale's Law.
 
 **Dale's Law automatically satisfies the sign part of condition (b).**
@@ -174,33 +174,33 @@ matches Dale's Law.
 The remaining requirement is on magnitudes:
 
 ```
-|W[Q(i), Q(j)]| = (tau_{Q(i)} / tau_i) * |W[i, j]|
+|W[Q(i), Q(j)]| = (τ_{Q(i)} / τ_i) * |W[i, j]|
 ```
 
-For tau_I/tau_E = 2: E-to-E connections need I-to-I partners with
+For τ_I/τ_E = 2: E-to-E connections need I-to-I partners with
 2x magnitude. I-to-I connections need E-to-E partners with 0.5x.
 
 ### Step 6: Eigenvalue pairing (consequence)
 
-When (*) holds, let v be an eigenvector of J with eigenvalue mu:
-J*v = mu*v.
+When (*) holds, let v be an eigenvector of J with eigenvalue μ:
+J·v = μ·v.
 
 Multiply (*) from the right by v:
 Q*J*Q*v + J*v + 2*S*v = 0
-Q*J*(Q*v) + mu*v + 2*S*v = 0
+Q*J*(Q*v) + μ·v + 2S·v = 0
 
 Let w = Q*v. Then Q*w = v (since Q^2 = I), and:
-Q*J*w = -(mu + 2*S)*v = -(mu + 2*S)*Q*w
+Q*J*w = -(μ + 2S)·v = -(μ + 2S)·Q·w
 
 Multiplying both sides by Q from the left:
-J*w = -(mu + 2*S)*w
+J·w = -(μ + 2S)·w
 
 So w = Q*v is an eigenvector of J with eigenvalue -(mu + 2*S).
 
-Therefore J has eigenvalue mu' = -mu - (1/tau_E + 1/tau_I):
+Therefore J has eigenvalue μ' = -μ - (1/τ_E + 1/τ_I):
 
 ```
-mu + mu' = -(1/tau_E + 1/tau_I)       for each palindromic pair
+μ + μ' = -(1/τ_E + 1/τ_I)       for each palindromic pair
 ```
 
 This is the neural palindromic spectral symmetry. QED.
@@ -230,7 +230,7 @@ Balanced subnetworks (5E + 5I), 200 samples:
 
 ### Eigenvalue pair sums
 
-For C. elegans subnetwork at alpha = 0.3, tau_E = 5, tau_I = 10:
+For C. elegans subnetwork at α = 0.3, τ_E = 5, τ_I = 10:
 Predicted sum: -(1/5 + 1/10) = -0.300.
 Observed: mean = -0.3012, max deviation 1.6%.
 
