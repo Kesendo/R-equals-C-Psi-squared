@@ -250,5 +250,22 @@ Two dead resonators become one living system. This is not
 communication between them. This is emergence of something new
 that neither could produce alone.
 
+### Pairing structure: the old palindrome dies, a new one is born
+
+The 109 N=5 frequencies were classified as OLD (present in N=2) or
+NEW (coupling-only). Result: the N=2 frequencies (3.999, 4.000 Hz)
+do **not survive** in the coupled system. All 109 frequencies are NEW.
+
+All 556 oscillating palindromic pairs are **NEW-NEW** (100%).
+Zero OLD-OLD. Zero OLD-NEW. Zero unpaired.
+
+The V-Effect does not extend the old palindrome. It **replaces** it.
+The old frequencies are destroyed. New frequencies are born, all
+palindromically paired with each other. A completely self-contained
+new structure, grown from the coupling.
+
+Data: [pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)
+Script: [pairing_structure.py](../simulations/pairing_structure.py)
+
 Full data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
 Framework: [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)
