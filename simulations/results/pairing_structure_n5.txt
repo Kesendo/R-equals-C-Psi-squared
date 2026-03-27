@@ -15,3 +15,16 @@ Pairing structure:
 The coupling creates a completely self-contained palindrome.
 Old N=2 frequencies are destroyed. All 109 new frequencies
 pair with each other. Not one old mode survives.
+
+=== XY-WEIGHT DISTRIBUTION OF NEW FREQUENCIES ===
+
+w=0:  2.5%  #             fully classical (I/Z only)
+w=1: 15.6%  #######       boundary
+w=2: 31.9%  ###########   interior (peak)
+w=3: 31.9%  ###########   interior (peak)
+w=4: 15.6%  #######       boundary
+w=5:  2.5%  #             fully quantum (X/Y only)
+
+Perfectly symmetric: w(k) = w(N-k) for all k.
+The new palindrome is balanced across XY-weight sectors.
+Interior (w=2,3): 63.8%. Boundary (w=1,4): 31.1%. Extremes (w=0,5): 5.1%.
