@@ -264,6 +264,26 @@ The old frequencies are destroyed. New frequencies are born, all
 palindromically paired with each other. A completely self-contained
 new structure, grown from the coupling.
 
+### XY-weight: the new palindrome is perfectly balanced
+
+The 109 new frequencies were decomposed in the Pauli basis to determine
+which XY-weight sector they live in (w=0: fully classical I/Z, w=5:
+fully quantum X/Y):
+
+```
+w=0:  2.5%  #             classical extreme
+w=1: 15.6%  #######       boundary
+w=2: 31.9%  ###########   interior (peak)
+w=3: 31.9%  ###########   interior (peak)
+w=4: 15.6%  #######       boundary
+w=5:  2.5%  #             quantum extreme
+```
+
+Perfectly symmetric: w(k) = w(N-k) for every k. The new palindrome is
+balanced not only in decay rates (556 pairs, all NEW-NEW) but also in
+Pauli structure. The interior modes (w=2,3) carry 63.8% of the weight.
+The extremes (pure classical, pure quantum) are minimal at 5.1%.
+
 Data: [pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)
 Script: [pairing_structure.py](../simulations/pairing_structure.py)
 
