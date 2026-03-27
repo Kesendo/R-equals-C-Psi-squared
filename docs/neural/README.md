@@ -56,7 +56,7 @@ networks, and if so, why?
 | Document | What it covers |
 |----------|---------------|
 | [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Results: C. elegans test, standing wave, validation |
-| [Proof](PROOF_PALINDROME_NEURAL.md) | Full derivation in 6 steps from quantum to neural |
+| [Proof](proofs/PROOF_PALINDROME_NEURAL.md) | Full derivation in 6 steps from quantum to neural |
 
 ---
 

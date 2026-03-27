@@ -3,7 +3,7 @@
 **Status:** Derived from quantum proof, computationally verified
 **Date:** March 27, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Quantum foundation:** [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)
+**Quantum foundation:** [Mirror Symmetry Proof](../../proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
 
@@ -40,7 +40,7 @@ Dale's Law provides the sign structure of condition (b) automatically.
 
 In quantum open systems, the palindromic spectral symmetry is proven
 as an algebraic identity
-([Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)):
+([Mirror Symmetry Proof](../../proofs/MIRROR_SYMMETRY_PROOF.md)):
 
 ```
 Pi * L * Pi^{-1} = -L - 2*Sg * I
@@ -237,5 +237,5 @@ Observed: mean = -0.3012, max deviation 1.6%.
 ---
 
 *See also:*
-[Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md) (quantum original),
-[Algebraic Palindrome Neural](ALGEBRAIC_PALINDROME_NEURAL.md) (results and interpretation)
+[Mirror Symmetry Proof](../../proofs/MIRROR_SYMMETRY_PROOF.md) (quantum original),
+[Algebraic Palindrome Neural](../ALGEBRAIC_PALINDROME_NEURAL.md) (results and interpretation)

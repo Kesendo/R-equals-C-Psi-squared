@@ -92,7 +92,7 @@ mu_k + mu_k' = -(1/tau_E + 1/tau_I)
 ```
 
 **Full derivation in 6 steps:**
-[Proof: Palindromic Spectral Symmetry for Neural Networks](PROOF_PALINDROME_NEURAL.md)
+[Proof: Palindromic Spectral Symmetry for Neural Networks](proofs/PROOF_PALINDROME_NEURAL.md)
 
 The derivation starts from the quantum palindrome (Pi L Pi^{-1} = -L - 2Sg I),
 identifies J as L, Q as Pi, and S as Sg, then decomposes J = D + W_eff
@@ -113,7 +113,7 @@ W[Q(i), Q(j)] = -(tau_{Q(i)} / tau_i) * W[i, j]
 When you swap each neuron with its E/I partner, the coupling must
 flip sign and scale by the time constant ratio. Dale's Law provides
 the sign flip automatically
-(see [proof, Step 5](PROOF_PALINDROME_NEURAL.md#step-5-dales-law-provides-the-signs)).
+(see [proof, Step 5](proofs/PROOF_PALINDROME_NEURAL.md#step-5-dales-law-provides-the-signs)).
 
 ---
 
