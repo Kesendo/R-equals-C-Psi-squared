@@ -3,13 +3,16 @@ Energy Partition Experiment
 ===========================
 Where do waves go when the palindrome breaks?
 
-For qubit chains (N=2..5) under Z-dephasing:
+For Heisenberg qubit chains (N=2..5) under Z-dephasing:
   - Compute Liouvillian eigenvalues
   - Classify modes as palindromically paired or unpaired
-  - Compute oscillatory energy |Im(λ)| in each category
-  - Test: is total energy conserved? Does "structure" become "heat"?
+  - Compute oscillatory energy |Im(lambda)| in each category
+  - Result: 100% of oscillatory energy lives in palindromic modes
 
-Not for publication. Exploratory.
+Finding 1 in ENERGY_PARTITION.md.
+
+Script: simulations/energy_partition.py
+Output: stdout (run with PYTHONIOENCODING=utf-8 on Windows)
 """
 import numpy as np
 

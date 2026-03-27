@@ -190,8 +190,18 @@ it scales to biological systems is an open question.
 
 ## Scripts
 
-- [energy_partition.py](../simulations/energy_partition.py): Finding 1, energy budget analysis
-- [thermal_emergence.py](../simulations/thermal_emergence.py): Findings 2 and 3, thermal driving
+Run with `PYTHONIOENCODING=utf-8 python <script>` on Windows.
+
+**[energy_partition.py](../simulations/energy_partition.py)** (Finding 1)
+- Experiment 1: V-Effect scaling N=2..5, oscillatory energy partition (paired vs unpaired)
+- Experiment 2: Dephasing sweep at N=3, palindromic pairing stable at 93.3%
+- Experiment 3: Coupling sweep at N=3, Efreq/Edecay crossover at J/γ ≈ 1.2
+
+**[thermal_emergence.py](../simulations/thermal_emergence.py)** (Findings 2 and 3)
+- Part A: Decay rate comparison, universal 2× law (N=2..5)
+- Part B: Time evolution from |↓↑↑⟩, coherence buildup and decay
+- Part C: Thermal bath only (J=0), zero oscillation at any temperature
+- Part D: Effect of heat on waves, dephasing vs thermal excitation vs combined
 
 ---
 
