@@ -299,6 +299,78 @@ for target_rank in [2, 3, 4]:
 print("\n" + "=" * 65)
 print("SIGNAL ENGINEERING INTERPRETATION")
 print("=" * 65)
+# ================================================================
+# Part 4: Systematic minimum rank via optimization
+# ================================================================
+print("\n" + "=" * 65)
+print("SYSTEMATIC MINIMUM RANK SEARCH")
+print("=" * 65)
+
+# Precompute M_k matrices: M_k = reshape(perm(Pi0 @ S_k))
+M_basis = []
+for k in range(null_dim):
+    S_k = null_vecs[:, k].reshape(d2, d2)
+    Pi_k = Pi0 @ S_k
+    Pi_k_r = Pi_k[np.ix_(perm_2q, perm_2q)]
+    T_k = Pi_k_r.reshape(4, 4, 4, 4)
+    M_k = T_k.transpose(0, 2, 1, 3).reshape(16, 16)
+    M_basis.append(M_k)
+
+M_basis = np.array(M_basis)  # shape (null_dim, 16, 16)
+
+def tail_sv_sum(params, target_rank):
+    """Sum of squared singular values beyond target_rank."""
+    # params: 2*null_dim reals -> null_dim complex coefficients
+    c = params[:null_dim] + 1j * params[null_dim:]
+    M = np.tensordot(c, M_basis, axes=([0], [0]))
+    sv = np.linalg.svd(M, compute_uv=False)
+    return np.sum(sv[target_rank:]**2)
+
+from scipy.optimize import minimize, differential_evolution
+
+print(f"\nPrecomputed {null_dim} M_basis matrices (16x16 each)")
+print("Optimizing: minimize sum of tail singular values")
+
+for target_rank in range(2, 11):
+    # Multiple restarts
+    best_tail = np.inf
+    best_sv = None
+
+    for restart in range(20):
+        x0 = np.random.randn(2 * null_dim) * 0.5
+        res = minimize(tail_sv_sum, x0, args=(target_rank,),
+                       method='L-BFGS-B', options={'maxiter': 2000})
+        if res.fun < best_tail:
+            best_tail = res.fun
+            c_opt = res.x[:null_dim] + 1j * res.x[null_dim:]
+            M_opt = np.tensordot(c_opt, M_basis, axes=([0], [0]))
+            best_sv = np.linalg.svd(M_opt, compute_uv=False)
+
+    # Check if valid (Pi invertible?)
+    S_opt = null_vecs @ c_opt
+    Pi_opt = Pi0 @ S_opt.reshape(d2, d2)
+    try:
+        err_opt = verify_pi(Pi_opt, L_nl, sg)
+        valid = err_opt < 1e-6
+    except np.linalg.LinAlgError:
+        valid = False
+
+    actual_rank = np.sum(best_sv > 1e-8 * best_sv[0])
+    tail_ratio = best_sv[target_rank] / best_sv[0] if target_rank < len(best_sv) else 0
+
+    marker = "<--" if actual_rank <= target_rank and valid else ""
+    print(f"  target={target_rank:2d}:  tail_sum={best_tail:.2e}  "
+          f"sigma_{target_rank}/sigma_0={tail_ratio:.4f}  "
+          f"actual_rank={actual_rank:2d}  valid={valid}  {marker}")
+
+    if actual_rank <= target_rank and valid:
+        print(f"\n  >>> MINIMUM SCHMIDT RANK = {actual_rank}")
+        print(f"  >>> Singular values:")
+        for i in range(min(actual_rank + 2, len(best_sv))):
+            marker2 = " *" if best_sv[i] > 1e-8 * best_sv[0] else ""
+            print(f"      sigma_{i} = {best_sv[i]:.8f}{marker2}")
+        break
+
 print("""
 The palindromic mirror Pi is a DC/AC crossover switch in Liouville space.
 

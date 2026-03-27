@@ -141,11 +141,12 @@ that mixes the signals between sites before crossovering.
 For XZ+ZY (X and Y on different sites): no conflict. Each site chooses
 its own crossover independently (P4 on site 0 for X, P1 on site 1 for Y).
 
-**Minimum Schmidt rank:** Rank-2, 3, and 4 truncations of the numerical Pi
-all fail the conjugation equation (error > 1.0). Random search over the
-40-dimensional commutant (5000 samples) found rank 10 as the best achievable.
-The non-locality is not a simple 2-port hybrid but a multi-mode structure.
-The exact minimum rank remains open.
+**Minimum Schmidt rank = 9** (of 16 maximum). Systematic optimization
+(L-BFGS-B, 20 restarts per target rank) over the 40-dimensional commutant
+shows ranks 2-8 are unreachable (tail singular value sum > 1e-11), while
+rank 9 converges cleanly (tail sum 3.46e-17). The non-locality requires
+9 coupled modes out of 16 in Liouville space. This is not a simple
+2-port hybrid coupler but a full multi-mode structure.
 
 ---
 
