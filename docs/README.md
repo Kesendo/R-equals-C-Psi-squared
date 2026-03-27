@@ -41,6 +41,7 @@ Three entry points for new readers:
 ```
 docs/
   proofs/        ← Formal proofs (7 documents)
+  neural/        ← Palindromic symmetry in biological neural networks
   historical/    ← Legacy documents, superseded or resolved (10 documents)
   (this folder)  ← Synthesis, reference, and navigation
 ```
@@ -87,6 +88,20 @@ These connect the mathematical results into a coherent picture.
 
 ---
 
+## Neural Systems (`neural/`)
+
+The palindromic spectral symmetry, derived and proven in quantum systems,
+has a classical analog in neural networks. Dale's Law (E neurons excite,
+I neurons inhibit) provides the same sign antisymmetry as the quantum
+commutator. No quantum physics required to read these documents.
+
+| Document | What it covers |
+|----------|---------------|
+| [README](neural/README.md) | Entry point for neuroscience readers |
+| [Algebraic Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md) | Derived condition, C. elegans test, validation checks |
+
+---
+
 ## Historical Documents (`historical/`)
 
 Early documents from December 2025 through February 2026. Preserved for
@@ -117,7 +132,8 @@ BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disprove
 
 | Resource | Where |
 |----------|-------|
-| Experiments (59 documents) | [experiments/](../experiments/README.md) |
+| Experiments (60 documents) | [experiments/](../experiments/README.md) |
+| Neural systems (no quantum needed) | [neural/](neural/README.md) |
 | Open hypotheses | [hypotheses/](../hypotheses/README.md) |
 | Publications and papers | [publications/](../publications/) |
 | Reading Guide (guided tour) | [READING_GUIDE.md](READING_GUIDE.md) |
