@@ -114,10 +114,11 @@ compatibility:
 | Compatible via non-local Π | 2/36 | Not factorizable, entangled (XZ+YZ, ZX+ZY) |
 | Broken (no Π exists) | 14/36 | Palindrome itself fails numerically |
 
-Note: combinations where incompatible Pauli operators sit on DIFFERENT
-sites (e.g. XZ+ZY) also have product Π operators (P4⊗P1), but were
-identified in the alternating/non-uniform search. Non-locality requires
-incompatible operators (X and Y) on the SAME site.
+Note: "incompatible" means X and Y, which require different Pi families
+(P1 routes X, P4 routes Y). When they sit on DIFFERENT sites (e.g. XZ+ZY),
+each site chooses its own family: P4⊗P1. When they sit on the SAME site
+(XZ+YZ), no single per-site map suffices. See
+[Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md).
 
 The 14 broken combinations from algebraic analysis match the 14 from
 numerical eigenvalue analysis exactly (cross-validated).
@@ -145,9 +146,10 @@ per-site factorization can capture. The 1/√2 coefficients are characteristic
 of Bell-state structure: the mirror itself is entangled.
 
 **Physical reason:** H = XZ + YZ places both X and Y on the same site (site 0),
-coupled to Z on site 1. P1 handles Y (Y<->Z) but not X; P4 handles X (X<->Z)
-but not Y. No single per-site map can accommodate both. The conflicting
-demands force the mirror to correlate both sites non-locally.
+coupled to Z on site 1. P1 routes the X-channel ({P1, ad_X} = 0) but fails Y.
+P4 routes the Y-channel ({P4, ad_Y} = 0) but fails X. No single per-site map
+can route both channels simultaneously. The conflicting demands force the
+mirror to correlate both sites non-locally.
 
 **Contrast:** XZ+ZY (X on site 0, Y on site 1) IS factorizable as P4 x P1.
 When incompatible Pauli operators sit on DIFFERENT sites, each site chooses
