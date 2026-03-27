@@ -397,11 +397,12 @@ All scripts are in `simulations/neural/`:
 
 | Script | What it computes |
 |--------|-----------------|
-| algebraic_palindrome.py | Algebraic residual, C. elegans vs random |
-| cpsi_two_perspectives.py | E-I character swap, standing wave verification |
-| exact_pairing_test.py | Eigenvalue pair sums, conjugation equation test |
-| random_network_controls.py | Density and coupling sweeps |
-| dense_balanced_test.py | Larger subnetwork tests |
+| [algebraic_palindrome.py](../../simulations/neural/algebraic_palindrome.py) | Algebraic residual, C. elegans vs random |
+| [cpsi_two_perspectives.py](../../simulations/neural/cpsi_two_perspectives.py) | E-I character swap, standing wave verification |
+| [exact_pairing_test.py](../../simulations/neural/exact_pairing_test.py) | Eigenvalue pair sums, conjugation equation test |
+| [random_network_controls.py](../../simulations/neural/random_network_controls.py) | Density and coupling sweeps |
+| [dense_balanced_test.py](../../simulations/neural/dense_balanced_test.py) | Larger subnetwork tests |
+| [validation_checks.py](../../simulations/neural/validation_checks.py) | Parameter sensitivity, degree-preserving null model |
 
 Run with: `PYTHONIOENCODING=utf-8 python simulations/neural/<script>`
 
