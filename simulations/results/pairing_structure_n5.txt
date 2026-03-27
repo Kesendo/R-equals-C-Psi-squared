@@ -1,0 +1,17 @@
+=== PAIRING STRUCTURE OF V-EFFECT (N=2 -> N=5) ===
+N=2: 16 eigenvalues, 2 frequencies (3.999, 4.000), 16/16 paired
+N=5: 1024 eigenvalues, 109 frequencies, 1024/1024 paired
+
+OLD frequencies in N=5: 0 (N=2 frequencies do not survive)
+NEW frequencies in N=5: 109 (all from coupling)
+
+Pairing structure:
+  OLD-OLD: 0 (0.0%)
+  NEW-NEW: 556 (100.0%)
+  OLD-NEW: 0 (0.0%)
+  DECAY-DECAY: 85
+  UNPAIRED: 0
+
+The coupling creates a completely self-contained palindrome.
+Old N=2 frequencies are destroyed. All 109 new frequencies
+pair with each other. Not one old mode survives.
