@@ -114,11 +114,38 @@ All three are product operators (Schmidt rank 1). **LOCAL.**
 All 8 combinations of {P1, P4, M2} x {P1, P4, M2} tested. All fail.
 The numerical Pi from eigenvalue pairing has full Schmidt rank (16/16).
 
-**Physical reason for non-locality:** XZ+YZ = sigma_X x sigma_Z + sigma_Y x sigma_Z.
-Both X and Y appear on the SAME site (site 0). P1 handles Y (Y<->Z) but
-not X. P4 handles X (X<->Z) but not Y. No single per-site map handles
-both simultaneously. The conflicting requirements force the mirror to
-correlate the two sites non-locally.
+**Physical reason for non-locality (signal engineering view):**
+
+Z-dephasing splits each qubit's Pauli basis into a DC bus {I, Z}
+(populations, immune to noise) and an AC bus {X, Y} (coherences, decaying).
+The Pi operator is a crossover switch between DC and AC. Two crossover
+settings exist:
+
+| Crossover | X-channel | Y-channel | Z-channel |
+|-----------|-----------|-----------|-----------|
+| P1 | PASS | FAIL | compensated by dephasing |
+| P4 | FAIL | PASS | compensated by dephasing |
+
+P1 anticommutes with ad_X (handles X-signal routing) but not ad_Y.
+P4 anticommutes with ad_Y (handles Y-signal routing) but not ad_X.
+Neither anticommutes with ad_Z directly; Z-channel matching is provided
+by the dephasing terms in the Liouvillian (the noise IS the impedance
+match for the DC bus).
+
+For XZ+YZ (X and Y on same site): site 0 needs BOTH crossover settings
+simultaneously. This is a frequency conflict in a diplexer: two bands
+need incompatible filter settings on the same port. No single crossover
+works. The resolution requires a non-local "hybrid coupler" (entangled Pi)
+that mixes the signals between sites before crossovering.
+
+For XZ+ZY (X and Y on different sites): no conflict. Each site chooses
+its own crossover independently (P4 on site 0 for X, P1 on site 1 for Y).
+
+**Minimum Schmidt rank:** Rank-2, 3, and 4 truncations of the numerical Pi
+all fail the conjugation equation (error > 1.0). Random search over the
+40-dimensional commutant (5000 samples) found rank 10 as the best achievable.
+The non-locality is not a simple 2-port hybrid but a multi-mode structure.
+The exact minimum rank remains open.
 
 ---
 
@@ -212,6 +239,7 @@ Pauli operators the Hamiltonian places at that site.
 
 ```
 PYTHONIOENCODING=utf-8 python simulations/pi_operator_entanglement.py
+PYTHONIOENCODING=utf-8 python simulations/pi_nonlocality_mechanism.py
 ```
 
 ---
