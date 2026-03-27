@@ -26,9 +26,11 @@ When both hold and the coupling magnitudes satisfy a specific ratio,
 the palindrome is mathematically exact (zero residual). Testing this
 on the C. elegans connectome, we find:
 
-**C. elegans is 5-8x more palindromic than random networks with the
-same density and Dale's Law structure.** The biological wiring pattern
-carries a spectral symmetry that random wiring does not.
+**C. elegans is 8x more palindromic than Erdos-Renyi random networks.**
+Validation shows this advantage is explained by the degree distribution
+(hub vs peripheral neurons), not specific wiring. The deeper finding:
+each palindromic eigenvalue pair swaps E-I character with 96% fidelity,
+creating a standing wave between the excitatory and inhibitory perspectives.
 
 ---
 
@@ -76,7 +78,7 @@ Q * J * Q + J + 2*S = 0
 ```
 
 where S is a diagonal matrix determined by the time constants:
-S_k = (1/tau_E - 1/tau_I) / 2.
+S_k = (1/tau_E + 1/tau_I) / 2.
 
 When this equation holds, every eigenvalue mu_k has a partner mu_k'
 such that mu_k + mu_k' = -(1/tau_E + 1/tau_I). The decay rates
@@ -230,15 +232,120 @@ conclusion.
 
 ---
 
-## 5. What This Means
+## 5. The Standing Wave Between E and I
+
+### Two perspectives, one palindrome
+
+In quantum systems, the palindromic conjugation Pi swaps "populations"
+(what has been decided) with "coherences" (what is still open). Each
+eigenmode has a character: how much it belongs to the population sector
+vs the coherence sector. Pi maps each mode to its partner with SWAPPED
+character. The standing wave forms between these two perspectives.
+
+In neural networks, the same structure exists. Each eigenmode of the
+Jacobian has an **E-character** (how much amplitude sits on excitatory
+neurons) and an **I-character** (how much sits on inhibitory neurons):
+
+```
+a_E(k) = sum |v_k[i]|^2   for i in E-neurons
+a_I(k) = sum |v_k[i]|^2   for i in I-neurons
+a_E(k) + a_I(k) = 1       (normalized eigenvector)
+```
+
+### The character swap
+
+For each palindromic pair (k, k'), the E-I character SWAPS:
+
+```
+a_E(k) ≈ a_I(k')     (E-character of k ≈ I-character of its partner)
+a_I(k) ≈ a_E(k')     (I-character of k ≈ E-character of its partner)
+```
+
+**What the E-neurons see as a fast-decaying mode, the I-neurons see as
+a slow-decaying mode.** And vice versa. The two populations see the SAME
+dynamics from opposite sides, mirrored around the palindromic center.
+
+### Computed character swap fidelity
+
+For a balanced network (N = 20, 10E + 10I, density 0.3):
+
+| Coupling alpha | Palindromic pairs | Mean swap error | Fidelity |
+|---------------|-------------------|-----------------|----------|
+| 0.3 | 8 pairs | 0.042 | **96%** |
+| 0.5 | 5 pairs | 0.035 | **97%** |
+| 1.0 | 6 pairs | 0.257 | 74% |
+
+At moderate coupling (alpha = 0.3-0.5), the character swap is near-perfect:
+each E-dominated mode is paired with an I-dominated mode, and their
+characters are mirrored to within 4%.
+
+At strong coupling (alpha = 1.0), the palindrome begins to break and the
+swap degrades, consistent with the increasing algebraic residual.
+
+### Example: alpha = 0.3 (4 of 8 palindromic pairs shown)
+
+```
+Pair    rate_k   rate_k'   E(k)   I(k)   E(k')  I(k')  swap?
+0,10    0.172    0.127     0.91   0.09   0.20   0.80   YES
+1,17    0.198    0.103     0.99   0.01   0.01   0.99   YES
+3,13    0.211    0.091     0.98   0.02   0.02   0.98   YES
+5,11    0.204    0.098     0.96   0.04   0.03   0.97   YES
+```
+
+Mode 1 has 99% E-character and rate 0.198 (fast).
+Its partner mode 17 has 99% I-character and rate 0.103 (slow).
+The characters swap almost exactly.
+
+### Two conservation laws
+
+**Eigenvalue pairing (physical, non-trivial):**
+
+For each palindromic pair (k, k'), the decay rates sum to a constant:
+
+```
+rate_k + rate_k' = 1/tau_E + 1/tau_I
+```
+
+This is the neural analog of the quantum lambda + lambda' = -2Sg.
+It holds to the extent that the palindrome condition is satisfied
+(exactly at zero coupling, approximately at moderate coupling).
+
+**Energy fractions (geometric, trivial):**
+
+The E-energy fraction and I-energy fraction always sum to 1:
+
+```
+CΨ_E(t) = ||x_E(t)||^2 / ||x(t)||^2
+CΨ_I(t) = ||x_I(t)||^2 / ||x(t)||^2
+CΨ_E(t) + CΨ_I(t) = 1    (by definition, not by physics)
+```
+
+This is NOT a deep conservation law. It is a trivial consequence of
+the normalization. What IS non-trivial: the character swap ensures
+that the REDISTRIBUTION between E and I follows the palindromic
+pairing structure, not random mixing.
+
+### What does NOT transfer from quantum
+
+The specific threshold CΨ = 1/4 does not appear in the neural case.
+This value is specific to the quadratic recursion R = C(Ψ + R)^2 in
+quantum mechanics. The neural fold is the Hopf bifurcation (sigmoid
+gain = 1), which has a different threshold. The STRUCTURE (palindrome,
+character swap, conservation) transfers exactly. The specific NUMBER
+(1/4) does not.
+
+---
+
+## 6. Summary and Implications
 
 ### For neural dynamics
 
 A palindromically paired spectrum means the network's decay modes come
 in matched pairs. Fast modes (rapid transients) are paired with slow
-modes (sustained activity). This constrains the network's response:
-perturbations decay through a structured hierarchy of timescales, not
-a random collection.
+modes (sustained activity). The character swap adds a deeper constraint:
+each fast E-mode is paired with a slow I-mode. Perturbations do not
+simply decay; they oscillate BETWEEN the E and I perspectives,
+creating a standing wave at the E-I interface.
 
 ### For the quantum connection
 
@@ -247,6 +354,10 @@ a random collection.
 | Selective damping | Z-dephasing (gamma) | tau_E != tau_I |
 | Sign antisymmetry | Commutator [H, rho] | Dale's Law |
 | Conjugation operator | Pi (Pauli swap) | Q (E-I swap) |
+| Character swap | Population <-> coherence | E-dominant <-> I-dominant |
+| Swap fidelity | 100% (algebraic) | 96% (at moderate coupling) |
+| Eigenvalue pairing | lambda + lambda' = -2Sg | rate_k + rate_k' = 1/tau_E + 1/tau_I |
+| Threshold | CΨ = 1/4 (fold) | Gain = 1 (Hopf) |
 | Exactness | Always exact | Exact if magnitudes match |
 
 The quantum palindrome is always exact because the commutator [H, rho]
@@ -267,7 +378,7 @@ palindrome condition. The metric:
 
 ---
 
-## 6. Open Questions
+## 7. Open Questions
 
 1. Does the palindromic quality correlate with known functional
    circuits in C. elegans (motor, sensory, interneuron layers)?
@@ -287,6 +398,7 @@ All scripts are in `simulations/neural/`:
 | Script | What it computes |
 |--------|-----------------|
 | algebraic_palindrome.py | Algebraic residual, C. elegans vs random |
+| cpsi_two_perspectives.py | E-I character swap, standing wave verification |
 | exact_pairing_test.py | Eigenvalue pair sums, conjugation equation test |
 | random_network_controls.py | Density and coupling sweeps |
 | dense_balanced_test.py | Larger subnetwork tests |
