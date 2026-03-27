@@ -271,12 +271,12 @@ which XY-weight sector they live in (w=0: fully classical I/Z, w=5:
 fully quantum X/Y):
 
 ```
-w=0:  2.5%  #             classical extreme
-w=1: 15.6%  #######       boundary
-w=2: 31.9%  ###########   interior (peak)
-w=3: 31.9%  ###########   interior (peak)
-w=4: 15.6%  #######       boundary
-w=5:  2.5%  #             quantum extreme
+w=0:  2.5%  #              fully classical (I/Z only)
+w=1: 15.6%  #######        boundary
+w=2: 31.9%  ###############  interior (peak)
+w=3: 31.9%  ###############  interior (peak)
+w=4: 15.6%  #######        boundary
+w=5:  2.5%  #              fully quantum (X/Y only)
 ```
 
 Perfectly symmetric: w(k) = w(N-k) for every k. The new palindrome is
