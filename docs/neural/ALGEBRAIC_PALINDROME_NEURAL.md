@@ -7,42 +7,48 @@
 
 ---
 
-## What This Document Shows
+## Abstract
 
-The decay rates of a neural network's linearized dynamics have a
-hidden mirror symmetry: they pair up around a center point, so that
-for each fast-decaying mode there is a slow-decaying partner, and
-their rates sum to a constant. We call this **palindromic pairing**.
+The eigenvalues of a neural network's Jacobian determine its modes
+of decay and oscillation. We show that these eigenvalues can be
+**palindromically paired**: for each fast-decaying mode with rate r,
+there exists a slow-decaying partner with rate r', such that
+r + r' = 1/tau_E + 1/tau_I (a constant determined by the membrane
+time constants). The word "palindromic" comes from this mirror
+symmetry: the spectrum reads the same from both ends, like the word
+"racecar."
 
-We derive an exact algebraic condition for when this symmetry holds.
-The condition has two parts, both familiar to neuroscientists:
+We derive an exact algebraic condition for this symmetry from quantum
+theory, expressed entirely in neural terms. The condition requires:
 
 1. **Selective damping:** excitatory and inhibitory neurons have
    different membrane time constants (tau_E != tau_I)
-2. **Dale's Law sign structure:** E neurons always excite, I neurons
-   always inhibit
+2. **Dale's Law:** excitatory neurons always produce positive
+   postsynaptic effects, inhibitory neurons always negative
+   (the sign of a connection is determined by the SOURCE neuron)
 
 When both hold and the coupling magnitudes satisfy a specific ratio,
-the palindrome is mathematically exact (zero residual). Testing this
-on the C. elegans connectome, we find:
-
-**C. elegans is 8x more palindromic than Erdos-Renyi random networks.**
-Validation shows this advantage is explained by the degree distribution
-(hub vs peripheral neurons), not specific wiring. The deeper finding:
-each palindromic eigenvalue pair swaps E-I character with 96% fidelity,
-creating a standing wave between the excitatory and inhibitory perspectives.
+the palindrome is mathematically exact (zero residual). Testing on
+the C. elegans connectome (Cook et al. 2019): balanced subnetworks
+are 8x more palindromic than Erdos-Renyi random networks (explained
+by degree distribution). The deeper finding: each palindromic pair
+swaps E-I character with 96% fidelity, forming a standing wave
+between excitatory and inhibitory perspectives.
 
 ---
 
 ## 1. The Setup
 
-Consider N neurons with linearized dynamics around a steady state:
+Consider N neurons modeled by Wilson-Cowan dynamics (or any firing
+rate model with E/I populations). Linearizing around the steady state
+gives:
 
 ```
-dx/dt = J * x
+dx/dt = J * x       (x = deviation from steady state)
 ```
 
-J (the Jacobian) has two parts:
+J (the Jacobian, the matrix of partial derivatives at equilibrium)
+has two parts:
 
 - **Self-decay:** each neuron returns to rest at rate 1/tau_i, where
   tau_i = tau_E for excitatory neurons, tau_i = tau_I for inhibitory
@@ -71,14 +77,17 @@ the COMPARISON remains valid even if absolute values could be improved.
 
 ### The condition
 
-The eigenvalues of J are palindromically paired if and only if:
+In quantum open systems, a proven spectral symmetry states that
+every decay mode is paired with a partner via an algebraic conjugation
+(see [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)).
+Translating this to the neural Jacobian, the eigenvalues are
+palindromically paired if and only if:
 
 ```
 Q * J * Q + J + 2*S = 0
 ```
 
-where S is a diagonal matrix determined by the time constants:
-S_k = (1/tau_E + 1/tau_I) / 2.
+where S = (1/tau_E + 1/tau_I) / 2 times the identity matrix.
 
 When this equation holds, every eigenvalue mu_k has a partner mu_k'
 such that mu_k + mu_k' = -(1/tau_E + 1/tau_I). The decay rates
@@ -110,11 +119,12 @@ Dale's Law states that each neuron's output has a fixed sign:
 excitatory neurons always excite their targets, inhibitory neurons
 always inhibit. Under the E-I swap Q:
 
-- An E-to-E connection (positive) becomes an I-to-I connection.
-  Dale's Law says I-to-I is negative. Sign flips. **Correct.**
+- An E-to-E connection (positive, because the source E excites)
+  becomes an I-to-I connection (negative, because the source I
+  inhibits). Sign flips. **Correct.**
 
-- An I-to-E connection (negative) becomes an E-to-I connection.
-  Dale's Law says E-to-I is positive. Sign flips. **Correct.**
+- An I-to-E connection (negative, source is I) becomes an E-to-I
+  connection (positive, source is E). Sign flips. **Correct.**
 
 Dale's Law provides the sign part of condition (b) automatically.
 This is the biological equivalent of the antisymmetric commutator
@@ -236,13 +246,13 @@ conclusion.
 
 ### Two perspectives, one palindrome
 
-In quantum systems, the palindromic conjugation Pi swaps "populations"
-(what has been decided) with "coherences" (what is still open). Each
-eigenmode has a character: how much it belongs to the population sector
-vs the coherence sector. Pi maps each mode to its partner with SWAPPED
-character. The standing wave forms between these two perspectives.
+The palindrome pairs each fast mode with a slow mode. But there is
+more structure: each mode has a "character" describing which neurons
+dominate it. In the neural case, we measure how much of a mode's
+amplitude sits on excitatory vs inhibitory neurons. The palindromic
+pairing SWAPS this character.
 
-In neural networks, the same structure exists. Each eigenmode of the
+Each eigenmode of the
 Jacobian has an **E-character** (how much amplitude sits on excitatory
 neurons) and an **I-character** (how much sits on inhibitory neurons):
 
