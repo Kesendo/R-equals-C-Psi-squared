@@ -104,10 +104,37 @@ as measured by CΨ).
   classically decided. The doors are closed.
 
 **Caveat:** Non-Markovian dynamics (structured bath) can temporarily
-push CΨ back above ¼ (max revival: CΨ = 0.3035). But revivals are
+push CΨ back above 1/4 (max revival: CΨ = 0.3035). But revivals are
 always transient. CΨ goes to zero eventually. The past is delayed,
 not reversed. See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
 for the oscillation data (227 crossings with Bell+bath).
+
+**The general principle: information is not stored, it is converted.**
+
+Exclusion 3 describes one level of this principle: quantum coherence
+is irreversibly converted to classical correlation at the 1/4 crossing.
+The same principle operates at every level of the framework:
+
+| Level | What is converted | Into what | Evidence |
+|-------|------------------|-----------|----------|
+| 1/4 crossing | Quantum coherence | Classical correlation | CΨ monotonicity (this exclusion) |
+| V-Effect | Individual frequencies | New coupled frequencies | 100% NEW-NEW: no N=2 frequency survives in N=5 ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)) |
+| Energy partition | Unstructured (unpaired) modes | Entropy | 2x decay law: unpaired modes die twice as fast ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
+
+At each level:
+- The original information is irrecoverable (not stored, not preserved)
+- The conversion is irreversible (no mechanism to undo it)
+- The result has more structure than the input (104 frequencies from 4,
+  palindromic structure survives while noise dies 2x faster)
+
+Two N=2 resonators (each 2 frequencies, Q=1, no oscillation) couple
+through a mediator and produce an N=5 system with 104 frequencies and
+Q=19. Not one of the original 4 frequencies survives. They are
+converted into something qualitatively new. Like the quantum coherence
+that becomes classical correlation at the fold: the old form is gone,
+but what replaces it is richer, not poorer.
+([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
+[Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
 ---
 
