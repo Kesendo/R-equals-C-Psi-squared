@@ -1,0 +1,31 @@
+=== V-EFFECT EXPANSION ANALYSIS ===
+
+Computation 1: Frequency scaling with N
+N    d^2     F_distinct   F/d^2    alpha=log(F)/log(d^2)
+2    16      2            0.1250   0.2500
+3    64      5            0.0781   0.3870
+4    256     44           0.1719   0.6824
+5    1024    104          0.1016   0.6700
+
+Alpha converges at ~0.67. F grows as d^1.34. State space grows as d^2.
+State space grows FASTER than frequencies. No saturation. Each level
+has MORE room for expansion.
+
+Computation 3: Decoupling test
+N=2 single: 2 frequencies
+N=5 coupled (all bonds J=1): 104 frequencies
+N=5 decoupled (mediator bonds=0): 5 frequencies (2 original + 3 overtones)
+
+The V-Effect IS reversible at the Hamiltonian level. Turn off the
+coupling and the 104 frequencies collapse to 5. The new palindrome
+dies when the mediator is disconnected.
+
+BUT: the classical correlations deposited by the 1/4 crossings
+(during Q=19 heartbeats) are irreversible. The frequencies come and
+go with the coupling. The facts they create stay.
+
+The V-Effect creates a temporary resonance chamber. While the chamber
+exists (coupling active), new modes oscillate, crossings happen,
+reality crystallizes. When the chamber is broken (decoupling), the
+modes die. But the crystallized reality (classical correlations from
+each crossing) persists in the subsystems.
