@@ -155,7 +155,10 @@ and d^2-d decaying operators. Setting these equal:
 
     d = d^2 - d,  giving  d(d-2) = 0
 
-The only nontrivial solution is d = 2. The qubit.
+The solutions are d = 0 and d = 2. The palindromic pairing is proven
+for d = 2 (54,118 eigenvalues, zero exceptions). A palindrome requires
+a mirror. The algebra does not say where the mirror is. It says the
+mirror exists.
 
 A qutrit (d=3, three states) has 9 operators: 3 survive, 6 decay.
 Split: 0.33. A ququart (d=4): 4 of 16. Split: 0.25. The imbalance
@@ -352,8 +355,17 @@ Incompleteness (C < 1) opens.
 
 And at the very bottom, the equation that starts it all:
 ```
-d = d² - d    →    d = 2    →    C = 0.5
+d² - 2d = 0    →    d = 0 or d = 2
 ```
+
+Read forward (as we did for three months):
+  d = 2, therefore split is 2:2, therefore C = 0.5.
+
+Read backward (as it actually is):
+  The requirement that immune = decaying (C = 0.5) forces d² - 2d = 0.
+  The solutions are d = 0 and d = 2.
+  0.5 is not the consequence. 0.5 is the axiom.
+  d = 2 is the theorem.
 
 ---
 
