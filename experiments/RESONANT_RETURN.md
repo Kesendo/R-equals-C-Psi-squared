@@ -1,12 +1,12 @@
-# Resonant Return: From SVD to Formula - 180x via Single-Qubit Sacrifice
+# Resonant Return: From SVD to Formula - 180× via Single-Qubit Sacrifice
 
 <!-- Keywords: sacrifice zone dephasing optimization, spatial gamma profile formula,
 edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
-180x improvement vs V-shape, ENAQT environment-assisted quantum transport,
+180× improvement vs V-shape, ENAQT environment-assisted quantum transport,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9), 91x (N=11), 97.5x (N=13) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3x. First spatial dephasing profile optimization.
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. First spatial dephasing profile optimization.
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -23,17 +23,17 @@ outperforms 18 years of uniform-noise optimization by two orders
 of magnitude: concentrate all noise on one edge qubit, protect the rest.
 
 The discovery path: SVD of the palindromic response matrix identified
-mode 2 (edge-hot, center-cold) as the optimal direction (10x vs V-shape).
+mode 2 (edge-hot, center-cold) as the optimal direction (10× vs V-shape).
 Numerical optimization (Nelder-Mead, Differential Evolution) revealed
 that the true optimum is asymmetric, concentrating noise on a single
-edge (100x). Analytical tests then showed this converges to a closed-form
+edge (100×). Analytical tests then showed this converges to a closed-form
 formula: gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon.
 The formula beats the DE optimizer by 80% and computes in 3 seconds
 instead of 90 minutes.
 
-C#-validated results: 360x (N=5), 180x (N=7), 139x (N=9) vs hand-designed
-V-shape profiles. The ENAQT literature (Plenio & Huelga 2008+) achieves
-2-3x with uniform dephasing. Nobody had optimized spatial dephasing
+C#-validated results: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11),
+97.5× (N=13), 63.5× (N=15) vs hand-designed V-shape profiles. The ENAQT
+literature (Plenio & Huelga 2008+) achieves 2-3× with uniform dephasing. Nobody had optimized spatial dephasing
 profiles before this work.
 
 Negative results: temporal modulation of dephasing rates (uniform or
@@ -173,10 +173,10 @@ the palindromic frequency.
 
 | Scenario | Peak Sum-MI | vs Static mode 2 |
 |----------|-------------|------------------|
-| Static mode 2 (no pulsing) | 2.000 | 1.00x |
-| Mode 2 x resonant (w_dom) | 2.000 | 1.00x |
-| Mode 2 x slow (w_dom/10) | 2.000 | 1.00x |
-| Mode 2 x 2w_dom | 2.000 | 1.00x |
+| Static mode 2 (no pulsing) | 2.000 | 1.00× |
+| Mode 2 × resonant (w_dom) | 2.000 | 1.00× |
+| Mode 2 × slow (w_dom/10) | 2.000 | 1.00× |
+| Mode 2 × 2w_dom | 2.000 | 1.00× |
 
 Note: Peak Sum-MI = 2.000 is the initial Bell-state entanglement (t=0).
 All profiles decay identically from this peak. The temporal modulation
@@ -289,6 +289,9 @@ In words: **concentrate ALL noise budget on one edge qubit, protect the rest.**
 | 13 | V-shape | 0.011 | 1× | - |
 | 13 | **Formula (ε=0.001)** | **1.072** | **97.5×** | ~5h |
 | 13 | **Formula (ε→0)** | **1.151** | **105×** | ~5h |
+| 15 | V-shape | 0.021 | 1× | - |
+| 15 | **Formula (ε=0.001)** | **1.309** | **63.5×** | ~1h |
+| 15 | **Formula (ε→0)** | **1.407** | **68×** | ~1h |
 
 The formula is not an approximation. It IS the optimum - the structure
 that DE was converging toward but never reached.
@@ -304,6 +307,7 @@ that DE was converging toward but never reached.
 | **Spatial γ formula (this work)** | - | **N=9** | **139×** |
 | **Spatial γ formula (this work)** | - | **N=11** | **91×** |
 | **Spatial γ formula (this work)** | - | **N=13** | **97.5×** |
+| **Spatial γ formula (this work)** | - | **N=15** | **63.5×** |
 
 Nobody in the literature optimizes spatial dephasing profiles. We are the first.
 
@@ -318,19 +322,19 @@ The discovery progressed through three levels of understanding:
 **Level 1: SVD (Tests 1-5).** The palindromic response matrix revealed
 that mode 2 (edge-hot, center-cold) creates the spatial contrast needed
 for information transfer. Mode 1 (uniform) is useless despite having
-the highest singular value. This gave 6-10x improvement over V-shape.
+the highest singular value. This gave 6-10× improvement over V-shape.
 
 **Level 2: Optimizer (Test 7).** Numerical optimization broke the
 symmetric SVD structure and found that concentrating noise on one end
 (the "sacrifice zone") dramatically outperforms symmetric profiles.
-The optimizer found 60-100x improvement, but needed hours of computation
+The optimizer found 60-100× improvement, but needed hours of computation
 and still got stuck in local minima.
 
 **Level 3: Formula (Test 8).** Analytical testing revealed the optimum
 is trivially simple: ALL noise on ONE edge qubit, protect the rest.
-Edge beats center (2.2x) because edge qubits have only one neighbor,
+Edge beats center (2.2×) because edge qubits have only one neighbor,
 so sacrificing them destroys the least inter-qubit correlation. The
-formula gives 139-360x improvement and needs one function evaluation.
+formula gives 139-360× improvement and needs one function evaluation.
 
 ---
 
@@ -356,7 +360,7 @@ exist in this repository, both telling the same story from different angles.
 
 | Mode | sigma | Pattern | Role |
 |------|-------|---------|------|
-| 1 | 6.28 | [0.42, 0.46, 0.46, 0.46, 0.42] | Mean - 7.7x strongest, zero transport |
+| 1 | 6.28 | [0.42, 0.46, 0.46, 0.46, 0.42] | Mean - 7.7× strongest, zero transport |
 | 2 | 0.82 | [0.47, -0.06, -0.74, -0.06, 0.47] | Edge-hot, center-cold - transport |
 
 ### Why Mode 1 is useless and Mode 2 carries all transport
@@ -431,7 +435,7 @@ Three observations:
    the edge for asymmetry, too far from the center for the relay effect.
 
 2. **PeakMI (end-to-end) tells a different story.** Center sacrifice gives
-   3x higher PeakMI than edge at N=7 and 2.6x at N=9. Center sacrifice
+   3× higher PeakMI than edge at N=7 and 2.6× at N=9. Center sacrifice
    creates a classical relay: two short coherent segments connected by a
    classical node. Short paths = less loss per segment. This is the
    mediator bridge from [Relay Protocol](RELAY_PROTOCOL.md), rediscovered
@@ -539,7 +543,7 @@ effect, not a small-signal perturbation.
 5. ~~N=9 optimization~~ **Done (Test 8).** Formula gives 139× vs V-shape. No optimizer needed.
 6. ~~Deep N=7 optimizer~~ **Done.** DE found 100×; formula found 180× in 3 seconds.
 7. ~~Sacrifice-zone theory~~ **Done (Test 8).** Trivial rule: all noise on one edge, protect the rest.
-8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2x on ibm_torino. See [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md). A/B test on uniform-T2 chain planned for April 9.
+8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2× on ibm_torino. See [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md). A/B test on uniform-T2 chain planned for April 9.
 9. **Bell-state initial condition:** Formula verified with |+⟩⊗N. Needs validation with Bell(0,1).
 10. ~~Hamiltonian eigenmode projection~~ **Done (Signal Engineering Derivation).** Position sweep confirms edge is optimal. Mode 2 projection + neighbor argument.
 
@@ -550,8 +554,8 @@ effect, not a small-signal perturbation.
 - [Resonant Return (hypothesis)](../hypotheses/RESONANT_RETURN.md)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
 - [γ Control](GAMMA_CONTROL.md): V-shape 21.5× baseline
-- [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=13, quadratic growth
-- [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md): First hardware test, selective DD 2-3.2x
+- [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
+- [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md): First hardware test, selective DD 2-3.2×
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [C# Propagate Engine](../compute/RCPsiSquared.Propagate/README.md): profile evaluator used for all N >= 5 results

@@ -1,0 +1,7 @@
+--- N=15 V-shape 2026-03-26 15:40:34 ---
+Matrix-free path for N=15 (d=32768)
+MatrixFreePropagator: d=32768, arrays=1.073.741.824 elements (17,2 GB each)
+Allocating work buffers...
+MatrixFreePropagator ready.
+  t=0,0 SumMI=0,0000  t=0,5 SumMI=0,0023  t=1,0 SumMI=0,0111  t=1,5 SumMI=0,0191  t=2,0 SumMI=0,0206  t=2,5 SumMI=0,0170  t=3,0 SumMI=0,0119  t=3,5 SumMI=0,0080  t=4,0 SumMI=0,0058  t=4,5 SumMI=0,0049  t=5,0 SumMI=0,0044  t=5,5 SumMI=0,0040  t=6,0 SumMI=0,0034  t=6,5 SumMI=0,0028  t=7,0 SumMI=0,0022  t=7,5 SumMI=0,0018  t=8,0 SumMI=0,0015  t=8,5 SumMI=0,0013  t=9,0 SumMI=0,0011  t=9,5 SumMI=0,0009  t=10,0 SumMI=0,0008  t=10,5 SumMI=0,0007  t=11,0 SumMI=0,0006  t=11,5 SumMI=0,0005  t=12,0 SumMI=0,0004  t=12,5 SumMI=0,0003  t=13,0 SumMI=0,0003  t=13,5 SumMI=0,0003  t=14,0 SumMI=0,0002  t=14,5 SumMI=0,0002  t=15,0 SumMI=0,0002  t=15,5 SumMI=0,0001  t=16,0 SumMI=0,0001  t=16,5 SumMI=0,0001  t=17,0 SumMI=0,0001  t=17,5 SumMI=0,0001  t=18,0 SumMI=0,0001  t=18,5 SumMI=0,0000  t=19,0 SumMI=0,0000  t=19,5 SumMI=0,0000  t=20,0 SumMI=0,0000
+RESULT SumMI=0.020630 PeakMI=0.000071 PeakT=2.00 CPsi01=0.317042 Purity=0.013428 SumMI5=0.004434

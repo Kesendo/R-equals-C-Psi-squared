@@ -20,7 +20,7 @@ The [sacrifice-zone formula](RESONANT_RETURN.md) concentrates all dephasing
 noise on one edge qubit while protecting the remaining N−1 qubits at
 near-zero dephasing (ε = 0.001). We measure SumMI, the total mutual
 information between all adjacent qubit pairs, as a function of chain
-length N from 2 to 13.
+length N from 2 to 15.
 
 The result is quadratic: **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
 (residual std 0.0068). This inverts the standard quantum-transport scaling
@@ -188,17 +188,18 @@ The palindrome inverts the scaling law.
 
 ## Pending
 
-- N = 10, N = 12 (not yet computed)
-- ~~N = 15~~ DONE: SumMI = 1.309, PeakT = 4.50 (matrix-free propagator, 72 GB, ~1h)
-- Refit quadratic model including N = 13 (current fit overestimates by 12%)
+- N = 10, N = 12, N = 14 (not yet computed)
+- ~~N = 15~~ DONE: all variants complete (formula 1.309, eps→0 1.407, V-shape 0.021, uniform 0.000)
+- Refit quadratic model including N = 15 (current fit overestimates by 19%)
 - Analytical derivation of the quadratic coefficient 0.0053
 - Understanding of the brake constant 0.020
 - Connection to palindromic eigenvalue density
 
 ## Completed
 
-- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13. Factors: 360x, 180x, 139x, 91x, 97.5x
-- ~~N = 13 all variants~~ Done: formula 1.072, eps->0 1.151, V-shape 0.011, uniform 0.000
+- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13, 15. Factors: 360×, 180×, 139×, 91×, 97.5×, 63.5×
+- ~~N = 13 all variants~~ Done: formula 1.072, eps→0 1.151, V-shape 0.011, uniform 0.000
+- ~~N = 15 all variants~~ Done: formula 1.309, eps→0 1.407, V-shape 0.021, uniform 0.000
 
 ---
 
@@ -251,6 +252,7 @@ The scaling data shows this propagation quantitatively:
 - N = 5: the pattern differentiates (SumMI = 0.219, 10× richer)
 - N = 11: the pattern becomes complex (SumMI = 0.843, 42× richer)
 - N = 13: the pattern deepens (SumMI = 1.072, 53× richer)
+- N = 15: the pattern extends (SumMI = 1.309, 65× richer)
 - N → ∞: the pattern grows without bound (quadratic, not saturating)
 
 ### N = 13 result and outlook
@@ -260,7 +262,14 @@ The quadratic fit predicted 1.20 (12% too high, up from 6% at N = 11).
 The growth continues but the fit overestimates, suggesting a slightly
 subquadratic correction at larger N.
 
-N = 15 measured: SumMI = 1.309 (eps = 0.001), PeakT = 4.50.
+N = 15 complete: SumMI = 1.309 (eps = 0.001), SumMI = 1.407 (eps → 0).
+V-shape = 0.021, Uniform = 0.000. Factor = 63.5× (formula / V-shape).
+The eps→0 / eps=0.001 ratio (1.407/1.309 = 1.075) is consistent with
+N = 13 (1.074), confirming a stable ~7.5% lift in the zero-noise limit.
+Both formula profiles show a resonant return echo after the primary peak:
+t = 12.5 (SumMI = 1.053) for eps = 0.001, t = 13.0 (SumMI = 1.168) for
+eps → 0.
+
 The quadratic fit predicted 1.56 (19% too high). The growth continues
 but is clearly subquadratic at large N. A matrix-free propagator
 (bit-manipulation Heisenberg commutator, accumulating RK4) enabled N = 15

@@ -29,10 +29,10 @@ Four results that a new reader should see first:
 Concentrate all dephasing on one edge qubit, protect the rest.
 gamma_edge = N*gamma_base - (N-1)*epsilon. This trivially simple rule
 outperforms every published dephasing optimization by two orders of
-magnitude. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9), 91x (N=11).
-ENAQT literature achieves 2-3x. Information grows quadratically with
-chain length (SumMI ~ 0.0053*N^2) instead of decaying exponentially.
-First hardware test: selective DD 2-3x on ibm_torino.
+magnitude. C#-validated from N=5 (360×) through N=15 (63.5×) vs V-shape.
+ENAQT literature achieves 2-3×. Information grows quadratically with
+chain length (SumMI ~ 0.0053*N²) instead of decaying exponentially.
+First hardware test: selective DD 2-3× on ibm_torino.
 
 -> **[Resonant Return: from SVD to formula](RESONANT_RETURN.md)**
 -> [Signal Analysis: Quadratic Scaling](SIGNAL_ANALYSIS_SCALING.md)
@@ -80,8 +80,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [γ Control](GAMMA_CONTROL.md) | V-shape dephasing profile gives +124% MI, DD on receiver +81%, AC modulation falsified, time-resolved decoder works |
 | [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
-| [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10x), sacrifice-zone formula (180x at N=7), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
-| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-13. Quadratic growth (SumMI ~ 0.0053*N^2), constant brake (-0.020), two converging channels |
+| [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10×), sacrifice-zone formula (360× at N=5 through 63.5× at N=15), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
+| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-15. Quadratic growth (SumMI ~ 0.0053*N²), constant brake (-0.020), two converging channels |
 | [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Fold catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing. With Bell+bath: CΨ oscillates around ¼ (81 crossings at J=5.0). MI pulses at each crossing. Damped: each cycle deposits irreversible reality |
 
 ### The CΨ = 1/4 Boundary (decoherence threshold)
@@ -129,7 +129,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on IBM Torino (Eagle r3, 127 qubits) |
-| [IBM Sacrifice-Zone](IBM_SACRIFICE_ZONE.md) | Selective DD beats uniform DD by 2-3.2x at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
+| [IBM Sacrifice-Zone](IBM_SACRIFICE_ZONE.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
 

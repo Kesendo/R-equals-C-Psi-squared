@@ -8,7 +8,7 @@ N=7:  Formula(eps=0.001)=0.408  Formula(eps->0)=0.434  V-shape=0.002412  Uniform
 N=9:  Formula(eps=0.001)=0.619  Formula(eps->0)=0.658  V-shape=0.005     Uniform=~0  Factor=139x
 N=11: Formula(eps=0.001)=0.843  Formula(eps->0)=0.901  V-shape=0.009     Uniform=0.000  Factor=91x
 N=13: Formula(eps=0.001)=1.072  Formula(eps->0)=1.151  V-shape=0.011     Uniform=0.000  Factor=97.5x
-N=15: Formula(eps=0.001)=1.309  (matrix-free propagator, 72 GB RAM, ~1h wall-clock)
+N=15: Formula(eps=0.001)=1.309  Formula(eps->0)=1.407  V-shape=0.021  Uniform=0.000  Factor=63.5x
 
 Full RESULT lines:
 N=11 Formula(eps=0.001):  RESULT SumMI=0.843331 PeakMI=0.043592 PeakT=3.00 CPsi01=0.762936 Purity=0.169397 SumMI5=0.601282
@@ -20,6 +20,9 @@ N=13 Formula(eps=0.0001): RESULT SumMI=1.151285 PeakMI=0.059066 PeakT=3.50 CPsi0
 N=13 V-shape:             RESULT SumMI=0.011003 PeakMI=0.000087 PeakT=1.50 CPsi01=0.453043 Purity=0.070861 SumMI5=0.002465
 N=13 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.164590 SumMI5=0.000000
 N=15 Formula(eps=0.001):  RESULT SumMI=1.309109 PeakMI=0.063269 PeakT=4.50 CPsi01=0.632790 Purity=0.081914 SumMI5=1.244335
+N=15 Formula(eps=0.0001): RESULT SumMI=1.407263 PeakMI=0.071773 PeakT=4.00 CPsi01=0.780668 Purity=0.105833 SumMI5=1.331501
+N=15 V-shape:             RESULT SumMI=0.020630 PeakMI=0.000071 PeakT=2.00 CPsi01=0.317042 Purity=0.013428 SumMI5=0.004434
+N=15 Uniform:             RESULT SumMI=0.000000 PeakMI=0.000000 PeakT=1.50 CPsi01=0.621806 Purity=0.124696 SumMI5=0.000000
 
 === COMPLETE SUMMARY TABLE ===
 
@@ -35,7 +38,7 @@ N=15 Formula(eps=0.001):  RESULT SumMI=1.309109 PeakMI=0.063269 PeakT=4.50 CPsi0
 | 9  | 0.619             | 0.658           | 0.005    | ~0      | 139x        |
 | 11 | 0.843             | 0.901           | 0.009    | 0.000   | 91x         |
 | 13 | 1.072             | 1.151           | 0.011    | 0.000   | 97.5x       |
-| 15 | 1.309             | pending         | pending  | pending | pending     |
+| 15 | 1.309             | 1.407           | 0.021    | 0.000   | 63.5x       |
 
 Wall-clock times (Home PC, Intel Core Ultra 9 285k, 128 GB RAM):
 N=11: ~12 min per evaluation (2048x2048 matrix, dense MathNet/MKL)
