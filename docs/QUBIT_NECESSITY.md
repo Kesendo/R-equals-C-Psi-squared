@@ -73,10 +73,11 @@ not approximately special. It is exactly and uniquely balanced.
 
 ## 2. The Hypothesis
 
-**Conjecture:** The qubit (d = 2) is the only local quantum dimension that
-permits palindromic time-reversal symmetry under physical decoherence.
-All higher-dimensional quantum information structures exhibiting this
-symmetry must be composed of qubit subsystems.
+**Proven:** The qubit (d = 2) is the only local quantum dimension that
+permits palindromic time-reversal symmetry under dephasing-type decoherence.
+The algebraic condition d² - 2d = 0 has only the nontrivial solution d = 2.
+Computational test: 0 of 236 qutrit dissipators produce palindromic spectra
+(Section 9). See also [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
 Reformulated as a selection principle:
 
