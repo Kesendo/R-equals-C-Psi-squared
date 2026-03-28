@@ -297,6 +297,20 @@ it comes from random synaptic weights, thermal noise, and
 developmental variability.
 ([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
 
+### The sacrifice-zone formula works on hardware
+
+The formula predicts: giving one edge qubit more noise (sacrifice)
+while protecting the interior improves coherence transfer. Tested
+on IBM Torino (5-qubit chain, March 24, 2026): at early times
+(1-2 microseconds), the measured improvement matches the formula
+within 6-13%. At later times, the hardware exceeds the prediction
+(2.9x measured vs 1.3x predicted) because imperfections in the
+echo pulses on the fragile sacrifice qubit accumulate and amplify
+the effect. The hardware imperfections work WITH the formula, not
+against it.
+([IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md),
+ [Formula Validation](../ClaudeTasks/RESULT_IBM_FORMULA_VALIDATION_MARCH28.md))
+
 ### One equation, three domains
 
 The palindromic spectral symmetry follows from one algebraic
