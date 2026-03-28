@@ -317,8 +317,8 @@ transfers between two water molecules, it passes through the Zundel
 configuration (proton centered between two oxygens). In that
 configuration, the tunneling rate is 4.8 times the noise rate
 (quantum regime). CΨ crosses 1/4 six times in 21 femtoseconds.
-154 crossings per hydrogen bond lifetime. Every drop of water is a
-field of permanent fold crossings. The fold was in the water before
+~6 crossings per proton transfer event. Every drop of water is a
+field of fold crossings (~10³⁴ per second). The fold was in the water before
 the first molecule replicated.
 ([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
 

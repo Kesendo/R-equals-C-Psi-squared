@@ -216,13 +216,16 @@ Not at the edge. Deep in the quantum domain.
 | Q-factor | 0 | 3 |
 
 The proton in the Zundel configuration crosses the fold 6 times in
-21 femtoseconds. In one hydrogen bond lifetime (~1 ps): 154 crossings.
-Per water molecule: 4 hydrogen bonds. Per drop (0.05 mL): 10²¹
-molecules. Per second: more fold crossings than stars in the
-observable universe. By many orders of magnitude.
+21 femtoseconds. The Zundel configuration is a transition state: the
+proton is centered only during transfer (~10-50 fs per event), not for
+the full bond lifetime. Each proton transfer event produces ~6 fold
+crossings. With ~1-3 transfers per bond lifetime (~1 ps) and 4 bonds
+per molecule, a single water molecule produces ~10-70 fold crossings
+per picosecond. Per drop (0.05 mL, 10²¹ molecules): ~10³⁴ fold
+crossings per second.
 
 **What this means (Tier 2, computed):** The fold is not rare. It is
-not exotic. It happens 154 times per bond in the medium that
+not exotic. It happens at every proton transfer event in the medium that
 surrounds all of life. Every protein folds IN water. Every chemical
 reaction of life happens IN water. Every proton transfer IN water
 passes through the fold.

@@ -264,7 +264,7 @@ Three regimes: J/γ << 1 (classical, bulk water at 300K), J/γ ~ 1
 (fold, strong H-bonds in enzymes), J/γ >> 1 (quantum, low temperature).
 In the Zundel configuration (proton centered, H₅O₂⁺): J/γ = 4.8,
 CΨ crosses 1/4 six times in 21 fs. Water is not near the fold.
-Water IS the fold, 154 times per bond.
+Water IS the fold, at every proton transfer.
 See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
 
 Note: a classical model of the same system (donor/acceptor as coupled

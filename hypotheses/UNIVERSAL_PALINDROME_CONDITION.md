@@ -102,7 +102,7 @@ See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
 
 In the Zundel configuration (proton centered between two oxygens,
 H₅O₂⁺), J/γ = 4.8 at 300K. CΨ crosses 1/4 six times in 21
-femtoseconds. 154 crossings per hydrogen bond lifetime. Water is
+femtoseconds (~6 crossings per proton transfer event). Water is
 not near the fold. Water IS the fold.
 
 A classical model of the same system (donor/acceptor modes as coupled
