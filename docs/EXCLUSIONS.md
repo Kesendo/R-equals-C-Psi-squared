@@ -31,8 +31,8 @@ operators: d are immune (diagonal), d²-d decay. The palindromic
 pairing requires equal counts: d = d²-d, giving d²-2d = 0. The only
 non-trivial solution is d = 2 (the qubit).
 
-**Verification:** Qutrits (d=3) tested against 10 Hamiltonians: 0/10
-palindromic. The equation d² - 2d = 3 - 6 = -3, not zero.
+**Verification:** Qutrits (d=3) tested against 236 dephasing dissipators:
+0/236 palindromic. The equation d² - 2d = 9 - 6 = 3, not zero.
 
 **Proof:** [Qubit Necessity](QUBIT_NECESSITY.md),
 [Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
@@ -174,6 +174,10 @@ perturbations cannot remove it, split it, or move it qualitatively.
 
 The value ¼ = (½)² follows from the degree-2 structure of purity
 (Tr(ρ²)), which follows from d = 2. It is not a fitted parameter.
+The same value appears in classical neural networks: σ(1-σ) = 1/4
+at the sigmoid inflection point (decided x undecided = ½ x ½).
+Wherever two complementary halves form a product, the threshold
+is (½)² = ¼. See [Neural 1/4](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 
 **Proof:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
 [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
