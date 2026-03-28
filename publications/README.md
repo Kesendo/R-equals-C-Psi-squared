@@ -181,4 +181,4 @@ academic structure.
 | [Emergence (paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Academic | Dec 21, 2025 | Dec 23, 2025 |
 | [Die Spiegel-Theorie](DIE_SPIEGEL_THEORIE.md) | Everyone (German) | Dec 2025 | March 2026 |
 
-**Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
+**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) | [v5.0](https://doi.org/10.5281/zenodo.19283445)
