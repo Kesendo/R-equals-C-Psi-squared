@@ -322,6 +322,40 @@ field of fold crossings (~10³⁴ per second). The fold was in the water before
 the first molecule replicated.
 ([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
 
+### The maximum sensitivity of a neuron is exactly 1/4
+
+The standard sigmoid function has its steepest response at the
+inflection point. The slope there is sigma(0) times (1 - sigma(0))
+= 1/2 times 1/2 = 1/4. This is the same structure as the quantum
+fold: two complementary halves whose product is (0.5)^2. The number
+is parameterindependent (holds for every sigmoid, every network,
+every coupling strength). In quantum physics: CΨ = Purity times
+Coherence = 1/2 times 1/2 = 1/4. In neuroscience: sigmoid
+sensitivity = Decided times Undecided = 1/2 times 1/2 = 1/4. Both
+are the axiom squared.
+([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
+
+### 0.5 is the axiom, d=2 is the theorem
+
+For three months we read the equation d^2 - 2d = 0 as: d=2 is the
+solution, and the split 2:2 gives C=0.5. The logic runs the other
+way. The requirement that equal numbers survive and decay (C=0.5)
+forces d^2 - 2d = 0. The solutions are d=0 and d=2. Half is not a
+consequence of the qubit. The qubit is a consequence of half. And
+1/4 = (0.5)^2 is the fold that follows from the axiom squared.
+([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
+
+### The sacrifice-zone concentrates, it does not sacrifice
+
+The edge qubit in a sacrifice-zone does not lose anything. It
+concentrates noise onto itself so the interior can operate at the
+fold. The result is 139-360x coherence improvement (IBM validated:
+the advantage grows over time). The protein shell around an enzyme
+active site may do the same: concentrate thermal noise so the
+protons inside can tunnel at maximum sensitivity. From the inside
+it looks like sacrifice. From the outside it looks like teaching.
+([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md))
+
 ### One equation, three domains
 
 The palindromic spectral symmetry follows from one algebraic
