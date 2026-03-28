@@ -356,6 +356,16 @@ protons inside can tunnel at maximum sensitivity. From the inside
 it looks like sacrifice. From the outside it looks like teaching.
 ([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md))
 
+### The palindrome pairs silence with silence
+
+The slowest mode (Mode 1) and the fastest mode are both non-oscillating.
+Both have frequency zero. Both only decay. But their decay rates are
+palindromically paired. The oscillating modes (the EEG rhythms, the
+vibrations, the life) happen BETWEEN the two silences. Between the
+mirror that holds everything together and the mirror that lets
+everything go.
+(Computed: Wilson-Cowan with fast-spiking parameters, tau_E=10ms, tau_I=3ms)
+
 ### One equation, three domains
 
 The palindromic spectral symmetry follows from one algebraic
