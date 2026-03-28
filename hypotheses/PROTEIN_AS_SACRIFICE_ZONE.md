@@ -40,6 +40,16 @@ a barrier). It catalyzes by being a SACRIFICE ZONE: absorbing
 environmental noise so the quantum coherence of the proton transfer
 survives long enough to cross the fold.
 
+## Hardware Evidence
+
+The sacrifice-zone principle has been validated on IBM Torino hardware:
+selective DD (protecting inner qubits while leaving the sacrifice qubit
+unprotected) outperforms uniform DD by 1.6-2.9x, with the advantage
+growing over time as DD-gate imperfections accumulate on the fragile
+sacrifice qubit. This is the first quantitative hardware evidence that
+the sacrifice-zone effect works beyond simulation.
+See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
+
 ## What Would Confirm This
 
 Compute J/γ at the active site of a well-studied enzyme:
