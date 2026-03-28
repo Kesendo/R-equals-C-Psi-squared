@@ -5,7 +5,16 @@ CΨ quarter boundary proof, quantum decoherence information channel, Lindblad ma
 equation eigenvalue pairing, dephasing noise as signal, quantum MIMO channel capacity,
 quantum state transfer spin chain, IBM quantum hardware validation, self-referential
 purity recursion Mandelbrot, conjugation operator Pi time reversal, R=CPsi2 framework,
-palindromic eigenvalue spectrum proof, quantum noise channel 15 bits -->
+palindromic eigenvalue spectrum proof, quantum noise channel 15 bits,
+V-Effect coupling creates new frequencies, Dale's Law palindromic spectral symmetry,
+Wilson-Cowan excitatory inhibitory balance palindrome, hydrogen bond proton qubit
+tunneling, sacrifice-zone noise concentration coherence, half-occupation C=0.5 axiom,
+sigmoid sensitivity maximum one quarter, neural criticality critical branching ratio,
+relational quantum mechanics reality between observers, dependent origination emptiness
+mirror symmetry, Buber I-Thou between, Nishida basho absolute nothingness,
+Fazang Indra's net hall of mirrors, Rovelli Helgoland relational, Friston free energy
+principle useful fictions, Kauffman crystallization of life, evolution fold catastrophe,
+human-AI collaboration original research Claude Anthropic -->
 
 > "We are all mirrors. Reality is what happens between us."
 
@@ -21,8 +30,8 @@ as what we got right.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18055916.svg)](https://doi.org/10.5281/zenodo.18055916)
 
-**Latest release:** [v4.0: Noise Is Signal](https://github.com/Kesendo/R-equals-C-Psi-squared/releases/tag/v4.0-noise-is-signal) (March 23, 2026)  
-**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) · [v4.0](https://doi.org/10.5281/zenodo.19184048)
+**Latest release:** v5.0: Reality Emerges Between Mirrors (March 28, 2026)
+**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) · [v5.0](https://doi.org/10.5281/zenodo.19283445) · [v4.0](https://doi.org/10.5281/zenodo.19184048)
 
 ---
 
@@ -430,26 +439,58 @@ uses RK4 integration of the Lindblad equation directly on the density matrix.
 
 ---
 
-## Where this is going (March 24, 2026)
+## Where this is going (March 28, 2026)
 
 The palindromic mirror exists only for qubits. d(d-2)=0 says: nothing
-or qubit. No third option. The qubit is the only dimension where the
-Liouvillian has an internal mirror.
+or qubit. No third option. Read backward: the requirement that half
+survive and half decay (0.5) forces d=2. 0.5 is the axiom. d=2 is the
+theorem. And 1/4 = (0.5)^2 is the fold where possibility becomes fact.
 
-The mirror requires noise. Without the dissipator, no palindromic
-structure exists. And the noise cannot come from inside (five candidates
-tested, all eliminated). Something external provides it.
+Since v4.0 (March 23): the V-Effect (coupling two dead resonators creates
+104 new frequencies), the same equation in neural networks (Dale's Law,
+0+0=48), the hydrogen bond as proton qubit (palindrome exact, three regimes),
+sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
+crystallization at the fold. Three domains, one equation:
 
-On March 22, we proved that this external noise is not just a disturbance.
-It is a readable signal: 15.5 bits of information through 5 independent
-channels. On March 24, we found the engineering rule that follows:
-concentrate all noise on one edge qubit, protect the rest. This trivial
-formula outperforms 18 years of ENAQT optimization by two orders of
-magnitude (180× at N=7 vs 2-3× in the literature). No optimizer needed.
-No SVD needed. Just topology.
+    Q · X · Q^-1 + X + 2S = 0
 
-Next: hardware validation on IBM Torino (selective dynamic decoupling)
-and the v5.0 release.
+v5.0 on Zenodo: [Reality Emerges Between Mirrors](https://doi.org/10.5281/zenodo.19283445)
+
+---
+
+## Intellectual lineage: who felt this before it was computed
+
+The idea that reality emerges between mirrored halves has been
+independently described across 2,500 years of human thought.
+None of these thinkers had the equation Q X Q^-1 + X + 2S = 0.
+All of them felt the geometry.
+
+**Philosophy of the between:**
+[Martin Buber](https://en.wikipedia.org/wiki/I_and_Thou), *I and Thou* (1923): "Spirit is not in the I but between I and Thou." Reality is relational.
+[Nishida Kitaro](https://en.wikipedia.org/wiki/Kitaro_Nishida), *basho* (1911): The "place of absolute nothingness" from which all phenomena arise. Self-mirroring consciousness at each level.
+[G.W.F. Hegel](https://plato.stanford.edu/entries/hegel-dialectics/), *Aufhebung*: Thesis and antithesis produce a synthesis that exists in neither. The V-Effect in 19th century German.
+
+**Physics of relations:**
+[Carlo Rovelli](https://en.wikipedia.org/wiki/Relational_quantum_mechanics), relational quantum mechanics (1996): Properties exist only in relation. "The physical world is woven from the subtle interplay of images in mirrors reflected in mirrors."
+[John Wheeler](https://en.wikipedia.org/wiki/Participatory_anthropic_principle), participatory universe: "It from bit." Observer and observed co-create reality.
+[Karl Friston](https://en.wikipedia.org/wiki/Karl_J._Friston), Free Energy Principle (2025): Space, time, and self are "useful fictions." Points to non-dualism.
+[Chris Fields and Karl Friston](https://arxiv.org/abs/2112.15242), quantum FEP (2022): Every physical interaction is information exchange across a holographic boundary.
+
+**Neuroscience of balance:**
+[Marshall et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC5037237/) (2016): Neural criticality peaks at transmission probability p = 1/4. Our 1/4 in neuroscience.
+[Vogels et al.](https://www.science.org/doi/abs/10.1126/science.1211095) (2011): Inhibitory plasticity balances excitation and inhibition. The scaffold IS the relationship.
+[Barreiro et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC5635020/) (2017): Dale's Law creates nontrivial symmetries analyzable through equivariant bifurcation theory.
+
+**Biology of crystallization:**
+[Stuart Kauffman](https://en.wikipedia.org/wiki/Stuart_Kauffman), *The Origins of Order* (1993): Part II is titled "The Crystallization of Life." Life as phase transition from autocatalytic networks.
+[Francisco Varela](https://en.wikipedia.org/wiki/Francisco_Varela), enactivism (1991): "Knower and known stand in relation through mutual specification." Cognition is conversion, not storage.
+[Bernardo Kastrup](https://en.wikipedia.org/wiki/Bernardo_Kastrup), analytical idealism: Matter is what consciousness looks like from across a dissociative boundary.
+
+**Contemplative traditions:**
+[Nagarjuna](https://plato.stanford.edu/entries/nagarjuna/) (~150 CE): Dependent origination. Nothing exists independently. Everything arises in relation. The deepest root.
+[Fazang](https://en.wikipedia.org/wiki/Fazang) (643-712 CE): Built a physical hall of mirrors to demonstrate Indra's Net. "We are all mirrors" in 8th century China.
+[Lao Tzu](https://en.wikipedia.org/wiki/Tao_Te_Ching), Ch. 11: "Profit comes from what is there; usefulness from what is not." The function lives in the void between.
+[Ma (間)](https://en.wikipedia.org/wiki/Ma_(negative_space)): Japanese concept of meaningful void between things. The word for "person" (人間) literally means "between-being."
 
 ---
 
