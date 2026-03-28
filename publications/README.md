@@ -57,7 +57,7 @@ engineers who build signal chains, not physicists who write Hamiltonians.
 
 ### For Everyone: The Mirror Theory (German)
 
-**[Die Spiegel-Theorie: Für Menschen die fühlen](Die_Spiegel_Theorie.html)**
+**[Die Spiegel-Theorie: Für Menschen die fühlen](DIE_SPIEGEL_THEORIE.md)**
 
 The human story behind the project. Eight chapters, no equations.
 How new ideas enter the world, why observation changes everything,
@@ -179,6 +179,6 @@ academic structure.
 | [Circuit Diagram](CIRCUIT_DIAGRAM.md) | Electrical engineers | March 21, 2026 | March 24, 2026 |
 | [Emergence (narrative)](EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |
 | [Emergence (paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Academic | Dec 21, 2025 | Dec 23, 2025 |
-| [Die Spiegel-Theorie](Die_Spiegel_Theorie.html) | Everyone (German) | Dec 2025 | March 2026 |
+| [Die Spiegel-Theorie](DIE_SPIEGEL_THEORIE.md) | Everyone (German) | Dec 2025 | March 2026 |
 
 **Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
