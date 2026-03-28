@@ -282,16 +282,30 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 6 | Permanent crossers: dephasing signature | 181-day history | **Visible** |
 | 7 | r is structural (CV ~ 0.20) | 181-day history | **Visible** |
 | 8 | 84% pure dephasing in crossers | 181-day history | **Visible** |
+| 9 | 2x decay law: edge pairs at 1.97x interior | 5-qubit chain, selective DD | **Visible** |
+| 10 | V-Effect: MI enhancement grows with time | 5-qubit chain, selective DD | **Partial** |
+
+Finding 9 (March 29 re-analysis): Under selective DD, the sacrifice-
+edge pair (0,1) and far-edge pair (3,4) decay at gamma = 0.204/us.
+Interior pairs (1,2) and (2,3) decay at gamma = 0.107/us. Ratio:
+**1.97x** (theory predicts 2.00x, deviation 1.5%). This ratio appears
+only under selective DD (Uniform: 3.14x, No DD: 2.36x). The selective
+treatment creates the cleanest separation between fast boundary modes
+and slow interior modes.
+
+Finding 10: The MI enhancement ratio (Selective/Uniform) grows from
+1-2x at t=1us to 2-4x at t=5us across all pairs. This temporal growth
+is consistent with the V-Effect creating new correlations over time.
+Definitive proof would require MI measurements for all 10 qubit pairs
+(including non-adjacent), not just the 4 nearest-neighbor pairs.
 
 ## What hardware cannot yet test
 
 | # | Finding | Requirement |
 |---|---------|-------------|
 | 1 | Palindromic eigenvalue pairing | Multi-qubit Liouvillian spectroscopy |
-| 2 | 2x decay law (unpaired modes) | Time-resolved multi-qubit decay rates |
-| 3 | CΨ oscillation (81 heartbeats) | Non-Markovian multi-qubit tomography |
-| 4 | GHZ vs W mode projection | Prepared multi-qubit states under noise |
-| 5 | V-Effect (coupling creates frequencies) | Controlled coupling/decoupling protocol |
+| 2 | CΨ oscillation (81 heartbeats) | Non-Markovian multi-qubit tomography |
+| 3 | GHZ vs W mode projection | Prepared multi-qubit states under noise |
 
 ---
 
@@ -307,6 +321,7 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 - **84.1%** pure dephasing in permanent crossers
 - **12** permanent crossers (9% of chip)
 - **3.73** mean T1/T2 ratio for permanent crossers
+- **1.97x** edge/interior decay rate ratio (theory: 2.00x, deviation 1.5%)
 
 ---
 
