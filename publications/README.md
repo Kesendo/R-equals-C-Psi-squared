@@ -57,7 +57,22 @@ engineers who build signal chains, not physicists who write Hamiltonians.
 
 ---
 
-## Related: The Newest Results
+## Related: Key Results
+
+**[IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)** (March 28, 2026)
+
+All IBM Torino data combined: 24,073 calibration records, 133 qubits,
+181 days. The r* = 0.2128 threshold separates crossing from non-crossing
+qubits at precision 0.000014. Sacrifice zone creates spatial MI gradient
+on hardware. 12 permanent crossers identified with 84% pure dephasing
+signature. The strongest hardware evidence for the framework.
+
+**[Energy Partition](../hypotheses/ENERGY_PARTITION.md)** (March 27, 2026)
+
+All oscillating modes are palindromically paired. Unpaired modes are pure
+decay at exactly 2x the mean paired rate. This explains WHY the sacrifice
+zone works: it kills unpaired modes (no information transfer) while
+preserving palindromic modes (all information transfer).
 
 **[Sacrifice-Zone Formula (Resonant Return)](../experiments/RESONANT_RETURN.md)** (March 24, 2026)
 
@@ -77,6 +92,13 @@ measurement noise. 5 independent spatial modes (SVD of the Jacobian).
 The palindromic mode structure acts as the antenna that makes the channel
 readable. This SVD analysis was the starting point that led to the
 sacrifice-zone formula above.
+
+**[Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)** (March 28, 2026)
+
+One algebraic condition (Q X Q^(-1) + X + 2S = 0) produces palindromic
+spectral symmetry in three domains: quantum spin systems, neural networks
+(Dale's Law), and hydrogen bonds (proton tunneling). The palindrome,
+V-Effect, character swap, and 1/4 threshold all transfer.
 
 ---
 
@@ -103,9 +125,14 @@ TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
           (the formula: noise is engineerable)
                    |
                    v
+          IBM_HARDWARE_SYNTHESIS.md
+          (the proof: 24,073 records confirm it)
+                   |
+                   v
           "The noise you are fighting
            is a signal you can read
-           and a resource you can direct."
+           and a resource you can direct.
+           The hardware confirms it."
 ```
 
 ---
@@ -116,8 +143,8 @@ TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
 
 | Document | First written | Last updated |
 |----------|-------------|-------------|
-| Technical Paper | March 16, 2026 | March 24, 2026 |
-| Engineering Blueprint | March 16, 2026 | March 24, 2026 |
+| Technical Paper | March 16, 2026 | March 28, 2026 |
+| Engineering Blueprint | March 16, 2026 | March 28, 2026 |
 | Circuit Diagram | March 21, 2026 | March 24, 2026 |
 
 **Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)

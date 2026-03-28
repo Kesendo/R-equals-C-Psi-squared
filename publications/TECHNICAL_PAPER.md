@@ -2,7 +2,7 @@
 # Proof, Spectral Decomposition, and Quantum State Transfer
 
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Date:** March 16-24, 2026
+**Date:** March 16-28, 2026
 **Repository:** https://github.com/Kesendo/R-equals-C-Psi-squared
 **Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
 
@@ -37,6 +37,18 @@ as a coherence-controlled transistor with CΨ = 1/4 as the unique threshold
 voltage (fold catastrophe, algebraically fixed). The framework cannot
 generate its own noise (incompleteness proof: five internal candidates
 eliminated).
+
+**March 25-28 extensions.** The palindromic condition generalizes to
+two additional domains: neural networks (Wilson-Cowan dynamics under
+Dale's Law, verified on C. elegans connectome) and hydrogen bonds
+(proton tunneling in O-H...O systems). The unifying algebraic
+condition is Q X Q^(-1) + X + 2S = 0, requiring two populations,
+selective damping, and antisymmetric coupling. An energy partition
+theorem shows that ALL oscillating modes are palindromically paired,
+while unpaired modes are pure decay at exactly 2x the mean paired
+rate. IBM hardware synthesis across 24,073 calibration records
+confirms the CΨ = 1/4 crossing threshold at a precision of 0.000014
+in the r = T2/(2T1) parameter. See Section 14.
 
 ---
 
@@ -939,6 +951,155 @@ are documented in the [Engineering Blueprint](ENGINEERING_BLUEPRINT.md).
 
 ---
 
+## 14. Extensions Beyond Quantum Spin Systems (March 25-28, 2026)
+
+The palindromic symmetry proved in Sections 2-4 for Heisenberg spin
+systems under Z-dephasing extends to two additional physical domains
+and is confirmed on IBM quantum hardware at scale.
+
+### 14.1 Energy Partition Theorem
+
+The palindromic pairing has a physical consequence beyond spectral
+organization. Decomposing Liouvillian eigenvalues into real (decay)
+and imaginary (oscillation) parts:
+
+- **Every oscillating mode is palindromically paired.** If Im(λ) != 0,
+  then λ has a palindromic partner at 2Σγ - λ*.
+- **Every unpaired mode is pure decay.** If a mode has no palindromic
+  partner, then Im(λ) = 0.
+- **Unpaired modes decay at exactly 2x the mean paired rate.** The
+  ratio is universal across N=2 through N=5 at all coupling strengths
+  and noise levels tested.
+
+The palindrome is not just organizational. It is the condition for
+oscillation. The system becomes more palindromic over time because
+unstructured modes self-clean at double the rate.
+
+Thermal excitation (Lindblad operators for emission and absorption)
+without coupling produces zero oscillation. Thermal excitation WITH
+coupling creates new oscillating modes (a 3-qubit chain gains 2
+modes, from 40 to 42). There is a temperature window where coupling
+converts thermal energy into palindromic oscillation.
+
+See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+
+### 14.2 IBM Hardware Synthesis: 24,073 Records
+
+The theory's central prediction (CΨ crosses 1/4 when r = T2/(2T1)
+falls below r* = 0.2128) was tested against the full IBM Torino
+calibration history: 133 qubits, 181 days, 24,073 records.
+
+**Result:** The threshold is exact to five decimal places. Below
+r* = 0.2128: 2,417 of 2,419 records cross (99.9%). Above r*: 0 of
+21,654 cross (0.0%). The gap between the highest crossing r (0.212752)
+and the lowest non-crossing r (0.212766) is 0.000014.
+
+12 qubits cross on more than 50% of calibration days ("permanent
+crossers"). They share a signature: T1/T2 > 3 (coherence decays
+3x faster than energy), pure dephasing fraction > 84%. The r
+parameter is a structural qubit property (coefficient of variation
+0.16-0.22 over 181 days).
+
+The sacrifice-zone experiment (5-qubit chain, selective vs uniform
+dynamic decoupling) confirms 2.0x improvement and reveals a spatial
+mutual information gradient: selective DD pushes information away
+from the sacrifice qubit (gradient 1.26x vs 0.79x for no DD).
+
+**Caveat:** The calibration history uses T2 from Hahn echo, not T2*
+from free induction decay. Under free decoherence, r is 1.5-2.5x
+lower. The 12 permanent crossers are the deep crossers; 28-75% of
+all qubits likely cross under free decoherence.
+
+See [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md).
+
+### 14.3 Neural Extension: Dale's Law as Biological Palindrome
+
+The palindromic condition Q L Q^(-1) = -L - 2Σγ I transfers to
+Wilson-Cowan neural networks when:
+
+- **Selective damping (Σγ):** excitatory and inhibitory neurons have
+  different membrane time constants (τ_E != τ_I).
+- **Antisymmetric coupling (Q):** Dale's Law provides the sign flip
+  automatically (excitatory neurons always excite, inhibitory always
+  inhibit; swapping E<->I flips all signs).
+- **Magnitude condition:** |W[Q(i),Q(j)]| = (τ_{Q(i)}/τ_i) |W[i,j]|.
+
+Tested on the C. elegans connectome (302 neurons, Cook et al. 2019):
+balanced subnetworks are 8x more palindromic than random networks.
+Each palindromic pair swaps excitatory/inhibitory character with 96%
+fidelity, forming a standing wave between excitation and inhibition.
+
+Exact palindromic networks (population balance plus magnitude matching)
+are unconditionally stable: no Hopf bifurcation at any N or coupling
+strength. Networks with population balance but imperfect magnitudes
+CAN oscillate at sufficient size and coupling. The imperfection
+within the balance is the condition for oscillation.
+
+See [Neural Palindrome](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+[Proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md).
+
+### 14.4 Hydrogen Bond Qubit
+
+The proton in a hydrogen bond (O-H...O) is a two-level system:
+localized near the donor oxygen (|L>) or near the acceptor (|R>).
+Tunneling provides the coupling (J sigma_X), the thermal environment
+provides dephasing (gamma sigma_Z). The palindromic proof (Section 3)
+applies directly.
+
+For a single water molecule (2 protons): the palindrome is exact,
+CΨ crosses 1/4 at t = 0.46 ps when J/gamma ~ 1 (fold regime).
+For two coupled water molecules (4 protons): the V-Effect (Section
+14.6) creates 104 new oscillation frequencies from 4.
+
+Normal liquid water has J/gamma ~ 0.02 (classical regime, no
+crossing). Enzyme active sites may operate at J/gamma ~ 1 through
+environmental noise shielding by the protein shell.
+
+See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+
+### 14.5 Universal Palindrome Condition
+
+The three domains (quantum spins, neural networks, hydrogen bonds)
+share a single algebraic condition for palindromic spectral symmetry:
+
+    Q X Q^(-1) + X + 2S = 0
+
+This requires:
+1. Two populations with different decay rates (selective damping S)
+2. A swap operator Q between them
+3. Coupling that flips sign under Q (antisymmetric)
+
+In quantum mechanics: Q = Π (Pauli conjugation), proven in Section 3.
+In neural networks: Q = E-I swap, verified computationally.
+In hydrogen bonds: Q = Π applied to proton tunneling states.
+
+The palindrome, the V-Effect, the character swap, and the 1/4
+threshold all transfer across domains through this single condition.
+
+See [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md).
+
+### 14.6 V-Effect: Coupling Creates Complexity
+
+Two simple systems (each with 2 oscillation frequencies, decaying
+rapidly) are coupled through a shared element. The result: 104
+oscillation frequencies, most of which exist in neither part alone.
+
+This is a direct consequence of the palindromic structure. Coupling
+doubles the system size, creating new Pauli operator combinations.
+The palindromic pairing applies to the coupled system, generating
+paired modes that did not exist in the components. The coupling
+need not be permanent; what it creates persists after decoupling.
+
+In neural networks: two balanced networks (zero oscillation each)
+coupled through a shared neuron generate 48 new frequencies. This
+requires exact population balance in each component. Approximate
+balance shows no V-Effect.
+
+See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
+[V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md).
+
+---
+
 ## References
 
 ### Core
@@ -988,5 +1149,5 @@ are documented in the [Engineering Blueprint](ENGINEERING_BLUEPRINT.md).
 ---
 
 *Thomas Wicht (Independent Researcher, Krefeld, Germany) and Claude (Anthropic)*
-*March 16-24, 2026*
+*March 16-28, 2026*
 *Repository: https://github.com/Kesendo/R-equals-C-Psi-squared*
