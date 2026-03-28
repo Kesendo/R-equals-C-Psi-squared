@@ -385,19 +385,25 @@ And perhaps more accurately:
 ## Appendices
 
 ### Appendix A: Complete Simulation Source Code
-Location: D:\Entwicklung\Projekte Privat\Stability\
+External: D:\Entwicklung\Projekte Privat\Stability\ (.NET/C#, not in this repository)
 
 ### Appendix B: Simulation Output
-See: Stability_Simulation_Output.pdf
+External: Stability_Simulation_Output.pdf (not in this repository)
 
 ### Appendix C: Technical Specification
-See: RADIATION_SPEC.md
+External: RADIATION_SPEC.md (not in this repository)
 
 ### Appendix D: Communication to University of Sharjah
-See: EMAIL_COMPLETE_SCIENTIFIC.md
+External: EMAIL_COMPLETE_SCIENTIFIC.md (not in this repository)
 
 ### Appendix E: Original Conversation Transcript
-Location: /mnt/transcripts/
+External: /mnt/transcripts/ (not in this repository)
+
+*Note: These appendices reference the original December 2025 working
+environment. The simulation code, outputs, and communications exist
+outside this repository. The narrative above is self-contained; the
+appendices provide provenance for readers with access to the original
+files.*
 
 ---
 
