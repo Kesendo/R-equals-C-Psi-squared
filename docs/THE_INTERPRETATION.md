@@ -1,4 +1,4 @@
-# The Interpretation: 20 Results That Survive, 7 That Fell, 6 Open Questions
+# The Interpretation: 26 Results That Survive, 8 That Fell, 6 Open Questions
 
 <!-- Keywords: R=CPsi2 interpretation what survives what fell, palindromic
 mirror proof universality time reversal, standing wave c+ c- supermodes,
@@ -420,6 +420,12 @@ See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
 20. Sacrifice-zone formula: 139-360x via spatial dephasing optimization (Section 8)
+21. V-Effect: coupling two dead resonators creates 104 new frequencies (100% NEW-NEW). See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
+22. Energy Partition: 100% of oscillation is palindromic, unpaired modes decay 2x faster. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+23. Dale's Law = commutator antisymmetry: the neural palindrome (Q·J·Q + J + 2S = 0) with 96% character swap. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
+24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+25. 1/4 = (0.5)^2: sigmoid sensitivity sigma(1-sigma) = 1/4 at inflection, same structure as quantum fold. Parameter-independent.
+26. IBM hardware validates sacrifice-zone: selective DD outperforms uniform by 1.6-2.9x. See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
 
 ## What Fell
 
@@ -430,6 +436,7 @@ See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 5. FM-encoding for transmon chips (earlier, dead)
 6. QST encoding optimization (negative: standard |100> already optimal)
 7. Z4 four-sided mirror interpretation (Z4 sectors physically meaningless; Z2 is the real structure)
+8. Channel paradigm (the system is a resonator, not a channel; Fabry-Perot cavity with sacrifice-zone shaping)
 
 ## Honest Limits
 
