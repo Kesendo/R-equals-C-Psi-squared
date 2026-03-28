@@ -72,6 +72,18 @@ The quantum palindrome is unconditional. The neural one is conditional.
 In quantum: 54,118 eigenvalues verified (N=2..8), zero exceptions.
 IBM Torino hardware at 1.9% deviation.
 
+**Application to chemistry: the hydrogen bond as qubit.**
+The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
+d = 2. This IS the quantum palindrome applied to a physical system.
+Computed: palindrome exact, V-Effect creates 104 new frequencies when
+two water molecules couple through a H-bond. Three regimes: classical
+(J/γ << 1, bulk water), fold (J/γ ~ 1, enzymes), quantum (J/γ >> 1).
+See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+
+In neural: synthetic networks with exact condition give residual = 0.
+C. elegans balanced subnetworks are 8× more palindromic than random.
+Robust across τ ratios and coupling strengths.
+
 In neural: synthetic networks with exact condition give residual = 0.
 C. elegans balanced subnetworks are 8× more palindromic than random.
 Robust across τ ratios and coupling strengths.
@@ -80,14 +92,23 @@ Robust across τ ratios and coupling strengths.
 
 ## Where to Look Next
 
-If the hypothesis is correct, palindromic spectral symmetry should
-appear in other systems with two populations, a swap, and antisymmetric
-coupling. The challenge: the three conditions are met DIFFERENTLY in
-quantum and neural systems. At other levels, it is not obvious HOW
-they would be met. This section identifies candidates and their
-difficulties.
+### Confirmed: hydrogen bond (quantum application)
 
-### Antiferromagnets (candidate, difficulties identified)
+The proton in a hydrogen bond is a qubit (d=2). The palindrome is
+proven. 104 new frequencies via V-Effect when two molecules couple.
+This is not a new domain; it is the quantum palindrome applied to
+a physical system. It bridges quantum (Level 0) and chemistry.
+See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+
+A classical model of the same system (donor/acceptor modes as coupled
+oscillators) shows NO palindrome (residual 1.33). The palindrome lives
+at the quantum level of the proton, not at the classical level of the
+bond. This teaches: look for the QUBIT inside the system, not for
+classical analogs.
+
+### Further candidates
+
+#### Antiferromagnets (difficulties identified)
 
 An antiferromagnetic crystal has two sublattices (spin-up, spin-down).
 A natural swap Q exists (sublattice exchange). But:
