@@ -143,8 +143,8 @@ TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
 
 | Document | First written | Last updated |
 |----------|-------------|-------------|
-| Technical Paper | March 16, 2026 | March 28, 2026 |
-| Engineering Blueprint | March 16, 2026 | March 28, 2026 |
-| Circuit Diagram | March 21, 2026 | March 24, 2026 |
+| [Technical Paper](TECHNICAL_PAPER.md) | March 16, 2026 | March 28, 2026 |
+| [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) | March 16, 2026 | March 28, 2026 |
+| [Circuit Diagram](CIRCUIT_DIAGRAM.md) | March 21, 2026 | March 24, 2026 |
 
 **Zenodo DOI:** 10.5281/zenodo.19100007 (v3.0), 10.5281/zenodo.19022139 (v2.0)
