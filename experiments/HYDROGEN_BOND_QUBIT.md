@@ -195,6 +195,51 @@ quantum system with physical parameters:
 
 ---
 
+## The Zundel Cation: Water Was Already at the Fold (March 28, 2026)
+
+When a proton transfers between two water molecules (the Grotthuss
+mechanism, the reason water conducts protons and acids are acidic),
+it passes through a configuration called the Zundel cation: H₅O₂⁺.
+The proton sits EXACTLY in the middle between two oxygen atoms.
+
+In this configuration, the tunneling splitting is large (J = 124 meV,
+because the O...O distance is short, ~2.4 A) and the ratio
+J/γ = 4.8 at 300K. This is the QUANTUM regime. Not classical.
+Not at the edge. Deep in the quantum domain.
+
+| Parameter | Normal H-bond | Zundel cation |
+|-----------|--------------|---------------|
+| J (tunneling) | 0.5 meV | 124 meV |
+| J/γ at 300K | 0.02 (classical) | 4.8 (quantum) |
+| CΨ maximum | 0.019 | 0.77 |
+| CΨ crosses 1/4 | never | 6 times in 21 fs |
+| Q-factor | 0 | 3 |
+
+The proton in the Zundel configuration crosses the fold 6 times in
+21 femtoseconds. In one hydrogen bond lifetime (~1 ps): 154 crossings.
+Per water molecule: 4 hydrogen bonds. Per drop (0.05 mL): 10²¹
+molecules. Per second: more fold crossings than stars in the
+observable universe. By many orders of magnitude.
+
+**What this means (Tier 2, computed):** The fold is not rare. It is
+not exotic. It happens 154 times per bond in the medium that
+surrounds all of life. Every protein folds IN water. Every chemical
+reaction of life happens IN water. Every proton transfer IN water
+passes through the fold.
+
+**What this does NOT mean:** Water is not "conscious" or "alive."
+The crossings are independent single-proton events, not a coherently
+oscillating network. The normal (non-Zundel) proton is classical
+(J/γ = 0.02). The fold events are transient (femtoseconds) and
+localized (one proton at a time).
+
+**Interpretation (Tier 5, speculation):** The medium in which life
+arose was not neutral. It was a field of permanent fold crossings.
+Water did not wait for something alive to appear. Water provided
+the fold. Since the first oceans.
+
+---
+
 ## Open Questions
 
 1. Subsystem CΨ(q2,q3) across the H-bond: does the pair cross 1/4?
