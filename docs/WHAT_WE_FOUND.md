@@ -204,6 +204,99 @@ What survives even without the philosophy:
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
 
+## Findings from March 25-28, 2026
+
+In four days, the framework extended from quantum mechanics into
+chemistry and neuroscience. Each finding below is computed and verified.
+
+### The system is a resonator
+
+The system is not a channel that sends information. It is a Fabry-Perot
+cavity. Two mirrors (CΨ_max and CΨ = 1/4) form a resonant box. The
+sacrifice-zone is the shape of the soundbox. N=5 is the sweet spot
+(Q=19). IBM Torino confirmed: impedance gradient peaks at 1/4.
+([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
+
+### All oscillation is palindromic
+
+100% of oscillatory energy sits in palindromically paired modes.
+Unpaired modes are pure decay, and they decay at exactly 2x the rate.
+This is universal (N=2 through N=5). A thermal window exists where
+oscillation dominates decay (n_bar ~ 1-6).
+([Energy Partition](../hypotheses/ENERGY_PARTITION.md))
+
+### The V-Effect: coupling creates complexity
+
+Two dead resonators (2 frequencies each, Q=1) couple through a mediator
+and produce 104 frequencies. All new. From dead to alive through
+coupling alone. The coupling is temporary. What it creates is not.
+([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md))
+
+### The palindrome extends to neural networks
+
+Dale's Law (excitatory neurons always excite, inhibitory always inhibit)
+is the biological equivalent of the quantum commutator antisymmetry.
+The palindrome condition Q·J·Q + J + 2S = 0 holds for balanced E/I
+networks. C. elegans balanced subnetworks are 8x more palindromic than
+random (explained by degree distribution). Each palindromic pair swaps
+E-I character with 96% fidelity: a standing wave between excitation
+and inhibition.
+([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+ [Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md))
+
+### The neural V-Effect requires exact symmetry
+
+Two exactly palindromic networks (zero oscillation each) coupled
+through a mediator produce 48 correlation-space frequencies from
+nothing. Approximate networks show no V-Effect. The exact symmetry
+must BREAK for oscillation to emerge.
+([V-Effect Neural](neural/V_EFFECT_NEURAL.md))
+
+### 1/4 = (0.5)^2 = the axiom squared
+
+In quantum: CΨ = purity x coherence = 1/4 at the fold. In neural:
+σ(1-σ) = decided x undecided = 1/4 at the sigmoid inflection.
+Both are the product of two complementary halves. Parameter-independent.
+0.5 is the axiom (the requirement that immune = decaying populations
+are equal). 1/4 is the axiom squared.
+([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
+
+### The hydrogen bond is a qubit
+
+The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
+d = 2. The palindrome is proven. CΨ crosses 1/4 at 0.07-1.32 ps in
+the fold regime (J/γ ~ 1). Coupling two water molecules through a
+hydrogen bond creates 104 new frequencies (V-Effect). Normal water is
+classical (J/γ ~ 0.02). Enzyme active sites may be at the fold.
+([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
+
+### Exact balance is dead, approximate balance is alive
+
+Networks with exact palindromic symmetry are unconditionally stable.
+No oscillation at any coupling or size. Perfect balance = perfect death.
+Approximate balance (Dale's Law signs without exact magnitudes) CAN
+oscillate at sufficient size and coupling. The imperfection within the
+balance is the ignition. In quantum: the commutator provides this
+automatically. In biology: random weights, noise, developmental
+variability.
+([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
+
+### The universal palindrome condition
+
+One equation spans both domains:
+
+```
+Q · X · Q⁻¹ + X + 2S = 0
+```
+
+Three conditions: two populations with different decay rates, a swap
+operator, and antisymmetric coupling. Quantum: proven. Neural: computed.
+Hydrogen bond: computed (as quantum application). The palindrome, the
+V-Effect, the character swap, and 1/4 = (0.5)^2 all transfer.
+([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
+
+---
+
 ## How to read the rest
 
 - **[Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)** - The palindromic symmetry theorem. The strongest result.
@@ -213,6 +306,9 @@ These are concrete findings. They do not require accepting any philosophical fra
 - **[Core Algebra](historical/CORE_ALGEBRA.md)** - The proven mathematics. Three lines to the 1/4 boundary.
 - **[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)** - The strongest multipartite result, with full numerical data.
 - **[Resonant Return](../experiments/RESONANT_RETURN.md)** - The sacrifice-zone formula. 139-360x via spatial noise optimization.
+- **[Neural palindrome](neural/README.md)** - The palindrome in biological networks. No quantum physics required.
+- **[Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md)** - The proton as qubit. Bridges quantum and chemistry.
+- **[Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)** - One equation, three domains.
 - **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)** - Everything we got wrong, don't know, or can't prove.
 - **[Experiments index](../experiments/README.md)** - All experiment documents.
 
