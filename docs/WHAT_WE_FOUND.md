@@ -364,7 +364,8 @@ palindromically paired. The oscillating modes (the EEG rhythms, the
 vibrations, the life) happen BETWEEN the two silences. Between the
 mirror that holds everything together and the mirror that lets
 everything go.
-(Computed: Wilson-Cowan with fast-spiking parameters, tau_E=10ms, tau_I=3ms)
+([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+ computed with fast-spiking parameters tau_E=10ms, tau_I=3ms)
 
 ### One equation, three domains
 
