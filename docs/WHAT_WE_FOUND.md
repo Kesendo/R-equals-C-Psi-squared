@@ -209,90 +209,103 @@ These are concrete findings. They do not require accepting any philosophical fra
 In four days, the framework extended from quantum mechanics into
 chemistry and neuroscience. Each finding below is computed and verified.
 
-### The system is a resonator
+### The quantum system is a resonator
 
-The system is not a channel that sends information. It is a Fabry-Perot
-cavity. Two mirrors (CΨ_max and CΨ = 1/4) form a resonant box. The
-sacrifice-zone is the shape of the soundbox. N=5 is the sweet spot
-(Q=19). IBM Torino confirmed: impedance gradient peaks at 1/4.
+The coupled qubit system is not a channel that sends information
+from A to B. It is a resonant cavity, like a guitar body. Two
+boundaries (one at the maximum of CΨ, one at the 1/4 threshold)
+form the walls. The shape of the cavity determines which frequencies
+resonate. Giving certain qubits more noise ("sacrifice zone") tunes
+the cavity and improves coherence transfer by 139-360x. IBM Torino
+hardware confirmed this structure.
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
 ### All oscillation is palindromic
 
-100% of oscillatory energy sits in palindromically paired modes.
-Unpaired modes are pure decay, and they decay at exactly 2x the rate.
-This is universal (N=2 through N=5). A thermal window exists where
-oscillation dominates decay (n_bar ~ 1-6).
+Every oscillating mode has a partner with a mirrored decay rate.
+Modes without partners are pure decay, and they decay at exactly
+twice the rate of the structured ones. This holds at every system
+size we tested (2 through 5 qubits). There is a temperature window
+where oscillation dominates decay; too cold or too hot, and decay
+wins.
 ([Energy Partition](../hypotheses/ENERGY_PARTITION.md))
 
-### The V-Effect: coupling creates complexity
+### Coupling creates complexity (V-Effect)
 
-Two dead resonators (2 frequencies each, Q=1) couple through a mediator
-and produce 104 frequencies. All new. From dead to alive through
-coupling alone. The coupling is temporary. What it creates is not.
+Two simple systems (2 vibration frequencies each, dying quickly)
+are connected through a shared element. The result: 104 vibration
+frequencies, most of which exist in neither part alone. From silence
+to richness through coupling alone. The coupling is temporary.
+What it creates is not.
 ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md))
 
 ### The palindrome extends to neural networks
 
-Dale's Law (excitatory neurons always excite, inhibitory always inhibit)
-is the biological equivalent of the quantum commutator antisymmetry.
-The palindrome condition Q·J·Q + J + 2S = 0 holds for balanced E/I
-networks. C. elegans balanced subnetworks are 8x more palindromic than
-random (explained by degree distribution). Each palindromic pair swaps
-E-I character with 96% fidelity: a standing wave between excitation
+In neurobiology, Dale's Law says: each neuron's output has a fixed
+sign (excitatory or inhibitory, for life). This turns out to be
+the biological equivalent of the antisymmetry that creates the
+palindrome in quantum mechanics. Tested on the C. elegans worm
+connectome (302 neurons): balanced subnetworks (equal numbers of
+excitatory and inhibitory) are 8x more palindromic than random
+networks. Each paired mode swaps its excitatory/inhibitory
+character with its partner: a standing wave between excitation
 and inhibition.
 ([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
  [Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md))
 
 ### The neural V-Effect requires exact symmetry
 
-Two exactly palindromic networks (zero oscillation each) coupled
-through a mediator produce 48 correlation-space frequencies from
-nothing. Approximate networks show no V-Effect. The exact symmetry
-must BREAK for oscillation to emerge.
+Two perfectly balanced networks (zero oscillation each) are coupled
+through a shared neuron. Result: 48 new frequencies from nothing.
+Networks with approximate balance show no such effect. The perfect
+symmetry must BREAK for oscillation to emerge. Imperfection is
+the ignition.
 ([V-Effect Neural](neural/V_EFFECT_NEURAL.md))
 
-### 1/4 = (0.5)^2 = the axiom squared
+### 1/4 is the axiom squared
 
-In quantum: CΨ = purity x coherence = 1/4 at the fold. In neural:
-σ(1-σ) = decided x undecided = 1/4 at the sigmoid inflection.
-Both are the product of two complementary halves. Parameter-independent.
-0.5 is the axiom (the requirement that immune = decaying populations
-are equal). 1/4 is the axiom squared.
+The palindrome requires two equal populations (split 0.5). The
+threshold 1/4 = 0.5 x 0.5 appears in both domains: in quantum
+as the product of purity and coherence at the fold catastrophe;
+in neural as the product of "decided" and "undecided" at the point
+of maximum sensitivity of a neuron. Same structure, same value,
+parameter-independent in both cases.
 ([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
 
 ### The hydrogen bond is a qubit
 
-The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
-d = 2. The palindrome is proven. CΨ crosses 1/4 at 0.07-1.32 ps in
-the fold regime (J/γ ~ 1). Coupling two water molecules through a
-hydrogen bond creates 104 new frequencies (V-Effect). Normal water is
-classical (J/γ ~ 0.02). Enzyme active sites may be at the fold.
+The proton in a hydrogen bond (O-H...O) is not a classical ball.
+It tunnels between two positions: near the donor oxygen or near the
+acceptor oxygen. Two states. A qubit. The palindrome is proven for
+any two-state quantum system. Applied to hydrogen bond parameters:
+CΨ crosses the 1/4 threshold in under one picosecond when the
+tunneling rate and the noise rate are comparable. Coupling two water
+molecules through a hydrogen bond creates 104 new frequencies.
+Normal liquid water is too noisy (the proton behaves classically).
+Enzyme active sites may be quiet enough for the quantum effect.
 ([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
 
 ### Exact balance is dead, approximate balance is alive
 
-Networks with exact palindromic symmetry are unconditionally stable.
-No oscillation at any coupling or size. Perfect balance = perfect death.
-Approximate balance (Dale's Law signs without exact magnitudes) CAN
-oscillate at sufficient size and coupling. The imperfection within the
-balance is the ignition. In quantum: the commutator provides this
-automatically. In biology: random weights, noise, developmental
-variability.
+Networks with mathematically perfect palindromic symmetry are
+unconditionally stable: no oscillation at any size or coupling
+strength. Perfect balance = perfect death. But networks with
+APPROXIMATE balance (the right signs but imperfect magnitudes)
+CAN oscillate at sufficient size and coupling. In quantum mechanics,
+the necessary imperfection is built into the algebra. In biology,
+it comes from random synaptic weights, thermal noise, and
+developmental variability.
 ([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
 
-### The universal palindrome condition
+### One equation, three domains
 
-One equation spans both domains:
-
-```
-Q · X · Q⁻¹ + X + 2S = 0
-```
-
-Three conditions: two populations with different decay rates, a swap
-operator, and antisymmetric coupling. Quantum: proven. Neural: computed.
-Hydrogen bond: computed (as quantum application). The palindrome, the
-V-Effect, the character swap, and 1/4 = (0.5)^2 all transfer.
+The palindromic spectral symmetry follows from one algebraic
+condition (Q · X · Q⁻¹ + X + 2S = 0) that requires three things:
+two populations with different decay rates, a way to swap them,
+and coupling that flips sign under the swap. In quantum mechanics:
+proven algebraically. In neural networks: computed and verified.
+In hydrogen bonds: computed as a quantum application. The palindrome,
+the V-Effect, the character swap, and the 1/4 threshold all transfer.
 ([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
 
 ---
