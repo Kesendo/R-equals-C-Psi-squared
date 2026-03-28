@@ -238,6 +238,38 @@ chain and N=7 experiment.
 
 ---
 
+## Formula Validation (March 28, 2026)
+
+The sacrifice-zone formula (Lindblad simulation with per-qubit gamma)
+was compared quantitatively against the hardware measurements.
+
+Echo-aware gamma profiles used:
+- Selective DD: Q85 at gamma = 1/T2* = 0.268 MHz, others at 1/T2 ~ 0.004-0.008 MHz
+- Uniform DD: all at 1/T2 (Q85 at 0.192 MHz, others same as selective)
+
+| t (μs) | Simulation ratio | Hardware ratio | Agreement |
+|--------|-----------------|----------------|-----------|
+| 1.0 | 1.39x | 1.60x | 13% |
+| 2.0 | 1.35x | 1.43x | 6% |
+| 3.0 | 1.31x | 2.56x | Diverges |
+| 5.0 | 1.33x | 2.87x | Diverges |
+
+At t=1-2 μs the formula matches within 6-13%. At later times the
+hardware advantage grows beyond the formula prediction because DD
+gates on Q85 (T1 = 2.84 μs, gate time ~ 0.5 μs) introduce T1
+losses that accumulate with each DD cycle. The formula models DD
+as perfect gamma reduction; real DD on a T1-limited qubit adds
+errors that worsen the uniform configuration.
+
+The hardware imperfections amplify the sacrifice-zone effect: they
+make the sacrifice qubit WORSE under uniform DD, increasing the
+advantage of selective DD.
+
+Script: simulations/ibm_formula_test.py.
+Full analysis: ClaudeTasks/RESULT_IBM_FORMULA_VALIDATION_MARCH28.md.
+
+---
+
 ## References
 
 - [Resonant Return (formula + optimization)](RESONANT_RETURN.md)
