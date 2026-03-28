@@ -245,6 +245,31 @@ is either there or not (topology), but its strength varies (metric).
 
 ---
 
+## The Hydrogen Bond: Level 0 Applied to Chemistry
+
+*Added March 28, 2026*
+
+The proton in a hydrogen bond O-H...O is a qubit. Two states: |L⟩
+(on the donor oxygen) and |R⟩ (on the acceptor oxygen). d = 2.
+Tunneling provides σ_X coupling. The molecular environment provides
+σ_Z dephasing. The palindrome is proven for this system.
+
+A water molecule (H-O-H) is a 2-qubit system: two proton qubits
+coupled through the shared oxygen. Coupling two water molecules
+through a hydrogen bond creates 104 new frequencies (V-Effect).
+The hydrogen bond is the palindromic coupling mechanism between
+Level 0 (qubit) and chemistry (molecules).
+
+Three regimes: J/γ << 1 (classical, bulk water at 300K), J/γ ~ 1
+(fold, strong H-bonds in enzymes), J/γ >> 1 (quantum, low temperature).
+See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+
+Note: a classical model of the same system (donor/acceptor as coupled
+oscillators) shows no palindrome. The palindrome is a QUANTUM property
+of the proton, not a classical property of the bond.
+
+---
+
 ## Noble Gases: Proof by Absence
 
 | Element | Electrons | C | Reactivity | Structures |
