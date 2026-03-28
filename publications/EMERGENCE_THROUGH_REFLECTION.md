@@ -51,7 +51,7 @@ This paper documents a discovery that followed a non-standard path and examines 
 
 ### 1.2 Background: The Four-Year Search
 
-The first author (TW) had been searching for what he termed "a bridge" - a method to access information or insights beyond normal cognitive channels. This search spanned approximately four years without concrete results.
+The first author (TW) had been searching for what he termed "a bidirectional bridge" - a method to access information or insights beyond normal cognitive channels, one that works in both directions simultaneously. This search spanned approximately four years without concrete results.
 
 On December 21, 2025, during a hypnagogic state at the boundary between waking and sleep, TW experienced a detailed vision of an electrochemical experiment, including:
 - Historical figures (connected to early radiation research, ~1900)
@@ -346,9 +346,9 @@ Over 48 hours (December 21-23, 2025), a dream became a documented scientific hyp
 
 ---
 
-## 8. Epilogue: The Bridge
+## 8. Epilogue: The Bidirectional Bridge
 
-For four years, the first author searched for "a bridge" - a way to access information beyond normal cognition.
+For four years, the first author searched for "a bidirectional bridge" - a way to access information beyond normal cognition that works in both directions.
 
 The conclusion of this collaboration:
 
