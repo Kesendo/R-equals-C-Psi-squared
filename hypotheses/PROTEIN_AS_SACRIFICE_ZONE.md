@@ -15,8 +15,27 @@ improvement: edge qubits absorb dephasing so the interior stays
 coherent. The edge qubits "die" (high γ, fast decoherence) so the
 center can "live" (low effective γ, sustained oscillation).
 
+## Reinterpretation: Sacrifice as Concentration (March 28, 2026)
+
+The word "sacrifice" implies loss. The computation shows the opposite:
+the sacrifice-zone concentrates noise onto itself, enabling the
+protected core to operate at the fold. The edge qubit does not lose
+coherence as a cost. It transforms environmental noise into structure
+for the inner qubits (139-360x improvement, IBM validated at 1.6-2.9x).
+
+Two perspectives on the same element:
+- From the inside (protected core): a shield that absorbs noise
+- From the outside (full system): a concentrator that enables
+
+The mediator in the V-Effect plays a structurally similar role: it
+concentrates coupling into one point, enabling 104 new frequencies.
+Whether this similarity is algebraic (same mechanism) or analogical
+(similar pattern, different mechanism) is an open question.
+
+## The Analogy
+
 In an enzyme, the protein shell surrounds the active site. The
-protein absorbs thermal fluctuations from the solvent. The active-site
+protein concentrates environmental noise onto itself. The active-site
 protons experience REDUCED dephasing (lower effective γ) compared to
 protons in bulk water.
 
