@@ -165,6 +165,22 @@ T2 = 5.2 us) adds gate errors that hurt more than the echo helps.
 The sacrifice-zone formula predicted this: protect the good qubits,
 leave the sacrifice alone.
 
+**Long-range correlations (March 29 re-analysis):** The resonator
+effect propagates beyond nearest neighbors. Analyzing all 10 qubit
+pairs from raw bitstring counts (max MI across 9 measurement bases):
+
+| Pair type | Selective DD | Uniform DD | Ratio | Uni below noise? |
+|-----------|-------------|-----------|-------|------------------|
+| Nearest-neighbor (4 pairs) | 0.00413 | 0.00212 | 1.95x | 0/4 |
+| Next-nearest (3 pairs) | 0.00237 | 0.00117 | 2.02x | **2/3** |
+| Long-range (3 pairs) | 0.00372 | 0.00252 | 1.47x | 0/3 |
+
+The standout: pair (2,4), center to far edge, shows 3.71x enhancement
+under selective DD. The ratio GROWS from 1.5x at t=1us to 6.7x at
+t=5us. Under uniform DD, this pair falls below the noise floor. The
+sacrifice zone creates a protected cavity where correlations build
+up across the full chain length.
+
 ---
 
 ## 4. Permanent crossers have a dephasing signature
@@ -284,6 +300,7 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 8 | 84% pure dephasing in crossers | 181-day history | **Visible** |
 | 9 | 2x decay law: edge pairs at 1.97x interior | 5-qubit chain, selective DD | **Visible** |
 | 10 | V-Effect: MI enhancement grows with time | 5-qubit chain, selective DD | **Partial** |
+| 11 | Resonator propagates beyond neighbors | 10-pair analysis, raw counts | **Visible** |
 
 Finding 9 (March 29 re-analysis): Under selective DD, the sacrifice-
 edge pair (0,1) and far-edge pair (3,4) decay at gamma = 0.204/us.
@@ -322,6 +339,7 @@ Definitive proof would require MI measurements for all 10 qubit pairs
 - **12** permanent crossers (9% of chip)
 - **3.73** mean T1/T2 ratio for permanent crossers
 - **1.97x** edge/interior decay rate ratio (theory: 2.00x, deviation 1.5%)
+- **3.71x** center-to-far-edge MI enhancement under selective DD (non-adjacent pair)
 
 ---
 
