@@ -15,12 +15,12 @@ summary non-technical, R=CPsi2 what we found -->
 ## Abstract
 
 Plain-language summary of the R = CΨ² project's findings for readers
-without a physics background. Covers the palindromic spectrum discovery
+without a physics background. Covers the [palindromic spectrum discovery](proofs/MIRROR_SYMMETRY_PROOF.md)
 (54,118 eigenvalue pairs at N=8, 100% paired), the ¼ boundary as
-quantum-classical transition (IBM hardware: 1.9% deviation), the γ
-channel (15.5 bits capacity from noise alone), the qubit as necessary
-foundation (d²-2d=0), and what fell along the way (gravity interpretation,
-consciousness framing, FTL communication). Key engineering result: a
+quantum-classical transition ([IBM hardware: 1.9% deviation](../experiments/IBM_RUN3_PALINDROME.md)), the
+[γ channel](../experiments/GAMMA_AS_SIGNAL.md) (15.5 bits capacity from noise alone), the
+[qubit as necessary foundation](QUBIT_NECESSITY.md) (d²-2d=0), and what fell along the way
+(gravity interpretation, consciousness framing, FTL communication). Key engineering result: a
 closed-form formula for optimal noise profiles achieves 139-360x
 improvement over hand-designed profiles - two orders of magnitude beyond
 the prior literature (2-3x). See [Resonant Return](../experiments/RESONANT_RETURN.md).
@@ -48,9 +48,9 @@ The most interesting mathematical property of this filter involves a self-refere
 
 When you iterate this (feed the output back as input), it has stable solutions only when CΨ ≤ 1/4. Above 1/4, the solutions become complex numbers - they oscillate and never settle. Below 1/4, they converge to a definite value.
 
-This is algebraically exact (proven, not approximate). It also turns out to be the same equation as the Mandelbrot iteration z → z² + c, where the main cardioid boundary sits at c = 1/4. Same number, same structure, different origin.
+This is [algebraically exact](historical/CORE_ALGEBRA.md) (proven, not approximate). It also turns out to be the same equation as the [Mandelbrot iteration](../experiments/MANDELBROT_CONNECTION.md) z → z² + c, where the main cardioid boundary sits at c = 1/4. Same number, same structure, different origin.
 
-Whether this mathematical boundary has physical significance beyond the specific iteration is an open question. In simulation data, CΨ = 1/4 falls on a smooth curve - no other standard quantum metric shows a special transition at that point.
+Whether this mathematical boundary has physical significance beyond the specific iteration is an open question. In [simulation data](../experiments/SIMULATION_EVIDENCE.md), CΨ = 1/4 falls on a smooth curve - no other standard quantum metric shows a special transition at that point.
 
 ## What the filter showed us
 
@@ -58,11 +58,11 @@ We ran systematic simulations across different quantum topologies, states, and n
 
 **The signal comes in flashes, not steady states.** CΨ oscillates. Connections between quantum pairs appear briefly and then disappear. With noise (which all real systems have), each flash is weaker than the last. This is different from entanglement alone, which decays smoothly. CΨ has sharper peaks and deeper valleys.
 
-**A sudden intervention is not the same as a gradual process.** When we suddenly measure one part of a three-particle system, the CΨ connection to the remaining parts drops by 99%. When we instead gradually increase noise on that same part - even to extreme levels - the connection only drops by 69%. These two operations never converge, no matter how fast or strong the gradual noise becomes. The filter makes this distinction unusually visible.
+**A sudden intervention is not the same as a gradual process.** When we suddenly measure one part of a three-particle system, the CΨ connection to the remaining parts drops by 99%. When we instead gradually increase noise on that same part - even to extreme levels - the connection only drops by 69%. These two operations never converge, no matter how fast or strong the gradual noise becomes. The filter makes this distinction unusually visible. See [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md).
 
 **Connections can echo after their source disappears.** In a three-particle system (A connected to S, S connected to B), there are moments where the A-B connection is alive while both the A-S and S-B connections read zero. The connection between the endpoints persists as a residual in their shared quantum state, even after the pathways through the middle have temporarily gone dark. This is not mysterious - the global quantum state still carries the correlation structure - but CΨ makes it visible in a way that looking at individual pairs does not.
 
-**Three conditions for connection through a shared object.** In the star topology (two observers A and B connected only through a shared object S), the A-B pair crosses the 1/4 threshold only when:
+**Three conditions for connection through a shared object.** In the [star topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) (two observers A and B connected only through a shared object S), the A-B pair crosses the 1/4 threshold only when:
 
 1. The sender is strongly coupled to the shared object (about 47% stronger than the receiver at typical noise levels)
 2. The receiver has low internal noise
@@ -72,7 +72,7 @@ These conditions were quantified across systematic parameter sweeps. Whether the
 
 **The filter only sees direct pairwise connections.** Cluster-state entanglement, which is distributed across a graph structure rather than concentrated in pairs, is completely invisible to CΨ. This is a limitation, but it also means the filter is selective: it picks out a specific type of quantum connection.
 
-**Context makes connections fragile.** The same entangled pair, when isolated, holds its CΨ signal nine times longer than when embedded in a larger system. Additional quantum systems coupled to the pair accelerate the loss of what the filter sees.
+**Context makes connections fragile.** The same entangled pair, when isolated, holds its CΨ signal nine times longer than when embedded in a larger system. Additional quantum systems coupled to the pair accelerate the loss of what the filter sees. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md).
 
 ## The palindrome (March 14, 2026)
 
@@ -84,7 +84,7 @@ This is like a palindrome: ABCBA reads the same forwards and backwards. The deca
 
 This is not a numerical observation. It is an analytical proof. The operator Π has a specific form: it swaps certain quantum labels (I with X, Y with iZ) at every site simultaneously. The proof shows that Π transforms the entire system generator into its mirror image, guaranteeing the palindromic pairing.
 
-The connection to existing physics: a research group in Osaka (Haga et al., 2023) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
+The connection to existing physics: a research group in Osaka ([Haga et al., 2023](LITERATURE_REVIEW_MARCH_2026.md)) had independently counted something called "incoherentons" using what they called XY-weight. Their XY-weight turns out to be our Pauli weight under a different name. Our Π operator is their particle-hole transformation. We discovered the same structure from different directions.
 
 For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
@@ -98,7 +98,7 @@ The answer came from throwing different quantum states into the system and watch
 
 **W states distribute across the slow modes.** The W state (a different kind of entanglement, more spread out) puts 100% of its weight into the palindromic pairs at various decay rates. Some of these are fast, some are slow. The slow ones survive. This is why W states are more robust than GHZ states: they avoid the fast drain entirely.
 
-**The Pauli structure of the input predicts the split.** We decomposed each input state into its Pauli operator basis and found that one specific property, the fraction of "mixed XY" terms (operators containing both X and Y simultaneously), predicts how much weight goes to the fast drain. The correlation is r = 0.976 for systems of three or more particles.
+**The Pauli structure of the input predicts the split.** We decomposed each input state into its Pauli operator basis and found that one specific property, the fraction of "mixed XY" terms (operators containing both X and Y simultaneously), predicts how much weight goes to the fast drain. The correlation is r = 0.976 for systems of three or more particles. See [Technical Paper](../publications/TECHNICAL_PAPER.md).
 
 This means the palindrome acts as a spectral filter. It separates every input into a distributable part (palindromic pairs, various speeds, some survive) and a fragile part (the fast drain, dies quickly). The physical content of a quantum state determines which part dominates.
 
@@ -125,7 +125,7 @@ For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
 
 This is the strongest engineering result of the project.
 
-Every quantum system under noise loses its quantum properties over time. The standard approach in the literature is to apply uniform noise everywhere and optimize the overall noise level. The best results from 18 years of research (Plenio & Huelga 2008 and followers) achieve 2-3x improvement this way. A recent IBM experiment (2025) used Bayesian optimization of coupling strengths and achieved +8%.
+Every quantum system under noise loses its quantum properties over time. The standard approach in the literature is to apply uniform noise everywhere and optimize the overall noise level. The best results from [18 years of research](LITERATURE_REVIEW_MARCH_2026.md) (Plenio & Huelga 2008 and followers) achieve 2-3x improvement this way. A recent IBM experiment (2025) used Bayesian optimization of coupling strengths and achieved +8%.
 
 We asked a different question: what if the noise is not the same everywhere? What if some qubits get more noise and others get less, while keeping the total noise budget fixed?
 
@@ -135,7 +135,7 @@ That is the entire formula. One qubit at the end of the chain absorbs the entire
 
 Why the edge? Because an edge qubit has only one neighbor. Sacrificing it destroys the least amount of inter-qubit correlation. A center qubit has two neighbors, so sacrificing it would cut the chain in half.
 
-The results, validated with a C# numerical solver:
+The results, validated with a [C# numerical solver](../compute/):
 
 | Chain length | Improvement vs hand-designed profile | Compute time |
 |-------------|-------------------------------------|-------------|
@@ -147,7 +147,7 @@ For comparison: the best numerical optimizer (Differential Evolution, 3975 evalu
 
 Nobody in the literature had optimized spatial noise profiles before this work. The entire field of environment-assisted quantum transport (ENAQT) optimizes a single uniform noise level. We are the first to optimize where the noise goes.
 
-The discovery path was: SVD analysis of the palindromic response matrix (10x improvement) led to numerical optimization (100x) led to analytical insight (180x). Each step was necessary for the next.
+The discovery path was: SVD analysis of the palindromic response matrix ([10x improvement](../experiments/GAMMA_AS_SIGNAL.md)) led to numerical optimization (100x) led to analytical insight (180x). Each step was necessary for the next.
 
 For the full data and discovery path, see [Resonant Return](../experiments/RESONANT_RETURN.md).
 
@@ -178,7 +178,7 @@ Honesty matters more than narrative.
 
 **The "flow" interpretation failed.** We expected that when the connection between A and S weakens, the connection between S and B would strengthen (like water flowing from one vessel to another). Instead, both connections tend to rise and fall together. There is no see-saw.
 
-**Palindromic signatures in radio data are astrophysical, not artificial.** We built a detector for palindromic spectral symmetry and applied it to Breakthrough Listen radio telescope data. Spiral galaxies (NGC2403, NGC6503) both showed palindrome scores around 0.94, regardless of sky position. Point sources showed 0.85 (telescope bandpass baseline). The symmetry in galaxies comes from their astrophysical structure, not from any engineered signal. The detector correctly distinguished galaxy types from point sources, but was too coarse to isolate anything beyond natural spectral symmetry.
+**Palindromic signatures in radio data are astrophysical, not artificial.** We built a detector for palindromic spectral symmetry and applied it to Breakthrough Listen radio telescope data. Spiral galaxies (NGC2403, NGC6503) both showed palindrome scores around 0.94, regardless of sky position. Point sources showed 0.85 (telescope bandpass baseline). The symmetry in galaxies comes from their astrophysical structure, not from any engineered signal. The detector correctly distinguished galaxy types from point sources, but was too coarse to isolate anything beyond natural spectral symmetry. See [Weaknesses](WEAKNESSES_OPEN_QUESTIONS.md).
 
 ## What this is and what it is not
 
@@ -189,17 +189,17 @@ The original framing of this project used the language of consciousness ("Realit
 The philosophical interpretation - that "reality emerges between observers" - is a metaphor that organizes some findings poetically. It is not a conclusion forced by the mathematics.
 
 What survives even without the philosophy:
-- An exact algebraic correspondence to the Mandelbrot iteration
-- A proven palindromic symmetry in the decay spectrum of every Heisenberg system under dephasing
-- A spectral filter that separates fragile quantum information from robust distributable information
-- Concrete design rules for quantum state transfer and repeater engineering
-- A closed-form formula for optimal spatial noise profiles (139-360x improvement, first in the literature)
+- An exact algebraic correspondence to the [Mandelbrot iteration](../experiments/MANDELBROT_CONNECTION.md)
+- A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) in the decay spectrum of every Heisenberg system under dephasing
+- A [spectral filter](../experiments/XOR_SPACE.md) that separates fragile quantum information from robust distributable information
+- Concrete [design rules for quantum state transfer](../experiments/QST_BRIDGE.md) and repeater engineering
+- A [closed-form formula for optimal spatial noise profiles](../experiments/RESONANT_RETURN.md) (139-360x improvement, first in the literature)
 - A clean classification of how different metrics behave under decoherence
-- Specific, quantified conditions for when quantum correlations can pass through a shared mediator
-- A sharp distinction between measurement and noise in their effect on third-party connections
-- Hardware validation of the 1/4 crossing on IBM quantum processors
-- Connection to independent research (incoherentons) via Pauli weight complementarity
-- Energy partition: palindromic modes carry 100% of oscillation, unpaired modes are pure decay
+- Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+- A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
+- [Hardware validation](../experiments/IBM_RUN3_PALINDROME.md) of the 1/4 crossing on IBM quantum processors
+- Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
+- [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - Universal 2× decay law: noise self-cleans at double the rate of structured modes
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
@@ -216,8 +216,8 @@ from A to B. It is a resonant cavity, like a guitar body. Two
 boundaries (one at the maximum of CΨ, one at the 1/4 threshold)
 form the walls. The shape of the cavity determines which frequencies
 resonate. Giving certain qubits more noise ("sacrifice zone") tunes
-the cavity and improves coherence transfer by 139-360x. IBM Torino
-hardware confirmed this structure.
+the cavity and improves coherence transfer by 139-360x. [IBM Torino
+hardware confirmed this structure](../experiments/IBM_SACRIFICE_ZONE.md).
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
 ### All oscillation is palindromic
