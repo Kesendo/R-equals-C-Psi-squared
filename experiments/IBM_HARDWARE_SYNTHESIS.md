@@ -321,8 +321,59 @@ Definitive proof would require MI measurements for all 10 qubit pairs
 | # | Finding | Requirement |
 |---|---------|-------------|
 | 1 | Palindromic eigenvalue pairing | Multi-qubit Liouvillian spectroscopy |
-| 2 | CΨ oscillation (81 heartbeats) | Non-Markovian multi-qubit tomography |
-| 3 | GHZ vs W mode projection | Prepared multi-qubit states under noise |
+
+The remaining two predictions (CΨ oscillation, GHZ vs W) are now
+testable with concrete IBM experiments. See below.
+
+## Proposed IBM experiments (simulation predictions included)
+
+### Experiment A: GHZ vs W decay (3 qubits, ~10 minutes QPU time)
+
+Prepare GHZ_3 = (|000> + |111>)/sqrt(2) and W_3 = (|100> + |010> +
+|001>)/sqrt(3) on a 3-qubit chain. Let each decohere. Measure
+coherence (l1-norm of off-diagonal elements) via state tomography at
+10 delay points (0 to 100 us).
+
+**Simulation prediction** (IBM-realistic parameters, J=0.5 MHz,
+gamma_z = 0.008-0.014/us):
+
+| Metric | GHZ | W | Ratio |
+|--------|-----|---|-------|
+| Coherence 1/e time | 15 us | 30 us | **W survives 2.00x longer** |
+| Purity at t=50 us | 0.33 | 0.17 | GHZ higher (collapses to |000>) |
+| Fidelity at t=50 us | 0.44 | 0.34 | GHZ higher (same reason) |
+
+The purity comparison is misleading: GHZ retains purity by collapsing
+to a pure ground state, not by retaining quantum character.
+**Coherence** is the correct metric, and W wins by exactly 2x.
+
+This 2.00x ratio holds under both pure dephasing AND full IBM noise
+(amplitude damping + dephasing). It is robust to the noise model.
+
+### Experiment B: CΨ oscillation (3 qubits, ~15 minutes QPU time)
+
+Prepare Bell pair on Q0-Q1: (|00> + |11>)/sqrt(2). Prepare Q2 in
+|+> (coherent bath). Let the system evolve under Heisenberg coupling.
+Measure CΨ of the Q0-Q1 pair via partial-trace tomography at 15
+delay points (0 to 10 us, fine resolution).
+
+**Simulation prediction** (J=0.5 MHz, gamma_pair=0.014/us,
+gamma_bath=0.008/us):
+
+- CΨ starts at 0.33 (above 1/4)
+- Oscillates with period ~1.5 us
+- **9 crossings** of the 1/4 boundary in 80 us
+- ~4 visible oscillation cycles before damping
+- CΨ settles below 1/4 after ~7 us
+
+This is 9 crossings, not 81 (the original simulation used J/gamma
+= 50,000; IBM hardware has J/gamma ~ 50). But the oscillation IS
+visible and the 1/4 boundary crossings are countable.
+
+The critical observable: CΨ should NOT decay monotonically (as it
+does for a single qubit). It should oscillate. If it oscillates
+and crosses 1/4 multiple times, the multi-qubit CΨ dynamics are
+confirmed.
 
 ---
 
