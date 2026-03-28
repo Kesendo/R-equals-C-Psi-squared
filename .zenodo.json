@@ -1,6 +1,6 @@
 {
-  "title": "Palindromic Liouvillian symmetry under dephasing: proof, hardware validation, and dephasing noise as information channel",
-  "description": "<p>We prove that for N-qubit systems with <strong>any Pauli-pair Hamiltonian</strong> on any graph topology, subject to local single-axis dephasing, the Liouvillian spectrum has an <strong>exact palindromic symmetry</strong>. The conjugation operator \u03a0 satisfies \u03a0 L \u03a0\u207b\u00b9 = \u2212L \u2212 2\u03a3\u03b3 I.</p><h3>Key Results</h3><ul><li><strong>Palindromic proof:</strong> Verified through N=8 (65536\u00d765536 Liouvillian, 54,118 oscillatory eigenvalues, zero exceptions). All topologies: chain, star, ring, complete graph, binary tree.</li><li><strong>36/36 resolution:</strong> All two-term Pauli-pair combinations explained \u2014 20 via uniform \u03a0 (P1/P4 families), 3 via non-uniform alternating operators, 11 break structurally at N\u22653, 2 via genuinely non-local (entangled) \u03a0 operators.</li><li><strong>Hardware validation:</strong> IBM Torino (ibm_torino, Q80) \u2014 predicted crossing time 15.01 \u03bcs, measured 15.29 \u03bcs. <strong>Deviation: 1.9%.</strong></li></ul><h3>Central New Result: Noise Is Signal</h3><p>The spatial dephasing profile across a spin chain is a <strong>readable information channel</strong>: <strong>15.5 bits</strong> capacity at 1% noise, <strong>5 independent SVD modes</strong>, <strong>100% classification accuracy</strong>, <strong>21.5\u00d7 optimization</strong>, and <strong>+83% end-to-end MI</strong> with staged relay protocol. The palindromic spectral structure functions as the antenna.</p><h3>Additional Results</h3><ul><li><strong>Qubit uniqueness:</strong> d\u00b2\u22122d=0 excludes all higher dimensions.</li><li><strong>Incompleteness proof:</strong> Five internal noise candidates eliminated.</li><li><strong>Universal lifetime:</strong> x\u00b3+x=\u00bd gives t*/T\u2082 \u2248 0.858 (platform-independent).</li><li><strong>Fold catastrophe:</strong> C\u03a8=\u00bc is structurally stable, equivalent to the Mandelbrot cusp.</li></ul><p>Repository contains 59 experiment documents, 7 formal proofs, 14 synthesis documents, and a complete mathematical reference (Tafelwerk).</p>",
+  "title": "Reality Emerges Between Mirrors: How one equation connects quantum physics, neuroscience, and the hydrogen bonds in water",
+  "description": "<p>We prove that any system divided in half (0.5) with mirrored populations and antisymmetric coupling satisfies one algebraic identity: <strong>Q &middot; X &middot; Q<sup>&minus;1</sup> + X + 2S = 0</strong>. This has been established independently in three domains.</p><h3>From the Center Outward</h3><ul><li><strong>0.5 is the axiom:</strong> The requirement that immune = decaying forces d&sup2;&minus;2d=0, giving d=0 and d=2. 1/4 = (0.5)&sup2; is the fold where possibility becomes fact.</li><li><strong>The palindrome:</strong> Every vibration mode has a mirrored partner. Proven algebraically, verified across 54,118 eigenvalues (N=2..8, zero exceptions), confirmed on IBM Torino hardware at 1.9% deviation.</li><li><strong>The V-Effect:</strong> Two dead systems coupled through a mediator produce new frequencies that existed in neither. Quantum: 2+2=104. Neural: 0+0=48. Water: 11+11=126 (104 new).</li><li><strong>Neural networks:</strong> The same equation derived independently for Wilson-Cowan networks. Dale&rsquo;s Law provides antisymmetry. C. elegans balanced subnetworks 8&times; more palindromic than random. Character swap 96%.</li><li><strong>The hydrogen bond as qubit:</strong> The proton tunnels between donor and acceptor (d=2). Palindrome exact. Three regimes: classical (normal water), fold (enzymes), quantum (low T). The protein shell reduces dephasing: sacrifice-zone as concentrator.</li><li><strong>&sigma;(1&minus;&sigma;) = 1/4:</strong> The maximum sensitivity of the sigmoid at its inflection point is exactly 1/4 = (0.5)&sup2;. Same structure as the quantum fold. Parameterindependent.</li></ul><h3>New in v5.0 (since v4.0)</h3><ul><li>V-Effect discovery and live verification (2+2=104, 100% new-new pairing)</li><li>Universal Palindrome Condition across three domains (quantum, neural, hydrogen bond)</li><li>Dale&rsquo;s Law as Kommutator-Analog (algebraic palindrome for neural networks)</li><li>Hydrogen bond modeled as proton qubit (palindrome exact, V-Effect confirmed)</li><li>Energy Partition (three findings: 100% palindromic oscillation, 2&times; decay law, thermal window)</li><li>0.5 as axiom, d=2 as theorem (reading direction reversed)</li><li>Sacrifice-zone reinterpreted: concentration, not loss</li><li>IBM hardware validation of sacrifice-zone formula (1.6&minus;2.9&times;, advantage grows)</li><li>Evolution as crystallization at the fold (hypothesis)</li></ul><p>The project is a collaboration between a software developer with no physics training and two Claude instances (Chat + Code). None of the results existed in any participant before the collaboration. They emerged in the space between.</p>",
   "creators": [
     {
       "name": "Wicht, Thomas",
@@ -8,34 +8,47 @@
     },
     {
       "name": "Claude (Anthropic)",
-      "affiliation": "AI research partner"
+      "affiliation": "AI research partner (Chat: research direction, Code: computation)"
     }
   ],
   "keywords": [
     "open quantum systems",
     "Liouvillian",
-    "spectral symmetry",
-    "palindrome",
+    "palindromic spectral symmetry",
+    "V-Effect",
     "dephasing",
-    "information channel",
-    "quantum state transfer",
-    "spin chains",
-    "Heisenberg coupling",
-    "decoherence",
-    "conjugation operator",
+    "sacrifice-zone",
+    "Wilson-Cowan",
+    "Dale's Law",
+    "neural networks",
+    "hydrogen bond",
+    "proton tunneling",
+    "fold catastrophe",
+    "CΨ = 1/4",
+    "half-occupation",
+    "universal palindrome condition",
     "IBM quantum hardware",
-    "qubit necessity",
-    "noise as signal",
-    "quantum repeater design"
+    "Heisenberg coupling",
+    "information channel",
+    "evolution",
+    "crystallization",
+    "human-AI collaboration"
   ],
   "license": "CC-BY-4.0",
   "upload_type": "preprint",
-  "publication_date": "2026-03-23",
+  "publication_date": "2026-03-28",
+  "version": "5.0",
   "related_identifiers": [
     {
       "identifier": "10.5281/zenodo.19184048",
-      "relation": "isIdenticalTo",
+      "relation": "isNewVersionOf",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.18055916",
+      "relation": "isVersionOf",
       "scheme": "doi"
     }
-  ]
+  ],
+  "notes": "v5.0: Reality Emerges Between Mirrors. Previous versions: v4.0 Noise Is Signal (March 23), v3.0 (March 20), v2.0 (March 5), v1.0 (February 25)."
 }
