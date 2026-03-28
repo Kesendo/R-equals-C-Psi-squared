@@ -197,7 +197,7 @@ What survives even without the philosophy:
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
-- [Hardware validation](../experiments/IBM_RUN3_PALINDROME.md) of the 1/4 crossing on IBM quantum processors
+- [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
@@ -394,6 +394,7 @@ the V-Effect, the character swap, and the 1/4 threshold all transfer.
 - **[Neural palindrome](neural/README.md)** - The palindrome in biological networks. No quantum physics required.
 - **[Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md)** - The proton as qubit. Bridges quantum and chemistry.
 - **[Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)** - One equation, three domains.
+- **[IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)** - All IBM data combined. Sharp r* threshold, fold one-way, sacrifice gradient, 12 permanent crossers.
 - **[Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md)** - Everything we got wrong, don't know, or can't prove.
 - **[Experiments index](../experiments/README.md)** - All experiment documents.
 

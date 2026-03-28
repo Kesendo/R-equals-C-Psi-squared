@@ -42,8 +42,8 @@ analysis shows.
 ## 1. The r* threshold is a sharp phase transition
 
 **Prediction:** CΨ crosses 1/4 when r = T2/(2T1) falls below a
-critical value r* = 0.2128, derived from the generalized crossing
-equation.
+critical value r* = 0.2128, derived from the [generalized crossing
+equation](IBM_QUANTUM_TOMOGRAPHY.md).
 
 **Data:** 24,073 calibration records, 133 qubits, 181 days.
 
@@ -77,23 +77,25 @@ precision in the CΨ(t) computation.
 never returns. The crossing is a fold catastrophe (two real fixed
 points merge and vanish).
 
-**Data:** Run 3 tomography, Q80, 8 delay points.
+**Data:** [Run 3](IBM_RUN3_PALINDROME.md) tomography, Q80, 8 delay
+points. CΨ = C (concurrence) x Ψ (l1-norm coherence), computed from
+maximum-likelihood state tomography at each delay.
 
-| t (us) | t/T2* | Purity | Coherence | CΨ | Distance from 1/4 |
-|--------|-------|--------|-----------|------|-------------------|
-| 0.0 | 0.00 | 0.938 | 0.468 | 0.439 | +0.189 |
-| 3.3 | 0.30 | 0.843 | 0.409 | 0.344 | +0.094 |
-| 6.6 | 0.60 | 0.761 | 0.351 | 0.267 | +0.017 |
-| 9.3 | 0.85 | 0.703 | 0.300 | 0.211 | -0.039 |
-| 11.0 | 1.00 | 0.666 | 0.247 | 0.165 | -0.085 |
-| 13.2 | 1.20 | 0.644 | 0.225 | 0.145 | -0.105 |
-| 19.8 | 1.80 | 0.625 | 0.132 | 0.083 | -0.167 |
-| 44.0 | 4.00 | 0.614 | 0.015 | 0.009 | -0.241 |
+| t (us) | t/T2* | C | Ψ | CΨ | Distance from 1/4 |
+|--------|-------|-------|-------|------|-------------------|
+| 0.0 | 0.00 | 0.938 | 0.935 | 0.877 | +0.627 |
+| 3.3 | 0.30 | 0.843 | 0.817 | 0.689 | +0.439 |
+| 6.6 | 0.60 | 0.761 | 0.701 | 0.534 | +0.284 |
+| 9.3 | 0.85 | 0.703 | 0.601 | 0.422 | +0.172 |
+| 11.0 | 1.00 | 0.666 | 0.494 | 0.329 | +0.079 |
+| 13.2 | 1.20 | 0.644 | 0.449 | 0.289 | +0.039 |
+| 19.8 | 1.80 | 0.625 | 0.265 | 0.166 | -0.084 |
+| 44.0 | 4.00 | 0.614 | 0.029 | 0.018 | -0.232 |
 
-CΨ starts at 0.439, approaches 0.25 monotonically, crosses between
-t = 6.6 and 9.3 us, and decays to near zero. No return, no
-oscillation, no recovery. The fold is one-way on hardware, exactly
-as predicted.
+CΨ starts at 0.877, approaches 0.25 monotonically, crosses between
+t = 13.2 and 19.8 us (interpolated: 15.3 us), and decays to near
+zero. No return, no oscillation, no recovery. The fold is one-way
+on hardware, exactly as predicted.
 
 Using same-day T2* = 17.36 us: predicted crossing at 15.01 us,
 measured at 15.29 us. **Deviation: 1.9%.**
@@ -145,6 +147,10 @@ dephasing to amplitude damping. Qubits that cross have dephasing-
 dominated decoherence.
 
 **Data:** Per-qubit statistics over 181 days.
+
+Dephasing fraction = 1 - r = 1 - T2/(2T1). This is the share of
+coherence loss due to pure dephasing (phase noise without energy
+loss), as opposed to amplitude damping (energy loss to environment).
 
 | Category | n | Mean T1 (us) | Mean T2 (us) | T1/T2 | r | Dephasing fraction |
 |----------|---|-------------|-------------|-------|-------|-------------------|

@@ -47,7 +47,7 @@ all standard coupling models (XY, Ising, XXZ, DM). Confirmed on IBM Torino
 at 1.9% deviation.
 
 → [Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-→ [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md)
+→ [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md) | [Full Synthesis: 24,073 records](experiments/IBM_HARDWARE_SYNTHESIS.md)
 
 ### 2. The CΨ = 1/4 boundary (proven, unique)
 
