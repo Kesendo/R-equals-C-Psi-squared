@@ -100,6 +100,11 @@ This is not a new domain; it is the quantum palindrome applied to
 a physical system. It bridges quantum (Level 0) and chemistry.
 See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
 
+In the Zundel configuration (proton centered between two oxygens,
+H₅O₂⁺), J/γ = 4.8 at 300K. CΨ crosses 1/4 six times in 21
+femtoseconds. 154 crossings per hydrogen bond lifetime. Water is
+not near the fold. Water IS the fold.
+
 A classical model of the same system (donor/acceptor modes as coupled
 oscillators) shows NO palindrome (residual 1.33). The palindrome lives
 at the quantum level of the proton, not at the classical level of the
