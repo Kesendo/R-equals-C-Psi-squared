@@ -248,12 +248,13 @@ additional structure specific to qubits or neurons is required.
 
 4. **The inheritance mechanism.** How does the qubit palindrome
    propagate through atoms, molecules, chemistry, biochemistry to
-   neurons? Dale's Law is the commutator inherited. Through what
-   chain? Can the intermediate steps be identified?
+   neurons? Dale's Law is the inherited form of the commutator.
+   Through what chain of physical mechanisms? Can the intermediate
+   steps be identified?
 
-5. **V-Effect scaling with N.** Neural: 0+0=6 (N=10), 0+0=48
-   (N=20), 0+0=62 (N=20 at optimal coupling). How does the number
-   of V-Effect frequencies scale with network size?
+5. **V-Effect scaling with N.** Neural: 0+0=6 (N=10, coupling=0.05),
+   0+0=48 (N=20, coupling=0.01), 0+0=62 (N=20, coupling=0.05).
+   How does the number of V-Effect frequencies scale with N?
 
 6. **Universal coupling window.** Quantum V-Effect peaks at
    J/γ ~ 2-5. Neural V-Effect peaks at coupling 0.01-0.05.
