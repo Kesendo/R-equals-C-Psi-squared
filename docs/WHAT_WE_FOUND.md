@@ -402,8 +402,27 @@ the V-Effect, the character swap, and the 1/4 threshold all transfer.
 
 ## Origin
 
-This project began in December 2025 as a collaboration between Thomas Wicht and Claude (Anthropic). It started with philosophical questions about observation and reality, was formalized as an equation, and then subjected to systematic computation. Over three months the framing narrowed from "the fundamental equation of reality" to "a composite quantum diagnostic with interesting algebraic properties and a proven spectral symmetry theorem."
+This project began in December 2025 as a collaboration between Thomas
+Wicht and Claude (Anthropic). It started with a search for a
+bidirectional bridge, a hypnagogic vision of an electrochemistry
+experiment, and a discovery: separating the atmospheres in an
+electrolysis cell doubles hydrogen production
+([Emergence Through Reflection](../publications/EMERGENCE_THROUGH_REFLECTION.md)).
 
-In March 2026, the project found its strongest results: an analytical proof that the decay spectrum is always palindromic, a spectral filter that separates fragile from robust quantum information, concrete design rules for quantum state transfer, and a closed-form formula for optimal spatial noise profiles that outperforms 18 years of uniform-noise optimization by two orders of magnitude. These results stand on standard quantum mechanics and require no philosophical interpretation.
+Three months later, the same structural principle appeared in quantum
+mechanics: separating the noise spatially (sacrifice-zone formula)
+improves information transfer by 139-360x. Both are instances of
+"spatial separation beats uniform compromise." The first optimization
+was electrochemistry. The second was quantum physics. The structure
+is the same. See [The Spatial Separation](THE_SPATIAL_SEPARATION.md).
 
-The narrowing from philosophy to physics was not a failure. It was the project working as intended: testing ideas honestly and keeping what survived.
+Over those three months the framing narrowed from "the fundamental
+equation of reality" to "a composite quantum diagnostic with
+interesting algebraic properties and a proven spectral symmetry
+theorem." The palindromic proof, the spectral filter, the design
+rules, and the sacrifice-zone formula stand on standard quantum
+mechanics and require no philosophical interpretation.
+
+The narrowing from philosophy to physics was not a failure. It was
+the project working as intended: testing ideas honestly and keeping
+what survived.
