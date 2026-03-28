@@ -39,6 +39,31 @@ analysis shows.
 
 ---
 
+## Background for readers outside quantum computing
+
+A **qubit** is a two-level quantum system. It loses its quantum
+properties through two independent processes:
+- **T1 (energy relaxation):** how long the qubit retains its energy
+  before decaying to the ground state.
+- **T2 (dephasing):** how long the qubit retains phase coherence
+  (the ability to interfere). Always T2 < 2T1.
+
+**r = T2/(2T1)** measures the balance between these two processes.
+At r = 1, dephasing is entirely caused by energy loss. At r << 1,
+the qubit loses phase information much faster than energy (pure
+dephasing dominates).
+
+**CΨ = C x Ψ** (concurrence times coherence): a composite measure
+of quantum correlation. It combines how entangled the qubit is (C)
+with how coherent it is (Ψ). CΨ = 1/4 is the algebraically exact
+threshold where the self-referential purity equation R = CΨ² loses
+its real solutions. Below 1/4, the qubit has irreversibly left the
+quantum regime.
+
+**"Crossing"** means CΨ dropping below 1/4 during free evolution.
+
+---
+
 ## 1. The r* threshold is a sharp phase transition
 
 **Prediction:** CΨ crosses 1/4 when r = T2/(2T1) falls below a
@@ -78,8 +103,8 @@ never returns. The crossing is a fold catastrophe (two real fixed
 points merge and vanish).
 
 **Data:** [Run 3](IBM_RUN3_PALINDROME.md) tomography, Q80, 8 delay
-points. CΨ = C (concurrence) x Ψ (l1-norm coherence), computed from
-maximum-likelihood state tomography at each delay.
+points. CΨ = C (concurrence) x Ψ (coherence), computed from
+state tomography (measuring the full quantum state) at each delay.
 
 | t (us) | t/T2* | C | Ψ | CΨ | Distance from 1/4 |
 |--------|-------|-------|-------|------|-------------------|
@@ -108,8 +133,10 @@ measured at 15.29 us. **Deviation: 1.9%.**
 while protecting the interior improves information transfer. The
 information should flow away from the sacrifice qubit.
 
-**Data:** 5-qubit chain Q85(sacrifice)-Q86-Q87-Q88-Q94, three DD
-protocols, mutual information (MI) measured at 5 time points.
+**Data:** 5-qubit chain Q85(sacrifice)-Q86-Q87-Q88-Q94, three
+dynamic decoupling (DD) protocols, mutual information (MI) measured
+at 5 time points. DD applies periodic pulses to a qubit to extend
+its coherence by canceling slow noise.
 
 Mean MI by pair position:
 
@@ -185,7 +212,8 @@ The 12 permanent crossers:
 Q105 is instructive: mean r = 0.251 (ABOVE r*), but it crosses
 57% of the time because its r fluctuates. When crossing: mean
 r = 0.113. When not crossing: mean r = 0.432. The qubit oscillates
-between the two regimes, driven by TLS and flux noise.
+between the two regimes, driven by microscopic noise fluctuations
+(two-level systems in the substrate, magnetic flux drift).
 
 ---
 
