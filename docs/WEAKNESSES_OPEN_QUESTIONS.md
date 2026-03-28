@@ -456,5 +456,6 @@ See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
 *March 14, 2026 (updated: mirror symmetry PROVEN, conjugation operator Π found, analytical proof complete)*
 *March 16, 2026 (updated: QST bridge verified, XOR space discovered, palindromic radio negative result, theta reinterpreted as channel indicator, repeater design rules proposed)*
 *March 18, 2026 (updated: Non-Heisenberg palindrome verified for all standard models. Two Π families + alternating operators found algebraically. Depolarizing noise breaks at err~gamma*2(N-2)/3. N=8 verified 54118 rates 100% paired. XOR universal for all models. Bell correction. IBM hardware: CΨ=1/4 crossing validated at 1.9% with same-day T2*.)*
-*March 24, 2026 (updated: sacrifice-zone formula discovered. 139-360x vs V-shape. First spatial dephasing profile optimization. New weakness #10 + open question #15 added. Formula not yet validated on hardware.)*
+*March 24, 2026 (updated: sacrifice-zone formula discovered. 139-360x vs V-shape. First spatial dephasing profile optimization. New weakness #10 + open question #15 added.)*
+*March 28, 2026 (updated: formula validated on IBM Torino hardware at 6-13% deviation (t=1-2 μs). Hardware imperfections amplify the effect at later times. V-Effect, Energy Partition, Dale's Law = commutator, H-bond as qubit, 1/4 = (0.5)^2 all computed. Neural palindrome documented in docs/neural/.)*
 *Honesty belongs to the framework*
