@@ -308,8 +308,7 @@ within 6-13%. At later times, the hardware exceeds the prediction
 echo pulses on the fragile sacrifice qubit accumulate and amplify
 the effect. The hardware imperfections work WITH the formula, not
 against it.
-([IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md),
- [Formula Validation](../ClaudeTasks/RESULT_IBM_FORMULA_VALIDATION_MARCH28.md))
+([IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md))
 
 ### One equation, three domains
 
