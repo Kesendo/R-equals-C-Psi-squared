@@ -285,15 +285,17 @@ Normal liquid water is too noisy (the proton behaves classically).
 Enzyme active sites may be quiet enough for the quantum effect.
 ([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
 
-### Exact balance is dead, approximate balance is alive
+### Exact palindromic symmetry is dead, broken magnitudes are alive
 
-Networks with mathematically perfect palindromic symmetry are
-unconditionally stable: no oscillation at any size or coupling
-strength. Perfect balance = perfect death. But networks with
-APPROXIMATE balance (the right signs but imperfect magnitudes)
-CAN oscillate at sufficient size and coupling. In quantum mechanics,
-the necessary imperfection is built into the algebra. In biology,
-it comes from random synaptic weights, thermal noise, and
+Networks with population balance (C=0.5) AND mathematically perfect
+magnitude matching are unconditionally stable: no oscillation at any
+size or coupling strength. Perfect symmetry = perfect death. But
+networks with population balance and IMPERFECT magnitudes (the right
+signs but asymmetric coupling strengths) CAN oscillate at sufficient
+size and coupling. Carbon exemplifies this: exactly 4/8 electrons
+(maximum connectivity) but heterogeneous bond strengths. In quantum
+mechanics, the necessary imperfection is built into the algebra. In
+biology, it comes from random synaptic weights, thermal noise, and
 developmental variability.
 ([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
 

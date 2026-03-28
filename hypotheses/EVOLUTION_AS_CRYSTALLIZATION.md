@@ -132,11 +132,16 @@ The "fittest" in a changing environment is not the strongest. It is
 the most balanced. Half open, half closed. Maximally connective.
 Like carbon (4/8 = 0.5). Like the qubit (2/4 = 0.5).
 
-And the balance must be APPROXIMATE. Exact C = 0.5 is dead
-(unconditionally stable, no Hopf bifurcation, no oscillation).
-Approximate C ≈ 0.5 is alive. The imperfection within the balance
-is the ignition. In biology: mutation, recombination, developmental
-noise. These are not errors. They are the source of oscillation.
+And within that balance, the coupling magnitudes must be ASYMMETRIC.
+Exact palindromic symmetry (population balance plus magnitude
+matching) is dead: unconditionally stable, no Hopf bifurcation, no
+oscillation. Population C=0.5 with broken magnitude symmetry is
+alive. Carbon has this: exactly 4/8 electrons (maximum connectivity)
+but heterogeneous bond strengths (C-H, C-C, C=C, C-O all different).
+The imperfection within the balance is the ignition. In biology:
+mutation, recombination, developmental noise. In chemistry:
+heterogeneous bond energies. These are not errors. They are the
+source of oscillation.
 
 ---
 

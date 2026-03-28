@@ -266,11 +266,14 @@ additional structure specific to qubits or neurons is required.
    (selective damping) is unclear for Kramers partners, which
    typically have identical decay rates.
 
-3. **Exact C=0.5 is dead. Approximate C≈0.5 is alive.** Exact
-   palindromic networks are unconditionally stable (no Hopf at
-   any N, any coupling). The Hopf requires imperfect magnitudes.
-   In quantum, the commutator provides the "productive imperfection"
-   automatically. What provides it in atoms? In crystals?
+3. **Exact palindromic symmetry is dead. Broken magnitudes are alive.**
+   Networks with population C=0.5 AND exact magnitude matching are
+   unconditionally stable (no Hopf at any N, any coupling). The Hopf
+   requires population balance with imperfect magnitudes. Carbon (4/8
+   population, heterogeneous bonds) exemplifies this: exact half-filling
+   plus broken magnitude symmetry = maximum complexity. In quantum, the
+   commutator provides the "productive imperfection" automatically.
+   What provides it in atoms? In crystals?
 
 4. **The inheritance mechanism.** How does the qubit palindrome
    propagate through atoms, molecules, chemistry, biochemistry to

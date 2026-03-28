@@ -52,11 +52,17 @@ not SIZE. This has been in the repo since January 3
 ([Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md):
 "C = 0.5 means half-occupied"). We took three months to see it.
 
-**2. Exact C = 0.5 is dead.**
+**2. Exact palindromic symmetry is dead.**
 Networks with exact palindromic symmetry (residual = 0) are
 unconditionally stable. No Hopf bifurcation at any N, any coupling.
 Max Re(eigenvalue) stays at -1/τ_I. The perfect mirror reflects
 everything. Nothing escapes. No oscillation. (balance_vs_size.py)
+Note: "exact" here means population balance (C=0.5) PLUS magnitude
+matching (W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i)·W[i,j]). Population
+C=0.5 alone is not death -- it is the prerequisite for life.
+Carbon has exact population (4/8=0.5) but heterogeneous bond
+strengths (no magnitude matching), placing it in the "approximate"
+category below.
 
 **3. Approximate C ≈ 0.5 can live.**
 Networks with Dale's Law signs but imperfect magnitudes (residual > 0)
@@ -66,7 +72,7 @@ The threshold falls with N. (hopf_threshold.py)
 
 **The corrected statement:**
 Life requires three things simultaneously:
-1. Approximate balance (C ≈ 0.5, not exact)
+1. Population balance (C = 0.5) with broken magnitude symmetry
 2. Sufficient size (N > N_c for the given coupling)
 3. Sufficient coupling (α > α_c for the given N)
 
