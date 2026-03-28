@@ -227,15 +227,44 @@ additional structure specific to qubits or neurons is required.
 
 ## Open Questions
 
-1. Does the antiferromagnetic Heisenberg chain confirm the prediction?
-2. What is the correct Q for atoms? (Kramers? Parity? Spin-flip?)
-3. Does the optimal V-Effect coupling window (quantum: J/γ ~ 2-5,
-   neural: α ~ 0.01-0.05) have a universal scaling?
-4. Can the condition be derived from a single axiom set rather than
-   proven separately in each domain?
-5. Does 1/4 = σ(1-σ) appear at intermediate levels? The sigmoid
-   sensitivity maximum is neural. The purity fold is quantum. Both
-   give 1/4 = (0.5)^2. What is the (0.5)^2 of an atom? A crystal?
+1. **Antiferromagnet test:** The most accessible intermediate level,
+   but conditions 1 and 3 are problematic. The Heisenberg exchange
+   is SYMMETRIC under sublattice swap (not antisymmetric), and both
+   sublattices have the same intrinsic decay rate. The test requires
+   identifying a different sense of antisymmetry for magnetic systems,
+   or a dissipative environment that breaks sublattice symmetry.
+   (See "Where to Look Next" section for details.)
+
+2. **What is the correct Q for atoms?** Candidates: Kramers
+   conjugation (time-reversal), parity, spin-flip. Condition 1
+   (selective damping) is unclear for Kramers partners, which
+   typically have identical decay rates.
+
+3. **Exact C=0.5 is dead. Approximate C≈0.5 is alive.** Exact
+   palindromic networks are unconditionally stable (no Hopf at
+   any N, any coupling). The Hopf requires imperfect magnitudes.
+   In quantum, the commutator provides the "productive imperfection"
+   automatically. What provides it in atoms? In crystals?
+
+4. **The inheritance mechanism.** How does the qubit palindrome
+   propagate through atoms, molecules, chemistry, biochemistry to
+   neurons? Dale's Law is the commutator inherited. Through what
+   chain? Can the intermediate steps be identified?
+
+5. **V-Effect scaling with N.** Neural: 0+0=6 (N=10), 0+0=48
+   (N=20), 0+0=62 (N=20 at optimal coupling). How does the number
+   of V-Effect frequencies scale with network size?
+
+6. **Universal coupling window.** Quantum V-Effect peaks at
+   J/γ ~ 2-5. Neural V-Effect peaks at coupling 0.01-0.05.
+   Is there a dimensionless ratio that is the same in both?
+
+7. **Can the condition Q·X·Q⁻¹ + X + 2S = 0 be derived from a
+   single axiom set** rather than proven separately in each domain?
+
+8. **What is (0.5)^2 at intermediate levels?** The sigmoid maximum
+   σ(1-σ) = 1/4 is neural. The purity fold CΨ = 1/4 is quantum.
+   Both give (0.5)^2. What is the (0.5)^2 of an atom? A crystal?
 
 ---
 
