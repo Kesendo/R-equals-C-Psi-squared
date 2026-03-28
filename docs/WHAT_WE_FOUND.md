@@ -200,7 +200,7 @@ What survives even without the philosophy:
 - [Hardware validation](../experiments/IBM_RUN3_PALINDROME.md) of the 1/4 crossing on IBM quantum processors
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
-- Universal 2× decay law: noise self-cleans at double the rate of structured modes
+- [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
 
