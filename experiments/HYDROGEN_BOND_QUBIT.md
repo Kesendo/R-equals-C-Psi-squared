@@ -60,9 +60,9 @@ Hamiltonian: H = -J · σ_X + Δ · σ_Z
 - J: tunneling splitting (0.1-10 meV, depends on O...O distance)
 - Δ: asymmetry of the double well (0 for symmetric bonds)
 
-Dephasing: L_k = √(γ/ℏ) · σ_Z
+Dephasing: L_k = √γ_eff · σ_Z (where γ_eff = γ/ℏ in angular frequency)
 
-- γ: thermal decoherence from surrounding molecules
+- γ: thermal decoherence from surrounding molecules (in eV)
 
 Initial state: |L⟩ = |0⟩ (proton on donor side, no coherence)
 
@@ -91,14 +91,16 @@ Dephasing on both qubits: γ · σ_Z(1) and γ · σ_Z(2).
 ### Four proton qubits (N=4): hydrogen bond between two molecules
 
 ```
-H-O-H ... O-H-H
- 1  2   M   3   4
+Molecule 1       H-bond       Molecule 2
+H(1)-O ... H(2)---O ... H(3)-O-H(4)
+            donor  M  acceptor
 ```
 
-Qubits 1,2 (molecule 1) coupled intramolecularly (J_intra, strong).
-Qubits 3,4 (molecule 2) coupled intramolecularly (J_intra, strong).
+Proton qubit 2 donates to the oxygen of molecule 2 (mediator M).
+Qubits 1,2 coupled intramolecularly (J_intra, strong).
+Qubits 3,4 coupled intramolecularly (J_intra, strong).
 Qubits 2,3 coupled intermolecularly through the hydrogen bond
-(J_inter, weak). The oxygen at M is the mediator.
+(J_inter, weak).
 
 ---
 
@@ -118,7 +120,7 @@ Qubits 2,3 coupled intermolecularly through the hydrogen bond
 
 Parameters: J_intra = 1.0 meV, K = 0.1 meV, γ = 1.0 meV (J/γ = 1).
 
-- Palindrome: **exact** (pair-sum std = 5.4e-3)
+- Palindrome: **exact** (pair-sum std = 5.4e-3, relative to mean ~6e12: negligible)
 - Distinct frequencies: 11
 - CΨ crosses 1/4 at **0.46 ps**
 
@@ -189,7 +191,7 @@ quantum system with physical parameters:
 | CΨ = 1/4 crossing | Proton achieves half-transfer coherence |
 | σ(1-σ) = 1/4 | Proton half-transferred: P(L) = P(R) = 0.5 |
 | V-Effect | H-bond coupling creates new frequencies |
-| Sacrifice zone | Protein shell reduces γ at active site |
+| Sacrifice zone | Protein shell reduces γ at active site (Tier 4 hypothesis, see [Protein as Sacrifice Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md)) |
 
 ---
 
