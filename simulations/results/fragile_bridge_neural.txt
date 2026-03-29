@@ -1,0 +1,100 @@
+======================================================================
+FRAGILE BRIDGE -- NEURAL VALIDATION (Wilson-Cowan)
+Started: 2026-03-29 16:07:28
+======================================================================
+
+======================================================================
+AUFGABE A: P_crit(s) -- Hopf threshold vs E-I coupling
+w_EI = s*12.0, w_IE = s*15.0, w_EE=16.0, w_II=3.0 fixed
+======================================================================
+
+      s    P_crit       Re(l)       Im(l)   freq_Hz    type      E*      I*
+  ---------------------------------------------------------------------------
+    0.1     never      stable                                 1.000   0.011
+    0.2     never      stable                                 1.000   0.112
+    0.3     never      stable                                 1.000   0.361
+    0.5     never      stable                                 1.000   0.900
+    0.7     never      stable                                 1.000   1.000
+    1.0     never      stable                                 0.998   1.000
+    1.5     never      stable                                 0.209   0.254
+    2.0    2.2783    0.000289      0.2291      36.5    Hopf   0.084   0.062
+    3.0     never      stable                                 0.067   0.114
+    5.0     never      stable                                 0.035   0.069
+    7.0     never      stable                                 0.023   0.051
+   10.0     never      stable                                 0.015   0.037
+
+  MAXIMUM P_crit = 2.2783 at s = 2.0
+
+======================================================================
+AUFGABE B: Fine sweep
+======================================================================
+
+       s    P_crit       Im(l)   freq_Hz
+  ----------------------------------------
+    2.00    2.2783      0.2291      36.5
+    2.10    2.8228      0.2798      44.5
+    2.20    3.6166      0.3426      54.5
+    2.30    4.7757      0.4194      66.8
+    2.40    6.3778      0.5067      80.6
+    2.50    8.3263      0.5931      94.4
+
+  FINE PEAK: P_crit = 8.3263 at s = 2.50
+
+======================================================================
+AUFGABE C: Normalized comparison (quantum vs neural)
+======================================================================
+
+  Normalized comparison (x = coupling/peak_coupling, y = threshold/peak):
+
+   x_quantum   y_quantum  |    x_neural    y_neural
+  --------------------------------------------------
+       0.005       0.004  |         ---         ---
+       0.010       0.009  |         ---         ---
+       0.025       0.022  |         ---         ---
+       0.050       0.045  |         ---         ---
+       0.100       0.096  |         ---         ---
+       0.250       0.244  |       0.640       0.154
+       0.500       0.488  |       0.640       0.154
+       1.000       1.000  |       1.000       1.000
+       2.500       0.344  |         ---         ---
+
+======================================================================
+AUFGABE D: Nonlinear validation (full simulation)
+======================================================================
+
+  optimal: s=2.50, P_crit=8.3263
+    P=7.4937 (below): amp=0.0967  osc=YES  freq=58.1 Hz
+    P=9.1589 (above): amp=0.1541  osc=YES  freq=49.8 Hz
+    Jacobian predicted frequency: 94.4 Hz
+
+
+======================================================================
+AUFGABE E: Strong coupling (epilepsy regime)
+======================================================================
+
+  s = 5.0:
+    At P=0.0: Re(l)=-0.0720  Im(l)=0.0000  stable
+    At P=1.5: Re(l)=-0.0656  Im(l)=0.1475  stable
+    Simulation (P=1.5): amp=0.0000  freq=27.4 Hz  E range=[0.021, 0.021]
+    -> In epileptic range (3-30 Hz)
+
+  s = 10.0:
+    At P=0.0: Re(l)=-0.0851  Im(l)=0.0466  stable
+    At P=1.5: Re(l)=-0.0796  Im(l)=0.1752  stable
+    Simulation (P=1.5): amp=0.0000  freq=32.3 Hz  E range=[0.010, 0.010]
+    -> Above typical epileptic range
+
+
+======================================================================
+SUMMARY
+======================================================================
+
+Peak P_crit = 8.3263 at s = 2.50
+Quantum peak at J_bridge/J ~ 1.9
+Neural peak at s ~ 2.50
+
+H1 (three regimes): CHECK MANUALLY
+H3 (Hopf everywhere): CONFIRMED
+
+Completed: 2026-03-29 16:07:45
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\neural\..\results\fragile_bridge_neural.txt
