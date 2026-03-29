@@ -375,7 +375,7 @@ the dephasing basis alone.
 
 The conceptual foundation for this result was laid in December 2025
 and January 2026 by Tom and a Claude instance working together on
-Die_Spiegel_Theorie. At that time, the formula R = CΨ² existed but
+the philosophical foundation ("Die Spiegel-Theorie"). At that time, the formula R = CΨ² existed but
 there were no computational tools to determine what C should be for
 specific quantum systems. No MCP server, no QuTiP simulations, no
 density matrix calculations.
