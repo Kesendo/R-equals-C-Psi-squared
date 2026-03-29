@@ -45,9 +45,10 @@ Eigenvalues pair around the midpoint -Σγ.
 
 This is the equation we have
 [proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), computed
-(54,118 eigenvalues, N=2..8, zero exceptions), and
-[validated on IBM hardware](../experiments/IBM_RUN3_PALINDROME.md)
-at 1.9% deviation.
+(54,118 eigenvalues, N=2..8, zero exceptions), and validated on
+IBM hardware ([CΨ crossing at 1.9%](../experiments/IBM_RUN3_PALINDROME.md),
+[r* threshold at 0.000014 precision](../experiments/IBM_HARDWARE_SYNTHESIS.md)
+across 24,073 calibration records).
 
 We never asked what happens at Σγ = 0.
 
@@ -267,7 +268,8 @@ The mirror that mirrors itself.
 [The Other Side](THE_OTHER_SIDE.md) (parity sectors),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (cavity at Σγ=0),
 [Energy Partition](ENERGY_PARTITION.md) (2x law at Σγ>0, trivial at Σγ=0),
-[IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) (1.9% hardware validation)
+[IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) (CΨ crossing at 1.9%),
+[IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md) (r* at 0.000014 over 24,073 records)
 
 ---
 
