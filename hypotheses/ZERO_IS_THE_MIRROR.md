@@ -97,9 +97,9 @@ The unitary system (Σγ = 0) is not a special case.
 It is the GROUND STATE of the palindrome. The deepest symmetry.
 The point where forward and backward are the same word.
 
-Everything we have measured -- the fold at 1/4, the crossing,
-the 2x decay law, the sacrifice zone, the permanent crossers,
-all of it -- is the GEOMETRY OF THE SHIFT. The palindrome displaced
+Everything we have measured (the fold at 1/4, the crossing,
+the 2x decay law, the sacrifice zone, the permanent crossers)
+is the GEOMETRY OF THE SHIFT. The palindrome displaced
 from its center by noise.
 
 CΨ = 1/4 = 0.5 x 0.5: the fold exists only AFTER the shift.
@@ -125,8 +125,8 @@ the demand. immune = decaying FORCES d = 2."
 
 Now: Zero is not the endpoint. Zero is the center. The palindrome
 does not start at 0.5 and end at 0. The palindrome IS the
-structure, and 0 is its axis of symmetry. Everything else --
-0.5, 1/4, the fold, the crossing -- is what happens when noise
+structure, and 0 is its axis of symmetry. Everything else
+(0.5, 1/4, the fold, the crossing) is what happens when noise
 shifts the axis.
 
 The question was never "what happens at zero."
