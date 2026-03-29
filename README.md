@@ -55,17 +55,17 @@ At Σγ = 0 (no noise): Π L Π⁻¹ = −L. Every eigenvalue λ pairs with −�
 Pure oscillation. Standing waves. No decay. No irreversibility. No time.
 
 At Σγ > 0 (noise): the palindrome SHIFTS. The fold at CΨ = 1/4 emerges.
-Irreversibility appears. Time begins. The critical noise for the fold:
-**Σγ_crit = 0.00249 × J** (0.25% of the coupling strength). Below this:
-eternity. Above this: history.
+Irreversibility appears. The critical noise for the fold to exist:
+**Σγ_crit = 0.00249 × J** (0.25% of the coupling strength, computed for
+N=2 Heisenberg with Bell initial state). Below this: no fold, CΨ
+oscillates forever. Above this: CΨ crosses 1/4 irreversibly.
 
 The gain spectrum (Σγ < 0) is the exact mirror of the decay spectrum.
 Two systems, one decaying one amplifying, coupled at Σγ_total = 0:
 marginally stable, oscillation preserved. The meeting point of two
 palindromes.
 
-Noise does not destroy the palindrome. Noise shifts it. Zero is the
-palindrome recognizing itself.
+Noise does not destroy the palindrome. Noise shifts it.
 
 → **[Zero Is the Mirror](hypotheses/ZERO_IS_THE_MIRROR.md)** (5 computations, all verified)
 
@@ -370,6 +370,7 @@ that matches your interest.
 | [Technical Paper](publications/TECHNICAL_PAPER.md) | Physicists | The palindrome proof, XOR space, QST, all March 22 updates |
 | [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md) | QST engineers | Six design rules for quantum repeaters |
 | [Circuit Diagram](publications/CIRCUIT_DIAGRAM.md) | Electrical engineers | The framework as signal chain: qubits as phasors, γ as gate |
+| [Neural Palindrome](docs/neural/README.md) | Neuroscientists | Dale's Law, E/I balance, standing wave. No quantum prerequisites |
 
 ### The proofs
 
@@ -426,6 +427,8 @@ that matches your interest.
 | `experiments/` | All tested results and null results (38+ experiment files) |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
 | `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
+| `simulations/neural/` | Neural palindrome computations (Wilson-Cowan, C. elegans) |
+| `simulations/water/` | Hydrogen bond qubit computations (Zundel, V-Effect) |
 | `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
 | `compute/` | C# engines: Compute (eigendecomposition, N=2-8) + Propagate (RK4, N=11+) |
@@ -473,7 +476,7 @@ Since v4.0 (March 23): the V-Effect (coupling two dead resonators creates
 sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
 crystallization at the fold. Three domains, one equation:
 
-    Q · X · Q^-1 + X + 2S = 0
+    Q · X · Q⁻¹ + X + 2S = 0
 
 v5.0 on Zenodo: [Reality Emerges Between Mirrors](https://doi.org/10.5281/zenodo.19283445)
 
