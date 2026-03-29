@@ -10,36 +10,60 @@ verified for 2-qubit Heisenberg system across full Σγ sweep.
 
 ---
 
+## Abstract
+
+The palindrome equation Π·L·Π⁻¹ = -L - 2Σγ·I has been proven for
+Σγ > 0 (noise). We compute what happens at and below zero.
+
+At Σγ = 0 (no noise): Π·L·Π⁻¹ = -L. Every eigenvalue pairs with
+its negation. Pure oscillation. No decay. No fold. The palindrome
+is centered at zero: the unitary ground state.
+
+At Σγ < 0 (gain): the decay spectrum mirrors exactly into a growth
+spectrum. The laser is the time-reversal of decoherence.
+
+The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
+critical noise threshold: Σγ_crit = 0.00249 × J (0.25% of the
+coupling strength, computed for 2-qubit Heisenberg with Bell state).
+Below this: no fold, no irreversibility. Above: everything we have
+measured.
+
+Noise does not destroy the palindrome. Noise shifts it from its
+center at zero. The fold, the crossing, the sacrifice zone: all
+are geometry of the shift.
+
+---
+
 ## The palindrome equation
 
 The palindromic spectral condition for the Liouvillian L under
 permutation Pi is:
 
-    Pi L Pi^{-1} = -L - 2*Sigma_gamma * I
+    Π·L·Π⁻¹ = -L - 2Σγ·I
 
-Eigenvalues pair around the midpoint -Sigma_gamma.
+Eigenvalues pair around the midpoint -Σγ.
 
 This is the equation we have proven, computed, and validated on
 IBM hardware with 0.000014 precision.
 
-We never asked what happens at Sigma_gamma = 0.
+We never asked what happens at Σγ = 0.
 
 ---
 
 ## Three regimes
 
-### Sigma_gamma > 0: Noise. The world we measured.
+### Σγ > 0: Noise. The world we measured.
 
-    Pi L Pi^{-1} = -L - 2*Sigma_gamma * I
+    Π·L·Π⁻¹ = -L - 2Σγ·I
 
-Eigenvalues pair around -Sigma_gamma (shifted left of zero).
+Eigenvalues pair around -Σγ (shifted left of zero).
 Decay plus oscillation. Damped waves. Time has a direction.
 The fold at 1/4 exists. CΨ crosses, irreversibly. Life, death,
 history. Everything in our experiments lives here.
 
-### Sigma_gamma = 0: No noise. The mirror.
+### Σγ = 0: No noise. The mirror.
 
-    Pi L Pi^{-1} = -L
+    Π·L·Π⁻¹ = -L
 
 Every eigenvalue lambda pairs with -lambda. The palindrome is
 symmetric around zero. No decay. Pure oscillation. Standing
@@ -50,11 +74,11 @@ system. Time-reversal symmetry.
 
 And Pi becomes the exact time-reversal operator.
 
-### Sigma_gamma < 0: Amplification. The other side.
+### Σγ < 0: Amplification. The other side.
 
-    Pi L Pi^{-1} = -L + 2*|Sigma_gamma| * I
+    Π·L·Π⁻¹ = -L + 2|Σγ|·I
 
-Eigenvalues pair around +|Sigma_gamma| (shifted right of zero).
+Eigenvalues pair around +|Σγ| (shifted right of zero).
 Growth plus oscillation. Amplified waves. A laser.
 
 The palindrome on the other side of zero.
@@ -65,17 +89,17 @@ The palindrome on the other side of zero.
 
 Noise does not destroy the palindrome. Noise SHIFTS it.
 
-The unitary system (Sigma_gamma = 0) is not a special case.
+The unitary system (Σγ = 0) is not a special case.
 It is the GROUND STATE of the palindrome. The deepest symmetry.
 The point where forward and backward are the same word.
 
 Everything we have measured -- the fold at 1/4, the crossing,
-the 1.97x decay law, the sacrifice zone, the permanent crossers,
+the 2x decay law, the sacrifice zone, the permanent crossers,
 all of it -- is the GEOMETRY OF THE SHIFT. The palindrome displaced
 from its center by noise.
 
 CΨ = 1/4 = 0.5 x 0.5: the fold exists only AFTER the shift.
-At Sigma_gamma = 0 there is no fold. No 1/4 boundary. Only
+At Σγ = 0 there is no fold. No 1/4 boundary. Only
 infinite reflection. Two mirrors, perfectly aligned, zero
 distance apart.
 
@@ -117,16 +141,16 @@ The bridge between them is not at 1/4. The bridge is at 0.
 Where one system's silence meets the other system's silence.
 Where both palindromes touch at their unshifted center.
 
-"Silence pairs with silence. And the oscillations -- the EEG
-bands, consciousness, life -- are what happens BETWEEN."
+"Silence pairs with silence. And the oscillations (the EEG
+bands, the vibrations, the life) are what happens BETWEEN."
 
-Claude Code computed this without our context:
-
-"The palindromic pairing pairs not oscillation with oscillation.
-It pairs SILENCE with SILENCE."
+A separate computation (Wilson-Cowan with fast-spiking parameters)
+confirmed: the slowest and fastest modes are both non-oscillating.
+Both have frequency zero. Both only decay. The oscillating modes
+live between the two silences.
 
 Now we know where that silence lives. At zero. At the center
-of the palindrome. Where Pi L Pi^{-1} = -L and every eigenvalue
+of the palindrome. Where Π·L·Π⁻¹ = -L and every eigenvalue
 is its own mirror image.
 
 ---
@@ -136,18 +160,18 @@ is its own mirror image.
 All five computations performed on a 2-qubit Heisenberg system
 (J=1.0, uniform dephasing split between sites).
 
-### 1. Sigma_gamma sweep: palindrome persists everywhere
+### 1. Σγ sweep: palindrome persists everywhere
 
-Swept Sigma_gamma from -0.1 (gain) through 0.0 (unitary) to +0.5
+Swept Σγ from -0.1 (gain) through 0.0 (unitary) to +0.5
 (strong decay). At every value: eigenvalue pair sums match
--2*Sigma_gamma with **zero deviation** (machine precision).
+-2*Σγ with **zero deviation** (machine precision).
 
 The palindrome is algebraic. It does not depend on the sign or
 magnitude of gamma. Noise shifts the midpoint. Nothing else changes.
 
-### 2. Fold emergence: critical Sigma_gamma = 0.002490
+### 2. Fold emergence: critical Σγ = 0.002490
 
-| Sigma_gamma | CΨ_min | Fold exists? |
+| Σγ | CΨ_min | Fold exists? |
 |-------------|--------|-------------|
 | 0.0000 | 0.333 | **No** (pure oscillation) |
 | 0.0020 | 0.264 | No (above 1/4) |
@@ -155,34 +179,34 @@ magnitude of gamma. Noise shifts the midpoint. Nothing else changes.
 | 0.0050 | 0.191 | Yes |
 | 0.0100 | 0.162 | Yes (t_cross = 7.5 us) |
 
-Below Sigma_gamma = 0.00249 (for J=1.0, Bell initial state): the
+Below Σγ = 0.00249 (for J=1.0, Bell initial state): the
 fold does not exist. CΨ oscillates but never drops below 1/4.
 The fold is NOT built into the algebra. It is a consequence of
 the SHIFT. No shift, no fold, no irreversibility.
 
-The ratio Sigma_gamma_crit / J = 0.00249 is a dimensionless
+The ratio Σγ_crit / J = 0.00249 is a dimensionless
 constant of the fold. It says: the noise must be at least 0.25%
 of the coupling strength for irreversibility to emerge.
 
-### 3. Cavity modes at Sigma_gamma = 0
+### 3. Cavity modes at Σγ = 0
 
-| Sigma_gamma | Steady modes | Oscillation modes | Decay modes | Type |
+| Σγ | Steady modes | Oscillation modes | Decay modes | Type |
 |-------------|-------------|-------------------|-------------|------|
 | 0.0 (unitary) | 10 | 6 (at +/-4i) | 0 | Pure standing waves |
 | +0.1 (decay) | 3 | 6 (damped) | 7 | Damped + decay |
 | -0.1 (gain) | 3 | 6 (growing) | 0 + 7 gain | EXACT mirror of +0.1 |
 
-At Sigma_gamma = 0: no decay at all. Ten steady modes, six pure
+At Σγ = 0: no decay at all. Ten steady modes, six pure
 oscillations at frequency 4J. Standing waves. Time-reversal
 symmetric. Every eigenvalue is purely imaginary.
 
-The gain spectrum (Sigma_gamma = -0.1) is the EXACT mirror of the
+The gain spectrum (Σγ = -0.1) is the EXACT mirror of the
 decay spectrum (+0.1). Same frequencies, opposite real parts. The
 laser is the time-reversal of the decay.
 
 ### 4. Two coupled palindromes: decay meets gain
 
-One qubit decays (+g), the other amplifies (-g). Total Sigma_gamma = 0.
+One qubit decays (+g), the other amplifies (-g). Total Σγ = 0.
 
 | g | Midpoint | Max Re(lambda) | Oscillation freq | Stable? |
 |---|----------|----------------|-----------------|---------|
@@ -204,11 +228,11 @@ decays. Both oscillate. The bridge is at zero.
 
 Starting from a near-mixed state (CΨ = 0.009) with negative gamma:
 
-| Sigma_gamma | CΨ_max | Crosses 1/4? | Direction |
+| Σγ | CΨ_max | Crosses 1/4? | Direction |
 |-------------|--------|-------------|-----------|
 | -0.010 | 0.026 | No | Growing |
 | -0.020 | 0.129 | No | Growing |
-| -0.050 | 546 | **Yes (upward)** | Exploding |
+| -0.050 | 546 (unphysical) | **Yes (upward)** | Exploding |
 
 There IS a fold from below. CΨ grows from near-zero, crosses
 1/4 going UP, and then diverges (unphysical in Lindblad, but
@@ -217,12 +241,14 @@ is approximately -0.04 for this system.
 
 The fold at 1/4 is the SAME boundary from both sides. From above
 (decay): CΨ falls through 1/4 and stays below. From below (gain):
-CΨ rises through 1/4 and keeps growing. The boundary is symmetric.
-The palindrome around zero predicted this.
+CΨ rises through 1/4 and keeps growing (unphysical in the Lindblad
+framework, which assumes trace-preserving dynamics; the gain regime
+violates this). The boundary is symmetric. The palindrome around
+zero predicted this.
 
 ---
 
-## The deepest sentence
+## The deepest sentence (Tier 5, interpretation)
 
 Zero is not the absence of the palindrome.
 Zero is the palindrome recognizing itself.

@@ -550,6 +550,9 @@ See: [The Anomaly](../THE_ANOMALY.md)
 3. **Is the boundary observable?** The standing wave forms at the
    interface between sectors. Can the node/antinode structure be
    measured directly, not just computed from the Liouvillian?
+   Note: the "other side" has a physical realization: the laser
+   regime (Σγ < 0), where gain replaces loss and all eigenvalues
+   mirror. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 
 4. **Can the V-Effect be quantified as a level generator?** At what
    N does the differentiation produce structures that map onto known

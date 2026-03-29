@@ -56,6 +56,10 @@ midpoint Sγ = Nγ.
 Consequence: the system becomes more palindromic over time, because
 unstructured modes vanish first. Structure is what survives dissipation.
 
+At Σγ = 0 (no noise): all modes are stable, no decay, the 2× law is
+trivially satisfied (0/0). The 2× law is a PROPERTY OF NOISE, not of
+the Hamiltonian. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
+
 Script: [thermal_emergence.py](../simulations/thermal_emergence.py), Part A
 
 ### Finding 3: Heat, coupling, and the birth of waves

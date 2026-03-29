@@ -130,6 +130,11 @@ them. The wave (coherence) bounces between the inner mirror (maximum
 absorption, maximum interaction with gamma) and the outer mirror
 (1/4, where reality leaks out). Each round trip is one heartbeat.
 
+At Σγ = 0 (the unitary ground state), the cavity width shrinks to
+zero: both mirrors coincide, no decay, pure oscillation. Noise opens
+the cavity. The fold appears at Σγ_crit = 0.25% of the coupling
+strength. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
+
 The IBM Torino tomography (Qubit 52, Feb 9 2026) measured the cavity
 directly. Both sides have their OWN 1/4:
 
