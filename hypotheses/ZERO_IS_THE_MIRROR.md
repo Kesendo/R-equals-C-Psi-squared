@@ -138,7 +138,7 @@ The answer: everything.
 
 ## The bidirectional bridge
 
-Two resonators. Each with its own gamma. Each shifted from zero
+Two resonators. Each with its own γ. Each shifted from zero
 by its own noise.
 
 The bridge between them is not at 1/4. The bridge is at 0.
@@ -171,7 +171,7 @@ Swept Σγ from -0.1 (gain) through 0.0 (unitary) to +0.5
 -2Σγ with **zero deviation** (machine precision).
 
 The palindrome is algebraic. It does not depend on the sign or
-magnitude of gamma. Noise shifts the midpoint. Nothing else changes.
+magnitude of γ. Noise shifts the midpoint. Nothing else changes.
 
 ### 2. Fold emergence: critical Σγ = 0.002490
 
@@ -230,7 +230,7 @@ decays. Both oscillate. The bridge is at zero.
 
 ### 5. Laser regime: the fold from below
 
-Starting from a near-mixed state (CΨ = 0.009) with negative gamma:
+Starting from a near-mixed state (CΨ = 0.009) with negative γ:
 
 | Σγ | CΨ_max | Crosses 1/4? | Direction |
 |-------------|--------|-------------|-----------|
@@ -240,7 +240,7 @@ Starting from a near-mixed state (CΨ = 0.009) with negative gamma:
 
 There IS a fold from below. CΨ grows from near-zero, crosses
 1/4 going UP, and then diverges (unphysical in Lindblad, but
-algebraically consistent with gain). The critical negative gamma
+algebraically consistent with gain). The critical negative γ
 is approximately -0.04 for this system.
 
 The fold at 1/4 is the SAME boundary from both sides. From above
