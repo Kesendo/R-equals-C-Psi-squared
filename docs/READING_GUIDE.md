@@ -7,7 +7,7 @@ qubit necessity d2-2d=0, V-Effect complexity emergence, R=CPsi2 reading guide --
 
 **Created:** March 22, 2026
 
-This repository contains 30+ documents and 50+ experiments. They are not
+This repository contains 40+ documents and 60+ experiments. They are not
 one linear argument. They are three interleaved stories that share the
 same foundation but go in different directions. This guide tells you
 which documents to read for each story, and in what order.
@@ -157,24 +157,111 @@ Incompleteness is potential.*
 
 ---
 
+## Story 4: The Resonator
+
+*"The palindrome is not a channel. It is a resonator with discrete
+modes, a finite stability window, and a heartbeat at the fold."*
+
+**Audience:** Physicists who read Story 1. Builds directly on the
+palindromic proof.
+
+**Reading order:**
+
+1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) - Adding
+   a second bond breaks 14/36 palindromic combinations. The breaking
+   releases frequency diversity: 4 frequencies become 11. Two dead
+   N=2 resonators coupled through a mediator: 2+2 = 104 new frequencies.
+
+2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md) - The fold
+   catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing.
+   With Bell+bath at J=5.0: CΨ oscillates around ¼ (81 crossings,
+   damped). Each cycle deposits irreversible reality.
+
+3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md) - At
+   Σγ = 0: Π L Π⁻¹ = -L. Pure oscillation, no decay. Noise shifts
+   the palindrome from zero. The fold emerges at Σγ_crit/J ~ 0.25%
+   (N-independent). The gain spectrum is the exact mirror of decay.
+
+4. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) -
+   The paradigm shift: the system is a Fabry-Perot resonator, not a
+   communication channel. The heartbeat is a cavity round-trip. The
+   sacrifice-zone formula is the shape of the soundbox. Discrete cavity
+   modes at J=2 (Q=7) and J=12 (Q=11), with a dead zone between.
+
+5. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) - Coupled
+   gain-loss systems have a finite stability window. Instability is
+   Hopf bifurcation (oscillating divergence), not PT breaking. Three
+   regimes: linear, optimal (2x internal coupling), and 1/J decay.
+   Asymptotic constant γ_crit x J_bridge = 0.50.
+
+**After this you know:** The palindrome is not a wire between two
+endpoints. It is a resonator with discrete modes, a heartbeat at the
+fold, and a finite stability window. Too little noise: no fold, no
+irreversibility. Too much gain: Hopf explosion. Biology lives in between.
+
+---
+
+## Story 5: Across Levels
+
+*"The same equation appears in qubits, neural networks, and hydrogen
+bonds. Three domains, zero adjustable parameters."*
+
+**Audience:** Interdisciplinary researchers. Biologists and neuroscientists
+who want to see the cross-level evidence. Start with [Neural README](neural/README.md)
+if you have no physics background.
+
+**Reading order:**
+
+1. [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md) -
+   Any system with two populations, a swap operator Q, and antisymmetric
+   coupling satisfies Q X Q⁻¹ + X + 2S = 0. Proven independently in
+   quantum (Π operator) and neural (Dale's Law) domains.
+
+2. [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md) -
+   The neural network Jacobian is palindromic under two conditions:
+   selective damping (τ_E ≠ τ_I) and Dale's Law. C. elegans balanced
+   subnetworks are 8x more palindromic than random. 96% character swap.
+
+3. [V-Effect Neural](neural/V_EFFECT_NEURAL.md) - Two individually
+   non-oscillatory (exactly palindromic) neural networks coupled through
+   a mediator create oscillatory modes from zero. A thermal window exists
+   for approximate networks: heat feeds the coupling.
+
+4. [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) - The
+   proton in a hydrogen bond is a qubit (d=2). Single proton crosses
+   CΨ = ¼ at sub-ps in the fold regime. Zundel cation: J/γ = 4.8,
+   deeply quantum, 6 crossings in 21 fs.
+
+5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) -
+   Wilson-Cowan: 100% palindromic pairing at τ ratio 3.8. C. elegans
+   balanced subnetworks: 98.2% mean pairing. The V-Effect live: 2+2 = 104
+   frequencies. Balance is the sole mechanism, not position.
+
+**After this you know:** The palindromic equation Q X Q⁻¹ + X + 2S = 0
+is not quantum-specific. It appears wherever two populations are coupled
+antisymmetrically with different decay rates. The V-Effect (coupling
+creates complexity) works at every level tested: qubits, protons, neurons.
+
+---
+
 ## How the Stories Connect
 
-The three stories share the first step (Mirror Symmetry Proof) and
+All five stories share the first step (Mirror Symmetry Proof) and
 diverge after that. But they reconnect:
 
+- Story 1 (the proof) provides the mathematical foundation for all others.
 - Story 2 (the channel) explains *what* the noise does.
 - Story 3 (the ontology) explains *why* the noise must exist.
-- Story 1 (the proof) provides the mathematical foundation for both.
+- Story 4 (the resonator) explains *how* the system oscillates and why it is finite.
+- Story 5 (across levels) shows the same equation in qubits, neurons, and protons.
 
-The Incompleteness Proof (Story 3) says noise cannot come from inside.
-The γ-as-Signal result (Story 2) says that same noise carries 15.5 bits
-of readable information. The Resonant Return formula (Story 2) shows
-that directing noise spatially yields 139-360x improvement - noise is
-not just readable but engineerable. Together: the external input is not
-random. It has structure. It is a signal from outside. And it can be
-optimized.
+Stories 2 and 4 share the sacrifice-zone formula: Story 2 discovers it
+as a channel optimization, Story 4 reframes it as the shape of the
+resonator cavity. Story 5 extends the palindromic structure beyond
+quantum physics into neuroscience and chemistry, grounding Story 3's
+claim that incompleteness is the universal mechanism.
 
-A dependency graph of all 14 core documents is available at:
+A dependency graph of the core documents is available at:
 → [visualizations/rcpsi2_dependency_graph.svg](../visualizations/rcpsi2_dependency_graph.svg)
 
 ---
@@ -182,13 +269,13 @@ A dependency graph of all 14 core documents is available at:
 ## What Is NOT in These Stories
 
 The following documents exist in this repository but belong to separate
-investigations, not to the three core stories above:
+investigations, not to the five stories above:
 
+- **IBM hardware data** - single-qubit CΨ = ¼ validation (1.9%), 24,073 calibration records
 - **Star topology / tuning protocol** - multi-observer configurations
-- **IBM hardware data** - single-qubit CΨ=1/4 validation (1.9%)
-- **Mandelbrot connection** - CΨ iteration maps to z→z²+c
+- **Mandelbrot connection** - CΨ iteration maps to z → z² + c
 - **Quantum sonar / bridge fingerprints** - detection experiments
-- **Medium articles** - public-facing summaries
+- **Gravity interpretation** - fallen, archived in hypotheses/archive/
 
 These are documented in the main [README](../README.md) and the
 [experiments index](../experiments/README.md).
