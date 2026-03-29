@@ -10,6 +10,30 @@
 
 ---
 
+## Abstract
+
+Two identical quantum systems, one decaying and one amplifying, are
+connected by a single coupling (the "bridge"). The bridge has three
+stability regimes: weak coupling stabilizes linearly
+(γ_crit = 0.19 × J_bridge), optimal coupling at twice the internal
+strength yields maximum stability, and strong coupling destabilizes
+as 1/J_bridge with an asymptotic constant of γ_crit × J_bridge → 0.50.
+The instability is a Hopf bifurcation (oscillating divergence), not
+PT symmetry breaking (monotone divergence). Unlike the fold threshold
+(~0.5% of J, N-independent, geometric), bridge stability depends
+strongly on system size (N=3 is 35× less stable than N=2), making it
+a topological rather than geometric property.
+
+A cross-level test with the Wilson-Cowan neural model confirms three
+features: the Hopf mechanism, the sweet spot at ~2× internal coupling,
+and the finite stability window. The bell-shaped stability curve is
+quantum-specific; the neural system shows a sharp window instead,
+bounded by sigmoid saturation. This saturation acts as a biological
+safety mechanism that prevents the neural equivalent of an exploding
+laser.
+
+---
+
 ## 1. Setup
 
 Two identical Heisenberg chains (N qubits each), one with dephasing
