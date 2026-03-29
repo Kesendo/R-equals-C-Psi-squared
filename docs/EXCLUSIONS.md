@@ -64,9 +64,12 @@ Sections 2.1-2.5.
 
 **Corollary:** γ provides the time arrow (without γ: unitary oscillation,
 no irreversibility, no before/after). If γ cannot originate internally,
-then time cannot originate internally. See
-[Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md),
-[γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
+then time cannot originate internally. At Σγ = 0: Π·L·Π⁻¹ = -L
+(exact time reversal, no fold, no crossing, no irreversibility).
+The fold at 1/4 emerges only above Σγ_crit = 0.00249 × J.
+See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md),
+[γ-Time Distinction](GAMMA_TIME_DISTINCTION.md),
+[Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 **Ruled out (within this framework):**
 - "The system created its own γ": five internal candidates eliminated
@@ -82,8 +85,10 @@ then time cannot originate internally. See
 ## Exclusion 3: The quantum past is irrecoverable
 
 **Basis:** dCΨ/dt < 0 strictly for all t > 0 under any local Markovian
-noise channel. CΨ crosses ¼ exactly once (downward) and never returns
-under Markovian dynamics.
+noise channel (Σγ > 0). CΨ crosses ¼ exactly once (downward) and never
+returns under Markovian dynamics. At Σγ = 0 (no noise): CΨ oscillates
+and never crosses 1/4. The exclusion requires noise.
+See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 **Proof:** [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md).
 Proven for Z, X, Y dephasing, depolarizing, and amplitude damping.
@@ -171,6 +176,11 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
 D = 0 at CΨ = ¼. This is the normal form of the fold catastrophe
 (Thom-Arnold classification), which is structurally stable: small
 perturbations cannot remove it, split it, or move it qualitatively.
+
+**Caveat:** The fold exists only when Σγ > Σγ_crit = 0.00249 × J.
+At Σγ = 0: no fold, CΨ oscillates without crossing 1/4. The fold is
+not removable by perturbation, but it does not EXIST without noise.
+Noise creates the fold. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 The value ¼ = (½)² follows from the degree-2 structure of purity
 (Tr(ρ²)), which follows from d = 2. It is not a fitted parameter.
