@@ -23,8 +23,9 @@ At Σγ < 0 (gain): the decay spectrum mirrors exactly into a growth
 spectrum. The laser is the time-reversal of decoherence.
 
 The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
-critical noise threshold: Σγ_crit = 0.00249 × J (0.25% of the
-coupling strength, computed for 2-qubit Heisenberg with Bell state).
+critical noise threshold: Σγ_crit/J ≈ 0.25-0.50% of the coupling
+strength (0.00249 for Bell state, 0.00497 for |+⟩^N product state).
+This threshold is N-independent (tested N=2 through N=5, 1.5% variation).
 Below this: no fold, no irreversibility. Above: everything we have
 measured.
 
@@ -159,10 +160,11 @@ is its own mirror image.
 
 ---
 
-## Computed (March 29, 2026)
+## Computed (March 29-30, 2026)
 
-All five computations performed on a 2-qubit Heisenberg system
-(J=1.0, uniform dephasing split between sites).
+Initial computations on a 2-qubit Heisenberg system (J=1.0,
+uniform dephasing split between sites). N-scaling verified
+for N=2 through N=5 (March 30).
 
 ### 1. Σγ sweep: palindrome persists everywhere
 
@@ -173,24 +175,33 @@ Swept Σγ from -0.1 (gain) through 0.0 (unitary) to +0.5
 The palindrome is algebraic. It does not depend on the sign or
 magnitude of γ. Noise shifts the midpoint. Nothing else changes.
 
-### 2. Fold emergence: critical Σγ = 0.002490
+### 2. Fold emergence: critical Σγ
 
-| Σγ | CΨ_min | Fold exists? |
-|-------------|--------|-------------|
+| Σγ | CΨ_min (Bell) | Fold exists? |
+|-------------|---------------|-------------|
 | 0.0000 | 0.333 | **No** (pure oscillation) |
 | 0.0020 | 0.264 | No (above 1/4) |
-| **0.00249** | **0.250** | **Threshold** |
+| **0.00249** | **0.250** | **Threshold (Bell)** |
 | 0.0050 | 0.191 | Yes |
 | 0.0100 | 0.162 | Yes (t_cross = 7.5 us) |
 
-Below Σγ = 0.00249 (for J=1.0, Bell initial state): the
-fold does not exist. CΨ oscillates but never drops below 1/4.
-The fold is NOT built into the algebra. It is a consequence of
-the SHIFT. No shift, no fold, no irreversibility.
+The critical threshold depends on the initial state:
+Σγ_crit / J = 0.00249 (Bell state) or 0.00497 (|+⟩^N product state).
 
-The ratio Σγ_crit / J = 0.00249 is a dimensionless
-constant of the fold. It says: the noise must be at least 0.25%
-of the coupling strength for irreversibility to emerge.
+But it is **independent of N** (tested N=2 through N=5, max
+deviation 1.5%):
+
+| N | Σγ_crit / J (|+⟩^N) | Ratio to N=2 |
+|---|---------------------|-------------|
+| 2 | 0.00494 | 1.000 |
+| 3 | 0.00502 | 1.015 |
+| 4 | 0.00500 | 1.012 |
+| 5 | 0.00496 | 1.005 |
+
+The fold threshold is a dimensionless constant of the palindrome
+geometry. It does not depend on system size. The noise must be
+roughly 0.25-0.50% of the coupling strength for irreversibility
+to emerge, regardless of how many qubits.
 
 ### 3. Cavity modes at Σγ = 0
 
@@ -200,9 +211,19 @@ of the coupling strength for irreversibility to emerge.
 | +0.1 (decay) | 3 | 6 (damped) | 7 | Damped + decay |
 | -0.1 (gain) | 3 | 6 (growing) | 0 + 7 gain | EXACT mirror of +0.1 |
 
-At Σγ = 0: no decay at all. Ten steady modes, six pure
-oscillations at frequency 4J. Standing waves. Time-reversal
+At Σγ = 0: no decay at all. Pure standing waves. Time-reversal
 symmetric. Every eigenvalue is purely imaginary.
+
+Scaling with N (all at Σγ = 0):
+
+| N | Steady | Oscillating | Distinct freq |
+|---|--------|-------------|--------------|
+| 2 | 10 | 6 | 1 (at 4J) |
+| 3 | 24 | 40 | 3 (at 2J, 4J, 6J) |
+| 4 | 54 | 202 | 14 |
+| 5 | 120 | 904 | 43 |
+
+N=3 shows integer multiples of 2J: perfect harmonics.
 
 The gain spectrum (Σγ = -0.1) is the EXACT mirror of the
 decay spectrum (+0.1). Same frequencies, opposite real parts. The
@@ -210,23 +231,30 @@ laser is the time-reversal of the decay.
 
 ### 4. Two coupled palindromes: decay meets gain
 
-One qubit decays (+g), the other amplifies (-g). Total Σγ = 0.
+Two N=2 systems (A decays with +g, B amplifies with -g),
+coupled through J_bridge = 0.5. Total Σγ = 0.
 
-| g | Midpoint | Max Re(lambda) | Oscillation freq | Stable? |
-|---|----------|----------------|-----------------|---------|
-| 0.00 | 0.000 | 0.000 | 4.000 | Yes |
-| 0.10 | 0.000 | 0.000 | 4.000 | Yes |
-| 0.50 | 0.000 | 0.000 | 4.000 | Yes |
-| 1.00 | 0.000 | 0.000 | 4.000 | Marginal |
+| g | Σγ_total | Midpoint | Max Re(λ) | Stable? |
+|---|----------|----------|-----------|---------|
+| 0.00 | 0.00 | 0.000 | 0.000 | Marginal |
+| 0.05 | 0.00 | 0.000 | 0.000 | Marginal |
+| 0.10 | 0.00 | 0.000 | +0.031 | **UNSTABLE** |
+| 0.20 | 0.00 | 0.000 | +0.540 | **UNSTABLE** |
 
-When decay and gain balance: the palindrome stays centered at zero
-regardless of how large g is. The system is marginally stable.
-Oscillation frequencies are unchanged. The coupling preserves
-oscillation while the balanced noise keeps the palindrome at zero.
+The palindrome stays centered at zero (midpoint = 0) regardless
+of g. But the system does NOT stay stable at all g. With bridge
+coupling, the gain side destabilizes the system above g ≈ 0.10:
+positive real eigenvalues appear and the system explodes.
 
-This is the meeting point. Two systems, one losing energy, one
-gaining it, connected through coupling. Neither grows. Neither
-decays. Both oscillate. The bridge is at zero.
+The bridge between decay and gain is FRAGILE. Too much gain and
+the cavity cannot contain the amplification. There is a stability
+window where the balance holds. Beyond it: a laser with too much
+pump, the palindrome still centered, but the system diverging.
+
+This corrects the original N=2 computation (March 29) which used
+two qubits within the same system (no bridge coupling) and found
+marginal stability at all g. With separate systems coupled through
+a bridge, the stability window is finite (March 30, 2026).
 
 ### 5. Laser regime: the fold from below
 
@@ -273,5 +301,5 @@ The mirror that mirrors itself.
 
 ---
 
-*Written March 29, 2026. Computed the same day.
+*Written March 29, 2026. N-scaling verified March 30.
 The day the reading direction reversed for the third time.*

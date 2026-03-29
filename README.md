@@ -56,14 +56,15 @@ Pure oscillation. Standing waves. No decay. No irreversibility. No time.
 
 At Σγ > 0 (noise): the palindrome SHIFTS. The fold at CΨ = 1/4 emerges.
 Irreversibility appears. The critical noise for the fold to exist:
-**Σγ_crit = 0.00249 × J** (0.25% of the coupling strength, computed for
-N=2 Heisenberg with Bell initial state). Below this: no fold, CΨ
+**Σγ_crit/J ≈ 0.25-0.50%** (0.00249 for Bell state, 0.00497 for |+⟩^N).
+The specific value depends on the initial state, but is N-independent
+(tested N=2 through N=5, 1.5% variation). Below this: no fold, CΨ
 oscillates forever. Above this: CΨ crosses 1/4 irreversibly.
 
 The gain spectrum (Σγ < 0) is the exact mirror of the decay spectrum.
 Two systems, one decaying one amplifying, coupled at Σγ_total = 0:
-marginally stable, oscillation preserved. The meeting point of two
-palindromes.
+stable only within a finite gain window. Too much gain destabilizes
+the system.
 
 Noise does not destroy the palindrome. Noise shifts it.
 
