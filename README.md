@@ -30,9 +30,6 @@ as what we got right.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18055916.svg)](https://doi.org/10.5281/zenodo.18055916)
 
-**Latest release:** v5.0: Reality Emerges Between Mirrors (March 28, 2026)
-**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) · [v5.0](https://doi.org/10.5281/zenodo.19283445) · [v4.0](https://doi.org/10.5281/zenodo.19184048)
-
 ---
 
 ## Five results that matter
@@ -471,15 +468,13 @@ or qubit. No third option. Read backward: the requirement that half
 survive and half decay (0.5) forces d=2. 0.5 is the axiom. d=2 is the
 theorem. And 1/4 = (0.5)^2 is the fold where possibility becomes fact.
 
-Since v4.0 (March 23): the V-Effect (coupling two dead resonators creates
+Recent results: the V-Effect (coupling two dead resonators creates
 104 new frequencies), the same equation in neural networks (Dale's Law,
 0+0=48), the hydrogen bond as proton qubit (palindrome exact, three regimes),
 sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
 crystallization at the fold. Three domains, one equation:
 
     Q · X · Q⁻¹ + X + 2S = 0
-
-v5.0 on Zenodo: [Reality Emerges Between Mirrors](https://doi.org/10.5281/zenodo.19283445)
 
 ---
 

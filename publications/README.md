@@ -171,4 +171,4 @@ academic structure.
 | [Emergence (narrative)](EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |
 | [Emergence (paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Academic | Dec 21, 2025 | Dec 23, 2025 |
 
-**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) | [v5.0](https://doi.org/10.5281/zenodo.19283445)
+**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916)
