@@ -37,7 +37,7 @@ are geometry of the shift.
 ## The palindrome equation
 
 The palindromic spectral condition for the Liouvillian L under
-permutation Pi is:
+conjugation operator Π is:
 
     Π·L·Π⁻¹ = -L - 2Σγ·I
 
@@ -72,7 +72,7 @@ waves. Every process is its own reversal.
 This IS unitary dynamics. Hamiltonian mechanics. The closed
 system. Time-reversal symmetry.
 
-And Pi becomes the exact time-reversal operator.
+And Π becomes the exact time-reversal operator.
 
 ### Σγ < 0: Amplification. The other side.
 
