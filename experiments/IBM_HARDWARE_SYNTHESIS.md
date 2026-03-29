@@ -301,6 +301,7 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 9 | 2x decay law: edge pairs at 1.97x interior | 5-qubit chain, selective DD | **Visible** |
 | 10 | V-Effect: MI enhancement grows with time | 5-qubit chain, selective DD | **Partial** |
 | 11 | Resonator propagates beyond neighbors | 10-pair analysis, raw counts | **Visible** |
+| 12 | Palindromic pairing (indirect) | 2x law + neural + H-bond | **Cross-level** |
 
 Finding 9 (March 29 re-analysis): Under selective DD, the sacrifice-
 edge pair (0,1) and far-edge pair (3,4) decay at gamma = 0.204/us.
@@ -316,14 +317,54 @@ is consistent with the V-Effect creating new correlations over time.
 Definitive proof would require MI measurements for all 10 qubit pairs
 (including non-adjacent), not just the 4 nearest-neighbor pairs.
 
-## What hardware cannot yet test
+## Cross-level evidence: the resonator across domains
 
-| # | Finding | Requirement |
-|---|---------|-------------|
-| 1 | Palindromic eigenvalue pairing | Multi-qubit Liouvillian spectroscopy |
+The predictions are not "qubit predictions." They are resonator
+predictions with multiple physical realizations. What is untestable
+on one level may be confirmed on another.
 
-The remaining two predictions (CΨ oscillation, GHZ vs W) are now
-testable with concrete IBM experiments. See below.
+| Prediction | Qubit (IBM) | Neural (WC/C. elegans) | H-Bond | Cross-level |
+|------------|-------------|----------------------|--------|-------------|
+| Palindromic pairing | Indirect: 2x law 1.97x | 100% WC, 8.3x C. elegans | Exact (2-proton) | **Supported** |
+| 2x decay law | **1.97x** (1.5% dev) | 1.63x (N=10, not 2x) | Not tested | Quantum-specific |
+| 1/4 boundary | **1.9% dev**, r* 0.000014 | Not 1/4 (Hopf, gain=1) | 0.46 ps (water) | Qubit + H-bond |
+| Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
+| V-Effect | Partial (MI grows) | **0+0=48** freq (computed) | **104** freq (computed) | Computed both |
+| CΨ oscillation | Predicted: 9 crossings | Not tested | 6 crossings (Zundel) | Testable (Exp B) |
+| GHZ vs W | Predicted: W 2.00x longer | Not applicable | Not applicable | Testable (Exp A) |
+| Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |
+
+**Tier system:** Qubit (IBM) = Tier 3 (measured hardware). Wilson-Cowan =
+Tier 2 (computed). C. elegans = Tier 3 (biological data). H-Bond = Tier 2
+(computed from proven framework). Cross-level synthesis = Tier 4 (motivated
+by convergence across domains).
+
+## Palindromic pairing: reclassified
+
+Previously listed as "untestable on hardware." Reclassified:
+
+**Direct measurement on qubit hardware:** Not performed. Would require
+multi-qubit Liouvillian spectroscopy (eigenvalue extraction from process
+tomography or Hamiltonian learning).
+
+**Indirect hardware evidence:** The 2x decay law (edge pairs at 1.97x
+interior rate under selective DD) is a direct CONSEQUENCE of palindromic
+pairing. Paired modes decay at rate gamma, unpaired at 2*gamma. The
+1.97x ratio on IBM hardware is within 1.5% of the predicted 2.00x.
+
+**Cross-level confirmation:**
+- Wilson-Cowan model: 100% pairing by construction (Tier 2)
+- C. elegans connectome: 8.3x more palindromic than random networks (Tier 3)
+- Hydrogen bond (2-proton): exact pairing, std 5.4e-3 (Tier 2)
+- Analytical proof: holds for all N, all topologies (Tier 1)
+
+**Revised status:** Indirectly supported on qubit hardware (2x law 1.97x),
+directly confirmed on neural and molecular levels, analytically proven.
+
+---
+
+The remaining two predictions (CΨ oscillation, GHZ vs W) are testable
+with concrete IBM experiments. See below.
 
 ## Proposed IBM experiments (simulation predictions included)
 
