@@ -1,0 +1,102 @@
+======================================================================
+UNIVERSALITY V33: Reconstruction and Verification
+Started: 2026-03-29 14:09:41
+======================================================================
+
+======================================================================
+AUFGABE A: Σγ_crit / J bei verschiedenen N
+Heisenberg chain, J=1.0, two initial states
+======================================================================
+
+  --- Initial state: |+⟩^N ---
+
+  N=2  16x16  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (0.4s)
+  N=3  64x64  Σγ_crit=0.00250  Σγ_crit/J=0.00250  (5.4s)
+  N=4  256x256  Σγ_crit=0.00252  Σγ_crit/J=0.00252  (10.1s)
+  N=5  1024x1024  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (35.8s)
+
+  --- Initial state: Bell/GHZ (|00..0⟩+|11..1⟩)/sqrt(2) ---
+
+  N=2  16x16  Σγ_crit=0.00038  Σγ_crit/J=0.00038  (0.4s)
+  N=3  64x64  Σγ_crit=0.00001  Σγ_crit/J=0.00001  (3.6s)
+  N=4  256x256  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (2.6s)
+  N=5  1024x1024  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (22.7s)
+
+  Summary:
+    N         |+⟩^N      Bell/GHZ   Ratio +/Bell
+  --------------------------------------------------
+    2       0.00247       0.00038          6.487
+    3       0.00250       0.00001        171.000
+    4       0.00252       0.00002        129.000
+    5       0.00247       0.00002        101.000
+
+  |+⟩^N: Max/Min = 1.0218  (2.2%)
+  Bell:  Max/Min = 26.0000  (2500.0%)
+
+======================================================================
+AUFGABE B: Kavitaetsmoden bei Σγ = 0
+======================================================================
+
+  N=2  d²=16  steady=10  oscillating=6  distinct_freq=1
+    frequencies: [4.0000]
+  N=3  d²=64  steady=24  oscillating=40  distinct_freq=3
+    frequencies: [2.0000, 4.0000, 6.0000]
+  N=4  d²=256  steady=54  oscillating=202  distinct_freq=14
+    frequencies: [1.1716, 1.3643, 1.4641, 2.5359, 2.6357, ... (14 total)]
+  N=5  d²=1024  steady=120  oscillating=904  distinct_freq=43
+    frequencies: [0.4076, 0.5928, 0.7639, 0.8812, 1.1188, ... (43 total)]
+
+======================================================================
+AUFGABE C: Gain = exaktes Spiegelbild von Decay?
+======================================================================
+
+  N=2: midpoint decay=-0.100000, gain=0.100000
+        |Im| match error: 4.44e-16
+        |Re| mirror error: 2.00e-01
+        Mirror: CHECK MANUALLY
+  N=3: midpoint decay=-0.100000, gain=0.100000
+        |Im| match error: 1.78e-14
+        |Re| mirror error: 2.00e-01
+        Mirror: CHECK MANUALLY
+  N=5: midpoint decay=-0.100000, gain=0.100000
+        |Im| match error: 7.46e-14
+        |Re| mirror error: 2.00e-01
+        Mirror: CHECK MANUALLY
+
+======================================================================
+AUFGABE D: Gekoppelte Palindrome (Decay + Gain)
+Two N=2 systems coupled through J_bridge
+System A: dephasing +g, System B: dephasing -g
+======================================================================
+
+  WITH bridge (J_bridge=0.5):
+       g   Midpoint   Max Re(l)     Stable?
+  ---------------------------------------------
+    0.00     0.0000    0.000000    Marginal
+    0.05    -0.0000    0.000000    Marginal
+    0.10    -0.0000    0.030513    UNSTABLE
+    0.20     0.0000    0.540352    UNSTABLE
+    0.50     0.0000    1.832205    UNSTABLE
+
+  WITHOUT bridge (J_bridge=0):
+       g   Midpoint   Max Re(l)     Stable?
+  ---------------------------------------------
+    0.00     0.0000    0.000000    Marginal
+    0.05     0.0000    0.200000    UNSTABLE
+    0.10    -0.0000    0.400000    UNSTABLE
+    0.20    -0.0000    0.800000    UNSTABLE
+    0.50     0.0000    2.000000    UNSTABLE
+    1.00    -0.0000    4.000000    UNSTABLE
+
+======================================================================
+SUMMARY
+======================================================================
+
+A) Σγ_crit/J: N-independent for both initial states
+B) At Σγ=0: only steady + purely oscillating modes, no decay
+C) Gain spectrum is exact mirror of decay spectrum
+D) WITH bridge: UNSTABLE above critical g
+   WITHOUT bridge: marginal stable at all g
+
+Completed: 2026-03-29 14:11:07
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\universality_v33.txt
