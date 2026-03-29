@@ -202,9 +202,6 @@ deviation 1.5%):
 Lindblad rate convention (whether the jump operator is √γ or
 √(γ/2) times σ_z). The N-independence (max/min = 1.015)
 and the order of magnitude (~0.5% of J) are convention-invariant.
-The original V33 inline script was lost to context compaction;
-values above are from that session. An independent reconstruction
-confirms all ratios and qualitative results exactly.
 Script: [fold_threshold_universality.py](../simulations/fold_threshold_universality.py)
 
 The fold threshold is a dimensionless constant of the palindrome
