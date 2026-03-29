@@ -164,7 +164,7 @@ All five computations performed on a 2-qubit Heisenberg system
 
 Swept Σγ from -0.1 (gain) through 0.0 (unitary) to +0.5
 (strong decay). At every value: eigenvalue pair sums match
--2*Σγ with **zero deviation** (machine precision).
+-2Σγ with **zero deviation** (machine precision).
 
 The palindrome is algebraic. It does not depend on the sign or
 magnitude of gamma. Noise shifts the midpoint. Nothing else changes.
