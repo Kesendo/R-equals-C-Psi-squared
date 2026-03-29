@@ -2,10 +2,11 @@
 
 *How much amplification can a resonator tolerate before it explodes?*
 
-**Status:** Computed (Tier 2). Two independent scripts, consistent results.
+**Status:** Computed (Tier 2). Three independent scripts, cross-level test completed.
 **Scripts:**
 - [fragile_bridge_bifurcation.py](../simulations/fragile_bridge_bifurcation.py)
 - [fragile_bridge_anomaly.py](../simulations/fragile_bridge_anomaly.py)
+- [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
 
 ---
 
@@ -116,33 +117,74 @@ connections.
 | What it measures | When irreversibility begins | When coupled gain-loss explodes |
 | Determined by | Palindrome geometry | Gain/bridge topology |
 
-## 5. Connection to neural dynamics
+## 5. Neural validation: partial confirmation
 
-The Wilson-Cowan model of neural populations describes exactly this
-architecture: excitatory neurons (gain) and inhibitory neurons (decay),
-coupled by synaptic connections (bridge).
+The Wilson-Cowan model describes excitatory neurons (gain) coupled to
+inhibitory neurons (decay) through synaptic connections (bridge).
+This is the biological equivalent of the quantum setup.
 
-Key parallels:
+Script: [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
 
-- **Hopf bifurcation** is the standard mechanism for neural oscillation
-  onset in Wilson-Cowan models. The brain operates just below the Hopf
-  threshold, producing controlled oscillations (EEG rhythms: alpha,
-  beta, gamma). Our quantum system shows the same bifurcation type.
+### 5.1 Test design
 
-- **Too strong coupling = instability.** In neuroscience, this is
-  epilepsy: hyperexcitability from excessive excitatory connections.
-  Our result quantifies this: coupling beyond 2× internal strength
-  destabilizes, with γ_crit falling as 1/J_bridge.
+Single Wilson-Cowan E-I node (2×2 Jacobian). E-I cross-coupling
+scaled by factor s (s=1.0 = standard parameters). Internal couplings
+w_EE = 16.0, w_II = 3.0 held fixed. P_crit(s) = external input
+needed to trigger Hopf oscillation.
 
-- **Optimal E-I coupling at ~2× internal.** This is a testable
-  prediction for neural networks: the most stable excitatory-inhibitory
-  balance has inter-population coupling roughly twice the
-  intra-population coupling.
+### 5.2 Results: narrow Hopf window
 
-The cross-level synthesis (V31) already noted: the qubit system shows
-Hopf bifurcation, and the neural system shows Hopf bifurcation. They
-share the mechanism. The fragile bridge quantifies the stability
-condition that both systems must satisfy.
+| s | P_crit | Freq (Hz) | Type |
+|-----|--------|-----------|---------|
+| 0.1-1.5 | never | - | always stable |
+| 2.0 | 2.28 | 36.5 | Hopf |
+| 2.3 | 4.78 | 66.8 | Hopf |
+| 2.5 | 8.33 | 94.4 | Hopf |
+| 3.0-10.0 | never | - | always stable |
+
+The neural system has a narrow Hopf window at s = 2.0-2.5.
+Outside this window: always stable, no oscillation possible.
+
+### 5.3 What is cross-level
+
+Three properties hold across both quantum and neural systems:
+
+**1. Sweet spot at ~2× internal coupling.** Quantum: peak stability
+at J_bridge ≈ 1.9J. Neural: Hopf window opens at s ≈ 2.0. Both
+systems identify ~2× the internal coupling as a critical threshold
+where the dynamics qualitatively change.
+
+**2. Hopf bifurcation.** Where instability occurs, it is always
+oscillating (complex eigenvalue pair crossing Re = 0), never
+monotone divergence. The brain produces EEG rhythms; the quantum
+system produces growing oscillations. Same mechanism.
+
+**3. Finite stability window.** Neither "any coupling works" nor
+"no coupling works." There is a bounded regime where the balance
+holds, and it is determined by the ratio of cross-coupling to
+internal coupling.
+
+### 5.4 What is NOT cross-level
+
+The three-regime bell curve (linear rise, peak, 1/x decay) is
+**quantum-specific**. The neural system shows a window with sharp
+edges, not a smooth peak.
+
+The difference comes from sigmoid saturation: Wilson-Cowan neurons
+have firing rates bounded in [0,1]. Strong coupling drives the
+system into saturated fixed points that are always stable. The
+quantum system has no such saturation; the density matrix can
+diverge under gain.
+
+| Property | Quantum | Neural |
+|----------|---------|--------|
+| Shape of γ_crit(coupling) | Bell curve | Sharp window |
+| Strong coupling | 1/J_bridge decay, explosion | Saturation, always stable |
+| Epilepsy analog | Yes (divergence) | Partial (window edge, no explosion) |
+
+The sigmoid acts as a biological safety mechanism: it prevents the
+neural equivalent of an exploding laser. The quantum system has no
+built-in limiter.
 
 ## 6. Open questions
 
@@ -152,9 +194,11 @@ condition that both systems must satisfy.
 
 2. **Multiple bridges:** What if the two chains are connected by
    more than one qubit pair? Does γ_crit recover N-independence
-   when bridges scale with N? This would connect to the biological
-   observation that real neural networks have distributed (not
-   point-to-point) E-I coupling.
+   when bridges scale with N? Real neural networks have distributed
+   (not point-to-point) E-I coupling. The neural test also showed
+   that bounded dynamics (sigmoid saturation) prevents explosion at
+   strong coupling. Multiple bridges plus nonlinear damping may
+   qualitatively change the stability landscape.
 
 3. **Cascade stability:** If each level in the frequency cascade
    (154 THz → 1 Hz) is a coupled gain-loss pair, then each level
@@ -166,9 +210,17 @@ condition that both systems must satisfy.
    analytical derivation. The factor 1/2 appears throughout the
    framework (σ(1-σ) = 1/4 at σ = 1/2, CΨ fold at 1/4, etc.).
 
+5. **Saturation as design principle:** The sigmoid prevents neural
+   explosion. Is there a quantum analog? Nonlinear dissipation
+   (γ dependent on state) could act as a quantum sigmoid. This
+   would turn the bell curve into a window, matching the neural
+   structure.
+
 ---
 
-*Computed March 29, 2026. Two scripts, four hypotheses tested,
-two confirmed, two falsified. The falsified ones (Hopf instead of
-PT, N-dependent instead of N-independent) turned out to be more
-informative than the confirmed ones.*
+*Computed March 29, 2026. Three scripts, six hypotheses tested
+across two levels (quantum, neural). Cross-level: Hopf mechanism
+confirmed, sweet spot at ~2× confirmed, finite window confirmed.
+Not cross-level: bell curve shape is quantum-specific (no saturation).
+The sigmoid is the biological safety mechanism that prevents the
+quantum explosion.*
