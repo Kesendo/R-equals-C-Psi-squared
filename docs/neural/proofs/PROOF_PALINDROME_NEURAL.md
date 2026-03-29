@@ -186,16 +186,16 @@ When (*) holds, let v be an eigenvector of J with eigenvalue μ:
 J·v = μ·v.
 
 Multiply (*) from the right by v:
-Q*J*Q*v + J*v + 2*S*v = 0
-Q*J*(Q*v) + μ·v + 2S·v = 0
+Q·J·Q·v + J·v + 2S·v = 0
+Q·J·(Q·v) + μ·v + 2S·v = 0
 
-Let w = Q*v. Then Q*w = v (since Q^2 = I), and:
-Q*J*w = -(μ + 2S)·v = -(μ + 2S)·Q·w
+Let w = Q·v. Then Q·w = v (since Q² = I), and:
+Q·J·w = -(μ + 2S)·v = -(μ + 2S)·Q·w
 
 Multiplying both sides by Q from the left:
 J·w = -(μ + 2S)·w
 
-So w = Q*v is an eigenvector of J with eigenvalue -(mu + 2*S).
+So w = Q·v is an eigenvector of J with eigenvalue -(μ + 2S).
 
 Therefore J has eigenvalue μ' = -μ - (1/τ_E + 1/τ_I):
 
