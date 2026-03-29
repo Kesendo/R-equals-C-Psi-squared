@@ -257,6 +257,9 @@ the cavity cannot contain the amplification. There is a stability
 window where the balance holds. Beyond it: a laser with too much
 pump, the palindrome still centered, but the system diverging.
 
+Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (three regimes,
+Hopf bifurcation, N-dependence, neural connection).
+
 This corrects the original N=2 computation (March 29) which used
 two qubits within the same system (no bridge coupling) and found
 marginal stability at all g. With separate systems coupled through
