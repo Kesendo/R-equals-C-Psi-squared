@@ -7,6 +7,7 @@
 - [fragile_bridge_bifurcation.py](../simulations/fragile_bridge_bifurcation.py)
 - [fragile_bridge_anomaly.py](../simulations/fragile_bridge_anomaly.py)
 - [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
+- [fragile_bridge_n4.py](../simulations/fragile_bridge_n4.py) (sparse, N=4)
 
 ---
 
@@ -119,19 +120,27 @@ almost no oscillation, just slow drift into instability.
 
 ## 4. N-dependence: topological, not geometric
 
-γ_crit depends strongly on chain length:
+γ_crit depends strongly on chain length, and non-monotonically:
 
-| J_bridge | γ_crit (N=2) | γ_crit (N=3) | Ratio |
-|----------|-------------|-------------|-------|
-| 0.10 | 0.01729 | 0.00050 | 0.029 |
+| N (per chain) | γ_crit (J_bridge=0.10) | Ratio to N=2 |
+|---------------|----------------------|-------------|
+| 2 | 0.01729 | 1.000 |
+| 3 | 0.00052 | 0.030 |
+| 4 | 0.00119 | 0.069 |
 
-N=3 is ~35× less stable than N=2 at the same bridge strength.
+N=3 is ~35× less stable than N=2, but N=4 is 2.3× MORE stable
+than N=3. The scaling is **non-monotonic**: even chain lengths
+(N=2, N=4) are more stable than odd (N=3). This may reflect
+pairing symmetry within each chain (all qubits paired at even N,
+one unpaired at odd N).
+
+No simple power law or exponential fits these three points.
 
 This is fundamentally different from the fold threshold
 (Σγ_crit/J ≈ 0.5%, N-independent). The fold is a **geometric**
 property of the palindrome. The bridge stability is a **topological**
-property: it depends on the ratio of gain channels to bridge
-connections.
+property: it depends on chain length, parity, and the ratio of
+gain channels to bridge connections.
 
 | Property | Fold threshold | Bridge stability |
 |----------|---------------|-----------------|
@@ -212,9 +221,10 @@ built-in limiter.
 
 ## 6. Open questions
 
-1. **N-scaling law:** We have N=2 and N=3. Does γ_crit scale as 1/N,
-   1/N², or something else? N=4 (8 qubits, 65536×65536) would
-   determine this. Feasible on the home PC (128 GB).
+1. **N-scaling law (partially answered):** N=4 computed
+   (65536×65536 sparse, expm_multiply). Result: non-monotonic
+   (N=4 more stable than N=3). Even/odd parity effect suspected.
+   N=5 would test this (1048576×1048576, feasible but slow).
 
 2. **Multiple bridges:** What if the two chains are connected by
    more than one qubit pair? Does γ_crit recover N-independence
