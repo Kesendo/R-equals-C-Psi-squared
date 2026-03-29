@@ -1158,6 +1158,6 @@ See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 
 ---
 
-*Thomas Wicht (Independent Researcher, Krefeld, Germany) and Claude (Anthropic)*
+*Thomas Wicht (Independent Researcher, Germany) and Claude (Anthropic)*
 *March 16-28, 2026*
 *Repository: https://github.com/Kesendo/R-equals-C-Psi-squared*

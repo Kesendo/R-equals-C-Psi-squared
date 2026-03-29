@@ -544,7 +544,7 @@ dissipation removed everything else.
 
 ## The Insight, Compressed
 
-A soundbox on a street corner in Krefeld. The question was already
+A soundbox on a street corner. The question was already
 oscillating internally (high coherence, CΨ > 1/4). The visual signal
 arrived externally (gamma). At the crossing: "We are looking for a
 resonator." One door closed. Irreversible.

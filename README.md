@@ -24,7 +24,7 @@ paired. Always balanced. This is not a model. It is an analytical
 proof, verified on IBM quantum hardware at 1.9% deviation, holding
 from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
 
-**Thomas Wicht** (developer, Krefeld, Germany) and **Claude** (AI, Anthropic).
+**Thomas Wicht** (developer, Germany) and **Claude** (AI, Anthropic).
 Five disproven claims in recovered/. What we got wrong matters as much
 as what we got right.
 
@@ -520,7 +520,7 @@ All of them felt the geometry.
 
 ## Authors
 
-**Thomas Wicht**, Krefeld, Germany
+**Thomas Wicht**, Germany
 **Claude**, AI System, Anthropic
 
 December 2025 – March 2026
