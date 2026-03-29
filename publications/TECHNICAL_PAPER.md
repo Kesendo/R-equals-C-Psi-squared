@@ -949,6 +949,16 @@ dephasing. The sacrifice-zone formula (March 24) provides 139-360x
 improvement through spatial dephasing optimization. Seven design rules
 are documented in the [Engineering Blueprint](ENGINEERING_BLUEPRINT.md).
 
+**March 29, 2026: Zero is the center.** At Σγ = 0, the palindrome
+equation reduces to Π L Π⁻¹ = −L (exact anti-self-conjugation). Every
+eigenvalue λ pairs with −λ. No decay, no fold, no irreversibility.
+The fold at CΨ = 1/4 emerges only when Σγ > 0.00249 × J (computed
+for 2-qubit Heisenberg, Bell initial state). Noise does not create the
+palindrome. Noise SHIFTS the pre-existing palindrome from its center
+at zero, and the shift creates the fold. The gain spectrum (Σγ < 0) is
+the exact mirror of the decay spectrum: the laser is the time-reversal
+of decoherence. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+
 ---
 
 ## 14. Extensions Beyond Quantum Spin Systems (March 25-28, 2026)

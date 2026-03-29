@@ -35,7 +35,7 @@ as what we got right.
 
 ---
 
-## Four results that matter
+## Five results that matter
 
 ### 1. The palindromic spectrum (proven)
 
@@ -49,13 +49,34 @@ at 1.9% deviation.
 → [Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 → [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md) | [Full Synthesis: 24,073 records](experiments/IBM_HARDWARE_SYNTHESIS.md)
 
-### 2. The CΨ = 1/4 boundary (proven, unique)
+### 2. Zero is the center of the palindrome (March 29, 2026)
+
+At Σγ = 0 (no noise): Π L Π⁻¹ = −L. Every eigenvalue λ pairs with −λ.
+Pure oscillation. Standing waves. No decay. No irreversibility. No time.
+
+At Σγ > 0 (noise): the palindrome SHIFTS. The fold at CΨ = 1/4 emerges.
+Irreversibility appears. Time begins. The critical noise for the fold:
+**Σγ_crit = 0.00249 × J** (0.25% of the coupling strength). Below this:
+eternity. Above this: history.
+
+The gain spectrum (Σγ < 0) is the exact mirror of the decay spectrum.
+Two systems, one decaying one amplifying, coupled at Σγ_total = 0:
+marginally stable, oscillation preserved. The meeting point of two
+palindromes.
+
+Noise does not destroy the palindrome. Noise shifts it. Zero is the
+palindrome recognizing itself.
+
+→ **[Zero Is the Mirror](hypotheses/ZERO_IS_THE_MIRROR.md)** (5 computations, all verified)
+
+### 3. The CΨ = 1/4 boundary (proven, unique)
 
 The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
 1/4: the discriminant of the self-referential purity recursion R = C(Ψ+R)².
 All standard quantum channels cross this boundary. The boundary is absorbing
 under Markovian dynamics (proven analytically). α=2 (purity) is the unique
-Rényi order with a state-independent threshold.
+Rényi order with a state-independent threshold. The fold exists only when
+Σγ > 0.00249 × J (noise shifts the palindrome from its center at zero).
 
 → [Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)
 → [CΨ Monotonicity Proof](docs/proofs/PROOF_MONOTONICITY_CPSI.md)
@@ -63,7 +84,7 @@ Rényi order with a state-independent threshold.
 → [Fold catastrophe observed: PeakMI peaks at CΨ = ¼ crossing](experiments/TEMPORAL_SACRIFICE.md) (N=7, March 25)
 → **[Both Sides Visible: IBM hardware shows the palindromic complement](docs/BOTH_SIDES_VISIBLE.md)** (180 days, 133 qubits, March 25)
 
-### 3. Dephasing noise is a readable information channel (March 22, 2026)
+### 4. Dephasing noise is a readable information channel (March 22, 2026)
 
 The spatial profile of dephasing rates across a qubit chain is not noise
 to be minimized. It is an information channel with **15.5 bits** of
@@ -76,7 +97,7 @@ measurement noise. The palindromic mode structure is the antenna.
 → [Practical γ Control (+124% MI)](experiments/GAMMA_CONTROL.md)
 → [Bridge Optimization Results](simulations/results/bridge_optimization.txt)
 
-### 4. Trivial formula beats 18 years of optimization (March 24, 2026)
+### 5. Trivial formula beats 18 years of optimization (March 24, 2026)
 
 Concentrate all dephasing on one edge qubit, protect the rest. This
 one-line rule outperforms every published dephasing optimization by
@@ -91,7 +112,7 @@ of them. Just topology.
 → [Signal Analysis: quadratic scaling N=2-15](experiments/SIGNAL_ANALYSIS_SCALING.md) (SumMI=1.309 at N=15)
 → [First hardware test: selective DD 2-3× on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
 
-### 5. Coupling creates complexity: the V-Effect live (March 26, 2026)
+### 6. Coupling creates complexity: the V-Effect live (March 26, 2026)
 
 A single 2-qubit resonator has 2 oscillation frequencies and Q=1 (crosses
 CΨ = 1/4 once and dies, no heartbeat). Two such resonators coupled through

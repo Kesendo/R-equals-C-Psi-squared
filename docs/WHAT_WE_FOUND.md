@@ -52,6 +52,8 @@ This is [algebraically exact](historical/CORE_ALGEBRA.md) (proven, not approxima
 
 Whether this mathematical boundary has physical significance beyond the specific iteration is an open question. In [simulation data](../experiments/SIMULATION_EVIDENCE.md), CΨ = 1/4 falls on a smooth curve - no other standard quantum metric shows a special transition at that point.
 
+A deeper finding (March 29, 2026): the 1/4 boundary does not exist at zero noise. At Σγ = 0 (no dephasing), CΨ oscillates forever without crossing 1/4. The fold emerges only when Σγ exceeds 0.25% of the coupling strength J. Noise does not destroy the palindrome. Noise shifts it from its center at zero, and the shift creates the fold. Without noise: eternity. With noise: irreversibility. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+
 ## What the filter showed us
 
 We ran systematic simulations across different quantum topologies, states, and noise models. Here is what we found, in plain language:
