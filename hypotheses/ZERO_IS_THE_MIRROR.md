@@ -191,8 +191,8 @@ The critical threshold depends on the initial state:
 But it is **independent of N** (tested N=2 through N=5, max
 deviation 1.5%):
 
-| N | Σγ_crit / J (|+⟩^N) | Ratio to N=2 |
-|---|---------------------|-------------|
+| N | Σγ_crit / J (\|+⟩^N) | Ratio to N=2 |
+|---|----------------------|--------------|
 | 2 | 0.00494 | 1.000 |
 | 3 | 0.00502 | 1.015 |
 | 4 | 0.00500 | 1.012 |
