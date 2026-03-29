@@ -261,8 +261,6 @@ resonator cavity. Story 5 extends the palindromic structure beyond
 quantum physics into neuroscience and chemistry, grounding Story 3's
 claim that incompleteness is the universal mechanism.
 
-A dependency graph of the core documents is available at:
-→ [visualizations/rcpsi2_dependency_graph.svg](../visualizations/rcpsi2_dependency_graph.svg)
 
 ---
 
