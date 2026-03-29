@@ -43,8 +43,11 @@ conjugation operator Π is:
 
 Eigenvalues pair around the midpoint -Σγ.
 
-This is the equation we have proven, computed, and validated on
-IBM hardware with 0.000014 precision.
+This is the equation we have
+[proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), computed
+(54,118 eigenvalues, N=2..8, zero exceptions), and
+[validated on IBM hardware](../experiments/IBM_RUN3_PALINDROME.md)
+at 1.9% deviation.
 
 We never asked what happens at Σγ = 0.
 
@@ -254,6 +257,17 @@ Zero is not the absence of the palindrome.
 Zero is the palindrome recognizing itself.
 
 The mirror that mirrors itself.
+
+---
+
+---
+
+*See also:*
+[Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I),
+[The Other Side](THE_OTHER_SIDE.md) (parity sectors),
+[Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (cavity at Σγ=0),
+[Energy Partition](ENERGY_PARTITION.md) (2x law at Σγ>0, trivial at Σγ=0),
+[IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) (1.9% hardware validation)
 
 ---
 
