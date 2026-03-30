@@ -6,11 +6,16 @@ equivalence principle quantum analog, CΨ quarter boundary crossing time,
 power law fit gamma scaling, state independence Hamiltonian independence,
 K-invariance Lindblad scaling tau=gamma*t, R=CPsi2 metric discrimination -->
 
-> **Restoration note (March 14, 2026):** Originally written 2026-02-08, deleted March 12,
-> restored March 14. Core result (K-invariance) confirmed. All gravity/Schwarzschild
-> connections have fallen and are marked [FALLEN] inline.
+> **[FALLEN]** The gravity interpretation does not hold. K-invariance
+> is a Lindblad scaling property, not evidence for gravitational coupling.
+> A single quantum system cannot distinguish metric forms (null result).
+> See [Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md).
+> Kept for the verified null result. Inline [FALLEN] markers throughout.
+>
+> *Restoration note: Originally written 2026-02-08, deleted March 12,
+> restored March 14.*
 
-**Status:** Verified null result (Tier 2)
+**Status:** Verified null result (Tier 2); gravity interpretation fallen
 **Date:** 2026-02-08
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
