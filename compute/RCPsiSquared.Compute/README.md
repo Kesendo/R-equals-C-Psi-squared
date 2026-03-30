@@ -100,9 +100,17 @@ dotnet run -c Release -- n8
 
 # Validation only (~6 seconds)
 dotnet run -c Release -- validate
+
+# Cavity modes at zero noise (N=2-7, ~40 min for N=7)
+dotnet run -c Release -- cavity
+
+# Cavity topology/coupling tests (Ring, Complete, non-uniform J)
+dotnet run -c Release -- cavity tests
 ```
 
-Results are written to `simulations/results/csharp_compute.txt`.
+Results are written to `simulations/results/csharp_compute.txt` (main suite),
+`simulations/results/cavity_modes_zero_noise.txt` (cavity modes),
+or `simulations/results/cavity_modes_tests.txt` (cavity tests).
 
 ## Architecture
 
@@ -110,7 +118,7 @@ Results are written to `simulations/results/csharp_compute.txt`.
 |------|---------|
 | PauliOps.cs | Pauli matrices, tensor products, N-qubit Pauli basis |
 | Topology.cs | Star, Chain, Ring, Complete, Tree bond generators |
-| Liouvillian.cs | Lindblad superoperator: three build paths by N |
+| Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetCavityModes()` for zero-noise eigenfrequency analysis |
 | MklDirect.cs | Direct LAPACK P/Invoke: LP64 + ILP64 with backend auto-detection |
 | MirrorAnalysis.cs | Mirror symmetry scoring and spectral statistics |
 | Program.cs | Benchmark, topology survey, stress tests, validation, N=8 |
@@ -152,6 +160,9 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md) | Spectral structure behind XX/YY oscillation and ZZZ static behavior |
 | [Structural Cartography](../../experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D spectral manifold, rate count statistics, topology survey |
 | [Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md) | K-invariance from Lindblad eigenvalue scaling |
+| [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
+| [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.81x. Real IBM T2* data |
+| [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
 
 ## See also
 
