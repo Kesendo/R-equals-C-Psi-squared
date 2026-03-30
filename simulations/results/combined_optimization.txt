@@ -1,0 +1,91 @@
+=== COMBINED OPTIMIZATION: MAPPING + SELECTIVE DD ===
+Preparation for IBM Hardware Run, April 9, 2026
+
+Sacrifice chain: [85, 86, 87, 88, 94]
+  T2* (us):    [3.7, 61.4, 97.5, 68.0, 95.0]
+  T2echo (us): [5.2, 122.7, 243.9, 170.0, 237.6]
+  Ramsey ratio:[1.4, 2.0, 2.5, 2.5, 2.5]
+
+Mean-T2 chain: [18, 89, 19, 90, 60]
+  T2echo (us): [211.3, 141.5, 219.9, 275.4, 238.3]
+  T2* est (us):[105.6, 70.7, 110.0, 137.7, 119.1] (Ramsey ratio = 2.0)
+
+==========================================================================================
+SCENARIO ANALYSIS
+==========================================================================================
+
+  Scenario    Chain       DD    sum_g    Slowest   Uni_slow   vs_uni Palindrome
+1 Base      Mean-T2  None      0.0483   0.018261   0.019340     1.06x        92%
+2 T2+DD     Mean-T2  All       0.0242   0.009131   0.009670     1.06x        89%
+3 T2+Sel    Mean-T2  Select    0.0331   0.010604   0.013242     1.25x        94%
+4 Sac       Sacrif   None      0.3198   0.045500   0.127931     2.81x        98%
+5 Sac+DD    Sacrif   All       0.2138   0.025491   0.085521     3.35x        95%
+6 Sac+Sel   Sacrif   Select    0.2904   0.031190   0.116155     3.72x        94%
+
+==========================================================================================
+COMPARISON vs BASELINE (Scenario 1)
+==========================================================================================
+
+  Scenario  vs_baseline   vs_uniform    sum_g    Slowest
+    1 Base         1.00x         1.06x   0.0483   0.018261
+   2 T2+DD         2.00x         1.06x   0.0242   0.009131
+  3 T2+Sel         1.72x         1.25x   0.0331   0.010604
+     4 Sac         0.40x         2.81x   0.3198   0.045500
+  5 Sac+DD         0.72x         3.35x   0.2138   0.025491
+ 6 Sac+Sel         0.59x         3.72x   0.2904   0.031190
+
+==========================================================================================
+KEY COMPARISONS
+==========================================================================================
+
+Mapping only (4) vs Baseline (1): 0.40x
+Best T2 + DD (2) vs Baseline (1): 2.00x
+Mapping + Selective DD (6) vs Baseline (1): 0.59x
+Mapping + Selective DD (6) vs Mapping only (4): 1.46x
+
+SELECTIVE DD ADDS 1.46x ON TOP OF MAPPING.
+The combination is synergistic.
+
+==========================================================================================
+IBM EXPERIMENT PLAN (April 9, 2026)
+==========================================================================================
+
+OBJECTIVE: Verify that sacrifice-zone chain selection + selective DD
+outperforms standard practice (best-T2 chain + uniform DD) on IBM Torino.
+
+CHAINS TO MEASURE:
+  A. Sacrifice chain: [85, 86, 87, 88, 94] (Q85 = sacrifice, T2* = 3.7 us)
+  B. Mean-T2 chain:   [18, 89, 19, 90, 60] (all quiet, mean T2 ~ 200 us)
+
+DD CONFIGURATIONS PER CHAIN:
+  1. No DD (raw T2*)
+  2. Uniform DD (XZX on all 5 qubits)
+  3. Selective DD (XZX on inner 3-4, no DD on sacrifice/edge)
+
+TROTTER EVOLUTION:
+  dt = 0.5 us, steps = [2, 4, 6, 8, 10] (t = 1, 2, 3, 4, 5 us)
+  J_coupling = 1.0 (standard Heisenberg)
+
+SHOTS: 4000 per configuration per time point
+
+TOTAL CIRCUITS: 2 chains x 3 DD configs x 5 time points = 30 circuits
+TOTAL SHOTS: 30 x 4000 = 120,000
+
+OBSERVABLE: Mutual information between adjacent pairs (SumMI)
+  Compute from bitstring statistics via reduced density matrix tomography.
+
+EXPECTED RESULTS (from simulation):
+  Sacrifice + Selective DD: 0.59x vs baseline
+  Sacrifice + No DD:        0.40x vs baseline
+  Mean-T2 + Uniform DD:     2.00x vs baseline
+  Mean-T2 + No DD:          1.00x (baseline)
+
+SUCCESS CRITERION:
+  Sacrifice chain + Selective DD measurably outperforms Mean-T2 + Uniform DD.
+  Minimum: 1.5x difference. Expected: ~0.3x.
+
+FALLBACK:
+  If Selective DD does not help: Mapping alone (0.40x) vs Mean-T2 + DD (2.00x)
+  is still a testable prediction.
+
+=== DONE ===
