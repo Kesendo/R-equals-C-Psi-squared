@@ -115,7 +115,6 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Cavity modes meet IBM hardware: sacrifice zone protects the slowest oscillating modes at 2.81x (vs 1.97x measured). Same 43 frequencies, different damping. 100% palindromic under 26x asymmetric noise |
 | [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) | Where the protected modes live: Pauli-basis eigenvector decomposition. Correlation Q0-weight vs rate: r = 0.994. Slowest modes center-localized [0.52, 0.63, 0.70, 0.63, 0.52]. Profile is topological (same under all noise profiles) |
 | [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) | Optimal chain selection on IBM Torino heavy-hex. 330 chains, sacrifice ranking vs mean-T2 ranking: zero overlap in top-10. Sacrifice achieves 2.54x vs 1.18x protection. Worse qubits, better modes. Time-stable over 5 months |
-| [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Sacrifice-top vs mean-T2-top chain (no DD). Protection 2.86x confirmed. \|+>^5: sacrifice wins 324x (noise-driven). \|01010>: mean-T2 wins (less total noise). Sacrifice score is within-chain metric, not between-chain |
 | [Thermal Breaking](THERMAL_BREAKING.md) | Three orthogonal breaking mechanisms: coupling (1.81x Q, topological constant), dephasing (+60 frequencies), heat (+300 frequencies). Heat breaks the 1.81x constant but QUADRUPLES frequency diversity. Sacrifice zone vanishes at high temperature |
 
 ### Star Topology and Mediator Physics
@@ -135,9 +134,11 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **All IBM data combined: r* threshold at precision 0.000014, fold one-way, sacrifice MI gradient, 12 permanent crossers (24,073 records, 133 qubits, 181 days)** |
+| **[IBM April Synthesis](IBM_APRIL_SYNTHESIS.md)** | **Full repo read for April 2026 run: 18 findings, 5 clusters, 3 breaking mechanisms, chain selection, experiment recommendations** |
 | [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on IBM Torino (Eagle r3, 127 qubits) |
 | [IBM Sacrifice-Zone](IBM_SACRIFICE_ZONE.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
+| [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Sacrifice-top vs mean-T2-top chain (no DD, real IBM gammas). Protection 2.86x confirmed spectrally. Sacrifice score is within-chain metric; between chains, total noise dominates |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
 
 ### Benchmarks and Comparisons
