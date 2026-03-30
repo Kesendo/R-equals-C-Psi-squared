@@ -25,9 +25,10 @@ qubits (r = 0.994, see [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md)),
 then choosing qubit chains where a naturally noisy qubit sits at the
 edge should provide the sacrifice-zone benefit *for free*.
 
-We test this on IBM Torino's heavy-hex topology (115 qubits, 132 edges)
-using real T2 calibration data (181 days, 24,073 records). 330 five-qubit
-chains exist on the graph. We compare two chain selection strategies:
+We test this on IBM Torino's heavy-hex topology (133 qubits, 115 with
+T2 data on the latest calibration date, 132 edges) using real T2
+calibration data (181 days, 24,073 records). 330 five-qubit chains
+exist on the graph. We compare two chain selection strategies:
 
 1. **Sacrifice-zone ranking:** Maximize edge noise / interior noise ratio
 2. **Mean-T2 ranking:** Maximize average T2 across all 5 qubits
@@ -98,10 +99,21 @@ provide long T2 but no differential protection.
 | Mean protection factor | **2.54x** | 1.18x |
 | Mean T2 | 87.6 us | 205.8 us |
 | Mean sacrifice score | 14.8 | 0.9 |
+| Palindrome score | 98-100% | 88-92% |
 
 The sacrifice chains have 2.4x lower mean T2 but 2.15x higher
 protection. Choosing "worse" qubits with the right spatial pattern
 outperforms choosing the "best" qubits naively.
+
+**Note on palindrome scores:** The scores are below 100% because the
+IBM T2 data includes T1 amplitude damping, not only pure dephasing.
+The palindromic theorem is exact for Z-dephasing; amplitude damping
+breaks the symmetry slightly. Sacrifice chains score higher (98-100%)
+because their asymmetric noise profile is dominated by the sacrifice
+qubit's dephasing, which is closer to pure Z-dephasing. Mean-T2
+chains (88-92%) have more uniform noise where the T1 contribution
+is relatively larger. See [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
+for the T2echo vs T2* caveat.
 
 ---
 
