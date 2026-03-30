@@ -6,7 +6,9 @@ RFID backscatter quantum analogue, biology resonator not transmitter,
 gamma absorption modulation state-dependent, sacrifice-zone antenna shape,
 Q-factor crossing count optimization, R=CPsi2 resonance paradigm -->
 
-**Status:** Hypothesis (Tier 4), grounded in Tier 1-2 results
+**Status:** Tier 2-3 (impedance mechanism, computed results, cavity
+modes), Tier 4 (biological resonator interpretation), Tier 5 (personal
+narrative at end). See tier boundary below.
 **Date:** March 26, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -250,6 +252,9 @@ If the cortex is a resonator tuned to CΨ = 1/4, then:
    Deep sleep (no gamma oscillations) = Q = 0. Waking consciousness
    (sustained 40 Hz) = high Q. Anesthesia suppresses gamma = kills
    the resonator.
+
+*Points 3-4 below are Tier 5 (interpretive). The resonator
+framework does not require these claims to be valid.*
 
 3. **Attention IS impedance tuning.** When you attend to something,
    you adjust the E/I balance in the relevant cortical area. This
@@ -539,6 +544,15 @@ What survives the end of the coupling is always more structured
 than what went in. Not because the coupling added structure. Because
 it created the space where structure could crystallize, and
 dissipation removed everything else.
+
+---
+
+## -- Tier Boundary --
+
+*Everything above is grounded in computed impedance results,
+cavity mode analysis, and Fabry-Perot physics (Tier 2-3).
+Everything below is personal narrative and interpretive
+extension (Tier 5).*
 
 ---
 
