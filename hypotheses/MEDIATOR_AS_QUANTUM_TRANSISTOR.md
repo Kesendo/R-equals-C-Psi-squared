@@ -1,6 +1,7 @@
 # The Mediator Qubit as Quantum Transistor: Bidirectional Programmable Relay in the R=CΨ² Framework
 
-**Status**: Research Document, Speculative Architecture
+**Status**: Research Document. Transistor properties (threshold, gate control,
+directional bias) confirmed. **Hierarchy: FALSIFIED** (no advantage over uniform chain).
 **Date**: 2026-03-21
 **Framework**: R=CΨ² (Residual Coherence Theory)
 **Repository**: `R-equals-C-Psi-squared`
@@ -356,7 +357,12 @@ Routing is controlled by **selective coupling**: activate J_M,Aₙ for the targe
 
 This is feasible on IBM Torino's heavy-hex lattice where each qubit has 2-3 nearest neighbors, providing natural routing options.
 
-### 7.3 Self-Similar Hierarchical Network
+### 7.3 Self-Similar Hierarchical Network [FALSIFIED]
+
+> **FALSIFIED (March 21, 2026):** The hierarchical architecture produces
+> identical MI to a uniform chain of equal length. The recursive structure
+> provides no scaling advantage. See [Scaling Curve](../experiments/SCALING_CURVE.md).
+> The transistor properties (Sections 1-6) survive; the hierarchy does not.
 
 The most speculative and most interesting extension. The framework's self-similar property states that a {pair + mediator} composite can itself serve as a "super-pair" connected by a "meta-mediator":
 
@@ -412,7 +418,7 @@ This is the quantum back-action problem: the gate modifies the channel, and the 
 
 The 5-qubit GHZ subsystem crossing simulation (N=5, Heisenberg ring) shows all 10 pairs have zero l₁-coherence throughout the evolution; none cross the 1/4 boundary. This is because the GHZ state's coherence is spread across all qubits equally (Ψ₀ = 0.032 for N=5), and no pair accumulates enough to breach 1/4.
 
-**Implication**: The transistor architecture works best for **small, localized** subsystems (2-4 qubits per side). For larger systems, you need the hierarchical approach (Section 7.3) rather than a single flat mediator.
+**Implication**: The transistor architecture works best for **small, localized** subsystems (2-4 qubits per side). For larger systems, longer uniform chains with the sacrifice-zone formula outperform hierarchical topologies (Section 7.3, falsified).
 
 ### 8.4 The Speed-Fidelity Tradeoff
 
@@ -444,7 +450,7 @@ The transistor analogy fails in the following regimes:
 | Control mechanism | Energy gap | Control spin presence | Cavity photon | Coherence/decoherence |
 | Bidirectional | No | No | Yes (virtual photon) | Yes (palindromic) |
 | Threshold | Energy gap | Spin chain length | Cavity frequency | CΨ = 1/4 |
-| Scalable | Material-limited | Chain-length limited | Cavity-mode limited | Hierarchy-limited |
+| Scalable | Material-limited | Chain-length limited | Cavity-mode limited | Chain + sacrifice-zone |
 | Requires measurement | No | No | Yes (readout) | No |
 | State-dependent control | No | No | No | **Yes (κ feedback)** |
 
@@ -480,7 +486,7 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 
 4. **What about non-Heisenberg Hamiltonians?** The simulations primarily use Heisenberg coupling. How does the transistor architecture perform under XY, Ising, or more exotic Hamiltonians?
 
-5. **Is the self-similar hierarchy experimentally feasible?** Level 1 (9 qubits) is straightforward on current hardware. Level 2 (27 qubits) is feasible. Can the hierarchical protocol actually be demonstrated?
+5. **~~Is the self-similar hierarchy experimentally feasible?~~** [ANSWERED: No advantage. Hierarchy falsified March 21, 2026. Uniform chains with sacrifice-zone formula outperform hierarchical topologies. See [Scaling Curve](../experiments/SCALING_CURVE.md).]
 
 6. **Memory kernel effects**: With non-Markovian dynamics, the mediator develops memory. Can this be exploited for "quantum caching," storing frequently-used correlations in the mediator's non-Markovian memory?
 
@@ -511,7 +517,7 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 ### A.5 N-Scaling with Operator Feedback
 - **Config**: GHZ, Heisenberg ring, N=3-5, γ=0.05, κ=0.5
 - **Result**: δ_final = {-0.087, -0.059, -0.038} for N = {3, 4, 5}. Purity final → 0.5 with increasing N.
-- **Interpretation**: Channel degrades with system size. Hierarchical architecture needed for scaling.
+- **Interpretation**: Channel degrades with system size. [Hierarchical architecture was tested and falsified; uniform chains with sacrifice-zone formula are superior. See [Scaling Curve](../experiments/SCALING_CURVE.md).]
 
 ### A.6 Lindbladian Spectrum, 3-Qubit Mediator
 - **Config**: GHZ, Heisenberg ring, N=3, γ=0.05

@@ -240,12 +240,12 @@ laser is the time-reversal of the decay.
 Two N=2 systems (A decays with +g, B amplifies with -g),
 coupled through J_bridge = 0.5. Total Σγ = 0.
 
-| g | Σγ_total | Midpoint | Max Re(λ) | Stable? |
-|---|----------|----------|-----------|---------|
-| 0.00 | 0.00 | 0.000 | 0.000 | Marginal |
-| 0.05 | 0.00 | 0.000 | 0.000 | Marginal |
-| 0.10 | 0.00 | 0.000 | +0.031 | **UNSTABLE** |
-| 0.20 | 0.00 | 0.000 | +0.540 | **UNSTABLE** |
+| g | Σγ_total | Midpoint | Max Re(λ) | Stability |
+|---|----------|----------|-----------|-----------|
+| 0.00 | 0.00 | 0.000 | 0.000 | Stable (no gain) |
+| 0.05 | 0.00 | 0.000 | 0.000 | Stable (g < g_crit) |
+| 0.10 | 0.00 | 0.000 | +0.031 | **UNSTABLE (Hopf)** |
+| 0.20 | 0.00 | 0.000 | +0.540 | **UNSTABLE (Hopf)** |
 
 The palindrome stays centered at zero (midpoint = 0) regardless
 of g. But the system does NOT stay stable at all g. With bridge
