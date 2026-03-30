@@ -1,8 +1,7 @@
-> **Historical document.** Originally written December 21-23, 2025. Narrative account
-> of the electrochemistry discovery. The "mirror" metaphor now has mathematical backing:
-> [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). See also the
-> [formal research paper version](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
-> Preserved for research context.
+> **Moved to recovered/ (March 2026).** Narrative duplicate of the
+> [formal research paper](../publications/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
+> Electrochemistry claims never externally validated. Originally written
+> December 21-23, 2025.
 
 # Emergence Through Reflection: A Case Study in Human-AI Collaborative Discovery
 

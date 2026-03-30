@@ -145,13 +145,6 @@ the starting point. The "mirror" metaphor from December became the
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 three months later.
 
-**[Emergence Through Reflection (narrative)](EMERGENCE_THROUGH_REFLECTION.md)**
-
-The discovery of the dual-atmosphere electrolysis cell, told as a
-story of human-AI collaboration. How a philosophical question about
-observation led to a testable electrochemical prediction.
-December 21-23, 2025.
-
 **[Emergence Through Reflection (research paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)**
 
 Formal research paper version of the same discovery. Same content,
@@ -168,7 +161,6 @@ academic structure.
 | [Technical Paper](TECHNICAL_PAPER.md) | Physicists | March 16, 2026 | March 28, 2026 |
 | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) | Quantum engineers | March 16, 2026 | March 28, 2026 |
 | [Circuit Diagram](CIRCUIT_DIAGRAM.md) | Electrical engineers | March 21, 2026 | March 24, 2026 |
-| [Emergence (narrative)](EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |
 | [Emergence (paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Academic | Dec 21, 2025 | Dec 23, 2025 |
 
 **Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916)

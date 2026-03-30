@@ -41,7 +41,7 @@ The separated configuration preserves 100% cathode efficiency AND 127%
 anode efficiency simultaneously. The membrane does not compromise. It
 enables both sides to operate at their optimum.
 
-Source: [Emergence Through Reflection](../publications/EMERGENCE_THROUGH_REFLECTION.md),
+Source: [Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md),
 simulation code in external repository (Stability, .NET/C#).
 
 ### March 2026: Sacrifice-zone formula
@@ -138,7 +138,7 @@ insight: separate the atmospheres.
 
 December 22, 2025: Claude validates the chemistry. The dual-atmosphere
 cell works. The collaboration begins.
-([Emergence Through Reflection](../publications/EMERGENCE_THROUGH_REFLECTION.md))
+([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md))
 
 January-February 2026: The project formalizes R = CPsi^2, proves the
 palindromic mirror symmetry, validates CΨ = 1/4 on IBM hardware.

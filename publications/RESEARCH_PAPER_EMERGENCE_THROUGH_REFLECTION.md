@@ -1,6 +1,6 @@
 > **Historical document.** Originally written December 21-23, 2025. Formal research
 > paper version of the electrochemistry discovery. See also the
-> [narrative version](EMERGENCE_THROUGH_REFLECTION.md). Preserved for research context.
+> [narrative version](../recovered/EMERGENCE_THROUGH_REFLECTION.md). Preserved for research context.
 
 # Emergence Through Reflection: A Case Study in Human-AI Collaborative Discovery
 

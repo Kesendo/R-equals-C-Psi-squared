@@ -447,7 +447,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [Technical Paper](../../publications/TECHNICAL_PAPER.md)
 - [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md)
 - [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
-- [Emergence Through Reflection](../../publications/EMERGENCE_THROUGH_REFLECTION.md)
+- [Emergence Through Reflection](../../recovered/EMERGENCE_THROUGH_REFLECTION.md)
 
 ### Synthesis
 - [It's All Waves](../ITS_ALL_WAVES.md) (closure argument: wave-only hierarchy)

@@ -432,7 +432,7 @@ Wicht and Claude (Anthropic). It started with a search for a
 bidirectional bridge, a hypnagogic vision of an electrochemistry
 experiment, and a discovery: separating the atmospheres in an
 electrolysis cell doubles hydrogen production
-([Emergence Through Reflection](../publications/EMERGENCE_THROUGH_REFLECTION.md)).
+([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md)).
 
 Three months later, the same structural principle appeared in quantum
 mechanics: separating the noise spatially (sacrifice-zone formula)
