@@ -165,13 +165,41 @@ Sac+Sel (scenario 6) outperforms Sac only (scenario 4) by 1.24-1.34x
 at every time point. This is consistent with the eigenvalue prediction
 (1.46x spectral protection translates to ~1.27x in observable SumMI).
 
+### Corrected prediction: Neel initial state |01010>
+
+The |+>^5 result above is misleading: |+>^5 is a Heisenberg eigenstate
+that does not evolve without noise. Mean-T2 chains appeared dead only
+because the initial state was frozen.
+
+With the Neel state |01010> (standard for magnon transport, not an
+eigenstate), **both chains show rich dynamics and the result reverses:**
+
+| Scenario | SumMI (t=2.5) | vs Baseline |
+|----------|:------------:|:----------:|
+| 1 Mean-T2, No DD | 1.510 | 1.00x |
+| 2 Mean-T2, Uniform DD | **1.650** | 1.09x |
+| 4 Sacrifice, No DD | 0.908 | 0.60x |
+| 6 Sacrifice, Selective DD | 0.970 | 0.64x |
+
+**Mean-T2 chains win.** The mode protection of the sacrifice zone
+(2.81x eigenvalue efficiency) does not compensate for the 6x higher
+total noise. Less total noise means slower decay of ALL modes.
+
+DD helps modestly on both chains (+9% mean-T2, +19% sacrifice).
+
+**Script:** [time_evolution_neel.py](../simulations/time_evolution_neel.py)
+
 ### What this means for the IBM experiment
 
-The comparison on hardware will not be "sacrifice vs mean-T2 at equal
-conditions." It will be "a chain with dynamics vs a chain without."
-The sacrifice chain wins not because it has better mode protection
-per se, but because the noise gradient creates dynamics that quiet
-chains cannot match.
+The sacrifice-zone advantage is **spectral efficiency** (protection per
+unit noise), not absolute performance. For a fair hardware test:
+
+1. Compare chains with **similar total noise** but different spatial
+   profiles (sacrifice-zone vs uniform distribution)
+2. Or compare **SumMI normalized by total noise**: SumMI / Σγ
+
+The eigenvalue prediction (3.72x mode protection) is correct. It
+just does not overcome a 6x noise disadvantage in absolute SumMI.
 
 **Script:** [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py)
 **Data:** [time_evolution_6scenarios.txt](../simulations/results/time_evolution_6scenarios.txt),
