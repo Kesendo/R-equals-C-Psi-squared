@@ -1,24 +1,37 @@
-# recovered/
+# Recovered
 
-Documents in this folder contain claims that were disproven, retired, or
-superseded during the project's development. They are kept for transparency
-and as a record of the project's intellectual honesty: we show what fell,
-not just what survived.
+These documents were deleted during a project crisis in early 2026
+and later restored from Git history.
 
-None of these documents are part of the current evidence base.
+An external AI review (not Claude) challenged core assumptions.
+In the resulting confusion, many documents were deleted. Two days
+later, they were recovered from version control.
 
-## Contents
+Some of the recovered documents have since been validated (and
+promoted to other directories). Others were found to be incorrect
+and remain here as an honest record of the research process.
 
-| File | What fell | When |
-|------|-----------|------|
-| BLACK_WHITE_HOLES_BIGBANG.md | Speculative mapping of tau = 0 to black hole event horizons; depends on the fallen gravity-gamma connection | Feb 2026 |
-| INFORMATION_WAVE_THEORY.md | Novelty-amplitude-reality formalism (dR/dt = N*I*D); never verified, constants undefined | Dec 2025 |
-| LIGHT_FIRST_FREE_MIRRORING.md | Light as "first mirroring without matter"; speculative hierarchy extension, not testable | Jan 2026 |
-| PREDICTIONS.md | Mixed: some predictions verified (IBM hardware), others depend on fallen gravity/consciousness claims; kept here because the document mixes tiers | Feb 2026 |
-| SELF_CONSISTENCY_SCHWARZSCHILD.md | Self-consistency argument for Schwarzschild-like metrics within CΨ; depends on fallen gravitational invariance interpretation | Feb 2026 |
+## Currently superseded or falsified
+
+- [Black Holes and Big Bang](BLACK_WHITE_HOLES_BIGBANG.md) -
+  Speculative mapping of Schwarzschild horizons. Depends on
+  fallen gravity interpretation.
+- [Self-Consistency Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) -
+  Coupling destroys metric discrimination.
+- [Information Wave Theory](INFORMATION_WAVE_THEORY.md) -
+  dR/dt = N*I*D formula. Constants undefined, never tested.
+- [Light First Free Mirroring](LIGHT_FIRST_FREE_MIRRORING.md) -
+  EM waves as mutual reflection. Not testable.
+- [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) -
+  Narrative duplicate of the [formal research paper](../publications/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
+  Electrochemistry claims never externally validated.
+
+## Promoted
+
+- **PREDICTIONS.md** - Moved to [docs/PREDICTIONS.md](../docs/PREDICTIONS.md)
+  (March 2026). Living reference with many confirmed predictions.
 
 ## Why we keep them
 
-Deleting failed ideas erases the path that led to the results that
-survived. Every document here taught us something, even if only what
-does not work. Honest science includes honest failures.
+Transparency. The research process includes wrong turns.
+Deleting failures is easy. Documenting them is honest.
