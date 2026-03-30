@@ -1,0 +1,123 @@
+======================================================================
+V-EFFECT GAMMA SWEEP: Finding the Perfect Breaking
+======================================================================
+
+======================================================================
+PART 1: Eigenvalue Q-factor (resonator quality)
+======================================================================
+
+Uniform gamma on all qubits. J = 1.0.
+
+ gamma/J |          --- N=2 --- |          --- N=3 --- |          --- N=5 --- |   V-gain
+         |   maxQ  freq  hiQ |   maxQ  freq  hiQ |   maxQ  freq  hiQ |    Q5/Q2
+  0.0010 | 2000.0     1    6 | 3000.0     3   40 | 3618.0    50  904 |     1.81x
+  0.0025 |  800.0     1    6 | 1200.0     3   40 | 1447.2    52  904 |     1.81x
+  0.0050 |  400.0     1    6 |  600.0     3   40 |  723.6    64  904 |     1.81x
+  0.0100 |  200.0     2    6 |  300.0     3   40 |  361.8    78  904 |     1.81x
+  0.0250 |   80.0     2    6 |  120.0     5   40 |  144.7   102  868 |     1.81x
+  0.0500 |   40.0     2    6 |   60.0     5   40 |   72.4   106  796 |     1.81x
+  0.1000 |   20.0     2    6 |   30.0     5   38 |   36.2   111  596 |     1.81x
+  0.1500 |   13.3     2    6 |   20.0     5   32 |   24.1   112  464 |     1.81x
+  0.2000 |   10.0     2    6 |   15.0     5   27 |   18.1   112  344 |     1.81x
+  0.2500 |    8.0     2    6 |   12.0     5   20 |   14.5   111  240 |     1.81x
+  0.3000 |    6.7     2    6 |   10.0     5   20 |   12.1   112  152 |     1.81x
+  0.4000 |    5.0     2    1 |    7.5     5    8 |    9.0   111   60 |     1.81x
+  0.5000 |    4.0     2    0 |    6.0     5    4 |    7.2   111   20 |     1.81x
+  0.7500 |    2.7     2    0 |    4.0     5    0 |    4.8   108    0 |     1.81x
+  1.0000 |    2.0     2    0 |    3.0     5    0 |    3.6   109    0 |     1.81x
+  1.5000 |    1.3     2    0 |    2.0     4    0 |    2.4   106    0 |     1.81x
+  2.0000 |    1.0     1    0 |    1.5     4    0 |    1.8   105    0 |     1.81x
+  3.0000 |    0.7     1    0 |    1.0     4    0 |    1.2   102    0 |     1.81x
+  5.0000 |    0.4     1    0 |    0.6     4    0 |    0.7   103    0 |     1.81x
+
+Peak V-Effect gain: 1.81x at gamma/J = 0.001
+  N=2: Q=2000.0, 1 freq
+  N=5: Q=3618.0, 50 freq
+
+======================================================================
+PART 2: Sacrifice profile (asymmetric gamma) on N=5
+======================================================================
+
+Fixed interior gamma = 0.01. Sweep edge gamma.
+
+ g_edge contrast    sumG |   maxQ  freq  hiQ    slowest |   prot
+  0.010      1.0   0.050 |  361.8    78  904   0.020000 |   1.00x
+  0.020      2.0   0.060 |  348.5    86  904   0.020764 |   1.16x
+  0.050      5.0   0.090 |  313.9   109  892   0.023055 |   1.56x
+  0.100     10.0   0.140 |  269.3   116  860   0.026866 |   2.08x
+  0.200     20.0   0.240 |  210.2   120  792   0.034426 |   2.79x
+  0.300     30.0   0.340 |  172.9   119  724   0.041842 |   3.25x
+  0.500     50.0   0.540 |  129.2   120  588   0.055960 |   3.86x
+  0.750     75.0   0.790 |  100.8   120  456   0.071657 |   4.41x
+  1.000    100.0   1.040 |   85.2   120  296   0.084585 |   4.92x
+  1.500    150.0   1.540 |   70.9   120  220   0.090027 |   6.84x
+  2.000    200.0   2.040 |   66.4   120  212   0.072404 |  11.27x
+  3.000    300.0   3.040 |   68.6   120  220   0.054830 |  22.18x
+  5.000    500.0   5.040 |   85.0   119  312   0.040850 |  49.35x
+ 10.000   1000.0  10.040 |  127.7   119  408   0.030410 | 132.06x
+
+Peak Q-factor: 361.8 at edge gamma = 0.01 (contrast 1x)
+Peak protection: 132.06x at edge gamma = 10.0
+
+======================================================================
+PART 3: CPsi Heartbeat (crossing count)
+======================================================================
+
+N=3, Bell(0,1) + |+> bath. Sweep gamma_bath, fixed J=1.0.
+Count CPsi(0,1) crossings of 1/4 boundary.
+
+ g_bath  g_pair contrast | crossings peakCPsi  Q_eig
+  0.001   0.010      0.1 |        19   0.4519  352.9
+  0.005   0.010      0.5 |        13   0.4518  327.3
+  0.010   0.010      1.0 |         9   0.4516  300.0
+  0.020   0.010      2.0 |        11   0.4512  257.1
+  0.050   0.010      5.0 |         9   0.4501  180.0
+  0.100   0.010     10.0 |         1   0.4482  120.0
+  0.200   0.010     20.0 |         1   0.4450   72.2
+  0.300   0.010     30.0 |         1   0.4421   51.7
+  0.500   0.010     50.0 |         1   0.4366   33.3
+  0.750   0.010     75.0 |         1   0.4306   23.5
+  1.000   0.010    100.0 |         1   0.4257   18.6
+  2.000   0.010    200.0 |         1   0.4102   12.7
+
+Peak heartbeat: 19 crossings at g_bath = 0.001 (contrast 0x)
+
+======================================================================
+PART 4: V-Effect across levels at peak gamma
+======================================================================
+
+Optimal gamma (from heartbeat): 0.001
+
+  Level 0 (single bond) (N=2):
+    Sacrifice [0.001, 0.010x1]: Q=363.6, 2 freq, 6 high-Q modes
+    Uniform   [0.001x2]: Q=2000.0, 1 freq, 6 high-Q modes
+    Heartbeat sacrifice: 1 crossings (peak CPsi = 0.3333)
+    Heartbeat uniform:   1 crossings (peak CPsi = 0.3333)
+
+  Level 1 (mediator) (N=3):
+    Sacrifice [0.001, 0.010x2]: Q=352.9, 4 freq, 40 high-Q modes
+    Uniform   [0.001x3]: Q=3000.0, 3 freq, 40 high-Q modes
+    Heartbeat sacrifice: 17 crossings (peak CPsi = 0.4541)
+    Heartbeat uniform:   59 crossings (peak CPsi = 0.4570)
+
+  Level 2 (full V-Effect) (N=5):
+    Sacrifice [0.001, 0.010x4]: Q=374.7, 73 freq, 904 high-Q modes
+    Uniform   [0.001x5]: Q=3618.0, 50 freq, 904 high-Q modes
+
+======================================================================
+SUMMARY: The Perfect Breaking
+======================================================================
+
+1. Eigenvalue Q peaks at gamma/J = 0.001 (V-gain 1.8x)
+2. Sacrifice protection peaks at edge gamma = 10.0
+3. Heartbeat peaks at 19 crossings at g_bath/g_pair = 0x
+
+The V-Effect gain (Q_N5 / Q_N2) tells us: coupling
+AMPLIFIES resonator quality by 1.8x
+at the optimal gamma. Too little gamma: no fold,
+Q is infinite but meaningless (no irreversibility).
+Too much gamma: everything dies, Q collapses.
+The sweet spot is where gamma creates just enough
+breaking for the V-Effect to build maximum complexity.
+
+=== DONE ===
