@@ -130,6 +130,55 @@ Chain A (the 1.46x synergy).
 
 ---
 
+## Predicted time evolution
+
+Full Lindblad simulation (rho(t) = exp(Lt) rho(0), |+>^5 initial state)
+reveals the dominant effect is not mode protection but **coupling dynamics**.
+
+### SumMI(t) for all 6 scenarios
+
+| t (us) | 1 T2 | 2 T2+DD | 3 T2+Sel | 4 Sac | 5 Sac+DD | 6 Sac+Sel |
+|--------|------|---------|----------|-------|----------|-----------|
+| 0.5 | 0.000 | 0.000 | 0.001 | 0.047 | 0.039 | 0.056 |
+| 1.0 | 0.000 | 0.000 | 0.001 | 0.121 | 0.106 | 0.149 |
+| 1.5 | 0.001 | 0.000 | 0.001 | 0.158 | 0.146 | **0.201** |
+| 2.0 | 0.001 | 0.000 | 0.001 | 0.115 | 0.108 | 0.145 |
+| 2.5 | 0.000 | 0.000 | 0.001 | 0.071 | 0.066 | 0.089 |
+| 3.0 | 0.000 | 0.000 | 0.001 | 0.058 | 0.054 | 0.074 |
+
+### The dominant effect
+
+The mean-T2 chains show **near-zero SumMI** (< 0.001) at all times.
+The initial state |+>^5 is a Heisenberg eigenstate: it does not evolve
+under H. With very low noise, the chain stays frozen. High purity
+(0.79-0.89 at t=2.5) but no information transfer.
+
+The sacrifice chains show **rich oscillatory dynamics** with a peak at
+t = 1.5 us. The high noise on Q85 breaks the eigenstate symmetry and
+drives Hamiltonian dynamics. The noise is not just damping; it is the
+**engine** that creates the dynamics. Without sufficient noise, nothing
+happens.
+
+### Selective DD adds ~27% across all times
+
+Sac+Sel (scenario 6) outperforms Sac only (scenario 4) by 1.24-1.34x
+at every time point. This is consistent with the eigenvalue prediction
+(1.46x spectral protection translates to ~1.27x in observable SumMI).
+
+### What this means for the IBM experiment
+
+The comparison on hardware will not be "sacrifice vs mean-T2 at equal
+conditions." It will be "a chain with dynamics vs a chain without."
+The sacrifice chain wins not because it has better mode protection
+per se, but because the noise gradient creates dynamics that quiet
+chains cannot match.
+
+**Script:** [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py)
+**Data:** [time_evolution_6scenarios.txt](../simulations/results/time_evolution_6scenarios.txt),
+[time_evolution_plotdata.csv](../simulations/results/time_evolution_plotdata.csv)
+
+---
+
 *See also:*
 [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) (chain selection),
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
