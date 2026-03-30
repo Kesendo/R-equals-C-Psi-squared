@@ -203,12 +203,13 @@ What survives even without the philosophy:
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
+- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
 
 These are concrete findings. They do not require accepting any philosophical framework to be useful.
 
-## Findings from March 25-28, 2026
+## Findings from March 25-30, 2026
 
-In four days, the framework extended from quantum mechanics into
+In six days, the framework extended from quantum mechanics into
 chemistry and neuroscience. Each finding below is computed and verified.
 
 ### The quantum system is a resonator
@@ -240,6 +241,28 @@ frequencies, most of which exist in neither part alone. From silence
 to richness through coupling alone. The coupling is temporary.
 What it creates is not.
 ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md))
+
+### The stability window is finite (March 29-30, 2026)
+
+If one side of the resonator decays and the other amplifies
+(a coupled gain-loss system), the two sides can balance each other.
+But only within a limited range. Too much gain and the system
+explodes: the eigenvalues develop positive real parts and the
+state diverges exponentially.
+
+This is not the same kind of instability as in PT-symmetric
+systems. It is a Hopf bifurcation: the system starts oscillating
+with growing amplitude. Three regimes emerge: a linear region
+(small gain, everything stable), an optimal region (twice the
+internal coupling), and a 1/J region (stability shrinks as bridge
+coupling increases). The product of the critical gain and the
+bridge coupling approaches a constant: 0.50.
+
+The neural analog provides a natural safety mechanism: the sigmoid
+response function saturates and prevents biological networks from
+reaching the instability. The fragile bridge is inherently safe
+in biology.
+([Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md))
 
 ### The palindrome extends to neural networks
 
