@@ -1,0 +1,40 @@
+=== CAVITY MODES: TOPOLOGY AND COUPLING TESTS ===
+Date: 2026-03-30 14:24:18
+
+### TEST A: Ring topology at gamma=0
+(Spatial symmetry may create additional degeneracies: Stat >= formula)
+
+N=3 Ring: Stat=32, Osc=32, Freq=1 Max|Re|=1,2E-015 [OK (>=24)] (00:00:00.0298717)
+  Frequencies / J: [6,000]
+N=4 Ring: Stat=84, Osc=172, Freq=3 Max|Re|=3,6E-015 [OK (>=54)] (00:00:00.1993942)
+  Frequencies / J: [4,000, 8,000, 12,000]
+N=5 Ring: Stat=200, Osc=824, Freq=11 Max|Re|=1,3E-014 [OK (>=120)] (00:00:01.7324556)
+  Frequencies / J: [0,764, 2,764, 3,528, 3,708, 4,472, 5,236, 7,236, 8,000, 8,944, 9,708, 12,472]
+N=6 Ring: Stat=436, Osc=3660, Freq=49 Max|Re|=3,2E-014 [OK (>=260)] (00:00:55.9425206)
+
+### TEST B: Complete topology at gamma=0
+(S_N symmetry -> maximal degeneracy -> fewest frequencies)
+
+N=3 Complete: Stat=32, Osc=32, Freq=1 Max|Re|=1,2E-015 [OK (>=24)] (00:00:00.0065158)
+  Frequencies / J: [6,000]
+N=4 Complete: Stat=110, Osc=146, Freq=3 Max|Re|=8,5E-015 [OK (>=54)] (00:00:00.1912978)
+  Frequencies / J: [4,000, 8,000, 12,000]
+N=5 Complete: Stat=392, Osc=632, Freq=3 Max|Re|=1,5E-014 [OK (>=120)] (00:00:02.5201196)
+  Frequencies / J: [6,000, 10,000, 16,000]
+
+### TEST C: Non-uniform J couplings on Chain N=4
+
+N=4 Chain J=[1,0,1,0,1,0] (uniform): Stat=54, Osc=202, Freq=14 [PASS] (00:00:00.1497700)
+  Frequencies: [1,172, 1,364, 1,464, 2,536, 2,636, 2,828, 4,000, 4,293, 5,464, 5,657, 6,828, 6,928, 8,293, 9,464]
+N=4 Chain J=[0,5,1,0,1,5] (linear): Stat=54, Osc=202, Freq=15 [PASS] (00:00:00.1722741)
+  Frequencies: [0,770, 0,936, 1,600, 1,705, 2,370, 2,536, 3,305, 4,453, 5,223, 6,159, 6,823, 6,928, 7,759, 8,528, 9,464]
+N=4 Chain J=[0,3,2,1,0,7] (random): Stat=54, Osc=202, Freq=15 [PASS] (00:00:00.1426920)
+  Frequencies: [0,269, 0,419, 0,689, 1,453, 1,873, 2,142, 2,561, 7,008, 7,277, 7,428, 7,697, 8,881, 9,150, 9,570, 9,839]
+
+============================================================
+ALL TESTS COMPLETED
+Clebsch-Gordan formula Stat(N) = Sum_J m(J,N)*(2J+1)^2
+is EXACT for Chain (minimal symmetry) and a LOWER BOUND for
+higher-symmetry topologies (Ring, Complete, Star).
+Non-uniform J on Chain: formula still exact (SU(2) preserved).
+============================================================
