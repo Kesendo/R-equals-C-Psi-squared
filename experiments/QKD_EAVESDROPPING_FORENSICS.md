@@ -569,4 +569,4 @@ Phase 2 (multi-metric analysis):
 ---
 
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
-*See also: [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md), [Predictions](../recovered/PREDICTIONS.md) (Tier 4, not restored)*
+*See also: [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md), [Predictions](../docs/PREDICTIONS.md)*

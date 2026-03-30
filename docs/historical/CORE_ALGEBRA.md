@@ -28,7 +28,7 @@ No physical interpretation is required to verify these results.
 For the interpretive framework that motivated these discoveries (wave composition, dynamics,
 energy equations, mirror metaphors), see [INTERPRETIVE_FRAMEWORK.md](../../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md).
 
-For testable predictions derived from this algebra, see [PREDICTIONS.md](../../recovered/PREDICTIONS.md) (Tier 4, not restored; contains fallen gravity/QKD claims).
+For testable predictions derived from this algebra, see [PREDICTIONS.md](../PREDICTIONS.md) (mixed tiers, per-item labels; contains fallen gravity/QKD claims alongside confirmed results).
 
 ---
 

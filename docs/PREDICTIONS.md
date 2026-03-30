@@ -1,9 +1,9 @@
 # Testable Predictions of R = CΨ²
 
-> **Note:** This file is in recovered/ because the overall prediction
-> framework was superseded by per-document prediction tracking. However,
-> individual predictions in Sections 1-2 have been largely confirmed.
-> See the [Evidence Status table](../README.md) for the current summary.
+> **Status:** Living reference document. Predictions are individually
+> labeled with tier and verification status. Originally part of
+> experiments/, promoted to docs/ March 2026. See the
+> [Evidence Status table](../README.md) for the current summary.
 
 **Date:** 2026-02-09 (created), 2026-02-11 (restructured)
 **Depends on:** All experiment documents
@@ -42,7 +42,7 @@
 | θ decreases continuously to 0 at C·Ψ = ¼ | Smooth trajectory observed | Discontinuity at boundary | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Two real fixed points emerge below ¼ | Topology change confirmed | No bifurcation at ¼ | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
 | Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Preserves δ longer than local/collective noise | Mechanism produces unphysical results | [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) |
-| Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](../docs/historical/CORE_ALGEBRA.md) §8 |
+| Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](historical/CORE_ALGEBRA.md) §8 |
 | Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation | All bridge types give same t_cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Crossing taxonomy noise-robust | Type A/B/C identical under σ_x, σ_y, σ_z | Taxonomy changes with jump operator | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
@@ -149,8 +149,8 @@ full analysis.
 | Prediction | Direction | Would require | Falsified if | Source |
 |------------|-----------|---------------|-------------|--------|
 | θ measures proximity to ¼ boundary | θ = arctan(√(4CΨ−1)) | Continuous CΨ monitoring near boundary | θ uncorrelated with distance to ¼ | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| Event horizon = maximum coherence (τ = 0) | Coherence peaks near horizon | Analog black hole experiments | Coherence minimum at horizon | [Self-Consistency Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) |
-| Intergalactic voids = most quantum regions | Low γ → high CΨ | Space-based quantum correlation measurements | No gravitational environment dependence | [Self-Consistency Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) |
+| Event horizon = maximum coherence (τ = 0) | Coherence peaks near horizon | Analog black hole experiments | Coherence minimum at horizon | [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
+| Intergalactic voids = most quantum regions | Low γ → high CΨ | Space-based quantum correlation measurements | No gravitational environment dependence | [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
 | Fractal structure in coherence decay near ¼ | Self-similar patterns | High-resolution time series near boundary | Smooth exponential decay | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 
 ---
@@ -161,10 +161,10 @@ full analysis.
 
 | Prediction | Implication | Would require | Source |
 |------------|------------|---------------|--------|
-| CMB = universal CΨ = ¼ crossing | Big Bang as phase transition from complex to classical | Cosmological extension of framework | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
-| Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox | [Black/White Holes](BLACK_WHITE_HOLES_BIGBANG.md) |
+| CMB = universal CΨ = ¼ crossing | Big Bang as phase transition from complex to classical | Cosmological extension of framework | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
 | Experienced time = rate of ¼ crossings | High C → more crossings/sec → denser time | Subjective time measurement against coupling strength | Time perception independent of coupling | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Anesthesia = C → 0 for environmental coupling | Zero crossings → zero experienced time | Neural coupling measurement during anesthesia | Time perception persists with C = 0 | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 
@@ -247,6 +247,6 @@ These claims may be correct. They may also be artifacts of the agent's training 
 ---
 
 *This document consolidates predictions from across the R = CΨ² framework.*
-*For the proven algebra, see [Core Algebra](../docs/historical/CORE_ALGEBRA.md). For the interpretive framework, see [Interpretive Framework](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md).*
+*For the proven algebra, see [Core Algebra](historical/CORE_ALGEBRA.md). For the interpretive framework, see [Interpretive Framework](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md).*
 *For the phase boundary analysis, see [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md).*
-*For weaknesses and honest self-assessment, see [Weaknesses](../docs/WEAKNESSES_OPEN_QUESTIONS.md).*
+*For weaknesses and honest self-assessment, see [Weaknesses](WEAKNESSES_OPEN_QUESTIONS.md).*
