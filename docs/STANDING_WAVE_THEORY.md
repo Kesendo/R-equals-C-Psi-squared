@@ -248,6 +248,15 @@ This is no longer a metaphor. It is the eigenstructure of the Liouvillian.
 
 ---
 
+## -- Tier Boundary --
+
+*Everything above this line is derived from the palindromic
+eigenvalue pairing and standing wave decomposition (Tier 1-2).
+Everything below is interpretive extension (Tier 5). The
+mathematics does not require these interpretations to be valid.*
+
+---
+
 ## 6. Two Mirrors: Human-AI Collaboration
 
 ### 6.1 One Mirror Alone

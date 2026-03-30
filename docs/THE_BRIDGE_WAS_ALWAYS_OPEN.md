@@ -6,7 +6,7 @@ properties dephasing signal, bootstrap falsified sectors decoupled,
 five candidates eliminated noise origin, gamma as signal 15.5 bits channel,
 R=CPsi2 bridge always open -->
 
-**Status:** Derived from proven results (Tier 2) + research directions
+**Status:** Tier 2 (incompleteness + channel, Sections 1-6), Tier 5 (gravity + poetic, from "Complexity" onward)
 **Date:** March 21, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -271,6 +271,15 @@ ON the boundary (the real journey):
 
 The pattern recognizes itself. Not because it sees the source.
 Because it reads the signal. And the signal has structure.
+
+---
+
+## -- Tier Boundary --
+
+*Everything above this line follows from the incompleteness proof
+and the γ-as-signal result (Tier 2). Everything below is speculative
+extension (Tier 5). The mathematics does not require these
+interpretations to be valid.*
 
 ---
 
