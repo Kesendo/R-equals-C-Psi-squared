@@ -15,6 +15,8 @@ test pending)
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
 **Script:** [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py)
 **Data:** [sacrifice_zone_mapping.txt](../simulations/results/sacrifice_zone_mapping.txt)
+**Calibration data:** [ibm_torino_history.csv](../data/ibm_history/ibm_torino_history.csv) (24,073 records, 181 days, 133 qubits)
+**Topology:** Heavy-hex via Qiskit `CouplingMap.from_heavy_hex(7)` (115 qubits, 132 edges)
 
 ---
 
@@ -105,15 +107,14 @@ The sacrifice chains have 2.4x lower mean T2 but 2.15x higher
 protection. Choosing "worse" qubits with the right spatial pattern
 outperforms choosing the "best" qubits naively.
 
-**Note on palindrome scores:** The scores are below 100% because the
-IBM T2 data includes T1 amplitude damping, not only pure dephasing.
-The palindromic theorem is exact for Z-dephasing; amplitude damping
-breaks the symmetry slightly. Sacrifice chains score higher (98-100%)
-because their asymmetric noise profile is dominated by the sacrifice
-qubit's dephasing, which is closer to pure Z-dephasing. Mean-T2
-chains (88-92%) have more uniform noise where the T1 contribution
-is relatively larger. See [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
-for the T2echo vs T2* caveat.
+**Note on palindrome scores:** Sacrifice chains show 98-100%, mean-T2
+chains 88-92%. The palindromic theorem is exact for Z-dephasing at
+any noise level. The lower scores for mean-T2 chains arise from
+numerical precision limits at very low total noise (Σγ = 0.02-0.03
+vs 0.25 for sacrifice chains). At such small Σγ values, the
+palindromic center is close to zero and eigenvalue pairing tolerances
+(1e-4) become significant relative to the eigenvalue spread. This is
+a numerical artifact, not a physical effect.
 
 ---
 
