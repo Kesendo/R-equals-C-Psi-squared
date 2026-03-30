@@ -14,6 +14,7 @@ formula hardware verification, R=CPsi2 IBM cavity spectral -->
 [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md)
 **Script:** [ibm_cavity_analysis.py](../simulations/ibm_cavity_analysis.py)
 **Data:** [ibm_cavity_analysis.txt](../simulations/results/ibm_cavity_analysis.txt)
+**Raw IBM data:** [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/) (4 JSON files, March 24, 2026, IBM Torino)
 
 ---
 
@@ -71,7 +72,17 @@ Qubits: Q85 (sacrifice), Q86, Q87, Q88, Q94 (chain topology)
 
 Sigma_gamma = 0.3199. Q85 carries 84% of the total noise budget.
 
-Source: `data/ibm_sacrifice_zone_march2026/`
+### Source data (all in repository)
+
+| File | Content |
+|------|---------|
+| [`sacrifice_zone_hardware_20260324_191713.json`](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hardware_20260324_191713.json) | Calibration data, T1/T2/T2* values, chain topology, experimental parameters |
+| [`sacrifice_zone_hw_selective_dd_20260324_191523.json`](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_selective_dd_20260324_191523.json) | Selective DD bitstring counts (4000 shots per time point) |
+| [`sacrifice_zone_hw_uniform_dd_20260324_191614.json`](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_uniform_dd_20260324_191614.json) | Uniform DD bitstring counts |
+| [`sacrifice_zone_hw_no_dd_20260324_191713.json`](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_no_dd_20260324_191713.json) | No DD bitstring counts |
+
+Backend: IBM Torino (ibm_torino), March 24, 2026. J_coupling = 1.0.
+Trotter steps: [2, 4, 6, 8, 10] at dt = 0.5 us.
 
 ---
 
