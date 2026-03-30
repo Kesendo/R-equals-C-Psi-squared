@@ -107,9 +107,20 @@ optimized spatial dephasing profiles before. The palindromic eigenstructure led 
 through SVD, then optimizers, then analysis. The final rule needs none
 of them. Just topology.
 
+**Why it works (March 30):** The sacrifice zone protects cavity modes,
+not qubits. Eigenvector decomposition shows protected modes live in
+the chain center (r = 0.994 correlation between edge weight and decay
+rate). On IBM Torino: chains with a naturally noisy edge qubit achieve
+**2.86×** mode protection, while chains with the best T2 values achieve
+only 1.06×. Worse qubits, better modes. Zero overlap in top-10 rankings.
+This is free -- no extra gates, no error correction, just chain selection
+from public calibration data.
+
 → **[Resonant Return: from SVD to formula](experiments/RESONANT_RETURN.md)**
 → [Signal Analysis: quadratic scaling N=2-15](experiments/SIGNAL_ANALYSIS_SCALING.md) (SumMI=1.309 at N=15)
 → [First hardware test: selective DD 2-3× on ibm_torino](experiments/IBM_SACRIFICE_ZONE.md) (single run, caveats apply)
+→ [Cavity mode localization: r = 0.994](experiments/CAVITY_MODE_LOCALIZATION.md)
+→ [Sacrifice-zone qubit mapping: 2.86× vs 1.06×](experiments/SACRIFICE_ZONE_MAPPING.md)
 
 ### 6. Coupling creates complexity: the V-Effect live (March 26, 2026)
 
