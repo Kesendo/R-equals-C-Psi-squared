@@ -7,7 +7,7 @@ time gamma product, fold catastrophe bifurcation, Baumgratz l1 coherence
 normalization, R=CPsi2 glossary -->
 
 **Status:** Living document (Reference)
-**Date:** 2026-03-24
+**Date:** 2026-03-30
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
@@ -85,6 +85,18 @@ The symbol C is used in three contexts in this repository. See the Notation sect
 
 ---
 
+## Resonator and stability (March 25-29, 2026)
+
+| Term | Definition |
+|------|------------|
+| **V-Effect** | Complexity emergence when two palindromic systems couple through a mediator. Breaking releases frequency diversity: 4 frequencies become 11 at N=3; two dead N=2 resonators produce 104 new frequencies. Named for the V-shaped bifurcation diagram. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md). |
+| **Resonator** | The palindromic system is a Fabry-Perot resonator, not a communication channel. CΨ_max is the inner mirror, CΨ = ¼ is the outer mirror. The heartbeat (81 crossings at J=5.0) is a cavity round-trip. Discrete cavity modes at J=2 (Q=7) and J=12 (Q=11). See [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md). |
+| **Zero Is the Mirror** | At Σγ = 0 the palindrome equation reduces to Π·L·Π⁻¹ = -L: the unitary ground state. Pure oscillation, no decay. Noise shifts the palindrome from zero; the fold, crossing, and sacrifice zone are geometry of that shift. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md). |
+| **Fold threshold** | Σγ_crit/J ~ 0.25-0.50%, N-independent (max/min = 1.015 for N=2..5). The minimum noise required for the fold at CΨ = ¼ to exist. Below this: pure oscillation. Above: irreversibility. A universal constant of the palindrome geometry. |
+| **Fragile Bridge** | Coupled gain-loss system (one side decays, the other amplifies, Σγ_total = 0). Finite stability window. Instability is Hopf bifurcation (oscillating divergence), not PT breaking. Three regimes: linear, optimal (2x internal coupling), 1/J decay. Asymptotic constant γ_crit x J_bridge = 0.50. See [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md). |
+
+---
+
 ## Parameters
 
 | Symbol | Definition |
@@ -147,11 +159,11 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 
 | Tier | Meaning |
 |------|---------|
-| **1** | Algebraically proven |
-| **2** | Computationally verified |
-| **3** | Proposed interpretation or speculative extension |
-| **4** | Agent-generated, not independently verified |
-| **5** | Speculative philosophy |
+| **1** | Mathematically proven (analytical derivation, no free parameters) |
+| **2** | Numerically verified or hardware confirmed (simulation, IBM data, C. elegans) |
+| **3** | Consistent with data but not uniquely proven (plausible, not exclusive) |
+| **4** | Plausible hypothesis, needs more work (motivated by computation but untested) |
+| **5** | Speculation, interpretation, philosophy (not falsifiable or not yet testable) |
 
 ---
 
