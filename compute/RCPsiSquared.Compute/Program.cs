@@ -8,6 +8,7 @@ using RCPsiSquared.Compute;
 // Usage: dotnet run -c Release              -> full suite (N=2-7 + topology + stress + N=8)
 //        dotnet run -c Release -- n8        -> N=8 only (skip everything else)
 //        dotnet run -c Release -- validate  -> N=5 eigenvalue-only validation only
+bool cavityMode = args.Any(a => a.Equals("cavity", StringComparison.OrdinalIgnoreCase));
 bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
 bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
 
@@ -26,6 +27,13 @@ catch (Exception ex)
 var resultsDir = Path.Combine(
     @"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared",
     "simulations", "results");
+
+if (cavityMode)
+{
+    RunCavityModes(resultsDir, mklAvailable);
+    return;
+}
+
 var finalPath = Path.Combine(resultsDir, "csharp_compute.txt");
 var tempPath = Path.Combine(resultsDir, $"csharp_compute_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
 
@@ -394,3 +402,172 @@ writer.Close();
 File.Copy(tempPath, finalPath, overwrite: true);
 Console.WriteLine($"\n>>> Results saved to: {finalPath}");
 Console.WriteLine($"    (timestamped copy: {Path.GetFileName(tempPath)})");
+
+// ============================================================
+// CAVITY MODES: eigenvalue analysis at zero noise (gamma=0)
+// ============================================================
+static void RunCavityModes(string resultsDir, bool mklAvailable)
+{
+    Directory.CreateDirectory(resultsDir);
+    var outPath = Path.Combine(resultsDir, "cavity_modes_zero_noise.txt");
+    using var outFile = new StreamWriter(outPath);
+
+    void CLog(string s = "")
+    {
+        Console.WriteLine(s);
+        outFile.WriteLine(s);
+        outFile.Flush();
+    }
+
+    CLog("=== CAVITY MODES AT ZERO NOISE ===");
+    CLog($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+    CLog();
+
+    // Python reference values (from ZERO_IS_THE_MIRROR.md)
+    var pyRef = new Dictionary<int, (int stat, int osc, int freqs)>
+    {
+        [2] = (10, 6, 1),
+        [3] = (24, 40, 3),
+        [4] = (54, 202, 14),
+        [5] = (120, 904, 43),
+    };
+
+    double J = 1.0;
+    var results = new List<(int N, int d2, Liouvillian.CavityModes star,
+                            Liouvillian.CavityModes? chain)>();
+
+    foreach (int N in new[] { 2, 3, 4, 5, 6, 7 })
+    {
+        int d = 1 << N;
+        int d2 = d * d;
+        var gammas = new double[N]; // all zeros
+
+        // Use Chain for Python verification (ZERO_IS_THE_MIRROR used chain)
+        var chainBondsMain = Topology.Chain(N, Enumerable.Repeat(J, N - 1).ToArray());
+
+        CLog($"N={N}: Chain topology, J={J}, gamma=0.0");
+        CLog($"  Liouvillian: {d2}x{d2}");
+
+        var sw = Stopwatch.StartNew();
+        Liouvillian.CavityModes starModes;
+
+        if (N <= 6)
+        {
+            var L = Liouvillian.Build(N, chainBondsMain, gammas);
+            starModes = Liouvillian.GetCavityModes(L);
+        }
+        else
+        {
+            if (!mklAvailable)
+            {
+                CLog("  MKL not available, skipping N=7");
+                CLog();
+                continue;
+            }
+            var rawData = Liouvillian.BuildDirectRaw(N, chainBondsMain, gammas, s => CLog($"  {s}"));
+            starModes = Liouvillian.GetCavityModesMklRaw(rawData, d2);
+        }
+
+        CLog($"  Total eigenvalues: {starModes.Total}");
+        CLog($"  Stationary (Re=0, Im=0): {starModes.Stationary}");
+        CLog($"  Oscillating (Re=0, Im!=0): {starModes.Oscillating}");
+        if (starModes.Anomalous > 0)
+            CLog($"  WARNING: Anomalous (Re!=0): {starModes.Anomalous}");
+        CLog($"  Max |Re|: {starModes.MaxAbsReal:E2}");
+        CLog($"  Distinct frequencies: {starModes.Frequencies.Length}");
+
+        if (starModes.Frequencies.Length <= 50)
+        {
+            var freqStr = string.Join(", ", starModes.Frequencies.Select(f => $"{f / J:F3}"));
+            CLog($"  Frequencies / J: [{freqStr}]");
+
+            var intMultiples = starModes.Frequencies.Select(f => f / (2.0 * J)).ToArray();
+            var allInteger = intMultiples.All(m => Math.Abs(m - Math.Round(m)) < 0.01);
+            if (allInteger && starModes.Frequencies.Length > 0)
+                CLog($"  Integer multiples of 2J: [{string.Join(", ", intMultiples.Select(m => $"{Math.Round(m)}"))}]");
+        }
+
+        // Verify against Python
+        if (pyRef.TryGetValue(N, out var expected))
+        {
+            bool statPass = starModes.Stationary == expected.stat;
+            bool oscPass = starModes.Oscillating == expected.osc;
+            bool freqPass = starModes.Frequencies.Length == expected.freqs;
+            string status = (statPass && oscPass && freqPass) ? "PASS" : "FAIL";
+            CLog($"  VERIFY vs Python: {starModes.Stationary}+{starModes.Oscillating} " +
+                 $"(expected {expected.stat}+{expected.osc}), freqs={starModes.Frequencies.Length} " +
+                 $"(expected {expected.freqs}) = {status}");
+
+            if (status == "FAIL")
+            {
+                CLog();
+                CLog("*** VERIFICATION FAILED. STOPPING. ***");
+                return;
+            }
+        }
+        else
+        {
+            CLog($"  NEW DATA POINT (no Python reference)");
+        }
+
+        CLog($"  Time: {sw.Elapsed}");
+        CLog();
+
+        // Star topology comparison for N=3 and N=4
+        Liouvillian.CavityModes? altModes = null;
+        if (N >= 3 && N <= 6)
+        {
+            var starBonds = Topology.Star(N, Enumerable.Repeat(J, N - 1).ToArray());
+            var swS = Stopwatch.StartNew();
+            var Ls = Liouvillian.Build(N, starBonds, gammas);
+            altModes = Liouvillian.GetCavityModes(Ls);
+
+            CLog($"N={N}: Star topology, J={J}, gamma=0.0");
+            CLog($"  Stationary: {altModes.Stationary}, Oscillating: {altModes.Oscillating}");
+            CLog($"  Distinct frequencies: {altModes.Frequencies.Length}");
+            if (altModes.Frequencies.Length <= 50)
+            {
+                var freqStr = string.Join(", ", altModes.Frequencies.Select(f => $"{f / J:F3}"));
+                CLog($"  Frequencies / J: [{freqStr}]");
+            }
+            bool same = altModes.Stationary == starModes.Stationary
+                     && altModes.Oscillating == starModes.Oscillating
+                     && altModes.Frequencies.Length == starModes.Frequencies.Length;
+            CLog($"  Same as Chain? {(same ? "YES" : "NO")}");
+            CLog($"  Time: {swS.Elapsed}");
+            CLog();
+        }
+
+        results.Add((N, d2, starModes, altModes));
+    }
+
+    // Summary table
+    CLog(new string('=', 80));
+    CLog("SUMMARY TABLE (Chain topology)");
+    CLog(new string('=', 80));
+    CLog();
+    CLog("| N | d^2 | Stationary | Oscillating | Frequencies | Max|Re| |");
+    CLog("|---|-----|-----------|-------------|-------------|---------|");
+    foreach (var (N, d2, m, _) in results)
+    {
+        CLog($"| {N} | {d2} | {m.Stationary} | {m.Oscillating} | {m.Frequencies.Length} | {m.MaxAbsReal:E1} |");
+    }
+    CLog();
+
+    // Chain comparison
+    var chainResults = results.Where(r => r.chain != null).ToList();
+    if (chainResults.Count > 0)
+    {
+        CLog("CHAIN vs STAR COMPARISON");
+        CLog();
+        foreach (var (N, _, chain, star) in chainResults)
+        {
+            CLog($"N={N}: Chain({chain.Stationary}+{chain.Oscillating}, {chain.Frequencies.Length} freq) " +
+                 $"vs Star({star!.Stationary}+{star.Oscillating}, {star.Frequencies.Length} freq)");
+        }
+        CLog();
+    }
+
+    CLog("=== DONE ===");
+    Console.WriteLine($"\n>>> Results saved to: {outPath}");
+}

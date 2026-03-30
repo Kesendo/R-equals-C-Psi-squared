@@ -1,0 +1,122 @@
+=== CAVITY MODES AT ZERO NOISE ===
+Date: 2026-03-30 13:17:46
+
+N=2: Chain topology, J=1, gamma=0.0
+  Liouvillian: 16x16
+  Total eigenvalues: 16
+  Stationary (Re=0, Im=0): 10
+  Oscillating (Re=0, Im!=0): 6
+  Max |Re|: 2,22E-016
+  Distinct frequencies: 1
+  Frequencies / J: [4,000]
+  Integer multiples of 2J: [2]
+  VERIFY vs Python: 10+6 (expected 10+6), freqs=1 (expected 1) = PASS
+  Time: 00:00:00.0151791
+
+N=3: Chain topology, J=1, gamma=0.0
+  Liouvillian: 64x64
+  Total eigenvalues: 64
+  Stationary (Re=0, Im=0): 24
+  Oscillating (Re=0, Im!=0): 40
+  Max |Re|: 3,66E-015
+  Distinct frequencies: 3
+  Frequencies / J: [2,000, 4,000, 6,000]
+  Integer multiples of 2J: [1, 2, 3]
+  VERIFY vs Python: 24+40 (expected 24+40), freqs=3 (expected 3) = PASS
+  Time: 00:00:00.0177296
+
+N=3: Star topology, J=1, gamma=0.0
+  Stationary: 24, Oscillating: 40
+  Distinct frequencies: 3
+  Frequencies / J: [2,000, 4,000, 6,000]
+  Same as Chain? YES
+  Time: 00:00:00.0084082
+
+N=4: Chain topology, J=1, gamma=0.0
+  Liouvillian: 256x256
+  Total eigenvalues: 256
+  Stationary (Re=0, Im=0): 54
+  Oscillating (Re=0, Im!=0): 202
+  Max |Re|: 1,42E-014
+  Distinct frequencies: 14
+  Frequencies / J: [1,172, 1,364, 1,464, 2,536, 2,636, 2,828, 4,000, 4,293, 5,464, 5,657, 6,828, 6,928, 8,293, 9,464]
+  VERIFY vs Python: 54+202 (expected 54+202), freqs=14 (expected 14) = PASS
+  Time: 00:00:00.1702294
+
+N=4: Star topology, J=1, gamma=0.0
+  Stationary: 74, Oscillating: 182
+  Distinct frequencies: 4
+  Frequencies / J: [2,000, 4,000, 6,000, 8,000]
+  Same as Chain? NO
+  Time: 00:00:00.1531088
+
+N=5: Chain topology, J=1, gamma=0.0
+  Liouvillian: 1024x1024
+  Total eigenvalues: 1024
+  Stationary (Re=0, Im=0): 120
+  Oscillating (Re=0, Im!=0): 904
+  Max |Re|: 1,42E-014
+  Distinct frequencies: 43
+  Frequencies / J: [0,408, 0,593, 0,764, 0,881, 1,119, 1,407, 1,526, 1,592, 1,645, 2,000, 2,064, 2,185, 2,408, 2,472, 2,764, 2,883, 3,172, 3,472, 3,591, 3,592, 3,879, 4,064, 4,472, 4,475, 4,998, 5,068, 5,236, 5,591, 5,657, 5,879, 6,064, 6,472, 6,475, 6,643, 7,183, 7,236, 8,064, 8,540, 8,828, 8,948, 10,066, 10,948, 11,712]
+  VERIFY vs Python: 120+904 (expected 120+904), freqs=43 (expected 43) = PASS
+  Time: 00:00:01.8309021
+
+N=5: Star topology, J=1, gamma=0.0
+  Stationary: 248, Oscillating: 776
+  Distinct frequencies: 5
+  Frequencies / J: [2,000, 4,000, 6,000, 8,000, 10,000]
+  Same as Chain? NO
+  Time: 00:00:01.8106027
+
+N=6: Chain topology, J=1, gamma=0.0
+  Liouvillian: 4096x4096
+  Total eigenvalues: 4096
+  Stationary (Re=0, Im=0): 260
+  Oscillating (Re=0, Im!=0): 3836
+  Max |Re|: 4,45E-014
+  Distinct frequencies: 179
+  NEW DATA POINT (no Python reference)
+  Time: 00:01:00.7529567
+
+N=6: Star topology, J=1, gamma=0.0
+  Stationary: 868, Oscillating: 3228
+  Distinct frequencies: 6
+  Frequencies / J: [2,000, 4,000, 6,000, 8,000, 10,000, 12,000]
+  Same as Chain? NO
+  Time: 00:01:05.5916846
+
+N=7: Chain topology, J=1, gamma=0.0
+  Liouvillian: 16384x16384
+  Raw direct build: 16384x16384 column-major (4,29 GB)
+  Filling Hamiltonian...
+  Filling dephasing diagonal...
+  Raw build complete.
+  Total eigenvalues: 16384
+  Stationary (Re=0, Im=0): 560
+  Oscillating (Re=0, Im!=0): 15824
+  Max |Re|: 5,35E-014
+  Distinct frequencies: 589
+  NEW DATA POINT (no Python reference)
+  Time: 00:40:19.7757318
+
+================================================================================
+SUMMARY TABLE (Chain topology)
+================================================================================
+
+| N | d^2 | Stationary | Oscillating | Frequencies | Max|Re| |
+|---|-----|-----------|-------------|-------------|---------|
+| 2 | 16 | 10 | 6 | 1 | 2,2E-016 |
+| 3 | 64 | 24 | 40 | 3 | 3,7E-015 |
+| 4 | 256 | 54 | 202 | 14 | 1,4E-014 |
+| 5 | 1024 | 120 | 904 | 43 | 1,4E-014 |
+| 6 | 4096 | 260 | 3836 | 179 | 4,5E-014 |
+| 7 | 16384 | 560 | 15824 | 589 | 5,3E-014 |
+
+CHAIN vs STAR COMPARISON
+
+N=3: Chain(24+40, 3 freq) vs Star(24+40, 3 freq)
+N=4: Chain(54+202, 14 freq) vs Star(74+182, 4 freq)
+N=5: Chain(120+904, 43 freq) vs Star(248+776, 5 freq)
+N=6: Chain(260+3836, 179 freq) vs Star(868+3228, 6 freq)
+
+=== DONE ===

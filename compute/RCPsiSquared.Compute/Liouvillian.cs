@@ -266,6 +266,69 @@ public static class Liouvillian
         return ExtractRates(evals, threshold);
     }
 
+    // ---- Cavity mode analysis (all eigenvalues, gamma=0) ----
+
+    public record CavityModes(
+        int Total,
+        int Stationary,
+        int Oscillating,
+        int Anomalous,          // |Re| > eps (should be 0 for gamma=0)
+        double[] Frequencies,   // sorted unique |Im| values
+        double MaxAbsReal       // worst-case |Re|, for diagnostics
+    );
+
+    public static CavityModes GetCavityModes(Matrix<Complex> L, double eps = 1e-10, double freqTol = 1e-8)
+    {
+        var evals = L.Evd().EigenValues;
+        return ClassifyCavityModes(evals, eps, freqTol);
+    }
+
+    public static CavityModes GetCavityModesMklRaw(Complex[] columnMajorData, int n, double eps = 1e-10, double freqTol = 1e-8)
+    {
+        var evals = MklDirect.EigenvaluesRaw(columnMajorData, n);
+        return ClassifyCavityModes(evals, eps, freqTol);
+    }
+
+    private static CavityModes ClassifyCavityModes(IEnumerable<Complex> evals, double eps, double freqTol)
+    {
+        int total = 0, stationary = 0, oscillating = 0, anomalous = 0;
+        double maxAbsReal = 0;
+        var freqs = new List<double>();
+
+        foreach (var ev in evals)
+        {
+            total++;
+            double absRe = Math.Abs(ev.Real);
+            double absIm = Math.Abs(ev.Imaginary);
+            if (absRe > maxAbsReal) maxAbsReal = absRe;
+
+            if (absRe > eps)
+            {
+                anomalous++;
+            }
+            else if (absIm < eps)
+            {
+                stationary++;
+            }
+            else
+            {
+                oscillating++;
+                freqs.Add(absIm);
+            }
+        }
+
+        // Deduplicate frequencies with tolerance
+        freqs.Sort();
+        var unique = new List<double>();
+        foreach (var f in freqs)
+        {
+            if (unique.Count == 0 || Math.Abs(f - unique[^1]) > freqTol)
+                unique.Add(f);
+        }
+
+        return new CavityModes(total, stationary, oscillating, anomalous, unique.ToArray(), maxAbsReal);
+    }
+
     private static List<double> ExtractRates(IEnumerable<Complex> evals, double threshold)
     {
         var rates = new List<double>();
