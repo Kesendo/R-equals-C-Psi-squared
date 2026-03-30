@@ -164,6 +164,13 @@ Top 10 fastest decaying modes:
 FREQUENCY GROUP ANALYSIS: Sacrifice vs Uniform
 ============================================================
 
+NOTE: All ratios are 1.00x because the palindromic pairing forces
+the MEAN decay rate of each frequency group to equal Sigma_gamma
+(every mode at rate r has a partner at 2S-r, so the average is S).
+The sacrifice zone effect is visible in the SPREAD within each group,
+not in the mean. See MODE SURVIVAL COMPARISON below for the
+physically meaningful comparison.
+
   Freq/J   Sac_rate   Uni_rate    Ratio  Modes
    0.408   0.319900   0.319900     1.00x     16
    0.593   0.319900   0.319900     1.00x     16

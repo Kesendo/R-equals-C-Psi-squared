@@ -86,9 +86,15 @@ Source: `data/ibm_sacrifice_zone_march2026/`
 | Distinct frequencies | 43 | 120 | 112 |
 | Palindrome score | 100% | 100% | 100% |
 | Palindrome center | 0.0000 | 0.3199 | 0.3199 |
-| Min decay rate | 0 | 0.0455 | 0.1280 |
-| Max decay rate | 0 | 0.6398 | 0.6398 |
+| Min decay rate (osc.) | 0 | 0.0455 | 0.1280 |
+| Max decay rate (osc.) | 0 | 0.5943 | 0.5118 |
+| Max decay rate (all) | 0 | 0.6398 | 0.6398 |
 | Protected (rate < 0.05) | 904 | 4 | 0 |
+
+Note: Max decay rate (all) = 2 x Sigma_gamma = 0.6398 applies to
+non-oscillating modes (freq = 0) that represent pure decay. The
+oscillating modes have lower maximum rates (0.5943 sacrifice,
+0.5118 uniform).
 
 ### The 2.81x protection factor
 
@@ -135,8 +141,10 @@ all eigenvalue pairs sum to -2 x Sigma_gamma = -0.6398. This confirms
 the analytical proof: the palindrome depends on the SUM of gammas,
 not their distribution.
 
-The max decay rate equals 2 x Sigma_gamma exactly (0.6398). This is
-the palindrome upper bound: the XOR drain modes at maximum Pauli weight.
+The max decay rate for non-oscillating modes equals 2 x Sigma_gamma
+exactly (0.6398). These are the pure decay modes at maximum Pauli
+weight (XOR drain). The oscillating modes reach at most 0.5943
+(sacrifice) and 0.5118 (uniform), always below this ceiling.
 
 ---
 
