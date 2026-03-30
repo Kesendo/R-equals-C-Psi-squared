@@ -1,214 +1,189 @@
-# Combined Optimization: Mapping + Selective DD
+# Combined Optimization: What We Know and What We Don't
 
 <!-- Keywords: sacrifice zone selective dynamic decoupling combined,
 chain selection mode protection IBM Torino, cavity mode localization
-synergistic optimization, April 9 hardware test experiment plan,
+intra-chain inter-chain comparison, April 9 hardware test experiment plan,
 R=CPsi2 combined optimization -->
 
-**Status:** Tier 2 (simulation of 6 scenarios with real IBM data).
-Hardware test planned April 9, 2026.
+**Status:** Tier 2-3 (eigenvalue analysis proven, time evolution
+simulated, hardware interpretation open). Hardware test planned April 9.
 **Date:** March 30, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md),
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md),
 [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md)
-**Script:** [combined_optimization.py](../simulations/combined_optimization.py)
-**Data:** [combined_optimization.txt](../simulations/results/combined_optimization.txt)
+**Scripts:** [combined_optimization.py](../simulations/combined_optimization.py),
+[time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py),
+[time_evolution_neel.py](../simulations/time_evolution_neel.py)
 
 ---
 
-## Abstract
+## Three levels of analysis (do not confuse them)
 
-We have three independent optimizations that have never been combined:
+This document separates three questions that are easy to conflate:
 
-1. **Chain selection (mapping):** Choose a chain where a noisy qubit
-   sits at the edge. Cost: zero. Benefit: 2.81x mode protection.
-2. **Selective DD:** Apply dynamical decoupling only to inner qubits.
-   Cost: DD pulses on 3-4 qubits. Benefit: 1.97x (measured on hardware).
-3. **Combined:** Both at once.
+### Level 1: Eigenvalue efficiency (proven)
 
-We simulate all six combinations of chain type (sacrifice vs mean-T2)
-and DD strategy (none, uniform, selective) using real IBM Torino data.
+*Within a fixed total noise budget, how efficiently does the noise
+distribution protect the slowest cavity modes?*
 
-Result: **Selective DD adds 1.46x on top of mapping** (synergistic).
-The combination achieves 3.72x mode protection efficiency, the highest
-of any strategy tested.
+| Configuration | Σγ | vs own uniform |
+|--------------|-----|---------------|
+| Sacrifice, Selective DD | 0.290 | **3.72x** |
+| Sacrifice, Uniform DD | 0.214 | 3.35x |
+| Sacrifice, No DD | 0.320 | 2.81x |
+| Mean-T2, Selective DD | 0.033 | 1.25x |
+| Mean-T2, Uniform DD | 0.024 | 1.06x |
+| Mean-T2, No DD | 0.048 | 1.06x |
+
+**vs own uniform** compares each configuration against the same total
+noise spread equally. This is a fair, apples-to-apples comparison.
+The sacrifice chain's noise gradient protects modes 3.72x better
+than equal spreading. The mean-T2 chain's flat profile provides
+almost no spatial advantage (1.06x).
+
+This is mathematically sound. The cavity mode localization (r = 0.994)
+explains the mechanism: center-localized modes see less edge noise.
+
+### Level 2: Intra-chain DD comparison (hardware-confirmed)
+
+*On the SAME chain, does selective DD beat uniform DD?*
+
+This is what the March 24 hardware experiment tested on Q85-Q94:
+
+| DD strategy | Avg SumMI | vs Uniform DD |
+|------------|----------|--------------|
+| Selective DD | 0.054 | **2.02x** |
+| No DD | 0.045 | 1.71x |
+| Uniform DD | 0.027 | 1.00x |
+
+**Hardware-confirmed at all 5 time points.** Selective DD outperforms
+uniform DD by 2.0x average, up to 3.2x at t=4.0. This is on a
+single chain with |+>^5 initial state.
+
+Open question: Is this because DD on Q85 wastes gates (Interpretation A)
+or because noise contrast helps modes (Interpretation B)? See
+[IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md) for the A/B discussion.
+
+### Level 3: Inter-chain comparison (simulation only, depends on initial state)
+
+*Does a sacrifice chain with more total noise outperform a quiet chain
+with less total noise in absolute SumMI?*
+
+This depends entirely on the initial state:
+
+**With |+>^5 (Heisenberg eigenstate):**
+The quiet chain produces near-zero SumMI (eigenstate frozen, no dynamics).
+The sacrifice chain produces SumMI ~ 0.05-0.20 (noise breaks symmetry).
+The sacrifice chain "wins" by 200x, but this is an artifact: |+>^5 does
+not evolve without noise.
+
+**With |01010> (Neel state, fair comparison):**
+Both chains show rich dynamics. The quiet chain wins in absolute SumMI:
+
+| t=2.5 | SumMI | Purity |
+|-------|-------|--------|
+| Mean-T2, Uniform DD | **1.650** | 0.907 |
+| Mean-T2, No DD | 1.510 | 0.824 |
+| Sacrifice, Selective DD | 0.970 | 0.386 |
+| Sacrifice, No DD | 0.908 | 0.351 |
+
+**Less total noise wins.** The sacrifice chain's 3.72x eigenvalue
+efficiency does not compensate for 6x more total noise. This is
+not surprising: a chain with Σγ = 0.03 decays slower than one with
+Σγ = 0.29, regardless of how cleverly the noise is distributed.
 
 ---
 
-## The six scenarios
+## What is established
 
-| # | Chain | DD | Σγ | Slowest rate | vs uniform |
-|---|-------|----|----|-------------|------------|
-| 1 | Mean-T2 | None | 0.048 | 0.0183 | 1.06x |
-| 2 | Mean-T2 | All | 0.024 | 0.0091 | 1.06x |
-| 3 | Mean-T2 | Selective | 0.033 | 0.0106 | 1.25x |
-| 4 | Sacrifice | None | 0.320 | 0.0455 | 2.81x |
-| 5 | Sacrifice | All DD | 0.214 | 0.0255 | 3.35x |
-| 6 | Sacrifice | **Selective** | 0.290 | 0.0312 | **3.72x** |
+1. **Eigenvalue efficiency of spatial noise gradients** (Tier 1-2):
+   The sacrifice-zone formula produces 2.81-3.72x mode protection
+   within a fixed noise budget. Verified N=2-7.
 
-**vs uniform** = slowest rate under uniform noise (same Σγ) divided by
-slowest rate under this profile. Measures how efficiently the noise
-distribution protects modes, normalized for total noise budget.
+2. **Intra-chain selective DD advantage** (Tier 2, hardware):
+   Selective DD beats uniform DD by 2.0x on the sacrifice chain.
+   Single run, caveats apply.
 
----
+3. **Center-localized modes are protected** (Tier 2, computed):
+   r = 0.994 correlation between edge weight and decay rate.
+   Palindromic partners are spatially complementary.
 
-## Key findings
+4. **The formula is correct** (Tier 1, algebraic):
+   Stationary(N) = Sum_J m(J,N)*(2J+1)^2. Verified N=2-7.
 
-### Selective DD is synergistic with mapping
+## What is NOT established
 
-| Comparison | Factor |
-|-----------|--------|
-| Mapping only (4) vs uniform (1) | 2.81x |
-| Mapping + Selective DD (6) vs Mapping only (4) | 1.46x additional |
-| Mapping + Selective DD (6) vs uniform (1) | 3.72x total |
+1. **That sacrifice chains beat quiet chains in absolute performance.**
+   They don't, with the Neel state. The sacrifice-zone is about
+   EFFICIENCY, not absolute advantage.
 
-DD on the inner qubits reduces their effective γ (T2echo/T2* = 2.0-2.5x
-improvement). Since the protected cavity modes are localized on the
-interior (r = 0.994), this directly reduces the noise they see. The
-sacrifice qubit keeps its high noise (no DD), maintaining the gradient.
+2. **Whether the hardware advantage is mode protection (B) or gate-error
+   avoidance (A).** The A/B test has not been performed.
 
-### Mean-T2 chain gains almost nothing from DD strategy
+3. **Whether the results hold for initial states other than |+>^5.**
+   The March 24 hardware data used |+>^5. With Neel state, the
+   dynamics are fundamentally different.
 
-Scenarios 1-3 all show vs_uniform near 1.0 (1.06x to 1.25x). With
-uniform noise across the chain, there is no spatial gradient to exploit.
-DD reduces the absolute rates (lower Σγ), but the mode protection
-efficiency stays flat.
-
-### Absolute rates vs efficiency
-
-The sacrifice chain has higher total noise (Σγ = 0.29-0.32) and
-therefore higher absolute decay rates than the mean-T2 chain (Σγ = 0.02-0.05).
-The advantage is in **efficiency**: per unit of total noise, the sacrifice
-chain extracts 3.72x more protection for the slowest modes.
-
-On hardware, this translates to: the sacrifice chain's protected modes
-survive longer PER UNIT OF NOISE than the mean-T2 chain's modes. Whether
-this overcomes the higher total noise depends on the observable (SumMI,
-fidelity, etc.) and the measurement time window.
+4. **Whether the eigenvalue efficiency translates to observable advantage
+   at fixed total noise.** This requires comparing two chains with
+   SIMILAR Σγ but different spatial profiles.
 
 ---
 
 ## IBM experiment plan (April 9, 2026)
 
-### Objective
+### The right experiment
 
-Verify that sacrifice-zone chain selection + selective DD outperforms
-standard practice on IBM Torino hardware.
+The most informative test is NOT "sacrifice vs mean-T2." Those chains
+have 6x different total noise. The informative tests are:
 
-### Setup
+**Test 1: A/B test (Interpretation A vs B)**
+On a chain with GOOD qubits everywhere (all T2 > 100 us), apply
+selective DD (remove DD from one edge qubit). If selective DD still
+beats uniform DD, it is the noise CONTRAST that helps (B), not
+gate-error avoidance (A). If selective DD loses, A was correct.
+
+**Test 2: Intra-chain replication**
+Reproduce the March 24 result on chain Q85-Q94. Same chain, same DD
+strategies, but with Neel initial state |01010>. Does the 2.0x
+advantage persist with a different initial state?
+
+**Test 3: Equal-noise comparison**
+Find two chains with SIMILAR Σγ but different spatial profiles. One
+with an edge sacrifice (high gradient), one with uniform noise. Compare
+SumMI(t). This isolates the mode-protection effect from the total-noise
+effect.
+
+### Practical setup
 
 | Parameter | Value |
 |-----------|-------|
-| Chain A | [85, 86, 87, 88, 94] (sacrifice, Q85 = 3.7 us T2*) |
-| Chain B | [18, 89, 19, 90, 60] (mean-T2, all > 140 us T2) |
-| DD configs | None, Uniform (all 5), Selective (inner 3-4) |
+| Chain A | Q85-Q86-Q87-Q88-Q94 (sacrifice, Σγ ~ 0.32) |
+| Chain B | To be selected: similar Σγ, uniform profile |
+| Chain C | Best mean-T2 chain (for A/B test with selective DD) |
+| Initial states | |+>^5 (for March 24 replication) AND |01010> |
+| DD configs | None, Uniform, Selective (per chain) |
 | Trotter | dt = 0.5 us, steps = [2, 4, 6, 8, 10] |
 | Shots | 4000 per config per time point |
-| Total | 30 circuits, 120,000 shots |
-
-### Expected results (from simulation)
-
-| Config | vs_uniform |
-|--------|-----------|
-| Chain A + Selective DD | 3.72x |
-| Chain A + No DD | 2.81x |
-| Chain A + Uniform DD | 3.35x |
-| Chain B + Uniform DD | 1.06x |
 
 ### Success criteria
 
-**Primary:** Chain A + Selective DD shows measurably higher SumMI
-ratio (vs its own uniform) than Chain B + Uniform DD.
+| Test | Success | Failure |
+|------|---------|---------|
+| A/B test | Selective DD wins on good chain (B confirmed) | Selective DD loses on good chain (A confirmed) |
+| Replication | Selective > Uniform at 3+ time points | No consistent advantage |
+| Equal-noise | Sacrifice profile > uniform profile at same Σγ | No advantage at equal noise |
 
-**Secondary:** Selective DD on Chain A outperforms Uniform DD on
-Chain A (the 1.46x synergy).
-
-**Fallback:** If DD effects are washed out by gate errors, Chain A
-(no DD) vs Chain B (no DD) still tests the mapping prediction.
-
----
-
-## Predicted time evolution
-
-Full Lindblad simulation (rho(t) = exp(Lt) rho(0), |+>^5 initial state)
-reveals the dominant effect is not mode protection but **coupling dynamics**.
-
-### SumMI(t) for all 6 scenarios
-
-| t (us) | 1 T2 | 2 T2+DD | 3 T2+Sel | 4 Sac | 5 Sac+DD | 6 Sac+Sel |
-|--------|------|---------|----------|-------|----------|-----------|
-| 0.5 | 0.000 | 0.000 | 0.001 | 0.047 | 0.039 | 0.056 |
-| 1.0 | 0.000 | 0.000 | 0.001 | 0.121 | 0.106 | 0.149 |
-| 1.5 | 0.001 | 0.000 | 0.001 | 0.158 | 0.146 | **0.201** |
-| 2.0 | 0.001 | 0.000 | 0.001 | 0.115 | 0.108 | 0.145 |
-| 2.5 | 0.000 | 0.000 | 0.001 | 0.071 | 0.066 | 0.089 |
-| 3.0 | 0.000 | 0.000 | 0.001 | 0.058 | 0.054 | 0.074 |
-
-### The dominant effect
-
-The mean-T2 chains show **near-zero SumMI** (< 0.001) at all times.
-The initial state |+>^5 is a Heisenberg eigenstate: it does not evolve
-under H. With very low noise, the chain stays frozen. High purity
-(0.79-0.89 at t=2.5) but no information transfer.
-
-The sacrifice chains show **rich oscillatory dynamics** with a peak at
-t = 1.5 us. The high noise on Q85 breaks the eigenstate symmetry and
-drives Hamiltonian dynamics. The noise is not just damping; it is the
-**engine** that creates the dynamics. Without sufficient noise, nothing
-happens.
-
-### Selective DD adds ~27% across all times
-
-Sac+Sel (scenario 6) outperforms Sac only (scenario 4) by 1.24-1.34x
-at every time point. This is consistent with the eigenvalue prediction
-(1.46x spectral protection translates to ~1.27x in observable SumMI).
-
-### Corrected prediction: Neel initial state |01010>
-
-The |+>^5 result above is misleading: |+>^5 is a Heisenberg eigenstate
-that does not evolve without noise. Mean-T2 chains appeared dead only
-because the initial state was frozen.
-
-With the Neel state |01010> (standard for magnon transport, not an
-eigenstate), **both chains show rich dynamics and the result reverses:**
-
-| Scenario | SumMI (t=2.5) | vs Baseline |
-|----------|:------------:|:----------:|
-| 1 Mean-T2, No DD | 1.510 | 1.00x |
-| 2 Mean-T2, Uniform DD | **1.650** | 1.09x |
-| 4 Sacrifice, No DD | 0.908 | 0.60x |
-| 6 Sacrifice, Selective DD | 0.970 | 0.64x |
-
-**Mean-T2 chains win.** The mode protection of the sacrifice zone
-(2.81x eigenvalue efficiency) does not compensate for the 6x higher
-total noise. Less total noise means slower decay of ALL modes.
-
-DD helps modestly on both chains (+9% mean-T2, +19% sacrifice).
-
-**Script:** [time_evolution_neel.py](../simulations/time_evolution_neel.py)
-
-### What this means for the IBM experiment
-
-The sacrifice-zone advantage is **spectral efficiency** (protection per
-unit noise), not absolute performance. For a fair hardware test:
-
-1. Compare chains with **similar total noise** but different spatial
-   profiles (sacrifice-zone vs uniform distribution)
-2. Or compare **SumMI normalized by total noise**: SumMI / Σγ
-
-The eigenvalue prediction (3.72x mode protection) is correct. It
-just does not overcome a 6x noise disadvantage in absolute SumMI.
-
-**Script:** [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py)
-**Data:** [time_evolution_6scenarios.txt](../simulations/results/time_evolution_6scenarios.txt),
-[time_evolution_plotdata.csv](../simulations/results/time_evolution_plotdata.csv)
+**Both A and B outcomes are honest results.** The theory predicts B
+(mode localization). If A is correct (gate-error avoidance), the
+cavity-mode explanation is incomplete and needs revision.
 
 ---
 
 *See also:*
-[Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) (chain selection),
-[Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
 [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md) (1.97x measured March 24),
+[Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
+[Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) (chain selection),
 [Resonant Return](RESONANT_RETURN.md) (the sacrifice-zone formula)
