@@ -20,7 +20,7 @@ Clebsch-Gordan decomposition + Schur's lemma, verified N=2-7)
 
 ## Abstract
 
-At zero noise (Sigma_gamma = 0), the Liouvillian reduces to L(rho) = -i[H, rho].
+At zero noise (Σγ = 0), the Liouvillian reduces to L(ρ) = -i[H, ρ].
 No decay. Pure oscillation. The palindrome is centered at zero.
 
 The number of stationary modes (eigenvalue = 0) has a closed-form expression:
@@ -49,7 +49,7 @@ Predictions for N=8-10: 1190, 2520, 5292.
 
 ### The unitary Liouvillian
 
-At Sigma_gamma = 0, the dissipator vanishes. The Liouvillian is:
+At Σγ = 0, the dissipator vanishes. The Liouvillian is:
 
 ```
 L(rho) = -i[H, rho]
@@ -85,7 +85,7 @@ may have different energies (depending on the Hamiltonian).
 
 In the Liouvillian superoperator space, each copy of spin-J has
 (2J+1)^2 superoperator basis elements. When H acts as a scalar within
-a copy, all (2J+1)^2 elements satisfy [H, rho] = 0 (stationary).
+a copy, all (2J+1)^2 elements satisfy [H, ρ] = 0 (stationary).
 
 For a **generic** Hamiltonian (all copies of the same J have distinct
 energies), the stationary count is:
@@ -103,7 +103,7 @@ giving a count ABOVE the formula.
 ## Verification: N=2 through N=7
 
 Computed with the C# engine (Liouvillian eigendecomposition, MKL).
-Chain topology, J=1.0 uniform, Sigma_gamma=0.
+Chain topology, J=1.0 uniform, Σγ = 0.
 
 | N | d^2 | Stationary (C#) | Formula | Match | Oscillating | Distinct freq |
 |---|-----|----------------|---------|-------|-------------|---------------|
@@ -115,7 +115,7 @@ Chain topology, J=1.0 uniform, Sigma_gamma=0.
 | 7 | 16384 | 560 | 560 | PASS | 15824 | 589 |
 
 All eigenvalues are purely imaginary (Max|Re| < 6e-14), confirming
-the unitary ground state: no decay at Sigma_gamma = 0.
+the unitary ground state: no decay at Σγ = 0.
 
 ### Clebsch-Gordan breakdown
 
@@ -203,14 +203,14 @@ choice of bond strengths.
 
 ## Connection to the palindrome
 
-At Sigma_gamma = 0: the palindrome equation reduces to Pi L Pi^{-1} = -L.
+At Σγ = 0: the palindrome equation reduces to Π L Π⁻¹ = -L.
 Every eigenvalue lambda pairs with -lambda. The stationary modes
 (lambda = 0) are self-paired. The oscillating modes come in conjugate
 pairs (+/- imaginary).
 
-At Sigma_gamma > 0: the palindrome shifts. Some stationary modes
+At Σγ > 0: the palindrome shifts. Some stationary modes
 acquire nonzero real parts (they start decaying). The oscillating modes
-acquire damping. The fold at CPsi = 1/4 emerges when Sigma_gamma exceeds
+acquire damping. The fold at CΨ = ¼ emerges when Σγ exceeds
 the critical threshold (~0.25-0.50% of J, N-independent).
 
 The cavity modes at zero noise are the **eigenfrequencies of the

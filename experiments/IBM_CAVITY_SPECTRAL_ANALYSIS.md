@@ -35,13 +35,13 @@ Key results:
 - Slowest oscillating mode: 2.81x longer lifetime under sacrifice vs
   uniform (0.046 vs 0.128)
 - 4 protected modes (rate < 0.05) under sacrifice, 0 under uniform
-- Max decay rate = 2 x Sigma_gamma exactly (palindrome upper bound)
+- Max decay rate = 2 x Σγ exactly (palindrome upper bound)
 
 ---
 
 ## The connection
 
-At zero noise (Sigma_gamma = 0), the Liouvillian has 120 stationary
+At zero noise (Σγ = 0), the Liouvillian has 120 stationary
 modes and 904 oscillating modes across 43 distinct frequencies. These
 are the **eigenfrequencies of the resonator** (see
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md)). The stationary count
@@ -70,7 +70,7 @@ Qubits: Q85 (sacrifice), Q86, Q87, Q88, Q94 (chain topology)
 | Q88 | 67.99 | 0.0147 | Interior |
 | Q94 | 95.03 | 0.0105 | Edge (quiet) |
 
-Sigma_gamma = 0.3199. Q85 carries 84% of the total noise budget.
+Σγ = 0.3199. Q85 carries 84% of the total noise budget.
 
 ### Source data (all in repository)
 
@@ -102,7 +102,7 @@ Trotter steps: [2, 4, 6, 8, 10] at dt = 0.5 us.
 | Max decay rate (all) | 0 | 0.6398 | 0.6398 |
 | Protected (rate < 0.05) | 904 | 4 | 0 |
 
-Note: Max decay rate (all) = 2 x Sigma_gamma = 0.6398 applies to
+Note: Max decay rate (all) = 2 x Σγ = 0.6398 applies to
 non-oscillating modes (freq = 0) that represent pure decay. The
 oscillating modes have lower maximum rates (0.5943 sacrifice,
 0.5118 uniform).
@@ -148,11 +148,11 @@ the oscillating modes over the decaying ones.
 
 The IBM sacrifice profile has Q85 at 26x more dephasing than Q87.
 Despite this extreme asymmetry, the palindrome is **exactly preserved**:
-all eigenvalue pairs sum to -2 x Sigma_gamma = -0.6398. This confirms
+all eigenvalue pairs sum to -2 x Σγ = -0.6398. This confirms
 the analytical proof: the palindrome depends on the SUM of gammas,
 not their distribution.
 
-The max decay rate for non-oscillating modes equals 2 x Sigma_gamma
+The max decay rate for non-oscillating modes equals 2 x Σγ
 exactly (0.6398). These are the pure decay modes at maximum Pauli
 weight (XOR drain). The oscillating modes reach at most 0.5943
 (sacrifice) and 0.5118 (uniform), always below this ceiling.
