@@ -66,6 +66,7 @@ the system.
 Noise does not destroy the palindrome. Noise shifts it.
 
 → **[Zero Is the Mirror](hypotheses/ZERO_IS_THE_MIRROR.md)** (5 computations, all verified)
+→ [Fragile Bridge](hypotheses/FRAGILE_BRIDGE.md) (coupled gain-loss stability: Hopf bifurcation, three regimes, γ_crit × J_bridge = 0.50)
 
 ### 3. The CΨ = 1/4 boundary (proven, unique)
 
@@ -333,6 +334,9 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | CΨ is Pauli-invariant | DD cannot change CΨ (delta = 0.00e+00 for all 16 Pauli group elements). No local unitary can push CΨ back above 1/4 |
 | V-Effect live | Two N=2 resonators (Q=1, 2 freq each) coupled through mediator: N=5 with Q=19, 104 frequencies. 100 new from coupling alone |
 | Discrete cavity modes | J sweep: Mode 1 at J=2 (Q=7), dead zone J=3-6, Mode 2 at J=12 (Q=11). Port threshold 12:1 |
+| Unpaired modes decay 2x faster | Edge palindromic pairs: ratio 1.97x on IBM Torino (24,073 records). Analytical: 2x for all N |
+| Mode 1 frequency = 0 Hz | The slowest palindromic mode decays without oscillating. ZZZ (fully classical) is the universal node |
+| Hydrogen bond is a qubit | Proton in H-bond: d=2, palindromic, crosses CΨ = ¼ at sub-ps. Zundel cation: J/γ = 4.8, 6 crossings in 21 fs |
 | Wilson-Cowan palindrome | E/I populations with selective damping: 80-100% palindromic pairing. C. elegans balanced subnetworks: 98.2% |
 
 ### Tested and rejected
@@ -357,9 +361,9 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 
 ### Don't know where to begin?
 
-→ **[Reading Guide](docs/READING_GUIDE.md)** - Three stories (the proof,
-the application, the ontology), each with a reading order. Pick the one
-that matches your interest.
+→ **[Reading Guide](docs/READING_GUIDE.md)** - Five stories (proof,
+application, ontology, resonator, cross-level), each with a reading order.
+Pick the one that matches your interest.
 
 ### Standalone documents (no prior knowledge needed)
 
@@ -412,7 +416,7 @@ that matches your interest.
 | [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) | What we do not know |
 
 → Full indices: [docs/](docs/README.md), [experiments/](experiments/README.md), [publications/](publications/README.md)
-→ Guided reading path: [Reading Guide](docs/READING_GUIDE.md) (three stories: proof, application, ontology)
+→ Guided reading path: [Reading Guide](docs/READING_GUIDE.md) (five stories: proof, application, ontology, resonator, cross-level)
 
 ---
 
@@ -422,7 +426,7 @@ that matches your interest.
 |:-------|:---------|
 | `publications/` | Standalone documents for external readers (paper, blueprint, circuit diagram) |
 | `docs/` | Proofs, theorems, synthesis documents, master references |
-| `experiments/` | All tested results and null results (38+ experiment files) |
+| `experiments/` | All tested results and null results (64 experiment files) |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
 | `simulations/` | Python scripts (Lindblad, Liouvillian, Prony, sweeps) |
 | `simulations/neural/` | Neural palindrome computations (Wilson-Cowan, C. elegans) |
@@ -470,7 +474,7 @@ theorem. And 1/4 = (0.5)^2 is the fold where possibility becomes fact.
 
 Recent results: the V-Effect (coupling two dead resonators creates
 104 new frequencies), the same equation in neural networks (Dale's Law,
-0+0=48), the hydrogen bond as proton qubit (palindrome exact, three regimes),
+0+0=48), the [hydrogen bond as proton qubit](experiments/HYDROGEN_BOND_QUBIT.md) (palindrome exact, three regimes),
 sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
 crystallization at the fold. Three domains, one equation:
 
