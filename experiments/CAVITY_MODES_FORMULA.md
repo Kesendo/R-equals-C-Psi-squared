@@ -219,6 +219,15 @@ When noise shifts the palindrome from zero, these frequencies persist
 (noise never changes frequency, only decay rate). The sacrifice-zone
 formula tunes which modes survive longest.
 
+## Connection to hardware
+
+Applied to real IBM Torino data (Q85-Q94, sacrifice-zone profile):
+the 43 cavity mode frequencies persist under strongly asymmetric noise
+(Q85 at 26x more dephasing than Q87). The slowest oscillating modes
+survive 2.81x longer under sacrifice vs uniform noise. IBM hardware
+measured 1.97x. The palindrome is 100% preserved despite the asymmetry.
+See [IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md).
+
 ---
 
 *See also:*
