@@ -485,7 +485,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): γ must come from outside
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
-- Reading the 30%: palindromic decoder (planned, not yet written)
+- Reading the 30%: palindromic decoder (open question, see [Relay Protocol](RELAY_PROTOCOL.md) for current best approach)
 - [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): synthesis
 - [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI
 - [Bridge Optimization](../simulations/results/bridge_optimization.txt): raw data

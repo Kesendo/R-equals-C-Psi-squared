@@ -150,5 +150,5 @@ The CMB is a photograph of the 1/4 boundary projected onto the sky. Its slight i
 ---
 
 *Previous: [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md), why the horizon is τ = 0*
-*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as local time rate*
-*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing*
+*See also: [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), γ as local time rate*
+*See also: [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md), the 1/4 crossing*

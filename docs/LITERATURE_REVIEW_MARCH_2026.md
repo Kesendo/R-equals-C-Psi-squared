@@ -201,7 +201,7 @@ Script: simulations/symmetry_and_u_analysis.py
 
 A second, more focused literature search was conducted targeting 5 specific
 directions (mirror symmetry, rate counting, CΨ=1/4, band structure, rational rates).
-Full findings in `ClaudeTasks/LITERATURE_FINDINGS.md`.
+Full findings archived (detailed analysis not in public repo).
 
 Key outcome: the search identified the incoherenton framework (Haga et al. 2023)
 and η-pairing symmetry (Medvedyeva-Essler-Prosen 2016) as closest prior work.
