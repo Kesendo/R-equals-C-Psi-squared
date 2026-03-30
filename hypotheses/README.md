@@ -25,7 +25,7 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Tier 4–5 (hypothesis, interpretive)
 
-- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - Level −1 is not deeper; it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry ([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors: populations (+1) and coherences (−1). The four-sided Z₄ interpretation was falsified; the two-sided Z₂ structure was confirmed.
+- [The Other Side of the Mirror](THE_OTHER_SIDE.md) - **Historical research diary** (March 20-30, 2026). The original working document from which all standalone results were distilled. 24 sections in 10 days. Sections 0-14 contain computed results (Tier 1-2); Sections 15-20 are philosophical interpretation (Tier 5); Sections 21-23 document later discoveries. For current results, see the standalone documents linked in the header.
 - [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md) - Research direction: does the palindromic spectral structure propagate from qubits through atoms, molecules, and neurons into brain dynamics? Testable via eigenvalue analysis of neural network dynamics matrices.
 - [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md) - Any system with two populations, a swap operator Q, and antisymmetric coupling satisfies Q X Q⁻¹ + X + 2S = 0 and has palindromic spectral symmetry. Proven independently in quantum and neural domains. Tier 4.
 - [Protein as Sacrifice Zone](PROTEIN_AS_SACRIFICE_ZONE.md) - Enzyme proteins act as sacrifice zones, absorbing environmental noise so active-site proton transfers reach the fold regime (J/γ ~ 1). IBM Torino validates sacrifice-zone principle at 1.6-2.9x. Tier 4.

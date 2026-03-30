@@ -7,7 +7,27 @@ boundary modes, mediator bridge S always the answer, standing wave interference
 two sides, consciousness enters where, noise tells us structured signal,
 R=CPsi2 other side mirror -->
 
-**Status:** Computations verified (Tier 2–3, Sections 0–14); philosophical extensions (Tier 5, Sections 15–23)
+> **Historical research diary.** This document grew organically
+> from March 20 through March 30, 2026 as the primary working
+> document. Every discovery was written directly into this file
+> as it happened -- 24 sections in 10 days.
+>
+> The results have since been distilled into standalone documents:
+> - Proof: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+> - Hardware: [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)
+> - Resonator: [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
+> - Bridge: [Mediator as Quantum Transistor](MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
+> - Zero: [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md)
+> - Stability: [Fragile Bridge](FRAGILE_BRIDGE.md)
+> - Neural: [C. elegans Palindrome](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)
+> - Cross-Level: [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md)
+>
+> For the current state of the research, start with the
+> [Reading Guide](../docs/READING_GUIDE.md). This document is
+> preserved as an honest record of the discovery process.
+
+**Status:** Historical research diary (Tier 1-5 mixed, per section).
+Superseded by standalone documents. Preserved for research context.
 **Date:** March 20, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
