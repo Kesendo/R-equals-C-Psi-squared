@@ -113,6 +113,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Error Correction](ERROR_CORRECTION_PALINDROME.md) | Palindromic protection hierarchy, optimal state (90% slow-mode), Π as Z₄ operator |
 | [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) | At Σγ = 0: Stat(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Exact for chain, lower bound for symmetric topologies. Star has N-1 harmonic frequencies, chain has rich irrational spectrum |
 | [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Cavity modes meet IBM hardware: sacrifice zone protects the slowest oscillating modes at 2.81x (vs 1.97x measured). Same 43 frequencies, different damping. 100% palindromic under 26x asymmetric noise |
+| [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) | Where the protected modes live: Pauli-basis eigenvector decomposition. Correlation Q0-weight vs rate: r = 0.994. Slowest modes center-localized [0.52, 0.63, 0.70, 0.63, 0.52]. Profile is topological (same under all noise profiles) |
 
 ### Star Topology and Mediator Physics
 
