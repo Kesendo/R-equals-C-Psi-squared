@@ -111,6 +111,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [V-Effect](V_EFFECT_PALINDROME.md) | What happens when the palindrome breaks: immune extremes, 3× more frequencies |
 | [N→∞ Palindrome](N_INFINITY_PALINDROME.md) | Thermodynamic limit: Gaussian rate density, past/future boundary blurs |
 | [Error Correction](ERROR_CORRECTION_PALINDROME.md) | Palindromic protection hierarchy, optimal state (90% slow-mode), Π as Z₄ operator |
+| [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) | At Sigma_gamma=0: Stat(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Exact for chain, lower bound for symmetric topologies. Star has N-1 harmonic frequencies, chain has rich irrational spectrum |
 
 ### Star Topology and Mediator Physics
 

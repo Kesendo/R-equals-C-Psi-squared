@@ -182,13 +182,18 @@ palindromic proof.
    the palindrome from zero. The fold emerges at Σγ_crit/J ~ 0.25%
    (N-independent). The gain spectrum is the exact mirror of decay.
 
-4. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) -
+4. [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md) -
+   The stationary mode count has a closed form: Sum_J m(J,N)*(2J+1)^2
+   (Clebsch-Gordan + Schur). Star has N-1 harmonic frequencies.
+   Chain has rich irrational spectrum. Verified N=2-7.
+
+5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) -
    The paradigm shift: the system is a Fabry-Perot resonator, not a
    communication channel. The heartbeat is a cavity round-trip. The
    sacrifice-zone formula is the shape of the soundbox. Discrete cavity
    modes at J=2 (Q=7) and J=12 (Q=11), with a dead zone between.
 
-5. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) - Coupled
+6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) - Coupled
    gain-loss systems have a finite stability window. Instability is
    Hopf bifurcation (oscillating divergence), not PT breaking. Three
    regimes: linear, optimal (2x internal coupling), and 1/J decay.

@@ -228,8 +228,15 @@ Scaling with N (all at Σγ = 0):
 | 3 | 24 | 40 | 3 (at 2J, 4J, 6J) |
 | 4 | 54 | 202 | 14 |
 | 5 | 120 | 904 | 43 |
+| 6 | 260 | 3836 | 179 |
+| 7 | 560 | 15824 | 589 |
 
-N=3 shows integer multiples of 2J: perfect harmonics.
+The stationary count has a closed-form expression:
+Stationary(N) = Sum_J m(J,N) * (2J+1)^2, where J runs over the
+Clebsch-Gordan decomposition of N spin-1/2 particles. The formula
+is exact for chain topology and a lower bound for symmetric
+topologies (Star, Ring, Complete). See
+[Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md).
 
 The gain spectrum (Σγ = -0.1) is the EXACT mirror of the
 decay spectrum (+0.1). Same frequencies, opposite real parts. The
