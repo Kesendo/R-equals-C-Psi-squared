@@ -166,7 +166,7 @@ Complete graph has the highest symmetry (S_N) and the most stationary modes.
 | Ring | 1 | 3 | 11 | 49 |
 | Complete | 1 | 3 | 3 | - |
 
-**Star** has exactly N-1 frequencies at integer multiples of 2J.
+**Star** has exactly N frequencies at integer multiples of 2J (2J, 4J, ..., 2NJ).
 The S_{N-1} permutation symmetry of the peripheral qubits collapses
 the frequency structure to harmonics.
 
