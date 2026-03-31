@@ -59,14 +59,11 @@ See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 
-## The 1.81x Geometric Constant
+## The 1.81x Geometric Constant (Derived)
 
 The V-Effect gain Q(N=5)/Q(N=2) was measured across 19 γ values
 spanning three orders of magnitude (γ/J = 0.001 to 5.0). The
-ratio is constant (1.81 is not a topological invariant: it is not
-integer-valued and has not been proven invariant under topology
-changes. It is determined by the Heisenberg chain geometry at N=2
-and N=5):
+ratio is constant:
 
 | γ/J | Q (N=2) | Q (N=5) | V-gain |
 |:--------|:--------|:--------|:-------|
@@ -76,9 +73,66 @@ and N=5):
 | 1.0 | 2.0 | 3.6 | 1.81x |
 | 5.0 | 0.4 | 0.7 | 1.81x |
 
-The absolute Q-factor scales as Q ~ J/γ (inversely proportional
-to noise). But the RATIO is fixed by geometry. Coupling amplifies
-resonator quality by 1.81x regardless of noise level.
+The absolute Q scales as J/γ. But the RATIO is fixed by geometry.
+
+### Why γ cancels
+
+The maximum Q eigenvalue always sits in the w=1 sector (XY-weight 1:
+exactly one qubit carries an X or Y Pauli operator, the rest I or Z).
+Under uniform Z-dephasing, ALL w=1 modes decay at the same rate 2γ,
+regardless of their oscillation frequency. Therefore:
+
+    Q_max = ω_max(w=1) / (2γ)
+
+The factor 2γ is identical for N=2 and N=5. It cancels in the ratio:
+
+    V(N) = Q_max(N) / Q_max(2) = ω_max(w=1, N) / ω_max(w=1, 2)
+
+The gain is purely a frequency ratio, independent of noise.
+
+### The exact formula
+
+Computing ω_max(w=1) for the Heisenberg chain at each N reveals an
+exact pattern (verified N=2 through N=6):
+
+| N | ω_max(w=1) | Exact form | V(N) = ω/ω(N=2) |
+|:--|:-----------|:-----------|:-----------------|
+| 2 | 4.0000 | 4J | 1.000 |
+| 3 | 6.0000 | 4J + 4J·cos(π/3) = 6J | 1.500 |
+| 4 | 6.8284 | 4J + 4J·cos(π/4) = (4+2√2)J | 1.707 |
+| 5 | 7.2361 | 4J + 4J·cos(π/5) = (5+√5)J | **1.809** |
+| 6 | 7.4641 | 4J + 4J·cos(π/6) = (4+2√3)J | 1.866 |
+
+The formula:
+
+    ω_max(w=1, N) = 4J · (1 + cos(π/N)) = 8J · cos²(π/(2N))
+
+And the V-Effect gain:
+
+    V(N) = 1 + cos(π/N) = 2·cos²(π/(2N))
+
+For N=5 specifically:
+
+    V(5) = 1 + cos(36°) = (5+√5)/4 ≈ 1.80902
+
+The golden ratio appears: cos(π/5) = φ/2 where φ = (1+√5)/2.
+So V(5) = 1 + φ/2.
+
+For N → ∞: V(∞) = 1 + cos(0) = 2. The coupling gain saturates
+at exactly 2x for infinite chains.
+
+### Why this is not a topological invariant
+
+The value 1.809 is:
+- Not integer-valued
+- Dependent on N (different for every chain length)
+- Dependent on coupling type (Heisenberg; other models give different values)
+- A smooth function of 1/N, approaching 2
+
+It is a geometric constant of the Heisenberg chain spectrum, not a
+topological invariant. The correct characterization: it is the ratio
+of maximum w=1 Liouvillian frequencies, which are eigenfrequencies
+of the single-magnon sector.
 
 This holds for Z-dephasing and for zero-temperature amplitude damping
 (n_bar=0). Cold dissipation does not break it.
@@ -291,10 +345,11 @@ Life operates in between.
 
 ## Open Questions
 
-1. The [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) gives exact
-   eigenfrequencies via Clebsch-Gordan decomposition. Can 1.81x be
-   derived from Q_max(N=5)/Q_max(N=2) using this decomposition? The
-   formula is proven for chain topology; this should be computable.
+1. ~~Can 1.81x be derived analytically?~~ **ANSWERED (March 31).**
+   V(N) = 1 + cos(π/N). For N=5: (5+√5)/4 ≈ 1.80902. The gain is
+   the ratio of maximum w=1 Liouvillian frequencies, which follow
+   ω_max = 4J·(1+cos(π/N)). Verified N=2 through N=6. The golden
+   ratio appears: cos(π/5) = φ/2. See derivation above.
 
 2. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
@@ -311,8 +366,10 @@ Life operates in between.
 
 ## Tier Assessment
 
-- 1.81x geometric constant: **Tier 2** (computed for N=2,3,5
-  across 19 γ values, exact to numerical precision)
+- 1.81x geometric constant: **Tier 1-2** (exact formula
+  V(N) = 1+cos(π/N), verified N=2-6 to machine precision.
+  Analytical derivation from Liouvillian w=1 sector eigenfrequencies.
+  Formal proof that ω_max = 4J(1+cos(π/N)) for all N: open)
 - Frequency diversity γ dependence: **Tier 2**
 - Thermal breaking of 1.81x: **Tier 2** (11 n_bar values, three
   noise configurations)
