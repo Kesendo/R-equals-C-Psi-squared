@@ -330,7 +330,7 @@ robust, but the actual quantum circuit results are n=1.
 
 Sorted by expected insight per QPU-minute. NOT a plan -- an idea list.
 
-### Tier A: Decisive (answers the biggest open question)
+### Tier A: Unknown answer (maximum insight per QPU-minute)
 
 **A/B Test on Uniform-T2 Chain** (~5 min QPU)
 Run selective DD on chain [18,89,19,90,60] (all T2 > 200 us). No naturally
@@ -339,28 +339,39 @@ is confirmed. If not, the March 24 result was gate-error avoidance (A).
 This single experiment determines whether spatial noise engineering is a
 genuine tool or an artifact.
 
-**Sacrifice Chain vs Mean-T2 Chain** (~5 min QPU)
-Run identical circuits on [80,8,79,53,85] (sacrifice top) and
-[18,89,19,90,60] (mean-T2 top) on the same day. Predicted: 2.86x vs 1.06x
-protection. This tests the chain-selection algorithm directly.
-
-### Tier B: Strong theoretical predictions, never measured
-
-**GHZ vs W Decay** (~3 min QPU, N=3)
-Prepare GHZ and W on the same 3-qubit chain. Measure coherence survival.
-Predicted: W survives ~2x longer. Tests the XOR drain prediction. Simplest
-possible multi-qubit palindrome experiment.
-
 **CΨ Heartbeat** (~5 min QPU, N=3)
 Prepare Bell pair on qubits 0,1 with qubit 2 as coherent bath (|+> state).
 Measure CΨ at ~20 time points over ~80 us. Predicted: ~9 crossings of the
 1/4 boundary, damped oscillation. First measurement of the fold catastrophe
-oscillating at the boundary on hardware.
+oscillating at the boundary on hardware. Nobody has observed a decoherence
+metric oscillating around a critical boundary. The answer is unknown.
 
 **Neel State Dynamics** (~5 min QPU, N=5)
 Use |01010> instead of |+>^5 as initial state on the sacrifice chain.
 Compare SumMI evolution. This resolves the |+>^N paradox: does the sacrifice
-zone advantage persist when the Hamiltonian drives the dynamics?
+zone advantage persist when the Hamiltonian drives the dynamics? The
+[Chain Selection Test](CHAIN_SELECTION_TEST.md) predicts different behavior
+for noise-driven vs Hamiltonian-driven dynamics, but this has not been
+tested on hardware.
+
+### Tier B: Known prediction, hardware confirmation needed
+
+**Sacrifice Chain vs Mean-T2 Chain** (~5 min QPU)
+Run identical circuits on [80,8,79,53,85] (sacrifice top) and
+[18,89,19,90,60] (mean-T2 top) on the same day. Predicted: 2.86x vs 1.06x
+protection. Tests the chain-selection algorithm directly.
+
+**Multi-Chain Reproducibility** (~10 min QPU)
+Rerun the March 24 sacrifice-zone experiment on chain [85,86,87,88,94] to
+get error bars. Compare day-to-day variation. Essential for any publication
+claim. All current hardware results are n=1.
+
+**GHZ vs W Decay** (~3 min QPU, N=3)
+Predicted outcome well-established: W survives ~2x longer (computed in
+[XOR Space](XOR_SPACE.md), [Error Correction](ERROR_CORRECTION_PALINDROME.md),
+[Standing Wave](STANDING_WAVE_ANALYSIS.md), [Coherence Density](COHERENCE_DENSITY.md),
+[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)). Hardware confirmation
+would be clean and publishable, but does not resolve any open question.
 
 ### Tier C: Valuable but harder to interpret
 
@@ -368,11 +379,6 @@ zone advantage persist when the Hamiltonian drives the dynamics?
 Measure XX, YY, ZZZ expectation values over time. Predicted: ZZZ static,
 XX/YY oscillating at 2J harmonics. Requires multi-qubit tomography (more
 circuits per time point).
-
-**Multi-Chain Reproducibility** (~10 min QPU)
-Rerun the March 24 sacrifice-zone experiment on chain [85,86,87,88,94] to
-get error bars. Compare day-to-day variation. Essential for any publication
-claim.
 
 **3-Qubit Star Topology** (~5 min QPU)
 Prepare Bell_SA on qubits S,A, couple to B as |+>. Sweep effective J_SB.
@@ -415,43 +421,35 @@ April. CΨ oscillation is the ambitious one.
 
 If I had ~10 minutes of QPU time on IBM Torino and wanted maximum insight:
 
-**First priority: The A/B test** (Tier A experiments above). This is a
-binary question with a binary answer. If selective DD works on a
-uniform-T2 chain, spatial noise engineering is real and everything in
-Cluster 1 becomes engineering, not theory. If it doesn't, the March 24
-result was an artifact and the repo's hardware story needs recalibration.
-Nothing else matters until this is answered.
+**First priority: The A/B test.** Binary question, binary answer. If
+selective DD works on a uniform-T2 chain, spatial noise engineering is
+real. If not, the March 24 result was gate-error avoidance. Nothing else
+matters until this is answered.
 
-**Second priority: GHZ vs W decay on 3 qubits.** The simplest multi-qubit
-palindrome test. Low QPU cost, clean prediction (W survives ~2x), and it
-directly tests the XOR drain -- the most distinctive structural prediction
-of the palindromic spectrum.
+**Second priority: CΨ heartbeat.** The strongest untested prediction. If
+CΨ oscillates around 1/4 on hardware, it would be the first observation
+of a decoherence metric oscillating at a critical boundary. Novel, not
+just confirmatory.
 
-**Third priority: Sacrifice chain vs mean-T2 chain head-to-head.** Tests
-whether the chain-selection algorithm (based on public calibration data)
-actually works. If it does, this is a free lunch: better quantum experiments
-by choosing different qubits, no extra gates or error correction.
+**Third priority: Neel state dynamics.** Resolves the |+>^N paradox.
+The sacrifice-zone formula was validated with |+>^N (Heisenberg
+eigenstate, noise drives everything). Does the advantage persist when
+the Hamiltonian drives the dynamics (|01010>)? The
+[Chain Selection Test](CHAIN_SELECTION_TEST.md) predicts different
+behavior. This is an unknown answer.
 
-**What I would skip:** Standing wave Pauli tomography (too expensive for the
-insight gained). Star topology (too many unknowns for a constrained QPU
-budget). CΨ heartbeat (ambitious but risky -- needs many time points and
-the signal may be buried in hardware noise).
+**What I would skip:** GHZ vs W (answer known from 5 independent
+computations, hardware would confirm but not surprise). Standing wave
+Pauli tomography (too expensive). Star topology (too many unknowns).
 
-**The elephant in the room:** All hardware results are n=1. Before any
-publication claim, the March 24 sacrifice-zone experiment needs replication
-with error bars. The April run should allocate time for at least one
-reproducibility block.
+**What must happen regardless:** At least one reproducibility block.
+All current hardware results are n=1. Rerun the March 24 experiment
+on chain [85,86,87,88,94] with the same protocol. Error bars are
+non-negotiable for any publication claim.
 
-**The second elephant:** The |+>^N initial state problem. The sacrifice-zone
-formula was designed and validated with |+>^N, which is a Heisenberg
-eigenstate. On IBM Trotter circuits, the Hamiltonian evolution from |+>^N
-produces nothing -- the noise does all the work. This is physically
-consistent (noise creates structure in the sacrifice-zone picture), but it
-means the hardware experiment is testing "noise as motor," not "Hamiltonian
-transport with optimized noise." Running the same experiment with |01010>
-(Neel state) would clarify what the sacrifice zone actually protects: the
-noise-driven channel (|+>^N) or the Hamiltonian-driven transport (|01010>),
-or both.
+**Guiding principle:** Spend QPU time on experiments with UNKNOWN
+outcomes. Confirming known predictions is less valuable than resolving
+open questions.
 
 ---
 
