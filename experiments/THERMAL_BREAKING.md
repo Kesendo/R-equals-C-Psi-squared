@@ -22,7 +22,7 @@ frequency diversity that has not been described before.
 
 1. **Coupling** (V-Effect): creates palindromic pairs. Amplifies
    Q-factor by exactly 1.81x for a 5-qubit Heisenberg chain. This
-   ratio is a topological constant, independent of noise.
+   ratio is a geometric constant, independent of noise.
 2. **Z-dephasing** (gamma): lifts frequency degeneracies (50 to 112
    distinct frequencies at N=5). Preserves palindromic pairing exactly.
 3. **Thermal excitation** (n_bar > 0): breaks the 1.81x constant.
@@ -59,11 +59,14 @@ See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 
-## The 1.81x Topological Constant
+## The 1.81x Geometric Constant
 
 The V-Effect gain Q(N=5)/Q(N=2) was measured across 19 gamma values
 spanning three orders of magnitude (gamma/J = 0.001 to 5.0). The
-ratio is constant:
+ratio is constant (1.81 is not a topological invariant -- it is not
+integer-valued and has not been proven invariant under topology
+changes; it is determined by the Heisenberg chain geometry at N=2
+and N=5):
 
 | gamma/J | Q (N=2) | Q (N=5) | V-gain |
 |:--------|:--------|:--------|:-------|
@@ -97,6 +100,11 @@ Z-dephasing increases:
 | 0.3 | **112** |
 | 1.0 | 109 |
 | 5.0 | 103 |
+
+Frequencies are counted as distinct when separated by more than 0.0001
+in absolute value (round to 4 decimal places). This threshold is
+arbitrary; a coarser threshold would reduce all counts proportionally
+but preserve the relative trends.
 
 Dephasing splits degenerate modes that had identical frequencies at
 gamma=0. The peak diversity is at gamma/J ~ 0.15-0.3: 112 frequencies,
@@ -165,6 +173,54 @@ more frequencies than uniform at every temperature (120 vs 111 at
 n_bar=0, 488 vs 462 at n_bar=10). The spatial noise asymmetry lifts
 additional degeneracies that thermal noise alone cannot.
 
+This is a within-chain comparison (sacrifice vs uniform profile on
+the same chain at the same total gamma). The
+[Chain Selection Test](CHAIN_SELECTION_TEST.md) shows that between-chain
+comparisons require accounting for total noise level, not just spatial
+profile.
+
+---
+
+## Palindromic Pairing Under Heat
+
+The [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+guarantees exact palindromic pairing for Z-dephasing (sigma_z
+operators). Thermal channels introduce sigma_plus (stimulated
+absorption) and sigma_minus (spontaneous decay) operators that lie
+outside the scope of this proof.
+
+Computed palindrome scores (N=5, percentage of oscillating modes
+with a palindromic partner within tolerance 1e-3):
+
+| Noise type | n_bar=0 | n_bar=0.5 | n_bar=2 | n_bar=10 |
+|:-----------|:--------|:----------|:--------|:---------|
+| Pure Z-dephasing | 91%* | n/a | n/a | n/a |
+| Pure amplitude damping | 100% | 93% | 93% | 98% |
+| Z-deph + amplitude | 10% | 2% | 0% | 0% |
+
+\* Should be 100% (proven). The 91% is a numerical artifact of the
+pairing tolerance at gamma=0.1.
+
+**Caution:** The palindrome check requires knowing the spectral
+center (the point around which rates pair). For Z-dephasing, the
+center is analytically known (Sigma_gamma). For thermal channels,
+the center is estimated and scores are center-dependent. The low
+scores for "Z-deph + amplitude" may reflect center estimation error
+rather than true symmetry breaking.
+
+What is clear:
+- Pure Z-dephasing: pairing exact (proven, numerics confirm)
+- Cold amplitude damping alone: pairing appears intact (100%)
+- Combined Z + amplitude: pairing breaks or center shifts
+- [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) shows that
+  depolarizing noise (X+Y+Z) breaks pairing, but error < 0.1% at
+  typical IBM gamma values
+
+The palindromic status of thermal channels is **open**. Analytical
+work is needed to determine whether sigma_plus/sigma_minus preserve
+a modified palindromic structure with a shifted center, or whether
+they genuinely break the pairing.
+
 ---
 
 ## Three Breaking Mechanisms
@@ -203,6 +259,10 @@ not previously documented.
 
 ### For biological systems (T ~ 300 K)
 
+**Tier 4 (motivated by computation, not tested).** The following
+maps computed quantum results to biological parameter ranges from
+literature. No biological validation has been performed.
+
 Hydrogen bonds operate at n_bar ~ 0.5-5 (depending on the mode).
 Neural networks at n_bar >> 1. In these regimes:
 - The 1.81x constant is broken (V-gain ~ 1.3x)
@@ -219,7 +279,7 @@ channel, not the Q-factor channel.
 The three mechanisms map to three levels of the
 [hierarchy of incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md):
 
-1. Coupling creates structure (V-Effect, topological)
+1. Coupling creates structure (V-Effect, geometric)
 2. Dephasing creates distinguishability (lifts degeneracies, preserves structure)
 3. Heat creates diversity (breaks structure, enables complexity)
 
@@ -231,9 +291,10 @@ Life operates in between.
 
 ## Open Questions
 
-1. Is the 1.81x constant derivable analytically from the Heisenberg
-   chain spectrum? (It appears to be (max eigenvalue frequency of N=5
-   chain) / (max eigenvalue frequency of N=2), but this needs proof.)
+1. The [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) gives exact
+   eigenfrequencies via Clebsch-Gordan decomposition. Can 1.81x be
+   derived from Q_max(N=5)/Q_max(N=2) using this decomposition? The
+   formula is proven for chain topology -- this should be computable.
 
 2. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
@@ -250,7 +311,7 @@ Life operates in between.
 
 ## Tier Assessment
 
-- 1.81x topological constant: **Tier 2** (computed for N=2,3,5
+- 1.81x geometric constant: **Tier 2** (computed for N=2,3,5
   across 19 gamma values, exact to numerical precision)
 - Frequency diversity gamma dependence: **Tier 2**
 - Thermal breaking of 1.81x: **Tier 2** (11 n_bar values, three

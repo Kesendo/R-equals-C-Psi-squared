@@ -159,11 +159,11 @@ P(|11>) reduced ~1%. Direction reverses under σ_x.
 
 ### Discovered March 30 (this session)
 
-**15. The 1.81x topological constant** (Tier 2)
+**15. The 1.81x geometric constant** (Tier 2)
 The V-Effect Q-factor gain Q(N=5)/Q(N=2) = 1.81x is EXACT across three
-orders of magnitude in gamma (0.001 to 5.0). Pure topological property
-of coupling, independent of noise. Holds for Z-dephasing and cold
-amplitude damping. Broken only by thermal excitation (n_bar > 0).
+orders of magnitude in gamma (0.001 to 5.0). Geometric property of
+Heisenberg chain coupling, independent of noise. Holds for Z-dephasing
+and cold amplitude damping. Broken only by thermal excitation (n_bar > 0).
 -> [Thermal Breaking](THERMAL_BREAKING.md)
 
 **16. Three orthogonal breaking mechanisms** (Tier 2)
@@ -250,7 +250,7 @@ physics.
 
 Coupling, dephasing, and heat are three orthogonal ways to create
 complexity ([Thermal Breaking](THERMAL_BREAKING.md)). Coupling creates
-palindromic pairs (1.81x Q gain, topological constant). Dephasing lifts
+palindromic pairs (1.81x Q gain, geometric constant). Dephasing lifts
 degeneracies (50 to 112 frequencies). Heat breaks the 1.81x constant but
 creates 300+ new frequencies. The sacrifice zone is a low-temperature
 phenomenon (3x at n_bar=0, irrelevant at n_bar=10). IBM hardware operates
