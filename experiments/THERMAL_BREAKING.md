@@ -23,7 +23,7 @@ frequency diversity that has not been described before.
 1. **Coupling** (V-Effect): creates palindromic pairs. Amplifies
    Q-factor by exactly 1.81x for a 5-qubit Heisenberg chain. This
    ratio is a geometric constant, independent of noise.
-2. **Z-dephasing** (gamma): lifts frequency degeneracies (50 to 112
+2. **Z-dephasing** (γ): lifts frequency degeneracies (50 to 112
    distinct frequencies at N=5). Preserves palindromic pairing exactly.
 3. **Thermal excitation** (n_bar > 0): breaks the 1.81x constant.
    Creates 300+ new frequencies that neither dephasing nor coupling
@@ -37,7 +37,7 @@ irrelevant.
 
 ## Background
 
-**Q-factor** of a Liouvillian eigenvalue: Q = |Im(lambda)| / |Re(lambda)|.
+**Q-factor** of a Liouvillian eigenvalue: Q = |Im(λ)| / |Re(λ)|.
 High Q means the mode oscillates many times before decaying. A laser has
 Q ~ 10^6. A tuning fork Q ~ 1000. A dead system Q = 0.
 
@@ -54,21 +54,21 @@ n_bar > 0, the thermal bath also INJECTS energy into the system
 Biological systems at n_bar ~ 1-10.
 
 **Palindromic pairing:** Every decay rate d in the Liouvillian spectrum
-has a partner at 2*Sigma_gamma - d. Proven analytically for Z-dephasing.
+has a partner at 2Σγ - d. Proven analytically for Z-dephasing.
 See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 
 ## The 1.81x Geometric Constant
 
-The V-Effect gain Q(N=5)/Q(N=2) was measured across 19 gamma values
-spanning three orders of magnitude (gamma/J = 0.001 to 5.0). The
-ratio is constant (1.81 is not a topological invariant -- it is not
+The V-Effect gain Q(N=5)/Q(N=2) was measured across 19 γ values
+spanning three orders of magnitude (γ/J = 0.001 to 5.0). The
+ratio is constant (1.81 is not a topological invariant: it is not
 integer-valued and has not been proven invariant under topology
-changes; it is determined by the Heisenberg chain geometry at N=2
+changes. It is determined by the Heisenberg chain geometry at N=2
 and N=5):
 
-| gamma/J | Q (N=2) | Q (N=5) | V-gain |
+| γ/J | Q (N=2) | Q (N=5) | V-gain |
 |:--------|:--------|:--------|:-------|
 | 0.001 | 2000.0 | 3618.0 | 1.81x |
 | 0.01 | 200.0 | 361.8 | 1.81x |
@@ -76,8 +76,8 @@ and N=5):
 | 1.0 | 2.0 | 3.6 | 1.81x |
 | 5.0 | 0.4 | 0.7 | 1.81x |
 
-The absolute Q-factor scales as Q ~ J/gamma (inversely proportional
-to noise). But the RATIO is fixed by topology. Coupling amplifies
+The absolute Q-factor scales as Q ~ J/γ (inversely proportional
+to noise). But the RATIO is fixed by geometry. Coupling amplifies
 resonator quality by 1.81x regardless of noise level.
 
 This holds for Z-dephasing and for zero-temperature amplitude damping
@@ -91,7 +91,7 @@ At zero noise, the N=5 chain has 43 distinct cavity frequencies
 (from the [Cavity Modes Formula](CAVITY_MODES_FORMULA.md)). As
 Z-dephasing increases:
 
-| gamma/J | N=5 distinct frequencies |
+| γ/J | N=5 distinct frequencies |
 |:--------|:------------------------|
 | 0.001 | 50 |
 | 0.01 | 78 |
@@ -107,14 +107,14 @@ arbitrary; a coarser threshold would reduce all counts proportionally
 but preserve the relative trends.
 
 Dephasing splits degenerate modes that had identical frequencies at
-gamma=0. The peak diversity is at gamma/J ~ 0.15-0.3: 112 frequencies,
+γ=0. The peak diversity is at γ/J ~ 0.15-0.3: 112 frequencies,
 up from 43 at zero noise. Above this, modes begin to merge again as
 decay broadens their linewidths.
 
 N=2 stays at 1-2 frequencies throughout. All new frequencies come from
 coupling (V-Effect) amplified by dephasing.
 
-The palindromic pairing remains exact at all gamma values. Dephasing
+The palindromic pairing remains exact at all γ values. Dephasing
 creates diversity without destroying structure.
 
 ---
@@ -125,14 +125,14 @@ Adding thermal noise (n_bar > 0) changes everything:
 
 | Condition | V-gain (Q) | N=5 frequencies |
 |:----------|:-----------|:----------------|
-| Pure Z-dephasing (gamma=0.1) | **1.81x** | 111 |
+| Pure Z-dephasing (γ=0.1) | **1.81x** | 111 |
 | + cold amplitude (n=0) | **1.81x** | 111 |
 | + warm (n=0.5) | 1.44x | 403 |
 | + hot (n=2.0) | 1.33x | 423 |
 | + very hot (n=5.0) | 1.29x | **445** |
 
 The 1.81x constant breaks at the first nonzero thermal occupation.
-The mechanism: thermal excitation (sigma_plus operators) injects
+The mechanism: thermal excitation (σ₊ operators) injects
 energy from the bath into the system, creating transitions that
 Z-dephasing (diagonal in energy basis) cannot.
 
@@ -151,8 +151,8 @@ compared to 55x without heat.
 
 The [sacrifice zone](RESONANT_RETURN.md) concentrates dephasing noise on
 one edge qubit while protecting the interior. Its Q-factor advantage
-depends on temperature (N=5, edge gamma_z=0.5, interior gamma_z=0.01,
-gamma_amp=0.05):
+depends on temperature (N=5, edge γ_z=0.5, interior γ_z=0.01,
+γ_amp=0.05):
 
 | n_bar | Sacrifice Q | Uniform Q | Ratio |
 |:------|:-----------|:----------|:------|
@@ -174,7 +174,7 @@ n_bar=0, 488 vs 462 at n_bar=10). The spatial noise asymmetry lifts
 additional degeneracies that thermal noise alone cannot.
 
 This is a within-chain comparison (sacrifice vs uniform profile on
-the same chain at the same total gamma). The
+the same chain at the same total γ). The
 [Chain Selection Test](CHAIN_SELECTION_TEST.md) shows that between-chain
 comparisons require accounting for total noise level, not just spatial
 profile.
@@ -184,9 +184,9 @@ profile.
 ## Palindromic Pairing Under Heat
 
 The [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-guarantees exact palindromic pairing for Z-dephasing (sigma_z
-operators). Thermal channels introduce sigma_plus (stimulated
-absorption) and sigma_minus (spontaneous decay) operators that lie
+guarantees exact palindromic pairing for Z-dephasing (σ_z
+operators). Thermal channels introduce σ₊ (stimulated
+absorption) and σ₋ (spontaneous decay) operators that lie
 outside the scope of this proof.
 
 Computed palindrome scores (N=5, percentage of oscillating modes
@@ -199,11 +199,11 @@ with a palindromic partner within tolerance 1e-3):
 | Z-deph + amplitude | 10% | 2% | 0% | 0% |
 
 \* Should be 100% (proven). The 91% is a numerical artifact of the
-pairing tolerance at gamma=0.1.
+pairing tolerance at γ=0.1.
 
 **Caution:** The palindrome check requires knowing the spectral
 center (the point around which rates pair). For Z-dephasing, the
-center is analytically known (Sigma_gamma). For thermal channels,
+center is analytically known (Σγ). For thermal channels,
 the center is estimated and scores are center-dependent. The low
 scores for "Z-deph + amplitude" may reflect center estimation error
 rather than true symmetry breaking.
@@ -214,10 +214,10 @@ What is clear:
 - Combined Z + amplitude: pairing breaks or center shifts
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) shows that
   depolarizing noise (X+Y+Z) breaks pairing, but error < 0.1% at
-  typical IBM gamma values
+  typical IBM γ values
 
 The palindromic status of thermal channels is **open**. Analytical
-work is needed to determine whether sigma_plus/sigma_minus preserve
+work is needed to determine whether σ₊/σ₋ preserve
 a modified palindromic structure with a shifted center, or whether
 they genuinely break the pairing.
 
@@ -228,7 +228,7 @@ they genuinely break the pairing.
 | Mechanism | What it creates | What it preserves | What it breaks |
 |:----------|:---------------|:-----------------|:--------------|
 | Coupling (J) | Palindromic pairs, 1.81x Q gain | Everything | Single-bond degeneracy |
-| Dephasing (gamma) | +60 frequencies | Pairing (exact) | Frequency degeneracy |
+| Dephasing (γ) | +60 frequencies | Pairing (exact) | Frequency degeneracy |
 | Heat (n_bar) | +300 frequencies | Coupling gain (partially) | 1.81x constant, spatial structure |
 
 The mechanisms are not independent:
@@ -294,7 +294,7 @@ Life operates in between.
 1. The [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) gives exact
    eigenfrequencies via Clebsch-Gordan decomposition. Can 1.81x be
    derived from Q_max(N=5)/Q_max(N=2) using this decomposition? The
-   formula is proven for chain topology -- this should be computable.
+   formula is proven for chain topology; this should be computable.
 
 2. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
@@ -312,8 +312,8 @@ Life operates in between.
 ## Tier Assessment
 
 - 1.81x geometric constant: **Tier 2** (computed for N=2,3,5
-  across 19 gamma values, exact to numerical precision)
-- Frequency diversity gamma dependence: **Tier 2**
+  across 19 γ values, exact to numerical precision)
+- Frequency diversity γ dependence: **Tier 2**
 - Thermal breaking of 1.81x: **Tier 2** (11 n_bar values, three
   noise configurations)
 - Sacrifice zone temperature dependence: **Tier 2**
