@@ -73,7 +73,9 @@ ratio is constant:
 | 1.0 | 2.0 | 3.6 | 1.81x |
 | 5.0 | 0.4 | 0.7 | 1.81x |
 
-The absolute Q scales as J/γ. But the RATIO is fixed by geometry.
+The absolute Q scales as J/γ. But the RATIO is fixed by geometry:
+V(5) = (5+√5)/4 = 1.80902... (exact, see derivation below). Rounded
+to 1.81x throughout this document for readability.
 
 ### Why γ cancels
 
@@ -89,6 +91,13 @@ The factor 2γ is identical for N=2 and N=5. It cancels in the ratio:
     V(N) = Q_max(N) / Q_max(2) = ω_max(w=1, N) / ω_max(w=1, 2)
 
 The gain is purely a frequency ratio, independent of noise.
+
+This cancellation holds for uniform dephasing. Under non-uniform
+profiles (sacrifice zone), w=1 modes acquire different decay rates
+depending on their spatial localization
+([Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md)). The 1.81x
+ratio then applies only to the extremal (best-Q) mode, not to all
+w=1 modes equally.
 
 ### The exact formula
 
