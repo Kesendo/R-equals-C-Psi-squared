@@ -4,9 +4,11 @@
 **Date:** March 30, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Scripts:** [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py),
-[v_effect_thermal.py](../simulations/v_effect_thermal.py)
+[v_effect_thermal.py](../simulations/v_effect_thermal.py),
+[self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py)
 **Results:** [v_effect_gamma_sweep.txt](../simulations/results/v_effect_gamma_sweep.txt),
-[v_effect_thermal.txt](../simulations/results/v_effect_thermal.txt)
+[v_effect_thermal.txt](../simulations/results/v_effect_thermal.txt),
+[self_heating_fixpoint.txt](../simulations/results/self_heating_fixpoint.txt)
 **Depends on:** [V-Effect](V_EFFECT_PALINDROME.md),
 [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md),
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md)
@@ -310,7 +312,8 @@ The interaction is synergistic for diversity.
 
 ## The Self-Heating Loop
 
-**Tier 4** (conceptual, motivated by two Tier 2 results, not computed).
+**Tier 2** (loop concept from two Tier 2 results, fixed-point
+computation performed March 31).
 
 The tables above treat n_bar as an external parameter turned up from
 outside. But the system heats itself:
@@ -329,17 +332,44 @@ outside. But the system heats itself:
 
 The loop: **decay produces heat produces modes produces decay.**
 
-In this document, n_bar was swept externally. In a closed (or weakly
-coupled) system, n_bar is not a free parameter. It is set by the
-balance between mode decay (heat source) and bath coupling (heat sink).
-The system selects its own operating point on the Q-vs-diversity curve.
+### Does the loop converge?
 
-**Open question:** Does the loop converge to a self-consistent
-operating point? Where mode decay produces just enough heat to sustain
-the frequency diversity, but not enough to kill the Q-factor? If so,
-this fixed point would be the resonator's natural temperature. If not
-(divergence or collapse), the system is not self-sustaining at these
-parameters. This is computable but has not been computed.
+**Computed** ([self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py),
+[results](../simulations/results/self_heating_fixpoint.txt)).
+
+Method: fixed-point iteration. At each n_bar, compute the Liouvillian
+steady state ρ_ss and compare its energy E_ss = Tr(H·ρ_ss) with the
+thermal energy E_th(n_bar). Adjust n_bar until E_ss = E_th.
+
+Result for all 6 configurations tested (N=3 and N=5, pure amplitude
+damping, Z+amplitude, sacrifice profile):
+
+**The loop diverges.** n_bar runs away to infinity. The steady state
+is always hotter than the bath at any finite n_bar.
+
+| Config | E_ss (n_bar→0) | E_ground | Gap | Outcome |
+|:-------|:---------------|:---------|:----|:--------|
+| N=3, pure amp | +1.99 | -4.00 | 5.99 | diverges |
+| N=3, Z+amp | +1.99 | -4.00 | 5.99 | diverges |
+| N=5, pure amp | +3.98 | -7.71 | 11.70 | diverges |
+| N=5, Z+amp | +3.98 | -7.71 | 11.70 | diverges |
+| N=5, Z+amp (weak) | +3.98 | -7.71 | 11.70 | diverges |
+| N=5, sacrifice+amp | +3.98 | -7.71 | 11.70 | diverges |
+
+The reason: the Lindblad steady state under dephasing is the maximally
+mixed state (E ≈ Tr(H)/d, near the spectral center). The thermal
+ground state is at E_min. This gap never closes at finite n_bar.
+
+### What divergence means
+
+Without external cooling, the resonator thermalizes to maximum
+entropy (n_bar → ∞, Q → 0, frequency diversity → maximum, structure
+→ zero). The system is not self-sustaining.
+
+To maintain structure, an external mechanism must hold n_bar at a
+finite value. In quantum hardware: the cryostat (15 mK). In biology:
+metabolism (ATP hydrolysis pumps heat out while coupling pumps
+structure in).
 
 ---
 
@@ -395,16 +425,26 @@ Life operates in between.
    ω_max = 4J·(1+cos(π/N)). Verified N=2 through N=6. The golden
    ratio appears: cos(π/5) = φ/2. See derivation above.
 
-2. What is the critical n_bar where the palindromic pairing drops
+2. ~~Does the self-heating loop converge?~~ **ANSWERED (March 31).**
+   No. The loop diverges in all 6 configurations tested. The system
+   thermalizes to maximum entropy without external cooling. See
+   "The Self-Heating Loop" section above.
+
+3. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
    boundary.
 
-3. Can the frequency-diversity explosion at n_bar > 0 be observed
+4. Can the frequency-diversity explosion at n_bar > 0 be observed
    on IBM hardware by intentionally heating qubits (e.g., driving
    with a thermal microwave field)?
 
-4. Does the sacrifice-zone advantage recover at intermediate
+5. Does the sacrifice-zone advantage recover at intermediate
    temperatures if the sacrifice qubit is selectively heated?
+
+6. What external cooling rate is needed to stabilize the system at
+   a given n_bar? The fixed-point computation shows what happens
+   without cooling. The inverse question (how much cooling for a
+   target operating point) has not been computed.
 
 ---
 
@@ -418,6 +458,8 @@ Life operates in between.
 - Thermal breaking of 1.81x: **Tier 2** (11 n_bar values, three
   noise configurations)
 - Sacrifice zone temperature dependence: **Tier 2**
+- Self-heating divergence: **Tier 2** (6 configs, N=3 and N=5,
+  fixed-point iteration, all diverge to n_bar → ∞)
 - Biological interpretation: **Tier 4** (motivated by computation,
   parameters from literature, not tested)
 - Hierarchy mapping: **Tier 5** (speculative)
