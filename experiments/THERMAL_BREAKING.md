@@ -432,7 +432,7 @@ Life operates in between.
 
 ## Open Questions
 
-### Simulierbar (kein Hardware noetig)
+### Computable (no hardware needed)
 
 3. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
@@ -445,20 +445,20 @@ Life operates in between.
    operating point? (Model: add a cold bath channel that competes
    with self-heating.)
 
-### Hypothetisch fuer IBM (nicht im April Run)
+### Requires controlled thermal injection on hardware
 
 5. Can the frequency-diversity explosion at n_bar > 0 be observed
-   on IBM hardware by intentionally heating qubits (e.g., driving
-   with a thermal microwave field)? IBM operates at n_bar ≈ 0;
-   this would require deliberate thermal injection, which is not
-   part of standard IBM experiments. **Future work, after April.**
+   on superconducting qubit hardware by intentionally heating
+   qubits (e.g., driving with a thermal microwave field)?
+   Standard cryogenic operation holds n_bar ≈ 0; this would
+   require deliberate thermal injection outside normal operating
+   conditions.
 
 6. Does the sacrifice-zone advantage recover at intermediate
    temperatures if the sacrifice qubit is selectively heated?
-   Same caveat: requires controlled heating of individual qubits.
-   **Future work, after April.**
+   Same requirement: controlled per-qubit thermal injection.
 
-### Analytisch (Beweis noetig)
+### Analytical (proof needed)
 
 7. Formal proof that ω_max(w=1) = 4J·(1+cos(π/N)) holds for all N.
    Verified N=2-6 numerically. Likely derivable from Heisenberg
