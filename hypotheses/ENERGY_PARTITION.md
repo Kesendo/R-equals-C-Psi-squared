@@ -130,6 +130,12 @@ Biology performs step 2 through metabolism (ATP). Step 3 is automatic
 (the 2× law). The result is sustained, structured oscillation, which is
 exactly what neural rhythms are.
 
+The quantitative relationship between thermal occupation and frequency
+diversity is computed in [Thermal Breaking](../experiments/THERMAL_BREAKING.md):
+at N=5, heat increases frequency count from 111 to 445 (4x). The trade-off
+between Q-factor and diversity, and the self-heating feedback loop, are
+documented there.
+
 ---
 
 ## 3. The Two Paths [Tier 5]

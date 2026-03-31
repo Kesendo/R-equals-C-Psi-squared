@@ -308,6 +308,41 @@ The interaction is synergistic for diversity.
 
 ---
 
+## The Self-Heating Loop
+
+**Tier 4** (conceptual, motivated by two Tier 2 results, not computed).
+
+The tables above treat n_bar as an external parameter turned up from
+outside. But the system heats itself:
+
+1. **Unpaired modes decay 2x faster** than paired modes
+   ([Energy Partition](../hypotheses/ENERGY_PARTITION.md), Finding 2,
+   exact for N=2-5). Rate: 2Nγ vs Nγ.
+2. This decay **is** heat production. The energy of dying modes becomes
+   thermal energy in the bath.
+3. Thermal energy **creates new frequencies** (Finding 3: 40 to 42 modes
+   at N=3 when n_bar > 0). This document shows the effect is much
+   larger at N=5: 111 to 445 frequencies.
+4. More frequencies mean more modes, some of which are unpaired and
+   decay faster.
+5. Back to step 1.
+
+The loop: **decay produces heat produces modes produces decay.**
+
+In this document, n_bar was swept externally. In a closed (or weakly
+coupled) system, n_bar is not a free parameter. It is set by the
+balance between mode decay (heat source) and bath coupling (heat sink).
+The system selects its own operating point on the Q-vs-diversity curve.
+
+**Open question:** Does the loop converge to a self-consistent
+operating point? Where mode decay produces just enough heat to sustain
+the frequency diversity, but not enough to kill the Q-factor? If so,
+this fixed point would be the resonator's natural temperature. If not
+(divergence or collapse), the system is not self-sustaining at these
+parameters. This is computable but has not been computed.
+
+---
+
 ## What This Means
 
 ### For IBM hardware (T ~ 15 mK, n_bar ~ 0 for qubit frequencies)
