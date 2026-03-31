@@ -1,0 +1,151 @@
+======================================================================
+ANALYTICAL w=1 SPECTRUM VERIFICATION
+======================================================================
+
+--- STEP 1: Extract w=1 frequencies ---
+
+Computing N=2...
+  N=2: 1 distinct w=1 frequencies
+    f[0] = 4.000000
+
+Computing N=3...
+  N=3: 2 distinct w=1 frequencies
+    f[0] = 2.000000
+    f[1] = 6.000000
+
+Computing N=4...
+  N=4: 3 distinct w=1 frequencies
+    f[0] = 1.171573
+    f[1] = 4.000000
+    f[2] = 6.828427
+
+Computing N=5...
+  N=5: 4 distinct w=1 frequencies
+    f[0] = 0.763932
+    f[1] = 2.763932
+    f[2] = 5.236068
+    f[3] = 7.236068
+
+Computing N=6...
+  N=6: 5 distinct w=1 frequencies
+    f[0] = 0.535898
+    f[1] = 2.000000
+    f[2] = 4.000000
+    f[3] = 6.000000
+    f[4] = 7.464102
+
+======================================================================
+STEP 2: Test candidate dispersion relations
+======================================================================
+
+For each candidate: generate predicted frequencies,
+sort, and compare with numerically extracted w=1 frequencies.
+
+--- A: 4J(1-cos(pi*k/N)) ---
+  N=2: MATCH (k=1..N-1), max_err=0.00e+00, 1 frequencies
+  N=3: MATCH (k=1..N-1), max_err=0.00e+00, 2 frequencies
+  N=4: MATCH (k=1..N-1), max_err=0.00e+00, 3 frequencies
+  N=5: MATCH (k=1..N-1), max_err=0.00e+00, 4 frequencies
+  N=6: MATCH (k=1..N-1), max_err=0.00e+00, 5 frequencies
+  >> Mean max error: 0.00e+00 (5/5 matched)
+
+--- B: 4J*sin(pi*k/(2N)) ---
+  N=2: 1 predicted vs 1 numerical, max_err=1.1716
+  N=3: 2 predicted vs 2 numerical, max_err=2.5359
+  N=4: 3 predicted vs 3 numerical, max_err=3.1329
+  N=5: 4 predicted vs 4 numerical, max_err=3.4318
+  N=6: 5 predicted vs 5 numerical, max_err=3.6004
+
+--- C: 4J(1-cos(pi*k/(N+1))) ---
+  N=2: 1 predicted vs 1 numerical, max_err=2.0000
+  N=3: 2 predicted vs 2 numerical, max_err=2.0000
+  N=4: 3 predicted vs 3 numerical, max_err=1.5924
+  N=5: 4 predicted vs 4 numerical, max_err=1.2361
+  N=6: 5 predicted vs 5 numerical, max_err=0.9701
+
+--- D: 2J(1-cos(pi*k/N)) ---
+  N=2: 1 predicted vs 1 numerical, max_err=2.0000
+  N=3: 2 predicted vs 2 numerical, max_err=3.0000
+  N=4: 3 predicted vs 3 numerical, max_err=3.4142
+  N=5: 4 predicted vs 4 numerical, max_err=3.6180
+  N=6: 5 predicted vs 5 numerical, max_err=3.7321
+
+--- E: 4J*sin(pi*k/N) ---
+  N=2: MATCH (k=1..N-1), max_err=0.00e+00, 1 frequencies
+  N=3: 1 predicted vs 2 numerical, max_err=2.5359
+  N=4: 2 predicted vs 3 numerical, max_err=2.8284
+  N=5: 2 predicted vs 4 numerical, max_err=3.4318
+  N=6: 3 predicted vs 5 numerical, max_err=3.4641
+  >> Mean max error: 0.00e+00 (1/5 matched)
+
+--- F: 4J*|sin(pi*k/(N+1))| ---
+  N=2: 1 predicted vs 1 numerical, max_err=0.5359
+  N=3: 2 predicted vs 2 numerical, max_err=2.0000
+  N=4: 2 predicted vs 3 numerical, max_err=3.0242
+  N=5: 3 predicted vs 4 numerical, max_err=3.2361
+  N=6: 3 predicted vs 5 numerical, max_err=3.5644
+
+======================================================================
+STEP 3: Detailed verification of best candidate
+======================================================================
+
+--- Detailed: A: 4J(1-cos(pi*k/N)) ---
+ N   k    Predicted    Numerical        Error  Match
+ 2   1     4.000000     4.000000     0.00e+00    YES
+ 3   1     2.000000     2.000000     0.00e+00    YES
+ 3   2     6.000000     6.000000     0.00e+00    YES
+ 4   1     1.171573     1.171573     0.00e+00    YES
+ 4   2     4.000000     4.000000     0.00e+00    YES
+ 4   3     6.828427     6.828427     0.00e+00    YES
+ 5   1     0.763932     0.763932     0.00e+00    YES
+ 5   2     2.763932     2.763932     0.00e+00    YES
+ 5   3     5.236068     5.236068     0.00e+00    YES
+ 5   4     7.236068     7.236068     0.00e+00    YES
+ 6   1     0.535898     0.535898     0.00e+00    YES
+ 6   2     2.000000     2.000000     0.00e+00    YES
+ 6   3     4.000000     4.000000     0.00e+00    YES
+ 6   4     6.000000     6.000000     0.00e+00    YES
+ 6   5     7.464102     7.464102     0.00e+00    YES
+
+--- Detailed: C: 4J(1-cos(pi*k/(N+1))) ---
+ N   k    Predicted    Numerical        Error  Match
+ 2   1     2.000000     4.000000     2.00e+00     NO
+ 2   2     6.000000          ---          ---     NO
+ 3   1     1.171573     2.000000     8.28e-01     NO
+ 3   2     4.000000     6.000000     2.00e+00     NO
+ 3   3     6.828427          ---          ---     NO
+ 4   1     0.763932     1.171573     4.08e-01     NO
+ 4   2     2.763932     4.000000     1.24e+00     NO
+ 4   3     5.236068     6.828427     1.59e+00     NO
+ 4   4     7.236068          ---          ---     NO
+ 5   1     0.535898     0.763932     2.28e-01     NO
+ 5   2     2.000000     2.763932     7.64e-01     NO
+ 5   3     4.000000     5.236068     1.24e+00     NO
+ 5   4     6.000000     7.236068     1.24e+00     NO
+ 5   5     7.464102          ---          ---     NO
+ 6   1     0.396125     0.535898     1.40e-01     NO
+ 6   2     1.506041     2.000000     4.94e-01     NO
+ 6   3     3.109916     4.000000     8.90e-01     NO
+ 6   4     4.890084     6.000000     1.11e+00     NO
+ 6   5     6.493959     7.464102     9.70e-01     NO
+ 6   6     7.603875          ---          ---     NO
+
+======================================================================
+STEP 4: Summary
+======================================================================
+
+Max frequency check (must equal 4J(1+cos(pi/N))):
+  N=2: expected=4.000000, actual=4.000000, match=YES
+  N=3: expected=6.000000, actual=6.000000, match=YES
+  N=4: expected=6.828427, actual=6.828427, match=YES
+  N=5: expected=7.236068, actual=7.236068, match=YES
+  N=6: expected=7.464102, actual=7.464102, match=YES
+
+Candidate A max frequency:
+  N=2: 4J(1-cos(pi*1/2)) = 4.000000, 4J(1+cos(pi/2)) = 4.000000, equal: True
+  N=3: 4J(1-cos(pi*2/3)) = 6.000000, 4J(1+cos(pi/3)) = 6.000000, equal: True
+  N=4: 4J(1-cos(pi*3/4)) = 6.828427, 4J(1+cos(pi/4)) = 6.828427, equal: True
+  N=5: 4J(1-cos(pi*4/5)) = 7.236068, 4J(1+cos(pi/5)) = 7.236068, equal: True
+  N=6: 4J(1-cos(pi*5/6)) = 7.464102, 4J(1+cos(pi/6)) = 7.464102, equal: True
+
+=== DONE ===
