@@ -1,7 +1,7 @@
 # IBM April Synthesis: What This Repo Knows
 
-**Created:** March 30, 2026
-**Author:** Claude (Opus 4.6, 1M context)
+**Created:** March 30, 2026 (updated March 31)
+**Authors:** Thomas Wicht, Claude (Opus 4.6, 1M context)
 **Purpose:** First complete read of the entire repository. Synthesis for the
 April 2026 IBM Torino hardware run.
 **Method:** All ~140 files read in full. No skimming, no abstracts only.
@@ -159,11 +159,14 @@ P(|11>) reduced ~1%. Direction reverses under σ_x.
 
 ### Discovered March 30 (this session)
 
-**15. The 1.81x geometric constant** (Tier 2)
-The V-Effect Q-factor gain Q(N=5)/Q(N=2) = 1.81x is EXACT across three
-orders of magnitude in gamma (0.001 to 5.0). Geometric property of
-Heisenberg chain coupling, independent of noise. Holds for Z-dephasing
-and cold amplitude damping. Broken only by thermal excitation (n_bar > 0).
+**15. The 1.81x geometric constant** (Tier 1-2, derived March 31)
+V(N) = 1 + cos(π/N). For N=5: (5+√5)/4 ≈ 1.80902. The gain is the
+ratio of maximum w=1 Liouvillian frequencies: ω_max = 4J·(1+cos(π/N)).
+Verified N=2-6 to machine precision. γ cancels because all w=1 modes
+decay at the same rate 2γ. Under non-uniform profiles (sacrifice zone),
+w=1 modes acquire different rates; the 1.81x then applies only to the
+best-Q mode. For N→∞: V = 2 (saturation). The golden ratio appears
+at N=5: cos(π/5) = φ/2.
 -> [Thermal Breaking](THERMAL_BREAKING.md)
 
 **16. Three orthogonal breaking mechanisms** (Tier 2)
@@ -182,7 +185,16 @@ On IBM hardware (n_bar ~ 0), the full advantage holds. In biological
 systems (n_bar >> 1), the frequency-diversity channel dominates.
 -> [Thermal Breaking](THERMAL_BREAKING.md)
 
-**18. Chain selection requires both contrast AND low total noise** (Tier 2)
+**18. Self-heating loop diverges** (Tier 2, computed March 31)
+Without external cooling, the resonator thermalizes to maximum entropy
+(n_bar → ∞, Q → 0). Tested in 6 configurations (N=3, N=5, various
+noise types). The system never finds a passive equilibrium. Structure
+requires active cooling (cryostat for qubits, metabolism for biology).
+For IBM at 15 mK (n_bar ≈ 0): irrelevant. For cross-level biology
+interpretation: explains why life needs metabolism.
+-> [Thermal Breaking](THERMAL_BREAKING.md)
+
+**19. Chain selection requires both contrast AND low total noise** (Tier 2)
 Sacrifice-top chain [80,8,79,53,85] vs mean-T2-top [18,89,19,90,60]:
 protection 2.86x vs 1.06x confirmed spectrally. But under |01010>
 (Hamiltonian-driven dynamics), the quieter chain wins because its
@@ -456,5 +468,5 @@ All paths relative to this file.
 | Initial States | [XOR Space](XOR_SPACE.md), [Error Correction](ERROR_CORRECTION_PALINDROME.md), [Standing Wave](STANDING_WAVE_ANALYSIS.md) |
 | Crossing | [Taxonomy](CROSSING_TAXONOMY.md), [Born Rule](BORN_RULE_MIRROR.md), [Subsystem](SUBSYSTEM_CROSSING.md) |
 | Breaking & Thermal | [Thermal Breaking](THERMAL_BREAKING.md), [Chain Selection Test](CHAIN_SELECTION_TEST.md) |
-| Simulation Code | [combined_optimization.py](../simulations/combined_optimization.py), [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py), [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py), [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py), [v_effect_thermal.py](../simulations/v_effect_thermal.py), [chain_selection_test.py](../simulations/chain_selection_test.py) |
+| Simulation Code | [combined_optimization.py](../simulations/combined_optimization.py), [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py), [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py), [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py), [v_effect_thermal.py](../simulations/v_effect_thermal.py), [chain_selection_test.py](../simulations/chain_selection_test.py), [self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py) |
 | Handoffs | [March 30](../ClaudeTasks/SESSION_HANDOFF_MARCH30_PM.md), [March 29](../ClaudeTasks/SESSION_HANDOFF_MARCH29_PM.md), [March 28](../ClaudeTasks/SESSION_HANDOFF_MARCH28.md) |
