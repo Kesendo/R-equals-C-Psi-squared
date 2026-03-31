@@ -417,7 +417,7 @@ Life operates in between.
 
 ---
 
-## Open Questions
+## Answered Questions
 
 1. ~~Can 1.81x be derived analytically?~~ **ANSWERED (March 31).**
    V(N) = 1 + cos(π/N). For N=5: (5+√5)/4 ≈ 1.80902. The gain is
@@ -430,21 +430,39 @@ Life operates in between.
    thermalizes to maximum entropy without external cooling. See
    "The Self-Heating Loop" section above.
 
+## Open Questions
+
+### Simulierbar (kein Hardware noetig)
+
 3. What is the critical n_bar where the palindromic pairing drops
    below 50%? The data suggests a smooth transition, not a phase
-   boundary.
+   boundary. (Straightforward: sweep n_bar with finer resolution,
+   compute palindrome score at each point.)
 
-4. Can the frequency-diversity explosion at n_bar > 0 be observed
+4. What external cooling rate stabilizes the system at a given
+   n_bar? The fixed-point computation shows divergence without
+   cooling. The inverse question: how much cooling for a target
+   operating point? (Model: add a cold bath channel that competes
+   with self-heating.)
+
+### Hypothetisch fuer IBM (nicht im April Run)
+
+5. Can the frequency-diversity explosion at n_bar > 0 be observed
    on IBM hardware by intentionally heating qubits (e.g., driving
-   with a thermal microwave field)?
+   with a thermal microwave field)? IBM operates at n_bar ≈ 0;
+   this would require deliberate thermal injection, which is not
+   part of standard IBM experiments. **Future work, after April.**
 
-5. Does the sacrifice-zone advantage recover at intermediate
+6. Does the sacrifice-zone advantage recover at intermediate
    temperatures if the sacrifice qubit is selectively heated?
+   Same caveat: requires controlled heating of individual qubits.
+   **Future work, after April.**
 
-6. What external cooling rate is needed to stabilize the system at
-   a given n_bar? The fixed-point computation shows what happens
-   without cooling. The inverse question (how much cooling for a
-   target operating point) has not been computed.
+### Analytisch (Beweis noetig)
+
+7. Formal proof that ω_max(w=1) = 4J·(1+cos(π/N)) holds for all N.
+   Verified N=2-6 numerically. Likely derivable from Heisenberg
+   chain magnon spectrum or Clebsch-Gordan decomposition.
 
 ---
 
