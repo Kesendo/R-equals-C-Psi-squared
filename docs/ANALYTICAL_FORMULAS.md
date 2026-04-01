@@ -79,7 +79,7 @@ At γ ~ 0.001 (typical IBM): error < 0.1%.
 
 ### 22. GHZ XOR-drain (Tier 2, verified N=2-5)
 
-    GHZ  -> 100% weight in XOR modes (N+1 modes at rate 2*Sigma_gamma)
+    GHZ  -> 100% weight in XOR modes (N+1 modes at rate 2*Σγ)
     W    -> 0% XOR, 100% palindromic  (N >= 3)
     Bell -> 0% XOR, 100% palindromic  (N >= 3, Hamming distance 2)
 
@@ -369,8 +369,8 @@ exceptions. CΨ is Pauli-invariant (DD cannot change it).
 
 ### 18. Fold threshold (Tier 2, N-independent)
 
-    Sigma_gamma_crit / J = 0.00249 (Bell state)
-    Sigma_gamma_crit / J = 0.00497 (product state)
+    Σγ_crit / J = 0.00249 (Bell state)
+    Σγ_crit / J = 0.00497 (product state)
 
 Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4
 irreversibly. Max/min ratio across N=2-5: 1.015 (1.5% variation).
@@ -525,7 +525,7 @@ perspectives computed from the same density matrix.
     S = (1/tau_E + 1/tau_I) / 2 * I
 
 Exact structural analog of quantum palindrome (Pi * L * Pi^-1 =
--L - 2*Sigma_gamma * I). Derived algebraically from quantum proof
+-L - 2*Σγ * I). Derived algebraically from quantum proof
 via E-I swap mapping. C. elegans connectome: residual 0.013 vs
 random 0.108 (8x more palindromic than chance).
 
@@ -538,7 +538,7 @@ palindromic quality assessment.
 
     mu_k + mu_k' = -(1/tau_E + 1/tau_I)
 
-Analog of lambda + lambda' = -2*Sigma_gamma. Every neural mode
+Analog of lambda + lambda' = -2*Σγ. Every neural mode
 pairs with a partner; decay rates sum to the E-I time constant sum.
 Verified: mean sum = -0.3012, predicted = -0.300 (1.6% max deviation).
 
@@ -698,13 +698,13 @@ degenerate at rate 2*N*gamma).
 
 ### 44. Crooks-like rate identity (Tier 2, algebraic)
 
-    ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Sigma_gamma))
+    ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Σγ))
 
-For each palindromic pair (d_fast, d_slow) with d_fast + d_slow = 2*Sigma_gamma.
-Linear approximation: ln(d_fast/d_slow) ~ Delta_d / Sigma_gamma,
-giving beta_eff ~ 1/Sigma_gamma (effective inverse temperature).
+For each palindromic pair (d_fast, d_slow) with d_fast + d_slow = 2*Σγ.
+Linear approximation: ln(d_fast/d_slow) ~ Delta_d / Σγ,
+giving β_eff ~ 1/Σγ (effective inverse temperature).
 
-This is ALGEBRAIC (follows from d_fast + d_slow = 2*Sigma_gamma),
+This is ALGEBRAIC (follows from d_fast + d_slow = 2*Σγ),
 NOT a Crooks fluctuation theorem. No Jarzynski equality holds
 (<exp(-Delta_d)> ~ 0.93, not 1). The palindrome has the FORM of
 detailed balance without BEING detailed balance.
@@ -719,9 +719,9 @@ detailed balance without BEING detailed balance.
 
 ### 45. Bures metric at the fold (Tier 2, N=2 Bell state)
 
-    g(CPsi = 1/4) = 3.36    (Bures metric, finite, no singularity)
+    g(CΨ = 1/4) = 3.36    (Bures metric, finite, no singularity)
 
-The fold at CPsi = 1/4 has no Riemannian singularity. CPsi is a
+The fold at CΨ = 1/4 has no Riemannian singularity. CΨ is a
 smooth coordinate everywhere along the Lindblad trajectory.
 
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
@@ -741,11 +741,11 @@ Geometric interpretation of dCPsi/dt < 0 (proven in
 
 ### 47. Gaussian curvature at the fold (Tier 2, N=2)
 
-    K(CPsi = 1/4) = -25    (negative, hyperbolic, finite)
+    K(CΨ = 1/4) = -25    (negative, hyperbolic, finite)
 
 Strong negative curvature at the fold (states diverge quickly).
 Finite: no geometric singularity. Decays toward the maximally mixed
-state (K → -15 at CPsi ~ 0.2).
+state (K → -15 at CΨ ~ 0.2).
 
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)

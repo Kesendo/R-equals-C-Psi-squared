@@ -32,18 +32,18 @@ the Liouvillian analog of PT-symmetry breaking. Three results:
    for N >= 2.
 
 2. **The Hopf bifurcation IS chiral symmetry breaking.** The fragile
-   bridge (Sigma_gamma = 0) has exact lambda <-> -lambda pairing. Below
-   gamma_crit: all eigenvalues lie exactly on the imaginary axis (the
-   chiral-symmetric phase). Above gamma_crit: eigenvalue pairs leave the
+   bridge (Σγ = 0) has exact lambda <-> -lambda pairing. Below
+   γ_crit: all eigenvalues lie exactly on the imaginary axis (the
+   chiral-symmetric phase). Above γ_crit: eigenvalue pairs leave the
    axis (one to Re > 0, partner to Re < 0). This reinterprets the "Hopf,
    not PT" conclusion from FRAGILE_BRIDGE.md: it is both simultaneously.
    No exceptional point exists on the real gamma axis; the Petermann
-   factor peaks at K = 403 above gamma_crit, signaling a nearby EP in
+   factor peaks at K = 403 above γ_crit, signaling a nearby EP in
    the complex parameter plane.
 
 3. **Palindrome breaking does NOT destabilize the system.** Depolarizing
    noise breaks the palindrome (error proportional to epsilon) and destroys the chiral
-   phase (eigenvalues leave the imaginary axis). But gamma_crit
+   phase (eigenvalues leave the imaginary axis). But γ_crit
    INCREASES (r = +0.988 correlation), because the added damping on the
    gain chain reduces effective gain. The palindrome is not the protection
    mechanism; the gain-loss balance is.
@@ -106,9 +106,9 @@ N >= 2, det(Pi) = +1 for all multi-qubit systems.
 
     L^dagger = -L_H + L_D    (L_H anti-Hermitian, L_D real diagonal)
     Pi * L^dagger * Pi^-1 = Pi(-L_H + L_D)Pi^-1
-                          = L_H + (-L_D - 2*Sigma_gamma*I)
-                          = -(- L_H + L_D) - 2*Sigma_gamma*I
-                          = -L^dagger - 2*Sigma_gamma*I
+                          = L_H + (-L_D - 2*Σγ*I)
+                          = -(- L_H + L_D) - 2*Σγ*I
+                          = -L^dagger - 2*Σγ*I
 
 **Numerical verification (N=3 Heisenberg chain, gamma = 0.05):**
 
@@ -118,11 +118,11 @@ N >= 2, det(Pi) = +1 for all multi-qubit systems.
 Pi anti-commutes with BOTH L_c and L_c^dagger. This is a chiral
 symmetry of the full operator structure, not just the generator.
 
-### 1e. Fragile bridge at Sigma_gamma = 0
+### 1e. Fragile bridge at Σγ = 0
 
 For the gain-loss system with gamma = [+0.1, +0.1, -0.1, -0.1]:
 
-    Sigma_gamma = 0,  c = 0
+    Σγ = 0,  c = 0
     ||Pi * L * Pi^-1 + L|| = 0.00e+00
 
 Every eigenvalue lambda pairs with -lambda. This is the defining
@@ -135,7 +135,7 @@ property of chiral symmetry (class AIII).
 | Pi^2 | (-1)^{w_YZ}, diagonal parity | Not involution; order 4 |
 | Linearity | Linear (no conjugation) | Chiral symmetry, NOT PT |
 | det(Pi) | -1 (N=1), +1 (N >= 2) | Even parity for multi-qubit |
-| Pi * L^dag * Pi^-1 | -L^dag - 2*Sigma_gamma*I | Chiral for both L and L^dag |
+| Pi * L^dag * Pi^-1 | -L^dag - 2*Σγ*I | Chiral for both L and L^dag |
 
 **Pi is a generalized chiral operator.** The correct classification
 is AIII (chiral unitary), as the RMT analysis independently found.
@@ -153,11 +153,11 @@ this analysis confirms it IS the P class, generalized to order 4.
 Two N=2 Heisenberg chains, decay (+gamma) and gain (-gamma), coupled
 by J_bridge = 1.0. Total 4 qubits, 256x256 Liouvillian.
 
-    gamma_crit = 0.1873101    (bisection, tol = 10^-7)
+    γ_crit = 0.1873101    (bisection, tol = 10^-7)
 
 ### The chiral-symmetric phase
 
-Below gamma_crit, ALL nonzero eigenvalues lie exactly on the imaginary
+Below γ_crit, ALL nonzero eigenvalues lie exactly on the imaginary
 axis (max|Re(lambda)| < 2 * 10^{-14}, machine zero):
 
 | gamma | gamma/gamma_c | max|Re| | On Im axis? |
@@ -177,11 +177,11 @@ symmetry is never broken by gamma itself.
 FRAGILE_BRIDGE.md states: "Hopf bifurcation, not PT symmetry breaking."
 This analysis shows both descriptions are correct simultaneously:
 
-1. Sigma_gamma = 0 forces exact lambda <-> -lambda pairing (chiral symmetry)
-2. Below gamma_crit: all eigenvalues on the imaginary axis
+1. Σγ = 0 forces exact lambda <-> -lambda pairing (chiral symmetry)
+2. Below γ_crit: all eigenvalues on the imaginary axis
    (the chiral-symmetric phase, analogous to the PT-symmetric phase
    where Hamiltonian eigenvalues are real)
-3. Above gamma_crit: eigenvalue pairs leave the imaginary axis,
+3. Above γ_crit: eigenvalue pairs leave the imaginary axis,
    one to Re > 0 (growing), partner to Re < 0 (decaying)
 4. The mechanism is Hopf: a complex pair at +/- i*omega develops
    nonzero Re parts
@@ -221,8 +221,8 @@ the EP itself lies at a complex gamma value.
 The angle between the right eigenvectors of the palindromic pair
 (lambda, -lambda) is:
 
-- Below gamma_crit: cos(theta) = 0 (perfectly orthogonal)
-- Above gamma_crit: cos(theta) ~ 0.09 (slightly tilted)
+- Below γ_crit: cos(theta) = 0 (perfectly orthogonal)
+- Above γ_crit: cos(theta) ~ 0.09 (slightly tilted)
 
 No coalescence (cos -> 1) is observed. The right eigenvectors of the
 palindromic pair do NOT become parallel. This confirms: no EP on the
@@ -243,7 +243,7 @@ Palindrome error = 2 * L_X (the X-dephasing contribution).
 
 ### Results
 
-| epsilon | Palindrome error | gamma_crit | Delta_gamma_crit | Delta % |
+| ε | Palindrome error | γ_crit | Delta_γ_crit | Delta % |
 |---------|-----------------|-----------|-----------------|---------|
 | 0.000 | 6.8e-14 | 0.18731 | 0.0000 | 0.0% |
 | 0.001 | 2.7e-03 | 0.18738 | +0.0001 | +0.04% |
@@ -255,12 +255,12 @@ Palindrome error = 2 * L_X (the X-dephasing contribution).
 
 ### Correlation
 
-    Pearson r(palindrome_error, Delta_gamma_crit) = +0.988
+    Pearson r(palindrome_error, Delta_γ_crit) = +0.988
 
 **Strong positive correlation.** But the sign is the OPPOSITE of the
 "palindrome = protection" hypothesis:
 
-- Larger palindrome error = LARGER gamma_crit (MORE stable)
+- Larger palindrome error = LARGER γ_crit (MORE stable)
 - Breaking the palindrome makes the system MORE stable, not less
 
 ### Interpretation
@@ -286,7 +286,7 @@ by ANY epsilon > 0: eigenvalues immediately develop nonzero Re parts.
 But they develop NEGATIVE Re (the damping side), keeping the system
 stable:
 
-| epsilon | max|Re(lambda)| | max Re(lambda) | Stable? |
+| ε | max|Re(lambda)| | max Re(lambda) | Stable? |
 |---------|----------------|---------------|---------|
 | 0.000 | 2.1e-14 | < 10^{-14} | YES (on axis) |
 | 0.010 | 5.4e-02 | < 10^{-6} | YES (off axis, Re < 0) |
@@ -298,7 +298,7 @@ damping), not to Re > 0 (instability).
 
 ### Instability type
 
-At epsilon = 0.05: the instability at gamma_crit is still a Hopf
+At epsilon = 0.05: the instability at γ_crit is still a Hopf
 bifurcation (Im(lambda) = 1.72 at onset). Depolarizing noise does
 not change the instability mechanism.
 
@@ -356,7 +356,7 @@ an open question.
    right half-plane).
 
 4. **K = 403 signals a complex EP.** The Petermann factor peak above
-   gamma_crit indicates the system passes close to an exceptional
+   γ_crit indicates the system passes close to an exceptional
    point in the complex gamma plane. Mapping this EP (by analytic
    continuation to complex gamma) is an open problem.
 
