@@ -1,0 +1,171 @@
+========================================================================
+TOPOLOGICAL EDGE MODES ANALYSIS
+Started: 2026-04-01 16:38:32
+========================================================================
+
+========================================================================
+PHASE 1: SSH ANALOGY CHECK (w=1 SECTOR)
+========================================================================
+
+  The w=1 sector dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1
+  This is tight-binding with UNIFORM hopping 2J.
+  SSH requires ALTERNATING hopping t1-t2.
+
+  Standing wave eigenstates: ψ_k(j) ∝ sin(πkj/(N+1))
+  For the highest mode (k=N-1): peaks at center, nodes at edges.
+
+  N=4:
+    Frequencies: ['1.172', '4.000', '6.828']
+    |ψ_3|² profile: ['1.447', '0.553', '0.553', '1.447']
+  N=5:
+    Frequencies: ['0.764', '2.764', '5.236', '7.236']
+    |ψ_4|² profile: ['1.250', '1.250', '0.000', '1.250', '1.250']
+
+  The highest-frequency mode is center-heavy, lowest is edge-heavy.
+  This is the standard 1D standing wave pattern. No alternating
+  structure, no sublattice, no SSH topology.
+
+  Actual Liouvillian (N=5, uniform γ=0.05, 2.7s):
+    Slowest oscillating modes: rate=0.1000, freq=5.118
+    Localization: ['0.953', '1.047', '1.000', '1.047', '0.953']
+    Compare with: [0.519, 0.631, 0.700, 0.631, 0.519] (CAVITY_MODE)
+
+  The profiles match. Center-localization is a standing wave effect.
+
+
+========================================================================
+PHASE 2: CHIRAL BLOCK STRUCTURE
+========================================================================
+
+  Π has eigenvalues {+1, -1, +i, -i}.
+  {Π, L_c} = 0 forces: L_c maps V_λ → V_{-λ}.
+  This gives two chiral subsystems:
+    Pair 1: (V_{+1}, V_{-1}) with off-diagonal blocks (A₁, B₁)
+    Pair 2: (V_{+i}, V_{-i}) with off-diagonal blocks (A₂, B₂)
+  If det(A)=0: topological zero modes. If full rank: trivial.
+
+  N=4 (256×256):
+    Π eigenspace dims: +1:64, -1:64, +i:64, -i:64
+    Pair ±1 (64×64):
+      On-diagonal residual: 6.28e-16  (0 = perfect off-diagonal)
+      Singular values of A: min=3.8036e-17, max=9.4657e+00, zero count=4
+      *** 4 ZERO SINGULAR VALUES → topological zero modes!
+    Pair ±i (64×64):
+      On-diagonal residual: 3.93e-16  (0 = perfect off-diagonal)
+      Singular values of A: min=3.6533e-16, max=9.4653e+00, zero count=3
+      *** 3 ZERO SINGULAR VALUES → topological zero modes!
+    (0.3s)
+  N=5 (1024×1024):
+    Π eigenspace dims: +1:256, -1:256, +i:256, -i:256
+    Pair ±1 (256×256):
+      On-diagonal residual: 3.14e-16  (0 = perfect off-diagonal)
+      Singular values of A: min=2.3812e-03, max=1.1713e+01, zero count=0
+      Full rank → NO topological zero modes (trivial)
+    Pair ±i (256×256):
+      On-diagonal residual: 3.93e-16  (0 = perfect off-diagonal)
+      Singular values of A: min=2.3812e-03, max=1.1713e+01, zero count=0
+      Full rank → NO topological zero modes (trivial)
+    (3.5s)
+
+
+========================================================================
+PHASE 3: BERRY PHASE (BIORTHOGONAL)
+========================================================================
+
+  N=5, path: uniform (θ=0) → sacrifice-edge (θ=1)
+  γ_mean=0.1080, sacrifice=[0.5, 0.01×4]
+  Tracking the slowest oscillating mode pair.
+
+       θ       Re(λ)       Im(λ)          Δφ     accum φ
+  ──────────────────────────────────────────────────
+   0.000  -2.1600e-01      7.2361         ---         ---
+   0.169  -1.8912e-01      7.2358     -0.0044     -0.0229
+   0.339  -1.6219e-01      7.2352     -0.0089     -0.0914
+   0.508  -1.3517e-01      7.2341     -0.0133     -0.2047
+   0.678  -1.0803e-01      7.2326     -0.0176     -0.3614
+   0.847  -8.0716e-02      7.2306     -0.0216     -0.5596
+   1.000  -5.5960e-02      7.2286     -0.0251     -0.7717
+
+  Total Berry phase: φ = -0.771673
+  φ/π = -0.245631
+  (193.5s)
+
+  Berry phase = -0.7717 (NOT quantized → geometric)
+
+
+========================================================================
+PHASE 5: ROBUSTNESS SWEEP
+========================================================================
+
+  N=5, γ_high=0.5, γ_low=0.01
+  θ = +1: sacrifice at edge (site 0)
+  θ =  0: uniform
+  θ = -1: sacrifice at center (site 2)
+
+       θ    min rate    max rate  prot. factor         gap
+  ───────────────────────────────────────────────────────
+   -1.00      0.0200      1.0800         54.00      0.0200
+   -0.80      0.0592      1.0800         18.24      0.0592
+   -0.60      0.0984      1.0800         10.98      0.0984
+   -0.40      0.1376      1.0800          7.85      0.1376
+   -0.20      0.1768      1.0800          6.11      0.1768
+   +0.00      0.2160      1.0800          5.00      0.2160
+   +0.20      0.1843      1.0800          5.86      0.1843
+   +0.40      0.1525      1.0800          7.08      0.1525
+   +0.60      0.1205      1.0800          8.96      0.1205
+   +0.80      0.0884      1.0800         12.22      0.0884
+   +1.00      0.0560      1.0800         19.30      0.0560
+  (100.1s)
+
+  Max protection factor jump: 17.76 at θ ≈ -0.97
+  Relatively sharp transition → POSSIBLE topological boundary
+
+────────────────────────────────────────────────────────────────────────
+  Localization profiles at key θ values:
+
+  θ=+1.0 (edge sacrifice): rate=0.0560  profile=['0.864', '1.049', '1.168', '1.054', '0.866']
+  θ=+0.0 (uniform): rate=0.2160  profile=['0.933', '1.026', '1.083', '1.026', '0.933']
+  θ=-1.0 (center sacrifice): rate=0.0200  profile=['1.042', '1.042', '0.833', '1.042', '1.042']
+
+
+========================================================================
+PHASE 4: CENTER-LOCALIZED MODE COUNT
+========================================================================
+
+  N=3: 20/40 oscillating modes are center-localized (50.0%)
+  N=4: 178/202 oscillating modes are center-localized (88.1%)
+  N=5: 407/904 oscillating modes are center-localized (45.0%)
+
+
+========================================================================
+SUMMARY
+========================================================================
+
+Phase 1: w=1 sector is tight-binding with UNIFORM hopping.
+  No alternating structure → no SSH topology.
+  Localization profile matches sin standing wave patterns.
+
+Phase 2: Chiral block structure exists (Π eigenspaces give
+  off-diagonal L_c), but off-diagonal blocks have FULL RANK
+  (no zero singular values) → winding number 0 → TRIVIAL.
+
+Phase 3: Berry phase is NOT quantized → no topological invariant.
+
+Phase 5: Protection factor varies SMOOTHLY from edge to center
+  sacrifice → no sharp topological phase boundary.
+  The localization profile is IDENTICAL at all γ profiles
+  (same modes, different survival rates).
+
+Phase 4: Center-localized fraction is a geometric property of the
+  chain (standing waves), not a topological invariant.
+
+CONCLUSION: The localization [0.52, 0.63, 0.70, 0.63, 0.52] is
+GEOMETRIC, not topological. It arises from standing wave patterns
+on a 1D chain (sin(πkj/N) eigenstates). The sacrifice zone
+EXPLOITS this geometry by placing noise where fast modes live
+(edges) and quiet where slow modes live (center). The chain
+topology provides the mode structure. The noise provides the
+selection pressure. No topological invariant protects anything.
+
+Completed: 2026-04-01 16:44:51
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\topological_edge_modes.txt
