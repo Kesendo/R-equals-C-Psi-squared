@@ -22,14 +22,14 @@ unfolding-free) on eigenvalues computed by the C# engine with
 MKL/OpenBLAS (N=2 through N=7, up to 16,384 eigenvalues), we find
 that the decay rate spectrum is **Poisson** (integrable, no level
 repulsion) at every system size tested. The mean spacing ratio
-converges to <r> = 0.36-0.39, consistent with the Poisson value
+converges to ⟨r⟩ = 0.36-0.39, consistent with the Poisson value
 0.386 and far from GOE (0.536) or GUE (0.603). The palindromic
 constraint creates an exactly integrable spectral structure: the
 Liouvillian decomposes into non-interacting sectors that prevent
 eigenvalue repulsion. The chiral symmetry (centered spectrum has
-exact +/- pairing) is confirmed to machine precision. Preliminary
+exact ± pairing) is confirmed to machine precision. Preliminary
 sector-resolved analysis at N=5 shows hints of GOE-like repulsion
-(<r> = 0.513) within individual weight sectors, suggesting a possible
+(⟨r⟩ = 0.513) within individual weight sectors, suggesting a possible
 integrable-to-chaotic transition parametrized by XY-weight.
 
 ---
@@ -41,7 +41,7 @@ integrable-to-chaotic transition parametrized by XY-weight.
 Random Matrix Theory classifies quantum spectra by their level
 statistics. The three standard universality classes are:
 
-| Ensemble | Spacing ratio <r> | Level repulsion | Physics |
+| Ensemble | Spacing ratio ⟨r⟩ | Level repulsion | Physics |
 |----------|-------------------|-----------------|---------|
 | Poisson  | 0.386 | None (clustering) | Integrable, conserved quantities |
 | GOE      | 0.536 | Linear (s^1) | Time-reversal invariant, real |
@@ -54,11 +54,11 @@ a single number that distinguishes the three classes.
 ### What we knew before this analysis
 
 The palindromic Liouvillian has:
-- Exact eigenvalue pairing: lambda + lambda' = -2*Sigma_gamma
+- Exact eigenvalue pairing: λ + λ' = −2Σγ
   ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 - Weight-sector structure: XY-weight w determines the decay rate
-  envelope 2*w*gamma ([formula 3](../docs/ANALYTICAL_FORMULAS.md))
-- Weight-parity mixing: the Hamiltonian mixes sectors w with w+/-2
+  envelope 2wγ ([formula 3](../docs/ANALYTICAL_FORMULAS.md))
+- Weight-parity mixing: the Hamiltonian mixes sectors w with w±2
   (discovered during [derivation verification](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md))
 - Does not fit any of the 38 Sa-Ribeiro-Prosen classes
   ([KMS analysis](../docs/KMS_DETAILED_BALANCE.md))
@@ -72,7 +72,7 @@ What we did NOT know: whether the spectrum shows level repulsion
 
 ### Eigenvalue computation (C# engine)
 
-Heisenberg chain, J=1.0, uniform Z-dephasing gamma=0.05, open
+Heisenberg chain, J=1.0, uniform Z-dephasing γ=0.05, open
 boundaries. All complex Liouvillian eigenvalues computed and
 exported as CSV.
 
@@ -93,7 +93,7 @@ Command: `dotnet run -c Release -- rmt`
 For decay rates (Re parts of eigenvalues):
 1. Sort all nonzero rates
 2. Compute consecutive spacing ratios r_n
-3. Average <r> and compare with reference values
+3. Average ⟨r⟩ and compare with reference values
 
 No spectral unfolding needed. The spacing ratio is invariant under
 smooth transformations of the spectrum.
@@ -109,7 +109,7 @@ frequencies carry the spectral information.
 
 ## Result 1: The Spectrum is Poisson (Integrable)
 
-| N | Eigenvalues | <r> (all rates) | <r> (lower half) | Classification |
+| N | Eigenvalues | ⟨r⟩ (all rates) | ⟨r⟩ (lower half) | Classification |
 |---|-------------|-----------------|-------------------|----------------|
 | 3 | 64 | 0.220 | 0.301 | Poisson |
 | 4 | 256 | 0.408 | 0.385 | Poisson |
@@ -123,7 +123,7 @@ frequencies carry the spectral information.
 converges to ~0.37, consistent with the Poisson value 0.386. There is
 no level repulsion. Eigenvalues cluster rather than repel.
 
-The "lower half" analysis (only rates below Sigma_gamma, removing the
+The "lower half" analysis (only rates below Σγ, removing the
 palindromic pairing correlation) gives the same result. The Poisson
 statistics are intrinsic to each half of the spectrum, not an artifact
 of the palindromic doubling.
@@ -146,11 +146,11 @@ within each sector (formula 2). There is no residual randomness.
 
 ## Result 2: Perfect Chiral Symmetry
 
-The centered Liouvillian L_c = L + Sigma_gamma * I has exact +/-
+The centered Liouvillian L_c = L + Σγ·I has exact ±
 eigenvalue pairing (the palindromic constraint becomes
-lambda_c + lambda_c' = 0).
+λ_c + λ_c' = 0).
 
-| N | +/- pairs | Mean pairing error |
+| N | ± pairs | Mean pairing error |
 |---|-----------|-------------------|
 | 3 | 32 | 8.3e-16 |
 | 4 | 52 | 1.5e-15 |
@@ -176,7 +176,7 @@ system.
 Within individual XY-weight sectors, frequencies (not rates) show
 different statistics:
 
-| N | Sector | Unique freq | <r> | Class |
+| N | Sector | Unique freq | ⟨r⟩ | Class |
 |---|--------|-------------|-----|-------|
 | 4 | w=2 | 41 | 0.130 | sub-Poisson |
 | 5 | w=2 | 15 | 0.513 | GOE |
@@ -200,7 +200,7 @@ is expected there.
 
 ## Result 4: All Eigenvalues in the Left Half-Plane
 
-Every nonzero eigenvalue has Re(lambda) < 0, confirming that the
+Every nonzero eigenvalue has Re(λ) < 0, confirming that the
 Liouvillian is a proper generator of a completely positive trace-
 preserving (CPTP) semigroup. The fraction of eigenvalues with
 Re < 0 is 1.0000 at every N tested.
@@ -226,7 +226,7 @@ the C# eigenvalue export is producing physically valid spectra.
    ring, and complete topologies may show different statistics
    (the C# engine supports all of these).
 
-4. **Finite-size scaling of sector <r>.** Does the within-sector <r>
+4. **Finite-size scaling of sector ⟨r⟩.** Does the within-sector ⟨r⟩
    approach GOE/GUE as N grows? Or does it stay Poisson? This is the
    most important open question from this analysis.
 
@@ -234,8 +234,9 @@ the C# eigenvalue export is producing physically valid spectra.
 
 ## Connection to the Framework
 
-The Poisson result closes a loop: the analytical formulas
-(ANALYTICAL_FORMULAS.md) give exact closed-form expressions for
+The Poisson result closes a loop: the
+[analytical formulas](../docs/ANALYTICAL_FORMULAS.md) give exact
+closed-form expressions for
 eigenvalues in each sector. Exact formulas imply integrability.
 Integrability implies Poisson. The RMT analysis confirms this
 chain of reasoning numerically.
