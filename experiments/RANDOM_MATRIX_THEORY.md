@@ -6,7 +6,7 @@ spectral statistics, chiral symmetry Liouvillian eigenvalues, XY-weight
 sector universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
-**Status:** Computationally verified (N=2-7, Heisenberg chain, Z-dephasing)
+**Status:** Computationally verified (N=2-7, 21,832 eigenvalues, Heisenberg chain)
 **Date:** April 1, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
@@ -83,7 +83,7 @@ exported as CSV.
 | 4 | 256x256 | 256 | MKL z_eigen | <1s |
 | 5 | 1024x1024 | 1,024 | MKL z_eigen | 2s |
 | 6 | 4096x4096 | 4,096 | MKL z_eigen | 58s |
-| 7 | 16384x16384 | 16,384 | MKL direct | ~30min |
+| 7 | 16384x16384 | 16,384 | MKL z_eigen | 95min |
 
 Command: `dotnet run -c Release -- rmt`
 (in compute/RCPsiSquared.Compute/)
@@ -115,8 +115,9 @@ frequencies carry the spectral information.
 | 4 | 256 | 0.408 | 0.385 | Poisson |
 | 5 | 1,024 | 0.369 | 0.368 | Poisson |
 | 6 | 4,096 | 0.364 | 0.363 | Poisson |
+| 7 | 16,384 | 0.383 | 0.383 | Poisson |
 
-(N=2 has too few eigenvalues for statistics. N=7 pending.)
+(N=2 has too few eigenvalues for statistics.)
 
 **The palindromic Liouvillian is integrable.** The mean spacing ratio
 converges to ~0.37, consistent with the Poisson value 0.386. There is
@@ -155,6 +156,7 @@ lambda_c + lambda_c' = 0).
 | 4 | 52 | 1.5e-15 |
 | 5 | 512 | 2.8e-15 |
 | 6 | 1,130 | 4.7e-15 |
+| 7 | 8,192 | 6.6e-15 |
 
 Pairing is exact to machine precision at every N. This confirms the
 algebraic proof ([Mirror Symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))

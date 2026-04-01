@@ -99,7 +99,25 @@ N=6: 4096 eigenvalues
       Fraction Re<0: 1.0000
       |lambda| max: 14.9773
 
-N=7: CSV not found, skipping.
+======================================================================
+N=7: 16384 eigenvalues
+======================================================================
+
+  (a) All rates (16376 nonzero):
+      <r> = 0.3829  (Poisson=0.386, GOE=0.536, GUE=0.603)
+      Nearest: Poisson (dist=0.003)
+      Spacing stats: mean=0.000150, std=0.001905, min=8.56e-10, max=0.100000
+      NNSD chi2: Poisson=94.629, GOE=45.571, GUE=34.351 -> GUE
+
+  (b) Lower half (8184 rates):
+      <r> = 0.3830  -> Poisson (dist=0.003)
+
+  Chiral symmetry (centered at Sg=0.35000000000000003):
+      +/- pairs: 8192, mean error: 6.64e-15
+
+  Complex plane:
+      Fraction Re<0: 1.0000
+      |lambda| max: 17.3496
 
 ======================================================================
 PHASE 4: Sector decomposition by XY-weight (Python, N=2-5)
@@ -146,3 +164,4 @@ SUMMARY
     4 |   0.4077 |    0.3847 |      Poisson |       Poisson
     5 |   0.3686 |    0.3680 |      Poisson |       Poisson
     6 |   0.3637 |    0.3628 |      Poisson |       Poisson
+    7 |   0.3829 |    0.3830 |      Poisson |       Poisson
