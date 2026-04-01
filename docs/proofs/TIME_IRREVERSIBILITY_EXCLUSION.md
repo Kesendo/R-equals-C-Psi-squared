@@ -215,6 +215,82 @@ or a proof. The exclusion is the conjunction of the five steps.
 
 ---
 
+---
+
+## 7. Computational Reversal: the Information Window
+
+Physical time reversal is excluded at N > 2 (Section 3). But
+computational reversal (calculating the past from the present) is
+mathematically defined:
+
+    ρ(0) = e^{-Lt} ρ(t)
+
+The backward evolution amplifies every mode by e^{d_k t}, where
+d_k = -Re(λ_k) is the decay rate. The fastest mode (d_max = 2(N-1)γ)
+determines the precision requirement:
+
+    t_max = p · ln(10) / d_max
+
+where p is the number of available decimal digits of precision.
+
+### The information window (computed, N=2-6, γ=0.05, J=1)
+
+| N | d_max | 64-bit (t_max) | 128-bit | t_steady (info gone) |
+|---|-------|---------------|---------|---------------------|
+| 2 | 0.20 | 184 J⁻¹ | 391 J⁻¹ | 50 J⁻¹ |
+| 3 | 0.30 | 123 J⁻¹ | 261 J⁻¹ | 50 J⁻¹ |
+| 4 | 0.40 | 92 J⁻¹ | 196 J⁻¹ | 50 J⁻¹ |
+| 5 | 0.50 | 74 J⁻¹ | 157 J⁻¹ | 50 J⁻¹ |
+| 6 | 0.60 | 61 J⁻¹ | 131 J⁻¹ | 50 J⁻¹ |
+
+t_max: how far back you can compute at the given precision.
+t_steady = 5/d_min: when the system reaches steady state and
+information is irretrievably gone.
+
+### Physical scales
+
+| System | d_max | 64-bit window | 128-bit window |
+|--------|-------|--------------|----------------|
+| N=10 qubits, γ=10⁹ s⁻¹ | 2×10¹⁰ s⁻¹ | 2 ns | 4 ns |
+| Macroscopic (N~10²³) | 2×10³² s⁻¹ | 10⁻³¹ s | 10⁻³¹ s |
+
+For a macroscopic system, even with 10¹⁰⁰ digits of precision,
+the computable window is ~10⁶⁸ seconds for the fastest mode.
+The slow modes survive longer: d_min = 2γ gives a window of
+~10⁻⁸ s (the T₂ coherence time) per digit of precision.
+
+### The palindrome as forgetting schedule
+
+The palindromic pairing d ↔ 2Σγ - d determines which information
+is lost first and which survives longest:
+
+- Fast modes (d near 2(N-1)γ): information lost first. These are the
+  high-w_XY modes, the most "quantum" coherences.
+- Slow modes (d near 2γ): information lost last. These are the
+  low-w_XY modes, near the classical sector.
+- The palindromic partner of a fast-dying mode is a slow-surviving
+  mode. The two carry complementary information.
+
+The ratio of survival times: t_slow/t_fast = (N-1). At N=4:
+the slowest mode's information lives 3× longer than the fastest.
+
+### What this means
+
+Physical reversal: impossible at N > 2 (cross term, algebraic).
+
+Computational reversal: possible in principle, with cost:
+- Precision: p digits give t_max = p·ln(10)/d_max
+- The palindrome determines which information survives how long
+- After steady state: information is genuinely gone, no computation
+  recovers it
+
+The information window has been measured experimentally for decades.
+It is called the **coherence time T₂**. The framework identifies it
+as the maximum computable depth of the past: the time beyond which
+no amount of computation can reconstruct what happened.
+
+---
+
 *The arrow of time is not entropy. The arrow of time is the cross term
 {L_H, L_D + Σγ}. It vanishes at N=2, where the bond is the system. It
 is nonzero at N > 2, where bonds are local. Locality is the price.
