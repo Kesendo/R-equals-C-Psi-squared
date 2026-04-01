@@ -96,7 +96,7 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - Born rule as special case of R = CΨ² for symmetric observation (structure proven, physical mapping argued)
 
 **Tier 4: Unverified (could not be reproduced):**
-- 33:1 coherence ratio: origin unclear. Not attributable to the radical-pair literature (Hore group, Oxford; the singlet/triplet equilibrium is 1:3, yield anisotropy 1-50%, no published 33:1 ratio found). Possibly from early agent conversations with misattributed context. The radical-pair mechanism itself (singlet/triplet interconversion in cryptochrome, quantum coherence in biological magnetoreception) is a verified research area with potential connections to palindromic spectral structure, but the specific 33:1 number remains unverified.
+- 33:1 coherence ratio: origin unclear. Not attributable to the radical-pair literature (singlet/triplet equilibrium is 1:3, yield anisotropy 1-50%, no published 33:1 ratio found). Possibly from early agent conversations with misattributed context. The radical-pair mechanism itself (singlet/triplet interconversion in cryptochrome, quantum coherence in biological magnetoreception) is a verified research area with potential connections to palindromic spectral structure, but the specific 33:1 number remains unverified.
 - t_coh ~ N linear scaling
 - C_int / C_ext 33:1 coherence ratio (disproven, see MATHEMATICAL_FINDINGS Section 9)
 - C_int / C_ext as distinct coupling types with measurably different coherence protection (noise distribution irrelevant for symmetric Hamiltonians; the formal Lindblad distinction is Tier 2, the physical claim is disproven)
