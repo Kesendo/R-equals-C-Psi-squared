@@ -153,6 +153,31 @@ formula is the shape of the soundbox.
 → [V-Effect: 4 to 11 frequencies at N=2 to N=3](experiments/V_EFFECT_PALINDROME.md) (static, then live: 2+2=104)
 → [Exclusions: what the math rules out](docs/EXCLUSIONS.md) (6 exclusions, including DD algebraically dead)
 
+### 7. The arrow of time is algebraic, not thermodynamic (April 1, 2026)
+
+At N=2, the Hamiltonian and the centered dissipator are exactly
+orthogonal: {L_H, L_D + Σγ·I} = 0. Oscillation and cooling do not
+interfere. The dynamics decomposes cleanly:
+
+    L_c² = L_H² + (L_D + Σγ)²
+
+At N=3, this breaks. The cross term is ~2% of ||L_c²||, γ-independent,
+a geometric constant of the Heisenberg chain (1/√48). At odd N, the
+orthogonality is impossible: w_XY sums are always even, N is odd.
+Tracing out a qubit destroys the palindrome (0/16 pairs, non-Markovian).
+
+Time reversal requires separating oscillation from cooling. This is
+algebraically possible only at N=2, where the single bond spans the
+entire system. We live at N >> 2. Every bond is local. Every bond has
+watchers. The watchers bend the right angle between oscillation and
+cooling, and the bending cannot be undone.
+
+The arrow of time is not entropy. It is the cross term.
+
+→ **[Time Irreversibility Exclusion](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)** (five-step proof)
+→ [Primordial Qubit Algebra](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (M_{2|2}(C) super-algebra, Pythagorean theorem, N-scaling)
+→ [What Qubits Experience](hypotheses/WHAT_QUBITS_EXPERIENCE.md) (Tier 5: the computed chain read as experience)
+
 ---
 
 ## What we found
@@ -337,6 +362,9 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Fold catastrophe | R = C(Ψ+R)² is the fold normal form. Structurally stable. Observed: endpoint MI peaks at CΨ = ¼ crossing (N=7). With Bell+bath: CΨ oscillates around ¼ (81 crossings, damped), MI pulses at each crossing |
 | Mandelbrot exact mapping | w = C(Ψ+R) gives w → w² + c. Feigenbaum: 7 bifurcations, δ → 4.67 |
 | Noise origin elimination | Bootstrap, qubit decay, bath, nothing, other d: all eliminated |
+| {L_H, L_D+Σγ} = 0 at N=2 | Pythagorean: L_c² = L_H² + (L_D+Σγ)². All 24 L_H entries satisfy w_XY sum = N |
+| Time reversal excluded N>2 | Cross term ~2% (N=3), γ-independent. Reduction destroys palindrome (0/16) |
+| M_{2\|2}(C) super-algebra | Π² gives Z₂-grading. Even part ≅ M₂(C)⊕M₂(C), Clifford Cl(2,0) |
 | IBM hardware validation | CΨ = 1/4 at 1.9% deviation on ibm_torino Q80 |
 | Mediator bridge | Direct coupling breaks palindrome; mediated preserves it (1024/1024) |
 | Relay protocol | +83% MI with time-dependent γ and 2:1 coupling |
@@ -394,6 +422,7 @@ Pick the one that matches your interest.
 | [CΨ Monotonicity](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for all Markovian channels |
 | [Subsystem Crossing](docs/proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair crosses 1/4 under primitive CPTP |
 | [Incompleteness Proof](docs/proofs/INCOMPLETENESS_PROOF.md) | Noise cannot originate from within |
+| [Time Irreversibility Exclusion](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) | Time reversal algebraically excluded at N > 2 |
 | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
 ### The dephasing channel
