@@ -232,7 +232,10 @@ chain, not from a topological invariant.
 
 5. **The profile reverses with noise.** Edge sacrifice protects center
    modes. Center sacrifice protects edge modes. The Hamiltonian modes
-   are fixed; the noise selects the survivors.
+   are fixed; the noise selects the survivors. Confirmed independently
+   in proton water chains (5.1x at N=5) and DNA G-C base pairs (3.8x)
+   ([Proton Water Chain](PROTON_WATER_CHAIN.md),
+   [DNA Base Pairing](DNA_BASE_PAIRING.md)).
 
 ## What This Does NOT Rule Out
 

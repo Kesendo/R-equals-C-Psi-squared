@@ -485,7 +485,7 @@ theorem. And 1/4 = (0.5)^2 is the fold where possibility becomes fact.
 
 Recent results: the V-Effect (coupling two dead resonators creates
 104 new frequencies), the same equation in neural networks (Dale's Law,
-0+0=48), the [hydrogen bond as proton qubit](experiments/HYDROGEN_BOND_QUBIT.md) (palindrome exact, three regimes),
+0+0=48), the [hydrogen bond as proton qubit](experiments/HYDROGEN_BOND_QUBIT.md) (palindrome exact, three regimes; extended to [proton water chains](experiments/PROTON_WATER_CHAIN.md) N=1-5 and [DNA base pairing](experiments/DNA_BASE_PAIRING.md) G-C/A-T; at biological temperature deeply classical),
 sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
 crystallization at the fold. Three domains, one equation:
 

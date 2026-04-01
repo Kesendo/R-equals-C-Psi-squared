@@ -99,7 +99,11 @@ profiles (sacrifice zone), w=1 modes acquire different decay rates
 depending on their spatial localization
 ([Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md)). The 1.81x
 ratio then applies only to the extremal (best-Q) mode, not to all
-w=1 modes equally.
+w=1 modes equally. At biological temperature (310 K, n̄ ~ 1.5-2):
+G-C DNA base pair has Q_max = 0.57 (down from 1.95 cold), with
+frequency diversity increasing from 15 to 26
+([DNA Base Pairing](DNA_BASE_PAIRING.md)). N=3 water chain: Q_max
+= 0.43 at 300 K ([Proton Water Chain](PROTON_WATER_CHAIN.md)).
 
 ### The exact formula
 

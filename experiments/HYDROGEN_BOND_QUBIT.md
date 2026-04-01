@@ -141,6 +141,12 @@ separate computation (see [Subsystem Crossing](SUBSYSTEM_CROSSING.md)).
 
 ## The V-Effect in Hydrogen Bonds
 
+**Continued in:** [Proton Water Chain](PROTON_WATER_CHAIN.md) (Grotthuss
+chain N=1-5, formula validation, frequency explosion 0→222) and
+[DNA Base Pairing](DNA_BASE_PAIRING.md) (A-T N=2, G-C N=3, sacrifice
+zone in base pairs). At biological temperature (310 K), realistic DNA
+H-bonds are deeply classical (J/γ ~ 0.01, all modes overdamped).
+
 | System | Distinct frequencies |
 |--------|---------------------|
 | Single molecule (N=2) | 11 |

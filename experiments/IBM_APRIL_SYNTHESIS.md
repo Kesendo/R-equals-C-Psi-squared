@@ -157,6 +157,16 @@ All life (oscillation, information transfer) happens between them.
 -> [Energy Partition](../hypotheses/ENERGY_PARTITION.md),
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
 
+**12b. Proton qubit chemistry** (Tier 2)
+The palindrome applies to proton qubits in hydrogen bonds. Proton water
+chains (Grotthuss, N=1-5): V(N) formula validated to machine precision,
+frequency explosion 0→222. DNA base pairing: G-C (N=3) is 5x richer
+resonator than A-T (N=2). Sacrifice zone works in both (5.1x water,
+3.8x DNA). At biological temperature: deeply classical (J/γ ~ 0.01),
+all modes overdamped. The palindrome is exact; the coherence is not.
+-> [Proton Water Chain](PROTON_WATER_CHAIN.md),
+[DNA Base Pairing](DNA_BASE_PAIRING.md)
+
 **13. Standing wave pattern** (Tier 2, not yet measured on hardware)
 ZZZ (classical) is the universal node. XX/YY (quantum) are antinodes. GHZ
 never oscillates (0%). Bell always oscillates (40-65%). Frequencies at

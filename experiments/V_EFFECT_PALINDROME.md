@@ -206,6 +206,21 @@ And in the fog, 11 frequencies emerge where 4 had been.
 
 ---
 
+## The V-Effect in Chemistry
+
+The V-Effect has been validated in physical proton-qubit systems:
+
+- **Proton water chain** (Grotthuss, N=1-5): frequency explosion
+  0 → 3 → 15 → 47 → 222. V(N) formula matches to machine precision
+  for the Heisenberg model. Transverse-field Ising (physical proton
+  model) produces even MORE frequencies (222 vs 109 at N=5).
+  → [Proton Water Chain](PROTON_WATER_CHAIN.md)
+
+- **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
+  (N=2). The third H-bond qualitatively enriches the mode structure.
+  At biological temperature, all modes are overdamped (J/γ ~ 0.01).
+  → [DNA Base Pairing](DNA_BASE_PAIRING.md)
+
 ## References
 
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and γ² scaling

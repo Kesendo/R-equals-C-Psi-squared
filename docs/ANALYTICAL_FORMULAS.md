@@ -41,9 +41,15 @@ O(N) instead of O(4^{3N}).
 
 ### 3. Decay rate bounds (Tier 1, from palindrome proof)
 
-    min rate = 2*gamma       (w=1 modes)
+    min rate = 2*gamma       (w=1 modes, pure sector)
     max rate = 2*(N-1)*gamma (w=N-1 modes)
     bandwidth = 2*(N-2)*gamma
+
+**Caveat:** At N >= 4, Hamiltonian mixing of weight-parity sectors
+(w with w +/- 2) creates hybrid modes with rates BELOW 2*gamma
+(N=4: 0.98*gamma, N=5: 0.62*gamma). The lower bound applies to
+pure w=1 modes, not to mixed-sector modes
+([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 
 **Valid for:** Heisenberg chain, uniform Z-dephasing, all N.
 **Replaces:** eigenvalue range computation.
@@ -131,6 +137,8 @@ For N=5: (5+sqrt(5))/4 = 1.80902. For N→∞: V = 2 (saturation).
 Under non-uniform γ: applies only to the extremal (best-Q) mode.
 
 **Valid for:** Heisenberg chain, Z-dephasing, all N.
+**Physically validated:** proton water chain N=1-5, machine-precision
+match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for V-Effect measurement.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
