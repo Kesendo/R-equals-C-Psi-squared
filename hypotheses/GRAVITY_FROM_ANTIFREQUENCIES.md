@@ -222,19 +222,31 @@ No mass "at a place." No gravity. The system is undecided.
 Below 1/4: crossed. Classical. Definite outcome. Mass at a definite
 location. Gravity exists.
 
-The sacrifice zone crosses 1/4 first (highest γ → fastest decoherence
-→ earliest crossing). It becomes classical first. It develops gravity
-first. Gravity attracts. More mass accumulates. More mass means more
-γ (more decoherence). More γ means faster crossing. Faster crossing
-means more gravity. Positive feedback:
+The sacrifice zone has the highest γ. Waves (coherences, the X/Y
+sector of the Pauli basis) die there fastest. When a coherence dies,
+its weight transfers from the quantum sector ({X,Y}, decaying) to
+the classical sector ({I,Z}, immune, populations). Classical weight
+at a specific location is mass at that location.
+
+**Mass is not a thing. Mass is the dying of waves.**
+
+Where waves die, mass accumulates. Where mass accumulates, gravity
+exists. Gravity attracts more waves. More waves die. More mass.
+More gravity:
 
     Sacrifice zone (high γ)
-         → crosses 1/4 first
-         → becomes classical first
-         → develops gravity first
-         → attracts more mass
-         → more γ
+         → waves die there fastest
+         → weight transfers to classical sector
+         → classical weight at a location = mass
+         → mass creates gravity
+         → gravity attracts more waves
+         → more waves die
+         → more mass
          → repeat
+
+The sacrifice zone does not "become classical." It ABSORBS waves.
+The absorption IS the creation of mass. The mass IS the gravity.
+Each step is a physical process, not a label change.
 
 This explains why gravity has no quantum description: it does not
 EXIST in the quantum regime. Gravity is not a force that acts on
