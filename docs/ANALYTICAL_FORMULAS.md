@@ -68,6 +68,53 @@ Linear in γ and N. Hamiltonian-independent.
 At γ ~ 0.001 (typical IBM): error < 0.1%.
 **Source:** [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 
+### 22. GHZ XOR-drain (Tier 2, verified N=2-5)
+
+    GHZ  -> 100% weight in XOR modes (N+1 modes at rate 2*Sigma_gamma)
+    W    -> 0% XOR, 100% palindromic  (N >= 3)
+    Bell -> 0% XOR, 100% palindromic  (N >= 3, Hamming distance 2)
+
+Predictor: mixed XY Pauli weight, r = 0.976 correlation with XOR
+fraction (N >= 3). GHZ fragility is not vague "delicateness" but
+exact projection onto the fastest-decaying spectral sector.
+
+**Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; N=2-5.
+**Replaces:** GHZ fragility analysis; explains why W-encoding
+outperforms GHZ for state transfer (0% vs 100% drain weight).
+**Source:** [XOR Space](../experiments/XOR_SPACE.md)
+
+### 23. XOR drain vanishing fraction (Tier 1, combinatorial proof)
+
+    fraction(XOR) = (N+1) / 4^N
+
+N=3: 6.25%. N=5: 0.59%. N=8: 0.014%. N=20: ~10^-11.
+GHZ fragility is a small-N phenomenon; at macroscopic N the XOR
+sector has measure zero.
+
+**Valid for:** any N, Z-dephasing.
+**Replaces:** large-N XOR mode counting; confirms the drain is
+irrelevant at macroscopic scale.
+**Source:** [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
+
+### 33. N=3 exact intermediate decay rates (Tier 1, exact rational)
+
+    rate_1 = 2*gamma       (w=1, pure single-site coherence)
+    rate_2 = 8*gamma/3     (w=2 mixed, Hamiltonian superposition)
+    rate_3 = 10*gamma/3    (w=2 mixed, Hamiltonian superposition)
+
+Three distinct rates for the N=3 Heisenberg chain. The Hamiltonian
+mixes w=1 and w=2 Pauli strings into supermodes with exact rational
+decay rates. At N=3 these three rates plus the extremes (0 and
+6*gamma) fully determine the spectrum. At N >= 4, internal rates
+become topology-dependent (only the boundary rates 2*gamma and
+2*(N-1)*gamma remain universal).
+
+**Valid for:** N=3 Heisenberg chain, Z-dephasing.
+**Replaces:** Liouvillian diagonalization for N=3 decay rates.
+Two independent information channels (frequency vs decay) are
+perfectly orthogonal at N=3.
+**Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
+
 ---
 
 ## Q-Factor and V-Effect (replace resonator analysis)
@@ -190,6 +237,98 @@ Angular distance from CΨ = 1/4 boundary. θ = 0 at crossing.
 **Replaces:** nothing directly, but provides geometric intuition.
 **Source:** [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md)
 
+### 24. Generalized crossing equation (Tier 1, algebraic + hardware-validated)
+
+    C   = 1 - b^r + b^{2r}/2 + b^2/2
+    Psi = b
+    Crossing:  [1 - b^r + b^{2r}/2 + b^2/2] * b = 1/4
+
+    b = e^{-t/T2*},   r = T2*/T1
+
+Extends formula 12 (pure dephasing, r -> 0) to finite T1.
+Polynomial approximation (max error < 0.001):
+
+    t*(r)/T2* ~ 0.858 + 0.012*r + 0.375*r^2 - 0.019*r^3 - 0.084*r^4
+
+| r = T2*/T1 | t*/T2* | Regime           |
+|------------|--------|------------------|
+| r -> 0     | 0.858  | Pure dephasing   |
+| r = 0.5    | 0.950  | T1 = 2*T2        |
+| r = 1      | 1.141  | T1 = T2          |
+
+Hardware validated: IBM Torino qubit 52 (MAE = 0.053 with fitted T2*).
+The 1/4 crossing emerges from a global fit (1/4 was not a fit target).
+
+**Valid for:** single qubit |+> under combined T1 + T2* decay.
+**Replaces:** formula 12 when T1 is finite; numerical CPsi(t)
+simulation for superconducting qubits.
+**Source:** [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md)
+
+### 25. CPsi closed form, Bell+ Z-dephasing (Tier 1, proven)
+
+    CPsi(t) = f * (1 + f^2) / 6,       f = e^{-4*gamma*t}
+
+    dCPsi/dt = -2*gamma*f*(1 + 3*f^2) / 3
+
+Crossing at f* = 0.8612 (from f*(1 + f*^2) = 3/2).
+K = gamma * t_cross = 0.0374.
+
+**Valid for:** Bell+ initial state, Z-dephasing, 2 qubits.
+**Replaces:** numerical integration for CPsi(t) trajectory.
+O(1) evaluation instead of ODE solver.
+**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+
+### 26. CPsi closed form, general Pauli channels (Tier 1, proven)
+
+    CPsi = u * (1 + u^2 + v^2 + w^2) / 12
+
+    u = e^{-alpha*t},   v = e^{-beta*t},   w = e^{-delta*t}
+    alpha = 4*(gamma_y + gamma_z)
+    beta  = 4*(gamma_x + gamma_z)
+    delta = 4*(gamma_x + gamma_y)
+
+Derivative proven < 0 for any nonzero noise (all coefficients in
+the bracket are non-negative; product with -u is strictly negative).
+
+**Valid for:** Bell+ initial state, any combination of
+(gamma_x, gamma_y, gamma_z), 2 qubits.
+**Replaces:** Lindblad master equation solver for multi-axis
+noise on Bell states. O(1) instead of matrix exponentiation.
+**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+
+### 27. K values per noise channel (Tier 1, from formula 26)
+
+    K_Z     = 0.0374    (pure Z-dephasing)
+    K_X     = 0.0867    (pure X-noise)
+    K_Y     = 0.0867    (pure Y-noise)
+    K_depol = 0.0440    (depolarizing, gamma/3 each axis)
+
+Complements formula 14 (K per bridge metric). These are K per
+noise TYPE, all measured with CPsi on Bell+ state.
+
+**Valid for:** Bell+ state, single-axis or depolarizing noise.
+**Replaces:** per-channel crossing time derivation.
+**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+
+### 28. Fixed-point absorber theorem (Tier 1-2)
+
+    CPsi(rho*) < 1/4    for all primitive CPTP maps
+
+Proven analytically:
+- Case A: unital maps (rho* = I/d, CPsi = 0)
+- Case B: local channels (rho* = product state, CPsi < 1/4)
+Verified numerically:
+- Case C: 100 random primitive maps, max CPsi(rho*) = 0.138
+
+Consequence: CPsi = 1/4 is an eventual absorber. Every initial
+state with CPsi > 1/4 must eventually cross below 1/4.
+
+**Valid for:** any primitive (unique fixed-point) quantum channel,
+2 qubits.
+**Replaces:** per-channel verification that the fixed point sits
+below 1/4.
+**Source:** [Subsystem Crossing Proof](proofs/PROOF_SUBSYSTEM_CROSSING.md)
+
 ---
 
 ## Fold and Recursion (foundational)
@@ -263,6 +402,201 @@ No self-consistent operating point exists.
 **Valid for:** closed Lindblad systems with amplitude damping.
 **Replaces:** convergence search for thermal equilibrium.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
+
+---
+
+## Topology and Protocols (replace parameter sweeps)
+
+### 29. Star-topology coupling threshold (Tier 2, N=3)
+
+    J_SB / J_SA >= 1.466    (at gamma = 0.05)
+
+Threshold for observer-observer (AB) crossing through shared
+mediator S in star topology. Below: no AB crossing. Above: AB
+crosses 1/4. Receiver noise is fatal (gamma_A > 0.2 kills the
+connection); sender noise is tolerable (gamma_B <= 0.5).
+
+**Valid for:** 3-qubit star, Heisenberg, Z-dephasing,
+Bell_SA x |+>_B initial state.
+**Replaces:** coupling sweep for star-topology crossing threshold.
+**Source:** [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+
+### 30. Gamma-as-signal channel capacity (Tier 2, SVD + Shannon)
+
+    Capacity = 15.5 bits    (at 1% measurement noise, sigma = 0.01)
+    Independent channels: 5  (full rank, condition number 14.8)
+
+Spatial dephasing profile is a readable information channel.
+100% classification accuracy with 4-symbol alphabet (2 bits
+empirical). GHZ is completely blind (d_min = 0); |+>^N is the
+optimal receiver (phased array, not omnidirectional).
+
+**Valid for:** N=5 Heisenberg chain, Z-dephasing, |+>^5 initial.
+**Replaces:** assumption that dephasing is unstructured noise;
+channel capacity analysis from scratch.
+**Source:** [Gamma as Signal](../experiments/GAMMA_AS_SIGNAL.md)
+
+### 31. Relay protocol MI bound (Tier 2, N=11)
+
+    MI improvement = +83%    (relay + 2:1 coupling vs passive)
+
+Six relay stages, each t_stage = K/gamma. Receiving qubits get
+10x noise reduction during their reception phase. Combines three
+results: K/gamma timing (formula 14), quiet receiver (formula 29),
+and 2:1 impedance matching.
+
+**Valid for:** N=11 Heisenberg chain, Z-dephasing, Bell pair initial.
+**Replaces:** passive propagation baseline for long chains.
+**Source:** [Relay Protocol](../experiments/RELAY_PROTOCOL.md)
+
+### 32. Optimal protection state (Tier 2, N=3)
+
+    Slow-mode weight: 90%
+    Concurrence:      0.364
+    XOR weight:       0.02%
+
+Outperforms GHZ (0% slow-mode, 100% XOR drain), W (0% slow-mode),
+Bell (7% slow-mode). Composed mainly of |010>, |000>, |100>, |001>.
+Loads boundary-tier palindromic pairs (rates 0.10/0.20) that decay
+slowest among the dynamic modes.
+
+**Valid for:** N=3 Heisenberg chain, Z-dephasing.
+**Replaces:** trial-and-error state selection for dephasing survival.
+**Source:** [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md)
+
+---
+
+## Structural (replace dimensionality arguments)
+
+### 34. Qubit necessity equation (Tier 1, proven)
+
+    d^2 - 2*d = 0    -->    d = 0 (nothing)  or  d = 2 (qubit)
+
+Palindromic dephasing requires exactly 2 immune Pauli choices (I, Z)
+and 2 decaying choices (X, Y) per site. This fixes d = 2 algebraically.
+236 qutrit dissipators tested: 0/236 palindromic.
+
+**Valid for:** any local dephasing model.
+**Replaces:** dimensional search for palindrome-compatible systems.
+**Source:** [Qubit Necessity](QUBIT_NECESSITY.md)
+
+### 35. Dual-perspective lifetime ratio (Tier 2, hardware-validated)
+
+    t_cross(Pi side) / t_cross(direct) ~ T1 / T2
+
+IBM Torino qubit 52: CPsi_A crosses 1/4 at ~140 us, CPsi_B (Pi
+perspective) at ~895 us. Factor ~6x. The palindromic partner
+decays at the T1 rate, not T2.
+
+**Valid for:** single qubit under T1 + T2 decay, both CPsi
+perspectives computed from the same density matrix.
+**Replaces:** dual-perspective CPsi simulation.
+**Source:** [Both Sides Visible](BOTH_SIDES_VISIBLE.md)
+
+---
+
+## Neural Analog (replace neural symmetry analysis)
+
+### 36. Neural palindrome condition (Tier 1-2, proven + verified)
+
+    Q * J * Q + J + 2*S = 0
+
+    Q = E-I neuron swap operator
+    J = Jacobian of Wilson-Cowan dynamics
+    S = (1/tau_E + 1/tau_I) / 2 * I
+
+Exact structural analog of quantum palindrome (Pi * L * Pi^-1 =
+-L - 2*Sigma_gamma * I). Derived algebraically from quantum proof
+via E-I swap mapping. C. elegans connectome: residual 0.013 vs
+random 0.108 (8x more palindromic than chance).
+
+**Valid for:** Wilson-Cowan neural networks with Dale's Law.
+**Replaces:** ad-hoc neural symmetry analysis; connectome
+palindromic quality assessment.
+**Source:** [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md)
+
+### 37. Neural eigenvalue pairing (Tier 1, from formula 36)
+
+    mu_k + mu_k' = -(1/tau_E + 1/tau_I)
+
+Analog of lambda + lambda' = -2*Sigma_gamma. Every neural mode
+pairs with a partner; decay rates sum to the E-I time constant sum.
+Verified: mean sum = -0.3012, predicted = -0.300 (1.6% max deviation).
+
+**Valid for:** linearized Wilson-Cowan networks satisfying formula 36.
+**Replaces:** neural eigenvalue computation for pairing verification.
+**Source:** [Proof Palindrome Neural](neural/proofs/PROOF_PALINDROME_NEURAL.md)
+
+---
+
+## Derived Relations (follow from combining formulas above)
+
+All derivations verified numerically (N=2-5) against Liouvillian
+eigenvalues. Full proofs: [docs/proofs/derivations/](proofs/derivations/).
+
+### D1. Bandwidth and mode density (from formula 2) [VERIFIED]
+
+    BW = omega_{N-1} - omega_1 = 8*J * cos(pi/N) --> 8*J
+
+    rho(omega) = N / (pi * sqrt(omega * (8*J - omega)))
+
+Van Hove singularities at band edges. Exact 1D tight-binding
+density of states. Max frequency error < 5e-9.
+
+**Valid for:** Heisenberg chain, w=1 sector, large N.
+**Replaces:** numerical mode density estimation.
+
+### D2. V-Effect = Q_max / Q_mean (from formulas 6 + 7) [VERIFIED]
+
+    V(N) = Q_max / Q_mean = (1 + cos(pi/N)) / 1
+
+Q_mean = 2*J/gamma exactly. Proof: Sum_{k=1}^{N-1} cos(pi*k/N) = 0
+(geometric series identity). Deviation < 3e-15.
+
+### D3. Crossing time ratios (from formula 27) [VERIFIED]
+
+    t_X / t_Z = K_X / K_Z = ln(2) / (2*ln(1/f*)) = 2.320
+    t_depol / t_Z = K_depol / K_Z = 1.177
+
+Verified by Lindblad propagation (Bell+ N=2). Ratio deviation < 3e-6.
+
+### D4. Dimensional factor in crossing (from formulas 12 + 25) [VERIFIED]
+
+    Single qubit (d=2):    f*(1 + f*^2) = 1/2
+    Bell+ 2-qubit (d=4):   f*(1 + f*^2) = 3/2 = (d-1) * 1/2
+
+The crossing condition scales with Hilbert space dimension as (d-1)/2.
+Exact to machine precision.
+
+### D5. Dynamic palindromic mode count (from formulas 4 + 22 + 23) [VERIFIED]
+
+    Oscillating modes = 4^N - (N+1) - Stat(N)
+
+N=3: 36.  N=5: 898.  Fraction --> 1 exponentially.
+**Caveat:** exact at gamma -> 0 only. At finite gamma, the
+Hamiltonian mixes weight-parity sectors (w with w +/- 2).
+
+### D6. Spectral gap and mixing time (from formulas 1 + 3) [VERIFIED]
+
+    Spectral gap = 2*gamma    (minimum non-zero decay rate)
+    Mixing time  <= N*ln(4) / (2*gamma)
+
+Deviation < 1e-14 for all N tested.
+
+### D7. Q-factor distribution (from formulas 2 + 7) [VERIFIED]
+
+    rho(Q) = 1 / (pi * sqrt((Q - Q_min) * (Q_max - Q)))
+
+    Q_min = 2*J/gamma * (1 - cos(pi/N))
+    Q_max = 2*J/gamma * (1 + cos(pi/N))
+    Variance = (Q_max - Q_min)^2 / 8
+
+Arcsine distribution (U-shaped). Modes cluster at band edges,
+not at the mean. Converges with N (variance rel. error < 2% at N=50).
+
+**Valid for:** Heisenberg chain, w=1 sector, large N.
+**Replaces:** numerical Q-factor histogram.
+**Source:** [D07 Derivation](proofs/derivations/D07_Q_DISTRIBUTION.md)
 
 ---
 

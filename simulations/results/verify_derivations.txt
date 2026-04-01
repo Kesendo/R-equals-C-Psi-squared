@@ -1,0 +1,480 @@
+Derivation Verification: D1-D6
+J = 1.0, gamma = 0.05, N = 2..5
+============================================================
+
+============================================================
+D1: Bandwidth = 8J*cos(pi/N) -> 8J as N -> inf
+    from formula 2: omega_k = 4J*(1 - cos(pi*k/N))
+============================================================
+
+  N=2: 2 w=1 frequencies (expected 1)
+    numerical:  [np.float64(3.99875), np.float64(4.0)]
+    formula 2:  [np.float64(4.0)]
+    max freq error: 0.00e+00
+    BW numerical:   0.0012502000
+    BW formula:     0.0000000000
+    BW/8J = 0.000000
+
+  N=3: 2 w=1 frequencies (expected 2)
+    numerical:  [np.float64(2.0), np.float64(6.0)]
+    formula 2:  [np.float64(2.0), np.float64(6.0)]
+    max freq error: 8.88e-16
+    BW numerical:   4.0000000000
+    BW formula:     4.0000000000
+    BW/8J = 0.500000
+
+  N=4: 3 w=1 frequencies (expected 3)
+    numerical:  [np.float64(1.171573), np.float64(4.0), np.float64(6.828427)]
+    formula 2:  [np.float64(1.171573), np.float64(4.0), np.float64(6.828427)]
+    max freq error: 4.75e-09
+    BW numerical:   5.6568542400
+    BW formula:     5.6568542495
+    BW/8J = 0.707107
+
+  N=5: 4 w=1 frequencies (expected 4)
+    numerical:  [np.float64(0.763932), np.float64(2.763932), np.float64(5.236068), np.float64(7.236068)]
+    formula 2:  [np.float64(0.763932), np.float64(2.763932), np.float64(5.236068), np.float64(7.236068)]
+    max freq error: 2.50e-09
+    BW numerical:   6.4721359600
+    BW formula:     6.4721359550
+    BW/8J = 0.809017
+
+  D1 STATUS: VERIFIED
+
+============================================================
+D2: V(N) = Q_max / Q_mean = 1 + cos(pi/N)
+    Q_mean = 2J/gamma exactly (cosine sum = 0)
+============================================================
+
+  N=2 (1 matched Q values):
+    Sum cos(pi*k/N) = 6.12e-17 (should be 0)
+    Q_mean numerical:  40.0000000000
+    Q_mean formula:    40.0000000000
+    Q_mean deviation:  7.11e-15
+    V(N) numerical:    1.0000000000
+    V(N) formula:      1.0000000000
+    V(N) deviation:    0.00e+00
+
+  N=3 (2 matched Q values):
+    Sum cos(pi*k/N) = 3.33e-16 (should be 0)
+    Q_mean numerical:  40.0000000000
+    Q_mean formula:    40.0000000000
+    Q_mean deviation:  0.00e+00
+    V(N) numerical:    1.5000000000
+    V(N) formula:      1.5000000000
+    V(N) deviation:    4.44e-16
+
+  N=4 (3 matched Q values):
+    Sum cos(pi*k/N) = 2.22e-16 (should be 0)
+    Q_mean numerical:  40.0000000000
+    Q_mean formula:    40.0000000000
+    Q_mean deviation:  0.00e+00
+    V(N) numerical:    1.7071067812
+    V(N) formula:      1.7071067812
+    V(N) deviation:    2.22e-16
+
+  N=5 (4 matched Q values):
+    Sum cos(pi*k/N) = 2.22e-16 (should be 0)
+    Q_mean numerical:  40.0000000000
+    Q_mean formula:    40.0000000000
+    Q_mean deviation:  4.26e-14
+    V(N) numerical:    1.8090169944
+    V(N) formula:      1.8090169944
+    V(N) deviation:    2.89e-15
+
+  D2 STATUS: VERIFIED
+
+============================================================
+D3: t_X/t_Z = K_X/K_Z, verified analytically + propagation
+============================================================
+
+  Analytical:
+    f* (Z crossing):   0.861224099740
+    K_Z = 0.0373501325  (doc: 0.0374)
+    K_X = ln(2)/8 = 0.0866433976  (doc: 0.0867)
+    u* (depol crossing): 0.889395991882
+    K_depol = 0.0439547653  (doc: 0.0440)
+    K_X/K_Z = 2.3197614515  (doc: 2.317)
+    K_depol/K_Z = 1.1768302376  (doc: 1.176)
+
+  Propagation (Bell+ N=2, gamma=0.05, dt=0.005):
+    t_cross_Z = 0.747004  (analytical: 0.747003)
+    t_cross_X = 1.732869  (analytical: 1.732868)
+    Ratio propagation: 2.319759
+    Ratio analytical:  2.319761
+    Deviation: 0.000003
+
+  D3 STATUS: VERIFIED
+
+============================================================
+D4: Crossing condition f(1+f^2) = (d-1)/2
+    Single qubit (d=2): 1/2.  Bell+ (d=4): 3/2
+============================================================
+
+  Single qubit (d=2):
+    f* = 0.423853799070
+    f*(1+f*^2) = 0.500000000000  (target: 0.5)
+    CPsi at crossing = 0.250000000000  (target: 0.25)
+
+  Bell+ 2-qubit (d=4):
+    f* = 0.861224099740
+    f*(1+f*^2) = 1.500000000000  (target: 1.5)
+    CPsi at crossing = 0.250000000000  (target: 0.25)
+
+  Ratio: 1.5/0.5 = 3.0 = d-1 = 3  EXACT
+
+  Propagation (H=0, gamma=0.05):
+    K_1q = gamma*t = 0.42918337  (analytical: 0.42918335)
+    K_2q = gamma*t = 0.03735020  (analytical: 0.03735013)
+
+  D4 STATUS: VERIFIED
+
+============================================================
+D5: Oscillating modes = 4^N - (N+1) - Stat(N)
+    Valid at gamma -> 0.  Using gamma = 1e-6.
+============================================================
+
+  N=2 (total 16 = 4^2):
+    Stationary: 10 (formula: 10)
+    XOR drain:  3 (formula: 3)
+    Oscillating: 3 (formula: 3)
+
+  N=3 (total 64 = 4^3):
+    Stationary: 24 (formula: 24)
+    XOR drain:  4 (formula: 4)
+    Oscillating: 36 (formula: 36)
+
+  N=4 (total 256 = 4^4):
+    Stationary: 54 (formula: 54)
+    XOR drain:  5 (formula: 5)
+    Oscillating: 197 (formula: 197)
+
+  N=5 (total 1024 = 4^5):
+    Stationary: 120 (formula: 120)
+    XOR drain:  6 (formula: 6)
+    Oscillating: 898 (formula: 898)
+
+  D5 STATUS: VERIFIED
+
+============================================================
+D6: Spectral gap = 2*gamma (smallest nonzero decay rate)
+    Mixing time <= N*ln(4) / (2*gamma)
+============================================================
+
+  N=2:
+    Spectral gap:     0.1000000000
+    Expected 2*gamma: 0.1000000000
+    Deviation:        3.61e-16
+    Mixing time bound: 27.7259
+
+  N=3:
+    Spectral gap:     0.1000000000
+    Expected 2*gamma: 0.1000000000
+    Deviation:        1.40e-15
+    Mixing time bound: 41.5888
+
+  N=4:
+    Spectral gap:     0.1000000000
+    Expected 2*gamma: 0.1000000000
+    Deviation:        6.00e-15
+    Mixing time bound: 55.4518
+
+  N=5:
+    Spectral gap:     0.1000000000
+    Expected 2*gamma: 0.1000000000
+    Deviation:        9.12e-15
+    Mixing time bound: 69.3147
+
+  D6 STATUS: VERIFIED
+
+============================================================
+BONUS: Weight-sector rate structure (formula 33 check)
+  Expected: rates at 2*w*gamma for each weight w
+  Formula 33 claims: {2g, 8g/3, 10g/3} for N=3
+============================================================
+
+  N=2: distinct rates (rounded to 6 decimals):
+    rate =  -0.00000000  (count=   3, rate/(2g) = -0.0000)
+    rate =   0.10000000  (count=  10, rate/(2g) = 1.0000)
+    rate =   0.20000000  (count=   3, rate/(2g) = 2.0000)
+    All rates = 2*w*gamma (integer w)? True
+
+  N=3: distinct rates (rounded to 6 decimals):
+    rate =   0.00000000  (count=   4, rate/(2g) = 0.0000)
+    rate =   0.10000000  (count=  14, rate/(2g) = 1.0000)
+    rate =   0.13327600  (count=   8, rate/(2g) = 1.3328)
+    rate =   0.13331700  (count=   2, rate/(2g) = 1.3332)
+    rate =   0.13334200  (count=   4, rate/(2g) = 1.3334)
+    rate =   0.16665800  (count=   4, rate/(2g) = 1.6666)
+    rate =   0.16668300  (count=   2, rate/(2g) = 1.6668)
+    rate =   0.16672400  (count=   8, rate/(2g) = 1.6672)
+    rate =   0.20000000  (count=  14, rate/(2g) = 2.0000)
+    rate =   0.30000000  (count=   4, rate/(2g) = 3.0000)
+    All rates = 2*w*gamma (integer w)? False
+
+  N=4: distinct rates (rounded to 6 decimals):
+    rate =  -0.00000000  (count=   5, rate/(2g) = -0.0000)
+    rate =   0.10000000  (count=  20, rate/(2g) = 1.0000)
+    rate =   0.11829600  (count=   1, rate/(2g) = 1.1830)
+    rate =   0.14992400  (count=   4, rate/(2g) = 1.4992)
+    rate =   0.14996900  (count=   4, rate/(2g) = 1.4997)
+    rate =   0.14998000  (count=   2, rate/(2g) = 1.4998)
+    rate =   0.14998700  (count=   4, rate/(2g) = 1.4999)
+    rate =   0.15001300  (count=   4, rate/(2g) = 1.5001)
+    rate =   0.15007600  (count=   4, rate/(2g) = 1.5008)
+    rate =   0.17504100  (count=   4, rate/(2g) = 1.7504)
+    rate =   0.20000000  (count= 152, rate/(2g) = 2.0000)
+    rate =   0.22495900  (count=   4, rate/(2g) = 2.2496)
+    rate =   0.24992400  (count=   4, rate/(2g) = 2.4992)
+    rate =   0.24998700  (count=   4, rate/(2g) = 2.4999)
+    rate =   0.25001300  (count=   4, rate/(2g) = 2.5001)
+    rate =   0.25002000  (count=   2, rate/(2g) = 2.5002)
+    rate =   0.25003100  (count=   4, rate/(2g) = 2.5003)
+    rate =   0.25007600  (count=   4, rate/(2g) = 2.5008)
+    rate =   0.28170400  (count=   1, rate/(2g) = 2.8170)
+    rate =   0.30000000  (count=  20, rate/(2g) = 3.0000)
+    rate =   0.40000000  (count=   5, rate/(2g) = 4.0000)
+    All rates = 2*w*gamma (integer w)? False
+
+  N=5: distinct rates (rounded to 6 decimals):
+    rate =  -0.00000000  (count=   6, rate/(2g) = -0.0000)
+    rate =   0.10000000  (count=  26, rate/(2g) = 1.0000)
+    rate =   0.12538800  (count=   2, rate/(2g) = 1.2539)
+    rate =   0.15614400  (count=   4, rate/(2g) = 1.5614)
+    rate =   0.15981500  (count=   4, rate/(2g) = 1.5981)
+    rate =   0.15990800  (count=   4, rate/(2g) = 1.5991)
+    rate =   0.15996700  (count=   4, rate/(2g) = 1.5997)
+    rate =   0.15997300  (count=   4, rate/(2g) = 1.5997)
+    rate =   0.15997700  (count=   2, rate/(2g) = 1.5998)
+    rate =   0.15998700  (count=   8, rate/(2g) = 1.5999)
+    rate =   0.15999100  (count=   2, rate/(2g) = 1.5999)
+    rate =   0.16001700  (count=   4, rate/(2g) = 1.6002)
+    rate =   0.16004500  (count=   4, rate/(2g) = 1.6004)
+    rate =   0.17931000  (count=   4, rate/(2g) = 1.7931)
+    rate =   0.18004000  (count=   4, rate/(2g) = 1.8004)
+    rate =   0.18027600  (count=   4, rate/(2g) = 1.8028)
+    rate =   0.18451700  (count=   4, rate/(2g) = 1.8452)
+    rate =   0.19178700  (count=   2, rate/(2g) = 1.9179)
+    rate =   0.19619500  (count=   4, rate/(2g) = 1.9620)
+    rate =   0.19623300  (count=   4, rate/(2g) = 1.9623)
+    rate =   0.19689000  (count=   2, rate/(2g) = 1.9689)
+    rate =   0.20000000  (count=  50, rate/(2g) = 2.0000)
+    rate =   0.20220500  (count=   4, rate/(2g) = 2.0220)
+    rate =   0.20713100  (count=   4, rate/(2g) = 2.0713)
+    rate =   0.20731600  (count=   4, rate/(2g) = 2.0732)
+    rate =   0.20797400  (count=   4, rate/(2g) = 2.0797)
+    rate =   0.20816100  (count=   2, rate/(2g) = 2.0816)
+    rate =   0.21702500  (count=   4, rate/(2g) = 2.1702)
+    rate =   0.21757500  (count=   4, rate/(2g) = 2.1757)
+    rate =   0.21885000  (count=   4, rate/(2g) = 2.1885)
+    rate =   0.21962900  (count=   4, rate/(2g) = 2.1963)
+    rate =   0.21979400  (count=   4, rate/(2g) = 2.1979)
+    rate =   0.21990000  (count=   4, rate/(2g) = 2.1990)
+    rate =   0.21990700  (count=   4, rate/(2g) = 2.1991)
+    rate =   0.21992600  (count=   4, rate/(2g) = 2.1993)
+    rate =   0.21994100  (count=   4, rate/(2g) = 2.1994)
+    rate =   0.21995400  (count=   4, rate/(2g) = 2.1995)
+    rate =   0.21996600  (count=   4, rate/(2g) = 2.1997)
+    rate =   0.21997500  (count=   4, rate/(2g) = 2.1997)
+    rate =   0.21998400  (count=   4, rate/(2g) = 2.1998)
+    rate =   0.21998600  (count=   4, rate/(2g) = 2.1999)
+    rate =   0.22000300  (count=   4, rate/(2g) = 2.2000)
+    rate =   0.22000900  (count=   4, rate/(2g) = 2.2001)
+    rate =   0.22001300  (count=   4, rate/(2g) = 2.2001)
+    rate =   0.22001700  (count=   4, rate/(2g) = 2.2002)
+    rate =   0.22003200  (count=   4, rate/(2g) = 2.2003)
+    rate =   0.22003300  (count=   4, rate/(2g) = 2.2003)
+    rate =   0.22006100  (count=   4, rate/(2g) = 2.2006)
+    rate =   0.22007500  (count=   4, rate/(2g) = 2.2007)
+    rate =   0.22008400  (count=   4, rate/(2g) = 2.2008)
+    rate =   0.22010700  (count=   4, rate/(2g) = 2.2011)
+    rate =   0.22266800  (count=   4, rate/(2g) = 2.2267)
+    rate =   0.22275500  (count=   4, rate/(2g) = 2.2275)
+    rate =   0.22523800  (count=   4, rate/(2g) = 2.2524)
+    rate =   0.22640800  (count=   4, rate/(2g) = 2.2641)
+    rate =   0.22650800  (count=   4, rate/(2g) = 2.2651)
+    rate =   0.22666400  (count=   4, rate/(2g) = 2.2666)
+    rate =   0.22669600  (count=   4, rate/(2g) = 2.2670)
+    rate =   0.22670500  (count=   4, rate/(2g) = 2.2670)
+    rate =   0.22759000  (count=   4, rate/(2g) = 2.2759)
+    rate =   0.22846100  (count=   4, rate/(2g) = 2.2846)
+    rate =   0.22889800  (count=   4, rate/(2g) = 2.2890)
+    rate =   0.23104300  (count=   4, rate/(2g) = 2.3104)
+    rate =   0.23124000  (count=   4, rate/(2g) = 2.3124)
+    rate =   0.23200500  (count=   4, rate/(2g) = 2.3200)
+    rate =   0.23203800  (count=   4, rate/(2g) = 2.3204)
+    rate =   0.23211100  (count=   4, rate/(2g) = 2.3211)
+    rate =   0.23253500  (count=   4, rate/(2g) = 2.3253)
+    rate =   0.23309600  (count=   4, rate/(2g) = 2.3310)
+    rate =   0.23315600  (count=   4, rate/(2g) = 2.3316)
+    rate =   0.23340700  (count=   4, rate/(2g) = 2.3341)
+    rate =   0.23353700  (count=   4, rate/(2g) = 2.3354)
+    rate =   0.23401700  (count=   4, rate/(2g) = 2.3402)
+    rate =   0.23514800  (count=   4, rate/(2g) = 2.3515)
+    rate =   0.23554900  (count=   4, rate/(2g) = 2.3555)
+    rate =   0.23599100  (count=   4, rate/(2g) = 2.3599)
+    rate =   0.23649200  (count=   4, rate/(2g) = 2.3649)
+    rate =   0.23673600  (count=   4, rate/(2g) = 2.3674)
+    rate =   0.23919700  (count=   4, rate/(2g) = 2.3920)
+    rate =   0.23935600  (count=   4, rate/(2g) = 2.3936)
+    rate =   0.23943400  (count=   4, rate/(2g) = 2.3943)
+    rate =   0.23981700  (count=   4, rate/(2g) = 2.3982)
+    rate =   0.23989600  (count=   4, rate/(2g) = 2.3990)
+    rate =   0.23996600  (count=   4, rate/(2g) = 2.3997)
+    rate =   0.23998300  (count=   4, rate/(2g) = 2.3998)
+    rate =   0.23999100  (count=   2, rate/(2g) = 2.3999)
+    rate =   0.24000200  (count=   4, rate/(2g) = 2.4000)
+    rate =   0.24000600  (count=   4, rate/(2g) = 2.4001)
+    rate =   0.24000800  (count=   4, rate/(2g) = 2.4001)
+    rate =   0.24001800  (count=   4, rate/(2g) = 2.4002)
+    rate =   0.24004200  (count=   4, rate/(2g) = 2.4004)
+    rate =   0.24082900  (count=   4, rate/(2g) = 2.4083)
+    rate =   0.24094800  (count=   4, rate/(2g) = 2.4095)
+    rate =   0.24098100  (count=   4, rate/(2g) = 2.4098)
+    rate =   0.24122500  (count=   2, rate/(2g) = 2.4122)
+    rate =   0.24179700  (count=   4, rate/(2g) = 2.4180)
+    rate =   0.24215500  (count=   4, rate/(2g) = 2.4215)
+    rate =   0.24285700  (count=   4, rate/(2g) = 2.4286)
+    rate =   0.24295100  (count=   4, rate/(2g) = 2.4295)
+    rate =   0.24374300  (count=   4, rate/(2g) = 2.4374)
+    rate =   0.24393900  (count=   4, rate/(2g) = 2.4394)
+    rate =   0.24401800  (count=   4, rate/(2g) = 2.4402)
+    rate =   0.24420700  (count=   4, rate/(2g) = 2.4421)
+    rate =   0.24445200  (count=   4, rate/(2g) = 2.4445)
+    rate =   0.24546800  (count=   4, rate/(2g) = 2.4547)
+    rate =   0.24563900  (count=   4, rate/(2g) = 2.4564)
+    rate =   0.24694800  (count=   4, rate/(2g) = 2.4695)
+    rate =   0.24730900  (count=   4, rate/(2g) = 2.4731)
+    rate =   0.24760200  (count=   2, rate/(2g) = 2.4760)
+    rate =   0.24786300  (count=   4, rate/(2g) = 2.4786)
+    rate =   0.24823600  (count=   4, rate/(2g) = 2.4824)
+    rate =   0.24829400  (count=   4, rate/(2g) = 2.4829)
+    rate =   0.24908600  (count=   4, rate/(2g) = 2.4909)
+    rate =   0.24954000  (count=   4, rate/(2g) = 2.4954)
+    rate =   0.25046000  (count=   4, rate/(2g) = 2.5046)
+    rate =   0.25091400  (count=   4, rate/(2g) = 2.5091)
+    rate =   0.25170600  (count=   4, rate/(2g) = 2.5171)
+    rate =   0.25176400  (count=   4, rate/(2g) = 2.5176)
+    rate =   0.25213700  (count=   4, rate/(2g) = 2.5214)
+    rate =   0.25239800  (count=   2, rate/(2g) = 2.5240)
+    rate =   0.25269100  (count=   4, rate/(2g) = 2.5269)
+    rate =   0.25305200  (count=   4, rate/(2g) = 2.5305)
+    rate =   0.25436100  (count=   4, rate/(2g) = 2.5436)
+    rate =   0.25453200  (count=   4, rate/(2g) = 2.5453)
+    rate =   0.25554800  (count=   4, rate/(2g) = 2.5555)
+    rate =   0.25579300  (count=   4, rate/(2g) = 2.5579)
+    rate =   0.25598200  (count=   4, rate/(2g) = 2.5598)
+    rate =   0.25606100  (count=   4, rate/(2g) = 2.5606)
+    rate =   0.25625700  (count=   4, rate/(2g) = 2.5626)
+    rate =   0.25704900  (count=   4, rate/(2g) = 2.5705)
+    rate =   0.25714300  (count=   4, rate/(2g) = 2.5714)
+    rate =   0.25784500  (count=   4, rate/(2g) = 2.5784)
+    rate =   0.25820300  (count=   4, rate/(2g) = 2.5820)
+    rate =   0.25877500  (count=   2, rate/(2g) = 2.5877)
+    rate =   0.25901900  (count=   4, rate/(2g) = 2.5902)
+    rate =   0.25905200  (count=   4, rate/(2g) = 2.5905)
+    rate =   0.25917100  (count=   4, rate/(2g) = 2.5917)
+    rate =   0.25995800  (count=   4, rate/(2g) = 2.5996)
+    rate =   0.25998200  (count=   4, rate/(2g) = 2.5998)
+    rate =   0.25999200  (count=   4, rate/(2g) = 2.5999)
+    rate =   0.25999400  (count=   4, rate/(2g) = 2.5999)
+    rate =   0.25999800  (count=   4, rate/(2g) = 2.6000)
+    rate =   0.26000900  (count=   2, rate/(2g) = 2.6001)
+    rate =   0.26001700  (count=   4, rate/(2g) = 2.6002)
+    rate =   0.26003400  (count=   4, rate/(2g) = 2.6003)
+    rate =   0.26010400  (count=   4, rate/(2g) = 2.6010)
+    rate =   0.26018300  (count=   4, rate/(2g) = 2.6018)
+    rate =   0.26056600  (count=   4, rate/(2g) = 2.6057)
+    rate =   0.26064400  (count=   4, rate/(2g) = 2.6064)
+    rate =   0.26080300  (count=   4, rate/(2g) = 2.6080)
+    rate =   0.26326400  (count=   4, rate/(2g) = 2.6326)
+    rate =   0.26350800  (count=   4, rate/(2g) = 2.6351)
+    rate =   0.26400900  (count=   4, rate/(2g) = 2.6401)
+    rate =   0.26445100  (count=   4, rate/(2g) = 2.6445)
+    rate =   0.26485200  (count=   4, rate/(2g) = 2.6485)
+    rate =   0.26598300  (count=   4, rate/(2g) = 2.6598)
+    rate =   0.26646300  (count=   4, rate/(2g) = 2.6646)
+    rate =   0.26659300  (count=   4, rate/(2g) = 2.6659)
+    rate =   0.26684400  (count=   4, rate/(2g) = 2.6684)
+    rate =   0.26690400  (count=   4, rate/(2g) = 2.6690)
+    rate =   0.26746500  (count=   4, rate/(2g) = 2.6746)
+    rate =   0.26788900  (count=   4, rate/(2g) = 2.6789)
+    rate =   0.26796200  (count=   4, rate/(2g) = 2.6796)
+    rate =   0.26799500  (count=   4, rate/(2g) = 2.6799)
+    rate =   0.26876000  (count=   4, rate/(2g) = 2.6876)
+    rate =   0.26895700  (count=   4, rate/(2g) = 2.6896)
+    rate =   0.27110200  (count=   4, rate/(2g) = 2.7110)
+    rate =   0.27153900  (count=   4, rate/(2g) = 2.7154)
+    rate =   0.27241000  (count=   4, rate/(2g) = 2.7241)
+    rate =   0.27329500  (count=   4, rate/(2g) = 2.7329)
+    rate =   0.27330400  (count=   4, rate/(2g) = 2.7330)
+    rate =   0.27333600  (count=   4, rate/(2g) = 2.7334)
+    rate =   0.27349200  (count=   4, rate/(2g) = 2.7349)
+    rate =   0.27359200  (count=   4, rate/(2g) = 2.7359)
+    rate =   0.27476200  (count=   4, rate/(2g) = 2.7476)
+    rate =   0.27724500  (count=   4, rate/(2g) = 2.7725)
+    rate =   0.27733200  (count=   4, rate/(2g) = 2.7733)
+    rate =   0.27989300  (count=   4, rate/(2g) = 2.7989)
+    rate =   0.27991600  (count=   4, rate/(2g) = 2.7992)
+    rate =   0.27992500  (count=   4, rate/(2g) = 2.7992)
+    rate =   0.27993900  (count=   4, rate/(2g) = 2.7994)
+    rate =   0.27996700  (count=   4, rate/(2g) = 2.7997)
+    rate =   0.27996800  (count=   4, rate/(2g) = 2.7997)
+    rate =   0.27998300  (count=   4, rate/(2g) = 2.7998)
+    rate =   0.27998700  (count=   4, rate/(2g) = 2.7999)
+    rate =   0.27999100  (count=   4, rate/(2g) = 2.7999)
+    rate =   0.27999700  (count=   4, rate/(2g) = 2.8000)
+    rate =   0.28001400  (count=   4, rate/(2g) = 2.8001)
+    rate =   0.28001600  (count=   4, rate/(2g) = 2.8002)
+    rate =   0.28002500  (count=   4, rate/(2g) = 2.8003)
+    rate =   0.28003400  (count=   4, rate/(2g) = 2.8003)
+    rate =   0.28004600  (count=   4, rate/(2g) = 2.8005)
+    rate =   0.28005900  (count=   4, rate/(2g) = 2.8006)
+    rate =   0.28007400  (count=   4, rate/(2g) = 2.8007)
+    rate =   0.28009300  (count=   4, rate/(2g) = 2.8009)
+    rate =   0.28010000  (count=   4, rate/(2g) = 2.8010)
+    rate =   0.28020600  (count=   4, rate/(2g) = 2.8021)
+    rate =   0.28037100  (count=   4, rate/(2g) = 2.8037)
+    rate =   0.28115000  (count=   4, rate/(2g) = 2.8115)
+    rate =   0.28242500  (count=   4, rate/(2g) = 2.8242)
+    rate =   0.28297500  (count=   4, rate/(2g) = 2.8297)
+    rate =   0.29183900  (count=   2, rate/(2g) = 2.9184)
+    rate =   0.29202600  (count=   4, rate/(2g) = 2.9203)
+    rate =   0.29268400  (count=   4, rate/(2g) = 2.9268)
+    rate =   0.29286900  (count=   4, rate/(2g) = 2.9287)
+    rate =   0.29779500  (count=   4, rate/(2g) = 2.9779)
+    rate =   0.30000000  (count=  50, rate/(2g) = 3.0000)
+    rate =   0.30311000  (count=   2, rate/(2g) = 3.0311)
+    rate =   0.30376700  (count=   4, rate/(2g) = 3.0377)
+    rate =   0.30380500  (count=   4, rate/(2g) = 3.0380)
+    rate =   0.30821300  (count=   2, rate/(2g) = 3.0821)
+    rate =   0.31548300  (count=   4, rate/(2g) = 3.1548)
+    rate =   0.31972400  (count=   4, rate/(2g) = 3.1972)
+    rate =   0.31996000  (count=   4, rate/(2g) = 3.1996)
+    rate =   0.32069000  (count=   4, rate/(2g) = 3.2069)
+    rate =   0.33995500  (count=   4, rate/(2g) = 3.3996)
+    rate =   0.33998300  (count=   4, rate/(2g) = 3.3998)
+    rate =   0.34000900  (count=   2, rate/(2g) = 3.4001)
+    rate =   0.34001300  (count=   8, rate/(2g) = 3.4001)
+    rate =   0.34002300  (count=   2, rate/(2g) = 3.4002)
+    rate =   0.34002700  (count=   4, rate/(2g) = 3.4003)
+    rate =   0.34003300  (count=   4, rate/(2g) = 3.4003)
+    rate =   0.34009200  (count=   4, rate/(2g) = 3.4009)
+    rate =   0.34018500  (count=   4, rate/(2g) = 3.4019)
+    rate =   0.34385600  (count=   4, rate/(2g) = 3.4386)
+    rate =   0.37461200  (count=   2, rate/(2g) = 3.7461)
+    rate =   0.40000000  (count=  26, rate/(2g) = 4.0000)
+    rate =   0.50000000  (count=   6, rate/(2g) = 5.0000)
+    All rates = 2*w*gamma (integer w)? False
+
+============================================================
+SUMMARY
+============================================================
+  D1: VERIFIED
+  D2: VERIFIED
+  D3: VERIFIED
+  D4: VERIFIED
+  D5: VERIFIED
+  D6: VERIFIED
+
+  6/6 derivations verified.
