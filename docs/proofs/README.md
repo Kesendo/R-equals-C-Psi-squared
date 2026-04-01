@@ -53,6 +53,12 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
    cannot originate from within d(d−2)=0. Five candidates eliminated.
    The noise must come from outside.
 
+6. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
+   Time reversal requires separating oscillation from cooling
+   ({L_H, L_D+Σγ} = 0). This holds exactly at N=2 (single bond =
+   entire system) and fails at N > 2 (cross term ~2%, γ-independent).
+   Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
+
 **The full journey:**
 
 6. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
@@ -87,6 +93,11 @@ Mirror Symmetry Proof          Uniqueness Proof
   Incompleteness          Complete Math Doc
   (noise must come         (master reference,
    from outside)            all results)
+        │
+        ▼
+  Time Irreversibility
+  (reversal excluded
+   at N > 2, algebraic)
 ```
 
 The Proof Roadmap is the spine: it tracks seven layers from single
@@ -107,6 +118,8 @@ synthesized.
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 | Random CPTP maps tested | 300 (0 exceptions) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
 | Internal noise candidates eliminated | 5 of 5 | [Incompleteness](INCOMPLETENESS_PROOF.md) |
+| {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
+| Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Crossing cubic root | x ≈ 0.4239 (x³+x=½) | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 
 ---

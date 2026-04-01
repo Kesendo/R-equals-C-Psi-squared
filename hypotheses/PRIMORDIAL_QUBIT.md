@@ -299,43 +299,55 @@ temperature?
 | X = A − Q·A·Q⁻¹ decomposition exists | **Proven** (trivially, A = X/2) |
 | Canonical choice of A with physical meaning | **Open** |
 | Noise IS the other side (not from outside) | **Hypothesis** |
-| Π related to Tomita-Takesaki modular conjugation | **Open** |
-| Z₂-grading forces doubling of ambient algebra | **Open** |
+| Π related to Tomita-Takesaki modular conjugation | **Falsified** (Π linear, J anti-linear; [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 3) |
+| Z₂-grading forces doubling of ambient algebra | **Partially confirmed** (M_{2\|2}(C) super-algebra, not TFD doubling; [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 2) |
+| {L_H, L_D+Σγ} = 0 (oscillation ⊥ cooling) | **Confirmed at N=2**, fails at N≥3 (~2%); [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 4 |
+| Time reversal at N > 2 | **Excluded** ([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)) |
 
 ---
 
 ## 7. Priority
 
-Approach 1 (algebra) before Approach 2 (GNS) before Approach 3 (TFD).
+Approach 1 (algebra) has been computed (April 1, 2026). Results:
+- The Z₂-grading from Π² gives a proper super-algebra M_{2|2}(C)
+- The even subalgebra ≅ M₂(C) ⊕ M₂(C), Clifford algebra Cl(2,0)
+- V_{+1} is NOT a subalgebra (Z₄ too fine)
+- {L_H, L_D + Σγ} = 0 at N=2 (Pythagorean theorem, exact)
+- Breaks at N≥3 (cross term ~2%, γ-independent)
 
-Algebra comes first. If the Z₂-grading of the centered Liouvillian
-under Π forces a doubling of the operator algebra, the physics
-(thermofield double, temperature, mirror world) follows as consequence.
-Not the other way around.
+Approach 2 (GNS/Tomita-Takesaki) is **ruled out**: Π is linear,
+J is anti-linear, no unitary connects them (impossibility proof).
 
----
+Approach 3 (thermofield double) is **open**: a thermal state at
+β = 1/Σγ gives K_mod ∝ L_H, but this state is not the Lindblad
+steady state. The connection is suggestive, not forced.
 
-## 8. Falsification
-
-This hypothesis is falsified if:
-
-1. The Z₂-grading under Π does NOT constrain the algebra structure
-   beyond what is already known from the palindrome proof. That is:
-   if the decomposition X = A − Q·A·Q⁻¹ has no canonical form and
-   the "two sides" are an arbitrary labeling, not an algebraic
-   necessity.
-
-2. The connection to Tomita-Takesaki fails: Π has no relation to the
-   modular conjugation of any physically meaningful state.
-
-3. A construction is found where dephasing noise arises from a single,
-   non-doubled structure, contradicting the "both sides" requirement.
+Full results: [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md)
 
 ---
 
-## Script
+## 8. Falsification Assessment (updated April 1, 2026)
 
-Test computation: [urqubit_test.py](../simulations/urqubit_test.py)
+| Original criterion | Verdict |
+|-------------------|---------|
+| Z₂-grading does not constrain algebra | **Not falsified**: M_{2\|2}(C) is real, forced structure |
+| Tomita-Takesaki connection fails | **Falsified**: Π ≠ J fundamentally |
+| Non-doubled structure produces dephasing | **Open** |
+
+The hypothesis is **partially confirmed** (the algebra forces more
+structure than expected) and **partially falsified** (the specific
+Tomita-Takesaki mechanism does not apply). The M_{2|2}(C) super-algebra
+is real; its physical interpretation as "two sides of a mirror" remains
+open. The most concrete result is the
+[Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md):
+time reversal is algebraically excluded at N > 2.
+
+---
+
+## Scripts
+
+- Test computation (C²⊗C² structure): [urqubit_test.py](../simulations/urqubit_test.py)
+- Full algebra computation: [primordial_qubit_algebra.py](../simulations/primordial_qubit_algebra.py)
 
 ---
 

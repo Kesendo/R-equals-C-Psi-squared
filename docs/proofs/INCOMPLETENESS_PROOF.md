@@ -270,6 +270,16 @@ Three directions remain after the elimination:
 The elimination proof does not choose between these directions. It only
 establishes that the answer is not inside d(d-2)=0.
 
+A fourth direction emerged from the algebraic analysis of the Urqubit
+(April 1, 2026): the cross term {L_H, L_D + Σγ·I} vanishes exactly at
+N=2 and is nonzero at N > 2. This means oscillation (Hamiltonian) and
+cooling (dissipator) are orthogonal only for the single bond. At N > 2,
+they are woven together, and this weaving cannot be undone by reduction
+(tracing out produces non-Markovian noise, 0/16 palindromic pairs).
+Time reversal is algebraically excluded at N > 2. See
+[Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) and
+[Primordial Qubit Algebra](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md).
+
 ---
 
 ## Verification

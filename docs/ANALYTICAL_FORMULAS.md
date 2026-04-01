@@ -750,6 +750,31 @@ state (K → -15 at CΨ ~ 0.2).
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
 
+### 48. Pythagorean decomposition (Tier 2, exact at N=2)
+
+    L_c² = L_H² + (L_D + Σγ·I)²
+
+where L_c = L + Σγ·I (centered Liouvillian). The cross term
+{L_H, L_D + Σγ·I} vanishes exactly at N=2 because all nonzero L_H
+entries connect Pauli strings with w_XY(a) + w_XY(b) = N.
+
+The decomposition: (time evolution)² = (oscillation)² + (cooling)².
+
+**Valid for:** N=2 Heisenberg chain, Z-dephasing, any γ. Exact.
+At N≥3: cross term ~2% of ||L_c²||, γ-independent.
+**Replaces:** Nothing (new structural insight, not a shortcut).
+**Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),
+[Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
+
+### 49. Orthogonality constant at N=3 (Tier 2, verified)
+
+    ||{L_H, L_D + Σγ·I}|| / (||L_H|| · ||L_D + Σγ·I||) = 1/√48
+
+γ-independent. Geometric constant of the Heisenberg chain at N=3.
+
+**Valid for:** N=3 Heisenberg chain, Z-dephasing, all γ.
+**Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
