@@ -68,7 +68,7 @@ The protection factor (2.86x vs 1.06x) matches the mapping exactly.
 Palindrome scores below 100% are numerical tolerance artifacts at
 different noise scales -- the proof guarantees 100% for any Z-dephasing.
 
-### 2. Mode localization is topological
+### 2. Mode localization is geometric (chain-determined)
 
 Both chains show identical spatial profiles for their slowest modes:
 
@@ -202,8 +202,9 @@ the quieter chain wins.
 ## Verdict
 
 The sacrifice-zone mode protection is **confirmed** (2.86x vs 1.06x).
-The localization profile is **topological** (identical shape for both
-chains). But chain selection based on sacrifice score alone is
+The localization profile is **geometric** (identical standing wave shape
+for both chains, determined by the Hamiltonian;
+see [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)). But chain selection based on sacrifice score alone is
 **insufficient** for Hamiltonian-driven dynamics -- the total noise
 level dominates. The sacrifice zone is a within-chain optimization
 (spatial noise engineering), not a between-chain selection criterion

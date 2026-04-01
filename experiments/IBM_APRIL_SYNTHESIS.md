@@ -73,17 +73,19 @@ maximizes PeakMI (point-to-point). These are different objectives.
 -> [Resonant Return](RESONANT_RETURN.md),
 [Scaling](SIGNAL_ANALYSIS_SCALING.md)
 
-**5. Cavity mode protection** (Tier 2)
-The sacrifice zone protects cavity modes, not qubits. Same 43 frequencies
-exist under all noise profiles (zero, uniform, sacrifice). Only damping
-changes. Protected modes are center-localized: weight profile
-[0.52, 0.63, 0.70, 0.63, 0.52]. Profile is topological (identical under IBM
-and uniform noise). Correlation between edge-qubit weight and decay rate:
-r = 0.994. Predicted protection: 2.81x (theory), measured: 1.97x (24,073
-records via unpaired decay law).
+**5. Cavity mode selection** (Tier 2)
+The sacrifice zone selects cavity modes by spatial profile, not by qubit
+identity. Same 43 frequencies exist under all noise profiles (zero,
+uniform, sacrifice). Only damping changes. Under edge sacrifice: the
+slowest modes are center-localized (weight profile [0.52, 0.63, 0.70,
+0.63, 0.52]). Profile is geometric (standing wave pattern, identical
+under IBM and uniform noise, but reverses under center sacrifice).
+Not topologically protected (winding number = 0, Berry phase not
+quantized). Correlation edge-qubit weight vs decay rate: r = 0.994.
+Predicted protection: 2.81x (theory), measured: 1.97x (24,073 records).
 -> [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md),
 [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md),
-[Cavity Modes Formula](CAVITY_MODES_FORMULA.md)
+[Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)
 
 **6. IBM chain selection** (Tier 2-3)
 330 five-qubit chains on IBM Torino heavy-hex. Ranking by sacrifice score

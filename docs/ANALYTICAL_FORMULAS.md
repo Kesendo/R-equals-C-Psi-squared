@@ -178,17 +178,22 @@ Under the sacrifice-zone formula. Quadratic, not exponential.
 **Replaces:** time evolution simulation for SumMI estimation.
 **Source:** [Signal Analysis Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md)
 
-### 11. Mode localization profile, N=5 (Tier 2, topological)
+### 11. Mode localization profile, N=5 (Tier 2, geometric)
 
-    slowest modes: [0.52, 0.63, 0.70, 0.63, 0.52]
-    fastest modes: [0.98, 0.87, 0.80, 0.87, 0.98]
+    slowest modes (edge sacrifice): [0.52, 0.63, 0.70, 0.63, 0.52]
+    fastest modes (edge sacrifice): [0.98, 0.87, 0.80, 0.87, 0.98]
 
-Profile is identical under all noise profiles (uniform, sacrifice, IBM).
+Profile of each individual mode is identical under all noise profiles
+(geometric, from standing wave patterns sin(πkj/N)). But which modes
+are slowest depends on the noise profile: edge sacrifice selects
+center-heavy modes, center sacrifice selects edge-heavy modes. Not
+topologically protected (winding number = 0, Berry phase not quantized).
 Correlation edge-weight vs rate: r = 0.994.
 
 **Valid for:** N=5 Heisenberg chain, ALL Z-dephasing profiles.
 **Replaces:** eigenvector decomposition of Liouvillian.
-**Source:** [Cavity Mode Localization](../experiments/CAVITY_MODE_LOCALIZATION.md)
+**Source:** [Cavity Mode Localization](../experiments/CAVITY_MODE_LOCALIZATION.md),
+[Topological Edge Modes](../experiments/TOPOLOGICAL_EDGE_MODES.md)
 
 ---
 

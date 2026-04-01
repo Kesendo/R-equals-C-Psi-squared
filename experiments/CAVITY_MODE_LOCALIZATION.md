@@ -28,11 +28,14 @@ on each qubit. The correlation between sacrifice-qubit weight and decay
 rate is **r = 0.9942** (p = 0.00). Modes concentrated on the chain
 center survive longest. Modes concentrated on the edges die fastest.
 
-The spatial profile is **topological**: the same mode has the same
+The spatial profile is **geometric**: the same mode has the same
 qubit-weight pattern under IBM sacrifice noise and uniform noise. The
-topology of the chain determines WHERE modes live. The noise profile
-determines WHICH modes survive. The sacrifice zone exploits a
-pre-existing topological structure.
+geometry of the chain (standing wave patterns) determines WHERE modes
+live. The noise profile determines WHICH modes survive. The sacrifice
+zone exploits a pre-existing geometric structure. (Not topologically
+protected in the Altland-Zirnbauer sense: winding number = 0, Berry
+phase not quantized. See
+[Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md).)
 
 ---
 
@@ -102,17 +105,22 @@ difference between slowest and fastest is 0.17 on Q0 (25% relative).
 
 No spatial preference at all. The profiles are flat.
 
-### The profile is topological
+### The profile is geometric (not topologically protected)
 
 The 4 slowest 7.234J modes have profile [0.519, 0.631, 0.700, 0.631, 0.519]
 under **both** IBM sacrifice and uniform noise. The profile does not
-depend on the noise distribution. It depends on the chain topology.
+depend on the noise distribution. It depends on the chain geometry.
 
-The chain geometry creates modes with different spatial profiles. Some
-modes concentrate on the center, others on the edges. This is a
-property of the Hamiltonian, not the noise. When asymmetric noise is
-applied, it selectively damps the edge-heavy modes (because the
-sacrifice qubit is on the edge). The center-heavy modes survive.
+The chain creates modes with different spatial profiles through
+standing wave patterns (sin(πkj/N) eigenstates of the tight-binding
+w=1 sector). Some modes concentrate on the center, others on the
+edges. This is a property of the Hamiltonian, not the noise. When
+asymmetric noise is applied, it selectively damps the edge-heavy
+modes (because the sacrifice qubit is on the edge). The center-heavy
+modes survive. Crucially, which modes are "slowest" REVERSES when
+noise moves from edge to center: edge sacrifice selects center-heavy
+modes, center sacrifice selects edge-heavy modes
+([Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)).
 
 ---
 
