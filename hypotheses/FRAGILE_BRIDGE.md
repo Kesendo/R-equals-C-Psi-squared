@@ -19,8 +19,9 @@ stability regimes: weak coupling stabilizes linearly
 (γ_crit = 0.19 × J_bridge), optimal coupling at twice the internal
 strength yields maximum stability, and strong coupling destabilizes
 as 1/J_bridge with an asymptotic constant of γ_crit × J_bridge → 0.50.
-The instability is a Hopf bifurcation (oscillating divergence), not
-PT symmetry breaking (monotone divergence). Unlike the fold threshold
+The instability is a Hopf bifurcation (oscillating divergence, not
+monotone), now identified as Liouvillian chiral symmetry breaking
+(see Section 3). Unlike the fold threshold
 (~0.5% of J, N-independent, geometric), bridge stability depends
 strongly on system size (N=3 is 35× less stable than N=2), making it
 a topological rather than geometric property.
@@ -92,20 +93,33 @@ Perfect coupling between gain and loss = immediate instability.
 The transition at J_bridge ≈ 2J is not accidental: it is the point
 where the bridge equals the total internal coupling.
 
-## 3. Hopf bifurcation, not PT symmetry breaking
+## 3. Hopf bifurcation and chiral symmetry breaking
 
 The instability is an **oscillating** instability. A complex eigenvalue
 pair (already oscillating at Re = 0) crosses into Re > 0. The system
 does not simply diverge; it oscillates with growing amplitude.
 
-This is a **Hopf bifurcation**, not PT symmetry breaking:
+This is a **Hopf bifurcation**. The mechanism differs from standard
+Hamiltonian PT breaking (where two real eigenvalues coalesce and
+become complex):
 
-| Property | PT breaking (expected) | Hopf (observed) |
+| Property | Hamiltonian PT breaking | Liouvillian Hopf (observed) |
 |----------|----------------------|-----------------|
 | Mechanism | Two real eigenvalues merge, become complex | Complex pair crosses Re = 0 |
 | At threshold | New oscillation appears | Existing oscillation grows |
 | Instability | Exponential divergence (monotone) | Oscillating divergence |
 | Analog | Chair falling over | Microphone feedback (screech) |
+
+**Update (April 2026):** The Hopf bifurcation IS the Liouvillian analog
+of chiral symmetry breaking. At Σγ = 0, the conjugation operator Π
+forces exact λ ↔ −λ pairing (chiral symmetry, class AIII). Below
+γ_crit: all eigenvalues lie exactly on the imaginary axis (the
+chiral-symmetric phase). Above γ_crit: eigenvalue pairs leave the
+axis. Same geometry as Hamiltonian PT breaking, rotated 90°. Π is
+linear (not anti-linear like PT), making it a chiral symmetry, not
+PT in the strict sense. Petermann factor peaks at K = 403 above γ_crit,
+signaling a nearby exceptional point in the complex γ plane.
+See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The oscillation frequency at threshold decreases with bridge strength:
 

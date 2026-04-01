@@ -293,7 +293,10 @@ The palindromic symmetry is genuinely new. It is not equivalent to:
   symmetry), but the palindromic pairing comes from Π, not from
   conserved quantities.
 - **Sa-Ribeiro-Prosen 38-fold classification:** a comprehensive taxonomy
-  of Lindbladian symmetries. Π does not fit any of the 38 classes.
+  of Lindbladian symmetries. Π generalizes the P (chiral) class to
+  order 4 (Π⁴ = I instead of P² = I). Class AIII (chiral unitary),
+  confirmed by RMT (Poisson statistics) and direct Π classification.
+  See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The closest known relative is Roberts-Lingenfelter-Clerk hidden TRS
 (PRX Quantum 2021): the concept of hidden time-reversal symmetry in

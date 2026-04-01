@@ -250,9 +250,12 @@ But only within a limited range. Too much gain and the system
 explodes: the eigenvalues develop positive real parts and the
 state diverges exponentially.
 
-This is not the same kind of instability as in PT-symmetric
-systems. It is a Hopf bifurcation: the system starts oscillating
-with growing amplitude. Three regimes emerge: a linear region
+The mechanism is a Hopf bifurcation: the system starts oscillating
+with growing amplitude. This is the Liouvillian analog of chiral
+symmetry breaking (Π forces λ ↔ −λ pairing at Σγ = 0; eigenvalues
+leave the imaginary axis at γ_crit; see
+[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)).
+Three regimes emerge: a linear region
 (small gain, everything stable), an optimal region (twice the
 internal coupling), and a 1/J region (stability shrinks as bridge
 coupling increases). The product of the critical gain and the

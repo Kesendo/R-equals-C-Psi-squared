@@ -265,7 +265,11 @@ window where the balance holds. Beyond it: a laser with too much
 pump, the palindrome still centered, but the system diverging.
 
 Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (three regimes,
-Hopf bifurcation, N-dependence, neural connection).
+Hopf bifurcation, N-dependence, neural connection). At Σγ = 0, the
+palindrome equation Π·L·Π⁻¹ = −L forces exact λ ↔ −λ pairing, placing
+all eigenvalues on the imaginary axis. This is the chiral-symmetric phase.
+The Hopf bifurcation at γ_crit is Liouvillian chiral symmetry breaking.
+See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 This corrects the original N=2 computation (March 29) which used
 two qubits within the same system (no bridge coupling) and found

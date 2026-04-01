@@ -367,13 +367,16 @@ irreversibly. Max/min ratio across N=2-5: 1.015 (1.5% variation).
 
     gamma_crit * J_bridge -> 0.50  (strong bridge limit)
 
-Instability is Hopf bifurcation, not PT breaking.
+Instability is Hopf bifurcation, now identified as Liouvillian chiral
+symmetry breaking (Π forces λ ↔ −λ at Σγ = 0; eigenvalues leave
+the imaginary axis at γ_crit).
 Linear regime: gamma_crit = 0.19 * J_bridge.
 Optimal: J_bridge ~ 2J, gamma_crit = 0.41.
 
 **Valid for:** coupled gain-loss Heisenberg chains.
 **Replaces:** stability analysis for large J_bridge.
-**Source:** [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
+**Source:** [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md),
+[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
 ---
 
@@ -597,6 +600,44 @@ not at the mean. Converges with N (variance rel. error < 2% at N=50).
 **Valid for:** Heisenberg chain, w=1 sector, large N.
 **Replaces:** numerical Q-factor histogram.
 **Source:** [D07 Derivation](proofs/derivations/D07_Q_DISTRIBUTION.md)
+
+---
+
+## Π Operator Properties (from PT-symmetry classification)
+
+### 38. Π squared (Tier 1, proven + verified N=2,3)
+
+    Pi^2 = (-1)^{w_YZ}
+
+Diagonal parity operator in Pauli basis. w_YZ = count of Y,Z entries
+in the Pauli string. Pi has order 4 (Pi^4 = I), NOT order 2.
+Eigenvalues of Pi^2: +1 (half) and -1 (half), equally split.
+
+**Valid for:** any N, Z-dephasing Π (P1 family).
+**Replaces:** assumption that Π is involutory.
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+
+### 39. det(Π) (Tier 1, proven + verified N=1-4)
+
+    det(Pi) = (-1)^{N * 4^{N-1}}
+
+    N=1: -1.  N >= 2: +1  (since 4^{N-1} is even).
+
+**Valid for:** any N.
+**Replaces:** manual determinant computation.
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+
+### 40. Fragile bridge gamma_crit at J_bridge = J (Tier 2, verified)
+
+    gamma_crit = 0.1873  (N=2 per chain, J = J_bridge = 1.0)
+
+Below gamma_crit: all eigenvalues on the imaginary axis (chiral phase).
+Above: eigenvalue pairs leave the axis (chiral symmetry breaking, Hopf).
+Petermann factor peaks at K = 403 at gamma/gamma_crit ~ 1.46 (near-EP).
+
+**Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0.
+**Replaces:** bisection search at this specific parameter set.
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
 ---
 

@@ -567,6 +567,13 @@ intrinsically infinite-temperature phenomenon.
    the system has chiral symmetry (class AIII) but Poisson level
    statistics, placing it outside all 38 standard classes. See
    [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
+   **Resolution (April 2026):** Π is a generalized P (chiral) operator:
+   linear, order 4 (Π⁴ = I, Π² = (−1)^{w_YZ}), anti-commutes with
+   both L_c and L_c†. Class AIII confirmed. Π generalizes the standard
+   P class (which requires P² = I) to P⁴ = I while preserving all
+   spectral consequences. The gain-loss system (Σγ = 0) exhibits
+   Liouvillian chiral symmetry breaking at γ_crit (Hopf bifurcation).
+   See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
    recognize the significance of a shifted anti-similarity. Roberts for

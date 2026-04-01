@@ -195,9 +195,11 @@ palindromic proof.
 
 6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) - Coupled
    gain-loss systems have a finite stability window. Instability is
-   Hopf bifurcation (oscillating divergence), not PT breaking. Three
-   regimes: linear, optimal (2x internal coupling), and 1/J decay.
-   Asymptotic constant γ_crit x J_bridge = 0.50.
+   Hopf bifurcation (oscillating divergence), identified as Liouvillian
+   chiral symmetry breaking (class AIII). Three regimes: linear,
+   optimal (2x internal coupling), and 1/J decay. Asymptotic constant
+   γ_crit x J_bridge = 0.50.
+   → [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
 **After this you know:** The palindrome is not a wire between two
 endpoints. It is a resonator with discrete modes, a heartbeat at the

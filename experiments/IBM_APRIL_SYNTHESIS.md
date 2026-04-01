@@ -113,9 +113,11 @@ palindrome entirely.
 **9. Fragile Bridge** (Tier 2, three independent verifications)
 Coupled gain-loss systems have three stability regimes. Linear: γ_crit =
 0.19*J_bridge. Optimal: J_bridge ~ 2J, γ_crit = 0.41. Strong: γ_crit*J_bridge
--> 0.50. Instability is Hopf bifurcation (oscillating divergence), not
-PT breaking. N-dependence is non-monotonic: N=3 is 35x less stable than N=2.
+-> 0.50. Instability is Hopf bifurcation (oscillating divergence),
+identified as Liouvillian chiral symmetry breaking (class AIII).
+N-dependence is non-monotonic: N=3 is 35x less stable than N=2.
 -> [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
+-> [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Π classification, Petermann K = 403)
 
 ### Initial State Physics
 
