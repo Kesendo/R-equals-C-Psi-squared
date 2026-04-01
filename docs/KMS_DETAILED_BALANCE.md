@@ -378,6 +378,15 @@ standard free energy formalism breaks down. But the role is the same:
 2Sγ measures the total "thermodynamic distance" between the most stable
 (classical) and most fragile (quantum) modes.
 
+**Update (April 2026):** The entropy production analysis
+([ENTROPY_PRODUCTION](../experiments/ENTROPY_PRODUCTION.md)) confirms:
+the "thermodynamic distance" interpretation is ALGEBRAIC, not
+thermodynamic. The Crooks-like identity ln(d_fast/d_slow) =
+2 artanh(Δd/(2Σγ)) gives β_eff ≈ 1/Σγ, but this follows directly
+from d_fast + d_slow = 2Σγ. No Jarzynski equality holds (⟨exp(-Δd)⟩
+≈ 0.93, not 1). Carnot efficiency is not definable (T = ∞). The
+palindrome has the FORM of thermodynamics without the content.
+
 ---
 
 ## Question 6: Who Else Has Found Similar Structures?

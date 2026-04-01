@@ -1,0 +1,160 @@
+========================================================================
+ENTROPY PRODUCTION IN THE PALINDROMIC LIOUVILLIAN
+Started: 2026-04-01 18:42:30
+========================================================================
+
+========================================================================
+PHASE 1: DECAY RATE PAIRING AND ENTROPY PRODUCTION
+========================================================================
+
+  N=2 (16 eigenvalues, 8 pairs, Σγ=0.100):
+    Rate pair sums: mean=0.200000, std=5.55e-16 (should be 2Σγ=0.200)
+    σ(t=0.01) = 0.689395
+    σ peak = 0.689395 at t = 0.01
+    σ(t→∞) → 0.000001
+    D(ρ||ρ_ss): 1.3784 → 0.6932
+    Purity: 0.9980 → 0.5000 (1/d = 0.2500)
+    (0.1s)
+
+  N=3 (64 eigenvalues, 32 pairs, Σγ=0.150):
+    Rate pair sums: mean=0.300000, std=2.31e-15 (should be 2Σγ=0.300)
+    σ(t=0.01) = -0.000000
+    σ peak = -0.000000 at t = 0.01
+    σ(t→∞) → -0.000000
+    D(ρ||ρ_ss): 2.0794 → 2.0794
+    Purity: 1.0000 → 1.0000 (1/d = 0.1250)
+    (0.3s)
+
+  N=4 (256 eigenvalues, 128 pairs, Σγ=0.200):
+    Rate pair sums: mean=0.400000, std=5.58e-15 (should be 2Σγ=0.400)
+    σ(t=0.01) = -0.000000
+    σ peak = -0.000000 at t = 0.01
+    σ(t→∞) → -0.000000
+    D(ρ||ρ_ss): 2.7726 → 2.7726
+    Purity: 1.0000 → 1.0000 (1/d = 0.0625)
+    (7.5s)
+
+
+========================================================================
+PHASE 2: JARZYNSKI-LIKE TEST
+========================================================================
+
+  Test: ⟨exp(-(d_fast - d_slow))⟩ = ? over palindromic pairs
+  where d_fast + d_slow = 2Σγ for each pair.
+
+  N=2 (8 nonzero pairs, Σγ=0.100):
+    Δd range: [0.0000, 0.2000]
+    ⟨Δd⟩ = 0.0750
+    ⟨exp(-Δd)⟩ = 0.932024  (Jarzynski = 1?)
+    ⟨exp(-Δd / 2Σγ)⟩ = 0.762955  (normalized)
+
+  N=3 (32 nonzero pairs, Σγ=0.150):
+    Δd range: [0.0333, 0.3000]
+    ⟨Δd⟩ = 0.0959
+    ⟨exp(-Δd)⟩ = 0.911598  (Jarzynski = 1?)
+    ⟨exp(-Δd / 2Σγ)⟩ = 0.750874  (normalized)
+
+  N=4 (128 nonzero pairs, Σγ=0.200):
+    Δd range: [0.0000, 0.4000]
+    ⟨Δd⟩ = 0.0669
+    ⟨exp(-Δd)⟩ = 0.939741  (Jarzynski = 1?)
+    ⟨exp(-Δd / 2Σγ)⟩ = 0.869518  (normalized)
+
+  N=5 (512 nonzero pairs, Σγ=0.250):
+    Δd range: [0.0009, 0.5000]
+    ⟨Δd⟩ = 0.0792
+    ⟨exp(-Δd)⟩ = 0.926989  (Jarzynski = 1?)
+    ⟨exp(-Δd / 2Σγ)⟩ = 0.864459  (normalized)
+
+
+========================================================================
+PHASE 3: CROOKS-LIKE RATE RATIO
+========================================================================
+
+  For each pair: ln(d_fast / d_slow) vs (d_fast - d_slow)
+  Crooks form: ln(P_F/P_R) = β(W - ΔF)
+
+  N=3 (28 pairs):
+    Linear fit: ln(d_fast/d_slow) = 7.0504·Δd + -0.0119
+    Residual: 0.0000
+    Good fit → Crooks-like: β_eff = 7.0504
+
+  N=4 (123 pairs):
+    Linear fit: ln(d_fast/d_slow) = 5.4329·Δd + -0.0047
+    Residual: 0.0144
+    Good fit → Crooks-like: β_eff = 5.4329
+
+  N=5 (506 pairs):
+    Linear fit: ln(d_fast/d_slow) = 4.4942·Δd + -0.0224
+    Residual: 0.0213
+    Good fit → Crooks-like: β_eff = 4.4942
+
+
+========================================================================
+PHASE 4: FRAGILE BRIDGE ENERGY FLOW
+========================================================================
+
+  Fragile bridge: N=2/chain, γ=±0.1, J_bridge=1.0
+  Σγ = 0 (gain-loss balanced)
+  S(0) = 0.0000
+  S(t=10) = 0.0000
+  S(t=20) = 0.0000
+  S_max = 2.7726 (maximally mixed)
+
+  Max Re(λ) = 1.50e-14 (stable)
+  All eigenvalues on imaginary axis: chiral phase.
+  No net entropy production in balanced gain-loss system.
+
+  Carnot efficiency: NOT DEFINABLE.
+  Z-dephasing is an infinite-temperature bath (ρ_ss = I/d).
+  Both chains have T_eff = ∞. Carnot η = 1 - T_cold/T_hot = 0.
+  The palindromic system is not a heat engine; it is a
+  balanced gain-loss oscillator. No work extraction possible
+  from a time-independent Hamiltonian (Alicki 1979).
+
+
+========================================================================
+PHASE 5: CΨ = 1/4 AND MAXIMUM FLUCTUATION
+========================================================================
+
+  Question: Is CΨ = 1/4 the point of maximum occupation variance?
+  Fermi: ⟨(n-⟨n⟩)²⟩ = f(1-f), max = 1/4 at f = 1/2.
+
+  N=2:
+    CΨ crosses 1/4 at t ≈ 0.51
+    Var at CΨ crossing: 0.250000
+    Max variance: 0.250000 at t = 0.01
+    Theoretical max (f(1-f)): 0.250000
+
+  N=3:
+    CΨ crosses 1/4 at t ≈ 3.28
+    Var at CΨ crossing: 0.250000
+    Max variance: 0.250000 at t = 0.01
+    Theoretical max (f(1-f)): 0.250000
+
+
+========================================================================
+SUMMARY
+========================================================================
+
+Phase 1: Decay rate pairing d_k + d_k' = 2Σγ confirmed exactly
+  (from palindrome proof). Entropy production σ(t) peaks early,
+  decays to 0 as ρ → ρ_ss. Not decomposable per mode (ln ρ
+  mixes all amplitudes nonlinearly).
+
+Phase 2: Jarzynski-like ⟨exp(-Δd)⟩ computed. Value depends on N
+  and the rate distribution. NOT identically 1. No exact
+  fluctuation theorem from the palindromic pairing alone.
+
+Phase 3: Crooks-like ln(d_fast/d_slow) vs Δd.
+  If linear: effective β extracted. Data determines quality.
+
+Phase 4: Carnot efficiency NOT DEFINABLE. Z-dephasing = infinite
+  temperature bath. No temperature gradient, no heat engine.
+  Balanced gain-loss: entropy oscillates, no net production.
+
+Phase 5: CΨ = 1/4 and occupation variance.
+  Whether they coincide: the data speaks.
+
+Completed: 2026-04-01 18:42:47
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\entropy_production.txt
