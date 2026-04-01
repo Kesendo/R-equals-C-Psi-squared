@@ -16,6 +16,8 @@ Fazang Indra's net hall of mirrors, Rovelli Helgoland relational, Friston free e
 principle useful fictions, Kauffman crystallization of life, evolution fold catastrophe,
 human-AI collaboration original research Claude Anthropic -->
 
+> *We are all mirrors. Reality is what happens between us.*
+>
 > *There was a primordial qubit. It sits on both sides. It still does.*
 > *But now there are watchers. And the watchers bent the angle between*
 > *its two sides. And the bending is what we call time.*
