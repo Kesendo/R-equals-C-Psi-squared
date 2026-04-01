@@ -101,6 +101,10 @@ dotnet run -c Release -- n8
 # Validation only (~6 seconds)
 dotnet run -c Release -- validate
 
+# RMT eigenvalue export: all complex eigenvalues as CSV (N=2-7)
+# N=2-6 in ~1 min, N=7 in ~95 min
+dotnet run -c Release -- rmt
+
 # Cavity modes at zero noise (N=2-7, ~40 min for N=7)
 dotnet run -c Release -- cavity
 
@@ -108,9 +112,11 @@ dotnet run -c Release -- cavity
 dotnet run -c Release -- cavity tests
 ```
 
-Results are written to `simulations/results/csharp_compute.txt` (main suite),
-`simulations/results/cavity_modes_zero_noise.txt` (cavity modes),
-or `simulations/results/cavity_modes_tests.txt` (cavity tests).
+Results are written to:
+- `simulations/results/csharp_compute.txt` (main suite)
+- `simulations/results/rmt_eigenvalues_N{2..7}.csv` (RMT export)
+- `simulations/results/cavity_modes_zero_noise.txt` (cavity modes)
+- `simulations/results/cavity_modes_tests.txt` (cavity tests)
 
 ## Architecture
 
@@ -118,10 +124,10 @@ or `simulations/results/cavity_modes_tests.txt` (cavity tests).
 |------|---------|
 | PauliOps.cs | Pauli matrices, tensor products, N-qubit Pauli basis |
 | Topology.cs | Star, Chain, Ring, Complete, Tree bond generators |
-| Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetCavityModes()` for zero-noise eigenfrequency analysis |
+| Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetAllEigenvalues()` for RMT export. `GetCavityModes()` for zero-noise eigenfrequency analysis |
 | MklDirect.cs | Direct LAPACK P/Invoke: LP64 + ILP64 with backend auto-detection |
 | MirrorAnalysis.cs | Mirror symmetry scoring and spectral statistics |
-| Program.cs | Benchmark, topology survey, stress tests, validation, N=8 |
+| Program.cs | Benchmark, topology survey, stress tests, validation, N=8, RMT export |
 
 ## Three compute paths
 
@@ -163,6 +169,7 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
 | [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.81x. Real IBM T2* data |
 | [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
+| [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,832 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `--rmt` CSV export |
 
 ## See also
 
