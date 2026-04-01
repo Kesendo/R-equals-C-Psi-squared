@@ -8,9 +8,11 @@ using RCPsiSquared.Compute;
 // Usage: dotnet run -c Release              -> full suite (N=2-7 + topology + stress + N=8)
 //        dotnet run -c Release -- n8        -> N=8 only (skip everything else)
 //        dotnet run -c Release -- validate  -> N=5 eigenvalue-only validation only
+//        dotnet run -c Release -- rmt       -> RMT eigenvalue export (N=2-7, CSV)
 bool cavityMode = args.Any(a => a.Equals("cavity", StringComparison.OrdinalIgnoreCase));
 bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
 bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
+bool rmtMode = args.Any(a => a.Equals("rmt", StringComparison.OrdinalIgnoreCase));
 
 bool mklAvailable = false;
 try
@@ -35,6 +37,12 @@ if (cavityMode)
         RunCavityTests(resultsDir);
     else
         RunCavityModes(resultsDir, mklAvailable);
+    return;
+}
+
+if (rmtMode)
+{
+    RunRmtExport(resultsDir, mklAvailable);
     return;
 }
 
@@ -406,6 +414,69 @@ writer.Close();
 File.Copy(tempPath, finalPath, overwrite: true);
 Console.WriteLine($"\n>>> Results saved to: {finalPath}");
 Console.WriteLine($"    (timestamped copy: {Path.GetFileName(tempPath)})");
+
+// ============================================================
+// RMT EXPORT: All complex eigenvalues as CSV (N=2-7)
+// ============================================================
+static void RunRmtExport(string resultsDir, bool mklAvailable)
+{
+    Directory.CreateDirectory(resultsDir);
+    const double gamma = 0.05;
+    const double J = 1.0;
+
+    Console.WriteLine("=== RMT EIGENVALUE EXPORT ===");
+    Console.WriteLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"Parameters: J={J}, gamma={gamma}, Chain topology");
+    Console.WriteLine();
+
+    var sw = new Stopwatch();
+
+    for (int N = 2; N <= 7; N++)
+    {
+        int d = 1 << N;
+        int d2 = d * d;
+        var bonds = Topology.Chain(N, Enumerable.Repeat(J, N - 1).ToArray());
+        var gammas = Enumerable.Repeat(gamma, N).ToArray();
+
+        Console.Write($"N={N} ({d2}x{d2})... ");
+        sw.Restart();
+
+        Complex[] evals;
+        if (N <= 6)
+        {
+            var L = Liouvillian.Build(N, bonds, gammas);
+            evals = Liouvillian.GetAllEigenvalues(L);
+        }
+        else
+        {
+            if (!mklAvailable)
+            {
+                Console.WriteLine("SKIPPED (MKL not available)");
+                continue;
+            }
+            var rawData = Liouvillian.BuildDirectRaw(N, bonds, gammas);
+            evals = Liouvillian.GetAllEigenvaluesMklRaw(rawData, d2);
+        }
+
+        var csvPath = Path.Combine(resultsDir, $"rmt_eigenvalues_N{N}.csv");
+        using (var csvWriter = new StreamWriter(csvPath))
+        {
+            csvWriter.WriteLine("Re\tIm");
+            foreach (var ev in evals)
+            {
+                csvWriter.Write(ev.Real.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                csvWriter.Write('\t');
+                csvWriter.WriteLine(ev.Imaginary.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+            }
+        }
+
+        Console.WriteLine($"{evals.Length} eigenvalues in {sw.ElapsedMilliseconds}ms -> {Path.GetFileName(csvPath)}");
+    }
+
+    Console.WriteLine();
+    Console.WriteLine("=== RMT EXPORT COMPLETE ===");
+    Console.WriteLine($"Files in: {resultsDir}");
+}
 
 // ============================================================
 // CAVITY MODES: eigenvalue analysis at zero noise (gamma=0)

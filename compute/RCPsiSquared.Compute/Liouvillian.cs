@@ -329,6 +329,24 @@ public static class Liouvillian
         return new CavityModes(total, stationary, oscillating, anomalous, unique.ToArray(), maxAbsReal);
     }
 
+    // ---- All eigenvalues (for RMT analysis) ----
+
+    public static Complex[] GetAllEigenvalues(Matrix<Complex> L)
+    {
+        var evd = L.Evd();
+        var vec = evd.EigenValues;
+        var result = new Complex[vec.Count];
+        for (int i = 0; i < vec.Count; i++)
+            result[i] = vec[i];
+        return result;
+    }
+
+    public static Complex[] GetAllEigenvaluesMklRaw(Complex[] columnMajorData, int n)
+    {
+        var evals = MklDirect.EigenvaluesRaw(columnMajorData, n);
+        return evals is Complex[] arr ? arr : evals.ToArray();
+    }
+
     private static List<double> ExtractRates(IEnumerable<Complex> evals, double threshold)
     {
         var rates = new List<double>();
