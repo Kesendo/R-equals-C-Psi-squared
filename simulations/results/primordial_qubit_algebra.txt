@@ -1,0 +1,386 @@
+======================================================================
+PRIMORDIAL QUBIT ALGEBRA: Z2-Grading and Algebraic Doubling
+======================================================================
+N = 2, J = 1.0, gamma = 0.05, Sigma_gamma = 0.1
+
+======================================================================
+PHASE 1: Pi eigenspaces and L_c block structure
+======================================================================
+
+--- Step 1: Pi^2 and Pi^4 ---
+Pi^2 = diag((-1)^w_YZ): diagonal ok, off-diagonal zero ok
+Pi^4 = I: ||Pi^4 - I|| = 0.00e+00
+
+--- Step 2: Eigenspaces of Pi ---
+
+Orbit analysis (2-cycles under Pi):
+
+  II <-> XX  (phases +1, +1)  -> lam^2 = +1  -> eigenvalues +/-1
+  IX <-> XI  (phases +1, +1)  -> lam^2 = +1  -> eigenvalues +/-1
+  IY <-> XZ  (phases +0+1j, +0+1j)  -> lam^2 = -1+0j  -> eigenvalues +/-i
+  IZ <-> XY  (phases +0+1j, +0+1j)  -> lam^2 = -1+0j  -> eigenvalues +/-i
+  YI <-> ZX  (phases +0+1j, +0+1j)  -> lam^2 = -1+0j  -> eigenvalues +/-i
+  YX <-> ZI  (phases +0+1j, +0+1j)  -> lam^2 = -1+0j  -> eigenvalues +/-i
+  YY <-> ZZ  (phases -1+0j, -1+0j)  -> lam^2 = +1-0j  -> eigenvalues +/-1
+  YZ <-> ZY  (phases -1+0j, -1+0j)  -> lam^2 = +1-0j  -> eigenvalues +/-1
+
+V_{+1}: dim = 4
+  II +1*XX
+  IX +1*XI
+  YY -1*ZZ
+  YZ -1*ZY
+
+V_{-1}: dim = 4
+  II -1*XX
+  IX -1*XI
+  YY +1*ZZ
+  YZ +1*ZY
+
+V_{+i}: dim = 4
+  IY +1*XZ
+  IZ +1*XY
+  YI +1*ZX
+  YX +1*ZI
+
+V_{-i}: dim = 4
+  IY -1*XZ
+  IZ -1*XY
+  YI -1*ZX
+  YX -1*ZI
+
+Numerical verification of eigenspaces:
+  V_{+1}: max ||Pi*v - lam*v|| = 0.00e+00
+  V_{-1}: max ||Pi*v - lam*v|| = 0.00e+00
+  V_{+i}: max ||Pi*v - lam*v|| = 0.00e+00
+  V_{-i}: max ||Pi*v - lam*v|| = 0.00e+00
+
+Projector verification:
+  P_{+1}: ||P^2 - P|| = 0.00e+00, trace = 4.0
+  P_{-1}: ||P^2 - P|| = 0.00e+00, trace = 4.0
+  P_{+i}: ||P^2 - P|| = 0.00e+00, trace = 4.0
+  P_{-i}: ||P^2 - P|| = 0.00e+00, trace = 4.0
+
+--- Step 3: L_c block structure in Pi-eigenbasis ---
+
+||Pi * L_c * Pi^-1 + L_c|| = 0.00e+00 (palindrome)
+
+Block norms ||P_a * L_c * P_b||:
+               V_{+1}     V_{-1}     V_{+i}     V_{-i}
+  V_{+1}:     0.0000    4.0025    0.0000    0.0000
+  V_{-1}:     4.0025    0.0000    0.0000    0.0000
+  V_{+i}:     0.0000    0.0000    0.0000    5.5875
+  V_{-i}:     0.0000    0.0000    5.7289    0.0000
+
+Total same-eigenspace (diagonal) norm: 0.00e+00
+Total negated-eigenspace (anti-diagonal) norm: 19.3214
+L_c is block-off-diagonal: YES
+
+======================================================================
+PHASE 2: Algebraic structure of eigenspaces
+======================================================================
+
+--- Step 4a: Is V_{+1} a subalgebra? ---
+
+Test: for basis vectors e_i, e_j in V_{+1}, is e_i * e_j in V_{+1}?
+(Product = matrix multiplication of 4x4 operator matrices)
+
+  e1*e2: leakage 100.0% -> V_{-1}: 100.0%
+  e2*e1: leakage 100.0% -> V_{-1}: 100.0%
+  e3*e3: leakage 100.0% -> V_{-1}: 100.0%
+
+  V_{+1} is NOT a subalgebra (3 products leak)
+
+--- Step 4b: Is V_{+1} + V_{-1} (w_YZ even) a subalgebra? ---
+
+  Max leakage from even*even: 0.00e+00
+  V_{+1} + V_{-1} IS a subalgebra
+
+--- Step 4c: Z2-grading from Pi^2 ---
+
+  Pi^2 eigenvalues: +1 (w_YZ even) vs -1 (w_YZ odd)
+  even * even -> even:  max leakage 0.00e+00
+  odd  * odd  -> even:  max leakage 0.00e+00
+  even * odd  -> odd:   max leakage 0.00e+00
+  Pi^2 gives a proper Z2-graded algebra: YES
+
+--- Step 4d: Structure of the even subalgebra ---
+
+Central idempotents P = (II+XX)/2, Q = (II-XX)/2:
+  ||P^2 - P|| = 0.00e+00
+  ||Q^2 - Q|| = 0.00e+00
+  ||P*Q||     = 0.00e+00
+
+Centrality check (P commutes with all even-sector elements):
+  max ||[P, A_even]|| = 0.00e+00
+
+The two M_2(C) factors:
+
+P-sector: dim = 4
+  P*(II+XX)
+  P*(IX+XI)
+  P*(YY-ZZ)
+  P*(YZ+ZY)
+
+Multiplication table of P-sector (normalized basis):
+  p0:          +1.4*p0          +1.4*p1          +1.4*p2          +1.4*p3 
+  p1:          +1.4*p1          +1.4*p0 (+0.00+1.41j)*p3 (+0.00-1.41j)*p2 
+  p2:          +1.4*p2 (+0.00-1.41j)*p3          +1.4*p0 (+0.00+1.41j)*p1 
+  p3:          +1.4*p3 (+0.00+1.41j)*p2 (+0.00-1.41j)*p1          +1.4*p0 
+
+  p1^2 = p1: True
+  p2^2 ~ p1: True
+  p3^2 ~ p1: True
+  p4^2 ~ p1: True
+  {p2, p3} = 0: ||p2*p3 + p3*p2|| = 0.00e+00
+
+  -> P-sector is the complexified quaternion algebra H_C = M_2(C)
+  -> Even subalgebra = P-sector + Q-sector = M_2(C) + M_2(C)
+  -> Full algebra = M_{2|2}(C) super-algebra
+
+--- Step 5: Forward/Backward eigenmode decomposition ---
+
+Centered eigenvalue classification:
+  Forward  (Re < 0, fast decay):   3 modes (w_XY = 2)
+  Backward (Re > 0, slow decay):   3 modes (w_XY = 0)
+  Boundary (Re = 0, average rate):  10 modes (w_XY = 1)
+
+Centered eigenvalues:
+  [B] lambda_c =  +0.100000  +0.000000i
+  [B] lambda_c =  +0.100000  +0.000000i
+  [B] lambda_c =  +0.100000  +0.000000i
+  [0] lambda_c =  +0.000000  +3.998750i
+  [0] lambda_c =  +0.000000  -3.998750i
+  [0] lambda_c =  +0.000000  +4.000000i
+  [0] lambda_c =  +0.000000  +0.000000i
+  [0] lambda_c =  +0.000000  +0.000000i
+  [0] lambda_c =  +0.000000  +0.000000i
+  [0] lambda_c =  -0.000000  -4.000000i
+  [0] lambda_c =  -0.000000  +0.000000i
+  [0] lambda_c =  -0.000000  -4.000000i
+  [0] lambda_c =  -0.000000  +4.000000i
+  [F] lambda_c =  -0.100000  +0.000000i
+  [F] lambda_c =  -0.100000  +0.000000i
+  [F] lambda_c =  -0.100000  +0.000000i
+
+Block structure in L_c eigenbasis (F=forward, B=backward, 0=boundary):
+                     F->F     F->B     F->0     B->F     B->B     B->0     0->F     0->B     0->0
+  L_c              0.1732   0.0000   0.0000   0.0000   0.1732   0.0000   0.0000   0.0000   9.7969
+  L_H              0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   9.8000
+  L_D+Sg*I         0.1732   0.0000   0.0000   0.0000   0.1732   0.0000   0.0000   0.0000   0.1415
+
+L_H forward<->backward coupling: 0.0% of total L_H norm
+(L_D+Sg*I) forward<->backward coupling: 0.0% of total norm
+L_c forward<->backward coupling: 3.28e-20 (should be ~0)
+
+Interpretation:
+  L_H does NOT couple forward<->backward modes.
+  All F and B modes are eigenstates of L_H (eigenvalue 0):
+  they commute with H. L_H acts entirely within the boundary sector.
+  -> The forward/backward split is determined by the dissipator alone.
+  -> At N=2 the Hamiltonian is 'invisible' to the F/B partition.
+  (L_D+Sg*I) also does not couple F<->B: it is diagonal on these modes,
+  giving +Sg for backward (w=0) and -Sg for forward (w=2).
+  The boundary modes (w_XY=1) carry all the Hamiltonian dynamics.
+  -> The palindromic F/B pairing is a purely dissipative effect at N=2.
+
+--- Step 6: Hamiltonian vs Dissipator under Pi ---
+
+||Pi * L_H * Pi^-1 + L_H|| = 0.00e+00 (L_H is odd under Pi)
+||Pi * (L_D+Sg*I) * Pi^-1 + (L_D+Sg*I)|| = 0.00e+00 (also odd)
+
+L_H block norms in Pi-eigenbasis:
+               V_{+1}     V_{-1}     V_{+i}     V_{-i}
+  V_{+1}:     0.0000    4.0000    0.0000    0.0000
+  V_{-1}:     4.0000    0.0000    0.0000    0.0000
+  V_{+i}:     0.0000    0.0000    0.0000    5.6569
+  V_{-i}:     0.0000    0.0000    5.6569    0.0000
+
+(L_D + Sg*I) block norms in Pi-eigenbasis:
+               V_{+1}     V_{-1}     V_{+i}     V_{-i}
+  V_{+1}:     0.0000    0.1414    0.0000    0.0000
+  V_{-1}:     0.1414    0.0000    0.0000    0.0000
+  V_{+i}:     0.0000    0.0000    0.0000    0.1414
+  V_{-i}:     0.0000    0.0000    0.1414    0.0000
+
+======================================================================
+PHASE 3: Tomita-Takesaki modular conjugation
+======================================================================
+
+--- Step 7: Steady state and modular conjugation ---
+
+Number of steady states: 3
+
+Steady state compositions:
+  ss: +1.000*IZ +1.000*ZI
+  ss: +1.000*II
+  ss: +1.000*ZZ
+
+Using rho_ss = I/d (maximally mixed, one of the steady states)
+
+GNS construction for rho = I/d:
+  Inner product: <A|B> = (1/d) Tr(A^dag B) = Hilbert-Schmidt / d
+  Pauli basis is orthonormal in this inner product
+  Cyclic vector: |Omega> = |I> (identity matrix)
+
+Tomita operator S:
+  S|A> = |A^dag> (anti-linear)
+  For Pauli strings (Hermitian): S|sigma_a> = |sigma_a> (fixed)
+  For complex coefficients: S(c|A>) = conj(c)|A^dag>
+  -> S = complex conjugation K in the Pauli basis
+
+Modular operator Delta = S^dag S:
+  For rho = I/d: Delta = I (trivial modular group)
+  Modular Hamiltonian K_mod = -log(Delta) = 0
+
+Modular conjugation J (from S = J * Delta^{1/2}):
+  J = S (since Delta^0.5 = I)
+  J = complex conjugation K in the Pauli basis
+
+--- Comparison: Pi vs J ---
+
+Pi: LINEAR operator (Pi * (c*v) = c * Pi(v))
+J:  ANTI-LINEAR operator (J * (c*v) = conj(c) * J(v))
+
+Impossibility of Pi = U*J for any unitary U:
+  Assume Pi = U*J. Then for any vector v and scalar c:
+    Pi(c*v) = c * Pi(v)     [linearity of Pi]
+    U*J(c*v) = U*conj(c)*J(v) = conj(c)*U*J(v) = conj(c)*Pi(v)
+  So c*Pi(v) = conj(c)*Pi(v) for all c.
+  Setting c = i: i*Pi(v) = -i*Pi(v) -> Pi(v) = 0 for all v.
+  Contradiction. QED
+
+Numerical check: Pi matrix has imaginary entries
+  max|Im(Pi)| = 1.0
+  J in Pauli basis = identity on real coefficients, negate imaginary
+  -> Pi and J act differently on complex Pauli expansions
+
+Key insight: J is INDEPENDENT of the reference state rho.
+  For any faithful state on M_d(C):
+    J maps A to A^dag (adjoint)
+  This holds for rho = I/d, thermal states, and any other rho > 0.
+  The modular OPERATOR Delta depends on rho; J does not.
+  (Standard result for type I factors)
+
+Therefore: Pi has no relation to J for ANY faithful state.
+
+--- Step 8: Modular Hamiltonian for thermal state ---
+
+For a thermal state rho_beta = exp(-beta*H)/Z:
+  Delta(A) = rho * A * rho^{-1} = exp(-beta*H) * A * exp(beta*H)
+  K_mod = -log(Delta) maps to beta * [H, .] in Liouville space
+  K_mod = beta * i * L_H  (the Hamiltonian superoperator)
+
+If beta = 1/Sigma_gamma = 10.0:
+  K_mod = (1/Sigma_gamma) * i * L_H
+  The modular Hamiltonian is proportional to L_H
+  This connects to the thermofield double: the modular flow
+  on 'the other side' is the Hamiltonian evolution of 'our side'
+
+BUT: the thermal state is NOT the Lindblad steady state.
+  Lindblad steady state = I/d (beta = 0, infinite temperature)
+  Thermal state at beta = 1/Sigma_gamma has FINITE temperature
+  The connection is suggestive but not forced by the algebra
+
+======================================================================
+PHASE 4: L_c^2 = L_H^2 + (L_D + Sg)^2 ?
+======================================================================
+
+--- Step 9: Pythagorean decomposition (N=2) ---
+
+||{L_H, L_D + Sg*I}||                  = 0.00e+00
+||L_c^2 - (L_H^2 + (L_D+Sg)^2)||       = 0.00e+00
+[Pi, L_c^2] = 0:  ||...||               = 0.00e+00
+
+||L_H^2||      = 39.1918  (oscillation)
+||(L_D+Sg)^2|| = 0.0283  (cooling)
+||L_c^2||      = 39.1837  (total)
+
+Why {L_H, L_Dc} = 0 at N=2:
+  {L_H, L_D}_{ab} = (d_a + d_b) * (L_H)_{ab}
+  where d_a = -2*gamma*w_XY(a)
+
+  Nonzero L_H entries: 24
+  w_XY sums: {2: 24}
+  All sums = N = 2: True
+  -> d_a + d_b = -2*gamma*N = -2*Sg for every entry
+  -> {L_H, L_D} = -2*Sg * L_H
+  -> {L_H, L_D + Sg*I} = -2*Sg*L_H + 2*Sg*L_H = 0  QED
+
+Centered dissipator diagonal (L_D + Sg):
+  w_XY = 0: L_D+Sg = +0.1000, (L_D+Sg)^2 = 0.010000  (4 modes)
+  w_XY = 1: L_D+Sg = +0.0000, (L_D+Sg)^2 = 0.000000  (8 modes, MIRROR)
+  w_XY = 2: L_D+Sg = -0.1000, (L_D+Sg)^2 = 0.010000  (4 modes)
+
+--- Step 10: N-scaling (N = 2, 3, 4) ---
+
+Rebuilding L_H, L_D for each N (Heisenberg chain, gamma=0.05):
+
+| N | 4^N | ||{L_H,L_Dc}|| | Cross/||L_c^2|| | Rel.Orth. | [Pi,L_c^2] | w_XY sums        | sum=N |
+|---|-----|----------------|-----------------|-----------|------------|------------------|-------|
+| 2 |  16 |   0.000000e+00 |         0.0000% |  0.000000 |   0.00e+00 | {2: 24}          | 24/24 |
+| 3 |  64 |   2.771281e+00 |         1.8258% |  0.144338 |   5.49e-15 | {2: 96, 4: 96}   | 0/192 |
+| 4 | 256 |   9.600000e+00 |         2.0701% |  0.088388 |   7.59e-15 | {2: 288, 4: 576, 6: 288} | 576/1152 |
+
+N=3 detail: centered dissipator diagonal
+  w_XY = 0: L_D+Sg = +0.1500, (L_D+Sg)^2 = 0.022500  (8 modes)
+  w_XY = 1: L_D+Sg = +0.0500, (L_D+Sg)^2 = 0.002500  (24 modes)  <-- mirror between here
+  w_XY = 2: L_D+Sg = -0.0500, (L_D+Sg)^2 = 0.002500  (24 modes)
+  w_XY = 3: L_D+Sg = -0.1500, (L_D+Sg)^2 = 0.022500  (8 modes)
+
+N=3: gamma-independence of the relative orthogonality
+  (same chain topology, J=1, only gamma varies)
+
+  gamma = 0.500: ||{L_H,L_Dc}|| / (||L_H||*||L_Dc||) = 0.144338
+  gamma = 0.100: ||{L_H,L_Dc}|| / (||L_H||*||L_Dc||) = 0.144338
+  gamma = 0.050: ||{L_H,L_Dc}|| / (||L_H||*||L_Dc||) = 0.144338
+  gamma = 0.010: ||{L_H,L_Dc}|| / (||L_H||*||L_Dc||) = 0.144338
+  gamma = 0.001: ||{L_H,L_Dc}|| / (||L_H||*||L_Dc||) = 0.144338
+
+The relative orthogonality is a GEOMETRIC constant of the
+Heisenberg chain, independent of gamma. At N=3: 1/sqrt(48).
+
+======================================================================
+SUMMARY: What confirms, refutes, and remains open
+======================================================================
+
+| Statement                                    | Result           |
+|----------------------------------------------|------------------|
+| L_c block-off-diagonal in Pi-eigenbasis      | CONFIRMED        |
+| V_{+1} is a subalgebra                       | REFUTED          |
+| V_{+1}+V_{-1} is a subalgebra                | CONFIRMED        |
+| Pi^2 gives proper Z2-graded algebra          | CONFIRMED        |
+| L_H couples forward<->backward (N=2)         | NO (dissipator only) |
+| Pi = J (Tomita-Takesaki)                     | REFUTED          |
+| Pi = U*J for some unitary U                  | REFUTED          |
+
+CONFIRMED:
+  - L_c block-off-diagonal in Pi-eigenbasis (all N)
+  - Pi^2 gives proper Z2-graded algebra = M_{2|2}(C)
+  - Even part = M_2(C) + M_2(C), Clifford algebra Cl(2,0)
+  - [Pi, L_c^2] = 0 at all N (algebraic, exact)
+  - {L_H, L_D+Sg*I} = 0 at N=2 (exact orthogonality)
+  - L_c^2 = L_H^2 + (L_D+Sg)^2 at N=2 (Pythagorean, exact)
+
+REFUTED:
+  - V_{+1} is NOT a subalgebra (Z4 too fine, leaks to V_{-1})
+  - Pi != J (linear vs anti-linear, impossibility proof)
+  - Pythagorean NOT exact at N>=3 (cross term ~2%)
+
+THE URQUBIT RESULT:
+  N=2 is the only system size where:
+  1. The mirror falls on modes (w_XY = N/2 is integer)
+  2. All L_H transitions satisfy w_XY(a) + w_XY(b) = N
+  3. Oscillation and cooling are exactly orthogonal
+  4. L_c^2 = L_H^2 + (L_D+Sg)^2 (exact Pythagorean)
+  At N=3: the mirror falls between modes, the sum constraint
+  is impossible (w_XY sums always even, N odd), and the cross
+  term is ~2% of ||L_c^2||, gamma-independent (geometric).
+
+CONCLUSION:
+The palindrome forces: super-algebra M_{2|2}(C),
+block-off-diagonal L_c, and [Pi, L_c^2] = 0 at all N.
+The Pythagorean theorem L_c^2 = L_H^2 + (L_D+Sg)^2 is
+exact ONLY at N=2. This is because the single Heisenberg
+bond spans the entire system: no qubit is a spectator.
+At N>=3, bonds are local, and the orthogonality of
+oscillation and cooling breaks by ~2%.
