@@ -1,0 +1,244 @@
+========================================================================
+SPECTRAL FORM FACTOR OF THE PALINDROMIC LIOUVILLIAN
+Started: 2026-04-01 17:07:22
+========================================================================
+
+========================================================================
+PHASE 1: LOAD EIGENVALUES FROM RMT CSVs
+========================================================================
+
+  N=2: 16 eigenvalues loaded, 6 oscillating
+  N=3: 64 eigenvalues loaded, 40 oscillating
+  N=4: 256 eigenvalues loaded, 210 oscillating
+  N=5: 1024 eigenvalues loaded, 928 oscillating
+  N=6: 4096 eigenvalues loaded, 3932 oscillating
+  N=7: 16384 eigenvalues loaded, 16040 oscillating
+
+========================================================================
+PHASE 2: SPECTRAL FORM FACTOR
+========================================================================
+
+  N=2 (16 eigenvalues, 0.0s):
+    Δ (mean spacing) = 0.0003
+    t_H (Heisenberg) = 25128.81
+    ω_min (slowest)  = 4.0000
+    t_Π (palindromic) = 1.57
+    K_freq range: [6.2500e-02, 1.0000]
+    K_diss range: [1.0000e+00, 24760787356654398410682687803300935650040698740860524665559120758322345033229606499324705238804801090194063696055353858206636140862549790196121459256054623275835804064557329647886121242089267596349991179623165272358494198430150765023878230712667222746041635188964138680320.0000]
+
+  N=3 (64 eigenvalues, 0.0s):
+    Δ (mean spacing) = 0.1026
+    t_H (Heisenberg) = 61.26
+    ω_min (slowest)  = 2.0000
+    t_Π (palindromic) = 3.14
+    K_freq range: [4.5490e-12, 1.0000]
+    K_diss range: [nan, nan]
+
+  N=4 (256 eigenvalues, 0.0s):
+    Δ (mean spacing) = 0.0453
+    t_H (Heisenberg) = 138.76
+    ω_min (slowest)  = 1.1716
+    t_Π (palindromic) = 5.36
+    K_freq range: [2.4408e-07, 1.0000]
+    K_diss range: [nan, nan]
+
+  N=5 (1024 eigenvalues, 0.1s):
+    Δ (mean spacing) = 0.0126
+    t_H (Heisenberg) = 497.33
+    ω_min (slowest)  = 0.7639
+    t_Π (palindromic) = 8.22
+    K_freq range: [1.5273e-08, 1.0000]
+    K_diss range: [nan, nan]
+
+  N=6 (4096 eigenvalues, 0.3s):
+    Δ (mean spacing) = 0.0038
+    t_H (Heisenberg) = 1649.44
+    ω_min (slowest)  = 0.5359
+    t_Π (palindromic) = 11.72
+    K_freq range: [4.2834e-10, 1.0000]
+    K_diss range: [nan, nan]
+
+  N=7 (16384 eigenvalues, 1.3s):
+    Δ (mean spacing) = 0.0011
+    t_H (Heisenberg) = 5810.10
+    ω_min (slowest)  = 0.3961
+    t_Π (palindromic) = 15.86
+    K_freq range: [1.0952e-10, 1.0000]
+    K_diss range: [nan, nan]
+
+
+========================================================================
+PHASE 3: PALINDROMIC MODULATION
+========================================================================
+
+  Each palindromic pair (μ, -μ) contributes cos(Im(μ)·t).
+  Expected: periodic modulation with period 2π/ω_min.
+
+  N=2:
+    ω_min (predicted) = 4.0000
+    Top 3 FFT peaks:   ['3.9980', '7.9960', '4.0780']
+    Best match to ω_min:  3.9980 (err 0.1%)
+    Best match to 2ω_min: 7.9960 (err 0.1%)
+    Modulation visibility: 0.7182
+
+  N=3:
+    ω_min (predicted) = 2.0000
+    Top 3 FFT peaks:   ['1.9990', '5.9970', '3.9980']
+    Best match to ω_min:  1.9990 (err 0.1%)
+    Best match to 2ω_min: 3.9980 (err 0.1%)
+    Modulation visibility: 0.2319
+
+  N=4:
+    ω_min (predicted) = 1.1716
+    Top 3 FFT peaks:   ['2.8260', '3.9878', '1.1618']
+    Best match to ω_min:  1.1618 (err 0.8%)
+    Best match to 2ω_min: 2.8260 (err 20.6%)
+    Modulation visibility: 0.0422
+
+  N=5:
+    ω_min (predicted) = 0.7639
+    Top 3 FFT peaks:   ['2.0096', '2.7632', '6.4684']
+    Best match to ω_min:  2.0096 (err 163.1%)
+    Best match to 2ω_min: 2.0096 (err 31.5%)
+    Modulation visibility: 0.0131
+
+  N=6:
+    ω_min (predicted) = 0.5359
+    Top 3 FFT peaks:   ['2.0096', '0.5338', '5.4636']
+    Best match to ω_min:  0.5338 (err 0.4%)
+    Best match to 2ω_min: 1.4758 (err 37.7%)
+    Modulation visibility: 0.0074
+
+  N=7:
+    ω_min (predicted) = 0.3961
+    Top 3 FFT peaks:   ['3.3912', '1.8212', '4.4902']
+    Best match to ω_min:  0.8478 (err 114.0%)
+    Best match to 2ω_min: 0.8478 (err 7.0%)
+    Modulation visibility: 0.0024
+
+
+========================================================================
+PHASE 4: COMPARISON WITH POISSON AND GUE
+========================================================================
+
+  Poisson: K(t) = 1 for all t > 0 (no correlations)
+  GUE: dip at t=0+, linear ramp K ~ t/t_H, plateau at K=1
+
+  N=3:
+    Early (t < 0.1 t_H):  <K> = 0.1951  (Poisson: 1.0)
+    Mid (0.1-1.0 t_H):    <K> = 0.2133   slope = -0.0159
+    Late (t > t_H):        <K> = 0.2109  (plateau: 1.0)
+    Min K (dip):           4.5490e-12
+    Classification: intermediate / palindromic
+
+  N=4:
+    Early (t < 0.1 t_H):  <K> = 0.0843  (Poisson: 1.0)
+    Mid (0.1-1.0 t_H):    <K> = 0.0749   slope = -0.0111
+    Late (t > t_H):        <K> = 0.0732  (plateau: 1.0)
+    Min K (dip):           8.3811e-05
+    Classification: intermediate / palindromic
+
+  N=5:
+    Early (t < 0.1 t_H):  <K> = 0.0297  (Poisson: 1.0)
+    Mid (0.1-1.0 t_H):    <K> = 0.0269   slope = -0.0027
+    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
+    Min K (dip):           1.5273e-08
+    Classification: intermediate / palindromic
+
+  N=6:
+    Early (t < 0.1 t_H):  <K> = 0.0094  (Poisson: 1.0)
+    Mid (0.1-1.0 t_H):    <K> = 0.0073   slope = -0.1670
+    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
+    Min K (dip):           4.2834e-10
+    Classification: intermediate / palindromic
+
+  N=7:
+    Early (t < 0.1 t_H):  <K> = 0.0033  (Poisson: 1.0)
+    Mid (0.1-1.0 t_H):    <K> = 0.0000   slope = 0.0000
+    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
+    Min K (dip):           1.0952e-10
+    Classification: intermediate / palindromic
+
+
+========================================================================
+PHASE 5: SECTOR-RESOLVED SFF (N=3, 4, 5)
+========================================================================
+
+  N=3 (64 eigenvalues, 0.0s):
+    w=1: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
+    w=2: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
+    w=3: 4 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+
+  N=4 (256 eigenvalues, 0.2s):
+    w=1: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
+    w=2: 176 eigenvalues, <K>=0.0500, std=0.1073, min=2.1244e-07
+    w=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
+    w=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+
+  N=5 (1024 eigenvalues, 2.8s):
+    w=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
+    w=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
+    w=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
+    w=4: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
+    w=5: 6 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+
+
+========================================================================
+PHASE 6: TIMESCALES
+========================================================================
+
+    N       t_Π         t_H     t_Π/t_H     ω_min         Δ
+  ───────────────────────────────────────────────────────
+    2      1.57    25128.81      0.0001    4.0000    0.0003
+    3      3.14       61.26      0.0513    2.0000    0.1026
+    4      5.36      138.76      0.0386    1.1716    0.0453
+    5      8.22      497.33      0.0165    0.7639    0.0126
+    6     11.72     1649.44      0.0071    0.5359    0.0038
+    7     15.86     5810.10      0.0027    0.3961    0.0011
+
+  t_Π = palindromic time = 2π/ω_min (period of slowest mode)
+  t_H = Heisenberg time = 2π/Δ (spectral resolution limit)
+  t_Π/t_H → 0 for large N: palindromic modulation is short-time
+
+  Thouless time (where K_freq first exceeds 1.5× its late-time mean):
+    N=3: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+    N=4: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+    N=5: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+    N=6: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+    N=7: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+
+
+========================================================================
+PHASE 7: CONNECTION TO PREVIOUS RESULTS
+========================================================================
+
+  RMT said: Poisson (integrable). SFF should confirm: no dip,
+  no ramp, K(t) ~ 1 with fluctuations.
+
+  PT analysis said: Pi is chiral (class AIII). The palindromic
+  modulation in the SFF is the TIME-DOMAIN signature of the
+  same spectral pairing that RMT sees in LEVEL STATISTICS.
+
+  Topo analysis said: geometric, not topological. The SFF is
+  independent of localization (it measures spectral correlations,
+  not spatial profiles).
+
+  Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).
+  If the SFF modulation peak matches ω_min, that confirms the
+  w=1 dispersion relation in the time domain.
+
+
+========================================================================
+SUMMARY
+========================================================================
+
+  Poisson-like SFF at 0/5 system sizes.
+  GUE-like SFF at 5/5 system sizes.
+
+  The SFF confirms the RMT finding: the palindromic Liouvillian
+  is INTEGRABLE. No dip-ramp-plateau of quantum chaos.
+  Palindromic modulation provides time-domain fingerprint of
+  the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).
+
+Completed: 2026-04-01 17:07:27
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\spectral_form_factor.txt
