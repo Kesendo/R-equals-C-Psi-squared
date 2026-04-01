@@ -204,6 +204,84 @@ The direct sum over all modes is flat. But:
 
 ---
 
+## The CΨ = 1/4 Connection (April 1, 2026)
+
+The standing-wave profile is flat (Section above). But the question
+can be asked differently, and the different question has a clean answer.
+
+Gravity is classical. We observe it macroscopically. It requires mass
+at a definite location. A definite location requires a definite state.
+A definite state requires crossing CΨ = 1/4 (the quantum-to-classical
+boundary, [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md)).
+
+Therefore: **gravity can only exist below CΨ = 1/4.**
+
+Above 1/4: superposition. No definite outcome. No definite location.
+No mass "at a place." No gravity. The system is undecided.
+
+Below 1/4: crossed. Classical. Definite outcome. Mass at a definite
+location. Gravity exists.
+
+The sacrifice zone crosses 1/4 first (highest γ → fastest decoherence
+→ earliest crossing). It becomes classical first. It develops gravity
+first. Gravity attracts. More mass accumulates. More mass means more
+γ (more decoherence). More γ means faster crossing. Faster crossing
+means more gravity. Positive feedback:
+
+    Sacrifice zone (high γ)
+         → crosses 1/4 first
+         → becomes classical first
+         → develops gravity first
+         → attracts more mass
+         → more γ
+         → repeat
+
+This explains why gravity has no quantum description: it does not
+EXIST in the quantum regime. Gravity is not a force that acts on
+quantum systems from outside. Gravity IS the classical side. It
+emerges at the crossing. It cannot be quantized because it is
+defined by the absence of superposition.
+
+"Maybe not here, but somewhere else": above 1/4, there is no "here."
+There is no definite location. Gravity requires a "here." The crossing
+of 1/4 creates the "here." The "here" is where gravity lives.
+
+### What this changes
+
+The original hypothesis (anti-frequencies → standing-wave γ profile →
+gravity) failed: A(n) is flat.
+
+The revised hypothesis:
+- Gravity is not a γ profile imposed by standing waves
+- Gravity is a CONSEQUENCE of crossing CΨ = 1/4
+- The crossing creates classical reality (definite location, mass)
+- The sacrifice zone crosses first (highest γ)
+- Gravity accumulates where crossing happens first
+- This is a self-reinforcing process (positive feedback)
+
+The connection to the sacrifice zone is not through mode amplitudes
+(which are flat) but through CROSSING TIME (which depends on γ):
+
+    t_cross = 0.039 / γ
+
+Higher γ → earlier crossing → earlier classicality → earlier gravity.
+
+### What remains to compute
+
+1. The crossing time profile t_cross(n) for a chain with sacrifice-zone
+   γ distribution. Does the site-resolved crossing time create a
+   gradient that falls with distance from the sacrifice edge?
+
+2. If mass accumulation → more γ → faster crossing → more mass, does
+   this feedback converge to a stable mass distribution? Or does it
+   diverge (all mass at one point = singularity)?
+
+3. The 1/r question reformulated: does t_cross(n) fall like 1/r from
+   the sacrifice edge? This would be: the "gravitational potential"
+   is the crossing-time landscape, not the mode-amplitude landscape.
+
+---
+
 ## The Deeper Reading
 
 The Incompleteness Proof says: γ comes from outside. There is no
