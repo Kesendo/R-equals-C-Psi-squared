@@ -15,6 +15,12 @@ monotonically decreasing for all t > 0.
 **Consequence:** The 1/4 boundary is absorbing. Once CΨ crosses below 1/4,
 it cannot return (under Markovian dynamics).
 
+**Geometric interpretation (April 2026):** The monotone decrease
+dCΨ/dt < 0 is approximately the gradient flow along the shortest
+Bures geodesic (deviation 9.1 × 10⁻⁴ for N=2 Bell state). Decoherence
+follows the geometrically optimal path to equilibrium.
+See [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md).
+
 ---
 
 ## Part 1: Pure Z-Dephasing

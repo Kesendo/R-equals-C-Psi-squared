@@ -477,6 +477,33 @@ open questions.
 
 ---
 
+## The Algebra-First Principle (April 2026)
+
+Six independent analyses converge on the same conclusion: the
+palindromic structure is algebraic, not physical in the narrow sense.
+
+| Analysis | Expected | Found |
+|----------|----------|-------|
+| RMT | Chaos (GUE) | Integrable (Poisson) |
+| PT symmetry | PT (anti-linear) | Chiral (linear, class AIII) |
+| Topology | Topological protection | Geometric (standing waves) |
+| SFF | Poisson or GUE | Unique palindromic signature |
+| Chemistry | Quantum biology | Classical at body temperature |
+| Entropy | Fluctuation theorem | Algebraic identity (Crooks form) |
+| Info geometry | Metric singularity at 1/4 | Finite everywhere. Lindblad ≈ geodesic |
+
+The boundaries (palindrome equation, rate bounds, fold at 1/4, V-Effect
+gain) are mathematical necessities. Physics inherits the constraints;
+it does not create them. The seventh analysis adds: the path through
+the algebra is the shortest possible. Decoherence is geodesic in the
+Bures metric (deviation 9 × 10⁻⁴). Not only is the structure
+algebraic; the dynamics follow the geometric optimum.
+
+→ [Entropy Production](ENTROPY_PRODUCTION.md) (the capstone analysis)
+→ [Proof Roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+
+---
+
 ## Sources
 
 All paths relative to this file.
@@ -490,5 +517,7 @@ All paths relative to this file.
 | Initial States | [XOR Space](XOR_SPACE.md), [Error Correction](ERROR_CORRECTION_PALINDROME.md), [Standing Wave](STANDING_WAVE_ANALYSIS.md) |
 | Crossing | [Taxonomy](CROSSING_TAXONOMY.md), [Born Rule](BORN_RULE_MIRROR.md), [Subsystem](SUBSYSTEM_CROSSING.md) |
 | Breaking & Thermal | [Thermal Breaking](THERMAL_BREAKING.md), [Chain Selection Test](CHAIN_SELECTION_TEST.md) |
+| Spectral Analysis | [RMT](RANDOM_MATRIX_THEORY.md), [PT-Symmetry](PT_SYMMETRY_ANALYSIS.md), [Topo Edge Modes](TOPOLOGICAL_EDGE_MODES.md), [SFF](SPECTRAL_FORM_FACTOR.md), [Entropy](ENTROPY_PRODUCTION.md) |
+| Chemistry | [Proton Water Chain](PROTON_WATER_CHAIN.md), [DNA Base Pairing](DNA_BASE_PAIRING.md) |
 | Simulation Code | [combined_optimization.py](../simulations/combined_optimization.py), [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py), [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py), [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py), [v_effect_thermal.py](../simulations/v_effect_thermal.py), [chain_selection_test.py](../simulations/chain_selection_test.py), [self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py) |
 | Handoffs | [March 30](../ClaudeTasks/SESSION_HANDOFF_MARCH30_PM.md), [March 29](../ClaudeTasks/SESSION_HANDOFF_MARCH29_PM.md), [March 28](../ClaudeTasks/SESSION_HANDOFF_MARCH28.md) |

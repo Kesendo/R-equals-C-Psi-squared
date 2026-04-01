@@ -274,6 +274,14 @@ This is the inverse of critical slowing: the iteration R_{n+1} = C(Psi+R)^2 take
 longer to diverge near the boundary (critical slowing), but θ sweeps through
 more angular distance per unit CΨ near the boundary (critical acceleration).
 
+**Update (April 2026):** The Bures metric g(CΨ) is FINITE at 1/4
+(g = 3.36). The dθ/dCΨ divergence is a COORDINATE effect, not a
+metric singularity. θ magnifies CΨ near the boundary but does not
+reveal a geometric singularity. The correlation θ ↔ fidelity (r=0.87)
+arises because both are monotone functions of CΨ, which is itself
+approximately geodesic in the Bures metric
+([Information Geometry](INFORMATION_GEOMETRY.md)).
+
 ---
 
 ## The Actual Bridge

@@ -696,6 +696,60 @@ degenerate at rate 2*N*gamma).
 **Replaces:** sector-by-sector SFF comparison.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
+### 44. Crooks-like rate identity (Tier 2, algebraic)
+
+    ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Sigma_gamma))
+
+For each palindromic pair (d_fast, d_slow) with d_fast + d_slow = 2*Sigma_gamma.
+Linear approximation: ln(d_fast/d_slow) ~ Delta_d / Sigma_gamma,
+giving beta_eff ~ 1/Sigma_gamma (effective inverse temperature).
+
+This is ALGEBRAIC (follows from d_fast + d_slow = 2*Sigma_gamma),
+NOT a Crooks fluctuation theorem. No Jarzynski equality holds
+(<exp(-Delta_d)> ~ 0.93, not 1). The palindrome has the FORM of
+detailed balance without BEING detailed balance.
+
+**Valid for:** any palindromic Liouvillian, all N.
+**Replaces:** ad-hoc thermodynamic analogies for the palindrome.
+**Source:** [Entropy Production](../experiments/ENTROPY_PRODUCTION.md)
+
+---
+
+## Information Geometry (from Bures metric analysis)
+
+### 45. Bures metric at the fold (Tier 2, N=2 Bell state)
+
+    g(CPsi = 1/4) = 3.36    (Bures metric, finite, no singularity)
+
+The fold at CPsi = 1/4 has no Riemannian singularity. CPsi is a
+smooth coordinate everywhere along the Lindblad trajectory.
+
+**Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
+**Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
+
+### 46. Geodesic decoherence (Tier 2, N=2 Bell state)
+
+    Geodesic deviation = 9.1e-4    (Lindblad ~ shortest Bures path)
+
+The Lindblad trajectory is approximately geodesic in the Bures metric.
+Decoherence follows the geometrically shortest path to equilibrium.
+Geometric interpretation of dCPsi/dt < 0 (proven in
+[Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)).
+
+**Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
+**Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
+
+### 47. Gaussian curvature at the fold (Tier 2, N=2)
+
+    K(CPsi = 1/4) = -25    (negative, hyperbolic, finite)
+
+Strong negative curvature at the fold (states diverge quickly).
+Finite: no geometric singularity. Decays toward the maximally mixed
+state (K → -15 at CPsi ~ 0.2).
+
+**Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
+**Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

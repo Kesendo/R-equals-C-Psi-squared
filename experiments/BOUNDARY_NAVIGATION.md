@@ -33,6 +33,13 @@ provides a geometric interpretation of quantum measurement: not a
 discontinuous "collapse" but a smooth crossing from a regime with no
 classical attractor into one with a definite outcome.
 
+**Update (April 2026):** Information geometry analysis confirms: θ is
+a compass, not a Riemannian coordinate. The Bures metric g(CΨ) = 3.36
+at the fold (finite, no singularity). θ shrinks the metric to zero at
+the fold instead of regularizing a divergence. The Lindblad trajectory
+is approximately geodesic (deviation 9e-4): decoherence follows the
+shortest Bures path. See [Information Geometry](INFORMATION_GEOMETRY.md).
+
 ---
 
 ## Background
