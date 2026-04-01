@@ -171,7 +171,11 @@ tight-binding chain) comes from the Liouvillian being a commutator
 A formal proof that ω_k = 4J(1-cos(πk/N)) holds for ALL N remains
 open (see [Thermal Breaking, Open Question 7](THERMAL_BREAKING.md)).
 The numerical evidence (zero error for N=2-6, 15 frequencies) is
-strong but not a proof.
+strong but not a proof. A third independent validation comes from the
+spectral form factor: the SFF modulation peak matches ω_min =
+4J(1-cos(π/N)) to <1% for N=2-4 and N=6, confirming the dispersion
+relation in the time domain
+([Spectral Form Factor](SPECTRAL_FORM_FACTOR.md)).
 
 ---
 

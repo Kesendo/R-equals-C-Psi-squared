@@ -121,6 +121,16 @@ N-dependence is non-monotonic: N=3 is 35x less stable than N=2.
 -> [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
 -> [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Π classification, Petermann K = 403)
 
+**10b. Spectral Form Factor** (Tier 2)
+SFF of 21,832 eigenvalues (N=2-7) confirms palindromic modulation at
+ω_min = 4J(1-cos(π/N)) (FFT peak match <1%, N=2-4, 6). Sectors w and
+N-w have identical SFF (palindromic pairing in time domain). XOR sector:
+K=1.000 (all eigenvalues degenerate). Visibility ~1/4^N. Neither Poisson
+(flat K) nor GUE (dip-ramp-plateau): unique palindromic signature.
+Two timescales: t_Π ~ N² (palindromic) vs t_H ~ 4^N (Heisenberg),
+ratio → 0. Third validation of the w=1 dispersion relation.
+-> [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md)
+
 ### Initial State Physics
 
 **10. GHZ is the worst state** (Tier 2)

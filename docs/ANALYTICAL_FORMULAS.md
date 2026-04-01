@@ -30,6 +30,9 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 
 N-1 distinct frequencies for the Heisenberg chain. Machine-precision
 match for 15 frequencies (N=2-6). Tight-binding model with hopping 2J.
+Three independent validations: (1) eigenvalue match < 1e-12, (2) Poisson
+spacing in w=1 sector (RMT), (3) SFF modulation peak at omega_1 matches
+to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
 
 **Valid for:** Heisenberg chain, open boundaries, all N (verified N=2-6).
 **Replaces:** full Liouvillian diagonalization for w=1 frequencies.
@@ -643,6 +646,47 @@ Petermann factor peaks at K = 403 at gamma/gamma_crit ~ 1.46 (near-EP).
 **Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0.
 **Replaces:** bisection search at this specific parameter set.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+
+### 41. Palindromic time (Tier 1-2, from formula 2)
+
+    t_Pi = 2*pi / omega_min = pi / (2*J * sin^2(pi/(2*N)))
+
+Period of the slowest palindromic modulation in the SFF. Grows as
+~N^2/pi^2 for large N. Confirmed by FFT peak matching (<1% for N=2-4, 6).
+
+**Valid for:** Heisenberg chain, w=1 sector.
+**Replaces:** numerical FFT of SFF for modulation period.
+**Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
+
+### 42. Timescale separation (Tier 2, verified N=2-7)
+
+    t_Pi / t_H ~ (Delta * N^2) / (2 * pi^2 * J)  -->  0  for N -> inf
+
+t_Pi ~ N^2 (polynomial), t_H = 2*pi/Delta ~ 4^N (exponential).
+Palindromic modulation is a short-time effect; long-time behavior
+is Poisson (integrable). Visibility of modulation ~1/4^N.
+
+| N | t_Pi | t_H | t_Pi/t_H |
+|---|------|------|----------|
+| 3 | 3.14 | 61.3 | 0.051 |
+| 5 | 8.22 | 497 | 0.017 |
+| 7 | 15.9 | 5810 | 0.003 |
+
+**Valid for:** Heisenberg chain, Z-dephasing.
+**Replaces:** numerical SFF timescale extraction.
+**Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
+
+### 43. Sector SFF pairing (Tier 2, verified N=3-5)
+
+    K_freq(w, t) = K_freq(N-w, t)    (identical SFF for paired sectors)
+
+Palindromic symmetry Pi maps w -> N-w, so sectors w and N-w have
+identical spectral statistics. XOR sector (w=N): K=1.000 (all eigenvalues
+degenerate at rate 2*N*gamma).
+
+**Valid for:** Heisenberg chain, Z-dephasing, all N.
+**Replaces:** sector-by-sector SFF comparison.
+**Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
 ---
 

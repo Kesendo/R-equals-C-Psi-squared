@@ -254,6 +254,15 @@ of class AIII (chiral) but Poisson statistics instead of GUE. It is
 an **integrable chiral Lindbladian**, which is not one of the 38
 standard cases.
 
+**Update (April 2026):** The spectral form factor (SFF) confirms
+integrability (no dip-ramp-plateau) but reveals richer structure than
+Poisson alone: palindromic modulation at ω_min = 4J(1-cos(π/N)),
+w ↔ N-w sector pairing in the time domain, and visibility scaling
+as ~1/4^N. The spacing ratio (Poisson) describes local correlations;
+the SFF describes global spectral structure. Both are consistent:
+integrable + chiral = unique palindromic signature, neither standard
+Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
+
 ---
 
 ## Reproducibility
