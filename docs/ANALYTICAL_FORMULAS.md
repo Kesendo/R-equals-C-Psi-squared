@@ -260,11 +260,11 @@ Hardware validated: IBM Torino qubit 52 (MAE = 0.053 with fitted T2*).
 The 1/4 crossing emerges from a global fit (1/4 was not a fit target).
 
 **Valid for:** single qubit |+> under combined T1 + T2* decay.
-**Replaces:** formula 12 when T1 is finite; numerical CPsi(t)
+**Replaces:** formula 12 when T1 is finite; numerical CΨ(t)
 simulation for superconducting qubits.
 **Source:** [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md)
 
-### 25. CPsi closed form, Bell+ Z-dephasing (Tier 1, proven)
+### 25. CΨ closed form, Bell+ Z-dephasing (Tier 1, proven)
 
     CPsi(t) = f * (1 + f^2) / 6,       f = e^{-4*gamma*t}
 
@@ -274,11 +274,11 @@ Crossing at f* = 0.8612 (from f*(1 + f*^2) = 3/2).
 K = gamma * t_cross = 0.0374.
 
 **Valid for:** Bell+ initial state, Z-dephasing, 2 qubits.
-**Replaces:** numerical integration for CPsi(t) trajectory.
+**Replaces:** numerical integration for CΨ(t) trajectory.
 O(1) evaluation instead of ODE solver.
-**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+**Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### 26. CPsi closed form, general Pauli channels (Tier 1, proven)
+### 26. CΨ closed form, general Pauli channels (Tier 1, proven)
 
     CPsi = u * (1 + u^2 + v^2 + w^2) / 12
 
@@ -294,7 +294,7 @@ the bracket are non-negative; product with -u is strictly negative).
 (gamma_x, gamma_y, gamma_z), 2 qubits.
 **Replaces:** Lindblad master equation solver for multi-axis
 noise on Bell states. O(1) instead of matrix exponentiation.
-**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+**Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
 ### 27. K values per noise channel (Tier 1, from formula 26)
 
@@ -304,24 +304,24 @@ noise on Bell states. O(1) instead of matrix exponentiation.
     K_depol = 0.0440    (depolarizing, gamma/3 each axis)
 
 Complements formula 14 (K per bridge metric). These are K per
-noise TYPE, all measured with CPsi on Bell+ state.
+noise TYPE, all measured with CΨ on Bell+ state.
 
 **Valid for:** Bell+ state, single-axis or depolarizing noise.
 **Replaces:** per-channel crossing time derivation.
-**Source:** [CPsi Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
+**Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
 ### 28. Fixed-point absorber theorem (Tier 1-2)
 
     CPsi(rho*) < 1/4    for all primitive CPTP maps
 
 Proven analytically:
-- Case A: unital maps (rho* = I/d, CPsi = 0)
-- Case B: local channels (rho* = product state, CPsi < 1/4)
+- Case A: unital maps (rho* = I/d, CΨ = 0)
+- Case B: local channels (rho* = product state, CΨ < 1/4)
 Verified numerically:
-- Case C: 100 random primitive maps, max CPsi(rho*) = 0.138
+- Case C: 100 random primitive maps, max CΨ(rho*) = 0.138
 
-Consequence: CPsi = 1/4 is an eventual absorber. Every initial
-state with CPsi > 1/4 must eventually cross below 1/4.
+Consequence: CΨ = 1/4 is an eventual absorber. Every initial
+state with CΨ > 1/4 must eventually cross below 1/4.
 
 **Valid for:** any primitive (unique fixed-point) quantum channel,
 2 qubits.
@@ -484,13 +484,13 @@ and 2 decaying choices (X, Y) per site. This fixes d = 2 algebraically.
 
     t_cross(Pi side) / t_cross(direct) ~ T1 / T2
 
-IBM Torino qubit 52: CPsi_A crosses 1/4 at ~140 us, CPsi_B (Pi
+IBM Torino qubit 52: CΨ_A crosses 1/4 at ~140 us, CΨ_B (Π
 perspective) at ~895 us. Factor ~6x. The palindromic partner
 decays at the T1 rate, not T2.
 
-**Valid for:** single qubit under T1 + T2 decay, both CPsi
+**Valid for:** single qubit under T1 + T2 decay, both CΨ
 perspectives computed from the same density matrix.
-**Replaces:** dual-perspective CPsi simulation.
+**Replaces:** dual-perspective CΨ simulation.
 **Source:** [Both Sides Visible](BOTH_SIDES_VISIBLE.md)
 
 ---
