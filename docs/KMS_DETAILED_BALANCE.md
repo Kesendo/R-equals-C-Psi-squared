@@ -563,7 +563,10 @@ intrinsically infinite-temperature phenomenon.
 3. **Classify Π in the Sá et al. framework.** Work with the centered
    Liouvillian L_c and determine its exact symmetry class. The shift
    may put it outside the 38-fold classification, or there may be a
-   natural extension.
+   natural extension. **Update (April 2026):** RMT analysis confirms
+   the system has chiral symmetry (class AIII) but Poisson level
+   statistics, placing it outside all 38 standard classes. See
+   [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
 
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
    recognize the significance of a shifted anti-similarity. Roberts for
