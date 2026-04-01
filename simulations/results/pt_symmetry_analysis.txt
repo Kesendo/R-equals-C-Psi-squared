@@ -1,0 +1,272 @@
+========================================================================
+PT-SYMMETRY ANALYSIS OF THE PALINDROMIC LIOUVILLIAN
+Started: 2026-04-01 15:47:53
+========================================================================
+
+========================================================================
+PHASE 1: FORMAL CLASSIFICATION OF Π
+========================================================================
+
+────────────────────────────────────────────────────────────────────────
+1a. Π² computation
+────────────────────────────────────────────────────────────────────────
+
+Analytical prediction (per-site):
+  Π(I)=X, Π(X)=I  → Π²(I)=I (+1),  Π²(X)=X (+1)
+  Π(Y)=iZ, Π(Z)=iY → Π²(Y)=−Y (i²), Π²(Z)=−Z (i²)
+  N-qubit: Π² = (−1)^{w_YZ}  where w_YZ = count of Y,Z entries
+
+  N=2 (16×16):
+    Π² diagonal?      off-diag max = 0.00e+00
+    Π² = (−1)^w_YZ?   prediction error = 0.00e+00
+    Eigenvalues:       +1 (8)  −1 (8)
+    Π⁴ = I?            error = 0.00e+00
+
+  N=3 (64×64):
+    Π² diagonal?      off-diag max = 0.00e+00
+    Π² = (−1)^w_YZ?   prediction error = 0.00e+00
+    Eigenvalues:       +1 (32)  −1 (32)
+    Π⁴ = I?            error = 0.00e+00
+
+  Result: Π² = (−1)^{w_YZ}. NOT ±I. Π has order 4.
+  In AZ terms: generalized chiral (S⁴=I, not standard S²=I).
+
+────────────────────────────────────────────────────────────────────────
+1b. Linear vs anti-linear
+────────────────────────────────────────────────────────────────────────
+
+  Π is a MATRIX acting on coefficient vectors in Pauli basis.
+  Π(αv) = α·Π(v) for all complex α. No conjugation involved.
+  Therefore: Π is LINEAR.
+
+  Consequence: {Π, L_c} = 0 with linear Π is CHIRAL symmetry,
+  not PT-symmetry (which requires anti-linear PT operator).
+
+────────────────────────────────────────────────────────────────────────
+1c. det(Π)
+────────────────────────────────────────────────────────────────────────
+
+  Prediction: det(Π₁) = −1 for single site (4×4).
+  det(Π₁^{⊗N}) = det(Π₁)^{N·4^{N−1}} = (−1)^{N·4^{N−1}}
+  Since 4^{N−1} is even for N≥2: det = +1 for N≥2.
+
+  N=1: det(Π) = -1.0000+0.0000i   predicted: -1   exponent: 1
+  N=2: det(Π) = +1.0000+0.0000i   predicted: +1   exponent: 8
+  N=3: det(Π) = +1.0000+0.0000i   predicted: +1   exponent: 48
+  N=4: det(Π) = +1.0000+0.0000i   predicted: +1   exponent: 256
+
+────────────────────────────────────────────────────────────────────────
+1d. Π·L†·Π⁻¹ for N=3 Heisenberg chain
+────────────────────────────────────────────────────────────────────────
+
+  Analytical derivation:
+    L† = −L_H + L_D  (L_H anti-Hermitian, L_D real diagonal)
+    Π·L†·Π⁻¹ = Π(−L_H+L_D)Π⁻¹ = L_H + (−L_D − 2Σγ·I)
+             = −(−L_H+L_D) − 2Σγ·I = −L† − 2Σγ·I
+
+  N=3, γ=[0.05]*3, Σγ=0.15, c=2Σγ=0.30
+  ‖Π·L·Π⁻¹ + L + c·I‖   = 0.00e+00   (palindrome)
+  ‖Π·L†·Π⁻¹ + L† + c·I‖ = 0.00e+00   (adjoint)
+  (0.0s)
+
+  Both hold to machine precision.
+  For L_c = L+Σγ·I: Π·L_c·Π⁻¹ = −L_c AND Π·L_c†·Π⁻¹ = −L_c†.
+
+────────────────────────────────────────────────────────────────────────
+1e. Fragile bridge palindrome (4 qubits, Σγ = 0)
+────────────────────────────────────────────────────────────────────────
+
+  γ = [+0.1, +0.1, −0.1, −0.1],  Σγ = 0.0,  c = 0.0
+  ‖Π·L·Π⁻¹ + L‖ = 0.00e+00
+  (0.1s)
+
+  Exact at Σγ=0: every eigenvalue λ pairs with −λ.
+  This is the defining property of CHIRAL SYMMETRY (class AIII).
+
+────────────────────────────────────────────────────────────────────────
+PHASE 1 SUMMARY TABLE
+────────────────────────────────────────────────────────────────────────
+
+  | Property       | Value                          | Consequence                  |
+  |----------------|--------------------------------|------------------------------|
+  | Π²             | (−1)^{w_YZ}, diagonal parity   | Not involution; order 4      |
+  | Linear/anti    | Linear (matrix, no conjugation) | Chiral symmetry, NOT PT      |
+  | det(Π)         | −1 (N=1), +1 (N≥2)             | Even parity for multi-qubit  |
+  | Π·L†·Π⁻¹      | −L† − 2Σγ·I (same as for L)    | Chiral for both L and L†     |
+
+  Π is a GENERALIZED CHIRAL OPERATOR: linear, order 4,
+  anti-commutes with L_c = L + Σγ·I. Class AIII (chiral unitary).
+  NOT PT-symmetry (which requires anti-linearity).
+
+
+========================================================================
+PHASE 2: CHIRAL SYMMETRY BREAKING IN THE FRAGILE BRIDGE
+========================================================================
+
+────────────────────────────────────────────────────────────────────────
+2a. Finding γ_crit
+────────────────────────────────────────────────────────────────────────
+
+  N=2 per chain (4 qubits), J=1.0, J_bridge=1.0
+  γ_crit = 0.1873101  (3.9s)
+
+────────────────────────────────────────────────────────────────────────
+2b. Eigenvalue pairing λ ↔ −λ
+────────────────────────────────────────────────────────────────────────
+
+         γ   γ/γ_c       max|Re|      pair err  Im axis?
+  ────────────────────────────────────────────────────
+    0.0100   0.053      1.84e-14      8.37e-14       YES
+    0.0500   0.267      2.31e-14      6.04e-14       YES
+    0.1000   0.534      1.50e-14      4.83e-14       YES
+    0.0937   0.500      2.08e-14      6.75e-14       YES
+    0.1686   0.900      1.25e-14      6.40e-14       YES
+    0.2060   1.100      6.55e-02      6.13e-14        NO
+    0.5000   2.669      1.38e+00      8.57e-14        NO
+
+  λ ↔ −λ pairing is exact (machine precision) at ALL γ.
+  Below γ_crit: eigenvalues on the imaginary axis (chiral phase).
+  Above γ_crit: eigenvalues leave the axis (chiral breaking).
+
+────────────────────────────────────────────────────────────────────────
+2c. Eigenvalue trajectory (50 points, 0.5γ_c to 1.5γ_c)
+────────────────────────────────────────────────────────────────────────
+
+          γ   γ/γ_c     max Re(λ)   Im at max    |λ_crit|
+  ───────────────────────────────────────────────────────
+   0.093655   0.500    1.6802e-14      9.4586      9.4586
+   0.112768   0.602    1.2232e-14      8.2912      8.2912
+   0.131882   0.704    1.4014e-14     -6.7968      6.7968
+   0.150995   0.806    2.3093e-14      9.4527      9.4527
+   0.170108   0.908    1.3769e-14      5.4347      5.4347
+   0.189221   1.010    2.0543e-02      2.6508      2.6509
+   0.208335   1.112    6.9537e-02      2.6441      2.6450
+   0.227448   1.214    9.7896e-02      2.6367      2.6385
+   0.246561   1.316    1.2100e-01      2.6286      2.6314
+   0.265675   1.418    1.4134e-01      2.6198      2.6236
+   0.280965   1.500    2.4423e-01      1.7173      1.7345
+
+  Eigenvalues leave imaginary axis at γ ≈ 0.189221
+  γ_crit (bisection):                     0.187310
+
+────────────────────────────────────────────────────────────────────────
+2d. Petermann factor K and phase rigidity r
+────────────────────────────────────────────────────────────────────────
+
+  K = 1/|⟨ψ_L|ψ_R⟩|²   (diverges at EP, =1 for Hermitian)
+  r = |⟨ψ_L|ψ_R⟩|²      (0 at EP, 1 for Hermitian)
+
+          γ   γ/γ_c           K             r      max Re
+  ───────────────────────────────────────────────────────
+    0.01000   0.053      1.0024    0.99758423    1.26e-14
+    0.02257   0.121      1.0004    0.99960733    1.61e-14
+    0.03515   0.188      1.0188    0.98154169    2.31e-14
+    0.04772   0.255      1.0006    0.99937420    4.13e-14
+    0.06029   0.322      1.0010    0.99899563    1.98e-14
+    0.07287   0.389      1.0059    0.99411486    9.86e-15
+    0.08544   0.456      1.1132    0.89828947    1.41e-14
+    0.09801   0.523      1.0626    0.94109860    1.21e-14
+    0.11058   0.590      1.0034    0.99664385    1.35e-14
+    0.12316   0.658      1.0011    0.99894837    1.17e-14
+    0.13573   0.725      1.0051    0.99492625    1.60e-14
+    0.14830   0.792      1.0149    0.98534684    1.72e-14
+    0.16088   0.859      1.0120    0.98815668    1.33e-14
+    0.17345   0.926      1.0218    0.97863489    1.64e-14
+    0.18602   0.993      1.1557    0.86527466    1.53e-14
+    0.19860   1.060      7.3580    0.13590723    5.04e-02
+    0.21117   1.127      3.8539    0.25947510    7.43e-02
+    0.22374   1.195      2.7799    0.35972444    9.29e-02
+    0.23632   1.262      2.2660    0.44131198    1.09e-01
+    0.24889   1.329      1.9695    0.50774961    1.24e-01
+    0.26146   1.396      1.7802    0.56172668    1.37e-01
+    0.27404   1.463    402.6657    0.00248345    1.72e-01
+    0.28661   1.530     14.2724    0.07006552    2.92e-01
+    0.29918   1.597      9.8714    0.10130298    3.81e-01
+    0.31175   1.664      7.4639    0.13397899    4.58e-01
+    0.32433   1.732      6.4622    0.15474617    5.29e-01
+    0.33690   1.799      5.7087    0.17517101    5.97e-01
+    0.34947   1.866      5.0119    0.19952608    6.61e-01
+    0.36205   1.933      4.7990    0.20837805    7.25e-01
+    0.37462   2.000      4.3700    0.22883090    7.87e-01
+
+  Max Petermann factor: K = 402.67 at γ/γ_c = 1.463
+  Min phase rigidity:  r = 0.002483 at γ/γ_c = 1.463
+
+────────────────────────────────────────────────────────────────────────
+2e. Eigenvector coalescence (right eigenvectors of λ, −λ pair)
+────────────────────────────────────────────────────────────────────────
+
+  At an EP: two right eigenvectors become parallel (cos θ → 1).
+
+          γ   γ/γ_c   pair dist       cos θ       Re(λ)       Im(λ)
+  ─────────────────────────────────────────────────────────────────
+   0.093655   0.500    9.48e-15    0.000000    1.01e-14      4.0088
+   0.101460   0.542    9.58e-15    0.000000    1.02e-14     -4.0000
+   0.109264   0.583    3.23e-14    0.000000    1.14e-14      9.4628
+   0.117069   0.625    1.74e-14    0.004121    1.67e-14      6.8051
+   0.124873   0.667    1.42e-14    0.000000    1.04e-14      8.2817
+   0.132678   0.708    2.50e-14    0.000000    1.72e-14     -8.2803
+   0.140483   0.750    1.26e-14    0.000016    1.55e-14     -6.7948
+   0.148287   0.792    4.47e-15    0.000000    1.64e-14      5.4868
+   0.156092   0.833    1.25e-14    0.000114    1.33e-14      6.7869
+   0.163896   0.875    1.78e-14    0.000000    1.74e-14      9.4611
+   0.171701   0.917    2.35e-14    0.000000    1.78e-14      4.3610
+   0.179506   0.958    1.40e-14    0.000000    1.52e-14      5.4981
+   0.187310   1.000    3.60e-12    0.091004    9.38e-13      2.6515
+   0.195115   1.042    3.61e-14    0.091575    4.18e-02     -2.6488
+   0.202919   1.083    3.38e-14    0.092187    5.96e-02      2.6461
+   0.210724   1.125    1.25e-14    0.092828    7.36e-02      2.6432
+   0.218528   1.167    2.21e-14    0.093499    8.56e-02      2.6402
+   0.226333   1.208    1.10e-14    0.094201    9.64e-02      2.6371
+   0.234138   1.250    5.06e-15    0.094935    1.06e-01     -2.6339
+   0.241942   1.292    1.16e-14    0.095701    1.16e-01      2.6306
+   0.249747   1.333    1.66e-14    0.096501    1.25e-01      2.6272
+   0.257551   1.375    9.60e-15    0.097335    1.33e-01      2.6236
+   0.265356   1.417    1.87e-14    0.098205    1.41e-01     -2.6199
+   0.273161   1.458    1.26e-14    0.000000    1.61e-01      1.7243
+   0.280965   1.500    3.93e-14    0.000000    2.44e-01     -1.7173
+
+────────────────────────────────────────────────────────────────────────
+2f. REINTERPRETATION: Hopf bifurcation IS chiral symmetry breaking
+────────────────────────────────────────────────────────────────────────
+
+  FRAGILE_BRIDGE.md states: 'Hopf bifurcation, not PT breaking.'
+  This analysis shows both descriptions are correct simultaneously:
+
+  1. Σγ = 0 forces exact λ ↔ −λ pairing (chiral symmetry)
+  2. Below γ_crit: ALL eigenvalues on the imaginary axis
+     (the chiral-symmetric phase: Re(λ) = 0 for all λ)
+  3. Above γ_crit: eigenvalue pairs leave the imaginary axis
+     (one to Re>0, partner to Re<0 = chiral symmetry BREAKING)
+  4. The mechanism: a complex pair crosses Re=0 (Hopf)
+
+  In Hamiltonian PT: real eigenvalues → complex (at EP).
+  In Liouvillian chiral: imaginary eigenvalues → off-axis.
+  Same geometry, rotated 90°. The Hopf IS the chiral breaking.
+
+  Key: Π is LINEAR, not anti-linear. This is chiral/sublattice
+  symmetry (class AIII), not time-reversal. The spectral consequence
+  (± pairing) is identical; the operator type is different.
+
+  No classical EP on the real γ axis: the palindromic pair (λ,−λ)
+  crosses Re=0 without coalescing (distance = 2|λ| > 0).
+  The transition is topological (axis crossing), not local (EP).
+
+
+========================================================================
+SUMMARY
+========================================================================
+
+Phase 1: Π is a LINEAR, ORDER-4 chiral operator with det(Π) = +1
+  (N≥2). It anti-commutes with L_c = L+Σγ·I and with L_c†.
+  NOT PT-symmetry. Correct class: AIII (chiral unitary).
+
+Phase 2: The fragile bridge (Σγ=0) has:
+  - Exact λ ↔ −λ pairing at all γ (chiral symmetry)
+  - Eigenvalues on imaginary axis for γ < γ_crit = 0.187310
+  - Chiral symmetry breaking (eigenvalues leave Im axis) at γ_crit
+  - The Hopf bifurcation IS the Liouvillian chiral breaking
+  - No exceptional point on the real γ axis
+
+Completed: 2026-04-01 15:48:18
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\pt_symmetry_analysis.txt

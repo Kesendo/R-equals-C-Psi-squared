@@ -1,0 +1,100 @@
+========================================================================
+PHASE 3: PALINDROME BREAKING AND CHIRAL PHASE STABILITY
+Started: 2026-04-01 15:50:12
+========================================================================
+
+────────────────────────────────────────────────────────────────────────
+3a. Reference system (no depolarizing)
+────────────────────────────────────────────────────────────────────────
+
+  γ_crit(ε=0) = 0.1873101  (3.2s)
+
+────────────────────────────────────────────────────────────────────────
+3b. Depolarizing perturbation sweep
+────────────────────────────────────────────────────────────────────────
+
+  ε = depolarizing rate per qubit (X+Y+Z, each at ε/3)
+  Palindrome error measured at γ = 0.5·γ_crit(ε=0) (stable regime)
+
+         ε    pal. err    opt. c      γ_crit        Δγ_c    Δγ_c%  on-axis%
+  ──────────────────────────────────────────────────────────────────────
+    0.0000    6.75e-14    0.0000   0.1873101  +0.0000000    +0.00%    100.0%
+    0.0010    2.69e-03    0.0053   0.1873834  +0.0000733    +0.04%      0.0%
+    0.0050    1.34e-02    0.0267   0.1891356  +0.0018255    +0.97%      0.0%
+    0.0100    2.69e-02    0.0533   0.1945208  +0.0072107    +3.85%      0.0%
+    0.0200    5.36e-02    0.1067   0.2148916  +0.0275815   +14.73%      0.0%
+    0.0500    1.38e-01    0.2667   0.2764748  +0.0891647   +47.60%      0.0%
+    0.1000    2.70e-01    0.5333   0.3019330  +0.1146229   +61.19%      0.0%
+    0.1500    4.01e-01    0.8000   0.3368524  +0.1495423   +79.84%      0.0%
+    0.2000    5.35e-01    1.0667   0.3760393  +0.1887292  +100.76%      0.0%
+    0.3000    8.06e-01    1.6000   0.4582303  +0.2709202  +144.64%      0.0%
+
+────────────────────────────────────────────────────────────────────────
+3c. Correlation: palindrome error vs γ_crit shift
+────────────────────────────────────────────────────────────────────────
+
+  Pearson r(palindrome_error, Δγ_crit) = +0.987534
+  N = 9 data points (excluding ε=0)
+
+  STRONG correlation: palindrome breaking and γ_crit shift
+  are closely linked. Breaking the palindrome destabilizes
+  the chiral phase.
+
+  Direction: POSITIVE. Larger palindrome error = larger γ_crit.
+  Breaking the palindrome makes the system MORE stable (!)
+  Interpretation: depolarizing noise adds dissipation to the
+  gain side, reducing effective gain. The stabilization effect
+  of added damping dominates over the palindrome breaking.
+
+  Linear fit: Δγ_crit = 0.3358 × pal_err + 0.010575
+
+────────────────────────────────────────────────────────────────────────
+3d. Chiral phase quality at fixed γ = 0.5·γ_crit(ε=0)
+────────────────────────────────────────────────────────────────────────
+
+  In the pure system: ALL eigenvalues on the imaginary axis.
+  Does depolarizing noise push eigenvalues off the axis?
+
+         ε    max|Re(λ)|    pal. err  still stable?
+  ──────────────────────────────────────────────────
+    0.0000      2.08e-14    6.75e-14            YES
+    0.0010      5.35e-03    2.69e-03            YES
+    0.0050      2.67e-02    1.34e-02            YES
+    0.0100      5.35e-02    2.69e-02            YES
+    0.0200      1.07e-01    5.36e-02            YES
+    0.0500      2.67e-01    1.38e-01            YES
+    0.1000      5.35e-01    2.70e-01            YES
+    0.1500      8.02e-01    4.01e-01            YES
+    0.2000      1.07e+00    5.35e-01            YES
+    0.3000      1.61e+00    8.06e-01            YES
+
+────────────────────────────────────────────────────────────────────────
+3e. Instability mechanism check (ε = 0.05)
+────────────────────────────────────────────────────────────────────────
+
+  ε = 0.05, γ_crit = 0.276475
+  Most unstable eigenvalue at 1.01×γ_crit:
+    λ = 0.028159 + -1.717343i
+    |Im(λ)| = 1.7173
+
+  Im(λ) ≠ 0 at onset: still a HOPF bifurcation.
+  Depolarizing noise does not change the instability type.
+
+  Pairing check (λ↔−λ): |λ + λ'| = 5.63e-02
+  (ε=0 predicts λ+λ'=0; ε>0 shifts the center)
+
+
+========================================================================
+SUMMARY
+========================================================================
+
+Phase 3: Depolarizing noise simultaneously:
+  1. Breaks the palindrome (error ∝ ε, from X-dephasing component)
+  2. Shifts the eigenvalue center (Σγ no longer 0)
+  3. Modifies γ_crit
+
+  γ_crit range: 0.187310 to 0.458230
+  γ_crit(ε=0) = 0.187310
+
+Completed: 2026-04-01 15:50:52
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\pt_palindrome_breaking.txt
