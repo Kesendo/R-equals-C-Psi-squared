@@ -85,6 +85,9 @@ The framework now has clear tiers. Every claim belongs to exactly one.
 - **Palindromic Radio (negative result, March 15, 2026):** Searched Breakthrough Listen data for palindromic spectral signatures. Spiral galaxies (NGC2403, NGC6503) both show score ~0.94 regardless of sky position. The symmetry is astrophysical (bandpass + galaxy structure), not artificial. Detector needs refinement to distinguish natural from engineered symmetry.
 - Dynamic entanglement: alternating |0+0+⟩ builds entanglement from initially unentangled pairs; pair (0,2) crosses 1/4 from below at t≈0.286
 - Born rule recovery: ~97% of crossing-point probabilities from unitary evolution; ~3% systematic correction from decoherence basis alignment
+- **Urqubit algebra (verified April 1, 2026):** Π-eigenbasis has dim 4 per eigenvalue {+1,-1,+i,-i}. L_c exactly block-off-diagonal. Π² gives proper Z₂-graded algebra M_{2|2}(C). Even subalgebra ≅ M₂(C) ⊕ M₂(C), Clifford Cl(2,0). V_{+1} not a subalgebra (3/16 products leak). See [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md)
+- **Pythagorean decomposition (verified April 1, 2026):** {L_H, L_D+Σγ·I} = 0 exactly at N=2 (all 24 L_H entries satisfy w_XY sum = N). L_c² = L_H² + (L_D+Σγ)². At N≥3: cross term ~2%, γ-independent (geometric constant 1/√48 at N=3). See [Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
+- **Tomita-Takesaki ruled out (April 1, 2026):** Π is linear, J is anti-linear. No unitary U with Π = U·J (impossibility proof). Applies to ALL faithful states (J is state-independent for type I factors)
 
 **Tier 3: Theoretically argued (plausible, not proven):**
 - Measurement = crossing ¼ from above during decoherence
@@ -418,14 +421,19 @@ states, and formal optimality proof needed.
 | Sacrifice-zone formula (edge sacrifice) | **Verified** | C# RK4: 360x (N=5), 180x (N=7), 139x (N=9) vs V-shape. Beats DE optimizer 80%. |
 | ENAQT comparison (first spatial optimization) | **Verified** | Literature: 2-3x uniform. IBM Bayesian: +8%. Ours: 139-360x spatial. |
 | T2* drift matters | **Confirmed** | T2* fluctuates 58% in 6 days. Same-day Ramsey essential for predictions. |
+| M_{2\|2}(C) super-algebra from Π² | **Verified** | Even subalgebra ≅ M₂(C) ⊕ M₂(C), Clifford Cl(2,0). Z₂-grading exact. |
+| {L_H, L_D+Σγ} = 0 at N=2 | **Verified** | All 24 L_H entries have w_XY sum = N. Pythagorean decomposition exact. |
+| Cross term ~2% at N=3, γ-independent | **Verified** | 1/√48 = 0.1443, constant across γ = 0.001..0.5. Geometric, not physical. |
+| Π ≠ J (Tomita-Takesaki) | **Proven** | Linear vs anti-linear. Impossibility proof. State-independent for type I. |
+| Time reversal excluded at N > 2 | **Proven** | Five-step exclusion: palindrome + orthogonality + reduction failure. |
 
 ---
 
-## The Most Honest Statement (Updated March 24, 2026)
+## The Most Honest Statement (Updated April 1, 2026)
 
 After three months of computation, three external reviews, and a weekend that produced a proof, a DOI, and two new discoveries, the project has its clearest identity yet.
 
-The strongest results from March 14-24, 2026:
+The strongest results from March-April 2026:
 
 **The palindromic Liouvillian symmetry is proven.** The conjugation operator Π maps every decay rate d to 2Σγ-d. This holds for every Heisenberg system under Z-dephasing, every topology, every system size tested (N=2-8, up to 65536x65536 Liouvillian). It connects to the incoherenton framework (Haga et al. 2023) via Pauli weight complementarity: Π is the particle-hole transformation in incoherenton space.
 
@@ -437,13 +445,14 @@ The strongest results from March 14-24, 2026:
 
 **A closed-form formula for spatial dephasing optimization.** Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360x (N=5), 180x (N=7), 139x (N=9) vs hand-designed V-shape profiles. Beats the best numerical optimizer by 80% in 3 seconds instead of 90 minutes. The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3x with uniform dephasing. Nobody had optimized spatial dephasing profiles before. Not yet validated on hardware. See [Resonant Return](../experiments/RESONANT_RETURN.md).
 
-CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise entanglement. The consciousness interpretation is retired from the technical core. The algebra is correct, the simulations are reproducible, the palindrome is proven, and the engineering implications (repeater design rules, sacrifice-zone formula) are concrete.
+**The Urqubit algebra reveals deep structure (April 1, 2026).** The palindromic conjugation Π induces a Z₂-graded super-algebra M_{2|2}(C) on the operator space, with even subalgebra M₂(C) ⊕ M₂(C) carrying Clifford algebra Cl(2,0) structure. L_c is an odd operator: it maps each Π-eigenspace out, never to itself. The centered Hamiltonian and centered dissipator are exactly orthogonal at N=2: {L_H, L_D + Σγ} = 0, giving the Pythagorean decomposition L_c² = L_H² + (L_D + Σγ)². This breaks at N ≥ 3 (cross term ~2%, γ-independent geometric constant). Time reversal is algebraically excluded at N > 2: the cross term weaves oscillation and cooling into an inseparable structure, and reduction to N=2 destroys the palindrome (0/16 pairs, non-Markovian). The Tomita-Takesaki modular conjugation is ruled out as mechanism (Π linear, J anti-linear, impossibility proof). See [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md), [Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md).
 
-Emails have been sent to two research groups (Haga/Nakagawa at Osaka/Tokyo for the incoherenton connection, Nichol at Rochester for experimental QST). Zenodo v2.0 published. Awaiting responses.
+CΨ remains a basis-fixed, unassisted witness of directly expressed pairwise entanglement. The consciousness interpretation is retired from the technical core. The algebra is correct, the simulations are reproducible, the palindrome is proven, and the engineering implications (repeater design rules, sacrifice-zone formula) are concrete.
 
 See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical description.
 See [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.
 See [XOR_SPACE](../experiments/XOR_SPACE.md) for the spectral filter discovery.
+See [TIME_IRREVERSIBILITY_EXCLUSION](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) for the algebraic arrow of time.
 
 ---
 
