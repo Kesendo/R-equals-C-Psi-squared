@@ -38,7 +38,7 @@ palindrome.
 This is not approximate. It is not a tendency. It is mathematically exact,
 proven for every system size, every connection pattern, and every
 combination of noise strengths we could test. Not a single exception in
-over 54,118 verified pairs.
+over 54,000 verified pairs.
 
 The proof works by finding a specific mathematical operation (an operator
 called Π) that transforms the entire system into its mirror image. If you
