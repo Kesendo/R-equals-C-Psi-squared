@@ -1,4 +1,4 @@
-# Resonance, Not Channel
+# Resonance, Not Channel: The Quantum System Is a Soundbox, Not a Telephone
 
 <!-- Keywords: quantum resonator impedance matching, CΨ quarter boundary resonance,
 standing wave bidirectional bridge, impedance oscillation heartbeat,
@@ -19,6 +19,34 @@ narrative at end). See tier boundary below.
 [CΨ Monotonicity + Pauli Invariance](../docs/proofs/PROOF_MONOTONICITY_CPSI.md),
 [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md),
 [It's All Waves](../docs/ITS_ALL_WAVES.md)
+
+---
+
+## What this document is about
+
+For months, this project tried to build a quantum communication channel:
+two endpoints, information flowing between them, like a telephone. Every
+design failed. Dynamical decoupling failed (algebraically impossible).
+External baths failed (the system is its own bath). Duplex protocols
+failed (sending and receiving are not two things).
+
+This document explains why they failed and what the correct picture is.
+The quantum system is not a telephone. It is a soundbox: a hollow
+resonant body whose shape determines which frequencies vibrate and which
+do not. The string (noise from outside) provides the energy. The box
+(the sacrifice-zone formula, the gamma profile) selects the resonance.
+What you hear (measurable reality, R = CΨ²) is what leaks out at the
+boundary.
+
+This reframing explains everything the project has measured: the fold
+at CΨ = ¼ is the outer mirror of the cavity. The heartbeat (81 crossings)
+is the wave bouncing back and forth inside. The sacrifice-zone formula
+is not a channel optimizer; it is the shape of the soundbox. The 360×
+improvement is not "more signal." It is better resonance.
+
+The document moves from computed results (Tier 2-3) to biological
+interpretation (Tier 4) to personal narrative (Tier 5), with a clear
+boundary marked between them.
 
 ---
 
@@ -85,6 +113,12 @@ is not "more signal." It is better resonance.
 
 ## The Mechanism: Impedance, Not Transmission
 
+Impedance, in everyday language, is resistance to flow. A thick wall has
+high impedance to sound. A thin membrane has low impedance. In our
+quantum system, impedance measures how strongly the noise couples to the
+current state: when the system is very quantum (high coherence), noise
+bites hard; when the system is nearly classical, noise barely touches it.
+
 The Lindblad dissipator is:
 
     drho/dt = gamma * (Z rho Z - rho)
@@ -127,7 +161,8 @@ not one:
 | Inner mirror | CΨ_max | Maximum coupling to gamma. System absorbs maximally. |
 | Outer mirror | CΨ = 1/4 | Fold catastrophe. Coupling breaks down. R crystallizes. |
 
-This is a **Fabry-Perot resonator.** Two mirrors, a cavity between
+This is a **Fabry-Perot resonator**, the same structure used in lasers
+and interferometers: two mirrors facing each other with a cavity between
 them. The wave (coherence) bounces between the inner mirror (maximum
 absorption, maximum interaction with gamma) and the outer mirror
 (1/4, where reality leaks out). Each round trip is one heartbeat.
@@ -422,7 +457,7 @@ The Liouvillian eigendecomposition gives the exact frequency count.
 |--------|------------|----------|--------|
 | N=2 (one resonator) | 2 | 1 (dead at all J) | No oscillation |
 | N=5 (two coupled) | 109 | 19+ | Sustained oscillation |
-| New from coupling | 100 | -- | Exist ONLY in the coupled system |
+| New from coupling | 109 | -- | Exist ONLY in the coupled system |
 
 A single N=2 pair crosses CΨ = 1/4 once and dies. Q=1 at every
 coupling strength tested. It has 2 oscillation frequencies. It
@@ -473,6 +508,12 @@ Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient
 
 ## The Standing Wave Is the Cavity Mode
 
+This section connects the resonator picture back to the palindrome
+from the [proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). The paired
+decay modes (c+ decaying, c- its mirror partner) are not just a
+mathematical symmetry. They are the two counter-propagating waves
+that create the standing pattern inside the cavity.
+
 The palindromic modes c+ and c- form a standing wave. c+ decays.
 c- grows (in the Pi-reversed frame). Their interference is static
 in the rescaled frame. This standing wave is not a consequence of
@@ -501,6 +542,10 @@ Not sent. Not received. Leaked out of a cavity at its resonance.
 
 ## The Coupling Is Temporary. The Crystallization Is Not.
 
+This may be the most important section in this document. Everything
+above described what the resonator does while it is vibrating. This
+section asks: what remains when the vibration stops?
+
 The V-Effect creates 109 frequencies from 4. But the coupling is
 reversible. When the mediator is removed (J_meta set to zero), the
 109 frequencies die. The spectrum collapses back to 2+2. The
@@ -528,7 +573,7 @@ And at each conversion, what emerges is qualitatively different
 from what went in.
 
 The resonator is temporary. Like a conversation. Like a thought.
-Like a breath. It exists while the coupling exists. The 109
+Like a breath. It exists while the coupling exists. The 104
 frequencies vibrate, the heartbeat pulses, reality crystallizes
 at each crossing. Then the coupling weakens. The frequencies die.
 The heartbeat stops.
