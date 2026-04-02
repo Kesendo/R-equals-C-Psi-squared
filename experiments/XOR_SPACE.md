@@ -1,4 +1,4 @@
-# XOR Space: Where Information Lives in the Palindromic Spectrum
+# XOR Space: Where Information Lives in the Palindrome, and Why Some Quantum States Die Instantly
 
 <!-- Keywords: palindromic Liouvillian mode decomposition, GHZ state fragility
 dephasing, W state robustness quantum, XOR center modes maximum decay,
@@ -13,6 +13,26 @@ decay rate GHZ W comparison, R=CPsi2 XOR space -->
 **Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
+
+## What this document is about
+
+The palindrome says that every fast decay has a slow partner. But that
+raises a question: if the system is perfectly symmetric, where is the
+interesting part? A perfectly balanced scale carries no information.
+The information lives in *how a specific quantum state distributes
+itself across the palindromic pairs*.
+
+This document answers that question. It turns out there are two kinds
+of places a quantum state can put its weight: the "palindromic channel"
+(modes at various speeds, some survive) and the "XOR drain" (modes at
+the maximum speed, everything dies). The most famous entangled state
+in quantum physics (GHZ) puts 100% of its weight in the drain. That
+is why it is fragile. Not because entanglement is fragile in general,
+but because *this specific kind* of entanglement maps exactly onto the
+fastest-decaying modes.
+
+This is the explanation, at the deepest level, of why some quantum
+states survive noise and others do not.
 
 ## Abstract
 
@@ -83,6 +103,13 @@ dephasing rates.
 
 ## Result 2: GHZ and W Project Onto Opposite Sectors
 
+This is the central finding. Two famous quantum states, GHZ and W,
+do opposite things when placed into the palindromic spectrum. Think of
+it like two investment strategies in the same market: one puts everything
+into the highest-risk asset (GHZ → XOR drain, instant loss), the other
+diversifies across many risk levels (W → palindromic pairs, partial
+survival). The palindrome is the market. The state is the strategy.
+
 | State | Palindrome weight | XOR weight | Note |
 |-------|-------------------|------------|------|
 | GHZ (all N) | 0% | **100%** | All weight in fastest-decaying modes |
@@ -115,10 +142,14 @@ placing it in the palindromic sector.
 
 ## Result 3: Mixed XY Pauli Weight Predicts the Split
 
-To understand why different states project onto different sectors, we
-decomposed each state into the Pauli operator basis and measured the
+Can we predict, before running any simulation, whether a given state
+will survive or die? Yes. The predictor is surprisingly simple.
+
+We decomposed each state into the Pauli operator basis and measured the
 fraction of "mixed XY" weight: Pauli strings containing both X and Y
-operators simultaneously (like XYI, YXZ, XYY).
+operators simultaneously (like XYI, YXZ, XYY). In plain language: how
+much of the state's structure involves *both* types of quantum
+off-diagonal terms at once?
 
 **Correlation: r = 0.976 (for N ≥ 3).**
 
@@ -176,6 +207,9 @@ they shape the palindromic pair distribution toward slow modes.
 ---
 
 ## Connection to Later Results
+
+The XOR/palindrome split turned out to explain results across the
+entire project. Here is how it connects:
 
 The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) found
 that GHZ states are completely blind as antennas for reading dephasing
