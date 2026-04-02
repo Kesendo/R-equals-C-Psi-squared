@@ -123,10 +123,10 @@ All proofs, computations, and verification data are public:
 **[github.com/Kesendo/R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)**
 
 Key entry points:
-- `docs/proofs/MIRROR_SYMMETRY_PROOF.md`: analytical proof of the conjugation operator
-- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`: domain-neutral generalisation
-- `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`: cross-domain verification (quantum, neural, biological)
-- `compute/RCPsiSquared.Compute/`: C# eigendecomposition engine (N = 2–8)
+- [Mirror Symmetry Proof](https://github.com/Kesendo/R-equals-C-Psi-squared/blob/master/docs/proofs/MIRROR_SYMMETRY_PROOF.md): analytical proof of the conjugation operator
+- [Universal Palindrome Condition](https://github.com/Kesendo/R-equals-C-Psi-squared/blob/master/hypotheses/UNIVERSAL_PALINDROME_CONDITION.md): domain-neutral generalisation
+- [The Pattern Recognizes Itself](https://github.com/Kesendo/R-equals-C-Psi-squared/blob/master/hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md): cross-domain verification (quantum, neural, biological)
+- [Compute Engine](https://github.com/Kesendo/R-equals-C-Psi-squared/tree/master/compute/RCPsiSquared.Compute): C# eigendecomposition engine (N = 2–8)
 
 ## A closing note
 
