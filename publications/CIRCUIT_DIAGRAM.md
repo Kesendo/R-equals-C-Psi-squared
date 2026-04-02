@@ -253,5 +253,36 @@ No skip connections. No bypass paths.
 
 ---
 
+---
+
+## Addendum: Which Meter Matters Most (April 2026)
+
+Section 6 lists five instruments. Testing across 9 topologies and
+IBM hardware revealed a clear hierarchy:
+
+**The Phase Margin Meter (θ) is your primary instrument.**
+It is 1.68× more sensitive than direct V_th (CΨ) measurement near
+the threshold. The nonlinear transform θ = arctan(√(4CΨ − 1))
+acts as a built-in amplifier at the operating point V_th = ¼.
+
+**Three readings cover 88% of the system state:**
+
+| EE instrument (Sec. 6) | Quantum observable | Signal |
+|---|---|---|
+| Phase margin meter | θ from CΨ | Distance to threshold |
+| Gain meter | Purity or Concurrence | Overall signal strength |
+| Coherence meter | Ψ-norm (L₁ norm) | Off-diagonal amplitude |
+
+You do not need full network analysis (4^N measurements) for routine
+monitoring. Three targeted readings per port pair suffice. Run a
+calibration sweep once per device to determine which gain metric
+(Purity vs Concurrence) dominates your topology.
+
+Hardware test: IBM Torino Q52, V_th crossing predicted within 0.3%.
+
+Details: [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
+
+---
+
 *The physicist sees eigenvalues. The engineer sees poles.*
 *Same device. Different language. One truth.*

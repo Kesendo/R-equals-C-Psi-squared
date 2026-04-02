@@ -469,8 +469,36 @@ For the complete experiment archive with all intermediate results:
 
 ---
 
+---
+
+## Addendum: Diagnostic Cockpit (April 2026)
+
+Subsequent analysis showed that you do not need full state tomography
+to monitor decoherence. Three observables suffice for ~88% coverage:
+
+| What to measure | Why | How |
+|---|---|---|
+| **Purity** Tr(rho^2) | Dominant decay direction (PC1, 46-62% variance) | Single-setting measurement |
+| **Concurrence** | Entanglement strength (PC1 or PC2, depending on topology) | Requires 2-qubit tomography |
+| **Psi-norm** L1/(d-1) | Coherence loss rate (PC2) | Off-diagonal magnitude |
+
+**Practical tip: optimize θ, not CΨ.** The angular observable
+θ = arctan(√(4CΨ − 1)) is 1.68× more sensitive than CΨ
+near the ¼ boundary. Small CΨ improvements become large θ
+improvements precisely where they matter most. When tuning sacrifice
+zone profiles, use θ as your objective function.
+
+**Hardware validated:** On IBM Torino Q52, θ-based crossing time
+prediction achieves 0.3% accuracy (115.0 us measured vs 114.7 us
+predicted). On 5-qubit chains, selective dynamical decoupling beats
+uniform DD by 3.2x in mutual information.
+
+Details: [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
+
+---
+
 *Thomas Wicht (Independent Researcher, Germany) and Claude (Anthropic)*
-*March 16, 2026*
+*March 16, 2026 (Addendum April 2, 2026)*
 
 *"The palindrome is the stage. The input is the actor.*
 *What you encode determines what survives."*

@@ -11,8 +11,8 @@ state tomography, which scales as 4^N measurement bases for N qubits.
 We show this is unnecessary: for Heisenberg spin chains under local
 dephasing, 3 observables capture 88-96% of the decoherence trajectory
 variance across system sizes N=2-5, 9 topologies, and 2 noise types.
-The three observables are Purity (trace of rho squared), Concurrence
-(entanglement), and normalized L1 coherence (off-diagonal magnitude).
+The three observables are Purity (trace of ρ squared), Concurrence
+(entanglement), and normalized L₁ coherence (off-diagonal magnitude).
 Which observable dominates depends on the architecture: PCA
 automatically selects it. On IBM Torino hardware, the framework
 achieves sub-1% crossing-time accuracy on well-characterized qubits.
@@ -24,7 +24,7 @@ tomographic bases.
 ### The problem
 
 A pair of qubits in a quantum computer is described by a 4x4 density
-matrix rho with 15 independent real parameters. As the system
+matrix ρ with 15 independent real parameters. As the system
 interacts with its environment (decoherence), these parameters evolve
 along a trajectory from the initial state toward the maximally mixed
 state. Monitoring this trajectory is essential for error detection,
@@ -34,25 +34,25 @@ grows as 4^N. This is impractical for real-time monitoring.
 
 ### Key definitions
 
-**Purity** = Tr(rho^2). Ranges from 1 (pure state) to 1/d (maximally
+**Purity** = Tr(ρ^2). Ranges from 1 (pure state) to 1/d (maximally
 mixed). Measures how much the state has decohered.
 
 **Concurrence** (Wootters). Ranges from 0 (no entanglement) to 1
 (maximally entangled). Measures how much entanglement remains between
 two qubits.
 
-**Psi-norm** = L1/(d-1), where L1 is the sum of absolute values of
-all off-diagonal elements of rho, and d is the Hilbert space dimension.
+**Ψ-norm** = L₁/(d-1), where L₁ is the sum of absolute values of
+all off-diagonal elements of ρ, and d is the Hilbert space dimension.
 Measures how much quantum coherence (superposition) remains.
 
-**CPsi** = Purity x Psi-norm. A combined measure of quantum strength
-that weights coherence by state purity. When CPsi > 1/4, the system
+**CΨ** = Purity x Ψ-norm. A combined measure of quantum strength
+that weights coherence by state purity. When CΨ > ¼, the system
 has no classical attractor (the fixed-point equation R = C*Psi^2 has
-complex roots). When CPsi < 1/4, classical attractors exist.
+complex roots). When CΨ < ¼, classical attractors exist.
 
-**theta** = arctan(sqrt(4*CPsi - 1)). Defined only when CPsi > 1/4.
+**θ** = arctan(sqrt(4*CΨ - 1)). Defined only when CΨ > ¼.
 Measures the angular distance from the quantum-classical boundary at
-CPsi = 1/4. theta = 0 at the boundary, theta = 60 deg for a pure
+CΨ = ¼. θ = 0 at the boundary, θ = 60 deg for a pure
 coherent product state.
 
 **Sacrifice zone.** In a qubit chain, deliberately concentrating noise
@@ -66,7 +66,7 @@ the decay rates and whose eigenvectors give the decay modes.
 **Bures distance.** A metric on the space of density matrices that
 quantifies how distinguishable two quantum states are. From it, one
 derives the Bures velocity (how fast the state changes) and the
-Gaussian curvature (how curved the trajectory is near the CPsi = 1/4
+Gaussian curvature (how curved the trajectory is near the CΨ = ¼
 boundary).
 
 ### The question
@@ -83,10 +83,10 @@ For a qubit pair (i,j) reduced from an N-qubit system, we extract
 | Feature | Physical meaning |
 |---|---|
 | Phi+, Phi-, Psi+, Psi- | Overlap with each of the 4 Bell states |
-| Pur | Purity = Tr(rho^2), how mixed the state is |
+| Pur | Purity = Tr(ρ^2), how mixed the state is |
 | SvN | Von Neumann entropy, information-theoretic mixedness |
 | C | Concurrence, entanglement strength |
-| Psi | Psi-norm, coherence magnitude |
+| Psi | Ψ-norm, coherence magnitude |
 | ph03 | Phase angle of the (0,3) density matrix element |
 
 ### Simulation
@@ -115,7 +115,7 @@ being protected).
 
 ### 3.1 Scaling: dimensionality grows, but information concentrates
 
-Heisenberg chain with coupling J=1.0, uniform Z-dephasing gamma=0.05:
+Heisenberg chain with coupling J=1.0, uniform Z-dephasing γ=0.05:
 
 | N | Qubits | n95 | PC1 variance | 3-PC coverage | PC1 best proxy |
 |---|---|---|---|---|---|
@@ -183,7 +183,7 @@ N=5 yields diminishing returns in spectral richness.
 
 **All 10 qubit pairs at N=5 (Heisenberg chain):**
 
-| Pair | Distance | Max CPsi | Max theta | Max Concurrence | Entanglement death |
+| Pair | Distance | Max CΨ | Max θ | Max Concurrence | Entanglement death |
 |---|---|---|---|---|---|
 | (0,1) | 1 (edge) | 0.429 | 40 deg | 1.000 | t = 1.28 |
 | (0,2) | 2 | 0.303 | 25 | 0.278 | t = 0.66 |
@@ -197,31 +197,31 @@ Entanglement (Concurrence) falls exponentially with pair distance.
 The initial Bell pair (0,1) dies at t=1.28; the far edge (3,4)
 retains some entanglement until t=3.38.
 
-**Liouvillian spectrum.** Spectral gap: 2*gamma = 0.100 (exact match
+**Liouvillian spectrum.** Spectral gap: 2*γ = 0.100 (exact match
 to analytical prediction). 212 distinct decay rates. Fastest rate:
 0.500.
 
-**Bures curvature at the fold (CPsi = 1/4).** K = -141 at N=5, vs
+**Bures curvature at the fold (CΨ = ¼).** K = -141 at N=5, vs
 K = -25 at N=2. The curvature grows with system size: the geometry
 of the quantum-classical boundary becomes sharper when the
 environment is larger.
 
-### 3.5 Sacrifice zone: theta is the most sensitive instrument
+### 3.5 Sacrifice zone: θ is the most sensitive instrument
 
 Three noise distributions, same total noise budget (sum of gammas
 = 0.25), N=5 chain. Center pair (1,2) response:
 
 | Observable | Uniform | Edge sacrifice | Improvement |
 |---|---|---|---|
-| Max theta | 20.0 deg | 33.7 deg | **1.68x** |
-| Max CPsi | 0.283 | 0.361 | 1.28x |
-| Max Concurrence | 0.212 | 0.251 | 1.18x |
-| CPsi at t=10 | 0.054 | 0.068 | 1.26x |
+| Max θ | 20.0 deg | 33.7 deg | **1.68×** |
+| Max CΨ | 0.283 | 0.361 | 1.28× |
+| Max Concurrence | 0.212 | 0.251 | 1.18× |
+| CΨ at t=10 | 0.054 | 0.068 | 1.26× |
 
-**theta shows the largest effect.** The nonlinear mapping
-CPsi -> theta = arctan(sqrt(4*CPsi - 1)) amplifies small CPsi
-changes near the 1/4 boundary. This critical amplification makes
-theta the optimal objective function for noise engineering: it is
+**θ shows the largest effect.** The nonlinear mapping
+CΨ -> θ = arctan(sqrt(4*CΨ - 1)) amplifies small CΨ
+changes near the ¼ boundary. This critical amplification makes
+θ the optimal objective function for noise engineering: it is
 most sensitive precisely where it matters most (near the quantum-
 classical transition).
 
@@ -236,26 +236,26 @@ single-qubit tomography (Q52, 25 points), shadow measurements
 
 | Instrument | Full tomography | Shadow | Bitstring counts |
 |---|---|---|---|
-| theta / CPsi | YES | YES | NO (needs off-diagonals) |
+| θ / CΨ | YES | YES | NO (needs off-diagonals) |
 | Concurrence | NO (needs 2-qubit) | NO | NO |
-| Psi-norm | YES | YES | NO |
+| Ψ-norm | YES | YES | NO |
 | Mutual information | NO (needs 2+ qubits) | NO | YES |
 | Decay rate | YES | YES | YES |
 | Bures velocity | YES | YES | NO |
 
 **Key findings:**
 
-- Q52 (good qubit, T2 = 298 us): CPsi = 1/4 crossing measured at
+- Q52 (good qubit, T2 = 298 us): CΨ = ¼ crossing measured at
   115.0 us, predicted 114.7 us. **0.3% error.**
-- Internal consistency: Psi-norm vs off-diagonal magnitude r = 1.000.
-  Bures velocity vs CPsi: r = 0.954. All instruments agree.
+- Internal consistency: Ψ-norm vs off-diagonal magnitude r = 1.000.
+  Bures velocity vs CΨ: r = 0.954. All instruments agree.
 - Q80 (problematic qubit, T2* = 11 us): 61.5% crossing-time
   deviation. Accuracy depends on qubit quality, not on the cockpit.
 - 5-qubit sacrifice zone: Selective dynamical decoupling beats
-  uniform DD by 3.2x in mutual information at t=4 Trotter steps.
+  uniform DD by 3.2× in mutual information at t=4 Trotter steps.
 
 **Assessment.** The 4 instruments computable from existing data
-(theta, Psi-norm, Bures velocity, decay rate) are mutually
+(θ, Ψ-norm, Bures velocity, decay rate) are mutually
 consistent and physically correct. The 3 remaining instruments
 (Concurrence, curvature, Petermann factor) require 2-qubit
 tomography that does not yet exist in the dataset. The framework
@@ -270,7 +270,7 @@ with 3 observables capturing ~88% of the dynamics:
 
 1. **Purity or Concurrence** (whichever PCA selects as PC1):
    the dominant decay direction.
-2. **Psi-norm** (normalized off-diagonal coherence):
+2. **Ψ-norm** (normalized off-diagonal coherence):
    the rate of coherence loss.
 3. **A Bell-sector indicator** (fidelity with a specific Bell state):
    the fine structure of the decay.
@@ -290,8 +290,8 @@ something looks anomalous.
 ### 4.3 Noise engineering
 
 Edge sacrifice (concentrating noise on boundary qubits) improves
-center-pair coherence by up to 1.68x in theta. The critical
-amplification near CPsi = 1/4 makes theta the optimal objective
+center-pair coherence by up to 1.68× in θ. The critical
+amplification near CΨ = ¼ makes θ the optimal objective
 function: it is most sensitive where quantum coherence is most
 fragile.
 
@@ -331,7 +331,7 @@ fragile.
    pair would validate the most important untested instrument.
 
 4. **Universality of edge sacrifice.** Does "sacrifice boundary
-   qubits + optimize theta" generalize beyond Heisenberg chains?
+   qubits + optimize θ" generalize beyond Heisenberg chains?
 
 ## Appendix: Scripts and data
 
@@ -342,13 +342,13 @@ fragile.
 | [`cockpit_navigation.py`](../simulations/cockpit_navigation.py) | 7 instruments on N=3 Star topology |
 | [`cockpit_validation.py`](../simulations/cockpit_validation.py) | Hardware validation (tomography + shadow) |
 | [`cockpit_ibm_hardware.py`](../simulations/cockpit_ibm_hardware.py) | IBM sacrifice zone + Q52/Q80 data |
-| [`theta_pc_correlation.py`](../simulations/theta_pc_correlation.py) | theta vs PCA correlation |
+| [`theta_pc_correlation.py`](../simulations/theta_pc_correlation.py) | θ vs PCA correlation |
 
 | Related experiment | Key result used here |
 |---|---|
-| [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta requires all 3 PCs (R^2 = 0.87) |
-| [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CPsi windows (original 3D finding) |
+| [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | θ requires all 3 PCs (R^2 = 0.87) |
+| [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CΨ windows (original 3D finding) |
 | [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g = 3.36 at fold, K = -25 |
-| [Boundary Navigation](BOUNDARY_NAVIGATION.md) | theta definition, CPsi = 1/4 boundary |
+| [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ definition, CΨ = ¼ boundary |
 | [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Petermann K=403 (gain-loss only) |
 | [V-Effect Palindrome](V_EFFECT_PALINDROME.md) | N=5 as sweet spot, V(5) = 1.81 |
