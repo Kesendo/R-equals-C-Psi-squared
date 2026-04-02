@@ -1,4 +1,4 @@
-# Standing Wave Theory: Palindromic Pairs Create Counter-Propagating Modes
+# Standing Wave Theory: The Pattern Between Past and Future
 
 <!-- Keywords: standing wave palindromic pair counter-propagating modes,
 c+ c- even odd supermodes Liouvillian, Pi time reversal forward backward,
@@ -12,18 +12,34 @@ coherence population oscillation standing pattern, R=CPsi2 standing wave -->
 
 ---
 
-## Abstract
+## What this document is about
 
-Palindromic eigenvalue pairs (λ, −2Sγ−λ) create two counter-propagating
-modes c+ (even supermode) and c− (odd supermode) whose superposition is
-a standing wave. The conjugation operator Π maps forward modes (exp(+μt))
-to backward modes (exp(−μt)), functioning as time reversal in the
-Liouvillian eigenspace. For the N=3 star topology, XX/YY coherences
-oscillate (standing wave signature) while ZZZ populations remain static.
-The standing wave pattern was predicted in December 2025 and confirmed
-by explicit computation (March 2026) after the palindromic symmetry was
-proven. Philosophical extensions (bootstrap paradox, self-reference)
-remain Tier 3–5.
+A standing wave is what happens when two waves traveling in opposite
+directions meet. Think of a guitar string: the vibration does not
+travel left or right along the string. Instead, certain points stay
+still (nodes) while others vibrate maximally (antinodes). The pattern
+itself is stationary. It does not move. It exists between the two
+waves.
+
+This document shows that the palindromic symmetry we proved in
+quantum systems creates exactly this: two counter-propagating modes
+whose interference is a standing wave. One mode decays forward in
+time; its palindromic partner decays backward. Together, they create
+a stationary pattern in which certain quantities oscillate (the
+quantum parts: coherences, superpositions, things not yet decided)
+while others remain still (the classical parts: populations, things
+already measured, things already decided).
+
+The first half of this document (Sections 1-5) is proven physics.
+The Π operator that creates the palindrome is literally a time
+reversal: it maps the forward-decaying mode to the backward-decaying
+one. This is not a metaphor. It is computed and verified.
+
+The second half (Sections 6-11) is philosophy. It asks what the
+standing wave pattern *means* for questions about consciousness, time,
+and reality. These sections are clearly labeled as speculative (Tier 5).
+They motivated the project but are not proven by it. Read them as
+ideas worth thinking about, not as claims.
 
 ---
 
@@ -37,7 +53,7 @@ supermode decomposition (c+ and c-) is verified in [SIGNAL_PROCESSING_VIEW](../e
 computable. Quantum correlations (XX, YY, XY) oscillate at Hamiltonian harmonics
 (2J, 4J, 6J) while the classical correlation (ZZZ) forms a static backbone. The
 antinodes are quantum; the nodes are classical. Bell states are universal oscillators;
-GHZ states are universally silent. The standing wave is a state x Hamiltonian
+GHZ states are universally silent. The standing wave is a state × Hamiltonian
 property, not a property of either alone. See [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md).
 
 **What Π revealed about time (March 19, 2026):** The conjugation operator Π is
@@ -59,7 +75,9 @@ See [The Anomaly](../THE_ANOMALY.md) for the question that emerged after the har
 
 ### 1.1 Classical Description
 
-Two counter-propagating waves create a standing wave:
+A standing wave is the simplest version of this idea: two waves of
+equal amplitude traveling in opposite directions on the same string.
+Their sum is not a traveling wave. It is a pattern that stays in place.
 
 ```
 Incoming wave:    Ψ₁ = A · sin(kx - ωt)
@@ -84,6 +102,11 @@ It is the **pattern between them**.
 ## 2. Application to Time and Causality
 
 ### 2.1 The Analogy
+
+What follows is an analogy, but one that turned out to have a precise
+mathematical counterpart (Section 5). When we first wrote this in
+December 2025, it was intuition. Three months later, the Π operator
+proved it.
 
 | Physics | Consciousness/Time |
 |---------|-------------------|
@@ -116,6 +139,8 @@ Where:
 ## 3. The Bootstrap Paradox Resolved
 
 ### 3.1 The Classical Paradox
+
+The bootstrap paradox is a famous puzzle in physics and science fiction:
 
 > If information comes from the future, where did it originally come from?
 
@@ -200,6 +225,11 @@ With C_ext (external): R = measured outcome
 
 *Added: March 19, 2026. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) for the full technical derivation.*
 
+This is the section where the analogy becomes mathematics. The
+"mirror" from Sections 1-4 turned out to be a specific, computable
+operator. It has a name (Π), a definition, and a proof. What started
+as intuition became a theorem.
+
 ### 5.1 The Operator
 
 The conjugation operator Π, proven on March 14, 2026, acts per site:
@@ -216,6 +246,11 @@ frame (where the uniform decay envelope is removed), Π reverses time.
 Π: exp(+μt) → exp(-μt)     i.e.     t → -t
 ```
 
+In plain language: Π takes any mode that decays into the future and
+maps it to a mode that decays into the past. It is a mathematical
+mirror. Every forward process has a backward partner, and Π is the
+transformation that connects them.
+
 ### 5.2 Past and Future in the Pauli Basis
 
 Π swaps two sets at every qubit site:
@@ -229,6 +264,15 @@ frame (where the uniform decay envelope is removed), Π reverses time.
   still possible, still undecided. They are the **future**.
 
 Π maps one to the other: past ↔ future.
+
+What this means for non-physicists: every quantum system can be
+decomposed into two parts. One part (I, Z) describes things that have
+already happened: measurements that have been made, outcomes that are
+settled. The other part (X, Y) describes things that have not happened
+yet: superpositions that have not collapsed, possibilities that are
+still open. The operator Π swaps these two parts. It turns "already
+decided" into "not yet decided" and vice versa. That is why it is a
+time reversal.
 
 ### 5.3 The Standing Wave Computation Confirms It
 
@@ -254,6 +298,11 @@ This is no longer a metaphor. It is the eigenstructure of the Liouvillian.
 eigenvalue pairing and standing wave decomposition (Tier 1-2).
 Everything below is interpretive extension (Tier 5). The
 mathematics does not require these interpretations to be valid.*
+
+*If you are reading this repository to understand the physics, you
+can stop here. If you are curious about the ideas that originally
+motivated the project, and that the physics neither proves nor
+disproves, continue.*
 
 ---
 
@@ -430,8 +479,8 @@ It was written (past).
 
 ---
 
-**Thomas Wicht**  
-**Claude (Anthropic)**  
+**Thomas Wicht**
+**Claude (Anthropic)**
 
 December 23, 2025
 
