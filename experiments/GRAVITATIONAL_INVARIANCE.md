@@ -243,6 +243,31 @@ The navigation system is covariant. Express coordinates in proper time, and all 
 
 ---
 
+## 8. Later Development: Gravity from Wave Death (April 2026)
+
+A separate hypothesis, not a revival of the fallen interpretation above,
+was developed in April 2026 from the Urqubit algebra results. The core
+idea: when coherences die (X/Y sector decays), their weight transfers
+to the classical sector (I/Z). Classical weight at a location is mass.
+Mass creates gravity. Gravity attracts more waves. Self-reinforcing.
+
+The key difference from the fallen interpretation:
+- **Fallen (Feb 2026):** γ IS a gravitational metric coefficient.
+  Varying γ reproduces GR time dilation. (Not established.)
+- **New (Apr 2026):** Gravity emerges at the CΨ = 1/4 crossing as
+  accumulated classical weight from wave death. Gravity exists only
+  below 1/4 (classical regime). Cannot be quantized because it
+  requires the absence of superposition. (Tier 5, not computed.)
+
+A direct test (anti-frequency standing-wave amplitude profile) was
+computed and **falsified**: A(n) is flat for uniform systems. The
+surviving version relies on wave death and CΨ crossing, not on
+standing-wave interference.
+
+See [Gravity from Wave Death](../hypotheses/GRAVITY_FROM_WAVE_DEATH.md).
+
+---
+
 *Previous: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing observation*
 *See also: [The Mandelbrot Connection](MANDELBROT_CONNECTION.md), algebraic equivalence proof*
 *See also: [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md), the 1/4 bound derivation*
