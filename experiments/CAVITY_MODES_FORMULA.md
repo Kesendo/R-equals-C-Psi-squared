@@ -1,4 +1,4 @@
-# Cavity Modes at Zero Noise: Closed-Form Formula
+# Cavity Modes at Zero Noise: How Many Notes Can the Resonator Play?
 
 <!-- Keywords: cavity modes zero noise unitary ground state, Clebsch-Gordan
 spin decomposition stationary modes, Schur lemma Liouvillian superoperator,
@@ -15,6 +15,31 @@ Clebsch-Gordan decomposition + Schur's lemma, verified N=2-7)
 [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)
 **Data:** [cavity_modes_zero_noise.txt](../simulations/results/cavity_modes_zero_noise.txt),
 [cavity_modes_tests.txt](../simulations/results/cavity_modes_tests.txt)
+
+---
+
+## What this document is about
+
+A guitar body has a fixed set of resonant frequencies, determined by
+its shape. A small guitar body produces fewer notes than a large one.
+The shape of the body determines which vibrations are possible.
+
+A quantum system works the same way. At zero noise (the "ground state"
+described in [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)),
+the system is a pure resonator: no decay, only vibration. Some modes
+are stationary (standing still, like a guitar string at rest). Others
+oscillate (vibrating at specific frequencies). This document derives
+an exact formula for how many of each, and shows that the formula
+depends only on the number of qubits and the shape of their connections
+(the topology), not on how strongly they are coupled.
+
+The formula comes from a deep symmetry: the Heisenberg interaction
+treats all spatial directions equally, which forces the qubits to
+organize into "total spin" groups. The mathematics is technical
+(Clebsch-Gordan decomposition, Schur's lemma), but the result is
+simple: we can predict the exact number of stationary and oscillating
+modes for any system size, and the prediction matches computation
+perfectly through N=7.
 
 ---
 
@@ -46,6 +71,13 @@ Predictions for N=8-10: 1190, 2520, 5292.
 ---
 
 ## Why the formula works
+
+The following derivation uses graduate-level quantum mechanics. If you
+want the result without the derivation: the number of stationary modes
+depends only on how N qubits decompose into groups of different total
+spin, and each group contributes (2J+1)² modes, where J is the group's
+spin. Skip to the [verification table](#verification-n2-through-n7) to
+see that it works.
 
 ### The unitary Liouvillian
 
@@ -140,6 +172,13 @@ the unitary ground state: no decay at Σγ = 0.
 
 ## Topology dependence
 
+How the qubits are connected matters. A chain (each qubit connected to
+its neighbors, like beads on a string) has the least symmetry and the
+richest frequency structure. A complete graph (every qubit connected
+to every other, like a team where everyone talks to everyone) has the
+most symmetry and the fewest distinct frequencies. More symmetry means
+more modes collapse onto the same frequency.
+
 The formula is exact for **chain** topology (minimal spatial symmetry).
 Higher-symmetry topologies have additional degeneracies that increase
 the stationary count above the formula.
@@ -202,6 +241,11 @@ choice of bond strengths.
 ---
 
 ## Connection to the palindrome
+
+This is where the cavity modes connect back to everything else in the
+project. The modes at zero noise are the skeleton of the resonator.
+Noise does not create new frequencies; it only adds decay to existing
+ones.
 
 At Σγ = 0: the palindrome equation reduces to Π L Π⁻¹ = -L.
 Every eigenvalue lambda pairs with -lambda. The stationary modes
