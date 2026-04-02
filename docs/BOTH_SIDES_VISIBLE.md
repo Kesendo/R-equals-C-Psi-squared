@@ -1,4 +1,4 @@
-# Both Sides Visible
+# Both Sides Visible: What a Quantum Computer Shows When You Watch It for Six Months
 
 <!-- Keywords: CΨ quarter boundary IBM hardware, palindromic mirror both sides,
 quantum classical oscillation real hardware, ibm torino qubit crossing pattern,
@@ -12,6 +12,25 @@ real data, quantum information lives on both sides -->
 
 ---
 
+## What this document is about
+
+This is the moment where the mathematics meets a real machine.
+
+Everything in this project, the palindromic mirror, the Π operator,
+the idea that every quantum mode has a partner, was proven with
+algebra and verified with simulation. This document shows it happening
+on an actual quantum computer, measured daily for six months, without
+anyone designing it to happen. The patterns you are about to see were
+not programmed. They were discovered in IBM's publicly available
+calibration data.
+
+If one document in this repository could convince a skeptic that the
+palindromic symmetry is not just a mathematical curiosity, this is
+the one. Because this is not theory. This is 24,074 measurements
+on 133 qubits on real silicon.
+
+---
+
 ## What You Are Looking At
 
 A qubit can be in two regimes. Think of it as a coin that is either
@@ -20,9 +39,10 @@ has landed (classical: one side up, decided).
 
 The number CΨ tells you which regime a qubit is in. It is computed
 from two calibration values that IBM publishes daily for every qubit:
-T1 (energy relaxation time) and T2 (coherence time). The ratio
-r = T2 / (2 × T1) determines the regime. When r is below 0.213:
-the qubit crosses the CΨ = ¼ boundary. Above 0.213: it does not.
+T1 (how long the qubit holds its energy) and T2 (how long it holds
+its quantum coherence). The ratio r = T2 / (2 × T1) determines the
+regime. When r is below 0.213: the qubit crosses the CΨ = ¼ boundary.
+Above 0.213: it does not.
 
 Most qubits on a quantum computer stay firmly on one side. But some
 have r values that fluctuate around 0.213. On some days they cross,
@@ -53,6 +73,12 @@ structure.
 ---
 
 ## Qubit 98 (57.5% crossing rate)
+
+What follows is a visual diary. The top block shows what we observe
+directly: the days when this qubit crossed the quantum-classical
+boundary. The bottom block shows the exact complement, what the
+palindromic partner modes are doing at the same time. Read them
+side by side. When one is active, the other is silent.
 
 ```
 Our side:
@@ -163,7 +189,7 @@ turns (weeks 21-22, 25). The bridge breathes.
 
 This is not a simulation. This is a real quantum computer (IBM Torino)
 in a real lab, measured once a day for six months. Nobody designed this
-pattern. Nobody programmed qubit 98 to spin for six weeks and then stop.
+pattern. Nobody programmed qubit 98 to pulse for six weeks and then stop.
 
 What the math predicted: every decay mode has a mirror partner. When
 our side is active, the mirror side is quiet, and vice versa. Like two
@@ -218,6 +244,20 @@ Since the first transmon was cooled. We just learned to read it.
 
 ## Direct Measurement: Both Sides From One Density Matrix (March 25, 2026)
 
+The calibration patterns above are visually compelling, but they
+have a logical weakness: flipping every X to a . is just inverting
+bits. Any pattern looks structured when you show it next to its
+complement. The question is: does "the other side" actually exist
+in the physics, or is it just an arithmetic trick?
+
+This section answers that question. Instead of computing a
+complement from daily calibration data, we measured the full quantum
+state of a single qubit at multiple points in time. A full density
+matrix contains both sides simultaneously: the diagonal elements
+(populations, what you observe) and the off-diagonal elements
+(coherences, what the Π operator maps to). No complement is
+computed. Both sides are measured in the same experiment.
+
 The calibration patterns above are computed complements: we invert
 the X/. pattern and call it "the other side." This is visually
 compelling but logically tautological. Flipping bits always fills gaps.
@@ -245,6 +285,13 @@ matrix and computing CΨ from both perspectives:
 | 634 | 0.025 | 0.280 | NO - B nearing 1/4 |
 | 783 | 0.054 | 0.265 | NO - B approaching 1/4 |
 | 895 | 0.037 | 0.247 | NO - B crosses. Bridge closed. |
+
+In plain language: our side (A) loses its quantum character within about
+140 microseconds. The other side (B), read from the same measurement by
+applying the Π operator, holds on for about 895 microseconds: six times
+longer. They do not decay together. They take turns. First our side
+fades. Then, slowly, the other side follows. The bridge does not slam
+shut. It narrows gradually, one side at a time.
 
 This is not a computed complement. This is Π applied to hardware-
 measured density matrices. The off-diagonal elements ARE the other
@@ -300,10 +347,22 @@ day at whatever T2 the qubit happens to have.
 
 ### Why the other side lives longer
 
+Our side decays with T2, the coherence time (how fast quantum
+superposition is lost). The other side decays with T1, the relaxation
+time (how fast energy is lost). On almost every qubit ever built,
+T1 is much longer than T2. For Qubit 52 on that day: T2 ≈ 150 μs,
+T1 ≈ 900 μs.
+
 The 6x ratio is T1/T2 for this qubit. Our side's CΨ decays with T2
 (coherence time, ~150 μs, fast). The Π side's CΨ decays with T1
 (relaxation time, ~900 μs, slow). This is the palindromic pairing:
 rate d pairs with 2Σγ - d. One fast, one slow. Always balanced.
+
+In plain language: the two sides of the palindrome live on different
+clocks. Our side runs fast and fades quickly. The mirror side runs
+slow and lingers. This is not a coincidence. It is the pairing: the
+faster one side decays, the slower its partner must decay. The
+mathematics guarantees it.
 
 ### For newcomers: where to start
 
