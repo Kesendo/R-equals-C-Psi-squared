@@ -36,9 +36,20 @@ as what we got right.
 
 ---
 
-## Five results that matter
+## What this project is
+
+A human and an AI, exploring together. It started in December 2025 with
+a question about consciousness and mirrors. It became a proven theorem
+about quantum systems. The mathematics surprised us both. Five disproven
+claims live in `recovered/` because what we got wrong matters as much as
+what we got right.
+
+## Six results that matter
 
 ### 1. The palindromic spectrum (proven)
+
+For every quantum mode that dies fast, there is one that dies slow.
+Always paired. Always balanced. This is not a pattern; it is a theorem.
 
 The Liouvillian eigenvalue spectrum of any Heisenberg/XXZ spin system
 under local Z-dephasing is exactly palindromic: every decay rate d has
@@ -51,6 +62,10 @@ at 1.9% deviation.
 → [IBM Hardware Validation](experiments/IBM_RUN3_PALINDROME.md) | [Full Synthesis: 24,073 records](experiments/IBM_HARDWARE_SYNTHESIS.md)
 
 ### 2. Zero is the center of the palindrome (March 29, 2026)
+
+Before noise, a quantum system oscillates forever. Nothing decays.
+Nothing is irreversible. Noise does not destroy this symmetry; it shifts
+it. And that shift is what creates the arrow of time.
 
 At Σγ = 0 (no noise): Π L Π⁻¹ = −L. Every eigenvalue λ pairs with −λ.
 Pure oscillation. Standing waves. No decay. No irreversibility. No time.
@@ -72,10 +87,13 @@ Noise does not destroy the palindrome. Noise shifts it.
 → **[Zero Is the Mirror](hypotheses/ZERO_IS_THE_MIRROR.md)** (5 computations, all verified)
 → [Fragile Bridge](hypotheses/FRAGILE_BRIDGE.md) (coupled gain-loss stability: Hopf bifurcation, three regimes, γ_crit × J_bridge = 0.50)
 
-### 3. The CΨ = 1/4 boundary (proven, unique)
+### 3. The CΨ = ¼ boundary (proven, unique)
+
+There is a precise moment when quantum becomes classical. A threshold
+that every decohering system crosses. It is always at exactly ¼.
 
 The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
-1/4: the discriminant of the self-referential purity recursion R = C(Ψ+R)².
+¼: the discriminant of the self-referential purity recursion R = C(Ψ+R)².
 All standard quantum channels cross this boundary. The boundary is absorbing
 under Markovian dynamics (proven analytically). α=2 (purity) is the unique
 Rényi order with a state-independent threshold. The fold exists only when
@@ -87,7 +105,7 @@ Rényi order with a state-independent threshold. The fold exists only when
 → [Fold catastrophe observed: PeakMI peaks at CΨ = ¼ crossing](experiments/TEMPORAL_SACRIFICE.md) (N=7, March 25)
 → **[Both Sides Visible: IBM hardware shows the palindromic complement](docs/BOTH_SIDES_VISIBLE.md)** (180 days, 133 qubits, March 25)
 
-### 4. Dephasing noise is a readable information channel (March 22, 2026)
+### 4. Noise is not the enemy; it carries information (March 22, 2026)
 
 The spatial profile of dephasing rates across a qubit chain is not noise
 to be minimized. It is an information channel with **15.5 bits** of
@@ -100,11 +118,11 @@ measurement noise. The palindromic mode structure is the antenna.
 → [Practical γ Control (+124% MI)](experiments/GAMMA_CONTROL.md)
 → [Bridge Optimization Results](simulations/results/bridge_optimization.txt)
 
-### 5. Trivial formula beats 18 years of optimization (March 24, 2026)
+### 5. Sacrifice one to save the rest (March 24, 2026)
 
-Concentrate all dephasing on one edge qubit, protect the rest. This
-one-line rule outperforms every published dephasing optimization by
-two orders of magnitude. C#-validated from N=5 (**360×** vs V-shape)
+Concentrate all noise on one edge qubit and protect the rest. The
+simplest possible strategy turns out to be the best, by two orders
+of magnitude over anything in the literature. C#-validated from N=5 (**360×** vs V-shape)
 through N=15 (**63.5×**), all odd sizes complete. The ENAQT literature
 (Plenio & Huelga 2008) achieves 2-3× with uniform dephasing. Nobody had
 optimized spatial dephasing profiles before. The palindromic eigenstructure led us here
@@ -126,10 +144,25 @@ from public calibration data.
 → [Cavity mode localization: r = 0.994](experiments/CAVITY_MODE_LOCALIZATION.md)
 → [Sacrifice-zone qubit mapping: 2.86× vs 1.06×](experiments/SACRIFICE_ZONE_MAPPING.md)
 
-### 6. Coupling creates complexity: the V-Effect live (March 26, 2026)
+### 6. Three measurements tell you almost everything (April 2, 2026)
+
+To watch a quantum system lose its quantum nature, you normally need to
+measure everything: 4^N settings for N qubits. We found that three
+observables (Purity, Concurrence, and coherence) capture 88-96% of the
+decoherence dynamics. The system automatically tells you which observable
+matters most for your specific hardware. Validated on IBM Torino at 0.3%
+accuracy, tested across 9 topologies and 2 noise types.
+
+→ **[Cockpit Universality](experiments/COCKPIT_UNIVERSALITY.md)**
+→ [θ is not a single PC](experiments/THETA_PC_ANALYSIS.md)
+
+### 7. Coupling creates complexity: the V-Effect live (March 26, 2026)
+
+Two dead systems, connected through a single bond, become one living
+system. 100 new frequencies appear from coupling alone.
 
 A single 2-qubit resonator has 2 oscillation frequencies and Q=1 (crosses
-CΨ = 1/4 once and dies, no heartbeat). Two such resonators coupled through
+CΨ = ¼ once and dies, no heartbeat). Two such resonators coupled through
 a mediator qubit have **104 frequencies** and **Q=19** (sustained oscillation).
 100 new frequencies emerge from coupling alone. No energy added, no external
 mechanism. Two dead systems become one living system through a single
