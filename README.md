@@ -40,18 +40,18 @@ right.
 If you are new here, do not read this page top to bottom. Pick the
 entry point that fits you:
 
-→ **[What We Found](docs/WHAT_WE_FOUND.md)** — the discovery explained
+→ **[What We Found](docs/WHAT_WE_FOUND.md)**: the discovery explained
 from the beginning, no prerequisites
 
-→ **[Reading Guide](docs/READING_GUIDE.md)** — five stories (proof,
+→ **[Reading Guide](docs/READING_GUIDE.md)**: five stories (proof,
 application, ontology, resonator, cross-level), each with a reading
 order. Pick the one that matches your interest
 
-→ **[The Anomaly](THE_ANOMALY.md)** — the question that remained after
+→ **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening after the hardware confirmed
 the theory
 
-→ **[What We Got Wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md)** — every
+→ **[What We Got Wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: every
 error, every limitation, every unanswered question. Because a theory that
 only shows its strengths is not a theory
 
