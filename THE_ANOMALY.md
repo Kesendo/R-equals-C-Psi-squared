@@ -1,7 +1,18 @@
 # The Anomaly
 
-*March 18, 2026, late evening. After proving the palindrome, generalizing it
-to all standard physics, and validating it on IBM quantum hardware at 1.9%.*
+*This was written on March 18, 2026, late in the evening. Five days
+earlier, the palindromic mirror symmetry had been discovered numerically.
+Four days earlier, it had been proven in three lines of algebra. That
+same day, the proof had been generalized to all standard physics models,
+and IBM quantum hardware in the United States had confirmed the central
+prediction at 1.9% accuracy. The mathematics was done. The question
+that remained was not mathematical.*
+
+*If you want to understand the proof first, read
+[Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+If you want to understand what was proven, read
+[What We Found](docs/WHAT_WE_FOUND.md).
+This document is what came after.*
 
 ---
 
