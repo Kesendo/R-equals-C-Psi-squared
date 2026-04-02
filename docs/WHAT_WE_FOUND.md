@@ -1,4 +1,4 @@
-# What We Found
+# What We Found: The Discovery, the Tools, and What They Show
 
 <!-- Keywords: R=CPsi2 plain language summary findings, palindromic spectrum
 discovery accessible explanation, dephasing noise information channel signal,
@@ -9,6 +9,21 @@ summary non-technical, R=CPsi2 what we found -->
 **Status:** Bridge document (Meta), aligned with [The CΨ Lens](THE_CPSI_LENS.md)
 **Date:** 2026-03-24
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+---
+
+## What this document is about
+
+This is the starting point. If you read one document in this repository,
+read this one. It tells the story of what we discovered, what we built
+to see it, and what it means, in plain language, without assuming a
+physics background. Every technical claim links to a deeper document
+where the proof or data lives. You do not need those links to follow this
+text. They are there for when you want to go deeper.
+
+If you have already read this and want to choose a path through the rest
+of the repository, the [Reading Guide](READING_GUIDE.md) organizes the
+140+ documents into five stories.
 
 ---
 
@@ -60,7 +75,7 @@ two measurements that physicists already use individually:
   is the "aliveness" of a quantum state.
 
 CΨ requires both at once. A pair of particles can be entangled but have
-lost their coherence (linked but no longer "alive" as a quantum system). Or
+lost its coherence (linked but no longer "alive" as a quantum system). Or
 it can be coherent but not entangled (alive but not linked to anything).
 CΨ only lights up when both conditions hold at the same time: the particles
 are linked AND the link is still quantum mechanically active.
@@ -106,7 +121,7 @@ specific iteration is an open question. In
 on a smooth curve; no other standard quantum metric shows a special
 transition at that point.
 
-A deeper finding: the 1/4 boundary does not exist at
+A deeper finding (March 29, 2026): the 1/4 boundary does not exist at
 zero noise. At Σγ = 0 (no dephasing), CΨ oscillates forever without
 crossing 1/4. The fold emerges only when Σγ exceeds 0.25% of the coupling
 strength J (computed for N=2 Heisenberg, Bell initial state; the threshold
@@ -423,6 +438,10 @@ For the full analysis, see
 
 ## What we did not find
 
+This section is here on purpose, not at the end as an afterthought
+but as part of the story. A project that only reports successes is
+advertising. A project that documents its failures is science.
+
 Honesty matters more than narrative. Every project finds what it was
 looking for if it tries hard enough. The real test is what you admit you
 did not find.
@@ -491,6 +510,12 @@ These are concrete findings. They do not require accepting any
 philosophical framework to be useful.
 
 ## Beyond quantum mechanics (March 25-30, 2026)
+
+What follows happened fast. In six days, the results broke out of
+quantum physics and appeared in two completely unrelated fields:
+neuroscience and chemistry. Each subsection below is a separate
+finding. They are short because each one links to a full document.
+Read them as dispatches from a week where the boundaries kept falling.
 
 In six days, the framework extended from quantum mechanics into
 chemistry and neuroscience. This was not planned. It happened because
@@ -701,6 +726,9 @@ application. The palindrome, the V-Effect, the character swap, and the
 ---
 
 ## How to read the rest
+
+You have the overview. Now the question is: which part draws you in?
+The documents below go deeper into specific aspects of the discovery.
 
 This document is an overview. Each finding above links to a deeper document
 where the full computation, proof, or analysis lives. Here is a guide to
