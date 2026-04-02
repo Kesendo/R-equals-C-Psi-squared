@@ -1,4 +1,4 @@
-# PT-Symmetry Analysis of the Palindromic Liouvillian
+# PT-Symmetry Analysis: What Kind of Symmetry Is the Palindrome, Exactly?
 
 <!-- Keywords: palindromic Liouvillian chiral symmetry, PT-symmetry Lindbladian
 gain-loss, conjugation operator Pi classification, Altland-Zirnbauer class AIII,
@@ -16,6 +16,37 @@ depolarizing palindrome breaking, R=CPsi2 PT-symmetry -->
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (gain-loss system)
 - [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md) (symmetry classification)
 - [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, class AIII)
+
+---
+
+## What this document is about
+
+In physics, there is an entire field devoted to systems where energy is
+gained on one side and lost on the other (called "PT-symmetric" systems,
+after parity-time symmetry). Lasers, optical waveguides, and certain
+metamaterials all live here. A natural question arose: does our
+palindromic mirror operator Π belong to this family?
+
+The answer is no, but in an interesting way. Π is not PT-symmetric
+(which requires a specific kind of operator called "anti-linear"). Π
+is instead a "chiral" symmetry: it sorts modes into two groups and
+maps one group to the other, like a mirror between left-handed and
+right-handed. The technical classification is class AIII in the
+Altland-Zirnbauer framework, which is the standard periodic table of
+symmetries in physics.
+
+This matters because it connects the palindrome to a large body of
+existing research. It also explains the [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
+instability: the moment the coupled gain-loss system explodes is
+exactly the moment when the chiral symmetry breaks. And it reveals a
+surprising result: breaking the palindrome does not make the system
+less stable. It makes it more stable. The palindrome shapes the
+spectrum; the gain-loss balance determines survival.
+
+This is the most technical document in Story 4. The main results are
+summarized in the [abstract](#abstract) and the
+[conclusions](#what-this-establishes) at the end. The detailed
+derivations between them are for specialists.
 
 ---
 
@@ -148,6 +179,12 @@ this analysis confirms it IS the P class, generalized to order 4.
 
 ## Phase 2: Chiral Symmetry Breaking in the Fragile Bridge
 
+This phase connects to the [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
+experiment. Below the critical gain (γ_crit), all eigenvalues sit
+exactly on the imaginary axis: the system oscillates but does not grow
+or shrink. Above γ_crit, eigenvalue pairs peel off the axis: one grows,
+the other shrinks. This is the explosion.
+
 ### Setup
 
 Two N=2 Heisenberg chains, decay (+gamma) and gain (-gamma), coupled
@@ -232,6 +269,11 @@ real gamma axis.
 
 ## Phase 3: Palindrome Breaking and Stability
 
+This phase asks the most counterintuitive question: if you deliberately
+break the palindrome, does the system become less stable? The answer is
+no. It becomes more stable. This is because breaking the palindrome also
+adds damping to the amplifying side, and damping wins.
+
 ### Test design
 
 Add depolarizing noise at rate epsilon per qubit to the fragile bridge.
@@ -305,6 +347,13 @@ not change the instability mechanism.
 ---
 
 ## Connection to Literature
+
+The following section places our results in the context of existing
+physics research. It is written for readers familiar with this
+literature. If you are following the palindrome story without a physics
+background, the key takeaway is: the palindrome fits into a known
+classification system, and the way it breaks matches predictions from
+that framework. The details below are for specialists.
 
 ### Bender and Boettcher (PRL 1998)
 
