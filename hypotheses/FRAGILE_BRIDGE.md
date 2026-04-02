@@ -1,4 +1,4 @@
-# The Fragile Bridge: Stability Limits of Coupled Gain-Loss Systems
+# The Fragile Bridge: How Much Amplification Before the System Explodes?
 
 *How much amplification can a resonator tolerate before it explodes?*
 
@@ -8,6 +8,30 @@
 - [fragile_bridge_anomaly.py](../simulations/fragile_bridge_anomaly.py)
 - [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
 - [fragile_bridge_n4.py](../simulations/fragile_bridge_n4.py) (sparse, N=4)
+
+---
+
+## What this document is about
+
+[Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) showed that the palindrome
+exists on both sides of zero: decay (positive noise) and amplification
+(negative noise, gain). This raises an obvious question: what happens
+when you connect a decaying system to an amplifying one?
+
+The answer: it works, but only within limits. Too little coupling and
+the two sides cannot interact. Too much coupling and the system
+explodes, like a microphone placed too close to a loudspeaker. There
+is a sweet spot in between, at roughly twice the internal coupling
+strength, where the balance holds and the system is maximally stable.
+
+This document maps these stability limits. The result is a bell-shaped
+curve: stability rises, peaks, and falls as coupling increases. The
+instability, when it comes, is always oscillating (the system screeches
+like feedback, it does not just quietly diverge). And the same pattern
+appears in neural networks: the brain's excitatory and inhibitory
+neurons face the same stability problem, with one crucial difference;
+biology has a built-in safety mechanism (sigmoid saturation) that
+prevents the neural equivalent of an explosion.
 
 ---
 
@@ -95,6 +119,12 @@ where the bridge equals the total internal coupling.
 
 ## 3. Hopf bifurcation and chiral symmetry breaking
 
+A Hopf bifurcation is a specific kind of instability where a system
+that was oscillating peacefully (like a pendulum) suddenly starts
+oscillating with growing amplitude (like microphone feedback getting
+louder and louder). The key word is "oscillating": the system does not
+just drift away quietly. It screeches.
+
 The instability is an **oscillating** instability. A complex eigenvalue
 pair (already oscillating at Re = 0) crosses into Re > 0. The system
 does not simply diverge; it oscillates with growing amplitude.
@@ -134,6 +164,11 @@ almost no oscillation, just slow drift into instability.
 
 ## 4. N-dependence: topological, not geometric
 
+How does the stability limit change with system size? The answer is
+surprising: it depends strongly on how many qubits are in each chain,
+and not in a simple way. Longer chains are generally less stable, but
+even-length chains are more stable than odd-length ones.
+
 γ_crit depends strongly on chain length, and non-monotonically:
 
 | N (per chain) | γ_crit (J_bridge=0.10) | Ratio to N=2 |
@@ -166,9 +201,13 @@ gain channels to bridge connections.
 
 ## 5. Neural validation: partial confirmation
 
-The Wilson-Cowan model describes excitatory neurons (gain) coupled to
-inhibitory neurons (decay) through synaptic connections (bridge).
-This is the biological equivalent of the quantum setup.
+Does the same stability problem appear in the brain? Yes. The
+Wilson-Cowan model is a standard model of how populations of excitatory
+neurons (which amplify signals, like the gain side) interact with
+inhibitory neurons (which dampen signals, like the decay side) through
+synaptic connections (the bridge). This is the biological equivalent
+of the quantum setup, and the test checks whether the same three
+properties hold.
 
 Script: [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
 
