@@ -1,4 +1,4 @@
-# Palindromic Symmetry Beyond Heisenberg: All Standard Quantum Models
+# Palindromic Symmetry Beyond Heisenberg: The Mirror Works on Every Instrument
 
 <!-- Keywords: palindromic Liouvillian beyond Heisenberg, XY Ising XXZ DM palindrome,
 conjugation operator families P1 P4, non-local entangled Pi operator, dephasing
@@ -12,19 +12,43 @@ spectral structure all models, R=CPsi2 non-Heisenberg palindrome -->
 
 ---
 
+## What this document is about
+
+Imagine you discover that every guitar has a hidden symmetry in its
+sound: every note has an exact mirror partner. Beautiful, but perhaps
+it only works for guitars. What about pianos, violins, drums? If the
+symmetry only exists in one instrument, it is a curiosity. If it
+exists in all of them, it is a law of music itself.
+
+The palindromic spectral symmetry was first proven for one specific
+type of quantum coupling (Heisenberg). This document asks: does the
+mirror work for other types of coupling too? The answer is yes, for
+every standard model used in quantum hardware: XY, Ising, XXZ, and
+even exotic spin-orbit interactions. The palindrome is not a property
+of one model; it is a property of how noise interacts with qubits.
+
+Along the way, two surprises emerge. First, the mirror operator Π
+comes in families (different mirrors for different instruments, but
+they all produce palindromes). Second, in two exotic cases, the
+mirror itself is entangled: it cannot be described site by site but
+must correlate multiple qubits simultaneously.
+
+---
+
 ## Abstract
 
 The palindromic spectral symmetry proven for Heisenberg coupling
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) is not limited
 to Heisenberg. **Every standard condensed matter Hamiltonian** is palindromic
-under single-axis dephasing: XY, Ising, XXZ, Dzyaloshinskii-Moriya, and
+under single-axis dephasing: XY, Ising, XXZ, Dzyaloshinskii-Moriya (DM; a
+spin-orbit interaction that twists the coupling between neighbors), and
 all combinations. Two families of conjugation operators exist (P1 and P4),
 plus non-uniform alternating operators for XY/YX terms. All 36 possible
 two-term Pauli combinations are resolved: 20 are palindromic (17 uniform,
 3 alternating), 14 break structurally, and 2 require a genuinely **non-local
 (entangled) Π operator** that cannot be factored into per-site maps.
 Depolarizing noise breaks the palindrome with a Hamiltonian-independent
-error of γ × 2(N−2)/3, but this is < 0.1% for typical hardware dephasing
+error of (2/3)Nγ, but this is < 0.1% for typical hardware dephasing
 rates.
 
 ---
@@ -72,6 +96,12 @@ Unequal coefficients are also palindromic. Every dephasing axis works
 ---
 
 ## Result 2: Two Conjugation Operator Families
+
+Think of it this way: there are four Pauli labels per qubit (I, X, Y, Z),
+and the mirror operator Π must shuffle them in a way that swaps immune
+operators with decaying ones. It turns out there are exactly two valid
+shuffles (families). Each family supports a different set of coupling terms,
+like two different keys that each open a different set of doors:
 
 Under Z-dephasing, valid conjugation operators form two families based
 on their per-site permutation of Pauli indices:
@@ -126,6 +156,14 @@ numerical eigenvalue analysis exactly (cross-validated).
 ---
 
 ## Result 5: Non-Local (Entangled) Π Operators
+
+This is the most surprising result. So far, every mirror operator could
+be described as "do this shuffle at each qubit independently." But two
+cases refuse to cooperate: the coupling puts conflicting demands on the
+same qubit (it needs both key 1 and key 2 simultaneously). The system
+solves this by making the mirror itself entangled: it correlates the
+qubits the way a Bell state correlates two particles. The mirror is no
+longer a per-site recipe; it is a genuinely quantum object.
 
 The two remaining cases (XZ+YZ and ZX+ZY) are palindromic, but no per-site
 Pauli permutation explains them. After exhaustive search (512 discrete maps,
@@ -185,16 +223,18 @@ Depolarizing noise (X+Y+Z simultaneously, γ/3 per channel) breaks it:
 | DM | OK | err = 3.33×10⁻² |
 
 **The error is Hamiltonian-independent.** It is purely a noise-structure
-effect. N-scaling: err = γ × 2(N−2)/3. Linear in both γ and N.
+effect. N-scaling: err = (2/3)Nγ = (2/3)Σγ. Linear in both γ and N.
 
 **Practical implication:** For superconducting qubits with γ ∼ 0.001, the
 palindrome error under depolarizing noise is < 0.1%. The design rules
 remain valid for real hardware.
 
-The deeper reason: Z-dephasing splits the Pauli basis into 2 immune
-and 2 decaying operators per site (balanced 2:2 split). Depolarizing
-noise creates a 1:3 split (only I is immune). The palindrome requires
-the balanced split. See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
+The deeper reason: Z-dephasing splits the four Pauli operators at each
+site into two that survive ({I, Z}) and two that decay ({X, Y}): a
+balanced 2:2 split, like a mirror that can swap equal halves. Depolarizing
+noise creates a 1:3 split (only I survives, three decay), and you cannot
+build a bijective mirror between one thing and three things. The palindrome
+requires the balanced split. See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
 
 ---
 
