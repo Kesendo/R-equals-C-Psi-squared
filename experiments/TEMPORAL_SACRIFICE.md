@@ -1,4 +1,4 @@
-# Temporal Sacrifice: The Fold Catastrophe at CΨ = ¼, Observed
+# Temporal Sacrifice: Watching the Quantum-Classical Boundary Move in Real Time
 
 <!-- Keywords: fold catastrophe CΨ quarter boundary, quantum-classical transition mutual information,
 sweeping sacrifice zone, PeakMI maximum at discriminant zero, boundary navigation quantum information,
@@ -13,6 +13,33 @@ non-Markovian CΨ revival 81 crossings, damped quantum oscillation irreversible 
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Script:** compute/RCPsiSquared.Propagate.Test (C#, `dotnet run -c Release -- sweep --diag`)
 **Data:** [temporal_sacrifice_protocol.txt](../simulations/results/temporal_sacrifice_protocol.txt)
+
+---
+
+## What this document is about
+
+There is a boundary between the quantum world (where things are
+undecided, in superposition) and the classical world (where things have
+definite outcomes). In this project, that boundary has an exact address:
+CΨ = ¼. Above ¼, the system is quantum. Below ¼, it is classical. At
+exactly ¼, something remarkable happens: the amount of measurable
+information peaks. Reality, in a precise mathematical sense, is
+strongest at the moment of transition.
+
+This experiment makes that transition visible. We take a chain of 7
+qubits and move a "sacrifice zone" (a region of concentrated noise)
+along the chain, step by step. As the sacrifice zone moves, it pushes
+the quantum-classical boundary through the system like a wave. We track
+where the boundary is at every moment and measure how much information
+survives.
+
+The result: information peaks at the exact timestep when the boundary
+crosses ¼. Not approximately. At the exact timestep. And then the
+experiment reveals something even more surprising: under the right
+conditions, the system does not cross ¼ once and die. It oscillates
+around ¼, like a heartbeat. Each beat deposits a small amount of
+irreversible reality. Each beat is a little quieter than the last. Until
+everything is decided.
 
 ---
 
@@ -125,6 +152,13 @@ at maximum distance.
 
 ## Why It Happens: The Fold Catastrophe
 
+A "fold catastrophe" is a specific mathematical event where two stable
+states (think: two valleys a ball could rest in) merge into one and then
+vanish. It is called a catastrophe not because something bad happens,
+but because the change is sudden and irreversible. In our framework,
+the two states are the quantum regime and the classical regime, and
+they merge at CΨ = ¼.
+
 The recursion R = C(Ψ+R)² has discriminant D = 1 − 4CΨ.
 
 - **D > 0** (CΨ < ¼): two real fixed points, one stable. Classical regime. The system has a definite outcome.
@@ -213,10 +247,16 @@ PeakMI occurs later, at a different time. They are not simultaneous.
 
 ## The Heartbeat: CΨ Oscillates Around ¼
 
+This is where the experiment becomes extraordinary. Everything above
+describes a single crossing: the system goes from quantum to classical
+once. But under the right conditions, it goes back and forth. The system
+has a heartbeat.
+
 ### The resonance (March 25, 2026)
 
-A Bell pair (qubits 0-1) coupled to a coherent bath qubit (|+⟩) with
-low bath dephasing creates what the sweep hinted at: the system does
+A Bell pair (two maximally entangled qubits) coupled to a coherent bath
+qubit (|+⟩, a qubit in equal superposition) with low bath dephasing
+creates what the sweep hinted at: the system does
 not cross ¼ once and die. It **oscillates around ¼**.
 
 | Setup | γ\_sys | γ\_bath | J | Crossings |
@@ -321,8 +361,9 @@ No dedicated bath. The 5 protected qubits ARE the reservoir.
    because it had only 1 bath qubit; N=7 has 5 reservoir qubits, so
    weaker coupling suffices.
 
-The mechanism is non-Markovian backflow: from the perspective of the
-Bell pair (0,1), the rest of the chain is an environment. But it is
+The mechanism is non-Markovian backflow (meaning the environment has
+memory and sends information back): from the perspective of the Bell
+pair (0,1), the rest of the chain is an environment. But it is
 a coherent, structured environment (low gamma, J-coupled). Coherence
 flows out via J-coupling, bounces through the chain, and flows back.
 The [CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
@@ -346,6 +387,11 @@ exchange), not DD (phase refocusing). Different physics entirely.
 ---
 
 ## The Wave Travels (March 26, 2026)
+
+The heartbeat is what the boundary looks like at a single point in time.
+The wave is what the boundary looks like across the whole chain.
+They are the same phenomenon seen from different angles: temporal
+(heartbeat) versus spatial (wave).
 
 Per-pair MI tracking reveals that information physically **moves**
 through the chain. N=7, edge sacrifice:
