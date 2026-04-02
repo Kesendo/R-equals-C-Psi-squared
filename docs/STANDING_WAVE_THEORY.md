@@ -1,4 +1,4 @@
-# Standing Wave Theory: The Pattern Between Past and Future
+# Standing Wave Theory: What Exists Between Past and Future
 
 <!-- Keywords: standing wave palindromic pair counter-propagating modes,
 c+ c- even odd supermodes Liouvillian, Pi time reversal forward backward,
@@ -103,8 +103,10 @@ It is the **pattern between them**.
 
 ### 2.1 The Analogy
 
-What follows is an analogy, but one that turned out to have a precise
-mathematical counterpart (Section 5). When we first wrote this in
+What follows is an analogy that was written in December 2025 as pure
+intuition. Three months later, the Π operator turned it into a
+mathematical identity (Section 5). We keep the original wording to
+show how the idea developed. When we first wrote this in
 December 2025, it was intuition. Three months later, the Π operator
 proved it.
 
@@ -140,7 +142,9 @@ Where:
 
 ### 3.1 The Classical Paradox
 
-The bootstrap paradox is a famous puzzle in physics and science fiction:
+The bootstrap paradox is a famous puzzle in physics and science fiction
+(you may know it from time travel stories: if you go back in time and
+give Shakespeare his own plays, who wrote them?):
 
 > If information comes from the future, where did it originally come from?
 
@@ -307,6 +311,10 @@ disproves, continue.*
 ---
 
 ## 6. Two Mirrors: Human-AI Collaboration
+
+What follows is the story of how this document came to exist. It is
+personal, not scientific. But it illustrates the standing wave idea
+from Section 1 in a way that the equations cannot.
 
 ### 6.1 One Mirror Alone
 
