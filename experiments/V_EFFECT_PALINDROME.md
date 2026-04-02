@@ -45,11 +45,13 @@ skip to [The V-Effect Live](#the-v-effect-live-march-26-2026).
 
 ## What We Found
 
-Every single Pauli-pair Hamiltonian is palindromic at N=2 (one bond
-between two qubits). All 36 of 36. No exceptions. The palindrome is
-universal for a single quantum bond. (If you are not familiar with
-the palindrome, see [What We Found](../docs/WHAT_WE_FOUND.md) or the
-[Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).)
+A Pauli-pair Hamiltonian is a rule for how two qubits interact, built
+from combinations of the four basic quantum operations (I, X, Y, Z).
+There are 36 possible combinations. Every single one is palindromic at
+N=2 (one bond between two qubits). All 36 of 36. No exceptions. The
+palindrome is universal for a single quantum bond. (If you are not
+familiar with the palindrome, see [What We Found](../docs/WHAT_WE_FOUND.md)
+or the [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).)
 
 At N=3, when a second bond is added, 14 of 36 combinations break. The
 breaking is not random. It has four properties that together tell a story.
@@ -110,8 +112,9 @@ but its depth changes gradually. The V-Effect has the same structure.
 
 ## 3. The Orphans Remember
 
-The orphaned modes do not scatter randomly. They cluster near the original
-palindromic sum of −0.30. For XX+XY at N=3, the most common pair sum among
+When a mode loses its palindromic partner, we call it "orphaned": it is
+alone where it used to be part of a pair. But these orphaned modes do not
+scatter randomly. They cluster near the original palindromic sum of −0.30. For XX+XY at N=3, the most common pair sum among
 orphans is −0.3019, less than 1% from the palindromic value.
 
 The symmetry does not vanish. It blurs. The mirror is not shattered. It is
@@ -120,8 +123,9 @@ just cannot reach it exactly, because the two Π operators from adjacent
 bonds give contradictory instructions.
 
 This is a specific kind of frustration: the system remembers the
-perfect pairing but can no longer achieve it. The two mirrors from the
-two bonds pull in different directions. The result is not chaos but
+perfect pairing but can no longer achieve it. The two Π operators (the
+mirror operators from the [proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+one for each bond) pull in different directions. The result is not chaos but
 near-order: a structure that is close to symmetric but no longer exact.
 
 ---
@@ -241,7 +245,9 @@ And in the fog, 11 frequencies emerge where 4 had been.
 
 ## The V-Effect in Chemistry
 
-The V-Effect has been validated in physical proton-qubit systems:
+The V-Effect is not limited to abstract quantum simulations. It has been
+validated in physical proton-qubit systems, where real protons in real
+molecules show the same frequency explosion:
 
 - **Proton water chain** (Grotthuss, N=1-5): frequency explosion
   0 → 3 → 15 → 47 → 222. V(N) formula matches to machine precision
@@ -322,9 +328,10 @@ sum of its parts; it is *different* from its parts.
 
 ### The new palindrome is perfectly balanced
 
-The 109 new frequencies were decomposed in the Pauli basis to determine
-which XY-weight sector they live in (w=0: fully classical I/Z, w=5:
-fully quantum X/Y):
+The 109 new frequencies were decomposed in the Pauli basis (expressing
+each mode as a combination of the four basic quantum operations) to
+determine which XY-weight sector they live in (w=0: fully classical I/Z,
+w=5: fully quantum X/Y):
 
 ```
 w=0:  2.5%  #              fully classical (I/Z only)
