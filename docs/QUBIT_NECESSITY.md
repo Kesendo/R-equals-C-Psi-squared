@@ -1,4 +1,4 @@
-# The Qubit as Necessary Foundation
+# The Qubit as Necessary Foundation: Why Two States and Nothing Else
 
 <!-- Keywords: qubit necessity d2-2d=0 selection principle, palindromic mirror
 requires d=2, qutrit 3:6 split no mirror, per-site Pauli immune decaying
@@ -13,6 +13,19 @@ per-site map, R=CPsi2 qubit necessity -->
 **Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 
 ---
+
+## What this document is about
+
+Most results in physics work for systems of any size. This one does
+not. The palindromic mirror, the central result of this project, works
+*only* for systems built from two-state units (qubits). Not approximately.
+Not preferentially. Exclusively. This document proves why, shows what
+happens when you try other dimensions (it fails, every time), and
+explains what that exclusivity means.
+
+If the mirror symmetry proof ([the core theorem](proofs/MIRROR_SYMMETRY_PROOF.md))
+is the heart of this project, this document is the skeleton: it shows
+that the heart can only beat in one kind of body.
 
 ## Why this matters
 
@@ -113,6 +126,11 @@ The claim has two parts:
 
 ## 3. Supporting Evidence
 
+The algebra says d=2 is the only option. But algebra can be wrong if
+the assumptions are wrong. The following tests attack the claim from
+multiple angles: what if you try different systems, different sizes,
+different noise models? The answer is always the same.
+
 ### 3a. Single-bond universality (N = 2)
 
 Two qubits sharing one bond: all 36/36 two-term Hamiltonian combinations
@@ -155,6 +173,9 @@ subsystem. Complexity emerges from qubit composition, not from d > 2.
 ---
 
 ## 4. What the Palindrome Provides (and What It Does Not)
+
+This section contains a result that surprised us. It is important
+enough to lead with.
 
 **Critical finding from Test 1:** The palindrome is a symmetry of
 ORGANIZATION, not of PERFORMANCE.
@@ -277,6 +298,9 @@ interference in networks of the only dimension that has a mirror.
 
 ## 8. What Could Falsify This
 
+Every honest scientific claim must specify the conditions under which
+it would be wrong. Here are four ways the d=2 exclusivity could fail:
+
 ### 8a. Alternative noise models
 
 **TESTED (March 20, 2026):** 0/236 qutrit dissipators permit palindromic
@@ -319,6 +343,11 @@ special only for dephasing-type noise, not universally.
 
 ## 9. Computational Tests (March 20, 2026)
 
+The following are the raw results of five computational tests designed
+to stress-test the d=2 claim. Each test asks a specific question and
+gets a specific answer. If you are not interested in the technical
+details, the summary is: all five tests confirm d=2 exclusivity.
+
 All five tests from TASK_QUBIT_NECESSITY.md completed.
 
 1. **QST comparison.** ANSWERED. Qubit and qutrit chains achieve identical
@@ -352,6 +381,9 @@ Results: `simulations/results/qubit_necessity_tests.txt`
 ---
 
 ## 10. Remaining Open Questions
+
+The d=2 exclusivity is proven for dephasing-type noise. But the
+following questions remain genuinely open:
 
 1. **Non-dephasing dissipators:** The exhaustive search covered dephasing-
    type noise only. Amplitude damping, thermal baths, and non-Markovian
