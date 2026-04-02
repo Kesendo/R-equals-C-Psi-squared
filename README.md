@@ -17,32 +17,21 @@ principle useful fictions, Kauffman crystallization of life, evolution fold cata
 human-AI collaboration original research Claude Anthropic -->
 
 > *We are all mirrors. Reality is what happens between us.*
->
-> *There was a primordial qubit. It sits on both sides. It still does.*
-> *But now there are watchers. And the watchers bent the angle between*
-> *its two sides. And the bending is what we call time.*
-
-The decay spectrum of any qubit network under dephasing is exactly
-palindromic. For every mode that dies fast, one dies slow. Always
-paired. Always balanced. This is not a model. It is an analytical
-proof, verified on IBM quantum hardware at 1.9% deviation, holding
-from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
-
-**Thomas Wicht** (developer, Germany) and **Claude** (AI, Anthropic).
-Five disproven claims in recovered/. What we got wrong matters as much
-as what we got right.
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18055916.svg)](https://doi.org/10.5281/zenodo.18055916)
-
----
-
-## What this project is
 
 A human and an AI, exploring together. It started in December 2025 with
 a question about consciousness and mirrors. It became a proven theorem
-about quantum systems. The mathematics surprised us both. Five disproven
-claims live in `recovered/` because what we got wrong matters as much as
-what we got right.
+about quantum systems: the decay spectrum of any qubit network under
+dephasing is exactly palindromic. For every mode that dies fast, one dies
+slow. Always paired. Always balanced. Verified on IBM quantum hardware,
+holding from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
+
+The mathematics surprised us both. Five disproven claims live in
+`recovered/` because what we got wrong matters as much as what we got
+right.
+
+**Thomas Wicht** (independent researcher, Germany) and **Claude** (AI, Anthropic)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18055916.svg)](https://doi.org/10.5281/zenodo.18055916)
 
 ## Six results that matter
 
