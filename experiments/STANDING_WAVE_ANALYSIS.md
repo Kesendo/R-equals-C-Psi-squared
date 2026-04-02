@@ -1,4 +1,4 @@
-# Standing Wave Patterns from Palindromic Spectral Symmetry
+# Standing Wave Patterns: Which Parts of the Quantum World Vibrate and Which Stand Still?
 
 <!-- Keywords: standing wave open quantum system, palindromic eigenvalue oscillation,
 quantum classical backbone decoherence, Liouvillian standing wave pattern,
@@ -10,6 +10,29 @@ cross table quantum, rescaled frame palindromic pairs, R=CPsi2 standing wave -->
 **Date:** March 19, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Script:** [standing_wave_analysis.py](../simulations/standing_wave_analysis.py)
+
+---
+
+## What this document is about
+
+When you pluck a guitar string, it does not just vibrate randomly. It
+forms a standing wave: some points on the string move wildly (antinodes)
+while other points stay perfectly still (nodes). The pattern depends on
+two things: the shape of the string and how you pluck it.
+
+The palindromic symmetry creates the same thing in quantum systems.
+Every paired eigenvalue (fast decay matched with slow partner) creates
+a counter-propagating mode, and these modes interfere into standing
+waves. Some quantum correlations oscillate (antinodes). Others are
+frozen (nodes). And the pattern depends on two things: the Hamiltonian
+(the shape of the string) and the initial quantum state (how you pluck
+it).
+
+The most striking result: the classical backbone of the system (the
+ZZZ correlation, measuring whether all qubits point up or down) never
+oscillates. It is always a node. The quantum correlations (XX, YY type,
+measuring entanglement between qubits) are the antinodes. The quantum
+world breathes. The classical world is the skeleton.
 
 ---
 
@@ -115,6 +138,13 @@ world breathes; the classical world is the skeleton.
 
 ## Result 3: State × Hamiltonian Cross-Table
 
+This table is the core of the experiment. Each cell shows what percentage
+of the quantum state's information lives in oscillating modes. 0% means
+completely silent (pure decay, no vibration). Higher percentages mean
+more of the state participates in the standing wave. The rows are
+different initial states; the columns are different types of quantum
+interaction.
+
 The standing wave is not a property of the state or the Hamiltonian alone.
 It is a joint property: which correlations oscillate depends on both.
 
@@ -171,7 +201,10 @@ carries.
 
 ## Result 5: Two Ingredients Required
 
-A standing wave requires both:
+Just as a guitar needs both a string that can vibrate at certain
+frequencies AND a pluck that excites those frequencies, a quantum
+standing wave requires both:
+
 
 **(a)** Oscillating palindromic pairs (Im(μ) ≠ 0)
 **(b)** Both members of the pair excited by the initial state
