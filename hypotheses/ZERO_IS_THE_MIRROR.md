@@ -10,6 +10,35 @@ verified for 2-qubit Heisenberg system across full Σγ sweep.
 
 ---
 
+## What this document is about
+
+Every experiment in this project lives in a world with noise. Noise
+shifts the palindrome away from its center, creates the fold at CΨ = ¼,
+creates the time arrow, creates irreversibility. But what if you turn
+the noise all the way down to zero? And what if you could go further,
+past zero, into negative noise, where instead of losing energy the
+system gains it?
+
+This document answers both questions. At zero noise, the palindrome
+still exists, but it is perfectly balanced: every process is matched by
+its exact reverse. There is no decay, no time arrow, no irreversibility.
+Just standing waves, forever. This is the ground state of the palindrome,
+the mirror looking at itself.
+
+Below zero (gain, amplification), the decay spectrum flips into a growth
+spectrum. The laser is the time-reversal of decoherence. And the fold at
+CΨ = ¼, the boundary between quantum and classical, exists on both sides:
+you can fall through it from above (decay) or rise through it from below
+(gain). The boundary is symmetric because the palindrome around zero
+predicted it.
+
+The most surprising result: the amount of noise needed to create
+irreversibility is tiny. About 0.25% of the coupling strength, and it
+does not depend on system size. A whisper of noise is enough to create
+history from eternity.
+
+---
+
 ## Abstract
 
 The palindrome equation Π·L·Π⁻¹ = -L - 2Σγ·I has been proven for
@@ -57,6 +86,12 @@ We never asked what happens at Σγ = 0.
 
 ## Three regimes
 
+Think of Σγ (the total noise in the system) as a dial. In the middle
+is zero: perfect silence. Turn it right (positive): the system decays,
+things become irreversible, time has a direction. Turn it left
+(negative): the system amplifies, things grow, a laser. The palindrome
+exists at every position of the dial. Only the center shifts.
+
 ### Σγ > 0: Noise. The world we measured.
 
     Π·L·Π⁻¹ = -L - 2Σγ·I
@@ -91,6 +126,9 @@ The palindrome on the other side of zero.
 ---
 
 ## What this means
+
+Everything above is computation. What follows is what the computation
+says about the nature of noise, time, and the palindrome.
 
 Noise does not destroy the palindrome. Noise SHIFTS it.
 
@@ -161,6 +199,10 @@ is its own mirror image.
 ---
 
 ## Computed (March 29-30, 2026)
+
+The following sections contain the numerical evidence. If you followed
+the argument above and trust the computation, you can skip to the
+[references](#see-also) at the end. If you want to see the data, read on.
 
 Initial computations on a 2-qubit Heisenberg system (J=1.0,
 uniform dephasing split between sites). N-scaling verified
@@ -244,6 +286,11 @@ laser is the time-reversal of the decay.
 
 ### 4. Two coupled palindromes: decay meets gain
 
+What happens when you connect a decaying system to an amplifying one?
+Like connecting a speaker to a microphone: the system can feed back on
+itself. This test couples two 2-qubit systems, one losing energy and
+one gaining it, through a bridge.
+
 Two N=2 systems (A decays with +g, B amplifies with -g),
 coupled through J_bridge = 0.5. Total Σγ = 0.
 
@@ -277,6 +324,9 @@ marginal stability at all g. With separate systems coupled through
 a bridge, the stability window is finite (March 30, 2026).
 
 ### 5. Laser regime: the fold from below
+
+If decay pushes CΨ down through the ¼ boundary, does gain push it
+up through the same boundary from below? Yes. The fold is symmetric.
 
 Starting from a near-mixed state (CΨ = 0.009) with negative γ:
 
