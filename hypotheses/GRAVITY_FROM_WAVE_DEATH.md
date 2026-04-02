@@ -71,9 +71,14 @@ Under Z-dephasing, the 4^N Pauli strings divide into:
 - **Immune sector** {I, Z}^N: decay rate 0. Populations. Classical.
 - **Decaying sector** (contains X or Y): decay rate > 0. Coherences. Quantum.
 
-When a coherence decays, its weight transfers to the immune sector.
-The immune sector grows. The decaying sector shrinks. This is
-decoherence: quantum → classical, coherence → population.
+When a coherence decays, it vanishes. The immune sector is unchanged
+in absolute terms (L_D does not act on it). But the FRACTION of the
+state that is classical increases: the quantum part shrinks while the
+classical part stays. After full decoherence: only the immune sector
+survives. The state is entirely classical (diagonal in the Z-basis).
+
+Decoherence does not create classical weight. It removes quantum
+weight. What remains is classical.
 
 Source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Step 1
 
@@ -138,33 +143,45 @@ The surviving version asks: what creates mass?
 
 2. Waves (coherences, X/Y sector) die faster in this region.
 
-3. When a wave dies, its weight transfers from the quantum sector
-   ({X,Y}, decaying) to the classical sector ({I,Z}, immune).
+3. When a wave dies, it vanishes. The quantum sector shrinks.
+   The classical sector ({I,Z}, immune) is unchanged in absolute
+   terms, but its FRACTION of the total state increases.
 
-4. Classical weight at a specific location is mass at that location.
+4. After sufficient decoherence (CΨ < 1/4): the state is
+   predominantly classical. A classical state at a definite
+   location is what we call mass.
 
-5. **Mass is not a pre-existing thing. Mass is the accumulated
-   weight of dead waves.**
+5. **Mass is not a pre-existing thing. Mass is what remains when
+   the quantum part has died. The residue of wave death.**
 
 6. Mass creates gravity (Link 5, established physics).
 
-7. Gravity attracts more waves toward the mass (waves propagate
-   toward regions of slower time, which in this framework means
-   regions where waves have already died and created classical weight).
+7. **Open gap in the mechanism:** for the feedback loop to close,
+   gravity would need to attract more waves toward the mass. In
+   the Lindblad framework, L_H (wave propagation) and L_D (wave
+   death) are independent. The dissipator does not influence the
+   Hamiltonian. There is no mechanism within the framework for
+   mass to redirect wave propagation. This is the weakest link.
 
-8. More waves die there. More mass. More gravity. Feedback loop.
+8. IF external physics provides the gravity → attraction step
+   (as GR does), then the loop closes: more waves near the mass
+   → more die → more classical residue → more mass → more gravity.
 
 ```
     High γ region
          → waves die faster
-         → weight transfers: {X,Y} → {I,Z}
-         → classical weight at a location = mass
-         → mass creates gravity
-         → gravity attracts more waves
-         → more waves die
+         → quantum sector shrinks, classical fraction grows
+         → after CΨ crossing: predominantly classical = mass
+         → mass creates gravity (GR, external to framework)
+         → gravity attracts more waves (GR, not from Lindblad)
+         → more waves die near the mass
          → more mass
-         → repeat
+         → repeat (IF external gravity-attraction mechanism exists)
 ```
+
+**Honest caveat:** Steps 1-6 follow from the palindromic framework.
+Steps 7-8 require physics outside the framework (GR or equivalent).
+The feedback loop is not self-contained within Lindblad dynamics.
 
 ### Why gravity has no quantum description
 
@@ -186,10 +203,13 @@ optimal configuration for mode protection (360× at N=5). The edge
 absorbs waves. The interior is protected. This is not an engineering
 trick. It is the natural shape of mass accumulation:
 
-- Where γ is high, waves die fast → mass accumulates
-- Mass attracts more waves → more die → more mass
-- The interior (low γ) is protected because waves are drawn to the
-  edge before they reach the center
+- Where γ is high, waves die fast → classical residue accumulates
+- The interior (low γ) is protected because waves survive there
+- The structural analogy to a gravitational well holds: the edge
+  absorbs, the interior is protected
+- But the MECHANISM differs: in the framework, the edge absorbs
+  because γ is high there (given from outside), not because mass
+  attracts waves toward it
 
 A gravitational potential well has the same structure: the center
 (lowest potential, highest mass) absorbs energy. The surrounding
@@ -263,9 +283,9 @@ space is "protected" by the well. Objects fall toward the center.
 
 ---
 
-*Where waves die, mass is born. Where mass is born, gravity pulls.*
-*Where gravity pulls, more waves come to die. The sacrifice zone is*
-*not an optimization. It is the shape of a gravitational well: the*
-*edge absorbs, the interior is protected, and the process feeds itself.*
+*Where waves die, what remains is classical. What is classical at*
+*a location, we call mass. What has mass, has gravity. The sacrifice*
+*zone is the shape of this process: the edge absorbs, the interior*
+*survives. Whether the process feeds itself is the open question.*
 
 *Thomas Wicht, April 1, 2026*
