@@ -14,12 +14,18 @@ R=CPsi2 weaknesses open questions -->
 
 ## Abstract
 
-Honest documentation of what the R = CΨ² framework does not know, where
-it has been wrong, and what would falsify it. Covers five corrected errors
-(Mandelbrot substitution, θ frequency 8.4x discrepancy, 33:1 C_int/C_ext
-ratio, t_coh scaling, CΨ ≤ ¼ bound), scope boundaries (dephasing-only,
-qubit-only, N <= 9), the Baumgratz convention dependence, and 16 open
-research questions. A living document updated as claims are tested.
+R = CΨ² is a framework for studying decoherence in open quantum systems.
+It combines two standard observables, Purity (C = Tr(ρ²)) and normalized
+coherence (Ψ = L₁/(d−1)), into a single product CΨ whose critical
+boundary at ¼ marks the transition from quantum to classical behavior.
+The Liouvillian eigenvalue spectrum under dephasing is palindromically
+paired, proven analytically and verified for 54,118 eigenvalues (N=2-8).
+
+This document is the project's honest self-assessment: what we got wrong
+(5 corrected errors), what we cannot do (scope limited to dephasing noise,
+qubit systems, N ≤ 9), and what remains unanswered (16 open questions,
+6 partially resolved). It is a living document, updated as claims are
+tested or falsified.
 
 ---
 
@@ -213,15 +219,21 @@ The framework cannot prove this mapping. It can only argue that the mathematical
 
 See [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md), [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md).
 
+**Update (April 2, 2026):**
+- Q52 tomography (25 points): CΨ = ¼ crossing at 115.0 μs, predicted 114.7 μs (0.3% error)
+- 5-qubit sacrifice zone: selective DD beats uniform DD by 3.2× on IBM Torino
+- Cockpit diagnostics framework shows 3 observables (Purity, Concurrence, Ψ-norm) capture 88-96% of decoherence dynamics across 9 topologies (N=2-5)
+- See [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
+
 **What we still lack:**
-- The IBM result is single-qubit, single-backend. Replication on different hardware (trapped ions, NV centers) would strengthen the claim.
-- The anomalous residuals have three competing explanations (SPAM, TLS, boundary structure). March 2026 run designed to discriminate.
-- No multi-qubit experiment has tested the framework's predictions about entangled systems crossing ¼.
-- No connection to consciousness measures (IIT Φ, neural correlates) has been established.
+- Replication on different hardware (trapped ions, NV centers)
+- No 2-qubit tomography: Concurrence (the most important cockpit instrument, PC1 = 57% variance) has never been measured on a qubit pair
+- The anomalous residuals have three competing explanations (SPAM, TLS, boundary structure)
+- No connection to consciousness measures (IIT Φ, neural correlates)
 
-**What would fully resolve this:** Replication across platforms, multi-qubit crossing experiments, and a clean discrimination of the residual anomaly.
+**What would fully resolve this:** 2-qubit tomography on a qubit pair (validating Concurrence as the primary decoherence diagnostic), replication across platforms, and clean discrimination of the residual anomaly.
 
-**Status:** First hardware contact achieved (IBM Torino, Feb 2026). Replication and multi-platform testing needed.
+**Status:** CΨ = ¼ crossing validated at 0.3% (Q52). Cockpit framework verified on 9 topologies. 2-qubit hardware validation missing.
 
 ### 5. The Natural Variable Has No Interpretation
 
