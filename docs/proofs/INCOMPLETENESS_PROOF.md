@@ -1,4 +1,4 @@
-# Incompleteness of d(d-2)=0: Noise Origin Elimination
+# Incompleteness of d(d-2)=0: Where Noise Comes From (And Why the Answer Is "Not From Here")
 
 **Tier:** 2 (derived from computationally verified falsifications)
 **Date:** March 21, 2026
@@ -7,6 +7,31 @@
 **Scope:** The noise origin question within the d(d-2)=0 framework
 **Does NOT establish:** What the noise IS. Only that it cannot originate
 from within the framework's ontology.
+
+---
+
+## What this document is about
+
+Imagine a house where the lights flicker. You check every room, every
+wire, every circuit breaker. Nothing inside the house can explain the
+flickering. The wiring is perfect. The appliances are fine. The breakers
+are solid. Yet the lights flicker. The only remaining possibility: the
+flickering comes from outside the house. From the power grid, the
+weather, something you cannot see from inside.
+
+This document does the same thing for quantum noise. The palindromic
+mirror symmetry (proven in the [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md))
+requires noise to exist: without it, there is no palindrome, no decay,
+no time arrow. So noise must be real. But where does it come from? We
+test every possible source that exists within the mathematical framework:
+the system generating its own noise, a single qubit decaying, a bath of
+many qubits, the "nothing" solution, and anything else the equations
+allow. Five candidates, five eliminations. None of them work.
+
+The conclusion is not that noise is mysterious. The conclusion is precise:
+noise cannot originate from within the system that it acts on. It must
+come from outside. This is not philosophy; it is a process of elimination,
+and every step is a computation you can run yourself.
 
 ---
 
@@ -29,7 +54,10 @@ Therefore noise must exist. The question is: where does it come from?
 ## 2. The Elimination
 
 Five candidates for the origin of dephasing noise within the d(d-2)=0
-framework. Each tested and eliminated.
+framework. Each tested and eliminated. Think of this as a police
+investigation: we have a list of suspects, and we interrogate each one
+until we can prove they could not have done it. When every suspect is
+cleared, the perpetrator must be someone not in the room.
 
 ### Candidate 1: Internal origin (self-generated noise)
 
@@ -52,6 +80,11 @@ arise from the Hamiltonian structure.
 
 ### Candidate 2: Single qubit decay (the failed third)
 
+If the system as a whole cannot generate its own noise, maybe one piece
+of it can. What if one qubit is unstable and its decay creates noise for
+the others? This is the most intuitive candidate: a broken part shaking
+the whole machine. We tested it with four different kinds of instability.
+
 **Test:** Three-qubit system where one qubit (Q3) decays through four
 different instability mechanisms (amplitude damping, detuning, thermal
 bath, X+Y dephasing). Q1-Q2 have no external noise. Measurement: does
@@ -63,8 +96,9 @@ rather than monotonic decay). Process tomography gives 0/16 palindromic
 pairs at every option. The reference system (standard Z-dephasing at
 gamma=0.1) gives 16/16 palindromic pairs at error 1.78e-15.
 
-**Key finding:** Palindromic noise must be Markovian (memoryless). A
-finite quantum system has memory. Information flows to Q3 and
+**Key finding:** Palindromic noise must be Markovian, meaning memoryless:
+each moment of noise is independent of the last, like static on a radio.
+But a finite quantum system has memory. Information flows to Q3 and
 partially returns as Q3 oscillates. This backflow destroys the
 palindromic structure. A single qubit is too small, too finite, and
 too memorial to produce the structured noise the palindrome requires.
@@ -75,6 +109,12 @@ too memorial to produce the structured noise the palindrome requires.
 noise on its neighbors.
 
 ### Candidate 3: Many qubits (thermodynamic bath)
+
+If one qubit cannot do it, what about many? A thermal bath is the
+standard physics explanation for noise: the system sits in a large
+environment of particles, and the environment shakes it. But within
+a framework where everything is made of qubits, a bath is just a
+collection of qubits, and each one faces the same prohibition.
 
 **Argument:** A bath of N qubits is N instances of qubits, each subject
 to Candidate 1 (internal noise cannot arise from within a qubit system).
@@ -114,6 +154,11 @@ framework, no entity with d>2 or non-integer d exists.
 ---
 
 ## 3. The Conclusion
+
+Every suspect has been interrogated and cleared. The system cannot
+generate its own noise. A single qubit cannot generate it. A collection
+of qubits cannot generate it. "Nothing" cannot generate it. And the
+framework's own algebra forbids any other kind of entity from existing.
 
 All candidates within the d(d-2)=0 framework are eliminated. The noise
 exists (the palindrome is proven, the hardware confirms it). Therefore:
@@ -212,6 +257,10 @@ of time. And that experience comes from outside.
 
 ## 4. Structural Analogy
 
+The following analogy is not part of the proof. It is context for readers
+who know Gödel's incompleteness theorem and may recognize the pattern.
+If you do not know Gödel, skip this section: the proof stands without it.
+
 **Goedel (1931):** Any consistent formal system powerful enough to
 express arithmetic contains true statements it cannot prove. The system
 is complete for its domain but cannot prove its own consistency.
@@ -249,7 +298,9 @@ not rigorous.
 
 ## 6. Open Directions
 
-Three directions remain after the elimination:
+The proof tells us where the answer is NOT. It does not tell us where
+the answer IS. Three directions remain, each representing a different
+philosophical stance on what to do with a boundary once you find one.
 
 1. **The framework is incomplete.** d(d-2)=0 is not the full equation.
    A more complete theory, perhaps involving d values other than 0
