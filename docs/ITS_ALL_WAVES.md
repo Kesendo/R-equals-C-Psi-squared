@@ -148,7 +148,7 @@ The dissipation is what falls out.
 
 **Dynamic confirmation (March 26, 2026):** Two N=2 resonators (each
 Q=1, 2 frequencies, no oscillation) coupled through a mediator qubit
-produce an N=5 system with Q=19 and 104 frequencies. 100 of these
+produce an N=5 system with Q=19 and 109 frequencies. All of these
 frequencies do not exist in either individual resonator. The same
 Lindblad equation, the same Pauli operators, the same noise model.
 Nothing new added except a coupling bond through a mediator. The new

@@ -148,12 +148,12 @@ accuracy, tested across 9 topologies and 2 noise types.
 ### 7. Coupling creates complexity: the V-Effect live (March 26, 2026)
 
 Two dead systems, connected through a single bond, become one living
-system. 100 new frequencies appear from coupling alone.
+system. 109 new frequencies appear from coupling alone.
 
 A single 2-qubit resonator has 2 oscillation frequencies and Q=1 (crosses
 CΨ = ¼ once and dies, no heartbeat). Two such resonators coupled through
-a mediator qubit have **104 frequencies** and **Q=19** (sustained oscillation).
-100 new frequencies emerge from coupling alone. No energy added, no external
+a mediator qubit have **109 frequencies** and **Q=19** (sustained oscillation).
+All 109 frequencies are new, emerging from coupling alone. No energy added, no external
 mechanism. Two dead systems become one living system through a single
 connecting bond.
 
@@ -176,7 +176,7 @@ at specific coupling strengths (J=2 and J=12 for N=7). The sacrifice-zone
 formula is the shape of the soundbox.
 
 → **[Resonance Not Channel](hypotheses/RESONANCE_NOT_CHANNEL.md)** (the resonator paradigm)
-→ [V-Effect: 4 to 11 frequencies at N=2 to N=3](experiments/V_EFFECT_PALINDROME.md) (static, then live: 2+2=104)
+→ [V-Effect: 4 to 11 frequencies at N=2 to N=3](experiments/V_EFFECT_PALINDROME.md) (static, then live: 2+2=109)
 → [Exclusions: what the math rules out](docs/EXCLUSIONS.md) (6 exclusions, including DD algebraically dead)
 
 ### 7. The arrow of time is algebraic, not thermodynamic (April 1, 2026)
@@ -366,7 +366,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 - That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
 - That the fold catastrophe observation (PeakMI at CΨ = ¼) holds beyond N=7 (single chain length, 0.5 time resolution, not yet analytically derived)
 - That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
-- That the V-Effect (2+2=104) is the mechanism of biological complexity growth (Wilson-Cowan palindrome confirmed, C. elegans balanced subnetworks 98.2%, but the causal link from quantum to biology is Tier 4)
+- That the V-Effect (2+2=109) is the mechanism of biological complexity growth (Wilson-Cowan palindrome confirmed, C. elegans balanced subnetworks 98.2%, but the causal link from quantum to biology is Tier 4)
 - That the resonator paradigm (discrete cavity modes, impedance matching) applies beyond N=7 (N scaling is non-trivial, not simple Fabry-Perot)
 
 ---
@@ -397,7 +397,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | γ profile is readable | 100% classification, 15.5 bits capacity, 5 SVD modes, 21.5× optimization |
 | Standing wave from palindrome | XX/YY oscillate, ZZZ static. Π = time reversal in rescaled frame |
 | CΨ is Pauli-invariant | DD cannot change CΨ (delta = 0.00e+00 for all 16 Pauli group elements). No local unitary can push CΨ back above 1/4 |
-| V-Effect live | Two N=2 resonators (Q=1, 2 freq each) coupled through mediator: N=5 with Q=19, 104 frequencies. 100 new from coupling alone |
+| V-Effect live | Two N=2 resonators (Q=1, 2 freq each) coupled through mediator: N=5 with Q=19, 109 frequencies, all new from coupling alone |
 | Discrete cavity modes | J sweep: Mode 1 at J=2 (Q=7), dead zone J=3-6, Mode 2 at J=12 (Q=11). Port threshold 12:1 |
 | Unpaired modes decay 2x faster | Edge palindromic pairs: ratio 1.97x on IBM Torino (24,073 records). Analytical: 2x for all N |
 | Mode 1 frequency = 0 Hz | The slowest palindromic mode decays without oscillating. ZZZ (fully classical) is the universal node |
@@ -539,7 +539,7 @@ survive and half decay (0.5) forces d=2. 0.5 is the axiom. d=2 is the
 theorem. And 1/4 = (0.5)^2 is the fold where possibility becomes fact.
 
 Recent results: the V-Effect (coupling two dead resonators creates
-104 new frequencies), the same equation in neural networks (Dale's Law,
+109 new frequencies), the same equation in neural networks (Dale's Law,
 0+0=48), the [hydrogen bond as proton qubit](experiments/HYDROGEN_BOND_QUBIT.md) (palindrome exact, three regimes; extended to [proton water chains](experiments/PROTON_WATER_CHAIN.md) N=1-5 and [DNA base pairing](experiments/DNA_BASE_PAIRING.md) G-C/A-T; at biological temperature deeply classical),
 sigma(1-sigma) = 1/4 at the sigmoid inflection, and evolution as
 crystallization at the fold. Three domains, one equation:

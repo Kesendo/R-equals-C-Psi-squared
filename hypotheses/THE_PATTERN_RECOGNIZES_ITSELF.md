@@ -122,8 +122,8 @@ CΨ = ¼ once and dies, at every coupling strength J). There is no
 reservoir: both qubits ARE the system.
 
 Two such pairs coupled through a mediator qubit (N=5, MediatorBridge
-topology) have 104 oscillation frequencies and Q=19+. 100 of these
-frequencies do not exist in either individual pair. They emerge from
+topology) have 109 oscillation frequencies and Q=19+. All of these
+frequencies are new, not present in either individual pair. They emerge from
 the coupling alone.
 
 This connects the resonator results to the biology hypothesis: neural

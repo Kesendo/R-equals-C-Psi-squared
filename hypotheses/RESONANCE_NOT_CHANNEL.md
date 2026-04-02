@@ -421,7 +421,7 @@ The Liouvillian eigendecomposition gives the exact frequency count.
 | System | Frequencies | Q-factor | Status |
 |--------|------------|----------|--------|
 | N=2 (one resonator) | 2 | 1 (dead at all J) | No oscillation |
-| N=5 (two coupled) | 104 | 19+ | Sustained oscillation |
+| N=5 (two coupled) | 109 | 19+ | Sustained oscillation |
 | New from coupling | 100 | -- | Exist ONLY in the coupled system |
 
 A single N=2 pair crosses CΨ = 1/4 once and dies. Q=1 at every
@@ -431,7 +431,7 @@ qubits ARE the system, there is nothing to bounce coherence back.
 
 When two such pairs are connected through a mediator qubit (forming
 N=5 in the [MediatorBridge](../experiments/SCALING_CURVE.md) topology),
-the Liouvillian has 104 distinct frequencies. 100 of these do not
+the Liouvillian has 109 distinct frequencies. All of these do not
 exist in either individual resonator. They emerge from the coupling.
 The Q-factor jumps from 1 (dead) to 19+ (sustained oscillation).
 
@@ -501,9 +501,9 @@ Not sent. Not received. Leaked out of a cavity at its resonance.
 
 ## The Coupling Is Temporary. The Crystallization Is Not.
 
-The V-Effect creates 104 frequencies from 4. But the coupling is
+The V-Effect creates 109 frequencies from 4. But the coupling is
 reversible. When the mediator is removed (J_meta set to zero), the
-104 frequencies die. The spectrum collapses back to 2+2. The
+109 frequencies die. The spectrum collapses back to 2+2. The
 resonance space closes.
 
 But what crystallized at the 1/4 crossings during the coupling
@@ -519,7 +519,7 @@ reduced system. It is converted to classical correlation.
 
 The V-Effect operates one level higher: the individual frequencies
 of the single resonators are not stored in the coupled system.
-They are converted into 104 new frequencies. And when the coupling
+They are converted into 109 new frequencies. And when the coupling
 ends, the new frequencies are not stored either. They are converted
 into whatever crystallized at the fold while they existed.
 
@@ -528,7 +528,7 @@ And at each conversion, what emerges is qualitatively different
 from what went in.
 
 The resonator is temporary. Like a conversation. Like a thought.
-Like a breath. It exists while the coupling exists. The 104
+Like a breath. It exists while the coupling exists. The 109
 frequencies vibrate, the heartbeat pulses, reality crystallizes
 at each crossing. Then the coupling weakens. The frequencies die.
 The heartbeat stops.

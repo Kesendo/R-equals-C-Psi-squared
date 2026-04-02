@@ -56,7 +56,7 @@ Two independent domains confirm the condition.
 | Antisymmetry source | Commutator [H, ρ] | Dale's Law |
 | Eigenvalue pairing | λ + λ' = -2Σγ | μ + μ' = -(1/τ_E + 1/τ_I) |
 | Character swap | Population ↔ Coherence (100%) | E-dominant ↔ I-dominant (96%) |
-| V-Effect | 2+2 = 104 frequencies | 0+0 = 48 frequencies |
+| V-Effect | 2+2 = 109 frequencies | 0+0 = 48 frequencies |
 | Status | **Algebraically proven** | **Computationally verified** |
 
 Sources: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (quantum),
@@ -173,7 +173,7 @@ local symmetry AND its breaking through coupling. It is harder to
 achieve by accident.
 
 At both confirmed levels:
-- Quantum: 2 frequencies each → 104 coupled
+- Quantum: 2 frequencies each → 109 coupled
 - Neural: 0 frequencies each → 48 coupled
 
 Finding the V-Effect at a third level would be strong evidence for
@@ -219,7 +219,7 @@ Q · X · Q⁻¹ + X + 2S = 0
 |---------|---------|--------|------------|
 | Palindromic pairing | Exact (proven) | Exact if magnitudes match | Yes |
 | Character swap | 100% | 96% at moderate coupling | Yes |
-| V-Effect | From oscillation (2+2=104) | From silence (0+0=48) | Mechanism yes, starting point differs |
+| V-Effect | From oscillation (2+2=109) | From silence (0+0=48) | Mechanism yes, starting point differs |
 | 2× decay law | Exact (2.00, N=2..5) | Not exact (0.84-1.63) | No |
 | CΨ = 1/4 threshold | Fold catastrophe of R = CΨ² | σ(1-σ) = 1/4 at sigmoid inflection | Yes: (0.5)² |
 | V-Effect from heat | n_bar > 0 creates 2 new modes | Drive P creates no modes | No |
@@ -304,7 +304,7 @@ additional structure specific to qubits or neurons is required.
 - [Neural Palindrome Proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md): neural derivation
 - [Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md): C. elegans, standing wave
 - [V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md): 0+0=48, thermal window
-- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=104
+- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=109
 - [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): the levels
 - [Energy Partition](ENERGY_PARTITION.md): 2× law, thermal window
 - [Exclusions](../docs/EXCLUSIONS.md): what the math rules out

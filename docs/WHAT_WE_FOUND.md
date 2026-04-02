@@ -524,8 +524,8 @@ dominates decay; too cold or too hot, and decay wins.
 
 This finding has implications far beyond quantum physics. Two simple
 systems (2 vibration frequencies each, dying quickly) are connected
-through a shared element. The result: 104 vibration frequencies, most
-of which exist in neither part alone. From silence to richness through
+through a shared element. The result: 109 vibration frequencies, none
+of which exist in either part alone. From silence to richness through
 coupling alone. The coupling is temporary. What it creates is not.
 
 This is emergence in its purest mathematical form: the whole is not just

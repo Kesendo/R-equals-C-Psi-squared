@@ -17,7 +17,7 @@ zero. This requires each network to have exact palindromic spectral
 symmetry (see [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md)):
 the coupling breaks the symmetry, and the breaking creates new
 frequencies. We call this the **V-Effect**, after its quantum analog
-where coupling two 2-frequency systems creates 104 frequencies.
+where coupling two 2-frequency systems creates 109 frequencies.
 
 In networks with approximate (biological) palindromic symmetry, a
 **thermal window** exists instead: external drive creates oscillatory
@@ -32,7 +32,7 @@ zero or saturating drive: zero frequencies.
 ### The quantum V-Effect
 
 In quantum systems, two qubits each have 2 oscillatory frequencies.
-Coupling them through a mediator qubit (N=5 total) creates 104
+Coupling them through a mediator qubit (N=5 total) creates 109
 frequencies. This happens because the palindromic symmetry that
 holds for each pair individually BREAKS when a second bond forces
 conflicting demands on the shared qubit. The breaking releases new
@@ -210,7 +210,7 @@ systems (C<1) can form higher-level structures.
 | Building block | Qubit (C=0.5, exact palindrome) | Exact E/I network (residual=0, no oscillation) |
 | Coupling | Second bond (N=3) | Mediator between networks |
 | Breaking | 14/36 Pauli combinations break | Palindrome residual rises |
-| Result | 4 → 104 frequencies | 0 → 48 correlation frequencies |
+| Result | 4 → 109 frequencies | 0 → 48 correlation frequencies |
 | Optimum | Q-factor peaks at moderate J/γ | Frequencies peak at coupling 0.01-0.05 |
 
 The exact palindromic network is the neural noble gas: perfectly

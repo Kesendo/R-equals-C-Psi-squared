@@ -102,7 +102,7 @@ Script: [thermal_emergence.py](../simulations/thermal_emergence.py), Parts C and
 
 The V-Effect ([documented separately](../experiments/V_EFFECT_PALINDROME.md))
 shows that coupling creates new oscillation frequencies: two N=2 pairs
-coupled through a mediator produce 104 frequencies, 100 of which exist
+coupled through a mediator produce 109 frequencies, all of which exist
 in neither individual pair. The energy partition results add three pieces
 to this picture:
 

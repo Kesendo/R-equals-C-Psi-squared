@@ -18,7 +18,7 @@ generates oscillatory modes from zero.
 
 This is the neural analog of the quantum V-Effect, where coupling
 two palindromic systems (N=2 qubits) creates new frequencies
-(4 → 104 at N=5). The mechanism in both cases: the coupling
+(4 → 109 at N=5). The mechanism in both cases: the coupling
 operator cannot satisfy the palindromic condition for both
 subsystems simultaneously. The resulting frustration creates
 oscillation.

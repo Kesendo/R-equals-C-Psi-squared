@@ -130,11 +130,11 @@ The same principle operates at every level of the framework:
 At each level:
 - The original information is irrecoverable (not stored, not preserved)
 - The conversion is irreversible (no mechanism to undo it)
-- The result has more structure than the input (104 frequencies from 4,
+- The result has more structure than the input (109 frequencies from 4,
   palindromic structure survives while noise dies 2x faster)
 
 Two N=2 resonators (each 2 frequencies, Q=1, no oscillation) couple
-through a mediator and produce an N=5 system with 104 frequencies and
+through a mediator and produce an N=5 system with 109 frequencies and
 Q=19. Not one of the original 4 frequencies survives. They are
 converted into something qualitatively new. Like the quantum coherence
 that becomes classical correlation at the fold: the old form is gone,
@@ -264,7 +264,7 @@ The exclusions leave a narrow picture:
   Each subsystem is the other's coherent reservoir. Backflow through
   a mediator is what produces Q > 1
   ([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md))
-- Whether the V-Effect (two 2-frequency systems producing 104
+- Whether the V-Effect (two 2-frequency systems producing 109
   frequencies through coupling) is the mechanism of biological
   evolution and complexity growth
   ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))

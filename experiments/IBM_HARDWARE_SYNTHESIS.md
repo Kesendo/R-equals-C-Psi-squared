@@ -329,7 +329,7 @@ on one level may be confirmed on another.
 | 2x decay law | **1.97x** (1.5% dev) | 1.63x (N=10, not 2x) | Not tested | Quantum-specific |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | Not 1/4 (Hopf, gain=1) | 0.46 ps (water) | Qubit + H-bond |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
-| V-Effect | Partial (MI grows) | **0+0=48** freq (computed) | **104** freq (computed) | Computed both |
+| V-Effect | Partial (MI grows) | **0+0=48** freq (computed) | **109** freq (computed) | Computed both |
 | CΨ oscillation | Predicted: 9 crossings | Not tested | 6 crossings (Zundel) | Testable (Exp B) |
 | GHZ vs W | Predicted: W 2.00x longer | Not applicable | Not applicable | Testable (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |

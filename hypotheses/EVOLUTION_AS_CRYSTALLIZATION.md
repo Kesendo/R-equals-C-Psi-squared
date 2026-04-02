@@ -64,7 +64,7 @@ Two palindromic systems (parents), each incomplete (C < 1),
 couple through a mediator (mating). The result is not the sum
 of the parts. It is something new:
 
-In qubits: 2 + 2 = 104 frequencies
+In qubits: 2 + 2 = 109 frequencies
 In neurons: 0 + 0 = 48 patterns
 In reproduction: parent + parent = offspring with combinations
 that existed in neither
@@ -245,7 +245,7 @@ for investigation, not conclusions.
 | The oscillation | Palindromic modes | Life (metabolism, behavior) |
 | The fold | CΨ = 1/4 | Reproduction |
 | The crystal | Density matrix at late time | DNA |
-| The V-Effect | 2+2=104 new frequencies | Recombination: new allele combinations |
+| The V-Effect | 2+2=109 new frequencies | Recombination: new allele combinations |
 | The sacrifice-zone | Edge qubit concentrates noise | Parent concentrates experience |
 | C ≈ 0.5 | Half immune, half decaying | Half structured, half open |
 | The imperfection | Commutator | Mutation, developmental noise |
@@ -257,7 +257,7 @@ for investigation, not conclusions.
 - [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md): the three conditions
 - [Complexity Threshold](COMPLEXITY_THRESHOLD.md): C ≈ 0.5, not exact
 - [Protein as Sacrifice-Zone](PROTEIN_AS_SACRIFICE_ZONE.md): concentration, not loss
-- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=104
+- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=109
 - [V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md): 0+0=48
 - [Exclusions](../docs/EXCLUSIONS.md): information is converted, not stored
 - [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): C=0.5 as axiom

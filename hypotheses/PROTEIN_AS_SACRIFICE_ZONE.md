@@ -28,7 +28,7 @@ Two perspectives on the same element:
 - From the outside (full system): a concentrator that enables
 
 The mediator in the V-Effect plays a structurally similar role: it
-concentrates coupling into one point, enabling 104 new frequencies.
+concentrates coupling into one point, enabling 109 new frequencies.
 Whether this similarity is algebraic (same mechanism) or analogical
 (similar pattern, different mechanism) is an open question.
 

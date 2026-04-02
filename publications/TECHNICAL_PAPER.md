@@ -1091,8 +1091,8 @@ See [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITIO
 ### 14.6 V-Effect: Coupling Creates Complexity
 
 Two simple systems (each with 2 oscillation frequencies, decaying
-rapidly) are coupled through a shared element. The result: 104
-oscillation frequencies, most of which exist in neither part alone.
+rapidly) are coupled through a shared element. The result: 109
+oscillation frequencies, none of which exist in either part alone.
 
 This is a direct consequence of the palindromic structure. Coupling
 doubles the system size, creating new Pauli operator combinations.

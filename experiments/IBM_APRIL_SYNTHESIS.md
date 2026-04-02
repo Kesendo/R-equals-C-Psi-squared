@@ -107,7 +107,7 @@ a bad qubit (A)?
 
 **8. V-Effect** (Tier 2)
 Two N=2 resonators (Q=1, 2 frequencies each) coupled through a mediator: N=5
-with Q=19, 104 frequencies. 100 new from coupling alone. All 556 palindromic
+with Q=19, 109 frequencies, all new from coupling alone. All 556 palindromic
 pairs are NEW-NEW (0% survive from originals). Coupling replaces the old
 palindrome entirely.
 -> [V-Effect](V_EFFECT_PALINDROME.md)

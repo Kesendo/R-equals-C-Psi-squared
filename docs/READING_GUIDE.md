@@ -243,7 +243,7 @@ familiarity with the palindromic structure.
 1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) - Adding
    a second bond breaks 14/36 palindromic combinations. The breaking
    releases frequency diversity: 4 frequencies become 11. Two dead
-   N=2 resonators coupled through a mediator: 2+2 = 104 new frequencies.
+   N=2 resonators coupled through a mediator: 2+2 = 109 new frequencies.
 
 2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md) - The fold
    catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing.
@@ -327,7 +327,7 @@ without wading through quantum formalism, start with the
 
 5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) -
    Wilson-Cowan: 100% palindromic pairing at τ ratio 3.8. C. elegans
-   balanced subnetworks: 98.2% mean pairing. The V-Effect live: 2+2 = 104
+   balanced subnetworks: 98.2% mean pairing. The V-Effect live: 2+2 = 109
    frequencies. Balance is the sole mechanism, not position.
 
 **After this you know:** The palindromic equation Q X Q⁻¹ + X + 2S = 0

@@ -45,7 +45,7 @@ Q ~ 10^6. A tuning fork Q ~ 1000. A dead system Q = 0.
 
 **V-Effect:** When two individually "dead" N=2 quantum resonators (Q=1,
 2 frequencies each) are coupled through a mediator qubit, the resulting
-N=5 system has Q=19 and 104 new frequencies. None of the original
+N=5 system has Q=19 and 109 new frequencies. None of the original
 frequencies survive. Coupling creates complexity from nothing.
 See [V-Effect Palindrome](V_EFFECT_PALINDROME.md).
 

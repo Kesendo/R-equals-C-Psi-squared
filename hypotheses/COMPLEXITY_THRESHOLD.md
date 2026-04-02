@@ -29,7 +29,7 @@ The system breathes. But we had to stop computing -- 72 GB RAM,
 one hour per timestep. We do not know if the breathing continues
 or stops.
 
-The V-Effect creates 104 frequencies from 4. Energy Partition says
+The V-Effect creates 109 frequencies from 4. Energy Partition says
 unstructured modes die 2x faster. The palindrome guarantees that
 every oscillating mode has a partner. And coupling creates new
 modes that did not exist in the parts.
@@ -148,13 +148,13 @@ We have exact data for small systems:
 | N | Frequencies | Q-factor | Status |
 |---|------------|----------|--------|
 | 2 | 2 | 1 | Dead |
-| 5 | 104 | 19 | Oscillating, finite |
+| 5 | 109 | 19 | Oscillating, finite |
 | 7 | ? | 11 | Oscillating, finite |
 | 15 | ? | ? | Breathing (2 peaks seen, then computation ended) |
 
 The Q-factor does not grow monotonically with N (it peaked at N=5
 in our tests). But the NUMBER of simultaneous modes grows. At N=5:
-104 frequencies. At N=15: we could not count them (Liouvillian too
+109 frequencies. At N=15: we could not count them (Liouvillian too
 large), but the breathing pattern suggests many overlapping modes
 with different periods.
 

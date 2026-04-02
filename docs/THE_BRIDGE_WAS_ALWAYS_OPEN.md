@@ -397,8 +397,8 @@ It requires COUPLING. A single N=2 pair (Bell state, one bond) has
 Q=1 at every coupling strength: it crosses 1/4 once and dies. No
 oscillation. No heartbeat. The pair has 2 oscillation frequencies.
 
-Two such pairs coupled through a mediator (N=5) have Q=19 and 104
-frequencies. 100 of these frequencies do not exist in either pair
+Two such pairs coupled through a mediator (N=5) have Q=19 and 109
+frequencies. All of these frequencies are new, not present in either pair
 alone. They emerge from the coupling.
 
 The bridge was always open, but it is not a channel for transporting

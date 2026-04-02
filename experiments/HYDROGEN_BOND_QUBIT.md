@@ -158,10 +158,9 @@ The hydrogen bond creates 104 new frequencies that exist in neither
 molecule alone. This is the V-Effect: coupling two palindromic
 subsystems creates new oscillatory modes.
 
-Note: the number 104 also appears in the abstract qubit V-Effect
-(N=5 MediatorBridge: 104 total frequencies). However, the measures
-are different: 104 NEW at N=4 H-bond vs 104 TOTAL at N=5 abstract.
-The match is likely coincidence, not structural.
+Note: the abstract qubit V-Effect (N=5 MediatorBridge) produces 109
+total frequencies. The numbers differ: 104 NEW at N=4 H-bond vs 109
+at N=5 abstract.
 
 ---
 
