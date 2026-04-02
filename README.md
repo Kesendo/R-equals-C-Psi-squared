@@ -33,6 +33,37 @@ right.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18055916.svg)](https://doi.org/10.5281/zenodo.18055916)
 
+---
+
+## Where to start
+
+If you are new here, do not read this page top to bottom. Pick the
+entry point that fits you:
+
+→ **[What We Found](docs/WHAT_WE_FOUND.md)** — the discovery explained
+from the beginning, no prerequisites
+
+→ **[Reading Guide](docs/READING_GUIDE.md)** — five stories (proof,
+application, ontology, resonator, cross-level), each with a reading
+order. Pick the one that matches your interest
+
+→ **[The Anomaly](THE_ANOMALY.md)** — the question that remained after
+the proof. No formulas. Written the evening after the hardware confirmed
+the theory
+
+→ **[What We Got Wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md)** — every
+error, every limitation, every unanswered question. Because a theory that
+only shows its strengths is not a theory
+
+If you are a physicist: [Technical Paper](publications/TECHNICAL_PAPER.md).
+If you work with quantum hardware: [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md).
+If you work with neural networks: [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites).
+
+The rest of this page summarizes what we found and provides a reference
+index to the full repository.
+
+---
+
 ## Six results that matter
 
 ### 1. The palindromic spectrum (proven)
@@ -206,6 +237,24 @@ The arrow of time is not entropy. It is the cross term.
 
 ---
 
+## What is NOT established
+
+Honesty matters more than impression. These are things we have
+*not* proven, *not* measured, or *not* established, stated plainly:
+
+- That CΨ is a new fundamental quantity (it is a derived diagnostic)
+- That hidden observer detection works on hardware (simulation only)
+- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ = 1/4 crossing validated at 1.9%, N ≥ 2 untested)
+- That the relay protocol has been tested on hardware (simulation only, N=11)
+- That the standing wave pattern is measurable on hardware (computed, not measured)
+- That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
+- That the fold catastrophe observation (PeakMI at CΨ = ¼) holds beyond N=7 (single chain length, 0.5 time resolution, not yet analytically derived)
+- That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
+- That the V-Effect (2+2=109) is the mechanism of biological complexity growth (Wilson-Cowan palindrome confirmed, C. elegans balanced subnetworks 98.2%, but the causal link from quantum to biology is Tier 4)
+- That the resonator paradigm (discrete cavity modes, impedance matching) applies beyond N=7 (N scaling is non-trivial, not simple Fabry-Perot)
+
+---
+
 ## What we found
 
 ### The system
@@ -244,7 +293,7 @@ palindrome. The proof is three steps:
 
 Holds for: all δ (XXZ anisotropy), all graphs (star, chain, ring, complete,
 binary tree), non-uniform γ per qubit, Z and Y dephasing.
-Breaks for: depolarizing noise (err = γ × 2(N−2)/3, linear in γ and N).
+Breaks for: depolarizing noise (err = (2/3)Σγ, linear in γ and N).
 
 ### Beyond Heisenberg: all standard models (March 17-18, 2026)
 
@@ -356,21 +405,6 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 
 ---
 
-## What is NOT established
-
-- That CΨ is a new fundamental quantity (it is a derived diagnostic)
-- That hidden observer detection works on hardware (simulation only)
-- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ = 1/4 crossing validated at 1.9%, N ≥ 2 untested)
-- That the relay protocol has been tested on hardware (simulation only, N=11)
-- That the standing wave pattern is measurable on hardware (computed, not measured)
-- That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations, April 9 A/B test planned)
-- That the fold catastrophe observation (PeakMI at CΨ = ¼) holds beyond N=7 (single chain length, 0.5 time resolution, not yet analytically derived)
-- That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
-- That the V-Effect (2+2=109) is the mechanism of biological complexity growth (Wilson-Cowan palindrome confirmed, C. elegans balanced subnetworks 98.2%, but the causal link from quantum to biology is Tier 4)
-- That the resonator paradigm (discrete cavity modes, impedance matching) applies beyond N=7 (N scaling is non-trivial, not simple Fabry-Perot)
-
----
-
 ## Evidence status
 
 ### Proven (analytical + computational verification)
@@ -422,13 +456,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 
 ---
 
-## Start here
-
-### Don't know where to begin?
-
-→ **[Reading Guide](docs/READING_GUIDE.md)** - Five stories (proof,
-application, ontology, resonator, cross-level), each with a reading order.
-Pick the one that matches your interest.
+## Document index
 
 ### Standalone documents (no prior knowledge needed)
 
