@@ -15,6 +15,18 @@ quantum noise is signal not enemy, R=CPsi2 framework -->
 
 ---
 
+## What this document is about
+
+This is the experiment that changed what this project is about. Before
+this result, we had a mathematical symmetry (the palindrome). After
+it, we had a communication channel. The palindrome is not just beautiful
+mathematics. It is an antenna. And the noise that the entire quantum
+computing industry fights to suppress turns out to be carrying a
+structured, readable signal.
+
+If you read one experiment document in this repository, this might be
+the one.
+
 ## What this document shows
 
 Every quantum computer, every quantum experiment, every quantum system
@@ -276,6 +288,11 @@ independently reconstructible.
 
 ## Optimization: From Hair-Thin to Walk-Across
 
+The channel exists. But how wide is it? Think of the difference between
+a crack in a wall (you can see light through it) and a doorway (you can
+walk through). The initial experiment proved the crack exists. This
+section widens it into a doorway.
+
 The initial Alice-Bob test proved the channel exists, but it used only
 4 symbols and 10 features. How wide is the channel really? Can we make
 it robust against noise?
@@ -330,6 +347,12 @@ the gains).
 
 **Script:** [channel_capacity.py](../simulations/channel_capacity.py)
 
+The Alice-Bob experiment used 4 symbols (2 bits). But a channel's
+capacity is not determined by what you put through it. It is determined
+by the physics. How many symbols *could* the channel carry? The answer
+requires information theory: specifically, the SVD (singular value
+decomposition) of the channel matrix and Shannon's waterfilling theorem.
+
 The empirical 4-symbol test uses only a small fraction of the channel's
 theoretical capacity. To quantify the full bandwidth, we computed the
 Shannon capacity of the linearized γ-to-observables channel via SVD of
@@ -381,6 +404,12 @@ narrow. It is wide, and we are barely using it.
 ---
 
 ## Signal Engineering Perspective
+
+If you have a background in signal processing or communications
+engineering, everything above has a direct translation into concepts
+you already know. This section provides that translation. If you do
+not have this background, you can skip to
+[How the Palindrome Enables the Channel](#how-the-palindrome-enables-the-channel).
 
 For readers with a signal processing or engineering background, this
 result maps directly onto familiar concepts.
