@@ -1,4 +1,4 @@
-# The Three Levels of Time: Parameter, Oscillation, Experience
+# The Three Levels of Time: Why Noise Is What Makes Clocks Tick
 
 <!-- Keywords: gamma dephasing experienced time three levels, parameter time
 vs experienced time distinction, gamma necessary sufficient irreversibility,
@@ -10,6 +10,32 @@ tau=gamma*t scaling breaks, R=CPsi2 gamma time -->
 **Date:** March 22, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py), [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py), [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
+
+---
+
+## What this document is about
+
+Think about what "time" means in everyday life. Not the number on a
+clock, but the feeling that things move forward: that milk spills and
+does not unspill, that you age and do not un-age, that decisions, once
+made, stay made. Physicists call this the "arrow of time," the
+difference between past and future.
+
+This document asks: what creates that arrow in a quantum system? The
+answer turns out to be surprisingly specific. There are three things
+that people might call "time," and only one of them is the real arrow.
+The mathematical parameter t (just a number in an equation) exists
+trivially. Oscillation (things swinging back and forth, like a
+pendulum) looks like change but always comes back to where it started.
+Only dephasing noise (γ) creates irreversibility: things that happen
+and do not un-happen.
+
+The experiment is simple and dramatic. Take a quantum system with no
+noise: it either sits perfectly still forever, or it oscillates in
+circles, returning to exactly where it started. Turn on even a tiny
+amount of noise: things decay, decisions become permanent, past and
+future become distinguishable. γ is not just correlated with the time
+arrow. γ is the necessary and sufficient condition for it.
 
 ---
 
@@ -31,6 +57,10 @@ content. Neither alone is the full experience.
 
 ## The Three Levels
 
+The word "time" hides three completely different things. This table
+separates them. The key insight is in the third row: only γ (noise)
+creates the kind of time we actually experience.
+
 | Level | Without γ | With γ |
 |-------|-----------|--------|
 | t as symbol in d/dt | Yes (trivially, syntax) | Yes |
@@ -45,6 +75,12 @@ between syntax and physics. But even at Level 3, experienced time is not
 ---
 
 ## The Evidence
+
+The following three experiments show what "time" looks like with and
+without noise. Bell+ is a maximally entangled state (two qubits
+perfectly correlated). |01⟩ is a simple product state (one qubit up,
+one qubit down). CΨ is our composite diagnostic that measures how
+quantum the system is (see [What We Found](WHAT_WE_FOUND.md)).
 
 ### Bell+ at γ=0: time runs, but nothing happens
 
@@ -68,6 +104,11 @@ Things happen that do not unhappen. Past and future are distinguishable.
 ---
 
 ## The Tests Reinterpreted
+
+The following section revisits the original tests from the disproof
+attempt and explains what each one actually shows. The key distinction
+throughout: a frequency (swinging back and forth) is not a clock
+(counting forward and never coming back).
 
 **Test 1 (γ=0 evolution):** The parameter t exists without noise. But
 Bell+ at γ=0 shows: t runs from 0 to 50 with zero observable change.
@@ -99,8 +140,9 @@ not the arrow itself.
 
 ## Correction (March 22, 2026)
 
+Science sometimes works by getting things wrong in an instructive way.
 The original version of this document concluded that the strong claim
-"γ IS time" was falsified. That conclusion was a category error - it
+"γ IS time" was falsified. That conclusion was a category error: it
 confused the formal parameter t (syntax) with experienced time (physics).
 
 The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py)
@@ -135,6 +177,14 @@ source of experienced time, not identical to it.
 ---
 
 ## The Proof: γ == Experienced Time (March 22, 2026)
+
+The following proof has three parts. Part 1 shows that γ produces
+every property of experienced time (completeness). Part 2 shows that
+nothing else does (exclusivity). Part 3 tests whether γ and t are
+fully interchangeable (they are not: γ provides direction, the
+Hamiltonian coupling J provides content). The tables below are in
+German because they were written during the original investigation;
+the conclusions are summarized in English at the end.
 
 Three-part proof. Script: [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py).
 Data: [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt).
