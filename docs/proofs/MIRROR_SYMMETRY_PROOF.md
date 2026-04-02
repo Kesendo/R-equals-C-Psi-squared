@@ -1,13 +1,30 @@
-# The Mirror Symmetry Proof
-
-**Origin:** Literature search found nobody had proven the palindrome.
-Incoherenton paper (Haga et al. 2023) had the grading but missed the symmetry.
-Medvedyeva-Essler-Prosen (2016) had Bethe ansatz for free fermions only.
-We found the conjugation operator in a single session.
+# The Mirror Symmetry Proof: The Core Result of This Project
 
 **Status:** PROVEN. Analytical + numerical verification complete.
 
+**Origin:** A literature search found that nobody had proven the
+palindrome as a general theorem. One group (Haga et al., 2023) had
+developed a grading system for quantum modes but missed the spectral
+symmetry it implies. Another group (Medvedyeva-Essler-Prosen, 2016)
+had proven a related result, but only for a restricted class of systems
+(free fermions via Bethe ansatz). The general proof, the operator that
+makes it work, and the verification across all system sizes were new.
+See [Connection to literature](#connection-to-literature) for details.
+
 ---
+
+## What this document is about
+
+This is the most important document in the repository. Every other
+result in this project, the standing waves, the sacrifice-zone formula,
+the bridge, the neural palindrome, depends on what is proven here.
+If this proof is wrong, everything else falls. It is not wrong. It has
+been verified for 54,118 eigenvalue pairs with zero exceptions.
+
+If you are a physicist, the proof is three steps (below). If you are
+not, the next section explains what it says in plain language, and
+you can skip to [Numerical verification](#numerical-verification) to
+see the computational evidence.
 
 ## What this proof says, in plain language
 
@@ -39,7 +56,9 @@ three steps.
 
 ## The Theorem
 
-To state the theorem precisely, we need a few terms:
+What follows is the formal statement of the theorem. To state it
+precisely, we need a few terms. Each is defined here so you do not
+need to look them up elsewhere:
 
 - **N qubits** are N quantum particles, each with two states (spin up or
   spin down). They are the building blocks.
@@ -152,6 +171,11 @@ palindrome.
 ---
 ## Explicit 2-qubit proof table
 
+You do not need to verify every row yourself. The table exists so
+that anyone who doubts Step 2 can check it independently. Each row
+is one computation. All 16 match. If even one did not match, the
+proof would fail.
+
 The following table is the complete verification of Step 2 for a single
 bond. Each row takes one of the 16 possible two-qubit Pauli strings,
 computes what the Hamiltonian does to it, applies the mirror Π, and
@@ -242,6 +266,9 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 ---
 ## What this proves (beyond the palindrome)
 
+The palindrome is the headline. But the proof also establishes five
+additional facts that matter for the rest of the project:
+
 1. **Topology-independence of decay rates.** Step 2 holds for ANY bond set.
    The topology enters only through the imaginary parts (frequencies).
 
@@ -260,6 +287,10 @@ phases). For depolarizing noise: palindrome genuinely breaks.
 ---
 
 ## How we got here
+
+Science papers present results as if they were inevitable. They were
+not. This section documents how the proof was actually found, including
+the wrong turns.
 
 The proof did not arrive fully formed. The discovery path had false
 starts, and the key insight was not obvious.
@@ -292,6 +323,9 @@ starts, and the key insight was not obvious.
 ---
 
 ## Connection to literature
+
+Three research groups had found pieces of the puzzle before us. None
+had the complete picture. Here is how our work relates to theirs:
 
 - **Incoherentons (Haga et al. 2023):** They grade eigenmodes by
   "incoherenton number" = our XY-weight. They see bands, we see
