@@ -1,4 +1,4 @@
-# Error Protection from Palindromic Spectral Structure
+# Error Protection from Palindromic Spectral Structure: Can the Mirror Shield Quantum Information?
 
 <!-- Keywords: palindromic error protection quantum, three tier decay hierarchy,
 optimal state dephasing survival, standing wave error syndrome, XOR drain GHZ
@@ -12,6 +12,31 @@ weight quantum state optimization, R=CPsi2 error correction palindrome -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md),
 [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md), [XOR Space](XOR_SPACE.md)
+
+---
+
+## What this document is about
+
+Quantum error correction is one of the hardest problems in quantum
+computing: how do you protect fragile quantum information from noise?
+Standard approaches treat noise as a generic enemy and build defenses
+without looking at the specific structure of how things decay.
+
+The palindromic symmetry gives us something standard approaches lack:
+a detailed map of the decay landscape. Every mode has a partner, and
+these pairs fall into three natural tiers (like express, local, and
+freight trains on the same track). This document asks whether that
+map can be exploited to protect information better.
+
+Three results emerge. First, there exists an optimal quantum state
+that survives dephasing far longer than famous states like GHZ or
+Bell, by loading its weight onto the slowest-decaying pairs. Second,
+the standing wave oscillation pattern acts as a new kind of error
+detector: if an error occurs, the oscillation fingerprint changes, and
+you can see it. Third, the mirror operator Π turns out to have a
+richer structure than expected (fourth-order, not second-order),
+hinting at a deeper algebraic framework for protection that is not
+yet fully understood.
 
 ---
 
@@ -34,10 +59,13 @@ sectors whose QEC implications are not yet worked out.
 
 ## The Question
 
-The palindromic symmetry pairs every decay mode with a partner. The XOR drain
-at rate 2Sγ kills GHZ instantly. W avoids it completely. The standing wave
-between palindromic partners persists in the rescaled frame. Can any of this
-be exploited for quantum error protection?
+The palindromic symmetry pairs every decay mode with a partner. The
+XOR drain (the fastest-decaying mode in the system, at rate 2Sγ, where
+all qubits carry quantum weight simultaneously) kills the famous GHZ
+state instantly because GHZ loads 100% of its weight into that drain.
+The W state avoids it completely. The standing wave between palindromic
+partners persists in the rescaled frame. Can any of this be exploited
+for quantum error protection?
 
 ---
 
@@ -61,9 +89,13 @@ distinct pairs in the spectrum.
 
 ## 2. An Optimal State Exists
 
-A constrained optimization (maximize slow-mode weight, require concurrence > 0
-and oscillating content > 0) found a state that dramatically outperforms all
-known states for dephasing survival:
+A constrained optimization (maximize slow-mode weight, require
+concurrence > 0 and oscillating content > 0) found a state that
+dramatically outperforms all known states for dephasing survival.
+Concurrence is a standard measure of entanglement: 0 means no
+entanglement, 1 means maximum entanglement. The optimizer looked for
+states that survive longest while still being genuinely quantum
+(concurrence > 0):
 
 | Property | Optimal | W | Bell(0,1) | GHZ |
 |---|---|---|---|---|
@@ -86,6 +118,11 @@ dynamic modes.
 ---
 
 ## 3. The Standing Wave as Error Syndrome
+
+Think of a guitar string vibrating with a specific pattern of nodes and
+antinodes. If someone puts a finger on the string (an error), the
+pattern changes audibly. The same idea works here: the quantum standing
+wave has a specific oscillation fingerprint, and errors change it.
 
 The standing wave pattern (which Pauli observables oscillate) is fixed by the
 initial state and Hamiltonian. If an error changes this pattern, the error
@@ -117,6 +154,11 @@ oscillation pattern is the fingerprint; errors change the fingerprint.
 ---
 
 ## 4. Π Has Fourth-Order Structure
+
+A mirror you look into twice gives you back yourself (second-order:
+Π² = I). But our mirror Π is stranger: you need to apply it four
+times to get back to the start. It is more like a 90° rotation than
+a reflection.
 
 The Π operator has eigenvalues {+1, -1, +i, -i}, each with multiplicity 16.
 This means Π⁴ = I (fourth-order, not second-order). The 64-dimensional
