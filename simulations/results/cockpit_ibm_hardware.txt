@@ -1,0 +1,225 @@
+======================================================================
+PART A: SACRIFICE ZONE HARDWARE (March 24, 2026)
+Chain [Q85, Q86, Q87, Q88, Q94], 3 DD strategies
+======================================================================
+
+  Chain: [85, 86, 87, 88, 94] (5 qubits)
+  Shots: 4000 per circuit
+  Trotter steps: [2, 4, 6, 8, 10]
+
+  Hardware characterization:
+     Qubit   T1(us)   T2(us)  T2*(us)  Ratio
+  ------------------------------------------
+  Q    85      2.8      5.2      3.7    1.4
+  Q    86    211.2    122.7     61.4    2.0
+  Q    87    272.9    243.9     97.5    2.5
+  Q    88    155.5    170.0     68.0    2.5
+  Q    94    295.9    237.6     95.0    2.5
+  Sacrifice qubit: Q85 (position 0)
+
+  INSTRUMENT AVAILABILITY (from counts only):
+    1. theta (altimeter):    NO  (needs off-diagonal elements)
+    2. Concurrence (compass): NO  (needs full density matrix)
+    3. Psi-norm (speed):     NO  (needs off-diagonal elements)
+    4. Mutual Information:   YES (from bitstring counts)
+    5. Decay rate:           YES (from MI or population fits)
+    6. Bures curvature:      NO  (needs full density matrix)
+    7. Petermann:            NO  (needs Liouvillian)
+
+  INSTRUMENT 4: MUTUAL INFORMATION (pair-wise)
+
+  --- No DD ---
+       t |  MI(0,1)  MI(1,2)  MI(2,3)  MI(3,4) |    SumMI   Pur_lb
+    -----------------------------------------------------------------
+       1 |   0.0007   0.0002   0.0013   0.0079 |   0.0101   0.0844
+       2 |   0.0002   0.0001   0.0011   0.0015 |   0.0028   0.0609
+       3 |   0.0049   0.0000   0.0055   0.0035 |   0.0139   0.0704
+       4 |   0.0067   0.0000   0.0024   0.0033 |   0.0123   0.0478
+       5 |   0.0000   0.0008   0.0005   0.0001 |   0.0014   0.0339
+    Effective MI decay rate: 0.0001 per Trotter step
+    MI half-life: 8886.4 steps
+
+  --- Selective DD ---
+       t |  MI(0,1)  MI(1,2)  MI(2,3)  MI(3,4) |    SumMI   Pur_lb
+    -----------------------------------------------------------------
+       1 |   0.0001   0.0014   0.0009   0.0048 |   0.0071   0.0964
+       2 |   0.0012   0.0016   0.0014   0.0008 |   0.0050   0.0598
+       3 |   0.0004   0.0000   0.0015   0.0005 |   0.0024   0.0668
+       4 |   0.0092   0.0000   0.0003   0.0003 |   0.0099   0.0685
+       5 |   0.0000   0.0037   0.0021   0.0001 |   0.0060   0.0380
+    Effective MI decay rate: 0.0001 per Trotter step
+    MI half-life: 6681.7 steps
+
+  --- Uniform DD ---
+       t |  MI(0,1)  MI(1,2)  MI(2,3)  MI(3,4) |    SumMI   Pur_lb
+    -----------------------------------------------------------------
+       1 |   0.0001   0.0011   0.0015   0.0003 |   0.0030   0.1010
+       2 |   0.0003   0.0000   0.0001   0.0002 |   0.0006   0.0630
+       3 |   0.0000   0.0011   0.0046   0.0024 |   0.0081   0.0694
+       4 |   0.0022   0.0001   0.0036   0.0013 |   0.0072   0.0610
+       5 |   0.0004   0.0021   0.0008   0.0009 |   0.0041   0.0361
+    Effective MI decay rate: 0.5489 per Trotter step
+    MI half-life: 1.3 steps
+
+======================================================================
+THREE-FLIGHT COMPARISON (from summary file)
+======================================================================
+
+     t |      No DD    Sel. DD    Uni. DD |         Best
+  ----------------------------------------------------------
+     1 |     0.0743     0.0759     0.0475 |         Sel.
+     2 |     0.0431     0.0504     0.0352 |         Sel.
+     3 |     0.0366     0.0542     0.0212 |         Sel.
+     4 |     0.0352     0.0501     0.0157 |         Sel.
+     5 |     0.0373     0.0377     0.0131 |         Sel.
+
+  Selective DD advantage:
+    t=1: Sel/No=1.02x, Sel/Uni=1.60x
+    t=2: Sel/No=1.17x, Sel/Uni=1.43x
+    t=3: Sel/No=1.48x, Sel/Uni=2.56x
+    t=4: Sel/No=1.42x, Sel/Uni=3.19x
+    t=5: Sel/No=1.01x, Sel/Uni=2.87x
+
+  MI PROPAGATION (No DD):
+  Which pair dominates at each time?
+    t=1: dominant pair = (0,1) (MI=0.0270)
+    t=2: dominant pair = (0,1) (MI=0.0153)
+    t=3: dominant pair = (2,3) (MI=0.0149)
+    t=4: dominant pair = (3,4) (MI=0.0097)
+    t=5: dominant pair = (2,3) (MI=0.0155)
+
+======================================================================
+PART B: Q52 TOMOGRAPHY (February 9, 2026)
+Single qubit, 25 delay points, full density matrices
+======================================================================
+
+  Qubit: Q52
+  T1 = 221.2 us, T2 = 298.2 us
+  Shots: 8192
+  Crossing prediction: 114.7 us
+
+  ALL 7 INSTRUMENTS (single qubit, d=2):
+
+     t(us) |    CPsi   theta    Pur    Psi    Fid |     v_B |  |rho01|
+  ---------------------------------------------------------------------------
+       0.0 |  0.8851    57.9  0.942  0.940  0.970 |  0.0000 |  0.46993
+      37.3 |  0.4752    43.5  0.724  0.656  0.652 |  0.0134 |  0.32804
+      74.6 |  0.3852    36.3  0.682  0.565  0.264 |  0.0114 |  0.28233
+     111.8 |  0.2614    12.1  0.624  0.419  0.539 |  0.0126 |  0.20951
+     149.1 |  0.1252     0.0  0.578  0.217  0.502 |  0.0030 |  0.10829
+     186.4 |  0.0690     0.0  0.581  0.119  0.540 |  0.0043 |  0.05939
+     223.7 |  0.0602     0.0  0.611  0.098  0.459 |  0.0025 |  0.04923
+     261.0 |  0.0339     0.0  0.619  0.055  0.495 |  0.0018 |  0.02739
+     298.2 |  0.0198     0.0  0.625  0.032  0.512 |  0.0011 |  0.01581
+     335.5 |  0.0191     0.0  0.652  0.029  0.514 |  0.0008 |  0.01463
+     372.8 |  0.0040     0.0  0.650  0.006  0.503 |  0.0003 |  0.00309
+     410.1 |  0.0255     0.0  0.676  0.038  0.516 |  0.0008 |  0.01886
+     447.4 |  0.0265     0.0  0.674  0.039  0.513 |  0.0001 |  0.01964
+     484.7 |  0.0148     0.0  0.693  0.021  0.508 |  0.0006 |  0.01070
+     521.9 |  0.0171     0.0  0.693  0.025  0.512 |  0.0002 |  0.01234
+     559.2 |  0.0167     0.0  0.699  0.024  0.502 |  0.0004 |  0.01195
+     596.5 |  0.0314     0.0  0.711  0.044  0.506 |  0.0004 |  0.02210
+     633.8 |  0.0253     0.0  0.721  0.035  0.512 |  0.0004 |  0.01754
+     671.1 |  0.0211     0.0  0.719  0.029  0.513 |  0.0002 |  0.01464
+     708.3 |  0.0317     0.0  0.726  0.044  0.507 |  0.0004 |  0.02181
+     745.6 |  0.0394     0.0  0.729  0.054  0.518 |  0.0003 |  0.02701
+     782.9 |  0.0535     0.0  0.737  0.073  0.521 |  0.0003 |  0.03629
+     820.2 |  0.0203     0.0  0.739  0.028  0.513 |  0.0007 |  0.01375
+     857.5 |  0.0352     0.0  0.744  0.047  0.516 |  0.0004 |  0.02365
+     894.7 |  0.0368     0.0  0.753  0.049  0.508 |  0.0004 |  0.02444
+
+  Measured CPsi=1/4 crossing: 115.0 us
+  Predicted crossing: 114.7 us
+  Deviation: 0.3 us (0.3%)
+  CPsi decay rate: 0.01333 per us (half-life 52.0 us)
+
+  BURES CURVATURE (Q52):
+     CPsi |  g(CPsi)    K_Gauss
+  ------------------------------
+    0.385 |    15.68       +3.3
+    0.385 |    15.68       +3.3
+    0.261 |    13.00       -2.7
+    0.261 |    13.00       -2.7
+    0.261 |    13.00       -2.7
+    0.125 |     1.35      +21.4
+
+  K at fold (CPsi~0.25): -2.7
+  Simulation predicted: K = -25
+  Deviation: 22.3
+
+======================================================================
+PART C: Q80 PALINDROME VALIDATION (March 18, 2026)
+Single qubit, 8 delay points
+======================================================================
+
+  Qubit: Q80
+  T1 = 159 us, T2* = 11 us, T2echo = 27 us
+
+    t(us)  t/T2* |   CPsi_m CPsi_T2* CPsi_T2e |  theta  C_meas   Psi_m
+  ---------------------------------------------------------------------------
+      0.0   0.00 |   0.8772   1.0000   1.0000 |   57.7  0.9380  0.9352
+      3.3   0.30 |   0.6888   0.5739   0.7892 |   53.0  0.8429  0.8172
+      6.6   0.60 |   0.5335   0.3576   0.6325 |   46.8  0.7609  0.7011
+      9.3   0.85 |   0.4223   0.2536   0.5320 |   39.7  0.7033  0.6005
+     11.0   1.00 |   0.3292   0.2098   0.4818 |   29.4  0.6658  0.4944
+     13.2   1.20 |   0.2892   0.1654   0.4244 |   21.6  0.6439  0.4491
+     19.8   1.80 |   0.1656   0.0863   0.2996 |    0.0  0.6252  0.2648
+     44.0   4.00 |   0.0178   0.0098   0.1086 |    0.0  0.6141  0.0289
+
+  Predicted crossing: 9.47 us (t/T2* = 0.861)
+  Measured crossing:  15.29 us (t/T2* = 1.390)
+  Deviation: 52.9%
+  Verdict: Crossing at t*/T2* = 1.390 (predicted 0.861, deviation 61.5%). DOES NOT VALIDATE T2*-based palindrome prediction.
+
+======================================================================
+HARDWARE vs SIMULATION
+======================================================================
+
+  Q80: Measured vs Predicted CPsi
+    t(us) |  CPsi_hw CPsi_pred     Diff   RelErr
+  ------------------------------------------------
+      0.0 |   0.8772   1.0000  -0.1228    12.3%
+      3.3 |   0.6888   0.5739  +0.1149    20.0%
+      6.6 |   0.5335   0.3575  +0.1760    49.2%
+      9.3 |   0.4223   0.2534  +0.1689    66.6%
+     11.0 |   0.3292   0.2097  +0.1195    57.0%
+     13.2 |   0.2892   0.1652  +0.1240    75.1%
+     19.8 |   0.1656   0.0860  +0.0796    92.5%
+     44.0 |   0.0178   0.0097  +0.0081    83.2%
+
+======================================================================
+RECOMMENDATIONS FOR APRIL RUN
+======================================================================
+
+  1. BIGGEST DD EFFECT: Selective DD shows highest MI at all time points.
+     The effect is strongest at t=1 (first Trotter step).
+     Recommendation: Measure at t=1-2 for maximum signal.
+
+  2. TOMOGRAPHY NEEDED: From counts alone, only MI (Instrument 4) and
+     decay rates (Instrument 5) are computable. For the full cockpit
+     (theta, Concurrence, Psi-norm, Bures curvature), tomography is
+     REQUIRED. Single-qubit tomography is cheap (3 bases x shots).
+     Two-qubit tomography is expensive (9 bases x shots per pair).
+
+  3. WHAT TO MEASURE:
+     - MI per pair at t=1,2,3,4,5 Trotter steps (already done, repeat)
+     - Add 2-qubit tomography for at least ONE pair (sacrifice edge)
+       to get Concurrence + CPsi + theta
+     - Add single-qubit tomography for sacrifice qubit
+       to track coherence decay
+
+  4. HARDWARE-SIMULATION GAP:
+     - Q80 palindrome: 61.5% deviation in crossing time
+     - Q52 tomography: crossing location matches better
+     - The gap is qubit-specific (T2*, detuning, TLS coupling)
+     - Cockpit predictions should carry ~50% uncertainty margins
+
+  5. MOST USEFUL NEW INSTRUMENT: CONCURRENCE (Instrument 2).
+     In simulation, Concurrence = PC1 (r=0.98).
+     On hardware, it's the one instrument that carries the most
+     information but requires 2-qubit tomography to measure.
+     Prioritize this for the April run.
+
+======================================================================
+ANALYSIS COMPLETE
+======================================================================

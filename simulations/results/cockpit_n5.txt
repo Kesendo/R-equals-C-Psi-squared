@@ -1,0 +1,188 @@
+======================================================================
+COCKPIT AT N=5: THE MISSING SWEET SPOT
+Heisenberg chain [0-1-2-3-4], J=1.0, gamma=0.05
+Bell+(0,1) x |+>^3, focus pair: (1,2) center
+======================================================================
+
+  Simulation: 2.0s, 501 snapshots
+
+  PCA DIMENSIONALITY:
+   PC    Var%    Cum%
+  --------------------
+    1    46.3    46.3
+    2    24.1    70.4
+    3    18.1    88.5
+    4     6.1    94.6
+    5     3.9    98.5
+    6     1.4    99.9
+
+  PCs for 95% variance: 5
+
+  PC LOADINGS:
+           |     PC1     PC2     PC3
+  -----------------------------------
+      Phi+ |  +0.249  -0.090  +0.645
+      Phi- |  -0.195  -0.548  -0.104
+      Psi+ |  +0.136  +0.474  -0.497
+      Psi- |  -0.395  +0.064  -0.163
+       Pur |  +0.485  +0.001  -0.039
+       SvN |  -0.463  +0.136  +0.108
+         C |  +0.231  -0.503  -0.091
+       Psi |  +0.464  +0.192  -0.093
+      ph03 |  +0.086  -0.394  -0.520
+
+  PC PROXIES:
+    PC1 ~ Purity (|r|=0.989)
+    PC2 ~ Concurrence (|r|=0.740)
+    PC3 ~ Psi-norm (|r|=0.118)
+
+======================================================================
+PHASE 2: DASHBOARD (N=5, uniform noise)
+======================================================================
+
+  CPsi RANGES PER PAIR (all 10 pairs):
+    Pair | min CPsi max CPsi max theta  theta>0 |     Type
+  ------------------------------------------------------------
+  (0, 1) |   0.0394   0.4294      40.3   74/501 |  NN-edge
+  (0, 2) |   0.0456   0.3031      24.8   27/501 |   dist-2
+  (0, 3) |   0.0478   0.2867      21.0   25/501 |   dist-3
+  (0, 4) |   0.0470   0.2496       0.0    0/501 |   dist-4
+  (1, 2) |   0.0477   0.2831      20.0   32/501 |  NN-cent
+  (1, 3) |   0.0481   0.2602      11.4   10/501 |   dist-2
+  (1, 4) |   0.0469   0.2769      18.2   14/501 |   dist-3
+  (2, 3) |   0.0452   1.0000      60.0   59/501 |  NN-cent
+  (2, 4) |   0.0423   1.0000      60.0   56/501 |   dist-2
+  (3, 4) |   0.0466   1.0000      60.0   77/501 |  NN-edge
+
+  DASHBOARD (center pair (1,2)):
+      t |  theta    CPsi      C    Pur    Psi |     PC1     PC2     PC3 |     v_B
+  --------------------------------------------------------------------------------
+   0.00 |    0.0  0.1667  0.000  0.500  0.333 |   +0.49   +0.06   -1.40 |  0.0000
+   0.50 |    0.0  0.2122  0.000  0.481  0.441 |   +2.59   -2.90   -1.97 |  1.0108
+   1.00 |    0.0  0.1857  0.091  0.473  0.393 |   +2.67   -2.54   +3.12 |  0.8521
+   2.00 |    0.0  0.2410  0.000  0.469  0.513 |   +2.36   +1.22   -0.75 |  0.4394
+   3.00 |    0.0  0.2372  0.000  0.464  0.512 |   +2.24   +1.59   +0.90 |  0.3611
+   5.00 |    0.0  0.1406  0.000  0.370  0.381 |   +0.16   +0.78   +0.35 |  0.2423
+   7.00 |    0.0  0.0722  0.000  0.307  0.235 |   -1.75   -0.16   +0.44 |  0.2516
+  10.00 |    0.0  0.0536  0.000  0.285  0.188 |   -2.41   -0.03   -0.12 |  0.1575
+
+  LIOUVILLIAN SPECTRUM (1024x1024):
+  Eigendecomposition: 2.6s
+  Spectral gap (slowest decay): 0.10000
+  Fastest decay rate: 0.5000
+  Number of distinct rates: 212
+  Predicted gap: 2*gamma = 0.100
+  Predicted fastest: 2*(N-1)*gamma = 0.400
+
+  ENTANGLEMENT DYNAMICS: ALL 10 PAIRS
+    Pair     Type |   max C   C(t=5)      death
+  --------------------------------------------------
+  (0, 1)  NN-edge |   1.000   0.0000     t=1.28
+  (0, 2)      d=2 |   0.278   0.0000     t=0.66
+  (0, 3)      d=3 |   0.022   0.0000     t=0.54
+  (0, 4)      d=4 |   0.002   0.0000      alive
+  (1, 2)  NN-cent |   0.212   0.0000     t=0.50
+  (1, 3)      d=2 |   0.000   0.0000      alive
+  (1, 4)      d=3 |   0.000   0.0000      alive
+  (2, 3)  NN-cent |   0.024   0.0000     t=0.60
+  (2, 4)      d=2 |   0.040   0.0000     t=1.66
+  (3, 4)  NN-edge |   0.142   0.0000     t=3.38
+
+  BURES CURVATURE (center pair (1,2)):
+     CPsi |  g(CPsi)    K_Gauss
+  ------------------------------
+    0.280 |    43.47    -2658.3
+    0.250 |    39.14     -141.3
+    0.220 |     3.22     -881.5
+    0.200 |    37.42     -251.5
+    0.180 |  3687.08     -847.7
+    0.151 |     6.82     -147.0
+
+  K at fold (CPsi~0.25): -141.3
+  N=2 simulation: K = -25 at fold
+
+======================================================================
+PHASE 3: SACRIFICE ZONE (N=5)
+Same total gamma = 0.25, different distributions
+======================================================================
+
+  Running Uniform: gamma=['0.0500', '0.0500', '0.0500', '0.0500', '0.0500']...
+    (3.1s)
+
+  Running Edge sacrifice: gamma=['0.2000', '0.0125', '0.0125', '0.0125', '0.0125']...
+    (3.0s)
+
+  Running Double edge: gamma=['0.1000', '0.0167', '0.0167', '0.0167', '0.1000']...
+    (2.8s)
+
+  SACRIFICE ZONE COMPARISON (center pair (1,2)):
+
+                 Instrument |    Uniform  Edge Sacr     Double |         Best
+  ---------------------------------------------------------------------------
+         Max theta (center) |    20.0003    33.6837    24.1890 | Edge sacrifice
+          Max CPsi (center) |     0.2831     0.3611     0.3004 | Edge sacrifice
+   Max Concurrence (center) |     0.2121     0.2512     0.2460 | Edge sacrifice
+          CPsi(t=5, center) |     0.1406     0.1637     0.1625 | Edge sacrifice
+          Conc(t=5, center) |     0.0000     0.0000     0.0000 |      Uniform
+         CPsi(t=10, center) |     0.0536     0.0675     0.0628 | Edge sacrifice
+                PCs for 95% |     5.0000     5.0000     5.0000 |      Uniform
+             PC1 variance % |    46.2671    47.3383    45.1505 | Edge sacrifice
+
+  MOST SENSITIVE INSTRUMENT (largest ratio Edge/Uniform):
+           Max theta (center): Edge/Uniform = 1.68x
+            Max CPsi (center): Edge/Uniform = 1.28x
+     Max Concurrence (center): Edge/Uniform = 1.18x
+            CPsi(t=5, center): Edge/Uniform = 1.16x
+           CPsi(t=10, center): Edge/Uniform = 1.26x
+                  PCs for 95%: Edge/Uniform = 1.00x
+               PC1 variance %: Edge/Uniform = 1.02x
+
+======================================================================
+PHASE 4: SCALING TABLE N=2 THROUGH N=5
+======================================================================
+
+    N | n95 |  PC1%  PC2%  PC3% |         PC1~   |r| | max_th   th>0
+  ----------------------------------------------------------------------
+    2 |   1 |  98.5   1.4   0.0 |  Concurrence  1.00 |   30.0   38/501
+    3 |   3 |  58.1  26.3  11.9 |  Concurrence  0.94 |   40.3   32/501
+    4 |   4 |  61.5  21.5  11.0 |       Purity  0.98 |   40.3  118/501
+    5 |   5 |  46.3  24.1  18.1 |       Purity  0.99 |   20.0   32/501
+
+  Dimensionality trend: [1, 3, 4, 5]
+  GROWING: dimensionality increases with N
+  PC1 identity: ['Concurrence', 'Concurrence', 'Purity', 'Purity']
+
+======================================================================
+PHASE 5: WHAT N=5 REVEALS ABOUT THE FRAMEWORK
+======================================================================
+
+  1. DIMENSIONALITY AT N=5: 5 PCs for 95% variance.
+     This extends beyond the 3-4D pattern from N=3,4.
+     The cockpit needs more instruments to N=5.
+
+  2. PC1 AT N=5: Purity (|r|=0.989).
+     Consistent with N=4 chain (also Purity).
+
+  3. THE 3-OBSERVABLE COCKPIT: For N=5 Heisenberg chain,
+     monitoring Purity, Concurrence, and Psi-norm
+     captures 88% of the decoherence dynamics.
+     This is 3 measurements instead of 4^5 = 1024 tomographic bases.
+
+  4. SACRIFICE ZONE: Edge sacrifice enhances center-pair coherence.
+     The most sensitive instrument identifies where to look.
+
+  5. SPECTRAL GAP: 0.1000 (predicted 2*gamma = 0.100).
+     Matches prediction.
+
+
+  OPEN QUESTIONS (CORRECTED):
+  1. N=5 sweet spot: DONE (this analysis)
+  2. N=5 -> N=7: Does dimensionality hold?
+     (N=7 Liouvillian: 16384x16384, needs C# engine)
+  3. Non-Markovian noise: Does the cockpit hold?
+  4. Universal optimization: Which 3 observables +
+     which noise strategy optimizes any N?
+
+======================================================================
+ANALYSIS COMPLETE
+======================================================================

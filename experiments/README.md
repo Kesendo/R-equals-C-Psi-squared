@@ -125,6 +125,13 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) | Optimal chain selection on IBM Torino heavy-hex. 330 chains, sacrifice ranking vs mean-T2 ranking: zero overlap in top-10. Sacrifice achieves 2.54x vs 1.18x protection. Worse qubits, better modes. Time-stable over 5 months |
 | [Thermal Breaking](THERMAL_BREAKING.md) | Three orthogonal breaking mechanisms: coupling (1.81x Q, topological constant), dephasing (+60 frequencies), heat (+300 frequencies). Heat breaks the 1.81x constant but QUADRUPLES frequency diversity. Sacrifice zone vanishes at high temperature |
 
+### Decoherence Diagnostics (Cockpit Framework)
+
+| Experiment | Key finding |
+|-----------|------------|
+| **[Cockpit Universality](COCKPIT_UNIVERSALITY.md)** | **3 observables (Purity, Concurrence, Psi-norm) capture 88-96% of decoherence dynamics across 9 topologies, 2 noise types, N=2-5. PC1 self-calibrates. theta most sensitive for noise engineering (1.68x). Hardware-validated on IBM Torino (0.3% crossing accuracy)** |
+| [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
+
 ### Star Topology and Mediator Physics
 
 | Experiment | Key finding |

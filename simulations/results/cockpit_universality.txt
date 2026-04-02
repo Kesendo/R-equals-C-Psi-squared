@@ -1,0 +1,121 @@
+======================================================================
+COCKPIT UNIVERSALITY TEST
+Is the ~4D decoherence structure universal?
+======================================================================
+
+  Running Pair N=2...
+
+  Running Chain N=3...
+
+  Running Star N=3 sym...
+
+  Running Star N=3 asym...
+
+  Running Ring N=3...
+
+  Running Complete N=3...
+
+  Running Chain N=4...
+
+  Running Star N=4...
+
+  Running Ring N=4...
+
+======================================================================
+RESULTS: Z-DEPHASING (gamma=0.05)
+======================================================================
+
+              Topology | n90 n95 n99 |  PC1%  PC2%  PC3% |         PC1~   |r| |  theta>0
+  ------------------------------------------------------------------------------------------
+              Pair N=2 |   1   1   2 |  98.5   1.4   0.0 |  Concurrence  1.00 |   38/501
+             Chain N=3 |   3   3   5 |  58.1  26.3  11.9 |  Concurrence  0.94 |   32/501
+          Star N=3 sym |   3   4   5 |  57.0  25.2  11.7 |  Concurrence  0.96 |   32/501
+         Star N=3 asym |   4   4   5 |  53.1  20.4  13.5 |       Purity  0.95 |   45/501
+              Ring N=3 |   3   3   4 |  61.5  28.2   8.4 |       Purity  0.98 |   79/501
+          Complete N=3 |   3   3   4 |  61.5  28.2   8.4 |       Purity  0.98 |   79/501
+             Chain N=4 |   3   4   6 |  61.5  21.5  11.0 |       Purity  0.98 |  118/501
+              Star N=4 |   3   4   5 |  63.0  19.0  11.0 |       Purity  0.98 |   77/501
+              Ring N=4 |   3   3   5 |  61.9  24.8   8.6 |       Purity  0.99 |   90/501
+
+  PC1 TOP LOADING (which feature dominates PC1?):
+              Topology | Top feat |   Load | 2nd feat   Load
+  -----------------------------------------------------------------
+              Pair N=2 |        C | -0.410 |     Phi+ -0.410
+             Chain N=3 |        C | -0.413 |     Phi- +0.413
+          Star N=3 sym |        C | -0.422 |      Pur -0.418
+         Star N=3 asym |      Pur | -0.435 |        C -0.421
+              Ring N=3 |      Pur | -0.418 |        C -0.415
+          Complete N=3 |      Pur | -0.418 |        C -0.415
+             Chain N=4 |      Pur | -0.418 |      SvN +0.418
+              Star N=4 |      Pur | -0.411 |     Phi- +0.407
+              Ring N=4 |      Pur | -0.418 |      SvN +0.416
+
+======================================================================
+RESULTS: DEPOLARIZING NOISE (gamma=0.05)
+======================================================================
+
+              Topology | n90 n95 n99 |  PC1%  PC2%  PC3% |         PC1~   |r|
+  --------------------------------------------------------------------------------
+      Pair N=2 (depol) |   1   1   1 |  99.4   0.6   0.0 |     Psi-norm  1.00
+     Chain N=3 (depol) |   3   4   5 |  59.4  22.8  10.0 |       Purity  0.95
+  Star N=3 sym (depol) |   3   3   5 |  60.0  28.1   8.1 |  Concurrence  0.94
+  Star N=3 asym (depol) |   4   4   5 |  55.6  21.2  11.0 |       Purity  0.94
+      Ring N=3 (depol) |   3   3   4 |  60.8  26.8  10.0 |  Concurrence  0.98
+  Complete N=3 (depol) |   3   3   4 |  60.8  26.8  10.0 |  Concurrence  0.98
+     Chain N=4 (depol) |   2   3   5 |  68.2  24.0   4.7 |       Purity  0.97
+      Star N=4 (depol) |   3   4   5 |  64.6  18.3  10.5 |       Purity  0.96
+      Ring N=4 (depol) |   3   4   5 |  61.8  22.7  10.1 |       Purity  0.98
+
+======================================================================
+COMPARISON: Z-DEPHASING vs DEPOLARIZING
+======================================================================
+
+              Topology | n95(Z) n95(D) |       PC1(Z)       PC1(D)
+  -----------------------------------------------------------------
+              Pair N=2 |      1      1 |  Concurrence     Psi-norm
+             Chain N=3 |      3      4 |  Concurrence       Purity
+          Star N=3 sym |      4      3 |  Concurrence  Concurrence
+         Star N=3 asym |      4      4 |       Purity       Purity
+              Ring N=3 |      3      3 |       Purity  Concurrence
+          Complete N=3 |      3      3 |       Purity  Concurrence
+             Chain N=4 |      4      3 |       Purity       Purity
+              Star N=4 |      4      4 |       Purity       Purity
+              Ring N=4 |      3      4 |       Purity       Purity
+
+======================================================================
+UNIVERSALITY ANALYSIS
+======================================================================
+
+  Dimensionality for 95% variance:
+    Z-dephasing: [1, 3, 4, 4, 3, 3, 4, 4, 3]
+    Mean = 3.2, Std = 0.9, Range = [1, 4]
+    Depolarizing: [1, 4, 3, 4, 3, 3, 3, 4, 4]
+    Mean = 3.2, Std = 0.9, Range = [1, 4]
+
+  PC1 ~ Concurrence?
+    Z-dephasing: 3/9 topologies
+    Depolarizing: 3/9 topologies
+    PC1 proxies (Z): ['Concurrence', 'Concurrence', 'Concurrence', 'Purity', 'Purity', 'Purity', 'Purity', 'Purity', 'Purity']
+    PC1 proxies (D): ['Psi-norm', 'Purity', 'Concurrence', 'Purity', 'Concurrence', 'Concurrence', 'Purity', 'Purity', 'Purity']
+
+  PC1 variance fraction:
+    Z-dephasing: ['99%', '58%', '57%', '53%', '61%', '61%', '62%', '63%', '62%']
+    Mean = 64.0%, Range = [53%, 99%]
+    Depolarizing: ['99%', '59%', '60%', '56%', '61%', '61%', '68%', '65%', '62%']
+    Mean = 65.6%, Range = [56%, 99%]
+
+  VERDICT:
+    TOPOLOGY-SPECIFIC: Both dimensionality and PC1 vary with topology.
+    Each architecture needs its own cockpit calibration.
+
+  When PC1 != Concurrence, what is it?
+    Star N=3 asym: PC1 ~ Purity (|r|=0.95)
+    Ring N=3: PC1 ~ Purity (|r|=0.98)
+    Complete N=3: PC1 ~ Purity (|r|=0.98)
+    Chain N=4: PC1 ~ Purity (|r|=0.98)
+    Star N=4: PC1 ~ Purity (|r|=0.98)
+    Ring N=4: PC1 ~ Purity (|r|=0.99)
+
+======================================================================
+ANALYSIS COMPLETE
+======================================================================

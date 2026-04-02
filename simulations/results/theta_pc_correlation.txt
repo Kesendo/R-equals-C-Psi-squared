@@ -1,0 +1,266 @@
+======================================================================
+THETA-PC CORRELATION ANALYSIS
+Star: Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05
+CPsi = Purity x Psi-norm (R=CPsi^2 definition)
+======================================================================
+
+Phase 1: Simulating trajectory...
+  501 snapshots, t in [0, 10.0]
+
+  CPsi ranges (Purity x Psi-norm, the R=CPsi^2 definition):
+    AB: [0.0288, 0.3538]  theta>0: 23 pts (4.6%)
+    SA: [0.0194, 0.4432]  theta>0: 45 pts (9.0%)
+    SB: [0.0313, 0.2893]  theta>0: 26 pts (5.2%)
+
+  Cartography CPsi (Concurrence x Psi-norm) for comparison:
+    AB: [0.0000, 0.3288]  (used for peak detection in cartography)
+
+  NOTE: Cartography used Concurrence x Psi-norm, this analysis
+  uses Purity x Psi-norm. They differ for mixed states.
+
+======================================================================
+PCA ON AB-PAIR FEATURES (full trajectory)
+======================================================================
+
+ PC  SingVal    Var%    Cum%
+------------------------------
+  1   53.236    56.6    56.6
+  2   33.300    22.1    78.7
+  3   23.874    11.4    90.1
+  4   19.200     7.4    97.4
+  5    8.887     1.6    99.0
+  6    5.818     0.7    99.7
+
+  Dimensions for 95% variance: 4
+  Dimensions for 99% variance: 5
+
+  PC1 loadings (top 5):
+        Phi-: -0.401
+           C: +0.386
+        Phi+: +0.378
+         Pur: +0.371
+       S_coh: +0.363
+
+  PC2 loadings (top 5):
+         Psi: +0.500
+        Psi+: +0.481
+         SvN: -0.385
+        ph03: +0.315
+         Pur: +0.305
+
+  PC3 loadings (top 5):
+        Psi-: +0.908
+       S_coh: -0.239
+        Phi-: -0.213
+         Psi: +0.160
+        ph03: -0.125
+
+======================================================================
+PHASE 2: CORRELATION ANALYSIS
+======================================================================
+
+--- AB pair (matching cartography topology) ---
+
+  [All points] (501 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  +0.6157  +0.2094  -0.1668
+    r(      CPsi, PCk) |  +0.7461  +0.6405  +0.0952
+    r(Concurrence, PCk) |  +0.9174  +0.1921  -0.1065
+    r(    Purity, PCk) |  +0.8819  +0.4531  +0.0123
+    r(  Psi-norm, PCk) |  +0.5748  +0.7434  +0.1703
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  +0.3493  +0.2371  -0.1237
+    rho(    CPsi, PCk) |  +0.5942  +0.6898  +0.0995
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= +1.3946  a2= +0.7581  a3= -0.8424  c= +1.1349
+      R^2 = 0.450769
+      R^2(theta ~ PC1 only) = 0.379115
+      R^2(theta ~ PC2 only) = 0.043833
+      R^2(theta ~ PC3 only) = 0.027821
+
+  [theta > 0 only] (23 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  +0.6277  -0.1035  -0.4639
+    r(      CPsi, PCk) |  +0.6129  -0.1135  -0.4872
+    r(Concurrence, PCk) |  +0.9818  -0.7686  -0.2420
+    r(    Purity, PCk) |  +0.9690  -0.6728  -0.5400
+    r(  Psi-norm, PCk) |  -0.6621  +0.7408  +0.2480
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  +0.5000  -0.0642  -0.5751
+    rho(    CPsi, PCk) |  +0.5000  -0.0642  -0.5751
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= +5.7920  a2=+14.0630  a3= +1.6628  c=-33.2117
+      R^2 = 0.864207
+      R^2(theta ~ PC1 only) = 0.393972
+      R^2(theta ~ PC2 only) = 0.010714
+      R^2(theta ~ PC3 only) = 0.215201
+
+--- SA pair (theta>0 in 45 snapshots) ---
+  CPsi range: [0.0194, 0.4432]
+  theta range: [0.0 deg, 41.3 deg]
+
+  [All points] (501 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  +0.3386  +0.3969  +0.3100
+    r(      CPsi, PCk) |  +0.6446  +0.5839  +0.3357
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  +0.3466  +0.3852  +0.1076
+    rho(    CPsi, PCk) |  +0.6997  +0.5219  +0.1709
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= +0.9681  a2= +1.8143  a3= +1.9765  c= +1.8639
+      R^2 = 0.368261
+      R^2(theta ~ PC1 only) = 0.114641
+      R^2(theta ~ PC2 only) = 0.157526
+      R^2(theta ~ PC3 only) = 0.096094
+
+  [theta > 0 only] (45 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  -0.3088  +0.2357  +0.6914
+    r(      CPsi, PCk) |  -0.2429  +0.1741  +0.6383
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  -0.3207  +0.3115  +0.6723
+    rho(    CPsi, PCk) |  -0.3207  +0.3115  +0.6723
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= +3.8280  a2= +9.7560  a3= +8.8034  c=-16.9698
+      R^2 = 0.871578
+      R^2(theta ~ PC1 only) = 0.095343
+      R^2(theta ~ PC2 only) = 0.055572
+      R^2(theta ~ PC3 only) = 0.478051
+
+--- SB pair (theta>0 in 26 snapshots) ---
+  CPsi range: [0.0313, 0.2893]
+  theta range: [0.0 deg, 21.6 deg]
+
+  [All points] (501 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  +0.2384  +0.4218  -0.1316
+    r(      CPsi, PCk) |  +0.7069  +0.6095  +0.1149
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  +0.2478  +0.3076  -0.1165
+    rho(    CPsi, PCk) |  +0.7147  +0.5223  +0.0676
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= +0.3366  a2= +0.9521  a3= -0.4145  c= +0.7193
+      R^2 = 0.252023
+      R^2(theta ~ PC1 only) = 0.056815
+      R^2(theta ~ PC2 only) = 0.177880
+      R^2(theta ~ PC3 only) = 0.017327
+
+  [theta > 0 only] (26 points)
+
+    Pearson r:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    r(     theta, PCk) |  -0.7387  +0.7643  -0.1789
+    r(      CPsi, PCk) |  -0.7759  +0.7951  -0.1558
+
+    Spearman rho:
+                 |      PC1      PC2      PC3
+    -----------------------------------------------
+    rho(   theta, PCk) |  -0.7744  +0.7791  -0.0933
+    rho(    CPsi, PCk) |  -0.7744  +0.7791  -0.0933
+
+    Linear regression: theta = a1*PC1 + a2*PC2 + a3*PC3 + c
+      a1= -0.8105  a2= +1.3381  a3= -1.9635  c=+12.5780
+      R^2 = 0.700449
+      R^2(theta ~ PC1 only) = 0.545662
+      R^2(theta ~ PC2 only) = 0.584095
+      R^2(theta ~ PC3 only) = 0.031993
+
+======================================================================
+PHASE 3: MISSING DIMENSIONS
+======================================================================
+
+  Best pair for theta analysis: SA (45 quantum-regime points)
+  |r(theta_SA, PC1)| = 0.3088  (PC1: 56.6% var)
+  |r(theta_SA, PC2)| = 0.2357  (PC2: 22.1% var)
+  |r(theta_SA, PC3)| = 0.6914  (PC3: 11.4% var)
+
+  theta aligns most with PC3 (|r|=0.6914)
+  Missing dimensions for complete 3D coordinate:
+    PC1 (56.6% variance)
+    PC2 (22.1% variance)
+
+  theta is a 1D scalar. The manifold is 4D (for 95% var).
+  theta covers at most 1 direction. The other 3 are invisible to theta.
+
+======================================================================
+PHASE 4: CONNECTION TO theta-FIDELITY r=0.87
+======================================================================
+
+  Reference: THETA_PALINDROME_ECHO measured r(theta_SB, F_channel) = 0.87
+  for the SB pair in channel mode. r^2 = 0.757, unexplained = 24.3%.
+
+  theta-PC(3D) regression (quantum regime): R^2 = 0.8716
+  R^2(theta ~ PC1): 0.0953
+  R^2(theta ~ PC2): 0.0556
+  R^2(theta ~ PC3): 0.4781
+
+  theta is not well-described by any single PC.
+  The fidelity gap has a more complex origin.
+
+======================================================================
+NONLINEAR ANALYSIS
+======================================================================
+
+  theta vs sqrt(PC2^2 + PC3^2): r=+0.2527, R^2=0.0639
+  theta ~ PC1 + PC1^2 (quadratic): R^2 = 0.1976
+  theta ~ PC2 + PC2^2 (quadratic): R^2 = 0.1932
+  theta ~ PC3 + PC3^2 (quadratic): R^2 = 0.4882
+
+======================================================================
+CAVEATS
+======================================================================
+
+  1. CPsi definition: This analysis uses CPsi = Purity x Psi-norm
+     (the R=CPsi^2 definition). The cartography used
+     Concurrence x Psi-norm for peak detection. These differ
+     for mixed states.
+
+  2. PCA basis: Computed on full trajectory (501 snapshots),
+     not just the 9 peak windows from the cartography.
+     Loadings may differ from the cartography PCA.
+
+  3. Topology: Star (N=3) with asymmetric coupling (J_SB=2*J_SA).
+     Results may not transfer to other topologies.
+
+  4. Correlation != causation. Co-variation along a decoherence
+     trajectory does not imply a functional relationship.
+
+======================================================================
+ANALYSIS COMPLETE
+======================================================================
