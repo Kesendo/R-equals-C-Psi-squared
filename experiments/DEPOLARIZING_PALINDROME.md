@@ -15,6 +15,28 @@ linear N, open quantum system noise classification, R=CPsi2 depolarizing palindr
 
 ---
 
+## What this document is about
+
+The palindromic mirror works perfectly when noise attacks along one
+or two axes. But what if the noise comes from every direction at once?
+This is called depolarizing noise, and it breaks the palindrome.
+
+The reason is surprisingly simple. The mirror Π works by swapping two
+halves of the quantum world: the part that survives noise and the part
+that decays. Under normal dephasing, these two halves are equal in
+size (two surviving operators, two decaying ones at each qubit). Under
+depolarizing noise, only one operator survives and three decay: 1 versus 3.
+You cannot build a mirror between one thing and three things, for the
+same reason you cannot pair up five people for a dance when there are
+only two chairs.
+
+This is not just a technical limitation. In the time-reversal language
+of [Π as Time Reversal](PI_AS_TIME_REVERSAL.md), it means the future
+is exponentially larger than the past. There are overwhelmingly more
+ways to be undecided than decided.
+
+---
+
 ## Abstract
 
 The palindromic Liouvillian symmetry holds for Z-dephasing, X-dephasing,
@@ -24,7 +46,7 @@ Z-dephasing splits the four Pauli indices {I, X, Y, Z} into 2 immune and
 2 decaying (a balanced 2:2 split). Depolarizing noise splits them 1:3 (only I
 is immune). A bijective mirror Π requires equal numbers of immune and decaying
 indices at each site. With a 1:3 split, no such bijection exists. The palindrome
-error under depolarizing noise is exactly γ × 2(N−2)/3, Hamiltonian-independent
+error under depolarizing noise is exactly (2/3)Nγ = (2/3)Σγ, Hamiltonian-independent
 and linear in both γ and N. For typical hardware dephasing rates (γ ∼ 0.001),
 this is < 0.1%. The general condition: the palindrome holds if and only if at
 least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes).
@@ -55,7 +77,8 @@ Depolarizing noise splits them 1:3. You cannot build a bijection between
 
 Each type of noise assigns a dephasing rate to each Pauli index at a
 single qubit site. The rate depends on whether the Pauli operator commutes
-or anti-commutes with the jump operators:
+or anti-commutes with the jump operators (the mathematical objects
+that describe how the environment disturbs each qubit):
 
 | Pauli | Z-deph | X-deph | Y-deph | Depol | Z+X | Z+Y | X+Y |
 |---|---|---|---|---|---|---|---|
@@ -167,7 +190,12 @@ This is a topological fact, not a quantitative one. The split is either
 
 ## 6. The Counting Argument: Why the Future is Bigger Than the Past
 
-The deepest way to see the obstruction is through counting.
+The deepest way to see the obstruction is through counting. The idea:
+at each qubit site, you choose either an "immune" or a "decaying"
+Pauli operator. The total number of strings of each type depends on
+how many immune vs decaying choices you have per site. If the numbers
+are equal (2 and 2), the sectors balance perfectly. If not (1 and 3),
+the imbalance grows exponentially with the number of qubits.
 
 Under Z-dephasing, XY-weight w (how many sites carry X or Y) classifies
 the Pauli strings. Weight w has C(N,w) 2^w 2^(N-w) = C(N,w) 2^N strings.
@@ -231,6 +259,9 @@ arrow of time is not merely present. It is overwhelming.
 ---
 
 ## 8. The Theorem
+
+Everything above condenses into one precise statement. The palindrome
+lives or dies based on a single condition about the noise:
 
 **Theorem (Palindromic noise condition).** For N qubits with Heisenberg
 coupling on any graph, the Liouvillian palindrome holds under dephasing
