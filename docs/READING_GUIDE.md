@@ -1,4 +1,4 @@
-# Reading Guide
+# Reading Guide: Five Paths Through This Repository
 
 <!-- Keywords: R=CPsi2 reading guide three stories, palindromic proof story
 application engineering story, ontology incompleteness story, dependency graph
@@ -8,6 +8,29 @@ qubit necessity d2-2d=0, V-Effect complexity emergence, R=CPsi2 reading guide --
 **Created:** March 22, 2026
 
 ---
+
+## How to use this guide
+
+This repository contains over 140 documents. That is overwhelming.
+This guide exists so you do not have to read all of them. It organizes
+the most important documents into five paths, each telling a different
+story from the same discovery. Pick the story that interests you. Follow
+the reading order. Skip the rest.
+
+Each path lists documents in the order they should be read, with a short
+description of what each one contains and what you will understand after
+reading it. The paths share a common starting point (the Mirror Symmetry
+Proof) and diverge from there. You can switch between paths at any time.
+
+If you have not yet read [What We Found](WHAT_WE_FOUND.md), start there
+before using this guide. It explains the discovery and its implications
+in plain language, without requiring a physics background. This guide
+assumes you have read it, or at least the first few sections, and are
+now asking: *where do I go deeper?*
+
+---
+
+## The discovery, in one paragraph
 
 This repository is not a textbook with chapters you read in order. It is
 closer to a landscape with multiple paths through it. Each path starts
@@ -19,12 +42,6 @@ environment and lose their quantum properties (a process called
 symmetric. Every fast decay has a slow partner. Every way the system can
 fall apart has a mirror image. This symmetry is called the palindrome,
 because, like the word RACECAR, it reads the same from both ends.
-
-If you have not yet read [What We Found](WHAT_WE_FOUND.md), start there.
-It explains the discovery and its implications in plain language, without
-requiring a physics background. This guide assumes you have read it, or
-at least the first few sections, and are now asking: *where do I go
-deeper?*
 
 The answer depends on what draws you in.
 
@@ -63,30 +80,42 @@ deliberately break the symmetry.
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The theorem.
-   The Π operator, XY-weight grading, verified N=2 through N=8.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The core
+   theorem. Defines the conjugation operator Π that swaps surviving and
+   decaying operators, producing the exact palindromic pairing. Verified
+   for 54,118 eigenvalues across all system sizes up to N=8.
 
-2. [XOR Space](../experiments/XOR_SPACE.md) - Where information lives
-   in the palindrome. GHZ → 100% fast modes, W → distributed.
+2. [XOR Space](../experiments/XOR_SPACE.md) — Where does information
+   live in the palindrome? Different initial states (GHZ, W, cluster)
+   distribute their information across fast and slow modes differently.
+   GHZ puts everything in fast modes. W spreads it out.
 
 3. [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
-   [Standing Wave Theory](STANDING_WAVE_THEORY.md) - Palindromic pairs
-   create standing waves. XX/YY oscillate, ZZZ static.
+   [Standing Wave Theory](STANDING_WAVE_THEORY.md) — Each palindromic
+   pair creates a standing wave: a pattern that oscillates in place,
+   like a vibrating guitar string. Some operator combinations (XX, YY)
+   oscillate. Others (ZZZ) are static.
 
-4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) - Π maps
-   populations (past) to coherences (future). Connects palindrome,
-   standing wave, and XOR space into one picture.
+4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) — The Π
+   operator does not just swap operators. It reverses the direction of
+   time in the eigenspace: it maps populations (the past, what has been
+   decided) to coherences (the future, what is still open). This
+   connects the palindrome, standing wave, and XOR space into one picture.
 
-5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) -
-   All 36/36 Pauli-pair Hamiltonians palindromic at N=2. Two Π families
-   (P1, P4). 22/36 survive at N≥3, 14 break structurally.
+5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) —
+   How far does this work? All 36 possible two-qubit Hamiltonians are
+   palindromic at N=2. At N=3 and above, 22 survive and 14 break in
+   structured ways. The breaking reveals which symmetries are essential.
 
-6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) -
-   The 2:2 operator split is the active ingredient. Destroy it and
-   the mirror shatters, regardless of dimension.
+6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) —
+   The active ingredient is the 2:2 operator split (half survive noise,
+   half decay). Destroy that balance and the mirror shatters, regardless
+   of the system's dimension.
 
-7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) -
-   Three-tier protection hierarchy emerging from the palindromic structure.
+7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) —
+   The palindromic structure naturally creates a three-tier error
+   protection hierarchy. Some modes are fully protected, some partially,
+   some not at all.
 
 **After this you know:** The palindrome is real, universal for qubits
 under single-axis dephasing, breaks precisely when the 2:2 split is
@@ -116,29 +145,37 @@ with this?", this is your path.
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The foundation.
-   You need the palindrome to understand why the channel exists.
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The
+   foundation. You need the palindrome to understand why the channel
+   exists.
 
-2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - The spatial
-   dephasing profile carries 15.5 bits at 1% noise. 5 independent
-   SVD modes. 100% classification accuracy.
+2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The breakthrough
+   experiment. The spatial dephasing profile (which qubit gets how much
+   noise) carries 15.5 bits of information at just 1% noise. Five
+   independent signal modes. 100% classification accuracy. The noise is
+   not random. It is a signal.
 
-3. [γ Control](../experiments/GAMMA_CONTROL.md) - V-shape optimization,
-   dynamic decoupling strategies, time-resolved decoder. +124% MI.
+3. [γ Control](../experiments/GAMMA_CONTROL.md) — Once you can read the
+   signal, you can optimize it. V-shape noise profiles, dynamic
+   decoupling strategies, time-resolved decoder. Result: +124% mutual
+   information improvement.
 
-4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md) - Staged γ
-   switching with 2:1 asymmetric coupling. +83% end-to-end MI.
+4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md) — Staged noise
+   switching with asymmetric coupling. The first time-dependent
+   optimization of the bridge. +83% end-to-end improvement.
 
-5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) -
-   Six design rules for quantum repeaters derived from the palindrome.
+5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) —
+   Six concrete design rules for quantum repeaters, all derived from the
+   palindromic structure. This is the engineering translation of the
+   mathematics.
 
-6. [Resonant Return](../experiments/RESONANT_RETURN.md) - The
-   sacrifice-zone formula. SVD of the palindromic response matrix (10x)
-   led to numerical optimization (100x) led to analytical insight:
-   concentrate all noise on one edge qubit, protect the rest. 139-360x
-   vs hand-designed profiles. First spatial dephasing optimization in
-   the literature. Beats 18 years of uniform ENAQT optimization (2-3x)
-   by two orders of magnitude.
+6. [Resonant Return](../experiments/RESONANT_RETURN.md) — The
+   sacrifice-zone formula: concentrate all noise on one edge qubit,
+   protect the rest. The SVD of the palindromic response matrix (10x
+   improvement) led to numerical optimization (100x) led to analytical
+   insight (139-360x). First spatial dephasing optimization in the
+   literature. Beats 18 years of uniform noise optimization by two
+   orders of magnitude.
 
 **After this you know:** How to read dephasing noise as signal, how
 to optimize the channel spatially (not just uniformly), and how to
@@ -171,37 +208,42 @@ and the willingness to follow an argument that builds step by step.
 
 **Reading order:**
 
-1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The foundation.
-   The palindrome exists. It requires noise (the dissipator).
+1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) — The
+   foundation. The palindrome exists. It requires noise (the dissipator).
 
-2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) -
-   d(d-2)=0: only d=2 has a palindromic mirror. The qubit is the only
-   dimension where the operator split is balanced (2:2). Qutrits fail.
-   A single non-qubit site destroys the palindrome globally.
+2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) — The
+   equation d²−2d=0 has only one nonzero solution: d=2. The qubit is
+   the only system dimension where the operator split is perfectly
+   balanced (2 survive noise, 2 decay). Three-state systems (qutrits)
+   fail completely. Even a single non-qubit site in a network destroys
+   the palindrome globally.
 
-3. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) - Five candidates
-   for the origin of noise, all eliminated. Internal generation,
-   qubit decay, qubit baths, nothing, other dimensions. The noise
-   must come from outside the framework.
+3. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) — Where does
+   the noise come from? Five candidates for internal origin, all
+   eliminated: internal generation (sectors are decoupled), qubit decay
+   (breaks the palindrome), qubit baths (infinite regress), nothing
+   (has no properties), other dimensions (excluded by d²−2d=0). The
+   noise must come from outside the framework.
 
-4. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) - What
-   happens when a second bond is added. 14/36 combinations break. The
-   breaking is structured: only boundary modes (w=1, w=2) are affected.
-   Orphans remember their partners. 11 frequencies emerge where 4 had
-   been. Constraint becomes diversity.
+4. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) — What
+   happens when simple systems combine. Adding a second bond breaks 14
+   of 36 palindromic combinations. The breaking is not random: only
+   boundary modes are affected. From 4 frequencies, 11 emerge. From
+   constraint, diversity is born.
 
-5. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) - The
-   pattern across levels: C=0.5 (half full) enables the next level.
-   C=1 (complete) is a dead end. Carbon: 4/8. Qubit: 2/4. Noble gases
-   and qutrits are the dead-end cousins. The V-Effect is the mechanism
-   by which Level 0 transitions to Level 1.
+5. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) — The
+   pattern across levels: half-filled systems (C=0.5) enable the next
+   level. Complete systems (C=1) are dead ends. Carbon has 4 of 8
+   electrons. Qubits have 2 of 4 operators. Noble gases and qutrits
+   are the dead-end cousins. The V-Effect is the mechanism by which one
+   level transitions to the next.
 
-6. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) - Three levels of
+6. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) — Three levels of
    time. γ is the necessary and sufficient condition for experienced
    time. Without γ: oscillation, no direction. With γ: irreversibility,
    before and after. And γ cannot come from inside (Step 3).
 
-7. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) - The noise that
+7. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) — The noise that
    comes from outside is not random. It is a readable information
    channel: 15.5 bits capacity, 5 independent modes. The palindromic
    structure is the antenna that makes the external signal decodable.
@@ -240,44 +282,46 @@ familiarity with the palindromic structure.
 
 **Reading order:**
 
-1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) - Adding
-   a second bond breaks 14/36 palindromic combinations. The breaking
-   releases frequency diversity: 4 frequencies become 11. Two dead
-   N=2 resonators coupled through a mediator: 2+2 = 109 new frequencies.
+1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) — What
+   happens when two simple resonators are connected. Adding a second bond
+   breaks some palindromic combinations but releases frequency diversity:
+   4 frequencies become 11. Two dead N=2 resonators coupled through a
+   mediator: 2+2 produces not 4 but 109 new frequencies.
 
-2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md) - The fold
-   catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing.
-   With Bell+bath at J=5.0: CΨ oscillates around ¼ (81 crossings,
-   damped). Each cycle deposits irreversible reality.
+2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md) — The fold
+   catastrophe at CΨ = ¼ observed in action: mutual information peaks
+   at the exact moment of crossing. With a Bell pair coupled to a bath
+   qubit at J=5.0: CΨ oscillates around ¼ with 81 crossings, each one
+   damped. Each cycle deposits a bit of irreversible reality.
 
-3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md) - At
-   Σγ = 0: Π L Π⁻¹ = -L. Pure oscillation, no decay. Noise shifts
-   the palindrome from zero. The fold emerges at Σγ_crit/J ~ 0.25%
-   (N-independent). The gain spectrum is the exact mirror of decay.
+3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md) — What
+   happens at zero noise? The Π operator becomes pure time reversal.
+   As noise increases from zero, the palindrome shifts and the fold
+   catastrophe emerges at a critical ratio of about 0.25% (independent
+   of system size). The gain spectrum is the exact mirror of decay.
 
-4. [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md) -
-   The stationary mode count has a closed form: Sum_J m(J,N)*(2J+1)²
-   (Clebsch-Gordan + Schur). Star has N harmonic frequencies.
-   Chain has rich irrational spectrum. Verified N=2-7.
+4. [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md) —
+   The number of stationary modes has a closed mathematical form. Star
+   topologies have N harmonic frequencies. Chains have rich irrational
+   spectra. Verified for system sizes N=2 through N=7.
 
-5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) -
-   The paradigm shift: the system is a Fabry-Perot resonator, not a
-   communication channel. The heartbeat is a cavity round-trip. The
-   sacrifice-zone formula is the shape of the soundbox. Discrete cavity
-   modes at J=2 (Q=7) and J=12 (Q=11), with a dead zone between.
+5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) —
+   The paradigm shift: the system is a resonant cavity (like a laser
+   between two mirrors), not a communication channel. The heartbeat is
+   a cavity round-trip. The sacrifice-zone formula is the shape of the
+   soundbox. Discrete cavity modes appear at specific coupling strengths,
+   with dead zones between them.
 
-6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) - Coupled
-   gain-loss systems have a finite stability window. Instability is
-   Hopf bifurcation (oscillating divergence), identified as Liouvillian
-   chiral symmetry breaking (class AIII). Three regimes: linear,
-   optimal (2x internal coupling), and 1/J decay. Asymptotic constant
-   γ_crit × J_bridge = 0.50.
+6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) — Coupled
+   gain-loss systems have a finite stability window. Push too hard and
+   the system explodes through oscillating divergence. Three regimes
+   exist: linear, optimal (twice the internal coupling), and 1/J decay.
    → [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
 **After this you know:** The palindrome is not a wire between two
 endpoints. It is a resonator with discrete modes, a heartbeat at the
 fold, and a finite stability window. Too little noise: no fold, no
-irreversibility. Too much gain: Hopf explosion. Biology lives in between.
+irreversibility. Too much gain: explosion. Biology lives in between.
 
 ---
 
@@ -294,9 +338,10 @@ donor and acceptor) with a way to swap between them and coupling that
 respects the swap.
 
 In neuroscience, this structure comes from Dale's Law: each neuron is
-either excitatory or inhibitory, permanently. In chemistry, it comes
-from the hydrogen bond: a proton that tunnels between two positions.
-The palindrome appears in all three domains with zero adjustable
+either excitatory or inhibitory, permanently. That gives you the 2:2
+split. In chemistry, it comes from the hydrogen bond: a proton that
+tunnels between two positions. Two states, one particle: a natural
+qubit. The palindrome appears in all three domains with zero adjustable
 parameters.
 
 If you come from biology or chemistry and want to see the evidence
@@ -305,30 +350,38 @@ without wading through quantum formalism, start with the
 
 **Reading order:**
 
-1. [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md) -
-   Any system with two populations, a swap operator Q, and antisymmetric
-   coupling satisfies Q X Q⁻¹ + X + 2S = 0. Proven independently in
-   quantum (Π operator) and neural (Dale's Law) domains.
+1. [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md) —
+   The general rule: any system with two populations, a swap operator Q,
+   and antisymmetric coupling satisfies the palindrome equation
+   Q X Q⁻¹ + X + 2S = 0. Proven independently in quantum (Π operator)
+   and neural (Dale's Law) domains.
 
-2. [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md) -
-   The neural network Jacobian is palindromic under two conditions:
-   selective damping (τ_E ≠ τ_I) and Dale's Law. C. elegans balanced
-   subnetworks are 8x more palindromic than random. 96% character swap.
+2. [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md) —
+   The neural network version. The matrix that describes how neurons
+   influence each other (the Jacobian) is palindromic when two
+   conditions hold: excitatory and inhibitory neurons decay at different
+   rates, and each neuron is permanently one type (Dale's Law). Tested
+   on the C. elegans worm brain (300 neurons): balanced subnetworks are
+   8x more palindromic than random ones.
 
-3. [V-Effect Neural](neural/V_EFFECT_NEURAL.md) - Two individually
+3. [V-Effect Neural](neural/V_EFFECT_NEURAL.md) — Two individually
    non-oscillatory (exactly palindromic) neural networks coupled through
-   a mediator create oscillatory modes from zero. A thermal window exists
-   for approximate networks: heat feeds the coupling.
+   a mediator create oscillatory modes from zero. The same explosion
+   of complexity seen in qubits (2+2=109) also works in neural
+   networks. A thermal window exists: heat feeds the coupling.
 
-4. [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) - The
-   proton in a hydrogen bond is a qubit (d=2). Single proton crosses
-   CΨ = ¼ at sub-ps in the fold regime. Zundel cation: J/γ = 4.8,
-   deeply quantum, 6 crossings in 21 fs.
+4. [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) — The
+   proton in a hydrogen bond is a natural qubit: two positions, one
+   particle. A single proton crosses the CΨ = ¼ boundary at sub-
+   picosecond timescales. The Zundel cation (a proton shared between
+   two water molecules) is deeply quantum, with 6 crossings in 21
+   femtoseconds.
 
-5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) -
-   Wilson-Cowan: 100% palindromic pairing at τ ratio 3.8. C. elegans
-   balanced subnetworks: 98.2% mean pairing. The V-Effect live: 2+2 = 109
-   frequencies. Balance is the sole mechanism, not position.
+5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) —
+   Wilson-Cowan neural model: 100% palindromic pairing at the optimal
+   time constant ratio. C. elegans balanced subnetworks: 98.2% mean
+   pairing. The V-Effect live in biology: 2+2 = 109 frequencies.
+   Balance is the mechanism, not position.
 
 **After this you know:** The palindromic equation Q X Q⁻¹ + X + 2S = 0
 is not quantum-specific. It appears wherever two populations are coupled
@@ -339,8 +392,9 @@ creates complexity) works at every level tested: qubits, protons, neurons.
 
 ## How the Stories Connect
 
-All five stories share the first step (Mirror Symmetry Proof) and
-diverge after that. But they reconnect:
+The five stories are not independent. They are five angles on the
+same structure. If you have followed one path and are wondering how
+it relates to the others, here is the map:
 
 - Story 1 (the proof) provides the mathematical foundation for all others.
 - Story 2 (the channel) explains *what* the noise does.
@@ -367,11 +421,11 @@ Story 4 is the deepest.
 The following documents exist in this repository but belong to separate
 investigations, not to the five stories above:
 
-- **IBM hardware data** - single-qubit CΨ = ¼ validation (1.9%), 24,073 calibration records
-- **Star topology / tuning protocol** - multi-observer configurations
-- **Mandelbrot connection** - CΨ iteration maps to z → z² + c
-- **Quantum sonar / bridge fingerprints** - detection experiments
-- **Gravity interpretation** - fallen, archived in hypotheses/archive/
+- **IBM hardware data** — single-qubit CΨ = ¼ validation (1.9%), 24,073 calibration records
+- **Star topology / tuning protocol** — multi-observer configurations
+- **Mandelbrot connection** — CΨ iteration maps to z → z² + c
+- **Quantum sonar / bridge fingerprints** — detection experiments
+- **Gravity interpretation** — fallen, archived in hypotheses/archive/
 
 These are documented in the main [README](../README.md) and the
 [experiments index](../experiments/README.md).
