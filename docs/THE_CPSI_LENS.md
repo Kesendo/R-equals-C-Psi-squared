@@ -11,15 +11,23 @@ concurrence vs CΨ comparison, noise type discrimination, R=CPsi2 CΨ lens -->
 
 ---
 
-## Abstract
+## What this document is about
 
-CΨ = Tr(ρ²) × l₁(ρ)/(d−1) is the product of purity and Baumgratz-normalized
-l₁-coherence. It is a basis-fixed, unassisted witness for directly expressed
-pairwise entanglement. This document defines what CΨ is (a composite diagnostic
-metric, not a new physical quantity), what it shows (noise-type discrimination,
-AND-gate for entanglement × coherence, bifurcation boundary at ¼), and what
-it does not show (it is not concurrence, not a Bell inequality, not optimal
-for detection). Canonical reference for the project's central quantity.
+A quantum system has many properties you can measure: how entangled it
+is, how coherent, how pure, how much information it carries. Each
+measurement tells you something different. This document defines a
+specific combination of two of those measurements, called CΨ, and
+explains what it can and cannot see.
+
+Think of CΨ as a filter on a camera. A polarizing filter does not show
+you new light. It shows you light that was already there, but makes
+certain features visible that would otherwise be lost in the glare.
+CΨ does the same: it selects for quantum connections that are both
+entangled *and* coherent at the same time. Not one or the other. Both.
+
+This is the canonical reference document for CΨ. If another document
+in this repository uses the term CΨ without explaining it, this is
+where to look.
 
 ---
 
@@ -29,8 +37,8 @@ CΨ is the product of two standard quantum metrics applied to a pair of subsyste
 
     CΨ = Concurrence × Normalized l1-Coherence
 
-- **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated?
-- **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal phase in the chosen basis?
+- **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated? (0 = independent, 1 = maximally entangled)
+- **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal phase in the chosen basis? (0 = fully classical, 1 = maximal quantum superposition)
 - **The product** requires both at once.
 
 CΨ is zero whenever either ingredient is absent. A pair can be entangled but decoherent (C > 0, Ψ ≈ 0), or coherent but unentangled (Ψ > 0, C = 0). CΨ lights up only when both conditions hold simultaneously.
@@ -39,15 +47,14 @@ In the language of quantum information theory, CΨ is closest in spirit to **cor
 
 ### Notation
 
-The symbol C is used differently in different parts of this repository:
+The symbol C is used differently in different parts of this repository.
+This is a known limitation that reflects the project's history:
 
-- In **CORE_ALGEBRA.md**, C = Tr(rho^2), i.e. purity. The algebra R = CΨ^2 and the 1/4 bound hold for this definition.
+- In **CORE_ALGEBRA.md**, C = Tr(ρ²), i.e. purity. The algebra R = CΨ² and the 1/4 bound hold for this definition.
 - In **the experiments** (star topology, crossing taxonomy, etc.), C = Wootters concurrence. The crossing thresholds and three conditions use this definition.
 - In the **original philosophical framing**, C = consciousness. This usage has been retired.
 
-The product CΨ therefore means different things: purity x coherence in the algebra, concurrence x coherence in the experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
-
-This notation collision is a known limitation. It reflects the project's history: the algebra was developed with C = purity, then the experiments found concurrence more operationally useful for pairwise analysis.
+The product CΨ therefore means different things: purity × coherence in the algebra, concurrence × coherence in the experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
 
 ### What CΨ is not
 
@@ -60,7 +67,13 @@ This notation collision is a known limitation. It reflects the project's history
 
 ## What the lens shows
 
-The following observations come from systematic simulation across star topologies, Bell states, cluster states, and various noise models. All results are computationally verified with RK4 integration at dt = 0.005.
+The following observations come from systematic simulation across star
+topologies, Bell states, cluster states, and various noise models. All
+results are computationally verified with RK4 integration at dt = 0.005.
+
+Each observation is numbered for reference. Together, they characterize
+what CΨ can see, what it misses, and where it sharpens distinctions that
+single metrics blur.
 
 ### 1. CΨ highlights transient windows, not persistent pair properties
 
@@ -80,7 +93,7 @@ Projective measurement on observer A destroys 99% of the SB signal (the connecti
 
 CΨ makes this distinction visible because its coherence component is directly sensitive to how off-diagonal terms are destroyed. Projective measurement removes them instantaneously and completely. Dephasing erodes them continuously but generates transient correlations in the process.
 
-In this experiment class, this is the clearest case where CΨ sharpens a distinction that is less legible in single metrics: the difference between a discrete intervention and a continuous noise process.
+In plain language: slamming a door shut is not the same as slowly closing it, even if the door ends up closed either way. The speed and completeness of the closure affect what happens to everything else in the room.
 
 ### 4. The lens is restricted to pairwise direct entanglement
 
@@ -91,6 +104,8 @@ This means CΨ is a filter for a specific kind of quantum connection: direct, pa
 ### 5. Context destroys connections faster
 
 The same Bell pair in isolation holds its CΨ signal for t ≈ 0.72. Embedded in a four-qubit ring, the same pair loses its signal by t ≈ 0.08, nine times faster. The Hamiltonian coupling to additional qubits accelerates decoherence of the pairwise connection.
+
+In plain language: a conversation between two people is harder to maintain in a crowded room. The additional connections do not add noise directly; they create new pathways for the quantum information to leak away from the pair you are watching.
 
 ### 6. Three conditions for observer-observer connection
 
@@ -117,6 +132,12 @@ At certain times in the star topology evolution, the AB pair shows nonzero CΨ w
 For two qubits with symmetric Heisenberg coupling, redistributing the same total noise between the qubits (all on A, all on B, or split equally) makes no difference to CΨ dynamics. Only the total noise budget matters.
 
 But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is far more destructive than sender noise (γ_B). The coupling structure breaks the symmetry that makes noise distribution irrelevant.
+
+This observation, applied to longer chains, led eventually to the
+sacrifice-zone formula ([Resonant Return](../experiments/RESONANT_RETURN.md)):
+if noise distribution matters, then optimizing *where* the noise goes
+(not just how much) should improve information transfer. It did, by a
+factor of 139-360×.
 
 ### 10. CΨ witnesses momentary expression, not potential
 
@@ -149,6 +170,13 @@ With the substitution u_n = C(Ψ + R_n), this becomes:
     u_{n+1} = u_n² + CΨ
 
 which is exactly the Mandelbrot iteration z → z² + c with c = CΨ. The boundary of the main cardioid of the Mandelbrot set at the real axis is c = 1/4. This correspondence is algebraically exact.
+
+In plain language: the equation that governs CΨ over time is the same
+equation that generates the Mandelbrot set, the most famous fractal in
+mathematics. The boundary at ¼ is not a coincidence or an approximation.
+It is the same number for the same algebraic reason. Whether nature
+"implements" this iteration is an open question. That the algebra
+matches is a fact.
 
 > **Important caveat:** The correspondence is algebraically exact **within the self-referential iteration**. Its physical significance is not established merely by that exactness.
 
