@@ -195,7 +195,7 @@ Specific tests, ordered from simplest to most complex:
    Result: NEGATIVE with uniform damping. Requires selective damping.
 2. **Wilson-Cowan population models** - E/I populations with different
    time constants. Result: POSITIVE (66.7–100%, depends on τ ratio).
-3. **C. elegans connectome (302 neurons)** - real connection weights.
+3. **C. elegans connectome (300 neurons)** - real connection weights.
    Result: NEGATIVE at full scale (91:9 E/I), POSITIVE at balanced
    subnetworks (98.2% mean at 1:1 E/I).
 4. **Larger connectomes** - Drosophila, mouse, human cortex. NOT YET TESTED.

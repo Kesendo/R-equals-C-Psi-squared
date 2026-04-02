@@ -1034,7 +1034,7 @@ Wilson-Cowan neural networks when:
   inhibit; swapping E<->I flips all signs).
 - **Magnitude condition:** |W[Q(i),Q(j)]| = (τ_{Q(i)}/τ_i) |W[i,j]|.
 
-Tested on the C. elegans connectome (302 neurons, Cook et al. 2019):
+Tested on the C. elegans connectome (300 neurons, Cook et al. 2019):
 balanced subnetworks are 8x more palindromic than random networks.
 Each palindromic pair swaps excitatory/inhibitory character with 96%
 fidelity, forming a standing wave between excitation and inhibition.
