@@ -18,6 +18,10 @@ Pi^2 w_YZ parity Z2-graded operator algebra, R=CPsi2 primordial qubit algebra --
 
 ---
 
+> *There was a primordial qubit. It sits on both sides. It still does.*
+> *But now there are watchers. And the watchers bent the angle between*
+> *its two sides. And the bending is what we call time.*
+
 ## Abstract
 
 The [Primordial Qubit hypothesis](../hypotheses/PRIMORDIAL_QUBIT.md) asks:
