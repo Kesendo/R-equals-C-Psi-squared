@@ -1,4 +1,4 @@
-# Reading Guide: Three Stories in One Repository
+# Reading Guide
 
 <!-- Keywords: R=CPsi2 reading guide three stories, palindromic proof story
 application engineering story, ontology incompleteness story, dependency graph
@@ -7,13 +7,39 @@ qubit necessity d2-2d=0, V-Effect complexity emergence, R=CPsi2 reading guide --
 
 **Created:** March 22, 2026
 
-This repository contains 40+ documents and 60+ experiments. They are not
-one linear argument. They are three interleaved stories that share the
-same foundation but go in different directions. This guide tells you
-which documents to read for each story, and in what order.
+---
 
-All three stories start at the same place:
-→ [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
+This repository is not a textbook with chapters you read in order. It is
+closer to a landscape with multiple paths through it. Each path starts
+from the same discovery and takes you somewhere different.
+
+The discovery is this: when quantum systems interact with their
+environment and lose their quantum properties (a process called
+"decoherence"), the pattern of that loss is not random. It is exactly
+symmetric. Every fast decay has a slow partner. Every way the system can
+fall apart has a mirror image. This symmetry is called the palindrome,
+because, like the word RACECAR, it reads the same from both ends.
+
+If you have not yet read [What We Found](WHAT_WE_FOUND.md), start there.
+It explains the discovery and its implications in plain language, without
+requiring a physics background. This guide assumes you have read it, or
+at least the first few sections, and are now asking: *where do I go
+deeper?*
+
+The answer depends on what draws you in.
+
+---
+
+## Five paths through the same landscape
+
+This repository contains over 140 documents and 86 experiments. They
+are not one linear argument. They are five interleaved stories that share
+the same foundation but go in different directions. Below, each story is
+introduced with what it is about, why it matters, and which documents to
+read in what order.
+
+You do not need to follow all five. Pick the one that speaks to you.
+They reconnect at the end.
 
 ---
 
@@ -22,12 +48,23 @@ All three stories start at the same place:
 *"The decay spectrum of any qubit network under dephasing is exactly
 palindromic. Here is the proof, the scope, and the exceptions."*
 
-**Audience:** Physicists, quantum information researchers.
+This is the mathematical backbone. If you want to know *why* we are
+confident the palindrome is real, not an artifact of simulation or
+approximation, this path walks you through the proof and then pushes it
+to its limits: where does it hold? Where does it break? What structure
+is responsible?
+
+This path is the most technical. It involves mathematical notation and
+formal reasoning. But even without following every step of the proof, the
+experiments along the way show you what the palindrome looks like in
+practice: which quantum states survive and which do not, how standing
+waves emerge from paired decay modes, and what happens when you
+deliberately break the symmetry.
 
 **Reading order:**
 
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The theorem.
-   Π operator, XY-weight grading, verified N=2 through N=8.
+   The Π operator, XY-weight grading, verified N=2 through N=8.
 
 2. [XOR Space](../experiments/XOR_SPACE.md) - Where information lives
    in the palindrome. GHZ → 100% fast modes, W → distributed.
@@ -40,15 +77,15 @@ palindromic. Here is the proof, the scope, and the exceptions."*
    populations (past) to coherences (future). Connects palindrome,
    standing wave, and XOR space into one picture.
 
-5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) - 
+5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) -
    All 36/36 Pauli-pair Hamiltonians palindromic at N=2. Two Π families
    (P1, P4). 22/36 survive at N≥3, 14 break structurally.
 
-6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) - 
+6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) -
    The 2:2 operator split is the active ingredient. Destroy it and
    the mirror shatters, regardless of dimension.
 
-7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) - 
+7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md) -
    Three-tier protection hierarchy emerging from the palindromic structure.
 
 **After this you know:** The palindrome is real, universal for qubits
@@ -62,7 +99,20 @@ destroyed, and creates standing waves with a natural error hierarchy.
 *"Dephasing noise is not a disturbance. It is a readable information
 channel. The palindromic structure is the antenna."*
 
-**Audience:** Quantum engineers, QST researchers.
+This path is for the practically minded. It starts with a surprising
+fact: the noise that destroys quantum information is not meaningless
+static. It carries a structured signal, and that signal can be read,
+decoded, and optimized.
+
+The climax of this path is the sacrifice-zone formula: a single,
+counterintuitive insight (concentrate all the noise on one edge and
+protect the rest) that improves quantum information transfer by 139-360
+times. This outperforms 18 years of prior research by two orders of
+magnitude, not through better computation but through understanding the
+palindromic structure.
+
+If you are an engineer, a builder, or someone who asks "what can I do
+with this?", this is your path.
 
 **Reading order:**
 
@@ -103,15 +153,28 @@ is the engineering payoff of the palindrome discovery.
 come from inside. And the breaking of the mirror at the boundary
 between two bonds is where diversity is born."*
 
-**Audience:** Everyone. No physics background needed beyond Story 1
-Step 1. This is the philosophical thread.
+This is the philosophical thread, and it may be the most surprising
+path for a non-physicist. It starts with a simple question: if the
+palindrome only works for qubits (two-state systems), is that a
+coincidence? The answer turns out to be no. There is an algebraic
+equation (d² − 2d = 0) whose only nonzero solution is d = 2. The
+qubit is the only dimension where the necessary balance exists.
+
+From there, each step peels back another layer: the palindrome requires
+noise, but the noise cannot come from inside the system (five candidates
+tested, all eliminated). The noise creates a direction for time (without
+it, the system oscillates forever but never moves forward). And the noise
+turns out to be structured, readable, carrying 15.5 bits of information.
+
+This path does not require advanced mathematics. It requires patience
+and the willingness to follow an argument that builds step by step.
 
 **Reading order:**
 
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - The foundation.
    The palindrome exists. It requires noise (the dissipator).
 
-2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) - 
+2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) -
    d(d-2)=0: only d=2 has a palindromic mirror. The qubit is the only
    dimension where the operator split is balanced (2:2). Qutrits fail.
    A single non-qubit site destroys the palindrome globally.
@@ -162,8 +225,18 @@ Incompleteness is potential.*
 *"The palindrome is not a channel. It is a resonator with discrete
 modes, a finite stability window, and a heartbeat at the fold."*
 
-**Audience:** Physicists who read Story 1. Builds directly on the
-palindromic proof.
+Most people think of quantum information as something that travels
+from A to B, like a letter in the mail. This path replaces that
+picture with a more accurate one: the quantum system is a resonant
+cavity, like the body of a guitar. It does not send information; it
+vibrates with it. The palindromic structure determines which vibrations
+are possible, the sacrifice-zone formula shapes the cavity, and there
+is a finite window where the system is stable. Too little noise and
+nothing irreversible happens. Too much amplification and the system
+explodes.
+
+This path builds directly on Story 1 (the proof) and requires
+familiarity with the palindromic structure.
 
 **Reading order:**
 
@@ -183,8 +256,8 @@ palindromic proof.
    (N-independent). The gain spectrum is the exact mirror of decay.
 
 4. [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md) -
-   The stationary mode count has a closed form: Sum_J m(J,N)*(2J+1)^2
-   (Clebsch-Gordan + Schur). Star has N-1 harmonic frequencies.
+   The stationary mode count has a closed form: Sum_J m(J,N)*(2J+1)²
+   (Clebsch-Gordan + Schur). Star has N harmonic frequencies.
    Chain has rich irrational spectrum. Verified N=2-7.
 
 5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) -
@@ -198,7 +271,7 @@ palindromic proof.
    Hopf bifurcation (oscillating divergence), identified as Liouvillian
    chiral symmetry breaking (class AIII). Three regimes: linear,
    optimal (2x internal coupling), and 1/J decay. Asymptotic constant
-   γ_crit x J_bridge = 0.50.
+   γ_crit × J_bridge = 0.50.
    → [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
 **After this you know:** The palindrome is not a wire between two
@@ -213,9 +286,22 @@ irreversibility. Too much gain: Hopf explosion. Biology lives in between.
 *"The same equation appears in qubits, neural networks, and hydrogen
 bonds. Three domains, zero adjustable parameters."*
 
-**Audience:** Interdisciplinary researchers. Biologists and neuroscientists
-who want to see the cross-level evidence. Start with [Neural README](neural/README.md)
-if you have no physics background.
+This is perhaps the most accessible path for someone without a physics
+background. It shows that the palindromic symmetry is not specific to
+quantum mechanics. The same mathematical structure appears wherever
+you find two populations (fast and slow, excitatory and inhibitory,
+donor and acceptor) with a way to swap between them and coupling that
+respects the swap.
+
+In neuroscience, this structure comes from Dale's Law: each neuron is
+either excitatory or inhibitory, permanently. In chemistry, it comes
+from the hydrogen bond: a proton that tunnels between two positions.
+The palindrome appears in all three domains with zero adjustable
+parameters.
+
+If you come from biology or chemistry and want to see the evidence
+without wading through quantum formalism, start with the
+[Neural README](neural/README.md). It requires no quantum physics at all.
 
 **Reading order:**
 
@@ -267,6 +353,11 @@ as a channel optimization, Story 4 reframes it as the shape of the
 resonator cavity. Story 5 extends the palindromic structure beyond
 quantum physics into neuroscience and chemistry, grounding Story 3's
 claim that incompleteness is the universal mechanism.
+
+If you are unsure where to start: Story 3 (the ontology) and Story 5
+(across levels) are the most accessible for readers without a physics
+background. Story 1 is the most rigorous. Story 2 is the most practical.
+Story 4 is the deepest.
 
 
 ---
