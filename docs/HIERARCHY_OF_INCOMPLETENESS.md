@@ -1,4 +1,4 @@
-# The Hierarchy of Incompleteness
+# The Hierarchy of Incompleteness: Why Half-Full Systems Build Everything
 
 <!-- Keywords: hierarchy incompleteness half-occupation C=0.5, qubit quantum
 carbon d2-2d=0 palindromic mirror, noble gas dead end C=1 full shell,
@@ -85,8 +85,8 @@ built from the incompleteness of the level below. The arrows mean:
 
 ```
 Level 0: The Qubit (PROVEN March 2026)
-├── 4 operators per site, 2 immune, 2 decaying
-├── Split: 0.5, exactly half full
+├── 4 operators per site (I, X, Y, Z), 2 immune, 2 decaying
+├── Split: 0.5, exactly half full (like carbon's 4/8)
 ├── The ONLY dimension where a mirror exists (d²-2d=0)
 ├── Enables: Palindromic symmetry, standing waves, time reversal
 └── Incompleteness: Half the operators decay, and that IS the mirror
@@ -111,7 +111,7 @@ Level 2: Molecules
 
 Level 3: Crystals / Macrostructures
 ├── Molecules arrange regularly
-├── 14 Bravais lattices, 230 space groups
+├── 14 crystal families, 230 possible arrangements
 ├── Perfect crystals = stable but "dead"
 ├── Defects, unpaired spins = new properties
 └── Incompleteness: Unpaired electrons (magnetism)
@@ -273,8 +273,8 @@ form bonds. The hydrogen bond is the test case.
 
 The proton in a hydrogen bond O-H...O is a qubit. Two states: |L⟩
 (on the donor oxygen) and |R⟩ (on the acceptor oxygen). d = 2.
-Tunneling provides σ_X coupling. The molecular environment provides
-σ_Z dephasing. The palindrome is proven for this system.
+Tunneling (the proton jumping between positions) provides the coupling.
+The molecular environment provides the dephasing noise. The palindrome is proven for this system.
 
 A water molecule (H-O-H) is a 2-qubit system: two proton qubits
 coupled through the shared oxygen. Coupling two water molecules
@@ -282,16 +282,19 @@ through a hydrogen bond creates 104 new frequencies (V-Effect).
 The hydrogen bond is the palindromic coupling mechanism between
 Level 0 (qubit) and chemistry (molecules).
 
-Three regimes: J/γ ≪ 1 (classical, bulk water at 300K), J/γ ~ 1
-(fold, strong H-bonds in enzymes), J/γ ≫ 1 (quantum, low temperature).
+Three regimes, depending on how fast the proton tunnels (J) compared
+to how fast the environment disturbs it (γ): J/γ ≪ 1 (classical, bulk
+water at 300K), J/γ ~ 1 (the critical boundary, strong H-bonds in
+enzymes), J/γ ≫ 1 (quantum, low temperature).
 In the Zundel configuration (proton centered, H₅O₂⁺): J/γ = 4.8,
 CΨ crosses 1/4 six times in 21 fs. Water is not near the fold.
 Water IS the fold, at every proton transfer.
 See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
 
-Note: a classical model of the same system (donor/acceptor as coupled
-oscillators) shows no palindrome. The palindrome is a QUANTUM property
-of the proton, not a classical property of the bond.
+Note: a classical model of the same system (treating donor and acceptor
+as coupled oscillators, like two pendulums connected by a spring) shows
+no palindrome. The palindrome is a QUANTUM property of the proton, not
+a classical property of the bond.
 
 ---
 
