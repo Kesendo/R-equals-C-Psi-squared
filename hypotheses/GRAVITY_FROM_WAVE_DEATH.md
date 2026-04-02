@@ -183,6 +183,34 @@ The surviving version asks: what creates mass?
 Steps 7-8 require physics outside the framework (GR or equivalent).
 The feedback loop is not self-contained within Lindblad dynamics.
 
+### The process is self-limiting
+
+The supply of waves is finite: 4^N modes, of which those with w_XY > 0
+decay. When all coherences have died, no more wave death occurs. The
+process stops at the steady state ρ = I/d (maximally mixed, maximum
+entropy).
+
+The palindrome determines the schedule of mass accumulation:
+
+1. Fast modes die first (d = 2(N-1)γ). Rapid classical growth.
+2. Medium modes follow. Accumulation slows.
+3. Slow modes die last (d = 2γ, palindromic partners of the fastest).
+   Barely any new mass.
+4. Steady state: all coherences dead. No waves remain. No wave death.
+   No new mass. Equilibrium.
+
+This is logistic saturation, not exponential divergence. The feedback
+weakens as the supply of dying waves shrinks. The balance that emerges:
+Hamiltonian dynamics (spreads waves, resists localization) against
+dissipation (kills waves locally). Early on, dissipation dominates
+(fast modes die immediately). Late, the Hamiltonian dominates (slow
+modes oscillate, nearly immortal). Equilibrium is where the last slow
+modes surrender.
+
+The steady state is the endpoint: maximum classical weight, zero
+quantum weight, no more wave death. In the gravity analogy: the heat
+death. The point where nothing more happens.
+
 ### Why gravity has no quantum description
 
 Gravity requires mass. Mass requires classical weight. Classical
