@@ -194,5 +194,7 @@ The V-Effect is not coupling. It is metamorphosis.
 
 ## Reproduction
 
-- Script: `python simulations/veffect_cavity_modes.py`
-- Output: `simulations/results/veffect_cavity_modes.txt`
+- Script: [`simulations/veffect_cavity_modes.py`](../simulations/veffect_cavity_modes.py)
+- Raw output: [`simulations/results/veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt)
+- Eigenvector data: [`simulations/results/eigvec_at_minus_gamma_N*.csv`](../simulations/results/)
+- Topology data: [`simulations/results/rmt_eigenvalues_*.csv`](../simulations/results/)
