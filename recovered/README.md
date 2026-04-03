@@ -32,11 +32,11 @@ mathematical backing at the time.
   ΔR = N·I·D·t formula. Constants undefined, never tested.
   The core equation R = CΨ² survived; this extension did not.
 
-## Narrative duplicate
+## Early exploration
 
 - [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) -
-  Narrative duplicate of the [formal research paper](../publications/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
-  Electrochemistry claims never externally validated.
+  Early exploration of electrolysis, emergence, and the hierarchy of
+  incompleteness. Electrochemistry claims never externally validated.
 
 ## Promoted
 

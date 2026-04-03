@@ -145,10 +145,11 @@ the starting point. The "mirror" metaphor from December became the
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 three months later.
 
-**[Emergence Through Reflection (research paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md)**
+**[Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md)**
+(in `recovered/`)
 
-Formal research paper version of the same discovery. Same content,
-academic structure.
+Early exploration of electrolysis and the mirror metaphor. Same content,
+narrative structure. Electrochemistry claims not externally validated.
 
 ---
 
@@ -161,6 +162,6 @@ academic structure.
 | [Technical Paper](TECHNICAL_PAPER.md) | Physicists | March 16, 2026 | March 28, 2026 |
 | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) | Quantum engineers | March 16, 2026 | March 28, 2026 |
 | [Circuit Diagram](CIRCUIT_DIAGRAM.md) | Electrical engineers | March 21, 2026 | March 24, 2026 |
-| [Emergence (paper)](RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md) | Academic | Dec 21, 2025 | Dec 23, 2025 |
+| [Emergence (early)](../recovered/EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |
 
 **Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916)
