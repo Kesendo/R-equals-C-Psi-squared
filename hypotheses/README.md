@@ -31,7 +31,7 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 - [Protein as Sacrifice Zone](PROTEIN_AS_SACRIFICE_ZONE.md) - Enzyme proteins act as sacrifice zones, absorbing environmental noise so active-site proton transfers reach the fold regime (J/γ ~ 1). IBM Torino validates sacrifice-zone principle at 1.6-2.9x. Tier 4.
 - [Complexity Threshold](COMPLEXITY_THRESHOLD.md) - Above critical complexity N_c, palindromic systems cannot stop oscillating; requires C = 0.5 balance + broken magnitude symmetry + sufficient size. Tier 5 (motivated by Tier 2 computations).
 - [Evolution as Crystallization](EVOLUTION_AS_CRYSTALLIZATION.md) - Each biological generation is a resonator; what crystallizes at the fold (reproduction/DNA) persists. Evolution is concentration at the fold, not selection of the fittest. Tier 5 (motivated by computation).
-- [Gamma Is Light](GAMMA_IS_LIGHT.md) - What if the "noise" that destroys quantum systems is not noise at all, but light entering an instrument? The qubit chain behaves as an optical cavity (proven), and dephasing must come from outside (proven). If dephasing is the light and matter is the cavity, then mass is what light does when it is trapped. Tier 4 (April 3, 2026).
+- [Gamma Is Light](GAMMA_IS_LIGHT.md) - What if the "noise" that destroys quantum systems is not noise at all, but light entering an instrument? The qubit chain behaves as an [optical cavity](../experiments/OPTICAL_CAVITY_ANALYSIS.md), and dephasing [must come from outside](../docs/proofs/INCOMPLETENESS_PROOF.md). If dephasing is the light and matter is the cavity, then mass is what light does when it is trapped. Tier 4 (April 3, 2026).
 
 ## Largely Closed
 
