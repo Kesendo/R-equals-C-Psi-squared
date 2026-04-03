@@ -109,7 +109,9 @@ Y → iZ  (factor +i)
 Z → iY  (factor +i)
 ```
 
-For a system of N qubits, Π is the tensor product of these per-site
+For a system of N qubits, Π is the tensor product (the combined
+operation built by applying the per-site rule independently to each
+qubit and multiplying the results together) of these per-site
 operations.
 
 **Physical meaning:** Π swaps populations (I, Z = diagonal elements of the
@@ -240,12 +242,12 @@ every single eigenvalue has an exact mirror partner.
 
 ### XXZ coupling (H = XX + YY + δZZ, all topologies N=3,4)
 
-δ = −0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0 — ALL pass. 42/42.
+δ = −0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0: ALL pass. 42/42.
 The ZZ term anti-commutes with Π independently. δ is irrelevant.
 
 ### Non-uniform γ (Heisenberg, N=3,4)
 
-γ = [0.03, 0.05, 0.07], [0.01, 0.02, 0.03], [0.10, 0.01, 0.05] — ALL pass.
+γ = [0.03, 0.05, 0.07], [0.01, 0.02, 0.03], [0.10, 0.01, 0.05]: ALL pass.
 Center shifts to Σγᵢ as expected. 12/12.
 
 ### Different dephasing axes
@@ -276,7 +278,10 @@ additional facts that matter for the rest of the project:
    oscillation in the system has a mirror-image oscillation.
 
 3. **Pauli weight complementarity.** Π maps weight k to N−k.
-   Mirror partners are complementary in the Incoherenton sense.
+   Mirror partners are complementary in the Incoherenton sense
+   (Incoherentons are quantum modes classified by their XY-weight;
+   the name was coined by Haga et al. 2023, see
+   [Connection to literature](#connection-to-literature)).
 
 4. **The center formula.** Center = Σγᵢ (not Nγ). Generalizes to
    non-uniform dephasing trivially.
@@ -332,11 +337,16 @@ had the complete picture. Here is how our work relates to theirs:
   the palindrome within and between bands. Natural collaborators.
 
 - **Medvedyeva-Essler-Prosen (2016):** Their η-pairing symmetry
-  in the Hubbard mapping is the 1D free-fermion version of our Π.
-  We generalize to interacting spins on arbitrary graphs.
+  in the Hubbard mapping is the 1D version of our Π, proven using
+  the Bethe ansatz (an exact solution technique for one-dimensional
+  quantum chains) and restricted to free fermions (non-interacting
+  quantum particles). We generalize to interacting spins on arbitrary
+  graphs.
 
 - **Albert-Jiang (2014):** Their weak/strong symmetry framework
-  is the right language. Π is a weak anti-symmetry of L.
+  is the right language. Π is a weak anti-symmetry of L (meaning
+  Π transforms L into its negative up to a constant shift, rather
+  than leaving L unchanged, which would be a strong symmetry).
 
 ---
 
