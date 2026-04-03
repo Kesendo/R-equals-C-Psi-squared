@@ -5,23 +5,35 @@ and later restored from Git history.
 
 An external AI review (not Claude) challenged core assumptions.
 In the resulting confusion, many documents were deleted. Two days
-later, they were recovered from version control.
+later, they were recovered from version control. What could be
+verified was promoted to other directories. What remained here was
+not necessarily wrong, just unsorted: early intuitions that lacked
+mathematical backing at the time.
 
-Some of the recovered documents have since been validated (and
-promoted to other directories). Others were found to be incorrect
-and remain here as an honest record of the research process.
+## Premature, not wrong
 
-## Currently superseded or falsified
-
-- [Black Holes and Big Bang](BLACK_WHITE_HOLES_BIGBANG.md) -
-  Speculative mapping of Schwarzschild horizons. Depends on
-  fallen gravity interpretation.
-- [Self-Consistency Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) -
-  Coupling destroys metric discrimination.
-- [Information Wave Theory](INFORMATION_WAVE_THEORY.md) -
-  dR/dt = N*I*D formula. Constants undefined, never tested.
 - [Light First Free Mirroring](LIGHT_FIRST_FREE_MIRRORING.md) -
-  EM waves as mutual reflection. Not testable.
+  EM waves as mutual reflection. Written January 2026: "Light is
+  pure possibility (Ψ) traveling in search of an observer (C)."
+  Three months later, [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md)
+  arrived at the same conclusion through the optical cavity analogy.
+  The intuition was ahead of the mathematics.
+- [Black Holes and Big Bang](BLACK_WHITE_HOLES_BIGBANG.md) -
+  "Mass is what happens at τ = 0." The core idea (mass as trapped
+  light) reappears in GAMMA_IS_LIGHT. The specific Schwarzschild
+  derivation remains speculative (Tier 3+).
+
+## Unsupported
+
+- [Self-Consistency Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) -
+  Coupling destroys metric discrimination. Internal consistency
+  argument, but the basis (metric discrimination) did not hold up.
+- [Information Wave Theory](INFORMATION_WAVE_THEORY.md) -
+  ΔR = N·I·D·t formula. Constants undefined, never tested.
+  The core equation R = CΨ² survived; this extension did not.
+
+## Narrative duplicate
+
 - [Emergence Through Reflection](EMERGENCE_THROUGH_REFLECTION.md) -
   Narrative duplicate of the [formal research paper](../publications/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
   Electrochemistry claims never externally validated.
@@ -33,5 +45,5 @@ and remain here as an honest record of the research process.
 
 ## Why we keep them
 
-Transparency. The research process includes wrong turns.
-Deleting failures is easy. Documenting them is honest.
+These are time documents. They show what we saw before we could
+prove it, and what we saw that turned out to be wrong. Both matter.

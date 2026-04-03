@@ -50,7 +50,7 @@ For each N = 2, ..., 5:
 - Chain topology, J = 1.0, γ = 0.05
 - Initial state: |+⟩^⊗N (product superposition)
 - Propagation via Liouvillian eigendecomposition: ρ(t) = Σ c_j exp(λ_j t) v_j
-- Bures speed: v_B(t) = arccos(√F(ρ(t), ρ(t+Δt))) / Δt
+- Bures speed (the rate at which the quantum state moves through Hilbert space, measured by the angle between neighboring states): v_B(t) = arccos(√F(ρ(t), ρ(t+Δt))) / Δt
 - Mode weight profile: fraction of norm at each decay-rate shell k
 
 ---
@@ -134,7 +134,7 @@ the initial state and the directional flow of decoherence.
 
 ## QFI results (resolves N ≥ 3 issues)
 
-The Bures sqrtm was replaced with the Quantum Fisher Information metric,
+The Bures sqrtm was replaced with the Quantum Fisher Information (QFI) metric (a measure of how distinguishable neighboring quantum states are, computable from the eigenvalues of ρ alone),
 which only needs eigendecomposition of ρ (numerically stable), combined
 with a logarithmic time grid (148 points, t ∈ [0.01, 200]) and
 analytical dρ/dt from the Liouvillian eigendecomposition.

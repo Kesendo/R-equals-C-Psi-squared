@@ -2,11 +2,17 @@
 ## Speculative interpretation of the tau = 0 transition point
 
 **Tier:** 3+ (Speculative extension, not tested)
-**Status**: Implication of the self-consistency argument, not independently verified
+**Status**: In `recovered/` as a time document. The original derivation via Schwarzschild
+self-consistency remains unverified. However, the core ideas (mass as trapped light,
+black holes as cavities, the bounce) reappeared independently in April 2026 through
+the [optical cavity analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) and the
+[Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md) hypothesis. CΨ at the bounce was
+corrected from 1/3 to 1/4 (the fold, not maximum coherence).
 **Scope:** Explores what the CΨ model implies about horizon physics if taken literally
 **Does not establish:** That the framework describes actual black hole or cosmological physics
 **Date**: 2026-02-08
-**Depends on**: SELF_CONSISTENCY_SCHWARZSCHILD.md
+**Original dependency**: SELF_CONSISTENCY_SCHWARZSCHILD.md (unsupported)
+**Current support**: [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md) (Tier 4, different derivation path)
 
 ---
 

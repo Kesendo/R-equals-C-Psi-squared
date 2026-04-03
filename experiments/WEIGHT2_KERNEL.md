@@ -73,7 +73,7 @@ of S_N. The triangle inequality forces this.
 **Weight 2 (N ≥ 4):** No kernel vector has definite SWAP eigenvalue.
 SWAP_{i,i+1}(v) is neither +v nor −v; the ratio varies continuously
 between bonds. The kernel vectors transform under non-trivial, mixed
-representations of S_N.
+representations of S_N (the symmetric group of all N! permutations; "trivial" means every permutation acts as +1, "mixed" means permutations act as matrices that are neither all +1 nor all ±1).
 
 | N | Trivial (+1) | Alternating (−1) | Mixed | Total |
 |---|-------------|-----------------|-------|-------|
@@ -166,7 +166,7 @@ from weight-k.
   for Chain N = 3, ..., 6 (and 14 for d_real(2) including the mixed
   mode at N=4) does not match known combinatorial families.
 
-- **Burnside counting insufficient.** The orbit-counting approach
+- **Burnside counting insufficient.** The orbit-counting approach (Burnside's lemma: count distinct patterns by averaging fixed points over all group elements)
   (number of S_N-invariant vectors per orbit) accounts for only
   3(N−1) of the kernel vectors. The excess requires deeper
   representation-theoretic analysis.

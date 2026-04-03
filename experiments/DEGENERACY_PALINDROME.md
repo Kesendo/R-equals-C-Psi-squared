@@ -71,7 +71,7 @@ two palindromic sequences:
 2. **d_total(k)**: all eigenvalues (any Im) at grid position k
 
 Both satisfy d(k) = d(N − k) for all k, a direct consequence of the
-Π conjugation operator.
+Π conjugation operator (the map that flips every I↔Z and X↔Y in a Pauli string, sending each eigenvalue λ to its mirror partner −Nγ − λ̄).
 
 Exact closed-form results at the boundaries:
 
@@ -345,7 +345,7 @@ N=5:  9.4%   N=6:  4.0%   N=7:  2.1%
 
 Fit: fraction ≈ exp(−0.695 · N), R² = 0.9963.
 
-In the thermodynamic limit, almost all Liouvillian eigenvalues are complex.
+In the thermodynamic limit (N → ∞), almost all Liouvillian eigenvalues are complex.
 The "standing wave" modes (pure decay without oscillation) become
 exponentially rare. At each grid position k, the real fraction is 2/2^N
 (from d_real = 2N vs. sector size N · 2^N at k = 1). The dissipative
@@ -408,7 +408,7 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 5. **Off-grid eigenvalue positions.** The off-grid Re values are not
    on any simple sub-grid. Can they be expressed in terms of Hamiltonian
-   coupling parameters (Bethe ansatz roots, magnon dispersion)?
+   coupling parameters (Bethe ansatz roots (the exact solution method for integrable spin chains), magnon dispersion (the energy-momentum relation for spin wave excitations))?
 
 6. ~~**Does degeneracy shape state-space geometry?**~~ **PARTIALLY RESOLVED.**
    QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4);

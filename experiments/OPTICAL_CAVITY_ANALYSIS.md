@@ -45,8 +45,7 @@ profile. The Hamiltonian couples weight sectors in nearest-neighbor
 fashion (Δw = ±2). The even/odd parity split in grid fraction looks like
 confocal versus defocal cavity alignment. This document tests whether
 these observations form a quantitative optical analogy, where the qubit
-chain is a Fabry-Perot resonator and the weight sectors are transverse
-planes.
+chain is a Fabry-Perot resonator (a cavity formed by two parallel mirrors that selects which frequencies of light resonate between them) and the weight sectors are transverse planes.
 
 The answer: 4 of 5 optical quantities match. The analogy is quantitative.
 
@@ -120,7 +119,7 @@ simultaneously.
 ## Result 3: Gouy phase analog
 
 The oscillation frequencies ω_m = 4J(1 − cos(πm/N)) accumulate a
-phase profile along the weight axis:
+Gouy phase (the gradual phase shift a focused beam picks up as it passes through its waist) profile along the weight axis:
 
 | N | Phase at midpoint | Total phase | Ratio mid/total |
 |---|------------------|------------|-----------------|
@@ -147,7 +146,7 @@ m_R), meaning the beam is far from its waist in the Gouy sense.
 | 6 | 262.3 | 0.01 | 114.8 | even |
 | 7 | 19.5 | 1.95 | 7.8 | odd |
 
-**Numerical aperture (NA):** Ratio of center to edge degeneracy. Grows
+**Numerical aperture (NA, how wide an angle the "lens" can gather light from):** Ratio of center to edge degeneracy. Grows
 explosively at even N (30 → 262) because the center spike grows faster
 than the boundary. At odd N, NA grows slowly (3.5 → 8.3 → 19.5).
 

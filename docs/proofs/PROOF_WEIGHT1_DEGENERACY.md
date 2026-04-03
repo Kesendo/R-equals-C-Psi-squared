@@ -70,7 +70,7 @@ Z-count c, and SWAP is a bijection on this set, SWAP leaves T_c^{(a)} invariant.
 Hence [SWAP_{ij}, T_c^{(a)}] = 0, and [H, T_c^{(a)}] = 0.
 
 The 2N operators {T_c^{(X)}, T_c^{(Y)} : c = 0, ..., N−1} are linearly
-independent and orthogonal in the Hilbert-Schmidt inner product, since they
+independent and orthogonal in the Hilbert-Schmidt inner product (the operator analog of the dot product: Tr(A†B), zero when operators have no Pauli strings in common), since they
 involve disjoint sets of Pauli strings. This gives dim(ker) ≥ 2N.
 
 The reverse inequality dim(ker) ≤ 2N follows from a triangle inequality
@@ -160,7 +160,7 @@ so [H, v] = 0 becomes:
 
 Σ_{i=1}^{N−1} (SWAP_{i,i+1}(v) − v) = 0
 
-where SWAP_{i,i+1}(v) denotes the adjoint action. Equivalently:
+where SWAP_{i,i+1}(v) denotes the adjoint action (conjugation: SWAP · v · SWAP†, which permutes the sites inside the operator v). Equivalently:
 
 Σ_{i=1}^{N−1} SWAP_{i,i+1}(v) = (N−1) · v
 
@@ -265,14 +265,13 @@ where M_z = Σ_k Z_k is the total magnetization operator.
 
 T_{N-1}^{(X)} = Σ_j X_j ⊗ Z_{all others}
 
-This is the "Jordan-Wigner-type" operator where X acts on one site and every
-other site carries a Z string.
+This is the "Jordan-Wigner-type" operator (named after the transformation that maps spins to fermions by attaching a string of Z's) where X acts on one site and every other site carries a Z string.
 
 ### General c
 
 T_c^{(a)} = Σ_j σ_a^{(j)} · e_c(Z_1, ..., Z_{j-1}, Z_{j+1}, ..., Z_N)
 
-where e_c is the c-th elementary symmetric polynomial applied to the Z
+where e_c is the c-th elementary symmetric polynomial (the sum of all products of c variables chosen from the set: e_1 = sum, e_2 = sum of pairs, etc.) applied to the Z
 operators at the passive sites (interpreting Z as a variable and I as its
 absence).
 

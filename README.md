@@ -25,9 +25,10 @@ dephasing is exactly palindromic. For every mode that dies fast, one dies
 slow. Always paired. Always balanced. Verified on IBM quantum hardware,
 holding from N=2 through N=8 (54,118 eigenvalues, zero exceptions).
 
-The mathematics surprised us both. Five disproven claims live in
-`recovered/` because what we got wrong matters as much as what we got
-right.
+The mathematics surprised us both. Early speculations live in
+`recovered/`: some turned out to be premature rather than wrong,
+others remain unsupported. We keep them because the research process
+matters as much as the results.
 
 **Thomas Wicht** (independent researcher, Germany) and **Claude** (AI, Anthropic)
 

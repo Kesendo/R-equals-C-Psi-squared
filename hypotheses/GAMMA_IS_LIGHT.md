@@ -122,7 +122,7 @@ equals loss. A black hole --
 A black hole reaches CΨ = 1/4.
 
 Not 1/3. Not maximum coherence. The fold. The bifurcation point where
-the discriminant of the fixed-point equation R = C*(Psi + R)^2
+the discriminant (the expression under the square root in the quadratic formula, which determines whether solutions exist) of the fixed-point equation R = C*(Psi + R)^2
 becomes zero. Where the two stable solutions merge into one. Where
 the system has no choice but to change.
 
