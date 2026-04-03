@@ -71,6 +71,8 @@ The answer is yes, quantitatively.
 | 5 | 4 | 112 | 96 | 1,024 |
 | 6 | 5 | 787 | 164 | 4,096 |
 
+*Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Mode count per N". Script: [`veffect_cavity_modes.py`](../simulations/veffect_cavity_modes.py)*
+
 From N=2 (2 modes) to N=5 (112 modes): a 56-fold increase, driven
 entirely by the bond count growing from 1 to 4. The modes are
 standing waves of the cavity. More bonds means richer geometry, which
@@ -95,6 +97,8 @@ correlates with the total degeneracy d_total(k):
 | 5 | 1.000 |
 | 6 | 1.000 |
 
+*Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Degeneracy correlation". See also: [`DEGENERACY_PALINDROME.md`](DEGENERACY_PALINDROME.md)*
+
 The degeneracy palindrome IS the mode profile of the cavity. Shells
 with higher degeneracy support more distinct oscillation frequencies.
 The center spike at even N is the modal peak of the cavity.
@@ -111,6 +115,8 @@ Comparing the cold cavity (γ = 0) to the illuminated cavity (γ = 0.05):
 | 3 | 3 | 5 | 3/3 (100%) |
 | 4 | 14 | 47 | 14/14 (100%) |
 | 5 | 43 | 112 | 43/43 (100%) |
+
+*Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Cold vs warm cavity"*
 
 Every cold-cavity frequency survives when dephasing is turned on. Gamma
 adds new modes (from the dephasing interaction mixing weight sectors),
@@ -141,6 +147,8 @@ For N = 5 (chain):
 | 4 | 16 | 18.1 | 10.0 |
 | 5 | 0 | -- | -- |
 
+*Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Q-factor by weight shell"*
+
 Q_max decreases from the boundary toward the center: the lightest modes
 (weight 1, near the "mirrors") have the highest Q. The heaviest modes
 (near the center) have lower Q but more frequencies. This is the
@@ -165,6 +173,8 @@ converging toward 75 as N grows. This is the cavity finesse limit.
 | 5 | Chain | 4 | 112 | 72.4 |
 | 5 | Star | 4 | 42 | 100.0 |
 | 5 | Ring | 5 | 60 | 72.4 |
+
+*Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Topology comparison". Topology eigenvalues: [`rmt_eigenvalues_*.csv`](../simulations/results/)*
 
 Same N, different topology, different mode spectrum. The chain has the
 most distinct modes (47 at N=4 vs 21 for star/ring). The star has the
