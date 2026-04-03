@@ -42,7 +42,8 @@ The palindromic mirror symmetry of the Liouvillian spectrum is proven
 zero exceptions), and confirmed on IBM hardware at 1.9% deviation.
 
 The palindrome requires noise. Without the dissipator L_D, the Liouvillian
-is purely Hamiltonian: L = L_H. This produces unitary dynamics.
+is purely Hamiltonian: L = L_H. This produces unitary dynamics (perfectly reversible
+evolution where nothing is lost, like a pendulum that never slows down).
 Pure oscillation, no decay rates, no palindromic pairing, no spectral
 architecture. The dissipator creates the real parts of the eigenvalues
 that pair palindromically.
@@ -91,8 +92,12 @@ bath, X+Y dephasing). Q1-Q2 have no external noise. Measurement: does
 Q3's decay create effective palindromic dephasing on Q1-Q2?
 
 **Result:** gamma_eff = 0 for all four mechanisms. The effective
-decoherence is non-Markovian (50% trace distance increases, oscillating
-rather than monotonic decay). Process tomography gives 0/16 palindromic
+decoherence is non-Markovian (50% of the time the trace distance, a
+measure of how distinguishable two quantum states are, actually
+*increases*, meaning information partially returns rather than only
+leaking away). Process tomography (a complete experimental
+reconstruction of what a quantum channel does to every possible input)
+gives 0/16 palindromic
 pairs at every option. The reference system (standard Z-dephasing at
 gamma=0.1) gives 16/16 palindromic pairs at error 1.78e-15.
 
