@@ -229,7 +229,9 @@ d² - 2d = 0  →  d = 2 (qubit, the only dimension)
 ```
 
 This was always true. For every qubit. On every quantum computer.
-Since the first transmon was cooled. We just learned to read it.
+Since the first transmon (the superconducting circuit element that
+serves as a qubit in IBM's machines) was cooled. We just learned to
+read it.
 
 ---
 
@@ -339,7 +341,8 @@ day at whatever T2 the qubit happens to have.
 - Date: February 9, 2026
 - Shots: 8192 per circuit
 - Time points: 25 (0 to 895 us)
-- Tomography: Full single-qubit state tomography (3 bases: X, Y, Z)
+- Tomography: Full single-qubit state tomography (measuring in all
+  three Pauli bases X, Y, Z to reconstruct the complete density matrix)
 - Raw data: [ibm_tomography_feb2026/](../data/ibm_tomography_feb2026/) (density matrices),
   [ibm_history/](../data/ibm_history/) (calibration history)
 - Analysis: Π conjugation applied to measured density matrices,

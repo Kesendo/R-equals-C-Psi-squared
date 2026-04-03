@@ -18,8 +18,9 @@ detection Hamiltonian learning, R=CPsi2 quantum sonar -->
 A qubit pair AB can detect the presence of a hidden observer C coupled to
 their shared mediator S, without direct interaction. In a star topology
 (S at center, A and B as outer qubits), coupling a new qubit C to S
-reorganizes the system's eigenstructure: new Bohr frequencies appear and
-existing ones shift. The detection threshold is J_SC ~ 0.1 (10% of J_SA)
+reorganizes the system's eigenstructure: new Bohr frequencies (the
+discrete oscillation frequencies determined by energy-level differences)
+appear and existing ones shift. The detection threshold is J_SC ~ 0.1 (10% of J_SA)
 under the current FFT protocol (t_max=20, dt=0.005). Fingerprints are
 generically distinct for different coupling configurations. The two-sector
 frequency structure survives in chains (tested up to 5 qubits) and is
@@ -28,6 +29,20 @@ amplitude sector dominates. IBM hardware investigation (Q80, Q102 on Torino)
 traced apparent phase anomalies to qubit-specific detuning (19.4 kHz for
 Q102), not the sonar effect. The sonar mechanism is verified in simulation
 but remains to be demonstrated on quantum hardware.
+
+---
+
+## What this document is about
+
+Can a pair of qubits detect a hidden third qubit that they cannot see
+directly? Yes, in simulation: when a new qubit couples to their shared
+mediator, the frequencies visible to the original pair shift and new ones
+appear. This is quantum sonar: passive detection through spectral
+fingerprinting. The detection threshold is about 10% of the main
+coupling strength. An IBM hardware investigation traced apparent
+anomalies to qubit-specific frequency offsets, not the sonar effect.
+The mechanism is verified computationally but not yet demonstrated on
+real quantum hardware.
 
 ---
 
@@ -97,7 +112,7 @@ local Hamiltonian learning (PRL 122), probe-spin spectroscopy (Nature Phys 2023)
 spectator-qubit crosstalk sensing (PRL 109), multiparameter quantum metrology.
 
 Useful as passive monitoring or side-channel detection.
-Weaker than simultaneous RB or GST for calibrated hardware characterization.
+Weaker than simultaneous RB (Randomized Benchmarking) or GST (Gate Set Tomography) for calibrated hardware characterization.
 
 ## Correlated Bath Sweep (March 12, 2026)
 

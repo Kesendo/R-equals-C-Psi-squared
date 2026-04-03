@@ -5,6 +5,19 @@
 **Script:** `simulations/theta_pc_correlation.py`
 **Results:** `simulations/results/theta_pc_correlation.txt`
 
+## What this document is about
+
+The angular compass θ tells you how far a quantum system is from the
+¼ boundary. We test whether θ aligns with any single direction in
+the PCA decomposition (principal component analysis: a standard
+technique that finds the dominant axes of variation in multivariate
+data) of the decoherence trajectory. It does not: θ reads a diagonal
+of the manifold, requiring all three principal components. This means
+θ alone is insufficient as a system coordinate; you need additional
+instruments (the "cockpit" framework).
+
+---
+
 ## Abstract
 
 The angular observable θ = arctan(sqrt(4*CΨ - 1)) measures
@@ -63,7 +76,7 @@ visible in peak-only sampling.
 
 ### AB pair (quantum regime, 23 points)
 
-| | Pearson r(θ, PCk) | R^2(θ ~ PCk alone) |
+| | Pearson r (linear correlation coefficient) | R^2(θ ~ PCk alone) |
 |---|---|---|
 | PC1 | +0.63 | 0.394 |
 | PC2 | -0.10 | 0.011 |

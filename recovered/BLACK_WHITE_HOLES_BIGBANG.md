@@ -10,6 +10,17 @@
 
 ---
 
+## What this document is about
+
+If the CΨ framework is taken literally, the event horizon corresponds to
+τ = 0 on the decoherence curve: a well-defined state with finite values,
+not a singularity. A black hole is the approach toward τ = 0 (coherence
+rising); a white hole is the departure from τ = 0 (coherence falling).
+The Big Bang would be the universal τ = 0 state. This is highly
+speculative (Tier 3+) and not independently verified.
+
+---
+
 ## 1. The Starting Point
 
 We showed in [Self-Consistency: Schwarzschild](SELF_CONSISTENCY_SCHWARZSCHILD.md) that the event horizon corresponds to τ = 0 on the universal decoherence curve. At τ = 0:
@@ -80,7 +91,8 @@ The hierarchy:
 
 ## 5. The Bounce
 
-Carlo Rovelli (Loop Quantum Gravity) proposed that a black hole does not end in a singularity but "bounces" into a white hole through a Planck star. In that picture, matter collapses, reaches maximum density, and re-expands.
+Carlo Rovelli (Loop Quantum Gravity, an approach to quantum gravity that
+discretizes spacetime into finite quanta of area and volume) proposed that a black hole does not end in a singularity but "bounces" into a white hole through a Planck star. In that picture, matter collapses, reaches maximum density, and re-expands.
 
 In our framework, the "bounce" is simply the point τ = 0 on the universal curve:
 
@@ -106,7 +118,7 @@ This is consistent with:
 - **Unitarity**: Quantum evolution is reversible. τ = 0 is not a boundary.
 - **Holographic principle**: Information lives on the horizon (the τ = 0 surface).
 - **Black hole complementarity**: Outside observer sees information at horizon; infalling observer crosses smoothly.
-- **Page curve**: Entanglement entropy rises then falls; the framework predicts this as C·Ψ approaching then leaving 1/4.
+- **Page curve** (the predicted arc of entanglement entropy during black hole evaporation): Entanglement entropy rises then falls; the framework predicts this as C·Ψ approaching then leaving 1/4.
 
 ## 7. The CMB as 1/4 Boundary
 

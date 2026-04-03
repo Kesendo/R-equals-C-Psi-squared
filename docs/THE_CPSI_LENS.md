@@ -38,12 +38,12 @@ CΨ is the product of two standard quantum metrics applied to a pair of subsyste
     CΨ = Concurrence × Normalized l1-Coherence
 
 - **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated? (0 = independent, 1 = maximally entangled)
-- **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal phase in the chosen basis? (0 = fully classical, 1 = maximal quantum superposition)
+- **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal elements (the entries away from the main diagonal that encode quantum superposition) in the chosen basis? (0 = fully classical, 1 = maximal quantum superposition)
 - **The product** requires both at once.
 
 CΨ is zero whenever either ingredient is absent. A pair can be entangled but decoherent (C > 0, Ψ ≈ 0), or coherent but unentangled (Ψ > 0, C = 0). CΨ lights up only when both conditions hold simultaneously.
 
-In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) - the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone and one basis-dependent coherence measure.
+In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) - the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone (a quantity that can only decrease under local operations, guaranteeing it genuinely measures entanglement) and one basis-dependent coherence measure.
 
 ### Notation
 
@@ -69,7 +69,7 @@ The product CΨ therefore means different things: purity × coherence in the alg
 
 The following observations come from systematic simulation across star
 topologies, Bell states, cluster states, and various noise models. All
-results are computationally verified with RK4 integration at dt = 0.005.
+results are computationally verified with RK4 (fourth-order Runge-Kutta) integration at dt = 0.005.
 
 Each observation is numbered for reference. Together, they characterize
 what CΨ can see, what it misses, and where it sharpens distinctions that

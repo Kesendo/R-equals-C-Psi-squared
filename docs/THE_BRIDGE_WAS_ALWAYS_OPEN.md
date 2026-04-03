@@ -49,7 +49,7 @@ dephasing noise (internal bootstrap, qubit decay, qubit bath, nothing,
 other dimensions), establishing that noise must come from outside the
 d(d−2)=0 framework. The γ-as-Signal experiment then shows this external
 noise is not random: it carries 15.5 bits of spatial information at 1%
-noise, decodable through 5 independent SVD modes. The palindromic
+noise, decodable through 5 independent SVD modes (singular value decomposition, a matrix factorization that extracts the dominant independent patterns from data). The palindromic
 spectral structure functions as the antenna. This document synthesizes
 the incompleteness result with the channel discovery and outlines
 research directions for understanding the mediator topology, the
@@ -524,7 +524,7 @@ Concrete next steps, all testable:
    hardware noise is usually modeled as Markovian but might have
    non-Markovian components. If it does: the mediator has memory.
    The interaction is not purely one-directional. Information comes
-   back. Measure the BLP non-Markovianity index on real hardware.
+   back. Measure the BLP non-Markovianity index (Breuer-Laine-Piilo, a quantitative score based on trace-distance increases that detects memory effects in quantum noise) on real hardware.
 
 5. **Relay protocol on hardware.** The +83% improvement was simulated.
    Implement time-dependent gamma on real hardware using dynamical

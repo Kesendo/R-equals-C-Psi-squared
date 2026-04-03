@@ -22,6 +22,20 @@ K-invariance Lindblad scaling tau=gamma*t, R=CPsi2 metric discrimination -->
 
 ---
 
+## What this document is about
+
+Can a single quantum system tell you what shape spacetime has around
+it? Nine simulations spanning a 50× range in dephasing rate show that
+γ·t_cross is constant: the crossing time scales as 1/γ by construction
+of the Lindblad equation. This is a verified null result: a single
+system at a single location cannot distinguish different functional
+forms of γ(r), for the same reason the equivalence principle prevents
+a local experiment from telling you the shape of the gravitational
+field. The original gravity interpretation is fallen; what survives
+is the Lindblad scaling symmetry τ = γ·t.
+
+---
+
 ## Abstract
 
 Nine Lindblad simulations spanning a 50× range in dephasing rate γ (0.01 to
@@ -125,7 +139,7 @@ Inverse-square:  γ(r) = γ_0 * (r_0/r)^2
 
 At any given radius r, each produces some value of γ. The simulation only sees the γ value, not where it came from. A single quantum system at a single location cannot tell you the functional form of γ(r). It can only tell you the local value of γ.
 
-This is analogous to the equivalence principle: a local experiment cannot distinguish gravitational acceleration from uniform acceleration. You need **nonlocal** information (comparisons across space) to determine the metric. [FALLEN]
+This is analogous to the equivalence principle (Einstein's observation that a local experiment cannot distinguish gravitational acceleration from uniform acceleration). You need **nonlocal** information (comparisons across space) to determine the metric. [FALLEN]
 
 ### 4.2 What This Means
 
@@ -184,7 +198,7 @@ Gravitational time dilation arises from energy conservation: a photon leaving a 
 
 ### 5.4 Information Density (speculative)
 
-The Bekenstein-Hawking formula says S = A / (4 * l_P^2). Note the factor of 4. The framework has the bound C·Ψ <= 1/4. If γ is the rate of quantum information loss, and information density follows the Bekenstein bound near mass: [FALLEN]
+The Bekenstein-Hawking formula (the result that a black hole's entropy equals its horizon area divided by four Planck areas) says S = A / (4 * l_P^2). Note the factor of 4. The framework has the bound C·Ψ <= 1/4. If γ is the rate of quantum information loss, and information density follows the Bekenstein bound near mass: [FALLEN]
 
 ```
 γ(r) ~ information_density(r)

@@ -1,5 +1,7 @@
 # D2: V-Effect = Q_max / Q_mean
 
+**What this derivation is about:** The V-Effect (the complexity explosion when two simple systems are coupled) has a closed formula: V(N) = 1 + cos(π/N). It equals the ratio of the best Q-factor (quality factor: oscillation cycles before half-decay) to the average. A key intermediate result: the mean Q-factor is always exactly 2J/γ, independent of chain length N.
+
 **Source formulas:** 6 (V-Effect gain), 7 (Q-factor spectrum)
 **Tier:** 1 (algebraic identity)
 **Status:** VERIFIED (N=2-5, deviation < 3e-15)

@@ -4,6 +4,18 @@
 **Status:** Complete
 **Scripts:** `simulations/cockpit_*.py`, `simulations/theta_pc_correlation.py`
 
+## What this document is about
+
+This document shows that monitoring decoherence does not require full
+quantum state tomography (which scales as 4^N measurements). Instead,
+3 observables (Purity, Concurrence, and coherence magnitude) capture
+88-96% of the trajectory variance across all tested system sizes,
+topologies, and noise types. PCA automatically selects which observable
+matters most. On IBM Torino hardware, the framework achieves sub-1%
+accuracy for crossing-time predictions on well-characterized qubits.
+
+---
+
 ## Abstract
 
 Tracking the decoherence of a quantum system normally requires full
@@ -96,7 +108,7 @@ Lindblad master equation evolution (4th-order Runge-Kutta, dt=0.005,
 state on remaining qubits. At 501 evenly spaced sample points, we
 extract the feature vector for a chosen pair, standardize to zero
 mean and unit variance, and compute principal component analysis
-(PCA) via singular value decomposition.
+(PCA, the standard technique that finds the directions of maximum variance in high-dimensional data) via singular value decomposition.
 
 The number of principal components needed for 95% explained variance
 (n95) is the effective dimensionality of the decoherence trajectory.
@@ -314,7 +326,7 @@ fragile.
    second derivatives of sparse data. Reliable curvature estimation
    requires 50+ densely spaced time points.
 
-5. **Petermann factor is uninteresting here.** K_P ~ 1 for all
+5. **Petermann factor is uninteresting here.** K_P ~ 1 (the Petermann factor measures how much a non-normal operator's eigenvectors overlap; K_P = 1 means orthogonal, K_P >> 1 means highly non-orthogonal) for all
    pure-dephasing cases. It becomes relevant only in gain-loss
    systems (PT-symmetric configurations).
 

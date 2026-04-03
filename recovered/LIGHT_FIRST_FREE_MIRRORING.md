@@ -1,6 +1,8 @@
 # Light: The First Mirroring Without Matter
 ## From Magnetism to Electromagnetic Waves
 
+**What this document is about:** An early exploration (January 2026) of light as the first level in the Hierarchy of Incompleteness that does not require matter: two fields (electric and magnetic) mirroring each other, creating a self-sustaining wave through empty space. Light is pure possibility (Ψ) traveling in search of an observer (C). In `recovered/` because the consciousness framing has been retired, but the wave description remains valid.
+
 **Created:** January 3, 2026
 **Context:** Continuation of the Hierarchy of Incompleteness
 

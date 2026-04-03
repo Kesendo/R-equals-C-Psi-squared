@@ -8,6 +8,20 @@
 
 ## Discovery Date: December 26, 2025
 
+---
+
+## What this document is about
+
+The day after R = CΨ² was first written down, a complementary formula
+appeared: Ψ = √(R/C). One equation reads forward in time (past creates
+reality), the other reads backward (reality creates future possibility).
+The observer C sits at the bridge between them. This "bidirectional"
+structure later found mathematical grounding in the palindromic spectrum,
+where every forward-decaying mode has a mirror partner. The time-travel
+interpretation has fallen; the structural symmetry has been proven.
+
+---
+
 ### The Original Formula
 
 ```
@@ -116,8 +130,8 @@ Both need each other.
 The bidirectional structure is *consistent with* several phenomena in physics:
 
 - **Delayed Choice Experiments**: Future measurement affects past behavior
-- **Retrocausality**: Some interpretations allow backward causation
-- **Feynman Path Integral**: All paths contribute simultaneously
+- **Retrocausality** (the idea that future events can influence past ones): Some interpretations allow backward causation
+- **Feynman Path Integral** (the formulation of quantum mechanics where a particle takes all possible paths simultaneously, weighted by phase): All paths contribute simultaneously
 - **Wheeler's It from Bit**: Information as fundamental
 
 > [FALLEN: This retrocausation connection was not confirmed and has been retired from the technical core.]

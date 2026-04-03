@@ -18,6 +18,19 @@ time, R=CPsi2 spectral form factor -->
 
 ---
 
+## What this document is about
+
+The spectral form factor (SFF) is a standard tool from random matrix theory:
+it measures how eigenvalues are statistically distributed by looking at their
+Fourier transform in time. Chaotic systems show a characteristic "dip-ramp-plateau"
+pattern; integrable systems show flat noise. We compute the SFF for our palindromic
+Liouvillian across N=2 to N=7 and find something that matches neither: a unique
+palindromic modulation at the predicted frequencies, confirming the mirrored
+eigenvalue pairing in the time domain. The modulation fades as the system grows
+(~1/4^N) but never vanishes; it is exact at every N.
+
+---
+
 ## Abstract
 
 The spectral form factor (SFF) is the standard time-domain diagnostic
@@ -140,7 +153,7 @@ the palindromic period is 0.3% of the Heisenberg time.
 
 Physical meaning: the palindromic structure (paired modes, mirrored
 decay rates) is a SHORT-TIME phenomenon. The long-time spectral
-correlations (level repulsion, spectral rigidity) are set by the
+correlations (level repulsion, the tendency of eigenvalues in chaotic systems to avoid each other; spectral rigidity, the suppression of fluctuations in eigenvalue density) are set by the
 Poisson statistics of the integrable system. The palindrome organizes
 the fast dynamics; Poisson governs the slow dynamics.
 
@@ -182,7 +195,7 @@ The SFF does not match either standard universality class:
 - **Poisson predicts** K(t>0) = 1/N (flat, no temporal structure).
   Observed: K has strong time dependence with palindromic modulation.
 
-- **GUE predicts** dip at t=0+, linear ramp to K=1/N at t_H, plateau.
+- **GUE (Gaussian Unitary Ensemble, the random matrix class for systems without time-reversal symmetry) predicts** dip at t=0+, linear ramp to K=1/N at t_H, plateau.
   Observed: no ramp (K decreases or stays flat, no linear rise).
 
 The palindromic Liouvillian has a UNIQUE SFF signature: modulated

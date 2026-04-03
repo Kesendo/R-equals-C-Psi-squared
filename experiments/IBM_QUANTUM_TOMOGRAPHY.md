@@ -12,12 +12,26 @@ quantum classical boundary hardware test, R=CPsi2 IBM quantum tomography -->
 
 ---
 
+## What this document is about
+
+Everything before this was simulation. This document describes the first
+test on real quantum hardware: a single qubit on IBM's Torino processor,
+watched as it decoheres. The CΨ product starts high and falls through
+the 1/4 boundary, confirming the crossing is a physical phenomenon.
+The main surprise: IBM's published coherence time (T₂ from Hahn echo)
+is 2.7× too optimistic for free decoherence; the correct timescale
+is T₂*, which accounts for all noise sources. Once corrected, the
+theoretical crossing equation matches the data to 5% error, and the
+1/4 crossing emerges naturally from a global fit that was never told
+about 1/4. A historical sweep of 24,073 calibration records shows 84%
+of qubits cross the boundary at least once over six months.
+
 ## Abstract
 
 First empirical test of the CΨ = 1/4 boundary on quantum hardware (IBM Torino,
 Heron r2, Qubit 52). 25-point state tomography during free induction decay
 confirms the crossing. Three critical findings: **(1)** The boundary crossing is
-real and measurable on physical qubits. **(2)** IBM calibration T₂ (Hahn echo)
+real and measurable on physical qubits. **(2)** IBM calibration T₂ (Hahn echo, a pulse sequence that cancels slow noise by applying a refocusing pulse midway through the measurement)
 is the wrong timescale; free decoherence is governed by T₂* ≈ T₂/2.7. A
 three-model correction reduces MAE from 0.428 to 0.053 (88% improvement).
 **(3)** The generalized crossing equation hits the 1/4 crossing as an emergent
@@ -67,7 +81,7 @@ and identified 12 qubits that cross ¼ on nearly every calibration day.
 
 1. **Prepare** |+⟩ = (|0⟩+|1⟩)/√2 using a Hadamard gate
 2. **Wait** for variable delay time t (25 logarithmically spaced points, 0 to 3×T₂)
-3. **Tomograph** full state reconstruction via Qiskit `StateTomography` (X, Y, Z basis, maximum-likelihood estimation)
+3. **Tomograph** full state reconstruction via Qiskit `StateTomography` (X, Y, Z basis, maximum-likelihood estimation, a fitting method that finds the physically valid density matrix most consistent with the measurement data)
 4. **Extract** density matrix ρ(t) at each delay
 5. **Compute** C(t) = Tr(ρ²), Ψ(t) = 2|ρ₀₁|, product C·Ψ
 
@@ -222,8 +236,8 @@ C·Ψ(0) = 0.8834      (ideal: 1.0000)
 Fidelity = 0.9698
 ```
 
-The Hadamard gate does not produce a perfect |+⟩. This is normal for transmon qubits
-(typical single-gate fidelity 99.5-99.8%), but it means the starting point of the
+The Hadamard gate does not produce a perfect |+⟩. This is normal for transmon qubits (superconducting artificial atoms used in IBM and Google processors,
+typical single-gate fidelity 99.5-99.8%), but it means the starting point of the
 theory curve is wrong if we assume ideal preparation.
 
 ### Three models, compared
@@ -364,7 +378,7 @@ match the equation when T₂* is used instead of T₂.
 ## What This Does Not Prove
 
 1. The T₂*/T₂ ratio of 0.54 has only been measured on one qubit. It may differ across
-   the chip or between backends. The March run includes a Ramsey measurement to test this.
+   the chip or between backends. The March run includes a Ramsey measurement (a simpler, single-basis interference experiment that directly measures T₂* without full state reconstruction) to test this.
 2. A single qubit on one backend is not statistical evidence for the crossing equation.
    Two r-values (from qubit 52 and a permanent crosser) are needed at minimum.
 3. The imperfect initial state means we test the equation with C·Ψ(0) = 0.88, not 1.0.

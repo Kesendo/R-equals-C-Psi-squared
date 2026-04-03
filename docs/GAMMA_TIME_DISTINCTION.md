@@ -47,7 +47,8 @@ Time has three levels: (1) the formal parameter t in d/dt (syntax, trivial),
 necessary and sufficient condition for Level 3. Without γ: Bell+ is frozen
 (zero observable change over t=0 to 50); |01⟩ oscillates in circles (127
 crossings of ¼ in both directions, recurrence at t=11). With γ: CΨ crosses
-¼ once and stays below (absorbing boundary), purity decays irreversibly,
+¼ once and stays below (absorbing boundary), purity (a measure of how
+far the state is from maximum mixedness) decays irreversibly,
 past and future become distinguishable. J=0 with γ>0 has experienced time;
 J>0 with γ=0 does not. However, τ=γt does not universally scale all
 observables (deltas up to 0.86): γ provides the arrow, J provides the
@@ -85,7 +86,7 @@ quantum the system is (see [What We Found](WHAT_WE_FOUND.md)).
 ### Bell+ at γ=0: time runs, but nothing happens
 
 The parameter t goes from 0 to 50. Every observable is constant: CΨ = 0.3333,
-concurrence = 1.0, trace distance = 0.0000 at every time step. From inside
+concurrence = 1.0, trace distance (the standard measure of how distinguishable two quantum states are) = 0.0000 at every time step. From inside
 the system, t=0 and t=50 are identical. The "time" runs, but there is no time.
 
 ### |01⟩ at γ=0: time runs in circles

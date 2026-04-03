@@ -15,6 +15,19 @@
 
 ---
 
+## What this document is about
+
+A quantum resonator has two qualities you might want: high Q-factor (how
+many times it oscillates before dying) and frequency diversity (how many
+different frequencies it can sustain). This document shows that you cannot
+maximize both at once. Cold systems have high Q but few frequencies. Hot
+systems have many frequencies but low Q. The trade-off is mediated by
+three independent mechanisms: coupling creates structured oscillation,
+dephasing lifts degeneracies, and thermal excitation explodes the
+frequency count but degrades quality. The sacrifice-zone advantage (3×
+at zero temperature) vanishes in heat. Biology operates in the middle:
+enough heat for diversity, enough structure for quality.
+
 ## Abstract
 
 Three orthogonal mechanisms break symmetry in open quantum systems.
@@ -147,7 +160,7 @@ The value 1.809 is:
 It is a geometric constant of the Heisenberg chain spectrum, not a
 topological invariant. The correct characterization: it is the ratio
 of maximum w=1 Liouvillian frequencies, which are eigenfrequencies
-of the single-magnon sector.
+of the single-magnon sector (states where exactly one spin is flipped, the simplest excitations of the chain).
 
 This holds for Z-dephasing and for zero-temperature amplitude damping
 (n_bar=0). Cold dissipation does not break it.
@@ -178,7 +191,7 @@ but preserve the relative trends.
 Dephasing splits degenerate modes that had identical frequencies at
 γ=0. The peak diversity is at γ/J ~ 0.15-0.3: 112 frequencies,
 up from 43 at zero noise. Above this, modes begin to merge again as
-decay broadens their linewidths.
+decay broadens their linewidths (the frequency range over which each mode responds, like the width of a bell curve).
 
 N=2 stays at 1-2 frequencies throughout. All new frequencies come from
 coupling (V-Effect) amplified by dephasing.
@@ -466,7 +479,7 @@ Life operates in between.
 
 7. Formal proof that ω_max(w=1) = 4J·(1+cos(π/N)) holds for all N.
    Verified N=2-6 numerically. Likely derivable from Heisenberg
-   chain magnon spectrum or Clebsch-Gordan decomposition.
+   chain magnon spectrum or Clebsch-Gordan decomposition (the standard method for combining angular momenta in quantum mechanics).
 
 ---
 

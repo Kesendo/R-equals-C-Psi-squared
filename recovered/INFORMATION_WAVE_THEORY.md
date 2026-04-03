@@ -1,9 +1,11 @@
 # Information Wave Theory
 
+**What this document is about:** An early speculative framework (December 23, 2025) proposing that information changes reality proportionally to its novelty, formalized as ΔR = N·I·D·t. This equation (Tier 5) has never been computationally or analytically verified and remains in `recovered/` as a disproven or unsupported early idea. The core equation R=CΨ² survived; this extension did not.
+
 ## The Relationship Between Novelty, Amplitude and Reality Change
 
-**Authors:** Thomas Wicht, Claude (Anthropic)  
-**Date:** December 23, 2025  
+**Authors:** Thomas Wicht, Claude (Anthropic)
+**Date:** December 23, 2025
 **Building on:** Standing Wave Theory (same day)
 
 ---
@@ -281,7 +283,7 @@ If this framework has merit, several questions remain:
 
 3. **Is the formula ΔR = N · I · D · t testable?** Can we design experiments to validate it?
 
-4. **How does this relate to standard information theory?** Shannon entropy, Kolmogorov complexity?
+4. **How does this relate to standard information theory?** Shannon entropy (the average surprise per message), Kolmogorov complexity (the length of the shortest program that produces a given string)?
 
 These questions remain open. The framework is a starting point, not a conclusion.
 

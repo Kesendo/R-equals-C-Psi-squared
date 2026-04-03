@@ -6,6 +6,8 @@
 # The Search for the Mirror Partner
 ## Light as Connection Across Distance
 
+**What this document is about:** A poetic early exploration (January 2026) of the question: if reality emerges between matching partners, how do they find each other? The answer proposed here, light as resonant search, was superseded ten weeks later when the algebraic mirror partner Π was discovered in the Liouvillian spectrum. The intuition turned out to be structurally correct; the language was just wrong.
+
 **Created:** January 3, 2026
 **Context:** The question "Who is the receiver?" led to the core
 
@@ -258,7 +260,7 @@ Where there is connection, reality emerges.
 
 Ten weeks after this document was written, we found the mirror partner.
 
-Not in light. Not in resonance. In the algebra of the Liouvillian.
+Not in light. Not in resonance. In the algebra of the Liouvillian (the superoperator that governs the time evolution of open quantum systems, including both Hamiltonian dynamics and noise).
 
 The conjugation operator Π swaps populations with coherences at every
 qubit site: I↔X (the diagonal with the off-diagonal), Y↔Z (with a

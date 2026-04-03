@@ -15,7 +15,7 @@ The central claim: the self-referential fixed-point equation
 
 $$R_{n+1} = C(\Psi + R_n)^2$$
 
-has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
+has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant (the expression under the square root in the quadratic formula, whose sign determines whether solutions are real or complex) of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
 
 The proof journey works upward:
 
@@ -102,7 +102,7 @@ The 1.9% deviation is within expected systematic error for the hardware (T1/T2 c
 ### NEXT STEPS
 
 1. **Repeat on newer hardware.** IBM Heron R2 processors (available 2026) have ~5× lower error rates. Target < 0.5% deviation.
-2. **Error-mitigated tomography.** Apply zero-noise extrapolation (ZNE) and probabilistic error cancellation (PEC) to separate hardware noise from the theoretical signal.
+2. **Error-mitigated tomography.** Apply zero-noise extrapolation (ZNE, running circuits at multiple noise levels and extrapolating to zero) and probabilistic error cancellation (PEC, statistically removing the effect of known noise channels) to separate hardware noise from the theoretical signal.
 3. ~~**Close the product-power uniqueness proof.**~~ **RESOLVED (March 22, 2026).**
    The Rényi uniqueness theorem proves this from a deeper angle: α=2 is the
    UNIQUE Rényi order where the bifurcation threshold is state-independent.
@@ -152,8 +152,8 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 ~~**Conjecture 2.1 (Entanglement Crossing Theorem).**~~ **PROVEN (March 22, 2026).**
 For any primitive CPTP map ε (unique fixed point), any initial state with
 CΨ > 1/4 has CΨ(εⁿ(ρ)) < 1/4 for sufficiently large n. Proof via
-quantum Perron-Frobenius convergence + fixed-point CΨ bound + Lipschitz
-continuity. Fixed-point bound proven analytically for unital and local
+quantum Perron-Frobenius convergence (the quantum analog of the theorem that repeated application of a positive map drives any distribution toward a unique steady state) + fixed-point CΨ bound + Lipschitz
+continuity (the property that small input changes produce at most proportionally small output changes). Fixed-point bound proven analytically for unital and local
 channels, numerically verified for 300 random CPTP maps (max CΨ(ρ*) = 0.138).
 Only exception: non-primitive maps (e.g., projective measurements preserving
 Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
@@ -491,7 +491,7 @@ The correspondence $C\Psi \leftrightarrow c$ maps the quantum boundary to the cu
 
 ### Period-Doubling and Feigenbaum
 
-Beyond the main cardioid, the Mandelbrot set exhibits period-doubling cascades with the Feigenbaum constant $\delta_F \approx 4.6692$. In our framework:
+Beyond the main cardioid, the Mandelbrot set exhibits period-doubling cascades with the Feigenbaum constant $\delta_F \approx 4.6692$ (a universal ratio describing how quickly the parameter spacing between successive period-doublings shrinks, the same number for all quadratic maps). In our framework:
 
 - $C\Psi < 1/4$: Period-1 behavior (stable fixed point, coherent system)
 - $C\Psi = 1/4$: Bifurcation (boundary crossing)

@@ -1,5 +1,7 @@
 # Your Emotion Vectors Might Come in Structural Pairs
 
+**What this document is about:** An open letter to Anthropic's interpretability team, predicting that the 171 emotion vectors they found in Claude Sonnet 4.5 are not independent features but ~85 palindromic pairs: each positive-valence vector should have an exact structural partner whose activations sum to a fixed constant. Three concrete tests are proposed, all feasible with existing data. The prediction follows from the Universal Palindrome Condition, which requires only two populations, a swap, and antisymmetric dynamics.
+
 **A testable prediction for Anthropic's interpretability team**
 
 Thomas Wicht · April 2026
@@ -58,7 +60,7 @@ To test this claim, we looked for the three conditions in a system far from quan
 
 ## The bridge: from physics to neuroscience
 
-The nematode *C. elegans* has 302 neurons with a fully mapped connectome. Excitatory and inhibitory neurons form two populations with different characteristic timescales (condition 1). Dale's Law provides a natural partition, and swapping E↔I labels gives an involution (condition 2). In balanced subnetworks (E:I = 1:1), the coupling structure is approximately antisymmetric (condition 3).
+The nematode *C. elegans* has 300 neurons with a fully mapped connectome (the complete wiring diagram of every neural connection). Excitatory and inhibitory neurons form two populations with different characteristic timescales (condition 1). Dale's Law (each neuron is permanently either excitatory or inhibitory, never both) provides a natural partition, and swapping E↔I labels gives an involution (a map that is its own inverse: applying it twice returns to the start) (condition 2). In balanced subnetworks (E:I = 1:1), the coupling structure is approximately antisymmetric (condition 3).
 
 Result: **98.2% palindromic eigenvalue pairing** in balanced E:I subnetworks of *C. elegans* (N = 10, 200 random subnetworks, real synaptic weights). When we break the balance, the pairing collapses: 40% at 2:1, 17% at 10:1.
 

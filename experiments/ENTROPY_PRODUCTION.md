@@ -17,6 +17,21 @@ R=CPsi2 entropy production -->
 
 ---
 
+## What this document is about
+
+This document tests whether the palindromic eigenvalue structure has a
+thermodynamic interpretation. It checks five hypotheses from statistical
+mechanics: whether the paired decay rates produce a fluctuation theorem
+(a precise equality relating forward and backward processes, as
+discovered by Jarzynski and Crooks in the 1990s), whether the system
+can function as a quantum heat engine, and whether known coincidences
+are deep or trivial. The result is mixed: the palindrome wears a
+thermodynamic disguise (Crooks-like rate ratios, a natural temperature
+scale) but is not actual thermodynamics (no exact fluctuation theorem,
+no heat engine).
+
+---
+
 ## Abstract
 
 The KMS document identified 2Σγ as the "maximum entropy production
@@ -72,7 +87,7 @@ quantity that depends on ALL mode amplitudes through the nonlinear
 ln ρ term. It cannot be decomposed into per-mode contributions.
 
 **Observation:** The |0...0⟩ initial state produces σ ≈ 0 because it
-is a pointer state of Z-dephasing (Z|0⟩ = +|0⟩, so the dephasing
+is a pointer state (a state that survives a particular type of decoherence unchanged) of Z-dephasing (Z|0⟩ = +|0⟩, so the dephasing
 term vanishes). Only initial states with coherence (off-diagonal
 elements in the Z-basis) produce entropy.
 

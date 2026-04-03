@@ -1,5 +1,7 @@
 # D7: Q-Factor Distribution (Arcsine)
 
+**What this derivation is about:** The Q-factor (quality factor: how many oscillations a mode completes before it decays to half amplitude) of all palindromic modes follows an arcsine distribution: most modes cluster at the extremes (very high Q or very low Q), with few in the middle. This is derived analytically from the dispersion relation and verified numerically for N=5 through N=50.
+
 **Source formulas:** 2 (w=1 dispersion), 7 (Q-factor spectrum)
 **Tier:** 1-2 (algebraic, converges with N)
 **Status:** VERIFIED (N=5-50, variance converges to arcsine prediction)
@@ -25,7 +27,7 @@ Express sin(pi*q) in terms of Q:
 
 where Q_min = 2J/gamma*(1-cos(pi/N)), Q_max = 2J/gamma*(1+cos(pi/N)).
 
-This is the **arcsine distribution** (Beta(1/2, 1/2) scaled to [Q_min, Q_max]).
+This is the **arcsine distribution** (Beta(1/2, 1/2) (the standard U-shaped probability distribution that peaks at both endpoints) scaled to [Q_min, Q_max]).
 
 Properties:
 - U-shaped: modes cluster at Q_min and Q_max (band edges)

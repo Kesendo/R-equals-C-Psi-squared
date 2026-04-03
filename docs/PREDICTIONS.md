@@ -15,6 +15,18 @@
 
 ---
 
+## What this document is about
+
+This is the master catalog of every testable prediction the R=CΨ²
+framework has produced, organized by verification status: confirmed on
+hardware (4), computationally verified (52), anomalies under
+investigation (5), testable with current hardware (8), testable in
+principle (4), speculative (4), unverified agent claims (4), null
+results (1), and closed/reopened hypotheses (2). Each entry has a tier
+label, a falsification criterion, and a link to its source experiment.
+
+---
+
 ## 1. Empirically Verified on Real Quantum Hardware
 
 **Tier: 2, Measured on IBM Torino (Heron r2), qubit 52, 2026-02-09**
@@ -96,7 +108,7 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 
 | # | Hypothesis | Mechanism | Status (March 2026) |
 |---|-----------|-----------|--------|
-| H1 | Systematic SPAM error | State preparation / measurement bias | Not ruled out |
+| H1 | Systematic SPAM error (State Preparation And Measurement: systematic bias in how qubits are initialized or read out) | State preparation / measurement bias | Not ruled out |
 | H2 | TLS coupling / detuning | Two-level system defect or frequency offset | **Most consistent with data** |
 | H3 | Boundary structure | Complex fixed-point direction frozen into rho after crossing 1/4 | **Not supported** |
 

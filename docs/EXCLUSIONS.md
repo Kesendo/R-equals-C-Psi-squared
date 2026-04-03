@@ -31,7 +31,7 @@ operators: d are immune (diagonal), d²-d decay. The palindromic
 pairing requires equal counts: d = d²-d, giving d²-2d = 0. The only
 non-trivial solution is d = 2 (the qubit).
 
-**Verification:** Qutrits (d=3) tested against 236 dephasing dissipators:
+**Verification:** Qutrits (d=3, the three-level analogue of qubits) tested against 236 dephasing dissipators:
 0/236 palindromic. The equation d² - 2d = 9 - 6 = 3, not zero.
 
 **Proof:** [Qubit Necessity](QUBIT_NECESSITY.md),
@@ -175,7 +175,7 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
 
 **Basis:** The recursion R = C(Ψ+R)² has discriminant D = 1 - 4CΨ.
 D = 0 at CΨ = ¼. This is the normal form of the fold catastrophe
-(Thom-Arnold classification), which is structurally stable: small
+(the simplest in Thom and Arnold's classification of qualitative transitions that cannot be removed by small perturbations), which is structurally stable: small
 perturbations cannot remove it, split it, or move it qualitatively.
 
 **Caveat:** The fold exists only when Σγ > Σγ_crit (≈ 0.25-0.50% of J,
@@ -206,7 +206,7 @@ is (½)² = ¼. See [Neural 1/4](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 
 ---
 
-## Exclusion 6: DD cannot change CΨ
+## Exclusion 6: DD (Dynamical Decoupling) cannot change CΨ
 
 **Basis:** CΨ = Tr(ρ^2) x L₁(ρ)/(d-1). Purity Tr(ρ^2) is invariant
 under all unitaries. L₁ coherence is invariant under the Pauli group

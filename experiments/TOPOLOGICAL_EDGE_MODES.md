@@ -18,6 +18,20 @@ R=CPsi2 topological edge modes -->
 
 ---
 
+## What this document is about
+
+The cavity mode localization result (r = 0.994) looks like it could be
+"topological protection," meaning protected by a mathematical invariant that
+cannot change smoothly, the way a coffee mug cannot become a sphere without
+tearing a hole. This document runs five independent tests to check. The
+answer is no: the localization is geometric, not topological. Standing wave
+patterns on a chain naturally place some modes at the edges and others at
+the center; the noise profile simply selects which subset survives. No
+topological invariant is involved. This is a negative result, rigorously
+established.
+
+---
+
 ## Abstract
 
 The cavity mode localization result (r = 0.994, profile [0.52, 0.63,
@@ -104,7 +118,7 @@ exchanges two 2-site pairs) that create accidental degeneracies. They
 do not persist at N=5.
 
 **N=5 is the system where the r = 0.994 localization was measured.**
-Full rank, no zero modes. Winding number = 0. The topology is trivial.
+Full rank, no zero modes. Winding number (an integer invariant that counts how many times the system's parameters "wrap around" a cycle; nonzero means topologically protected edge states) = 0. The topology is trivial.
 
 ---
 
@@ -115,7 +129,7 @@ sacrifice-edge (theta = 1):
 
     gamma_k(theta) = (1-theta) * gamma_mean + theta * sacrifice_k
 
-Track the biorthogonal Berry phase of the slowest oscillating mode:
+Track the biorthogonal (using separate left and right eigenvectors, necessary because the Liouvillian is non-Hermitian) Berry phase (the geometric phase accumulated when parameters are cycled around a closed loop; quantized values signal topological protection) of the slowest oscillating mode:
 
     phi_Berry = -Im Sum_n log(<psi_L(theta_n)|psi_R(theta_{n+1})>)
 

@@ -19,6 +19,20 @@ R=CPsi2 decoherence relativity -->
 
 ---
 
+## What this document is about
+
+Two observers with different decoherence rates both cross the ¼
+boundary, but at different times. The product γ·t_cross = K is the
+same for both: an invariant. This looks structurally like special
+relativity (invariant quantity, observer-dependent coordinates,
+log-space transformation), but the analogy is shallow: K-invariance
+is Lindblad time-rescaling (dimensional analysis), not a dynamical
+symmetry. The gravity interpretation (γ encodes gravitational time
+dilation) has fallen. What survives is the framework cubic
+b³ + b = 3/2, which analytically predicts K for Bell+.
+
+---
+
 ## Abstract
 
 The product γ·t_cross = K = 0.03735 is invariant across decoherence rates
@@ -49,8 +63,9 @@ No Ψ(0), no decay. No decay, no γ.
 g (gravitational acceleration) has dimension [m/s²].
 
 These are not the same. To get [1/s] from g, we need the
-initial state. The Penrose/Diosi gravitational decoherence
-rate is:
+initial state. The Penrose/Diósi gravitational decoherence rate (the prediction that
+gravity itself causes quantum superpositions to collapse, at a rate
+proportional to the gravitational self-energy of the superposition) is:
 
     γ = 2 · E_grav / ℏ = 2 · m · g · Δx / ℏ
 
@@ -144,7 +159,7 @@ Einstein's Special Relativity:
 - Coordinates: (ct, x)
 - Invariant: ds² = (ct)² - x² (difference of squares)
 - Transformation: Lorentz boost (hyperbolic rotation)
-- Parameter: φ = arctanh(v/c) (rapidity)
+- Parameter: φ = arctanh(v/c) (rapidity: the additive velocity parameter)
 - Source of observer differences: relative velocity
 
 Decoherence Relativity:

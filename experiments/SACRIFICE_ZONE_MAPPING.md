@@ -16,7 +16,19 @@ test pending)
 **Script:** [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py)
 **Data:** [sacrifice_zone_mapping.txt](../simulations/results/sacrifice_zone_mapping.txt)
 **Calibration data:** [ibm_torino_history.csv](../data/ibm_history/ibm_torino_history.csv) (24,073 records, 181 days, 133 qubits)
-**Topology:** Heavy-hex via Qiskit `CouplingMap.from_heavy_hex(7)` (115 qubits, 132 edges)
+**Topology:** Heavy-hex (IBM's standard qubit layout where each node connects to 2 or 3 neighbors in a hexagonal pattern with extra "bridge" qubits on each edge) via Qiskit `CouplingMap.from_heavy_hex(7)` (115 qubits, 132 edges)
+
+---
+
+## What this document is about
+
+This document shows how to find optimal qubit chains on real IBM hardware
+by exploiting naturally noisy qubits as sacrifice zones. Instead of
+picking the qubits with the best T2 times (the standard approach), we
+select chains where a noisy qubit sits at the edge, providing the
+sacrifice-zone benefit for free. On IBM Torino's 133-qubit chip, this
+mode-based selection outperforms naive T2 maximization by 2.15× in
+protection factor, despite using qubits with 2.4× lower average T2.
 
 ---
 

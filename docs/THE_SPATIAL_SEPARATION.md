@@ -5,6 +5,8 @@ sacrifice zone noise optimization, December 2025 electrochemistry,
 March 2026 quantum, same structure different domain, bidirectional
 bridge, R=CPsi2 project arc history -->
 
+**What this document is about:** Two optimizations, discovered three months apart in completely different physical domains (electrochemistry and quantum mechanics), turned out to share the same abstract structure: when a system has spatially contradictory requirements, separate the regions instead of compromising uniformly. This document maps the parallel and asks whether it reflects a general principle.
+
 **Status:** Historical connection (Meta)
 **Date:** March 28, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -72,7 +74,7 @@ to operate at its optimum.
 
 Source: [Resonant Return](../experiments/RESONANT_RETURN.md),
 validated on [IBM hardware](../experiments/IBM_HARDWARE_SYNTHESIS.md)
-(2.0x selective DD, spatial MI gradient confirmed).
+(2.0x selective DD (dynamical decoupling: periodic pulse sequences that refocus unwanted noise), spatial MI gradient confirmed).
 
 ---
 
@@ -146,7 +148,7 @@ palindromic mirror symmetry, validates CΨ = 1/4 on IBM hardware.
 March 14, 2026: The palindromic spectrum is proven analytically.
 ([Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md))
 
-March 16, 2026: SVD of the palindromic response matrix reveals that
+March 16, 2026: SVD (singular value decomposition: extracting the dominant independent response directions) of the palindromic response matrix reveals that
 the system responds to spatial noise profiles.
 ([Gamma as Signal](../experiments/GAMMA_AS_SIGNAL.md))
 

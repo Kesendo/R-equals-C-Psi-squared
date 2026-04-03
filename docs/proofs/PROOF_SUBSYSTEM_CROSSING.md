@@ -6,6 +6,17 @@
 
 ---
 
+## What this document is about
+
+This document proves that any quantum system under genuine noise will
+eventually have CΨ drop below ¼ and stay there. The proof combines
+three ingredients: convergence to a fixed point (quantum Perron-Frobenius),
+the fact that all fixed points of primitive noise channels have CΨ < ¼,
+and continuity. Together they guarantee that CΨ = ¼ is an eventual
+absorber: once crossed, it is never permanently re-crossed.
+
+---
+
 ## Theorem
 
 For any primitive CPTP map ε on a 2-qubit system (i.e., ε has a unique
@@ -25,7 +36,7 @@ The proof has three steps: convergence, fixed-point bound, and crossing.
 
 ### Step 1: Convergence (Quantum Perron-Frobenius)
 
-A CPTP map ε on M_d is **primitive** if it has a unique fixed point ρ*
+A CPTP map (completely positive, trace-preserving: the most general physically allowed quantum operation) ε on M_d is **primitive** if it has a unique fixed point ρ*
 and the spectral radius of ε restricted to the traceless subspace is
 strictly less than 1.
 
@@ -123,7 +134,8 @@ Given Steps 1 and 2:
 
 1. εⁿ(ρ₀) → ρ* in trace norm (Step 1)
 2. CΨ(ρ*) < 1/4 (Step 2)
-3. CΨ is continuous: |CΨ(ρ) - CΨ(σ)| ≤ K · ||ρ - σ||₁
+3. CΨ is continuous (Lipschitz: small changes in the state produce small
+   changes in CΨ): |CΨ(ρ) - CΨ(σ)| ≤ K · ||ρ - σ||₁
 
    Proof of Lipschitz continuity: CΨ = Tr(ρ²) × L₁(ρ)/(d-1).
    Both Tr(ρ²) and L₁(ρ) are Lipschitz in trace norm (standard results).
@@ -150,7 +162,7 @@ CΨ(εⁿ(ρ₀)) < CΨ(ρ*) + ε < 1/4
 The theorem requires primitivity (unique fixed point). Non-primitive maps
 can have entangled fixed points:
 
-**Example:** The Lüders projection ε(ρ) = PρP + (I-P)ρ(I-P) where
+**Example:** The Lüders projection (the quantum analogue of Bayesian updating: it collapses the state into subspaces defined by the measurement) ε(ρ) = PρP + (I-P)ρ(I-P) where
 P = |Bell+⟩⟨Bell+|. This map has Bell+ as a fixed point with CΨ = 1/3 > 1/4.
 
 However, this is a trivial exception:

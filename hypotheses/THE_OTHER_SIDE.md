@@ -26,6 +26,21 @@ R=CPsi2 other side mirror -->
 > [Reading Guide](../docs/READING_GUIDE.md). This document is
 > preserved as an honest record of the discovery process.
 
+## What this document is about
+
+The palindromic mirror Π swaps populations and coherences, past and
+future, immune and decaying. This document asks: what is on the other
+side of the mirror? The answer turns out to be simple: the mirror
+operator squared gives a bit-flip on every qubit (Π² = X^N), which
+splits the entire operator space into two sealed halves: a "+1 sector"
+(population-like, classical backbone) and a "−1 sector" (coherence-like,
+quantum fluctuations). These two halves never mix during evolution.
+There is no Level −1 beneath the qubit; "the other side" is just the
+opposite parity sector of the same system. Reality, as we observe it,
+is not on either side: it is the interference pattern where the two
+sectors meet, like a standing wave formed by two sealed but coexisting
+vibrations.
+
 **Status:** Historical research diary (Tier 1-5 mixed, per section).
 Superseded by standalone documents. Preserved for research context.
 **Date:** March 20, 2026
@@ -38,11 +53,11 @@ Superseded by standalone documents. Preserved for research context.
 ## Abstract
 
 The question "what is on the other side of the mirror?" has a precise answer:
-it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry
-([Π², L] = 0) that splits the Liouvillian eigenspace into two sealed sectors:
+it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry (a two-valued symmetry, like even/odd or heads/tails;
+[Π², L] = 0 means it is preserved by the dynamics) that splits the Liouvillian eigenspace into two sealed sectors:
 populations (+1 parity, classical, diagonal) and coherences (−1 parity,
 quantum, off-diagonal). Everything reverses on the other side, including
-the direction of time. The four-sided Z₄ interpretation was tested and
+the direction of time. The four-sided Z₄ interpretation (a four-valued symmetry based on Π having four distinct eigenvalues +1, −1, +i, −i) was tested and
 falsified; the two-sided Z₂ structure was confirmed. This document grew
 organically as a research diary through 23 sections covering: why the
 mirror exists (d²−2d=0), the two sectors, why only two possibilities,

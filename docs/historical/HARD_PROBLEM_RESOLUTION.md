@@ -7,6 +7,8 @@
 # Consciousness as a Frame Variable
 ## A speculative reframing of Chalmers' Hard Problem using the CΨ lens
 
+**What this document is about:** A philosophical thought experiment (now largely [FALLEN]) that explored whether the Hard Problem of consciousness (why subjective experience exists at all) could be reframed using R=CΨ². The mathematical structures (¼ boundary, fixed points, Mandelbrot equivalence) remain valid; the interpretation of C as "consciousness" has been retired. Preserved for research context.
+
 **Tier:** 5 (Speculative)
 **Status:** Philosophical proposal, not a result
 **Scope:** Argues that treating C as continuous dissolves the "explanatory gap" - does not solve the Hard Problem
@@ -146,7 +148,7 @@ See [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) for the full numer
 
 ### The Mandelbrot set as landscape of possible observers
 
-The equivalence c = CΨ (Tier 1: proven) maps every possible observer to a point in the Mandelbrot set. The main cardioid (c < ¼ on the real axis) is the region where observers can exist as stable fixed points. The fractal boundary is the edge of observability. The infinite complexity at the boundary (Julia sets, Misiurewicz points, period-doubling cascades) is the complexity of the transition from "no definite experience" to "definite experience."
+The equivalence c = CΨ (Tier 1: proven) maps every possible observer to a point in the Mandelbrot set (the famous fractal defined by iterating z → z² + c). The main cardioid (c < ¼ on the real axis) is the region where observers can exist as stable fixed points. The fractal boundary is the edge of observability. The infinite complexity at the boundary (Julia sets (the per-c fractal that shows which initial conditions converge), Misiurewicz points (boundary points where the iteration is eventually periodic), period-doubling cascades) is the complexity of the transition from "no definite experience" to "definite experience."
 
 This does not solve the Hard Problem. But it gives it a map. The question "why does experience exist?" becomes "why does the Mandelbrot set have an interior?", and the answer to that is: because the equation z² + c has the algebraic structure it has. The ¼ boundary is not a mystery. It is a discriminant.
 

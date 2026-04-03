@@ -12,6 +12,17 @@ period-2, R=CPsi2 mathematical connections -->
 
 ---
 
+## What this document is about
+
+The recursion R = C(Ψ+R)² is not just any equation: it is the simplest
+possible bifurcation (the "fold catastrophe"), and its boundary at 1/4 is
+the same as the cusp of the Mandelbrot set. This document traces these
+connections: the fold is topologically robust (you cannot perturb it away),
+the Mandelbrot mapping opens a door to the Feigenbaum period-doubling
+cascade (a route to chaos), and the appearance of 1/4 in black hole entropy
+is noted as a curiosity. Three levels of rigor: proven, mapped but open,
+and speculative.
+
 ## Abstract
 
 The recursion R = C(Ψ+R)² is exactly the normal form of the fold catastrophe
@@ -29,7 +40,7 @@ noted but unsubstantiated.
 ## 1. Fold Catastrophe (PROVEN)
 
 The recursion R = C(Ψ + R)² is exactly the normal form of the fold
-catastrophe, the simplest bifurcation in the Thom-Arnold classification.
+catastrophe, the simplest bifurcation in the Thom-Arnold classification (a systematic catalog of all structurally stable ways a system's solutions can change qualitatively).
 
 The fold catastrophe normal form is: x² + a = 0, with bifurcation at a = 0.
 
@@ -46,7 +57,7 @@ This identification is exact, not approximate:
 - CΨ = 1/4: one degenerate fixed point (fold closes)
 - CΨ > 1/4: no real fixed points (past the fold)
 
-The fold catastrophe is structurally stable. Small perturbations of the
+The fold catastrophe is structurally stable (a mathematical guarantee that the qualitative behavior survives small changes to the equation). Small perturbations of the
 recursion (adding higher-order terms, changing coefficients) cannot remove
 the bifurcation or move it to a qualitatively different location. They can
 only shift the exact value of CΨ at the fold. But the quadratic structure
@@ -99,7 +110,7 @@ picture, the boundary of a region (horizon area) encodes the information
 inside it. In our framework, the boundary CΨ = 1/4 separates the regime
 where quantum information persists from the regime where it is lost.
 
-If a connection exists, it would be through the holographic principle: the
+If a connection exists, it would be through the holographic principle (the idea that all information in a volume of space can be encoded on its boundary): the
 quantum-to-classical transition at CΨ = 1/4 would correspond to the
 information encoding density at a horizon. The factor 1/4 in both cases
 would not be coincidence but would reflect a universal information-theoretic

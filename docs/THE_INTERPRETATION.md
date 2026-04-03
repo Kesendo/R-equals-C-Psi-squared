@@ -154,7 +154,7 @@ possible two-term coupling combinations are explained algebraically by
 these families. The remaining 2/36 (XZ+YZ and ZX+ZY) require non-local
 Π operators with Bell-state structure: Choi rank 8, Schmidt entropy
 2.51/3.00 (84% of maximum entanglement), verified as fundamental via
-the Choi-Jamiolkowski isomorphism (not a projection artifact).
+the Choi-Jamiolkowski isomorphism (the standard correspondence between quantum channels and quantum states, used here to confirm the entanglement is intrinsic, not a projection artifact).
 
 See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
 [The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md)
@@ -336,7 +336,7 @@ The palindromic symmetry is genuinely new. It is not equivalent to:
 - **Sa-Ribeiro-Prosen 38-fold classification:** a comprehensive taxonomy
   of Lindbladian symmetries. Π generalizes the P (chiral) class to
   order 4 (Π⁴ = I instead of P² = I). Class AIII (chiral unitary),
-  confirmed by RMT (Poisson statistics) and direct Π classification.
+  confirmed by RMT (Random Matrix Theory; Poisson statistics) and direct Π classification.
   See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The closest known relative is Roberts-Lingenfelter-Clerk hidden TRS
@@ -407,8 +407,8 @@ See: [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 **The sacrifice-zone formula (March 24).** The SVD analysis of the
 palindromic response matrix revealed that mode 2 (edge-hot, center-cold)
 is the optimal direction for information transfer: 10× improvement over
-hand-designed V-shape profiles. Numerical optimization (Nelder-Mead,
-Differential Evolution) then broke the SVD symmetry and found 60-100×
+hand-designed V-shape profiles. Numerical optimization (Nelder-Mead and
+Differential Evolution, two standard derivative-free optimizers) then broke the SVD symmetry and found 60-100×
 by concentrating noise asymmetrically. Finally, analytical testing of the
 optimizer's convergence direction revealed a trivially simple closed-form
 rule:

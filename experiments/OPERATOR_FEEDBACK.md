@@ -15,6 +15,20 @@ channel, two-qubit yy zz channel violation, R=CPsi2 operator feedback -->
 
 ---
 
+## What this document is about
+
+Standard Lindblad simulations use a fixed decoherence rate. Here, the
+decoherence rate itself depends on the quantum state: the Lindblad jump
+operator (the operator that describes how the environment disturbs the
+system) is modulated by a correlation observable measured at each
+timestep. High correlation suppresses noise; anti-correlation amplifies
+it. This creates genuine feedback, not post-processing. Key findings:
+the CΨ ≤ ¼ bound holds for single-qubit noise channels but is violated
+by two-qubit yy/zz channels, and some states (Bell+ under xx noise) are
+completely immune to decoherence.
+
+---
+
 ## Abstract
 
 Replacing scalar bridge functions with operator-level Lindblad feedback
@@ -28,7 +42,9 @@ GHZ₄+ has ⟨σ_x⊗σ_x⟩ = 0 for all pairs, so pairwise feedback has zero
 effect regardless of κ. An arity sweep shows CΨ ≤ ¼ holds for
 single-qubit Lindblad channels but is genuinely violated by two-qubit
 yy/zz channels (CΨ ≈ 0.287 > 0.25 at purity 0.73). The xx channel on
-Bell+ creates a decoherence-free subspace (purity = 1.0 for all time).
+Bell+ creates a decoherence-free subspace (a state subspace where the
+noise operators act trivially, so coherence survives indefinitely;
+purity = 1.0 for all time).
 
 ---
 
@@ -232,7 +248,9 @@ The code correctly computes γ_eff = γ₀·(1 − κ·⟨O_int⟩), and ⟨O_in
 
 ### 8.2 Arity Sweep for the 1/4 Boundary
 
-Systematic sweep of jump operator arity on Bell+ (N=2, Heisenberg, J=1, h=0.5, γ=0.1, κ=0):
+Systematic sweep of jump operator arity (the number of qubits a single
+jump operator acts on: 1 for single-qubit σ_z, 2 for two-qubit
+σ_y⊗σ_y, etc.) on Bell+ (N=2, Heisenberg, J=1, h=0.5, γ=0.1, κ=0):
 
 | Jump operator | Arity | C·Ψ | Purity t=5 | Bound (≤ 1/4)? | Δ_final | Notes |
 |---------------|-------|------|------------|----------------|---------|-------|

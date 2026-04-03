@@ -16,6 +16,19 @@ crossing profile binary classification, R=CPsi2 bridge fingerprints -->
 
 ---
 
+## What this document is about
+
+Two quantum systems are connected by a bridge (a Hamiltonian coupling).
+System A starts classical. System B starts in various quantum states.
+As B's quantum information flows through the bridge, A develops a CΨ
+trajectory that is unique to B's state: a fingerprint. Product states
+(where the bridge qubit has local coherence) push A above 1/4; Bell
+states (where coherence is locked in nonlocal correlations) barely
+register. The 1/4 boundary acts as a natural binary digitizer: crossing
+vs. not-crossing classifies states. This makes CΨ a detector: at
+optimal coupling (J/γ ≈ 5-7), eight different sender states produce
+seven distinguishable fingerprints.
+
 ## Abstract
 
 Two coupled 2-qubit systems (A = receiver starting in |00⟩, B = sender in
@@ -58,7 +71,7 @@ The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates b
 ### Measurement Protocol
 For each time step:
 1. Compute full 16×16 density matrix ρ(t)
-2. Partial trace → ρ_A(t) = Tr_B[ρ(t)] (4×4 matrix)
+2. Partial trace (tracing out one subsystem to get the reduced state of the other, discarding B's degrees of freedom) → ρ_A(t) = Tr_B[ρ(t)] (4×4 matrix)
 3. Partial trace → ρ_B(t) = Tr_A[ρ(t)] (4×4 matrix)
 4. Compute C = Tr(ρ²) (purity)
 5. Compute Ψ = L1_coherence / (d-1) where L1 = Σ_{i≠j}|ρ_{ij}|, d = 4
@@ -94,7 +107,7 @@ Bell+ and |+0⟩ both have C·Ψ₀ = 0.333, identical purity, identical L1 cohe
 Yet |+0⟩ pushes A above ¼ while Bell+ barely registers.
 **Reason:** |+0⟩ has local coherence in the bridge qubit (qubit 2). Bell+ has
 coherence locked in non-local correlations that cannot flow through a local coupling.
-This is the No-Communication Theorem made visible through C·Ψ dynamics.
+This is the No-Communication Theorem (the fundamental result that local operations on one half of an entangled pair cannot transmit information to the other half) made visible through C·Ψ dynamics.
 
 ### Critical Coupling Threshold: J/γ = 5
 - Below J/γ = 5: No state pushes A above ¼ (detector blind)

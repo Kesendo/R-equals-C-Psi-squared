@@ -16,6 +16,18 @@ death below threshold, R=CPsi2 complexity threshold -->
 
 ---
 
+## What this document is about
+
+Small quantum systems oscillate briefly then die (N=2: one crossing,
+then silence). Larger systems sustain oscillation longer. This document
+asks whether there is a critical size N_c above which the system can
+never stop oscillating, because new modes are always being born faster
+than old ones die. The March 28 correction showed that size alone is
+not enough: the system also needs population balance (C = 0.5) with
+broken magnitude symmetry, and sufficient coupling strength.
+
+---
+
 ## The Observation
 
 A single N=2 resonator crosses 1/4 once and dies. Q=1. One chance.
@@ -66,7 +78,8 @@ category below.
 
 **3. Approximate C ≈ 0.5 can live.**
 Networks with Dale's Law signs but imperfect magnitudes (residual > 0)
-CAN cross the Hopf bifurcation at sufficient N and coupling. Measured:
+CAN cross the Hopf bifurcation (the threshold where a stable fixed point
+becomes an oscillation) at sufficient N and coupling. Measured:
 α_c = 14.8 (N=100), 5.9 (N=200), 1.8 (N=1000), <0.5 (N=5000).
 The threshold falls with N. (hopf_threshold.py)
 
@@ -160,10 +173,12 @@ with different periods.
 
 ### From the neural side
 
-Wilson-Cowan networks scale linearly. We can simulate N=1000 or
+Wilson-Cowan networks (the standard equations describing excitatory-inhibitory
+population dynamics) scale linearly. We can simulate N=1000 or
 N=10000 trivially. The question translates to:
 
-At what N does a Wilson-Cowan network with Dale's Law, balanced E/I,
+At what N does a Wilson-Cowan network with Dale's Law (each neuron is
+either excitatory or inhibitory, never both), balanced E/I,
 and moderate coupling become self-sustaining? Meaning: perturb it,
 and it never returns to silence. It always finds a new oscillation.
 

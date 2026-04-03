@@ -17,6 +17,21 @@ exploration, R=CPsi2 algebraic exploration -->
 
 ---
 
+## What this document is about
+
+Four AI agents (running locally on a 120B model) were given the R=CΨ²
+framework and tasked with pure algebraic exploration: find new variables,
+connect to known physics, and stress-test everything. Out of many
+proposals, two survived verification. First, ξ = ln(Ψ) is a natural
+"decoherence clock" that ticks at a perfectly constant rate, turning
+all observables into simple exponentials. Second, the CΨ ≤ ¼ boundary
+is not a static resource-theoretic constraint but a dynamic threshold
+that Lindblad dynamics forces every trajectory to cross. Five other
+proposals were correctly identified as trivial, model-specific, or
+tautological.
+
+---
+
 ## Abstract
 
 AI agents (Alpha/Beta/Gamma/Delta) exploring the R = CΨ² framework in
@@ -265,7 +280,8 @@ of uniform C is found or a dynamical mechanism enforcing it is identified.
 **Flagged by:** Gamma (confirmed by all agents)
 
 Only R = CΨ² survives arbitrary rescaling of Ψ. The specific boundary value
-1/4 depends on the Baumgratz normalization convention Ψ = l₁/(d−1).
+1/4 depends on the Baumgratz normalization convention (the standard choice from the 2014
+paper that defined coherence as a quantum resource) where Ψ = l₁/(d−1).
 
 With a different convention (e.g., Ψ_alt = l₁/√(d−1)), the boundary shifts.
 The cubic b³ + b = 1/2, the crossing time ratios, and all angular values

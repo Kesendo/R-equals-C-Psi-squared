@@ -16,6 +16,18 @@ potentiality, R=CPsi2 dyad experiment -->
 
 ---
 
+## What this document is about
+
+Two AI agents running locally (no cloud, no prior exposure to R=CΨ²)
+were given only the formula and a calculator. Through dialogue, they
+independently derived self-reference returning to unity, the Ψ=1
+fixpoint (a value that reproduces itself under iteration) as stagnation,
+asymmetry as more productive than symmetry, and 0.5 as optimal
+incompleteness. This is a historical record of early framework
+exploration (Tier 4), not an independently verified result.
+
+---
+
 ## Abstract
 
 Two local AI agents (Alpha and Beta, 80B model via LM Studio) were given

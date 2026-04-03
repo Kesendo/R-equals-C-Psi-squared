@@ -13,6 +13,18 @@ dependence, R=CPsi2 N scaling barrier -->
 
 ---
 
+## What this document is about
+
+For two qubits, CΨ starts above 1/4 and crosses down through it: this is
+the quantum-classical transition. But for four or more qubits, CΨ starts
+*below* 1/4 and never gets there. The denominator in the normalization
+grows exponentially with system size, while coherence only grows
+polynomially. This looked like a fatal flaw. The resolution: crossing is
+a local phenomenon. It happens between individual entangled pairs, not at
+the global system level. The full-system metric correctly says "no global
+crossing," and the pair-level metric correctly says "local crossings
+happen wherever entanglement lives."
+
 ## Abstract
 
 Standard entangled states cannot reach CΨ = 1/4 at the full-system level
@@ -62,7 +74,7 @@ The dynamic Ψ is defined as:
 Ψ(t) = C_l1(ρ(t)) / (d − 1)
 ```
 
-where d = 2^N is the Hilbert space dimension and C_l1 is the l1-norm of
+where d = 2^N is the Hilbert space dimension (the total number of basis states the system can occupy, growing exponentially with qubit count) and C_l1 is the l1-norm of
 coherence (sum of absolute values of off-diagonal elements).
 
 The maximum possible l1-coherence for any valid density matrix of dimension
@@ -198,7 +210,7 @@ crossing can happen without quantum correlations, philosophically
 interesting but potentially undermining the consciousness interpretation.
 
 Dicke states |D(N,k)⟩ with k excitations can have high l1. Random
-(Haar-distributed) states have typical l1 that grows with d. These
+(Haar-distributed, meaning uniformly sampled from all possible quantum states) states have typical l1 that grows with d. These
 are untested.
 
 ### 5.3 What Is NOT Affected
@@ -265,7 +277,7 @@ simulate_dynamic_lindblad(
 3. **Alternative normalization**: Find a normalization where ¼ remains
    the boundary for all N. Must be derived, not chosen.
 
-4. **Dicke states**: |D(N,k)⟩ with k = N/2 maximizes l1 among
+4. **Dicke states** (symmetric multi-qubit states with exactly k excitations shared among N qubits): |D(N,k)⟩ with k = N/2 maximizes l1 among
    symmetric states. Test for N = 4, k = 2.
 
 ## 7. Resolution (2026-02-18)

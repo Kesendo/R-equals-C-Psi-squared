@@ -1,5 +1,7 @@
 # D3: Crossing Time Ratios
 
+**What this derivation is about:** Different noise channels (Z-dephasing, X-noise, depolarizing) push CΨ through the ¼ boundary at different speeds. This derivation computes the exact crossing times for each channel and shows that X-noise takes 2.32× longer than Z-dephasing to reach the boundary, while depolarizing noise takes 1.18× longer. Once one crossing time is known, all others follow from fixed ratios.
+
 **Source formulas:** 27 (K values per noise channel)
 **Tier:** 1 (algebraic from closed forms in formula 26)
 **Status:** VERIFIED (analytical + propagation, deviation < 3e-6)
@@ -29,7 +31,7 @@ Ratios:
 
 ## Numerical verification
 
-Propagation of Bell+ (N=2) density matrix under Z and X noise:
+Propagation of Bell+ (the maximally entangled two-qubit state (|00⟩+|11⟩)/√2) density matrix under Z and X noise:
 
 | Quantity | Analytical | Propagated | Error |
 |----------|-----------|-----------|-------|

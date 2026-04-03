@@ -66,8 +66,9 @@ PT-symmetry breaking transitions, and the connection between Liouvillian
 dynamics and non-Hermitian physics. The incoherenton framework by Haga
 et al. (2023) introduced quasiparticles that count Pauli weight in
 dephasing systems. Medvedyeva, Essler, and Prosen (2016) showed exact
-Bethe ansatz solvability for tight-binding chains with dephasing noise,
-connecting to eta-pairing symmetry.
+Bethe ansatz solvability (an algebraic method for finding exact solutions
+of certain quantum many-body problems) for tight-binding chains with
+dephasing noise, connecting to eta-pairing symmetry.
 
 We contribute a complementary result: the REGULAR spectral structure that
 holds universally, not just at special parameter values. Every Heisenberg
@@ -426,7 +427,7 @@ through mediator S. The initial state is Bell(SA) tensor |+>_B.
 
 ### 7.2 Star Topology Results
 
-| Configuration | F_avg | Holevo (bits) |
+| Configuration | F_avg | Holevo capacity (maximum classical bits extractable per quantum state) |
 |---------------|-------|---------------|
 | Chain N=3 | 0.852 | 0.487 |
 | Chain N=4 | 0.860 | 0.501 |
@@ -834,7 +835,8 @@ maxima decrease via spectral gap argument. 19 initial states verified.
 
 Subsystem Crossing Theorem (March 22, 2026): for any primitive CPTP map,
 CΨ eventually crosses below 1/4. Proof: quantum Perron-Frobenius
-convergence + fixed-point CΨ bound + Lipschitz continuity. Verified for
+convergence (the generalization of the classical theorem that guarantees
+a unique steady state for irreducible positive maps) + fixed-point CΨ bound + Lipschitz continuity. Verified for
 200 random CPTP maps (0 exceptions) and N=3,4,5 subsystem pairs.
 
 See [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md),

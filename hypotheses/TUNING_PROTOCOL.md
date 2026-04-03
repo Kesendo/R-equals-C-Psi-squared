@@ -55,9 +55,11 @@ observer. That restructuring is the point.
 
 ## 3. The Three Conditions
 
-The star topology simulation (details in STAR_TOPOLOGY_OBSERVERS.md)
-shows that two observers who cannot see each other directly can briefly
-become correlated through a shared object, but only if three things
+The star topology simulation (a setup where two observers A and B each
+connect to a shared mediator S but not to each other; details in
+STAR_TOPOLOGY_OBSERVERS.md) shows that two observers who cannot see
+each other directly can briefly become correlated through a shared
+object, but only if three things
 are true at the same time:
 
 **The sender must be deeply engaged.**

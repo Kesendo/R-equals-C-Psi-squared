@@ -14,6 +14,19 @@ time reversal is algebraically excluded.
 
 ---
 
+## What this document is about
+
+At N=2 qubits, the oscillatory and dissipative parts of the dynamics are
+perfectly orthogonal: you can cleanly separate "what oscillates" from
+"what decays." At N > 2, this separation breaks. The two parts become
+algebraically entangled through a nonzero cross term whose magnitude is
+a fixed geometric constant, independent of γ. This makes time reversal
+(undoing the cooling without disturbing the oscillation) algebraically
+impossible for any composite system, not for thermodynamic reasons but
+for structural ones.
+
+---
+
 ## 1. The Claim
 
 Time reversal requires separating the irreversible part of the dynamics
@@ -21,8 +34,10 @@ Time reversal requires separating the irreversible part of the dynamics
 algebraically possible at N=2 and algebraically impossible at N > 2.
 
 The impossibility is not thermodynamic (entropy, probability, fluctuations).
-It is structural: the anti-commutator {L_H, L_D + Σγ·I} that measures
-the interference between oscillation and cooling vanishes exactly at N=2
+It is structural: the anti-commutator (the symmetrized product
+{A,B} = AB + BA, which vanishes when two operators are "orthogonal")
+{L_H, L_D + Σγ·I} that measures the interference between oscillation
+and cooling vanishes exactly at N=2
 and is nonzero at N > 2, with a γ-independent geometric constant.
 
 ---

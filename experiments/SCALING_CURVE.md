@@ -15,6 +15,18 @@ R=CPsi2 scaling curve -->
 
 ---
 
+## What this document is about
+
+If you want to send quantum information through a chain of qubits, how
+far can it go before it is lost to noise? This experiment measures the
+answer: mutual information (a quantity that measures how much two parts
+of a system "know" about each other) drops by roughly half for every two
+qubits added to the chain. It also tests whether a clever hierarchical
+relay architecture can beat a simple uniform chain. The answer is no:
+hierarchy is a naming convention, not physics. The actual engineering
+knob is asymmetric coupling (push vs pull), which trades local transfer
+quality for range.
+
 ## Abstract
 
 End-to-end mutual information in a Heisenberg chain under Z-dephasing
@@ -147,7 +159,7 @@ baseline against which all optimizations are measured.
 The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md))
 reframes the scaling question: the exponential MI decay with N is not
 just a limitation but also determines how many independent "pixels" the
-γ-channel antenna has. More qubits = more SVD modes = higher channel
+γ-channel antenna has. More qubits = more SVD modes (independent signal components, from singular value decomposition) = higher channel
 capacity, but only if each qubit can be read independently (which
 requires the palindromic full-rank response matrix).
 
@@ -161,7 +173,7 @@ requires the palindromic full-rank response matrix).
 | Run command | `dotnet run -c Release -- pull` |
 | Results | simulations/results/pull_principle.txt |
 
-The N=11 simulation uses a 2048×2048 density matrix with RK4 integration.
+The N=11 simulation uses a 2048×2048 density matrix with RK4 (fourth-order Runge-Kutta, a standard numerical method for solving differential equations) integration.
 Runtime: ~10 minutes per configuration.
 
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared

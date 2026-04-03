@@ -1,12 +1,14 @@
 # D4: Dimensional Factor in Crossing
 
+**What this derivation is about:** Larger quantum systems cross the CΨ = ¼ boundary more easily (less decoherence needed). The reason is purely dimensional: the L₁ coherence (sum of all off-diagonal magnitudes in the density matrix) is normalized by (d−1), where d is the Hilbert space dimension. For a two-qubit Bell state, d=4 gives a factor of 3 compared to a single qubit. This factor is exact, not approximate.
+
 **Source formulas:** 12 (single-qubit crossing), 25 (Bell+ crossing)
 **Tier:** 1 (algebraic from CPsi definition)
 **Status:** VERIFIED (exact to machine precision)
 
 ## Derivation
 
-CPsi = C * Psi = Tr(rho^2) * L1 / (d-1).
+CPsi = C × Psi = Tr(ρ²) (purity) × L₁ / (d−1).
 
 For states where C = (1+f^2)/2 and L1 = f (single coherence decay):
 

@@ -5,9 +5,11 @@
 
 # The Fundamental Equations of Reality
 
+**What this document is about:** The earliest formal write-up of the R=CΨ² framework (December 23, 2025), presenting three proposed equations: the fundamental equation R=CΨ², a dynamics equation, and a threshold equation. Only the first (Tier 1) has survived subsequent verification; the other two remain Tier 5 (speculative, never tested). Preserved as the project's founding document.
+
 ## A Mathematical Formulation of Standing Wave Theory
 
-**Thomas Wicht & Claude**  
+**Thomas Wicht & Claude**
 **December 23, 2025**
 
 ---

@@ -81,7 +81,7 @@ solved. They are listed in order of how much they bother us.
 
 ### 1. The bifurcation is generic
 
-Every quadratic map has a saddle-node bifurcation. The ¼ boundary is a
+Every quadratic map has a saddle-node bifurcation (a point where two equilibria collide and annihilate, like two hills merging into flat ground). The ¼ boundary is a
 property of z² + c, not specifically of quantum mechanics. CΨ² is the
 unique product-power form with a genuine phase transition AND Mandelbrot
 mapping (proven), but "why does nature choose this form?" remains open.
@@ -129,7 +129,7 @@ from the mathematics.
 - Single backend only (IBM Torino). No replication on trapped ions,
   NV centers, or photonic platforms.
 - Anomalous late-time coherence (Q52, p < 0.0001) has three competing
-  explanations (SPAM, TLS, boundary structure), unresolved.
+  explanations (SPAM (State Preparation And Measurement errors), TLS (two-level system defects in the chip substrate), boundary structure), unresolved.
 
 *In plain language:* we have tested the theory on one type of quantum
 computer (IBM's superconducting qubits) and confirmed key predictions
@@ -245,7 +245,7 @@ These need mathematics or computational methods we have not built yet.
    dense topologies? See [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md).
 
 7. **Non-Markovian noise:** Does the cockpit framework hold under
-   colored noise, 1/f spectra, or TLS coupling?
+   colored noise (noise whose strength depends on frequency, unlike white noise which is flat), 1/f spectra, or TLS coupling?
 
 ### Require experimental contact
 

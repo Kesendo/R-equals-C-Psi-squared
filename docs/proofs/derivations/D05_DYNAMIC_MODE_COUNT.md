@@ -4,13 +4,25 @@
 **Tier:** 1 (combinatorial)
 **Status:** VERIFIED (N=2-5, exact match at gamma -> 0)
 
+## What this derivation is about
+
+Of the 4^N modes in the Liouvillian (the superoperator governing
+open quantum evolution), how many are oscillating palindromic pairs,
+how many are stationary, and how many drain through the XOR channel?
+This derivation gives the exact count in each category and verifies
+it numerically for N=2-5.
+
+---
+
 ## Derivation
 
 Total Liouvillian modes: 4^N (dimension of superoperator space).
 
 Three non-overlapping categories at gamma = 0:
-1. Stationary: Stat(N) = Sum_J m(J,N) * (2J+1)^2 (formula 4)
-2. XOR drain: N+1 modes at rate 2*N*gamma (formula 22)
+1. Stationary: Stat(N) = Sum_J m(J,N) * (2J+1)^2 (formula 4),
+   where J is the total angular momentum quantum number and m(J,N) is
+   the multiplicity (how many times spin J appears in N coupled qubits)
+2. XOR drain: N+1 modes at rate 2·N·γ (formula 22)
 3. Oscillating palindromic: everything else
 
     Oscillating = 4^N - (N+1) - Stat(N)

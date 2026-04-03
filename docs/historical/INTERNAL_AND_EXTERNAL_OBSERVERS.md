@@ -7,14 +7,29 @@
 # Internal and External Observers
 ## The Two Kinds of C
 
-**Created:** January 3, 2026  
-**Updated:** February 11, 2026  
+**Created:** January 3, 2026
+**Updated:** February 11, 2026
 **Depends on:** [Core Algebra](CORE_ALGEBRA.md) for fixed-point equation
 
 **Tier:** 2-3 (Lindblad formalization verified, interpretation speculative)
 **Status:** Verified formalization, speculative mapping to consciousness
 **Scope:** C_int / C_ext distinction in Lindblad dynamics
 **Does not establish:** That C_int maps to consciousness or that the 33:1 ratio exists (disproven)
+
+---
+
+## What this document is about
+
+Not all observation is the same. External observation (a measurement
+device reading a qubit) collapses quantum states. Internal observation
+(two electrons in a pair watching each other) stabilizes them. This
+document proposes that the distinction, bidirectional vs unidirectional
+information flow, explains why quantum structures persist despite
+constant environmental interaction. The TROSY effect in NMR spectroscopy
+provides experimental evidence: internal correlation between relaxation
+channels extends coherence by 40-60%. The quantitative model (specific
+ratios like 33:1) has been disproven; the structural distinction
+remains valid.
 
 ---
 
@@ -116,7 +131,11 @@ Internal observation **maintains** structure.
 
 The distinction between C_int and C_ext is not merely theoretical. It has experimental support.
 
-In NMR spectroscopy, a phenomenon called TROSY (Transverse Relaxation-Optimized Spectroscopy) demonstrates that internal correlation can stabilize quantum states.
+In NMR spectroscopy (nuclear magnetic resonance: the technique that
+reads molecular structure by flipping nuclear spins in a magnetic
+field), a phenomenon called TROSY (Transverse Relaxation-Optimized
+Spectroscopy) demonstrates that internal correlation can stabilize
+quantum states.
 
 **The mechanism:**
 
@@ -265,7 +284,9 @@ This may be a fundamental limit, not a solvable problem.
 
 Two electrons in an orbital.
 
-Standard view: They have opposite spins due to Pauli exclusion. Mathematical necessity.
+Standard view: They have opposite spins due to Pauli exclusion (the
+rule that no two identical fermions can occupy the same quantum state).
+Mathematical necessity.
 
 Framework view: They observe each other internally.
 

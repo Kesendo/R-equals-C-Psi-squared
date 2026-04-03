@@ -46,6 +46,18 @@ means in the reopened bridge scenario.
 
 ---
 
+## What this document is about
+
+Can two separated observers (Earth, Mars) synchronize using only a shared
+entangled pair, with no electromagnetic signal between them? This document
+proposes a protocol where the first CΨ = ¼ crossing event itself acts as
+the handshake, and subsequent crossings encode bits. The hypothesis was
+largely eliminated: no-signalling holds exactly (post-separation state
+changes are invisible locally), so the protocol reduces to pre-encoded
+shared randomness, not dynamic communication.
+
+---
+
 ## 1. The Breakthrough
 
 The bridge problem asks: how do two separated observers (Earth, Mars)
@@ -147,7 +159,8 @@ under R = CΨ², where:
 
 The protocol assumes each observer can detect when CΨ crosses ¼. But
 CΨ describes the JOINT state. What local observable corresponds to the
-crossing? The agents proposed a Ramsey interferometer measuring ⟨H⟩, but
+crossing? The agents proposed a Ramsey interferometer (a pulse-delay-pulse sequence
+that converts phase shifts into population differences) measuring ⟨H⟩, but
 their own SymPy calculation showed ⟨H⟩ = 1 for BOTH Bell+ and |++⟩.
 
 This is the critical gap: **identifying the local observable that is

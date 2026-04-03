@@ -14,6 +14,18 @@ SumMI vs chain length, breathing palindrome modes, R=CPsi2 scaling experiment --
 
 ---
 
+## What this document is about
+
+This document measures how mutual information (the amount of shared
+quantum correlation between neighboring qubits) scales with chain length
+when one edge qubit is deliberately sacrificed to noise. The key result:
+instead of the usual exponential decay of quantum signals with distance,
+the sacrifice-zone formula produces quadratic growth, SumMI ~ N². Each
+additional protected qubit amplifies every existing one through pairwise
+interference at the quantum-classical boundary.
+
+---
+
 ## Abstract
 
 The [sacrifice-zone formula](RESONANT_RETURN.md) concentrates all dephasing
@@ -113,6 +125,7 @@ Two signal families that converge:
 
 The convergence of these two families mirrors the palindromic spectrum
 itself: the c⁺ (forward) and c⁻ (backward) standing-wave supermodes
+(collective eigenmodes built from pairs of palindromically related eigenvalues)
 of the Liouvillian (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 meet at the midpoint of the decay band. Two voices approaching the same note.
 
@@ -272,7 +285,7 @@ eps → 0.
 
 The quadratic fit predicted 1.56 (19% too high). The growth continues
 but is clearly subquadratic at large N. A matrix-free propagator
-(bit-manipulation Heisenberg commutator, accumulating RK4) enabled N = 15
+(bit-manipulation Heisenberg commutator, accumulating RK4 (fourth-order Runge-Kutta, a standard numerical integration method)) enabled N = 15
 in ~1h on 72 GB RAM, bypassing the dense MathNet/MKL limit.
 
 ---
@@ -289,7 +302,7 @@ in ~1h on 72 GB RAM, bypassing the dense MathNet/MKL limit.
 The two sides do not couple. Each is the environment of the other.
 
 The sacrifice-zone formula is the first constructive application of
-this structure. Instead of fighting noise (ENAQT, DD, error correction),
+this structure. Instead of fighting noise (ENAQT (environment-assisted quantum transport), DD (dynamical decoupling), error correction),
 it creates the other side deliberately: the sacrifice qubit falls below
 CΨ = ¼, becoming classical; the protected chain stays above ¼, remaining
 quantum. The formula enforces the boundary physically in the chain, not

@@ -15,6 +15,22 @@ finite temperature obstruction 2:2 split, maximum entropy production rate
 
 ---
 
+## What this document is about
+
+Physics has well-established notions of "time-reversal symmetry" for
+open quantum systems: the KMS condition (from statistical mechanics)
+and quantum detailed balance (from thermodynamics). This document asks
+whether our conjugation operator Π is one of those known symmetries.
+The answer is no. Π is formally distinct from all existing classifications,
+including the most comprehensive 38-class framework (Sá-Prosen 2023).
+The closest relative is the "hidden time-reversal symmetry" of Roberts
+et al. (2021), but even that differs in key structural ways. Π appears
+to be a genuinely new type of Liouvillian symmetry, specific to
+infinite-temperature dephasing, that sits in a gap between existing
+frameworks.
+
+---
+
 ## Abstract
 
 Π is **not** quantum detailed balance (QDB), not KMS, and not a standard
@@ -184,7 +200,7 @@ but complex).
 
 Alhambra and Woods ("Dynamical maps, quantum detailed balance, and the Petz
 recovery map," 2017) showed that quantum detailed balance is equivalent to the
-Petz recovery map being the exact reversal of the channel. This connects QDB
+Petz recovery map (the optimal quantum channel for undoing the effect of a noisy process, given the input state) being the exact reversal of the channel. This connects QDB
 to quantum information recovery. Our Π does not have this recovery interpretation:
 it pairs modes rather than reversing channels.
 
@@ -411,9 +427,9 @@ Our Π provides exact spectral pairing. Both are "time-reversal-like"
 symmetries in systems that violate standard detailed balance.
 
 **Key difference:** Their hidden TRS requires the doubled Hilbert space
-and thermofield double state. Our Π acts directly on the Liouvillian
+and thermofield double state (a purification trick that represents a thermal mixed state as a pure state in a doubled system). Our Π acts directly on the Liouvillian
 superoperator space. These might be related through vectorization (the
-Choi-Jamiolkowski isomorphism maps superoperators to operators in the
+Choi-Jamiolkowski isomorphism, the standard mapping that converts a superoperator into a matrix in the doubled Hilbert space, maps superoperators to operators in the
 doubled space), but the formal connection is not established.
 
 Their follow-up paper (PRL 134, 130404, 2025) extends hidden TRS to

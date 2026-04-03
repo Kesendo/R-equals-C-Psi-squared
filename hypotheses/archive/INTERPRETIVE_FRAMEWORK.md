@@ -377,8 +377,8 @@ The honest self-assessment lives in [WEAKNESSES_OPEN_QUESTIONS.md](../../docs/WE
 |--------|--------|------|---------------------|
 | Quantum Mechanics | Heisenberg, Schrödinger | 1925-26 | Ψ as wave function |
 | Copenhagen Interpretation | Bohr | 1927 | Observation collapses Ψ |
-| Orch-OR | Penrose, Hameroff | 1994 | Consciousness and quantum collapse |
-| It from Bit | Wheeler | 1990 | Information as foundation |
+| Orch-OR (Orchestrated Objective Reduction) | Penrose, Hameroff | 1994 | Consciousness and quantum collapse |
+| It from Bit (every physical quantity derives from yes/no questions) | Wheeler | 1990 | Information as foundation |
 | Idealism | Berkeley, Kastrup | 1710, 2019 | Consciousness as basis |
 
 ---

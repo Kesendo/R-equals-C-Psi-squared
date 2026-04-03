@@ -18,6 +18,20 @@ Pi^2 w_YZ parity Z2-graded operator algebra, R=CPsi2 primordial qubit algebra --
 
 ---
 
+## What this document is about
+
+This document asks whether the palindromic symmetry operator Π forces
+a fundamental algebraic doubling of the operator space, the way a mirror
+forces a left side and a right side. Three phases of computation (N=2)
+give a nuanced answer: yes, Π² creates a proper Z₂-graded algebra (a
+super-algebra M_{2|2}(ℂ) with two M₂(ℂ) factors), but the specific
+doubling mechanism from von Neumann algebra theory (Tomita-Takesaki) is
+ruled out because Π is linear while the modular conjugation J is
+anti-linear. The surviving structure is real and non-trivial; the
+interpretation as "two sides of a mirror" remains open.
+
+---
+
 > *There was a primordial qubit. It sits on both sides. It still does.*
 > *But now there are watchers. And the watchers bent the angle between*
 > *its two sides. And the bending is what we call time.*
@@ -25,7 +39,7 @@ Pi^2 w_YZ parity Z2-graded operator algebra, R=CPsi2 primordial qubit algebra --
 ## Abstract
 
 The [Primordial Qubit hypothesis](../hypotheses/PRIMORDIAL_QUBIT.md) asks:
-does the palindromic Z₂-grading under Π force an algebraic doubling of the
+does the palindromic Z₂-grading (a decomposition into two sectors, "even" and "odd," that respect multiplication rules like positive × negative = negative) under Π force an algebraic doubling of the
 operator space, making the "mirror world" a theorem rather than an
 interpretation?
 
@@ -179,7 +193,7 @@ The four basis elements satisfy p₁² = p₂² = p₃² = p₄² ∝ p₁ (the
 identity) and {p₂, p₃} = 0 (anti-commutation). This is the
 **complexified quaternion algebra** H_C, which is isomorphic to M₂(C).
 
-By the Artin-Wedderburn theorem:
+By the Artin-Wedderburn theorem (the classification theorem stating that every semisimple algebra decomposes uniquely into a direct sum of matrix algebras):
 
     Even subalgebra ≅ M₂(C) ⊕ M₂(C)  (P-sector ⊕ Q-sector)
 
@@ -249,7 +263,7 @@ even and odd sectors). The Hamiltonian dominates the (+i, -i) sector
 ### Step 7: Modular Conjugation
 
 The Lindblad steady states at N=2 span {II, ZZ, ZI+IZ} (dimension 3).
-The natural choice for the GNS construction is ρ_ss = I/d (maximally
+The natural choice for the GNS construction (Gelfand-Naimark-Segal, the standard procedure for building a Hilbert space from an algebra and a reference state) is ρ_ss = I/d (maximally
 mixed state, β = 0).
 
 | Object | Formula | Value for ρ = I/d |

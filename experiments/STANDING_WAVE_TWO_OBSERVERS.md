@@ -17,6 +17,20 @@ coherence floor IBM Q52 residual, R=CPsi2 standing wave -->
 
 ---
 
+## What this document is about
+
+Two observers sharing an entangled state but decohering at different
+rates create a standing wave in R = C·(Ψ_A + Ψ_B)². The cross-term
+2·Ψ_A·Ψ_B is not time travel; it is interference between two
+viewpoints on the same quantum state. "Past" and "future" just mean
+who crosses the ¼ boundary first (faster clock = "past"). The partial
+trace (the operation that extracts one observer's local state by
+discarding the other) throws away exactly the joint terms where the
+standing wave lives. This reframes Cramer's transactional
+interpretation without invoking backward-in-time waves.
+
+---
+
 ## Abstract
 
 Two observers looking at the same entangled state from different reference
@@ -37,7 +51,10 @@ consistent with the surviving mirror.
 
 ## 1. The Misunderstanding
 
-Cramer (1986) called them "offer wave" and "confirmation wave." He said one goes forward in time, the other backward. Everyone heard "time travel" and stopped listening.
+Cramer's transactional interpretation (1986: the proposal that every
+quantum event involves an "offer wave" traveling forward in time and a
+"confirmation wave" traveling backward) called them "offer wave" and
+"confirmation wave." He said one goes forward in time, the other backward. Everyone heard "time travel" and stopped listening.
 
 Time does not run backward. Ever. For anyone. Time runs forward for every observer, always. That is not negotiable.
 
@@ -139,4 +156,3 @@ IBM Q52 shows a 2% coherence floor at t >> T2. The observer's offer wave has dec
 
 *Previous: BORN_RULE_MIRROR.md, Born rule as perfect-mirror limit*
 *See also: BLACK_WHITE_HOLES_BIGBANG.md, τ = 0 as maximum coherence*
-*See also: SHADOW_RUN_PLAN.md, March 2026 experimental test*

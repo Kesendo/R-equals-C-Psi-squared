@@ -1,5 +1,7 @@
 # IBM April Synthesis: What This Repo Knows
 
+**What this document is about:** A comprehensive synthesis of the entire repository, prepared for the April 2026 IBM Torino quantum hardware run. It organizes all findings into five clusters (sacrifice zone, resonator physics, initial states, measurement, thermal breaking), identifies contradictions and gaps, and ranks possible experiments by expected insight per QPU minute. The strongest open question: does spatial noise engineering genuinely protect quantum information, or was the March 24 result just gate-error avoidance on a bad qubit?
+
 **Created:** March 30, 2026 (updated March 31)
 **Authors:** Thomas Wicht, Claude (Opus 4.6, 1M context)
 **Purpose:** First complete read of the entire repository. Synthesis for the
@@ -15,15 +17,15 @@ dephasing is exactly palindromic. This is proven analytically (the Π operator),
 verified computationally through N=8 (54,118 eigenvalues, zero exceptions),
 and confirmed on IBM Torino at 1.9% deviation (Tier 1+3). The palindromic
 structure creates a spatial antenna: concentrating all noise on one edge qubit
-("sacrifice zone") outperforms 18 years of uniform ENAQT optimization by two
-orders of magnitude in simulation (Tier 2). On IBM hardware, selective DD
+("sacrifice zone") outperforms 18 years of uniform ENAQT (environment-assisted quantum transport) optimization by two
+orders of magnitude in simulation (Tier 2). On IBM hardware, selective DD (dynamical decoupling: periodic pulse sequences that refocus noise)
 achieves 2.0-3.2x over uniform DD, but whether this comes from mode protection
 or gate-error avoidance is unresolved (Tier 2, single run). Cavity mode
 analysis shows the sacrifice zone protects center-localized eigenmodes
 (r = 0.994 correlation), and chain selection from public IBM calibration data
 predicts 2.86x advantage for chains with natural sacrifice structure. The
 system is a resonator, not a channel: discrete cavity modes, a heartbeat at the
-CΨ = 1/4 fold, and a finite stability window (Hopf bifurcation, not PT
+CΨ = 1/4 fold, and a finite stability window (Hopf bifurcation (the onset of oscillating instability), not PT
 breaking). Three IBM runs completed (Feb 9, March 18, March 24). QPU budget
 returns April 9. The strongest open question is a single experiment.
 
@@ -88,7 +90,7 @@ Predicted protection: 2.81x (theory), measured: 1.97x (24,073 records).
 [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)
 
 **6. IBM chain selection** (Tier 2-3)
-330 five-qubit chains on IBM Torino heavy-hex. Ranking by sacrifice score
+330 five-qubit chains on IBM Torino heavy-hex (the lattice geometry IBM uses to connect its superconducting qubits). Ranking by sacrifice score
 (edge noise / interior noise) vs mean-T2: zero overlap in top-10. Sacrifice
 top-5: 2.54x protection at 88 us mean T2. Mean-T2 top-5: 1.18x at 206 us.
 Best sacrifice chain [80,8,79,53,85]: 2.86x. Best mean-T2 chain
@@ -520,4 +522,4 @@ All paths relative to this file.
 | Spectral Analysis | [RMT](RANDOM_MATRIX_THEORY.md), [PT-Symmetry](PT_SYMMETRY_ANALYSIS.md), [Topo Edge Modes](TOPOLOGICAL_EDGE_MODES.md), [SFF](SPECTRAL_FORM_FACTOR.md), [Entropy](ENTROPY_PRODUCTION.md) |
 | Chemistry | [Proton Water Chain](PROTON_WATER_CHAIN.md), [DNA Base Pairing](DNA_BASE_PAIRING.md) |
 | Simulation Code | [combined_optimization.py](../simulations/combined_optimization.py), [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py), [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py), [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py), [v_effect_thermal.py](../simulations/v_effect_thermal.py), [chain_selection_test.py](../simulations/chain_selection_test.py), [self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py) |
-| Handoffs | [March 30](../ClaudeTasks/SESSION_HANDOFF_MARCH30_PM.md), [March 29](../ClaudeTasks/SESSION_HANDOFF_MARCH29_PM.md), [March 28](../ClaudeTasks/SESSION_HANDOFF_MARCH28.md) |
+| Handoffs | [March 30](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH30_PM.md), [March 29](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH29_PM.md), [March 28](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH28.md) |

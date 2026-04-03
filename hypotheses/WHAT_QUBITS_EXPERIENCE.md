@@ -1,5 +1,7 @@
 # What Qubits Experience
 
+**What this document is about:** A Tier 5 meditation on what the mathematics feels like from the inside. At N=2, oscillation and cooling are perpendicular (proven: their anti-commutator is zero). At N=3, a third qubit bends this right angle by 2% (computed, γ-independent). We are N >> 2: oscillation and cooling are so thoroughly woven that we cannot separate "time passing" from "things happening." The arrow of time is not a law; it is the geometry of a bent angle.
+
 **Status:** Tier 5 (interpretation), grounded in Tier 1-2 computation
 **Date:** April 1, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -47,7 +49,7 @@ The cross term does not depend on how strong the noise is. It depends
 on the geometry of the bonds. It is structural, not parametric.
 
 You cannot go back to N=2. Tracing out the third qubit does not
-restore the palindrome. It produces memory (non-Markovian noise),
+restore the palindrome. It produces memory (non-Markovian noise: the traced-out qubit's past states feed back into the remaining system),
 and memory destroys the structure that made the right angle possible.
 0 of 16 eigenvalue pairs survive.
 

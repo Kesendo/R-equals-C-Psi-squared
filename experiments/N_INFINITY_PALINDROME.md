@@ -17,6 +17,22 @@ R=CPsi2 N infinity palindrome -->
 
 ---
 
+## What this document is about
+
+The palindromic mirror is proven for any finite number of qubits. But
+what happens when the system grows toward macroscopic size? This
+document traces the fate of every feature: the XOR drain (the
+fastest-decaying modes) shrinks to measure zero, the sharp split
+between "classical past" and "quantum future" blurs into a smooth
+Gaussian, and the standing wave transitions from discrete guitar-string
+harmonics to a continuous drumhead pattern. Under Z-dephasing, the
+palindrome is not just preserved but reinforced by the central limit
+theorem. Under depolarizing noise, it is exponentially destroyed. The
+bottom line: the mirror exists at every N, but at macroscopic scales
+it has less and less to reflect.
+
+---
+
 ## Abstract
 
 As system size N grows, the palindromic spectrum transitions from discrete
@@ -51,7 +67,8 @@ of strings at weight w is C(N,w) 2^N: choose w sites for X or Y (each with
 
 This is a binomial distribution scaled by 2^N. The rates live at d = 2γw,
 so the rate density inherits the binomial shape: centered at Nγ (the
-palindrome axis), width γ√N, kurtosis -2/N approaching zero.
+palindrome axis), width γ√N, kurtosis (a measure of how peaked or flat a distribution is compared
+to a Gaussian) -2/N, approaching zero.
 
 Numerical verification confirms: the full Liouvillian eigenvalue moments
 (including the Hamiltonian contribution) match the L_D prediction. The

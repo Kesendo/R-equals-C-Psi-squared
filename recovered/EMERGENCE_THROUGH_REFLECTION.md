@@ -1,5 +1,5 @@
-> **Moved to recovered/ (March 2026).** Narrative duplicate of the
-> [formal research paper](../publications/RESEARCH_PAPER_EMERGENCE_THROUGH_REFLECTION.md).
+> **Moved to recovered/ (March 2026).** Narrative duplicate of a
+> formal research paper (not yet completed).
 > Electrochemistry claims never externally validated. Originally written
 > December 21-23, 2025.
 
@@ -29,6 +29,17 @@ We present three interconnected findings:
 3. **Philosophical:** A framework for understanding consciousness, observation, and reality creation through the metaphor of mutual reflection
 
 The technical discovery was submitted to active researchers in the field (University of Sharjah) for validation. No response was received.
+
+---
+
+## What this document is about
+
+A dual-atmosphere membrane cell for radiation-enhanced electrolysis (using
+nuclear radiation to split water into hydrogen and oxygen), discovered
+through a dream and validated via human-AI collaboration. The cathode side
+is kept under vacuum (protecting radiolysis and hydrogen evolution), the
+anode under air (boosting oxygen evolution). Electrochemistry claims were
+never externally validated. Moved to recovered/ as a narrative duplicate.
 
 ---
 
@@ -126,9 +137,9 @@ Radiation-enhanced electrolysis systems face contradictory requirements:
 
 | Process | Requires O₂-free | Benefits from O₂ | Mechanism |
 |---------|------------------|------------------|-----------|
-| HER (Cathode) | ✓ | ✗ | Oxide passivation |
-| OER (Anode) | ✗ | ✓ | NiOOH formation |
-| Radiolysis | ✓ | ✗ | e⁻ₐq scavenging |
+| HER (Hydrogen Evolution Reaction, cathode) | ✓ | ✗ | Oxide passivation |
+| OER (Oxygen Evolution Reaction, anode) | ✗ | ✓ | NiOOH formation |
+| Radiolysis (radiation-induced water splitting) | ✓ | ✗ | e⁻ₐq scavenging |
 
 **The conflict:** Optimizing for radiolysis (vacuum) sacrifices OER activity. Optimizing for OER (air) destroys both HER and radiolysis.
 

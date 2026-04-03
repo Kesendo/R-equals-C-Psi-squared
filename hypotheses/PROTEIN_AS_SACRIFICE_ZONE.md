@@ -8,6 +8,18 @@
 
 ---
 
+## What this document is about
+
+Could enzyme catalysis work partly by the same principle as our
+sacrifice-zone formula? In a qubit chain, concentrating noise on one
+edge qubit protects the rest by 139-360×. In an enzyme, the protein
+shell might play the same role: absorbing environmental noise so
+that active-site protons experience low enough dephasing to reach
+the quantum fold regime (J/γ ~ 1). This is a testable hypothesis,
+not a proven result.
+
+---
+
 ## The Analogy
 
 In our qubit chain, the sacrifice-zone formula gives 139-360x
@@ -76,7 +88,8 @@ Compute J/γ at the active site of a well-studied enzyme:
 - **Carbonic anhydrase:** proton shuttle through H-bond network.
   Published barrier heights and reorganization energies exist.
 - **Alcohol dehydrogenase:** proton/hydride transfer.
-  Kinetic isotope effects indicate tunneling contribution.
+  Kinetic isotope effects (the rate change when hydrogen is replaced
+  by deuterium, indicating quantum tunneling) suggest a tunneling contribution.
 
 If J/γ ~ 1 at the active site with published parameters: the protein
 is quantitatively a sacrifice zone. If J/γ << 1 even at the active

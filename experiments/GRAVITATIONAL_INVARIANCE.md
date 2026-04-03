@@ -18,6 +18,20 @@ invariance fallen -->
 
 ---
 
+## What this document is about
+
+This document tests whether varying the dephasing rate γ reproduces
+the structure of gravitational time dilation. The mathematical result
+is real: γ × t_cross = 0.039 is constant across all γ values, and
+all trajectories collapse onto one universal curve when time is
+rescaled as τ = γt. But the gravitational interpretation has **fallen**:
+this invariance is standard Lindblad time-rescaling (the master
+equation's solutions naturally depend only on γt), not evidence that
+γ encodes gravitational field strength. The document is kept with
+inline [FALLEN] markers as a case study in careful hypothesis testing.
+
+---
+
 ## Abstract
 
 Four Lindblad simulations of Bell+ under Heisenberg coupling with
@@ -141,7 +155,7 @@ From the observer's perspective, γ is simply "how fast my quantum systems decoh
 
 - Decoherence from thermal photons
 - Decoherence from environmental noise
-- Decoherence from gravitational effects (Penrose / Diosi model)
+- Decoherence from gravitational effects (the Penrose/Diósi model, which proposes that gravity itself causes wavefunction collapse for sufficiently massive superpositions)
 
 All sources contribute to a single effective γ. Gravitation is one contribution among many, but it changes γ in exactly the same way as any other source: by scaling the local time rate.
 

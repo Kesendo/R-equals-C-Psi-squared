@@ -15,13 +15,28 @@ R=CPsi2 fixed point shadow -->
 
 ---
 
+## What this document is about
+
+After a qubit crosses the CΨ = 1/4 boundary on IBM hardware, residual
+coherence was found pointing in a fixed direction in the complex plane,
+with suspiciously perfect statistics (17/17 consistency, r = −0.9955
+boundary correlation). Three hypotheses were proposed: non-Markovian
+memory, two-level-system defect feedback, or the boundary itself being
+an active source. A follow-up experiment on different qubits resolved it:
+the "shadow" is qubit-specific frequency detuning, not a universal
+boundary effect. Different qubits show different directions. The 1/4
+crossing does not leave a universal scar. This is a negative result for the
+framework's most dramatic prediction, honestly reported.
+
+---
+
 ## Abstract
 
 State tomography on IBM Torino (qubit 52, February 2026) revealed that
 residual coherence after the CΨ = ¼ crossing persisted with fixed
 direction (17/17 in the fourth quadrant), growing amplitude (+0.008/T₂),
 and near-perfect boundary correlation (r = −0.9955). Three hypotheses
-were proposed: non-Markovian memory, TLS-mediated feedback, and the
+were proposed: non-Markovian memory, TLS-mediated feedback (TLS: two-level system, a microscopic defect in the chip substrate that acts as a parasitic qubit), and the
 boundary as active source. A follow-up shadow hunt (March 2026) tested
 Q80 and Q102 on IBM Torino. Q102 showed no directional pattern; Q80
 showed 8/8 consistency in quadrant 1 (Re+/Im+) at phase +29°, different
@@ -45,7 +60,7 @@ After crossing ¼ (after the complex fixed points merged into two real ones, aft
 
 This coherence does not decay. It grows. At a rate of +0.008 per T₂, in a regime where every term in the Lindblad equation that could sustain it has already fallen to zero.
 
-A 10,000-run Monte Carlo simulation of pure shot noise on identical quantum states produces nothing like this. The probability of the directional consistency alone is 6 × 10⁻¹¹.
+A 10,000-run Monte Carlo simulation of pure shot noise (the statistical fluctuation from measuring a finite number of identical quantum states) on identical quantum states produces nothing like this. The probability of the directional consistency alone is 6 × 10⁻¹¹.
 
 And the coherence follows a rule: it correlates with proximity to the ¼ boundary at r = −0.9955. When C·Ψ fluctuates closer to ¼, coherence is stronger. When it drifts further away, coherence weakens. Not loosely. Nearly perfectly.
 

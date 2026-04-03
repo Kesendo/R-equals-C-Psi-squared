@@ -16,6 +16,19 @@ R=CPsi2 when psi matters -->
 
 ---
 
+## What this document is about
+
+Concurrence alone measures entanglement. CΨ multiplies it by the normalized
+l₁-coherence (the sum of off-diagonal magnitudes in the density matrix,
+rescaled to [0,1]). This document asks: when does the extra factor Ψ
+actually matter? Three answers: it distinguishes noise types that
+concurrence cannot tell apart, it suppresses signals from mixed states
+where entanglement exists but is not coherently expressed, and its
+AND-gate structure guarantees zero false positives when either resource
+is absent.
+
+---
+
 ## Abstract
 
 CΨ = Concurrence × Ψ (normalized l₁-coherence) adds three capabilities
@@ -64,7 +77,9 @@ resource is under attack.
 
 ## Werner States: Entangled but Invisible
 
-Werner states rho = p|Psi-><Psi-| + (1-p)I/4 show the gap clearly:
+Werner states (a standard family of mixed states that interpolate between a
+pure entangled state and the maximally mixed state, parametrized by p)
+rho = p|Psi-><Psi-| + (1-p)I/4 show the gap clearly:
 
 | p | C | Ψ | CΨ | C/CΨ ratio |
 |---|---|---|---|---|

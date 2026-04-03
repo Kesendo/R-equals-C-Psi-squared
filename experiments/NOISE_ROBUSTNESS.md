@@ -14,6 +14,21 @@ R=CPsi2 noise robustness -->
 
 ---
 
+## What this document is about
+
+The crossing taxonomy classifies how different entanglement measures
+behave as a quantum system decoheres: some stay perfect until a sudden
+collapse (Type A), some decay immediately (Type B), some never change
+(Type C). That taxonomy was discovered using one specific kind of noise
+(Z-dephasing). This document asks: does the classification survive when
+the noise is completely different? The answer is yes, for all three Pauli
+noise channels. The taxonomy is a property of the metrics themselves, not
+of the noise environment. The theoretical reason (added March 2026) is
+that the palindromic spectral structure holds for any noise channel that
+admits a conjugation operator Π.
+
+---
+
 ## Abstract
 
 The Type A/B/C crossing taxonomy ([Crossing Taxonomy](CROSSING_TAXONOMY.md))
@@ -56,7 +71,7 @@ Type A status and become Type B."
 
 Variable: **jump_operator** × **bridge_type**
 
-Jump operators tested: σ_z (dephasing), σ_x (bit flip), σ_y (bit-phase flip).
+Jump operators (the Lindblad operators that specify which kind of error the environment inflicts on each qubit) tested: σ_z (dephasing), σ_x (bit flip), σ_y (bit-phase flip).
 These three Pauli operators span all single-qubit noise channels. Their
 equal-weight combination is depolarizing noise.
 
@@ -116,7 +131,7 @@ survive. σ_x flips populations, which should destroy correlations directly.
 product of subsystem purities: C = (P_AB − P_A · P_B) / (1 − P_A · P_B).
 This ratio is insensitive to which Pauli channel acts, because:
 
-1. Any local Pauli noise shrinks the single-qubit Bloch vector isotropically
+1. Any local Pauli noise shrinks the single-qubit Bloch vector (the 3D vector inside a unit sphere that completely describes a qubit's state) isotropically
    in purity terms (P_A and P_B decrease at the same rate regardless of axis).
 2. The joint purity P_AB is affected by the same mechanism.
 3. The ratio (excess / possible excess) remains 1.0 as long as the noise
@@ -217,8 +232,8 @@ dephasing:
 | 3.0 | 0.549 | 0.741 |
 | 5.0 | 0.368 | 0.607 |
 
-Amplitude damping is not unital (it drives toward |0⟩, not toward the
-maximally mixed state), which gives it a gentler decoherence profile.
+Amplitude damping is not unital (it drives toward |0⟩ rather than toward the
+maximally mixed state; a unital channel is one that leaves the identity matrix unchanged), which gives it a gentler decoherence profile.
 The CΨ crossing window is correspondingly longer.
 
 **Additional finding:** Under σ_x noise, the normalized l1-coherence Ψ

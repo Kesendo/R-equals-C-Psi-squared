@@ -6,6 +6,16 @@
 
 ---
 
+## What this document is about
+
+This is the mathematical reference for the entire project: every proven
+result, every verified formula, every key number, collected in one place.
+It covers the algebraic foundation (the self-referential equation and its
+1/4 boundary), the palindromic symmetry (why eigenvalues come in mirror
+pairs), crossing dynamics (how different channels and states reach the
+boundary), topology effects, engineering applications, and open questions.
+If you want to know what is proven vs. conjectured, this is where to look.
+
 ## 1. The Algebraic Foundation (Tier 1)
 
 The self-referential purity map:
@@ -13,7 +23,7 @@ The self-referential purity map:
     R = CΨ²
 
 where C = Tr(ρ²) (purity), Ψ = l₁(ρ)/(d-1) (normalized l1-coherence,
-Baumgratz convention), R = residual purity beyond product-state prediction.
+Baumgratz convention, the standard resource-theoretic measure defined as the sum of absolute values of all off-diagonal elements), R = residual purity beyond product-state prediction.
 
 **Fixed-point equation.** R = C(Ψ + R)² expands to CR² + (2CΨ - 1)R + CΨ² = 0.
 
@@ -108,7 +118,7 @@ measured t* = 15.29 μs. Deviation: 1.9%.
 **What CΨ measures.** CΨ = C × Ψ is an AND-gate: zero when either
 entanglement or coherence is absent. It distinguishes noise types that
 concurrence cannot (σ_z dephasing: Ψ=0.223 vs σ_x bit-flip: Ψ=0.333
-at identical concurrence 0.670). For Werner states near the entanglement
+at identical concurrence 0.670). For Werner states (one-parameter mixtures of a Bell state with white noise, the standard benchmark for entanglement robustness) near the entanglement
 threshold, CΨ is 6–7.5× smaller than concurrence, suppressing signals
 from states where entanglement exists but is not coherently expressed.
 
@@ -184,7 +194,7 @@ noise on one edge qubit, protect the rest. The formula
 gamma_edge = N*gamma_base - (N-1)*epsilon, gamma_other = epsilon (with epsilon -> 0)
 beats the DE optimizer by 80% and computes in 3 seconds instead of 90
 minutes. C#-validated results: 360x vs V-shape (N=5), 180x (N=7), 139x
-(N=9). The ENAQT literature (Plenio & Huelga 2008+) achieves 2-3x with
+(N=9). The ENAQT literature (Environment-Assisted Quantum Transport, Plenio & Huelga 2008+) achieves 2-3x with
 uniform dephasing. Nobody optimizes spatial dephasing profiles. Edge
 sacrifice beats center sacrifice by 2.2x because edge qubits have
 minimal connectivity (one neighbor vs two).

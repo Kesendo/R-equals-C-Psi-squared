@@ -253,7 +253,7 @@ You cannot build water from Lego bricks.
 **Strength of the conclusion:** The conclusion is as strong as Premise B.
 Premise A is proven. Premise B is demonstrated at one transition (V-Effect)
 and consistent with known physics at higher levels (Schrödinger equation,
-LCAO, phonon theory all use wave modes). But a mathematical proof by
+LCAO (Linear Combination of Atomic Orbitals), phonon theory all use wave modes). But a mathematical proof by
 induction across all levels does not exist. The argument is deductively
 valid; its empirical reach depends on whether Premise B generalizes.
 

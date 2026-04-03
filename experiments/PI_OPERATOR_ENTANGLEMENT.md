@@ -15,6 +15,19 @@ R=CPsi2 Pi operator entanglement -->
 
 ---
 
+## What this document is about
+
+The palindromic mirror Π acts on the full operator space of a
+multi-qubit system. Can it be factored into independent per-site
+operations (Π = Π_A ⊗ Π_B), or is it fundamentally entangled across
+sites? For all standard Hamiltonians, Π factors: each qubit has its
+own local mirror. Only 2 of 36 exotic coupling combinations force Π
+to be genuinely non-local. The mechanism is a frequency conflict: when
+two incompatible Pauli operators (X and Y) land on the same qubit
+site, no single local crossover can route both signals.
+
+---
+
 ## Abstract
 
 The palindromic spectral symmetry of open quantum systems is generated
@@ -62,6 +75,10 @@ H = J(sigma_X ⊗ sigma_Z + sigma_Y ⊗ sigma_Z), where both X and Y
 act on site 0, and Z acts on site 1.
 
 ### Operator Schmidt decomposition
+
+(The Schmidt decomposition is the standard test for entanglement: write
+the object as a sum of tensor products and count how many terms are
+needed. One term means separable; more means entangled.)
 
 Pi is a matrix on Liouville space (dimension d^2 = 16 for 2 qubits).
 This space has a tensor product structure: C^4_A ⊗ C^4_B, where
@@ -185,7 +202,8 @@ structure involving more than half of Liouville space.
 
 Pi is not unique. Any operator Pi_0 S, where S commutes with L
 (a symmetry of the Liouvillian), is also a valid Pi operator. The space
-of valid operators is isomorphic to the commutant of L.
+of valid operators is isomorphic to the commutant of L (the set of all operators that
+commute with the Liouvillian).
 
 | Hamiltonian | Commutant dim. | Distinct evals | Local? |
 |-------------|----------------|----------------|--------|

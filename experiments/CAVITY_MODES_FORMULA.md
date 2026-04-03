@@ -106,11 +106,11 @@ representation has dimension 2J+1.
 The Heisenberg Hamiltonian H = Sum_bonds J_k(X_aX_b + Y_aY_b + Z_aZ_b)
 commutes with total spin: [H, S_total] = 0. This is true for ANY
 choice of coupling strengths J_k, as long as each bond is isotropic
-(XX+YY+ZZ). By Schur's lemma, H acts as a scalar within each
-irreducible representation.
+(XX+YY+ZZ). By Schur's lemma (a theorem stating that any operator commuting with all symmetry transformations must act as a simple scalar within each irreducible block), H acts as a scalar within each
+irreducible representation (a symmetry block that cannot be decomposed further).
 
 Each copy of spin-J contributes one energy eigenvalue with degeneracy
-2J+1 (the 2J+1 magnetic substates). Different copies of the same J
+2J+1 (the 2J+1 magnetic substates, corresponding to the different orientations a spin-J object can have relative to a chosen axis). Different copies of the same J
 may have different energies (depending on the Hamiltonian).
 
 ### Counting stationary modes
@@ -206,7 +206,7 @@ Complete graph has the highest symmetry (S_N) and the most stationary modes.
 | Complete | 1 | 3 | 3 | - |
 
 **Star** has exactly N frequencies at integer multiples of 2J (2J, 4J, ..., 2NJ).
-The S_{N-1} permutation symmetry of the peripheral qubits collapses
+The S_{N-1} permutation symmetry (the group of all possible relabelings of N-1 objects) of the peripheral qubits collapses
 the frequency structure to harmonics.
 
 **Complete** has only 1-3 frequencies. Full S_N symmetry produces

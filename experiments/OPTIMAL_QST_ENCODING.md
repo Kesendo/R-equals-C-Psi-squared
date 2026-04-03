@@ -15,6 +15,18 @@ encoding negative result, hardware design not protocol, R=CPsi2 optimal QST enco
 
 ---
 
+## What this document is about
+
+Quantum state transfer (QST: sending a quantum state from Alice to Bob
+through a spin chain) depends on how Alice prepares her qubit. We test
+whether the palindromic mode structure offers a better encoding. It does
+not: the standard encoding already puts 61% of weight into slow modes
+and 0% into the drain. The real optimization lever is the hardware
+topology (the 2:1 Wojcik coupling ratio), not Alice's protocol. This is
+an important negative result.
+
+---
+
 ## Abstract
 
 Can Alice exploit the palindromic mode structure to encode quantum information
@@ -144,7 +156,7 @@ degradation.
 
 | Metric | Value |
 |---|---|
-| Holevo bound (gamma=0.05) | 0.537 bits |
+| Holevo bound (the theoretical maximum information transmittable per use of the channel; gamma=0.05) | 0.537 bits |
 | Holevo bound (noiseless) | 0.704 bits |
 | Information loss | 0.168 bits |
 

@@ -102,8 +102,9 @@ The math predicted it; the data confirmed it.
    sensory stimulation) helps neural oscillations. Too much destroys
    them. There is a sweet spot. This is consistent with observations
    that moderate arousal improves cognitive performance while extreme
-   arousal impairs it (the Yerkes-Dodson curve that psychology has
-   known for over a century, now with a potential mathematical
+   arousal impairs it (the Yerkes-Dodson curve, the empirical observation that performance
+   peaks at moderate arousal and drops at both extremes, that psychology
+   has known for over a century, now with a potential mathematical
    mechanism).
 
 ---

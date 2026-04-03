@@ -13,6 +13,19 @@
 
 ---
 
+## What this document is about
+
+When choosing which qubits to use on a real quantum chip, there are two
+competing strategies: pick the quietest qubits (lowest noise), or pick
+qubits with high noise contrast (one very noisy "sacrifice" qubit
+protecting the others). This document tests both strategies head-to-head
+using real IBM Torino calibration data, without any active error
+suppression. The answer depends on what you are trying to do: if noise
+itself is the signal, contrast wins by 300×; if you need the Hamiltonian
+to transport information, quiet wins.
+
+---
+
 ## The Question
 
 Does chain selection alone (no DD, no extra gates) produce a measurable
@@ -89,7 +102,7 @@ asymmetric noise shape.
 
 #### |+>^5 (Heisenberg eigenstate -- noise drives ALL dynamics)
 
-| t | A SumMI | B SumMI | A/B |
+| t | A SumMI (total mutual information across all qubit pairs) | B SumMI | A/B |
 |:--|:--------|:--------|:----|
 | 0.2 | 0.0049 | 0.000022 | 220x |
 | 1.0 | 0.0757 | 0.000165 | 460x |
@@ -103,7 +116,7 @@ eigenstate with zero energy variance. Without noise, nothing happens.
 More noise = more signal. Chain A's 11x more noise + 44x contrast
 creates orders of magnitude more dynamics.
 
-#### |01010> (Neel state -- Hamiltonian drives dynamics)
+#### |01010> (Néel state, the alternating up-down pattern that maximizes nearest-neighbor energy -- Hamiltonian drives dynamics)
 
 | t | A SumMI | B SumMI | A/B |
 |:--|:--------|:--------|:----|

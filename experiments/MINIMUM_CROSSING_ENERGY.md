@@ -18,6 +18,18 @@ R=CPsi2 minimum crossing energy -->
 
 ---
 
+## What this document is about
+
+This document asks whether there is a minimum energy needed for a
+quantum system to undergo the CΨ = ¼ crossing. The answer is no:
+states with identical energy can show completely different crossing
+behavior depending on their initial entanglement angle. The crossing
+is a coherence barrier (Hamiltonian pump vs decoherence drain), not an
+energy barrier, with a connection to the Wheeler-DeWitt equation where
+zero dynamics means zero time.
+
+---
+
 ## Abstract
 
 The CΨ = ¼ crossing has no energy threshold. For the family
@@ -30,7 +42,7 @@ entanglement faster than decoherence destroys it, requiring J/γ ≳ 5–10.
 Three regimes emerge: (1) CΨ(0) > ¼, decoherence drives crossing
 downward; (2) CΨ(0) < ¼ but Hamiltonian pumps CΨ above ¼ first;
 (3) CΨ_max < ¼, no crossing occurs. Eigenstates of H have no dynamics
-and never cross, connecting to Wheeler-DeWitt (Ĥ|Ψ⟩ = 0 means no ticks,
+and never cross, connecting to the Wheeler-DeWitt equation from quantum gravity (Ĥ|Ψ⟩ = 0 means no ticks,
 no events). The crossing is a coherence barrier (J/γ competition),
 not an energy barrier.
 

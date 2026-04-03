@@ -17,11 +17,26 @@ water chain, ion channel proton wire, R=CPsi2 proton water chain -->
 
 ---
 
+## What this document is about
+
+This document models chains of 1 to 5 proton qubits in water, bridging
+the gap between a single hydrogen bond (Zundel cation, N=2) and DNA base
+pairs (N=2,3 on a biological scaffold). Each proton tunnels in its
+double-well potential; neighbors couple through the water backbone. The
+palindromic framework's analytical formulas match to machine precision for
+N=1-5. The key finding: at room temperature, these chains are deeply
+classical (Q < 1), but the mode structure (up to 222 distinct frequencies
+at N=5) and the sacrifice-zone optimization (5.1× improvement) work exactly
+as in abstract qubit chains. The palindrome is universal; the substrate
+only sets parameter values.
+
+---
+
 ## Abstract
 
-The missing step between Zundel (N=2 protons) and DNA (N=2,3 in
+The missing step between Zundel (the H₅O₂⁺ cation where a proton is shared between two water molecules, N=2 protons) and DNA (N=2,3 in
 different substrate): linear chains of N=1-5 proton qubits in water
-(Grotthuss chains). Each proton tunnels in its H-bond double well
+(Grotthuss chains, named after the 1806 mechanism where protons hop sequentially along a water wire). Each proton tunnels in its H-bond double well
 (sigma_x) and couples to neighbors through the water backbone
 (sigma_z sigma_z). Z-dephasing from the thermal environment.
 
@@ -68,7 +83,7 @@ Every formula matches to machine precision. This is the FIRST
 systematic validation of the analytical formula catalog against a
 physical system from N=1 to N=5.
 
-### Transverse-field Ising (physical proton model)
+### Transverse-field Ising (physical proton model, a spin chain where each site feels a field perpendicular to the coupling axis, matching the tunneling + coupling structure of proton wires)
 
 | N | Regime | Frequencies | Q_max | Min rate |
 |---|--------|-------------|-------|----------|

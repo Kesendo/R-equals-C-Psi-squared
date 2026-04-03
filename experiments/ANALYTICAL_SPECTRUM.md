@@ -11,11 +11,21 @@
 
 ---
 
+## What this document is about
+
+The w=1 sector of the Liouvillian (modes where exactly one qubit carries
+an X or Y Pauli operator) has an exact closed-form frequency formula:
+ω_k = 4J·(1 − cos(πk/N)). This replaces full matrix diagonalization
+(which scales as 4^{3N}) with a single cosine evaluation per mode.
+Verified to machine precision for N=2 through 6 (15 frequencies, zero error).
+
+---
+
 ## The Result
 
 The w=1 sector of the Liouvillian (modes where exactly one qubit
-carries X or Y, all others I or Z) has an exact dispersion relation
-for the Heisenberg chain:
+carries X or Y, all others I or Z) has an exact dispersion relation (the formula relating oscillation
+frequency to mode index) for the Heisenberg chain:
 
     ω_k = 4J · (1 - cos(πk/N)),    k = 1, ..., N-1
 
@@ -115,8 +125,9 @@ For N → ∞, the frequencies fill the interval [0, 8J] with density:
 
     ρ(ω) = N/(π · √(8Jω - ω²))
 
-This is the density of states for a cosine band (van Hove singularity
-at band edges). Confirmed: the N=6 frequencies visually cluster near
+This is the density of states for a cosine band (van Hove singularities,
+the divergences in mode density that occur at band edges where the
+group velocity vanishes). Confirmed: the N=6 frequencies visually cluster near
 the edges (0.54 and 7.46) relative to the interior (2, 4, 6).
 
 ### E. Scaling N → ∞
@@ -157,7 +168,8 @@ This formula covers only w=1.
 ## Connection to Known Physics
 
 The formula ω_k = 4J(1-cos(πk/N)) is the dispersion relation of
-the nearest-neighbor tight-binding model (hopping amplitude 2J) with
+the nearest-neighbor tight-binding model (the simplest lattice model
+where a particle hops between adjacent sites, with hopping amplitude 2J) with
 the quantization k_n = πn/N. This quantization corresponds to a
 chain with specific boundary conditions.
 

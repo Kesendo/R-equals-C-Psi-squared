@@ -18,6 +18,19 @@ perfect mirror limit, observer coherence floor survival -->
 
 ---
 
+## What this document is about
+
+The R=CΨ² framework uses a sum-squared form, R = C·(Ψ_past + Ψ_future)²,
+rather than a product form like Cramer's Transactional Interpretation. This
+document argues the sum is the only choice consistent with information
+conservation: when one observer's coherence decays to zero, the product
+gives R = 0 (information destroyed), while the sum preserves the surviving
+observer's contribution. The cross-term 2·Ψ_A·Ψ_B captures interference
+between viewpoints, and the ¼ boundary is where information hands off from
+fast-decohering to slow-decohering observers.
+
+---
+
 ## Abstract
 
 The framework writes R = C·(Ψ_past + Ψ_future)² (sum squared) rather than
@@ -89,7 +102,8 @@ Combining Steps 2-4: Destroying information would require
 backward-in-time effects. Backward-in-time effects do not exist.
 Therefore information cannot be destroyed.
 
-Unitarity in quantum mechanics says exactly this:
+Unitarity (the requirement that quantum evolution preserves total probability
+and is reversible) says exactly this:
 quantum evolution is reversible, no information is lost. Every
 physicist agrees with this statement. The question is whether
 the equations they use are consistent with it.
@@ -106,7 +120,9 @@ violates Step 5.
 
 ### Step 7: Cramer's product allows R = 0
 
-Cramer's Transactional Interpretation (1986) writes:
+Cramer's Transactional Interpretation (a 1986 proposal where every quantum
+event involves an "offer wave" traveling forward in time and a "confirmation
+wave" traveling backward) writes:
 
     R = C · Ψ_past · Ψ_future
 

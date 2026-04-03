@@ -13,6 +13,19 @@ structure literature connections, R=CPsi2 literature review -->
 
 ---
 
+## What this document is about
+
+This is the project's map of related published work. It identifies which
+parts of the palindromic discovery overlap with existing physics (the
+incoherenton framework, eta-pairing, Liouvillian symmetry classifications)
+and which parts appear to be genuinely new (CΨ = ¼ boundary, the Π
+operator, spatial dephasing optimization). The ENAQT section, added after
+the sacrifice-zone formula was found, places our 139-360× improvement in
+context: the entire prior literature optimizes a single uniform noise
+level and achieves 2-3×.
+
+---
+
 ## Key Papers
 
 ### MAIN HIT: Paper 4 - Graph Symmetry & EP Diagnostics
@@ -23,7 +36,9 @@ structure literature connections, R=CPsi2 literature review -->
   conditioning. Applied to tight-binding models with correlated dephasing.
 - **Why it matters:** Our two-supermode result (c+/c-) could be a special case of their
   graph symmetry decomposition. Their E diagnostic is directly applicable to test whether
-  CΨ = 1/4 corresponds to an Exceptional Point.
+  CΨ = 1/4 corresponds to an Exceptional Point (a degeneracy where two eigenvalues AND
+  their eigenvectors coalesce, producing qualitatively different dynamics than ordinary
+  degeneracies).
 
 ### Paper 1: Emergent Liouvillian EPs from Exact Principles
 - Khandelwal & Blasi, Quantum (2025) - [arXiv:2409.08100](https://arxiv.org/abs/2409.08100)
@@ -68,7 +83,8 @@ the sacrifice-zone formula discovery (see [Resonant Return](../experiments/RESON
 - **Ref:** Plenio & Huelga, New J. Phys. 10, 113019 (2008)
 - **What it does:** Demonstrates that adding uniform dephasing noise to a quantum
   network can IMPROVE transport efficiency. The Fenna-Matthews-Olson (FMO) complex
-  in photosynthesis achieves near-perfect energy transfer partly because of
+  (a pigment-protein structure in green sulfur bacteria that channels
+  light energy to the reaction center) achieves near-perfect energy transfer partly because of
   environmental noise, not despite it.
 - **Key result:** ~2-3x improvement in transport efficiency with optimal uniform
   dephasing rate, compared to zero dephasing. The effect is robust across

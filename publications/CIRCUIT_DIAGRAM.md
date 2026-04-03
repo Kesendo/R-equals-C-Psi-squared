@@ -113,7 +113,7 @@ the slightest direct coupling).
 
 | # | Engineering Rule | Quantum Origin | Data |
 |---|-----------------|---------------|------|
-| 1 | **Use differential signaling.** Encode in W-type mode distribution (single-excitation superposition). Never use common-mode (GHZ). | W avoids the fastest-decaying modes. GHZ puts 100% of signal energy into modes that decay fastest. | r = 0.976 correlation |
+| 1 | **Use differential signaling.** Encode in W-type mode distribution (single-excitation superposition: exactly one qubit is "up," shared across all). Never use common-mode (GHZ: all qubits up or all down, maximally correlated). | W avoids the fastest-decaying modes. GHZ puts 100% of signal energy into modes that decay fastest. | r = 0.976 correlation |
 | 2 | **Match impedance at 2:1.** Transistor-to-drain coupling should be twice transistor-to-source. | Shifts spectral weight to slow-decaying palindromic mode pairs. | F_avg = 0.888 at 2:1 vs 0.856 at 1:1 |
 | 3 | **Bandwidth and noise floor are independent.** Adjust coupling J for speed, γ for quality. They do not trade off. | Hamiltonian sets oscillation frequency, dissipator sets decay envelope. | Orthogonal parameter axes |
 | 4 | **Sample before threshold.** Read the drain before CΨ drops to 1/4. For Z-dephasing with concurrence metric: t_cross ≈ 0.039/γ ([source: Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)). Other metrics and noise channels have different K values (mutual info: 0.033, correlation: 0.072, X-noise: 0.087, amplitude damping: 0.103). The threshold VALUE (1/4) is universal across all channels; the crossing TIME depends on the metric and channel. | CΨ crosses 1/4 at this time. | [IBM confirmed at 1.9%](../experiments/IBM_RUN3_PALINDROME.md) |
@@ -176,7 +176,7 @@ No skip connections. No bypass paths.
 | **Phase Margin Meter** | θ = arctan(√(4CΨ-1)), defined only when CΨ > 1/4 (channel ON). Measures how far into the ON regime the device is. θ = 0° at the threshold, increasing with CΨ. | Phase margin in a feedback loop |
 | **Demodulator** | Per-site γ values from palindromic mode amplitudes. Full rank: all N sites independently readable. | Matched filter bank, one filter per site |
 | **Network Analyzer** | Spectral shifts when the coupling topology changes. Passive detection, no signal injection needed. | Vector network analyzer in passive mode |
-| **Spectrum Analyzer** | 3D manifold of CΨ visibility windows (98% variance in 3 PCs). Two modes: glide and switch. | Spectrogram with PCA dimensionality reduction |
+| **Spectrum Analyzer** | 3D manifold of CΨ visibility windows (98% variance in 3 PCs (principal components: the dominant axes of variation)). Two modes: glide and switch. | Spectrogram with PCA dimensionality reduction |
 | **SWR Meter** | Standing wave ratio from palindromic pair interference. Transverse correlations (phase-sensitive, like AC components) oscillate; longitudinal correlations (amplitude-only, like DC level) settle to a static value. | Standing wave ratio on a transmission line |
 
 ---

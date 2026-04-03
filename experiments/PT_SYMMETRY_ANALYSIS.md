@@ -56,7 +56,7 @@ We classify the conjugation operator Pi formally and discover that
 the fragile bridge gain-loss system exhibits chiral symmetry breaking,
 the Liouvillian analog of PT-symmetry breaking. Three results:
 
-1. **Pi is a linear, order-4 chiral operator** (not PT). It anti-commutes
+1. **Pi is a linear, order-4 chiral operator** (not PT). It anti-commutes (swaps sign: Pi·L + L·Pi = 0, rather than commuting where Pi·L − L·Pi = 0)
    with both the centered Liouvillian L_c and its adjoint L_c^dagger.
    Correct symmetry class: AIII (chiral unitary), confirming the RMT
    analysis. Pi^2 = (-1)^{w_YZ} (diagonal parity operator), det(Pi) = +1
@@ -69,7 +69,7 @@ the Liouvillian analog of PT-symmetry breaking. Three results:
    axis (one to Re > 0, partner to Re < 0). This reinterprets the "Hopf,
    not PT" conclusion from FRAGILE_BRIDGE.md: it is both simultaneously.
    No exceptional point exists on the real gamma axis; the Petermann
-   factor peaks at K = 403 above γ_crit, signaling a nearby EP in
+   factor (a measure of how non-orthogonal the eigenvectors are; K = 1 for normal systems, K >> 1 near an exceptional point) peaks at K = 403 above γ_crit, signaling a nearby EP in
    the complex parameter plane.
 
 3. **Palindrome breaking does NOT destabilize the system.** Depolarizing
@@ -238,7 +238,7 @@ a topological transition (axis crossing), not a local one (EP).
 
 However, the system passes CLOSE to an EP in the complex gamma plane.
 Evidence: the Petermann factor spikes to K = 403 at gamma/gamma_c = 1.46,
-with phase rigidity dropping to r = 0.0025.
+with phase rigidity (how close an eigenmode is to being a normal mode; r = 1 means perfectly normal, r → 0 means strongly non-normal) dropping to r = 0.0025.
 
 | gamma/gamma_c | Petermann K | Phase rigidity r | max Re |
 |--------------|-------------|-----------------|--------|
@@ -382,7 +382,7 @@ the operator algebra.
 Their hidden time-reversal symmetry is anti-unitary and acts in the
 doubled Hilbert space. Our Pi is linear and acts directly on the
 Liouvillian. The two frameworks produce related but distinct symmetries.
-The formal connection (via the Choi-Jamiolkowski isomorphism) remains
+The formal connection (via the Choi-Jamiolkowski isomorphism, a mathematical mapping that converts a quantum channel into a state and vice versa) remains
 an open question.
 
 ---

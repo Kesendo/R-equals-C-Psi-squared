@@ -11,6 +11,18 @@ documents, or were negative results. They remain here for historical reference.
 
 ---
 
+## What this document is about
+
+This is the raw discovery log from March 11-13, 2026: the three days
+before the palindromic proof. Most entries here have been superseded by
+dedicated documents or analytical proofs, but the chronological record
+shows how numerical observations led to the proof. Key findings include
+the two-channel structure (frequency vs decay), band structure with
+avoided crossings, and the numerical discovery that the spectrum is
+exactly mirror-symmetric, which became the Π proof one day later.
+
+---
+
 ## Five independent roles (March 12)
 
 Topology sets frequencies. Symmetry cleans sectors. Noise damps signal.
@@ -41,7 +53,9 @@ Each position along the chain hears different frequencies.
 
 ## The Projection (March 11)
 
-All frequencies exist always (39 Bohr frequencies in 4-qubit system).
+All frequencies exist always (39 Bohr frequencies (the discrete
+oscillation frequencies set by energy-level differences) in 4-qubit
+system).
 AB looks through a window (c+ observable) that projects onto a subset.
 A new observer does not change reality; it changes the projection.
 Reality contains everything. Perspective selects.
@@ -75,7 +89,9 @@ See: experiments/SIGNAL_PROCESSING_VIEW.md
 
 ## Graph Symmetry test (March 13)
 
-XXX parity COMMUTES with the Liouvillian (weak symmetry, Buca & Prosen).
+XXX parity COMMUTES with the Liouvillian (weak symmetry in the sense
+of Buca & Prosen: a symmetry of the dissipative dynamics, not just of
+the Hamiltonian).
 ZZZ also commutes. SWAP_AB does NOT commute (J_SA != J_SB breaks it).
 
 But: c+ and c- BOTH have XXX parity +1. They live in the SAME sector.
@@ -200,7 +216,9 @@ Script: simulations/symmetry_and_u_analysis.py
 ## Exceptional Point test: NEGATIVE (March 13)
 
 Three sweeps: gamma (3-qubit), J_SB (3-qubit), gamma (2-qubit).
-No connection found between CPsi = 1/4 and Liouvillian Exceptional Points.
+No connection found between CPsi = 1/4 and Liouvillian Exceptional
+Points (degeneracies where two eigenvalues AND their eigenvectors
+coalesce).
 EP_strength follows gamma monotonically, not CPsi.
 
 Script: simulations/ep_test.py

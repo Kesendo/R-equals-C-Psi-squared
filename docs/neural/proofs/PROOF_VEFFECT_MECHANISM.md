@@ -8,6 +8,18 @@
 
 ---
 
+## What this document is about
+
+A single neural network with perfect palindromic symmetry is stable and
+non-oscillating (all eigenvalues real). But when two such networks are
+coupled through a shared mediator, the coupling frustrates the symmetry
+(the mediator cannot satisfy both networks' conditions simultaneously),
+and new oscillatory modes emerge from zero. This is the neural analog of
+the quantum V-Effect and peaks at weak coupling; strong coupling destroys
+the two-subsystem structure.
+
+---
+
 ## Statement
 
 A single neural network with exact palindromic symmetry
@@ -150,8 +162,9 @@ remains purely real.
 **Reason:** In the quantum case, thermal excitation adds NEW
 Lindblad operators (σ_+ excitation) to the Liouvillian. This is
 a structural change to the evolution operator. In Wilson-Cowan,
-drive P only shifts the operating point on the sigmoid, changing
-the effective coupling strength but not the operator structure.
+drive P only shifts the operating point on the sigmoid (the S-shaped
+activation function that maps input to firing rate), changing the
+effective coupling strength but not the operator structure.
 
 The V-Effect requires a structural symmetry break (a second mirror),
 not a parametric shift (temperature).

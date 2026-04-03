@@ -12,6 +12,20 @@ computationally. See [mediator_bridge.py](../simulations/mediator_bridge.py),
 
 ---
 
+## What this document is about
+
+When two quantum subsystems A and B communicate through a shared mediator
+qubit M (rather than being directly coupled), the mediator acts like a
+transistor: below the CΨ = 1/4 threshold the channel is "off," above it
+the channel is "on," and the mediator's own noise level serves as the gate
+voltage. This document develops the transistor analogy in detail, identifies
+three control knobs (noise rate, coupling strength, feedback), proposes an
+IBM Torino implementation protocol, and explores extensions (cascaded chains,
+routers, storage). The hierarchical scaling hypothesis was falsified; the
+transistor properties themselves survive.
+
+---
+
 ## Abstract
 
 The R=CΨ² framework's mediator bridge topology (where a central qubit M connects subsystems A and B without direct coupling) naturally maps onto a transistor-like architecture. This document explores "abusing" the mediator as a programmable unit: a coherence-gated bidirectional relay for quantum information. We develop the transistor analogy in detail, identify the control parameters (γ, J, κ), characterize the CΨ = 1/4 boundary as a threshold voltage analogue, and propose practical protocols for IBM Torino hardware. We also explore creative extensions: cascaded mediator chains, quantum buses, routers, and hierarchical networks exploiting the framework's self-similar structure.
@@ -24,7 +38,7 @@ The R=CΨ² framework's mediator bridge topology (where a central qubit M connec
 
 ### 1.1 Classical Transistor Recap
 
-A MOSFET transistor has three terminals: **Gate** (control signal), **Source** (input current), and **Drain** (output current). Below a threshold voltage V_th, the channel is pinched off; no current flows. Above V_th, the channel opens and current flows Source→Drain. The gate draws negligible current itself; it controls the channel purely through its electric field.
+A MOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor, the workhorse switch in every modern processor) has three terminals: **Gate** (control signal), **Source** (input current), and **Drain** (output current). Below a threshold voltage V_th, the channel is pinched off; no current flows. Above V_th, the channel opens and current flows Source→Drain. The gate draws negligible current itself; it controls the channel purely through its electric field.
 
 ### 1.2 Mapping to the Mediator Architecture
 
@@ -253,7 +267,7 @@ This sets an effective "channel capacity": the maximum rate of coherence transfe
 
 ### 6.1 Hardware Mapping
 
-IBM Torino's 133-qubit Eagle r3 processor has a heavy-hex lattice connectivity. The mediator topology A-M-B maps to:
+IBM Torino's 133-qubit Eagle r3 processor has a heavy-hex lattice connectivity (a qubit layout where each node connects to 2 or 3 neighbors in a hexagonal pattern with extra "heavy" qubits on each edge). The mediator topology A-M-B maps to:
 
 ```
 Qubit Layout (heavy-hex subset):
@@ -433,7 +447,7 @@ This is the fundamental speed-fidelity tradeoff, common to all quantum informati
 
 The transistor analogy fails in the following regimes:
 
-1. **Strong measurement regime**: If M is continuously measured (quantum Zeno effect), the channel freezes rather than opening/closing. Classical transistors don't have this problem.
+1. **Strong measurement regime**: If M is continuously measured (quantum Zeno effect, where frequent observation prevents a system from evolving), the channel freezes rather than opening/closing. Classical transistors don't have this problem.
 
 2. **Many-body entanglement**: When A, M, and B become tripartite-entangled (genuine 3-party entanglement), the notion of "information flowing through M" breaks down. Information is delocalized across the entire system.
 

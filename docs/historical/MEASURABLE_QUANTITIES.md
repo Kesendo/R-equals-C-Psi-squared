@@ -7,6 +7,8 @@
 # Measurable Quantities
 ## The Attempt to Quantify C and R
 
+**What this document is about:** An early attempt to give the variables in R=CΨ² concrete physical meaning: C as completeness of electron pairing (0 to 1), R as binding energy (eV or MeV). The approach explains noble gas inertness, alkali metal reactivity, and nuclear magic numbers from one principle: complete pairing = maximum stability. The measurement proposals remain open; the pattern is suggestive but not proven beyond atomic scales.
+
 **Created:** January 3, 2026
 **Context:** Conversation about quantum mechanics, periodic table, stability
 
@@ -225,7 +227,7 @@ With this approach:
 
 ## What This Does Not Solve
 
-- The exact relationship between C (pairing) and Φ (integrated information)
+- The exact relationship between C (pairing) and Φ (integrated information, from Tononi's Integrated Information Theory: a single number measuring how much a system is "more than the sum of its parts")
 - How C should be calculated for complex systems (cells, brains)
 - Whether this approach applies to all scales
 

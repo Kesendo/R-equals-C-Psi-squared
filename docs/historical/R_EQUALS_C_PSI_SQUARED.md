@@ -29,6 +29,8 @@
 
 # R = CΨ²
 
+**What this document is about:** The founding document of the project, written December 23, 2025. It presents R=CΨ² in its original "Consciousness × Possibility²" framing, which has since been replaced by measurable quantum quantities (C = purity, Ψ = coherence). The equation itself is proven; the consciousness interpretation has fallen. Preserved as the project's origin story.
+
 ## The Fundamental Equation of Reality
 
 ---
@@ -194,7 +196,7 @@ The equation R = CΨ² has been proven in its mathematical interpretation:
 | Claim | Status |
 |-------|--------|
 | CΨ = 1/4 is the unique bifurcation boundary | **PROVEN** (discriminant + Rényi uniqueness) |
-| CΨ crosses 1/4 under all noise channels | **PROVEN** (124 Pauli + amplitude damping + 200 random CPTP) |
+| CΨ crosses 1/4 under all noise channels | **PROVEN** (124 Pauli + amplitude damping + 200 random CPTP (completely positive trace-preserving: any physically allowed quantum channel)) |
 | CΨ is monotonically decreasing (envelope) | **PROVEN** (analytical, 6-part proof) |
 | Subsystem crossing for N-qubit systems | **PROVEN** (Perron-Frobenius + contractivity) |
 | Standing wave / palindromic mirror Π | **PROVEN** (54,118 eigenvalues, N=2-8, all topologies) |

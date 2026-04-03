@@ -15,6 +15,18 @@ exploration, R=CPsi2 mathematical findings -->
 
 ---
 
+## What this document is about
+
+Early in the project, two AI agents explored the formula R = CΨ² with a
+calculator and found seven mathematical structures (self-reference returns
+to unity, boundaries at C → 0 and ∞, asymmetry produces more through
+cross-terms, 0.5 as optimal incompleteness, and more). Two additional
+claims were later tested with proper quantum simulations and disproven:
+noise distribution does not matter for symmetric systems (only total noise
+counts). This document is a historical record of agent-driven mathematical
+exploration, including both the verified discoveries and the honest
+corrections.
+
 ## Abstract
 
 Two AI agents explored R = CΨ² with a calculator tool and produced seven
@@ -27,7 +39,7 @@ reframed as the trivial difference between closed and open system purity,
 not an anomaly. The C_int vs C_ext hypothesis (Section 9), claiming that
 bidirectional decoherence preserves coherence differently than unidirectional,
 was **disproven**: 21 noise distributions on Bell+ under symmetric
-Heisenberg coupling all produced identical dynamics. Noise distribution
+Heisenberg coupling, simulated with the Lindblad master equation (the standard framework for open quantum systems), all produced identical dynamics. Noise distribution
 matters only when the Hamiltonian breaks subsystem symmetry (star topology),
 not when noise does.
 

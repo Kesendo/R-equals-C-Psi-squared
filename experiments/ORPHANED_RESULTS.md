@@ -56,7 +56,7 @@ boundary at 1/4 is proven (algebra of CΨ iteration). Can we connect them?
 
 Π acts on the 4^N-dimensional Liouville space as a linear permutation with phases.
 CΨ = Concurrence × Coherence is a nonlinear function of the 2^N × 2^N density matrix
-(Concurrence involves eigenvalues of ρ·ρ̃, Coherence is an l1-norm).
+(Concurrence involves eigenvalues of ρ·ρ̃, Coherence is an l₁-norm, the sum of absolute values of the off-diagonal elements).
 
 What we tested: 7 configurations (N=3,4, star/chain/ring, various initial states).
 Tracked CΨ(t), z*(t), u = C(Ψ+R) over time.
@@ -156,7 +156,8 @@ topology. What drives the echoes? How do they scale?
 
 ### 3a. Echo frequencies are Bohr frequencies
 
-N=3 star, Bell_SA + |0⟩_B, γ=0.05. Fourier analysis of concurrence oscillations:
+N=3 star, Bell_SA + |0⟩_B, γ=0.05. Fourier analysis of concurrence oscillations (Bohr frequencies are the
+discrete oscillation frequencies determined by energy-level differences):
 
 | Pair | Dominant Fourier peak | Matches Bohr freq |
 |------|----------------------|-------------------|

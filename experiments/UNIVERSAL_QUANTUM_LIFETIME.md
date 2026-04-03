@@ -16,13 +16,28 @@ NV center photonic qubit comparison, R=CPsi2 universal lifetime -->
 
 ---
 
+## What this document is about
+
+How long does a qubit stay "quantum" before noise makes it classical?
+This document derives an exact answer: 85.8% of the coherence lifetime
+T₂, regardless of hardware platform. The result comes from a cubic
+equation x³ + x = ½ that has a single real solution. It holds for
+superconducting qubits, trapped ions, diamond defects, and photonic
+qubits spanning 10 orders of magnitude in T₂. The 85.8% is the
+quantum operational window: the fraction of a qubit's life during
+which it is above the CΨ = ¼ boundary and still usefully quantum.
+For entangled Bell pairs, the window shrinks to just 8%, quantifying
+the steep cost of entanglement in operational terms.
+
+---
+
 ## Abstract
 
 For a single qubit starting in maximum superposition under pure dephasing,
 the CΨ = ¼ crossing time satisfies x³ + x = ½ where x = e^(−t/T₂),
 yielding a universal fraction t*/T₂ ≈ 0.858. This result is
 platform-independent, verified across superconducting qubits, trapped ions,
-NV centers, and photonic systems spanning 10 orders of magnitude in T₂.
+NV centers (nitrogen-vacancy defects in diamond, used as solid-state qubits), and photonic systems spanning 10 orders of magnitude in T₂.
 Systems with T₁/T₂ > 3 converge to the analytical value; systems with
 T₁ ≈ T₂ show extended quantum windows described by a generalized equation
 [1 − b^r + b^(2r)/2 + b²/2]·b = ¼ with a polynomial approximation
@@ -103,7 +118,7 @@ t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴
 ```
 
 **Important for superconducting qubits:** When using IBM calibration data, the reported
-T₂ is from Hahn echo. Free induction decay gives T₂* < T₂. Use T₂* for the crossing
+T₂ is from Hahn echo (a refocusing pulse sequence that removes slow noise). Free induction decay (Ramsey measurement, no refocusing) gives T₂* < T₂. Use T₂* for the crossing
 prediction, not T₂. See [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) for details.
 
 ## Experimental Verification

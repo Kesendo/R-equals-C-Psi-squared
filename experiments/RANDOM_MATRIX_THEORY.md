@@ -14,6 +14,20 @@ simulations/rmt_analysis.py (Python spacing analysis)
 
 ---
 
+## What this document is about
+
+This document asks whether the palindromic Liouvillian spectrum looks
+chaotic or integrable, using the standard diagnostic from random matrix
+theory: the spacing ratio between consecutive eigenvalues. The answer:
+the spectrum is Poisson (integrable, eigenvalues cluster rather than
+repel), confirming that the palindromic symmetry provides enough
+conserved quantities to fully determine the spectrum. Within individual
+weight sectors there are preliminary hints of GOE-like level repulsion,
+suggesting a possible integrable-to-chaotic transition at finer
+resolution.
+
+---
+
 ## Abstract
 
 We perform the first random matrix theory (RMT) analysis of the
@@ -162,7 +176,7 @@ Pairing is exact to machine precision at every N. This confirms the
 algebraic proof ([Mirror Symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 and places the centered Liouvillian in the chiral symmetry class.
 
-In the Altland-Zirnbauer classification, this is class AIII (chiral
+In the Altland-Zirnbauer classification (the tenfold taxonomy of symmetry classes for random matrices, extending Wigner-Dyson's three classes to include particle-hole and chiral symmetries), this is class AIII (chiral
 unitary). However, the Poisson level statistics show that the system
 does not exhibit the level repulsion expected for a random chiral
 GUE ensemble. The palindromic Liouvillian is chiral but integrable:
@@ -219,7 +233,7 @@ the C# eigenvalue export is producing physically valid spectra.
 
 2. **Comparison with Denisov lemon shape.** The complex-plane density
    of random Lindbladians (Denisov et al., PRL 2019) has a specific
-   "lemon" shape. Our palindromic constraint modifies this. A
+   "lemon" shape (the characteristic boundary curve of eigenvalue density for structureless random Lindbladians). Our palindromic constraint modifies this. A
    quantitative comparison needs the 2D density, not just 1D rates.
 
 3. **Topological dependence.** All results use chain topology. Star,

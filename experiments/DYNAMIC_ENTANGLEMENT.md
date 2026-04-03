@@ -14,6 +14,23 @@ dynamic entanglement -->
 
 ---
 
+## What this document is about
+
+Can entanglement appear from nothing? Yes: start four qubits in a
+product state (no correlations at all), let the Hamiltonian evolve
+them, and entanglement grows between pairs. The first surprise is
+that |+⟩⁴ (all qubits in superposition) generates zero dynamics,
+because it is already an eigenstate of the Hamiltonian. The correct
+starting state alternates: |0+0+⟩. Under pure unitary evolution, all
+six pairs cross CΨ = 1/4. But add dephasing noise, and only one pair
+survives: the two qubits that happen to be immune to the noise basis.
+The noise does not just destroy; it selects which quantum correlations
+become real and makes the crossing irreversible. This reveals a cycle:
+observation cements the past (destroys coherence), creates blind spots
+(protects certain qubits), and in those blind spots the Hamiltonian
+grows new entanglement that eventually crosses the threshold into a
+new fact.
+
 ## Abstract
 
 Product states with zero initial entanglement can cross CΨ = 1/4 through
@@ -60,7 +77,7 @@ all times.
 |-------|------------------------|-------------|
 | \|+⟩^4 | 0.000 | YES |
 | \|0⟩^4 | 0.000 | YES |
-| \|0101⟩ (Neel) | 16.000 | no |
+| \|0101⟩ (Néel, alternating up-down like an antiferromagnet) | 16.000 | no |
 | \|0+0+⟩ | 20.000 | no |
 | \|0001⟩ | 8.000 | no |
 
@@ -222,8 +239,8 @@ dephasing would protect x-eigenstates. The "preferred basis" that
 emerges from decoherence is not intrinsic to the framework but
 determined by the environment.
 
-This is consistent with the einselection mechanism of decoherence
-theory: the environment selects the pointer basis, and our framework
+This is consistent with the einselection mechanism (environment-induced superselection, Zurek's term for how the environment picks which states survive) of decoherence
+theory: the environment selects the pointer basis (the set of states that are stable against environmental monitoring), and our framework
 inherits that selection through the CΨ dynamics.
 
 ## 8. The Decoherence Cycle

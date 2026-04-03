@@ -39,6 +39,16 @@ observer-dependent crossing times, coherence density insights, and CΨ
 as a measurement tool in settings where A and B can compare results
 via a classical channel.
 
+## What this document is about
+
+This document permanently closes the "bridge hypothesis," the idea that
+pre-shared entanglement between separated qubits could carry information
+without a classical communication channel. The answer is no: after
+separation with zero coupling, A's measurement statistics depend only on
+A's local state, which is identical regardless of what B does. This is a
+direct consequence of the no-signalling theorem. CΨ fingerprints require
+access to the joint state ρ_AB, which neither subsystem has alone.
+
 ---
 
 ## 1. What This Document Settles
@@ -128,8 +138,9 @@ This is not a new discovery. It follows from:
 advantage over shared randomness.**
 
 This is implicit in the no-signalling theorem and explicitly proven
-in the context of LOCC (Local Operations and Classical Communication)
-theory. The key result: any correlation achievable with shared
+in the context of LOCC (Local Operations and Classical Communication,
+the standard framework describing what separated parties can achieve
+with local quantum operations plus a classical phone line) theory. The key result: any correlation achievable with shared
 entanglement alone (no classical channel) is also achievable with
 shared classical randomness alone.
 

@@ -5,7 +5,19 @@
 **Scope:** Shows that within the CΨ model, only f(r) with a true zero at r_s is self-consistent
 **Does not establish:** That the CΨ framework can derive general relativity or that this constitutes a physical derivation of Schwarzschild
 **Date**: 2026-02-08
-**Depends on**: METRIC_DISCRIMINATION.md, GRAVITATIONAL_INVARIANCE.md
+**Depends on**: [METRIC_DISCRIMINATION.md](../experiments/METRIC_DISCRIMINATION.md), [GRAVITATIONAL_INVARIANCE.md](../experiments/GRAVITATIONAL_INVARIANCE.md)
+
+---
+
+## What this document is about
+
+If R = CΨ² holds everywhere and the decoherence trajectory is universal
+(only the clock speed γ differs between locations), then the spatial
+profile of R near a mass is determined by the time dilation factor f(r).
+Self-consistency (reality must concentrate where mass is) requires f(r)
+to have a true zero at the gravitational radius. This uniquely selects the
+Schwarzschild metric. The argument is internal to the framework (Tier 3),
+not a derivation from first principles.
 
 ---
 
@@ -106,7 +118,7 @@ Nothing that falls past the horizon has had time to decohere. It remains maximal
 This is consistent with:
 - **Holographic principle**: Information lives on the horizon surface, not in the volume
 - **Black hole complementarity**: Outside observer sees information at horizon; infalling observer sees smooth passage
-- **Bekenstein-Hawking entropy** S = A/4: The horizon area measures stored coherent information
+- **Bekenstein-Hawking entropy** S = A/4 (the result that a black hole's entropy is proportional to its surface area, not volume): The horizon area measures stored coherent information
 
 Note the factor of 4 in S = A/(4 * l_P^2) and the 1/4 boundary in our framework. We do not claim these are the same, but the coincidence is noted.
 
@@ -122,7 +134,7 @@ Note the factor of 4 in S = A/(4 * l_P^2) and the 1/4 boundary in our framework.
 - That √(1 - r_s/r) is the ONLY function with a zero at r_s. Other forms like √(1 - (r_s/r)^2) also have zeros. The specific exponent n=1 follows from:
   - Spherical symmetry
   - Newtonian limit (Phi = -GM/r, not -GM^2/r^2)
-  - Birkhoff's theorem (unique vacuum solution for spherical symmetry)
+  - Birkhoff's theorem (the uniqueness result: the Schwarzschild solution is the only spherically symmetric vacuum solution of Einstein's equations)
 - The value of r_s = 2GM/c^2 (requires connecting γ to G, M, c)
 - Why G has the value it does (requires deeper framework)
 
@@ -186,5 +198,5 @@ for all metrics. Spatial coupling redistributes coherence faster than the
 differential γ creates a gradient. The self-consistency argument requires
 uncoupled positions - real coupled quantum systems do not discriminate metrics.
 
-*Previous: [Metric Discrimination](METRIC_DISCRIMINATION.md), the null result that motivated this*
-*See also: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*
+*Previous: [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md), the null result that motivated this*
+*See also: [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*

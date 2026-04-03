@@ -7,10 +7,25 @@
 
 ---
 
+## What this document is about
+
+This is the formal proof that the palindromic spectral symmetry found
+in quantum spin chains also exists in neural networks. The key insight:
+if excitatory and inhibitory neurons have different time constants
+(selective damping) and Dale's Law holds (excitatory neurons always
+excite, inhibitory always inhibit), then every eigenvalue of the
+network's dynamics matrix has a mirror partner. The proof translates
+the quantum Π conjugation into a neuroscience E-I swap operator Q
+and derives the exact conditions under which the pairing holds.
+
+---
+
 ## Theorem
 
 For a neural network with N neurons (N/2 excitatory, N/2 inhibitory),
-linearized dynamics dx/dt = J*x, and E-I swap permutation Q:
+linearized dynamics dx/dt = J*x (where J is the Jacobian, the matrix
+of partial derivatives that governs small perturbations), and E-I swap
+permutation Q:
 
 If
 
@@ -70,7 +85,8 @@ Q * J * Q + J + 2*S = 0       ... (*)
 
 ### Step 2: Decompose the Jacobian
 
-The neural Jacobian (linearized Wilson-Cowan or firing rate model):
+The neural Jacobian (linearized Wilson-Cowan model, the standard
+equations describing excitatory-inhibitory population dynamics):
 
 ```
 J[i,i] = -1/τ_i                          (self-decay)

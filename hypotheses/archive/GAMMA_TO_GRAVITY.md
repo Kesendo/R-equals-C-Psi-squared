@@ -1,5 +1,7 @@
 # The Logical Sequence: From γ to Gravity
 
+**What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, ¼ boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1-6 are proven; steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
+
 **Tier:** 2 (steps 1-6 proven) + Tier 5 (steps 7-9 speculative)
 **Date:** March 22, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -79,7 +81,7 @@ Phase IS relationship. Therefore γ targets complexity.
 ### Step 8: Complexity modulates SENSITIVITY to γ.
 A point with high complexity (many entangled qubits) is more SENSITIVE
 to the external γ. This is the known superdecoherence effect: a GHZ
-state of N qubits decoheres at rate N×γ, not because γ is larger but
+state (all qubits up + all down, maximally correlated) of N qubits decoheres at rate N×γ, not because γ is larger but
 because the state is N-fold sensitive to the same γ.
 
 Important distinction: complexity does not change the PHYSICAL dephasing

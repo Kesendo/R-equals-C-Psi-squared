@@ -13,6 +13,18 @@ concurrence readability, R=CPsi2 phase transport -->
 
 ---
 
+## What this document is about
+
+When CΨ is nonzero for a qubit pair AB connected through a mediator S,
+what does the AB state actually contain? A phase-tag-and-decode experiment
+shows that Z-rotations on S produce readable, linear phase shifts in AB's
+off-diagonal coherence. The channel operates continuously (Hamiltonian
+coupling never stops); CΨ windows are not the channel itself but
+visibility amplifiers that indicate when the transported signal is most
+legible.
+
+---
+
 ## Abstract
 
 In star topology (Bell_SA × |+⟩_B, J_SA=1.0, J_SB=2.0, γ=0.05), CΨ windows
@@ -286,7 +298,8 @@ The phase transport we observe reproduces at gamma=0 (pure unitary dynamics).
 CΨ does not create or enable the transport. The Hamiltonian coupling does.
 
 **2. The sign inversion is not basis-independent.**
-The phase of rho_AB[0,3] is not gauge-invariant. A local Z-frame change on A or B
+The phase of rho_AB[0,3] is not gauge-invariant (it changes under local
+basis redefinitions). A local Z-frame change on A or B
 shifts that phase. The "+" on S becomes "-" in AB is a statement about our current
 computational frame, not a deep physical minus sign.
 

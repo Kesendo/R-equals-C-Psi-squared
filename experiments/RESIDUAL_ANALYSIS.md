@@ -17,6 +17,20 @@ coherence revival, R=CPsi2 residual analysis -->
 
 ---
 
+## What this document is about
+
+After measuring a qubit's decoherence on IBM hardware, the raw data was
+re-examined for structure in the noise. The result: coherence that should
+be zero (the qubit should be fully classical by that time) is not only
+nonzero but has a fixed direction and a rising trend. Three explanations
+were proposed: a calibration artifact, coupling to a material defect, or
+something genuinely unknown. The March 2026 follow-up resolved the
+anomaly: it is qubit-specific frequency detuning (hardware-dependent,
+not boundary physics). The document is kept as a case study in careful
+anomaly investigation.
+
+---
+
 ## Abstract
 
 Reanalysis of IBM Torino qubit 52 tomography data revealed late-time
@@ -24,8 +38,10 @@ coherence (t/T₂ > 1.25) exceeding all 10,000 Monte Carlo simulations
 (p < 0.0001), with 17/17 measurements showing consistent direction
 (Re+ / Im−, fourth quadrant; probability by chance: 6×10⁻¹¹), a rising
 trend (+0.008/T₂), and near-perfect boundary correlation (r = −0.9955).
-Three hypotheses were proposed: SPAM error, TLS coupling, and active
-boundary structure. The March 2026 follow-up (see Fixed Point Shadow)
+Three hypotheses were proposed: SPAM error (State Preparation And
+Measurement, systematic bias from imperfect calibration), TLS coupling
+(Two-Level System, a material defect in the chip substrate that can
+exchange energy with the qubit), and active boundary structure. The March 2026 follow-up (see Fixed Point Shadow)
 resolved the anomaly: the directional consistency is qubit-specific
 frequency detuning that becomes visible when exponential decay removes
 the dominant real component. Different qubits show different directions

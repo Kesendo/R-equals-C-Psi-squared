@@ -13,9 +13,20 @@ dependent crossing -->
 
 ---
 
+## What this document is about
+
+If "measurement" happens when CΨ crosses the 1/4 boundary, and the C
+part depends on how you define the observer's connection to the system,
+then different definitions of "observer" should see measurement happen
+at different times. This experiment tests exactly that. Five different
+ways of measuring the observer-system connection (called bridge metrics)
+are applied to the same Bell state under the same noise. Three see the
+crossing, at three different times. Two never see it at all. Same
+quantum physics, different observer, different reality.
+
 ## Abstract
 
-Five bridge metrics (concurrence, mutual information, correlation, mutual
+Five bridge metrics (different mathematical definitions of "how connected are these two subsystems": concurrence, mutual information, correlation, mutual
 purity, overlap) are applied to the same Bell+ state under identical
 Hamiltonian and dephasing. Three cross the CΨ = 1/4 boundary at different
 times (mutual_info at t=0.652, concurrence at t=0.773, correlation at
@@ -56,10 +67,10 @@ Five bridge types define five different ways to measure "how much observation
 is happening":
 
 - **concurrence**: Quantum correlation between subsystems. C(0) = 1.0, dynamic.
-- **mutual_info**: Shannon mutual information. C(0) = 1.0, drops fast.
+- **mutual_info**: Shannon mutual information (how much knowing one subsystem tells you about the other). C(0) = 1.0, drops fast.
 - **correlation**: Excess purity beyond product of subsystems. C(0) = 1.0, stays high longest.
 - **mutual_purity**: Product of subsystem purities. C = 0.5, constant.
-- **overlap**: Fidelity with initial state. C = 0.25, constant.
+- **overlap**: Fidelity with initial state (how similar the current state is to where it started). C = 0.25, constant.
 
 ## 3. Results
 

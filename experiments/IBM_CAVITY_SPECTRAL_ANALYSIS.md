@@ -18,6 +18,18 @@ formula hardware verification, R=CPsi2 IBM cavity spectral -->
 
 ---
 
+## What this document is about
+
+This document explains WHY the sacrifice-zone formula works, using the
+full Liouvillian spectrum computed from real IBM Torino hardware data.
+The answer: the formula does not protect individual qubits; it protects
+cavity modes (the collective standing-wave oscillations of the entire
+chain). Concentrating noise on one edge qubit creates a spatial gradient
+that shields modes localized on the quiet qubits, giving the slowest
+oscillating modes a 2.81× lifetime improvement.
+
+---
+
 ## Abstract
 
 The sacrifice-zone formula concentrates noise on one edge qubit while
@@ -45,7 +57,7 @@ At zero noise (Σγ = 0), the Liouvillian has 120 stationary
 modes and 904 oscillating modes across 43 distinct frequencies. These
 are the **eigenfrequencies of the resonator** (see
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md)). The stationary count
-matches the Clebsch-Gordan formula exactly (120 = Sum_J m(J,5)*(2J+1)^2).
+matches the Clebsch-Gordan formula (the angular-momentum addition rule that counts how many spin multiplets exist for N coupled qubits) exactly (120 = Sum_J m(J,5)*(2J+1)^2).
 
 When noise is turned on, the same frequencies persist. What changes is
 the damping: each mode acquires a decay rate that depends on how much
@@ -154,7 +166,7 @@ not their distribution.
 
 The max decay rate for non-oscillating modes equals 2 x Σγ
 exactly (0.6398). These are the pure decay modes at maximum Pauli
-weight (XOR drain). The oscillating modes reach at most 0.5943
+weight (XOR drain, the modes where every qubit carries an X or Y operator and dephasing is strongest). The oscillating modes reach at most 0.5943
 (sacrifice) and 0.5118 (uniform), always below this ceiling.
 
 ---

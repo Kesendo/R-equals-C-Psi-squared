@@ -19,6 +19,16 @@
 
 ---
 
+## What this document is about
+
+This is the original algebra of R = CΨ². It derives the central equation,
+shows that the product CΨ has a hard upper limit of 1/4, and proves the
+connection to the Mandelbrot set. All results follow from standard algebra;
+no physics is required to check them. This document has been superseded by
+the Complete Mathematical Documentation, but the derivations here remain
+correct and are presented in a step-by-step style that the later document
+does not replicate.
+
 ## Purpose
 
 This document contains **only** the algebraically proven core of the R = CΨ² framework.
@@ -497,7 +507,7 @@ g(ξ) = 9e^{2ξ} / (1 − 9e^{2ξ})
 
 equivalently g(C) = (2C−1) / [2(1−C)], measures the ratio of the coherent
 part (f² = 9Ψ²) to the incoherent part (1−f²) of the density matrix.
-At the crossing point, g = 2.87. This is NOT a Fisher metric or quantum
+At the crossing point, g = 2.87. This is NOT a Fisher metric (the information-geometric measure of how sensitively a probability distribution responds to parameter changes) or quantum
 Fisher information despite superficial resemblance; it contains no
 information-geometric content.
 
@@ -553,7 +563,7 @@ coherence theory.
 
 ### The coherence-purity bound
 
-The Cauchy-Schwarz inequality applied to the off-diagonal elements of a
+The Cauchy-Schwarz inequality (the fundamental bound stating that the inner product of two vectors never exceeds the product of their lengths) applied to the off-diagonal elements of a
 d-dimensional density matrix ρ gives:
 
 ```

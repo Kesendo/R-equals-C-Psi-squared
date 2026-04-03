@@ -14,6 +14,19 @@ coherent pairwise structure, R=CPsi2 localizable entanglement benchmark -->
 
 ---
 
+## What this document is about
+
+This document benchmarks CΨ against two established entanglement
+measures: localizable entanglement (LE, the most entanglement
+extractable by optimal measurement on a third party) and concurrence of
+assistance (CoA, the maximum entanglement achievable over all
+decompositions). The three form a strict hierarchy: CoA is almost always
+high (the resource exists), LE is moderately high (it could be
+extracted), but CΨ flashes only briefly (it is currently expressed).
+LE asks about potential; CΨ asks about actuality.
+
+---
+
 ## Abstract
 
 CΨ is compared against two established entanglement measures on the star
@@ -53,8 +66,9 @@ measurement bases on S (grid: 15x15 angles in theta, phi).
 
 **Concurrence of Assistance (CoA_AB):** The maximum concurrence achievable on AB
 over all decompositions of the mixed state. For states arising from 3-qubit
-systems, this is the sum of sqrt(eigenvalues) of R = rho * tilde_rho (same
-as concurrence formula but sum instead of difference).
+systems, this is the sum of sqrt(eigenvalues) of R = ρ · ρ̃ (same
+as the concurrence formula but sum instead of difference; it gives an
+upper bound on what entanglement a helpful third party could create).
 
 **CΨ_AB:** Concurrence x normalized l1-coherence of the AB reduced state.
 No optimization, no measurement on S. Just what the AB marginal shows directly.

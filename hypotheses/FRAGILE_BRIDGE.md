@@ -213,7 +213,7 @@ Script: [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.p
 
 ### 5.1 Test design
 
-Single Wilson-Cowan E-I node (2×2 Jacobian). E-I cross-coupling
+Single Wilson-Cowan E-I node (2×2 Jacobian, the matrix of partial derivatives that determines local stability). E-I cross-coupling
 scaled by factor s (s=1.0 = standard parameters). Internal couplings
 w_EE = 16.0, w_II = 3.0 held fixed. P_crit(s) = external input
 needed to trigger Hopf oscillation.
@@ -275,7 +275,7 @@ built-in limiter.
 ## 6. Open questions
 
 1. **N-scaling law (partially answered):** N=4 computed
-   (65536×65536 sparse, expm_multiply). Result: non-monotonic
+   (65536×65536 sparse, expm_multiply, a SciPy routine that computes the matrix exponential acting on a vector without forming the full matrix). Result: non-monotonic
    (N=4 more stable than N=3). Even/odd parity effect suspected.
    N=5 would test this (1048576×1048576, feasible but slow).
 

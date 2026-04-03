@@ -16,6 +16,19 @@ R=CPsi2 information geometry -->
 
 ---
 
+## What this document is about
+
+This document gives the angular parameter θ a proper geometric foundation
+by computing the Bures Riemannian metric (the natural measure of
+distinguishability between nearby quantum states) along the decoherence
+trajectory. Key finding: the fold at CΨ = ¼ has no geometric singularity,
+the metric is smooth, and the Lindblad trajectory is approximately
+geodesic (the shortest path in state space). θ is a useful compass but
+not a fundamental coordinate; CΨ itself is the better metric coordinate
+at the fold.
+
+---
+
 ## Abstract
 
 θ = arctan(√(4CΨ-1)) has appeared throughout the repo as a "compass"
@@ -109,7 +122,7 @@ coordinate at the fold.
 ## Phase 3: Geodesic Analysis
 
 The geodesic equation in the CΨ metric: d²CΨ/ds² + Γ(dCΨ/ds)² = 0,
-where Γ = (1/2g) dg/dCΨ is the Christoffel symbol.
+where Γ = (1/2g) dg/dCΨ is the Christoffel symbol (the correction term that accounts for curvature when computing acceleration on a curved manifold).
 
 **Mean geodesic deviation: 9.1 × 10⁻⁴.** The Lindblad trajectory is
 approximately geodesic in the Bures metric. Decoherence follows the
@@ -155,7 +168,7 @@ state passes through CΨ = 1/4 without any critical behavior in the
 control parameter γ.
 
 This distinguishes CΨ = 1/4 from quantum phase transitions (where
-χ_F diverges at the critical point). The fold is algebraic (discriminant
+χ_F diverges at the critical point, signaling a qualitative change in the ground state). The fold is algebraic (discriminant
 = 0), not critical (susceptibility finite).
 
 ---

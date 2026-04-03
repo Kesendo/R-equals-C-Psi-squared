@@ -19,6 +19,20 @@ R=CPsi2 coherence density -->
 
 ---
 
+## What this document is about
+
+There is an apparent contradiction: an unentangled product state |+++⟩ has
+CΨ = 1 (deep in the quantum regime), while a maximally entangled GHZ state
+has CΨ far below 1/4 (already in the classical regime). How can the "most
+quantum" state be less quantum than a separable one? The resolution is that
+CΨ measures coherence density, not entanglement. GHZ concentrates all its
+quantumness in 2 of 56 off-diagonal matrix elements (4%); the product state
+uses all 56 (100%). Under noise, the product state survives 4.5× longer.
+The 1/4 boundary is about whether enough quantum degrees of freedom are
+active, not about how entangled the state is.
+
+---
+
 ## Abstract
 
 CΨ = Purity × Coherence Density, where coherence density Ψ = L₁/(d−1)
@@ -60,7 +74,7 @@ CΨ(0) for pure states (C = 1, so CΨ = Ψ = L₁/(d-1)):
 | \|++⟩ | 2 | none | 1.000 | quantum |
 | \|+++⟩ | 3 | none | 1.000 | quantum |
 | Bell+ | 2 | maximal | 0.333 | quantum |
-| W₃ | 3 | genuine tripartite | 0.286 | quantum |
+| W₃ | 3 | genuine tripartite (entanglement shared among all three qubits, not reducible to pairs) | 0.286 | quantum |
 | GHZ₃ | 3 | maximal | 0.143 | attractor exists |
 | GHZ₄ | 4 | maximal | 0.067 | attractor exists |
 
@@ -72,7 +86,7 @@ The framework says: |+++⟩ (zero entanglement) has higher
 coherence density than GHZ₃ (maximum entanglement).
 
 **Terminology note:** GHZ₃ is unambiguously quantum: it
-violates the Mermin inequality. "CΨ < 1/4" means the
+violates the Mermin inequality (the multi-qubit generalization of Bell's inequality, which only entangled states can violate). "CΨ < 1/4" means the
 framework's fixed-point equation has a real attractor, not
 that the state is classical in the conventional sense.
 

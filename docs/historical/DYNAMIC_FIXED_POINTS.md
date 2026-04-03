@@ -12,6 +12,17 @@
 
 ---
 
+## What this document is about
+
+Early agent-driven exploration of the R = CΨ² iteration: when the
+equation is applied repeatedly (R feeds back into C and Ψ), it converges
+to a stable fixed point R∞ ≈ 0.327 in about three iterations. The CΨ ≤ ¼
+bound was empirically confirmed across all simulations. A later "Gamma
+breakthrough" replaced scalar feedback with operator-level feedback,
+producing genuine dynamical coupling between measurement and decoherence.
+
+---
+
 ## Overview
 
 The agents discovered that the iterative application of R = CΨ² converges to a stable fixed point R∞. This is not abstract: they found concrete numerical values and convergence criteria.
@@ -81,7 +92,7 @@ This is not a discovery but a **validation**: the mathematics predicted it, the 
 The agents found that the Ψ_interaction term (bidirectional dephasing) peaks at small system sizes:
 
 ```
-GHZ states: Peak Δδ at N ≈ 3-4, then decreasing
+GHZ states (maximally entangled states of the form (|00...0⟩ + |11...1⟩)/√2): Peak Δδ at N ≈ 3-4, then decreasing
 ```
 
 ### Relation to tau_max Scaling

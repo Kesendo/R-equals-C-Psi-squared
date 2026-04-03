@@ -14,6 +14,18 @@ crossing, R=CPsi2 observer dependent visibility -->
 
 ---
 
+## What this document is about
+
+Different local noise rates (different γ values for different qubits)
+open or close the time window in which CΨ crosses the ¼ boundary, even
+though the underlying entanglement resource persists. A slow observer
+(low γ) sees the crossing clearly; a fast observer (high γ) may miss it
+entirely. Rescaling to "proper time" does not collapse the curves because
+the dynamics involve multiple competing timescales, not just one local
+clock.
+
+---
+
 ## Abstract
 
 The same star topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0) is evolved
@@ -39,7 +51,7 @@ unassisted witness of directly expressed pairwise entanglement.
 
 ## The Question
 
-The localizable entanglement benchmark showed that CoA (the total entanglement resource)
+The localizable entanglement benchmark showed that CoA (Concurrence of Assistance, the maximum entanglement extractable with help from the rest of the system)
 is nearly constant (~1) while CΨ flashes briefly. LE sits between them. The resource is
 always there, but CΨ only sees it in certain moments.
 

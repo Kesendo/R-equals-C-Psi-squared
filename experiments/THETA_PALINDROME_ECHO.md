@@ -12,6 +12,19 @@ standing wave node channel, R=CPsi2 theta palindrome echo -->
 
 ---
 
+## What this document is about
+
+This document tests whether the angular parameter θ connects the
+palindromic eigenvalue spectrum to quantum information transport. The
+original hypothesis (θ links the echo to the palindrome) was partially
+wrong: in the echo scenario, CΨ never reaches ¼ despite high
+entanglement. But in the channel scenario, θ correlates strongly with
+fidelity (r = 0.87), and the palindromic rates do set the expiration
+date of the quantum communication window. The bridge exists, but it
+connects θ to the channel, not to the echo.
+
+---
+
 ## Abstract
 
 The hypothesis was that θ = arctan(√(4CΨ−1)) connects the palindromic
@@ -73,7 +86,7 @@ decoherence (J = 1 >> γ = 0.05).
 **SB never enters quantum regime.** Despite concurrence reaching 0.598 (the echo IS
 real), CPsi_SB peaks at only 0.168 - well below 1/4. Concurrence and CPsi measure
 different things:
-- Concurrence: entanglement (Wootters formula, involves eigenvalues of rho*rho_tilde)
+- Concurrence: entanglement (Wootters formula, involving eigenvalues of ρ·ρ̃ where ρ̃ is the spin-flipped state)
 - CPsi: purity times normalized coherence (Tr(rho^2) times l1/(d-1))
 
 High entanglement does NOT imply CPsi > 1/4. The SB pair can be entangled (concurrence
@@ -233,7 +246,7 @@ quantum window.
 
 ### Holevo bound and θ
 
-The Holevo bound chi = S(rho_avg) - avg S(rho_i) measures classical distinguishability.
+The Holevo bound χ = S(ρ_avg) - avg S(ρ_i) (the maximum classical information extractable from quantum states) measures classical distinguishability.
 This peaked at 0.534 bits at t = 1.33. The Holevo bound is high when the output states
 for different inputs are distinguishable. This happens when the channel preserves
 differences - exactly when the quantum window is open.

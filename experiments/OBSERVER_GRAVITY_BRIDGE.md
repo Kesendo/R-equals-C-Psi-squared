@@ -11,6 +11,21 @@ bound velocity, R=CPsi2 observer gravity bridge fallen -->
 > (gravity provides universal always-on J), all FTL claims, and the two-axis
 > time dilation interpretation have **fallen**. Inline [FALLEN] markers.
 
+## What this document is about
+
+Two coupled qubits: when B measures, A's CΨ crossing time shifts.
+The shift has no threshold: any coupling J > 0 produces it, from
+a 3% shift at J = 0.01 to 95% at J = 1.0. The mechanism is not
+that coupling "protects" A; it actually accelerates A's local
+decoherence by draining coherence into a shared nonlocal pool. B's
+measurement destroys that pool, cutting the return flow while the
+drain continues. The original idea that gravity could provide this
+coupling universally (connecting all massive particles) has fallen:
+the gravitational coupling is too weak by 25 orders of magnitude to
+be measurable. What survives is CΨ crossing time as a sensitive
+detector for weak quantum couplings, like a lock-in amplifier that
+accumulates tiny signals over the full decoherence trajectory.
+
 **Status:** Interval mechanics verified (Tier 2); gravity bridge fallen
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
@@ -34,7 +49,7 @@ protect A (it actually accelerates local crossing vs isolation); it
 redistributes coherence into a shared oscillating pool. Maximum damage
 occurs at t_B ≈ 1.0 (oscillation phase, not just reservoir size). The
 original gravitational bridge hypothesis (gravity provides universal
-J > 0 between all massive particles via Penrose/Diósi) has been retired:
+J > 0 between all massive particles via Penrose/Diósi, models where gravity collapses superpositions proportional to mass) has been retired:
 at J_grav ~ 10⁻²⁹ for NV centers, the shift is unmeasurable. What
 survives is CΨ crossing time as a sensitive detector for weak quantum
 couplings (lock-in amplifier for quantum interactions).
@@ -234,7 +249,7 @@ CΨ landscape where intervals are correlated."
 10. The K-matrix encodes a "geometry of observer time" analogous to
     spacetime geometry in GR. [FALLEN]
 11. The bridge is not communication but shared CΨ landscape. [FALLEN]
-12. This connects to Wheeler-DeWitt (TIME_AS_CROSSING_RATE.md §3). [FALLEN]
+12. This connects to Wheeler-DeWitt (../hypotheses/TIME_AS_CROSSING_RATE.md §3). [FALLEN]
 
 ---
 
@@ -472,7 +487,7 @@ Rate scales as (J/γ)², quadratic in coupling strength.
 ### 8.4 Not FTL
 
 The coupling J is a physical interaction. Information propagates
-through the Hamiltonian at finite speed. The Lieb-Robinson bound:
+through the Hamiltonian at finite speed. The Lieb-Robinson bound (a theorem that limits how fast correlations can spread through a lattice, the quantum equivalent of a speed limit):
 
     v_LR ≤ 2 · J · a / ℏ
 
@@ -528,10 +543,10 @@ the same coupling.
 **A detector for extremely weak couplings.** The CΨ crossing time
 integrates over the full decoherence trajectory. Where a single-shot
 measurement drowns in projection noise, the crossing time accumulates
-the effect. At J/γ = 0.02: 10% shift. This is a lock-in amplifier
+the effect. At J/γ = 0.02: 10% shift. This is a lock-in amplifier (a device that extracts a weak periodic signal from overwhelming noise by correlating with a known reference)
 for quantum couplings.
 
-Application: The BMV experiment (Bose-Marletto-Vedral) aims to test
+Application: The BMV experiment (Bose-Marletto-Vedral, a proposed tabletop test where two masses in superposition would become entangled only if gravity is quantum) aims to test
 whether gravity generates entanglement. CΨ crossing times could
 provide a more sensitive readout than standard entanglement witnesses.
 

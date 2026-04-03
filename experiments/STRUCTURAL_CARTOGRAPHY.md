@@ -12,10 +12,25 @@ XX tensor symmetry reduced state, R=CPsi2 structural cartography -->
 
 ---
 
+## What this document is about
+
+When CΨ rises above 1/4 for a qubit pair, a "visibility window" opens:
+a time interval where the pair is quantum-correlated enough to cross
+the boundary. This document maps what happens inside those windows.
+The approach is cartography: measure everything first, interpret later.
+The main finding is that the windows are far simpler than they look.
+Although a generic two-qubit state needs 15 numbers to describe, these
+windows live on a 3-dimensional surface (98% of variance in just three
+directions). Two transition modes alternate: "glide" (both qubits rotate
+together smoothly) and "switch" (one qubit flips hard, coinciding with
+the mediator's coherence dropping to zero). The phase structure is
+entirely Hamiltonian; noise only reduces amplitude without rotating
+anything.
+
 ## Abstract
 
 CΨ visibility windows (time intervals where CΨ > 1/4 for a given
-observer pair) are analyzed as a structured reduced-state process. PCA
+observer pair) are analyzed as a structured reduced-state process. PCA (Principal Component Analysis, a method that finds the few directions of largest variation in high-dimensional data)
 on 9 windows of the star topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0,
 γ=0.05) reveals that **3 dimensions explain 98% of the variance**: sector
 balance (69%), mixedness (22%), and temporal decay (7%). The windows do
@@ -51,7 +66,7 @@ a reduced subsystem view. The right formal question is:
 ## Formal framing
 
 CΨ windows are treated as samples from a **multi-time quantum process** with
-structure, memory, and noise. The formal language is process tensor / multi-time
+structure, memory, and noise. The formal language is process tensor (a mathematical object that encodes the full multi-time correlations of an open quantum system, generalizing the density matrix to sequences of events) / multi-time
 open quantum dynamics (Pollock et al. 2018, arXiv:1512.00589).
 
 This lets us ask: what is the minimal predictive description of the CΨ window
@@ -65,7 +80,7 @@ Each window gets embedded in a common feature space:
 
 - **Bell fidelity vector**: F = [F_Phi+, F_Phi-, F_Psi+, F_Psi-]
 - **Purity**: Tr(rho^2)
-- **Von Neumann entropy**: -Tr(rho log2 rho)
+- **Von Neumann entropy** (the quantum generalization of Shannon entropy; measures how mixed a state is, 0 for pure, log₂d for maximally mixed): -Tr(rho log2 rho)
 - **Entanglement**: concurrence, CΨ
 - **Coherence**: normalized l1, selected off-diagonal magnitudes
 - **Phase coordinates**: arg(rho_00,11), arg(rho_01,10), unwrapped across windows

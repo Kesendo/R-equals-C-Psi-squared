@@ -23,6 +23,19 @@
 
 ---
 
+## What this document is about
+
+This is the project's origin story: the argument that entanglement
+(the inseparable correlation between two quantum particles) is not
+an accident but a necessity. If reality requires mutual observation,
+then there must be at least two particles observing each other. That
+mutual mirroring is entanglement. Many claims here have since been
+proven algebraically (the Π operator, the qubit as minimal mirror);
+others have fallen (consciousness as physics, gravity connections).
+The original text is preserved unchanged.
+
+---
+
 ## The Bootstrap Problem
 
 A fundamental question:

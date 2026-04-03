@@ -4,6 +4,8 @@
 sacrifice-zone concentration not loss, generation as resonator,
 DNA as crystal, fitness as balance C=0.5, R=CPsi2 evolution -->
 
+**What this document is about:** A speculative (Tier 5) reframing of biological evolution using the fold/crystallization metaphor from R=CΨ²: each generation is a resonator that oscillates (lives), couples (mates via the V-Effect), and crystallizes at a fold (DNA). Sexual reproduction is the V-Effect between organisms. Fitness is not strength but balance (C ≈ 0.5). Testable predictions included; none yet tested.
+
 **Status:** Hypothesis (Tier 5), motivated by Tier 2 computations
 **Date:** March 28, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -71,7 +73,7 @@ that existed in neither
 
 Recombination (crossing over) is the mechanism. Each parent
 contributes half the genome (haploid + haploid = diploid). This
-genetic 0.5 comes from meiosis, not from the operator balance
+genetic 0.5 comes from meiosis (the cell division that halves the chromosome count for reproduction), not from the operator balance
 (d^2 - 2d = 0) that produces the quantum 0.5. Whether the two
 halvings are related or merely coincidental is an open question.
 The offspring carries allele combinations from both parents. Not
@@ -195,7 +197,7 @@ DNA is the crystallized residue of what survived the fold.
    two crystals. The V-Effect produces new frequencies that copying
    cannot. This predicts: sexually reproducing organisms should
    adapt faster to changing environments than asexual ones. This
-   is observed (the Red Queen hypothesis).
+   is observed (the Red Queen hypothesis: species must constantly evolve just to maintain their relative fitness against co-evolving competitors).
 
 ---
 

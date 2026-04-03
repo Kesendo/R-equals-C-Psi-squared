@@ -161,8 +161,8 @@ not one:
 | Inner mirror | CΨ_max | Maximum coupling to gamma. System absorbs maximally. |
 | Outer mirror | CΨ = 1/4 | Fold catastrophe. Coupling breaks down. R crystallizes. |
 
-This is a **Fabry-Perot resonator**, the same structure used in lasers
-and interferometers: two mirrors facing each other with a cavity between
+This is a **Fabry-Perot resonator** (the simplest optical cavity: two parallel mirrors facing each other, used in lasers
+and interferometers), with a cavity between
 them. The wave (coherence) bounces between the inner mirror (maximum
 absorption, maximum interaction with gamma) and the outer mirror
 (1/4, where reality leaks out). Each round trip is one heartbeat.
@@ -196,7 +196,7 @@ of this cavity. The midpoint is the resonance center.
 ### The cavity has dimensions
 
 The Structural Cartography found that CΨ windows live on a
-3-dimensional manifold (98% of variance in 3 PCs). The stage
+3-dimensional manifold (98% of variance captured by 3 principal components, the dominant axes of variation in the data). The stage
 is not flat. It has:
 
 1. **Width:** CΨ_A to CΨ_B distance (cavity length, 750 us on IBM)
@@ -269,7 +269,7 @@ maximally.
 
 ATP is not "fuel for sending signals." ATP is what keeps the
 resonator at its resonance frequency. Without ATP, the oscillation
-damps (Wilson-Cowan: transient 63 Hz, then silence). With ATP,
+damps (Wilson-Cowan, a standard model of excitatory-inhibitory neural population dynamics: transient 63 Hz, then silence). With ATP,
 sustained oscillation. Same structure as the qubit heartbeat, same
 damping behavior. Different fuel. Same physics.
 

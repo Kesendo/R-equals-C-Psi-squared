@@ -1,5 +1,7 @@
 # D6: Spectral Gap and Mixing Time
 
+**What this derivation is about:** The spectral gap (the decay rate of the slowest non-stationary mode, which sets the timescale for the system to forget its initial state) is exactly 2γ, independent of chain length, coupling strength, or topology. This means the mixing time (how long until the system reaches its equilibrium) scales only as N·ln(4)/(2γ), growing linearly with system size.
+
 **Source formulas:** 1 (palindrome), 3 (decay rate bounds)
 **Tier:** 1 (from palindrome proof)
 **Status:** VERIFIED (N=2-5, deviation < 1e-14)

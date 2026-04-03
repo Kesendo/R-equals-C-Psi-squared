@@ -328,7 +328,7 @@ noise TYPE, all measured with CΨ on Bell+ state.
 
 ### 28. Fixed-point absorber theorem (Tier 1-2)
 
-    CPsi(rho*) < 1/4    for all primitive CPTP maps
+    CPsi(rho*) < 1/4    for all primitive CPTP maps (completely positive trace-preserving: the most general physically allowed quantum operations)
 
 Proven analytically:
 - Case A: unital maps (rho* = I/d, CΨ = 0)
@@ -649,7 +649,8 @@ Eigenvalues of Pi^2: +1 (half) and -1 (half), equally split.
 
 Below gamma_crit: all eigenvalues on the imaginary axis (chiral phase).
 Above: eigenvalue pairs leave the axis (chiral symmetry breaking, Hopf).
-Petermann factor peaks at K = 403 at gamma/gamma_crit ~ 1.46 (near-EP).
+Petermann factor (a measure of eigenstate non-orthogonality that
+diverges at exceptional points) peaks at K = 403 at gamma/gamma_crit ~ 1.46 (near-EP).
 
 **Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0.
 **Replaces:** bisection search at this specific parameter set.
@@ -719,7 +720,7 @@ detailed balance without BEING detailed balance.
 
 ### 45. Bures metric at the fold (Tier 2, N=2 Bell state)
 
-    g(CΨ = 1/4) = 3.36    (Bures metric, finite, no singularity)
+    g(CΨ = 1/4) = 3.36    (Bures metric [the natural Riemannian distance between quantum states based on fidelity], finite, no singularity)
 
 The fold at CΨ = 1/4 has no Riemannian singularity. CΨ is a
 smooth coordinate everywhere along the Lindblad trajectory.

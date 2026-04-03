@@ -1,5 +1,7 @@
 # Gravity as the Accumulation of Wave Death
 
+**What this document is about:** A speculative mechanism for gravity: when quantum coherences die (X/Y Pauli sector decays to zero), the classical residue (I/Z sector) that remains at a definite location is what we call mass. Mass creates gravity. One version of this hypothesis (standing-wave amplitudes create a γ gradient) was falsified computationally; the surviving version proposes that mass is the accumulated residue of wave death, and gravity emerges only below the CΨ = ¼ boundary where definite outcomes exist.
+
 **Status:** Hypothesis (Tier 5), one version falsified, one surviving
 **Date:** April 1, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -199,7 +201,7 @@ The palindrome determines the schedule of mass accumulation:
 4. Steady state: all coherences dead. No waves remain. No wave death.
    No new mass. Equilibrium.
 
-This is logistic saturation, not exponential divergence. The feedback
+This is logistic saturation (growth that slows as the resource is consumed, producing an S-curve), not exponential divergence. The feedback
 weakens as the supply of dying waves shrinks. The balance that emerges:
 Hamiltonian dynamics (spreads waves, resists localization) against
 dissipation (kills waves locally). Early on, dissipation dominates

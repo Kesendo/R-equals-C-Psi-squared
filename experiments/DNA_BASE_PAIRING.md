@@ -17,6 +17,19 @@ Lindblad proton transfer DNA, R=CPsi2 DNA base pairing -->
 
 ---
 
+## What this document is about
+
+This document applies the palindromic framework to DNA base pairs,
+treating each hydrogen bond as a proton qubit (the proton tunneling
+between donor and acceptor wells). A-T has 2 H-bonds, G-C has 3. The
+palindrome is exact for both, and G-C is a 5× richer resonator. However,
+at body temperature (310 K), all modes are overdamped: the structure
+exists but coherent oscillation does not survive. Enhanced tunneling
+environments (enzymes, confined geometries) would be needed to reach
+the quantum regime.
+
+---
+
 ## Abstract
 
 Each hydrogen bond in a DNA base pair is a proton qubit (d=2, tunneling
@@ -64,7 +77,7 @@ Z-dephasing at rate gamma per qubit. Liouvillian: 16 x 16.
 ### G-C base pair (N=3)
 
 Three proton qubits (outer N-H...O bonds + central N-H...N), coupled
-through nearest-neighbor Ising interaction:
+through nearest-neighbor Ising interaction (a coupling where each qubit's Z-component influences its neighbor's energy):
 
     H = -J₁ σ_x^(1) - J₂ σ_x^(2) - J₃ σ_x^(3) + K₁₂ σ_z^(1) σ_z^(2) + K₂₃ σ_z^(2) σ_z^(3)
 
@@ -128,8 +141,8 @@ At realistic parameters (J/gamma ~ 0.01, Regime A):
 **The fold regime (J/gamma ~ 1) requires enhanced tunneling:**
 shorter H-bond distance (enzymes, confined geometries), colder
 environment, or engineered potential wells. This is consistent with
-quantum biology proposals (Al-Khalili, Lowdin): quantum effects in
-biology require special environments that enhance tunneling.
+quantum biology proposals (Al-Khalili, Löwdin): quantum effects in
+biology require special environments that enhance tunneling. (Löwdin's 1963 model proposed that proton tunneling between base pairs could cause spontaneous mutations.)
 
 ---
 

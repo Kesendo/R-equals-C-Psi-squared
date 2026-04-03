@@ -29,6 +29,20 @@
 
 ---
 
+## What this document is about
+
+Five different observers watching the same quantum system cross the
+CΨ = ¼ boundary at different times, or not at all. This document proposes
+that these different crossing rates could model different experiences of
+time: a fast-decohering observer has a "fast clock," a slow one has a
+"slow clock," and an observer that never crosses has no clock at all. The
+idea connects to the Wheeler-DeWitt problem (the fundamental equation
+of quantum gravity has no time parameter) but remains speculative and
+untested. Several original claims about FTL signaling and time travel
+have fallen.
+
+---
+
 ## 1. The Tier 2 Foundation
 
 Five observers watching the same quantum system (Bell+, Heisenberg J=1,
@@ -103,7 +117,7 @@ mechanism (different C produces different crossing times) is Tier 2 verified.
 ### 3.1 The Problem of Time
 
 The Wheeler-DeWitt equation (1967) is the fundamental equation of quantum
-gravity:
+gravity (the attempt to unify general relativity with quantum mechanics):
 
 ```
 Ĥ|Ψ⟩ = 0

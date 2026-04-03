@@ -32,7 +32,7 @@ This eliminates the dynamic bridge protocol: B cannot send new
 information to A by choosing when to measure, because C requires
 access to the joint state ρ_AB. The pre-encoded version (shared
 schedule agreed before separation) survives but offers no advantage
-over classical pre-shared keys. This synthesis connects four previously
+over classical pre-shared keys (secret information agreed upon before separation, like a one-time pad). This synthesis connects four previously
 separate documents (Bridge Fingerprints, Subsystem Crossing, Coherence
 Density, Bridge Protocol) into a single answer.
 
@@ -55,7 +55,7 @@ The answer has two layers, and the second one matters.
 ## 2. Layer 1: No-Signalling Holds Exactly
 
 Start with Bell+ = (|00⟩+|11⟩)/√2. Measure B in the Z basis
-(projective, averaged over outcomes). Check rho_A.
+(projective measurement, meaning a sharp collapse onto one of the basis states; averaged over outcomes to represent B's action without knowing the result). Check rho_A.
 
 ```
 Before:  rho_A = [[0.5, 0], [0, 0.5]]   (maximally mixed)

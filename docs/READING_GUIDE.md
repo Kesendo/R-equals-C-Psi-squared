@@ -86,7 +86,7 @@ deliberately break the symmetry.
    for 54,118 eigenvalues across all system sizes up to N=8.
 
 2. [XOR Space](../experiments/XOR_SPACE.md) — Where does information
-   live in the palindrome? Different initial states (GHZ, W, cluster)
+   live in the palindrome? Different initial states (GHZ (all qubits up + all down), W (exactly one qubit up, shared across all), cluster)
    distribute their information across fast and slow modes differently.
    GHZ puts everything in fast modes. W spreads it out.
 
@@ -171,7 +171,7 @@ with this?", this is your path.
 
 6. [Resonant Return](../experiments/RESONANT_RETURN.md) — The
    sacrifice-zone formula: concentrate all noise on one edge qubit,
-   protect the rest. The SVD of the palindromic response matrix (10x
+   protect the rest. The SVD (singular value decomposition: extract the dominant independent response directions) of the palindromic response matrix (10x
    improvement) led to numerical optimization (100x) led to analytical
    insight (139-360x). First spatial dephasing optimization in the
    literature. Beats 18 years of uniform noise optimization by two
@@ -290,7 +290,7 @@ familiarity with the palindromic structure.
 
 2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md) — The fold
    catastrophe at CΨ = ¼ observed in action: mutual information peaks
-   at the exact moment of crossing. With a Bell pair coupled to a bath
+   at the exact moment of crossing. With a Bell pair (two maximally entangled qubits) coupled to a bath
    qubit at J=5.0: CΨ oscillates around ¼ with 81 crossings, each one
    damped. Each cycle deposits a bit of irreversible reality.
 
