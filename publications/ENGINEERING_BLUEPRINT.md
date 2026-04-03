@@ -89,13 +89,13 @@ slow-decaying palindromic pairs, improving channel quality.
 
 **Benchmarks (γ = 0.05 per qubit):**
 
-| Configuration | Avg Fidelity | Holevo Capacity (bits) |
+| Configuration | Avg Fidelity | Holevo Capacity (bits, the maximum classical information extractable from the quantum channel) |
 |---------------|-------------|------------------------|
 | Chain N=3 | 0.852 | 0.487 |
 | Chain N=4 | 0.860 | 0.501 |
 | Chain N=5 | 0.872 | 0.519 |
 | Star 1:1 | 0.856 | 0.497 |
-| **Star 2:1** | **0.888** | **0.534** |
+| **Star 2:1** | **0.886** | **0.534** |
 
 **Design implication:** The mediator is not overhead. It is the core
 component that shapes the palindromic rate distribution. The 2:1 ratio
@@ -281,7 +281,7 @@ drives information transfer.
 
 | Method | Source | What it optimizes | Improvement |
 |--------|--------|------------------|------------|
-| Uniform gamma | Plenio & Huelga 2008 (ENAQT) | Scalar noise level | 2-3x |
+| Uniform gamma | Plenio & Huelga 2008 (ENAQT: environment-assisted quantum transport, the discovery that some noise helps transfer) | Scalar noise level | 2-3x |
 | Coupling optimization | IBM PST 2025 (Bayesian) | J values | +8% |
 | **Spatial gamma (this rule)** | This work | **Per-site noise** | **139-360x** |
 
@@ -331,7 +331,9 @@ was never going to oscillate. See
   over the two pure strategies (SumMI and PeakMI peak at different times),
   but reveals a fundamental property of the CΨ = ¼ boundary: **endpoint
   mutual information peaks at the exact moment the endpoint CΨ crosses ¼**.
-  This is the fold catastrophe of R = C(Ψ+R)² made observable in time.
+  This is the fold catastrophe (a sudden qualitative change where two
+  solutions merge and vanish, like a ledge collapsing) of R = C(Ψ+R)²
+  made observable in time.
   See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md).
 
 Static hybrid profiles (mixing edge and center noise spatially) remain
@@ -363,8 +365,11 @@ coherence structure. If r > r*, it will not. There is no gradual
 transition. This is a fold catastrophe: the boundary is algebraically
 sharp, and the hardware confirms it.
 
-**Caveat:** IBM calibrations report T2 from Hahn echo. Free
-decoherence uses T2* (Ramsey), which is 1.5-2.5x shorter. The
+**Caveat:** IBM calibrations report T2 from Hahn echo (a measurement
+technique that refocuses some noise, giving an optimistic estimate).
+Free decoherence uses T2* (Ramsey; a simpler measurement without
+refocusing, closer to what the qubit actually experiences), which is
+1.5-2.5x shorter. The
 effective threshold in terms of T2echo is r*_echo = r* x (T2echo/T2*),
 which is 0.32-0.53 depending on the qubit.
 
@@ -388,7 +393,7 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
               Edge for network MI, center for point-to-point.
               Sweep reveals: PeakMI peaks at CΨ = ¼ crossing (fold catastrophe).
 
-Best benchmark: F_avg = 0.888, Holevo = 0.534 bits (star 2:1, gamma=0.05)
+Best benchmark: F_avg = 0.886, Holevo = 0.534 bits (star 2:1, gamma=0.05)
 Relay+2:1 at N=11: MI(end-to-end) = 0.132 (+83% over passive)
 Sacrifice-zone formula: 360x (N=5), 180x (N=7), 97.5x (N=13) vs V-shape
 Hardware: selective DD 2-3.2x on ibm_torino (N=5, single run)
@@ -432,7 +437,7 @@ local Z-dephasing. They have not been tested for:
 - ~~Non-Heisenberg couplings~~ **TESTED (March 17, 2026):** XY-only, Ising, XXZ, DM
   interactions are ALL palindromic under single-axis dephasing. Design rules apply.
 - ~~Non-dephasing noise~~ **PARTIALLY ANSWERED (March 19-21, 2026):**
-  Depolarizing breaks palindrome at err = γ*2(N-2)/3 (exact formula).
+  Depolarizing breaks palindrome at err = (2/3)Σγ (exact formula).
   For γ < 0.01: error < 1%, rules are practically valid.
   Amplitude damping produces non-Markovian, non-selective noise on
   neighbors (0/16 palindromic pairs in [failed_third test](../simulations/failed_third.py)).
