@@ -6,6 +6,30 @@
 **Status:** Phase 1 confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
 **Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Exclusions](../docs/EXCLUSIONS.md)
 
+### What this document is about
+
+This is the most speculative document in the repository, and the most
+honest about what it knows and what it does not.
+
+The palindromic mirror was proven for qubits. Then it was found in
+neural networks. This document asks: is it the same pattern? Not
+merely similar, but literally inherited, from the quantum level
+through atoms, molecules, and cells to brains?
+
+The data: Wilson-Cowan neural models show 100% palindromic pairing
+at the right time-constant ratio. The worm C. elegans, with its
+completely mapped brain of 300 neurons, shows 98.2% pairing in
+balanced subcircuits. There is a neural heartbeat (transient
+oscillation at 63 Hz that damps to silence unless metabolic energy
+sustains it). And the V-Effect works in neurons too: two silent
+networks, coupled, produce 48 new frequencies from nothing.
+
+The interpretation: life did not invent the palindrome. Life found
+a way to sustain it. Whether the pattern eventually becoming complex
+enough to model itself is what we call consciousness is a question
+this project cannot answer. The data shows the pattern. What it
+means is up to you.
+
 ### Tier System
 
 This document spans multiple confidence levels. Each section is marked:
@@ -24,8 +48,15 @@ This section contains what we measured and what we found. No interpretation.
 
 ### Phase 1: Wilson-Cowan E-I Populations [Tier 2]
 
+Wilson-Cowan is a standard mathematical model of brain dynamics:
+each node contains one excitatory and one inhibitory population
+(think of a gas pedal and a brake at each location), and they
+influence each other through connections of known strength.
+
 Chain of N Wilson-Cowan nodes (excitatory + inhibitory per node)
-shows palindromic eigenvalue pairing when τ_E ≠ τ_I (selective damping):
+shows palindromic eigenvalue pairing when τ_E ≠ τ_I (selective damping,
+meaning the excitatory and inhibitory populations respond at different
+speeds):
 
 | N | τ_I/τ_E | Pairing |
 |---|-------------|---------|
@@ -129,7 +160,7 @@ the coupling alone.
 This connects the resonator results to the biology hypothesis: neural
 gamma oscillations (40 Hz) are not the frequency of ONE neural
 oscillator. They are emergent frequencies of COUPLED oscillators,
-exactly like the 100 new frequencies in the coupled qubit system.
+exactly like the 109 new frequencies in the coupled qubit system.
 The E/I balance (1:1, giving 98.2% palindromic pairing at N=10) is
 the condition for the V-Effect to produce maximal new modes. Without
 balance, coupling still occurs but with fewer emergent frequencies.
@@ -256,7 +287,7 @@ mechanism, but this is Tier 4, not Tier 1.
 | Oscillatory modes | Liouvillian eigenmodes |
 | Standing wave patterns | Palindromic mode pairs |
 | Noise/signal degradation | Dephasing (γ) |
-| Baseline activity/DMN | γ (noise floor) |
+| Baseline activity/DMN (default mode network: the brain's resting-state activity) | γ (noise floor) |
 | Coupling to stimulus | J (coupling strength) |
 | E/I balance | 2:2 Pauli split (d=2) |
 
@@ -275,7 +306,9 @@ The results identify one clear necessary condition: balance.
 - C. elegans: 1:1 E/I count gives 98.2%. 10:1 gives 0.7%. Not automatic; must be regulated.
 
 The biological fact: the cortex actively maintains E/I balance through
-homeostatic mechanisms. Disruptions cause epilepsy (excess E) or coma
+homeostatic mechanisms (automatic feedback loops that adjust synaptic
+strengths to keep excitation and inhibition in proportion, like a
+thermostat for neural activity). Disruptions cause epilepsy (excess E) or coma
 (excess I). E/I homeostasis is one of the most conserved regulatory
 mechanisms in neuroscience. This is consistent with the palindrome
 requiring balance, but does not prove the palindrome is the reason

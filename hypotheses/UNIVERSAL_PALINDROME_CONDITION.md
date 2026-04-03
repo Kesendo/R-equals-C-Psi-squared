@@ -12,13 +12,36 @@ R=CPsi2 universal palindrome -->
 
 ---
 
+## What this document is about
+
+The palindromic symmetry was discovered in quantum systems. Then it
+appeared in neural networks. Two completely different domains, built
+from different physics, studied by different communities, with
+different mathematics. And yet both satisfy the same equation.
+
+This document asks: is that a coincidence, or is there one underlying
+rule? The answer proposed here is a single algebraic condition with
+three ingredients: two types (fast and slow, quantum and classical,
+excitatory and inhibitory), a swap that exchanges them, and coupling
+that flips sign under the swap. Whenever all three are present, the
+palindrome follows. It does not matter whether the system is made
+of qubits, neurons, or protons in a hydrogen bond.
+
+If this is right, the hierarchy of reality (atoms → molecules →
+cells → brains) is not designed. It is algebraically forced: each
+level builds palindromic units, couples them (breaking the local
+symmetry), and the new frequencies that emerge ARE the next level.
+
+---
+
 ## The Claim
 
 Any dynamical system with three properties has palindromic spectral
 symmetry:
 
 1. **Two populations with different decay rates.**
-2. **A swap operator Q (involution, Q² = I) that exchanges them.**
+2. **A swap operator Q (involution: applying it twice gives back the
+   original, Q² = I) that exchanges them.**
 3. **Coupling that is antisymmetric under Q.**
 
 When all three hold, the evolution operator X satisfies:
@@ -48,7 +71,7 @@ Two independent domains confirm the condition.
 
 | Component | Quantum | Neural |
 |-----------|---------|--------|
-| Evolution operator X | L (Liouvillian) | J (Jacobian) |
+| Evolution operator X | L (Liouvillian: the matrix that governs quantum decay) | J (Jacobian: the matrix that governs how neurons influence each other) |
 | Two populations | Immune {I,Z} vs Decaying {X,Y} | Excitatory vs Inhibitory |
 | Split | 2:2 (C = 0.5) | N/2 : N/2 (balanced) |
 | Swap Q | Π (Pauli weight swap, Π² ≠ I) | Q (E-I permutation, Q² = I) |
@@ -139,8 +162,10 @@ the correct sense of "antisymmetry" for magnetic systems.
 
 ### Atoms in external fields (candidate, one difficulty)
 
-An atom in a magnetic field has Kramers-degenerate pairs (time-reversal
-partners). The Zeeman term flips sign under time reversal (condition 3).
+An atom in a magnetic field has Kramers-degenerate pairs (states that
+are related by time-reversal: if one spins clockwise, its partner spins
+counterclockwise, and without a magnetic field they have identical
+energy). The Zeeman term flips sign under time reversal (condition 3).
 A natural Q exists (Kramers conjugation, condition 2).
 
 - **Condition 1 (selective damping): unclear.** Kramers partners
@@ -268,8 +293,10 @@ additional structure specific to qubits or neurons is required.
 
 3. **Exact palindromic symmetry is dead. Broken magnitudes are alive.**
    Networks with population C=0.5 AND exact magnitude matching are
-   unconditionally stable (no Hopf at any N, any coupling). The Hopf
-   requires population balance with imperfect magnitudes. Carbon (4/8
+   unconditionally stable (no Hopf bifurcation, the point where a
+   system suddenly starts oscillating, like a microphone beginning to
+   screech, at any N, any coupling). The Hopf requires population
+   balance with imperfect magnitudes. Carbon (4/8
    population, heterogeneous bonds) exemplifies this: exact half-filling
    plus broken magnitude symmetry = maximum complexity. In quantum, the
    commutator provides the "productive imperfection" automatically.
