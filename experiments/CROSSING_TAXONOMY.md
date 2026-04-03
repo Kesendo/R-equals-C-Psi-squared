@@ -14,6 +14,19 @@ Bell state decoherence taxonomy, R=CPsi2 crossing taxonomy -->
 
 ---
 
+## What this document is about
+
+When a quantum system crosses the 1/4 boundary (the tipping point
+between quantum and classical behavior), the crossing depends on *how
+you look*. Five different ways of measuring quantum connections were
+tested. Three see the crossing; two never do. And the three that do see
+it get there by different routes: one keeps its grip on the system while
+coherence drains away, another loses its grip together with the
+coherence, and the third never had enough grip to begin with.
+
+The punchline: the 1/4 boundary is real and universal, but the path to
+it depends on the observer. The destination is fixed. The journey is not.
+
 ## Abstract
 
 Five quantum correlation measures ("bridge metrics") are tested against
@@ -38,7 +51,9 @@ itself, not in K.
 ### What CΨ is
 
 CΨ = C × Ψ, where C is a correlation measure (the "bridge") between
-two qubits, and Ψ = L₁/(d−1) is the normalized l1-norm of coherence.
+two qubits, and Ψ = L₁/(d−1) is the normalized l1-norm of coherence (a measure of
+how much "quantumness" the state still has, computed by summing the
+off-diagonal elements of the density matrix).
 The product CΨ crosses a critical boundary at exactly 1/4 during
 decoherence. This boundary is the discriminant zero of the self-referential
 purity recursion R = C(Ψ+R)² and corresponds to the cusp of the Mandelbrot
@@ -213,7 +228,8 @@ for C(t) exists across bridge types.
 3. **N scaling:** Type A (C = 1.0 plateau) holds at N=3 and N=4.
    Crossing fails because Ψ(0) drops below 1/4 due to the d−1
    normalization. The observer is not the bottleneck; the Hilbert
-   space dimension is. See [N-Scaling Barrier](N_SCALING_BARRIER.md).
+   space dimension (the total number of quantum states available to the
+   system, which grows exponentially with particle count) is. See [N-Scaling Barrier](N_SCALING_BARRIER.md).
 
 4. **Analytic crossing formula:** Still open. Would need to account for
    the flat C region (Type A) and the nonexponential decay (Type B).
@@ -233,7 +249,8 @@ projections onto the palindromic mode sectors (immune vs decaying).
 
 The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 analytically confirms that CΨ is monotonically decreasing for Bell+ under
-all local Markovian channels, explaining why Type A and B always cross
+all local Markovian channels (noise processes where the future depends
+only on the present, not on the past), explaining why Type A and B always cross
 downward and never return.
 
 The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) shows

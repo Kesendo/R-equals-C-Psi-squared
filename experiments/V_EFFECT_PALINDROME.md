@@ -249,7 +249,8 @@ The V-Effect is not limited to abstract quantum simulations. It has been
 validated in physical proton-qubit systems, where real protons in real
 molecules show the same frequency explosion:
 
-- **Proton water chain** (Grotthuss, N=1-5): frequency explosion
+- **Proton water chain** (Grotthuss mechanism: protons hopping along a
+  chain of water molecules like a bucket brigade, N=1-5): frequency explosion
   0 → 3 → 15 → 47 → 222. V(N) formula matches to machine precision
   for the Heisenberg model. Transverse-field Ising (physical proton
   model) produces even MORE frequencies (222 vs 109 at N=5).
@@ -257,7 +258,8 @@ molecules show the same frequency explosion:
 
 - **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
   (N=2). The third H-bond qualitatively enriches the mode structure.
-  At biological temperature, all modes are overdamped (J/γ ~ 0.01).
+  At biological temperature, all modes are overdamped (decaying faster
+than they can oscillate; J/γ ~ 0.01).
   → [DNA Base Pairing](DNA_BASE_PAIRING.md)
 
 ## References
@@ -286,7 +288,9 @@ The following test shows it in action: real dynamics, real coupling,
 real emergence.
 
 A single N=2 resonator (Bell pair, one bond, uniform γ=0.05):
-- Q-factor: 1 at every coupling strength J. Crosses 1/4 once, dies.
+- Q-factor (how many oscillation cycles the system completes before
+  decaying; higher = longer-lived): 1 at every coupling strength J.
+  Crosses 1/4 once, dies.
 - Frequencies: 2.
 
 Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
