@@ -9,10 +9,12 @@ using RCPsiSquared.Compute;
 //        dotnet run -c Release -- n8        -> N=8 only (skip everything else)
 //        dotnet run -c Release -- validate  -> N=5 eigenvalue-only validation only
 //        dotnet run -c Release -- rmt       -> RMT eigenvalue export (N=2-7, CSV)
+//        dotnet run -c Release -- eigvec    -> Eigenvector export + Pauli projection (N=2-6)
 bool cavityMode = args.Any(a => a.Equals("cavity", StringComparison.OrdinalIgnoreCase));
 bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
 bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
 bool rmtMode = args.Any(a => a.Equals("rmt", StringComparison.OrdinalIgnoreCase));
+bool eigvecMode = args.Any(a => a.Equals("eigvec", StringComparison.OrdinalIgnoreCase));
 
 bool mklAvailable = false;
 try
@@ -42,7 +44,16 @@ if (cavityMode)
 
 if (rmtMode)
 {
-    RunRmtExport(resultsDir, mklAvailable);
+    // Optional topology argument: rmt chain (default), rmt star, rmt ring, rmt complete
+    string topoArg = args.Where(a => !a.Equals("rmt", StringComparison.OrdinalIgnoreCase))
+                         .FirstOrDefault() ?? "chain";
+    RunRmtExport(resultsDir, mklAvailable, topoArg.ToLowerInvariant());
+    return;
+}
+
+if (eigvecMode)
+{
+    RunEigvecExport(resultsDir);
     return;
 }
 
@@ -418,7 +429,7 @@ Console.WriteLine($"    (timestamped copy: {Path.GetFileName(tempPath)})");
 // ============================================================
 // RMT EXPORT: All complex eigenvalues as CSV (N=2-7)
 // ============================================================
-static void RunRmtExport(string resultsDir, bool mklAvailable)
+static void RunRmtExport(string resultsDir, bool mklAvailable, string topology = "chain")
 {
     Directory.CreateDirectory(resultsDir);
     const double gamma = 0.05;
@@ -426,19 +437,31 @@ static void RunRmtExport(string resultsDir, bool mklAvailable)
 
     Console.WriteLine("=== RMT EIGENVALUE EXPORT ===");
     Console.WriteLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-    Console.WriteLine($"Parameters: J={J}, gamma={gamma}, Chain topology");
+    Console.WriteLine($"Parameters: J={J}, gamma={gamma}, topology={topology}");
     Console.WriteLine();
 
     var sw = new Stopwatch();
 
-    for (int N = 2; N <= 7; N++)
+    int nMin = topology == "chain" ? 2 : 3; // non-chain topologies start at N=3
+    int nMax = topology == "chain" ? 7 : 6; // non-chain up to N=6
+
+    for (int N = nMin; N <= nMax; N++)
     {
         int d = 1 << N;
         int d2 = d * d;
-        var bonds = Topology.Chain(N, Enumerable.Repeat(J, N - 1).ToArray());
+
+        Bond[] bonds = topology switch
+        {
+            "chain" => Topology.Chain(N, Enumerable.Repeat(J, N - 1).ToArray()),
+            "star" => Topology.Star(N, Enumerable.Repeat(J, N - 1).ToArray()),
+            "ring" => Topology.Ring(N, Enumerable.Repeat(J, N).ToArray()),
+            "complete" => Topology.Complete(N, J),
+            _ => throw new ArgumentException($"Unknown topology: {topology}. Use chain, star, ring, or complete.")
+        };
+
         var gammas = Enumerable.Repeat(gamma, N).ToArray();
 
-        Console.Write($"N={N} ({d2}x{d2})... ");
+        Console.Write($"N={N} ({d2}x{d2}, {topology})... ");
         sw.Restart();
 
         Complex[] evals;
@@ -458,7 +481,12 @@ static void RunRmtExport(string resultsDir, bool mklAvailable)
             evals = Liouvillian.GetAllEigenvaluesMklRaw(rawData, d2);
         }
 
-        var csvPath = Path.Combine(resultsDir, $"rmt_eigenvalues_N{N}.csv");
+        // Chain uses legacy filenames (no prefix) for backwards compatibility
+        string csvName = topology == "chain"
+            ? $"rmt_eigenvalues_N{N}.csv"
+            : $"rmt_eigenvalues_{topology}_N{N}.csv";
+        var csvPath = Path.Combine(resultsDir, csvName);
+
         using (var csvWriter = new StreamWriter(csvPath))
         {
             csvWriter.WriteLine("Re\tIm");
@@ -783,4 +811,197 @@ static void RunCavityTests(string resultsDir)
     CLog(new string('=', 60));
 
     Console.WriteLine($"\n>>> Results saved to: {outPath}");
+}
+
+// ============================================================
+// EIGENVECTOR EXPORT: Pauli projection at Re = -2γ (N=2-6)
+// ============================================================
+static void RunEigvecExport(string resultsDir)
+{
+    Directory.CreateDirectory(resultsDir);
+    const double gamma = 0.05;
+    const double J = 1.0;
+    const double gridSpacing = 2.0 * gamma; // = 0.1, Lindblad convention
+    const double tol = 1e-8;
+
+    Console.WriteLine("=== EIGENVECTOR EXPORT + PAULI PROJECTION ===");
+    Console.WriteLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"Parameters: J={J}, gamma={gamma}, Chain topology");
+    Console.WriteLine($"Target: Re = -{gridSpacing} (first non-zero grid point, weight w=1)");
+    Console.WriteLine();
+
+    var sw = new Stopwatch();
+
+    for (int N = 2; N <= 6; N++)
+    {
+        int d = 1 << N;
+        int d2 = d * d;
+        var bonds = Topology.Chain(N, Enumerable.Repeat(J, N - 1).ToArray());
+        var gammas = Enumerable.Repeat(gamma, N).ToArray();
+
+        Console.WriteLine(new string('=', 70));
+        Console.WriteLine($"N={N}: {d2}x{d2} Liouvillian, expecting {2 * N} real eigenvalues at Re=-{gridSpacing}");
+        Console.WriteLine(new string('=', 70));
+
+        sw.Restart();
+        var L = Liouvillian.Build(N, bonds, gammas);
+        var (values, vectors) = Liouvillian.GetAllEigenvaluesAndVectors(L);
+        Console.WriteLine($"  Eigendecomposition: {sw.ElapsedMilliseconds}ms, {values.Length} eigenvalues");
+
+        // Find purely real eigenvalues at Re = -gridSpacing
+        var targetIndices = new List<int>();
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (Math.Abs(values[i].Real + gridSpacing) < tol && Math.Abs(values[i].Imaginary) < tol)
+                targetIndices.Add(i);
+        }
+
+        Console.WriteLine($"  Found {targetIndices.Count} eigenvalues at Re=-{gridSpacing}, Im=0 (expected {2 * N})");
+
+        if (targetIndices.Count != 2 * N)
+            Console.WriteLine($"  WARNING: count mismatch! Expected {2 * N}, got {targetIndices.Count}");
+
+        // Verification: L*v = λ*v for first and last eigenvector
+        if (targetIndices.Count > 0)
+        {
+            foreach (int checkIdx in new[] { targetIndices[0], targetIndices[^1] })
+            {
+                var lambda = values[checkIdx];
+                var v = new Complex[d2];
+                for (int i = 0; i < d2; i++)
+                    v[i] = vectors[(long)checkIdx * d2 + i];
+
+                // Compute L*v
+                var lv = new Complex[d2];
+                for (int i = 0; i < d2; i++)
+                    for (int j = 0; j < d2; j++)
+                        lv[i] += L[i, j] * v[j];
+
+                // Residual ||L*v - λ*v|| / ||v||
+                double normV = 0, normRes = 0;
+                for (int i = 0; i < d2; i++)
+                {
+                    normV += (v[i] * Complex.Conjugate(v[i])).Real;
+                    var diff = lv[i] - lambda * v[i];
+                    normRes += (diff * Complex.Conjugate(diff)).Real;
+                }
+                double relRes = Math.Sqrt(normRes / normV);
+                string status = relRes < 1e-8 ? "PASS" : "FAIL";
+                Console.WriteLine($"  Verification L*v=lv for eigvec #{checkIdx}: residual={relRes:E2} [{status}]");
+            }
+        }
+
+        // Pauli projection for each target eigenvector
+        Console.WriteLine($"\n  Pauli projection of {targetIndices.Count} eigenvectors...");
+        sw.Restart();
+
+        var csvPath = Path.Combine(resultsDir, $"eigvec_at_minus_gamma_N{N}.csv");
+        using var csvWriter = new StreamWriter(csvPath);
+        csvWriter.WriteLine("eigvec_idx\teigenvalue_re\teigenvalue_im\tpauli_string\txy_weight\tcoeff_abs\tcoeff_phase");
+
+        // Track dominant Pauli strings across all eigenvectors
+        var dominantStrings = new List<(int eigIdx, string label, int weight, double absCoeff)>();
+
+        for (int ei = 0; ei < targetIndices.Count; ei++)
+        {
+            int evIdx = targetIndices[ei];
+            var lambda = values[evIdx];
+
+            // Extract eigenvector
+            var v = new Complex[d2];
+            for (int i = 0; i < d2; i++)
+                v[i] = vectors[(long)evIdx * d2 + i];
+
+            // Project onto Pauli basis
+            var coeffs = PauliOps.ProjectOntoPauliBasis(v, N);
+
+            // Find dominant coefficient and write CSV
+            double maxAbs = 0;
+            string maxLabel = "";
+            int maxWeight = 0;
+
+            for (int s = 0; s < coeffs.Length; s++)
+            {
+                double absC = coeffs[s].Magnitude;
+                if (absC > 1e-10)
+                {
+                    string label = PauliOps.PauliLabel(s, N);
+                    int w = PauliOps.XYWeight(s, N);
+                    double phase = coeffs[s].Phase;
+
+                    csvWriter.Write(ei.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    csvWriter.Write('\t');
+                    csvWriter.Write(lambda.Real.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                    csvWriter.Write('\t');
+                    csvWriter.Write(lambda.Imaginary.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                    csvWriter.Write('\t');
+                    csvWriter.Write(label);
+                    csvWriter.Write('\t');
+                    csvWriter.Write(w.ToString());
+                    csvWriter.Write('\t');
+                    csvWriter.Write(absC.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                    csvWriter.Write('\t');
+                    csvWriter.WriteLine(phase.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                }
+
+                if (absC > maxAbs)
+                {
+                    maxAbs = absC;
+                    maxLabel = PauliOps.PauliLabel(s, N);
+                    maxWeight = PauliOps.XYWeight(s, N);
+                }
+            }
+
+            dominantStrings.Add((ei, maxLabel, maxWeight, maxAbs));
+        }
+
+        Console.WriteLine($"  Pauli projection: {sw.ElapsedMilliseconds}ms -> {Path.GetFileName(csvPath)}");
+
+        // Summary: dominant Pauli strings
+        Console.WriteLine($"\n  Dominant Pauli strings (2N={2 * N} eigenvectors at Re=-{gridSpacing}):");
+        Console.WriteLine($"  {"#",3} {"Dominant",10} {"w",3} {"|c|",10}");
+        Console.WriteLine("  " + new string('-', 30));
+        foreach (var (idx, label, w, absC) in dominantStrings)
+            Console.WriteLine($"  {idx,3} {label,10} {w,3} {absC,10:F6}");
+
+        // Weight sector distribution
+        var weightCounts = dominantStrings.GroupBy(x => x.weight)
+            .OrderBy(g => g.Key)
+            .Select(g => $"w={g.Key}: {g.Count()}")
+            .ToArray();
+        Console.WriteLine($"\n  Weight distribution: {string.Join(", ", weightCounts)}");
+
+        // Count distinct labels
+        var distinctLabels = dominantStrings.Select(x => x.label).Distinct().Count();
+        Console.WriteLine($"  Distinct dominant labels: {distinctLabels}");
+
+        // Detailed: for each eigenvector, show top 3 Pauli coefficients
+        Console.WriteLine($"\n  Top-3 Pauli coefficients per eigenvector:");
+        for (int ei = 0; ei < targetIndices.Count; ei++)
+        {
+            int evIdx = targetIndices[ei];
+            var v = new Complex[d2];
+            for (int i = 0; i < d2; i++)
+                v[i] = vectors[(long)evIdx * d2 + i];
+
+            var coeffs = PauliOps.ProjectOntoPauliBasis(v, N);
+
+            // Sort by magnitude
+            var ranked = Enumerable.Range(0, coeffs.Length)
+                .Select(s => (idx: s, label: PauliOps.PauliLabel(s, N),
+                              weight: PauliOps.XYWeight(s, N), abs: coeffs[s].Magnitude))
+                .Where(x => x.abs > 1e-10)
+                .OrderByDescending(x => x.abs)
+                .Take(3)
+                .ToArray();
+
+            var parts = ranked.Select(r => $"{r.label}(w={r.weight}, |c|={r.abs:F4})");
+            Console.WriteLine($"    #{ei}: {string.Join("  ", parts)}");
+        }
+
+        Console.WriteLine();
+    }
+
+    Console.WriteLine("=== EIGENVECTOR EXPORT COMPLETE ===");
+    Console.WriteLine($"Files in: {resultsDir}");
 }

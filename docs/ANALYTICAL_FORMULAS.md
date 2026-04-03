@@ -124,6 +124,39 @@ Two independent information channels (frequency vs decay) are
 perfectly orthogonal at N=3.
 **Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
 
+### 50. Weight-1 degeneracy / conserved operator count (Tier 1, proven + verified N=2-7)
+
+    d_real(Re = -2*gamma) = 2N
+
+Exactly 2N purely-real Liouvillian eigenvalues at the first non-zero
+grid position. These are the SWAP-invariant conserved operators:
+
+    T_c^{(a)} = Sum_j Sum_{S subset complement(j), |S|=c} sigma_a^{(j)} x Z_S x I_rest
+
+for a in {X, Y} and c = 0, 1, ..., N-1. Each T_c^{(a)} commutes with H
+because the Heisenberg Hamiltonian is a sum of SWAPs, and SWAP preserves
+both the active Pauli type (X or Y) and the Z-count c. The 2N operators
+are linearly independent (disjoint Pauli string support).
+
+Special cases:
+- T_0^{(X)} = 2*S_x, T_0^{(Y)} = 2*S_y (global SU(2) generators)
+- T_{N-1}^{(a)} = Sum_j sigma_a^{(j)} x Z_{all others} (Jordan-Wigner-type)
+
+Lower bound dim(ker) >= 2N: proven (SWAP invariance constructs 2N kernel vectors).
+Upper bound dim(ker) <= 2N: proven (triangle inequality forces each SWAP to
+fix v individually; adjacent transpositions generate S_N; one invariant vector
+per transitive orbit). Numerically verified for N = 2, ..., 7.
+
+**Valid for:** ANY connected graph with isotropic Heisenberg coupling
++ uniform Z-dephasing. Not only chains -- also star, ring, complete, tree.
+**Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
+**Caveat:** This universality is UNIQUE to k=0 and k=1. For k >= 2,
+d_real(k) is topology-dependent (Chain < Star < Ring < Complete).
+See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
+**Replaces:** eigenvector analysis at the first grid position;
+numerical counting of purely-real eigenvalues.
+**Source:** [Weight-1 Degeneracy Proof](proofs/PROOF_WEIGHT1_DEGENERACY.md)
+
 ---
 
 ## Q-Factor and V-Effect (replace resonator analysis)
@@ -238,6 +271,12 @@ positives across 133 qubits, 181 days.
 
 K_concurrence = 0.03596. K_MI = 0.033. K_correlation = 0.072.
 Standard Lindblad time-rescaling (τ = γt), not deep physics.
+
+**Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
+γ plays the role of external illumination and t is the system's experienced
+duration. K = γ × t is the invariant decoherence dose: more light means
+shorter experience, less light means longer, the product unchanged.
+Structural parallel to c × τ in relativity (observation, not identification).
 
 **Valid for:** any Lindblad system, any bridge metric.
 **Replaces:** multi-γ parameter sweeps for crossing time.

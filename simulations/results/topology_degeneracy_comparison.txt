@@ -1,0 +1,169 @@
+===========================================================================
+TOPOLOGY DEPENDENCE OF DEGENERACY STRUCTURE
+===========================================================================
+Topologies: chain, star, ring, complete
+Grid spacing: 0.1 (= 2*gamma, gamma=0.05)
+
+===========================================================================
+N = 3
+===========================================================================
+  chain     : d_real = [4, 6, 6, 4]  palindrome=✓
+              d_total= [4, 14, 14, 4]  palindrome=✓
+  star      : d_real = [4, 6, 6, 4]  palindrome=✓
+              d_total= [4, 14, 14, 4]  palindrome=✓
+  ring      : d_real = [4, 8, 8, 4]  palindrome=✓
+              d_total= [4, 16, 16, 4]  palindrome=✓
+  NOTE: d_real(1) = 8 > 6 (extra modes from multi-weight mixing)
+  complete  : d_real = [4, 8, 8, 4]  palindrome=✓
+              d_total= [4, 16, 16, 4]  palindrome=✓
+  NOTE: d_real(1) = 8 > 6 (extra modes from multi-weight mixing)
+
+  d_real comparison (N=3):
+  Topology    k=0  k=1  k=2  k=3
+  ------------------------------------
+  chain         4    6    6    4
+  star          4    6    6    4
+  ring          4    8*    8*    4
+  complete      4    8*    8*    4
+
+  d_real identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+  d_total comparison (N=3):
+  Topology    k=0  k=1  k=2  k=3
+  --------------------------------------------
+  chain           4     14     14      4
+  star            4     14     14      4
+  ring            4     16*     16*      4
+  complete        4     16*     16*      4
+
+  d_total identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+===========================================================================
+N = 4
+===========================================================================
+  chain     : d_real = [5, 8, 14, 8, 5]  palindrome=✓
+              d_total= [5, 20, 152, 20, 5]  palindrome=✓
+  star      : d_real = [5, 8, 16, 8, 5]  palindrome=✓
+              d_total= [5, 20, 126, 20, 5]  palindrome=✓
+  ring      : d_real = [5, 8, 24, 8, 5]  palindrome=✓
+              d_total= [5, 28, 156, 28, 5]  palindrome=✓
+  complete  : d_real = [5, 8, 36, 8, 5]  palindrome=✓
+              d_total= [5, 20, 166, 20, 5]  palindrome=✓
+
+  d_real comparison (N=4):
+  Topology    k=0  k=1  k=2  k=3  k=4
+  ------------------------------------------
+  chain         5    8   14    8    5
+  star          5    8   16*    8    5
+  ring          5    8   24*    8    5
+  complete      5    8   36*    8    5
+
+  d_real identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+  d_total comparison (N=4):
+  Topology    k=0  k=1  k=2  k=3  k=4
+  ----------------------------------------------------
+  chain           5     20    152     20      5
+  star            5     20    126*     20      5
+  ring            5     28*    156*     28*      5
+  complete        5     20    166*     20      5
+
+  d_total identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+===========================================================================
+N = 5
+===========================================================================
+  chain     : d_real = [6, 10, 14, 14, 10, 6]  palindrome=✓
+              d_total= [6, 26, 50, 50, 26, 6]  palindrome=✓
+  star      : d_real = [6, 10, 30, 30, 10, 6]  palindrome=✓
+              d_total= [6, 26, 66, 66, 26, 6]  palindrome=✓
+  ring      : d_real = [6, 10, 22, 22, 10, 6]  palindrome=✓
+              d_total= [6, 26, 58, 58, 26, 6]  palindrome=✓
+  complete  : d_real = [6, 10, 54, 54, 10, 6]  palindrome=✓
+              d_total= [6, 26, 110, 110, 26, 6]  palindrome=✓
+
+  d_real comparison (N=5):
+  Topology    k=0  k=1  k=2  k=3  k=4  k=5
+  ------------------------------------------------
+  chain         6   10   14   14   10    6
+  star          6   10   30*   30*   10    6
+  ring          6   10   22*   22*   10    6
+  complete      6   10   54*   54*   10    6
+
+  d_real identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+  d_total comparison (N=5):
+  Topology    k=0  k=1  k=2  k=3  k=4  k=5
+  ------------------------------------------------------------
+  chain           6     26     50     50     26      6
+  star            6     26     66*     66*     26      6
+  ring            6     26     58*     58*     26      6
+  complete        6     26    110*    110*     26      6
+
+  d_total identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+===========================================================================
+N = 6
+===========================================================================
+  chain     : d_real = [7, 12, 19, 16, 19, 12, 7]  palindrome=✓
+              d_total= [7, 32, 75, 1836, 75, 32, 7]  palindrome=✓
+  star      : d_real = [7, 12, 68, 32, 68, 12, 7]  palindrome=✓
+              d_total= [7, 32, 132, 1348, 132, 32, 7]  palindrome=✓
+  ring      : d_real = [7, 12, 33, 16, 33, 12, 7]  palindrome=✓
+              d_total= [7, 32, 113, 1856, 113, 32, 7]  palindrome=✓
+  complete  : d_real = [7, 12, 133, 140, 133, 12, 7]  palindrome=✓
+              d_total= [7, 32, 189, 2196, 189, 32, 7]  palindrome=✓
+
+  d_real comparison (N=6):
+  Topology    k=0  k=1  k=2  k=3  k=4  k=5  k=6
+  ------------------------------------------------------
+  chain         7   12   19   16   19   12    7
+  star          7   12   68*   32*   68*   12    7
+  ring          7   12   33*   16   33*   12    7
+  complete      7   12  133*  140*  133*   12    7
+
+  d_real identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+  d_total comparison (N=6):
+  Topology    k=0  k=1  k=2  k=3  k=4  k=5  k=6
+  --------------------------------------------------------------------
+  chain           7     32     75   1836     75     32      7
+  star            7     32    132*   1348*    132*     32      7
+  ring            7     32    113*   1856*    113*     32      7
+  complete        7     32    189*   2196*    189*     32      7
+
+  d_total identical across topologies: ✗ NO — TOPOLOGY-DEPENDENT
+
+===========================================================================
+SUMMARY
+===========================================================================
+
+d_real(k) comparison across all N:
+
+  N=3: d_real DIFFERS across topologies
+    chain     : [4, 6, 6, 4]
+    star      : [4, 6, 6, 4]
+    ring      : [4, 8, 8, 4]
+    complete  : [4, 8, 8, 4]
+  N=4: d_real DIFFERS across topologies
+    chain     : [5, 8, 14, 8, 5]
+    star      : [5, 8, 16, 8, 5]
+    ring      : [5, 8, 24, 8, 5]
+    complete  : [5, 8, 36, 8, 5]
+  N=5: d_real DIFFERS across topologies
+    chain     : [6, 10, 14, 14, 10, 6]
+    star      : [6, 10, 30, 30, 10, 6]
+    ring      : [6, 10, 22, 22, 10, 6]
+    complete  : [6, 10, 54, 54, 10, 6]
+  N=6: d_real DIFFERS across topologies
+    chain     : [7, 12, 19, 16, 19, 12, 7]
+    star      : [7, 12, 68, 32, 68, 12, 7]
+    ring      : [7, 12, 33, 16, 33, 12, 7]
+    complete  : [7, 12, 133, 140, 133, 12, 7]
+
+RESULT A: d_real(k) is TOPOLOGY-DEPENDENT for k >= 2.
+The SWAP-invariance proof covers only k=0 and k=1.
+Inner degeneracy structure depends on the bond graph.
+
+d_total topology-dependent: YES
+Verification (k=0, k=1, palindrome): PASS

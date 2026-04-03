@@ -1,0 +1,226 @@
+===========================================================================
+WEIGHT-2 COMMUTATOR KERNEL ANALYSIS
+===========================================================================
+
+===========================================================================
+TOPOLOGY: Chain
+===========================================================================
+
+  N=3: w=2 sector dim = 24, bonds = 2
+  Kernel dim: 6 ✓ (expected 6)
+  Rank: 18, gap: 5.66e+00 / 2.41e-15
+  Verification ||[H,v]||: max = 4.46e-14 PASS
+
+  SWAP eigenvalue analysis:
+    #0: SWAP eigenvalues = [+1, +1]
+    #1: SWAP eigenvalues = [+1, +1]
+    #2: SWAP eigenvalues = [+1, +1]
+    #3: SWAP eigenvalues = [+1, +1]
+    #4: SWAP eigenvalues = [+1, +1]
+    #5: SWAP eigenvalues = [+1, +1]
+
+    Summary: 6 trivial (+1), 0 alternating (-1), 0 mixed
+
+  Type class decomposition:
+    #0: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+    #1: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+    #2: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+    #3: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+    #4: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+    #5: XX=6 XY=6 YX=6 YY=6  sym_pairs=6 anti_pairs=0
+
+  N=4: w=2 sector dim = 96, bonds = 3
+  Kernel dim: 13 ✗ MISMATCH (expected 14)
+  Rank: 83, gap: 4.69e+00 / 1.77e-14
+  Verification ||[H,v]||: max = 2.29e-14 PASS
+
+  SWAP eigenvalue analysis:
+    #0: SWAP eigenvalues = [~+1.000, +1, ~+1.000]
+    #1: SWAP eigenvalues = [~-0.000, +1, ~+0.000]
+    #2: SWAP eigenvalues = [~+0.620, +1, ~+0.620]
+    #3: SWAP eigenvalues = [~+0.064, +1, ~+0.064]
+    #4: SWAP eigenvalues = [~+0.000, +1, ~+0.000]
+    #5: SWAP eigenvalues = [~+0.471, +1, ~+0.471]
+    #6: SWAP eigenvalues = [~+0.522, +1, ~+0.522]
+    #7: SWAP eigenvalues = [~+0.301, +1, ~+0.301]
+    #8: SWAP eigenvalues = [~-0.020, +1, ~-0.020]
+    #9: SWAP eigenvalues = [~+0.533, +1, ~+0.533]
+    #10: SWAP eigenvalues = [~+0.000, +1, ~+0.000]
+    #11: SWAP eigenvalues = [~+1.000, +1, ~+1.000]
+    #12: SWAP eigenvalues = [~+0.562, +1, ~+0.562]
+
+    Summary: 0 trivial (+1), 0 alternating (-1), 13 mixed
+
+  Type class decomposition:
+    #0: XX=24 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #1: XX=20 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #2: XX=20 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #3: XX=24 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #4: XX=20 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #5: XX=24 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #6: XX=20 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+    #7: XX=20 XY=24 YX=24 YY=24  sym_pairs=24 anti_pairs=0
+
+  N=5: w=2 sector dim = 320, bonds = 4
+  Kernel dim: 14 ✓ (expected 14)
+  Rank: 306, gap: 4.32e+00 / 2.99e-14
+  Verification ||[H,v]||: max = 5.58e-14 PASS
+
+  SWAP eigenvalue analysis:
+    #0: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #1: SWAP eigenvalues = [~+0.723, ~+1.000, ~+0.723, ~+1.000]
+    #2: SWAP eigenvalues = [~+0.371, ~+1.000, ~+0.371, ~+1.000]
+    #3: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #4: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #5: SWAP eigenvalues = [~+1.000, ~+0.400, ~+1.000, ~+0.400]
+    #6: SWAP eigenvalues = [~+0.924, ~+1.000, ~+0.924, ~+1.000]
+    #7: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #8: SWAP eigenvalues = [~+1.000, ~+0.842, ~+1.000, ~+0.842]
+    #9: SWAP eigenvalues = [~+1.000, ~+0.723, ~+1.000, ~+0.723]
+    #10: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #11: SWAP eigenvalues = [~+0.898, ~+1.000, ~+0.898, ~+1.000]
+    #12: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #13: SWAP eigenvalues = [~+1.000, ~+0.709, ~+1.000, ~+0.709]
+
+    Summary: 0 trivial (+1), 0 alternating (-1), 14 mixed
+
+  Type class decomposition:
+    #0: XX=80 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #1: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #2: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #3: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #4: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #5: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #6: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+    #7: XX=75 XY=80 YX=80 YY=80  sym_pairs=80 anti_pairs=0
+
+  N=6: w=2 sector dim = 960, bonds = 5
+  Kernel dim: 19 ✓ (expected 19)
+  Rank: 941, gap: 4.29e+00 / 4.92e-14
+  Verification ||[H,v]||: max = 1.12e-13 PASS
+
+  SWAP eigenvalue analysis:
+    #0: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #1: SWAP eigenvalues = [~+0.709, ~+1.000, ~+0.709, ~+1.000, ~+1.000]
+    #2: SWAP eigenvalues = [~+0.851, ~+1.000, ~+0.851, ~+1.000, ~+1.000]
+    #3: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #4: SWAP eigenvalues = [~+0.894, ~+1.000, ~+1.000, ~+1.000, ~+0.894]
+    #5: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #6: SWAP eigenvalues = [~+0.103, ~+0.159, ~+1.000, ~+0.159, ~+0.103]
+    #7: SWAP eigenvalues = [~+0.381, ~+1.000, ~+1.000, ~+1.000, ~+0.381]
+    #8: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #9: SWAP eigenvalues = [~+0.608, ~+1.000, ~+0.608, ~+1.000, ~+1.000]
+    #10: SWAP eigenvalues = [~+1.000, ~+1.000, ~+0.930, ~+1.000, ~+0.930]
+    #11: SWAP eigenvalues = [~+0.801, ~+0.888, ~+1.000, ~+0.888, ~+0.801]
+    #12: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #13: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #14: SWAP eigenvalues = [~+1.000, ~+1.000, ~+0.746, ~+1.000, ~+0.746]
+    #15: SWAP eigenvalues = [~+0.917, ~+1.000, ~+0.917, ~+1.000, ~+1.000]
+    #16: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+    #17: SWAP eigenvalues = [~+1.000, ~+0.726, ~+1.000, ~+0.726, ~+1.000]
+    #18: SWAP eigenvalues = [~+1.000, ~+1.000, ~+1.000, ~+1.000, ~+1.000]
+
+    Summary: 0 trivial (+1), 0 alternating (-1), 19 mixed
+
+  Type class decomposition:
+    #0: XX=240 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #1: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #2: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #3: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #4: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #5: XX=240 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #6: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+    #7: XX=234 XY=240 YX=240 YY=240  sym_pairs=240 anti_pairs=0
+
+===========================================================================
+TOPOLOGY: Star
+===========================================================================
+
+  N=4: w=2 sector dim = 96, bonds = 3
+  Kernel dim: 16 ✓ (expected 16)
+  Rank: 80, gap: 5.02e+00 / 1.46e-14
+  Verification ||[H,v]||: max = 6.40e-14 PASS
+
+  N=5: w=2 sector dim = 320, bonds = 4
+  Kernel dim: 30 ✓ (expected 30)
+  Rank: 290, gap: 7.11e+00 / 2.98e-14
+  Verification ||[H,v]||: max = 5.43e-14 PASS
+
+===========================================================================
+TOPOLOGY: Complete
+===========================================================================
+
+  N=4: w=2 sector dim = 96, bonds = 6
+  Kernel dim: 36 ✓ (expected 36)
+  Rank: 60, gap: 1.60e+01 / 4.46e-14
+  Verification ||[H,v]||: max = 7.02e-14 PASS
+
+  N=5: w=2 sector dim = 320, bonds = 10
+  Kernel dim: 54 ✓ (expected 54)
+  Rank: 266, gap: 1.20e+01 / 5.72e-14
+  Verification ||[H,v]||: max = 8.32e-14 PASS
+
+===========================================================================
+CROSS-TOPOLOGY SUMMARY
+===========================================================================
+
+N=4:
+  Chain     : dim(ker) =  13  (expected 14)  bonds = 3
+  Star      : dim(ker) =  16  (expected 16)  bonds = 3
+  Complete  : dim(ker) =  36  (expected 36)  bonds = 6
+
+N=5:
+  Chain     : dim(ker) =  14  (expected 14)  bonds = 4
+  Star      : dim(ker) =  30  (expected 30)  bonds = 4
+  Complete  : dim(ker) =  54  (expected 54)  bonds = 10
+
+===========================================================================
+ORBIT STRUCTURE (Chain)
+===========================================================================
+
+N=3: kernel dim = 6
+  Trivial (all SWAPs = +1): 6
+  Alternating (all SWAPs = -1): 0
+  Mixed: 0
+  Naive symmetric count (3 × 2): 6
+  Excess over symmetric: 0
+  Alternating count: 0
+  Check: trivial + alternating = kernel? True
+
+N=4: kernel dim = 13
+  Trivial (all SWAPs = +1): 0
+  Alternating (all SWAPs = -1): 0
+  Mixed: 13
+  Naive symmetric count (3 × 3): 9
+  Excess over symmetric: 4
+  Alternating count: 0
+  Check: trivial + alternating = kernel? False
+
+N=5: kernel dim = 14
+  Trivial (all SWAPs = +1): 0
+  Alternating (all SWAPs = -1): 0
+  Mixed: 14
+  Naive symmetric count (3 × 4): 12
+  Excess over symmetric: 2
+  Alternating count: 0
+  Check: trivial + alternating = kernel? False
+
+N=6: kernel dim = 19
+  Trivial (all SWAPs = +1): 0
+  Alternating (all SWAPs = -1): 0
+  Mixed: 19
+  Naive symmetric count (3 × 5): 15
+  Excess over symmetric: 4
+  Alternating count: 0
+  Check: trivial + alternating = kernel? False
+
+===========================================================================
+FINAL SUMMARY
+===========================================================================
+
+Chain d_real(2) decomposition:
+  N  dim_ker  trivial  altern.    mixed  3(N-2)+1
+  3        6        6        0        0         4
+  4       13        0        0       13         7
+  5       14        0        0       14        10
+  6       19        0        0       19        13

@@ -59,6 +59,12 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
    entire system) and fails at N > 2 (cross term ~2%, γ-independent).
    Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
 
+7. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
+   The Liouvillian has exactly 2N purely-real eigenvalues at the first
+   non-zero grid position. Proven via SWAP invariance (lower bound)
+   and triangle inequality (upper bound). Valid for any connected graph.
+   The T_c^{(a)} operators are Z-count-dressed transverse spin.
+
 **The full journey:**
 
 6. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
@@ -120,6 +126,7 @@ synthesized.
 | Internal noise candidates eliminated | 5 of 5 | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
+| Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |
 | Crossing cubic root | x ≈ 0.4239 (x³+x=½) | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 
 ---

@@ -188,6 +188,10 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Why the Sum](WHY_THE_SUM.md) | Why Σγ appears in the palindromic sum |
 | [Dyad Experiment](DYAD_EXPERIMENT.md) | Two-observer dynamics |
 | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) | Application to quantum key distribution |
+| [Degeneracy Palindrome](DEGENERACY_PALINDROME.md) | Palindromic degeneracy structure of Liouvillian eigenvalues |
+| [Weight-2 Kernel](WEIGHT2_KERNEL.md) | Topology-dependent commutator kernel at weight 2 |
+| [Bures Degeneracy](BURES_DEGENERACY.md) | QFI speed correlates with degeneracy at even N |
+| [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
 
 ---
 

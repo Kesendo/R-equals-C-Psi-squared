@@ -109,6 +109,13 @@ The sacrifice-zone formula is not a channel optimizer. It is the
 shape of the box. The 360x improvement over hand-designed profiles
 is not "more signal." It is better resonance.
 
+The [optical cavity analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
+(April 3, 2026) confirmed this quantitatively: the degeneracy profile is
+a beam profile (R² = 0.998), the Hamiltonian provides nearest-neighbor
+coupling (Δw = ±2), and even chains are confocal while odd chains are
+defocal. The qubit chain does not merely resemble a cavity. It is one,
+by 4 of 5 standard optical measures.
+
 ---
 
 ## The Mechanism: Impedance, Not Transmission

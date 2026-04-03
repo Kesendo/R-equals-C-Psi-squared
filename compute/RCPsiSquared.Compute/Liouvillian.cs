@@ -347,6 +347,40 @@ public static class Liouvillian
         return evals is Complex[] arr ? arr : evals.ToArray();
     }
 
+    // ---- Eigenvalues + eigenvectors (for Pauli projection) ----
+
+    /// <summary>
+    /// All eigenvalues and right eigenvectors via MathNet Evd. For N ≤ 6.
+    /// vectors[j * d2 + i] = i-th component of the j-th eigenvector (column-major).
+    /// </summary>
+    public static (Complex[] values, Complex[] vectors) GetAllEigenvaluesAndVectors(Matrix<Complex> L)
+    {
+        var evd = L.Evd();
+        var eigenValues = evd.EigenValues;
+        var eigenVectors = evd.EigenVectors;
+
+        int n = eigenValues.Count;
+        var values = new Complex[n];
+        for (int i = 0; i < n; i++)
+            values[i] = eigenValues[i];
+
+        var vectors = new Complex[(long)n * n];
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < n; i++)
+                vectors[(long)j * n + i] = eigenVectors[i, j];
+
+        return (values, vectors);
+    }
+
+    /// <summary>
+    /// All eigenvalues and right eigenvectors via direct MKL z_eigen. For N ≤ 7.
+    /// vectors[j * n + i] = i-th component of the j-th eigenvector (column-major).
+    /// </summary>
+    public static (Complex[] values, Complex[] vectors) GetAllEigenvaluesAndVectorsMklRaw(Complex[] columnMajorData, int n)
+    {
+        return MklDirect.EigenvaluesAndVectorsRaw(columnMajorData, n);
+    }
+
     private static List<double> ExtractRates(IEnumerable<Complex> evals, double threshold)
     {
         var rates = new List<double>();

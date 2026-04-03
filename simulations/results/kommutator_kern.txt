@@ -1,0 +1,452 @@
+======================================================================
+COMMUTATOR KERNEL ANALYSIS: dim(ker([H, ·]|_{w=1})) = 2N
+======================================================================
+
+======================================================================
+N=2: d=4, w=1 sector dim=8, expected kernel dim=4
+======================================================================
+  w=1 basis size: 8 (expected 8)
+  Commutator matrix rank: 4
+  Kernel dimension: 4 (expected 4) ✓
+  Smallest nonzero SV: 8.000000e+00
+  Largest 'zero' SV:    1.811340e-15
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 3.53e-15 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 3.00e-15 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 2.23e-15 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 1.56e-15 [PASS]
+
+  Kernel vectors (top components):
+    #0: XZ(-0.5783-0.0309j), ZX(-0.5783-0.0309j), IY(-0.3190-0.0940j), YI(-0.3190-0.0940j), YZ(-0.2106-0.0909j), ZY(-0.2106-0.0909j)
+    #1: IX(+0.6704+0.0000j), XI(+0.6704+0.0000j), IY(+0.1638+0.0636j), YI(+0.1638+0.0636j), ZX(-0.1130-0.0074j), XZ(-0.1130-0.0074j)
+    #2: ZY(-0.5974-0.2834j), YZ(-0.5974-0.2834j), ZX(+0.2005-0.0097j), XZ(+0.2005-0.0097j), YI(+0.0976+0.0826j), IY(+0.0976+0.0826j)
+    #3: YI(+0.5525+0.1922j), IY(+0.5525+0.1922j), XZ(-0.3336-0.0147j), ZX(-0.3336-0.0147j), IX(-0.2072+0.0000j), XI(-0.2072+0.0000j)
+
+  Structure analysis:
+    #0: 8 nonzero Pauli strings, active positions=[0, 1], types=['X', 'Y']
+    #1: 8 nonzero Pauli strings, active positions=[0, 1], types=['X', 'Y']
+    #2: 8 nonzero Pauli strings, active positions=[0, 1], types=['X', 'Y']
+    #3: 8 nonzero Pauli strings, active positions=[0, 1], types=['X', 'Y']
+
+  CSV comparison: rank(kernel ∪ eigvec) = 4 (expect 4) ✓ same subspace
+
+======================================================================
+N=3: d=8, w=1 sector dim=24, expected kernel dim=6
+======================================================================
+  w=1 basis size: 24 (expected 24)
+  Commutator matrix rank: 18
+  Kernel dimension: 6 (expected 6) ✓
+  Smallest nonzero SV: 5.656854e+00
+  Largest 'zero' SV:    3.109767e-15
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 5.97e-15 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 6.77e-15 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 4.64e-15 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 5.54e-15 [PASS]
+    Kernel vector #4: ||[H,v]||_F = 8.72e-15 [PASS]
+    Kernel vector #5: ||[H,v]||_F = 2.51e-15 [PASS]
+
+  Kernel vectors (top components):
+    #0: YZZ(-0.3257-0.1431j), ZYZ(-0.3257-0.1431j), ZZY(-0.3257-0.1431j), IXZ(-0.2305-0.0800j), ZIX(-0.2305-0.0800j), IZX(-0.2305-0.0800j)
+    #1: IIY(-0.3492-0.1923j), YII(-0.3492-0.1923j), IYI(-0.3492-0.1923j), ZYZ(+0.0797+0.2827j), ZZY(+0.0797+0.2827j), YZZ(+0.0797+0.2827j)
+    #2: XZZ(-0.4565+0.1874j), ZXZ(-0.4565+0.1874j), ZZX(-0.4565+0.1874j), IIY(-0.0012+0.2009j), IYI(-0.0012+0.2009j), YII(-0.0012+0.2009j)
+    #3: ZYZ(-0.2707-0.1598j), YZZ(-0.2707-0.1598j), ZZY(-0.2707-0.1598j), IYI(-0.1687+0.1835j), IIY(-0.1687+0.1835j), YII(-0.1687+0.1835j)
+    #4: YIZ(+0.2900+0.1063j), IYZ(+0.2900+0.1063j), ZYI(+0.2900+0.1063j), ZIY(+0.2900+0.1063j), IZY(+0.2900+0.1063j), YZI(+0.2900+0.1063j)
+    #5: IIX(-0.5771+0.0000j), IXI(-0.5771+0.0000j), XII(-0.5771+0.0000j), YZZ(-0.0106-0.0086j), ZZY(-0.0106-0.0086j), ZYZ(-0.0106-0.0086j)
+
+  Structure analysis:
+    #0: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+    #1: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+    #2: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+    #3: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+    #4: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+    #5: 24 nonzero Pauli strings, active positions=[0, 1, 2], types=['X', 'Y']
+
+  CSV comparison: rank(kernel ∪ eigvec) = 6 (expect 6) ✓ same subspace
+
+======================================================================
+N=4: d=16, w=1 sector dim=64, expected kernel dim=8
+======================================================================
+  w=1 basis size: 64 (expected 64)
+  Commutator matrix rank: 56
+  Kernel dimension: 8 (expected 8) ✓
+  Smallest nonzero SV: 4.686292e+00
+  Largest 'zero' SV:    1.310225e-14
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 1.37e-14 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 1.67e-14 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 1.49e-14 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 1.82e-14 [PASS]
+    Kernel vector #4: ||[H,v]||_F = 1.58e-14 [PASS]
+    Kernel vector #5: ||[H,v]||_F = 1.30e-14 [PASS]
+    Kernel vector #6: ||[H,v]||_F = 1.24e-14 [PASS]
+    Kernel vector #7: ||[H,v]||_F = 5.96e-15 [PASS]
+
+  Kernel vectors (top components):
+    #0: ZYZZ(-0.0712-0.1914j), ZZYZ(-0.0712-0.1914j), YZZZ(-0.0712-0.1914j), ZZZY(-0.0712-0.1914j), XZII(-0.2016+0.0066j), IZXI(-0.2016+0.0066j)
+    #1: YIII(+0.1248-0.1774j), IYII(+0.1248-0.1774j), IIIY(+0.1248-0.1774j), IIYI(+0.1248-0.1774j), ZZYI(-0.1434-0.0474j), ZIYZ(-0.1434-0.0474j)
+    #2: ZZZX(+0.1901-0.1455j), XZZZ(+0.1901-0.1455j), ZXZZ(+0.1901-0.1455j), ZZXZ(+0.1901-0.1455j), ZXIZ(+0.1601-0.0622j), XZZI(+0.1601-0.0622j)
+    #3: ZXZZ(+0.1415-0.1747j), ZZXZ(+0.1415-0.1747j), ZZZX(+0.1415-0.1747j), XZZZ(+0.1415-0.1747j), IIYI(-0.0616-0.1502j), YIII(-0.0616-0.1502j)
+    #4: YZZZ(-0.2603+0.2256j), ZYZZ(-0.2603+0.2256j), ZZYZ(-0.2603+0.2256j), ZZZY(-0.2603+0.2256j), IXIZ(-0.0382-0.1429j), XIZI(-0.0382-0.1429j)
+    #5: IIYI(+0.0580-0.3073j), IIIY(+0.0580-0.3073j), YIII(+0.0580-0.3073j), IYII(+0.0580-0.3073j), ZYZZ(-0.1511-0.1785j), YZZZ(-0.1511-0.1785j)
+    #6: XZZZ(-0.2992+0.1186j), ZXZZ(-0.2992+0.1186j), ZZZX(-0.2992+0.1186j), ZZXZ(-0.2992+0.1186j), IYII(+0.0301-0.2177j), YIII(+0.0301-0.2177j)
+    #7: IIIX(-0.4999-0.0000j), IIXI(-0.4999-0.0000j), XIII(-0.4999+0.0000j), IXII(-0.4999-0.0000j), YZZZ(+0.0017+0.0045j), ZYZZ(+0.0017+0.0045j)
+
+  Structure analysis:
+    #0: 64 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #1: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #2: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #3: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #4: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #5: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #6: 60 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+    #7: 64 nonzero Pauli strings, active positions=[0, 1, 2, 3], types=['X', 'Y']
+
+  CSV comparison: rank(kernel ∪ eigvec) = 8 (expect 8) ✓ same subspace
+
+======================================================================
+N=5: d=32, w=1 sector dim=160, expected kernel dim=10
+======================================================================
+  w=1 basis size: 160 (expected 160)
+  Commutator matrix rank: 150
+  Kernel dimension: 10 (expected 10) ✓
+  Smallest nonzero SV: 4.321452e+00
+  Largest 'zero' SV:    2.068429e-14
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 4.24e-14 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 4.02e-14 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 4.45e-14 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 4.18e-14 [PASS]
+    Kernel vector #4: ||[H,v]||_F = 4.37e-14 [PASS]
+    Kernel vector #5: ||[H,v]||_F = 4.13e-14 [PASS]
+    Kernel vector #6: ||[H,v]||_F = 4.49e-14 [PASS]
+    Kernel vector #7: ||[H,v]||_F = 3.72e-14 [PASS]
+    Kernel vector #8: ||[H,v]||_F = 3.72e-14 [PASS]
+    Kernel vector #9: ||[H,v]||_F = 2.03e-14 [PASS]
+
+  Kernel vectors (top components):
+    #0: XZZII(-0.1079-0.0383j), ZZXII(-0.1079-0.0383j), IIZXZ(-0.1079-0.0383j), ZIZXI(-0.1079-0.0383j), ZZIXI(-0.1079-0.0383j), ZXZII(-0.1079-0.0383j)
+    #1: YZZZZ(-0.0964+0.0818j), ZYZZZ(-0.0964+0.0818j), ZZYZZ(-0.0964+0.0818j), ZZZZY(-0.0964+0.0818j), ZZZYZ(-0.0964+0.0818j), YIIII(-0.0199-0.1167j)
+    #2: ZXZZZ(-0.1676+0.0418j), ZZZXZ(-0.1676+0.0418j), XZZZZ(-0.1676+0.0418j), ZZZZX(-0.1676+0.0418j), ZZXZZ(-0.1676+0.0418j), XIIZI(+0.1479-0.0097j)
+    #3: ZXIZZ(+0.0792+0.1157j), XZZIZ(+0.0792+0.1157j), ZIZXZ(+0.0792+0.1157j), XZZZI(+0.0792+0.1157j), IZZXZ(+0.0792+0.1157j), IZZZX(+0.0792+0.1157j)
+    #4: ZXZZZ(-0.0333+0.1526j), XZZZZ(-0.0333+0.1526j), ZZXZZ(-0.0333+0.1526j), ZZZXZ(-0.0333+0.1526j), ZZZZX(-0.0333+0.1526j), ZIIYI(-0.0742+0.1079j)
+    #5: ZYZZZ(-0.2046-0.0044j), ZZZYZ(-0.2046-0.0044j), YZZZZ(-0.2046-0.0044j), ZZYZZ(-0.2046-0.0044j), ZZZZY(-0.2046-0.0044j), IIIIY(-0.0628-0.1742j)
+    #6: ZXZZZ(-0.1269-0.1357j), XZZZZ(-0.1269-0.1357j), ZZXZZ(-0.1269-0.1357j), ZZZXZ(-0.1269-0.1357j), ZZZZX(-0.1269-0.1357j), ZZZYZ(-0.0636-0.1655j)
+    #7: YZZZZ(-0.0984-0.2623j), ZZYZZ(-0.0984-0.2623j), ZZZYZ(-0.0984-0.2623j), ZZZZY(-0.0984-0.2623j), ZYZZZ(-0.0984-0.2623j), ZXZZZ(+0.0583+0.2461j)
+    #8: IYIII(+0.0359-0.3306j), IIIYI(+0.0359-0.3306j), IIIIY(+0.0359-0.3306j), IIYII(+0.0359-0.3306j), YIIII(+0.0359-0.3306j), XZZZZ(+0.0796+0.1701j)
+    #9: IIIIX(-0.4470+0.0000j), IIIXI(-0.4470-0.0000j), IIXII(-0.4470+0.0000j), IXIII(-0.4470+0.0000j), XIIII(-0.4470+0.0000j), XIZZI(+0.0034+0.0012j)
+
+  Structure analysis:
+    #0: 160 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #1: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #2: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #3: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #4: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #5: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #6: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #7: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #8: 155 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+    #9: 160 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4], types=['X', 'Y']
+
+  CSV comparison: rank(kernel ∪ eigvec) = 10 (expect 10) ✓ same subspace
+
+======================================================================
+N=6: d=64, w=1 sector dim=384, expected kernel dim=12
+======================================================================
+  w=1 basis size: 384 (expected 384)
+  Commutator matrix rank: 372
+  Kernel dimension: 12 (expected 12) ✓
+  Smallest nonzero SV: 4.287187e+00
+  Largest 'zero' SV:    3.935169e-14
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 2.03e-14 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 7.25e-14 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 9.16e-14 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 8.03e-14 [PASS]
+    Kernel vector #4: ||[H,v]||_F = 8.46e-14 [PASS]
+    Kernel vector #5: ||[H,v]||_F = 8.59e-14 [PASS]
+    Kernel vector #6: ||[H,v]||_F = 6.40e-14 [PASS]
+    Kernel vector #7: ||[H,v]||_F = 8.24e-14 [PASS]
+    Kernel vector #8: ||[H,v]||_F = 7.85e-14 [PASS]
+    Kernel vector #9: ||[H,v]||_F = 8.06e-14 [PASS]
+    Kernel vector #10: ||[H,v]||_F = 8.21e-14 [PASS]
+    Kernel vector #11: ||[H,v]||_F = 8.52e-14 [PASS]
+
+  Kernel vectors (top components):
+    #0: IIIIIX(-0.4082-0.0000j), IIIIXI(-0.4082-0.0000j), IIIXII(-0.4082-0.0000j), IIXIII(-0.4082-0.0000j), XIIIII(-0.4082+0.0000j), IXIIII(-0.4082+0.0000j)
+    #1: ZZZXZZ(+0.1167-0.1751j), ZZZZXZ(+0.1167-0.1751j), ZZZZZX(+0.1167-0.1751j), ZXZZZZ(+0.1167-0.1751j), XZZZZZ(+0.1167-0.1751j), ZZXZZZ(+0.1167-0.1751j)
+    #2: ZZIXIZ(+0.0825-0.0285j), ZZIXZI(+0.0825-0.0285j), ZXIIZZ(+0.0825-0.0285j), ZZZIXI(+0.0825-0.0285j), XZIZIZ(+0.0825-0.0285j), ZZXZII(+0.0825-0.0285j)
+    #3: IIIYZI(+0.0734+0.1052j), YIZIII(+0.0734+0.1052j), YIIIIZ(+0.0734+0.1052j), ZIIIIY(+0.0734+0.1052j), YIIIZI(+0.0734+0.1052j), IIIIYZ(+0.0734+0.1052j)
+    #4: IIIIYI(+0.0117-0.0890j), IIIYII(+0.0117-0.0890j), IIYIII(+0.0117-0.0890j), YIIIII(+0.0117-0.0890j), IIIIIY(+0.0117-0.0890j), IYIIII(+0.0117-0.0890j)
+    #5: ZZZZZX(-0.1064+0.0789j), ZZZXZZ(-0.1064+0.0789j), ZZXZZZ(-0.1064+0.0789j), ZZZZXZ(-0.1064+0.0789j), ZXZZZZ(-0.1064+0.0789j), XZZZZZ(-0.1064+0.0789j)
+    #6: YIIIII(+0.1855+0.0230j), IYIIII(+0.1855+0.0230j), IIYIII(+0.1855+0.0230j), IIIIYI(+0.1855+0.0230j), IIIYII(+0.1855+0.0230j), IIIIIY(+0.1855+0.0230j)
+    #7: YIIIII(-0.0489-0.1025j), IYIIII(-0.0489-0.1025j), IIIIYI(-0.0489-0.1025j), IIIIIY(-0.0489-0.1025j), IIIYII(-0.0489-0.1025j), IIYIII(-0.0489-0.1025j)
+    #8: YZZZZZ(+0.0012+0.2973j), ZYZZZZ(+0.0012+0.2973j), ZZZZYZ(+0.0012+0.2973j), ZZYZZZ(+0.0012+0.2973j), ZZZZZY(+0.0012+0.2973j), ZZZYZZ(+0.0012+0.2973j)
+    #9: YZZZZZ(-0.1166+0.1727j), ZYZZZZ(-0.1166+0.1727j), ZZZYZZ(-0.1166+0.1727j), ZZYZZZ(-0.1166+0.1727j), ZZZZYZ(-0.1166+0.1727j), ZZZZZY(-0.1166+0.1727j)
+    #10: ZZZXZZ(-0.1133+0.1614j), ZZZZXZ(-0.1133+0.1614j), XZZZZZ(-0.1133+0.1614j), ZZXZZZ(-0.1133+0.1614j), ZZZZZX(-0.1133+0.1614j), ZXZZZZ(-0.1133+0.1614j)
+    #11: YIIIII(+0.1852+0.1967j), IYIIII(+0.1852+0.1967j), IIIIYI(+0.1852+0.1967j), IIIYII(+0.1852+0.1967j), IIYIII(+0.1852+0.1967j), IIIIIY(+0.1852+0.1967j)
+
+  Structure analysis:
+    #0: 6 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X']
+    #1: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #2: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #3: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #4: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #5: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #6: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #7: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #8: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #9: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #10: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+    #11: 378 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5], types=['X', 'Y']
+
+  CSV comparison: rank(kernel ∪ eigvec) = 12 (expect 12) ✓ same subspace
+
+======================================================================
+N=7: d=128, w=1 sector dim=896, expected kernel dim=14
+======================================================================
+  w=1 basis size: 896 (expected 896)
+  Commutator matrix rank: 882
+  Kernel dimension: 14 (expected 14) ✓
+  Smallest nonzero SV: 4.481637e+00
+  Largest 'zero' SV:    9.085597e-14
+
+  Verification [H, v] = 0:
+    Kernel vector #0: ||[H,v]||_F = 1.21e-13 [PASS]
+    Kernel vector #1: ||[H,v]||_F = 1.51e-13 [PASS]
+    Kernel vector #2: ||[H,v]||_F = 1.73e-13 [PASS]
+    Kernel vector #3: ||[H,v]||_F = 1.81e-13 [PASS]
+    Kernel vector #4: ||[H,v]||_F = 1.64e-13 [PASS]
+    Kernel vector #5: ||[H,v]||_F = 1.74e-13 [PASS]
+    Kernel vector #6: ||[H,v]||_F = 1.66e-13 [PASS]
+    Kernel vector #7: ||[H,v]||_F = 1.82e-13 [PASS]
+    Kernel vector #8: ||[H,v]||_F = 1.36e-13 [PASS]
+    Kernel vector #9: ||[H,v]||_F = 9.30e-14 [PASS]
+    Kernel vector #10: ||[H,v]||_F = 1.73e-13 [PASS]
+    Kernel vector #11: ||[H,v]||_F = 1.55e-13 [PASS]
+    Kernel vector #12: ||[H,v]||_F = 1.72e-13 [PASS]
+    Kernel vector #13: ||[H,v]||_F = 1.21e-13 [PASS]
+
+  Kernel vectors (top components):
+    #0: IIIIIIX(-0.2023-0.0000j), IIIIIXI(-0.2023-0.0000j), IIXIIII(-0.2023-0.0000j), XIIIIII(-0.2023+0.0000j), IXIIIII(-0.2023-0.0000j), IIIIXII(-0.2023+0.0000j)
+    #1: ZZXZZZZ(+0.0766-0.0446j), XZZZZZZ(+0.0766-0.0446j), ZXZZZZZ(+0.0766-0.0446j), ZZZXZZZ(+0.0766-0.0446j), ZZZZZZX(+0.0766-0.0446j), ZZZZZXZ(+0.0766-0.0446j)
+    #2: IXIIIZI(-0.0484+0.0429j), IXIIZII(-0.0484+0.0429j), IXZIIII(-0.0484+0.0429j), IXIIIIZ(-0.0484+0.0429j), IZIIXII(-0.0484+0.0429j), IZXIIII(-0.0484+0.0429j)
+    #3: YIIIIII(-0.0189+0.0830j), IIYIIII(-0.0189+0.0830j), IIIYIII(-0.0189+0.0830j), IYIIIII(-0.0189+0.0830j), IIIIIIY(-0.0189+0.0830j), IIIIIYI(-0.0189+0.0830j)
+    #4: XZZZZZZ(+0.0278-0.0956j), ZXZZZZZ(+0.0278-0.0956j), ZZXZZZZ(+0.0278-0.0956j), ZZZXZZZ(+0.0278-0.0956j), ZZZZZXZ(+0.0278-0.0956j), ZZZZXZZ(+0.0278-0.0956j)
+    #5: YZZZZZZ(+0.0260-0.1016j), ZZYZZZZ(+0.0260-0.1016j), ZYZZZZZ(+0.0260-0.1016j), ZZZZZYZ(+0.0260-0.1016j), ZZZZYZZ(+0.0260-0.1016j), ZZZYZZZ(+0.0260-0.1016j)
+    #6: IIIIIYI(+0.2221-0.0177j), IIIIIIY(+0.2221-0.0177j), IIIYIII(+0.2221-0.0177j), IIIIYII(+0.2221-0.0177j), YIIIIII(+0.2221-0.0177j), IIYIIII(+0.2221-0.0177j)
+    #7: YZZZZZZ(-0.0810-0.0676j), ZZYZZZZ(-0.0810-0.0676j), ZYZZZZZ(-0.0810-0.0676j), ZZZZYZZ(-0.0810-0.0676j), ZZZZZYZ(-0.0810-0.0676j), ZZZZZZY(-0.0810-0.0676j)
+    #8: IIIIIXI(+0.1219+0.0000j), IIIIIIX(+0.1219+0.0000j), IIIXIII(+0.1219+0.0000j), IIXIIII(+0.1219-0.0000j), IIIIXII(+0.1219+0.0000j), IXIIIII(+0.1219-0.0000j)
+    #9: IIIIIIX(+0.2744-0.0000j), IIIIIXI(+0.2744+0.0000j), IIIXIII(+0.2744+0.0000j), IIXIIII(+0.2744+0.0000j), IXIIIII(+0.2744-0.0000j), IIIIXII(+0.2744+0.0000j)
+    #10: XZZZZZZ(-0.0181+0.1493j), ZXZZZZZ(-0.0181+0.1493j), ZZZZZZX(-0.0181+0.1493j), ZZZZXZZ(-0.0181+0.1493j), ZZZXZZZ(-0.0181+0.1493j), ZZZZZXZ(-0.0181+0.1493j)
+    #11: XZZZZZZ(-0.1576+0.1535j), ZXZZZZZ(-0.1576+0.1535j), ZZZXZZZ(-0.1576+0.1535j), ZZXZZZZ(-0.1576+0.1535j), ZZZZXZZ(-0.1576+0.1535j), ZZZZZXZ(-0.1576+0.1535j)
+    #12: ZYZZZZZ(+0.0386-0.0657j), YZZZZZZ(+0.0386-0.0657j), ZZZZYZZ(+0.0386-0.0657j), ZZZYZZZ(+0.0386-0.0657j), ZZYZZZZ(+0.0386-0.0657j), ZZZZZYZ(+0.0386-0.0657j)
+    #13: YZZZZZZ(+0.0368+0.2353j), ZZZZYZZ(+0.0368+0.2353j), ZZYZZZZ(+0.0368+0.2353j), ZYZZZZZ(+0.0368+0.2353j), ZZZZZYZ(+0.0368+0.2353j), ZZZZZZY(+0.0368+0.2353j)
+
+  Structure analysis:
+    #0: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #1: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #2: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #3: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #4: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #5: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #6: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #7: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #8: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #9: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #10: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #11: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #12: 889 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+    #13: 896 nonzero Pauli strings, active positions=[0, 1, 2, 3, 4, 5, 6], types=['X', 'Y']
+
+  CSV comparison: no CSV file for N=7
+
+======================================================================
+CROSS-N PATTERN ANALYSIS
+======================================================================
+
+Check: global spin operators S_x, S_y in kernel?
+  N=2: S_x in kernel: ✓ (||proj||=0.707107)  S_y in kernel: ✓ (||proj||=0.707107)
+  N=3: S_x in kernel: ✓ (||proj||=0.866025)  S_y in kernel: ✓ (||proj||=0.866025)
+  N=4: S_x in kernel: ✓ (||proj||=1.000000)  S_y in kernel: ✓ (||proj||=1.000000)
+  N=5: S_x in kernel: ✓ (||proj||=1.118034)  S_y in kernel: ✓ (||proj||=1.118034)
+  N=6: S_x in kernel: ✓ (||proj||=1.224745)  S_y in kernel: ✓ (||proj||=1.224745)
+  N=7: S_x in kernel: ✓ (||proj||=1.322876)  S_y in kernel: ✓ (||proj||=1.322876)
+
+Kernel vector Z-dressing analysis:
+  N=2 #0: 4 pure (no Z) + 4 Z-dressed = 8 total
+  N=2 #1: 4 pure (no Z) + 4 Z-dressed = 8 total
+  N=2 #2: 4 pure (no Z) + 4 Z-dressed = 8 total
+  N=2 #3: 4 pure (no Z) + 4 Z-dressed = 8 total
+  N=3 #0: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=3 #1: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=3 #2: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=3 #3: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=3 #4: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=3 #5: 6 pure (no Z) + 18 Z-dressed = 24 total
+  N=4 #0: 8 pure (no Z) + 56 Z-dressed = 64 total
+  N=4 #1: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #2: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #3: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #4: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #5: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #6: 4 pure (no Z) + 56 Z-dressed = 60 total
+  N=4 #7: 8 pure (no Z) + 56 Z-dressed = 64 total
+
+Rank formula: rank([H,·]|_{w=1}) = N·2^N - 2N
+  N=2: rank=4, N·2^N - 2N = 4 ✓
+  N=3: rank=18, N·2^N - 2N = 18 ✓
+  N=4: rank=56, N·2^N - 2N = 56 ✓
+  N=5: rank=150, N·2^N - 2N = 150 ✓
+  N=6: rank=372, N·2^N - 2N = 372 ✓
+  N=7: rank=882, N·2^N - 2N = 882 ✓
+
+Nonzero Pauli strings per kernel vector:
+  N=2: [np.int64(8), np.int64(8), np.int64(8), np.int64(8)]  (w=1 sector size: 8)
+  N=3: [np.int64(24), np.int64(24), np.int64(24), np.int64(24), np.int64(24), np.int64(24)]  (w=1 sector size: 24)
+  N=4: [np.int64(64), np.int64(60), np.int64(60), np.int64(60), np.int64(60), np.int64(60), np.int64(60), np.int64(64)]  (w=1 sector size: 64)
+  N=5: [np.int64(160), np.int64(155), np.int64(155), np.int64(155), np.int64(155), np.int64(155), np.int64(155), np.int64(155), np.int64(155), np.int64(160)]  (w=1 sector size: 160)
+  N=6: [np.int64(6), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378), np.int64(378)]  (w=1 sector size: 384)
+  N=7: [np.int64(896), np.int64(896), np.int64(889), np.int64(889), np.int64(896), np.int64(889), np.int64(889), np.int64(889), np.int64(896), np.int64(896), np.int64(889), np.int64(889), np.int64(889), np.int64(896)]  (w=1 sector size: 896)
+
+======================================================================
+X/Y DECOMPOSITION OF KERNEL VECTORS
+======================================================================
+
+N=2: 4 kernel vectors
+  #0:
+    X-type (4): XI(-0.03848), XZ(-0.57827), IX(-0.03848), ZX(-0.57827)
+    Y-type (4): YI(-0.31895), YZ(-0.21055), IY(-0.31895), ZY(-0.21055)
+    X/Y pattern overlap: 4/4
+  #1:
+    X-type (4): XI(+0.67044), XZ(-0.11298), IX(+0.67044), ZX(-0.11298)
+    Y-type (4): YI(+0.16382), YZ(-0.06684), IY(+0.16382), ZY(-0.06684)
+    X/Y pattern overlap: 4/4
+  #2:
+    X-type (4): XI(-0.07798), XZ(+0.20054), IX(-0.07798), ZX(+0.20054)
+    Y-type (4): YI(+0.09764), YZ(-0.59743), IY(+0.09764), ZY(-0.59743)
+    X/Y pattern overlap: 4/4
+  #3:
+    X-type (4): XI(-0.20723), XZ(-0.33362), IX(-0.20723), ZX(-0.33362)
+    Y-type (4): YI(+0.55249), YZ(+0.04765), IY(+0.55249), ZY(+0.04765)
+    X/Y pattern overlap: 4/4
+
+N=3: 6 kernel vectors
+  #0:
+    X-type (12): XII(+0.01073), XZI(-0.23050), XIZ(-0.23050), XZZ(-0.11002), IXI(+0.01073), ZXI(-0.23050), IXZ(-0.23050), ZXZ(-0.11002)
+    Y-type (12): YII(-0.11710), YZI(-0.01524), YIZ(-0.01524), YZZ(-0.32574), IYI(-0.11710), ZYI(-0.01524), IYZ(-0.01524), ZYZ(-0.32574)
+    X/Y pattern overlap: 12/12
+  #1:
+    X-type (12): XII(-0.00831), XZI(+0.04606), XIZ(+0.04606), XZZ(-0.10444), IXI(-0.00831), ZXI(+0.04606), IXZ(+0.04606), ZXZ(-0.10444)
+    Y-type (12): YII(-0.34917), YZI(-0.04275), YIZ(-0.04275), YZZ(+0.07969), IYI(-0.34917), ZYI(-0.04275), IYZ(-0.04275), ZYZ(+0.07969)
+    X/Y pattern overlap: 12/12
+  #2:
+    X-type (12): XII(-0.00469), XZI(+0.13987), XIZ(+0.13987), XZZ(-0.45652), IXI(-0.00469), ZXI(+0.13987), IXZ(+0.13987), ZXZ(-0.45652)
+    Y-type (12): YII(-0.00120), YZI(-0.01539), YIZ(-0.01539), YZZ(-0.03939), IYI(-0.00120), ZYI(-0.01539), IYZ(-0.01539), ZYZ(-0.03939)
+    X/Y pattern overlap: 12/12
+  #3:
+    X-type (12): XII(+0.00956), XZI(+0.13241), XIZ(+0.13241), XZZ(+0.15929), IXI(+0.00956), ZXI(+0.13241), IXZ(+0.13241), ZXZ(+0.15929)
+    Y-type (12): YII(-0.16869), YZI(-0.12305), YIZ(-0.12305), YZZ(-0.27074), IYI(-0.16869), ZYI(-0.12305), IYZ(-0.12305), ZYZ(-0.27074)
+    X/Y pattern overlap: 12/12
+  #4:
+    X-type (12): XII(-0.00379), XZI(+0.02689), XIZ(+0.02689), XZZ(+0.06544), IXI(-0.00379), ZXI(+0.02689), IXZ(+0.02689), ZXZ(+0.06544)
+    Y-type (12): YII(-0.21707), YZI(+0.29001), YIZ(+0.29001), YZZ(-0.12150), IYI(-0.21707), ZYI(+0.29001), IYZ(+0.29001), ZYZ(-0.12150)
+    X/Y pattern overlap: 12/12
+  #5:
+    X-type (12): XII(-0.57708), XZI(-0.00407), XIZ(-0.00407), XZZ(+0.00537), IXI(-0.57708), ZXI(-0.00407), IXZ(-0.00407), ZXZ(+0.00537)
+    Y-type (12): YII(+0.00149), YZI(-0.00348), YIZ(-0.00348), YZZ(-0.01057), IYI(+0.00149), ZYI(-0.00348), IYZ(-0.00348), ZYZ(-0.01057)
+    X/Y pattern overlap: 12/12
+
+N=4: 8 kernel vectors
+  #0:
+    X-type (32): XIII(-0.01169), XZII(-0.20158), XIZI(-0.20158), XZZI(-0.00003), XIIZ(-0.20158), XZIZ(-0.00003), XIZZ(-0.00003), XZZZ(-0.00291)
+    Y-type (32): YIII(-0.03221), YZII(-0.11459), YIZI(-0.11459), YZZI(-0.07797), YIIZ(-0.11459), YZIZ(-0.07797), YIZZ(-0.07797), YZZZ(-0.07118)
+    X/Y pattern overlap: 32/32
+  #1:
+    X-type (28): XZII(+0.08812), XIZI(+0.08812), XZZI(+0.00096), XIIZ(+0.08812), XZIZ(+0.00096), XIZZ(+0.00096), XZZZ(-0.02081), ZXII(+0.08812)
+    Y-type (32): YIII(+0.12479), YZII(-0.10437), YIZI(-0.10437), YZZI(-0.14344), YIIZ(-0.10437), YZIZ(-0.14344), YIZZ(-0.14344), YZZZ(+0.06254)
+    X/Y pattern overlap: 28/32
+  #2:
+    X-type (28): XZII(+0.04021), XIZI(+0.04021), XZZI(+0.16006), XIIZ(+0.04021), XZIZ(+0.16006), XIZZ(+0.16006), XZZZ(+0.19006), ZXII(+0.04021)
+    Y-type (32): YIII(-0.00961), YZII(-0.11205), YIZI(-0.11205), YZZI(+0.10016), YIIZ(-0.11205), YZIZ(+0.10016), YIZZ(+0.10016), YZZZ(+0.09603)
+    X/Y pattern overlap: 28/32
+  #3:
+    X-type (28): XZII(-0.05306), XIZI(-0.05306), XZZI(+0.08643), XIIZ(-0.05306), XZIZ(+0.08643), XIZZ(+0.08643), XZZZ(+0.14146), ZXII(-0.05306)
+    Y-type (32): YIII(-0.06160), YZII(-0.00368), YIZI(-0.00368), YZZI(-0.08673), YIIZ(-0.00368), YZIZ(-0.08673), YIZZ(-0.08673), YZZZ(+0.03260)
+    X/Y pattern overlap: 28/32
+  #4:
+    X-type (28): XZII(-0.03824), XIZI(-0.03824), XZZI(+0.07079), XIIZ(-0.03824), XZIZ(+0.07079), XIZZ(+0.07079), XZZZ(+0.03495), ZXII(-0.03824)
+    Y-type (32): YIII(+0.11953), YZII(-0.00493), YIZI(-0.00493), YZZI(-0.04956), YIIZ(-0.00493), YZIZ(-0.04956), YIZZ(-0.04956), YZZZ(-0.26032)
+    X/Y pattern overlap: 28/32
+  #5:
+    X-type (28): XZII(+0.02195), XIZI(+0.02195), XZZI(-0.02038), XIIZ(+0.02195), XZIZ(-0.02038), XIZZ(-0.02038), XZZZ(+0.15503), ZXII(+0.02195)
+    Y-type (32): YIII(+0.05802), YZII(+0.08115), YIZI(+0.08115), YZZI(+0.06738), YIIZ(+0.08115), YZIZ(+0.06738), YIZZ(+0.06738), YZZZ(-0.15112)
+    X/Y pattern overlap: 28/32
+  #6:
+    X-type (28): XZII(-0.02774), XIZI(-0.02774), XZZI(+0.12567), XIIZ(-0.02774), XZIZ(+0.12567), XIZZ(+0.12567), XZZZ(-0.29919), ZXII(-0.02774)
+    Y-type (32): YIII(+0.03014), YZII(-0.04517), YIZI(-0.04517), YZZI(+0.10064), YIIZ(-0.04517), YZIZ(+0.10064), YIZZ(+0.10064), YZZZ(+0.05590)
+    X/Y pattern overlap: 28/32
+  #7:
+    X-type (32): XIII(-0.49986), XZII(+0.00471), XIZI(+0.00471), XZZI(+0.00000), XIIZ(+0.00471), XZIZ(+0.00000), XIZZ(+0.00000), XZZZ(+0.00007)
+    Y-type (32): YIII(+0.00075), YZII(+0.00268), YIZI(+0.00268), YZZI(+0.00182), YIIZ(+0.00268), YZIZ(+0.00182), YIZZ(+0.00182), YZZZ(+0.00166)
+    X/Y pattern overlap: 32/32
+
+N=5: 10 kernel vectors
+  #0:
+    X-type (80): XIIII(-0.01422), XZIII(-0.08704), XIZII(-0.08704), XZZII(-0.10794), XIIZI(-0.08704), XZIZI(-0.10794), XIZZI(-0.10794), XZZZI(-0.01655)
+    Y-type (80): YIIII(+0.01275), YZIII(-0.00943), YIZII(-0.00943), YZZII(-0.01389), YIIZI(-0.00943), YZIZI(-0.01389), YIZZI(-0.01389), YZZZI(-0.03125)
+    X/Y pattern overlap: 80/80
+  #1:
+    X-type (75): XZIII(+0.02076), XIZII(+0.02076), XZZII(-0.06832), XIIZI(+0.02076), XZIZI(-0.06832), XIZZI(-0.06832), XZZZI(-0.08585), XIIIZ(+0.02076)
+    Y-type (80): YIIII(-0.01986), YZIII(+0.03446), YIZII(+0.03446), YZZII(+0.10961), YIIZI(+0.03446), YZIZI(+0.10961), YIZZI(+0.10961), YZZZI(-0.00096)
+    X/Y pattern overlap: 75/80
+  #2:
+    X-type (75): XZIII(+0.14792), XIZII(+0.14792), XZZII(-0.03897), XIIZI(+0.14792), XZIZI(-0.03897), XIZZI(-0.03897), XZZZI(+0.05605), XIIIZ(+0.14792)
+    Y-type (80): YIIII(-0.08377), YZIII(+0.05094), YIZII(+0.05094), YZZII(-0.03312), YIIZI(+0.05094), YZIZI(-0.03312), YIZZI(-0.03312), YZZZI(+0.01504)
+    X/Y pattern overlap: 75/80
+  #3:
+    X-type (75): XZIII(-0.04429), XIZII(-0.04429), XZZII(-0.01510), XIIZI(-0.04429), XZIZI(-0.01510), XIZZI(-0.01510), XZZZI(+0.07922), XIIIZ(-0.04429)
+    Y-type (80): YIIII(-0.05228), YZIII(-0.02089), YIZII(-0.02089), YZZII(-0.03976), YIIZI(-0.02089), YZIZI(-0.03976), YIZZI(-0.03976), YZZZI(-0.08467)
+    X/Y pattern overlap: 75/80
+  #4:
+    X-type (75): XZIII(+0.00379), XIZII(+0.00379), XZZII(+0.03207), XIIZI(+0.00379), XZIZI(+0.03207), XIZZI(+0.03207), XZZZI(-0.08458), XIIIZ(+0.00379)
+    Y-type (80): YIIII(-0.03955), YZIII(-0.07418), YIZII(-0.07418), YZZII(-0.01322), YIIZI(-0.07418), YZIZI(-0.01322), YIZZI(-0.01322), YZZZI(+0.06344)
+    X/Y pattern overlap: 75/80
+  #5:
+    X-type (75): XZIII(-0.02129), XIZII(-0.02129), XZZII(-0.02600), XIIZI(-0.02129), XZIZI(-0.02600), XIZZI(-0.02600), XZZZI(+0.04145), XIIIZ(-0.02129)
+    Y-type (80): YIIII(-0.06279), YZIII(-0.07998), YIZII(-0.07998), YZZII(-0.01726), YIIZI(-0.07998), YZIZI(-0.01726), YIZZI(-0.01726), YZZZI(+0.10505)
+    X/Y pattern overlap: 75/80
+  #6:
+    X-type (75): XZIII(-0.03801), XIZII(-0.03801), XZZII(+0.04425), XIIZI(-0.03801), XZIZI(+0.04425), XIZZI(+0.04425), XZZZI(+0.01286), XIIIZ(-0.03801)
+    Y-type (80): YIIII(-0.07163), YZIII(+0.05098), YIZII(+0.05098), YZZII(+0.00792), YIIZI(+0.05098), YZIZI(+0.00792), YIZZI(+0.00792), YZZZI(-0.00566)
+    X/Y pattern overlap: 75/80
+  #7:
+    X-type (75): XZIII(+0.02476), XIZII(+0.02476), XZZII(-0.01279), XIIZI(+0.02476), XZIZI(-0.01279), XIZZI(-0.01279), XZZZI(+0.00609), XIIIZ(+0.02476)
+    Y-type (80): YIIII(-0.07784), YZIII(-0.02512), YIZII(-0.02512), YZZII(+0.01711), YIIZI(-0.02512), YZIZI(+0.01711), YIZZI(+0.01711), YZZZI(-0.01440)
+    X/Y pattern overlap: 75/80
+  #8:
+    X-type (75): XZIII(+0.00321), XIZII(+0.00321), XZZII(+0.03264), XIIZI(+0.00321), XZIZI(+0.03264), XIZZI(+0.03264), XZZZI(+0.01823), XIIIZ(+0.00321)
+    Y-type (80): YIIII(+0.03589), YZIII(+0.04782), YIZII(+0.04782), YZZII(-0.02518), YIIZI(+0.04782), YZIZI(-0.02518), YIZZI(-0.02518), YZZZI(-0.03247)
+    X/Y pattern overlap: 75/80
+  #9:
+    X-type (80): XIIII(-0.44699), XZIII(+0.00277), XIZII(+0.00277), XZZII(+0.00343), XIIZI(+0.00277), XZIZI(+0.00343), XIZZI(+0.00343), XZZZI(+0.00053)
+    Y-type (80): YIIII(-0.00041), YZIII(+0.00030), YIZII(+0.00030), YZZII(+0.00044), YIIZI(+0.00030), YZIZI(+0.00044), YIZZI(+0.00044), YZZZI(+0.00099)
+    X/Y pattern overlap: 80/80
+
+======================================================================
+SUMMARY
+======================================================================
+  dim(ker([H,·]|_{w=1})) = 2N confirmed: ✓ ALL N
+
+  Results by N:
+    N=2: kernel dim = 4, expected = 4
+    N=3: kernel dim = 6, expected = 6
+    N=4: kernel dim = 8, expected = 8
+    N=5: kernel dim = 10, expected = 10
+    N=6: kernel dim = 12, expected = 12
+    N=7: kernel dim = 14, expected = 14

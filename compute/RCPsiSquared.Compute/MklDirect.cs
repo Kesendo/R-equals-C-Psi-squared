@@ -187,6 +187,31 @@ public static class MklDirect
     }
 
     /// <summary>
+    /// Eigenvalues AND right eigenvectors from column-major Complex[] array.
+    /// vectors[j * n + i] = i-th component of the j-th eigenvector.
+    /// Uses MathNet z_eigen wrapper. Needs 3 × n×n arrays.
+    /// Good for N ≤ 7.
+    /// </summary>
+    public static unsafe (Complex[] values, Complex[] vectors) EigenvaluesAndVectorsRaw(Complex[] a, int n)
+    {
+        var vectors = new Complex[(long)n * n];
+        var values = new Complex[n];
+        var d = new Complex[(long)n * n];
+
+        fixed (Complex* pA = a)
+        fixed (Complex* pVectors = vectors)
+        fixed (Complex* pValues = values)
+        fixed (Complex* pD = d)
+        {
+            int result = z_eigen(false, n, pA, pVectors, pValues, pD);
+            if (result != 0)
+                throw new InvalidOperationException($"MKL z_eigen failed with code {result}");
+        }
+
+        return (values, vectors);
+    }
+
+    /// <summary>
     /// Eigenvalues ONLY from column-major Complex[] managed array (LP64).
     /// For N ≤ 7 where n² fits in int.MaxValue.
     /// WARNING: input array 'a' is destroyed by LAPACK.

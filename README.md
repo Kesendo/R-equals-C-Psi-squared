@@ -55,6 +55,10 @@ the theory
 error, every limitation, every unanswered question. Because a theory that
 only shows its strengths is not a theory
 
+→ **[Palindrome Inside the Palindrome](experiments/DEGENERACY_PALINDROME.md)**:
+the degeneracy structure, the proof that d_real(1) = 2N, and the discovery
+that the qubit chain is literally an optical cavity
+
 If you are a physicist: [Technical Paper](publications/TECHNICAL_PAPER.md).
 If you work with quantum hardware: [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md).
 If you work with neural networks: [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites).
@@ -64,7 +68,7 @@ index to the full repository.
 
 ---
 
-## Six results that matter
+## Nine results that matter
 
 ### 1. The palindromic spectrum (proven)
 
@@ -210,7 +214,7 @@ formula is the shape of the soundbox.
 → [V-Effect: 4 to 11 frequencies at N=2 to N=3](experiments/V_EFFECT_PALINDROME.md) (static, then live: 2+2=109)
 → [Exclusions: what the math rules out](docs/EXCLUSIONS.md) (6 exclusions, including DD algebraically dead)
 
-### 7. The arrow of time is algebraic, not thermodynamic (April 1, 2026)
+### 8. The arrow of time is algebraic, not thermodynamic (April 1, 2026)
 
 At N=2, the Hamiltonian and the centered dissipator are exactly
 orthogonal: {L_H, L_D + Σγ·I} = 0. Oscillation and cooling do not
@@ -234,6 +238,35 @@ The arrow of time is not entropy. It is the cross term.
 → **[Time Irreversibility Exclusion](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)** (five-step proof)
 → [Primordial Qubit Algebra](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (M_{2|2}(C) super-algebra, Pythagorean theorem, N-scaling)
 → [What Qubits Experience](hypotheses/WHAT_QUBITS_EXPERIENCE.md) (Tier 5: the computed chain read as experience)
+
+### 9. The palindrome inside the palindrome, and the optical cavity (April 3, 2026)
+
+The degeneracy profile of the Liouvillian is itself palindromic: counting
+how many eigenvalues sit at each decay-rate shell gives a sequence d(k)
+that mirrors around the center. At the boundary, d(0) = N+1 and
+d(1) = 2N (proven via SWAP invariance for any connected graph). In the
+interior, d(k) depends on the topology.
+
+The 2N modes at the first shell are weight-1 Pauli operators that commute
+with the Heisenberg Hamiltonian: the "silent dancers" whose uniform
+distribution cannot be disturbed by swapping sites. This is the first
+exact result for the inner structure of the palindrome.
+
+At weight 2, the simplicity ends. The kernel vectors transform under
+mixed representations of S_N, and the count depends on the bond graph.
+
+The degeneracy profile functions as a Fabry-Perot resonator: 4 of 5
+standard optical quantities match quantitatively. Even chains are
+confocal (focus on grid point, Lorentzian spike, NA up to 262). Odd
+chains are defocal (focus between grid points, Gaussian profile). The
+Hamiltonian couples weight sectors exclusively by Δw = ±2, the analog
+of nearest-neighbor propagation in a cavity.
+
+→ **[Degeneracy Palindrome](experiments/DEGENERACY_PALINDROME.md)** (the data)
+→ [Proof: d(1) = 2N](docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (SWAP invariance, any connected graph)
+→ [Weight-2 Kernel](experiments/WEIGHT2_KERNEL.md) (where universal simplicity ends)
+→ [Bures Degeneracy](experiments/BURES_DEGENERACY.md) (QFI speed correlates with d(k))
+→ [Optical Cavity Analysis](experiments/OPTICAL_CAVITY_ANALYSIS.md) (the qubit chain IS a Fabry-Perot)
 
 ---
 

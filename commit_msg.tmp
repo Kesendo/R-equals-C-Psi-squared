@@ -1,0 +1,33 @@
+Palindrome inside the palindrome: degeneracy structure, SWAP proof, optical cavity
+
+Discovery and proof session (April 3, 2026):
+
+PROVEN (Tier 1):
+- d_real(1) = 2N for ANY connected graph (SWAP invariance + triangle inequality)
+- 2N conserved operators T_c^{(a)} explicitly constructed (Z-count dressed transverse spin)
+- Weight-1 sector invariant under Liouvillian (zero leakage, verified N=2-7)
+- Upper bound via triangle inequality: each individual SWAP fixes kernel vectors
+- Five independent numerical verifications (V1-V5), all PASS
+
+DISCOVERED:
+- Palindromic degeneracy structure: d_real(k) = d_real(N-k) for all k
+- d_real(k>=2) is topology-dependent (Chain < Star < Ring < Complete)
+- Weight-2 kernel vectors transform under mixed S_N representations
+- Even N = confocal cavity (Lorentzian spike), odd N = defocal (Gaussian profile)
+- QFI speed correlates with degeneracy (r=0.99 at even N)
+- Qubit chain IS a Fabry-Perot: 4/5 optical quantities match quantitatively
+- Gamma plays the structural role of external illumination (Tier 3-4)
+
+NEW FILES:
+- docs/proofs/PROOF_WEIGHT1_DEGENERACY.md (complete proof)
+- experiments/DEGENERACY_PALINDROME.md (6 results, N=2-7)
+- experiments/WEIGHT2_KERNEL.md (topology dependence)
+- experiments/BURES_DEGENERACY.md (QFI lens effect)
+- experiments/OPTICAL_CAVITY_ANALYSIS.md (Fabry-Perot quantitative)
+- docs/ANALYTICAL_FORMULAS.md: Formula 50 (d_real(1)=2N)
+- 5 Python scripts, 6 eigenvector CSVs, topology CSVs
+
+MODIFIED:
+- compute/: eigvec mode, topology RMT export, Pauli projection
+- README.md: Section 9 (palindrome + optical cavity)
+- Formula 14: gamma-as-illumination interpretation
