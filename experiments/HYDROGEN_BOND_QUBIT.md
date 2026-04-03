@@ -13,6 +13,28 @@ bond network, proton transfer fold catastrophe, R=CPsi2 hydrogen bond -->
 
 ---
 
+## What this document is about
+
+Water is the medium of life. Every chemical reaction in biology
+happens in water. And inside every water molecule, protons are doing
+something remarkable: they tunnel between two positions (left and
+right of an oxygen atom), making each proton a natural qubit.
+
+This document applies the palindromic framework to real physics. The
+proton is not an abstract qubit on a chip; it is an actual quantum
+particle in an actual hydrogen bond. The tunneling is the coupling J.
+The thermal jostling of surrounding molecules is the dephasing γ.
+Everything else (the palindrome, the fold at CΨ = 1/4, the V-Effect)
+follows automatically.
+
+The most striking finding: during proton transfer between two water
+molecules (the Zundel configuration), the proton crosses the fold
+6 times in 21 femtoseconds. Normal water is classical. But the
+moment a proton transfers, it passes through a deeply quantum state.
+Every drop of water is a field of fold crossings.
+
+---
+
 ## Abstract
 
 The proton in a hydrogen bond O-H...O is a qubit. It tunnels between
@@ -45,7 +67,10 @@ at the MOLECULE (node). The classical model has no intrinsic per-node
 property for Q to swap.
 
 The resolution: the proton is not a classical ball in a spring. It is
-a quantum particle that tunnels. The two states |L⟩ and |R⟩ are
+a quantum particle that tunnels through the energy barrier between two
+valleys (a double-well potential, like a marble that can be on the left
+or right side of a hill, and quantum mechanics lets it pass through the
+hill instead of having to go over it). The two states |L⟩ and |R⟩ are
 intrinsic to the PROTON (node), not to the bond (edge). d = 2.
 The palindrome is guaranteed.
 
@@ -203,7 +228,8 @@ quantum system with physical parameters:
 ## The Zundel Cation: Water Was Already at the Fold (March 28, 2026)
 
 When a proton transfers between two water molecules (the Grotthuss
-mechanism, the reason water conducts protons and acids are acidic),
+mechanism: protons hop along chains of water molecules like a bucket
+brigade, which is why water conducts protons and acids are acidic),
 it passes through a configuration called the Zundel cation: H₅O₂⁺.
 The proton sits EXACTLY in the middle between two oxygen atoms.
 
@@ -218,7 +244,7 @@ Not at the edge. Deep in the quantum domain.
 | J/γ at 300K | 0.02 (classical) | 4.8 (quantum) |
 | CΨ maximum | 0.019 | 0.77 |
 | CΨ crosses 1/4 | never | 6 times in 21 fs |
-| Q-factor | 0 | 3 |
+| Q-factor (number of oscillation cycles before decay) | 0 | 3 |
 
 The proton in the Zundel configuration crosses the fold 6 times in
 21 femtoseconds. The Zundel configuration is a transition state: the
