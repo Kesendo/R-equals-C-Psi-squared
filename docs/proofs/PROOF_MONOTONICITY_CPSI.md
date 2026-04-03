@@ -17,7 +17,7 @@ it cannot return (under Markovian dynamics).
 
 **Geometric interpretation (April 2026):** The monotone decrease
 dCΨ/dt < 0 is approximately the gradient flow along the shortest
-Bures geodesic (deviation 9.1 × 10⁻⁴ for N=2 Bell state). Decoherence
+Bures geodesic (the path of minimum statistical distance between quantum states; deviation 9.1 × 10⁻⁴ for N=2 Bell state). Decoherence
 follows the geometrically optimal path to equilibrium.
 See [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md).
 
@@ -43,7 +43,7 @@ where **f = e^{-4γt}** (each Z operator contributes 2γ to off-diagonal decay).
 ### CΨ in closed form
 
 - **Purity:** C = Tr(ρ²) = 2·(1/2)² + 2·(f/2)² = (1 + f²)/2
-- **L₁ coherence:** |ρ₀₃| + |ρ₃₀| = f
+- **L₁ coherence** (sum of absolute values of all off-diagonal elements)**:** |ρ₀₃| + |ρ₃₀| = f
 - **ψ_norm:** Ψ = f/3 (d = 4, so d-1 = 3)
 - **CΨ = C·Ψ = f(1 + f²)/6**
 
@@ -249,13 +249,13 @@ but the peaks always decrease. **Envelope monotonicity confirmed universally.**
 
 Local and collective Z/X noise give identical CΨ trajectories on Bell+.
 Anti-correlated Z noise (Z₁-Z₂) has zero effect on Bell+ (decoherence-free
-subspace - not a violation). **Monotonicity confirmed for all collective
+subspace, a state that is immune to a particular noise type by symmetry; not a violation). **Monotonicity confirmed for all collective
 noise types.**
 
 ### N > 2 subsystems (Test C)
 
 GHZ (N=3,4,5) and W (N=3,4) states: subsystem pair CΨ starts below 1/4
-(monogamy of entanglement for maximally entangled multi-qubit states).
+(monogamy of entanglement: the more qubits share entanglement, the less each pair gets).
 All pairs stay below 1/4 and converge to 0. The N=2 analytical proof
 covers the fundamental mechanism - the 1/4 crossing is a local property
 of each entangled pair.
@@ -341,7 +341,7 @@ sequence.
 The Liouvillian L has eigenvalues λ_k with Re(λ_k) ≤ 0. For any
 non-trivial dephasing, all eigenvalues except the steady state have
 Re(λ_k) < 0. Let σ_max = max_{k: λ_k ≠ 0} Re(λ_k) < 0 be the
-spectral gap.
+spectral gap (the slowest decay rate among all non-stationary modes).
 
 **Step 2: Density matrix element bound.**
 
@@ -355,7 +355,7 @@ where ρ^{(ss)} is the steady state. Therefore:
 
 For local Z-dephasing on 2 qubits, elements ρ_{ij} where |i⟩ and |j⟩
 differ in k qubit positions decay at rate ≥ 2kγ. In the interaction
-picture (rotating with H), the off-diagonal elements satisfy:
+picture (a reference frame that rotates with the Hamiltonian, isolating the effect of noise), the off-diagonal elements satisfy:
 
 |ρ̃_{ij}(t)| = |ρ̃_{ij}(0)| e^{-r_{ij}γ t}
 

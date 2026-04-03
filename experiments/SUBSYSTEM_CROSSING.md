@@ -13,6 +13,18 @@ pair level decoherence measurement, R=CPsi2 subsystem crossing -->
 
 ---
 
+## What this document is about
+
+For systems larger than 3 qubits, the full-system CΨ starts below the
+critical 1/4 boundary and never crosses it. This looked like a problem:
+does the framework break at larger scales? This experiment shows it does
+not. Crossing is a local phenomenon: it happens between individual
+entangled pairs, not at the global system level. A 4-qubit system with
+two Bell pairs has two local crossings (one per pair), even though the
+global CΨ stays below 1/4 the whole time. The framework correctly
+identifies where the quantum-classical transition occurs: wherever
+entanglement lives.
+
 ## Abstract
 
 The N-Scaling Barrier showed that full-system CΨ drops below 1/4 at N ≥ 4.
@@ -54,7 +66,7 @@ subsystems, not at the full-system level.**
 | **dt** | 0.01, t_max = 5.0 |
 
 For each time step:
-1. Evolve the full 4-qubit density matrix under Lindblad dynamics.
+1. Evolve the full 4-qubit density matrix under Lindblad dynamics (the standard master equation for open quantum systems with noise).
 2. Trace out to all 6 qubit pairs (i,j).
 3. For each pair: compute l1-coherence, Psi = l1/3, correlation bridge C,
    concurrence, and the product CΨ.
@@ -64,7 +76,7 @@ Three initial states tested:
 
 | State | Description | Full-system Psi(0) |
 |-------|-------------|-------------------|
-| **GHZ** | (\|0000⟩ + \|1111⟩)/√(2) | 0.067 |
+| **GHZ** (Greenberger-Horne-Zeilinger) | (\|0000⟩ + \|1111⟩)/√(2) | 0.067 |
 | **W** | (\|1000⟩ + \|0100⟩ + \|0010⟩ + \|0001⟩)/2 | 0.200 |
 | **Bell+xBell+** | \|Bell+⟩\_01 x \|Bell+⟩\_23 | 0.200 |
 | **\|+⟩^4** | Product state, no entanglement | 1.000 |
@@ -253,7 +265,7 @@ for i, t in enumerate(tlist):
 1. **Larger systems**: Bell+xBell+xBell+ (N=6). Do all three entangled
    pairs cross independently?
 
-2. **Cluster states**: Graph states have entanglement along specific
+2. **Cluster states**: Graph states (multi-qubit entangled states where each qubit is connected to specific neighbors, forming a graph) have entanglement along specific
    edges. Does the crossing pattern match the graph structure exactly?
 
 3. **Dynamically generated entanglement**: Start from |+⟩^N (C=0), let

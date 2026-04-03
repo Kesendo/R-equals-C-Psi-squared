@@ -28,7 +28,7 @@ be the self-referential purity map where C is the correlation bridge
 
 **Step 1.** Expand R = C(Ψ + R)² to get CR² + (2CΨ - 1)R + CΨ² = 0.
 
-**Step 2.** Discriminant D = (2CΨ - 1)² - 4C²Ψ² = 1 - 4CΨ.
+**Step 2.** Discriminant (the expression under the square root that determines whether solutions are real or complex) D = (2CΨ - 1)² - 4C²Ψ² = 1 - 4CΨ.
 
 **Step 3.** D = 0 iff CΨ = 1/4. D > 0 iff CΨ < 1/4. D < 0 iff CΨ > 1/4.
 This proves (i) and (ii).
@@ -56,7 +56,7 @@ Among all product-power forms C^a Ψ^b that could appear in a purity recursion:
 | C²Ψ (a=2, b=1) | Different quadratic | Different boundary | C² has no standard physical meaning |
 
 The selection principle: Purity is Tr(ρ²), not Tr(ρ³) or Tr(ρ^k) for any
-other k. This is the unique degree-2 Renyi entropy (S₂ = -log Tr(ρ²)).
+other k. This is the unique degree-2 Rényi entropy (a family of entropy measures parameterized by order; S₂ = -log Tr(ρ²)).
 No other Renyi index gives degree 2 in the matrix elements. Therefore
 CΨ² is the unique bifurcating product-power form, and 1/4 is the unique
 boundary.
@@ -70,13 +70,13 @@ unique real-valued, basis-independent, degree-2 polynomial in ρ that equals
 
 ## CPTP Contractivity Argument (Layer 2)
 
-For any completely positive trace-preserving map E that is not unitary:
+For any CPTP (completely positive trace-preserving; the most general physically allowed quantum operation) map E that is not unitary:
 
 1. The l1-norm of coherence is a monotone under all incoherent CPTP maps
    (Baumgratz, Cramer, Plenio, PRL 2014). Therefore Ψ(t) is non-increasing
    under any such map.
 
-2. Purity is non-increasing under unital CPTP maps: Tr(E(ρ)²) ≤ Tr(ρ²).
+2. Purity is non-increasing under unital CPTP maps (channels that map the maximally mixed state to itself): Tr(E(ρ)²) ≤ Tr(ρ²).
    For non-unital maps (amplitude damping), purity may temporarily increase
    but the fixed point has CΨ = 0 (no correlations in product states).
 
