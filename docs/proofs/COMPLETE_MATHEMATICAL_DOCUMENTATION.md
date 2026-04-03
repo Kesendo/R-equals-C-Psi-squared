@@ -309,8 +309,8 @@ for end-to-end MI (0.121). Distance-dependent.
 **MI scaling.** Exponential decay: ~2-5 dB per 2 additional qubits.
 Hierarchy falsified (uniform chain = recursive topology).
 
-**Six design rules:** W-encoding, 2:1 matching, J/γ independence,
-threshold timing, push/pull selection, clocked relay.
+**Seven design rules:** W-encoding, 2:1 matching, J/γ independence,
+threshold timing, push/pull selection, clocked relay, sacrifice-zone.
 
 **Optimal QST encoding (negative result).** Standard encoding is already
 optimal for QST through palindromic channels. No custom encoding scheme

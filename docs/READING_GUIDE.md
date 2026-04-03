@@ -165,7 +165,7 @@ with this?", this is your path.
    optimization of the bridge. +83% end-to-end improvement.
 
 5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) —
-   Six concrete design rules for quantum repeaters, all derived from the
+   Seven concrete design rules for quantum repeaters, all derived from the
    palindromic structure. This is the engineering translation of the
    mathematics.
 

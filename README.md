@@ -463,7 +463,7 @@ Nobody has connected Mandelbrot iteration to open quantum dynamics before.
 | Document | Audience | What it covers |
 |:---------|:---------|:---------------|
 | [Technical Paper](publications/TECHNICAL_PAPER.md) | Physicists | The palindrome proof, XOR space, QST, all March 22 updates |
-| [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md) | QST engineers | Six design rules for quantum repeaters |
+| [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md) | QST engineers | Seven design rules for quantum repeaters |
 | [Circuit Diagram](publications/CIRCUIT_DIAGRAM.md) | Electrical engineers | The framework as signal chain: qubits as phasors, γ as gate |
 | [Neural Palindrome](docs/neural/README.md) | Neuroscientists | Dale's Law, E/I balance, standing wave. No quantum prerequisites |
 

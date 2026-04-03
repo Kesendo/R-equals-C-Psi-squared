@@ -148,5 +148,5 @@ Each level wraps the previous in a pair-mediator-pair structure. Level 3 connect
 ## See also
 
 - [RCPsiSquared.Compute](../RCPsiSquared.Compute/README.md): Spectral analysis engine (diagonalization, palindrome verification, N=2 through N=8)
-- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md): Six design rules derived from Propagate results
+- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md): Seven design rules derived from Propagate results
 - [Complete Mathematical Documentation](../../docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md): The Tafelwerk
