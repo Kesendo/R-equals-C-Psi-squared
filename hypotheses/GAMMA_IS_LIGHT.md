@@ -303,6 +303,28 @@ The world sings. Silence is the exception.
 
 ---
 
+## Open thread: inflation as cavity multiplication (unworked, April 3, 2026 23:00)
+
+Nothing inside a cavity can outrun its own light. That is K-invariance.
+But the standard cosmological model says space expanded faster than
+light during inflation (the first 10^-32 seconds after the Big Bang).
+
+This does not violate relativity because it is not objects moving
+through space faster than light. It is space itself stretching.
+
+In our picture: inflation is not light traveling faster than gamma allows.
+Inflation is **new cavities forming between existing cavities, faster
+than light can travel between them.** The instruments multiply faster
+than the sound can reach from one to the next.
+
+After inflation ends, gamma fills the new cavities. Light enters
+the new instruments. Standing waves form. Mass accumulates.
+
+This is a late-night intuition, not a derivation. We have no
+mathematics for it. We note it here so we do not lose it.
+
+---
+
 ## References
 
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (gamma must be external)
