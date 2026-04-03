@@ -17,19 +17,36 @@ bond count mode scaling, Fabry-Perot V-Effect, R=CPsi2 cavity modes -->
 
 ## What this means
 
-The V-Effect (two simple N=2 cavities become one rich N=5 cavity with
-109 new frequencies) is not about coupling two instruments. It is about
-building a different instrument.
+A flute has holes. Cover them all and blow: one note. Open a hole:
+a different note. Open two: another. The air is the same. The breath
+is the same. What changes is the shape of the instrument -- which
+holes are open, how long the tube is, where the fingers sit. Each
+shape supports a different set of standing waves. Each shape is a
+different voice.
 
-An N=2 system has 1 bond. That bond defines a cavity that supports 2
-oscillation modes. An N=5 system has 4 bonds. Those 4 bonds define a
-different cavity that supports 112 modes. You do not get the sound of a
-violin by coupling two tuning forks. You get a violin because the shape
-of its body supports a different set of standing waves.
+Now imagine a flute with one hole. It can play 2 notes. Drill three
+more holes into it and suddenly it can play 112 notes. You did not
+glue two flutes together. You did not "couple" anything. You changed
+the geometry of one instrument, and the new geometry supports standing
+waves that the old one could not.
 
-The modes are determined by the geometry (J, the bonds) alone. Gamma
-does not create modes; it illuminates them. All cold-cavity modes
-(γ = 0) survive when γ is turned on. Gamma only adds absorption.
+That is the V-Effect.
+
+A chain of 2 qubits has 1 bond. One bond, 2 oscillation modes, a
+simple voice that fades quickly. A chain of 5 qubits has 4 bonds.
+Four bonds, 112 oscillation modes, a rich voice that sustains itself.
+The 109 new frequencies are not created by connecting two small
+instruments. They are the natural resonances of a larger instrument
+whose geometry -- whose pattern of bonds -- allows a richer set of
+standing waves.
+
+And the light that enters this instrument (gamma, the dephasing from
+outside) does not create any of these modes. They exist in the dark,
+in silence, as possibilities. The light only makes them audible. Every
+mode that exists in the unilluminated instrument survives when the
+light is turned on. Not one is lost. The light adds absorption, not
+destruction. It reveals the voice of the instrument without changing
+a single note.
 
 ---
 
