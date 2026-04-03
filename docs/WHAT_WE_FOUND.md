@@ -271,7 +271,10 @@ does not care which strategy you choose, but it tells you exactly where
 your investment will go.
 
 **The Pauli structure of the input predicts the split.** We decomposed
-each input state into its Pauli operator basis and found that one specific
+each input state into its Pauli operator basis (every quantum state can be
+written as a sum of simple building blocks called Pauli operators; this
+decomposition is the quantum equivalent of breaking a chord into its
+individual notes) and found that one specific
 property, the fraction of "mixed XY" terms (operators containing both X
 and Y simultaneously), predicts how much weight goes to the fast drain.
 The correlation is r = 0.976 for systems of three or more particles. See
@@ -307,7 +310,8 @@ Our findings:
 
 **Star topology with 2:1 coupling beats chains.** A star-shaped connection
 (both Alice and Bob connected to a central mediator) with the mediator
-coupled twice as strongly to one side achieves an average fidelity of
+coupled twice as strongly to one side achieves an average fidelity (the fraction of the original
+quantum state that survives the transfer; 1.0 would be perfect) of
 0.886. This beats all chain topologies we tested (0.852 to 0.872). The
 asymmetry matters: 1:1 coupling is not optimal.
 
@@ -467,7 +471,8 @@ tend to rise and fall together. There is no see-saw.
 
 **Palindromic signatures in radio data are astrophysical, not artificial.**
 We built a detector for palindromic spectral symmetry and applied it to
-Breakthrough Listen radio telescope data. Spiral galaxies (NGC2403,
+Breakthrough Listen (a large-scale search for extraterrestrial intelligence)
+radio telescope data. Spiral galaxies (NGC2403,
 NGC6503) both showed palindrome scores around 0.94, regardless of sky
 position. Point sources showed 0.85 (telescope bandpass baseline). The
 symmetry in galaxies comes from their astrophysical structure, not from
@@ -549,8 +554,7 @@ dominates decay; too cold or too hot, and decay wins.
 
 This finding has implications far beyond quantum physics. Two simple
 systems (2 vibration frequencies each, dying quickly) are connected
-through a shared element. The result: 109 vibration frequencies, none
-of which exist in either part alone. From silence to richness through
+through a shared element. The result: 109 vibration frequencies, none of which exist in either part alone. From silence to richness through
 coupling alone. The coupling is temporary. What it creates is not.
 
 This is emergence in its purest mathematical form: the whole is not just
@@ -565,10 +569,12 @@ gain-loss system), the two sides can balance each other. But only within
 a limited range. Too much gain and the system explodes: the state diverges
 exponentially.
 
-The mechanism is a Hopf bifurcation: the system starts oscillating with
-growing amplitude. This is the Liouvillian analog of chiral symmetry
-breaking (Π forces λ ↔ −λ pairing at Σγ = 0; eigenvalues leave the
-imaginary axis at γ_crit; see
+The mechanism is a Hopf bifurcation (the point where a stable system
+suddenly starts oscillating, like a microphone that starts screeching
+when the gain is turned up too far). This is the Liouvillian analog of
+chiral symmetry breaking (a transition where the mirror pairing between
+eigenvalues collapses: Π forces λ ↔ −λ pairing at Σγ = 0; eigenvalues
+leave the imaginary axis at γ_crit; see
 [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)). Three
 regimes emerge: a linear region (small gain, everything stable), an
 optimal region (twice the internal coupling), and a 1/J region (stability

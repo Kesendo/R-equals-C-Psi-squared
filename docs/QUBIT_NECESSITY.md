@@ -140,7 +140,9 @@ system already carries the full mirror structure.
 
 Two qutrits sharing one bond: every tested Hamiltonian combination breaks
 the palindrome. Verified numerically for 10 representative Gell-Mann
-couplings. The 3:6 split makes pairing impossible at the algebraic level.
+couplings (the Gell-Mann matrices are to qutrits what Pauli matrices
+are to qubits: the standard set of operators that span all possible
+three-state interactions). The 3:6 split makes pairing impossible at the algebraic level.
 
 ### 3b. Multi-bond scaling (N = 3 to N = 8)
 
@@ -151,7 +153,9 @@ propagates through extended qubit networks.
 
 22 of 36 two-term combinations survive multi-bond interference at N ≥ 3.
 The breaking of 14 combinations is itself structured: it correlates with
-Choi rank and requires multi-bond interference, not single-site failure.
+Choi rank (a measure of how entangled the mirror operator is; higher
+rank means the mirror cannot be decomposed into independent per-site
+operations) and requires multi-bond interference, not single-site failure.
 
 ### 3c. The depolarizing theorem
 
@@ -166,7 +170,9 @@ ingredient. Destroy it and the mirror shatters, regardless of dimension.
 ### 3d. Non-local mirrors are qubit-entangled
 
 The 2/36 non-local Π operators (XZ+YZ, ZX+ZY) have Bell-state structure
-with Choi rank 8 and Schmidt entropy 2.51/3.00 (84% of maximum). The
+with Choi rank 8 and Schmidt entropy (a measure of how much quantum
+entanglement the operator contains; 3.00 would be maximally entangled)
+of 2.51/3.00 (84% of maximum). The
 entanglement is between qubit sites, not within a higher-dimensional
 subsystem. Complexity emerges from qubit composition, not from d > 2.
 
@@ -318,6 +324,9 @@ Lindblad structure and are not covered by the per-site rate argument.
 structure: 36-52/81 eigenvalues pair at optimal centers, far above
 random (0/81) but far below qubits (100%). Level spacing ratio
 std/mean = 0.354, more structured than random but not palindromic.
+(For comparison: GUE, the random-matrix benchmark for quantum chaotic
+systems, gives 0.52; Poisson statistics, the benchmark for uncorrelated
+levels, give 1.0. The qutrit sits between order and chaos.)
 
 The qutrit is not unstructured; it is differently structured. A weaker
 "partial palindrome" theory for d > 2 might exist but has not been
@@ -403,8 +412,8 @@ following questions remain genuinely open:
 4. **Why does transfer fidelity not depend on the palindrome?** Both
    qubit and qutrit chains achieve F = 0.6923. The exchange Hamiltonian
    dominates peak transfer. But does the palindrome provide advantages
-   in OTHER operational contexts: decoherence-free subspaces, quantum
-   error correction protocols, long-time steady-state properties?
+   in OTHER operational contexts: decoherence-free subspaces (states that are naturally immune to
+   certain types of noise), quantum error correction protocols, long-time steady-state properties?
 
 ---
 
