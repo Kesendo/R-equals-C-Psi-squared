@@ -192,6 +192,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Weight-2 Kernel](WEIGHT2_KERNEL.md) | Topology-dependent commutator kernel at weight 2 |
 | [Bures Degeneracy](BURES_DEGENERACY.md) | QFI speed correlates with degeneracy at even N |
 | [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
+| [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | The V-Effect is not coupling but metamorphosis: 1 bond supports 2 modes, 4 bonds support 112. Degeneracy predicts mode richness (r > 0.999). Gamma illuminates but does not create modes (100% cold-cavity survival). Topology determines the instrument: chain has most modes, star has highest Q. First experiment in the cavity language |
 
 ---
 
