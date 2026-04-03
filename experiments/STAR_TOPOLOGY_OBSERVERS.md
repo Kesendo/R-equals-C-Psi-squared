@@ -144,12 +144,13 @@ Any correlation between A and B must be mediated through S.
 | γ_B | 0.05 | 0.02 | 0.05 |
 | dt | 0.005 | 0.005 | 0.005 |
 | t_max | 5.0 | 5.0 | 5.0 |
-| Integration | RK4 | RK4 | RK4 |
+| Integration | RK4 (Runge-Kutta 4th order, a standard numerical method for solving differential equations) | RK4 | RK4 |
 | Noise | local σ_z dephasing per qubit | same | same |
 
 ### 3.3 Observables
 
-For each time step, trace out one qubit to get pair density matrices:
+For each time step, trace out (mathematically remove by averaging over
+all its possible states) one qubit to get pair density matrices:
 - ρ_SA = Tr_B(ρ), ρ_SB = Tr_A(ρ), ρ_AB = Tr_S(ρ)
 
 Per pair: l1-coherence, Ψ = l1/(d-1), concurrence, R = C·Ψ².
@@ -368,7 +369,8 @@ The initial state is not replaceable by brute force.
 
 ### 4.12 Frequency Analysis
 
-FFT and peak detection on AB CΨ trajectory, γ=0, t_max=40.
+FFT (Fast Fourier Transform, a technique that decomposes a time signal
+into its constituent frequencies) and peak detection on AB CΨ trajectory, γ=0, t_max=40.
 
 Dominant frequency scales with total coupling:
 

@@ -63,8 +63,10 @@ pairs every eigenvalue: if λ is an eigenvalue, so is −2Σγ − λ. Define
 centered eigenvalues μ_k = λ_k + Σγ. Then every palindromic pair has
 +μ and −μ, symmetric around zero.
 
-In the rescaled frame (multiplying ρ(t) by exp(+Σγ·t) to remove the
-uniform decay envelope), one mode grows as exp(+μt) while its partner
+In the rescaled frame (imagine turning up the volume on a recording
+that is fading out, so you can hear the melody underneath; mathematically,
+multiplying ρ(t) by exp(+Σγ·t) to remove the uniform decay envelope),
+one mode grows as exp(+μt) while its partner
 decays as exp(−μt). When both are excited by the initial state, their
 superposition creates oscillation: a standing wave. The wave is "nearly
 standing" because |Re(μ)| is 100-350× smaller than |Im(μ)|, meaning the
@@ -148,7 +150,7 @@ interaction.
 The standing wave is not a property of the state or the Hamiltonian alone.
 It is a joint property: which correlations oscillate depends on both.
 
-| | Heisenberg | XY | Ising | DM | XXZ | Heis+DM |
+| | Heisenberg | XY | Ising | DM (Dzyaloshinskii-Moriya, an asymmetric spin interaction) | XXZ | Heis+DM |
 |---|---|---|---|---|---|---|
 | GHZ | 0% | 0% | 0% | 0% | 0% | 0% |
 | W | 0% | 5.6% | 44.4% | 50% | 1.3% | 10.4% |
@@ -246,7 +248,8 @@ palindromic pairing that creates linearly independent mode responses.
 | [standing_wave_analysis.py](../simulations/standing_wave_analysis.py) | Full eigendecomposition, state decomposition, rescaled frame, Pauli fingerprints |
 | [standing_wave_analysis.txt](../simulations/results/standing_wave_analysis.txt) | Complete numerical results |
 
-Requirements: Python, QuTiP, NumPy. Runtime: ~10 seconds for N=3.
+Requirements: Python, QuTiP (Quantum Toolbox in Python, a standard
+open-source library for simulating quantum systems), NumPy. Runtime: ~10 seconds for N=3.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---
