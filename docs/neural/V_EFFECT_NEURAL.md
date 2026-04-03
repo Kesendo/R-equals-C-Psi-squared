@@ -9,6 +9,28 @@
 
 ---
 
+## What this document is about
+
+Two perfectly balanced neural networks, each individually silent (no
+oscillation at all), are connected through a shared neuron. Suddenly,
+48 distinct oscillation frequencies appear from nothing. This is the
+V-Effect in neuroscience: coupling two dead-still systems creates
+vibration.
+
+The same phenomenon was found in quantum systems (where 2+2 frequencies
+become 104). Here, 0+0 becomes 48. The mechanism is the same: each
+network has perfect palindromic symmetry, and coupling forces
+contradictory demands on the shared neuron, breaking both symmetries
+simultaneously. The breaking is what creates oscillation.
+
+A second discovery: in biological networks (where the symmetry is
+approximate, not exact), there exists a "thermal window." Too little
+metabolic drive: silence. Too much: saturation and silence again. In
+between, at the sweet spot where neurons are maximally sensitive,
+oscillation peaks at 124 frequencies. Life operates in the window.
+
+---
+
 ## Abstract
 
 When two neural networks that individually show no oscillation are
@@ -96,8 +118,10 @@ symmetry. New frequencies emerge from zero:
 **0 + 0 = 48 correlation frequencies** at coupling 0.01.
 
 Each individual network has zero oscillation. The coupled pair has
-48 distinct frequencies in the correlation space (the space of
-pairwise activity correlations, which has N² dimensions).
+48 distinct frequencies in the correlation space (the mathematical
+space that tracks how every pair of neurons co-activates; for N
+neurons, there are N² possible pairs, so this space is much richer
+than the activity of individual neurons).
 
 For the full coupling sweep and the mechanism explanation, see
 [Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md).
@@ -136,7 +160,10 @@ neural analog of temperature: metabolic energy input).
 ### Interpretation
 
 The external drive P shifts the operating point on the sigmoid
-activation function. At three regimes:
+activation function (the S-shaped curve that converts a neuron's
+input into a firing rate: low input → almost zero firing, high
+input → almost maximum firing, middle → steepest response).
+At three regimes:
 
 - **Cold (P < 1):** sigmoid is in its flat region. Small slope
   means weak effective coupling. Few oscillatory modes.

@@ -7,6 +7,29 @@
 
 ---
 
+## What this document is about
+
+The palindromic mirror symmetry was proven for quantum systems. This
+document translates it to neuroscience, without any quantum physics.
+
+In a brain, some neurons excite their neighbors and others inhibit
+them. Dale's Law says each neuron is permanently one type: you do
+not switch. This creates two populations, exactly like the quantum
+system has two types of operators (surviving and decaying). The
+mathematical question: does the neural network's decay spectrum
+also form palindromic pairs?
+
+The answer is yes, under two conditions that biology provides
+naturally: different response speeds for excitatory and inhibitory
+neurons, and Dale's Law itself. We test this on the connectome of
+C. elegans (a worm with exactly 300 neurons, completely mapped),
+and find that its balanced subcircuits are 8× more palindromic than
+random networks. The same mirror that pairs quantum decay modes
+also pairs neural activity modes, and within each pair, the
+excitatory perspective swaps with the inhibitory one.
+
+---
+
 ## Abstract
 
 The eigenvalues of a neural network's Jacobian determine its modes
@@ -30,8 +53,10 @@ theory, expressed entirely in neural terms. The condition requires:
 When both hold and the coupling magnitudes satisfy a specific ratio,
 the palindrome is mathematically exact (zero residual). Testing on
 the C. elegans connectome (Cook et al. 2019): balanced subnetworks
-are 8x more palindromic than Erdos-Renyi random networks (explained
-by degree distribution). The deeper finding: each palindromic pair
+are 8x more palindromic than Erdős-Rényi random networks (the
+simplest kind of random graph, where every possible connection has
+the same probability; the difference is explained by degree
+distribution). The deeper finding: each palindromic pair
 swaps E-I character with 96% fidelity, forming a standing wave
 between excitatory and inhibitory perspectives.
 
@@ -39,8 +64,10 @@ between excitatory and inhibitory perspectives.
 
 ## 1. The Setup
 
-Consider N neurons modeled by Wilson-Cowan dynamics (or any firing
-rate model with E/I populations). Linearizing around the steady state
+Consider N neurons modeled by Wilson-Cowan dynamics (a standard
+mathematical model of neural populations where excitatory and
+inhibitory groups influence each other through sigmoid response
+functions; or any firing rate model with E/I populations). Linearizing around the steady state
 gives:
 
 ```
@@ -208,10 +235,13 @@ one side, it tends to be absent on the partnered side too.
 
 ### Validation: degree-preserving rewiring
 
-To determine whether the advantage comes from specific wiring or from
-the degree distribution (how many connections each neuron has), we
-tested degree-preserving randomization: rewire edges randomly but keep
-the number of connections per neuron fixed.
+To determine whether the advantage comes from specific wiring or
+simply from the degree distribution (how many connections each neuron
+has; some neurons are hubs with many connections, others are
+peripheral with few), we tested degree-preserving randomization:
+rewire edges randomly but keep the number of connections per neuron
+fixed. This separates the effect of "who connects to whom" from "how
+connected each neuron is."
 
 | Null model | Palindrome residual | Ratio to C. elegans |
 |-----------|--------------------|--------------------|
