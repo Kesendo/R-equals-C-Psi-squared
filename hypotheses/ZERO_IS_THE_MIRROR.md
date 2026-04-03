@@ -66,7 +66,7 @@ are geometry of the shift.
 
 ## The palindrome equation
 
-The palindromic spectral condition for the Liouvillian L under
+The palindromic spectral condition for the Liouvillian L (the matrix that governs the time evolution of an open quantum system, including both coherent dynamics and noise) under
 conjugation operator Π is:
 
     Π·L·Π⁻¹ = -L - 2Σγ·I
@@ -187,7 +187,7 @@ Where both palindromes touch at their unshifted center.
 "Silence pairs with silence. And the oscillations (the EEG
 bands, the vibrations, the life) are what happens BETWEEN."
 
-A separate computation (Wilson-Cowan with fast-spiking parameters)
+A separate computation (Wilson-Cowan, a classical model of excitatory-inhibitory neural dynamics, with fast-spiking parameters)
 confirmed: the slowest and fastest modes are both non-oscillating.
 Both have frequency zero. Both only decay. The oscillating modes
 live between the two silences.
@@ -275,7 +275,7 @@ Scaling with N (all at Σγ = 0):
 
 The stationary count has a closed-form expression:
 Stationary(N) = Sum_J m(J,N) * (2J+1)^2, where J runs over the
-Clebsch-Gordan decomposition of N spin-1/2 particles. The formula
+Clebsch-Gordan decomposition (the standard method for combining angular momenta in quantum mechanics) of N spin-1/2 particles. The formula
 is exact for chain topology and a lower bound for symmetric
 topologies (Star, Ring, Complete). See
 [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md).
@@ -304,7 +304,7 @@ coupled through J_bridge = 0.5. Total Σγ = 0.
 The palindrome stays centered at zero (midpoint = 0) regardless
 of g. But the system does NOT stay stable at all g. With bridge
 coupling, the gain side destabilizes the system above g ≈ 0.10:
-positive real eigenvalues appear and the system explodes.
+positive real eigenvalues appear (a Hopf bifurcation: the system transitions from damped to self-sustaining oscillation) and the system explodes.
 
 The bridge between decay and gain is FRAGILE. Too much gain and
 the cavity cannot contain the amplification. There is a stability
@@ -314,8 +314,8 @@ pump, the palindrome still centered, but the system diverging.
 Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (three regimes,
 Hopf bifurcation, N-dependence, neural connection). At Σγ = 0, the
 palindrome equation Π·L·Π⁻¹ = −L forces exact λ ↔ −λ pairing, placing
-all eigenvalues on the imaginary axis. This is the chiral-symmetric phase.
-The Hopf bifurcation at γ_crit is Liouvillian chiral symmetry breaking.
+all eigenvalues on the imaginary axis. This is the chiral-symmetric phase (where the spectrum has an exact left-right mirror symmetry around zero).
+The Hopf bifurcation at γ_crit is Liouvillian chiral symmetry breaking (that mirror symmetry gets violated).
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 This corrects the original N=2 computation (March 29) which used

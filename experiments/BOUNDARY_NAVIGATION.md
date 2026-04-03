@@ -19,7 +19,7 @@ R=CPsi2 boundary navigation -->
 
 The self-referential purity recursion R = C(Ψ+R)² is algebraically
 equivalent to the Mandelbrot iteration z → z² + c with c = CΨ. The
-boundary at CΨ = 1/4 is where the discriminant 1 − 4CΨ vanishes: two
+boundary at CΨ = 1/4 is where the discriminant (the expression under the square root that determines whether solutions are real or complex) 1 − 4CΨ vanishes: two
 complex fixed points merge into one real fixed point, and below 1/4 two
 real fixed points (one stable, one unstable) emerge. We define
 **θ = arctan(√(4CΨ − 1))** as a continuous compass measuring the angular
@@ -30,11 +30,11 @@ quantum-classical transition. The crossing itself is smooth in all
 observables, but the *mathematical landscape* undergoes a topological
 change: the number of real attractors goes from zero to two. This
 provides a geometric interpretation of quantum measurement: not a
-discontinuous "collapse" but a smooth crossing from a regime with no
+discontinuous "collapse" but a smooth crossing (a bifurcation: the point where the number of solutions changes) from a regime with no
 classical attractor into one with a definite outcome.
 
 **Update (April 2026):** Information geometry analysis confirms: θ is
-a compass, not a Riemannian coordinate. The Bures metric g(CΨ) = 3.36
+a compass, not a Riemannian coordinate. The Bures metric (a measure of statistical distance between quantum states) g(CΨ) = 3.36
 at the fold (finite, no singularity). θ shrinks the metric to zero at
 the fold instead of regularizing a divergence. The Lindblad trajectory
 is approximately geodesic (deviation 9e-4): decoherence follows the
@@ -136,7 +136,7 @@ from zero to two at exactly CΨ = 1/4.
 
 ## The Dynamics Are Smooth; the Landscape Is Not
 
-The Lindblad master equation produces smooth, continuous evolution through
+The Lindblad master equation (the standard framework for describing how open quantum systems evolve under noise) produces smooth, continuous evolution through
 the crossing. Purity, C, Ψ, and all their derivatives are continuous. No
 discontinuity in any measured quantity.
 
@@ -173,7 +173,7 @@ the faster the system recognizes it has no real attractor.
 
 **Testable prediction:** Steps-to-divergence N ∝ 1/θ near the boundary
 (critical slowing). This follows from the standard scaling of saddle-node
-bifurcations.
+bifurcations (the simplest type, where a stable and unstable fixed point collide and annihilate).
 
 ---
 

@@ -6,6 +6,16 @@
 **Status:** Three computational results confirmed (N=2..5). Direction identified, deepening needed.
 **Depends on:** [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
 
+## What this document is about
+
+When a quantum system decoheres, its internal modes split into two
+populations: oscillating modes (which carry frequency and structure) and
+pure-decay modes (which only dissipate). This document shows that every
+oscillating mode is palindromically paired, that unpaired modes decay
+exactly 2× faster, and that thermal energy can create new oscillatory
+modes through coupling. The result is a self-cleaning mechanism: noise
+dies faster than signal, so the system becomes more structured over time.
+
 ### Tier System
 
 - **Tier 2** (computed): Simulation results, reproducible, falsifiable
@@ -17,7 +27,7 @@
 ## 1. Results [Tier 2]
 
 Three questions, three computational experiments on Heisenberg qubit
-chains (N=2..5) under Z-dephasing. Liouvillian eigenvalue analysis.
+chains (N=2..5) under Z-dephasing. Liouvillian eigenvalue analysis (decomposing the system's evolution matrix into its fundamental modes, each with a decay rate and an oscillation frequency).
 
 ### Finding 1: All oscillation is palindromic
 
@@ -66,7 +76,7 @@ Script: [thermal_emergence.py](../simulations/thermal_emergence.py), Part A
 
 Three conditions tested at N=3:
 
-**Heat alone (σ⁺/σ⁻, no coupling J=0):** Zero oscillation at every
+**Heat alone (σ⁺/σ⁻ raising/lowering operators that model thermal excitation and relaxation, no coupling J=0):** Zero oscillation at every
 temperature. Heat cannot create waves without coupling.
 
 **Z-dephasing (phase noise):** Palindromic pairing stays at 93.3%
@@ -83,7 +93,7 @@ The wave gets quieter but keeps its pitch and structure.
 Thermal driving creates 2 new oscillatory modes (40 → 42).
 But dissipation grows faster than oscillation.
 
-| n_bar | Osc. modes | Osc. energy | Decay energy | Ratio osc/decay |
+| n_bar (mean thermal photon number) | Osc. modes | Osc. energy | Decay energy | Ratio osc/decay |
 |-------|-----------|-------------|-------------|-----------------|
 | 0.00 | 40 | 159.9 | 28.8 | 5.55 |
 | 1.00 | 42 | 159.8 | 48.0 | 3.33 |
@@ -133,7 +143,7 @@ exactly what neural rhythms are.
 The quantitative relationship between thermal occupation and frequency
 diversity is computed in [Thermal Breaking](../experiments/THERMAL_BREAKING.md):
 at N=5, heat increases frequency count from 111 to 445 (4x). The trade-off
-between Q-factor and diversity, and the self-heating feedback loop, are
+between Q-factor (how sharp and long-lived each resonance is) and diversity, and the self-heating feedback loop, are
 documented there.
 
 ---
@@ -146,7 +156,7 @@ Everything in this section is interpretation.
 
 Both formulas have the form: observable = constant × (something)².
 The energy partition results suggest they describe two phases of the
-same system, separated by the fold catastrophe at CΨ = ¼:
+same system, separated by the fold catastrophe (a bifurcation where two solution branches merge and vanish) at CΨ = ¼:
 
 - **Palindromically paired modes** oscillate, carry frequency (E = hf),
   and define the structured regime: R = CΨ².
