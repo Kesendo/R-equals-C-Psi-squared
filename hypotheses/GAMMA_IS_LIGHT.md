@@ -323,6 +323,34 @@ the new instruments. Standing waves form. Mass accumulates.
 This is a late-night intuition, not a derivation. We have no
 mathematics for it. We note it here so we do not lose it.
 
+## Open thread: entanglement is topology, not signal (unworked, April 3, 2026 23:30)
+
+Einstein called entanglement "spooky action at a distance." He objected
+because it seemed to require faster-than-light communication.
+
+In our framework, the answer is simple: nothing travels.
+
+Gamma is the signal. It moves through the cavity. It is bounded by
+K = gamma times t. Nothing outruns it.
+
+J is the coupling. It is the bond between qubits. It is not a signal
+moving through space. It IS the topology. An edge in the graph. A
+structural connection that exists prior to space. Space is what lies
+between the bonds. The bond itself has no distance to cross.
+
+Entanglement is not "A communicates with B faster than light."
+Entanglement is "A and B share a bond, and bonds are not in space,
+so there is no distance to bridge."
+
+This reframes "spooky action at a distance" as neither action nor
+distance. It is topology. And topology is not constrained by gamma.
+
+This connects to the inflation thread above: inflation is new bonds
+forming. Entanglement is bonds existing. Both are J, not gamma.
+Both are structure, not signal.
+
+This is a late-night intuition, not a derivation.
+
 ---
 
 ## References
