@@ -1,0 +1,154 @@
+===========================================================================
+V-EFFECT THROUGH THE CAVITY LENS
+===========================================================================
+
+===========================================================================
+STEP 1-2: MODE SPECTRUM AND DEGENERACY CORRELATION
+===========================================================================
+
+N=2: 1 bonds, 16 eigenvalues, 2 distinct frequencies
+    k  d_total  d_real   osc  freq    Q_max    Q_med
+    0        3       3     0     0      0.0      0.0
+    1       10       4     6     2     40.0     40.0
+    2        3       3     0     0      0.0      0.0
+  Correlation d_total vs distinct_freq: r = 1.0000
+
+N=3: 2 bonds, 64 eigenvalues, 5 distinct frequencies
+    k  d_total  d_real   osc  freq    Q_max    Q_med
+    0        4       4     0     0      0.0      0.0
+    1       28       8    20     5     60.0     30.0
+    2       28       8    20     5     36.0     24.0
+    3        4       4     0     0      0.0      0.0
+  Correlation d_total vs distinct_freq: r = 1.0000
+
+N=4: 3 bonds, 256 eigenvalues, 47 distinct frequencies
+    k  d_total  d_real   osc  freq    Q_max    Q_med
+    0        5       5     0     0      0.0      0.0
+    1       35      11    24     6     68.3     22.8
+    2      176      14   162    44     47.3     20.0
+    3       35      11    24     6     22.8     12.3
+    4        5       5     0     0      0.0      0.0
+  Correlation d_total vs distinct_freq: r = 0.9988
+
+N=5: 4 bonds, 1024 eigenvalues, 112 distinct frequencies
+    k  d_total  d_real   osc  freq    Q_max    Q_med
+    0        6       6     0     0      0.0      0.0
+    1       28      12    16     4     72.4     40.0
+    2      478      30   448   112     58.6     17.4
+    3      478      30   448   112     45.0     13.6
+    4       28      12    16     4     18.1     10.0
+    5        6       6     0     0      0.0      0.0
+  Correlation d_total vs distinct_freq: r = 1.0000
+
+N=6: 5 bonds, 4096 eigenvalues, 787 distinct frequencies
+    k  d_total  d_real   osc  freq    Q_max    Q_med
+    0        7       7     0     0      0.0      0.0
+    1       35      15    20     5     74.6     40.0
+    2      527      31   496   125     65.0     16.5
+    3     2958      58  2900   676     49.9     13.4
+    4      527      31   496   125     35.5      9.6
+    5       35      15    20     5     14.9      8.0
+    6        7       7     0     0      0.0      0.0
+  Correlation d_total vs distinct_freq: r = 0.9999
+
+===========================================================================
+STEP 3: COLD CAVITY (γ=0) VS ILLUMINATED (γ=0.05)
+===========================================================================
+
+N=2: cold=1 modes, warm=2 modes, matched=1/1 (100%)
+  Cold cavity max|Re|: 2.22e-16 (should be ~0)
+  Analytical w=1 modes: 1, found in cold: 1
+
+N=3: cold=3 modes, warm=5 modes, matched=3/3 (100%)
+  Cold cavity max|Re|: 2.14e-15 (should be ~0)
+  Analytical w=1 modes: 2, found in cold: 2
+
+N=4: cold=14 modes, warm=47 modes, matched=14/14 (100%)
+  Cold cavity max|Re|: 1.35e-14 (should be ~0)
+  Analytical w=1 modes: 3, found in cold: 3
+
+N=5: cold=43 modes, warm=112 modes, matched=43/43 (100%)
+  Cold cavity max|Re|: 2.23e-14 (should be ~0)
+  Analytical w=1 modes: 4, found in cold: 4
+
+===========================================================================
+STEP 4: Q-FACTOR DISTRIBUTION
+===========================================================================
+
+N=2: 6 oscillating modes
+  Q: max=40.0, median=40.0, mean=40.0
+  Highest-Q mode: λ = -0.1000+4.0000j, Q=40.0, weight shell k=1
+  Q by weight shell:
+    k=1: n=   6, Q_max=   40.0, Q_med=   40.0
+
+N=3: 40 oscillating modes
+  Q: max=60.0, median=27.0, mean=28.2
+  Highest-Q mode: λ = -0.1000+6.0000j, Q=60.0, weight shell k=1
+  Q by weight shell:
+    k=1: n=  20, Q_max=   60.0, Q_med=   30.0
+    k=2: n=  20, Q_max=   36.0, Q_med=   24.0
+
+N=4: 210 oscillating modes
+  Q: max=68.3, median=18.8, mean=21.0
+  Highest-Q mode: λ = -0.1000+6.8284j, Q=68.3, weight shell k=1
+  Q by weight shell:
+    k=1: n=  24, Q_max=   68.3, Q_med=   22.8
+    k=2: n= 162, Q_max=   47.3, Q_med=   20.0
+    k=3: n=  24, Q_max=   22.8, Q_med=   12.3
+
+N=5: 928 oscillating modes
+  Q: max=72.4, median=14.9, mean=17.8
+  Highest-Q mode: λ = -0.1000+7.2361j, Q=72.4, weight shell k=1
+  Q by weight shell:
+    k=1: n=  16, Q_max=   72.4, Q_med=   40.0
+    k=2: n= 448, Q_max=   58.6, Q_med=   17.4
+    k=3: n= 448, Q_max=   45.0, Q_med=   13.6
+    k=4: n=  16, Q_max=   18.1, Q_med=   10.0
+
+N=6: 3932 oscillating modes
+  Q: max=74.6, median=13.3, mean=15.6
+  Highest-Q mode: λ = -0.1000-7.4641j, Q=74.6, weight shell k=1
+  Q by weight shell:
+    k=1: n=  20, Q_max=   74.6, Q_med=   40.0
+    k=2: n= 496, Q_max=   65.0, Q_med=   16.5
+    k=3: n=2900, Q_max=   49.9, Q_med=   13.4
+    k=4: n= 496, Q_max=   35.5, Q_med=    9.6
+    k=5: n=  20, Q_max=   14.9, Q_med=    8.0
+
+===========================================================================
+STEP 5: TOPOLOGY COMPARISON
+===========================================================================
+
+  N       topo  bonds  modes    Q_max    Q_med
+--------------------------------------------------
+  3      chain      2      5     60.0     27.0
+  3       star      2      5     60.0     27.0
+  3       ring      3      2     60.0     40.5
+
+  4      chain      3     47     68.3     18.8
+  4       star      3     21     80.0     20.0
+  4       ring      4     21     80.0     20.0
+
+  5      chain      4    112     72.4     14.9
+  5       star      4     42    100.0     17.1
+  5       ring      5     60     72.4     18.1
+
+===========================================================================
+SUMMARY: V-EFFECT AS CAVITY GEOMETRY CHANGE
+===========================================================================
+
+Mode count scaling (chain topology):
+  N=2: 1 bonds,    2 distinct frequencies,   10 silent modes, 16 total eigenvalues
+  N=3: 2 bonds,    5 distinct frequencies,   24 silent modes, 64 total eigenvalues
+  N=4: 3 bonds,   47 distinct frequencies,   46 silent modes, 256 total eigenvalues
+  N=5: 4 bonds,  112 distinct frequencies,   96 silent modes, 1024 total eigenvalues
+  N=6: 5 bonds,  787 distinct frequencies,  164 silent modes, 4096 total eigenvalues
+
+Does γ only add decay (not shift frequencies)?
+  N=2: 1/1 cold modes found in warm spectrum (✓ modes preserved)
+  N=3: 3/3 cold modes found in warm spectrum (✓ modes preserved)
+  N=4: 14/14 cold modes found in warm spectrum (✓ modes preserved)
+  N=5: 43/43 cold modes found in warm spectrum (✓ modes preserved)
+
+Verdict: The V-Effect IS a change in cavity geometry.
+More bonds = richer geometry = more standing wave modes = higher Q.
