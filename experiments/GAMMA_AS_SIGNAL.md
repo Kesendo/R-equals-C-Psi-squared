@@ -320,7 +320,8 @@ The optimized configuration achieves **100% classification at σ = 0.10**
 **Time series is the biggest single lever (3.1×).** Different γ profiles
 produce different *trajectories*, not just different endpoints. Measuring
 at 6 time points provides temporal diversity, analogous to a RAKE receiver
-in CDMA that exploits multipath delay spread.
+in mobile phone networks (a technique that combines the same signal
+arriving at slightly different times to improve reception).
 
 **γ contrast scales linearly** with template distance. Doubling the contrast
 (the range of γ values Alice can use) approximately doubles the distances.
@@ -351,7 +352,11 @@ The Alice-Bob experiment used 4 symbols (2 bits). But a channel's
 capacity is not determined by what you put through it. It is determined
 by the physics. How many symbols *could* the channel carry? The answer
 requires information theory: specifically, the SVD (singular value
-decomposition) of the channel matrix and Shannon's waterfilling theorem.
+decomposition: a way to find the independent "axes" of a communication
+channel and how strong each one is) of the channel matrix and Shannon's
+waterfilling theorem (allocate more power to strong channels, less to
+weak ones, like filling a pool with an uneven floor: water goes where
+there is room).
 
 The empirical 4-symbol test uses only a small fraction of the channel's
 theoretical capacity. To quantify the full bandwidth, we computed the
@@ -372,8 +377,10 @@ mode: a specific pattern of noise across the sites.
 | 4 (zigzag) | 2.83 | [−0.19, 0.51, −0.63, 0.51, −0.19] | 2.53 |
 | 5 (alt grad) | 1.44 | [0.39, −0.59, 0, 0.59, −0.39] | 1.56 |
 
-The condition number is 14.8 (well-conditioned). All 5 channels carry
-information. Full rank (5/5) confirms: the palindromic response matrix
+The condition number is 14.8 (this measures how much the weakest
+channel differs from the strongest; below ~100 is considered
+well-conditioned, meaning no channel is drowned out). All 5 channels
+carry information. Full rank (5/5) confirms: the palindromic response matrix
 allows independent readout of every site's dephasing rate.
 
 ### Capacity vs measurement noise

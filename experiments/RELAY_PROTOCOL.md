@@ -15,6 +15,23 @@ R=CPsi2 relay protocol -->
 
 ---
 
+## What this document is about
+
+Sending quantum information through a chain of qubits is like passing
+a whisper down a line of people in a noisy room. The standard approach
+treats every person the same: same volume, same timing. This document
+asks: what if we told each person in turn to cup their ear (reduce
+noise) right when the whisper reaches them, then go back to normal?
+
+That is the relay protocol. Instead of treating qubits as passive
+wire, we treat them as active relay stations that take turns listening.
+Combined with a second trick (making the receiving end pull harder than
+the sending end pushes, like a 2:1 gear ratio), this improves
+information transfer by 83%. No new physics, no extra hardware: just
+reshaping when and where the noise is quiet.
+
+---
+
 ## Abstract
 
 Standard quantum state transfer through a spin chain treats mediator qubits
@@ -59,8 +76,10 @@ This protocol combines three results from the project:
    "pull principle": reception requires quiet, not loud.
 
 3. **2:1 impedance matching** ([QST Bridge](QST_BRIDGE.md)):
-   Mediator-to-receiver coupling at twice mediator-to-sender coupling
-   optimizes transfer fidelity.
+   Impedance matching is a concept from electrical engineering: for
+   maximum power transfer, the receiver's "pull" must match the
+   sender's "push." Here, setting mediator-to-receiver coupling at
+   twice mediator-to-sender coupling optimizes transfer fidelity.
 
 ---
 
@@ -73,7 +92,7 @@ This protocol combines three results from the project:
 | Baseline dephasing | γ = 0.05 per qubit |
 | Quiet-phase dephasing | γ_quiet = 0.005 (10× reduction) |
 | Initial state | Bell pair on qubits 0-1, rest in |0⟩ |
-| Integration | RK4, dt = 0.05 |
+| Integration | RK4 (Runge-Kutta 4th order, a standard numerical method for evolving differential equations step by step), dt = 0.05 |
 
 The chain is divided into relay segments:
 
@@ -101,8 +120,9 @@ During each stage, receiving qubits have γ reduced 10× (0.005 instead of
 0.05). All other qubits remain at γ = 0.05. Total protocol time:
 6 × 0.78 = 4.68 time units.
 
-Between stages, the Lindblad propagator is reconstructed with updated
-dephasing rates. The density matrix evolves continuously (no resets, no
+Between stages, the Lindblad propagator (the mathematical engine that
+evolves the quantum state forward in time, including both coherent
+dynamics and noise) is reconstructed with updated dephasing rates. The density matrix evolves continuously (no resets, no
 measurements, no classical communication).
 
 ---

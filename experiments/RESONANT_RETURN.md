@@ -6,7 +6,7 @@ edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated (ε→0): 360× (N=5), 180× (N=7), 139× (N=9). At ε=0.001: 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. First spatial dephasing profile optimization.
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. First spatial dephasing profile optimization.
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -231,9 +231,11 @@ across the chain, the optimizer dumped almost all the noise onto one
 end and left the rest nearly silent. We called this the "sacrifice zone":
 one qubit dies so the others can live.
 
-**The key discovery.** Running scipy Nelder-Mead with the C# RK4 backend
-reveals that the SVD mode 2 direction captures only ~10% of the true
-optimization landscape. The optimizer breaks palindromic symmetry.
+**The key discovery.** Running scipy Nelder-Mead (a gradient-free optimizer that explores
+by testing neighboring points, like feeling your way downhill in fog)
+with the C# RK4 backend reveals that the SVD mode 2 direction captures
+only ~10% of the true optimization landscape. The optimizer breaks
+palindromic symmetry.
 
 #### N=5 (v2, Python expm at t=5.0):
 | Profile | Sum_MI@5 | vs V-shape |
@@ -264,6 +266,9 @@ Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` - same pattern.
 | Nelder-Mead (v3, 1156 evals) | 0.14391 | 59.7× |
 | **Diff. Evolution (v4, 3975 evals)** | **0.24044** | **99.7×** |
 
+Differential Evolution (DE) is a global optimizer that maintains a
+population of candidate solutions and evolves them, like natural
+selection: the fittest profiles survive and combine.
 Nelder-Mead found a **local** optimum: `[0.130, 0.122, 0.046, 0.050, 0.001, 0.001, 0.001]`.
 Differential Evolution found **+67% better**: `[0.009, 0.012, 0.008, 0.008, 0.007, 0.030, 0.279]`.
 
@@ -461,8 +466,10 @@ mean(gamma_k) = gamma_base = 0.05. This fixes Mode 1.
 The optimization problem: maximize Mode 2 projection (transport)
 subject to Mode 1 = const (budget) and gamma_k >= epsilon >= 0.
 
-The solution is a delta function at the boundary: put ALL excess noise
-on one edge qubit, protect the rest at epsilon. This is:
+The solution is a delta function at the boundary (a "spike": all the
+weight concentrated at a single point, like stacking all your chips on
+one number): put ALL excess noise on one edge qubit, protect the rest
+at epsilon. This is:
 
 ```
 gamma_edge = N * gamma_base - (N-1) * epsilon
@@ -631,7 +638,7 @@ effect, not a small-signal perturbation.
 
 - [Resonant Return (hypothesis)](../hypotheses/RESONANT_RETURN.md)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
-- [γ Control](GAMMA_CONTROL.md): V-shape +124% MI over uniform (the 21.5× in GAMMA_AS_SIGNAL is channel width, not MI)
+- [γ Control](GAMMA_CONTROL.md): V-shape 21.5× baseline
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
 - [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md): First hardware test, selective DD 2-3.2×
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay

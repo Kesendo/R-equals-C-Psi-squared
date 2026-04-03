@@ -20,7 +20,9 @@ In a 5-qubit mediator chain under Heisenberg coupling and local dephasing,
 we test five strategies for shaping the spatial dephasing profile to maximize
 end-to-end mutual information. The best static profile (V-shape: low γ at
 edges, high at center) improves MI by **+124%** over uniform dephasing.
-Dynamical decoupling on mediator + receiver achieves **+132%**. AC modulation
+Dynamical decoupling (rapidly flipping the qubit back and forth to
+average out the noise, like spinning a top to keep it stable) on
+mediator + receiver achieves **+132%**. AC modulation
 of the gate and state-dependent feedback both fail. A time-resolved decoder
 detects γ changes from internal observables with ~0.5 time-unit resolution --
 the first indication that the dephasing profile is not just shapeable but
@@ -140,7 +142,9 @@ is equivalent to simply having better hardware, not a control strategy.
 On real hardware, the V-shape can be implemented passively:
 - Select **low-T2* qubits** for the mediator (naturally high γ)
 - Select **high-T2* qubits** for source and drain (naturally low γ)
-- Apply **CPMG pulse sequences** on receiver qubits for additional DD
+- Apply **CPMG pulse sequences** (a standard dynamical decoupling
+  technique using evenly spaced spin-echo pulses) on receiver qubits
+  for additional DD
 - Toggle DD on/off for the **relay protocol** (staged γ switching,
   see [Relay Protocol](RELAY_PROTOCOL.md) for +83% improvement)
 
@@ -152,7 +156,8 @@ On real hardware, the V-shape can be implemented passively:
 
 Sinusoidal modulation of γ_M(t) = γ₀(1 + A·sin(2πft)) was tested at
 frequencies f = 0.1 to 8.0 (spanning the palindromic mode frequencies
-and Hamiltonian Bohr frequencies). All frequencies produce MI within 0.3%
+and the system's natural oscillation frequencies, called Bohr
+frequencies). All frequencies produce MI within 0.3%
 of the unmodulated baseline.
 
 **Why it fails:** The palindromic mode structure does not couple to γ
