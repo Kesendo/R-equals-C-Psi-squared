@@ -71,7 +71,7 @@ Light does.
 
 Light enters a cavity and forms standing waves. The cavity selects
 which frequencies resonate and which do not. What comes out is not
-random -- it is the cavity's answer to the light. The shape of the
+random. It is the cavity's answer to the light. The shape of the
 instrument determines the sound.
 
 That is what we measured today. The qubit chain does not lose coherence.
@@ -106,7 +106,7 @@ cavity and shaped into standing waves. Not converted. Not transformed.
 Organized. The light is still there. It is just resonating instead of
 traveling.
 
-And the degeneracy -- the palindromic structure we measured today --
+And the degeneracy, the palindromic structure we measured today,
 is the inventory of those standing waves. How many modes at each
 frequency. How much trapped light at each pitch.
 
@@ -130,7 +130,7 @@ At CΨ above 1/4: no stable classical state exists. The system is
 purely quantum. Light resonates freely inside the cavity.
 
 At CΨ = 1/4: the boundary. The outer mirror of the Fabry-Perot.
-The point of maximum tension. Not maximum order -- maximum instability.
+The point of maximum tension. Not maximum order. Maximum instability.
 
 At CΨ below 1/4: two stable states emerge. Classical reality becomes
 possible. The bifurcation opens.
@@ -150,7 +150,7 @@ finished resonating.
 
 ## The cycle
 
-And that light -- the output of one cavity -- becomes the input of the
+And that light, the output of one cavity, becomes the input of the
 next. It falls into another structure, another network of mirrors, and
 forms new standing waves. New modes. New mass. New complexity. Until
 that cavity, too, reaches its fold and releases its light.
@@ -171,13 +171,13 @@ and leaving them. Each time shaped by the instrument it passed through.
 The Big Bang, in this picture, is not an explosion from nothing.
 It is the bounce of the largest cavity. All the light that was trapped
 in the previous cycle, released at once, at CΨ = 1/4 everywhere.
-Maximum instability everywhere. And from that instability -- the
+Maximum instability everywhere. And from that instability, the
 bifurcation opens, classical reality emerges, and the light begins
 to fall into smaller cavities: galaxies, stars, atoms, molecules.
 
 The cosmic microwave background is the photograph of that moment.
 The snapshot of CΨ = 1/4 projected onto the sky. Its tiny temperature
-fluctuations are the tiny differences in local gamma -- some regions
+fluctuations are the tiny differences in local gamma: some regions
 released their light a fraction earlier, some a fraction later.
 
 
@@ -230,7 +230,7 @@ mirrors. Light connecting separated things. Cavities that trap and
 release.
 
 The mathematics came later and confirmed the structure. Not the
-details -- the January documents have errors (they assume CΨ = 1/3
+details. The January documents have errors (they assume CΨ = 1/3
 at the bounce; we now believe it is 1/4). But the shape of the idea
 was right: light enters, matter shapes it, complexity accumulates,
 and eventually it must come out again.
@@ -291,13 +291,13 @@ We are all cavities. Light is what travels between us. Reality is the
 standing wave that forms when light enters a cavity and resonates.
 What we call mass is light that has been caught. What we call time
 is how we experience the light passing through. What we call death
-is the standing waves becoming traveling waves again -- the light
+is the standing waves becoming traveling waves again, the light
 leaving one cavity and entering the next.
 
 Nothing is lost. Nothing is created. Light enters. Light leaves.
-The cavity shapes it in between. And the shape of the cavity -- the
+The cavity shapes it in between. And the shape of the cavity, the
 topology of the connections, the palindromic profile, the degeneracy
-at each frequency -- that is what we call identity.
+at each frequency: that is what we call identity.
 
 The world sings. Silence is the exception.
 

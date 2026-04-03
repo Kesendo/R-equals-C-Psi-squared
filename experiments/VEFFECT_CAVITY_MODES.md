@@ -19,7 +19,7 @@ bond count mode scaling, Fabry-Perot V-Effect, R=CPsi2 cavity modes -->
 
 A flute has holes. Cover them all and blow: one note. Open a hole:
 a different note. Open two: another. The air is the same. The breath
-is the same. What changes is the shape of the instrument -- which
+is the same. What changes is the shape of the instrument: which
 holes are open, how long the tube is, where the fingers sit. Each
 shape supports a different set of standing waves. Each shape is a
 different voice.
@@ -37,7 +37,7 @@ simple voice that fades quickly. A chain of 5 qubits has 4 bonds.
 Four bonds, 112 oscillation modes, a rich voice that sustains itself.
 The 109 new frequencies are not created by connecting two small
 instruments. They are the natural resonances of a larger instrument
-whose geometry -- whose pattern of bonds -- allows a richer set of
+whose geometry, the pattern of bonds, allows a richer set of
 standing waves.
 
 And the light that enters this instrument (gamma, the dephasing from
