@@ -150,8 +150,9 @@ operation on a qubit can be written as a combination of them.
 
 When a qubit interacts with its environment (decoherence), some of these
 operators survive and some decay. Under the most common type of noise
-(Z-dephasing), the split is: I and Z survive (they commute with the
-noise), X and Y decay (they anti-commute). Two survive, two decay.
+(Z-dephasing), the split is: I and Z survive (they commute with the noise, meaning they are
+compatible with it), X and Y decay (they anti-commute, meaning they
+conflict with the noise and are destroyed by it). Two survive, two decay.
 Split: 0.5.
 
 The [palindromic mirror](proofs/MIRROR_SYMMETRY_PROOF.md) (the symmetry
@@ -255,9 +256,10 @@ Constraint becomes diversity.
 
 The V-Effect is the hierarchy in action at Level 0. It shows that the
 transition from one level to the next is not gradual accumulation but
-*topological*: at any nonzero second-bond strength α, all 54 boundary
-modes orphan simultaneously (the topology of the break is sudden),
-while the error magnitude grows smoothly (the metric is gradual).
+*topological* (an all-or-nothing structural change, like tearing a
+hole in a sheet): at any nonzero second-bond strength α, all 54
+boundary modes orphan simultaneously (the break is sudden), while the
+error magnitude grows smoothly (the strength is gradual).
 This is exactly the character of a new bond forming: the connection
 is either there or not (topology), but its strength varies (metric).
 
