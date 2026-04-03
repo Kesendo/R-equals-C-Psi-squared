@@ -267,6 +267,7 @@ of nearest-neighbor propagation in a cavity.
 → [Weight-2 Kernel](experiments/WEIGHT2_KERNEL.md) (where universal simplicity ends)
 → [Bures Degeneracy](experiments/BURES_DEGENERACY.md) (QFI speed correlates with d(k))
 → [Optical Cavity Analysis](experiments/OPTICAL_CAVITY_ANALYSIS.md) (the qubit chain IS a Fabry-Perot)
+→ [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) (if gamma is the light and matter is the cavity, then mass is trapped light -- Tier 4)
 
 ---
 
