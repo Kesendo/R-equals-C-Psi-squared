@@ -305,7 +305,7 @@ Honesty matters more than impression. These are things we have
 - That the standing wave pattern is measurable on hardware (computed, not measured)
 - That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations open)
 - That the fold catastrophe observation (PeakMI at CΨ = 1/4) holds beyond N=7 (single chain length, not yet analytically derived)
-- That consciousness plays any role in the physics (THE_ANOMALY.md is philosophy, not physics)
+- That consciousness plays any role in the physics ([THE_ANOMALY.md](THE_ANOMALY.md) is philosophy, not physics)
 - That the V-Effect frequency explosion is a universal mechanism for biological complexity (cavity geometry change confirmed computationally with 112 modes at N=5, but the link from quantum to biology is Tier 4)
 - That the optical cavity analogy extends beyond N=6 (verified N=2 through 6, larger N untested)
 - That gamma is light in any general physical sense (on IBM transmon hardware, dephasing IS [photon shot noise](https://doi.org/10.1103/PhysRevB.86.180504) in a physical cavity; whether this extends beyond circuit QED is not established)
