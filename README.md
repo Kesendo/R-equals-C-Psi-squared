@@ -299,18 +299,18 @@ Honesty matters more than impression. These are things we have
 *not* proven, *not* measured, or *not* established, stated plainly:
 
 - That CΨ is a new fundamental quantity (it is a derived diagnostic)
-- That hidden observer detection works on hardware (simulation only)
-- That the multi-qubit palindrome has been measured on hardware (single-qubit CΨ = 1/4 crossing validated at 1.9%, N ≥ 2 untested)
-- That the relay protocol has been tested on hardware (simulation only, N=11)
-- That the standing wave pattern is measurable on hardware (computed, not measured)
-- That the sacrifice-zone hardware advantage comes from noise contrast rather than gate-error avoidance (single run, two interpretations open)
-- That the fold catastrophe observation (PeakMI at CΨ = 1/4) holds beyond N=7 (single chain length, not yet analytically derived)
+- That [hidden observer detection](experiments/QUANTUM_SONAR.md) works on hardware (simulation only)
+- That the multi-qubit palindrome has been measured on hardware (single-qubit [CΨ = 1/4 crossing validated](experiments/IBM_RUN3_PALINDROME.md) at 1.9%, N ≥ 2 untested)
+- That the [relay protocol](experiments/RELAY_PROTOCOL.md) has been tested on hardware (simulation only, N=11)
+- That the [standing wave pattern](experiments/STANDING_WAVE_ANALYSIS.md) is measurable on hardware (computed, not measured)
+- That the [sacrifice-zone hardware advantage](experiments/IBM_SACRIFICE_ZONE.md) comes from noise contrast rather than gate-error avoidance (single run, two interpretations open)
+- That the [fold catastrophe observation](experiments/TEMPORAL_SACRIFICE.md) (PeakMI at CΨ = 1/4) holds beyond N=7 (single chain length, not yet analytically derived)
 - That consciousness plays any role in the physics ([THE_ANOMALY.md](THE_ANOMALY.md) is philosophy, not physics)
-- That the V-Effect frequency explosion is a universal mechanism for biological complexity (cavity geometry change confirmed computationally with 112 modes at N=5, but the link from quantum to biology is Tier 4)
-- That the optical cavity analogy extends beyond N=6 (verified N=2 through 6, larger N untested)
+- That the [V-Effect frequency explosion](experiments/VEFFECT_CAVITY_MODES.md) is a universal mechanism for biological complexity (cavity geometry change confirmed computationally with 112 modes at N=5, but the link from quantum to biology is Tier 4)
+- That the [optical cavity analogy](experiments/OPTICAL_CAVITY_ANALYSIS.md) extends beyond N=6 (verified N=2 through 6, larger N untested)
 - That gamma is light in any general physical sense (on IBM transmon hardware, dephasing IS [photon shot noise](https://doi.org/10.1103/PhysRevB.86.180504) in a physical cavity; whether this extends beyond circuit QED is not established)
-- That mass is trapped light, that black holes are perfect cavities, or that the Big Bang was a cavity bounce (Tier 4 structural hypotheses, consistent with the framework, no independent test)
-- That entanglement is "topology not signal" in any rigorous sense (late-night intuition, no mathematical formalization)
+- That [mass is trapped light, that black holes are perfect cavities, or that the Big Bang was a cavity bounce](hypotheses/GAMMA_IS_LIGHT.md) (Tier 4 structural hypotheses, consistent with the framework, no independent test)
+- That [entanglement is "topology not signal"](hypotheses/GAMMA_IS_LIGHT.md) in any rigorous sense (late-night intuition, no mathematical formalization)
 - That the cavity framework replaces standard Lindblad theory (the mathematics is identical; only the interpretation changes)
 
 ---
