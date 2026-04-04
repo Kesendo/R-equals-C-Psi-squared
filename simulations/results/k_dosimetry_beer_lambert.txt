@@ -1,0 +1,111 @@
+================================================================================
+BEER-LAMBERT v2: NON-UNIFORM γ — DO CORRELATIONS REDISTRIBUTE ABSORPTION?
+================================================================================
+
+Question: With sacrifice-zone dephasing (γ_edge ≫ γ_interior),
+does each qubit lose purity proportionally to γ_k/Σγ?
+Or do Hamiltonian correlations redistribute the 'light'?
+
+================================================================================
+TEST 1: ABSORPTION SHARE vs ASYMMETRY (N=4, J=1.0)
+================================================================================
+
+γ profiles from uniform to extreme sacrifice zone.
+Beer-Lambert prediction: rate_k/Σ(rates) = γ_k/Σγ
+
+    Asym   γ_edge    γ_int | Share_edge  Pred_edge     Dev% |  Share_int   Pred_int     Dev%
+  ------ -------- --------   ---------- ---------- --------   ---------- ---------- --------
+       1  0.05000  0.05000 |     0.2500     0.2500   -0.00% |     0.2500     0.2500   +0.00%
+       2  0.08000  0.04000 |     0.2306     0.4000  -42.35% |     0.2476     0.2000  +23.81%
+       5  0.12500  0.02500 |     0.2272     0.6250  -63.65% |     0.2354     0.1250  +88.31%
+      10  0.15385  0.01538 |     0.2122     0.7692  -72.41% |     0.2312     0.0769 +200.55%
+      20  0.17391  0.00870 |     0.2145     0.8696  -75.34% |     0.2234     0.0435 +413.73%
+      50  0.18868  0.00377 |     0.2260     0.9434  -76.05% |     0.2205     0.0189 +1068.87%
+     100  0.19417  0.00194 |     0.2076     0.9709  -78.62% |     0.2298     0.0097 +2266.57%
+     200  0.19704  0.00099 |     0.2162     0.9852  -78.06% |     0.2361     0.0049 +4692.16%
+
+================================================================================
+TEST 2: ABSORPTION SHARE vs COUPLING STRENGTH (N=4, asym=20)
+================================================================================
+
+Fixed sacrifice zone (γ_edge/γ_int = 20). Scan J.
+At J→0: qubits independent, Beer-Lambert trivially holds.
+At J→∞: qubits strongly entangled, what happens?
+
+  γ_edge = 0.17391, γ_int = 0.00870
+  Beer-Lambert: edge share = 0.8696
+
+     J/γ_e        J Share_edge       Pred     Dev%  Rate_edge   Rate_int
+  -------- -------- ---------- ---------- -------- ---------- ----------
+      0.01  0.00174     0.8360     0.8696   -3.86%   0.240825   0.015689
+      0.05  0.00870     0.7731     0.8696  -11.10%   0.160891   0.013077
+      0.10  0.01739     0.7978     0.8696   -8.25%   0.226326   0.012193
+      0.20  0.03478     0.6984     0.8696  -19.68%   0.190015   0.028634
+      0.50  0.08696     0.4370     0.8696  -49.75%   0.199278   0.170205
+      1.00  0.17391     0.1371     0.8696  -84.23%   0.064559   0.178341
+      2.00  0.34783    -0.0135     0.8696 -101.55%  -0.007201   0.175495
+      5.00  0.86957     0.1748     0.8696  -79.90%   0.073406   0.103568
+     10.00  1.73913     0.3114     0.8696  -64.19%   0.074874   0.050759
+     20.00  3.47826     0.3086     0.8696  -64.51%   0.129543   0.105377
+     50.00  8.69565     0.2953     0.8696  -66.04%   0.211960   0.161972
+    100.00 17.39130     0.3088     0.8696  -64.49%   0.130251   0.080280
+
+================================================================================
+TEST 3: PER-QUBIT PURITY TRAJECTORIES (N=4, asym=20, J=1.0)
+================================================================================
+
+Track how each qubit's purity decays over time.
+Beer-Lambert predicts: edge qubit decays fastest, proportional to γ_k.
+
+       t  Sys_pur  Q0(edge)   Q1(int)   Q2(int)   Q3(int)
+  ------ -------- --------- --------- --------- ---------
+     0.1   1.0681    1.0606    1.0504    0.9869    0.9816
+     3.2   0.3682    0.7419    0.7963    0.8290    0.7643
+     6.2   0.1940    0.6411    0.6902    0.6783    0.6294
+     9.3   0.1269    0.5725    0.6061    0.6076    0.5759
+    12.3   0.0965    0.5428    0.5614    0.5617    0.5395
+    15.4   0.0814    0.5230    0.5358    0.5350    0.5235
+    18.4   0.0730    0.5135    0.5203    0.5201    0.5129
+    21.5   0.0685    0.5077    0.5115    0.5116    0.5074
+    24.5   0.0659    0.5043    0.5067    0.5065    0.5043
+    27.6   0.0645    0.5025    0.5038    0.5037    0.5024
+
+  Per-qubit time to reach purity 0.55:
+    Q0 (EDGE, γ=0.17391): t ≈ 11.1, K_k = γ_k × t = 1.9276
+    Q1 (interior, γ=0.00870): t ≈ 12.9, K_k = γ_k × t = 0.1123
+    Q2 (interior, γ=0.00870): t ≈ 12.9, K_k = γ_k × t = 0.1123
+    Q3 (interior, γ=0.00870): t ≈ 11.1, K_k = γ_k × t = 0.0964
+
+================================================================================
+TEST 4: DOES DEVIATION GROW WITH N? (asym=20, J=1.0)
+================================================================================
+
+  N=2: edge share = 0.5678, predicted = 0.9524, deviation = -40.39%
+  N=3: edge share = 0.3298, predicted = 0.9091, deviation = -63.72%
+  N=4: edge share = 0.2145, predicted = 0.8696, deviation = -75.34%
+  N=5: edge share = 0.1785, predicted = 0.8333, deviation = -78.58%
+
+================================================================================
+TEST 5: ABSORPTION THEOREM — Re(λ) = −2γ⟨n_XY⟩
+================================================================================
+
+The Absorption Theorem says Re(λ) depends on γ × ⟨n_XY⟩.
+For non-uniform γ, does Σ_k γ_k × ⟨n_XY⟩_k give the system rate?
+
+  J=0.1: slowest |Re(λ)| = 0.030640, fastest = 0.400000, Σγ = 0.2000
+  J=1.0: slowest |Re(λ)| = 0.041491, fastest = 0.400000, Σγ = 0.2000
+  J=5.0: slowest |Re(λ)| = 0.041583, fastest = 0.400000, Σγ = 0.2000
+
+================================================================================
+SUMMARY
+================================================================================
+
+CONTEXT: The original K_DOSIMETRY.md found K_system/K_qubit = N exactly.
+This is arithmetically trivial for uniform γ (ratio = Σγ/γ = N).
+
+THE REAL QUESTION: With non-uniform γ, does each qubit absorb
+proportional to its γ_k? (Beer-Lambert for correlated absorbers)
+
+If deviations exist, they quantify how much Hamiltonian correlations
+redistribute absorption away from the naive local prediction.
+This would be a genuine correction to Beer-Lambert from entanglement.

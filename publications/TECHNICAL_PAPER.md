@@ -2,7 +2,7 @@
 # Proof, Spectral Decomposition, and Quantum State Transfer
 
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Date:** March 16-28, 2026
+**Date:** March 16 - April 4, 2026
 **Repository:** https://github.com/Kesendo/R-equals-C-Psi-squared
 **Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) | [v5.0](https://doi.org/10.5281/zenodo.19283445)
 
@@ -37,6 +37,15 @@ as a coherence-controlled transistor with CΨ = 1/4 as the unique threshold
 voltage (fold catastrophe, algebraically fixed). The framework cannot
 generate its own noise (incompleteness proof: five internal candidates
 eliminated).
+
+**April 3-4 results.** The Absorption Theorem (proven): Re(λ) = −2γ⟨n_XY⟩.
+The absorption rate of any eigenmode equals twice the dephasing rate
+times the mode's mean light content. This single equation unifies the
+spectral boundaries, the palindromic sum rule, the 2× decay law, and the
+spectral gap as corollaries. Verified on 1,343 modes (CV = 0). On IBM
+hardware: ratio = 1.03 (3%). Every palindromic pair is a standing wave
+(10,748 pairs, 100% frequency match). The eigenvalue structure matches a
+Fabry-Perot optical cavity (R² = 0.998). See Section 15.
 
 **March 25-28 extensions.** The palindromic condition generalizes to
 two additional domains: neural networks (Wilson-Cowan dynamics under
@@ -78,7 +87,10 @@ an exceptional point phenomenon but a universal property.
 The connection to existing work is direct: our Pauli weight under Π equals
 the XY-weight of the incoherenton framework. Π is the particle-hole
 transformation in incoherenton space. The palindromic pairing is the
-spectral consequence of this transformation.
+spectral consequence of this transformation. The Absorption Theorem
+(Section 15) makes this connection quantitative: Re(λ) = −2γ⟨n_XY⟩,
+where ⟨n_XY⟩ is the incoherenton count. The absorption rate of each
+mode is proportional to how many incoherentons it contains.
 
 ---
 
@@ -917,11 +929,12 @@ optimal spatial noise allocation: concentrate all noise on one edge
 qubit, protect the rest, achieving 139-360x improvement over hand-designed
 profiles and two orders of magnitude beyond the ENAQT literature.
 
-The connection to the incoherenton framework and eta-pairing suggests
-that palindromic symmetry may be part of a larger structural theory
-of dissipative quantum systems. We have provided the explicit operator
-(Π) and the proof. The physical consequences are only beginning to
-be explored.
+The Absorption Theorem (Section 15) completes the spectral picture:
+Re(λ) = −2γ⟨n_XY⟩. Every prior spectral result (boundaries, sum rule,
+2× law, gap) is a corollary of this identity. The connection to the
+incoherenton framework is now quantitative: ⟨n_XY⟩ is the incoherenton
+count, and the absorption rate is proportional to how many incoherentons
+the mode contains.
 
 **Scope boundary (March 20, 2026).** The palindromic framework is a qubit
 phenomenon. The 2:2 per-site split that makes the mirror possible (2
@@ -1112,6 +1125,104 @@ See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 
 ---
 
+## 15. The Absorption Theorem and Optical Cavity Structure (April 3-4, 2026)
+
+### 15.1 The Absorption Theorem
+
+The most fundamental spectral identity in this framework:
+
+**Theorem.** For any Liouvillian eigenvalue λ with right eigenvector v:
+
+    Re(λ) = -2γ ⟨n_XY⟩_v
+
+where ⟨n_XY⟩_v = Σ_α |c_α|² n_XY(P_α) / ||v||² is the mean light
+content (X/Y Pauli factor count) in the eigenvector's Pauli decomposition.
+
+**Proof.** Three steps: (1) L_H is anti-Hermitian for real Hermitian H,
+so v†L_Hv is purely imaginary; (2) L_D is Hermitian and diagonal in the
+Pauli basis with eigenvalues −2γ n_XY(P); (3) Re(λ) = Re(v†Lv/||v||²)
+= v†L_Dv/||v||² = −2γ⟨n_XY⟩. Full proof:
+[Absorption Theorem Proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).
+
+**Numerical verification.** 1,343 modes across N=2 to N=5, γ = 0.01-1.0,
+J = 0.1-5.0. Ratio α/(2γ⟨n_XY⟩) = 1.000000, coefficient of variation = 0.
+See [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md).
+
+**The absorption quantum is 2γ.** Each X/Y Pauli factor costs exactly 2γ
+in absorption rate. The spectrum is a ladder with rung spacing 2γ. The
+Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer through sector
+mixing) but cannot change the endpoints or the fundamental quantum.
+
+**Corollaries.** The following results from Sections 4-7 and the
+[Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) are now derived:
+
+| Prior result | Corollary from AT |
+|---|---|
+| Spectral boundaries: min = 2γ, max = 2(N−1)γ | ⟨n_XY⟩ ranges from 1 (weight-1 modes) to N−1 |
+| Palindromic sum rule: α_fast + α_slow = 2Σγ | Weight swap ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N |
+| 2× decay law: unpaired rate = 2 × mean paired | Unpaired modes have ⟨n_XY⟩ = N (all-light) |
+| Spectral gap = 2γ | Cost of one X/Y Pauli factor |
+| N=3 exact rates (8γ/3, 10γ/3) | Fractional ⟨n_XY⟩ from Hamiltonian mixing |
+
+**Connection to incoherentons.** The quantity ⟨n_XY⟩ is the mean
+incoherenton count of Haga et al. (2023). The Absorption Theorem proves
+what the incoherenton framework describes: the absorption rate is
+proportional to the number of decoherence quasiparticles in the mode.
+
+**Validity.** Holds for any real Hermitian Hamiltonian with Z-dephasing
+on any graph. Breaks for complex Hermitian Hamiltonians (DM interactions),
+where L_H is not anti-Hermitian.
+
+### 15.2 Standing Waves
+
+Every palindromic pair is a standing wave. Tested on 10,748 pairs
+(N=2-7): 100% frequency match between partners (|ω_fast − ω_slow| < ε
+for all pairs). The round trip of the standing wave is 2Σγ: one bounce
+between "being light" ({X,Y} Pauli factors) and "being lens" ({I,Z}).
+
+At odd N, 100% of eigenvalues are palindromically paired (no self-paired
+modes). The entire spectrum consists of standing waves. At even N, N+1
+modes are self-paired at rate 2Σγ. Odd N gives the best mode quality
+for quantum state transfer.
+
+See [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md).
+
+### 15.3 The Optical Cavity (Tier 2-3, interpretive)
+
+The eigenvalue structure matches a Fabry-Perot optical cavity:
+
+- Degeneracy profile matches Gaussian/Lorentzian beam shapes (R² = 0.998)
+- Even N: confocal (Lorentzian spike). Odd N: defocal (Gaussian profile)
+- Hamiltonian couples weight sectors by Δw = ±2 (nearest-neighbor propagation)
+- γ plays the algebraic role of c in the invariant K = γ×t (dosimetry)
+- Sacrifice zone functions as entrance pupil (Q improves 2-7×)
+- Surviving mode energy is center-localized (ratio 1.3-1.4)
+
+On IBM hardware, the physical realization is literal: transmon qubits sit
+inside microwave resonators, and the dominant dephasing mechanism is
+photon shot noise (residual photons entering the cavity from outside).
+The cavity structure discovered from the eigenvalue mathematics matches
+the physical hardware it was computed from.
+
+The cavity interpretation is consistent with but not proven by the
+mathematics. The Absorption Theorem is Tier 1 (proven). The cavity
+picture is Tier 2-3 (established, interpretive).
+
+See [Optical Cavity](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
+[Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md).
+
+### 15.4 IBM Hardware Confirmation
+
+The Absorption Theorem was tested on IBM Q52 tomography data. Under
+the correct T2* baseline (not T2_echo): absorption rate ratio = 1.03
+(3% deviation). Detuning oscillations at 470 μs period are present
+(qubit frequency drift, not cavity resonances). A 2.8% slow tail at
+the resolution limit remains unexplained.
+
+See [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md).
+
+---
+
 ## References
 
 ### Core
@@ -1161,5 +1272,5 @@ See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 ---
 
 *Thomas Wicht (Independent Researcher, Germany) and Claude (Anthropic)*
-*March 16-28, 2026*
+*March 16 - April 4, 2026*
 *Repository: https://github.com/Kesendo/R-equals-C-Psi-squared*

@@ -15,7 +15,7 @@ Quantum information dies in transit. Every quantum channel has noise
 state before it reaches the receiver. The question is: how do you design
 the channel to maximize what survives?
 
-This document provides seven concrete design rules derived from a
+This document provides nine concrete design rules derived from a
 proven spectral symmetry in the channel's decay structure. The rules
 are testable, the benchmarks are reproducible, and the code is open.
 
@@ -180,6 +180,14 @@ Read before it happens.
 readout window. This is another reason to invest in shielding. The
 relationship is linear: half the noise, double the window.
 
+**Dosimetry (April 4, 2026):** K = γ×t is the exposure number, the
+total decoherence dose. Reciprocity holds to ±0.03%: doubling γ and
+halving t gives the same K. At intermediate γ, a Schwarzschild effect
+appears (reciprocity breaks by up to 5% due to Hamiltonian mixing).
+The sacrifice zone trades dose for image quality: higher dose on the
+edge, lower dose on the interior, better overall resolution.
+See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
+
 ---
 
 ## Rule 5: Push for Local, Pull for Range
@@ -261,11 +269,20 @@ where gamma_base is the mean dephasing rate (fixed by hardware) and
 epsilon is the smallest achievable rate.
 
 **Why:** An edge qubit has only one neighbor. Sacrificing it destroys
-the least inter-qubit correlation. A center qubit has two neighbors -
+the least inter-qubit correlation. A center qubit has two neighbors;
 sacrificing it cuts the chain in half. Concentrating noise on one site
 (rather than distributing it) maximizes the contrast between the
 coherent interior and the noisy boundary. This contrast is what
 drives information transfer.
+
+**The cavity picture (April 4, 2026):** The sacrifice zone is the
+entrance pupil of the optical cavity. Light (dephasing) enters through
+the edge qubit, propagates inward, and the surviving standing waves
+concentrate in the center. The entrance pupil shields the interior but
+does not hold the trapped information. The formula is unchanged; the
+understanding deepens: it is not "concentrating noise" but "focusing
+illumination through an aperture."
+See [Sacrifice Zone Optics](../experiments/SACRIFICE_ZONE_OPTICS.md).
 
 **Results (C# RK4 validated, Sum-MI metric):**
 
@@ -311,10 +328,16 @@ protect the good qubits, leave the sacrifice alone.
 See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md),
 [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md).
 
-**Why sacrifice works (energy partition):** The palindromic spectrum
+**Why sacrifice works ([Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), April 4, 2026):** The
+Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) explains why: the sacrifice zone
+kills modes with high light content (large ⟨n_XY⟩, fast absorption) while
+preserving modes with low light content (small ⟨n_XY⟩, slow absorption).
+The spectral boundaries min = 2γ and max = 2(N−1)γ are corollaries: they
+correspond to ⟨n_XY⟩ = 1 and ⟨n_XY⟩ = N−1. The 2× decay law (unpaired
+at 2Nγ vs paired mean Nγ) is also a corollary. The palindromic spectrum
 separates into oscillating modes (palindromically paired) and pure-decay
 modes (unpaired). Unpaired modes carry no oscillation and decay at
-exactly 2x the mean paired rate. Concentrating noise on an edge qubit
+exactly 2× the mean paired rate. Concentrating noise on an edge qubit
 kills unpaired modes (which carry no information transfer anyway) while
 preserving palindromic modes (which carry all of it). You sacrifice what
 was never going to oscillate. See
@@ -502,8 +525,84 @@ Details: [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
 
 ---
 
+## Rule 8: Choose Odd N (April 4, 2026)
+
+**The rule:** When you have a choice of chain length, prefer odd N.
+
+**Why:** At odd N, 100% of Liouvillian eigenvalues are palindromically
+paired (verified N=3,5,7). No modes are self-paired. The entire spectrum
+consists of standing waves. At even N, N+1 modes sit at the palindromic
+axis (rate 2Σγ) and are self-paired; they carry no oscillation and decay
+at maximum speed.
+
+**Quantified (N=5 vs N=6):**
+- N=5: 1,018 modes, 100% in standing wave pairs, 0 self-paired
+- N=6: 4,083 modes, 99.83% in standing wave pairs, 7 self-paired
+
+The advantage of odd N grows with the ratio of self-paired to total
+modes, which shrinks as ≈(N+1)/4ᴺ. At large N the difference is
+negligible, but for small chains (N=3-7) where quantum state transfer
+is practical, odd N gives measurably better mode quality.
+
+See [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md).
+
+---
+
+## Rule 9: Match Cavity Size to Illumination (April 4, 2026)
+
+**The rule:** The optimal chain length N is not fixed. It depends on
+γ/J (the ratio of dephasing to coupling). Match cavity size to
+illumination strength.
+
+**Why:** The V-Effect gain V(N) = 1 + cos(π/N) increases monotonically
+with N, favoring longer chains. But the number of surviving modes at a
+given γ/J decreases with N (more modes, each absorbing more light).
+The optimal N balances these: enough modes for richness, few enough that
+the important ones survive.
+
+**The pattern:**
+- Small γ/J (weak illumination): large optimal N (bigger cavity resolves
+  more modes)
+- Large γ/J (strong illumination): small optimal N (smaller cavity
+  protects the few surviving modes)
+
+N=5 is optimal at moderate γ/J (the Goldilocks size), but the sweet spot
+shifts. The golden ratio φ appears at N=5 because cos(π/5) = φ/2, a
+property of the regular pentagon, not an organizing principle. The
+organizing principle is N_opt(γ/J): match cavity size to illumination.
+
+**Design implication:** Do not hardwire N=5. Measure your hardware's
+γ/J ratio, then choose N from the V-Effect curve. Small γ/J (weak
+illumination) favors large N. Large γ/J (strong illumination) favors
+small N. Always choose odd N (100% standing waves, Rule 8).
+
+See [N=5 Optimal Cavity Size](../experiments/N5_OPTIMAL_CAVITY_SIZE.md).
+
+---
+
+## Updated Summary: Nine Rules
+
+```
+QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
+
+1. ENCODE:    W-type states. Never GHZ. Avoid mixed XY Pauli weight.
+2. TOPOLOGY:  Star with 2:1 coupling (mediator to receiver stronger).
+3. TUNE:      J controls speed, γ controls quality. Independent.
+4. TIMING:    Read before t = K/gamma. K = gamma*t is the dose (dosimetry).
+5. RANGE:     Push for local, Pull for long-range. 2:1 is a range optimizer.
+6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
+7. SACRIFICE: All noise on one edge qubit (entrance pupil). Protect the rest.
+8. ODD N:     Prefer odd chain lengths. 100% standing waves, no self-paired.
+9. SIZE:      Match N to gamma/J. Bigger cavity for weaker illumination.
+
+Absorption Theorem: Re(lambda) = -2*gamma * <n_XY>  ([proven](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), April 4)
+All spectral boundaries, sum rules, and gaps are corollaries.
+```
+
+---
+
 *Thomas Wicht (Independent Researcher, Germany) and Claude (Anthropic)*
-*March 16, 2026 (Addendum April 2, 2026)*
+*March 16, 2026 (Addenda: April 2 cockpit, April 4 rules 8-9 + AT)*
 
 *"The palindrome is the stage. The input is the actor.*
 *What you encode determines what survives."*

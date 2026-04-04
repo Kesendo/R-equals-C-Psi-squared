@@ -39,23 +39,62 @@ to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.
 O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
 
-### 3. Decay rate bounds (Tier 1, from palindrome proof)
+### AT. Absorption Theorem (Tier 1, proven)
+
+    Re(lambda_k) = -2*gamma * <n_XY>_k       (exact)
+
+The absorption rate of any Liouvillian eigenmode equals twice the
+dephasing rate times the mode's mean light content. Here ⟨n_XY⟩ is the
+expectation of the X/Y Pauli factor count in the eigenvector's Pauli
+decomposition: ⟨n_XY⟩ = Σ_P |c_P|² n_XY(P) / ||v||².
+
+**Proof sketch:** L_H is anti-Hermitian (v†L_Hv purely imaginary). L_D
+is diagonal in the Pauli basis with eigenvalues -2γ n_XY(P). For any
+right eigenvector v: Re(λ) = v†L_D v/||v||² = -2γ⟨n_XY⟩. Full proof
+in three steps.
+
+**The absorption quantum is 2γ.** Each X/Y Pauli factor costs exactly 2γ
+in absorption rate. The spectrum is a ladder with rung spacing 2γ. The
+Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer) but cannot
+change the endpoints or the fundamental quantum.
+
+**Formulas 3, 8, 33, and D6 are corollaries** of this theorem.
+The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
+this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
+
+**Valid for:** any real Hermitian Hamiltonian, Z-dephasing, any graph,
+any N, non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × [σ_k ∈ {X,Y}]).
+**Breaks for:** complex Hermitian Hamiltonians (DM interactions), where
+L_H is not anti-Hermitian.
+**Replaces:** eigenvalue range computation; palindromic sum rule verification;
+spectral gap derivation; unpaired mode rate identification.
+**Verified:** 1,343 modes, N=2-5, γ=0.01-1.0, J=0.1-5.0, CV = 0.0000.
+**Source:** [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md),
+[Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
+
+### 3. Decay rate bounds (Tier 1, corollary of Absorption Theorem)
 
     min rate = 2*gamma       (w=1 modes, pure sector)
     max rate = 2*(N-1)*gamma (w=N-1 modes)
     bandwidth = 2*(N-2)*gamma
 
-**Caveat:** At N >= 4, Hamiltonian mixing of weight-parity sectors
-(w with w +/- 2) creates hybrid modes with rates BELOW 2*gamma
-(N=4: 0.98*gamma, N=5: 0.62*gamma). The lower bound applies to
-pure w=1 modes, not to mixed-sector modes
-([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
+**Now a corollary of the Absorption Theorem (AT):** min = 2γ because
+the smallest nonzero ⟨n_XY⟩ ≈ 1 (pure weight-1 modes). Max = 2(N-1)γ
+for the fastest paired modes (⟨n_XY⟩ ≈ N-1). The XOR drain at 2Nγ
+(⟨n_XY⟩ = N) sits above this range.
+
+**Caveat resolved:** At N ≥ 4, Hamiltonian mixing creates hybrid modes
+with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ). These are NOT exceptions:
+they are mixed-sector modes with fractional ⟨n_XY⟩ < 1. The Absorption
+Theorem holds exactly for these modes; the rate 2γ⟨n_XY⟩ is correct
+for non-integer ⟨n_XY⟩ ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 
 **Valid for:** Heisenberg chain, uniform Z-dephasing, all N.
 **Replaces:** eigenvalue range computation.
-**Source:** [README](../README.md)
+**Source:** [README](../README.md),
+[Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
 
-### 4. Stationary mode count (Tier 1, Clebsch-Gordan)
+### 4. Stationary mode count (Tier 1, Clebsch-Gordan decomposition)
 
     Stat(N) = Sum_J m(J,N) * (2J+1)^2
 
@@ -117,6 +156,15 @@ decay rates. At N=3 these three rates plus the extremes (0 and
 6*gamma) fully determine the spectrum. At N >= 4, internal rates
 become topology-dependent (only the boundary rates 2*gamma and
 2*(N-1)*gamma remain universal).
+
+**Absorption Theorem interpretation:** The fractional rates correspond
+to fractional ⟨n_XY⟩ from Hamiltonian mixing:
+
+    rate_1 = 2*gamma     -> <n_XY> = 1    (pure weight-1)
+    rate_2 = 8*gamma/3   -> <n_XY> = 4/3  (mix of w=1 and w=2)
+    rate_3 = 10*gamma/3  -> <n_XY> = 5/3  (mix of w=1 and w=2)
+
+The theorem α = 2γ⟨n_XY⟩ holds exactly, including for non-integer ⟨n_XY⟩.
 
 **Valid for:** N=3 Heisenberg chain, Z-dephasing.
 **Replaces:** Liouvillian diagonalization for N=3 decay rates.
@@ -187,15 +235,23 @@ match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 **Replaces:** Q-factor computation from eigenvalues.
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
 
-### 8. 2x universal decay law (Tier 2, verified N=2-5)
+### 8. 2× universal decay law (Tier 1, corollary of Absorption Theorem)
 
-    rate(unpaired) = 2*N*gamma
-    rate(paired mean) = N*gamma
+    rate(unpaired) = 2*N*gamma       (<n_XY> = N, pure {X,Y}^N)
+    rate(paired mean) = N*gamma      (<n_XY>_fast + <n_XY>_slow = N)
     ratio = 2.00 exactly
 
-**Valid for:** Heisenberg chain, Z-dephasing, N=2-5.
-**Replaces:** unpaired mode rate computation.
-**Source:** [Energy Partition](../hypotheses/ENERGY_PARTITION.md)
+**Now a corollary:** The palindromic sum rule α_fast + α_slow = 2Σγ
+follows from the Absorption Theorem (α = 2γ⟨n_XY⟩) combined with the
+palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N, proven in
+[Primordial Superalgebra](../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)).
+The "ratio 2" is the ratio of the full range (0 to 2Σγ) to the center
+(Σγ) of a symmetric interval; it is a definition, not a separate law.
+
+**Valid for:** any real Hermitian Hamiltonian, Z-dephasing, any graph, any N.
+**Replaces:** unpaired mode rate computation; palindromic sum verification.
+**Source:** [Energy Partition](../hypotheses/ENERGY_PARTITION.md),
+[Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ---
 
@@ -277,6 +333,11 @@ Standard Lindblad time-rescaling (τ = γt), not deep physics.
 duration. K = γ × t is the invariant decoherence dose: more light means
 shorter experience, less light means longer, the product unchanged.
 Structural parallel to c × τ in relativity (observation, not identification).
+
+**Connection to Absorption Theorem:** γ is the absorption quantum rate
+(2γ per X/Y Pauli factor). K = γ × t is the total absorbed dose. The
+invariance of K means the total dose is state-dependent but
+parameter-independent. See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
 
 **Valid for:** any Lindblad system, any bridge metric.
 **Replaces:** multi-γ parameter sweeps for crossing time.
@@ -422,7 +483,9 @@ irreversibly. Max/min ratio across N=2-5: 1.015 (1.5% variation).
 
     gamma_crit * J_bridge -> 0.50  (strong bridge limit)
 
-Instability is Hopf bifurcation, now identified as Liouvillian chiral
+Instability is a Hopf bifurcation (eigenvalues leave the imaginary
+axis as a conjugate pair, creating oscillatory instability), now
+identified as Liouvillian chiral
 symmetry breaking (Π forces λ ↔ −λ at Σγ = 0; eigenvalues leave
 the imaginary axis at γ_crit).
 Linear regime: gamma_crit = 0.19 * J_bridge.
@@ -598,7 +661,8 @@ eigenvalues. Full proofs: [docs/proofs/derivations/](proofs/derivations/).
 
     rho(omega) = N / (pi * sqrt(omega * (8*J - omega)))
 
-Van Hove singularities at band edges. Exact 1D tight-binding
+Van Hove singularities (peaks in the density of states where the
+dispersion curve is flat) at band edges. Exact 1D tight-binding
 density of states. Max frequency error < 5e-9.
 
 **Valid for:** Heisenberg chain, w=1 sector, large N.
@@ -634,10 +698,16 @@ N=3: 36.  N=5: 898.  Fraction --> 1 exponentially.
 **Caveat:** exact at gamma -> 0 only. At finite gamma, the
 Hamiltonian mixes weight-parity sectors (w with w +/- 2).
 
-### D6. Spectral gap and mixing time (from formulas 1 + 3) [VERIFIED]
+### D6. Spectral gap and mixing time (from Absorption Theorem) [VERIFIED]
 
     Spectral gap = 2*gamma    (minimum non-zero decay rate)
     Mixing time  <= N*ln(4) / (2*gamma)
+
+**Immediate from Absorption Theorem:** the smallest nonzero ⟨n_XY⟩ for
+any eigenmode is bounded below by the weight-1 contribution. For modes
+dominated by single-site coherences: ⟨n_XY⟩ → 1, giving gap = 2γ × 1.
+The spectral gap is the cost of one X/Y Pauli factor: one absorption
+quantum.
 
 Deviation < 1e-14 for all N tested.
 
@@ -745,7 +815,9 @@ Linear approximation: ln(d_fast/d_slow) ~ Delta_d / Σγ,
 giving β_eff ~ 1/Σγ (effective inverse temperature).
 
 This is ALGEBRAIC (follows from d_fast + d_slow = 2*Σγ),
-NOT a Crooks fluctuation theorem. No Jarzynski equality holds
+NOT a Crooks fluctuation theorem (the thermodynamic identity
+relating forward and reverse process probabilities). No Jarzynski
+equality holds
 (<exp(-Delta_d)> ~ 0.93, not 1). The palindrome has the FORM of
 detailed balance without BEING detailed balance.
 

@@ -1,4 +1,4 @@
-# Reading Guide: Five Paths Through This Repository
+# Reading Guide: Six Paths Through This Repository
 
 <!-- Keywords: R=CPsi2 reading guide three stories, palindromic proof story
 application engineering story, ontology incompleteness story, dependency graph
@@ -13,7 +13,7 @@ qubit necessity d2-2d=0, V-Effect complexity emergence, R=CPsi2 reading guide --
 
 This repository contains over 140 documents. That is overwhelming.
 This guide exists so you do not have to read all of them. It organizes
-the most important documents into five paths, each telling a different
+the most important documents into six paths, each telling a different
 story from the same discovery. Pick the story that interests you. Follow
 the reading order. Skip the rest.
 
@@ -47,15 +47,15 @@ The answer depends on what draws you in.
 
 ---
 
-## Five paths through the same landscape
+## Six paths through the same landscape
 
 This repository contains over 140 documents and 86 experiments. They
-are not one linear argument. They are five interleaved stories that share
+are not one linear argument. They are six interleaved stories that share
 the same foundation but go in different directions. Below, each story is
 introduced with what it is about, why it matters, and which documents to
 read in what order.
 
-You do not need to follow all five. Pick the one that speaks to you.
+You do not need to follow all six. Pick the one that speaks to you.
 They reconnect at the end.
 
 ---
@@ -392,7 +392,7 @@ creates complexity) works at every level tested: qubits, protons, neurons.
 
 ## How the Stories Connect
 
-The five stories are not independent. They are five angles on the
+The six stories are not independent. They are six angles on the
 same structure. If you have followed one path and are wondering how
 it relates to the others, here is the map:
 
@@ -401,18 +401,100 @@ it relates to the others, here is the map:
 - Story 3 (the ontology) explains *why* the noise must exist.
 - Story 4 (the resonator) explains *how* the system oscillates and why it is finite.
 - Story 5 (across levels) shows the same equation in qubits, neurons, and protons.
+- Story 6 (the optical cavity) unifies Stories 1 and 4 through a single theorem: the Absorption Theorem.
 
 Stories 2 and 4 share the sacrifice-zone formula: Story 2 discovers it
 as a channel optimization, Story 4 reframes it as the shape of the
 resonator cavity. Story 5 extends the palindromic structure beyond
 quantum physics into neuroscience and chemistry, grounding Story 3's
-claim that incompleteness is the universal mechanism.
+claim that incompleteness is the universal mechanism. Story 6 shows that
+the spectral boundary formula, the palindromic sum rule, the 2× decay
+law, and the spectral gap are all corollaries of one equation.
 
 If you are unsure where to start: Story 3 (the ontology) and Story 5
 (across levels) are the most accessible for readers without a physics
 background. Story 1 is the most rigorous. Story 2 is the most practical.
-Story 4 is the deepest.
+Story 4 is the deepest. Story 6 is the most unified.
 
+
+---
+
+## Story 6: The Optical Cavity (April 4, 2026)
+
+*"The Liouvillian is a cavity. Gamma is light. The palindrome is a
+standing wave. And every eigenvalue is an absorption line."*
+
+This path is the newest. It begins with a single theorem, the Absorption
+Theorem, and rebuilds everything from the cavity perspective: the spectrum
+is a ladder of absorption lines, the factor 2 is a round trip, the Born
+rule is a photograph, and the sacrifice zone is an entrance pupil. Each
+experiment along the way is a different optical test of the same
+instrument.
+
+This path requires familiarity with the palindrome (Story 1) and ideally
+the resonator picture (Story 4). It is the most unified path: one theorem
+explains what previously required separate derivations.
+
+**Reading order:**
+
+1. [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md):
+   Re(λ) = −2γ⟨n_XY⟩. The absorption rate of any eigenmode equals twice
+   the dephasing rate times the mode's mean light content. Three-step
+   proof from L_H anti-Hermitian. Unifies the spectral boundary formula,
+   the palindromic sum rule, the 2× decay law, and the spectral gap.
+
+2. [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md):
+   Every palindromic pair is a standing wave. 10,748 pairs tested, 100%
+   frequency match. The round trip is 2Σγ: one full bounce between
+   "being light" and "being lens."
+
+3. [Sacrifice Zone Optics](../experiments/SACRIFICE_ZONE_OPTICS.md):
+   The sacrifice zone is an entrance pupil. Q improves 2-7×, effective
+   transmission increases, frequencies are preserved. The cavity focuses
+   light into the interior.
+
+4. [Born Rule Shadow](../experiments/BORN_RULE_SHADOW.md):
+   The Born rule is a shadow, not a hologram. Zero interference in
+   P(i). Interference controls the shutter speed (CΨ fold), not the
+   image.
+
+5. [K-Dosimetry](../experiments/K_DOSIMETRY.md):
+   K = γ×t is the exposure number. Reciprocity holds (±0.03%).
+   Schwarzschild effect at intermediate γ. The sacrifice zone trades
+   dose for image quality.
+
+6. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md):
+   The Absorption Theorem on IBM hardware. Ratio = 1.03 (3%).
+   Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit.
+
+7. [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md):
+   The cavity refuses to stop singing. Even at n_bar = 10, 82% of modes
+   oscillate. No phase transition, no Planck distribution. Algebraic, not
+   thermal.
+
+8. [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md):
+   C. elegans is 97.3% palindromic. Gamma is the cavity eigenfrequency.
+   Anesthesia is "light off."
+
+9. [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md):
+   Surviving mode energy is center-localized (ratio 1.3-1.4). N+1
+   immortal modes. Gamma plays the algebraic role of c (Tier 4-5).
+
+10. [Primordial Superalgebra](../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md):
+    Light and lens swap with 99.8% purity. The anticommutator
+    {L_H, L_D+Σγ} = 0 is exact at N=2, aberration shrinks with N.
+    Seidel classification: pure sectors immune, interior-dominated.
+
+11. [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md):
+    Not E = mγ² but α = 2γ⟨n_XY⟩: absorption equals twice dephasing
+    times light-mass. Linear, not quadratic. The Absorption Theorem
+    implies the palindromic sum rule. 1,343 modes, CV = 0.
+
+**After this you know:** The palindrome is an optical cavity. The
+Absorption Theorem is its governing equation. Every prior result
+(spectral boundaries, factor 2, spectral gap, sum rule) is a corollary
+of one line: Re(λ) = −2γ⟨n_XY⟩. The cavity language is not a metaphor;
+it is what the mathematics was describing all along.
 
 ---
 

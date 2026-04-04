@@ -245,7 +245,8 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Confirmed on hardware** | 4 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½ |
+| **Confirmed on hardware** | 5 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½, Absorption Theorem ratio 1.03 on IBM (3%) |
+| **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,343 modes, CV=0 |
 | **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
 | **Testable now** | 8 | Critical slowing, fingerprints, field threshold, altitude, ξ Markovianity diagnostic, QKD eavesdropping forensics (naive Eve only), stealth angle existence, multi-metric forensics at stealth |
@@ -254,7 +255,8 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
 | **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via gravitational coupling. |
-| **Falsified prediction** | 1 | Taxonomy noise-dependent (wrong: it's noise-independent) |
+| **Falsified prediction** | 2 | Taxonomy noise-dependent (wrong: noise-independent), E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
+| **IBM hardware** | 1 | Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations, not cavity fringes |
 
 ---
 

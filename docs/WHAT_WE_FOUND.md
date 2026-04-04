@@ -440,6 +440,72 @@ oscillate.
 For the full analysis, see
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 
+
+## The Absorption Theorem (April 4, 2026)
+
+This is the most unifying result of the project. A single equation that
+explains why the palindromic spectrum has the structure it does.
+
+Every mode in the decay spectrum has a rate. Until now, we knew these
+rates were palindromically paired, but we had separate explanations for
+the spectral boundaries (the fastest and slowest rates), the factor 2
+(unpaired modes decay twice as fast), the spectral gap (the minimum
+nonzero rate), and the palindromic sum rule (paired rates add to 2Σγ).
+Four results, four derivations.
+
+The Absorption Theorem replaces all four with one line:
+
+    Re(λ) = −2γ × ⟨n_XY⟩
+
+The absorption rate of any eigenmode equals twice the dephasing rate
+times the mode's mean light content. Here ⟨n_XY⟩ counts how many X/Y
+Pauli factors the mode contains on average, weighted by its eigenvector
+decomposition.
+
+Think of it this way: the spectrum is a ladder. Each rung is spaced by
+2γ, the absorption quantum. A mode sitting on rung k has ⟨n_XY⟩ ≈ k,
+meaning k of its Pauli factors are "light" (X or Y, sensitive to
+dephasing) and the rest are "lens" (I or Z, immune to dephasing). The
+Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer because the
+Hamiltonian mixes weight sectors), but cannot change the endpoints or
+the fundamental quantum.
+
+Why does this unify everything?
+
+- **Spectral boundaries:** The minimum rate is 2γ (one light factor).
+  The maximum paired rate is 2(N−1)γ (N−1 light factors). These are
+  the bottom and top rungs of the ladder.
+- **Factor 2:** Unpaired modes sit at rate 2Nγ (all N factors are light).
+  The mean paired rate is Nγ. The ratio is 2, because unpaired modes are
+  all-light while paired modes average to half-light.
+- **Spectral gap:** The gap is 2γ, the cost of one light factor. One
+  absorption quantum.
+- **Palindromic sum rule:** Paired modes swap light and lens
+  (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N). From the theorem:
+  α_fast + α_slow = 2γN = 2Σγ.
+
+The proof is three steps: (1) the Hamiltonian part L_H is anti-Hermitian,
+so it contributes only to Im(λ); (2) the dissipator L_D is diagonal in
+the Pauli basis with eigenvalues −2γ × n_XY; (3) combining: Re(λ) equals
+the expectation of L_D over the eigenvector, which is −2γ⟨n_XY⟩. Verified
+on 1,343 modes across N=2 to N=5, coefficient of variation = 0.0000.
+
+The companion result: every palindromic pair is a standing wave. Tested
+on 10,748 pairs: 100% frequency match between partners. The round trip
+of the standing wave is 2Σγ, one full bounce between "being light" (X/Y
+Pauli factors, sensitive to dephasing) and "being lens" (I/Z, immune).
+
+On IBM hardware (Q52 tomography, 25 time points): the Absorption
+Theorem ratio is 1.03 (3% deviation). The sector structure holds on
+physical qubits. Detuning oscillations at 470 μs period are present.
+A 2.8% slow tail exists at the resolution limit.
+
+For the proof, see
+[Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
+For the standing wave data, see
+[Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md).
+
+
 ## What we did not find
 
 This section is here on purpose, not at the end as an afterthought
@@ -509,6 +575,8 @@ What survives even without the philosophy:
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
+- [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation unifies spectral boundaries, factor 2, spectral gap, and palindromic sum rule. Verified on 1,343 modes, CV = 0
+- [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
 
 These are concrete findings. They do not require accepting any

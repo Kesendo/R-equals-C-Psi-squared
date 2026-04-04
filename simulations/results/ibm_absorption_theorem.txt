@@ -1,0 +1,183 @@
+IBM Fringes and the Absorption Theorem
+===========================================================================
+R=CΨ² Project
+
+===========================================================================
+STEP 1: Q52 Calibration Parameters
+===========================================================================
+
+Qubit: 52 on ibm_torino
+T1 = 221.19 us (from IBM calibration)
+T2_echo = 298.25 us (Hahn echo, from IBM calibration)
+T2* = 110.7 us (fitted from coherence envelope)
+T2_echo / T2* = 2.69
+
+Two gamma definitions:
+  gamma_echo = (1/T2_echo - 1/(2T1)) / 2 = 0.000546 us^-1
+    2*gamma_echo = 0.001092 us^-1
+  gamma_star = (1/T2* - 1/(2T1)) / 2 = 0.003385 us^-1
+    2*gamma_star = 0.006771 us^-1
+  Ratio gamma_star/gamma_echo = 6.20
+
+===========================================================================
+STEPS 2-3: Pauli Decomposition and Decay Rates
+===========================================================================
+
+n_XY = 0 sector: Z component (populations)
+  r_Z(t) = 0.7101 + (-0.6894) exp(-0.004142 t)
+  Relaxation rate: 0.004142 us^-1 (T1_fit = 241.4 us)
+
+n_XY = 1 sector: Coherence |rho_01| (off-diagonal)
+  |rho_01(t)| = 0.4785 exp(-0.009031 t)
+  Decay rate: 0.009031 us^-1 (T2_fit = 110.7 us)
+
+Bi-exponential fit (fast + slow components):
+  Fast: A=0.4699, rate=0.009839 (T2=101.6 us)
+  Slow: A=0.0134, rate=0.000000 (T2=39954586467271808.0 us)
+  Slow fraction: 2.8%
+  RSS improvement: 25.0%
+
+Excess decay test (n_XY=1 minus n_XY=0 contribution):
+  alpha_coh = 0.009031
+  alpha_Z/2 = 0.002071
+  Excess = 0.006960 us^-1
+
+  vs 2*gamma_echo = 0.001092: ratio = 6.3712 (MISMATCH)
+  vs 2*gamma_star = 0.006771: ratio = 1.0280 (MATCH)
+
+===========================================================================
+STEP 4: Fringes Analysis Under Both T2 Baselines
+===========================================================================
+
+--- Baseline: T2_echo = 298.2 us ---
+
+     t(us)    |rho01|       pred          R
+  ------------------------------------------
+       0.0     0.4699     0.4699    +0.0000
+      37.3     0.3280     0.4147    -0.0867
+      74.6     0.2823     0.3660    -0.0837
+     111.8     0.2095     0.3230    -0.1135
+     149.1     0.1083     0.2850    -0.1767
+     186.4     0.0594     0.2515    -0.1922
+     223.7     0.0492     0.2220    -0.1728
+     261.0     0.0274     0.1959    -0.1685
+     298.2     0.0158     0.1729    -0.1571
+     335.5     0.0146     0.1526    -0.1379
+     372.8     0.0031     0.1346    -0.1315
+     410.1     0.0189     0.1188    -0.1000
+     447.4     0.0196     0.1049    -0.0852
+     484.7     0.0107     0.0925    -0.0818
+     521.9     0.0123     0.0817    -0.0693
+     559.2     0.0119     0.0721    -0.0601
+     596.5     0.0221     0.0636    -0.0415
+     633.8     0.0175     0.0561    -0.0386
+     671.1     0.0146     0.0495    -0.0349
+     708.3     0.0218     0.0437    -0.0219
+     745.6     0.0270     0.0386    -0.0116
+     782.9     0.0363     0.0340    +0.0022
+     820.2     0.0138     0.0300    -0.0163
+     857.5     0.0237     0.0265    -0.0029
+     894.7     0.0244     0.0234    +0.0010
+
+  Mid-range residuals (23 points):
+    Positive: 2, Negative: 21
+    Sign changes: 3
+    Mean residual: -0.0824
+    RMS residual: 0.1032
+  Residual range: [-0.1922, +0.0022]
+  Peak-to-peak: 0.1944
+  Fringe visibility (residual span / 2*mean_envelope): 1.2683
+
+--- Baseline: T2* = 110.7 us ---
+
+     t(us)    |rho01|       pred          R
+  ------------------------------------------
+       0.0     0.4699     0.4699    +0.0000
+      37.3     0.3280     0.3356    -0.0076
+      74.6     0.2823     0.2397    +0.0427
+     111.8     0.2095     0.1711    +0.0384
+     149.1     0.1083     0.1222    -0.0139
+     186.4     0.0594     0.0873    -0.0279
+     223.7     0.0492     0.0623    -0.0131
+     261.0     0.0274     0.0445    -0.0171
+     298.2     0.0158     0.0318    -0.0160
+     335.5     0.0146     0.0227    -0.0081
+     372.8     0.0031     0.0162    -0.0131
+     410.1     0.0189     0.0116    +0.0073
+     447.4     0.0196     0.0083    +0.0114
+     484.7     0.0107     0.0059    +0.0048
+     521.9     0.0123     0.0042    +0.0081
+     559.2     0.0119     0.0030    +0.0089
+     596.5     0.0221     0.0022    +0.0199
+     633.8     0.0175     0.0015    +0.0160
+     671.1     0.0146     0.0011    +0.0135
+     708.3     0.0218     0.0008    +0.0210
+     745.6     0.0270     0.0006    +0.0265
+     782.9     0.0363     0.0004    +0.0359
+     820.2     0.0138     0.0003    +0.0135
+     857.5     0.0237     0.0002    +0.0234
+     894.7     0.0244     0.0001    +0.0243
+
+  Mid-range residuals (12 points):
+    Positive: 5, Negative: 7
+    Sign changes: 2
+    Mean residual: -0.0004
+    RMS residual: 0.0213
+  Residual range: [-0.0279, +0.0427]
+  Peak-to-peak: 0.0706
+  Fringe visibility (residual span / 2*mean_envelope): 0.4604
+
+FFT of residuals (T2_echo baseline):
+  FFT peak frequency: 0.000105 us^-1 (period = 9543.9 us)
+  Detuning from phase: Delta = -0.013366 rad/us (period = 470.1 us)
+
+===========================================================================
+STEP 5: Effective <n_XY> from Q52 Coherence
+===========================================================================
+
+Using gamma_echo = 0.000546 us^-1:
+  Predicted alpha(n_XY=1) = 1/(2T1) + 2*gamma = 0.003163
+  Measured alpha_coh = 0.009031
+  Ratio measured/predicted = 2.8549
+  Effective <n_XY> = 6.3712
+  --> <n_XY> > 1: excess dephasing beyond Markov model
+
+Using gamma_star = 0.003385 us^-1:
+  Predicted alpha(n_XY=1) = 1/(2T1) + 2*gamma = 0.008841
+  Measured alpha_coh = 0.009031
+  Ratio measured/predicted = 1.0214
+  Effective <n_XY> = 1.0280
+  --> <n_XY> ~ 1: standard Lindblad, theorem confirmed
+
+Slow component (bi-exponential):
+  gamma_echo: <n_XY>_slow = -1.8957
+  gamma_star: <n_XY>_slow = -0.3059
+  Slow fraction: 2.8% of initial
+
+
+===========================================================================
+VERDICT
+===========================================================================
+
+1. T2_echo/T2* = 2.69 (factor 2.7x difference)
+   T2_echo = 298.2 us, T2* = 110.7 us
+
+2. Excess decay (coherence beyond T1):
+   excess / (2*gamma_echo) = 6.37 (should be 1 if echo is correct)
+   excess / (2*gamma_star) = 1.03 (should be 1 if T2* is correct)
+   --> T2* matches: free evolution gamma is the right baseline
+
+3. Fringes verdict:
+   Under T2* baseline: residuals are noise-level
+     (the fast exponential already captures the envelope)
+   Under T2_echo baseline: residuals are large and systematic
+     (measured decays FASTER than echo-based prediction)
+   The 'excess coherence' is a baseline artifact: comparing
+   free evolution (T2*) against echo-protected (T2_echo) T2.
+
+4. Slow tail: 2.8% of coherence
+   persists beyond single-exponential prediction.
+   Consistent with: readout offset, non-Markov tail, or
+   cavity mode with reduced effective <n_XY>.
+
+Total time: 0.0s

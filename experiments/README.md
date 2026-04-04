@@ -124,6 +124,12 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g(CΨ) = 3.36 at the fold (FINITE, no singularity). θ shrinks the metric, does not regularize. Lindblad trajectory IS approximately geodesic (deviation 9e-4). Curvature K = -25 (negative, finite). Fisher susceptibility finite. θ is a compass, not a coordinate |
 | [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) | Optimal chain selection on IBM Torino heavy-hex. 330 chains, sacrifice ranking vs mean-T2 ranking: zero overlap in top-10. Sacrifice achieves 2.54x vs 1.18x protection. Worse qubits, better modes. Time-stable over 5 months |
 | [Thermal Breaking](THERMAL_BREAKING.md) | Three orthogonal breaking mechanisms: coupling (1.81x Q, topological constant), dephasing (+60 frequencies), heat (+300 frequencies). Heat breaks the 1.81x constant but QUADRUPLES frequency diversity. Sacrifice zone vanishes at high temperature |
+| [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md) | Sacrifice zone as entrance pupil / AR coating: Q_max 2-7x, T_eff up, frequencies preserved |
+| [N=5 Optimal Cavity Size](N5_OPTIMAL_CAVITY_SIZE.md) | N=5 is Goldilocks (richness vs resolution), not golden ratio. φ in V(5) is cos(π/5), not organizing principle |
+| [Standing Waves](FACTOR_TWO_STANDING_WAVES.md) | Every palindromic pair is a standing wave: 10,748 pairs, 100% frequency match, Re(λ)+Re(partner)=−2Σγ |
+| [Thermal Blackbody](THERMAL_BLACKBODY.md) | No phase transition: cavity degrades gracefully (Q drops 16×, osc% stays 82%), not Planck, not Stefan-Boltzmann |
+| [Primordial Superalgebra](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) | {L_H, L_D+Σγ}=0 exact at N=2, aberration decreases with N (14.4%→2.6%). Palindromic weight swap: fast[k]=slow[N-k]. Seidel: pure sectors immune, interior-dominated, perfectly palindromic |
+| [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md) | α=2γ⟨n_XY⟩ exact: absorption rate = 2×dephasing×light content. Linear in γ. Proven from L_H anti-Hermitian. Unifies boundary formula, sum rule, spectral gap. 1,343 modes, CV=0 |
 
 ### Decoherence Diagnostics (Cockpit Framework)
 
@@ -155,6 +161,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Sacrifice-top vs mean-T2-top chain (no DD, real IBM gammas). Protection 2.86x confirmed spectrally. Sacrifice score is within-chain metric; between chains, total noise dominates |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
+| [IBM Absorption Theorem](IBM_ABSORPTION_THEOREM.md) | Absorption Theorem ratio 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs period. 2.8% slow tail at resolution limit |
 
 ### Benchmarks and Comparisons
 
@@ -193,6 +200,10 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Bures Degeneracy](BURES_DEGENERACY.md) | QFI speed correlates with degeneracy at even N |
 | [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
 | [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | The V-Effect is not coupling but metamorphosis: 1 bond supports 2 modes, 4 bonds support 112. Degeneracy predicts mode richness (r > 0.999). Gamma illuminates but does not create modes (100% cold-cavity survival). Topology determines the instrument: chain has most modes, star has highest Q. First experiment in the cavity language |
+| [Born Rule Shadow](BORN_RULE_SHADOW.md) | Born rule is a shadow, not photograph: zero interference in P(i), interference sets shutter speed (CΨ fold) |
+| [K-Dosimetry](K_DOSIMETRY.md) | K = γ×t is the exposure number: reciprocity holds (±0.03%), Schwarzschild effect at intermediate γ, sacrifice zone trades dose for quality |
+| [Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md) | C. elegans 97.3% palindromic pairing; gamma = cavity eigenfrequency; anesthesia = light off |
+| [Trapped Light Localization](TRAPPED_LIGHT_LOCALIZATION.md) | K_death = 2.303 universal; surviving mode energy center-localized (ratio 1.3-1.4); N+1 immortal modes; gamma plays algebraic role of c (Tier 4-5) |
 
 ---
 

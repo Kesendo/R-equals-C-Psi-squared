@@ -1,0 +1,249 @@
+===========================================================================
+UNPAIRED PALINDROMIC MODES IN C. ELEGANS CONNECTOME
+===========================================================================
+
+Total eigenvalues: 300
+Oscillating (|Im| > 1e-6): 196
+Overdamped: 104
+
+Palindrome center (mean Re): -1.000000
+Matching tolerance: 0.01
+
+Paired: 141 pairs = 282 eigenvalues
+Unpaired: 18 eigenvalues
+Palindromic fraction: 94.0%
+
+===========================================================================
+UNPAIRED MODES: DETAILED ANALYSIS
+===========================================================================
+
+Mode  15: lambda = -0.806281 + 0.000000i
+  OVERDAMPED
+  Dominant: FLPL (E, SENSORY)  weight=0.034  in=6  out=12  in/out=0.50
+  Top 5:
+        FLPL (E, SENSORY)  w=0.0343
+        PVDR (E, INTER)  w=0.0240
+        FLPR (E, SENSORY)  w=0.0234
+         PQR (E, SENSORY)  w=0.0188
+        AVDR (E, INTER)  w=0.0183
+
+Mode  16: lambda = -0.849480 + 0.000000i
+  OVERDAMPED
+  Dominant: RIH (E, INTER)  weight=0.040  in=12  out=24  in/out=0.50
+  Top 5:
+         RIH (E, INTER)  w=0.0403
+        ADFR (E, SENSORY)  w=0.0336
+        RIAR (E, INTER)  w=0.0287
+        ADFL (E, SENSORY)  w=0.0225
+        RIAL (E, INTER)  w=0.0225
+
+Mode  17: lambda = -1.116340 + 0.000000i
+  OVERDAMPED
+  Dominant: RIH (E, INTER)  weight=0.053  in=12  out=24  in/out=0.50
+  Top 5:
+         RIH (E, INTER)  w=0.0527
+        RIAL (E, INTER)  w=0.0482
+        RIAR (E, INTER)  w=0.0455
+       SMDVR (E, MOTOR)  w=0.0391
+        ADFR (E, SENSORY)  w=0.0387
+
+Mode  18: lambda = -0.901979 + 0.000000i
+  OVERDAMPED
+  Dominant: ASER (E, SENSORY)  weight=0.027  in=10  out=11  in/out=0.91
+  Top 5:
+        ASER (E, SENSORY)  w=0.0272
+        ASEL (E, SENSORY)  w=0.0269
+        AWAL (E, SENSORY)  w=0.0222
+        HSNL (E, MOTOR)  w=0.0219
+        AIAL (E, INTER)  w=0.0211
+
+Mode  22: lambda = -1.052709 + 0.046671i
+  oscillating
+  Dominant: PVDR (E, INTER)  weight=0.027  in=0  out=7  in/out=0.00
+  Top 5:
+        PVDR (E, INTER)  w=0.0272
+        PDER (E, UNKNOWN)  w=0.0238
+        OLLL (E, SENSORY)  w=0.0212
+        AVDL (E, INTER)  w=0.0204
+        FLPL (E, SENSORY)  w=0.0188
+
+Mode  23: lambda = -1.052709 + -0.046671i
+  oscillating
+  Dominant: PVDR (E, INTER)  weight=0.027  in=0  out=7  in/out=0.00
+  Top 5:
+        PVDR (E, INTER)  w=0.0272
+        PDER (E, UNKNOWN)  w=0.0238
+        OLLL (E, SENSORY)  w=0.0212
+        AVDL (E, INTER)  w=0.0204
+        FLPL (E, SENSORY)  w=0.0188
+
+Mode  24: lambda = -0.934875 + 0.017783i
+  oscillating
+  Dominant: PVM (E, INTER)  weight=0.024  in=2  out=7  in/out=0.29
+  Top 5:
+         PVM (E, INTER)  w=0.0238
+        AWAL (E, SENSORY)  w=0.0229
+        ASEL (E, SENSORY)  w=0.0214
+        ASER (E, SENSORY)  w=0.0181
+       AWCON (E, SENSORY)  w=0.0172
+
+Mode  25: lambda = -0.934875 + -0.017783i
+  oscillating
+  Dominant: PVM (E, INTER)  weight=0.024  in=2  out=7  in/out=0.29
+  Top 5:
+         PVM (E, INTER)  w=0.0238
+        AWAL (E, SENSORY)  w=0.0229
+        ASEL (E, SENSORY)  w=0.0214
+        ASER (E, SENSORY)  w=0.0181
+       AWCON (E, SENSORY)  w=0.0172
+
+Mode  32: lambda = -0.943181 + 0.001508i
+  oscillating
+  Dominant: AWAL (E, SENSORY)  weight=0.043  in=1  out=7  in/out=0.14
+  Top 5:
+        AWAL (E, SENSORY)  w=0.0432
+        ASEL (E, SENSORY)  w=0.0363
+        PHAL (E, SENSORY)  w=0.0335
+        PHAR (E, SENSORY)  w=0.0288
+        AFDL (E, SENSORY)  w=0.0279
+
+Mode  33: lambda = -0.943181 + -0.001508i
+  oscillating
+  Dominant: AWAL (E, SENSORY)  weight=0.043  in=1  out=7  in/out=0.14
+  Top 5:
+        AWAL (E, SENSORY)  w=0.0432
+        ASEL (E, SENSORY)  w=0.0363
+        PHAL (E, SENSORY)  w=0.0335
+        PHAR (E, SENSORY)  w=0.0288
+        AFDL (E, SENSORY)  w=0.0279
+
+Mode  46: lambda = -1.019183 + 0.038811i
+  oscillating
+  Dominant: AFDL (E, SENSORY)  weight=0.044  in=3  out=2  in/out=1.50
+  Top 5:
+        AFDL (E, SENSORY)  w=0.0442
+        AWAL (E, SENSORY)  w=0.0383
+        AIYL (E, INTER)  w=0.0348
+         PVM (E, INTER)  w=0.0288
+        PVDR (E, INTER)  w=0.0265
+
+Mode  47: lambda = -1.019183 + -0.038811i
+  oscillating
+  Dominant: AFDL (E, SENSORY)  weight=0.044  in=3  out=2  in/out=1.50
+  Top 5:
+        AFDL (E, SENSORY)  w=0.0442
+        AWAL (E, SENSORY)  w=0.0383
+        AIYL (E, INTER)  w=0.0348
+         PVM (E, INTER)  w=0.0288
+        PVDR (E, INTER)  w=0.0265
+
+Mode 139: lambda = -1.032432 + 0.000000i
+  OVERDAMPED
+  Dominant: NSMR (E, PHARYNGEAL)  weight=0.200  in=4  out=10  in/out=0.40
+  Top 5:
+        NSMR (E, PHARYNGEAL)  w=0.2000
+          I6 (E, PHARYNGEAL)  w=0.2000
+        NSML (E, PHARYNGEAL)  w=0.2000
+         M3L (E, PHARYNGEAL)  w=0.2000
+         M3R (E, PHARYNGEAL)  w=0.2000
+
+Mode 140: lambda = -1.037156 + 0.000000i
+  OVERDAMPED
+  Dominant: OLLL (E, SENSORY)  weight=0.039  in=4  out=13  in/out=0.31
+  Top 5:
+        OLLL (E, SENSORY)  w=0.0387
+        AWAL (E, SENSORY)  w=0.0386
+       CEPVL (E, SENSORY)  w=0.0358
+         PVM (E, INTER)  w=0.0272
+        PHAR (E, SENSORY)  w=0.0221
+
+Mode 198: lambda = -1.012391 + 0.000000i
+  OVERDAMPED
+  Dominant: URBR (E, SENSORY)  weight=0.033  in=2  out=11  in/out=0.18
+  Top 5:
+        URBR (E, SENSORY)  w=0.0326
+        ADLL (E, SENSORY)  w=0.0288
+        ASJL (E, SENSORY)  w=0.0282
+        ASIL (E, SENSORY)  w=0.0249
+        AINL (E, INTER)  w=0.0248
+
+Mode 212: lambda = -1.010972 + 0.009910i
+  oscillating
+  Dominant: M4 (E, PHARYNGEAL)  weight=0.324  in=0  out=5  in/out=0.00
+  Top 5:
+          M4 (E, PHARYNGEAL)  w=0.3245
+         M3R (E, PHARYNGEAL)  w=0.0987
+          M5 (E, PHARYNGEAL)  w=0.0778
+         M3L (E, PHARYNGEAL)  w=0.0740
+         MCL (E, PHARYNGEAL)  w=0.0580
+
+Mode 213: lambda = -1.010972 + -0.009910i
+  oscillating
+  Dominant: M4 (E, PHARYNGEAL)  weight=0.324  in=0  out=5  in/out=0.00
+  Top 5:
+          M4 (E, PHARYNGEAL)  w=0.3245
+         M3R (E, PHARYNGEAL)  w=0.0987
+          M5 (E, PHARYNGEAL)  w=0.0778
+         M3L (E, PHARYNGEAL)  w=0.0740
+         MCL (E, PHARYNGEAL)  w=0.0580
+
+Mode 219: lambda = -1.014044 + 0.000000i
+  OVERDAMPED
+  Dominant: M4 (E, PHARYNGEAL)  weight=0.520  in=0  out=5  in/out=0.00
+  Top 5:
+          M4 (E, PHARYNGEAL)  w=0.5196
+         M3R (E, PHARYNGEAL)  w=0.1518
+          M5 (E, PHARYNGEAL)  w=0.1216
+          I4 (E, PHARYNGEAL)  w=0.0810
+          I5 (E, PHARYNGEAL)  w=0.0702
+
+===========================================================================
+CATEGORY SUMMARY
+===========================================================================
+
+PHARYNGEAL: 4 modes
+  139      NSMR  Re=-1.0324  Im=+0.0000  in/out=0.40  ovd
+  212        M4  Re=-1.0110  Im=+0.0099  in/out=0.00  osc
+  213        M4  Re=-1.0110  Im=-0.0099  in/out=0.00  osc
+  219        M4  Re=-1.0140  Im=+0.0000  in/out=0.00  ovd
+
+SENSORY: 8 modes
+   15      FLPL  Re=-0.8063  Im=+0.0000  in/out=0.50  ovd
+   18      ASER  Re=-0.9020  Im=+0.0000  in/out=0.91  ovd
+   32      AWAL  Re=-0.9432  Im=+0.0015  in/out=0.14  osc
+   33      AWAL  Re=-0.9432  Im=-0.0015  in/out=0.14  osc
+   46      AFDL  Re=-1.0192  Im=+0.0388  in/out=1.50  osc
+   47      AFDL  Re=-1.0192  Im=-0.0388  in/out=1.50  osc
+  140      OLLL  Re=-1.0372  Im=+0.0000  in/out=0.31  ovd
+  198      URBR  Re=-1.0124  Im=+0.0000  in/out=0.18  ovd
+
+INTER: 6 modes
+   16       RIH  Re=-0.8495  Im=+0.0000  in/out=0.50  ovd
+   17       RIH  Re=-1.1163  Im=+0.0000  in/out=0.50  ovd
+   22      PVDR  Re=-1.0527  Im=+0.0467  in/out=0.00  osc
+   23      PVDR  Re=-1.0527  Im=-0.0467  in/out=0.00  osc
+   24       PVM  Re=-0.9349  Im=+0.0178  in/out=0.29  osc
+   25       PVM  Re=-0.9349  Im=-0.0178  in/out=0.29  osc
+
+===========================================================================
+PHARYNX ISOLATION
+===========================================================================
+
+Pharyngeal neurons: 20
+Somatic neurons: 280
+Synapses within pharynx: 84
+Synapses within soma: 2192
+Synapses pharynx -> soma: 0
+Synapses soma -> pharynx: 0
+Cross-coupling fraction: 0.0%
+
+===========================================================================
+CONNECTIVITY: PAIRED vs UNPAIRED DOMINANT NEURONS
+===========================================================================
+
+Paired modes (n=30):   mean In/Out = 0.21 (median 0.20)
+Unpaired modes (n=18): mean In/Out = 0.40 (median 0.29)
+
+Interpretation: unpaired modes are dominated by neurons that SEND more
+than they receive (In/Out < 1). They are sources, not relays.
+Paired modes are dominated by neurons that RECEIVE more (In/Out > 1).

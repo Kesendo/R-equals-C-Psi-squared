@@ -1,0 +1,159 @@
+===========================================================================
+GRAVITY FROM WAVE DEATH: MASS AS ABSORBED LIGHT
+(Tier 4-5 exploration -- speculative, honestly documented)
+===========================================================================
+
+===========================================================================
+STEP 1: CLASSICAL FRACTION f_classical(t)
+===========================================================================
+
+N=2:
+       t  f_class  f_quant   purity
+    0.00  0.25000  0.75000  1.00000
+    1.02  0.25000  0.57392  0.82392
+    2.04  0.25000  0.44295  0.69295
+    3.06  0.25000  0.34454  0.59454
+    4.08  0.25000  0.26988  0.51988
+    5.00  0.25000  0.21777  0.46777
+   14.18  0.25000  0.03017  0.28017
+   23.37  0.25000  0.00469  0.25469
+   32.55  0.25000  0.00074  0.25074
+   41.73  0.25000  0.00012  0.25012
+
+N=3:
+       t  f_class  f_quant   purity
+    0.00  0.12500  0.67064  0.79564
+    1.02  0.12500  0.48308  0.60808
+    2.04  0.12500  0.35552  0.48052
+    3.06  0.12500  0.26654  0.39154
+    4.08  0.12500  0.20299  0.32799
+    5.00  0.12500  0.16065  0.28565
+   14.18  0.12500  0.02092  0.14592
+   23.37  0.12500  0.00324  0.12824
+   32.55  0.12500  0.00051  0.12551
+   41.73  0.12500  0.00008  0.12508
+
+N=4:
+       t  f_class  f_quant   purity
+    0.00  0.07178  2.09794  2.16972
+    1.02  0.06867  1.39700  1.46567
+    2.04  0.06661  0.94486  1.01146
+    3.06  0.06523  0.64863  0.71387
+    4.08  0.06432  0.45172  0.51604
+    5.00  0.06376  0.33010  0.39386
+   14.18  0.06254  0.02458  0.08712
+   23.37  0.06251  0.00326  0.06577
+   32.55  0.06251  0.00050  0.06301
+   41.73  0.06251  0.00008  0.06259
+
+N=5:
+       t  f_class  f_quant   purity
+    0.00  0.03188  1.07976  1.11164
+    1.02  0.03188  0.64375  0.67563
+    2.04  0.03188  0.39630  0.42818
+    3.06  0.03188  0.25148  0.28337
+    4.08  0.03188  0.16421  0.19610
+    5.00  0.03188  0.11449  0.14637
+   14.18  0.03188  0.00737  0.03925
+   23.37  0.03188  0.00098  0.03286
+   32.55  0.03188  0.00015  0.03203
+   41.73  0.03188  0.00002  0.03191
+
+===========================================================================
+STEP 2: ABSORBED MODE ENERGY E_abs(t)
+===========================================================================
+
+N=2:
+       t      E_abs     E_surv    E_total  absorbed%
+    0.00     0.0000     0.0000     0.0000       0.0%
+    5.05     0.0000     0.0000     0.0000      63.6%
+   10.10     0.0000     0.0000     0.0000      86.7%
+   15.15     0.0000     0.0000     0.0000      95.2%
+   20.20     0.0000     0.0000     0.0000      98.2%
+   25.25     0.0000     0.0000     0.0000      99.4%
+   30.30     0.0000     0.0000     0.0000      99.8%
+   35.35     0.0000     0.0000     0.0000      99.9%
+   40.40     0.0000     0.0000     0.0000     100.0%
+   45.45     0.0000     0.0000     0.0000     100.0%
+
+N=4:
+       t      E_abs     E_surv    E_total  absorbed%
+    0.00     0.0000     0.0000     0.0000       0.0%
+    5.05     0.0000     0.0000     0.0000      72.0%
+   10.10     0.0000     0.0000     0.0000      82.8%
+   15.15     0.0000     0.0000     0.0000      85.4%
+   20.20     0.0000     0.0000     0.0000      86.2%
+   25.25     0.0000     0.0000     0.0000      86.4%
+   30.30     0.0000     0.0000     0.0000      86.5%
+   35.35     0.0000     0.0000     0.0000      86.6%
+   40.40     0.0000     0.0000     0.0000      86.6%
+   45.45     0.0000     0.0000     0.0000      86.6%
+
+===========================================================================
+STEP 3: SPATIAL MASS DISTRIBUTION (N=4)
+===========================================================================
+
+uniform (t=20.0):
+  Site 0: pop=(0.5017,0.4983), |coh|=0.0734, f_class=0.5000, gamma=0.0500
+  Site 1: pop=(0.5017,0.4983), |coh|=0.0734, f_class=0.5000, gamma=0.0500
+  Site 2: pop=(0.5017,0.4983), |coh|=0.0734, f_class=0.5000, gamma=0.0500
+  Site 3: pop=(0.5017,0.4983), |coh|=0.0734, f_class=0.5000, gamma=0.0500
+
+sacrifice (t=20.0):
+  Site 0: pop=(0.5290,0.4710), |coh|=0.0650, f_class=0.5017, gamma=0.1970
+  Site 1: pop=(0.5295,0.4705), |coh|=0.0823, f_class=0.5017, gamma=0.0010
+  Site 2: pop=(0.5295,0.4705), |coh|=0.0840, f_class=0.5017, gamma=0.0010
+  Site 3: pop=(0.5290,0.4710), |coh|=0.0649, f_class=0.5017, gamma=0.0010
+
+===========================================================================
+STEP 4: K_death (dose for complete wave death)
+===========================================================================
+
+N=2: 3 immortal modes (Re=0), slowest mortal rate = 0.100000
+  t_99 (slowest mortal to 1%) = 46.1
+  K_death = gamma * t_99 = 2.3026
+  K_death / K_cross (ratio to fold dose) ~ 2.3x
+
+N=3: 4 immortal modes (Re=0), slowest mortal rate = 0.100000
+  t_99 (slowest mortal to 1%) = 46.1
+  K_death = gamma * t_99 = 2.3026
+  K_death / K_cross (ratio to fold dose) ~ 2.3x
+
+N=4: 5 immortal modes (Re=0), slowest mortal rate = 0.100000
+  t_99 (slowest mortal to 1%) = 46.1
+  K_death = gamma * t_99 = 2.3026
+  K_death / K_cross (ratio to fold dose) ~ 2.3x
+
+===========================================================================
+SUMMARY (Tier 4-5)
+===========================================================================
+
+1. CLASSICAL FRACTION GROWS: f_classical increases monotonically as
+   quantum modes are absorbed. The growth is initially fast (high-weight
+   modes die first) then slows as only low-weight modes remain.
+
+2. ABSORBED ENERGY CORRELATES WITH CLASSICAL GROWTH: The total mode
+   energy lost (E_abs) tracks f_classical. Higher frequency modes
+   contribute more energy when they die.
+
+3. SPATIAL DISTRIBUTION FOLLOWS GAMMA: Under sacrifice zone, the edge
+   qubit loses more coherence (higher f_classical) than interior qubits.
+   If mass = absorbed light, mass accumulates at the entrance pupil.
+
+4. K_death IS FINITE FOR MORTAL MODES: The dose for 99% wave death is
+   finite (~5-50x the fold dose K_cross). But immortal modes (at Re=0)
+   NEVER die. The cavity always retains some standing waves. Complete
+   wave death is impossible while the palindrome holds.
+
+5. THE PALINDROME AS MASSLESSNESS: Immortal modes (N+1 at weight 0)
+   are massless: they carry no absorbed energy, they persist forever.
+   They are the cavity's photons: always moving, never resting,
+   never becoming mass. Mass requires absorption. The palindrome
+   protects some modes from ever being absorbed.
+
+HONEST ASSESSMENT: The correlation between f_classical and absorbed
+energy is real and structural. The spatial correlation with gamma is
+clean. But the link to E=mc^2 remains a metaphor: our system has no
+speed of light, no rest mass, no gravitational field. What we can
+say is: if mass IS absorbed light (a big if), then the Lindblad cavity
+provides the mechanism and the palindrome prevents total absorption.

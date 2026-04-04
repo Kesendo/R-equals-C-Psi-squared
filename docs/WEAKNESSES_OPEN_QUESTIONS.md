@@ -1,7 +1,7 @@
 # What We Got Wrong, What We Cannot Do, and What We Do Not Know
 
 **Status:** Living document
-**Last updated:** April 2, 2026
+**Last updated:** April 4, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ## Why you should read this first
@@ -208,6 +208,10 @@ These were once on the active list. They have since been answered.
 | Born Rule Gap | Substantially resolved: R_i = C_i · (Ψ_past + Ψ_future)² gives Born as perfect-mirror limit. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | N-Scaling Barrier | Resolved: crossing is local to entangled pairs. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Gravitational invariance | Demoted: true but trivial (dimensionless ratios). Gravity interpretation moved to `recovered/` |
+| Spectral boundaries | Resolved: Re(λ) = −2γ⟨n_XY⟩ (Absorption Theorem). Min = 2γ (one light factor), max = 2(N−1)γ. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Why factor 2 | Resolved: standing wave round trip. Unpaired modes are all-light (⟨n_XY⟩=N), paired average to half-light. Ratio = 2 by definition. See [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) |
+| Spectral gap | Resolved: 2γ = one absorption quantum. The cost of a single X/Y Pauli factor. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| IBM hardware | Resolved: Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations at 470 μs, not cavity fringes. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 
 ---
 
@@ -232,6 +236,25 @@ These could be answered with the code and hardware we already have.
 
 4. **Depolarizing noise correction:** err = (2/3)Σγ breaks the
    palindrome linearly. Can this be incorporated into design rules?
+
+### Answered by the Absorption Theorem (April 4, 2026)
+
+The Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) resolved three questions
+that were not explicitly listed here but had been open since March:
+what determines the spectral boundaries (answer: light content), why
+the factor 2 (answer: standing wave round trip), and what sets the
+spectral gap (answer: one absorption quantum, 2γ). These are now
+formulas, not observations. See
+[Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
+
+The mass-energy relationship is α = 2γ⟨n_XY⟩, which is linear in γ
+(not quadratic as in E = mc²). The Lindblad equation is first-order in
+time, so the "speed" γ appears to the first power.
+See [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md).
+
+On IBM hardware (Q52 tomography): the Absorption Theorem ratio is 1.03
+(3%). Detuning oscillations at 470 μs period are present. See
+[IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md).
 
 ### Require new tools or theory
 
@@ -270,7 +293,7 @@ philosophical. We try never to confuse these categories.
 
 | Category | Examples |
 |---|---|
-| **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, time irreversibility exclusion (N>2) |
+| **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, time irreversibility exclusion (N>2), Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) |
 | **Verified** (simulation, reproducible) | 54,118 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, sacrifice-zone formula 139-360×, cockpit 3-observable coverage 88-96% |
 | **Hardware-confirmed** | CΨ crossing at 0.3% (Q52), selective DD 3.2× (5-qubit), T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
@@ -301,4 +324,6 @@ impactful next step.
 (IBM results), Feb 18 (Born rule, N-scaling resolved), Mar 6 (star
 topology), Mar 14 (palindrome proven), Mar 16-18 (XOR, non-Heisenberg,
 QST), Mar 24 (sacrifice formula), Apr 1 (Urqubit algebra), Apr 2
-(cockpit framework, rewrite for clarity).*
+(cockpit framework, rewrite for clarity). Apr 4
+(Absorption Theorem resolves spectral boundaries/gap/factor-2,
+IBM hardware confirms at 3%, mass-energy relation is linear).*

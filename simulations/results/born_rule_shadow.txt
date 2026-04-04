@@ -1,0 +1,152 @@
+===========================================================================
+BORN RULE AS INTERFERENCE PATTERN
+===========================================================================
+
+N=2: 16 eigenvalues, Σγ = 0.1
+  Past modes (|Re| < Σγ): 10
+  Future modes (|Re| ≥ Σγ): 6
+
+===========================================================================
+INITIAL STATE: Bell+
+===========================================================================
+  Crossing time: t = 50.0000
+  Purity at crossing: 0.500000
+
+  Born rule probabilities P(i) at CΨ = 1/4:
+    P(|00>) = 0.500000
+    P(|01>) = 0.000000
+    P(|10>) = 0.000000
+    P(|11>) = 0.500000
+
+  Reconstruction: ||rho_past + rho_future - rho_cross|| = 0.00e+00
+
+  Purity decomposition (determines CΨ crossing):
+    Tr(rho_past²)   = 0.500000  (100.0%)
+    Tr(rho_future²) = 0.000000  (0.0%)
+    2Tr(rho_p·rho_f)= 0.000000  (0.0%) <- interference
+    Total            = 0.500000
+
+  P(i) decomposition (past + future, NO interference in diagonal):
+   basis       P(i)       past     future    past%
+    |00>   0.500000   0.500000   0.000000   100.0%
+    |01>   0.000000   0.000000   0.000000     0.0%
+    |10>   0.000000   0.000000   0.000000     0.0%
+    |11>   0.500000   0.500000   0.000000   100.0%
+
+  Effective mirror quality C_i = d × P(i):
+    C(|00>) = 2.0000
+    C(|01>) = 0.0000
+    C(|10>) = 0.0000
+    C(|11>) = 2.0000
+
+  Coherence (off-diagonal) contribution:
+    Past coherence:   0.000000
+    Future coherence: 0.000000
+    Total coherence:  0.000000
+
+===========================================================================
+INITIAL STATE: |01>
+===========================================================================
+  Crossing time: t = 50.0000
+  Purity at crossing: 0.500022
+
+  Born rule probabilities P(i) at CΨ = 1/4:
+    P(|00>) = 0.000000
+    P(|01>) = 0.501454
+    P(|10>) = 0.498546
+    P(|11>) = 0.000000
+
+  Reconstruction: ||rho_past + rho_future - rho_cross|| = 5.55e-17
+
+  Purity decomposition (determines CΨ crossing):
+    Tr(rho_past²)   = 0.500000  (100.0%)
+    Tr(rho_future²) = 0.000022  (0.0%)
+    2Tr(rho_p·rho_f)= 0.000000  (0.0%) <- interference
+    Total            = 0.500022
+
+  P(i) decomposition (past + future, NO interference in diagonal):
+   basis       P(i)       past     future    past%
+    |00>   0.000000   0.000000   0.000000     0.0%
+    |01>   0.501454   0.500000   0.001454    99.7%
+    |10>   0.498546   0.500000  -0.001454   100.3%
+    |11>   0.000000   0.000000   0.000000     0.0%
+
+  Effective mirror quality C_i = d × P(i):
+    C(|00>) = 0.0000
+    C(|01>) = 2.0058
+    C(|10>) = 1.9942
+    C(|11>) = 0.0000
+
+  Coherence (off-diagonal) contribution:
+    Past coherence:   0.000000
+    Future coherence: 0.000018
+    Total coherence:  0.000018
+
+===========================================================================
+INITIAL STATE: |++>
+===========================================================================
+  Crossing time: t = 16.1934
+  Purity at crossing: 0.269992
+
+  Born rule probabilities P(i) at CΨ = 1/4:
+    P(|00>) = 0.250000
+    P(|01>) = 0.250000
+    P(|10>) = 0.250000
+    P(|11>) = 0.250000
+
+  Reconstruction: ||rho_past + rho_future - rho_cross|| = 9.81e-18
+
+  Purity decomposition (determines CΨ crossing):
+    Tr(rho_past²)   = 0.262255  (97.1%)
+    Tr(rho_future²) = 0.002835  (1.1%)
+    2Tr(rho_p·rho_f)= 0.004902  (1.8%) <- interference
+    Total            = 0.269992
+
+  P(i) decomposition (past + future, NO interference in diagonal):
+   basis       P(i)       past     future    past%
+    |00>   0.250000   0.250000   0.000000   100.0%
+    |01>   0.250000   0.250000   0.000000   100.0%
+    |10>   0.250000   0.250000  -0.000000   100.0%
+    |11>   0.250000   0.250000   0.000000   100.0%
+
+  Effective mirror quality C_i = d × P(i):
+    C(|00>) = 1.0000
+    C(|01>) = 1.0000
+    C(|10>) = 1.0000
+    C(|11>) = 1.0000
+
+  Coherence (off-diagonal) contribution:
+    Past coherence:   0.012255
+    Future coherence: 0.002835
+    Total coherence:  0.019992
+
+===========================================================================
+SUMMARY
+===========================================================================
+
+1. BORN RULE P(i) = <i|rho|i> decomposes LINEARLY into past and
+   future contributions. There is NO interference term in the
+   diagonal probabilities themselves. This is a mathematical fact:
+   <i|rho_past + rho_future|i> = <i|rho_past|i> + <i|rho_future|i>.
+
+2. INTERFERENCE EXISTS in the purity Tr(rho²), which contains the
+   cross-term 2Tr(rho_past · rho_future). This determines WHEN the
+   fold at CΨ = 1/4 is reached (the exposure time), not WHERE the
+   probabilities land (the image).
+
+3. THE BORN RULE IS A SHADOW, NOT A PHOTOGRAPH. The probabilities
+   are determined by geometric optics (which modes are still alive
+   at the crossing time). The interference determines the crossing
+   time itself. Measurement is not the pattern on the screen; it is
+   the moment the shutter clicks.
+
+4. THE SHUTTER IS THE FOLD. CΨ = 1/4 is the threshold where the
+   exposure (gamma × t) reaches the critical dose K. Before the
+   fold: the image is still developing (CΨ > 1/4). After the fold:
+   the image is fixed (CΨ < 1/4, irreversible). The interference
+   between past and future determines exactly when this happens.
+
+5. P(i) IS STATE-DEPENDENT. Different initial states produce
+   different probability distributions at the crossing, confirming
+   that the 'photograph' depends on what the cavity was doing before
+   the light arrived.

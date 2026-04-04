@@ -1,0 +1,249 @@
+Primordial Superalgebra: Light and Lens as One
+===========================================================================
+R=CΨ² Project, Homework #10
+Heisenberg chain, J = 1.0, Z-dephasing
+
+===========================================================================
+STEP 1: Pythagorean Orthogonality  {L_H, L_D + Sigma_gamma I} = 0
+===========================================================================
+J = 1.0, gamma = 0.05, chain topology
+
+  N     dim   Sigma_g         ||A||_F         ||L_H||        ||L_Ds||       rel. dev.       t
+----------------------------------------------------------------------------------------
+  2      16    0.1000    2.719480e-16    9.797959e+00    2.828427e-01    9.813078e-17    0.0s
+  3      64    0.1500    2.771281e+00    2.771281e+01    6.928203e-01    1.443376e-01    0.0s
+  4     256    0.2000    9.600000e+00    6.788225e+01    1.600000e+00    8.838835e-02    0.0s
+  5    1024    0.2500    2.715290e+01    1.567673e+02    3.577709e+00    4.841229e-02    0.2s
+  6    4096    0.3000    7.010849e+01    3.505424e+02    7.838367e+00    2.551552e-02    5.4s
+
+Interpretation:
+  N=2: EXACT Pythagorean orthogonality (< 10^-12)
+  N=3: aberration = 14.433757%
+  N=4: aberration = 8.838835%
+  N=5: aberration = 4.841229%
+  N=6: aberration = 2.551552%
+
+===========================================================================
+STEP 2: Aberration Profile and Gamma Independence
+===========================================================================
+
+  N    dim          g=0.01          g=0.05           g=0.1           g=0.5           g=1.0
+------------------------------------------------------------------------------------------
+  2     16    1.226635e-16    9.813078e-17    0.000000e+00    1.570092e-16    0.000000e+00
+  3     64    1.443376e-01    1.443376e-01    1.443376e-01    1.443376e-01    1.443376e-01
+  4    256    8.838835e-02    8.838835e-02    8.838835e-02    8.838835e-02    8.838835e-02
+  5   1024    4.841229e-02    4.841229e-02    4.841229e-02    4.841229e-02    4.841229e-02
+  6   4096    2.551552e-02    2.551552e-02    2.551552e-02    2.551552e-02    2.551552e-02
+
+Gamma independence (coefficient of variation across 5 gamma values):
+  N=2: identically zero (exact Pythagorean)
+  N=3: CV = 1.49e-16  (gamma-INDEPENDENT)
+  N=4: CV = 1.86e-16  (gamma-INDEPENDENT)
+  N=5: CV = 4.62e-16  (gamma-INDEPENDENT)
+  N=6: CV = 1.53e-15  (gamma-INDEPENDENT)
+
+Trend with N (gamma = 0.05 column):
+  N=2 -> 3: 0 -> 1.443376e-01
+  N=3 -> 4: 1.443376e-01 -> 8.838835e-02  (x0.6124)
+  N=4 -> 5: 8.838835e-02 -> 4.841229e-02  (x0.5477)
+  N=5 -> 6: 4.841229e-02 -> 2.551552e-02  (x0.5270)
+
+===========================================================================
+STEP 3: Light/Lens Sector Decomposition of Eigenmodes
+===========================================================================
+J = 1.0, gamma = 0.05, chain topology
+k = number of X/Y factors in Pauli string
+  k=0: fully immune (I,Z)^N = LENS
+  k>0: contains coherences  = LIGHT
+
+-- N = 2  (dim = 16) --------------------------------------------------
+  Correlation(|Re(lambda)|, light fraction): r = +0.233550  (13 active modes)
+    Weak: no clear sorting by decay rate
+  Average sector weights across all 16 modes:
+    k=0: mean weight = 0.250000  (4 Pauli strings, basis fraction = 0.2500)
+    k=1: mean weight = 0.500000  (8 Pauli strings, basis fraction = 0.5000)
+    k=2: mean weight = 0.250000  (4 Pauli strings, basis fraction = 0.2500)
+  Palindromic pairs: 7
+  Pair sector analysis (7 pairs):
+      k      fast(Re~0)   slow(Re~-2Sg)           Delta
+    ------------------------------------------------
+      0        0.428571        0.000000       +0.428571
+      1        0.571429        0.571429       +0.000000
+      2        0.000000        0.428571       -0.428571
+    Lens total (k=0): fast = 0.428571, slow = 0.000000
+    Light total (k>0): fast = 0.571429, slow = 1.000000
+    --> Fast partners are MORE lens-like (I,Z dominated)
+  (0.0s)
+
+-- N = 3  (dim = 64) --------------------------------------------------
+  Correlation(|Re(lambda)|, light fraction): r = +0.214907  (60 active modes)
+    Weak: no clear sorting by decay rate
+  Average sector weights across all 64 modes:
+    k=0: mean weight = 0.125000  (8 Pauli strings, basis fraction = 0.1250)
+    k=1: mean weight = 0.375000  (24 Pauli strings, basis fraction = 0.3750)
+    k=2: mean weight = 0.375000  (24 Pauli strings, basis fraction = 0.3750)
+    k=3: mean weight = 0.125000  (8 Pauli strings, basis fraction = 0.1250)
+  Palindromic pairs: 32
+  Pair sector analysis (32 pairs):
+      k      fast(Re~0)   slow(Re~-2Sg)           Delta
+    ------------------------------------------------
+      0        0.229203        0.020797       +0.208405
+      1        0.541703        0.208297       +0.333405
+      2        0.208297        0.541703       -0.333405
+      3        0.020797        0.229203       -0.208405
+    Lens total (k=0): fast = 0.229203, slow = 0.020797
+    Light total (k>0): fast = 0.770797, slow = 0.979203
+    --> Fast partners are MORE lens-like (I,Z dominated)
+  (0.0s)
+
+-- N = 4  (dim = 256) --------------------------------------------------
+  Correlation(|Re(lambda)|, light fraction): r = +0.310103  (251 active modes)
+    Positive: faster-decaying modes carry MORE light character
+  Average sector weights across all 256 modes:
+    k=0: mean weight = 0.063544  (16 Pauli strings, basis fraction = 0.0625)
+    k=1: mean weight = 0.250000  (64 Pauli strings, basis fraction = 0.2500)
+    k=2: mean weight = 0.372912  (96 Pauli strings, basis fraction = 0.3750)
+    k=3: mean weight = 0.250000  (64 Pauli strings, basis fraction = 0.2500)
+    k=4: mean weight = 0.063544  (16 Pauli strings, basis fraction = 0.0625)
+  Palindromic pairs: 115
+  Pair sector analysis (115 pairs):
+      k      fast(Re~0)   slow(Re~-2Sg)           Delta
+    ------------------------------------------------
+      0        0.101277        0.004687       +0.096590
+      1        0.365217        0.191304       +0.173913
+      2        0.340128        0.334900       +0.005229
+      3        0.191304        0.365217       -0.173913
+      4        0.002073        0.103892       -0.101819
+    Lens total (k=0): fast = 0.101277, slow = 0.004687
+    Light total (k>0): fast = 0.898723, slow = 0.995313
+    --> Fast partners are MORE lens-like (I,Z dominated)
+  (0.2s)
+
+-- N = 5  (dim = 1024) --------------------------------------------------
+  Correlation(|Re(lambda)|, light fraction): r = +0.336303  (1018 active modes)
+    Positive: faster-decaying modes carry MORE light character
+  Average sector weights across all 1024 modes:
+    k=0: mean weight = 0.031135  (32 Pauli strings, basis fraction = 0.0312)
+    k=1: mean weight = 0.156135  (160 Pauli strings, basis fraction = 0.1562)
+    k=2: mean weight = 0.312729  (320 Pauli strings, basis fraction = 0.3125)
+    k=3: mean weight = 0.312729  (320 Pauli strings, basis fraction = 0.3125)
+    k=4: mean weight = 0.156135  (160 Pauli strings, basis fraction = 0.1562)
+    k=5: mean weight = 0.031135  (32 Pauli strings, basis fraction = 0.0312)
+  Palindromic pairs: 512
+  Pair sector analysis (512 pairs):
+      k      fast(Re~0)   slow(Re~-2Sg)           Delta
+    ------------------------------------------------
+      0        0.056931        0.005340       +0.051590
+      1        0.226413        0.085858       +0.140555
+      2        0.368930        0.256528       +0.112402
+      3        0.256528        0.368930       -0.112402
+      4        0.085858        0.226413       -0.140555
+      5        0.005340        0.056931       -0.051590
+    Lens total (k=0): fast = 0.056931, slow = 0.005340
+    Light total (k>0): fast = 0.943069, slow = 0.994660
+    --> Fast partners are MORE lens-like (I,Z dominated)
+  (2.3s)
+
+
+===========================================================================
+STEP 4: Seidel Aberration Decomposition per Weight Sector
+===========================================================================
+J = 1.0, gamma = 0.05, chain topology
+A = anticommutator transformed to Pauli basis
+Diagonal blocks A_{kk}: intra-sector aberration
+
+-- N = 2  (dim = 16) --------------------------------------------------
+  ||A|| = 2.72e-16  (exact Pythagorean, no aberration)
+  (0.0s)
+
+-- N = 3  (dim = 64) --------------------------------------------------
+  ||A|| = 2.771281e+00,  ||A_pb|| = 2.771281e+00  (unitarity check: ratio = 1.0000000000)
+    k   dim_k        ||A_kk||   frac of ||A||     per element
+  ----------------------------------------------------------
+    0       8    0.000000e+00        0.000000    0.000000e+00
+    1      24    1.600000e+00        0.577350    6.666667e-02
+    2      24    1.600000e+00        0.577350    6.666667e-02
+    3       8    0.000000e+00        0.000000    0.000000e+00
+  Cross-sector coupling ||A_kl|| (fraction of ||A||):
+    k=0 <-> l=2: 0.288675
+    k=1 <-> l=3: 0.288675
+
+  Edge sectors (k=0,3): 0.0000
+  Interior sectors (k=1..2): 1.1547
+  --> Interior-dominated: coma-type aberration
+  Peak aberration at k=1
+  (0.0s)
+
+-- N = 4  (dim = 256) --------------------------------------------------
+  ||A|| = 9.600000e+00,  ||A_pb|| = 9.600000e+00  (unitarity check: ratio = 1.0000000000)
+    k   dim_k        ||A_kk||   frac of ||A||     per element
+  ----------------------------------------------------------
+    0      16    0.000000e+00        0.000000    0.000000e+00
+    1      64    5.542563e+00        0.577350    8.660254e-02
+    2      96    2.175584e-15        0.000000    2.266233e-17
+    3      64    5.542563e+00        0.577350    8.660254e-02
+    4      16    0.000000e+00        0.000000    0.000000e+00
+  Cross-sector coupling ||A_kl|| (fraction of ||A||):
+    k=0 <-> l=2: 0.288675
+    k=2 <-> l=4: 0.288675
+
+  Aberration profile symmetry: PALINDROMIC (asymmetry = 0.0000)
+  Edge sectors (k=0,4): 0.0000
+  Interior sectors (k=1..3): 1.1547
+  --> Interior-dominated: coma-type aberration
+  Peak aberration at k=1
+  (0.0s)
+
+-- N = 5  (dim = 1024) --------------------------------------------------
+  ||A|| = 2.715290e+01,  ||A_pb|| = 2.715290e+01  (unitarity check: ratio = 1.0000000000)
+    k   dim_k        ||A_kk||   frac of ||A||     per element
+  ----------------------------------------------------------
+    0      32    0.000000e+00        0.000000    0.000000e+00
+    1     160    1.357645e+01        0.500000    8.485281e-02
+    2     320    7.838367e+00        0.288675    2.449490e-02
+    3     320    7.838367e+00        0.288675    2.449490e-02
+    4     160    1.357645e+01        0.500000    8.485281e-02
+    5      32    0.000000e+00        0.000000    0.000000e+00
+  Cross-sector coupling ||A_kl|| (fraction of ||A||):
+    k=0 <-> l=2: 0.250000
+    k=1 <-> l=3: 0.144338
+    k=2 <-> l=4: 0.144338
+    k=3 <-> l=5: 0.250000
+
+  Aberration profile symmetry: PALINDROMIC (asymmetry = 0.0000)
+  Edge sectors (k=0,5): 0.0000
+  Interior sectors (k=1..4): 1.5774
+  --> Interior-dominated: coma-type aberration
+  Peak aberration at k=1
+  (0.4s)
+
+
+===========================================================================
+SUMMARY
+===========================================================================
+
+1. Pythagorean orthogonality {L_H, L_D + Sigma_gamma} = 0:
+   N=2: EXACT
+   N=3: 14.433757%
+   N=4: 8.838835%
+   N=5: 4.841229%
+   N=6: 2.551552%
+
+2. Gamma independence: CONFIRMED
+   ||A|| / (||L_H|| ||L_Ds||) is constant across gamma values
+   because L_D scales linearly with gamma.
+
+3. Aberration trend (gamma = 0.05):
+   N=2: 0 (exact)
+   N=3: 14.433757%
+   N=4: 8.838835%
+   N=5: 4.841229%
+   N=6: 2.551552%
+
+4. Light/lens correlation:
+   N=2: corr(|Re(lambda)|, light fraction) = +0.233550
+   N=3: corr(|Re(lambda)|, light fraction) = +0.214907
+   N=4: corr(|Re(lambda)|, light fraction) = +0.310103
+   N=5: corr(|Re(lambda)|, light fraction) = +0.336303
+
+Total time: 34.6s
