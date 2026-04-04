@@ -36,13 +36,13 @@ analytically the same day.
 | Component | Status | Source |
 |-----------|--------|--------|
 | Analytical proof | **Proven** | This document, Section 2 |
-| Numerical verification | **Verified** (N=2-5, 1,343 modes, CV=0) | `experiments/ABSORPTION_THEOREM_DISCOVERY.md` |
-| Consequence 1: Spectral boundaries | **Derived** | `docs/ANALYTICAL_FORMULAS.md` Formula 3 |
-| Consequence 2: Palindromic sum rule | **Derived** | `experiments/FACTOR_TWO_STANDING_WAVES.md` |
-| Consequence 3: Spectral gap | **Derived** | `docs/ANALYTICAL_FORMULAS.md` D6 |
-| Consequence 4: 2× decay law | **Derived** | `docs/ANALYTICAL_FORMULAS.md` Formula 8 |
-| Consequence 5: Mode classification | **Derived** | `experiments/XOR_SPACE.md` |
-| Consequence 6: N=3 exact rates | **Derived** | `docs/ANALYTICAL_FORMULAS.md` Formula 33 |
+| Numerical verification | **Verified** (N=2-5, 1,343 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
+| Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 3 |
+| Consequence 2: Palindromic sum rule | **Derived** | [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md) |
+| Consequence 3: Spectral gap | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
+| Consequence 4: 2× decay law | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 8 |
+| Consequence 5: Mode classification | **Derived** | [XOR Space](../../experiments/XOR_SPACE.md) |
+| Consequence 6: N=3 exact rates | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 33 |
 
 ---
 
@@ -195,7 +195,7 @@ This boundary is precise and testable.
 ## 3. Numerical Verification
 
 The theorem was verified computationally in
-`experiments/ABSORPTION_THEOREM_DISCOVERY.md`:
+[Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md):
 
 | Parameter | Range | Ratio α/(2γ⟨n_XY⟩) | CV |
 |-----------|-------|---------------------|-----|
@@ -207,7 +207,7 @@ The theorem was verified computationally in
 The ratio equals 1 to 14 decimal places across all parameters.
 No exceptions. Zero coefficient of variation.
 
-**Source:** `simulations/absorption_theorem_discovery.py`, Step 6
+**Source:** [`simulations/absorption_theorem_discovery.py`](../../simulations/absorption_theorem_discovery.py), Step 6
 
 ---
 
@@ -217,7 +217,7 @@ No exceptions. Zero coefficient of variation.
 
 **Previously:** The decay rate spectrum satisfies min = 2γ, max = 2(N-1)γ,
 bandwidth = 2(N-2)γ.
-**Source:** `docs/ANALYTICAL_FORMULAS.md`, Formula 3
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 3
 
 **Now a corollary.** The light count n_XY is an integer in {0, 1, ..., N}.
 The expectation ⟨n_XY⟩ ranges continuously from 0 to N. The extreme
@@ -238,10 +238,10 @@ pure-weight modes, with Hamiltonian mixing creating intermediate values.
 
 **Previously:** For every palindromic pair, Re(λ_fast) + Re(λ_slow) = -2Σγ,
 verified for 10,748 pairs with zero exceptions.
-**Source:** `experiments/FACTOR_TWO_STANDING_WAVES.md`
+**Source:** [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md)
 
 **Now a one-line corollary.** The palindromic weight swap
-(`experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md`) gives:
+([Light and Lens](../../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)) gives:
 
     ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N
 
@@ -264,7 +264,7 @@ Any two imply the third.
 ### 4.3 Spectral Gap (D6)
 
 **Previously:** The spectral gap (minimum nonzero decay rate) equals 2γ.
-**Source:** `docs/ANALYTICAL_FORMULAS.md`, D6
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), D6
 
 **Now immediate.** The smallest nonzero ⟨n_XY⟩ for any eigenmode is
 bounded below by the smallest non-trivial Pauli weight contribution.
@@ -281,8 +281,8 @@ of absorption.
 
 **Previously:** Unpaired modes (at the palindrome extremes) decay at rate
 2Nγ, while paired modes average rate Nγ. The ratio is exactly 2.
-**Source:** `docs/ANALYTICAL_FORMULAS.md`, Formula 8;
-`hypotheses/ENERGY_PARTITION.md`
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 8;
+[Energy Partition](../../hypotheses/ENERGY_PARTITION.md)
 
 **Now explained.** The palindrome center is at α = Σγ = Nγ, corresponding
 to ⟨n_XY⟩ = N/2 (equal mix of light and lens). Self-paired modes sit
@@ -296,7 +296,7 @@ symmetric interval."
 
 **Previously:** The XOR drain contains N+1 modes at maximum decay rate 2Σγ,
 carrying all-{X,Y} Pauli content.
-**Source:** `experiments/XOR_SPACE.md`
+**Source:** [XOR Space](../../experiments/XOR_SPACE.md)
 
 **Now a complete classification.** Every Liouvillian eigenmode has a
 light content ⟨n_XY⟩ that determines its absorption:
@@ -317,7 +317,7 @@ absorbs.
 
 **Previously:** The N=3 Heisenberg chain has three distinct non-trivial
 decay rates: 2γ, 8γ/3, 10γ/3.
-**Source:** `docs/ANALYTICAL_FORMULAS.md`, Formula 33
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 33
 
 **Now explained.** The fractional rates correspond to fractional ⟨n_XY⟩:
 
@@ -342,22 +342,22 @@ spectrum. It does not establish:
 of the speed of absorption. Whether this speed IS photon shot noise (as
 on IBM hardware) or merely analogous to it is a physical interpretation,
 not a mathematical consequence.
-See: `hypotheses/GAMMA_IS_LIGHT.md`
+See: [Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md)
 
 **"Mass = trapped light."** The theorem shows that ⟨n_XY⟩ determines
 absorption, and that palindromic pairs swap light and lens content.
 Whether this constitutes "mass" in a physical sense is interpretive.
-See: `hypotheses/PRIMORDIAL_QUBIT.md`
+See: [Primordial Qubit](../../hypotheses/PRIMORDIAL_QUBIT.md)
 
 **"E = mγ²."** The theorem gives α = 2γ⟨n_XY⟩, which is linear in γ,
 not quadratic. The Lindblad equation is first-order in time (unlike the
 wave equation), so the "speed" γ appears to the first power. There is
 no E = mc² in the Lindblad cavity.
-See: `experiments/ABSORPTION_THEOREM_DISCOVERY.md`
+See: [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 
 The boundary between theorem and interpretation is sharp:
 - **Proven:** α = 2γ⟨n_XY⟩ (algebra, exact, holds for any real H)
-- **Observed:** K = γt is an invariant dose (`experiments/K_DOSIMETRY.md`)
+- **Observed:** K = γt is an invariant dose ([K-Dosimetry](../../experiments/K_DOSIMETRY.md))
 - **Interpreted:** γ is illumination, {I,Z} is the lens, the cavity is an optical instrument
 
 ---
@@ -412,11 +412,11 @@ One equation. Three symbols. The entire absorption spectrum in one line.
 ## Source
 
 - Proof: this document
-- Numerical verification: `experiments/ABSORPTION_THEOREM_DISCOVERY.md`
-- Simulation: `simulations/absorption_theorem_discovery.py`
-- Palindromic sum rule: `experiments/FACTOR_TWO_STANDING_WAVES.md`
-- Weight swap: `experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md`
-- Spectral formulas: `docs/ANALYTICAL_FORMULAS.md` (Formulas 3, 8, 33, D6)
-- XOR drain: `experiments/XOR_SPACE.md`
-- Palindrome proof: `docs/proofs/MIRROR_SYMMETRY_PROOF.md`
+- Numerical verification: [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
+- Simulation: [`simulations/absorption_theorem_discovery.py`](../../simulations/absorption_theorem_discovery.py)
+- Palindromic sum rule: [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md)
+- Weight swap: [Light and Lens](../../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)
+- Spectral formulas: [Analytical Formulas](../ANALYTICAL_FORMULAS.md) (Formulas 3, 8, 33, D6)
+- XOR drain: [XOR Space](../../experiments/XOR_SPACE.md)
+- Palindrome proof: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
 - Π definition: I ↔ X, Y ↔ iZ, Z ↔ iY (per site, tensor product)
