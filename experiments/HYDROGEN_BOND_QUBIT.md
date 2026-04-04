@@ -57,7 +57,7 @@ computation applies proven results to physical hydrogen bond parameters.
 
 ## Why the Classical Model Failed
 
-A previous attempt ([V17 negative result](../ClaudeTasks/RESULT_WATER_PALINDROME_MARCH28.md))
+A previous attempt (V17 negative result, local analysis not published)
 modeled water classically: hydrogen bonds as springs with friction,
 donor/acceptor modes as coupled oscillators. Palindrome residual: 1.33.
 No palindromic structure found.
@@ -297,5 +297,4 @@ the fold. Since the first oceans.
 *See also:*
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (why palindrome MUST hold),
 [V-Effect Palindrome](V_EFFECT_PALINDROME.md) (quantum V-Effect),
-[Subsystem Crossing](SUBSYSTEM_CROSSING.md) (pair CΨ crossing),
-[V17 negative result](../ClaudeTasks/RESULT_WATER_PALINDROME_MARCH28.md) (classical failure)
+[Subsystem Crossing](SUBSYSTEM_CROSSING.md) (pair CΨ crossing)

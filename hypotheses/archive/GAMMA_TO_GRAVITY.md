@@ -7,7 +7,7 @@
 > [Gamma Is Light](../GAMMA_IS_LIGHT.md), which arrives at the same
 > conclusion (gamma is fundamental, not parasitic) through the optical
 > cavity analysis instead of the gravitational path. The gravity direction
-> remains open as [Homework #9](../../ClaudeTasks/homework/20260404/09_GRAVITY_WAVE_DEATH.md).
+> remains an open research thread.
 
 **What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, 1/4 boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1-6 are proven; steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
 

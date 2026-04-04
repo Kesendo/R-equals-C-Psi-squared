@@ -266,7 +266,6 @@ make the sacrifice qubit WORSE under uniform DD, increasing the
 advantage of selective DD.
 
 Script: simulations/ibm_formula_test.py.
-Full analysis: ClaudeTasks/RESULT_IBM_FORMULA_VALIDATION_MARCH28.md.
 
 ---
 

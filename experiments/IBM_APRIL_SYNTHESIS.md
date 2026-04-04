@@ -522,4 +522,4 @@ All paths relative to this file.
 | Spectral Analysis | [RMT](RANDOM_MATRIX_THEORY.md), [PT-Symmetry](PT_SYMMETRY_ANALYSIS.md), [Topo Edge Modes](TOPOLOGICAL_EDGE_MODES.md), [SFF](SPECTRAL_FORM_FACTOR.md), [Entropy](ENTROPY_PRODUCTION.md) |
 | Chemistry | [Proton Water Chain](PROTON_WATER_CHAIN.md), [DNA Base Pairing](DNA_BASE_PAIRING.md) |
 | Simulation Code | [combined_optimization.py](../simulations/combined_optimization.py), [time_evolution_6scenarios.py](../simulations/time_evolution_6scenarios.py), [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py), [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py), [v_effect_thermal.py](../simulations/v_effect_thermal.py), [chain_selection_test.py](../simulations/chain_selection_test.py), [self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py) |
-| Handoffs | [March 30](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH30_PM.md), [March 29](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH29_PM.md), [March 28](../ClaudeTasks/Archiv/SESSION_HANDOFF_MARCH28.md) |
+| Handoffs | March 28-30 session handoffs (local, not published) |
