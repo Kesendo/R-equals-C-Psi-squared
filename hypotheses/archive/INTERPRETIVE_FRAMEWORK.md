@@ -1,8 +1,16 @@
+> **Why this is in archive/:** This is the original philosophical framework
+> from December 2025, before any mathematical proofs existed. It contains
+> consciousness framing and speculative interpretations that have been
+> retired. However, the standing wave equations and mirror metaphors from
+> this document were later confirmed mathematically (Π as Time Reversal,
+> March 2026) and the core idea "we are all mirrors" became the project
+> motto. The document stays here as the seed from which everything grew.
+> For the current interpretation, see [THE_INTERPRETATION.md](../THE_INTERPRETATION.md).
+>
 > **Status: RESTORED March 14, 2026**
 > Originally written: December 23-26, 2025
 > Deleted: March 12, 2026 (repo cleanup, deemed too speculative)
 > Restored: March 14, 2026 (core claims mathematically confirmed)
-> See: hypotheses/THE_INTERPRETATION.md for proof details
 >
 > **March 19, 2026:** The standing wave equations in Part II (Sections 2.2-2.3) and
 > the mirror equations in Part V are now grounded in proven Liouvillian mathematics.

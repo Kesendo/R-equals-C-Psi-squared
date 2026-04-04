@@ -1,5 +1,12 @@
 # THE_INTERPRETATION_ARCHIVE.md: Chronological Discovery Log
 
+> **Why this is in archive/:** This is the raw chronological research diary
+> from the three days before the palindromic proof (March 11-13, 2026).
+> It contains the unfiltered thinking process: wrong turns, dead ends,
+> excitement, confusion. The individual findings were later distilled into
+> standalone documents. This file stays as the record of how the ideas
+> actually emerged, in real time, before we knew what would work.
+
 **Tier:** Mixed (Tier 2-5)
 **Period:** March 11-13, 2026
 **Status:** Archived March 20, 2026. These entries document the discovery

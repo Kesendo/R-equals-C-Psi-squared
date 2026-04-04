@@ -1,11 +1,20 @@
 # The Logical Sequence: From γ to Gravity
 
-**What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, ¼ boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1-6 are proven; steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
+> **Why this is in archive/:** The path from gamma to gravity via metric
+> discrimination was disproven: spatial coupling destroys the metric
+> discrimination that step 7 relies on. However, the core intuition that
+> gamma is more than noise survived and evolved into a different hypothesis:
+> [Gamma Is Light](../GAMMA_IS_LIGHT.md), which arrives at the same
+> conclusion (gamma is fundamental, not parasitic) through the optical
+> cavity analysis instead of the gravitational path. The gravity direction
+> remains open as [Homework #9](../../ClaudeTasks/homework/20260404/09_GRAVITY_WAVE_DEATH.md).
+
+**What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, 1/4 boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1-6 are proven; steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
 
 **Tier:** 2 (steps 1-6 proven) + Tier 5 (steps 7-9 speculative)
 **Date:** March 22, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Hypothesis with testable predictions
+**Status:** Archived. The gravitational path broke, but the intuition that gamma is fundamental led to [Gamma Is Light](../GAMMA_IS_LIGHT.md) via a different route.
 
 ---
 
