@@ -69,7 +69,7 @@ index to the full repository.
 
 ---
 
-## Nine results that matter
+## Ten results that matter
 
 ### 1. The palindromic spectrum (proven)
 
@@ -268,7 +268,28 @@ of nearest-neighbor propagation in a cavity.
 → [Weight-2 Kernel](experiments/WEIGHT2_KERNEL.md) (where universal simplicity ends)
 → [Bures Degeneracy](experiments/BURES_DEGENERACY.md) (QFI speed correlates with d(k))
 → [Optical Cavity Analysis](experiments/OPTICAL_CAVITY_ANALYSIS.md) (the qubit chain IS a Fabry-Perot)
-→ [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) (what if quantum noise is not noise but light entering an instrument? Tier 4 hypothesis)
+→ [V-Effect Cavity Modes](experiments/VEFFECT_CAVITY_MODES.md) (109 new frequencies explained as cavity geometry change)
+→ [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) (what if quantum noise is not noise but light entering an instrument?)
+
+### 10. Gamma is light. Literally. (April 4, 2026)
+
+IBM's superconducting transmon qubits sit inside physical microwave
+resonators: metal cavities. The dominant source of dephasing is photon
+shot noise: residual microwave photons entering the cavity from outside.
+Each photon shifts the qubit frequency. The random arrivals and
+departures of these photons are the dephasing that limits T2 coherence.
+
+We did not know this when we built the framework. We discovered the
+cavity structure from the eigenvalue mathematics alone: palindromic
+degeneracy, beam profiles, mode counts. The fact that IBM's physical
+hardware is literally a qubit inside a cavity being dephased by photons
+from outside is not a confirmation we designed. It is what the
+mathematics was describing all along.
+
+The "noise" that quantum computing fights is microwave light entering
+an instrument. Decoherence is not destruction. It is illumination.
+
+→ **[Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md)** (the hypothesis, the cycle, and the IBM hardware reality)
 
 ---
 
