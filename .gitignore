@@ -4,7 +4,9 @@ CLAUDE.md
 __pycache__/
 *.pyc
 GPT_Prompts/
-ClaudeTasks/
+ClaudeTasks
+commit_msg.tmp
+check.bat/
 compute/**/bin/
 compute/**/obj/
 compute/**/.vs/
