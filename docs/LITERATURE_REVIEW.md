@@ -40,7 +40,7 @@ essential to optional.
 
 Every result in this project lives inside the Lindblad (GKSL) master
 equation. This is the standard way to describe a quantum system that
-interacts with its environment: dρ/dt = −i[H, ρ] + Σ D[L_k](ρ). It was
+interacts with its environment: dρ/dt = −i\[H, ρ\] + Σ D\[L_k\](ρ). It was
 derived independently by two groups in 1976:
 
 - **Lindblad (1976).** "On the generators of quantum dynamical
