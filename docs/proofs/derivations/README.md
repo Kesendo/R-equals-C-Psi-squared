@@ -16,6 +16,9 @@ eigenvalues (N=2-5).
 | [D05](D05_DYNAMIC_MODE_COUNT.md) | Osc = 4^N-(N+1)-Stat(N) | 4 + 22 + 23 | VERIFIED |
 | [D06](D06_SPECTRAL_GAP.md) | Gap = 2*gamma | 1 + 3 | VERIFIED |
 | [D07](D07_Q_DISTRIBUTION.md) | Q ~ arcsine distribution | 2 + 7 | VERIFIED |
+| [D08](D08_CROOKS_RATE_IDENTITY.md) | ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)) | 1 | PROVEN |
+| [D09](D09_SECTOR_SFF_PAIRING.md) | K_freq(w,t) = K_freq(N−w,t) | 1 | PROVEN |
+| [D10](D10_W1_DISPERSION.md) | ω_k = 4J(1−cos(πk/N)) | Tight-binding reduction | PROVEN |
 
 ## Dependency Graph
 
@@ -38,6 +41,13 @@ Formula 23 (XOR vanish) -/
 
 Formula 1 (palindrome) ----> D6 (spectral gap)
 Formula 3 (decay bounds) -/
+                        \--> D8 (Crooks rate identity)
+                        \--> D9 (sector SFF pairing)
+
+Tight-binding reduction -----> D10 (w=1 dispersion)
+                                |---> Formula 7 (Q spectrum)
+                                |---> Formula 41 (palindromic time)
+                                \---> D1 (bandwidth)
 ```
 
 ## Failed Cascades

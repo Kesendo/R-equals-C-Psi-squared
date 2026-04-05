@@ -180,22 +180,20 @@ transitions. The factor 4J (instead of the standard 2J for a
 tight-binding chain) comes from the Liouvillian being a commutator
 (double action of H).
 
-A formal proof that ω_k = 4J(1-cos(πk/N)) holds for ALL N remains
-open (see [Thermal Breaking, Open Question 7](THERMAL_BREAKING.md)).
-The numerical evidence (zero error for N=2-6, 15 frequencies) is
-strong but not a proof. A third independent validation comes from the
-spectral form factor: the SFF modulation peak matches ω_min =
-4J(1-cos(π/N)) to <1% for N=2-4 and N=6, confirming the dispersion
-relation in the time domain
-([Spectral Form Factor](SPECTRAL_FORM_FACTOR.md)).
+**Proven.** The dispersion relation is derived analytically in
+[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) via reduction
+of the w=1 Liouvillian sector to a nearest-neighbour tight-binding
+hopping problem. The proof shows that L_H restricted to w=1 is
+tridiagonal with hopping amplitude 2J, giving the standard cosine
+eigenvalues for an open chain. Verified numerically to machine
+precision for N=2−7.
 
 ---
 
 ## Tier Assessment
 
-- Dispersion relation ω_k = 4J(1-cos(πk/N)): **Tier 1-2** (verified
-  to machine precision N=2-6, motivated by tight-binding analogy,
-  formal proof for all N: open)
+- Dispersion relation ω_k = 4J(1-cos(πk/N)): **Tier 1** (proven
+  analytically in D10, verified N=2-7)
 - Q-factor spectrum formulas: **Tier 1** (algebraic consequences of
   the dispersion relation + the proven 2γ decay rate for w=1)
 - Mode density and large-N scaling: **Tier 2** (standard band theory

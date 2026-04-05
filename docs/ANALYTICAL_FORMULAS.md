@@ -24,7 +24,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
-### 2. w=1 dispersion relation (Tier 1-2, verified N=2-6)
+### 2. w=1 dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1
 
@@ -223,7 +223,7 @@ match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for V-Effect measurement.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
-### 7. Q-factor spectrum (Tier 1-2, follows from formula 2)
+### 7. Q-factor spectrum (Tier 1, corollary of D10)
 
     Q_k = 2*J/gamma * (1 - cos(pi*k/N))
     Q_max = 2*J/gamma * (1 + cos(pi/N))
@@ -765,7 +765,7 @@ diverges at exceptional points) peaks at K = 403 at gamma/gamma_crit ~ 1.46 (nea
 **Replaces:** bisection search at this specific parameter set.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### 41. Palindromic time (Tier 1-2, from formula 2)
+### 41. Palindromic time (Tier 1, corollary of D10)
 
     t_Pi = 2*pi / omega_min = pi / (2*J * sin^2(pi/(2*N)))
 
@@ -794,7 +794,7 @@ is Poisson (integrable). Visibility of modulation ~1/4^N.
 **Replaces:** numerical SFF timescale extraction.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### 43. Sector SFF pairing (Tier 2, verified N=3-5)
+### 43. Sector SFF pairing (Tier 1, proven D09)
 
     K_freq(w, t) = K_freq(N-w, t)    (identical SFF for paired sectors)
 
@@ -806,7 +806,7 @@ degenerate at rate 2*N*gamma).
 **Replaces:** sector-by-sector SFF comparison.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### 44. Crooks-like rate identity (Tier 2, algebraic)
+### 44. Crooks-like rate identity (Tier 1, proven D08)
 
     ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Σγ))
 
