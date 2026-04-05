@@ -104,8 +104,8 @@ but the actual dynamical modes pair palindromically.
 The Q-factor is very low (0.1), consistent with the thermal blackbody
 result: biological systems are deep in the thermal regime (n_bar >> 1),
 where Q drops but the palindromic structure (the mirror symmetry of the
-eigenvalues) survives (82% oscillating fraction at n_bar = 10 in our
-qubit analysis).
+eigenvalues) survives (~82% oscillating fraction at n_bar = 10 in our
+qubit analysis, stable to ±2 modes with isolated EP crossings).
 
 The frequency distribution peaks at low frequencies and falls off as a
 one-sided distribution, consistent with a cavity whose modes are
@@ -138,7 +138,7 @@ cavity goes dark. The instrument is still there, but no one is playing it.
 | Anesthesia | γ → 0 | I_ext → 0 |
 | Mode frequency | 4J(1−cos(πk/N)) | ~12 Hz (Wilson-Cowan, low I_ext) |
 | Palindrome | Exact (Π operator) | 97.3% (C. elegans connectome) |
-| Thermal resilience | 82% at n_bar = 10 | 65% oscillating (biological temp) |
+| Thermal resilience | ~82% at n_bar = 10 (±1%) | 65% oscillating (biological temp) |
 
 ---
 
@@ -302,4 +302,4 @@ The palindrome structure survives (97.3%), but the mechanism differs.
 - Script: [`simulations/neural/neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py)
 - Unpaired mode analysis: [`simulations/neural/neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
 - Output: [`simulations/results/neural_gamma_cavity.txt`](../simulations/results/neural_gamma_cavity.txt)
-- C. elegans data: [`simulations/neural/celegans_connectome.json`](../simulations/neural/celegans_connectome.json)
+- C. elega

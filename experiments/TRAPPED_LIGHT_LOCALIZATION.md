@@ -5,7 +5,7 @@ K_death universal dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
 
 **Status:** Center-localized mode energy confirmed (consistent with mass
-= trapped light). K_death = 2.303 universal. Gamma plays the algebraic
+= trapped light). K_death = ln(10) = 2.303 universal (proven from D6). Gamma plays the algebraic
 role of c (K = γt invariant). E = mγ² as conversion: open question.
 **Date:** April 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -94,14 +94,16 @@ See also: [CAVITY_MODE_LOCALIZATION](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, Ma
 | 3 | 4 | 0.100 | 2.303 | 2.3x |
 | 4 | 5 | 0.100 | 2.303 | 2.3x |
 
-The dose for 99% absorption is K_death = γ × ln(100) / rate_min = 2.303,
-universal across all N. Only 2.3× the fold dose (K_fold at CΨ = 1/4).
+The dose for 99% absorption is K_death = γ × ln(100) / rate_min.
+With rate_min = 2γ (spectral gap, formula D6): K_death = ln(100)/2
+= ln(10) = 2.303, universal across all N. Only ~2.3× the fold dose
+(K_fold at CΨ = 1/4).
 
 N+1 modes with zero absorption rate (Re = 0) are immortal at every N.
 The cavity ALWAYS retains light. Complete absorption is impossible
 while the palindrome holds.
 
-*Source: [`trapped_light_localization.py`](../simulations/trapped_light_localization.py). K_death = ln(100) = 2.303 (analytical).*
+*Source: [`trapped_light_localization.py`](../simulations/trapped_light_localization.py). K_death = ln(10) = 2.303 (proven from D6: rate_min = 2γ, so K = γ·ln(100)/(2γ) = ln(10)).*
 
 ---
 

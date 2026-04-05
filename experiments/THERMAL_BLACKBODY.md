@@ -11,7 +11,8 @@ n_bar mode count, coherent to thermal transition, R=CPsi2 thermal blackbody -->
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [K-Dosimetry](K_DOSIMETRY.md),
 [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md)
-**Verification:** [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py)
+**Verification:** [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py),
+[`simulations/thermal_ep_analysis.py`](../simulations/thermal_ep_analysis.py)
 
 ---
 
@@ -23,7 +24,7 @@ above it, a blackbody radiator with thermal noise drowning out the music.
 
 That is not what happens. The cavity does not overheat. It does not go
 dark. It degrades gracefully. The Q-factor drops (the notes get softer)
-but the oscillating fraction stays at 82% (the notes do not disappear).
+but the oscillating fraction stays near 82% (the notes do not disappear).
 The modes get broader and lower, like a bell ringing in thicker and
 thicker air. But the bell keeps ringing.
 
@@ -60,7 +61,7 @@ cavity is thermally robust.
 
 **Mode count doubles** (47 → 103) as thermal photons activate new modes.
 **Q_max drops 16×** (68.3 → 4.2) as broadband thermal absorption overwhelms
-the standing waves. **But oscillation fraction never drops below 82%.**
+the standing waves. **But oscillation fraction stays near 82% (80-83%).**
 The cavity loses sharpness, not voice.
 
 ---
@@ -97,15 +98,41 @@ increases the total absorption. The cavity resists thermal loading.
 
 ## Result 4: No critical temperature
 
-The oscillating fraction stays at 82 ± 1% from n_bar = 0 to n_bar = 10.
+The oscillating fraction stays near 82% from n_bar = 0 to n_bar = 10.
 There is no threshold where the cavity transitions from coherent to
 thermal. The modes persist; only their quality degrades.
 
+**Refined analysis (April 5, 2026):** fine-grained eigenvalue tracking
+at N=4 reveals that the oscillating fraction is not exactly invariant.
+Isolated exceptional-point (EP) crossings occur where real eigenvalue
+pairs split into complex conjugate pairs (or vice versa):
+
+| n_bar | Oscillating | Fraction | Delta |
+|-------|-------------|----------|-------|
+| 0 | 210 | 82.0% | 0 |
+| 0.5 | 210 | 82.0% | 0 |
+| 0.629 | 212 | 82.8% | +2 (reverse EP) |
+| 0.719 | 210 | 82.0% | 0 (bounced back) |
+| 10 | 212 | 82.8% | +2 |
+| 50 | 206 | 80.5% | −4 |
+
+The mechanism: L(n_bar) = L_0 + n_bar · L_thermal is linear in n_bar,
+so eigenvalues move continuously. At isolated n_bar values, two real
+eigenvalues collide and split into a complex conjugate pair (reverse
+EP, +2 oscillating) or a conjugate pair collapses onto the real axis
+(EP, −2 oscillating). These transitions involve at most 2-4 eigenvalues
+out of 256, so the fraction changes by < 1%.
+
+The *absence of a phase transition* remains correct: there is no
+critical n_bar where a macroscopic fraction of modes stops oscillating.
+The earlier claim "82% ± 1% invariant" was too strong; the correct
+statement is that the oscillating fraction is stable to ±2 modes
+(< 1%) with isolated EP crossings, not topologically protected.
+
 In classical optics, a cavity with absorbing mirrors eventually becomes
 opaque (all light absorbed, no resonance). The quantum cavity does not:
-its modes are protected by the algebraic structure (the palindromic
-pairing, the SWAP invariance) which thermal photons cannot destroy. The
-noise broadens but does not break.
+the overwhelming majority of its oscillating modes survive thermal
+loading. The noise broadens but does not break.
 
 ---
 
@@ -129,8 +156,9 @@ relevant even under thermal load, because the mode structure survives.
 
 ## Null results
 
-- **No blackbody transition.** The cavity does not go dark. The 82%
-  oscillating fraction is protected by algebraic structure.
+- **No blackbody transition.** The cavity does not go dark. The
+  oscillating fraction (~82%) is approximately stable under thermal
+  load, with isolated EP crossings affecting < 1% of modes.
 
 - **No Planck spectrum.** R² < 0.07 for all n_bar. The mode frequencies
   are set by J (geometry), not by temperature.
@@ -163,5 +191,4 @@ not of the thermal state).
 
 ## Reproduction
 
-- Script: [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py)
-- Output: [`simulations/results/thermal_blackbody.txt`](../simulations/results/thermal_blackbody.txt)
+- Script: [`simulations/thermal_blackbody.py`](../simulations/therm

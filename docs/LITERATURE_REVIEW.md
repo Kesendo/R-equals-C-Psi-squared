@@ -418,5 +418,4 @@ to Π discovery same day). March 24 (ENAQT section added after
 sacrifice-zone formula). April 5 (restructured: added Foundations
 section with textbooks and original papers; full citations for Haga,
 Medvedyeva-Essler-Prosen, Albert-Jiang, Buca-Prosen; NMR palindrome
-connection; review articles for students; renamed from
-LITERATURE_REVIEW_MARCH_2026.md).*
+connection; review articles for students; 

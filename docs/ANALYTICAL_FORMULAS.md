@@ -889,5 +889,97 @@ At N≥3: cross term ~2% of ||L_c²||, γ-independent.
 
 ---
 
+## Cockpit and Diagnostics (replace full tomography)
+
+### 51. Decoherence cockpit: 3-observable reduction (Tier 2, verified N=2-5, IBM-validated)
+
+    n_eff = 3    (Purity, Concurrence, Ψ-norm)
+    coverage = 88-96%    (of trajectory variance, via PCA)
+    cost = 3 measurements per pair    (vs 4^N for full tomography)
+
+PCA selects automatically which observable is PC1: Concurrence
+dominates in sparse topologies (chains, stars at small N), Purity
+dominates in dense topologies (rings, complete, chains at large N).
+The effective dimensionality n95 grows as ~N, but the first 3 PCs
+always capture 88-96%. Two practical regimes: monitoring (3 PCs,
+88-96%) and full diagnostics (~N PCs, 95%).
+
+θ is the most sensitive instrument near the ¼ boundary: 1.68×
+amplification over CΨ under sacrifice-zone optimization, because
+the arctan mapping amplifies small CΨ changes near ¼.
+
+**Hardware validation:** IBM Torino Q52, CΨ = ¼ crossing predicted
+at 114.7 μs, measured at 115.0 μs (0.3% error). Selective DD beats
+uniform DD by 3.2× in mutual information on 5-qubit chain.
+**Valid for:** Heisenberg chain, Z-dephasing and depolarizing, N=2-5,
+9 topologies tested.
+**Replaces:** full quantum state tomography for decoherence monitoring.
+**Caveat:** Concurrence (PC1 proxy, 57% variance) never validated on
+a qubit pair. Single-qubit instruments consistent, 2-qubit untested.
+**Source:** [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
+
+### 52. Thermal oscillation resilience (Tier 2, verified N=4)
+
+    f_osc(n_bar) ~ 82%    (stable to ±2 modes out of 256, N=4)
+    |Delta_osc| <= 4       (for n_bar in [0, 50])
+
+The fraction of oscillating modes is approximately stable under
+thermal load. Q_max degrades 16× (68.3 → 4.2), mode count doubles
+(47 → 103 distinct frequencies), but the oscillating fraction stays
+near 82%. The cavity loses sharpness, not voice.
+
+**Mechanism (April 5, 2026):** L(n_bar) = L_0 + n_bar · L_thermal
+is linear in n_bar, so eigenvalues move continuously. The oscillating
+count can only change at isolated exceptional-point (EP) crossings
+where a real pair splits into a complex conjugate pair (or vice
+versa). At N=4: four EP crossings in [0, 2], each affecting exactly
+2 eigenvalues. No macroscopic fraction ever changes character.
+
+**Not invariant:** the earlier claim "82% ± 1% invariant" was too
+strong. The correct statement: oscillating fraction is stable to
+< 1% with isolated EP crossings, not topologically protected. At
+n_bar = 50 the fraction drops to 80.5% (−4 modes).
+
+**No phase transition.** Frequency distribution follows neither
+Planck nor Stefan-Boltzmann. The mode spectrum is set by the cavity
+geometry (J topology), not by thermal statistics.
+
+**Valid for:** N=4 Heisenberg chain, Z-dephasing + amplitude damping.
+**Replaces:** thermal Liouvillian sweep to check cavity survival.
+The answer is: the cavity survives; no sweep needed.
+**Source:** [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md),
+[`thermal_ep_analysis.py`](../simulations/thermal_ep_analysis.py)
+
+---
+
+## Absorption Doses (replace time-evolution for dose estimates)
+
+### 55. Universal absorption dose K_death (Tier 1, proven from D6)
+
+    K_death = ln(10) = 2.303    (dose for 99% absorption)
+    K_death / K_fold ~ 2.3      (ratio to CΨ = ¼ crossing dose)
+    Immortal modes = N + 1      (zero absorption rate, all N)
+
+**Derivation:** 99% absorption of the slowest mortal mode means
+e^{−rate_min · t} = 0.01, so rate_min · t = ln(100). By formula D6:
+rate_min = 2γ (spectral gap). Therefore t = ln(100)/(2γ), and
+K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ,
+topology. QED.
+
+**Note:** The source document (Trapped Light Localization) writes
+"K_death = ln(100) = 2.303," which is a typo. The value 2.303 is
+ln(10), not ln(100) = 4.605. The derivation above is clean: the
+factor 2 in rate_min = 2γ halves the exponent.
+
+N+1 modes have exactly zero absorption rate (pure {I,Z} content,
+invisible to the light). Complete absorption is impossible while the
+palindrome holds. The cavity always retains light.
+
+**Valid for:** any Heisenberg chain, Z-dephasing, all N.
+**Replaces:** time evolution to find "when does the system die."
+**Source:** [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md)
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
