@@ -4,9 +4,13 @@ Same question: what's shared, what rotates?
 """
 import json
 import numpy as np
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Load hardware data
-with open(r"D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\results\shadow_march\shadow_hardware_combined_20260309_181852.json") as f:
+with open(os.path.join(SCRIPT_DIR,
+          '../data/ibm_shadow_march2026/shadow_hardware_combined_20260309_181852.json')) as f:
     data = json.load(f)
 
 for qr in data['qubit_results']:
