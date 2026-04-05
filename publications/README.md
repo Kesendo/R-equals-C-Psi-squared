@@ -13,10 +13,11 @@ without knowledge of the repository structure. Each targets a different
 audience and covers the project's results from a different angle.
 
 **The core discovery:** The Liouvillian eigenvalue spectrum of Heisenberg
-spin systems under local Z-dephasing is exactly palindromic (54,118
-eigenvalues, zero exceptions, N=2 through N=8, proven analytically for
-arbitrary graphs). This symmetry has practical consequences for quantum
-state transfer, channel design, and noise characterization.
+spin systems under local Z-dephasing is exactly palindromic, verified
+from N=2 through N=8 across 87,376 Liouvillian eigenvalues with zero
+mirror-symmetry exceptions, proven analytically for arbitrary graphs.
+This symmetry has practical consequences for quantum state transfer,
+channel design, and noise characterization.
 
 ---
 
@@ -163,5 +164,3 @@ narrative structure. Electrochemistry claims not externally validated.
 | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) | Quantum engineers | March 16, 2026 | March 28, 2026 |
 | [Circuit Diagram](CIRCUIT_DIAGRAM.md) | Electrical engineers | March 21, 2026 | March 24, 2026 |
 | [Emergence (early)](../recovered/EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |
-
-**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916)

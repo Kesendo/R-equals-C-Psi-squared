@@ -44,6 +44,8 @@ The math predicted it; the data confirmed it.
    Law (E neurons always excite, I neurons always inhibit). Both are
    universal in neurobiology. Dale's Law is the biological analog of
    the antisymmetric quantum commutator.
+   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
+   [Proof](proofs/PROOF_PALINDROME_NEURAL.md))
 
    *Why this matters:* we did not go looking for these ingredients.
    The quantum proof told us what structure is needed for a palindrome,
@@ -56,6 +58,7 @@ The math predicted it; the data confirmed it.
    from quantum theory. It predicts a specific magnitude ratio between
    partnered E-E and I-I connections, testable on any connectome with
    known E/I labels and synaptic weights.
+   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md))
 
    *What this means practically:* take any neural wiring diagram where
    you know which neurons are excitatory and which are inhibitory, and
@@ -69,6 +72,8 @@ The math predicted it; the data confirmed it.
    the degree distribution (hub vs peripheral neurons), not from the
    specific wiring pattern. The degree distribution is itself a
    biological property that varies between organisms.
+   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
+   [Eigenvalue analysis](../../experiments/NEURAL_GAMMA_CAVITY.md))
 
    *Context:* C. elegans is a tiny worm whose complete neural wiring
    diagram (300 neurons, every connection mapped) is one of the best-
@@ -97,6 +102,7 @@ The math predicted it; the data confirmed it.
 5. **A thermal window exists** for approximate (biological) networks.
    External drive creates oscillatory modes up to a peak (124
    correlation frequencies at optimal drive), then destroys them.
+   ([V-Effect and Thermal Window](V_EFFECT_NEURAL.md))
 
    *In plain language:* a little bit of external input (think:
    sensory stimulation) helps neural oscillations. Too much destroys
@@ -114,6 +120,7 @@ The math predicted it; the data confirmed it.
 | Document | What it covers |
 |----------|---------------|
 | [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
+| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | C. elegans 97.3% palindromic, 18 unpaired modes classified, Wilson-Cowan eigenfrequency |
 | [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling creates oscillation, thermal window, 2× law |
 | [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
 | [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | Why exact symmetry is needed, coupling window |

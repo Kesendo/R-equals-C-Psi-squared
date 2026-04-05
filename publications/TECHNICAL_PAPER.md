@@ -1,10 +1,9 @@
 # Palindromic Liouvillian Symmetry Under Dephasing:
 # Proof, Spectral Decomposition, and Quantum State Transfer
 
-**Authors:** Thomas Wicht, Claude (Anthropic)
+**Author:** Thomas Wicht
 **Date:** March 16 - April 4, 2026
 **Repository:** https://github.com/Kesendo/R-equals-C-Psi-squared
-**Zenodo:** [All versions](https://doi.org/10.5281/zenodo.18055916) | [v5.0](https://doi.org/10.5281/zenodo.19283445)
 
 ---
 
@@ -240,49 +239,76 @@ See `experiments/PI_AS_TIME_REVERSAL.md` for the full derivation.
 ### 4.1 Eigenvalue Pairing
 
 The palindromic pairing is verified by full diagonalization of the
-Liouvillian for systems of size N = 2 through 8.
+Liouvillian for systems of size N = 2 through 8. Two independent methods
+are used: strict Π-conjugation pair detection (Python, N = 2–7), and
+below/above center matching on the oscillatory spectrum (C# + ILP64
+LAPACK, N = 8, where eigenvector-based detection is computationally
+infeasible).
 
-| N | Hilbert space | Liouville space | Nonzero modes | Palindromic pairs | Unpaired (at -2 Sigma_gamma) |
-|---|---------------|-----------------|---------------|-------------------|------------------------------|
-| 2 | 4 | 16 | 13 | 10 | 3 |
-| 3 | 8 | 64 | 60 | 56 | 4 |
-| 4 | 16 | 256 | 251 | 246 | 5 |
-| 5 | 32 | 1024 | 1018 | 1012 | 6 |
-| 6 | 64 | 4096 | 4083 | 4076 | 7 |
-| 7 | 128 | 16384 | 16370 | 16362 | 8 |
-| 8 | 256 | 65536 | 65527 | 65518 | 9 |
+**Method A: Strict Π-conjugation (Python, N = 2–7).** For each
+eigenvector v of L, compute Π·v and verify it coincides (up to a phase)
+with another eigenvector at the mirrored eigenvalue −λ − 2Σγ. This
+counts pairs exactly.
 
-*N=8 note: Full diagonalization via OpenBLAS ILP64 (eigenvalue-only, no
-eigenvectors) computed all 65536 eigenvalues. The oscillatory rate filter
-(|Im(lambda)| > 0.05) extracted 54118 rates, of which 19918 below-center
-and 19918 above-center were palindromically paired (100% mirror score).
-14282 rates at or near the center were not individually classified. The
-N+1 = 9 prediction for XOR modes at -2 Sigma_gamma is consistent with
-prior N but was not separately verified at N=8. Computation: 10.6 hours
-on 24 cores (Intel Core Ultra 9 285k, 128 GB RAM), 68.7 GB native memory.*
+| N | Hilbert space | Liouville space | Total eigenvalues | Paired eigenvalues | Unpaired | Strict Π-pairs |
+|---|---------------|-----------------|-------------------|--------------------|---------:|----------------|
+| 2 | 4 | 16 | 16 | 14 (87.5%) | 2 (12.5%) | 7 |
+| 3 | 8 | 64 | 64 | 64 (100%) | 0 | 32 |
+| 4 | 16 | 256 | 256 | 230 (89.8%) | 26 (10.2%) | 115 |
+| 5 | 32 | 1024 | 1024 | 1024 (100%) | 0 | 512 |
+| 6 | 64 | 4096 | 4096 | 3780 (92.3%) | 316 (7.7%) | 1890 |
+| 7 | 128 | 16384 | 16384 | 16384 (100%) | 0 | 8192 |
+| **Sum (N=2–7)** | — | — | **21,840** | **21,496** | **344** | **10,748** |
 
-The N + 1 "unpaired" modes are not broken symmetry. They sit at the
-palindromic axis itself (lambda = -2 Sigma_gamma) and are their own
-partners under Π. They correspond to operators in the Z-diagonal
-subspace (populations) with maximum Pauli weight.
+At odd N every eigenvalue has a strict Π-partner. At even N a small
+number of modes are fixed points of Π at the symmetry centre Re = −Σγ
+(mean absorption rate = Σγ, identical to the mean paired rate), listed
+as "Unpaired" above. These fixed-point modes are not a broken symmetry:
+they are self-partnered, sitting precisely on the palindromic axis.
 
-The pairing holds for all tested topologies (chain, ring, star), all
-tested coupling patterns, and both uniform and non-uniform dephasing
-rates. No exceptions have been found.
+Zero exceptions to the mirror condition across all 14 topology-size
+combinations (N = 2–7 × chain/star/ring) and all 7 anisotropy values
+tested. Source data: `simulations/results/factor_two_standing_waves.txt`.
 
-For N = 3 with uniform dephasing (Σγ = 3γ), the palindromic pairs in the
-decay spectrum are:
+**Method B: Below/above center matching (C# + ILP64 LAPACK, N = 8).**
+The 65,536² Liouvillian at N = 8 requires eigenvalue-only diagonalization
+(10.6 hours on 24 cores, 68.7 GB native memory, OpenBLAS ILP64 because
+int32 index offsets overflow at n² = 4.29 × 10⁹). Without eigenvectors,
+strict Π-conjugation detection is unavailable, so the symmetry check
+operates on the real parts of the oscillatory eigenvalues directly: each
+rate below the center −Nγ is matched to the nearest rate above.
 
-| Decay rate d | Partner 2Σγ - d | Sum | Physical meaning |
+| N | Matrix | Total eigenvalues | Oscillatory rates (Im ≠ 0) | Matched pairs | Center cluster | Non-oscillatory (Im = 0) | Mirror score |
+|---|--------|-------------------|----------------------------|---------------|----------------|--------------------------|--------------|
+| 8 | 65,536² | 65,536 | 54,118 | 19,918 | 14,282 | 11,418 | 100% |
+
+The 11,418 non-oscillatory eigenvalues correspond to the N + 1 = 9
+stationary modes, the 2N = 16 weight-1 degenerate modes at Re = −2γ,
+and higher-order Hamiltonian-diagonal fixed points. The 14,282 "center
+cluster" rates are oscillatory modes within the matching tolerance of
+the symmetry center −Nγ: consistent with the palindrome (self-paired or
+near-degenerate clusters) but not individually resolved without
+eigenvectors. The 19,918 matched pairs span from 2γ to 14γ absorption,
+with 100% mirror score below/above center. Source data:
+`simulations/results/csharp_compute.txt`.
+
+Across both methods and 87,376 total Liouvillian eigenvalues from N = 2
+to N = 8, zero palindromic violations have been observed. The pairing
+holds for all tested topologies (chain, ring, star, complete graph,
+binary tree), all tested coupling patterns (uniform J, linear gradient,
+random), and both uniform and non-uniform dephasing rates.
+
+For N = 3 with uniform dephasing (Σγ = 3γ), the palindromic pairs in
+the decay spectrum are:
+
+| Decay rate d | Partner 2Σγ − d | Sum | Physical meaning |
 |--------------|-----------------|-----|------------------|
-| 2γ | 4γ | 6γ | c+ (slow) paired with 4γ mode |
-| 8γ/3 | 10γ/3 | 6γ | Concurrence envelope paired with c- |
+| 2γ | 4γ | 6γ | c⁺ (slow) paired with 4γ mode |
+| 8γ/3 | 10γ/3 | 6γ | Concurrence envelope paired with c⁻ |
 
-All pairs sum to 2Σγ = 6γ. The N + 1 = 4 modes at the maximum rate
-(6γ = 2Σγ) are the self-paired XOR modes.
-
-These rates are topology-independent for N = 3: chain, ring, and star
-all produce the same decay rates at the same positions.
+All pairs sum to 2Σγ = 6γ. At N = 3, all 64 eigenvalues are in strict
+Π-pairs (no unpaired modes), and the decay rates are topology-
+independent: chain, ring, and star produce identical spectra.
 
 ### 4.2 Eigenvector Verification of Π (March 19, 2026)
 
@@ -481,6 +507,25 @@ additional qubits). A relay protocol using time-dependent dephasing rates
 combined with 2:1 asymmetric coupling improves end-to-end MI by 83%
 over passive propagation. Push (source-dominant) maximizes local MI
 (0.957); pull (drain-dominant) maximizes end-to-end MI (0.121).
+
+**The fragile bridge: bifurcation analysis (March 29, 2026).** The
+mediator coupling strength J_bridge introduces a Hopf bifurcation (not
+a PT-symmetry breaking) with three regimes:
+
+| Regime | J_bridge | γ_crit scaling | Behaviour |
+|--------|----------|----------------|-----------|
+| Weak | J_bridge < J | γ_crit = 0.19 × J_bridge (linear) | Bridge too soft: sub-cavities effectively decouple |
+| Optimal | J_bridge ≈ 2J | γ_crit maximised | Stable coupled resonance |
+| Strong | J_bridge > 2J | γ_crit = 0.53 / J_bridge (1/x decay) | Bridge saturates: dynamics slaved to the mediator |
+
+In the strong regime, the dimensionless product γ_crit × J_bridge → 0.50
+asymptotically, independent of chain length in the tested range. N = 3
+chains are 35× less stable under this coupling than N = 2 chains; the
+fragility of the bridge grows non-linearly with interior complexity.
+The same Hopf mechanism appears in the Wilson-Cowan model of excitatory-
+inhibitory neural coupling (Section 14.3), which is the structural basis
+for the cross-level parallel. Details in
+[Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md).
 
 See [Relay Protocol](../experiments/RELAY_PROTOCOL.md),
 [Scaling Curve](../experiments/SCALING_CURVE.md),
@@ -1049,10 +1094,24 @@ Wilson-Cowan neural networks when:
   inhibit; swapping E<->I flips all signs).
 - **Magnitude condition:** |W[Q(i),Q(j)]| = (τ_{Q(i)}/τ_i) |W[i,j]|.
 
-Tested on the C. elegans connectome (300 neurons, Cook et al. 2019):
-balanced subnetworks are 8x more palindromic than random networks.
-Each palindromic pair swaps excitatory/inhibitory character with 96%
-fidelity, forming a standing wave between excitation and inhibition.
+Tested on the C. elegans connectome (300 neurons, Cook et al. 2019).
+Under a Wilson-Cowan linearization with Dale's Law applied, the spectral
+modes show a high degree of palindromic pairing (97.3% paired under the
+stated linearization, 18 unpaired modes distributed across three
+breaking mechanisms: sensory boundary, pharynx/soma sub-cavity junction,
+asymmetric synaptic coupling). Each paired mode swaps excitatory/
+inhibitory character under the symmetry operator.
+
+**Validation status (important).** A previous version of this section
+compared the neural palindromicity to Erdős-Rényi random graphs and
+reported an 8× enrichment. That comparison is insufficient as a null
+model, because Erdős-Rényi graphs do not preserve the degree sequence
+and palindrome statistics are sensitive to the degree distribution.
+The appropriate null model is degree-preserving rewiring (configuration
+model), and that comparison is pending. Until the degree-preserving
+validation is complete, the biological significance of the 97.3% figure
+against a proper null model is open, and the neural extension is labeled
+Tier 4 (structural hypothesis), not Tier 1–2.
 
 Exact palindromic networks (population balance plus magnitude matching)
 are unconditionally stable: no Hopf bifurcation at any N or coupling
@@ -1072,9 +1131,14 @@ provides dephasing (gamma sigma_Z). The palindromic proof (Section 3)
 applies directly.
 
 For a single water molecule (2 protons): the palindrome is exact,
-CΨ crosses 1/4 at t = 0.46 ps when J/gamma ~ 1 (fold regime).
-For two coupled water molecules (4 protons): the V-Effect (Section
-14.6) creates 104 new oscillation frequencies from 4.
+CΨ crosses 1/4 at t = 0.46 ps when J/gamma ~ 1 (fold regime), and
+the spectrum has 11 distinct oscillation frequencies. For two water
+molecules coupled through a hydrogen bond (N = 4, 4 protons): 126
+total distinct frequencies, of which 104 are NEW (not present in
+either molecule alone, ratio 5.73×). This is a concrete instance of
+the V-Effect in a physical proton system, with NEW-frequency count
+distinct from the N = 5 MediatorBridge qubit result (109 NEW) because
+the setups differ. See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
 
 Normal liquid water has J/gamma ~ 0.02 (classical regime, no
 crossing). Enzyme active sites may operate at J/gamma ~ 1 through
@@ -1115,13 +1179,61 @@ The palindromic pairing applies to the coupled system, generating
 paired modes that did not exist in the components. The coupling
 need not be permanent; what it creates persists after decoupling.
 
+**Closed form (April 2026).** The gain factor in new frequency count
+admits an analytical expression derived from the palindromic sector
+combinatorics of N coupled symmetric sub-cavities through a mediator:
+
+    V(N) = 1 + cos(π / N)
+
+The maximum on integer N ≥ 2 occurs at **N = 5**, where
+
+    V(5) = 1 + cos(π/5) = (5 + √5) / 4 ≈ 1.809
+
+a geometric constant involving the golden ratio φ = (1 + √5) / 2. The
+N = 5 sweet spot is not an artefact of parameter scanning but a
+geometric optimum of the sector structure. The V(N) formula is Tier 1
+(analytically derived); its mapping to biological complexity (below)
+remains Tier 4.
+
+Related but distinct numerical observations, each at a different
+setup, support the broader picture:
+
+- **N = 5 chain, 4 bonds (γ = 0.05).** 112 distinct oscillation
+  frequencies total, 43 already present in the cold cavity (γ = 0),
+  69 added by the dephasing interaction. Mode count scales with
+  cavity geometry (bond count), not with coupling strength. See
+  `experiments/VEFFECT_CAVITY_MODES.md`.
+- **N = 5 MediatorBridge (two N=2 pairs through a mediator qubit).**
+  All 109 oscillation frequencies in the coupled system are NEW —
+  not one of the original N = 2 frequencies (2, 2) survives. 556
+  palindromic pairs, all NEW-NEW, zero OLD. The coupling does not
+  extend the old palindrome; it replaces it. See
+  `experiments/V_EFFECT_PALINDROME.md` ("The V-Effect Live").
+- **4-proton water dimer (N = 4, transverse-field Ising).** 126
+  distinct frequencies at two coupled water molecules, of which 104
+  are NEW (not present in either molecule alone). The single
+  molecule (N = 2) has 11 frequencies, so the coupled system has
+  5.73× the frequency count of two isolated copies. See
+  `experiments/HYDROGEN_BOND_QUBIT.md`.
+
+These three numbers (112 / 109 / 126) come from three different
+setups and are not comparable as ratios. The V(N) closed form
+quantifies the *relative* gain in the coupled-sub-cavity family;
+the raw mode counts depend on topology and Hamiltonian choice.
+
 In neural networks: two balanced networks (zero oscillation each)
 coupled through a shared neuron generate 48 new frequencies. This
 requires exact population balance in each component. Approximate
-balance shows no V-Effect.
+balance shows no V-Effect. Under an external drive on approximate
+(biological) networks the count peaks at 124 frequencies at optimal
+drive strength (P ≈ 4 for N = 50) and then collapses — a thermal
+window structurally analogous to the Yerkes-Dodson curve in psychology.
+Whether this parallel is algebraically identical or merely suggestive
+is not established.
 
 See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
-[V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md).
+[V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md),
+[V-Effect Cavity Modes](../experiments/VEFFECT_CAVITY_MODES.md).
 
 ---
 
@@ -1223,6 +1335,33 @@ See [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md).
 
 ---
 
+## AI Collaboration
+
+This work was developed in extensive collaboration with Claude
+(Anthropic's large language model, versions Sonnet 4 through Opus 4.6
+across the project timeline, December 2025 – April 2026). Claude
+contributed to the mathematical derivations (Palindromic Mirror proof,
+Absorption Theorem derivation, the V(N) = 1 + cos(π/N) closed form,
+Fragile Bridge bifurcation analysis), to the numerical verification
+code (Python reference implementations and C# compute engine
+architecture), to the literature review, and to every iteration of the
+manuscript text.
+
+The author directed all research decisions, conceived the physical
+interpretations (including the gamma-as-light hypothesis and the
+sacrifice-zone strategy), designed and executed all IBM Quantum
+hardware experiments, and takes full responsibility for the
+correctness, honesty, and scientific content of the work.
+
+The collaboration model: the author formulated questions and physical
+intuitions; Claude performed formal derivations and code-level
+implementations; both iterated until consensus. Disagreements were
+resolved in favour of whichever position survived the stricter test
+(proof, computation, or hardware), not in favour of the author or the
+model.
+
+---
+
 ## References
 
 ### Core
@@ -1271,6 +1410,6 @@ See [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md).
 
 ---
 
-*Thomas Wicht (Independent Researcher, Germany) and Claude (Anthropic)*
+*Thomas Wicht (Independent Researcher, Germany)*
 *March 16 - April 4, 2026*
 *Repository: https://github.com/Kesendo/R-equals-C-Psi-squared*

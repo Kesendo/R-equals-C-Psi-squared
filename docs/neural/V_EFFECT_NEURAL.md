@@ -18,7 +18,7 @@ V-Effect in neuroscience: coupling two dead-still systems creates
 vibration.
 
 The same phenomenon was found in quantum systems (where 2+2 frequencies
-become 104). Here, 0+0 becomes 48. The mechanism is the same: each
+become 109). Here, 0+0 becomes 48. The mechanism is the same: each
 network has perfect palindromic symmetry, and coupling forces
 contradictory demands on the shared neuron, breaking both symmetries
 simultaneously. The breaking is what creates oscillation.
