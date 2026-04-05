@@ -1,0 +1,58 @@
+======================================================================
+Minimum Crossing Energy: Coherence Barrier, Not Energy Barrier
+======================================================================
+
+Test 1: cos(α)|00⟩ + sin(α)|11⟩ — same energy, different crossing
+----------------------------------------------------------------------
+  J = 1.0, γ = 0.05, ⟨H⟩ = +J for all α
+ α (deg)    ⟨H⟩     CΨ(0)    CΨ_max   Crosses?
+      45      J    0.3333    0.3320        YES
+      35      J    0.2943    0.2932        YES
+      31      J    0.2599    0.2588        YES
+      30      J    0.2500    0.2490         NO
+      25      J    0.1956    0.1948         NO
+      15      J    0.0833    0.0830         NO
+
+Binary search for critical α:
+  α_critical = 30.000000° (sin²(2α)/(d-1) = 0.250000)
+
+Test 2: cos(α)|01⟩ + sin(α)|10⟩ — all cross
+----------------------------------------------------------------------
+ α (deg)     CΨ(0)    CΨ_max   t(max)   Crosses?
+      45    0.3333    0.3320     0.01        YES
+      25    0.1956    0.2956     0.37        YES
+      15    0.0833    0.3028     0.38        YES
+       5    0.0101    0.3078     0.39        YES
+
+Test 3: Product states — Hamiltonian creates the crossing
+----------------------------------------------------------------------
+   State     CΨ(0)    CΨ_max   Crosses?
+   |0,1>     0.000     0.308        YES
+   |1,0>     0.000     0.308        YES
+   |+,0>     0.000     0.077         NO
+   |0,+>     0.000     0.077         NO
+   |+,1>     0.000     0.077         NO
+   |+,+>     0.000     0.000         NO
+   |0,0>     0.000     0.000         NO
+   |1,1>     0.000     0.000         NO
+
+Test 4: J/γ sweep for |0,1⟩ product state
+----------------------------------------------------------------------
+    J/γ    CΨ_max   Crosses?
+    0.1     0.003         NO
+    0.5     0.045         NO
+    1.0     0.099         NO
+    2.0     0.169         NO
+    5.0     0.248         NO
+   10.0     0.286        YES
+   20.0     0.308        YES
+   50.0     0.323        YES
+  100.0     0.328        YES
+
+======================================================================
+No energy threshold for CΨ crossing.
+Critical angle: α = 30.0° (CΨ(0) = 1/4).
+|01>/|10> family: all cross (exchange interaction generates entanglement).
+Product states: J/γ ~ 5-10 needed (coherence barrier, not energy barrier).
+Eigenstates of H (|0,0>, |1,1>, |+,+>): no dynamics, no crossing, no time.
+======================================================================

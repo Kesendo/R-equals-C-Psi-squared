@@ -1,0 +1,35 @@
+==============================================================================
+Real Data Analysis: CΨ Trajectories for Published Quantum Hardware
+==============================================================================
+
+Analytical crossing (pure dephasing limit):
+  x³ + x = 0.5  →  x = 0.4239,  t*/T₂ = 0.858
+
+Single-qubit CΨ trajectories (initial state |+⟩)
+------------------------------------------------------------------------------
+                System        Platform     T₁ (μs)     T₂ (μs)    t*/T₂   Δ from 0.858
+           Vion et al.       SC charge         500           0    0.858         +0.000
+           Paik et al.     SC transmon          60          20    0.902         +0.043
+      IBM Q System One     SC transmon         100          80    1.063         +0.205
+          IBM Eagle r3     SC transmon         300         200    1.010         +0.152
+         Google Willow     SC transmon         100          80    1.063         +0.205
+          Monroe (Yb+)     Trapped ion    10000000      500000    0.860         +0.001
+            IonQ (Ba+)     Trapped ion     1000000      100000    0.863         +0.004
+       Balasubramanian       NV center        6000        1800    0.894         +0.036
+          Kok & Lovett        Photonic  1000000000        1000    0.858         +0.000
+
+CΨ trajectory at key points (normalized time t/T₂)
+------------------------------------------------------------------------------
+    t/T₂    IBM Eagle r3    Monroe (Yb+)       NV center
+   0.000          1.0000          1.0000          1.0000
+   0.200          0.6901          0.7671          0.6852
+   0.400          0.5041          0.6494          0.4900
+   0.600          0.3869          0.5482          0.3645
+   0.858          0.2903          0.4310          0.2610
+   1.000          0.2524          0.3749          0.2212
+   1.500          0.1617          0.2262          0.1318
+   2.000          0.1056          0.1362          0.0827
+
+Two-qubit Bell+ state: CΨ with effective T₂_eff = T₂/2
+------------------------------------------------------------------------------
+                System     T₂ (μs)    t*/T₂ (Bell)    t*/T₂ (single)

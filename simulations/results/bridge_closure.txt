@@ -1,0 +1,40 @@
+======================================================================
+Bridge Closure: Pre-Shared Entanglement = Shared Randomness
+======================================================================
+
+Test 1: Bell+ pair, J=0, gamma=0.05, three B-action scenarios
+----------------------------------------------------------------------
+ t_after   rho_A(nothing)   rho_A(B->Z)   rho_A(B->X)   max ||Delta||
+     0.0         0.500000      0.500000      0.500000        3.14e-16
+     0.5         0.500000      0.500000      0.500000        3.14e-16
+     1.0         0.500000      0.500000      0.500000        3.14e-16
+     2.0         0.500000      0.500000      0.500000        3.14e-16
+     5.0         0.500000      0.500000      0.500000        3.14e-16
+
+PASS: rho_A identical across all B-actions at machine precision.
+
+Test 2: Product states |++>, |+0>, |+-> all yield rho_A = |+><+|
+----------------------------------------------------------------------
+   State  rho_A[0,0]  rho_A[0,1]  rho_A[1,0]  rho_A[1,1]    == |+><+|?
+    |++>    0.500000    0.500000    0.500000    0.500000           YES
+    |+0>    0.500000    0.500000    0.500000    0.500000           YES
+    |+->    0.500000    0.500000    0.500000    0.500000           YES
+
+PASS: A cannot distinguish product states differing only in B's qubit.
+
+Test 3: Evolve Bell+ to t=2, branch, continue evolving
+----------------------------------------------------------------------
+  step   t_after_branch     ||rho_A(nothing) - rho_A(B->Z)||
+     0             0.00                             0.00e+00
+    50             1.00                             0.00e+00
+   100             2.00                             0.00e+00
+   200             4.00                             0.00e+00
+   400             8.00                             0.00e+00
+
+PASS: All zero. Bridge is dead.
+
+======================================================================
+Bridge permanently closed for J=0.
+CΨ fingerprints require access to joint state rho_AB.
+A's qubit carries at most 1 bit; the schedule carries log2(N) bits.
+======================================================================

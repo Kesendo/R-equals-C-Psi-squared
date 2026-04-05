@@ -1,0 +1,47 @@
+======================================================================
+No-Signalling Boundary: CΨ Regime Change
+======================================================================
+
+Test 1: Bell+ pair, B measures Z (averaged over outcomes)
+----------------------------------------------------------------------
+  ||Δρ_A|| = 0.0000000000
+
+              Quantity      Before       After   Changed?   A sees?
+  --------------------------------------------------------------
+                ⟨σx⟩_A       0.000       0.000         NO         -
+                ⟨σy⟩_A       0.000       0.000         NO         -
+                ⟨σz⟩_A       0.000       0.000         NO         -
+         Purity(rho_A)       0.500       0.500         NO         -
+              S(rho_A)       1.000       1.000         NO         -
+     Ψ (max eig rho_A)       0.500       0.500         NO         -
+       C = Tr(rho_AB²)       1.000       0.500        YES        NO
+                    CΨ       0.500       0.250        YES        NO
+                Regime     quantum    boundary        YES        NO
+
+PASS: No-signalling holds exactly. rho_A unchanged.
+  CΨ: 0.500 → 0.250 (quantum → boundary)
+
+Test 2: Bell+ under dephasing, B measures Z at t=2
+----------------------------------------------------------------------
+       t   CΨ(no meas)     CΨ(B→Z)      ||Δρ_A||   Regime(no)   Regime(Z)
+     0.0        0.5000      0.2500      0.00e+00      quantum    boundary
+     0.5        0.4547      0.2500      0.00e+00      quantum    boundary
+     1.0        0.4176      0.2500      0.00e+00      quantum    boundary
+     2.0        0.3623      0.2500      0.00e+00      quantum    boundary
+     5.0        0.2838      0.2500      0.00e+00      quantum    boundary
+    10.0        0.2546      0.2500      0.00e+00      quantum    boundary
+
+Test 3: CΨ trajectory — measurement at t=2, then continue evolving
+----------------------------------------------------------------------
+       t   CΨ(no meas)    CΨ(meas@t=2)       ΔCΨ
+     2.0        0.3623          0.2500   -0.1123
+     2.5        0.3420          0.2500   -0.0920
+     3.0        0.3253          0.2500   -0.0753
+     4.0        0.3005          0.2500   -0.0505
+     7.0        0.2652          0.2500   -0.0152
+
+======================================================================
+CΨ sees the regime change (0.500 → 0.250). A cannot see it.
+C drops (1.0 → 0.5). Ψ stays (0.5 → 0.5). rho_A unchanged.
+Dynamic bridge eliminated: B cannot send new information to A.
+======================================================================

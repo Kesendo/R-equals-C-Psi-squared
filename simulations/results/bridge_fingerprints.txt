@@ -1,0 +1,78 @@
+==============================================================================
+Bridge Fingerprints: State Identification Through CΨ Crossing Signatures
+==============================================================================
+
+J_bridge = 0.3, J/γ = 3
+------------------------------------------------------------------------------
+ B State   B:CΨ0   A:max   Crosses  t_peak    t_up   t_down  above_t               Class
+    |++>   1.000   0.220     NEVER    2.12       -        -     0.00     Phase-sensitive
+    |+0>   0.333   0.201     NEVER    2.00       -        -     0.00     Phase-sensitive
+   Bell+   0.333   0.045     NEVER    2.71       -        -     0.00           Entangled
+   Bell-   0.333   0.045     NEVER    2.71       -        -     0.00           Entangled
+  |Psi+>   0.333   0.025     NEVER    2.08       -        -     0.00           Entangled
+    |+->   1.000   0.139     NEVER    2.60       -        -     0.00     Phase-sensitive
+    |01>   0.000   0.047     NEVER    2.66       -        -     0.00           Classical
+    |11>   0.000   0.035     NEVER    2.24       -        -     0.00           Classical
+  [11.7s]
+
+J_bridge = 0.5, J/γ = 5
+------------------------------------------------------------------------------
+ B State   B:CΨ0   A:max   Crosses  t_peak    t_up   t_down  above_t               Class
+    |++>   1.000   0.270       YES    1.80    1.27     2.17     0.90     Local coherence
+    |+0>   0.333   0.275       YES    1.90    1.73     2.08     0.35     Local coherence
+   Bell+   0.333   0.061     NEVER    2.06       -        -     0.00           Entangled
+   Bell-   0.333   0.061     NEVER    2.06       -        -     0.00           Entangled
+  |Psi+>   0.333   0.033     NEVER    1.85       -        -     0.00           Entangled
+    |+->   1.000   0.177     NEVER    1.77       -        -     0.00     Phase-sensitive
+    |01>   0.000   0.066     NEVER    2.58       -        -     0.00           Classical
+    |11>   0.000   0.038     NEVER    0.73       -        -     0.00           Classical
+  [11.3s]
+
+J_bridge = 0.7, J/γ = 7
+------------------------------------------------------------------------------
+ B State   B:CΨ0   A:max   Crosses  t_peak    t_up   t_down  above_t               Class
+    |++>   1.000   0.298       YES    1.58    0.53     2.14     1.83     Local coherence
+    |+0>   0.333   0.297       YES    1.77    1.55     1.99     0.43     Local coherence
+   Bell+   0.333   0.068     NEVER    1.85       -        -     0.00           Entangled
+   Bell-   0.333   0.068     NEVER    1.85       -        -     0.00           Entangled
+  |Psi+>   0.333   0.045     NEVER    2.72       -        -     0.00           Entangled
+    |+->   1.000   0.225     NEVER    1.10       -        -     0.00     Phase-sensitive
+    |01>   0.000   0.066     NEVER    1.05       -        -     0.00           Classical
+    |11>   0.000   0.051     NEVER    0.66       -        -     0.00           Classical
+  [11.7s]
+
+J_bridge = 1.0, J/γ = 10
+------------------------------------------------------------------------------
+ B State   B:CΨ0   A:max   Crosses  t_peak    t_up   t_down  above_t               Class
+    |++>   1.000   0.338       YES    1.15    0.36     2.45     2.09     Local coherence
+    |+0>   0.333   0.311       YES    0.59    0.37     1.25     0.88     Local coherence
+   Bell+   0.333   0.082     NEVER    1.03       -        -     0.00           Entangled
+   Bell-   0.333   0.082     NEVER    1.03       -        -     0.00           Entangled
+  |Psi+>   0.333   0.064     NEVER    2.28       -        -     0.00           Entangled
+    |+->   1.000   0.301       YES    1.03    0.82     1.40     0.58     Local coherence
+    |01>   0.000   0.084     NEVER    0.98       -        -     0.00           Classical
+    |11>   0.000   0.066     NEVER    0.59       -        -     0.00           Classical
+  [11.0s]
+
+J_bridge = 1.5, J/γ = 15
+------------------------------------------------------------------------------
+ B State   B:CΨ0   A:max   Crosses  t_peak    t_up   t_down  above_t               Class
+    |++>   1.000   0.397       YES    1.00    0.25     2.03     1.77     Local coherence
+    |+0>   0.333   0.384       YES    0.49    0.25     1.03     1.07     Local coherence
+   Bell+   0.333   0.096     NEVER    0.89       -        -     0.00           Entangled
+   Bell-   0.333   0.096     NEVER    0.89       -        -     0.00           Entangled
+  |Psi+>   0.333   0.077     NEVER    1.83       -        -     0.00           Entangled
+    |+->   1.000   0.317       YES    0.76    0.57     0.99     0.42     Local coherence
+    |01>   0.000   0.076     NEVER    0.82       -        -     0.00           Classical
+    |11>   0.000   0.095     NEVER    0.48       -        -     0.00           Classical
+  [11.1s]
+
+Entanglement barrier ratio (product / entangled peak CΨ_A)
+------------------------------------------------------------------------------
+  J/γ =     5:  |++> peak = 0.270,  Bell+ peak = 0.061,  ratio = 4.4×
+  J/γ =    10:  |++> peak = 0.338,  Bell+ peak = 0.082,  ratio = 4.1×
+  J/γ =    15:  |++> peak = 0.397,  Bell+ peak = 0.096,  ratio = 4.1×
+
+==============================================================================
+Done.
+==============================================================================

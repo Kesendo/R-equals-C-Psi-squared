@@ -1,0 +1,53 @@
+======================================================================
+Information Channel: Multi-Pair Amplification
+======================================================================
+
+1. Channel capacity vs coupling strength
+----------------------------------------------------------------------
+       J   t₀ (silent)   t₁ (B meas)        Δt     Shift
+   0.001         8.584         8.581    -0.002    -0.03%
+   0.005         8.584         8.527    -0.057    -0.66%
+   0.010         8.584         8.366    -0.218    -2.54%
+   0.020         8.584         7.828    -0.755    -8.80%
+   0.050         8.584         5.987    -2.597   -30.26%
+   0.100         8.584         4.193    -4.390   -51.15%
+   0.500         8.584         1.779    -6.805   -79.27%
+   1.000         8.584         1.399    -7.185   -83.70%
+
+2. Multi-pair amplification: N_min = (σ/Δt)²
+----------------------------------------------------------------------
+  At J = 0.01: Δt = 0.218
+
+    σ (jitter)      σ/t₀     N_min
+  --------------------------------
+           10%       10%        16
+          100%      100%      1553
+         1000%     1000%    155303
+
+3. Lieb-Robinson velocity estimates (gravitational coupling)
+----------------------------------------------------------------------
+  v_LR ≤ 2 × J × a / ℏ, gravitational J_grav ~ G×m²/(ℏ×D)
+
+              System     Mass (kg)       v (m/s)                Note
+  ------------------------------------------------------------------
+           NV center         1e-26      6.33e-29        Unmeasurable
+      Optomechanical         1e-15      6.33e-07      Extremely slow
+          Dust grain         1e-09      6.33e+05          Subluminal
+           Microgram         1e-06      6.33e+11           EXCEEDS c
+
+  Naive formula breaks above ~microgram scale (v > c).
+  Relativistic corrections or modified J_grav scaling needed.
+
+4. Rate scaling: Δt/t ∝ (J/γ) at small J
+----------------------------------------------------------------------
+       J/γ        Δt/t    (Δt/t)/(J/γ)
+      0.02      0.0003          0.0134
+      0.10      0.0066          0.0661
+      0.20      0.0254          0.1269
+      0.40      0.0880          0.2200
+
+======================================================================
+1 bit per ~21 pairs at J/γ=0.2 with 100% jitter.
+Rate scales as (J/γ)² at small coupling.
+CΨ crossing time = lock-in amplifier for weak quantum couplings.
+======================================================================

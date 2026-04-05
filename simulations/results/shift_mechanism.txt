@@ -1,0 +1,65 @@
+======================================================================
+Shift Mechanism: Coherence Reservoir and B's Measurement
+======================================================================
+
+Test 1: Observable changes at t_B = 1.0 (J=0.5, γ=0.05)
+----------------------------------------------------------------------
+                 Observable   Before B    After B           Δ
+  --------------------------------------------------------
+          Local coherence A      0.905      0.905       0.000
+             Local purity A      0.909      0.909       0.000
+                Concurrence      0.000      0.000       0.000
+         Nonlocal coherence      0.819      0.000      -0.819
+
+Test 2: A's coherence after B's measurement vs silent
+----------------------------------------------------------------------
+   t after B   Coh_A(silent)   Coh_A(meas)    Ratio
+         0.0           0.905         0.905     1.00
+         0.5           0.861         0.663     0.77
+         1.0           0.819         0.239     0.29
+         2.0           0.741         0.128     0.17
+         5.0           0.549         0.044     0.08
+
+Test 3: Damage depends on WHEN B measures (J=0.5, γ=0.05)
+----------------------------------------------------------------------
+  Baseline t_cross(silent) = 8.5837
+
+     t_B    NL coh    Remaining lifetime    Damage
+    0.01     0.998                  9.7%     90.3%
+    0.10     0.980                 10.7%     89.3%
+    0.20     0.961                 11.8%     88.2%
+    0.50     0.905                 15.2%     84.8%
+    1.00     0.819                 20.7%     79.3%
+    2.00     0.670                 31.8%     68.2%
+    3.00     0.549                 42.8%     57.2%
+    5.00     0.368                 64.5%     35.5%
+
+Test 4: Concurrence regeneration after B's measurement
+----------------------------------------------------------------------
+   t after B   Concurrence
+        0.00         0.000 
+        0.25         0.000 
+        0.50         0.108 ↑
+        0.75         0.147 ↑
+        1.00         0.085 ↓
+        1.25         0.000 ↓
+        1.50         0.000 
+        2.00         0.000 
+        3.00         0.000 
+
+Test 5: Coupling accelerates local crossing vs isolated qubit
+----------------------------------------------------------------------
+              System   t_cross_A   vs single
+  ------------------------------------------
+          Single |+⟩       8.584       1.00x
+        |+,0⟩ J=0.05       6.633  0.77x
+         |+,0⟩ J=0.1       4.758  0.55x
+         |+,0⟩ J=0.5       1.247  0.15x
+         |+,0⟩ J=1.0       0.640  0.07x
+
+======================================================================
+Coupling REDISTRIBUTES coherence, not protects.
+B's measurement destroys nonlocal reservoir, cutting return flow.
+Damage is timing-dependent (oscillation phase matters).
+Regeneration peaks briefly, then dies.
+======================================================================
