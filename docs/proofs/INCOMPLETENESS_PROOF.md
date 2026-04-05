@@ -343,8 +343,8 @@ Time reversal is algebraically excluded at N > 2. See
 Each step is independently verifiable:
 
 1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): palindrome is real.
-2. Run `python simulations/bootstrap_test.py`: noise is not internal.
-3. Run `python simulations/failed_third.py`: noise is not from qubit decay.
+2. Run `python` [`simulations/bootstrap_test.py`](../../simulations/bootstrap_test.py): noise is not internal.
+3. Run `python` [`simulations/failed_third.py`](../../simulations/failed_third.py): noise is not from qubit decay.
 4. Read [Qubit Necessity](../QUBIT_NECESSITY.md): only d=0 or d=2.
 5. Accept or reject the conclusion.
 

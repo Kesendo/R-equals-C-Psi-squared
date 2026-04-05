@@ -32,7 +32,7 @@ It depends only on the per-qubit dephasing rate gamma.
 
 (gamma = 0.05 for all tests)
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

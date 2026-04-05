@@ -10,7 +10,7 @@ phi, R=CPsi2 N5 golden ratio -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md),
 [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md)
-**Verification:** `simulations/n5_optimal_cavity_size.py`
+**Verification:** [`simulations/n5_optimal_cavity_size.py`](../simulations/n5_optimal_cavity_size.py)
 
 ---
 
@@ -159,5 +159,5 @@ richness and resolution, not a manifestation of the golden ratio.
 
 ## Reproduction
 
-- Script: `python simulations/n5_optimal_cavity_size.py`
-- Output: `simulations/results/n5_optimal_cavity_size.txt`
+- Script: [`simulations/n5_optimal_cavity_size.py`](../simulations/n5_optimal_cavity_size.py)
+- Output: [`simulations/results/n5_optimal_cavity_size.txt`](../simulations/results/n5_optimal_cavity_size.txt)

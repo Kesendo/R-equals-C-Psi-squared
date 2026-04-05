@@ -13,7 +13,7 @@ trajectory shared schedule, R=CPsi2 no-signalling -->
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** simulations/test2_no_signalling.py
+**Script:** [`simulations/test2_no_signalling.py`](../simulations/test2_no_signalling.py)
 **Depends on:** [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md), [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Coherence Density](COHERENCE_DENSITY.md)
 
 ---
@@ -276,7 +276,7 @@ print(f"CΨ: {C_before * Psi} → {C_after * Psi}")
 ```
 
 Full test script with time evolution and all observables:
-`simulations/test2_no_signalling.py`
+[`simulations/test2_no_signalling.py`](../simulations/test2_no_signalling.py)
 
 ---
 

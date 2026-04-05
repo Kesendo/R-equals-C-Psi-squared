@@ -308,8 +308,8 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the standing wave requires a mirror
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome across all standard models
-- Script: `simulations/depolarizing_analysis.py`
-- Results: `simulations/results/depolarizing_analysis.txt`
+- Script: [`simulations/depolarizing_analysis.py`](../simulations/depolarizing_analysis.py)
+- Results: [`simulations/results/depolarizing_analysis.txt`](../simulations/results/depolarizing_analysis.txt)
 
 ---
 

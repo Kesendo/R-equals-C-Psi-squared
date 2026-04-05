@@ -12,7 +12,7 @@ beam quality M-squared, R=CPsi2 optical cavity -->
 **Depends on:** [Degeneracy Palindrome](DEGENERACY_PALINDROME.md),
 [Bures Degeneracy](BURES_DEGENERACY.md),
 [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)
-**Verification:** `simulations/optical_cavity_analysis.py`
+**Verification:** [`simulations/optical_cavity_analysis.py`](../simulations/optical_cavity_analysis.py)
 
 ---
 
@@ -256,5 +256,5 @@ destruction. It is illumination.
 
 ## Reproduction
 
-- Script: `python simulations/optical_cavity_analysis.py`
-- Output: `simulations/results/optical_cavity_analysis.txt`
+- Script: [`simulations/optical_cavity_analysis.py`](../simulations/optical_cavity_analysis.py)
+- Output: [`simulations/results/optical_cavity_analysis.txt`](../simulations/results/optical_cavity_analysis.txt)

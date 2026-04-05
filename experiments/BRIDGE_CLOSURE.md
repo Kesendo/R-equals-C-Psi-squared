@@ -14,7 +14,7 @@ closure -->
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** simulations/bridge_closure.py
+**Script:** [`simulations/bridge_closure.py`](../simulations/bridge_closure.py)
 **Depends on:** [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md), [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md)
 
 ---
@@ -253,7 +253,7 @@ for i in [0, 50, 100, 200, 400]:
 print("All zero. Bridge is dead.")
 ```
 
-Full simulation: `simulations/bridge_closure.py`
+Full simulation: [`simulations/bridge_closure.py`](../simulations/bridge_closure.py)
 
 ---
 

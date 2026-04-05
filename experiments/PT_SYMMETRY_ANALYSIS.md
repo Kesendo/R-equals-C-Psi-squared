@@ -428,10 +428,10 @@ an open question.
 
 | Component | Location |
 |-----------|----------|
-| Phase 1+2 script | simulations/pt_symmetry_analysis.py |
-| Phase 3 script | simulations/pt_palindrome_breaking.py |
-| Phase 1+2 output | simulations/results/pt_symmetry_analysis.txt |
-| Phase 3 output | simulations/results/pt_palindrome_breaking.txt |
+| Phase 1+2 script | [`simulations/pt_symmetry_analysis.py`](../simulations/pt_symmetry_analysis.py) |
+| Phase 3 script | [`simulations/pt_palindrome_breaking.py`](../simulations/pt_palindrome_breaking.py) |
+| Phase 1+2 output | [`simulations/results/pt_symmetry_analysis.txt`](../simulations/results/pt_symmetry_analysis.txt) |
+| Phase 3 output | [`simulations/results/pt_palindrome_breaking.txt`](../simulations/results/pt_palindrome_breaking.txt) |
 
 ---
 

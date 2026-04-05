@@ -83,7 +83,7 @@ at N=2-5 (J=1.0, γ=0.05):
 | **K** | **α_fast / (2γ × ⟨n_XY⟩_fast)** | **absorption / (2γ × light mass)** |
 | L | α_fast / (w_XY_fast × 2Σγ) | absorption / (light fraction × total) |
 
-**Source:** `simulations/absorption_theorem_discovery.py` Steps 1-2
+**Source:** [`simulations/absorption_theorem_discovery.py`](../simulations/absorption_theorem_discovery.py) Steps 1-2
 
 ### Result: one ratio dominates
 
@@ -162,7 +162,7 @@ The ratio K was tested across 5 orders of magnitude in γ at N=3, J=1.0:
 | 0.50 | 1.000000 |
 | 1.00 | 1.000000 |
 
-**Source:** `simulations/absorption_theorem_discovery.py` Step 6
+**Source:** [`simulations/absorption_theorem_discovery.py`](../simulations/absorption_theorem_discovery.py) Step 6
 
 For comparison, the gamma sweep power-law fit for all ratios:
 
@@ -192,7 +192,7 @@ is α = 2γm (linear), not E = mγ² (quadratic).
 | L | 0.425 | 0.444 | 0.444 | 0.444 | 0.444 | 0.018 |
 | All others | ... | ... | ... | ... | ... | > 1.0 |
 
-**Source:** `simulations/absorption_theorem_discovery.py` Step 4
+**Source:** [`simulations/absorption_theorem_discovery.py`](../simulations/absorption_theorem_discovery.py) Step 4
 
 Only K is exactly J-independent. The coupling strength J changes the
 eigenvectors (and therefore ⟨n_XY⟩ per mode), but the ratio α/(2γ⟨n_XY⟩)
@@ -208,7 +208,7 @@ remains 1. The theorem guarantees this: the proof never uses J.
 | L | 0.500 | 0.444 | 0.500 | 0.453 | 0.054 |
 | All others | ... | ... | ... | ... | > 0.27 |
 
-**Source:** `simulations/absorption_theorem_discovery.py` Step 5
+**Source:** [`simulations/absorption_theorem_discovery.py`](../simulations/absorption_theorem_discovery.py) Step 5
 
 Only K is exactly N-independent. The theorem holds at any chain length.
 
@@ -293,8 +293,8 @@ rate 2Nγ = 2Σγ.
 
 ## Source
 
-- Simulation: `simulations/absorption_theorem_discovery.py`
-- Results: `simulations/results/absorption_theorem_discovery.txt`
+- Simulation: [`simulations/absorption_theorem_discovery.py`](../simulations/absorption_theorem_discovery.py)
+- Results: [`simulations/results/absorption_theorem_discovery.txt`](../simulations/results/absorption_theorem_discovery.txt)
 - Sector decomposition: `experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md`
 - Standing waves: `experiments/FACTOR_TWO_STANDING_WAVES.md`
 - K dosimetry: `experiments/K_DOSIMETRY.md`

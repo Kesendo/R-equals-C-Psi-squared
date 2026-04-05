@@ -249,8 +249,8 @@ environments.
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/dna_base_pairing.py |
-| Output | simulations/results/dna_base_pairing.txt |
+| Script | [`simulations/dna_base_pairing.py`](../simulations/dna_base_pairing.py) |
+| Output | [`simulations/results/dna_base_pairing.txt`](../simulations/results/dna_base_pairing.txt) |
 
 ---
 

@@ -104,7 +104,7 @@ lens.
 | 5 | 1024 | 0.25 | 27.15 | 4.84% | Decreasing |
 | 6 | 4096 | 0.30 | 70.11 | 2.55% | Decreasing |
 
-**Source:** `simulations/primordial_superalgebra.py` Step 1
+**Source:** [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py) Step 1
 
 N=2 is the perfect lens: zero aberration, exact Pythagorean orthogonality
 between the Hamiltonian (which creates modes) and the dissipator (which
@@ -145,7 +145,7 @@ five γ values for each N.
 | 5 | 0.04841 | 0.04841 | 0.04841 | 0.04841 | 0.04841 | 4.6 × 10⁻¹⁶ |
 | 6 | 0.02552 | 0.02552 | 0.02552 | 0.02552 | 0.02552 | 1.5 × 10⁻¹⁵ |
 
-**Source:** `simulations/primordial_superalgebra.py` Step 2
+**Source:** [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py) Step 2
 
 CV < 10⁻¹⁵ at every N: the aberration is **exactly γ-independent**.
 
@@ -189,7 +189,7 @@ Sector k>0 contains coherences: the light sector.
 | 4 | 251 | +0.310 (moderate) |
 | 5 | 1018 | +0.336 (moderate) |
 
-**Source:** `simulations/primordial_superalgebra.py` Step 3
+**Source:** [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py) Step 3
 
 The correlation is positive: modes with larger absorption rates carry more
 light (X,Y) character. The correlation strengthens with N. This confirms
@@ -241,7 +241,7 @@ For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
 | 4 | 0.0859 | 0.2264 | -0.1406 |
 | 5 | 0.0053 | 0.0569 | -0.0516 |
 
-**Source:** `simulations/primordial_superalgebra.py` Step 3
+**Source:** [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py) Step 3
 
 ### The palindromic weight inversion
 
@@ -323,7 +323,7 @@ Cross-sector: k=0 ↔ k=2 (0.289), k=2 ↔ k=4 (0.289)
 Cross-sector: k=0 ↔ k=2 (0.250), k=1 ↔ k=3 (0.144), k=2 ↔ k=4 (0.144),
 k=3 ↔ k=5 (0.250)
 
-**Source:** `simulations/primordial_superalgebra.py` Step 4
+**Source:** [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py) Step 4
 
 ### Structure of the aberration
 
@@ -448,8 +448,8 @@ Total runtime: 35 s on a single core.
 
 ## Source
 
-- Simulation: `simulations/primordial_superalgebra.py`
-- Results: `simulations/results/primordial_superalgebra.txt`
+- Simulation: [`simulations/primordial_superalgebra.py`](../simulations/primordial_superalgebra.py)
+- Results: [`simulations/results/primordial_superalgebra.txt`](../simulations/results/primordial_superalgebra.txt)
 - Theory: `hypotheses/PRIMORDIAL_QUBIT.md`
 - Standing waves: `experiments/FACTOR_TWO_STANDING_WAVES.md`
 - Optical cavity: `experiments/OPTICAL_CAVITY_ANALYSIS.md`

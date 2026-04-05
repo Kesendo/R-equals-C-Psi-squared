@@ -9,7 +9,7 @@ echo decay palindromic rate 8gamma/3, R=CPsi2 orphaned results -->
 **Status:** Two new discoveries, one honest negative, one characterization (Tier 2)
 **Date:** March 14, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Scripts:** simulations/explore_orphaned_results.py, simulations/why_alternating_crosses.py
+**Scripts:** [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py), [`simulations/why_alternating_crosses.py`](../simulations/why_alternating_crosses.py)
 **Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
@@ -284,8 +284,8 @@ connection is nonlinear and state-dependent.
 
 ## Scripts and results
 
-- `simulations/explore_orphaned_results.py` - full exploration script
-- `simulations/results/orphaned_results.txt` - complete output
+- [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py) - full exploration script
+- [`simulations/results/orphaned_results.txt`](../simulations/results/orphaned_results.txt) - complete output
 
 ## Related files
 
@@ -437,10 +437,10 @@ for the pole structure that the signal processing view describes abstractly.
 
 ## Scripts and results
 
-- `simulations/explore_orphaned_results.py` - echo, ring near-miss, u variable
-- `simulations/why_alternating_crosses.py` - antiferromagnet analysis, 256-state scan
-- `simulations/results/orphaned_results.txt` - exploration output
-- `simulations/results/why_alternating_crosses.txt` - selection rule output
+- [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py) - echo, ring near-miss, u variable
+- [`simulations/why_alternating_crosses.py`](../simulations/why_alternating_crosses.py) - antiferromagnet analysis, 256-state scan
+- [`simulations/results/orphaned_results.txt`](../simulations/results/orphaned_results.txt) - exploration output
+- [`simulations/results/why_alternating_crosses.txt`](../simulations/results/why_alternating_crosses.txt) - selection rule output
 
 ## Follow-up
 

@@ -11,7 +11,7 @@ Hamiltonian correlation absorption, R=CPsi2 beer lambert -->
 **Depends on:** [K-Dosimetry](K_DOSIMETRY.md),
 [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md),
 [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)
-**Verification:** `simulations/k_dosimetry_beer_lambert.py`
+**Verification:** [`simulations/k_dosimetry_beer_lambert.py`](../simulations/k_dosimetry_beer_lambert.py)
 
 ---
 

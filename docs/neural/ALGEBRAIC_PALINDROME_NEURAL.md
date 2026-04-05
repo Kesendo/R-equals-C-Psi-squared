@@ -454,7 +454,7 @@ Run with: `PYTHONIOENCODING=utf-8 python simulations/neural/<script>`
 
 ## Data
 
-- **Connectome:** `simulations/neural/celegans_connectome.json`
+- **Connectome:** [`simulations/neural/celegans_connectome.json`](../../simulations/neural/celegans_connectome.json)
   (Cook et al. 2019, via WormNeuroAtlas)
 - **274 excitatory, 26 inhibitory** neurons (N = 300 total)
 

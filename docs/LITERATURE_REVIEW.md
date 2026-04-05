@@ -375,7 +375,7 @@ Exceptional Point.
 connection found. EP_strength follows γ monotonically, not CΨ. No
 peak at ¼, no eigenvalue coalescence.
 
-Script: `simulations/ep_test.py`
+Script: [`simulations/ep_test.py`](../simulations/ep_test.py)
 
 ### Direction 2: Graph Symmetry Decomposition (TESTED, PARTIAL)
 
@@ -387,7 +387,7 @@ Liouvillian (weak symmetry confirmed). BUT c+ and c- both have
 parity +1: they live in the SAME sector. The c+/c- split comes from
 observable projection (even/odd), not Liouvillian symmetry sectors.
 
-Script: `simulations/symmetry_and_u_analysis.py`
+Script: [`simulations/symmetry_and_u_analysis.py`](../simulations/symmetry_and_u_analysis.py)
 
 ### Direction 3: Physical Interpretation of u = C(Ψ+R) (TESTED, RESOLVED)
 
@@ -400,7 +400,7 @@ The ¼ boundary is demystified: it is the upper bound of a quadratic
 function. The remaining question: what binary process does z* represent
 physically?
 
-Script: `simulations/symmetry_and_u_analysis.py`
+Script: [`simulations/symmetry_and_u_analysis.py`](../simulations/symmetry_and_u_analysis.py)
 
 ---
 

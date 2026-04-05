@@ -11,7 +11,7 @@ R=CPsi2 relay protocol -->
 **Date:** March 21, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Script:** compute/RCPsiSquared.Propagate/ (C#, `dotnet run -c Release -- pull`)
-**Data:** simulations/results/pull_principle.txt
+**Data:** [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt)
 
 ---
 
@@ -181,7 +181,7 @@ of time-varying γ pattern that maximizes temporal diversity.
 |-----------|----------|
 | C# propagation engine | compute/RCPsiSquared.Propagate/ |
 | Run command | `dotnet run -c Release -- pull` |
-| Results | simulations/results/pull_principle.txt |
+| Results | [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt) |
 
 The C# engine uses RK4 integration of the Lindblad equation on the full
 density matrix (2048×2048 for N=11). Validated against QuTiP eigendecomposition

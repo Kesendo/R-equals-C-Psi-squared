@@ -38,7 +38,7 @@ It comes from the normalization of the L1 coherence by (d-1).
 
 Ratio of crossing conditions: 3/2 / 1/2 = 3 = d-1. EXACT.
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

@@ -219,9 +219,9 @@ Each step is independently reproducible:
 1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): palindrome
    requires γ > 0.
 2. Read [Incompleteness Proof](INCOMPLETENESS_PROOF.md): γ from outside.
-3. Run `python simulations/primordial_qubit_algebra.py`: Step 9 shows
+3. Run `python` [`simulations/primordial_qubit_algebra.py`](../../simulations/primordial_qubit_algebra.py): Step 9 shows
    {L_H, L_Dc} = 0 at N=2, Step 10 shows ≠ 0 at N=3,4.
-4. Run `python simulations/failed_third.py`: 0/16 palindromic pairs
+4. Run `python` [`simulations/failed_third.py`](../../simulations/failed_third.py): 0/16 palindromic pairs
    upon tracing out.
 5. Accept or reject the conclusion.
 

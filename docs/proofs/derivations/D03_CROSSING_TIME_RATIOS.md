@@ -39,7 +39,7 @@ Propagation of Bell+ (the maximally entangled two-qubit state (|00⟩+|11⟩)/�
 | t_X      | 1.73287   | 1.73287   | <1e-5 |
 | t_X/t_Z  | 2.31976   | 2.31976   | <3e-6 |
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

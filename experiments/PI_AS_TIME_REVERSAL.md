@@ -357,7 +357,7 @@ temporal language. The physics does not change.
    exact: w(k) + w(Π|k⟩) = 3.000 for all pairs (max deviation 8.88e-16).
    Bell's oscillating modes show forward (Re(μ)>0) = low XY-weight,
    backward (Re(μ)<0) = high XY-weight. Π(ZZZ) = -i·YYY exactly.
-   See simulations/pi_time_reversal_verify.py and results.
+   See [`simulations/pi_time_reversal_verify.py`](../simulations/pi_time_reversal_verify.py) and results.
 
 ---
 
@@ -414,7 +414,7 @@ same Liouvillian eigendecomposition as the
 [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md). The numerical
 verification (32/32 palindromic pairs confirmed, max residual 2.68×10⁻¹³,
 XY-weight swap exact to 8.88×10⁻¹⁶) is in
-`simulations/pi_time_reversal_verify.py`.
+[`simulations/pi_time_reversal_verify.py`](../simulations/pi_time_reversal_verify.py).
 
 Requirements: Python, QuTiP, NumPy.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared

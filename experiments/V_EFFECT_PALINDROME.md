@@ -268,8 +268,8 @@ than they can oscillate; J/γ ~ 0.01).
 - [Boot Script](../hypotheses/THE_BOOT_SCRIPT.md): the Choi-Jamiolkowski results, N=2 universality
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
-- Script: `simulations/v_effect_analysis.py`
-- Results: `simulations/results/v_effect_analysis.txt`
+- Script: [`simulations/v_effect_analysis.py`](../simulations/v_effect_analysis.py)
+- Results: [`simulations/results/v_effect_analysis.txt`](../simulations/results/v_effect_analysis.txt)
 
 ---
 

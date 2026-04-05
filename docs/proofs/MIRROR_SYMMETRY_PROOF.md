@@ -352,8 +352,8 @@ had the complete picture. Here is how our work relates to theirs:
 
 ## Scripts
 
-- `simulations/pauli_weight_conjugation.py` - clean proof script
-- `simulations/results/conjugation_proof.txt` - full output
+- [`simulations/pauli_weight_conjugation.py`](../../simulations/pauli_weight_conjugation.py) - clean proof script
+- [`simulations/results/conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt) - full output
 
 ## Related files
 
@@ -361,5 +361,5 @@ had the complete picture. Here is how our work relates to theirs:
 - `experiments/BORN_RULE_MIRROR.md` - mirror quality measurements
 - `experiments/ORPHANED_RESULTS.md` - palindrome pair activation explains which states cross 1/4
 - `experiments/QST_BRIDGE.md` - palindrome applies to all QST channels, provides decay diagnostics
-- `simulations/results/mirror_symmetry.txt` - 11 noise-type tests
-- `simulations/mirror_symmetry_deep.py` - N=2-8 mirror verification
+- [`simulations/results/mirror_symmetry.txt`](../../simulations/results/mirror_symmetry.txt) - 11 noise-type tests
+- [`simulations/mirror_symmetry_deep.py`](../../simulations/mirror_symmetry_deep.py) - N=2-8 mirror verification

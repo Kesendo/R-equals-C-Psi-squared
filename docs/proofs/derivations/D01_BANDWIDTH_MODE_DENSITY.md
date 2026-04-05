@@ -35,7 +35,7 @@ This is the 1D tight-binding density of states (the standard nearest-neighbour h
 | 4 | 5.6569         | 5.6569       | <5e-9 |
 | 5 | 6.4721         | 6.4721       | <3e-9 |
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

@@ -40,7 +40,7 @@ mode exceeds the average Q-factor.
 | 4 | 40.000000         | 40.000000       | < 3e-16    |
 | 5 | 40.000000         | 40.000000       | < 3e-15    |
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

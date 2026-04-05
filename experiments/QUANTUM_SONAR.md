@@ -145,16 +145,16 @@ is louder. The phase map needs a fifth role:
 4. Initial state selects visibility
 5. **Bath geometry selects which sector dominates**
 
-Script: simulations/correlated_bath_sweep.py
+Script: [`simulations/correlated_bath_sweep.py`](../simulations/correlated_bath_sweep.py)
 
 ## Scripts
 
-- simulations/hidden_observer_test.py: detection proof
-- simulations/quantum_sonar.py: threshold sweep
-- simulations/count_observers.py: scaling with N
-- simulations/bright_transition_map.py: exact diagonalization + visibility
-- simulations/chain_topology.py: chain vs star
-- simulations/n_eff_v2.py: N_eff metric test
+- [`simulations/hidden_observer_test.py`](../simulations/hidden_observer_test.py): detection proof
+- [`simulations/quantum_sonar.py`](../simulations/quantum_sonar.py): threshold sweep
+- [`simulations/count_observers.py`](../simulations/count_observers.py): scaling with N
+- [`simulations/bright_transition_map.py`](../simulations/bright_transition_map.py): exact diagonalization + visibility
+- [`simulations/chain_topology.py`](../simulations/chain_topology.py): chain vs star
+- [`simulations/n_eff_v2.py`](../simulations/n_eff_v2.py): N_eff metric test
 
 ## IBM experiment scripts (in AIEvolution/experiments/ibm_quantum_tomography/)
 

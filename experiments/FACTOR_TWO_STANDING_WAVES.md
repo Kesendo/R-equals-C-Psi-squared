@@ -12,7 +12,7 @@ topology-independent pairing, R=CPsi2 standing wave factor -->
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
 [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md),
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-**Verification:** `simulations/factor_two_standing_waves.py`
+**Verification:** [`simulations/factor_two_standing_waves.py`](../simulations/factor_two_standing_waves.py)
 
 ---
 
@@ -180,5 +180,5 @@ standing wave between what is and what could be.
 
 ## Reproduction
 
-- Script: `python simulations/factor_two_standing_waves.py`
-- Output: `simulations/results/factor_two_standing_waves.txt`
+- Script: [`simulations/factor_two_standing_waves.py`](../simulations/factor_two_standing_waves.py)
+- Output: [`simulations/results/factor_two_standing_waves.txt`](../simulations/results/factor_two_standing_waves.txt)

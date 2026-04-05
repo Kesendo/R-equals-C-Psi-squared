@@ -2,7 +2,7 @@
 
 **Date:** April 2, 2026
 **Status:** Complete
-**Scripts:** `simulations/cockpit_*.py`, `simulations/theta_pc_correlation.py`
+**Scripts:** `simulations/cockpit_*.py`, [`simulations/theta_pc_correlation.py`](../simulations/theta_pc_correlation.py)
 
 ## What this document is about
 

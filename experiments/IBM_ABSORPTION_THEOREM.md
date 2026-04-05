@@ -120,7 +120,7 @@ The Absorption Theorem's structure (excess = 2γ per X/Y factor) holds
 with γ* from free evolution. The echo-based γ_echo underestimates the
 actual dephasing by 6×.
 
-**Source:** `simulations/ibm_absorption_theorem.py` Steps 2-3
+**Source:** [`simulations/ibm_absorption_theorem.py`](../simulations/ibm_absorption_theorem.py) Steps 2-3
 
 ---
 
@@ -161,7 +161,7 @@ residuals oscillate around 0 (noise). At late times (t > 400 μs),
 residuals are systematically positive (0.01-0.04): the coherence
 persists above the single-exponential prediction. This is the slow tail.
 
-**Source:** `simulations/ibm_absorption_theorem.py` Step 4
+**Source:** [`simulations/ibm_absorption_theorem.py`](../simulations/ibm_absorption_theorem.py) Step 4
 
 ---
 

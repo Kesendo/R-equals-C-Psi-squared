@@ -10,7 +10,7 @@ R=CPsi2 random matrix theory -->
 **Date:** April 1, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
-simulations/rmt_analysis.py (Python spacing analysis)
+[`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis)
 
 ---
 
@@ -284,9 +284,9 @@ Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 | Component | Location |
 |-----------|----------|
 | C# eigenvalue export | compute/RCPsiSquared.Compute/ (`dotnet run -c Release -- rmt`) |
-| Python RMT analysis | simulations/rmt_analysis.py |
-| Eigenvalue CSVs | simulations/results/rmt_eigenvalues_N{2..7}.csv |
-| Analysis output | simulations/results/rmt_analysis.txt |
+| Python RMT analysis | [`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) |
+| Eigenvalue CSVs | `simulations/results/rmt_eigenvalues_N{2..7}.csv` |
+| Analysis output | [`simulations/results/rmt_analysis.txt`](../simulations/results/rmt_analysis.txt) |
 
 ---
 

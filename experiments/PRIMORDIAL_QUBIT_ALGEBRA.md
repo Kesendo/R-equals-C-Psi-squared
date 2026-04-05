@@ -771,10 +771,10 @@ The arrow of time is not entropy. The arrow of time is the cross term.
 
 | Component | Location |
 |-----------|----------|
-| Computation script | simulations/primordial_qubit_algebra.py |
-| Full output | simulations/results/primordial_qubit_algebra.txt |
+| Computation script | [`simulations/primordial_qubit_algebra.py`](../simulations/primordial_qubit_algebra.py) |
+| Full output | [`simulations/results/primordial_qubit_algebra.txt`](../simulations/results/primordial_qubit_algebra.txt) |
 | Hypothesis | hypotheses/PRIMORDIAL_QUBIT.md |
-| Prior computation | simulations/urqubit_test.py (C²⊗C² structure) |
+| Prior computation | [`simulations/urqubit_test.py`](../simulations/urqubit_test.py) (C²⊗C² structure) |
 
 ---
 

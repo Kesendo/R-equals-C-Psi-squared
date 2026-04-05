@@ -11,8 +11,8 @@ system spectral structure, SU(2) symmetry weight-1, R=CPsi2 commutator kernel --
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md),
 [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
-**Verification:** `simulations/kommutator_kern_analysis.py`,
-`simulations/verify_triangle_inequality.py`,
+**Verification:** [`simulations/kommutator_kern_analysis.py`](../../simulations/kommutator_kern_analysis.py),
+[`simulations/verify_triangle_inequality.py`](../../simulations/verify_triangle_inequality.py),
 `dotnet run -c Release -- eigvec`
 
 ---
@@ -208,8 +208,8 @@ connected graphs without modification.
 ### Step 6: Numerical verification
 
 Independent numerical verification confirms every step of the proof for
-N = 2, ..., 7. Five tests were run (`simulations/verify_triangle_inequality.py`,
-results in `simulations/results/verify_proof_weight1.txt`):
+N = 2, ..., 7. Five tests were run ([`simulations/verify_triangle_inequality.py`](../../simulations/verify_triangle_inequality.py),
+results in [`simulations/results/verify_proof_weight1.txt`](../../simulations/results/verify_proof_weight1.txt)):
 
 **V1 -- Each individual SWAP fixes each kernel vector (Step 5 core claim):**
 2N × (N−1) checks per N. Max deviation: 3.84 × 10⁻¹⁵. All PASS.
@@ -347,9 +347,9 @@ the palindrome provides the right side for free.
 
 ## Reproduction
 
-- Commutator kernel analysis: `python simulations/kommutator_kern_analysis.py`
-- Triangle inequality verification: `python simulations/verify_triangle_inequality.py`
-  (results: `simulations/results/verify_proof_weight1.txt`)
+- Commutator kernel analysis: `python` [`simulations/kommutator_kern_analysis.py`](../../simulations/kommutator_kern_analysis.py)
+- Triangle inequality verification: `python` [`simulations/verify_triangle_inequality.py`](../../simulations/verify_triangle_inequality.py)
+  (results: [`simulations/results/verify_proof_weight1.txt`](../../simulations/results/verify_proof_weight1.txt))
 - Eigenvector export + Pauli projection: `dotnet run -c Release -- eigvec`
   (results: `simulations/results/eigvec_at_minus_gamma_N{2..6}.csv`)
 - Eigenvalue CSVs: `simulations/results/rmt_eigenvalues_N{2..7}.csv`

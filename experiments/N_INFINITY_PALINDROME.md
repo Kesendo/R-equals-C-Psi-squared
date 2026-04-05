@@ -230,8 +230,8 @@ dissipative continuum rather than a discrete pairing of individual modes.
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): past/future interpretation
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md): the 2:2 counting argument
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): discrete structure at N=3
-- Script: `simulations/n_infinity_analysis.py`
-- Results: `simulations/results/n_infinity_analysis.txt`
+- Script: [`simulations/n_infinity_analysis.py`](../simulations/n_infinity_analysis.py)
+- Results: [`simulations/results/n_infinity_analysis.txt`](../simulations/results/n_infinity_analysis.txt)
 
 ---
 

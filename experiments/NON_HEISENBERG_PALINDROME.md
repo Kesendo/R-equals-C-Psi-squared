@@ -271,7 +271,7 @@ fundamental feature of qubit dephasing.
 | continuous_pi_search.py | Non-local Π: rotation, optimization, eigenvector construction |
 | depolarizing_test.py | Depolarizing vs single-axis comparison |
 
-All scripts in `simulations/`. Requirements: Python, QuTiP, NumPy.
+All scripts in [`simulations/`](../simulations/). Requirements: Python, QuTiP, NumPy.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---

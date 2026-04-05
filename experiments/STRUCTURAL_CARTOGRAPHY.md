@@ -179,7 +179,7 @@ Run gamma=0 baseline. Compare. Quantify how much structure is Hamiltonian
 ## Phase A Results: Descriptive Cartography (March 2026)
 
 Computed on star topology, Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05.
-9 CΨ_AB visibility peaks analyzed. Script: simulations/cartography_phase_a.py
+9 CΨ_AB visibility peaks analyzed. Script: [`simulations/cartography_phase_a.py`](../simulations/cartography_phase_a.py)
 
 ### Layer 1: Per-window feature chart
 
@@ -303,11 +303,11 @@ What changes is a single rotational degree of freedom in the cross-coupling phas
 The system is a damped pendulum oscillating in one plane of Pauli space, with
 periodic sector switches at the turning points.
 
-Script: simulations/window_xor.py
+Script: [`simulations/window_xor.py`](../simulations/window_xor.py)
 
 ### Shift Analysis: SWAP, YZ/ZY Symmetry, Time-Shift
 
-Three complementary tests on the window structure. Script: simulations/shift_analysis.py
+Three complementary tests on the window structure. Script: [`simulations/shift_analysis.py`](../simulations/shift_analysis.py)
 
 **SWAP Test: A and B are NOT symmetric.**
 
@@ -354,7 +354,7 @@ similarity even across multiple steps. The pattern repeats with period ~3
 ### Operation Search: Which transform maps one window to the next?
 
 Tested all 16 two-qubit Pauli operations (IxI through ZxZ) plus continuous
-rotations on each adjacent window pair. Script: simulations/window_operations.py
+rotations on each adjacent window pair. Script: [`simulations/window_operations.py`](../simulations/window_operations.py)
 
 **Key finding: no single-qubit rotation helps. Only correlated operations work.**
 
@@ -561,7 +561,7 @@ The period-3 window recurrence is consistent with this frequency: at f=1.5,
 one full cycle takes T=0.667 time units. The glide-glide-switch pattern spans
 roughly 3 windows across ~2T, matching the observed period.
 
-Script: simulations/frequency_test.py
+Script: [`simulations/frequency_test.py`](../simulations/frequency_test.py)
 
 **5. Perspective as selection.** Three formal families near this idea:
 - Einselection / pointer states (Zurek 2003): environment selects preferred bases
@@ -624,7 +624,7 @@ single clean mode. The robust statement is:
 The pendulum picture is now a **verified spectral feature**, not just a visual
 pattern. But it is carried by a cluster of modes, not one perfect eigenvalue pair.
 
-Script: simulations/liouvillian_diagonalization.py (GPT original, paths adjusted)
+Script: [`simulations/liouvillian_diagonalization.py`](../simulations/liouvillian_diagonalization.py) (GPT original, paths adjusted)
 
 ### External assessment of the spectral results (GPT, March 2026)
 
@@ -649,7 +649,7 @@ Current honest status:
 ## Parameter Sweep Results (March 10, 2026)
 
 The decisive robustness test. Does the two-sector structure survive under
-parameter changes? Script: simulations/parameter_sweep.py
+parameter changes? Script: [`simulations/parameter_sweep.py`](../simulations/parameter_sweep.py)
 
 ### SWEEP 1: Varying J_SB (J_SA=1.0 fixed, gamma=0.05, Bell+ initial)
 
@@ -769,7 +769,7 @@ the story becomes fully defensible.
 
 ## Stress Tests: Where Does the Structure Break? (March 10, 2026)
 
-Four deliberate symmetry-breaking tests. Script: simulations/stress_tests.py
+Four deliberate symmetry-breaking tests. Script: [`simulations/stress_tests.py`](../simulations/stress_tests.py)
 
 ### TEST 1: Local Z-fields on A and/or B
 

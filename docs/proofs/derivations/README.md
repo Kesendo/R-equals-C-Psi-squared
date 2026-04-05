@@ -61,7 +61,7 @@ Explored but no closed formula found:
 
 ## Verification Scripts
 
-- `simulations/verify_derivations.py` (D1-D6)
-- `simulations/derivation_cascades.py` (D7 + failed cascades)
-- Results: `simulations/results/verify_derivations.txt`
-- Results: `simulations/results/derivation_cascades.txt`
+- [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py) (D1-D6)
+- [`simulations/derivation_cascades.py`](../../../simulations/derivation_cascades.py) (D7 + failed cascades)
+- Results: [`simulations/results/verify_derivations.txt`](../../../simulations/results/verify_derivations.txt)
+- Results: [`simulations/results/derivation_cascades.txt`](../../../simulations/results/derivation_cascades.txt)

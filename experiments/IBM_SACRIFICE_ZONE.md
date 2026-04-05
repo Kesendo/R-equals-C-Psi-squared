@@ -265,7 +265,7 @@ The hardware imperfections amplify the sacrifice-zone effect: they
 make the sacrifice qubit WORSE under uniform DD, increasing the
 advantage of selective DD.
 
-Script: simulations/ibm_formula_test.py.
+Script: [`simulations/ibm_formula_test.py`](../simulations/ibm_formula_test.py).
 
 ---
 

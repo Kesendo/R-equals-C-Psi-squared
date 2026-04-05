@@ -11,7 +11,7 @@ AR coating quantum noise, dispersive cavity scaling, R=CPsi2 sacrifice zone opti
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
 [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md),
 [Resonant Return](RESONANT_RETURN.md)
-**Verification:** `simulations/sacrifice_zone_optics.py`
+**Verification:** [`simulations/sacrifice_zone_optics.py`](../simulations/sacrifice_zone_optics.py)
 
 ---
 
@@ -179,5 +179,5 @@ edge, excites the same standing waves 7x longer (Q_max at N=6).
 
 ## Reproduction
 
-- Script: `python simulations/sacrifice_zone_optics.py`
-- Output: `simulations/results/sacrifice_zone_optics.txt`
+- Script: [`simulations/sacrifice_zone_optics.py`](../simulations/sacrifice_zone_optics.py)
+- Output: [`simulations/results/sacrifice_zone_optics.txt`](../simulations/results/sacrifice_zone_optics.txt)

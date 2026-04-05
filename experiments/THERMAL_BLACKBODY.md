@@ -11,7 +11,7 @@ n_bar mode count, coherent to thermal transition, R=CPsi2 thermal blackbody -->
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [K-Dosimetry](K_DOSIMETRY.md),
 [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md)
-**Verification:** `simulations/thermal_blackbody.py`
+**Verification:** [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py)
 
 ---
 
@@ -163,5 +163,5 @@ not of the thermal state).
 
 ## Reproduction
 
-- Script: `python simulations/thermal_blackbody.py`
-- Output: `simulations/results/thermal_blackbody.txt`
+- Script: [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py)
+- Output: [`simulations/results/thermal_blackbody.txt`](../simulations/results/thermal_blackbody.txt)

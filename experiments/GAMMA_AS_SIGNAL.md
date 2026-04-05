@@ -529,7 +529,7 @@ No proprietary tools or closed-source dependencies.
 | [bridge_optimization.py](../simulations/bridge_optimization.py) | Optimization sweep | ~124 min |
 | [channel_capacity.py](../simulations/channel_capacity.py) | SVD + Shannon capacity | ~5 min |
 
-All scripts are in `simulations/`, all results in `simulations/results/`.
+All scripts are in [`simulations/`](../simulations/), all results in [`simulations/results/`](../simulations/results/).
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---

@@ -215,7 +215,7 @@ That is the contribution: not new physics, but new understanding of existing phy
    one-shot coherent information does not rule out positive multi-shot capacity.
    (Note: GPT-5.4 originally claimed positive I_coh = +0.185. This was verified
    to be wrong; I_coh is negative at every tested parameter point. The negative
-   result is the verified one. See simulations/verify_channel.py.)
+   result is the verified one. See [`simulations/verify_channel.py`](../simulations/verify_channel.py).)
 
 3. **Test whether the palindrome enables better error correction.** The paired
    decay rates mean errors come in paired modes. Can this pairing be exploited

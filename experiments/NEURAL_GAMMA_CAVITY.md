@@ -12,7 +12,7 @@ unpaired modes identified as sensory boundary, pharyngeal sub-cavity, asymmetric
 **Depends on:** [Thermal Blackbody](THERMAL_BLACKBODY.md),
 [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)
-**Verification:** `simulations/neural/neural_gamma_cavity.py`
+**Verification:** [`simulations/neural/neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py)
 
 ---
 
@@ -262,7 +262,7 @@ unpaired for "random" reasons. Every leak has a structural explanation
 that maps directly onto a known palindrome-breaking mechanism from the
 qubit framework.
 
-**Verification:** `simulations/neural/neural_gamma_cavity_unpaired.py`
+**Verification:** [`simulations/neural/neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
 (analysis script identifying and classifying unpaired modes)
 
 ---

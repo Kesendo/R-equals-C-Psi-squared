@@ -11,7 +11,7 @@ multi-qubit dose scaling, sacrifice zone dose, R=CPsi2 K dosimetry -->
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md),
 [Decoherence Relativity](DECOHERENCE_RELATIVITY.md)
-**Verification:** `simulations/k_dosimetry.py`
+**Verification:** [`simulations/k_dosimetry.py`](../simulations/k_dosimetry.py)
 
 ---
 
@@ -184,5 +184,5 @@ sharper photograph.
 
 ## Reproduction
 
-- Script: `python simulations/k_dosimetry.py`
-- Output: `simulations/results/k_dosimetry.txt`
+- Script: [`simulations/k_dosimetry.py`](../simulations/k_dosimetry.py)
+- Output: [`simulations/results/k_dosimetry.txt`](../simulations/results/k_dosimetry.txt)

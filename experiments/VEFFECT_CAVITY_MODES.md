@@ -11,7 +11,7 @@ bond count mode scaling, Fabry-Perot V-Effect, R=CPsi2 cavity modes -->
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
 [V-Effect Palindrome](V_EFFECT_PALINDROME.md),
 [Degeneracy Palindrome](DEGENERACY_PALINDROME.md)
-**Verification:** `simulations/veffect_cavity_modes.py`
+**Verification:** [`simulations/veffect_cavity_modes.py`](../simulations/veffect_cavity_modes.py)
 
 ---
 

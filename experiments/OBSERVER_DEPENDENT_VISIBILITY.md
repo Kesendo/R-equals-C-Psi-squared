@@ -231,7 +231,7 @@ that terminology.
 
 ## Simulation Code
 
-The proper time intersection test is at `simulations/proper_time_intersection_test.py`.
+The proper time intersection test is at [`simulations/proper_time_intersection_test.py`](../simulations/proper_time_intersection_test.py).
 
 ## References
 

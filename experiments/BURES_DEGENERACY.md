@@ -10,7 +10,7 @@ open quantum system information geometry, R=CPsi2 Bures degeneracy -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Degeneracy Palindrome](DEGENERACY_PALINDROME.md),
 [Information Geometry](INFORMATION_GEOMETRY.md)
-**Verification:** `simulations/bures_degeneracy_correlation.py`
+**Verification:** [`simulations/bures_degeneracy_correlation.py`](../simulations/bures_degeneracy_correlation.py)
 
 ---
 
@@ -194,6 +194,6 @@ At odd N, the two center positions spread the effect.
 
 ## Reproduction
 
-- Bures metric (limited): `python simulations/bures_degeneracy_correlation.py`
-- QFI metric (recommended): `python simulations/qfi_degeneracy_correlation.py`
-- Output: `simulations/results/qfi_degeneracy_correlation.txt`
+- Bures metric (limited): [`simulations/bures_degeneracy_correlation.py`](../simulations/bures_degeneracy_correlation.py)
+- QFI metric (recommended): [`simulations/qfi_degeneracy_correlation.py`](../simulations/qfi_degeneracy_correlation.py)
+- Output: [`simulations/results/qfi_degeneracy_correlation.txt`](../simulations/results/qfi_degeneracy_correlation.txt)

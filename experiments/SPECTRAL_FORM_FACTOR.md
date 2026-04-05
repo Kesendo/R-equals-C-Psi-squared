@@ -10,7 +10,7 @@ time, R=CPsi2 spectral form factor -->
 **Script:** [spectral_form_factor.py](../simulations/spectral_form_factor.py)
 **Data:** [spectral_form_factor.txt](../simulations/results/spectral_form_factor.txt)
 **Input:** Eigenvalue CSVs from [RMT analysis](RANDOM_MATRIX_THEORY.md)
-(simulations/results/rmt_eigenvalues_N{2..7}.csv)
+(`simulations/results/rmt_eigenvalues_N{2..7}.csv`)
 **Depends on:**
 - [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, class AIII)
 - [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi chiral, palindromic pairing)
@@ -245,9 +245,9 @@ wave modes.
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/spectral_form_factor.py |
-| Output | simulations/results/spectral_form_factor.txt |
-| Input CSVs | simulations/results/rmt_eigenvalues_N{2..7}.csv |
+| Script | [`simulations/spectral_form_factor.py`](../simulations/spectral_form_factor.py) |
+| Output | [`simulations/results/spectral_form_factor.txt`](../simulations/results/spectral_form_factor.txt) |
+| Input CSVs | `simulations/results/rmt_eigenvalues_N{2..7}.csv` |
 
 ---
 

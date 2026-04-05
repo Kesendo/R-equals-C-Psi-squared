@@ -414,5 +414,5 @@ interpretable. The connection between θ and the echo is absent in CPsi-space
 
 ## Scripts and Results
 
-- `simulations/theta_palindrome_echo.py` - full investigation script
-- `simulations/results/theta_palindrome_echo.txt` - complete output
+- [`simulations/theta_palindrome_echo.py`](../simulations/theta_palindrome_echo.py) - full investigation script
+- [`simulations/results/theta_palindrome_echo.txt`](../simulations/results/theta_palindrome_echo.txt) - complete output

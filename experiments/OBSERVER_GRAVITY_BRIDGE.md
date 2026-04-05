@@ -30,7 +30,7 @@ accumulates tiny signals over the full decoherence trajectory.
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Scripts:** simulations/interval_shift.py, simulations/shift_mechanism.py
+**Scripts:** [`simulations/interval_shift.py`](../simulations/interval_shift.py), [`simulations/shift_mechanism.py`](../simulations/shift_mechanism.py)
 **Depends on:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), [Bridge Closure](BRIDGE_CLOSURE.md)
 
 ---
@@ -614,9 +614,9 @@ for J in [0, 0.01, 0.1, 1.0]:
     # Find A's crossing time in both branches...
 ```
 
-Full scripts: `simulations/observer_gravity_cross.py`,
-`simulations/interval_shift.py`, `simulations/shift_mechanism.py`,
-`simulations/information_channel.py`
+Full scripts: [`simulations/observer_gravity_cross.py`](../simulations/observer_gravity_cross.py),
+[`simulations/interval_shift.py`](../simulations/interval_shift.py), [`simulations/shift_mechanism.py`](../simulations/shift_mechanism.py),
+[`simulations/information_channel.py`](../simulations/information_channel.py)
 
 ---
 

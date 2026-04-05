@@ -10,7 +10,7 @@ mixed S_N representation, multi-weight eigenvalue mixing, R=CPsi2 weight-2 kerne
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Proof: Weight-1 Degeneracy](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md),
 [Degeneracy Palindrome](DEGENERACY_PALINDROME.md)
-**Verification:** `simulations/weight2_kern_analysis.py`
+**Verification:** [`simulations/weight2_kern_analysis.py`](../simulations/weight2_kern_analysis.py)
 
 ---
 
@@ -201,7 +201,7 @@ from weight-k.
 
 ## Reproduction
 
-- Weight-2 kernel analysis: `python simulations/weight2_kern_analysis.py`
-- Output: `simulations/results/weight2_kern_analysis.txt`
+- Weight-2 kernel analysis: [`simulations/weight2_kern_analysis.py`](../simulations/weight2_kern_analysis.py)
+- Output: [`simulations/results/weight2_kern_analysis.txt`](../simulations/results/weight2_kern_analysis.txt)
 - Topology eigenvalues: `dotnet run -c Release -- rmt {chain|star|ring|complete}`
-- Topology comparison: `python simulations/topology_degeneracy_compare.py`
+- Topology comparison: [`simulations/topology_degeneracy_compare.py`](../simulations/topology_degeneracy_compare.py)

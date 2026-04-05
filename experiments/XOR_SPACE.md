@@ -271,7 +271,7 @@ This connects to the push/pull principle in the
 | xor_detector_v2.py | Input decomposition: state → eigenmode coefficients |
 | xor_detector_v3.py | Pauli weight correlation: mixed XY → XOR fraction |
 
-All scripts in `simulations/`. Requirements: NumPy, SciPy. Runtime < 1 second
+All scripts in [`simulations/`](../simulations/). Requirements: NumPy, SciPy. Runtime < 1 second
 for N=2 to N=4.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 

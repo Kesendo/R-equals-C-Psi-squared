@@ -13,7 +13,7 @@ R=CPsi2 minimum crossing energy -->
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** simulations/minimum_energy.py
+**Script:** [`simulations/minimum_energy.py`](../simulations/minimum_energy.py)
 **Depends on:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Coherence Density](COHERENCE_DENSITY.md)
 
 ---
@@ -211,7 +211,7 @@ CΨ_max depends on four factors:
 # Critical J/γ ≈ 5-10 (CΨ_max crosses 0.25)
 ```
 
-Full script: `simulations/minimum_energy.py`
+Full script: [`simulations/minimum_energy.py`](../simulations/minimum_energy.py)
 
 ---
 

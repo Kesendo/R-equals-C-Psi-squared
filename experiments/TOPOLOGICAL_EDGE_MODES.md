@@ -264,8 +264,8 @@ chain, not from a topological invariant.
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/topological_edge_modes.py |
-| Output | simulations/results/topological_edge_modes.txt |
+| Script | [`simulations/topological_edge_modes.py`](../simulations/topological_edge_modes.py) |
+| Output | [`simulations/results/topological_edge_modes.txt`](../simulations/results/topological_edge_modes.txt) |
 
 ---
 

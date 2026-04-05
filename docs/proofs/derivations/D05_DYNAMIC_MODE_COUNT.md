@@ -42,7 +42,7 @@ vs stationary vs XOR modes; it only shifts their rates.
 | 4 | 256  | 54      | 5   | 197         | YES    |
 | 5 | 1024 | 120     | 6   | 898         | YES    |
 
-Script: simulations/verify_derivations.py
+Script: [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py)
 
 ## Replaces
 

@@ -384,8 +384,8 @@ All five tests from TASK_QUBIT_NECESSITY.md completed.
    is through per-site map universality, not block-level tensor product.
    The same per-site map M works for any N, any topology.
 
-Script: `simulations/qubit_necessity_tests.py`
-Results: `simulations/results/qubit_necessity_tests.txt`
+Script: [`simulations/qubit_necessity_tests.py`](../simulations/qubit_necessity_tests.py)
+Results: [`simulations/results/qubit_necessity_tests.txt`](../simulations/results/qubit_necessity_tests.txt)
 
 ---
 

@@ -562,7 +562,7 @@ Practical protocol: TUNING_PROTOCOL.md.
 ## 8. Open Questions (partially answered 2026-03-07)
 
 Questions 1, 3, 5 answered via systematic simulation sweeps.
-Code: `simulations/star_topology_v3.py`.
+Code: [`simulations/star_topology_v3.py`](../simulations/star_topology_v3.py).
 
 ### 8.1 N observers: ANSWERED
 
@@ -718,9 +718,9 @@ J_th(γ) ≈ 6.39 · γ + 1.16
 
 ## 10. Simulation Code
 
-- `../simulations/star_topology_v2.py`: 3-qubit star topology, RK4 integration
-- `../simulations/star_n_observer.py`: N-qubit with asymmetric coupling
-- `../simulations/star_topology_v3.py`: N-qubit with equal coupling, J_AB support, threshold sweeps
+- [`simulations/star_topology_v2.py`](../simulations/star_topology_v2.py): 3-qubit star topology, RK4 integration
+- [`simulations/star_n_observer.py`](../simulations/star_n_observer.py): N-qubit with asymmetric coupling
+- [`simulations/star_topology_v3.py`](../simulations/star_topology_v3.py): N-qubit with equal coupling, J_AB support, threshold sweeps
 
 ---
 

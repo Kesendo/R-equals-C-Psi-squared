@@ -209,8 +209,8 @@ count, same mechanism. The substrate contributes parameter values
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/water/proton_water_chain.py |
-| Output | simulations/results/proton_water_chain.txt |
+| Script | [`simulations/water/proton_water_chain.py`](../simulations/water/proton_water_chain.py) |
+| Output | [`simulations/results/proton_water_chain.txt`](../simulations/results/proton_water_chain.txt) |
 
 ---
 

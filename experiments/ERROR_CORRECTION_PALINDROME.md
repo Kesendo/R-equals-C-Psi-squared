@@ -247,5 +247,5 @@ changes rather than sector weight shifts.
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): oscillation patterns
 - [XOR Space](XOR_SPACE.md): GHZ vs W mode decomposition
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md): spectral scaling
-- Script: `simulations/error_correction_palindrome.py`
-- Results: `simulations/results/error_correction_palindrome.txt`
+- Script: [`simulations/error_correction_palindrome.py`](../simulations/error_correction_palindrome.py)
+- Results: [`simulations/results/error_correction_palindrome.txt`](../simulations/results/error_correction_palindrome.txt)

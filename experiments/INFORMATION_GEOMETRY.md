@@ -211,8 +211,8 @@ functions of CΨ, which itself is approximately geodesic.
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/information_geometry.py |
-| Output | simulations/results/information_geometry.txt |
+| Script | [`simulations/information_geometry.py`](../simulations/information_geometry.py) |
+| Output | [`simulations/results/information_geometry.txt`](../simulations/results/information_geometry.txt) |
 
 ---
 

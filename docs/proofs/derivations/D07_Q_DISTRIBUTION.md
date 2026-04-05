@@ -46,7 +46,7 @@ Properties:
 Convergence improves with N (continuous limit). Mean is exact
 at all N (cosine sum identity from D2).
 
-Script: simulations/derivation_cascades.py
+Script: [`simulations/derivation_cascades.py`](../../../simulations/derivation_cascades.py)
 
 ## Replaces
 

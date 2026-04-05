@@ -2,8 +2,8 @@
 
 **Date:** April 2, 2026
 **Status:** Complete
-**Script:** `simulations/theta_pc_correlation.py`
-**Results:** `simulations/results/theta_pc_correlation.txt`
+**Script:** [`simulations/theta_pc_correlation.py`](../simulations/theta_pc_correlation.py)
+**Results:** [`simulations/results/theta_pc_correlation.txt`](../simulations/results/theta_pc_correlation.txt)
 
 ## What this document is about
 

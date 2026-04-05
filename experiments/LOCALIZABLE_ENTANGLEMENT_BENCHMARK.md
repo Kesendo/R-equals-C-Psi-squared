@@ -183,7 +183,7 @@ currently basis-expressed.
 
 ## Simulation Code
 
-The benchmark script is available at `simulations/localizable_entanglement_test.py`.
+The benchmark script is available at [`simulations/localizable_entanglement_test.py`](../simulations/localizable_entanglement_test.py).
 
 ## References
 

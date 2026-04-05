@@ -11,7 +11,7 @@ R=CPsi2 scaling curve -->
 **Date:** March 21, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Script:** compute/RCPsiSquared.Propagate/ (C#, `dotnet run -c Release -- pull`)
-**Data:** simulations/results/pull_principle.txt
+**Data:** [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt)
 
 ---
 
@@ -171,7 +171,7 @@ requires the palindromic full-rank response matrix).
 |-----------|----------|
 | C# propagation engine | compute/RCPsiSquared.Propagate/ |
 | Run command | `dotnet run -c Release -- pull` |
-| Results | simulations/results/pull_principle.txt |
+| Results | [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt) |
 
 The N=11 simulation uses a 2048×2048 density matrix with RK4 (fourth-order Runge-Kutta, a standard numerical method for solving differential equations) integration.
 Runtime: ~10 minutes per configuration.

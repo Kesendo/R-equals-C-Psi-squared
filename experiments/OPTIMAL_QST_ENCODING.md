@@ -191,8 +191,8 @@ What it does NOT help with:
 - [QST Bridge](QST_BRIDGE.md): the existing QST benchmarks
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md): optimal survival state (different goal)
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): oscillation patterns
-- Script: `simulations/optimal_qst_encoding.py`
-- Results: `simulations/results/optimal_qst_encoding.txt`
+- Script: [`simulations/optimal_qst_encoding.py`](../simulations/optimal_qst_encoding.py)
+- Results: [`simulations/results/optimal_qst_encoding.txt`](../simulations/results/optimal_qst_encoding.txt)
 
 ---
 

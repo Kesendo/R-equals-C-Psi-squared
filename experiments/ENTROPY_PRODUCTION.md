@@ -211,8 +211,8 @@ They share the value 1/4 but for independent reasons. No causal link.
 
 | Component | Location |
 |-----------|----------|
-| Script | simulations/entropy_production.py |
-| Output | simulations/results/entropy_production.txt |
+| Script | [`simulations/entropy_production.py`](../simulations/entropy_production.py) |
+| Output | [`simulations/results/entropy_production.txt`](../simulations/results/entropy_production.txt) |
 
 ---
 

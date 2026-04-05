@@ -142,7 +142,7 @@ The system has a third dark mode at 1.1 Hz visible only in the odd channel.
 Poles separate cleanly into topology-dependent frequency and topology-independent
 decay. This is textbook coupled resonator physics.
 
-Script: simulations/prony_analysis.py
+Script: [`simulations/prony_analysis.py`](../simulations/prony_analysis.py)
 
 ### Corrections from review (March 12, evening)
 
@@ -216,7 +216,7 @@ This is the cleanest result of the signal processing approach:
 the imaginary parts of the poles (frequencies) are topology-determined,
 the real parts (decay rates) are loss-determined. They are independent.
 
-Script: simulations/joint_pole_analysis.py
+Script: [`simulations/joint_pole_analysis.py`](../simulations/joint_pole_analysis.py)
 
 ### Decay Rate Derivation: Two Independent Information Channels (March 12)
 
@@ -287,7 +287,7 @@ ONLY for the 3-qubit isotropic Heisenberg system with symmetric dephasing.
 At 4+ qubits, topology leaks into decay rates. The 3-qubit system is a
 special case with unusually clean separation.
 
-Script: simulations/decay_derivation.py
+Script: [`simulations/decay_derivation.py`](../simulations/decay_derivation.py)
 
 
 ## Connection to the Mirror Symmetry Proof (March 14, 2026)

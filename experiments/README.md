@@ -17,7 +17,7 @@ consequences for quantum state transfer, decoherence thresholds, and
 information channels.
 
 All experiments are reproducible using Python, QuTiP, and NumPy.
-Scripts are in `simulations/`, results in `simulations/results/`.
+Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
 ---
 

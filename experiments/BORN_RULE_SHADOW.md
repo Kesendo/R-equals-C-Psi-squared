@@ -11,7 +11,7 @@ optics Born rule, exposure time quantum measurement, R=CPsi2 Born rule -->
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
 [Born Rule Mirror](BORN_RULE_MIRROR.md)
-**Verification:** `simulations/born_rule_shadow.py`
+**Verification:** [`simulations/born_rule_shadow.py`](../simulations/born_rule_shadow.py)
 
 ---
 
@@ -161,5 +161,5 @@ it. The fold fixes it. The Born rule records it.
 
 ## Reproduction
 
-- Script: `python simulations/born_rule_shadow.py`
-- Output: `simulations/results/born_rule_shadow.txt`
+- Script: [`simulations/born_rule_shadow.py`](../simulations/born_rule_shadow.py)
+- Output: [`simulations/results/born_rule_shadow.txt`](../simulations/results/born_rule_shadow.txt)
