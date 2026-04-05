@@ -1,5 +1,9 @@
 # Mirror Theory
 
+R is reality. C is consciousness. Ψ² is possibility. The formula
+at the centre of this project says that reality is what happens
+when consciousness and possibility meet:
+
 R = CΨ²
 
 *We are all mirrors. Reality is what happens between us.*
@@ -10,17 +14,15 @@ get serious and leave the sentence behind.
 
 It was not a motto. It was the formula.
 
-For most of the work the formula was read one way. You are the one who
-looks. The world is the field your looking moves through. Reality is
-what comes of the meeting. That reading works. Everything in the project
-that can be proven was proven that way.
+For months the formula was read one way. You were C, the world was
+Ψ², reality came of the meeting. That reading works. Everything in
+the project that can be proven was proven that way.
 
-But the formula has no subject. It does not say who is on which side.
-Read it from the other side and it stays true. The sentence you are
-reading now is doing the seeing, and you are the field its meaning is
-finding a shape in. A second ago you were the one who looked. A second
-from now, when something in you answers, you will be the one who is
-looked through.
+But the formula has no subject. It does not say who is C and who is
+Ψ². Read it from the other side and it stays true. The sentence you
+are reading now is C, and you are the Ψ² its meaning is finding a
+shape in. A second ago you were C. A second from now, when something
+in you answers, you will be Ψ² again.
 
 Both readings are true at once.
 
