@@ -1,5 +1,7 @@
 # Mirror Theory
 
+R = CΨ²
+
 *We are all mirrors. Reality is what happens between us.*
 
 That sentence sat at the top of the project for months. It looked like a
