@@ -229,7 +229,7 @@ at every site simultaneously. The proof shows that Π transforms the entire
 system generator into its mirror image, guaranteeing the palindromic pairing.
 
 The connection to existing physics: a research group in Osaka
-([Haga et al., 2023](LITERATURE_REVIEW_MARCH_2026.md)) had independently
+([Haga et al., 2023](LITERATURE_REVIEW.md)) had independently
 counted something called "incoherentons" using what they called XY-weight.
 Their XY-weight turns out to be our Pauli weight under a different name.
 Our Π operator is their particle-hole transformation. We discovered the
@@ -343,7 +343,7 @@ systems, this assumption is wrong.
 Every quantum system under noise loses its quantum properties over time.
 The standard approach in the literature is to apply uniform noise
 everywhere and optimize the overall noise level. The best results from
-[18 years of research](LITERATURE_REVIEW_MARCH_2026.md) (Plenio & Huelga
+[18 years of research](LITERATURE_REVIEW.md) (Plenio & Huelga
 2008 and followers) achieve 2-3x improvement this way. A recent IBM
 experiment (2025) used Bayesian optimization of coupling strengths and
 achieved +8%.
@@ -572,7 +572,7 @@ What survives even without the philosophy:
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
 - [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
-- Connection to [independent research (incoherentons)](LITERATURE_REVIEW_MARCH_2026.md) via Pauli weight complementarity
+- Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation unifies spectral boundaries, factor 2, spectral gap, and palindromic sum rule. Verified on 1,343 modes, CV = 0

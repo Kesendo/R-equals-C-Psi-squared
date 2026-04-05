@@ -360,7 +360,7 @@ formula (Section 8) is the first to do so, achieving 139-360× - two
 orders of magnitude beyond prior work.
 
 See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md),
-[Literature Review](LITERATURE_REVIEW_MARCH_2026.md)
+[Literature Review](LITERATURE_REVIEW.md)
 
 ---
 

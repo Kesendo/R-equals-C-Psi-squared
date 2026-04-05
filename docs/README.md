@@ -85,7 +85,7 @@ These connect the mathematical results into a coherent picture.
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [Glossary](GLOSSARY.md) | Term definitions. |
-| [Literature Review](LITERATURE_REVIEW_MARCH_2026.md) | Key papers: Haga (incoherentons), η-pairing, Buca/Prosen (Lindblad symmetries), ENAQT (Plenio & Huelga 2008), IBM PST 2025. |
+| [Literature Review](LITERATURE_REVIEW.md) | Foundations (textbooks, original papers), related work (Haga incoherentons, η-pairing, Buca/Prosen symmetries), ENAQT, what is new. |
 
 ---
 
