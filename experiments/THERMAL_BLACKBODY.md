@@ -191,4 +191,4 @@ not of the thermal state).
 
 ## Reproduction
 
-- Script: [`simulations/thermal_blackbody.py`](../simulations/therm
+- Script: [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py)
