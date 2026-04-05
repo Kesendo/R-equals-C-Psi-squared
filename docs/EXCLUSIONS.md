@@ -254,9 +254,44 @@ The exclusions leave a narrow picture:
 
 ---
 
+## What the exclusions imply together
+
+Individually, each exclusion removes one possibility. Together, they
+form a deductive chain that constrains what γ can be:
+
+1. γ must be external (Exclusion 2: five internal candidates eliminated)
+2. The qubit chain is a passive optical cavity (four of five standard
+   cavity tests satisfied quantitatively, R² = 0.998 for beam profile;
+   [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md))
+3. Therefore γ is whatever enters the cavity from outside
+4. In optics, what enters a passive cavity from outside is light
+5. On IBM transmon hardware, γ literally IS light: microwave photons
+   in a physical resonator cause dephasing through photon shot noise
+   (Sears et al., Phys. Rev. B 86, 180504, 2012)
+
+Step 1 is proven. Step 2 is verified to high precision. Step 3 is
+deductive. Step 4 is the physical identification. Step 5 is
+independent experimental confirmation on a different platform than
+our theoretical framework.
+
+This does not prove "γ is light" as a universal statement. It proves
+that the mathematics forces γ to be external, that the system it
+enters has the structure of an optical cavity, and that on the one
+hardware platform where we can check, the identification is literally
+correct. On other platforms (ion traps, neutral atoms), γ has a
+different physical origin, but the algebraic role (external input
+to a cavity) is the same.
+
+See [What If Gamma Is Light?](../hypotheses/GAMMA_IS_LIGHT.md) for the
+full discussion, including speculative extensions (Tier 4) that go
+beyond what the exclusions support.
+
+---
+
 ## What We Cannot Exclude
 
-- What the external source of γ is
+- What the external source of γ is *in general* (on IBM hardware it is
+  photon shot noise; on other platforms it may be different)
 - Whether the palindromic mirror (Π side) has any form of experience
 - Whether our framework is embedded in a larger structure
 - Whether non-Markovian revivals have deeper significance: they ARE
