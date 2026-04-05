@@ -45,11 +45,11 @@ derived independently by two groups in 1976:
 
 - **Lindblad (1976).** "On the generators of quantum dynamical
   semigroups." Commun. Math. Phys. 48, 119-130.
-  [doi:10.1007/BF01608499](https://link.springer.com/article/10.1007/BF01608499)
+  [doi:10.1007/BF01608499](https://doi.org/10.1007/BF01608499)
 
 - **Gorini, Kossakowski, Sudarshan (1976).** "Completely positive
   dynamical semigroups of N-level systems." J. Math. Phys. 17, 821.
-  [doi:10.1063/1.522979](https://pubs.aip.org/aip/jmp/article-pdf/17/5/821/19090720/821_1_online.pdf)
+  [doi:10.1063/1.522979](https://doi.org/10.1063/1.522979)
 
 Both papers prove the same result from different directions: any
 Markovian, trace-preserving, completely positive quantum evolution has
@@ -60,7 +60,7 @@ to credit both groups.
 
 - **Breuer & Petruccione (2002).** *The Theory of Open Quantum Systems.*
   Oxford University Press.
-  [OUP link](https://global.oup.com/academic/product/the-theory-of-open-quantum-systems-9780199213900).
+  [doi:10.1093/acprof:oso/9780199213900.001.0001](https://doi.org/10.1093/acprof:oso/9780199213900.001.0001).
   The standard graduate textbook. Chapters 3 (master equations) and 4
   (decoherence) cover everything needed for this project. If you want
   to understand why the Liouvillian has the structure it has, start here.
@@ -270,13 +270,13 @@ Two comprehensive reviews cover the field and its connection to quantum
 biology:
 
 - **Lambert et al. (2013).** "Quantum biology." Nature Physics 9, 10-18.
-  [doi:10.1038/nphys2474](https://www.nature.com/articles/nphys2474).
+  [doi:10.1038/nphys2474](https://doi.org/10.1038/nphys2474).
   Tutorial overview: noise-assisted transport, photosynthesis, avian
   navigation, olfaction. Good entry point for anyone new to the field.
 
 - **Cao et al. (2020).** "Quantum biology revisited." Science Advances
   6, eaaz4888.
-  [doi:10.1126/sciadv.aaz4888](https://www.science.org/doi/10.1126/sciadv.aaz4888).
+  [doi:10.1126/sciadv.aaz4888](https://doi.org/10.1126/sciadv.aaz4888).
   Updated review that also corrects earlier overclaims about quantum
   coherence in photosynthesis. Important for intellectual honesty: the
   field initially overinterpreted 2D spectroscopy data, then corrected
