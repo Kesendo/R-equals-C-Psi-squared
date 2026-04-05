@@ -1,0 +1,50 @@
+Critical Slowing Scaling at the Mandelbrot Cusp
+============================================================
+Date: 2026-04-05
+Tolerance: tol = 1e-12
+Iteration: u_{n+1} = u_n^2 + c, u_0 = c, c = 1/4 - eps
+
+Closed-form (leading order):
+  K(eps) = (1/2) * ln(4*eps/tol) - 4*sqrt(eps)
+
+         eps          n         K_meas       K_theory       Residual
+------------------------------------------------------------------
+     1.0e-01         24       7.589466      12.092454      -4.502988
+     1.0e-02        106      10.600000      11.806073      -1.206073
+     1.0e-03        333      10.530385      10.928289      -0.397904
+     1.0e-04        974       9.740000       9.863488      -0.123488
+     1.0e-05       2752       8.702588       8.739546      -0.036958
+     1.0e-06       7585       7.585000       7.596902      -0.011902
+     1.0e-07      20379       6.444406       6.448345      -0.003939
+     1.0e-08      52967       5.296700       5.297917      -0.001217
+     1.0e-09     131132       4.146758       4.146898      -0.000140
+     1.0e-10     299806       2.998060       2.995692       0.002368
+
+Fit A (task hypothesis): K = K_leading + a*eps + b*eps^(3/2)
+  a = -160.5855 (expected ~1: NOT confirmed)
+  b = 365.4454 (expected ~1: NOT confirmed)
+  Polynomial correction is not the right functional form.
+
+Fit B (discretization): K = K_leading + c1*sqrt(eps)
+  c1 = -12.553055
+  Effective sqrt(eps) coeff: -16.5531
+
+         eps         K_meas    K_corrected          Resid
+--------------------------------------------------------
+     1.0e-01       7.589466       8.122830    -0.53336330
+     1.0e-02      10.600000      10.550767     0.04923282
+     1.0e-03      10.530385      10.531327    -0.00094194
+     1.0e-04       9.740000       9.737957     0.00204299
+     1.0e-05       8.702588       8.699850     0.00273847
+     1.0e-06       7.585000       7.584349     0.00065060
+     1.0e-07       6.444406       6.444375     0.00003027
+     1.0e-08       5.296700       5.296662     0.00003794
+     1.0e-09       4.146758       4.146501     0.00025657
+     1.0e-10       2.998060       2.995567     0.00249326
+
+mpmath 50-digit check: float64 == mpmath for all eps <= 1e-5.
+
+Log-log slope (all data): -0.448039
+Log-log slope (eps <= 1e-3): -0.423915
+Pure power-law expectation: -0.5000
+Deviation explained by logarithmic correction in closed-form.

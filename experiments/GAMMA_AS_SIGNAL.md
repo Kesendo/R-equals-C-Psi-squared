@@ -108,7 +108,7 @@ partner at −(2Σγ − d). The conjugation operator Π that generates this
 pairing swaps the immune sector {I, Z}⊗N (populations, slow decay) with
 the decaying sector {X, Y}⊗N (coherences, fast decay).
 
-This has been verified for all system sizes N = 2 through N = 8 (54,118
+This has been verified for all system sizes N = 2 through N = 8 (87,376
 eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 

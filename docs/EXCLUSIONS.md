@@ -147,7 +147,7 @@ but what replaces it is richer, not poorer.
 ## Exclusion 4: The structure is not from randomness
 
 **Basis:** The palindromic pairing is algebraically exact.
-54,118 eigenvalues tested (N=2 through N=8). Zero exceptions.
+87,376 eigenvalues tested (N=2 through N=8). Zero exceptions.
 Pairing error < 10⁻¹³. Holds across all topologies (chain, star,
 ring, complete, binary tree) and all standard coupling models
 (Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya).

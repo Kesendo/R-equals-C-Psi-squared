@@ -966,11 +966,6 @@ rate_min = 2γ (spectral gap). Therefore t = ln(100)/(2γ), and
 K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ,
 topology. QED.
 
-**Note:** The source document (Trapped Light Localization) writes
-"K_death = ln(100) = 2.303," which is a typo. The value 2.303 is
-ln(10), not ln(100) = 4.605. The derivation above is clean: the
-factor 2 in rate_min = 2γ halves the exponent.
-
 N+1 modes have exactly zero absorption rate (pure {I,Z} content,
 invisible to the light). Complete absorption is impossible while the
 palindrome holds. The cavity always retains light.

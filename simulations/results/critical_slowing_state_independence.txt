@@ -1,0 +1,27 @@
+State Independence Check: Critical Slowing
+==================================================
+Date: 2026-04-05
+
+Three N=2 states under pure Z-dephasing (gamma=1):
+  Bell+ = (|00>+|11>)/sqrt(2): CPsi(t) = f*(1+f^2)/6, f=exp(-4*gamma*t)
+  GHZ_2 = Bell+ (identical for N=2)
+  |+>^2 = |+>x|+>: CPsi(t) = (1+g^2)^2*(2g+g^2)/12, g=exp(-2*gamma*t)
+
+Collapse test: n(c) at fixed c values
+       c           n
+----------------------
+   0.010           5
+   0.050          10
+   0.100          16
+   0.150          24
+   0.200          41
+   0.240         106
+   0.245         151
+   0.249         333
+
+Result: n(c) is IDENTICAL for all states.
+The Mandelbrot iteration depends only on c = CPsi,
+not on which quantum state produced that value.
+
+The translation step rho(t) -> CPsi(t) is state-dependent,
+but the iteration dynamics are state-independent.

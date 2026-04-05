@@ -1,0 +1,162 @@
+========================================================================
+STEP 1: Bell+ Pauli decomposition under Z-dephasing (N=2)
+========================================================================
+
+rho(0) = (1/4)(II + XX - YY + ZZ)
+Under Z-dephasing with rate gamma per qubit:
+  a_P(t) = a_P(0) * exp(-2*gamma*w(P)*t)
+  where w(P) = XY-weight (number of X or Y factors)
+
+Bell+ Pauli coefficients:
+  a_II = 1     (w=0, stationary)
+  a_ZZ = 1     (w=0, stationary)
+  a_XX = f     (w=2, f = exp(-4*gamma*t))
+  a_YY = -f    (w=2)
+  All others = 0
+
+Numerical check at t=0.5, f=0.135335:
+  Purity (matrix):  0.5091578194
+  Purity (formula): 0.5091578194
+  Match: True
+  Psi (matrix):  0.0451117611
+  Psi (formula): 0.0451117611
+  Match: True
+
+========================================================================
+STEP 2: CPsi from sector weights
+========================================================================
+
+Sector weights (W_k = (1/d) * sum |a_P|^2 for w(P)=k):
+  W_0 = (1/4)(1 + 1) = 1/2     (constant: {II, ZZ})
+  W_1 = 0                        (no k=1 content)
+  W_2 = (1/4)(f^2 + f^2) = f^2/2  (decaying: {XX, YY})
+
+Purity: C = W_0 + W_2 = 1/2 + f^2/2 = (1+f^2)/2
+Coherence: Psi = f/3 = sqrt(2*W_2)/3
+CPsi = C * Psi = (1/2 + W_2) * sqrt(2*W_2)/3
+
+State-specific relation: W_2 = f^2/2 = (3*Psi)^2/2 = 9*Psi^2/2
+
+========================================================================
+STEP 3: dCPsi/dt at the cusp from sector weights
+========================================================================
+
+General: dW_k/dt = -4*gamma*k*W_k (exponential decay per sector)
+  dW_0/dt = 0 (stationary)
+  dW_2/dt = -8*gamma*W_2
+
+dC/dt = dW_0/dt + dW_2/dt = -8*gamma*W_2
+dPsi/dt = -4*gamma*f/3 = -4*gamma*Psi (since Psi = f/3)
+
+dCPsi/dt = dC/dt * Psi + C * dPsi/dt
+       = -8*gamma*W_2 * Psi + (1/2 + W_2) * (-4*gamma*Psi)
+       = -4*gamma*Psi * [2*W_2 + 1/2 + W_2]
+       = -4*gamma*Psi * (1/2 + 3*W_2)
+       = -2*gamma*Psi * (1 + 6*W_2)
+
+THIS IS THE WEIGHT-BASED FORMULA:
+    dCPsi/dt = -2*gamma * Psi * (1 + 6*W_2)
+
+At the crossing (CPsi = 1/4):
+  f_cross = 0.8612240997
+  W_2     = 0.3708534750
+  C       = 0.8708534750
+  Psi     = 0.2870746999
+  CPsi      = 0.2500000000 (should be 0.25)
+
+  dCPsi/dt (Formula 25):       -1.8517012003
+  dCPsi/dt (weight formula):   -1.8517012003
+  Match: True
+
+At the crossing, Psi = 1/(4C) = 1/(2 + 4*W_2). Substituting:
+
+  |dCPsi/dt| = 2*gamma * (1+6*W_2) / (2+4*W_2)
+  K_dwell = 2*delta / |dCPsi/dt| = delta * (2+4*W_2) / (gamma*(1+6*W_2))
+
+  PREFACTOR = (2 + 4*W_2) / (1 + 6*W_2)
+
+  Prefactor (weight formula): 1.0800878671
+  Prefactor (direct):         1.0800878671
+  Match: True
+
+  The prefactor 1.080088 IS a pure function of W_2 at the crossing.
+
+========================================================================
+STEP 4: |+>^2 product state (different Pauli structure)
+========================================================================
+
+rho(0) = (1/4)(II + IX + XI + XX)
+  a_II = 1 (w=0), a_IX = 1 (w=1), a_XI = 1 (w=1), a_XX = 1 (w=2)
+
+Under Z-dephasing with g = exp(-2*gamma*t):
+  a_II(t) = 1, a_IX(t) = g, a_XI(t) = g, a_XX(t) = g^2
+
+Sector weights:
+  W_0 = 1/4           (just II)
+  W_1 = (1/4)(g^2 + g^2) = g^2/2
+  W_2 = (1/4)*g^4 = g^4/4
+
+C = (1+g^2)^2/4,  Psi = (2g+g^2)/3
+CPsi = (1+g^2)^2*(2g+g^2)/12
+
+|+>^2 crossing (CPsi = 1/4):
+  g_cross = 0.6102298482
+  W_0 = 0.2500000000
+  W_1 = 0.1861902338
+  W_2 = 0.0346668032
+  C   = 0.4708570370
+  Psi = 0.5309467213
+  CPsi  = 0.2500000000
+
+  dCPsi/dt (analytical): -1.1595701563
+  dCPsi/dt (numerical):  -1.1595701615
+  Match: True
+
+  |+>^2 dwell prefactor: 1.7247770556
+  Bell+  dwell prefactor: 1.0800878671
+  Ratio: 1.596886
+
+Weight-based analysis for |+>^2:
+  dC/dt = -4*gamma*(W_1 + 2*W_2) = -1.0220953606
+    This IS a weight-only quantity.
+
+  dPsi/dt = -4*gamma*g*(1+g)/3 = -1.3101470877
+    This involves g = sqrt(2*W_1), NOT a pure weight function.
+    g = 0.6102298482, sqrt(2*W_1) = 0.6102298482
+
+The |+>^2 prefactor requires sqrt(W_1), i.e., the Pauli coefficient
+magnitudes, not just the sector weights (which are sums of squares).
+
+Bell+ weight formula applied to |+>^2 weights:
+  (2+4*W_2)/(1+6*W_2) = 1.7704186777
+  Actual |+>^2 prefactor: 1.7247770556
+  These DIFFER: the Bell+ formula is state-specific (k=1 absent).
+
+========================================================================
+SUMMARY
+========================================================================
+
+For Bell+ (only k=0 and k=2 Pauli content):
+  dCPsi/dt = -2*gamma*Psi*(1 + 6*W_2)
+  Prefactor = (2+4*W_2)/(1+6*W_2) = 1.080088
+  This IS a pure weight function. SUCCESS for Bell+.
+
+For |+>^2 (k=0, k=1, and k=2 content):
+  Prefactor = 1.724777
+  dPsi/dt involves sqrt(W_1), not W_1 itself.
+  The prefactor requires Pauli coefficient magnitudes,
+  not just sector weights. PARTIAL for |+>^2.
+
+General verdict: PARTIAL SUCCESS.
+  The static/dynamic connection is algebraic for states with
+  only even-weight Pauli content (Bell+, GHZ). For states with
+  odd-weight content (product states), the L1-coherence Psi
+  introduces square roots of individual coefficients that are
+  not reconstructible from sector weights alone.
+
+What the prefactor depends on:
+  1. The sector weights W_k at the crossing (algebraic)
+  2. The relationship between Psi and the W_k (state-specific)
+  The 'extra structure' beyond weights is: the sign pattern of
+  Pauli coefficients determines L1-coherence, which is not
+  reconstructible from W_k = sum |a_P|^2 alone.

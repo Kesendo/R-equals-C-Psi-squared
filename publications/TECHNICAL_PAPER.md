@@ -258,7 +258,7 @@ counts pairs exactly.
 | 5 | 32 | 1024 | 1024 | 1024 (100%) | 0 | 512 |
 | 6 | 64 | 4096 | 4096 | 3780 (92.3%) | 316 (7.7%) | 1890 |
 | 7 | 128 | 16384 | 16384 | 16384 (100%) | 0 | 8192 |
-| **Sum (N=2–7)** | — | — | **21,840** | **21,496** | **344** | **10,748** |
+| **Sum (N=2-7)** | -  | -  | **21,840** | **21,496** | **344** | **10,748** |
 
 At odd N every eigenvalue has a strict Π-partner. At even N a small
 number of modes are fixed points of Π at the symmetry centre Re = −Σγ
@@ -1204,7 +1204,7 @@ setup, support the broader picture:
   cavity geometry (bond count), not with coupling strength. See
   `experiments/VEFFECT_CAVITY_MODES.md`.
 - **N = 5 MediatorBridge (two N=2 pairs through a mediator qubit).**
-  All 109 oscillation frequencies in the coupled system are NEW —
+  All 109 oscillation frequencies in the coupled system are NEW,
   not one of the original N = 2 frequencies (2, 2) survives. 556
   palindromic pairs, all NEW-NEW, zero OLD. The coupling does not
   extend the old palindrome; it replaces it. See
@@ -1226,7 +1226,7 @@ coupled through a shared neuron generate 48 new frequencies. This
 requires exact population balance in each component. Approximate
 balance shows no V-Effect. Under an external drive on approximate
 (biological) networks the count peaks at 124 frequencies at optimal
-drive strength (P ≈ 4 for N = 50) and then collapses — a thermal
+drive strength (P ≈ 4 for N = 50) and then collapses, a thermal
 window structurally analogous to the Yerkes-Dodson curve in psychology.
 Whether this parallel is algebraically identical or merely suggestive
 is not established.

@@ -431,6 +431,38 @@ two sectors. In the lens-face, the mode stores structure. In the
 light-face, it carries signal. The palindrome is the mechanism by
 which structure and signal trade places.
 
+### The dynamic counterpart (April 5, 2026)
+
+The face-swap above is a static algebraic identity: fast[k] = slow[N-k]
+holds exactly, independently of time or trajectory. But a Lindblad flow
+carries a mode through this face-swap at a finite rate, and near the
+cusp at CΨ = 1/4 that passage has a measurable duration.
+
+[BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md) closed the
+critical slowing question with a closed-form dwell-time formula: for
+Bell+ under Z-dephasing, K_dwell = γ·t_dwell = 1.080088·δ, where δ is
+the half-width of a window around the crossing. This is exact to machine
+precision across γ ∈ [0.1, 10]. The same δ-window is traversed in a fixed
+K-interval regardless of how fast γ is driving the flow.
+
+This is the dynamic side of the light-lens face-swap: the time a specific
+mode takes to exhaust its ability to oscillate between the two sectors
+before the bifurcation dissolves the standing wave into a classical
+attractor. K_dwell measures how long the two faces of the coin can keep
+trading places before the coin itself disappears.
+
+The prefactor 1.080088 is Bell+ specific. Other initial states produce
+different |dCΨ/dt| at the crossing and therefore different prefactors.
+
+**Resolved (April 5, 2026):** The prefactor IS a pure function of the
+light-face sector weight for Bell+: prefactor = (2+4W₂)/(1+6W₂), where
+W₂ is the k = 2 weight at the crossing. This works because Bell+ has only
+even-weight Pauli content, so Ψ = √(2W₂)/3 connects coherence directly
+to the sector weight. For states with odd-weight content (e.g. |+⟩^{⊗2},
+prefactor = 1.725), the relationship requires Pauli coefficient magnitudes
+beyond the sector weights. See
+[Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md).
+
 ---
 
 ## Methodology

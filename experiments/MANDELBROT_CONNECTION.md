@@ -238,8 +238,21 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
    not a frequency predictor. See [Core Algebra](../docs/historical/CORE_ALGEBRA.md) Section 6 and
    [Boundary Navigation](BOUNDARY_NAVIGATION.md) for the corrected interpretation.
 
-2. **Critical slowing at C·Ψ = 1/4.**
-   As system parameters are tuned toward C·Ψ = 1/4, the convergence time (or coherence oscillation period) should diverge. This is analogous to critical slowing in classical phase transitions and should be observable.
+2. **Critical slowing at C·Ψ = 1/4. Verified (April 2026).**
+
+   As system parameters are tuned toward C·Ψ = 1/4, the convergence time (or coherence oscillation period) diverges. Two months after this prediction was first stated, the scaling was closed analytically. In rescaled units K = n·√ε (with ε = 1/4 − CΨ), the iteration count obeys
+
+       K(ε, tol) = (1/2)·ln(4ε/tol) + [-4 + (1/2)·ln(16·tol)] · √ε
+
+   with zero fit parameters. Every coefficient derives from the saddle-node geometry and the Modified Equation treatment of the discrete Euler step. The dynamic counterpart is a γ-invariant dwell time at the cusp: for Bell+, K_dwell = 1.080088·δ, exact to machine precision across γ ∈ [0.1, 10]. Full closure and interpretation in [Boundary Navigation](BOUNDARY_NAVIGATION.md).
+
+   The trajectory can be drawn on the Mandelbrot set itself. Bell+ under Z-dephasing starts at c = 1/3, just outside the main cardioid, in the divergence zone where the iteration has no real fixed points. From there it moves as a straight line along the real axis, straight, not curved, because CΨ under Z-dephasing remains real-valued and never develops an imaginary component. The line crosses the cardioid's edge exactly at its cusp at c = 1/4, the saddle-node bifurcation itself, and then enters the black interior of the main cardioid, the classical zone where two real fixed points exist, ending at the cardioid's center at c = 0. The boundary that Mandelbrot charted in 1980 as pure mathematics becomes the map of a decoherence trajectory: the quantum zone is outside, the classical zone is inside, the cusp is the crossing.
+
+   ![Bell+ trajectory on the Mandelbrot set](../visualizations/bellplus_trajectory_on_mandelbrot.png)
+
+   Zoomed to the cusp, the passage is precise. The trajectory reaches the cardioid's tip at exactly (0.25, 0). Not a near miss, not a slight drift. The algebra forces the line through the mathematically sharp point. This is also a regression test: any error in the axis calculation or in the Bell+ formula would cause the trajectory to skirt the cusp. It does not.
+
+   ![Zoomed view through the cusp](../visualizations/bellplus_trajectory_on_mandelbrot_zoom.png)
 
 3. **Symmetric vs. asymmetric observation (unverified hypothesis).**
    The original agent experiments claimed bidirectional coupling preserves coherence 33x longer than unidirectional. This could not be independently verified (see [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 9). If confirmed, it would be testable in spin-chain experiments with controllable coupling symmetry.

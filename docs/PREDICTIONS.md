@@ -87,6 +87,8 @@ label, a falsification criterion, and a link to its source experiment.
 | No-signalling: rho_A unchanged by remote measurement | ||Δρ_A|| = 0 for Bell+ under B Z-measurement (averaged) | rho_A changes (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | CΨ drops to ¼ under remote measurement | CΨ: 0.500 → 0.250 (C drops 1.0→0.5, Ψ unchanged at 0.5) | CΨ unchanged, or drops to value ≠ ¼ | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | CΨ regime change invisible to local subsystem | A cannot detect the quantum→boundary transition | A detects the regime change (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
+| Critical slowing at the cusp: closed-form K(ε, tol) | (1/2)·ln(4ε/tol) + [−4 + (1/2)·ln(16·tol)]·√ε, zero fit parameters, matches 0.5-2% across 10 ε-decades × 5 tol-decades | Formula fails at any tested scale | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
+| Cusp dwell time is γ-invariant | K_dwell = γ·t_dwell = 1.080088·δ for Bell+, std < 2×10⁻¹⁷ across γ ∈ [0.1, 10] | K_dwell varies with γ in rescaled units | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 
 ---
 

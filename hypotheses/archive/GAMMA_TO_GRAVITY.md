@@ -25,7 +25,7 @@ within the framework. Steps 7-9 are logical extensions that follow
 from the proven steps but are not themselves proven.
 
 ### Step 1: The palindrome exists.
-Verified: 54,118 eigenvalues, N=2 to N=8, zero exceptions.
+Verified: 87,376 eigenvalues, N=2 to N=8, zero exceptions.
 Every decay rate d is paired with 2Σγ - d. Exact.
 **Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 

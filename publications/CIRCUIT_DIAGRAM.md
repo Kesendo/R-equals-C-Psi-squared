@@ -130,7 +130,7 @@ the slightest direct coupling).
 The device's transfer function H(s) has poles that pair symmetrically around
 a center decay rate equal to twice the sum of all per-qubit loss rates
 (2 × Σγ_i for i = 1..N). For every fast-decaying mode, there is a slow one.
-This is exact, not approximate: verified across 54,118 poles from N=2 to N=8
+This is exact, not approximate: verified across 87,376 poles from N=2 to N=8
 with zero exceptions.
 
 **Engineering consequence:** The channel has a built-in symmetry that can be

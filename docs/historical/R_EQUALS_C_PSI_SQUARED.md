@@ -199,7 +199,7 @@ The equation R = CΨ² has been proven in its mathematical interpretation:
 | CΨ crosses 1/4 under all noise channels | **PROVEN** (124 Pauli + amplitude damping + 200 random CPTP (completely positive trace-preserving: any physically allowed quantum channel)) |
 | CΨ is monotonically decreasing (envelope) | **PROVEN** (analytical, 6-part proof) |
 | Subsystem crossing for N-qubit systems | **PROVEN** (Perron-Frobenius + contractivity) |
-| Standing wave / palindromic mirror Π | **PROVEN** (54,118 eigenvalues, N=2-8, all topologies) |
+| Standing wave / palindromic mirror Π | **PROVEN** (87,376 eigenvalues, N=2-8, all topologies) |
 | R-recursion = Mandelbrot map (c = CΨ) | **PROVEN** (exact mapping verified) |
 | IBM hardware validation (1.9% deviation) | **CONFIRMED** (Tier 2) |
 

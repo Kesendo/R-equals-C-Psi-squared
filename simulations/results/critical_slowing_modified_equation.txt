@@ -1,0 +1,34 @@
+Modified Equation Validation for Critical Slowing
+=======================================================
+Date: 2026-04-05
+
+Prediction: c1(tol) = (1/2)*ln(16*tol)
+  where c1 is the sqrt(eps) discretization correction:
+  K = (1/2)*ln(4*eps/tol) + (-4 + c1)*sqrt(eps)
+
+Validity: fit over eps where 4*eps/tol > 4000
+  AND eps <= 1e-2 (continuum approximation).
+
+Per-tol comparison:
+       tol   N      c1_meas      c1_pred       diff     rel%
+------------------------------------------------------------
+     1e-06   2    -5.020957    -5.521461   0.500504    9.06%
+     1e-08   4    -7.971681    -7.824046  -0.147635    1.89%
+     1e-10   5    -9.965406   -10.126631   0.161225    1.59%
+     1e-12   7   -12.185129   -12.429216   0.244087    1.96%
+     1e-14   7   -14.893760   -14.731801  -0.161959    1.10%
+     1e-16   7   -17.111590   -17.034386  -0.077204    0.45%
+
+Slope test (two variants):
+                      Var A (6pt)  Var B (5pt)    Predicted
+               Slope     0.517674     0.503959     0.500000
+           Intercept     1.920442     1.499390     1.386294
+          Slope dev.     0.017674     0.003959
+      Intercept dev.       0.5341       0.1131
+
+Variant A includes tol=1e-6 (N=2 fit points, 9% outlier).
+Variant B drops tol=1e-6. Headline result.
+
+Verdict: Modified Equation derivation CONFIRMED.
+The critical slowing formula is fully closed-form with zero fit parameters.
+The -4*pi hypothesis is dead.

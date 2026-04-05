@@ -117,7 +117,7 @@ Liouvillian eigenvalue λ has a partner −(λ + 2Sγ). The spectrum is
 palindromic, meaning the list of eigenvalues reads the same forwards
 and backwards when centered appropriately.
 
-Verified for 54,118 eigenvalues, N=2 through N=8, all topologies,
+Verified for 87,376 eigenvalues, N=2 through N=8, all topologies,
 all standard Hamiltonians. Zero exceptions.
 
 **Status:** Proven. See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md),

@@ -75,7 +75,7 @@ Eigenvalues pair around the midpoint -Σγ.
 
 This is the equation we have
 [proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), computed
-(54,118 eigenvalues, N=2..8, zero exceptions), and validated on
+(87,376 eigenvalues, N=2..8, zero exceptions), and validated on
 IBM hardware ([CΨ crossing at 1.9%](../experiments/IBM_RUN3_PALINDROME.md),
 [r* threshold at 0.000014 precision](../experiments/IBM_HARDWARE_SYNTHESIS.md)
 across 24,073 calibration records).

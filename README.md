@@ -306,11 +306,16 @@ deposited at the moment the shutter closed.
 The recursion R = C(Ψ+R)² maps exactly to the Mandelbrot iteration
 z → z² + c. The boundary CΨ = ¼ is the cusp of the main cardioid.
 The Feigenbaum cascade was measured (7 period-doubling bifurcations,
-δ → 4.67).
+δ → 4.67). The critical slowing at the cusp, predicted in February and
+closed analytically in April 2026, has a zero-fit-parameter closed form,
+and the cusp dwell time K_dwell = γ·t_dwell is exact to machine precision
+across γ ∈ [0.1, 10]: a fixed dose of light traversing the fold.
 
 → **[Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)** (¼ is the only bifurcation boundary)
 → [Monotonicity Proof](docs/proofs/PROOF_MONOTONICITY_CPSI.md) (dCΨ/dt < 0)
 → [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (7 layers, all closed)
+→ [Boundary Navigation](experiments/BOUNDARY_NAVIGATION.md) (θ as compass, critical slowing closure, cusp dwell time as fixed dose)
+→ [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) (algebraic equivalence, trajectory on the cardioid)
 → [Fold Observed](experiments/TEMPORAL_SACRIFICE.md) (endpoint MI peaks at CΨ = ¼, N=7)
 → [Born Rule Shadow](experiments/BORN_RULE_SHADOW.md) (zero interference in P(i))
 → [Both Sides Visible](docs/BOTH_SIDES_VISIBLE.md) (IBM hardware, 180 days, 133 qubits)

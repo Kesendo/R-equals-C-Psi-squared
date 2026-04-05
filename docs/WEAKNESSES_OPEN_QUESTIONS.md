@@ -155,7 +155,14 @@ coherence and reality. This product makes the equations beautifully
 simple. But we have no physical intuition for *why* these three things
 combine this way. The formula works; the understanding lags behind.
 
-**Status:** Open since February 8. Not explored.
+**Status:** Partially reformulated (April 2026). Along real Bell+
+trajectories, u(t) ≈ 0.61·Ψ^{1.02}: essentially Ψ with a prefactor, not
+an independent dynamical coordinate. u remains a *conjugation variable*
+that reveals algebraic structure (the Mandelbrot equivalence) without
+providing a simpler clock along real trajectories. Whether u carries
+independent information on complex trajectories (non-symmetric states,
+non-Z dephasing) is untested. See
+[Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) §7.
 
 ### 5. Operator feedback is verified but unexplained
 
@@ -231,6 +238,18 @@ These could be answered with the code and hardware we already have.
 2. **Crossing speed dependence:** Does d(CΨ)/dt at the crossing moment
    affect post-crossing convergence?
 
+   *Substantially addressed (April 2026):* yes, exactly. The dwell time
+   in a δ-window around CΨ = 1/4 is t_dwell = 2δ/|dCΨ/dt|_cross, and
+   for Bell+ under Z-dephasing the rescaled dwell K_dwell = γ·t_dwell
+   = 1.080088·δ is γ-invariant to machine precision. The crossing speed
+   fully determines the dwell time through dCΨ/dt at the cusp, with no
+   memory of the pre-crossing trajectory beyond that derivative. Open
+   sub-question: can the state-dependent prefactor (1.080088 for Bell+,
+   different for other states) be derived directly from the Pauli sector
+   weight distribution, bypassing dCΨ/dt?
+   See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md),
+   [Trajectory Dwell Time](../experiments/TRAJECTORY_DWELL_TIME.md).
+
 3. **Formula optimality:** Is single-edge sacrifice provably optimal?
    Could multi-site sacrifice beat it at large N?
 
@@ -262,6 +281,14 @@ These need mathematics or computational methods we have not built yet.
 
 5. **The natural variable u(t):** Track u = C(Ψ+R) through Lindblad
    evolution. Does u have a simpler trajectory than CΨ or θ?
+
+   *Partially addressed (April 2026):* along real Bell+ trajectories,
+   no. u(t) is essentially linear in Ψ (u ≈ 0.61·Ψ^{1.02}), so it does
+   not provide a simpler dynamical coordinate. u is an algebraic
+   linearization variable, not a dynamical one. Whether u behaves
+   differently on complex trajectories (non-symmetric states, non-Z
+   dephasing) where CΨ develops an imaginary component is an open
+   question. See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md).
 
 6. **Cockpit scaling beyond N=5:** Does the 3-observable coverage
    (88%) hold at N=50-100? Does n95 grow linearly or saturate for

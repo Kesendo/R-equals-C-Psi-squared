@@ -4,7 +4,7 @@ C# compute engine for Liouvillian spectral analysis of open quantum networks (2-
 
 ## What it does
 
-This engine answered the central question of the R=CPsi^2 project: is the Liouvillian decay spectrum exactly palindromic? It diagonalizes the full superoperator for N=2 through N=8 (matrices up to 65536x65536, 54,118 eigenvalues total) and confirms 100% palindromic symmetry across all tested topologies, coupling models, and noise configurations. Zero exceptions.
+This engine answered the central question of the R=CPsi^2 project: is the Liouvillian decay spectrum exactly palindromic? It diagonalizes the full superoperator for N=2 through N=8 (matrices up to 65536x65536, 87,376 eigenvalues total) and confirms 100% palindromic symmetry across all tested topologies, coupling models, and noise configurations. Zero exceptions.
 
 The results feed directly into the [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), which provides the analytical explanation via the conjugation operator Pi. This engine supplied the numerical verification that motivated and validated that proof.
 

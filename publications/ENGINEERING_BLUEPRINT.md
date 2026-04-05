@@ -25,7 +25,7 @@ are testable, the benchmarks are reproducible, and the code is open.
 
 Every quantum channel built from Heisenberg-coupled spins with dephasing
 has a palindromic decay spectrum: fast-decaying modes pair with slow ones.
-This symmetry is exact (54,118 eigenvalues, zero exceptions, N=2 to N=8)
+This symmetry is exact (87,376 eigenvalues, zero exceptions, N=2 to N=8)
 and holds for all standard coupling models (Heisenberg, XY, Ising, XXZ, DM).
 The product CΨ (correlation times coherence) crosses a fixed boundary at 1/4,
 which is the unique bifurcation point of the purity recursion (proven: the

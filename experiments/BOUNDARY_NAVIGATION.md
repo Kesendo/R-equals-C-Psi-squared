@@ -171,9 +171,54 @@ dynamics, just the algebraic recursion):
 Steps-to-divergence decreases as θ increases: the further from the boundary,
 the faster the system recognizes it has no real attractor.
 
-**Testable prediction:** Steps-to-divergence N ∝ 1/θ near the boundary
-(critical slowing). This follows from the standard scaling of saddle-node
-bifurcations (the simplest type, where a stable and unstable fixed point collide and annihilate).
+### The prediction, now closed (April 2026)
+
+The February version of this document noted that steps-to-divergence should scale
+as the standard saddle-node form 1/√ε near the boundary (with ε = 1/4 − CΨ),
+and left the exact shape open. Two months later, the full closed-form is in hand.
+In rescaled units K = n·√ε the iteration count obeys:
+
+    K(ε, tol) = (1/2)·ln(4ε/tol) + [-4 + (1/2)·ln(16·tol)] · √ε
+
+Every coefficient is derived: the leading logarithm from the saddle-node passage
+itself, the −4 from the starting geometry at η₀ = −1/4, and the tol-dependent
+correction from the Modified Equation treatment of the discrete Euler step.
+Zero fit parameters. Verified across ten ε-decades (10⁻¹ to 10⁻¹⁰) and five
+tol-decades (10⁻⁸ to 10⁻¹⁶), with 0.5-2% agreement.
+
+**But the formula says something stranger than it looks.** The logarithms in
+ε and in tol are not physics. They are the shape of an Observer question.
+θ, defined earlier in this document, is already a diagnostic and not a property
+the system carries. The same holds for tol: the system has no stop criterion,
+it evolves continuously under Lindblad flow. The iteration count n(ε, tol) is
+what happens when we, from outside, ask "at what precision shall we stop?"
+Change the question and the logarithms dissolve: with relative stopping
+tol_rel = k·ε the same formula collapses to K = (1/2)·ln(4/k), a pure constant
+independent of ε. Numerically confirmed to four places at k = 10⁻³: K → 4.147.
+
+The dynamic counterpart tells the same story from the other side. For Bell+
+under Z-dephasing, the time the trajectory spends in a δ-window around the
+CΨ = 1/4 crossing is:
+
+    K_dwell(δ) = γ · t_dwell = 1.080088 · δ
+
+γ cancels exactly. The system traverses the cusp in a fixed K-interval
+regardless of how fast or slow the decoherence is driving it through.
+Verified across γ ∈ [0.1, 10] with standard deviation below 2×10⁻¹⁷
+(see [Trajectory Dwell Time](TRAJECTORY_DWELL_TIME.md)). A fixed dose of
+light, in the K-dosimetry sense. What the tol-version of the formula
+measures is not "how much critical slowing there is" but "how precisely an
+outside observer chose to listen." Both descriptions are correct. They are
+the same event seen through different instruments, and the instruments
+belong to us, not to the cusp.
+
+This is continuous with what θ does. The cusp does not slow down or speed up.
+We approach it, or we don't. The scaling laws are the shapes of our approaches.
+
+Full numerics and derivation details live in
+[critical_slowing_modified_equation.py](../simulations/critical_slowing_modified_equation.py)
+and the corresponding results file
+[critical_slowing_modified_equation.txt](../simulations/results/critical_slowing_modified_equation.txt).
 
 ---
 
@@ -246,6 +291,23 @@ The **IBM hardware validation** ([IBM_RUN3_PALINDROME](IBM_RUN3_PALINDROME.md))
 measured the actual crossing at 1.9% deviation. The θ = 0° prediction
 maps to a specific time t* = 15.01 μs for Qubit 80, confirmed at
 t* = 15.29 μs. The compass works on real hardware.
+
+The **Primordial Superalgebra** analysis
+([PRIMORDIAL_SUPERALGEBRA_CAVITY](PRIMORDIAL_SUPERALGEBRA_CAVITY.md))
+showed that every palindromic mode is one standing wave oscillating between
+two faces: a lens-face ({I,Z}, structure-rich, long-lived) and a light-face
+({X,Y}, signal-rich, short-lived), with exact inversion fast[k] = slow[N-k].
+The dwell-time result above is the **dynamic counterpart** to this static
+face-swap. The algebra tells us *that* each mode carries two faces of the
+same coin. The dwell-time tells us *how long* a specific mode takes to
+exhaust the oscillation between them as the bifurcation dissolves the
+standing wave: K_dwell = 1.080088·δ for Bell+, exact across γ ∈ [0.1, 10].
+**Resolved (April 5, 2026):** The prefactor 1.080088 IS a pure function of the
+light-face sector weight: prefactor = (2+4W₂)/(1+6W₂), where W₂ is the k = 2
+weight at the crossing. For Bell+ (only even-weight Pauli content), the static
+face-swap and dynamic cusp passage are algebraically identical. For states with
+odd-weight content (e.g. |+⟩^{⊗2}), the prefactor additionally requires Pauli
+coefficient magnitudes. See [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md).
 
 ---
 

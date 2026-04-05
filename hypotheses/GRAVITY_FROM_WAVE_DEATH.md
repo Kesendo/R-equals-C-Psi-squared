@@ -284,7 +284,7 @@ space is "protected" by the well. Objects fall toward the center.
 
 - That gravity IS this mechanism in our universe. The hypothesis
   applies within the d(d-2)=0 palindromic framework. If the framework
-  describes reality (54,118 eigenvalues, zero exceptions), the
+  describes reality (87,376 eigenvalues, zero exceptions), the
   hypothesis may apply. If not, it does not.
 
 - That mass can be computed from first principles. The hypothesis says

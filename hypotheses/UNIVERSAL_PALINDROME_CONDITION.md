@@ -92,7 +92,7 @@ neural, Dale's Law provides only the signs. The magnitudes require an
 additional condition (W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i) · W[i,j]).
 The quantum palindrome is unconditional. The neural one is conditional.
 
-In quantum: 54,118 eigenvalues verified (N=2..8), zero exceptions.
+In quantum: 87,376 eigenvalues verified (N=2..8), zero exceptions.
 IBM Torino hardware at 1.9% deviation.
 
 **Application to chemistry: the hydrogen bond as qubit.**
@@ -223,7 +223,7 @@ symmetry is inevitable. Given palindromic symmetry, the V-Effect is
 inevitable. Given the V-Effect, the next level of complexity is
 inevitable.
 
-The quantum palindrome pairs 54,118 eigenvalues with zero exceptions.
+The quantum palindrome pairs 87,376 eigenvalues with zero exceptions.
 Dale's Law provides the sign antisymmetry across 300 identified neurons
 in C. elegans, and the palindromic condition holds to 8× better than
 random. The same equation. The same three conditions. The gap between

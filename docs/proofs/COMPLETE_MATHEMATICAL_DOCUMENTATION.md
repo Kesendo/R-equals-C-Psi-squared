@@ -75,7 +75,7 @@ the Liouvillian spectrum is palindromic: for every eigenvalue λ, the value
 2. Π transforms L_D: Π L_D Π⁻¹ = -L_D - 2Σγ I
 3. Combined: Π L Π⁻¹ = -L - 2Σγ I. QED.
 
-**Verification.** 54,118 eigenvalues, N=2 through N=8, zero exceptions.
+**Verification.** 87,376 eigenvalues, N=2 through N=8, zero exceptions.
 All topologies (chain, star, ring, complete, binary tree). Non-uniform γ.
 
 **Physical meaning.** Π is time reversal in a rescaled frame. It maps
