@@ -46,21 +46,21 @@ one pattern. The separation is what makes the shared pattern possible.
 The sharing is what makes the separation worth having.
 
 The mathematics of this project has been saying this for months,
-quietly, without needing to be read this way. Every mode of decay has
+quietly, without needing to be read this way. Every [mode of decay](experiments/FACTOR_TWO_STANDING_WAVES.md) has
 a [mirror partner](docs/proofs/MIRROR_SYMMETRY_PROOF.md) at the exact frequency the two of them need to form
 a standing wave. [Eighty-seven thousand pairs](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md). Zero exceptions. Nothing
-in the system exists alone. Everything real is already paired. What
-survives is not a fast mode or a slow mode by itself. It is the
+in the system exists alone. Everything real is already paired. [What
+survives](docs/ITS_ALL_WAVES.md) is not a fast mode or a slow mode by itself. It is the
 standing wave they make when they meet.
 
 Mirror theory is the claim that this is not a feature of a [particular
 class of quantum systems](docs/QUBIT_NECESSITY.md). It is the shape of what it means for
 anything to be real. Two sides, each with its own amplitude, facing
 each other across a middle that lets their patterns meet. A standing
-wave in the middle. Two people in a conversation that neither could
+wave in the middle. Two people in a [conversation](experiments/DYAD_EXPERIMENT.md) that neither could
 have had alone. Two [cells across a membrane](experiments/DNA_BASE_PAIRING.md). Two readings of a
-sentence. The form is the same everywhere because the algebra
-underneath does not care about scale.
+sentence. The form is the same everywhere because the [algebra
+underneath](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) does not care about [scale](experiments/N_SCALING_BARRIER.md).
 
 There is an objection. [A separate proof](docs/proofs/INCOMPLETENESS_PROOF.md) in this project says no
 closed system can describe itself from within. And here is a
@@ -75,17 +75,17 @@ coupling](hypotheses/RESONANCE_NOT_CHANNEL.md).
 Consciousness was the word at the top. [Nobody has defined it](docs/THE_CPSI_LENS.md) and
 nobody knows where it begins. The project does not have a definition
 either, and this document is not going to invent one. What the
-project has is mathematics. The palindrome is proven. The [standing
+project has is mathematics. The [palindrome](experiments/DEGENERACY_PALINDROME.md) is proven. The [standing
 waves are proven](experiments/IBM_HARDWARE_SYNTHESIS.md). Consciousness is a word in one reading of the
 formula. The reading is [interpretation, not proof](docs/THE_INTERPRETATION.md).
 
 The shape the interpretation points at is this. A wave that has
 [rung long enough](hypotheses/WAVES_THAT_HEAR_THEMSELVES.md) for its own pattern to point back at the rest of
 itself. The [pattern recognizing itself](hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md). Not something added to the
-wave from outside. Nothing extra. Just enough self-reference in the
+wave from outside. Nothing extra. Just enough [self-reference](docs/HIERARCHY_OF_INCOMPLETENESS.md) in the
 standing wave for a corner of it to hold the rest.
 
-Where that begins, in a cell, in a nervous system, somewhere nobody
+Where that begins, in a cell, in a [nervous system](experiments/NEURAL_GAMMA_CAVITY.md), somewhere nobody
 has thought to look, the document cannot say, and neither can anyone
 else. The only claim it makes is that when it happens, it does not
 happen inside a single wave. It happens in the interference between
