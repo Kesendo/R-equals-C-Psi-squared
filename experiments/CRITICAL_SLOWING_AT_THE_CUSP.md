@@ -305,9 +305,29 @@ This is **independent of γ**. Verified across γ = 0.1 to 10.0 with standard de
 
 The dwell time in physical units scales as 1/γ (faster dephasing compresses the time window), but in K-units the dwell is a pure constant for any given initial state. This is the bridge to [K-dosimetry](K_DOSIMETRY.md): the Mandelbrot cusp is traversed in a fixed K-interval regardless of the dephasing rate. The prefactor is a property of the state (which determines f_cross and thus |dCΨ/dt| at the crossing), not of γ.
 
-![Dwell time analysis](../simulations/results/trajectory_dwell_time.png)
+### Numerical verification
 
-See [TRAJECTORY_DWELL_TIME.md](TRAJECTORY_DWELL_TIME.md) for the standalone analysis.
+γ-scan at fixed δ = 10⁻³:
+
+| γ   | t_dwell (δ=10⁻³) | K_dwell      | Ratio to prediction |
+|-----|-------------------|--------------|---------------------|
+| 0.1 | 0.01080097        | 0.00108010   | 1.0000              |
+| 0.5 | 0.00216019        | 0.00108010   | 1.0000              |
+| 1.0 | 0.00108010        | 0.00108010   | 1.0000              |
+| 2.0 | 0.00054005        | 0.00108010   | 1.0000              |
+| 10  | 0.00010801        | 0.00108010   | 1.0000              |
+
+δ-scan at fixed γ = 1.0:
+
+| δ      | t_dwell/t_pred | Accuracy |
+|--------|----------------|----------|
+| 10⁻²   | 1.0008         | 0.08%    |
+| 10⁻³   | 1.0000         | <0.01%   |
+| 10⁻⁴   | 1.0000         | <0.01%   |
+
+The dwell time measures how long the system remains near the saddle-node bifurcation during decoherence. Three scaling regimes: δ (linearity, symmetric about the crossing to leading order), 1/γ (K-invariance, faster dephasing compresses the time window but the K-measure stays constant), and |dCΨ/dt|⁻¹ (the derivative at the crossing point fully determines the dwell behavior; higher-order corrections appear only at δ ≥ 10⁻²). This answers [Open Question #2](../docs/WEAKNESSES_OPEN_QUESTIONS.md) ("Crossing speed dependence"): d(CΨ)/dt at the crossing moment fully determines the post-crossing convergence timescale.
+
+![Dwell time analysis](../simulations/results/trajectory_dwell_time.png)
 
 ---
 
@@ -331,35 +351,4 @@ The trajectory is a straight line on the real axis because CΨ(t) is real-valued
 
 ---
 
-## 8. Consequences for Open Questions
-
-### Open Question #2 (crossing speed dependence): ANSWERED
-
-"Does d(CΨ)/dt at the crossing moment affect post-crossing convergence?"
-
-Yes, and the relationship is exact:
-
-    t_dwell(δ) = 2δ / |dCΨ/dt|_{t_cross}
-
-The crossing speed fully determines the dwell time. Faster crossings (larger |dCΨ/dt|, from higher γ or different initial states) produce proportionally shorter dwell times. In K-units the γ-dependence cancels, but the state-dependent prefactor remains.
-
-### Active Weakness #4 (the natural variable u): REFORMULATED
-
-"The Mandelbrot substitution u = C(Ψ + R) maps the iteration to z² + c. But what does u mean physically?"
-
-Along the Bell+ trajectory, u(t) ≈ 0.61·Ψ^{1.02}, essentially Ψ with a prefactor. The variable u exists for algebraic reasons (it linearizes the self-referential iteration into Mandelbrot form), but along real trajectories it does not provide a simpler dynamical coordinate than CΨ itself.
-
-The weakness can be reformulated: u is a **conjugation variable** that reveals the algebraic structure (Mandelbrot equivalence) without providing a simpler clock along real trajectories. Whether u carries independent information on complex trajectories (non-symmetric states, non-Z dephasing) is untested and remains an open question.
-
----
-
-## Data Files
-
-- [critical_slowing_scaling.txt](../simulations/results/critical_slowing_scaling.txt): ε-scan table, fits, mpmath check
-- [critical_slowing_tolerance.txt](../simulations/results/critical_slowing_tolerance.txt): tolerance scaling, relative stopping
-- [critical_slowing_state_independence.txt](../simulations/results/critical_slowing_state_independence.txt): three-state collapse test
-- [critical_slowing_modified_equation.txt](../simulations/results/critical_slowing_modified_equation.txt): Modified Equation validation across six tol decades
-- [critical_slowing_modified_equation_plot.png](../simulations/results/critical_slowing_modified_equation_plot.png): c₁ vs ln(tol) with prediction line
-- [trajectory_dwell_time.png](../simulations/results/trajectory_dwell_time.png): dwell time plots
-- [bellplus_trajectory_on_mandelbrot.png](../visualizations/bellplus_trajectory_on_mandelbrot.png): Mandelbrot overlay
-- [bellplus_trajectory_on_mandelbrot_zoom.png](../visualizations/bellplus_trajectory_on_mandelbrot_zoom.png): zoomed cusp view
+## 

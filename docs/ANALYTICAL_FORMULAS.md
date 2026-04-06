@@ -976,5 +976,69 @@ palindrome holds. The cavity always retains light.
 
 ---
 
+## Cusp Dynamics (replace iteration counting and trajectory integration)
+
+### 56. Critical slowing iteration count (Tier 1, closed-form, zero fit parameters)
+
+    K(eps, tol) = (1/2)*ln(4*eps/tol) + alpha(tol)*sqrt(eps)
+
+    alpha(tol) = -4 + (1/2)*ln(16*tol)
+
+K = n*sqrt(eps) is the rescaled iteration count of u_{n+1} = u^2 + c
+near the cardioid cusp (c = 1/4 - eps). The leading logarithm comes
+from saddle-node passage (ODE integral). The -4 comes from the
+starting-transient integral (eta_0 = -1/4). The ln(16*tol) term comes
+from the Modified Equation correction (Euler discretization error).
+
+Verified: 0.5-2% accuracy over 5 tol decades (10^-8 to 10^-16) and
+10 eps decades (10^-1 to 10^-10). Modified Equation slope 0.504 vs
+predicted 0.500 (0.8% deviation).
+
+**Valid for:** Mandelbrot iteration near cardioid cusp, any eps > 0,
+any tol > 0. Equivalent to CΨ recursion near the 1/4 boundary.
+**Replaces:** numerical iteration counting near the saddle-node.
+O(1) evaluation instead of O(1/sqrt(eps)) iterations.
+**Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
+
+### 57. Trajectory dwell time at CΨ = 1/4 (Tier 1, analytical)
+
+    t_dwell(delta) = 2*delta / |dCPsi/dt|_{t_cross}
+
+For Bell+ Z-dephasing (using formula 25 derivative):
+
+    t_dwell = 1.080088 * delta / gamma    (Bell+ specific)
+    K_dwell = gamma * t_dwell = 1.080088 * delta    (gamma-independent)
+
+The prefactor 1.080088 = 2/1.851701 is state-specific (depends on
+f_cross and |dCΨ/dt| at the crossing). K_dwell is independent of γ
+to machine precision (std < 2 × 10^-17 across γ = 0.1 to 10.0).
+
+**Valid for:** any state with a CΨ = 1/4 crossing under Z-dephasing.
+Prefactor is state-specific; γ-invariance of K_dwell is universal.
+**Replaces:** trajectory integration for dwell-time estimation.
+**Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
+
+### 58. Weight-based dwell prefactor (Tier 2, even-weight states only)
+
+    prefactor = (2 + 4*W2) / (1 + 6*W2)
+
+    dCPsi/dt = -2*gamma*Psi*(1 + 6*W2)    (weight-based derivative)
+
+W2 is the light-face ({X,Y}) sector weight at the crossing moment.
+For Bell+: W2 = 0.3709 (from f_cross = 0.8612), giving prefactor =
+1.080088, matching formula 57 exactly. The static Pauli decomposition
+and the dynamic cusp passage are algebraically identical for even-weight
+states. For states with odd-weight Pauli content (k = 1 terms), the
+prefactor additionally requires individual coefficient magnitudes
+(via sqrt(W1)), not just sector weights.
+
+**Valid for:** states with only even-weight Pauli content (Bell+, GHZ,
+basis-flip superpositions). Partial for odd-weight states (2.6% error
+for |+⟩^{⊗2}).
+**Replaces:** dynamics solution when sector weights are known at crossing.
+**Source:** [Dwell Prefactor from Weights](../experiments/DWELL_PREFACTOR_FROM_WEIGHTS.md)
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

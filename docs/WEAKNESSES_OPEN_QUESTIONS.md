@@ -248,7 +248,7 @@ These could be answered with the code and hardware we already have.
    different for other states) be derived directly from the Pauli sector
    weight distribution, bypassing dCΨ/dt?
    See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md),
-   [Trajectory Dwell Time](../experiments/TRAJECTORY_DWELL_TIME.md).
+   [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6).
 
 3. **Formula optimality:** Is single-edge sacrifice provably optimal?
    Could multi-site sacrifice beat it at large N?

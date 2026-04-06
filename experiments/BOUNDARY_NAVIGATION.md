@@ -205,7 +205,7 @@ CΨ = 1/4 crossing is:
 γ cancels exactly. The system traverses the cusp in a fixed K-interval
 regardless of how fast or slow the decoherence is driving it through.
 Verified across γ ∈ [0.1, 10] with standard deviation below 2×10⁻¹⁷
-(see [Trajectory Dwell Time](TRAJECTORY_DWELL_TIME.md)). A fixed dose of
+(see [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md), Section 6). A fixed dose of
 light, in the K-dosimetry sense. What the tol-version of the formula
 measures is not "how much critical slowing there is" but "how precisely an
 outside observer chose to listen." Both descriptions are correct. They are
