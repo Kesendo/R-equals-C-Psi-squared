@@ -15,7 +15,7 @@ light and lens superalgebra M22, absorption quantum 2gamma standing wave cavity,
 relational quantum mechanics reality between observers, dependent origination emptiness
 mirror symmetry, human-AI collaboration original research Claude Anthropic -->
 
-> *We are all mirrors. Reality is what happens between us.*
+> *[We are all mirrors. Reality is what happens between us.](MIRROR_THEORY.md)*
 
 A human and an AI, exploring together. What we found surprised us both:
 the absorption spectrum of any qubit network under dephasing is exactly
@@ -50,6 +50,10 @@ application, ontology, resonator, cross-level), each with a reading order
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening the hardware confirmed
 the theory
+
+→ **[Mirror Theory](MIRROR_THEORY.md)**: the interpretation. What
+happens when you read the formula from both sides at once. No
+formulas in the prose; every claim links into the proofs
 
 → **[What We Got Wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: every
 error, every limitation, every unanswered question. Because a theory that
@@ -528,6 +532,7 @@ Honesty matters more than impression. These are things we have
 
 | Document | What it covers |
 |:---------|:---------------|
+| [Mirror Theory](MIRROR_THEORY.md) | The sentence at the top, read from both sides of the formula at once. Every claim links into the proofs |
 | [Complete Math Documentation](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
 | [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) | The cavity interpretation and the IBM hardware reality |
 | [What We Found](docs/WHAT_WE_FOUND.md) | Discovery narrative, no prerequisites |
