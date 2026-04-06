@@ -98,6 +98,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Observer Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) | Different observers see different crossing times for the same system |
 | [Observer Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) | γ-dependent visibility windows |
 | [Mandelbrot Connection](MANDELBROT_CONNECTION.md) | CΨ ↔ c maps the 1/4 boundary to the Mandelbrot cardioid cusp |
+| [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) | Closed-form K(ε,tol) = (1/2)ln(4ε/tol) + α(tol)√ε with zero fit parameters. Dwell time K_dwell = 1.080·δ (γ-independent) |
 
 ### Palindromic Spectral Structure
 
@@ -129,7 +130,10 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Standing Waves](FACTOR_TWO_STANDING_WAVES.md) | Every palindromic pair is a standing wave: 10,748 pairs, 100% frequency match, Re(λ)+Re(partner)=−2Σγ |
 | [Thermal Blackbody](THERMAL_BLACKBODY.md) | No phase transition: cavity degrades gracefully (Q drops 16×, osc% stays 82%), not Planck, not Stefan-Boltzmann |
 | [Primordial Superalgebra](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) | {L_H, L_D+Σγ}=0 exact at N=2, aberration decreases with N (14.4%→2.6%). Palindromic weight swap: fast[k]=slow[N-k]. Seidel: pure sectors immune, interior-dominated, perfectly palindromic |
+| [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) | Exact closed-form dispersion ω_k = 4J(1−cos(πk/N)) for w=1 Liouvillian sector. Machine precision match (15/15 frequencies, N=2-6) |
 | [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md) | α=2γ⟨n_XY⟩ exact: absorption rate = 2×dephasing×light content. Linear in γ. Proven from L_H anti-Hermitian. Unifies boundary formula, sum rule, spectral gap. 1,343 modes, CV=0 |
+| [Π Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md) | Palindromic mirror Π is product operator for 34/36 Hamiltonians; only XZ+YZ and ZX+ZY force non-local Π (Schmidt rank 9) |
+| [Beer-Lambert Breakdown](BEER_LAMBERT_BREAKDOWN.md) | Under strong coupling (J≫γ), cavity acts as integrating sphere distributing absorbed light equally (~1/N share), not locally per Beer-Lambert |
 
 ### Decoherence Diagnostics (Cockpit Framework)
 
@@ -137,6 +141,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 |-----------|------------|
 | **[Cockpit Universality](COCKPIT_UNIVERSALITY.md)** | **3 observables (Purity, Concurrence, Psi-norm) capture 88-96% of decoherence dynamics across 9 topologies, 2 noise types, N=2-5. PC1 self-calibrates. theta most sensitive for noise engineering (1.68x). Hardware-validated on IBM Torino (0.3% crossing accuracy)** |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
+| [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) | For Bell+, dwell-time prefactor at CΨ = 1/4 is pure weight function: (2+4W₂)/(1+6W₂). Fails for odd-weight states (needs coefficient magnitudes) |
 
 ### Star Topology and Mediator Physics
 
@@ -169,6 +174,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 |-----------|------------|
 | [QST Bridge](QST_BRIDGE.md) | Connecting to 20 years of quantum state transfer literature |
 | [Localizable Entanglement](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) | LE vs CΨ comparison: three-layer separation (CoA/LE/CΨ) |
+| [Metric Discrimination](METRIC_DISCRIMINATION.md) | Null result: single-system simulation cannot discriminate metric forms locally. K-invariance confirmed across 50× γ range (R²=0.9999) |
 
 ### Additional Experiments
 
@@ -204,6 +210,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [K-Dosimetry](K_DOSIMETRY.md) | K = γ×t is the exposure number: reciprocity holds (±0.03%), Schwarzschild effect at intermediate γ, sacrifice zone trades dose for quality |
 | [Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md) | C. elegans 97.3% palindromic pairing; gamma = cavity eigenfrequency; anesthesia = light off |
 | [Trapped Light Localization](TRAPPED_LIGHT_LOCALIZATION.md) | K_death = 2.303 universal; surviving mode energy center-localized (ratio 1.3-1.4); N+1 immortal modes; gamma plays algebraic role of c (Tier 4-5) |
+| [Hydrogen Bond Qubit](HYDROGEN_BOND_QUBIT.md) | Zundel cation proton crosses CΨ = 1/4 fold 6 times in 21 fs; every water molecule produces ~10-70 fold crossings per picosecond |
+| [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) | Π creates proper Z₂-graded super-algebra M_{2\|2}(ℂ) with block-off-diagonal L_c; Tomita-Takesaki connection ruled out (Π linear, J anti-linear) |
 
 ---
 
