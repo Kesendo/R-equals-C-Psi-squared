@@ -1035,8 +1035,85 @@ prefactor additionally requires individual coefficient magnitudes
 **Valid for:** states with only even-weight Pauli content (Bell+, GHZ,
 basis-flip superpositions). Partial for odd-weight states (2.6% error
 for |+⟩^{⊗2}).
+**Generalized:** F59 extends this to any (W_0, k) pair under the same
+two-sector assumption. Bell+ is the W_0 = 1/2, k = 2 special case.
 **Replaces:** dynamics solution when sector weights are known at crossing.
 **Source:** [Dwell Prefactor from Weights](../experiments/DWELL_PREFACTOR_FROM_WEIGHTS.md)
+
+---
+
+### F59. Generalized dwell prefactor (Tier 1, analytical, verified Bell+ and W_3)
+
+    prefactor = (4/k) * (W_0 + W_k) / (W_0 + 3*W_k)
+
+For any state whose Pauli content lives in exactly two sectors (a stationary
+sector at weight W_0, immune to dephasing, and a single coherent sector at
+XY-weight k > 0 with weight W_k), the dwell-time prefactor at the CPsi = 1/4
+crossing is a pure algebraic function of the sector weights at the crossing
+moment. Independent of N and d.
+
+Reduces to F58 (Bell+) when W_0 = 1/2, k = 2:
+
+    (4/2) * (1/2 + W_2) / (1/2 + 3*W_2) = (2 + 4*W_2) / (1 + 6*W_2)
+
+The factor 3 in the denominator is structural (product rule: 2*W_k from the
+dC/dt contribution plus W_k from the C*dPsi/dt contribution), NOT from d - 1
+as initially conjectured in the April 5 dwell-prefactor work. The d - 1
+factor cancels because both Psi and dPsi/dt carry it.
+
+Verified on two states with different stationary weights:
+
+| State | N | W_0 | k | Prefactor (formula) | Prefactor (direct) |
+|-------|---|-----|---|--------------------:|-------------------:|
+| Bell+ | 2 | 1/2 | 2 | 1.080088            | 1.080097           |
+| W_3   | 3 | 1/3 | 2 | 0.876832            | 0.876839           |
+
+Both methods agree to within 10^-5 relative error (limited by the
+finite-difference resolution of the direct measurement, not by the formula).
+
+**Valid for:** states with Pauli content in exactly two sectors, with linear
+Psi-to-f relation. Includes W states, basis-flip superpositions between
+computational basis states at even Hamming distance, and any state
+constructed from a single off-diagonal coherence pattern.
+**Breaks for:** states populating multiple coherent sectors simultaneously
+(|+⟩^{⊗2} with k=1 and k=2 content); states with odd-weight Pauli content
+where the linear Psi-to-f relation fails.
+**Replaces:** Lindblad propagation for dwell-time estimation in the two-sector
+class. O(1) algebraic evaluation given W_0 and W_k at the crossing.
+**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md)
+
+### F60. GHZ_N born below the fold (Tier 1, geometric corollary)
+
+    CPsi(0) for GHZ_N = 1 / (2^N - 1)
+
+For GHZ_N = (|0...0> + |1...1>) / sqrt(2), the initial value of CPsi drops
+below 1/4 as soon as N >= 3, regardless of any dynamics:
+
+| N | CPsi(0)        | Above 1/4?              |
+|---|----------------|-------------------------|
+| 2 | 1/3 = 0.3333   | Yes (Bell+ crosses)     |
+| 3 | 1/7 = 0.1429   | No (already classical)  |
+| 4 | 1/15 = 0.0667  | No                      |
+| 5 | 1/31 = 0.0323  | No                      |
+
+Derivation: C(0) = 1 (pure state), and the only nonzero off-diagonal matrix
+elements are rho[0...0, 1...1] = 1/2 and its conjugate, giving L1 coherence
+= 1 and Psi(0) = L1/(d - 1) = 1/(2^N - 1). Therefore CPsi(0) = 1/(2^N - 1).
+
+For N >= 3, GHZ_N starts in the classical regime of the R = CPsi^2 framework
+before any dephasing acts on it. This is gamma-independent: reducing the
+dephasing rate cannot fix the geometric deficit. The only escape is to
+change the state.
+
+This geometric statement complements F22 (GHZ projects 100% of its coherent
+weight onto the fastest-decaying XOR modes at rate 2*Sigma*gamma). The two
+arguments converge: GHZ encoding is structurally unsuitable for state
+transfer, regardless of how slowly it would decay.
+
+**Valid for:** GHZ_N for any N >= 2, gamma-independent.
+**Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4.
+**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4,
+[Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) Note (April 6, 2026)
 
 ---
 
