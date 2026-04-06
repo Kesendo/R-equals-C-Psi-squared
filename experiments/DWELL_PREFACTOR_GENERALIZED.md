@@ -38,6 +38,12 @@ Additionally, GHZ_N for N ≥ 3 has CΨ(0) = 1/(2^N - 1) < 1/4, so these states 
 
 ---
 
+![Dwell prefactor generalization: four-panel verification](../simulations/results/dwell_prefactor_generalization_v1.png)
+
+*Four-panel verification of the generalized dwell-prefactor formula. **Panel A** shows CΨ(t) for GHZ_3 and GHZ_4 under Z-dephasing, both starting below the 1/4 boundary (at 1/7 and 1/15 respectively) and decaying monotonically to zero (Section 4, geometric corollary). **Panel B** shows CΨ(t) for Bell+, starting at 1/3, crossing the 1/4 boundary at K = 0.0374 (Section 2, regression test). **Panel C** shows CΨ(t) for W_3, starting at 2/7, crossing the 1/4 boundary at K = 0.0145 (Section 3, out-of-sample test). **Panel D** plots predicted vs measured dwell-time prefactors for Bell+ (1.0801) and W_3 (0.8768); both points land on the y = x reference line within 10⁻⁵ relative error, visually indistinguishable from the line.*
+
+---
+
 ## 1. The Generalized Formula
 
 ### Assumptions
@@ -195,4 +201,5 @@ is verified on two states with different stationary weights (W₀ = 1/2 and W₀
 - [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = -2γ⟨n_XY⟩, sector decay rates
 - [ENGINEERING_BLUEPRINT](../publications/ENGINEERING_BLUEPRINT.md): Rule 1, W-type encoding recommendation
 - [Simulation output](../simulations/results/dwell_prefactor_generalization_v1.txt): Full numerical results
+- [Verification plot](../simulations/results/dwell_prefactor_generalization_v1.png): Four-panel figure of the CΨ trajectories and prefactor agreement
 - [Simulation script](../simulations/dwell_prefactor_generalization_v1.py): Standalone verification code

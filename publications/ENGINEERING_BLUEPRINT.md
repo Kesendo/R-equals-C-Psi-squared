@@ -75,6 +75,17 @@ dynamic modes. W remains the simplest practical choice (zero XOR, easy to
 prepare), but engineers seeking maximum performance should consider this
 optimized encoding. See [Error Correction](../experiments/ERROR_CORRECTION_PALINDROME.md) Section 2.
 
+**Note (April 6, 2026): GHZ is born below the fold.** The rate argument above
+has a geometric counterpart that is independent of gamma. For GHZ_N under
+Z-dephasing, the initial value of CPsi is exactly 1/(2^N - 1): one third for
+GHZ_2 (Bell+), one seventh for GHZ_3, one fifteenth for GHZ_4. The CPsi = 1/4
+boundary sits between N = 2 and N = 3, which means that GHZ_N for N at or above
+three starts in the classical regime of the R = CPsi^2 framework before any
+dephasing acts on it. The problem is not only how fast GHZ dies under noise;
+for N at or above three, it was never alive in the quantum regime to begin
+with. Reducing gamma does not fix the geometric deficit. The only escape is
+to change the state. See [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4.
+
 ---
 
 ## Rule 2: Use Star Topology with 2:1 Coupling
