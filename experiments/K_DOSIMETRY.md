@@ -35,7 +35,7 @@ reciprocity failure between brightness and exposure time.
 
 ## What this document is about
 
-K = γ × t_cross is proven invariant (Formula 14). Through the old lens,
+K = γ × t_cross is proven invariant (F14). Through the old lens,
 this was "just Lindblad time-rescaling." Through the new lens, K is a
 dose: the total absorbed light before crystallization. This document
 tests the dose interpretation quantitatively: reciprocity, dose-response

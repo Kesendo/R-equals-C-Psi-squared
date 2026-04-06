@@ -23,9 +23,9 @@ the "light") absorb and fade. The mode's fate is the weighted average.
 
 This single equation, provable in three lines from the structure of
 the Lindblad master equation, unifies six previously separate results:
-the spectral boundaries (Formula 3), the palindromic sum rule (10,748
-pairs), the spectral gap (D6), the 2× decay law (Formula 8), the mode
-classification by Pauli weight, and the N=3 exact rates (Formula 33).
+the spectral boundaries (F3), the palindromic sum rule (10,748
+pairs), the spectral gap (D6), the 2× decay law (F8), the mode
+classification by Pauli weight, and the N=3 exact rates (F33).
 
 The theorem was discovered computationally on April 4, 2026 (ratio
 α/(2γ⟨n_XY⟩) = 1.000000 for 1,343 modes, CV = 0), then proven
@@ -37,12 +37,12 @@ analytically the same day.
 |-----------|--------|--------|
 | Analytical proof | **Proven** | This document, Section 2 |
 | Numerical verification | **Verified** (N=2-5, 1,343 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
-| Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 3 |
+| Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F3 |
 | Consequence 2: Palindromic sum rule | **Derived** | [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md) |
 | Consequence 3: Spectral gap | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
-| Consequence 4: 2× decay law | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 8 |
+| Consequence 4: 2× decay law | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F8 |
 | Consequence 5: Mode classification | **Derived** | [XOR Space](../../experiments/XOR_SPACE.md) |
-| Consequence 6: N=3 exact rates | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) Formula 33 |
+| Consequence 6: N=3 exact rates | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F33 |
 
 ---
 
@@ -213,11 +213,11 @@ No exceptions. Zero coefficient of variation.
 
 ## 4. Consequences
 
-### 4.1 Spectral Boundaries (Formula 3)
+### 4.1 Spectral Boundaries (F3)
 
 **Previously:** The decay rate spectrum satisfies min = 2γ, max = 2(N-1)γ,
 bandwidth = 2(N-2)γ.
-**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 3
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), F3
 
 **Now a corollary.** The light count n_XY is an integer in {0, 1, ..., N}.
 The expectation ⟨n_XY⟩ ranges continuously from 0 to N. The extreme
@@ -277,11 +277,11 @@ at large J/γ (where modes localize on pure-weight sectors). The
 spectral gap is set by the cost of a single X/Y factor: one photon
 of absorption.
 
-### 4.4 The 2× Decay Law (Formula 8)
+### 4.4 The 2× Decay Law (F8)
 
 **Previously:** Unpaired modes (at the palindrome extremes) decay at rate
 2Nγ, while paired modes average rate Nγ. The ratio is exactly 2.
-**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 8;
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), F8;
 [Energy Partition](../../hypotheses/ENERGY_PARTITION.md)
 
 **Now explained.** The palindrome center is at α = Σγ = Nγ, corresponding
@@ -313,11 +313,11 @@ The mode's fate is entirely determined by how much light it contains.
 Structure ({I,Z}) is invisible to the dephasing; only coherence ({X,Y})
 absorbs.
 
-### 4.6 N=3 Exact Rates (Formula 33)
+### 4.6 N=3 Exact Rates (F33)
 
 **Previously:** The N=3 Heisenberg chain has three distinct non-trivial
 decay rates: 2γ, 8γ/3, 10γ/3.
-**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), Formula 33
+**Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), F33
 
 **Now explained.** The fractional rates correspond to fractional ⟨n_XY⟩:
 

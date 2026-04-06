@@ -96,7 +96,7 @@ Applying the product rule:
            = **-2γΨ(1 + 6W₂)**
 
 This is the weight-based formula for dCΨ/dt, verified to match
-Formula 25's derivative to 14 decimal places.
+F25's derivative to 14 decimal places.
 
 ### At the crossing (CΨ = 1/4)
 

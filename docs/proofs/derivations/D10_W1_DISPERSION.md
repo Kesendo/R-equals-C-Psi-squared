@@ -167,10 +167,10 @@ profiles that peak at the center (odd k) or edges (even k).
 
 ## Corollaries
 
-**Formula 7** (Q-factor spectrum): Q_k = ω_k / d = 4J(1−cos(πk/N)) / (2γ)
+**F7** (Q-factor spectrum): Q_k = ω_k / d = 4J(1−cos(πk/N)) / (2γ)
 = 2J/γ · (1 − cos(πk/N)).
 
-**Formula 41** (Palindromic time): t_Π = 2π/ω_min = 2π/(4J(1−cos(π/N)))
+**F41** (Palindromic time): t_Π = 2π/ω_min = 2π/(4J(1−cos(π/N)))
 = π/(2J sin²(π/(2N))).
 
 **D01** (Bandwidth): BW = ω_max − ω_min = 4J(cos(π/N) − cos(π(N−1)/N))

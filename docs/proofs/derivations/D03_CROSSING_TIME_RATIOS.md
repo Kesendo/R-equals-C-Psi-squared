@@ -3,12 +3,12 @@
 **What this derivation is about:** Different noise channels (Z-dephasing, X-noise, depolarizing) push CΨ through the ¼ boundary at different speeds. This derivation computes the exact crossing times for each channel and shows that X-noise takes 2.32× longer than Z-dephasing to reach the boundary, while depolarizing noise takes 1.18× longer. Once one crossing time is known, all others follow from fixed ratios.
 
 **Source formulas:** 27 (K values per noise channel)
-**Tier:** 1 (algebraic from closed forms in formula 26)
+**Tier:** 1 (algebraic from closed forms in F26)
 **Status:** VERIFIED (analytical + propagation, deviation < 3e-6)
 
 ## Derivation
 
-From formula 26, CPsi has closed forms for each noise channel.
+From F26, CPsi has closed forms for each noise channel.
 The crossing time t_cross satisfies CPsi(t_cross) = 1/4.
 K = gamma * t_cross is channel-dependent.
 

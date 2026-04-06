@@ -279,13 +279,13 @@ The static scaling n(ε) is a textbook saddle-node effect. The physically intere
 
 ### Crossing point
 
-For Bell+ (Formula 25): CΨ(t_cross) = 1/4 requires f*(1+f*²) = 3/2, solved by f_cross = 0.8612241, giving K_cross = γ·t_cross = -ln(f_cross)/4 = 0.03735.
+For Bell+ (F25): CΨ(t_cross) = 1/4 requires f*(1+f*²) = 3/2, solved by f_cross = 0.8612241, giving K_cross = γ·t_cross = -ln(f_cross)/4 = 0.03735.
 
 ### Dwell time formula
 
     t_dwell(δ) = 2δ / |dCΨ/dt|_{t_cross}
 
-where dCΨ/dt = -2γ·f·(1+3f²)/3 (derivative of Formula 25). At the crossing:
+where dCΨ/dt = -2γ·f·(1+3f²)/3 (derivative of F25). At the crossing:
 
     |dCΨ/dt|_{t_cross} = 1.851701·γ
 

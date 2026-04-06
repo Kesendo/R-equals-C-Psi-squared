@@ -1,7 +1,7 @@
 # D09: Sector SFF Pairing
 
 **Derives:** K_freq(w, t) = K_freq(N−w, t) for all t
-**From:** Formula 1 (palindrome equation) + Π weight complementarity
+**From:** F1 (palindrome equation) + Π weight complementarity
 **Status:** PROVEN (corollary of mirror symmetry proof)
 
 ---
@@ -64,7 +64,7 @@ since |z|² = |z̄|² for any complex number z.    ∎
 The XOR sector (w = N) maps to w = 0 (all I/Z strings). Both sectors
 consist entirely of real eigenvalues (ω = 0), so K_freq = (count)²
 for both. At w = N, all eigenvalues are degenerate at rate 2Nγ
-(Formula 23), giving K = (N+1)² × δ(t). The w = 0 sector has the
+(F23), giving K = (N+1)² × δ(t). The w = 0 sector has the
 N+1 stationary + near-stationary modes with the palindromic partner
 rates 2Σγ − 2Nγ = 2(Σγ − Nγ).
 

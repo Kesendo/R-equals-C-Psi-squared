@@ -9,7 +9,7 @@
 
 ## Derivation
 
-From formula 7: Q_k = 2J/gamma * (1 - cos(pi*k/N)), k = 1, ..., N-1.
+From F7: Q_k = 2J/gamma * (1 - cos(pi*k/N)), k = 1, ..., N-1.
 
 For large N, treat k/N as continuous variable q in (0,1):
 

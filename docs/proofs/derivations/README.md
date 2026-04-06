@@ -23,30 +23,30 @@ eigenvalues (N=2-5).
 ## Dependency Graph
 
 ```
-Formula 2 (dispersion) ----> D1 (bandwidth)
+F2 (dispersion) ----> D1 (bandwidth)
                         \--> D7 (Q distribution)
                               |
-Formula 7 (Q spectrum) ------/
+F7 (Q spectrum) ------/
                         \--> D2 (V = Q_max/Q_mean)
-Formula 6 (V-Effect) -------/
+F6 (V-Effect) -------/
 
-Formula 27 (K per channel) -> D3 (crossing ratios)
+F27 (K per channel) -> D3 (crossing ratios)
 
-Formula 12 (1-qubit cross) -> D4 (dimensional factor)
-Formula 25 (Bell+ cross) --/
+F12 (1-qubit cross) -> D4 (dimensional factor)
+F25 (Bell+ cross) --/
 
-Formula 4 (Stat(N)) -------> D5 (oscillating count)
-Formula 22 (XOR drain) ---/
-Formula 23 (XOR vanish) -/
+F4 (Stat(N)) -------> D5 (oscillating count)
+F22 (XOR drain) ---/
+F23 (XOR vanish) -/
 
-Formula 1 (palindrome) ----> D6 (spectral gap)
-Formula 3 (decay bounds) -/
+F1 (palindrome) ----> D6 (spectral gap)
+F3 (decay bounds) -/
                         \--> D8 (Crooks rate identity)
                         \--> D9 (sector SFF pairing)
 
 Tight-binding reduction -----> D10 (w=1 dispersion)
-                                |---> Formula 7 (Q spectrum)
-                                |---> Formula 41 (palindromic time)
+                                |---> F7 (Q spectrum)
+                                |---> F41 (palindromic time)
                                 \---> D1 (bandwidth)
 ```
 

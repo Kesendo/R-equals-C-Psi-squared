@@ -97,7 +97,7 @@ Each palindromic pair (μ, -μ) in the centered spectrum contributes:
 
 The SFF therefore contains cosine components at every palindromic
 frequency, with the dominant modulation at the lowest frequency
-ω_min = 4J(1-cos(π/N)) (the k=1 mode of the w=1 sector, formula 2).
+ω_min = 4J(1-cos(π/N)) (the k=1 mode of the w=1 sector, F2).
 
 ### FFT verification
 
@@ -217,7 +217,7 @@ SFF is the TIME-DOMAIN fingerprint of the same λ ↔ -(λ+2Σγ) pairing
 that the PT analysis proved algebraically. The SFF sees it as a cosine;
 the level statistics sees it as Poisson; the Π operator explains both.
 
-**Analytical spectrum (formula 2):** The modulation frequency ω_min
+**Analytical spectrum (F2):** The modulation frequency ω_min
 matches the predicted 4J(1-cos(π/N)) to within 1% for N=2-4, 6. This
 confirms the w=1 dispersion relation in the time domain.
 

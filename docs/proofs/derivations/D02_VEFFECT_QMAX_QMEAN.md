@@ -8,7 +8,7 @@
 
 ## Derivation
 
-From formula 7: Q_k = 2J/gamma * (1 - cos(pi*k/N)), k = 1, ..., N-1.
+From F7: Q_k = 2J/gamma * (1 - cos(pi*k/N)), k = 1, ..., N-1.
 
     Q_mean = (1/(N-1)) * Sum_{k=1}^{N-1} Q_k
            = (2J/gamma) * [1 - (1/(N-1)) * Sum cos(pi*k/N)]
@@ -28,7 +28,7 @@ Therefore: Q_mean = 2J/gamma (exactly).
          = [2J/gamma * (1 + cos(pi/N))] / [2J/gamma]
          = 1 + cos(pi/N)
 
-This is formula 6. The V-Effect measures how much the best
+This is F6. The V-Effect measures how much the best
 mode exceeds the average Q-factor.
 
 ## Numerical verification

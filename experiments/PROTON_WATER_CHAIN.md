@@ -44,7 +44,7 @@ Five results:
 
 1. **Analytical formulas match exactly** for the Heisenberg chain.
    V(N) = 1+cos(pi/N) verified to machine precision for N=1-5.
-   Q_max, rate bounds all confirmed. Formula 3 lower bound violated
+   Q_max, rate bounds all confirmed. F3 lower bound violated
    at N >= 4 (sector mixing creates sub-2gamma modes).
 
 2. **Frequency explosion.** From 0 (N=1) to 222 (N=5) distinct
@@ -100,9 +100,9 @@ rather than Q-factor enhancement.
 
 ---
 
-## Formula 3 Violation at N >= 4
+## F3 Violation at N >= 4
 
-The analytical rate bound (formula 3) predicts min rate = 2gamma for
+The analytical rate bound (F3) predicts min rate = 2gamma for
 the w=1 sector. At N >= 4, the Heisenberg chain shows sub-2gamma
 modes:
 
@@ -115,7 +115,7 @@ modes:
 
 These sub-2gamma modes arise from Hamiltonian mixing of w-sectors
 (w with w +/- 2). At N >= 4, the mixing creates hybrid modes with
-decay rates BETWEEN the pure-sector values. Formula 3 remains valid
+decay rates BETWEEN the pure-sector values. F3 remains valid
 for pure w=1 modes; the sub-2gamma modes are from mixed sectors.
 
 This was predicted in [D05 Dynamic Mode Count](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md):

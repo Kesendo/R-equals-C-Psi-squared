@@ -10,7 +10,7 @@ R=CPsi2 information geometry -->
 **Script:** [information_geometry.py](../simulations/information_geometry.py)
 **Data:** [information_geometry.txt](../simulations/results/information_geometry.txt)
 **Depends on:**
-- [Boundary Navigation](BOUNDARY_NAVIGATION.md) (θ definition, formula 15)
+- [Boundary Navigation](BOUNDARY_NAVIGATION.md) (θ definition, F15)
 - [CΨ Monotonicity Proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) (dCΨ/dt < 0)
 - [Entropy Production](ENTROPY_PRODUCTION.md) (algebra-first context)
 
@@ -62,11 +62,11 @@ metric along the Lindblad trajectory and find:
 
 | Document | Usage | Status |
 |----------|-------|--------|
-| BOUNDARY_NAVIGATION | Definition (formula 15) | Origin |
+| BOUNDARY_NAVIGATION | Definition (F15) | Origin |
 | THETA_PALINDROME_ECHO | Correlates with fidelity r=0.87 | Computed |
 | STRUCTURAL_CARTOGRAPHY | Lives on 3D manifold (98% in 3 PCs) | Computed |
 | CIRCUIT_DIAGRAM | "Voltmeter" metaphor | Analogy |
-| ANALYTICAL_FORMULAS | Formula 15 (angular distance) | Catalogued |
+| ANALYTICAL_FORMULAS | F15 (angular distance) | Catalogued |
 | TOPOLOGICAL_EDGE_MODES | Used as Berry phase parameter (φ = -0.77) | Computed |
 
 Never computed: Riemannian metric, geodesics, curvature, Fisher info.

@@ -71,7 +71,7 @@ The palindromic Liouvillian has:
 - Exact eigenvalue pairing: λ + λ' = −2Σγ
   ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 - Weight-sector structure: XY-weight w determines the decay rate
-  envelope 2wγ ([formula 3](../docs/ANALYTICAL_FORMULAS.md))
+  envelope 2wγ ([F3](../docs/ANALYTICAL_FORMULAS.md))
 - Weight-parity mixing: the Hamiltonian mixes sectors w with w±2
   (discovered during [derivation verification](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md))
 - Does not fit any of the 38 Sa-Ribeiro-Prosen classes
@@ -154,7 +154,7 @@ prevent chaos.
 The spacing statistics confirm what the analytical formulas already
 implied: the Liouvillian spectrum is fully determined by the sector
 structure (formulas 1-5, 22-23, 33) plus the dispersion relation
-within each sector (formula 2). There is no residual randomness.
+within each sector (F2). There is no residual randomness.
 
 ---
 
@@ -206,7 +206,7 @@ larger sectors (w near N/2), the Hamiltonian mixing creates enough
 coupling to produce GOE-like repulsion.
 
 The w=1 sector has only N-1 frequencies (the dispersion relation from
-formula 2), which is too few for RMT statistics at any tested N. The
+F2), which is too few for RMT statistics at any tested N. The
 w=1 sector IS integrable (exact tight-binding dispersion), so Poisson
 is expected there.
 
@@ -255,7 +255,7 @@ eigenvalues in each sector. Exact formulas imply integrability.
 Integrability implies Poisson. The RMT analysis confirms this
 chain of reasoning numerically.
 
-The palindromic constraint (formula 1) is not just a symmetry; it
+The palindromic constraint (F1) is not just a symmetry; it
 is an integrability constraint. It provides enough conserved quantities
 (weight-parity sectors, palindromic pairing) to fully determine the
 spectrum, leaving no room for the randomness that produces level

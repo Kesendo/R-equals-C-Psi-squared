@@ -230,7 +230,7 @@ outside. In this analogy:
   defines the objective timescale.
 - **t is the system's response** to that illumination: the experienced
   duration until the state reaches the fold at CΨ = 1/4.
-- **K = γ × t_cross is invariant** (Formula 14, proven). More light means
+- **K = γ × t_cross is invariant** (F14, proven). More light means
   shorter experience. Less light means longer. The product does not change.
 
 There is a structural parallel:
@@ -249,7 +249,7 @@ structured dynamics (the palindromic spectrum). Decoherence is not
 destruction. It is illumination.
 
 → [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (γ must be external)
-→ [Analytical Formulas, Formula 14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
+→ [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
 → [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) (the soundbox paradigm)
 
 ---

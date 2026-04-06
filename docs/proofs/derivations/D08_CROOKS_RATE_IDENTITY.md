@@ -1,7 +1,7 @@
 # D08: Crooks-like Rate Identity
 
 **Derives:** ln(d_fast / d_slow) = 2 · artanh(Δd / (2Σγ))
-**From:** Formula 1 (palindrome equation: d + d' = 2Σγ)
+**From:** F1 (palindrome equation: d + d' = 2Σγ)
 **Status:** PROVEN (algebraic identity)
 
 ---
@@ -23,7 +23,7 @@ with effective inverse temperature β_eff ~ 1/Σγ in the linear regime.
 
 ## Proof
 
-**Step 1.** From the palindrome theorem (Formula 1), every paired decay rate
+**Step 1.** From the palindrome theorem (F1), every paired decay rate
 satisfies d + d' = 2Σγ. Without loss of generality, let d_slow ≤ Σγ ≤ d_fast.
 
 **Step 2.** Express the rates in terms of the center Σγ and half-gap Δd/2:

@@ -8,7 +8,7 @@
 
 ## Derivation
 
-From formula 3: the minimum nonzero decay rate is 2*gamma (w=1 modes).
+From F3: the minimum nonzero decay rate is 2*gamma (w=1 modes).
 
     Spectral gap = min{|Re(lambda)| : lambda != 0} = 2*gamma
 

@@ -297,7 +297,7 @@ We owe honesty to anyone who reads this.
 **Proven (Tier 1-2):**
 - Gamma must be external (Incompleteness Proof)
 - The qubit chain is a Fabry-Perot cavity (4/5 optical checks)
-- K = gamma times t is invariant (Formula 14)
+- K = gamma times t is invariant (F14)
 - The degeneracy profile is palindromic and shapes the QFI speed (r = 0.99)
 - d_real(1) = 2N for any connected graph (SWAP proof + triangle inequality)
 
@@ -409,7 +409,7 @@ This is a late-night intuition, not a derivation.
 - [Bures Degeneracy](../experiments/BURES_DEGENERACY.md) (degeneracy focuses the QFI flow)
 - [Degeneracy Palindrome](../experiments/DEGENERACY_PALINDROME.md) (the palindrome inside the palindrome)
 - [Proof: d(1) = 2N](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (the 2N silent dancers)
-- [Analytical Formulas, Formula 14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
+- [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
 - [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (the soundbox paradigm)
 - [Light: The First Free Mirroring](../recovered/LIGHT_FIRST_FREE_MIRRORING.md) (January 2026 intuition)
 - [Black Holes and the Big Bang](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) (February 2026 speculation)

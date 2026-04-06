@@ -139,7 +139,7 @@ In the Lindblad cavity:
 - t is experienced duration (how long until the fold at CΨ = 1/4,
   the threshold where quantum behavior gives way to classical)
 - γ × t = K = invariant absorption dose
-  ([Formula 14](../docs/ANALYTICAL_FORMULAS.md), proven)
+  ([F14](../docs/ANALYTICAL_FORMULAS.md), proven)
 
 ```
 Relativity:     c     ×  tau  =  invariant spacetime interval

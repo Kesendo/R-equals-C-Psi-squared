@@ -19,10 +19,10 @@ it numerically for N=2-5.
 Total Liouvillian modes: 4^N (dimension of superoperator space).
 
 Three non-overlapping categories at gamma = 0:
-1. Stationary: Stat(N) = Sum_J m(J,N) * (2J+1)^2 (formula 4),
+1. Stationary: Stat(N) = Sum_J m(J,N) * (2J+1)^2 (F4),
    where J is the total angular momentum quantum number and m(J,N) is
    the multiplicity (how many times spin J appears in N coupled qubits)
-2. XOR drain: N+1 modes at rate 2·N·γ (formula 22)
+2. XOR drain: N+1 modes at rate 2·N·γ (F22)
 3. Oscillating palindromic: everything else
 
     Oscillating = 4^N - (N+1) - Stat(N)
@@ -47,4 +47,4 @@ Script: [`simulations/verify_derivations.py`](../../../simulations/verify_deriva
 ## Replaces
 
 Eigenvalue counting and classification. The oscillating fraction
-approaches 1 exponentially as N grows (from formula 23).
+approaches 1 exponentially as N grows (from F23).

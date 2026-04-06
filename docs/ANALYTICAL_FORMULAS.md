@@ -11,7 +11,7 @@ Formulas in ASCII; prose uses Unicode (Ψ, Π, Σ, γ).
 
 ## Spectral Structure (replace eigenvalue computation)
 
-### 1. Palindrome equation (Tier 1, proven)
+### F1. Palindrome equation (Tier 1, proven)
 
     Π · L · Π⁻¹ = -L - 2Σγ · I
 
@@ -24,7 +24,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
-### 2. w=1 dispersion relation (Tier 1, proven D10)
+### F2. w=1 dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1
 
@@ -58,7 +58,7 @@ in absorption rate. The spectrum is a ladder with rung spacing 2γ. The
 Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer) but cannot
 change the endpoints or the fundamental quantum.
 
-**Formulas 3, 8, 33, and D6 are corollaries** of this theorem.
+**F3, F8, F33, and D6 are corollaries** of this theorem.
 The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
 this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
 
@@ -72,7 +72,7 @@ spectral gap derivation; unpaired mode rate identification.
 **Source:** [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md),
 [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 
-### 3. Decay rate bounds (Tier 1, corollary of Absorption Theorem)
+### F3. Decay rate bounds (Tier 1, corollary of Absorption Theorem)
 
     min rate = 2*gamma       (w=1 modes, pure sector)
     max rate = 2*(N-1)*gamma (w=N-1 modes)
@@ -94,7 +94,7 @@ for non-integer ⟨n_XY⟩ ([Proton Water Chain](../experiments/PROTON_WATER_CHA
 **Source:** [README](../README.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
 
-### 4. Stationary mode count (Tier 1, Clebsch-Gordan decomposition)
+### F4. Stationary mode count (Tier 1, Clebsch-Gordan decomposition)
 
     Stat(N) = Sum_J m(J,N) * (2J+1)^2
 
@@ -105,7 +105,7 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 **Replaces:** null-space computation of Liouvillian.
 **Source:** [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md)
 
-### 5. Depolarizing error (Tier 1, proven)
+### F5. Depolarizing error (Tier 1, proven)
 
     error = gamma * 2*(N-2)/3
 
@@ -116,7 +116,7 @@ Linear in γ and N. Hamiltonian-independent.
 At γ ~ 0.001 (typical IBM): error < 0.1%.
 **Source:** [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 
-### 22. GHZ XOR-drain (Tier 2, verified N=2-5)
+### F22. GHZ XOR-drain (Tier 2, verified N=2-5)
 
     GHZ  -> 100% weight in XOR modes (N+1 modes at rate 2*Σγ)
     W    -> 0% XOR, 100% palindromic  (N >= 3)
@@ -131,7 +131,7 @@ exact projection onto the fastest-decaying spectral sector.
 outperforms GHZ for state transfer (0% vs 100% drain weight).
 **Source:** [XOR Space](../experiments/XOR_SPACE.md)
 
-### 23. XOR drain vanishing fraction (Tier 1, combinatorial proof)
+### F23. XOR drain vanishing fraction (Tier 1, combinatorial proof)
 
     fraction(XOR) = (N+1) / 4^N
 
@@ -144,7 +144,7 @@ sector has measure zero.
 irrelevant at macroscopic scale.
 **Source:** [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
 
-### 33. N=3 exact intermediate decay rates (Tier 1, exact rational)
+### F33. N=3 exact intermediate decay rates (Tier 1, exact rational)
 
     rate_1 = 2*gamma       (w=1, pure single-site coherence)
     rate_2 = 8*gamma/3     (w=2 mixed, Hamiltonian superposition)
@@ -172,7 +172,7 @@ Two independent information channels (frequency vs decay) are
 perfectly orthogonal at N=3.
 **Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
 
-### 50. Weight-1 degeneracy / conserved operator count (Tier 1, proven + verified N=2-7)
+### F50. Weight-1 degeneracy / conserved operator count (Tier 1, proven + verified N=2-7)
 
     d_real(Re = -2*gamma) = 2N
 
@@ -209,7 +209,7 @@ numerical counting of purely-real eigenvalues.
 
 ## Q-Factor and V-Effect (replace resonator analysis)
 
-### 6. V-Effect gain (Tier 1-2, verified N=2-6)
+### F6. V-Effect gain (Tier 1-2, verified N=2-6)
 
     V(N) = 1 + cos(pi/N) = 2*cos^2(pi/(2N))
 
@@ -223,7 +223,7 @@ match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for V-Effect measurement.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
-### 7. Q-factor spectrum (Tier 1, corollary of D10)
+### F7. Q-factor spectrum (Tier 1, corollary of D10)
 
     Q_k = 2*J/gamma * (1 - cos(pi*k/N))
     Q_max = 2*J/gamma * (1 + cos(pi/N))
@@ -235,7 +235,7 @@ match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
 **Replaces:** Q-factor computation from eigenvalues.
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
 
-### 8. 2× universal decay law (Tier 1, corollary of Absorption Theorem)
+### F8. 2× universal decay law (Tier 1, corollary of Absorption Theorem)
 
     rate(unpaired) = 2*N*gamma       (<n_XY> = N, pure {X,Y}^N)
     rate(paired mean) = N*gamma      (<n_XY>_fast + <n_XY>_slow = N)
@@ -257,7 +257,7 @@ The "ratio 2" is the ratio of the full range (0 to 2Σγ) to the center
 
 ## Sacrifice Zone (replace numerical optimization)
 
-### 9. Sacrifice-zone formula (Tier 2, verified N=2-15)
+### F9. Sacrifice-zone formula (Tier 2, verified N=2-15)
 
     gamma_edge = N * gamma_base - (N-1) * epsilon
     gamma_other = epsilon
@@ -268,7 +268,7 @@ One-line formula. 360x improvement at N=5, 63.5x at N=15 vs V-shape.
 **Replaces:** numerical optimization (Nelder-Mead, DE).
 **Source:** [Resonant Return](../experiments/RESONANT_RETURN.md)
 
-### 10. SumMI quadratic scaling (Tier 2, verified N=2-15)
+### F10. SumMI quadratic scaling (Tier 2, verified N=2-15)
 
     SumMI ~ 0.0053 * N^2 + 0.028 * N - 0.062
 
@@ -278,7 +278,7 @@ Under the sacrifice-zone formula. Quadratic, not exponential.
 **Replaces:** time evolution simulation for SumMI estimation.
 **Source:** [Signal Analysis Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md)
 
-### 11. Mode localization profile, N=5 (Tier 2, geometric)
+### F11. Mode localization profile, N=5 (Tier 2, geometric)
 
     slowest modes (edge sacrifice): [0.52, 0.63, 0.70, 0.63, 0.52]
     fastest modes (edge sacrifice): [0.98, 0.87, 0.80, 0.87, 0.98]
@@ -299,7 +299,7 @@ Correlation edge-weight vs rate: r = 0.994.
 
 ## CΨ Crossing (replace trajectory computation)
 
-### 12. Single-qubit universal crossing fraction (Tier 2)
+### F12. Single-qubit universal crossing fraction (Tier 2)
 
     t*/T2 = 0.858367
     from: x^3 + x = 1/2,  x = e^{-t/T2}
@@ -310,7 +310,7 @@ Platform-independent. Bell states: ~10x entanglement penalty.
 **Replaces:** CΨ(t) trajectory simulation for crossing time.
 **Source:** [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md)
 
-### 13. r* threshold (Tier 2-3, 24,073 records)
+### F13. r* threshold (Tier 2-3, 24,073 records)
 
     r* = T2 / (2*T1) = 0.2128
 
@@ -321,7 +321,7 @@ positives across 133 qubits, 181 days.
 **Replaces:** CΨ(t) simulation for crossing prediction per qubit.
 **Source:** [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)
 
-### 14. K-invariance (Tier 2, Lindblad scaling)
+### F14. K-invariance (Tier 2, Lindblad scaling)
 
     K = gamma * t_cross = constant per bridge type
 
@@ -343,7 +343,7 @@ parameter-independent. See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
 **Replaces:** multi-γ parameter sweeps for crossing time.
 **Source:** [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
 
-### 15. θ compass (Tier 2)
+### F15. θ compass (Tier 2)
 
     theta = arctan(sqrt(4*C*Psi - 1))
 
@@ -353,7 +353,7 @@ Angular distance from CΨ = 1/4 boundary. θ = 0 at crossing.
 **Replaces:** nothing directly, but provides geometric intuition.
 **Source:** [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md)
 
-### 24. Generalized crossing equation (Tier 1, algebraic + hardware-validated)
+### F24. Generalized crossing equation (Tier 1, algebraic + hardware-validated)
 
     C   = 1 - b^r + b^{2r}/2 + b^2/2
     Psi = b
@@ -361,7 +361,7 @@ Angular distance from CΨ = 1/4 boundary. θ = 0 at crossing.
 
     b = e^{-t/T2*},   r = T2*/T1
 
-Extends formula 12 (pure dephasing, r -> 0) to finite T1.
+Extends F12 (pure dephasing, r -> 0) to finite T1.
 Polynomial approximation (max error < 0.001):
 
     t*(r)/T2* ~ 0.858 + 0.012*r + 0.375*r^2 - 0.019*r^3 - 0.084*r^4
@@ -376,11 +376,11 @@ Hardware validated: IBM Torino qubit 52 (MAE = 0.053 with fitted T2*).
 The 1/4 crossing emerges from a global fit (1/4 was not a fit target).
 
 **Valid for:** single qubit |+> under combined T1 + T2* decay.
-**Replaces:** formula 12 when T1 is finite; numerical CΨ(t)
+**Replaces:** F12 when T1 is finite; numerical CΨ(t)
 simulation for superconducting qubits.
 **Source:** [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md)
 
-### 25. CΨ closed form, Bell+ Z-dephasing (Tier 1, proven)
+### F25. CΨ closed form, Bell+ Z-dephasing (Tier 1, proven)
 
     CPsi(t) = f * (1 + f^2) / 6,       f = e^{-4*gamma*t}
 
@@ -394,7 +394,7 @@ K = gamma * t_cross = 0.0374.
 O(1) evaluation instead of ODE solver.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### 26. CΨ closed form, general Pauli channels (Tier 1, proven)
+### F26. CΨ closed form, general Pauli channels (Tier 1, proven)
 
     CPsi = u * (1 + u^2 + v^2 + w^2) / 12
 
@@ -412,21 +412,21 @@ the bracket are non-negative; product with -u is strictly negative).
 noise on Bell states. O(1) instead of matrix exponentiation.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### 27. K values per noise channel (Tier 1, from formula 26)
+### F27. K values per noise channel (Tier 1, from F26)
 
     K_Z     = 0.0374    (pure Z-dephasing)
     K_X     = 0.0867    (pure X-noise)
     K_Y     = 0.0867    (pure Y-noise)
     K_depol = 0.0440    (depolarizing, gamma/3 each axis)
 
-Complements formula 14 (K per bridge metric). These are K per
+Complements F14 (K per bridge metric). These are K per
 noise TYPE, all measured with CΨ on Bell+ state.
 
 **Valid for:** Bell+ state, single-axis or depolarizing noise.
 **Replaces:** per-channel crossing time derivation.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### 28. Fixed-point absorber theorem (Tier 1-2)
+### F28. Fixed-point absorber theorem (Tier 1-2)
 
     CPsi(rho*) < 1/4    for all primitive CPTP maps (completely positive trace-preserving: the most general physically allowed quantum operations)
 
@@ -449,7 +449,7 @@ below 1/4.
 
 ## Fold and Recursion (foundational)
 
-### 16. Fold normal form (Tier 1, proven)
+### F16. Fold normal form (Tier 1, proven)
 
     R = C * (Psi + R)^2
 
@@ -458,7 +458,7 @@ Boundary at CΨ = 1/4 (discriminant of fixed-point equation).
 
 **Source:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)
 
-### 17. CΨ monotonicity (Tier 1, proven)
+### F17. CΨ monotonicity (Tier 1, proven)
 
     dCPsi/dt < 0  for all local Markovian channels
 
@@ -467,7 +467,7 @@ exceptions. CΨ is Pauli-invariant (DD cannot change it).
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### 18. Fold threshold (Tier 2, N-independent)
+### F18. Fold threshold (Tier 2, N-independent)
 
     Σγ_crit / J = 0.00249 (Bell state)
     Σγ_crit / J = 0.00497 (product state)
@@ -479,7 +479,7 @@ irreversibly. Max/min ratio across N=2-5: 1.015 (1.5% variation).
 **Replaces:** γ sweep to find fold onset.
 **Source:** [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)
 
-### 19. Fragile bridge asymptotic constant (Tier 2)
+### F19. Fragile bridge asymptotic constant (Tier 2)
 
     gamma_crit * J_bridge -> 0.50  (strong bridge limit)
 
@@ -500,7 +500,7 @@ Optimal: J_bridge ~ 2J, gamma_crit = 0.41.
 
 ## Thermal (replace n_bar sweep)
 
-### 20. Thermal V-Effect: gain decreases, diversity increases (Tier 2)
+### F20. Thermal V-Effect: gain decreases, diversity increases (Tier 2)
 
     V(N, n_bar=0) = 1 + cos(pi/N)  (exact)
     V(N, n_bar=0.5) ~ 1.44  (N=5)
@@ -513,7 +513,7 @@ Optimal: J_bridge ~ 2J, gamma_crit = 0.41.
 **Replaces:** thermal Liouvillian sweep.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
-### 21. Self-heating divergence (Tier 2)
+### F21. Self-heating divergence (Tier 2)
 
     Fixed point: n_bar -> infinity (all 6 configs tested)
 
@@ -528,7 +528,7 @@ No self-consistent operating point exists.
 
 ## Topology and Protocols (replace parameter sweeps)
 
-### 29. Star-topology coupling threshold (Tier 2, N=3)
+### F29. Star-topology coupling threshold (Tier 2, N=3)
 
     J_SB / J_SA >= 1.466    (at gamma = 0.05)
 
@@ -542,7 +542,7 @@ Bell_SA x |+>_B initial state.
 **Replaces:** coupling sweep for star-topology crossing threshold.
 **Source:** [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 
-### 30. Gamma-as-signal channel capacity (Tier 2, SVD + Shannon)
+### F30. Gamma-as-signal channel capacity (Tier 2, SVD + Shannon)
 
     Capacity = 15.5 bits    (at 1% measurement noise, sigma = 0.01)
     Independent channels: 5  (full rank, condition number 14.8)
@@ -557,20 +557,20 @@ optimal receiver (phased array, not omnidirectional).
 channel capacity analysis from scratch.
 **Source:** [Gamma as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 
-### 31. Relay protocol MI bound (Tier 2, N=11)
+### F31. Relay protocol MI bound (Tier 2, N=11)
 
     MI improvement = +83%    (relay + 2:1 coupling vs passive)
 
 Six relay stages, each t_stage = K/gamma. Receiving qubits get
 10x noise reduction during their reception phase. Combines three
-results: K/gamma timing (formula 14), quiet receiver (formula 29),
+results: K/gamma timing (F14), quiet receiver (F29),
 and 2:1 impedance matching.
 
 **Valid for:** N=11 Heisenberg chain, Z-dephasing, Bell pair initial.
 **Replaces:** passive propagation baseline for long chains.
 **Source:** [Relay Protocol](../experiments/RELAY_PROTOCOL.md)
 
-### 32. Optimal protection state (Tier 2, N=3)
+### F32. Optimal protection state (Tier 2, N=3)
 
     Slow-mode weight: 90%
     Concurrence:      0.364
@@ -589,7 +589,7 @@ slowest among the dynamic modes.
 
 ## Structural (replace dimensionality arguments)
 
-### 34. Qubit necessity equation (Tier 1, proven)
+### F34. Qubit necessity equation (Tier 1, proven)
 
     d^2 - 2*d = 0    -->    d = 0 (nothing)  or  d = 2 (qubit)
 
@@ -601,7 +601,7 @@ and 2 decaying choices (X, Y) per site. This fixes d = 2 algebraically.
 **Replaces:** dimensional search for palindrome-compatible systems.
 **Source:** [Qubit Necessity](QUBIT_NECESSITY.md)
 
-### 35. Dual-perspective lifetime ratio (Tier 2, hardware-validated)
+### F35. Dual-perspective lifetime ratio (Tier 2, hardware-validated)
 
     t_cross(Pi side) / t_cross(direct) ~ T1 / T2
 
@@ -618,7 +618,7 @@ perspectives computed from the same density matrix.
 
 ## Neural Analog (replace neural symmetry analysis)
 
-### 36. Neural palindrome condition (Tier 1-2, proven + verified)
+### F36. Neural palindrome condition (Tier 1-2, proven + verified)
 
     Q * J * Q + J + 2*S = 0
 
@@ -636,7 +636,7 @@ random 0.108 (8x more palindromic than chance).
 palindromic quality assessment.
 **Source:** [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md)
 
-### 37. Neural eigenvalue pairing (Tier 1, from formula 36)
+### F37. Neural eigenvalue pairing (Tier 1, from F36)
 
     mu_k + mu_k' = -(1/tau_E + 1/tau_I)
 
@@ -644,7 +644,7 @@ Analog of lambda + lambda' = -2*Σγ. Every neural mode
 pairs with a partner; decay rates sum to the E-I time constant sum.
 Verified: mean sum = -0.3012, predicted = -0.300 (1.6% max deviation).
 
-**Valid for:** linearized Wilson-Cowan networks satisfying formula 36.
+**Valid for:** linearized Wilson-Cowan networks satisfying F36.
 **Replaces:** neural eigenvalue computation for pairing verification.
 **Source:** [Proof Palindrome Neural](neural/proofs/PROOF_PALINDROME_NEURAL.md)
 
@@ -655,7 +655,7 @@ Verified: mean sum = -0.3012, predicted = -0.300 (1.6% max deviation).
 All derivations verified numerically (N=2-5) against Liouvillian
 eigenvalues. Full proofs: [docs/proofs/derivations/](proofs/derivations/).
 
-### D1. Bandwidth and mode density (from formula 2) [VERIFIED]
+### D1. Bandwidth and mode density (from F2) [VERIFIED]
 
     BW = omega_{N-1} - omega_1 = 8*J * cos(pi/N) --> 8*J
 
@@ -668,21 +668,21 @@ density of states. Max frequency error < 5e-9.
 **Valid for:** Heisenberg chain, w=1 sector, large N.
 **Replaces:** numerical mode density estimation.
 
-### D2. V-Effect = Q_max / Q_mean (from formulas 6 + 7) [VERIFIED]
+### D2. V-Effect = Q_max / Q_mean (from F6 + F7) [VERIFIED]
 
     V(N) = Q_max / Q_mean = (1 + cos(pi/N)) / 1
 
 Q_mean = 2*J/gamma exactly. Proof: Sum_{k=1}^{N-1} cos(pi*k/N) = 0
 (geometric series identity). Deviation < 3e-15.
 
-### D3. Crossing time ratios (from formula 27) [VERIFIED]
+### D3. Crossing time ratios (from F27) [VERIFIED]
 
     t_X / t_Z = K_X / K_Z = ln(2) / (2*ln(1/f*)) = 2.320
     t_depol / t_Z = K_depol / K_Z = 1.177
 
 Verified by Lindblad propagation (Bell+ N=2). Ratio deviation < 3e-6.
 
-### D4. Dimensional factor in crossing (from formulas 12 + 25) [VERIFIED]
+### D4. Dimensional factor in crossing (from F12 + F25) [VERIFIED]
 
     Single qubit (d=2):    f*(1 + f*^2) = 1/2
     Bell+ 2-qubit (d=4):   f*(1 + f*^2) = 3/2 = (d-1) * 1/2
@@ -690,7 +690,7 @@ Verified by Lindblad propagation (Bell+ N=2). Ratio deviation < 3e-6.
 The crossing condition scales with Hilbert space dimension as (d-1)/2.
 Exact to machine precision.
 
-### D5. Dynamic palindromic mode count (from formulas 4 + 22 + 23) [VERIFIED]
+### D5. Dynamic palindromic mode count (from F4 + F22 + F23) [VERIFIED]
 
     Oscillating modes = 4^N - (N+1) - Stat(N)
 
@@ -711,7 +711,7 @@ quantum.
 
 Deviation < 1e-14 for all N tested.
 
-### D7. Q-factor distribution (from formulas 2 + 7) [VERIFIED]
+### D7. Q-factor distribution (from F2 + F7) [VERIFIED]
 
     rho(Q) = 1 / (pi * sqrt((Q - Q_min) * (Q_max - Q)))
 
@@ -730,7 +730,7 @@ not at the mean. Converges with N (variance rel. error < 2% at N=50).
 
 ## Π Operator Properties (from PT-symmetry classification)
 
-### 38. Π squared (Tier 1, proven + verified N=2,3)
+### F38. Π squared (Tier 1, proven + verified N=2,3)
 
     Pi^2 = (-1)^{w_YZ}
 
@@ -742,7 +742,7 @@ Eigenvalues of Pi^2: +1 (half) and -1 (half), equally split.
 **Replaces:** assumption that Π is involutory.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### 39. det(Π) (Tier 1, proven + verified N=1-4)
+### F39. det(Π) (Tier 1, proven + verified N=1-4)
 
     det(Pi) = (-1)^{N * 4^{N-1}}
 
@@ -752,7 +752,7 @@ Eigenvalues of Pi^2: +1 (half) and -1 (half), equally split.
 **Replaces:** manual determinant computation.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### 40. Fragile bridge gamma_crit at J_bridge = J (Tier 2, verified)
+### F40. Fragile bridge gamma_crit at J_bridge = J (Tier 2, verified)
 
     gamma_crit = 0.1873  (N=2 per chain, J = J_bridge = 1.0)
 
@@ -765,7 +765,7 @@ diverges at exceptional points) peaks at K = 403 at gamma/gamma_crit ~ 1.46 (nea
 **Replaces:** bisection search at this specific parameter set.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### 41. Palindromic time (Tier 1, corollary of D10)
+### F41. Palindromic time (Tier 1, corollary of D10)
 
     t_Pi = 2*pi / omega_min = pi / (2*J * sin^2(pi/(2*N)))
 
@@ -776,7 +776,7 @@ Period of the slowest palindromic modulation in the SFF. Grows as
 **Replaces:** numerical FFT of SFF for modulation period.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### 42. Timescale separation (Tier 2, verified N=2-7)
+### F42. Timescale separation (Tier 2, verified N=2-7)
 
     t_Pi / t_H ~ (Delta * N^2) / (2 * pi^2 * J)  -->  0  for N -> inf
 
@@ -794,7 +794,7 @@ is Poisson (integrable). Visibility of modulation ~1/4^N.
 **Replaces:** numerical SFF timescale extraction.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### 43. Sector SFF pairing (Tier 1, proven D09)
+### F43. Sector SFF pairing (Tier 1, proven D09)
 
     K_freq(w, t) = K_freq(N-w, t)    (identical SFF for paired sectors)
 
@@ -806,7 +806,7 @@ degenerate at rate 2*N*gamma).
 **Replaces:** sector-by-sector SFF comparison.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### 44. Crooks-like rate identity (Tier 1, proven D08)
+### F44. Crooks-like rate identity (Tier 1, proven D08)
 
     ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Σγ))
 
@@ -829,7 +829,7 @@ detailed balance without BEING detailed balance.
 
 ## Information Geometry (from Bures metric analysis)
 
-### 45. Bures metric at the fold (Tier 2, N=2 Bell state)
+### F45. Bures metric at the fold (Tier 2, N=2 Bell state)
 
     g(CΨ = 1/4) = 3.36    (Bures metric [the natural Riemannian distance between quantum states based on fidelity], finite, no singularity)
 
@@ -839,7 +839,7 @@ smooth coordinate everywhere along the Lindblad trajectory.
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
 
-### 46. Geodesic decoherence (Tier 2, N=2 Bell state)
+### F46. Geodesic decoherence (Tier 2, N=2 Bell state)
 
     Geodesic deviation = 9.1e-4    (Lindblad ~ shortest Bures path)
 
@@ -851,7 +851,7 @@ Geometric interpretation of dCPsi/dt < 0 (proven in
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
 
-### 47. Gaussian curvature at the fold (Tier 2, N=2)
+### F47. Gaussian curvature at the fold (Tier 2, N=2)
 
     K(CΨ = 1/4) = -25    (negative, hyperbolic, finite)
 
@@ -862,7 +862,7 @@ state (K → -15 at CΨ ~ 0.2).
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
 
-### 48. Pythagorean decomposition (Tier 2, exact at N=2)
+### F48. Pythagorean decomposition (Tier 2, exact at N=2)
 
     L_c² = L_H² + (L_D + Σγ·I)²
 
@@ -878,7 +878,7 @@ At N≥3: cross term ~2% of ||L_c²||, γ-independent.
 **Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),
 [Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
 
-### 49. Orthogonality constant at N=3 (Tier 2, verified)
+### F49. Orthogonality constant at N=3 (Tier 2, verified)
 
     ||{L_H, L_D + Σγ·I}|| / (||L_H|| · ||L_D + Σγ·I||) = 1/√48
 
@@ -891,7 +891,7 @@ At N≥3: cross term ~2% of ||L_c²||, γ-independent.
 
 ## Cockpit and Diagnostics (replace full tomography)
 
-### 51. Decoherence cockpit: 3-observable reduction (Tier 2, verified N=2-5, IBM-validated)
+### F51. Decoherence cockpit: 3-observable reduction (Tier 2, verified N=2-5, IBM-validated)
 
     n_eff = 3    (Purity, Concurrence, Ψ-norm)
     coverage = 88-96%    (of trajectory variance, via PCA)
@@ -918,7 +918,7 @@ uniform DD by 3.2× in mutual information on 5-qubit chain.
 a qubit pair. Single-qubit instruments consistent, 2-qubit untested.
 **Source:** [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
 
-### 52. Thermal oscillation resilience (Tier 2, verified N=4)
+### F52. Thermal oscillation resilience (Tier 2, verified N=4)
 
     f_osc(n_bar) ~ 82%    (stable to ±2 modes out of 256, N=4)
     |Delta_osc| <= 4       (for n_bar in [0, 50])
@@ -954,7 +954,7 @@ The answer is: the cavity survives; no sweep needed.
 
 ## Absorption Doses (replace time-evolution for dose estimates)
 
-### 55. Universal absorption dose K_death (Tier 1, proven from D6)
+### F55. Universal absorption dose K_death (Tier 1, proven from D6)
 
     K_death = ln(10) = 2.303    (dose for 99% absorption)
     K_death / K_fold ~ 2.3      (ratio to CΨ = ¼ crossing dose)
@@ -978,7 +978,7 @@ palindrome holds. The cavity always retains light.
 
 ## Cusp Dynamics (replace iteration counting and trajectory integration)
 
-### 56. Critical slowing iteration count (Tier 1, closed-form, zero fit parameters)
+### F56. Critical slowing iteration count (Tier 1, closed-form, zero fit parameters)
 
     K(eps, tol) = (1/2)*ln(4*eps/tol) + alpha(tol)*sqrt(eps)
 
@@ -1000,11 +1000,11 @@ any tol > 0. Equivalent to CΨ recursion near the 1/4 boundary.
 O(1) evaluation instead of O(1/sqrt(eps)) iterations.
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
 
-### 57. Trajectory dwell time at CΨ = 1/4 (Tier 1, analytical)
+### F57. Trajectory dwell time at CΨ = 1/4 (Tier 1, analytical)
 
     t_dwell(delta) = 2*delta / |dCPsi/dt|_{t_cross}
 
-For Bell+ Z-dephasing (using formula 25 derivative):
+For Bell+ Z-dephasing (using F25 derivative):
 
     t_dwell = 1.080088 * delta / gamma    (Bell+ specific)
     K_dwell = gamma * t_dwell = 1.080088 * delta    (gamma-independent)
@@ -1018,7 +1018,7 @@ Prefactor is state-specific; γ-invariance of K_dwell is universal.
 **Replaces:** trajectory integration for dwell-time estimation.
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
 
-### 58. Weight-based dwell prefactor (Tier 2, even-weight states only)
+### F58. Weight-based dwell prefactor (Tier 2, even-weight states only)
 
     prefactor = (2 + 4*W2) / (1 + 6*W2)
 
@@ -1026,7 +1026,7 @@ Prefactor is state-specific; γ-invariance of K_dwell is universal.
 
 W2 is the light-face ({X,Y}) sector weight at the crossing moment.
 For Bell+: W2 = 0.3709 (from f_cross = 0.8612), giving prefactor =
-1.080088, matching formula 57 exactly. The static Pauli decomposition
+1.080088, matching F57 exactly. The static Pauli decomposition
 and the dynamic cusp passage are algebraically identical for even-weight
 states. For states with odd-weight Pauli content (k = 1 terms), the
 prefactor additionally requires individual coefficient magnitudes
