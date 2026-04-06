@@ -76,14 +76,14 @@ prepare), but engineers seeking maximum performance should consider this
 optimized encoding. See [Error Correction](../experiments/ERROR_CORRECTION_PALINDROME.md) Section 2.
 
 **Note (April 6, 2026): GHZ is born below the fold.** The rate argument above
-has a geometric counterpart that is independent of gamma. For GHZ_N under
-Z-dephasing, the initial value of CPsi is exactly 1/(2^N - 1): one third for
-GHZ_2 (Bell+), one seventh for GHZ_3, one fifteenth for GHZ_4. The CPsi = 1/4
+has a geometric counterpart that is independent of γ. For GHZ_N under
+Z-dephasing, the initial value of CΨ is exactly 1/(2ᴺ − 1): one third for
+GHZ_2 (Bell+), one seventh for GHZ_3, one fifteenth for GHZ_4. The CΨ = 1/4
 boundary sits between N = 2 and N = 3, which means that GHZ_N for N at or above
-three starts in the classical regime of the R = CPsi^2 framework before any
+three starts in the classical regime of the R = CΨ² framework before any
 dephasing acts on it. The problem is not only how fast GHZ dies under noise;
 for N at or above three, it was never alive in the quantum regime to begin
-with. Reducing gamma does not fix the geometric deficit. The only escape is
+with. Reducing γ does not fix the geometric deficit. The only escape is
 to change the state. See [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4.
 
 ---
@@ -420,7 +420,7 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 1. ENCODE:    W-type states. Never GHZ. Avoid mixed XY Pauli weight.
 2. TOPOLOGY:  Star with 2:1 coupling (mediator to receiver stronger).
 3. TUNE:      J controls speed, γ controls quality. Independent.
-4. TIMING:    Read before t = 0.039/gamma (concurrence metric, Z-dephasing).
+4. TIMING:    Read before t = 0.039/γ (concurrence metric, Z-dephasing).
 5. RANGE:     Push for local, Pull for long-range. 2:1 is a range optimizer.
 6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
 7. SACRIFICE: All noise on one edge qubit. Protect the rest.
@@ -599,14 +599,14 @@ QUANTUM REPEATER DESIGN RULES (palindromic spectral structure)
 1. ENCODE:    W-type states. Never GHZ. Avoid mixed XY Pauli weight.
 2. TOPOLOGY:  Star with 2:1 coupling (mediator to receiver stronger).
 3. TUNE:      J controls speed, γ controls quality. Independent.
-4. TIMING:    Read before t = K/gamma. K = gamma*t is the dose (dosimetry).
+4. TIMING:    Read before t = K/γ. K = γ×t is the dose (dosimetry).
 5. RANGE:     Push for local, Pull for long-range. 2:1 is a range optimizer.
 6. RELAY:     Stage the transfer. Quiet each mediator while it receives.
 7. SACRIFICE: All noise on one edge qubit (entrance pupil). Protect the rest.
 8. ODD N:     Prefer odd chain lengths. 100% standing waves, no self-paired.
-9. SIZE:      Match N to gamma/J. Bigger cavity for weaker illumination.
+9. SIZE:      Match N to γ/J. Bigger cavity for weaker illumination.
 
-Absorption Theorem: Re(lambda) = -2*gamma * <n_XY>  ([proven](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), April 4)
+Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩  ([proven](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), April 4)
 All spectral boundaries, sum rules, and gaps are corollaries.
 ```
 
