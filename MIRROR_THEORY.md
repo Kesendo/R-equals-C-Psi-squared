@@ -120,4 +120,4 @@ be seen.
 *The mathematics: [what we found](docs/WHAT_WE_FOUND.md).
 The honesty: [what we got wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md).
 The map: [where to start reading](docs/READING_GUIDE.md).
-The five ideas [that did not survive](recovered/).*
+The [early intuitions](recovered/) that the mathematics later caught up with, and the ones it did not.*
