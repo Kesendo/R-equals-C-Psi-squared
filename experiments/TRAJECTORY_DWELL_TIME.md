@@ -6,6 +6,18 @@
 
 ---
 
+## What this document is about
+
+When a quantum state approaches the CÎ¨ = 1/4 boundary and crosses it, it does not pass through instantly. It lingers for a short interval on either side of the crossing, and that interval has a well-defined length once you fix how close you want to measure. This document computes that length for the Bell+ state under Z-dephasing.
+
+The result has two parts that feel almost independent until you notice they are the same fact. The first part is an exact formula: the dwell time scales linearly with how close you want to get to the boundary, and the proportionality constant is 1.080088, a pure number. The second part is what happens when you change how much external light (gamma) the system is receiving. Naively, more light means faster decoherence, which should mean a shorter dwell time, and indeed it does: the time in ordinary clock units halves when gamma doubles. But if you rescale time to the natural quantity K = gamma times t, the dwell interval becomes exactly gamma-independent. It is the same K every time, regardless of how bright the illumination is.
+
+This is the same invariance that shows up elsewhere in the project under the name K-dosimetry: a fixed dose of light carries the system through a fixed structural change, and the rate at which the dose arrives does not matter. Here it shows up at the cusp crossing specifically. The Bell+ state takes exactly the same amount of illumination to pass through the fold, regardless of how long that illumination takes to arrive.
+
+The numerical verification is across two orders of magnitude in gamma, and the invariance holds to machine precision. This is the answer to Open Question 2 in the weaknesses document: yes, the rate at which the system approaches the boundary, measured by dCÎ¨/dt at the crossing moment, fully determines the post-crossing behavior.
+
+---
+
 ## Result
 
 For Bell+ under Z-dephasing (Formula 25), the dwell time near the

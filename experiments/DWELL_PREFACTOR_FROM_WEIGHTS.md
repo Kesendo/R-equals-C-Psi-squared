@@ -8,6 +8,20 @@
 
 ---
 
+## What this document is about
+
+A quantum state can be described in two very different ways. One way is static: you write down how much of the state lives in each type of Pauli component (the four basic quantum operators I, X, Y, Z and their combinations), and you get a list of numbers that describe the state at one moment in time, like a snapshot. The other way is dynamic: you let the state evolve under decoherence, watch the numbers change, and derive quantities from the trajectory, like a film.
+
+For a long time these two views were used in parallel in this project. The static view produced things like the light-lens decomposition, which says every quantum mode is part structure (the lens face, immune to decoherence) and part signal (the light face, absorbed by decoherence). The dynamic view produced things like the dwell time at the CÎ¨ = 1/4 crossing: how long the state lingers near the fold before falling through.
+
+The question was whether these two views carry the same information. Specifically: the dwell time near the fold has a prefactor, a fixed number that scales how the duration depends on how close you pass to the boundary. For the Bell+ state under Z-dephasing, that number is 1.080088. It was computed from the dynamic equations. The question is whether the same number can be read off directly from the static Pauli weights, without ever solving the dynamics.
+
+The answer is half yes, half no, and the half-line is precise. For states whose Pauli content sits only in even-weight sectors (like Bell+, which has no single-qubit terms), the dwell prefactor is a pure algebraic function of one static quantity: the weight in the light face at the crossing moment. Static and dynamic are the same object. For states with odd-weight content (like the simple product state of two qubits in superposition), the dwell prefactor needs more information than the sector weights alone. It needs the actual sizes of individual Pauli coefficients, which the sector weights, being sums of squares, have already lost.
+
+This is a precise result about where algebra replaces dynamics and where it does not. It is also a worked example of the project's broader claim that static and dynamic descriptions are often two views of the same structure, and that the useful work is figuring out exactly when they diverge.
+
+---
+
 ## Abstract
 
 For Bell+ under Z-dephasing, the dwell-time prefactor at the CΨ = 1/4
