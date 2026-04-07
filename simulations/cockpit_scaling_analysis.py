@@ -76,7 +76,7 @@ def load_all_csvs():
 # ---- Sanity gates -----------------------------------------------------------
 
 def classify_label(pair_label):
-    """Extract pair class from V2 label suffix."""
+    """Extract pair class from label suffix."""
     if "_center_bell" in pair_label:
         return "center_bell"
     elif "_adjacent" in pair_label:
@@ -226,7 +226,7 @@ def analyze_one(X, active_mask):
 
 def main():
     print("=" * 60)
-    print("COCKPIT SCALING V2 ANALYSIS")
+    print("COCKPIT SCALING ANALYSIS")
     print("=" * 60)
     print("Initial state: Bell+(c1, c2) tensor |+>^(n-2), c1 = (n-1)/2")
     print()
@@ -290,7 +290,7 @@ def main():
     # ---- Output 1: text report ----
     report_lines = []
     report_lines.append("=" * 60)
-    report_lines.append("COCKPIT SCALING V2 ANALYSIS")
+    report_lines.append("COCKPIT SCALING ANALYSIS")
     report_lines.append("=" * 60)
     report_lines.append("Initial state: Bell+(c1, c2) tensor |+>^(n-2), c1 = (n-1)/2")
     report_lines.append("")
@@ -432,7 +432,7 @@ def main():
 
     # ---- Output 3: scaling plot ----
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle("Cockpit Scaling V2: Bell Pair at Center", fontsize=14, fontweight="bold")
+    fig.suptitle("Cockpit Scaling: Bell Pair at Center", fontsize=14, fontweight="bold")
 
     pair_styles = {
         "center_bell": "-",

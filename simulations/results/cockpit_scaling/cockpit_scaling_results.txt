@@ -1,5 +1,5 @@
 ============================================================
-COCKPIT SCALING V2 ANALYSIS
+COCKPIT SCALING ANALYSIS
 ============================================================
 Initial state: Bell+(c1, c2) tensor |+>^(n-2), c1 = (n-1)/2
 
