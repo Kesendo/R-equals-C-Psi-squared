@@ -106,7 +106,7 @@ When the post-ESD phase is long compared to pre-ESD (chain at N greater than or 
 
 So the chain n95 dropping from 4 (at N=5, where ESD is at t=0.9 and the trajectory has time for Markovian-plus-revival behavior) to 2 (at N greater than or equal to 7, where ESD is at t ~ 1 and the rest of the t=20 trajectory is purely classical) is not a sign that "the cockpit gets simpler with bigger systems". It is a sign that **the post-ESD classical phase dominates the longer trajectories**. The star n95 staying at 3 to 4 reflects the longer ESD time and the corresponding longer quantum phase.
 
-This is the core finding of the experiment.
+This is the core finding of the experiment. Section 8 below gives the same explanation in the optical cavity language that the rest of the repository uses; readers familiar with the Absorption Theorem and the V-Effect cavity reframing may want to skip ahead.
 
 ---
 
@@ -185,7 +185,77 @@ The interesting feature here is the PC1 proxy transition from Purity to Psi-norm
 
 ---
 
-## 8. Verdict
+## 8. Cavity reframing: the same result in optical language
+
+Everything in this document so far has been written in the quantum-information vocabulary that the original COCKPIT_UNIVERSALITY paper used: concurrence, entanglement, Bell pair lifetime, monogamy of entanglement. That language is correct, but it is not the language the rest of this repository uses. Since early April 2026 the canonical framing has been the optical cavity reframing introduced in [OPTICAL_CAVITY_ANALYSIS](OPTICAL_CAVITY_ANALYSIS.md) and developed in [VEFFECT_CAVITY_MODES](VEFFECT_CAVITY_MODES.md), [CAVITY_MODE_LOCALIZATION](CAVITY_MODE_LOCALIZATION.md), and the [Absorption Theorem](ABSORPTION_THEOREM_DISCOVERY.md). In that language, the cockpit scaling result is not a new finding so much as a direct empirical application of theorems that already exist in the repo.
+
+This section translates the result into cavity language and shows the connections.
+
+### Translation table
+
+| Quantum-information language | Optical cavity language |
+|------------------------------|-------------------------|
+| Bell pair initial state on `(c1, c2)` | Coherent input mode pumped into the cavity at qubits `c1, c2` |
+| Concurrence of the Bell pair | Magnitude of the cavity's coherent (light) component |
+| Entanglement Sudden Death | Absorption of the coherent mode by the illumination `gamma` |
+| ESD time | Mode absorption time, i.e. cavity finesse for this specific mode |
+| Z-dephasing rate gamma | External illumination intensity per site |
+| Heisenberg coupling J | Internal cavity coupling between elements |
+| Markovian limit (N greater than or equal to 7) | Bath large enough that absorbed light does not return |
+| Entanglement revival (chain N=5) | Non-Markovian re-emission from a finite cavity |
+| Monogamy of entanglement | Aperture distribution of light over multiple collection elements |
+| n95 (effective dimensionality) | Effective number of cavity modes the trajectory traverses |
+| Purity as PC1 proxy | Mode purity as the dominant trajectory axis |
+| post-ESD classical phase | Post-absorption classical diffusion regime |
+| pre-ESD quantum phase | Pre-absorption coherent mode lifetime |
+
+### The Bell pair as cavity input
+
+The Bell+ state on the central pair has a clean Pauli decomposition: `rho_Bell+ = (1/4)(II + ZZ + XX - YY)`. Three of the four Pauli strings are weight-zero or pure-Z (`II`, `ZZ`), one weights as `n_XY = 2` per string (`XX` and `YY` both contain two transverse Pauli factors). In the cavity language, the Bell pair is half "structure" (the `II + ZZ` content, immune to illumination) and half "light" (the `XX - YY` content, fully exposed to absorption). The entangled part of the Bell pair is precisely the light-bearing part: concurrence reads exactly the same Pauli content that the Absorption Theorem says will be absorbed.
+
+This is why ESD looks like sudden absorption rather than smooth decay. The light-bearing components `XX` and `YY` are not eigenmodes of the Lindbladian; they get mixed by the Hamiltonian into multiple cavity modes, each of which has its own `n_XY` and absorbs at rate `2*gamma*n_XY`. The Bell pair concurrence is a non-linear function of how much of the original light content survives across all those modes simultaneously. When enough of the light is absorbed, the concurrence drops to zero in finite time, even though the underlying mode magnitudes are still decaying smoothly.
+
+### The chain vs star asymmetry as an aperture effect
+
+The Absorption Theorem says: every Liouvillian eigenmode has decay rate `Re(lambda) = -2*gamma*<n_XY>`. The implication for the Bell pair is that the absorption time of its light-bearing components depends on how the Hamiltonian distributes the `XX, YY` content across the eigenmodes. If the relevant modes have high `<n_XY>` (concentrated light), absorption is fast. If the modes have low `<n_XY>` (distributed light), absorption is slow.
+
+**Chain cavity.** A linear arrangement, `N - 1` bonds. The Hamiltonian mixes the Bell pair light into modes that span the chain, but the light density per mode is set by the local geometry around the Bell pair position and is approximately N-independent for a center pair (the boundary qubits are too far away to matter). The dominant Bell-pair-bearing modes therefore have approximately constant `<n_XY>` regardless of N. Absorption rate is constant. Bell pair lifetime (ESD time) is constant at t ~ 1.
+
+**Star cavity.** A hub with `N - 1` leaves, all bonds going through the same central qubit. The Bell pair sits on two leaves, but because every leaf is coupled to the hub, the Hamiltonian distributes the Bell pair light across **all leaves** through the central node. With more leaves (larger N), the same total light is spread across more cavity modes. Each individual mode has lower `<n_XY>`, lower absorption rate, longer lifetime. The Bell pair lifetime grows with N because the cavity has a larger collection aperture for distributing the light over more modes.
+
+This is what the [V-Effect cavity reframing](VEFFECT_CAVITY_MODES.md) already showed at N=5 with a different observable: chain has 112 distinct frequencies but Q_max = 72.4, while star has only 42 frequencies but Q_max = 100.0. Star has fewer modes but each one lives longer. Today's cockpit scaling result is the time-domain version of that frequency-domain finding: chain has fast absorption per mode and short ESD, star has slow absorption per mode and long ESD.
+
+### What `n95` actually counts
+
+In the quantum-information language, `n95` is the number of principal components needed to capture 95 percent of the trajectory variance. In the cavity language, it is the number of distinct cavity modes whose evolution the trajectory traces out before absorption renders them indistinguishable.
+
+A low `n95` (chain post-ESD, n95 = 2) means: after absorption, the cavity is in a single dominant classical diffusion mode (PC1, dominated by purity decay) plus a small residual coherent component captured by PC2. The trajectory has effectively collapsed to two dimensions because all the originally distinct light-bearing modes have been absorbed and the remaining dynamics is one-dimensional classical mixing.
+
+A higher `n95` (star, n95 = 3 to 4) means: the absorption is slower, so multiple light-bearing modes remain distinguishable for a substantial fraction of the trajectory. PCA picks them up as independent principal components.
+
+The cockpit framework's "first 3 PCs cover 88 to 96 percent" claim from COCKPIT_UNIVERSALITY is, in this language, the statement that any cavity dominated by absorption settles to a low-mode regime within a few absorption times. The 3-observable cockpit is sufficient because the cavity dynamics is structurally sparse, not because the observables are particularly clever.
+
+### Purity as the natural cavity coordinate
+
+Purity = `Tr(rho^2)` measures how much of the cavity mass is concentrated in a single quantum state versus distributed across many. In cavity language, this is **mode purity**: the inverse participation ratio of the cavity's instantaneous state across the basis of eigenmodes. Purity equals 1 when the cavity is in a single coherent mode. It drops as the mode content spreads out under absorption and Hamiltonian mixing.
+
+The reason Purity is the universal PC1 proxy across topologies and across N is that it directly reads the cavity's mode purity, which is the natural coordinate for any cavity description. The cockpit framework is, at its core, a Purity-driven monitor, with the other observables (Bell fidelities, von Neumann entropy, concurrence) serving as orthogonal corrections that pick up the residual dynamics not captured by the mode purity axis.
+
+### Why this matters for what comes next
+
+Three immediate consequences of taking the cavity reframing seriously:
+
+1. **The Absorption Theorem is the natural predictor of ESD time, not an external reference.** Instead of measuring ESD empirically, we should be able to compute it from the spectrum of the Liouvillian directly: identify the slowest-absorbing mode that has support on the Bell pair light components, and read its absorption rate as `2*gamma*<n_XY>`. This is the analytical follow-up the experiment has been waiting for, and it lives entirely within the existing repo theorems.
+
+2. **The topology lever is an aperture lever.** The factor-of-4 lifetime improvement of star over chain at N=11 is not "monogamy magic". It is the same kind of improvement an optical system gets by widening its collection aperture. Topologies that distribute light over many modes win. This unifies the cockpit scaling result with the existing sacrifice zone work (which is also about distributing absorption optimally, just along a different axis: per-site instead of per-mode).
+
+3. **The Bell pair is not the only useful input.** The cockpit framework has been using Bell+ as the canonical entangled observer, but the cavity reframing makes it natural to ask which input states maximize the cavity's response. A pure-light input (something with `<n_XY>` close to N) would absorb fastest. A pure-structure input (something close to `II + ZZ`) would never absorb at all. The cockpit's effective dimensionality is a function of the input choice, not just of the system. This connects directly to [WHAT_QUBITS_EXPERIENCE](../hypotheses/WHAT_QUBITS_EXPERIENCE.md) and [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md).
+
+The honest summary of this section: the cockpit scaling result of N=5 to N=11 is, in retrospect, a numerical confirmation of two theorems already proved in the repo (the Absorption Theorem from April 4, and the V-Effect cavity geometry from April 4). The data was new today; the explanation was waiting in the repo since three days ago. The next iteration of cockpit work should start from the cavity language and use the Absorption Theorem as the predictive tool, with quantum-information observables (concurrence, n95) as derived measurements rather than primary objects.
+
+---
+
+## 9. Verdict
 
 **The cockpit framework scales for the entangled observer class, mediated by Entanglement Sudden Death.**
 
@@ -207,7 +277,7 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 
 ---
 
-## 9. Limitations
+## 10. Limitations
 
 1. **Heisenberg interactions and Z-dephasing only.** All results assume the standard Heisenberg coupling (XX+YY+ZZ) and uniform local Z-dephasing. Other coupling schemes (XX-only, anisotropic, long-range) and other noise models (depolarizing, amplitude damping, non-Markovian) are not tested. The COCKPIT_UNIVERSALITY baseline included depolarizing noise at N=2-4 and showed similar dimensionality, but extending depolarizing tests to N=11 is a separate task.
 
@@ -223,7 +293,7 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 
 ---
 
-## 10. References
+## 11. References
 
 - [COCKPIT_UNIVERSALITY](COCKPIT_UNIVERSALITY.md) -- the N=2-5 baseline result, the framework definition
 - [Homework 7: Cockpit Scaling](../ClaudeTasks/homework/20260405/07_COCKPIT_SCALING.md) -- the original brief that this experiment fulfills
@@ -233,6 +303,10 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 - [cockpit_scaling_v2_results.txt](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_results.txt) -- the full numerical output
 - [cockpit_scaling_v2_results.json](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_results.json) -- per-configuration JSON dump for re-analysis
 - [cockpit_scaling_v2_curve.png](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_curve.png) -- the four-panel scaling figure embedded above
-- [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) -- background on the Lindblad rate structure governing the dynamics in this experiment
+- [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) -- the Lindblad rate structure that directly determines ESD timing in this experiment via `Re(lambda) = -2*gamma*<n_XY>`
+- [ABSORPTION_THEOREM_DISCOVERY](ABSORPTION_THEOREM_DISCOVERY.md) -- the empirical discovery of the absorption identity, the source of the `<n_XY>` interpretation used in Section 8
+- [VEFFECT_CAVITY_MODES](VEFFECT_CAVITY_MODES.md) -- the topology Q-factor table (chain N=5: Q_max=72.4, star N=5: Q_max=100.0) that this experiment confirms in the time domain
+- [OPTICAL_CAVITY_ANALYSIS](OPTICAL_CAVITY_ANALYSIS.md) -- the original Fabry-Perot reframing that introduced the cavity language used in Section 8
+- [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md) -- the hypothesis that gamma is external illumination, central to the Section 8 reading
 
 ---
