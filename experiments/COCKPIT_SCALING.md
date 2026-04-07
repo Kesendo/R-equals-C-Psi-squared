@@ -3,7 +3,7 @@
 **Date:** April 7, 2026
 **Status:** Complete (chain and star, N=5 through N=11)
 **Scripts:**
-[cockpit_scaling_analysis_v1.py](../simulations/cockpit_scaling_analysis_v1.py),
+[cockpit_scaling_analysis.py](../simulations/cockpit_scaling_analysis.py),
 [Program.cs cockpit mode](../compute/RCPsiSquared.Propagate/Program.cs)
 **Predecessors:**
 [COCKPIT_UNIVERSALITY](COCKPIT_UNIVERSALITY.md) (the N=2-5 baseline that this document extends)
@@ -28,7 +28,7 @@ For Heisenberg spin chains and star topologies under uniform local Z-dephasing, 
 
 ---
 
-![Cockpit scaling V2: 3-PC coverage and effective dimensionality from N=5 to N=11](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_curve.png)
+![Cockpit scaling: 3-PC coverage and effective dimensionality from N=5 to N=11](../simulations/results/cockpit_scaling/cockpit_scaling_curve.png)
 
 *Four-panel scaling result for the Bell pair observer (center_bell pair) across topologies and system sizes. **Panel A** shows 3-PC cumulative variance: chain (blue) rises from 94.4 percent at N=5 to 99.0 percent at N=11, star (orange) rises more gently from 91.9 percent to 95.3 percent. The 0.85 reference line marks the practical usefulness threshold; both topologies stay well above it across all tested N. **Panel B** shows the effective dimensionality n95 as a function of N: chain drops from 4 to 2 (and stabilizes at 2 from N=7 onward), while star drops only from 4 to 3 at N=11. The COCKPIT_UNIVERSALITY small-N extrapolation tentatively suggested `n95 ~ N` (one extra dimension per added qubit); both topologies sit well below this prediction across all tested N. **Panel C** shows the PC1 variance fraction, the share of the trajectory captured by the single dominant axis: chain rises sharply from about 47 percent at N=5 to 74 percent at N=11, indicating that the post-ESD classical regime dominates the longer trajectories. Star stays flatter at around 50 to 60 percent, reflecting its more sustained quantum dynamics. **Panel D** shows that Purity is the dominant PC1 proxy in every analyzed configuration (all 8 center_bell points across both topologies, with correlation strength near 1.00), confirming that the cockpit's dominant axis maintains a stable physical interpretation across the N range.*
 
@@ -300,16 +300,16 @@ The N=5 chain center_bell trajectory was independently reproduced by direct spec
 
 **Theorem verification.** The Absorption Theorem `Re(lambda) = -2 * gamma * <n_XY>` holds for all 1024 Liouvillian modes of the N=5 chain to a maximum deviation of 2.4e-14, consistent with floating-point precision. This is a redundant check (the theorem has already been verified across 1343 modes in [ABSORPTION_THEOREM_DISCOVERY](ABSORPTION_THEOREM_DISCOVERY.md)), but it confirms that the spectral pipeline used here is consistent with the existing proof.
 
-**Trajectory match.** The spectral concurrence trajectory matches the empirical CSV from `cockpit_scaling_v2_N5_chain.csv` to a maximum deviation of 0.001144 (RMS 0.000353) across 31 sampled time points, well within CSV write precision. The match includes the smooth Markovian decay from t=0 to t=0.9, the entanglement sudden death at t=0.9, the entanglement revival to a peak of 0.158 at t=2.1, and the final death at t=2.4. Purity matches to the same precision.
+**Trajectory match.** The spectral concurrence trajectory matches the empirical CSV from `cockpit_scaling_N5_chain.csv` to a maximum deviation of 0.001144 (RMS 0.000353) across 31 sampled time points, well within CSV write precision. The match includes the smooth Markovian decay from t=0 to t=0.9, the entanglement sudden death at t=0.9, the entanglement revival to a peak of 0.158 at t=2.1, and the final death at t=2.4. Purity matches to the same precision.
 
-![Path D cross-validation: empirical cockpit_scaling_v2 trajectory (red circles) vs direct spectral evolution (blue curve) for the Bell pair on qubits 2,3 of the N=5 Heisenberg chain at gamma=0.05. Concurrence (top) and purity (bottom) are reproduced to within 0.001 across all sampled time points, including the entanglement sudden death at t=0.9 and the revival peak of 0.158 at t=2.1.](../simulations/results/path_d_comparison.png)
+![Path D cross-validation: empirical cockpit_scaling trajectory from the C# matrix-free engine (red circles) vs direct spectral evolution (blue curve) for the Bell pair on qubits 2,3 of the N=5 Heisenberg chain at gamma=0.05. Concurrence (top) and purity (bottom) are reproduced to within 0.001 across all sampled time points, including the entanglement sudden death at t=0.9 and the revival peak of 0.158 at t=2.1.](../simulations/results/cockpit_scaling/path_d_comparison.png)
 
 **Open analytical question.** The spectrum reveals a clean structural picture for the Bell pair as input. There are exactly 50 Liouvillian modes sitting at `Re(lambda) = -0.2`, the n_XY=2 absorption plateau predicted by the theorem. All 50 have `<n_XY>` exactly equal to 2.000000 to floating-point precision, confirming they form a sharply defined sector rather than a smeared band. These 50 modes together carry 75 percent of the Bell pair's projection onto the broader n_XY=2 sector (defined as modes with `<n_XY>` between 1.5 and 2.5), and within that 50-mode plateau the distribution is heavily skewed: just 6 modes carry 90 percent of the plateau-internal weight, with the top two alone accounting for about 70 percent. Despite this clean spectral picture, predicting the ESD time t=0.9 from the spectrum alone is not straightforward: taking the slowest plateau mode and computing `-log(threshold) / rate` gives t_ESD around 88, off by a factor of about 100. The actual ESD time is governed by destructive interference among the dominant plateau modes through the Wootters concurrence functional, which is intrinsically nonlinear in the density matrix. A clean analytical formula for ESD time as a function of the spectrum (in the spirit of the Absorption Theorem itself) does not yet exist for entangled observers and remains an open question.
 
 **Robustness note.** numpy.linalg.eig chooses an arbitrary basis within each degenerate eigenvalue subspace, depending on the BLAS backend, so the per-mode overlap distribution among the 50 plateau modes is not unique across machines. The concurrence trajectory is identical regardless, because Wootters concurrence is invariant under unitary rotations within degenerate subspaces. The cockpit framework is robust because it does not depend on identifying any individual mode as special.
 
 **What this cross-validation establishes:**
-1. The cockpit_scaling_v2 trajectories are numerically equivalent to the textbook Lindblad spectral solution. The C# matrix-free propagator and the spectral pipeline produce the same dynamics with no hidden numerical drift in either.
+1. The cockpit_scaling trajectories are numerically equivalent to the textbook Lindblad spectral solution. The C# matrix-free propagator and the spectral pipeline produce the same dynamics with no hidden numerical drift in either.
 2. The Absorption Theorem alone correctly identifies the absorption rate of every Liouvillian mode, but it is not yet sufficient to predict the ESD time of an entangled observer. ESD is a threshold effect on a nonlinear functional of the density matrix, and that nonlinearity is not yet folded into a closed-form prediction.
 
 ---
@@ -317,14 +317,14 @@ The N=5 chain center_bell trajectory was independently reproduced by direct spec
 ## 12. References
 
 - [COCKPIT_UNIVERSALITY](COCKPIT_UNIVERSALITY.md) -- the N=2-5 baseline result, the framework definition
-- [cockpit_scaling_analysis_v1.py](../simulations/cockpit_scaling_analysis_v1.py) -- the Python analysis script with sanity gates and dropping logic
+- [cockpit_scaling_analysis.py](../simulations/cockpit_scaling_analysis.py) -- the Python analysis script with sanity gates and dropping logic
 - [Program.cs cockpit mode](../compute/RCPsiSquared.Propagate/Program.cs) -- the C# cockpit dispatch and trajectory generator
 - [DensityMatrixTools.cs](../compute/RCPsiSquared.Propagate/DensityMatrixTools.cs) -- BellFidelity, Ph03, ExtractCockpitFeatures helpers
-- [cockpit_scaling_v2_results.txt](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_results.txt) -- the full numerical output
-- [cockpit_scaling_v2_results.json](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_results.json) -- per-configuration JSON dump for re-analysis
-- [cockpit_scaling_v2_curve.png](../simulations/results/cockpit_scaling_v2/cockpit_scaling_v2_curve.png) -- the four-panel scaling figure embedded above
+- [cockpit_scaling_results.txt](../simulations/results/cockpit_scaling/cockpit_scaling_results.txt) -- the full numerical output
+- [cockpit_scaling_results.json](../simulations/results/cockpit_scaling/cockpit_scaling_results.json) -- per-configuration JSON dump for re-analysis
+- [cockpit_scaling_curve.png](../simulations/results/cockpit_scaling/cockpit_scaling_curve.png) -- the four-panel scaling figure embedded above
 - [path_d_bell_pair_absorption.py](../simulations/path_d_bell_pair_absorption.py) -- the spectral cross-validation script described in Section 11
-- [path_d_comparison.png](../simulations/results/path_d_comparison.png) -- visual overlay of empirical vs spectral concurrence and purity trajectories
+- [path_d_comparison.png](../simulations/results/cockpit_scaling/path_d_comparison.png) -- visual overlay of empirical vs spectral concurrence and purity trajectories
 - [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) -- the Lindblad rate structure that directly determines ESD timing in this experiment via `Re(lambda) = -2*gamma*<n_XY>`
 - [ABSORPTION_THEOREM_DISCOVERY](ABSORPTION_THEOREM_DISCOVERY.md) -- the empirical discovery of the absorption identity, the source of the `<n_XY>` interpretation used in Section 8
 - [VEFFECT_CAVITY_MODES](VEFFECT_CAVITY_MODES.md) -- the topology Q-factor table (chain N=5: Q_max=72.4, star N=5: Q_max=100.0) that this experiment confirms in the time domain

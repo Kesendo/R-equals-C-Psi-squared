@@ -1,14 +1,23 @@
 """
-Cockpit Scaling Analysis V2
-============================
-Reads cockpit_scaling_v2 CSVs from the C# engine, applies trajectory sanity gates,
-drops trivial configurations, runs PCA per (N, topology, pair), and produces:
-  - cockpit_scaling_v2_results.txt  (human-readable scaling table with gate status)
-  - cockpit_scaling_v2_results.json (machine-readable full dump)
-  - cockpit_scaling_v2_curve.png    (4-panel scaling plot, far_edge excluded)
+Cockpit Scaling Analysis
+========================
+Reads cockpit_scaling CSVs from the C# matrix-free propagator, applies
+trajectory sanity gates, drops trivial configurations, runs PCA per
+(N, topology, pair), and produces:
+  - cockpit_scaling_results.txt   (human-readable scaling table with gate status)
+  - cockpit_scaling_results.json  (machine-readable full dump)
+  - cockpit_scaling_curve.png     (4-panel scaling plot, far_edge excluded)
 
-V2 initial state: Bell+(c1,c2) at the chain center, not (0,1).
-V2 sanity gates prevent trivial trajectories from inflating PCA coverage numbers.
+Initial state: Bell+(c1,c2) at the chain center, with spectator qubits in
+|+>. The sanity gates prevent trivial trajectories from inflating PCA
+coverage numbers.
+
+Note on naming: an earlier version of this experiment placed the Bell pair
+on the boundary qubits (0,1) and was found to be an initial-state artifact.
+That version is archived in ClaudeTasks/Archiv/ as
+RESULT_COCKPIT_SCALING_V1_OBSOLETE_initial_state_artifact.md. The current
+script and its outputs no longer carry a v1/v2 suffix because there is only
+one live version.
 
 Feature order (must match C# ExtractCockpitFeatures):
   phi_plus, phi_minus, psi_plus, psi_minus, purity, svn, concurrence, psi_norm, ph03
@@ -29,12 +38,12 @@ import matplotlib.pyplot as plt
 
 FEAT_NAMES = ["Phi+", "Phi-", "Psi+", "Psi-", "Pur", "SvN", "C", "Psi", "ph03"]
 PROXY_CANDIDATES = {"C": 6, "Pur": 4, "Psi": 7}  # name -> column index
-RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results", "cockpit_scaling_v2")
+RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results", "cockpit_scaling")
 
 # ---- Data loading -----------------------------------------------------------
 
 def load_all_csvs():
-    pattern = os.path.join(RESULTS_DIR, "cockpit_scaling_v2_N*_*.csv")
+    pattern = os.path.join(RESULTS_DIR, "cockpit_scaling_N*_*.csv")
     files = sorted(glob.glob(pattern))
     if not files:
         print(f"ERROR: No CSV files found matching {pattern}", file=sys.stderr)
@@ -43,7 +52,7 @@ def load_all_csvs():
     records = []
     for fpath in files:
         fname = os.path.basename(fpath)
-        m = re.match(r"cockpit_scaling_v2_N(\d+)_(\w+)\.csv", fname)
+        m = re.match(r"cockpit_scaling_N(\d+)_(\w+)\.csv", fname)
         if not m:
             continue
         N = int(m.group(1))
@@ -405,7 +414,7 @@ def main():
     print(report_text)
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    txt_path = os.path.join(RESULTS_DIR, "cockpit_scaling_v2_results.txt")
+    txt_path = os.path.join(RESULTS_DIR, "cockpit_scaling_results.txt")
     with open(txt_path, "w", encoding="utf-8") as f:
         f.write(report_text + "\n")
     print(f"\nSaved: {txt_path}")
@@ -416,7 +425,7 @@ def main():
         "dropped": dropped,
         "gate_summary": gate_summary,
     }
-    json_path = os.path.join(RESULTS_DIR, "cockpit_scaling_v2_results.json")
+    json_path = os.path.join(RESULTS_DIR, "cockpit_scaling_results.json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(json_data, f, indent=2, default=lambda x: x.tolist() if hasattr(x, 'tolist') else x)
     print(f"Saved: {json_path}")
@@ -523,7 +532,7 @@ def main():
     ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    png_path = os.path.join(RESULTS_DIR, "cockpit_scaling_v2_curve.png")
+    png_path = os.path.join(RESULTS_DIR, "cockpit_scaling_curve.png")
     fig.savefig(png_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {png_path}")

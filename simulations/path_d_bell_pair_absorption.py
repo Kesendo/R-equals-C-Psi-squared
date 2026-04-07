@@ -6,15 +6,15 @@ Question: Does Re(lambda) = -2 gamma <n_XY> (the Absorption Theorem) actually
 predict the ESD time of a Bell pair on the central qubits of an N=5 Heisenberg
 chain under uniform Z-dephasing?
 
-Setup mirrors cockpit_scaling_v2 N=5 chain center_bell run:
+Setup mirrors cockpit_scaling N=5 chain center_bell run:
   - N = 5 qubits, Heisenberg XXX chain (J = 1)
   - Uniform Z-dephasing on all qubits, gamma = 0.05
   - Initial state: |Phi+><Phi+|_{2,3} (x) |+><+|^{otimes 3}
     (The spectator qubits are in the pure |+> state, NOT maximally mixed.
-    This is a non-obvious detail of the cockpit_scaling_v2 setup that is not
+    This is a non-obvious detail of the cockpit_scaling setup that is not
     documented elsewhere; see the build_initial_state docstring below.)
   - Compare predicted concurrence trajectory against
-    cockpit_scaling_v2_N5_chain.csv (center_bell pair)
+    cockpit_scaling_N5_chain.csv (center_bell pair)
 
 Two predictions are made:
   (A) EXACT: full spectral evolution rho(t) = sum_k c_k R_k exp(lambda_k t)
@@ -41,8 +41,8 @@ from pathlib import Path
 # ----- Paths (relative to this script's location in simulations/) -----
 SCRIPT_DIR = Path(__file__).parent
 RESULTS_DIR = SCRIPT_DIR / "results"
-EMP_CSV = RESULTS_DIR / "cockpit_scaling_v2" / "cockpit_scaling_v2_N5_chain.csv"
-PLOT_OUT = RESULTS_DIR / "path_d_comparison.png"
+EMP_CSV = RESULTS_DIR / "cockpit_scaling" / "cockpit_scaling_N5_chain.csv"
+PLOT_OUT = RESULTS_DIR / "cockpit_scaling" / "path_d_comparison.png"
 
 # ----- Parameters -----
 N = 5
@@ -183,7 +183,7 @@ print(f"  median |deviation| = {np.median(deviation):.3e}")
 def build_initial_state(N, bell_qubits):
     # |Phi+> = (|00> + |11>)/sqrt(2)  on the Bell qubits.
     # Spectator qubits are in |+> = (|0> + |1>)/sqrt(2),  NOT maximally mixed.
-    # (Confirmed by reading cockpit_scaling_v2 N=5 chain CSV at t=0:
+    # (Confirmed by reading cockpit_scaling N=5 chain CSV at t=0:
     # the 0_1_far_edge reduced state has phi_plus=0.5, psi_plus=0.5, Pur=1,
     # which is exactly |+>|+> reduced from a fully pure spectator product.)
     Phi_plus = np.array([1, 0, 0, 1], dtype=complex) / np.sqrt(2)
@@ -309,7 +309,7 @@ else:
     print("  No candidates found.")
 
 print()
-print("=== Empirical (cockpit_scaling_v2 CSV) ===")
+print("=== Empirical (cockpit_scaling CSV) ===")
 print("  ESD at t = 0.9, revival peak C ~ 0.158 at t = 2.1, final death t = 2.4")
 
 # ---------------------------------------------------------------------
@@ -344,7 +344,7 @@ if EMP_CSV.exists():
 
     ax = axes[0]
     ax.plot(emp['t'], emp['concurrence'], 'o', markersize=8,
-            label='cockpit_scaling_v2 (empirical)',
+            label='C# matrix-free engine (cockpit_scaling)',
             markerfacecolor='none', markeredgewidth=1.8, color='#cc3333')
     ax.plot(T_GRID, conc_pred, '-', linewidth=1.8,
             label='Spectral prediction (Path D)', color='#1f6fb3')
@@ -363,7 +363,7 @@ if EMP_CSV.exists():
 
     ax = axes[1]
     ax.plot(emp['t'], emp['purity'], 'o', markersize=8,
-            label='cockpit_scaling_v2 (empirical)',
+            label='C# matrix-free engine (cockpit_scaling)',
             markerfacecolor='none', markeredgewidth=1.8, color='#cc3333')
     ax.plot(T_GRID, purity_pred, '-', linewidth=1.8,
             label='Spectral prediction (Path D)', color='#1f6fb3')

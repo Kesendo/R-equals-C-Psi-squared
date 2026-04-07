@@ -745,10 +745,10 @@ void RunCockpitScaling(string[] cArgs)
     // CSV output setup (V2 directory)
     string csvDir = Path.GetFullPath(Path.Combine(
         Path.GetDirectoryName(AppContext.BaseDirectory)!,
-        "..", "..", "..", "..", "..", "simulations", "results", "cockpit_scaling_v2"));
+        "..", "..", "..", "..", "..", "simulations", "results", "cockpit_scaling"));
     if (!Directory.Exists(csvDir))
         Directory.CreateDirectory(csvDir);
-    string csvPath = Path.Combine(csvDir, $"cockpit_scaling_v2_N{n}_{topology}.csv");
+    string csvPath = Path.Combine(csvDir, $"cockpit_scaling_N{n}_{topology}.csv");
 
     var sw = Stopwatch.StartNew();
     Console.Error.WriteLine($"Cockpit N={n} {topology}: d={d}, pairs={pairs.Length}, samples={nSamples}, tmax={tMax}, dt={dt}");
