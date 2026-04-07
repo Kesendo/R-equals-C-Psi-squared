@@ -197,4 +197,64 @@ public static class DensityMatrixTools
         }
         return rho;
     }
+
+    /// <summary>
+    /// Bell state fidelity Tr(rho * |b><b|) = b† rho b for a 4x4 reduced state.
+    /// </summary>
+    public static double BellFidelity(Matrix<Complex> rho4x4, Complex[] bellVec)
+    {
+        if (rho4x4.RowCount != 4 || bellVec.Length != 4)
+            throw new ArgumentException("BellFidelity requires 4x4 rho and length-4 vec");
+        Complex acc = Complex.Zero;
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                acc += Complex.Conjugate(bellVec[i]) * rho4x4[i, j] * bellVec[j];
+        return acc.Real;
+    }
+
+    /// <summary>
+    /// Phase angle of the (0,3) element, normalized by pi. In [-1, 1].
+    /// Returns 0 if the magnitude is below tolerance.
+    /// </summary>
+    public static double Ph03(Matrix<Complex> rho4x4, double tol = 1e-12)
+    {
+        var z = rho4x4[0, 3];
+        if (z.Magnitude < tol) return 0.0;
+        return Math.Atan2(z.Imaginary, z.Real) / Math.PI;
+    }
+
+    /// <summary>
+    /// Extract the 9 cockpit features from a 4x4 reduced density matrix.
+    /// Order: PhiPlus, PhiMinus, PsiPlus, PsiMinus, Purity, SvN, Concurrence, PsiNorm, ph03.
+    /// This order must match simulations/cockpit_universality.py feat_names.
+    /// </summary>
+    public static double[] ExtractCockpitFeatures(Matrix<Complex> rhoPair)
+    {
+        if (rhoPair.RowCount != 4)
+            throw new ArgumentException("ExtractCockpitFeatures requires a 4x4 reduced state");
+
+        double phiP  = BellFidelity(rhoPair, BellStates.PhiPlus);
+        double phiM  = BellFidelity(rhoPair, BellStates.PhiMinus);
+        double psiP  = BellFidelity(rhoPair, BellStates.PsiPlus);
+        double psiM  = BellFidelity(rhoPair, BellStates.PsiMinus);
+        double pur   = Purity(rhoPair);
+        double svn   = VonNeumannEntropy(rhoPair);
+        double conc  = Concurrence2Q(rhoPair);
+        double psiN  = L1Coherence(rhoPair) / 3.0; // d - 1 = 3
+        double ph03v = Ph03(rhoPair);
+
+        return new[] { phiP, phiM, psiP, psiM, pur, svn, conc, psiN, ph03v };
+    }
+}
+
+/// <summary>
+/// The four Bell state vectors as Complex[].
+/// </summary>
+public static class BellStates
+{
+    private static readonly double S = 1.0 / Math.Sqrt(2);
+    public static readonly Complex[] PhiPlus  = { S, 0, 0,  S };
+    public static readonly Complex[] PhiMinus = { S, 0, 0, -S };
+    public static readonly Complex[] PsiPlus  = { 0, S,  S, 0 };
+    public static readonly Complex[] PsiMinus = { 0, S, -S, 0 };
 }

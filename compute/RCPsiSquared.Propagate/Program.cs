@@ -7,6 +7,17 @@ using MathNet.Numerics.LinearAlgebra.Complex;
 using RCPsiSquared.Propagate;
 
 // ============================================================
+// COCKPIT MODE: scaling test of the 3-observable framework
+// ============================================================
+if (args.Length >= 1 && args[0] == "cockpit")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunCockpitScaling(args);
+    return;
+}
+
+// ============================================================
 // PROFILE MODE: lightweight single-evaluation, stdout only
 // ============================================================
 if (args.Length >= 1 && args[0] == "profile")
@@ -630,6 +641,215 @@ void RunPull3()
     }
 
     Log();
+}
+
+// ============================================================
+// COCKPIT SCALING MODE
+// ============================================================
+void RunCockpitScaling(string[] cArgs)
+{
+    // Usage: cockpit <N> <topology> [--gamma 0.05] [--J 1.0] [--tmax 20] [--dt 0.05] [--sample 0.1]
+    if (cArgs.Length < 3)
+    {
+        Console.Error.WriteLine("Usage: cockpit <N> <topology> [--gamma 0.05] [--J 1.0] [--tmax 20] [--dt 0.05] [--sample 0.1]");
+        Environment.Exit(1);
+        return;
+    }
+
+    int n = int.Parse(cArgs[1]);
+    string topology = cArgs[2].ToLowerInvariant();
+    if (topology != "chain" && topology != "star")
+    {
+        Console.Error.WriteLine($"ERROR: topology must be 'chain' or 'star', got '{topology}'");
+        Environment.Exit(1);
+        return;
+    }
+
+    double gamma = 0.05, J = 1.0, tMax = 20.0, dt = 0.05, sample = 0.1;
+    for (int i = 3; i < cArgs.Length - 1; i++)
+    {
+        if (cArgs[i] == "--gamma")  gamma  = double.Parse(cArgs[i + 1], CultureInfo.InvariantCulture);
+        if (cArgs[i] == "--J")      J      = double.Parse(cArgs[i + 1], CultureInfo.InvariantCulture);
+        if (cArgs[i] == "--tmax")   tMax   = double.Parse(cArgs[i + 1], CultureInfo.InvariantCulture);
+        if (cArgs[i] == "--dt")     dt     = double.Parse(cArgs[i + 1], CultureInfo.InvariantCulture);
+        if (cArgs[i] == "--sample") sample = double.Parse(cArgs[i + 1], CultureInfo.InvariantCulture);
+    }
+
+    if (n < 5)
+    {
+        Console.Error.WriteLine("ERROR: V2 cockpit mode requires N >= 5");
+        Environment.Exit(1);
+        return;
+    }
+
+    int d = 1 << n;
+    var gammas = Enumerable.Repeat(gamma, n).ToArray();
+
+    // Build topology
+    var couplings = Enumerable.Repeat(J, n - 1).ToArray();
+    Bond[] bonds = topology == "chain"
+        ? Topology.Chain(n, couplings)
+        : Topology.Star(n, couplings);
+
+    // V2: Bell pair at the center
+    int c1 = (n - 1) / 2;
+    int c2 = c1 + 1;
+
+    // V2 pair selection with semantic labels
+    (int q1, int q2, string label)[] pairs;
+    if (topology == "chain")
+    {
+        pairs = new (int, int, string)[]
+        {
+            (c1, c2, $"{c1}_{c2}_center_bell"),
+            (c1 - 1, c1, $"{c1 - 1}_{c1}_adjacent"),
+            (0, 1, "0_1_far_edge"),
+        };
+    }
+    else // star
+    {
+        pairs = new (int, int, string)[]
+        {
+            (c1, c2, $"{c1}_{c2}_center_bell"),
+            (0, c1, $"0_{c1}_center_leaf"),
+            (1, n - 1, $"1_{n - 1}_far_leaf"),
+        };
+    }
+
+    // Build measure times
+    int nSamples = (int)(tMax / sample) + 1;
+    var measureTimes = new double[nSamples];
+    for (int i = 0; i < nSamples; i++)
+        measureTimes[i] = i * sample;
+
+    // V2: Build initial state Bell+(c1,c2) ⊗ |+>^(N-2)
+    Complex[] BuildInitialPsi(int nQ)
+    {
+        int dQ = 1 << nQ;
+        int lc1 = (nQ - 1) / 2;
+        int lc2 = lc1 + 1;
+        int shiftC1 = nQ - 1 - lc1;
+        int shiftC2 = nQ - 1 - lc2;
+        var psi = new Complex[dQ];
+        double norm = 1.0 / (Math.Sqrt(2) * Math.Pow(2.0, (nQ - 2) / 2.0));
+        for (int idx = 0; idx < dQ; idx++)
+        {
+            int b1 = (idx >> shiftC1) & 1;
+            int b2 = (idx >> shiftC2) & 1;
+            if (b1 != b2) continue; // Bell+ requires center qubits to agree
+            psi[idx] = norm;
+        }
+        return psi;
+    }
+
+    // CSV output setup (V2 directory)
+    string csvDir = Path.GetFullPath(Path.Combine(
+        Path.GetDirectoryName(AppContext.BaseDirectory)!,
+        "..", "..", "..", "..", "..", "simulations", "results", "cockpit_scaling_v2"));
+    if (!Directory.Exists(csvDir))
+        Directory.CreateDirectory(csvDir);
+    string csvPath = Path.Combine(csvDir, $"cockpit_scaling_v2_N{n}_{topology}.csv");
+
+    var sw = Stopwatch.StartNew();
+    Console.Error.WriteLine($"Cockpit N={n} {topology}: d={d}, pairs={pairs.Length}, samples={nSamples}, tmax={tMax}, dt={dt}");
+
+    // Feature names for CSV header
+    string[] featNames = { "phi_plus", "phi_minus", "psi_plus", "psi_minus", "purity", "svn", "concurrence", "psi_norm", "ph03" };
+
+    using var csv = new StreamWriter(csvPath, false, System.Text.Encoding.UTF8);
+    csv.WriteLine("t,pair," + string.Join(",", featNames));
+
+    int totalSteps = nSamples;
+    int heartbeatInterval = Math.Max(1, totalSteps / 10);
+
+    if (n >= 14)
+    {
+        // Matrix-free path
+        var mfH = new MatrixFreeHamiltonian(n, bonds);
+        var psi = BuildInitialPsi(n);
+        var rho0 = DensityMatrixToolsRaw.PureState(psi);
+        psi = null;
+
+        // V2 sanity check: center pair (c1,c2) must be Bell+ at t=0
+        var rhoCenterT0 = DensityMatrixToolsRaw.PartialTrace(rho0, d, n, new[] { c1, c2 });
+        double concT0 = DensityMatrixTools.Concurrence2Q(rhoCenterT0);
+        double purT0 = DensityMatrixTools.Purity(rhoCenterT0);
+        if (Math.Abs(concT0 - 1.0) > 1e-8 || Math.Abs(purT0 - 1.0) > 1e-8)
+            throw new InvalidOperationException(
+                $"V2 sanity fail: center pair ({c1},{c2}) at t=0 should be Bell+ " +
+                $"with concurrence=1.0 purity=1.0, got conc={concT0:F6} pur={purT0:F6}");
+        Console.Error.WriteLine($"  Sanity OK: center pair ({c1},{c2}) at t=0 is Bell+ (conc=1.0, pur=1.0)");
+
+        var mfProp = new MatrixFreePropagator(mfH, gammas, n);
+        int sampleIdx = 0;
+
+        mfProp.Propagate(rho0, tMax, dt, measureTimes, (t, rho) =>
+        {
+            foreach (var (q1, q2, label) in pairs)
+            {
+                var rhoPair = DensityMatrixToolsRaw.PartialTrace(rho, d, n, new[] { q1, q2 });
+                var feats = DensityMatrixTools.ExtractCockpitFeatures(rhoPair);
+                csv.Write(string.Format(CultureInfo.InvariantCulture, "{0:F4},{1}",
+                    t, label));
+                foreach (var f in feats)
+                    csv.Write(string.Format(CultureInfo.InvariantCulture, ",{0:G15}", f));
+                csv.WriteLine();
+            }
+            csv.Flush();
+
+            sampleIdx++;
+            if (sampleIdx % heartbeatInterval == 0 || sampleIdx == totalSteps)
+            {
+                int pct = (int)(100.0 * sampleIdx / totalSteps);
+                Console.Error.WriteLine($"Cockpit N={n} {topology}: t={t:F1} / {tMax:F1} ({pct}%) elapsed={sw.Elapsed:hh\\:mm\\:ss}");
+            }
+        });
+    }
+    else
+    {
+        // Dense path
+        var H = Topology.BuildHamiltonian(n, bonds);
+        var psi = BuildInitialPsi(n);
+        var rho0 = DensityMatrixTools.PureState(psi);
+
+        // V2 sanity check: center pair (c1,c2) must be Bell+ at t=0
+        var rhoCenterT0 = DensityMatrixTools.PartialTrace(rho0, n, new[] { c1, c2 });
+        double concT0 = DensityMatrixTools.Concurrence2Q(rhoCenterT0);
+        double purT0 = DensityMatrixTools.Purity(rhoCenterT0);
+        if (Math.Abs(concT0 - 1.0) > 1e-8 || Math.Abs(purT0 - 1.0) > 1e-8)
+            throw new InvalidOperationException(
+                $"V2 sanity fail: center pair ({c1},{c2}) at t=0 should be Bell+ " +
+                $"with concurrence=1.0 purity=1.0, got conc={concT0:F6} pur={purT0:F6}");
+        Console.Error.WriteLine($"  Sanity OK: center pair ({c1},{c2}) at t=0 is Bell+ (conc=1.0, pur=1.0)");
+
+        var prop = new LindbladPropagator(H, gammas, n);
+        int sampleIdx = 0;
+
+        prop.Propagate(rho0, tMax, dt, measureTimes, (t, rho) =>
+        {
+            foreach (var (q1, q2, label) in pairs)
+            {
+                var rhoPair = DensityMatrixTools.PartialTrace(rho, n, new[] { q1, q2 });
+                var feats = DensityMatrixTools.ExtractCockpitFeatures(rhoPair);
+                csv.Write(string.Format(CultureInfo.InvariantCulture, "{0:F4},{1}",
+                    t, label));
+                foreach (var f in feats)
+                    csv.Write(string.Format(CultureInfo.InvariantCulture, ",{0:G15}", f));
+                csv.WriteLine();
+            }
+            csv.Flush();
+
+            sampleIdx++;
+            if (sampleIdx % heartbeatInterval == 0 || sampleIdx == totalSteps)
+            {
+                int pct = (int)(100.0 * sampleIdx / totalSteps);
+                Console.Error.WriteLine($"Cockpit N={n} {topology}: t={t:F1} / {tMax:F1} ({pct}%) elapsed={sw.Elapsed:hh\\:mm\\:ss}");
+            }
+        });
+    }
+
+    sw.Stop();
+    Console.WriteLine($"RESULT N={n} topology={topology} runtime={sw.Elapsed:hh\\:mm\\:ss} sample_count={nSamples} pair_count={pairs.Length} csv={csvPath}");
 }
 
 // ============================================================
