@@ -1,0 +1,48 @@
+============================================================
+COCKPIT SCALING V2 ANALYSIS
+============================================================
+Initial state: Bell+(c1, c2) tensor |+>^(n-2), c1 = (n-1)/2
+
+CHAIN TOPOLOGY
+                     n_active n95  3-PC% | gate status     | PC1 best proxy | top loading
+N=5   far_edge           9       5   88.4 | PASS            | Pur            | Pur
+N=5   adjacent           9       4   89.6 | PASS            | Pur            | Pur
+N=5   center_bell        9       4   94.4 | PASS            | Pur            | Pur
+N=7   far_edge           7       2   99.5 | PASS            | Pur            | SvN
+N=7   adjacent           9       3   95.1 | PASS            | Pur            | Pur
+N=7   center_bell        8       2   98.3 | PASS            | Pur            | Pur
+N=9   far_edge           7       1   99.6 | PASS            | Pur            | Pur
+N=9   adjacent           9       4   91.9 | PASS            | Psi            | Psi
+N=9   center_bell        8       2   98.4 | PASS            | Pur            | Pur
+N=11  far_edge           7       1   99.6 | PASS            | Pur            | Pur
+N=11  adjacent           9       4   91.6 | PASS            | Psi            | Psi
+N=11  center_bell        8       2   99.0 | PASS            | Pur            | Pur
+
+STAR TOPOLOGY
+                     n_active n95  3-PC% | gate status     | PC1 best proxy | top loading
+N=5   center_leaf        8       4   94.0 | PASS            | Pur            | Pur
+N=5   far_leaf           9       5   88.7 | PASS            | Pur            | Pur
+N=5   center_bell        9       4   91.9 | PASS            | Pur            | Pur
+N=7   center_leaf        8       4   94.6 | PASS            | Psi            | Psi
+N=7   far_leaf           7       2   99.6 | PASS            | Pur            | Pur
+N=7   center_bell        9       4   93.0 | PASS            | Pur            | Pur
+N=9   center_leaf        7       3   97.2 | PASS            | Psi            | Psi
+N=9   far_leaf           7       1   99.9 | PASS            | Pur            | Pur
+N=9   center_bell        9       4   94.8 | PASS            | Pur            | Pur
+N=11  center_leaf        8       3   95.4 | PASS            | Psi            | Psi
+N=11  far_leaf           7       1   99.9 | PASS            | Pur            | Pur
+N=11  center_bell        9       3   95.3 | PASS            | Pur            | Pur
+
+============================================================
+SCALING TREND (CENTER_BELL pairs only)
+============================================================
+                  Chain center_bell       Star center_bell
+N=5               94.4% (n95=4)            91.9% (n95=4)
+N=7               98.3% (n95=2)            93.0% (n95=4)
+N=9               98.4% (n95=2)            94.8% (n95=4)
+N=11              99.0% (n95=2)            95.3% (n95=3)
+
+VERDICT (constrained):
+  COCKPIT SCALES
+  center_bell: 8 configs analyzed, coverage [91.9%, 99.0%]
+  0 configuration(s) dropped total (expected for far_edge/far_leaf)

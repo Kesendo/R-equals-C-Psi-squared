@@ -140,6 +140,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | **[Cockpit Universality](COCKPIT_UNIVERSALITY.md)** | **3 observables (Purity, Concurrence, Psi-norm) capture 88-96% of decoherence dynamics across 9 topologies, 2 noise types, N=2-5. PC1 self-calibrates. theta most sensitive for noise engineering (1.68x). Hardware-validated on IBM Torino (0.3% crossing accuracy)** |
+| [Cockpit Scaling](COCKPIT_SCALING.md) | Cockpit framework extended to N=7-11 (chain and star) using C# matrix-free engine. n95 does NOT grow linearly with N as small-N suggested; instead it decreases (chain 4 to 2, star 4 to 3) due to Entanglement Sudden Death. Chain ESD time approximately N-independent (~1), star ESD time grows with N (0.5 to 3.9) due to monogamy of entanglement. 3-PC coverage stays above 90% in all 8 tested configurations. Purity remains the dominant PC1 proxy throughout |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
 | [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) | For Bell+, dwell-time prefactor at CΨ = 1/4 is pure weight function: (2+4W₂)/(1+6W₂). Fails for odd-weight states (needs coefficient magnitudes) |
 

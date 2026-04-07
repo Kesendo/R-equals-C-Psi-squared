@@ -358,6 +358,7 @@ fragile.
 
 | Related experiment | Key result used here |
 |---|---|
+| [Cockpit Scaling](COCKPIT_SCALING.md) | Extends this framework to N=7-11, tests n95 ~ N (April 7, 2026) |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | θ requires all 3 PCs (R^2 = 0.87) |
 | [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CΨ windows (original 3D finding) |
 | [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g = 3.36 at fold, K = -25 |
