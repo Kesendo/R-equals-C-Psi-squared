@@ -1137,6 +1137,37 @@ profiles). Second slow mode SE Frobenius ratio < 1e-3 in all 64. Data:
 `simulations/results/lens_survey/lens_survey_scaling.txt`.
 **Source:** [Proof](proofs/PROOF_PARITY_SELECTION_RULE.md)
 
+### F62. CΨ(0) for W_N (Tier 1, analytical, verified N=2-10)
+
+    CΨ(0) = 2(N^2 - 4N + 8) / (3N^3)
+
+For the W_N state (equal superposition of single excitations) on any
+N-qubit system, the initial CΨ on any pair is given by the formula above.
+The reduced density matrix for any pair (a,b) is:
+
+    rho_ab = diag((N-2)/N, 1/N, 1/N, 0) + (1/N)|01><10| + (1/N)|10><01|
+
+from which Tr(rho_ab^2) = (N^2 - 4N + 8)/N^2, L1 = 2/N, Psi = 2/(3N).
+
+| N | CΨ(0) | Fraction | Above 1/4? |
+|---|-------|----------|------------|
+| 2 | 1/3 = 0.3333 | 8/24 | Yes (W_2 = Bell+) |
+| 3 | 10/81 = 0.1235 | | No |
+| 5 | 26/375 = 0.0693 | | No |
+| 10 | 68/1500 = 0.0453 | | No |
+
+**Corollary (W_N born below the fold).** For N >= 3, CΨ(0) < 1/4.
+Proof: 2(N^2 - 4N + 8)/(3N^3) < 1/4 iff 3N^3 - 8N^2 + 32N - 64 > 0.
+At N=3 this evaluates to 41 > 0, and the cubic is monotonically increasing
+for N >= 3. Combined with the Parity Selection Rule (F61), this proves
+that single-excitation states on Heisenberg chains under Z-dephasing
+never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.
+
+**Valid for:** W_N on any N-qubit system, pair-independent (permutation symmetry).
+**Verified:** numerically at N=2-10, all within machine precision.
+**Source:** `simulations/cpsi_wn_analytical.py`,
+[Cusp-Lens Connection](../experiments/CUSP_LENS_CONNECTION.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

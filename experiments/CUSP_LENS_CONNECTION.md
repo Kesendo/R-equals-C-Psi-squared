@@ -124,6 +124,28 @@ The initial conclusion was "independent budgets." Tom pushed the analysis furthe
 
 ---
 
+## CΨ(0) for W_N (analytical)
+
+The reduced density matrix for any pair (a,b) of the W_N state is:
+
+    rho_ab = diag((N-2)/N, 1/N, 1/N, 0) + (1/N)|01><10| + (1/N)|10><01|
+
+This follows from W_N having exactly one excitation shared equally among N qubits. The matrix is the same for all pairs by permutation symmetry.
+
+From this: Tr(rho_ab^2) = (N^2 - 4N + 8)/N^2, L1 = 2/N, Psi = L1/3 = 2/(3N).
+
+**CΨ(0) for W_N = 2(N^2 - 4N + 8) / (3N^3)**
+
+Verified numerically at N=2-10 within machine precision (`simulations/cpsi_wn_analytical.py`). At N=2 this gives 1/3 (recovering Bell+). At N=3: 10/81 = 0.123. At N=5: 26/375 = 0.069.
+
+**Corollary: W_N states are born below the fold for N >= 3.** The inequality CΨ(0) < 1/4 holds for all N >= 3 (the cubic 3N^3 - 8N^2 + 32N - 64 is positive for N >= 3). Combined with the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (SE states cannot cross parity sectors) and sector conservation (SE states stay in their sector), this proves:
+
+**Single-excitation states on Heisenberg chains under Z-dephasing never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.**
+
+This is the analytical closure of the two-exit picture. It does not depend on any specific chain, topology, or gamma profile. See F62 in `docs/ANALYTICAL_FORMULAS.md`.
+
+---
+
 ## Open questions
 
 1. **Boundary states between sheets.** A state with both high CΨ on one pair (approaching 1/4) and slow-mode overlap might straddle the two exits. Two-excitation states with one high-concurrence pair are candidates.

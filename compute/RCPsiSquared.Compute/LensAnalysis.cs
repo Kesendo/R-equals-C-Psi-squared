@@ -78,6 +78,25 @@ public static class LensAnalysis
     }
 
     /// <summary>
+    /// Compute left co-vector via targeted LU solve (no full inverse).
+    /// Solves R^T y = e_k to get row k of R^{-1}.
+    /// Suitable for large d2 where full inv(R) is infeasible.
+    /// </summary>
+    public static Complex[] ComputeLeftCovectorTargeted(
+        Complex[] vectors, int d2, int targetIndex)
+    {
+        var R = DenseMatrix.Create(d2, d2, (i, j) => vectors[j * d2 + i]);
+        var ek = DenseVector.Create(d2, 0.0);
+        ek[targetIndex] = Complex.One;
+        // row k of R^{-1} = solution of R^T y = e_k
+        var y = R.Transpose().Solve(ek);
+        var left = new Complex[d2];
+        for (int i = 0; i < d2; i++)
+            left[i] = y[i];
+        return left;
+    }
+
+    /// <summary>
     /// Extract row k of R_inv as a flat array (the "left co-vector").
     /// This is the vector whose dot product with rho_vec gives the projection.
     /// </summary>
@@ -190,70 +209,137 @@ public static class LensAnalysis
         int d = 1 << nQubits;
         int d2 = d * d;
 
-        // Build Liouvillian
-        log($"  Building L for N={nQubits} ({label})...");
-        var L = Liouvillian.Build(nQubits, bonds, gammaPerQubit);
-
-        // Eigendecomposition
-        log($"  Eigendecomposition (d2={d2})...");
-        var (eigenvalues, vectors) = Liouvillian.GetAllEigenvaluesAndVectors(L);
+        // Build Liouvillian and eigendecompose
+        Complex[] eigenvalues, vectors;
+        if (nQubits <= 6)
+        {
+            log($"  Building L for N={nQubits} ({label}) via MathNet...");
+            var L = Liouvillian.Build(nQubits, bonds, gammaPerQubit);
+            log($"  Eigendecomposition (d2={d2})...");
+            (eigenvalues, vectors) = Liouvillian.GetAllEigenvaluesAndVectors(L);
+        }
+        else
+        {
+            log($"  Building L for N={nQubits} ({label}) via BuildDirectRaw...");
+            var rawL = Liouvillian.BuildDirectRaw(nQubits,
+                Topology.Chain(nQubits, Enumerable.Repeat(1.0, nQubits - 1).ToArray()),
+                gammaPerQubit, msg => log($"    {msg}"));
+            // Re-build with actual bonds if not chain
+            if (topology != "chain")
+            {
+                rawL = Liouvillian.BuildDirectRaw(nQubits, bonds, gammaPerQubit);
+            }
+            log($"  Eigendecomposition MKL (d2={d2})...");
+            (eigenvalues, vectors) = Liouvillian.GetAllEigenvaluesAndVectorsMklRaw(rawL, d2);
+        }
 
         // Find many slow modes to reach beyond inaccessible clusters
-        // (at N=5, there are 10+ modes slower than the first SE-accessible one)
         int nScan = Math.Min(d2 / 4, 50);
         var slowModes = FindSlowModes(eigenvalues, vectors, d2, nScan);
         log($"  Found {slowModes.Count} slow modes: " +
-            string.Join(", ", slowModes.Select(m =>
-                $"Re={m.Eigenvalue.Real:F4}")));
+            string.Join(", ", slowModes.Take(5).Select(m =>
+                $"Re={m.Eigenvalue.Real:F4}")) +
+            (slowModes.Count > 5 ? $" ... ({slowModes.Count} total)" : ""));
 
-        // Compute R^{-1} once (expensive but correct)
-        log($"  Computing R^{{-1}} ({d2}x{d2})...");
-        var rInv = ComputeRInverse(vectors, d2);
+        // Compute left co-vectors
+        // For N<=6: full R^{-1} (fast, cached for multiple modes)
+        // For N>=7: targeted LU solve per mode (avoids 16k x 16k inverse)
+        bool useTargeted = d2 > 4096;
+        Matrix<Complex>? rInv = null;
+        if (!useTargeted)
+        {
+            log($"  Computing R^{{-1}} ({d2}x{d2})...");
+            rInv = ComputeRInverse(vectors, d2);
+        }
+        else
+        {
+            log($"  Using targeted LU solve for left co-vectors (d2={d2}, too large for full inverse)...");
+        }
 
-        // Scan slow modes for SE content using left co-vectors (rows of R_inv)
+        // Scan slow modes for SE content
         var processedModes = new List<SlowModeInfo>();
         var processedSE = new List<double>();
         LensResult? lensState = null;
         int firstNonSE = -1;
 
-        for (int mi = 0; mi < slowModes.Count && (lensState == null || firstNonSE < 0); mi++)
+        if (!useTargeted)
         {
-            var mode = slowModes[mi];
-            var leftCovec = GetLeftCovector(rInv, mode.OriginalIndex, d2);
-
-            // Bi-orthogonality check: leftCovec . rightVec should be ~1
-            Complex biorth = Complex.Zero;
-            for (int i = 0; i < d2; i++)
-                biorth += leftCovec[i] * mode.RightEigenvector[i];
-
-            var (block, frobRatio) = ExtractSESectorBlock(leftCovec, nQubits);
-
-            if (frobRatio > 0.01 && lensState == null)
+            // N<=6: scan all modes using cached R_inv (cheap, each is just a row lookup)
+            log($"  Scanning {slowModes.Count} modes via R_inv rows...");
+            for (int mi = 0; mi < slowModes.Count && (lensState == null || firstNonSE < 0); mi++)
             {
-                log($"  Mode {mi} (Re={mode.Eigenvalue.Real:F4}): SE={frobRatio:F4} biorth={Complex.Abs(biorth):F4} -> LENS");
-                processedModes.Add(mode);
-                processedSE.Add(frobRatio);
-                lensState = ExtractLensState(block, nQubits);
-                log($"    |c_slow|={lensState.SlowModeProjection:F4}");
-                log($"    Amplitudes: [{string.Join(", ", lensState.Amplitudes.Select(a => a.ToString("F4")))}]");
+                var mode = slowModes[mi];
+                var leftCovec = GetLeftCovector(rInv!, mode.OriginalIndex, d2);
+                var (block, frobRatio) = ExtractSESectorBlock(leftCovec, nQubits);
+
+                if (frobRatio > 0.01 && lensState == null)
+                {
+                    Complex biorth = Complex.Zero;
+                    for (int i = 0; i < d2; i++)
+                        biorth += leftCovec[i] * mode.RightEigenvector[i];
+                    log($"  Mode {mi} (Re={mode.Eigenvalue.Real:F4}): SE={frobRatio:F4} biorth={Complex.Abs(biorth):F4} -> LENS");
+                    processedModes.Add(mode);
+                    processedSE.Add(frobRatio);
+                    lensState = ExtractLensState(block, nQubits);
+                    log($"    |c_slow|={lensState.SlowModeProjection:F4}");
+                    log($"    Amplitudes: [{string.Join(", ", lensState.Amplitudes.Select(a => a.ToString("F4")))}]");
+                }
+                else if (frobRatio <= 0.01 && firstNonSE < 0)
+                {
+                    firstNonSE = mi;
+                }
             }
-            else if (frobRatio <= 0.01 && firstNonSE < 0)
+        }
+        else
+        {
+            // N>=7: pre-screen on right eigvec, then targeted LU solve for ALL candidates
+            log($"  Pre-screening {slowModes.Count} modes via right-eigvec SE block...");
+            var seCandidates = new List<int>();
+            for (int mi = 0; mi < slowModes.Count; mi++)
             {
-                firstNonSE = mi;
-                processedModes.Add(mode);
-                processedSE.Add(frobRatio);
-                log($"  Mode {mi} (Re={mode.Eigenvalue.Real:F4}): SE={frobRatio:E2} -> inaccessible");
+                var (_, rightFrob) = ExtractSESectorBlock(slowModes[mi].RightEigenvector, nQubits);
+                if (rightFrob > 0.001) seCandidates.Add(mi); // low threshold for right eigvec
+                if (rightFrob <= 0.001 && firstNonSE < 0) firstNonSE = mi;
+            }
+            log($"  Pre-screen: {seCandidates.Count} SE candidates, first non-SE={firstNonSE}");
+
+            foreach (int mi in seCandidates)
+            {
+                if (lensState != null) break;
+                var mode = slowModes[mi];
+                log($"  Targeted LU solve for mode {mi} (Re={mode.Eigenvalue.Real:F4})...");
+                var leftCovec = ComputeLeftCovectorTargeted(vectors, d2, mode.OriginalIndex);
+                var (block, frobRatio) = ExtractSESectorBlock(leftCovec, nQubits);
+
+                if (frobRatio > 0.01)
+                {
+                    Complex biorth = Complex.Zero;
+                    for (int i = 0; i < d2; i++)
+                        biorth += leftCovec[i] * mode.RightEigenvector[i];
+                    log($"    SE={frobRatio:F4} biorth={Complex.Abs(biorth):F4} -> LENS");
+                    processedModes.Add(mode);
+                    processedSE.Add(frobRatio);
+                    lensState = ExtractLensState(block, nQubits);
+                    log($"    |c_slow|={lensState.SlowModeProjection:F4}");
+                    log($"    Amplitudes: [{string.Join(", ", lensState.Amplitudes.Select(a => a.ToString("F4")))}]");
+                }
+                else
+                {
+                    log($"    SE={frobRatio:E2} (right eigvec was misleading, skipping)");
+                }
             }
         }
 
         // Build final arrays: lens mode at index 0, inaccessible at index 1
-        var finalModes = new List<SlowModeInfo>();
-        var seFrobRatios = new List<double>();
+        var finalModes = new List<SlowModeInfo>(processedModes);
+        var seFrobRatios = new List<double>(processedSE);
 
-        // Find the lens mode and inaccessible mode from processedModes
-        for (int i = 0; i < processedModes.Count; i++)
-            if (processedSE[i] > 0.01) { finalModes.Insert(0, processedModes[i]); seFrobRatios.Insert(0, processedSE[i]); }
-            else { finalModes.Add(processedModes[i]); seFrobRatios.Add(processedSE[i]); }
+        // Add inaccessible mode info
+        if (firstNonSE >= 0)
+        {
+            finalModes.Add(slowModes[firstNonSE]);
+            seFrobRatios.Add(0.0);
+        }
 
         bool secondAccessible = seFrobRatios.Count > 1 && seFrobRatios[1] > 0.01;
         double secondRate = firstNonSE >= 0 ? slowModes[firstNonSE].Eigenvalue.Real : double.NaN;

@@ -1129,7 +1129,7 @@ static void RunLensSurvey(string resultsDir)
 
     foreach (var (topoName, bondGen) in topos)
     {
-        int maxN = 6;
+        int maxN = topoName == "chain" ? 7 : 6; // N=7 chain only (needs gcAllowVeryLargeObjects)
         for (int n = 2; n <= maxN; n++)
         {
             if (topoName == "star" && n < 3) continue;
