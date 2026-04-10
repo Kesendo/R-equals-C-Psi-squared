@@ -351,4 +351,43 @@ The trajectory is a straight line on the real axis because CΨ(t) is real-valued
 
 ---
 
-## 
+## 8. Consequences for Open Questions
+
+### Open Question #2 (crossing speed dependence): ANSWERED
+
+"Does d(CΨ)/dt at the crossing moment affect post-crossing convergence?"
+
+Yes, and the relationship is exact:
+
+    t_dwell(δ) = 2δ / |dCΨ/dt|_{t_cross}
+
+The crossing speed fully determines the dwell time. Faster crossings (larger |dCΨ/dt|, from higher γ or different initial states) produce proportionally shorter dwell times. In K-units the γ-dependence cancels, but the state-dependent prefactor remains.
+
+### Active Weakness #4 (the natural variable u): REFORMULATED
+
+"The Mandelbrot substitution u = C(Ψ + R) maps the iteration to z² + c. But what does u mean physically?"
+
+Along the Bell+ trajectory, u(t) ≈ 0.61·Ψ^{1.02}, essentially Ψ with a prefactor. The variable u exists for algebraic reasons (it linearizes the self-referential iteration into Mandelbrot form), but along real trajectories it does not provide a simpler dynamical coordinate than CΨ itself.
+
+The weakness can be reformulated: u is a **conjugation variable** that reveals the algebraic structure (Mandelbrot equivalence) without providing a simpler clock along real trajectories. Whether u carries independent information on complex trajectories (non-symmetric states, non-Z dephasing) is untested and remains an open question.
+
+---
+
+## Data Files
+
+- [critical_slowing_scaling.txt](../simulations/results/critical_slowing_scaling.txt): ε-scan table, fits, mpmath check
+- [critical_slowing_tolerance.txt](../simulations/results/critical_slowing_tolerance.txt): tolerance scaling, relative stopping
+- [critical_slowing_state_independence.txt](../simulations/results/critical_slowing_state_independence.txt): three-state collapse test
+- [critical_slowing_modified_equation.txt](../simulations/results/critical_slowing_modified_equation.txt): Modified Equation validation across six tol decades
+- [critical_slowing_modified_equation_plot.png](../simulations/results/critical_slowing_modified_equation_plot.png): c₁ vs ln(tol) with prediction line
+- [trajectory_dwell_time.png](../simulations/results/trajectory_dwell_time.png): dwell time plots
+- [bellplus_trajectory_on_mandelbrot.png](../visualizations/bellplus_trajectory_on_mandelbrot.png): Mandelbrot overlay
+- [bellplus_trajectory_on_mandelbrot_zoom.png](../visualizations/bellplus_trajectory_on_mandelbrot_zoom.png): zoomed cusp view
+
+---
+
+## Cross-references
+
+The relationship between cusp dwell and sacrifice geometry protection is explored in [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md). The two phenomena operate in different regions of CΨ-space and protect different things: the cusp protects pair purity near CΨ = 1/4, while the sacrifice lens protects coherence within the single-excitation sector at CΨ ≈ 0.07. They are distinct sheets of the quantum-classical fold, leading to different classical ensembles.
+
+The [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves that single-excitation states are restricted to even-n_XY Liouvillian modes. This constrains which initial states can reach the cusp: SE states live geometrically below CΨ = 1/4 for N >= 3, and the sector conservation prevents them from crossing into the cusp regime during time evolution.

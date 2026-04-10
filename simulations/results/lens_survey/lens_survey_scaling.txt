@@ -1,0 +1,134 @@
+Lens Survey Scaling Analysis
+Computed: 2026-04-10 08:54
+
+=== SE FRACTION vs N (edge sacrifice, chain) ===
+N=2: 0,000000
+N=3: 0,999987
+N=4: 0,981275
+N=5: 0,999944
+N=6: 0,999881
+
+=== MONOTONICITY CHECK ===
+N5_chain_ibm_sacrifice: monotonic [0,099,0,239,0,428,0,572,0,651]
+N2_chain_moderate_asymmetry: NOT monotonic [0,981,0,192]
+N3_chain_uniform: NOT monotonic [0,506,0,418,0,755]
+N3_chain_edge_sacrifice: NOT monotonic [0,195,0,968,0,160]
+N3_chain_center_sacrifice: NOT monotonic [0,707,0,000,0,707]
+N4_chain_uniform: NOT monotonic [0,725,0,479,0,290,0,401]
+N4_chain_edge_sacrifice: NOT monotonic [0,270,0,653,0,654,0,271]
+N4_chain_center_sacrifice: NOT monotonic [0,653,0,271,0,271,0,654]
+N4_chain_moderate_asymmetry: NOT monotonic [0,399,0,290,0,478,0,726]
+N5_chain_uniform: NOT monotonic [0,365,0,265,0,053,0,465,0,760]
+N5_chain_edge_sacrifice: NOT monotonic [0,194,0,511,0,633,0,512,0,196]
+N5_chain_center_sacrifice: NOT monotonic [0,490,0,509,0,000,0,509,0,490]
+N5_chain_moderate_asymmetry: NOT monotonic [0,055,0,639,0,595,0,459,0,155]
+N6_chain_uniform: NOT monotonic [0,591,0,429,0,479,0,437,0,140,0,163]
+N6_chain_edge_sacrifice: NOT monotonic [0,148,0,407,0,558,0,558,0,409,0,150]
+N6_chain_center_sacrifice: NOT monotonic [0,557,0,408,0,150,0,150,0,409,0,558]
+N6_chain_moderate_asymmetry: NOT monotonic [0,326,0,436,0,702,0,450,0,081,0,035]
+N3_star_edge_sacrifice: monotonic [0,000,0,707,0,707]
+N3_star_center_sacrifice: NOT monotonic [0,215,0,691,0,690]
+N3_star_moderate_asymmetry: monotonic [0,229,0,688,0,688]
+N4_star_uniform: NOT monotonic [0,866,0,289,0,289,0,289]
+N4_star_edge_sacrifice: NOT monotonic [0,867,0,288,0,288,0,288]
+N4_star_center_sacrifice: NOT monotonic [0,000,0,707,0,000,0,707]
+N4_star_moderate_asymmetry: NOT monotonic [0,866,0,289,0,289,0,289]
+N5_star_uniform: NOT monotonic [0,894,0,224,0,224,0,224,0,224]
+N5_star_edge_sacrifice: monotonic [0,000,0,239,0,251,0,371,0,861]
+N5_star_center_sacrifice: NOT monotonic [0,000,0,451,0,000,0,487,0,748]
+N5_star_moderate_asymmetry: NOT monotonic [0,894,0,224,0,224,0,224,0,224]
+N6_star_uniform: NOT monotonic [0,913,0,183,0,183,0,183,0,183,0,183]
+N6_star_edge_sacrifice: NOT monotonic [0,000,0,403,0,120,0,123,0,871,0,225]
+N6_star_center_sacrifice: NOT monotonic [0,913,0,183,0,183,0,182,0,183,0,183]
+N6_star_moderate_asymmetry: NOT monotonic [0,913,0,183,0,183,0,183,0,183,0,183]
+N2_ring_uniform: NOT monotonic [1,000,0,007]
+N2_ring_edge_sacrifice: monotonic [0,007,1,000]
+N2_ring_center_sacrifice: NOT monotonic [1,000,0,007]
+N2_ring_moderate_asymmetry: monotonic [0,357,0,934]
+N3_ring_edge_sacrifice: monotonic [0,000,0,707,0,707]
+N3_ring_center_sacrifice: NOT monotonic [0,707,0,000,0,707]
+N4_ring_uniform: NOT monotonic [0,000,0,707,0,000,0,707]
+N4_ring_edge_sacrifice: NOT monotonic [0,000,0,707,0,000,0,707]
+N4_ring_center_sacrifice: NOT monotonic [0,000,0,707,0,000,0,707]
+N4_ring_moderate_asymmetry: NOT monotonic [0,707,0,000,0,707,0,000]
+N5_ring_uniform: NOT monotonic [0,175,0,663,0,656,0,232,0,213]
+N5_ring_edge_sacrifice: NOT monotonic [0,000,0,649,0,281,0,281,0,649]
+N5_ring_center_sacrifice: NOT monotonic [0,389,0,591,0,000,0,591,0,389]
+N5_ring_moderate_asymmetry: NOT monotonic [0,718,0,347,0,310,0,506,0,108]
+N6_ring_uniform: NOT monotonic [0,617,0,565,0,173,0,113,0,272,0,430]
+N6_ring_edge_sacrifice: NOT monotonic [0,000,0,500,0,500,0,000,0,500,0,500]
+N6_ring_center_sacrifice: NOT monotonic [0,000,0,500,0,500,0,000,0,500,0,500]
+N6_ring_moderate_asymmetry: NOT monotonic [0,476,0,509,0,066,0,448,0,552,0,065]
+N3_complete_edge_sacrifice: monotonic [0,000,0,707,0,707]
+N3_complete_center_sacrifice: NOT monotonic [0,707,0,000,0,707]
+N4_complete_uniform: NOT monotonic [0,227,0,233,0,858,0,398]
+N4_complete_edge_sacrifice: NOT monotonic [0,867,0,288,0,288,0,288]
+N4_complete_center_sacrifice: NOT monotonic [0,288,0,288,0,867,0,288]
+N4_complete_moderate_asymmetry: NOT monotonic [0,707,0,707,0,000,0,000]
+
+=== ACCESSIBILITY BOUNDARY ===
+N5_chain_ibm_sacrifice: 2nd mode inaccessible (Re=-0,1665)
+N2_chain_uniform: 2nd mode n/a (Re=-0,1000)
+N2_chain_edge_sacrifice: 2nd mode n/a (Re=-0,1000)
+N2_chain_center_sacrifice: 2nd mode n/a (Re=-0,1000)
+N2_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N3_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
+N3_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0509)
+N3_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_chain_moderate_asymmetry: 2nd mode n/a (Re=-0,1250)
+N4_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
+N4_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0305)
+N4_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0308)
+N4_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N5_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
+N5_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0205)
+N5_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N5_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N6_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
+N6_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0149)
+N6_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0152)
+N6_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N3_star_uniform: 2nd mode n/a (Re=-0,1000)
+N3_star_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_star_center_sacrifice: 2nd mode inaccessible (Re=-0,0509)
+N3_star_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1125)
+N4_star_uniform: 2nd mode inaccessible (Re=-0,1000)
+N4_star_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_star_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_star_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1083)
+N5_star_uniform: 2nd mode inaccessible (Re=-0,0800)
+N5_star_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N5_star_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N5_star_moderate_asymmetry: 2nd mode inaccessible (Re=-0,0964)
+N6_star_uniform: 2nd mode inaccessible (Re=-0,0667)
+N6_star_edge_sacrifice: 2nd mode inaccessible (Re=-0,0016)
+N6_star_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N6_star_moderate_asymmetry: 2nd mode inaccessible (Re=-0,0791)
+N2_ring_uniform: 2nd mode inaccessible (Re=-0,1000)
+N2_ring_edge_sacrifice: 2nd mode inaccessible (Re=-0,1000)
+N2_ring_center_sacrifice: 2nd mode inaccessible (Re=-0,1000)
+N2_ring_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N3_ring_uniform: 2nd mode n/a (Re=-0,1000)
+N3_ring_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_ring_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_ring_moderate_asymmetry: 2nd mode n/a (Re=-0,1106)
+N4_ring_uniform: 2nd mode inaccessible (Re=-0,0845)
+N4_ring_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_ring_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_ring_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1052)
+N5_ring_uniform: 2nd mode inaccessible (Re=-0,1000)
+N5_ring_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N5_ring_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N5_ring_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1144)
+N6_ring_uniform: 2nd mode inaccessible (Re=-0,1000)
+N6_ring_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N6_ring_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N6_ring_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1192)
+N3_complete_uniform: 2nd mode n/a (Re=-0,1000)
+N3_complete_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_complete_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N3_complete_moderate_asymmetry: 2nd mode n/a (Re=-0,1106)
+N4_complete_uniform: 2nd mode inaccessible (Re=-0,0845)
+N4_complete_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_complete_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N4_complete_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1038)

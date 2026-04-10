@@ -1,0 +1,24 @@
+Slow Mode Lens Analysis Results
+Computed: 2026-04-09
+
+Slow mode: index 18, eigenvalue -0.31808481 -0.00000000j
+Bi-orthogonality check: 1.00000000+0.00000000j
+Eigenvalue check error: 9.44e-15
+
+Frobenius ratio (SE block / full): 0.998641
+Method used: Hermitian
+
+Optimal amplitudes:
+  site 0: +0.00091638 +0.09933746j  |a| = 0.09934169
+  site 1: +0.22329941 +0.08506217j  |a| = 0.23895229
+  site 2: +0.42441652 +0.05516675j  |a| = 0.42798686
+  site 3: +0.57114697 +0.02235004j  |a| = 0.57158410
+  site 4: +0.65050126 -0.00000000j  |a| = 0.65050126
+
+Overlap |<a_opt | a_heuristic>| = 0.95561102
+Overlap |<a_opt | a_W5>|          = 0.84457676
+
+AUC comparison:
+  psi_opt (lens)          C_init=0.7436  AUC(2)=0.5655  AUC(10)=1.2050  AUC(30)=1.2592
+  sacrifice_tuned_W5      C_init=0.5225  AUC(2)=0.5271  AUC(10)=1.1152  AUC(30)=1.1640
+  W5_full                 C_init=0.4000  AUC(2)=0.4449  AUC(10)=0.8960  AUC(30)=0.9320

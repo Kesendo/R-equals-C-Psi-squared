@@ -15,6 +15,7 @@ bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
 bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
 bool rmtMode = args.Any(a => a.Equals("rmt", StringComparison.OrdinalIgnoreCase));
 bool eigvecMode = args.Any(a => a.Equals("eigvec", StringComparison.OrdinalIgnoreCase));
+bool lensMode = args.Any(a => a.Equals("lens", StringComparison.OrdinalIgnoreCase));
 
 bool mklAvailable = false;
 try
@@ -54,6 +55,12 @@ if (rmtMode)
 if (eigvecMode)
 {
     RunEigvecExport(resultsDir);
+    return;
+}
+
+if (lensMode)
+{
+    RunLensSurvey(resultsDir);
     return;
 }
 
@@ -1004,4 +1011,265 @@ static void RunEigvecExport(string resultsDir)
 
     Console.WriteLine("=== EIGENVECTOR EXPORT COMPLETE ===");
     Console.WriteLine($"Files in: {resultsDir}");
+}
+
+// ============================================================
+// LENS SURVEY: slow-mode lens extraction across N, topology, gamma
+// ============================================================
+static void RunLensSurvey(string resultsDir)
+{
+    var outDir = Path.Combine(resultsDir, "lens_survey");
+    Directory.CreateDirectory(outDir);
+    var summaryPath = Path.Combine(outDir, "lens_survey_summary.txt");
+    var scalingPath = Path.Combine(outDir, "lens_survey_scaling.txt");
+    var jsonPath = Path.Combine(outDir, "lens_survey_results.json");
+
+    Console.WriteLine("=" + new string('=', 79));
+    Console.WriteLine("LENS SURVEY: Slow-mode lens extraction");
+    Console.WriteLine("=" + new string('=', 79));
+
+    // ---- Validation gate: N=5 IBM sacrifice profile ----
+    Console.WriteLine("\n--- VALIDATION: N=5 chain, IBM sacrifice profile ---");
+    double[] ibmGamma = { 2.33573, 0.09937, 0.05000, 0.07173, 0.05132 };
+    var valBonds = Topology.Chain(5, Enumerable.Repeat(1.0, 4).ToArray());
+    var valResult = LensAnalysis.RunFullLensPipeline(
+        5, valBonds, ibmGamma, "N5_chain_ibm_sacrifice", "chain",
+        msg => Console.WriteLine(msg));
+
+    // Validation checks
+    bool valOk = true;
+
+    // The lens state should be extracted from the SE-accessible slow mode (rate ~0.318)
+    if (valResult.LensState != null)
+    {
+        // Find the mode the lens was extracted from (first with SE > 0.01)
+        double lensRate = -valResult.SlowModes[0].Eigenvalue.Real;
+        double seFrac = valResult.SEFrobRatios[0];
+
+        Console.WriteLine($"\n  Lens mode rate: {lensRate:F4} (expect 0.3181)");
+        if (Math.Abs(lensRate - 0.3181) > 0.001) { Console.WriteLine("  ** FAIL: rate mismatch"); valOk = false; }
+
+        Console.WriteLine($"  SE Frob ratio:  {seFrac:F4} (expect 0.9986)");
+        if (Math.Abs(seFrac - 0.9986) > 0.005) { Console.WriteLine("  ** FAIL: SE fraction mismatch"); valOk = false; }
+
+        double[] refAmps = { 0.099, 0.239, 0.428, 0.572, 0.651 };
+        double cosine = 0;
+        for (int i = 0; i < 5; i++)
+            cosine += valResult.LensState.Amplitudes[i] * refAmps[i];
+        Console.WriteLine($"  Cosine sim:     {cosine:F6} (expect > 0.999)");
+        if (cosine < 0.999) { Console.WriteLine("  ** FAIL: amplitude mismatch"); valOk = false; }
+
+        Console.WriteLine($"  |c_slow|:       {valResult.LensState.SlowModeProjection:F4} (expect 0.972)");
+        Console.WriteLine($"  Amplitudes:     [{string.Join(", ", valResult.LensState.Amplitudes.Select(a => a.ToString("F3")))}]");
+    }
+    else { Console.WriteLine("  ** FAIL: no lens state extracted"); valOk = false; }
+
+    // Check the inaccessible second mode (SecondModeRate is Re(lambda), negative)
+    double secondRate = Math.Abs(valResult.SecondModeRate);
+    Console.WriteLine($"  2nd mode rate:  {secondRate:F4} (expect 0.1674)");
+    double secondSE = valResult.SEFrobRatios.Length > 1 ? valResult.SEFrobRatios[1] : double.NaN;
+    Console.WriteLine($"  2nd mode SE:    {secondSE:E2} (expect < 1e-10)");
+
+    if (!valOk)
+    {
+        Console.WriteLine("\n  VALIDATION FAILED. Stopping.");
+        return;
+    }
+    Console.WriteLine("\n  VALIDATION PASSED. Proceeding to sweep.\n");
+
+    // ---- Build configuration matrix ----
+    var configs = new List<(int n, string topo, Func<int, double[], Bond[]> bondGen, string profile, Func<int, double[]> gammaGen)>();
+
+    double gammaBase = 0.05;
+    double epsilon = 0.001;
+
+    Func<int, double[]> uniformGamma = n =>
+        Enumerable.Repeat(gammaBase, n).ToArray();
+
+    Func<int, double[]> edgeSacrifice = n =>
+    {
+        var g = new double[n];
+        g[0] = n * gammaBase - (n - 1) * epsilon;
+        for (int i = 1; i < n; i++) g[i] = epsilon;
+        return g;
+    };
+
+    Func<int, double[]> centerSacrifice = n =>
+    {
+        int center = n / 2;
+        var g = new double[n];
+        g[center] = n * gammaBase - (n - 1) * epsilon;
+        for (int i = 0; i < n; i++)
+            if (i != center) g[i] = epsilon;
+        return g;
+    };
+
+    Func<int, double[]> moderateAsymmetry = n =>
+    {
+        var g = new double[n];
+        for (int i = 0; i < n; i++)
+            g[i] = gammaBase * (1.0 + 0.5 * i / (n - 1));
+        return g;
+    };
+
+    var profiles = new (string name, Func<int, double[]> gen)[]
+    {
+        ("uniform", uniformGamma),
+        ("edge_sacrifice", edgeSacrifice),
+        ("center_sacrifice", centerSacrifice),
+        ("moderate_asymmetry", moderateAsymmetry),
+    };
+
+    var topos = new (string name, Func<int, double[], Bond[]> gen)[]
+    {
+        ("chain", (n, c) => Topology.Chain(n, c)),
+        ("star", (n, c) => Topology.Star(n, c)),
+        ("ring", (n, c) => Topology.Ring(n, c)),
+    };
+
+    foreach (var (topoName, bondGen) in topos)
+    {
+        int maxN = 6;
+        for (int n = 2; n <= maxN; n++)
+        {
+            if (topoName == "star" && n < 3) continue;
+            foreach (var (profName, gammaGen) in profiles)
+            {
+                var couplings = Enumerable.Repeat(1.0, n * n).ToArray(); // enough for any topology
+                configs.Add((n, topoName, bondGen, profName, gammaGen));
+            }
+        }
+    }
+
+    // Also Complete at N=3,4 as sanity
+    Func<int, double[], Bond[]> completeBondGen = (nn, c) => Topology.Complete(nn);
+    for (int n = 3; n <= 4; n++)
+    {
+        foreach (var (profName, gammaGen) in profiles)
+        {
+            configs.Add((n, "complete", completeBondGen, profName, gammaGen));
+        }
+    }
+
+    Console.WriteLine($"Total configurations: {configs.Count}");
+
+    // ---- Run sweep ----
+    var allResults = new List<LensAnalysis.LensSurveyResult>();
+    allResults.Add(valResult); // include validation run
+
+    var sw = System.Diagnostics.Stopwatch.StartNew();
+
+    using var summaryWriter = new StreamWriter(summaryPath);
+    summaryWriter.WriteLine("Lens Survey Summary");
+    summaryWriter.WriteLine($"Computed: {DateTime.Now:yyyy-MM-dd HH:mm}");
+    summaryWriter.WriteLine();
+    summaryWriter.WriteLine($"{"N",2}  {"Topology",-10}  {"Profile",-20}  {"SlowRate",10}  {"SEFrac",8}  {"psi_opt_shape",-40}  {"|c_slow|",8}  {"2ndRate",10}  {"2ndSE",10}");
+    summaryWriter.WriteLine(new string('-', 130));
+
+    for (int ci = 0; ci < configs.Count; ci++)
+    {
+        var (n, topoName, bondGen, profName, gammaGen) = configs[ci];
+        var gammas = gammaGen(n);
+        var nBonds = topoName == "ring" ? n : (topoName == "complete" ? n * (n - 1) / 2 : n - 1);
+        var couplings = Enumerable.Repeat(1.0, nBonds).ToArray();
+
+        Bond[] bonds;
+        try { bonds = bondGen(n, couplings); }
+        catch { Console.WriteLine($"  Skip: {topoName} N={n} (bond generation failed)"); continue; }
+
+        string label = $"N{n}_{topoName}_{profName}";
+        Console.Write($"  [{ci + 1}/{configs.Count}] {label,-40}");
+
+        var runSw = System.Diagnostics.Stopwatch.StartNew();
+        LensAnalysis.LensSurveyResult result;
+        try
+        {
+            result = LensAnalysis.RunFullLensPipeline(n, bonds, gammas, label, topoName);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($" ERROR: {ex.Message}");
+            continue;
+        }
+        runSw.Stop();
+        allResults.Add(result);
+
+        double rate = result.SlowModes.Length > 0 ? -result.SlowModes[0].Eigenvalue.Real : double.NaN;
+        double se = result.SEFrobRatios.Length > 0 ? result.SEFrobRatios[0] : double.NaN;
+        string shape = result.LensState != null
+            ? "[" + string.Join(",", result.LensState.Amplitudes.Select(a => a.ToString("F3"))) + "]"
+            : "n/a";
+        double cslow = result.LensState?.SlowModeProjection ?? double.NaN;
+        double r2 = result.SecondModeRate;
+        double se2 = result.SEFrobRatios.Length > 1 ? result.SEFrobRatios[1] : double.NaN;
+
+        Console.WriteLine($" rate={rate:F4} SE={se:F4} |c|={cslow:F3} ({runSw.Elapsed.TotalSeconds:F1}s)");
+
+        summaryWriter.WriteLine($"{n,2}  {topoName,-10}  {profName,-20}  {rate,10:F4}  {se,8:F4}  {shape,-40}  {cslow,8:F4}  {r2,10:F4}  {se2,10:E2}");
+        summaryWriter.Flush();
+    }
+
+    sw.Stop();
+
+    // ---- Scaling analysis ----
+    using var scalingWriter = new StreamWriter(scalingPath);
+    scalingWriter.WriteLine("Lens Survey Scaling Analysis");
+    scalingWriter.WriteLine($"Computed: {DateTime.Now:yyyy-MM-dd HH:mm}");
+
+    scalingWriter.WriteLine("\n=== SE FRACTION vs N (edge sacrifice, chain) ===");
+    foreach (var r in allResults.Where(r => r.Topology == "chain" && r.Label.Contains("edge_sacrifice")))
+        scalingWriter.WriteLine($"N={r.N}: {(r.SEFrobRatios.Length > 0 ? r.SEFrobRatios[0].ToString("F6") : "n/a")}");
+
+    scalingWriter.WriteLine("\n=== MONOTONICITY CHECK ===");
+    foreach (var r in allResults.Where(r => r.LensState != null))
+    {
+        var amps = r.LensState!.Amplitudes;
+        bool mono = true;
+        for (int i = 1; i < amps.Length; i++)
+            if (amps[i] < amps[i - 1] - 0.001) { mono = false; break; }
+        scalingWriter.WriteLine($"{r.Label}: {(mono ? "monotonic" : "NOT monotonic")} [{string.Join(",", amps.Select(a => a.ToString("F3")))}]");
+    }
+
+    scalingWriter.WriteLine("\n=== ACCESSIBILITY BOUNDARY ===");
+    foreach (var r in allResults)
+    {
+        string acc = r.SEFrobRatios.Length > 1
+            ? (r.SEFrobRatios[1] < 0.01 ? "inaccessible" : $"ACCESSIBLE (SE={r.SEFrobRatios[1]:F4})")
+            : "n/a";
+        scalingWriter.WriteLine($"{r.Label}: 2nd mode {acc} (Re={r.SecondModeRate:F4})");
+    }
+
+    // ---- JSON output ----
+    using var jsonWriter = new StreamWriter(jsonPath);
+    jsonWriter.WriteLine("[");
+    for (int i = 0; i < allResults.Count; i++)
+    {
+        var r = allResults[i];
+        jsonWriter.WriteLine("  {");
+        jsonWriter.WriteLine($"    \"label\": \"{r.Label}\",");
+        jsonWriter.WriteLine($"    \"N\": {r.N},");
+        jsonWriter.WriteLine($"    \"topology\": \"{r.Topology}\",");
+        jsonWriter.WriteLine($"    \"gammas\": [{string.Join(",", r.Gammas.Select(g => g.ToString("G6", System.Globalization.CultureInfo.InvariantCulture)))}],");
+        if (r.SlowModes.Length > 0)
+        {
+            jsonWriter.WriteLine($"    \"slow_mode_rate\": {(-r.SlowModes[0].Eigenvalue.Real).ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+            jsonWriter.WriteLine($"    \"slow_mode_im\": {r.SlowModes[0].Eigenvalue.Imaginary.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        }
+        jsonWriter.WriteLine($"    \"se_frob_ratio\": {(r.SEFrobRatios.Length > 0 ? r.SEFrobRatios[0].ToString("G8", System.Globalization.CultureInfo.InvariantCulture) : "null")},");
+        if (r.LensState != null)
+        {
+            jsonWriter.WriteLine($"    \"psi_opt\": [{string.Join(",", r.LensState.Amplitudes.Select(a => a.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)))}],");
+            jsonWriter.WriteLine($"    \"c_slow\": {r.LensState.SlowModeProjection.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        }
+        jsonWriter.WriteLine($"    \"second_mode_rate\": {(double.IsNaN(r.SecondModeRate) ? "null" : r.SecondModeRate.ToString("G8", System.Globalization.CultureInfo.InvariantCulture))},");
+        jsonWriter.WriteLine($"    \"second_mode_accessible\": {r.SecondModeAccessible.ToString().ToLower()}");
+        jsonWriter.Write("  }");
+        if (i < allResults.Count - 1) jsonWriter.Write(",");
+        jsonWriter.WriteLine();
+    }
+    jsonWriter.WriteLine("]");
+
+    Console.WriteLine($"\nTotal sweep time: {sw.Elapsed.TotalMinutes:F1} min");
+    Console.WriteLine($"Results in: {outDir}");
+    Console.WriteLine("=== LENS SURVEY COMPLETE ===");
 }

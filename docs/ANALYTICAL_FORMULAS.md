@@ -1115,6 +1115,28 @@ transfer, regardless of how slowly it would decay.
 **Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4,
 [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) Note (April 6, 2026)
 
+### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 64 configs N=2-6)
+
+The Liouvillian of the isotropic Heisenberg model under Z-dephasing
+preserves n_XY parity. Consequences:
+
+1. Every eigenmode has definite n_XY parity (even or odd).
+2. Every single-excitation density matrix has purely even n_XY content.
+3. No SE state can excite an odd-n_XY eigenmode. The overlap is exactly zero.
+
+**Corollary (Accessibility Boundary).** If the slowest SE-accessible mode
+has rate alpha_1, and a slower mode exists at rate alpha_2 < alpha_1 with
+odd n_XY parity, then alpha_1 is an exact ceiling for SE protection. No
+optimizer within the SE family can reach alpha_2.
+
+**Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
+any graph topology, any site-dependent Z-dephasing gamma_k, any N.
+**Breaks for:** amplitude damping (T1), transverse fields (odd-n_XY terms).
+**Verified:** 64 configurations (N=2-6, Chain/Star/Ring/Complete, 4 gamma
+profiles). Second slow mode SE Frobenius ratio < 1e-3 in all 64. Data:
+`simulations/results/lens_survey/lens_survey_scaling.txt`.
+**Source:** [Proof](proofs/PROOF_PARITY_SELECTION_RULE.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

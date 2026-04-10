@@ -1,0 +1,94 @@
+IBM April 2026 Pre-Registered Predictions
+Computed: 2026-04-09
+
+METHODOLOGICAL NOTE
+-------------------
+Priority 1 uses a SHAPE COMPARISON at matched Sum(gamma).
+The sacrifice and uniform profiles have IDENTICAL total noise,
+only the spatial distribution differs. This isolates the shape
+effect from total-noise differences. On IBM hardware, selective
+DD vs uniform DD do NOT have matched Sum(gamma); the numbers
+below are an upper bound on the shape component of any measured
+hardware advantage, not a direct hardware prediction.
+
+======================================================================
+PRIORITY 1: Absorption Theorem (N=5, chain [80, 8, 79, 53, 85])
+======================================================================
+
+Protection factors per initial state (uniform rate / sacrifice rate):
+
+  [Bell+|+⟩]
+    Slowest-mode:   6.265x
+    Dominant-mode:  1.110x
+    Effective:      0.997x  (overlap-weighted mean |Re(lambda)|)
+  [W3 center|+⟩]
+    Slowest-mode:   3.684x
+    Dominant-mode:  0.783x
+    Effective:      0.968x  (overlap-weighted mean |Re(lambda)|)
+  [W5 full]
+    Slowest-mode:   6.560x
+    Dominant-mode:  6.560x
+    Effective:      0.789x  (overlap-weighted mean |Re(lambda)|)
+
+Profile details:
+
+  [sacrifice]  Sum(gamma) = 2.60815
+    --- Bell+|+⟩ ---
+      slowest rate   = -0.166525  (overlap 0.0034)
+      dominant rate  = -2.106971  (overlap 0.1724, <n_XY> 1.945)
+      effective rate = -2.625779  (sum overlap 4.5655)
+    --- W3 center|+⟩ ---
+      slowest rate   = -0.283179  (overlap 0.0239)
+      dominant rate  = -3.068171  (overlap 0.9007, <n_XY> 2.437)
+      effective rate = -2.678458  (sum overlap 8.9540)
+    --- W5 full ---
+      slowest rate   = -0.318085  (overlap 0.3992)
+      dominant rate  = -0.318085  (overlap 0.3992, <n_XY> 1.718)
+      effective rate = -2.644593  (sum overlap 2.0942)
+
+  [uniform]  Sum(gamma) = 2.60815
+    --- Bell+|+⟩ ---
+      slowest rate   = -1.043261  (overlap 0.0037)
+      dominant rate  = -2.338520  (overlap 0.0668, <n_XY> 2.242)
+      effective rate = -2.617371  (sum overlap 2.8869)
+    --- W3 center|+⟩ ---
+      slowest rate   = -1.043261  (overlap 0.0064)
+      dominant rate  = -2.403231  (overlap 0.1178, <n_XY> 2.304)
+      effective rate = -2.593644  (sum overlap 3.8905)
+    --- W5 full ---
+      slowest rate   = -2.086521  (overlap 0.0050)
+      dominant rate  = -2.086521  (overlap 0.7119, <n_XY> 2.000)
+      effective rate = -2.086521  (sum overlap 1.5368)
+
+======================================================================
+PRIORITY 3: Heartbeat (N=3)
+======================================================================
+
+  Bell+|+⟩  (gamma = 0.05)
+    CPsi(0)           = 0.333333
+    CPsi_max          = 0.434796
+    reaches 1/4       = True
+    crossings of 1/4  = 3
+    dwell (+-0.01)    = 0.000
+    crossing times    = [0.400, 0.900, 1.100]
+
+  W₃  (gamma = 0.05)
+    CPsi(0)           = 0.666667
+    CPsi_max          = 0.666667
+    reaches 1/4       = True
+    crossings of 1/4  = 1
+    dwell (+-0.01)    = 0.400
+    crossing times    = [4.900]
+
+  GHZ₃  (gamma = 0.05)
+    CPsi(0)           = 0.000000
+    CPsi_max          = 0.000000
+    reaches 1/4       = False
+    crossings of 1/4  = 0
+    dwell (+-0.01)    = 0.000
+    crossing times    = []
+
+Analytical dwell prefactors (from DWELL_PREFACTOR_GENERALIZED):
+  Bell+ = 1.080088
+  W3    = 0.876832
+  ratio = 1.232x  (Bell+ lingers longer at the boundary)

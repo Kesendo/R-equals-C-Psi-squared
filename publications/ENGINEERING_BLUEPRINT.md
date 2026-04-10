@@ -62,6 +62,14 @@ string), avoiding the fast drain entirely.
 - W survival: 100% in distributed modes, 0% in drain
 - Correlation between mixed XY Pauli weight and drain fraction: r = 0.976
 
+**Why this is exact, not approximate (April 10, 2026):** The [n_XY Parity
+Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves that the
+Liouvillian block-diagonalizes by n_XY parity. W states (single-excitation)
+produce density matrices with even n_XY parity and cannot couple to odd-parity
+modes at all. This is an algebraic selection rule from bit-flip parity, not a
+statistical correlation. The r = 0.976 empirical observation above is a
+consequence of the theorem.
+
 **Design implication:** Any encoding scheme should minimize mixed XY
 Pauli weight. If your logical states have a Pauli decomposition
 dominated by pure Z, pure X, or pure Y strings (but not mixed XY),
@@ -354,6 +362,15 @@ preserving palindromic modes (which carry all of it). You sacrifice what
 was never going to oscillate. See
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 
+**Accessibility ceiling ([Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md), April 10, 2026):**
+The sacrifice zone creates multiple slow modes, but single-excitation (W-type)
+states can only access those with even n_XY parity. The second slowest mode
+typically has odd parity and is exactly inaccessible -- verified across 64
+configurations (N=2-6, four topologies, four gamma profiles: 64/64 inaccessible).
+The optimal SE initial state (the "lens state") is extractable from the slowest
+even-parity mode's eigenvector. No optimizer within the SE family can beat this
+ceiling. See [Sacrifice Geometry](../experiments/SACRIFICE_GEOMETRY.md).
+
 **Three design regimes:**
 - **Edge sacrifice** maximizes total network mutual information (SumMI).
   This is the formula above. Use when all qubit pairs matter.
@@ -475,7 +492,9 @@ local Z-dephasing. They have not been tested for:
   For γ < 0.01: error < 1%, rules are practically valid.
   Amplitude damping produces non-Markovian, non-selective noise on
   neighbors (0/16 palindromic pairs in [failed_third test](../simulations/failed_third.py)).
-  Design rules do NOT apply to amplitude damping channels.
+  Design rules do NOT apply to amplitude damping channels. Additionally,
+  amplitude damping breaks the n_XY parity selection rule (its jump operator
+  has odd n_XY), removing the accessibility ceiling from Rule 7.
   See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
 - ~~Systems larger than N = 8 (computational limit of full diagonalization)~~
   **TESTED (March 21, 2026):** N=11 via RK4 time propagation. MI decays
