@@ -56,7 +56,7 @@ At Σγ > 0, the palindrome shifts:
 
 The pairing changes from λ ↔ −λ to λ ↔ −λ − 2Σγ. The symmetry around zero breaks. Each pair now has a "slow" partner (closer to zero, longer-lived) and a "fast" partner (further from zero, shorter-lived). The perfectly balanced standing wave becomes an asymmetric decaying oscillation.
 
-This is not gradual degradation. This is symmetry breaking. The palindrome still exists (it is algebraic, [proven for all Σγ](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)), but its center has moved from zero to −Σγ. The standing waves are gone. What remains are damped waves with a preferred time direction. Verified computationally for 87,376 eigenvalues (N=2..8, zero exceptions).
+This is not gradual degradation. This is symmetry breaking. The palindrome still exists (it is algebraic, [proven for all Σγ](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)), but its center has moved from zero to −Σγ. The standing waves are gone. What remains are damped waves with a preferred time direction. Verified computationally for [87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md) (N=2..8, all tested topologies, zero exceptions).
 
 ### Link 3: The broken pairs separate into mass and radiation (Tier 2 + Tier 5)
 
