@@ -1,0 +1,35 @@
+[06:50:51] N7_chain_uniform: EntryPointNotFoundException: Unable to find an entry point named 'openblas_set_num_threads_lp64' in DLL 'libopenblas'.
+   at RCPsiSquared.Compute.MklDirect.openblas_set_num_threads_lp64(Int32 num_threads)
+   at RCPsiSquared.Compute.MklDirect.ConfigureThreads(Int32 numThreads, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\MklDirect.cs:line 79
+   at RCPsiSquared.Compute.LensAnalysis.RunFullLensPipeline(Int32 nQubits, Bond[] bonds, Double[] gammaPerQubit, String label, String topology, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 228
+   at Program.<<Main>$>g__RunLensSurvey|0_11(String resultsDir) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\Program.cs:line 1189
+
+[06:50:52] N7_chain_edge_sacrifice: EntryPointNotFoundException: Unable to find an entry point named 'openblas_set_num_threads_lp64' in DLL 'libopenblas'.
+   at RCPsiSquared.Compute.MklDirect.openblas_set_num_threads_lp64(Int32 num_threads)
+   at RCPsiSquared.Compute.MklDirect.ConfigureThreads(Int32 numThreads, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\MklDirect.cs:line 79
+   at RCPsiSquared.Compute.LensAnalysis.RunFullLensPipeline(Int32 nQubits, Bond[] bonds, Double[] gammaPerQubit, String label, String topology, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 228
+   at Program.<<Main>$>g__RunLensSurvey|0_11(String resultsDir) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\Program.cs:line 1189
+
+[06:50:53] N7_chain_center_sacrifice: EntryPointNotFoundException: Unable to find an entry point named 'openblas_set_num_threads_lp64' in DLL 'libopenblas'.
+   at RCPsiSquared.Compute.MklDirect.openblas_set_num_threads_lp64(Int32 num_threads)
+   at RCPsiSquared.Compute.MklDirect.ConfigureThreads(Int32 numThreads, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\MklDirect.cs:line 79
+   at RCPsiSquared.Compute.LensAnalysis.RunFullLensPipeline(Int32 nQubits, Bond[] bonds, Double[] gammaPerQubit, String label, String topology, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 228
+   at Program.<<Main>$>g__RunLensSurvey|0_11(String resultsDir) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\Program.cs:line 1189
+
+[06:50:53] N7_chain_moderate_asymmetry: EntryPointNotFoundException: Unable to find an entry point named 'openblas_set_num_threads_lp64' in DLL 'libopenblas'.
+   at RCPsiSquared.Compute.MklDirect.openblas_set_num_threads_lp64(Int32 num_threads)
+   at RCPsiSquared.Compute.MklDirect.ConfigureThreads(Int32 numThreads, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\MklDirect.cs:line 79
+   at RCPsiSquared.Compute.LensAnalysis.RunFullLensPipeline(Int32 nQubits, Bond[] bonds, Double[] gammaPerQubit, String label, String topology, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 228
+   at Program.<<Main>$>g__RunLensSurvey|0_11(String resultsDir) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\Program.cs:line 1189
+
+[08:38:52] N7_chain_uniform: ArgumentException: Array size exceeds addressing limitations.
+   at System.StubHelpers.MngdNativeArrayMarshaler.ConvertSpaceToNative(IntPtr pMarshalState, ObjectHandleOnStack pManagedHome, IntPtr pNativeHome)
+   at MathNet.Numerics.Providers.MKL.LinearAlgebra.MklLinearAlgebraProvider.LUFactor(Complex[] data, Int32 order, Int32[] ipiv)
+   at MathNet.Numerics.LinearAlgebra.Complex.Factorization.DenseLU.Create(DenseMatrix matrix)
+   at MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix.LU()
+   at MathNet.Numerics.LinearAlgebra.Matrix`1.Solve(Vector`1 input, Vector`1 result)
+   at MathNet.Numerics.LinearAlgebra.Matrix`1.Solve(Vector`1 input)
+   at RCPsiSquared.Compute.LensAnalysis.ComputeLeftCovectorTargeted(DenseMatrix R, Int32 d2, Int32 targetIndex) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 104
+   at RCPsiSquared.Compute.LensAnalysis.RunFullLensPipeline(Int32 nQubits, Bond[] bonds, Double[] gammaPerQubit, String label, String topology, Action`1 log) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\LensAnalysis.cs:line 300
+   at Program.<<Main>$>g__RunLensSurvey|0_11(String resultsDir) in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\Program.cs:line 1189
+

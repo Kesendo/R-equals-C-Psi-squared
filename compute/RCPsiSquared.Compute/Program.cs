@@ -1034,7 +1034,7 @@ static void RunLensSurvey(string resultsDir)
     var valBonds = Topology.Chain(5, Enumerable.Repeat(1.0, 4).ToArray());
     var valResult = LensAnalysis.RunFullLensPipeline(
         5, valBonds, ibmGamma, "N5_chain_ibm_sacrifice", "chain",
-        msg => Console.WriteLine(msg));
+        msg => { Console.WriteLine(msg); Console.Out.Flush(); });
 
     // Validation checks
     bool valOk = true;
@@ -1158,6 +1158,7 @@ static void RunLensSurvey(string resultsDir)
     allResults.Add(valResult); // include validation run
 
     var sw = System.Diagnostics.Stopwatch.StartNew();
+    var errorLogPath = Path.Combine(outDir, "lens_survey_errors.log");
 
     using var summaryWriter = new StreamWriter(summaryPath);
     summaryWriter.WriteLine("Lens Survey Summary");
@@ -1179,16 +1180,21 @@ static void RunLensSurvey(string resultsDir)
 
         string label = $"N{n}_{topoName}_{profName}";
         Console.Write($"  [{ci + 1}/{configs.Count}] {label,-40}");
+        Console.Out.Flush();
 
         var runSw = System.Diagnostics.Stopwatch.StartNew();
         LensAnalysis.LensSurveyResult result;
         try
         {
-            result = LensAnalysis.RunFullLensPipeline(n, bonds, gammas, label, topoName);
+            result = LensAnalysis.RunFullLensPipeline(n, bonds, gammas, label, topoName,
+                msg => { Console.WriteLine(msg); Console.Out.Flush(); });
         }
         catch (Exception ex)
         {
             Console.WriteLine($" ERROR: {ex.Message}");
+            Console.Out.Flush();
+            File.AppendAllText(errorLogPath,
+                $"[{DateTime.Now:HH:mm:ss}] {label}: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}\n\n");
             continue;
         }
         runSw.Stop();
@@ -1204,8 +1210,10 @@ static void RunLensSurvey(string resultsDir)
         double se2 = result.SEFrobRatios.Length > 1 ? result.SEFrobRatios[1] : double.NaN;
 
         Console.WriteLine($" rate={rate:F4} SE={se:F4} |c|={cslow:F3} ({runSw.Elapsed.TotalSeconds:F1}s)");
+        Console.Out.Flush();
 
         summaryWriter.WriteLine($"{n,2}  {topoName,-10}  {profName,-20}  {rate,10:F4}  {se,8:F4}  {shape,-40}  {cslow,8:F4}  {r2,10:F4}  {se2,10:E2}");
+        summaryWriter.Flush();
         summaryWriter.Flush();
     }
 

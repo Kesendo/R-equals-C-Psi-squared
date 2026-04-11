@@ -38,35 +38,33 @@ public static class Liouvillian
     /// <summary>
     /// Build Liouvillian directly into a raw array for MKL.
     /// Returns column-major Complex[] ready for z_eigen.
-    /// Avoids MathNet Matrix overhead entirely.
+    /// Parallelized across all available cores (same pattern as BuildDirectNative).
     /// </summary>
     public static Complex[] BuildDirectRaw(int nQubits, Bond[] bonds, double[] gammaPerQubit, Action<string>? log = null)
     {
         int d = 1 << nQubits;
         int d2 = d * d;
+        int cores = Environment.ProcessorCount;
 
         var H = Topology.BuildHamiltonian(nQubits, bonds);
 
         // Column-major: element at row r, col c = data[c * d2 + r]
         var data = new Complex[(long)d2 * d2];
 
-        log?.Invoke($"Raw direct build: {d2}x{d2} column-major ({(long)d2 * d2 * 16 / 1e9:F2} GB)");
+        log?.Invoke($"Raw direct build: {d2}x{d2} column-major ({(long)d2 * d2 * 16 / 1e9:F2} GB, {cores} cores)");
 
         var minusI = new Complex(0, -1);
 
         // Hamiltonian: -i(H kron I - I kron H^T)
-        // Element at superop row (i*d+j), col (k*d+l):
-        //   = -i * H[i,k] * delta(j,l) + i * delta(i,k) * H[l,j]
-
-        log?.Invoke("Filling Hamiltonian...");
-        for (int i = 0; i < d; i++)
+        // Parallelize over the outer loop (rows of H)
+        log?.Invoke("Filling Hamiltonian (parallel)...");
+        Parallel.For(0, d, i =>
         {
             for (int k = 0; k < d; k++)
             {
                 var hik = H[i, k];
                 if (hik == Complex.Zero) continue;
                 var val = minusI * hik;
-                // For all j: L[i*d+j, k*d+j] += val
                 for (int j = 0; j < d; j++)
                 {
                     int row = i * d + j;
@@ -74,16 +72,15 @@ public static class Liouvillian
                     data[(long)col * d2 + row] += val;
                 }
             }
-        }
+        });
 
-        for (int j = 0; j < d; j++)
+        Parallel.For(0, d, j =>
         {
             for (int l = 0; l < d; l++)
             {
                 var hlj = H[l, j];
                 if (hlj == Complex.Zero) continue;
-                var val = minusI * hlj; // +i * H[l,j] (note the sign)
-                // For all i: L[i*d+j, i*d+l] -= val
+                var val = minusI * hlj;
                 for (int i = 0; i < d; i++)
                 {
                     int row = i * d + j;
@@ -91,25 +88,31 @@ public static class Liouvillian
                     data[(long)col * d2 + row] -= val;
                 }
             }
-        }
+        });
 
-        log?.Invoke("Filling dephasing diagonal...");
-        for (int i = 0; i < d; i++)
+        // Dephasing: gammaPerQubit[k] for qubit k.
+        // H is built via PauliOps.At (MSB: qubit k at bit N-1-k).
+        // Must use the SAME convention here: qubit k is at bit (nQubits-1-k).
+        log?.Invoke("Filling dephasing diagonal (parallel, MSB-consistent)...");
+        Parallel.For(0, d, i =>
         {
             for (int j = 0; j < d; j++)
             {
                 int xor = i ^ j;
                 double rate = 0;
-                for (int m = 0; m < nQubits; m++)
-                    if (((xor >> m) & 1) == 1)
-                        rate += gammaPerQubit[m];
+                for (int k = 0; k < nQubits; k++)
+                {
+                    int bit = nQubits - 1 - k; // MSB: qubit k at bit (N-1-k)
+                    if (((xor >> bit) & 1) == 1)
+                        rate += gammaPerQubit[k];
+                }
                 if (rate > 0)
                 {
                     int idx_row = i * d + j;
                     data[(long)idx_row * d2 + idx_row] -= 2.0 * rate;
                 }
             }
-        }
+        });
 
         log?.Invoke("Raw build complete.");
         return data;
@@ -178,16 +181,20 @@ public static class Liouvillian
         });
 
         // --- Dephasing: diagonal in |i⟩⟨j| basis ---
-        log?.Invoke("Filling dephasing (native, parallel)...");
+        // MSB-consistent: qubit k at bit (nQubits-1-k), matching BuildHamiltonian.
+        log?.Invoke("Filling dephasing (native, parallel, MSB-consistent)...");
         Parallel.For(0, d, i =>
         {
             for (int j = 0; j < d; j++)
             {
                 int xor = i ^ j;
                 double rate = 0;
-                for (int m = 0; m < nQubits; m++)
-                    if (((xor >> m) & 1) == 1)
-                        rate += gammaPerQubit[m];
+                for (int k = 0; k < nQubits; k++)
+                {
+                    int bit = nQubits - 1 - k;
+                    if (((xor >> bit) & 1) == 1)
+                        rate += gammaPerQubit[k];
+                }
                 if (rate > 0)
                 {
                     long idx = (long)i * d + j;

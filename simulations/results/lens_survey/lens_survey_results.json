@@ -19,7 +19,7 @@
     "gammas": [0.05,0.05],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 4,
-    "se_frob_ratio": 1.2898402E-16,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -30,7 +30,7 @@
     "gammas": [0.099,0.001],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 3.9975976,
-    "se_frob_ratio": 4.0502127E-17,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -41,7 +41,7 @@
     "gammas": [0.001,0.099],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 3.9975976,
-    "se_frob_ratio": 5.6021908E-17,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -104,7 +104,7 @@
     "gammas": [0.05,0.0625,0.075],
     "slow_mode_rate": 0.125,
     "slow_mode_im": 5.9999479,
-    "se_frob_ratio": 2.916993E-16,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.125,
     "second_mode_accessible": false
   },
@@ -265,13 +265,65 @@
     "second_mode_accessible": false
   },
   {
+    "label": "N7_chain_uniform",
+    "N": 7,
+    "topology": "chain",
+    "gammas": [0.05,0.05,0.05,0.05,0.05,0.05,0.05],
+    "slow_mode_rate": 0.17097834,
+    "slow_mode_im": 1.6026641,
+    "se_frob_ratio": 0.99999041,
+    "psi_opt": [0.57973971,0.50864745,0.42051346,0.35051418,0.2725811,0.16781725,0.054998152],
+    "c_slow": 0.015291082,
+    "second_mode_rate": -0.1,
+    "second_mode_accessible": false
+  },
+  {
+    "label": "N7_chain_edge_sacrifice",
+    "N": 7,
+    "topology": "chain",
+    "gammas": [0.344,0.001,0.001,0.001,0.001,0.001,0.001],
+    "slow_mode_rate": 0.02532186,
+    "slow_mode_im": -2.602516E-14,
+    "se_frob_ratio": 0.99997477,
+    "psi_opt": [0.1176207,0.33175652,0.48114821,0.5348394,0.48246743,0.33397247,0.11930536],
+    "c_slow": 0.15765014,
+    "second_mode_rate": -0.011488192,
+    "second_mode_accessible": false
+  },
+  {
+    "label": "N7_chain_center_sacrifice",
+    "N": 7,
+    "topology": "chain",
+    "gammas": [0.001,0.001,0.001,0.344,0.001,0.001,0.001],
+    "slow_mode_rate": 0.003428468,
+    "slow_mode_im": -2.7137917,
+    "se_frob_ratio": 0.99999959,
+    "psi_opt": [0.66399269,0.13151163,0.20449548,7.1195655E-15,0.20449548,0.13151163,0.66399269],
+    "c_slow": 0.0001196998,
+    "second_mode_rate": -0.002,
+    "second_mode_accessible": false
+  },
+  {
+    "label": "N7_chain_moderate_asymmetry",
+    "N": 7,
+    "topology": "chain",
+    "gammas": [0.05,0.0541667,0.0583333,0.0625,0.0666667,0.0708333,0.075],
+    "slow_mode_rate": 0.21336772,
+    "slow_mode_im": 1.6017322,
+    "se_frob_ratio": 0.99999224,
+    "psi_opt": [0.58898172,0.5097966,0.41791201,0.33437269,0.27337846,0.17218721,0.048664118],
+    "c_slow": 0.017262391,
+    "second_mode_rate": -0.12496608,
+    "second_mode_accessible": false
+  },
+  {
     "label": "N3_star_uniform",
     "N": 3,
     "topology": "star",
     "gammas": [0.05,0.05,0.05],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 6,
-    "se_frob_ratio": 1.3482194E-16,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -529,7 +581,7 @@
     "gammas": [0.05,0.05,0.05],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 6,
-    "se_frob_ratio": 1.6958857E-16,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -566,7 +618,7 @@
     "gammas": [0.05,0.0625,0.075],
     "slow_mode_rate": 0.1105662,
     "slow_mode_im": 5.9999653,
-    "se_frob_ratio": 2.2707754E-14,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1105662,
     "second_mode_accessible": false
   },
@@ -733,7 +785,7 @@
     "gammas": [0.05,0.05,0.05],
     "slow_mode_rate": 0.1,
     "slow_mode_im": 6,
-    "se_frob_ratio": 1.6958857E-16,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1,
     "second_mode_accessible": false
   },
@@ -770,7 +822,7 @@
     "gammas": [0.05,0.0625,0.075],
     "slow_mode_rate": 0.1105662,
     "slow_mode_im": 5.9999653,
-    "se_frob_ratio": 2.2707754E-14,
+    "se_frob_ratio": 0,
     "second_mode_rate": -0.1105662,
     "second_mode_accessible": false
   },

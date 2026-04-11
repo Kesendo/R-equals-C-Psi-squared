@@ -52,7 +52,23 @@ public static class MklDirect
         Complex* vl, int* ldvl, Complex* vr, int* ldvr,
         Complex* work, int* lwork, double* rwork, int* info);
 
+    // zgesv: solve A x = b via LU factorization (LP64)
+    [DllImport("libopenblas", CallingConvention = CallingConvention.Cdecl,
+        EntryPoint = "zgesv_", ExactSpelling = true)]
+    private static extern unsafe void zgesv_openblas(
+        int* n, int* nrhs, Complex* a, int* lda,
+        int* ipiv, Complex* b, int* ldb, int* info);
+
     // ========== OpenBLAS threading control ==========
+    // Both LP64 and ILP64 builds need their own thread config.
+
+    [DllImport("libopenblas", CallingConvention = CallingConvention.Cdecl,
+        EntryPoint = "openblas_set_num_threads")]
+    private static extern void openblas_set_num_threads_lp64(int num_threads);
+
+    [DllImport("libopenblas", CallingConvention = CallingConvention.Cdecl,
+        EntryPoint = "openblas_get_num_threads")]
+    private static extern int openblas_get_num_threads_lp64();
 
     [DllImport("libopenblas64", CallingConvention = CallingConvention.Cdecl)]
     private static extern void openblas_set_num_threads(int num_threads);
@@ -61,20 +77,32 @@ public static class MklDirect
     private static extern int openblas_get_num_threads();
 
     /// <summary>
-    /// Ensure OpenBLAS uses all available cores for LAPACK.
-    /// Call before long-running eigen calls.
+    /// Configure threading for BOTH OpenBLAS builds (LP64 + ILP64).
     /// </summary>
     public static void ConfigureThreads(int numThreads, Action<string>? log = null)
     {
+        // LP64 (libopenblas) - used by N<=7 eigendecomposition
+        try
+        {
+            openblas_set_num_threads_lp64(numThreads);
+            int actual = openblas_get_num_threads_lp64();
+            log?.Invoke($"OpenBLAS LP64 threads: requested={numThreads}, actual={actual}");
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+        {
+            log?.Invoke($"OpenBLAS LP64 thread config skipped ({ex.GetType().Name})");
+        }
+
+        // ILP64 (libopenblas64) - used by N=8
         try
         {
             openblas_set_num_threads(numThreads);
             int actual = openblas_get_num_threads();
-            log?.Invoke($"OpenBLAS threads: requested={numThreads}, actual={actual}");
+            log?.Invoke($"OpenBLAS ILP64 threads: requested={numThreads}, actual={actual}");
         }
-        catch (DllNotFoundException)
+        catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
         {
-            log?.Invoke("OpenBLAS thread config skipped (libopenblas64 not found)");
+            log?.Invoke($"OpenBLAS ILP64 thread config skipped ({ex.GetType().Name})");
         }
     }
 
@@ -267,6 +295,111 @@ public static class MklDirect
 
         log?.Invoke($"zgeev complete. {n} eigenvalues computed.");
         return w;
+    }
+
+    /// <summary>
+    /// Eigenvalues AND right eigenvectors via direct LAPACK zgeev (LP64).
+    /// Bypasses MathNet z_eigen wrapper which has internal allocation issues at large n.
+    /// WARNING: input array 'a' is destroyed by LAPACK.
+    /// </summary>
+    public static unsafe (Complex[] values, Complex[] vectors) EigenvaluesAndVectorsDirectRaw(
+        Complex[] a, int n, Action<string>? log = null)
+    {
+        var w = new Complex[n];
+        var rwork = new double[2 * n];
+        var workQuery = new Complex[1];
+        int lwork = -1;
+        int info = 0;
+        int ldvl = 1;
+        int ldvr = n;
+        byte jobN = (byte)'N';
+        byte jobV = (byte)'V';
+        var vl = new Complex[1];
+        var vr = new Complex[(long)n * n];
+
+        log?.Invoke("LAPACK zgeev (with eigenvectors) workspace query...");
+
+        fixed (Complex* pA = a)
+        fixed (Complex* pW = w)
+        fixed (Complex* pVL = vl)
+        fixed (Complex* pVR = vr)
+        fixed (Complex* pWork = workQuery)
+        fixed (double* pRwork = rwork)
+        {
+            CallZgeev(&jobN, &jobV, &n, pA, &n, pW, pVL, &ldvl, pVR, &ldvr,
+                       pWork, &lwork, pRwork, &info, log);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgeev workspace query failed: info={info}");
+
+        int optimalWork = (int)workQuery[0].Real;
+        log?.Invoke($"Optimal workspace: {optimalWork} complex values ({optimalWork * 16.0 / 1e6:F1} MB)");
+        var work = new Complex[optimalWork];
+        lwork = optimalWork;
+
+        log?.Invoke($"Running zgeev with eigenvectors on {n}x{n} matrix...");
+
+        fixed (Complex* pA = a)
+        fixed (Complex* pW = w)
+        fixed (Complex* pVL = vl)
+        fixed (Complex* pVR = vr)
+        fixed (Complex* pWork = work)
+        fixed (double* pRwork = rwork)
+        {
+            CallZgeev(&jobN, &jobV, &n, pA, &n, pW, pVL, &ldvl, pVR, &ldvr,
+                       pWork, &lwork, pRwork, &info, null);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgeev failed: info={info}");
+
+        log?.Invoke($"zgeev complete. {n} eigenvalues + eigenvectors computed.");
+        return (w, vr);
+    }
+
+    /// <summary>
+    /// Solve R^T y = e_k directly via LAPACK zgesv (LP64).
+    /// R is column-major in vectors[]. We build R^T column-major by transposing indices.
+    /// WARNING: the transposed copy is destroyed by LAPACK.
+    /// </summary>
+    public static unsafe Complex[] SolveRTranspose(
+        Complex[] vectors, int d2, int targetIndex, Action<string>? log = null)
+    {
+        int n = d2; // local copy for fixed block (can't take address of parameter used in lambda)
+
+        // Build R^T in column-major: RT[col*n + row] = R^T[row,col] = R[col,row] = vectors[row*n + col]
+        log?.Invoke($"Building R^T ({n}x{n}, {(long)n * n * 16 / 1e9:F1} GB)...");
+        var rt = new Complex[(long)n * n];
+        int nc = n; // capture for lambda
+        Parallel.For(0, n, col =>
+        {
+            long colOff = (long)col * nc;
+            for (int row = 0; row < nc; row++)
+                rt[colOff + row] = vectors[(long)row * nc + col];
+        });
+
+        // RHS: e_k
+        var b = new Complex[n];
+        b[targetIndex] = Complex.One;
+
+        var ipiv = new int[n];
+        int nrhs = 1;
+        int info = 0;
+
+        log?.Invoke($"LAPACK zgesv ({n}x{n})...");
+        fixed (Complex* pA = rt)
+        fixed (Complex* pB = b)
+        fixed (int* pIpiv = ipiv)
+        {
+            zgesv_openblas(&n, &nrhs, pA, &n, pIpiv, pB, &n, &info);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgesv failed: info={info}");
+
+        log?.Invoke("zgesv complete.");
+        return b;
     }
 
     /// <summary>

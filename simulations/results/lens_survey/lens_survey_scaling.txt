@@ -1,5 +1,5 @@
 Lens Survey Scaling Analysis
-Computed: 2026-04-10 08:54
+Computed: 2026-04-11 17:11
 
 === SE FRACTION vs N (edge sacrifice, chain) ===
 N=2: 0,000000
@@ -7,6 +7,7 @@ N=3: 0,999987
 N=4: 0,981275
 N=5: 0,999944
 N=6: 0,999881
+N=7: 0,999975
 
 === MONOTONICITY CHECK ===
 N5_chain_ibm_sacrifice: monotonic [0,099,0,239,0,428,0,572,0,651]
@@ -26,6 +27,10 @@ N6_chain_uniform: NOT monotonic [0,591,0,429,0,479,0,437,0,140,0,163]
 N6_chain_edge_sacrifice: NOT monotonic [0,148,0,407,0,558,0,558,0,409,0,150]
 N6_chain_center_sacrifice: NOT monotonic [0,557,0,408,0,150,0,150,0,409,0,558]
 N6_chain_moderate_asymmetry: NOT monotonic [0,326,0,436,0,702,0,450,0,081,0,035]
+N7_chain_uniform: NOT monotonic [0,580,0,509,0,421,0,351,0,273,0,168,0,055]
+N7_chain_edge_sacrifice: NOT monotonic [0,118,0,332,0,481,0,535,0,482,0,334,0,119]
+N7_chain_center_sacrifice: NOT monotonic [0,664,0,132,0,204,0,000,0,204,0,132,0,664]
+N7_chain_moderate_asymmetry: NOT monotonic [0,589,0,510,0,418,0,334,0,273,0,172,0,049]
 N3_star_edge_sacrifice: monotonic [0,000,0,707,0,707]
 N3_star_center_sacrifice: NOT monotonic [0,215,0,691,0,690]
 N3_star_moderate_asymmetry: monotonic [0,229,0,688,0,688]
@@ -88,6 +93,10 @@ N6_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
 N6_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0149)
 N6_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0152)
 N6_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
+N7_chain_uniform: 2nd mode inaccessible (Re=-0,1000)
+N7_chain_edge_sacrifice: 2nd mode inaccessible (Re=-0,0115)
+N7_chain_center_sacrifice: 2nd mode inaccessible (Re=-0,0020)
+N7_chain_moderate_asymmetry: 2nd mode inaccessible (Re=-0,1250)
 N3_star_uniform: 2nd mode n/a (Re=-0,1000)
 N3_star_edge_sacrifice: 2nd mode inaccessible (Re=-0,0020)
 N3_star_center_sacrifice: 2nd mode inaccessible (Re=-0,0509)
