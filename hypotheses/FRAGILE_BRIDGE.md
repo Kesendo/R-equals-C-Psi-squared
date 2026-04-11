@@ -257,7 +257,7 @@ The three-regime bell curve (linear rise, peak, 1/x decay) is
 edges, not a smooth peak.
 
 The difference comes from sigmoid saturation: Wilson-Cowan neurons
-have firing rates bounded in [0,1]. Strong coupling drives the
+have firing rates bounded in \[0,1\]. Strong coupling drives the
 system into saturated fixed points that are always stable. The
 quantum system has no such saturation; the density matrix can
 diverge under gain.

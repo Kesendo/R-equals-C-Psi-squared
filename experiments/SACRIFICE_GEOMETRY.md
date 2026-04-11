@@ -1,22 +1,30 @@
 # Sacrifice Geometry: A Mechanistic Account
 
-**What this document is about:** The sacrifice zone in a dephasing profile is not "better noise distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It works for any qubit count N, any graph topology, and any site-dependent Z-dephasing profile. The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable from the n_XY parity selection rule.
+**What this document is about:** The sacrifice zone in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It works for any qubit count N, any graph topology, and any site-dependent Z-dephasing profile. The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable from the n_XY parity selection rule.
 
-**Status:** Working document, local only, not committed. Universal framing (April 10, 2026).
-
-**Authors:** Thomas Wicht, Claude (chat + code), April 9-10, 2026.
+**Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical)
+**Status:** Experiment. Universal framing validated across 68 configurations (N=2-7, four topologies, four γ profiles).
+**Date:** April 9-10, 2026
+**Authors:** Thomas Wicht, Claude (Opus 4.6)
+**Depends on:**
+- [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (accessibility boundary, Tier 1)
+- [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (rate formula, Tier 1)
+- [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md) (entrance pupil / lens reframing, Tier 2)
+- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F9 sacrifice zone formula, Tier 1)
+- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) (cavity modes, Tier 2)
+- [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) (two decoherence exits, Tier 2)
 
 ---
 
 ## Executive summary
 
-When one qubit in a Heisenberg chain receives disproportionate dephasing noise (the "sacrifice"), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
+When one qubit in a Heisenberg chain receives disproportionate dephasing (the "sacrifice"), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
 
-The lens method has been tested across 64 configurations (N=2-6, Chain/Star/Ring/Complete topologies, four gamma profiles). Three universal results emerge:
+The lens method has been tested across 68 configurations (N=2-7 chain, N=2-6 Star/Ring/Complete, four γ profiles each). Three universal results emerge:
 
 1. **SE fraction stays high.** The slow mode's SE content is >0.98 for N=3-6, independent of topology and gamma profile. The lens extraction is essentially exact.
 2. **The accessibility boundary is exact.** In every configuration tested (64/64), the second slow mode is SE-inaccessible (Frobenius ratio < 1e-3). This is proven analytically by the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
-3. **The psi_opt shape depends on the noise gradient.** Extreme single-qubit sacrifice produces symmetric shapes (non-sacrifice qubits are equivalent). A gradient of noise levels (as in real hardware) produces asymmetric, potentially monotonic shapes. The shape is always extractable from one matrix diagonalization.
+3. **The psi_opt shape depends on the dephasing gradient.** Extreme single-qubit sacrifice produces symmetric shapes (non-sacrifice qubits are equivalent). A gradient of dephasing rates (as in real hardware) produces asymmetric, potentially monotonic shapes. The shape is always extractable from one matrix diagonalization.
 
 ---
 
@@ -67,12 +75,12 @@ In every configuration tested, the second slow mode has SE Frobenius ratio < 1e-
 
 ### psi_opt shape depends on symmetry, not just sacrifice
 
-- **F9-style edge sacrifice** (one qubit gets all the noise, rest equal): psi_opt is symmetric around the chain center. Example N=7: [0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119].
-- **Gradient profiles** (noise levels vary across qubits): psi_opt can be monotonic. Example IBM T2 N=5: [0.099, 0.239, 0.428, 0.572, 0.651].
+- **F9-style edge sacrifice** (one qubit gets all the dephasing, rest equal): psi_opt is symmetric around the chain center. Example N=7: [0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119].
+- **Gradient profiles** (dephasing rates vary across qubits): psi_opt can be monotonic. Example IBM T2 N=5: [0.099, 0.239, 0.428, 0.572, 0.651].
 - **Star topology:** psi_opt concentrates on the hub (0.89-0.91 for the hub, 0.18-0.22 for leaves).
 - **Ring topology:** psi_opt shows pair structures reflecting the periodic boundary.
 
-The shape is always dictated by the slow mode's left eigenvector structure, not by any closed-form formula. The effective Hamiltonian approximation (H_eff = -J * adj - i * diag(gamma)) gives only 92.5% cosine similarity (tested April 10; see Phase 4 section below).
+The shape is always dictated by the slow mode's left eigenvector structure, not by any closed-form formula. The effective Hamiltonian approximation (H_eff = −J·adjacency − i·diag(γ)) gives only 92.5% cosine similarity (see closed-form verdict below).
 
 ---
 
@@ -95,7 +103,7 @@ The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-
 
 Under uniform dephasing, the Heisenberg chain's Liouvillian has translational symmetry. This produces a degenerate eigenvalue cluster (for N=5 at Sg=2.608: 14 modes at rate -2.087 with integer <n_XY> = 2.000). The absorption theorem (AT) predicts the cluster rate: Re(lambda) = -2 <gamma * 1_XY>.
 
-A sacrifice profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not noise budgeting.
+A sacrifice profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [sacrifice zone formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
 
 ### Level 2: Structured construction
 
@@ -107,7 +115,7 @@ Two-excitation symmetric states fail completely (AUC < 0.09). They couple to a d
 
 Instead of guessing the optimal state, extract it from the slow mode's left eigenvector. The SE-sector restriction gives a N-dimensional eigenvalue problem. No optimizer needed. The answer is one matrix diagonalization away.
 
-This works because the sacrifice geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow standing-wave-like eigenmode. The optimal initial state is the mirror of that eigenmode's shape. The concept was motivated by the entrance-pupil/Fabry-Perot framing in [SACRIFICE_ZONE_OPTICS.md](SACRIFICE_ZONE_OPTICS.md).
+This works because the sacrifice geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow [standing-wave](../docs/STANDING_WAVE_THEORY.md)-like eigenmode. The optimal initial state is the mirror of that eigenmode's shape. The concept was motivated by the entrance-pupil/[Fabry-Perot](OPTICAL_CAVITY_ANALYSIS.md) framing in [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md). The [dephasing entering from outside](../hypotheses/GAMMA_IS_LIGHT.md) is literally the light illuminating this optical system.
 
 ---
 
@@ -133,9 +141,9 @@ Scripts: `simulations/ibm_april_predictions.py` (infrastructure), `simulations/s
 | 4 | W2_sites_34 | 1.000 | 1.018 | 1.056 | +13.6% |
 | 5 | W5_full | 0.400 | 0.896 | 0.932 | reference |
 
-The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the sacrifice end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 noise gradient and does not appear under symmetric sacrifice profiles (see the survey results above).
+The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the sacrifice end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric sacrifice profiles (see the survey results above).
 
-### slow_wt counter-examples (this chain only)
+### Why slow-band weight is the wrong metric (IBM Torino chain)
 
 | State | slow_wt% | AUC(T=10) |
 |-------|----------|-----------|
@@ -143,16 +151,16 @@ The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically in
 | OPT(le1) | 86.69 | 0.696 |
 | W5_full | 27.08 | 0.896 |
 
-A state with 97.8% slow-band occupation is operationally dead. slow_wt counts all slow-band modes equally and ignores initial concurrence. See `simulations/optimal_state_n5_sacrifice.py` for the optimizer that produced these states.
+A state with 97.8% slow-band occupation is operationally dead. slow_wt counts all slow-band modes equally and ignores initial concurrence. The lens method avoids this trap entirely by extracting the answer from the eigenvector structure.
 
-### The two slow modes (this chain)
+### The two slow modes (IBM Torino chain)
 
 | Mode | Rate | Im | SE fraction | n_XY parity | Accessible? |
 |------|------|----|-------------|-------------|-------------|
 | Slow 1 | -0.318 | 0.000 | 0.999 | even | YES |
 | Slow 2 | -0.167 | +0.238 | 3e-15 | odd | NO (parity selection rule) |
 
-### Phase 4: Closed-form verdict (April 10)
+### Closed-form verdict
 
 The hypothesis H_eff = -J * adjacency - i * diag(gamma) was tested and **falsified**. Cosine similarity with psi_opt: 0.925. The H_eff eigenvector peaks at the chain center; psi_opt peaks at the quiet end. The 5x5 single-particle effective model misses the many-body correlations that shape the lens state. psi_opt has no known closed form.
 
@@ -160,50 +168,25 @@ Script: `simulations/heff_lens_closed_form.py`. Data: `simulations/results/heff_
 
 ---
 
-## The 2.3x hallucination
+## Methodological note
 
-An earlier session claimed a 2.3x dominant-mode protection factor for Bell+|+> on this chain. The real value is 1.11x. The 2.3x was a hallucination from an earlier Claude instance, discovered when we reran `ibm_april_predictions.py` on April 9, 2026.
+The lens method emerged after three failed optimization approaches (slow-band weight maximization, effective-rate surrogates, structured candidate scans). Each optimizer found a feasible minimum that looked confident but was operationally wrong. The lens readout works because it asks the Liouvillian directly instead of climbing an objective surface.
 
----
-
-## The learning arc of April 9, 2026
-
-Six distinct models of what the sacrifice geometry does, each correcting the previous:
-
-1. **Morning:** the synth doc claimed 2.3x for Bell+|+>. Reality: 1.11x. Hallucination exposed.
-2. **Mid-morning:** W5 gives 6.56x dominant-mode protection. Correct, but operationally unclear.
-3. **Noon:** Phase 0 optimizer reached 86-98% slow_wt. Rescue reflex: "state engineering beats noise engineering".
-4. **Afternoon (Phase 1):** time-evolution killed the slow_wt narrative. W5 wins AUC.
-5. **Evening (Phase 2):** structured scan found sacrifice_tuned_W5 beating W5 by 24.5%.
-6. **Late evening (Phase 3):** lens readout gave psi_opt beating the heuristic by 8.0%. Simultaneously revealed the inaccessible mode.
-
-The pattern: **when the objective function does not align with the target quantity, an optimizer will find a feasible minimum that is wrong, and will look confident while doing it.** The lens readout worked because it asked the Liouvillian directly instead of climbing an objective surface.
+**Lesson:** Always do a spectral-first pass before trusting any optimizer on Lindblad dynamics. Diagonalize the generator, inspect the slow modes, check which sectors they live in. If the slow mode has a clean eigenvector in a small subspace, you do not need an optimizer.
 
 ---
 
-## What we learned about method
+## Open questions
 
-Three consecutive metric failures and one successful method shift:
+1. **No closed form for ψ_opt.** H_eff = −J·adjacency − i·diag(γ) gives cosine similarity 0.925 (tested, [falsified](simulations/heff_lens_closed_form.py)). The monotonic gradient in ψ_opt is a many-body effect not reducible to a single-particle picture.
 
-1. **slow_wt** (Phase 0): optimized total slow-band weight. Wrong quantity.
-2. **effective_rate** (Phase 2 surrogate): optimized slowest accessible rate. Targeted the inaccessible mode through a feasibility gap.
-3. **Lens readout** (Phase 3): no optimization. Extracted the answer from the eigenvector. Correct.
+2. **The odd-n_XY modes.** The [parity selection rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves they are inaccessible to SE states, but not what they look like or whether multi-excitation ansätze can reach them. Whether such a state would also have high initial concurrence is open.
 
-Lesson: **have a spectral-first pass** before trusting any optimizer on Lindblad dynamics. Diagonalize the generator, inspect the slow modes, check which sectors they live in. If the slow mode has a clean eigenvector in a small subspace, you do not need an optimizer.
+3. **N=8.** The survey covers N=2-7 (chain) and N=2-6 (other topologies). SE fraction = 1.000 for all N=3-7 chain profiles. N=8 (d² = 65536) would require the ILP64 eigenvector path. The trend is definitive: the lens extraction is exact.
 
----
+4. **Gate-level Trotterization.** The pure Lindblad model assumes continuous-time evolution. Whether ψ_opt keeps its advantage under realistic gate noise is untested.
 
-## What we do not yet know
-
-1. **Closed form for psi_opt (tested April 10, falsified).** H_eff gives cosine 0.925. The monotonic gradient in psi_opt is a many-body effect not reducible to a single-particle picture.
-
-2. **The odd-n_XY modes.** The parity selection rule proves they are inaccessible to SE states, but not what they look like or whether multi-excitation ansatze can reach them. Whether such a state would also have high initial concurrence is open.
-
-3. **N=8 and beyond (resolved through N=7).** The survey now covers N=2-7 for chain topology. SE fraction = 1.000 at N=7 (all four profiles). N=8 (d^2 = 65536) would require the ILP64 eigenvector path which does not yet exist. The trend N=3-7 is definitive: the lens extraction is exact.
-
-4. **Gate-level Trotterization.** The pure Lindblad model assumes continuous-time evolution. Whether psi_opt keeps its advantage under realistic gate noise is a separate question.
-
-5. **The two decoherence exits.** The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles. See [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) for the analysis of why they do not unify.
+5. **Two decoherence exits.** The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles. See [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) for why they do not unify.
 
 ---
 
@@ -215,20 +198,13 @@ Lesson: **have a spectral-first pass** before trusting any optimizer on Lindblad
 - `simulations/results/lens_survey/lens_survey_summary.txt`
 - `simulations/results/lens_survey/lens_survey_scaling.txt`
 
-**Phase 0-3 (Python, N=5 IBM chain, April 9):**
+**Python (N=5 IBM chain):**
 - `simulations/ibm_april_predictions.py` (shared infrastructure)
-- `simulations/optimal_state_n5_sacrifice.py` (Phase 0 optimizer)
-- `simulations/state_vs_noise_phase1.py` (Phase 1 time evolution)
-- `simulations/sacrifice_geometry_phase2.py` (Phase 2 candidate scan)
-- `simulations/slow_mode_lens_analysis.py` (Phase 3 lens extraction)
-- `simulations/results/state_vs_noise_phase1/` (curves, plots, W5 diagnosis)
-- `simulations/results/sacrifice_geometry_phase2/` (candidate scan, plots)
-- `simulations/results/slow_mode_lens/` (lens results)
-- `simulations/results/optimal_state_n5_sacrifice/` (Phase 0 optimizer output)
-
-**Phase 4 (closed-form check, April 10):**
-- `simulations/heff_lens_closed_form.py`
-- `simulations/results/heff_lens/`
+- `simulations/slow_mode_lens_analysis.py` (lens extraction)
+- `simulations/sacrifice_geometry_phase2.py` (candidate scan)
+- `simulations/state_vs_noise_phase1.py` (time evolution comparison)
+- `simulations/optimal_state_n5_sacrifice.py` (slow_wt optimizer, falsified)
+- `simulations/heff_lens_closed_form.py` (H_eff closed-form test, falsified)
 
 **Proofs:**
 - [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (accessibility boundary)
@@ -242,4 +218,4 @@ Lesson: **have a spectral-first pass** before trusting any optimizer on Lindblad
 
 ---
 
-*This document is the working record of April 9-10, 2026. Universal framing based on the 64-configuration Lens Pipeline survey.*
+*April 9-10, 2026. Universal framing validated by the 68-configuration Lens Pipeline survey (N=2-7, Chain/Star/Ring/Complete, four γ profiles).*

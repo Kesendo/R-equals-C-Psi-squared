@@ -49,17 +49,24 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 **The deeper structure:**
 
-5. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Dephasing noise
+5. [Direct-Sum Decomposition](DIRECT_SUM_DECOMPOSITION.md) - The
+   Liouvillian decomposes as L = L_even ⊕ L_odd (n_XY parity sectors,
+   equal dimension 2^(2N−1) each). For odd N, Π exchanges sectors with
+   reversed dynamics: a direct-sum quantum theory. For even N, each
+   sector is independently palindromic. Corollary of Mirror Symmetry +
+   Parity Selection Rule.
+
+6. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Dephasing noise
    cannot originate from within d(d−2)=0. Five candidates eliminated.
    The noise must come from outside.
 
-6. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
+7. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
    Time reversal requires separating oscillation from cooling
    ({L_H, L_D+Σγ} = 0). This holds exactly at N=2 (single bond =
    entire system) and fails at N > 2 (cross term ~2%, γ-independent).
    Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
 
-7. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
+8. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
    The Liouvillian has exactly 2N purely-real eigenvalues at the first
    non-zero grid position. Proven via SWAP invariance (lower bound)
    and triangle inequality (upper bound). Valid for any connected graph.
@@ -67,14 +74,14 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 **The full journey:**
 
-6. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
+9. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
    architecture from single qubit to arbitrary dimension and channel.
    Documents every step: what is proven, what is verified, what remains
    open. This is the most detailed document in the repository.
 
 **The master reference:**
 
-7. [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - 
+10. [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - 
    All equations, all results, all constants, all references in one
    place. The Tafelwerk. Twelve sections covering algebra, palindrome,
    boundary, incompleteness, γ channel, crossing dynamics, topology,
@@ -90,20 +97,24 @@ Mirror Symmetry Proof          Uniqueness Proof
 (Π exists, spectrum            (CΨ=¼ is the only
  palindromic)                   bifurcation)
         │                              │
-        ▼                              ▼
-  CΨ Monotonicity ◄──── Proof Roadmap ────► Subsystem Crossing
-  (dCΨ/dt < 0)          (7 layers,          (all pairs cross
-                          all closed)         eventually)
-        │                      │
-        ▼                      ▼
-  Incompleteness          Complete Math Doc
-  (noise must come         (master reference,
-   from outside)            all results)
-        │
+        ├──────────────┐               ▼
+        ▼              ▼         Subsystem Crossing
+  Parity Selection   CΨ Monotonicity    (all pairs cross
+  Rule (V_even,      (dCΨ/dt < 0)       eventually)
+   V_odd blocks)           │
+        │                  ▼
+        ▼            Incompleteness
+  Direct-Sum         (noise must come
+  Decomposition       from outside)
+  (L = L_even ⊕            │
+   L_odd; odd N:            ▼
+   Π exchanges       Time Irreversibility
+   sectors)          (reversal excluded
+        │             at N > 2, algebraic)
         ▼
-  Time Irreversibility
-  (reversal excluded
-   at N > 2, algebraic)
+  Proof Roadmap ──────► Complete Math Doc
+  (7 layers,             (master reference,
+   all closed)            all results)
 ```
 
 The Proof Roadmap is the spine: it tracks seven layers from single
@@ -127,6 +138,8 @@ synthesized.
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |
+| Direct-sum sector dimension | 2^(2N−1) each (equal halves) | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |
+| Odd N: Π exchanges sectors | V_even ↔ V_odd | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |
 | Crossing cubic root | x ≈ 0.4239 (x³+x=½) | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 
 ---

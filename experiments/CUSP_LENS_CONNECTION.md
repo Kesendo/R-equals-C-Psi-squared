@@ -16,7 +16,7 @@ The Heisenberg chain under Z-dephasing has (at least) two distinct decoherence e
 
 1. **The lens exit** (spectral-gap sheet): single-excitation states ride the slow Liouvillian eigenmode and thermalize within their sector. After decoherence, the system is classical but structured: it remembers how many excitations it has.
 
-2. **The cusp exit** (saddle-node sheet): Bell-type states cross the Mandelbrot cusp at CΨ = 1/4, experience critical slowing, and thermalize across the full Hilbert space. After decoherence, everything is lost.
+2. **The cusp exit** (saddle-node sheet): Bell-type states cross the Mandelbrot cusp at CΨ = 1/4, experience critical slowing, and thermalize within each occupied sector. After decoherence, only the population distribution across sectors survives: coherence is gone.
 
 These exits operate in different regions of CΨ-space (SE states at CΨ ≈ 0.07, Bell states at CΨ ≈ 0.33) and protect different things. They are not complementary halves of a unified mechanism; they are geometrically separated consequences of the sector structure.
 
@@ -24,11 +24,11 @@ These exits operate in different regions of CΨ-space (SE states at CΨ ≈ 0.07
 
 ## The sector conservation theorem
 
-Z-dephasing (jump operator L_k = sqrt(gamma_k) Z_k) does not flip bits: Z|0> = |0>, Z|1> = -|1>. The Heisenberg Hamiltonian (XX + YY + ZZ bonds) conserves total excitation number (it swaps spins between sites but does not create or annihilate excitations). Together, these two properties lock each excitation-number sector:
+Z-dephasing (jump operator L_k = sqrt(gamma_k) Z_k) does not flip bits: Z|0> = |0>, Z|1> = -|1>. The Heisenberg Hamiltonian (XX + YY + ZZ bonds) conserves total excitation number: the XX+YY terms swap excitations between sites, the ZZ term adds diagonal energy shifts, and none of these create or annihilate excitations. Together, these two properties lock each excitation-number sector:
 
 **A state that starts in the single-excitation sector stays there forever under Heisenberg + Z-dephasing dynamics.** Dephasing destroys coherences (off-diagonal elements) within the sector but cannot move population between sectors. The Hamiltonian redistributes population within the sector but cannot move it out.
 
-This is formalized by the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md), which proves that the Liouvillian block-diagonalizes by n_XY parity. Single-excitation density matrices live entirely in the even-parity subspace and cannot couple to odd-parity modes.
+The underlying symmetry is U(1) conservation: both H and the dephasing channel commute with the total excitation number operator Σ_k (I − Z_k)/2. This directly implies sector locking. An additional, finer symmetry is the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md), which proves that the Liouvillian block-diagonalizes by n_XY parity (even vs. odd count of X,Y operators in the Pauli-string basis). Single-excitation density matrices live entirely in the even-parity subspace and cannot couple to odd-parity modes. The PSR is a consequence of the same U(1) symmetry but operates at the level of the Liouvillian superoperator rather than the Hamiltonian.
 
 The theorem holds for any N, any graph topology, and any Z-dephasing profile. It breaks for amplitude damping (T1 decay) or transverse-field Hamiltonians.
 
@@ -58,7 +58,7 @@ Purity: 1/N. Eigenvalue spectrum: N eigenvalues at 1/N, rest zero. The system is
 
 ### Cusp exit (multi-sector states)
 
-A state spanning multiple excitation sectors (e.g., Bell+center on N=5, which involves weight-0, weight-1, ..., weight-5 sectors via |+> factors) thermalizes across all occupied sectors. At t -> infinity: the density matrix approaches the maximally mixed state within the accessible subspace, spreading population across O(2^N) states. Purity: O(1/2^N). Everything is lost.
+A state spanning multiple excitation sectors (e.g., Bell+center on N=5, which populates all 6 sectors w=0..5 via |+> factors) thermalizes within each occupied sector independently. At t → ∞: the density matrix approaches a block-diagonal mixture, maximally mixed within each sector, weighted by the initial sector populations. Purity: O(1/2^N). Coherence is destroyed; all that survives is the population distribution across sectors.
 
 ### The separation is exact
 
@@ -90,7 +90,7 @@ CΨ_pair = Tr(rho_pair^2) * L1_pair / 3 for each adjacent pair, then CΨ_mean = 
 | W5_full | NO | n/a | n/a | n/a |
 | sac_tuned_W5 | NO | n/a | n/a | n/a |
 
-Bell+ crosses the cusp at t = 0.258 with dwell prefactor 3.63. F59 in `docs/ANALYTICAL_FORMULAS.md` gives a closed-form prefactor for two-sector states; Bell+center on N=5 spans multiple sectors, so F59 does not apply. The 3.63 is an independent numerical result.
+Bell+ crosses the cusp at t = 0.258 with dwell prefactor 3.63. F59 in `docs/ANALYTICAL_FORMULAS.md` gives a closed-form prefactor for two-sector states; Bell+center on N=5 spans all 6 excitation sectors (w=0 through w=5, via the |+>⊗3 factors), so the two-sector formula F59 does not apply. The 3.63 is an independent numerical result.
 
 ### Asymptotic states (t = 100)
 
@@ -108,7 +108,7 @@ Script: `simulations/psi_opt_cusp_trajectory.py`. Data: `simulations/results/psi
 
 The investigation started from the hypothesis that the slow Liouvillian eigenmode (which protects psi_opt) and the Mandelbrot cusp (which slows Bell+'s trajectory) are the same spectral feature. This was falsified: psi_opt never crosses CΨ = 1/4 because SE states are geometrically below the cusp.
 
-The initial conclusion was "independent budgets." Tom pushed the analysis further by asking what happens on the other side of the transition. The asymptotic analysis revealed that the two mechanisms lead to different classical ensembles: SE states preserve their sector structure; multi-sector states thermalize fully. This reframed the separation: not independent budgets, but **different exits of the same fold**, each leading to a different kind of classical world.
+The initial conclusion was "independent budgets." Tom pushed the analysis further by asking what happens on the other side of the transition. The asymptotic analysis revealed that the two mechanisms lead to different classical ensembles: SE states preserve their sector structure; multi-sector states thermalize within each sector, losing all coherence. This reframed the separation: not independent budgets, but **different exits of the same fold**, each leading to a different kind of classical world.
 
 ### The two-exit table
 
@@ -118,8 +118,8 @@ The initial conclusion was "independent budgets." Tom pushed the analysis furthe
 | Crosses cusp? | No | Yes |
 | What is protected | Coherences within sector | Pair purity |
 | Protection mechanism | Slow eigenmode (spectral gap) | Saddle-node bifurcation |
-| Asymptotic state | Maximally mixed in sector (N states) | Maximally mixed in full space |
-| What survives | Excitation count | Nothing |
+| Asymptotic state | Maximally mixed in sector (N states) | Block-diagonal: maximally mixed per sector |
+| What survives | Excitation count | Sector weights only |
 | Bifurcation type | Spectral gap | Saddle-node |
 
 ---
@@ -152,7 +152,7 @@ This is the analytical closure of the two-exit picture. It does not depend on an
 
 2. **N-scaling of sector locking.** The SE sector has N states out of 2^N. As N grows, the "classical-but-structured" exit preserves an exponentially shrinking fraction. Does the lens protection scale?
 
-3. **The fold topology.** The two sheets suggest a multi-dimensional fold catastrophe. Mapping the bifurcation surface (which states exit where) is a geometrical question about the Liouvillian's spectral landscape.
+3. **The bifurcation surface.** The cusp exit is a saddle-node bifurcation (fold catastrophe, codimension 1). The lens exit is a spectral-gap phenomenon, not a catastrophe in the technical sense. Mapping the boundary between the two exits in state space (which initial states land on which asymptotic ensemble) is a geometrical question about the Liouvillian's spectral landscape. The boundary may itself have nontrivial topology for multi-excitation states.
 
 ---
 

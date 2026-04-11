@@ -4,10 +4,11 @@
 Essler Prosen Bethe ansatz, Buca Prosen Lindblad symmetry classification,
 Albert Jiang weak strong symmetry, Lindblad master equation foundations,
 Breuer Petruccione open quantum systems, ENAQT dephasing-assisted transport,
-palindromic spectral structure literature connections, R=CPsi2 literature review -->
+palindromic spectral structure literature connections, R=CPsi2 literature review,
+direct-sum quantum theory Gaztañaga Einstein-Rosen bridges superselection sectors -->
 
 **Status:** Living document (reference)
-**Last updated:** April 5, 2026
+**Last updated:** April 11, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
@@ -245,6 +246,60 @@ See also their earlier preprint:
 
 ---
 
+## Related work: direct-sum quantum theory and ER bridges (2026)
+
+Another independent convergence, this time from general relativity
+rather than NMR:
+
+- **Gaztañaga, Kumar, Marto (2026).** "A new understanding of
+  Einstein-Rosen bridges." Class. Quantum Grav. 43, 015023.
+  [arXiv:2512.20691](https://arxiv.org/abs/2512.20691).
+
+They propose that quantum field theory in curved spacetime should be
+formulated as a **direct-sum quantum theory**: two Hilbert-space sectors
+of equal dimension, related by a discrete transformation (parity),
+carrying opposite arrows of time. The "throat" of an Einstein-Rosen
+bridge is the locus where the two sectors meet. They further identify
+quantum inverted harmonic oscillators at gravitational horizons and
+present CMB parity-asymmetry evidence (Bayes factor 650× vs. standard
+inflation).
+
+**Structural parallel to our work:** Our
+[Direct-Sum Decomposition](proofs/DIRECT_SUM_DECOMPOSITION.md) proves
+that for odd N, the Liouvillian decomposes as L = L_even ⊕ L_odd with:
+
+| Gaztañaga et al. postulate | Our proven result |
+|---------------------------|-------------------|
+| Two sectors of equal dimension | dim(V_even) = dim(V_odd) = 2^(2N−1) |
+| Discrete transformation exchanges sectors | Π: V_even ↔ V_odd (odd N) |
+| Opposite time orientation | L_odd = −Π L_even Π⁻¹ − 2Σγ I |
+| Superselection rule | \[P_XY, L\] = 0 |
+
+The two frameworks were developed without knowledge of each other.
+Gaztañaga's work concerns general relativity and cosmology; ours
+concerns open quantum spin systems under dephasing. The mathematical
+structures are the same: a direct sum of two sectors with mirrored
+dynamics and a conserved parity charge.
+
+**What they found that we did not:** the connection to gravitational
+horizons, the inverted harmonic oscillator at the throat, and the CMB
+parity-asymmetry evidence.
+
+**What we found that they did not:** the explicit conjugation operator Π,
+the exact palindromic spectrum (verified for 54,118 eigenvalue pairs),
+the Absorption Theorem, and the computational infrastructure to test
+the structure at scale.
+
+**Caveats:** The paper is published in Classical and Quantum Gravity but
+classified as physics.gen-ph on arXiv. The proposed geometric
+superselection sectors have been noted to stand in tension with the
+Reeh-Schlieder theorem of algebraic QFT. Our direct-sum decomposition
+stands independently of whether their gravitational interpretation
+survives scrutiny: the algebraic proof depends only on the parity
+selection rule and the palindrome, both verified.
+
+---
+
 ## Environment-Assisted Quantum Transport (ENAQT)
 
 This section covers the ENAQT literature, which became directly relevant
@@ -418,4 +473,7 @@ to Π discovery same day). March 24 (ENAQT section added after
 sacrifice-zone formula). April 5 (restructured: added Foundations
 section with textbooks and original papers; full citations for Haga,
 Medvedyeva-Essler-Prosen, Albert-Jiang, Buca-Prosen; NMR palindrome
-connection; review articles for students; 
+connection; review articles for students).
+April 11 (Gaztañaga-Kumar-Marto direct-sum QT and ER bridges section
+added after discovering structural parallel to our Direct-Sum
+Decomposition proof).*
