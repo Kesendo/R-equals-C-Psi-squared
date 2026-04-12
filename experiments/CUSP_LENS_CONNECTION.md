@@ -68,6 +68,25 @@ The sector conservation theorem guarantees that no continuous Lindblad trajector
 
 ## Boundary test: non-symmetric two-excitation states
 
+> **RETRACTED 2026-04-12.** The sweep described below measured
+> slow-mode overlap by SE x SE block projection only, discarding the
+> cross-sector (w=1, w=3) coherence that carries the Bell-pair
+> signature. Results are numerically correct for the computed
+> observable but do not answer OQ-114. Overlap values in the sweep
+> table are determined by the position of the second excitation
+> alone, independent of bell_pair location -- the empirical signature
+> of the projection bug. OQ-114 remains open pending a V2 sweep with
+> a correctly defined Hilbert-Schmidt overlap in the full
+> {w=1, w=3} sector space. See review/MERGE_LOG_methodology.md
+> for full analysis.
+>
+> The text below is preserved for historical reference only. Do not
+> cite any conclusion from this section.
+
+---
+
+## Boundary test: non-symmetric two-excitation states
+
 **Motivation.** OQ-114 below asked whether a state with both high CΨ on one pair and slow-mode overlap could straddle the two exits. SACRIFICE_GEOMETRY.md Open Question #2 asked the same from the opposite direction: can a multi-excitation state reach the slow mode? This section answers both.
 
 **Candidates.** Three families of non-symmetric two-excitation states were tested: (A) Bell+ on the central pair plus a displaced excitation on each spectator site, (B) Bell+ on off-center pairs plus displaced excitation at the most asymmetric sites, and (C) tuned concurrence (cos θ |00> + sin θ |11>) plus displaced excitation (N >= 6, θ in {π/6, π/4, π/3}). Total: 53 candidates across N=5, 6, 7.
@@ -182,7 +201,7 @@ This is the analytical closure of the two-exit picture. It does not depend on an
 
 1. **Boundary states between sheets.** A state with both high CΨ on one pair (approaching 1/4) and slow-mode overlap might straddle the two exits. Two-excitation states with one high-concurrence pair are candidates.
 
-> *Substantially addressed (2026-04-12):* see "Boundary test" section above. Positive resolution at N=5, 6 (5 straddling candidates with 10-13% slow-mode overlap), negative at N=7 (max overlap 9.0%, below threshold). The straddling is marginal and N-dependent: overlap dilutes as the slow mode spreads across more qubits. Sweep of 53 non-symmetric two-excitation states across N=5, 6, 7 and three candidate families. Specifics in `simulations/results/boundary_straddling/`.
+> *Substantially addressed (2026-04-12): RETRACTED same day.* Initial sweep had a projection bug (SE x SE block only, dropping cross-sector coherence). Conclusion withdrawn. See "Boundary test" section retraction banner above and review/MERGE_LOG_methodology.md. V2 task pending.
 
 2. **N-scaling of sector locking.** The SE sector has N states out of 2^N. As N grows, the "classical-but-structured" exit preserves an exponentially shrinking fraction. Does the lens protection scale?
 

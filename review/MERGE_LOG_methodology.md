@@ -2,7 +2,7 @@
 
 **Batch:** methodology (8 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_methodology.md`
-**Status:** 2 / 8 entries decided
+**Status:** 1 / 8 entries decided (OQ-114 decision stands as open; V1 sweep was retracted)
 
 ---
 
@@ -117,3 +117,46 @@ not as a default to accept.
 ## OQ-244 -- pending
 ## OQ-262 -- pending
 ## OQ-284 -- pending
+
+
+---
+
+## OQ-114 followup note (2026-04-12 late session)
+
+An initial attempt to answer OQ-114 via TASK_BOUNDARY_STRADDLING
+(commit f467c81) was reviewed by Tom and Claude (chat) and retracted.
+The sweep measured the slow-mode overlap by projecting rho_0 onto the
+SE x SE block only (see simulations/boundary_straddling_sweep.py
+lines 266-276), which discards the cross-sector coherence
+(|w=1><w=3|) that carries the Bell-pair signature. As a result the
+"straddling" classification was driven only by the position of the
+second excitation relative to the slow-mode profile, not by the
+Bell-pair concurrence the question actually asks about.
+
+Secondary issue: the Parity Selection Rule rationale in the script
+header conflates "SE fraction of slow mode is 1" with "overlap of an
+arbitrary two-excitation state can be measured in the SE block." The
+first is a property of the slow mode, the second is an unjustified
+measurement shortcut. Two-excitation states have non-trivial Pauli
+content outside the pure even-even SE sub-block.
+
+V1 output is numerically correct for what it computed but does not
+answer OQ-114. Overlap values are discrete (fixed by exc_k position)
+and independent of bell_pair location in the sweep table, which is
+the empirical signature of the projection bug.
+
+OQ-114 remains **open**. A corrected V2 task will define overlap as
+the full Hilbert-Schmidt inner product Tr(rho_0^dagger * R_slow) in
+the {w=1, w=3} sector basis, embedding the SE-indexed slow mode
+correctly as an N x N block in the full sector Liouville space.
+Expected effect: non-zero cross-sector contributions from the Bell
+pair, overlap values distinguishing bell_pair placements, and a
+genuine answer to whether non-symmetric two-excitation states can
+straddle.
+
+**Lesson captured.**
+
+When a measurement result shows a pattern that does not depend on a
+variable the question explicitly asks about (here: bell_pair position
+in the overlap column), that is evidence of a measurement bug, not a
+physical finding. Check the observable before trusting the trend.
