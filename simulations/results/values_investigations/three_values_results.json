@@ -1,0 +1,306 @@
+{
+  "track_a": {
+    "multiplicity_table": {
+      "3": {
+        "d2": 64,
+        "n_distinct": 26,
+        "max_mult": 6,
+        "n_at_max": 2,
+        "fraction_distinct": 0.4062
+      },
+      "4": {
+        "d2": 256,
+        "n_distinct": 127,
+        "max_mult": 14,
+        "n_at_max": 1,
+        "fraction_distinct": 0.4961
+      },
+      "5": {
+        "d2": 1024,
+        "n_distinct": 488,
+        "max_mult": 14,
+        "n_at_max": 2,
+        "fraction_distinct": 0.4766
+      },
+      "6": {
+        "d2": 4096,
+        "n_distinct": 2207,
+        "max_mult": 19,
+        "n_at_max": 2,
+        "fraction_distinct": 0.5388
+      },
+      "7": {
+        "d2": 16384,
+        "n_distinct": 8136,
+        "max_mult": 22,
+        "n_at_max": 2,
+        "fraction_distinct": 0.4966
+      }
+    },
+    "degenerate_eigenvector_sectors": {
+      "(0,2)": 1.00244,
+      "(1,1)": 2.173643,
+      "(5,3)": 1.001654,
+      "(1,3)": 1.313639,
+      "(2,0)": 0.792952,
+      "(2,2)": 1.36389,
+      "(2,4)": 0.810556,
+      "(3,1)": 0.735772,
+      "(3,3)": 1.169993,
+      "(3,5)": 1.188322,
+      "(4,2)": 0.793153,
+      "(4,4)": 1.653986
+    },
+    "su2_casimir": "broken_by_dephasing"
+  },
+  "track_b": {
+    "|0>^N": {
+      "p_formula": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "|1>^N": {
+      "p_formula": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "p_evolved": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "W_N": {
+      "p_formula": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        0.0,
+        1.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "GHZ": {
+      "p_formula": [
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "p_evolved": [
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "Bell+(2,3)|0>": {
+      "p_formula": [
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        0.5,
+        -0.0,
+        0.5,
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "|+>^N": {
+      "p_formula": [
+        0.03125,
+        0.15625,
+        0.3125,
+        0.3125,
+        0.15625,
+        0.03125
+      ],
+      "p_evolved": [
+        0.03125,
+        0.15625,
+        0.3125,
+        0.3125,
+        0.15625,
+        0.03125
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "Neel": {
+      "p_formula": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        0.0,
+        -0.0,
+        1.0,
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "psi_opt": {
+      "p_formula": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        0.0,
+        1.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    },
+    "Bell(2,3)+exc(4)": {
+      "p_formula": [
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0
+      ],
+      "p_evolved": [
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0
+      ],
+      "max_error": 0.0,
+      "match": true
+    }
+  },
+  "track_c": {
+    "3": {
+      "N": 3,
+      "d2": 64,
+      "max_mult": 6,
+      "n_distinct": 26,
+      "frac_distinct": 0.4062,
+      "slow_rate": 0.266205,
+      "ratio_slow_Sg": 0.887349,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 9
+    },
+    "4": {
+      "N": 4,
+      "d2": 256,
+      "max_mult": 14,
+      "n_distinct": 127,
+      "frac_distinct": 0.4961,
+      "slow_rate": 0.299391,
+      "ratio_slow_Sg": 0.748478,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 36
+    },
+    "5": {
+      "N": 5,
+      "d2": 1024,
+      "max_mult": 14,
+      "n_distinct": 488,
+      "frac_distinct": 0.4766,
+      "slow_rate": 0.318534,
+      "ratio_slow_Sg": 0.637068,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 100
+    },
+    "6": {
+      "N": 6,
+      "d2": 4096,
+      "max_mult": 19,
+      "n_distinct": 2207,
+      "frac_distinct": 0.5388,
+      "slow_rate": 0.331823,
+      "ratio_slow_Sg": 0.553038,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 400
+    },
+    "7": {
+      "N": 7,
+      "d2": 16384,
+      "max_mult": 22,
+      "n_distinct": 8136,
+      "frac_distinct": 0.4966,
+      "slow_rate": 0.339534,
+      "ratio_slow_Sg": 0.485049,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 1225
+    },
+    "8": {
+      "N": 8,
+      "d2": 65536,
+      "max_mult": null,
+      "n_distinct": null,
+      "frac_distinct": null,
+      "slow_rate": 0.34672,
+      "ratio_slow_Sg": 0.4334,
+      "palindromic_fraction": 1.0,
+      "max_sector_dim": 4900
+    }
+  }
+}
