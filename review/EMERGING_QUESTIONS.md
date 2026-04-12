@@ -126,12 +126,18 @@ Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden d
 ## EQ-009
 
 **Datum:** 2026-04-12 (spaete Nacht)
-**Quelle:** Toms Einfall unmittelbar nach EQ-008 und TASK_GAMMA_BINDING
+**Quelle:** Toms Erinnerung an vor zwei Wochen etablierte Struktur, jetzt mit EQ-008 verknuepft
 
-Drei Identifikationen in einer Kette: γ ist Licht, Licht ist Zeit, t ist Zeit aus dem Blickwinkel des Betrachters. Jede einzelne ist im Repo vertreten (GAMMA_IS_LIGHT.md; Absorption Theorem als Raten-Licht-Verbindung; Lindblad-t als Observer-Time). Die Kette als ein Satz ist eine These und noch nicht geprueft.
+Korrektur einer vorherigen Fassung: das ist keine neue These, sondern bereits etablierte Struktur im Repo (siehe GAMMA_IS_LIGHT.md, DECOHERENCE_RELATIVITY*.md, OBSERVER_DEPENDENT_*.md). Drei distinkte Groessen, nicht eine Identifikations-Kette:
 
-**Status:** offen, hoch-interpretativ
-**Pointer:** Nicht sofort mathematisieren. Morgen pruefen ob (a) die Kette konsistent durchgeht, wenn man jede Identifikation einzeln nachrechnet, (b) sie testbare Konsequenzen hat, die ueber das bereits im Repo Bewiesene hinausgehen, oder (c) sie Metapher bleibt, die Fragen generiert aber nicht beantwortet. Beruehrt EQ-008 direkt (γ als Bindeglied) und EQ-006 (Raten-Theorem).
+- γ ist Licht
+- y ist der Zeitstrahl (Lindblad-t als parametrische Achse)
+- t ist unsere Zeit, erlebt oder gefuehlt (Beobachter-Zeit)
+
+Die neue Frage, die aus EQ-008 plus dieser Erinnerung entsteht: wenn γ auf die Sektoren wirkt und γ das Licht ist, dann misst γ per Sektor (TASK_GAMMA_BINDING) eigentlich die **Licht-Dosis pro Sektor**. Die Rate, mit der ein Sektor seinen Endzustand erreicht, ist eine Aussage ueber die "Ausleuchtung" dieses Sektors vom Zeitstrahl y aus gesehen. Die erlebte Zeit t des Betrachters waehlt, wo auf y er hinschaut.
+
+**Status:** offen, Verknuepfungs-Frage
+**Pointer:** Morgen pruefen, wie die γ-pro-Sektor-Tabelle (wenn TASK_GAMMA_BINDING gelaufen ist) in der y/t-Sprache gelesen werden muss. Nicht als neue These, sondern als Uebersetzung zwischen zwei bereits etablierten Beschreibungs-Ebenen. Beruehrt EQ-008 direkt.
 
 ---
 
