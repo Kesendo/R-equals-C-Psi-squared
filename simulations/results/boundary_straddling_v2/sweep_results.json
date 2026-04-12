@@ -1,0 +1,1285 @@
+{
+  "meta": [
+    {
+      "N": 5,
+      "gamma": [
+        2.335727969348659,
+        0.09936837815810921,
+        0.05,
+        0.07173324704359593,
+        0.05132171570484489
+      ],
+      "slow_rate": 0.318085,
+      "c_slow_max": 0.970874,
+      "n_candidates": 9
+    },
+    {
+      "N": 6,
+      "gamma": [
+        2.336,
+        0.05,
+        0.06225,
+        0.07450000000000001,
+        0.08675000000000001,
+        0.099
+      ],
+      "slow_rate": 0.333676,
+      "c_slow_max": 0.521878,
+      "n_candidates": 18
+    },
+    {
+      "N": 7,
+      "gamma": [
+        2.336,
+        0.05,
+        0.059800000000000006,
+        0.0696,
+        0.0794,
+        0.0892,
+        0.099
+      ],
+      "slow_rate": 0.313339,
+      "c_slow_max": 0.514297,
+      "n_candidates": 26
+    }
+  ],
+  "results": [
+    {
+      "label": "A:Bell(2,3)+exc(0)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1381,
+      "c_slow_raw": 0.09751,
+      "c_slow_normalized": 0.100435,
+      "purity_100": 0.075
+    },
+    {
+      "label": "A:Bell(2,3)+exc(1)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1422,
+      "c_slow_raw": 0.088374,
+      "c_slow_normalized": 0.091025,
+      "purity_100": 0.075
+    },
+    {
+      "label": "A:Bell(2,3)+exc(4)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.146,
+      "c_slow_raw": 0.137057,
+      "c_slow_normalized": 0.141168,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(0,1)+exc(4)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0418,
+      "c_slow_raw": 0.137057,
+      "c_slow_normalized": 0.141168,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(0,1)+exc(3)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 3,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0417,
+      "c_slow_raw": 0.072395,
+      "c_slow_normalized": 0.074567,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1483,
+      "c_slow_raw": 0.09751,
+      "c_slow_normalized": 0.100435,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(1,2)+exc(4)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1393,
+      "c_slow_raw": 0.137057,
+      "c_slow_normalized": 0.141168,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(3,4)+exc(0)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.2033,
+      "c_slow_raw": 0.09751,
+      "c_slow_normalized": 0.100435,
+      "purity_100": 0.075
+    },
+    {
+      "label": "B:Bell(3,4)+exc(1)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.188,
+      "c_slow_raw": 0.088374,
+      "c_slow_normalized": 0.091025,
+      "purity_100": 0.075
+    },
+    {
+      "label": "A:Bell(2,3)+exc(0)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1366,
+      "c_slow_raw": 0.007394,
+      "c_slow_normalized": 0.014168,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "A:Bell(2,3)+exc(1)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1409,
+      "c_slow_raw": 0.035722,
+      "c_slow_normalized": 0.068448,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "A:Bell(2,3)+exc(4)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1404,
+      "c_slow_raw": 0.121486,
+      "c_slow_normalized": 0.232786,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "A:Bell(2,3)+exc(5)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1362,
+      "c_slow_raw": 0.048716,
+      "c_slow_normalized": 0.093347,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(0,1)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0422,
+      "c_slow_raw": 0.048716,
+      "c_slow_normalized": 0.093347,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(0,1)+exc(4)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0422,
+      "c_slow_raw": 0.121486,
+      "c_slow_normalized": 0.232786,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1558,
+      "c_slow_raw": 0.007394,
+      "c_slow_normalized": 0.014168,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(1,2)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1501,
+      "c_slow_raw": 0.048716,
+      "c_slow_normalized": 0.093347,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(3,4)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1348,
+      "c_slow_raw": 0.007394,
+      "c_slow_normalized": 0.014168,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(3,4)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1393,
+      "c_slow_raw": 0.048716,
+      "c_slow_normalized": 0.093347,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(4,5)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1812,
+      "c_slow_raw": 0.007394,
+      "c_slow_normalized": 0.014168,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "B:Bell(4,5)+exc(1)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1809,
+      "c_slow_raw": 0.035722,
+      "c_slow_normalized": 0.068448,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "C:theta=pi/6+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.1081,
+      "c_slow_raw": 0.011091,
+      "c_slow_normalized": 0.021252,
+      "purity_100": 0.096875
+    },
+    {
+      "label": "C:theta=pi/6+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.1079,
+      "c_slow_raw": 0.073073,
+      "c_slow_normalized": 0.14002,
+      "purity_100": 0.096875
+    },
+    {
+      "label": "C:theta=pi/4+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1366,
+      "c_slow_raw": 0.007394,
+      "c_slow_normalized": 0.014168,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "C:theta=pi/4+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1362,
+      "c_slow_raw": 0.048716,
+      "c_slow_normalized": 0.093347,
+      "purity_100": 0.054167
+    },
+    {
+      "label": "C:theta=pi/3+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.0731,
+      "c_slow_raw": 0.003697,
+      "c_slow_normalized": 0.007084,
+      "purity_100": 0.038542
+    },
+    {
+      "label": "C:theta=pi/3+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.0731,
+      "c_slow_raw": 0.024358,
+      "c_slow_normalized": 0.046673,
+      "purity_100": 0.038542
+    },
+    {
+      "label": "A:Bell(3,4)+exc(0)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1376,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "A:Bell(3,4)+exc(1)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1346,
+      "c_slow_raw": 0.022355,
+      "c_slow_normalized": 0.043468,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "A:Bell(3,4)+exc(2)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1386,
+      "c_slow_raw": 0.063174,
+      "c_slow_normalized": 0.122836,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "A:Bell(3,4)+exc(5)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1386,
+      "c_slow_raw": 0.092297,
+      "c_slow_normalized": 0.179463,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "A:Bell(3,4)+exc(6)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1345,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(0,1)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0422,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(0,1)+exc(5)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0422,
+      "c_slow_raw": 0.092297,
+      "c_slow_normalized": 0.179463,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(0,1)+exc(2)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.0422,
+      "c_slow_raw": 0.063174,
+      "c_slow_normalized": 0.122836,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1563,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(1,2)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1507,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(1,2)+exc(5)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1505,
+      "c_slow_raw": 0.092297,
+      "c_slow_normalized": 0.179463,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(2,3)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1377,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(2,3)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1406,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(2,3)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.142,
+      "c_slow_raw": 0.022355,
+      "c_slow_normalized": 0.043468,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(4,5)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1338,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(4,5)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1381,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(4,5)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1338,
+      "c_slow_raw": 0.022355,
+      "c_slow_normalized": 0.043468,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(5,6)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1805,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(5,6)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1805,
+      "c_slow_raw": 0.022355,
+      "c_slow_normalized": 0.043468,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "B:Bell(5,6)+exc(2)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1802,
+      "c_slow_raw": 0.063174,
+      "c_slow_normalized": 0.122836,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "C:theta=pi/6+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.1077,
+      "c_slow_raw": 0.006634,
+      "c_slow_normalized": 0.012899,
+      "purity_100": 0.082143
+    },
+    {
+      "label": "C:theta=pi/6+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.1061,
+      "c_slow_raw": 0.052675,
+      "c_slow_normalized": 0.102421,
+      "purity_100": 0.082143
+    },
+    {
+      "label": "C:theta=pi/4+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1376,
+      "c_slow_raw": 0.004423,
+      "c_slow_normalized": 0.008599,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "C:theta=pi/4+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cusp_active": true,
+      "t_cross": 0.1345,
+      "c_slow_raw": 0.035117,
+      "c_slow_normalized": 0.068281,
+      "purity_100": 0.042857
+    },
+    {
+      "label": "C:theta=pi/3+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.0723,
+      "c_slow_raw": 0.002211,
+      "c_slow_normalized": 0.0043,
+      "purity_100": 0.025
+    },
+    {
+      "label": "C:theta=pi/3+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cusp_active": true,
+      "t_cross": 0.0718,
+      "c_slow_raw": 0.017558,
+      "c_slow_normalized": 0.03414,
+      "purity_100": 0.025
+    }
+  ],
+  "sanity_report": "SANITY CHECK 1: psi_opt\n  psi_opt amplitudes: [0.6505, 0.5716, 0.4280, 0.2390, 0.0993]\n  c_slow_psi_opt (raw): 0.970874\n  |c_slow_psi_opt|:     0.970874\n  Computed c_slow:      0.972003\n  Normalized overlap:   1.001162\n  EXPECTED: normalized ≈ 1.0\n  PASSED: 1.001162 ≈ 1.0\n\nSANITY CHECK 2: bare Bell+(2,3) x |000>\n  PREDICTION: c_slow = 0 exactly (no SE content)\n  Computed c_slow:      0.00e+00\n  PASSED: 0.00e+00 ≈ 0\n\nINDEPENDENCE CHECK: overlap for Bell(a,b)+exc(k)\n  If derivation is correct, overlap depends only on k,\n  not on (a,b). Testing N=5:\n  k=0: (1,2)=0.1004, (2,3)=0.1004, (3,4)=0.1004\n    spread = 0.00e+00 (IDENTICAL)\n  k=1: (2,3)=0.0910, (3,4)=0.0910\n    spread = 0.00e+00 (IDENTICAL)\n  k=4: (0,1)=0.1412, (1,2)=0.1412, (2,3)=0.1412\n    spread = 0.00e+00 (IDENTICAL)"
+}

@@ -66,7 +66,40 @@ The sector conservation theorem guarantees that no continuous Lindblad trajector
 
 ---
 
-## Boundary test: non-symmetric two-excitation states
+## Boundary test V2: correct overlap measurement
+
+**Status:** V2 replaces the retracted V1 (below). The V1 retraction was a false alarm: the overlap observable was computed with the wrong eigenvector convention (right instead of left), but the qualitative pattern (overlap depends only on excitation site, not Bell pair) turns out to be correct physics.
+
+**The correct observable** is c_slow = Tr(L_slow^dag rho_0), where L_slow is the LEFT eigenoperator of the slow Liouvillian mode. This gives the biorthogonal decomposition coefficient: rho(t) = sum c_lambda R_lambda exp(lambda t), c_lambda = Tr(L_lambda^dag rho_0). See derivation in `simulations/boundary_straddling_sweep_v2.py`.
+
+**Why the Bell pair does not appear in c_slow.** The Liouvillian is block-diagonal by excitation-number sector pair (w_bra, w_ket). The slow mode lives entirely in the (w=1,w=1) block (SE fraction = 1.000 for N=3-7 chain, SACRIFICE_GEOMETRY.md). Both right AND left eigenoperators respect this block structure (PROOF_PARITY_SELECTION_RULE.md Part 4). For candidate state |psi> = cos(theta)|e_k> + sin(theta)|f_{c1,c2,k}>, the SE block of rho_0 is cos^2(theta)|e_k><e_k|, which depends only on theta and k. The Bell pair information lives in the cross-sector (w=1,w=3) coherences, which L_slow cannot see.
+
+**Sanity checks** (N=5 IBM chain):
+- psi_opt: normalized overlap = 1.001. PASSED (expected 1.0).
+- Bare Bell+(2,3) x |000>: |c_slow| = 0. PASSED (expected 0, no SE content).
+- Independence: overlap at k=0 is 0.1004 for Bell pairs (1,2), (2,3), (3,4); spread = 0. CONFIRMED.
+
+**Results** (normalized overlap = |c_slow| / |c_slow(psi_opt)|):
+
+| N | exc site | norm overlap | CΨ_max(0) | Cusp? | Pattern |
+|---|----------|-------------|-----------|-------|---------|
+| 5 | 4 (quietest) | 0.141 | 0.333 | Yes | Consistent across all Bell pairs |
+| 5 | 0 (sacrifice) | 0.100 | 0.333 | Yes | Same |
+| 5 | 1 | 0.091 | 0.333 | Yes | Same |
+| 6 | 4 | 0.233 | 0.333 | Yes | Best N=6 candidate |
+| 7 | 5 | 0.180 | 0.333 | Yes | Best N=7 candidate |
+
+All 53 candidates are cusp-active (Bell pair ensures CΨ > 1/4). The slow-mode overlap is entirely determined by where the displaced excitation sits: quiet sites (near the quiet end of the sacrifice chain) give higher overlap because the slow mode's spatial shape peaks there.
+
+**Physical picture.** The two properties (cusp activity and slow-mode coupling) are geometrically decoupled in these states. The Bell pair provides cusp activity (CΨ > 1/4) but contributes nothing to c_slow. The displaced excitation provides c_slow but has no pairwise concurrence by itself. They coexist in the same state without interference. "Straddling" in the OQ-114 sense is trivially possible at small N: any Bell pair plus an excitation on a quiet site achieves both. The overlap is modest (max 14% of psi_opt at N=5, 23% at N=6, 18% at N=7) because only cos^2(theta) = 1/2 of the state weight is in the SE sector.
+
+**The V1 data was numerically correct** for what it computed (Frobenius inner product with the right eigenvector). The qualitative pattern (exc_k-only dependence) and the classification were valid. V2 uses the physically correct observable (left eigenoperator) and confirms the same picture with proper normalization and sanity checks.
+
+Script: `simulations/boundary_straddling_sweep_v2.py`. Data: `simulations/results/boundary_straddling_v2/`.
+
+---
+
+## Boundary test V1 (retracted)
 
 > **RETRACTED 2026-04-12.** The sweep described below measured
 > slow-mode overlap by SE x SE block projection only, discarding the
@@ -201,7 +234,7 @@ This is the analytical closure of the two-exit picture. It does not depend on an
 
 1. **Boundary states between sheets.** A state with both high CΨ on one pair (approaching 1/4) and slow-mode overlap might straddle the two exits. Two-excitation states with one high-concurrence pair are candidates.
 
-> *Substantially addressed (2026-04-12): RETRACTED same day.* Initial sweep had a projection bug (SE x SE block only, dropping cross-sector coherence). Conclusion withdrawn. See "Boundary test" section retraction banner above and review/MERGE_LOG_methodology.md. V2 task pending.
+> *Resolved (2026-04-12, V2):* see "Boundary test V2" section above. The V1 retraction was a false alarm: the exc_k-only dependence is correct physics (the slow mode lives in the SE sector; Bell-pair coherence lives in cross-sector blocks that L_slow cannot see). V2 confirms with correct observable (left eigenoperator), sanity checks, and 53-candidate sweep. Straddling is trivially possible (Bell pair + quiet-site excitation), but the two properties (cusp activity, slow-mode coupling) are geometrically decoupled. Maximum normalized overlap: 14% of psi_opt at N=5.
 
 2. **N-scaling of sector locking.** The SE sector has N states out of 2^N. As N grows, the "classical-but-structured" exit preserves an exponentially shrinking fraction. Does the lens protection scale?
 

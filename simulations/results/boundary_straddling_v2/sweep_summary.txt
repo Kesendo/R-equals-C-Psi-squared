@@ -1,0 +1,112 @@
+Boundary Straddling V2: Correct Overlap Measurement
+====================================================
+Date: 2026-04-12
+Observable: |c_slow| = |Tr(L_slow^dag rho_0)| (LEFT eigenoperator)
+Normalization: |c_slow| / |c_slow(psi_opt)|
+
+SANITY CHECKS
+------------------------------------------------------------
+SANITY CHECK 1: psi_opt
+  psi_opt amplitudes: [0.6505, 0.5716, 0.4280, 0.2390, 0.0993]
+  c_slow_psi_opt (raw): 0.970874
+  |c_slow_psi_opt|:     0.970874
+  Computed c_slow:      0.972003
+  Normalized overlap:   1.001162
+  EXPECTED: normalized ≈ 1.0
+  PASSED: 1.001162 ≈ 1.0
+
+SANITY CHECK 2: bare Bell+(2,3) x |000>
+  PREDICTION: c_slow = 0 exactly (no SE content)
+  Computed c_slow:      0.00e+00
+  PASSED: 0.00e+00 ≈ 0
+
+INDEPENDENCE CHECK: overlap for Bell(a,b)+exc(k)
+  If derivation is correct, overlap depends only on k,
+  not on (a,b). Testing N=5:
+  k=0: (1,2)=0.1004, (2,3)=0.1004, (3,4)=0.1004
+    spread = 0.00e+00 (IDENTICAL)
+  k=1: (2,3)=0.0910, (3,4)=0.0910
+    spread = 0.00e+00 (IDENTICAL)
+  k=4: (0,1)=0.1412, (1,2)=0.1412, (2,3)=0.1412
+    spread = 0.00e+00 (IDENTICAL)
+
+N = 5: slow rate = 0.318085, |c_slow_max| = 0.970874
+N = 6: slow rate = 0.333676, |c_slow_max| = 0.521878
+N = 7: slow rate = 0.313339, |c_slow_max| = 0.514297
+
+Label                                 N  exc  |c_slow|    norm   CΨmax   t_cross
+--------------------------------------------------------------------------------
+A:Bell(2,3)+exc(0)                    5    0    0.0975  0.1004  0.3333     0.138
+A:Bell(2,3)+exc(1)                    5    1    0.0884  0.0910  0.3333     0.142
+A:Bell(2,3)+exc(4)                    5    4    0.1371  0.1412  0.3333     0.146
+B:Bell(0,1)+exc(4)                    5    4    0.1371  0.1412  0.3333     0.042
+B:Bell(0,1)+exc(3)                    5    3    0.0724  0.0746  0.3333     0.042
+B:Bell(1,2)+exc(0)                    5    0    0.0975  0.1004  0.3333     0.148
+B:Bell(1,2)+exc(4)                    5    4    0.1371  0.1412  0.3333     0.139
+B:Bell(3,4)+exc(0)                    5    0    0.0975  0.1004  0.3333     0.203
+B:Bell(3,4)+exc(1)                    5    1    0.0884  0.0910  0.3333     0.188
+A:Bell(2,3)+exc(0)                    6    0    0.0074  0.0142  0.3333     0.137
+A:Bell(2,3)+exc(1)                    6    1    0.0357  0.0684  0.3333     0.141
+A:Bell(2,3)+exc(4)                    6    4    0.1215  0.2328  0.3333     0.140
+A:Bell(2,3)+exc(5)                    6    5    0.0487  0.0933  0.3333     0.136
+B:Bell(0,1)+exc(5)                    6    5    0.0487  0.0933  0.3333     0.042
+B:Bell(0,1)+exc(4)                    6    4    0.1215  0.2328  0.3333     0.042
+B:Bell(1,2)+exc(0)                    6    0    0.0074  0.0142  0.3333     0.156
+B:Bell(1,2)+exc(5)                    6    5    0.0487  0.0933  0.3333     0.150
+B:Bell(3,4)+exc(0)                    6    0    0.0074  0.0142  0.3333     0.135
+B:Bell(3,4)+exc(5)                    6    5    0.0487  0.0933  0.3333     0.139
+B:Bell(4,5)+exc(0)                    6    0    0.0074  0.0142  0.3333     0.181
+B:Bell(4,5)+exc(1)                    6    1    0.0357  0.0684  0.3333     0.181
+C:theta=pi/6+exc(0)                   6    0    0.0111  0.0213  0.2887     0.108
+C:theta=pi/6+exc(5)                   6    5    0.0731  0.1400  0.2887     0.108
+C:theta=pi/4+exc(0)                   6    0    0.0074  0.0142  0.3333     0.137
+C:theta=pi/4+exc(5)                   6    5    0.0487  0.0933  0.3333     0.136
+C:theta=pi/3+exc(0)                   6    0    0.0037  0.0071  0.2887     0.073
+C:theta=pi/3+exc(5)                   6    5    0.0244  0.0467  0.2887     0.073
+A:Bell(3,4)+exc(0)                    7    0    0.0044  0.0086  0.3333     0.138
+A:Bell(3,4)+exc(1)                    7    1    0.0224  0.0435  0.3333     0.135
+A:Bell(3,4)+exc(2)                    7    2    0.0632  0.1228  0.3333     0.139
+A:Bell(3,4)+exc(5)                    7    5    0.0923  0.1795  0.3333     0.139
+A:Bell(3,4)+exc(6)                    7    6    0.0351  0.0683  0.3333     0.135
+B:Bell(0,1)+exc(6)                    7    6    0.0351  0.0683  0.3333     0.042
+B:Bell(0,1)+exc(5)                    7    5    0.0923  0.1795  0.3333     0.042
+B:Bell(0,1)+exc(2)                    7    2    0.0632  0.1228  0.3333     0.042
+B:Bell(1,2)+exc(0)                    7    0    0.0044  0.0086  0.3333     0.156
+B:Bell(1,2)+exc(6)                    7    6    0.0351  0.0683  0.3333     0.151
+B:Bell(1,2)+exc(5)                    7    5    0.0923  0.1795  0.3333     0.150
+B:Bell(2,3)+exc(0)                    7    0    0.0044  0.0086  0.3333     0.138
+B:Bell(2,3)+exc(6)                    7    6    0.0351  0.0683  0.3333     0.141
+B:Bell(2,3)+exc(1)                    7    1    0.0224  0.0435  0.3333     0.142
+B:Bell(4,5)+exc(0)                    7    0    0.0044  0.0086  0.3333     0.134
+B:Bell(4,5)+exc(6)                    7    6    0.0351  0.0683  0.3333     0.138
+B:Bell(4,5)+exc(1)                    7    1    0.0224  0.0435  0.3333     0.134
+B:Bell(5,6)+exc(0)                    7    0    0.0044  0.0086  0.3333     0.180
+B:Bell(5,6)+exc(1)                    7    1    0.0224  0.0435  0.3333     0.180
+B:Bell(5,6)+exc(2)                    7    2    0.0632  0.1228  0.3333     0.180
+C:theta=pi/6+exc(0)                   7    0    0.0066  0.0129  0.2887     0.108
+C:theta=pi/6+exc(6)                   7    6    0.0527  0.1024  0.2887     0.106
+C:theta=pi/4+exc(0)                   7    0    0.0044  0.0086  0.3333     0.138
+C:theta=pi/4+exc(6)                   7    6    0.0351  0.0683  0.3333     0.135
+C:theta=pi/3+exc(0)                   7    0    0.0022  0.0043  0.2887     0.072
+C:theta=pi/3+exc(6)                   7    6    0.0176  0.0341  0.2887     0.072
+
+Overlap by excitation site (confirms bell_pair independence):
+
+  N=5:
+    site 0: norm=0.1004 (spread 0.0e+00 over 3 configs)
+    site 1: norm=0.0910 (spread 0.0e+00 over 2 configs)
+    site 3: norm=0.0746 (spread 0.0e+00 over 1 configs)
+    site 4: norm=0.1412 (spread 0.0e+00 over 3 configs)
+
+  N=6:
+    site 0: norm=0.0142 (spread 0.0e+00 over 4 configs)
+    site 1: norm=0.0684 (spread 0.0e+00 over 2 configs)
+    site 4: norm=0.2328 (spread 0.0e+00 over 2 configs)
+    site 5: norm=0.0933 (spread 0.0e+00 over 4 configs)
+
+  N=7:
+    site 0: norm=0.0086 (spread 0.0e+00 over 5 configs)
+    site 1: norm=0.0435 (spread 0.0e+00 over 4 configs)
+    site 2: norm=0.1228 (spread 0.0e+00 over 3 configs)
+    site 5: norm=0.1795 (spread 0.0e+00 over 3 configs)
+    site 6: norm=0.0683 (spread 0.0e+00 over 5 configs)
