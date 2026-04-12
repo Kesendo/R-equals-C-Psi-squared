@@ -1,0 +1,547 @@
+{
+  "sector_counts": {
+    "3": {
+      "n_basic": 16,
+      "n_with_flip": 16
+    },
+    "4": {
+      "n_basic": 25,
+      "n_with_flip": 26
+    },
+    "5": {
+      "n_basic": 36,
+      "n_with_flip": 36
+    },
+    "6": {
+      "n_basic": 49,
+      "n_with_flip": 50
+    },
+    "7": {
+      "n_basic": 64,
+      "n_with_flip": 64
+    }
+  },
+  "attractors_N5": [
+    {
+      "w_bra": 0,
+      "w_ket": 0,
+      "nxy_par": 0,
+      "dim": 1,
+      "n_steady": 1,
+      "n_osc": 0,
+      "n_decay": 0,
+      "slowest_rate": null
+    },
+    {
+      "w_bra": 0,
+      "w_ket": 1,
+      "nxy_par": 1,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.1999999999999999
+    },
+    {
+      "w_bra": 0,
+      "w_ket": 2,
+      "nxy_par": 0,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.3999999999999977
+    },
+    {
+      "w_bra": 0,
+      "w_ket": 3,
+      "nxy_par": 1,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.5999999999999961
+    },
+    {
+      "w_bra": 0,
+      "w_ket": 4,
+      "nxy_par": 0,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.7999999999999975
+    },
+    {
+      "w_bra": 0,
+      "w_ket": 5,
+      "nxy_par": 1,
+      "dim": 1,
+      "n_steady": 0,
+      "n_osc": 0,
+      "n_decay": 1,
+      "slowest_rate": 0.9999999999999999
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 0,
+      "nxy_par": 1,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.1999999999999999
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 1,
+      "nxy_par": 0,
+      "dim": 25,
+      "n_steady": 1,
+      "n_osc": 20,
+      "n_decay": 4,
+      "slowest_rate": 0.31853386470379075
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 2,
+      "nxy_par": 1,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.20000000000000007
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 3,
+      "nxy_par": 0,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.40000000000000135
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 4,
+      "nxy_par": 1,
+      "dim": 25,
+      "n_steady": 0,
+      "n_osc": 20,
+      "n_decay": 5,
+      "slowest_rate": 0.5999999999999999
+    },
+    {
+      "w_bra": 1,
+      "w_ket": 5,
+      "nxy_par": 0,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.7999999999999975
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 0,
+      "nxy_par": 0,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.3999999999999977
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 1,
+      "nxy_par": 1,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.2000000000000009
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 2,
+      "nxy_par": 0,
+      "dim": 100,
+      "n_steady": 1,
+      "n_osc": 90,
+      "n_decay": 9,
+      "slowest_rate": 0.25018167528814317
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 3,
+      "nxy_par": 1,
+      "dim": 100,
+      "n_steady": 0,
+      "n_osc": 90,
+      "n_decay": 10,
+      "slowest_rate": 0.19999999999999984
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 4,
+      "nxy_par": 0,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.4000000000000011
+    },
+    {
+      "w_bra": 2,
+      "w_ket": 5,
+      "nxy_par": 1,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.5999999999999983
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 0,
+      "nxy_par": 1,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.5999999999999961
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 1,
+      "nxy_par": 0,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.4
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 2,
+      "nxy_par": 1,
+      "dim": 100,
+      "n_steady": 0,
+      "n_osc": 90,
+      "n_decay": 10,
+      "slowest_rate": 0.19999999999999915
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 3,
+      "nxy_par": 0,
+      "dim": 100,
+      "n_steady": 1,
+      "n_osc": 90,
+      "n_decay": 9,
+      "slowest_rate": 0.2501816752881429
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 4,
+      "nxy_par": 1,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.19999999999999998
+    },
+    {
+      "w_bra": 3,
+      "w_ket": 5,
+      "nxy_par": 0,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.3999999999999959
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 0,
+      "nxy_par": 0,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.7999999999999975
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 1,
+      "nxy_par": 1,
+      "dim": 25,
+      "n_steady": 0,
+      "n_osc": 20,
+      "n_decay": 5,
+      "slowest_rate": 0.5999999999999999
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 2,
+      "nxy_par": 0,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.40000000000000063
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 3,
+      "nxy_par": 1,
+      "dim": 50,
+      "n_steady": 0,
+      "n_osc": 48,
+      "n_decay": 2,
+      "slowest_rate": 0.19999999999999996
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 4,
+      "nxy_par": 0,
+      "dim": 25,
+      "n_steady": 1,
+      "n_osc": 20,
+      "n_decay": 4,
+      "slowest_rate": 0.31853386470379075
+    },
+    {
+      "w_bra": 4,
+      "w_ket": 5,
+      "nxy_par": 1,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.1999999999999999
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 0,
+      "nxy_par": 1,
+      "dim": 1,
+      "n_steady": 0,
+      "n_osc": 0,
+      "n_decay": 1,
+      "slowest_rate": 0.9999999999999999
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 1,
+      "nxy_par": 0,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.7999999999999975
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 2,
+      "nxy_par": 1,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.5999999999999983
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 3,
+      "nxy_par": 0,
+      "dim": 10,
+      "n_steady": 0,
+      "n_osc": 9,
+      "n_decay": 1,
+      "slowest_rate": 0.3999999999999959
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 4,
+      "nxy_par": 1,
+      "dim": 5,
+      "n_steady": 0,
+      "n_osc": 4,
+      "n_decay": 1,
+      "slowest_rate": 0.1999999999999999
+    },
+    {
+      "w_bra": 5,
+      "w_ket": 5,
+      "nxy_par": 0,
+      "dim": 1,
+      "n_steady": 1,
+      "n_osc": 0,
+      "n_decay": 0,
+      "slowest_rate": null
+    }
+  ],
+  "degeneracy_uniform": {
+    "n_distinct": 488,
+    "max_mult": 14
+  },
+  "degeneracy_sacrifice": {
+    "n_distinct": 508,
+    "max_mult": 6
+  },
+  "reachability": {
+    "|0>^N": {
+      "n_sectors": 1,
+      "sectors": {
+        "(0,0,0)": 1.0
+      }
+    },
+    "|1>^N": {
+      "n_sectors": 1,
+      "sectors": {
+        "(5,5,0)": 1.0
+      }
+    },
+    "|+>^N": {
+      "n_sectors": 36,
+      "sectors": {
+        "(0,0,0)": 0.000977,
+        "(0,1,1)": 0.004883,
+        "(0,2,0)": 0.009766,
+        "(0,3,1)": 0.009766,
+        "(0,4,0)": 0.004883,
+        "(0,5,1)": 0.000977,
+        "(1,0,1)": 0.004883,
+        "(1,1,0)": 0.024414,
+        "(1,2,1)": 0.048828,
+        "(1,3,0)": 0.048828,
+        "(1,4,1)": 0.024414,
+        "(1,5,0)": 0.004883,
+        "(2,0,0)": 0.009766,
+        "(2,1,1)": 0.048828,
+        "(2,2,0)": 0.097656,
+        "(2,3,1)": 0.097656,
+        "(2,4,0)": 0.048828,
+        "(2,5,1)": 0.009766,
+        "(3,0,1)": 0.009766,
+        "(3,1,0)": 0.048828,
+        "(3,2,1)": 0.097656,
+        "(3,3,0)": 0.097656,
+        "(3,4,1)": 0.048828,
+        "(3,5,0)": 0.009766,
+        "(4,0,0)": 0.004883,
+        "(4,1,1)": 0.024414,
+        "(4,2,0)": 0.048828,
+        "(4,3,1)": 0.048828,
+        "(4,4,0)": 0.024414,
+        "(4,5,1)": 0.004883,
+        "(5,0,1)": 0.000977,
+        "(5,1,0)": 0.004883,
+        "(5,2,1)": 0.009766,
+        "(5,3,0)": 0.009766,
+        "(5,4,1)": 0.004883,
+        "(5,5,0)": 0.000977
+      }
+    },
+    "W_N": {
+      "n_sectors": 1,
+      "sectors": {
+        "(1,1,0)": 1.0
+      }
+    },
+    "GHZ": {
+      "n_sectors": 4,
+      "sectors": {
+        "(0,0,0)": 0.25,
+        "(0,5,1)": 0.25,
+        "(5,0,1)": 0.25,
+        "(5,5,0)": 0.25
+      }
+    },
+    "Bell+(2,3)|0>": {
+      "n_sectors": 4,
+      "sectors": {
+        "(0,0,0)": 0.25,
+        "(0,2,0)": 0.25,
+        "(2,0,0)": 0.25,
+        "(2,2,0)": 0.25
+      }
+    },
+    "Neel": {
+      "n_sectors": 1,
+      "sectors": {
+        "(2,2,0)": 1.0
+      }
+    }
+  },
+  "topology_N4": {
+    "chain": {
+      "n_bonds": 3,
+      "n_eigenvalues": 256,
+      "n_stationary": 5,
+      "n_oscillatory": 210,
+      "n_distinct": 127,
+      "max_degeneracy": 14
+    },
+    "ring": {
+      "n_bonds": 4,
+      "n_eigenvalues": 256,
+      "n_stationary": 5,
+      "n_oscillatory": 196,
+      "n_distinct": 73,
+      "max_degeneracy": 24
+    },
+    "star": {
+      "n_bonds": 3,
+      "n_eigenvalues": 256,
+      "n_stationary": 5,
+      "n_oscillatory": 198,
+      "n_distinct": 75,
+      "max_degeneracy": 16
+    },
+    "complete": {
+      "n_bonds": 6,
+      "n_eigenvalues": 256,
+      "n_stationary": 5,
+      "n_oscillatory": 178,
+      "n_distinct": 43,
+      "max_degeneracy": 36
+    }
+  },
+  "topology_N5": {
+    "chain": {
+      "n_bonds": 4,
+      "n_eigenvalues": 1024,
+      "n_stationary": 6,
+      "n_oscillatory": 928,
+      "n_distinct": 488,
+      "max_degeneracy": 14
+    },
+    "ring": {
+      "n_bonds": 5,
+      "n_eigenvalues": 1024,
+      "n_stationary": 6,
+      "n_oscillatory": 880,
+      "n_distinct": 276,
+      "max_degeneracy": 22
+    },
+    "star": {
+      "n_bonds": 4,
+      "n_eigenvalues": 1024,
+      "n_stationary": 6,
+      "n_oscillatory": 848,
+      "n_distinct": 202,
+      "max_degeneracy": 30
+    },
+    "complete": {
+      "n_bonds": 10,
+      "n_eigenvalues": 1024,
+      "n_stationary": 6,
+      "n_oscillatory": 752,
+      "n_distinct": 100,
+      "max_degeneracy": 54
+    }
+  }
+}
