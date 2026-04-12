@@ -46,3 +46,25 @@ VERDICT (constrained):
   COCKPIT SCALES
   center_bell: 8 configs analyzed, coverage [91.9%, 99.0%]
   0 configuration(s) dropped total (expected for far_edge/far_leaf)
+
+============================================================
+COCKPIT-RELEVANT CONFIGURATIONS (cockpit_relevant=True)
+Excluded classes (far_edge, far_leaf) remain in the JSON under cockpit_relevant=False.
+============================================================
+                     n_active n95  3-PC%  PC1%  best proxy
+chain N=5   adjacent           9     4   89.6   58.4  Pur
+chain N=5   center_bell        9     4   94.4   63.8  Pur
+chain N=7   adjacent           9     3   95.1   59.5  Pur
+chain N=7   center_bell        8     2   98.3   73.5  Pur
+chain N=9   adjacent           9     4   91.9   64.8  Psi
+chain N=9   center_bell        8     2   98.4   73.9  Pur
+chain N=11  adjacent           9     4   91.6   65.7  Psi
+chain N=11  center_bell        8     2   99.0   74.4  Pur
+star  N=5   center_bell        9     4   91.9   59.6  Pur
+star  N=5   center_leaf        8     4   94.0   64.4  Pur
+star  N=7   center_bell        9     4   93.0   62.5  Pur
+star  N=7   center_leaf        8     4   94.6   64.8  Psi
+star  N=9   center_bell        9     4   94.8   64.6  Pur
+star  N=9   center_leaf        7     3   97.2   73.4  Psi
+star  N=11  center_bell        9     3   95.3   65.3  Pur
+star  N=11  center_leaf        8     3   95.4   63.8  Psi

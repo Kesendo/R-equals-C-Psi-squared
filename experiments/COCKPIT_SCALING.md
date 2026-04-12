@@ -167,7 +167,7 @@ This means: 7 of 9 features are active, the purity range is large, Gates 2 and 3
 
 The far_edge pair therefore reports as "analyzed" rather than "dropped", but its high coverage number is not a contribution to the headline scaling result. The cockpit framework's relevant scope is the entangled observer class (center_bell), not arbitrary pairs in the system. Reporting the far_edge numbers in the same table as center_bell would be misleading; this section exists to make that explicit.
 
-A future iteration of the sanity gates could extend Gate 1 to apply to all pairs, or add a new gate that requires concurrence variance to be non-trivial as a precondition for cockpit-relevance. This is logged as a pipeline improvement for the next experiment.
+**Pipeline resolution (April 2026):** Rather than extending Gate 1 or adding a new gate, the analysis pipeline now tags every configuration with a `cockpit_relevant` boolean flag derived from its pair class. The `far_edge` and `far_leaf` classes are flagged `cockpit_relevant=False`; their PCA results remain in the JSON output for inspection but are excluded from the headline cockpit-relevance table in the TXT report. Gate logic is unchanged; data is not discarded. See `simulations/cockpit_scaling_analysis.py`, constant `COCKPIT_RELEVANT_CLASSES`.
 
 ---
 
@@ -286,7 +286,7 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 
 3. **Three pair types per configuration.** Only the center_bell, adjacent, and far_edge (or center_leaf, far_leaf for star) pairs are extracted. The full pair-distance scan that is available at N=5 in COCKPIT_UNIVERSALITY (all 10 pairs) is not reproduced here. This is sufficient to answer the scaling question, but a comprehensive distance-resolved scaling map would require extracting more pairs per N.
 
-4. **The far_edge control class is not informative for the cockpit claim.** As discussed in Section 6, the sanity gates allow far_edge pairs to be analyzed but their reported coverage is not a measurement of the cockpit framework's relevant scope. Future iterations of the gates should make this distinction explicit at the pipeline level rather than at the documentation level.
+4. **The far_edge control class is not informative for the cockpit claim (resolved April 2026).** As discussed in Section 6, the sanity gates allow `far_edge` pairs to be analyzed but their reported coverage is not a measurement of the cockpit framework's relevant scope. The pipeline now flags these configurations explicitly via `cockpit_relevant=False` and excludes them from the headline table; they remain in the JSON for inspection. See Section 6 pipeline resolution paragraph.
 
 5. **The adjacent pair PC1 proxy transition (Section 7) is observed but not characterized.** It would be worth a separate experiment to find the exact N at which the transition occurs and whether it corresponds to a topological or spectral feature of the underlying Heisenberg system.
 

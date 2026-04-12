@@ -38,6 +38,12 @@ import matplotlib.pyplot as plt
 
 FEAT_NAMES = ["Phi+", "Phi-", "Psi+", "Psi-", "Pur", "SvN", "C", "Psi", "ph03"]
 PROXY_CANDIDATES = {"C": 6, "Pur": 4, "Psi": 7}  # name -> column index
+
+# Pair classes that the cockpit framework is designed to monitor.
+# far_edge and far_leaf pairs are valid classical decoherence trajectories
+# but are not informative about the cockpit claim (see COCKPIT_SCALING.md
+# Section 6). They are analyzed but flagged cockpit_relevant=False.
+COCKPIT_RELEVANT_CLASSES = {"center_bell", "adjacent", "center_leaf"}
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results", "cockpit_scaling")
 
 # ---- Data loading -----------------------------------------------------------
@@ -251,6 +257,7 @@ def main():
             sanity = check_trajectory_sanity(X, pair, N, topo)
             gate_entry = {
                 "N": N, "topo": topo, "pair": pair, "pclass": pclass,
+                "cockpit_relevant": pclass in COCKPIT_RELEVANT_CLASSES,
                 "gate1_pass": sanity["gate1_pass"],
                 "gate1_required": sanity["gate1_required"],
                 "gate1_conc_std": sanity["gate1_concurrence_std"],
@@ -267,6 +274,7 @@ def main():
                     print(msg)
                 dropped.append({
                     "N": N, "topo": topo, "pair": pair, "pclass": pclass,
+                    "cockpit_relevant": pclass in COCKPIT_RELEVANT_CLASSES,
                     "failures": sanity["failures"],
                     "gate1_conc_std": sanity["gate1_concurrence_std"],
                     "gate2_n_active": sanity["gate2_active_features"],
@@ -280,6 +288,7 @@ def main():
             result["topo"] = topo
             result["pair"] = pair
             result["pclass"] = pclass
+            result["cockpit_relevant"] = pclass in COCKPIT_RELEVANT_CLASSES
             result["gate1_conc_std"] = sanity["gate1_concurrence_std"]
             result["gate3_pur_range"] = sanity["gate3_purity_range"]
             key = f"N{N}_{topo}_{pair}"
@@ -330,7 +339,7 @@ def main():
             else:
                 d = data
                 which = []
-                if not d.get("gate2_n_active", 9) >= 4:
+                if d.get("gate2_n_active", 9) < 4:
                     which.append(f"Gate2: {d['gate2_n_active']} feats")
                 if d.get("gate3_pur_range", 1) < 0.05:
                     which.append(f"Gate3: pur_range={d['gate3_pur_range']:.4f}")
@@ -410,6 +419,24 @@ def main():
     else:
         report_lines.append("  NO DATA: no center_bell configurations were analyzed.")
 
+    # Cockpit-relevant configurations table
+    report_lines.append("")
+    report_lines.append("=" * 60)
+    report_lines.append("COCKPIT-RELEVANT CONFIGURATIONS (cockpit_relevant=True)")
+    report_lines.append("Excluded classes (far_edge, far_leaf) remain in the JSON under cockpit_relevant=False.")
+    report_lines.append("=" * 60)
+    report_lines.append(f"{'':20s} n_active n95  3-PC%  PC1%  best proxy")
+    cr_entries = sorted(
+        [v for v in all_results.values() if v.get("cockpit_relevant")],
+        key=lambda v: (v["topo"], v["N"], v["pclass"])
+    )
+    for v in cr_entries:
+        report_lines.append(
+            f"{v['topo']:5s} N={v['N']:<3d} {v['pclass']:15s}"
+            f"  {v['n_active']:3d}   {v['n95']:3d}  {v['three_pc_pct']:5.1f}"
+            f"  {v['pc1_pct']:5.1f}  {v['best_proxy_name'] or 'N/A'}"
+        )
+
     report_text = "\n".join(report_lines)
     print(report_text)
 
@@ -455,7 +482,7 @@ def main():
                 ax.plot(Ns, vals, ls, color=topo_colors[topo],
                         label=f"{topo} {pclass}", marker="o", markersize=4)
     ax.axhline(85, color="gray", linestyle="-.", linewidth=0.8, label="85% threshold")
-    ax.text(0.02, 0.02, "far_edge/far_leaf dropped (trivial trajectory)",
+    ax.text(0.02, 0.02, "only cockpit_relevant classes shown (center_bell, adjacent, center_leaf)",
             transform=ax.transAxes, fontsize=7, fontstyle="italic", color="gray")
     ax.set_xlabel("N (qubits)")
     ax.set_ylabel("3-PC cumulative variance (%)")
