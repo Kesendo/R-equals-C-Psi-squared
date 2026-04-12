@@ -46,4 +46,13 @@ This is a useful negative result: it means the repo's findings generalize to oth
 
 ---
 
+## Files
+
+- `simulations/three_values.py` (Track C: N-scaling computation)
+- `simulations/results/values_investigations/three_values_results.json` (raw data)
+- [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) (SE slow-mode rate data)
+- [Symmetry Census](SYMMETRY_CENSUS.md) (sector dimension formula)
+
+---
+
 *April 12, 2026. Tom's intuition ("N=5 hat sich schon oefters als perfekt gezeigt") is selection bias, not physics. The data are monotonic.*

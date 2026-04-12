@@ -53,4 +53,13 @@ For |+>^N, this distribution is binomial: p_w = C(N,w)/2^N. For GHZ, it is bimod
 
 ---
 
+## Files
+
+- `simulations/three_values.py` (Track B: verification computation)
+- `simulations/results/values_investigations/three_values_results.json` (raw data)
+- [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) (sector conservation theorem)
+- [Symmetry Census](SYMMETRY_CENSUS.md) (N+1 attractor enumeration)
+
+---
+
 *April 12, 2026. This is not a conjecture; it is a theorem with a one-paragraph proof.*

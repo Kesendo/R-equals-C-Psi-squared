@@ -39,7 +39,7 @@ The 14 degenerate eigenvectors at Re(lambda) = -0.400 spread across multiple sec
 | (3,5) | 1.19 |
 | (3,3) | 1.17 |
 
-The degenerate modes live in many different sectors simultaneously. This is consistent with the rate Re(lambda) = -0.400 = -2 x 2 x gamma = -4 gamma being a "grid value" at which the absorption theorem places modes from multiple sectors. At the XY-weight grid (every 2*gamma), modes from different sectors coincide by the rate formula, not by a hidden symmetry.
+The degenerate modes live in many different sectors simultaneously. This is consistent with the [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate formula Re(lambda) = -2 sum gamma_k <1_XY(k)>: each eigenmode's decay rate is twice the dephasing-weighted average of its X/Y Pauli content. For uniform gamma, this simplifies to Re(lambda) = -2 gamma n_XY, placing all modes with the same n_XY count at the same rate. At the grid value Re = -0.400 = -4 gamma, modes from different (w_bra, w_ket) sectors coincide because they share n_XY = 2. This is a rate-formula coincidence, not a hidden symmetry.
 
 ## 3. SU(2) Casimir check
 
@@ -51,7 +51,16 @@ The degenerate modes live in many different sectors simultaneously. This is cons
 
 **Conclusion:** SU(2) total spin is a symmetry of the Heisenberg Hamiltonian but is broken by Z-dephasing. The dephasing jump operators Z_k do not commute with S^2 (because Z only detects the z-component, not the total spin). SU(2) is therefore NOT a hidden symmetry of the Liouvillian.
 
-The high degeneracies are explained by the absorption theorem rate formula Re(lambda) = -2 sum gamma_k <1_XY(k)>, which places many modes from different sectors at the same grid values (multiples of 2*gamma for uniform chains). These are "accidental" degeneracies from the rate formula, not from a hidden symmetry.
+The high degeneracies are explained by the absorption theorem rate formula, which places many modes from different sectors at the same grid values (multiples of 2*gamma for uniform chains). These are "accidental" degeneracies from the rate formula, not from a hidden symmetry.
+
+---
+
+## Files
+
+- `simulations/three_values.py` (Track A computation)
+- `simulations/results/values_investigations/three_values_results.json` (raw data)
+- [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (rate formula)
+- [Symmetry Census](SYMMETRY_CENSUS.md) (flagged the degeneracy question)
 
 ---
 

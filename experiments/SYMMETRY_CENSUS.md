@@ -172,7 +172,7 @@ The chain has the fewest degeneracies (488 distinct out of 1024) and the richest
 
 3. **Does the exit count change for non-Markovian dynamics?** The N+1 exits are a consequence of the Lindblad (Markovian) framework. Under non-Markovian dephasing (memory effects), the sector conservation might be approximate rather than exact.
 
-4. **Sector-resolved spectral form factor.** The SFF analysis in D09_SECTOR_SFF_PAIRING.md works by XY-weight sectors. The Census shows these are (N+1)^2 sectors labeled by (w_bra, w_ket). A sector-resolved SFF analysis could reveal whether the transient dynamics within each sector shows universal (RMT) statistics or sector-specific structure.
+4. **Sector-resolved spectral form factor.** The SFF analysis in [D09_SECTOR_SFF_PAIRING](../docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md) works by XY-weight sectors. The Census shows these are (N+1)^2 sectors labeled by (w_bra, w_ket). A sector-resolved SFF analysis could reveal whether the transient dynamics within each sector shows universal (RMT) statistics or sector-specific structure.
 
 5. **The topology knob.** Chain has 488 distinct eigenvalues, complete graph has 100. This 5x difference in spectral complexity means the approach to equilibrium is qualitatively different. Is there a topology-dependent "optical" structure (cavity modes, standing waves) that explains the extra complexity of the chain, or is it simply the absence of permutation symmetry?
 
