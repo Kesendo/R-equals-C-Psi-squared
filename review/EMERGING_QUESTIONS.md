@@ -111,4 +111,16 @@ Wenn Grenzen Sichtbarkeits-Artefakte sind, was ist die naechste Beschreibungs-Eb
 
 ---
 
+## EQ-008
+
+**Datum:** 2026-04-12 (spaeter Abend)
+**Quelle:** Toms Einfall nach der V-Effekt-Reflexion
+
+Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden durch eins: γ. Sie bekommen unterschiedlich viel Licht ab (sacrifice vs quiet sites) und entwickeln dadurch Eigenschaften fuer einen Gesamtzustand. Abgeleitete Frage: Welche Auswirkung hat γ auf jeden Sektor, und wie haengen die Sektoren ueber das Bindeglied γ zusammen?
+
+**Status:** offen
+**Pointer:** Tabellen-Frage (Rate pro Sektor als Funktion des γ-Profils) plus Struktur-Frage (gemeinsamer Parameter vs direkte Kopplung). Beruehrt EQ-002 (U(1)-Bruch) und EQ-006 (Raten-Theorem), ist aber eigenstaendig: γ als das, was beide Sektoren gleichzeitig formt, ohne sie zu koppeln. Morgen pruefen ob eigener Task oder Teil von EQ-006.
+
+---
+
 *Sammlung. Nicht Sortierung. Klassifizierung kommt, wenn genug Eintraege da sind.*
