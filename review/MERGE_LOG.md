@@ -15,7 +15,7 @@ are the human-review layer on top of them.
 
 | Batch | Entries | Done | Log file |
 |-------|---------|------|----------|
-| methodology | 8 | 1 | `MERGE_LOG_methodology.md` |
+| methodology | 8 | 2 | `MERGE_LOG_methodology.md` |
 | closed-form | 9 | 0 | (not yet started) |
 | interpretation | 18 | 0 | (not yet started) |
 | scope-extension | 26 | 0 | (not yet started) |
@@ -26,7 +26,7 @@ are the human-review layer on top of them.
 | untagged 8b | ~41 | 0 | (not yet started) |
 | untagged 8c | ~41 | 0 | (not yet started) |
 
-**Total:** 1 / 327
+**Total:** 2 / 327
 
 **Last updated:** 2026-04-12
 
