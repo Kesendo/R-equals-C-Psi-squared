@@ -1,0 +1,86 @@
+Boundary Straddling Sweep: Classification Table
+================================================
+Date: 2026-04-12
+Thresholds: cusp = CΨ crosses 1/4;  lens = overlap >= 0.1
+Method: sector-restricted Liouvillian (exact, sector conservation)
+
+N = 5: γ = [2.3357, 0.0994, 0.0500, 0.0717, 0.0513]
+  Sector dim M = 15, L_sector = 225x225
+  Slow SE mode rate = 0.318085
+N = 6: γ = [2.3360, 0.0500, 0.0622, 0.0745, 0.0868, 0.0990]
+  Sector dim M = 26, L_sector = 676x676
+  Slow SE mode rate = 0.333676
+N = 7: γ = [2.3360, 0.0500, 0.0598, 0.0696, 0.0794, 0.0892, 0.0990]
+  Sector dim M = 42, L_sector = 1764x1764
+  Slow SE mode rate = 0.313339
+
+Label                                 N  Fam  CΨmax(0)  Cusp   t_cross   Overlap  Lens  Classification
+------------------------------------------------------------------------------------------------------
+A:Bell(2,3)+exc(0)                    5    A    0.3333     Y     0.138    0.0894     N       cusp-only
+A:Bell(2,3)+exc(1)                    5    A    0.3333     Y     0.142    0.0811     N       cusp-only
+A:Bell(2,3)+exc(4)                    5    A    0.3333     Y     0.146    0.1257     Y       straddles
+B:Bell(0,1)+exc(4)                    5    B    0.3333     Y     0.042    0.1257     Y       straddles
+B:Bell(0,1)+exc(3)                    5    B    0.3333     Y     0.042    0.0664     N       cusp-only
+B:Bell(1,2)+exc(0)                    5    B    0.3333     Y     0.148    0.0894     N       cusp-only
+B:Bell(1,2)+exc(4)                    5    B    0.3333     Y     0.139    0.1257     Y       straddles
+B:Bell(3,4)+exc(0)                    5    B    0.3333     Y     0.203    0.0894     N       cusp-only
+B:Bell(3,4)+exc(1)                    5    B    0.3333     Y     0.188    0.0811     N       cusp-only
+A:Bell(2,3)+exc(0)                    6    A    0.3333     Y     0.137    0.0071     N       cusp-only
+A:Bell(2,3)+exc(1)                    6    A    0.3333     Y     0.141    0.0345     N       cusp-only
+A:Bell(2,3)+exc(4)                    6    A    0.3333     Y     0.140    0.1173     Y       straddles
+A:Bell(2,3)+exc(5)                    6    A    0.3333     Y     0.136    0.0470     N       cusp-only
+B:Bell(0,1)+exc(5)                    6    B    0.3333     Y     0.042    0.0470     N       cusp-only
+B:Bell(0,1)+exc(4)                    6    B    0.3333     Y     0.042    0.1173     Y       straddles
+B:Bell(1,2)+exc(0)                    6    B    0.3333     Y     0.156    0.0071     N       cusp-only
+B:Bell(1,2)+exc(5)                    6    B    0.3333     Y     0.150    0.0470     N       cusp-only
+B:Bell(3,4)+exc(0)                    6    B    0.3333     Y     0.135    0.0071     N       cusp-only
+B:Bell(3,4)+exc(5)                    6    B    0.3333     Y     0.139    0.0470     N       cusp-only
+B:Bell(4,5)+exc(0)                    6    B    0.3333     Y     0.181    0.0071     N       cusp-only
+B:Bell(4,5)+exc(1)                    6    B    0.3333     Y     0.181    0.0345     N       cusp-only
+C:theta=pi/6+exc(0)                   6    C    0.2887     Y     0.108    0.0107     N       cusp-only
+C:theta=pi/6+exc(5)                   6    C    0.2887     Y     0.108    0.0705     N       cusp-only
+C:theta=pi/4+exc(0)                   6    C    0.3333     Y     0.137    0.0071     N       cusp-only
+C:theta=pi/4+exc(5)                   6    C    0.3333     Y     0.136    0.0470     N       cusp-only
+C:theta=pi/3+exc(0)                   6    C    0.2887     Y     0.073    0.0036     N       cusp-only
+C:theta=pi/3+exc(5)                   6    C    0.2887     Y     0.073    0.0235     N       cusp-only
+A:Bell(3,4)+exc(0)                    7    A    0.3333     Y     0.138    0.0043     N       cusp-only
+A:Bell(3,4)+exc(1)                    7    A    0.3333     Y     0.135    0.0218     N       cusp-only
+A:Bell(3,4)+exc(2)                    7    A    0.3333     Y     0.139    0.0617     N       cusp-only
+A:Bell(3,4)+exc(5)                    7    A    0.3333     Y     0.139    0.0901     N       cusp-only
+A:Bell(3,4)+exc(6)                    7    A    0.3333     Y     0.135    0.0343     N       cusp-only
+B:Bell(0,1)+exc(6)                    7    B    0.3333     Y     0.042    0.0343     N       cusp-only
+B:Bell(0,1)+exc(5)                    7    B    0.3333     Y     0.042    0.0901     N       cusp-only
+B:Bell(0,1)+exc(2)                    7    B    0.3333     Y     0.042    0.0617     N       cusp-only
+B:Bell(1,2)+exc(0)                    7    B    0.3333     Y     0.156    0.0043     N       cusp-only
+B:Bell(1,2)+exc(6)                    7    B    0.3333     Y     0.151    0.0343     N       cusp-only
+B:Bell(1,2)+exc(5)                    7    B    0.3333     Y     0.150    0.0901     N       cusp-only
+B:Bell(2,3)+exc(0)                    7    B    0.3333     Y     0.138    0.0043     N       cusp-only
+B:Bell(2,3)+exc(6)                    7    B    0.3333     Y     0.141    0.0343     N       cusp-only
+B:Bell(2,3)+exc(1)                    7    B    0.3333     Y     0.142    0.0218     N       cusp-only
+B:Bell(4,5)+exc(0)                    7    B    0.3333     Y     0.134    0.0043     N       cusp-only
+B:Bell(4,5)+exc(6)                    7    B    0.3333     Y     0.138    0.0343     N       cusp-only
+B:Bell(4,5)+exc(1)                    7    B    0.3333     Y     0.134    0.0218     N       cusp-only
+B:Bell(5,6)+exc(0)                    7    B    0.3333     Y     0.180    0.0043     N       cusp-only
+B:Bell(5,6)+exc(1)                    7    B    0.3333     Y     0.180    0.0218     N       cusp-only
+B:Bell(5,6)+exc(2)                    7    B    0.3333     Y     0.180    0.0617     N       cusp-only
+C:theta=pi/6+exc(0)                   7    C    0.2887     Y     0.108    0.0065     N       cusp-only
+C:theta=pi/6+exc(6)                   7    C    0.2887     Y     0.106    0.0514     N       cusp-only
+C:theta=pi/4+exc(0)                   7    C    0.3333     Y     0.138    0.0043     N       cusp-only
+C:theta=pi/4+exc(6)                   7    C    0.3333     Y     0.135    0.0343     N       cusp-only
+C:theta=pi/3+exc(0)                   7    C    0.2887     Y     0.072    0.0022     N       cusp-only
+C:theta=pi/3+exc(6)                   7    C    0.2887     Y     0.072    0.0171     N       cusp-only
+
+Classification counts:
+     straddles: 5
+     cusp-only: 48
+     lens-only: 0
+       neither: 0
+
+Max slow-mode overlap: 0.125709 (A:Bell(2,3)+exc(4))
+
+5 candidate(s) straddle both exits:
+  A:Bell(2,3)+exc(4) (N=5, overlap=0.1257, t_cross=0.146)
+  B:Bell(0,1)+exc(4) (N=5, overlap=0.1257, t_cross=0.042)
+  B:Bell(1,2)+exc(4) (N=5, overlap=0.1257, t_cross=0.139)
+  A:Bell(2,3)+exc(4) (N=6, overlap=0.1173, t_cross=0.140)
+  B:Bell(0,1)+exc(4) (N=6, overlap=0.1173, t_cross=0.042)

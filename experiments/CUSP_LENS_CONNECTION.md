@@ -66,6 +66,38 @@ The sector conservation theorem guarantees that no continuous Lindblad trajector
 
 ---
 
+## Boundary test: non-symmetric two-excitation states
+
+**Motivation.** OQ-114 below asked whether a state with both high CΨ on one pair and slow-mode overlap could straddle the two exits. SACRIFICE_GEOMETRY.md Open Question #2 asked the same from the opposite direction: can a multi-excitation state reach the slow mode? This section answers both.
+
+**Candidates.** Three families of non-symmetric two-excitation states were tested: (A) Bell+ on the central pair plus a displaced excitation on each spectator site, (B) Bell+ on off-center pairs plus displaced excitation at the most asymmetric sites, and (C) tuned concurrence (cos θ |00> + sin θ |11>) plus displaced excitation (N >= 6, θ in {π/6, π/4, π/3}). Total: 53 candidates across N=5, 6, 7.
+
+**Method.** Sector-restricted Liouvillian. Candidate states span excitation sectors w=1 and w=3 only. Sector conservation under Heisenberg + Z-dephasing is exact (proven in the sector conservation theorem above), so the evolution within {w=1, w=3} × {w=1, w=3} is exact. This reduces the Liouvillian from 16384×16384 to 1764×1764 at N=7. Slow mode extracted from the SE-restricted block (N² × N²), justified by SE fraction = 1.000 for N=3-7 chain.
+
+**Thresholds** (defined before seeing data):
+- Cusp-active: max pair CΨ crosses 1/4 at some t > 0.
+- Lens-active: slow-mode Frobenius overlap >= 0.10.
+
+**Results.**
+
+| N | Candidates | Straddles | Cusp-only | Max overlap | Best candidate |
+|---|------------|-----------|-----------|-------------|----------------|
+| 5 | 9  | 3 | 6  | 0.1257 | exc on site 4 (quietest, γ = 0.051) |
+| 6 | 18 | 2 | 16 | 0.1173 | exc on site 4 (γ = 0.087) |
+| 7 | 26 | 0 | 26 | 0.0901 | exc on site 5 (γ = 0.089) |
+
+All 53 candidates are cusp-active (the Bell pair ensures CΨ(0) > 1/4 on at least one pair). Five candidates straddle both exits, all with the displaced excitation on the quiet end of the sacrifice chain. No lens-only candidates exist.
+
+**Mechanism.** The slow mode concentrates on quiet qubits (the lens shape, see [Sacrifice Geometry](SACRIFICE_GEOMETRY.md)). When the displaced excitation is placed on a quiet site, the w=1 component of the density matrix has its excitation there, overlapping the slow mode's SE block. The overlap is modest (10-13%) because only the w=1 sector contributes; the w=3 sector has negligible projection onto the SE-dominated slow mode.
+
+**N-scaling.** The overlap decreases with N: 0.126 (N=5), 0.117 (N=6), 0.090 (N=7). At N=7, no candidate reaches the 10% threshold. This dilution occurs because the slow mode's per-site weight spreads across more qubits as N grows, reducing the single-site projection.
+
+**Conclusion.** Boundary states that straddle both decoherence exits exist at small N (5, 6) but the straddling is marginal (12.6% at best) and vanishes by N=7. The two-exit separation is not absolute for small chains but becomes robust as N grows. Combined with the symmetric-two-excitation exclusion (SACRIFICE_GEOMETRY Level 2, AUC < 0.09), the two-excitation candidate class is substantially exhausted.
+
+Script: `simulations/boundary_straddling_sweep.py`. Data: `simulations/results/boundary_straddling/`.
+
+---
+
 ## Instantiation: N=5 sacrifice chain [80, 8, 79, 53, 85]
 
 ### CΨ definition used
@@ -149,6 +181,8 @@ This is the analytical closure of the two-exit picture. It does not depend on an
 ## Open questions
 
 1. **Boundary states between sheets.** A state with both high CΨ on one pair (approaching 1/4) and slow-mode overlap might straddle the two exits. Two-excitation states with one high-concurrence pair are candidates.
+
+> *Substantially addressed (2026-04-12):* see "Boundary test" section above. Positive resolution at N=5, 6 (5 straddling candidates with 10-13% slow-mode overlap), negative at N=7 (max overlap 9.0%, below threshold). The straddling is marginal and N-dependent: overlap dilutes as the slow mode spreads across more qubits. Sweep of 53 non-symmetric two-excitation states across N=5, 6, 7 and three candidate families. Specifics in `simulations/results/boundary_straddling/`.
 
 2. **N-scaling of sector locking.** The SE sector has N states out of 2^N. As N grows, the "classical-but-structured" exit preserves an exponentially shrinking fraction. Does the lens protection scale?
 

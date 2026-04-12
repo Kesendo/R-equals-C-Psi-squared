@@ -1,0 +1,2052 @@
+{
+  "meta": [
+    {
+      "N": 5,
+      "gamma": [
+        2.335727969348659,
+        0.09936837815810921,
+        0.05,
+        0.07173324704359593,
+        0.05132171570484489
+      ],
+      "Sg": 2.6082,
+      "sector_dim": 15,
+      "liouvillian_dim": 225,
+      "slow_mode_rate": 0.318085,
+      "n_candidates": 9,
+      "elapsed_s": 1.1
+    },
+    {
+      "N": 6,
+      "gamma": [
+        2.336,
+        0.05,
+        0.06225,
+        0.07450000000000001,
+        0.08675000000000001,
+        0.099
+      ],
+      "Sg": 2.7085,
+      "sector_dim": 26,
+      "liouvillian_dim": 676,
+      "slow_mode_rate": 0.333676,
+      "n_candidates": 18,
+      "elapsed_s": 3.7
+    },
+    {
+      "N": 7,
+      "gamma": [
+        2.336,
+        0.05,
+        0.059800000000000006,
+        0.0696,
+        0.0794,
+        0.0892,
+        0.099
+      ],
+      "Sg": 2.783,
+      "sector_dim": 42,
+      "liouvillian_dim": 1764,
+      "slow_mode_rate": 0.313339,
+      "n_candidates": 26,
+      "elapsed_s": 18.0
+    }
+  ],
+  "results": [
+    {
+      "label": "A:Bell(2,3)+exc(0)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1381,
+      "dcpsi_cross": -0.681622,
+      "slow_mode_overlap": 0.089436,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(1)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1422,
+      "dcpsi_cross": -0.650453,
+      "slow_mode_overlap": 0.081057,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(4)",
+      "family": "A",
+      "N": 5,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.146,
+      "dcpsi_cross": -0.621107,
+      "slow_mode_overlap": 0.125709,
+      "lens_active": true,
+      "classification": "straddles",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(4)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0418,
+      "dcpsi_cross": -1.994704,
+      "slow_mode_overlap": 0.125709,
+      "lens_active": true,
+      "classification": "straddles",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(3)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 3,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0417,
+      "dcpsi_cross": -1.997364,
+      "slow_mode_overlap": 0.066401,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1483,
+      "dcpsi_cross": -0.59761,
+      "slow_mode_overlap": 0.089436,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(4)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1393,
+      "dcpsi_cross": -0.660736,
+      "slow_mode_overlap": 0.125709,
+      "lens_active": true,
+      "classification": "straddles",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(3,4)+exc(0)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.2033,
+      "dcpsi_cross": -0.468721,
+      "slow_mode_overlap": 0.089436,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(3,4)+exc(1)",
+      "family": "B",
+      "N": 5,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.188,
+      "dcpsi_cross": -0.450816,
+      "slow_mode_overlap": 0.081057,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.075,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(0)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1366,
+      "dcpsi_cross": -0.68531,
+      "slow_mode_overlap": 0.007137,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(1)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1409,
+      "dcpsi_cross": -0.65302,
+      "slow_mode_overlap": 0.03448,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(4)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1404,
+      "dcpsi_cross": -0.657195,
+      "slow_mode_overlap": 0.117263,
+      "lens_active": true,
+      "classification": "straddles",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(2,3)+exc(5)",
+      "family": "A",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1362,
+      "dcpsi_cross": -0.689496,
+      "slow_mode_overlap": 0.047022,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0422,
+      "dcpsi_cross": -1.9741,
+      "slow_mode_overlap": 0.047022,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(4)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 4,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0422,
+      "dcpsi_cross": -1.974117,
+      "slow_mode_overlap": 0.117263,
+      "lens_active": true,
+      "classification": "straddles",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1558,
+      "dcpsi_cross": -0.566925,
+      "slow_mode_overlap": 0.007137,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1501,
+      "dcpsi_cross": -0.598088,
+      "slow_mode_overlap": 0.047022,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(3,4)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1348,
+      "dcpsi_cross": -0.685337,
+      "slow_mode_overlap": 0.007137,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(3,4)+exc(5)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1393,
+      "dcpsi_cross": -0.651588,
+      "slow_mode_overlap": 0.047022,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(4,5)+exc(0)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 4,
+      "cusp_active": true,
+      "cross_pair": 4,
+      "t_cross": 0.1812,
+      "dcpsi_cross": -0.466759,
+      "slow_mode_overlap": 0.007137,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(4,5)+exc(1)",
+      "family": "B",
+      "N": 6,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 4,
+      "cusp_active": true,
+      "cross_pair": 4,
+      "t_cross": 0.1809,
+      "dcpsi_cross": -0.467736,
+      "slow_mode_overlap": 0.03448,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/6+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1081,
+      "dcpsi_cross": -0.459789,
+      "slow_mode_overlap": 0.010705,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.096875,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.75,
+        "2": 0.0,
+        "3": 0.25,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/6+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1079,
+      "dcpsi_cross": -0.464235,
+      "slow_mode_overlap": 0.070534,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.096875,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.75,
+        "2": 0.0,
+        "3": 0.25,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/4+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1366,
+      "dcpsi_cross": -0.68531,
+      "slow_mode_overlap": 0.007137,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/4+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1362,
+      "dcpsi_cross": -0.689496,
+      "slow_mode_overlap": 0.047022,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.054167,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/3+exc(0)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.0731,
+      "dcpsi_cross": -0.528811,
+      "slow_mode_overlap": 0.003568,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.038542,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.25,
+        "2": 0.0,
+        "3": 0.75,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/3+exc(5)",
+      "family": "C",
+      "N": 6,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.0731,
+      "dcpsi_cross": -0.529047,
+      "slow_mode_overlap": 0.023511,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.038542,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.25,
+        "2": 0.0,
+        "3": 0.75,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(3,4)+exc(0)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1376,
+      "dcpsi_cross": -0.668113,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(3,4)+exc(1)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1346,
+      "dcpsi_cross": -0.697609,
+      "slow_mode_overlap": 0.02183,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(3,4)+exc(2)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1386,
+      "dcpsi_cross": -0.665526,
+      "slow_mode_overlap": 0.061688,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(3,4)+exc(5)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1386,
+      "dcpsi_cross": -0.666029,
+      "slow_mode_overlap": 0.090126,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "A:Bell(3,4)+exc(6)",
+      "family": "A",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1345,
+      "dcpsi_cross": -0.698117,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0422,
+      "dcpsi_cross": -1.974112,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(5)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0422,
+      "dcpsi_cross": -1.974112,
+      "slow_mode_overlap": 0.090126,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(0,1)+exc(2)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        0,
+        1
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 0,
+      "cusp_active": true,
+      "cross_pair": 0,
+      "t_cross": 0.0422,
+      "dcpsi_cross": -1.976838,
+      "slow_mode_overlap": 0.061688,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1563,
+      "dcpsi_cross": -0.564957,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1507,
+      "dcpsi_cross": -0.595358,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(1,2)+exc(5)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        1,
+        2
+      ],
+      "exc_site": 5,
+      "cpsi0_per_pair": [
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 1,
+      "cusp_active": true,
+      "cross_pair": 1,
+      "t_cross": 0.1505,
+      "dcpsi_cross": -0.596142,
+      "slow_mode_overlap": 0.090126,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(2,3)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1377,
+      "dcpsi_cross": -0.679997,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(2,3)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.1406,
+      "dcpsi_cross": -0.653812,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(2,3)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        2,
+        3
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 2,
+      "cusp_active": true,
+      "cross_pair": 2,
+      "t_cross": 0.142,
+      "dcpsi_cross": -0.647589,
+      "slow_mode_overlap": 0.02183,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(4,5)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 4,
+      "cusp_active": true,
+      "cross_pair": 4,
+      "t_cross": 0.1338,
+      "dcpsi_cross": -0.690138,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(4,5)+exc(6)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 4,
+      "cusp_active": true,
+      "cross_pair": 4,
+      "t_cross": 0.1381,
+      "dcpsi_cross": -0.657079,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(4,5)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        4,
+        5
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 4,
+      "cusp_active": true,
+      "cross_pair": 4,
+      "t_cross": 0.1338,
+      "dcpsi_cross": -0.690811,
+      "slow_mode_overlap": 0.02183,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(5,6)+exc(0)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 5,
+      "cusp_active": true,
+      "cross_pair": 5,
+      "t_cross": 0.1805,
+      "dcpsi_cross": -0.468883,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(5,6)+exc(1)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 1,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 5,
+      "cusp_active": true,
+      "cross_pair": 5,
+      "t_cross": 0.1805,
+      "dcpsi_cross": -0.468894,
+      "slow_mode_overlap": 0.02183,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "B:Bell(5,6)+exc(2)",
+      "family": "B",
+      "N": 7,
+      "bell_pair": [
+        5,
+        6
+      ],
+      "exc_site": 2,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.333333
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 5,
+      "cusp_active": true,
+      "cross_pair": 5,
+      "t_cross": 0.1802,
+      "dcpsi_cross": -0.469863,
+      "slow_mode_overlap": 0.061688,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/6+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1077,
+      "dcpsi_cross": -0.441923,
+      "slow_mode_overlap": 0.006478,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.082143,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.75,
+        "2": 0.0,
+        "3": 0.25,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/6+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1061,
+      "dcpsi_cross": -0.471567,
+      "slow_mode_overlap": 0.051436,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.082143,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.75,
+        "2": 0.0,
+        "3": 0.25,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/4+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1376,
+      "dcpsi_cross": -0.668113,
+      "slow_mode_overlap": 0.004319,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/4+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.333333,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.333333,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.1345,
+      "dcpsi_cross": -0.698117,
+      "slow_mode_overlap": 0.034291,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.042857,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.5,
+        "2": 0.0,
+        "3": 0.5,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/3+exc(0)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 0,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.0723,
+      "dcpsi_cross": -0.535244,
+      "slow_mode_overlap": 0.002159,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.025,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.25,
+        "2": 0.0,
+        "3": 0.75,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    },
+    {
+      "label": "C:theta=pi/3+exc(6)",
+      "family": "C",
+      "N": 7,
+      "bell_pair": [
+        3,
+        4
+      ],
+      "exc_site": 6,
+      "cpsi0_per_pair": [
+        0.0,
+        0.0,
+        0.0,
+        0.288675,
+        0.0,
+        0.0
+      ],
+      "cpsi0_max": 0.288675,
+      "cpsi0_max_pair": 3,
+      "cusp_active": true,
+      "cross_pair": 3,
+      "t_cross": 0.0718,
+      "dcpsi_cross": -0.538925,
+      "slow_mode_overlap": 0.017145,
+      "lens_active": false,
+      "classification": "cusp-only",
+      "purity_100": 0.025,
+      "sector_pops_100": {
+        "0": 0.0,
+        "1": 0.25,
+        "2": 0.0,
+        "3": 0.75,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "coherence_100": 0.0
+    }
+  ]
+}
