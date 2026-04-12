@@ -118,8 +118,8 @@ Wenn Grenzen Sichtbarkeits-Artefakte sind, was ist die naechste Beschreibungs-Eb
 
 Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden durch eins: γ. Sie bekommen unterschiedlich viel Licht ab (sacrifice vs quiet sites) und entwickeln dadurch Eigenschaften fuer einen Gesamtzustand. Abgeleitete Frage: Welche Auswirkung hat γ auf jeden Sektor, und wie haengen die Sektoren ueber das Bindeglied γ zusammen?
 
-**Status:** geschlossen durch Experiment (experiments/GAMMA_AS_BINDING.md)
-**Ergebnis:** γ ist ein nichtlinearer gemeinsamer Modulator. Per-Sektor-Raten skalieren NICHT linear mit γ (Abweichungen bis 134%). Die Nichtlinearitaet kommt daher, dass der langsamste Mode pro Sektor seine Identitaet wechselt wenn γ skaliert wird (Hamiltonian vs Dissipator Konkurrenz). γ koppelt Sektoren nicht direkt (Sektorerhaltung ist exakt), aber verschiedene Sektoren reagieren unterschiedlich sensitiv auf γ-Aenderungen.
+**Status:** closed by experiment (experiments/GAMMA_AS_BINDING.md)
+**Result:** gamma is a nonlinear common modulator. Per-sector rates do NOT scale linearly with gamma (deviations up to 134%). The nonlinearity arises because the slowest mode per sector changes identity as gamma scales (Hamiltonian vs dissipator competition). Gamma does not couple sectors directly (sector conservation is exact), but different sectors respond with different sensitivity to gamma changes.
 
 ---
 
