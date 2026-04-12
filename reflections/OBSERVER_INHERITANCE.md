@@ -36,7 +36,7 @@ Sektor w_B mit w_A ≠ w_B, dann:
     Tr(ρ_A(t) · ρ_B(t)) = 0  fuer alle t
 
 Gemessen bei t = 0, 1, 5, 20, 100. Abweichung: 0 auf Maschinen-
-genauigkeit (max 5×10⁻¹⁶). Dies ist nicht Naeherung. Es ist
+genauigkeit (max 5�--10⁻¹⁶). Dies ist nicht Naeherung. Es ist
 algebraische Folge von [H, N] = 0 und [L_k, N] = 0 mit N =
 Σ (I-Z_k)/2.
 
