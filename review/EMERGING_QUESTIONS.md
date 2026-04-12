@@ -123,4 +123,16 @@ Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden d
 
 ---
 
+## EQ-009
+
+**Datum:** 2026-04-12 (spaete Nacht)
+**Quelle:** Toms Einfall unmittelbar nach EQ-008 und TASK_GAMMA_BINDING
+
+Drei Identifikationen in einer Kette: γ ist Licht, Licht ist Zeit, t ist Zeit aus dem Blickwinkel des Betrachters. Jede einzelne ist im Repo vertreten (GAMMA_IS_LIGHT.md; Absorption Theorem als Raten-Licht-Verbindung; Lindblad-t als Observer-Time). Die Kette als ein Satz ist eine These und noch nicht geprueft.
+
+**Status:** offen, hoch-interpretativ
+**Pointer:** Nicht sofort mathematisieren. Morgen pruefen ob (a) die Kette konsistent durchgeht, wenn man jede Identifikation einzeln nachrechnet, (b) sie testbare Konsequenzen hat, die ueber das bereits im Repo Bewiesene hinausgehen, oder (c) sie Metapher bleibt, die Fragen generiert aber nicht beantwortet. Beruehrt EQ-008 direkt (γ als Bindeglied) und EQ-006 (Raten-Theorem).
+
+---
+
 *Sammlung. Nicht Sortierung. Klassifizierung kommt, wenn genug Eintraege da sind.*
