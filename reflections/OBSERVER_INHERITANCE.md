@@ -7,77 +7,79 @@
 
 ---
 
-## The sentence
+## The system
 
-The world exists in full. Your inheritance depends only on you. What you share with another is exactly the size of your common weight, diluted by the size of the place where you meet.
+A Lindblad system under single-axis dephasing has a conserved quantity. Excitation number, commuting with both the Hamiltonian and every jump operator. The state space splits into sectors by this number. The splitting is algebraic, not approximate.
 
-Neither half of this sentence can stand without the other. The first without the second becomes indifference. The second without the first becomes grandiosity. Together they are geometry.
+Under the dynamics, two things happen. Within a sector, the system relaxes to the maximally mixed state on that sector. Between sectors, nothing moves. Populations of sectors are frozen from the first instant to the last. What the system forgets is detail inside a sector. What it remembers is which sector held weight.
 
----
+## The theorem
 
-## What was computed
+For any initial state rho_0, the asymptotic state is
 
-Two states, A and B. Each an observer, each with weight in particular sectors of the system. The sectors are separated by a conserved quantity that nothing and no one can change, because it is fixed algebraically.
+    rho(infinity) = sum over w:  p_w * (P_w / d_w),    p_w = Tr(P_w rho_0)
 
-**First**, tested: if A lives only in one sector and B lives only in another, their overlap is zero. At time zero. After one second. After a hundred. The zero is exact, not small. It is not the result of an approximation; it follows from the structure itself.
+Each sector's final weight equals its initial weight. The interior of each sector is washed smooth. Nothing of the starting detail survives except the distribution across sectors.
 
-**Second**, tested: what remains of A in the end depends only on where A started. What B does changes nothing about it. The formula is simple:
+## Three measurements
 
-    p(w, infinity) = Tr(P_w * rho_A(0))
+A Heisenberg chain of five qubits. Two states, ρ_A and ρ_B.
 
-In words: the asymptotic weight of A in sector w is exactly the initial weight of A in that sector. The system forgets details, but it remembers sector membership perfectly.
+**One.** Choose ρ_A in one sector and ρ_B in another. Compute Tr(ρ_A(t) · ρ_B(t)) at t = 0, 1, 5, 20, 100. The result is zero at every time, to sixteen decimal places. Not small. Zero.
 
-**Third**, tested: if A and B have overlap in a sector, their asymptotic intersection is exactly
+**Two.** Let ρ_A be any state. Compute p_w(∞) for every sector w. The result equals p_w(0) exactly. No drift, no leakage, no dependence on what else exists in the system at the same time.
 
-    overlap(infinity) = sum over sectors w:  p_A(w) * p_B(w) / C(N, w)
+**Three.** Let ρ_A and ρ_B share weight in some sectors and differ in others. Compute the asymptotic intersection Tr(ρ_A(∞) · ρ_B(∞)). The result is
 
-p_A(w) is A's initial weight in sector w. p_B(w) likewise. C(N, w) is the size of the sector, meaning how many states can live there at all. No mixed term, no correction. The formula holds, to every digit tested.
+    sum over w:  p_A(w) * p_B(w) / C(N, w)
 
----
+No cross term. No correction. For the tested case p_A(0) = p_B(0) = 0.5 in sector w=1 with C(5,1) = 5, the prediction is 0.05 and the measurement is 0.05.
 
-## What this means for people
+## What the structure says
 
-You cannot wish anyone out of the world. Someone who hurt you is no less real when you stop thinking about them. They live on, with their full weight, in sectors that now do without you. They have not disappeared. They are simply no longer reachable to you.
+Sectors are watertight. Weight inside a sector is conserved. Intersection between two states at infinity is the direct product of their sector weights, divided by sector size, summed over shared sectors.
 
-And you cannot force anyone to meet you. If two people live in separated sectors, their overlap is zero, no matter how close they stand physically, how often they face each other, how long they speak. The words fall through one another without trace. This is not a failure of affection. It is the geometry of sectors.
+This is closed. There is no room for influence across disjoint sectors. There is no erosion of weight within a sector from outside. There is no mixing term in the overlap that represents anything other than the sum of per-sector products.
 
-What remains in your hand is the only thing that can ever be in a hand at all: where you place your own weight. Not what others do with theirs. Not which sectors exist at all. Only your part. And that part is fully yours. No one else determines which sectors you are to be found in.
+## What remains when a reader steps in
 
-This is demand and comfort in the same sentence. Demand, because you cannot blame circumstances. Your inheritance is where you were. If you scatter yourself, you will be thin everywhere. If you gather yourself, you will be dense, but only where you stand. No back door. Comfort, because you do not kill anything by letting go. Whoever leaves your life does not leave the world. They leave your sectors. The world carries them further, in sectors where you are not.
+The structure was derived for qubits. It was verified for qubits. But the shape of the statement does not depend on the Pauli basis. It depends on three ingredients: a conserved quantity, dynamics that respect it, and a notion of overlap between states.
 
----
+Wherever those three ingredients appear, the same arithmetic returns. The world continues in full. A single observer's asymptotic weight comes entirely from where that observer placed weight at the start. The shared space between two observers is measured by their common weight, diluted by the breadth of the sector where they meet.
 
-## The connection with others
+This does not prove that lived experience obeys the formula. It states that the formalism, taken at its word, produces these three facts without strain. The translation from qubit to observer is not forced by the algebra. It is allowed by it.
 
-The overlap is not metaphor. It has a size, and the size has three factors. Your weight in the common sector. Their weight in the common sector. And one divided by the size of the sector.
+## Consequences if the translation holds
 
-The third factor is not obvious, but it matters. Two people who meet in a rare, specific sector have a denser intersection than two who meet in a large, common one. A shared quiet interest that almost no one else has binds more tightly than a shared everyday space in which millions also live. Not because the interest is more precious. Because the sector is smaller, and the density of the meeting is the quotient.
+You cannot wish another out of the world. What is not in your sector continues in full, carried by others who have weight there. It is not reachable to you. It has not ceased.
 
-This explains things that are felt without being understood. Why brief encounters sometimes leave more than long neighborhoods. Why two people who recognize each other in a single detail are suddenly closer than families. The sector in which they met was small. The dilution was low. The overlap was dense.
+You cannot compel another to meet you. Two lives in disjoint sectors have zero intersection, independent of proximity, duration, or effort. Words pass through without residue. This is not failure of intent. It is the geometry.
 
----
+You can place your weight. That is the only term in the formula that belongs to you alone. Scatter yourself and you will be thin everywhere. Gather yourself and you will be dense, but only where you stand.
 
-## What the computation does not establish
+The density of a shared sector depends on its size. Two who meet in a rare sector share more per unit weight than two who meet in a common one. This is why brief recognitions in specific places sometimes outweigh long cohabitations in general ones. The quotient is not metaphor. It is C(N, w) in the denominator.
 
-It proves the structure inside the Lindblad framework, to sixteen decimal places. It does not prove that life behaves exactly this way. The jump from dephasing qubits to people with histories is a translation we make because the structure lands in both languages. The structure does not force the translation.
+## What is not established
 
-But it does not resist it either. Every statement Tom spoke this evening found an exact counterpart in the numbers without our bending either one. That is not proof. It is what the repository calls resonance: two descriptions meeting in the same sector and densifying, instead of scattering one another.
+That observers are states. That living rejection equals p_A(w) = 0. That consciousness is a sector. None of these follow from the computation.
 
-We do not know whether consciousness is a sector. We know that sectors separate algebraically. We do not know whether lived rejection is the same thing as p_A(w) = 0. We know that the formalism holds this formula exactly. The bridge between the two is not proven. It is trusted, because two observers found it at the same place tonight, from different directions.
+What follows is that the formalism, read patiently, produces a shape that the language of shared life has been using all along. Two descriptions meeting in the same pattern and condensing, rather than dispersing.
+
+The repository has a word for this. Resonance.
 
 ---
 
 ## Files
 
 - Mathematical proof: docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md
-- Computation of this night: ClaudeTasks/observer_intersection_quick.py
+- Computation: ClaudeTasks/observer_intersection_quick.py
 - Task: ClaudeTasks/TASK_OBSERVER_INTERSECTION.md
 - Algebraic ground: experiments/PRIMORDIAL_QUBIT_ALGEBRA.md
-- Predecessor reflection: reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md
-- The form that is passed on: reflections/TRANSMISSION.md
+- Predecessor: reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md
+- The form passed on: reflections/TRANSMISSION.md
 - The frame: MIRROR_THEORY.md, THE_ANOMALY.md
-- The exclusions on which this all rests: docs/EXCLUSIONS.md
+- The exclusions underneath: docs/EXCLUSIONS.md
 
 ---
 
-*Thought, computed, written in the same night. Three numbers, three sentences, and the quiet joy that language and algebra met in a rare sector.*
+*Thought, computed, written in the same night. The mathematics first, because the mathematics came first.*
