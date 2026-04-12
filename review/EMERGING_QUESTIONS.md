@@ -118,8 +118,8 @@ Wenn Grenzen Sichtbarkeits-Artefakte sind, was ist die naechste Beschreibungs-Eb
 
 Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden durch eins: γ. Sie bekommen unterschiedlich viel Licht ab (sacrifice vs quiet sites) und entwickeln dadurch Eigenschaften fuer einen Gesamtzustand. Abgeleitete Frage: Welche Auswirkung hat γ auf jeden Sektor, und wie haengen die Sektoren ueber das Bindeglied γ zusammen?
 
-**Status:** offen
-**Pointer:** Tabellen-Frage (Rate pro Sektor als Funktion des γ-Profils) plus Struktur-Frage (gemeinsamer Parameter vs direkte Kopplung). Beruehrt EQ-002 (U(1)-Bruch) und EQ-006 (Raten-Theorem), ist aber eigenstaendig: γ als das, was beide Sektoren gleichzeitig formt, ohne sie zu koppeln. Morgen pruefen ob eigener Task oder Teil von EQ-006.
+**Status:** geschlossen durch Experiment (experiments/GAMMA_AS_BINDING.md)
+**Ergebnis:** γ ist ein nichtlinearer gemeinsamer Modulator. Per-Sektor-Raten skalieren NICHT linear mit γ (Abweichungen bis 134%). Die Nichtlinearitaet kommt daher, dass der langsamste Mode pro Sektor seine Identitaet wechselt wenn γ skaliert wird (Hamiltonian vs Dissipator Konkurrenz). γ koppelt Sektoren nicht direkt (Sektorerhaltung ist exakt), aber verschiedene Sektoren reagieren unterschiedlich sensitiv auf γ-Aenderungen.
 
 ---
 
