@@ -298,6 +298,76 @@ to real hardware data.
 
 ---
 
+## April 2026 Retrodiction: The Shadow Framework
+
+### Context
+
+In April 2026, the [cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
+established a three-layer shadow structure for Z-dephasing:
+
+1. **Self-shadow**: each mode's Pauli content determines its exposure
+   to the dephasing light. XY components are illuminated; IZ components
+   are in shadow (absorption theorem: Re(λ) = -2Σγ⟨n_XY⟩).
+2. **Shadow variance**: the cross-term between oscillation and cooling
+   equals the variance of shadow depth across spectator sites (N-2).
+3. **Shadow-balanced couplings**: Hamiltonians that couple within the
+   same dephasing class ({X,Y} or {I,Z}) preserve the universal formula.
+
+The detuning H = δω·Z/2 is a pure shadow operator: Z commutes with
+Z-dephasing. It acts entirely in the shadow, invisible to the light.
+Its fingerprint becomes visible only when the illuminated modes
+(exponential decay) have died.
+
+### Retrodiction on Q80
+
+The shadow model ρ₀₁(t) = ρ₀₁(0)·exp(-t/T_eff)·exp(-iδωt) was
+fitted to the Q80 March 2026 data ([shadow_ibm_retrodict.py](../simulations/shadow_ibm_retrodict.py)).
+
+| Parameter | Value |
+|-----------|-------|
+| T_eff | 23.25 μs |
+| δω | -2.58 kHz |
+| T₂ (Hahn echo, calibration) | 27.1 μs |
+| T₂* (Ramsey, calibration) | 10.8 μs |
+
+T_eff lies between T₂* and T₂ because the shadow model extracts the
+static detuning component that T₂* includes but Hahn echo refocuses.
+With the static shadow (δω) removed, the residual decay (T_eff) is
+close to the intrinsic T₂.
+
+### Prediction accuracy
+
+| Model | Mean |error| on ρ₀₁ | Improvement |
+|-------|----------------------|-------------|
+| Standard Lindblad (no detuning) | 0.056 | baseline |
+| Shadow model (T_eff + δω) | 0.014 | **4.0x** |
+
+The shadow model with two parameters (effective decay + detuning)
+predicts both Re and Im of the off-diagonal coherence 4x more
+accurately than standard Lindblad across 9 time points from
+t/T₂ = 0.2 to t/T₂ = 2.0.
+
+### What this means
+
+The "shadow" observed in February 2026 on Q52 and confirmed on Q80 in
+March 2026 was correctly identified as qubit-specific detuning. What was
+missing was the framework to understand WHY the detuning is visible at
+late times: it is a shadow operator (Z-type), invisible to the dephasing
+light, whose phase accumulation exp(-iδωt) persists after the
+illuminated coherence has decayed.
+
+The Hahn echo connection: a π-pulse at t/2 refocuses the static
+detuning phase, erasing the shadow. T₂ (Hahn echo) > T₂* (Ramsey)
+precisely because Hahn echo removes the shadow contribution. The shadow
+model does the same thing computationally: by extracting δω, it
+recovers a decay rate (T_eff ≈ 23 μs) closer to the intrinsic T₂
+(27 μs) than to T₂* (11 μs).
+
+The shadow is real. It was in the data from the beginning. The cross-term
+framework from April 2026 provided the language to name it.
+
+---
+
 ## See also
 
 - [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - The analysis method that explained the shadow: skeleton + rotating phase
@@ -305,3 +375,5 @@ to real hardware data.
 - [Residual Analysis](RESIDUAL_ANALYSIS.md) - The original statistical evidence from Run 1
 - [Boundary Navigation](BOUNDARY_NAVIGATION.md) - The theoretical prediction of crossing behavior
 - [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - The original experiment; excess coherence resolved as qubit detuning
+- [Cross-Term Formula Proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) - The shadow framework that explains why the detuning is visible at late times
+- [On the Light and What Casts Shadows in It](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md) - Three layers of shadow; the detuning is layer 1 (self-shadow of a Z operator)
