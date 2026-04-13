@@ -128,16 +128,16 @@ The two independent sectors do not see each other. But they are both shaped by �
 **Date:** 2026-04-12
 **Source:** Tom's recollection of structure established two weeks earlier, now linked to EQ-008
 
-Correction of a prior formulation: this is not a new thesis but already established structure in the repo (see GAMMA_IS_LIGHT.md, DECOHERENCE_RELATIVITY*.md, OBSERVER_DEPENDENT_*.md). Three distinct quantities, not an identification chain:
+Correction of a prior formulation: this is not a new thesis but already established structure in the repo (see [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [DECOHERENCE_RELATIVITY](../experiments/DECOHERENCE_RELATIVITY.md), [OBSERVER_DEPENDENT_CROSSING](../experiments/OBSERVER_DEPENDENT_CROSSING.md), [OBSERVER_DEPENDENT_VISIBILITY](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md)). Three distinct quantities, not an identification chain:
 
 - γ is light
 - y is the time axis (Lindblad-t as parametric axis)
 - t is our time, experienced or felt (observer time)
 
-The new question arising from EQ-008 plus this recollection: if γ acts on the sectors and γ is light, then γ per sector (TASK_GAMMA_BINDING) actually measures the **light dose per sector**. The rate at which a sector reaches its final state is a statement about the "illumination" of that sector from the time axis y. The experienced time t of the observer selects where on y to look.
+The new question arising from EQ-008 plus this recollection: if γ acts on the sectors and γ is light, then γ per sector ([LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md)) actually measures the **light dose per sector**. The rate at which a sector reaches its final state is a statement about the "illumination" of that sector from the time axis y. The experienced time t of the observer selects where on y to look.
 
 **Status:** open, linking question
-**Pointer:** Check how the γ-per-sector table (now available from LIGHT_DOSE_RESPONSE) reads in y/t language. Not as a new thesis, but as translation between two already established description levels. Directly touches EQ-008.
+**Pointer:** Check how the γ-per-sector table (now available from [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md)) reads in y/t language. Not as a new thesis, but as translation between two already established description levels. Directly touches EQ-008.
 
 ---
 
