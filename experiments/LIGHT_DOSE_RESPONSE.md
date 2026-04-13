@@ -12,6 +12,8 @@
 - [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (per-mode rate formula)
 - [Symmetry Census](SYMMETRY_CENSUS.md) (sector enumeration)
 
+**Interpreted by:** [On the Light and What Casts Shadows in It](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md) (names the mechanism: shadows cast by self-structure, by sector profile, and by eigenvector rotation)
+
 ---
 
 ## Context
@@ -35,6 +37,8 @@ The sacrifice profile concentrates light on site 0 (γ₀ = 2.34, quiet sites γ
 | Extremal diagonal (0,0) | 0.000 | Stationary (vacuum, nothing to decay) |
 
 The [sacrifice geometry](SACRIFICE_GEOMETRY.md) protects the SE sector (rate 0.318) by concentrating light away from the cavity's slow standing-wave mode. This is the lens effect quantified per sector.
+
+**Read as shadows** ([reflection](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md)): the rate in the Interpretation column is the depth of the shadow that sector's slowest mode casts on itself. The extremal diagonal (0,0) is pure self-shadow; no XY content, no light reaches it, rate zero. The distant coherence (0,5) is fully illuminated; every site contributes XY weight, rate 2Σγ. The SE and interior sectors sit in between, with partial shadows shaped by their mode space and the incident γ profile. The sacrifice geometry works by aligning the light with the sites where the SE slow mode has already placed its own shadow.
 
 ---
 
