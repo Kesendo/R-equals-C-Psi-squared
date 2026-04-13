@@ -94,8 +94,8 @@ Step 2 of the sector projection theorem (per-sector ergodicity, unique fixed poi
 
 The theorem is asymptotic. It says nothing about rates, timescales, trajectories, or coherence decay rates between sectors. The lens and cusp dynamics live in this dynamic layer. Is there an analogous theorem for the rates?
 
-**Status:** open (partially informed by [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md): individual mode rates are nonlinear in γ due to eigenvector rotation, so a simple rate theorem may not exist)
-**Pointer:** Second Zeiss level: derive approach rates from sector structure. Possible starting point: absorption theorem at sector level.
+**Status:** closed (structural bounds, no closed-form theorem)
+**Result:** A simple rate theorem analogous to the sector projection theorem does not exist: rates depend on the Hamiltonian's eigenvector structure within each sector, not just on sector labels. But structural bounds are provable. For the SE sector with uniform γ: 0 < Δ_SE < 4γ, with Δ_SE = 2γ⟨n_XY⟩_slow where ⟨n_XY⟩_slow ∈ (0,2) is the XY-weight of the slow mode. Upper bound from absorption theorem (Hamiltonian can only reduce ⟨n_XY⟩ below the pure-dephasing value of 2). Scaling: Δ_SE → 4γ as N → ∞ (departure ∝ 1/N), confirmed N=3-10. For non-uniform γ: upper bound is 2(γ_min₁ + γ_min₂). See [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md) for the nonlinearity mechanism (eigenvector rotation).
 
 ---
 
