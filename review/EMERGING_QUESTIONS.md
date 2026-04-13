@@ -34,8 +34,8 @@ Each entry:
 
 Are the two degrees of freedom (Bell coherence in the cross-sector block, slow mode in the SE block) structurally decoupled in all Heisenberg-Z systems, or is the decoupling a property of the tested range N=5,6,7?
 
-**Status:** open
-**Pointer:** Sweep at larger N (C# engine for N >= 8), plus analytic check whether the orthogonality follows directly from U(1).
+**Status:** closed by proof (follows from U(1) block-diagonal structure)
+**Result:** The decoupling is structural for all N, all topologies, all γ profiles. The Liouvillian is block-diagonal by (w_bra, w_ket) from U(1) conservation. Every eigenmode belongs to exactly one block. The slow SE mode belongs to the (1,1) block. c_slow = Tr(L_slow† ρ_0) sees only the (1,1) block of ρ_0. The Bell pair contributes to (1,3) and (3,3) blocks, not to (1,1). Therefore c_slow is independent of the Bell pair, for any N. No sweep needed; it is algebra, not numerics.
 
 ---
 
