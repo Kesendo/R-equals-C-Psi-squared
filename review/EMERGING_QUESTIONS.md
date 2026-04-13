@@ -70,8 +70,8 @@ At N=5 uniform chain, max eigenvalue multiplicity is 14. Known symmetries (U(1),
 
 All topologies have N+1 exits, but dramatically different transient dynamics (chain: 488 distinct eigenvalues at N=5, complete: only 100). What is the invariant that varies across topologies and determines transient complexity?
 
-**Status:** open
-**Pointer:** Point group (permutation symmetry) is likely the answer, but not explicitly worked out. Group-theoretic census per topology.
+**Status:** closed by experiment (`simulations/topology_orbits.py`)
+**Result:** The spatial symmetry group G of the topology determines transient complexity. Empirical scaling: #distinct ∝ |G|^{−0.39} (power-law fit across chain/ring/star/complete at N=5). Chain (|G|=2): 488 distinct. Complete (|G|=120): 100 distinct. The relationship is not |d²/G| because irreps of non-abelian groups have dimension > 1. Rate-formula coincidences (absorption theorem) provide additional degeneracies beyond group theory. Full quantitative prediction would require irrep decomposition of the operator-space representation, which is a separate math task.
 
 ---
 

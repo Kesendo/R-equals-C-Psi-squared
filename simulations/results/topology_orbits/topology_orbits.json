@@ -1,0 +1,31 @@
+{
+  "chain": {
+    "group_order": 2,
+    "burnside_orbits": 544,
+    "distinct_eigenvalues": 488,
+    "ratio": 0.8971,
+    "extra_degeneracies": 56
+  },
+  "ring": {
+    "group_order": 10,
+    "burnside_orbits": 136,
+    "distinct_eigenvalues": 276,
+    "ratio": 2.0294,
+    "extra_degeneracies": -140
+  },
+  "star": {
+    "group_order": 24,
+    "burnside_orbits": 140,
+    "distinct_eigenvalues": 202,
+    "ratio": 1.4429,
+    "extra_degeneracies": -62
+  },
+  "complete": {
+    "group_order": 120,
+    "burnside_orbits": 56,
+    "distinct_eigenvalues": 100,
+    "ratio": 1.7857,
+    "extra_degeneracies": -44
+  },
+  "power_law_slope": -0.3858
+}
