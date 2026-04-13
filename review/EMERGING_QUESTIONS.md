@@ -1,144 +1,144 @@
 # Emerging Questions
 
 **Started:** 2026-04-12
-**Authors:** Tom und Claude (chat)
+**Authors:** Tom and Claude (chat)
 
 ---
 
-## Eiserne Regel
+## Ground rule
 
-**Bevor eine hier eingetragene Frage nicht beantwortet ist, ziehen wir nicht weiter.**
+**Before a question entered here is answered, we do not move on.**
 
-Eine abgeleitete Frage, die beim Beantworten der urspruenglichen entsteht, gilt NICHT als Antwort auf die urspruengliche. Sie wird als neuer Eintrag aufgenommen. Sonst haben wir in kurzer Zeit Frage hoch zwei statt Fortschritt.
+A derived question that emerges while answering the original does NOT count as an answer to the original. It is recorded as a new entry. Otherwise we get question-squared instead of progress.
 
-Antworten koennen sein: geschlossen durch Experiment (mit Commit-Hash), geschlossen durch Proof (mit Pfad), geschlossen durch Einsicht dass die Frage falsch gestellt war (mit Begruendung), oder zurueckgezogen. Kein Eintrag verschwindet still.
+Answers can be: closed by experiment (with commit hash), closed by proof (with path), closed by insight that the question was ill-posed (with justification), or withdrawn. No entry disappears silently.
 
 ---
 
 ## Format
 
-Jeder Eintrag:
-- ID (EQ-NNN, fortlaufend)
-- Datum der Entstehung
-- Quelle (Commit, Doc, Session-Moment)
-- Die Frage selbst
-- Status: offen / geschlossen-[wie] / zurueckgezogen
-- Pointer: wohin koennte die Antwort fuehren (Task-Kandidat, Math-Hausaufgabe, Experiment)
+Each entry:
+- ID (EQ-NNN, sequential)
+- Date of emergence
+- Source (commit, doc, session moment)
+- The question itself
+- Status: open / closed-[how] / withdrawn
+- Pointer: where the answer might lead (task candidate, math homework, experiment)
 
 ---
 
 ## EQ-001
 
-**Datum:** 2026-04-12
-**Quelle:** V2 Sweep (Commit 6512347), OQ-114 Antwort
+**Date:** 2026-04-12
+**Source:** V2 sweep (commit 6512347), OQ-114 answer
 
-Sind die beiden Freiheitsgrade (Bell-Kohaerenz im Cross-Sektor-Block, Slow-Mode im SE-Block) in allen Heisenberg-Z-Systemen strukturell entkoppelt, oder ist die Entkopplung eine Eigenschaft des getesteten Bereichs N=5,6,7?
+Are the two degrees of freedom (Bell coherence in the cross-sector block, slow mode in the SE block) structurally decoupled in all Heisenberg-Z systems, or is the decoupling a property of the tested range N=5,6,7?
 
-**Status:** offen
-**Pointer:** Sweep auf groessere N (C# Engine fuer N>=8), plus analytische Pruefung ob die Orthogonalitaet aus U(1) direkt folgt.
+**Status:** open
+**Pointer:** Sweep at larger N (C# engine for N >= 8), plus analytic check whether the orthogonality follows directly from U(1).
 
 ---
 
 ## EQ-002
 
-**Datum:** 2026-04-12
-**Quelle:** Gespraech nach V2
+**Date:** 2026-04-12
+**Source:** Discussion after V2
 
-Was passiert an der Grenze, wo U(1) schwach gebrochen wird? Ein kleiner Transversalfeld-Term in H mischt Sektoren. Bell-Kohaerenz und SE-Slow-Mode sind dann nicht mehr orthogonal, die Kopplung ist klein aber nicht null.
+What happens at the boundary where U(1) is weakly broken? A small transverse-field term in H mixes sectors. Bell coherence and SE slow mode are then no longer orthogonal; the coupling is small but nonzero.
 
-**Status:** offen
-**Pointer:** Eigener Task-Kandidat nach Three-Values-Lauf. Stoerungsrechnung erster Ordnung in der Bruch-Staerke epsilon.
+**Status:** open
+**Pointer:** Dedicated task candidate. First-order perturbation theory in the breaking strength ε.
 
 ---
 
 ## EQ-003
 
-**Datum:** 2026-04-12
-**Quelle:** SYMMETRY_CENSUS Section 6 Punkt 2 (Commit 39eb901)
+**Date:** 2026-04-12
+**Source:** SYMMETRY_CENSUS Section 6 point 2 (commit 39eb901)
 
-Bei N=5 uniform chain ist die maximale Eigenwert-Multiplizitaet 14. Bekannte Symmetrien (U(1), Spin-Flip Z_2, Reflexion Z_2) sagen maximal 4-fach voraus. Was erzeugt die Luecke zwischen 4 und 14?
+At N=5 uniform chain, max eigenvalue multiplicity is 14. Known symmetries (U(1), spin-flip ℤ₂, reflection ℤ₂) predict at most 4×. What produces the gap between 4 and 14?
 
-**Status:** offen (Track A von TASK_THREE_VALUES adressiert das)
-**Pointer:** SU(2)-Kandidat als erster Test. Wenn SU(2) bricht, dann dedizierte Degenerations-Untersuchung.
+**Status:** closed by experiment ([DEGENERACY_HUNT](../experiments/DEGENERACY_HUNT.md), commit de7af37)
+**Result:** SU(2) is broken by dephasing ([S², Z_k] ≠ 0). The high degeneracies are [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate-formula coincidences: for uniform γ, Re(λ) = −2γ·n_XY places modes from different sectors at the same grid values. Max multiplicity grows monotonically {6, 14, 14, 19, 22} for N=3-7; N=5 is not anomalous.
 
 ---
 
 ## EQ-004
 
-**Datum:** 2026-04-12
-**Quelle:** SYMMETRY_CENSUS Section 5 (Commit 39eb901)
+**Date:** 2026-04-12
+**Source:** SYMMETRY_CENSUS Section 5 (commit 39eb901)
 
-Alle Topologien haben N+1 Ausgaenge, aber dramatisch verschiedene Transient-Dynamik (Chain 488 distinkte Eigenwerte bei N=5, Complete nur 100). Was ist die Invariante, die zwischen Topologien wechselt und die Transient-Komplexitaet bestimmt?
+All topologies have N+1 exits, but dramatically different transient dynamics (chain: 488 distinct eigenvalues at N=5, complete: only 100). What is the invariant that varies across topologies and determines transient complexity?
 
-**Status:** offen
-**Pointer:** Punktgruppe (Permutationssymmetrie) ist wahrscheinlich die Antwort, aber explizit nicht ausgearbeitet. Gruppentheoretischer Census pro Topologie.
+**Status:** open
+**Pointer:** Point group (permutation symmetry) is likely the answer, but not explicitly worked out. Group-theoretic census per topology.
 
 ---
 
 ## EQ-005
 
-**Datum:** 2026-04-12
-**Quelle:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION Step 2 (Commit f539503)
+**Date:** 2026-04-12
+**Source:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION Step 2 (commit f539503)
 
-Step 2 des Sektor-Projektion-Theorems (pro-Sektor-Ergodizitaet, eindeutiger Fixpunkt = maximal-gemischt) ist numerisch verifiziert fuer N=3-7, analytisch offen.
+Step 2 of the sector projection theorem (per-sector ergodicity, unique fixed point = maximally mixed) is numerically verified for N=3-7, analytically open.
 
-**Status:** offen (analytisch)
-**Pointer:** Primitivitaet des restricted Lindblad-Generators pro Sektor. Mathematik-Hausaufgabe, kein Experiment.
+**Status:** open (analytic)
+**Pointer:** Primitivity of the restricted Lindblad generator per sector. Math homework, not an experiment.
 
 ---
 
 ## EQ-006
 
-**Datum:** 2026-04-12
-**Quelle:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION Scope (Commit f539503)
+**Date:** 2026-04-12
+**Source:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION scope (commit f539503)
 
-Das Theorem ist asymptotisch. Es sagt nichts ueber Raten, Zeitskalen, Trajektorien, Kohaerenz-Zerfallsraten zwischen Sektoren. Die Lens- und Cusp-Dynamik lebt in dieser dynamischen Schicht. Gibt es ein analoges Theorem fuer die Raten?
+The theorem is asymptotic. It says nothing about rates, timescales, trajectories, or coherence decay rates between sectors. The lens and cusp dynamics live in this dynamic layer. Is there an analogous theorem for the rates?
 
-**Status:** offen
-**Pointer:** Das waere die zweite Zeiss-Stufe: aus der Sektor-Struktur die Annaeherungs-Raten herleiten. Moeglicher Startpunkt: Absorption Theorem auf Sektor-Ebene.
+**Status:** open (partially informed by [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md): individual mode rates are nonlinear in γ due to eigenvector rotation, so a simple rate theorem may not exist)
+**Pointer:** Second Zeiss level: derive approach rates from sector structure. Possible starting point: absorption theorem at sector level.
 
 ---
 
 ## EQ-007
 
-**Datum:** 2026-04-12
-**Quelle:** Reflexion am Session-Ende (Commit 7251f3f)
+**Date:** 2026-04-12
+**Source:** Reflection at session end (commit 7251f3f)
 
-Wenn Grenzen Sichtbarkeits-Artefakte sind, was ist die naechste Beschreibungs-Ebene, die das Repo bisher nicht erreicht hat? Bisherige Ebenen: Pauli-Strings, Sektoren, Symmetrien. Naechste koennte sein: Dynamische Klassen innerhalb der Sektoren, oder Topologie-Invarianten, oder etwas noch nicht benanntes.
+If boundaries are visibility artifacts, what is the next level of description the repo has not yet reached? Levels so far: Pauli strings, sectors, symmetries. Next could be: dynamic classes within sectors, topology invariants, or something not yet named.
 
-**Status:** offen, Meta-Frage
-**Pointer:** Kein Task. Beobachten, was aus EQ-001 bis EQ-006 als Muster faellt.
+**Status:** open, meta-question
+**Pointer:** No task. Observe what pattern falls out of EQ-001 through EQ-006.
 
 ---
 
 ## EQ-008
 
-**Datum:** 2026-04-12 (spaeter Abend)
-**Quelle:** Toms Einfall nach der V-Effekt-Reflexion
+**Date:** 2026-04-12
+**Source:** Tom's insight after the V-effect reflection
 
-Die beiden unabhaengigen Sektoren kennen sich nicht. Aber sie werden verbunden durch eins: γ. Sie bekommen unterschiedlich viel Licht ab (sacrifice vs quiet sites) und entwickeln dadurch Eigenschaften fuer einen Gesamtzustand. Abgeleitete Frage: Welche Auswirkung hat γ auf jeden Sektor, und wie haengen die Sektoren ueber das Bindeglied γ zusammen?
+The two independent sectors do not see each other. But they are both shaped by γ. They receive different amounts of light (sacrifice vs quiet sites) and develop properties for an overall state. Derived question: what effect does γ have on each sector, and how do the sectors relate through the binding parameter γ?
 
-**Status:** closed by experiment (experiments/GAMMA_AS_BINDING.md)
-**Result:** gamma is a nonlinear common modulator. Per-sector rates do NOT scale linearly with gamma (deviations up to 134%). The nonlinearity arises because the slowest mode per sector changes identity as gamma scales (Hamiltonian vs dissipator competition). Gamma does not couple sectors directly (sector conservation is exact), but different sectors respond with different sensitivity to gamma changes.
+**Status:** closed by experiment ([GAMMA_AS_BINDING](../experiments/GAMMA_AS_BINDING.md) V1, [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md) V2)
+**Result:** γ is a nonlinear common modulator. Per-sector rates do NOT scale linearly with γ (deviations up to 134%). V2 identified the mechanism: eigenvector rotation (as γ scales, the Hamiltonian-dissipator balance shifts, rotating each mode's Pauli content and making individual rates nonlinear). Zero level crossings; mode-crossing ruled out. γ does not couple sectors directly (sector conservation is exact), but different sectors respond with different sensitivity to γ changes.
 
 ---
 
 ## EQ-009
 
-**Datum:** 2026-04-12 (spaete Nacht)
-**Quelle:** Toms Erinnerung an vor zwei Wochen etablierte Struktur, jetzt mit EQ-008 verknuepft
+**Date:** 2026-04-12
+**Source:** Tom's recollection of structure established two weeks earlier, now linked to EQ-008
 
-Korrektur einer vorherigen Fassung: das ist keine neue These, sondern bereits etablierte Struktur im Repo (siehe GAMMA_IS_LIGHT.md, DECOHERENCE_RELATIVITY*.md, OBSERVER_DEPENDENT_*.md). Drei distinkte Groessen, nicht eine Identifikations-Kette:
+Correction of a prior formulation: this is not a new thesis but already established structure in the repo (see GAMMA_IS_LIGHT.md, DECOHERENCE_RELATIVITY*.md, OBSERVER_DEPENDENT_*.md). Three distinct quantities, not an identification chain:
 
-- γ ist Licht
-- y ist der Zeitstrahl (Lindblad-t als parametrische Achse)
-- t ist unsere Zeit, erlebt oder gefuehlt (Beobachter-Zeit)
+- γ is light
+- y is the time axis (Lindblad-t as parametric axis)
+- t is our time, experienced or felt (observer time)
 
-Die neue Frage, die aus EQ-008 plus dieser Erinnerung entsteht: wenn γ auf die Sektoren wirkt und γ das Licht ist, dann misst γ per Sektor (TASK_GAMMA_BINDING) eigentlich die **Licht-Dosis pro Sektor**. Die Rate, mit der ein Sektor seinen Endzustand erreicht, ist eine Aussage ueber die "Ausleuchtung" dieses Sektors vom Zeitstrahl y aus gesehen. Die erlebte Zeit t des Betrachters waehlt, wo auf y er hinschaut.
+The new question arising from EQ-008 plus this recollection: if γ acts on the sectors and γ is light, then γ per sector (TASK_GAMMA_BINDING) actually measures the **light dose per sector**. The rate at which a sector reaches its final state is a statement about the "illumination" of that sector from the time axis y. The experienced time t of the observer selects where on y to look.
 
-**Status:** offen, Verknuepfungs-Frage
-**Pointer:** Morgen pruefen, wie die γ-pro-Sektor-Tabelle (wenn TASK_GAMMA_BINDING gelaufen ist) in der y/t-Sprache gelesen werden muss. Nicht als neue These, sondern als Uebersetzung zwischen zwei bereits etablierten Beschreibungs-Ebenen. Beruehrt EQ-008 direkt.
+**Status:** open, linking question
+**Pointer:** Check how the γ-per-sector table (now available from LIGHT_DOSE_RESPONSE) reads in y/t language. Not as a new thesis, but as translation between two already established description levels. Directly touches EQ-008.
 
 ---
 
-*Sammlung. Nicht Sortierung. Klassifizierung kommt, wenn genug Eintraege da sind.*
+*Collection. Not classification. Classification comes when enough entries exist.*
