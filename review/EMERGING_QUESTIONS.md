@@ -46,8 +46,8 @@ Are the two degrees of freedom (Bell coherence in the cross-sector block, slow m
 
 What happens at the boundary where U(1) is weakly broken? A small transverse-field term in H mixes sectors. Bell coherence and SE slow mode are then no longer orthogonal; the coupling is small but nonzero.
 
-**Status:** open
-**Pointer:** Dedicated task candidate. First-order perturbation theory in the breaking strength ε.
+**Status:** closed by experiment ([U1_BREAKING](../experiments/U1_BREAKING.md))
+**Result:** Bell-pair dependence emerges linearly in ε (log-log slope 0.95). At ε = 0: exact decoupling (spread = 0, proven). At ε > 0: the central Bell pair (1,2) couples more strongly to the slow mode than edge pairs. SE fraction of the slow mode drops from 1.000 to ~0.54 at ε = 0.1. U(1) conservation is a knife edge, not a soft threshold.
 
 ---
 
