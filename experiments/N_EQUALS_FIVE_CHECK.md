@@ -11,9 +11,9 @@
 
 N=5 appears repeatedly in this repo: IBM Torino had 5-qubit chains, SACRIFICE_GEOMETRY centers on N=5, the V-Effect analysis used N=5, the 14-fold degeneracy appears at N=5. Tom's observation: "N=5 hat sich schon oefters als perfekt gezeigt." Is this pattern recognition finding real structure, or selection bias from repeated use?
 
-## The table (N=3-8, uniform chain, gamma=0.1)
+## The table (N=3-8, uniform chain, γ = 0.1)
 
-| N | d^2 | Max mult | Frac distinct | Slow rate | Slow/Sigma_gamma | Max sector dim |
+| N | d² | Max mult | Frac distinct | Slow rate | Slow/Σγ | Max sector dim |
 |---|-----|----------|--------------|-----------|-----------------|----------------|
 | 3 | 64 | 6 | 0.406 | 0.266 | 0.887 | 9 |
 | 4 | 256 | 14 | 0.496 | 0.299 | 0.748 | 36 |
@@ -22,7 +22,7 @@ N=5 appears repeatedly in this repo: IBM Torino had 5-qubit chains, SACRIFICE_GE
 | 7 | 16,384 | 22 | 0.497 | 0.340 | 0.485 | 1,225 |
 | 8 | 65,536 | n/a | n/a | 0.347 | 0.433 | 4,900 |
 
-N=8 max multiplicity and frac distinct are not available (would require full 65536x65536 eigendecomposition, 73 GB RAM, C# engine only). The slow-mode rate is from the SE-restricted Liouvillian (64x64, trivial).
+N=8 max multiplicity and frac distinct are not available (would require full 65536×65536 eigendecomposition, 73 GB RAM, C# engine only). The slow-mode rate is from the SE-restricted Liouvillian (64×64, trivial). A sixth metric (palindromic pair count) is omitted: it is 100% for all N by the [mirror symmetry theorem](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ## Analysis: is N=5 extremal on any axis?
 
@@ -32,13 +32,13 @@ N=8 max multiplicity and frac distinct are not available (would require full 655
 
 **Slow-mode rate {0.266, 0.299, 0.319, 0.332, 0.340, 0.347}:** Monotonically increasing, approaching an asymptotic limit. N=5 is not an inflection point (the rate of increase slows smoothly).
 
-**Slow-mode rate / Sigma_gamma {0.887, 0.748, 0.637, 0.553, 0.485, 0.433}:** Monotonically decreasing. The slow mode occupies a shrinking fraction of the total dephasing budget as N grows. No N=5 feature.
+**Slow rate / Σγ {0.887, 0.748, 0.637, 0.553, 0.485, 0.433}:** Monotonically decreasing. The slow mode occupies a shrinking fraction of the total dephasing budget as N grows. No N=5 feature.
 
-**Max sector dimension {9, 36, 100, 400, 1225, 4900}:** Grows as C(N, floor(N/2))^2, approximately exponential. No N=5 feature.
+**Max sector dimension {9, 36, 100, 400, 1225, 4900}:** Grows as C(N, ⌊N/2⌋)², approximately exponential. No N=5 feature.
 
 ## Verdict
 
-**N=5 is not structurally special.** None of the six metrics shows N=5 as an extremum or inflection point. Every metric either increases or decreases monotonically with N, or oscillates without a consistent N=5 peak.
+**N=5 is not structurally special.** None of the five tabulated metrics shows N=5 as an extremum or inflection point (the sixth, palindromic pairs, is constant at 100%). Every metric either increases or decreases monotonically with N, or oscillates without a consistent N=5 peak.
 
 The repeated appearance of N=5 in this repo is **selection bias**: the IBM Torino chain happened to have 5 qubits, so N=5 became the testbed. Once N=5 was the testbed, all subsequent experiments (SACRIFICE_GEOMETRY, CUSP_LENS_CONNECTION, boundary straddling) used N=5 as the reference. The physics at N=5 is representative of the general N trend, not an outlier.
 
