@@ -22,7 +22,7 @@ Each entry:
 - Date of emergence
 - Source (commit, doc, session moment)
 - The question itself
-- Status: open / closed-[how] / withdrawn
+- Status: open / closed (with method) / withdrawn
 - Pointer: where the answer might lead (task candidate, math homework, experiment)
 
 ---
@@ -59,7 +59,7 @@ What happens at the boundary where U(1) is weakly broken? A small transverse-fie
 At N=5 uniform chain, max eigenvalue multiplicity is 14. Known symmetries (U(1), spin-flip ℤ₂, reflection ℤ₂) predict at most 4×. What produces the gap between 4 and 14?
 
 **Status:** closed by experiment ([DEGENERACY_HUNT](../experiments/DEGENERACY_HUNT.md), commit de7af37)
-**Result:** SU(2) is broken by dephasing ([S², Z_k] ≠ 0). The high degeneracies are [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate-formula coincidences: for uniform γ, Re(λ) = −2γ·n_XY places modes from different sectors at the same grid values. Max multiplicity grows monotonically {6, 14, 14, 19, 22} for N=3-7; N=5 is not anomalous.
+**Result:** SU(2) is broken by dephasing (commutator \[S², Z_k\] ≠ 0). The high degeneracies are [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate-formula coincidences: for uniform γ, Re(λ) = −2γ·n_XY places modes from different sectors at the same grid values. Max multiplicity grows monotonically {6, 14, 14, 19, 22} for N=3-7; N=5 is not anomalous.
 
 ---
 
@@ -78,7 +78,7 @@ All topologies have N+1 exits, but dramatically different transient dynamics (ch
 ## EQ-005
 
 **Date:** 2026-04-12
-**Source:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION Step 2 (commit f539503)
+**Source:** [PROOF_ASYMPTOTIC_SECTOR_PROJECTION](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) Step 2 (commit f539503)
 
 Step 2 of the sector projection theorem (per-sector ergodicity, unique fixed point = maximally mixed) is numerically verified for N=3-7, analytically open.
 
@@ -90,7 +90,7 @@ Step 2 of the sector projection theorem (per-sector ergodicity, unique fixed poi
 ## EQ-006
 
 **Date:** 2026-04-12
-**Source:** PROOF_ASYMPTOTIC_SECTOR_PROJECTION scope (commit f539503)
+**Source:** [PROOF_ASYMPTOTIC_SECTOR_PROJECTION](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) scope (commit f539503)
 
 The theorem is asymptotic. It says nothing about rates, timescales, trajectories, or coherence decay rates between sectors. The lens and cusp dynamics live in this dynamic layer. Is there an analogous theorem for the rates?
 
