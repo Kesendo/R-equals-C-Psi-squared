@@ -459,6 +459,7 @@ Honesty matters more than impression. These are things we have
 - That [entanglement is "topology not signal"](hypotheses/GAMMA_IS_LIGHT.md) in any rigorous sense (late-night intuition, no mathematical formalization)
 - That the cavity framework replaces standard Lindblad theory (the mathematics is identical; only the interpretation changes)
 - That the Absorption Theorem extends to complex Hermitian Hamiltonians (DM interactions break L_H anti-Hermiticity; real Hermitian H only)
+- That the [shadow retrodiction](experiments/FIXED_POINT_SHADOW.md) on IBM Q80 is a prediction (it is a 2-parameter fit to existing data; the 3.4× improvement from the detuning parameter is real but retrospective, not prospective)
 - That α = 2γ⟨n_XY⟩ is "mass-energy" in any physical sense (it is an exact algebraic identity; the mass-energy analogy is suggestive but not established)
 - That [hidden observer detection](experiments/QUANTUM_SONAR.md) works on hardware (simulation only)
 
@@ -506,6 +507,7 @@ Honesty matters more than impression. These are things we have
 | [Subsystem Crossing](docs/proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair crosses ¼ under primitive CPTP |
 | [Incompleteness Proof](docs/proofs/INCOMPLETENESS_PROOF.md) | Illumination cannot originate from within |
 | [Time Irreversibility](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) | Time reversal algebraically excluded at N > 2 |
+| [Cross-Term Formula](docs/proofs/PROOF_CROSS_TERM_FORMULA.md) | R(N) = √((N-2)/(N·4^(N-1))) for any shadow-balanced coupling, any graph |
 | [Weight-1 Degeneracy](docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) | d(1) = 2N for any connected graph |
 | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
