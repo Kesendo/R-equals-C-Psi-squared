@@ -107,12 +107,14 @@ away from N.
 | 4 | **2.07%** | {2, 4, 6} | 576/1152 (50%) |
 
 The cross term is γ-independent. At N=3, the relative orthogonality
-||{L_H, L_Dc}|| / (||L_H||·||L_Dc||) = 1/√48 ≈ 0.1443, constant across
-γ = 0.001 to γ = 0.5. This is a geometric property of the Heisenberg
-chain, not a physical parameter.
+||{L_H, L_Dc}|| / (||L_H||·||L_Dc||) = 1/√48, following the general
+formula R(N) = √((N-2)/(N·4^(N-1))) proven in
+[PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md). The constant
+is topology-independent (chain = ring = star = complete) and depends
+only on N.
 
-**Source:** [primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py),
-Step 10.
+**Source:** [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md),
+[primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py) Step 10.
 
 ### Step 5: Reduction to N=2 is impossible (Tier 2)
 
@@ -206,7 +208,9 @@ and the system are identical. This is why d(d-2)=0 selects d=2
 requires the bond to be the system, and the system to be a single bond.
 
 At N=3, the first spectator appears. The spectator bends the right
-angle between oscillation and cooling by 1/√48 ≈ 14%. The Pythagorean
+angle between oscillation and cooling by R(3) = 1/√48 ≈ 14% (from the
+general formula R(N) = √((N-2)/(N·4^(N-1))),
+[proof](PROOF_CROSS_TERM_FORMULA.md)). The Pythagorean
 decomposition breaks by ~2%. The mirror falls between modes (w_XY =
 1.5, no mode sits there). Time becomes irreversible.
 

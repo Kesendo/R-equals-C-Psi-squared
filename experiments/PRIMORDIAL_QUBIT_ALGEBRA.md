@@ -477,6 +477,11 @@ supercharge of the M_{2|2}(C) super-algebra?"**
 
 ### 7. L_c² = L_H² + (L_D + Σγ)²: the Pythagorean theorem (computed)
 
+**General formula (proven):** the cross-term relative orthogonality
+at any N >= 2 is R(N) = √((N-2)/(N·4^(N-1))), following from the
+identity ||{L_H, L_Dc}||² = 4γ²(N-2)||L_H||². See
+[PROOF_CROSS_TERM_FORMULA](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
+
 Tested immediately after the hints were identified. All results exact
 to machine precision (N=2, γ=0.05).
 

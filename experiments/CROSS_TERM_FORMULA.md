@@ -1,14 +1,15 @@
-# Cross-Term Formula: Proof and Confirmation
+# Cross-Term Formula: Confirmation and Record
 
 <!-- Keywords: cross-term formula proof, Pythagorean breaking exact formula,
 relative orthogonality sqrt((N-2)/(N*4^(N-1))), bond-sum rule, spectator
 variance, Heisenberg Z-dephasing universal constant, EQ-011 -->
 
-**Status:** Tier 1 (analytical proof + numerical verification)
+**Status:** Tier 2 (numerical confirmation of proven formula)
 **Date:** April 13, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [cross_term_formula_check.py](../simulations/cross_term_formula_check.py)
 **Output:** [cross_term_formula/](../simulations/results/cross_term_formula/)
+**Proof:** [PROOF_CROSS_TERM_FORMULA.md](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
 **Depends on:**
 - [Cross-Term Topology](CROSS_TERM_TOPOLOGY.md) (predecessor; conjecture stated there)
 - [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) (parent; Pythagorean decomposition)
@@ -79,134 +80,17 @@ only for N=3 (1 = 1) and N=4 (2 = 2). At N=5: 3 != 4 = 2^2.
 
 ## Analytical proof
 
-### The key identity
+The key identity and its five-step derivation are in
+[PROOF_CROSS_TERM_FORMULA.md](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
+The formula stated there is confirmed numerically below and in the
+preceding sections.
 
-**Theorem.** For Heisenberg XXX coupling on any graph with uniform
-Z-dephasing:
-
-    ||{L_H, L_Dc}||^2 = 4 * gamma^2 * (N-2) * ||L_H||^2
-
-This identity, combined with ||L_Dc||^2 = gamma^2 * 4^N * N, immediately
-gives R^2 = 4(N-2)/(N * 4^N).
-
-### Step 1: ||L_Dc||^2 = gamma^2 * 4^N * N
-
-L_Dc is diagonal in the Pauli string basis with eigenvalue
-d_a = gamma * (N - 2 * w_XY(a)), where w_XY(a) counts the X and Y
-Pauli factors in string a.
-
-    ||L_Dc||^2 = gamma^2 * Sum_a (N - 2*w_a)^2
-
-Write (N - 2*w_a) = Sum_k epsilon_k(a), where epsilon_k = +1 if site k
-carries I or Z, and epsilon_k = -1 if site k carries X or Y. Then:
-
-    Sum_a (Sum_k epsilon_k)^2 = Sum_a Sum_k epsilon_k^2 + Sum_a Sum_{k!=l} epsilon_k epsilon_l
-
-The first sum: epsilon_k^2 = 1 always, so this gives 4^N * N.
-
-The second sum: for k != l, the sites are independent. Over the 4
-Pauli choices at each site, Sum epsilon_k = (+1) + (-1) + (-1) + (+1) = 0.
-So each cross-term vanishes.
-
-Result: **||L_Dc||^2 = gamma^2 * 4^N * N.** QED.
-
-### Step 2: The bond-sum rule
-
-**Lemma.** For a single Heisenberg bond (i,j), every nonzero L_H
-transition in the Pauli basis satisfies:
-
-    w_XY^{ij}(a) + w_XY^{ij}(b) = 2
-
-where w_XY^{ij} denotes the XY weight at the two bond sites.
-
-*Proof.* The commutator superoperator of a Heisenberg bond maps Pauli
-strings according to [X_iX_j + Y_iY_j + Z_iZ_j, sigma_a]. Each term
-[alpha_i alpha_j, P_i Q_j] changes the Paulis at sites i and j via the
-structure constants of su(2). Explicit enumeration of all 16 two-site
-Pauli pairs shows that every nonzero transition has source w_XY^{ij} + target w_XY^{ij} = 2.
-
-*Verified computationally:* N=3 (96 nonzero entries, 0 violations),
-N=4 (384, 0), N=5 (1536, 0). QED.
-
-This is the same property that makes the Pythagorean decomposition exact
-at N=2: when the bond IS the system, w_XY(a) + w_XY(b) = N = 2.
-
-### Step 3: The spectator variance
-
-For a single bond (i,j), the N-2 spectator sites are unchanged by the
-transition. The anti-commutator factor is:
-
-    (N - w_a - w_b) = [2 - w^{ij}(a) - w^{ij}(b)]  +  [(N-2) - 2*w_rest(a)]
-                       ^                                ^
-                       = 0 by Step 2                    "spectator deviation"
-
-So (N - w_a - w_b)^2 = ((N-2) - 2*w_rest)^2, depending only on the
-spectator configuration.
-
-The spectator configurations are uniformly distributed (L_H matrix
-elements depend only on the bond-site Paulis, not on spectators). The
-average over 4^(N-2) configs:
-
-    <((N-2) - 2*w_rest)^2> = N - 2
-
-by the same calculation as Step 1 (with N replaced by N-2). QED.
-
-### Step 4: Assembly (non-overlapping bonds)
-
-For a single bond or any set of non-overlapping bonds (no shared sites):
-
-    ||{L_H, L_Dc}||^2 = 4*gamma^2 * Sum_{a,b} |(L_H)_{ab}|^2 * (N-w_a-w_b)^2
-                       = 4*gamma^2 * ||L_H||^2 * (N-2)
-
-The per-bond factorization: each bond contributes independently to both
-||L_H||^2 and the anti-commutator, and the spectator variance N-2 is
-the same for every bond. Non-overlapping bonds have disjoint transition
-supports, so ||L_H||^2 = Sum_e ||L_H^e||^2 and the weighted average
-preserves V = N-2.
-
-### Step 5: Extension to overlapping bonds
-
-For graphs with overlapping bonds (shared sites), the proof of Step 4
-does not directly apply because cross-terms between bonds contribute to
-||L_H||^2 and ||{L_H, L_Dc}||^2.
-
-**Numerical verification:** the identity ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
-holds to machine precision for all tested overlapping-bond configurations:
-
-| N | Topology | Edges | Overlapping? | Ratio (should be 1.0) |
-|---|----------|-------|--------------|-----------------------|
-| 2 | chain | 1 | no | (0/0, both zero) |
-| 2 | complete | 1 | no | (0/0, both zero) |
-| 3 | chain | 2 | yes (site 1) | 1.000000 |
-| 3 | complete | 3 | yes (all) | 1.000000 |
-| 4 | chain | 3 | yes | 1.000000 |
-| 4 | complete | 6 | yes (all) | 1.000000 |
-| 5 | chain | 4 | yes | 1.000000 |
-| 5 | complete | 10 | yes (all) | 1.000000 |
-
-The identity holds at machine precision for ALL topologies, including the
-complete graph where every bond overlaps with every other.
-
-**Why overlapping bonds preserve the identity:** the anti-commutator
-factor (N - w_a - w_b) is a property of the Pauli strings a and b, not
-of which bond induced the transition. The bond-sum rule ensures that each
-bond's active sites contribute zero to this factor. When multiple bonds
-contribute to the same (a,b) pair, their shared sites carry a non-zero
-contribution, but the weighted average over all transitions, including
-interference terms, still gives N-2. A full analytical proof for
-overlapping bonds awaits a cleaner decomposition of the cross-bond
-interference, but the numerical evidence is definitive.
-
-### The formula
-
-Combining the identity with Step 1:
-
-    R^2 = ||{L_H, L_Dc}||^2 / (||L_H||^2 * ||L_Dc||^2)
-        = 4*gamma^2*(N-2)*||L_H||^2 / (||L_H||^2 * gamma^2 * 4^N * N)
-        = 4*(N-2) / (N * 4^N)
-        = (N-2) / (N * 4^(N-1))
-
-Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
+In brief: the identity ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
+follows from three structural properties: (a) L_Dc is diagonal in the
+Pauli basis, (b) every Heisenberg bond transition satisfies the bond-sum
+rule w_XY(a) + w_XY(b) = 2 at the bond sites, (c) the spectator
+variance is N-2. Combined with ||L_Dc||^2 = gamma^2 * 4^N * N, this
+gives R^2 = (N-2)/(N * 4^(N-1)).
 
 ---
 
