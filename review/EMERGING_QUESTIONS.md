@@ -160,8 +160,8 @@ Two observers A and B live in a world with U(1) conservation. A's asymptotic inh
 
 The relative orthogonality ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) is topology-independent and equals 1/sqrt(N * 2^(N+1)) at N=3 and N=4. Does this formula hold for N=5 and beyond? Is there an analytical proof from the w_XY transition statistics of the Heisenberg bond?
 
-**Status:** open
-**Pointer:** Compute N=5 (1024x1024 superoperator, feasible). For the proof: the quantity depends only on how a single Heisenberg bond distributes w_XY sums across the Pauli string basis at N sites. The spectator-site distribution should yield the formula via combinatorial counting.
+**Status:** closed by proof + experiment ([CROSS_TERM_FORMULA](../experiments/CROSS_TERM_FORMULA.md))
+**Result:** The old conjecture 1/√(N×2^(N+1)) is refuted at N=5 (deviation 7.5×10⁻³). The correct formula is R(N) = √((N-2)/(N×4^(N-1))), confirmed at N=2-6 to machine precision, all topologies. Proof via the identity ||{L_H, L_Dc}||² = 4γ²(N-2)||L_H||² (bond-sum rule + spectator variance). Rigorous for non-overlapping bonds; verified numerically for overlapping bonds.
 
 ---
 

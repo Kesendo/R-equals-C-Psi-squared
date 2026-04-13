@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "date": "2026-04-13 18:35:38.728537",
+    "gamma": 0.05,
+    "J": 1.0,
+    "formula_A": "1/sqrt(N * 2^(N+1))",
+    "formula_B": "sqrt((N-2) / (N * 4^(N-1)))"
+  },
+  "verdict": "FORMULA B CONFIRMED, FORMULA A REFUTED",
+  "results": [
+    {
+      "N": 5,
+      "topology": "chain",
+      "n_edges": 4,
+      "rel_ortho": 0.04841229182759269,
+      "norm_cross": 27.152900397563414,
+      "norm_LH": 156.76734353812338,
+      "norm_LDc": 3.577708763999664,
+      "dev_formula_A": 0.007489407609902049,
+      "dev_formula_B": 2.0816681711721685e-17
+    },
+    {
+      "N": 5,
+      "topology": "complete",
+      "n_edges": 10,
+      "rel_ortho": 0.04841229182759265,
+      "norm_cross": 42.93250516799591,
+      "norm_LH": 247.8709341572747,
+      "norm_LDc": 3.577708763999664,
+      "dev_formula_A": 0.007489407609902091,
+      "dev_formula_B": 6.245004513516506e-17
+    },
+    {
+      "N": 6,
+      "topology": "chain",
+      "n_edges": 5,
+      "rel_ortho": 0.02551551815399137,
+      "norm_cross": 70.10848736066109,
+      "norm_LH": 350.5424368033063,
+      "norm_LDc": 7.838367176906171,
+      "dev_formula_A": 0.010568873670360246,
+      "dev_formula_B": 6.938893903907228e-17
+    }
+  ],
+  "proof_identity": "||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2"
+}

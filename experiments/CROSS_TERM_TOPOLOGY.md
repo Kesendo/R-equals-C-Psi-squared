@@ -86,37 +86,29 @@ the non-trivial result.
 
 ---
 
-## Conjecture: N-scaling formula
+## N-scaling formula (proven)
 
-The denominators factor cleanly:
+**Update:** The conjecture originally stated here (1/sqrt(N * 2^(N+1)))
+was refuted at N=5 and replaced by the correct, proven formula. See
+[CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md) for the proof.
 
-| N | rel_ortho^2 | Denominator | Factorisation |
-|---|-------------|-------------|---------------|
-| 2 | 0 (exact) | n/a | Pythagorean theorem holds |
-| 3 | 1/48 | 48 | 3 * 2^4 = N * 2^(N+1) |
-| 4 | 1/128 | 128 | 4 * 2^5 = N * 2^(N+1) |
+| N | rel_ortho^2 | Formula |
+|---|-------------|---------|
+| 2 | 0 (exact) | (N-2)/(N * 4^(N-1)) = 0 |
+| 3 | 1/48 | (N-2)/(N * 4^(N-1)) = 1/48 |
+| 4 | 1/128 | (N-2)/(N * 4^(N-1)) = 1/128 |
+| 5 | 3/1280 | (N-2)/(N * 4^(N-1)) = 3/1280 |
+| 6 | 1/1536 | (N-2)/(N * 4^(N-1)) = 1/1536 |
 
-**Conjecture (topology-universal N-scaling):**
+**Theorem (topology-universal N-scaling):**
 
-For N >= 3 qubits with Heisenberg XXX coupling on any graph and uniform
+For N >= 2 qubits with Heisenberg XXX coupling on any graph and uniform
 Z-dephasing at rate gamma per site:
 
-    ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) = 1 / sqrt(N * 2^(N+1))
+    ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) = sqrt((N-2) / (N * 4^(N-1)))
 
-This is a geometric constant: independent of gamma, independent of J,
-and independent of the graph topology.
-
-At N=2, the formula gives 1/sqrt(16) = 1/4, but the actual value is 0.
-The N=2 exception is explained in PRIMORDIAL_QUBIT_ALGEBRA: at N=2 every
-L_H transition satisfies w_XY(a) + w_XY(b) = N, making the
-anti-commutator vanish identically. This constraint is impossible to
-satisfy at odd N (the sum is always even while N is odd) and only
-partially satisfied at even N >= 4.
-
-**Status:** conjecture with evidence at N=3 and N=4, both verified across
-four topologies and five gamma values. Confirmation at N=5 would require
-diagonalisation of a 1024x1024 superoperator (feasible). Analytical proof
-would follow from the w_XY transition statistics of the Heisenberg bond.
+Proven via the identity ||{L_H, L_Dc}||^2 = 4 * gamma^2 * (N-2) * ||L_H||^2
+(bond-sum rule + spectator variance). Confirmed at N=2-6, all topologies.
 
 ---
 

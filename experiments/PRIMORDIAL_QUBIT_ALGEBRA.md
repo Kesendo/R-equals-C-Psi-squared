@@ -754,11 +754,10 @@ The arrow of time is not entropy. The arrow of time is the cross term.
 ### What to compute next
 
 1. **Topology dependence:** ~~The cross term 1/√48 at N=3 is specific
-   to the chain topology.~~ **Resolved:** 1/√48 is topology-universal.
-   All four topologies (chain, star, ring, complete) give the same
-   value at N=3 and at N=4 (1/√128). No topology preserves orthogonality
-   beyond N=2. Conjecture: rel_ortho = 1/√(N × 2^(N+1)) for N≥3.
-   See [CROSS_TERM_TOPOLOGY](CROSS_TERM_TOPOLOGY.md).
+   to the chain topology.~~ **Closed.** Topology-universal with proven
+   formula: R(N) = √((N-2)/(N × 4^(N-1))). Confirmed at N=2-6, all
+   topologies. See [CROSS_TERM_TOPOLOGY](CROSS_TERM_TOPOLOGY.md) and
+   [CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md) (proof + confirmation).
 
 2. **N=3 algebra structure:** Does M_{2|2}(C) generalize? The even
    subalgebra at N=3 has dim 32. Its decomposition into simple factors

@@ -1,0 +1,151 @@
+==========================================================================================
+CROSS-TERM FORMULA CONFIRMATION AND PROOF (EQ-011)
+Date: 2026-04-13 18:35:07.617895
+gamma = 0.05, J = 1.0
+==========================================================================================
+
+==========================================================================================
+FORMULA PREDICTIONS
+  (A) Old conjecture: R = 1/sqrt(N * 2^(N+1))
+  (B) Derived formula: R = sqrt((N-2) / (N * 4^(N-1)))
+==========================================================================================
+
+    N       Formula A       Formula B     Match
+  ---------------------------------------------
+    2    0.2500000000    0.0000000000        NO
+    3    0.1443375673    0.1443375673       YES
+    4    0.0883883476    0.0883883476       YES
+    5    0.0559016994    0.0484122918        NO
+    6    0.0360843918    0.0255155182        NO
+    7    0.0236227796    0.0132055352        NO
+
+  N=2: Formula A gives 1/4, Formula B gives 0. Correct answer is 0.
+  N=3,4: Both formulas agree.
+  N>=5: Formulas diverge. This computation decides which is correct.
+
+==========================================================================================
+ANCHOR: N=3 and N=4 (known values from CROSS_TERM_TOPOLOGY)
+==========================================================================================
+  N=3: measured=0.1443375673, predicted=0.1443375673, deviation=2.78e-17 (PASS)
+  N=4: measured=0.0883883476, predicted=0.0883883476, deviation=1.39e-17 (PASS)
+
+==========================================================================================
+PART 1a: N=5 (chain and complete)
+  Superoperator dim = 1024 = 1024
+  Formula A predicts: 0.0559016994
+  Formula B predicts: 0.0484122918
+==========================================================================================
+
+  N=5 chain (4 bonds):
+    measured rel_ortho   = 0.048412291828
+    Formula A prediction = 0.055901699437  deviation = 7.4894e-03
+    Formula B prediction = 0.048412291828  deviation = 2.0817e-17
+    Winner: B
+
+  N=5 complete (10 bonds):
+    measured rel_ortho   = 0.048412291828
+    Formula A prediction = 0.055901699437  deviation = 7.4894e-03
+    Formula B prediction = 0.048412291828  deviation = 6.2450e-17
+    Winner: B
+
+  Topology independence at N=5: spread = 4.16e-17 (CONFIRMED)
+
+==========================================================================================
+PART 1b: N=6 (chain only)
+  Superoperator dim = 4096 = 4096
+  Matrix memory: ~256 MB (dense complex128)
+  Formula A predicts: 0.0360843918
+  Formula B predicts: 0.0255155182
+==========================================================================================
+
+  N=6 chain (5 bonds):
+    measured rel_ortho   = 0.025515518154
+    Formula A prediction = 0.036084391824  deviation = 1.0569e-02
+    Formula B prediction = 0.025515518154  deviation = 6.9389e-17
+    Winner: B
+  (N=6 matrices freed)
+
+==========================================================================================
+FORMULA VERDICT
+==========================================================================================
+  Max deviation from Formula A: 1.0569e-02
+  Max deviation from Formula B: 6.9389e-17
+
+  VERDICT: FORMULA B CONFIRMED, FORMULA A REFUTED
+  The correct formula is:
+    R(N) = sqrt((N-2) / (N * 4^(N-1)))  for all N >= 2
+  The old conjecture 1/sqrt(N * 2^(N+1)) is refuted at N=5.
+
+==========================================================================================
+PART 2: ANALYTICAL PROOF VERIFICATION
+==========================================================================================
+
+  The proof proceeds in four steps:
+
+  Step 1: ||L_Dc||^2 = gamma^2 * 4^N * N
+    L_Dc is diagonal in the Pauli basis with eigenvalue gamma*(N - 2*w_XY).
+    Sum of squares: Sum_a (N - 2*w_a)^2 = 4^N * N.
+    (Each site contributes independently; cross-site terms vanish because
+    Sum_{4 Paulis} (1 - 2*delta_XY) = 0.)
+
+  Step 2: Every Heisenberg bond transition satisfies w_XY(a) + w_XY(b) = 2
+    at the bond sites (the "bond-sum rule").
+    This is the same property that makes the Pythagorean decomposition
+    exact at N=2.
+
+  Step 3: The spectator variance is N-2
+    For any bond (i,j), the non-bond sites are spectators: unchanged by
+    the transition, contributing (N-2-2*w_rest)^2 to the anti-commutator.
+    The average over all 4^(N-2) spectator configs is:
+      <(N-2-2*w_rest)^2> = N-2.
+
+  Step 4: Assembly
+    ||{L_H, L_Dc}||^2 = 4*gamma^2 * (N-2) * ||L_H||^2
+    R^2 = 4*gamma^2*(N-2)*||L_H||^2 / (||L_H||^2 * gamma^2 * 4^N * N)
+        = 4*(N-2) / (N * 4^N)
+        = (N-2) / (N * 4^(N-1))
+
+  Step 1 verification: ||L_Dc||^2 = gamma^2 * 4^N * N
+    N   ||L_Dc||^2 (measured)       gamma^2 * 4^N * N     Match
+  ------------------------------------------------------------
+    3                0.480000                0.480000      PASS
+    4                2.560000                2.560000      PASS
+    5               12.800000               12.800000      PASS
+
+  Step 2 verification: bond-sum rule (w_XY(a) + w_XY(b) = 2 at bond sites)
+    N=3: 96 nonzero entries, 0 violations of bond-sum rule (PASS)
+    N=4: 384 nonzero entries, 0 violations of bond-sum rule (PASS)
+    N=5: 1536 nonzero entries, 0 violations of bond-sum rule (PASS)
+
+  Step 3+4 verification: ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
+    N    Topology   ||anti||^2 (meas)   4*g^2*(N-2)*||L_H||^2       ratio
+  ----------------------------------------------------------------------
+    2       chain            0.000000                0.000000         inf
+    2    complete            0.000000                0.000000         inf
+    3       chain            7.680000                7.680000    1.000000
+    3    complete           11.520000               11.520000    1.000000
+    4       chain           92.160000               92.160000    1.000000
+    4    complete          184.320000              184.320000    1.000000
+    5       chain          737.280000              737.280000    1.000000
+    5    complete         1843.200000             1843.200000    1.000000
+
+==========================================================================================
+COMPLETE DATA TABLE
+==========================================================================================
+
+    N    Topology        Measured       Formula B       Dev B       Formula A       Dev A
+  -------------------------------------------------------------------------------------
+    2       chain    0.0000000000    0.0000000000    0.00e+00    0.2500000000    2.50e-01
+    3       chain    0.1443375673    0.1443375673    2.78e-17    0.1443375673    0.00e+00
+    4       chain    0.0883883476    0.0883883476    1.39e-17    0.0883883476    0.00e+00
+    5       chain    0.0484122918    0.0484122918    2.08e-17    0.0559016994    7.49e-03
+    5    complete    0.0484122918    0.0484122918    6.25e-17    0.0559016994    7.49e-03
+    6       chain    0.0255155182    0.0255155182    6.94e-17    0.0360843918    1.06e-02
+
+Saved JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_formula\cross_term_formula.json
+
+==========================================================================================
+RUN COMPLETE. Verdict: FORMULA B CONFIRMED, FORMULA A REFUTED
+Log:  D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_formula\cross_term_formula.txt
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_formula\cross_term_formula.json
+==========================================================================================
