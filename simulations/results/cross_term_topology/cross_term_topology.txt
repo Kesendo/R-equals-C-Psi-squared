@@ -1,0 +1,198 @@
+==========================================================================================
+CROSS-TERM TOPOLOGY DEPENDENCE
+Date: 2026-04-13 18:11:45.581080
+N = [3, 4], gamma = 0.05, J = 1.0
+Topologies: ['chain', 'star', 'ring', 'complete']
+==========================================================================================
+
+==========================================================================================
+ANCHOR: N=3 chain Z-dephasing, expected 1/sqrt(48) = 0.144338...
+==========================================================================================
+  Measured: 0.1443375673
+  Expected: 0.1443375673
+  Deviation: 0.00e+00
+  ANCHOR: PASS
+
+==========================================================================================
+TOPOLOGY EQUIVALENCE CHECK
+==========================================================================================
+
+  N = 3:
+         chain: 2 bonds, edges = [(0,1), (1,2)], degrees = [1, 1, 2]
+          star: 2 bonds, edges = [(0,1), (0,2)], degrees = [1, 1, 2]
+          ring: 3 bonds, edges = [(0,1), (1,2), (2,0)], degrees = [2, 2, 2]
+      complete: 3 bonds, edges = [(0,1), (0,2), (1,2)], degrees = [2, 2, 2]
+    NOTE: ring == complete at N=3 (triangle = K_3)
+    NOTE: chain and star are isomorphic at N=3 (both are the path P_3, degree sequence [1, 1, 2])
+
+  N = 4:
+         chain: 3 bonds, edges = [(0,1), (1,2), (2,3)], degrees = [1, 1, 2, 2]
+          star: 3 bonds, edges = [(0,1), (0,2), (0,3)], degrees = [1, 1, 1, 3]
+          ring: 4 bonds, edges = [(0,1), (1,2), (2,3), (3,0)], degrees = [2, 2, 2, 2]
+      complete: 6 bonds, edges = [(0,1), (0,2), (0,3), (1,2), (1,3), (2,3)], degrees = [3, 3, 3, 3]
+
+==========================================================================================
+CROSS-TERM RELATIVE ORTHOGONALITY (gamma = 0.05)
+==========================================================================================
+
+  N = 3, superoperator dim = 64
+    Topology  Edges    ||{L_H,L_Dc}||     rel_ortho       ||L_H||      ||L_Dc||
+  --------------------------------------------------------------------------------
+       chain      2        2.77128129    0.14433757       27.7128        0.6928
+        star      2        2.77128129    0.14433757       27.7128        0.6928
+        ring      3        3.39411255    0.14433757       33.9411        0.6928
+    complete      3        3.39411255    0.14433757       33.9411        0.6928
+
+  N = 4, superoperator dim = 256
+    Topology  Edges    ||{L_H,L_Dc}||     rel_ortho       ||L_H||      ||L_Dc||
+  --------------------------------------------------------------------------------
+       chain      3        9.60000000    0.08838835       67.8823        1.6000
+        star      3        9.60000000    0.08838835       67.8823        1.6000
+        ring      4       11.08512517    0.08838835       78.3837        1.6000
+    complete      6       13.57645020    0.08838835       96.0000        1.6000
+
+==========================================================================================
+GAMMA SWEEP (verify gamma-independence)
+Values: [0.001, 0.01, 0.05, 0.1, 0.5]
+==========================================================================================
+
+  chain N=3:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.1443375673
+         0.010    0.1443375673
+         0.050    0.1443375673
+         0.100    0.1443375673
+         0.500    0.1443375673
+    spread = 1.11e-16 (CONSTANT)
+
+  chain N=4:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.0883883476
+         0.010    0.0883883476
+         0.050    0.0883883476
+         0.100    0.0883883476
+         0.500    0.0883883476
+    spread = 1.39e-17 (CONSTANT)
+
+  star N=3:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.1443375673
+         0.010    0.1443375673
+         0.050    0.1443375673
+         0.100    0.1443375673
+         0.500    0.1443375673
+    spread = 1.11e-16 (CONSTANT)
+
+  star N=4:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.0883883476
+         0.010    0.0883883476
+         0.050    0.0883883476
+         0.100    0.0883883476
+         0.500    0.0883883476
+    spread = 2.78e-17 (CONSTANT)
+
+  ring N=3:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.1443375673
+         0.010    0.1443375673
+         0.050    0.1443375673
+         0.100    0.1443375673
+         0.500    0.1443375673
+    spread = 1.67e-16 (CONSTANT)
+
+  ring N=4:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.0883883476
+         0.010    0.0883883476
+         0.050    0.0883883476
+         0.100    0.0883883476
+         0.500    0.0883883476
+    spread = 2.78e-17 (CONSTANT)
+
+  complete N=3:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.1443375673
+         0.010    0.1443375673
+         0.050    0.1443375673
+         0.100    0.1443375673
+         0.500    0.1443375673
+    spread = 1.67e-16 (CONSTANT)
+
+  complete N=4:
+         gamma       rel_ortho
+    ----------------------------
+         0.001    0.0883883476
+         0.010    0.0883883476
+         0.050    0.0883883476
+         0.100    0.0883883476
+         0.500    0.0883883476
+    spread = 4.16e-17 (CONSTANT)
+
+  Overall gamma-independence: CONFIRMED
+
+==========================================================================================
+CLOSED-FORM ANALYSIS
+==========================================================================================
+
+  N = 3:
+         chain: 0.1443375673 = 1/sqrt(48)
+          star: 0.1443375673 = 1/sqrt(48)
+          ring: 0.1443375673 = 1/sqrt(48)
+      complete: 0.1443375673 = 1/sqrt(48)
+
+  N = 4:
+         chain: 0.0883883476 = 1/sqrt(128)
+          star: 0.0883883476 = 1/sqrt(128)
+          ring: 0.0883883476 = 1/sqrt(128)
+      complete: 0.0883883476 = 1/sqrt(128)
+
+SECONDARY HYPOTHESIS: complete graph N=3 vanishing cross term
+  REFUTED: complete graph N=3 has nonzero cross term (0.1443375673)
+
+EDGE-COUNT CORRELATION:
+    N    Topology  Edges       rel_ortho       Closed form
+  ------------------------------------------------------------
+    3       chain      2    0.1443375673        1/sqrt(48)
+    3        star      2    0.1443375673        1/sqrt(48)
+    3        ring      3    0.1443375673        1/sqrt(48)
+    3    complete      3    0.1443375673        1/sqrt(48)
+    4       chain      3    0.0883883476       1/sqrt(128)
+    4        star      3    0.0883883476       1/sqrt(128)
+    4        ring      4    0.0883883476       1/sqrt(128)
+    4    complete      6    0.0883883476       1/sqrt(128)
+
+GRAPH ISOMORPHISM CHECK:
+  N=3: chain vs star: same_degrees=True, same_cross_term=True
+  N=3: chain vs ring: same_degrees=False, same_cross_term=True
+  N=3: chain vs complete: same_degrees=False, same_cross_term=True
+  N=3: star vs ring: same_degrees=False, same_cross_term=True
+  N=3: star vs complete: same_degrees=False, same_cross_term=True
+  N=3: ring vs complete: same_degrees=True, same_cross_term=True
+  N=4: chain vs star: same_degrees=False, same_cross_term=True
+  N=4: chain vs ring: same_degrees=False, same_cross_term=True
+  N=4: chain vs complete: same_degrees=False, same_cross_term=True
+  N=4: star vs ring: same_degrees=False, same_cross_term=True
+  N=4: star vs complete: same_degrees=False, same_cross_term=True
+  N=4: ring vs complete: same_degrees=False, same_cross_term=True
+
+Saved JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_topology\cross_term_topology.json
+
+==========================================================================================
+GENERATING PLOT
+==========================================================================================
+Saved plot: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_topology\cross_term_topology.png
+
+==========================================================================================
+RUN COMPLETE
+Log:  D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_topology\cross_term_topology.txt
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_topology\cross_term_topology.json
+Plot: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cross_term_topology\cross_term_topology.png
+==========================================================================================

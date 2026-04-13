@@ -153,4 +153,16 @@ Two observers A and B live in a world with U(1) conservation. A's asymptotic inh
 
 ---
 
+## EQ-011
+
+**Date:** 2026-04-13
+**Source:** [CROSS_TERM_TOPOLOGY](../experiments/CROSS_TERM_TOPOLOGY.md), computed for N=3 and N=4
+
+The relative orthogonality ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) is topology-independent and equals 1/sqrt(N * 2^(N+1)) at N=3 and N=4. Does this formula hold for N=5 and beyond? Is there an analytical proof from the w_XY transition statistics of the Heisenberg bond?
+
+**Status:** open
+**Pointer:** Compute N=5 (1024x1024 superoperator, feasible). For the proof: the quantity depends only on how a single Heisenberg bond distributes w_XY sums across the Pauli string basis at N sites. The spectator-site distribution should yield the formula via combinatorial counting.
+
+---
+
 *Collection. Not classification. Classification comes when enough entries exist.*
