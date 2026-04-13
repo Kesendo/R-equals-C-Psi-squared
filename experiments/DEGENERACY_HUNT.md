@@ -10,13 +10,13 @@
 
 ## Motivation
 
-SYMMETRY_CENSUS.md flagged max eigenvalue multiplicity = 14 at N=5 uniform chain. The known symmetries (U(1), spin-flip, reflection) predict at most 4x degeneracy (2 from flip x 2 from reflection). The gap between 4 and 14 was unexplained.
+[SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) flagged max eigenvalue multiplicity = 14 at N=5 uniform chain. The known symmetries (U(1), spin-flip, reflection) predict at most 4× degeneracy (2 from flip × 2 from reflection). The gap between 4 and 14 was unexplained.
 
 ---
 
-## 1. Multiplicity table (N=3-7, uniform chain, gamma=0.1)
+## 1. Multiplicity table (N=3-7, uniform chain, γ = 0.1)
 
-| N | d^2 | Distinct eigenvalues | Max multiplicity | Count at max |
+| N | d² | Distinct eigenvalues | Max multiplicity | Count at max |
 |---|-----|---------------------|-----------------|-------------|
 | 3 | 64 | 26 | 6 | 2 |
 | 4 | 256 | 127 | 14 | 1 |
@@ -28,7 +28,7 @@ SYMMETRY_CENSUS.md flagged max eigenvalue multiplicity = 14 at N=5 uniform chain
 
 ## 2. Eigenvector inspection (N=5, eigenvalue Re = -0.400)
 
-The 14 degenerate eigenvectors at Re(lambda) = -0.400 spread across multiple sectors:
+The 14 degenerate eigenvectors at Re(λ) = −0.400 spread across multiple sectors:
 
 | Sector (w_bra, w_ket) | Total weight |
 |------------------------|-------------|
@@ -39,19 +39,19 @@ The 14 degenerate eigenvectors at Re(lambda) = -0.400 spread across multiple sec
 | (3,5) | 1.19 |
 | (3,3) | 1.17 |
 
-The degenerate modes live in many different sectors simultaneously. This is consistent with the [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate formula Re(lambda) = -2 sum gamma_k <1_XY(k)>: each eigenmode's decay rate is twice the dephasing-weighted average of its X/Y Pauli content. For uniform gamma, this simplifies to Re(lambda) = -2 gamma n_XY, placing all modes with the same n_XY count at the same rate. At the grid value Re = -0.400 = -4 gamma, modes from different (w_bra, w_ket) sectors coincide because they share n_XY = 2. This is a rate-formula coincidence, not a hidden symmetry.
+The degenerate modes live in many different sectors simultaneously. This is consistent with the [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) rate formula Re(λ) = −2 Σ γ_k ⟨1_XY(k)⟩: each eigenmode's decay rate is twice the dephasing-weighted average of its X/Y Pauli content. For uniform γ, this simplifies to Re(λ) = −2γ·n_XY, placing all modes with the same n_XY count at the same rate. At the grid value Re = −0.400 = −4γ, modes from different (w_bra, w_ket) sectors coincide because they share n_XY = 2. This is a rate-formula coincidence, not a hidden symmetry.
 
 ## 3. SU(2) Casimir check
 
 | Test | Result |
 |------|--------|
-| [S^2, Z_k] | norm = 16.0 for all k (NOT zero) |
-| [S^2, H] | norm = 0.0 (SU(2) invariant Hamiltonian) |
-| [C_{S^2}, L] | Frobenius norm = 28.6 (does NOT commute) |
+| [S², Z_k] | norm = 16.0 for all k (NOT zero) |
+| [S², H] | norm = 0.0 (SU(2) invariant Hamiltonian) |
+| [C_{S²}, L] | Frobenius norm = 28.6 (does NOT commute) |
 
-**Conclusion:** SU(2) total spin is a symmetry of the Heisenberg Hamiltonian but is broken by Z-dephasing. The dephasing jump operators Z_k do not commute with S^2 (because Z only detects the z-component, not the total spin). SU(2) is therefore NOT a hidden symmetry of the Liouvillian.
+**Conclusion:** SU(2) total spin is a symmetry of the Heisenberg Hamiltonian but is broken by Z-dephasing. The dephasing jump operators Z_k do not commute with S² (because Z only detects the z-component, not the total spin). SU(2) is therefore NOT a hidden symmetry of the Liouvillian.
 
-The high degeneracies are explained by the absorption theorem rate formula, which places many modes from different sectors at the same grid values (multiples of 2*gamma for uniform chains). These are "accidental" degeneracies from the rate formula, not from a hidden symmetry.
+The high degeneracies are explained by the absorption theorem rate formula, which places many modes from different sectors at the same grid values (multiples of 2γ for uniform chains). These are "accidental" degeneracies from the rate formula, not from a hidden symmetry.
 
 ---
 
