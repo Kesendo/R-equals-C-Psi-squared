@@ -2,7 +2,7 @@
 
 **Batch:** methodology (8 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_methodology.md`
-**Status:** 1 / 8 entries decided (OQ-114 decision stands as open; V1 sweep was retracted)
+**Status:** 2 / 8 entries resolved (OQ-094 via pipeline, OQ-114 via V2 sweep plus structural insight)
 
 ---
 
@@ -160,3 +160,71 @@ When a measurement result shows a pattern that does not depend on a
 variable the question explicitly asks about (here: bell_pair position
 in the overlap column), that is evidence of a measurement bug, not a
 physical finding. Check the observable before trusting the trend.
+
+---
+
+## OQ-114 final resolution (2026-04-12 late session, 2026-04-13 follow-through)
+
+**Final status:** resolved (question dissolves into two separable facts).
+**Resolvers:** commit `6512347` (V2 sweep with left-eigenoperator),
+EQ-001 in `review/EMERGING_QUESTIONS.md` (algebraic decoupling proof).
+
+**What the V2 sweep established.**
+
+Using the biorthogonally correct observable `c_slow = Tr(L_slow^dagger * rho_0)`
+with the left eigenoperator, the sweep produced non-trivial overlap values
+that distinguish both `exc_k` (excitation site) and `bell_pair` position.
+Five straddler candidates were found for N=5 and N=6. Sanity checks
+passed: `psi_opt = 1.001` (expected 1.000), bare Bell+ overlap = 0.000
+(expected 0). The numerical answer to "do non-symmetric two-excitation
+states with high-concurrence pairs straddle both exits?" is yes,
+trivially, and the states are easy to construct.
+
+**Why the question dissolves despite having a yes answer.**
+
+The V2 overlap depends only on `exc_k`, not on `bell_pair`. This is
+not a sweep artifact (the observable is now correct) but algebraic
+structure. The slow mode lives entirely in the `(w=1, w=1)` sector of
+the Liouvillian's U(1) block decomposition. The Bell coherence lives
+in the `(w=1, w=3)` and `(w=3, w=3)` blocks. These blocks are
+orthogonal by U(1) conservation of excitation number, and the
+Liouvillian is block-diagonal in this decomposition. Therefore
+`c_slow` sees only the `(1,1)` block of `rho_0` and is blind to the
+Bell-pair contribution by construction.
+
+The original question presupposed a geometric boundary between the
+two exits where a state could "straddle" in a meaningful sense. The
+V2 measurement shows there is no boundary: the two properties
+(Cusp-like high concurrence on a pair, Lens-like slow-mode overlap)
+live in U(1)-orthogonal sectors and can co-exist in a single state
+trivially, without any special structural position. There is no
+sheet-boundary geometry because there are no sheets in the spatial
+sense. There are watertight sectors, and the two exits belong to
+different sector projections.
+
+Classification: the question resolves as dissolved by a structural
+insight. A "yes, trivially" answer plus the algebraic reason the
+triviality is forced. Recorded as `resolved`, not `partially-resolved`,
+because the posed question (do such states exist, and what do they look
+like) is fully answered. The implicit presupposition (that straddling
+requires sitting on a geometric boundary) is removed, not left open.
+
+**Cross-reference.** The same algebraic fact is recorded as EQ-001 in
+`review/EMERGING_QUESTIONS.md`, closed by proof via U(1) block
+decomposition. The reflection `reflections/OBSERVER_INHERITANCE.md`
+develops the same sector-orthogonality structure for the observer
+overlap formula, with independent numerical verification in
+`simulations/observer_intersection.py`.
+
+**Lesson captured.**
+
+A question phrased as "can states X straddle boundary Y" can dissolve
+in two ways: (1) the states are impossible, or (2) the boundary is
+not there in the form the question presupposed. OQ-114 is case (2).
+The resolver is not an experiment that finds or fails to find the
+states, but a structural argument about the geometry the question
+assumed. Recognizing this requires looking at the observable and its
+block structure, not just the sweep output. The V1 retraction was the
+correct methodological move (bad observable); the V2 result is the
+correct physics (sectors are orthogonal, so trivially yes, which
+dissolves the question).

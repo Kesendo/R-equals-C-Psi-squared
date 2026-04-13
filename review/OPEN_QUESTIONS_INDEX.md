@@ -3244,7 +3244,7 @@ to the classification pass.
 **Section:** Open questions
 **Date:** unknown
 **Tag:** methodology
-**Status:** unclassified
+**Status:** resolved (see `review/MERGE_LOG_methodology.md` -- OQ-114 final resolution; commit 6512347)
 
 ### OQ-173
 
