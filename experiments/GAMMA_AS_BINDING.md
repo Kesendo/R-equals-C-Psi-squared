@@ -1,6 +1,8 @@
 # Gamma as Binding Parameter: Per-Sector Rate Sensitivity
 
-**Status:** Complete. Closes EQ-008.
+> **Superseded by [LIGHT_DOSE_RESPONSE](LIGHT_DOSE_RESPONSE.md).** This document (V1) correctly measured per-sector rates and the 134% nonlinearity, but its mechanistic explanation (mode-crossing hypothesis, Zeno language) was disproved by V2. The numbers in the tables below are correct; the "Why" section is not. See V2 for the correct mechanism (eigenvector rotation).
+
+**Status:** Superseded. EQ-008 closed via V2.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/gamma_sector_sensitivity.py`
@@ -11,13 +13,13 @@
 
 ## Motivation (EQ-008)
 
-The V2 boundary straddling analysis showed that the Bell-pair coherence (cross-sector block) and the slow-mode coupling (SE block) are orthogonal: they do not see each other. But both are shaped by the same physical parameter: the dephasing profile gamma. EQ-008 asks: how does gamma act on each sector, and is this "binding" a simple linear scale or something richer?
+The V2 boundary straddling analysis showed that the Bell-pair coherence (cross-sector block) and the slow-mode coupling (SE block) are orthogonal: they do not see each other. But both are shaped by the same physical parameter: the dephasing profile γ. EQ-008 asks: how does γ act on each sector, and is this "binding" a simple linear scale or something richer?
 
 ---
 
 ## Frage 1: Per-sector slowest rates at N=5
 
-Three gamma profiles with matched sum Sigma_gamma = 2.608 (so differences come from spatial distribution, not total noise):
+Three γ profiles with matched sum Σγ = 2.608 (so differences come from spatial distribution, not total noise):
 
 ### Diagonal sectors (w = w', contain the N+1 steady-state exits)
 
@@ -32,19 +34,19 @@ Three gamma profiles with matched sum Sigma_gamma = 2.608 (so differences come f
 
 The sacrifice profile has dramatically slower rates in the SE sector (0.318 vs 1.502 for uniform). This is the lens effect: the sacrifice geometry creates one slow mode in the SE sector that is absent under uniform dephasing. All three profiles have w=0 and w=5 as trivially stationary (one-dimensional sectors, nothing to decay).
 
-The palindromic symmetry rate(w) = rate(N-w) holds for uniform (by spin-flip symmetry) and sacrifice profile. It holds for moderate gradient only approximately (broken by the asymmetric profile).
+The palindromic symmetry rate(w) = rate(N−w) holds exactly for all three profiles. This follows from spin-flip symmetry (X⊗N conjugation commutes with L for any γ profile, mapping sector (w,w) to (N−w,N−w) with identical spectra).
 
-### Off-diagonal sectors (w != w', coherence sectors)
+### Off-diagonal sectors (w ≠ w', coherence sectors)
 
-The slowest rate in each coherence sector measures how fast cross-sector coherences decay. Key pattern: rates increase with |w - w'| (more distant sectors decohere faster). The (0,5) and (5,0) sectors always have rate = Sigma_gamma (the maximum), because they connect maximally distant sectors and require N bit flips.
+The slowest rate in each coherence sector measures how fast cross-sector coherences decay. Key pattern: rates increase with |w − w'| (more distant sectors decohere faster). The (0,5) and (5,0) sectors always have rate = 2Σγ (the maximum), because they connect maximally distant sectors (the single basis element |00...0⟩⟨11...1| acquires a phase factor from every Z_k).
 
-The sacrifice profile compresses all coherence rates toward lower values compared to uniform (at matched Sigma_gamma). This is a global consequence of the sacrifice geometry: concentrating noise on one site slows down the entire Liouvillian.
+The sacrifice profile compresses all coherence rates toward lower values compared to uniform (at matched Σγ). This is a global consequence of the sacrifice geometry: concentrating noise on one site slows down the entire Liouvillian.
 
 ---
 
-## Frage 2: Scaling with alpha (gamma_k -> alpha * gamma_k)
+## Frage 2: Scaling with α (γ_k → α·γ_k)
 
-If rates scaled linearly with alpha, the ratio rate(alpha) / (alpha * rate(1)) would be 1.0 everywhere.
+If rates scaled linearly with α, the ratio rate(α) / (α × rate(1)) would be 1.0 everywhere.
 
 ### Linearity deviations
 
@@ -56,11 +58,13 @@ If rates scaled linearly with alpha, the ratio rate(alpha) / (alpha * rate(1)) w
 
 **Scaling is massively nonlinear.** The deviations exceed 100%, meaning rates can be off by more than a factor of 2 from the linear prediction.
 
-### Why: the absorption theorem is per-mode, not per-sector
+### Why: eigenvector rotation (corrected in V2)
 
-The absorption theorem gives Re(lambda) = -2 sum gamma_k <1_XY(k)> for each eigenmode. If gamma scales by alpha, each eigenvalue scales by alpha. This is exact, per mode.
+> **V1 hypothesis (below) was wrong.** V1 proposed mode-crossing as the mechanism. [LIGHT_DOSE_RESPONSE](LIGHT_DOSE_RESPONSE.md) (V2) tracked individual eigenvalue curves and found zero level crossings. The actual mechanism is eigenvector rotation: as α changes, each mode's Pauli content shifts continuously, making Re(λ) = −2α Σ γ_k ⟨1_XY(k)⟩ nonlinear because ⟨1_XY(k)⟩ itself depends on α.
 
-But the SLOWEST MODE PER SECTOR can change identity as alpha varies. The Liouvillian is L(alpha) = L_H + alpha * L_D. At small alpha, the Hamiltonian dominates; at large alpha, the dephasing dominates. The eigenvector structure changes with alpha, so different modes become the "slowest" in a sector at different alpha values.
+~~The absorption theorem gives Re(λ) = −2 Σ γ_k ⟨1_XY(k)⟩ for each eigenmode. If γ scales by α, each eigenvalue scales by α. This is exact, per mode.~~
+
+~~But the SLOWEST MODE PER SECTOR can change identity as α varies.~~ The Liouvillian is L(α) = L_H + α·L_D. At small α, the Hamiltonian dominates; at large α, the dephasing dominates. The eigenvector structure changes with α, rotating the Pauli content of each mode and making individual rates nonlinear.
 
 ### Per-sector scaling pattern (sacrifice profile)
 
@@ -71,11 +75,11 @@ But the SLOWEST MODE PER SECTOR can change identity as alpha varies. The Liouvil
 | (0,1) edge | 1.67 | 0.74 | Moderate deviation |
 | (0,5) extremal | 1.00 | 1.00 | Exactly linear (trivial sector) |
 
-At weak dephasing (alpha = 0.5): rates are HIGHER than linear prediction (the Hamiltonian redistributes energy and makes modes decay faster than pure dephasing would predict).
+At weak dephasing (α = 0.5): rates are HIGHER than linear prediction (the Hamiltonian shapes the eigenvectors toward higher XY-weight content).
 
-At strong dephasing (alpha = 4.0): rates are LOWER than linear prediction (a quantum-Zeno-like effect where strong measurement slows down the dynamics).
+At strong dephasing (α = 4.0): rates are LOWER than linear prediction (the eigenvectors rotate toward the Pauli basis, reducing their effective XY-weight).
 
-The only perfectly linear sector is (0,5): this sector has dimension 1 and its rate is simply Sigma_gamma, which scales trivially.
+The only perfectly linear sector is (0,5): this sector has dimension 1 and its rate is 2Σγ, which scales trivially.
 
 ---
 
@@ -83,13 +87,13 @@ The only perfectly linear sector is (0,5): this sector has dimension 1 and its r
 
 Gamma connects the sectors not by coupling them (sector conservation is exact), but by **differentially modulating** their dynamics:
 
-1. The spatial profile of gamma (which sites get more noise) determines the rate hierarchy across sectors. This is the sacrifice effect.
+1. The spatial profile of γ (which sites get more noise) determines the rate hierarchy across sectors. This is the sacrifice effect.
 
-2. The global scale of gamma determines the balance between Hamiltonian (coherent) and dissipative (dephasing) dynamics within each sector. This is nonlinear: doubling gamma does NOT double all sector rates.
+2. The global scale of γ determines the balance between Hamiltonian (coherent) and dissipative (dephasing) dynamics within each sector. This is nonlinear: doubling γ does NOT double all sector rates.
 
-3. Different sectors respond with different sensitivity to gamma scaling. The interior sectors (2,2) and (3,3) show the strongest nonlinearity (Zeno effect). The edge sectors (0,1) show moderate nonlinearity. The extremal sector (0,5) is trivially linear.
+3. Different sectors respond with different sensitivity to γ scaling. The interior sector (2,2) shows the strongest nonlinearity (eigenvector rotation, see [V2](LIGHT_DOSE_RESPONSE.md)). The edge sectors (0,1) show moderate nonlinearity. The extremal sector (0,5) is trivially linear.
 
-Gamma is therefore a **nonlinear common modulator**: it shapes all sectors simultaneously but with sector-dependent sensitivity. It does not couple sectors (no population transfer), but the fact that different sectors respond differently to the same gamma change means there is a structural relationship between sectors mediated by gamma.
+γ is therefore a **nonlinear common modulator**: it shapes all sectors simultaneously but with sector-dependent sensitivity. It does not couple sectors (no population transfer), but the fact that different sectors respond differently to the same γ change means there is a structural relationship between sectors mediated by γ.
 
 ---
 
@@ -104,4 +108,4 @@ Gamma is therefore a **nonlinear common modulator**: it shapes all sectors simul
 
 ---
 
-*April 12, 2026. EQ-008 closed: gamma is a nonlinear common modulator, not a linear scale parameter.*
+*April 12, 2026. EQ-008 closed: γ is a nonlinear common modulator, not a linear scale parameter. Mechanism identified in [V2](LIGHT_DOSE_RESPONSE.md): eigenvector rotation.*
