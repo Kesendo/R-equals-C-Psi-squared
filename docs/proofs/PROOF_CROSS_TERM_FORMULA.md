@@ -1,23 +1,25 @@
 # Proof of the Cross-Term Formula
 
-**Tier:** 1-2 (Steps 1-4 analytical; Step 5 numerically verified to
-machine precision at N=2-6, all topologies)
+**Tier:** 1 (fully analytical)
 **Date:** April 13, 2026
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π operator, palindromic structure)
 - [PRIMORDIAL_QUBIT_ALGEBRA](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean decomposition at N=2, bond-sum rule)
 - [cross_term_formula_check.py](../../simulations/cross_term_formula_check.py) (numerical verification)
-**Status:** Proven (non-overlapping bonds); verified (overlapping bonds)
-**Scope:** Heisenberg XXX coupling on any graph, uniform Z-dephasing
-**Does NOT establish:** Extension to anisotropic couplings (XXZ, XY),
-non-uniform gamma, or non-Pauli noise types.
+**Status:** Proven (all graph topologies, all shadow-balanced couplings)
+**Scope:** Any bond coupling α_i β_j where both Paulis are in the same
+dephasing class ({X,Y} or {I,Z}), on any graph, uniform Z-dephasing.
+This includes Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
+**Does NOT establish:** Extension to shadow-crossing couplings (X_i Z_j,
+Y_i Z_j), non-uniform gamma, or non-Pauli noise types.
 
 ---
 
 ## Theorem
 
-For N >= 2 qubits with Heisenberg XXX coupling (H = J Sigma_{(i,j)} sigma_i * sigma_j)
-on any graph G and uniform Z-dephasing at rate gamma per site:
+For N >= 2 qubits with any shadow-balanced bond coupling (each bond term
+alpha_i beta_j has both alpha, beta in {X,Y} or both in {I,Z}) on any
+graph G and uniform Z-dephasing at rate gamma per site:
 
     ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) = sqrt((N-2) / (N * 4^(N-1)))
 
@@ -114,7 +116,35 @@ configs:
 
 by the same calculation as Step 1 (with N replaced by N-2). QED.
 
-### Step 4: Assembly (non-overlapping bonds)
+### Step 4: Disjoint supports (all bond types, all topologies)
+
+**Lemma 3.** For any coupling alpha_i beta_j with alpha, beta in {X,Y,Z},
+every nonzero Pauli-basis transition changes both bond sites.
+
+*Proof.* The commutator is:
+
+    [alpha x beta, P x Q] = [alpha, P] x (beta Q) + (P alpha) x [beta, Q]
+
+Suppose site j does not change, i.e. [beta, Q] = 0. Then Q in {I, beta}.
+The output at site j is beta * Q. If Q = I: output = beta (not I). If
+Q = beta: output = I (not beta). In both cases the output differs from
+the input. Contradiction: site j does change.
+
+The same argument applies to site i. QED.
+
+**Corollary.** For any two bonds e = (i,j) and e' = (k,l) on a graph
+(whether or not they share a site), their Pauli-basis transition
+supports are disjoint: no (a,b) pair receives nonzero contributions
+from both (L_H^e)_{ab} and (L_H^{e'})_{ab}.
+
+*Proof.* Bond e changes sites {i,j}. Bond e' changes sites {k,l}. For
+both to contribute to (a,b): b must differ from a at {i,j} (from e)
+and at {k,l} (from e'). But e requires b_m = a_m for all m not in {i,j},
+and e' requires b_m = a_m for all m not in {k,l}. If e and e' share
+a site (say j = k), then e' requires b_i = a_i, but e changes site i
+(Lemma 3). Contradiction. QED.
+
+### Step 5: Assembly (all topologies)
 
 The anti-commutator inherits a pointwise product structure from L_Dc
 being diagonal in the Pauli basis:
@@ -126,49 +156,29 @@ Therefore:
 
     ||{L_H, L_Dc}||^2 = 4*gamma^2 * Sum_{a,b} |(L_H)_{ab}|^2 * (N - w_a - w_b)^2
 
-For a single bond or any set of non-overlapping bonds (no shared sites),
-each bond contributes independently to both ||L_H||^2 and the
-anti-commutator sum. Non-overlapping bonds have disjoint transition
-supports (each bond changes both its sites, and different bonds act on
-different site pairs), so:
+By Lemma 3 and its Corollary, different bonds have disjoint transition
+supports for any graph topology. Therefore:
 
-    ||L_H||^2 = Sum_e ||L_H^e||^2
+    ||L_H||^2 = Sum_e ||L_H^e||^2    (no cross-terms between bonds)
 
-The spectator variance N-2 is the same for every bond. The weighted
-average over all transitions gives:
+For each bond e, the spectator variance gives (Step 3):
 
-    Sum_{a,b} |(L_H)_{ab}|^2 * (N - w_a - w_b)^2 = (N-2) * ||L_H||^2
+    Sum_{a,b} |(L_H^e)_{ab}|^2 * (N - w_a - w_b)^2 = (N-2) * ||L_H^e||^2
+
+Summing over bonds:
+
+    Sum_{a,b} |(L_H)_{ab}|^2 * (N - w_a - w_b)^2 = (N-2) * Sum_e ||L_H^e||^2
+                                                    = (N-2) * ||L_H||^2
 
 Therefore:
 
     ||{L_H, L_Dc}||^2 = 4*gamma^2 * (N-2) * ||L_H||^2
 
-QED for non-overlapping bonds.
+QED.
 
-### Step 5: Extension to overlapping bonds
-
-For graphs with overlapping bonds (shared sites), the proof of Step 4
-does not directly apply because cross-terms between bonds contribute to
-||L_H||^2 and ||{L_H, L_Dc}||^2.
-
-**Numerical verification:** the identity holds to machine precision for
-all tested overlapping-bond configurations:
-
-| N | Topology | Edges | Overlapping? | Ratio (should be 1.0) |
-|---|----------|-------|--------------|-----------------------|
-| 2 | chain | 1 | no | (0/0, N=2 special) |
-| 2 | complete | 1 | no | (0/0, N=2 special) |
-| 3 | chain | 2 | yes (site 1) | 1.000000 |
-| 3 | complete | 3 | yes (all) | 1.000000 |
-| 4 | chain | 3 | yes | 1.000000 |
-| 4 | complete | 6 | yes (all) | 1.000000 |
-| 5 | chain | 4 | yes | 1.000000 |
-| 5 | complete | 10 | yes (all) | 1.000000 |
-
-The identity holds at machine precision for the complete graph, where
-every bond overlaps with every other. A full analytical proof for
-overlapping bonds awaits a decomposition of the cross-bond interference
-terms. The numerical evidence is definitive.
+**Numerical verification** (independent check): the identity holds to
+machine precision for all tested configurations, including the complete
+graph at N=5 (10 overlapping bonds, ratio = 1.000000).
 
 ### Assembly of the theorem
 
@@ -186,25 +196,36 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
 ## Scope and Limitations
 
 ### Valid for
-- Heisenberg XXX coupling (isotropic: J(XX + YY + ZZ) per bond)
+- Any bond coupling where each term alpha_i beta_j has both Paulis in
+  the same dephasing class: both in {X,Y} ("in the light") or both in
+  {I,Z} ("in shadow"). This includes:
+  - Heisenberg XXX: J(XX + YY + ZZ)
+  - XXZ with arbitrary anisotropy Delta: J(XX + YY + Delta*ZZ)
+  - XY model: J(XX + YY)
+  - Ising: J(ZZ)
+  - DM interaction: J(XY - YX)
+  - Any linear combination of the above
 - Any graph topology (chain, star, ring, complete, tree, etc.)
 - Uniform Z-dephasing (same gamma on every site)
-- Any gamma > 0, any coupling strength J != 0
+- Any gamma > 0, any coupling strengths
 - All N >= 2
 
+### Does NOT hold for
+- **Shadow-crossing couplings** (X_i Z_j, Y_i Z_j): couplings that
+  mix a dephasing-active Pauli ({X,Y}) with a dephasing-inactive Pauli
+  ({Z}) violate the bond-sum rule (Lemma 2). Numerically verified:
+  X_i Z_j gives R(3) = 0.2041, not 0.1443.
+
 ### Open questions
-- **Anisotropic couplings (XXZ, XY, Ising):** the bond-sum rule
-  (Lemma 2) depends on the isotropic Heisenberg structure. It is not
-  known whether an analogous formula exists for anisotropic models.
 - **Non-uniform gamma:** when gamma_k varies by site, L_Dc is still
   diagonal in the Pauli basis but with site-dependent eigenvalues.
   The spectator variance calculation changes.
 - **Non-Pauli noise (amplitude damping, depolarizing):** L_D is no
   longer diagonal in the Pauli basis. The pointwise product structure
-  of Step 4 breaks.
-- **Overlapping bonds:** the analytical proof covers non-overlapping
-  bonds (Step 4). The extension to overlapping bonds is verified
-  numerically but not proven analytically (Step 5).
+  of Step 5 breaks.
+- **Shadow-crossing couplings:** is there a modified formula for
+  couplings like X_i Z_j? If so, it would involve additional bond-site
+  variance beyond N-2.
 
 ---
 

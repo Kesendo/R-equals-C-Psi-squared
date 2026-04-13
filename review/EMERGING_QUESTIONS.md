@@ -165,4 +165,16 @@ The relative orthogonality ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) is topology-in
 
 ---
 
+## EQ-012
+
+**Date:** 2026-04-13
+**Source:** Anisotropy scan during cross-term formula investigation (simulations/cross_term_anisotropy.py)
+
+The cross-term formula R(N) = √((N-2)/(N×4^(N-1))) holds for all shadow-balanced couplings (both bond Paulis in {X,Y} or both in {I,Z}), but breaks for shadow-crossing couplings like X_iZ_j (R(3) = 0.2041 instead of 0.1443). Is there a modified formula for shadow-crossing couplings? If so, it involves additional bond-site variance beyond N-2. The shadow-crossing case may have its own closed form, or it may depend on coupling details.
+
+**Status:** open
+**Pointer:** The bond-sum rule (w_XY(a)+w_XY(b)=2) fails for XZ/YZ couplings. The bond-site variance is nonzero. A formula R(N, coupling) would generalize F49. Compute for a few coupling types and check.
+
+---
+
 *Collection. Not classification. Classification comes when enough entries exist.*

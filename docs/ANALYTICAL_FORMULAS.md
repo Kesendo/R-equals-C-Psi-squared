@@ -878,7 +878,7 @@ At N≥3: cross term ~2% of ||L_c²||, γ-independent.
 **Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),
 [Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
 
-### F49. Cross-term formula (Tier 1-2, proven + verified N=2-6)
+### F49. Cross-term formula (Tier 1, proven)
 
     R(N) = ||{L_H, L_Dc}|| / (||L_H|| · ||L_Dc||) = √((N-2) / (N · 4^(N-1)))
 
@@ -886,13 +886,17 @@ Equivalently: R(N)² = 4(N-2) / (N · 4^N). At N=2: R = 0 (exact
 Pythagorean decomposition). At N=3: R = 1/√48. At N=4: R = 1/√128.
 
 Follows from the key identity ||{L_H, L_Dc}||² = 4γ²(N-2)||L_H||²
-(bond-sum rule + spectator variance) and ||L_Dc||² = γ² · 4^N · N.
+(bond-sum rule + spectator variance + disjoint bond supports) and
+||L_Dc||² = γ² · 4^N · N.
 
 γ-independent, J-independent, topology-independent. Depends only on N.
 
-**Valid for:** Heisenberg XXX, uniform Z-dephasing, any graph, all N >= 2.
+**Valid for:** Any shadow-balanced bond coupling (both Paulis in {X,Y}
+or both in {I,Z}): Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
+Uniform Z-dephasing, any graph, all N >= 2.
+**Breaks for:** Shadow-crossing couplings (X_iZ_j, Y_iZ_j).
 **Replaces:** per-N numerical computation of the cross-term magnitude.
-**Verified:** N=2-6, 4 topologies (chain, star, ring, complete), 5 gamma values.
+**Verified:** N=2-6, 4 topologies, 5 gamma values, 10 coupling types.
 **Source:** [Proof](proofs/PROOF_CROSS_TERM_FORMULA.md),
 [Experiment](../experiments/CROSS_TERM_FORMULA.md)
 

@@ -86,11 +86,13 @@ The formula stated there is confirmed numerically below and in the
 preceding sections.
 
 In brief: the identity ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
-follows from three structural properties: (a) L_Dc is diagonal in the
-Pauli basis, (b) every Heisenberg bond transition satisfies the bond-sum
-rule w_XY(a) + w_XY(b) = 2 at the bond sites, (c) the spectator
-variance is N-2. Combined with ||L_Dc||^2 = gamma^2 * 4^N * N, this
-gives R^2 = (N-2)/(N * 4^(N-1)).
+follows from four structural properties: (a) L_Dc is diagonal in the
+Pauli basis, (b) every shadow-balanced bond transition satisfies the
+bond-sum rule w_XY(a) + w_XY(b) = 2 at the bond sites, (c) the
+spectator variance is N-2, (d) every non-identity Pauli coupling
+changes both bond sites, so overlapping bonds have disjoint supports.
+Combined with ||L_Dc||^2 = gamma^2 * 4^N * N, this gives
+R^2 = (N-2)/(N * 4^(N-1)). The proof is fully analytical (Tier 1).
 
 ---
 
