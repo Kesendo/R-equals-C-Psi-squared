@@ -108,29 +108,32 @@ Each eigenmode v of L has <v|SWAP_super|v> near +1 or -1. The precise values are
 
 ---
 
-## The hypothesis
+## The hypothesis (revised after Check 2)
 
-Promoting the observations into a falsifiable claim:
+The original hypothesis predicted (N+1) evenly-spaced eigenvalue classes at Re(lambda_k) = -k*(2*gamma_outer / N). **This scaling law is falsified at N=3** (Check 2, 2026-04-14): the three-qubit chain produces 12 distinct Re(lambda) classes, not 4, with positions determined by the Hamiltonian's mode structure rather than the simple formula.
 
-> **Nested Mirror Hypothesis.** For an N-layer Lindblad system built by nesting Heisenberg-coupled qubit layers, with dephasing applied only to the outermost layer, the Liouvillian's spectrum decomposes into (N+1) eigenvalue classes at Re(lambda_k) = -k*(2*gamma_outer / N), for k = 0, 1, ..., N. The classes correspond to:
+The revised claim retains what survives:
+
+> **Nested Mirror Hypothesis (revised).** For an N-qubit Lindblad system with Heisenberg-type coupling and Z-dephasing only on the outermost qubit, the Liouvillian's spectrum has:
 >
-> - **k = 0:** quantities conserved across all layers
-> - **0 < k < N:** inter-layer mirror modes living symmetrically between layers at nesting depth k
-> - **k = N:** pure correlation content, traceless on every single-layer projection
+> - **Palindromic structure:** eigenvalues pair around Re = -gamma_outer (proven generally in [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
+> - **Boundary classes:** Re = 0 (conserved, full single-layer visibility on all qubits) and Re = -2*gamma_outer (pure correlations, traceless on all single-layer projections)
+> - **Interior classes:** multiple intermediate Re values in (-2*gamma_outer, 0), palindromically paired, with positions and degeneracies determined by the coupling Hamiltonian's eigenstructure
+> - **Non-Markovian rebound:** reduced dynamics on inner qubits shows coherence rebound driven by the intermediate oscillating eigenmodes. Rebound is present and grows stronger with system size (N=2: amplitude 0.17, N=3: amplitude 0.36)
 >
-> The non-Markovian back-reaction experienced by any inner layer is carried by the mirror modes at intermediate k. The rebound amplitude scales with the initial weight placed on those modes.
+> At N=2, the intermediate classes collapse to a single class at Re = -gamma with degeneracy 10 and partial-trace weight 1/sqrt(2) on each qubit. This is specific to N=2 (the coupling forces equal XY-weight distribution on both qubits). At N >= 3, the intermediate classes proliferate according to the Hamiltonian's mode structure.
 
-At N=2 this reduces to the three-class structure observed here (classes at 0, -gamma, -2*gamma with degeneracy pattern {3, 10, 3} for this coupling and system size). At N=3 the hypothesis predicts four classes at 0, -2gamma/3, -4gamma/3, -2gamma with a specific degeneracy pattern determined by the coupling topology.
+**What was falsified:** the evenly-spaced class formula Re = -k*2*gamma/N and the claim of exactly (N+1) classes. **What survives:** boundary classes, palindromic pairing, non-Markovian rebound, inter-layer correlation structure.
 
 ---
 
 ## What this is NOT (yet)
 
-- Not verified for N > 2. Everything above is a single point (N=2, J=1, gamma_B=0.1, XX+YY coupling).
-- Not verified for alternative couplings. Heisenberg XXX, pure XX, or anisotropic couplings may break the degeneracy pattern.
-- Not verified for asymmetric gamma profiles. If B's dephasing is split between multiple outer qubits with different rates, the degeneracy breaks and the mirror structure may survive or may not.
-- The SWAP +-1 pattern may be a numpy basis artifact. Verification requires breaking the L-eigenvalue degeneracy and checking persistence.
-- Not connected to experimental observables. Non-Markovianity on IBM hardware is the natural empirical probe but has not been checked against the prediction.
+- ~~Not verified for N > 2.~~ N=3 check done: class-scaling falsified, core structure confirmed.
+- Not verified for alternative couplings. Heisenberg XXX, pure XX, or anisotropic couplings may change the intermediate class structure.
+- Not verified for asymmetric gamma profiles.
+- ~~SWAP +-1 pattern may be a numpy basis artifact.~~ Verified: perturbative near-symmetry, not artifact (Check 1).
+- Not connected to experimental observables.
 
 ---
 
@@ -138,7 +141,7 @@ At N=2 this reduces to the three-class structure observed here (classes at 0, -g
 
 The hypothesis is falsified by any of the following:
 
-1. **N=3 scaling failure.** Three-qubit nest (S + B1 + B2, gamma only on B2) does not produce four eigenvalue classes with the predicted spacing -2*k*gamma/3.
+1. **N=3 scaling failure.** ~~Three-qubit nest does not produce four eigenvalue classes with the predicted spacing -2*k*gamma/3.~~ **Triggered (2026-04-14, Check 2).** N=3 chain produces 12 eigenvalue classes, not 4. Positions are not evenly spaced. The scaling formula Re = -k*2*gamma/N is falsified. Hypothesis revised: boundary classes and palindromic pairing survive, class-scaling does not.
 2. **Coupling-dependence of the middle class.** Replacing XX+YY with Heisenberg XXX in the two-qubit system removes the clean 1/sqrt(2) partial-trace split.
 3. **Mirror-mode weights do not drive the rebound.** Setting the initial state to project away from the mirror class (if such a state exists) should eliminate the non-Markovian rebound. If the rebound persists without mirror-mode occupation, the mechanism is not what is claimed.
 4. **SWAP pattern is pure basis artifact.** ~~An asymmetric-gamma two-qubit system lifts all degeneracy. If the +-1 SWAP pattern does not persist perturbatively, the SWAP structure is not a genuine mirror.~~ **Resolved (2026-04-14, Check 1):** SWAP pattern is NOT a basis artifact. It persists under gamma_S sweep and perturbative local-field breaking. However, it is a perturbative near-symmetry from [H, SWAP] = 0, not an exact structural property. Degrades continuously under strong Hamiltonian asymmetry. Falsification criterion 4 does not trigger; Observation 4 is rewritten as perturbative near-symmetry.
@@ -151,7 +154,7 @@ These are the minimal next experiments. Each is small and should take well under
 
 1. ~~**SWAP-artifact check**~~ **DONE (2026-04-14).** Verdict: SWAP pattern is genuine but perturbative. Not a basis artifact, not an exact symmetry. |<SWAP>| = 1 - (gamma/J)^2/2 for mirror modes. See updated Observation 4 above.
 
-2. **N=3 scaling check.** Three-qubit chain S + M + B with gamma only on B, inspect eigenvalue classes. Expected: four classes with predicted spacing. Alternative geometries to test: star (S coupled to both M and B, M coupled to B) and symmetric chain. The hypothesis is most constrained on the chain topology; star and symmetric variants refine the degeneracy-pattern part of the claim.
+2. ~~**N=3 scaling check**~~ **DONE (2026-04-14).** Verdict: class-scaling FALSIFIED. 12 classes instead of 4, positions not evenly spaced. Boundary classes (Re = 0, Re = -2g) confirmed with expected partial-trace weights. Palindromic pairing confirmed. Non-Markovian rebound confirmed and stronger at N=3 (amplitude 0.36 vs 0.17). Hypothesis revised to remove scaling formula. Script: [`simulations/qubit_in_qubit_n3.py`](../simulations/qubit_in_qubit_n3.py).
 
 3. **Coupling-robustness check.** Repeat N=2 analysis with Heisenberg XXX (X (x) X + Y (x) Y + Z (x) Z) and with pure XX. Compare eigenvalue class structure and partial-trace weights.
 
