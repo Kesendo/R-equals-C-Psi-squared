@@ -31,9 +31,9 @@ The product CΨ (correlation times coherence) crosses a fixed boundary at 1/4,
 which is the unique bifurcation point of the purity recursion (proven: the
 discriminant 1-4CΨ vanishes only at 1/4). The mediator qubit that preserves
 this symmetry acts as a coherence-controlled transistor with CΨ = 1/4 as its
-threshold voltage. The channel requires an external clock (noise/dephasing);
-no internal oscillator is possible (five candidates eliminated). From these
-results: seven design rules for quantum repeaters.
+threshold voltage. The channel requires an external clock (dephasing, [not internally generable](../docs/proofs/INCOMPLETENESS_PROOF.md));
+on IBM transmon hardware, this clock is literally [microwave light entering the cavity](../hypotheses/GAMMA_IS_LIGHT.md). From these
+results: nine design rules for quantum repeaters.
 
 ---
 
@@ -300,7 +300,7 @@ the edge qubit, propagates inward, and the surviving standing waves
 concentrate in the center. The entrance pupil shields the interior but
 does not hold the trapped information. The formula is unchanged; the
 understanding deepens: it is not "concentrating noise" but "focusing
-illumination through an aperture."
+illumination through an aperture." On IBM transmon hardware, this is literal: the dephasing IS [microwave photon shot noise in a physical cavity](../hypotheses/GAMMA_IS_LIGHT.md).
 See [Sacrifice Zone Optics](../experiments/SACRIFICE_ZONE_OPTICS.md).
 
 **Results (C# RK4 validated, Sum-MI metric):**
@@ -606,7 +606,7 @@ organizing principle is N_opt(γ/J): match cavity size to illumination.
 illumination) favors large N. Large γ/J (strong illumination) favors
 small N. Always choose odd N (100% standing waves, Rule 8).
 
-See [N=5 Optimal Cavity Size](../experiments/N5_OPTIMAL_CAVITY_SIZE.md).
+See [N=5 Optimal Cavity Size](../experiments/N5_OPTIMAL_CAVITY_SIZE.md). For why γ is illumination rather than noise, see [What If Gamma Is Light?](../hypotheses/GAMMA_IS_LIGHT.md)
 
 ---
 
