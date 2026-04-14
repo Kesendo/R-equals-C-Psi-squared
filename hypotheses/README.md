@@ -18,6 +18,7 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 ## Tier 2-3 (hypothesis, confirmed or partially confirmed by computation)
 
 - [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md) - The palindromic midpoint dominates at the CΨ = ¼ crossing, but only when viewed from BOTH perspectives (geometric mean). Single-side: falsified. Dual-perspective: supported (N=3, N=5). Includes OOP polymorphism analogy.
+- [Nested Mirror Structure](NESTED_MIRROR_STRUCTURE.md) - Two-qubit Lindblad nest with dephasing on outer qubit only: three eigenvalue classes (conserved/mirror/correlation) with 1/sqrt(2) partial-trace split. Mirror modes drive non-Markovian rebound (necessary + sufficient). Three-class structure coupling-robust (5 of 6 coupling types). N-scaling formula Re = -k*2*gamma/N falsified at N=3 (12 classes, not 4). SWAP +-1 pattern genuine but perturbative. Four checks completed.
 
 ## Tier 3 (hypothesis, built on computation)
 
