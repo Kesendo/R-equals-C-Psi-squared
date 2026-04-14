@@ -3222,7 +3222,7 @@ to the classification pass.
 **Section:** 8. Limitations and Failure Modes
 **Date:** : 2026-03-21
 **Tag:** closed-form
-**Status:** unclassified
+**Status:** resolved (see `review/MERGE_LOG_closed-form.md` -- documented conclusion of a falsified hypothesis; Section 7.3 marked [FALSIFIED], empirical verification in SCALING_CURVE.md)
 
 ## methodology
 

@@ -2,7 +2,7 @@
 
 **Batch:** closed-form (9 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_closed-form.md`
-**Status:** 2 / 9 entries resolved
+**Status:** 3 / 9 entries resolved
 
 ---
 
@@ -70,10 +70,46 @@ in-place. No intervention needed in the source document.
 
 ---
 
+## OQ-264 -- resolved
+
+- **Cowork proposal:** resolved
+- **Final decision:** resolved
+- **Deviation from proposal:** no
+- **Session:** 2026-04-14
+- **Resolver:** existing repo state (source marks Section 7.3 as falsified and states the implication in-place)
+
+**Rationale.**
+
+The entry text is the "Implication" bullet in Section 8.3 "Scaling
+Limits" of `hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md`: the
+transistor architecture works best for small localized subsystems
+(2-4 qubits per side), and longer uniform chains outperform
+hierarchical topologies. The final clause "(Section 7.3, falsified)"
+points directly at Section 7.3, which is explicitly marked
+`[FALSIFIED]` in its heading:
+
+> "FALSIFIED (March 21, 2026): The hierarchical architecture produces
+> identical MI to a uniform chain of equal length. The recursive
+> structure provides no scaling advantage. See Scaling Curve. The
+> transistor properties (Sections 1-6) survive; the hierarchy does not."
+
+The empirical verification lives in `experiments/SCALING_CURVE.md`:
+hierarchical vs uniform chain tested at N=3, 5, 7, 9, 11; MI identical
+across the range; conclusion in the hypothesis document itself: "The
+hierarchy exists in the naming convention, not in the physics."
+
+The entry is the documented conclusion of a falsified hypothesis, with
+both the falsification and the replacement (uniform chain + sacrifice
+zone formula) present in the repo. No open question remains.
+
+**Category A pattern:** source document carries the falsification and
+the implication in-place; no intervention needed.
+
+---
+
 ## OQ-040 -- pending
 ## OQ-044 -- pending
 ## OQ-048 -- pending
 ## OQ-100 -- pending
 ## OQ-122 -- pending
 ## OQ-139 -- pending
-## OQ-264 -- pending
