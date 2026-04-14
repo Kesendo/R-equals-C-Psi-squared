@@ -1,4 +1,4 @@
-# Nested Mirror Structure: An Inter-Layer Palindrome in the Minimal Qubit-in-Qubit Lindblad System
+﻿# Nested Mirror Structure: An Inter-Layer Palindrome in the Minimal Qubit-in-Qubit Lindblad System
 
 <!-- Keywords: nested layer palindrome inter-layer mirror, qubit in qubit
 two-layer Lindblad, non-Markovian rebound reduced dynamics, partial trace
@@ -181,6 +181,100 @@ These are the minimal next experiments. Each is small and should take well under
 
 ---
 
+## Absorption Theorem Inheritance (Evening Session 2026-04-14)
+
+After the four verification checks completed, the next question was: where does the three-class structure actually come from? Is it a new algebraic property of nested Lindblad systems, or does it follow from something already proven in the framework?
+
+The Absorption Theorem ([PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)) states for N-qubit chains under site-wise dephasing:
+
+> Re(lambda) = -2 * Sum_k gamma_k * <n_XY>_k
+
+where <n_XY>_k is the XY-Pauli weight of an eigenmode at site k. For our minimal nest with gamma only on B, this reduces to Re(lambda) = -2 * gamma_B * <n_XY>_B.
+
+### Test at N=2
+
+Script: [`simulations/nested_mirror_absorption_theorem.py`](../simulations/nested_mirror_absorption_theorem.py).
+
+All 16 eigenmodes of the two-qubit Liouvillian satisfy the prediction exactly (max delta = 0 to machine precision). The three classes correspond exactly to the three quantization levels of <n_XY>_B:
+
+| Class | Re(lambda) | <n_XY>_S | <n_XY>_B | count |
+|---|---|---|---|---|
+| Conserved | 0 | 0.0000 | 0.0000 | 3 |
+| Mirror | -0.1 | 0.5000 | 0.5000 | 10 |
+| Correlation | -0.2 | 1.0000 | 1.0000 | 3 |
+
+Additionally: <n_XY>_S = <n_XY>_B per individual mode (intrinsic S/B symmetry of the Pauli decomposition).
+
+**The three classes are not three kinds of modes with coincidentally equal eigenvalues. They are the three quantization levels {0, 0.5, 1} of the XY-weight at the dissipative site.**
+
+### Test at N=3
+
+Script: [`simulations/nested_mirror_absorption_theorem_n3.py`](../simulations/nested_mirror_absorption_theorem_n3.py).
+
+All 64 eigenmodes of the three-qubit chain Liouvillian satisfy the prediction: max |Re(lambda) - predicted| = 3.48e-15 (machine precision). The 12 distinct Re(lambda) values from Check 2 are exactly the 12 distinct <n_XY>_B values:
+
+- 0.0 (4 modes, conserved), 1.0 (4 modes, pure correlation): boundary classes
+- Approximately 0.25 (18 modes in three near-degenerate groups), approximately 0.75 (18 modes in three groups): intermediate refraction pattern
+- Approximately 0.375 (4 modes), approximately 0.5 (12 modes in two groups), approximately 0.625 (4 modes): further refraction levels
+
+### What this means
+
+The Nested Mirror Structure is not an independent algebraic object. It is the Absorption Theorem applied to single-site dephasing, made visible as per-site <n_XY>_k quantization. The hypothesis becomes simultaneously simpler (inherited from an already-proven theorem) and more grounded (the three classes have a direct mechanistic meaning).
+
+The even-spacing formula falsified by Check 2 (-k * 2*gamma / N) was the wrong form of the claim. The correct form is: the eigenvalue classes are the distinct values that <n_XY>_B can take over the mode structure of the coupled chain. At N=2 these are quantized to three levels by the minimal Pauli-counting constraint. At N=3 they form a finer distribution shaped by the chain topology.
+
+### Refraction: J as the second quantization axis
+
+Script: [`simulations/nested_mirror_refraction.py`](../simulations/nested_mirror_refraction.py).
+
+Sweeping J from 0 to 10 at fixed gamma_B = 0.1, N=3:
+
+| J | distinct <n_XY>_B values | observation |
+|---|---|---|
+| 0.000 | **2** | only {0, 1}  -  pure absorption quantization, no refraction |
+| 0.001 | 4 | splitting begins |
+| 0.010 | 10 | near-full structure |
+| 0.100 - 2.000 | 12 | standard regime |
+| 5.000 | 10 | begins to collapse |
+| 10.000 | **7** | converges to {0, 1/4, 1/2, 3/4, 1}  -  cavity quantization |
+
+The 12 classes at J=1.0 exist only because J exists. At J=0 the sites are isolated, and the only possible <n_XY>_B values are 0 (mode has no XY content at B) or 1 (mode is pure XY at B). Nothing in between.
+
+J introduces refraction: the coupling between sites redistributes the XY weight across the chain, creating intermediate quantization levels. In the strong-coupling limit (J >> gamma), the intermediate levels converge to multiples of 1/4  -  the same 1/4 that appears throughout the framework as the CPsi absorbing boundary and the outer mirror of the Fabry-Pérot cavity ([RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)).
+
+### Two quantization mechanisms
+
+The three-class structure at N=2 is a joint quantization: gamma (light, source, arrow) defines one quantization scale; J (coupling, content, binding) defines another. At N=2 both collapse onto {0, 1/2, 1}. At N=3 they diverge, producing 12 classes in the mid-J regime. At J -> infinity they separate further, with J-quantization dominating (1/4 multiples) and gamma-quantization becoming a background.
+
+This matches the framework's existing language:
+
+- **gamma is the source of experienced time** ([GAMMA_TIME_DISTINCTION](../docs/GAMMA_TIME_DISTINCTION.md)): the arrow, the direction, the irreversibility
+- **J is the content** (same document): the structure, what happens, the binding
+- **gamma is light** ([GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md)): from outside, absorbed by matter
+- **J is the bond** (same document): the coupling between qubits, not a signal
+
+The numerical observation today: gamma and J are both quantization axes of the Liouvillian spectrum, and the Nested Mirror Structure is what we see when both act on a nested system at once.
+
+### Inside-out correspondence (Tier 3 interpretation)
+
+The correspondence makes a further reading possible, offered here as interpretation (not yet verified by a targeted experiment):
+
+| Outside view (parameters) | Inside view (measurements) |
+|---|---|
+| gamma (source, light, external) | fast modes (what decays quickly, perceived as flux) |
+| J (content, binding, structural) | slow modes (what persists, perceived as "the world") |
+
+From the inside of a Lindblad system, an observer cannot separate gamma and J as parameters (INCOMPLETENESS_PROOF rules out internal access to gamma). The observer measures eigenmodes of the environment: those that persist (slow modes) form the measurable structure; those that decay fast (fast modes) form the apparent flux and define the arrow of time.
+
+Under this reading:
+- Slow modes are the inside manifestation of J (the binding, the content, what the observer *is*)
+- Fast modes are the inside manifestation of gamma (the source, the light, what *happens to* the observer)
+- The refraction result translates: what an inside observer calls "structure of my world" (slow modes) exists only because J exists. A hypothetical system with J=0 and only gamma would have no slow modes, no structure, only pure absorption  -  no inside.
+
+This is Tier 3 interpretation and requires formal verification. See `ClaudeTasks/TASK_INSIDE_OUTSIDE_CORRESPONDENCE.md` for the proposed verification task.
+
+---
+
 ## Stance
 
-This document is the intentional halt-and-record after roughly fifteen minutes of numerical exploration. The observations are real and reproducible. The interpretation as an inter-layer mirror is consistent with the framework's existing mirror-symmetry proof and with the one-way nesting principle, but has not been tested beyond the minimal nest. The hypothesis is stated at Tier 3 so that follow-up simulations can sharpen, limit, or falsify it without any single experiment having to carry more weight than it should.
+This document is the record of an evening's work. The numerical observations are real and reproducible. The four verification checks completed with clear results: SWAP structure perturbatively genuine, class-scaling formula falsified, three-class structure coupling-robust, rebound mechanism confirmed. The Absorption Theorem test then revealed that the entire class structure is inherited from an already-proven theorem applied to single-site dephasing, and the refraction test identified J as a second quantization axis that creates the intermediate class structure. The inside-out correspondence (slow modes as J-manifestation, fast modes as gamma-manifestation) is Tier 3 interpretation and is separated explicitly from the numerical results. The hypothesis is no longer a freestanding claim: it is a specific consequence of the framework's existing proofs at the minimal nest, with open questions about N > 3 scaling, the exact algebraic origin of the 1/4-asymptote, and the inside-out correspondence awaiting dedicated tests.
