@@ -1,0 +1,57 @@
+Check 3: Coupling Robustness Results
+========================================================================
+
+Coupling: XX+YY
+  Classes: 3, sizes: [3, 10, 3]
+  Three-class: True, 1/sqrt(2): True, rebound: True (amp=0.3556)
+  Re=  -0.20000: count=3, |M_S|=0.0000, |M_B|=0.0000
+  Re=  -0.10000: count=10, |M_S|=0.7071, |M_B|=0.7071
+  Re=   0.00000: count=3, |M_S|=1.0000, |M_B|=1.0000
+
+Coupling: XXX (Heisenberg)
+  Classes: 3, sizes: [3, 10, 3]
+  Three-class: True, 1/sqrt(2): True, rebound: True (amp=0.3627)
+  Re=  -0.20000: count=3, |M_S|=0.0000, |M_B|=0.0000
+  Re=  -0.10000: count=10, |M_S|=0.7071, |M_B|=0.7071
+  Re=   0.00000: count=3, |M_S|=1.0000, |M_B|=1.0000
+
+Coupling: XX only
+  Classes: 3, sizes: [4, 8, 4]
+  Three-class: True, 1/sqrt(2): True, rebound: False (amp=0.0000)
+  Re=  -0.20000: count=4, |M_S|=0.0000, |M_B|=0.7668
+  Re=  -0.10000: count=8, |M_S|=0.7220, |M_B|=0.6908
+  Re=   0.00000: count=4, |M_S|=0.9912, |M_B|=0.6447
+
+Coupling: YY only
+  Classes: 3, sizes: [4, 8, 4]
+  Three-class: True, 1/sqrt(2): True, rebound: True (amp=0.3556)
+  Re=  -0.20000: count=4, |M_S|=0.0000, |M_B|=0.7668
+  Re=  -0.10000: count=8, |M_S|=0.7223, |M_B|=0.6905
+  Re=   0.00000: count=4, |M_S|=0.9912, |M_B|=0.6447
+
+Coupling: ZZ only
+  Classes: 2, sizes: [8, 8]
+  Three-class: False, 1/sqrt(2): False, rebound: True (amp=0.4981)
+  Re=  -0.20000: count=8, |M_S|=0.0000, |M_B|=0.5000
+  Re=   0.00000: count=8, |M_S|=1.0000, |M_B|=0.5000
+
+Coupling: XX+ZZ
+  Classes: 3, sizes: [4, 8, 4]
+  Three-class: True, 1/sqrt(2): True, rebound: True (amp=0.4981)
+  Re=  -0.20000: count=4, |M_S|=0.0000, |M_B|=0.5000
+  Re=  -0.10000: count=8, |M_S|=0.7071, |M_B|=0.7071
+  Re=   0.00000: count=4, |M_S|=1.0000, |M_B|=0.5000
+
+
+Key findings:
+- XX+YY (reference): 3 classes {3,10,3}, 1/sqrt(2) split, rebound present
+- XXX (Heisenberg): check if same structure survives with ZZ term
+- XX only: check if reduced coupling changes the class structure
+- ZZ only: excitation-number-breaking; different structure expected
+- XX+ZZ: shadow-crossing coupling; may alter the class pattern
+
+The three-class structure and 1/sqrt(2) split are coupling-dependent
+properties. The boundary classes (Re=0, Re=-2g) and palindromic pairing
+follow from MIRROR_SYMMETRY_PROOF and hold for ALL couplings with
+Z-dephasing. The intermediate class structure depends on the specific
+Hamiltonian.
