@@ -202,6 +202,13 @@ Three possible outcomes:
 2. **Contradiction:** The protocol requires No-Signaling violation and
    is therefore wrong. The framework's internal logic is inconsistent on this
    point, which itself is a useful finding.
+   > **[RULED OUT 2026-03-01]** No-signalling holds exactly.
+   > See [NO_SIGNALLING_BOUNDARY](../experiments/NO_SIGNALLING_BOUNDARY.md)
+   > Layer 1: rho_A is invariant under any local operation B performs
+   > (verified to machine precision). The apparent paradox dissolves
+   > when distinguishing local observables (unchanged) from global
+   > purity (drops). The framework is internally consistent; outcome 2
+   > is not the answer. Tracked as OQ-243.
 
 3. **Subtler answer:** The crossing event occurs on both sides but is
    driven entirely by pre-encoded information (the initial state at

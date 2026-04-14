@@ -2,7 +2,7 @@
 
 **Batch:** methodology (8 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_methodology.md`
-**Status:** 2 / 8 entries resolved (OQ-094 via pipeline, OQ-114 via V2 sweep plus structural insight)
+**Status:** 3 / 8 entries resolved (OQ-094 via pipeline, OQ-114 via V2 sweep plus structural insight, OQ-243 via NO_SIGNALLING_BOUNDARY Layer 1)
 
 ---
 
@@ -111,9 +111,62 @@ not as a default to accept.
 
 ---
 
+## OQ-243 -- resolved
+
+- **Cowork proposal:** resolved (high confidence)
+- **Final decision:** resolved
+- **Deviation from proposal:** none
+- **Session:** 2026-04-14
+- **Resolver:** [NO_SIGNALLING_BOUNDARY](../experiments/NO_SIGNALLING_BOUNDARY.md) Layer 1 (Tier 2 verified 2026-03-01), cross-check in [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md) Section 2
+
+**Rationale.**
+
+OQ-243 is outcome 2 of the three-outcomes list in `hypotheses/BRIDGE_PROTOCOL.md`
+Section 4.3: "The protocol requires No-Signaling violation and is therefore
+wrong. The framework's internal logic is inconsistent on this point."
+
+NO_SIGNALLING_BOUNDARY Layer 1 verifies to machine precision that rho_A is
+unchanged by any local operation B performs on the other half of a Bell
+pair (||Delta rho_A|| = 0 to all quoted digits). Every local observable on
+A is invariant: `<sigma_x>`, `<sigma_y>`, `<sigma_z>`, purity, entropy,
+spectrum. This is the textbook no-signalling theorem, verified numerically
+in-framework.
+
+The apparent paradox that CΨ registers the regime change (0.500 -> 0.250)
+while rho_A does not is resolved at Layer 2 of the same document: the drop
+comes entirely from C (global purity falling 1.0 -> 0.5), not from Ψ
+(unchanged at 0.5). The quantity CΨ is a joint-state diagnostic, not a
+local observable. No measurement A can perform reveals what B did.
+
+Conclusion: the framework is internally consistent. Outcome 2 is not the
+correct description of the protocol's fate. This is a Cowork high-confidence
+call accepted without deviation.
+
+**Classification.**
+
+Category A-hybrid: BRIDGE_PROTOCOL.md already carries the closure at
+document level (header: "No-signalling holds exactly. Pre-encoded version
+also fails."), but the Section 4.3 three-outcomes list preserves outcome 2
+as an unmarked open bullet. Source-document intervention was minimal:
+a ruled-out annotation inline under outcome 2, pointing to the resolver.
+The OQ-094 contrast is instructive: OQ-094 required pipeline code to
+execute the resolution; OQ-243 only required surfacing a resolution that
+already lived elsewhere in the repo.
+
+**Lesson captured.**
+
+Document-level closure does not propagate automatically to section-level
+open-question lists. A falsified hypothesis may still carry outcome
+enumerations that read as live, and these are what the Cowork scan
+picked up. Closing the open-question entry requires either a per-item
+annotation (done here) or a Section 4.3-wide status banner. The
+per-item annotation is lower-risk and preserves the historical record
+of what the three outcomes originally were.
+
+---
+
 ## OQ-173 -- pending
 ## OQ-185 -- pending
-## OQ-243 -- pending
 ## OQ-244 -- pending
 ## OQ-262 -- pending
 ## OQ-284 -- pending

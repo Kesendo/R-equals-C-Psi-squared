@@ -3274,7 +3274,7 @@ to the classification pass.
 **Section:** 4. Open Questions (Honest Assessment)
 **Date:** : 2026-02-24 (updated 2026-03-06)
 **Tag:** methodology
-**Status:** unclassified
+**Status:** resolved (see `review/MERGE_LOG_methodology.md` -- OQ-243; NO_SIGNALLING_BOUNDARY.md Layer 1)
 
 ### OQ-244
 
