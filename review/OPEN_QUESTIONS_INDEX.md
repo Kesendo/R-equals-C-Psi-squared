@@ -3212,7 +3212,7 @@ to the classification pass.
 **Section:** 8. Open Questions (partially answered 2026-03-07)
 **Date:** March 4, 2026 (updated March 8, 2026)
 **Tag:** closed-form
-**Status:** unclassified
+**Status:** resolved (see `review/MERGE_LOG_closed-form.md` -- source carries the fitted formula J_th(gamma) ~ 7.35*gamma^1.08 + 1.18, R^2 = 0.999)
 
 ### OQ-264
 

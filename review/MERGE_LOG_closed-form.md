@@ -2,7 +2,7 @@
 
 **Batch:** closed-form (9 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_closed-form.md`
-**Status:** 1 / 9 entries resolved
+**Status:** 2 / 9 entries resolved
 
 ---
 
@@ -39,11 +39,41 @@ question that still needs an in-place status marker.
 
 ---
 
+## OQ-209 -- resolved
+
+- **Cowork proposal:** resolved
+- **Final decision:** resolved
+- **Deviation from proposal:** no
+- **Session:** 2026-04-14
+- **Resolver:** existing repo state (source document carries the fitted formula)
+
+**Rationale.**
+
+The entry text is a section heading: "5 Threshold formula: ANSWERED"
+(numbered 8.5) in `experiments/STAR_TOPOLOGY_OBSERVERS.md`. The section
+directly below it contains the resolution: the AB crossing threshold
+J_th as a function of gamma was fitted from 10 verified data points
+(gamma in {0.001, 0.010, 0.020, 0.050, 0.070, 0.100, 0.120, 0.150,
+0.170, 0.200}) and yields:
+
+    J_th(gamma) ~ 7.35 * gamma^1.08 + 1.18    (R^2 = 0.999)
+
+A simple linear approximation J_th ~ 6.39*gamma + 1.16 (R^2 = 0.998)
+is also reported. The relationship is smooth and monotonic, no
+divergence near gamma = 0.2. The threshold genuinely exists and grows
+smoothly with noise.
+
+The entry explicitly says "ANSWERED" in the title, and the answer is
+in-place. No intervention needed in the source document.
+
+**Category A pattern** (same as OQ-109): source self-documents.
+
+---
+
 ## OQ-040 -- pending
 ## OQ-044 -- pending
 ## OQ-048 -- pending
 ## OQ-100 -- pending
 ## OQ-122 -- pending
 ## OQ-139 -- pending
-## OQ-209 -- pending
 ## OQ-264 -- pending
