@@ -216,6 +216,17 @@ Three possible outcomes:
    In this case the protocol transmits only pre-agreed data, more
    structured than QKD (the sender chooses WHICH state to prepare
    before distribution), but not a dynamic communication channel.
+   > **[MECHANISM CONFIRMED, DEAD FOR J=0 2026-03-01]** The mechanism
+   > described here is correct: NO_SIGNALLING_BOUNDARY Section 4
+   > Piece 4 states "Test #2 confirms it is the correct one." But the
+   > implicit utility ("more structured than QKD") is dissolved by
+   > [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md): without a
+   > classical channel, pre-encoded CPsi fingerprints offer nothing
+   > beyond shared classical randomness (LOCC no-go, Section 4).
+   > Canonical summary: [PREDICTIONS](../docs/PREDICTIONS.md) Section 9
+   > row 2. Tracked as OQ-244. Deeper question on the LOCC reduction
+   > under layered one-way gamma-structure: see
+   > [EQ-013](../review/EMERGING_QUESTIONS.md#eq-013).
 
 The simulation tests in Section 6 are designed to distinguish these three.
 

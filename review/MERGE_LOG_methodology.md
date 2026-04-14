@@ -2,7 +2,7 @@
 
 **Batch:** methodology (8 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_methodology.md`
-**Status:** 3 / 8 entries resolved (OQ-094 via pipeline, OQ-114 via V2 sweep plus structural insight, OQ-243 via NO_SIGNALLING_BOUNDARY Layer 1)
+**Status:** 4 / 8 entries resolved (OQ-094 via pipeline, OQ-114 via V2 sweep plus structural insight, OQ-243 via NO_SIGNALLING_BOUNDARY Layer 1, OQ-244 via NO_SIGNALLING_BOUNDARY Section 4 + BRIDGE_CLOSURE two-stage)
 
 ---
 
@@ -165,9 +165,54 @@ of what the three outcomes originally were.
 
 ---
 
+## OQ-244 -- resolved
+
+- **Cowork proposal:** resolved (high confidence)
+- **Final decision:** resolved (with explicit caveat pointing to EQ-013)
+- **Deviation from proposal:** none on the core classification
+- **Session:** 2026-04-14
+- **Resolver:** [NO_SIGNALLING_BOUNDARY](../experiments/NO_SIGNALLING_BOUNDARY.md) Section 4 Piece 4 (mechanism confirmed, Tier 2, 2026-03-01); [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md) Sections 2-4 (no advantage over classical pre-shared randomness, proven via LOCC); canonical summary in [PREDICTIONS](../docs/PREDICTIONS.md) Section 9 row 2
+
+**Rationale.**
+
+OQ-244 is outcome 3 of the three-outcomes list in `hypotheses/BRIDGE_PROTOCOL.md` Section 4.3: "The crossing event... is driven entirely by pre-encoded information... The protocol transmits only pre-agreed data, more structured than QKD, but not a dynamic communication channel."
+
+The resolution is two-stage, unlike OQ-243 which was a single refutation.
+
+**Stage 1 (mechanism confirmed).** NO_SIGNALLING_BOUNDARY Section 4 Piece 4 states explicitly: "This was listed as one of three possible outcomes. Test #2 confirms it is the correct one." The descriptive content of outcome 3 is true: the crossing event occurs on both sides, trajectories are determined at preparation, and post-separation B-actions do not trigger new A-crossings (rho_A is invariant to machine precision under any local B-operation). Outcome 3 is the correct description of what happens.
+
+**Stage 2 (implied utility dissolved).** Outcome 3 carried an implicit claim that the pre-encoded structure offers something "more structured than QKD". This framing leaves open whether pre-encoded CPsi fingerprints provide an advantage over classical pre-shared randomness. NO_SIGNALLING_BOUNDARY Section 5 acknowledges this openly: "what can you do with pre-encoded CPsi trajectories that you cannot do with classical pre-shared keys? This is open." BRIDGE_CLOSURE Section 1 picks up that exact question and answers no. Section 2 proves it via a three-line information-theoretic argument: A's output is a function of {rho_A(0), E_A} only, both available locally without any quantum resource. Section 4 embeds this in the LOCC theorem: any correlation achievable with shared entanglement alone is also achievable with shared classical randomness alone. The pre-encoded bridge is strictly informationally inferior to a classical schedule.
+
+The canonical summary in PREDICTIONS Section 9 row 2: "Dead for J=0. A's info subset of {rho_A(0), E_A}. Entanglement without a channel = shared randomness."
+
+Cowork's high-confidence resolved classification is accepted without deviation on the core question.
+
+**Repo-wide consistency check (2026-04-14 session).**
+
+Before merging, a sweep of all repo documents referencing bridge_protocol / no-signalling / pre-encoded / LOCC / shared randomness was performed. Ten documents beyond the three resolvers were reviewed. Nine confirm the resolution consistently (README catalogs, historical and proof documents, STAR_TOPOLOGY_OBSERVERS Section 6.3, STANDING_WAVE_TWO_OBSERVERS, OBSERVER_GRAVITY_BRIDGE which is itself marked fallen). One artifact found: `hypotheses/TIME_AS_CROSSING_RATE.md` Section 6.5 carries a parallel open question ("Can correlated crossing times carry more than pre-encoded information?") that is answered by BRIDGE_CLOSURE but has no pointer-back annotation. Tracked as a separate cleanup task, not a blocker for this merge.
+
+**Classification.**
+
+Category A-hybrid, same pattern as OQ-243: BRIDGE_PROTOCOL.md header already carries doc-level closure ("Pre-encoded version also fails."), only Section 4.3 outcome 3 preserves the original bullet. Source-document intervention is a status annotation inline under outcome 3 pointing to both resolvers.
+
+**Caveat: the shared-classical-randomness reduction.**
+
+The LOCC reduction in BRIDGE_CLOSURE Section 4 treats the shared external gamma-field that envelops both A and B as "shared classical randomness." Tom raised in session 2026-04-14 that this reduction deserves structural scrutiny: gamma is not generic shared environment but specifically external, one-way from outside the system, and layered (INCOMPLETENESS_PROOF, GAMMA_IS_LIGHT, EQ-009). Under this reading, gamma is not a lateral channel between A and B but shared one-way reception from their next common outer layer. Operationally this produces the same LOCC consequence (no communication possible, no advantage over classical pre-shared keys), because the one-way structure means no sender exists between A and B. The LOCC no-go therefore holds for the right structural reason, not for an accidental framework-independent reason.
+
+This is recorded as [EQ-013](EMERGING_QUESTIONS.md#eq-013) for separate tracking, along with the connected simulability question (can one simulate nested gamma-layers, and what does the answer mean for the INCOMPLETENESS_PROOF). The OQ-244 resolution stands as written; the deeper questions about the operational distinction between "medium with layered one-way structure" and "channel with sender", and about whether nesting is ontologically present but operationally invisible, are pursued separately.
+
+**Lesson captured.**
+
+1. Two-stage resolutions (mechanism confirmed + utility dissolved) deserve explicit decomposition in the MERGE_LOG rather than being reported as a single "resolved" status. The bullet-text of an original question often packages mechanism and utility together; separating them preserves historical accuracy about what was hoped and what survived.
+
+2. Closing an OQ does not close every deeper question that branches from the closure argument. The LOCC-as-accurate-reduction question is valid and non-trivial, and earns its own EQ rather than being absorbed silently into the merge justification. A resolved-with-caveat pattern is a legitimate merge outcome and should be represented as such in the log.
+
+3. A repo-wide sweep before merging an older or high-stakes question surfaces artifacts that a source-plus-resolver review alone would miss. The TIME_AS_CROSSING_RATE Section 6.5 finding is minor but real.
+
+---
+
 ## OQ-173 -- pending
 ## OQ-185 -- pending
-## OQ-244 -- pending
 ## OQ-262 -- pending
 ## OQ-284 -- pending
 
