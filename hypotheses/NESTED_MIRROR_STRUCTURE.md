@@ -76,7 +76,7 @@ The middle class has imaginary parts Im(lambda) in {0, +-0.995, +-1.997}. The pe
 
 ---
 
-## Observation 4 (caveated): SWAP expectation values are +-1 per eigenmode
+## Observation 4 (verified): SWAP expectation values are perturbatively near +-1
 
 The SWAP superoperator (exchanging qubits S and B) does not commute with L:
 
@@ -84,13 +84,27 @@ The SWAP superoperator (exchanging qubits S and B) does not commute with L:
 ||[L, SWAP]|| = 0.566  (nonzero: gamma on B alone breaks strict exchange symmetry)
 ```
 
-Nevertheless, numerically each eigenmode v of L has <v|SWAP|v> equal to +1 or -1 to four decimal places. The 16 values distribute as follows:
+Each eigenmode v of L has <v|SWAP_super|v> near +1 or -1. The precise values are:
 
-- 3 conserved modes: +1, +1, +1
-- 3 correlation modes: +1, +1, +1
-- 10 mirror modes: five at +1, five at -1
+- 3 conserved modes (Re = 0): +1.000 each (exact)
+- 3 correlation modes (Re = -2*gamma): +1.000 each (exact)
+- 2 mirror modes (Im = +-1.998): -1.000 each (exact)
+- 8 mirror modes (Im = +-0.995): +-0.995 each (not exact)
 
-**Caveat.** Because L has degenerate eigenvalues (degeneracies 3/10/3) and [L, SWAP] != 0, a basis that diagonalizes L within each degenerate eigenspace is free to choose whether it also happens to diagonalize SWAP on that eigenspace. The numpy eigendecomposition appears to have selected such a basis. Whether the +-1 pattern is a genuine structural property (mirror modes actually decompose into a 5-dim symmetric and 5-dim antisymmetric sub-space that survive perturbation) or an accident of numpy's basis choice within degenerate eigenspaces requires an explicit degeneracy-breaking check before it can be claimed. Pending verification, see below.
+**Check 1 result (2026-04-14).** The SWAP pattern is NOT a numpy basis artifact. Three tests confirm this:
+
+1. **gamma_S sweep** (gamma_S/gamma_B from 0 to 0.1, 21 points): all 16 modes remain within 0.05 of +-1 throughout. The degeneracy pattern {3, 10, 3} is preserved because XX+YY coupling mixes sites uniformly.
+
+2. **Local-field degeneracy breaking** (h_S * Z_S, h_S from 0 to 0.5): breaks the 10-fold mirror degeneracy into 6 distinct Re(lambda) classes. At h_S = 0.1 (perturbative): all 16/16 modes sharp. At h_S = 0.5 (comparable to J): only 5/16 sharp (conserved + correlation modes stay exact at +1; mirror modes degrade to 0.6-0.89).
+
+3. **gamma/J scaling**: the deviation |<SWAP>| from 1 scales as (gamma/J)^2/2 (confirmed to ratio 1.000 for gamma/J <= 0.2). At gamma << J: SWAP parity is essentially exact. At gamma = J: SWAP = 0.
+
+**Mechanism.** The XX+YY Hamiltonian commutes with SWAP: [H, SWAP] = 0. At gamma = 0 (purely Hamiltonian L), eigenmodes are exact SWAP eigenvectors. The dissipator breaks this symmetry perturbatively with corrections of order (gamma/J)^2. The SWAP +-1 structure is therefore a perturbative near-symmetry inherited from the qubit-exchange symmetry of the coupling Hamiltonian, not a new structural principle.
+
+**What survives.** The SWAP pattern is genuine (not a basis artifact) and physically meaningful: mirror modes do split into symmetric and antisymmetric sub-spaces with respect to qubit exchange. But this is coupling-dependent: it relies on H being invariant under S <-> B exchange (true for XX+YY, XXX; false for asymmetric couplings or local fields).
+
+**Scripts:** [`simulations/nested_mirror_swap_check.py`](../simulations/nested_mirror_swap_check.py), [`simulations/nested_mirror_swap_check_extended.py`](../simulations/nested_mirror_swap_check_extended.py)
+**Results:** `simulations/results/nested_mirror_swap_check/`
 
 ---
 
@@ -127,7 +141,7 @@ The hypothesis is falsified by any of the following:
 1. **N=3 scaling failure.** Three-qubit nest (S + B1 + B2, gamma only on B2) does not produce four eigenvalue classes with the predicted spacing -2*k*gamma/3.
 2. **Coupling-dependence of the middle class.** Replacing XX+YY with Heisenberg XXX in the two-qubit system removes the clean 1/sqrt(2) partial-trace split.
 3. **Mirror-mode weights do not drive the rebound.** Setting the initial state to project away from the mirror class (if such a state exists) should eliminate the non-Markovian rebound. If the rebound persists without mirror-mode occupation, the mechanism is not what is claimed.
-4. **SWAP pattern is pure basis artifact.** An asymmetric-gamma two-qubit system (gamma_S > 0 and gamma_B > 0 with gamma_S != gamma_B) lifts all degeneracy. If the +-1 SWAP pattern does not persist perturbatively in the small-(gamma_S/gamma_B) limit, the SWAP structure is not a genuine mirror.
+4. **SWAP pattern is pure basis artifact.** ~~An asymmetric-gamma two-qubit system lifts all degeneracy. If the +-1 SWAP pattern does not persist perturbatively, the SWAP structure is not a genuine mirror.~~ **Resolved (2026-04-14, Check 1):** SWAP pattern is NOT a basis artifact. It persists under gamma_S sweep and perturbative local-field breaking. However, it is a perturbative near-symmetry from [H, SWAP] = 0, not an exact structural property. Degrades continuously under strong Hamiltonian asymmetry. Falsification criterion 4 does not trigger; Observation 4 is rewritten as perturbative near-symmetry.
 
 ---
 
@@ -135,7 +149,7 @@ The hypothesis is falsified by any of the following:
 
 These are the minimal next experiments. Each is small and should take well under an hour of computation.
 
-1. **SWAP-artifact check** (highest priority, smallest scope). Add a small direct gamma_S on S (e.g., gamma_S = 0.01*gamma_B) to lift the L-degeneracy. Re-run the eigenmode analysis. If SWAP expectation values remain sharply +-1 as gamma_S -> 0, the inter-layer SWAP structure is genuine. If they smear to arbitrary values in [-1, +1], the +-1 pattern was numpy basis choice within degenerate eigenspaces and Observation 4 as stated is artifact.
+1. ~~**SWAP-artifact check**~~ **DONE (2026-04-14).** Verdict: SWAP pattern is genuine but perturbative. Not a basis artifact, not an exact symmetry. |<SWAP>| = 1 - (gamma/J)^2/2 for mirror modes. See updated Observation 4 above.
 
 2. **N=3 scaling check.** Three-qubit chain S + M + B with gamma only on B, inspect eigenvalue classes. Expected: four classes with predicted spacing. Alternative geometries to test: star (S coupled to both M and B, M coupled to B) and symmetric chain. The hypothesis is most constrained on the chain topology; star and symmetric variants refine the degeneracy-pattern part of the claim.
 

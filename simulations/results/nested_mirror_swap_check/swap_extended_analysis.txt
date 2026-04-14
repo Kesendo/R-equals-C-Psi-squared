@@ -1,0 +1,31 @@
+Part A: Local field degeneracy breaking
+========================================================================
+h_S= 0.00  distinct_Re= 3  min|<SWAP>|=0.9950  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9975  sharp(>0.95)=16/16
+  Re(lambda) classes: ['-0.20000', '-0.10000', '0.00000']
+  SWAP values: ['+1.0000', '+1.0000', '+1.0000', '-1.0000', '+0.9950', '+0.9950', '-0.9950', '-0.9950', '-0.9950', '-0.9950', '+0.9950', '+0.9950', '-1.0000', '+1.0000', '+1.0000', '+1.0000']
+h_S= 0.05  distinct_Re= 6  min|<SWAP>|=0.9937  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9962  sharp(>0.95)=16/16
+h_S= 0.10  distinct_Re= 6  min|<SWAP>|=0.9800  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9925  sharp(>0.95)=16/16
+  Re(lambda) classes: ['-0.20000', '-0.19802', '-0.11000', '-0.10099', '-0.09000', '0.00000']
+  SWAP values: ['+1.0000', '+1.0000', '+0.9800', '+0.9901', '-0.9901', '-0.9901', '+0.9901', '-0.9901', '-0.9901', '+0.9901', '-0.9901', '-0.9901', '+0.9901', '+1.0000', '+1.0000', '+1.0000']
+h_S= 0.15  distinct_Re= 6  min|<SWAP>|=0.9556  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9865  sharp(>0.95)=16/16
+h_S= 0.20  distinct_Re= 6  min|<SWAP>|=0.9223  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9782  sharp(>0.95)=15/16
+h_S= 0.25  distinct_Re= 6  min|<SWAP>|=0.8812  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9679  sharp(>0.95)=13/16
+h_S= 0.30  distinct_Re= 6  min|<SWAP>|=0.8334  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9558  sharp(>0.95)=13/16
+h_S= 0.35  distinct_Re= 6  min|<SWAP>|=0.7798  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9422  sharp(>0.95)= 5/16
+h_S= 0.40  distinct_Re= 6  min|<SWAP>|=0.7218  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9273  sharp(>0.95)= 5/16
+h_S= 0.45  distinct_Re= 6  min|<SWAP>|=0.6605  max|<SWAP>|=1.0000  mean|<SWAP>|=0.9114  sharp(>0.95)= 5/16
+h_S= 0.50  distinct_Re= 6  min|<SWAP>|=0.5969  max|<SWAP>|=1.0000  mean|<SWAP>|=0.8948  sharp(>0.95)= 5/16
+  Re(lambda) classes: ['-0.20000', '-0.15995', '-0.14486', '-0.12003', '-0.05514', '0.00000']
+  SWAP values: ['+1.0000', '+1.0000', '+0.5969', '+0.8901', '-0.8901', '-0.8901', '+0.8901', '-0.7997', '-0.7997', '+0.8901', '-0.8901', '-0.8901', '+0.8901', '+1.0000', '+1.0000', '+1.0000']
+
+Part B: gamma/J scaling
+========================================================================
+gamma=0.001  deviation=0.00000050  predicted=0.00000050
+gamma=0.005  deviation=0.00001250  predicted=0.00001250
+gamma=0.010  deviation=0.00005000  predicted=0.00005000
+gamma=0.020  deviation=0.00020002  predicted=0.00020000
+gamma=0.050  deviation=0.00125078  predicted=0.00125000
+gamma=0.100  deviation=0.00501256  predicted=0.00500000
+gamma=0.200  deviation=0.02020410  predicted=0.02000000
+gamma=0.500  deviation=0.13397460  predicted=0.12500000
+gamma=1.000  deviation=1.00000000  predicted=0.50000000
