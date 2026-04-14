@@ -1,0 +1,129 @@
+{
+  "all_match": true,
+  "results": [
+    {
+      "N": 3,
+      "coupling": "XZ",
+      "predicted": 0.2041241452319315,
+      "match": true
+    },
+    {
+      "N": 3,
+      "coupling": "YZ",
+      "predicted": 0.2041241452319315,
+      "match": true
+    },
+    {
+      "N": 3,
+      "coupling": "ZX",
+      "predicted": 0.2041241452319315,
+      "match": true
+    },
+    {
+      "N": 3,
+      "coupling": "ZY",
+      "predicted": 0.2041241452319315,
+      "match": true
+    },
+    {
+      "N": 3,
+      "coupling": "XZ+YZ",
+      "predicted": 0.2041241452319315,
+      "match": true
+    },
+    {
+      "N": 4,
+      "coupling": "XZ",
+      "predicted": 0.10825317547305482,
+      "match": true
+    },
+    {
+      "N": 4,
+      "coupling": "YZ",
+      "predicted": 0.10825317547305482,
+      "match": true
+    },
+    {
+      "N": 4,
+      "coupling": "ZX",
+      "predicted": 0.10825317547305482,
+      "match": true
+    },
+    {
+      "N": 4,
+      "coupling": "ZY",
+      "predicted": 0.10825317547305482,
+      "match": true
+    },
+    {
+      "N": 4,
+      "coupling": "XZ+YZ",
+      "predicted": 0.10825317547305482,
+      "match": true
+    },
+    {
+      "N": 5,
+      "coupling": "XZ",
+      "predicted": 0.05590169943749474,
+      "match": true
+    },
+    {
+      "N": 5,
+      "coupling": "YZ",
+      "predicted": 0.05590169943749474,
+      "match": true
+    },
+    {
+      "N": 5,
+      "coupling": "ZX",
+      "predicted": 0.05590169943749474,
+      "match": true
+    },
+    {
+      "N": 5,
+      "coupling": "ZY",
+      "predicted": 0.05590169943749474,
+      "match": true
+    },
+    {
+      "N": 5,
+      "coupling": "XZ+YZ",
+      "predicted": 0.05590169943749474,
+      "match": true
+    },
+    {
+      "N": 6,
+      "coupling": "XZ",
+      "predicted": 0.028527216536727403,
+      "match": true
+    },
+    {
+      "N": 6,
+      "coupling": "YZ",
+      "predicted": 0.028527216536727403,
+      "match": true
+    },
+    {
+      "N": 6,
+      "coupling": "ZX",
+      "predicted": 0.028527216536727403,
+      "match": true
+    },
+    {
+      "N": 6,
+      "coupling": "ZY",
+      "predicted": 0.028527216536727403,
+      "match": true
+    },
+    {
+      "N": 6,
+      "coupling": "XZ+YZ",
+      "predicted": 0.028527216536727403,
+      "match": true
+    }
+  ],
+  "bond_variance": {
+    "mean_s": 0.0,
+    "mean_s2": 1.0
+  }
+}

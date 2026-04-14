@@ -910,6 +910,20 @@ Z-dephasing. Auxiliary lemma used in the proof of F49.
 **Valid for:** Uniform Z-dephasing at rate γ per site, any N.
 **Source:** [Proof](proofs/PROOF_CROSS_TERM_FORMULA.md), Lemma 1
 
+### F49c. Cross-term formula for shadow-crossing couplings (Tier 1, proven)
+
+    R(N) = √((N-1) / (N · 4^(N-1)))
+
+For couplings where one bond Pauli is in {X,Y} and the other in {I,Z}
+(e.g., X_iZ_j, Y_iZ_j). The bond-site variance is 1 (not 0), so
+N-2 becomes N-1. Companion to F49.
+
+**Valid for:** Shadow-crossing bond couplings, uniform Z-dephasing,
+any graph, all N >= 2.
+**Verified:** N=3-6, 5 coupling types, 2 topologies.
+**Source:** [Proof](proofs/PROOF_CROSS_TERM_CROSSING.md),
+[Experiment](../experiments/CROSS_TERM_CROSSING.md)
+
 ---
 
 ## Cockpit and Diagnostics (replace full tomography)

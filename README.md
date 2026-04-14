@@ -508,6 +508,7 @@ Honesty matters more than impression. These are things we have
 | [Incompleteness Proof](docs/proofs/INCOMPLETENESS_PROOF.md) | Illumination cannot originate from within |
 | [Time Irreversibility](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) | Time reversal algebraically excluded at N > 2 |
 | [Cross-Term Formula](docs/proofs/PROOF_CROSS_TERM_FORMULA.md) | R(N) = √((N-2)/(N·4^(N-1))) for any shadow-balanced coupling, any graph |
+| [Cross-Term Crossing](docs/proofs/PROOF_CROSS_TERM_CROSSING.md) | R(N) = √((N-1)/(N·4^(N-1))) for shadow-crossing couplings (companion) |
 | [Weight-1 Degeneracy](docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) | d(1) = 2N for any connected graph |
 | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
