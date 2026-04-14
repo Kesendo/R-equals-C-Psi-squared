@@ -3182,7 +3182,7 @@ to the classification pass.
 **Section:** 8. Consequences for Open Questions
 **Date:** unknown
 **Tag:** closed-form
-**Status:** unclassified
+**Status:** superseded (see `review/MERGE_LOG_closed-form.md` -- source and weakness document already carry the reformulation)
 
 ### OQ-122
 
