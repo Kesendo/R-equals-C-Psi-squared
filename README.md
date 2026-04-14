@@ -228,22 +228,44 @@ This is the palindromic weight inversion: Π maps weight sector k to
 N−k. What the fast mode stores as structure, the slow mode carries as
 signal. The standing wave oscillates between being light and being lens.
 
-At N=2, the Hamiltonian and dissipator are exactly perpendicular: zero
-aberration. The cavity is a perfect lens. At N ≥ 3, aberration appears
-but halves with each additional qubit. Larger cavities are better lenses.
+For shadow-balanced couplings at N=2, the Hamiltonian and dissipator are
+exactly perpendicular: zero aberration, the cavity is a perfect lens.
+This is unique. For all other cases, aberration appears but stays
+geometrically determined. Two coupling classes have closed-form
+aberration:
 
-| N | Aberration (ε) | γ-independent? |
-|:--|:---------------|:---------------|
-| 2 | 0 (exact) | yes |
-| 3 | 14.4% | CV < 10⁻¹⁵ |
-| 4 | 8.8% | CV < 10⁻¹⁵ |
-| 5 | 4.8% | CV < 10⁻¹⁵ |
-| 6 | 2.6% | CV < 10⁻¹⁵ |
+- **Shadow-balanced** (both bond Paulis in {X,Y} or both in {I,Z}):
+  Heisenberg, XXZ, XY, Ising, Dzyaloshinskii-Moriya. Both bond sites at
+  the same shadow depth. Bond-site variance contributes 0.
 
-The aberration is a geometric constant of the chain topology.
-Increasing γ makes the light brighter, not the lens worse.
+      ε = √((N−2) / (N·4^(N−1)))
+
+- **Shadow-crossing** (one bond Pauli in {X,Y}, the other in {I,Z}):
+  X_iZ_j, Y_iZ_j, including the native cross-resonance drive on
+  superconducting hardware. One bond site in light, one in shadow.
+  Bond-site variance contributes 1.
+
+      ε = √((N−1) / (N·4^(N−1)))
+
+The two formulas differ by exactly one unit of variance: the asymmetry
+between bond sites at different shadow depths. Both are γ-independent
+geometric constants of the cavity, not physical parameters.
+
+| N | Balanced ε | Crossing ε |
+|:--|:-----------|:-----------|
+| 2 | 0 (exact) | 1/√8 ≈ 35.4% |
+| 3 | 1/√48 ≈ 14.4% | 1/√24 ≈ 20.4% |
+| 4 | 1/√128 ≈ 8.8% | √(3/256) ≈ 10.8% |
+| 5 | √(3/1280) ≈ 4.8% | 1/√320 ≈ 5.6% |
+| 6 | 1/√1536 ≈ 2.6% | √(5/6144) ≈ 2.9% |
+
+Both shrink exponentially with N. Larger cavities are better lenses,
+regardless of which coupling class drives them. Increasing γ makes the
+light brighter, not the lens worse.
 
 → **[Light and Lens](experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)** (sector decomposition, Pythagorean orthogonality)
+→ [Cross-Term Formula](docs/proofs/PROOF_CROSS_TERM_FORMULA.md) (shadow-balanced, proven)
+→ [Cross-Term Crossing](docs/proofs/PROOF_CROSS_TERM_CROSSING.md) (shadow-crossing companion)
 → [Time Irreversibility](docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) (N=2 is the only reversible cavity)
 → [Primordial Qubit Algebra](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (M_{2|2}(C) superalgebra)
 
