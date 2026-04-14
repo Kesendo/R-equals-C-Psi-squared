@@ -5,8 +5,8 @@ two-layer Lindblad, non-Markovian rebound reduced dynamics, partial trace
 eigenmode structure, SWAP eigenvalue degenerate eigenspace, one-way nested
 gamma, EQ-013 sub-question 2 partial answer, R=CPsi2 layer mirror hypothesis -->
 
-**Tier:** 3 (hypothesis with numerical indication at N=2)
-**Status:** Minimal nest observed; scaling, robustness, and SWAP-artifact checks pending
+**Tier:** 3 (hypothesis, partially verified: N=2 structure confirmed, N-scaling falsified)
+**Status:** All four checks completed (2026-04-14). Class-scaling falsified; boundary classes, palindromic pairing, coupling robustness, and rebound mechanism confirmed.
 **Date:** 2026-04-14
 **Authors:** Tom and Claude (chat)
 **Reproducer:** [`simulations/qubit_in_qubit_layer_mirror.py`](../simulations/qubit_in_qubit_layer_mirror.py)
@@ -143,7 +143,7 @@ The hypothesis is falsified by any of the following:
 
 1. **N=3 scaling failure.** ~~Three-qubit nest does not produce four eigenvalue classes with the predicted spacing -2*k*gamma/3.~~ **Triggered (2026-04-14, Check 2).** N=3 chain produces 12 eigenvalue classes, not 4. Positions are not evenly spaced. The scaling formula Re = -k*2*gamma/N is falsified. Hypothesis revised: boundary classes and palindromic pairing survive, class-scaling does not.
 2. **Coupling-dependence of the middle class.** ~~Replacing XX+YY with Heisenberg XXX removes the clean 1/sqrt(2) split.~~ **Does not trigger (2026-04-14, Check 3).** XXX preserves the exact same structure including degeneracy {3,10,3} and 1/sqrt(2) split. The three-class structure also survives under pure XX, pure YY, and XX+ZZ (with modified degeneracy {4,8,4}). Only pure ZZ breaks it to 2 classes {8,8} (ZZ commutes with Z-dephasing, no off-diagonal mixing). Any coupling with at least one off-diagonal (X or Y) Pauli channel produces the middle class.
-3. **Mirror-mode weights do not drive the rebound.** Setting the initial state to project away from the mirror class (if such a state exists) should eliminate the non-Markovian rebound. If the rebound persists without mirror-mode occupation, the mechanism is not what is claimed.
+3. **Mirror-mode weights do not drive the rebound.** ~~If rebound persists without mirror-mode occupation, the mechanism is not what is claimed.~~ **Does not trigger (2026-04-14, Check 4).** Removing mirror modes eliminates rebound completely (amplitude 0.000). Mirror-only initial state reproduces full rebound (amplitude 0.356). Mechanism confirmed: mirror modes are necessary and sufficient for non-Markovian dynamics in the N=2 system.
 4. **SWAP pattern is pure basis artifact.** ~~An asymmetric-gamma two-qubit system lifts all degeneracy. If the +-1 SWAP pattern does not persist perturbatively, the SWAP structure is not a genuine mirror.~~ **Resolved (2026-04-14, Check 1):** SWAP pattern is NOT a basis artifact. It persists under gamma_S sweep and perturbative local-field breaking. However, it is a perturbative near-symmetry from [H, SWAP] = 0, not an exact structural property. Degrades continuously under strong Hamiltonian asymmetry. Falsification criterion 4 does not trigger; Observation 4 is rewritten as perturbative near-symmetry.
 
 ---
@@ -158,7 +158,7 @@ These are the minimal next experiments. Each is small and should take well under
 
 3. ~~**Coupling-robustness check**~~ **DONE (2026-04-14).** Verdict: three-class structure is coupling-robust. Survives under XX+YY, XXX, XX, YY, XX+ZZ (all with at least one off-diagonal channel). Only pure ZZ breaks it (ZZ commutes with Z-dephasing, no mode mixing). Degeneracy pattern: {3,10,3} for exchange-symmetric couplings (XX+YY, XXX), {4,8,4} for single-channel couplings (XX, YY, XX+ZZ). Non-Markovian rebound is coupling-dependent: absent for pure XX, present for all others. Script: [`simulations/qubit_in_qubit_coupling_sweep.py`](../simulations/qubit_in_qubit_coupling_sweep.py).
 
-4. **Rebound-mechanism check.** For the N=2 system, construct initial states that project onto each eigenvalue class separately, evolve, and compare rebound amplitudes. If the rebound vanishes for pure 0-class and pure -2*gamma-class projections and is maximal for pure -gamma-class projection, mechanism confirmed.
+4. ~~**Rebound-mechanism check**~~ **DONE (2026-04-14).** Verdict: MECHANISM CONFIRMED. Mirror modes are both necessary and sufficient for non-Markovian rebound. Decomposing rho(0) = |+><+| (x) I/2 in the eigenmode basis: 50% weight on conserved modes (Re = 0), 50% on mirror modes (Re = -gamma), 0% on correlation modes (Re = -2gamma). Removing mirror modes (no_mirror projection, valid DM) eliminates rebound completely (amplitude 0.000). Mirror-only nearest DM reproduces full rebound (amplitude 0.356, identical to original). Conserved-only: zero coherence, no dynamics. Correlation-only: zero initial weight, no rebound. Script: [`simulations/qubit_in_qubit_mode_projection.py`](../simulations/qubit_in_qubit_mode_projection.py).
 
 ---
 

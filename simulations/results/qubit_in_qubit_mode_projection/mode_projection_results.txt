@@ -1,0 +1,26 @@
+Check 4: Rebound-Mechanism Check Results
+========================================================================
+
+original: initial_coh=0.500000, min_coh=0.000269, rebound_amp=0.355917, has_rebound=True
+conserved_only: initial_coh=0.000000, min_coh=0.000000, rebound_amp=0.000000, has_rebound=False
+mirror_only: initial_coh=0.500000, min_coh=0.000269, rebound_amp=0.355917, has_rebound=True
+correlation_only: initial_coh=0.014779, min_coh=0.000734, rebound_amp=0.000000, has_rebound=False
+no_mirror: initial_coh=0.000000, min_coh=0.000000, rebound_amp=0.000000, has_rebound=False
+no_conserved: initial_coh=0.500000, min_coh=0.000269, rebound_amp=0.355917, has_rebound=True
+no_correlation: initial_coh=0.500000, min_coh=0.000269, rebound_amp=0.355917, has_rebound=True
+
+Original: rebound=True, amp=0.3559
+Mirror-only: rebound=True, amp=0.3559
+No-mirror: rebound=False, amp=0.0000
+
+MECHANISM CONFIRMED: removing mirror modes eliminates the rebound.
+The mirror-class eigenmodes are necessary for non-Markovian dynamics.
+Mirror-only state produces rebound (amp=0.3559): mirror modes ARE sufficient.
+
+Rebound amplitude vs initial mirror-class weight:
+        conserved_only: mirror_weight=0.0000, rebound_amp=0.0000
+      correlation_only: mirror_weight=0.0009, rebound_amp=0.0000
+           mirror_only: mirror_weight=0.2525, rebound_amp=0.3559
+          no_conserved: mirror_weight=0.2525, rebound_amp=0.3559
+        no_correlation: mirror_weight=0.2525, rebound_amp=0.3559
+             no_mirror: mirror_weight=0.0000, rebound_amp=0.0000
