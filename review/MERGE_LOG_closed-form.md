@@ -2,7 +2,7 @@
 
 **Batch:** closed-form (9 entries)
 **Proposal file:** `OPEN_QUESTIONS_INDEX_PROPOSAL_closed-form.md`
-**Status:** 3 / 9 entries resolved
+**Status:** 4 / 9 entries resolved
 
 ---
 
@@ -107,9 +107,57 @@ the implication in-place; no intervention needed.
 
 ---
 
+## OQ-122 -- resolved
+
+- **Cowork proposal:** resolved
+- **Final decision:** resolved
+- **Deviation from proposal:** no (minor disagreement with the source's
+  in-line wording, see below)
+- **Session:** 2026-04-14
+- **Resolver:** existing repo state (source and linked analysis document
+  together establish the negative answer)
+
+**Rationale.**
+
+The entry originates in `experiments/DEGENERACY_PALINDROME.md` (Open
+questions, April 3, 2026) and reads in full: "Closed form for inner
+positions: topology-dependent (partially resolved). d_real(2) differs
+between topologies (Chain=14, Star=16, Complete=36 at N=4). No universal
+formula exists for k >= 2. The weight-2 kernel vectors transform under
+mixed S_N representations, not the trivial representation as at k=1.
+See Weight-2 Kernel."
+
+The posed question is "is there a universal closed form for
+d_real(k >= 2)?" and the source's answer is "No universal formula
+exists." This is a definitive negative answer with a structural
+reason (weight-2 kernel vectors transform under mixed S_N
+representations, not the trivial representation).
+
+The full characterization lives in `experiments/WEIGHT2_KERNEL.md`,
+which tests N=3 through 6 across chain, star, and complete topologies,
+records the topology-dependent dimensions, and documents the SWAP
+eigenvalue structure. Kernel dimension table (N=4): Chain=13,
+Star=16, Complete=36. Representation theory: at N >= 4 no kernel
+vector has definite SWAP eigenvalue.
+
+**Classification note.** The source tags this as "(partially resolved)"
+in its own title. Coworks proposal upgrades this to "resolved" on the
+grounds that the posed question is fully answered. This merge log
+accepts "resolved": the question was "is there a universal closed
+form?" and the answer is "no, with proof by representation theory."
+The "partially" tag in the source text may refer to a weaker residual
+question (is there a non-universal formula, or a topology-parametrized
+family?), which is a different question and would deserve its own
+entry if explicitly posed. It is not.
+
+**Category A pattern:** both the source document (with in-place
+"(partially resolved)" tag and the answer) and the linked analysis
+document are self-documenting. No intervention needed.
+
+---
+
 ## OQ-040 -- pending
 ## OQ-044 -- pending
 ## OQ-048 -- pending
 ## OQ-100 -- pending
-## OQ-122 -- pending
 ## OQ-139 -- pending

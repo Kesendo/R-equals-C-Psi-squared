@@ -3192,7 +3192,7 @@ to the classification pass.
 **Section:** Open questions
 **Date:** April 3, 2026
 **Tag:** closed-form
-**Status:** unclassified
+**Status:** resolved (see `review/MERGE_LOG_closed-form.md` -- no universal closed form for k ≥ 2, structural reason: weight-2 kernel vectors transform under mixed S_N representations; full analysis in WEIGHT2_KERNEL.md)
 
 ### OQ-139
 
