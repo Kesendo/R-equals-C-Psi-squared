@@ -59,9 +59,15 @@ The parity sectors ({I,X} vs {Y,Z}) are orthogonal to the dephasing sectors
 ({I,Z} vs {X,Y}). But the computation revealed a deeper structure: the
 single-qubit Pauli space is a genuine tensor product C²⊗C², indexed by
 dephasing sensitivity and Π²-parity as two independent bits. Three approaches
-to the actual question remain open, ordered by priority: (1) pure algebra
-of Z₂-graded operators, (2) GNS/Tomita-Takesaki modular theory,
-(3) thermofield double construction.
+to the actual question were proposed: (1) pure algebra of Z₂-graded operators,
+(2) GNS/Tomita-Takesaki modular theory, (3) thermofield double construction.
+By April 15, 2026, all three were resolved: Approach 1 partially confirmed
+(M_{2|2}(C) super-algebra is forced, and at N=2 the Liouvillian commutes
+exactly with Π² so the C²⊗C² factors are simultaneous good quantum numbers);
+Approach 2 falsified (Π is linear, J is anti-linear); Approach 3 blocked
+(QDB violation maximal, L_c cannot be a modular Hamiltonian by metric change).
+The hypothesis is structurally confirmed and mechanistically open: the
+doubling exists, but no standard operator-algebra construction reproduces it.
 
 ---
 
@@ -237,7 +243,9 @@ Script: [urqubit_test.py](../simulations/urqubit_test.py)
 
 ---
 
-## 5. Three Approaches (Open)
+## 5. Three Approaches (All Resolved by April 15, 2026)
+
+The three approaches below were proposed on April 1, 2026 as routes to formalize the primordial qubit hypothesis. By April 15, all three reached terminal verdicts. Their statements are preserved here as the original problem framing; for current status see Section 7 (Priority and Resolution) and Section 8 (Falsification Assessment).
 
 ### Approach 1 (highest priority): Pure algebra of Z₂-graded operators
 
@@ -333,14 +341,15 @@ temperature?
 
 ---
 
-## 7. Priority
+## 7. Priority and Resolution
 
-Approach 1 (algebra) has been computed (April 1, 2026). Results:
+Approach 1 (algebra) has been computed (April 1, 2026; extended April 15, 2026). Results:
 - The Z₂-grading from Π² gives a proper super-algebra M_{2|2}(C)
 - The even subalgebra ≅ M₂(C) ⊕ M₂(C), Clifford algebra Cl(2,0)
 - V_{+1} is NOT a subalgebra (Z₄ too fine)
 - {L_H, L_D + Σγ} = 0 at N=2 (Pythagorean theorem, exact)
 - Breaks at N≥3 (cross term ~2%, γ-independent)
+- **April 15, 2026:** [L, Π²] = 0 exactly at N=2. The C²⊗C² factors (bit a = n_XY, bit b = w_YZ-parity) are simultaneous good quantum numbers of every Liouvillian eigenmode. See Section 9.
 
 Approach 2 (GNS/Tomita-Takesaki) is **ruled out**: Π is linear,
 J is anti-linear, no unitary connects them (impossibility proof).
