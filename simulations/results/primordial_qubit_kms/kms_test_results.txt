@@ -1,0 +1,17 @@
+Probe 1: KMS / Quantum Detailed Balance Test
+========================================================================
+
+Best QDB violation for L: 1.000000e+00
+  at alpha=0.0000, beta=0.0000
+
+Best QDB violation for L_c: 1.000000e+00
+  at alpha=0.000000, beta=0.000000
+
+Verdict:
+QDB NOT satisfied for any sigma in the steady-state manifold
+Best violation: 1.0000e+00 at alpha=0.0000, beta=0.0000
+The naive TFD route via standard modular theory is blocked.
+
+L_c contains both Hamiltonian (antisymmetric) and dissipative
+(symmetric, diagonal) parts. No single state makes both
+self-adjoint simultaneously. This is the algebraic obstruction.
