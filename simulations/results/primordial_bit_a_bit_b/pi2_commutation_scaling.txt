@@ -1,0 +1,21 @@
+Probe 1: [L, Pi^2] = 0 scaling test
+========================================================================
+
+N=2:   ||[L, Pi^2]|| = 0.000000e+00  (relative: 0.000000e+00)  COMMUTES
+  Even: 8, Odd: 8
+  Even: {'conserved': 2, 'correlation': 2, 'mirror': 4}
+  Odd:  {'conserved': 1, 'correlation': 1, 'mirror': 6}
+N=3:   ||[L, Pi^2]|| = 0.000000e+00  (relative: 0.000000e+00)  COMMUTES
+  Even: 32, Odd: 32
+  Even: {'conserved': 2, 'correlation': 2, 'mirror': 28}
+  Odd:  {'conserved': 2, 'correlation': 2, 'mirror': 28}
+N=4:   ||[L, Pi^2]|| = 0.000000e+00  (relative: 0.000000e+00)  COMMUTES
+  Even: 128, Odd: 128
+  Even: {'conserved': 3, 'correlation': 3, 'mirror': 122}
+  Odd:  {'conserved': 2, 'correlation': 2, 'mirror': 124}
+N=5:   ||[L, Pi^2]|| = 0.000000e+00  (relative: 0.000000e+00)  COMMUTES
+  Even: 512, Odd: 512
+  Even: {'conserved': 3, 'correlation': 3, 'mirror': 506}
+  Odd:  {'conserved': 3, 'correlation': 3, 'mirror': 506}
+
+N=3 XXX uniform: ||[L, Pi^2]|| = 0.000000e+00
