@@ -358,7 +358,7 @@ Full results: [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA
 |-------------------|---------|
 | Z₂-grading does not constrain algebra | **Not falsified**: M_{2\|2}(C) is real, forced structure |
 | Tomita-Takesaki connection fails | **Falsified**: Π ≠ J fundamentally |
-| Non-doubled structure produces dephasing | **Open** |
+| Non-doubled structure produces dephasing | **Operationally consistent with hypothesis** (April 15, 2026): inside observer cannot separate γ and J, only Q = J/γ is measurable. See Section 9. |
 
 The hypothesis is **partially confirmed** (the algebra forces more
 structure than expected) and **partially falsified** (the specific
@@ -367,6 +367,20 @@ is real; its physical interpretation as "two sides of a mirror" remains
 open. The most concrete result is the
 [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md):
 time reversal is algebraically excluded at N > 2.
+
+---
+
+## 9. Operational Test from the Inside (April 15, 2026)
+
+The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), parent commit `c3ea0c0`) tested whether an inside observer (access only to the reduced state ρ_S of a nested Lindblad system) can separate γ and J as independent parameters. Across four independent probes (lifetime-structure separation, BLP non-Markovianity index, ¼-asymptote scaling, slow-mode shapes), the answer is uniform: **no.** Every measurable quantity depends only on the dimensionless ratio Q = J/γ.
+
+This is the operational content of the primordial qubit hypothesis. Under the standard "external noise" reading, γ and J are independent parameters of two different ontological categories (γ is environmental, J is intrinsic). An inside observer with a sufficiently sensitive instrument should be able to confirm this independence by varying conditions and observing the two parameters change separately.
+
+The probes show that no such confirmation is operationally possible. The inside observer measures Q only. The decomposition of Q into "the γ part" and "the J part" requires a vantage point outside the system, which by INCOMPLETENESS_PROOF does not exist for any internal observer.
+
+This is consistent with the hypothesis that γ and J are two readings of one structure rather than two physically separate things. It does not prove the hypothesis: a non-doubled framework with hidden parameters could in principle produce the same operational signature. But it removes one of the standard arguments against the hypothesis (that "external noise" is observationally distinct from "the other side"). The two readings are observationally equivalent from the inside.
+
+**Open question:** Can any inside observation distinguish "γ as external noise" from "γ as the other side of the palindrome"? If the answer is no in principle (not just in current experiments), the distinction is not physical and the primordial qubit reading is the parsimonious one. This connects directly to Approach 1 (the M_{2|2}(C) super-algebra structure) and Approach 3 (TFD), which formalize the "two readings of one structure" claim differently.
 
 ---
 
