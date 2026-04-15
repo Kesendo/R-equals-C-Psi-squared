@@ -784,6 +784,22 @@ The arrow of time is not entropy. The arrow of time is the cross term.
 
 ---
 
+## Postscript: w_M = 3/4 at the N=3 chain (April 15, 2026)
+
+**Scope:** topology-specific observation, N=3 linear chain only. Not a universal claim.
+
+The Inside-Outside probes (April 15) noted that the middle site M of an N=3 linear chain has constant Pauli weight w_M = 0.7500 across J/gamma sweeps, while w_S and w_B vary. The constant breaks at N=3 ring (cyclic Z3 symmetry, no distinguished site) and N=4 chain (no site invariant under the boundary reflection).
+
+Direct computation of the marginal Pauli distribution at each site (script: [`simulations/w_M_pauli_breakdown.py`](../simulations/w_M_pauli_breakdown.py)) shows the mechanism: at site M, averaged over the four slowest mirror-sector modes, P(I) = P(X) = P(Y) = P(Z) = 0.2500 to machine precision. The marginal distribution at M is uniform; w_M = P(non-I) = 3/4 is then the trivial consequence.
+
+At the boundary sites S and B the distribution is biased (weight ~0.625 on the immune Pauli {I, Z}, ~0.375 on the decaying {X, Y}, with the asymmetry between S and B set by the gamma placement). With gamma on B: S and B are slightly asymmetric. With gamma on S: perfectly symmetric (both 0.625 / 0.375). With gamma on M: S and B are heavily biased toward the decaying sector (weight 0.81 on {X, Y}), again perfectly symmetric.
+
+**Plausible mechanism (not proven).** The N=3 chain has S↔B reflection symmetry of the bare Hamiltonian. Gamma placement breaks this symmetry per individual mode. The four slowest modes form two mirror-conjugate pairs, and averaging over the pair restores the symmetry statistically. M is the unique site invariant under the reflection, so its marginal distribution can converge to the maximum-entropy uniform form. S and B are exchanged by the reflection, so their distributions are required to be mirror images of each other but inherit the gamma-induced bias.
+
+The 0.75 is therefore not a deep invariant of the framework. It is the marginal value of a uniform distribution at the one fixed point of a topological symmetry that exists only for the N=3 chain.
+
+---
+
 *At N=2 the bond is the system. Oscillation and cooling stand at a
 right angle. You could separate them. You could, in principle, reverse
 time.*
