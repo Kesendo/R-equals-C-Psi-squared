@@ -1241,13 +1241,30 @@ this gives L two independent Z2 symmetries proven for all N. Per-site Pauli
 This is the maximal symmetry decomposition admitted by the Pauli algebra
 of d=2 (no third independent Z2 classification exists per F34/QUBIT_NECESSITY).
 
+**Per-sector mode count (closed form).** For Heisenberg coupling with Z-dephasing on the boundary qubit B, modes split within each Pi^2-sector by the Absorption Theorem applied at site B:
+
+    conserved per sector:  even = floor(N/2) + 1,  odd = ceil(N/2)
+    correlation per sector: same as conserved (palindrome symmetry)
+    mirror per sector:     2^(2N-1) - 2 * (conserved per sector)
+
+Mechanism: conserved modes are the (N+1) elementary symmetric polynomials e_d(Z_1, ..., Z_N) for d=0..N (functions of S_z, commuting with both H and Z_B). Each e_d has w_YZ-parity = d mod 2. The asymmetry for even N (one extra even-parity conserved) comes from e_N having even parity when N is even.
+
+| N | sector | cons (e, o) | mirror (e, o) |
+|---|--------|-------------|---------------|
+| 2 | 8      | (2, 1)      | (4, 6)        |
+| 3 | 32     | (2, 2)      | (28, 28)      |
+| 4 | 128    | (3, 2)      | (122, 124)    |
+| 5 | 512    | (3, 3)      | (506, 506)    |
+
 **Valid for:** Heisenberg (XX+YY+ZZ), XY (XX+YY); Z-dephasing on any subset
 of sites; any N; any graph; uniform or non-uniform gamma_k.
 **Breaks for:** single-site Y or Z terms in H (transverse field, magnetic
 field along Z); Y or X jump operators (no two-factor cancellation).
 **Verified:** ||[L, Pi^2]|| = 0.000000e+00 (identically zero, not numerically
 small) at N=2, 3, 4, 5. Also for Heisenberg XXX with uniform gamma at N=3.
-Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`.
+Per-sector mode count formula verified at N=2-5; conserved-modes-as-e_d(Z) verified at N=2-4.
+Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
+`simulations/mirror_mode_split_formula.py`.
 **Source:** [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
 [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 

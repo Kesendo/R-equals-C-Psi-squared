@@ -122,6 +122,50 @@ Direct computation at N=2, 3, 4, 5 (script [`simulations/primordial_bit_a_bit_b_
 
 All identically zero (not numerically small). Sector-resolved eigenvalue counts confirm balanced decomposition into V_even (w_YZ even) and V_odd (w_YZ odd).
 
+## Per-sector mode count
+
+The total dimension per sector is 2^(2N-1) (universal halving from [L, Π²] = 0). Within each sector, the eigenmodes split into three Re-classes by the Absorption Theorem applied to single-site dephasing on the boundary qubit B:
+
+- **Conserved** (Re = 0): ⟨n_XY⟩_B = 0
+- **Mirror** (Re = -γ_B): 0 < ⟨n_XY⟩_B < 1
+- **Correlation** (Re = -2γ_B): ⟨n_XY⟩_B = 1
+
+The per-sector counts have a closed form:
+
+    conserved per (Π²-parity) sector:
+      even-parity:  ⌊N/2⌋ + 1
+      odd-parity:   ⌈N/2⌉
+
+    correlation per sector: same as conserved (palindrome symmetry maps Re=0 ↔ Re=-2γ_B and preserves Π²-parity since Π·Z·Π⁻¹ = iY shares parity with Z)
+
+    mirror per sector:
+      sector total - 2 × (conserved per sector) = 2^(2N-1) - 2 · c
+
+**Mechanism.** The conserved modes are exactly the (N+1) elementary symmetric polynomials in {Z_1, ..., Z_N}:
+
+    e_d(Z_1, ..., Z_N) = Σ_{|S|=d} ∏_{k∈S} Z_k    for d = 0, 1, ..., N
+
+Each e_d commutes with H (the Heisenberg coupling preserves S_z = (1/2) Σ Z_k, hence any function of S_z is conserved; the Newton identities express elementary symmetric polynomials as polynomials in power sums of Z_k = polynomials in S_z) and commutes with Z_B (e_d is a polynomial in {Z_k}, all of which commute with each other). Each e_d has w_YZ-parity exactly d mod 2, since each summand contains d Z's and each Z carries Π²-parity 1.
+
+Verified numerically at N = 2, 3, 4: all (N+1) elementary symmetric polynomials lie in the conserved subspace to machine precision (max projection residual < 1e-13). See [`simulations/mirror_mode_split_formula.py`](../../simulations/mirror_mode_split_formula.py).
+
+**Asymmetry pattern.** The N+1 parities run as 0, 1, 2, ..., N. The number of even d in this range is ⌊N/2⌋ + 1; the number of odd d is ⌈N/2⌉. For even N, e_N is itself even, giving one extra even-parity conserved mode; for odd N, the count is balanced.
+
+Concrete values:
+
+| N | sector | cons (e, o) | mirror (e, o) |
+|---|--------|-------------|---------------|
+| 2 | 8      | (2, 1)      | (4, 6)        |
+| 3 | 32     | (2, 2)      | (28, 28)      |
+| 4 | 128    | (3, 2)      | (122, 124)    |
+| 5 | 512    | (3, 3)      | (506, 506)    |
+| 6 | 2048   | (4, 3)      | (2040, 2042)  |
+| 7 | 8192   | (4, 4)      | (8184, 8184)  |
+
+The "mysterious" 4:6 mirror split at N=2 (PRIMORDIAL_QUBIT.md Section 9, original observation) and the 122:124 at N=4 are both consequences of e_N having even parity when N is even. No deeper origin.
+
+**Scope.** This count holds whenever the conserved subspace is exactly the polynomials in S_z. That holds for isotropic Heisenberg (XX+YY, XX+YY+ZZ) on any graph topology, with Z-dephasing on at least one site of each connected component. For non-isotropic couplings or non-Z dephasing the conserved subalgebra changes and this formula must be re-derived.
+
 ## Connection to the n_XY Parity Selection Rule
 
 The Liouvillian L now has TWO independent Z₂ symmetries proven for all N:
