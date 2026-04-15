@@ -196,12 +196,12 @@ Hierarchical Equations of Motion (HEOM), reaction-coordinate mapping, and collis
 
 Is the termination a computational artifact or the operational content of INCOMPLETENESS_PROOF itself? If two explicit nested layers show physics different from one layer with phenomenological gamma at the same outer interface, then the framework has a testable prediction: the nesting is non-trivial and visible from inside. If they do not, then nesting is ontologically present but operationally invisible from inside any finite layer; INCOMPLETENESS_PROOF then describes not a limit on what can be simulated but a limit on what any finite internal observer can distinguish.
 
-**Status:** open (sub-questions 1 and 3); partially answered (sub-question 2, minimal nest)
+**Status:** open (sub-questions 1 and 3, with substantial 2026-04-15 progress); closed-by-theory (sub-question 2, see Update 2026-04-15)
 
 **Pointer:**
-- Sub-question 1: conceptual re-reading of BRIDGE_CLOSURE Section 4 under the nested-one-way frame; search for setups where layered gamma-structure produces correlations invisible to flat LOCC analysis.
-- Sub-question 2: **partially answered 2026-04-14** by [NESTED_MIRROR_STRUCTURE](../hypotheses/NESTED_MIRROR_STRUCTURE.md). Minimal two-qubit nest is simulable, shows non-Markovian rebound, and produces a three-class eigenvalue structure consistent with an inter-layer mirror. Full answer requires N=3 scaling check (pending), coupling-robustness check (pending), and the empirical IBM non-Markovianity probe. HEOM and reaction-coordinate generalizations beyond the minimal nest remain open.
-- Sub-question 3: re-read [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) for the implicit-vs-explicit status of the recursion (it establishes one outer layer; does it commit to or avoid committing to further layers?); check whether PRIMORDIAL_QUBIT_ALGEBRA has layer-scale invariance built in or treats the primordial as a privileged level; examine whether the Lindblad equation is layer-privileging or scale-neutral; then formally walk the three exit options rather than asserting they fail. The empirical pathway opened by NESTED_MIRROR_STRUCTURE (non-Markovianity as layer-above-us signature) is a candidate operationalization.
+- Sub-question 1: conceptual re-reading of BRIDGE_CLOSURE Section 4 under the nested-one-way frame; search for setups where layered gamma-structure produces correlations invisible to flat LOCC analysis. **2026-04-15 contribution:** the Q = J/gamma inside-observability result (see Update below) sharpens the LOCC reading - each layer's inside observer sees only the dimensionless ratio Q, so lateral correlations between two observers in the same nested layer are Q-mediated, not channel-mediated.
+- Sub-question 2: **closed-by-theory 2026-04-15.** See Update 2026-04-15 below. IBM non-Markovianity probe remains as separate empirical verification item, not part of the theoretical question itself.
+- Sub-question 3: re-read [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) for the implicit-vs-explicit status of the recursion (it establishes one outer layer; does it commit to or avoid committing to further layers?); check whether PRIMORDIAL_QUBIT_ALGEBRA has layer-scale invariance built in or treats the primordial as a privileged level; examine whether the Lindblad equation is layer-privileging or scale-neutral; then formally walk the three exit options rather than asserting they fail. **2026-04-15 contribution:** partial progress on checks (iii) and (iv); see Update below.
 
 ---
 
@@ -223,6 +223,53 @@ Is the termination a computational artifact or the operational content of INCOMP
 
 **Status:** open
 **Scope note:** Not a reflection candidate until (i)-(iv) are done. Reflections in this repo are ex post (see [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md)). This is ex ante. Any attempt to write it up as established structure before these checks would be the "retreat-too-fast into intuition" failure mode flagged in the review discipline rule.
+
+---
+
+## EQ-013 Update 2026-04-15
+
+**Source:** Full session of inside-perspective probes and Z2-symmetry work (commits cfa2a9f through 97716e8). Touches all three sub-questions.
+
+### Sub-question 2: closed-by-theory
+
+The original question - "is nesting simulable, and what does the answer mean operationally?" - is now answered at the level of theoretical content. Three threads converged:
+
+1. **Three-class structure inherited, not new.** The 3+10+3 eigenvalue classes of the minimal nest are the Absorption Theorem applied to single-site dephasing. Re(lambda) = -2*gamma_B * <n_XY>_B, with the three values {0, 0.5, 1} of <n_XY>_B at the boundary site. At N=3 the levels refract into 12 by the chain Hamiltonian (commit 4dfabc3, [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
+
+2. **Embedded in two Z2 symmetries proven for all N.** The Liouvillian commutes with bit_a (n_XY parity, [F61](../docs/ANALYTICAL_FORMULAS.md), [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) and bit_b (w_YZ parity, [F63](../docs/ANALYTICAL_FORMULAS.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), giving a 4-sector decomposition. Per-sector mode count has closed form: conserved per sector = floor(N/2)+1 (even), ceil(N/2) (odd); mirror per sector = 2^(2N-1) - 2*conserved. Mechanism: conserved modes are exactly the (N+1) elementary symmetric polynomials e_d(Z_1,...,Z_N), parities d mod 2 (commits d9d66e2, 97716e8).
+
+3. **Q = J/gamma is the only inside-observable.** The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commit c3ea0c0) showed that every measurable quantity from inside depends on the dimensionless ratio Q = J/gamma_B only, not on J or gamma_B independently. The inside observer detects layer EXISTENCE (non-Markovian rebound, Check 4 of NESTED_MIRROR) but cannot extract layer PARAMETERS. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9 documents this with the operational identification.
+
+The N=3 scaling check (Check 2) and coupling-robustness check (Check 3) of the original sub-Q2 are both done (commits 7baaa7c, 3e2f429) - the falsifications and confirmations are recorded in the [NESTED_MIRROR_STRUCTURE](../hypotheses/NESTED_MIRROR_STRUCTURE.md) notebook (rewritten as compact trail in commit 7716640).
+
+**What remains separately open** (not part of sub-Q2's theoretical question): empirical IBM Kingston non-Markovianity probe; HEOM and reaction-coordinate generalizations beyond the minimal nest.
+
+### Sub-question 1: structural support, still open in principle
+
+Today's Q = J/gamma result strengthens the LOCC reading of BRIDGE_CLOSURE but does not formally close sub-Q1. The new structural underpinning: each layer's inside observer sees only the dimensionless Q. Two observers A and B in the same nested layer therefore correlate through their shared Q-environment, not through any independent gamma-channel structure. Layered gamma with internal structure that the LOCC analysis would miss would have to be visible in something other than Q from inside, and INCOMPLETENESS_PROOF together with the Q-only result rules this out for any single observer at any single layer.
+
+The original sub-Q1 framing remains: are there setups where TWO observers' joint readings reveal structure invisible to each individually? Not addressed today. Status: open, with sharpened context.
+
+### Sub-question 3: progress on (iii) and (iv), (i) and (ii) still pending
+
+Of the four checks needed:
+
+- **(i) INCOMPLETENESS_PROOF scope** (per-system vs universal): not examined today. Open.
+- **(ii) THE_BRIDGE_WAS_ALWAYS_OPEN commitment to further layers**: not examined today. Open.
+- **(iii) PRIMORDIAL_QUBIT_ALGEBRA stack-top commitment**: partial answer. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Sections 7 and 8 (revised today) treat the primordial qubit as **algebraically foundational without stack-top commitment**. The C2 x C2 super-algebra structure is real (per-site Pauli decomposition, [L,Pi^2]=0 proven for all N), but the strong claim that this IS the outermost physical layer is explicitly marked as not established. Tier 3-4: structurally confirmed, mechanistically open. The TFD doubling route was investigated and blocked (commits df7e862, ca871f4); other doubling routes remain unexplored. This partially answers exit condition (a) (the framework does NOT require a primordial qubit as the terminal layer in any operational sense, only as a foundational algebraic object).
+- **(iv) Lindblad layer-privileging vs scale-neutral**: partial answer. The Q = J/gamma inside-observability result supports the **scale-neutral reading**: at any layer, the inside observer sees only the dimensionless ratio of the local Hamiltonian and dissipation scales. The Lindblad equation does not privilege any particular layer because the same operational content (Q) appears at every layer to its respective inside observer. This is consistent with both a finitely-nested and an infinitely-nested cosmology - both give the same per-layer operational content.
+
+**Net effect on the three exit conditions (a)/(b)/(c)** from sub-Q3:
+
+- **(a)** Discard primordial qubit: **not chosen, but weakened from "needed at top" to "algebraically foundational only"** by today's work. PRIMORDIAL_QUBIT can be the algebraic ground floor without being the physical ceiling.
+- **(b)** Read INCOMPLETENESS_PROOF as layer-specific: **not examined**, but consistent with today's scale-neutral reading of the Lindblad equation under (iv).
+- **(c)** Terminate without primordial qubit: **not examined.** Today's work neither supports nor undermines this option.
+
+### Net stance after today
+
+The recursive-stack question is operationally less urgent than it was when EQ-013 was formulated. At any finite layer, the inside observer sees Q = J/gamma; this content is the same whether the recursion is finite, infinite, or topologically closed. The metaphysics of the stack (a)/(b)/(c) becomes less coupled to operational predictions. The remaining checks (i) and (ii) are still required for full closure of sub-Q3, but the urgency of choosing among (a)/(b)/(c) has diminished: the framework's operational content does not depend on which is chosen.
+
+Sub-Q3 status remains: **open**, with the clarification that an answer does not need to come from picking among (a)/(b)/(c), but can also come from showing the choice is operationally underdetermined.
 
 ---
 
