@@ -419,6 +419,38 @@ The fastest oscillation frequency (Im approx +-2.0) lives exclusively in the odd
 
 The two tensor factors of C2xC2 are not just an algebraic curiosity from Section 4. They are the two independent axes of the Liouvillian's eigenmode structure: one axis (bit a, Absorption Theorem) determines how fast a mode decays, the other (bit b, palindromic parity) determines which frequency sector it occupies. Both are simultaneously well-defined quantum numbers of every eigenmode.
 
+### N-scaling: [L, Pi^2] = 0 is universal (April 15, 2026, follow-up probe 1)
+
+Script: [`simulations/primordial_bit_a_bit_b_N_scaling.py`](../simulations/primordial_bit_a_bit_b_N_scaling.py).
+
+||[L, Pi^2]|| = 0.000000e+00 (identically zero, not numerically small) at N=2, 3, 4, 5. Also holds for Heisenberg XXX coupling with uniform dephasing on all sites at N=3. The C2xC2 sector decomposition is universal, not N=2-specific.
+
+Per-sector mode counts (conserved + mirror + correlation):
+
+| N | dim | even | odd |
+|---|-----|------|-----|
+| 2 | 16 | 2+4+2 | 1+6+1 |
+| 3 | 64 | 2+28+2 | 2+28+2 |
+| 4 | 256 | 3+122+3 | 2+124+2 |
+| 5 | 1024 | 3+506+3 | 3+506+3 |
+
+### Framework correspondence: even = cavity, odd = transport
+
+The two w_YZ-parity sectors map to existing framework structures (connection identified April 15, 2026):
+
+**Even sector (w_YZ-parity = 0):** {II, IX, XI, XX, YY, YZ, ZY, ZZ} at N=2. Contains ZZ (universal node, [STANDING_WAVE_ANALYSIS](../experiments/STANDING_WAVE_ANALYSIS.md)), XX/YY (antinodes). Bell+ = (II + ZZ + XX - YY)/4 lives entirely here. Oscillation frequencies Im ≈ ±1.0 only. This is the **cavity sector**: standing waves between the mirrors.
+
+**Odd sector (w_YZ-parity = 1):** {IY, IZ, XY, XZ, YI, YX, ZI, ZX} at N=2. Contains cross-correlations (XY, XZ, YX, ZX) and single-site coherences. Oscillation frequencies Im ≈ ±1.0 AND ±2.0 (fastest frequency exclusive to this sector). This is the **transport sector**: modes that break S ↔ B exchange symmetry.
+
+**Origin of the 4:6 mirror-mode split.** The two Z₂ symmetries give four 4×4 blocks:
+
+|                | w_YZ even        | w_YZ odd         |
+|----------------|------------------|------------------|
+| n_XY even      | II, XX, YY, ZZ   | IZ, XY, YX, ZI   |
+| n_XY odd       | IX, XI, YZ, ZY   | IY, XZ, YI, ZX   |
+
+Mirror modes come from mixing between n_XY=0 and n_XY=1 components within each block. The (n_XY-even, w_YZ-odd) block {IZ, XY, YX, ZI} mixes n_XY_B=0 (IZ, ZI) with n_XY_B=1 (XY, YX) under the Hamiltonian, producing 2 additional mirror modes. The (n_XY-even, w_YZ-even) block {II, XX, YY, ZZ} keeps its constituents separated (Bell+ decomposition: II+ZZ vs XX-YY), producing 0 additional mirror modes. Result: even sector has 4 mirror modes, odd sector has 6.
+
 ---
 
 ## Scripts
