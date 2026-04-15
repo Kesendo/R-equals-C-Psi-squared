@@ -1268,6 +1268,34 @@ Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
 **Source:** [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
 [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 
+### F64. Effective gamma from cavity mode exposure (Tier 1-2, analytical + verified N=3,4)
+
+For an N-qubit chain with XX+YY coupling and Z-dephasing only on the outermost site B at rate γ_B, the effective dephasing rate of the slowest eigenmode contributing to inner-site S coherence is:
+
+    γ_eff = γ_B · |a_B|²
+
+where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. This is the Absorption Theorem (F1/AT) applied to the single-excitation sector: Re(λ) = -2γ_B · ⟨n_XY⟩_B, and ⟨n_XY⟩_B = |a_B|² for these modes.
+
+γ_B appears as a constant prefactor. It is not diminished by intervening sites.
+
+**Closed form at N=3** (chain S-M-B, couplings J_SM, J_MB, r = J_SM/J_MB):
+
+                 ⎧ r² / (r² + 1)       for r < 1/√2    [zero mode]
+    g(r) =       ⎨
+                 ⎩ 1 / (2(r² + 1))     for r ≥ 1/√2    [bonding mode]
+
+Crossover at r = 1/√2, g = ⅓. Special value: g(1) = ¼.
+
+Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM² + J_MB²)} and eigenvectors.
+
+**General N.** Diagonalize the N×N tridiagonal single-excitation Hamiltonian. Find the eigenvector with the smallest |a_B|² among those with nonzero |a_S|². No layered composition: the formula is a global eigenvector property, not a product of per-layer factors. Multiplicative stacking fails at N=4 (ratio 0.04 to 62); eigenvector formula exact (ratio 1.0000 ± 0.0003).
+
+**Replaces:** time-domain exponential fit for γ_eff extraction.
+**Valid for:** XX+YY chains with Z-dephasing on one end site; good-cavity regime (γ_B ≪ J_MB). Breaks when γ_B ≥ J_MB (bad cavity: B decoheres before transmitting).
+**Verified:** N=3 (max relative error 1.8% vs 64×64 Liouvillian), N=4 (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian).
+**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py)
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
