@@ -327,6 +327,7 @@ temperature?
 | Noise IS the other side (not from outside) | **Hypothesis** |
 | Π related to Tomita-Takesaki modular conjugation | **Falsified** (Π linear, J anti-linear; [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 3) |
 | Z₂-grading forces doubling of ambient algebra | **Partially confirmed** (M_{2\|2}(C) super-algebra, not TFD doubling; [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 2) |
+| L_c as modular Hamiltonian (TFD construction) | **Blocked** (QDB violation = 1.0, maximal; L_c = antisym + sym, no metric reconciles; [`primordial_qubit_kms_test.py`](../simulations/primordial_qubit_kms_test.py)) |
 | {L_H, L_D+Σγ} = 0 (oscillation ⊥ cooling) | **Confirmed at N=2**, fails at N≥3 (~2%); [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 4 |
 | Time reversal at N > 2 | **Excluded** ([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)) |
 
@@ -344,9 +345,12 @@ Approach 1 (algebra) has been computed (April 1, 2026). Results:
 Approach 2 (GNS/Tomita-Takesaki) is **ruled out**: Π is linear,
 J is anti-linear, no unitary connects them (impossibility proof).
 
-Approach 3 (thermofield double) is **open**: a thermal state at
-β = 1/Σγ gives K_mod ∝ L_H, but this state is not the Lindblad
-steady state. The connection is suggestive, not forced.
+Approach 3 (thermofield double) is **blocked** (2026-04-15): quantum
+detailed balance (QDB) tested across the full steady-state manifold
+{II, ZI+IZ, ZZ}. QDB violation = 1.0 (maximal) for every state.
+L_c = antisymmetric L_H + symmetric L_D; no inner product makes both
+self-adjoint simultaneously. The centered Liouvillian cannot be a
+modular Hamiltonian. Script: [`simulations/primordial_qubit_kms_test.py`](../simulations/primordial_qubit_kms_test.py).
 
 Full results: [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md)
 
