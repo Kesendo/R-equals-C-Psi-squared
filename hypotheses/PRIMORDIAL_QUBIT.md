@@ -1,4 +1,4 @@
-# The Primordial Qubit: Noise as Mirror, Not Import
+# The Primordial Qubit: Noise as Reflection, Not Origin
 
 <!-- Keywords: primordial qubit Urqubit mirror world noise origin,
 d2-2d=0 palindrome self-dual Z2 grading doubling, thermofield double
