@@ -1,0 +1,2 @@
+Probe 2: w_M = 0.75 constant check
+See console output for full topology comparison.
