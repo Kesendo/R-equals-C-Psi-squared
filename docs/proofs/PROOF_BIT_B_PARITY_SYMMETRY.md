@@ -113,7 +113,7 @@ The proof requires the Hamiltonian and dissipator to contain Z (and Y) only in e
 
 ## Numerical verification
 
-Direct computation at N=2, 3, 4, 5 (script `simulations/primordial_bit_a_bit_b_N_scaling.py`):
+Direct computation at N=2, 3, 4, 5 (script [`simulations/primordial_bit_a_bit_b_N_scaling.py`](../../simulations/primordial_bit_a_bit_b_N_scaling.py)):
 
     N=2: dim_L=16,   ||[L, Π²]|| = 0.000000e+00
     N=3: dim_L=64,   ||[L, Π²]|| = 0.000000e+00
