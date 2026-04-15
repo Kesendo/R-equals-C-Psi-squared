@@ -1,4 +1,4 @@
-# Bit-b Parity Symmetry: [L, Π²] = 0
+﻿# Bit-b Parity Symmetry: [L, Π²] = 0
 
 <!-- Keywords: w_YZ parity Z2 symmetry Liouvillian commutator,
 Pi squared global X flip all qubits, second Z2 symmetry beyond n_XY parity selection rule,
@@ -178,6 +178,41 @@ The Liouvillian L now has TWO independent Z₂ symmetries proven for all N:
 The two symmetries are independent: bit_a counts X+Y, bit_b counts Y+Z. They share Y but differ on X (bit_a yes, bit_b no) and Z (bit_a no, bit_b yes). The intersection (n_XY parity × w_YZ parity) gives 4 sectors, each of dimension 4^N / 4 = 4^(N-1).
 
 This corresponds to the C² × C² tensor product structure of the single-qubit Pauli space identified in [PRIMORDIAL_QUBIT.md](../../hypotheses/PRIMORDIAL_QUBIT.md) Section 4.1: the per-site Pauli {I, X, Y, Z} decomposes as (a, b) = (dephasing sensitivity, Π²-parity), and L respects the tensor product factorization at the level of its eigenmode structure.
+
+## Why this holds at all N (vs Pythagoras at N=2 only)
+
+A natural question: the Pythagorean decomposition L_c² = L_H² + L_Dc² holds exactly at N=2 but breaks at N≥3 with relative magnitude √((N-2)/(N·4^(N-1))) (see [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md), F49). Both involve Z₂ structure. Why does [L, Π²] = 0 hold for all N while {L_H, L_Dc} = 0 needs N=2?
+
+**The structural distinction is per-term symmetry vs global cancellation.**
+
+[L, Π²] = 0 follows because every individual summand of L commutes with X^⊗N:
+- Each Heisenberg bond term X_i X_j + Y_i Y_j + ZZ Z_i Z_j is invariant under per-site X-conjugation (each bond Pauli pair contains 0 or 2 sign-flipping factors, signs cancel).
+- Each site dissipator γ_k(Z_k · Z_k - I) is invariant because the dissipator is quadratic in Z_k (two minus signs from U Z_k U = -Z_k cancel).
+
+No global cancellation needed. The symmetry of each building block transfers to the sum. This holds for any N.
+
+{L_H, L_Dc} = 0 is a different structural object: a global anti-commutator that decomposes as
+
+    {L_H, L_Dc} = Σ_{bonds} Σ_{sites} {L_H_<ij>, L_Dc^(k)}
+
+with two distinct contribution types per (bond, site) pair:
+
+- **On-bond contributions** (k ∈ {i, j}): vanish exactly by the bond-sum rule (Lemma 2 of PROOF_CROSS_TERM_FORMULA). The bond Hamiltonian commutator and the on-bond dissipator have correlated Pauli structure that produces exact cancellation.
+- **Spectator contributions** (k ∉ {i, j}): generically non-zero. L_H_<ij> acts on sites {i, j}; L_Dc^(k) acts on site k disjoint from the bond. Disjoint superoperators commute as operators on different tensor factors, so {A, B} = 2AB ≠ 0 in general.
+
+At N=2 there are 0 spectators per bond  -  the single bond covers the entire system. Only on-bond contributions exist; all vanish; Pythagoras is exact. At N≥3 each bond has N-2 spectators, contributing the cross-term magnitude proportional to √(N-2).
+
+Numerical verification ([`simulations/pythagoras_breakdown_decomposition.py`](../../simulations/pythagoras_breakdown_decomposition.py)):
+
+| N | bond | on-bond contribution | off-bond contribution |
+|---|------|---------------------|----------------------|
+| 3 | (0,1) | 0 (exact) | 1.6 |
+| 3 | (1,2) | 0 (exact) | 1.6 |
+| 4 | (0,1) | 0 (exact) | 4.525 |
+| 4 | (1,2) | 0 (exact) | 4.525 |
+| 4 | (2,3) | 0 (exact) | 4.525 |
+
+**Per-term symmetries persist for any N. Global anti-commutator cancellations require special geometry. d=2 admits both (per-term [L, Π²] for any N, global {L_H, L_Dc} for N=2 only).**
 
 ## Why d=2 is essential
 
