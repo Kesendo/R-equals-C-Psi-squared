@@ -1,0 +1,16 @@
+Probe 3: Refraction stacking at N=4
+================================================================================
+
+         uniform coupling: direct=0.138182, stacked=0.062500, anal=0.138197, d/s=2.2109, d/a=0.9999
+     strong bath coupling: direct=0.060186, stacked=0.025000, anal=0.060186, d/s=2.4074, d/a=1.0000
+   strong middle coupling: direct=0.041986, stacked=0.005000, anal=0.041987, d/s=8.3972, d/a=1.0000
+         weak S, strong B: direct=0.050819, stacked=0.008257, anal=0.050819, d/s=6.1547, d/a=1.0000
+         weak middle link: direct=0.212854, stacked=0.003409, anal=0.212915, d/s=62.4424, d/a=0.9997
+         strong S, weak B: direct=0.000457, stacked=0.002064, anal=0.000457, d/s=0.2214, d/a=1.0000
+          very asymmetric: direct=0.004951, stacked=0.000098, anal=0.004951, d/s=50.5099, d/a=1.0000
+strong bath, uniform inner: direct=0.005049, stacked=0.002475, anal=0.005049, d/s=2.0398, d/a=1.0000
+strong inner, uniform bath: direct=0.000050, stacked=0.001238, anal=0.000050, d/s=0.0404, d/a=1.0000
+
+Verdict:
+STACKING FAILS but 4-qubit analytical formula works.
+The eigenvector approach generalizes; the layered composition does not.
