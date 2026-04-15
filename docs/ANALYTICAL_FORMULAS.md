@@ -738,9 +738,16 @@ Diagonal parity operator in Pauli basis. w_YZ = count of Y,Z entries
 in the Pauli string. Pi has order 4 (Pi^4 = I), NOT order 2.
 Eigenvalues of Pi^2: +1 (half) and -1 (half), equally split.
 
+In Hilbert space, Pi^2 is realized as conjugation by U = X^{tensor N}
+(the global bit-flip): U sigma U = (-1)^{w_YZ} sigma for any Pauli string.
+The two definitions agree on the per-site map (I -> I, X -> X, Y -> -Y, Z -> -Z).
+
+**Companion result (F63):** [L, Pi^2] = 0 exactly for all N (proven analytically).
+Pi^2 is therefore a conserved quantum number of every Liouvillian eigenmode.
+
 **Valid for:** any N, Z-dephasing Π (P1 family).
 **Replaces:** assumption that Π is involutory.
-**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md), [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)
 
 ### F39. det(Π) (Tier 1, proven + verified N=1-4)
 
@@ -1166,6 +1173,12 @@ has rate alpha_1, and a slower mode exists at rate alpha_2 < alpha_1 with
 odd n_XY parity, then alpha_1 is an exact ceiling for SE protection. No
 optimizer within the SE family can reach alpha_2.
 
+**Companion symmetry (F63):** L also commutes with Pi^2 (the w_YZ-parity
+operator). Together these are the two independent Z2 symmetries of L
+admitted by the Pauli algebra of d=2: bit_a (n_XY parity, this rule) and
+bit_b (w_YZ parity, F63). Combined, they decompose the operator space into
+4 sectors, each of dimension 4^(N-1).
+
 **Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
 any graph topology, any site-dependent Z-dephasing gamma_k, any N.
 **Breaks for:** amplitude damping (T1), transverse fields (odd-n_XY terms).
@@ -1204,6 +1217,39 @@ never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.
 **Verified:** numerically at N=2-10, all within machine precision.
 **Source:** `simulations/cpsi_wn_analytical.py`,
 [Cusp-Lens Connection](../experiments/CUSP_LENS_CONNECTION.md)
+
+### F63. w_YZ Parity Symmetry, [L, Pi^2] = 0 (Tier 1, proven analytically, verified N=2-5)
+
+    [L, Pi^2_super] = 0     (exactly, for all N)
+
+The Liouvillian commutes exactly with the Pi^2-parity superoperator
+Pi^2_super(rho) = U rho U where U = X^{tensor N} (global bit-flip).
+Equivalently in Pauli basis: Pi^2 acts as multiplication by (-1)^{w_YZ},
+and L preserves w_YZ parity.
+
+**Six-line proof.** U conjugation acts per site as I -> I, X -> X,
+Y -> -Y, Z -> -Z. Heisenberg bonds XX/YY/ZZ each contain two Y's or two
+Z's (or none), so signs cancel and U H U = H. Z-dephasing dissipator is
+quadratic in Z (term Z rho Z), where the two minus signs from U Z U = -Z
+also cancel, and the anti-commutator term {Z dagger Z, rho} = {I, rho}
+is trivially U-invariant.
+
+**Two independent Z2 symmetries.** Together with F61 (n_XY parity, bit_a),
+this gives L two independent Z2 symmetries proven for all N. Per-site Pauli
+{I, X, Y, Z} factorizes as C2 x C2 indexed by (bit_a, bit_b) =
+(n_XY, w_YZ). The 4-block decomposition has dimension 4^(N-1) per block.
+This is the maximal symmetry decomposition admitted by the Pauli algebra
+of d=2 (no third independent Z2 classification exists per F34/QUBIT_NECESSITY).
+
+**Valid for:** Heisenberg (XX+YY+ZZ), XY (XX+YY); Z-dephasing on any subset
+of sites; any N; any graph; uniform or non-uniform gamma_k.
+**Breaks for:** single-site Y or Z terms in H (transverse field, magnetic
+field along Z); Y or X jump operators (no two-factor cancellation).
+**Verified:** ||[L, Pi^2]|| = 0.000000e+00 (identically zero, not numerically
+small) at N=2, 3, 4, 5. Also for Heisenberg XXX with uniform gamma at N=3.
+Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`.
+**Source:** [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
+[PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 
 ---
 
