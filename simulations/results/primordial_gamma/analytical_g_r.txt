@@ -1,0 +1,17 @@
+Analytical derivation of g(r) for 3-qubit chain
+================================================================================
+
+g(r) = min(r^2/(r^2+1), 1/(2(r^2+1)))
+Crossover at r = 1/sqrt(2) = 0.707107
+g(1) = 1/4 exactly
+
+Verification:
+  r=100.0000: numerical=0.000050, analytical=0.000050, err=1.00e-04
+  r=33.3300: numerical=0.000449, analytical=0.000450, err=1.53e-03
+  r=10.0000: numerical=0.004949, analytical=0.004950, err=3.02e-04
+  r=3.3300: numerical=0.041272, analytical=0.041360, err=2.14e-03
+  r=1.0000: numerical=0.249987, analytical=0.250000, err=5.20e-05
+  r=0.3300: numerical=0.100000, analytical=0.098205, err=1.79e-02
+  r=0.1000: numerical=0.009901, analytical=0.009901, err=1.00e-06
+
+Max relative error: 1.7946e-02
