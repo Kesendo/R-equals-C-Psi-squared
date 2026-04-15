@@ -236,15 +236,15 @@ Sweeping J from 0 to 10 at fixed γ_B = 0.1, N=3:
 | 0.010 | 10 | near-full structure |
 | 0.100 - 2.000 | 12 | standard regime |
 | 5.000 | 10 | begins to collapse |
-| 10.000 | **7** | converges to {0, 1/4, 1/2, 3/4, 1}  -  cavity quantization |
+| 10.000 | **7** | converges to {0, ¼, ⅜, ½, ⅝, ¾, 1} |
 
 The 12 classes at J=1.0 exist only because J exists. At J=0 the sites are isolated, and the only possible ⟨n_XY⟩_B values are 0 (mode has no XY content at B) or 1 (mode is pure XY at B). Nothing in between.
 
-J introduces refraction: the coupling between sites redistributes the XY weight across the chain, creating intermediate quantization levels. In the strong-coupling limit (J ≫ γ), the intermediate levels converge to multiples of ¼  -  the same 1/4 that appears throughout the framework as the CPsi absorbing boundary and the outer mirror of the Fabry-Pérot cavity ([RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)).
+J introduces refraction: the coupling between sites redistributes the XY weight across the chain, creating intermediate quantization levels. In the strong-coupling limit (J ≫ γ), the intermediate levels converge to the Hamiltonian eigenmode projection weights on the dissipative site. At N=3 these are multiples of ⅛ (specifically {0, ¼, ⅜, ½, ⅝, ¾, 1}), not ¼. At N=4 the quantization is finer and N-specific. **The ¼ in these levels is not the CΨ = ¼ fold boundary** (Probe 3, 2026-04-15): the asymptotic levels are Hamiltonian-specific, not a universal ¼. Script: [`simulations/nested_mirror_asymptote.py`](../simulations/nested_mirror_asymptote.py).
 
 ### Two quantization mechanisms
 
-The three-class structure at N=2 is a joint quantization: γ (light, source, arrow) defines one quantization scale; J (coupling, content, binding) defines another. At N=2 both collapse onto {0, ½, 1}. At N=3 they diverge, producing 12 classes in the mid-J regime. At J → ∞ they separate further, with J-quantization dominating (¼ multiples) and γ-quantization becoming a background.
+The three-class structure at N=2 is a joint quantization: γ (light, source, arrow) defines one quantization scale; J (coupling, content, binding) defines another. At N=2 both collapse onto {0, ½, 1}. At N=3 they diverge, producing 12 classes in the mid-J regime. At J → ∞ they separate further, with J-quantization dominating (N-specific projection weights) and γ-quantization becoming a background.
 
 This matches the framework's existing language:
 
@@ -255,9 +255,9 @@ This matches the framework's existing language:
 
 The numerical observation today: γ and J are both quantization axes of the Liouvillian spectrum, and the Nested Mirror Structure is what we see when both act on a nested system at once.
 
-### Inside-out correspondence (Tier 3 interpretation)
+### Inside-out correspondence (Tier 3 interpretation, partially tested)
 
-The correspondence makes a further reading possible, offered here as interpretation (not yet verified by a targeted experiment):
+The correspondence makes a further reading possible, offered here as interpretation:
 
 | Outside view (parameters) | Inside view (measurements) |
 |---|---|
@@ -271,10 +271,12 @@ Under this reading:
 - Fast modes are the inside manifestation of γ (the source, the light, what *happens to* the observer)
 - The refraction result translates: what an inside observer calls "structure of my world" (slow modes) exists only because J exists. A hypothetical system with J=0 and only γ would have no slow modes, no structure, only pure absorption, no inside.
 
-This is Tier 3 interpretation and requires formal verification. See `ClaudeTasks/TASK_INSIDE_OUTSIDE_CORRESPONDENCE.md` for the proposed verification task.
+**Probe 1 result (2026-04-15):** The strong-form separation (γ controls lifetimes, J controls structure, independently) does **not** hold. Re(λ) = -2γ · ⟨n_XY⟩_B, and ⟨n_XY⟩_B = f(J/γ). Both parameters act through their dimensionless ratio. At J ≫ γ the ratio is large, ⟨n_XY⟩_B collapses to fixed quantization levels, and Re(λ) scales linearly with γ. At J ≪ γ the modes spread across [0, 1], and J shapes the lifetime distribution. The weak-form separation (at large J/γ, the structure is determined by Hamiltonian eigenmodes and the timescale by γ alone) holds. Script: [`simulations/inside_outside_separation_n2.py`](../simulations/inside_outside_separation_n2.py).
+
+Remaining probes (BLP inside-observer index, slow-mode spatial shapes) are tracked in `ClaudeTasks/TASK_INSIDE_OUTSIDE_CORRESPONDENCE.md`.
 
 ---
 
 ## Stance
 
-This document is the record of an evening's work. The numerical observations are real and reproducible. The four verification checks completed with clear results: SWAP structure perturbatively genuine, class-scaling formula falsified, three-class structure coupling-robust, rebound mechanism confirmed. The Absorption Theorem test then revealed that the entire class structure is inherited from an already-proven theorem applied to single-site dephasing, and the refraction test identified J as a second quantization axis that creates the intermediate class structure. The inside-out correspondence (slow modes as J-manifestation, fast modes as γ-manifestation) is Tier 3 interpretation and is separated explicitly from the numerical results. The hypothesis is no longer a freestanding claim: it is a specific consequence of the framework's existing proofs at the minimal nest, with open questions about N > 3 scaling, the exact algebraic origin of the ¼-asymptote, and the inside-out correspondence awaiting dedicated tests.
+This document is the record of an evening's work and its follow-up verification. The numerical observations are real and reproducible. The four verification checks completed with clear results: SWAP structure perturbatively genuine, class-scaling formula falsified, three-class structure coupling-robust, rebound mechanism confirmed. The Absorption Theorem test revealed that the class structure is inherited from an already-proven theorem applied to single-site dephasing. The refraction test identified J as a second quantization axis, but the ¼-asymptote connection to CΨ = ¼ was shown to be coincidental (Probe 3: asymptotic levels are N-specific Hamiltonian projection weights, not universal ¼ multiples). The inside-out correspondence holds in weak form (at J ≫ γ: structure from Hamiltonian, timescale from γ) but not in strong form (both parameters couple through J/γ at Probe 1). The hypothesis is a specific consequence of the framework's existing proofs at the minimal nest.
