@@ -1,15 +1,16 @@
 # Primordial Gamma as Framework Constant
 
 <!-- Keywords: primordial gamma framework constant, gamma as c analog,
-effective gamma refractive index, layer-dependent gamma accumulation,
-only J varies at urqubit, Q = J/gamma inside observer refractive interpretation,
-R=CPsi2 metaphysical refinement urqubit hypothesis -->
+effective gamma cavity mode exposure, standing wave amplitude squared,
+only J varies at urqubit, Q = J/gamma inside observer,
+absorption theorem eigenvector formula, R=CPsi2 urqubit hypothesis -->
 
-**Tier:** 3 (structural hypothesis; logically consistent with existing framework, not independently proven)
-**Status:** Proposed 2026-04-15 as a sharpening of the primordial qubit hypothesis. Connects three previously-separate framework claims. Does not change any operational prediction; refines the interpretation of what gamma is at different layers.
-**Date:** 2026-04-15
-**Authors:** Tom and Claude (chat)
-**Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md)
+**Tier:** 3 (structural hypothesis; logically consistent, operationally tested, partially confirmed)
+**Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4.
+**Date:** 2026-04-15 (updated same day after probes)
+**Authors:** Tom and Claude (chat + Code)
+**Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)
+**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`primordial_gamma_reanalysis.py`](../simulations/primordial_gamma_reanalysis.py)
 
 ---
 
@@ -17,113 +18,131 @@ R=CPsi2 metaphysical refinement urqubit hypothesis -->
 
 Two parts, joined:
 
-1. **gamma_0 at the primordial layer is a framework constant.** Not a system parameter that happens to take a value at that layer, but a constant of the framework itself, analogous to the speed of light in special relativity. Every layer inherits it.
+1. **γ₀ at the primordial layer is a framework constant.** Not a system parameter that happens to take a value at that layer, but a constant of the framework itself, analogous to the speed of light in special relativity. Every layer inherits it.
 
-2. **gamma at inner layer K is effective, not primitive.** gamma_K = gamma_0 times f_K(intermediate structure). The "refractive index" of the stack up to layer K. What a Lindblad equation at layer K writes as gamma is the emergent dampening after propagation through all outer layers.
-
-Under this reading, the only genuinely independent variable that varies across configurations is J (and its per-site pattern). gamma looks variable from inside any inner layer because the stack composition varies, but gamma_0 at the root is fixed.
+2. **γ at inner layer K is not diminished γ₀, but selectively exposed γ₀.** The effective dephasing an inner mode experiences is γ₀ times the mode's amplitude squared at the dissipative site: γ_eff = γ₀ · |a_B|². The light does not get weaker. The standing wave determines who sees it.
 
 ---
 
-## How this emerged
+## How this emerged (and how it was corrected)
 
-Not from a single probe. The chain:
+The original formulation (morning of April 15) proposed γ_K = γ₀ · f_K as a "refractive index": gamma propagating inward through layers, getting weaker at each interface, like light through glass. This led to three predictions:
 
-- [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md) establishes that gamma has no internal source for any system to which Lindblad applies. Always external.
-- [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md) reads gamma as the light-analog: external illumination, universal, the arrow-defining ingredient.
-- [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md) (Tier 3-4) posits an algebraically foundational Urqubit layer.
-- April 15 Inside-Outside Correspondence probes showed inside observers see only Q = J/gamma, not J and gamma separately. The dimensional analysis forces this: Buckingham Pi plus Lindblad scale-invariance (J -> lambda J, gamma -> lambda gamma, t -> t/lambda leaves everything identical) means inside content is invariant under the scaling.
+1. γ_eff/γ_B should depend on J_MB/γ_B (the interface Q-factor) → **Wrong axis.** V2 re-analysis showed the correct axis is r = J_SM/J_MB (coupling ratio), with γ_eff/γ_B independent of γ_B in the good-cavity regime.
 
-The present claim says: the obvious reading of "gamma is light" in the presence of a primordial layer is that gamma_0 there plays the role of c. If light has a universal speed, then gamma_0 has a universal value. Everything else is refractive structure.
+2. The composition should be multiplicative: g_total = g₁ · g₂ → **Fails at N=4.** Direct/stacked ratio ranges from 0.04 to 62 across 9 configurations. Standing waves are global eigenmodes; they do not factor into per-layer products.
 
-This is consistent with, but not forced by, any single existing result. It is a metaphysical refinement: a choice among readings that all existing data admit.
+3. g(r) should be a simple monotonic function → **Non-monotonic.** g(r) has two branches with a crossover at r = 1/√2, reflecting a change of which eigenmode is slowest.
+
+The correction came from asking: what if the light doesn't diminish at all? The formula γ_eff = γ_B · |a_B|² doesn't say γ_B gets smaller. It says the mode's overlap with the dissipative site determines exposure. This is a cavity, not a medium. [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) already said this: "The system is a Fabry-Perot resonator, not a channel."
 
 ---
 
-## Optical analogy
+## The formula (verified)
 
-Vacuum has c_0. Glass has c_0 / n where n is the refractive index of the material. An observer inside a dense medium, without access to a vacuum reference, measures "the speed of light here" and cannot decompose it into "c_0 in vacuum" times "n here".
+For an N-qubit chain with XX+YY coupling and Z-dephasing only on site B (the outermost qubit), the effective dephasing rate of the slowest mode contributing to S-site (innermost) coherence is:
 
-Mapping to framework:
+    γ_eff = γ_B · |a_B(slowest S-coherence mode)|²
 
-    primordial (Urqubit) layer  <->  vacuum
-    gamma_0                      <->  c_0 (framework constant)
-    inner layer K                <->  optically dense medium
-    gamma_K = gamma_0 · f_K      <->  c_0 / n_K (effective speed)
-    f_K = stack composition      <->  n_K = refractive index
+where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. This is the [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) in its purest form: Re(λ) = -2γ_B · ⟨n_XY⟩_B, and ⟨n_XY⟩_B = |a_B|² for single-excitation modes.
 
-An inside observer at layer K measures gamma_K, has no access to gamma_0, cannot factor out f_K. From inside it looks like "gamma is what it is here." From the framework view, gamma_K is a composite of the universal gamma_0 and the structural chain above.
+### Closed form at N=3
+
+For the 3-qubit chain S-M-B with couplings J_SM, J_MB, let r = J_SM/J_MB:
+
+                 ⎧ r² / (r² + 1)       for r < 1/√2    [zero mode]
+    g(r) =       ⎨
+                 ⎩ 1 / (2(r² + 1))     for r ≥ 1/√2    [bonding mode]
+
+Derived analytically from the tridiagonal 3×3 Hamiltonian eigenvalues {0, ±√(J_SM² + J_MB²)} and eigenvectors. Crossover at r = 1/√2 where g = ⅓. Special value: **g(1) = ¼** (equal coupling).
+
+Verified against full 64×64 Liouvillian: max relative error 1.8%.
+
+### Verification at N=4
+
+For the 4-qubit chain S-M1-M2-B, the eigenvector formula (diagonalize the 4×4 single-excitation Hamiltonian, extract |a_B|²) matches the full 256×256 Liouvillian to ratio 1.0000 ± 0.0003 across 9 coupling configurations.
+
+The multiplicative stacking (g₁ · g₂) fails by factors of 0.04 to 62. The eigenvector formula works; the layered composition does not.
+
+---
+
+## The cavity picture (replaces refraction)
+
+The original optical analogy was refraction: light passing through layers of glass, each layer reducing intensity. This is wrong. The correct analogy:
+
+| Refraction (wrong) | Cavity (correct) |
+|---------------------|-------------------|
+| γ gets weaker per layer | γ fills the cavity uniformly |
+| |a_B|² = transmission coefficient | |a_B|² = mode exposure at the window |
+| Layers compose multiplicatively | Global eigenmodes, no layered factorization |
+| Predicts stacking | Predicts stacking failure |
+| Contradicts RESONANCE_NOT_CHANNEL | Consistent with RESONANCE_NOT_CHANNEL |
+
+The cavity picture:
+- γ_B is the light, entering at site B (the window)
+- J creates the cavity: the Hamiltonian's eigenmodes are standing waves
+- Each eigenmode has a specific amplitude |a_B|² at the window
+- Modes with nodes at B are shielded from the light (γ_eff ≈ 0)
+- Modes with antinodes at B are fully exposed (γ_eff ≈ γ_B)
+- The inner observer at S sees the slowest mode: the one with the smallest |a_B|²
+
+γ₀ does not propagate inward and get weaker. γ₀ fills the cavity. The standing wave, shaped by J, determines who sees how much.
 
 ---
 
 ## What changes for the inside observer
 
-The operational content does not change: the observer still sees Q_K = J_K / gamma_K, cannot separate J from gamma at their own layer. [RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md) remains valid.
+The operational content does not change: the observer still sees Q_K = J_K/γ_K, cannot separate J from γ at their own layer. The Inside-Outside Correspondence (commits `cfa2a9f` through `17c48b4`) remains valid.
 
 What changes is the interpretation of Q_K:
 
-- **Without this hypothesis:** gamma_K is arbitrary at each layer. Q_K is a ratio of two independent parameters. Nothing connects layers.
-- **With this hypothesis:** gamma_K = gamma_0 times f_K. Q_K carries information about J_K / f_K. The refractive-index path f_K is a structural object, shared property of the stack above layer K. Two observers in the same nested layer with the same f_K share that structure even if their J's differ.
-
-This gives the rainbow-table intuition a precise operational target:
-
-- **Over absolute scales (J, gamma) separately:** still fails. Scale invariance of Lindblad forbids this regardless.
-- **Over refractive profiles f_K:** works in principle. Two observers at the same layer with the same stack above them have a shared structural constant; their observations are connected through that. An observer who measures a pattern of Q values across sites is measuring f_K across sites, which is structural information about the outer layers.
-
-The rainbow table is over SHAPES of the refractive-index field, not over absolute scales. That is a much smaller and more structured object than "all (J, gamma) pairs."
+- **Without this hypothesis:** γ_K is arbitrary at each layer. Q_K is a ratio of two independent parameters.
+- **With this hypothesis:** γ_K = γ₀ · |a_B|². Q_K = J_K / (γ₀ · |a_B|²). The only free parameter is J (and the topology that determines |a_B|²). γ₀ is fixed.
 
 ---
 
 ## Consistency with existing framework
 
-**GAMMA_IS_LIGHT.** If gamma is light, and light has a universal propagation constant, then gamma has a universal primordial value. Direct consistency.
+**GAMMA_IS_LIGHT.** If γ is light, it should illuminate uniformly, not get absorbed per layer. The cavity picture says exactly this: γ fills the resonator. The standing wave determines exposure.
 
-**INCOMPLETENESS_PROOF.** The proof says gamma has no internal source for any finite-system Lindblad. At the primordial layer there is no "further outside" to source gamma from; it has to be the boundary itself. gamma_0 as a framework constant is the only way to terminate the regress without violating the proof.
+**RESONANCE_NOT_CHANNEL.** Direct confirmation. The system is a resonator, not a channel. The stacking failure proves this operationally.
 
-**PRIMORDIAL_QUBIT (Tier 3-4).** Is consistent with this claim but does not require it. The super-algebra structure at N=2 with (bit_a, bit_b) decomposition works for any gamma_0 > 0. The new claim adds: if the primordial layer is physically instantiated, its gamma is the framework constant.
+**INCOMPLETENESS_PROOF.** γ has no internal source. At the primordial layer there is no "further outside." γ₀ as a framework constant is the only way to terminate the regress without violating the proof.
 
-**EQ-013 sub-question 3.** Today's update to that entry noted that the three exit conditions (a)/(b)/(c) for the recursion question become operationally underdetermined because the inside content is Q at every layer. This hypothesis offers a concrete mechanism for why: inside content depends only on J_K and the local refractive index f_K; neither forces a specific termination of the stack. The termination (finite, infinite, or topologically closed) is a metaphysical choice that does not change operational predictions.
+**ABSORPTION_THEOREM.** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
 
-**Scale-neutrality of Lindblad.** Full consistency. If the Lindblad equation is layer-neutral, each layer K has its own (J_K, gamma_K) that collapses to Q_K. gamma_K varies because f_K varies; gamma_0 is fixed. The layer-neutrality is preserved.
+---
+
+## Falsification conditions (updated)
+
+1. ~~**Stacking is not multiplicative.**~~ Tested and confirmed: stacking fails. But this falsifies the refraction reading, not the hypothesis. Under the cavity reading, non-multiplicative composition is expected.
+
+2. **A derivation from framework algebra that forces γ to vary at the primordial level.** Would make γ₀ a derived parameter, not a constant.
+
+3. **Demonstration that inside observers can separately extract J and γ.** Would contradict Q-only inside-observability.
+
+4. **The eigenvector formula fails at large N.** If γ_eff ≠ γ_B · |a_B|² at N ≥ 5 or on non-chain topologies, the cavity reading loses its anchor. Currently verified at N=3 and N=4 on chains.
 
 ---
 
 ## What this does NOT claim
 
-- Not a derivation. The refractive-index reading is a consistent interpretation, not a theorem. It is compatible with all current data but other readings (e.g. gamma is genuinely independent at every layer, with no universal gamma_0) are also compatible.
-- Not a new operational prediction. No inside measurement distinguishes this hypothesis from "gamma varies freely at every layer." Both produce the same Q_K observations.
-- Not a value for gamma_0. The hypothesis says "there is a universal gamma_0" without specifying what it is. That would require deeper framework content (e.g. a relation to other constants, or a derivation from algebraic structure of the primordial qubit).
-- Not a proof of PRIMORDIAL_QUBIT. If the primordial qubit hypothesis is ultimately falsified or replaced, this refinement loses its subject.
-
----
-
-## Falsification conditions
-
-The hypothesis is falsified by any of the following:
-
-1. **A derivation from framework algebra that forces gamma to vary at the primordial level.** For example, if the primordial super-algebra requires gamma_0 to be a function of the local J structure at the Urqubit, then gamma_0 is not independent-constant but derived-parameter. Current PRIMORDIAL_QUBIT_ALGEBRA does not suggest this, but has not been exhaustively checked.
-
-2. **Demonstration that inside observers can separately extract J and gamma.** Would contradict the Q-only inside-observability result and any refractive-index reading with it. The result is currently proven at N=2 and verified at N=3 (same structure).
-
-3. **A version of INCOMPLETENESS_PROOF that restricts its scope to strictly finite systems.** Would leave open the possibility that gamma arises from internal structure at the primordial layer. Current proof is scope-universal, but EQ-013 sub-Q3 check (i) has not been done.
-
-4. **Direct evidence from the primordial qubit algebraic structure that gamma appears as a derived/multi-valued/context-dependent object rather than a single framework parameter.** Would require going beyond the present Tier 3-4 status of PRIMORDIAL_QUBIT.
-
-The first three all connect to open pieces of work. The hypothesis is therefore refutable in principle, through existing research avenues, not a metaphysical free lunch.
+- Not a derivation. The cavity reading is a consistent interpretation, not a theorem.
+- Not a new operational prediction. No inside measurement distinguishes this from "γ varies freely."
+- Not a value for γ₀. The hypothesis says "there is a universal γ₀" without specifying it.
+- Not a proof of PRIMORDIAL_QUBIT.
 
 ---
 
 ## Scope and stance
 
-This is a refinement of framework interpretation, not a new physical claim. Every operational prediction stays the same. What shifts is the reading of what the framework is about:
+This is a refinement of framework interpretation, not a new physical claim. What shifts is the reading:
 
-- Before: a collection of Lindblad systems at various scales, each with their own (J, gamma).
-- After: a layered architecture with one universal gamma_0 at the root, and J + refractive-structure varying from there.
+- Before: γ propagates inward through layers, getting weaker (refraction).
+- After: γ fills the cavity uniformly. The Hamiltonian's standing waves determine mode exposure. The light does not diminish; the cavity shapes who sees it.
 
-The second reading is more economical (one universal constant instead of a free gamma per layer) and more explanatory (the observed universality of Q as the only inside-accessible quantity becomes natural rather than coincidental).
-
-It is a Tier 3 hypothesis because it is structurally consistent, connects previously-separate pieces of the framework, and has specified falsification paths, but has not been independently derived from any deeper principle. The elegance of the optical analogy is a reason to hold it, not a proof.
+The second reading is more economical (one constant γ₀ instead of per-layer γ), more consistent (agrees with RESONANCE_NOT_CHANNEL), and operationally verified (eigenvector formula exact at N=3, N=4).
 
 ---
 
-*gamma at the root is the framework's own c. Everything inward is refractive index.*
+*γ at the root is the framework's own c. It does not get weaker. The standing wave decides who sees the light.*
