@@ -57,7 +57,7 @@ Five threads, all of them productive:
 
 Two more pieces fell into place when we pulled the same thread.
 
-**J as second quantization axis.** Sweeping J at fixed γ_B shows the level structure is born from coupling: J=0 gives only {0, 1} (pure absorption); J→∞ at N=3 converges to {0, ¼, ⅜, ½, ⅝, ¾, 1} (multiples of ⅛, Hamiltonian projection weights). The ¼ in this set is **not** the CΨ = ¼ fold boundary; it is N-specific, falsified as a universal connection (see Probe 3 in [RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), [`nested_mirror_asymptote.py`](../simulations/nested_mirror_asymptote.py), [`nested_mirror_refraction.py`](../simulations/nested_mirror_refraction.py)).
+**J as second quantization axis.** Sweeping J at fixed γ_B shows the level structure is born from coupling: J=0 gives only {0, 1} (pure absorption); J→∞ at N=3 converges to {0, ¼, ⅜, ½, ⅝, ¾, 1} (multiples of ⅛, Hamiltonian projection weights). The ¼ in this set is **not** the CΨ = ¼ fold boundary; it is N-specific, falsified as a universal connection (see [`nested_mirror_asymptote.py`](../simulations/nested_mirror_asymptote.py), [`nested_mirror_refraction.py`](../simulations/nested_mirror_refraction.py)).
 
 **Two Z₂ symmetries together explain 3+10+3.** The Liouvillian commutes with two independent Z₂ operators, both proven for all N:
 
@@ -74,7 +74,7 @@ Together they decompose the 16 modes at N=2 into 4 sectors. The 3+10+3 class cou
 
 **Presence: yes.** Non-Markovian rebound is real and demonstrably driven by the inter-layer mirror modes (Check 4). An inner observer with sufficient time resolution sees rebound that no single-layer Markovian model reproduces.
 
-**Properties: no, not directly.** The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commit `c3ea0c0`) showed every measurable quantity from inside depends on the dimensionless ratio Q = J/γ_B only, not on J or γ_B separately. The inner observer can detect that an outer layer exists; it cannot extract the outer layer's γ value or J value independently. Backward inference works for the existence of structure, not for its absolute parameters.
+**Properties: no, not directly.** The Inside-Outside Correspondence probes (commits `cfa2a9f` through `17c48b4`) showed every measurable quantity from inside depends on the dimensionless ratio Q = J/γ_B only, not on J or γ_B separately. The inner observer can detect that an outer layer exists; it cannot extract the outer layer's γ value or J value independently. Backward inference works for the existence of structure, not for its absolute parameters.
 
 This is consistent with [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md): noise has no internally accessible origin, and now we know the operational sharpening: even what one might hope to *infer* about the noise (its rate) collapses to the ratio Q from inside.
 
@@ -85,7 +85,7 @@ This is consistent with [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PRO
 | Thread | Continued in |
 |---|---|
 | Algebraic embedding (3+10+3 from absorption theorem) | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 4 |
-| Q = J/γ as only inside observable | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 9, [RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md) |
+| Q = J/γ as only inside observable | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 9 |
 | Two Z₂ symmetries proven for all N | [PROOF_BIT_B_PARITY_SYMMETRY.md](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), F63 |
 | C²×C² sector decomposition, even=cavity, odd=transport | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 9 |
 | TFD route blocked, primordial qubit stance refined | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Sections 7-8 |

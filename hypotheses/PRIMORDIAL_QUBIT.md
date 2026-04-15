@@ -388,7 +388,7 @@ time reversal is algebraically excluded at N > 2.
 
 ## 9. Operational Test from the Inside (April 15, 2026)
 
-The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), parent commit `c3ea0c0`) tested whether an inside observer (access only to the reduced state ρ_S of a nested Lindblad system) can separate γ and J as independent parameters. Across four independent probes (lifetime-structure separation, BLP non-Markovianity index, ¼-asymptote scaling, slow-mode shapes), the answer is uniform: **no.** Every measurable quantity depends only on the dimensionless ratio Q = J/γ.
+The Inside-Outside Correspondence probes (commits `cfa2a9f` through `17c48b4`, scripts in `simulations/inside_*.py` and `simulations/nested_mirror_asymptote.py`) tested whether an inside observer (access only to the reduced state ρ_S of a nested Lindblad system) can separate γ and J as independent parameters. Across four independent probes (lifetime-structure separation, BLP non-Markovianity index, ¼-asymptote scaling, slow-mode shapes), the answer is uniform: **no.** Every measurable quantity depends only on the dimensionless ratio Q = J/γ.
 
 This is the operational content of the primordial qubit hypothesis. Under the standard "external noise" reading, γ and J are independent parameters of two different ontological categories (γ is environmental, J is intrinsic). An inside observer with a sufficiently sensitive instrument should be able to confirm this independence by varying conditions and observing the two parameters change separately.
 
