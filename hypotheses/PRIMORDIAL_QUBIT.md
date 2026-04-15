@@ -386,6 +386,27 @@ This is consistent with the hypothesis that γ and J are two readings of one str
 
 **Open question:** Can any inside observation distinguish "γ as external noise" from "γ as the other side of the palindrome"? If the answer is no in principle (not just in current experiments), the distinction is not physical and the primordial qubit reading is the parsimonious one. This connects directly to Approach 1 (the M_{2|2}(C) super-algebra structure) and Approach 3 (TFD), which formalize the "two readings of one structure" claim differently.
 
+### Simultaneous diagonalization of the C2xC2 factors (April 15, 2026)
+
+Script: [`simulations/primordial_bit_a_bit_b.py`](../simulations/primordial_bit_a_bit_b.py).
+
+The C2xC2 tensor product structure of the Pauli space (Section 4.1) has two independent bits per site: bit a (dephasing sensitivity, n_XY) and bit b (Pi^2-parity, w_YZ mod 2). These correspond to two structures that have been studied separately in the framework:
+
+- **Factor a:** the Absorption Theorem axis. Re(lambda) = -2*gamma*<n_XY>. Determines eigenvalue classes (how fast a mode decays).
+- **Factor b:** the palindromic Z2-grading axis. Pi^2 = (-1)^{w_YZ}. Determines the M_{2|2}(C) super-algebra sectors (which frequency sector a mode occupies).
+
+Test: ||[L, Pi^2_super]|| = 0.000000e+00 (exact commutation). The Liouvillian respects both quantum numbers simultaneously. Every eigenmode has a definite (bit_a, bit_b) pair. The 3+10+3 degeneracy pattern decomposes cleanly by sector:
+
+| Class | bit_b=even | bit_b=odd | total |
+|---|---|---|---|
+| conserved (Re=0) | 2 | 1 | 3 |
+| mirror (Re=-gamma) | 4 | 6 | 10 |
+| correlation (Re=-2gamma) | 2 | 1 | 3 |
+
+The fastest oscillation frequency (Im approx +-2.0) lives exclusively in the odd sector. The even sector contains only Im approx +-1.0.
+
+The two tensor factors of C2xC2 are not just an algebraic curiosity from Section 4. They are the two independent axes of the Liouvillian's eigenmode structure: one axis (bit a, Absorption Theorem) determines how fast a mode decays, the other (bit b, palindromic parity) determines which frequency sector it occupies. Both are simultaneously well-defined quantum numbers of every eigenmode.
+
 ---
 
 ## Scripts
