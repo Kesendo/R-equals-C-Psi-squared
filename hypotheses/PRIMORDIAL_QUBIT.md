@@ -16,6 +16,7 @@ chiral symmetry, R=CPsi2 primordial qubit -->
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [The Other Side](THE_OTHER_SIDE.md),
 [Qubit Necessity](../docs/QUBIT_NECESSITY.md)
+**See also:** [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md) (Tier 3 sharpening: gamma_0 at the primordial layer as framework constant, inner gamma as refractive index)
 
 ---
 

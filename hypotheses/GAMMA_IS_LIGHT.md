@@ -6,6 +6,7 @@
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Origin:** A question at the end of a long day, after proving the qubit chain is an optical cavity
+**See also:** [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md) (Tier 3 sharpening: if gamma is light, then gamma_0 at the primordial layer is a framework constant analogous to c; inner gamma becomes an effective refractive index)
 
 ---
 
