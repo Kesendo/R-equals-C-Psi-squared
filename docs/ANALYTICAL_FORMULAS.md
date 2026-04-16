@@ -1300,6 +1300,30 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py)
 **Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
+### F65. Single-excitation spectrum of uniform open XX chain (Tier 1, proven, verified N=3..30)
+
+For the uniform open XX chain (all couplings J, N sites) with Z-dephasing at rate γ₀ on endpoint B = site N-1, the single-excitation dissipation rates are:
+
+    α_k / γ₀ = (4 / (N+1)) · sin²(kπ / (N+1)),    k = 1, ..., N
+
+This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+1)) · sin(πk(i+1)/(N+1)) of the N×N tridiagonal single-excitation Hamiltonian. The endpoint amplitude |ψ_k(N-1)|² = (2/(N+1)) · sin²(kπ/(N+1)), and the Absorption Theorem gives α_k = 2γ₀ · |a_B|².
+
+**Properties:**
+- All α_k lie in [0, 2γ₀]. The palindromic partner of α_k is α_{N+1-k} = 2γ₀ - α_k (from sin²(x) + sin²(π-x) = ... no: the single-excitation sector does not in general pair palindromically within itself; the pairing is with multi-excitation sectors).
+- The spectrum is symmetric: α_k = α_{N+1-k} (from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1))).
+- Maximum rate: α = 2γ₀ only at k = (N+1)/2 for odd N+1, otherwise the maximum is below 2γ₀.
+
+**Niven rationality.** All α_k/γ₀ are rational if and only if N+1 ∈ {1, 2, 3, 4, 6}, i.e., N ∈ {0, 1, 2, 3, 5}. For all other N the values are algebraic irrationals (golden-ratio family at N=4,9; √2 family at N=7; general cyclotomic otherwise). This follows from Niven's theorem: sin²(rπ) is rational only for sin(rπ) ∈ {0, ±1/2, ±1}.
+
+**Verified values:**
+- N=3: α/γ₀ ∈ {1/2, 1, 1/2}
+- N=4: α/γ₀ ∈ {0.276393, 0.723607, 0.723607, 0.276393} (golden ratio: (5-√5)/5 and (5+√5)/10 · 2)
+- N=5: α/γ₀ ∈ {1/6, 1/2, 2/3, 1/2, 1/6}
+
+**Verified:** Formula matches eigenvector diagonalization to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present in full 4^N Liouvillian spectrum for N=3..7.
+**Scripts:** [`single_excitation_spectrum.py`](../simulations/single_excitation_spectrum.py)
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

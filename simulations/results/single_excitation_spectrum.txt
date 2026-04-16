@@ -1,0 +1,102 @@
+SINGLE-EXCITATION SPECTRUM VERIFICATION
+Formula: alpha_k/gamma_0 = (4/(N+1)) * sin^2(k*pi/(N+1))
+
+======================================================================
+PART 1: Formula vs eigenvector (N=3..30)
+======================================================================
+
+  N= 3: 3 modes, max error = 7.77e-16  [OK]
+  N= 4: 4 modes, max error = 8.88e-16  [OK]
+  N= 5: 5 modes, max error = 7.77e-16  [OK]
+  N= 6: 6 modes, max error = 7.77e-16  [OK]
+  N= 7: 7 modes, max error = 4.44e-16  [OK]
+  N= 8: 8 modes, max error = 8.88e-16  [OK]
+  N= 9: 9 modes, max error = 5.55e-16  [OK]
+  N=10: 10 modes, max error = 5.83e-16  [OK]
+  N=11: 11 modes, max error = 9.44e-16  [OK]
+  N=12: 12 modes, max error = 5.27e-16  [OK]
+  N=30: 30 modes, max error = 4.23e-16  [OK]
+
+  Formula matches eigenvector computation: YES for all N=3..30
+  Worst error across all N: 1.18e-15
+
+======================================================================
+PART 2: Single-excitation rates inside full Liouvillian (N=3..7)
+======================================================================
+
+  N=3: 2 SE rates, 7 full rates, worst match = 0.00e+00  [ALL FOUND]
+        SE rates (alpha/gamma_0): 0.500000 1.000000
+  N=4: 2 SE rates, 21 full rates, worst match = 2.02e-07  [ALL FOUND]
+        SE rates (alpha/gamma_0): 0.276393 0.723607
+  N=5: 3 SE rates, 57 full rates, worst match = 3.33e-07  [ALL FOUND]
+        SE rates (alpha/gamma_0): 0.166667 0.500000 0.666667
+  N=6: 3 SE rates, 183 full rates, worst match = 3.42e-07  [ALL FOUND]
+  N=7: 4 SE rates, 387 full rates, worst match = 3.05e-07  [ALL FOUND]
+
+======================================================================
+PART 3: Niven rationality classification
+======================================================================
+
+sin^2(k*pi/(N+1)) is rational iff (N+1) divides into {1,2,3,4,6}.
+Niven's theorem: sin(r*pi) is rational only for
+  sin = 0 (r integer), sin = +/-1/2 (r = 1/6, 5/6, ...), sin = +/-1.
+So sin^2 rational => sin^2 in {0, 1/4, 1/2, 3/4, 1}.
+
+   N  N+1  all rational?                   alpha_k/gamma_0 values
+----------------------------------------------------------------------
+   2    3            YES                                        1
+   3    4            YES                                   1/2, 1
+   4    5             no                       0.276393, 0.723607
+   5    6            YES                            1/6, 1/2, 2/3
+   6    7             no             0.107574, 0.349292, 0.543134
+   7    8             no             0.073223, 1/4, 0.426777, 1/2
+   8    9             no        0.051990, 0.183634, 1/3, 0.431043
+   9   10             no 0.038197, 0.138197, 0.261803, 0.361803, 2/5
+  10   11             no 0.028863, 0.106288, 0.207694, 0.300884, 0.356271
+  11   12             no  0.022329, 1/12, 1/6, 1/4, 0.311004, 1/3
+  12   13             no 0.017622, 0.066452, 0.135302, 0.208401, 0.269002, 0.303222
+  13   14             no 0.014147, 0.053787, 0.111068, 0.174646, 0.231927, 0.271567, ...
+  14   15             no 0.011527, 0.044116, 0.092131, 0.147270, 1/5, 0.241202, ...
+  15   16             no 0.009515, 0.036612, 0.077165, 1/8, 0.172835, 0.213388, ...
+  16   17             no 0.007944, 0.030705, 0.065207, 0.106792, 0.149843, 0.188545, ...
+  17   18             no 0.006701, 0.025995, 1/18, 0.091817, 0.130405, 1/6, ...
+  18   19             no 0.005703, 0.022196, 0.047690, 0.079423, 0.113956, 0.147547, ...
+  19   20             no 0.004894, 0.019098, 0.041221, 0.069098, 1/10, 0.130902, ...
+  20   21             no 0.004231, 0.016549, 0.035858, 0.060444, 0.088121, 0.116431, ...
+
+Fully rational N (all alpha_k/gamma_0 rational):
+  N in {2..99}: [2, 3, 5]
+  Corresponding N+1: [3, 4, 6]
+  These are exactly N+1 in {1, 2, 3, 4, 6} => N in {0, 1, 2, 3, 5}
+  (N=0,1 trivial; N=2,3,5 are the non-trivial Niven cases)
+
+======================================================================
+PART 4: Verified values for documentation
+======================================================================
+
+N=3 (N+1=4):
+  k=1: alpha/gamma_0 = (4/4)*sin^2(1*pi/4) = 1/2
+  k=2: alpha/gamma_0 = (4/4)*sin^2(2*pi/4) = 1
+  k=3: alpha/gamma_0 = (4/4)*sin^2(3*pi/4) = 1/2
+
+N=4 (N+1=5):
+  k=1: alpha/gamma_0 = (4/5)*sin^2(1*pi/5) ~ 0.276393
+  k=2: alpha/gamma_0 = (4/5)*sin^2(2*pi/5) ~ 0.723607
+  k=3: alpha/gamma_0 = (4/5)*sin^2(3*pi/5) ~ 0.723607
+  k=4: alpha/gamma_0 = (4/5)*sin^2(4*pi/5) ~ 0.276393
+
+N=5 (N+1=6):
+  k=1: alpha/gamma_0 = (4/6)*sin^2(1*pi/6) = 1/6
+  k=2: alpha/gamma_0 = (4/6)*sin^2(2*pi/6) = 1/2
+  k=3: alpha/gamma_0 = (4/6)*sin^2(3*pi/6) = 2/3
+  k=4: alpha/gamma_0 = (4/6)*sin^2(4*pi/6) = 1/2
+  k=5: alpha/gamma_0 = (4/6)*sin^2(5*pi/6) = 1/6
+
+N=6 (N+1=7):
+  k=1: alpha/gamma_0 = (4/7)*sin^2(1*pi/7) ~ 0.107574
+  k=2: alpha/gamma_0 = (4/7)*sin^2(2*pi/7) ~ 0.349292
+  k=3: alpha/gamma_0 = (4/7)*sin^2(3*pi/7) ~ 0.543134
+  k=4: alpha/gamma_0 = (4/7)*sin^2(4*pi/7) ~ 0.543134
+  k=5: alpha/gamma_0 = (4/7)*sin^2(5*pi/7) ~ 0.349292
+  k=6: alpha/gamma_0 = (4/7)*sin^2(6*pi/7) ~ 0.107574
+
