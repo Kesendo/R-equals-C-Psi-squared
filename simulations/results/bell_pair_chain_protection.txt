@@ -1,0 +1,123 @@
+BELL-PAIR PROTECTION BY DEPHASING-DECOUPLED CHAIN
+======================================================================
+Setup: R + N-chain, dephasing gamma_0 at endpoint Q_{N-1}.
+Metrics: C(R,Q_0) = concurrence between R and inner qubit,
+         N(R:C)  = negativity between R and entire chain.
+
+----------------------------------------------------------------------
+N = 3  (Hilbert dim = 16, Liouvillian dim = 256)
+----------------------------------------------------------------------
+  gamma_0 = 0.05, J = 1.0
+  formula alpha_1 = (4 gamma_0/(N+1)) sin^2(pi/(N+1)) = 0.025000
+  predicted T_2 (= 1/alpha_1) = 40.000
+  baseline: 2 gamma_0 (direct dephasing) = 0.100000
+
+  [A_inner] Bell R-Q_0 (localized inner)
+    initial trace        = 1.000000
+    initial C(R,Q_0)  = 1.0000
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    1.000000    0.500000
+       25.64    0.152150    0.205047
+       51.28    0.099278    0.101451
+      102.56    0.039069    0.027314
+      153.85    0.008784    0.007535
+      200.00    0.003370    0.002407
+    negativity tail fit: alpha_fit = 0.026153
+      ratio to alpha_1    : 1.0461  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.2615  (1.00 = fully exposed)
+
+  [B_mode] Bell R-psi_1 (delocalized k=1 mode)
+    initial trace        = 1.000000
+    initial C(R,Q_0)  = 0.5000
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    0.500000    0.500000
+       25.64    0.259595    0.263929
+       51.28    0.138528    0.139141
+      102.56    0.038469    0.038653
+      153.85    0.010656    0.010744
+      200.00    0.003404    0.003393
+    negativity tail fit: alpha_fit = 0.024972
+      ratio to alpha_1    : 0.9989  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.2497  (1.00 = fully exposed)
+
+  [C_outer] Bell R-Q_{N-1} (localized outer, no buffer)
+    initial trace        = 1.000000
+    initial C(R,Q_2)  = 1.0000
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    1.000000    0.500000
+       25.64    0.189782    0.217331
+       51.28    0.094298    0.102023
+      102.56    0.036675    0.027139
+      153.85    0.007844    0.007537
+      200.00    0.003411    0.002401
+    negativity tail fit: alpha_fit = 0.025577
+      ratio to alpha_1    : 1.0231  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.2558  (1.00 = fully exposed)
+
+----------------------------------------------------------------------
+N = 5  (Hilbert dim = 64, Liouvillian dim = 4096)
+----------------------------------------------------------------------
+  gamma_0 = 0.05, J = 1.0
+  formula alpha_1 = (4 gamma_0/(N+1)) sin^2(pi/(N+1)) = 0.008333
+  predicted T_2 (= 1/alpha_1) = 120.000
+  baseline: 2 gamma_0 (direct dephasing) = 0.100000
+
+  [A_inner] Bell R-Q_0 (localized inner)
+    initial trace        = 1.000000
+    initial C(R,Q_0)  = 1.0000
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    1.000000    0.500000
+       76.92    0.067682    0.121629
+      153.85    0.044250    0.057477
+      307.69    0.003169    0.015915
+      461.54    0.001472    0.004425
+      600.00    0.000617    0.001407
+    negativity tail fit: alpha_fit = 0.008460
+      ratio to alpha_1    : 1.0152  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.0846  (1.00 = fully exposed)
+
+  [B_mode] Bell R-psi_1 (delocalized k=1 mode)
+    initial trace        = 1.000000
+    initial C(R,Q_0)  = 0.2887
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    0.288675    0.500000
+       76.92    0.151850    0.264159
+      153.85    0.080647    0.139493
+      307.69    0.022502    0.038891
+      461.54    0.006256    0.010842
+      600.00    0.001990    0.003434
+    negativity tail fit: alpha_fit = 0.008303
+      ratio to alpha_1    : 0.9963  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.0830  (1.00 = fully exposed)
+
+  [C_outer] Bell R-Q_{N-1} (localized outer, no buffer)
+    initial trace        = 1.000000
+    initial C(R,Q_4)  = 1.0000
+    initial N(R:C)        = 0.5000
+           t     C(R,Q0)      N(R:C)
+        0.00    1.000000    0.500000
+       76.92    0.045808    0.120374
+      153.85    0.048838    0.057646
+      307.69    0.005284    0.015886
+      461.54    0.000875    0.004414
+      600.00    0.000770    0.001403
+    negativity tail fit: alpha_fit = 0.008399
+      ratio to alpha_1    : 1.0078  (1.00 = matches F65 prediction)
+      ratio to 2 gamma_0  : 0.0840  (1.00 = fully exposed)
+
+======================================================================
+EXPECTED VERDICT
+======================================================================
+  A_inner: multi-exponential decay; long-time tail at alpha_1
+           with reduced amplitude (|c_1|^2 ~ 2/(N+1) at Q_0)
+  B_mode : pure exponential at alpha_1 (k=1 is Liouvillian eigvec)
+  C_outer: fast decay near 2 gamma_0 (direct dephasing)
+
+If results match: chain acts as a dephasing-decoupled buffer;
+the k=1 bonding mode is the optimal encoding for R-chain entanglement
+and achieves T_2 ~ (N+1)^3/(2 pi^2 gamma_0) scaling.
