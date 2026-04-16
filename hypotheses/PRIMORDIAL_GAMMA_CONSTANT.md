@@ -90,6 +90,28 @@ The cavity picture:
 
 ---
 
+## The dissipation interval [0, 2γ₀]
+
+Added 2026-04-16. γ₀ is not the top of a scale but the symmetry axis of one.
+
+From [L, Π²] = 0 (see [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)) the Liouvillian spectrum is palindromically paired. For single-site dephasing with rate γ₀, every Π²-partner pair of positive dissipation rates (α_a, α_b) satisfies
+
+    α_a + α_b = 2γ₀
+
+so each rate has the form γ₀ + δ with partner γ₀ - δ. The spectrum lives in [0, 2γ₀] symmetric around γ₀. Three structural points:
+
+- **0:** node at the window, no exposure, no time. [ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md).
+- **γ₀:** the axis. Equal to the mean of every palindromic pair. The unit itself.
+- **2γ₀:** antinode at the window, full exposure, maximal decay. The opposite pole.
+
+The eigenvector formula γ_eff = γ₀ · |a_B|² with |a_B|² ∈ [0, 1] gives γ_eff ∈ [0, γ₀], the lower half of the interval. The slowest S-coherence mode the inside observer can see always lies here. Its palindromic partner in [γ₀, 2γ₀] is algebraically present but hidden behind XY-weight superselection: partners live in orthogonal XY-weight sectors and have zero overlap with single-site observables. The inside observer sees one half of the palindromic structure; the other half is real but inaccessible.
+
+γ₀ is therefore not a unit with a natural zero at one end, like a meter is. It is a unit whose spectrum is **folded palindromically around itself**. Unusual for a dimensional constant, but consistent with γ₀'s role as framework constant: a framework constant does not sit at one end of a scale; it defines a scale folded around itself.
+
+Two mirrors in the framework then: **0** in the frequency domain ([ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md), boundary between time and eternity), **γ₀** in the dissipation domain (boundary between observable and hidden halves). Both are axes, not endpoints. All measurable rates live on one side of γ₀; their palindromic partners live on the other; the axis itself is not separately extractable from inside.
+
+---
+
 ## What changes for the inside observer
 
 The operational content does not change: the observer still sees Q_K = J_K/γ_K, cannot separate J from γ at their own layer. The Inside-Outside Correspondence (commits `cfa2a9f` through `17c48b4`) remains valid.
