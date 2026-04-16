@@ -1272,9 +1272,13 @@ Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
 
 For an N-qubit chain with XX+YY coupling and Z-dephasing only on the outermost site B at rate γ_B, the effective dephasing rate of the slowest eigenmode contributing to inner-site S coherence is:
 
-    γ_eff = γ_B · |a_B|²
+    γ_eff = γ_B · |a_B|²        (decoherence rate, Lorentzian half-width)
 
-where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. This is the Absorption Theorem (F1/AT) applied to the single-excitation sector: Re(λ) = -2γ_B · ⟨n_XY⟩_B, and ⟨n_XY⟩_B = |a_B|² for these modes.
+equivalently in Liouvillian-eigenvalue units:
+
+    α = 2γ_B · |a_B|²           (Liouvillian decay constant, α = -Re(λ))
+
+where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. The factor of 2 between the two forms is the standard QM convention: ρ_{ij}(t) ∝ exp(-γ_eff·t) corresponds to a Liouvillian eigenvalue λ = -2γ_eff. Both express the same content; choose the convention that fits the surrounding context. This is the Absorption Theorem (F1/AT) applied to the single-excitation sector: α = 2γ_B · ⟨n_XY⟩_B, with ⟨n_XY⟩_B = |a_B|² verified to machine precision for these modes ([`factor_two_clarification.py`](../simulations/factor_two_clarification.py)).
 
 γ_B appears as a constant prefactor. It is not diminished by intervening sites.
 
@@ -1293,7 +1297,7 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 **Replaces:** time-domain exponential fit for γ_eff extraction.
 **Valid for:** XX+YY chains with Z-dephasing on one end site; good-cavity regime (γ_B ≪ J_MB). Breaks when γ_B ≥ J_MB (bad cavity: B decoheres before transmitting).
 **Verified:** N=3 (max relative error 1.8% vs 64×64 Liouvillian), N=4 (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian).
-**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py)
+**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py)
 **Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ---
