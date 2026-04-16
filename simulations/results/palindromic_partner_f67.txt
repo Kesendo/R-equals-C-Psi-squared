@@ -1,0 +1,201 @@
+PALINDROMIC PARTNER OF THE F67 BONDING-MODE ENCODING
+======================================================================
+
+======================================================================
+N = 3, dim(L) = 64
+======================================================================
+gamma_0 = 0.05, J = 1.0
+alpha_1 (F65) = 0.0250000000
+predicted partner = 2*gamma_0 - alpha_1 = 0.0750000000
+
+--- Part 1: Spectral pairing (H1) ---
+Closest to -alpha_1: Re = -0.0250034891, actual alpha = 0.0250034891, shift from formula = 3.49e-06
+Closest to partner: Re = -0.0749965109, actual alpha = 0.0749965109, shift from predicted = 4.16e-16
+Bonding mode at Re = -0.0250000000: multiplicity 4
+Partner mode at Re = -0.0749965109: multiplicity 4
+Bonding multiplicity: 4
+Partner multiplicity: 4
+Pairing check: alpha_b + alpha_p = 0.100000000000
+  expected 2*gamma_0 = 0.100000000000
+  error = 4.16e-16
+  H1: PASS
+
+--- Part 2: Structural analysis (H2) ---
+
+  [bonding] eigenvalue Re = -0.0250034891
+    alpha = 0.0250034891
+    <n_XY>_B = alpha / (2*gamma_0) = 0.250035
+    XY-weight distribution:
+      w=0:  49.99%
+      w=2:  50.01%
+    Top 8 Pauli strings:
+      IZZ: |c|=0.1250, w=0, n_XY(B)=0
+      ZII: |c|=0.1250, w=0, n_XY(B)=0
+      IIZ: |c|=0.1250, w=0, n_XY(B)=0
+      ZZI: |c|=0.1250, w=0, n_XY(B)=0
+      XYI: |c|=0.0884, w=2, n_XY(B)=0
+      XYZ: |c|=0.0884, w=2, n_XY(B)=0
+      YXI: |c|=0.0884, w=2, n_XY(B)=0
+      YXZ: |c|=0.0884, w=2, n_XY(B)=0
+
+  [partner] eigenvalue Re = -0.0749965109
+    alpha = 0.0749965109
+    <n_XY>_B = alpha / (2*gamma_0) = 0.749965
+    XY-weight distribution:
+      w=1:  50.01%
+      w=3:  49.99%
+    Top 8 Pauli strings:
+      XYY: |c|=0.1250, w=3, n_XY(B)=1
+      YXX: |c|=0.1250, w=3, n_XY(B)=1
+      YYX: |c|=0.1250, w=3, n_XY(B)=1
+      XXY: |c|=0.1250, w=3, n_XY(B)=1
+      IZY: |c|=0.0884, w=1, n_XY(B)=1
+      ZIY: |c|=0.0884, w=1, n_XY(B)=1
+      IZX: |c|=0.0884, w=1, n_XY(B)=1
+      ZIX: |c|=0.0884, w=1, n_XY(B)=1
+
+--- Part 3: Rank-1 check (H3) ---
+  Partner mode SVD singular values (top 5):
+    sigma_0 = 0.715874
+    sigma_1 = 0.698204
+    sigma_2 = 0.005883
+    sigma_3 = 0.000000
+    sigma_4 = 0.000000
+  sigma_1/sigma_0 = 0.975316
+  Rank-1? NO
+  Bonding mode sigma_1/sigma_0 = 0.975316 (not rank-1)
+
+
+======================================================================
+N = 4, dim(L) = 256
+======================================================================
+gamma_0 = 0.05, J = 1.0
+alpha_1 (F65) = 0.0138196601
+predicted partner = 2*gamma_0 - alpha_1 = 0.0861803399
+
+--- Part 1: Spectral pairing (H1) ---
+Closest to -alpha_1: Re = -0.0137838939, actual alpha = 0.0137838939, shift from formula = -3.58e-05
+Closest to partner: Re = -0.0862161061, actual alpha = 0.0862161061, shift from predicted = -2.36e-16
+Bonding mode at Re = -0.0138196601: multiplicity 16
+Partner mode at Re = -0.0862161061: multiplicity 16
+Bonding multiplicity: 16
+Partner multiplicity: 16
+Pairing check: alpha_b + alpha_p = 0.100000000000
+  expected 2*gamma_0 = 0.100000000000
+  error = 2.36e-16
+  H1: PASS
+
+--- Part 2: Structural analysis (H2) ---
+
+  [bonding] eigenvalue Re = -0.0137838939
+    alpha = 0.0137838939
+    <n_XY>_B = alpha / (2*gamma_0) = 0.137839
+    XY-weight distribution:
+      w=1: 100.00%
+    Top 8 Pauli strings:
+      IXII: |c|=0.0376, w=1, n_XY(B)=0
+      IXIZ: |c|=0.0376, w=1, n_XY(B)=0
+      IXZI: |c|=0.0376, w=1, n_XY(B)=0
+      IXZZ: |c|=0.0376, w=1, n_XY(B)=0
+      IYII: |c|=0.0376, w=1, n_XY(B)=0
+      IYIZ: |c|=0.0376, w=1, n_XY(B)=0
+      IYZI: |c|=0.0376, w=1, n_XY(B)=0
+      IYZZ: |c|=0.0376, w=1, n_XY(B)=0
+
+  [partner] eigenvalue Re = -0.0862161061
+    alpha = 0.0862161061
+    <n_XY>_B = alpha / (2*gamma_0) = 0.862161
+    XY-weight distribution:
+      w=3: 100.00%
+    Top 8 Pauli strings:
+      XZYY: |c|=0.0376, w=3, n_XY(B)=1
+      XIYY: |c|=0.0376, w=3, n_XY(B)=1
+      XIYX: |c|=0.0376, w=3, n_XY(B)=1
+      YZYY: |c|=0.0376, w=3, n_XY(B)=1
+      XZXY: |c|=0.0376, w=3, n_XY(B)=1
+      YIYY: |c|=0.0376, w=3, n_XY(B)=1
+      XZYX: |c|=0.0376, w=3, n_XY(B)=1
+      XIXY: |c|=0.0376, w=3, n_XY(B)=1
+
+--- Part 3: Rank-1 check (H3) ---
+  Partner mode SVD singular values (top 5):
+    sigma_0 = 1.000000
+    sigma_1 = 0.000000
+    sigma_2 = 0.000000
+    sigma_3 = 0.000000
+    sigma_4 = 0.000000
+  sigma_1/sigma_0 = 0.000000
+  Rank-1? YES
+  Bonding mode sigma_1/sigma_0 = 0.000000 (rank-1)
+
+
+======================================================================
+N = 5, dim(L) = 1024
+======================================================================
+gamma_0 = 0.05, J = 1.0
+alpha_1 (F65) = 0.0083333333
+predicted partner = 2*gamma_0 - alpha_1 = 0.0916666667
+
+--- Part 1: Spectral pairing (H1) ---
+Closest to -alpha_1: Re = -0.0083025236, actual alpha = 0.0083025236, shift from formula = -3.08e-05
+Closest to partner: Re = -0.0916974764, actual alpha = 0.0916974764, shift from predicted = 1.12e-15
+Bonding mode at Re = -0.0083333333: multiplicity 20
+Partner mode at Re = -0.0916974764: multiplicity 20
+Bonding multiplicity: 20
+Partner multiplicity: 20
+Pairing check: alpha_b + alpha_p = 0.100000000000
+  expected 2*gamma_0 = 0.100000000000
+  error = 1.12e-15
+  H1: PASS
+
+--- Part 2: Structural analysis (H2) ---
+
+  [bonding] eigenvalue Re = -0.0083025236
+    alpha = 0.0083025236
+    <n_XY>_B = alpha / (2*gamma_0) = 0.083025
+    XY-weight distribution:
+      w=1: 100.00%
+    Top 8 Pauli strings:
+      IIXZZ: |c|=0.0180, w=1, n_XY(B)=0
+      IIXII: |c|=0.0180, w=1, n_XY(B)=0
+      IZXZI: |c|=0.0180, w=1, n_XY(B)=0
+      ZIXZI: |c|=0.0180, w=1, n_XY(B)=0
+      ZZXZZ: |c|=0.0180, w=1, n_XY(B)=0
+      IZXIZ: |c|=0.0180, w=1, n_XY(B)=0
+      ZIXIZ: |c|=0.0180, w=1, n_XY(B)=0
+      ZZXII: |c|=0.0180, w=1, n_XY(B)=0
+
+  [partner] eigenvalue Re = -0.0916974764
+    alpha = 0.0916974764
+    <n_XY>_B = alpha / (2*gamma_0) = 0.916975
+    XY-weight distribution:
+      w=4: 100.00%
+    Top 8 Pauli strings:
+      YYIXX: |c|=0.0180, w=4, n_XY(B)=1
+      YYZXX: |c|=0.0180, w=4, n_XY(B)=1
+      YYIXY: |c|=0.0180, w=4, n_XY(B)=1
+      YYZXY: |c|=0.0180, w=4, n_XY(B)=1
+      YXZXX: |c|=0.0180, w=4, n_XY(B)=1
+      XYIXX: |c|=0.0180, w=4, n_XY(B)=1
+      YXIXX: |c|=0.0180, w=4, n_XY(B)=1
+      YYZYX: |c|=0.0180, w=4, n_XY(B)=1
+
+--- Part 3: Rank-1 check (H3) ---
+  Partner mode SVD singular values (top 5):
+    sigma_0 = 1.000000
+    sigma_1 = 0.000000
+    sigma_2 = 0.000000
+    sigma_3 = 0.000000
+    sigma_4 = 0.000000
+  sigma_1/sigma_0 = 0.000000
+  Rank-1? YES
+  Bonding mode sigma_1/sigma_0 = 0.000000 (rank-1)
+
+
+======================================================================
+SUMMARY
+======================================================================
+
+H1 (spectral pairing): check results above per N.
+H2 (structural): compare XY-weight distributions.
+H3 (operational): check rank-1 assessment.

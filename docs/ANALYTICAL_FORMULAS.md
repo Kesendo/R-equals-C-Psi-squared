@@ -1320,7 +1320,9 @@ This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+
 - N=4: α/γ₀ ∈ {0.276393, 0.723607, 0.723607, 0.276393} (algebraic irrationals from sin²(π/5), sin²(2π/5); golden-ratio family)
 - N=5: α/γ₀ ∈ {1/6, 1/2, 2/3, 1/2, 1/6}
 
-**Verified:** Formula matches eigenvector diagonalization to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present in full 4^N Liouvillian spectrum for N=3..7. Dynamical check: formula predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error (fit noise) for all k at N=5. Asymptotic 1/(N+1)³ scaling of α_min verified; ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
+**Verified:** Formula matches the tridiagonal N×N single-excitation eigendecomposition to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present (to within O((γ₀/J)²) perturbative corrections, see below) in the full 4^N Liouvillian spectrum for N=3..7. Dynamical check at γ₀ = 0.01, where second-order shifts are ~10⁻⁶: formula predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error for all k at N=5. Asymptotic 1/(N+1)³ scaling of α_min verified; ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
+
+**Perturbative nature.** The formula is derived by applying the Absorption Theorem (AT) to single-excitation coherence operators |ψ_k⟩⟨vac|, treating them as decoupled Liouvillian right eigenvectors. This is exact to first order in γ₀/J. At finite γ₀ the Lindblad dissipator mixes |ψ_k⟩⟨vac| with other sectors, and the full-Liouvillian eigenvalue shifts by O((γ₀/J)²) relative to the formula. For γ₀/J = 0.05 and N=5, the relative shift is ≈ 4·10⁻³ (verified via full eigendecomposition in `palindromic_partner_f67.py`). The palindromic pairing F1 survives this shift exactly: α_b + α_p = 2γ₀ to machine precision, even as each individual rate deviates from its first-order value (see F68).
 **Scripts:** [`single_excitation_spectrum.py`](../simulations/single_excitation_spectrum.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
 **Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
@@ -1363,6 +1365,30 @@ because |vac⟩⟨ψ_1| is a Liouvillian right eigenvector with eigenvalue -α_1
 **Verified:** Variant B (bonding-mode) α_fit/α_1 = 0.9989 (N=3) and 0.9963 (N=5), both within 10⁻³. Variant A (inner-localized) long-time tail α_fit/α_1 = 1.046 (N=3) and 1.015 (N=5), within 5% as expected for multi-exponential. Variant C (outer-localized) yields 1.023 (N=3) and 1.008 (N=5), differing from A only by fit noise (confirms palindromic equivalence). At fixed decay rate, bonding-mode preserves ~2.2× more entanglement than either localized variant at t = 0.4 · T_2 in the N=5 run.
 **Scripts:** [`bell_pair_chain_protection.py`](../simulations/bell_pair_chain_protection.py)
 **Source:** F65, F66, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
+
+### F68. Palindromic partner of the bonding mode (Tier 1, verified N=3, 4, 5)
+
+By F1 (palindromic spectrum), the bonding-mode eigenvalue -α_b of the full Liouvillian has a partner at -α_p with α_b + α_p = 2γ₀ exactly. Direct eigendecomposition of the 4^N-dim Liouvillian (N=3, 4, 5; γ₀ = 0.05, J = 1.0) confirms this pairing to machine precision (|α_b + α_p - 2γ₀| < 2·10⁻¹⁵), and identifies the partner's structure:
+
+**Sector.** For N ≥ 4, the partner mode lives entirely in the XY-weight-(N-1) sector, while the bonding mode lives entirely in w=1. These are Π-mirror sectors under the total XY-weight conjugation w ↔ N-w (F43). ⟨n_XY⟩_B = α_p / (2γ₀) ≈ 0.86 (N=4), 0.92 (N=5), close to but distinct from the F66 pole at ⟨n_XY⟩_B = 1.
+
+**Rank.** For N ≥ 4, the partner's right eigenvector V_p is a rank-1 operator (SVD: σ₁/σ₀ = 0 to numerical precision). The partner therefore admits a pure-state factorization V_p = |u⟩⟨v|, and can be operationally prepared as the off-diagonal coherence of an R-C Bell-pair-like state: ρ₀ has off-diagonal |0⟩⟨1|_R ⊗ |u⟩⟨v|, decaying at rate α_p = 2γ₀ - α_b.
+
+**N=3 special case.** At N=3, bonding and partner are both rank-2 and mix adjacent w-sectors (bonding: w=0 + w=2; partner: w=1 + w=3). This is a degeneracy artifact: multiplicities are 4 each, and any orthonormal basis of a 4-dim degenerate eigenspace is a valid eigenvector set. The palindromic pairing α_b + α_p = 2γ₀ nonetheless holds exactly.
+
+**Palindrom robustness.** F65 predicts α_b from first-order perturbation in γ₀/J; at finite γ₀ the full-Liouvillian eigenvalue shifts by O((γ₀/J)²). Both α_b and α_p track this shift, but in opposite directions: their sum is pinned to 2γ₀ by F1 regardless of perturbative order. This is a concrete demonstration that F1 is algebraically exact while F65 is perturbative; the palindrome is the more robust structural feature.
+
+| N | α_b (F65 formula) | α_b (full L) | α_p (full L) | α_b + α_p | error from 2γ₀ |
+|---|-------------------|--------------|--------------|-----------|----------------|
+| 3 | 0.025000 | 0.025003 | 0.074997 | 0.100000 | 4.2·10⁻¹⁶ |
+| 4 | 0.013820 | 0.013784 | 0.086216 | 0.100000 | 2.4·10⁻¹⁶ |
+| 5 | 0.008333 | 0.008303 | 0.091697 | 0.100000 | 1.1·10⁻¹⁵ |
+
+**Operational consequence.** The partner mode is a Bell-pair encoding that decays at 2γ₀ - α_b, the fastest non-pole rate. It is the "dark twin" of the F67 bonding-mode encoding: identical spatial structure under Π-mirror, opposite exposure. Where F67 gives cubic T₂ scaling (N+1)³/(4π²γ₀), the partner encoding gives T₂ → 1/(2γ₀) for large N (maximum exposure, saturating at the F66 pole in the limit).
+
+**Verified:** α_b + α_p + 2γ₀ = 0 to <2·10⁻¹⁵ for N=3, 4, 5. Rank-1 verified by SVD (σ₁/σ₀ < 10⁻¹⁵) for N=4, 5. Pauli-basis decomposition shows bonding w=1 dominance (100% for N≥4) and partner w=N-1 dominance (100% for N≥4); mixed-sector at N=3 (degeneracy artifact).
+**Scripts:** [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py)
+**Source:** F1, F43, F65, F66, F67, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ---
 
