@@ -1,0 +1,264 @@
+DOUBLE-LORENTZIAN PREDICTION TEST
+Does the Liouvillian palindrome produce observable spectral signatures?
+
+TEST 1: Single-site observable A = sigma_x(site 0)
+
+======================================================================
+N=3  J=1.0  gamma_B=0.1  Sigma_gamma=0.1
+Observable: sigma_x(0)
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 0.200000  sum=0.200000  OK
+  d= 0.049937  partner= 0.150063  sum=0.200000  OK
+  d= 0.049988  partner= 0.150012  sum=0.200000  OK
+  d= 0.050007  partner= 0.149993  sum=0.200000  OK
+  d= 0.074987  partner= 0.125013  sum=0.200000  OK
+  d= 0.099875  partner= 0.100125  sum=0.200000  OK
+  d= 0.100125  partner= 0.099875  sum=0.200000  OK
+  d= 0.125013  partner= 0.074987  sum=0.200000  OK
+  d= 0.149993  partner= 0.050007  sum=0.200000  OK
+  d= 0.150012  partner= 0.049988  sum=0.200000  OK
+  d= 0.150063  partner= 0.049937  sum=0.200000  OK
+  d= 0.200000  partner= 0.000000  sum=0.200000  OK
+
+Active decay rates:  [np.float64(0.0499), np.float64(0.1001)]
+Silent decay rates:  [np.float64(0.05), np.float64(0.075), np.float64(0.0999), np.float64(0.125), np.float64(0.15), np.float64(0.1501), np.float64(0.2)]
+
+Palindromic partner visibility:
+  d=0.0499: partner d'=0.1501 partner SILENT -> single Lorentzian
+  d=0.1001: partner d'=0.0999 partner SILENT -> single Lorentzian
+
+
+TEST 2: Observable at dephasing site A = sigma_x(site 2)
+
+======================================================================
+N=3  J=1.0  gamma_B=0.1  Sigma_gamma=0.1
+Observable: sigma_x(2)
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 0.200000  sum=0.200000  OK
+  d= 0.049937  partner= 0.150063  sum=0.200000  OK
+  d= 0.049988  partner= 0.150012  sum=0.200000  OK
+  d= 0.050007  partner= 0.149993  sum=0.200000  OK
+  d= 0.074987  partner= 0.125013  sum=0.200000  OK
+  d= 0.099875  partner= 0.100125  sum=0.200000  OK
+  d= 0.100125  partner= 0.099875  sum=0.200000  OK
+  d= 0.125013  partner= 0.074987  sum=0.200000  OK
+  d= 0.149993  partner= 0.050007  sum=0.200000  OK
+  d= 0.150012  partner= 0.049988  sum=0.200000  OK
+  d= 0.150063  partner= 0.049937  sum=0.200000  OK
+  d= 0.200000  partner= 0.000000  sum=0.200000  OK
+
+Active decay rates:  [np.float64(0.0499), np.float64(0.1001)]
+Silent decay rates:  [np.float64(0.05), np.float64(0.075), np.float64(0.0999), np.float64(0.125), np.float64(0.15), np.float64(0.1501), np.float64(0.2)]
+
+Palindromic partner visibility:
+  d=0.0499: partner d'=0.1501 partner SILENT -> single Lorentzian
+  d=0.1001: partner d'=0.0999 partner SILENT -> single Lorentzian
+
+
+TEST 3: Mixed-weight observable
+  A = sigma_x(0) + sigma_x(0)*sigma_x(1)
+  XY-weight 1 + XY-weight 2: couples to both Pi sectors
+
+======================================================================
+N=3  J=1.0  gamma_B=0.1  Sigma_gamma=0.1
+Observable: sigma_x(0) + XX(0,1)
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 0.200000  sum=0.200000  OK
+  d= 0.049937  partner= 0.150063  sum=0.200000  OK
+  d= 0.049988  partner= 0.150012  sum=0.200000  OK
+  d= 0.050007  partner= 0.149993  sum=0.200000  OK
+  d= 0.074987  partner= 0.125013  sum=0.200000  OK
+  d= 0.099875  partner= 0.100125  sum=0.200000  OK
+  d= 0.100125  partner= 0.099875  sum=0.200000  OK
+  d= 0.125013  partner= 0.074987  sum=0.200000  OK
+  d= 0.149993  partner= 0.050007  sum=0.200000  OK
+  d= 0.150012  partner= 0.049988  sum=0.200000  OK
+  d= 0.150063  partner= 0.049937  sum=0.200000  OK
+  d= 0.200000  partner= 0.000000  sum=0.200000  OK
+
+Active decay rates:  [np.float64(0.0499), np.float64(0.0999), np.float64(0.1001), np.float64(0.1501)]
+Silent decay rates:  [np.float64(0.05), np.float64(0.075), np.float64(0.125), np.float64(0.15), np.float64(0.2)]
+
+Palindromic partner visibility:
+  d=0.0499: partner d'=0.1501 BOTH ACTIVE -> double-Lorentzian possible
+  d=0.0999: partner d'=0.1001 BOTH ACTIVE -> double-Lorentzian possible
+  d=0.1001: partner d'=0.0999 BOTH ACTIVE -> double-Lorentzian possible
+  d=0.1501: partner d'=0.0499 BOTH ACTIVE -> double-Lorentzian possible
+
+
+TEST 4: gamma sweep (sigma_x(0), N=3)
+
+======================================================================
+N=3  J=1.0  gamma_B=0.01  Sigma_gamma=0.01
+Observable: sigma_x(0), gamma=0.01
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 7
+  d=-0.000000  partner= 0.020000  sum=0.020000  OK
+  d= 0.005000  partner= 0.015000  sum=0.020000  OK
+  d= 0.007500  partner= 0.012500  sum=0.020000  OK
+  d= 0.010000  partner= 0.010000  sum=0.020000  OK
+  d= 0.012500  partner= 0.007500  sum=0.020000  OK
+  d= 0.015000  partner= 0.005000  sum=0.020000  OK
+  d= 0.020000  partner= 0.000000  sum=0.020000  OK
+
+Active decay rates:  [np.float64(0.005), np.float64(0.01)]
+Silent decay rates:  [np.float64(0.0075), np.float64(0.0125), np.float64(0.015), np.float64(0.02)]
+
+Palindromic partner visibility:
+  d=0.0050: partner d'=0.0150 partner SILENT -> single Lorentzian
+  d=0.0100: partner d'=0.0100 BOTH ACTIVE -> double-Lorentzian possible
+
+======================================================================
+N=3  J=1.0  gamma_B=0.05  Sigma_gamma=0.05
+Observable: sigma_x(0), gamma=0.05
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 0.100000  sum=0.100000  OK
+  d= 0.024992  partner= 0.075008  sum=0.100000  OK
+  d= 0.024999  partner= 0.075001  sum=0.100000  OK
+  d= 0.025001  partner= 0.074999  sum=0.100000  OK
+  d= 0.037498  partner= 0.062502  sum=0.100000  OK
+  d= 0.049984  partner= 0.050016  sum=0.100000  OK
+  d= 0.050016  partner= 0.049984  sum=0.100000  OK
+  d= 0.062502  partner= 0.037498  sum=0.100000  OK
+  d= 0.074999  partner= 0.025001  sum=0.100000  OK
+  d= 0.075001  partner= 0.024999  sum=0.100000  OK
+  d= 0.075008  partner= 0.024992  sum=0.100000  OK
+  d= 0.100000  partner= 0.000000  sum=0.100000  OK
+
+Active decay rates:  [np.float64(0.025), np.float64(0.05)]
+Silent decay rates:  [np.float64(0.0375), np.float64(0.0625), np.float64(0.075), np.float64(0.1)]
+
+Palindromic partner visibility:
+  d=0.0250: partner d'=0.0750 partner SILENT -> single Lorentzian
+  d=0.0500: partner d'=0.0500 BOTH ACTIVE -> double-Lorentzian possible
+
+======================================================================
+N=3  J=1.0  gamma_B=0.1  Sigma_gamma=0.1
+Observable: sigma_x(0), gamma=0.1
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 0.200000  sum=0.200000  OK
+  d= 0.049937  partner= 0.150063  sum=0.200000  OK
+  d= 0.049988  partner= 0.150012  sum=0.200000  OK
+  d= 0.050007  partner= 0.149993  sum=0.200000  OK
+  d= 0.074987  partner= 0.125013  sum=0.200000  OK
+  d= 0.099875  partner= 0.100125  sum=0.200000  OK
+  d= 0.100125  partner= 0.099875  sum=0.200000  OK
+  d= 0.125013  partner= 0.074987  sum=0.200000  OK
+  d= 0.149993  partner= 0.050007  sum=0.200000  OK
+  d= 0.150012  partner= 0.049988  sum=0.200000  OK
+  d= 0.150063  partner= 0.049937  sum=0.200000  OK
+  d= 0.200000  partner= 0.000000  sum=0.200000  OK
+
+Active decay rates:  [np.float64(0.0499), np.float64(0.1001)]
+Silent decay rates:  [np.float64(0.05), np.float64(0.075), np.float64(0.0999), np.float64(0.125), np.float64(0.15), np.float64(0.1501), np.float64(0.2)]
+
+Palindromic partner visibility:
+  d=0.0499: partner d'=0.1501 partner SILENT -> single Lorentzian
+  d=0.1001: partner d'=0.0999 partner SILENT -> single Lorentzian
+
+======================================================================
+N=3  J=1.0  gamma_B=0.5  Sigma_gamma=0.5
+Observable: sigma_x(0), gamma=0.5
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d= 0.000000  partner= 1.000000  sum=1.000000  OK
+  d= 0.241944  partner= 0.758056  sum=1.000000  OK
+  d= 0.248667  partner= 0.751333  sum=1.000000  OK
+  d= 0.250973  partner= 0.749027  sum=1.000000  OK
+  d= 0.373360  partner= 0.626640  sum=1.000000  OK
+  d= 0.483888  partner= 0.516112  sum=1.000000  OK
+  d= 0.516112  partner= 0.483888  sum=1.000000  OK
+  d= 0.626640  partner= 0.373360  sum=1.000000  OK
+  d= 0.749027  partner= 0.250973  sum=1.000000  OK
+  d= 0.751333  partner= 0.248667  sum=1.000000  OK
+  d= 0.758056  partner= 0.241944  sum=1.000000  OK
+  d= 1.000000  partner= 0.000000  sum=1.000000  OK
+
+Active decay rates:  [np.float64(0.2419), np.float64(0.5161)]
+Silent decay rates:  [np.float64(0.2487), np.float64(0.251), np.float64(0.3734), np.float64(0.4839), np.float64(0.6266), np.float64(0.749), np.float64(0.7513), np.float64(0.7581), np.float64(1.0)]
+
+Palindromic partner visibility:
+  d=0.2419: partner d'=0.7581 partner SILENT -> single Lorentzian
+  d=0.5161: partner d'=0.4839 partner SILENT -> single Lorentzian
+
+======================================================================
+N=3  J=1.0  gamma_B=1.0  Sigma_gamma=1.0
+Observable: sigma_x(0), gamma=1.0
+======================================================================
+Palindrome: 64/64 paired
+Distinct decay rates: 12
+  d=-0.000000  partner= 2.000000  sum=2.000000  OK
+  d= 0.430160  partner= 1.569840  sum=2.000000  OK
+  d= 0.492213  partner= 1.507787  sum=2.000000  OK
+  d= 0.510301  partner= 1.489699  sum=2.000000  OK
+  d= 0.735806  partner= 1.264194  sum=2.000000  OK
+  d= 0.860319  partner= 1.139681  sum=2.000000  OK
+  d= 1.139681  partner= 0.860319  sum=2.000000  OK
+  d= 1.264194  partner= 0.735806  sum=2.000000  OK
+  d= 1.489699  partner= 0.510301  sum=2.000000  OK
+  d= 1.507787  partner= 0.492213  sum=2.000000  OK
+  d= 1.569840  partner= 0.430160  sum=2.000000  OK
+  d= 2.000000  partner= 0.000000  sum=2.000000  OK
+
+Active decay rates:  [np.float64(0.4302), np.float64(1.1397)]
+Silent decay rates:  [np.float64(0.4922), np.float64(0.5103), np.float64(0.7358), np.float64(0.8603), np.float64(1.2642), np.float64(1.4897), np.float64(1.5078), np.float64(1.5698), np.float64(2.0)]
+
+Palindromic partner visibility:
+  d=0.4302: partner d'=1.5698 partner SILENT -> single Lorentzian
+  d=1.1397: partner d'=0.8603 partner SILENT -> single Lorentzian
+
+
+
+======================================================================
+VERDICT
+======================================================================
+
+1. EIGENVALUE PALINDROME: CONFIRMED
+   All eigenvalues paired, max error ~1e-14.
+   All decay rates pair: d + d' = 2*Sigma_gamma.
+
+2. DOUBLE-LORENTZIAN IN EMISSION SPECTRUM:
+   Single-site observables:   both-active=0, half-silent=4
+   Mixed-weight observable:   both-active=4, half-silent=0
+
+   CONCLUSION: For single-site (electromagnetic) observables,
+   palindromic partners are INVISIBLE. Each emission line is
+   a single Lorentzian. The palindrome does not produce
+   double-Lorentzian line shapes in photon spectra.
+
+   MECHANISM: Pi maps XY-weight w -> N-w. Single-site
+   operators (weight 1) map to weight-(N-1) operators.
+   These sectors are orthogonal in the Pauli basis.
+   The residue of the palindromic partner vanishes.
+
+   EXCEPTION: Mixed-weight observables CAN see both partners.
+   But these are non-local (multi-site) observables, not
+   accessible via standard electromagnetic measurements.
+
+3. CONSEQUENCE FOR ASTROPHYSICAL DETECTION:
+   Photon spectra cannot reveal the palindrome.
+   The palindromic partners are invisible to all standard
+   electromagnetic observables (dipole moment, field amplitude,
+   photon number). These all have definite XY-weight.
+
+   The palindrome is a structural property of the Liouvillian
+   operator algebra, hidden behind an XY-weight superselection.
+
+4. IMPLICATION FOR gamma_0 UNIVERSALITY:
+   The gamma_0 hypothesis cannot be tested via photon spectra.
+   This is consistent with the Inside-Outside Correspondence:
+   the inside observer sees Q = J/gamma but cannot separate
+   J and gamma. The palindrome, being 'outside' structure,
+   is invisible to 'inside' (electromagnetic) measurements.
