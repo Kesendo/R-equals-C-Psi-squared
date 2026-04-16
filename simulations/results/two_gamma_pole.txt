@@ -1,0 +1,190 @@
+WHICH SECTOR PRODUCES alpha = 2*gamma_0?
+
+======================================================================
+N=3, dim(L)=64
+======================================================================
+Modes at alpha = 0: 4
+Modes at alpha = 2*gamma_0: 4
+
+Pauli decomposition of alpha = 2*gamma_0 modes:
+
+  Mode 0 (alpha/gamma_0 = 2.000000):
+         YYY  |c|=1.7321  n_XY(B)=1  w_total=3
+         XXX  |c|=1.7321  n_XY(B)=1  w_total=3
+         XYX  |c|=0.5774  n_XY(B)=1  w_total=3
+         YXY  |c|=0.5774  n_XY(B)=1  w_total=3
+         YYX  |c|=0.5774  n_XY(B)=1  w_total=3
+         XYY  |c|=0.5774  n_XY(B)=1  w_total=3
+         XXY  |c|=0.5774  n_XY(B)=1  w_total=3
+         YXX  |c|=0.5774  n_XY(B)=1  w_total=3
+
+  Mode 1 (alpha/gamma_0 = 2.000000):
+         YYY  |c|=1.7321  n_XY(B)=1  w_total=3
+         XXX  |c|=1.7320  n_XY(B)=1  w_total=3
+         XYX  |c|=0.5774  n_XY(B)=1  w_total=3
+         XXY  |c|=0.5774  n_XY(B)=1  w_total=3
+         YXX  |c|=0.5774  n_XY(B)=1  w_total=3
+         YXY  |c|=0.5773  n_XY(B)=1  w_total=3
+         YYX  |c|=0.5773  n_XY(B)=1  w_total=3
+         XYY  |c|=0.5773  n_XY(B)=1  w_total=3
+
+  Mode 2 (alpha/gamma_0 = 2.000000):
+         YYY  |c|=1.0000  n_XY(B)=1  w_total=3
+         YYX  |c|=1.0000  n_XY(B)=1  w_total=3
+         YXY  |c|=1.0000  n_XY(B)=1  w_total=3
+         YXX  |c|=1.0000  n_XY(B)=1  w_total=3
+         XYY  |c|=1.0000  n_XY(B)=1  w_total=3
+         XYX  |c|=1.0000  n_XY(B)=1  w_total=3
+         XXY  |c|=1.0000  n_XY(B)=1  w_total=3
+         XXX  |c|=1.0000  n_XY(B)=1  w_total=3
+
+  Mode 3 (alpha/gamma_0 = 2.000000):
+         YYY  |c|=1.0000  n_XY(B)=1  w_total=3
+         YYX  |c|=1.0000  n_XY(B)=1  w_total=3
+         YXY  |c|=1.0000  n_XY(B)=1  w_total=3
+         YXX  |c|=1.0000  n_XY(B)=1  w_total=3
+         XYY  |c|=1.0000  n_XY(B)=1  w_total=3
+         XYX  |c|=1.0000  n_XY(B)=1  w_total=3
+         XXY  |c|=1.0000  n_XY(B)=1  w_total=3
+         XXX  |c|=1.0000  n_XY(B)=1  w_total=3
+
+<n_XY>_B for alpha=2*gamma_0 modes (via Absorption Theorem):
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+
+XY-weight distribution of alpha=0 vs alpha=2*gamma_0 modes:
+  alpha=0: total XY-weight of dominant component: {0: 4}
+  alpha=2g0: total XY-weight of dominant component: {3: 4}
+
+======================================================================
+N=4, dim(L)=256
+======================================================================
+Modes at alpha = 0: 5
+Modes at alpha = 2*gamma_0: 5
+
+Pauli decomposition of alpha = 2*gamma_0 modes:
+
+  Mode 0 (alpha/gamma_0 = 2.000000):
+        XXXX  |c|=2.2488  n_XY(B)=1  w_total=4
+        YYYY  |c|=1.6025  n_XY(B)=1  w_total=4
+        YXXX  |c|=1.0188  n_XY(B)=1  w_total=4
+        XXXY  |c|=1.0188  n_XY(B)=1  w_total=4
+        XYYY  |c|=1.0188  n_XY(B)=1  w_total=4
+        YYYX  |c|=1.0188  n_XY(B)=1  w_total=4
+        YXYY  |c|=1.0188  n_XY(B)=1  w_total=4
+        YYXY  |c|=1.0188  n_XY(B)=1  w_total=4
+
+  Mode 1 (alpha/gamma_0 = 2.000000):
+        XXXX  |c|=2.7721  n_XY(B)=1  w_total=4
+        YYYY  |c|=1.7205  n_XY(B)=1  w_total=4
+        XYYX  |c|=0.7461  n_XY(B)=1  w_total=4
+        YYXX  |c|=0.7461  n_XY(B)=1  w_total=4
+        XXYY  |c|=0.7461  n_XY(B)=1  w_total=4
+        YXYX  |c|=0.7461  n_XY(B)=1  w_total=4
+        XYXY  |c|=0.7461  n_XY(B)=1  w_total=4
+        YXXY  |c|=0.7461  n_XY(B)=1  w_total=4
+
+  Mode 2 (alpha/gamma_0 = 2.000000):
+        YYYY  |c|=2.0084  n_XY(B)=1  w_total=4
+        XXXX  |c|=2.0006  n_XY(B)=1  w_total=4
+        XXXY  |c|=0.9749  n_XY(B)=1  w_total=4
+        YXXX  |c|=0.9749  n_XY(B)=1  w_total=4
+        YYXY  |c|=0.9749  n_XY(B)=1  w_total=4
+        YXYY  |c|=0.9749  n_XY(B)=1  w_total=4
+        YYYX  |c|=0.9749  n_XY(B)=1  w_total=4
+        XYYY  |c|=0.9749  n_XY(B)=1  w_total=4
+
+  Mode 3 (alpha/gamma_0 = 2.000000):
+        YYYY  |c|=1.0000  n_XY(B)=1  w_total=4
+        YYYX  |c|=1.0000  n_XY(B)=1  w_total=4
+        YYXY  |c|=1.0000  n_XY(B)=1  w_total=4
+        YYXX  |c|=1.0000  n_XY(B)=1  w_total=4
+        YXYY  |c|=1.0000  n_XY(B)=1  w_total=4
+        YXYX  |c|=1.0000  n_XY(B)=1  w_total=4
+        YXXY  |c|=1.0000  n_XY(B)=1  w_total=4
+        YXXX  |c|=1.0000  n_XY(B)=1  w_total=4
+
+<n_XY>_B for alpha=2*gamma_0 modes (via Absorption Theorem):
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+
+XY-weight distribution of alpha=0 vs alpha=2*gamma_0 modes:
+  alpha=0: total XY-weight of dominant component: {0: 5}
+  alpha=2g0: total XY-weight of dominant component: {4: 5}
+
+======================================================================
+N=5, dim(L)=1024
+======================================================================
+Modes at alpha = 0: 6
+Modes at alpha = 2*gamma_0: 6
+
+Pauli decomposition of alpha = 2*gamma_0 modes:
+
+  Mode 0 (alpha/gamma_0 = 2.000000):
+       YYYYY  |c|=2.3391  n_XY(B)=1  w_total=5
+       XXXXX  |c|=2.1269  n_XY(B)=1  w_total=5
+       YYXYY  |c|=1.3621  n_XY(B)=1  w_total=5
+       YXYYY  |c|=1.3621  n_XY(B)=1  w_total=5
+       YYYXY  |c|=1.3621  n_XY(B)=1  w_total=5
+       YYYYX  |c|=1.3621  n_XY(B)=1  w_total=5
+       XYYYY  |c|=1.3621  n_XY(B)=1  w_total=5
+       XXYXX  |c|=1.3195  n_XY(B)=1  w_total=5
+
+  Mode 1 (alpha/gamma_0 = 2.000000):
+       XXXXX  |c|=3.4153  n_XY(B)=1  w_total=5
+       YYYYY  |c|=2.8928  n_XY(B)=1  w_total=5
+       XYXYX  |c|=0.6542  n_XY(B)=1  w_total=5
+       XXYXY  |c|=0.6542  n_XY(B)=1  w_total=5
+       YXYXX  |c|=0.6542  n_XY(B)=1  w_total=5
+       YYXXX  |c|=0.6542  n_XY(B)=1  w_total=5
+       XXXYY  |c|=0.6542  n_XY(B)=1  w_total=5
+       YXXXY  |c|=0.6542  n_XY(B)=1  w_total=5
+
+  Mode 2 (alpha/gamma_0 = 2.000000):
+       YYYYY  |c|=3.1985  n_XY(B)=1  w_total=5
+       XXXXX  |c|=3.1082  n_XY(B)=1  w_total=5
+       YXXXX  |c|=0.6467  n_XY(B)=1  w_total=5
+       XXXXY  |c|=0.6467  n_XY(B)=1  w_total=5
+       XXXYX  |c|=0.6467  n_XY(B)=1  w_total=5
+       XYXXX  |c|=0.6467  n_XY(B)=1  w_total=5
+       XXYXX  |c|=0.6467  n_XY(B)=1  w_total=5
+       YXYXY  |c|=0.6425  n_XY(B)=1  w_total=5
+
+  Mode 3 (alpha/gamma_0 = 2.000000):
+       YYYYY  |c|=2.2496  n_XY(B)=1  w_total=5
+       XXXXX  |c|=2.2280  n_XY(B)=1  w_total=5
+       XYYYY  |c|=1.3432  n_XY(B)=1  w_total=5
+       YYYYX  |c|=1.3432  n_XY(B)=1  w_total=5
+       YXYYY  |c|=1.3432  n_XY(B)=1  w_total=5
+       YYYXY  |c|=1.3432  n_XY(B)=1  w_total=5
+       YYXYY  |c|=1.3432  n_XY(B)=1  w_total=5
+       YXXXX  |c|=1.3385  n_XY(B)=1  w_total=5
+
+<n_XY>_B for alpha=2*gamma_0 modes (via Absorption Theorem):
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+  mode: alpha/gamma_0 = 2.000000, <n_XY>_B = 1.000000
+
+======================================================================
+N=6, dim(L)=4096
+======================================================================
+Modes at alpha = 0: 7
+Modes at alpha = 2*gamma_0: 7
+
+
+======================================================================
+MULTIPLICITY PATTERN
+======================================================================
+   N     at 0   at 2g0     pattern?
+   3        4        4 4=4? yes
+   4        5        5 5=5? yes
+   5        6        6 6=6? yes
+   6        7        7 7=7? yes

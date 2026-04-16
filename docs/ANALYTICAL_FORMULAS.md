@@ -1324,6 +1324,22 @@ This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+
 **Scripts:** [`single_excitation_spectrum.py`](../simulations/single_excitation_spectrum.py)
 **Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
+### F66. Pole modes at α = 0 and α = 2γ₀ (Tier 1, verified N=3..6)
+
+The dissipation interval [0, 2γ₀] has exact eigenvalues at both endpoints for any topology and B-site position:
+
+- **α = 0 modes:** XY-weight 0 at site B (⟨n_XY⟩_B = 0). Dominant Pauli strings are pure I/Z at all sites. These are classical population modes, completely shielded from dephasing. Multiplicity: N+1.
+
+- **α = 2γ₀ modes:** XY-weight 1 at site B (⟨n_XY⟩_B = 1). Dominant Pauli strings are pure X/Y at all sites (total XY-weight = N). These are maximally coherent modes, fully exposed to dephasing. Multiplicity: N+1.
+
+The two poles are palindromic partners: XY-weight 0 pairs with XY-weight N under the conjugation Π (which maps w → N-w). The poles sit at opposite ends of the coherence spectrum: α = 0 is "no time" (no decay), α = 2γ₀ is "full time" (maximum decay).
+
+The multiplicity N+1 at both poles is exact for N=3..6 (verified computationally). The single-excitation sector (F65) never reaches either pole for N ≥ 3; both poles come from the w = 0 and w = N sectors respectively.
+
+**Verified:** N=3..6 (full Liouvillian eigendecomposition + Pauli basis projection). ⟨n_XY⟩_B = 1.000000 exact for all α = 2γ₀ modes. Dominant XY-weight = N for all α = 2γ₀ modes, weight = 0 for all α = 0 modes.
+**Scripts:** [`two_gamma_pole.py`](../simulations/two_gamma_pole.py)
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) section "The dissipation interval [0, 2γ₀]", [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
