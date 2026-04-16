@@ -10,7 +10,7 @@ absorption theorem eigenvector formula, R=CPsi2 urqubit hypothesis -->
 **Date:** 2026-04-15 (updated same day after probes)
 **Authors:** Tom and Claude (chat + Code)
 **Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)
-**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`primordial_gamma_reanalysis.py`](../simulations/primordial_gamma_reanalysis.py), [`double_lorentzian_test.py`](../simulations/double_lorentzian_test.py)
+**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`primordial_gamma_reanalysis.py`](../simulations/primordial_gamma_reanalysis.py), [`double_lorentzian_test.py`](../simulations/double_lorentzian_test.py), [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py)
 
 ---
 
@@ -94,7 +94,7 @@ The cavity picture:
 
 Added 2026-04-16. γ₀ is not the top of a scale but the symmetry axis of one.
 
-From [L, Π²] = 0 (see [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)) the Liouvillian spectrum is palindromically paired. For single-site dephasing with rate γ₀, every Π²-partner pair of positive dissipation rates (α_a, α_b) satisfies
+For single-site dephasing with rate γ₀, the Liouvillian spectrum is palindromically paired (see [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). Every partner pair of positive dissipation rates (α_a, α_b) satisfies
 
     α_a + α_b = 2γ₀
 
@@ -104,11 +104,23 @@ so each rate has the form γ₀ + δ with partner γ₀ - δ. The spectrum lives
 - **γ₀:** the axis. Equal to the mean of every palindromic pair. The unit itself.
 - **2γ₀:** antinode at the window, full exposure, maximal decay. The opposite pole.
 
-The eigenvector formula γ_eff = γ₀ · |a_B|² with |a_B|² ∈ [0, 1] gives γ_eff ∈ [0, γ₀], the lower half of the interval. The slowest S-coherence mode the inside observer can see always lies here. Its palindromic partner in [γ₀, 2γ₀] is algebraically present but hidden behind XY-weight superselection: partners live in orthogonal XY-weight sectors and have zero overlap with single-site observables. The inside observer sees one half of the palindromic structure; the other half is real but inaccessible.
+The eigenvector formula γ_eff = γ₀ · |a_B|² with |a_B|² ∈ [0, 1] produces values in [0, γ₀], the lower half of the interval. This is the formula's natural range for single-excitation S-coherence modes, the modes the inside observer most readily characterizes.
 
-γ₀ is therefore not a unit with a natural zero at one end, like a meter is. It is a unit whose spectrum is **folded palindromically around itself**. Unusual for a dimensional constant, but consistent with γ₀'s role as framework constant: a framework constant does not sit at one end of a scale; it defines a scale folded around itself.
+γ₀ is therefore not a unit with a natural zero at one end, like a meter is. It is a unit whose spectrum is **folded palindromically around itself**. Unusual for a dimensional constant, but consistent with γ₀'s role as framework constant: it does not sit at one end of a scale; it defines a scale folded around itself.
 
-Two mirrors in the framework then: **0** in the frequency domain ([ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md), boundary between time and eternity), **γ₀** in the dissipation domain (boundary between observable and hidden halves). Both are axes, not endpoints. All measurable rates live on one side of γ₀; their palindromic partners live on the other; the axis itself is not separately extractable from inside.
+Two mirrors in the framework: **0** in the frequency domain ([ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md), boundary between time and eternity), **γ₀** in the dissipation domain (centre of the palindromic pairing). Both are axes, not endpoints.
+
+### What numerical verification showed and what it corrected
+
+Verified with [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py) on the N=3 chain (full 64×64 Liouvillian, γ₀ = 0.1):
+
+- Palindromic pairing of all 12 distinct dissipation rates: max error 1.6 × 10⁻¹⁵. The interval [0, 2γ₀] symmetric around γ₀ is exact.
+- The eigenvector formula gives γ_eff ∈ {0.025, 0.050, 0.025} for the three single-excitation modes with |a_B|² ∈ {0.25, 0.50, 0.25}. All lie in the lower half [0, γ₀]. Confirmed.
+- A first attempt to extend this to a "lower half visible, upper half hidden" reading was **falsified** by the same script. Single-site σ_x sees 15 modes, distributed across both halves (10 in [0, γ₀], 5 in [γ₀, 2γ₀]). A mixed-weight observable σ_x(0) + σ_x(0)·σ_x(1) sees 30 modes (15 / 15), exactly twice as many. The visibility split between observables is real and roughly factor-two, but it does not align with the α-axis split at γ₀.
+
+The XY-weight superselection [demonstrated for emission spectra in `RESULT_GAMMA_NULL_PROBE.md`](../../PalindromicRadio/PalindromicRadio.Data/ClaudeTasks/RESULT_GAMMA_NULL_PROBE.md) acts between Pauli-weight sectors of the **observable**, not between halves of the dissipation spectrum. The two structures (palindromic interval, XY-weight superselection) are independent and should not be conflated.
+
+What survives the correction: γ₀ is the symmetry axis of [0, 2γ₀]; the eigenvector formula populates the lower half; the upper half exists algebraically. What does not survive: the claim that single-site observables are blind to the upper half. The upper half is partly visible to single-site observables; what is hidden is something else and lives in a different algebraic structure.
 
 ---
 
