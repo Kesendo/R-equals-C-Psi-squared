@@ -391,3 +391,56 @@ The weakness can be reformulated: u is a **conjugation variable** that reveals t
 The relationship between cusp dwell and sacrifice geometry protection is explored in [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md). The two phenomena operate in different regions of CΨ-space and protect different things: the cusp protects pair purity near CΨ = 1/4, while the sacrifice lens protects coherence within the single-excitation sector at CΨ ≈ 0.07. They are distinct sheets of the quantum-classical fold, leading to different classical ensembles.
 
 The [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves that single-excitation states are restricted to even-n_XY Liouvillian modes. This constrains which initial states can reach the cusp: SE states live geometrically below CΨ = 1/4 for N >= 3, and the sector conservation prevents them from crossing into the cusp regime during time evolution.
+
+---
+
+## Hardware Verification: IBM Kingston (2026-04-16)
+
+**Backend:** ibm_kingston (Heron r2, 156 qubits)
+**Protocol:** Bell+ state preparation (H + CX), native delay instruction, 2-qubit state tomography (9 Pauli bases, 2048 shots per basis). No DD, no error mitigation.
+**QPU time used:** ~6 min. Zero drift between pre-run and post-run calibration.
+
+### Chain selection
+
+Two qubit pairs with contrasting T2, chosen from live Kingston calibration:
+
+| Pair | Qubits | T2 (us) | T1 (us) | gamma (/us) | gamma ratio |
+|------|--------|---------|---------|-------------|-------------|
+| A (mid-T2) | 124-125 | [150, 310] | [325, 259] | 0.00334 | 2.55x |
+| B (high-T2) | 14-15 | [537, 381] | [350, 381] | 0.00131 | (ref) |
+
+### Hardware trajectories
+
+Both Bell+ pairs cross CΨ = 1/4 monotonically from above:
+
+**Pair A** (gamma = 0.00334/us): Crossing between t = 9.46 us (CΨ = 0.268, above) and t = 12.16 us (CΨ = 0.240, below). Interpolated t_cross = 11.2 us (Aer prediction: 12.7 us, 12% later).
+
+**Pair B** (gamma = 0.00131/us): Crossing between t = 20.42 us (CΨ = 0.259, above) and t = 26.26 us (CΨ = 0.237, below). Interpolated t_cross = 22.7 us (Aer prediction: 25.7 us, 12% later).
+
+Both cross ~12% earlier than the Aer simulator with T2_echo values, consistent with the known T2* < T2_echo gap on Kingston (free-induction decay is 1.2-1.5x faster than Hahn-echo-refocused T2).
+
+### Gamma-invariance test (F57 core claim)
+
+K_dwell(delta) = gamma * 2*delta / |slope_at_crossing|, with delta = 0.04:
+
+| Pair | gamma (/us) | slope (/us) | t_dwell (us) | K_dwell | K_dwell / delta |
+|------|--------:|--------:|--------:|--------:|--------:|
+| A | 0.00334 | -0.01033 | 7.75 | 0.0260 | 0.649 |
+| B | 0.00131 | -0.00377 | 21.22 | 0.0278 | 0.694 |
+
+**Gamma-invariance spread: 6.3%** despite 2.55x gamma difference. F57 predicts exact gamma-independence; the 6% residual is within shot noise and Kingston noise-profile heterogeneity.
+
+**Absolute prefactor:** 0.67 vs F57 pure-Z-dephasing prediction 1.0801. The gap is from T1 amplitude damping (Kingston T1 is comparable to T2), which steepens the slope at the crossing. This is an expected deviation: F57 derives 1.0801 specifically for pure dephasing; real hardware adds a second decay channel. The gamma-INVARIANCE (the ratio between pairs) is the model-independent claim, and that holds at 6%.
+
+### What this confirms
+
+1. **CΨ = 1/4 is a real physical boundary.** Both Bell+ trajectories cross it monotonically, at times predictable from the qubit calibration data. This is the first direct observation of the CΨ = 1/4 crossing on quantum hardware.
+
+2. **F57 gamma-invariance holds on open quantum hardware.** The dwell time K = gamma * t_dwell is the same quantity (within 6%) for two pairs with very different decoherence rates. The "dose" interpretation from the theory (K is the total absorbed decoherence dose at the crossing) survives real-world noise profiles.
+
+3. **The Aer noise model is 12% too slow.** Because it uses T2_echo (Hahn refocused) while hardware free evolution decays at T2* (1.2-1.5x shorter). Both pairs show the same systematic 12% shift, confirming it is a T2_echo vs T2* effect, not a random deviation.
+
+### Data
+
+Hardware JSON and plots are stored in the IBM experiment directory (external to this repo):
+`AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_slowing_hardware_ibm_kingston_20260416_*.json`

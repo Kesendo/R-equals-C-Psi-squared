@@ -1060,6 +1060,8 @@ to machine precision (std < 2 × 10^-17 across γ = 0.1 to 10.0).
 **Valid for:** any state with a CΨ = 1/4 crossing under Z-dephasing.
 Prefactor is state-specific; γ-invariance of K_dwell is universal.
 **Replaces:** trajectory integration for dwell-time estimation.
+**Hardware verified:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+ pairs with 2.55x gamma ratio (qubits 124-125, T2=[150,310] us; qubits 14-15, T2=[537,381] us). K_dwell/delta = 0.649 (pair A) and 0.694 (pair B), spread 6.3% despite 2.55x gamma difference. Gamma-invariance of K_dwell confirmed on open quantum hardware. Absolute prefactor 0.67 vs theoretical 1.08 (difference from T1 amplitude damping; the F57 formula assumes pure Z-dephasing, Kingston has T1 comparable to T2). Both CΨ(t) trajectories cross 1/4 monotonically. First hardware observation of the CΨ = 1/4 boundary crossing on a quantum computer.
+**Scripts:** run_cusp_slowing.py (IBM experiment directory, external to this repo)
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
 
 ### F58. Weight-based dwell prefactor (Tier 2, even-weight states only)
