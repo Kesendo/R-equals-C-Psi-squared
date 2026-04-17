@@ -1312,7 +1312,7 @@ For the uniform open XX chain (all couplings J, N sites) with Z-dephasing at rat
 This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+1)) · sin(πk(i+1)/(N+1)) of the N×N tridiagonal single-excitation Hamiltonian. The endpoint amplitude |ψ_k(N-1)|² = (2/(N+1)) · sin²(kπ/(N+1)), and the Absorption Theorem gives α_k = 2γ₀ · |a_B|².
 
 **Properties:**
-- All α_k lie in [0, 2γ₀].
+- All α_k lie in \[0, 2γ₀\].
 - Internal symmetry: α_k = α_{N+1-k}, from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1)). This mirror is within the single-excitation spectrum; the palindromic pairing α_a + α_b = 2γ₀ of F1 in general maps single-excitation modes to multi-excitation sectors.
 - Maximum rate: α_max / γ₀ = 4/(N+1) when N is odd (then k = (N+1)/2 is integer and sin² = 1 is attained exactly); when N is even the maximum lies strictly below 4/(N+1). The single-excitation sector never reaches 2γ₀ for N ≥ 2; its maximum decays as 4/(N+1) → 0 for growing N.
 
@@ -1331,7 +1331,7 @@ This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+
 
 ### F66. Pole modes at α = 0 and α = 2γ₀ (Tier 1, verified XY chain with B at endpoint, N=3..7)
 
-For the uniform open XY chain with single-site Z-dephasing at the endpoint site B = N-1, the dissipation interval [0, 2γ₀] has exact eigenvalues at both endpoints:
+For the uniform open XY chain with single-site Z-dephasing at the endpoint site B = N-1, the dissipation interval \[0, 2γ₀\] has exact eigenvalues at both endpoints:
 
 - **α = 0 modes:** ⟨n_XY⟩_B = 0 (forced by the Absorption Theorem α = 2γ₀·⟨n_XY⟩_B). Dominant Pauli strings have I or Z at every site (total XY-weight = 0). Z-basis population content, completely shielded from Z-dephasing at B.
 
@@ -1345,7 +1345,7 @@ The two poles are palindromic partners under the conjugation Π, which maps tota
 
 **Verified:** ⟨n_XY⟩_B = 1.000000 exact for all α = 2γ₀ modes (N=3..5, from Pauli basis projection). Dominant Pauli strings have total XY-weight N for α = 2γ₀ modes and total XY-weight 0 for α = 0 modes (N=3, N=4 explicit). Multiplicity N+1 at each pole verified for N=3..7. Dynamical check of F63 conservation: all N+1 elementary symmetric polynomials e_d(Z_1,...,Z_N) drift by < 10⁻¹⁴ under Lindblad evolution for N=4 over 80 time units, while the non-symmetric control Z_0 Z_2 drifts by 3 × 10⁻². Confirms the conserved observables at the α = 0 pole are precisely the e_d, not arbitrary Z-products.
 **Scripts:** [`two_gamma_pole.py`](../simulations/two_gamma_pole.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
-**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) section "The dissipation interval [0, 2γ₀]", [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) section "The dissipation interval \[0, 2γ₀\]", [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ### F67. Bonding-mode encoding is the optimal dephasing-protected Bell pair (Tier 1, verified N=3, N=5)
 

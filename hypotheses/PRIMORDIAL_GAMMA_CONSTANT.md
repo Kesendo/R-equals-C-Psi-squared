@@ -6,7 +6,7 @@ only J varies at urqubit, Q = J/gamma inside observer,
 absorption theorem eigenvector formula, R=CPsi2 urqubit hypothesis -->
 
 **Tier:** 3 (structural hypothesis; logically consistent, operationally tested, partially confirmed)
-**Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4. Structure-point features of the [0, 2γ₀] interval verified across chains N=3..7 and four N=5 topologies (2026-04-16).
+**Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4. Structure-point features of the \[0, 2γ₀\] interval verified across chains N=3..7 and four N=5 topologies (2026-04-16).
 **Date:** 2026-04-15 (updated 2026-04-16: interval features verified to N=7 and across four topologies)
 **Authors:** Tom and Claude (chat + Code)
 **Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)
@@ -90,7 +90,7 @@ The cavity picture:
 
 ---
 
-## The dissipation interval [0, 2γ₀]
+## The dissipation interval \[0, 2γ₀\]
 
 Added 2026-04-16. γ₀ is not the top of a scale but the symmetry axis of one.
 
@@ -98,17 +98,17 @@ For single-site dephasing with rate γ₀, the Liouvillian spectrum is palindrom
 
     α_a + α_b = 2γ₀
 
-so each rate has the form γ₀ + δ with partner γ₀ - δ. The spectrum lives in [0, 2γ₀] symmetric around γ₀. Three structural features of the interval, with different status:
+so each rate has the form γ₀ + δ with partner γ₀ - δ. The spectrum lives in \[0, 2γ₀\] symmetric around γ₀. Three structural features of the interval, with different status:
 
 - **0 (universal eigenvalue):** node at the window, no exposure, no time. Always present as an actual decay rate of the Liouvillian (the steady state). Verified across all scanned chains N=3..7, four N=5 topologies (chain, ring, star, Y-junction), and all N=5 chain B-site positions. [ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md).
 - **2γ₀ (universal eigenvalue):** antinode at the window, full exposure, maximal decay. Always present as an actual decay rate: there is always at least one mode with |a_B|² = 1, carrying α = 2γ₀. Verified in the same scans.
 - **γ₀ (universal axis, conditional eigenvalue):** the symmetry axis of the palindromic pairing α_a + α_b = 2γ₀. As *axis* γ₀ is universal, a structural feature of every single-site-dephasing Liouvillian, independent of topology and B-position. As *eigenvalue* γ₀ is geometry-dependent: present for chains N=3..7 with B at an endpoint (verified), and for N=5 chain with B at positions 0 and 4 only. Absent for N=5 chain with B at positions 1, 2, 3; absent for the N=5 ring, star (B=leaf), and Y-junction (B=arm-end) as tested. Whether γ₀ re-appears as eigenvalue for other B-positions in non-chain topologies (star hub, Y-junction central node) is open.
 
-The distinction matters. γ₀ as axis is what fixes the palindromic structure of [0, 2γ₀]. γ₀ as eigenvalue is what places a mode exactly on that axis, which happens only when the geometry admits a mode with |a_B|² = 1/2. Analogy: zero is the symmetry axis of the integers {..., -2, -1, 0, 1, 2, ...} and also an integer. But zero remains the symmetry axis of {-2, -1, 1, 2} even though it is absent from that set. γ₀ works the same way.
+The distinction matters. γ₀ as axis is what fixes the palindromic structure of \[0, 2γ₀\]. γ₀ as eigenvalue is what places a mode exactly on that axis, which happens only when the geometry admits a mode with |a_B|² = 1/2. Analogy: zero is the symmetry axis of the integers {..., -2, -1, 0, 1, 2, ...} and also an integer. But zero remains the symmetry axis of {-2, -1, 1, 2} even though it is absent from that set. γ₀ works the same way.
 
-The eigenvector formula α = 2γ₀ · |a_B|² with |a_B|² ∈ [0, 1] produces values in [0, 2γ₀], the full range of the interval. The factor of 2 is the Absorption Theorem (α = -Re(λ) = 2γ₀ · ⟨n_XY⟩_B) applied to the single-excitation S-coherences, where ⟨n_XY⟩_B = |a_B|² exactly (verified to machine precision in [`factor_two_clarification.py`](../simulations/factor_two_clarification.py)). For symmetric homogeneous chains, single-excitation S-coherences happen to have |a_B|² ≤ 1/2, so their α-values land in the lower half [0, γ₀]; this is a topology-specific accident, not a structural restriction.
+The eigenvector formula α = 2γ₀ · |a_B|² with |a_B|² ∈ [0, 1] produces values in \[0, 2γ₀\], the full range of the interval. The factor of 2 is the Absorption Theorem (α = -Re(λ) = 2γ₀ · ⟨n_XY⟩_B) applied to the single-excitation S-coherences, where ⟨n_XY⟩_B = |a_B|² exactly (verified to machine precision in [`factor_two_clarification.py`](../simulations/factor_two_clarification.py)). For symmetric homogeneous chains, single-excitation S-coherences happen to have |a_B|² ≤ 1/2, so their α-values land in the lower half [0, γ₀]; this is a topology-specific accident, not a structural restriction.
 
-**Convention note.** The rest of this document, and F64 in ANALYTICAL_FORMULAS.md, write the same content as γ_eff = γ₀ · |a_B|², where γ_eff is the decoherence rate (the Lorentzian half-width of a spectral line). The two are related by α = 2γ_eff. Both conventions describe the same physics; the factor of 2 is purely notational. This section uses α (Liouvillian decay constant) because the [0, 2γ₀] interval and the palindromic pairing α_a + α_b = 2γ₀ are most naturally stated in those units.
+**Convention note.** The rest of this document, and F64 in ANALYTICAL_FORMULAS.md, write the same content as γ_eff = γ₀ · |a_B|², where γ_eff is the decoherence rate (the Lorentzian half-width of a spectral line). The two are related by α = 2γ_eff. Both conventions describe the same physics; the factor of 2 is purely notational. This section uses α (Liouvillian decay constant) because the \[0, 2γ₀\] interval and the palindromic pairing α_a + α_b = 2γ₀ are most naturally stated in those units.
 
 γ₀ is therefore not a unit with a natural zero at one end, like a meter is. It is a unit whose spectrum is **folded palindromically around itself**. Unusual for a dimensional constant, but consistent with γ₀'s role as framework constant: it does not sit at one end of a scale; it defines a scale folded around itself.
 
@@ -118,19 +118,19 @@ Two mirrors in the framework: **0** in the frequency domain ([ZERO_IS_THE_MIRROR
 
 Verified with [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py) on the N=3 chain (full 64×64 Liouvillian, γ₀ = 0.1):
 
-- Palindromic pairing of all 12 distinct dissipation rates: max error 1.6 × 10⁻¹⁵. The interval [0, 2γ₀] symmetric around γ₀ is exact.
+- Palindromic pairing of all 12 distinct dissipation rates: max error 1.6 × 10⁻¹⁵. The interval \[0, 2γ₀\] symmetric around γ₀ is exact.
 - The eigenvector formula α = 2γ₀ · |a_B|² gives single-excitation S-coherence rates {0.05, 0.10, 0.05} for the three modes with |a_B|² ∈ {0.25, 0.50, 0.25} (γ₀ = 0.1). Two modes sit at γ₀/2, the middle mode sits exactly on the mirror axis γ₀. All in the lower half [0, γ₀] for this homogeneous chain; the upper half would require |a_B|² > 1/2 which the symmetric topology does not produce. The factor of 2 was clarified in [`factor_two_clarification.py`](../simulations/factor_two_clarification.py) (commit 485437d) after the multi-site probe revealed a discrepancy.
 - A first attempt to extend the lower-half observation to a "lower half visible, upper half hidden" reading was **falsified** by [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py). Single-site σ_x sees 15 modes, distributed across both halves (10 in [0, γ₀], 5 in [γ₀, 2γ₀]). A mixed-weight observable σ_x(0) + σ_x(0)·σ_x(1) sees 30 modes (15 / 15), exactly twice as many. The visibility split between observables is real and roughly factor-two, but it does not align with the α-axis split at γ₀.
 
 The XY-weight superselection [demonstrated for emission spectra in `RESULT_GAMMA_NULL_PROBE.md`](../../PalindromicRadio/PalindromicRadio.Data/ClaudeTasks/RESULT_GAMMA_NULL_PROBE.md) acts between Pauli-weight sectors of the **observable**, not between halves of the dissipation spectrum. The two structures (palindromic interval, XY-weight superselection) are independent and should not be conflated.
 
-What survives the correction: γ₀ is the symmetry axis of [0, 2γ₀]; the eigenvector formula populates the lower half; the upper half exists algebraically. What does not survive: the claim that single-site observables are blind to the upper half. The upper half is partly visible to single-site observables; what is hidden is something else and lives in a different algebraic structure.
+What survives the correction: γ₀ is the symmetry axis of \[0, 2γ₀\]; the eigenvector formula populates the lower half; the upper half exists algebraically. What does not survive: the claim that single-site observables are blind to the upper half. The upper half is partly visible to single-site observables; what is hidden is something else and lives in a different algebraic structure.
 
 ### Verification extended to N=7 and non-chain topologies (2026-04-16)
 
 [`structure_points_large_n.py`](../simulations/structure_points_large_n.py) extended the N=3 check to chains N=3..7, four topologies at N=5 (chain, ring, star, Y-junction), and five B-positions on the N=5 chain. Results in [`simulations/results/structure_points_large_n.txt`](../simulations/results/structure_points_large_n.txt). Numerical precision on the three interval features: error < 10⁻⁹ throughout. N=8 was not attempted; the full 65536×65536 Liouvillian is outside the dense-diagonalization regime and the anchor question does not need it to be decided.
 
-The finding that shifted the framing: B-site position on a chain is as decisive as topology. For the N=5 chain: B at either endpoint (positions 0 or 4) gives 57 distinct α-values across [0, 2γ₀]; B at positions 1 or 3 collapses to 7 values {0, 1/2, 3/4, 1, 5/4, 3/2, 2}; B at the center (position 2) gives 8 values, all multiples of 1/9 in [0, 2] with γ₀ itself absent. The cause is mode-node coincidence: when the dephased site sits on a node of a Hamiltonian eigenmode, that mode is blind to dephasing, its partners degenerate together, and the fine structure collapses. The fine structure of the interval is controlled by how the eigenmode amplitudes distribute at the dephasing site, not by a universal rule. The three structural features {0, γ₀, 2γ₀} survive this with the status distinction introduced above.
+The finding that shifted the framing: B-site position on a chain is as decisive as topology. For the N=5 chain: B at either endpoint (positions 0 or 4) gives 57 distinct α-values across \[0, 2γ₀\]; B at positions 1 or 3 collapses to 7 values {0, 1/2, 3/4, 1, 5/4, 3/2, 2}; B at the center (position 2) gives 8 values, all multiples of 1/9 in [0, 2] with γ₀ itself absent. The cause is mode-node coincidence: when the dephased site sits on a node of a Hamiltonian eigenmode, that mode is blind to dephasing, its partners degenerate together, and the fine structure collapses. The fine structure of the interval is controlled by how the eigenmode amplitudes distribute at the dephasing site, not by a universal rule. The three structural features {0, γ₀, 2γ₀} survive this with the status distinction introduced above.
 
 ---
 
