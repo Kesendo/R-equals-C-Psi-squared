@@ -224,7 +224,7 @@ if __name__ == "__main__":
             f.write(msg + "\n")
 
         log("=" * 72)
-        log("  CΨ(0) BIRTH LANDSCAPE — where states start relative to 1/4")
+        log("  CΨ(0) BIRTH LANDSCAPE: where states start relative to 1/4")
         log("=" * 72)
         log()
 
@@ -252,7 +252,7 @@ if __name__ == "__main__":
             r = evaluate_state("+^N", psi, n)
             log(f"  |+⟩^{n}:    CΨ(pair) = {r['CPsi_min']:.6f}   "
                 f"{'(above 1/4)' if r['CPsi_min'] > 0.25 else '(below 1/4)'}  "
-                f"(product state — trivial CΨ)")
+                f"(product state, trivial CΨ)")
 
             # 4. Dicke(n, k) for all k from 1 to n-1
             for k in range(1, n):

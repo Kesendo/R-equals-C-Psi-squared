@@ -90,7 +90,7 @@ The run is analyzed in two frames:
 
 ## Reproducing the analysis plots
 
-Zero QPU cost — analyses read from this directory:
+Zero QPU cost, analyses read from this directory:
 
 ```bash
 cd simulations

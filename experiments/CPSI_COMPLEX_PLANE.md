@@ -1,6 +1,6 @@
 # CΨ in the Complex Plane: the 2D Extension of Boundary Navigation
 
-**Status:** Draft, April 2026. Hardware-observed on Kingston; formal theoretical extension and deliberate-phase hardware run pending.
+**Status:** Hardware-observed on Kingston (2026-04-16). Formal theoretical extension and deliberate-phase hardware run pending.
 **Depends on:** [BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md), [CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md), [MANDELBROT_CONNECTION](MANDELBROT_CONNECTION.md)
 **Input data:** [`data/ibm_cusp_slowing_april2026/`](../data/ibm_cusp_slowing_april2026/README.md) (ibm_kingston, 2026-04-16)
 **Scripts:** [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py), [`hardware_cpsi_cplane.py`](../simulations/hardware_cpsi_cplane.py)
@@ -33,7 +33,7 @@ The complex extension replaces the L1 norm with a signed sum:
     CΨ_com = C · Ψ_com
     Ψ_com  = 2 · Σ_{i<j} ρ_{ij} / (d−1)           (complex, signed sum of the upper triangle)
 
-The factor 2 is chosen so that |CΨ_com| reduces to the original real CΨ whenever every off-diagonal has the same phase (e.g. Bell⁺ unphased). For a general state, the signed sum can have cancellations that L1 does not — different off-diagonal patterns with mixed phases can shrink or even vanish in Ψ_com while L1 stays large. For Bell⁺ dephasing this is not an issue (only ρ_{0,3} is non-zero), but it matters for generic multi-qubit states with many simultaneously populated coherences.
+The factor 2 is chosen so that |CΨ_com| reduces to the original real CΨ whenever every off-diagonal has the same phase (e.g. Bell⁺ unphased). For a general state, the signed sum can have cancellations that L1 does not: different off-diagonal patterns with mixed phases can shrink or even vanish in Ψ_com while L1 stays large. For Bell⁺ dephasing this is not an issue (only ρ_{0,3} is non-zero), but it matters for generic multi-qubit states with many simultaneously populated coherences.
 
 For Bell⁺ = (|00⟩+e^{iφ}|11⟩)/√2, ρ_{0,3} = (1/2)·e^{iφ}, so CΨ_com(0) = (1/3)·e^{iφ}.
 
@@ -55,11 +55,11 @@ See [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py). Five Bell�
 
 The Mandelbrot cardioid (grey curve) and period-2 bulb are drawn for geometric reference. The cusp at c = 1/4 (red marker) is the 1D fold of BOUNDARY_NAVIGATION. Trajectories 1 and 2 go through it or beside it; trajectories 3-5 wind AROUND it, showing that the saddle-node geometry is traversed on a helical path in the 2D c-plane.
 
-The ratio Ω/(4γ) gives the **rotation per e-fold of decay**, in radians. Over `k` e-folds of |CΨ_com| shrinkage, the total phase sweep is k · Ω/(4γ). The total winding on the complete trajectory is Ω · t_max / (2π) full turns — explicit in the Δφ_total column above.
+The ratio Ω/(4γ) gives the **rotation per e-fold of decay**, in radians. Over `k` e-folds of |CΨ_com| shrinkage, the total phase sweep is k · Ω/(4γ). The total winding on the complete trajectory is Ω · t_max / (2π) full turns, explicit in the Δφ_total column above.
 
 ## Hardware observation (no extra run needed)
 
-The cusp-slowing run on ibm_kingston (2026-04-16) saved the full 4×4 density matrix at each delay. Computing CΨ_com from these matrices — without a new QPU call — reveals that both Bell⁺ pairs are ALREADY on 2D trajectories, because Kingston's rotating frame has residual Z-detuning on each qubit.
+The cusp-slowing run on ibm_kingston (2026-04-16) saved the full 4×4 density matrix at each delay. Computing CΨ_com from these matrices, without a new QPU call, reveals that both Bell⁺ pairs are ALREADY on 2D trajectories, because Kingston's rotating frame has residual Z-detuning on each qubit.
 
 ![Hardware CΨ in the complex plane, ibm_kingston Bell⁺ pairs](../simulations/results/hardware_cpsi_cplane.png)
 
@@ -113,13 +113,13 @@ These are site-specific frame-rotation fingerprints. The original real-CΨ analy
 
 F57 says K_dwell = γ · t_dwell = 1.0801·δ for Bell⁺ under pure Z-dephasing. The dwell time is the duration for which |CΨ_com| stays in [1/4 − δ, 1/4 + δ].
 
-Under added Hamiltonian rotation Ω, the 2D trajectory spirals but the RADIAL velocity d|CΨ_com|/dt is unchanged — Ω affects only the angular velocity. Therefore **F57's K_dwell prediction is Ω-invariant**: even in the 2D c-plane picture, the radial dwell time is identical to the 1D case. Measured γ-invariance stays valid with or without rotation.
+Under added Hamiltonian rotation Ω, the 2D trajectory spirals but the RADIAL velocity d|CΨ_com|/dt is unchanged; Ω affects only the angular velocity. Therefore **F57's K_dwell prediction is Ω-invariant**: even in the 2D c-plane picture, the radial dwell time is identical to the 1D case. Measured γ-invariance stays valid with or without rotation.
 
 What changes is the **arc length** the trajectory traces through the dwell-annulus. Straight radial crossing (Ω=0) covers 2δ of arc length. Spiral crossing (Ω>0) covers more. A natural 2D generalization:
 
     arc_length_dwell ≈ 2δ · √(1 + (Ω/(4γ·|CΨ_com|_cross))²)
 
-This is a geometric measure, not a time measure. For a γ-invariance test that captures 2D structure, the arc length is the cleaner observable — but it requires a deliberate Ω injection on hardware to become measurable, since natural Kingston Ω is small.
+This is a geometric measure, not a time measure. For a γ-invariance test that captures 2D structure, the arc length is the cleaner observable, but it requires a deliberate Ω injection on hardware to become measurable, since natural Kingston Ω is small.
 
 ### 4. Viennot's quaternionic direction
 
@@ -131,7 +131,7 @@ The two extensions are parallel, not a ladder. Our Kingston data gives the 2D co
 
 1. **Is Δφ = Ω · t the correct phase rule on hardware?** Simulation matches this trivially (Hamiltonian action). For hardware, the MEASURED rate (−2.73°/μs for pair A, +1.57°/μs for pair B) should be reproducible across days if Kingston's detuning is stable. Requires a second run on a different calibration day.
 
-2. **What is arg(CΨ_com) at |CΨ_com| = 1/4 for Bell⁺ with Ω-drift?** Under pure dephasing + Ω rotation, the magnitude follows the F25 Bell⁺ closed form |CΨ_com|(t) = f·(1+f²)/6 with f = exp(−4γt) (rotation does not affect the magnitude), and the argument is arg(CΨ_com)(t) = φ_0 − Ω·t. At the radial crossing t_cross (solution of |CΨ_com| = 1/4), the crossing angle is simply arg_cross = φ_0 − Ω·t_cross. Linear in Ω — tunable on hardware via deliberate detuning.
+2. **What is arg(CΨ_com) at |CΨ_com| = 1/4 for Bell⁺ with Ω-drift?** Under pure dephasing + Ω rotation, the magnitude follows the F25 Bell⁺ closed form |CΨ_com|(t) = f·(1+f²)/6 with f = exp(−4γt) (rotation does not affect the magnitude), and the argument is arg(CΨ_com)(t) = φ_0 − Ω·t. At the radial crossing t_cross (solution of |CΨ_com| = 1/4), the crossing angle is simply arg_cross = φ_0 − Ω·t_cross: linear in Ω, tunable on hardware via deliberate detuning.
 
 3. **Can we deliberately steer the crossing angle?** Hardware run: H(q0), S(q0), CX(q0, q1), delay. The S-gate sets φ_0 ≈ π/2, so the spiral starts on the imaginary axis. Adding an explicit RZ(θ) during delay injects controlled Ω. This closes the loop between simulation and hardware.
 
@@ -161,7 +161,7 @@ Budget: ~7 min QPU (108 circuits). Same session mode, same pre/post calibration 
 
 - **It does not extend the Mandelbrot set** to a true 3D object. The c-plane is still 2D (ℂ). "3D" here is c-plane × time, a fibration picture.
 - **It does not add new physics.** The Lindblad equation is unchanged. The detuning was already in the hardware; we just started plotting the consequence.
-- **It does not replace the 1D BOUNDARY_NAVIGATION picture** — the real-axis story is still correct as a projection. It's just incomplete.
+- **It does not replace the 1D BOUNDARY_NAVIGATION picture**; the real-axis story is still correct as a projection. It's just incomplete.
 
 ## Reproducibility
 
@@ -175,8 +175,8 @@ Both scripts have zero QPU cost; the hardware script reads the already-saved JSO
 
 ---
 
-**Draft note — remaining refinements before commit:**
+**Pending refinements (not blocking):**
 
 - The **simulation plot zoom** shows all five trajectories overlapping tightly near the cusp. Baselines (traj 1 and 2) could be dropped from the zoom panel to highlight the spirals.
 - The **hardware plot center panel** (zoom) is tight; widening the imaginary axis to ±0.1 would make the spiral departures more visible.
-- The "Hardware run candidate" section is a roadmap, not a committed experiment. If Tom wants to execute it, a separate TASK file branches out of this doc; otherwise it remains as motivation for future work.
+- The "Hardware run candidate" section is a roadmap, not a committed experiment. If executed, a separate TASK file would branch out of this doc; otherwise it remains as motivation for future work.

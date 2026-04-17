@@ -6,7 +6,7 @@ saved density matrices of the 2026-04-16 cusp-slowing run on ibm_kingston.
 The cusp-slowing JSON stores the full 4×4 density matrix for each delay
 point via rho2_real + rho2_imag. We can therefore compute complex
 CΨ_com = C · (Σ ρ_{ij} off-diagonal, signed) / (d-1) without a new QPU
-run — the 2D trajectory is already in the data if Kingston's natural
+run: the 2D trajectory is already in the data if Kingston's natural
 detuning on qubits 124-125 / 14-15 produced any phase rotation.
 
 Plots:
@@ -172,7 +172,7 @@ def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
     ax_phase_twin.legend(loc="center right", fontsize=7)
 
     fig.suptitle(
-        "Hardware CΨ in the complex plane — ibm_kingston Bell⁺ pairs\n"
+        "Hardware CΨ in the complex plane, ibm_kingston Bell⁺ pairs\n"
         "Real-axis trajectory = the 1D case of BOUNDARY_NAVIGATION; "
         "deviation from the real axis is Kingston Z-detuning",
         y=1.00,

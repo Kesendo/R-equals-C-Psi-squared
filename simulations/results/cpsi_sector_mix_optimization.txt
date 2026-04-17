@@ -19,7 +19,7 @@
 ── Part 3: 3-tangle of the GHZ+W optimum at N=3 ──
   α = 0.6125, β = 0.7905, min pair-CΨ = 0.320411
   Pair concurrence C(A,B) = 0.0212
-  3-tangle τ_ABC = 1.5998
+  3-tangle τ_ABC = 0.7994
   → Genuinely tripartite-entangled
 
 ── Part 4: Kingston-grade T2 decoherence: when does CΨ_min cross 1/4? ──
@@ -53,7 +53,7 @@
   The α|GHZ⟩ + β|W⟩ mix with α ≈ 0.60 lifts pair-CΨ(0) from < 1/4
   (both F60 and F62 lower bound regimes) up to ≈ 0.320 at N=3,
   ≈ 0.23 at N=4, ≈ 0.18 at N=5 (still below 1/4 for N ≥ 4).
-  This is NOT a product state: 3-tangle = 1.600, pair concurrence
+  This is NOT a product state: 3-tangle = 0.799, pair concurrence
   C(A,B) = 0.021. Genuine three-body entanglement remains.
   Hardware significance: pair tomography can distinguish the optimum
   state from GHZ/W purely by the CΨ(0) readout (no timing, no delay).

@@ -4,7 +4,7 @@ CΨ as a complex quantity: the 2D → 3D step for BOUNDARY_NAVIGATION.
 
 The original CΨ = Tr(ρ²) · L1/(d−1) uses the L1 norm of off-diagonals,
 which is real and positive. This puts every Bell+ trajectory on the
-real axis of the Mandelbrot c-plane — a 1D path.
+real axis of the Mandelbrot c-plane, a 1D path.
 
 Complex extension: CΨ_com = Tr(ρ²) · (Σ ρ_{ij} off-diagonal, signed) / (d−1).
 Now CΨ_com is complex in general. For Bell+ with phase φ on |11⟩:
@@ -228,7 +228,7 @@ if __name__ == "__main__":
     OUT = RESULTS / "cpsi_complex_plane.png"
 
     print("=" * 70)
-    print("  CΨ in the complex plane — 2D extension of the fold navigation")
+    print("  CΨ in the complex plane: 2D extension of the fold navigation")
     print("=" * 70)
 
     # Five trajectories with different (γ, Ω, φ₀)

@@ -1,18 +1,18 @@
 ========================================================================
-  CΨ(0) BIRTH LANDSCAPE — where states start relative to 1/4
+  CΨ(0) BIRTH LANDSCAPE: where states start relative to 1/4
 ========================================================================
 
 ── N = 2  (4-dim, 1 pairs) ────────────────────────────────────────────────────
   GHZ_2:     CΨ(pair) = 0.333333   F60 formula = 1/(2^2−1) = 0.333333   (above 1/4)
   W_2:       CΨ(pair) = 0.333333   F62 formula = 2(N²−4N+8)/(3N³) = 0.333333   (above 1/4)
-  |+⟩^2:    CΨ(pair) = 1.000000   (above 1/4)  (product state — trivial CΨ)
+  |+⟩^2:    CΨ(pair) = 1.000000   (above 1/4)  (product state, trivial CΨ)
   Dicke(2,1)=W_2  CΨ(pair) = 0.333333   (above 1/4)
   Cluster_2: CΨ(pair) min/max = 1.000000 / 1.000000   1/1 pairs above 1/4
 
 ── N = 3  (8-dim, 3 pairs) ────────────────────────────────────────────────────
   GHZ_3:     CΨ(pair) = 0.000000   F60 formula = 1/(2^3−1) = 0.142857   (below 1/4)
   W_3:       CΨ(pair) = 0.123457   F62 formula = 2(N²−4N+8)/(3N³) = 0.123457   (below 1/4)
-  |+⟩^3:    CΨ(pair) = 1.000000   (above 1/4)  (product state — trivial CΨ)
+  |+⟩^3:    CΨ(pair) = 1.000000   (above 1/4)  (product state, trivial CΨ)
   Dicke(3,1)=W_3  CΨ(pair) = 0.123457   (below 1/4)
   Dicke(3,2)      CΨ(pair) = 0.123457   (below 1/4)
   Cluster_3: CΨ(pair) min/max = 0.166667 / 0.166667   0/3 pairs above 1/4
@@ -21,7 +21,7 @@
 ── N = 4  (16-dim, 6 pairs) ────────────────────────────────────────────────────
   GHZ_4:     CΨ(pair) = 0.000000   F60 formula = 1/(2^4−1) = 0.066667   (below 1/4)
   W_4:       CΨ(pair) = 0.083333   F62 formula = 2(N²−4N+8)/(3N³) = 0.083333   (below 1/4)
-  |+⟩^4:    CΨ(pair) = 1.000000   (above 1/4)  (product state — trivial CΨ)
+  |+⟩^4:    CΨ(pair) = 1.000000   (above 1/4)  (product state, trivial CΨ)
   Dicke(4,1)=W_4  CΨ(pair) = 0.083333   (below 1/4)
   Dicke(4,2)      CΨ(pair) = 0.111111   (below 1/4)
   Dicke(4,3)      CΨ(pair) = 0.083333   (below 1/4)
@@ -31,7 +31,7 @@
 ── N = 5  (32-dim, 10 pairs) ────────────────────────────────────────────────────
   GHZ_5:     CΨ(pair) = 0.000000   F60 formula = 1/(2^5−1) = 0.032258   (below 1/4)
   W_5:       CΨ(pair) = 0.069333   F62 formula = 2(N²−4N+8)/(3N³) = 0.069333   (below 1/4)
-  |+⟩^5:    CΨ(pair) = 1.000000   (above 1/4)  (product state — trivial CΨ)
+  |+⟩^5:    CΨ(pair) = 1.000000   (above 1/4)  (product state, trivial CΨ)
   Dicke(5,1)=W_5  CΨ(pair) = 0.069333   (below 1/4)
   Dicke(5,2)      CΨ(pair) = 0.092000   (below 1/4)
   Dicke(5,3)      CΨ(pair) = 0.092000   (below 1/4)
@@ -42,7 +42,7 @@
 ── N = 6  (64-dim, 15 pairs) ────────────────────────────────────────────────────
   GHZ_6:     CΨ(pair) = 0.000000   F60 formula = 1/(2^6−1) = 0.015873   (below 1/4)
   W_6:       CΨ(pair) = 0.061728   F62 formula = 2(N²−4N+8)/(3N³) = 0.061728   (below 1/4)
-  |+⟩^6:    CΨ(pair) = 1.000000   (above 1/4)  (product state — trivial CΨ)
+  |+⟩^6:    CΨ(pair) = 1.000000   (above 1/4)  (product state, trivial CΨ)
   Dicke(6,1)=W_6  CΨ(pair) = 0.061728   (below 1/4)
   Dicke(6,2)      CΨ(pair) = 0.079802   (below 1/4)
   Dicke(6,3)      CΨ(pair) = 0.088000   (below 1/4)
