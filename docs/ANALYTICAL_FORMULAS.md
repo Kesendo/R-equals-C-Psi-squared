@@ -1371,27 +1371,32 @@ because |vac⟩⟨ψ_1| is a Liouvillian right eigenvector with eigenvalue -α_1
 
 ### F68. Palindromic partner of the bonding mode (Tier 1, verified N=3, 4, 5)
 
-By F1 (palindromic spectrum), the bonding-mode eigenvalue -α_b of the full Liouvillian has a partner at -α_p with α_b + α_p = 2γ₀ exactly. Direct eigendecomposition of the 4^N-dim Liouvillian (N=3, 4, 5; γ₀ = 0.05, J = 1.0) confirms this pairing to machine precision (|α_b + α_p - 2γ₀| < 2·10⁻¹⁵), and identifies the partner's structure:
+By F1, the bonding-mode eigenvalue -α_b of the full Liouvillian has a partner at
 
-**Sector.** For N ≥ 4, the partner mode lives entirely in the XY-weight-(N-1) sector, while the bonding mode lives entirely in w=1. These are Π-mirror sectors under the total XY-weight conjugation w ↔ N-w (F43). ⟨n_XY⟩_B = α_p / (2γ₀) ≈ 0.86 (N=4), 0.92 (N=5), close to but distinct from the F66 pole at ⟨n_XY⟩_B = 1.
+    α_p = 2γ₀ - α_b
 
-**Rank.** For N ≥ 4, the partner's right eigenvector V_p is a rank-1 operator (SVD: σ₁/σ₀ = 0 to numerical precision). The partner therefore admits a pure-state factorization V_p = |u⟩⟨v|, and can be operationally prepared as the off-diagonal coherence of an R-C Bell-pair-like state: ρ₀ has off-diagonal |0⟩⟨1|_R ⊗ |u⟩⟨v|, decaying at rate α_p = 2γ₀ - α_b.
+exact to machine precision. For the uniform N-site XY chain with endpoint Z-dephasing at γ₀ (same setup as F67), direct eigendecomposition confirms the pairing at N = 3, 4, 5 with |α_b + α_p - 2γ₀| < 4·10⁻¹⁵.
 
-**N=3 special case.** At N=3, bonding and partner are both rank-2 and mix adjacent w-sectors (bonding: w=0 + w=2; partner: w=1 + w=3). This is a degeneracy artifact: multiplicities are 4 each, and any orthonormal basis of a 4-dim degenerate eigenspace is a valid eigenvector set. The palindromic pairing α_b + α_p = 2γ₀ nonetheless holds exactly.
+**Structure (N ≥ 4).** V_p lives entirely in the XY-weight-(N-1) Pauli sector, Π-mirror of the bonding mode's w=1. ⟨n_XY⟩_B = α_p / (2γ₀) approaches 1 as N grows (saturating toward the F66 pole) but stays strictly below.
 
-**Palindrom robustness.** F65 predicts α_b from first-order perturbation in γ₀/J; at finite γ₀ the full-Liouvillian eigenvalue shifts by O((γ₀/J)²). Both α_b and α_p track this shift, but in opposite directions: their sum is pinned to 2γ₀ by F1 regardless of perturbative order. This is a concrete demonstration that F1 is algebraically exact while F65 is perturbative; the palindrome is the more robust structural feature.
+**Rank-1 at N ≥ 4.** V_p admits a rank-1 SVD decomposition V_p = σ₀|u⟩⟨v|. Strict SVD rank-1 (σ₁/σ₀ < 10⁻¹⁰) holds at N = 5 (ratio 9.3·10⁻¹²) and at LAPACK `zgeev` precision at N = 4 (ratio 5.1·10⁻⁸, limited by the 16-fold degeneracy of the partner eigenvalue, not by any physical second mode).
 
-| N | α_b (F65 formula) | α_b (full L) | α_p (full L) | α_b + α_p | error from 2γ₀ |
-|---|-------------------|--------------|--------------|-----------|----------------|
-| 3 | 0.025000 | 0.025003 | 0.074997 | 0.100000 | 4.2·10⁻¹⁶ |
-| 4 | 0.013820 | 0.013784 | 0.086216 | 0.100000 | 2.4·10⁻¹⁶ |
-| 5 | 0.008333 | 0.008303 | 0.091697 | 0.100000 | 1.1·10⁻¹⁵ |
+**Operational encoding.** The Bell-pair-like R-C state (|0⟩_R|u⟩ + |1⟩_R|v⟩)/√2 propagates with off-diagonal decay rate α_fit(partner) matching spectral α_p at machine precision (rel err 1.5·10⁻¹⁶ at N = 5, 0 at N = 4). Combined with the F67 bonding-mode encoding in the same propagation, the dynamical palindromic identity α_fit(bond) + α_fit(part) = 2γ₀ holds to 10⁻⁶ (N = 4) and 10⁻⁷ (N = 5). The residual is entirely the F65 perturbative shift on the bonding side, where |vac⟩⟨ψ_1| is only the first-order mode; the partner fit is spectrally exact because V_p is used verbatim.
 
-**Operational consequence.** The partner mode is a Bell-pair encoding that decays at 2γ₀ - α_b, the fastest non-pole rate. It is the "dark twin" of the F67 bonding-mode encoding: identical spatial structure under Π-mirror, opposite exposure. Where F67 gives cubic T₂ scaling (N+1)³/(4π²γ₀), the partner encoding gives T₂ → 1/(2γ₀) for large N (maximum exposure, saturating at the F66 pole in the limit).
+**N = 3 is rank-2.** Both bonding and partner are fourfold degenerate, and any rank-1 approximation of V_p gives α_fit ≈ (α_b + α_p)/2 with visibly non-exponential decay (log-fit RMS ~10⁻¹, two orders above N ≥ 4). The palindromic sum still holds spectrally; no clean operational rank-1 encoding exists.
 
-**Verified:** α_b + α_p + 2γ₀ = 0 to <2·10⁻¹⁵ for N=3, 4, 5. Rank-1 verified by SVD (σ₁/σ₀ < 10⁻¹⁵) for N=4, 5. Pauli-basis decomposition shows bonding w=1 dominance (100% for N≥4) and partner w=N-1 dominance (100% for N≥4); mixed-sector at N=3 (degeneracy artifact).
-**Scripts:** [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py)
-**Source:** F1, F43, F65, F66, F67, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+| N | α_b | α_p | α_fit(bond) | α_fit(part) | dyn sum | rel err |
+|---|-----|-----|-------------|-------------|---------|---------|
+| 3 | 0.025003 | 0.074997 | 0.024969 | rank-2 | n/a | n/a |
+| 4 | 0.013784 | 0.086216 | 0.013784 | 0.086216 | 0.100000 | 1.6·10⁻⁶ |
+| 5 | 0.008303 | 0.091697 | 0.008303 | 0.091697 | 0.100000 | 2.8·10⁻⁷ |
+
+**Valid for:** uniform XY chain, endpoint Z-dephasing, N ≥ 4 for the clean rank-1 operational statement. Algebraic palindromic pairing holds for all N, all graphs, all single-site-dephasing Liouvillians (from F1).
+
+**Verified:** spectral (H1), structural (H2), and operational (H3) all confirmed at N = 3, 4, 5. Full evidence, tables, and technical notes in [PALINDROMIC_PARTNER_MODE](../experiments/PALINDROMIC_PARTNER_MODE.md).
+
+**Scripts:** [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py) (H1 + H2), [`bell_pair_partner_mode.py`](../simulations/bell_pair_partner_mode.py) (H3)
+**Source:** F1, F43, F65, F66, F67, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [PALINDROMIC_PARTNER_MODE](../experiments/PALINDROMIC_PARTNER_MODE.md)
 
 ### F69. GHZ+W sector mix lifts pair-CΨ(0) above the fold at N=3 (Tier 1, sextic minimal polynomial, verified)
 

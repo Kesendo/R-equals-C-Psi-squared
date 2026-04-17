@@ -1,0 +1,216 @@
+BELL-PAIR-LIKE ENCODING OF THE PALINDROMIC PARTNER MODE (F68 H3)
+========================================================================
+Setup: R + N-site XY chain, Z-dephasing gamma_0 at chain site N-1.
+Metric: Frobenius norm of the |0><1|_R block of rho_ext(t),
+        fit log||block||(t) = a - alpha_fit * t.
+Target: alpha_fit(partner) vs spectral alpha_p = 2*gamma_0 - alpha_b.
+
+Parameters: gamma_0 = 0.05, J = 1.0
+            2*gamma_0 = 0.1000000000
+            80 time points over 5.0 e-folds
+
+========================================================================
+N = 3   (L_chain dim = 64, rho_ext dim = 16)
+========================================================================
+  spectral extraction + eig: 0.00 s
+  alpha_1 (F65 perturbative)  = 0.0250000000
+  alpha_b (full L_chain)      = 0.0250034891   (mult = 4)
+  alpha_p (full L_chain)      = 0.0749965109   (mult = 4)
+  alpha_b + alpha_p           = 0.100000000000
+  |sum - 2*gamma_0|           = 4.86e-16
+  L_chain diagonalization: 0.00 s
+
+  Part 1: SVD spectrum of V_p
+    sigma_0(V_p) = 7.158745e-01
+    sigma_1(V_p) = 6.982042e-01
+    sigma_2(V_p) = 5.882740e-03
+    sigma_1/sigma_0 = 9.75e-01
+    Partner rank-1 strict (< 1e-10)?    NO
+    Partner rank-1 numerical (< 1e-6)?  NO
+  SVD of V_b (bonding):
+    sigma_0 = 7.158745e-01, sigma_1 = 6.982042e-01, ratio = 9.75e-01
+
+  Part 2: Partner R-C encoding SKIPPED (partner not rank-1)
+
+  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+    rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
+    propagation time: 0.04 s
+    alpha_fit(bonding) = 0.0249692477
+    alpha_b (spectral) = 0.0250034891
+    relative error     = 1.37e-03
+    log-fit resid RMS  = 3.20e-04
+    negativity N(R:C) at t=0        = 0.500000
+    negativity N(R:C) at t_max      = 0.003396
+    negativity N(R:C) min           = 3.395651e-03
+
+  Part 5: N=3 rank-2 negative control
+    V_p singular spectrum (top 4):
+      sigma_0 = 7.158745e-01
+      sigma_1 = 6.982042e-01
+      sigma_2 = 5.882740e-03
+      sigma_3 = 5.331011e-10
+    sigma_1/sigma_0 = 0.9753  -> genuinely rank-2, not close to rank-1
+
+    Try each rank-1 approximation |u_i><v_i| as R-C off-diag:
+    - Using |u_0><v_0|:
+        alpha_fit          = 0.0366588150
+        alpha_p (target)   = 0.0749965109
+        relative error     = 5.11e-01
+        log-fit resid RMS  = 1.10e-01   (non-exponential: beats / multi-mode)
+        norm samples: t=0  -> 5.0000e-01
+                      t/4  -> 1.8751e-01
+                      t/2  -> 9.6218e-02
+                      3t/4 -> 5.8075e-02
+                      t_f  -> 3.8346e-02
+    - Using |u_1><v_1|:
+        alpha_fit          = 0.0366447554
+        alpha_p (target)   = 0.0749965109
+        relative error     = 5.11e-01
+        log-fit resid RMS  = 1.09e-01   (non-exponential: beats / multi-mode)
+        norm samples: t=0  -> 5.0000e-01
+                      t/4  -> 1.9127e-01
+                      t/2  -> 9.9188e-02
+                      3t/4 -> 5.9617e-02
+                      t_f  -> 3.9300e-02
+
+========================================================================
+N = 4   (L_chain dim = 256, rho_ext dim = 32)
+========================================================================
+  spectral extraction + eig: 0.27 s
+  alpha_1 (F65 perturbative)  = 0.0138196601
+  alpha_b (full L_chain)      = 0.0137838939   (mult = 16)
+  alpha_p (full L_chain)      = 0.0862161061   (mult = 16)
+  alpha_b + alpha_p           = 0.100000000000
+  |sum - 2*gamma_0|           = 2.78e-17
+  L_chain diagonalization: 0.37 s
+
+  Part 1: SVD spectrum of V_p
+    sigma_0(V_p) = 1.000000e+00
+    sigma_1(V_p) = 5.138521e-08
+    sigma_2(V_p) = 5.138521e-08
+    sigma_1/sigma_0 = 5.14e-08
+    Partner rank-1 strict (< 1e-10)?    NO
+    Partner rank-1 numerical (< 1e-6)?  YES
+  SVD of V_b (bonding):
+    sigma_0 = 1.000000e+00, sigma_1 = 6.597474e-16, ratio = 6.60e-16
+
+  Part 2: Partner R-C encoding -> propagation
+    rho_0 = (|0>_R|u_0> + |1>_R|v_0>)(h.c.) / 2
+    propagation time: 0.03 s
+    alpha_fit(partner) = 0.0862161061
+    alpha_p (spectral) = 0.0862161061
+    relative error     = 0.00e+00
+    log-fit resid RMS  = 5.53e-16
+    ||rho_ext - rho_ext^dag||_F range = [9.90e-16, 1.17e-14]
+    negativity N(R:C) at t=0       = 0.500000
+    negativity N(R:C) at t_max     = 0.003369
+    negativity N(R:C) min throughout = 3.368973e-03
+    negativity > 0 over whole window? YES
+
+  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+    rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
+    propagation time: 0.03 s
+    alpha_fit(bonding) = 0.0137840542
+    alpha_b (spectral) = 0.0137838939
+    relative error     = 1.16e-05
+    log-fit resid RMS  = 2.06e-04
+    negativity N(R:C) at t=0        = 0.500000
+    negativity N(R:C) at t_max      = 0.003372
+    negativity N(R:C) min           = 3.372112e-03
+
+  Part 4: Dynamical palindromic identity
+    alpha_fit(bonding) + alpha_fit(partner) = 0.1000001603
+    2*gamma_0                               = 0.1000000000
+    absolute error = 1.60e-07
+    relative error = 1.60e-06
+
+========================================================================
+N = 5   (L_chain dim = 1024, rho_ext dim = 64)
+========================================================================
+  spectral extraction + eig: 2.83 s
+  alpha_1 (F65 perturbative)  = 0.0083333333
+  alpha_b (full L_chain)      = 0.0083025236   (mult = 20)
+  alpha_p (full L_chain)      = 0.0916974764   (mult = 20)
+  alpha_b + alpha_p           = 0.100000000000
+  |sum - 2*gamma_0|           = 3.82e-15
+  L_chain diagonalization: 3.09 s
+
+  Part 1: SVD spectrum of V_p
+    sigma_0(V_p) = 1.000000e+00
+    sigma_1(V_p) = 9.265666e-12
+    sigma_2(V_p) = 9.265090e-12
+    sigma_1/sigma_0 = 9.27e-12
+    Partner rank-1 strict (< 1e-10)?    YES
+    Partner rank-1 numerical (< 1e-6)?  YES
+  SVD of V_b (bonding):
+    sigma_0 = 1.000000e+00, sigma_1 = 6.522948e-08, ratio = 6.52e-08
+
+  Part 2: Partner R-C encoding -> propagation
+    rho_0 = (|0>_R|u_0> + |1>_R|v_0>)(h.c.) / 2
+    propagation time: 0.05 s
+    alpha_fit(partner) = 0.0916974764
+    alpha_p (spectral) = 0.0916974764
+    relative error     = 1.51e-16
+    log-fit resid RMS  = 4.66e-16
+    ||rho_ext - rho_ext^dag||_F range = [3.33e-15, 2.43e-14]
+    negativity N(R:C) at t=0       = 0.500000
+    negativity N(R:C) at t_max     = 0.003369
+    negativity N(R:C) min throughout = 3.368973e-03
+    negativity > 0 over whole window? YES
+
+  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+    rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
+    propagation time: 0.08 s
+    alpha_fit(bonding) = 0.0083025513
+    alpha_b (spectral) = 0.0083025236
+    relative error     = 3.34e-06
+    log-fit resid RMS  = 1.52e-04
+    negativity N(R:C) at t=0        = 0.500000
+    negativity N(R:C) at t_max      = 0.003372
+    negativity N(R:C) min           = 3.371534e-03
+
+  Part 4: Dynamical palindromic identity
+    alpha_fit(bonding) + alpha_fit(partner) = 0.1000000277
+    2*gamma_0                               = 0.1000000000
+    absolute error = 2.77e-08
+    relative error = 2.77e-07
+
+========================================================================
+FINAL SUMMARY
+========================================================================
+
+Spectral + dynamical rates
+    N      alpha_b      alpha_p    fit(bond)    fit(part)      dyn sum    rel err
+  --- ------------ ------------ ------------ ------------ ------------ ----------
+    3     0.025003     0.074997     0.024969       rank-2          ---        ---
+    4     0.013784     0.086216     0.013784     0.086216     0.100000   1.60e-06
+    5     0.008303     0.091697     0.008303     0.091697     0.100000   2.77e-07
+
+Acceptance criteria (task spec):
+  N=4:
+    rank-1 strict (< 1e-10):            FAIL   (ratio = 5.14e-08)
+    rank-1 numerical (< 1e-6):          PASS   (ratio = 5.14e-08)
+    alpha_fit(part)/alpha_p < 1e-3 rel: PASS   (rel err = 0.00e+00)
+    palindrome sum within 1e-3 rel:   PASS   (rel err = 1.60e-06)
+  N=5:
+    rank-1 strict (< 1e-10):            PASS   (ratio = 9.27e-12)
+    rank-1 numerical (< 1e-6):          PASS   (ratio = 9.27e-12)
+    alpha_fit(part)/alpha_p < 1e-3 rel: PASS   (rel err = 1.51e-16)
+    palindrome sum within 1e-3 rel:   PASS   (rel err = 2.77e-07)
+
+Bonus criteria:
+  N=4:
+    log-fit residuals < 0.01 for both:  YES  (bond resid 2.06e-04, part resid 5.53e-16)
+    partner N(R:C) > 0 throughout:      YES  (min N = 3.37e-03)
+  N=5:
+    log-fit residuals < 0.01 for both:  YES  (bond resid 1.52e-04, part resid 4.66e-16)
+    partner N(R:C) > 0 throughout:      YES  (min N = 3.37e-03)
+
+N=3 (rank-2 degeneracy, negative control):
+    V_p SVD top 4:           [0.7158744989042318, 0.6982041930509741, 0.005882739553435625, 5.331011374017959e-10]
+    bonding fit: alpha_fit(b) = 0.024969 vs alpha_b = 0.025003  (rel err = 1.37e-03, resid 3.20e-04)
+    rank-1 approximations of V_p:
+      i=0: alpha_fit = 0.036659  (rel err 5.11e-01, resid 1.10e-01)
+      i=1: alpha_fit = 0.036645  (rel err 5.11e-01, resid 1.09e-01)
+
+========================================================================
