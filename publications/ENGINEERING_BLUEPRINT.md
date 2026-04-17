@@ -94,6 +94,29 @@ for N at or above three, it was never alive in the quantum regime to begin
 with. Reducing γ does not fix the geometric deficit. The only escape is
 to change the state. See [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4.
 
+**Note (April 16, 2026): Sector mixing lifts pair-CΨ above 1/4 for N=3.** The
+April 6 note ends with "the only escape is to change the state." That escape
+exists. Neither GHZ_3 (pair-CΨ = 0) nor W_3 (pair-CΨ = 10/81 = 0.123) crosses
+the 1/4 boundary individually. But the superposition α|GHZ_3⟩ + β|W_3⟩ with
+α = 0.6125, β = 0.7905 achieves pair-CΨ(0) = 0.320, above 1/4 by a factor 1.28.
+This state has genuine tripartite entanglement (3-tangle τ ~ 0.8) with
+near-zero pair concurrence (0.02), so the pair-CΨ boost is not from pairwise
+entanglement but from the cross-sector interference between GHZ (0- and
+3-excitation sectors) and W (1-excitation sector) components in the full
+density matrix. When reduced to a pair, these cross-terms produce
+off-diagonal elements (like |00⟩⟨01|) with n_XY = 1 (odd parity) in the
+pair Pauli decomposition. The n_XY Parity Selection Rule (F61) does not
+forbid this: F61 constrains Liouvillian time evolution within a fixed
+parity sector, not the initial-state preparation that mixes excitation
+sectors. Under Kingston noise
+(T1+T2), the OPT state crosses 1/4 at t ~ 18-44 us. The effect is N=3-specific:
+for N >= 4 the geometric deficit grows faster than the cross-term boost, and
+no α|GHZ_N⟩ + β|W_N⟩ superposition reaches 1/4. See
+[`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py),
+[`cpsi_birth_landscape.py`](../simulations/cpsi_birth_landscape.py).
+The rule "use W, avoid GHZ" remains correct as a general engineering
+recommendation. For N=3 specifically, the OPT state outperforms both.
+
 ---
 
 ## Rule 2: Use Star Topology with 2:1 Coupling
