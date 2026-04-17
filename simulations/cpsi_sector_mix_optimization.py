@@ -20,7 +20,20 @@ Goals here:
       state is NOT in the single-excitation sector, so it escapes the
       parity selection rule that constrains F62.
 
-Date: 2026-04-16
+----------------------------------------------------------------------
+WARNING: Part 2 (3-state spherical scan) reports a peak at min pair-CΨ(0)
+  ≈ 0.9998 near (θ, φ) ≈ (0.9121, 0.8856). This is NOT a new entangled
+  state; it is a disguised |+>^3 product state that happens to lie inside
+  the 3-state subspace spanned by {|GHZ>, |W>, |W_bar>}. If you come back
+  here and the 0.9998 number looks interesting, run
+  simulations/sector_mix_spherical_artifact.py first (30 seconds, three
+  independent product-state tests all confirm |+>^3). The genuine
+  sector-mix optimum is the GHZ+W optimum in Part 1 (F69, pair-CΨ ≈
+  0.3204). See experiments/GHZ_W_SECTOR_MIX.md for the full analysis.
+----------------------------------------------------------------------
+
+Date: 2026-04-16 (Parts 1-5 original run)
+      2026-04-17 (Part 2 artifact diagnosed, warning added)
 """
 
 from __future__ import annotations
@@ -178,6 +191,15 @@ def scan_mix_states_N3(n_grid: int = 101) -> dict:
 
     Uses spherical coordinates: |ψ⟩ = sin(θ)cos(φ)|GHZ⟩ + sin(θ)sin(φ)|W⟩
                                        + cos(θ)|W̄⟩, all real.
+
+    ARTIFACT NOTICE (2026-04-17):
+      The peak this function finds at min pair-CΨ(0) ≈ 0.9998 is NOT a
+      new entangled state. It is |+>^3, a pure product state, that lies
+      inside the 3-state subspace {|GHZ>, |W>, |W_bar>} at approximately
+      (θ, φ) = (0.9121, 0.8856). This was verified by single-qubit
+      purity (all = 1), 3-tangle (= 0), and direct overlap |<+^3|ψ*>|^2
+      (= 1). If you get a high pair-CΨ here, diagnose with
+      sector_mix_spherical_artifact.py before treating it as a finding.
     """
     n = 3
     ghz = ket_ghz(n)

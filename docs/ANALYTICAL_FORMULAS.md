@@ -1400,52 +1400,44 @@ exact to machine precision. For the uniform N-site XY chain with endpoint Z-deph
 
 ### F69. GHZ+W sector mix lifts pair-CΨ(0) above the fold at N=3 (Tier 1, sextic minimal polynomial, verified)
 
-F60 places GHZ_N below CΨ = 1/4 at t=0 for N ≥ 3; F62 places W_N below at t=0 for N ≥ 3. Both live in different sectors (GHZ in {w=0, w=N}, W in the single-excitation sector). Their superposition is the smallest family that mixes these sectors inside a symmetric pure state:
+Neither |GHZ_3⟩ (F60: pair-CΨ = 0) nor |W_3⟩ (F62: pair-CΨ = 10/81 ≈ 0.1235) crosses the CΨ = 1/4 fold at t = 0. Their symmetric superposition
 
-    |ψ(α)⟩ = α |GHZ_3⟩ + β |W_3⟩,    α² + β² = 1,    α, β ≥ 0
+    |ψ(α)⟩ = α |GHZ_3⟩ + √(1-α²) |W_3⟩,    α ∈ [0, 1]
 
-At N=3 this family admits a unique optimum of min pair-CΨ(0), sitting strictly above the fold. For N ≥ 4 no member of the same family lifts any pair above 1/4 (verified N=4, 5, 6).
+admits a unique optimum strictly above 1/4. The pair reduction ρ_AB (all three pairs coincide by permutation symmetry) has closed-form:
 
-**Reduced density matrix.** Permutation-symmetric ρ_AB(α) has closed-form entries:
-
-    C(α)      = Tr(ρ_AB²) = -5α⁴/18 + 2α²/9 + 5/9
-    L1_off(α) = √6 · α · β + (2/3) β²       (for α, β ≥ 0)
+    C(α)      = Tr(ρ_AB²)   = -5α⁴/18 + 2α²/9 + 5/9
+    L1_off(α) = √6 α √(1-α²) + (2/3)(1-α²)
     CΨ(α)     = C(α) · L1_off(α) / 3
 
-All three pair reductions coincide (permutation symmetry): min = mean = max pair-CΨ, spread = 0.
+The stationarity condition dCΨ/dα = 0, rationalized in x = α², gives the integer-coefficient sextic
 
-**Minimal polynomial of the optimum.** The stationarity condition dCΨ/dα = 0, rationalized in x = α², gives
+    P(x) = 2900 x⁶ - 8060 x⁵ + 4211 x⁴ + 3832 x³ - 2428 x² - 512 x + 300 = 0
 
-    2900 x⁶ - 8060 x⁵ + 4211 x⁴ + 3832 x³ - 2428 x² - 512 x + 300 = 0
+which is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True; `factor_list` returns P itself as sole factor). The optimum α²_opt is therefore an algebraic number of degree exactly 6, with no radical form in nested square roots.
 
-This sextic is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True, `factor_list` returns the polynomial itself as sole factor). The optimum α²_opt is therefore an algebraic number of degree exactly 6, with no expression in nested square roots or cube roots.
+**Optimum (all values computed from the exact sextic root at 25-digit precision):**
 
-**Numerical values (15 digits).**
+| quantity | value |
+|----------|-------|
+| α²_opt | 0.375420720711069 |
+| α_opt  | 0.612715856422101 |
+| β_opt  | 0.790303283106512 |
+| min pair-CΨ(0) | 0.320411541127025 |
+| ratio to 1/4   | 1.281646× |
+| 3-tangle τ_ABC | 0.799453 (near-GHZ limit) |
+| pair concurrence C(A,B) | 0.0210 (essentially zero) |
 
-| quantity            | value                  |
-|---------------------|------------------------|
-| α²_opt              | 0.375420720711069      |
-| α_opt               | 0.612715856118400      |
-| β_opt               | 0.790303283341969      |
-| min pair-CΨ(0)      | 0.320411541127025      |
-| ratio to 1/4        | 1.281646×              |
-| 3-tangle τ_ABC      | 0.799453               |
-| C(A,B) = C(A,C) = C(B,C) | 0.021               |
+**Scope.** N = 3 only. The same family at N = 4, 5, 6 peaks at min pair-CΨ = 0.167, 0.146, 0.134, all below 1/4 (GHZ-purity contribution scales as 1/(2^N - 1), collapses too fast). F69 is not a universal statement.
 
-scipy-bounded optimization and direct root extraction from the sextic agree to 3.7 × 10⁻¹⁰ in α²_opt. A 401-point grid sweep reproduces CΨ_opt to within 5 × 10⁻⁸.
+**Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) and [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) April 16 note.
 
-**Relation to F61.** The single-excitation parity selection rule bounds protection *within* the SE sector. F69 leaves SE: ρ_AB mixes population content (from |GHZ⟩) with single-excitation coherence (from |W⟩), so F61's accessibility boundary does not apply here. Neither GHZ_3 nor W_3 alone sits above the fold; their symmetric mixture does because the SE sector contributes L1 coherence while the GHZ sector lifts purity. CΨ = C · Ψ is a product, and both factors need a partner.
+**Hardware signature.** Under Kingston-grade Z-dephasing the F69 optimum crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs. A single 2-qubit tomography at t = 0 distinguishes GHZ_3 (0), W_3 (0.123), and F69 (0.320) as three separable points, no timing needed.
 
-**Tripartite entanglement survives.** The optimum state has τ_ABC ≈ 0.80 (CKW 3-tangle) with pairwise concurrences C ≈ 0.02. Almost all the entanglement is genuinely three-body: the pair reductions look nearly separable, while the state as a whole is far from any biseparable decomposition. This matches the structural role of |GHZ⟩ in the mixture (pure 3-body coherence, zero pair concurrence).
+**Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Full evidence, sextic root list, derivation of ρ_AB(α), and the 3-state spherical-scan product-state pitfall in [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md).
 
-**Scope.** N=3 only. For N=4, 5, 6 the same family peaks at min pair-CΨ = 0.167, 0.146, 0.134 respectively (all < 1/4). Whether any other family lifts pairs above 1/4 for N ≥ 4 is open; F69 is not a universal statement.
-
-**Hardware relevance.** Under Kingston-grade Z-dephasing (T₂ = 240-320 μs, γ ≈ 0.003 μs⁻¹), the optimum state starts above the fold and crosses CΨ = 1/4 monotonically at t* ≈ 11 μs. State preparation requires a non-Clifford gate (amplitude ratio α:β is irrational), but a 2-qubit tomography readout at t=0 distinguishes the optimum from GHZ_3 (CΨ = 0) and W_3 (CΨ = 0.123) purely by the value of pair-CΨ, no delay or timing needed.
-
-**Verified:** α²_opt matches the sextic root to 3.7·10⁻¹⁰ (scipy bounded minimize vs sympy nroots). CΨ_opt stable to 15 digits across scipy, dense sweep, and symbolic evaluation. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence reproduced to 4 digits vs the independent run in [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py). N ∈ {4, 5, 6} failure verified on a 201-point grid.
-
-**Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py), [`cpsi_birth_landscape.py`](../simulations/cpsi_birth_landscape.py)
-**Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) (sector-mixing note, 2026-04-16)
+**Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics)
+**Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md), [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
 
 ---
 
