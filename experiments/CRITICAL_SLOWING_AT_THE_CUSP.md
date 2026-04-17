@@ -329,6 +329,13 @@ The dwell time measures how long the system remains near the saddle-node bifurca
 
 ![Dwell time analysis](../simulations/results/trajectory_dwell_time.png)
 
+### Hardware observation (April 16, 2026)
+
+The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pairs at 2.55× different γ: K_dwell/δ = 0.649 (qubits 124-125, γ = 0.00334/μs) and 0.694 (qubits 14-15, γ = 0.00131/μs). Ratio A/B = 0.94, spread 6.3%. The γ-invariance survives real T1 + T2 noise at the 6% level, dominated by residual Kingston noise heterogeneity rather than shot noise. The absolute prefactor (~0.67) is lower than the pure-Z-dephasing prediction 1.0801 because Kingston T1 amplitude damping steepens the slope at the crossing, reducing t_dwell. The state-specific, noise-channel-specific nature of the prefactor is expected; the γ-invariance itself is the robust claim and it holds.
+
+Data: [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md).
+Writeup: the 2D c-plane extension of this result is in [CPSI_COMPLEX_PLANE](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
+
 ---
 
 ## 7. Visualization: Decoherence as a Geodesic

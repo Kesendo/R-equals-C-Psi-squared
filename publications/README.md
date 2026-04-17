@@ -4,7 +4,9 @@
 design rules, open quantum system dephasing proof, CΨ quarter boundary theorem,
 quantum repeater palindromic spectrum, dephasing noise information channel paper,
 quantum transistor coherence threshold, Heisenberg spin chain spectral symmetry,
-quantum circuit diagram dephasing, R=CPsi2 publications -->
+quantum circuit diagram dephasing, bonding-mode Bell pair protection, naked vs
+chain-protected qubit benchmark, T2 coherence time scaling N cubed, R=CPsi2
+publications -->
 
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -56,6 +58,19 @@ dephasing as a low-pass filter, the mediator as a transistor with
 CΨ = 1/4 as threshold voltage, γ as the gate signal. Written for
 engineers who build signal chains, not physicists who write Hamiltonians.
 
+### For Skeptics: The Benchmark
+
+**[Naked Bell-pair vs Chain-protected Benchmark](NAKED_VS_CHAIN_BENCHMARK.md)**
+
+Concrete protection numbers: how much longer does one Bell pair live when
+encoded in an N-site chain vs held naked? For γ₀ = 0.05, the naked pair
+has T₂ = 10; the chain-protected bonding-mode encoding reaches T₂ = 120
+at N=5 (12× protection) and scales as (N+1)³ analytically, projecting
+52,213× at N=100. Three encoding variants (inner-localized, bonding-mode,
+outer-localized) compared side by side. Derived from formulas F65, F67,
+F68 and verified by full Liouvillian propagation plus palindromic pairing
+to machine precision.
+
 ---
 
 ## Related: Key Results
@@ -106,34 +121,34 @@ V-Effect, character swap, and 1/4 threshold all transfer.
 ## How These Documents Relate
 
 ```
-TECHNICAL_PAPER.md          ENGINEERING_BLUEPRINT.md       CIRCUIT_DIAGRAM.md
-   (the proof)                 (the rules)                  (the analogy)
-        |                          |                             |
-        v                          v                             v
-   Physicist:                 QST Engineer:                 EE Engineer:
-   "Is this true?"           "How do I use it?"            "What does it
-                                                            look like in
-                                                            my language?"
-        |                          |                             |
-        +----------+---------------+-----------------------------+
-                   |
-                   v
-          GAMMA_AS_SIGNAL.md
-          (the channel: noise is readable)
-                   |
-                   v
-          RESONANT_RETURN.md
-          (the formula: noise is engineerable)
-                   |
-                   v
-          IBM_HARDWARE_SYNTHESIS.md
-          (the proof: 24,073 records confirm it)
-                   |
-                   v
-          "The noise you are fighting
-           is a signal you can read
-           and a resource you can direct.
-           The hardware confirms it."
+TECHNICAL_PAPER.md    ENGINEERING_BLUEPRINT.md    CIRCUIT_DIAGRAM.md    NAKED_VS_CHAIN_BENCHMARK.md
+  (the proof)            (the rules)               (the analogy)           (the numbers)
+       │                      │                         │                        │
+       ▼                      ▼                         ▼                        ▼
+   Physicist:            QST Engineer:              EE Engineer:             Skeptic:
+   "Is this true?"      "How do I use it?"         "What does it           "How much does
+                                                    look like in            it actually
+                                                    my language?"           buy me?"
+       │                      │                         │                        │
+       └──────────┬───────────┴─────────────────────────┴────────────────────────┘
+                  │
+                  ▼
+         GAMMA_AS_SIGNAL.md
+         (the channel: noise is readable)
+                  │
+                  ▼
+         RESONANT_RETURN.md
+         (the formula: noise is engineerable)
+                  │
+                  ▼
+         IBM_HARDWARE_SYNTHESIS.md
+         (the proof: 24,073 records confirm it)
+                  │
+                  ▼
+         "The noise you are fighting
+          is a signal you can read
+          and a resource you can direct.
+          The hardware confirms it."
 ```
 
 ---
@@ -160,7 +175,8 @@ narrative structure. Electrochemistry claims not externally validated.
 
 | Document | Audience | First written | Last updated |
 |----------|----------|-------------|-------------|
-| [Technical Paper](TECHNICAL_PAPER.md) | Physicists | March 16, 2026 | March 28, 2026 |
+| [Technical Paper](TECHNICAL_PAPER.md) | Physicists | March 16, 2026 | April 17, 2026 |
 | [Engineering Blueprint](ENGINEERING_BLUEPRINT.md) | Quantum engineers | March 16, 2026 | March 28, 2026 |
 | [Circuit Diagram](CIRCUIT_DIAGRAM.md) | Electrical engineers | March 21, 2026 | March 24, 2026 |
+| [Naked-vs-Chain Benchmark](NAKED_VS_CHAIN_BENCHMARK.md) | Skeptics, benchmarkers | April 16, 2026 | April 16, 2026 |
 | [Emergence (early)](../recovered/EMERGENCE_THROUGH_REFLECTION.md) | General | Dec 21, 2025 | Dec 23, 2025 |

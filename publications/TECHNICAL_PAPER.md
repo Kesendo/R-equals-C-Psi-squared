@@ -712,13 +712,29 @@ character. See [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md).
    (XZ+YZ has maximum Π entanglement but zero transfer fidelity).
    See [Optimal QST Encoding](../experiments/OPTIMAL_QST_ENCODING.md).
 
-5. ~~**Experimental verification.**~~ **PARTIALLY ANSWERED (March 18, 2026).**
-   Single-qubit CΨ=1/4 crossing validated on ibm_torino (Q80) at 1.9%
-   deviation using same-day Ramsey T2*. The crossing equation
-   [1 - b^r + b^{2r}/2 + b^2/2]*b = 1/4 predicts the crossing time
-   accurately when T2* (not T2 echo) is used. Multi-qubit palindromic
-   pairing (N>=2) remains untested on hardware.
-   See [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md).
+5. ~~**Experimental verification.**~~ **PARTIALLY ANSWERED (updated April 16, 2026).**
+   - Single-qubit CΨ=1/4 crossing validated on ibm_torino (Q80) at 1.9%
+     deviation using same-day Ramsey T2*. The crossing equation
+     [1 - b^r + b^{2r}/2 + b^2/2]*b = 1/4 predicts the crossing time
+     accurately when T2* (not T2 echo) is used.
+   - Two-qubit Bell+ crossing validated on ibm_kingston (April 16, 2026):
+     both pairs of a dual-gamma test cross 1/4 monotonically, with F57
+     gamma-invariance of K_dwell/delta confirmed at 6% spread across a
+     factor 2.55 gamma variation. The absolute prefactor (~0.67) differs
+     from pure-dephasing Bell+ (1.0801) due to Kingston T1 amplitude
+     damping, as expected.
+   - Saved density matrices additionally reveal that both pairs already
+     trace 2D spirals in the complex c-plane (Kingston residual Z-
+     detunings +4.36 kHz and -7.59 kHz, opposite signs). The 1D real-
+     axis picture is the L1-projection; signed-sum extends CΨ to complex
+     values without changing the underlying physics.
+   - The direct palindromic eigenvalue pairing alpha_a + alpha_b = 2*gamma
+     (the spectral identity, rather than its dynamical consequences)
+     remains untested on hardware and would require Liouvillian tomography.
+   See [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md),
+   [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md),
+   [CΨ Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md),
+   [data/ibm_cusp_slowing_april2026](../data/ibm_cusp_slowing_april2026/).
 
 6. ~~**Single-bond universality.**~~ **ANSWERED (March 19-20, 2026).** ALL 36
    two-term Hamiltonian combinations are palindromic at N=2 (single bond). The
@@ -1018,6 +1034,24 @@ palindrome. Noise SHIFTS the pre-existing palindrome from its center
 at zero, and the shift creates the fold. The gain spectrum (Σγ < 0) is
 the exact mirror of the decay spectrum: the laser is the time-reversal
 of decoherence. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+
+**April 5 to 17, 2026: Cusp dynamics and second hardware hit.**
+The analytical formula register ([docs/ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md))
+has grown from F1-F54 at the time of Section 15 to F1-F68, adding
+closed-form critical-slowing at the Mandelbrot cusp (F56, zero fit
+parameters), the γ-invariance of dwell time at CΨ = 1/4 (F57, Bell+
+prefactor 1.0801, state-specific via F58/F59), geometric "born below
+the fold" theorems for GHZ_N and W_N at N ≥ 3 (F60, F62), the
+w_YZ parity symmetry [L, Π²] = 0 that gives L a second independent
+Z₂ grading (F63), and the single-excitation spectrum of the uniform
+open XX chain (F65) with its bonding-mode Bell-pair encoding (F67,
+cubic T₂ scaling) and palindromic partner (F68). The bonding-mode
+protection numbers are the subject of the standalone benchmark
+[NAKED_VS_CHAIN_BENCHMARK](NAKED_VS_CHAIN_BENCHMARK.md). F57 was
+hardware-validated on ibm_kingston on April 16 with 6% γ-invariance
+spread across two Bell+ pairs of 2.55× different γ, and the saved
+density matrices additionally reveal a 2D c-plane structure documented
+in [CPSI_COMPLEX_PLANE](../experiments/CPSI_COMPLEX_PLANE.md).
 
 ---
 

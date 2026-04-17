@@ -292,6 +292,18 @@ measured the actual crossing at 1.9% deviation. The θ = 0° prediction
 maps to a specific time t* = 15.01 μs for Qubit 80, confirmed at
 t* = 15.29 μs. The compass works on real hardware.
 
+The **two-qubit extension** ([CPSI_COMPLEX_PLANE](CPSI_COMPLEX_PLANE.md),
+April 16, 2026) moves the compass from the real axis into the full
+complex c-plane. Replacing the L1 norm of off-diagonals by a signed sum
+gives a complex CΨ_com whose magnitude reduces to the original CΨ but
+whose phase carries residual Hamiltonian-drift information. On ibm_kingston,
+two Bell+ pairs with 2.55× different γ show 2D logarithmic spirals winding
+through the 1/4-boundary (now a circle in the c-plane rather than a point
+on the axis). The 1D real-axis story of this document is the projection
+onto Re(CΨ_com); the hardware is always at least slightly 2D because no
+rotating frame is perfectly calibrated. The crossing angle arg(CΨ_com) at
+|CΨ_com| = 1/4 is a new observable not discarded by the L1 norm.
+
 The **Primordial Superalgebra** analysis
 ([PRIMORDIAL_SUPERALGEBRA_CAVITY](PRIMORDIAL_SUPERALGEBRA_CAVITY.md))
 showed that every palindromic mode is one standing wave oscillating between
