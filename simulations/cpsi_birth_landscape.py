@@ -9,6 +9,10 @@ Question: are there MULTI-QUBIT ENTANGLED states whose pair-reduced CΨ(0)
 STAYS above 1/4 for N ≥ 3? Or is the "born below the fold" statement
 universal for every genuinely entangled multi-qubit pure state?
 
+Answer (at N=3): YES, the GHZ+W mix does. See F69 and
+ghz_w_optimum_n3.py. For N ≥ 4 the same family fails. Whether any
+other family lifts pair-CΨ(0) above 1/4 for N ≥ 4 is open.
+
 Tested states:
     |+>^N           (product, trivial)
     GHZ_N, W_N      (F60/F62, must be below fold for N≥3)
@@ -21,7 +25,7 @@ Tested states:
 For each: compute CΨ on every distinct pair via partial trace, print
 min/max pair-CΨ(0), and whether any pair lies above 1/4.
 
-Date: 2026-04-16
+Date: 2026-04-16 (initial run), 2026-04-17 (verdict corrected after F69)
 """
 
 from __future__ import annotations
@@ -327,9 +331,14 @@ if __name__ == "__main__":
         log("=" * 72)
         log("  VERDICT")
         log("=" * 72)
-        log("  F60 exact: GHZ_N for N≥3 → CΨ(0) < 1/4 on every pair (product trivially 0)")
-        log("  F62 exact: W_N for N≥3 → CΨ(0) < 1/4 on every pair")
-        log("  Every pure N-qubit entangled state tested here: pair-CΨ(0) < 1/4 for N≥3.")
-        log("  The 'fold-birth' of multi-qubit entangled states is structural, not dynamic.")
+        log("  F60 exact: GHZ_N for N>=3 -> CPsi(0) < 1/4 on every pair (product trivially 0)")
+        log("  F62 exact: W_N for N>=3 -> CPsi(0) < 1/4 on every pair")
+        log("  Single-state tested here (GHZ, W, Dicke, Cluster, bonding-Bell,")
+        log("  product): all have pair-CPsi(0) < 1/4 for N >= 3 (except the trivial")
+        log("  product state |+>^N).")
+        log()
+        log("  BUT: mixing GHZ + W at N=3 DOES lift all pair-CPsi(0) above 1/4.")
+        log("  Optimum at alpha ~ 0.61 gives min pair-CPsi(0) ~ 0.32 (see F69).")
+        log("  For N >= 4 this family stays below 1/4; see ghz_w_optimum_n3.py.")
         log()
         log(f"  Output: {OUT}")

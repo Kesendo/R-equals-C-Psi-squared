@@ -86,9 +86,14 @@
 ========================================================================
   VERDICT
 ========================================================================
-  F60 exact: GHZ_N for N≥3 → CΨ(0) < 1/4 on every pair (product trivially 0)
-  F62 exact: W_N for N≥3 → CΨ(0) < 1/4 on every pair
-  Every pure N-qubit entangled state tested here: pair-CΨ(0) < 1/4 for N≥3.
-  The 'fold-birth' of multi-qubit entangled states is structural, not dynamic.
+  F60 exact: GHZ_N for N>=3 -> CPsi(0) < 1/4 on every pair (product trivially 0)
+  F62 exact: W_N for N>=3 -> CPsi(0) < 1/4 on every pair
+  Single-state tested here (GHZ, W, Dicke, Cluster, bonding-Bell,
+  product): all have pair-CPsi(0) < 1/4 for N >= 3 (except the trivial
+  product state |+>^N).
+
+  BUT: mixing GHZ + W at N=3 DOES lift all pair-CPsi(0) above 1/4.
+  Optimum at alpha ~ 0.61 gives min pair-CPsi(0) ~ 0.32 (see F69).
+  For N >= 4 this family stays below 1/4; see ghz_w_optimum_n3.py.
 
   Output: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cpsi_birth_landscape.txt

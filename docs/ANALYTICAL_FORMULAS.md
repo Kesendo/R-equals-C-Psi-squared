@@ -1393,6 +1393,55 @@ By F1 (palindromic spectrum), the bonding-mode eigenvalue -α_b of the full Liou
 **Scripts:** [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py)
 **Source:** F1, F43, F65, F66, F67, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 
+### F69. GHZ+W sector mix lifts pair-CΨ(0) above the fold at N=3 (Tier 1, sextic minimal polynomial, verified)
+
+F60 places GHZ_N below CΨ = 1/4 at t=0 for N ≥ 3; F62 places W_N below at t=0 for N ≥ 3. Both live in different sectors (GHZ in {w=0, w=N}, W in the single-excitation sector). Their superposition is the smallest family that mixes these sectors inside a symmetric pure state:
+
+    |ψ(α)⟩ = α |GHZ_3⟩ + β |W_3⟩,    α² + β² = 1,    α, β ≥ 0
+
+At N=3 this family admits a unique optimum of min pair-CΨ(0), sitting strictly above the fold. For N ≥ 4 no member of the same family lifts any pair above 1/4 (verified N=4, 5, 6).
+
+**Reduced density matrix.** Permutation-symmetric ρ_AB(α) has closed-form entries:
+
+    C(α)      = Tr(ρ_AB²) = -5α⁴/18 + 2α²/9 + 5/9
+    L1_off(α) = √6 · α · β + (2/3) β²       (for α, β ≥ 0)
+    CΨ(α)     = C(α) · L1_off(α) / 3
+
+All three pair reductions coincide (permutation symmetry): min = mean = max pair-CΨ, spread = 0.
+
+**Minimal polynomial of the optimum.** The stationarity condition dCΨ/dα = 0, rationalized in x = α², gives
+
+    2900 x⁶ - 8060 x⁵ + 4211 x⁴ + 3832 x³ - 2428 x² - 512 x + 300 = 0
+
+This sextic is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True, `factor_list` returns the polynomial itself as sole factor). The optimum α²_opt is therefore an algebraic number of degree exactly 6, with no expression in nested square roots or cube roots.
+
+**Numerical values (15 digits).**
+
+| quantity            | value                  |
+|---------------------|------------------------|
+| α²_opt              | 0.375420720711069      |
+| α_opt               | 0.612715856118400      |
+| β_opt               | 0.790303283341969      |
+| min pair-CΨ(0)      | 0.320411541127025      |
+| ratio to 1/4        | 1.281646×              |
+| 3-tangle τ_ABC      | 0.799453               |
+| C(A,B) = C(A,C) = C(B,C) | 0.021               |
+
+scipy-bounded optimization and direct root extraction from the sextic agree to 3.7 × 10⁻¹⁰ in α²_opt. A 401-point grid sweep reproduces CΨ_opt to within 5 × 10⁻⁸.
+
+**Relation to F61.** The single-excitation parity selection rule bounds protection *within* the SE sector. F69 leaves SE: ρ_AB mixes population content (from |GHZ⟩) with single-excitation coherence (from |W⟩), so F61's accessibility boundary does not apply here. Neither GHZ_3 nor W_3 alone sits above the fold; their symmetric mixture does because the SE sector contributes L1 coherence while the GHZ sector lifts purity. CΨ = C · Ψ is a product, and both factors need a partner.
+
+**Tripartite entanglement survives.** The optimum state has τ_ABC ≈ 0.80 (CKW 3-tangle) with pairwise concurrences C ≈ 0.02. Almost all the entanglement is genuinely three-body: the pair reductions look nearly separable, while the state as a whole is far from any biseparable decomposition. This matches the structural role of |GHZ⟩ in the mixture (pure 3-body coherence, zero pair concurrence).
+
+**Scope.** N=3 only. For N=4, 5, 6 the same family peaks at min pair-CΨ = 0.167, 0.146, 0.134 respectively (all < 1/4). Whether any other family lifts pairs above 1/4 for N ≥ 4 is open; F69 is not a universal statement.
+
+**Hardware relevance.** Under Kingston-grade Z-dephasing (T₂ = 240-320 μs, γ ≈ 0.003 μs⁻¹), the optimum state starts above the fold and crosses CΨ = 1/4 monotonically at t* ≈ 11 μs. State preparation requires a non-Clifford gate (amplitude ratio α:β is irrational), but a 2-qubit tomography readout at t=0 distinguishes the optimum from GHZ_3 (CΨ = 0) and W_3 (CΨ = 0.123) purely by the value of pair-CΨ, no delay or timing needed.
+
+**Verified:** α²_opt matches the sextic root to 3.7·10⁻¹⁰ (scipy bounded minimize vs sympy nroots). CΨ_opt stable to 15 digits across scipy, dense sweep, and symbolic evaluation. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence reproduced to 4 digits vs the independent run in [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py). N ∈ {4, 5, 6} failure verified on a 201-point grid.
+
+**Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py), [`cpsi_birth_landscape.py`](../simulations/cpsi_birth_landscape.py)
+**Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) (sector-mixing note, 2026-04-16)
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
