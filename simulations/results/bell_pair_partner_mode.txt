@@ -32,9 +32,9 @@ N = 3   (L_chain dim = 64, rho_ext dim = 16)
 
   Part 2: Partner R-C encoding SKIPPED (partner not rank-1)
 
-  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+  Part 3a: Bonding-mode R-C encoding (F67 Variant B)
     rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
-    propagation time: 0.04 s
+    propagation time: 0.05 s
     alpha_fit(bonding) = 0.0249692477
     alpha_b (spectral) = 0.0250034891
     relative error     = 1.37e-03
@@ -42,6 +42,9 @@ N = 3   (L_chain dim = 64, rho_ext dim = 16)
     negativity N(R:C) at t=0        = 0.500000
     negativity N(R:C) at t_max      = 0.003396
     negativity N(R:C) min           = 3.395651e-03
+
+  Part 3b: Bonding clean encoding SKIPPED at N = 3
+    V_b rank ratio sigma_1/sigma_0 = 9.75e-01 (not numerically rank-1; mult-4 degeneracy)
 
   Part 5: N=3 rank-2 negative control
     V_p singular spectrum (top 4):
@@ -76,7 +79,7 @@ N = 3   (L_chain dim = 64, rho_ext dim = 16)
 ========================================================================
 N = 4   (L_chain dim = 256, rho_ext dim = 32)
 ========================================================================
-  spectral extraction + eig: 0.27 s
+  spectral extraction + eig: 0.28 s
   alpha_1 (F65 perturbative)  = 0.0138196601
   alpha_b (full L_chain)      = 0.0137838939   (mult = 16)
   alpha_p (full L_chain)      = 0.0862161061   (mult = 16)
@@ -107,7 +110,7 @@ N = 4   (L_chain dim = 256, rho_ext dim = 32)
     negativity N(R:C) min throughout = 3.368973e-03
     negativity > 0 over whole window? YES
 
-  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+  Part 3a: Bonding-mode R-C encoding (F67 Variant B)
     rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
     propagation time: 0.03 s
     alpha_fit(bonding) = 0.0137840542
@@ -118,22 +121,39 @@ N = 4   (L_chain dim = 256, rho_ext dim = 32)
     negativity N(R:C) at t_max      = 0.003372
     negativity N(R:C) min           = 3.372112e-03
 
-  Part 4: Dynamical palindromic identity
-    alpha_fit(bonding) + alpha_fit(partner) = 0.1000001603
-    2*gamma_0                               = 0.1000000000
+  Part 3b: Bonding-mode R-C encoding (full-L V_b, clean)
+    rho_0 = (|0>_R|u_b> + |1>_R|v_b>)(h.c.) / 2   (u_b, v_b from SVD of V_b)
+    propagation time: 0.04 s
+    alpha_fit(bonding, clean) = 0.0137838939
+    alpha_b (spectral)        = 0.0137838939
+    relative error            = 1.26e-16
+    log-fit resid RMS         = 4.42e-16
+    negativity N(R:C) at t=0        = 0.500000
+    negativity N(R:C) at t_max      = 0.003369
+    negativity N(R:C) min           = 3.368973e-03
+
+  Part 4a: Dynamical palindromic identity (legacy bonding)
+    alpha_fit(bonding, legacy) + alpha_fit(partner) = 0.1000001603
+    2*gamma_0                                       = 0.1000000000
     absolute error = 1.60e-07
     relative error = 1.60e-06
+
+  Part 4b: Dynamical palindromic identity (clean bonding)
+    alpha_fit(bonding, clean)  + alpha_fit(partner) = 0.1000000000
+    2*gamma_0                                       = 0.1000000000
+    absolute error = 2.78e-17
+    relative error = 2.78e-16
 
 ========================================================================
 N = 5   (L_chain dim = 1024, rho_ext dim = 64)
 ========================================================================
-  spectral extraction + eig: 2.83 s
+  spectral extraction + eig: 2.95 s
   alpha_1 (F65 perturbative)  = 0.0083333333
   alpha_b (full L_chain)      = 0.0083025236   (mult = 20)
   alpha_p (full L_chain)      = 0.0916974764   (mult = 20)
   alpha_b + alpha_p           = 0.100000000000
   |sum - 2*gamma_0|           = 3.82e-15
-  L_chain diagonalization: 3.09 s
+  L_chain diagonalization: 3.13 s
 
   Part 1: SVD spectrum of V_p
     sigma_0(V_p) = 1.000000e+00
@@ -158,9 +178,9 @@ N = 5   (L_chain dim = 1024, rho_ext dim = 64)
     negativity N(R:C) min throughout = 3.368973e-03
     negativity > 0 over whole window? YES
 
-  Part 3: Bonding-mode R-C encoding (F67 Variant B)
+  Part 3a: Bonding-mode R-C encoding (F67 Variant B)
     rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2
-    propagation time: 0.08 s
+    propagation time: 0.07 s
     alpha_fit(bonding) = 0.0083025513
     alpha_b (spectral) = 0.0083025236
     relative error     = 3.34e-06
@@ -169,22 +189,51 @@ N = 5   (L_chain dim = 1024, rho_ext dim = 64)
     negativity N(R:C) at t_max      = 0.003372
     negativity N(R:C) min           = 3.371534e-03
 
-  Part 4: Dynamical palindromic identity
-    alpha_fit(bonding) + alpha_fit(partner) = 0.1000000277
-    2*gamma_0                               = 0.1000000000
+  Part 3b: Bonding-mode R-C encoding (full-L V_b, clean)
+    rho_0 = (|0>_R|u_b> + |1>_R|v_b>)(h.c.) / 2   (u_b, v_b from SVD of V_b)
+    propagation time: 0.08 s
+    alpha_fit(bonding, clean) = 0.0083025236
+    alpha_b (spectral)        = 0.0083025236
+    relative error            = 4.18e-16
+    log-fit resid RMS         = 1.23e-15
+    negativity N(R:C) at t=0        = 0.500000
+    negativity N(R:C) at t_max      = 0.003369
+    negativity N(R:C) min           = 3.368973e-03
+
+  Part 4a: Dynamical palindromic identity (legacy bonding)
+    alpha_fit(bonding, legacy) + alpha_fit(partner) = 0.1000000277
+    2*gamma_0                                       = 0.1000000000
     absolute error = 2.77e-08
     relative error = 2.77e-07
+
+  Part 4b: Dynamical palindromic identity (clean bonding)
+    alpha_fit(bonding, clean)  + alpha_fit(partner) = 0.1000000000
+    2*gamma_0                                       = 0.1000000000
+    absolute error = 3.80e-15
+    relative error = 3.80e-14
 
 ========================================================================
 FINAL SUMMARY
 ========================================================================
 
-Spectral + dynamical rates
-    N      alpha_b      alpha_p    fit(bond)    fit(part)      dyn sum    rel err
+Spectral + dynamical rates (legacy bonding encoding)
+    N      alpha_b      alpha_p   fit(b,leg)    fit(part)      dyn sum    rel err
   --- ------------ ------------ ------------ ------------ ------------ ----------
     3     0.025003     0.074997     0.024969       rank-2          ---        ---
     4     0.013784     0.086216     0.013784     0.086216     0.100000   1.60e-06
     5     0.008303     0.091697     0.008303     0.091697     0.100000   2.77e-07
+
+Spectral + dynamical rates (clean bonding encoding)
+    N      alpha_b      alpha_p   fit(b,clean)    fit(part)    dyn sum clean    rel err
+  --- ------------ ------------ -------------- ------------ ---------------- ----------
+    3     0.025003     0.074997      (skipped)       rank-2              ---        ---
+    4     0.013784     0.086216       0.013784     0.086216   0.100000000000   2.78e-16
+    5     0.008303     0.091697       0.008303     0.091697   0.100000000000   3.80e-14
+
+Palindrome comparison (legacy vs clean)
+  N=3:  (no partner fit; palindrome check not applicable)
+  N=4:  legacy rel_dyn = 1.60e-06   clean rel_dyn = 2.78e-16   improvement factor = 5.78e+09
+  N=5:  legacy rel_dyn = 2.77e-07   clean rel_dyn = 3.80e-14   improvement factor = 7.29e+06
 
 Acceptance criteria (task spec):
   N=4:
@@ -206,9 +255,20 @@ Bonus criteria:
     log-fit residuals < 0.01 for both:  YES  (bond resid 1.52e-04, part resid 4.66e-16)
     partner N(R:C) > 0 throughout:      YES  (min N = 3.37e-03)
 
+Clean bonding palindrome (this task):
+  N=4: palindrome sum within 1e-10 rel:  PASS   (rel err = 2.78e-16)
+  N=5: palindrome sum within 1e-10 rel:  PASS   (rel err = 3.80e-14)
+
+Clean bonding bonus (this task):
+  N=4: palindrome sum within 1e-12 rel:  YES   (rel err = 2.78e-16)
+    log-fit resid improves >= 10x:      YES   (leg 2.06e-04 / clean 4.42e-16 = 4.7e+11x)
+  N=5: palindrome sum within 1e-12 rel:  YES   (rel err = 3.80e-14)
+    log-fit resid improves >= 10x:      YES   (leg 1.52e-04 / clean 1.23e-15 = 1.2e+11x)
+
 N=3 (rank-2 degeneracy, negative control):
     V_p SVD top 4:           [0.7158744989042318, 0.6982041930509741, 0.005882739553435625, 5.331011374017959e-10]
-    bonding fit: alpha_fit(b) = 0.024969 vs alpha_b = 0.025003  (rel err = 1.37e-03, resid 3.20e-04)
+    bonding fit (legacy): alpha_fit(b) = 0.024969 vs alpha_b = 0.025003  (rel err = 1.37e-03, resid 3.20e-04)
+    bonding fit (clean):  skipped (V_b rank ratio = 9.75e-01, not numerically rank-1)
     rank-1 approximations of V_p:
       i=0: alpha_fit = 0.036659  (rel err 5.11e-01, resid 1.10e-01)
       i=1: alpha_fit = 0.036645  (rel err 5.11e-01, resid 1.09e-01)

@@ -1381,15 +1381,18 @@ exact to machine precision. For the uniform N-site XY chain with endpoint Z-deph
 
 **Rank-1 at N ≥ 4.** V_p admits a rank-1 SVD decomposition V_p = σ₀|u⟩⟨v|. Strict SVD rank-1 (σ₁/σ₀ < 10⁻¹⁰) holds at N = 5 (ratio 9.3·10⁻¹²) and at LAPACK `zgeev` precision at N = 4 (ratio 5.1·10⁻⁸, limited by the 16-fold degeneracy of the partner eigenvalue, not by any physical second mode).
 
-**Operational encoding.** The Bell-pair-like R-C state (|0⟩_R|u⟩ + |1⟩_R|v⟩)/√2 propagates with off-diagonal decay rate α_fit(partner) matching spectral α_p at machine precision (rel err 1.5·10⁻¹⁶ at N = 5, 0 at N = 4). Combined with the F67 bonding-mode encoding in the same propagation, the dynamical palindromic identity α_fit(bond) + α_fit(part) = 2γ₀ holds to 10⁻⁶ (N = 4) and 10⁻⁷ (N = 5). The residual is entirely the F65 perturbative shift on the bonding side, where |vac⟩⟨ψ_1| is only the first-order mode; the partner fit is spectrally exact because V_p is used verbatim.
+**Operational encoding.** The Bell-pair-like R-C state (|0⟩_R|u⟩ + |1⟩_R|v⟩)/√2 propagates with off-diagonal decay rate α_fit(partner) matching spectral α_p at machine precision (rel err 1.5·10⁻¹⁶ at N = 5, 0 at N = 4). Combined with a bonding-side encoding in the same propagation, the dynamical palindromic identity α_fit(bond) + α_fit(part) = 2γ₀ holds at two distinct precision levels:
 
-**N = 3 is rank-2.** Both bonding and partner are fourfold degenerate, and any rank-1 approximation of V_p gives α_fit ≈ (α_b + α_p)/2 with visibly non-exponential decay (log-fit RMS ~10⁻¹, two orders above N ≥ 4). The palindromic sum still holds spectrally; no clean operational rank-1 encoding exists.
+- **Legacy bonding encoding** (|vac⟩⟨ψ_1|, F65 perturbative): rel err 1.6·10⁻⁶ (N = 4) and 2.8·10⁻⁷ (N = 5). The residual is the F65 O((γ₀/J)²) shift on the bonding side, reintroduced as state-preparation pollution; the partner fit is spectrally exact because V_p is used verbatim.
+- **Clean bonding encoding** (SVD of full-L V_b, same construction as V_p): rel err 2.8·10⁻¹⁶ (N = 4) and 3.8·10⁻¹⁴ (N = 5). Both sides spectrally exact; residual is integrator-/eigendecomposition-floor limited. The ~10⁹ improvement at N = 4 and ~10⁷ at N = 5 verify that the legacy residual is entirely the F65 perturbative shift and no other shift is hiding.
 
-| N | α_b | α_p | α_fit(bond) | α_fit(part) | dyn sum | rel err |
-|---|-----|-----|-------------|-------------|---------|---------|
-| 3 | 0.025003 | 0.074997 | 0.024969 | rank-2 | n/a | n/a |
-| 4 | 0.013784 | 0.086216 | 0.013784 | 0.086216 | 0.100000 | 1.6·10⁻⁶ |
-| 5 | 0.008303 | 0.091697 | 0.008303 | 0.091697 | 0.100000 | 2.8·10⁻⁷ |
+**N = 3 is rank-2 on both sides.** Both V_b and V_p are fourfold degenerate with matching SVD structure (σ₁/σ₀ ≈ 0.98 for each, from the mult-4 degeneracy). Any rank-1 approximation of V_p gives α_fit ≈ (α_b + α_p)/2 with visibly non-exponential decay (log-fit RMS ~10⁻¹, two orders above N ≥ 4); the clean bonding encoding is skipped at N = 3 for the same structural reason. The palindromic sum still holds spectrally; no clean operational rank-1 encoding exists.
+
+| N | α_b | α_p | α_fit(bond, legacy) | α_fit(bond, clean) | α_fit(part) | dyn sum | rel err (legacy) | rel err (clean) |
+|---|-----|-----|---------------------|--------------------|-------------|---------|------------------|-----------------|
+| 3 | 0.025003 | 0.074997 | 0.024969 | skipped (rank-2) | rank-2 | n/a | n/a | n/a |
+| 4 | 0.013784 | 0.086216 | 0.013784 | 0.013784 | 0.086216 | 0.100000 | 1.6·10⁻⁶ | 2.8·10⁻¹⁶ |
+| 5 | 0.008303 | 0.091697 | 0.008303 | 0.008303 | 0.091697 | 0.100000 | 2.8·10⁻⁷ | 3.8·10⁻¹⁴ |
 
 **Valid for:** uniform XY chain, endpoint Z-dephasing, N ≥ 4 for the clean rank-1 operational statement. Algebraic palindromic pairing holds for all N, all graphs, all single-site-dephasing Liouvillians (from F1).
 

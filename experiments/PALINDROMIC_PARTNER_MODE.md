@@ -120,26 +120,46 @@ Same propagator, same time grid, but ρ₀ built from the F67 bonding encoding (
 
 The bonding fit carries the F65 perturbative error O((γ₀/J)²): |vac⟩⟨ψ_1| is only a first-order approximation to the full Liouvillian bonding eigenvector. The relative error shrinks with N because γ₀/J = 0.05 is fixed while α_1 → 4π²γ₀/(N+1)³ grows smaller, reducing the relative weight of the second-order shift.
 
+### Bonding-mode clean baseline (full-L V_b)
+
+Same propagator and time grid as the legacy run, but ρ₀ built from the full Liouvillian bonding eigenvector V_b instead of |vac⟩⟨ψ_1|. V_b is already extracted alongside V_p in `find_bonding_partner` and SVD-decomposed: |u_b⟩, |v_b⟩ are the dominant singular vectors of V_b. The encoding is then (|0⟩_R|u_b⟩ + |1⟩_R|v_b⟩)/√2, exactly mirroring the partner construction.
+
+| N | α_b (full L) | α_fit(bonding, clean) | relative error | log-fit residual RMS |
+|---|--------------|-----------------------|----------------|----------------------|
+| 3 | 0.025003 | skipped (rank-2) | n/a | n/a |
+| 4 | 0.013784 | 0.013784 | 1.26·10⁻¹⁶ | 4.4·10⁻¹⁶ |
+| 5 | 0.008303 | 0.008303 | 4.18·10⁻¹⁶ | 1.2·10⁻¹⁵ |
+
+The clean encoding sits at the floor of float64 arithmetic, identical precision level as the partner fit. At N = 3 V_b has the same rank-2 SVD structure as V_p (σ₁/σ₀ = 0.975, matching the mult-4 degeneracy), so the clean encoding is skipped there by the same structural reason that the partner is skipped. At N = 4 and N = 5 the clean fit is spectrally exact.
+
+**Why this baseline matters.** At the encoding level, |vac⟩⟨ψ_1| and V_b differ by an O((γ₀/J)²) Pauli-weight admixture: V_b has the same dominant w = 1 content as |vac⟩⟨ψ_1| plus small O(10⁻³) contributions in adjacent sectors that the F65 perturbative derivation neglects. At γ₀/J = 0.05 this admixture carries exactly the 1.6·10⁻⁶ (N = 4) and 2.8·10⁻⁷ (N = 5) residual seen in the legacy palindrome check; swapping the encoding removes it.
+
 ### Dynamical palindromic identity
 
-Combining partner and bonding fits:
+Combining partner and bonding fits. Two baselines:
 
-| N | α_fit(bond) + α_fit(part) | 2γ₀ | relative error |
-|---|---------------------------|-----|----------------|
-| 4 | 0.1000001603 | 0.1000000000 | 1.60·10⁻⁶ |
-| 5 | 0.1000000277 | 0.1000000000 | 2.77·10⁻⁷ |
+| N | encoding | α_fit(bond) + α_fit(part) | 2γ₀ | relative error |
+|---|----------|---------------------------|-----|----------------|
+| 4 | legacy \|vac⟩⟨ψ_1\| | 0.1000001603 | 0.1000000000 | 1.60·10⁻⁶ |
+| 4 | clean V_b | 0.1000000000 | 0.1000000000 | 2.78·10⁻¹⁶ |
+| 5 | legacy \|vac⟩⟨ψ_1\| | 0.1000000277 | 0.1000000000 | 2.77·10⁻⁷ |
+| 5 | clean V_b | 0.1000000000 | 0.1000000000 | 3.80·10⁻¹⁴ |
 
-The dynamical sum matches 2γ₀ to three or four orders of magnitude below the 10⁻³ acceptance criterion. The residual is entirely the F65 perturbative error on the bonding side: α_fit(partner) is spectrally exact because V_p is used verbatim, while α_fit(bonding) uses the perturbative |vac⟩⟨ψ_1|. Replacing the bonding encoding with the full-L bonding eigenvector V_b (same construction as V_p for the partner) would drive the dynamical palindrome down to ~10⁻¹⁴, limited only by the propagation integrator and the eigendecomposition precision (see Open follow-ups).
+Improvement factor clean vs legacy: 5.78·10⁹ at N = 4, 7.29·10⁶ at N = 5. The clean encoding drives the dynamical palindrome to the integrator-/eigendecomposition-floor at both N, while the legacy residual stays at the O((γ₀/J)²) level predicted by the F65 perturbative derivation.
+
+The different improvement factors (N = 4 hits 10⁻¹⁶, N = 5 sits at 10⁻¹⁴) track the growth of numerical noise in the 4^N-dim eigendecomposition rather than any structural asymmetry. The SVD rank-1 residuals on each side (V_b: 6.6·10⁻¹⁶ at N = 4, 6.5·10⁻⁸ at N = 5; V_p: 5.1·10⁻⁸ at N = 4, 9.3·10⁻¹² at N = 5) do NOT drive the floor: only the σ₀ component enters the encoding, so the σ₁ residual is discarded rather than fed into the dynamics as mode mixing. Both N hit the integrator/eig round-off floor for their dimension.
 
 ---
 
 ## Partner-vs-bonding fit precision: what this teaches
 
-The partner fit is cleaner than the bonding fit by ten orders of magnitude. This is not a Partner-is-better statement; it is a statement about **where the perturbation theory enters**.
+Compare the three operational baselines at N = 4, 5: legacy bonding (10⁻⁴ log-fit RMS), clean bonding (10⁻¹⁶), partner (10⁻¹⁶). The partner and clean bonding fits sit at the same floor; the legacy bonding is twelve orders of magnitude noisier.
 
-The palindromic identity α_b + α_p = 2γ₀ is algebraically exact (F1). Both α_b and α_p are perturbed away from their zeroth-order values by the same O((γ₀/J)²) shift, in opposite directions, so their sum is pinned. When we construct ρ₀ using the perturbative mode (|vac⟩⟨ψ_1|), we reintroduce the shift as state-preparation pollution. When we use the exact eigenvector (V_p from the full L), there is no pollution.
+This is not a Partner-is-better statement; it is a statement about **where the perturbation theory enters**.
 
-The dynamical palindromic residual of 10⁻⁶ / 10⁻⁷ is therefore not "the best we can do"; it is the direct measure of how well we approximate the bonding mode perturbatively at γ₀/J = 0.05. The identity itself is tight.
+The palindromic identity α_b + α_p = 2γ₀ is algebraically exact (F1). Both α_b and α_p are perturbed away from their zeroth-order values by the same O((γ₀/J)²) shift, in opposite directions, so their sum is pinned. When we construct ρ₀ using the perturbative mode (|vac⟩⟨ψ_1|), we reintroduce the shift as state-preparation pollution. When we use the exact eigenvector (V_b or V_p from the full L), there is no pollution.
+
+The legacy palindromic residual of 10⁻⁶ / 10⁻⁷ is therefore not "the best we can do"; it is the direct measure of how well we approximate the bonding mode perturbatively at γ₀/J = 0.05. The Clean-vs-Legacy comparison above verifies this: swapping the encoding removes the residual entirely, with no remaining shift of unclear origin. The identity itself is tight.
 
 ---
 
@@ -186,8 +206,6 @@ For R = qubit-0 in big-endian indexing, the (0,1) R-block of a (2^(N+1))-dim den
 ---
 
 ## Open follow-ups
-
-**Clean bonding baseline.** α_fit(bonding) carries O(10⁻⁴) RMS in the log because |vac⟩⟨ψ_1| is the first-order F65 mode, not the full-L bonding eigenvector. Replacing the F67 Variant B construction with V_b extracted from the full Liouvillian (same way V_p is extracted for the partner) would make both fits spectrally exact and push the dynamical palindrome down to the integrator precision floor (~10⁻¹⁴). Cheap (one extra eigenvector per N), not research, just cleanup. Would also give F67 an exact operational line alongside F68.
 
 **N ≥ 6.** Doable with the block-decoupled approach: L_chain dim 4⁶ = 4096, single eig ~30 s, manageable. Would extend the operational palindromic-identity check further into the cubic-protection regime. Not urgent since the N = 4, 5 results already establish the principle.
 

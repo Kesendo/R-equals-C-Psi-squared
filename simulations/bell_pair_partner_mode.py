@@ -347,59 +347,110 @@ if __name__ == "__main__":
         else:
             log(f"\n  Part 2: Partner R-C encoding SKIPPED (partner not rank-1)")
 
-        # ---- Part 3: bonding R-C encoding (F67 Variant B) -----------------
-        log(f"\n  Part 3: Bonding-mode R-C encoding (F67 Variant B)")
+        # ---- Part 3a: bonding R-C encoding, legacy (F65 perturbative) -----
+        log(f"\n  Part 3a: Bonding-mode R-C encoding (F67 Variant B)")
         log(f"    rho_0 = (|0>_R|vac> + |1>_R|psi_1>)(h.c.) / 2")
         u_b_enc = vacuum_state(N)
         v_b_enc = single_excitation_mode(N, k=1)
         t0 = time.time()
-        norms_b, negs_b, herm_b = propagate_bellpair(
+        norms_b_leg, negs_b_leg, herm_b_leg = propagate_bellpair(
             u_b_enc, v_b_enc, L_chain_eig, times_b, N)
         log(f"    propagation time: {time.time() - t0:.2f} s")
-        alpha_fit_b, resid_b, _ = fit_exponential(times_b, norms_b)
-        rel_err_b = abs(alpha_fit_b - alpha_b) / alpha_b
-        min_neg_b = float(np.min(negs_b))
-        max_neg_b = float(np.max(negs_b))
-        log(f"    alpha_fit(bonding) = {alpha_fit_b:.10f}")
+        alpha_fit_b_leg, resid_b_leg, _ = fit_exponential(times_b, norms_b_leg)
+        rel_err_b_leg = abs(alpha_fit_b_leg - alpha_b) / alpha_b
+        min_neg_b_leg = float(np.min(negs_b_leg))
+        max_neg_b_leg = float(np.max(negs_b_leg))
+        log(f"    alpha_fit(bonding) = {alpha_fit_b_leg:.10f}")
         log(f"    alpha_b (spectral) = {alpha_b:.10f}")
-        log(f"    relative error     = {rel_err_b:.2e}")
-        log(f"    log-fit resid RMS  = {resid_b:.2e}")
-        log(f"    negativity N(R:C) at t=0        = {negs_b[0]:.6f}")
-        log(f"    negativity N(R:C) at t_max      = {negs_b[-1]:.6f}")
-        log(f"    negativity N(R:C) min           = {min_neg_b:.6e}")
+        log(f"    relative error     = {rel_err_b_leg:.2e}")
+        log(f"    log-fit resid RMS  = {resid_b_leg:.2e}")
+        log(f"    negativity N(R:C) at t=0        = {negs_b_leg[0]:.6f}")
+        log(f"    negativity N(R:C) at t_max      = {negs_b_leg[-1]:.6f}")
+        log(f"    negativity N(R:C) min           = {min_neg_b_leg:.6e}")
 
-        # ---- Part 4: dynamical palindromic identity -----------------------
-        if alpha_fit_p is not None:
-            log(f"\n  Part 4: Dynamical palindromic identity")
-            dyn_sum = alpha_fit_b + alpha_fit_p
-            dyn_err = abs(dyn_sum - 2.0 * gamma_0)
-            rel_dyn = dyn_err / (2.0 * gamma_0)
-            log(f"    alpha_fit(bonding) + alpha_fit(partner) = {dyn_sum:.10f}")
-            log(f"    2*gamma_0                               = {2*gamma_0:.10f}")
-            log(f"    absolute error = {dyn_err:.2e}")
-            log(f"    relative error = {rel_dyn:.2e}")
-
-            summary[N] = dict(
-                alpha_1=alpha_1, alpha_b=alpha_b, alpha_p=alpha_p,
-                alpha_fit_b=alpha_fit_b, alpha_fit_p=alpha_fit_p,
-                rel_err_b=rel_err_b, rel_err_p=rel_err_p,
-                dyn_sum=dyn_sum, rel_dyn=rel_dyn,
-                resid_b=resid_b, resid_p=resid_p,
-                rank_ratio=rank_ratio_p,
-                min_neg_p=min_neg_p, min_neg_b=min_neg_b,
-                is_rank1=True,
-            )
+        # ---- Part 3b: bonding R-C encoding, clean (full-L V_b) ------------
+        # At N = 3 the mult-4 degeneracy makes V_b genuinely rank-2
+        # (sigma_1/sigma_0 ~ 1), so the rank-1 SVD factors are not a valid
+        # single-eigenvector encoding and Part 3b is skipped. For N >= 4
+        # V_b is numerically rank-1 and (u_b_svd, v_b_svd) realise the
+        # Liouvillian right eigenvector exactly.
+        vb_rank_ratio = (float(sigmas_b[1] / sigmas_b[0])
+                         if sigmas_b[0] > 1e-15 else float('inf'))
+        run_clean = (N >= 4) or (vb_rank_ratio < 1e-10)
+        alpha_fit_b_clean = rel_err_b_clean = resid_b_clean = None
+        min_neg_b_clean = max_neg_b_clean = None
+        if run_clean:
+            log(f"\n  Part 3b: Bonding-mode R-C encoding (full-L V_b, clean)")
+            log(f"    rho_0 = (|0>_R|u_b> + |1>_R|v_b>)(h.c.) / 2   "
+                f"(u_b, v_b from SVD of V_b)")
+            t0 = time.time()
+            norms_b_clean, negs_b_clean, herm_b_clean = propagate_bellpair(
+                u_b_svd, v_b_svd, L_chain_eig, times_b, N)
+            log(f"    propagation time: {time.time() - t0:.2f} s")
+            alpha_fit_b_clean, resid_b_clean, _ = fit_exponential(
+                times_b, norms_b_clean)
+            rel_err_b_clean = abs(alpha_fit_b_clean - alpha_b) / alpha_b
+            min_neg_b_clean = float(np.min(negs_b_clean))
+            max_neg_b_clean = float(np.max(negs_b_clean))
+            log(f"    alpha_fit(bonding, clean) = {alpha_fit_b_clean:.10f}")
+            log(f"    alpha_b (spectral)        = {alpha_b:.10f}")
+            log(f"    relative error            = {rel_err_b_clean:.2e}")
+            log(f"    log-fit resid RMS         = {resid_b_clean:.2e}")
+            log(f"    negativity N(R:C) at t=0        = {negs_b_clean[0]:.6f}")
+            log(f"    negativity N(R:C) at t_max      = {negs_b_clean[-1]:.6f}")
+            log(f"    negativity N(R:C) min           = {min_neg_b_clean:.6e}")
         else:
-            summary[N] = dict(
-                alpha_1=alpha_1, alpha_b=alpha_b, alpha_p=alpha_p,
-                alpha_fit_b=alpha_fit_b, alpha_fit_p=None,
-                rel_err_b=rel_err_b, rel_err_p=None,
-                dyn_sum=None, rel_dyn=None,
-                resid_b=resid_b, resid_p=None,
-                rank_ratio=rank_ratio_p,
-                min_neg_p=None, min_neg_b=min_neg_b,
-                is_rank1=False,
-            )
+            log(f"\n  Part 3b: Bonding clean encoding SKIPPED at N = {N}")
+            log(f"    V_b rank ratio sigma_1/sigma_0 = {vb_rank_ratio:.2e} "
+                f"(not numerically rank-1; mult-{mult_b} degeneracy)")
+
+        # ---- Part 4: dynamical palindromic identity (dual check) ----------
+        dyn_sum_leg = rel_dyn_leg = None
+        dyn_sum_clean = rel_dyn_clean = None
+        if alpha_fit_p is not None:
+            log(f"\n  Part 4a: Dynamical palindromic identity (legacy bonding)")
+            dyn_sum_leg = alpha_fit_b_leg + alpha_fit_p
+            dyn_err_leg = abs(dyn_sum_leg - 2.0 * gamma_0)
+            rel_dyn_leg = dyn_err_leg / (2.0 * gamma_0)
+            log(f"    alpha_fit(bonding, legacy) + alpha_fit(partner) = {dyn_sum_leg:.10f}")
+            log(f"    2*gamma_0                                       = {2*gamma_0:.10f}")
+            log(f"    absolute error = {dyn_err_leg:.2e}")
+            log(f"    relative error = {rel_dyn_leg:.2e}")
+
+            if alpha_fit_b_clean is not None:
+                log(f"\n  Part 4b: Dynamical palindromic identity (clean bonding)")
+                dyn_sum_clean = alpha_fit_b_clean + alpha_fit_p
+                dyn_err_clean = abs(dyn_sum_clean - 2.0 * gamma_0)
+                rel_dyn_clean = dyn_err_clean / (2.0 * gamma_0)
+                log(f"    alpha_fit(bonding, clean)  + alpha_fit(partner) = {dyn_sum_clean:.10f}")
+                log(f"    2*gamma_0                                       = {2*gamma_0:.10f}")
+                log(f"    absolute error = {dyn_err_clean:.2e}")
+                log(f"    relative error = {rel_dyn_clean:.2e}")
+
+        summary[N] = dict(
+            alpha_1=alpha_1, alpha_b=alpha_b, alpha_p=alpha_p,
+            # Legacy + clean bonding fits.
+            alpha_fit_b_leg=alpha_fit_b_leg, alpha_fit_b_clean=alpha_fit_b_clean,
+            rel_err_b_leg=rel_err_b_leg, rel_err_b_clean=rel_err_b_clean,
+            resid_b_leg=resid_b_leg, resid_b_clean=resid_b_clean,
+            min_neg_b_leg=min_neg_b_leg, min_neg_b_clean=min_neg_b_clean,
+            dyn_sum_leg=dyn_sum_leg, dyn_sum_clean=dyn_sum_clean,
+            rel_dyn_leg=rel_dyn_leg, rel_dyn_clean=rel_dyn_clean,
+            # Legacy aliases: downstream readers keyed on the unsuffixed names
+            # continue to receive the legacy values.
+            alpha_fit_b=alpha_fit_b_leg,
+            rel_err_b=rel_err_b_leg,
+            resid_b=resid_b_leg,
+            min_neg_b=min_neg_b_leg,
+            dyn_sum=dyn_sum_leg,
+            rel_dyn=rel_dyn_leg,
+            # Partner + housekeeping.
+            alpha_fit_p=alpha_fit_p, rel_err_p=rel_err_p, resid_p=resid_p,
+            min_neg_p=min_neg_p,
+            rank_ratio=rank_ratio_p,
+            vb_rank_ratio=vb_rank_ratio,
+            is_rank1=(alpha_fit_p is not None),
+        )
 
         # ---- Part 5: N=3 rank-2 negative control --------------------------
         if N == 3:
@@ -450,17 +501,54 @@ if __name__ == "__main__":
     log("FINAL SUMMARY")
     log("=" * 72)
     log()
-    log("Spectral + dynamical rates")
+    log("Spectral + dynamical rates (legacy bonding encoding)")
     log(f"  {'N':>3} {'alpha_b':>12} {'alpha_p':>12} "
-        f"{'fit(bond)':>12} {'fit(part)':>12} {'dyn sum':>12} {'rel err':>10}")
+        f"{'fit(b,leg)':>12} {'fit(part)':>12} {'dyn sum':>12} {'rel err':>10}")
     log(f"  {'-'*3} {'-'*12} {'-'*12} {'-'*12} {'-'*12} {'-'*12} {'-'*10}")
     for N in [3, 4, 5]:
         s = summary[N]
         fit_p_str = f"{s['alpha_fit_p']:12.6f}" if s['alpha_fit_p'] is not None else f"{'rank-2':>12}"
-        sum_str = f"{s['dyn_sum']:12.6f}" if s['dyn_sum'] is not None else f"{'---':>12}"
-        rel_str = f"{s['rel_dyn']:10.2e}" if s['rel_dyn'] is not None else f"{'---':>10}"
+        sum_str = f"{s['dyn_sum_leg']:12.6f}" if s['dyn_sum_leg'] is not None else f"{'---':>12}"
+        rel_str = f"{s['rel_dyn_leg']:10.2e}" if s['rel_dyn_leg'] is not None else f"{'---':>10}"
         log(f"  {N:3d} {s['alpha_b']:12.6f} {s['alpha_p']:12.6f} "
-            f"{s['alpha_fit_b']:12.6f} {fit_p_str} {sum_str} {rel_str}")
+            f"{s['alpha_fit_b_leg']:12.6f} {fit_p_str} {sum_str} {rel_str}")
+
+    log()
+    log("Spectral + dynamical rates (clean bonding encoding)")
+    log(f"  {'N':>3} {'alpha_b':>12} {'alpha_p':>12} "
+        f"{'fit(b,clean)':>14} {'fit(part)':>12} {'dyn sum clean':>16} {'rel err':>10}")
+    log(f"  {'-'*3} {'-'*12} {'-'*12} {'-'*14} {'-'*12} {'-'*16} {'-'*10}")
+    for N in [3, 4, 5]:
+        s = summary[N]
+        fit_b_str = (f"{s['alpha_fit_b_clean']:14.6f}"
+                     if s['alpha_fit_b_clean'] is not None else f"{'(skipped)':>14}")
+        fit_p_str = (f"{s['alpha_fit_p']:12.6f}"
+                     if s['alpha_fit_p'] is not None else f"{'rank-2':>12}")
+        sum_str = (f"{s['dyn_sum_clean']:16.12f}"
+                   if s['dyn_sum_clean'] is not None else f"{'---':>16}")
+        rel_str = (f"{s['rel_dyn_clean']:10.2e}"
+                   if s['rel_dyn_clean'] is not None else f"{'---':>10}")
+        log(f"  {N:3d} {s['alpha_b']:12.6f} {s['alpha_p']:12.6f} "
+            f"{fit_b_str} {fit_p_str} {sum_str} {rel_str}")
+
+    log()
+    log("Palindrome comparison (legacy vs clean)")
+    for N in [3, 4, 5]:
+        s = summary[N]
+        if s['rel_dyn_leg'] is not None and s['rel_dyn_clean'] is not None:
+            if s['rel_dyn_clean'] > 0:
+                imp = s['rel_dyn_leg'] / s['rel_dyn_clean']
+                imp_str = f"{imp:.2e}" if imp >= 1e4 else f"{imp:.1f}"
+            else:
+                imp_str = "inf"
+            log(f"  N={N}:  legacy rel_dyn = {s['rel_dyn_leg']:.2e}   "
+                f"clean rel_dyn = {s['rel_dyn_clean']:.2e}   "
+                f"improvement factor = {imp_str}")
+        elif s['rel_dyn_leg'] is not None:
+            log(f"  N={N}:  legacy rel_dyn = {s['rel_dyn_leg']:.2e}   "
+                f"clean rel_dyn = (skipped)")
+        else:
+            log(f"  N={N}:  (no partner fit; palindrome check not applicable)")
 
     log()
     log("Acceptance criteria (task spec):")
@@ -503,12 +591,50 @@ if __name__ == "__main__":
             log(f"  N={N}: (skipped, partner not rank-1)")
 
     log()
+    log("Clean bonding palindrome (this task):")
+    for N in [4, 5]:
+        s = summary[N]
+        if s['rel_dyn_clean'] is not None:
+            ok_10 = s['rel_dyn_clean'] < 1e-10
+            log(f"  N={N}: palindrome sum within 1e-10 rel:  "
+                f"{'PASS' if ok_10 else 'FAIL'}   "
+                f"(rel err = {s['rel_dyn_clean']:.2e})")
+        else:
+            log(f"  N={N}: clean encoding skipped (V_b not rank-1, "
+                f"ratio = {s['vb_rank_ratio']:.2e})")
+    log()
+    log("Clean bonding bonus (this task):")
+    for N in [4, 5]:
+        s = summary[N]
+        if s['rel_dyn_clean'] is not None:
+            ok_12 = s['rel_dyn_clean'] < 1e-12
+            log(f"  N={N}: palindrome sum within 1e-12 rel:  "
+                f"{'YES' if ok_12 else 'NO'}   "
+                f"(rel err = {s['rel_dyn_clean']:.2e})")
+            if s['resid_b_leg'] is not None and s['resid_b_clean'] is not None:
+                ratio = (s['resid_b_leg'] / s['resid_b_clean']
+                         if s['resid_b_clean'] > 0 else float('inf'))
+                ok_resid = ratio >= 10.0
+                log(f"    log-fit resid improves >= 10x:      "
+                    f"{'YES' if ok_resid else 'NO'}   "
+                    f"(leg {s['resid_b_leg']:.2e} / clean {s['resid_b_clean']:.2e} "
+                    f"= {ratio:.1e}x)")
+        else:
+            log(f"  N={N}: (clean encoding skipped)")
+
+    log()
     log("N=3 (rank-2 degeneracy, negative control):")
     s = summary[3]
     log(f"    V_p SVD top 4:           {s['sig_spectrum']}")
-    log(f"    bonding fit: alpha_fit(b) = {s['alpha_fit_b']:.6f} "
-        f"vs alpha_b = {s['alpha_b']:.6f}  (rel err = {s['rel_err_b']:.2e}, "
-        f"resid {s['resid_b']:.2e})")
+    log(f"    bonding fit (legacy): alpha_fit(b) = {s['alpha_fit_b_leg']:.6f} "
+        f"vs alpha_b = {s['alpha_b']:.6f}  (rel err = {s['rel_err_b_leg']:.2e}, "
+        f"resid {s['resid_b_leg']:.2e})")
+    if s['alpha_fit_b_clean'] is not None:
+        log(f"    bonding fit (clean):  alpha_fit(b) = {s['alpha_fit_b_clean']:.6f} "
+            f"(rel err = {s['rel_err_b_clean']:.2e}, resid {s['resid_b_clean']:.2e})")
+    else:
+        log(f"    bonding fit (clean):  skipped "
+            f"(V_b rank ratio = {s['vb_rank_ratio']:.2e}, not numerically rank-1)")
     log(f"    rank-1 approximations of V_p:")
     for entry in s['n3_negcontrol']:
         log(f"      i={entry['i']}: alpha_fit = {entry['alpha_fit']:.6f}  "
