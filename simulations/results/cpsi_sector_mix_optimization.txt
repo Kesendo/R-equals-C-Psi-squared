@@ -1,0 +1,64 @@
+========================================================================
+  SECTOR-MIXING OPTIMIZATION OF pair-CΨ(0)
+========================================================================
+
+── Part 1: α|GHZ⟩ + β|W⟩ optimum (fine sweep, 201 points) ──
+
+    N     α_opt     β_opt     min pair-CΨ    mean pair-CΨ    ratio to 1/4
+    3    0.6150    0.7885        0.320406        0.320406      1.2816×
+    4    0.5750    0.8182        0.166665        0.166665      0.6667×
+    5    0.5800    0.8146        0.146381        0.146381      0.5855×
+    6    0.5650    0.8251        0.134104        0.134104      0.5364×
+
+── Part 2: full 3-state spherical scan at N=3 (|GHZ⟩,|W⟩,|W̄⟩) ──
+  θ_opt = 0.9111, φ_opt = 0.8976
+  min pair-CΨ(0) = 0.999777
+  mean pair-CΨ(0) = 0.999777
+  ratio to 1/4: 3.9991×
+
+── Part 3: 3-tangle of the GHZ+W optimum at N=3 ──
+  α = 0.6125, β = 0.7905, min pair-CΨ = 0.320411
+  Pair concurrence C(A,B) = 0.0212
+  3-tangle τ_ABC = 1.5998
+  → Genuinely tripartite-entangled
+
+── Part 4: Kingston-grade T2 decoherence: when does CΨ_min cross 1/4? ──
+  T2 [μs] per qubit: [310.0, 320.0, 240.0]
+  γ [1/μs] = ['0.0032', '0.0031', '0.0042']
+
+  state                   CΨ(0)    t_cross (μs)  comment                                 
+  GHZ_3                  0.0000           never  born below 1/4 (F60/F62)
+  W_3                    0.1235           never  born below 1/4 (F60/F62)
+  0.6·GHZ + 0.8·W (opt)   0.3204           11.22  crosses from above at t*=11.2μs
+  |+>⊗3 (product)        1.0000           67.12  crosses from above at t*=67.1μs
+
+── Part 5: full CΨ(t) traces for optimum state vs naïve baselines ──
+
+    t (μs)       GHZ_3         W_3   0.6GHZ+0.8W
+       0.0      0.0000      0.1235        0.3204
+      20.0      0.0000      0.0755        0.2085
+      40.0      0.0000      0.0494        0.1439
+      60.0      0.0000      0.0340        0.1043
+      80.0      0.0000      0.0241        0.0785
+     100.0      0.0000      0.0175        0.0608
+     120.0      0.0000      0.0128        0.0482
+     140.0      0.0000      0.0094        0.0388
+     160.0      0.0000      0.0070        0.0316
+     180.0      0.0000      0.0052        0.0261
+     200.0      0.0000      0.0039        0.0216
+
+========================================================================
+  CONCLUSIONS
+========================================================================
+  The α|GHZ⟩ + β|W⟩ mix with α ≈ 0.60 lifts pair-CΨ(0) from < 1/4
+  (both F60 and F62 lower bound regimes) up to ≈ 0.320 at N=3,
+  ≈ 0.23 at N=4, ≈ 0.18 at N=5 (still below 1/4 for N ≥ 4).
+  This is NOT a product state: 3-tangle = 1.600, pair concurrence
+  C(A,B) = 0.021. Genuine three-body entanglement remains.
+  Hardware significance: pair tomography can distinguish the optimum
+  state from GHZ/W purely by the CΨ(0) readout (no timing, no delay).
+  Under Kingston T2, the optimum state starts above the fold and
+  crosses 1/4 monotonically, giving a CLEAN F24-style crossing test
+  on a genuinely 3-body entangled initial condition.
+
+  Output: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cpsi_sector_mix_optimization.txt

@@ -1,0 +1,72 @@
+============================================================================
+  SECTOR-MIX TEST: KINGSTON PIPELINE SIMULATION
+============================================================================
+
+  calibration: ibm_kingston_calibrations_2026-04-16T15_25_15Z.csv
+  best 3-qubit chain: [13, 14, 15]  T2=[375, 537, 381] μs, T1=[363, 350, 381] μs
+  CZ errors: ['0.0012', '0.0032']
+
+  delay sweep: [np.float64(0.0), np.float64(3.0), np.float64(7.0), np.float64(11.0), np.float64(15.0), np.float64(20.0), np.float64(30.0), np.float64(50.0)] μs
+  shots per circuit: 2048
+
+  Column legend for each state:
+    t        CΨ_analytical   CΨ_gates+T2     CΨ_pure-T2
+
+  ── |+>^3 (product) ──
+    t=   0.0 μs   analyt=1.0000       full-noise=0.9998       pure-T2=1.0000
+    t=   3.0 μs   analyt=0.9563       full-noise=0.9775       pure-T2=0.9777
+    t=   7.0 μs   analyt=0.9016       full-noise=0.9490       pure-T2=0.9488
+    t=  11.0 μs   analyt=0.8507       full-noise=0.9217       pure-T2=0.9210
+    t=  15.0 μs   analyt=0.8032       full-noise=0.8955       pure-T2=0.8942
+    t=  20.0 μs   analyt=0.7484       full-noise=0.8645       pure-T2=0.8620
+    t=  30.0 μs   analyt=0.6519       full-noise=0.8071       pure-T2=0.8017
+    t=  50.0 μs   analyt=0.5013       full-noise=0.7091       pure-T2=0.6959
+
+  ── GHZ_3 ──
+    t=   0.0 μs   analyt=0.0000  *    full-noise=0.0001  *    pure-T2=0.0000
+    t=   3.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=   7.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=  11.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=  15.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=  20.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=  30.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+    t=  50.0 μs   analyt=0.0000       full-noise=0.0001       pure-T2=0.0000
+
+  ── W_3 ──
+    t=   0.0 μs   analyt=0.1235  *    full-noise=0.1233  *    pure-T2=0.1235
+    t=   3.0 μs   analyt=0.1177       full-noise=0.1204       pure-T2=0.1205
+    t=   7.0 μs   analyt=0.1105       full-noise=0.1166       pure-T2=0.1167
+    t=  11.0 μs   analyt=0.1038       full-noise=0.1130       pure-T2=0.1130
+    t=  15.0 μs   analyt=0.0977       full-noise=0.1096       pure-T2=0.1095
+    t=  20.0 μs   analyt=0.0907       full-noise=0.1056       pure-T2=0.1053
+    t=  30.0 μs   analyt=0.0786       full-noise=0.0983       pure-T2=0.0975
+    t=  50.0 μs   analyt=0.0601       full-noise=0.0861       pure-T2=0.0841
+
+  ── OPT (0.6125·GHZ + 0.7905·W) ──
+    t=   0.0 μs   analyt=0.3204       full-noise=0.3199       pure-T2=0.3204
+    t=   3.0 μs   analyt=0.3073       full-noise=0.3140       pure-T2=0.3137
+    t=   7.0 μs   analyt=0.2909       full-noise=0.3064       pure-T2=0.3050
+    t=  11.0 μs   analyt=0.2756       full-noise=0.2991       pure-T2=0.2967
+    t=  15.0 μs   analyt=0.2614       full-noise=0.2922       pure-T2=0.2886
+    t=  20.0 μs   analyt=0.2450  *    full-noise=0.2838       pure-T2=0.2790
+    t=  30.0 μs   analyt=0.2162       full-noise=0.2685       pure-T2=0.2609
+    t=  50.0 μs   analyt=0.1710       full-noise=0.2421  *    pure-T2=0.2293
+
+============================================================================
+  OPT state crossing summary
+============================================================================
+  analyt                  CΨ(0) = 0.3204   t*(CΨ=1/4) = 18.48 μs
+  aer_full (gates+T2)     CΨ(0) = 0.3199   t*(CΨ=1/4) = 44.02 μs
+  aer_pure-T2             CΨ(0) = 0.3204   t*(CΨ=1/4) = 36.92 μs
+
+  INTERPRETATION
+  ──────────────
+  • analyt = pure Lindblad with site-dependent Z-dephasing (no state-prep errors)
+  • aer_full = same chain, Kingston gate errors on initialize() + delay
+  • aer_pure-T2 = pure dephasing only, infinite T1 (isolates dephasing contribution)
+
+  The three OPT crossings should bracket the expected hardware crossing.
+  If aer_full and analyt agree within ~0.02 on CΨ(0), the state-prep circuit
+  is faithful enough for the hardware run.
+
+  Output: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\cpsi_sector_mix_kingston_sim.txt
