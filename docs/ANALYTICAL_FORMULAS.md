@@ -1431,15 +1431,21 @@ which is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True; `fa
 | 3-tangle τ_ABC | 0.799453 (near-GHZ limit) |
 | pair concurrence C(A,B) | 0.0210 (essentially zero) |
 
-**Scope.** N = 3 only. The same family at N = 4, 5, 6 peaks at min pair-CΨ = 0.167, 0.146, 0.134, all below 1/4 (GHZ-purity contribution scales as 1/(2^N - 1), collapses too fast). F69 is not a universal statement.
+**Scope.** Pair-CΨ = 0.3204 is the optimum of the 2-parameter slice α·GHZ_3 + β·W_3 at N = 3.
+
+(i) **Same slice, N ≥ 4.** The GHZ+W family peaks at 0.167 (N=4), 0.146 (N=5), 0.134 (N=6), 0.125 (N=7), 0.118 (N=8), all below 1/4. GHZ-purity contribution scales as 1/(2^N − 1) and collapses too fast for the W-contribution to lift the peak back above the fold.
+
+(ii) **Full Dicke subspace (N ∈ {3..8}).** Pair-CΨ has no non-product local maxima on the permutation-symmetric Dicke sphere at any tested N. The only non-product stationary points are Dicke basis elements |D(N,k)⟩ (max ≈ 0.123 at N = 3, ≤ 1/12 for larger N) and the GHZ+W family optimum itself, all saddles on the full sphere (escape Δpair-CΨ ≈ 0.68 on 1% c_2 perturbation at N = 3; the 10⁻⁴ saddle threshold is cleared at every tested candidate in N ∈ {3..8}). The global supremum over non-product states is 1, approached asymptotically at the |+⟩^N product manifold but not attained isolated.
+
+(iii) **F69 on the full sphere.** F69 is stationary on the (c_0 = c_3, c_1, c_2 = 0) slice but is a saddle on the full CP^3: c_2 > 0 is an ascent direction at F69 (Δpair-CΨ = +0.011 at c_2 = 0.01), and gradient flow from such a perturbation reaches |+⟩^3 (pair-CΨ = 1, product state). The 0.3204 value is a real algebraic fact about the slice, not a universal optimum.
 
 **Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) and [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) April 16 note.
 
 **Hardware signature.** Under Kingston-grade Z-dephasing the F69 optimum crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs. A single 2-qubit tomography at t = 0 distinguishes GHZ_3 (0), W_3 (0.123), and F69 (0.320) as three separable points, no timing needed.
 
-**Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Full evidence, sextic root list, derivation of ρ_AB(α), and the 3-state spherical-scan product-state pitfall in [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md).
+**Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Landscape scan over the full permutation-symmetric Dicke subspace at N ∈ {3..8} (2026-04-17) confirms no non-product local maxima above 1/4 exist outside the F69 GHZ+W slice; N = 3 regression recovers pair-CΨ = 0.3204 (Δ = 1.4·10⁻⁶ from sextic root). Full evidence, sextic root list, derivation of ρ_AB(α), landscape-scan saddle diagnosis, and the 3-state spherical-scan product-state pitfall in [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md).
 
-**Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics)
+**Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics), [`f69_dicke_landscape.py`](../simulations/f69_dicke_landscape.py) (full Dicke-subspace scan, N ∈ {3..8})
 **Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md), [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
 
 ---

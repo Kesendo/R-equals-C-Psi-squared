@@ -183,7 +183,44 @@ Running the same optimization inside α|GHZ_N⟩ + β|W_N⟩ at larger N gives n
 
 Why does N = 3 work and N ≥ 4 fail? The purity contribution from |GHZ_N⟩'s pair reduction scales as 1/(2^N - 1) (F60), vanishing exponentially. The L1 contribution from |W_N⟩'s pair reduction scales as 2/N (F62). At N = 3 both are close enough to 1/4 that their product lifts the pair above the fold; at N ≥ 4 the GHZ side has collapsed too far.
 
-**The question "is there any other family that works at N ≥ 4?" is open.** F69 characterizes a specific two-parameter family; the full landscape of permutation-symmetric pure states above the fold for N ≥ 4 is not mapped here. A next-step survey would replace {|GHZ_N⟩, |W_N⟩} with {Dicke(N, k)} for k ∈ {1, 2, ..., N-1} plus GHZ, enumerate linear superpositions, and scan for fold-crossings. At N = 4 the broader Dicke family was touched in `cpsi_birth_landscape.py` but no mix was optimized; all tested single states sit below the fold (max: Dicke(4, 2) at CΨ = 0.111).
+**The landscape question.** At the time of the sextic derivation, whether any broader permutation-symmetric family clears the fold at N ≥ 4 was open. The next section resolves it: no non-product local maxima exist on the full Dicke subspace at any N ∈ {3..8}. The GHZ+W slice is the widest fold-crossing family; outside it, pair-CΨ has no isolated non-product extrema. An earlier single-state survey in `cpsi_birth_landscape.py` (max: Dicke(4, 2) at CΨ = 0.111) is consistent with this.
+
+---
+
+## Landscape analysis: full Dicke subspace (N = 3..8)
+
+Scanned the full permutation-symmetric Dicke subspace at N ∈ {3..8} to map all stationary points of pair-CΨ and classify them.
+
+**Setup.** On N qubits the permutation-symmetric Dicke subspace is spanned by {|D(N,0)⟩, ..., |D(N,N)⟩}, dimension N+1. For any state in this subspace the 2-qubit reduced ρ_AB is pair-independent (confirmed to machine precision at each tested N). pair-CΨ is a real-valued function on the unit sphere S^N after fixing global phase. The α·GHZ_N + β·W_N family from the scope section is a 2-dim real slice of this subspace.
+
+**Scan.** Real unit vectors c ∈ S^N per N. Structured seeds (Dicke basis states, GHZ_N, GHZ+W α-sweep with α ∈ {0.2, 0.4, 0.5, 0.6127, 0.7, 0.85}, all Dicke pair superpositions, uniform Dicke mix) plus 20,000 random uniform samples on S^N per N. L-BFGS-B on an inner-normalized objective with mild quadratic pull to the unit sphere (swapped in for SLSQP after SLSQP hit LAPACK matmul overflow on this objective). Stationary-point classification via 4 random 1% perturbations plus re-optimization; escape Δpair-CΨ > 10⁻⁴ flags a saddle. Product-state filter: single-qubit purity Tr(ρ_A²) > 1 − 10⁻³ excludes from the candidate list.
+
+**Result.** At every tested N ∈ {3..8}, no non-product local maxima exist on the Dicke sphere. The only non-product stationary points found are Dicke basis elements and the GHZ+W family optimum, all saddles on the full sphere.
+
+| family | N = 3 | 4 | 5 | 6 | 7 | 8 |
+|--------|-------|---|---|---|---|---|
+| GHZ+W optimum | 0.320 | 0.167 | 0.146 | 0.134 | 0.125 | 0.118 |
+| Dicke basis max | 0.123 (k=1) | 0.111 (k=2) | 0.092 | 0.088 | 0.082 | 0.080 |
+
+All entries below 1/4 except the N = 3 GHZ+W optimum. All entries are saddles: the 10⁻⁴ escape threshold under 1% random perturbation plus L-BFGS-B re-optimization fires at every tested candidate. At N = 3 the specific escape at F69 is Δpair-CΨ ≈ 0.68 (wide-margin saddle); per-candidate escape magnitudes at N ≥ 4 are not separately reported, only that the threshold fires. The global supremum of pair-CΨ over non-product states is 1, approached at the |+⟩^N product manifold but never attained isolated.
+
+**F69 saddle diagnosis at N = 3.** At the F69 state c = (0.4333, 0.7903, 0, 0.4333), perturbing the |D(3,2)⟩ = W̄_3 coefficient:
+
+| c_2 | pair-CΨ | Δpair-CΨ |
+|-----|---------|----------|
+| −0.05 | 0.30964 | −0.0108 |
+| −0.01 | 0.31815 | −0.0023 |
+| **0 (F69)** | **0.32041** | 0 |
+| +0.01 | 0.33101 | +0.0106 |
+| +0.05 | 0.37545 | +0.0550 |
+
+F69 is stationary only on the c_2 = 0 slice. Opening c_2 > 0 raises pair-CΨ monotonically; gradient ascent terminates at |+⟩^3 (pair-CΨ = 1, product state). F69 is a real algebraic fact about the α·GHZ + β·W slice, not a local max on the full CP^3.
+
+**Regression at N = 3.** Library recovers pair-CΨ = 0.32041 (Δ = 1.4·10⁻⁶ from the sextic root), c-vector to ≤ 10⁻³ (α-grid resolution), τ_ABC = 0.7994 vs F69 reference 0.7995, pair concurrence 0.022 vs 0.021. Cross-checks against F62 (W_3 pair-CΨ = 10/81 to machine precision) and F60 (GHZ_N pair-CΨ = 0 to machine precision) confirm the library is trustworthy independent of the scan parameters.
+
+**Interpretation.** Every R=CΨ² result tested so far exists inside a narrow atmosphere: V-Effect lives on uniform Heisenberg chains with endpoint Z-dephasing (F6), F33 on N = 3 exactly, F11 on N = 5 exactly, F65 on uniform XX chains with endpoint dephasing. F69 fits the same pattern: the 0.3204 value is tight inside the α·GHZ + β·W slice and dissolves outside it. This is not a weakness of F69 but characteristic of how structure emerges in the framework. The mathematics enforces narrow windows in which extremal facts appear, and opening the window removes the extremality.
+
+The supremum = 1 at the product manifold is a separate observation about pair-CΨ as a measure: on non-product states it has no isolated local maxima, on product states it reaches 1 by construction (C = 1, L1_off = 3 at |+⟩^2). The pair-CΨ = 1/4 fold is meaningful only when product states are explicitly excluded. The spherical-scan artifact (Pitfall section below) and this landscape scan both confirm the same: without a product-state filter, any optimizer drifts toward product states.
 
 ---
 
@@ -227,8 +264,6 @@ The amplitudes of |ψ*⟩ in the computational basis are uniform: every componen
 
 ## Open follow-ups
 
-**Broader sector-mix landscape at N ≥ 4.** F69 is N = 3 only. A systematic scan of all permutation-symmetric linear combinations of {GHZ_N, Dicke(N, 1), ..., Dicke(N, N-1), W̄_N} across N = 4, 5 would close the question of whether any symmetric family escapes the fold at larger N. The product-state artifact lesson from this session applies: explicitly exclude product states before declaring a winner.
-
 **Hardware run of F69.** The 3-point tomography test (GHZ_3, W_3, F69 optimum) is a minimal Kingston experiment that validates the fold-crossing picture on real hardware without any time-dependent data. Estimated QPU cost: a single state-prep circuit × three preparations × nine tomography settings × 1000 shots = 27,000 shots, well under any free-tier budget. Not urgent because the simulation is exact; would be nice as a companion to the cusp-slowing run for completeness.
 
 **Closed-form optimum.** The minimal polynomial of α²_opt is a sextic irreducible over ℚ. It is possible that α²_opt has a clean expression in radicals of a Galois-resolvent (a sextic with a solvable Galois group does admit radical expressions; the Galois group of P has not been computed here). Checking `sympy.polys.numberfields.galois_group(P)` would settle this. Not research, just a mathematical curiosity.
@@ -243,6 +278,7 @@ python ghz_w_optimum_n3.py                # symbolic + numerical optimum, sextic
 python cpsi_sector_mix_optimization.py    # original sweep + Kingston dynamics
 python cpsi_birth_landscape.py            # broad state survey
 python sector_mix_spherical_artifact.py   # product-state diagnosis of the spherical-scan peak
+python f69_dicke_landscape.py             # full Dicke-subspace scan (N = 3..8), saddle classification
 ```
 
-All four scripts are pure Python (numpy, scipy, sympy), no external dependencies beyond the standard scientific stack. Total runtime < 15 s on modern hardware. Outputs land in `simulations/results/`.
+All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyond the standard scientific stack. The first four run in < 15 s; `f69_dicke_landscape.py` takes longer (20,000 random starts × 6 N-values with L-BFGS-B refinement, typical runtime on the order of minutes). Outputs land in `simulations/results/`.

@@ -1,0 +1,83 @@
+F69 LANDSCAPE: pair-CPsi over the FULL permutation-symmetric Dicke subspace
+========================================================================
+Reference: F69 (docs/ANALYTICAL_FORMULAS.md). The GHZ+W binary family
+peaks at pair-CPsi = 0.3204 at N = 3 (sextic minimum polynomial);
+at N = 4, 5, 6 the same family stays below 1/4 (0.167, 0.146, 0.134).
+Question: does the broader Dicke subspace contain a non-product
+optimum above 1/4 at N >= 4?
+
+Method notes
+  * Optimizer: L-BFGS-B on a scale-invariant inner-normalized objective
+    with a mild quadratic pull toward the unit sphere. SLSQP with a
+    hard norm-equality constraint overflowed in initial tests; the
+    penalty form is numerically stable and gives the same stationary
+    points.
+  * Scan seeds: Dicke basis |D(N,k)>, GHZ_N, a GHZ+W alpha sweep
+    including the F69 value, Dicke pair superpositions, uniform Dicke
+    mix, and the top-100 uniform random samples on S^N.
+  * Known finding (diagnostic): the F69 state at N = 3 is a SADDLE on
+    the full Dicke sphere; a 1%% perturbation in the c_2 direction
+    increases pair-CPsi. So gradient search from F69 does not return
+    to F69 -- it flows toward the product-state basin. The N = 3
+    regression is therefore evaluated against the LIBRARY entry for
+    the GHZ+W opt, not against the scanner's 'best non-product'.
+
+Parameters
+  main N         : 3, 4, 5, 6
+  M_random       : 20000   (uniform on S^N in R^{N+1})
+  M_refine_top   : 100     (plus structured seeds)
+  product filter : Tr(rho_A^2) > 1 - 1e-3  -> drop
+  dedup          : |cpsi-delta| < 1e-8 AND |c-delta| < 1e-4 (up to sign)
+  complex check  : 100 perturbations x 3 epsilons (0.01, 0.1, 0.5)
+  bonus N        : 7, 8 (M_random = 10000, runtime-capped)
+
+========================================================================
+N = 3   (Dicke dim = 4, state dim = 8)
+========================================================================
+  M_random          : 20000
+  M_refine_top      : 100
+  product threshold : purity > 0.999000
+  dedup tolerances  : cpsi 1e-08, c-vector 0.0001
+  perm-sym check    : |rho_(0,1) - rho_(0,2)| = 0.00e+00   OK
+  real scan+refine  : 0.83 s   (19 structured seeds + top-100 random)
+
+  Top 5 UNFILTERED candidates (post-refine + dedup):
+    rank      pair-CPsi    purity(A)     C(A,B)      label
+       1   1.0000000000   1.00000000     0.0000    PRODUCT
+       2   1.0000000000   1.00000000     0.0000    PRODUCT
+
+  Top 5 FILTERED candidates (non-product):
+    (none; all top candidates are product states)
+
+  Scanner max non-product pair-CPsi : (no non-product candidates)
+
+  Known stationary-point library (cpsi evaluated + local-max test):
+    name                              pair-CPsi    purity(A)     C(A,B)           type  (escape delta)
+    |D(3,0)>                         0.00000000   1.00000000     0.0000 SADDLE (or min)  (+1.000e+00)  tau=0.0000
+    |D(3,1)>                         0.12345679   0.55555556     0.6667 SADDLE (or min)  (+8.765e-01)  tau=0.0000
+    |D(3,2)>                         0.12345679   0.55555556     0.6667 SADDLE (or min)  (+8.765e-01)  tau=0.0000
+    |D(3,3)>                         0.00000000   1.00000000     0.0000 SADDLE (or min)  (+1.000e+00)  tau=0.0000
+    GHZ_3                            0.00000000   0.50000000     0.0000 SADDLE (or min)  (+1.000e+00)  tau=1.0000
+    GHZ+W opt (alpha=0.6118)         0.32041059   0.59981572     0.0220 SADDLE (or min)  (+6.796e-01)  tau=0.7994
+    -> Top non-product library entry: GHZ+W opt (alpha=0.6118)   cpsi = 0.3204105875   (SADDLE)
+
+  N = 3 F69 regression check (library-based)
+    library GHZ+W-opt cpsi   = 0.32041059   expected = 0.320412   |delta| = 1.41e-06
+    library GHZ+W-opt c      = [+0.4326, +0.7910, +0.0000, +0.4326]
+    sorted(|c|) got          = [0.0, 0.43257567473640196, 0.43257567473640196, 0.7910477679967836]
+    sorted(|c|) expect       = [0.0, 0.4333, 0.4333, 0.7903]
+    max |c|-deviation        = 7.48e-04
+    3-tangle tau_ABC         = 0.799396   (F69 reference 0.7995, |delta| = 1.04e-04)
+    F69 is SADDLE on full S^N (escape delta cpsi = 6.796e-01 on 1% perturbation)
+    N = 3 F69 regression PASS
+
+  Complex perturbation check    : skipped (no real optimum)
+
+========================================================================
+N = 4   (Dicke dim = 5, state dim = 16)
+========================================================================
+  M_random          : 20000
+  M_refine_top      : 100
+  product threshold : purity > 0.999000
+  dedup tolerances  : cpsi 1e-08, c-vector 0.0001
+  perm-sym check    : |rho_(0,1) - rho_(0,2)| = 0.00e+00   OK
