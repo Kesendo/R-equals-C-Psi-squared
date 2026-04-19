@@ -1,4 +1,4 @@
-# Pi-pair closure investigation — findings
+# Pi-pair closure investigation: findings
 
 **Date:** 2026-04-19
 **Author:** Claude Opus 4.7 (terminal execution of ClaudeTasks/TASK_PI_PAIR_CLOSURE_INVESTIGATION.md)
@@ -7,7 +7,7 @@
 ## TL;DR
 
 - Σ ln(α_i) = 0 is NOT a theorem. It is a perturbative relation with a nonzero linear coefficient c₁ that depends on (N, state, defect bond).
-- At N=5 with ψ_1+vac: endpoint bonds give c₁ ≈ +0.93, middle bonds give c₁ ≈ -0.21 — opposite signs.
+- At N=5 with ψ_1+vac: endpoint bonds give c₁ ≈ +0.93, middle bonds give c₁ ≈ -0.21; opposite signs.
 - **Linear superposition of per-bond c₁ is confirmed** (Σ_b c₁^(b)·δJ_b matches observed closure to 0.5% at δJ=0.01, exactly at δJ=0.001).
 - **The closure can be engineered to zero** by choosing perturbation combinations in the null space of the c₁ functional. The "closure-breaking direction" is a single vector in the (N-1)-dimensional bond-perturbation space.
 - Antisymmetric (under site reversal) bond perturbations give c₁ = 0 trivially for mirror-symmetric initial states.
@@ -88,7 +88,7 @@ The site-Pauli residues reveal that only Z-Paulis couple to the stationary subsp
 
 So the z→0 closure is a **consequence of F4** (the N+1 stationary modes are sector projectors, J-independent under any excitation-preserving Hamiltonian), not a new structural fact about slow-mode eigenvectors. It does NOT explain the time-domain α_i behaviour.
 
-## Idea B (voice vs memory split) — observational data
+## Idea B (voice vs memory split): observational data
 
 - At N=3: 60 voice modes, 4 memory modes (F4 prediction: N+1 = 4) ✓
 - At N=5: 1018 voice modes, 6 memory modes (F4 prediction: N+1 = 6) ✓
@@ -149,7 +149,7 @@ None of these are obviously `Σ ln(α_i) = 0`. The empirical closure at N=7 ψ_1
 
 Mirror pairs match to 10⁻¹⁰ on c₁ and 10⁻¹² on α_i, as PTF predicts.
 
-**Endpoint vs middle bonds have opposite-sign c_1.** Whatever "closure-breaking direction" exists in perturbation space, it has nontrivial spatial structure — not a uniform bias.
+**Endpoint vs middle bonds have opposite-sign c_1.** Whatever "closure-breaking direction" exists in perturbation space, it has nontrivial spatial structure, not a uniform bias.
 
 ### c_1 across initial states (N=5, bond (0,1))
 
@@ -186,7 +186,7 @@ For ψ_1+vac at N=5, c_1 = (+0.928, −0.213, −0.213, +0.928) is purely mirror
 
 ### Voice-mode-projected α
 
-Subtracting P_i(∞) from both A and B trajectories and refitting α gives identical α_i and closure as the standard fit. This is because P_A(∞) = P_B(∞) to 10⁻¹² — confirmed by direct computation. The asymptotic site-marginals are J-invariant (consequence of stationary-subspace J-invariance for the fixed initial state). So the voice-mode projection is trivial in this setting.
+Subtracting P_i(∞) from both A and B trajectories and refitting α gives identical α_i and closure as the standard fit. This is because P_A(∞) = P_B(∞) to 10⁻¹², confirmed by direct computation. The asymptotic site-marginals are J-invariant (consequence of stationary-subspace J-invariance for the fixed initial state). So the voice-mode projection is trivial in this setting.
 
 ## Recommendation for EQ-014, revised after follow-up
 
@@ -209,15 +209,15 @@ That is a sharper claim than "within tolerance" and a real candidate for Tier 1.
 
 ## Files
 
-- `simulations/pi_pair_closure_investigation.py` — main: Tr(L), palindrome, α_i, Idea A+B+D probes
-- `simulations/pi_pair_closure_stationary_residue.py` — follow-up: direct stationary-subspace invariance check
-- `simulations/pi_pair_closure_followup.py` — follow-up: defect-location scan, state c₁ scan, voice-projected α
-- `simulations/pi_pair_closure_superposition.py` — follow-up: linear-superposition and cancellation test
-- `simulations/results/pi_pair_closure_investigation/run_log.txt` — main run output
-- `simulations/results/pi_pair_closure_investigation/followup_log.txt` — follow-up run output
-- `simulations/results/pi_pair_closure_investigation/summary.json` — main machine-readable summary
-- `simulations/results/pi_pair_closure_investigation/followup.json` — follow-up machine-readable summary
-- `simulations/results/pi_pair_closure_investigation/n{3,5}_closure_investigation.json` — per-N details
+- `simulations/pi_pair_closure_investigation.py`: main: Tr(L), palindrome, α_i, Idea A+B+D probes
+- `simulations/pi_pair_closure_stationary_residue.py`: follow-up: direct stationary-subspace invariance check
+- `simulations/pi_pair_closure_followup.py`: follow-up: defect-location scan, state c₁ scan, voice-projected α
+- `simulations/pi_pair_closure_superposition.py`: follow-up: linear-superposition and cancellation test
+- `simulations/results/pi_pair_closure_investigation/run_log.txt`: main run output
+- `simulations/results/pi_pair_closure_investigation/followup_log.txt`: follow-up run output
+- `simulations/results/pi_pair_closure_investigation/summary.json`: main machine-readable summary
+- `simulations/results/pi_pair_closure_investigation/followup.json`: follow-up machine-readable summary
+- `simulations/results/pi_pair_closure_investigation/n{3,5}_closure_investigation.json`: per-N details
 
 ## What was not tested (scope)
 

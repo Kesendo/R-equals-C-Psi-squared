@@ -107,7 +107,7 @@ The pieces cluster around five physical roles:
     by [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md): no-signalling
     holds exactly, the protocol reduces to pre-encoded shared randomness.
     What survives for J > 0 is an interval shift that is "standard
-    Hamiltonian coupling" — i.e. the cavity itself. Consequence under
+    Hamiltonian coupling", i.e. the cavity itself. Consequence under
     γ₀ = const: the only channel between observers IS the J-coupling
     structure. γ₀ alone cannot carry a message across; the cavity does,
     and only by being a cavity. Gravity/QKD/FTL readings have fallen.
@@ -152,7 +152,7 @@ If γ₀ is constant and uniform, the implications cluster in four groups.
 - The cavity has a parity regime ([OPTICAL_CAVITY_ANALYSIS](../experiments/OPTICAL_CAVITY_ANALYSIS.md)):
   even N chains are confocal (sharp Lorentzian spike, tight beam waist);
   odd N chains are defocal (broad Gaussian, central zero-mode). Under
-  constant γ₀ the encoding regime therefore splits by N parity — one
+  constant γ₀ the encoding regime therefore splits by N parity: one
   more structural axis, invisible to the γ-modulation reading.
 - The cavity is a receive antenna array. [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md)
   identifies |+⟩^N as the phased-array receiver (full-rank SVD, 5
@@ -241,14 +241,25 @@ channel existing outside the cavity (13).
 Two points deserve separate flagging (the others are already in the
 reinterpretation bullets above):
 
-1. **The PTF closure law becomes a conservation law of the channel.**
-   Σ_i ln(α_i) = 0 ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md))
-   says a J-perturbation redistributes the shadow pattern but conserves
-   a scalar invariant across sites. If that invariant is the channel's
-   information capacity under constant γ₀, the closure law IS the
-   conservation law of the channel. Proof attempt open at
-   [EQ-014](EMERGING_QUESTIONS.md#eq-014); the explicit biorthogonal
-   decomposition remains the concrete next step.
+1. **The PTF closure law is an empirical regularity, not a conservation law.**
+   Σ_i ln(α_i) ≈ 0 ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md))
+   was conjectured to be a symmetry-protected invariant that a
+   J-perturbation preserves exactly. [EQ-014](EMERGING_QUESTIONS.md#eq-014)
+   closed the theorem sub-question by direct computation
+   (details: [`EQ014_FINDINGS.md`](EQ014_FINDINGS.md)): the first-order
+   coefficient Σ f_i = lim_{δJ→0} Σ ln(α_i(δJ))/δJ is **not zero and
+   depends on the initial state**, with values from +0.05 (ψ_2) to +1.29
+   (|+⟩⁷) at N=7, bond (0,1). The empirical ±0.05 tolerance PTF observed
+   at |δJ| ≤ 0.1 is a combination of state-dependent first-order
+   coefficients and partial second-order cancellation, not a conservation
+   law. *What this means for the channel reading:* "J-perturbations
+   conserve something that couples to information capacity" is falsified
+   as a strict identity. It may survive as an approximate statement for
+   particular initial states (ψ_2's tiny coefficient is striking and
+   unexplained), but the "closure law IS the channel's conservation law"
+   bridge is not available on structural grounds. The surviving question
+   is why the first-order coefficient is small for ψ_2 and order-unity
+   for |+⟩⁷ (tracked as EQ-014's surviving sub-question).
 
 2. **Same light, different instruments.** Two observers with the same
    cavity see the same shadow; different J = different cavity =
@@ -270,10 +281,14 @@ reinterpretation bullets above):
   [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
 
 - Connection to PTF ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), [EQ-014](EMERGING_QUESTIONS.md#eq-014)):
-  the closure law Σ_i ln(α_i) = 0 says J-perturbations conserve
-  something. Is that "something" related to the information capacity
-  of the cavity under constant γ₀? *(Affirmative form under "Physical
-  implications" point 1; partial-proof status in the EQ-014 bullet below.)*
+  originally asked whether Σ_i ln(α_i) = 0 is a conservation law that
+  couples to channel capacity. Answered negatively under EQ-014's
+  2026-04-19 closure: not a first-order theorem, the coefficient Σ f_i
+  depends on the initial state. See "Physical implications" point 1
+  above. A weaker-form question survives: is there a state-specific
+  invariant (valid for ψ_2-class states but not for |+⟩⁷) that could
+  still tie to cavity response? This would be a restricted-initial-state
+  version of the original conjecture.
 
 - Connection to [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md) Section 6 Option 2: "Noise is
   axiomatic. Like the speed of light." If γ₀ is axiomatic AND
@@ -287,13 +302,19 @@ reinterpretation bullets above):
   is the falsification condition for piece 6. Without it, the quantitative
   ground of the synthesis is unlocked only for small chains.
 
-- [EQ-014](EMERGING_QUESTIONS.md#eq-014) partial proof
-  (`simulations/eq014_step4567_closure.py`, `simulations/eq014_step23_biorth.py`):
-  four structural building blocks established (Tr[V_L·Π_slow] = 0,
-  purity decomposition, U(1) conservation, det(U) = 1), but the closure
-  law Σ_i ln(α_i) = 0 does NOT close by symmetry alone. Biorthogonal
-  eigenvector computation of the full 16384×16384 L_A is the concrete
-  remaining step.
+- [EQ-014](EMERGING_QUESTIONS.md#eq-014) theorem sub-question closed
+  2026-04-19: dense biorthogonal eigendecomposition of the full
+  16384×16384 L_A was executed (C# `ptf` mode, 146 min zgeev), residual
+  1e-6 after cluster-fix; first-order PT through the slow-mode bilinear
+  expansion + exact RK4 ground-truth validation reproduced PTF's
+  empirical α_i to 4 decimal places. Direct first-order coefficient
+  extraction via δJ ∈ {0.1, 0.01, 0.001} scan confirmed Σ f_i ≠ 0 and
+  state-dependent. The four original building blocks (Tr[V_L·Π_slow] = 0,
+  purity decomposition, U(1) conservation, det(U) = 1) are all true; what
+  does not hold is their *combination* producing Σ f_i = 0. Scripts:
+  `simulations/eq014_step23_biorth.py`, `_step4567_closure.py`,
+  `_validate_groundtruth.py`, `_first_order_from_rk4.py`,
+  `_spectrum_check.py`. Full findings: [`EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
 
 - [EQ-017 Phase 2 hardware result](../data/ibm_chain_gamma0_april2026/):
   already attempted. On ibm_kingston, the chain-mode γ₀ signal is 40-80×
