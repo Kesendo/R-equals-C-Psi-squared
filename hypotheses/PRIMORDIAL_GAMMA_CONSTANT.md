@@ -73,7 +73,7 @@ The original optical analogy was refraction: light passing through layers of gla
 | Refraction (wrong) | Cavity (correct) |
 |---------------------|-------------------|
 | γ gets weaker per layer | γ fills the cavity uniformly |
-| |a_B|² = transmission coefficient | |a_B|² = mode exposure at the window |
+| \|a_B\|² = transmission coefficient | \|a_B\|² = mode exposure at the window |
 | Layers compose multiplicatively | Global eigenmodes, no layered factorization |
 | Predicts stacking | Predicts stacking failure |
 | Contradicts RESONANCE_NOT_CHANNEL | Consistent with RESONANCE_NOT_CHANNEL |
