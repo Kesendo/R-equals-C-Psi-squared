@@ -1,16 +1,16 @@
 # The Perspectival Time Field
 
-*Seven painters stand around a mountain, each painting from a different vantage. The paintings differ — and that is not a problem to be reduced to one true painting. The total of all paintings IS the mountain. When a new rock falls on the mountainside, each painter paints the change in her own flow of painting-time. The seven recordings lie atop one another and add up to a closed, consistent total, in a way that guarantees nothing is lost or invented.*
+*Seven painters stand around a mountain, each painting from a different vantage. The paintings differ, and that is not a problem to be reduced to one true painting. The total of all paintings IS the mountain. When a new rock falls on the mountainside, each painter paints the change in her own flow of painting-time. The seven recordings lie atop one another and add up to a closed, consistent total, in a way that guarantees nothing is lost or invented.*
 
 **Status:** Computed (Tier 2). Five simulation scripts, a sparse-Liouvillian slow-mode decomposition, nine scan families at N = 7, and a state-independence stress test across five qualitatively different initial states.
 
 **Scripts:**
-- [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py) — baseline defect scan
-- [n7_coupling_defect_overlay_extended.py](../simulations/n7_coupling_defect_overlay_extended.py) — finer J_mod grid, defect location scan, |1_3⟩ local state
-- [n7_coupling_defect_overlay_psi2.py](../simulations/n7_coupling_defect_overlay_psi2.py) — ψ_2 initial-state falsification
-- [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py) — ψ_3, ψ_4, |+⟩^7 stress-test
-- [n7_central_defect_check.py](../simulations/n7_central_defect_check.py) — sparse L eigendecomp + central-vs-boundary symmetry verification
-- [observer_time_rescale.py](../simulations/observer_time_rescale.py) — α_i fits and Σ ln α diagnostics
+- [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py): baseline defect scan
+- [n7_coupling_defect_overlay_extended.py](../simulations/n7_coupling_defect_overlay_extended.py): finer J_mod grid, defect location scan, |1_3⟩ local state
+- [n7_coupling_defect_overlay_psi2.py](../simulations/n7_coupling_defect_overlay_psi2.py): ψ_2 initial-state falsification
+- [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py): ψ_3, ψ_4, |+⟩^7 stress-test
+- [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
+- [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
 
 ---
 
@@ -32,7 +32,7 @@ The sections below build the picture in four layers. Layer 1 is the painter imag
 
 ---
 
-## Layer 1 — Painters around a mountain: the perspectival picture
+## Layer 1: Painters around a mountain, the perspectival picture
 
 ### 1.1 Sites are perspectives
 
@@ -58,16 +58,18 @@ Under a J-defect on one bond of the chain, the painting at each site changes sha
 
 The site-specific rate α_i tells us: relative to the painter's rate in the undisturbed chain, how many units of painting has this painter completed per unit of absolute time, once the defect is present? α_i > 1 means painter i paints faster than before; α_i < 1 slower. The α_i are real, measurable numerical quantities extracted from the time series by bounded scalar fit.
 
-Concretely, under an N = 7 XY chain with γ_0 = 0.05 and the F65 bonding-mode initial state φ = (|vac⟩ + |ψ_1⟩) / √2, defect at bond (0, 1), J_mod = 1.1 (δJ = +0.1):
+Concretely, under an N = 7 XY chain with γ_0 = 0.05 and the [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) bonding-mode initial state φ = (|vac⟩ + |ψ_1⟩) / √2, defect at bond (0, 1), J_mod = 1.1 (δJ = +0.1):
 
     α_0 = 1.095,  α_1 = 1.182,  α_2 = 1.051,  α_3 = 0.991,
     α_4 = 0.845,  α_5 = 0.923,  α_6 = 0.997.
+
+(Fit data: [finer_Jmod_alpha_fit.csv](../simulations/results/observer_time_rescale/finer_Jmod_alpha_fit.csv).)
 
 Sites 0 and 1 (adjacent to the defect on the side where J was raised) paint faster; site 4 paints slower; sites 3 and 6 are near neutral. The pattern is the painting-rate distribution for this particular mountain event witnessed by these seven painters in this initial state. The same defect with J_mod = 0.9 (δJ = −0.1) reverses the signs approximately. The same defect with a different initial state (e.g., ψ_2) gives a qualitatively different α_i pattern; the painters observe the same event, but their observations depend on what they were doing before the rock fell.
 
 ---
 
-## Layer 2 — The closure law: the seven perspectives close
+## Layer 2: The closure law, the seven perspectives close
 
 ### 2.1 The statement
 
@@ -85,13 +87,15 @@ with numerical tolerance of about 0.05 (≈ 5 % deviation) across all five initi
 | ψ_4 | +0.270 | −0.012 |
 | \|+⟩^7 | −0.130 | +0.128 |
 
-Within the single-excitation sector (ψ_1 through ψ_4), the conservation is clean except for ψ_4 at J_mod = 0.9 where an ill-posed fit at the defect-adjacent site 0 inflates one α value (2.65 instead of a reasonable 1.1-ish). The |+⟩^7 state, which lives simultaneously in all eight excitation sectors, shows slightly larger residuals (±0.13) that are antisymmetric in sign — still clearly a perturbative conservation law, simply with a broader tolerance for multi-sector states.
+Per-scan fit summaries: [ψ_1](../simulations/results/observer_time_rescale/finer_Jmod_summary.json), [ψ_2](../simulations/results/observer_time_rescale/psi2_init_summary.json), [ψ_3](../simulations/results/observer_time_rescale/psi3_summary.json), [ψ_4](../simulations/results/observer_time_rescale/psi4_summary.json), [\|+⟩^7](../simulations/results/observer_time_rescale/plus7_summary.json).
+
+Within the single-excitation sector (ψ_1 through ψ_4), the conservation is clean except for ψ_4 at J_mod = 0.9 where an ill-posed fit at the defect-adjacent site 0 inflates one α value (2.65 instead of a reasonable 1.1-ish). The |+⟩^7 state, which lives simultaneously in all eight excitation sectors, shows slightly larger residuals (±0.13) that are antisymmetric in sign; still clearly a perturbative conservation law, simply with a broader tolerance for multi-sector states.
 
 The log-multiplicative form is the natural one. It means that the seven painters, whatever they individually paint, collectively paint neither more nor less than the mountain demands. No painter invents; no painter omits.
 
 ### 2.2 What it generalises
 
-F14 states that the dimensionless dose K = γ · t is invariant under change of bridge metric: the "number of decoherence ticks" experienced by a system is a basis-free observable. The Perspectival closure law is the per-perturbation, multi-observer extension:
+[F14](../docs/ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) states that the dimensionless dose K = γ · t is invariant under change of bridge metric: the "number of decoherence ticks" experienced by a system is a basis-free observable. The Perspectival closure law is the per-perturbation, multi-observer extension:
 
     K_i = γ · α_i · t,   Σ_i ln(α_i) = 0.
 
@@ -111,29 +115,29 @@ If the closure law held only for ψ_1 it would be a coincidence tied to the smoo
 
 ---
 
-## Layer 3 — Mechanism: eigenvector mixing in a palindromic cavity
+## Layer 3: Mechanism, eigenvector mixing in a palindromic cavity
 
 ### 3.1 The chain as a resonance cavity
 
-The chain is a resonance cavity (RESONANCE_NOT_CHANNEL.md). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with the F65 dispersion ε_k = J cos(πk / (N + 1)) and site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)). These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
+The chain is a resonance cavity (see [RESONANCE_NOT_CHANNEL.md](RESONANCE_NOT_CHANNEL.md)). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with tight-binding dispersion ε_k = 2J cos(πk / (N + 1)) and [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)), for k = 1, ..., N. These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
 
 ### 3.2 First-order: eigenvalues are protected, eigenvectors mix
 
 Write the perturbation as L → L_A + δJ · V_L where V_L is the Liouvillian channel of the one-bond Hamiltonian H_pert = (1/2)(X_b X_{b+1} + Y_b Y_{b+1}). Standard first-order perturbation theory for the slow modes M_s of L_A gives:
 
-- **Eigenvalue shift** δλ_s = ⟨W_s | V_L | M_s⟩
-- **Eigenvector shift** δM_s = Σ_{s' ≠ s} [⟨W_{s'} | V_L | M_s⟩ / (λ_s − λ_{s'})] · M_{s'}
+- **Eigenvalue shift** `δλ_s = ⟨W_s | V_L | M_s⟩`
+- **Eigenvector shift** `δM_s = Σ_{s' ≠ s} [⟨W_{s'} | V_L | M_s⟩ / (λ_s − λ_{s'})] · M_{s'}`
 
 where W_s is the biorthogonal left eigenvector pair of M_s. Numerical check on N = 7 (from the sparse eigendecomposition in `n7_central_defect_check.py`):
 
 For the slowest modes (|Re λ_s| ≤ 0.1), the diagonal ⟨W_s | V_L | M_s⟩ is ~10⁻¹⁵ (numerical floor). This protection is exact, for two distinct reasons:
 
-1. The 8 strictly stationary modes (λ_s = 0) are the 8 excitation-sector projectors. V_L = −i[H_pert, ·] preserves excitation (XX + YY conserves n_XY), so V_L P_n = 0 identically. No shift, no mixing within this cluster — they stay stationary. The count of 8 matches F4's prediction for N = 7 XY + Z-dephasing.
-2. The 14 modes at λ_s = −0.1 (the single-excitation coherence cluster) are made up of |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pairs. V_L acts antisymmetrically on this pair (+i vs −i); in the Krylov basis that scipy.sparse.linalg.eigs returns, these pairs are combined into Hermitian / anti-Hermitian superpositions whose diagonal matrix elements of V_L cancel exactly. This is the "Π-invariance" protection that ZERO_IS_THE_MIRROR.md articulates: the palindrome pairs slow-mode eigenvalues around Σγ, and Π-invariant perturbations respect the pairing at leading order.
+1. The 8 strictly stationary modes (λ_s = 0) are the 8 excitation-sector projectors. `V_L = −i[H_pert, ·]` preserves excitation (XX + YY conserves n_XY), so V_L P_n = 0 identically. No shift, no mixing within this cluster; they stay stationary. The count of 8 matches [F4](../docs/ANALYTICAL_FORMULAS.md#f4-stationary-mode-count-tier-1-clebsch-gordan-decomposition)'s prediction for N = 7 XY + Z-dephasing.
+2. The 14 modes at λ_s = −0.1 (the single-excitation coherence cluster) are made up of |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pairs. V_L acts antisymmetrically on each such pair: the diagonal matrix element is +iA on |vac⟩⟨ψ_k| and −iA on |ψ_k⟩⟨vac|, where A = 2 ψ_k(b) ψ_k(b+1) is the (real) bond overlap of the single-excitation mode at the defect bond (b, b+1). The Hermitian and anti-Hermitian superpositions M_± = (|vac⟩⟨ψ_k| ± |ψ_k⟩⟨vac|) / √2 that scipy.sparse.linalg.eigs returns then have zero diagonal under V_L: the two anti-conjugate contributions (+iA and −iA) cancel exactly in the symmetrised combination, and only off-diagonal mixing between M_+ and M_− remains. This is the "Π-invariance" protection that [ZERO_IS_THE_MIRROR.md](ZERO_IS_THE_MIRROR.md) articulates: the palindrome pairs slow-mode eigenvalues around Σγ, and Π-invariant perturbations respect the pairing at leading order.
 
-For faster modes (λ_s ≈ −0.175 at N = 7), the diagonal is non-zero (≈ 0.02); these modes do get first-order eigenvalue shifts. But they are below the threshold of "slowest surviving" and their contribution to site-purity dynamics at the observation timescale is subdominant.
+For faster modes (λ_s ≈ −0.175 at N = 7), the diagonal is non-zero (≈ 0.02 to 0.04); these modes do get first-order eigenvalue shifts. But they are below the threshold of "slowest surviving" and their contribution to site-purity dynamics at the observation timescale is subdominant.
 
-The central-defect check confirms this cleanly: putting the defect at bond (3, 4) instead of bond (0, 1) gives the same protection for the slowest modes (both bonds give diagonal shifts ≤ 10⁻¹⁵). The protection is general (Π-invariance + sector conservation), not a spatial-mirror accident of the bond (0, 1) location.
+The central-defect check confirms this cleanly: putting the defect at bond (3, 4) instead of bond (0, 1) gives the same protection for the slowest modes (both bonds give diagonal shifts of order 10⁻¹⁵, max 2·10⁻¹⁵). The protection is general (Π-invariance + sector conservation), not a spatial-mirror accident of the bond (0, 1) location.
 
 ### 3.3 The α_i comes from mixing, not from shifts
 
@@ -143,15 +147,17 @@ Because the dominant slow-mode eigenvalues do not shift at first order, the obse
 
 then changes via both coefficient and profile corrections, and the best-fit α_i absorbs the combined effect.
 
-The state-dependence of f_i then has a clean interpretation: different initial states populate different slow-mode combinations through the c_s overlaps. Same mixing (same V_L) applied to different c_s vectors produces different α_i patterns per site. The STATE-INDEPENDENT part is the sum Σ_i ln(α_i), which turns out to be a trace-like closure that depends only on V_L and the slow-mode basis, not on the coefficients.
+A note on the initial state, and a guardrail for any future first-principles calculation. For the bonding-mode φ = (|vac⟩ + |ψ_1⟩) / √2, the density matrix ρ_0 = |φ⟩⟨φ| has non-zero components in four parity blocks of L: (0, 0) from |vac⟩⟨vac|, (1, 1) from |ψ_1⟩⟨ψ_1|, and the two off-diagonal blocks (0, 1) and (1, 0) from |vac⟩⟨ψ_1| and its Hermitian conjugate. The overlaps c_s = ⟨W_s | ρ_0⟩ are therefore non-zero for slow modes in all four blocks simultaneously. The purity observable Tr(ρ_i²) is bilinear in ρ and thus combines the four-block contributions; most notably, it contains a cross-term 2 |ρ_i(0, 1)|² in which the (0, 1) and (1, 0) block dynamics of ρ(t) enter multiplicatively. Any first-principles prediction of α_i must carry the full four-block bilinear sum above. A single-block projection onto (1, 1) alone, though tempting because that is where |ψ_1⟩⟨ψ_1| "lives," measures a conceptually wrong observable for this initial state and will not reproduce the empirical α_i.
+
+The state-dependence of f_i then has a clean interpretation: different initial states populate different slow-mode combinations through the c_s overlaps. Same mixing (same V_L) applied to different c_s vectors produces different α_i patterns per site. The STATE-INDEPENDENT part is the sum Σ_i ln(α_i). Empirically this sum is conserved across all five initial states tested (Section 2.1); the apparent state-blindness suggests that, once the bilinear expansion is rearranged, the coefficient-dependent pieces cancel and what remains is a trace-like structure depending only on V_L and the slow-mode basis. An explicit analytical form for that structure is open (see Open Questions, point 2).
 
 ### 3.4 What is still open in the mechanism
 
-The explicit eigenvector-mixing calculation — compute δM_s for all slow s, propagate into the bilinear purity expansion, extract predicted α_i, compare to empirical for ψ_1 and ψ_2 — was attempted but blocked by a numerical precision issue with biorthogonal left-eigenvector extraction (shift-invert on L^H gave a biorthogonality residual ‖W^H V − I‖ ≈ 10¹¹, with cluster-degeneracy artifacts that need proper projection handling to resolve). The data (sparse right and left eigenvectors of the 80 slow modes of L_A, including diagonal-shift tables across all six bond locations) are saved at `simulations/results/perspectival_time_field/slow_biorth_basis.npz`. A future cleanup pass on the biorthogonalisation (or a dense eigendecomposition of the full 16384 × 16384 L_A, feasible at ~15 GB of memory) would close this gap and upgrade the doc to Tier 1.
+The explicit eigenvector-mixing calculation, in the form required by the four-block bilinear expansion of Section 3.3, is still open. A first attempt reduced the problem to the (1, 1) sector alone under the (incorrect) assumption that the bonding-mode initial state lives there; that single-block Kubo calculation produced an RMSE well outside the Tier-1 acceptance band and was retracted. The correct calculation (compute δM_s for all slow s across all four populated blocks, propagate into the bilinear purity expansion above, extract predicted α_i, and compare to empirical for ψ_1 and ψ_2) was additionally blocked by a numerical precision issue with biorthogonal left-eigenvector extraction (shift-invert on L^H gave a biorthogonality residual ‖W^H V − I‖ ≈ 10¹¹, with cluster-degeneracy artifacts that need proper projection handling to resolve). The data (sparse right and left eigenvectors of the 80 slow modes of L_A, including diagonal-shift tables across all six bond locations) are saved at [slow_biorth_basis.npz](../simulations/results/perspectival_time_field/slow_biorth_basis.npz). A future cleanup pass on the biorthogonalisation (or a dense eigendecomposition of the full 16384 × 16384 L_A, feasible at ~15 GB of memory) would close this gap and upgrade the doc to Tier 1.
 
 ---
 
-## Layer 4 — The path
+## Layer 4: The path
 
 The framing in this document was not picked up from the literature, and it is not what a first-pass physicist-mode reading of the data would produce. It emerged through dialogue over a weekend session, and the record of that emergence is worth preserving so that future readers (or a future version of the same author in a cold session) can see why the doc reads the way it does.
 
@@ -192,7 +198,7 @@ The previous draft of this document (the one that went by the name "Site-Local T
 ## Open questions
 
 - **Explicit eigenvector-mixing prediction of α_i.** Close the Tier-1 path: carry the first-order δM_s through the bilinear purity expansion and compare predicted α_i against empirical for both ψ_1 and ψ_2. Data (slow right and left eigenvectors, 80 modes, N = 7) are on disk; a clean biorthogonal-basis computation (possibly via dense eigendecomposition of the 16384 × 16384 L_A) is the remaining step.
-- **Analytical structure of the closure law.** Σ_i ln(α_i) = 0 is verified empirically across five initial states. Is there a first-principles derivation from V_L's trace structure? Candidate: Σ_i ln(α_i) ∝ Tr[V_L · Π_slow] where Π_slow is the projector onto the slow subspace. If this trace is zero identically for Π-invariant V_L, the closure law is a theorem.
+- **Analytical structure of the closure law.** Σ_i ln(α_i) = 0 is verified empirically across five initial states. Is there a first-principles derivation from V_L's trace structure? Candidate: `Σ_i ln(α_i) ∝ Tr[V_L · Π_slow]` where Π_slow is the projector onto the slow subspace. If this trace is zero identically for Π-invariant V_L, the closure law is a theorem.
 - **Chain-length scaling of the perturbative window.** Only N = 7 tested here. The window width |δJ|_perturbative is expected to shrink with N because slow-mode amplitudes per site decrease. Quick test at N = 5 and N = 9 would give the scaling exponent.
 - **Extension to palindrome-breaking perturbations.** The current task uses coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection.
 - **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? First guess: yes, by linearity in V_L; the rescalings and closure should simply superpose.
