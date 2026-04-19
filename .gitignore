@@ -16,3 +16,7 @@ compute/**/*.zip
 *.suo
 *.user
 simulations/results/csharp_compute_*.txt
+
+# --- Transient logs (any location) ---
+*.log
+*_log.txt
