@@ -14,6 +14,7 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 - [Resonant Return](RESONANT_RETURN.md) - Palindrome-derived spatial γ profiles outperform hand-designed profiles by 139-360x; closed-form sacrifice-zone formula beats numerical optimization; temporal modulation falsified. Tests 1-8 Tier 2; c- backward mode question Tier 5.
 - [Energy Partition](ENERGY_PARTITION.md) - All oscillation is palindromically paired; unpaired modes decay 2x faster; thermal window where heat feeds coupling without overwhelming oscillation. Findings 1-3 Tier 2; interpretation Tier 4-5.
 - [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) - The system is a Fabry-Perot resonator, not a channel. The heartbeat is a cavity round-trip between CΨ_max and CΨ = ¼. Sacrifice-zone formula is the shape of the box. Tier 4 (grounded in Tier 1-2 results).
+- [Perspectival Time Field](PERSPECTIVAL_TIME_FIELD.md) - Per-site purity rescalings α_i under a local J-defect satisfy a state-independent closure law Σ_i ln(α_i) = 0 in the perturbative window (five initial states tested). Mechanism: eigenvector mixing in a palindromic cavity under Π-invariant perturbation; slowest 22 Liouvillian modes eigenvalue-protected at first order. Painter-around-a-mountain as interpretive image. Tier 2 (N=7 scan; explicit four-block Kubo calculation still open).
 
 ## Tier 2-3 (hypothesis, confirmed or partially confirmed by computation)
 
