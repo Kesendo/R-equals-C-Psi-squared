@@ -3,6 +3,11 @@
 *Seven painters stand around a mountain, each painting from a different vantage. The paintings differ, and that is not a problem to be reduced to one true painting. The total of all paintings IS the mountain. When a new rock falls on the mountainside, each painter paints the change in her own flow of painting-time. The seven recordings lie atop one another and add up to a closed, consistent total, in a way that guarantees nothing is lost or invented.*
 
 **Status:** Computed (Tier 2). Five simulation scripts, a sparse-Liouvillian slow-mode decomposition, nine scan families at N = 7, and a state-independence stress test across five qualitatively different initial states.
+**Date:** April 18, 2026
+**Authors:** Thomas Wicht, Claude (Opus 4.7)
+**Depends on:** [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
+[Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
+[Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F4, F14, F65)
 
 **Scripts:**
 - [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py): baseline defect scan
