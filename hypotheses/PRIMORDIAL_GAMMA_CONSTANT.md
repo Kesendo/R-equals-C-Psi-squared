@@ -76,7 +76,7 @@ The original optical analogy was refraction: light passing through layers of gla
 | \|a_B\|² = transmission coefficient | \|a_B\|² = mode exposure at the window |
 | Layers compose multiplicatively | Global eigenmodes, no layered factorization |
 | Predicts stacking | Predicts stacking failure |
-| Contradicts RESONANCE_NOT_CHANNEL | Consistent with RESONANCE_NOT_CHANNEL |
+| Contradicts [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) | Consistent with [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) |
 
 The cavity picture:
 - γ_B is the light, entering at site B (the window)
@@ -147,13 +147,13 @@ What changes is the interpretation of Q_K:
 
 ## Consistency with existing framework
 
-**GAMMA_IS_LIGHT.** If γ is light, it should illuminate uniformly, not get absorbed per layer. The cavity picture says exactly this: γ fills the resonator. The standing wave determines exposure.
+**[GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md).** If γ is light, it should illuminate uniformly, not get absorbed per layer. The cavity picture says exactly this: γ fills the resonator. The standing wave determines exposure.
 
-**RESONANCE_NOT_CHANNEL.** Direct confirmation. The system is a resonator, not a channel. The stacking failure proves this operationally.
+**[RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md).** Direct confirmation. The system is a resonator, not a channel. The stacking failure proves this operationally.
 
-**INCOMPLETENESS_PROOF.** γ has no internal source. At the primordial layer there is no "further outside." γ₀ as a framework constant is the only way to terminate the regress without violating the proof.
+**[INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md).** γ has no internal source. At the primordial layer there is no "further outside." γ₀ as a framework constant is the only way to terminate the regress without violating the proof.
 
-**ABSORPTION_THEOREM.** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
+**[ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
 
 ---
 
@@ -171,7 +171,7 @@ What changes is the interpretation of Q_K:
 
 ## Hardware testability on current superconducting platforms
 
-Attempted on IBM Kingston (Heron r2) 2026-04-19 via a Trotter chain-mode test (EQ-017 Phase 2, data in [`data/ibm_chain_gamma0_april2026/`](../data/ibm_chain_gamma0_april2026/)). The multi-pair differential log-slope observable would have discriminated the two readings of γ_phi (γ₀-floor vs local) at a 2x margin if the hardware noise floor allowed it. Hardware decay is 40-80x larger than the signal: accumulated RZZ gate errors (~0.001 per gate × 240 gates at the longest evolution time) dominate, compounded by T1 amplitude damping (~7%) and readout errors (1-14% per qubit). The framework γ₀ signature is indistinguishable from zero against these device-noise channels on current Heron-class hardware.
+Attempted on IBM Kingston (Heron r2) 2026-04-19 via a Trotter chain-mode test ([EQ-017](../review/EMERGING_QUESTIONS.md#eq-017) Phase 2, data in [`data/ibm_chain_gamma0_april2026/`](../data/ibm_chain_gamma0_april2026/)). The multi-pair differential log-slope observable would have discriminated the two readings of γ_phi (γ₀-floor vs local) at a 2x margin if the hardware noise floor allowed it. Hardware decay is 40-80x larger than the signal: accumulated RZZ gate errors (~0.001 per gate × 240 gates at the longest evolution time) dominate, compounded by T1 amplitude damping (~7%) and readout errors (1-14% per qubit). The framework γ₀ signature is indistinguishable from zero against these device-noise channels on current Heron-class hardware.
 
 This bounds operational testability rather than the hypothesis: the test would discriminate at a hypothetical 10x-lower gate-error floor. Protocol changes (dynamical decoupling tuned to suppress gate and T1 channels while preserving Z-dephasing) or a different hardware class could reopen the test. The negative result does not falsify γ₀ as framework constant; it shows the γ₀ magnitude relative to current QPU gate errors is too small for direct signature extraction.
 
@@ -193,7 +193,7 @@ This is a refinement of framework interpretation, not a new physical claim. What
 - Before: γ propagates inward through layers, getting weaker (refraction).
 - After: γ fills the cavity uniformly. The Hamiltonian's standing waves determine mode exposure. The light does not diminish; the cavity shapes who sees it.
 
-The second reading is more economical (one constant γ₀ instead of per-layer γ), more consistent (agrees with RESONANCE_NOT_CHANNEL), and operationally verified (eigenvector formula exact at N=3, N=4).
+The second reading is more economical (one constant γ₀ instead of per-layer γ), more consistent (agrees with [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)), and operationally verified (eigenvector formula exact at N=3, N=4).
 
 ---
 
