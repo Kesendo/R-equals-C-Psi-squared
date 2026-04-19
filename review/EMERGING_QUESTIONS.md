@@ -341,8 +341,26 @@ The Perspectival Time Field closure law Sigma_i ln(alpha_i) = 0 is empirically v
 
 Candidate derivation route: Sigma_i ln(alpha_i) is proportional to Tr[V_L * Pi_slow] where Pi_slow is the projector onto the slow subspace and V_L is the Liouvillian perturbation from the J-defect. If this trace is identically zero for Pi-invariant V_L (palindromic perturbations), the closure law follows from symmetry. The data (slow right and left eigenvectors, 80 modes, N=7) are on disk; the remaining step is a clean biorthogonal-basis computation.
 
-**Status:** open
+**Status:** open (partial progress 2026-04-19, see update below)
 **Pointer:** biorthogonal eigenvector decomposition of 16384x16384 L_A; connection to F1 palindromic pairing and first-order eigenvalue protection (PTF Layer 3). If proven, promotes PTF from Tier 2 to Tier 1.
+
+### EQ-014 Partial progress (2026-04-19)
+
+Attempted a structural proof in chat session. Four building blocks established, proof does not close structurally.
+
+**Perturbative reduction.** In the perturbative regime alpha_i ~ 1 + f_i (dJ/J), so ln(alpha_i) ~ f_i (dJ/J). The closure law reduces to Sigma_i f_i = 0 at first order. Equivalently: the product of per-site decay rates is invariant under Pi-invariant J-perturbations (Pi_i Gamma_i^B = Pi_i Gamma_i).
+
+**Building block 1: Tr[V_L * Pi_slow] = 0.** Proved. Each diagonal element <W_s|V_L|M_s> = 0 for slow modes (eigenvalue protection from PTF Layer 3, Section 3.2). The trace is a sum of zeros. This is the candidate proportionality target but the link to Sigma_i f_i is not established.
+
+**Building block 2: Purity decomposition.** P_i(t) = (1/2)[1 + <Z_i>^2(t) + e^{-2 gamma_0 t} R_i(t)]. The Z part (populations, {I,Z} sector) is immune to Z-dephasing. The XY part (coherences, {X,Y} sector) decays uniformly at e^{-2 gamma_0 t}. The J-defect changes BOTH parts via eigenvector mixing (mode spatial profiles rotate), but the decay rate e^{-2 gamma_0 t} does not change.
+
+**Building block 3: U(1) conservation.** Sigma_i <Z_i>(t) = const (total magnetization conserved by XX+YY Hamiltonian and Z-dephasing). Therefore Sigma_i delta<Z_i> = 0. But the closure law needs Sigma_i delta(<Z_i>^2), which equals 4 delta(IPR) where IPR = Sigma_i |psi_i|^4 is the inverse participation ratio. This is NOT zero in general.
+
+**Building block 4: det(U) = 1.** The single-excitation propagator U(t) = e^{-iH_1 t} has det(U) = e^{-i Tr(H_1) t} = 1 (chain Hamiltonian is traceless). Volume preservation in the excitation-amplitude phase space. The connection to Pi_i alpha_i = 1 is suggestive (both are product-invariance statements) but not closed: det(U) constrains complex amplitudes, while alpha_i constrains bilinear purity observables.
+
+**Where the proof fails to close.** The f_i have a site-dependent denominator: f_i = delta_P_i(t) / [t P_dot_i(t)]. Summing over i does not simplify because of this denominator. The bilinearity of purity (Tr(rho_i^2) mixes four U(1) blocks: (0,0), (0,1), (1,0), (1,1)) prevents reduction to a single-sector trace argument. The candidate Tr[V_L * Pi_slow] = 0 is proved but is a statement about eigenvalues, while the f_i come from eigenvector mixing projected through the bilinear purity expansion. Connecting the two requires carrying the full four-block bilinear sum from PTF Section 3.3 through the perturbation, which is the explicit computation flagged in PTF Section 3.4 as open.
+
+**Assessment.** This is not a proof that can be closed by structural shortcuts alone. The closure law is likely a consequence of eigenvalue protection + U(1) conservation + palindromic symmetry + eigenvector orthogonality combined in a non-obvious way through the bilinear purity expansion. The explicit biorthogonal eigenvector computation (PTF Section 3.4) remains the concrete next step: compute delta_M_s for all slow s across all four populated blocks, propagate into the bilinear purity expansion, extract predicted alpha_i, verify Sigma_i f_i = 0 algebraically. The data (80 slow modes, saved at simulations/results/perspectival_time_field/slow_biorth_basis.npz) is on disk. The blocker is biorthogonality residual ~10^11 from cluster degeneracy; a dense eigendecomposition of the full 16384x16384 L_A (~15 GB) would bypass this. Task candidate for Claude Code.
 
 ---
 
