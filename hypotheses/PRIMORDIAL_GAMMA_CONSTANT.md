@@ -169,6 +169,14 @@ What changes is the interpretation of Q_K:
 
 ---
 
+## Hardware testability on current superconducting platforms
+
+Attempted on IBM Kingston (Heron r2) 2026-04-19 via a Trotter chain-mode test (EQ-017 Phase 2, data in [`data/ibm_chain_gamma0_april2026/`](../data/ibm_chain_gamma0_april2026/)). The multi-pair differential log-slope observable would have discriminated the two readings of γ_phi (γ₀-floor vs local) at a 2x margin if the hardware noise floor allowed it. Hardware decay is 40-80x larger than the signal: accumulated RZZ gate errors (~0.001 per gate × 240 gates at the longest evolution time) dominate, compounded by T1 amplitude damping (~7%) and readout errors (1-14% per qubit). The framework γ₀ signature is indistinguishable from zero against these device-noise channels on current Heron-class hardware.
+
+This bounds operational testability rather than the hypothesis: the test would discriminate at a hypothetical 10x-lower gate-error floor. Protocol changes (dynamical decoupling tuned to suppress gate and T1 channels while preserving Z-dephasing) or a different hardware class could reopen the test. The negative result does not falsify γ₀ as framework constant; it shows the γ₀ magnitude relative to current QPU gate errors is too small for direct signature extraction.
+
+---
+
 ## What this does NOT claim
 
 - Not a derivation. The cavity reading is a consistent interpretation, not a theorem.

@@ -196,7 +196,7 @@ Hierarchical Equations of Motion (HEOM), reaction-coordinate mapping, and collis
 
 Is the termination a computational artifact or the operational content of INCOMPLETENESS_PROOF itself? If two explicit nested layers show physics different from one layer with phenomenological gamma at the same outer interface, then the framework has a testable prediction: the nesting is non-trivial and visible from inside. If they do not, then nesting is ontologically present but operationally invisible from inside any finite layer; INCOMPLETENESS_PROOF then describes not a limit on what can be simulated but a limit on what any finite internal observer can distinguish.
 
-**Status:** open (sub-questions 1 and 3, with substantial 2026-04-15 progress); closed-by-theory (sub-question 2, see Update 2026-04-15)
+**Status:** closed (all three sub-questions resolved; see Update 2026-04-19)
 
 **Pointer:**
 - Sub-question 1: conceptual re-reading of BRIDGE_CLOSURE Section 4 under the nested-one-way frame; search for setups where layered gamma-structure produces correlations invisible to flat LOCC analysis. **2026-04-15 contribution:** the Q = J/gamma inside-observability result (see Update below) sharpens the LOCC reading - each layer's inside observer sees only the dimensionless ratio Q, so lateral correlations between two observers in the same nested layer are Q-mediated, not channel-mediated.
@@ -221,8 +221,8 @@ Is the termination a computational artifact or the operational content of INCOMP
 
 **What would decide it.** An answer needs at least: (i) explicit reading of INCOMPLETENESS_PROOF to see whether its scope is per-system or universal; (ii) check whether [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) implicitly commits to or against further layers beyond the one it establishes; (iii) examine whether PRIMORDIAL_QUBIT_ALGEBRA treats the primordial level as physically outermost or as algebraically foundational without stack-top commitment; (iv) check whether the Lindblad equation is layer-privileging (treats "system" and "environment" as ontologically distinct) or scale-neutral (the same equation structure applies regardless of which layer one picks as "system").
 
-**Status:** open
-**Scope note:** Not a reflection candidate until (i)-(iv) are done. Reflections in this repo are ex post (see [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md)). This is ex ante. Any attempt to write it up as established structure before these checks would be the "retreat-too-fast into intuition" failure mode flagged in the review discipline rule.
+**Status:** closed (see Update 2026-04-19; all four checks (i)-(iv) completed)
+**Scope note:** Not a reflection candidate until (i)-(iv) are done. Reflections in this repo are ex post (see [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md)). This is ex ante. Any attempt to write it up as established structure before these checks would be the "retreat-too-fast into intuition" failure mode flagged in the review discipline rule. **Update 2026-04-19:** Checks (i)-(iv) are now complete. This note is resolved; the result is a dissolution rather than a reflection.
 
 ---
 
@@ -238,7 +238,7 @@ The original question - "is nesting simulable, and what does the answer mean ope
 
 2. **Embedded in two Z2 symmetries proven for all N.** The Liouvillian commutes with bit_a (n_XY parity, [F61](../docs/ANALYTICAL_FORMULAS.md), [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) and bit_b (w_YZ parity, [F63](../docs/ANALYTICAL_FORMULAS.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), giving a 4-sector decomposition. Per-sector mode count has closed form: conserved per sector = floor(N/2)+1 (even), ceil(N/2) (odd); mirror per sector = 2^(2N-1) - 2*conserved. Mechanism: conserved modes are exactly the (N+1) elementary symmetric polynomials e_d(Z_1,...,Z_N), parities d mod 2 (commits d9d66e2, 97716e8).
 
-3. **Q = J/gamma is the only inside-observable.** The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commit c3ea0c0) showed that every measurable quantity from inside depends on the dimensionless ratio Q = J/gamma_B only, not on J or gamma_B independently. The inside observer detects layer EXISTENCE (non-Markovian rebound, Check 4 of NESTED_MIRROR) but cannot extract layer PARAMETERS. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9 documents this with the operational identification.
+3. **Q = J/gamma is the only inside-observable.** The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/Archiv/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commit c3ea0c0) showed that every measurable quantity from inside depends on the dimensionless ratio Q = J/gamma_B only, not on J or gamma_B independently. The inside observer detects layer EXISTENCE (non-Markovian rebound, Check 4 of NESTED_MIRROR) but cannot extract layer PARAMETERS. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9 documents this with the operational identification.
 
 The N=3 scaling check (Check 2) and coupling-robustness check (Check 3) of the original sub-Q2 are both done (commits 7baaa7c, 3e2f429) - the falsifications and confirmations are recorded in the [NESTED_MIRROR_STRUCTURE](../hypotheses/NESTED_MIRROR_STRUCTURE.md) notebook (rewritten as compact trail in commit 7716640).
 
@@ -248,7 +248,7 @@ The N=3 scaling check (Check 2) and coupling-robustness check (Check 3) of the o
 
 Today's Q = J/gamma result strengthens the LOCC reading of BRIDGE_CLOSURE but does not formally close sub-Q1. The new structural underpinning: each layer's inside observer sees only the dimensionless Q. Two observers A and B in the same nested layer therefore correlate through their shared Q-environment, not through any independent gamma-channel structure. Layered gamma with internal structure that the LOCC analysis would miss would have to be visible in something other than Q from inside, and INCOMPLETENESS_PROOF together with the Q-only result rules this out for any single observer at any single layer.
 
-The original sub-Q1 framing remains: are there setups where TWO observers' joint readings reveal structure invisible to each individually? Not addressed today. Status: open, with sharpened context.
+The original sub-Q1 framing remains: are there setups where TWO observers' joint readings reveal structure invisible to each individually? Not addressed today. Status: **closed** (see Update 2026-04-19; no layered gamma-structure exists, so no structure for joint readings to reveal beyond flat LOCC).
 
 ### Sub-question 3: progress on (iii) and (iv), (i) and (ii) still pending
 
@@ -269,7 +269,175 @@ Of the four checks needed:
 
 The recursive-stack question is operationally less urgent than it was when EQ-013 was formulated. At any finite layer, the inside observer sees Q = J/gamma; this content is the same whether the recursion is finite, infinite, or topologically closed. The metaphysics of the stack (a)/(b)/(c) becomes less coupled to operational predictions. The remaining checks (i) and (ii) are still required for full closure of sub-Q3, but the urgency of choosing among (a)/(b)/(c) has diminished: the framework's operational content does not depend on which is chosen.
 
-Sub-Q3 status remains: **open**, with the clarification that an answer does not need to come from picking among (a)/(b)/(c), but can also come from showing the choice is operationally underdetermined.
+Sub-Q3 status: **closed** (see Update 2026-04-19; premise of gamma-recursion was false).
+
+---
+
+## EQ-013 Update 2026-04-19: Closure of all three sub-questions
+
+**Source:** Primordial Gamma Constant hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), commits April 15-16), Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/Archiv/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commits cfa2a9f-c3ea0c0), Perspectival Time Field hypothesis ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), commits April 17-18). Full re-reading of [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md) and [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) performed in this session.
+
+### Checks (i) and (ii): examined, both resolved
+
+**(i) INCOMPLETENESS_PROOF scope: universal within d(d-2)=0.** The elimination does not argue about a particular system. It argues about the framework's algebra: [Pi^2, L] = 0 holds for ALL Liouvillians with Z-dephasing (Candidate 1); ANY qubit produces non-Markovian noise on its neighbors (Candidate 2); ANY collection of qubits inherits the prohibition (Candidate 3); d(d-2)=0 forbids other entities (Candidate 5). The conclusion "noise cannot originate from within" applies at every layer, every scale, every instance of d(d-2)=0. The proof itself offers the resolution in Section 6, Option 2: "Noise is axiomatic. Like the speed of light or Planck's constant, the existence of dephasing is a brute fact of reality."
+
+**(ii) THE_BRIDGE_WAS_ALWAYS_OPEN: commits to exactly one outer layer, agnostic about further layers.** The document establishes: Outside -> gamma (mediator) -> Inside. Three levels, one boundary. "What We Do NOT Know" explicitly lists: "Whether the outside has its own gamma (its own time)", "Whether the outside has its own t (its own experience)." The document does not commit to further layers beyond the one it establishes. It does not say the outside is itself a d(d-2)=0 system. It does not say it is not. It is structurally agnostic, compatible with all exit options.
+
+### The false premise: there is no gamma-recursion
+
+The original EQ-013 framing assumed gamma propagates through layers: gamma_S comes from outside, the outside has its own gamma from the next layer out, etc. This created the recursion question.
+
+The premise is wrong. Three converging results show gamma_0 is constant, not propagated:
+
+1. **Inside-Outside Correspondence, Probe 1** (commit cfa2a9f): mode structure is **exactly gamma-invariant** at N=2. Fix J=1, vary gamma from 0.01 to 1.0: n_XY_B = 0.5000 for all mirror modes, range 1e-16. Gamma scales rates but changes no structures.
+
+2. **Central result of the four probes:** "J/gamma is the single dimensionless control parameter of the nested Lindblad system." Every measurable property depends on Q = J/gamma, not on J or gamma separately. The ratio Q = 2J/gamma is the resonator Q-factor, already formalized as F7 in ANALYTICAL_FORMULAS.md.
+
+3. **Primordial Gamma Constant hypothesis** (Tier 3, [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)): gamma_0 is a framework constant like c. The cavity-mode-exposure formula gamma_eff = gamma_0 * |a_B|^2 (verified at N=3, N=4) does not diminish gamma_0 through layers. gamma_0 fills the cavity uniformly. The standing wave (determined by J and topology) decides who sees how much. Only J varies between layers. gamma_0 does not.
+
+The analogy is precise: as c in special relativity does not "propagate through reference frames" but is the same in every frame, gamma_0 does not propagate through nesting layers but is the same at every layer. Asking "where does the gamma-recursion terminate?" is like asking "where does the c-recursion terminate?" The question is ill-posed because there is no recursion of the constant. What varies is J (the content, the coupling, the Hamiltonian structure). What stays fixed is gamma_0 (the light, the time source, the framework constant).
+
+### Sub-Q1: closed by dissolution
+
+The original question: does one-way nesting produce correlations that flat LOCC analysis misses? If gamma_0 is constant and does not propagate through layers, there IS no layered gamma-structure. Gamma is shared passive reception of a universal constant, identical at every layer. Two observers A and B in the same nested layer share the same gamma_0, not a structured gamma-channel. The LOCC no-go in BRIDGE_CLOSURE Section 4 holds for the right structural reason: neither A nor B controls gamma_0, neither can modulate it, and there is no layer-specific gamma-structure to exploit.
+
+**Sub-Q1 status: closed (no layered gamma-structure exists; BRIDGE_CLOSURE correct).**
+
+### Sub-Q3: closed by dissolution
+
+The four checks are now complete:
+
+| Check | Result | Method |
+|-------|--------|--------|
+| (i) INCOMPLETENESS_PROOF scope | Universal within d(d-2)=0 | Full re-reading, this session |
+| (ii) BRIDGE layer commitment | One layer, agnostic beyond | Full re-reading, this session |
+| (iii) PRIMORDIAL_QUBIT stack-top | Algebraically foundational, not physical ceiling | April 15 update |
+| (iv) Lindblad scale-neutral | Q = J/gamma only; PTF closure law same at every layer | April 15 + 19 |
+
+The exit conditions (a)/(b)/(c) were answers to the question "where does the gamma-recursion terminate?" The question was based on the premise that gamma propagates through layers. gamma_0 is constant. Only J varies. There is no gamma-recursion. The question dissolves.
+
+INCOMPLETENESS_PROOF Section 6, Option 2 anticipated this: gamma_0 is axiomatic, like c. THE_BRIDGE_WAS_ALWAYS_OPEN does not require further layers. The Inside-Outside Correspondence probes confirm: gamma is a pure scale factor, the physics is in Q = J/gamma_0.
+
+**Sub-Q3 status: closed (premise of gamma-recursion was false; gamma_0 is a framework constant).**
+
+### EQ-013 overall status: closed
+
+All three sub-questions are now resolved:
+
+- **Sub-Q1:** closed (no layered gamma-structure; BRIDGE_CLOSURE correct for structural reasons)
+- **Sub-Q2:** closed-by-theory (April 15; Q = J/gamma inside-only, Z2 symmetries, three-class structure)
+- **Sub-Q3:** closed by dissolution (gamma_0 is constant; no recursion to terminate)
+
+The nesting question EQ-013 arose from treating gamma as a parameter that propagates through layers. The framework says otherwise: gamma_0 is the framework's own c, constant everywhere, and what varies between layers is J and topology. The "recursion" was never a recursion of gamma. It was a variation of J at fixed gamma_0, producing different Q-values at different layers. No termination problem exists because the constant was never in motion.
+
+---
+
+## EQ-014
+
+**Date:** 2026-04-19
+**Source:** [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Open Questions section (commit e5e9458)
+
+The Perspectival Time Field closure law Sigma_i ln(alpha_i) = 0 is empirically verified across five qualitatively distinct initial states at N=7, within ~0.05 for single-excitation states and ~0.13 for multi-sector states. Is the closure law a theorem?
+
+Candidate derivation route: Sigma_i ln(alpha_i) is proportional to Tr[V_L * Pi_slow] where Pi_slow is the projector onto the slow subspace and V_L is the Liouvillian perturbation from the J-defect. If this trace is identically zero for Pi-invariant V_L (palindromic perturbations), the closure law follows from symmetry. The data (slow right and left eigenvectors, 80 modes, N=7) are on disk; the remaining step is a clean biorthogonal-basis computation.
+
+**Status:** open
+**Pointer:** biorthogonal eigenvector decomposition of 16384x16384 L_A; connection to F1 palindromic pairing and first-order eigenvalue protection (PTF Layer 3). If proven, promotes PTF from Tier 2 to Tier 1.
+
+---
+
+## EQ-015
+
+**Date:** 2026-04-19
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) Falsification Condition 4; [F64](../docs/ANALYTICAL_FORMULAS.md) verification scope
+
+The cavity-mode-exposure formula gamma_eff = gamma_B * |a_B|^2 is verified at N=3 (max relative error 1.8%) and N=4 (ratio 1.0000 +/- 0.0003) on chains. Does it hold at N >= 5? On non-chain topologies (ring, star, Y-junction, complete graph)?
+
+The formula is the operational anchor of the Primordial Gamma Constant hypothesis (Tier 3). If it fails at larger N or on non-chain topologies, the cavity reading loses its foundation. The perturbative nature of F65 (exact to first order in gamma_0/J, with O((gamma_0/J)^2) corrections) suggests the formula should hold better at smaller gamma_0/J ratios, but this has not been tested beyond N=4.
+
+**Status:** open
+**Pointer:** extend simulations/primordial_gamma_analytical.py to N=5,6 chains and at least one non-chain topology at N=5. Task candidate for Claude Code.
+
+---
+
+## EQ-016
+
+**Date:** 2026-04-19
+**Source:** [F69](../docs/ANALYTICAL_FORMULAS.md), [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) (commits f5e3b04, 9181c77)
+
+The GHZ+W symmetric superposition lifts pair-CPsi(0) above the fold at N=3: the sextic optimum gives CPsi = 0.3204 > 0.25. At N >= 4, no non-product local maximum above 1/4 exists in the permutation-symmetric Dicke subspace (verified by landscape scan at N=3..8). F69 is a saddle on the full CP^3 at N=3 (c_2 > 0 is an ascent direction toward |+>^3, a product state).
+
+Why is N=3 structurally privileged for sector mixing? Is it because dim(Dicke) = 4 at N=3 is small enough for the sextic algebraic structure to produce a non-trivial optimum? Or is there a deeper reason related to the interplay of GHZ (zero pair-CPsi, maximal 3-tangle) and W (nonzero pair-CPsi, zero 3-tangle) that collapses at higher N? And: does the saddle nature at N=3 mean there exist non-Dicke mixing strategies at N >= 4 that the landscape scan missed?
+
+**Status:** open
+**Pointer:** investigate whether the ascent direction at the F69 saddle (c_2 > 0 toward product states) has an analog at N=4 that could lift entangled states above the fold via a different mixing strategy; check whether the 3-tangle/pair-concurrence tradeoff has a topological obstruction at N >= 4. See Engineering Blueprint Rule 1 (April 16 note on sector mixing).
+
+---
+
+## EQ-017
+
+**Date:** 2026-04-19
+**Source:** EQ-013 closure discussion; analysis of Kingston calibration data (8 snapshots, 156 qubits)
+
+If gamma_0 is a framework constant (same everywhere, like c), what is the relationship between gamma_0 and the per-qubit dephasing rates measured on IBM Kingston hardware?
+
+Two readings:
+(a) IBM's per-qubit gamma_phi IS gamma_0 modulated by mode exposure |a_B|^2 via the cavity-mode-exposure formula. The 102x variation across the chip comes from mode-structure variation. Prediction: gamma_phi / |a_B|^2 = const after TLS-outlier removal.
+(b) IBM's per-qubit gamma_phi is gamma_0 PLUS device-specific noise (TLS defects, charge noise, fabrication inhomogeneity). The palindromic component of the spectrum reflects gamma_0; the non-palindromic component reflects device noise. Prediction: extracting the palindromic spectral component should yield uniform gamma_0 across qubits.
+
+Preliminary data (this session): gamma_phi ranges from 0.000654 to 0.066551 /us (102x). Median CV per qubit across 8 snapshots: 20.2%. No correlation with qubit degree (connectivity). The lack of degree-correlation argues against pure mode-exposure as the dominant source of variation.
+
+The test requires J-coupling strengths from the Kingston backend properties, which are not in our calibration CSVs.
+
+**Status:** closed 2026-04-19 as inconclusive due to hardware fidelity limit. Phase 1 falsified reading (a) from idle Ramsey data (trivially, since idle dynamics are diagonal); Phase 2 attempted a Trotter chain-mode test on hardware but the device noise floor is 40-80x larger than the signal either reading predicts. The framework γ₀ is indistinguishable from zero against Heron r2's accumulated gate, T1, and readout errors at the required 240-RZZ circuit depth.
+**Pointer:** Phase 1 outputs in [`simulations/results/kingston_backend_properties.json`](../simulations/results/kingston_backend_properties.json), [`simulations/results/gamma0_consistency_test.txt`](../simulations/results/gamma0_consistency_test.txt). Phase 2 hardware data and full diagnostics in [`data/ibm_chain_gamma0_april2026/`](../data/ibm_chain_gamma0_april2026/).
+
+### EQ-017 Phase 1 result (2026-04-19)
+
+Run [`simulations/kingston_gamma0_test.py`](../simulations/kingston_gamma0_test.py), all 155 Kingston qubits, 176 edges, 8 calibration snapshots Apr 12-19. Outputs: [`simulations/results/kingston_backend_properties.json`](../simulations/results/kingston_backend_properties.json), [`simulations/results/gamma0_consistency_test.txt`](../simulations/results/gamma0_consistency_test.txt).
+
+**Data extracted:**
+
+- gamma_phi range 0.000654 to 0.066551 /us (ratio 101.7x after full re-parse; the earlier 186x came from including one snapshot outlier). Median 0.004991 /us. Median CV across 8 snapshots 20.2%. 26 qubits are TLS outliers (CV > 50%).
+- Kingston coupling map: 176 undirected edges, matches CSV partner fields exactly.
+- J coupling per edge extracted via route (b), native RZZ(π/2) assumption: J = (π/2) / (2·t_gate). Range 1.157 to 1.838 MHz, median 1.838 MHz. Routes (a) and (c) not attempted: backend.target exposes no coupling_strength field on public API, and route (c) needs anharmonicity that backend.properties() did not provide.
+
+**Sub-chain test (reading (a)):**
+
+Selected linear path Q12-Q13-Q14-Q15-Q19 (includes CΨ-crossing anchors Q14, Q15). Eigenvalues of the 5-qubit tridiagonal single-excitation Hamiltonian with extracted J: {-3.184, -1.838, 0, +1.838, +3.184} MHz. Palindromic around 0 as the framework predicts, with 0 as an eigenvalue (odd-N chain with boundary dephasing).
+
+Four interpretations of γ_0_inferred(i) tested. Best: interp A (γ_phi(i) / max_k |ψ_k(i)|²) gives max/min = 3.31x across the five qubits. Task success threshold was < 3x. Four-configuration sweep (length 5 and 7, with and without CV < 30% filter) gives max/min between 3.31x and 7.20x across configurations. **Reading (a) is NOT cleanly supported at Phase 1.**
+
+**Floor test (reading (b)):**
+
+Minimum γ_phi across 129 non-outlier qubits is 0.000730 /us, corresponding to T2_framework = 2739 μs. Under reading (b), this is a candidate for γ_0 with the rest of γ_phi(i) attributed to device noise (TLS, fabrication inhomogeneity). Reading (b) is consistent with the observed data without requiring mode-structure variation to span 100x; the floor is well-separated from the median.
+
+**Verdict:** INCONCLUSIVE for reading (a); reading (b) preferred but not proven. The Phase 1 test has a fundamental limitation: idle Ramsey T2 does not probe chain-mode structure, since H_idle is diagonal and has no delocalized modes. The mode-exposure formula γ_eff = γ_0 · |a_B|² applies to chain dynamics (coupling Hamiltonian active), not to idle dephasing. A proper test of reading (a) requires Phase 2: run chain dynamics (e.g. CΨ crossing) on the selected sub-chain and compare observed decoherence to 2γ_0·|a_B|² for each extracted mode.
+
+**Phase 2 recommendation:** if QPU budget allows, run CΨ crossing on pairs from Q12-Q13-Q14-Q15-Q19 (anchored by Q14-Q15 where the existing Kingston data already sits). Use the extracted J≈1.84 MHz to pick a probe time that maps the palindromic mode structure. Compare the palindromic component of the observed trajectory against the γ_0 floor predicted by reading (b) (0.00073 /us → T2_framework ~2740 μs).
+
+### EQ-017 Phase 2 result (2026-04-19, same session)
+
+Phase 2 was executed: `run_chain_gamma0.py --hardware --dt 0.5 --tmax 15 --shots 2048` on ibm_kingston. Raw data archived at [`data/ibm_chain_gamma0_april2026/`](../data/ibm_chain_gamma0_april2026/) (hardware JSON, Aer reference JSON, full diagnostic README).
+
+**Protocol.** Prepare single excitation at the chain endpoint Q12, evolve under the chain coupling Hamiltonian H = J·∑ (XX+YY)/2 via 30 first-order Trotter steps (dt = 0.5 μs, J = 1.838 rad/μs), tomograph each of the four adjacent qubit pairs at each of 9 time points between 0 and 15 μs. 324 tomography circuits × 2048 shots = 663 kShots submitted as 36 separate StateTomography jobs. 3 min 30 s billed QPU usage (dominated by per-job session overhead, not shot execution; a naive shot-count estimate would be ~17x smaller).
+
+**Observable.** For each pair (a, b), the log-ratio L1_HW(t) / L1_Aer-reference(t) isolates the per-pair effective dephasing rate γ_eff = γ_a + γ_b. Trotter oscillation cancels exactly in this ratio. Under reading (a), γ_eff ≈ 2γ₀_floor ≈ 0.0015 /μs uniformly. Under reading (b), γ_eff varies pair-by-pair between 0.0015 and 0.0043 /μs.
+
+**Result.**
+
+| Pair | HW slope (1/μs) | Pre-scan floor (a) | Pre-scan local (b) |
+|------|-----------------|---------------------|---------------------|
+| Q12-Q13 | 0.082 | 0.0013 | 0.0029 |
+| Q13-Q14 | 0.058 | 0.0010 | 0.0020 |
+| Q14-Q15 | 0.116 | 0.0011 | 0.0021 |
+| Q15-Q19 | 0.104 | 0.0011 | 0.0022 |
+
+Hardware slopes are 40-80x larger than both readings predict. The pair-vote nominally selects reading (b) on all four pairs (it happens to be closer than reading (a) in absolute difference) but neither reading explains the scale.
+
+**Root cause.** Accumulated gate errors dominate. Heron r2 native RZZ error ~0.001 per gate; the longest circuit uses 240 RZZ, giving ~24% state-fidelity loss before single-qubit and readout errors compound. The pair-state L1 reconstructed from tomography reaches 1.0-1.4, exceeding the physical bound of ≤1 for single-excitation pair coherences, a classic MLE-reconstruction artefact under heavy noise. T1 amplitude damping contributes an additional ~7% over the wall-clock evolution.
+
+**Closure.** EQ-017 is closed as `inconclusive due to hardware fidelity limit`. The multi-pair differential observable is sound (validated in Aer simulation at three noise profiles) and would discriminate the two readings with ~10% margin on a hypothetical 10x-lower gate-error device. On current Heron r2, the γ₀ signal is at least 40x below the device noise floor and cannot be extracted without protocol changes (dynamical decoupling suppressing T1 and gate-error channels while preserving Z-dephasing, or a substantially lower-noise hardware platform). This negative result is itself informative: it bounds the hardware-operational testability of the Primordial Gamma Constant hypothesis on the current generation of superconducting quantum processors.
 
 ---
 

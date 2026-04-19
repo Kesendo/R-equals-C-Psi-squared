@@ -1,0 +1,156 @@
+==============================================================================
+Phase 1: IBM Kingston gamma_0 Consistency Test
+Task: TASK_GAMMA0_HARDWARE_TEST.md
+==============================================================================
+
+1) gamma_phi characterization (8 calibration snapshots, Apr 12-19)
+------------------------------------------------------------------------------
+  Qubits with data:           155
+  gamma_phi range (/us):      [0.000654, 0.066551]
+  gamma_phi max/min ratio:    101.7x
+  gamma_phi median:           0.004991 /us
+  gamma_phi mean +/- std:     0.009254 +/- 0.012494 /us
+  Median CV (8 snapshots):    20.2%
+  TLS outliers (CV > 50%):    26 qubits
+
+2) Coupling map
+------------------------------------------------------------------------------
+  Edges from CSV partner fields: 176 undirected
+  Edges from backend.coupling_map: 176 undirected
+
+3) J-coupling extraction
+------------------------------------------------------------------------------
+  Source=route_b_gate_duration_CSV: 176 edges
+  J [MHz] range: [1.157, 1.838]
+  J [MHz] median: 1.838
+  J [MHz] std: 0.062
+
+  NOTE: J extracted from gate duration assuming native RZZ angle = pi/2
+  (Heron r2 nominal calibration). J_ZZ = theta / (2 * t_gate).
+  Actual coupling strengths during idle (between gates) are NOT accessible
+  from calibration data; residual idle ZZ is typically << gate-active J.
+  This is a limitation: the test uses gate-active J as a proxy for the
+  coupling that determines chain mode structure during a dynamics experiment.
+
+4) Sub-chain selection
+------------------------------------------------------------------------------
+  Linear path length: 5
+  Path: [12, 13, 14, 15, 19]
+  Selection score: 1526.39
+  Anchor CPsi-crossing qubits: [14, 15, 124, 125]
+  Anchors included in path: [14, 15]
+  T2 median (all qubits):    143.5 us
+    Q 12: T1=  333.2 us, T2=  277.0 us, gamma_phi=0.00203 /us, CV=11.2%  J_12-13=1.838 MHz
+    Q 13: T1=  362.7 us, T2=  426.8 us, gamma_phi=0.00079 /us, CV=49.2%  J_13-14=1.838 MHz
+    Q 14: T1=  324.9 us, T2=  398.9 us, gamma_phi=0.00093 /us, CV=53.0%  J_14-15=1.838 MHz
+    Q 15: T1=  374.9 us, T2=  340.7 us, gamma_phi=0.00156 /us, CV=18.8%  J_15-19=1.838 MHz
+    Q 19: T1=  279.1 us, T2=  203.5 us, gamma_phi=0.00308 /us, CV=32.9%  
+
+5) Single-excitation Hamiltonian eigenmodes
+------------------------------------------------------------------------------
+  (a) Extracted J per edge:
+      Eigenvalues [MHz]: ['-3.1839', '-1.8382', '0.0000', '1.8382', '3.1839']
+  (b) Uniform J=1 (unitless):
+      Eigenvalues:       ['-1.7321', '-1.0000', '-0.0000', '1.0000', '1.7321']
+
+  |psi_k(i)|^2 matrix (rows=qubits, cols=modes, extracted J):
+    Q          mode0     mode1     mode2     mode3     mode4
+    Q12       0.0833    0.2500    0.3333    0.2500    0.0833
+    Q13       0.2500    0.2500    0.0000    0.2500    0.2500
+    Q14       0.3333    0.0000    0.3333    0.0000    0.3333
+    Q15       0.2500    0.2500    0.0000    0.2500    0.2500
+    Q19       0.0833    0.2500    0.3333    0.2500    0.0833
+
+6) gamma_0 inference test
+------------------------------------------------------------------------------
+  Interpretation A_max_mode:
+    Formula: gamma_phi(i) / max_k |psi_k(i)|^2
+    Meaning: If qubit i is mostly exposed via its dominant mode.
+    Values [/us]: ['0.00610', '0.00318', '0.00279', '0.00624', '0.00923']
+    Median:       0.006102 /us
+    Mean +/- std: 0.005507 +/- 0.002348 /us
+    CV:           42.6%
+    max/min:      3.31x
+
+  Interpretation B_slow_mode:
+    Formula: gamma_phi(i) / |psi_{k_slow}(i)|^2
+    Meaning: If the slowest chain mode (smallest |E|) dominates long-time dephasing.
+    Values [/us]: ['0.00610', '18666717743566073560672763904.00000', '0.00279', '35927729047301296695713726464.00000', '0.00923']
+    Median:       0.009230 /us
+    Mean +/- std: 10918889358173474491081949184.000000 +/- 14443942271652097455623766016.000000 /us
+    CV:           132.3%
+    max/min:      12893555049062054248810748575744.00x
+
+  Interpretation C_total_participation:
+    Formula: gamma_phi(i)  (sum |psi_k(i)|^2 = 1)
+    Meaning: Trivial baseline: framework predicts uniform gamma_0 across all i.
+    Values [/us]: ['0.00203', '0.00079', '0.00093', '0.00156', '0.00308']
+    Median:       0.001560 /us
+    Mean +/- std: 0.001679 +/- 0.000829 /us
+    CV:           49.4%
+    max/min:      3.87x
+
+  Interpretation D_IPR_weighted:
+    Formula: gamma_phi(i) * IPR(i) = gamma_phi * sum_k |psi_k(i)|^4
+    Meaning: Localized qubits (high IPR) amplified; delocalized ones suppressed.
+    Values [/us]: ['0.00051', '0.00020', '0.00031', '0.00039', '0.00077']
+    Median:       0.000390 /us
+    Mean +/- std: 0.000435 +/- 0.000195 /us
+    CV:           44.9%
+    max/min:      3.87x
+
+6b) Multi-configuration path sweep
+------------------------------------------------------------------------------
+  Test repeated for 4 sub-chain configurations. Best-case max/min
+  across configurations indicates how sensitive the test is to path choice.
+
+  config                    path                            interp                         median /us      CV   max/min
+  ------------------------------------------------------------------------------------------------
+  len5_anchor_any_CV        Q12-Q13-Q14-Q15-Q19             gamma_0_A_max_mode               0.006102   42.6%      3.31x
+  len7_anchor_any_CV        Q33-Q34-Q35-Q19-Q15-Q14-Q13     gamma_0_C_total_participation     0.001560   51.7%      4.21x
+  len5_free_CV30            Q155-Q154-Q153-Q152-Q151        gamma_0_C_total_participation     0.004092   59.5%      4.27x
+  len7_free_CV30            Q155-Q154-Q153-Q152-Q151-Q138-Q131  gamma_0_C_total_participation     0.004817   48.0%      4.27x
+
+  Best configuration overall: len5_anchor_any_CV
+    Path: [12, 13, 14, 15, 19]
+    Best interpretation: gamma_0_A_max_mode
+    gamma_0 median: 0.006102 /us,  CV: 42.6%,  max/min: 3.31x
+
+7) Alternative reading: gamma_0 as a floor, not a multiplier
+------------------------------------------------------------------------------
+  EQ-017 reading (b): gamma_phi(i) = gamma_0 + device_noise(i)
+  with gamma_0 constant and non-negative TLS/fabrication noise on top.
+  Under this reading:
+    Non-outlier qubits (CV <= 50%):   129
+    min gamma_phi (floor candidate):  0.000730 /us
+    5th percentile:                   0.001308 /us
+    median gamma_phi:                 0.005563 /us
+    Implied gamma_0 (floor):          0.000730 /us
+    Implied T2_framework (2/gamma_0): 2739.2 us
+
+8) Verdict
+------------------------------------------------------------------------------
+  Best-case CV across interpretations: 42.6% (interp=A_max_mode)
+  Best-case max/min ratio: 3.31x (interp=A_max_mode)
+
+  Success criterion (task):   max/min < 3x across non-outlier qubits
+  Failure criterion (task):   max/min > 10x after outlier removal
+  Sub-chain observed max/min: 3.31x
+
+  VERDICT: INCONCLUSIVE: falls between success and failure thresholds.
+
+  Caveat: this test uses idle-Ramsey gamma_phi against gate-active J.
+  Idle dynamics has H_idle ~ diagonal (no chain mode structure), so the
+  per-qubit T2 directly measures local dephasing, NOT chain-mode dephasing.
+  The mode-exposure formula applies to a chain running its coupling
+  Hamiltonian (e.g. during a CPsi crossing experiment). A proper test
+  requires Phase 2: run chain dynamics on the selected sub-chain and
+  compare observed decoherence to gamma_0 * |a_B|^2.
+
+  EQ-017 reading (b) is easier to test from idle data alone:
+  the minimum gamma_phi across non-outlier qubits gives a gamma_0 floor
+  candidate of 0.000730 /us, corresponding to T2_framework = 2739.2 us.
+
+==============================================================================
+End of report
+==============================================================================
