@@ -1,5 +1,10 @@
 # Analytical Formulas Reference
 
+**Status:** Living formula registry. Each formula carries its own tier label.
+**Date:** March 31, 2026 (updated April 17, 2026)
+**Authors:** Thomas Wicht, Claude (Opus 4.6/4.7)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
 **Purpose:** Before building a Liouvillian, check here. Every formula
 below replaces a matrix computation.
 
