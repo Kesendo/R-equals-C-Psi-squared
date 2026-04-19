@@ -1,0 +1,20 @@
+{
+  "N": 7,
+  "d": 128,
+  "d2": 16384,
+  "J": 1,
+  "gamma": 0.05,
+  "topology": "chainXY",
+  "hamiltonian": "H = sum_i (J/2)(X_i X_{i+1} + Y_i Y_{i+1}), PTF convention",
+  "eigenvalue_count": 16384,
+  "stationary_count": 8,
+  "stationary_expected": 8,
+  "palindrome_center_re": -0.35,
+  "sum_re": -5734.4,
+  "most_negative_re": -0.7,
+  "layout": "column-major, Fortran-order",
+  "dtype": "complex128 (little-endian)",
+  "right_eigvecs_convention": "L * r_j = lambda_j * r_j ; column j of rightVecs is r_j",
+  "left_eigvecs_convention": "u_j^H * L = lambda_j * u_j^H ; column j of leftVecs is u_j ; biorth dot = conj(u_i)^T * r_j",
+  "date": "2026-04-19 18:04:49"
+}

@@ -1,0 +1,21 @@
+EQ-014 Biorthogonal Check (Step 2+3)
+Date: 2026-04-19 18:07:57
+N=7, d2=16384, γ=0.05
+
+Eigenvalue count: 16384
+Stationary (|λ|<1e-10): 8 (expected 8)
+Diag pairing |c_j| range: [2.77e-02, 1.00e+00]
+Modes with |c_j| < 1e-6: 0
+
+Degenerate clusters (tol=1e-06):
+  Cluster count: 3783
+  Modes in clusters: 10122
+  Cluster sizes: [8, 2, 2, 2, 2, 4, 2, 2, 2, 2, 4, 3, 2, 2, 2, 2, 2, 3, 3, 4]
+
+Biorthogonality residual (sampled 200 random columns):
+  Before SVD fix: 1.044e-06
+  After SVD fix:  1.050e-06
+  Target:         < 1e-08
+
+Verdict: INVESTIGATE
+Slow modes found: 178

@@ -23,3 +23,4 @@ simulations/results/csharp_compute_*.txt
 
 # --- Large binary intermediate data (local-only) ---
 simulations/results/eq014_eigendecomp_n7.*
+*.bin
