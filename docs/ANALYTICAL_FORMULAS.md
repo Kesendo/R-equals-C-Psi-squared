@@ -1467,7 +1467,7 @@ Consequence: every site-local observable (per-site purity, per-site expectation,
 
 **Valid for:** any Hamiltonian conserving excitation number, any sector-preserving dissipator, any initial state. Purely kinematic.
 
-**Verified:** 8 (n, m) pairs tested at N=5 via coherence-block isolation (pure superposition vs classical mixture), all |ΔN| ≥ 2 give zero contribution to machine precision. [sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json).
+**Verified:** 9 |ΔN| ≥ 2 pairs tested at N=5 via coherence-block isolation (pure superposition vs classical mixture), eight non-trivial plus the trivial (0, 5); all give zero contribution to machine precision. [sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json).
 
 **Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma; explains the XOR_SPACE center-modes invisibility to site-local measurement; bounds the sector-kernel for PTF's α_i closure structure.
 

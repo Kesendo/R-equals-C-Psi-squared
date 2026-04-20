@@ -39,8 +39,9 @@ Outputs:
 Validation:
 - 16384 eigenvalues ✓
 - 8 strict stationary modes (matches F4 formula N+1 = 8) ✓
-- Σ Re(λ) = −5734.4 (matches palindromic center at −N·γ, expected
-  −0.35 × 16384) ✓
+- Σ Re(λ) = −5734.4 = d² × (−Nγ₀) = 16384 × (−0.35), matches the
+  palindromic-centre identity that every Liouvillian eigenvalue
+  averages to −Nγ₀ = −Σγ ✓
 - Max |Im(λ)| = 8.05 ≈ E_max(H_XY) − E_min(H_XY) = 8.05 ✓
 
 ### Step 2+3: Biorthogonal basis

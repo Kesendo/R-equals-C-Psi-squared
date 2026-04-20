@@ -44,7 +44,7 @@ Several follow-up investigations refine the closure law at N = 5, 6, 7 and add a
 | 6 | −1.41 | antisymm | +0.037 |
 | 7 | −1.85 | symmetric | +0.970 |
 
-**N=6 follow-up (c1_even_N_degeneracy_test).** To separate Π-pair identity from reflection parity, N=6 was tested where Π-partners have OPPOSITE parity (at odd N the two symmetries coincide because N+1 is even; at even N they decouple).
+**N=6 follow-up (c1_even_N_degeneracy_test).** To separate Π-pair identity from reflection parity, N=6 was tested where Π-partners have OPPOSITE parity. Reflection parity is (−1)^{k+1} and Π-partner index is N+1−k; for odd N the partner index has the same parity as k (since N+1 is even), so Π-partnership and reflection parity group the same pairs of modes and cannot be distinguished empirically. For even N the partner index has the opposite parity, so the two groupings produce different pairs and the dominant symmetry is exposed.
 
 | k | E_k | reflection | Π-partner | c_1 |
 |---|-----|------------|-----------|-----|
@@ -291,7 +291,7 @@ The previous draft of this document (the one that went by the name "Site-Local T
 
 ### Positive core (survives)
 
-- **Σ_i ln(α_i) = 0 closure law** in the perturbative regime, state-independent across five initial states (within 0.05 for single-excitation states, within 0.13 for multi-sector states). This is the central law of the Perspectival Time Field.
+- **Σ_i ln(α_i) ≈ 0 empirical regularity** in the perturbative regime, holding to ±0.05 for single-excitation states and ±0.13 for multi-sector states across five initial states. This was the central law of the Perspectival Time Field in the April 18 draft; the Update 2026-04-20 downgrades it from "theorem candidate" to "empirical regularity", since direct RK4 at decreasing δJ shows Σ f_i is nonzero and state-dependent (EQ-014).
 - **Chain reflection symmetry of α_i** under mirror of the defect bond: exact at all tested mirror pairs.
 - **First-order eigenvalue protection** for the slowest 22 Liouvillian modes (|Re λ| ≤ 0.1) under Π-invariant J perturbations, at any bond location. Verified numerically at bonds (0, 1) and (3, 4).
 - **F4 stationary-count regression**: sparse eigendecomposition recovers exactly 8 strict stationary modes, matching N + 1 = 8 excitation sectors.
@@ -308,7 +308,7 @@ The previous draft of this document (the one that went by the name "Site-Local T
 
 ### Tier status
 
-**Tier 2.** The phenomenon is computed, stable across five scan variations, and has a precise perturbative mechanism (eigenvector mixing under symmetry-protected eigenvalues). Promotion to Tier 1 requires completing the explicit mixing calculation and matching empirical f_i within ~20 % per site for both ψ_1 and ψ_2, and/or deriving Σ_i ln(α_i) = 0 as an analytical theorem from V_L structure.
+**Tier 2.** The phenomenon is computed, stable across five scan variations, and has a precise perturbative mechanism (eigenvector mixing under symmetry-protected eigenvalues). Promotion to Tier 1 requires completing the explicit mixing calculation and matching empirical f_i within ~20 % per site for both ψ_1 and ψ_2. The alternative path, "derive Σ_i ln(α_i) = 0 as an analytical theorem from V_L structure", is closed by EQ-014: Σ f_i is nonzero and state-dependent, so no such theorem exists. The surviving Tier-1 path is the bilinear sector-kernel analytical derivation restricted to |ΔN| ≤ 1 (see Update 2026-04-20 and the Open Questions section).
 
 ---
 

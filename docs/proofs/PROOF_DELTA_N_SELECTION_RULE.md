@@ -3,7 +3,7 @@
 **Status:** Proven (elementary kinematic lemma, Tier 1)
 **Date:** 2026-04-20
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Context:** Explains the empirical ΔN = 1 selection rule observed in the c₁ closure-breaking coefficient at N = 5 (verified for 8 coherence-block pairs, exact to machine precision). Any site-local observable on an N-qubit chain couples only to density-matrix sector blocks with |ΔN| ≤ 1; higher-ΔN coherences are invisible. The rule is purely kinematic: it holds for any Hamiltonian, any dissipator, any model that admits an excitation-number decomposition.
+**Context:** Explains the empirical ΔN = 1 selection rule observed in the c₁ closure-breaking coefficient at N = 5 (verified for 9 |ΔN| ≥ 2 coherence-block pairs, eight non-trivial plus the trivial (0, 5); all zero to machine precision). Any site-local observable on an N-qubit chain couples only to density-matrix sector blocks with |ΔN| ≤ 1; higher-ΔN coherences are invisible. The rule is purely kinematic: it holds for any Hamiltonian, any dissipator, any model that admits an excitation-number decomposition.
 
 **Empirical data:** [sector_kernel.json](../../simulations/results/c1_sector_kernel/sector_kernel.json), [c1_bilinearity_test](../../simulations/results/c1_bilinearity_test/bilinearity_test.json).
 
@@ -82,9 +82,11 @@ Data: [c1_sector_kernel/sector_kernel.json](../../simulations/results/c1_sector_
 
 ## Scope
 
-The lemma is purely kinematic. It holds for:
+The lemma requires only that ρ admits the sector decomposition ρ^(n, m) = P_n ρ P_m. The proof argument (§ Proof above) involves only computational basis states and popcount arithmetic; no Hamiltonian, dissipator, or dynamical property is used. The kinematic result holds for any operator ρ.
 
-- **Any Hamiltonian** (XY, Heisenberg, XXZ, Ising, etc.) that conserves excitation number, so that the sector decomposition is well-defined.
+Excitation-number conservation by the Hamiltonian is needed only for the sector decomposition to be dynamically invariant (the sectors are preserved under evolution, so the selection rule composes with time evolution cleanly). The list below names the settings where the selection rule is dynamically useful:
+
+- **Any Hamiltonian** (XY, Heisenberg, XXZ, Ising, etc.) that conserves excitation number, so that the sector decomposition survives under evolution.
 - **Any dissipator** that preserves the sector structure (Z-dephasing, amplitude damping within sector, any Kraus channel commuting with the sector projectors).
 - **Any initial state**.
 
