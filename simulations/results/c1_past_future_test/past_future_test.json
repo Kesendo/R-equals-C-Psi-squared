@@ -1,0 +1,153 @@
+{
+  "N": 7,
+  "gamma_0": 0.05,
+  "J": 1.0,
+  "dJ": 0.01,
+  "V_N": 1.900968867902419,
+  "defect_bond": [
+    0,
+    1
+  ],
+  "initial_state_family": "(|vac> + |psi_k>) / sqrt(2) for k = 1..7",
+  "results_by_state": {
+    "psi_1": {
+      "k": 1,
+      "E_k": 1.8478,
+      "role": "symmetric",
+      "c_1": 0.97,
+      "alpha_plus": [
+        1.008,
+        1.014,
+        1.006,
+        1.0,
+        0.99,
+        0.992,
+        1.0
+      ]
+    },
+    "psi_2": {
+      "k": 2,
+      "E_k": 1.4142,
+      "role": "antisymmetric",
+      "c_1": 0.0371,
+      "alpha_plus": [
+        1.011,
+        1.002,
+        0.983,
+        1.0,
+        1.01,
+        0.998,
+        0.996
+      ]
+    },
+    "psi_3": {
+      "k": 3,
+      "E_k": 0.7654,
+      "role": "symmetric",
+      "c_1": 0.3574,
+      "alpha_plus": [
+        0.992,
+        0.988,
+        1.007,
+        1.006,
+        0.998,
+        1.01,
+        1.004
+      ]
+    },
+    "psi_4": {
+      "k": 4,
+      "E_k": 0.0,
+      "role": "antisymmetric (Pi-self-partner, E=0 standing wave)",
+      "c_1": 2.1357,
+      "alpha_plus": [
+        0.989,
+        1.0,
+        1.008,
+        1.001,
+        1.01,
+        1.001,
+        1.013
+      ]
+    },
+    "psi_5": {
+      "k": 5,
+      "E_k": -0.7654,
+      "role": "symmetric",
+      "c_1": 0.3574,
+      "alpha_plus": [
+        0.992,
+        0.988,
+        1.007,
+        1.006,
+        0.998,
+        1.01,
+        1.004
+      ]
+    },
+    "psi_6": {
+      "k": 6,
+      "E_k": -1.4142,
+      "role": "antisymmetric",
+      "c_1": 0.0371,
+      "alpha_plus": [
+        1.011,
+        1.002,
+        0.983,
+        1.0,
+        1.01,
+        0.998,
+        0.996
+      ]
+    },
+    "psi_7": {
+      "k": 7,
+      "E_k": -1.8478,
+      "role": "symmetric",
+      "c_1": 0.97,
+      "alpha_plus": [
+        1.008,
+        1.014,
+        1.006,
+        1.0,
+        0.99,
+        0.992,
+        1.0
+      ]
+    }
+  },
+  "pi_pair_analysis": {
+    "pair_1_7": {
+      "c_1_k": 0.97,
+      "c_1_mirror": 0.97,
+      "sum": 1.94,
+      "diff": 0.0,
+      "identical_to_1e-4": true
+    },
+    "pair_2_6": {
+      "c_1_k": 0.0371,
+      "c_1_mirror": 0.0371,
+      "sum": 0.0742,
+      "diff": 0.0,
+      "identical_to_1e-4": true
+    },
+    "pair_3_5": {
+      "c_1_k": 0.3574,
+      "c_1_mirror": 0.3574,
+      "sum": 0.7148,
+      "diff": 0.0,
+      "identical_to_1e-4": true
+    },
+    "pair_4_4": {
+      "c_1_k": 2.1357,
+      "c_1_mirror": 2.1357,
+      "sum": 4.2714,
+      "diff": 0.0,
+      "identical_to_1e-4": true
+    }
+  },
+  "prediction_psi_1": 0.9504844339512095,
+  "eq014_psi_1_match": 0.97,
+  "source_log": "simulations/results/c1_past_future_test_fullrun.log",
+  "note": "c_1 values recovered from console log after the main script crashed on a format-string bug in the Pi-pair table header. All heavy computation (3 dense eigendecomps + 7 state propagations at N=7) completed successfully."
+}
