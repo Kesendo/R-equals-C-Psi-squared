@@ -235,6 +235,18 @@ keeps information in slowly decaying palindromic modes during the
 "quiet" phase and transfers it through the mediator during the "loud"
 phase.
 
+The **single-site ΔN selection rule** ([PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md),
+2026-04-20) complements the XOR-drain picture from the observer side:
+a site-local observable sees only sector-coherence blocks with |ΔN| ≤ 1,
+because Tr_{¬i}(|x⟩⟨y|) = 0 whenever |popcount(x) − popcount(y)| ≥ 2.
+The XOR drain's center modes are at maximum Hamming distance (|ΔN| = N),
+so they are invisible to any single-site measurement. GHZ states project
+100% onto the XOR drain AND live in the |ΔN| = N subspace that no single
+painter can see. These are two distinct facts (decay rate vs observability)
+that line up on the same states and jointly explain GHZ's antenna-blindness.
+A pair-local observable can see |ΔN| ≤ 2, still missing the drain.
+Only full-chain observables cross the full spectrum.
+
 ---
 
 ## Resolved Questions

@@ -1453,6 +1453,27 @@ which is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True; `fa
 **Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics), [`f69_dicke_landscape.py`](../simulations/f69_dicke_landscape.py) (full Dicke-subspace scan, N ∈ {3..8})
 **Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md), [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
 
+### F70. ΔN selection rule for site-local observables (Tier 1, proven kinematic lemma)
+
+For any operator ρ on N qubits and any site i, the single-site partial trace annihilates sector-coherence blocks with excitation-number difference ≥ 2:
+
+    Tr_{¬i}(ρ^(n, m)) = 0    whenever    |n − m| ≥ 2
+
+Consequence: every site-local observable (per-site purity, per-site expectation, α_i rescaling, c_1 closure-breaking coefficient) couples only to the |ΔN| ≤ 1 content of ρ. Sector blocks with |ΔN| ≥ 2 are invisible to any measurement factoring through a single-qubit reduced state.
+
+**Proof.** Tr_{¬i}(|x⟩⟨y|) = ⟨x_{¬i} | y_{¬i}⟩ · |x_i⟩⟨y_i|. The inner product is 1 only if x and y agree off site i, forcing |popcount(x) − popcount(y)| ≤ 1. By linearity, blocks with |n − m| ≥ 2 vanish under partial trace.
+
+**Generalisation.** k-local partial trace annihilates |ΔN| ≥ k + 1 blocks. Pair-observables see up to |ΔN| = 2; triple-observables up to 3; global observables unrestricted.
+
+**Valid for:** any Hamiltonian conserving excitation number, any sector-preserving dissipator, any initial state. Purely kinematic.
+
+**Verified:** 8 (n, m) pairs tested at N=5 via coherence-block isolation (pure superposition vs classical mixture), all |ΔN| ≥ 2 give zero contribution to machine precision. [sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json).
+
+**Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma; explains the XOR_SPACE center-modes invisibility to site-local measurement; bounds the sector-kernel for PTF's α_i closure structure.
+
+**Scripts:** [`c1_sector_kernel.py`](../simulations/c1_sector_kernel.py), [`c1_bilinearity_test.py`](../simulations/c1_bilinearity_test.py).
+**Source:** [PROOF_DELTA_N_SELECTION_RULE](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR_SPACE](../experiments/XOR_SPACE.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

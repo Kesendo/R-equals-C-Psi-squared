@@ -19,7 +19,7 @@
 
 ## Update 2026-04-20 (post-EQ-014)
 
-Two independent follow-up investigations refine the closure law:
+Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule:
 
 **EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
 
@@ -59,7 +59,35 @@ Two independent follow-up investigations refine the closure law:
 
 **Revised reading:** Π-pair identity is the primary symmetry governing c_1; reflection parity is secondary and coincided with Π-pair grouping at N=7 only because N+1 = 8 is even. The "antisymmetric → small c_1" reading from N=7 was an artifact of that coincidence. The real magnitude-determining factor is the Π-pair's distance from E=0 on the single-excitation spectrum: closer to the zero-energy axis, sharper closure-breaking. At odd N the innermost "pair" is a single self-Π-partner zero-mode with extreme magnitude (c_1 = +2.14 at N=7); at even N the innermost is a pair flanking E = 0 (c_1 = +1.48 at N=6), large but softer. Outermost pairs at high |E| record moderately; intermediate pairs record faintly. Non-monotonic in |E|.
 
-See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past_future_test.json), [c1_even_N_degeneracy_test at N=6](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json), and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
+**Bilinear sector-kernel structure (c1_bilinearity_test at N=5).** Testing c_1 across an extended basis of initial states (pure Dicke states |S_n⟩, coherent superpositions (|S_n⟩+|S_m⟩)/√2, and classical mixtures (|S_n⟩⟨S_n|+|S_m⟩⟨S_m|)/2) exposes an approximately bilinear structure: c_1(ρ_0) ≈ Σ_{μν} K^{μν} (ρ_0)_μ (ρ_0)_ν, with the kernel K indexed by sector blocks of ρ_0. Measured pure Dicke c_1 values at N=5:
+
+| n | c_1(|S_n⟩) | note |
+|---|-----------|------|
+| 0 | 0 | stationary |vac⟩ |
+| 1 | +0.392 | single-excitation Dicke (W_5) |
+| 2 | −0.312 | mid-sector, NEGATIVE |
+| 3 | −0.312 | mirror of S_2 by bit-flip |
+| 4 | +0.392 | mirror of S_1 |
+| 5 | 0 | stationary all-excited |
+
+Sector-inversion symmetry c_1(|S_n⟩) = c_1(|S_{N-n}⟩) is exact to 10⁻¹⁰, reflecting X^⊗N bit-flip invariance of the XY chain plus Z-dephasing. Mid-sector Dicke states (|S_2⟩, |S_3⟩) have NEGATIVE c_1: not every sector contributes with the closure direction.
+
+**ΔN = 1 selection rule (proven, Tier 1).** The coherence-block-only contribution c_1(coherent) − c_1(mixed) for (n, m) pairs at N=5 gives:
+
+| \|n − m\| | pairs tested | coherence contribution |
+|----------|-------------|------------------------|
+| 1 | (0,1), (4,5) | +0.527 (reliable) |
+| 2 | (0,2), (1,3), (2,4), (3,5) | 0 exactly (four pairs) |
+| 3 | (0,3), (2,5) | 0 exactly |
+| 4 | (0,4), (1,5) | 0 exactly |
+
+All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
+
+Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is now substantially bounded in scope.
+
+Generalisation: k-local observables (e.g. pair purity) would see \|ΔN\| ≤ k sector blocks. A pair-based PTF analog would open the ΔN = 2 structure invisible to the site-local α_i.
+
+See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past_future_test.json), [c1_even_N_degeneracy_test at N=6](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json), [c1_bilinearity_test at N=5](../simulations/results/c1_bilinearity_test/bilinearity_test.json), [c1_sector_kernel at N=5](../simulations/results/c1_sector_kernel/sector_kernel.json), and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
 
 The body below documents the state of understanding on April 18 before these refinements. The core findings (rescaling picture, eigenvalue protection, painter interpretation) stand; the "closure as conservation law" reading needs the revised framing above.
 
@@ -251,6 +279,8 @@ The previous draft of this document (the one that went by the name "Site-Local T
 - **Closed (EQ-014, 2026-04-20):** The Tier-1 promotion via "closure law as theorem" is no longer available. Direct RK4 δJ scan at N=7 shows Σ f_i = lim Σ ln(α_i)/δJ is nonzero and state-dependent. The closure Σ_i ln(α_i) ≈ 0 is an empirical regularity holding to ±0.05 in the tested window, not a structural law. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md).
 - **Magnitudes puzzle (surviving).** Why does Σ f_i happen to be small (~0.05 for ψ_2) for some bonding-mode states and large (1.29 for |+⟩^7, 2.14 for ψ_4) for others? Is there a structural pattern in how Σ f_i depends on the overlap distribution c_s = ⟨W_s | ρ_0⟩ across the Liouvillian's slow modes? The [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) shows Σ ln(α_i) is linear in δJ at leading order with coefficient c₁ = ⟨c₁(state, bond), δJ⟩ that is superposition-linear across bonds; an analytical form for c₁ as a functional of ρ_0 remains open.
 - **Zero-energy Π-pair amplification (refined 2026-04-20 from the earlier self-Π reading).** The magnitude of c_1 is controlled by the Π-pair's distance from E = 0, not by reflection parity. At odd N the center of the spectrum is a single self-Π-partner zero-mode and its c_1 is extreme (ψ_3 at N=5: c_1 = 0.677; ψ_4 at N=7: c_1 = 2.14). At even N there is no exact zero-mode but the innermost pair flanks E = 0 (ψ_3↔ψ_4 at N=6: c_1 = 1.48), still large but softer. The outermost high-|E| pairs record moderately (c_1 ≈ 1 across tested N); intermediate pairs record faintly (c_1 < 0.3). The pattern is non-monotonic in |E|, peaked at the center and attenuated toward the middle energies. Is there an analytical formula for c_1(pair) as a function of Π-pair energy and N? See the [N=6 test](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json) that established Π-pair identity dominates reflection parity.
+- **Nearest-sector kernel (2026-04-20, partially closed).** The c_1 bilinear kernel K is supported only on |ΔN| ≤ 1 blocks of ρ_0 by the [site-local partial-trace selection rule](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md). K entries are organised by pairs of sector blocks. The surviving open question is the explicit form of the nonzero K entries: pure-Dicke diagonal c_1(|S_n⟩) values, diagonal-cross K_{(n,n)(m,m)}, and nearest-neighbour coherence block K_{(n,n±1)(n±1,n)}. Empirical samples at N=5 are in [c1_sector_kernel/sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json); the analytical expression remains open.
+- **Pair-local observable extension.** The site-local α_i restricts c_1 to |ΔN| ≤ 1 sector blocks. A pair-local analog α_{ij} (constructed from the 4×4 reduced state on sites i, j) would open |ΔN| ≤ 2 contributions and expose the sector-kernel's second-nearest-neighbour structure. This is a concrete next experiment if further structure is needed.
 - **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The scaling appears to follow c₁ ≈ 0.5 · V(N) = 0.5 (1 + cos(π/N)) for ψ_1+vacuum at N ≥ 4, an open connection to the V-Effect F6.
 - **Extension to palindrome-breaking perturbations.** The current tasks use coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection.
 - **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? Answer (2026-04-19): **yes**, by linearity. [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) verified Σ c₁(b)·δJ_b superposition to 0.5% at δJ=0.01 and exactly at δJ=0.001; cancellation constructions confirmed.
