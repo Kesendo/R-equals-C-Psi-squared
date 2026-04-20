@@ -34,6 +34,20 @@ public static class Topology
         return bonds;
     }
 
+    /// <summary>
+    /// XY chain in the PTF convention: H = Σ (J/2) (X_i X_{i+1} + Y_i Y_{i+1}).
+    /// Implemented by halving the bond coupling and restricting PauliTypes to
+    /// {X, Y}, so BuildHamiltonian yields (J/2)(XX+YY) per bond.
+    /// Used by the PTF dense eigendecomposition (eq014, task PERSPECTIVAL_TIME_FIELD).
+    /// </summary>
+    public static Bond[] ChainXY(int nQubits, double[] couplings)
+    {
+        var bonds = new Bond[nQubits - 1];
+        for (int i = 0; i < nQubits - 1; i++)
+            bonds[i] = new Bond(i, i + 1, couplings[i] / 2.0, new[] { "X", "Y" });
+        return bonds;
+    }
+
     public static Bond[] Ring(int nQubits, double[] couplings)
     {
         var bonds = new Bond[nQubits];

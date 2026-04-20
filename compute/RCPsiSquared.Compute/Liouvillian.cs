@@ -388,6 +388,19 @@ public static class Liouvillian
         return MklDirect.EigenvaluesAndVectorsRaw(columnMajorData, n);
     }
 
+    /// <summary>
+    /// All eigenvalues, left AND right eigenvectors via direct LAPACK zgeev (LP64). For N ≤ 7.
+    /// Right eigenvectors: v column j such that L * v_j = λ_j * v_j.
+    /// Left eigenvectors: u column j such that u_j^H * L = λ_j * u_j^H (i.e. L^H * u_j = λ_j^* * u_j).
+    /// Needed for biorthogonal perturbation theory of non-Hermitian L.
+    /// Both arrays are column-major, n*n complex each. Input is destroyed.
+    /// </summary>
+    public static (Complex[] values, Complex[] leftVectors, Complex[] rightVectors)
+        GetAllEigenvaluesLeftRightMklRaw(Complex[] columnMajorData, int n, Action<string>? log = null)
+    {
+        return MklDirect.EigenvaluesLeftRightDirectRaw(columnMajorData, n, log);
+    }
+
     private static List<double> ExtractRates(IEnumerable<Complex> evals, double threshold)
     {
         var rates = new List<double>();

@@ -45,7 +45,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 RESULTS_DIR = Path(__file__).parent / "results"
 DELTA_J = 0.1                  # perturbation strength δJ on the target bond
-TIME_WINDOW = np.linspace(0.05, 20.0, 80)  # matches PTF's T_FIT = 20
+# PTF convention: integrate to T=80 (DT=0.2), fit α over [0, 20]. Match that
+# here so that our PT prediction lands on the same grid as the empirical data.
+TIME_WINDOW = np.arange(401) * 0.2
+T_FIT = 20.0
 BONDS = [(0, 1), (3, 4)]       # target bonds for the defect
 CLOSURE_TARGET = 1e-6          # success if Σ_i ln(α_i) < this
 CLOSURE_PARTIAL = 1e-2         # partial support threshold
@@ -224,16 +227,18 @@ def compute_perturbed_purity_exact(c_all, delta_c_slow, slow_indices, R,
 
 
 def fit_alpha(P_A, P_B, times, zero_dynamics_tol=1e-8,
-              alpha_bounds=(0.1, 10.0)):
-    """Bounded scalar fit α_i minimising ⟨[P_A(α t) − P_B(t)]²⟩ over the
-    time window. Matches the PTF-style one-parameter time-rescale fit in
-    observer_time_rescale.py. Falls back to α = 1 for sites with essentially-
-    constant P_A (e.g. node-sites of ψ_2 / ψ_4) where the rescaling is
-    operationally undefined.
+              alpha_bounds=(0.1, 10.0), t_max=None):
+    """PTF-style one-parameter time-rescale fit:
+        α_i = argmin_α ⟨[P_A(i, α t) − P_B(i, t)]²⟩  for t ≤ t_max.
+    Identical algorithm to observer_time_rescale.py:alpha_fit so that our
+    PT prediction lands on the same scale as the empirical PTF data.
     """
     from scipy.interpolate import interp1d
     from scipy.optimize import minimize_scalar
 
+    if t_max is None:
+        t_max = times[-1]
+    mask = times <= t_max
     N, T = P_A.shape
     alpha = np.zeros(N)
     for i in range(N):
@@ -242,17 +247,18 @@ def fit_alpha(P_A, P_B, times, zero_dynamics_tol=1e-8,
         if pa_range < zero_dynamics_tol and pab_range < zero_dynamics_tol:
             alpha[i] = 1.0
             continue
-        # interp1d over expanded time axis: we may evaluate P_A at α*t
-        # which can exceed times[-1]. Extrapolate with the last value.
         interp = interp1d(times, P_A[i], kind='cubic', bounds_error=False,
-                          fill_value=(P_A[i, 0], P_A[i, -1]))
+                          fill_value=(float(P_A[i, 0]), float(P_A[i, -1])))
+        t_eval = times[mask]
+        b = P_B[i][mask]
 
         def mse(a):
-            d = interp(a * times) - P_B[i]
+            d = interp(a * t_eval) - b
             return float(np.mean(d * d))
 
         try:
-            res = minimize_scalar(mse, bounds=alpha_bounds, method='bounded')
+            res = minimize_scalar(mse, bounds=alpha_bounds, method='bounded',
+                                  options={'xatol': 1e-6})
             alpha[i] = float(res.x)
         except Exception:
             alpha[i] = np.nan
@@ -447,7 +453,7 @@ def main():
             PA = PA_by_state[name]
             dP = dP_by_state[name]
             PB = PA + DELTA_J * dP
-            alpha = fit_alpha(PA, PB, TIME_WINDOW)
+            alpha = fit_alpha(PA, PB, TIME_WINDOW, t_max=T_FIT)
             valid = np.isfinite(alpha) & (alpha > 0)
             sum_ln = float(np.sum(np.log(alpha))) if np.all(valid) else float('nan')
             alpha_str = "[" + ", ".join(f"{a:+.4f}" for a in alpha) + "]"

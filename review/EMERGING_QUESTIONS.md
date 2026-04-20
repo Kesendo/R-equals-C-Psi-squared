@@ -341,7 +341,7 @@ The Perspectival Time Field closure law Sigma_i ln(alpha_i) = 0 is empirically v
 
 Candidate derivation route: Sigma_i ln(alpha_i) is proportional to Tr[V_L * Pi_slow] where Pi_slow is the projector onto the slow subspace and V_L is the Liouvillian perturbation from the J-defect. If this trace is identically zero for Pi-invariant V_L (palindromic perturbations), the closure law follows from symmetry. The data (slow right and left eigenvectors, 80 modes, N=7) are on disk; the remaining step is a clean biorthogonal-basis computation.
 
-**Status:** open (partial progress 2026-04-19, see update below)
+**Status:** theorem sub-question **closed** 2026-04-19 (answer: not a first-order theorem); overall EQ-014 **still open** because a new surviving puzzle replaces it (state-dependence of the first-order coefficient Σ f_i). Detailed findings in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
 **Pointer:** biorthogonal eigenvector decomposition of 16384x16384 L_A; connection to F1 palindromic pairing and first-order eigenvalue protection (PTF Layer 3). If proven, promotes PTF from Tier 2 to Tier 1.
 
 ### EQ-014 Partial progress (2026-04-19)
@@ -361,6 +361,61 @@ Attempted a structural proof in chat session. Four building blocks established, 
 **Where the proof fails to close.** The f_i have a site-dependent denominator: f_i = delta_P_i(t) / [t P_dot_i(t)]. Summing over i does not simplify because of this denominator. The bilinearity of purity (Tr(rho_i^2) mixes four U(1) blocks: (0,0), (0,1), (1,0), (1,1)) prevents reduction to a single-sector trace argument. The candidate Tr[V_L * Pi_slow] = 0 is proved but is a statement about eigenvalues, while the f_i come from eigenvector mixing projected through the bilinear purity expansion. Connecting the two requires carrying the full four-block bilinear sum from PTF Section 3.3 through the perturbation, which is the explicit computation flagged in PTF Section 3.4 as open.
 
 **Assessment.** This is not a proof that can be closed by structural shortcuts alone. The closure law is likely a consequence of eigenvalue protection + U(1) conservation + palindromic symmetry + eigenvector orthogonality combined in a non-obvious way through the bilinear purity expansion. The explicit biorthogonal eigenvector computation (PTF Section 3.4) remains the concrete next step: compute delta_M_s for all slow s across all four populated blocks, propagate into the bilinear purity expansion, extract predicted alpha_i, verify Sigma_i f_i = 0 algebraically. The data (80 slow modes, saved at simulations/results/perspectival_time_field/slow_biorth_basis.npz) is on disk. The blocker is biorthogonality residual ~10^11 from cluster degeneracy; a dense eigendecomposition of the full 16384x16384 L_A (~15 GB) would bypass this. Task candidate for Claude Code.
+
+### EQ-014 Update 2026-04-19: closure law is NOT a first-order theorem
+
+**Source:** Task [TASK_EQ014_BIORTHOGONAL](../ClaudeTasks/TASK_EQ014_BIORTHOGONAL.md), executed this session. Full findings with method, data, and scripts in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
+
+**Method.** Dense biorthogonal eigendecomposition (left + right) of the full 16384×16384 Liouvillian L_A via new `Topology.ChainXY` path and `EigenvaluesLeftRightDirectRaw` in the C# engine (146 min zgeev on OpenBLAS LP64). Resolved the biorthogonality to machine precision (residual 3e-16 pre-cluster-fix, 1e-6 after SVD-biorthogonalization of the 3783 degenerate clusters), closing the blocker that prevented the April 18 sparse attempt. Then: built V_L for bonds (0,1) and (3,4), ran first-order PT through the slow-mode bilinear expansion, and in parallel ran exact RK4 time evolution as ground truth. Verified the full pipeline by reproducing PTF's own stored α_i values to 4 decimal places from our RK4 data fed through `observer_time_rescale.alpha_fit` (the single-pane of glass check Tom asked for).
+
+**Direct first-order coefficient extraction.** Bypassing the PT approximation entirely, ran RK4 at δJ ∈ {0.1, 0.01, 0.001} and read off Σ f_i = lim_{δJ→0} Σ ln(α_i(δJ)) / δJ. Result at N=7, bond (0,1):
+
+| State | Σ f_i (extrapolated) |
+|-------|----------------------|
+| ψ_1 | ≈ +0.97 |
+| ψ_2 | ≈ +0.05 |
+| ψ_3 | ≈ +0.36 |
+| \|+⟩⁷ | ≈ +1.29 |
+
+Nonzero and state-dependent.
+
+**What this settles.** The closure law Σ_i ln(α_i) = 0 is **not** a first-order theorem. The candidate Tr[V_L · Π_slow] = 0 (building block 1 from partial progress) is true but does not propagate through the bilinear purity expansion to Σ_i f_i = 0. PTF's empirical ±0.05 tolerance at |δJ| ≤ 0.1 arises from a combination of a first-order coefficient that is small for some states (ψ_2 ≈ 0.05) and partial second-order cancellation where the first-order coefficient is large (ψ_1, \|+⟩⁷). There is no symmetry-protected zero.
+
+**What survives.** Eigenvalue protection δλ_s = 0 for slow modes is exact to machine precision (verified in the dense decomposition; confirms PTF Section 3.2). The four-block bilinear structure of purity is real. The per-site α_i pattern is state-dependent and reproducible. The "painter" interpretive picture stands. What is falsified is only the stronger reading that Σ_i ln(α_i) is conserved **by a theorem**.
+
+**Consequence for PTF.** The promotion route to Tier 1 via "closure law as theorem" is closed. PTF stays Tier 2. A new open question replaces the old one: *why is the first-order coefficient Σ f_i small (≤ 0.1) for bonding-mode single-excitation states but order-unity for \|+⟩⁷?* This is a pattern in the data, not (yet) a theorem.
+
+**What EQ-014 now means.** The original question "is the closure law a theorem?" is answered (no). But the deeper question EQ-014 was trying to get at - *what IS the closure law, structurally?* - is not resolved. The empirical regularity is real, the proof route via Tr[V_L · Π_slow] = 0 alone is wrong, and the state-dependence pattern of Σ f_i is new data that wasn't on the table when EQ-014 was written. EQ-014 stays open with a narrower and sharper sub-question below.
+
+**Consequence for the repo.** This is a negative result in the same class as the five `recovered/` disproven claims. It should be treated with the same rigor: the original PTF claim "state-independent closure law" was empirically correct within its stated tolerance (±0.05 at the tested window) but the implicit promotion path to "theorem" is wrong. PTF needs a prose update in Section 2.1 and 3.4 (see recommendations in `EQ014_FINDINGS.md`).
+
+**Scripts:** C# `ptf` mode + `ChainXY` in `compute/RCPsiSquared.Compute/`; Python pipeline in `simulations/eq014_step23_biorth.py`, `eq014_step4567_closure.py`, `eq014_validate_groundtruth.py`, `eq014_first_order_from_rk4.py`, `eq014_spectrum_check.py`.
+
+### EQ-014 surviving sub-question (added 2026-04-19)
+
+**Source:** The δJ scan above produced a pattern the original EQ-014 was not asking about.
+
+**The pattern.** The first-order coefficient Σ f_i at N=7, bond (0,1), uniform XY chain with γ=0.05:
+
+| State | Σ f_i | Σ ln α at δJ=0.1 (PTF empirical) |
+|-------|-------|-----------------------------------|
+| ψ_1 (k=1 bonding) | +0.97 | +0.048 |
+| ψ_2 (k=2 bonding) | +0.05 | +0.001 |
+| ψ_3 (k=3 bonding) | +0.36 | +0.003 |
+| \|+⟩⁷ (all sectors) | +1.29 | +0.128 |
+
+For three of four states, Σ f_i is of order unity. For ψ_2 it is an order of magnitude smaller. The empirical Σ ln α at δJ = 0.1 is always small, sometimes because the first-order coefficient itself is small (ψ_2, ψ_3), sometimes because of a second-order cancellation (ψ_1, \|+⟩⁷).
+
+**The new question.** Is there a structural reason why Σ f_i(ψ_k) is small for some k and not others? Candidate explanations:
+
+(a) **Selection rule from ψ_k's Fourier content.** ψ_k amplitudes are sin(π k (i+1)/(N+1)). The V_L bond-overlap `<ψ_k|(X_0 X_1 + Y_0 Y_1)|ψ_k>` = 2 sin(π k/(N+1)) sin(2π k/(N+1)) is the only J-dependent part of the first-order energy shift, which vanishes on slow modes. But it appears multiplied into the eigenvector-mixing coefficient, and the product summed across sites might have a k-dependent cancellation.
+
+(b) **Node structure at the defect.** ψ_k has k-1 internal nodes. For k=2 the nodes don't sit on the defect bond (0,1); the mode has amplitude at both endpoints. For k=3 the first sign change is between sites 2 and 3. For \|+⟩⁷ there is no node structure at all and Σ f_i is largest. Empirically: states with MORE structure in the defect region have SMALLER Σ f_i. Is this a real effect or a coincidence of four data points?
+
+(c) **Excitation-sector weight.** ψ_k-bonding has 70% of |c|² in the slow subspace; \|+⟩⁷ has 6%. The large Σ f_i for \|+⟩⁷ might be entirely a fast-mode-against-slow-mode contribution that the slow-dominated states don't see. Testable by running the same calculation restricting the initial state to the slow subspace only.
+
+**Status:** open
+**Pointer:** scan ψ_k for k = 1..N at fixed defect, look for a k-dependence in Σ f_i that would discriminate (a)/(b)/(c). If the pattern is clean, it is a new regularity worth naming. If it is noisy, the state-dependence of Σ f_i is simply "what it is" and the closure law is accurately described as "an empirical regularity with no simple structure". Either outcome sharpens the PTF doc.
 
 ---
 

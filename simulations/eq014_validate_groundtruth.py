@@ -32,7 +32,9 @@ from eq014_step4567_closure import (
 
 RESULTS_DIR = Path(__file__).parent / "results"
 DELTA_J = 0.1
-TIME_WINDOW = np.linspace(0.05, 4.0, 40)
+# Match PTF: integrate to T=80, fit over [0, 20], DT=0.2 sample.
+TIME_WINDOW = np.arange(401) * 0.2
+T_FIT = 20.0
 
 
 def rebuild_L_A(N, J, gamma):
@@ -143,7 +145,7 @@ def main():
             V_L = build_V_L(bond, N)
             L_B = (L_A + DELTA_J * V_L).tocsr()
             P_B_exact = evolve_and_sample(L_B, rho0, d, N, TIME_WINDOW, dt_small=0.01)
-            alpha_exact = fit_alpha(P_A_exact, P_B_exact, TIME_WINDOW)
+            alpha_exact = fit_alpha(P_A_exact, P_B_exact, TIME_WINDOW, t_max=T_FIT)
             valid = np.all(np.isfinite(alpha_exact) & (alpha_exact > 0))
             sum_ln_exact = float(np.sum(np.log(alpha_exact))) if valid else float('nan')
             print(f"  Bond {bond}: α = {alpha_exact}")

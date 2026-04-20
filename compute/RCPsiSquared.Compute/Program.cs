@@ -10,12 +10,14 @@ using RCPsiSquared.Compute;
 //        dotnet run -c Release -- validate  -> N=5 eigenvalue-only validation only
 //        dotnet run -c Release -- rmt       -> RMT eigenvalue export (N=2-7, CSV)
 //        dotnet run -c Release -- eigvec    -> Eigenvector export + Pauli projection (N=2-6)
+//        dotnet run -c Release -- ptf       -> PTF full dense eigendecomp at N=7 (values + left + right)
 bool cavityMode = args.Any(a => a.Equals("cavity", StringComparison.OrdinalIgnoreCase));
 bool n8Only = args.Any(a => a.Equals("n8", StringComparison.OrdinalIgnoreCase));
 bool validateOnly = args.Any(a => a.Equals("validate", StringComparison.OrdinalIgnoreCase));
 bool rmtMode = args.Any(a => a.Equals("rmt", StringComparison.OrdinalIgnoreCase));
 bool eigvecMode = args.Any(a => a.Equals("eigvec", StringComparison.OrdinalIgnoreCase));
 bool lensMode = args.Any(a => a.Equals("lens", StringComparison.OrdinalIgnoreCase));
+bool ptfMode = args.Any(a => a.Equals("ptf", StringComparison.OrdinalIgnoreCase));
 
 bool mklAvailable = false;
 try
@@ -61,6 +63,12 @@ if (eigvecMode)
 if (lensMode)
 {
     RunLensSurvey(resultsDir);
+    return;
+}
+
+if (ptfMode)
+{
+    RunPtfExport(resultsDir);
     return;
 }
 
@@ -1280,4 +1288,165 @@ static void RunLensSurvey(string resultsDir)
     Console.WriteLine($"\nTotal sweep time: {sw.Elapsed.TotalMinutes:F1} min");
     Console.WriteLine($"Results in: {outDir}");
     Console.WriteLine("=== LENS SURVEY COMPLETE ===");
+}
+
+// ============================================================
+// PTF EXPORT: full dense eigendecomp + left & right eigenvectors (N=7)
+// ============================================================
+// Outputs raw little-endian complex128 binary files for Python.
+// Consumer: simulations/eq014_step23_biorth.py
+static void RunPtfExport(string resultsDir)
+{
+    Directory.CreateDirectory(resultsDir);
+    const int N = 7;
+    const double J = 1.0;
+    const double gamma = 0.05;
+    int d = 1 << N;
+    int d2 = d * d;
+
+    Console.WriteLine("=== PTF DENSE EIGENDECOMP (EQ-014) ===");
+    Console.WriteLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"Parameters: N={N}, J={J} (XY PTF conv.: H = (J/2)(XX+YY)), gamma={gamma}, Chain, d2={d2}");
+    Console.WriteLine($"Per-matrix size: {(long)d2 * d2 * 16 / 1e9:F2} GB (values + 2 eigvec blocks + workspace ~16 GB peak)");
+    Console.WriteLine();
+
+    MklDirect.ConfigureThreads(Environment.ProcessorCount, m => Console.WriteLine($"  {m}"));
+    Console.WriteLine();
+
+    var sw = new Stopwatch();
+    sw.Start();
+
+    // PTF uses XY-only chain with H = Σ (J/2)(X_i X_{i+1} + Y_i Y_{i+1}).
+    // Topology.ChainXY halves J and filters PauliTypes to {X, Y} so that
+    // BuildHamiltonian yields the correct PTF convention.
+    var bonds = Topology.ChainXY(N, Enumerable.Repeat(J, N - 1).ToArray());
+    var gammas = Enumerable.Repeat(gamma, N).ToArray();
+
+    Console.WriteLine("[1/4] Building Liouvillian (N=7 uniform XY chain, PTF convention)...");
+    sw.Restart();
+    var rawL = Liouvillian.BuildDirectRaw(N, bonds, gammas, s => Console.WriteLine($"  {s}"));
+    Console.WriteLine($"  Built in {sw.Elapsed.TotalSeconds:F1} s");
+
+    Console.WriteLine("\n[2/4] Dense eigendecomposition (left + right eigenvectors)...");
+    sw.Restart();
+    var (values, leftVecs, rightVecs) = Liouvillian.GetAllEigenvaluesLeftRightMklRaw(
+        rawL, d2, s => Console.WriteLine($"  {s}"));
+    Console.WriteLine($"  Eigendecomposition in {sw.Elapsed.TotalMinutes:F1} min");
+    rawL = null!;
+    GC.Collect();
+
+    // Validation: eigenvalue count, stationary count, palindrome pairing
+    Console.WriteLine("\n[3/4] Validation:");
+    Console.WriteLine($"  Eigenvalue count: {values.Length} (expected {d2})");
+    int stationary = 0;
+    double maxAbsIm = 0;
+    double mostNegRe = 0;
+    foreach (var v in values)
+    {
+        if (v.Magnitude < 1e-10) stationary++;
+        if (Math.Abs(v.Imaginary) > maxAbsIm) maxAbsIm = Math.Abs(v.Imaginary);
+        if (v.Real < mostNegRe) mostNegRe = v.Real;
+    }
+    Console.WriteLine($"  Stationary modes (|λ|<1e-10): {stationary} (F4 expects N+1 = {N + 1})");
+    Console.WriteLine($"  Max |Im(λ)|: {maxAbsIm:F6}");
+    Console.WriteLine($"  Most negative Re(λ): {mostNegRe:F6} (boundary formula: -2(N-1)γ = {-2.0 * (N - 1) * gamma:F6})");
+
+    // Sum of real parts: palindrome implies sum = -N*γ*d2 (each eigenvalue and its mirror partner sum to -2N*γ)
+    double sumRe = 0;
+    foreach (var v in values) sumRe += v.Real;
+    double expectedSumRe = -(double)d2 * N * gamma;
+    Console.WriteLine($"  Σ Re(λ): {sumRe:F3} (palindrome expects {expectedSumRe:F3}, i.e. avg = -N*γ = {-N * gamma:F3})");
+
+    // Biorthogonality spot check: first 5 slow modes
+    Console.WriteLine("\n  Biorthogonality spot check (<L_i | R_j> for a few pairs):");
+    var idxBySlow = Enumerable.Range(0, values.Length)
+        .OrderBy(i => Math.Abs(values[i].Real))
+        .Take(5).ToArray();
+    for (int a = 0; a < idxBySlow.Length; a++)
+    {
+        for (int b = 0; b < idxBySlow.Length; b++)
+        {
+            int i = idxBySlow[a], j = idxBySlow[b];
+            Complex dot = Complex.Zero;
+            for (int k = 0; k < d2; k++)
+            {
+                var li = leftVecs[(long)i * d2 + k];
+                var rj = rightVecs[(long)j * d2 + k];
+                dot += Complex.Conjugate(li) * rj;
+            }
+            Console.WriteLine($"    <L_{i}|R_{j}> = ({dot.Real:F6},{dot.Imaginary:F6})  (λ_i={values[i].Real:F4}, λ_j={values[j].Real:F4})");
+        }
+    }
+
+    // Write outputs
+    Console.WriteLine("\n[4/4] Writing outputs...");
+    sw.Restart();
+
+    string valPath = Path.Combine(resultsDir, "eq014_eigvals_n7.bin");
+    string rightPath = Path.Combine(resultsDir, "eq014_right_eigvecs_n7.bin");
+    string leftPath = Path.Combine(resultsDir, "eq014_left_eigvecs_n7.bin");
+    string metaPath = Path.Combine(resultsDir, "eq014_metadata.json");
+
+    WriteComplexArrayRaw(valPath, values);
+    Console.WriteLine($"  Wrote {valPath} ({new FileInfo(valPath).Length / 1024.0:F1} KB)");
+
+    WriteComplexArrayRaw(rightPath, rightVecs);
+    Console.WriteLine($"  Wrote {rightPath} ({new FileInfo(rightPath).Length / 1e9:F2} GB)");
+
+    WriteComplexArrayRaw(leftPath, leftVecs);
+    Console.WriteLine($"  Wrote {leftPath} ({new FileInfo(leftPath).Length / 1e9:F2} GB)");
+
+    // Metadata JSON
+    using (var jw = new StreamWriter(metaPath))
+    {
+        jw.WriteLine("{");
+        jw.WriteLine($"  \"N\": {N},");
+        jw.WriteLine($"  \"d\": {d},");
+        jw.WriteLine($"  \"d2\": {d2},");
+        jw.WriteLine($"  \"J\": {J.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        jw.WriteLine($"  \"gamma\": {gamma.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        jw.WriteLine($"  \"topology\": \"chainXY\",");
+        jw.WriteLine($"  \"hamiltonian\": \"H = sum_i (J/2)(X_i X_{{i+1}} + Y_i Y_{{i+1}}), PTF convention\",");
+        jw.WriteLine($"  \"eigenvalue_count\": {values.Length},");
+        jw.WriteLine($"  \"stationary_count\": {stationary},");
+        jw.WriteLine($"  \"stationary_expected\": {N + 1},");
+        jw.WriteLine($"  \"palindrome_center_re\": {(-N * gamma).ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        jw.WriteLine($"  \"sum_re\": {sumRe.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        jw.WriteLine($"  \"most_negative_re\": {mostNegRe.ToString("G8", System.Globalization.CultureInfo.InvariantCulture)},");
+        jw.WriteLine($"  \"layout\": \"column-major, Fortran-order\",");
+        jw.WriteLine($"  \"dtype\": \"complex128 (little-endian)\",");
+        jw.WriteLine($"  \"right_eigvecs_convention\": \"L * r_j = lambda_j * r_j ; column j of rightVecs is r_j\",");
+        jw.WriteLine($"  \"left_eigvecs_convention\": \"u_j^H * L = lambda_j * u_j^H ; column j of leftVecs is u_j ; biorth dot = conj(u_i)^T * r_j\",");
+        jw.WriteLine($"  \"date\": \"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\"");
+        jw.WriteLine("}");
+    }
+    Console.WriteLine($"  Wrote {metaPath}");
+    Console.WriteLine($"  Write time: {sw.Elapsed.TotalSeconds:F1} s");
+
+    Console.WriteLine("\n=== PTF EXPORT COMPLETE ===");
+}
+
+static void WriteComplexArrayRaw(string path, Complex[] array)
+{
+    using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None,
+        bufferSize: 1 << 20 /*1 MB*/, useAsync: false);
+    const int chunkElems = 1 << 20; // 1M Complex = 16 MB per chunk
+    var buffer = new byte[chunkElems * 16];
+    long total = array.LongLength;
+    long written = 0;
+    while (written < total)
+    {
+        long remaining = total - written;
+        int thisChunk = (int)Math.Min(chunkElems, remaining);
+        // Copy: real as 8 bytes, imag as 8 bytes, for each element
+        for (int i = 0; i < thisChunk; i++)
+        {
+            double re = array[written + i].Real;
+            double im = array[written + i].Imaginary;
+            Buffer.BlockCopy(BitConverter.GetBytes(re), 0, buffer, i * 16, 8);
+            Buffer.BlockCopy(BitConverter.GetBytes(im), 0, buffer, i * 16 + 8, 8);
+        }
+        fs.Write(buffer, 0, thisChunk * 16);
+        written += thisChunk;
+    }
 }

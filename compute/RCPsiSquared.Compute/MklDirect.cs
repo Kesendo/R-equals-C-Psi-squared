@@ -359,6 +359,68 @@ public static class MklDirect
     }
 
     /// <summary>
+    /// Eigenvalues AND both left+right eigenvectors via direct LAPACK zgeev (LP64).
+    /// JOBVL='V', JOBVR='V'. Returns (values, leftVectors, rightVectors).
+    /// Left eigenvectors u satisfy u^H * A = λ * u^H (stored column-major as rows of VL^H).
+    /// Right eigenvectors v satisfy A * v = λ * v (stored column-major).
+    /// WARNING: input array 'a' is destroyed by LAPACK. Needs ~4 × n² memory for n=16384.
+    /// </summary>
+    public static unsafe (Complex[] values, Complex[] leftVectors, Complex[] rightVectors)
+        EigenvaluesLeftRightDirectRaw(Complex[] a, int n, Action<string>? log = null)
+    {
+        var w = new Complex[n];
+        var rwork = new double[2 * n];
+        var workQuery = new Complex[1];
+        int lwork = -1;
+        int info = 0;
+        int ldvl = n;
+        int ldvr = n;
+        byte jobV = (byte)'V';
+        var vl = new Complex[(long)n * n];
+        var vr = new Complex[(long)n * n];
+
+        log?.Invoke("LAPACK zgeev (left+right eigenvectors) workspace query...");
+
+        fixed (Complex* pA = a)
+        fixed (Complex* pW = w)
+        fixed (Complex* pVL = vl)
+        fixed (Complex* pVR = vr)
+        fixed (Complex* pWork = workQuery)
+        fixed (double* pRwork = rwork)
+        {
+            CallZgeev(&jobV, &jobV, &n, pA, &n, pW, pVL, &ldvl, pVR, &ldvr,
+                       pWork, &lwork, pRwork, &info, log);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgeev workspace query failed: info={info}");
+
+        int optimalWork = (int)workQuery[0].Real;
+        log?.Invoke($"Optimal workspace: {optimalWork} complex values ({optimalWork * 16.0 / 1e6:F1} MB)");
+        var work = new Complex[optimalWork];
+        lwork = optimalWork;
+
+        log?.Invoke($"Running zgeev with left+right eigenvectors on {n}x{n} matrix...");
+
+        fixed (Complex* pA = a)
+        fixed (Complex* pW = w)
+        fixed (Complex* pVL = vl)
+        fixed (Complex* pVR = vr)
+        fixed (Complex* pWork = work)
+        fixed (double* pRwork = rwork)
+        {
+            CallZgeev(&jobV, &jobV, &n, pA, &n, pW, pVL, &ldvl, pVR, &ldvr,
+                       pWork, &lwork, pRwork, &info, null);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgeev failed: info={info}");
+
+        log?.Invoke($"zgeev complete. {n} eigenvalues + left + right eigenvectors computed.");
+        return (w, vl, vr);
+    }
+
+    /// <summary>
     /// Solve R^T y = e_k directly via LAPACK zgesv (LP64).
     /// R is column-major in vectors[]. We build R^T column-major by transposing indices.
     /// WARNING: the transposed copy is destroyed by LAPACK.
