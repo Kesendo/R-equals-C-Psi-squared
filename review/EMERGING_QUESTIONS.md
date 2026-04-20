@@ -514,4 +514,74 @@ Hardware slopes are 40-80x larger than both readings predict. The pair-vote nomi
 
 ---
 
+## EQ-018
+
+**Date:** 2026-04-20
+**Source:** [c_1 investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md), [F70](../docs/ANALYTICAL_FORMULAS.md)
+
+The closure-breaking coefficient c_1 is bilinear in ρ_0 with kernel K_{(n,m)(n',m')}[bond], and the kinematic selection rule (F70) restricts the kernel to sector-block pairs with |n−m| ≤ 1 and |n'−m'| ≤ 1 when the observable is site-local. What is the explicit analytical form of the surviving K entries? Three sub-questions:
+
+(a) Pure Dicke diagonal K_{(n,n)(n,n)}[bond], measured at N=5: 0, +0.392, −0.312, −0.312, +0.392, 0 at bond (0, 1). How do these arise from the slow-mode Dyson expansion?
+
+(b) Diagonal-cross K_{(n,n)(m,m)}[bond] for n ≠ m, measured non-trivially at N=5 (the (|vac⟩+|S_2⟩)/√2 c_1 = −0.29 is pure diagonal-cross). Analytical form?
+
+(c) Coherence-block K_{(n,n±1)(n±1,n)}[bond], measured +0.53 for (0, 1) at N=5. Only |ΔN| = 1 blocks contribute, by F70. Closed form?
+
+**Status:** open (Tier-1 candidate path for PTF). The selection rule gives a bounded scope; the slow-mode biorthogonal basis is on disk (for N = 7 at least, `simulations/results/eq014_*`).
+**Pointer:** slow-mode Dyson expansion restricted to |ΔN| ≤ 1 blocks, carried through the bilinear purity expansion per PTF Section 3.3 four-block rearrangement. Compare against empirical values measured at N=5 in [c1_sector_kernel](../simulations/results/c1_sector_kernel/sector_kernel.json) and [c1_bilinearity_test](../simulations/results/c1_bilinearity_test/bilinearity_test.json).
+
+---
+
+## EQ-019
+
+**Date:** 2026-04-20
+**Source:** [c1_bond_scan](../simulations/results/c1_bond_scan/bond_scan.json) at N=5
+
+The Dicke-state c_1 is bond-position-dependent by a large factor. At N=5 with bond (0, 1) (endpoint-touching), c_1(|S_2⟩) = −0.312. At bond (1, 2) (interior), c_1(|S_2⟩) = −0.012, a factor-26 suppression. |S_1⟩ instead goes from +0.392 to +0.507, a 30% enhancement at the interior bond. |S_2⟩ is site-symmetric, so the bond-position effect is not about the state's internal asymmetry but about how the (Hamiltonian + bond perturbation) structure couples to the state.
+
+Why do interior bonds near-kill mid-sector Dicke contributions while boosting single-excitation Dicke contributions? Is there a closed form for K_diag[bond] as a function of bond position in the chain?
+
+**Status:** open
+**Pointer:** the asymmetry is rooted in open-boundary conditions (endpoint sites have one neighbour, interior sites have two). Likely explainable by restricting the slow-mode eigenvectors of the interior-bond perturbation V_L to the |S_n⟩-projected subspace and computing the overlap structure explicitly at each bond. Empirical fit at more N values would clarify the N-dependence. Closely related to EQ-018(a).
+
+---
+
+## EQ-020
+
+**Date:** 2026-04-20
+**Source:** [c1_pair_local](../simulations/results/c1_pair_local/pair_local.json), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
+
+The PTF per-site α_i framework uses single-site purity as the per-observer signal. The kinematic selection rule says site-local observables capture only |ΔN| ≤ 1 sector coherences; pair-local observables capture |ΔN| ≤ 2; k-local observables capture |ΔN| ≤ k. Tested at N=5: pair-local c_1 for (|vac⟩+|S_2⟩)/√2 (|ΔN|=2 coherence) jumps from −0.29 (site-local, pure diagonal-cross) to +2.24 (pair-local, coherence block visible). The ΔN = 2 coherence dominates the pair-local signal.
+
+Does the pair-local closure Σ_{(i,j)} ln(α_{ij}) have its own symmetry structure? Is there a pair-painter version of PTF where each pair of sites paints a joint-purity trajectory, and the closure over all C(N, 2) pairs has a different geometrical meaning? What is the triple-painter extension (|ΔN| ≤ 3)? At what observational resolution does the closure become trivial (|ΔN| ≤ N = full state)?
+
+**Status:** open (new thread opened today)
+**Pointer:** repeat the c_1 investigation at pair level and triple level for N=5, extract kernels, compare to PTF site-level closure. If a pair-painter closure exists as a structural law, PTF's "painters around a mountain" picture extends to "painter pairs around a mountain" with a richer vision that captures the |ΔN| = 2 structure.
+
+---
+
+## EQ-021
+
+**Date:** 2026-04-20
+**Source:** [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md), [OPEN_THREAD_GAMMA0_INFORMATION](OPEN_THREAD_GAMMA0_INFORMATION.md), [F6 V-Effect](../docs/ANALYTICAL_FORMULAS.md)
+
+For the PTF standard initial state (|vac⟩ + |ψ_1⟩)/√2 and endpoint bond (0, 1), the measured c_1 scales empirically as c_1 ≈ 0.5 · V(N) for N ≥ 4, where V(N) = 1 + cos(π/N) is the V-Effect. Measurement:
+
+| N | c_1 | 0.5·V(N) | ratio |
+|---|-----|----------|-------|
+| 3 | 0.264 | 0.750 | 0.35 (NOT matching) |
+| 4 | 0.898 | 0.854 | 1.05 |
+| 5 | 0.928 | 0.905 | 1.03 |
+| 6 | 1.019 | 0.933 | 1.09 |
+| 7 | 0.970 | 0.951 | 1.02 |
+
+The coefficient 0.5 matches three other project-signature occurrences of 0.5: the connection maximum C = 0.5 ([THE_CPSI_LENS](../docs/THE_CPSI_LENS.md)), the first non-trivial V-Effect gain V(3) − 1 = 0.5, and twice the fold-boundary ¼. Is this empirical match at ~5 % level an accident, a special property of the bonding-mode-plus-vacuum state, or a derivable structural fact?
+
+The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version of a theorem that excludes N=3 specifically (where only two bonds exist and both are endpoint-touching), or is the pattern a large-N approximation that happens to work at small N ≥ 4?
+
+**Status:** open
+**Pointer:** either derive the 0.5·V(N) scaling from first-order perturbation theory on the bonding mode, or find a ρ_0-dependence that explains why this specific initial state gives this specific coefficient. Likely connects to EQ-018(c) (coherence-block kernel for the (0, 1) sector pair).
+
+---
+
 *Collection. Not classification. Classification comes when enough entries exist.*
