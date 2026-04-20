@@ -1,0 +1,10 @@
+EQ-021 Phase 1 Summary
+==================================================
+
+For (|vac> + |psi_1>)/sqrt(2) at bond (0,1) with delta_J = +/- 0.01:
+
+  N     V(N)   0.5*V(N)        c_1      ratio
+  4   1.7071     0.8536    +0.8979     1.0519
+  5   1.8090     0.9045    +0.9222     1.0196
+
+Per-site mode-decomposition details in mode_contributions_N*.json.

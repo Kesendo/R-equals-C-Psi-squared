@@ -1,0 +1,147 @@
+{
+  "N": 4,
+  "gamma_0": 0.05,
+  "J": 1.0,
+  "dJ": 0.01,
+  "d_squared": 256,
+  "V_N": 1.7071067811865475,
+  "c_1_alpha_fit": 0.897890161045131,
+  "c_1_over_05V": 1.0519437576377506,
+  "closure_plus": 0.009006417804253205,
+  "closure_minus": -0.008951385416649416,
+  "alpha_plus": [
+    1.0088501565446786,
+    1.0061198739277497,
+    0.9959331726944143,
+    0.9981707652316004
+  ],
+  "alpha_minus": [
+    0.991212685323715,
+    0.9939039226021904,
+    1.0041967734409198,
+    1.0018031318675011
+  ],
+  "n_significant_modes": 32,
+  "top_mode_pairs_site0": [
+    {
+      "rank": 1,
+      "s": 252,
+      "sp": 252,
+      "abs_contrib": 0.2499999999999999,
+      "contrib_real": 0.2499999999999999,
+      "contrib_imag": 0.0,
+      "lambda_s_real": 0.0,
+      "lambda_s_imag": 0.0,
+      "lambda_sp_real": 0.0,
+      "lambda_sp_imag": 0.0
+    },
+    {
+      "rank": 2,
+      "s": 252,
+      "sp": 67,
+      "abs_contrib": 0.1875000000000002,
+      "contrib_real": 0.1875000000000002,
+      "contrib_imag": 4.2560537345272006e-17,
+      "lambda_s_real": 0.0,
+      "lambda_s_imag": 0.0,
+      "lambda_sp_real": -1.2558729556712123e-16,
+      "lambda_sp_imag": 2.9729576486125007e-15
+    },
+    {
+      "rank": 3,
+      "s": 67,
+      "sp": 252,
+      "abs_contrib": 0.1875000000000002,
+      "contrib_real": 0.1875000000000002,
+      "contrib_imag": -4.2560537345272006e-17,
+      "lambda_s_real": -1.2558729556712123e-16,
+      "lambda_s_imag": 2.9729576486125007e-15,
+      "lambda_sp_real": 0.0,
+      "lambda_sp_imag": 0.0
+    },
+    {
+      "rank": 4,
+      "s": 67,
+      "sp": 67,
+      "abs_contrib": 0.1562500000000003,
+      "contrib_real": 0.1562500000000003,
+      "contrib_imag": 0.0,
+      "lambda_s_real": -1.2558729556712123e-16,
+      "lambda_s_imag": 2.9729576486125007e-15,
+      "lambda_sp_real": -1.2558729556712123e-16,
+      "lambda_sp_imag": 2.9729576486125007e-15
+    },
+    {
+      "rank": 5,
+      "s": 169,
+      "sp": 169,
+      "abs_contrib": 0.03625001837479347,
+      "contrib_real": 0.03625001837479347,
+      "contrib_imag": 0.0,
+      "lambda_s_real": -0.1000000000000009,
+      "lambda_s_imag": 1.6180339887499096,
+      "lambda_sp_real": -0.1000000000000009,
+      "lambda_sp_imag": 1.6180339887499096
+    },
+    {
+      "rank": 6,
+      "s": 51,
+      "sp": 51,
+      "abs_contrib": 0.034549150281252626,
+      "contrib_real": 0.034549150281252626,
+      "contrib_imag": 0.0,
+      "lambda_s_real": -0.10000000000000189,
+      "lambda_s_imag": -1.6180339887498973,
+      "lambda_sp_real": -0.10000000000000189,
+      "lambda_sp_imag": -1.6180339887498973
+    },
+    {
+      "rank": 7,
+      "s": 147,
+      "sp": 147,
+      "abs_contrib": 0.030925212698134804,
+      "contrib_real": 0.030925212698134804,
+      "contrib_imag": 0.0,
+      "lambda_s_real": -0.10000000000000078,
+      "lambda_s_imag": 1.6180339887498973,
+      "lambda_sp_real": -0.10000000000000078,
+      "lambda_sp_imag": 1.6180339887498973
+    },
+    {
+      "rank": 8,
+      "s": 147,
+      "sp": 51,
+      "abs_contrib": 0.028371292727778285,
+      "contrib_real": -0.026761110416362532,
+      "contrib_imag": 0.009421954167185158,
+      "lambda_s_real": -0.10000000000000078,
+      "lambda_s_imag": 1.6180339887498973,
+      "lambda_sp_real": -0.10000000000000189,
+      "lambda_sp_imag": -1.6180339887498973
+    },
+    {
+      "rank": 9,
+      "s": 51,
+      "sp": 147,
+      "abs_contrib": 0.028371292727778285,
+      "contrib_real": -0.026761110416362532,
+      "contrib_imag": -0.009421954167185158,
+      "lambda_s_real": -0.10000000000000189,
+      "lambda_s_imag": -1.6180339887498973,
+      "lambda_sp_real": -0.10000000000000078,
+      "lambda_sp_imag": 1.6180339887498973
+    },
+    {
+      "rank": 10,
+      "s": 51,
+      "sp": 169,
+      "abs_contrib": 0.02823082279064029,
+      "contrib_real": 0.02554596080657283,
+      "contrib_imag": 0.012015957802255305,
+      "lambda_s_real": -0.10000000000000189,
+      "lambda_s_imag": -1.6180339887498973,
+      "lambda_sp_real": -0.1000000000000009,
+      "lambda_sp_imag": 1.6180339887499096
+    }
+  ]
+}

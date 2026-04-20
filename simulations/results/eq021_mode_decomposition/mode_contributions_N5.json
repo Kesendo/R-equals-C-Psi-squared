@@ -1,0 +1,149 @@
+{
+  "N": 5,
+  "gamma_0": 0.05,
+  "J": 1.0,
+  "dJ": 0.01,
+  "d_squared": 1024,
+  "V_N": 1.8090169943749475,
+  "c_1_alpha_fit": 0.9222066561530989,
+  "c_1_over_05V": 1.0195666033217563,
+  "closure_plus": 0.009428650748463555,
+  "closure_minus": -0.009015482374598425,
+  "alpha_plus": [
+    1.0100070215333068,
+    1.0129013419042148,
+    1.0018500059996251,
+    0.9863658022563877,
+    0.9985333161482258
+  ],
+  "alpha_minus": [
+    0.9901367758042565,
+    0.9875098672271692,
+    0.9980889986576322,
+    1.0140493083215234,
+    1.0014278122387041
+  ],
+  "n_significant_modes": 50,
+  "top_mode_pairs_site0": [
+    {
+      "rank": 1,
+      "s": 105,
+      "sp": 105,
+      "abs_contrib": 0.32430096138252534,
+      "contrib_real": 0.32430096138252534,
+      "contrib_imag": 0.0,
+      "lambda_s_real": 3.9767861798203783e-16,
+      "lambda_s_imag": -4.080283776832001e-15,
+      "lambda_sp_real": 3.9767861798203783e-16,
+      "lambda_sp_imag": -4.080283776832001e-15
+    },
+    {
+      "rank": 2,
+      "s": 1020,
+      "sp": 105,
+      "abs_contrib": 0.26752177591864057,
+      "contrib_real": 0.26706135188302216,
+      "contrib_imag": 0.015688687678577992,
+      "lambda_s_real": 0.0,
+      "lambda_s_imag": 0.0,
+      "lambda_sp_real": 3.9767861798203783e-16,
+      "lambda_sp_imag": -4.080283776832001e-15
+    },
+    {
+      "rank": 3,
+      "s": 105,
+      "sp": 1020,
+      "abs_contrib": 0.26752177591864057,
+      "contrib_real": 0.26706135188302216,
+      "contrib_imag": -0.015688687678577992,
+      "lambda_s_real": 3.9767861798203783e-16,
+      "lambda_s_imag": -4.080283776832001e-15,
+      "lambda_sp_real": 0.0,
+      "lambda_sp_imag": 0.0
+    },
+    {
+      "rank": 4,
+      "s": 1020,
+      "sp": 1020,
+      "abs_contrib": 0.2499999999999999,
+      "contrib_real": 0.2499999999999999,
+      "contrib_imag": 0.0,
+      "lambda_s_real": 0.0,
+      "lambda_s_imag": 0.0,
+      "lambda_sp_real": 0.0,
+      "lambda_sp_imag": 0.0
+    },
+    {
+      "rank": 5,
+      "s": 106,
+      "sp": 105,
+      "abs_contrib": 0.09231925785191725,
+      "contrib_real": -0.0912206398884571,
+      "contrib_imag": 0.0142000080517306,
+      "lambda_s_real": 1.6256276584951535e-15,
+      "lambda_s_imag": 3.4073136147712022e-15,
+      "lambda_sp_real": 3.9767861798203783e-16,
+      "lambda_sp_imag": -4.080283776832001e-15
+    },
+    {
+      "rank": 6,
+      "s": 105,
+      "sp": 106,
+      "abs_contrib": 0.09231925785191725,
+      "contrib_real": -0.0912206398884571,
+      "contrib_imag": -0.0142000080517306,
+      "lambda_s_real": 3.9767861798203783e-16,
+      "lambda_s_imag": -4.080283776832001e-15,
+      "lambda_sp_real": 1.6256276584951535e-15,
+      "lambda_sp_imag": 3.4073136147712022e-15
+    },
+    {
+      "rank": 7,
+      "s": 106,
+      "sp": 1020,
+      "abs_contrib": 0.06887206972025017,
+      "contrib_real": -0.06706136901061278,
+      "contrib_imag": 0.015688682990405,
+      "lambda_s_real": 1.6256276584951535e-15,
+      "lambda_s_imag": 3.4073136147712022e-15,
+      "lambda_sp_real": 0.0,
+      "lambda_sp_imag": 0.0
+    },
+    {
+      "rank": 8,
+      "s": 1020,
+      "sp": 106,
+      "abs_contrib": 0.06887206972025017,
+      "contrib_real": -0.06706136901061278,
+      "contrib_imag": -0.015688682990405,
+      "lambda_s_real": 0.0,
+      "lambda_s_imag": 0.0,
+      "lambda_sp_real": 1.6256276584951535e-15,
+      "lambda_sp_imag": 3.4073136147712022e-15
+    },
+    {
+      "rank": 9,
+      "s": 428,
+      "sp": 428,
+      "abs_contrib": 0.04020909304359358,
+      "contrib_real": 0.04020909304359358,
+      "contrib_imag": 0.0,
+      "lambda_s_real": -0.10000000000000288,
+      "lambda_s_imag": 1.7320508075688943,
+      "lambda_sp_real": -0.10000000000000288,
+      "lambda_sp_imag": 1.7320508075688943
+    },
+    {
+      "rank": 10,
+      "s": 106,
+      "sp": 106,
+      "abs_contrib": 0.028140280706639424,
+      "contrib_real": 0.028140280706639424,
+      "contrib_imag": 0.0,
+      "lambda_s_real": 1.6256276584951535e-15,
+      "lambda_s_imag": 3.4073136147712022e-15,
+      "lambda_sp_real": 1.6256276584951535e-15,
+      "lambda_sp_imag": 3.4073136147712022e-15
+    }
+  ]
+}
