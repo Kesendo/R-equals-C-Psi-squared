@@ -1,0 +1,155 @@
+{
+  "4": {
+    "psi_phase_check": [
+      {
+        "k": 1,
+        "predicted_sign": 1,
+        "residual": 1.1102230246251565e-16
+      },
+      {
+        "k": 2,
+        "predicted_sign": -1,
+        "residual": 1.1102230246251565e-16
+      },
+      {
+        "k": 3,
+        "predicted_sign": 1,
+        "residual": 1.6653345369377348e-16
+      },
+      {
+        "k": 4,
+        "predicted_sign": -1,
+        "residual": 2.7755575615628914e-16
+      }
+    ],
+    "bond_reflection_check": [
+      {
+        "b": 0,
+        "b_ref": 2,
+        "residual": 0.0
+      },
+      {
+        "b": 1,
+        "b_ref": 1,
+        "residual": 0.0
+      },
+      {
+        "b": 2,
+        "b_ref": 0,
+        "residual": 0.0
+      }
+    ]
+  },
+  "5": {
+    "psi_phase_check": [
+      {
+        "k": 1,
+        "predicted_sign": 1,
+        "residual": 5.551115123125783e-17
+      },
+      {
+        "k": 2,
+        "predicted_sign": -1,
+        "residual": 1.4141003182998758e-16
+      },
+      {
+        "k": 3,
+        "predicted_sign": 1,
+        "residual": 2.1211504774498138e-16
+      },
+      {
+        "k": 4,
+        "predicted_sign": -1,
+        "residual": 3.3306690738754696e-16
+      },
+      {
+        "k": 5,
+        "predicted_sign": 1,
+        "residual": 3.885780586188048e-16
+      }
+    ],
+    "bond_reflection_check": [
+      {
+        "b": 0,
+        "b_ref": 3,
+        "residual": 0.0
+      },
+      {
+        "b": 1,
+        "b_ref": 2,
+        "residual": 0.0
+      },
+      {
+        "b": 2,
+        "b_ref": 1,
+        "residual": 0.0
+      },
+      {
+        "b": 3,
+        "b_ref": 0,
+        "residual": 0.0
+      }
+    ]
+  },
+  "6": {
+    "psi_phase_check": [
+      {
+        "k": 1,
+        "predicted_sign": 1,
+        "residual": 1.1102230246251565e-16
+      },
+      {
+        "k": 2,
+        "predicted_sign": -1,
+        "residual": 1.3877787807814457e-16
+      },
+      {
+        "k": 3,
+        "predicted_sign": 1,
+        "residual": 6.38378239159465e-16
+      },
+      {
+        "k": 4,
+        "predicted_sign": -1,
+        "residual": 2.498001805406602e-16
+      },
+      {
+        "k": 5,
+        "predicted_sign": 1,
+        "residual": 8.326672684688674e-16
+      },
+      {
+        "k": 6,
+        "predicted_sign": -1,
+        "residual": 8.326672684688674e-16
+      }
+    ],
+    "bond_reflection_check": [
+      {
+        "b": 0,
+        "b_ref": 4,
+        "residual": 0.0
+      },
+      {
+        "b": 1,
+        "b_ref": 3,
+        "residual": 0.0
+      },
+      {
+        "b": 2,
+        "b_ref": 2,
+        "residual": 0.0
+      },
+      {
+        "b": 3,
+        "b_ref": 1,
+        "residual": 0.0
+      },
+      {
+        "b": 4,
+        "b_ref": 0,
+        "residual": 0.0
+      }
+    ]
+  }
+}

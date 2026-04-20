@@ -579,8 +579,35 @@ The coefficient 0.5 matches three other project-signature occurrences of 0.5: th
 
 The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version of a theorem that excludes N=3 specifically (where only two bonds exist and both are endpoint-touching), or is the pattern a large-N approximation that happens to work at small N ≥ 4?
 
-**Status:** open
-**Pointer:** either derive the 0.5·V(N) scaling from first-order perturbation theory on the bonding mode, or find a ρ_0-dependence that explains why this specific initial state gives this specific coefficient. Likely connects to EQ-018(c) (coherence-block kernel for the (0, 1) sector pair).
+**Status:** closed 2026-04-20 (category error + numerical falsification)
+
+### EQ-021 closure (2026-04-20)
+
+**Source:** [RESULT_TASK_C1_VEFFECT](../ClaudeTasks/RESULT_TASK_C1_VEFFECT.md), [EQ021_FINDINGS](EQ021_FINDINGS.md), chat session 2026-04-20.
+
+**Two independent reasons for closure.**
+
+**1. Category error (conceptual).** The V-Effect is an inter-layer emergence phenomenon: two complete systems connected produce structure that neither contains alone (2+2 frequencies become 109, 14/36 palindromes break at N=3). See [V_EFFECT_PALINDROME](../experiments/V_EFFECT_PALINDROME.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md). V(N) = 1 + cos(pi/N) is a formula that captures Q_max/Q_mean within a single chain (D2 in ANALYTICAL_FORMULAS.md), but the V-Effect as a concept describes what happens when a NEW connection is created between systems. c_1 is an intra-layer perturbation sensitivity: how an existing bond's strength change shifts per-site purity dynamics. Connecting c_1 to V(N) was a category confusion between "perturbing an existing coupling" and "creating new structure through coupling." Even if the numbers had matched exactly, the conceptual mapping would have been wrong.
+
+**2. Numerical falsification.** The mode decomposition (eq021_mode_decomposition.py, N=4 and N=5) identifies the dominant spectral constant as E_1 = 2cos(pi/(N+1)), not V(N) = 1 + cos(pi/N). These are structurally different expressions (argument N+1 vs N) that both converge to 2 for large N, explaining the numerical near-match in the narrow window N=4..7. Additional falsification evidence:
+
+- The full bond profile c_1(b) is a mirror-symmetric vector with sign changes (endpoints positive, center negative). V(N) is a single positive number. No scalar can describe a signed vector.
+- State dependence: c_1(psi_2, endpoint) differs from c_1(psi_1, endpoint) by factor 3-5x at N=5,6. A V(N) law would have to be state-independent.
+- N=3 ratio is 0.35, not ~1. The "N >= 4 only" caveat was an ad-hoc exclusion, not a structural boundary.
+- Power-law fit c_1 ~ V(N)^q gives q = 6.3, not q = 1. The apparent 0.5*V(N) match is an artifact of both quantities sitting in [0.85, 1.0] for N in [4,7].
+
+**What IS real from this investigation (positive results):**
+
+1. **Mirror symmetry of the bond profile** c_1(b) = c_1(N-2-b), exact to 10^-9 for all tested N. This is a structural fact that likely follows from the Pi-pair (palindromic) symmetry. Theorem candidate.
+2. **F70 confirmed via mode decomposition:** only Delta_N = 0 and |Delta_N| = 1 sectors contribute to per-site purity, verified by explicit mode expansion at N=4,5 (no mode with |c_s| > 10^-8 outside these sectors).
+3. **Endpoint dominance is a sine-basis geometry effect,** not a cavity-focusing effect. The ψ_1 mode amplitude at the boundary (sin(pi/(N+1))) controls the endpoint sensitivity. The "cavity window" metaphor was evocative but the mechanism is open-boundary Fourier geometry.
+4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. This connects to F2 (w=1 dispersion relation) but is NOT V(N).
+
+**Consequence for OPEN_THREAD_GAMMA0_INFORMATION.md:** the V(N)-focusing interpretation of c_1 at the cavity windows should be retracted. The qualitative endpoint dominance survives as a sine-basis effect; the quantitative V(N) scaling does not.
+
+**Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
+**Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
+**Full report:** [review/EQ021_FINDINGS.md](EQ021_FINDINGS.md), [ClaudeTasks/RESULT_TASK_C1_VEFFECT.md](../ClaudeTasks/RESULT_TASK_C1_VEFFECT.md).
 
 ---
 
