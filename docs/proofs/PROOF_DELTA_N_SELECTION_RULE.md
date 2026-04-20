@@ -76,7 +76,7 @@ At N = 5, bond (0, 1), γ₀ = 0.05, δJ = ±0.01: coherence-block-only contribu
 | 4  | (0,4), (1,5) | 0.000 exactly (two pairs) |
 | 5  | (0,5) | 0.000 trivially |
 
-All eight |ΔN| ≥ 2 pairs give zero to machine precision. The pairs with fit artefacts ((1,2), (2,3), (3,4), (1,4), all involving two middle-sector Dicke states) are excluded from the reliable subset; the coherent-state c₁ for those pairs was captured earlier in the pure-superposition measurement and is nonzero only for ΔN = 1.
+All nine |ΔN| ≥ 2 pairs tested give zero to machine precision (eight non-trivial at |ΔN| ∈ {2, 3, 4}, plus the trivial (0, 5) at |ΔN| = 5). The pairs with fit artefacts ((1, 2), (2, 3), (3, 4), (1, 4), all involving two middle-sector Dicke states and producing non-monotonic purity trajectories that the time-rescaling ansatz does not capture) are excluded from the reliable subset; the coherent-state c₁ for those pairs was captured earlier in the pure-superposition measurement and is nonzero only for |ΔN| = 1.
 
 Data: [c1_sector_kernel/sector_kernel.json](../../simulations/results/c1_sector_kernel/sector_kernel.json).
 

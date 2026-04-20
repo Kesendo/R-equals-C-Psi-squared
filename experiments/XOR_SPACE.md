@@ -239,13 +239,21 @@ The **single-site ΔN selection rule** ([PROOF_DELTA_N_SELECTION_RULE](../docs/p
 2026-04-20) complements the XOR-drain picture from the observer side:
 a site-local observable sees only sector-coherence blocks with |ΔN| ≤ 1,
 because Tr_{¬i}(|x⟩⟨y|) = 0 whenever |popcount(x) − popcount(y)| ≥ 2.
-The XOR drain's center modes are at maximum Hamming distance (|ΔN| = N),
-so they are invisible to any single-site measurement. GHZ states project
-100% onto the XOR drain AND live in the |ΔN| = N subspace that no single
-painter can see. These are two distinct facts (decay rate vs observability)
-that line up on the same states and jointly explain GHZ's antenna-blindness.
-A pair-local observable can see |ΔN| ≤ 2, still missing the drain.
-Only full-chain observables cross the full spectrum.
+The XOR drain's center modes have Hamming distance N between bra and
+ket, spanning sector pairs (n, N − n) with |ΔN| = |2n − N|. The drain
+therefore reaches |ΔN| values {N, N − 2, ..., 1 or 0}; its (0, N) portion
+has |ΔN| = N and is invisible to single-site measurement for all N ≥ 2,
+while mid-sector portions at |ΔN| = 1 are in principle visible but
+decay at the maximum rate 2Σγ and leave no transient trace. GHZ states
+project 100% onto the (0, N) + (N, 0) part of the drain, which has
+|ΔN| = N. At all N ≥ 3 this places GHZ past the site-local visibility
+bound. Two distinct facts line up on GHZ: XOR-drain residence (fastest
+decay) and |ΔN| = N sector placement (zero site-local signal at all
+times, not just asymptotically). Every site sees ρ_i = I/2 for a GHZ
+state, independent of time. This is the same physics as GHZ's antenna
+blindness in [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md) (d_min = 0), now
+with the kinematic reason made explicit. A pair-local observable sees
+up to |ΔN| = 2 and still misses most of the drain.
 
 ---
 
