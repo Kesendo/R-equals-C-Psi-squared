@@ -17,79 +17,7 @@
 - [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
 - [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
 
-## Update 2026-04-20 (post-EQ-014)
-
-Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule:
-
-**EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
-
-| State | Σ f_i |
-|-------|-------|
-| ψ_1 | 0.97 |
-| ψ_2 | 0.05 |
-| ψ_3 | 0.36 |
-| \|+⟩^7 | 1.29 |
-
-Σ f_i is nonzero and state-dependent. The ±0.05 empirical window at δJ = 0.1 arises from a combination of small first-order coefficients (ψ_2) and partial second-order cancellation (ψ_1, |+⟩^7), not from an exact conservation law. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md).
-
-**Full Π-spectrum at N=7 (c1_past_future_test).** Independent direct RK4 with symmetric δJ = ±0.01 extends across all seven single-excitation modes:
-
-| k | E_k | reflection | c_1 |
-|---|-----|------------|-----|
-| 1 | +1.85 | symmetric | +0.970 |
-| 2 | +1.41 | antisymm | +0.037 |
-| 3 | +0.77 | symmetric | +0.357 |
-| 4 | 0.00 | antisymm, self-Π-partner | **+2.136** |
-| 5 | −0.77 | symmetric | +0.357 |
-| 6 | −1.41 | antisymm | +0.037 |
-| 7 | −1.85 | symmetric | +0.970 |
-
-**N=6 follow-up (c1_even_N_degeneracy_test).** To separate Π-pair identity from reflection parity, N=6 was tested where Π-partners have OPPOSITE parity. Reflection parity is (−1)^{k+1} and Π-partner index is N+1−k; for odd N the partner index has the same parity as k (since N+1 is even), so Π-partnership and reflection parity group the same pairs of modes and cannot be distinguished empirically. For even N the partner index has the opposite parity, so the two groupings produce different pairs and the dominant symmetry is exposed.
-
-| k | E_k | reflection | Π-partner | c_1 |
-|---|-----|------------|-----------|-----|
-| 1 | +1.80 | symmetric | 6 | +1.019 |
-| 2 | +1.25 | antisymm | 5 | +0.213 |
-| 3 | +0.44 | symmetric | 4 | **+1.481** |
-| 4 | −0.44 | antisymm | 3 | **+1.481** |
-| 5 | −1.25 | symmetric | 2 | +0.213 |
-| 6 | −1.80 | antisymm | 1 | +1.019 |
-
-Π-pair c_1 identity holds EXACTLY across parity boundaries: c_1(ψ_1 sym) = c_1(ψ_6 antisym) (diff 7·10⁻¹¹), c_1(ψ_2 antisym) = c_1(ψ_5 sym) (diff 2·10⁻¹⁰), c_1(ψ_3 sym) = c_1(ψ_4 antisym) (diff 4·10⁻¹⁰).
-
-**Revised reading:** Π-pair identity is the primary symmetry governing c_1; reflection parity is secondary and coincided with Π-pair grouping at N=7 only because N+1 = 8 is even. The "antisymmetric → small c_1" reading from N=7 was an artifact of that coincidence. The real magnitude-determining factor is the Π-pair's distance from E=0 on the single-excitation spectrum: closer to the zero-energy axis, sharper closure-breaking. At odd N the innermost "pair" is a single self-Π-partner zero-mode with extreme magnitude (c_1 = +2.14 at N=7); at even N the innermost is a pair flanking E = 0 (c_1 = +1.48 at N=6), large but softer. Outermost pairs at high |E| record moderately; intermediate pairs record faintly. Non-monotonic in |E|.
-
-**Bilinear sector-kernel structure (c1_bilinearity_test at N=5).** Testing c_1 across an extended basis of initial states (pure Dicke states |S_n⟩, coherent superpositions (|S_n⟩+|S_m⟩)/√2, and classical mixtures (|S_n⟩⟨S_n|+|S_m⟩⟨S_m|)/2) exposes an approximately bilinear structure: c_1(ρ_0) ≈ Σ_{μν} K^{μν} (ρ_0)_μ (ρ_0)_ν, with the kernel K indexed by sector blocks of ρ_0. Measured pure Dicke c_1 values at N=5:
-
-| n | c_1(\|S_n⟩) | note |
-|---|-----------|------|
-| 0 | 0 | stationary \|vac⟩ |
-| 1 | +0.392 | single-excitation Dicke (W_5) |
-| 2 | −0.312 | mid-sector, NEGATIVE |
-| 3 | −0.312 | mirror of S_2 by bit-flip |
-| 4 | +0.392 | mirror of S_1 |
-| 5 | 0 | stationary all-excited |
-
-Sector-inversion symmetry c_1(|S_n⟩) = c_1(|S_{N-n}⟩) is exact to 10⁻¹⁰, reflecting X^⊗N bit-flip invariance of the XY chain plus Z-dephasing. Mid-sector Dicke states (|S_2⟩, |S_3⟩) have NEGATIVE c_1: not every sector contributes with the closure direction.
-
-**ΔN = 1 selection rule (proven, Tier 1).** The coherence-block-only contribution c_1(coherent) − c_1(mixed) for (n, m) pairs at N=5 gives:
-
-| \|n − m\| | pairs tested | coherence contribution |
-|----------|-------------|------------------------|
-| 1 | (0,1), (4,5) | +0.527 (reliable) |
-| 2 | (0,2), (1,3), (2,4), (3,5) | 0 exactly (four pairs) |
-| 3 | (0,3), (2,5) | 0 exactly |
-| 4 | (0,4), (1,5) | 0 exactly |
-
-All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
-
-Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is now substantially bounded in scope.
-
-Generalisation: k-local observables (e.g. pair purity) would see \|ΔN\| ≤ k sector blocks. A pair-based PTF analog would open the ΔN = 2 structure invisible to the site-local α_i.
-
-See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past_future_test.json), [c1_even_N_degeneracy_test at N=6](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json), [c1_bilinearity_test at N=5](../simulations/results/c1_bilinearity_test/bilinearity_test.json), [c1_sector_kernel at N=5](../simulations/results/c1_sector_kernel/sector_kernel.json), and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
-
-The body below documents the state of understanding on April 18 before these refinements. The core findings (rescaling picture, eigenvalue protection, painter interpretation) stand; the "closure as conservation law" reading needs the revised framing above.
+*This document was updated on 2026-04-20 after [EQ-014](../review/EMERGING_QUESTIONS.md#eq-014) ([findings](../review/EQ014_FINDINGS.md)) closed the "closure law as first-order theorem" route. The body below documents the April 18 understanding; refinements are collected in a [**Update 2026-04-20**](#update-2026-04-20-post-eq-014) section after "Scope and limits" and before "Open questions".*
 
 ---
 
@@ -271,6 +199,80 @@ The methodology lesson this doc wants to preserve: the repository's working mott
 ### Precision caveat
 
 The previous draft of this document (the one that went by the name "Site-Local Time") claimed α_0 = J_mod exactly at the defect-adjacent endpoint, based on a log-log slope of +1.0 from the finer J_mod scan. On re-examination, the +1.0 slope is a fit artifact: at J_mod = 1.5 α_0 = 2.27 and at J_mod = 2.0 α_0 = 3.54 (both considerably larger than J_mod), and the apparent linearity comes from averaging a compensating non-monotonic pattern (α_0 peaks near J_mod = 2 and decreases above it). The correct statement is: **in the perturbative window |δJ| ≤ 0.1, α_0 ≈ J_mod to within 15 %, not exactly**. Beyond the perturbative window, α_0 is a non-trivial function of J_mod with saturation and reversal.
+
+---
+
+## Update 2026-04-20 (post-[EQ-014](../review/EMERGING_QUESTIONS.md#eq-014))
+
+Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md) for the EQ-014 report.
+
+**EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
+
+| State | Σ f_i |
+|-------|-------|
+| ψ_1 | 0.97 |
+| ψ_2 | 0.05 |
+| ψ_3 | 0.36 |
+| \|+⟩^7 | 1.29 |
+
+Σ f_i is nonzero and state-dependent. The ±0.05 empirical window at δJ = 0.1 arises from a combination of small first-order coefficients (ψ_2) and partial second-order cancellation (ψ_1, |+⟩^7), not from an exact conservation law.
+
+**Full Π-spectrum at N=7 (c1_past_future_test).** Independent direct RK4 with symmetric δJ = ±0.01 extends across all seven single-excitation modes:
+
+| k | E_k | reflection | c_1 |
+|---|-----|------------|-----|
+| 1 | +1.85 | symmetric | +0.970 |
+| 2 | +1.41 | antisymm | +0.037 |
+| 3 | +0.77 | symmetric | +0.357 |
+| 4 | 0.00 | antisymm, self-Π-partner | **+2.136** |
+| 5 | −0.77 | symmetric | +0.357 |
+| 6 | −1.41 | antisymm | +0.037 |
+| 7 | −1.85 | symmetric | +0.970 |
+
+**N=6 follow-up (c1_even_N_degeneracy_test).** To separate Π-pair identity from reflection parity, N=6 was tested where Π-partners have OPPOSITE parity. Reflection parity is (−1)^{k+1} and Π-partner index is N+1−k; for odd N the partner index has the same parity as k (since N+1 is even), so Π-partnership and reflection parity group the same pairs of modes and cannot be distinguished empirically. For even N the partner index has the opposite parity, so the two groupings produce different pairs and the dominant symmetry is exposed.
+
+| k | E_k | reflection | Π-partner | c_1 |
+|---|-----|------------|-----------|-----|
+| 1 | +1.80 | symmetric | 6 | +1.019 |
+| 2 | +1.25 | antisymm | 5 | +0.213 |
+| 3 | +0.44 | symmetric | 4 | **+1.481** |
+| 4 | −0.44 | antisymm | 3 | **+1.481** |
+| 5 | −1.25 | symmetric | 2 | +0.213 |
+| 6 | −1.80 | antisymm | 1 | +1.019 |
+
+Π-pair c_1 identity holds EXACTLY across parity boundaries: c_1(ψ_1 sym) = c_1(ψ_6 antisym) (diff 7·10⁻¹¹), c_1(ψ_2 antisym) = c_1(ψ_5 sym) (diff 2·10⁻¹⁰), c_1(ψ_3 sym) = c_1(ψ_4 antisym) (diff 4·10⁻¹⁰).
+
+**Revised reading:** Π-pair identity is the primary symmetry governing c_1; reflection parity is secondary and coincided with Π-pair grouping at N=7 only because N+1 = 8 is even. The "antisymmetric → small c_1" reading from N=7 was an artifact of that coincidence. The real magnitude-determining factor is the Π-pair's distance from E=0 on the single-excitation spectrum: closer to the zero-energy axis, sharper closure-breaking. At odd N the innermost "pair" is a single self-Π-partner zero-mode with extreme magnitude (c_1 = +2.14 at N=7); at even N the innermost is a pair flanking E = 0 (c_1 = +1.48 at N=6), large but softer. Outermost pairs at high |E| record moderately; intermediate pairs record faintly. Non-monotonic in |E|.
+
+**Bilinear sector-kernel structure (c1_bilinearity_test at N=5).** Testing c_1 across an extended basis of initial states (pure Dicke states |S_n⟩, coherent superpositions (|S_n⟩+|S_m⟩)/√2, and classical mixtures (|S_n⟩⟨S_n|+|S_m⟩⟨S_m|)/2) exposes an approximately bilinear structure: c_1(ρ_0) ≈ Σ_{μν} K^{μν} (ρ_0)_μ (ρ_0)_ν, with the kernel K indexed by sector blocks of ρ_0. Measured pure Dicke c_1 values at N=5:
+
+| n | c_1(\|S_n⟩) | note |
+|---|-----------|------|
+| 0 | 0 | stationary \|vac⟩ |
+| 1 | +0.392 | single-excitation Dicke (W_5) |
+| 2 | −0.312 | mid-sector, NEGATIVE |
+| 3 | −0.312 | mirror of S_2 by bit-flip |
+| 4 | +0.392 | mirror of S_1 |
+| 5 | 0 | stationary all-excited |
+
+Sector-inversion symmetry c_1(|S_n⟩) = c_1(|S_{N-n}⟩) is exact to 10⁻¹⁰, reflecting X^⊗N bit-flip invariance of the XY chain plus Z-dephasing. Mid-sector Dicke states (|S_2⟩, |S_3⟩) have NEGATIVE c_1: not every sector contributes with the closure direction.
+
+**ΔN = 1 selection rule (proven, Tier 1).** The coherence-block-only contribution c_1(coherent) − c_1(mixed) for (n, m) pairs at N=5 gives:
+
+| \|n − m\| | pairs tested | coherence contribution |
+|----------|-------------|------------------------|
+| 1 | (0,1), (4,5) | +0.527 (reliable) |
+| 2 | (0,2), (1,3), (2,4), (3,5) | 0 exactly (four pairs) |
+| 3 | (0,3), (2,5) | 0 exactly |
+| 4 | (0,4), (1,5) | 0 exactly |
+
+All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
+
+Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is now substantially bounded in scope.
+
+Generalisation: k-local observables (e.g. pair purity) would see \|ΔN\| ≤ k sector blocks. A pair-based PTF analog would open the ΔN = 2 structure invisible to the site-local α_i.
+
+See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past_future_test.json), [c1_even_N_degeneracy_test at N=6](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json), [c1_bilinearity_test at N=5](../simulations/results/c1_bilinearity_test/bilinearity_test.json), [c1_sector_kernel at N=5](../simulations/results/c1_sector_kernel/sector_kernel.json), and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
 
 ---
 
