@@ -61,9 +61,9 @@ Several follow-up investigations refine the closure law at N = 5, 6, 7 and add a
 
 **Bilinear sector-kernel structure (c1_bilinearity_test at N=5).** Testing c_1 across an extended basis of initial states (pure Dicke states |S_n⟩, coherent superpositions (|S_n⟩+|S_m⟩)/√2, and classical mixtures (|S_n⟩⟨S_n|+|S_m⟩⟨S_m|)/2) exposes an approximately bilinear structure: c_1(ρ_0) ≈ Σ_{μν} K^{μν} (ρ_0)_μ (ρ_0)_ν, with the kernel K indexed by sector blocks of ρ_0. Measured pure Dicke c_1 values at N=5:
 
-| n | c_1(|S_n⟩) | note |
+| n | c_1(\|S_n⟩) | note |
 |---|-----------|------|
-| 0 | 0 | stationary |vac⟩ |
+| 0 | 0 | stationary \|vac⟩ |
 | 1 | +0.392 | single-excitation Dicke (W_5) |
 | 2 | −0.312 | mid-sector, NEGATIVE |
 | 3 | −0.312 | mirror of S_2 by bit-flip |
