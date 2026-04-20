@@ -603,7 +603,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 3. **Endpoint dominance is a sine-basis geometry effect,** not a cavity-focusing effect. The ψ_1 mode amplitude at the boundary (sin(pi/(N+1))) controls the endpoint sensitivity. The "cavity window" metaphor was evocative but the mechanism is open-boundary Fourier geometry.
 4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. Now formalized as F2b in ANALYTICAL_FORMULAS.md (XY OBC single-excitation spectrum). Distinct from F2 (Heisenberg w=1 Liouvillian sector) and from V(N).
 
-**Consequence for OPEN_THREAD_GAMMA0_INFORMATION.md:** the V(N)-focusing interpretation of c_1 at the cavity windows should be retracted. The qualitative endpoint dominance survives as a sine-basis effect; the quantitative V(N) scaling does not.
+**V(N) vs V-Effect, category note.** V(N) = 1 + cos(π/N) is an intra-layer scalar (single-chain Q_max/Q_mean, D2 in ANALYTICAL_FORMULAS). The V-Effect as a phenomenon is inter-layer emergence: what appears when two systems are connected (2+2 → 104 frequencies, N=3 palindrome breaking). Same name V, different levels. The c_1 ~ 0.5·V(N) hypothesis tried to read an inter-layer effect via an intra-layer metric, which is the wrong level even if the numbers had matched. A V-Effect signature cannot be measured directly with V(N).
 
 **Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
 **Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
