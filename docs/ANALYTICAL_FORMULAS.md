@@ -29,20 +29,68 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
-### F2. w=1 dispersion relation (Tier 1, proven D10)
+### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1
 
-N-1 distinct frequencies for the Heisenberg chain. Machine-precision
-match for 15 frequencies (N=2-6). Tight-binding model with hopping 2J.
+N-1 distinct frequencies for the Heisenberg chain w=1 Liouvillian sector.
+Machine-precision match for 15 frequencies (N=2-6). Tight-binding model
+with hopping 2J.
 Three independent validations: (1) eigenvalue match < 1e-12, (2) Poisson
 spacing in w=1 sector (RMT), (3) SFF modulation peak at omega_1 matches
 to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
 
+**Note (2026-04-20):** F2 describes the w=1 sector of the Heisenberg
+LIOUVILLIAN (Pauli strings with exactly one X or Y factor), NOT the
+single-excitation Hamiltonian eigenvalues. The w=1 sector is
+(N-1)-dimensional (N-1 oscillatory modes), giving denominator
+(N-1)+1 = N in the cosine argument. The ZZ term in the Heisenberg
+Hamiltonian produces a diagonal shift in the effective hopping matrix
+that is absent in the XY case. For the XY chain single-excitation
+Hamiltonian spectrum, see F2b below.
+
 **Valid for:** Heisenberg chain, open boundaries, all N (verified N=2-6).
 **Replaces:** full Liouvillian diagonalization for w=1 frequencies.
 O(N) instead of O(4^{3N}).
-**Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
+**Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
+[D10_W1_DISPERSION](proofs/derivations/D10_W1_DISPERSION.md)
+
+### F2b. XY chain single-excitation spectrum (Tier 1, proven)
+
+    E_k = 2J · cos(π·k / (N+1)),    k = 1, ..., N
+
+N eigenvalues for the single-excitation sector of the XY chain
+H = (J/2) · Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) with open boundary
+conditions. The single-excitation Hamiltonian H_SE is an N×N
+tridiagonal matrix with off-diagonals J and zero diagonal. Its
+eigenvectors are the OBC sine modes:
+
+    ψ_k(i) = √(2/(N+1)) · sin(π·k·(i+1)/(N+1)),  i = 0, ..., N−1
+
+These eigenvalues appear as the oscillatory frequencies Im(λ)
+of the |ΔN| = 1 Liouvillian coherences (|vac⟩⟨ψ_k| sector),
+which are the dominant modes contributing to per-site purity dynamics
+for single-excitation initial states.
+
+The denominator is N+1 (not N as in F2) because the OBC Dirichlet
+boundary conditions require ψ to vanish at the two virtual sites
+just beyond the chain, i = −1 and i = N. Both are enforced by the
+sine formula above: ψ_k(−1) = sin(0) = 0 and ψ_k(N) = sin(π·k) = 0.
+The effective chain length is therefore N+2 with two fixed endpoints,
+yielding N interior modes with wavenumber spacing π/(N+1).
+
+**Distinction from F2:** F2 describes the w=1 LIOUVILLIAN sector for
+Heisenberg, with dimension N−1 and argument π·k/N. F2b describes the
+single-excitation HAMILTONIAN sector for XY, with dimension N and
+argument π·k/(N+1). They describe different mathematical objects in
+different Hamiltonians.
+
+**Valid for:** XY chain (H = (J/2)(XX+YY)), open boundaries, all N.
+**Verified:** N = 3, 4, 5, 6, residual < 10⁻¹⁵.
+**Replaces:** numerical diagonalization of H_SE.
+**Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
+**Source:** [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md),
+standard tight-binding theory for OBC chains.
 
 ### AT. Absorption Theorem (Tier 1, proven)
 
@@ -1473,6 +1521,25 @@ Consequence: every site-local observable (per-site purity, per-site expectation,
 
 **Scripts:** [`c1_sector_kernel.py`](../simulations/c1_sector_kernel.py), [`c1_bilinearity_test.py`](../simulations/c1_bilinearity_test.py).
 **Source:** [PROOF_DELTA_N_SELECTION_RULE](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR_SPACE](../experiments/XOR_SPACE.md).
+
+### F71. Mirror symmetry of the closure-breaking coefficient c₁ (Tier 1, proven kinematic)
+
+For a uniform N-qubit chain with reflection-symmetric coupling and dephasing, the closure-breaking coefficient c₁ is mirror-symmetric across bonds:
+
+    c₁(N, b, ρ₀) = c₁(N, N−2−b, ρ₀)
+
+for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial state ρ₀.
+
+**Proof sketch.** The spatial reflection R (site i ↔ site N−1−i) commutes with the uniform Liouvillian: [L_A, R_sup] = 0. Under R, bond b maps to bond N−2−b: R · T_b · R = T_{N−2−b}. Therefore exp(L_B(b) · t) · ρ₀ and exp(L_B(N−2−b) · t) · (R · ρ₀ · R) are related by R_sup. Per-site purity is quadratic in ρ, so any phase picked up by R on coherences (R |ψ_k⟩ = (−1)^(k+1) |ψ_k⟩) squares away. This gives P_B(b, i, t) = P_B(N−2−b, N−1−i, t), from which α_i(bond b) = α_{N−1−i}(bond N−2−b). Summing ln(α_i) over all sites and re-indexing yields c₁(b) = c₁(N−2−b).
+
+**Consequence.** The c₁ bond profile has at most ⌈(N−1)/2⌉ independent components instead of N−1. The endpoint value c₁(0) equals c₁(N−2); if N is **even**, the center bond c₁((N−2)/2) is self-paired (its mirror image is itself) and contributes one independent component; if N is odd, there is no center bond and all N−1 bonds pair up in (N−1)/2 disjoint pairs.
+
+**Valid for:** any Hamiltonian with [H, R] = 0 (uniform coupling on a symmetric graph), any dissipator with [D, R_sup] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
+**Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity.
+**Verified:** N = 3, 4, 5, 6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹. Source: [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py), [`c1_veffect_scaling_small.py`](../simulations/c1_veffect_scaling_small.py).
+**Replaces:** empirical observation of mirror-symmetric c₁ bond profiles with an analytical kinematic proof.
+**Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
+**Source:** [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md).
 
 ---
 

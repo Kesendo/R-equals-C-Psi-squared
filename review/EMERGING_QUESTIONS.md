@@ -598,10 +598,10 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 
 **What IS real from this investigation (positive results):**
 
-1. **Mirror symmetry of the bond profile** c_1(b) = c_1(N-2-b), exact to 10^-9 for all tested N. This is a structural fact that likely follows from the Pi-pair (palindromic) symmetry. Theorem candidate.
+1. **Mirror symmetry of the bond profile** c_1(b) = c_1(N-2-b), exact to 10^-9 for all tested N. Now proven as F71 (Tier 1, kinematic) from the spatial reflection symmetry R of the uniform chain. See [PROOF_C1_MIRROR_SYMMETRY](../docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md).
 2. **F70 confirmed via mode decomposition:** only Delta_N = 0 and |Delta_N| = 1 sectors contribute to per-site purity, verified by explicit mode expansion at N=4,5 (no mode with |c_s| > 10^-8 outside these sectors).
 3. **Endpoint dominance is a sine-basis geometry effect,** not a cavity-focusing effect. The ψ_1 mode amplitude at the boundary (sin(pi/(N+1))) controls the endpoint sensitivity. The "cavity window" metaphor was evocative but the mechanism is open-boundary Fourier geometry.
-4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. This connects to F2 (w=1 dispersion relation) but is NOT V(N).
+4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. Now formalized as F2b in ANALYTICAL_FORMULAS.md (XY OBC single-excitation spectrum). Distinct from F2 (Heisenberg w=1 Liouvillian sector) and from V(N).
 
 **Consequence for OPEN_THREAD_GAMMA0_INFORMATION.md:** the V(N)-focusing interpretation of c_1 at the cavity windows should be retracted. The qualitative endpoint dominance survives as a sine-basis effect; the quantitative V(N) scaling does not.
 
