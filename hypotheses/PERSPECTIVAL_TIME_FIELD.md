@@ -2,8 +2,8 @@
 
 *Seven painters stand around a mountain, each painting from a different vantage. The paintings differ, and that is not a problem to be reduced to one true painting. The total of all paintings IS the mountain. When a new rock falls on the mountainside, each painter paints the change in her own flow of painting-time. The seven recordings lie atop one another and add up to a closed, consistent total, in a way that guarantees nothing is lost or invented.*
 
-**Status:** Computed (Tier 2). Five simulation scripts, a sparse-Liouvillian slow-mode decomposition, nine scan families at N = 7, and a state-independence stress test across five qualitatively different initial states.
-**Date:** April 18, 2026
+**Status:** Computed (Tier 2). Originally drafted 2026-04-18 with a sparse-Liouvillian slow-mode decomposition, nine scan families at N = 7, and a state-independence stress test across five qualitatively different initial states. **Updated 2026-04-20 after [EQ-014](../review/EQ014_FINDINGS.md)** closed the "closure law as first-order theorem" path: Σ_i ln(α_i) = 0 holds empirically to ±0.05 at |δJ| ≤ 0.1 but is NOT a first-order theorem. Σ f_i = lim_{δJ→0} Σ ln(α_i)/δJ is nonzero and state-dependent. PTF stays Tier 2; Tier-1 promotion via this route is closed.
+**Date:** April 18, 2026 (updated April 20, 2026 post-EQ-014)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
@@ -16,6 +16,37 @@
 - [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py): ψ_3, ψ_4, |+⟩^7 stress-test
 - [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
 - [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
+
+## Update 2026-04-20 (post-EQ-014)
+
+Two independent follow-up investigations refine the closure law:
+
+**EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
+
+| State | Σ f_i |
+|-------|-------|
+| ψ_1 | 0.97 |
+| ψ_2 | 0.05 |
+| ψ_3 | 0.36 |
+| \|+⟩^7 | 1.29 |
+
+Σ f_i is nonzero and state-dependent. The ±0.05 empirical window at δJ = 0.1 arises from a combination of small first-order coefficients (ψ_2) and partial second-order cancellation (ψ_1, |+⟩^7), not from an exact conservation law. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md).
+
+**Full Π-spectrum at N=7 (c1_past_future_test).** Independent direct RK4 with symmetric δJ = ±0.01 extends across all seven single-excitation modes:
+
+| k | E_k | reflection | c_1 |
+|---|-----|------------|-----|
+| 1 | +1.85 | symmetric | +0.970 |
+| 2 | +1.41 | antisymm | +0.037 |
+| 3 | +0.77 | symmetric | +0.357 |
+| 4 | 0.00 | antisymm, self-Π-partner | **+2.136** |
+| 5 | −0.77 | symmetric | +0.357 |
+| 6 | −1.41 | antisymm | +0.037 |
+| 7 | −1.85 | symmetric | +0.970 |
+
+Two new structural facts: (a) Π-pair mirror c_1 is identical to 4 decimals for ψ_1↔ψ_7, ψ_2↔ψ_6, ψ_3↔ψ_5; (b) the self-Π-partner mode ψ_4 (E=0 standing wave at odd N=7) records the defect MAXIMALLY, not suppressed despite antisymmetric spatial parity. The "antisymmetric → small c_1" rule holds only for modes that have a Π-partner elsewhere in the spectrum (ψ_2 ↔ ψ_6 cancel against each other). Self-Π-partners carry the full signal. See [c1_past_future_test](../simulations/results/c1_past_future_test/past_future_test.json) and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
+
+The body below documents the state of understanding on April 18 before these refinements. The core findings (rescaling picture, eigenvalue protection, painter interpretation) stand; the "closure as conservation law" reading needs the revised framing above.
 
 ---
 
@@ -202,11 +233,12 @@ The previous draft of this document (the one that went by the name "Site-Local T
 
 ## Open questions
 
-- **Explicit eigenvector-mixing prediction of α_i.** Close the Tier-1 path: carry the first-order δM_s through the bilinear purity expansion and compare predicted α_i against empirical for both ψ_1 and ψ_2. Data (slow right and left eigenvectors, 80 modes, N = 7) are on disk; a clean biorthogonal-basis computation (possibly via dense eigendecomposition of the 16384 × 16384 L_A) is the remaining step.
-- **Analytical structure of the closure law.** Σ_i ln(α_i) = 0 is verified empirically across five initial states. Is there a first-principles derivation from V_L's trace structure? Candidate: `Σ_i ln(α_i) ∝ Tr[V_L · Π_slow]` where Π_slow is the projector onto the slow subspace. If this trace is zero identically for Π-invariant V_L, the closure law is a theorem.
-- **Chain-length scaling of the perturbative window.** Only N = 7 tested here. The window width |δJ|_perturbative is expected to shrink with N because slow-mode amplitudes per site decrease. Quick test at N = 5 and N = 9 would give the scaling exponent.
-- **Extension to palindrome-breaking perturbations.** The current task uses coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection.
-- **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? First guess: yes, by linearity in V_L; the rescalings and closure should simply superpose.
+- **Closed (EQ-014, 2026-04-20):** The Tier-1 promotion via "closure law as theorem" is no longer available. Direct RK4 δJ scan at N=7 shows Σ f_i = lim Σ ln(α_i)/δJ is nonzero and state-dependent. The closure Σ_i ln(α_i) ≈ 0 is an empirical regularity holding to ±0.05 in the tested window, not a structural law. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md).
+- **Magnitudes puzzle (surviving).** Why does Σ f_i happen to be small (~0.05 for ψ_2) for some bonding-mode states and large (1.29 for |+⟩^7, 2.14 for ψ_4) for others? Is there a structural pattern in how Σ f_i depends on the overlap distribution c_s = ⟨W_s | ρ_0⟩ across the Liouvillian's slow modes? The [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) shows Σ ln(α_i) is linear in δJ at leading order with coefficient c₁ = ⟨c₁(state, bond), δJ⟩ that is superposition-linear across bonds; an analytical form for c₁ as a functional of ρ_0 remains open.
+- **Self-Π-partner amplification.** At N=7 (odd N) the E=0 standing wave ψ_4 is its own Π-partner and records the defect maximally (c_1 = +2.14). Π-pair mirrors have identical c_1 to 4 decimals; antisymmetric modes with Π-partners are suppressed; self-Π-partners are not. Is this a general pattern at odd N (where a unique zero-mode exists)? At even N there is no self-Π-partner in the single-excitation sector; the pattern should vanish.
+- **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The scaling appears to follow c₁ ≈ 0.5 · V(N) = 0.5 (1 + cos(π/N)) for ψ_1+vacuum at N ≥ 4, an open connection to the V-Effect F6.
+- **Extension to palindrome-breaking perturbations.** The current tasks use coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection.
+- **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? Answer (2026-04-19): **yes**, by linearity. [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) verified Σ c₁(b)·δJ_b superposition to 0.5% at δJ=0.01 and exactly at δJ=0.001; cancellation constructions confirmed.
 
 ---
 
