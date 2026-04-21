@@ -527,7 +527,7 @@ The closure-breaking coefficient c_1 is bilinear in ρ_0 with kernel K_{(n,m)(n'
 
 (c) Coherence-block K_{(n,n±1)(n±1,n)}[bond], measured +0.53 for (0, 1) at N=5. Only |ΔN| = 1 blocks contribute, by F70. Closed form?
 
-**Status:** open (Tier-1 candidate path for PTF). The selection rule gives a bounded scope; the slow-mode biorthogonal basis is on disk (for N = 7 at least, `simulations/results/eq014_*`).
+**Status:** partial close 2026-04-21. (a) and (b) structurally explained by [F72](../docs/ANALYTICAL_FORMULAS.md) (DD⊕CC block-diagonal) plus the endpoint rule K_DD[0,m]_pr = K_DD[N,m]_pr = 0 from excitation-number conservation; interior kernel values remain non-closed. LSQ c_1 is rational, not bilinear, so LSQ K values are probe-specific rather than universal kernel entries ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)). (c) closed-form at the (0,1) endpoint under the c_1_pr variant via [F73](../docs/ANALYTICAL_FORMULAS.md): Σ_i 2|(ρ_coh,i)_{0,1}|² = (1/2)·exp(−4γ₀·t), giving K_CC[0,1]_pr = 0 exactly; interior K_CC[n,n+1]_pr and all LSQ K_CC values remain non-closed.
 **Pointer:** slow-mode Dyson expansion restricted to |ΔN| ≤ 1 blocks, carried through the bilinear purity expansion per PTF Section 3.3 four-block rearrangement. Compare against empirical values measured at N=5 in [c1_sector_kernel](../simulations/results/c1_sector_kernel/sector_kernel.json) and [c1_bilinearity_test](../simulations/results/c1_bilinearity_test/bilinearity_test.json).
 
 ---
