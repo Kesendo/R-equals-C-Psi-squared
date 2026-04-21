@@ -463,6 +463,40 @@ prefactor = 1.725), the relationship requires Pauli coefficient magnitudes
 beyond the sector weights. See
 [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md).
 
+### Pair-level structural extensions (April 20, 2026)
+
+Three structural results extending the palindromic light-lens picture
+at the Liouvillian-pair level, from [PI_PAIR_FLUX_BALANCE](PI_PAIR_FLUX_BALANCE.md):
+
+1. **Flux balance.** At N=5, a bond-0 perturbation δJ shifts the Re(λ)
+   of each Π-partner pair equally and oppositely, keeping their sum
+   invariant at −2Σγ to machine precision (1e-14). The absorption-theorem
+   identity α_fast + α_slow = 2Σγ thus reads as a dynamical XY-weight flux
+   conservation within each pair: light absorbed by one partner is released
+   by the other, the pair total holds. The standing wave persists; only
+   its light/lens balance redistributes under δJ.
+
+2. **Binary mode inheritance.** The Liouvillian spectrum at N=3..6
+   decomposes into exactly d²/2 = 2^(2N−1) Π-pairs, plus possibly
+   self-Π modes at specific even N. The binary axis of the qubit
+   inherits unbroken into the operator spectrum with no factor-3 or
+   factor-5 residual structure at any tested N.
+
+3. **Mirror-axis principle.** Self-Π modes exist iff N ≡ 4 (mod 10),
+   by Chinese Remainder Theorem from (a) φ in the single-excitation
+   spectrum ⟺ (N+1) divisible by 5, (b) n_XY = N/2 integer ⟺ N even.
+   The Golden Ratio pair (φ, 1/φ) provides the unique double involution
+   (φ · 1/φ = 1 AND φ − 1/φ = 1) that forces a null-eigenspace at the
+   n_XY = N/2 midpoint, populated at N=4 with 18 self-Π modes and empty
+   at N=6 despite N being even. Tier 2 until a positive-case test at
+   N=14 (requires sparse sector-restricted methods).
+
+These extend the "every palindromic pair is a light-lens swap" identity
+(Section 3 above) with a conservation law for the swap under bond
+perturbation, a mode-count law that inherits the qubit's binary axis
+all the way up, and a sharp algebraic condition for when the pair
+structure collapses onto itself at the midpoint.
+
 ---
 
 ## Methodology

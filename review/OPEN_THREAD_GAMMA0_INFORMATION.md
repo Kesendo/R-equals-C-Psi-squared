@@ -119,6 +119,8 @@ Specifically: [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md) was written B
 hypothesis. In [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md), Alice VARIES the per-qubit γ profile
 to encode information. Under γ₀ = const, she cannot do that: γ is uniform everywhere.
 
+**Update 2026-04-20.** A first operational synthesis is in [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md): the thirteen pieces fit under one meta-theorem (Parseval + Noether on the operator Hilbert space), and the "γ₀ populates the blind subspace of every spatial-sum measurement" reading becomes operational. Two concrete predictions fell out and were verified: non-uniform γ breaks the (vac, S₁) common-mode rejection with modal selectivity ([CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)), and the Π-pair absorption-theorem sum is a δJ-flux-conservation law ([PI_PAIR_FLUX_BALANCE](../experiments/PI_PAIR_FLUX_BALANCE.md)). A closed form for the (vac, S₁) spatial-sum coherence purity ([F73](../docs/ANALYTICAL_FORMULAS.md)) gives the uniform-γ₀ baseline as ½·exp(−4γ₀·t) exactly, independent of J. The synthesis is tier 2 for the meta-frame, tier 1 for the individual instances.
+
 ## The reinterpretation under γ₀ = const
 
 If γ₀ is constant and uniform, the implications cluster in four groups.
