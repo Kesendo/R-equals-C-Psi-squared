@@ -29,7 +29,7 @@ Predicted (1/2)·exp(−4·γ₀·t_0) = 9.157819e-03
 Deviation: 5.67e-16
 ```
 
-The closed form from [RESULT_TASK_EQ018_C1_POINTWISE](../ClaudeTasks/RESULT_TASK_EQ018_C1_POINTWISE.md) §3.2 holds to machine precision. F72 direct (c_1_pr = 0 from the (vac, S_1) coherence) is verified.
+The closed form [F73](../docs/ANALYTICAL_FORMULAS.md) holds to machine precision. F72 direct (c_1_pr = 0 from the (vac, S_1) coherence) is verified.
 
 ### 2. Single-site bump at site 0 (localized break)
 
@@ -81,7 +81,7 @@ Saturation interpretation: once γ_0 becomes substantially larger than the other
 
 The CMRR break is determined by how the γ-profile projects onto the detector's mode basis, not by the γ-profile's variance alone.
 
-**Gradient** (α≠0) is pure k=1 mode in the spatial Fourier decomposition of the γ-profile (first harmonic of the chain). It couples directly to the dominant k=1 sine mode of the (vac, S_1) coherence (which at N=5 has s_1² ≈ 0.93, see [RESULT_TASK_EQ018_C1_POINTWISE](../ClaudeTasks/RESULT_TASK_EQ018_C1_POINTWISE.md) §3.2). Hence the large slope 1.35.
+**Gradient** (α≠0) is pure k=1 mode in the spatial Fourier decomposition of the γ-profile (first harmonic of the chain). It couples directly to the dominant k=1 sine mode of the (vac, S_1) coherence. At N=5, the sine-basis expansion coefficient `s_1 = ⟨ψ_1 | S_1⟩` evaluates (via [F2b](../docs/ANALYTICAL_FORMULAS.md) sine basis) to s_1 ≈ 0.964, so s_1² ≈ 0.93. Hence the large slope 1.35.
 
 **Single-site bump** at site 0 is a delta function, which in the Fourier decomposition is `δ_i = Σ_k ψ_k(0)·ψ_k(i)`. It couples to all modes, weighted by `ψ_k(0)²`. The k=1 contribution at site 0 at N=5 is `ψ_1(0)² = (1/3)·(1/2)² = 1/12 ≈ 0.083`. So only a small fraction of the single-site-bump energy couples to the dominant channel. Hence the smaller slope 0.19.
 
