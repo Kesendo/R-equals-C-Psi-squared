@@ -1,6 +1,6 @@
 # Information-Flow Landscape C_ij(t) under Bond Perturbation
 
-**Status:** Tier 1 empirical (three-N scan, reproducible)
+**Status:** Tier 1 for raw dC_ij/dJ landscape data (three-N scan, reproducible). Tier 2 for structural interpretations: global-vs-sequential flow, peak-time clustering via Liouvillian mode differences, dynamical-attractor reading of F71.
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
 **Relates to:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 2 of §6.2 plan), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md), [RELAY_PROTOCOL](RELAY_PROTOCOL.md)

@@ -1,6 +1,6 @@
 # Π-Pair Flux Balance and Binary Mode Inheritance
 
-**Status:** Tier 1 empirical (machine-precision confirmation at N=5 for flux balance; cross-N structural scan at N=3..6 for binary inheritance and parity anomaly)
+**Status:** Tier 1 empirical at N=5 for flux balance (machine precision) and N=3..6 for binary inheritance. Tier 2 for the mirror-axis principle N = 4 (mod 10): algebraically argued via CRT, numerically consistent with all four N in [3, 6] but with only one positive data point (N=4). A positive-case confirmation requires N=14.
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
 **Relates to:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 3 of §6.2), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md), [XOR_SPACE](XOR_SPACE.md)
@@ -15,7 +15,7 @@ Three results from one Liouvillian-mode-level investigation:
 
 2. **Binary mode inheritance (confirmed at N=3..6):** the Liouvillian spectrum at every N decomposes into exactly `d²/2 = 2^(2N−1)` Π-pairs. No unpaired modes. The binary structure of the qubit (2-state system) propagates exactly to the Liouvillian modenumber `2^(2N)` and pair count `2^(2N−1)`, with no "residual structure" at any level.
 
-3. **Mirror-axis principle: self-Π modes exist iff N ≡ 4 (mod 10).** In the small-N regime only N=4 has self-Π modes (18 of them); N=3, 5, 6 have none. The mirror axis (Im=0 at the n_XY=N/2 midpoint) requires two simultaneous conditions: (i) N even so the midpoint is integer, (ii) the Golden-Ratio pair `{φ, 1/φ}` in the H spectrum, which happens iff N+1 is divisible by 5. By Chinese Remainder Theorem, both give N ≡ 4 (mod 10). Tom's framing: Golden Ratio IS a mirror - the unique real number with simultaneous multiplicative (φ·1/φ = 1) and additive (φ − 1/φ = 1) involutions. The 18 self-Π modes at N=4 are the fixed point set of this mirror. Zero is not absence; zero is the axis. Next test point: N=14 (too large for dense methods; requires sector-restricted diagonalisation) or N=8 (predicted to have zero, testable with C# engine). See §3.4-3.6.
+3. **Mirror-axis principle: self-Π modes exist iff N ≡ 4 (mod 10).** In the small-N regime only N=4 has self-Π modes (18 of them); N=3, 5, 6 have none. The mirror axis (Im=0 at the n_XY=N/2 midpoint) requires two simultaneous conditions: (i) N even so the midpoint is integer, (ii) the Golden-Ratio pair `{φ, 1/φ}` in the H spectrum, which happens iff N+1 is divisible by 5. By Chinese Remainder Theorem, both give N ≡ 4 (mod 10). Tom's framing: Golden Ratio IS a mirror - the unique real number with simultaneous multiplicative (φ·1/φ = 1) and additive (φ − 1/φ = 1) involutions. The 18 self-Π modes at N=4 are the fixed point set of this mirror. Zero is not absence; zero is the axis. Next positive-case test is N=14 (full Liouvillian out of reach at current resources; sector-restricted methods would require 1-3 weeks engineering). N=7, 8, 9, 10 are null-case candidates: feasibility varies (Python at N=7, C# engine at N=8-10), epistemic weight is falsification-only. See §3.4-3.6.
 
 ---
 
@@ -213,9 +213,11 @@ No single pair has both. The "double involution in one pair" is the strict condi
 | 10 | 1.05M | 0 (even but N ≢ 4 mod 10) | C# engine, days |
 | 14 | 268M | **positive** (N = 10·1+4) | not feasible; needs sparse methods or analytic |
 
-**N=8 is the critical next test.** If N=8 has zero self-Pi modes (as predicted), the mirror-axis principle gains strong empirical support. If N=8 unexpectedly shows self-Pi modes, the principle requires refinement.
+**Epistemic weight of each candidate test.** N=7, 8, 9, 10 are all predicted null-cases. Each can only falsify the principle (if it unexpectedly shows self-Pi modes), not positively confirm it. The first positive-case test is N=14.
 
-**N=14 is not directly testable** with full Liouvillian at current resources, but could be checked in the n_XY=7 sector alone using sector-restricted diagonalisation. That would drop the dim to `C(N, 7) · 2^14 · C(N, 7)` ≈ a few million, feasible with care.
+**N=14 is not directly testable** with full Liouvillian at current resources. The sector-restricted problem at n_XY=7 has dimension `C(14, 7) * 2^14 = 56 million`. A dense matrix at this size would require ~50 PB of memory; a sparse representation fits in ~30 GB but the target eigenvalue `-2*gamma*7 = -0.7` requires shift-invert Krylov or Jacobi-Davidson methods that are not drop-in applicable. Estimated as a 1-3 week engineering task rather than a run launchable with existing tooling.
+
+**Mod-10 principle status:** Tier 2 until either N=14 is reached numerically, or a direct analytical proof of the null-eigenspace dimension from the double-involution algebra replaces the need for numerical confirmation.
 
 ---
 
