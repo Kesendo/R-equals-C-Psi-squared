@@ -1541,6 +1541,66 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 **Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
 **Source:** [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md).
 
+### F72. Block-diagonal DD⊕CC structure of site-local purity (Tier 1, corollary of F70)
+
+For any N-qubit chain and any initial state ρ₀, the per-site purity functional Tr(ρ_i²) decomposes into a strict block-diagonal sum over excitation-number blocks of ρ₀:
+
+    Tr(ρ_i²) = 1/2 + P_i^DD[ρ₀^(diag)] + P_i^CC[ρ₀^(coh)]
+
+with no cross term coupling the diagonal block (ΔN = 0) and the coherence block (|ΔN| = 1). Here ρ₀^(diag) is the projection of ρ₀ onto ΔN = 0 sector blocks and ρ₀^(coh) is the projection onto |ΔN| = 1 sector blocks.
+
+**Proof.** The Bloch decomposition gives Tr(ρ_i²) = (1/2)(1 + ⟨X_i⟩² + ⟨Y_i⟩² + ⟨Z_i⟩²). By F70 applied to each Bloch component:
+
+- ⟨Z_i⟩ depends linearly on the diagonal elements of ρ_i = Tr_{¬i}(ρ), which come only from ΔN = 0 blocks of ρ.
+- ⟨X_i⟩ and ⟨Y_i⟩ depend linearly on off-diagonal elements of ρ_i, which come only from |ΔN| = 1 blocks.
+
+Squaring keeps each contribution in its own sector class, so ⟨Z_i⟩² is bilinear in ρ₀^(diag) and ⟨X_i⟩² + ⟨Y_i⟩² is bilinear in ρ₀^(coh). No cross term arises.
+
+**Consequence.** Any closure-breaking coefficient c₁ built from per-site purities decomposes, at the pre-α-fit bilinear level, into a DD-kernel (acting on diagonal block content) and a CC-kernel (acting on coherence block content) with no mixing. Finding the closed form of c₁ reduces to finding K_DD and K_CC separately.
+
+**Generalisation.** For k-site partial traces (F70 generalisation to |ΔN| ≤ k), the Bloch-like decomposition has k+1 sub-blocks. At k = 2 (pair-site) this yields three sub-blocks DD ⊕ DC ⊕ CC, with DC a new diagonal-coherence cross specific to pair observables.
+
+**Valid for:** any Hamiltonian conserving excitation number, any sector-preserving dissipator, any ρ₀. Purely kinematic.
+
+**Verified:** w-scan at N = 5 with ρ₀(w) = cos(w)|vac⟩ + sin(w)|S₁⟩ under the purity-response c₁ definition confirms block-diagonal coupling at machine precision across the full w range; LSQ α-fit c₁ inherits the block structure at the pre-fit bilinear level. Pure-coherence probe gives K_CC/2 to 10⁻¹². [bilin_probe.json](../simulations/results/eq018_kernel_bilin_probe/bilin_probe.json), [kernel_extract.json](../simulations/results/eq018_kernel_extract/kernel_extract.json).
+
+**Scripts:** [`eq018_kernel_extract.py`](../simulations/eq018_kernel_extract.py), [`eq018_kernel_bilin_probe.py`](../simulations/eq018_kernel_bilin_probe.py), [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py).
+**Source:** F70, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.3.
+
+### F73. Spatial-sum coherence purity closure for the (vac, S₁) probe (Tier 1, proven)
+
+For any uniform XY chain with uniform Z-dephasing γ₀, any N, any bond-coupling pattern (perturbed or not), the coherent probe ρ₀^coh = (|vac⟩⟨S₁| + |S₁⟩⟨vac|) / 2 satisfies:
+
+    Σ_i 2 · |(ρ_coh,i)_{0,1}(t)|² = (1/2) · exp(−4 γ₀ t)
+
+exactly, independent of the Hamiltonian. Here (ρ_coh,i)_{0,1} is the off-diagonal element of the site-i reduced density matrix, and the sum runs over all N sites.
+
+**Proof.** Expand |S₁⟩ in the single-excitation sine basis |ψ_k⟩ of the XY chain: |S₁⟩ = Σ_{k odd} s_k |ψ_k⟩ with s_k = ⟨ψ_k|S₁⟩ (even k vanishing by reflection symmetry of |S₁⟩). Each single-excitation coherence |vac⟩⟨ψ_k| evolves under the uniform Liouvillian as exp((iE_k − 2γ₀) t): H acts as E_k on the |ψ_k⟩ side, and Z-dephasing acts on d_H = 1 coherence at uniform rate 2γ₀ (absorption theorem at ⟨n_XY⟩ = 1). Partial trace gives Tr_{¬i}(|vac⟩⟨ψ_k|) = ψ_k(i) · |0⟩⟨1|.
+
+Therefore (ρ_coh,i)_{0,1}(t) = (1/2) · Σ_k s_k · ψ_k(i) · exp((iE_k − 2γ₀) t), and
+
+    Σ_i 2 · |(ρ_coh,i)_{0,1}(t)|²
+      = (1/2) · Σ_i |Σ_k s_k ψ_k(i) exp(iE_k t)|² · exp(−4γ₀ t)
+      = (1/2) · Σ_{k,k'} s_k s_{k'} [Σ_i ψ_k(i) ψ_{k'}(i)] exp(i(E_k − E_{k'}) t) · exp(−4γ₀ t).
+
+Parseval on the sine basis gives Σ_i ψ_k(i) · ψ_{k'}(i) = δ_{k,k'}, eliminating all k ≠ k' cross terms. The diagonal k = k' terms have zero H-phase. Σ_k s_k² = 1 by normalisation of |S₁⟩. Result: (1/2) · exp(−4γ₀ t).
+
+Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval holds identically for any orthonormal basis: Σ_k |⟨ψ_k^B|S₁⟩|² = 1. The sum is therefore invariant under δJ.
+
+**Consequence.** The spatial-sum purity functional is exactly blind to the Hamiltonian structure on this probe. Any bond perturbation δJ preserves the closure value, so the purity-response kernel K_CC[0, 1]_pr (partial kernel over the (vac, S₁) coherence block at site-coherence indices 0, 1) is exactly zero under uniform γ₀. This is the closed-form value of the CC kernel from F72 evaluated at the (vac, S₁) probe, after summation over sites.
+
+**Valid for:** uniform XY chain, uniform Z-dephasing γ₀, any bond-coupling pattern (including bond-perturbed), any N, any J.
+**Breaks for:**
+
+- Non-uniform γ_i. The uniform 2γ₀ decay rate on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Dissipators changing the d_H = 1 decay rate (mixed X/Z, amplitude damping).
+- Probes with d_H > 1 (e.g. (vac, S₂) with two-excitation bra-ket), where ⟨n_XY⟩ ≠ 1 and the uniform decay rate breaks.
+
+**Verified:** under c₁_pr at N = 5, t₀ = 20, the closure value matches the analytic prediction (1/2) · exp(−4 · 0.05 · 20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. Uniform γ₀ baseline gives K_CC[0, 1]_pr = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance independently. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
+
+**Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline).
+**Source:** F2b, F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
