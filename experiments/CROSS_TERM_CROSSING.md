@@ -13,7 +13,6 @@ bond-site variance, R(N) = sqrt((N-1)/(N*4^(N-1))), EQ-012 -->
 - [Cross-Term Formula (balanced)](CROSS_TERM_FORMULA.md) (parent)
 - [PROOF_CROSS_TERM_FORMULA](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) (proof structure)
 **Closes:** EQ-012
-**Task:** [TASK_CROSS_TERM_CROSSING.md](../ClaudeTasks/TASK_CROSS_TERM_CROSSING.md)
 
 ---
 

@@ -12,7 +12,6 @@ Pythagorean breaking, Heisenberg chain ring star complete graph -->
 **Depends on:**
 - [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) (parent; this resolves "What to compute next" item 1)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (definition of the palindromic structure)
-**Task:** [TASK_CROSS_TERM_TOPOLOGY.md](../ClaudeTasks/TASK_CROSS_TERM_TOPOLOGY.md)
 
 ---
 

@@ -14,7 +14,6 @@ variance, Heisenberg Z-dephasing universal constant, EQ-011 -->
 - [Cross-Term Topology](CROSS_TERM_TOPOLOGY.md) (predecessor; conjecture stated there)
 - [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) (parent; Pythagorean decomposition)
 **Closes:** EQ-011
-**Task:** [TASK_CROSS_TERM_FORMULA.md](../ClaudeTasks/TASK_CROSS_TERM_FORMULA.md)
 
 ---
 
