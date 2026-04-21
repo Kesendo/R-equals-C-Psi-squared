@@ -1567,39 +1567,42 @@ Squaring keeps each contribution in its own sector class, so ⟨Z_i⟩² is bili
 **Scripts:** [`eq018_kernel_extract.py`](../simulations/eq018_kernel_extract.py), [`eq018_kernel_bilin_probe.py`](../simulations/eq018_kernel_bilin_probe.py), [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py).
 **Source:** F70, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.3.
 
-### F73. Spatial-sum coherence purity closure for the (vac, S₁) probe (Tier 1, proven)
+### F73. Spatial-sum coherence purity closure for vac-SE coherent probes (Tier 1, proven)
 
-For any uniform XY chain with uniform Z-dephasing γ₀, any N, any bond-coupling pattern (perturbed or not), the coherent probe ρ₀^coh = (|vac⟩⟨S₁| + |S₁⟩⟨vac|) / 2 satisfies:
+For any N-site qubit system with Hermitian Hamiltonian H conserving single-excitation number ([H, N_total] = 0) and uniform Z-dephasing γ₀, the coherent probe ρ₀^coh = (|vac⟩⟨α| + |α⟩⟨vac|) / 2 for any normalized single-excitation state |α⟩ satisfies:
 
     Σ_i 2 · |(ρ_coh,i)_{0,1}(t)|² = (1/2) · exp(−4 γ₀ t)
 
-exactly, independent of the Hamiltonian. Here (ρ_coh,i)_{0,1} is the off-diagonal element of the site-i reduced density matrix, and the sum runs over all N sites.
+exactly, independent of the Hamiltonian's non-U(1) structure. Here (ρ_coh,i)_{0,1} is the off-diagonal element of the site-i reduced density matrix, and the sum runs over all N sites.
 
-**Proof.** Expand |S₁⟩ in the single-excitation sine basis |ψ_k⟩ of the XY chain: |S₁⟩ = Σ_{k odd} s_k |ψ_k⟩ with s_k = ⟨ψ_k|S₁⟩ (even k vanishing by reflection symmetry of |S₁⟩). Each single-excitation coherence |vac⟩⟨ψ_k| evolves under the uniform Liouvillian as exp((iE_k − 2γ₀) t): H acts as E_k on the |ψ_k⟩ side, and Z-dephasing acts on d_H = 1 coherence at uniform rate 2γ₀ (absorption theorem at ⟨n_XY⟩ = 1). Partial trace gives Tr_{¬i}(|vac⟩⟨ψ_k|) = ψ_k(i) · |0⟩⟨1|.
+**Proof (general U(1) case).** Let x_i(t) = ⟨vac|ρ(t)|1_i⟩ be the amplitude of the |vac⟩⟨1_i| component of ρ(t); equivalently the (vac, SE) block of ρ as an N-vector indexed by site. Evolution under the Lindblad master equation splits into:
 
-Therefore (ρ_coh,i)_{0,1}(t) = (1/2) · Σ_k s_k · ψ_k(i) · exp((iE_k − 2γ₀) t), and
+- **Hamiltonian part.** H preserves SE by assumption, so its restriction to SE is a Hermitian N×N matrix H_SE. The (vac, 1_i) bra-ket block evolves under H as iẋ = −H_SE x on the ket side, giving a unitary propagator U_SE(t) = exp(−i H_SE t).
+- **Dephasing part.** Each D[Z_j] acts on the (vac, 1_i) coherence element with rate γ₀ · (⟨Z_j⟩_vac − ⟨Z_j⟩_{1_i})² / 2 = γ₀ · (2 δ_{j,i})² / 2 = 2γ₀ · δ_{j,i}. Summing over j gives a uniform 2γ₀ decay on every SE-block coherence, independent of site.
 
-    Σ_i 2 · |(ρ_coh,i)_{0,1}(t)|²
-      = (1/2) · Σ_i |Σ_k s_k ψ_k(i) exp(iE_k t)|² · exp(−4γ₀ t)
-      = (1/2) · Σ_{k,k'} s_k s_{k'} [Σ_i ψ_k(i) ψ_{k'}(i)] exp(i(E_k − E_{k'}) t) · exp(−4γ₀ t).
+Combined: ẋ = −i H_SE x − 2γ₀ x, so x(t) = exp(−2γ₀ t) · U_SE(t) · x(0). Taking the norm: ||x(t)||² = exp(−4γ₀ t) · ||x(0)||² since U_SE is unitary. Partial-trace algebra: (ρ_coh,i)_{0,1}(t) = (1/2) · x_i(t), so Σ_i 2 · |(ρ_coh,i)_{0,1}|² = (1/2) · ||x(t)||² = (1/2) · ||x(0)||² · exp(−4γ₀ t). For the probe above, ||x(0)||² = ⟨α|α⟩ = 1. Result: (1/2) · exp(−4γ₀ t).
 
-Parseval on the sine basis gives Σ_i ψ_k(i) · ψ_{k'}(i) = δ_{k,k'}, eliminating all k ≠ k' cross terms. The diagonal k = k' terms have zero H-phase. Σ_k s_k² = 1 by normalisation of |S₁⟩. Result: (1/2) · exp(−4γ₀ t).
+The argument uses only (i) [H, N_total] = 0 so dynamics stay in SE, (ii) H Hermitian so U_SE unitary, (iii) γ₀ uniform. No XY structure, no translation invariance, no specific shape of |α⟩ required.
 
-Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval holds identically for any orthonormal basis: Σ_k |⟨ψ_k^B|S₁⟩|² = 1. The sum is therefore invariant under δJ.
+**Alternative derivation (uniform XY, |α⟩ = |S₁⟩).** The original proof route via the sine basis |ψ_k⟩ of the uniform-XY single-excitation Hamiltonian: |S₁⟩ = Σ_{k odd} s_k |ψ_k⟩ with s_k = ⟨ψ_k|S₁⟩. Each single-excitation coherence |vac⟩⟨ψ_k| evolves as exp((iE_k − 2γ₀) t). Partial trace gives (ρ_coh,i)_{0,1}(t) = (1/2) · Σ_k s_k · ψ_k(i) · exp((iE_k − 2γ₀) t). Parseval on the sine basis Σ_i ψ_k(i) · ψ_{k'}(i) = δ_{k,k'} eliminates k ≠ k' cross terms; Σ_k s_k² = 1 by normalisation. Under bond-b perturbation, the sine basis and E_k shift but Parseval on any orthonormal SE basis preserves Σ_k |⟨ψ_k^B|S₁⟩|² = 1, so the sum is δJ-invariant. This derivation is XY-specific but exhibits the eigenmode structure explicitly.
 
-**Consequence.** The spatial-sum purity functional is exactly blind to the Hamiltonian structure on this probe. Any bond perturbation δJ preserves the closure value, so the purity-response kernel K_CC[0, 1]_pr (partial kernel over the (vac, S₁) coherence block at site-coherence indices 0, 1) is exactly zero under uniform γ₀. This is the closed-form value of the CC kernel from F72 evaluated at the (vac, S₁) probe, after summation over sites.
+**Consequence.** The spatial-sum purity functional is exactly blind to the U(1)-preserving part of the dynamics on any vac-SE coherent probe. For any closure-breaking coefficient c₁_pr built from per-site purities via the purity-response definition, bond-δJ perturbations preserve the closure value, so K_CC[0, 1]_pr = 0 exactly under uniform γ₀, for any H in the class.
 
-**Valid for:** uniform XY chain, uniform Z-dephasing γ₀, any bond-coupling pattern (including bond-perturbed), any N, any J.
+**Valid for:** any Hermitian H with [H, N_total] = 0 (XY, Heisenberg XXZ, translationally non-invariant hopping, frustrated-ladder variants, ...); uniform Z-dephasing γ₀; any normalized SE state |α⟩ admixed to |vac⟩; any N.
 **Breaks for:**
 
-- Non-uniform γ_i. The uniform 2γ₀ decay rate on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Non-uniform γ_i. The uniform 2γ₀ decay on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Non-U(1) Hamiltonians. [H, N_total] ≠ 0 breaks the SE-block closure assumption.
 - Dissipators changing the d_H = 1 decay rate (mixed X/Z, amplitude damping).
-- Probes with d_H > 1 (e.g. (vac, S₂) with two-excitation bra-ket), where ⟨n_XY⟩ ≠ 1 and the uniform decay rate breaks.
+- Probes with d_H > 1 admixture (e.g. (vac, S₂) with two-excitation bra-ket), where ⟨n_XY⟩ ≠ 1 and the uniform decay rate breaks.
 
-**Verified:** under c₁_pr at N = 5, t₀ = 20, the closure value matches the analytic prediction (1/2) · exp(−4 · 0.05 · 20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. Uniform γ₀ baseline gives K_CC[0, 1]_pr = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance independently. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
+**Verified:**
 
-**Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline).
-**Source:** F2b, F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md).
+- Uniform XY baseline at N = 5, t₀ = 20: closure matches (1/2)·exp(−4·0.05·20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. K_CC[0, 1]_pr = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
+- U(1)-class generalization at N = 5 (6 setups: XXZ at Δ ∈ {0, 0.5, 1, 2}, random Haar SE probe at Δ = 1, inhomogeneous XY with J_i ∈ [0.5, 1.5]): all closures within 2.22·10⁻¹⁶ to 5.83·10⁻¹⁶ (1-3 ULP of double precision) across 81 time points per setup. [f73_u1_generalization/](../simulations/results/f73_u1_generalization/), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
+
+**Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline), [`f73_u1_generalization_sweep.py`](../simulations/f73_u1_generalization_sweep.py) (U(1)-class sweep).
+**Source:** F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
 
 ---
 
