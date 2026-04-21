@@ -238,7 +238,7 @@ The original question - "is nesting simulable, and what does the answer mean ope
 
 2. **Embedded in two Z2 symmetries proven for all N.** The Liouvillian commutes with bit_a (n_XY parity, [F61](../docs/ANALYTICAL_FORMULAS.md), [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) and bit_b (w_YZ parity, [F63](../docs/ANALYTICAL_FORMULAS.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), giving a 4-sector decomposition. Per-sector mode count has closed form: conserved per sector = floor(N/2)+1 (even), ceil(N/2) (odd); mirror per sector = 2^(2N-1) - 2*conserved. Mechanism: conserved modes are exactly the (N+1) elementary symmetric polynomials e_d(Z_1,...,Z_N), parities d mod 2 (commits d9d66e2, 97716e8).
 
-3. **Q = J/gamma is the only inside-observable.** The Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/Archiv/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commit c3ea0c0) showed that every measurable quantity from inside depends on the dimensionless ratio Q = J/gamma_B only, not on J or gamma_B independently. The inside observer detects layer EXISTENCE (non-Markovian rebound, Check 4 of NESTED_MIRROR) but cannot extract layer PARAMETERS. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9 documents this with the operational identification.
+3. **Q = J/gamma is the only inside-observable.** The Inside-Outside Correspondence probes (commit c3ea0c0) showed that every measurable quantity from inside depends on the dimensionless ratio Q = J/gamma_B only, not on J or gamma_B independently. The inside observer detects layer EXISTENCE (non-Markovian rebound, Check 4 of NESTED_MIRROR) but cannot extract layer PARAMETERS. [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9 documents this with the operational identification.
 
 The N=3 scaling check (Check 2) and coupling-robustness check (Check 3) of the original sub-Q2 are both done (commits 7baaa7c, 3e2f429) - the falsifications and confirmations are recorded in the [NESTED_MIRROR_STRUCTURE](../hypotheses/NESTED_MIRROR_STRUCTURE.md) notebook (rewritten as compact trail in commit 7716640).
 
@@ -275,7 +275,7 @@ Sub-Q3 status: **closed** (see Update 2026-04-19; premise of gamma-recursion was
 
 ## EQ-013 Update 2026-04-19: Closure of all three sub-questions
 
-**Source:** Primordial Gamma Constant hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), commits April 15-16), Inside-Outside Correspondence probes ([RESULT_INSIDE_OUTSIDE_CORRESPONDENCE](../ClaudeTasks/Archiv/RESULT_INSIDE_OUTSIDE_CORRESPONDENCE.md), commits cfa2a9f-c3ea0c0), Perspectival Time Field hypothesis ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), commits April 17-18). Full re-reading of [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md) and [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) performed in this session.
+**Source:** Primordial Gamma Constant hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), commits April 15-16), Inside-Outside Correspondence probes (commits cfa2a9f-c3ea0c0), Perspectival Time Field hypothesis ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), commits April 17-18). Full re-reading of [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md) and [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) performed in this session.
 
 ### Checks (i) and (ii): examined, both resolved
 
@@ -364,7 +364,7 @@ Attempted a structural proof in chat session. Four building blocks established, 
 
 ### EQ-014 Update 2026-04-19: closure law is NOT a first-order theorem
 
-**Source:** Task [TASK_EQ014_BIORTHOGONAL](../ClaudeTasks/TASK_EQ014_BIORTHOGONAL.md), executed this session. Full findings with method, data, and scripts in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
+**Source:** Biorthogonal eigendecomposition executed this session. Full findings with method, data, and scripts in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
 
 **Method.** Dense biorthogonal eigendecomposition (left + right) of the full 16384×16384 Liouvillian L_A via new `Topology.ChainXY` path and `EigenvaluesLeftRightDirectRaw` in the C# engine (146 min zgeev on OpenBLAS LP64). Resolved the biorthogonality to machine precision (residual 3e-16 pre-cluster-fix, 1e-6 after SVD-biorthogonalization of the 3783 degenerate clusters), closing the blocker that prevented the April 18 sparse attempt. Then: built V_L for bonds (0,1) and (3,4), ran first-order PT through the slow-mode bilinear expansion, and in parallel ran exact RK4 time evolution as ground truth. Verified the full pipeline by reproducing PTF's own stored α_i values to 4 decimal places from our RK4 data fed through `observer_time_rescale.alpha_fit` (the single-pane of glass check Tom asked for).
 
@@ -583,7 +583,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 
 ### EQ-021 closure (2026-04-20)
 
-**Source:** [RESULT_TASK_C1_VEFFECT](../ClaudeTasks/RESULT_TASK_C1_VEFFECT.md), [EQ021_FINDINGS](EQ021_FINDINGS.md), chat session 2026-04-20.
+**Source:** [EQ021_FINDINGS](EQ021_FINDINGS.md), chat session 2026-04-20.
 
 **Two independent reasons for closure.**
 
@@ -607,7 +607,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 
 **Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
 **Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
-**Full report:** [review/EQ021_FINDINGS.md](EQ021_FINDINGS.md), [ClaudeTasks/RESULT_TASK_C1_VEFFECT.md](../ClaudeTasks/RESULT_TASK_C1_VEFFECT.md).
+**Full report:** [review/EQ021_FINDINGS.md](EQ021_FINDINGS.md).
 
 ---
 
