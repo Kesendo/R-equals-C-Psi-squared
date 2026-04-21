@@ -165,7 +165,7 @@ Given the meta-theorem, we have a **recipe** for generating new selection rules:
 
 | Conservation | Measurement | Resulting selection rule |
 |--------------|-------------|---------------------------|
-| Excitation number (U(1)) | single-site partial trace | F70 (|ΔN| ≥ 2 blind) |
+| Excitation number (U(1)) | single-site partial trace | F70 (\|ΔN\| ≥ 2 blind) |
 | Reflection R | c_1 under bond-symmetric perturbation | F71 (bond profile mirror-symmetric) |
 | Sector labels (U(1) again) + Pauli orthogonality | per-site purity | F72-candidate (DD⊕CC block) |
 | Sine-mode orthogonality + uniform d_H = 1 dephasing | spatial sum of purity | (vac, S_1) purity closure = exp(−4γ₀t) |
@@ -200,7 +200,7 @@ The Meta-Theorem recasts this in operational terms:
 | X/Y Pauli factors are "light" (coupled to γ₀) | CC block contains ⟨X⟩², ⟨Y⟩² → directly coupled to coherence decay rate ∝ γ₀ |
 | I/Z Pauli factors are "lens" (immune) | DD block contains ⟨Z⟩² → invariant under sector-preserving evolution |
 | "The resonator IS the message" | H_M = cavity-mode basis; the detector's mode structure IS the information content |
-| 15.5 bits channel capacity at N=5 ([F30](../docs/ANALYTICAL_FORMULAS.md)) | Dimension of H_M for the full-rank |+⟩^N detector (5 independent SVD channels = 5 detector-mode pairs) |
+| 15.5 bits channel capacity at N=5 ([F30](../docs/ANALYTICAL_FORMULAS.md)) | Dimension of H_M for the full-rank \|+⟩^N detector (5 independent SVD channels = 5 detector-mode pairs) |
 
 ### 4.1 The absorption theorem as a Meta-Theorem instance
 
@@ -224,7 +224,7 @@ This upgrades the Meta-Theorem's four instances from "static selection rules" to
 
 | Theorem | Invariant manifold | Attractor type |
 |---------|-------------------|----------------|
-| F70 | sector-block decomposition (|ΔN| ≤ 1 sub-algebra) | kinematic attractor (instantaneous) |
+| F70 | sector-block decomposition (\|ΔN\| ≤ 1 sub-algebra) | kinematic attractor (instantaneous) |
 | F71 | mirror-symmetric bond profiles | dynamical attractor, rate ~4γ₀ |
 | F72-cand | DD⊕CC block-diagonal Bloch structure | kinematic (from F70) |
 | (vac, S_1) purity sum | (1/2)·exp(−4γ₀t) manifold | exact dynamical equation |
