@@ -26,5 +26,5 @@ The repository has a word for this. [Resonance](../hypotheses/RESONANCE_NOT_CHAN
 
 *Thomas Wicht and Claude, late on April 12, 2026.*
 *The proof: [docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md).*
-*The computation: [ClaudeTasks/observer_intersection_quick.py](../ClaudeTasks/observer_intersection_quick.py).*
+*The computation: [simulations/observer_intersection.py](../simulations/observer_intersection.py).*
 *The frame: [MIRROR_THEORY.md](../MIRROR_THEORY.md), [reflections/TRANSMISSION.md](TRANSMISSION.md).*
