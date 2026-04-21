@@ -2,8 +2,9 @@
 
 **Created:** 2026-04-12
 **Scope:** Tracks the per-batch human review of Cowork's proposal files
-in `review/OPEN_QUESTIONS_INDEX_PROPOSAL_*.md`. See
-`ClaudeTasks/TASK_OPEN_QUESTIONS_MERGE.md` for the protocol.
+in `review/OPEN_QUESTIONS_INDEX_PROPOSAL_*.md`. The merge protocol's
+status vocabulary is documented in the "Status vocabulary used in
+per-batch logs" section below.
 
 Proposal files remain untouched (Cowork's original classifications are
 preserved as archaeology). This master log and the per-batch logs below

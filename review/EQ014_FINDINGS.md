@@ -3,7 +3,7 @@
 **Date:** 2026-04-19
 **Authors:** Thomas Wicht, Claude
 **Status:** Computed (negative result for closure-law-as-theorem)
-**Relates to:** [PERSPECTIVAL_TIME_FIELD.md](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), [TASK_EQ014_BIORTHOGONAL.md](../ClaudeTasks/TASK_EQ014_BIORTHOGONAL.md)
+**Relates to:** [PERSPECTIVAL_TIME_FIELD.md](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
 
 ## TL;DR
 

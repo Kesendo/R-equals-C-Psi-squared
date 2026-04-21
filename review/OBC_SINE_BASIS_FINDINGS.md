@@ -5,8 +5,7 @@
 **Status:** Phase 1-4 complete. Mirror symmetry proven kinematically.
 Spectral constant verdict: XY uses E_k = 2J·cos(πk/(N+1)), F2 does not match
 Heisenberg SE either.
-**Relates to:** [TASK_OBC_SINE_BASIS_STRUCTURE.md](../ClaudeTasks/TASK_OBC_SINE_BASIS_STRUCTURE.md),
-[EQ021_FINDINGS.md](EQ021_FINDINGS.md), [RESULT_TASK_C1_VEFFECT.md](../ClaudeTasks/RESULT_TASK_C1_VEFFECT.md),
+**Relates to:** [EQ021_FINDINGS.md](EQ021_FINDINGS.md),
 [PROOF_DELTA_N_SELECTION_RULE.md](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
 
 ## TL;DR

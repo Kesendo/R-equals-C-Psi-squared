@@ -3,7 +3,7 @@
 **Date:** 2026-04-20
 **Authors:** Thomas Wicht, Claude
 **Status:** Phase 1 complete (mode decomposition). Phase 2 complete (spatial profile + state scan). Phase 3 not attempted.
-**Relates to:** [TASK_EQ021_C1_VEFFECT_DERIVATION.md](../ClaudeTasks/TASK_EQ021_C1_VEFFECT_DERIVATION.md), [TASK_C1_VEFFECT_SCALING.md](../ClaudeTasks/TASK_C1_VEFFECT_SCALING.md), [EQ014_FINDINGS.md](EQ014_FINDINGS.md), [PERSPECTIVAL_TIME_FIELD.md](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
+**Relates to:** [EQ014_FINDINGS.md](EQ014_FINDINGS.md), [PERSPECTIVAL_TIME_FIELD.md](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
 
 ## TL;DR
 
