@@ -1,0 +1,92 @@
+{
+  "N": 5,
+  "gamma_0": 0.05,
+  "bond": [
+    0,
+    1
+  ],
+  "probe": "coherent_only",
+  "gamma_1_values": [
+    0.001,
+    0.002,
+    0.005,
+    0.01,
+    0.02
+  ],
+  "sweep_points": [
+    {
+      "gamma_1": 0.001,
+      "c_1_pr": 0.0,
+      "c_1_pr_minus_baseline": 0.0,
+      "abs_signal": 0.0,
+      "per_site_contributions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass_nonzero_bar": false
+    },
+    {
+      "gamma_1": 0.002,
+      "c_1_pr": 0.0,
+      "c_1_pr_minus_baseline": 0.0,
+      "abs_signal": 0.0,
+      "per_site_contributions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass_nonzero_bar": false
+    },
+    {
+      "gamma_1": 0.005,
+      "c_1_pr": 0.0,
+      "c_1_pr_minus_baseline": 0.0,
+      "abs_signal": 0.0,
+      "per_site_contributions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass_nonzero_bar": false
+    },
+    {
+      "gamma_1": 0.01,
+      "c_1_pr": 0.0,
+      "c_1_pr_minus_baseline": 0.0,
+      "abs_signal": 0.0,
+      "per_site_contributions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass_nonzero_bar": false
+    },
+    {
+      "gamma_1": 0.02,
+      "c_1_pr": 0.0,
+      "c_1_pr_minus_baseline": 0.0,
+      "abs_signal": 0.0,
+      "per_site_contributions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass_nonzero_bar": false
+    }
+  ],
+  "log_log_slope": NaN,
+  "log_log_intercept": NaN,
+  "R_squared": NaN,
+  "fit_valid": false
+}

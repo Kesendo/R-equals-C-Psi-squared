@@ -1,0 +1,20 @@
+{
+  "N": 5,
+  "gamma_0": 0.05,
+  "probe": "coherent_only",
+  "bond": [
+    2,
+    3
+  ],
+  "gamma_1": 0.05,
+  "c_1_pr": 0.0,
+  "per_site_contributions": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "bond_0_1_reference_at_same_gamma_1": 0.0,
+  "ratio_2_3_over_0_1": NaN
+}
