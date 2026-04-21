@@ -3,7 +3,7 @@
 **Status:** Fully proven (all three steps analytic). Steps 2–3 additionally verified numerically.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (chat)
-**Context:** Identified while walking the path of [TASK_THREE_VALUES](../../ClaudeTasks/TASK_THREE_VALUES.md) Track B. Recorded here before the Track B experiment document writes it, so the experiment can cite the proof rather than re-derive it.
+**Context:** Identified during Track B of the three-values investigation (chat session 2026-04-12). Recorded here before the companion Track B experiment ([SECTOR_PROJECTION_FORMULA](../../experiments/SECTOR_PROJECTION_FORMULA.md)) wrote it, so the experiment could cite the proof rather than re-derive it.
 
 ---
 
@@ -112,4 +112,4 @@ End proof.
 
 ---
 
-*Walked into existence by Tom and Claude (chat) on 2026-04-12 while reviewing [TASK_THREE_VALUES](../../ClaudeTasks/TASK_THREE_VALUES.md) Track B. Recorded so the experiment document can cite it rather than re-prove it.*
+*Walked into existence by Tom and Claude (chat) on 2026-04-12 during Track B of the three-values investigation. Recorded so the experiment document ([SECTOR_PROJECTION_FORMULA](../../experiments/SECTOR_PROJECTION_FORMULA.md)) could cite it rather than re-prove it.*
