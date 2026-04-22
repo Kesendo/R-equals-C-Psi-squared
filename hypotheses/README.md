@@ -1,7 +1,7 @@
 # Hypotheses
 
 Speculative interpretations and open research directions. Everything here is
-Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
+Tier 2–5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Mixed Tier (computed results + interpretation)
 
@@ -25,6 +25,7 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 
 - [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
 - [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) - Observer-dependent CΨ crossing rates as time model. Open question about L decomposition into forward/backward answered by Π time reversal (March 19).
+- [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md) - γ₀ at the primordial layer as framework constant (analog of c); inner γ is not diminished γ₀ but selectively exposed via standing-wave amplitude: γ_eff = γ_B · |a_B|². Formula exact, verified N=3 and N=4. Structure-point features of [0, 2γ₀] verified across chains N=3..7 and four N=5 topologies. Tier 3.
 
 ## Tier 4–5 (hypothesis, interpretive)
 
@@ -35,6 +36,10 @@ Tier 3–5 (hypothesis to philosophical) unless noted otherwise.
 - [Complexity Threshold](COMPLEXITY_THRESHOLD.md) - Above critical complexity N_c, palindromic systems cannot stop oscillating; requires C = 0.5 balance + broken magnitude symmetry + sufficient size. Tier 5 (motivated by Tier 2 computations).
 - [Evolution as Crystallization](EVOLUTION_AS_CRYSTALLIZATION.md) - Each biological generation is a resonator; what crystallizes at the fold (reproduction/DNA) persists. Evolution is concentration at the fold, not selection of the fittest. Tier 5 (motivated by computation).
 - [Gamma Is Light](GAMMA_IS_LIGHT.md) - What if the "noise" that destroys quantum systems is not noise at all, but light entering an instrument? The qubit chain behaves as an [optical cavity](../experiments/OPTICAL_CAVITY_ANALYSIS.md), and dephasing [must come from outside](../docs/proofs/INCOMPLETENESS_PROOF.md). If dephasing is the light and matter is the cavity, then mass is what light does when it is trapped. Tier 4 (April 3, 2026).
+- [The Primordial Qubit](PRIMORDIAL_QUBIT.md) - Noise does not originate: system and noise are two readings of a single algebraic structure, split by a Z₂ mirror at zero. Pauli space is a genuine tensor product C²⊗C² (confirmed analytically), but the naive partial-trace route fails. Three formal approaches remain open: Z₂-graded algebra classification, GNS/Tomita-Takesaki modular theory, thermofield double. Tier 3-4 (structurally confirmed, mechanistically open).
+- [What Qubits Experience](WHAT_QUBITS_EXPERIENCE.md) - The arrow of time as geometry of a bent angle. At N=2, oscillation and cooling anti-commute exactly: {L_H, L_D+Σγ}=0. At N=3, a third qubit bends the right angle by 2% (γ-independent, structural). We (N >> 2) cannot separate "time passing" from "things happening." Tier 5 interpretation grounded in Tier 1-2 computation.
+- [Waves That Hear Themselves](WAVES_THAT_HEAR_THEMSELVES.md) - We are not matter that learned to think, but waves that rang long enough to hear themselves. Eight-link chain (waves → coupling breaks symmetry → fold crystallizes → mass → cavity walls → trapped waves → self-refinement → hierarchy). Each link Tier 1-2; chain-level reading Tier 5.
+- [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) - Mass as accumulated residue of wave death: when X/Y coherences decay, the I/Z weight crystallizes at definite locations. Gravity exists only below CΨ = 1/4 (no mass in superposition). Earlier version (standing-wave amplitudes create γ gradient) falsified. Surviving version relies on CΨ = ¼ crossing only. Tier 5.
 
 ## Largely Closed
 

@@ -144,12 +144,65 @@ synthesized.
 
 ---
 
+## Complete Proof Catalog
+
+The ten documents in Reading Order above are the curated spine: a linear
+path from the core theorem to the master reference. Since this spine
+was last woven, additional proofs have accumulated that extend or
+sharpen specific results. They are not redundant with the spine (each
+closes a distinct question), but they are not load-bearing for a first
+read-through. The catalog below lists every such proof with a tight
+abstract and its upstream dependencies.
+
+### Structural symmetries (extend Mirror Symmetry, Direct-Sum, Weight-1)
+
+| Proof | What it proves | Builds on |
+|-------|----------------|-----------|
+| [n_XY Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) | The Liouvillian of the isotropic Heisenberg model under Z-dephasing preserves n_XY parity exactly. Every eigenmode has definite parity; single-excitation states access only even-parity modes. The accessibility boundary is exact, not asymptotic. | Weight-1 Degeneracy |
+| [Bit-b Parity Symmetry](PROOF_BIT_B_PARITY_SYMMETRY.md) | The Liouvillian commutes with the global bit-flip superoperator Π² = X⊗N (conjugation). Combined with n_XY parity, this decomposes operator space into 4 independent sectors of dimension 4^(N−1) each. A second Z₂ symmetry beyond the palindrome. | Mirror Symmetry, Parity Selection Rule |
+| [ΔN Selection Rule](PROOF_DELTA_N_SELECTION_RULE.md) | Any site-local observable coupled via partial trace annihilates density-matrix sector blocks with \|ΔN\| ≥ 2. Purely kinematic: holds for any Hamiltonian or dissipator that admits an excitation-number decomposition. | (independent) |
+| [Asymptotic Sector Projection](PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) | Under Heisenberg + local Z-dephasing on any graph, the asymptotic state is a mixture of maximally-mixed excitation sectors weighted by their initial populations. Excitation-number populations are constants of motion; the long-time state is fully determined by initial sector content. | (independent) |
+| [Chromaticity of (n, n+1) Blocks](PROOF_CHROMATICITY.md) | In U(1)-conserved systems with uniform Z-dephasing, the (n, n+1) popcount coherence block contains exactly c(n, N) = min(n, N−1−n) + 1 distinct pure dephasing rates, labeled by Hamming distance between basis states. | (independent) |
+
+### Absorption and rate structure
+
+| Proof | What it proves | Builds on |
+|-------|----------------|-----------|
+| [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) | Every Liouvillian mode has a "light content" ⟨n_XY⟩ (oscillating X/Y Pauli components) that directly determines its absorption rate via Re(λ) = −2γ⟨n_XY⟩. Linear in γ, proven from L_H anti-Hermitian. Unifies six previously separate spectral results (boundary formula, sum rule, spectral gap, etc.). | Mirror Symmetry |
+
+### Cross-term structure (extend Time Irreversibility Exclusion)
+
+| Proof | What it proves | Builds on |
+|-------|----------------|-----------|
+| [Cross-Term Formula (Shadow-Balanced)](PROOF_CROSS_TERM_FORMULA.md) | For any shadow-balanced bond coupling (both Paulis in {X,Y} or both in {I,Z}) on any graph with uniform Z-dephasing, the normalized anticommutator of L_H and L_D follows R(N) = √((N−2)/(N·4^(N−1))). Independent of coupling strength and topology. | Mirror Symmetry, Time Irreversibility |
+| [Cross-Term Formula (Shadow-Crossing)](PROOF_CROSS_TERM_CROSSING.md) | For shadow-crossing couplings (one Pauli in {X,Y}, one in {I,Z}), the anticommutator norm follows R(N) = √((N−1)/(N·4^(N−1))). Differs from the balanced case only by N−2 → N−1. | Cross-Term Formula (Balanced) |
+| [c₁ Mirror Symmetry](PROOF_C1_MIRROR_SYMMETRY.md) | For a uniform N-qubit XY chain with reflection-symmetric initial state and uniform Z-dephasing, the closure-breaking coefficient satisfies c₁(N, b) = c₁(N, N−2−b). Mirror symmetry about the chain midpoint. | (independent) |
+
+### How the catalog relates to the Reading Order
+
+Five of the nine catalog proofs extend Reading Order results directly:
+the Parity Selection Rule sharpens the Weight-1 Degeneracy bound into an
+exact accessibility statement; Bit-b Parity doubles the symmetry group
+the Direct-Sum decomposition works with; the two Cross-Term Formulas
+provide closed-form values for the ~2% N=3 cross term first reported in
+Time Irreversibility Exclusion; and the Absorption Theorem is the
+spectral backbone that several recent experiments ([V-Effect Cavity Modes](../../experiments/VEFFECT_CAVITY_MODES.md),
+[IBM Absorption Theorem](../../experiments/IBM_ABSORPTION_THEOREM.md),
+[Sacrifice Geometry](../../experiments/SACRIFICE_GEOMETRY.md)) rely on.
+
+The remaining four (ΔN Selection, c₁ Mirror, Asymptotic Sector
+Projection, Chromaticity) are independent side theorems closing
+specific questions that arose during the experimental program. They do
+not rely on the spine and the spine does not rely on them.
+
+---
+
 ## What Is NOT Here
 
 Experiment results, hypothesis documents, and philosophical
 interpretation live elsewhere:
 
-- [experiments/](../../experiments/) - 59 computational experiments
+- [experiments/](../../experiments/) - 124 computational experiments
 - [hypotheses/](../../hypotheses/) - open research questions
 - [publications/](../../publications/) - papers and blueprints
 - [docs/](../) - synthesis and reference documents

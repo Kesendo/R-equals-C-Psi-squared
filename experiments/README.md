@@ -83,6 +83,9 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10×), sacrifice-zone formula (360× at N=5 through 63.5× at N=15), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
 | [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-15. Quadratic growth (SumMI ~ 0.0053*N²), constant brake (-0.020), two converging channels |
 | [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Fold catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing. With Bell+bath: CΨ oscillates around ¼ (81 crossings at J=5.0). MI pulses at each crossing. Damped: each cycle deposits irreversible reality |
+| [CMRR Break under Non-Uniform γ](CMRR_BREAK_NONUNIFORM_GAMMA.md) | Non-uniform dephasing breaks the CMRR coherence selection rule. Effect is mode-selective: gradient profiles show +1.35 slope, single-site bumps −0.19 (opposite-sign coupling to k=1 sine modes) |
+| [Light Dose Response](LIGHT_DOSE_RESPONSE.md) | Per-sector dose response to dephasing is nonlinear; mechanism is eigenvector rotation (not mode-crossing). SE sector R²=0.889 per-mode but sector-min R²=0.404. Interior sector (dim=100) most nonlinear, edge sector (dim=5) nearly linear |
+| [Gamma as Binding](GAMMA_AS_BINDING.md) | Per-sector rate sensitivity (superseded by [Light Dose Response](LIGHT_DOSE_RESPONSE.md)). Sacrifice profile slows SE sector to 0.318 vs uniform 1.502; 134% nonlinearity from eigenvector rotation |
 
 ### The CΨ = 1/4 Boundary (decoherence threshold)
 
@@ -99,6 +102,9 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Observer Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) | γ-dependent visibility windows |
 | [Mandelbrot Connection](MANDELBROT_CONNECTION.md) | CΨ ↔ c maps the 1/4 boundary to the Mandelbrot cardioid cusp |
 | [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) | Closed-form K(ε,tol) = (1/2)ln(4ε/tol) + α(tol)√ε with zero fit parameters. Dwell time K_dwell = 1.080·δ (γ-independent) |
+| [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) | Two distinct decoherence exits proven from sector conservation: lens (SE states, CΨ ≈ 0.07, slow Liouvillian mode, preserves excitation count) and cusp (multi-sector states, CΨ ≈ 0.33, cross 1/4 fold, only population distribution survives). Geometrically separated, not complementary halves |
+| [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) | Complex-valued CΨ extends the boundary to 2D: trajectories spiral in c-plane around \|c\|=1/4 circle with rotation rate Ω/(4γ). Observed on ibm_kingston with two Bell⁺ pairs at opposite 7.59 kHz and 4.36 kHz z-detuning |
+| [GHZ+W Sector Mix](GHZ_W_SECTOR_MIX.md) | Family \|ψ(α)⟩ = α\|GHZ_3⟩ + √(1−α²)\|W_3⟩ reaches min pair-CΨ(0) = 0.320 (1.28× above fold) at α²_opt satisfying irreducible sextic 2900x⁶ − 8060x⁵ + 4211x⁴ + 3832x³ − 2428x² − 512x + 300 = 0. Strictly N=3 phenomenon |
 
 ### Palindromic Spectral Structure
 
@@ -124,6 +130,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Entropy Production](ENTROPY_PRODUCTION.md) | Rate pairing d_k+d_k'=2Σγ exact. Crooks-like: ln(d_fast/d_slow) = 2 artanh(Δd/(2Σγ)), β_eff ≈ 1/Σγ (algebraic, not thermodynamic). No Jarzynski (⟨exp(-Δd)⟩ ≈ 0.93 ≠ 1). Carnot not definable (T=∞). CΨ=1/4 and Var=1/4: independent coincidence |
 | [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g(CΨ) = 3.36 at the fold (FINITE, no singularity). θ shrinks the metric, does not regularize. Lindblad trajectory IS approximately geodesic (deviation 9e-4). Curvature K = -25 (negative, finite). Fisher susceptibility finite. θ is a compass, not a coordinate |
 | [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md) | Optimal chain selection on IBM Torino heavy-hex. 330 chains, sacrifice ranking vs mean-T2 ranking: zero overlap in top-10. Sacrifice achieves 2.54x vs 1.18x protection. Worse qubits, better modes. Time-stable over 5 months |
+| [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) | Sacrifice zone as controlled symmetry break: one slow Liouvillian mode, lens method extracts psi_opt directly from its left eigenvector (no optimization). 68 configurations (N=2-7, chain/star/ring/complete): SE fraction >0.98 for N=3-6, accessibility boundary 64/64 exact (from parity selection rule) |
+| [Symmetry Census](SYMMETRY_CENSUS.md) | Four symmetries enumerated for Heisenberg + Z-dephasing Liouvillian: U(1) excitation number (block-diagonalizes into (N+1)² sectors), n_XY parity (redundant with U(1), proof), spin-flip X⊗N, reflection (uniform γ only). Π is spectral mirror but not block-diagonalizing. Max multiplicity N=5: 14 (uniform γ) → 6 (sacrifice γ) |
 | [Thermal Breaking](THERMAL_BREAKING.md) | Three orthogonal breaking mechanisms: coupling (1.81x Q, topological constant), dephasing (+60 frequencies), heat (+300 frequencies). Heat breaks the 1.81x constant but QUADRUPLES frequency diversity. Sacrifice zone vanishes at high temperature |
 | [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md) | Sacrifice zone as entrance pupil / AR coating: Q_max 2-7x, T_eff up, frequencies preserved |
 | [N=5 Optimal Cavity Size](N5_OPTIMAL_CAVITY_SIZE.md) | N=5 is Goldilocks (richness vs resolution), not golden ratio. φ in V(5) is cos(π/5), not organizing principle |
@@ -134,6 +142,15 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md) | α=2γ⟨n_XY⟩ exact: absorption rate = 2×dephasing×light content. Linear in γ. Proven from L_H anti-Hermitian. Unifies boundary formula, sum rule, spectral gap. 1,343 modes, CV=0 |
 | [Π Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md) | Palindromic mirror Π is product operator for 34/36 Hamiltonians; only XZ+YZ and ZX+ZY force non-local Π (Schmidt rank 9) |
 | [Beer-Lambert Breakdown](BEER_LAMBERT_BREAKDOWN.md) | Under strong coupling (J≫γ), cavity acts as integrating sphere distributing absorbed light equally (~1/N share), not locally per Beer-Lambert |
+| [Cross-Term Formula](CROSS_TERM_FORMULA.md) | R(N)² = 4(N−2)/(N·4^N) for relative orthogonality of Hamiltonian and centered dissipator. Refutes prior conjecture at N=5. Topology- and γ-independent (shadow-balanced couplings). Experimental companion to [Proof Cross-Term Formula](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) |
+| [Cross-Term Crossing](CROSS_TERM_CROSSING.md) | Shadow-crossing couplings (one Pauli in {X,Y}, one in {I,Z}) follow R(N) = √((N−1)/(N·4^(N−1))). Only difference from shadow-balanced is N−2 → N−1. Verified N=3-6 to machine precision |
+| [Cross-Term Topology](CROSS_TERM_TOPOLOGY.md) | Cross-term orthogonality at N=3 (1/√48) and N=4 (1/√128) is identical across chain, star, ring, complete graphs. Pure geometry of Heisenberg + Z-dephasing, independent of both γ and topology |
+| [Palindromic Partner Mode](PALINDROMIC_PARTNER_MODE.md) | F68 palindromic pairing α_p = 2γ₀ − α_b proven for bonding mode. Partner exists at machine precision N=3-5; rank-1 operator V_p at N≥4 (N=3 rank-2 degeneracy). Bell-pair R-C encoding propagates with decay α_p to machine precision |
+| [Π-Pair Flux Balance](PI_PAIR_FLUX_BALANCE.md) | All 1024 modes at N=5 partition into 512 Π-pairs, zero crossings. Flux balance Re(λ_s)+Re(λ_s') = −2Σγ invariant under δJ to machine precision. Binary inheritance: exactly 2^(2N−1) Π-pairs at every N. Self-Π modes exist iff N ≡ 4 (mod 10) |
+| [Sector Projection Formula](SECTOR_PROJECTION_FORMULA.md) | Theorem (proved): asymptotic excitation-sector populations equal initial populations, p_w(∞) = Tr(P_w ρ_0). Verified for 9 states at N=5. Companion to [Asymptotic Sector Projection Proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) |
+| [U(1) Breaking](U1_BREAKING.md) | U(1) decoupling at ε=0 is a knife edge. Transverse field H(ε)=H_Heis + ε·Σ X_k breaks sector block-diagonal structure: slow-mode SE fraction drops 1.0 → 0.46 at ε=1.0. Bell-pair coupling emerges linearly in ε (slope ≈1); central pair (1,2) stronger than edge pairs |
+| [F73 U(1) Generalization](F73_U1_GENERALIZATION.md) | (vac, S_1) coherence purity closure Σ_i 2\|ρ_coh,i(t)\|² = (1/2)·exp(−4γ₀t) holds exactly at N=5 for Heisenberg, XXZ (Δ ∈ [0.5, 2.0]), inhomogeneous J, Haar-random probes. Requires only [H, N_total]=0 and uniform γ₀ |
+| [Degeneracy Hunt](DEGENERACY_HUNT.md) | The 14-fold degeneracy at N=5 is not structural. SU(2) broken by Z-dephasing. All degeneracies are accidental coincidences from absorption-theorem rate formula Re(λ) = −2γ⟨n_XY⟩ placing modes with identical ⟨n_XY⟩ at the same decay rate |
 
 ### Decoherence Diagnostics (Cockpit Framework)
 
@@ -143,6 +160,10 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Cockpit Scaling](COCKPIT_SCALING.md) | Cockpit framework extended to N=7-11 (chain and star) using C# matrix-free engine. n95 does NOT grow linearly with N as small-N suggested; instead it decreases (chain 4 to 2, star 4 to 3) due to Entanglement Sudden Death. Chain ESD time approximately N-independent (~1), star ESD time grows with N (0.5 to 3.9) due to monogamy of entanglement. 3-PC coverage stays above 90% in all 8 tested configurations. Purity remains the dominant PC1 proxy throughout |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
 | [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) | For Bell+, dwell-time prefactor at CΨ = 1/4 is pure weight function: (2+4W₂)/(1+6W₂). Fails for odd-weight states (needs coefficient magnitudes) |
+| [Dwell Prefactor Generalized](DWELL_PREFACTOR_GENERALIZED.md) | Two-sector generalization: prefactor = (4/k)·(W₀+W_k)/(W₀+3W_k). Bell+ (k=2, W₀=1/2) and W₃ (k=2, W₀=1/3) both match direct simulation at <0.001%. Corollary: GHZ_N for N≥3 starts at CΨ(0) = 1/(2^N−1) < 1/4 and never crosses |
+| [Orthogonality Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) | F70, F71, F72-candidate, and (vac,S_1) closure are one meta-theorem. Any measurement M projects onto orthonormal basis; conserved quantities produce built-in blind channels. Production rule: conservation law + summed measurement → guaranteed blind channel. Non-uniform γ breaks F70, amplitude damping breaks F72, pair-site measurements open \|ΔN\|=2 |
+| [F70 Amplitude Damping Break](F70_AMPLITUDE_DAMPING_BREAK.md) | Under amplitude damping with pure-coherence probe ρ_coh = (\|vac⟩⟨S_2\| + h.c.)/2, kinematic F70 zero holds exactly across γ_1 ∈ [0, 0.1]. Analytical derivation D_AD ρ_coh = −γ_1 ρ_coh confirms no sector leak from \|Δn\|=2 block |
+| [Info-Flow Landscape](INFO_FLOW_LANDSCAPE.md) | Bond-0 perturbation C_ij response is global (not Lieb-Robinson front): probe is a delocalized sine mode. Peak-time clustering reveals Liouvillian mode-pair differences: N=5 shows fast cluster (\|E_1−E_5\|=2√3, t≈1.6) and slow cluster (\|E_2−E_4\|=2, t≈4.0). Π-pair asymmetry decays as exp(−4γ₀t) |
 
 ### Star Topology and Mediator Physics
 
@@ -175,6 +196,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [QST Bridge](QST_BRIDGE.md) | Connecting to 20 years of quantum state transfer literature |
 | [Localizable Entanglement](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) | LE vs CΨ comparison: three-layer separation (CoA/LE/CΨ) |
 | [Metric Discrimination](METRIC_DISCRIMINATION.md) | Null result: single-system simulation cannot discriminate metric forms locally. K-invariance confirmed across 50× γ range (R²=0.9999) |
+| [Q-Scale Three Bands](Q_SCALE_THREE_BANDS.md) | Dimensionless scale Q = J/γ₀ governs dynamics; three algebraic bands: pre-onset Q<0.3 (no mixing), transition Q∈[1.2,2.0] (maximal H-mixing), plateau Q>2. Peak responsiveness is chromaticity-specific: Q_peak(c=2)=1.5, Q_peak(c=3)=1.6, Q_peak(c=4)=1.8, stable N=4-8. Enables γ₀-extraction via J*/Q_peak(c) |
 
 ### Additional Experiments
 
@@ -212,6 +234,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Trapped Light Localization](TRAPPED_LIGHT_LOCALIZATION.md) | K_death = 2.303 universal; surviving mode energy center-localized (ratio 1.3-1.4); N+1 immortal modes; gamma plays algebraic role of c (Tier 4-5) |
 | [Hydrogen Bond Qubit](HYDROGEN_BOND_QUBIT.md) | Zundel cation proton crosses CΨ = 1/4 fold 6 times in 21 fs; every water molecule produces ~10-70 fold crossings per picosecond |
 | [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) | Π creates proper Z₂-graded super-algebra M_{2\|2}(ℂ) with block-off-diagonal L_c; Tomita-Takesaki connection ruled out (Π linear, J anti-linear) |
+| [N=5 Check](N_EQUALS_FIVE_CHECK.md) | All six N-scaling metrics (max multiplicity, fraction distinct, slow-mode rate, slow/Σγ, max sector dimension) are monotonic with N. N=5 is not extremal on any axis; repeated N=5 appearance is selection bias from IBM Torino chain hardware, not physics |
 
 ---
 
