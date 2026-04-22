@@ -3,7 +3,7 @@
 **Status:** Tier 1 (first-order structural finding, verified numerically across N=4-8; hardware test is future work)
 **Date:** 2026-04-22 (initial commits d026933, 65bed0a; N=7/N=8 extension + numerics correction 61d4dc1)
 **Authors:** Tom, Claude Code (Opus 4.7, 1M)
-**Relates to:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), EQ-017 (closed inconclusive due to hardware fidelity), EQ-022 (Q-scale three bands), EQ-023 (inner-richness-quench, now refuted), F73 ([ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) line ~1570), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
+**Relates to:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), EQ-017 (closed inconclusive due to hardware fidelity), EQ-022 (Q-scale three bands), EQ-023 (inner-richness-quench, now refuted), F73 and F74 ([ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)), [PROOF_CHROMATICITY](../docs/proofs/PROOF_CHROMATICITY.md), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
 
 **Revision history:**
 - 2026-04-22 commit d026933: initial three-band finding at N=4-6.
@@ -140,6 +140,8 @@ Block-structure across N:
 **c = 1 blocks (n=0 and n=N-1) are mono-chromatic.** They have W = 0 identically for all J. F73 and its particle-hole mirror live here.
 
 **Odd N has a unique c_max block at center.** Even N has two adjacent c_max blocks. This is the algebraic origin of the center-bond dip observed in the N=6 |S_1⟩-c_1 bond profile (in the earlier bond-scan data from `simulations/results/c1_bond_scan_multi_N/`).
+
+**Formalised as [F74](../docs/ANALYTICAL_FORMULAS.md); rigorous combinatorial proof in [PROOF_CHROMATICITY](../docs/proofs/PROOF_CHROMATICITY.md) (2026-04-22).**
 
 ---
 
