@@ -1604,6 +1604,65 @@ The argument uses only (i) [H, N_total] = 0 so dynamics stay in SE, (ii) H Hermi
 **Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline), [`f73_u1_generalization_sweep.py`](../simulations/f73_u1_generalization_sweep.py) (U(1)-class sweep).
 **Source:** F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
 
+### F74. Chromaticity of single-step coherence blocks (Tier 1, combinatorial)
+
+For an N-qubit system under uniform Z-dephasing, the (n, n+1) popcount
+coherence block contains exactly
+
+    c(n, N) = min(n, N−1−n) + 1
+
+distinct pure dephasing rates when the Hamiltonian is switched off (J = 0).
+The rates are 2γ₀ · {1, 3, 5, ..., 2c−1}, corresponding to Hamming-distance
+values HD ∈ {1, 3, ..., 2c−1} between popcount-n and popcount-(n+1) basis
+states.
+
+**Proof.** A basis pair (|x⟩, |y⟩) with popcount(x) = n, popcount(y) = n+1
+differs at HD = 2n + 1 − 2·match sites, where match = popcount(x AND y) is
+the number of sites carrying a 1 in both x and y. The constraints
+match ∈ [max(0, 2n+1−N), n] give HD ∈ {1, 3, ..., min(2n+1, 2N−2n−1)},
+hence the distinct-HD count is min(n, N−1−n) + 1. The Pauli representation
+of |x⟩⟨y| has X or Y on exactly the HD sites where x and y differ, so
+⟨n_XY⟩ = HD, and the Absorption Theorem gives rate 2γ₀·HD at J = 0.
+
+**Consequences.**
+
+- **c = 1 mono-chromatic blocks** at n = 0 and n = N−1 (single pure rate 2γ₀).
+  F73 (the spatial-sum coherence closure for vac-SE probes) is this
+  monochromatic case.
+- **c_max at the center.** For odd N, unique at n = (N−1)/2 with
+  c_max = (N+1)/2. For even N, two adjacent blocks at n = N/2−1 and
+  n = N/2, both with c_max = N/2.
+- At J > 0, H-coupling between different HD-channels produces dressed
+  modes at intermediate rates. Q_SCALE_THREE_BANDS measures this H-mixing
+  via the dressed-mode weight W(Q) and shows that the observable peak
+  abs(K_CC_pr) is c-specific and N-invariant.
+
+**Valid for:** any N-qubit system under uniform Z-dephasing. The J = 0
+statement holds kinematically for any Hamiltonian. For the dynamical
+interpretation at J > 0 (c as a stable sector label with H-mixing between
+HD channels), H must conserve total excitation number, [H, N_total] = 0;
+individual eigenmode rates then shift continuously with Q = J/γ₀, but c
+still labels the block's mixing substructure.
+**Breaks for:** non-uniform γ_i (site-dependent dephasing); the J = 0
+spectrum then has rates 2·Σ_{i ∈ diff-sites} γ_i rather than the discrete
+2γ₀·HD values. Non-U(1) Hamiltonians (transverse fields, odd-popcount
+terms) preserve the J = 0 statement but dissolve the (n, n+1) sector's
+dynamical invariance at J > 0. Non-Z dissipators (amplitude damping,
+X-dephasing, depolarizing) break the diagonal Pauli action of L_D; the
+|x⟩⟨y| basis pairs are no longer eigenvectors at rate 2γ₀·HD.
+**Verified:** Block-structure c-values for N = 3..8 match the formula
+exactly. Spectral verification at J = 0: each (n, n+1) block has exactly
+c(n, N) distinct rates in {2γ₀, 6γ₀, ..., 2(2c−1)γ₀}
+([Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3).
+
+**Replaces:** block-diagonal spectrum enumeration at J = 0; identifies
+which blocks support H-mixing bands (c ≥ 2) vs which are structurally
+silent (c = 1).
+**Scripts:** [`q_scale_n_scaling.py`](../simulations/q_scale_n_scaling.py).
+**Source:** [PROOF_CHROMATICITY](proofs/PROOF_CHROMATICITY.md),
+[Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3,
+[PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
