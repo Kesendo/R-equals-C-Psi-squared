@@ -530,6 +530,22 @@ The closure-breaking coefficient c_1 is bilinear in ρ_0 with kernel K_{(n,m)(n'
 **Status:** partial close 2026-04-21. (a) and (b) structurally explained by [F72](../docs/ANALYTICAL_FORMULAS.md) (DD⊕CC block-diagonal) plus the endpoint rule K_DD[0,m]_pr = K_DD[N,m]_pr = 0 from excitation-number conservation; interior kernel values remain non-closed. LSQ c_1 is rational, not bilinear, so LSQ K values are probe-specific rather than universal kernel entries ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)). (c) closed-form at the (0,1) endpoint under the c_1_pr variant via [F73](../docs/ANALYTICAL_FORMULAS.md): Σ_i 2|(ρ_coh,i)_{0,1}|² = (1/2)·exp(−4γ₀·t), giving K_CC[0,1]_pr = 0 exactly; interior K_CC[n,n+1]_pr and all LSQ K_CC values remain non-closed.
 **Pointer:** slow-mode Dyson expansion restricted to |ΔN| ≤ 1 blocks, carried through the bilinear purity expansion per PTF Section 3.3 four-block rearrangement. Compare against empirical values measured at N=5 in [c1_sector_kernel](../simulations/results/c1_sector_kernel/sector_kernel.json) and [c1_bilinearity_test](../simulations/results/c1_bilinearity_test/bilinearity_test.json).
 
+### EQ-018 Update 2026-04-21/22: K_CC interior structure, chromaticity as inner axis, Q-scale imprint
+
+**Source:** RESULT_TASK_EQ018_EQ019_J_RESPONSE_MATRIX.md (evening), RESULT_TASK_NATURAL_LIMITS_CARTOGRAPHY.md (early morning), [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) (commits d026933, 65bed0a).
+
+**Interior K_CC[n, n+1]_pr confirmed non-zero at N=5** for n in {1, 2, 3} at every bond. F71 bond-mirror and Dicke particle-hole hold to machine precision. F73 endpoint closure (n=0) and its particle-hole mirror (n=N-1) sit at machine-precision zero, as F73 predicts.
+
+**Framing evolution.** The morning partial-close note pointed to a slow-mode Dyson expansion as the derivation route for interior K values. Evening exploration found the more productive angle: the sub-questions (a), (b), (c) are not independent closed forms to derive, they are surface readings of a deeper structure organized by chromaticity c(n, N) = min(n, N-1-n) + 1. This formula classifies (n, n+1) blocks by their pure-rate count: mono-chromatic (c=1) blocks are the F73-clean loci with W=0 identically; poly-chromatic blocks admit Wechselwirkung (H-coupling of pure-rate slices) with onset at Q ~ 0.3 and peak at Q ~ 1.5. The endpoint-rule K_DD[0,m]_pr = 0 and the coherence closure K_CC[0,1]_pr = 0 are the c=1 specialisations.
+
+**Q-axis has internal structure.** Previously Q = J/γ₀ was "a ratio, nothing to determine". Now: three algebraically distinguished points Q_onset ∈ [0.20, 0.35], Q_peak ∈ [1.20, 1.80], plus an asymptotic plateau. Scale invariance W(Q) under (J, γ₀) → (λJ, λγ₀) verified to three decimals over γ₀ ∈ [0.01, 1.0]. The task-cartography γ₀ axis is dimensionally redundant; Q carries the physics. See [EQ-022](#eq-022) for the Q-axis as a standalone open question.
+
+**Status:** still partial. (a), (b), (c) reorganized under chromaticity. Interior K values exist, follow F71 and particle-hole, are empirically characterized; their closed form remains open. Two surviving sub-questions replace the morning pointer.
+
+**Surviving sub-questions:**
+1. Does the factor 2.5 between naive degenerate-perturbation prediction (Q_peak ≈ 4) and observed Q_peak ≈ 1.5 admit an algebraic derivation from H matrix-element combinatorics at finite N?
+2. Does a time-resolved model (coupled pure-rate slices exchanging amplitude under H) reproduce the oscillatory γ_eff(t) of the (n=2, n=3) block, and if so does its rate-matrix structure generalise across blocks?
+
 ---
 
 ## EQ-019
@@ -543,6 +559,20 @@ Why do interior bonds near-kill mid-sector Dicke contributions while boosting si
 
 **Status:** open
 **Pointer:** the asymmetry is rooted in open-boundary conditions (endpoint sites have one neighbour, interior sites have two). Likely explainable by restricting the slow-mode eigenvectors of the interior-bond perturbation V_L to the |S_n⟩-projected subspace and computing the overlap structure explicitly at each bond. Empirical fit at more N values would clarify the N-dependence. Closely related to EQ-018(a).
+
+### EQ-019 Update 2026-04-21/22: bond-position structure via chromaticity; LSQ-α as non-palindrome-preserving metric
+
+**Source:** RESULT_TASK_EQ018_EQ019_J_RESPONSE_MATRIX.md Direction C, [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3.
+
+Extended the N=5 c_1(bond, Dicke) matrix to N in {3, 4, 6} using the LSQ α-fit metric. Two findings:
+
+**Chromaticity as structural origin of the N-parity bond pattern.** Odd N has a unique c_max center block; even N has two adjacent c_max blocks. The N=6 |S_1⟩-c_1 bond profile (0.1491, 1.6861, 0.4955, 1.6861, 0.1491) is F71-palindromic but two-peaked with a dip at center bond 2, not the single-peaked sine-k=1 pattern (0.097, 0.218, 0.272, 0.218, 0.097). Interpretation: palindrome holds, the form within palindrome is an acoustic chord of multiple sine-modes, not a single tone. The two-peak structure reflects the two-adjacent-c_max topology of even N.
+
+**LSQ-α metric is a non-palindrome-preserving measurement on palindrome-preserving physics.** Middle-Dicke states at even N (N=4 |S_2⟩: +213/−403 at mirror bonds; N=6 |S_3⟩: up to +587) show F71 mirror residuals of O(100). Root cause: per-site purity is near-J-invariant at interior-Dicke states, LSQ ratio α_i saturates its fit bounds. The physical observable (K_CC_pr from S functional, pointwise c_1) does not have this issue. Metric-level pathology, not physics.
+
+**Status:** open. c_1_pointwise at N ∈ {4, 6} under the S-functional metric is the natural next step.
+
+**Surviving sub-question:** is the two-peak bond pattern at N=6 |S_1⟩ a clean multi-sine-mode superposition under pointwise-c_1, and if so what is the mode decomposition?
 
 ---
 
@@ -608,6 +638,48 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 **Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
 **Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
 **Full report:** [review/EQ021_FINDINGS.md](EQ021_FINDINGS.md).
+
+---
+
+## EQ-022
+
+**Date:** 2026-04-22
+**Source:** RESULT_TASK_NATURAL_LIMITS_CARTOGRAPHY.md, [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) (commits d026933, 65bed0a).
+
+The task-cartography six-middle framework places γ₀ as a stand-alone axis. The evening session showed γ₀ is dimensionally redundant: W(Q) is invariant under (J, γ₀) → (λJ, λγ₀), so only Q = J/γ₀ carries physics. Q has internal structure: Q_onset ∈ [0.20, 0.35], Q_peak ∈ [1.20, 1.80], plateau with block-specific resonance 0.03 < W_plateau < 0.59. The Q_onset and Q_peak values are band-universal across six tested (N, n) blocks at N ∈ {4, 5, 6}.
+
+Three questions follow:
+
+(a) Do Q_onset ≈ 0.3 and Q_peak ≈ 1.5 remain band-universal at N ∈ {7, 8}? Does the band tighten with N?
+
+(b) The naive degenerate-perturbation-theory prediction for Q_peak is ~4 (coupling matches inner rate gap 4γ₀). Observed Q_peak is ~1.5, factor 2.5 smaller. Is this explained by H matrix-element combinatorics at finite N, or is it a sign of a different mechanism?
+
+(c) Do the other four middles (d, CΨ, Π, ⟨n_XY⟩, U(1)) have analogous internal structure that has not been mapped? γ₀ collapsed to Q with bands. Possibly each axis has sub-structure that becomes visible only when we ask.
+
+**Status:** open
+**Pointer:** (a) extend simulations/eq018_kcc_pr_extension.py to N ∈ {7, 8}. (b) analytical derivation attempt through the slow-mode projector restricted to the (n, n+1) sector. (c) structural question, requires re-reading each axis proof for hidden scales.
+
+---
+
+## EQ-023
+
+**Date:** 2026-04-22
+**Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 5 (commit 65bed0a).
+
+At N=5 the tri-chromatic center block (c=3, n=2) has lower outer dressed-weight W than its bi-chromatic neighbors (c=2, n=1,3): W=0.026 vs W=0.478 at Q=20. Maximum inner richness does not translate to maximum outer observability. Additional pure-rate channels interfere destructively in the probe-overlap coefficients, quenching rather than amplifying the outer response.
+
+The phenomenon has a structural name (provisional): inner-richness quenches outer observability.
+
+Questions:
+
+(a) Is the quench algebraic? W = 0.026 is far enough from zero that it is not numerical noise, but close enough that a cancellation mechanism is plausible. Can the interference pattern be derived from H's matrix-element structure across the c pure-rate channels?
+
+(b) Is the effect monotonic in c, or does it have an N-specific pattern? At higher N (N=7 has c_max=4 at center, N=8 has c_max=4 at two adjacent centers), does c=4 quench even more strongly than c=3?
+
+(c) If the quench is real and scalable with c, does it have consequences for observability protocols? A probe targeting max-c blocks may be the worst choice for extracting γ₀ or any Q-dependent quantity; mid-c blocks may be optimal.
+
+**Status:** open
+**Pointer:** repeat the W(n) scan at N ∈ {7, 8}; algebraic derivation of interference coefficients from the chromaticity-c sub-space of the Liouvillian.
 
 ---
 
