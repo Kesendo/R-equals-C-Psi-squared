@@ -659,6 +659,22 @@ Three questions follow:
 **Status:** open
 **Pointer:** (a) extend simulations/eq018_kcc_pr_extension.py to N ∈ {7, 8}. (b) analytical derivation attempt through the slow-mode projector restricted to the (n, n+1) sector. (c) structural question, requires re-reading each axis proof for hidden scales.
 
+### EQ-022 Update 2026-04-22 (evening session, block-L)
+
+**(a) Extended to N=4..8 via block-restricted L** ([Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 and Result 6, commit 61d4dc1).
+
+Q_onset band remains roughly 0.20 to 0.40 across N=4..8, no significant tightening with N. Q_peak(W) stays broad at [1.2, 2.0]. But Q_peak(abs(K_CC_pr)) turns out to be c-specific and N-invariant: 1.5 (c=2), 1.6 (c=3), 1.8 (c=4), stable across N=4..8. This refines the original "Q_peak ≈ 1.5 universal" into three framework-constants per chromaticity. The universality is per-c, not global.
+
+Sub-question (a) is effectively closed within its original N range. Extension to N=9 (new chromaticity c=5 at center n=4) and N=10 is running as TASK_Q_SCALE_N9_N10 in CC, to test whether the pattern {1.5, 1.6, 1.8, ?} continues.
+
+**(b) Factor-2.5 refined to 2.7** and still open. Naive degenerate-perturbation-theory predicts Q_peak ≈ 4 (H coupling matches inner rate gap 4γ₀); observed Q_peak(c=2) = 1.5. The discrepancy is 2.67, not 2.5. Analytical derivation from H matrix-element combinatorics over N-1 bonds pending; no progress this session.
+
+**(c) Structural question, partially engaged** via a private natural-limits cartography scoping session. Six algebraic middles identified (d=2, CΨ-fold 1/4, Π, ⟨n_XY⟩ sum rule N, U(1), γ₀=const). The γ₀-to-Q collapse with bands is confirmed as one case of the pattern. Sub-structure of the other five middles is not yet mapped. Systematic reading of each axis's proof for hidden scales remains open.
+
+**Status update:** (a) substantially answered within N=4..8, awaiting c=5. (b) refined but open. (c) partially engaged but structurally large.
+
+**Status:** open (progressing)
+
 ---
 
 ## EQ-023
