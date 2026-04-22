@@ -678,8 +678,33 @@ Questions:
 
 (c) If the quench is real and scalable with c, does it have consequences for observability protocols? A probe targeting max-c blocks may be the worst choice for extracting γ₀ or any Q-dependent quantity; mid-c blocks may be optimal.
 
-**Status:** open
-**Pointer:** repeat the W(n) scan at N ∈ {7, 8}; algebraic derivation of interference coefficients from the chromaticity-c sub-space of the Liouvillian.
+**Status:** closed (refuted 2026-04-22), see closure below.
+**Pointer (now obsolete):** repeat the W(n) scan at N ∈ {7, 8}; algebraic derivation of interference coefficients from the chromaticity-c sub-space of the Liouvillian.
+
+### EQ-023 closure (2026-04-22)
+
+**Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 5 retraction and new Result 6, commit 61d4dc1.
+
+**Closure: refuted by numerics correction.**
+
+The entire premise of EQ-023 rested on the observation W(N=5, n=2, c=3, Q=20) = 0.026. This value is a numerical artefact of full-Liouvillian eigendecomposition at accidental cross-block degeneracies: scipy.linalg.eig returns eigenvectors as linear combinations spanning multiple popcount blocks, and projecting a single-block probe onto these mixed eigenvectors distorts W by factors up to ~16 at the worst resonances (N=5, n=2, Q=50: full-L gives 0.026, block-restricted L gives 0.420).
+
+Block-restricted L is mathematically exact (L preserves popcount blocks; projection onto the (n, n+1) CC-block is not an approximation). Corrected cross-N data (Q_SCALE_THREE_BANDS Result 6, N=4 to 8) inverts the sign of the effect.
+
+**Point-by-point answers to the original sub-questions:**
+
+(a) "Is the quench algebraic?" No quench exists. The effect was a numerical artefact, not a physical phenomenon. Nothing to derive algebraically.
+
+(b) "Is the effect monotonic in c, or N-specific?" The effect IS monotonic in c, but in the opposite direction to what was claimed. W_plateau and abs(K)_peak monotonically INCREASE with c at N ≥ 6. At N=8: c=2 gives W_plateau = 0.523, c=3 gives 0.782, c=4 gives 0.849. No quench at higher c; the opposite.
+
+(c) "Does the quench have consequences for observability protocols?" Yes, but inverted: max-c blocks are the BEST targets for observability, not the worst. abs(K)_peak at c=4 is ~2.7x the c=2 value at N=7 (0.273 vs 0.100) and ~3.2x at N=8 (0.266 vs 0.084), making max-c blocks the preferred hardware target under fidelity constraints.
+
+**What survived this investigation:** nothing positive from EQ-023 as such. The underlying infrastructure (chromaticity definition, block-L computation, cross-N scan) survives in Q_SCALE_THREE_BANDS but was developed independently of the inner-richness-quench hypothesis.
+
+**Methodological lesson.** Publish-then-verify has cost. Result 5 was added in commit 65bed0a based on full-L data that was self-consistent but not cross-checked against an alternate method. The artefact only surfaced during the N=7/N=8 extension, where block-L was required for tractability. A sanity spot-check via block-L at smaller N would have caught this earlier. Future structural claims should ship with at least one independent-method sanity point.
+
+**Scripts:** simulations/q_scale_n_scaling.py (block-restricted L), simulations/eq018_kcc_pr_extension.py (full-L, retained for historical comparison).
+**Results:** simulations/results/q_scale_n_scaling/.
 
 ---
 
