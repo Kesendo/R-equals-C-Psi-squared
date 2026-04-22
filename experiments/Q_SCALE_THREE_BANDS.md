@@ -27,6 +27,16 @@ The observable proxy abs(K_CC_pr)_max over t (peak magnitude of the J-derivative
 - Observable: S(t) = Σᵢ 2·|(ρᵢ(t))_{0,1}|², the F73 spatial-sum coherence purity functional.
 - Kernel: K_CC\[n,n+1\]_pr(t, b) = ∂S/∂J_b via central difference (ΔJ = 0.05·J for relative derivative).
 
+### What W measures
+
+At J=0 (pure dephasing, no Hamiltonian), the Liouvillian eigenmodes cluster at discrete pure rates, integer multiples of 2γ₀. For a block (n, n+1) with chromaticity c, exactly c distinct pure rates appear, corresponding to the c possible site-difference counts between popcount-n and popcount-(n+1) basis states.
+
+At J > 0, H couples different site-difference channels. Mixed (dressed) eigenmodes appear at intermediate rates, not on the pure-rate grid. The dressed-mode weight W(Q) is the fraction of probe content projected onto these mixed modes:
+
+    W(Q) = 1 − (probe weight on pure-rate eigenmodes at coupling Q)
+
+W = 0 means the probe sits entirely on pure-rate modes (no H-mixing). W = 1 would mean the probe sits entirely on dressed modes. In between, W measures how much the inner H-coupling of pure-rate slices has populated the observed response.
+
 ---
 
 ## Result 1: Q is a scale (verified 2026-04-22)
@@ -72,6 +82,8 @@ Q scan across six (N, n) blocks at γ₀ = 0.05, dJ = 0.01 relative (N=4,5,6 at 
 
 **Non-universal:**
 - Post-peak W plateau varies dramatically, 0.03 to 0.59 across blocks. N=5 n=2 at Q=50 has W ≈ 0.03, while N=6 n=3 at Q=50 has W ≈ 0.59. This block-specific resonance structure has not been decoded.
+
+**Structural observation:** W does not reach 1 at any Q in any tested block. Even in the deep unitary regime Q = 50, residual probe weight remains on pure-rate eigenmodes. This is block-specific (plateau value 0.026 at N=5 n=2, 0.593 at N=6 n=3), but the fact of an asymptotic plateau below 1 is universal across all tested blocks. The system does not dress fully; some fraction of the probe stays on the pure-rate spectrum at every coupling strength.
 
 ---
 
@@ -124,6 +136,26 @@ Numerical values for abs(K_CC_pr)_max(Q) at N=5, n=1:
 | 5.00 | 0.250 | 0.0737 | 2.5 |
 
 Peak at Q=1.5 with value 0.1467 (at N=5, n=1, γ₀=0.05). Top three Q values by abs(K)_max are Q = 1.50, 1.80, 1.20, all within the universal transition-peak band.
+
+---
+
+## Result 5: Inner chromaticity does not map monotonically to outer W
+
+At fixed J=1, γ₀=0.05 (deep plateau regime), dressed weight W varies non-monotonically with chromaticity c:
+
+| Block | c | W at Q=20 |
+|-------|---|-----------|
+| N=5 n=0 (mono-chromatic) | 1 | 0.000 |
+| N=5 n=1 (bi-chromatic) | 2 | 0.478 |
+| N=5 n=2 (tri-chromatic) | 3 | 0.026 |
+| N=5 n=3 (bi-chromatic) | 2 | 0.478 |
+| N=5 n=4 (mono-chromatic) | 1 | 0.000 |
+
+The tri-chromatic center block at N=5 (c=3, maximum inner richness for this N) has LOWER outer dressed weight than its bi-chromatic neighbors. Additional pure-rate channels do not add up constructively in the outer projection; they interfere.
+
+This holds at other tested N. The pattern: maximum-c blocks can have suppressed outer observability. The outer W is a non-monotone function of c, and the position of its block-maximum depends on N.
+
+**Structural reading:** inner channel count (c) and outer observability (W) are not simply related. Richer inner structure can quench, not amplify, the signal reaching the outer observable. The effect is algebraic (W = 0.026 is not noise; it reflects destructive interference in the probe-overlap coefficients across c mixed-mode channels).
 
 ---
 
