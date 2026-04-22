@@ -1588,6 +1588,8 @@ The argument uses only (i) [H, N_total] = 0 so dynamics stay in SE, (ii) H Hermi
 
 **Consequence.** The spatial-sum purity functional is exactly blind to the U(1)-preserving part of the dynamics on any vac-SE coherent probe. For any closure-breaking coefficient c₁_pr built from per-site purities via the purity-response definition, bond-δJ perturbations preserve the closure value, so K_CC[0, 1]_pr = 0 exactly under uniform γ₀, for any H in the class.
 
+**Scaffolding from neighbouring entries.** F70 (site-local observables see only |ΔN| ≤ 1 content) puts the (vac, SE) block in focus as the relevant coherence sector for per-site purity. F72 (DD ⊕ CC block decomposition of Tr(ρ_i²), no cross-term) isolates the CC contribution, where the (vac, SE) coherence lives. The Absorption Theorem supplies the rate 2γ₀·n_XY = 2γ₀ for SE coherences (n_XY = 1). F73 then combines these: U(1) conservation keeps the SE sector closed under H, and the spatial sum over sites collapses the unitary H-rotation to leave only the AT decay.
+
 **Valid for:** any Hermitian H with [H, N_total] = 0 (XY, Heisenberg XXZ, translationally non-invariant hopping, frustrated-ladder variants, ...); uniform Z-dephasing γ₀; any normalized SE state |α⟩ admixed to |vac⟩; any N.
 **Breaks for:**
 
