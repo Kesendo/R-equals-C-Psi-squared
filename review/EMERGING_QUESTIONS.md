@@ -724,4 +724,56 @@ Block-restricted L is mathematically exact (L preserves popcount blocks; project
 
 ---
 
+## EQ-024
+
+**Date:** 2026-04-23
+**Source:** [OPEN_THREAD_GAMMA0_INFORMATION](OPEN_THREAD_GAMMA0_INFORMATION.md) Update 2026-04-23; [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) Section 8
+
+[GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md) and [F30](../docs/ANALYTICAL_FORMULAS.md) compute a channel capacity of 15.5 bits at N=5 by letting Alice modulate the per-qubit γ profile. Under γ₀ = const ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)) Alice cannot do that: γ is uniform everywhere. The only sender-side lever is J (couplings and topology). What is the channel capacity for Alice modulating J at fixed γ₀, and how does it compare to the γ-modulation 15.5 bits?
+
+The two settings are structurally different. γ-modulation is linear in the eigenvalues via the Absorption Theorem (Re(λ) = -2γ·⟨n_XY⟩), giving a clean linear response matrix for SVD analysis. J-modulation is nonlinear: it rotates the Liouvillian eigenvectors, the ⟨n_XY⟩ values themselves shift, and the response is bilinear in ρ_0 with the same K-kernel structure that organizes the EQ-014/EQ-018 complex. The Meta-Theorem ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)) gives the kinematic structure (which detector modes are visible) but not the bit count at given SNR.
+
+Three sub-questions:
+
+(a) **Linearized response.** Build R_kb = ∂α_k/∂J_b at uniform-J operating point as N_modes × N_bonds matrix. SVD rank, singular value spectrum, comparison to F30's response matrix structure.
+
+(b) **Channel capacity.** From R_kb plus a noise model, compute Shannon capacity analogous to [F30](../docs/ANALYTICAL_FORMULAS.md). Compare to 15.5 bits at N=5. Identify whether the dimensional ceiling (number of detector modes) or the SNR-weighted bit count is what differs.
+
+(c) **Connection to the K-kernel program.** [EQ-018](#eq-018)'s K_DD/K_CC kernels are exactly the bilinear coefficients of the J-modulation response on per-site purity observables. [EQ-014](#eq-014)'s surviving sub-question (state-dependence of Σ f_i) is the per-site marginal of the same response. Does the J-modulation channel capacity decompose along chromaticity c(n, N) the way Q_peak(c) does in [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md)?
+
+**Status:** closed by experiment (operationally; structural follow-ups open as listed below)
+**Pointer:** linearization script analogous to [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md)'s response matrix construction but with δJ instead of δγ. Operating point: uniform-J chain at N=5 to match F30's anchor. Compare full SVD spectrum, not just rank. Adjacent: dynamical-attractor reading of PTF closure ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §4a, time-resolved Σ_i ln(α_i)) is a separate test that may inform the SNR side of (b) by characterizing the natural relaxation time scale of the J-perturbation response.
+
+### EQ-024 Update 2026-04-23 (closure + structural surplus)
+
+**Source:** Three CC commits on 2026-04-23. Morning (`cfa1bbc`) built the J-Jacobian + SVD pipeline analogous to F30 and produced the M_x-polynomial blindness theorem (proof via Newton's identities + SU(2) symmetry of H). Afternoon refinement ran H-scope check (Direction 1, `c0919eb`) and receiver optimization (Direction 3, `6aae630`); Direction 2 was dropped as ill-posed under γ₀ = const. Synthesis doc at [`J_BLIND_RECEIVER_CLASSES`](../experiments/J_BLIND_RECEIVER_CLASSES.md) (`e5326fa`).
+
+**Sub-question (b) operational answer.** At N=5 Heisenberg, F71-symmetric receiver optimization (39 structured points + 4 Nelder-Mead local runs) saturates near **C ≤ 12.07 bits**. Best receiver: random-phase F71-symmetric product state with θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.30, 0.62, 1.72) (reduced mod 2π from raw optimizer output). Local optima cluster in 11.56 to 12.07 bits; saturation signal is strong. Non-product F71-symmetric superpositions are strictly worse. Complex phases give ~0.15 bits over real-amplitude equivalents. The 12-bit ceiling is the operational answer to "what is J-modulation channel capacity at N=5"; F71-breaking receivers were not swept (deferred, see open sub-questions).
+
+**Comparison to F30's 15.45 bits is reframed.** Under γ₀ = const there is no operational γ-channel; γ cannot be modulated. F30's 15.45 bits survives only as a kinematic linear-response magnitude (∂observables/∂γ in Shannon form), not as a competing channel capacity. The morning RESULT's "γ-optimal receiver is J-pessimal" duality is therefore a Jacobian-asymmetry statement about two linear-response magnitudes, not a duality between two operational channels. The ~3.4-bit gap between 12.07 and 15.45 decomposes as ~1 bit dimensional loss (4 bonds vs 5 γ-sites) plus ~2-3 bits smaller leading gain (J sv_max ≈ 10 vs γ sv_max ≈ 21.4); whether this gap closes at larger N (where rank cap matches) is open.
+
+**Sub-question (a) addressed via the structural surplus.** The Jacobian SVD at SU(2)-broken receivers has rank 4 with a clean F71-symmetric / F71-antisymmetric mode split (sv ratios ~4.4× and ~2.0× between sym and anti modes). The kernel structure on H-eigenstate receivers is more interesting: the J-blind set decomposes into three structurally distinct mechanism classes:
+
+- **Class 1 (DFS + per-bond eigenstate).** ρ_0 satisfies two joint conditions: (i) L_D ρ_0 = 0 (DFS kernel), and (ii) ρ_0 is a simultaneous eigenstate of every bond Hamiltonian h_b. Condition (i) alone is NOT sufficient: a DFS state whose bond-action is non-trivial evolves unitarily with J-dependent trajectory. The per-bond-eigen condition pins J-blindness. H-independent in the operational sense for states satisfying both conditions under multiple H choices (|0⟩⁵ qualifies under Heisenberg and XY). N=5 examples: |0⟩⁵, |1⟩⁵.
+- **Class 2 (H-degenerate subspace closed under L_D).** ρ_0 lives in a finite-dim subspace of H-eigenstates sharing one eigenvalue, invariant under L_D. [H, ρ(t)] = 0 throughout the orbit. Block structure depends on H but the existence of such a block is the load-bearing property. N=5 example: GHZ (under both Heisenberg and XY-only, with different eigenvalues).
+- **Class 3 (M_α-polynomial subspace, SU(2)-Heisenberg specific).** ρ_0 is a polynomial in M_α = Σ σ_α^i for one Pauli axis α. Newton's identities + [H_Heisenberg, M_α] = 0 (SU(2)) give L^n ρ_0 = L_D^n ρ_0 for all n. N=5 examples: |+⟩⁵ directly verified J-blind under Heisenberg; all Dicke states |S_k⟩ in the S=N/2 multiplet are predicted J-blind by the theorem, with |S_1⟩ directly verified. Direction 1 verified the SU(2)-load-bearing nature: under XY-only H, |+⟩⁵ becomes J-sensitive (C = 9.42 bits) and Dicke |S_1⟩ becomes J-sensitive (C = 7.70 bits), while Class 1 and Class 2 states stay J-blind.
+
+H-robustness table (Heisenberg / XY-only / generic): Class 1 blind / blind / blind (the per-bond-eigen condition (ii) is what carries through; holds for |0⟩⁵ under any H that is a sum of per-bond h_b's); Class 2 blind / blind / case-by-case (structural condition is H-independent, specific eigenvalue is not); Class 3 blind / sensitive / sensitive (Class 3 is defined only for SU(2)-Heisenberg; under any other H the M_α-polynomial-argument does not apply).
+
+**Sub-question (c) deferred.** Chromaticity decomposition of the SVD bond modes was not addressed in either session. Bond-input space (4-dim at N=5) and chromaticity labels (popcount-block labels) are different decompositions; a mapping is not direct. Lifted as a surviving sub-question below.
+
+**Status:** EQ-024 closed operationally. Five surviving sub-questions track the structural surplus.
+
+### EQ-024 surviving sub-questions
+
+- **Three-class decomposition completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision.
+- **F71-breaking receiver capacity at N=5.** Direction 3 swept only F71-symmetric receivers. F71-breaking receivers might unlock additional gain spectrum but the rank ceiling for bond-inputs at N=5 stays at 4 regardless. Worth quantifying whether the gain change is meaningful.
+- **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096.
+- **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.30, 0.62, 1.72) (mod 2π): does it sit in a specific chromaticity sector or interpolate across them?
+- **Operational meaning of the 12-vs-15 gap.** The ~3-bit gain-gap (J sv_max ≈ 10 vs γ sv_max ≈ 21.4) is the non-dimensional part of the asymmetry. Is the J-to-γ ratio fixed (~46%) across N, or does it scale?
+
+**Pointer for follow-up:** the three-class decomposition is the structural finding most worth lifting next. Realized: [`J_BLIND_RECEIVER_CLASSES`](../experiments/J_BLIND_RECEIVER_CLASSES.md) (`e5326fa`) describes the three classes with numerical verification from `cfa1bbc` (Heisenberg baseline), `c0919eb` (XY H-truncation counterexample), and `6aae630` (Direction 3 saturation). Open candidates: the strong form of Class 3 (the M_x-polynomial blindness theorem with Newton-identities proof) potentially as a stand-alone F-entry; integration as the sixth instance of the [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) Meta-Theorem (conservation = SU(2)-Casimir, measurement = J-bond perturbation, blind subspace = M_α-polynomial algebra).
+
+---
+
 *Collection. Not classification. Classification comes when enough entries exist.*
