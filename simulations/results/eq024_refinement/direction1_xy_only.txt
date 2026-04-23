@@ -1,0 +1,66 @@
+EQ-024 Direction 1: H-scope of M_x-polynomial blindness
+======================================================================
+Swap H = XX+YY+ZZ (Heisenberg, morning) vs H = XX+YY (XY-only).
+Four receivers that were Heisenberg-eigenstates in the morning.
+
+N = 5, gamma_0 = 0.05 uniform, J = 1.0 uniform, t_points = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+Features per time: 25  ->  total 150
+dJ = 1e-4 (central differences)
+Waterfilling ref: spread=0.02, sigma=0.01
+
+======================================================================
+H = XX+YY+ZZ  (H_type='Heisenberg')
+======================================================================
+
+           state   H-eig?           E      residual
+  --------------------------------------------------
+          plus^N      yes     +4.0000    0.0000e+00
+          zero^N      yes     +4.0000    0.0000e+00
+             GHZ      yes     +4.0000    0.0000e+00
+     Dicke |S_1>      yes     +4.0000    0.0000e+00
+
+           state         |A|_F        sv_max   rank_1pct   C (bits)         verdict
+  ----------------------------------------------------------------------------------------
+          plus^N    2.6666e-11    1.7024e-11           4       0.00         J-blind
+          zero^N    0.0000e+00    0.0000e+00           0       0.00         J-blind
+             GHZ    0.0000e+00    0.0000e+00           0       0.00         J-blind
+     Dicke |S_1>    4.4138e-11    3.4068e-11           4       0.00         J-blind
+
+======================================================================
+H = XX+YY  (H_type='XY')
+======================================================================
+
+           state   H-eig?           E      residual
+  --------------------------------------------------
+          plus^N       no     +4.0000    4.4721e-01
+          zero^N      yes     +0.0000    0.0000e+00
+             GHZ      yes     +0.0000    0.0000e+00
+     Dicke |S_1>       no     +3.2000    2.9277e-01
+
+           state         |A|_F        sv_max   rank_1pct   C (bits)         verdict
+  ----------------------------------------------------------------------------------------
+          plus^N    5.1778e+00    3.2876e+00           4       9.42     J-sensitive
+          zero^N    0.0000e+00    0.0000e+00           0       0.00         J-blind
+             GHZ    0.0000e+00    0.0000e+00           0       0.00         J-blind
+     Dicke |S_1>    5.6527e+00    4.6447e+00           4       7.70     J-sensitive
+
+======================================================================
+SUMMARY: morning predictions vs measured
+======================================================================
+
+Predictions for XY-only:
+  |0>^5       : J-blind (DFS of L_D, H-independent)
+  GHZ         : J-blind (2-dim H-degenerate subspace)
+  |+>^5       : J-sensitive (not an H_XY-eigenstate)
+  Dicke |S_1> : J-sensitive (not an H_XY-eigenstate)
+
+           state      Heisenberg         XY-only        match?
+  --------------------------------------------------------------
+          plus^N         J-blind     J-sensitive           yes
+          zero^N         J-blind         J-blind           yes
+             GHZ         J-blind         J-blind           yes
+     Dicke |S_1>         J-blind     J-sensitive           yes
+
+Total runtime: 235.6 s
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\direction1_xy_only.json
+Text: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\direction1_xy_only.txt

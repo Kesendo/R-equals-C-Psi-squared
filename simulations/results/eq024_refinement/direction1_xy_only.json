@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "N": 5,
+    "N_bonds": 4,
+    "J_ref": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gamma_ref": [
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05
+    ],
+    "t_points": [
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0
+    ],
+    "dJ": 0.0001,
+    "fd_method": "central",
+    "spread_ref": 0.02,
+    "sigma_ref": 0.01
+  },
+  "results": {
+    "Heisenberg": {
+      "plus^N": {
+        "frobenius_norm": 2.6665583351349498e-11,
+        "sv_max": 1.7023983050034726e-11,
+        "singular_values": [
+          1.7023983050034726e-11,
+          1.4307963195548473e-11,
+          1.0899339425490156e-11,
+          9.885541252894761e-12
+        ],
+        "rank_1pct": 4,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 28.658456802368164
+      },
+      "zero^N": {
+        "frobenius_norm": 0.0,
+        "sv_max": 0.0,
+        "singular_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rank_1pct": 0,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 29.768364429473877
+      },
+      "GHZ": {
+        "frobenius_norm": 0.0,
+        "sv_max": 0.0,
+        "singular_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rank_1pct": 0,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 29.53357243537903
+      },
+      "Dicke |S_1>": {
+        "frobenius_norm": 4.41383063044529e-11,
+        "sv_max": 3.4067745285398135e-11,
+        "singular_values": [
+          3.4067745285398135e-11,
+          2.2757645692032072e-11,
+          1.2312324150136866e-11,
+          1.0866234452322059e-11
+        ],
+        "rank_1pct": 4,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 29.365556478500366
+      }
+    },
+    "XY": {
+      "plus^N": {
+        "frobenius_norm": 5.177811914173685,
+        "sv_max": 3.287580243342661,
+        "singular_values": [
+          3.287580243342661,
+          2.572028441467839,
+          2.2524032493005794,
+          2.0767526720730825
+        ],
+        "rank_1pct": 4,
+        "capacity_bits": 9.424551778427817,
+        "verdict": "J-sensitive",
+        "compute_time_s": 29.4944326877594
+      },
+      "zero^N": {
+        "frobenius_norm": 0.0,
+        "sv_max": 0.0,
+        "singular_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rank_1pct": 0,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 29.27314329147339
+      },
+      "GHZ": {
+        "frobenius_norm": 0.0,
+        "sv_max": 0.0,
+        "singular_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rank_1pct": 0,
+        "capacity_bits": 0.0,
+        "verdict": "J-blind",
+        "compute_time_s": 29.611979246139526
+      },
+      "Dicke |S_1>": {
+        "frobenius_norm": 5.652690101331079,
+        "sv_max": 4.644720165768698,
+        "singular_values": [
+          4.644720165768698,
+          2.9963714384041573,
+          1.1145721404245652,
+          0.39870679740027093
+        ],
+        "rank_1pct": 4,
+        "capacity_bits": 7.704296687360214,
+        "verdict": "J-sensitive",
+        "compute_time_s": 29.920416831970215
+      }
+    }
+  },
+  "xy_predictions": {
+    "plus^N": "J-sensitive",
+    "zero^N": "J-blind",
+    "GHZ": "J-blind",
+    "Dicke |S_1>": "J-sensitive"
+  }
+}
