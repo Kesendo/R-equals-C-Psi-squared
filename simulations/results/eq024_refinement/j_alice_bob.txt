@@ -1,0 +1,99 @@
+EQ-024 refinement: J-inversion of F30 Alice-Bob classification (Test 3)
+========================================================================
+N = 5, gamma_0 = 0.05 uniform (gamma_0 = const)
+J_baseline = 1.0, per-bond delta = 0.2
+Measurement time t = 2.0
+Feature vector: 10-dim (5 purities + 4 NN CPsi + 1 end-to-end MI)
+Template matching, 200 trials per sigma, seed 42
+
+J-profiles (per-bond values):
+    Gradient->  J = [0.70, 0.90, 1.10, 1.30]
+    Gradient<-  J = [1.30, 1.10, 0.90, 0.70]
+      Mountain  J = [0.80, 1.20, 1.20, 0.80]
+        Valley  J = [1.20, 0.80, 0.80, 1.20]
+
+========================================================================
+Receiver: |+>^5 (F30-optimal-gamma, predicted J-BLIND)
+========================================================================
+  Template compute time: 2.8 s
+
+  Template distance matrix (L2 in 10-feature space):
+     Gradient->  Gradient<-    Mountain      Valley
+     Gradient->     0.0000     0.0000     0.0000     0.0000
+     Gradient<-     0.0000     0.0000     0.0000     0.0000
+       Mountain     0.0000     0.0000     0.0000     0.0000
+         Valley     0.0000     0.0000     0.0000     0.0000
+  d_min (closest symbol pair): 1.2512e-15
+
+     sigma    accuracy       vs F30 Test 3
+  ------------------------------------------
+     0.000      100.0%              100.0%
+     0.001       27.0%              100.0%
+     0.005       26.5%              100.0%
+     0.010       26.5%              100.0%
+     0.020       27.0%               90.0%
+     0.050       26.5%               59.5%
+     0.100       26.0%               31.0%
+
+========================================================================
+Receiver: |+-+-+> (morning 11.92-bit champion)
+========================================================================
+  Template compute time: 2.5 s
+
+  Template distance matrix (L2 in 10-feature space):
+     Gradient->  Gradient<-    Mountain      Valley
+     Gradient->     0.0000     0.0676     0.1990     0.2668
+     Gradient<-     0.0676     0.0000     0.1990     0.2668
+       Mountain     0.1990     0.1990     0.0000     0.2164
+         Valley     0.2668     0.2668     0.2164     0.0000
+  d_min (closest symbol pair): 6.7573e-02
+
+     sigma    accuracy       vs F30 Test 3
+  ------------------------------------------
+     0.000      100.0%              100.0%
+     0.001      100.0%              100.0%
+     0.005      100.0%              100.0%
+     0.010      100.0%              100.0%
+     0.020       98.5%               90.0%
+     0.050       88.5%               59.5%
+     0.100       63.5%               31.0%
+
+========================================================================
+Receiver: |01010> (morning alt)
+========================================================================
+  Template compute time: 2.5 s
+
+  Template distance matrix (L2 in 10-feature space):
+     Gradient->  Gradient<-    Mountain      Valley
+     Gradient->     0.0000     0.0672     0.2618     0.3387
+     Gradient<-     0.0672     0.0000     0.2618     0.3387
+       Mountain     0.2618     0.2618     0.0000     0.2534
+         Valley     0.3387     0.3387     0.2534     0.0000
+  d_min (closest symbol pair): 6.7188e-02
+
+     sigma    accuracy       vs F30 Test 3
+  ------------------------------------------
+     0.000      100.0%              100.0%
+     0.001      100.0%              100.0%
+     0.005      100.0%              100.0%
+     0.010      100.0%              100.0%
+     0.020       97.0%               90.0%
+     0.050       89.0%               59.5%
+     0.100       69.5%               31.0%
+
+========================================================================
+SUMMARY
+========================================================================
+
+  receiver                                                      d_min   acc @ sig=0  acc @ sig=0.01
+  ------------------------------------------------------------------------------------------------
+  |+>^5 (F30-optimal-gamma, predicted J-BLIND)             1.2512e-15        100.0%           26.5%
+  |+-+-+> (morning 11.92-bit champion)                     6.7573e-02        100.0%          100.0%
+  |01010> (morning alt)                                    6.7188e-02        100.0%          100.0%
+
+F30 reference (gamma-modulation at |+>^5, Heisenberg): 100% at sig<=0.01
+Random-guess baseline (4 symbols): 25.0%
+
+Total runtime: 7.9 s
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\j_alice_bob.json
+Text: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\j_alice_bob.txt
