@@ -29,6 +29,17 @@ if (args.Length >= 1 && args[0] == "profile")
 }
 
 // ============================================================
+// BRECHER MODE: variable J + variable initial state, Peak SumMI tracking
+// ============================================================
+if (args.Length >= 1 && args[0] == "brecher")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunBrecherEvaluation(args);
+    return;
+}
+
+// ============================================================
 // OUTPUT
 // ============================================================
 var outFileName = args.Contains("pull") ? "pull_principle.txt" : "mediator_bridge_scale.txt";
@@ -986,6 +997,217 @@ void RunProfileEvaluation(string[] pArgs)
     // Output: single machine-parseable line
     Console.WriteLine(FormattableString.Invariant(
         $"RESULT SumMI={bestSumMI:F6} PeakMI={bestPeakMI:F6} PeakT={bestT:F2} CPsi01={cpsi01Best:F6} Purity={purBest:F6} SumMI5={sumMI5:F6}"));
+}
+
+// ============================================================
+// BRECHER EVALUATION MODE
+// Variable J-profile + variable initial state, Peak SumMI over adjacent pairs.
+// Designed for EQ-024 refinement Brecher-Test scaling to N >= 7.
+// ============================================================
+void RunBrecherEvaluation(string[] pArgs)
+{
+    // Usage: brecher <N> <J-profile> <initial-state> [--gamma G] [--tmax T] [--dt DT]
+    //   J-profile: comma-separated N-1 doubles, e.g. "1.0,1.0,0.01,1.0,1.0"
+    //   initial-state:
+    //     plus                  -> |+>^N uniform superposition
+    //     bits:<N-digit binary> -> Z-basis state (leftmost digit = site 0 = MSB of index)
+    //     xpattern:<N chars>    -> product of |+>/|-> per char (leftmost = site 0)
+    if (pArgs.Length < 4)
+    {
+        Console.Error.WriteLine("Usage: brecher <N> <J-profile> <initial-state> [--gamma G] [--tmax T] [--dt DT]");
+        Console.Error.WriteLine("  J-profile:     comma-separated N-1 doubles");
+        Console.Error.WriteLine("  initial-state: plus | bits:<N-digit bin> | xpattern:<N chars of +/->");
+        Environment.Exit(1);
+        return;
+    }
+
+    int n = int.Parse(pArgs[1], CultureInfo.InvariantCulture);
+    int d = 1 << n;
+
+    // Parse J-profile (N-1 values)
+    var couplings = pArgs[2].Split(',')
+        .Select(s => double.Parse(s, CultureInfo.InvariantCulture))
+        .ToArray();
+
+    if (couplings.Length != n - 1)
+    {
+        Console.Error.WriteLine($"ERROR: Expected {n - 1} J values (N-1 bonds), got {couplings.Length}");
+        Environment.Exit(1);
+        return;
+    }
+
+    string initialSpec = pArgs[3];
+
+    double gammaVal = 0.05;
+    double tMax = 15.0;
+    double dt = 0.05;
+    for (int i = 4; i < pArgs.Length - 1; i++)
+    {
+        if (pArgs[i] == "--gamma")
+            gammaVal = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+        if (pArgs[i] == "--tmax")
+            tMax = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+        if (pArgs[i] == "--dt")
+            dt = double.Parse(pArgs[i + 1], CultureInfo.InvariantCulture);
+    }
+
+    var gammas = Enumerable.Repeat(gammaVal, n).ToArray();
+
+    // RK4 stability: |lambda_max * dt| < 2.8 for RK4 stability region.
+    // H-eigenvalue scale is O(max|J| * N). Conservative: dt <= 0.05 / max(1, max|J|).
+    // Reduces dt automatically if user-provided dt is too large.
+    double maxAbsJ = couplings.Select(j => Math.Abs(j)).DefaultIfEmpty(1.0).Max();
+    double dtMax = 0.05 / Math.Max(1.0, maxAbsJ);
+    if (dt > dtMax)
+    {
+        Console.Error.WriteLine($"Auto-dt: reducing dt from {dt} to {dtMax} for stability (max|J|={maxAbsJ:F3})");
+        dt = dtMax;
+    }
+
+    Complex[] psi;
+    try { psi = BuildInitialStatePsi(initialSpec, n); }
+    catch (ArgumentException ex)
+    {
+        Console.Error.WriteLine($"ERROR: {ex.Message}");
+        Environment.Exit(1);
+        return;
+    }
+
+    // Measurement times: fine-grained early (catch fast transients), coarser late.
+    // Python reference uses np.linspace(0.1, 15.0, 40) -> ~0.38 step; we use
+    // every 0.1 up to t=2, then every 0.5 up to tMax. Guarantees we hit the
+    // Peak SumMI which for SU(2)-broken initial states often sits at t ~ 0.1.
+    var tMeasList = new List<double>();
+    for (double t = 0.1; t < 2.0 - 1e-9; t += 0.1) tMeasList.Add(t);
+    for (double t = 2.0; t < tMax + 1e-9; t += 0.5) tMeasList.Add(t);
+    var tMeas = tMeasList.ToArray();
+
+    double bestSumMI = -1, bestT = 0;
+    double sumMI5 = 0;
+
+    var sw = Stopwatch.StartNew();
+
+    if (n >= 14)
+    {
+        Console.Error.WriteLine($"Matrix-free path for N={n} (d={d})");
+
+        var mfBonds = Topology.Chain(n, couplings);
+        var mfH = new MatrixFreeHamiltonian(n, mfBonds);
+
+        var rho0 = DensityMatrixToolsRaw.PureState(psi);
+        psi = null!; // free early
+
+        var mfProp = new MatrixFreePropagator(mfH, gammas, n);
+
+        mfProp.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+        {
+            double sumMI = 0;
+            for (int k = 0; k < n - 1; k++)
+                sumMI += DensityMatrixToolsRaw.MutualInformation(rho, d, n,
+                    new[] { k }, new[] { k + 1 });
+
+            if (sumMI > bestSumMI)
+            {
+                bestSumMI = sumMI;
+                bestT = t;
+            }
+            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+
+            Console.Error.Write($"\r  t={t:F2} SumMI={sumMI:F4}");
+        });
+        Console.Error.WriteLine();
+    }
+    else
+    {
+        // Dense path: MathNet matrices, N <= 13
+        var bonds = Topology.Chain(n, couplings);
+        var H = Topology.BuildHamiltonian(n, bonds);
+
+        var rho0 = DensityMatrixTools.PureState(psi);
+
+        var prop = new LindbladPropagator(H, gammas, n);
+
+        prop.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+        {
+            double sumMI = 0;
+            for (int k = 0; k < n - 1; k++)
+                sumMI += DensityMatrixTools.MutualInformation(rho, n,
+                    new[] { k }, new[] { k + 1 });
+
+            if (sumMI > bestSumMI)
+            {
+                bestSumMI = sumMI;
+                bestT = t;
+            }
+            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+        });
+    }
+
+    sw.Stop();
+
+    string jStr = string.Join(",", couplings.Select(j => j.ToString("F6", CultureInfo.InvariantCulture)));
+    Console.WriteLine(FormattableString.Invariant(
+        $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
+}
+
+// Build initial state psi[d] from text spec. Throws ArgumentException on invalid input.
+Complex[] BuildInitialStatePsi(string spec, int n)
+{
+    int d = 1 << n;
+
+    if (spec == "plus")
+    {
+        // |+>^N uniform superposition
+        var psi = new Complex[d];
+        double norm = 1.0 / Math.Sqrt(d);
+        for (int i = 0; i < d; i++) psi[i] = norm;
+        return psi;
+    }
+
+    if (spec.StartsWith("bits:"))
+    {
+        string bits = spec.Substring(5);
+        if (bits.Length != n)
+            throw new ArgumentException($"bits: pattern length {bits.Length} != N {n}");
+        if (!bits.All(c => c == '0' || c == '1'))
+            throw new ArgumentException($"bits: pattern must contain only 0 and 1, got '{bits}'");
+        // Leftmost char = site 0 = MSB of integer index
+        int idx = Convert.ToInt32(bits, 2);
+        var psi = new Complex[d];
+        psi[idx] = 1.0;
+        return psi;
+    }
+
+    if (spec.StartsWith("xpattern:"))
+    {
+        string pattern = spec.Substring(9);
+        if (pattern.Length != n)
+            throw new ArgumentException($"xpattern: pattern length {pattern.Length} != N {n}");
+        // Iterative tensor product, first char = site 0 = slowest-varying = MSB of index.
+        // Supported chars: '+' |+>, '-' |->, '0' |0>, '1' |1> (mixed X/Z basis products).
+        double invSqrt2 = 1.0 / Math.Sqrt(2);
+        Complex[] psi = new Complex[] { 1.0 };
+        foreach (char c in pattern)
+        {
+            Complex[] ket;
+            if (c == '+') ket = new Complex[] { invSqrt2, invSqrt2 };
+            else if (c == '-') ket = new Complex[] { invSqrt2, -invSqrt2 };
+            else if (c == '0') ket = new Complex[] { 1.0, 0.0 };
+            else if (c == '1') ket = new Complex[] { 0.0, 1.0 };
+            else throw new ArgumentException($"xpattern: invalid char '{c}', expected +, -, 0, or 1");
+
+            var newPsi = new Complex[psi.Length * 2];
+            for (int i = 0; i < psi.Length; i++)
+            {
+                newPsi[2 * i] = psi[i] * ket[0];
+                newPsi[2 * i + 1] = psi[i] * ket[1];
+            }
+            psi = newPsi;
+        }
+        return psi;
+    }
+
+    throw new ArgumentException($"Unknown initial-state spec '{spec}'. Valid: plus | bits:<bin> | xpattern:<+/-/0/1>");
 }
 
 // ============================================================
