@@ -1,0 +1,63 @@
+Pre-computing 5 Heisenberg bond blocks at N=6 (d=64) ...
+Bond blocks ready in 0.0 s
+
+EQ-024 refinement: Brecher-Test at N=6 (N-scaling)
+========================================================================
+N = 6, d^2 = 4096, gamma_0 = 0.05 uniform, N_BONDS = 5
+
+Reduced scope: 4 J-profiles x 3 initial states x 20 t-points.
+Expected runtime: ~30-60 min.
+
+========================================================================
+INITIAL STATE: |+>^6 (control, Class 3 J-blind)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform      time
+  ----------------------------------------------------------------------------------
+  Uniform J=1                               0.0000    15.00         nanx    180.2s
+  Cut bond 2-3 (eps=0.01, center)           0.0000    14.22         nanx    176.2s
+  Cut bond 0-1 (eps=0.01, edge)             0.0000    14.22         nanx    176.7s
+  Strong-weak alternating                   0.0000    11.08         nanx    212.8s
+
+========================================================================
+INITIAL STATE: |+-++-+> (N=6 F71-sym analog of |+-+-+>)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform      time
+  ----------------------------------------------------------------------------------
+  Uniform J=1                               1.4436     0.10        1.00x    184.1s
+  Cut bond 2-3 (eps=0.01, center)           2.0185     0.88        1.40x    179.3s
+  Cut bond 0-1 (eps=0.01, edge)             1.1441     0.10        0.79x    175.8s
+  Strong-weak alternating                   3.3080     0.10        2.29x    206.5s
+
+========================================================================
+INITIAL STATE: |010010> (N=6 F71-sym analog of |01010>)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform      time
+  ----------------------------------------------------------------------------------
+  Uniform J=1                               1.5294     0.10        1.00x    180.4s
+  Cut bond 2-3 (eps=0.01, center)           2.3430     0.88        1.53x    176.4s
+  Cut bond 0-1 (eps=0.01, edge)             1.2235     0.10        0.80x    181.6s
+  Strong-weak alternating                   3.3925     0.10        2.22x    212.5s
+
+========================================================================
+CROSS-RECEIVER SUMMARY AT N=6
+========================================================================
+
+Reference: gamma-Sacrifice-Zone at |+>^N under non-uniform gamma:
+  N=5: Peak SumMI = 0.230 (RESONANT_RETURN Test 8)
+  N=7: Peak SumMI = 0.408 (RESONANT_RETURN Test 8)
+  (N=6 not directly tabulated; interpolate ~0.3)
+
+  Receiver                                            Uniform-J SumMI   Best J SumMI    Boost
+  ----------------------------------------------------------------------------------------------
+  |+>^6 (control, Class 3 J-blind)                             0.0000         0.0000      n/a
+  |+-++-+> (N=6 F71-sym analog of |+-+-+>)                     1.4436         3.3080    2.29x
+  |010010> (N=6 F71-sym analog of |01010>)                     1.5294         3.3925    2.22x
+
+N=5 comparison (from shadow_lens_broken.py, commit bf080a3):
+  |+>^5       : uniform J = 0.00,   best J = 0.00,   boost = n/a
+  |+-+-+>     : uniform J = 1.32,   best J = 3.30,   boost = 2.50x
+  |01010>     : uniform J = 1.38,   best J = 3.38,   boost = 2.46x
+
+Total runtime: 2242.3 s (37.4 min)
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\brecher_n6.json
+Text: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\brecher_n6.txt

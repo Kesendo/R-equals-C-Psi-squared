@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "N": 6,
+    "gamma_0": 0.05,
+    "t_scan": [
+      0.1,
+      0.8842105263157894,
+      1.668421052631579,
+      2.4526315789473685,
+      3.236842105263158,
+      4.021052631578947,
+      4.8052631578947365,
+      5.589473684210526,
+      6.373684210526315,
+      7.157894736842104,
+      7.942105263157894,
+      8.726315789473684,
+      9.510526315789473,
+      10.294736842105262,
+      11.078947368421053,
+      11.863157894736842,
+      12.647368421052631,
+      13.43157894736842,
+      14.21578947368421,
+      15.0
+    ],
+    "J_profiles": {
+      "Uniform J=1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Cut bond 2-3 (eps=0.01, center)": [
+        1.0,
+        1.0,
+        0.01,
+        1.0,
+        1.0
+      ],
+      "Cut bond 0-1 (eps=0.01, edge)": [
+        0.01,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Strong-weak alternating": [
+        5.0,
+        0.2,
+        5.0,
+        0.2,
+        5.0
+      ]
+    },
+    "initial_states": [
+      "|+>^6 (control, Class 3 J-blind)",
+      "|+-++-+> (N=6 F71-sym analog of |+-+-+>)",
+      "|010010> (N=6 F71-sym analog of |01010>)"
+    ],
+    "total_runtime_s": 2242.3042516708374
+  },
+  "results": {
+    "|+>^6 (control, Class 3 J-blind)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 9.103828801926284e-15,
+        "peak_t": 15.0,
+        "ratio_to_uniform": null,
+        "compute_time_s": 180.21549201011658
+      },
+      "Cut bond 2-3 (eps=0.01, center)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.509903313490213e-14,
+        "peak_t": 14.21578947368421,
+        "ratio_to_uniform": null,
+        "compute_time_s": 176.20847296714783
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.199040866595169e-14,
+        "peak_t": 14.21578947368421,
+        "ratio_to_uniform": null,
+        "compute_time_s": 176.6680727005005
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2,
+          5.0
+        ],
+        "peak_sum_mi": 3.241851231905457e-14,
+        "peak_t": 11.078947368421053,
+        "ratio_to_uniform": null,
+        "compute_time_s": 212.765234708786
+      }
+    },
+    "|+-++-+> (N=6 F71-sym analog of |+-+-+>)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.4436464879803261,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.0,
+        "compute_time_s": 184.06763315200806
+      },
+      "Cut bond 2-3 (eps=0.01, center)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.018494818376352,
+        "peak_t": 0.8842105263157894,
+        "ratio_to_uniform": 1.3981918947485847,
+        "compute_time_s": 179.2651755809784
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.1440840080642678,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 0.7924959590798791,
+        "compute_time_s": 175.76082229614258
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2,
+          5.0
+        ],
+        "peak_sum_mi": 3.3080021145688483,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 2.2914211630831947,
+        "compute_time_s": 206.46217226982117
+      }
+    },
+    "|010010> (N=6 F71-sym analog of |01010>)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.5293784404944986,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.0,
+        "compute_time_s": 180.3694839477539
+      },
+      "Cut bond 2-3 (eps=0.01, center)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.3429977412882126,
+        "peak_t": 0.8842105263157894,
+        "ratio_to_uniform": 1.5319934420748367,
+        "compute_time_s": 176.42299962043762
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.2234501970698017,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 0.7999656361536127,
+        "compute_time_s": 181.61314821243286
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2,
+          5.0
+        ],
+        "peak_sum_mi": 3.392475124471013,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 2.218205144420706,
+        "compute_time_s": 212.48273038864136
+      }
+    }
+  },
+  "reference_n5": {
+    "|+>^5": {
+      "uniform_J_peak_smi": 0.0,
+      "best_J_peak_smi": 0.0,
+      "boost": null
+    },
+    "|+-+-+>": {
+      "uniform_J_peak_smi": 1.32,
+      "best_J_peak_smi": 3.3,
+      "boost": 2.5
+    },
+    "|01010>": {
+      "uniform_J_peak_smi": 1.38,
+      "best_J_peak_smi": 3.38,
+      "boost": 2.46
+    }
+  },
+  "reference_resonant_return": {
+    "N5_sacrifice_peak_smi": 0.23,
+    "N7_sacrifice_peak_smi": 0.408,
+    "source": "RESONANT_RETURN Test 8"
+  }
+}
