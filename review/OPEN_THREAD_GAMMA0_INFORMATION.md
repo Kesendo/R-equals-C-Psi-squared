@@ -117,11 +117,21 @@ The pieces cluster around five physical roles:
 The thirteen documents are consistent but the synthesis is missing.
 Specifically: [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md) was written BEFORE the γ₀ = const
 hypothesis. In [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md), Alice VARIES the per-qubit γ profile
-to encode information. Under γ₀ = const, she cannot do that: γ is uniform everywhere.
+to encode information. Under γ₀ = const, she cannot do that: γ is uniform everywhere. The kinematic side of this gap is now closed (see Update 2026-04-23 below); the operational side is tracked as [EQ-024](EMERGING_QUESTIONS.md#eq-024).
 
 **Update 2026-04-20.** A first operational synthesis is in [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md): the thirteen pieces fit under one meta-theorem (Parseval + Noether on the operator Hilbert space), and the "γ₀ populates the blind subspace of every spatial-sum measurement" reading becomes operational. Two concrete predictions fell out and were verified: non-uniform γ breaks the (vac, S₁) common-mode rejection with modal selectivity ([CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)), and the Π-pair absorption-theorem sum is a δJ-flux-conservation law ([PI_PAIR_FLUX_BALANCE](../experiments/PI_PAIR_FLUX_BALANCE.md)). A closed form for the (vac, S₁) spatial-sum coherence purity ([F73](../docs/ANALYTICAL_FORMULAS.md)) gives the uniform-γ₀ baseline as ½·exp(−4γ₀·t) exactly, independent of J. The synthesis is tier 2 for the meta-frame, tier 1 for the individual instances.
 
 **Update 2026-04-22.** Q = J/γ₀ is not a bare ratio but a scale with algebraic substructure ([Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md), Tier 1). W(Q) is invariant under (J, γ₀) → (λJ, λγ₀) to five decimals, and three regions appear along Q: pre-onset (Q ≲ 0.3), transition (Q ∈ [1.2, 2.0]), plateau (Q ≳ 2). The observable peak location is chromaticity-specific and N-invariant: Q_peak(c) = 1.5, 1.6, 1.8 for c = 2, 3, 4 across N=4 to 8, where c(n, N) = min(n, N−1−n) + 1 counts pure dephasing rates in the (n, n+1) sector-block. This sharpens piece 11 (inside-observability): not only is Q the only measurable, Q itself has a three-band shape with c-specific peaks. Operational consequence: γ₀ = J\*/Q_peak(c), a shape-based extraction protocol that reduces the "γ₀ = const" hypothesis from a single-number claim to a c-specific prediction. Hardware realization still blocked by the EQ-017 fidelity floor.
+
+**Update 2026-04-23.** Kinematic synthesis acknowledged. [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) has grown substantially since the 2026-04-20 reference: Sections 4a (dynamical attractor), 5a (binary inheritance), 6a (0.5 as bilinear-form apex) added; production-rule predictions (a) and (d) verified, (b) inline-resolved by coherence/population split, only (c) (pair-painter, [EQ-020](EMERGING_QUESTIONS.md#eq-020)) remains open. Section 8 of ORTHOGONALITY_SELECTION_FAMILY closes one OPEN_THREAD sub-question: γ₀ is operationally unobservable from inside because it populates the blind subspace of every spatial-sum measurement (Meta-Theorem instance 4, [F73](../docs/ANALYTICAL_FORMULAS.md)). What stays open is the operational reading: F30's 15.5 bits were computed under γ-modulation; under γ₀ = const the only sender-side lever is J, and J-modulation is structurally different (nonlinear via eigenvector rotation, same algebra as the EQ-014/EQ-018 complex). Tracked as [EQ-024](EMERGING_QUESTIONS.md#eq-024); closed operationally later the same day, see Update 2026-04-23 (evening) below. A separate adjacent thread surfaces from ORTHOGONALITY_SELECTION_FAMILY Section 4a: time-resolved Σ_i ln(α_i(t)) under uniform perturbation as a direct test of the dynamical-attractor reading of PTF closure; not part of EQ-024 but flagged here so we don't lose it.
+
+**Update 2026-04-23 (evening).** EQ-024 closed operationally. Three CC commits on the same day (morning `cfa1bbc`, Direction 1 `c0919eb`, Direction 3 `6aae630`) produced both an operational answer and a structural surplus that reframes part of the synthesis above; synthesis doc at [`J_BLIND_RECEIVER_CLASSES`](../experiments/J_BLIND_RECEIVER_CLASSES.md) (`e5326fa`).
+
+*Operational answer.* At N=5 Heisenberg under γ₀ = const, Shannon channel capacity for J-modulation saturates at C ≤ 12.07 bits over F71-symmetric receivers (39 structured points + 4 Nelder-Mead local runs; saturation signal strong; F71-breaking receivers not swept). Best receiver: random-phase F71-symmetric product state. The F30 reference number (15.45 bits) is reframed: under γ₀ = const, γ cannot be modulated, so there is no operational γ-channel. The 15.45 bits survives only as a kinematic linear-response magnitude (∂observables/∂γ in Shannon form), not as a competing channel capacity. The ~3.4-bit gap between 12.07 and 15.45 decomposes as ~1 bit dimensional loss (4 bonds vs 5 γ-sites) plus ~2-3 bits smaller leading gain (J sv_max ≈ 10 vs γ sv_max ≈ 21.4). Whether this gap closes at N=6 (where rank cap matches) is open.
+
+*Reframing of the dual-receiver reading.* The morning RESULT identified a "γ-optimal-receiver-is-J-pessimal" duality: |+⟩⁵ (F30's optimal γ-receiver) gives J-Jacobian zero to floating-point precision; GHZ (F30's pessimal γ-receiver) is also J-blind. Under γ₀ = const this is a Jacobian-asymmetry statement about two linear-response magnitudes, not a duality between two operational channels. Only J is an operational channel; the "γ side" of the table is a kinematic susceptibility. The asymmetry is real, the two-channel framing is not.
+
+*Structural surplus: three mechanism classes of J-blindness.* The afternoon refinement RESULT established that the J-blind set decomposes into three structurally distinct mechanism classes: **Class 1** (DFS of L_D ∩ simultaneous eigenstate of every bond h_b: |0⟩⁵, |1⟩⁵; H-independent in the operational sense for states satisfying both conditions under multiple H choices), **Class 2** (H-degenerate subspace closed under L_D: GHZ under both Heisenberg and XY-only), **Class 3** (M_α-polynomial subspace, SU(2)-Heisenberg specific: |+⟩⁵ directly verified J-blind; all Dicke states |S_k⟩ in the S=N/2 multiplet predicted J-blind by the theorem, with |S_1⟩ directly verified). Direction 1 numerics verified the SU(2)-load-bearing nature of Class 3: under XY-only H, |+⟩⁵ becomes J-sensitive (C = 9.42 bits) and Dicke |S_1⟩ becomes J-sensitive (C = 7.70 bits), while Class 1 and 2 states stay J-blind. Handoffs: (i) **realized** in [`J_BLIND_RECEIVER_CLASSES`](../experiments/J_BLIND_RECEIVER_CLASSES.md) (`e5326fa`) which documents the three-class decomposition with numerical verification; (ii) open candidate: Class 3 strong form (M_x-polynomial blindness, Newton-identities + SU(2) proof) potentially as a stand-alone F-entry; (iii) open candidate: integration as the sixth instance of the [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) Meta-Theorem (conservation = SU(2)-Casimir, measurement = J-bond perturbation, blind subspace = M_α-polynomial algebra). EQ-024 surviving sub-questions track the open structural follow-ups.
 
 ## The reinterpretation under γ₀ = const
 
@@ -273,16 +283,7 @@ reinterpretation bullets above):
 
 ## What needs investigation
 
-- Re-read [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md) under the γ₀ = const lens: does the
-  full-rank response matrix survive if Alice varies J instead of γ?
-  The SVD analysis would change (different input space) but the
-  decodability might be preserved or even enhanced.
-
-- Connection to [F30](../docs/ANALYTICAL_FORMULAS.md) (channel capacity 15.5 bits): this was computed
-  for Alice varying γ. What is the channel capacity for Alice
-  varying J at fixed γ₀? The response matrix structure is different
-  (nonlinear in J via eigenvector rotation, vs linear in γ via
-  [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
+- [EQ-024](EMERGING_QUESTIONS.md#eq-024): J-modulation channel capacity. **Closed operationally 2026-04-23 evening:** C ≤ 12.07 bits at N=5 Heisenberg over F71-symmetric receivers, with structural surplus (three-class decomposition of the J-blind set; Class 3 SU(2)-Heisenberg-specific). See Update 2026-04-23 (evening) above. Surviving sub-questions tracked in EQ-024: three-class completeness, F71-breaking receiver capacity, N-scaling of the 12-bit ceiling, chromaticity of the Nelder-Mead optimum, operational meaning of the 12-vs-15 gap.
 
 - Connection to PTF ([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), [EQ-014](EMERGING_QUESTIONS.md#eq-014)):
   originally asked whether Σ_i ln(α_i) = 0 is a conservation law that
@@ -300,11 +301,7 @@ reinterpretation bullets above):
   not derived, not constructed, simply present. The bridge is not built.
   It IS.
 
-- [EQ-015](EMERGING_QUESTIONS.md#eq-015): the cavity-mode-exposure formula
-  γ_eff = γ₀ · |a_B|² ([F64](../docs/ANALYTICAL_FORMULAS.md)) is verified
-  only at N=3, 4 on chains. Extension to N ≥ 5 and non-chain topologies
-  is the falsification condition for piece 6. Without it, the quantitative
-  ground of the synthesis is unlocked only for small chains.
+- [EQ-015](EMERGING_QUESTIONS.md#eq-015): the cavity-mode-exposure formula γ_eff = γ₀ · |a_B|² ([F64](../docs/ANALYTICAL_FORMULAS.md)) on non-chain topologies and non-uniform J at N ≥ 5 is the falsification anchor for piece 6 ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)). The uniform-J chain case is effectively closed via [F65](../docs/ANALYTICAL_FORMULAS.md) (verified N=3..30 to machine precision); EQ-015's original 'verified N=3, 4 only' wording predates the F65 generalization. Not the primary strand under the γ₀ = const operational lens, kept as a structural backstop.
 
 - [EQ-014](EMERGING_QUESTIONS.md#eq-014) theorem sub-question closed
   2026-04-19: dense biorthogonal eigendecomposition of the full
@@ -328,6 +325,8 @@ reinterpretation bullets above):
   grounding has to come from structural predictions (palindromic spectral
   components, [F64](../docs/ANALYTICAL_FORMULAS.md) exposure ratios),
   not direct γ₀ measurement.
+
+- Dynamical-attractor test of PTF closure ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §4a): time-resolved Σ_i ln(α_i(t)) under uniform perturbation. If the closure deviation decays at the ~4γ₀ scale to (near) zero, [EQ-014](EMERGING_QUESTIONS.md#eq-014) surviving sub-question (state-dependence of Σ f_i) gets a geometric interpretation as distance-to-attractor. Adjacent to [EQ-024](EMERGING_QUESTIONS.md#eq-024), not part of it.
 
 ---
 
