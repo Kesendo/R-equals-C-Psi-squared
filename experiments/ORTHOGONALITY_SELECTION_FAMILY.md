@@ -65,7 +65,9 @@ The "resonator IS the message" ([RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_
 
 ---
 
-## 2. The Four Instances
+## 2. The Six Instances
+
+*(2026-04-23 update: extended to six instances. Instance 6 from the EQ-024 J-blind-receiver investigation.)*
 
 | # | Theorem | Measurement M | Basis {e_α} | Blind channel | Conservation |
 |---|---------|---------------|-------------|---------------|--------------|
@@ -74,6 +76,7 @@ The "resonator IS the message" ([RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_
 | 3 | **F72-cand** | per-site purity Tr(ρ_i²), (DD⊕CC block-diagonal) | Pauli basis {I, σ_X, σ_Y, σ_Z} | DD×CC cross terms | F70 restricted to site-local observables |
 | 4 | **New (vac, S_1)** | Σ_i Tr(ρ_i²) (spatial sum) at (vac, S_1) probe | single-excitation sine modes ψ_k | H-dependent parts of Σ_i \|ρ_{coh,i,01}\|² | Σ_k \|⟨ψ_k \| S_1⟩\|² = 1 + uniform 2γ₀ decay rate on d_H = 1 block |
 | 5 | **Π-pair flux balance** | pair-sum Re(λ_s + λ_{s'}) under bond perturbation | Π-paired Liouvillian eigenmodes | pair-sum shift Δ[Re(λ_s) + Re(λ_{s'})] under δJ | XY-weight ⟨n_XY⟩ parity within Π-pair (absorption theorem) |
+| 6 | **M_α-polynomial J-blindness** | ∂(any observable)/∂J_b at uniform J | symmetric polynomials in M_α = Σ σ_α^i | M_α-polynomial subspace (full S=N/2 multiplet) | SU(2) Casimir (total S²) under Heisenberg H |
 
 Every row follows the **same template**:
 - A basis that respects a symmetry / conservation.
@@ -127,7 +130,29 @@ Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval 
 
 **Consequence:** spatial-sum detectors are exactly blind to the Hamiltonian-dependent structure of the (vac, S_1) coherence. Only per-site detectors (like LSQ's α_i fit) can see it.
 
-### 2.5 Common pattern across the four
+### 2.6 Instance 6: M_α-polynomial J-blindness (and the J-blind-receiver class structure)
+
+**Statement (strong form, Class 3).** Under SU(2)-symmetric Heisenberg H = Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}) with uniform Z-dephasing γ₀, every initial state ρ_0 lying in the polynomial algebra of one Pauli axis M_α = Σ_i σ_α^i satisfies
+
+```
+∂ρ(t) / ∂J_b  =  0    identically, all orders, all bonds b, all t ≥ 0.
+```
+
+**Proof template applied.** L_D is diagonal in the Pauli-string basis with eigenvalue −2γ₀ k for a string with k σ_α-perpendicular Pauli factors, so L_D^n ρ_0 stays in the {I, σ_α^i}^⊗N subspace. Newton's identities express the elementary symmetric polynomials e_k of the σ_α^i in terms of the power sums p_j = Σ_i (σ_α^i)^j; since (σ_α^i)² = I, the power sums collapse to p_j = M_α (j odd) or p_j = NI (j even). Hence every e_k is a polynomial in M_α and I alone. SU(2) symmetry gives [H, M_α] = 0 (total spin conservation), hence [H, polynomial in M_α] = 0. Therefore L_H L_D^n ρ_0 = 0 for all n, and exp(L t) ρ_0 = exp(L_D t) ρ_0 with L_H never gaining traction. J-Jacobian zero exactly.
+
+**Orthogonality source.** Newton's identities + (σ_α^i)² = I (Pauli square involution) + SU(2) Casimir conservation. The blind subspace is the M_α-polynomial subalgebra, which is exactly the S=N/2 multiplet of SU(2) (entire Dicke ladder).
+
+**N=5 examples.** |+⟩⁵ (M_x-polynomial under Heisenberg, dephasing along z); all Dicke states |S_k⟩ for k = 0, ..., N (entire S=N/2 multiplet). The morning RESULT verified |+⟩⁵, Dicke |S_1⟩ at floating-point precision; Dicke |S_k⟩ for k ≥ 2 follow as theorem-consequence (predicted, not numerically verified at N=5 in the morning sweep).
+
+**Why SU(2) is load-bearing.** The afternoon refinement RESULT swapped Heisenberg for XY-only (XX+YY) at the same parameters. |+⟩⁵ became J-sensitive with channel capacity C = 9.42 bits, Dicke |S_1⟩ became J-sensitive with C = 7.70 bits. Mechanism: [H_XY, M_x] ≠ 0 because XY conserves only U(1), not the full SU(2) Casimir, breaking the proof at Step 5. Class 3 J-blindness is an SU(2)-Heisenberg phenomenon; its U(1)-version, if any, would replace SU(2) symmetry with U(1) plus an additional condition, and is open.
+
+**Class 3 strong form. Two H-independent siblings.** The full J-blind set decomposes into three structurally distinct mechanism classes. Class 1 (DFS of L_D: ρ_0 with [σ_z^i, ρ_0] = 0 for all i; example |0⟩⁵, |1⟩⁵) is H-independent: the DFS condition has nothing to do with H. Class 2 (H-degenerate L_D-closed subspace: ρ_0 lives in a finite-dim subspace of H-eigenstates sharing one eigenvalue, invariant under L_D; example GHZ_5 via the 2-dim block span{|0⟩⁵⟨0|⁵, |1⟩⁵⟨1|⁵, |0⟩⁵⟨1|⁵, |1⟩⁵⟨0|⁵}) is H-independent in the structural sense: the existence of such a block is the load-bearing property. Both Class 1 and Class 2 are special cases of the meta-theorem at L_D-invariant subspaces; they could be folded into Instance 4 (F73 closure) generalised, since both rely on the same "L_D respects an invariant subspace, J-perturbations of H act trivially on it" mechanism that drives F73 in the (vac, S_1) sector.
+
+Instance 6 in the table is the genuinely new case: the polynomial algebra of M_α is a subalgebra that is **not** an L_D-eigenspace. L_D acts non-trivially on its elements (e.g. |+⟩⁵ has all Pauli-string content in {I, σ_x}^⊗N, of which all but the I-only string have non-zero L_D eigenvalue). What makes Class 3 J-blind is the combination of L_D respecting the polynomial algebra (Newton's identities) AND H respecting it (SU(2) Casimir). Two conservation laws acting in concert, rather than one. This is the structurally novel piece relative to Instances 1-5.
+
+**Full three-class doc.** [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md) gives the complete decomposition with overlap structure, H-robustness table, operational consequence (≤ 12.07 bits J-modulation channel capacity at N=5 Heisenberg over F71-symmetric receivers), and connection to the existing repo characterisations of GHZ (XOR_SPACE drain projection, F60 below-fold birth, F69 sector-mix lift at N=3). The Class 2 reading complements rather than replaces these: GHZ DECAYS maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements address different derivatives of the same trajectory.
+
+### 2.7 Common pattern across the six
 
 The structural dependency graph is:
 
@@ -139,13 +164,14 @@ Parseval/Plancherel          Noether conservation
          \                     /
            Orthogonality-Selection Meta-Theorem
                       |
-       --------+------+------+-------------
-      /        |             |              \
-    F70       F71        F72-cand        (vac, S_1)
-  (sector)   (parity)   (DD⊕CC)          closure
+       ----+----+----+----+----+----+
+      /    |    |    |    |    |    \
+    F70  F71  F72  (vac,  Π-pair  M_α-poly
+   (Δ N) (par) (DD⊕  S_1)  (flux)  (J-blind,
+                CC)  closure         SU(2))
 ```
 
-Each leaf is a special case. The root is the meta-theorem. The trunk is Parseval+Noether.
+Each leaf is a special case. The root is the meta-theorem. The trunk is Parseval+Noether. Instance 6 (M_α-poly) requires two conservation laws acting in concert (Newton's identities on σ_α^i + SU(2) Casimir), not one; this is the structurally novel feature relative to Instances 1-5. The two H-independent J-blind classes (DFS of L_D, H-degenerate L_D-closed block) are not separate leaves on this diagram; they are special cases of Instance 4's L_D-invariant-subspace mechanism, see [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md) for the full three-class decomposition.
 
 ---
 

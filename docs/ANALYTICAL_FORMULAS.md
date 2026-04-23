@@ -1605,6 +1605,7 @@ The argument uses only (i) [H, N_total] = 0 so dynamics stay in SE, (ii) H Hermi
 
 **Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline), [`f73_u1_generalization_sweep.py`](../simulations/f73_u1_generalization_sweep.py) (U(1)-class sweep).
 **Source:** F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
+**See also:** [J_BLIND_RECEIVER_CLASSES](../experiments/J_BLIND_RECEIVER_CLASSES.md) generalises the L_D-invariant-subspace mechanism behind this closure to a three-class decomposition of J-blind initial states (DFS of L_D, H-degenerate L_D-closed block, M_α-polynomial subspace under SU(2)-Heisenberg).
 
 ### F74. Chromaticity of single-step coherence blocks (Tier 1, combinatorial)
 
