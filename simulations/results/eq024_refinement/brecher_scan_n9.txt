@@ -1,0 +1,43 @@
+=== N=9 scan ===
+Start: 2026-04-23T18:32:53Z
+[N=9] Init=plus J=1,1,1,1,1,1,1,1
+    start: 18:32:53
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.60 SumMI5=0.000000 ComputeTime=15.23s
+[N=9] Init=plus J=1,1,1,1,0.01,1,1,1
+    start: 18:33:09
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.00 SumMI5=0.000000 ComputeTime=15.20s
+[N=9] Init=plus J=5,0.2,5,0.2,5,0.2,5,0.2
+    start: 18:33:25
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.40 SumMI5=0.000000 ComputeTime=72.25s
+[N=9] Init=xpattern:+-+-+-+-+ J=1,1,1,1,1,1,1,1
+    start: 18:34:38
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=4.589817 PeakT=0.20 SumMI5=0.470616 ComputeTime=15.04s
+[N=9] Init=xpattern:+-+-+-+-+ J=1,1,1,1,0.01,1,1,1
+    start: 18:34:53
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=4.633046 PeakT=0.20 SumMI5=0.567055 ComputeTime=15.03s
+[N=9] Init=xpattern:+-+-+-+-+ J=5,0.2,5,0.2,5,0.2,5,0.2
+    start: 18:35:09
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=6.588124 PeakT=0.10 SumMI5=0.488831 ComputeTime=71.64s
+[N=9] Init=bits:010101010 J=1,1,1,1,1,1,1,1
+    start: 18:36:21
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=4.701293 PeakT=0.20 SumMI5=0.759278 ComputeTime=14.93s
+[N=9] Init=bits:010101010 J=1,1,1,1,0.01,1,1,1
+    start: 18:36:37
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=4.796931 PeakT=0.20 SumMI5=1.022331 ComputeTime=15.10s
+[N=9] Init=bits:010101010 J=5,0.2,5,0.2,5,0.2,5,0.2
+    start: 18:36:53
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=7.071048 PeakT=0.40 SumMI5=1.392589 ComputeTime=71.95s
+[N=9] Init=xpattern:+0+0+0+0+ J=1,1,1,1,1,1,1,1
+    start: 18:38:05
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=1.628376 PeakT=0.20 SumMI5=0.236200 ComputeTime=15.08s
+[N=9] Init=xpattern:+0+0+0+0+ J=1,1,1,1,0.01,1,1,1
+    start: 18:38:21
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=1.670652 PeakT=0.30 SumMI5=0.366910 ComputeTime=15.39s
+[N=9] Init=xpattern:+0+0+0+0+ J=5,0.2,5,0.2,5,0.2,5,0.2
+    start: 18:38:37
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=2.239753 PeakT=0.10 SumMI5=0.331674 ComputeTime=71.90s
+Done: 2026-04-23T18:39:50Z
