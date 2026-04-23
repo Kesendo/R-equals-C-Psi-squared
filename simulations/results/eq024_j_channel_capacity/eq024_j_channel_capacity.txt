@@ -1,0 +1,124 @@
+EQ-024: J-modulation channel capacity at N=5 (multi-state sweep)
+======================================================================
+gamma_0 = 0.05 uniform
+J_ref = 1.0 uniform (full Heisenberg XX+YY+ZZ)
+t_points = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+Features per time: 25  ->  total 150
+Input: 4 per-bond J perturbations
+
+STEP 0: H-EIGENSTATE CHECK (at uniform J=1)
+--------------------------------------------------
+           plus^N  H-eigenstate: YES  E=+4.0000
+           zero^N  H-eigenstate: YES  E=+4.0000
+              GHZ  H-eigenstate: YES  E=+4.0000
+          |01010>  H-eigenstate: NO
+          |+0+0+>  H-eigenstate: NO
+          |+-+-+>  H-eigenstate: NO
+      Dicke |S_1>  H-eigenstate: YES  E=+4.0000
+
+  Prediction: every H-eigenstate has A_J = 0 identically (see module docstring).
+
+======================================================================
+STATE: plus^N
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 2.666558e-11
+  Singular values: 1.702398e-11, 1.430796e-11, 1.089934e-11, 9.885541e-12
+  Effective rank (sv > 1% of max): 4
+  Computation time: 81.6 s
+  Capacity (sigma=0.01, spread=0.02): 0.00 bits  [structural zero, max |sv| = 1.70e-11]
+
+======================================================================
+STATE: zero^N
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 0.000000e+00
+  Singular values: 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00
+  Effective rank (sv > 1% of max): 0
+  Computation time: 73.9 s
+  Capacity (sigma=0.01, spread=0.02): 0.00 bits  [structural zero, max |sv| = 0.00e+00]
+
+======================================================================
+STATE: GHZ
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 0.000000e+00
+  Singular values: 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00
+  Effective rank (sv > 1% of max): 0
+  Computation time: 64.5 s
+  Capacity (sigma=0.01, spread=0.02): 0.00 bits  [structural zero, max |sv| = 0.00e+00]
+
+======================================================================
+STATE: |01010>
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 9.623084e+00
+  Singular values: 8.115009e+00, 3.710029e+00, 3.076109e+00, 1.877129e+00
+  Effective rank (sv > 1% of max): 4
+  Computation time: 48.2 s
+  Capacity (sigma=0.01, spread=0.02): 11.53 bits  (F30 gamma: 15.45 bits)
+  SVD bond modes (right singular vectors):
+    ch1  sv=8.1150e+00  V=[+0.704, +0.067, +0.067, +0.704]  [F71-sym]
+    ch2  sv=3.7100e+00  V=[+0.067, -0.704, -0.704, +0.067]  [F71-sym]
+    ch3  sv=3.0761e+00  V=[-0.328, -0.626, +0.626, +0.328]  [F71-anti]
+    ch4  sv=1.8771e+00  V=[-0.626, +0.328, -0.328, +0.626]  [F71-anti]
+
+======================================================================
+STATE: |+0+0+>
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 1.002308e+01
+  Singular values: 8.715751e+00, 3.978626e+00, 2.699589e+00, 1.174973e+00
+  Effective rank (sv > 1% of max): 4
+  Computation time: 31.8 s
+  Capacity (sigma=0.01, spread=0.02): 10.95 bits  (F30 gamma: 15.45 bits)
+  SVD bond modes (right singular vectors):
+    ch1  sv=8.7158e+00  V=[-0.320, -0.631, -0.631, -0.320]  [F71-sym]
+    ch2  sv=3.9786e+00  V=[+0.631, -0.320, -0.320, +0.631]  [F71-sym]
+    ch3  sv=2.6996e+00  V=[+0.428, +0.563, -0.563, -0.428]  [F71-anti]
+    ch4  sv=1.1750e+00  V=[-0.563, +0.428, -0.428, +0.563]  [F71-anti]
+
+======================================================================
+STATE: |+-+-+>
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 1.062279e+01
+  Singular values: 8.987100e+00, 4.306061e+00, 3.174690e+00, 1.858720e+00
+  Effective rank (sv > 1% of max): 4
+  Computation time: 41.6 s
+  Capacity (sigma=0.01, spread=0.02): 11.92 bits  (F30 gamma: 15.45 bits)
+  SVD bond modes (right singular vectors):
+    ch1  sv=8.9871e+00  V=[+0.701, +0.092, +0.092, +0.701]  [F71-sym]
+    ch2  sv=4.3061e+00  V=[-0.092, +0.701, +0.701, -0.092]  [F71-sym]
+    ch3  sv=3.1747e+00  V=[-0.320, -0.631, +0.631, +0.320]  [F71-anti]
+    ch4  sv=1.8587e+00  V=[-0.631, +0.320, -0.320, +0.631]  [F71-anti]
+
+======================================================================
+STATE: Dicke |S_1>
+======================================================================
+  Jacobian shape: (150, 4)
+  Frobenius norm: 4.413831e-11
+  Singular values: 3.406775e-11, 2.275765e-11, 1.231232e-11, 1.086623e-11
+  Effective rank (sv > 1% of max): 4
+  Computation time: 31.5 s
+  Capacity (sigma=0.01, spread=0.02): 0.00 bits  [structural zero, max |sv| = 3.41e-11]
+
+======================================================================
+SUMMARY TABLE  (spread=0.02, sigma=0.01)
+======================================================================
+
+               state   H-eig?        |A|_F       sv_max   rank   C (bits)    vs F30 15.45
+  --------------------------------------------------------------------------------------------
+              plus^N      yes   2.6666e-11   1.7024e-11      4       0.00          -15.45
+              zero^N      yes   0.0000e+00   0.0000e+00      0       0.00          -15.45
+                 GHZ      yes   0.0000e+00   0.0000e+00      0       0.00          -15.45
+             |01010>       no   9.6231e+00   8.1150e+00      4      11.53           -3.92
+             |+0+0+>       no   1.0023e+01   8.7158e+00      4      10.95           -4.50
+             |+-+-+>       no   1.0623e+01   8.9871e+00      4      11.92           -3.53
+         Dicke |S_1>      yes   4.4138e-11   3.4068e-11      4       0.00          -15.45
+
+Reference (F30 gamma, |+>^5): gamma-Jacobian 150 x 5, SVs = [21.3935, 4.5342, 3.2165, 2.8291, 1.443], C = 15.45 bits
+
+Total runtime: 373.1 s
+JSON dump: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_j_channel_capacity\eq024_jacobian_n5_multistate.json
+Text log:  D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_j_channel_capacity\eq024_j_channel_capacity.txt
