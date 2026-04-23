@@ -1,0 +1,557 @@
+{
+  "meta": {
+    "N": 5,
+    "gamma_0": 0.05,
+    "t_scan": [
+      0.1,
+      0.4820512820512821,
+      0.8641025641025641,
+      1.2461538461538464,
+      1.6282051282051284,
+      2.01025641025641,
+      2.3923076923076927,
+      2.7743589743589747,
+      3.1564102564102567,
+      3.5384615384615388,
+      3.920512820512821,
+      4.302564102564102,
+      4.684615384615385,
+      5.066666666666666,
+      5.448717948717949,
+      5.8307692307692305,
+      6.212820512820513,
+      6.594871794871795,
+      6.976923076923077,
+      7.3589743589743595,
+      7.741025641025641,
+      8.123076923076923,
+      8.505128205128205,
+      8.887179487179488,
+      9.26923076923077,
+      9.651282051282053,
+      10.033333333333333,
+      10.415384615384616,
+      10.797435897435898,
+      11.17948717948718,
+      11.561538461538461,
+      11.943589743589744,
+      12.325641025641026,
+      12.707692307692309,
+      13.089743589743591,
+      13.471794871794872,
+      13.853846153846154,
+      14.235897435897437,
+      14.61794871794872,
+      15.0
+    ],
+    "J_profiles": {
+      "Uniform J=1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Cut bond 1-2 (eps=0.01)": [
+        1.0,
+        0.01,
+        1.0,
+        1.0
+      ],
+      "Cut bond 2-3 (eps=0.01)": [
+        1.0,
+        1.0,
+        0.01,
+        1.0
+      ],
+      "Cut bond 0-1 (eps=0.01, edge)": [
+        0.01,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Dominant center bond (J=5)": [
+        1.0,
+        1.0,
+        5.0,
+        1.0
+      ],
+      "Dominant edge bond (J=5)": [
+        5.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "V-shape J (0.5 edge, 1 center)": [
+        0.5,
+        1.0,
+        1.0,
+        0.5
+      ],
+      "Inverse-V J (1 edge, 0.2)": [
+        1.0,
+        0.2,
+        0.2,
+        1.0
+      ],
+      "Strong-weak alternating": [
+        5.0,
+        0.2,
+        5.0,
+        0.2
+      ]
+    },
+    "initial_states": [
+      "|+>^5 (control, Class 3 J-blind)",
+      "|+-+-+> (morning 11.92-bit champion)",
+      "|01010> (morning alt)",
+      "|+0+0+> (morning alt)"
+    ]
+  },
+  "results": {
+    "|+>^5 (control, Class 3 J-blind)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.0436096431476471e-14,
+        "peak_t": 13.853846153846154,
+        "ratio_to_uniform": null,
+        "compute_time_s": 47.33124494552612
+      },
+      "Cut bond 1-2 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 5.551115123125783e-15,
+        "peak_t": 11.17948717948718,
+        "ratio_to_uniform": null,
+        "compute_time_s": 51.23361277580261
+      },
+      "Cut bond 2-3 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0
+        ],
+        "peak_sum_mi": 7.993605777301127e-15,
+        "peak_t": 7.741025641025641,
+        "ratio_to_uniform": null,
+        "compute_time_s": 47.77223300933838
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 4.218847493575595e-15,
+        "peak_t": 8.505128205128205,
+        "ratio_to_uniform": null,
+        "compute_time_s": 41.88834023475647
+      },
+      "Dominant center bond (J=5)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          5.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.220446049250313e-14,
+        "peak_t": 11.561538461538461,
+        "ratio_to_uniform": null,
+        "compute_time_s": 49.166342973709106
+      },
+      "Dominant edge bond (J=5)": {
+        "J_vec": [
+          5.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 3.3084646133829665e-14,
+        "peak_t": 15.0,
+        "ratio_to_uniform": null,
+        "compute_time_s": 48.76980257034302
+      },
+      "V-shape J (0.5 edge, 1 center)": {
+        "J_vec": [
+          0.5,
+          1.0,
+          1.0,
+          0.5
+        ],
+        "peak_sum_mi": 1.0658141036401503e-14,
+        "peak_t": 15.0,
+        "ratio_to_uniform": null,
+        "compute_time_s": 44.89446258544922
+      },
+      "Inverse-V J (1 edge, 0.2)": {
+        "J_vec": [
+          1.0,
+          0.2,
+          0.2,
+          1.0
+        ],
+        "peak_sum_mi": 9.769962616701378e-15,
+        "peak_t": 15.0,
+        "ratio_to_uniform": null,
+        "compute_time_s": 43.41855812072754
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2
+        ],
+        "peak_sum_mi": 3.552713678800501e-14,
+        "peak_t": 6.594871794871795,
+        "ratio_to_uniform": null,
+        "compute_time_s": 48.3734974861145
+      }
+    },
+    "|+-+-+> (morning 11.92-bit champion)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.3205921202647442,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.0,
+        "compute_time_s": 47.88024115562439
+      },
+      "Cut bond 1-2 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.374591903184604,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 1.7981266635973572,
+        "compute_time_s": 51.31662940979004
+      },
+      "Cut bond 2-3 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0
+        ],
+        "peak_sum_mi": 2.3745919031846054,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 1.798126663597358,
+        "compute_time_s": 38.892420053482056
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.186558814447206,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 0.8985051449567425,
+        "compute_time_s": 42.31119751930237
+      },
+      "Dominant center bond (J=5)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          5.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.9338326157437975,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.4643678286949908,
+        "compute_time_s": 43.49473452568054
+      },
+      "Dominant edge bond (J=5)": {
+        "J_vec": [
+          5.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.2533745184343914,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.7063364863805555,
+        "compute_time_s": 43.76394844055176
+      },
+      "V-shape J (0.5 edge, 1 center)": {
+        "J_vec": [
+          0.5,
+          1.0,
+          1.0,
+          0.5
+        ],
+        "peak_sum_mi": 1.2618228899896036,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 0.9554978184608894,
+        "compute_time_s": 41.08614683151245
+      },
+      "Inverse-V J (1 edge, 0.2)": {
+        "J_vec": [
+          1.0,
+          0.2,
+          0.2,
+          1.0
+        ],
+        "peak_sum_mi": 2.9383043881237905,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 2.2249900957569984,
+        "compute_time_s": 41.0435893535614
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2
+        ],
+        "peak_sum_mi": 3.2998205440486936,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 2.49874317240903,
+        "compute_time_s": 43.43906021118164
+      }
+    },
+    "|01010> (morning alt)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.3775722705272289,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.0,
+        "compute_time_s": 39.90170764923096
+      },
+      "Cut bond 1-2 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.904235972103922,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 2.1082276656108965,
+        "compute_time_s": 40.38135027885437
+      },
+      "Cut bond 2-3 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0
+        ],
+        "peak_sum_mi": 2.904235972103918,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 2.108227665610894,
+        "compute_time_s": 38.72946095466614
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.2697869678489675,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 0.9217570613286159,
+        "compute_time_s": 39.46307373046875
+      },
+      "Dominant center bond (J=5)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          5.0,
+          1.0
+        ],
+        "peak_sum_mi": 1.9813761006461914,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.4383100930798156,
+        "compute_time_s": 40.21141600608826
+      },
+      "Dominant edge bond (J=5)": {
+        "J_vec": [
+          5.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 2.310882750148145,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.677503822912838,
+        "compute_time_s": 39.373225688934326
+      },
+      "V-shape J (0.5 edge, 1 center)": {
+        "J_vec": [
+          0.5,
+          1.0,
+          1.0,
+          0.5
+        ],
+        "peak_sum_mi": 1.3574198066939038,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 0.9853710296987814,
+        "compute_time_s": 37.08622980117798
+      },
+      "Inverse-V J (1 edge, 0.2)": {
+        "J_vec": [
+          1.0,
+          0.2,
+          0.2,
+          1.0
+        ],
+        "peak_sum_mi": 3.195659495138691,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 2.319776293054765,
+        "compute_time_s": 36.28862166404724
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2
+        ],
+        "peak_sum_mi": 3.3824859427579805,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 2.455396362953375,
+        "compute_time_s": 37.92308044433594
+      }
+    },
+    "|+0+0+> (morning alt)": {
+      "Uniform J=1": {
+        "J_vec": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 0.6099510220547493,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 1.0,
+        "compute_time_s": 35.11058759689331
+      },
+      "Cut bond 1-2 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          0.01,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 0.8402864999216144,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 1.3776294645608287,
+        "compute_time_s": 33.211714029312134
+      },
+      "Cut bond 2-3 (eps=0.01)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          0.01,
+          1.0
+        ],
+        "peak_sum_mi": 0.840286499921614,
+        "peak_t": 1.2461538461538464,
+        "ratio_to_uniform": 1.3776294645608278,
+        "compute_time_s": 29.98317265510559
+      },
+      "Cut bond 0-1 (eps=0.01, edge)": {
+        "J_vec": [
+          0.01,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 0.648473185163113,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 1.0631561579790352,
+        "compute_time_s": 27.278764963150024
+      },
+      "Dominant center bond (J=5)": {
+        "J_vec": [
+          1.0,
+          1.0,
+          5.0,
+          1.0
+        ],
+        "peak_sum_mi": 0.6676155202502417,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.0945395549977723,
+        "compute_time_s": 24.894792795181274
+      },
+      "Dominant edge bond (J=5)": {
+        "J_vec": [
+          5.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "peak_sum_mi": 0.7561859978069485,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.2397487182816347,
+        "compute_time_s": 29.142545461654663
+      },
+      "V-shape J (0.5 edge, 1 center)": {
+        "J_vec": [
+          0.5,
+          1.0,
+          1.0,
+          0.5
+        ],
+        "peak_sum_mi": 0.5857992522763305,
+        "peak_t": 0.8641025641025641,
+        "ratio_to_uniform": 0.9604037555391604,
+        "compute_time_s": 28.529154300689697
+      },
+      "Inverse-V J (1 edge, 0.2)": {
+        "J_vec": [
+          1.0,
+          0.2,
+          0.2,
+          1.0
+        ],
+        "peak_sum_mi": 0.9978883435827317,
+        "peak_t": 0.4820512820512821,
+        "ratio_to_uniform": 1.6360138888219802,
+        "compute_time_s": 28.528791904449463
+      },
+      "Strong-weak alternating": {
+        "J_vec": [
+          5.0,
+          0.2,
+          5.0,
+          0.2
+        ],
+        "peak_sum_mi": 1.1297157896122945,
+        "peak_t": 0.1,
+        "ratio_to_uniform": 1.8521418093646396,
+        "compute_time_s": 31.737978219985962
+      }
+    }
+  },
+  "reference": {
+    "gamma_sacrifice_peak_sum_mi_N5": 0.23,
+    "gamma_sacrifice_source": "RESONANT_RETURN Test 8",
+    "note": "Not operationally available under gamma_0 = const."
+  }
+}

@@ -1,0 +1,100 @@
+EQ-024 refinement: Brecher-Test (J-Sacrifice at SU(2)-breaking receivers)
+========================================================================
+N = 5, gamma_0 = 0.05 uniform on ALL sites
+Initial states: SU(2)-breaking product states (not H-eigenstates)
+
+Tom's three scenarios:
+  (1) >= 100x boost: Sacrifice-analog via J exists under gamma_0 = const
+  (2) < 10x boost:   J cannot replicate gamma-Sacrifice fundamentally
+  (3) 10x to 50x:    J has own transport lever, weaker than gamma
+
+========================================================================
+INITIAL STATE: |+>^5 (control, Class 3 J-blind)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform
+  ------------------------------------------------------------------------
+  Uniform J=1                               0.0000    13.85         nanx
+  Cut bond 1-2 (eps=0.01)                   0.0000    11.18         nanx
+  Cut bond 2-3 (eps=0.01)                   0.0000     7.74         nanx
+  Cut bond 0-1 (eps=0.01, edge)             0.0000     8.51         nanx
+  Dominant center bond (J=5)                0.0000    11.56         nanx
+  Dominant edge bond (J=5)                  0.0000    15.00         nanx
+  V-shape J (0.5 edge, 1 center)            0.0000    15.00         nanx
+  Inverse-V J (1 edge, 0.2)                 0.0000    15.00         nanx
+  Strong-weak alternating                   0.0000     6.59         nanx
+
+  Uniform-J baseline is zero (or all ratios undefined); J-Modulation
+  produces no MI at any profile. SCENARIO 2 (J cannot replicate).
+
+========================================================================
+INITIAL STATE: |+-+-+> (morning 11.92-bit champion)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform
+  ------------------------------------------------------------------------
+  Uniform J=1                               1.3206     0.10        1.00x
+  Cut bond 1-2 (eps=0.01)                   2.3746     1.25        1.80x
+  Cut bond 2-3 (eps=0.01)                   2.3746     1.25        1.80x
+  Cut bond 0-1 (eps=0.01, edge)             1.1866     0.48        0.90x
+  Dominant center bond (J=5)                1.9338     0.10        1.46x
+  Dominant edge bond (J=5)                  2.2534     0.10        1.71x
+  V-shape J (0.5 edge, 1 center)            1.2618     0.48        0.96x
+  Inverse-V J (1 edge, 0.2)                 2.9383     0.48        2.22x
+  Strong-weak alternating                   3.2998     0.10        2.50x
+
+  Best J-modulation boost at this receiver: 2.50x over uniform-J
+  Verdict: SCENARIO 2: J fundamentally cannot replicate
+
+========================================================================
+INITIAL STATE: |01010> (morning alt)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform
+  ------------------------------------------------------------------------
+  Uniform J=1                               1.3776     0.10        1.00x
+  Cut bond 1-2 (eps=0.01)                   2.9042     1.25        2.11x
+  Cut bond 2-3 (eps=0.01)                   2.9042     1.25        2.11x
+  Cut bond 0-1 (eps=0.01, edge)             1.2698     0.48        0.92x
+  Dominant center bond (J=5)                1.9814     0.10        1.44x
+  Dominant edge bond (J=5)                  2.3109     0.10        1.68x
+  V-shape J (0.5 edge, 1 center)            1.3574     0.48        0.99x
+  Inverse-V J (1 edge, 0.2)                 3.1957     0.48        2.32x
+  Strong-weak alternating                   3.3825     0.10        2.46x
+
+  Best J-modulation boost at this receiver: 2.46x over uniform-J
+  Verdict: SCENARIO 2: J fundamentally cannot replicate
+
+========================================================================
+INITIAL STATE: |+0+0+> (morning alt)
+========================================================================
+  J-profile                             Peak SumMI   Peak t   vs Uniform
+  ------------------------------------------------------------------------
+  Uniform J=1                               0.6100     1.25        1.00x
+  Cut bond 1-2 (eps=0.01)                   0.8403     1.25        1.38x
+  Cut bond 2-3 (eps=0.01)                   0.8403     1.25        1.38x
+  Cut bond 0-1 (eps=0.01, edge)             0.6485     0.48        1.06x
+  Dominant center bond (J=5)                0.6676     0.10        1.09x
+  Dominant edge bond (J=5)                  0.7562     0.10        1.24x
+  V-shape J (0.5 edge, 1 center)            0.5858     0.86        0.96x
+  Inverse-V J (1 edge, 0.2)                 0.9979     0.48        1.64x
+  Strong-weak alternating                   1.1297     0.10        1.85x
+
+  Best J-modulation boost at this receiver: 1.85x over uniform-J
+  Verdict: SCENARIO 2: J fundamentally cannot replicate
+
+========================================================================
+CROSS-RECEIVER SUMMARY
+========================================================================
+
+Reference: gamma-Sacrifice-Zone at |+>^5 under non-uniform gamma:
+           Peak SumMI = 0.230 (RESONANT_RETURN Test 8) = 360x V-shape.
+           NOT operationally available under gamma_0 = const.
+
+  Receiver                                  Uniform-J SumMI   Best J SumMI    Boost
+  --------------------------------------------------------------------------------
+  |+>^5 (control, Class 3 J-blind)                   0.0000         0.0000      n/a
+  |+-+-+> (morning 11.92-bit champion)               1.3206         3.2998    2.50x
+  |01010> (morning alt)                              1.3776         3.3825    2.46x
+  |+0+0+> (morning alt)                              0.6100         1.1297    1.85x
+
+Total runtime: 1433.9 s
+JSON: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\shadow_lens_broken.json
+Text: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_refinement\shadow_lens_broken.txt
