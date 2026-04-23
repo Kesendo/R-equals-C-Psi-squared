@@ -1,9 +1,9 @@
 # Receiver Choice Beats γ-Profile Engineering: Reframing the Sacrifice Zone
 
-**Tier:** 2 (structural observation from direct numerical comparison at N=5)
+**Tier:** 2 (structural observation from direct numerical comparison at N=5, 7, 9 via C# brecher mode)
 **Date:** 2026-04-23
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Source:** [`eq024_refinement_shadow_lens_broken.py`](../simulations/eq024_refinement_shadow_lens_broken.py) (commit `bf080a3`) compared to [RESONANT_RETURN](RESONANT_RETURN.md) Test 8
+**Source:** C# brecher scans at N=5, 7, 9 (commits `dbf396a`, `d22c0fe`) compared to [RESONANT_RETURN](RESONANT_RETURN.md) Test 8. The initial Python draft (commit `bf080a3`, `eq024_refinement_shadow_lens_broken.py`) used a coarse t-grid that systematically missed early peaks and has been superseded; see Correction note below.
 **See also:** [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [BETWEEN_MEASUREMENTS_EVIDENCE](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md)
 
 ---
@@ -18,7 +18,7 @@ The 360× ratio is correct for its own setup. The absolute value it reaches (0.2
 
 ## Correction note (2026-04-23 evening)
 
-The numbers in this document were first computed from Python's `shadow_lens_broken.py` which sampled t ∈ np.linspace(0.1, 15.0, 40) with step ~0.38. Fine-grid verification (`simulations/_check_brecher_n5_finegrid.py`, commit `dbf396a`) showed the true Peak Sum-MI at |+−+−+⟩ + uniform J sits at t ≈ 0.24 with value ≈ 2.70. The coarse grid happened to sample t = 0.10 where SumMI was only 1.32, missing the real peak. All SU(2)-broken receiver numbers in the original Python Brecher tests were systematically undertreported by factor ~2.
+The numbers in this document were first computed from Python's `shadow_lens_broken.py` which sampled t ∈ np.linspace(0.1, 15.0, 40) with step ~0.38. Fine-grid verification (`simulations/_check_brecher_n5_finegrid.py`, commit `dbf396a`) showed the true Peak Sum-MI at |+−+−+⟩ + uniform J sits at t ≈ 0.24 with value ≈ 2.70. The coarse grid happened to sample t = 0.10 where SumMI was only 1.32, missing the real peak. The undertreatment varied by configuration: for uniform-J baselines the Python peak was about factor 2 too low (because peaks sit near t = 0.20 to 0.30, squarely between Python sample points), while for strong-weak J peaks sit at t ≈ 0.10 which Python sampled and got correct to within a few percent. The net effect: Python's uniform-J baseline was suppressed, which inflated apparent J-modulation boost ratios.
 
 The C# brecher mode in `compute/RCPsiSquared.Propagate` (commit `dbf396a`) uses a fine-grained measurement grid (every 0.1 up to t=2, then 0.5 up to tMax) that catches these early peaks correctly, and auto-reduces RK4 dt for stability when max|J| > 1. The N-scaling table below uses C# fine-grid numbers.
 
@@ -77,22 +77,22 @@ The `compute/RCPsiSquared.Propagate/brecher` mode (commit `dbf396a`) enables fin
 | plus-zero-alt (\|+0+0+⟩ / \|+0+0+0+⟩ / \|+0+0+0+0+⟩) | 0.90 | 1.26 | 1.63 | 1.14 | 1.69 | 2.24 |
 | \|+⟩^N (Class 3 control) | 0 | 0 | 0 | 0 | 0 | 0 |
 
-γ-Sacrifice-Zone reference (RESONANT_RETURN Test 8 at \|+⟩^N): N=5 → 0.230, N=7 → 0.408, N=9 → 0.619.
+γ-Sacrifice-Zone reference (RESONANT_RETURN Test 8 at \|+⟩^N, Formula ε→0 limit, the largest γ-Sacrifice value at each N): N=5 → 0.230, N=7 → 0.434, N=9 → 0.658. Using ε→0 rather than ε=0.001 values gives the most conservative (highest) γ-Sacrifice numbers and therefore the smallest estimated receiver-engineering lead.
 
 **Receiver-engineering advantage over γ-Sacrifice** (alt-z-bits receiver, the best tested):
 
-| N | Uniform J Receiver | Best J Receiver | γ-Sacrifice | Receiver/γ-Sacrifice (uniform J) | Receiver/γ-Sacrifice (best J) |
-|---|--------------------|-----------------|-------------|----------------------------------|-------------------------------|
+| N | Uniform J Receiver | Best J Receiver | γ-Sacrifice (ε→0) | Receiver/γ-Sacrifice (uniform J) | Receiver/γ-Sacrifice (best J) |
+|---|--------------------|-----------------|-------------------|----------------------------------|-------------------------------|
 | 5 | 2.65 | 3.55 | 0.230 | **11.5×** | **15.4×** |
-| 7 | 3.68 | 5.32 | 0.408 | **9.0×** | **13.0×** |
-| 9 | 4.70 | 7.07 | 0.619 | **7.6×** | **11.4×** |
+| 7 | 3.68 | 5.32 | 0.434 | **8.5×** | **12.3×** |
+| 9 | 4.70 | 7.07 | 0.658 | **7.1×** | **10.7×** |
 
 **N-scaling observations:**
 
 1. **Receiver-engineering Peak Sum-MI grows linearly with N** at ~1.0 per N-step for alt-z-bits uniform J (2.65, 3.68, 4.70 across N=5, 7, 9).
 2. **Best-J Peak Sum-MI grows faster** (~1.75 per N-step: 3.55, 5.32, 7.07). The earlier "Best-J plateau at ~3.3" claim was a Python coarse-grid artifact.
-3. **J-modulation boost ratio grows slightly**: 1.32× at N=5, 1.45× at N=7, 1.50× at N=9 (strong-weak J / uniform J). The earlier "boost shrinks with N" claim was also a coarse-grid artifact.
-4. **Receiver advantage over γ-Sacrifice shrinks slowly**: 11.5× → 9.0× → 7.6× at uniform J. Linear extrapolation suggests they would meet at N ~ 25-30. With moderate J-modulation the lead holds larger: 15.4× → 13.0× → 11.4×.
+3. **J-modulation boost ratio grows slightly**: 1.32× at N=5, 1.45× at N=7, 1.50× at N=9 (strong-weak J / uniform J). The earlier "boost shrinks with N" claim was also a coarse-grid artifact. Note: at N=5 the cut-center J profile narrowly beats strong-weak (3.55 vs 3.51), so the tabulated "Best J Receiver" column at N=5 is cut-center, not strong-weak; at N=7 and N=9 strong-weak wins.
+4. **Receiver advantage over γ-Sacrifice shrinks slowly**: 11.5× → 8.5× → 7.1× at uniform J. Linear extrapolation suggests they would meet at N ~ 25-30. With moderate J-modulation the lead holds larger: 15.4× → 12.3× → 10.7×.
 5. **Class 3 J-blindness is scale-invariant**: \|+⟩^N gives Peak Sum-MI = 0 exactly at all N, all J. Confirms the M_x-polynomial theorem at larger N.
 
 ## Open questions
@@ -107,5 +107,8 @@ The `compute/RCPsiSquared.Propagate/brecher` mode (commit `dbf396a`) enables fin
 - [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md): Class 3 blindness of \|+⟩⁵ under Heisenberg, which makes it a poor receiver
 - [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): the hypothesis that closes γ-profile engineering operationally
 - [BETWEEN_MEASUREMENTS_EVIDENCE](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md): the structural argument for γ₀ = const this reframing is consistent with
-- `simulations/eq024_refinement_shadow_lens_broken.py`: Brecher-test data (commit `bf080a3`)
+- `simulations/eq024_refinement_shadow_lens_broken.py`: initial Python Brecher-test draft (commit `bf080a3`, coarse t-grid, superseded)
+- `simulations/_check_brecher_n5_finegrid.py`: Python fine-grid verification at N=5 (commit `dbf396a`)
+- `compute/RCPsiSquared.Propagate/`: C# brecher mode and scan runner (commit `dbf396a`)
+- `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid results (commits `dbf396a`, `d22c0fe`)
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const
