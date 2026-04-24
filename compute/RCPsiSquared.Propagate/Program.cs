@@ -1089,6 +1089,14 @@ void RunBrecherEvaluation(string[] pArgs)
     // direct transport measure, per Tom's MI(0, N-1) question 2026-04-24.
     double bestMI0N = -1, bestT_MI0N = 0;
     double mi0N_at_t5 = 0;
+    // Mirror-pair Sum-MI (F71-symmetric multi-end transport):
+    // MM = sum over k=0..(n/2-1) of MI(site k, site n-1-k).
+    // At N=5 this is MI(0,4) + MI(1,3). At N=9 it is MI(0,8)+MI(1,7)+MI(2,6)+MI(3,5).
+    // Captures the total F71-mirror-symmetric end-pair correlation (Tom's
+    // multi-ends question 2026-04-24).
+    double bestMM = -1, bestT_MM = 0;
+    double mm5 = 0;
+    int nMirrorPairs = n / 2; // floor(n/2): covers all non-self-mirror pairs
 
     var sw = Stopwatch.StartNew();
 
@@ -1114,23 +1122,23 @@ void RunBrecherEvaluation(string[] pArgs)
             double mi0N = DensityMatrixToolsRaw.MutualInformation(rho, d, n,
                 new[] { 0 }, new[] { n - 1 });
 
-            if (sumMI > bestSumMI)
-            {
-                bestSumMI = sumMI;
-                bestT = t;
-            }
-            if (mi0N > bestMI0N)
-            {
-                bestMI0N = mi0N;
-                bestT_MI0N = t;
-            }
+            double mm = 0;
+            for (int k = 0; k < nMirrorPairs; k++)
+                mm += DensityMatrixToolsRaw.MutualInformation(rho, d, n,
+                    new[] { k }, new[] { n - 1 - k });
+
+            if (sumMI > bestSumMI) { bestSumMI = sumMI; bestT = t; }
+            if (mi0N > bestMI0N) { bestMI0N = mi0N; bestT_MI0N = t; }
+            if (mm > bestMM) { bestMM = mm; bestT_MM = t; }
+
             if (Math.Abs(t - 5.0) < 0.01)
             {
                 sumMI5 = sumMI;
                 mi0N_at_t5 = mi0N;
+                mm5 = mm;
             }
 
-            Console.Error.Write($"\r  t={t:F2} SumMI={sumMI:F4} MI0N={mi0N:F4}");
+            Console.Error.Write($"\r  t={t:F2} SumMI={sumMI:F4} MI0N={mi0N:F4} MM={mm:F4}");
         });
         Console.Error.WriteLine();
     }
@@ -1154,20 +1162,20 @@ void RunBrecherEvaluation(string[] pArgs)
             double mi0N = DensityMatrixTools.MutualInformation(rho, n,
                 new[] { 0 }, new[] { n - 1 });
 
-            if (sumMI > bestSumMI)
-            {
-                bestSumMI = sumMI;
-                bestT = t;
-            }
-            if (mi0N > bestMI0N)
-            {
-                bestMI0N = mi0N;
-                bestT_MI0N = t;
-            }
+            double mm = 0;
+            for (int k = 0; k < nMirrorPairs; k++)
+                mm += DensityMatrixTools.MutualInformation(rho, n,
+                    new[] { k }, new[] { n - 1 - k });
+
+            if (sumMI > bestSumMI) { bestSumMI = sumMI; bestT = t; }
+            if (mi0N > bestMI0N) { bestMI0N = mi0N; bestT_MI0N = t; }
+            if (mm > bestMM) { bestMM = mm; bestT_MM = t; }
+
             if (Math.Abs(t - 5.0) < 0.01)
             {
                 sumMI5 = sumMI;
                 mi0N_at_t5 = mi0N;
+                mm5 = mm;
             }
         });
     }
@@ -1176,7 +1184,7 @@ void RunBrecherEvaluation(string[] pArgs)
 
     string jStr = string.Join(",", couplings.Select(j => j.ToString("F6", CultureInfo.InvariantCulture)));
     Console.WriteLine(FormattableString.Invariant(
-        $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} PeakMI0N={bestMI0N:F6} PeakT_MI0N={bestT_MI0N:F2} MI0N5={mi0N_at_t5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
+        $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} PeakMI0N={bestMI0N:F6} PeakT_MI0N={bestT_MI0N:F2} MI0N5={mi0N_at_t5:F6} PeakMM={bestMM:F6} PeakT_MM={bestT_MM:F2} MM5={mm5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
 }
 
 // Build initial state psi[d] from text spec. Throws ArgumentException on invalid input.
