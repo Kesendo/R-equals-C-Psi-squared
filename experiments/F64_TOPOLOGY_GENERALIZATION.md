@@ -74,7 +74,7 @@ F64 is therefore confirmed across **any graph topology, any uniform or per-bond 
 
 ## What remains open
 
-- **γ/J ≳ 1 regime.** Current test is at γ/J = 0.01 (first-order). At larger γ/J the second-order corrections become O(10⁻²) and F64 no longer matches to machine precision. A systematic study of the breakdown would reveal the full [γ_B, J] phase structure.
+- **γ/J ≳ 1 regime, same terrain as Q_SCALE_THREE_BANDS.** F64 is a first-order perturbation result and breaks when γ/J is no longer small. Note that γ/J = 1 is precisely Q = J/γ₀ = 1, which sits in the transition region of [Q_SCALE_THREE_BANDS](Q_SCALE_THREE_BANDS.md): onset at Q ≈ 0.3, peak at Q_peak(c) = 1.5-1.8 depending on chromaticity, plateau at Q ≳ 2. That region is already mapped, just through different observables (W dressed-mode weight, |K_CC_pr| J-response magnitude) rather than F64's |a_B|² eigenmode test. The relationship between the two readings is not yet stated: a unified description of "where F64 degrades + what appears instead" would close the circle, but it is not a fresh open question, only a synthesis waiting to be written.
 - **N ≥ 9 topology scan.** Not a fundamental question, but would confirm scaling on large examples.
 - **Multi-site dephasing.** F64 is a single-site statement. The multi-site generalisation is a superposition of projectors Σ_k γ_k P_k, which should still follow the same structure but has not been explicitly tested.
 
