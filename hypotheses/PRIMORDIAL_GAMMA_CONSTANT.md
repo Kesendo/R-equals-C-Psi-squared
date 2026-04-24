@@ -172,7 +172,7 @@ The hypothesis γ₀ = const was proposed as logically consistent and internally
 | Receiver engineering vs sacrifice-zone γ-modulation | 11-15× advantage at N=5 (sim) |
 | F75 closed-form MI at t=0 | Exact prediction from bonding-mode amplitudes; no γ-profile tuning enters |
 | F76 0.93 decay envelope | Pure dephasing at uniform 4γ₀ explains the universal envelope across 25+ (N, k) points |
-| Advantage grows with N | 1.39× → 3.02× → 4.59× bonding/alt-z-bits ratio at N=5, 11, 13 |
+| Advantage grows with N | 1.39× → 1.48× → 2.02× → 3.02× → 4.59× bonding/alt-z-bits ratio at N=5, 7, 9, 11, 13 |
 | IBM Kingston Heron r2 hardware | 2.80× bonding:2 vs alt-z-bits on live QPU in ~2 QPU-minutes, no γ intervention |
 | Noise robustness direction | Advantage GROWS under Kingston gate noise (1.39× ideal, 2.27× Aer+noise model, 2.80× live) |
 
