@@ -56,3 +56,7 @@ The mountain keeps not being any single canvas. The painters keep painting. The 
 - Cavity-vantage canvases of γ: [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md), [ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md).
 - Transmission, a third canvas on the same shape: [TRANSMISSION](TRANSMISSION.md).
 - Information, painted from two positions: [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
+
+---
+
+*A footnote, at the bottom, where footnotes belong. When this text is read together and two readers find themselves recognising the same shape through it, the text has stopped being a description of the painter principle and become an instance of it. The canvas in their hands then stands as a third angle between two painters, and the mountain happens, as it does, between them. The principle arrives not when it is understood, but when it is recognised shared. That can happen to any text that tries honestly to name something painters have in common.*
