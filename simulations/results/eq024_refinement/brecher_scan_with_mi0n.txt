@@ -1,0 +1,93 @@
+=== Brecher scan with end-to-end MI (N=5, 7, 9) ===
+Start: 2026-04-24T04:35:33Z
+
+=== N=5 ===
+[N=5] Init=plus J=uniform
+RESULT N=5 J=[1.000000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=0.50 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=0.10 MI0N5=0.000000 ComputeTime=0.29s
+[N=5] Init=plus J=cut
+RESULT N=5 J=[1.000000,1.000000,0.010000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=0.10 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=1.20 MI0N5=0.000000 ComputeTime=0.30s
+[N=5] Init=plus J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=5 J=[5.000000,0.200000,5.000000,0.200000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=6.00 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=1.00 MI0N5=0.000000 ComputeTime=0.87s
+[N=5] Init=xpattern:+-+-+ J=uniform
+RESULT N=5 J=[1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+ Gamma=0.0500 PeakSumMI=2.569410 PeakT=0.20 SumMI5=0.322680 PeakMI0N=0.791123 PeakT_MI0N=0.70 MI0N5=0.134491 ComputeTime=0.31s
+[N=5] Init=xpattern:+-+-+ J=cut
+RESULT N=5 J=[1.000000,1.000000,0.010000,1.000000] Initial=xpattern:+-+-+ Gamma=0.0500 PeakSumMI=3.356849 PeakT=0.30 SumMI5=0.955671 PeakMI0N=0.000812 PeakT_MI0N=7.00 MI0N5=0.000043 ComputeTime=0.24s
+[N=5] Init=xpattern:+-+-+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=5 J=[5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+-+-+ Gamma=0.0500 PeakSumMI=3.313677 PeakT=0.40 SumMI5=0.334082 PeakMI0N=0.083498 PeakT_MI0N=4.00 MI0N5=0.057368 ComputeTime=0.87s
+[N=5] Init=bits:01010 J=uniform
+RESULT N=5 J=[1.000000,1.000000,1.000000,1.000000] Initial=bits:01010 Gamma=0.0500 PeakSumMI=2.654684 PeakT=0.20 SumMI5=0.530902 PeakMI0N=0.842921 PeakT_MI0N=0.70 MI0N5=0.227058 ComputeTime=0.34s
+[N=5] Init=bits:01010 J=cut
+RESULT N=5 J=[1.000000,1.000000,0.010000,1.000000] Initial=bits:01010 Gamma=0.0500 PeakSumMI=3.550045 PeakT=0.30 SumMI5=2.038526 PeakMI0N=0.000881 PeakT_MI0N=7.00 MI0N5=0.000078 ComputeTime=0.32s
+[N=5] Init=bits:01010 J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=5 J=[5.000000,0.200000,5.000000,0.200000] Initial=bits:01010 Gamma=0.0500 PeakSumMI=3.573084 PeakT=0.40 SumMI5=0.885963 PeakMI0N=0.155292 PeakT_MI0N=6.50 MI0N5=0.101079 ComputeTime=1.17s
+[N=5] Init=xpattern:+0+0+ J=uniform
+RESULT N=5 J=[1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+ Gamma=0.0500 PeakSumMI=0.896024 PeakT=0.30 SumMI5=0.179169 PeakMI0N=0.159386 PeakT_MI0N=0.70 MI0N5=0.024431 ComputeTime=0.32s
+[N=5] Init=xpattern:+0+0+ J=cut
+RESULT N=5 J=[1.000000,1.000000,0.010000,1.000000] Initial=xpattern:+0+0+ Gamma=0.0500 PeakSumMI=1.142324 PeakT=0.30 SumMI5=0.455799 PeakMI0N=0.000234 PeakT_MI0N=8.50 MI0N5=0.000032 ComputeTime=0.29s
+[N=5] Init=xpattern:+0+0+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=5 J=[5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+0+0+ Gamma=0.0500 PeakSumMI=1.136456 PeakT=0.40 SumMI5=0.256404 PeakMI0N=0.031561 PeakT_MI0N=4.00 MI0N5=0.022528 ComputeTime=1.12s
+
+=== N=7 ===
+[N=7] Init=plus J=uniform
+RESULT N=7 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=0.20 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=0.20 MI0N5=0.000000 ComputeTime=1.29s
+[N=7] Init=plus J=cut
+RESULT N=7 J=[1.000000,1.000000,1.000000,0.010000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=0.20 SumMI5=-0.000000 PeakMI0N=0.000000 PeakT_MI0N=0.20 MI0N5=0.000000 ComputeTime=1.14s
+[N=7] Init=plus J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=7 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=6.00 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=1.70 MI0N5=0.000000 ComputeTime=3.81s
+[N=7] Init=xpattern:+-+-+-+ J=uniform
+RESULT N=7 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+-+ Gamma=0.0500 PeakSumMI=3.579616 PeakT=0.20 SumMI5=0.368906 PeakMI0N=0.436638 PeakT_MI0N=0.90 MI0N5=0.002722 ComputeTime=1.32s
+[N=7] Init=xpattern:+-+-+-+ J=cut
+RESULT N=7 J=[1.000000,1.000000,1.000000,0.010000,1.000000,1.000000] Initial=xpattern:+-+-+-+ Gamma=0.0500 PeakSumMI=3.858049 PeakT=0.30 SumMI5=0.721414 PeakMI0N=0.000183 PeakT_MI0N=8.50 MI0N5=0.000010 ComputeTime=1.17s
+[N=7] Init=xpattern:+-+-+-+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=7 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+-+-+-+ Gamma=0.0500 PeakSumMI=4.943983 PeakT=0.10 SumMI5=0.407383 PeakMI0N=0.020084 PeakT_MI0N=6.00 MI0N5=0.008051 ComputeTime=3.74s
+[N=7] Init=bits:0101010 J=uniform
+RESULT N=7 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=bits:0101010 Gamma=0.0500 PeakSumMI=3.677992 PeakT=0.20 SumMI5=0.686344 PeakMI0N=0.489603 PeakT_MI0N=0.90 MI0N5=0.017542 ComputeTime=1.21s
+[N=7] Init=bits:0101010 J=cut
+RESULT N=7 J=[1.000000,1.000000,1.000000,0.010000,1.000000,1.000000] Initial=bits:0101010 Gamma=0.0500 PeakSumMI=4.024822 PeakT=0.30 SumMI5=1.352777 PeakMI0N=0.000198 PeakT_MI0N=8.50 MI0N5=0.000027 ComputeTime=1.33s
+[N=7] Init=bits:0101010 J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=7 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=bits:0101010 Gamma=0.0500 PeakSumMI=5.321969 PeakT=0.40 SumMI5=1.126881 PeakMI0N=0.032599 PeakT_MI0N=7.50 MI0N5=0.010999 ComputeTime=4.15s
+[N=7] Init=xpattern:+0+0+0+ J=uniform
+RESULT N=7 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+0+ Gamma=0.0500 PeakSumMI=1.259440 PeakT=0.20 SumMI5=0.205120 PeakMI0N=0.059125 PeakT_MI0N=0.90 MI0N5=0.010468 ComputeTime=1.30s
+[N=7] Init=xpattern:+0+0+0+ J=cut
+RESULT N=7 J=[1.000000,1.000000,1.000000,0.010000,1.000000,1.000000] Initial=xpattern:+0+0+0+ Gamma=0.0500 PeakSumMI=1.361511 PeakT=0.30 SumMI5=0.390497 PeakMI0N=0.000033 PeakT_MI0N=1.20 MI0N5=0.000003 ComputeTime=1.32s
+[N=7] Init=xpattern:+0+0+0+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=7 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+0+0+0+ Gamma=0.0500 PeakSumMI=1.686468 PeakT=0.40 SumMI5=0.267858 PeakMI0N=0.009143 PeakT_MI0N=6.00 MI0N5=0.005679 ComputeTime=3.52s
+
+=== N=9 ===
+[N=9] Init=plus J=uniform
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.60 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=1.60 MI0N5=0.000000 ComputeTime=14.93s
+[N=9] Init=plus J=cut
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.00 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=0.40 MI0N5=0.000000 ComputeTime=14.86s
+[N=9] Init=plus J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=plus Gamma=0.0500 PeakSumMI=0.000000 PeakT=1.40 SumMI5=0.000000 PeakMI0N=0.000000 PeakT_MI0N=1.40 MI0N5=0.000000 ComputeTime=71.17s
+[N=9] Init=xpattern:+-+-+-+-+ J=uniform
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=4.589817 PeakT=0.20 SumMI5=0.470616 PeakMI0N=0.229609 PeakT_MI0N=1.10 MI0N5=0.005431 ComputeTime=14.85s
+[N=9] Init=xpattern:+-+-+-+-+ J=cut
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=4.633046 PeakT=0.20 SumMI5=0.567055 PeakMI0N=0.000052 PeakT_MI0N=1.20 MI0N5=0.000007 ComputeTime=15.01s
+[N=9] Init=xpattern:+-+-+-+-+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+-+-+-+-+ Gamma=0.0500 PeakSumMI=6.588124 PeakT=0.10 SumMI5=0.488831 PeakMI0N=0.004861 PeakT_MI0N=8.00 MI0N5=0.000466 ComputeTime=71.70s
+[N=9] Init=bits:010101010 J=uniform
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=4.701293 PeakT=0.20 SumMI5=0.759278 PeakMI0N=0.273924 PeakT_MI0N=1.10 MI0N5=0.020635 ComputeTime=15.05s
+[N=9] Init=bits:010101010 J=cut
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=4.796931 PeakT=0.20 SumMI5=1.022331 PeakMI0N=0.000062 PeakT_MI0N=1.20 MI0N5=0.000004 ComputeTime=14.78s
+[N=9] Init=bits:010101010 J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=bits:010101010 Gamma=0.0500 PeakSumMI=7.071048 PeakT=0.40 SumMI5=1.392589 PeakMI0N=0.007808 PeakT_MI0N=14.50 MI0N5=0.000285 ComputeTime=71.08s
+[N=9] Init=xpattern:+0+0+0+0+ J=uniform
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=1.628376 PeakT=0.20 SumMI5=0.236200 PeakMI0N=0.026345 PeakT_MI0N=1.20 MI0N5=0.002879 ComputeTime=14.78s
+[N=9] Init=xpattern:+0+0+0+0+ J=cut
+RESULT N=9 J=[1.000000,1.000000,1.000000,1.000000,0.010000,1.000000,1.000000,1.000000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=1.670652 PeakT=0.30 SumMI5=0.366910 PeakMI0N=0.000016 PeakT_MI0N=1.50 MI0N5=0.000003 ComputeTime=14.86s
+[N=9] Init=xpattern:+0+0+0+0+ J=strong-weak
+Auto-dt: reducing dt from 0,05 to 0,01 for stability (max|J|=5,000)
+RESULT N=9 J=[5.000000,0.200000,5.000000,0.200000,5.000000,0.200000,5.000000,0.200000] Initial=xpattern:+0+0+0+0+ Gamma=0.0500 PeakSumMI=2.239753 PeakT=0.10 SumMI5=0.331674 PeakMI0N=0.002600 PeakT_MI0N=7.00 MI0N5=0.000438 ComputeTime=71.09s
+Done: 2026-04-24T04:43:13Z

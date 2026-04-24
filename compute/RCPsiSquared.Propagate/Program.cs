@@ -1084,6 +1084,11 @@ void RunBrecherEvaluation(string[] pArgs)
 
     double bestSumMI = -1, bestT = 0;
     double sumMI5 = 0;
+    // End-to-end MI tracking: MI(site 0, site N-1).
+    // Complements PeakSumMI (distributed adjacent-pair correlation) with a
+    // direct transport measure, per Tom's MI(0, N-1) question 2026-04-24.
+    double bestMI0N = -1, bestT_MI0N = 0;
+    double mi0N_at_t5 = 0;
 
     var sw = Stopwatch.StartNew();
 
@@ -1106,14 +1111,26 @@ void RunBrecherEvaluation(string[] pArgs)
                 sumMI += DensityMatrixToolsRaw.MutualInformation(rho, d, n,
                     new[] { k }, new[] { k + 1 });
 
+            double mi0N = DensityMatrixToolsRaw.MutualInformation(rho, d, n,
+                new[] { 0 }, new[] { n - 1 });
+
             if (sumMI > bestSumMI)
             {
                 bestSumMI = sumMI;
                 bestT = t;
             }
-            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+            if (mi0N > bestMI0N)
+            {
+                bestMI0N = mi0N;
+                bestT_MI0N = t;
+            }
+            if (Math.Abs(t - 5.0) < 0.01)
+            {
+                sumMI5 = sumMI;
+                mi0N_at_t5 = mi0N;
+            }
 
-            Console.Error.Write($"\r  t={t:F2} SumMI={sumMI:F4}");
+            Console.Error.Write($"\r  t={t:F2} SumMI={sumMI:F4} MI0N={mi0N:F4}");
         });
         Console.Error.WriteLine();
     }
@@ -1134,12 +1151,24 @@ void RunBrecherEvaluation(string[] pArgs)
                 sumMI += DensityMatrixTools.MutualInformation(rho, n,
                     new[] { k }, new[] { k + 1 });
 
+            double mi0N = DensityMatrixTools.MutualInformation(rho, n,
+                new[] { 0 }, new[] { n - 1 });
+
             if (sumMI > bestSumMI)
             {
                 bestSumMI = sumMI;
                 bestT = t;
             }
-            if (Math.Abs(t - 5.0) < 0.01) sumMI5 = sumMI;
+            if (mi0N > bestMI0N)
+            {
+                bestMI0N = mi0N;
+                bestT_MI0N = t;
+            }
+            if (Math.Abs(t - 5.0) < 0.01)
+            {
+                sumMI5 = sumMI;
+                mi0N_at_t5 = mi0N;
+            }
         });
     }
 
@@ -1147,7 +1176,7 @@ void RunBrecherEvaluation(string[] pArgs)
 
     string jStr = string.Join(",", couplings.Select(j => j.ToString("F6", CultureInfo.InvariantCulture)));
     Console.WriteLine(FormattableString.Invariant(
-        $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
+        $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} PeakMI0N={bestMI0N:F6} PeakT_MI0N={bestT_MI0N:F2} MI0N5={mi0N_at_t5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
 }
 
 // Build initial state psi[d] from text spec. Throws ArgumentException on invalid input.
