@@ -1100,7 +1100,11 @@ void RunBrecherEvaluation(string[] pArgs)
 
     var sw = Stopwatch.StartNew();
 
-    if (n >= 14)
+    // Brecher mode matrix-free threshold lowered to N >= 13: at N=13 dense
+    // matmul costs ~8 GFLOPS^(-1) per step (d=8192, d^3 = 5e11), estimated 6h
+    // per eval, versus matrix-free per-bond bit-flip application at ~15 min
+    // per eval. Dense path (N <= 12) retained unchanged since faster there.
+    if (n >= 13)
     {
         Console.Error.WriteLine($"Matrix-free path for N={n} (d={d})");
 
