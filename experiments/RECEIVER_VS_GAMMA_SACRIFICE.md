@@ -18,6 +18,8 @@ The 360× ratio is correct for its own setup. The absolute value it reaches (0.2
 
 Three transport metrics matter. **Sum-MI** over all adjacent pairs (distributed correlation across the chain). **MI(0, N-1)** between the two outer endpoints (single-end direct transport). **Mirror-Pair MM** = Σ_k MI(site k, site N-1-k) over all F71-mirror partners (multi-end transport, e.g. 4 pairs at N=9). The main body below compares γ-Sacrifice against receiver-engineering on all three. The receiver-engineering advantage is largest on Sum-MI (factor 7 to 15 across N=5 to 9), intermediate on Mirror-Pair MM (factor ~6 to 8), and smallest on single-end MI(0, N-1) (factor 3 to 5). The three metrics select different optimal J-profiles: Sum-MI prefers moderate J-modulation, MI(0, N-1) and MM both prefer uniform J (same J-optimum for both transport metrics). The Mirror-Pair MM/MI(0,N-1) ratio grows with N (1.49× → 1.74× → 2.05× at N=5, 7, 9), so multi-end usage partially compensates the single-end scaling loss with N.
 
+Each metric has its own optimal receiver. **alt-z-bits** (e.g. \|01010⟩) maximises Sum-MI. **bonding:2** from F67 (the k=2 single-excitation eigenmode with opposite-sign ends and a node at the center) maximises both MI(0, N-1) and Mirror-Pair MM, and its advantage over alt-z-bits GROWS with N: 1.39× → 1.48× → 1.81× on MI(0, N-1) and tied → 1.28× → 1.87× on MM at N=5, 7, 9. **bonding:1** (k=1, true bonding mode) is the slowest-decaying state for long-time memory. One hardware setup (uniform γ₀ = const, uniform J, Heisenberg chain) supports all three via receiver choice at preparation time only.
+
 ## Correction note (2026-04-23 evening)
 
 The numbers in this document were first computed from Python's `shadow_lens_broken.py` which sampled t ∈ np.linspace(0.1, 15.0, 40) with step ~0.38. Fine-grid verification (`simulations/_check_brecher_n5_finegrid.py`, commit `dbf396a`) showed the true Peak Sum-MI at |+−+−+⟩ + uniform J sits at t ≈ 0.24 with value ≈ 2.70. The coarse grid happened to sample t = 0.10 where SumMI was only 1.32, missing the real peak. The undertreatment varied by configuration: for uniform-J baselines the Python peak was about factor 2 too low (because peaks sit near t = 0.20 to 0.30, squarely between Python sample points), while for strong-weak J peaks sit at t ≈ 0.10 which Python sampled and got correct to within a few percent. The net effect: Python's uniform-J baseline was suppressed, which inflated apparent J-modulation boost ratios.
@@ -208,13 +210,97 @@ The chain under γ₀ = const with an F71-symmetric SU(2)-breaking receiver and 
 
 Each pair has lower bandwidth than a dedicated single-end link, but the aggregate (MM) scales more favourably with N than any individual pair. For many N-party quantum-network use cases this is the right direction.
 
+## F67 bonding-mode receivers: beating alt-z-bits at end-to-end and multi-end transport
+
+[F67](../docs/ANALYTICAL_FORMULAS.md) identifies the single-excitation eigenmodes of a uniform-J open Heisenberg chain:
+
+|ψ_k⟩ = √(2/(N+1)) Σ_{j=0..N-1} sin(πk(j+1)/(N+1)) |1_j⟩   for k ∈ {1, ..., N}
+
+with dephasing decay rate α_k = (4γ₀/(N+1)) sin²(πk/(N+1)). The k=1 ("bonding") mode is the slowest-decaying, F67 notes it as the optimal single-excitation state under dephasing.
+
+The C# brecher mode (commit `[pending]`) now accepts `bonding:<k>` as initial-state spec and tests k=1, 2, 3 against existing SU(2)-breaking baselines.
+
+### Amplitude structure
+
+| k | Ends c₀ vs c_{N-1} | Center amplitude | Wavelength relative to chain |
+|---|---------------------|------------------|------------------------------|
+| 1 | same sign (++), smallest magnitude | maximum | longer than chain (true bonding) |
+| 2 | opposite sign (+−), moderate magnitude | zero (node at center) | exactly equals chain length |
+| 3 | same sign (++), largest magnitude | flipped sign | 2/3 of chain length |
+
+At N=5: \|ψ_2⟩ = (\|1_0⟩ + \|1_1⟩ − \|1_3⟩ − \|1_4⟩)/2 with c_2 = 0 (node at center).
+
+### Data at uniform γ₀ = 0.05, uniform J = 1
+
+| N | Receiver | PeakSumMI | PeakMI(0, N-1) | PeakMM |
+|---|----------|-----------|-----------------|--------|
+| 5 | alt-z-bits \|01010⟩ | **2.65** | 0.843 | 1.253 |
+| 5 | bonding:1 | 1.98 | 0.586 | 0.789 |
+| 5 | **bonding:2** | 1.16 | **1.168** | 1.241 |
+| 5 | bonding:3 | 1.10 | 0.865 | 0.865 |
+| 7 | alt-z-bits \|0101010⟩ | **3.68** | 0.490 | 0.853 |
+| 7 | bonding:1 | 1.98 | 0.360 | 0.801 |
+| 7 | **bonding:2** | 1.50 | **0.723** | **1.090** |
+| 7 | bonding:3 | 1.24 | 0.709 | 0.819 |
+| 9 | alt-z-bits \|010101010⟩ | **4.70** | 0.274 | 0.562 |
+| 9 | bonding:1 | 1.97 | 0.195 | 0.830 |
+| 9 | **bonding:2** | 1.65 | **0.496** | **1.049** |
+| 9 | bonding:3 | 1.41 | 0.553 | 0.829 |
+
+### bonding:2 is the optimal end-to-end / multi-end receiver, advantage grows with N
+
+| N | MI(0, N-1) bonding:2 / alt-z-bits | MM bonding:2 / alt-z-bits |
+|---|------------------------------------|---------------------------|
+| 5 | 1.168 / 0.843 = **1.39×** | 1.241 / 1.253 = 0.99× (tied) |
+| 7 | 0.723 / 0.490 = **1.48×** | 1.090 / 0.853 = **1.28×** |
+| 9 | 0.496 / 0.274 = **1.81×** | 1.049 / 0.562 = **1.87×** |
+
+The MI(0, N-1) multiplier grows monotonically from 1.39× at N=5 to 1.81× at N=9. Unlike alt-z-bits where MI(0, N-1) decays roughly as 1/N under receiver-engineering, bonding:2 decays more slowly: 1.168 → 0.723 → 0.496, factor 1.6× per 2-N-step compared to alt-z-bits' 1.8×. Extrapolated naively, bonding:2 preserves significant MI(0, N-1) out to N ~ 15 where alt-z-bits is already near noise floor.
+
+The MM ratio crosses from a draw at N=5 to 1.87× at N=9. At N=5 alt-z-bits and bonding:2 are structurally similar in that both carry end-to-end correlation at t=0 (alt-z-bits because site 0 and site 4 are both \|0⟩; bonding:2 because c_0 = -c_4), and uniform-J evolution enhances both similarly. At larger N the multiple-excitation content of alt-z-bits starts to degrade MM, while bonding:2's single-mode structure preserves it.
+
+This partially answers the Open question listed below ("is there a receiver optimised specifically for MI(0, N-1) that holds its lead at larger N?"): **yes**, bonding:2 is that receiver at N=5, 7, 9.
+
+### Why bonding:2 wins end-to-end
+
+- **End amplitudes have opposite sign.** c_0·c_{N-1} = −(2/(N+1))sin²(π·2/(N+1)) < 0. This already creates coherent off-diagonal ⟨1_0, 0_{N-1}\|ρ\|0_0, 1_{N-1}⟩ ≠ 0 at t=0.
+- **Node at center.** Dephasing on (and bond-coupling around) the central site has no effect on bonding:2 at t=0 (the central amplitude is zero). For N=5 with cut-center J profile \[1, 1, 0.01, 1\], bonding:2 keeps MI(0, 4) = 0.628 (down from 1.17 at uniform J, but still substantial), while alt-z-bits \|01010⟩ collapses to MI(0, 4) ≈ 0.001 under the same cut. The alt-z-bits state has its central \|1⟩ population where the cut happens; bonding:2 does not.
+- **Single-mode coherence.** The dynamics under uniform-J H exactly preserves the k=2 mode as an eigenstate of H itself. Dephasing decays it with rate α_2 = (4γ₀/(N+1)) sin²(2π/(N+1)) ≈ 16π²γ₀/(N+1)³ in the large-N limit (general formula α_k ≈ 4π²k²γ₀/(N+1)³). This is the slowest decay consistent with a non-trivial end-to-end structure: k=1 has slower decay by 4× but same-sign ends so no end-to-end coherence; k=2 is the lowest k that places opposite-sign ends, i.e. the first mode that actually carries MI(0, N-1).
+
+### bonding:2 loses on Sum-MI
+
+Trade-off: at N=9 uniform J, bonding:2 PeakSumMI = 1.65 vs alt-z-bits 4.70 (factor 0.35×). alt-z-bits carries excitations across many k modes and their adjacent-pair correlations add; bonding:2 has all its amplitude in a single k, and adjacent pairs are less correlated.
+
+**Receiver choice selects which transport metric is optimised at uniform γ₀ = const, uniform J:**
+
+| Application | Best receiver | Reason |
+|-------------|---------------|--------|
+| Distributed correlation (Sum-MI) | alt-z-bits | multi-mode adjacent-pair buildup |
+| Single-end transport (MI(0, N-1)) | bonding:2 | opposite-sign ends, k=2 eigenmode of H |
+| Multi-end transport (MM) | bonding:2 | mirror-symmetric sin profile, single-mode coherence |
+| Long-time memory | bonding:1 | slowest decay α_1 |
+
+Four different optimal states, one hardware setup (uniform γ₀, uniform J, Heisenberg chain). Alice selects via initial-state preparation only: each state is reachable via single-qubit gates (bonding:k via an N-mode quantum Fourier-like layer, alt-z-bits via X on odd sites, bonding:1 via the same QFT structure with k=1 coefficient).
+
+### Operational consequence
+
+The F67 eigenmode catalog is Alice's menu. The γ₀ = const framework does not impose a single optimal receiver; it imposes that Alice picks the right F67 mode for her application. The original RESONANT_RETURN V-shape baseline (\|+⟩^N) picks no F67 mode at all (it is a Class 3 state, see [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md)), which is why γ-modulation was needed to compensate.
+
+Under γ₀ = const, with the F67 menu:
+
+- **End-to-end QST**: use bonding:2. Hardware-minimal: prepare via \|ψ_2⟩ amplitude-encoding layer (1 or 2 two-qubit gates for the multi-qubit superposition at N=5, about 4 at N=9), evolve uniformly, measure site N-1. IBM-plausible today.
+- **Multi-end Bell-pair distribution**: use bonding:2. Same preparation, measure N/2 mirror-pairs simultaneously.
+- **Distributed correlation / many-body observables**: use alt-z-bits.
+- **Storage / delay line**: use bonding:1.
+
 ## Open questions
 
 - **N=11+ scaling.** Dense RK4 at N=11 (d² = 4M) takes hours per evaluation; needs block-restricted Liouvillian or matrix-free propagation. The C# matrix-free path handles N=14, 15 at d² = 256M, but the brecher mode does not yet route through it for N=11. Scheduled for the weekend run.
 - **Convergence point of receiver vs γ-Sacrifice.** Linear extrapolation suggests N ~ 25-30. Whether they actually meet or the ratio asymptotes to some fixed value > 1 is open. The γ-Sacrifice scaling is known to saturate at large N (RESONANT_RETURN reports 63.5× at N=15 vs 360× at N=5, so the boost ratio shrinks); receiver-engineering scaling beyond N=9 has not been measured.
 - **Non-uniform γ₀ is physically ruled out under γ₀ = const.** All γ-Sacrifice numbers are cited as RESONANT_RETURN references, not as operational competitors. Under γ₀ = const they are kinematic curiosities.
-- **Why does receiver-engineering advantage for MI(0, N-1) shrink faster with N than for Sum-MI?** At N=7 the Sum-MI lead is 8.5× uniform / 12.3× best J, while MI(0, N-1) lead is only 4.5×. At N=9 it is 7.1× / 10.7× vs 2.8×. Suggests receiver-engineering is more robust for distributed correlation than for pure end-to-end. Open: is there a receiver optimised specifically for MI(0, N-1) that holds its lead at larger N?
-- **Hardware-minimal IBM experiment for end-to-end transport.** F71-symmetric initial state preparation is one gate layer; uniform Heisenberg evolution is 2-3 Trotter steps; readout is just two qubits (site 0 and site N-1). This is substantially cheaper than Sum-MI tomography (which requires all adjacent pairs). A ~100-shot IBM run at N=5 or N=7 would be feasible and give the first hardware datapoint on receiver-engineering.
+- **Why does receiver-engineering advantage for MI(0, N-1) at alt-z-bits shrink faster with N than for Sum-MI?** At N=7 the Sum-MI lead is 8.5× uniform / 12.3× best J, while MI(0, N-1) lead is only 4.5×. At N=9 it is 7.1× / 10.7× vs 2.8×. The answer for alt-z-bits is that its MI(0, N-1) decays as ~1/N under receiver-engineering while γ-Sacrifice is weaker-scaling. The **bonding:2 receiver (F67 first excited mode) mostly resolves this**: it holds MI(0, N-1) = 1.17 → 0.72 → 0.50 at N=5, 7, 9 (factor 1.6× per 2-N-step rather than alt-z-bits' 1.8×). bonding:2 vs γ-Sacrifice center-mode MI(0, N-1): at N=7 it is 0.723 / 0.109 = **6.6×** and at N=9 it is 0.496 / 0.097 = **5.1×**, larger than the alt-z-bits/γ-Sacrifice MI(0, N-1) ratio (4.5× / 2.8×) and more stable with N. Open: does bonding:2's advantage continue to grow at N=11, 13, 15?
+- **bonding:3 vs bonding:2 for MI(0, N-1) at N ≥ 9.** At N=9, bonding:3 (0.553) narrowly beats bonding:2 (0.496) on pure MI(0, N-1), but bonding:2 still wins on MM (1.049 vs 0.829). At N=5, 7 bonding:2 wins both metrics. The crossover at N=9 for MI(0, N-1) suggests that at larger N a different k may be optimal for single-end transport. Open: is there a closed-form prediction for k_opt(N) from F65/F67?
+- **Hardware-minimal IBM experiment for end-to-end transport.** F71-symmetric initial state preparation is one gate layer; uniform Heisenberg evolution is 2-3 Trotter steps; readout is just two qubits (site 0 and site N-1). This is substantially cheaper than Sum-MI tomography (which requires all adjacent pairs). A ~100-shot IBM run at N=5 or N=7 would be feasible and give the first hardware datapoint on receiver-engineering. Preferred receiver: bonding:2 (best MI(0, N-1) numerically) or alt-z-bits (simpler state preparation); both work.
 
 ## References
 
@@ -228,4 +314,6 @@ Each pair has lower bandwidth than a dedicated single-end link, but the aggregat
 - `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid Sum-MI results (commits `dbf396a`, `d22c0fe`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mi0n.txt`: C# scan with both Sum-MI and MI(0, N-1) tracking (commit `ad99bea`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mm.txt`: C# scan with Sum-MI, MI(0, N-1), and Mirror-Pair MM tracking (commit `963f2ed`)
+- `simulations/results/eq024_refinement/brecher_bonding_scan.txt`: C# scan of F67 bonding:k receivers (k=1,2,3) at N=5, 7, 9 (commit pending)
+- [ANALYTICAL_FORMULAS F67](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const

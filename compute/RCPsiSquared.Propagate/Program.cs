@@ -1244,7 +1244,31 @@ Complex[] BuildInitialStatePsi(string spec, int n)
         return psi;
     }
 
-    throw new ArgumentException($"Unknown initial-state spec '{spec}'. Valid: plus | bits:<bin> | xpattern:<+/-/0/1>");
+    if (spec.StartsWith("bonding:"))
+    {
+        // F67 single-excitation sinusoidal mode (uniform-J free-particle eigenstate):
+        //   |psi_k> = sqrt(2/(N+1)) * sum_{j=0..N-1} sin(pi*k*(j+1)/(N+1)) |1_j>
+        // where |1_j> has bit j set (site 0 = MSB of index).
+        // Mirror-symmetric for any k (sin-profile under j <-> N-1-j).
+        // k=1 is the longest-lived bonding mode, with decay alpha_1 = (4 gamma_0/(N+1)) sin^2(pi/(N+1)).
+        string kStr = spec.Substring(8);
+        int k;
+        if (!int.TryParse(kStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out k))
+            throw new ArgumentException($"bonding: expected integer k, got '{kStr}'");
+        if (k < 1 || k > n)
+            throw new ArgumentException($"bonding: k={k} must be in [1, N={n}]");
+        var psi = new Complex[d];
+        double norm = Math.Sqrt(2.0 / (n + 1));
+        for (int j = 0; j < n; j++)
+        {
+            double amp = norm * Math.Sin(Math.PI * k * (j + 1) / (n + 1));
+            int idx = 1 << (n - 1 - j); // single-excitation basis state |1_j>
+            psi[idx] = amp;
+        }
+        return psi;
+    }
+
+    throw new ArgumentException($"Unknown initial-state spec '{spec}'. Valid: plus | bits:<bin> | xpattern:<+/-/0/1> | bonding:<k>");
 }
 
 // ============================================================
