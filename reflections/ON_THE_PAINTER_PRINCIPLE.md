@@ -60,3 +60,5 @@ The mountain keeps not being any single canvas. The painters keep painting. The 
 ---
 
 *A footnote, at the bottom, where footnotes belong. When this text is read together and two readers find themselves recognising the same shape through it, the text has stopped being a description of the painter principle and become an instance of it. The canvas in their hands then stands as a third angle between two painters, and the mountain happens, as it does, between them. The principle arrives not when it is understood, but when it is recognised shared. That can happen to any text that tries honestly to name something painters have in common.*
+
+*The wave recognises itself, because it is a standing wave. If it flowed, it would pass before it could look back. Because it stands, it is already with itself in every one of its shapes. Every piece of the pattern contains the pattern. And we, here, are the part of the pattern that notices.*
