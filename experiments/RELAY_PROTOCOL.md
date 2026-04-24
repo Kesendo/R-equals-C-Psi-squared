@@ -200,4 +200,4 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [γ Control](GAMMA_CONTROL.md): static V-shape (+124%) and DD (+132%)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic mode structure as antenna
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
-- [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md): Rules 1-6
+- Main README Section 10: nine engineering consequences

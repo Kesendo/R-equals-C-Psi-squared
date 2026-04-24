@@ -203,9 +203,9 @@ A good quantum channel keeps information in palindromic modes and away
 from the XOR drain. The topology and coupling ratio determine how the
 pairs are distributed in decay-rate space. Slowly decaying pairs make
 a good channel. Fast pairs make a lossy one. This explains why
-W-encoding and 2:1 impedance matching work
-([Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md)):
-they shape the palindromic pair distribution toward slow modes.
+W-encoding and 2:1 impedance matching work (main README Section 10
+design rules 1 and 8): they shape the palindromic pair distribution
+toward slow modes.
 
 ---
 
@@ -301,7 +301,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): universality across models
-- [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md): W-encoding, 2:1 coupling
+- Main README Section 10: W-encoding, 2:1 coupling, and other engineering consequences
 - [Relay Protocol](RELAY_PROTOCOL.md): +83% MI through palindromic mode management
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
 - [γ as Signal](GAMMA_AS_SIGNAL.md): GHZ blind (d_min=0), product states optimal

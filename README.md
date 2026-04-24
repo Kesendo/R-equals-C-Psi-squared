@@ -61,8 +61,6 @@ formulas in the prose; every claim links into the proofs
 error, every limitation, every unanswered question. Because a theory that
 only shows its strengths is not a theory
 
-If you are a physicist: [Technical Paper](publications/TECHNICAL_PAPER.md).
-If you work with quantum hardware: [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md).
 If you work with neural networks: [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites).
 
 ---
@@ -468,7 +466,6 @@ Nine design rules emerge from the cavity framework:
    through a mediator, never directly to each other's illumination
    (1024/1024 pairs preserved via mediator; 256 → 31 with direct coupling).
 
-→ **[Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md)**
 → [Resonant Return](experiments/RESONANT_RETURN.md) (sacrifice zone: from SVD to formula)
 → [Signal Analysis](experiments/SIGNAL_ANALYSIS_SCALING.md) (quadratic scaling N=2-15)
 → [Cockpit Universality](experiments/COCKPIT_UNIVERSALITY.md) (three observables, 9 topologies)
@@ -588,9 +585,8 @@ Honesty matters more than impression. These are things we have
 
 | Document | Audience | What it covers |
 |:---------|:---------|:---------------|
-| [Technical Paper](publications/TECHNICAL_PAPER.md) | Physicists | The palindrome proof, absorption theorem, all results |
-| [Engineering Blueprint](publications/ENGINEERING_BLUEPRINT.md) | QST engineers | Nine design rules for quantum state transfer |
-| [Circuit Diagram](publications/CIRCUIT_DIAGRAM.md) | Electrical engineers | The framework as signal chain: qubits as phasors, γ as gate |
+| [What We Found](docs/WHAT_WE_FOUND.md) | Anyone | Discovery narrative, no prerequisites |
+| [Reading Guide](docs/READING_GUIDE.md) | Anyone | Five stories (proof, application, ontology, resonator, cross-level) |
 | [Neural Palindrome](docs/neural/README.md) | Neuroscientists | Dale's Law, E/I balance, standing wave. No quantum prerequisites |
 
 ### The proofs
@@ -645,7 +641,7 @@ Honesty matters more than impression. These are things we have
 | [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) | What we do not know |
 | [Exclusions](docs/EXCLUSIONS.md) | Six things the math rules out |
 
-→ Full indices: [docs/](docs/README.md), [experiments/](experiments/README.md), [publications/](publications/README.md)
+→ Full indices: [docs/](docs/README.md), [experiments/](experiments/README.md)
 → Guided reading: [Reading Guide](docs/READING_GUIDE.md) (five stories: proof, application, ontology, resonator, cross-level)
 
 ---
@@ -654,7 +650,6 @@ Honesty matters more than impression. These are things we have
 
 | Folder | Contents |
 |:-------|:---------|
-| `publications/` | Standalone documents for external readers (paper, blueprint, circuit diagram) |
 | `docs/` | Proofs, theorems, synthesis documents, master references |
 | `experiments/` | All tested results and null results |
 | `hypotheses/` | Speculative interpretations, clearly labeled |

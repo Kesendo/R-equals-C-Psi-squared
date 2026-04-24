@@ -204,7 +204,6 @@ interpretation live elsewhere:
 
 - [experiments/](../../experiments/) - 124 computational experiments
 - [hypotheses/](../../hypotheses/) - open research questions
-- [publications/](../../publications/) - papers and blueprints
 - [docs/](../) - synthesis and reference documents
 
 This directory is mathematics only.

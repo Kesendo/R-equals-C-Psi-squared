@@ -278,7 +278,7 @@ individual notes) and found that one specific
 property, the fraction of "mixed XY" terms (operators containing both X
 and Y simultaneously), predicts how much weight goes to the fast drain.
 The correlation is r = 0.976 for systems of three or more particles. See
-[Technical Paper](../publications/TECHNICAL_PAPER.md).
+[XOR Space](../experiments/XOR_SPACE.md) and [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
 
 This means the palindrome acts as a spectral filter. It separates every
 input into a distributable part (palindromic pairs, various speeds, some

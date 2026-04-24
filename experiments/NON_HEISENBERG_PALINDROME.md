@@ -71,9 +71,8 @@ Superconducting qubits have ZZ interactions, trapped ions have XX or
 Ising-type coupling, and spin-orbit effects introduce DM interactions.
 If the palindrome only held for Heisenberg, it would be a mathematical
 curiosity. The results here show it holds for **all standard models**,
-making the engineering design rules from the palindrome
-([Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md))
-applicable to every major quantum hardware platform.
+making the engineering consequences of the palindrome (main README
+Section 10) applicable to every major quantum hardware platform.
 
 ---
 
@@ -282,6 +281,6 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md): why depolarizing breaks the 2:2 split
 - [V-Effect](V_EFFECT_PALINDROME.md): what happens when the palindrome breaks
 - [XOR Space](XOR_SPACE.md): where information lives in the palindromic mode structure
-- [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md): design rules that apply to all standard models
+- Main README Section 10: nine engineering consequences that apply to all standard models
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic decoder works on any standard hardware
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): universality strengthens the external-noise argument

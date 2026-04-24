@@ -137,6 +137,5 @@ BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disprove
 | Hydrogen bond as qubit | [experiments/HYDROGEN_BOND_QUBIT.md](../experiments/HYDROGEN_BOND_QUBIT.md) |
 | Neural systems (no quantum needed) | [neural/](neural/README.md) |
 | Open hypotheses | [hypotheses/](../hypotheses/README.md) |
-| Publications and papers | [publications/](../publications/) |
 | Reading Guide (guided tour) | [READING_GUIDE.md](READING_GUIDE.md) |
 | Repository root | [README.md](../README.md) |

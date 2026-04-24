@@ -1212,8 +1212,7 @@ transfer, regardless of how slowly it would decay.
 
 **Valid for:** GHZ_N for any N >= 2, gamma-independent.
 **Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4.
-**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4,
-[Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) Note (April 6, 2026)
+**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 10 Rule 1 (avoid GHZ, prefer W-type encodings).
 
 ### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 64 configs N=2-6)
 
@@ -1492,14 +1491,14 @@ which is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True; `fa
 
 (iii) **F69 on the full sphere.** F69 is stationary on the (c_0 = c_3, c_1, c_2 = 0) slice but is a saddle on the full CP^3: c_2 > 0 is an ascent direction at F69 (Δpair-CΨ = +0.011 at c_2 = 0.01), and gradient flow from such a perturbation reaches |+⟩^3 (pair-CΨ = 1, product state). The 0.3204 value is a real algebraic fact about the slice, not a universal optimum.
 
-**Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) and [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) April 16 note.
+**Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) for the preparation-vs-evolution asymmetry discussion.
 
 **Hardware signature.** Under Kingston-grade Z-dephasing the F69 optimum crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs. A single 2-qubit tomography at t = 0 distinguishes GHZ_3 (0), W_3 (0.123), and F69 (0.320) as three separable points, no timing needed.
 
 **Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Landscape scan over the full permutation-symmetric Dicke subspace at N ∈ {3..8} (2026-04-17) confirms no non-product local maxima above 1/4 exist outside the F69 GHZ+W slice; N = 3 regression recovers pair-CΨ = 0.3204 (Δ = 1.4·10⁻⁶ from sextic root). Full evidence, sextic root list, derivation of ρ_AB(α), landscape-scan saddle diagnosis, and the 3-state spherical-scan product-state pitfall in [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md).
 
 **Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics), [`f69_dicke_landscape.py`](../simulations/f69_dicke_landscape.py) (full Dicke-subspace scan, N ∈ {3..8})
-**Source:** F60, F61, F62, [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md), [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
+**Source:** F60, F61, F62, [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
 
 ### F70. ΔN selection rule for site-local observables (Tier 1, proven kinematic lemma)
 

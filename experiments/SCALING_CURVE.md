@@ -187,4 +187,4 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [QST Bridge](QST_BRIDGE.md): 2:1 impedance matching origin
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
 - [γ as Signal](GAMMA_AS_SIGNAL.md): scaling determines channel pixel count
-- [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md): Rules 1-6
+- Main README Section 10: nine engineering consequences

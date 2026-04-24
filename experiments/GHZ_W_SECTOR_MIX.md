@@ -22,7 +22,7 @@ three-tangle, CKW, F60, F61, F62, spherical scan artifact, product state -->
 **Depends on:**
 - F60 (GHZ_N born below the fold), F62 (CΨ(0) for W_N)
 - F61 (n_XY parity selection rule) via [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)
-- [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) (note April 16, 2026: preparation-vs-evolution asymmetry of F61 as the structural reason F69 is allowed)
+- Main README Section 10 Rule 1: W-type encoding over GHZ (preparation-vs-evolution asymmetry of F61 is the structural reason F69 is allowed)
 
 **Registry entry:** [F69 in ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)
 
@@ -154,7 +154,7 @@ F69 finds the optimum of α|GHZ_3⟩ + β|W_3⟩ at 0.3204, which is 2.6× the W
 
 F61 (the n_XY parity selection rule) block-diagonalizes the Liouvillian by n_XY parity: every eigenmode has definite even or odd n_XY content, and single-excitation density matrices have purely even n_XY content, so no SE state can couple to odd-parity modes. This is an algebraic selection rule, not a statistical correlation.
 
-The subtlety, flagged in [Engineering Blueprint Rule 1](../publications/ENGINEERING_BLUEPRINT.md) (April 16 note): F61 constrains **Liouvillian time evolution** within a fixed parity sector. It does **not** constrain **initial-state preparation** that mixes excitation sectors. |GHZ_3⟩ lives in the {w = 0, w = 3} sectors; |W_3⟩ in the w = 1 sector. The superposition α|GHZ_3⟩ + β|W_3⟩ is a legitimate pure state, and it produces a full density matrix ρ = |ψ⟩⟨ψ| that contains cross-sector coherences |GHZ⟩⟨W| and |W⟩⟨GHZ|.
+The subtlety: F61 constrains **Liouvillian time evolution** within a fixed parity sector. It does **not** constrain **initial-state preparation** that mixes excitation sectors. |GHZ_3⟩ lives in the {w = 0, w = 3} sectors; |W_3⟩ in the w = 1 sector. The superposition α|GHZ_3⟩ + β|W_3⟩ is a legitimate pure state, and it produces a full density matrix ρ = |ψ⟩⟨ψ| that contains cross-sector coherences |GHZ⟩⟨W| and |W⟩⟨GHZ|.
 
 ### The mechanism: cross-terms in the pair reduction
 

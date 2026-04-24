@@ -58,7 +58,7 @@ Condition (i) alone is NOT sufficient for J-blindness: a diagonal-in-Z state who
 - **[XOR_SPACE](XOR_SPACE.md):** GHZ projects 100% onto the XOR-drain modes (Pauli strings with X or Y at every site simultaneously, Hamming distance N between the supports |0⟩⁵ and |1⟩⁵). These modes sit at the maximum decay rate 2Σγ. GHZ coherence dies maximally fast.
 - **[F60](../docs/ANALYTICAL_FORMULAS.md):** GHZ_N is born below the fold, CΨ(0) = 1/(2^N - 1) for all N ≥ 2.
 - **[GHZ_W_SECTOR_MIX](GHZ_W_SECTOR_MIX.md) (F69):** at N=3, sector-mixing GHZ with W lifts pair-CΨ above 1/4 via an irreducible sextic optimum.
-- **[ENGINEERING_BLUEPRINT](../publications/ENGINEERING_BLUEPRINT.md):** GHZ as the prototype fragile state to avoid in any quantum-channel encoding.
+- **Main README Section 10 Rule 1:** GHZ as the prototype fragile state to avoid in any quantum-channel encoding.
 
 All four describe DECAY behaviour of GHZ: how its coherence dies, where it sits relative to CΨ = 1/4, what happens when mixed with another sector. The Class 2 J-blindness reading is about a different observable: the **response of the trajectory to bond-J perturbations**. GHZ decays maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements are about different derivatives of the same trajectory: the decay rate is non-zero (∂/∂t big), but ∂/∂J of every observable along the trajectory is zero.
 

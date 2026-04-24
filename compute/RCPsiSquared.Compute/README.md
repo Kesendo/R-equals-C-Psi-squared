@@ -176,4 +176,4 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 - [RCPsiSquared.Propagate](../RCPsiSquared.Propagate/README.md): Time-domain engine for dynamics, sacrifice-zone formula, relay protocol (N=5 through N=15)
 - [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md): The analytical proof that this engine's numerical results motivated
 - [Complete Mathematical Documentation](../../docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md): The Tafelwerk
-- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md): Seven design rules derived from spectral analysis
+- See main README Section 10 (engineering consequences) and Section 11 (F67 receiver menu) for design rules derived from spectral analysis.

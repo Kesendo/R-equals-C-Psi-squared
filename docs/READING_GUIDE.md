@@ -164,10 +164,10 @@ with this?", this is your path.
    switching with asymmetric coupling. The first time-dependent
    optimization of the bridge. +83% end-to-end improvement.
 
-5. [Engineering Blueprint](../publications/ENGINEERING_BLUEPRINT.md) —
-   Seven concrete design rules for quantum repeaters, all derived from the
-   palindromic structure. This is the engineering translation of the
-   mathematics.
+5. Main README Section 10 and Section 11: nine engineering consequences
+   of the palindromic structure plus the F67 receiver menu. The
+   engineering translation of the mathematics, kept alongside the current
+   framework state.
 
 6. [Resonant Return](../experiments/RESONANT_RETURN.md) — The
    sacrifice-zone formula: concentrate all noise on one edge qubit,

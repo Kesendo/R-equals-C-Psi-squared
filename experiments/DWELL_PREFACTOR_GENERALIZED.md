@@ -168,7 +168,7 @@ For N ≥ 3, the GHZ state starts below the fold and, since CΨ decays monotonic
 
 ### Significance
 
-The [ENGINEERING_BLUEPRINT](../publications/ENGINEERING_BLUEPRINT.md) Rule 1 argues against GHZ encoding on rate grounds: GHZ_N places all its coherent Pauli mass at sector k = N, the maximum absorption rate under Z-dephasing. The geometric statement here is a structural sharpening. Even if GHZ_N decayed infinitely slowly, it would still be born in the classical regime for N ≥ 3. The problem is not how fast GHZ dies; the problem is that it was never in the quantum regime to begin with.
+The main README Section 10 Rule 1 argues against GHZ encoding on rate grounds: GHZ_N places all its coherent Pauli mass at sector k = N, the maximum absorption rate under Z-dephasing. The geometric statement here is a structural sharpening. Even if GHZ_N decayed infinitely slowly, it would still be born in the classical regime for N ≥ 3. The problem is not how fast GHZ dies; the problem is that it was never in the quantum regime to begin with.
 
 This is γ-independent. No amount of reducing the dephasing rate fixes the geometric deficit. The only escape is to change the state.
 
@@ -199,7 +199,7 @@ is verified on two states with different stationary weights (W₀ = 1/2 and W₀
 - [DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md): Bell+ special case, partial success on |+⟩^{⊗2}
 - [CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md): Dwell-time physics, K = γt scaling
 - [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = -2γ⟨n_XY⟩, sector decay rates
-- [ENGINEERING_BLUEPRINT](../publications/ENGINEERING_BLUEPRINT.md): Rule 1, W-type encoding recommendation
+- Main README Section 10 Rule 1: W-type encoding recommendation
 - [Simulation output](../simulations/results/dwell_prefactor_generalization_v1.txt): Full numerical results
 - [Verification plot](../simulations/results/dwell_prefactor_generalization_v1.png): Four-panel figure of the CΨ trajectories and prefactor agreement
 - [Simulation script](../simulations/dwell_prefactor_generalization_v1.py): Standalone verification code

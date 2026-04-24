@@ -326,12 +326,12 @@ threshold timing, push/pull selection, clocked relay, sacrifice-zone.
 optimal for QST through palindromic channels. No custom encoding scheme
 improved transfer fidelity.
 
-See: [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md),
-[Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md),
-[Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
+See: [Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
 [Gamma Control](../../experiments/GAMMA_CONTROL.md),
 [Scaling Curve](../../experiments/SCALING_CURVE.md),
-[Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md)
+[Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md),
+[Receiver vs γ-Sacrifice](../../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md);
+main README Section 10 (engineering consequences) and Section 11 (receiver menu).
 
 ---
 
@@ -408,11 +408,6 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 - [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md)
 
-### Publications
-- [Technical Paper](../../publications/TECHNICAL_PAPER.md)
-- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md)
-- [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
-
 ### Key experiments
 - [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md)
 - [γ Control](../../experiments/GAMMA_CONTROL.md)
@@ -453,10 +448,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 - [The Pattern Recognizes Itself](../../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (open: structural inheritance across scales)
 - [The Other Side of the Mirror](../../hypotheses/THE_OTHER_SIDE.md) (Z₂ parity confirmed; philosophical extensions)
 
-### Publications
-- [Technical Paper](../../publications/TECHNICAL_PAPER.md)
-- [Engineering Blueprint](../../publications/ENGINEERING_BLUEPRINT.md)
-- [Circuit Diagram](../../publications/CIRCUIT_DIAGRAM.md)
+### Historical / retired
 - [Emergence Through Reflection](../../recovered/EMERGENCE_THROUGH_REFLECTION.md)
 
 ### Synthesis
