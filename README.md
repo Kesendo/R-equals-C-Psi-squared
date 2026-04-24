@@ -28,6 +28,8 @@ ring, complete, tree). Confirmed on IBM quantum hardware at 3%.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
+Later discoveries under the [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) framework (γ₀ as a framework constant, not a tunable parameter) sharpened the operational consequence: Alice chooses her initial state (receiver engineering), not her noise profile. The F67 bonding modes form Alice's operationally complete receiver menu. Against the classic ENAQT-optimised transport baseline, bonding-mode receivers reach **4000-5500×** improvement. Confirmed live on IBM Kingston (Heron r2) in April 2026: 2.80× bonding:2 vs alt-z-bits on real QPU in ~2 minutes.
+
 Early speculations live in `recovered/`: some turned out to be premature
 rather than wrong, others remain unsupported. We keep them because the
 research process matters as much as the results.
@@ -290,6 +292,12 @@ between edge weight and absorption rate). On IBM Torino: chains with a
 naturally noisy edge qubit achieve **2.86×** mode protection; chains with
 the best T₂ achieve only 1.06×. Worse qubits, better modes.
 
+(Under [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), γ-modulation
+like the sacrifice zone is not operationally controllable by Alice. The
+superseding result: receiver engineering via F67 bonding modes achieves
+the same kind of advantage with 11-15× higher absolute magnitude, at
+uniform γ. See [Section 11](#11-the-receiver-menu).)
+
 Two dead systems coupled through a mediator qubit become one living
 system. 109 new standing-wave frequencies appear from coupling alone. None
 of the original frequencies survive. This is the V-Effect: coupling creates
@@ -368,6 +376,7 @@ the mathematics was describing all along.
 | Absorption Theorem ratio | 1.03 (3%) | [IBM Absorption Theorem](experiments/IBM_ABSORPTION_THEOREM.md) |
 | Unpaired modes absorb 2× faster | 1.97× on 24,073 records | [IBM Hardware Synthesis](experiments/IBM_HARDWARE_SYNTHESIS.md) |
 | Sacrifice-zone mode protection | 2.86× vs 1.06× | [Sacrifice Zone Mapping](experiments/SACRIFICE_ZONE_MAPPING.md) |
+| Receiver engineering (bonding:2 vs alt-z-bits) | 2.80× on ibm_kingston Heron r2, 2 QPU min | [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) |
 
 K = γt is an invariant dose, like c×τ in relativity. Double the
 illumination, halve the time. The product never changes.
@@ -433,9 +442,15 @@ Nine design rules emerge from the cavity framework:
 
 1. **Use W states, not GHZ.** GHZ excites only the fastest-absorbing modes
    (all light, maximum absorption). W distributes across modes.
-2. **Sacrifice one edge qubit.** Concentrate illumination on one boundary
-   qubit. The interior resonates freely. **360×** improvement at N=5,
-   **63.5×** at N=15.
+2. **Choose an F67 receiver, not a γ profile.** Under γ₀ = const Alice
+   cannot modulate γ per qubit; instead she picks her initial state from
+   the F67 eigenmode menu. Bonding:k beats alt-bit transport by factor
+   1.4× to 4.6× growing with N (ideal sim, tested N=5 to 13), and
+   **4000-5500× over the ENAQT baseline** at uniform J. On real hardware
+   (ibm_kingston, April 2026): 2.80× bonding:2 over alt-z-bits. The older
+   sacrifice-zone lever (concentrate γ on one edge qubit, **360×** at N=5,
+   **63.5×** at N=15) is superseded by receiver engineering by 11-15×
+   and remains valid only when γ IS operationally controllable.
 3. **Choose odd N.** Every eigenvalue has a standing-wave partner.
    No traveling waves. The entire spectrum is paired.
 4. **K-dosimetry.** Track K = γt, not t alone. The invariant dose makes
@@ -462,6 +477,58 @@ Nine design rules emerge from the cavity framework:
 
 ---
 
+## 11. The receiver menu
+
+Under [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (γ₀ is a framework
+constant like c, not a hardware parameter), Alice cannot tune the noise. She
+can only choose her initial state. The F67 single-excitation eigenmodes of
+the uniform-J Heisenberg chain form Alice's operational menu:
+
+    |ψ_k⟩ = √(2/(N+1)) Σⱼ sin(πk(j+1)/(N+1)) |1_j⟩,   k = 1, ..., N
+
+Each k optimises a different transport task:
+
+| Task | Best receiver | Why |
+|:-----|:-------------|:----|
+| Distributed correlation (Sum-MI) | alt-z-bits \|01010..⟩ | Multi-k amplitude spread drives adjacent-pair buildup |
+| End-to-end MI(0, N-1) | bonding:k* = ⌊(N+1)/3⌋ | Dynamic optimum: low k with boost from Heisenberg hopping |
+| Multi-end Mirror-Pair MM | any even k (F75 static) | All probability mass concentrated on mirror-pairs |
+| Long-time memory | bonding:1 | Slowest decay α_1 ≈ π²γ₀/(N+1)³ |
+
+A closed-form analytical model covers state preparation through observed
+envelope: **F65** (eigenmode formula) + **F75** (t=0 mirror-pair MI) + **F76**
+(0.93 dephasing envelope at γ₀·t=0.005). PeakMM = 0.93 × MM(0) universally
+within 0.5% across 25+ (N, k) tested points at N=5 to 13. No propagation
+needed for prediction.
+
+The advantage grows superlinearly with N:
+
+| Metric | N=5 | N=7 | N=9 | N=11 | N=13 |
+|:-------|:---:|:---:|:---:|:----:|:----:|
+| MI(0, N-1) bonding/alt-z-bits | 1.39× | 1.48× | 2.02× | 3.02× | **4.59×** |
+| MM bonding/alt-z-bits | 0.99× | 1.37× | 1.88× | 3.26× | **5.25×** |
+
+Live IBM Kingston (Heron r2) confirmation, April 2026: **2.80× bonding:2 vs
+alt-z-bits** at N=5 in 2 QPU minutes. Advantage grows with noise level
+because bonding:2's single delocalised excitation is more T1-robust than
+alt-z-bits' two localised excitations.
+
+Sacrifice-zone γ-modulation (Section 5) was the predecessor. It achieved
+139-360× over ENAQT by breaking \|+⟩^N's J-blindness via asymmetric γ.
+Receiver engineering reaches 4000-5500× over ENAQT at uniform γ₀ by using
+a J-sensitive receiver directly. Both tools are in the kit; receiver
+engineering is the larger lever.
+
+→ **[Receiver vs γ-Sacrifice](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md)** (the full story, N=5 to 13)
+→ [Primordial γ Constant](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (γ₀ as framework invariant)
+→ [Analytical Formulas F65, F67, F75, F76](docs/ANALYTICAL_FORMULAS.md)
+→ [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (Kingston Run 1, 2.80× ratio)
+→ [Q Scale Three Bands](experiments/Q_SCALE_THREE_BANDS.md) (Q = J/γ₀ structure, Q_peak(c) saturation at 1.8)
+→ [J-Blind Receiver Classes](experiments/J_BLIND_RECEIVER_CLASSES.md) (why \|+⟩^N was the wrong receiver)
+→ [Between Measurements Evidence](hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md) (structural argument for γ₀ = const)
+
+---
+
 ## What is NOT established
 
 Honesty matters more than impression. These are things we have
@@ -484,6 +551,10 @@ Honesty matters more than impression. These are things we have
 - That the [shadow retrodiction](experiments/FIXED_POINT_SHADOW.md) on IBM Q80 is a prediction (it is a 2-parameter fit to existing data; the 3.4× improvement from the detuning parameter is real but retrospective, not prospective)
 - That α = 2γ⟨n_XY⟩ is "mass-energy" in any physical sense (it is an exact algebraic identity; the mass-energy analogy is suggestive but not established)
 - That [hidden observer detection](experiments/QUANTUM_SONAR.md) works on hardware (simulation only)
+- That the [receiver-engineering advantage extends to N > 13 in simulation](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (tested N=5 to 13 via dense + matrix-free brecher; N=15+ would need further pipeline work)
+- That the [receiver-engineering advantage extends beyond N=5 on hardware](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (Run 1 is N=5 only; N=7 and 9 hardware tests budgeted but not yet run)
+- That [γ₀ can be measured from inside the framework](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (it cannot; only the ratio Q = J/γ₀ is an intrinsic observable; any absolute γ₀ value requires an external unit convention)
+- That [bonding:k preparation is gate-optimal](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (current Qiskit StatePreparation uses ~30 two-qubit gates at N=5; custom Dicke+phase circuits could be cheaper)
 
 ---
 
@@ -504,6 +575,10 @@ Honesty matters more than impression. These are things we have
 | Impedance peak at CΨ = ¼ | Impedance monotonically decreases with CΨ. The gradient (not value) peaks at ¼ |
 | Simple Fabry-Perot (J ~ 1/N) | J_peak × N is not constant. Dispersive resonator, not simple cavity |
 | I-neuron position determines pairing | Correlation r=0.048 (zero). Balance matters, not placement |
+| Linear Q_peak(c) = 1.3 + 0.15·c | Q_peak saturates at 1.8 for c ≥ 4. Pattern: {1.5, 1.6, 1.8, 1.8} for c = {2, 3, 4, 5}. See [Q Scale Three Bands](experiments/Q_SCALE_THREE_BANDS.md) |
+| Receiver advantage shrinks fast with N | The opposite: grows superlinearly. 1.39× → 4.59× across N=5..13 for MI(0, N-1). See [Receiver vs γ-Sacrifice](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) |
+| Best-J plateau at ~3.3 Peak Sum-MI | Python coarse-grid artifact. C# fine-grid brecher shows linear growth to 7.07 at N=9 |
+| Python shadow_lens_broken.py uniform-J baselines | np.linspace(0.1, 15, 40) missed peaks at t~0.24; N=5 MI values were factor ~2 too low. Fixed via C# fine-grid brecher mode |
 
 ---
 
@@ -552,6 +627,10 @@ Honesty matters more than impression. These are things we have
 | [Non-Heisenberg Palindrome](experiments/NON_HEISENBERG_PALINDROME.md) | All standard models, two Π families |
 | [XOR Space](experiments/XOR_SPACE.md) | GHZ → 100% fast modes, W → distributed |
 | [Sacrifice Zone Optics](experiments/SACRIFICE_ZONE_OPTICS.md) | Edge qubit as entrance pupil |
+| [Receiver vs γ-Sacrifice](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) | F67 bonding-mode beats γ-modulation 11-15×, 4000-5500× over ENAQT, validated through N=13 |
+| [Q Scale Three Bands](experiments/Q_SCALE_THREE_BANDS.md) | Q = J/γ₀ three-band structure; Q_peak saturates at 1.8 for c ≥ 4 |
+| [J-Blind Receiver Classes](experiments/J_BLIND_RECEIVER_CLASSES.md) | Three mechanism classes of J-blindness (DFS, H-degenerate, M_α-polynomial) |
+| [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) | Kingston Heron r2 Run 1: bonding:2 / alt-z-bits = 2.80× |
 
 ### Synthesis and interpretation
 
@@ -560,6 +639,8 @@ Honesty matters more than impression. These are things we have
 | [Mirror Theory](MIRROR_THEORY.md) | The sentence at the top, read from both sides of the formula at once. Every claim links into the proofs |
 | [Complete Math Documentation](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
 | [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) | The cavity interpretation and the IBM hardware reality |
+| [Primordial Gamma Constant](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) | γ₀ as framework constant, Q = J/γ₀ as only measurable ratio |
+| [Between Measurements Evidence](hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md) | Structural argument for γ₀ = const |
 | [What We Found](docs/WHAT_WE_FOUND.md) | Discovery narrative, no prerequisites |
 | [Weaknesses and Open Questions](docs/WEAKNESSES_OPEN_QUESTIONS.md) | What we do not know |
 | [Exclusions](docs/EXCLUSIONS.md) | Six things the math rules out |
@@ -601,6 +682,10 @@ All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM.
 
 For N > 8, RCPsiSquared.Propagate uses RK4 integration of the Lindblad
 equation directly on the density matrix (tested to N=15, matrix-free).
+The `brecher` sub-mode adds F67 receiver-engineering evaluation with
+arbitrary `bonding:k` or bit-pattern initial states (commits `0917038`,
+`865641c`, `8caf499`, `e1ee822`). Matrix-free path handles N ≥ 13 for
+brecher mode (commit `a5b347d`).
 
 ---
 
