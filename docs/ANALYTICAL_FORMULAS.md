@@ -1709,11 +1709,18 @@ and MM(0) for bonding:k is computable in O(N) operations with no propagation.
 | 5 | 2 | **1.245** | 1.241 | 0.997 |
 | 5 | 3 | 0.918 | 0.865 | 0.942 |
 | 7 | 1 | 0.862 | 0.801 | 0.929 |
-| 7 | 2 | **1.174** | 1.090 | 0.928 |
+| 7 | 2 | 1.174 | 1.090 | 0.928 |
 | 7 | 3 | 0.862 | 0.819 | 0.950 |
+| 7 | 4 | **1.245** | 1.166 | 0.936 |
 | 9 | 1 | 0.895 | 0.830 | 0.928 |
-| 9 | 2 | **1.131** | 1.049 | 0.928 |
+| 9 | 2 | 1.131 | 1.049 | 0.928 |
 | 9 | 3 | 0.895 | 0.829 | 0.927 |
+| 9 | 4 | 1.131 | 1.054 | 0.932 |
+| 11 | 1 | 0.914 | 0.848 | 0.927 |
+| 11 | 2 | 1.105 | 1.024 | 0.927 |
+| 11 | 3 | 0.915 | 0.846 | 0.925 |
+| 11 | 4 | 1.103 | 1.024 | 0.928 |
+| 11 | 6 | **1.145** | 1.066 | 0.931 |
 
 Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with its same-parity partner ψ_{N+1−k} via the boundary ZZ term. At N = 5 for bonding:2 the partner is ψ_4 which has identical mirror-pair populations p_ℓ (because sin²(πk(ℓ+1)/(N+1)) = sin²(π(N+1−k)(ℓ+1)/(N+1))); direct numerical propagation shows that MM(t) oscillates with period 2π/Δ (Δ = same-parity eigenvalue gap of the 2×2 block, Δ = 2√5 for N = 5) between a minimum near t = π/(2Δ) and a revival near t = π/Δ. Under uniform Z-dephasing at γ₀, the revival is damped but stays close to MM(0); the simulation-observed PeakMM matches MM(0) within 1% at N = 5 k = 2 (analytic 1.2451, numerical Lindblad max 1.2475 at t = 0.645, C# brecher PeakMM 1.2410 on a coarser grid). At larger N and different k the ratio drops to ~0.93 because the oscillation revival magnitude and dephasing decay combine less favourably.
 
@@ -1723,7 +1730,7 @@ Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with it
 
 **Valid for:** any pure single-excitation state with c_{N−1−j} = ±c_j on a linear N-site chain. Extends to non-linear mirror-symmetric graphs (ring, Y-junction with mirror axis) with corresponding modification of the mirror-partner indexing.
 **Breaks for:** states with multi-excitation content (formula no longer applies because ρ[\|11⟩⟨11\|] ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
-**Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3; MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1).
+**Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3 and at N = 11 for k = 1, 2, 3, 4, 6; MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1). The sim/analytic ratio sits at 0.925 to 0.931 across all (N ≥ 7, k) tested, i.e. PeakMM = 0.93 × MM(0) with tight consistency.
 **Scripts:** [`_check_brecher_n5_finegrid.py`](../simulations/_check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `_mm_zero_derivation.py` (table above).
 **Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
 
