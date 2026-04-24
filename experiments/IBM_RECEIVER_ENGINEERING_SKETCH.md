@@ -122,8 +122,8 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 
 ## Next concrete steps
 
-1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory (external) — done 2026-04-24, supports --simulate / --hardware / --analyze modes.
-2. ✅ **Run MVE on Aer simulator** with Kingston noise — done 2026-04-24: **bonding:2 retains 91% of ideal MI (1.060/1.168), alt-z-bits retains 55% (0.466/0.843). Ratio 2.27× favors bonding:2.**
+1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory (external); done 2026-04-24, supports --simulate / --hardware / --analyze modes.
+2. ✅ **Run MVE on Aer simulator** with Kingston noise; done 2026-04-24: **bonding:2 retains 91% of ideal MI (1.060/1.168), alt-z-bits retains 55% (0.466/0.843). Ratio 2.27× favors bonding:2.**
 3. **Tonight:** review Aer numbers with Tom; commit ~5-7 QPU minutes to MVE on Kingston.
 4. **Analyse** results, update this doc with Run 1 hardware data.
 5. If positive, run fuller protocol (time sweep + receiver menu at N=7).
