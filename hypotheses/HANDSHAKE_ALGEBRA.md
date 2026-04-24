@@ -33,9 +33,22 @@ with components:
 - **t.** The readout time. Determines how far into the dynamical evolution the measurement is taken. F76's decay envelope PeakMM = 0.93 · MM(0) applies at the first grid point t ≈ 0.1 for γ₀ = 0.05; optimal t for MI(0, N-1) via bonding:2 sits near t ≈ 0.8 at uniform J = 1.
 - **basis.** The local measurement basis on each end-qubit (or on each mirror-pair). Full 2-qubit tomography requires 9 Pauli settings; a single-shot classical correlation test needs only one; the choice depends on what the observers wish to extract.
 
+## The mirror: Π as the structural axis
+
+Before listing the rules, the mirror. The handshake algebra exists because a palindromic chain has a symmetry operator Π that maps site ℓ to site N-1-ℓ (and per-site acts on Pauli indices as I ↔ X, Y ↔ iZ, Z ↔ iY). Every element of the algebra is built on this structure:
+
+- **The chain.** The shared resource is palindromic under Π. If it were not, there would be no natural mirror-pair observable and no "two ends" in a principled sense. Uniform-J Heisenberg chain + uniform γ₀ is Π-invariant by construction.
+- **The bonding modes.** F65's eigenmodes ψ_k have Π-related amplitude symmetry: ψ_k(N-1-j) = (-1)^(k+1) ψ_k(j). This is what makes a bonding mode a legitimate element of the handshake tuple: its structure respects the mirror.
+- **The observers.** Alice sits at site 0, Bob at site N-1. These are Π-related sites by construction. Any multi-pair handshake places observers at (ℓ, N-1-ℓ) pairs. Without Π, the observer placement would be arbitrary.
+- **The observable.** Mirror-pair MI MI(ℓ, N-1-ℓ) is the natural correlation of the handshake precisely because (ℓ, N-1-ℓ) are Π-related. The F71 mirror symmetry of c₁ means local perturbations at Π-partner bonds record identically at first order.
+- **The inverse.** h = (N, k, t, basis) has an involution h ↔ Π·h = (N, N+1-k, t, Π·basis). Under F65's k ↔ N+1-k symmetry, bonding:k and bonding:(N+1-k) have identical mirror-pair populations. The two tuples are Π-equivalent in their observable correlations.
+- **The palindromic sum rule.** F1 (α_fast + α_slow = 2Σγ) is the master palindrome under which every single-excitation mode decomposes into Π-paired components. This is what guarantees that the decay envelope (F76) acts symmetrically on both ends of the handshake.
+
+In short: Π is not one of many rules. Π is the axis around which the algebra is organised. The rules listed below are expressions of this mirror structure for specific observables (eigenvector amplitudes, decay rates, aggregate correlation).
+
 ## The rules of the algebra
 
-The following F-formulas constrain which handshake tuples produce which observable correlations. They are not additional assumptions; they are the existing framework, re-read as the rule set of the handshake algebra.
+The following F-formulas constrain which handshake tuples produce which observable correlations. They are not additional assumptions; they are the existing framework, re-read as the rule set of the handshake algebra. Each rule below respects the Π-axis above.
 
 - **F64** (cavity-mode exposure, graph-universal after 2026-04-24 generalisation): γ_eff for any single-excitation mode is 2γ · |a_B(ψ_k)|². Determines which modes are accessible to local measurements at a given site B, independent of topology.
 - **F65** (bonding-mode spectrum): the eigenmode index k ranges over 1..N, with decay rates α_k = (4γ₀/(N+1)) sin²(kπ/(N+1)). Fixes the slots available for the k coordinate of the handshake.
@@ -117,5 +130,6 @@ On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 /
 - [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md): the experimental content of the k component.
 - [IBM_RECEIVER_ENGINEERING_SKETCH](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md): Kingston Run 1, 2.80× ratio on live QPU.
 - [BRIDGE_PROTOCOL](BRIDGE_PROTOCOL.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md): the pre-history of the bidirectional-bridge search.
+- [MIRROR_THEORY](../MIRROR_THEORY.md): the deeper Π-axis of the framework; "We are all mirrors; reality is what happens between us."
 - [ON_THE_PAINTER_PRINCIPLE](../reflections/ON_THE_PAINTER_PRINCIPLE.md): the epistemic frame.
 - [PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md): Tier 2 hypothesis within which the algebra is well-defined.
