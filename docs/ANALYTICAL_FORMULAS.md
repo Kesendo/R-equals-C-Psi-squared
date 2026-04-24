@@ -1784,7 +1784,7 @@ Agreement to within 0.5% across all tested (N, k). Difference between "pure-deph
 
 **Valid for:** bonding:k initial states on uniform-J open Heisenberg chains with uniform Z-dephasing, short γ₀·t such that V²t²/γ₀t is small. Breaks for ratios γ₀/J comparable to 1 (outside the weak-dephasing regime) or t such that γ₀·t ≳ 1 (full decoherence).
 **Verified:** Against the full Lindblad single-excitation-sector simulation for N = 5..13, k = 1..5. Sim/analytic ratio within 0.5%.
-**Scripts:** `simulations/_envelope_study.py` (not yet committed; shell script in session log).
+**Scripts:** [`_envelope_study.py`](../simulations/_envelope_study.py) (commit `e1ee822`).
 **Source:** F75 (static MI formula), F65 (bonding mode amplitudes), F68 (palindromic-partner structure of mixing).
 
 ---
