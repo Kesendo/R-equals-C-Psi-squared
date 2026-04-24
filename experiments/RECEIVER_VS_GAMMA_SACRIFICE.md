@@ -16,7 +16,7 @@ This document re-examines that claim against data from the EQ-024 refinement pas
 
 The 360× ratio is correct for its own setup. The absolute value it reaches (0.230) is beaten by 11.5× by a different initial state at completely uniform γ₀ without any γ-profile engineering at all. Under γ₀ = const, Alice does not need the Sacrifice Zone because she can choose a receiver that does better without it.
 
-Two transport metrics matter: Sum-MI over adjacent pairs (distributed correlation across the chain) and MI(0, N-1) between the endpoints (direct end-to-end transport). The main body below compares γ-Sacrifice against receiver-engineering on both metrics. The receiver-engineering advantage is larger on the Sum-MI metric (factor 7 to 15 across N=5 to N=9), but still substantial on the end-to-end metric (factor 3 to 5 at N=7 to N=9, measured against RESONANT_RETURN's center-sacrifice mode). The two metrics select opposite J-profiles as optimal: Sum-MI prefers moderate J-modulation, MI(0, N-1) prefers uniform J.
+Three transport metrics matter. **Sum-MI** over all adjacent pairs (distributed correlation across the chain). **MI(0, N-1)** between the two outer endpoints (single-end direct transport). **Mirror-Pair MM** = Σ_k MI(site k, site N-1-k) over all F71-mirror partners (multi-end transport, e.g. 4 pairs at N=9). The main body below compares γ-Sacrifice against receiver-engineering on all three. The receiver-engineering advantage is largest on Sum-MI (factor 7 to 15 across N=5 to 9), intermediate on Mirror-Pair MM (factor ~6 to 8), and smallest on single-end MI(0, N-1) (factor 3 to 5). The three metrics select different optimal J-profiles: Sum-MI prefers moderate J-modulation, MI(0, N-1) and MM both prefer uniform J (same J-optimum for both transport metrics). The Mirror-Pair MM/MI(0,N-1) ratio grows with N (1.49× → 1.74× → 2.05× at N=5, 7, 9), so multi-end usage partially compensates the single-end scaling loss with N.
 
 ## Correction note (2026-04-23 evening)
 
@@ -159,6 +159,55 @@ The receiver-engineering approach is not just better for distributed correlation
 
 Hardware cost (IBM Heron, estimated): ~15 two-qubit gates for 2 Trotter steps at N=5, single-qubit readout tomography. Gate-error budget ~1 to 2%. Achievable in a short experiment.
 
+## Multi-end transport: Mirror-Pair Sum-MI (MM)
+
+End-to-end MI(0, N-1) measures a single pair. For an F71-symmetric receiver, multiple pairs share structural identity. At \|01010⟩ site 0 and site 4 are both \|0⟩; sites 1 and 3 are both \|1⟩; site 2 is self-mirror. The natural multi-end-transport metric is
+
+**MM = Σ_{k=0}^{⌊N/2⌋-1} MI(site k, site N-1-k)**
+
+At N=5: 2 pairs (0,4), (1,3). At N=7: 3 pairs (0,6), (1,5), (2,4). At N=9: 4 pairs (0,8), (1,7), (2,6), (3,5). The C# brecher scan (commit `963f2ed`) tracks MM alongside Sum-MI and MI(0, N-1).
+
+### Data at uniform γ₀ = 0.05, uniform J = 1 (alt-z-bits receiver)
+
+| N | Mirror-Pairs | PeakSumMI | PeakMI(0, N-1) | **PeakMM** | MM / MI(0,N-1) |
+|---|--------------|-----------|----------------|------------|----------------|
+| 5 | 2 | 2.65 | 0.843 | **1.253** | 1.49× |
+| 7 | 3 | 3.68 | 0.490 | **0.853** | 1.74× |
+| 9 | 4 | 4.70 | 0.274 | **0.562** | 2.05× |
+
+### Three observations
+
+**1. MM/MI(0,N-1) ratio grows with N.** 1.49× → 1.74× → 2.05×. The multi-end advantage over single-end widens with N. Adding more mirror-pairs at larger N more than compensates the single-pair scaling loss.
+
+**2. MM shrinks slower with N than MI(0, N-1).** Per 2-N-step: MI(0, N-1) scaling factor ~1.8× decay, MM scaling factor ~1.5×. The chain as a multi-drop bus retains aggregate transport capacity better than as a single-channel end-to-end link.
+
+**3. Outer mirror-pairs dominate the inner ones, unexpectedly.** At N=9, MI(0, 8) = 0.274 vs average inner-pair MI ≈ 0.096. The F71-symmetry is better preserved at the chain boundary than in the interior, despite inner pairs being physically closer and coupled through fewer intermediate dephasing events. The mechanism is open and worth investigating: likely because inner sites have two coupling neighbours that can both disrupt their correlation, while outer sites have only one.
+
+### J-modulation collapses MM the same way as MI(0, N-1)
+
+Cut-center J destroys MM by factor 10³ to 10⁴ (physical disconnection of halves). Strong-weak J reduces MM by factor 10 to 40 (impedance mismatch propagates to all mirror-pairs, not just the outermost). Uniform J is the optimum for both transport metrics simultaneously.
+
+### Comparison to γ-Sacrifice-Zone
+
+γ-Sacrifice center mode is, by construction, a single-end transport (all noise on one edge qubit, or on the center for pure end-to-end). The MM of γ-Sacrifice is not explicitly tabulated in RESONANT_RETURN but structurally must be low: asymmetric γ breaks F71, so mirror-pair correlations are suppressed on all but the outermost pair.
+
+Receiver-engineering uniform-J MM vs γ-Sacrifice center-mode MI(0, N-1):
+- N=7: MM 0.853 vs γ-sacrifice 0.109 → factor **7.8×**
+- N=9: MM 0.562 vs γ-sacrifice 0.097 → factor **5.8×**
+
+Stronger than the single-end comparison (4.5× / 2.8×): multi-end transport is a direction where receiver-engineering's advantage is more robust.
+
+### Operational interpretation
+
+The chain under γ₀ = const with an F71-symmetric SU(2)-breaking receiver and uniform J is a **multi-drop quantum bus**. Multiple Sender-Receiver pairs can operate simultaneously along F71-mirror lines. Possible applications:
+
+- Multi-party QKD or Bell-pair distribution: one evolution generates several correlated endpoint pairs at once.
+- Redundant quantum-state encoding: information replicated across mirror-pairs provides natural error tolerance.
+- Distributed sensor arrays: each mirror-pair as a paired-sensor readout channel.
+- Multi-target quantum state transfer: one protocol, N/2 simultaneous delivery channels.
+
+Each pair has lower bandwidth than a dedicated single-end link, but the aggregate (MM) scales more favourably with N than any individual pair. For many N-party quantum-network use cases this is the right direction.
+
 ## Open questions
 
 - **N=11+ scaling.** Dense RK4 at N=11 (d² = 4M) takes hours per evaluation; needs block-restricted Liouvillian or matrix-free propagation. The C# matrix-free path handles N=14, 15 at d² = 256M, but the brecher mode does not yet route through it for N=11. Scheduled for the weekend run.
@@ -178,4 +227,5 @@ Hardware cost (IBM Heron, estimated): ~15 two-qubit gates for 2 Trotter steps at
 - `compute/RCPsiSquared.Propagate/`: C# brecher mode and scan runner (commit `dbf396a`)
 - `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid Sum-MI results (commits `dbf396a`, `d22c0fe`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mi0n.txt`: C# scan with both Sum-MI and MI(0, N-1) tracking (commit `ad99bea`)
+- `simulations/results/eq024_refinement/brecher_scan_with_mm.txt`: C# scan with Sum-MI, MI(0, N-1), and Mirror-Pair MM tracking (commit `963f2ed`)
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const

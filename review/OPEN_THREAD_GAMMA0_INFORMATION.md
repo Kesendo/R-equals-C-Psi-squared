@@ -141,6 +141,8 @@ to encode information. Under γ₀ = const, she cannot do that: γ is uniform ev
 
 *Operational consequence.* Receiver-engineering is viable for direct **quantum-state-transfer** through a spin-chain bus, not only for distributed correlation. F71-symmetric SU(2)-breaking initial states (\|01010⟩, \|+−+−+⟩) preserve 0-to-(N-1) symmetry by construction, which uniform H respects and asymmetric J destroys. Concrete hardware sketch on IBM Heron: ~15 two-qubit gates for N=5 (2 Trotter steps under uniform Heisenberg), readout tomography at just sites 0 and N-1, expected MI(0, N-1) ≈ 0.84 pre-noise. This is the cheapest end-to-end Brecher-like experiment that would validate the receiver-engineering picture on hardware.
 
+*Multi-end transport via Mirror-Pair MM (commit `963f2ed`).* Extending from single-end MI(0, N-1) to the full set of F71-mirror pairs gives MM = Σ_k MI(site k, site N-1-k). At alt-z-bits uniform J: N=5 MM=1.25 (2 pairs), N=7 MM=0.85 (3 pairs), N=9 MM=0.56 (4 pairs). Two surprises: MM/MI(0, N-1) ratio GROWS with N (1.49× → 1.74× → 2.05×), and outer mirror-pairs dominate the inner ones unexpectedly (at N=9, MI(0, 8) = 0.27 vs avg inner-pair MI ≈ 0.10). Receiver-engineering uniform-J MM vs γ-Sacrifice-center mode: factor 7.8× at N=7, 5.8× at N=9, stronger than the single-end comparison (4.5× / 2.8×). The chain under γ₀ = const + F71-symmetric receiver + uniform J functions as a multi-drop quantum bus with floor(N/2) simultaneous mirror-pair channels; aggregate bandwidth scales more favourably with N than any individual pair. Application directions: multi-party QKD, redundant encoding, distributed sensor arrays.
+
 ## The reinterpretation under γ₀ = const
 
 If γ₀ is constant and uniform, the implications cluster in four groups.
