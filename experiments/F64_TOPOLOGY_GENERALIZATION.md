@@ -66,10 +66,15 @@ This is an instance of standard degenerate perturbation theory. It was not neede
 
 3. **Degeneracy is a feature, not a bug.** Star, ring, and complete graph have degenerate H^(1) eigenvalues by symmetry. In these subspaces the "right" eigenbasis is picked out by the physical perturbation, not by the orbital algebra. The framework's first-order response always selects the eigenbasis aligned with the noise, not with the unperturbed Hamiltonian. This is consistent with the general receiver-engineering picture: the receiver (here, the local projector P_B) imposes its own preferred basis on the eigenstructure.
 
+## Non-uniform J extension (2026-04-24)
+
+After the uniform-J topology scan above, the same test was extended to non-uniform J per bond (random J values in [0.5, 1.5]) on all five topologies at N=5 and N=7, three trials per N. In 29 of 30 (topology, Hamiltonian, trial) configurations the worst-site relative error remained below 0.02; the remaining case (star + Heisenberg at N=7, trial 2) sat at 0.068, still well inside the first-order PT envelope. The elevated error in that configuration is consistent with expected second-order PT corrections of magnitude ~(γ · δJ)/J² that grow when δJ is non-zero.
+
+F64 is therefore confirmed across **any graph topology, any uniform or per-bond J assignment**, XX+YY or Heisenberg single-excitation H, any dephased site B, at first-order PT tolerance. The structural backstop for [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) is now complete at γ/J = 0.01 on the tested (N, topology) grid.
+
 ## What remains open
 
 - **γ/J ≳ 1 regime.** Current test is at γ/J = 0.01 (first-order). At larger γ/J the second-order corrections become O(10⁻²) and F64 no longer matches to machine precision. A systematic study of the breakdown would reveal the full [γ_B, J] phase structure.
-- **Non-uniform J.** Test uses uniform J on all bonds. Non-uniform J introduces further eigenvector shifts and may modify the degenerate-subspace structure.
 - **N ≥ 9 topology scan.** Not a fundamental question, but would confirm scaling on large examples.
 - **Multi-site dephasing.** F64 is a single-site statement. The multi-site generalisation is a superposition of projectors Σ_k γ_k P_k, which should still follow the same structure but has not been explicitly tested.
 

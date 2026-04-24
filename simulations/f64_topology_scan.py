@@ -88,33 +88,35 @@ TOPOLOGIES = {
 def single_excitation_H(N, bonds, J=1.0, ham_type="xy"):
     """Build NxN single-excitation Hamiltonian for given bond list.
 
-    ham_type = "xy"   -> XX+YY only: H_ij = J if (i,j) in bonds, 0 else
+    J may be scalar (uniform) or dict {(a,b): J_value} (non-uniform).
+    Non-uniform J values should be given for each bond; missing bonds take J=1.
+
+    ham_type = "xy"   -> XX+YY only: H_ij = J_bond if (i,j) in bonds, 0 else
     ham_type = "heis" -> Heisenberg (XX+YY+ZZ): adds diagonal from ZZ terms
-
-    For a single-excitation state |1_j>, the ZZ contribution from bond (a,b):
-      if j ∈ {a, b}: ZZ = -J (one spin up, one down)
-      if j ∉ {a, b}: ZZ = +J (both down)
-    Total diagonal: sum_bonds J * (sign), then adjust relative to vacuum energy
-    Total on vacuum: sum_bonds J = len(bonds) * J (all bonds both-down)
-
-    For the single-excitation coherence |1_j><vac|, the diagonal drift is
-    (<1_j|H|1_j> - <vac|H|vac|). For ham_type=xy, <vac|H|vac>=0, so diagonal is
-    0. For heis, <vac|H|vac> = len(bonds)*J and <1_j|H|1_j> = len(bonds)*J
-    minus 2*J*adj(j).
     """
+    def bond_J(a, b):
+        if isinstance(J, dict):
+            key = (min(a, b), max(a, b))
+            return J.get(key, 1.0)
+        return float(J)
+
     H = np.zeros((N, N), dtype=complex)
-    # Off-diagonal: XX+YY hopping
+    # Off-diagonal: XX+YY hopping, per-bond J
     for (a, b) in bonds:
-        H[a, b] += J
-        H[b, a] += J
+        jb = bond_J(a, b)
+        H[a, b] += jb
+        H[b, a] += jb
     if ham_type == "xy":
         return H
     if ham_type == "heis":
-        # Diagonal drift relative to vacuum
+        # Diagonal drift: sum over bonds (a,b) of -2 J_bond if j in {a,b} else 0
+        # = -2 * sum_{b: j adjacent to b} J_b relative to vacuum energy
         for j in range(N):
-            adj_j = sum(1 for (a, b) in bonds if j in (a, b))
-            # <1_j|H_ZZ|1_j> - <vac|H_ZZ|vac> = -2*adj(j)*J
-            H[j, j] += -2.0 * adj_j * J
+            drift = 0.0
+            for (a, b) in bonds:
+                if j == a or j == b:
+                    drift += -2.0 * bond_J(a, b)
+            H[j, j] += drift
         return H
     raise ValueError(f"ham_type must be 'xy' or 'heis', got {ham_type}")
 
@@ -123,7 +125,7 @@ def single_excitation_H(N, bonds, J=1.0, ham_type="xy"):
 # Single-excitation coherence Liouvillian
 # ======================================================================
 
-def single_excitation_coherence_L(N, bonds, B, gamma, J=1.0, ham_type="xy"):
+def single_excitation_coherence_L(N, bonds, B, gamma, J=1.0, ham_type="xy"):  # J may be scalar or dict
     """NxN Liouvillian acting on single-excitation coherences |1_j><vac|.
 
     L(|1_j><vac|)_i = -i H^(1)_ij + gamma (<1_i|Z_B|1_j><vac|Z_B|vac> - <ij>)
@@ -202,17 +204,68 @@ def compare(predicted, measured):
 # ======================================================================
 
 def main():
-    J = 1.0
     gamma = 0.01  # small enough that first-order F64 should be accurate
-
     ham_types = ["xy", "heis"]
 
+    # =========================================
+    # Part 1: uniform J (control, verified earlier today)
+    # =========================================
+    print("=" * 74)
+    print("PART 1: UNIFORM J (control, already verified)")
+    print("=" * 74)
     for N in (5, 7):
-        print(f"F64 test: alpha_k = 2 gamma |a_B(psi_k)|^2 on non-chain topologies")
-        print(f"N = {N}, J = {J}, gamma = {gamma}, gamma/J = {gamma/J}")
-        print()
+        J = 1.0
+        print(f"\nF64 test: alpha_k = 2 gamma |a_B(psi_k)|^2, uniform J = {J}")
+        print(f"N = {N}, gamma = {gamma}, gamma/J = {gamma/J}")
         _run_scan(N, J, gamma, ham_types)
-        print()
+
+    # =========================================
+    # Part 2: non-uniform J (new: EQ-015 final sub-case)
+    # =========================================
+    print()
+    print("=" * 74)
+    print("PART 2: NON-UNIFORM J (F64 non-uniform extension)")
+    print("=" * 74)
+    np.random.seed(42)  # reproducible
+    for N in (5, 7):
+        for trial in range(3):
+            # Build random J per bond in [0.5, 1.5]
+            print(f"\nN = {N}, trial {trial+1}:  random J per bond in [0.5, 1.5]")
+            for topo_name, bond_fn in TOPOLOGIES.items():
+                bonds = bond_fn(N)
+                j_dict = {(min(a, b), max(a, b)): float(np.random.uniform(0.5, 1.5))
+                          for (a, b) in bonds}
+                # Report range of this trial's J values
+                j_vals = sorted(j_dict.values())
+                print(f"  {topo_name:10s} J range [{j_vals[0]:.3f}, {j_vals[-1]:.3f}]")
+                _run_scan_single_topo(N, j_dict, gamma, ham_types, topo_name, bond_fn)
+
+
+def _run_scan_single_topo(N, J, gamma, ham_types, topo_name, bond_fn):
+    """Scan F64 for a single (topology, J-profile) across all B and both H types."""
+    bonds = bond_fn(N)
+    j_eff = max(J.values()) if isinstance(J, dict) else J
+    for ham_type in ham_types:
+        worst_rel = 0.0
+        worst_abs = 0.0
+        for B in range(N):
+            H = single_excitation_H(N, bonds, J, ham_type)
+            predicted, energies = f64_predict(H, B, gamma)
+            L = single_excitation_coherence_L(N, bonds, B, gamma, J, ham_type)
+            measured = measure_decay_rates(L)
+            pred_sorted, meas_sorted, rel_err_arr = compare(predicted, measured)
+            abs_err = np.abs(pred_sorted - meas_sorted)
+            max_abs = np.max(abs_err)
+            threshold = gamma * 0.01
+            nonzero_mask = pred_sorted > threshold
+            max_rel = np.max(rel_err_arr[nonzero_mask]) if np.any(nonzero_mask) else 0.0
+            if max_rel > worst_rel:
+                worst_rel = max_rel
+            if max_abs > worst_abs:
+                worst_abs = max_abs
+        status = "OK" if worst_rel < 0.05 and worst_abs < gamma * 0.05 else \
+                 ("CHECK" if worst_rel < 0.20 else "FAIL")
+        print(f"    {ham_type:5s}  worst over B: rel = {worst_rel:.4f}, abs = {worst_abs:.4g}  [{status}]")
 
 
 def _run_scan(N, J, gamma, ham_types):
