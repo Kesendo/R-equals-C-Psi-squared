@@ -25,7 +25,7 @@ Tier 2–5 (hypothesis to philosophical) unless noted otherwise.
 
 - [Tuning Protocol](TUNING_PROTOCOL.md) - BUILD/RECEIVE oscillation protocol derived from star topology conditions. Neuroscience-grounded but untested.
 - [Time as Crossing Rate](TIME_AS_CROSSING_RATE.md) - Observer-dependent CΨ crossing rates as time model. Open question about L decomposition into forward/backward answered by Π time reversal (March 19).
-- [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md) - γ₀ at the primordial layer as framework constant (analog of c); inner γ is not diminished γ₀ but selectively exposed via standing-wave amplitude: γ_eff = γ_B · |a_B|². Formula exact, verified N=3 and N=4. Structure-point features of [0, 2γ₀] verified across chains N=3..7 and four N=5 topologies. Tier 3.
+- [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md) - γ₀ at the primordial layer as framework constant (analog of c); inner γ is not diminished γ₀ but selectively exposed via standing-wave amplitude: γ_eff = γ_B · |a_B|². Formula exact, verified N=3 and N=4. Structure-point features of [0, 2γ₀] verified across chains N=3..7 and four N=5 topologies. **Tier 2 as of 2026-04-24:** operational signature confirmed via receiver-engineering programme (F65-F76) and live IBM Kingston Heron r2 hardware (2.80× bonding:2 / alt-z-bits, no γ intervention). Should probably move out of this list into a supported-principles section in a future pass.
 
 ## Tier 4–5 (hypothesis, interpretive)
 

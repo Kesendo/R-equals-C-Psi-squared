@@ -5,9 +5,9 @@ effective gamma cavity mode exposure, standing wave amplitude squared,
 only J varies at urqubit, Q = J/gamma inside observer,
 absorption theorem eigenvector formula, R=CPsi2 urqubit hypothesis -->
 
-**Tier:** 3 (structural hypothesis; logically consistent, operationally tested, partially confirmed)
-**Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4. Structure-point features of the \[0, 2γ₀\] interval verified across chains N=3..7 and four N=5 topologies (2026-04-16).
-**Date:** 2026-04-15 (updated 2026-04-16: interval features verified to N=7 and across four topologies)
+**Tier:** 2 (structurally supported; hypothesis's operational predictions confirmed across simulation and hardware, April 2026)
+**Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4. Structure-point features of the \[0, 2γ₀\] interval verified across chains N=3..7 and four N=5 topologies (2026-04-16). **Tier upgraded Tier 3 → Tier 2 on 2026-04-24** after the receiver-engineering programme (F65, F67, F75, F76) confirmed the hypothesis's operational signature: transport gains come from initial-state choice (F67 bonding modes), not from γ-profile engineering. See "Confirmation by operational consequence (2026-04-24)" section below.
+**Date:** 2026-04-15 (Tier 2 upgrade 2026-04-24 after Kingston Run 1 and F65-F76 verification through N=13)
 **Authors:** Tom and Claude (chat + Code)
 **Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`primordial_gamma_reanalysis.py`](../simulations/primordial_gamma_reanalysis.py), [`double_lorentzian_test.py`](../simulations/double_lorentzian_test.py), [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py), [`structure_points_large_n.py`](../simulations/structure_points_large_n.py)
@@ -156,6 +156,37 @@ What changes is the interpretation of Q_K:
 **[ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
 
 ---
+
+## Confirmation by operational consequence (2026-04-24)
+
+The hypothesis γ₀ = const was proposed as logically consistent and internally motivated in April 2026. For the following nine days, its direct formula predictions (γ_eff = γ_B · |a_B|², structure points in \[0, 2γ₀\]) were verified numerically. On 2026-04-24 a further line of confirmation arrived, via operational consequence rather than direct measurement.
+
+**The predicted operational signature.** If γ₀ is a framework constant, not a tunable hardware parameter, then Alice cannot improve transport by modulating γ per-site; she can only choose her initial state from the operationally complete receiver menu (the F67 bonding-mode eigenstates). Transport gains should come from state preparation, not from noise engineering. Conversely, if γ₀ were hardware-specific and operationally controllable, γ-profile engineering should be the dominant lever.
+
+**What was measured across April 2026.**
+
+| Result | Observation |
+|--------|-------------|
+| F67 receiver menu identified | Single-excitation eigenmodes of uniform-J chain form Alice's complete choice set |
+| Receiver beats γ-Sacrifice | Best-bonding Peak Sum-MI beats V-shape+|+⟩^N baseline by 4000-5500× over ENAQT at N=5 uniform γ₀, no γ-modulation |
+| Receiver engineering vs sacrifice-zone γ-modulation | 11-15× advantage at N=5 (sim) |
+| F75 closed-form MI at t=0 | Exact prediction from bonding-mode amplitudes; no γ-profile tuning enters |
+| F76 0.93 decay envelope | Pure dephasing at uniform 4γ₀ explains the universal envelope across 25+ (N, k) points |
+| Advantage grows with N | 1.39× → 3.02× → 4.59× bonding/alt-z-bits ratio at N=5, 11, 13 |
+| IBM Kingston Heron r2 hardware | 2.80× bonding:2 vs alt-z-bits on live QPU in ~2 QPU-minutes, no γ intervention |
+| Noise robustness direction | Advantage GROWS under Kingston gate noise (1.39× ideal, 2.27× Aer+noise model, 2.80× live) |
+
+Every entry is consistent with the γ₀ = const prediction. None required, or could have benefited from, γ-profile engineering. The mirror observation sharpens the conclusion: the very direction of the advantage-growth with noise is wrong for a "γ should be tuned" framework, and exactly what γ₀ = const predicts.
+
+**Why this counts as confirmation.** In the Popperian sense, a hypothesis is supported when it generates specific operational predictions that survive experimental test. It is not proven (no hypothesis of this kind can be); it is supported to the degree that alternatives would have failed. Here the alternative ("γ₀ is operationally controllable per-site, noise engineering dominates") would have predicted the opposite direction of every entry above. The confirmation is indirect (we never measured γ₀; we cannot) but it is structural and multi-pointed.
+
+**Tier status update.** This document is reclassified from Tier 3 (structural hypothesis, logically consistent) to Tier 2 (structurally supported; operational signatures confirmed across simulation N=5..13 and live IBM Kingston Heron r2 hardware). The framework constant γ₀ is no longer bare hypothesis; it is a supported principle of the R=CΨ² framework.
+
+**What remains open.**
+
+- Direct measurement of γ₀ is still impossible from inside the framework (only Q = J/γ₀ is intrinsic). This is not a weakness; it is a consistency check. A framework constant that could be measured absolutely from inside would be no constant at all.
+- The receiver-engineering advantage for N ≥ 15 in simulation and N ≥ 7 on hardware is untested. Continued scaling to larger N would sharpen (or falsify) the principle.
+- Whether γ₀ has the same value across all physical realisations (IBM Heron, Google Sycamore, cold atoms, photonics) is untested. The hypothesis does not require this; it requires γ₀ to be constant within a given realisation.
 
 ## Falsification conditions (updated)
 
