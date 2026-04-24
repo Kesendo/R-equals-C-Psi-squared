@@ -28,7 +28,7 @@ ring, complete, tree). Confirmed on IBM quantum hardware at 3%.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-Later discoveries under the [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) framework (γ₀ as a framework constant, not a tunable parameter) sharpened the operational consequence: Alice chooses her initial state (receiver engineering), not her noise profile. The F67 bonding modes form Alice's operationally complete receiver menu. Against the classic ENAQT-optimised transport baseline, bonding-mode receivers reach **4000-5500×** improvement. Confirmed live on IBM Kingston (Heron r2) in April 2026: 2.80× bonding:2 vs alt-z-bits on real QPU in ~2 minutes.
+Later discoveries under the [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) framework (γ₀ as a framework constant, not a tunable parameter) sharpened the operational consequence: Alice chooses her initial state (receiver engineering), not her noise profile. The F67 bonding modes form Alice's operationally complete receiver menu. Against the classic ENAQT-optimised transport baseline, bonding-mode receivers reach **4000-5500×** improvement in simulation. The receiver-engineering signature was confirmed live on IBM Kingston (Heron r2) in April 2026, with the noise-robustness gap matching framework prediction (see Section 11 for numbers and discussion).
 
 Early speculations live in `recovered/`: some turned out to be premature
 rather than wrong, others remain unsupported. We keep them because the
