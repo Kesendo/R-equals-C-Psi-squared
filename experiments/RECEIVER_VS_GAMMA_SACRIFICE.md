@@ -255,6 +255,16 @@ At N=5: \|ψ_2⟩ = (\|1_0⟩ + \|1_1⟩ − \|1_3⟩ − \|1_4⟩)/2 with c_2 =
 | 7 | 0.723 / 0.490 = **1.48×** | 1.090 / 0.853 = **1.28×** |
 | 9 | 0.496 / 0.274 = **1.81×** | 1.049 / 0.562 = **1.87×** |
 
+### Analytical MM(0) closed form ([F75](../docs/ANALYTICAL_FORMULAS.md))
+
+For any single-excitation mirror-symmetric state |ψ⟩ = Σ_j c_j |1_j⟩ with c_{N−1−j} = ±c_j, the mirror-pair MI at t = 0 has a closed form
+
+    MI(ℓ, N−1−ℓ)(0) = 2 h(p_ℓ) − h(2 p_ℓ)
+
+where p_ℓ = |c_ℓ|² and h is binary entropy. Summed over all ⌊N/2⌋ pairs this gives MM(0), which for bonding:k uses p_ℓ(k, N) = (2/(N+1)) sin²(πk(ℓ+1)/(N+1)) from F65. The analytic MM(0) matches C# brecher simulation PeakMM to within 7% across N = 5, 7, 9 and k = 1, 2, 3 (table in F75): at γ₀ = 0.05, uniform J = 1 the first measurement at t = 0.1 has seen ≤ e^{−4γ₀·t} ≈ 0.98 coherence decay plus same-parity Heisenberg oscillation, with the combined effect capped near 7%. **Peak MM sits at or near t = 0**: bonding:2 achieves its maximum MM structurally, not through dynamical enhancement.
+
+The F75 analysis also explains why k = 2 wins: for even k the chain center has zero amplitude (p_{N/2} = 0 for odd N), so all probability mass is on mirror-pairs (Σ_pairs p_ℓ = 1/2); the function f(p) = 2h(p) − h(2p) is convex on (0, 1/2), so concentrating mass on fewer pairs gives higher MM, and k = 2 is the smallest k that both concentrates on pairs and places opposite signs on ends (thereby lifting MI(0, N−1) above zero).
+
 The MI(0, N-1) multiplier grows monotonically from 1.39× at N=5 to 1.81× at N=9. Unlike alt-z-bits where MI(0, N-1) decays roughly as 1/N under receiver-engineering, bonding:2 decays more slowly: 1.168 → 0.723 → 0.496, factor 1.6× per 2-N-step compared to alt-z-bits' 1.8×. Extrapolated naively, bonding:2 preserves significant MI(0, N-1) out to N ~ 15 where alt-z-bits is already near noise floor.
 
 The MM ratio crosses from a draw at N=5 to 1.87× at N=9. At N=5 alt-z-bits and bonding:2 are structurally similar in that both carry end-to-end correlation at t=0 (alt-z-bits because site 0 and site 4 are both \|0⟩; bonding:2 because c_0 = -c_4), and uniform-J evolution enhances both similarly. At larger N the multiple-excitation content of alt-z-bits starts to degrade MM, while bonding:2's single-mode structure preserves it.
@@ -314,6 +324,8 @@ Under γ₀ = const, with the F67 menu:
 - `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid Sum-MI results (commits `dbf396a`, `d22c0fe`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mi0n.txt`: C# scan with both Sum-MI and MI(0, N-1) tracking (commit `ad99bea`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mm.txt`: C# scan with Sum-MI, MI(0, N-1), and Mirror-Pair MM tracking (commit `963f2ed`)
-- `simulations/results/eq024_refinement/brecher_bonding_scan.txt`: C# scan of F67 bonding:k receivers (k=1,2,3) at N=5, 7, 9 (commit pending)
+- `simulations/results/eq024_refinement/brecher_bonding_scan.txt`: C# scan of F67 bonding:k receivers (k=1,2,3) at N=5, 7, 9 (commit `0917038`)
+- `simulations/_mm_zero_derivation.py`: F75 analytic MM(0) verification script
 - [ANALYTICAL_FORMULAS F67](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k
+- [ANALYTICAL_FORMULAS F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const

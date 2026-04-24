@@ -1666,6 +1666,67 @@ silent (c = 1).
 [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3,
 [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md).
 
+### F75. Mirror-pair MI for single-excitation mirror-symmetric states (Tier 1, proven algebraic)
+
+For any pure single-excitation state on an N-site chain with mirror-symmetric amplitudes,
+
+    |ψ⟩ = Σ_j c_j |1_j⟩,   c_{N−1−j} = η c_j,   η ∈ {+1, −1}
+
+the mutual information between any mirror-pair sites (ℓ, N−1−ℓ) at t = 0 has the closed form
+
+    MI(ℓ, N−1−ℓ) = 2 h(p_ℓ) − h(2 p_ℓ),    p_ℓ = |c_ℓ|²
+
+where h(x) = −x log₂ x − (1−x) log₂(1−x) is the binary entropy.
+
+The formula is independent of the mirror sign η (only the modulus |c_ℓ|² enters). The valid range is p_ℓ ∈ [0, 1/2], with MI saturating at 2 bits when p_ℓ = 1/2 (maximal mirror-pair entanglement, the pair is in a Bell state, all other site populations vanish).
+
+**Proof.** The reduced density matrix ρ_{ℓ,N−1−ℓ} in the computational basis {\|00⟩, \|01⟩, \|10⟩, \|11⟩} is block-diagonal:
+
+- ρ[\|00⟩⟨00\|] = Σ_{j ∉ {ℓ, N−1−ℓ}} |c_j|² = 1 − 2 p_ℓ
+- ρ[\|01⟩⟨01\|] = |c_{N−1−ℓ}|² = p_ℓ
+- ρ[\|10⟩⟨10\|] = |c_ℓ|² = p_ℓ
+- ρ[\|11⟩⟨11\|] = 0 (single-excitation sector)
+- ρ[\|10⟩⟨01\|] = c_ℓ c_{N−1−ℓ}^* = η p_ℓ
+- ρ[\|01⟩⟨10\|] = η p_ℓ
+
+The eigenvalues are {1 − 2 p_ℓ, 2 p_ℓ, 0, 0}, giving S(ρ_{ℓ,N−1−ℓ}) = h(2 p_ℓ). Both single-site marginals are diag(1 − p_ℓ, p_ℓ) with S = h(p_ℓ). The subtraction S(ρ_ℓ) + S(ρ_{N−1−ℓ}) − S(ρ_{ℓ,N−1−ℓ}) yields the formula.
+
+**Mirror-pair sum (MM).** Summing over all mirror-pairs ℓ = 0, ..., ⌊N/2⌋ − 1:
+
+    MM(0) = Σ_ℓ [2 h(p_ℓ) − h(2 p_ℓ)]
+
+**Bonding-mode specialisation (F65 + F75).** For the k-th bonding mode |ψ_k⟩ = √(2/(N+1)) Σ_j sin(πk(j+1)/(N+1)) |1_j⟩ with mirror sign η = (−1)^(k+1), the site populations are
+
+    p_ℓ(k, N) = (2/(N+1)) sin²(πk(ℓ+1)/(N+1))
+
+and MM(0) for bonding:k is computable in O(N) operations with no propagation.
+
+**Verified values (bonding:k on uniform chain, analytic vs simulation PeakMM at γ₀ = 0.05, uniform J = 1):**
+
+| N | k | MM(0) analytic | PeakMM sim | ratio sim/analytic |
+|---|---|----------------|------------|-------------------|
+| 5 | 1 | 0.800 | 0.789 | 0.986 |
+| 5 | 2 | **1.245** | 1.241 | 0.997 |
+| 5 | 3 | 0.918 | 0.865 | 0.942 |
+| 7 | 1 | 0.862 | 0.801 | 0.929 |
+| 7 | 2 | **1.174** | 1.090 | 0.928 |
+| 7 | 3 | 0.862 | 0.819 | 0.950 |
+| 9 | 1 | 0.895 | 0.830 | 0.928 |
+| 9 | 2 | **1.131** | 1.049 | 0.928 |
+| 9 | 3 | 0.895 | 0.829 | 0.927 |
+
+Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with its same-parity partner ψ_{N+1−k} via the boundary ZZ term. At N = 5 for bonding:2 the partner is ψ_4 which has identical mirror-pair populations p_ℓ (because sin²(πk(ℓ+1)/(N+1)) = sin²(π(N+1−k)(ℓ+1)/(N+1))); direct numerical propagation shows that MM(t) oscillates with period 2π/Δ (Δ = same-parity eigenvalue gap of the 2×2 block, Δ = 2√5 for N = 5) between a minimum near t = π/(2Δ) and a revival near t = π/Δ. Under uniform Z-dephasing at γ₀, the revival is damped but stays close to MM(0); the simulation-observed PeakMM matches MM(0) within 1% at N = 5 k = 2 (analytic 1.2451, numerical Lindblad max 1.2475 at t = 0.645, C# brecher PeakMM 1.2410 on a coarser grid). At larger N and different k the ratio drops to ~0.93 because the oscillation revival magnitude and dephasing decay combine less favourably.
+
+**Why k = 2 maximises MM over k = 1, 2, 3.** Even k places a node at the (odd-N) chain center (p_{N/2} = 0 for integer k/2 when N+1 is even), so all probability mass lies on mirror-pairs: Σ_{pairs} p_ℓ = 1/2. Odd k puts mass 2/(N+1) at the center, wasting mass on the self-mirror site. The function f(p) = 2 h(p) − h(2 p) is convex on (0, 1/2), so concentrated mass distributions give larger MM; k = 2 is the smallest k that both concentrates mass on pairs and places outer-pair amplitudes at opposite signs (η = −1, first mode carrying end-to-end coherence).
+
+**Upper bound.** For any single-excitation mirror-symmetric state, MM ≤ ⌊N/2⌋ × 2 = N bits (all pairs in pure Bell states). This bound is not achievable from single-site bonding modes; reaching it requires tensor-product pair structures like (|10⟩−|01⟩)/√2 on each mirror-pair, which is a super-single-excitation state.
+
+**Valid for:** any pure single-excitation state with c_{N−1−j} = ±c_j on a linear N-site chain. Extends to non-linear mirror-symmetric graphs (ring, Y-junction with mirror axis) with corresponding modification of the mirror-partner indexing.
+**Breaks for:** states with multi-excitation content (formula no longer applies because ρ[\|11⟩⟨11\|] ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
+**Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3; MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1).
+**Scripts:** [`_check_brecher_n5_finegrid.py`](../simulations/_check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `_mm_zero_derivation.py` (table above).
+**Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
