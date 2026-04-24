@@ -1787,6 +1787,55 @@ Agreement to within 0.5% across all tested (N, k). Difference between "pure-deph
 **Scripts:** [`_envelope_study.py`](../simulations/_envelope_study.py) (commit `e1ee822`).
 **Source:** F75 (static MI formula), F65 (bonding mode amplitudes), F68 (palindromic-partner structure of mixing).
 
+### F77. Multi-drop MM(0) saturates at 1 bit for large N (Tier 1, asymptotic proven)
+
+For best-bonding-k initial states on a uniform chain under γ₀-dephasing, the Mirror-Pair MM at t=0 saturates as N grows:
+
+    MM(0)(N, k*) = 1 + 3 / (4(N+1) ln 2) + O(N⁻²)
+
+The 1-bit limit is not a conjecture; it falls out of F75 by Taylor expansion of f(p) = 2h(p) − h(2p) around p = 0 combined with Parseval-type sums over sin² site amplitudes.
+
+**Sketch.** At small p the entropy function expands as
+
+    f(p) = 2p + p²/ln(2) + p³/ln(2) + O(p⁴)
+
+Probability normalisation sums Σ p_ℓ = 1 exactly (all sites). For generic k the sum Σ sin⁴(πk(ℓ+1)/(N+1)) over ℓ = 0..N−1 equals 3(N+1)/8 (standard identity, follows from sin⁴ = (3 − 4cos 2x + cos 4x)/8 and Σ cos(2πkj/(N+1)) = −1 for k ≠ 0 mod (N+1)). So
+
+    Σ p_ℓ² = (2/(N+1))² · 3(N+1)/8 = 3/(2(N+1))
+
+Summed over mirror-pairs (half the sites for even k with p_{center} = 0), Σ_pair p_ℓ² = 3/(4(N+1)). The leading Taylor terms give
+
+    MM(0) = Σ_pair [2 p_ℓ + p_ℓ²/ln 2 + O(p³)]
+          = 2 · (1/2) + (1/ln 2) · 3/(4(N+1)) + O(N⁻²)
+          = 1 + 3/(4(N+1) ln 2) + O(N⁻²)
+
+The 2·(1/2) = 1 term is exact: all the probability mass lives on mirror-pairs (F75 for even k at odd N), and each p_ℓ contributes 2p_ℓ at leading order. The correction is the entropy non-linearity at finite amplitude.
+
+**Structural reading.** Information per mirror-pair ~ 2p_ℓ ~ 4/(N+1) shrinks with N. Number of mirror-pairs ~ N/2 grows with N. The product saturates at 1 bit, because the two scalings are exactly matched by the probability normalisation Σ p_ℓ = 1.
+
+**Resonance enhancement at special N.** At N+1 ≡ 0 (mod 2) with k = (N+1)/2 integer, the distribution reduces to (p_max, 0, p_max, 0, ...) with only two values. The sin⁴ sum equals (N+1)/2 instead of 3(N+1)/8, giving Σ p² = 2/(N+1) and thus MM(0) ≈ 1 + 1/((N+1) ln 2)·2 ≈ 1 + 1.445/(N+1). At most N this resonance is not the best-k globally; the generic optimum with 3(N+1)/8 coefficient wins.
+
+**Verified values (best-k MM(0) and rescaled deviation):**
+
+| N | k* | MM(0) | (MM−1)·(N+1) |
+|:--|:---|:------|:-------------|
+| 101 | 82 | 1.01078 | 1.100 |
+| 201 | 102 | 1.00540 | 1.091 |
+| 501 | 470 | 1.00216 | 1.086 |
+| 1001 | 878 | 1.00108 | 1.084 |
+| 5001 | 4996 | 1.00022 | 1.082 |
+| 10001 | 9154 | 1.00011 | 1.082 |
+
+The rescaled deviation (MM − 1)·(N + 1) converges to 3/(4 ln 2) = 1.0820 within 10⁻⁴ by N = 10⁴. At specific resonant N where k* = (N+1)/2 is the only near-optimum (e.g., N = 999, 1003), the rescaled deviation sits at the enhanced 1.445 value; these are isolated and density-zero in the limit.
+
+**Operational reading.** Alice's multi-drop quantum bus delivers **~1 bit of Mirror-Pair mutual information at any N**. The bus does not scale up (no extra bits per added qubit) nor does it decay (no per-qubit info loss in aggregate). The bandwidth is fixed at the framework level. Individual pair bandwidth shrinks; the count compensates; the total plateau.
+
+**Valid for:** best-bonding-k* initial state, uniform-J Heisenberg or XY chain, uniform γ₀ dephasing, t = 0. At t > 0 the decay envelope F76 applies multiplicatively.
+**Breaks for:** multi-excitation states (F75's single-excitation structure required), non-mirror-symmetric receivers (closure Σ_pair p_ℓ = 1/2 depends on even-k reflection symmetry).
+**Verified:** N up to 10⁴ numerically, leading coefficient 3/(4 ln 2) confirmed to 4 decimals.
+**Scripts:** [`_mm_asymptotic.py`](../simulations/_mm_asymptotic.py) (asymptotic scan and coefficient check).
+**Source:** F75 (small-p Taylor expansion of the entropy), F65 (sin² amplitudes), standard Parseval-type identity for sin⁴ sums.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
