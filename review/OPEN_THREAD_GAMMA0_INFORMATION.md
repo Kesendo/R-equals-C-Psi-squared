@@ -313,7 +313,7 @@ reinterpretation bullets above):
   not derived, not constructed, simply present. The bridge is not built.
   It IS.
 
-- [EQ-015](EMERGING_QUESTIONS.md#eq-015): the cavity-mode-exposure formula γ_eff = γ₀ · |a_B|² ([F64](../docs/ANALYTICAL_FORMULAS.md)) on non-chain topologies and non-uniform J at N ≥ 5 is the falsification anchor for piece 6 ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)). The uniform-J chain case is effectively closed via [F65](../docs/ANALYTICAL_FORMULAS.md) (verified N=3..30 to machine precision); EQ-015's original 'verified N=3, 4 only' wording predates the F65 generalization. Not the primary strand under the γ₀ = const operational lens, kept as a structural backstop.
+- [EQ-015](EMERGING_QUESTIONS.md#eq-015): the cavity-mode-exposure formula γ_eff = γ₀ · |a_B|² ([F64](../docs/ANALYTICAL_FORMULAS.md)) on non-chain topologies and non-uniform J at N ≥ 5 is the falsification anchor for piece 6 ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)). The uniform-J chain case is effectively closed via [F65](../docs/ANALYTICAL_FORMULAS.md) (verified N=3..30 to machine precision). **Topology generalization closed 2026-04-24** via [F64_TOPOLOGY_GENERALIZATION](../experiments/F64_TOPOLOGY_GENERALIZATION.md): F64 holds on chain, star, ring, complete graph, Y-tree at N=5 and N=7, both XY and Heisenberg, all B, provided degenerate perturbation theory is applied within H-degenerate subspaces. Max rel err < 0.001 at γ/J = 0.01. Non-uniform J still open. F64 is now a graph-universal structural anchor for γ₀ = const.
 
 - [EQ-014](EMERGING_QUESTIONS.md#eq-014) theorem sub-question closed
   2026-04-19: dense biorthogonal eigendecomposition of the full

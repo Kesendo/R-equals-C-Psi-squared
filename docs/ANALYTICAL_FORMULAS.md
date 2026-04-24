@@ -1350,10 +1350,11 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 **General N.** Diagonalize the N×N tridiagonal single-excitation Hamiltonian. Find the eigenvector with the smallest |a_B|² among those with nonzero |a_S|². No layered composition: the formula is a global eigenvector property, not a product of per-layer factors. Multiplicative stacking fails at N=4 (ratio 0.04 to 62); eigenvector formula exact (ratio 1.0000 ± 0.0003).
 
 **Replaces:** time-domain exponential fit for γ_eff extraction.
-**Valid for:** XX+YY chains with Z-dephasing on one end site; good-cavity regime (γ_B ≪ J_MB). Breaks when γ_B ≥ J_MB (bad cavity: B decoheres before transmitting).
-**Verified:** N=3 (max relative error 1.8% vs 64×64 Liouvillian), N=4 (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian).
-**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py)
-**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+**Valid for:** any graph topology (chain, star, ring, complete, tree), XX+YY or Heisenberg single-excitation, Z-dephasing on any single site B; good-cavity regime (γ ≪ J). Breaks when γ ≥ J (bad cavity: B decoheres before transmitting).
+**Topology generalization (2026-04-24).** Extended from chains to arbitrary connected graphs. When H^(1) has degenerate eigenvalues (star center-mode, ring translational eigenmodes, complete-graph symmetric modes), F64 holds after standard degenerate perturbation theory: within each H-degenerate subspace, diagonalise the site-B projector P_B to get the corrected basis; F64 then applies to the eigenvalues of P_B in that basis. Verified at N=5 and N=7 across chain, star, ring, complete, Y-tree for XY and Heisenberg; max relative error < 0.001 at γ/J = 0.01 (first-order PT regime, consistent with expected (γ/J)² scaling of second-order corrections).
+**Verified:** N=3 chain (max relative error 1.8% vs 64×64 Liouvillian), N=4 chain (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian), N=5 and N=7 on chain+star+ring+complete+Y-tree (2026-04-24, via single-excitation coherence Liouvillian directly, dim N×N, max rel err < 0.001 across all (topology, B, Hamiltonian) combinations).
+**Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py), [`f64_topology_scan.py`](../simulations/f64_topology_scan.py) (topology generalization).
+**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [F64_TOPOLOGY_GENERALIZATION](../experiments/F64_TOPOLOGY_GENERALIZATION.md)
 
 ### F65. Single-excitation spectrum of uniform open XX chain (Tier 1, proven, verified N=3..30)
 
