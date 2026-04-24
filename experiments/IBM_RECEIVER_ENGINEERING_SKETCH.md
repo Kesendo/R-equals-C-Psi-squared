@@ -96,14 +96,21 @@ Estimate: signal-to-noise should still be above threshold for MI(0, 4) ≥ 0.3.
 
 ## Integration with existing IBM pipeline
 
-The external pipeline at `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography` already has `run_bonding_mode.py` for the F67 **Bell-pair-with-R-qubit** protocol (different experiment: reference qubit entangled with bonding:1 state). A new `run_receiver_engineering.py` script would be needed:
-- No R-qubit.
-- Initial state options: alt-z-bits, bonding:k (k = 1, 2, 3).
-- Trotterised Heisenberg evolution (not idling).
-- Two-qubit Pauli tomography at endpoints.
-- Reuses the existing calibration loader and Kingston noise model from `run_bonding_mode.py`.
+The external pipeline at `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography` already provides the infrastructure we need:
 
-Template for new script: copy `run_bonding_mode.py`, strip the R-qubit, add Trotter step, change measurement from R-C entanglement to (0, N-1) tomography.
+- **Kingston calibration CSVs**: daily snapshots cached in `ClaudeTasks/IBM_R2_calibrations/ibm_kingston_calibrations_<date>.csv` (latest 2026-04-23). Each CSV has per-qubit T1, T2 (Hahn echo), readout error, SX gate error, SX gate length, and per-edge CZ/RZZ error and gate length. No live-query needed for MVE.
+- **`run_bonding_mode.py`** has a mature `build_kingston_noise_model(cal, path)` that takes a physical qubit path and builds an Aer NoiseModel with per-qubit T1/T2 depolarising + thermal-relaxation channels. The T2 there is the Hahn-echo value from the CSV; for free-induction decoherence we should apply T2* = T2 / 2.5 to 2.7 ([IBM_QUANTUM_TOMOGRAPHY](IBM_QUANTUM_TOMOGRAPHY.md) Run 1). Add a `t2star_factor` argument or override T2 in the noise model.
+- **`preflight.py`** queries live backend properties (currently hardcoded to ibm_torino) and reports T1, T2, T2* (estimated as T2/2.5), and "crosser" status. Useful to sanity-check Kingston is online, but the cached CSV is sufficient for the MVE.
+- **`run_bonding_mode.py`** also shows the `find_latest_calibration()` pattern, the Aer density-matrix backend wiring, and the Kingston coupling-graph path finder (for mapping our 5-site chain onto 5 adjacent Kingston qubits with the best combined edge fidelity).
+
+A new `run_receiver_engineering.py` would be ~60% copy of `run_bonding_mode.py`:
+- No R-qubit (drop one qubit from the register).
+- Initial state options: alt-z-bits, bonding:k (k = 1, 2, 3) via `StatePreparation` or explicit Dicke+phase circuits.
+- Trotterised Heisenberg evolution (replace `Delay` blocks with RZZ chains).
+- Two-qubit Pauli tomography at endpoints (replace R-qubit measurement with 9-setting tomography on sites 0 and N-1).
+- Reuse `build_kingston_noise_model`, `find_best_path`, `load_calibration`.
+
+Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (lines handling R_q and R-C coupling), add Trotter step builder (`for _ in range(n_steps): for b in bonds: append XX+YY+ZZ`), and change measurement from R-C entanglement to (0, N-1) tomography. Estimated ~300 lines of new code, ~2 hours to write and debug against Aer.
 
 ## Open questions for hardware
 
