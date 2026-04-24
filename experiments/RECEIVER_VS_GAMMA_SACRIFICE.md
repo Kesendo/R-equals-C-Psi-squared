@@ -16,6 +16,8 @@ This document re-examines that claim against data from the EQ-024 refinement pas
 
 The 360× ratio is correct for its own setup. The absolute value it reaches (0.230) is beaten by 11.5× by a different initial state at completely uniform γ₀ without any γ-profile engineering at all. Under γ₀ = const, Alice does not need the Sacrifice Zone because she can choose a receiver that does better without it.
 
+Two transport metrics matter: Sum-MI over adjacent pairs (distributed correlation across the chain) and MI(0, N-1) between the endpoints (direct end-to-end transport). The main body below compares γ-Sacrifice against receiver-engineering on both metrics. The receiver-engineering advantage is larger on the Sum-MI metric (factor 7 to 15 across N=5 to N=9), but still substantial on the end-to-end metric (factor 3 to 5 at N=7 to N=9, measured against RESONANT_RETURN's center-sacrifice mode). The two metrics select opposite J-profiles as optimal: Sum-MI prefers moderate J-modulation, MI(0, N-1) prefers uniform J.
+
 ## Correction note (2026-04-23 evening)
 
 The numbers in this document were first computed from Python's `shadow_lens_broken.py` which sampled t ∈ np.linspace(0.1, 15.0, 40) with step ~0.38. Fine-grid verification (`simulations/_check_brecher_n5_finegrid.py`, commit `dbf396a`) showed the true Peak Sum-MI at |+−+−+⟩ + uniform J sits at t ≈ 0.24 with value ≈ 2.70. The coarse grid happened to sample t = 0.10 where SumMI was only 1.32, missing the real peak. The undertreatment varied by configuration: for uniform-J baselines the Python peak was about factor 2 too low (because peaks sit near t = 0.20 to 0.30, squarely between Python sample points), while for strong-weak J peaks sit at t ≈ 0.10 which Python sampled and got correct to within a few percent. The net effect: Python's uniform-J baseline was suppressed, which inflated apparent J-modulation boost ratios.
@@ -95,11 +97,75 @@ The `compute/RCPsiSquared.Propagate/brecher` mode (commit `dbf396a`) enables fin
 4. **Receiver advantage over γ-Sacrifice shrinks slowly**: 11.5× → 8.5× → 7.1× at uniform J. Linear extrapolation suggests they would meet at N ~ 25-30. With moderate J-modulation the lead holds larger: 15.4× → 12.3× → 10.7×.
 5. **Class 3 J-blindness is scale-invariant**: \|+⟩^N gives Peak Sum-MI = 0 exactly at all N, all J. Confirms the M_x-polynomial theorem at larger N.
 
+## End-to-end transport: MI(site 0, site N-1)
+
+Sum-MI measures distributed correlation across adjacent pairs. For quantum-state-transfer through a spin-chain bus, the direct quantity is **MI between the two endpoints**: MI(site 0, site N-1). The C# brecher scan with MI(0, N-1) tracking (commit `ad99bea`) gives a qualitatively different picture.
+
+### Data
+
+| Receiver | J-profile | N=5 PeakMI(0,N-1) | N=7 | N=9 |
+|----------|-----------|-------------------|-----|-----|
+| \|+⟩^N (Class 3) | any | 0.000 | 0.000 | 0.000 |
+| alt-x (\|+−+−+⟩ / \|+−+−+−+⟩ / \|+−+−+−+−+⟩) | uniform | **0.791** | **0.437** | **0.230** |
+| alt-x | cut-center | 0.001 | 0.0002 | 0.00005 |
+| alt-x | strong-weak | 0.083 | 0.020 | 0.005 |
+| alt-z-bits (\|01010⟩ / \|0101010⟩ / \|010101010⟩) | uniform | **0.843** | **0.490** | **0.274** |
+| alt-z-bits | cut-center | 0.001 | 0.0002 | 0.00006 |
+| alt-z-bits | strong-weak | 0.155 | 0.033 | 0.008 |
+| plus-zero (\|+0+0+⟩ / \|+0+0+0+⟩ / \|+0+0+0+0+⟩) | uniform | 0.159 | 0.059 | 0.026 |
+
+Peak-time for MI(0, N-1) sits at t ≈ 0.7 to 1.1 across N=5, 7, 9. Weakly N-dependent: group-velocity propagation, not diffusion. In contrast Peak Sum-MI sits at t ≈ 0.2, consistent with fast local correlation build-up.
+
+### The inversion: uniform J beats J-modulation for end-to-end transport
+
+J-modulation has the opposite effect on MI(0, N-1) compared to Sum-MI:
+
+- **Sum-MI**: strong-weak J gives the highest values (N=9 alt-z-bits: 7.07 vs uniform 4.70, boost 1.50×).
+- **MI(0, N-1)**: uniform J gives the highest values (N=9 alt-z-bits: 0.274 vs strong-weak 0.008, ratio **34× in the OTHER direction**).
+
+Cut-center J is catastrophic for end-to-end: a near-zero bond in the middle physically disconnects the two halves of the chain, and MI(0, N-1) collapses by factor 10³ to 10⁴ compared to uniform J.
+
+The two metrics optimise for different things, and the optimal J-profile flips between them. For engineering the chain as a quantum bus, uniform J plus F71-symmetric SU(2)-breaking receiver is the answer.
+
+### Comparison to RESONANT_RETURN center-sacrifice
+
+[RESONANT_RETURN](RESONANT_RETURN.md) Test 8 position sweep at \|+⟩^N under non-uniform γ:
+
+| N | Center-γ-sacrifice PeakMI(0, N-1) | This work, alt-z-bits uniform J |
+|---|-----------------------------------|---------------------------------|
+| 7 | 0.109 | **0.490** (factor 4.5×) |
+| 9 | 0.097 | **0.274** (factor 2.8×) |
+
+The comparison at N=5 is not tabulated in RESONANT_RETURN (only Sum-MI reported), but the scaling suggests center-sacrifice at N=5 would be in the 0.1 to 0.15 range, i.e., factor 6 to 8× below receiver-engineering uniform J (0.843).
+
+The receiver-engineering advantage **shrinks faster with N for end-to-end MI** than for Sum-MI: 4.5× at N=7 drops to 2.8× at N=9, because MI(0, N-1) itself scales roughly as 1/N under receiver-engineering (0.84, 0.49, 0.27) while center-sacrifice is weaker-scaling.
+
+### Why uniform J works
+
+F71-symmetric SU(2)-breaking receivers like \|01010⟩ have the property that **site 0 and site N-1 are identical by construction**: both are in the same single-qubit state. This structural symmetry IS the end-to-end correlation at t=0, kind of. Under uniform-J Heisenberg evolution, the spatial symmetry is preserved by H (because uniform H commutes with the chain reflection), so the endpoint correlation survives partially under γ₀ dephasing.
+
+Any J-modulation that breaks this spatial symmetry (cut-center, strong-weak, edge-weak) **locally breaks the 0 to N-1 symmetry** and destroys the endpoint correlation even at t=0. Only J-modulations that respect the F71 reflection (symmetric about the chain center) would preserve it, but those tend to not help either because the endpoint qubits see identical environments either way.
+
+So the optimal strategy for MI(0, N-1) is: pick the maximally F71-symmetric SU(2)-breaking receiver, evolve under perfectly uniform H, measure at t ≈ 1.0.
+
+### Operational consequence for quantum-state-transfer
+
+The receiver-engineering approach is not just better for distributed correlation; it is also better for **direct end-to-end quantum-state-transfer** by factor 3 to 5 compared to γ-Sacrifice-Zone center mode. Concrete protocol sketch:
+
+1. Alice prepares \|01010⟩ or \|+−+−+⟩ (trivial single-qubit-gate layer: X on odd sites, or H on all sites).
+2. Uniform Heisenberg evolution under static couplings (or Trotter simulation on IBM hardware).
+3. Measure site N-1 at t ≈ 1.0.
+4. Receive ~0.49 bits MI at N=7, ~0.27 bits at N=9.
+
+Hardware cost (IBM Heron, estimated): ~15 two-qubit gates for 2 Trotter steps at N=5, single-qubit readout tomography. Gate-error budget ~1 to 2%. Achievable in a short experiment.
+
 ## Open questions
 
 - **N=11+ scaling.** Dense RK4 at N=11 (d² = 4M) takes hours per evaluation; needs block-restricted Liouvillian or matrix-free propagation. The C# matrix-free path handles N=14, 15 at d² = 256M, but the brecher mode does not yet route through it for N=11. Scheduled for the weekend run.
 - **Convergence point of receiver vs γ-Sacrifice.** Linear extrapolation suggests N ~ 25-30. Whether they actually meet or the ratio asymptotes to some fixed value > 1 is open. The γ-Sacrifice scaling is known to saturate at large N (RESONANT_RETURN reports 63.5× at N=15 vs 360× at N=5, so the boost ratio shrinks); receiver-engineering scaling beyond N=9 has not been measured.
 - **Non-uniform γ₀ is physically ruled out under γ₀ = const.** All γ-Sacrifice numbers are cited as RESONANT_RETURN references, not as operational competitors. Under γ₀ = const they are kinematic curiosities.
+- **Why does receiver-engineering advantage for MI(0, N-1) shrink faster with N than for Sum-MI?** At N=7 the Sum-MI lead is 8.5× uniform / 12.3× best J, while MI(0, N-1) lead is only 4.5×. At N=9 it is 7.1× / 10.7× vs 2.8×. Suggests receiver-engineering is more robust for distributed correlation than for pure end-to-end. Open: is there a receiver optimised specifically for MI(0, N-1) that holds its lead at larger N?
+- **Hardware-minimal IBM experiment for end-to-end transport.** F71-symmetric initial state preparation is one gate layer; uniform Heisenberg evolution is 2-3 Trotter steps; readout is just two qubits (site 0 and site N-1). This is substantially cheaper than Sum-MI tomography (which requires all adjacent pairs). A ~100-shot IBM run at N=5 or N=7 would be feasible and give the first hardware datapoint on receiver-engineering.
 
 ## References
 
@@ -110,5 +176,6 @@ The `compute/RCPsiSquared.Propagate/brecher` mode (commit `dbf396a`) enables fin
 - `simulations/eq024_refinement_shadow_lens_broken.py`: initial Python Brecher-test draft (commit `bf080a3`, coarse t-grid, superseded)
 - `simulations/_check_brecher_n5_finegrid.py`: Python fine-grid verification at N=5 (commit `dbf396a`)
 - `compute/RCPsiSquared.Propagate/`: C# brecher mode and scan runner (commit `dbf396a`)
-- `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid results (commits `dbf396a`, `d22c0fe`)
+- `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid Sum-MI results (commits `dbf396a`, `d22c0fe`)
+- `simulations/results/eq024_refinement/brecher_scan_with_mi0n.txt`: C# scan with both Sum-MI and MI(0, N-1) tracking (commit `ad99bea`)
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const
