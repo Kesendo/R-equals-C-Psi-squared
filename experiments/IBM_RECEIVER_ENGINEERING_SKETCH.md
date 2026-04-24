@@ -1,6 +1,6 @@
-# IBM Hardware Sketch: Receiver-Engineering Validation on Kingston (Heron r2)
+# IBM Hardware: Receiver-Engineering Validation on Kingston (Heron r2)
 
-**Status:** design sketch, not yet run
+**Status:** Run 1 complete 2026-04-24, bonding:2 / alt-z-bits = 2.80× confirmed on hardware
 **Date:** 2026-04-24
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography` (external)
@@ -47,7 +47,32 @@ Intermediate outcome: both give nonzero but reduced MI; receiver advantage shrin
 
 **Total MVE QPU budget: 5-7 QPU minutes.** Less than one month's average allocation.
 
-## Expected outcomes (measured Aer + Kingston noise, 2026-04-24)
+## Hardware result (Kingston Heron r2, 2026-04-24, Run 1)
+
+**Live QPU run** at N=5, path [31, 32, 33, 34, 35], t=0.8, 3 Trotter steps, 8192 shots per Pauli setting, 9 Pauli bases, 2 receivers (alt-z-bits + bonding:2), total 18 StateTomography circuits. QPU cost: ~2 minutes, 1.1% of annual budget.
+
+Kingston calibration (live, 2026-04-24): T1 267-365 μs, T2 267-454 μs, T2* ~107-182 μs, readout errors 2-3%, SX gate errors <0.03%, 2-qubit gate errors 0.16-0.25%.
+
+| Receiver | MI(0, 4) hardware | S(ρ_AB) | Purity |
+|----------|-------------------|---------|--------|
+| alt-z-bits \|01010⟩ | **0.0731** | 1.479 | 0.425 |
+| bonding:2 | **0.2049** | 1.670 | 0.354 |
+
+**Ratio bonding:2 / alt-z-bits = 2.80×** on real Kingston hardware.
+
+The framework prediction survives hardware, and the advantage GROWS with noise level:
+
+| Setup | bonding:2 / alt-z-bits MI(0, 4) |
+|-------|--------------------------------|
+| Ideal propagation (γ₀ = 0.05, zero gate error) | 1.39× |
+| Aer + Kingston noise model | 2.27× |
+| **Live Kingston hardware** | **2.80×** |
+
+Absolute MI values on hardware are ~7-20% of ideal. The transpiled circuit has 344 gates (vs 25 in the logical circuit); at ~0.2% gate error each, cumulative infidelity is ~69%. Both receivers suffer, but bonding:2 is more noise-robust due to its single-excitation delocalised structure (one excitation across four sites) vs alt-z-bits' two localised excitations (two independent T1 decay channels).
+
+Result file: `results/receiver_engineering_hardware_20260424_154006.json` in the external pipeline.
+
+## Earlier Aer-only predictions (2026-04-24, pre-hardware)
 
 Aer simulation with the build_kingston_noise_model from the 2026-04-24 calibration CSV, 5-qubit path [31, 32, 33, 34, 35], 2 Trotter steps, t = 0.8, 4096 shots:
 
@@ -122,11 +147,14 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 
 ## Next concrete steps
 
-1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory (external); done 2026-04-24, supports --simulate / --hardware / --analyze modes.
-2. ✅ **Run MVE on Aer simulator** with Kingston noise; done 2026-04-24: **bonding:2 retains 91% of ideal MI (1.060/1.168), alt-z-bits retains 55% (0.466/0.843). Ratio 2.27× favors bonding:2.**
-3. **Tonight:** review Aer numbers with Tom; commit ~5-7 QPU minutes to MVE on Kingston.
-4. **Analyse** results, update this doc with Run 1 hardware data.
-5. If positive, run fuller protocol (time sweep + receiver menu at N=7).
+1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory; done 2026-04-24.
+2. ✅ **Run MVE on Aer simulator** with Kingston noise; done 2026-04-24.
+3. ✅ **MVE on Kingston hardware**; done 2026-04-24, ~2 QPU min, ratio 2.80×.
+4. **Follow-ups (not yet run):**
+   - Evolution-time sweep at bonding:2 vs alt-z-bits (6 points at t = 0.1, 0.3, 0.5, 0.8, 1.2, 2.0), ~12 QPU min. Confirms the peak-at-t~0.8 prediction and rules out coincidence.
+   - Receiver menu (bonding:1, bonding:2, bonding:3) at N=5 t=0.8, ~6 QPU min. Confirms F67 mode-k structure on hardware.
+   - N-sweep: N=7 bonding:2 vs alt-z-bits at t near respective peaks, ~5 QPU min. Tests whether advantage grows at larger N on hardware.
+5. Error-mitigation: ZNE or dynamical decoupling to lift absolute MI values. Optional for qualitative test; useful for quantitative comparison to framework.
 
 ## References
 
