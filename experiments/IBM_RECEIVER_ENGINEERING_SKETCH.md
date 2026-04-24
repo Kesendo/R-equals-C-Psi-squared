@@ -47,21 +47,23 @@ Intermediate outcome: both give nonzero but reduced MI; receiver advantage shrin
 
 **Total MVE QPU budget: 5-7 QPU minutes.** Less than one month's average allocation.
 
-## Expected outcomes (from simulation)
+## Expected outcomes (measured Aer + Kingston noise, 2026-04-24)
 
-At γ₀ = 0.05 (R=CΨ² intrinsic) and after ideal Heisenberg evolution:
+Aer simulation with the build_kingston_noise_model from the 2026-04-24 calibration CSV, 5-qubit path [31, 32, 33, 34, 35], 2 Trotter steps, t = 0.8, 4096 shots:
 
-| Receiver | MI(0, 4) at t = 0.8 | Reduced by Kingston noise |
-|----------|--------------------|---------------------------|
-| alt-z-bits \|01010⟩ | 0.84 | ~0.4-0.6 (est.) |
-| bonding:2 | 1.17 | ~0.5-0.8 (est.) |
+| Receiver | MI(0, 4) ideal | MI(0, 4) Aer+Kingston | Retention |
+|----------|----------------|------------------------|-----------|
+| alt-z-bits \|01010⟩ | 0.843 | **0.466** | 55% |
+| bonding:2 | 1.168 | **1.060** | 91% |
 
-Bonding:2 advantage: 1.39× in simulation. Need to stay > 1.15× on hardware to call it a positive result (accounting for ~10% measurement error bar at 9000 shots per Pauli pair).
+**Hardware-expected ratio: bonding:2 / alt-z-bits = 2.27×**, larger than the ideal 1.39×. Reason: alt-z-bits carries two localised excitations (|01010⟩ has two \|1⟩ qubits), each decaying independently under Kingston T1. Bonding:2 carries one delocalised excitation across four sites; fewer decoherence channels, greater robustness.
 
-Decision matrix for MVE:
+With T2* correction (divide Hahn-T2 by 2.5): alt-z-bits drops to 0.452, bonding:2 to 1.006. Ratio stays 2.23×. Robust to the T2 vs T2* assumption.
+
+Decision matrix for MVE (actual Kingston hardware):
 - Both MI < 0.2: noise-dominated. Escalate to error-mitigation (ZNE, DD).
-- alt-z-bits ~ 0.4, bonding:2 ~ 0.55 (≥ 1.3× ratio): **positive, advantage survives hardware**.
-- alt-z-bits > bonding:2: receiver-engineering picture wrong on real hardware. Flag as possibility.
+- alt-z-bits ~ 0.3-0.5, bonding:2 ~ 0.7-1.1 (ratio ≥ 1.5×): **positive, receiver engineering confirmed on hardware**.
+- alt-z-bits ≥ bonding:2: framework prediction wrong on hardware. Would need to reconsider.
 
 ## Fuller protocol (after MVE positive)
 
@@ -120,11 +122,11 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 
 ## Next concrete steps
 
-1. **Tonight:** review this sketch with Tom; decide MVE vs fuller protocol as first run.
-2. **Write `run_receiver_engineering.py`** in the IBM pipeline directory (external).
-3. **Run MVE on Aer simulator** with Kingston noise model first. Zero QPU cost, gives expected-signal baseline with realistic hardware noise.
-4. **If sim shows ≥1.3× ratio:** commit ~5 QPU minutes to MVE on Kingston.
-5. **Analyse** results, update this doc with Run 1 data.
+1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory (external) — done 2026-04-24, supports --simulate / --hardware / --analyze modes.
+2. ✅ **Run MVE on Aer simulator** with Kingston noise — done 2026-04-24: **bonding:2 retains 91% of ideal MI (1.060/1.168), alt-z-bits retains 55% (0.466/0.843). Ratio 2.27× favors bonding:2.**
+3. **Tonight:** review Aer numbers with Tom; commit ~5-7 QPU minutes to MVE on Kingston.
+4. **Analyse** results, update this doc with Run 1 hardware data.
+5. If positive, run fuller protocol (time sweep + receiver menu at N=7).
 
 ## References
 
