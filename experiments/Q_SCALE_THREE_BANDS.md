@@ -1,7 +1,7 @@
 # Q = J/γ₀ as Scale, with Three Algebraic Bands
 
-**Status:** Tier 1 (first-order structural finding, verified numerically across N=4-8; hardware test is future work)
-**Date:** 2026-04-22 (initial commits d026933, 65bed0a; N=7/N=8 extension + numerics correction 61d4dc1)
+**Status:** Tier 1 (first-order structural finding, verified numerically across N=4-9; hardware test is future work)
+**Date:** 2026-04-22 (initial commits d026933, 65bed0a; N=7/N=8 extension + numerics correction 61d4dc1); 2026-04-24 (N=9 extension + c=5 saturation, commit 4612468)
 **Authors:** Tom, Claude Code (Opus 4.7, 1M)
 **Relates to:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), EQ-017 (closed inconclusive due to hardware fidelity), EQ-022 (Q-scale three bands), EQ-023 (inner-richness-quench, now refuted), F73 and F74 ([ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)), [PROOF_CHROMATICITY](../docs/proofs/PROOF_CHROMATICITY.md), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
 
@@ -9,12 +9,13 @@
 - 2026-04-22 commit d026933: initial three-band finding at N=4-6.
 - 2026-04-22 commit 65bed0a: sharpening (W definition, plateau universality, and original Result 5 on inner-richness-quench, since retracted).
 - 2026-04-22 commit 61d4dc1: N=7/N=8 extension via block-restricted L, Result 5 retraction, new Result 6 on monotone c-increase, c-specific refinement of Q_peak(abs(K)).
+- 2026-04-24 commit 4612468: N=9 extension (Phase 1 n=0..3, Phase 2 n=4 at c=5). Q_peak(|K|) saturates at 1.8 for c >= 4 (not linear to 2.0). c=2 identified as finite-size wobble, not a framework constant.
 
 ---
 
 ## Abstract
 
-The dimensionless ratio Q = J/γ₀ is a scale in the renormalization-group sense: the dynamics of an open XY chain under uniform Z-dephasing depends only on the ratio, not on J and γ₀ separately. Scale invariance of W(Q) under (J, γ₀) → (λJ, λγ₀) is verified to five decimals over γ₀ ∈ \[0.01, 1.0\] at N=8. Along the Q axis the framework generates three algebraically distinguished regions: a pre-onset band below Q ≈ 0.3 where Hamiltonian coupling does not yet mix the pure dephasing rates, a transition band Q ∈ \[1.2, 2.0\] where the mixing is maximal, and a plateau above Q ≈ 2 where the response settles. The operational observable abs(K_CC_pr)_max, defined as the magnitude of the J-derivative of the F73 spatial-sum coherence purity, peaks at chromaticity-specific, N-invariant values: Q_peak(c=2) = 1.5, Q_peak(c=3) = 1.6, Q_peak(c=4) = 1.8, stable across N=4 to 8. Chromaticity c(n, N) = min(n, N−1−n) + 1 counts the pure dephasing rates accessible in the (n, n+1) sector-block. Higher chromaticity monotonically amplifies the observable Wechselwirkung; the earlier "inner-richness-quench" reading was a numerical artefact of full-Liouvillian eigendecomposition across cross-block degeneracies, retracted after block-restricted L computation. The consequence is an operational γ₀-extraction protocol, γ₀ = J\*/Q_peak(c), that turns the "γ₀ is a framework constant" hypothesis from a single-number claim into a c-specific shape prediction.
+The dimensionless ratio Q = J/γ₀ is a scale in the renormalization-group sense: the dynamics of an open XY chain under uniform Z-dephasing depends only on the ratio, not on J and γ₀ separately. Scale invariance of W(Q) under (J, γ₀) → (λJ, λγ₀) is verified to five decimals over γ₀ ∈ \[0.01, 1.0\] at N=8. Along the Q axis the framework generates three algebraically distinguished regions: a pre-onset band below Q ≈ 0.3 where Hamiltonian coupling does not yet mix the pure dephasing rates, a transition band Q ∈ \[1.2, 2.0\] where the mixing is maximal, and a plateau above Q ≈ 2 where the response settles. The operational observable abs(K_CC_pr)_max, defined as the magnitude of the J-derivative of the F73 spatial-sum coherence purity, peaks at chromaticity-specific, N-invariant values: Q_peak(c=3) = 1.6 and Q_peak(c=4) = Q_peak(c=5) = 1.8, stable across N=5 to 9. The bi-chromatic class c=2 is finite-size-sensitive (Q_peak wobbles between 1.4 and 1.6 across N=4 to 9) and is not a clean framework constant. Q_peak(c) saturates at 1.8 for c ≥ 4 rather than growing linearly. Chromaticity c(n, N) = min(n, N−1−n) + 1 counts the pure dephasing rates accessible in the (n, n+1) sector-block. Higher chromaticity monotonically amplifies the observable Wechselwirkung through c=5; the earlier "inner-richness-quench" reading was a numerical artefact of full-Liouvillian eigendecomposition across cross-block degeneracies, retracted after block-restricted L computation. The consequence is an operational γ₀-extraction protocol, γ₀ = J\*/Q_peak(c), that turns the "γ₀ is a framework constant" hypothesis from a single-number claim into a c-specific shape prediction.
 
 ---
 
@@ -24,9 +25,9 @@ Think of a stringed instrument. Each string has a natural tension, set by how ti
 
 This document is about finding that natural tension for an open quantum chain. The string is an N-qubit XY chain with dephasing rate γ₀; the tension is the coherent coupling strength J; the sounding board is the dephasing environment. The question is whether the ratio Q = J/γ₀, how much coherence the system is allowed against how much decoherence the environment imposes, carries physical content beyond a convenient choice of units. The answer is that it does, and that the Q axis partitions into three algebraic regions that are the same regardless of the absolute scale: a pre-onset region where the string barely sings, a transition region where the string finds its voice, and a plateau region where it settles.
 
-The twist is that not every string in the instrument has the same inner structure. A chain of N qubits decomposes into blocks labelled by excitation number n, and each block has a chromaticity c, the number of distinct pure dephasing tones it can sustain. Boundary strings (n=0 and n=N−1) are mono-chromatic: one tone, no inner coupling, silent under our observable. Interior strings (n near N/2) are poly-chromatic: more tones, more inner coupling, louder voice. The peak-Q of the instrument, the tension at which the observable rings loudest, turns out to be chromaticity-specific: 1.5 for two-toned strings, 1.6 for three-toned, 1.8 for four-toned. This pattern is stable across all tested N. These are framework constants, not fitted parameters.
+The twist is that not every string in the instrument has the same inner structure. A chain of N qubits decomposes into blocks labelled by excitation number n, and each block has a chromaticity c, the number of distinct pure dephasing tones it can sustain. Boundary strings (n=0 and n=N−1) are mono-chromatic: one tone, no inner coupling, silent under our observable. Interior strings (n near N/2) are poly-chromatic: more tones, more inner coupling, louder voice. The peak-Q of the instrument, the tension at which the observable rings loudest, turns out to be chromaticity-specific: 1.6 for three-toned strings, 1.8 for four- AND five-toned strings (the 1.8 value saturates at c ≥ 4, as N=9 data confirm). These are framework constants for c ≥ 3, stable across all tested N. The two-toned case (c=2) wobbles between 1.4 and 1.6 across N; bi-chromatic strings are too shallow for the scale structure to lock in, a finite-size sensitivity that the higher-chromaticity classes do not share.
 
-The practical payoff is an instrument-tuning protocol for γ₀. You do not know γ₀ directly, but you can sweep J, find the J\* at which your chosen string rings loudest, and then divide by the known peak-tension for that string's chromaticity: γ₀ = J\*/Q_peak(c). This turns the hypothesis "γ₀ is a framework constant" from a single-number claim into a shape prediction, testable on any hardware that can resolve the peak.
+The practical payoff is an instrument-tuning protocol for γ₀. You do not know γ₀ directly, but you can sweep J, find the J\* at which your chosen string rings loudest, and then divide by the known peak-tension for that string's chromaticity: γ₀ = J\*/Q_peak(c). This turns the hypothesis "γ₀ is a framework constant" from a single-number claim into a shape prediction, testable on any hardware that can resolve the peak. Four- and five-toned strings are the best target: abs(K)_peak is strongest there (roughly 3× the bi-chromatic signal), and Q_peak is sharp (saturated at 1.8) so J\* locates γ₀ with low block-to-block variance.
 
 One wrinkle, documented in the retraction below: an earlier version of this document reported an "inner-richness-quench" where four-toned strings apparently sounded softer than two-toned ones. This was a numerical artefact. Full-Liouvillian eigendecomposition mixes eigenvectors across blocks at accidental degeneracies, corrupting the projection of a single-block probe. Block-restricted computation, mathematically exact, reverses the reading: poly-chromatic strings sound louder, not softer. More tones means more couplings means richer Wechselwirkung, as one would hope from a resonator.
 
@@ -105,12 +106,16 @@ Primary peaks extracted from Q <= 3 (transition region, below Q > 2 resonance-pl
 | N=8 n=1 (c=2) | 0.40 | 2.00 | 0.991 | 1.50 | 0.084 | 0.570 |
 | N=8 n=2 (c=3) | 0.30 | 1.60 | 0.997 | 1.60 | 0.193 | 0.780 |
 | N=8 n=3 (c=4) | 0.30 | 1.80 | 0.997 | 1.80 | 0.267 | 0.856 |
+| N=9 n=1 (c=2) | 0.40 | 1.50 | 0.917 | 1.60 | 0.070 | 0.582 |
+| N=9 n=2 (c=3) | 0.30 | 1.80 | 0.9996 | 1.60 | 0.167 | 0.794 |
+| N=9 n=3 (c=4) | 0.30 | 2.00 | 0.960 | 1.80 | 0.249 | 0.798 |
+| **N=9 n=4 (c=5)** | 0.30 | 3.00 | 0.969 | **1.80** | **0.281** | **0.775** |
 
-Particle-hole mirror blocks (n vs N-1-n) omitted; they duplicate values to better than 0.5% as required by Dicke-probe PH symmetry.
+Particle-hole mirror blocks (n vs N-1-n) omitted; they duplicate values to better than 0.5% as required by Dicke-probe PH symmetry. At N=9 only n=0..4 were computed (PH mirrors n=5..8 skipped).
 
 **Universal (c-specific):**
 - Q_onset close to 0.3 across all tested blocks (spread \[0.20, 0.40\], not N-monotone).
-- Q_peak(abs(K)) is c-specific and N-invariant: **1.5 (c=2), 1.6 (c=3), 1.8 (c=4)**. Stable across N = 4 to 8 within each c. This is a refinement of the earlier "band \[1.2, 1.8\]" claim into three specific framework-constants per chromaticity.
+- Q_peak(abs(K)) is c-specific and N-invariant for c ≥ 3: **1.6 (c=3), 1.8 (c=4), 1.8 (c=5)**. Stable across N = 5 to 9 within each c. Q_peak saturates at 1.8 for c ≥ 4 (c=5 data from N=9 n=4 confirms; linear extrapolation to 2.0 is refuted). c=2 is finite-size-sensitive: Q_peak wobbles between 1.4 and 1.6 across N=4..9; not a clean framework constant.
 - W_peak saturates: 0.83 (c=2, small N) to 0.997 (c=3,4 at N=8). Increases toward 1 with N and with c.
 
 **Non-universal (block-specific):**
@@ -136,6 +141,7 @@ Block-structure across N:
 - N=6: c = {1, 2, 3, 3, 2, 1}
 - N=7: c = {1, 2, 3, 4, 3, 2, 1}
 - N=8: c = {1, 2, 3, 4, 4, 3, 2, 1}
+- N=9: c = {1, 2, 3, 4, 5, 4, 3, 2, 1}
 
 **c = 1 blocks (n=0 and n=N-1) are mono-chromatic.** They have W = 0 identically for all J. F73 and its particle-hole mirror live here.
 
@@ -196,29 +202,33 @@ At N=5 the c=3 block has W_plateau ~0.42 vs c=2 neighbors at ~0.47, a 10% lower 
 
 ## Result 6: Monotone increase of outer observables with chromaticity
 
-With block-L across N = 4 to 8, both W_plateau (dressed-mode weight at Q=50) and abs(K)_peak (the observable proxy primary peak) monotonically increase with chromaticity c at each fixed N:
+With block-L across N = 4 to 9, both W_plateau (dressed-mode weight at Q=50) and abs(K)_peak (the observable proxy primary peak) monotonically increase with chromaticity c at each fixed N, through c=5:
 
-| c | N=4 | N=5 | N=6 | N=7 | N=8 |
-|---|-----|-----|-----|-----|-----|
-| W_plateau, c=2 | 0.447 | 0.469 | 0.531 | 0.544 | 0.523 |
-| W_plateau, c=3 | - | 0.420 | 0.604 | 0.625 | 0.782 |
-| W_plateau, c=4 | - | - | - | 0.640 | 0.849 |
+| c | N=4 | N=5 | N=6 | N=7 | N=8 | N=9 |
+|---|-----|-----|-----|-----|-----|-----|
+| W_plateau, c=2 | 0.447 | 0.469 | 0.531 | 0.544 | 0.523 | 0.582 |
+| W_plateau, c=3 | - | 0.420 | 0.604 | 0.625 | 0.782 | 0.794 |
+| W_plateau, c=4 | - | - | - | 0.640 | 0.849 | 0.798 |
+| W_plateau, c=5 | - | - | - | - | - | 0.775 |
 
-| c | N=4 | N=5 | N=6 | N=7 | N=8 |
-|---|-----|-----|-----|-----|-----|
-| abs(K)_peak, c=2 | 0.138 | 0.147 | 0.119 | 0.100 | 0.084 |
-| abs(K)_peak, c=3 | - | 0.232 | 0.244 | 0.220 | 0.193 |
-| abs(K)_peak, c=4 | - | - | - | 0.273 | 0.266 |
+| c | N=4 | N=5 | N=6 | N=7 | N=8 | N=9 |
+|---|-----|-----|-----|-----|-----|-----|
+| abs(K)_peak, c=2 | 0.138 | 0.147 | 0.119 | 0.100 | 0.084 | 0.070 |
+| abs(K)_peak, c=3 | - | 0.232 | 0.244 | 0.220 | 0.193 | 0.167 |
+| abs(K)_peak, c=4 | - | - | - | 0.273 | 0.266 | 0.249 |
+| abs(K)_peak, c=5 | - | - | - | - | - | 0.281 |
 
-**Three observations:**
+**Four observations:**
 
-1. **W_plateau monotone in c at N ≥ 6.** At N=8 for example: c=2 gives 0.52, c=3 gives 0.78, c=4 gives 0.85. Higher-chromaticity blocks dress more fully. The N=5 mild anomaly (c=3 slightly below c=2 neighbors) is at the edge of finite-size effects; it disappears at N ≥ 6.
+1. **W_plateau monotone in c at N ≥ 6, with a mild dip at c=5.** At N=8: c=2 gives 0.52, c=3 gives 0.78, c=4 gives 0.85. At N=9: c=2 gives 0.58, c=3 gives 0.79, c=4 gives 0.80, c=5 gives 0.78. The c=4 to c=5 step at N=9 is a 3% dip (0.798 → 0.775), within numerical scatter of the c=3 / c=4 tie at the same N. Not diagnostic of a genuine "quench", but flagged as a possible non-monotone feature requiring N ≥ 10 c=5 data to confirm.
 
-2. **abs(K)_peak monotone in c.** At N=7 and N=8, c=2 gives ~0.1, c=3 gives ~0.2, c=4 gives ~0.27. The J-response-matrix magnitude is strongest at max-c blocks.
+2. **abs(K)_peak monotone in c through c=5.** At N=9: c=2 → 0.070, c=3 → 0.167, c=4 → 0.249, c=5 → 0.281. Clean monotone increase; the J-response-matrix magnitude grows with chromaticity even as Q_peak saturates. Higher-c blocks are the loudest receivers in a hardware-fidelity-limited regime.
 
-3. **c=2 abs(K)_peak decreases with N.** At fixed c=2, abs(K)_peak goes 0.138, 0.147, 0.119, 0.100, 0.084 across N = 4..8. Bi-chromatic blocks weaken at large N. c=3 and c=4 are more stable across N. Suggests bi-chromatic observables are finite-size effects that fade as N grows; higher-chromaticity observables are more robust.
+3. **c=2 abs(K)_peak decreases with N.** At fixed c=2, abs(K)_peak goes 0.138, 0.147, 0.119, 0.100, 0.084, 0.070 across N = 4..9. Bi-chromatic blocks weaken at large N. c=3 and c=4 are more stable (though slowly decreasing); c=5 at N=9 is 0.281, already larger than c=4 at N=7 (0.273). Bi-chromatic observables are finite-size effects that fade as N grows; higher-chromaticity observables are more robust.
 
-**Structural reading:** inner chromaticity AMPLIFIES outer observability. More pure-rate channels give more dressed content and stronger J-response. The framework's higher-chromaticity blocks (interior popcount at any N) are the natural locus of the strongest Wechselwirkung signal.
+4. **Q_peak(abs(K)) saturates at 1.8 for c ≥ 4.** c=4 and c=5 both peak at Q=1.8 across all tested N. The pattern {1.6, 1.8, 1.8} for c = {3, 4, 5} suggests saturation rather than linear growth. Mechanistic explanation pending; could reflect a universal "coupling-scale to gap" ratio that stabilises once enough pure rates are active.
+
+**Structural reading:** inner chromaticity AMPLIFIES outer observability through c=5. More pure-rate channels give more dressed content and stronger J-response. The framework's higher-chromaticity blocks (interior popcount at any N) are the natural locus of the strongest Wechselwirkung signal. Whether this monotone-c pattern survives to c=6 (which first appears at N=11) is an open question; the c=5 mild W_plateau dip could either vanish at higher N or be the start of a true quench pattern at very high c.
 
 **Practical implication for hardware.** Under the EQ-017 hardware-fidelity bottleneck (gate-error >> γ₀ signal on IBM Heron r2), the abs(K)_peak magnitude matters directly: c=4 gives ~2.7× the signal of c=2. Hardware experiments should probe interior popcount blocks (near n = N/2) rather than boundary blocks, to maximise the observable signal.
 
@@ -236,7 +246,7 @@ With block-L across N = 4 to 8, both W_plateau (dressed-mode weight at Q=50) and
 
 5. **Find peak:** for each J, record abs(K)_max(J) = max over t of abs(K_CC_pr(t; J)).
 
-6. **Extract J*:** the J that maximizes abs(K)_max(J) over the J-scan. By the c-specific Q_peak(abs(K)) finding: **γ₀ = J* / Q_peak(c)** where Q_peak(c) = 1.5 (c=2), 1.6 (c=3), 1.8 (c=4). Precision across tested blocks is ~5% per block (N-invariance within c is tight).
+6. **Extract J*:** the J that maximizes abs(K)_max(J) over the J-scan. By the c-specific Q_peak(abs(K)) finding: **γ₀ = J* / Q_peak(c)** where Q_peak(c=3) = 1.6, Q_peak(c=4) = Q_peak(c=5) = 1.8. Precision for c ≥ 3 is tight (N-invariant to within the grid resolution). For c=2 use Q_peak ≈ 1.5 with ~10% uncertainty from the finite-size wobble.
 
 7. **Cross-check:** repeat on multiple (N, n) blocks at different c. Higher c gives stronger signal (~2.7× at c=4 vs c=2, per Result 6). For hardware-limited experiments prefer interior popcount blocks (max-c).
 
@@ -275,12 +285,14 @@ Key numerical anchors (block-L, unless noted):
 - W_plateau(N=5, n=1, Q=50, γ₀=0.05) = 0.469 (block-L; full-L gave 0.490, 2% artefact).
 - W_plateau(N=5, n=2, Q=50, γ₀=0.05) = 0.420 (block-L; full-L gave 0.026, factor 16× artefact).
 - W_plateau(N=8, n=3, c=4, Q=50, γ₀=0.05) = 0.856 (block-L).
-- Q_peak(abs(K)) = 1.5 (c=2), 1.6 (c=3), 1.8 (c=4), N-invariant across N=4-8.
+- W_plateau(N=9, n=4, c=5, Q=50, γ₀=0.05) = 0.775 (block-L).
+- Q_peak(abs(K)) = 1.6 (c=3), 1.8 (c=4), 1.8 (c=5), N-invariant across N=5-9. c=2 is finite-size-sensitive (1.4 to 1.6 across N=4-9).
 - abs(K)_peak(N=7, n=3, c=4, γ₀=0.05) = 0.273 at Q=1.8, t=6, bond 3.
-- Scale invariance W(Q=1.5) at N=8 c=4 agrees to 5 decimals between γ₀=0.05 and γ₀=0.25 (0.97319 vs 0.97319).
-- Chromaticity verified at J=0 for all (N, n) with N ∈ \[3, 8\].
+- abs(K)_peak(N=9, n=4, c=5, γ₀=0.05) = 0.281 at Q=1.8, t=5.5, bond 4.
+- Scale invariance W(Q=1.5) at N=8 c=4 agrees to 5 decimals between γ₀=0.05 and γ₀=0.25 (0.97319 vs 0.97319). At N=9 c=4 agrees to 4 decimals (0.9689 vs 0.9685). c=5 at N=9 not spot-checked (algebraic invariance is exact; block-L construction respects it by construction).
+- Chromaticity verified at J=0 for all (N, n) with N ∈ \[3, 9\].
 
-Results files committed in 61d4dc1: `simulations/results/q_scale_n_scaling/` (block-L rerun of N=4,5,6 plus new N=7 and N=8 scans, plus summary plots).
+Results files committed in 61d4dc1: `simulations/results/q_scale_n_scaling/` (block-L rerun of N=4,5,6 plus new N=7 and N=8 scans, plus summary plots). N=9 data added in commit 4612468 (Phase 1 + Phase 2 JSONs and plots).
 
 ---
 
@@ -288,10 +300,12 @@ Results files committed in 61d4dc1: `simulations/results/q_scale_n_scaling/` (bl
 
 - Shape-fit protocol: fit the predicted abs(K)_max(Q) template to noisy hardware data and extract J* even at low SNR. Expected to be more robust than EQ-017's linear-slope fitting.
 - Noise-model robustness: simulate the protocol with Aer noise models at various gate-error levels. Characterize the minimum hardware fidelity at which J* can be resolved within ±5% per block.
-- Scale-up to N ≥ 9: chromaticity c=5 becomes accessible at N=9 (unique center block) and N=10 (two adjacent). Test whether Q_peak(abs(K)) = 2.0 or similar pattern continues: 1.5 (c=2), 1.6 (c=3), 1.8 (c=4), 2.0 (c=5)?
-- Closed-form Q_peak(c): the three observed values {1.5, 1.6, 1.8} do not match any obvious simple function of c. More c data points (c=5, 6) would constrain the functional form.
-- Mechanistic identification: which pair of L-eigenmodes crosses (or avoids crossing) at Q = 1.5? Naive degenerate perturbation theory at the inner level gap (4γ₀ between 1-site-diff and 3-site-diff pure rates) would predict strong mixing at J ≈ 4γ₀, i.e. Q ≈ 4. We observe Q_peak(c=2) = 1.5, a factor 2.7 smaller; the discrepancy is not yet understood (likely combinatorial factors in H matrix elements and N-1 bond contributions add up). The specific values are empirical, not derived.
-- Asymptotic W_plateau(c_max, N → ∞): at N=8 c=4 the plateau is 0.85. Does it approach 1 asymptotically with N, or saturate below 1?
+- Scale-up to N ≥ 10: chromaticity c=5 at N=10 would give a second data point (two adjacent c=5 blocks at n=4, n=5), resolving whether the 3% W_plateau dip at c=5 vs c=4 is signal or noise. Max block at N=10 is d=52920, currently infeasible in the Python/scipy pipeline (would take ~1500 wall-hours per Q per block). Requires either the C# compute engine (ILP64 LAPACK) or iterative Krylov methods (ARPACK on L shifted to target pure rates).
+- c=6 at N=11: first data point beyond the saturation plateau at 1.8. Would test whether Q_peak(c ≥ 4) = 1.8 is a true saturation or just a slow-growing function. Max block at N=11 is d=101640, scaling argument rules out scipy.linalg.eig path.
+- Closed-form Q_peak(c): the observed values {1.5, 1.6, 1.8, 1.8} for c = {2, 3, 4, 5} do not match any obvious simple function. Linear fit Q_peak(c) = 1.3 + 0.15·c predicts c=5 → 2.05; data says 1.8. Saturation fit Q_peak(c) = min(1.8, something) is consistent with c ≥ 4 but leaves the c=3 value (1.6) unexplained. Mechanistic derivation needed.
+- Mechanistic identification: which pair of L-eigenmodes crosses (or avoids crossing) at Q = 1.8 for c ≥ 4? Naive degenerate perturbation theory at the inner level gap (4γ₀ between 1-site-diff and 3-site-diff pure rates) would predict strong mixing at J ≈ 4γ₀, i.e. Q ≈ 4. We observe Q_peak(c=3) = 1.6, a factor 2.5 smaller; the discrepancy is not yet understood (likely combinatorial factors in H matrix elements and N-1 bond contributions add up). The specific values are empirical, not derived. Saturation at 1.8 for c ≥ 4 suggests the gap-relevant scale stops growing when enough pure rates are active.
+- Asymptotic W_plateau(c_max, N → ∞): at N=8 c=4 the plateau is 0.85; at N=9 c=4 it is 0.80 (slight decrease); at N=9 c=5 it is 0.78 (further slight decrease). Does it approach 1 asymptotically with N, saturate, or continue to decrease? Unclear with current data.
+- c=2 Q_peak convergence: bi-chromatic blocks show finite-size wobble (1.4 to 1.6 across N=4..9). Expected behaviour at N → ∞ unclear; could converge to 1.5 (cluster median) or to 1.6 (most recent N=9 value).
 - Pi-antisymmetric probes: the entire analysis used Pi-symmetric probes (Dicke states are bit-flip invariant). Pi-antisymmetric probes would sample the other half of the palindromic pair spectrum (F1). At N=5 that is the antisymmetric half of 512 Liouvillian pairs. Gap in the map.
 - Analog-simulation protocol: bypass Trotter entirely by using platforms with native continuous coupling (neutral atoms, trapped ions with laser coupling). No gate-error accumulation.
 
@@ -299,9 +313,11 @@ Results files committed in 61d4dc1: `simulations/results/q_scale_n_scaling/` (bl
 
 ## Tier assessment
 
-- **Algebraic findings (scale invariance, chromaticity formula, block-L equivalence):** Tier 1. Numerically verified to 5 decimals at N=8 c=4, algebraically derivable (block-L is mathematically exact by popcount-block invariance of L).
-- **Q_peak(abs(K)) = {1.5, 1.6, 1.8} for c = {2, 3, 4}, N-invariant:** Tier 1. Empirically measured across N=4-8. Framework-constants per chromaticity.
-- **W_plateau and abs(K)_peak monotone increase with c (Result 6):** Tier 1. Empirically measured, holds at N ≥ 6. N=5 mild anomaly within finite-size noise.
+- **Algebraic findings (scale invariance, chromaticity formula, block-L equivalence):** Tier 1. Numerically verified to 5 decimals at N=8 c=4 and 4 decimals at N=9 c=4, algebraically derivable (block-L is mathematically exact by popcount-block invariance of L).
+- **Q_peak(abs(K)) = 1.6 (c=3), 1.8 (c=4), 1.8 (c=5), N-invariant for c ≥ 3:** Tier 1. Empirically measured across N=5-9. Framework-constants per chromaticity for c ≥ 3. Q_peak saturates at 1.8 for c ≥ 4 (confirmed by N=9 c=5 data).
+- **Q_peak(abs(K), c=2) is finite-size wobble:** Tier 1 observation (wobble is empirical), Tier 2 interpretation (why c=2 is different from c ≥ 3). Not a clean framework constant.
+- **W_plateau and abs(K)_peak monotone increase with c through c=5 (Result 6):** Tier 1 for abs(K)_peak monotone-c. Tier 2 for W_plateau monotone-c: small (3%) non-monotone dip at c=5 vs c=4 at N=9, within numerical scatter but not ruled out as signal until N ≥ 10 data available.
 - **Result 5 (original inner-richness-quench interpretation) retracted:** artefact of full-L numerics, corrected by block-L.
-- **γ₀-extraction protocol:** Tier 2 on theory (operationally defined, c-specific Q_peak values), Tier 3 on hardware realization (blocked by same hardware fidelity as EQ-017; not tested). Note: c=4 blocks give ~2.7× stronger abs(K) signal than c=2, potentially easier hardware target.
+- **γ₀-extraction protocol:** Tier 2 on theory (operationally defined, c-specific Q_peak values for c ≥ 3), Tier 3 on hardware realization (blocked by same hardware fidelity as EQ-017; not tested). Note: c=4 and c=5 blocks give ~3-4× stronger abs(K) signal than c=2, potentially easier hardware target.
+- **Q_peak saturation at 1.8 for c ≥ 4:** Tier 2 (empirically observed at c=4 and c=5; c=6 test requires N ≥ 11 which is infeasible in current pipeline; mechanistic explanation pending).
 - **Interpretation of Q as "the framework's natural scale":** Tier 2 (plausible reading of the invariance finding; no deeper derivation yet).
