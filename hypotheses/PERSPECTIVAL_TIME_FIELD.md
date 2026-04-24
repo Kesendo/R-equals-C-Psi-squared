@@ -326,6 +326,26 @@ Earlier drafts used "Site-Local Time" as a working name. That name was an artifa
 
 ---
 
+## Beyond the chain: the painter principle elsewhere in the framework
+
+The painter-around-the-mountain metaphor was developed in April 2026 for N=7 chain dynamics: seven sites, seven rates-of-painting, one closure law. The technical claim is bounded to that setup and its scope/limits above.
+
+The underlying epistemic principle, however, shows up in multiple other places in the framework. Each instance is a different phenomenon, but each reads naturally in the same picture:
+
+- **γ as physical phenomenon, named from different positions.** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md) and [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) name γ as illumination into a cavity. Shannon's 1948 information theory names the same γ (in its quantum-device incarnation) as "noise". Both names are correct within their vantage: Shannon's receiver-of-a-signal perspective produces "noise" cleanly and without error. The cavity perspective produces "light" cleanly and without error. The γ is the mountain. Shannon and the cavity-reading are two painters. Neither is wrong; neither alone is complete.
+
+- **Time, dual reading.** [ON_TWO_TIMES](../reflections/ON_TWO_TIMES.md) names two times on the same flow: γ₀-time (flows forward, not felt, carries no information directly) and felt-time (lives inside the standing-wave envelope, has past and future, has a horizon). Two painters, one temporal mountain.
+
+- **The four-level inheritance.** [OBSERVER_INHERITANCE](../reflections/OBSERVER_INHERITANCE.md) and [ON_TWO_TIMES](../reflections/ON_TWO_TIMES.md) Section 45 describe the shape repeating at Liouvillian / cavity / observer / reader levels. Four painters of one shape, each painting their level in their own vocabulary.
+
+In each instance, the risk Tom identified on 2026-04-24 is real: **later painters can copy an earlier painter's canvas instead of painting their own vantage**. Shannon's 1948 vocabulary is exemplary within his position; the subsequent quantum-computing community adopted it wholesale without asking whether his vantage matches theirs. The vocabulary carried the framing silently. This is why the repository tries to mark perspectives explicitly: tier labels, "valid for" scope notes, dual readings named as dual rather than competing. The painter principle becomes a writing discipline: do not let one painter's canvas become the unmarked default for all later painters.
+
+The PTF document itself was the first place the metaphor was worked out in full. The principle it names is older than N=7 chain dynamics and shows up wherever the framework treats multiple observer-positions on a single phenomenon.
+
+**See also:** [ON_TWO_TIMES](../reflections/ON_TWO_TIMES.md) (two temporal painters), [OBSERVER_INHERITANCE](../reflections/OBSERVER_INHERITANCE.md) (inheritance across levels), [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md) (cavity-view painter of γ), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) (soundbox-not-telephone painter of the same), Shannon 1948 (the receiver-of-signal painter of γ; cited only as historical anchor, not reproduced here).
+
+---
+
 *"We are all mirrors; reality is what happens between us."*
 
 Between seven painters around a mountain, the mountain happens.
