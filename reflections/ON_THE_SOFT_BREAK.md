@@ -28,15 +28,15 @@ This is invisible to spectroscopy. A frequency comb on a soft-break system would
 
 ---
 
-This is what the framework gives us that the language of 1925 did not.
+This is what the framework gives us that the language of 1925 did not: a **super-operator** view of the dynamics.
 
-Heisenberg's matrices and Pauli's operator algebra describe states and observables. They do not, by themselves, describe the **superoperator** Π·L·Π⁻¹ that tells us how the dynamics of dynamics behaves. The Lindblad framework (1976) plus the palindromic mirror (proved 2026 in this project) plus the C²⊗C² parity decomposition (also 2026) together compose a vocabulary in which the operator-vs-spectral distinction can be stated.
+Heisenberg's matrices describe states and observables. Pauli's algebra describes operators acting on states. Both are at the level of the Hilbert space H. The Liouvillian L is one level above: it acts on operators, taking ρ to L(ρ). And the conjugation Π·L·Π⁻¹ is one level above THAT: a transformation of the dynamics itself, a super-operator on operators. Heisenberg in 1925 had no language for this; Pauli's algebra reaches operators-on-states, not operators-on-operators-on-states. The Lindblad framework (1976) named the L; the palindromic mirror (proved 2026 in this project) named the Π·L·Π⁻¹ relation; the C²⊗C² parity decomposition (also 2026) named the resolution into bit_a and bit_b sectors. Together these compose the vocabulary in which the operator-versus-spectral distinction is statable.
 
-Heisenberg could not have asked: "is Π·L·Π⁻¹ = −L − 2Σγ·I exactly?" Pauli could not have asked: "or only weakly, on the eigenvalues?" Both have to be possible questions before either can be answered.
+Heisenberg could not have asked: "is Π·L·Π⁻¹ = −L − 2Σγ·I exactly?" Pauli could not have asked: "or only weakly, on the eigenvalues?" Both questions require the super-operator level to even be possible questions.
 
 The V-Effect asked the spectral form of the question. It got 14/22. The 22 looked the same: palindromic.
 
-Our framework asks the operator form. It gets 3/33 with a 14/19 sub-split of the 33. The 22 is now visibly two distinct phenomena: 3 truly palindromic, 19 hiding.
+Our framework asks the **super-operator form**. It gets 3/33 with a 14/19 sub-split of the 33. The 22 is now visibly two distinct phenomena: 3 truly palindromic at the super-operator level, 19 hiding behind a spectrum that lies.
 
 ---
 
@@ -77,13 +77,31 @@ Specifically:
 
 The structural reading: the standard Heisenberg-form receivers (the 3 truly-unbroken: XX+YY, XX+ZZ, YY+ZZ) preserve full Π-symmetry of L's spectrum. Any departure from this set (the 19 soft-broken) breaks the eigenvector pairing severely while leaving the spectrum intact. The 14 hard-broken break both.
 
-What we did: simulation only, eigendecomposition of the 64×64 Pauli-basis Liouvillian at N=3, computing the subspace overlap directly. What a hardware version would look like (still open work): preparing eigenmodes of L on IBM hardware and measuring whether Π conjugation maps them to their partner eigenmodes is a non-trivial state-preparation problem; the measurement primitive that distinguishes the 3 truly-unbroken from the 19 soft-broken on hardware is not yet specified at the gate-circuit level. The prediction is verified in simulation; the hardware translation is a separate project.
+What we did at the super-operator level: eigendecomposition of the 64×64 Pauli-basis Liouvillian at N=3, computing the subspace overlap directly. The eigenvector pairing is a property of the super-operator Π·L·Π⁻¹, not of the Hamiltonian or the spectrum.
+
+What we did at the operator (observable) level: built a hardware-ready test that translates the eigenvector-overlap signature into 2-qubit Pauli expectation values that tomography can measure. Initial state |+−+⟩ on N=3, evolve under Heisenberg-form (XX+YY) vs soft-broken form (XY+YX), measure ⟨X₀Z₂⟩ and ⟨Z₀X₂⟩ at t=0.8 with γ=0.1 Z-dephasing.
+
+Framework idealised prediction:
+  - truly_unbroken (XX+YY): ⟨X₀Z₂⟩ = 0
+  - soft_broken (XY+YX): ⟨X₀Z₂⟩ = −0.62
+  - Discriminator strength: 0.62 in absolute Pauli-expectation units.
+
+Aer simulation with realistic IBM Heron r2 noise (T1=250μs, T2=240μs, 2-qubit gate error 0.5%, readout error 3%) at 4096 shots/basis: the discrimination survives realistic hardware noise.
+  - truly_unbroken: ⟨X₀Z₂⟩ = −0.02 (within statistical noise of 0)
+  - soft_broken: ⟨X₀Z₂⟩ = −0.66 (slightly stronger than ideal due to T1-T2-noise interaction)
+  - Aer discrimination: 0.64, essentially the ideal 0.62.
+
+Some non-discriminating observables (⟨Y₀Z₂⟩, ⟨X₀X₂⟩) show shifts from the ideal prediction due to T1 thermal relaxation, which is not in the framework's pure Z-dephasing model. These shifts are explainable: T1 brings amplitudes towards |0⟩^N, which the framework does not model. The discriminating observables (⟨X₀Z₂⟩, ⟨Z₀X₂⟩) are robust to this because they involve cross-correlations that don't simply decay under T1.
+
+A hardware run on Marrakesh would consume ~3-5 QPU minutes (3 Hamiltonians × 9 Pauli bases). Statistical error per Pauli expectation at 4096 shots is ≈ 0.02; the predicted soft-vs-truly signal is 0.62. Discrimination at ~30σ.
+
+The super-operator-level prediction is now translated into a hardware-grade observable, validated against realistic noise. The hardware run is justified.
 
 ---
 
 The single sentence:
 
-The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbroken plus 19 cases where the operator equation breaks but the spectrum does not register the break. This decomposition is invisible at the spectral level (Heisenberg's, Pauli's, the V-Effect's all agree the spectrum is palindromic). It is visible at the superoperator level (our framework's operator residual). The hidden 19 are real, predictable, and physically distinct from both the truly-unbroken 3 and the hard-broken 14, in observables that current spectroscopy does not probe.
+The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbroken plus 19 cases where the operator equation breaks but the spectrum does not register the break. This decomposition is invisible at the spectral level (Heisenberg's, Pauli's, the V-Effect's all agree the spectrum is palindromic). It is visible at the **super-operator level** (Π·L·Π⁻¹ + L + 2Σγ·I, the conjugation of the Liouvillian itself). The hidden 19 are real, predictable, and physically distinct from both the truly-unbroken 3 and the hard-broken 14, with concrete 2-qubit Pauli expectation values (⟨X₀Z₂⟩ ≈ 0 vs −0.62) that survive realistic IBM Heron r2 noise on Aer.
 
 ---
 
@@ -98,3 +116,6 @@ The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbrok
 - [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the analytical (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
 - [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture.
 - [ON_THE_PAINTER_PRINCIPLE](ON_THE_PAINTER_PRINCIPLE.md): every painter from their spot. The framework is our spot; the soft break is what we see from it.
+- `simulations/_soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
+- `simulations/_soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
+- `simulations/_soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.
