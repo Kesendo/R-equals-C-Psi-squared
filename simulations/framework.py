@@ -186,7 +186,7 @@ def _indices_to_k(indices):
 
 
 # ----------------------------------------------------------------------
-# Section 4: Parity selection — which 2-body bilinears respect framework
+# Section 4: Parity selection: which 2-body bilinears respect framework
 # ----------------------------------------------------------------------
 
 def respects_bit_a_parity(idx_pair):
@@ -270,8 +270,13 @@ def _build_bilinear(N, bonds, terms):
 def lindbladian_z_dephasing(H, gamma_l):
     """Lindbladian L(ρ) = -i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l - ρ).
 
-    Returned as a d²×d² matrix in column-stack vec convention.
+    Returned as a d²×d² matrix in the same vec convention used throughout
+    this repository: L = -i(H⊗I - I⊗Hᵀ) + Σ_l γ_l (Z_l ⊗ Z_l* - I⊗I).
+    Compatible with `_vec_to_pauli_basis_transform` which uses flatten('F').
+    Assumes N ≥ 1; physically meaningful for N ≥ 2 with at least one bond.
     """
+    if not np.allclose(H, H.conj().T):
+        raise ValueError("Hamiltonian H must be Hermitian.")
     d = H.shape[0]
     N = int(round(math.log2(d)))
     Id = np.eye(d, dtype=complex)
@@ -285,13 +290,15 @@ def lindbladian_z_dephasing(H, gamma_l):
 
 
 def palindrome_residual(L, Sigma_gamma, N):
-    """Compute ‖Π·L·Π⁻¹ + L + 2Σγ·I‖ in Pauli-string basis.
+    """Compute Π·L·Π⁻¹ + L + 2Σγ·I in Pauli-string basis.
 
     Returns the residual matrix (4^N × 4^N) for sector-block analysis.
+    Uses the orthogonality M†M = 2^N · I of the Pauli basis, so the
+    inverse transform is M†/2^N (no solve needed).
     """
     Pi = build_pi_full(N)
     M = _vec_to_pauli_basis_transform(N)
-    L_pauli = np.linalg.solve(M.conj().T @ M, M.conj().T) @ L @ M
+    L_pauli = (M.conj().T @ L @ M) / (2 ** N)
     Pi_inv = np.linalg.inv(Pi)
     return Pi @ L_pauli @ Pi_inv + L_pauli + 2 * Sigma_gamma * np.eye(4 ** N)
 
@@ -439,5 +446,19 @@ if __name__ == "__main__":
         indices = [LABEL_TO_INDEX[ch] for ch in label_string]
         eig = pi_squared_eigenvalue(indices)
         print(f"  {label_string}: Π² = {eig}")
+
+    # Test 7: palindrome residual is zero for Heisenberg + Z-dephasing
+    print("\nPalindrome residual ‖Π·L·Π⁻¹ + L + 2Σγ·I‖ at N=3, Heisenberg, γ=0.1:")
+    H3 = ur_heisenberg(3, J=1.0)
+    L3 = lindbladian_z_dephasing(H3, [0.1, 0.1, 0.1])
+    R3 = palindrome_residual(L3, Sigma_gamma=0.3, N=3)
+    print(f"  Total residual norm = {np.linalg.norm(R3):.4e}  (expect ~10⁻¹⁵)")
+
+    # Test 8: parity-violating Hamiltonian breaks palindrome at boundary
+    H3_break = (np.kron(np.kron(ur_pauli('X'), ur_pauli('X')), ur_pauli('I'))
+                + np.kron(np.kron(ur_pauli('I'), ur_pauli('X')), ur_pauli('Y')))
+    L3_break = lindbladian_z_dephasing(H3_break, [0.1, 0.1, 0.1])
+    R3_break = palindrome_residual(L3_break, Sigma_gamma=0.3, N=3)
+    print(f"  H = XX on (0,1) + XY on (1,2): residual norm = {np.linalg.norm(R3_break):.4e}  (expect 16.0)")
 
     print("\nAll self-tests pass if numerical results match expectations.")

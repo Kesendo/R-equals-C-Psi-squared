@@ -103,9 +103,9 @@ def main():
 
         evals, evecs = np.linalg.eigh(H)
 
-        # Identify the "low-4 manifold": the four lowest states
-        # At α=0, these are: |S_A⟩|S_B⟩, |S_A⟩|T_B⟩'s (3 of them) — but actually
-        # at α=0 the GS is a singlet-singlet (4-fold degenerate? or unique?).
+        # Identify the "low-4 manifold": the four lowest states.
+        # At α=0, these are: |S_A⟩|S_B⟩ (unique GS, energy -6J), then
+        # singlet-triplet states at -2J (6-fold).
         # Each pair has E=-3J/4 for singlet, +J/4 for triplet (with proper
         # normalization). Let's compute.
 
@@ -131,53 +131,31 @@ def main():
         print(f"{alpha:6.3f} {E0:11.5f} {gap1:10.5f} {gap_low4_top:10.5f} "
               f"{s2_a_gs:10.5f} {s2_b_gs:10.5f} {s2_tot_gs:11.5f}")
 
-    # Now extract J_eff(α) at small α using perturbation theory.
-    # For two singlets weakly coupled, the effective Hamiltonian is:
-    # H_eff = J_eff · S_A · S_B
-    # where S_A · S_B has eigenvalues:
-    #   - on |S_A⟩|S_B⟩ (S_total=0 from singlets): 0
-    #   - on |S_A⟩|T_B⟩ or |T_A⟩|S_B⟩: 0 (one singlet)
-    #   - on |T_A⟩|T_B⟩: depends on S_total
-    # Actually simpler: J_eff = energy gap between specific states.
-
-    # Andersen superexchange prediction: J_eff = α²/J at lowest order.
-    # We extract J_eff by looking at how the low-energy structure shifts with α.
+    # Extract J_eff(α) at small α using second-order perturbation theory.
+    # For α=0 GS = |S_A⟩|S_B⟩ (both singlets), V = α σ_1·σ_2 on bridge.
+    # Both pairs must flip singlet→triplet to be reachable: gap 8J.
+    # Σ |⟨excited|V|GS⟩|² = α² ⟨(σ_1·σ_2)²⟩_GS = α² · 3 (since ⟨σ·σ⟩_bridge = 0
+    # between two independent singlets).
+    # δE^(2) = -3α²/(8J), so the predicted prefactor is -3/(8J) = -0.375.
 
     print("\n" + "=" * 78)
-    print("Anderson superexchange prediction: J_eff ≈ α²/J at small α")
-    print("Extract J_eff from numerical spectrum and compare.")
+    print("Second-order PT prediction: δE_GS = -(3/8) α²/J = -0.375 · α²/J")
+    print("Extract from numerical spectrum and compare.")
     print("=" * 78)
 
-    # The simplest J_eff measure: how does GS energy shift with α at small α?
-    # For two independent singlets: E_0 = -6J. At α>0: E_0(α) = -6J - C·α² + ...
-    # where C depends on virtual triplet excitation. C = α²/(4J) per Anderson.
-    # Wait let me think. If H_eff = J_eff · S_A · S_B (-3/4 if both 0... no)
-    # Actually S_A · S_B for two spin-1/2 sub-systems: S_total=0 (singlet of singlets) is value -3/4 (no wait both spins 1/2)
-    #
-    # Let me redo: S_A is the total spin of pair A. For pair A in singlet, S_A=0.
-    # For pair A in triplet, S_A=1. The eigenvalue of S_A² is S_A(S_A+1).
-    # At α=0 GS, both pairs in singlet: S_A=0, S_B=0, so S_A·S_B = 0.
-    # The shift comes from virtual mixing into triplet states.
-    #
-    # Bottom line: GS energy at α>0 is E_0(α) = -6J + δE(α).
-    # By second-order PT: δE = -|<excited|V|GS>|²/(E_excited - E_GS).
-    # V = α S_(qubit 1) · S_(qubit 2) bridges pair A to pair B.
-    # The excited states reachable have one pair flipped from singlet to triplet.
-    # Energy gap is 4J (one triplet vs one singlet).
-    # So δE(α) ~ α² / (4J), with constant of proportionality from matrix elements.
-
-    print(f"\n{'α':>6s} {'E_0(α)':>11s} {'δE = E_0(α) - E_0(0)':>22s} {'δE/α²':>12s} {'predicted ~α²/(4J)':>20s}")
+    print(f"\n{'α':>6s} {'E_0(α)':>11s} {'δE = E_0(α) - E_0(0)':>22s} {'δE/α²':>12s} {'predicted -3α²/(8J)':>20s}")
     E0_at_zero = gaps_low4[0][1]
     for (alpha, E0, gap1, gap4, s2a, s2b, s2t) in gaps_low4[1:]:
         delta_E = E0 - E0_at_zero
         scaled = delta_E / (alpha**2) if alpha > 0 else 0
-        predicted = -alpha**2 / (4 * J)
+        predicted = -3 * alpha**2 / (8 * J)
         print(f"{alpha:6.3f} {E0:11.5f} {delta_E:22.5f} {scaled:12.5f} {predicted:20.5f}")
 
     print()
-    print("Reading: if δE/α² is approximately constant for small α,")
-    print("Anderson superexchange holds. If the constant equals -1/(4J) = -0.25,")
-    print("the textbook formula matches our framework's V-Effect.")
+    print("Reading: if δE/α² is approximately constant for small α and")
+    print("approaches -3/(8J) = -0.375, the V-Effect-derived second-order PT")
+    print("matches our framework's prediction (Anderson superexchange shape,")
+    print("3/8 prefactor from Pauli identity (σ·σ)² = 3I − 2(σ·σ)).")
 
     # Also extract gap structure
     print("\n" + "=" * 78)

@@ -23,7 +23,7 @@ Test cases:
    Expected: palindrome holds in all sectors.
 3. H = XX on bond (0,1) + XY on bond (1,2). Breaks bit_b (XY has 1 Y).
    Expected: w=0, w=3 still palindromic. w=1, w=2 break.
-4. H = XX + XZ. Breaks bit_a (XZ has 1 X+Y across both — actually XZ has bit_a=1).
+4. H = XX + XZ. Breaks bit_a (XZ has 1 X+Y across both; XZ has bit_a=1).
    Expected: also breaks the boundary sectors.
 """
 import math
