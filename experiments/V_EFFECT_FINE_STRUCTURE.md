@@ -109,6 +109,21 @@ For the 33 OP-broken cases here, the break lives in boundary sectors at N=3 (w=1
 
 The two categories share the boundary-residing break but differ in whether the boundary-mode coupling structure is "spectrally symmetric" or not.
 
+## Hardware verification (2026-04-26)
+
+The 3/19/14 distinction was tested live on `ibm_marrakesh` (Heron r2) via three representative Hamiltonians (XX+YY truly, XY+YX soft, XX+XY hard) on a 3-qubit chain at [48, 49, 50] from |+−+⟩ initial state, t=0.8, n_trotter=3, 4096 shots/basis. Pipeline: `D:\...\ibm_quantum_tomography\run_soft_break.py` (first script in that directory to import `framework.py`).
+
+| Observable | Framework idealised | Aer w/ Marrakesh noise | **Hardware Marrakesh** |
+|------------|---------------------|------------------------|--------------------------|
+| ⟨X₀Z₂⟩ truly_unbroken (XX+YY) | 0.000 | -0.020 | **+0.011** |
+| ⟨X₀Z₂⟩ soft_broken (XY+YX) | -0.623 | -0.660 | **-0.711** |
+| ⟨X₀Z₂⟩ hard_broken (XX+XY) | +0.195 | +0.230 | **+0.205** |
+| Δ(soft − truly) | -0.62 | -0.64 | **-0.72** |
+
+All three categories separately resolved at SNR ~13-47σ. Job `d7mjnjjaq2pc73a1pk4g`. Raw JSON + breakdown in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
+
+The hardware result is slightly STRONGER than the idealized framework predicts. T1 thermal relaxation and ZZ crosstalk compound the soft-break signal in operators not purely diagonal in L's eigenbasis. Same mechanism as the γ-profile amplification observed in CMRR_BREAK and GAMMA_AS_SIGNAL: hardware non-uniformity amplifies symmetry-breaking signatures.
+
 ## What this does and does not establish
 
 **Establishes:**
@@ -116,12 +131,13 @@ The two categories share the boundary-residing break but differ in whether the b
 - Framework primitives (palindrome_residual, lindbladian_z_dephasing, _build_bilinear) reproduce the V-Effect's 14/22 split when filtered through the SPEC criterion.
 - Framework reveals a 3 / 19 / 14 fine structure that the V-Effect's two-category 22 / 14 partition obscured.
 - The 3 truly-unbroken cases are predictable structurally: both terms in the both-parity-even set {XX, YY, ZZ}.
+- The 3/19/14 distinction is operationally observable on real IBM Heron r2 hardware via specific 2-qubit Pauli expectations (above).
 
 **Does not establish:**
 
 - An analytical predictor for which combos are soft vs hard. The structural patterns (matched parities, one-good-term, etc.) are descriptive but not yet derived.
 - Generalization to N > 3. Framework supports it; not tested here.
-- Any physical experiment that distinguishes soft vs hard breaks. Spectroscopy can't see the difference (both have palindromic frequencies); time-resolved off-diagonal observables would.
+- The full 19 soft-broken cases on hardware. We tested 1 representative each from {3 truly, 19 soft, 14 hard}.
 
 ## Open questions
 

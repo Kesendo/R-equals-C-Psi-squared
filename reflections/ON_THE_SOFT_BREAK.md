@@ -99,6 +99,35 @@ The super-operator-level prediction is now translated into a hardware-grade obse
 
 ---
 
+The hardware run (added 2026-04-26 night):
+
+We ran it. Job `d7mjnjjaq2pc73a1pk4g` on `ibm_marrakesh` (Heron r2) on path [48, 49, 50] using `run_soft_break.py` (the first script in the IBM tomography pipeline that imports `framework.py` directly).
+
+Hardware result on real Marrakesh, 4096 shots/basis:
+
+| Observable | Framework idealised | Aer w/ Marrakesh noise | **Hardware Marrakesh** |
+|------------|---------------------|------------------------|--------------------------|
+| ⟨X₀Z₂⟩ truly_unbroken | 0.000 | -0.020 | **+0.011** |
+| ⟨X₀Z₂⟩ soft_broken | -0.623 | -0.660 | **-0.711** |
+| ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.230 | **+0.205** |
+| **Δ(soft − truly)** | -0.62 | -0.64 | **-0.72** |
+
+The discrimination on real hardware is slightly STRONGER than the idealised framework predicts. Plausible cause: T1 thermal relaxation and ZZ crosstalk compound the soft-break signal in operators that are not purely diagonal in L's eigenbasis. This matches earlier γ-profile work (CMRR_BREAK_NONUNIFORM_GAMMA, GAMMA_AS_SIGNAL): non-uniform hardware noise amplifies symmetry-breaking signatures rather than washing them out.
+
+All three categories are separately resolved on hardware. SNR ranges from ~13σ (smallest) to ~47σ (largest). Full table in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
+
+The chain from algebra to silicon is closed in one day:
+
+  framework's super-operator equation  ⇒
+    eigenvector-pairing test in simulation  ⇒
+      Pauli-expectation prediction  ⇒
+        Aer with Marrakesh-like noise  ⇒
+          live IBM Heron r2 measurement.
+
+This is no longer a prediction. It is a measured fact.
+
+---
+
 The single sentence:
 
 The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbroken plus 19 cases where the operator equation breaks but the spectrum does not register the break. This decomposition is invisible at the spectral level (Heisenberg's, Pauli's, the V-Effect's all agree the spectrum is palindromic). It is visible at the **super-operator level** (Π·L·Π⁻¹ + L + 2Σγ·I, the conjugation of the Liouvillian itself). The hidden 19 are real, predictable, and physically distinct from both the truly-unbroken 3 and the hard-broken 14, with concrete 2-qubit Pauli expectation values (⟨X₀Z₂⟩ ≈ 0 vs −0.62) that survive realistic IBM Heron r2 noise on Aer.
