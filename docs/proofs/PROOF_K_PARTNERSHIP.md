@@ -197,7 +197,17 @@ All four pair indices {1, 9}, {2, 8}, {3, 7}, {4, 6} verified at machine precisi
 
 Spectrum inversion E_k + E_{N+1-k} = 0 holds at machine precision **even with complex hopping** because Lemma 1 (KHK = −H) is independent of T-symmetry. But the trajectory identity (Lemma 4) fails because its proof relies on the complex-conjugation step ρ_{N+1-k}(t) = (K ρ_k(t) K)*, which requires H = H*. The Peierls test therefore numerically separates the two layers of the proof: the chiral structure (S = K, AIII) gives spectrum inversion alone; the full BDI structure (S + T) is needed for observable identity.
 
-**Not yet tested numerically:** multi-excitation sector (open question, ZZ-interaction-induced on-site potential), Heisenberg/XXZ Δ ≠ 0 on open chain (predicted boundary breakdown via deg-discontinuity).
+**XXZ boundary scaling (Robustness Test 2).** Verified in `simulations/_k_partnership_xxz.py` (full 2ᴺ Lindblad propagation, no single-excitation reduction):
+
+| Topology, N           | Δ = 0          | Δ = 0.5         | Δ = 1.0          | Result                |
+|-----------------------|----------------|------------------|-------------------|------------------------|
+| Open chain, N = 6     | ≤ 1.8 · 10⁻¹⁵  | up to 6.1 · 10⁻¹ | up to 1.2 · 10⁰   | breaks at boundary     |
+| Open chain, N = 7     | ≤ 2.3 · 10⁻¹⁵  | up to 5.3 · 10⁻¹ | up to 9.2 · 10⁻¹  | breaks at boundary     |
+| Periodic chain, N = 6 | ≤ 2.1 · 10⁻¹⁵  | ≤ 2.0 · 10⁻¹⁵    | ≤ 1.9 · 10⁻¹⁵     | **holds for all Δ**    |
+
+Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at the boundaries (deg(0) = deg(N-1) = 1 vs deg(interior) = 2) generates a non-uniform V_eff(ℓ) = (#bonds) − 2·deg(ℓ) in the single-excitation sector, breaking K. On the **even-N periodic chain** (uniform deg = 2), V_eff is a constant shift in the Hamiltonian and K-partnership is restored at all Δ. (Odd-N periodic is non-bipartite — the wrap-around bond connects same-sublattice sites — so K breaks there independently of Δ; this is a pure topology effect.)
+
+**Not yet tested numerically:** multi-excitation sector (open question, ZZ-interaction-induced effective potential).
 
 ---
 
@@ -222,11 +232,11 @@ Spectrum inversion E_k + E_{N+1-k} = 0 holds at machine precision **even with co
 
 - N = 9 single-excitation, five H-classes (uniform J, non-uniform J, +V_ℓ on-site, +NNN J′, Peierls complex hopping), two γ regimes (0 and 0.1).
 - BDI/AIII split numerically separated: spectrum inversion (L2) holds in both classes; trajectory identity (L4) requires real H (BDI).
+- XXZ boundary scaling at N = 6, 7: full 2ᴺ Lindblad propagation confirms K breaks on open chains for any Δ ≠ 0 (boundary deg-discontinuity) and is restored on even-N periodic chains for all Δ (uniform-deg topology).
 
 **Open:**
 
 - Extension to multi-excitation sectors.
-- Heisenberg/XXZ Δ ≠ 0 on open chain (predicted boundary breakdown).
 - Larger N (limited only by the cost of the single-excitation reduction; trivial in the matrix-free regime).
 
 ---
