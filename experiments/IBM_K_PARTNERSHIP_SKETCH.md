@@ -1,6 +1,6 @@
 # IBM Hardware: K-Partnership Cross-Validation on Marrakesh (Heron r2)
 
-**Status:** Run 1 complete 2026-04-25 on ibm_marrakesh (Kingston was down at run time). K-partner pair deviations: 14 % (bonding:2/4) and 60 % (bonding:1/5) on hardware vs 0.02 % to 0.25 % on Aer. Hardware-Site-/Bond-Asymmetrie clearly visible.
+**Status:** Run 1 complete 2026-04-25 on ibm_marrakesh (Kingston was down at run time). K-partner pair deviations (Δ / mean): 15 % (bonding:2/4) and 46 % (bonding:1/5) on hardware vs 0.02 % to 0.25 % on Aer. Hardware-Site-/Bond-Asymmetrie clearly visible.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** extension of `run_receiver_engineering.py` in the external `ibm_quantum_tomography` pipeline (re-uses Kingston-noise model and 9-Pauli tomography from Run 1)
@@ -86,7 +86,7 @@ Marrakesh calibration along the path (live, 2026-04-25):
 | 3 | 51 | 225.8 | 290.1 | 7.28 % | 0.149 % to 58 |
 | 4 | 58 | 259.5 | 241.4 | 3.06 % | (end) |
 
-T1/T2 are reasonably symmetric site-to-site (4-9 % asymmetry); the dominant K-symmetry breaker is the **6× CZ-error asymmetry** between bond (0,1) at 0.876 % and bond (3,4) at 0.149 %, plus the 1.9× readout-error asymmetry between Site 0 and Site 4.
+T1 asymmetry between K-paired sites is non-trivial: Site 0 (Q48, T1 = 238 μs) vs Site 4 (Q58, T1 = 260 μs) differs by 9 %, but Site 1 (Q49, T1 = 290 μs) vs Site 3 (Q51, T1 = 226 μs) differs by **29 %**. T2 is more uniform (3-4 % across both K-paired pairs). The dominant K-symmetry breaker is still the **6× CZ-error asymmetry** between bond (0,1) at 0.876 % and bond (3,4) at 0.149 %, with the 1.9× readout-error asymmetry between Site 0 and Site 4 and the 29 % T1 asymmetry between Site 1 and Site 3 contributing additional channels.
 
 | Receiver | MI(0, 4) live | MI(0, 4) Aer | HW/Aer | K-partner |
 |----------|---------------|---------------|--------|-----------|
@@ -96,20 +96,20 @@ T1/T2 are reasonably symmetric site-to-site (4-9 % asymmetry); the dominant K-sy
 | bonding:4 | **0.0660** | 0.4904 | 0.13 | partner of 2 |
 | bonding:5 | **0.0737** | 0.0394 | 1.87 | partner of 1 |
 
-**K-partner deviations:**
+**K-partner deviations** (relative differences as Δ / mean(MI_k, MI_{N+1-k}) for consistency):
 
-| Pair | Hardware Δ | Relativ | Aer Δ | Aer relativ |
-|------|------------|---------|-------|-------------|
-| (bonding:1, bonding:5) | 0.0277 | **60 %** | 0.0001 | 0.25 % |
-| (bonding:2, bonding:4) | 0.0108 | **14 %** | 0.0001 | 0.02 % |
+| Pair | Hardware Δ | Δ/mean (HW) | Aer Δ | Δ/mean (Aer) |
+|------|------------|-------------|-------|--------------|
+| (bonding:1, bonding:5) | 0.0277 | **46 %** | 0.0001 | 0.25 % |
+| (bonding:2, bonding:4) | 0.0108 | **15 %** | 0.0001 | 0.02 % |
 
-The K-partnership theorem says these deviations should vanish under K-equivariant Lindblad. Hardware shows them at 14-60 %. The deviations are the direct hardware-Site-/Bond-Asymmetrie diagnostic that PROOF_K_PARTNERSHIP predicts: where γ_ℓ-profile or hopping is K-asymmetric, K-partner pairs deviate.
+The K-partnership theorem says these deviations should vanish under K-equivariant Lindblad. Hardware shows them at 15-46 % (Δ / mean). The deviations are the direct hardware-Site-/Bond-Asymmetrie diagnostic that PROOF_K_PARTNERSHIP predicts: where γ_ℓ-profile or hopping is K-asymmetric, K-partner pairs deviate.
 
-**Mode-specific spread.** The (1, 5) pair spreads ~4× more than (2, 4). Plausible reason: bonding:5 is the highest k-mode with alternating sign pattern, accumulating bond-by-bond phase errors over the chain. bonding:2/4 have node-at-center structure and are less sensitive to the left-right bond asymmetry. The K-partner spread is thus a hardware property weighted by the mode's spatial coherence pattern.
+**Mode-specific spread.** The (1, 5) pair spreads ~3× more than (2, 4) (46 % vs 15 %, Δ/mean). Plausible reason: bonding:5 is the highest k-mode with rapid spatial oscillation (four nodes between five sites), accumulating bond-by-bond phase errors over the chain. bonding:2/4 have node-at-center structure and are less sensitive to the left-right bond asymmetry. The K-partner spread is thus a hardware property weighted by the mode's spatial coherence pattern.
 
-**Caveats.** bonding:1 and bonding:5 absolute MI values (0.046, 0.074) sit slightly above the Aer prediction (0.040, 0.039), likely a tomography-reconstruction artifact at MI < 0.1 (positivity-projected ρ biases eigenvalues at low signal). The K-partner *ratios* are more robust than absolute values in this regime.
+**Caveats.** bonding:1 and bonding:5 absolute MI values (0.046, 0.074) sit slightly above the Aer prediction (0.040, 0.039), likely a tomography-reconstruction artifact at MI < 0.1 (positivity-projected ρ biases eigenvalues at low signal). The K-partner *Δ/mean ratio* within the pair is the cleaner observable in this regime than absolute MI.
 
-bonding:3 = 0.170 hardware acts as the self-partner anchor. Aer predicted 0.770 (HW/Aer 0.22), consistent with overall hardware decoherence depth. Other K-partner pairs (1,5) and (2,4) sit in the same 0.13-0.22 HW/Aer band when computed as pair averages, so the K-partnership-broken deviations are on top of an otherwise-uniform hardware decoherence layer.
+bonding:3 = 0.170 hardware acts as the self-partner anchor. Aer predicted 0.770 (HW/Aer 0.22), consistent with overall hardware decoherence depth. Pair (2, 4) HW/Aer pair-mean = 0.0714 / 0.4905 = 0.15, in the same band as the self-partner anchor. Pair (1, 5) HW/Aer pair-mean = 0.060 / 0.0395 = 1.52 sits well above the band, but this reflects the absolute-MI floor noted above (Aer also predicted near-zero, and the tomography-reconstruction noise puts the hardware values slightly higher); the meaningful comparison there is the Δ/mean within the pair.
 
 Result file: `data/ibm_k_partnership_april2026/k_partnership_marrakesh_20260425_140913.json`. Aer pre-flight: `k_partnership_marrakesh_aer_20260425_140311.json` in the same directory.
 
