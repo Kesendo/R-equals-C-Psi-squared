@@ -163,6 +163,7 @@ abstract and its upstream dependencies.
 | [ΔN Selection Rule](PROOF_DELTA_N_SELECTION_RULE.md) | Any site-local observable coupled via partial trace annihilates density-matrix sector blocks with \|ΔN\| ≥ 2. Purely kinematic: holds for any Hamiltonian or dissipator that admits an excitation-number decomposition. | (independent) |
 | [Asymptotic Sector Projection](PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) | Under Heisenberg + local Z-dephasing on any graph, the asymptotic state is a mixture of maximally-mixed excitation sectors weighted by their initial populations. Excitation-number populations are constants of motion; the long-time state is fully determined by initial sector content. | (independent) |
 | [Chromaticity of (n, n+1) Blocks](PROOF_CHROMATICITY.md) | In U(1)-conserved systems with uniform Z-dephasing, the (n, n+1) popcount coherence block contains exactly c(n, N) = min(n, N−1−n) + 1 distinct pure dephasing rates, labeled by Hamming distance between basis states. | (independent) |
+| [K-Partnership of Bonding-Mode Receivers](PROOF_K_PARTNERSHIP.md) | The bipartite sublattice gauge K = diag((−1)^ℓ) anticommutes with any NN-hopping H in the single-excitation sector (KHK = −H), yielding spectrum inversion E_k = −E_{N+1-k} and bonding-mode swap K ψ_k = ψ_{N+1-k}. For real H the chiral S = K combined with anti-unitary T (complex conjugation) places the system in AZ class BDI; mirror-pair |·|²-observables (MI, log π) for the K-partner trajectories ρ_k(t) and ρ_{N+1-k}(t) coincide pointwise under any γ_ℓ-profile. Folds the F67 receiver menu from N to ⌈N/2⌉ entries and is more robust than the F71 spatial reflection R (which requires uniform J). | F65, F67, [HANDSHAKE_ALGEBRA](../../hypotheses/HANDSHAKE_ALGEBRA.md) |
 
 ### Absorption and rate structure
 
@@ -180,7 +181,7 @@ abstract and its upstream dependencies.
 
 ### How the catalog relates to the Reading Order
 
-Five of the nine catalog proofs extend Reading Order results directly:
+Five of the ten catalog proofs extend Reading Order results directly:
 the Parity Selection Rule sharpens the Weight-1 Degeneracy bound into an
 exact accessibility statement; Bit-b Parity doubles the symmetry group
 the Direct-Sum decomposition works with; the two Cross-Term Formulas
@@ -190,10 +191,14 @@ spectral backbone that several recent experiments ([V-Effect Cavity Modes](../..
 [IBM Absorption Theorem](../../experiments/IBM_ABSORPTION_THEOREM.md),
 [Sacrifice Geometry](../../experiments/SACRIFICE_GEOMETRY.md)) rely on.
 
-The remaining four (ΔN Selection, c₁ Mirror, Asymptotic Sector
-Projection, Chromaticity) are independent side theorems closing
-specific questions that arose during the experimental program. They do
-not rely on the spine and the spine does not rely on them.
+The remaining five (ΔN Selection, c₁ Mirror, Asymptotic Sector
+Projection, Chromaticity, K-Partnership) are independent side theorems
+closing specific questions that arose during the experimental program.
+They do not rely on the spine and the spine does not rely on them. The
+K-Partnership proof in particular grounds the receiver-menu folding
+used in HANDSHAKE_ALGEBRA, identifying it as a chiral (AZ class BDI on
+real hopping) symmetry of the single-excitation sector, structurally
+distinct from F1's Π and F71's R.
 
 ---
 

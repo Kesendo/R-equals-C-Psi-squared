@@ -65,6 +65,23 @@ def build_H_onsite(N: int, J: float, V) -> np.ndarray:
     return H
 
 
+def build_H_nnn(N: int, J: float, J_nnn: float) -> np.ndarray:
+    """Uniform NN-hopping J + NNN hopping J_nnn (connecting i <-> i+2).
+
+    NNN bonds connect same-sublattice sites: parity (-1)^(i+(i+2)) = +1, so
+    KHK = +H on those terms (not negated). Lemma 1 of PROOF_K_PARTNERSHIP
+    predicts K-partnership breakdown for any J_nnn != 0.
+    """
+    H = np.zeros((N, N), dtype=complex)
+    for i in range(N - 1):
+        H[i, i + 1] = -J
+        H[i + 1, i] = -J
+    for i in range(N - 2):
+        H[i, i + 2] = -J_nnn
+        H[i + 2, i] = -J_nnn
+    return H
+
+
 def psi_k(N: int, k: int) -> np.ndarray:
     return np.array(
         [math.sqrt(2.0 / (N + 1)) * math.sin(math.pi * k * (ell + 1) / (N + 1))
@@ -207,15 +224,24 @@ def main() -> None:
         N, H_onsite, gamma, t_max, n_steps,
     )
 
-    # Test 4: same three H-cases but at gamma > 0. gamma merely sets a time unit
+    # Test 4: uniform NN-J + NNN hopping J' = 0.3 * J (same-sublattice bonds, K BROKEN)
+    J_nnn = 0.3 * J_uniform
+    H_nnn = build_H_nnn(N, J_uniform, J_nnn)
+    run_test(
+        f"Test 4  uniform J={J_uniform} + NNN J'={J_nnn:.2f}  (K BROKEN, same-sublattice bonds): expect breakdown",
+        N, H_nnn, gamma, t_max, n_steps,
+    )
+
+    # Test 5: same four H-cases but at gamma > 0. gamma merely sets a time unit
     # and does not affect partner identity; this confirms the effect is structural.
     gamma_check = 0.1
-    print(f"Test 4  same three H-cases at gamma={gamma_check} (sanity: gamma just sets time unit)")
+    print(f"Test 5  same four H-cases at gamma={gamma_check} (sanity: gamma just sets time unit)")
     print(f"{'case':>20}  {'worst |MI_k - MI_km|':>24}  {'worst |SumLogPi|':>20}")
     cases = [
         ("uniform J=1",      H_u),
         ("non-uniform J",    H_nu),
         ("uniform J + V",    H_onsite),
+        ("uniform J + NNN",  H_nnn),
     ]
     for label, H in cases:
         worst_mi = 0.0
@@ -235,10 +261,13 @@ def main() -> None:
     # Consequence: receiver menu size
     print("Summary:")
     print("  - Partner identity k <-> N+1-k is carried by K = diag((-1)^l)")
-    print("    (bipartite sublattice gauge), not by Pi (spatial reflection).")
+    print("    (bipartite sublattice gauge), not by R (spatial reflection).")
     print("  - K invariance holds for any bipartite H (uniform or non-uniform J,")
-    print("    any gamma_0 profile). Breaks only when H loses bipartite structure")
-    print("    (on-site potential, NNN hopping).")
+    print("    any gamma_0 profile, real hopping). Breaks when H loses bipartite")
+    print("    structure: on-site potential V_l (Test 3) and NNN hopping J' that")
+    print("    connects same-sublattice sites (Test 4) both falsify K-partnership.")
+    print("  - The Lemma 1 prediction (PROOF_K_PARTNERSHIP) that NNN bonds violate")
+    print("    KHK = -H because (-1)^(i+(i+2)) = +1 is now numerically confirmed.")
     print("  - gamma_0 is the time anchor: dynamics depend only on Q = J/gamma_0")
     print("    and H-structure; partner identity is Q-independent.")
     print()
