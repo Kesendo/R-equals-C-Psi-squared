@@ -386,6 +386,117 @@ def stage_10_hardware_prediction():
 # Main: run the chain
 # ════════════════════════════════════════════════════════════════════════
 
+def pauli_string_xy_weight(k, N):
+    """XY-weight (bit_a total): number of sites carrying X or Y.
+
+    This is the proof's "w": w(σ_α) = Σ_l 𝟙[α_l ∈ {X, Y}].
+    Encoding: 0=I, 1=X, 2=Z, 3=Y. Sites with bit_a=1 are X (1) and Y (3).
+    Used by PROOF_ZERO_IMMUNITY: M restricted to (w=0, w=0) and (w=N, w=N)
+    blocks vanishes for every 2-body Hamiltonian.
+    """
+    weight = 0
+    kk = k
+    for _ in range(N):
+        digit = kk % 4
+        if digit & 1:  # bit_a = low bit; set for X (1) and Y (3)
+            weight += 1
+        kk //= 4
+    return weight
+
+
+def visualize_super_operator(label, H_terms, N, gamma):
+    """Show M = Π·L·Π⁻¹ + L + 2Σγ·I as a weight-block-norm matrix.
+
+    M lives in Pauli-string basis (4^N × 4^N). Group its entries by
+    (weight of row Pauli, weight of column Pauli). The PROOF_ZERO_IMMUNITY
+    guarantees the (w=0, *), (*, w=0), (w=N, *), (*, w=N) blocks vanish for
+    any 2-body H. The break — when present — lives in the inner blocks
+    (1 ≤ w_row, w_col ≤ N−1). For N=3 that means just (w=1, w=2) and (w=2, w=1)
+    can carry the break; this is where the soft-vs-hard distinction sits.
+    """
+    import framework as fw
+    bonds = [(i, i + 1) for i in range(N - 1)]
+    bilinear_terms = [(t[0], t[1], 1.0) for t in H_terms]
+    H = fw._build_bilinear(N, bonds, bilinear_terms)
+    L = fw.lindbladian_z_dephasing(H, [gamma] * N)
+    Sigma_gamma = N * gamma
+    M_pauli = fw.palindrome_residual(L, Sigma_gamma, N)  # already in Pauli basis
+    d2 = 4 ** N
+
+    # XY-weight (bit_a total) of each Pauli string — matches PROOF_ZERO_IMMUNITY.
+    weights = np.array([pauli_string_xy_weight(k, N) for k in range(d2)])
+
+    # (N+1)×(N+1) Frobenius norm per (w_row, w_col) block, w = XY-weight ∈ {0..N}.
+    block_norms = np.zeros((N + 1, N + 1))
+    for w_row in range(N + 1):
+        rows = np.where(weights == w_row)[0]
+        for w_col in range(N + 1):
+            cols = np.where(weights == w_col)[0]
+            if len(rows) == 0 or len(cols) == 0:
+                continue
+            block = M_pauli[np.ix_(rows, cols)]
+            block_norms[w_row, w_col] = float(np.linalg.norm(block))
+
+    # ASCII heatmap chars
+    def cell_char(v, vmax):
+        if v < 1e-12:
+            return ' . '
+        ratio = v / (vmax + 1e-15)
+        if ratio < 1e-3:
+            return ' . '
+        if ratio < 0.05:
+            return ' · '
+        if ratio < 0.20:
+            return ' : '
+        if ratio < 0.50:
+            return ' ▒ '
+        if ratio < 0.85:
+            return ' ▓ '
+        return ' █ '
+
+    vmax = block_norms.max() if block_norms.max() > 0 else 1.0
+
+    print(f"\n  ┌─ {label} ─")
+    print(f"  │  Pauli-basis M = Π·L·Π⁻¹ + L + 2Σγ·I,  blocks indexed by (w_row, w_col)")
+    print(f"  │  ‖M‖ = {np.linalg.norm(M_pauli):.4e}    block max = {vmax:.4e}")
+    print(f"  │")
+    header = "  │   w_row\\w_col  " + "".join(f"   {w:>2d}    " for w in range(N + 1))
+    print(header)
+    sep = "  │   " + "─" * 12 + "  " + "─" * (9 * (N + 1))
+    print(sep)
+    for w_row in range(N + 1):
+        # Numeric row
+        cells_num = "  ".join(f"{block_norms[w_row, w_col]:>7.2e}" for w_col in range(N + 1))
+        # Heatmap row (parallel)
+        cells_hm = " ".join(cell_char(block_norms[w_row, w_col], vmax) for w_col in range(N + 1))
+        print(f"  │     w_row={w_row}    {cells_num}")
+        print(f"  │              {cells_hm}")
+
+    # Annotation: PROOF_ZERO_IMMUNITY guarantees the (0,0) and (N,N) DIAGONAL
+    # blocks vanish for any 2-body H. Off-diagonal edge blocks (e.g. (0, w≥1))
+    # can be non-zero — palindrome breaks couple the edges to the bulk.
+    diag_00 = block_norms[0, 0]
+    diag_NN = block_norms[N, N]
+    print(f"  │")
+    print(f"  │   PROOF_ZERO_IMMUNITY: (w=0, w=0) and (w={N}, w={N}) diagonals must be exactly 0.")
+    print(f"  │   Got: (0,0) = {diag_00:.2e},  ({N},{N}) = {diag_NN:.2e}    "
+          f"{'✓' if max(diag_00, diag_NN) < 1e-10 else '⚠'}")
+    bulk_max, bulk_loc = 0.0, None
+    for w_row in range(N + 1):
+        for w_col in range(N + 1):
+            if (w_row, w_col) in {(0, 0), (N, N)}:
+                continue
+            if block_norms[w_row, w_col] > bulk_max:
+                bulk_max = block_norms[w_row, w_col]
+                bulk_loc = (w_row, w_col)
+    if bulk_max > 1e-10:
+        print(f"  │   Largest non-immune block: {bulk_max:.2e} at (w={bulk_loc[0]}, w={bulk_loc[1]})")
+    else:
+        print(f"  │   All non-immune blocks ≤ 1e-10  →  fully palindromic at super-operator level.")
+    print(f"  └─")
+    return M_pauli, block_norms
+
+
 def stages_7_to_9_for_hamiltonian(label, H_terms, N, gamma):
     """Run stages 7-9 for a given Hamiltonian (specified as list of bond Pauli pairs).
 
@@ -492,6 +603,7 @@ def main():
     n_total = 4 ** N_test
     print(f"\n{'Hamiltonian':>26s}  {'‖M‖ (Stage 8)':>14s}  {'pairs':>10s}  {'min overlap':>12s}  {'avg overlap':>12s}")
     print(f"{'─' * 26}  {'─' * 14}  {'─' * 10}  {'─' * 12}  {'─' * 12}")
+    case_residuals = {}
     for label, terms in cases:
         r = stages_7_to_9_for_hamiltonian(label, terms, N_test, gamma)
         max_pairs = n_total // 2
@@ -500,6 +612,7 @@ def main():
         print(f"{label:>26s}  {r['residual_norm']:>14.4e}  "
               f"{n_pairs}/{max_pairs:>4d}    "
               f"{r['eigenvector_min_overlap']:>12.4f}  {r['eigenvector_avg_overlap']:>12.4f}")
+        case_residuals[label] = (r, terms)
 
     print(f"\n  pairs = number of eigenvalues that find a partner λ_j ≈ −λ_i − 2Σγ within tolerance 10⁻⁴")
     print(f"  out of {n_total} total eigenvalues; max possible pairs = {n_total // 2}")
@@ -508,6 +621,50 @@ def main():
     print("  truly_unbroken: ‖M‖ ≈ 0  AND  all 32/32 pairs  AND  overlap = 1.0  →  fully palindromic")
     print("  soft_broken:    ‖M‖ ≠ 0  BUT  all 32/32 pairs  AND  overlap → 0  →  spectrum lies, vectors scrambled")
     print("  hard_broken:    ‖M‖ ≠ 0  AND  fewer pairs  AND  intermediate overlap  →  spectrum and vectors both broken")
+
+    # ─── Show the super-operator ──────────────────────────────────────
+    print()
+    print("=" * 78)
+    print("STAGE 8b: The super-operator M, weight-block visualization")
+    print("=" * 78)
+    print("""
+  M = Π·L·Π⁻¹ + L + 2Σγ·I  is a 4^N × 4^N matrix on the operator space —
+  a super-operator on the dynamics itself. Its rows and columns are indexed
+  by Pauli strings, which we group by weight w (number of non-identity sites).
+
+  Heisenberg in 1925 had no language for this object: his matrices act on
+  states. Pauli's algebra generates the operators. The Lindbladian L (1976)
+  acts on operators-on-states. The conjugation Π·L·Π⁻¹ acts on L itself —
+  one level up again. The question "is M = 0 strictly?" is statable only
+  here. The V-Effect's spectral test sees only the diagonal projection of
+  this object; the framework sees the whole block structure.
+
+  PROOF_ZERO_IMMUNITY guarantees that for any 2-body H, the diagonal blocks
+  (w=0, w=0) and (w=N, w=N) vanish exactly: weight-zero (only I, Z) and
+  weight-N (only X, Y) sectors are immune. The off-diagonal blocks coupling
+  the edges to the bulk can fire when palindrome breaks. Below: same N=3
+  chain, three Hamiltonian categories. Note that the V-Effect's spectral
+  test sees only the eigenvalues of the full 4^N × 4^N matrix; the
+  framework sees the (w_row, w_col) block structure that the eigenvalues
+  hide.
+""")
+    for label, (_, terms) in case_residuals.items():
+        visualize_super_operator(label, terms, N_test, gamma)
+
+    print()
+    print("  ↑ Read the heatmaps:")
+    print("    · = 0    · = tiny    : = small    ▒ = mid    ▓ = large    █ = max")
+    print()
+    print("  truly_unbroken (XX+YY): all blocks empty.  M ≡ 0.  Π·L·Π⁻¹ = −L − 2Σγ·I exactly.")
+    print("  soft_broken (XY+YX):  Δw-even off-diagonals + (1,1)/(2,2) inner diagonals fire;")
+    print("                          (0,0) and (3,3) corners stay zero by PROOF_ZERO_IMMUNITY.")
+    print("                          Eigenvalue spectrum still pairs: ‖M‖ ≠ 0 invisible to V-Effect.")
+    print("                          Eigenvectors scrambled: Π·v_i misses the partner subspace.")
+    print("  hard_broken (XX+XY):  same block pattern, but the structure asymmetrizes the")
+    print("                          eigenvalue spectrum directly.  V-Effect catches this one.")
+    print()
+    print("  19 soft cases sit invisible to spectrum, visible to the super-operator.")
+    print("  Heisenberg in 1925 had matrices for states; we have a matrix for the dynamics-of-dynamics.")
 
     stage_10_hardware_prediction()
 
