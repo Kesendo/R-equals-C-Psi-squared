@@ -386,6 +386,77 @@ def stage_10_hardware_prediction():
 # Main: run the chain
 # ════════════════════════════════════════════════════════════════════════
 
+def stages_7_to_9_for_hamiltonian(label, H_terms, N, gamma):
+    """Run stages 7-9 for a given Hamiltonian (specified as list of bond Pauli pairs).
+
+    Allows showing Heisenberg side-by-side with soft-broken or hard-broken cases.
+    """
+    import framework as fw
+    bonds = [(i, i + 1) for i in range(N - 1)]
+    bilinear_terms = [(t[0], t[1], 1.0) for t in H_terms]
+    H = fw._build_bilinear(N, bonds, bilinear_terms)
+    L = fw.lindbladian_z_dephasing(H, [gamma] * N)
+    Sigma_gamma = N * gamma
+    M_residual = fw.palindrome_residual(L, Sigma_gamma, N)
+    residual_norm = float(np.linalg.norm(M_residual))
+
+    Pi = fw.build_pi_full(N)
+    Mvec = fw._vec_to_pauli_basis_transform(N)
+    L_pauli = (Mvec.conj().T @ L @ Mvec) / (2 ** N)
+    evals, evecs = np.linalg.eig(L_pauli)
+    n = len(evals)
+
+    cluster_tol = 1e-6
+    clusters = []
+    used_cluster = np.zeros(n, dtype=bool)
+    for i in range(n):
+        if used_cluster[i]:
+            continue
+        cluster = [i]
+        used_cluster[i] = True
+        for j in range(i + 1, n):
+            if not used_cluster[j] and abs(evals[j] - evals[i]) < cluster_tol:
+                cluster.append(j)
+                used_cluster[j] = True
+        clusters.append(cluster)
+
+    used = np.zeros(n, dtype=bool)
+    overlaps = []
+    eval_pair_errs = []
+    for i in range(n):
+        if used[i]:
+            continue
+        target = -evals[i] - 2 * Sigma_gamma
+        dists = np.abs(evals - target)
+        for j in range(n):
+            if used[j]:
+                dists[j] = np.inf
+        best_j = int(np.argmin(dists))
+        if dists[best_j] < 1e-4:
+            used[i] = True
+            if best_j != i:
+                used[best_j] = True
+            cluster_with_j = next((c for c in clusters if best_j in c), [best_j])
+            partner_subspace = evecs[:, cluster_with_j]
+            v_i = evecs[:, i]
+            Pi_v_i = Pi @ v_i
+            Q, _ = np.linalg.qr(partner_subspace)
+            proj = Q @ (Q.conj().T @ Pi_v_i)
+            ov = float(np.linalg.norm(proj) / (np.linalg.norm(Pi_v_i) + 1e-15))
+            overlaps.append(ov)
+            eval_pair_errs.append(dists[best_j])
+
+    n_unpaired = (n - 2 * sum(1 for u in used if u)) // 1  # rough
+    return {
+        'label': label,
+        'residual_norm': residual_norm,
+        'eigenvector_min_overlap': min(overlaps) if overlaps else 0.0,
+        'eigenvector_avg_overlap': float(np.mean(overlaps)) if overlaps else 0.0,
+        'n_pairs': len(overlaps),
+        'max_eval_pair_err': max(eval_pair_errs) if eval_pair_errs else 0.0,
+    }
+
+
 def main():
     print()
     print("█" * 78)
@@ -401,12 +472,43 @@ def main():
     pauli_map = stage_5_parity_structure(I, X, Y, Z)
     bilinears = stage_6_both_parity_even_bilinears(pauli_map)
 
-    # For Stages 7-9 we need framework.py
+    # Stages 7-9 for Heisenberg (truly-unbroken case)
     N_test = 3
     gamma = 0.1
     H, L = stage_7_lindbladian(N_test, gamma)
     M_residual, residual_norm = stage_8_palindrome_residual(L, gamma, N_test)
     overlaps = stage_9_super_operator_test(L, gamma, N_test)
+
+    # Comparative: re-run stages 7-9 for representative non-Heisenberg cases
+    print()
+    print("=" * 78)
+    print("STAGE 7-9 COMPARISON: same chain, three Hamiltonian categories")
+    print("=" * 78)
+    cases = [
+        ('truly_unbroken (XX+YY)', [('X', 'X'), ('Y', 'Y')]),
+        ('soft_broken (XY+YX)', [('X', 'Y'), ('Y', 'X')]),
+        ('hard_broken (XX+XY)', [('X', 'X'), ('X', 'Y')]),
+    ]
+    n_total = 4 ** N_test
+    print(f"\n{'Hamiltonian':>26s}  {'‖M‖ (Stage 8)':>14s}  {'pairs':>10s}  {'min overlap':>12s}  {'avg overlap':>12s}")
+    print(f"{'─' * 26}  {'─' * 14}  {'─' * 10}  {'─' * 12}  {'─' * 12}")
+    for label, terms in cases:
+        r = stages_7_to_9_for_hamiltonian(label, terms, N_test, gamma)
+        max_pairs = n_total // 2
+        n_pairs = r['n_pairs']
+        unpaired = n_total - 2 * n_pairs
+        print(f"{label:>26s}  {r['residual_norm']:>14.4e}  "
+              f"{n_pairs}/{max_pairs:>4d}    "
+              f"{r['eigenvector_min_overlap']:>12.4f}  {r['eigenvector_avg_overlap']:>12.4f}")
+
+    print(f"\n  pairs = number of eigenvalues that find a partner λ_j ≈ −λ_i − 2Σγ within tolerance 10⁻⁴")
+    print(f"  out of {n_total} total eigenvalues; max possible pairs = {n_total // 2}")
+    print()
+    print("Reading:")
+    print("  truly_unbroken: ‖M‖ ≈ 0  AND  all 32/32 pairs  AND  overlap = 1.0  →  fully palindromic")
+    print("  soft_broken:    ‖M‖ ≠ 0  BUT  all 32/32 pairs  AND  overlap → 0  →  spectrum lies, vectors scrambled")
+    print("  hard_broken:    ‖M‖ ≠ 0  AND  fewer pairs  AND  intermediate overlap  →  spectrum and vectors both broken")
+
     stage_10_hardware_prediction()
 
     print()
@@ -414,7 +516,7 @@ def main():
     print()
     print("End-to-end derivation: from algebraic axiom to hardware verification.")
     print("Each stage's output is the next stage's input. No assumed steps.")
-    print("Run this file to see the framework construct itself.")
+    print("The lens runs from below, every angle accounted for.")
     print()
 
 
