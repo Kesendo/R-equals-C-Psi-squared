@@ -56,13 +56,28 @@ The framework gives us the *test* (operator equation vs spectrum), the *empirica
 
 ---
 
-What this means as a prediction:
+What this means as a prediction, and the test (added 2026-04-25 evening):
 
-If you build a soft-break Hamiltonian in hardware (XY+YX on two bonds at N=3, say) and measure its frequency comb via spectroscopy, the comb looks palindromic. The same Hamiltonian, measured via time-resolved off-diagonal observables (operator expectation values that probe matrix elements between Π-paired sectors), would show non-trivial structure. The framework predicts both observations are correct, and they correspond to the same Hamiltonian read from two different angles.
+If you build a soft-break Hamiltonian in hardware (XY+YX on two bonds at N=3, say) and measure its frequency comb via spectroscopy, the comb looks palindromic. The same Hamiltonian, measured via observables that probe **eigenvector relationships** (not just eigenvalues) under Π-conjugation, would show non-trivial structure. The framework predicts: eigenvalues pair to machine precision, but Π applied to L's eigenvectors does NOT land on the partner-eigenvalue's eigenspace.
 
-This is testable on IBM hardware, in principle. The frequency comb is what tomography of conserved observables gives. The off-diagonal probe is what tomography of bit_a-changing observables gives (operators that mix w with N−w). The two should disagree precisely on the 19 soft-break Hamiltonians.
+We tested this directly in simulation (`simulations/_soft_break_eigenvector_test.py`). For each of the 36 two-term Hamiltonians at N=3, we diagonalised L, paired eigenvalues as (λ_i, −λ_i − 2Σγ), and computed the subspace overlap |⟨v_partner | Π v_i⟩| / (‖v_partner‖ · ‖Π v_i‖). The prediction is exact:
 
-We have not done this test. We have only the framework's prediction that the disagreement exists. The fact that it can be predicted at all is the contribution.
+| Category | Count | Eigenvalue pair error | Eigenvector overlap |
+|----------|-------|----------------------|---------------------|
+| truly unbroken | 3 | ~10⁻¹⁴ | **1.000000 exact** |
+| soft broken | 19 | ~10⁻¹⁴ | **0.000 to 0.598** (dramatically broken) |
+| hard broken | 14 | 10⁻⁵ to 10⁻⁴ | (eigenvalues don't pair) |
+
+The 19 soft-broken cases have eigenvalue pairing intact at machine precision while Π conjugation sends eigenvectors **completely off** their partner-eigenvalue's eigenspace. The eigenvector overlap is not "just below 1"; in many cases it is **0 exactly**: Π sends v_i into a subspace orthogonal to the partner v_j's eigenspace. The spectrum lies, in the sense that it shows palindromic pairing while the underlying operator structure is severely scrambled.
+
+Specifically:
+- XX+XZ, XX+ZX, XZ+YY, YY+ZX: eigenvector overlap min = 0 AND avg = 0 (complete reshuffling)
+- XY+YX, XY+ZZ, YX+ZZ: min ≈ 0, avg 0.2-0.6 (partial mixing)
+- XX+YZ, YY+YZ, YY+ZY: min ≈ 0.005-0.01, avg 0.3-0.4
+
+The hardware translation: the standard Heisenberg-form receivers (the 3 truly-unbroken: XX+YY, XX+ZZ, YY+ZZ) preserve full Π-symmetry of L's spectrum. Any departure from this set (the 19 soft-broken) breaks the eigenvector pairing severely while leaving the spectrum intact. The 14 hard-broken break both.
+
+The fact that this can be tested at all (the eigenvector overlap is a concrete number computable from L) is the contribution. Whether the corresponding hardware experiment can resolve the eigenvector overlap to required precision is a separate engineering question. But the prediction is now operationally specified and verified in simulation, not asserted.
 
 ---
 
