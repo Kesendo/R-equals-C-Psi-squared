@@ -42,13 +42,17 @@ Our framework asks the operator form. It gets 3/33 with a 14/19 sub-split of the
 
 What is hidden in the 19?
 
-A residual matrix M, of comparable magnitude to the 14 hard-break residuals, that integrates to zero on the diagonal of L's eigenbasis. The break is real; it just does not propagate to the eigenvalue level. It lives in the off-diagonal coupling.
+A residual matrix M, of comparable magnitude to the 14 hard-break residuals, that does not propagate to the eigenvalue level. The break is real; it just does not register as eigenvalue motion. It lives in the off-diagonal coupling between Π-paired sectors that the spectrum is blind to.
 
-For most of the 19, the bond-Hamiltonian has an additional symmetry that the standard Π does not see. For XY+YX (matched bit_b violations on both bonds), the Hamiltonian is invariant under the rotation X ↔ Y, which combined with Π gives a different anti-involution that DOES anti-commute with L. The spectrum pairs because of this hidden anti-involution, not because of Π. Π fails; Q' = Π · (X↔Y rotation) succeeds.
+A complete classification of *why* each of the 19 spectral-paired cases passes the spectral test is open work. What we can say with care:
 
-For one-good-one-bad combos like XX+XZ (the (ab)+(──) pattern), the good term carries the canonical Π-symmetry of L's main structure, while the bad term's contribution to L lives in matrix elements that the spectrum does not register. The good term's pairing dominates; the bad term's break stays sub-spectral.
+- Each soft-break case has *some* structural reason. For example, XY+YX (matched bit_b violations on both bonds) is anti-invariant under per-site σ_x conjugation: U·(XY+YX)·U⁻¹ = −(XY+YX) for U = X⊗X. This anti-symmetry is independent of Π. Under U-conjugation, L_H = −i[H, ·] flips sign while the dephasing dissipator is preserved. Whether this composes with Π to give an exact anti-involution of the *full* L (and hence spectrum pairing) requires more careful operator algebra than we have done.
 
-For the 14 hard breaks, no such reconciliation exists. Both bonds violate parity in non-self-cancelling ways, no additional symmetry restores the pairing, and the eigenvalues genuinely fail to pair.
+- For one-good-one-bad combos like XX+XZ (the (ab)+(──) pattern): the good term XX carries the canonical Π-symmetry; the bad term XZ contributes a residual whose spectral consequence is non-trivial to compute by inspection. Empirically the spectrum still pairs.
+
+- For the 14 hard breaks, no symmetry rescues the spectrum: both bonds violate parity in ways that compound rather than cancel, and the eigenvalues genuinely fail to pair.
+
+The framework gives us the *test* (operator equation vs spectrum), the *empirical 3/19/14 split*, and a structural *signature* for hard breaks (every hard break contains either a (a─)-term or is (──)+(─b)). What it does not yet give us is an analytical predictor that, given a soft-break combo, identifies the specific symmetry that rescues its spectrum. That is genuinely open: a derivation per case, or a unifying theorem.
 
 ---
 
