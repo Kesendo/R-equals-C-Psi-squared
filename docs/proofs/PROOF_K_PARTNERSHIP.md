@@ -183,10 +183,21 @@ Verified at N=9 in `simulations/_pi_partner_identity.py` (2026-04-25, single-exc
 | Uniform J + on-site V ∈ [−1, 1] random            | γ = 0.1  | up to 8.1 · 10⁻²         | up to 5.9 · 10⁻²          | break  |
 | Uniform J + NNN J′ = 0.3                          | γ = 0    | up to 2.7 · 10⁻¹         | up to 1.6 · 10⁻²          | break  |
 | Uniform J + NNN J′ = 0.3                          | γ = 0.1  | up to 9.1 · 10⁻²         | up to 8.2 · 10⁻³          | break  |
+| Peierls phases φ_i ∈ [0, 2π) random               | γ = 0    | up to 5.3 · 10⁻¹         | up to 4.4 · 10⁻¹          | break  |
+| Peierls phases φ_i ∈ [0, 2π) random               | γ = 0.1  | up to 3.1 · 10⁻¹         | up to 3.3 · 10⁻¹          | break  |
 
 All four pair indices {1, 9}, {2, 8}, {3, 7}, {4, 6} verified at machine precision in the holding cases; the self-partner k = (N+1)/2 = 5 has trivial identity. The break cases show all non-self pairs failing, as predicted. The NNN test (Test 4) numerically confirms Lemma 1's prediction: NNN bonds connect same-sublattice sites (i, i+2) where (−1)^{i+(i+2)} = +1, so KHK ≠ −H on those terms, and the partner identity collapses at the same magnitude as the on-site-potential case.
 
-**Not yet tested numerically:** complex hopping (predicted spectrum-inversion-only by L2 absent T-symmetry), multi-excitation sector (open question, ZZ-interaction-induced on-site potential), Heisenberg/XXZ Δ ≠ 0 on open chain (predicted boundary breakdown via deg-discontinuity).
+**BDI/AIII split (Test 5).** The Peierls-phase test runs two diagnostics in parallel:
+
+| Diagnostic                                              | Real H (BDI)        | Complex H (AIII)    | Lemma confirmed    |
+|---------------------------------------------------------|---------------------|---------------------|--------------------|
+| Spectrum inversion: max \|E_k + E_{N+1-k}\|             | 1.3 · 10⁻¹⁵         | 1.1 · 10⁻¹⁵         | L2 holds in both   |
+| Trajectory identity: max \|ΔMI(0, N-1)\|                | ≤ 1 · 10⁻¹⁵         | up to 5.3 · 10⁻¹    | L4 fails in AIII   |
+
+Spectrum inversion E_k + E_{N+1-k} = 0 holds at machine precision **even with complex hopping** because Lemma 1 (KHK = −H) is independent of T-symmetry. But the trajectory identity (Lemma 4) fails because its proof relies on the complex-conjugation step ρ_{N+1-k}(t) = (K ρ_k(t) K)*, which requires H = H*. The Peierls test therefore numerically separates the two layers of the proof: the chiral structure (S = K, AIII) gives spectrum inversion alone; the full BDI structure (S + T) is needed for observable identity.
+
+**Not yet tested numerically:** multi-excitation sector (open question, ZZ-interaction-induced on-site potential), Heisenberg/XXZ Δ ≠ 0 on open chain (predicted boundary breakdown via deg-discontinuity).
 
 ---
 
@@ -209,11 +220,11 @@ All four pair indices {1, 9}, {2, 8}, {3, 7}, {4, 6} verified at machine precisi
 
 **Verified:**
 
-- N = 9 single-excitation, four H-classes (uniform J, non-uniform J, +V_ℓ on-site, +NNN J′), two γ regimes (0 and 0.1).
+- N = 9 single-excitation, five H-classes (uniform J, non-uniform J, +V_ℓ on-site, +NNN J′, Peierls complex hopping), two γ regimes (0 and 0.1).
+- BDI/AIII split numerically separated: spectrum inversion (L2) holds in both classes; trajectory identity (L4) requires real H (BDI).
 
 **Open:**
 
-- Complex-hopping case (predicted spectrum-inversion-only by L2 absent T-symmetry).
 - Extension to multi-excitation sectors.
 - Heisenberg/XXZ Δ ≠ 0 on open chain (predicted boundary breakdown).
 - Larger N (limited only by the cost of the single-excitation reduction; trivial in the matrix-free regime).

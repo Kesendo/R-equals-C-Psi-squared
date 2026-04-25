@@ -82,6 +82,39 @@ def build_H_nnn(N: int, J: float, J_nnn: float) -> np.ndarray:
     return H
 
 
+def build_H_peierls(N: int, J: float, phases) -> np.ndarray:
+    """Complex hopping with Peierls phases: H_{i,i+1} = -J * exp(i*phi_i).
+
+    KHK = -H still holds (Lemma 1: bipartite NN structure preserved).
+    BUT H is no longer real, so the anti-unitary T = complex conjugation
+    breaks: AZ class drops from BDI to AIII. Spectrum inversion still holds
+    (Lemma 2), but mirror-pair |.|^2 observable identity (Lemma 4) breaks
+    because the proof's complex-conjugation step assumes H = H*.
+    """
+    assert len(phases) == N - 1
+    H = np.zeros((N, N), dtype=complex)
+    for i in range(N - 1):
+        H[i, i + 1] = -J * np.exp(1j * phases[i])
+        H[i + 1, i] = -J * np.exp(-1j * phases[i])  # Hermitian
+    return H
+
+
+def check_spectrum_inversion(H: np.ndarray) -> tuple[float, float]:
+    """Compute worst |E_k + E_{N+1-k}| (should be 0 if KHK = -H).
+
+    Returns (worst_inversion_error, worst_eigenvalue_magnitude) for context.
+    """
+    eigs = np.sort(np.linalg.eigvalsh(H).real)
+    N = len(eigs)
+    worst = 0.0
+    for k in range(N // 2):
+        # E_k (smallest) should pair with E_{N-1-k} (largest) such that sum = 0
+        s = eigs[k] + eigs[N - 1 - k]
+        worst = max(worst, abs(s))
+    eigmax = max(abs(eigs[0]), abs(eigs[-1]))
+    return worst, eigmax
+
+
 def psi_k(N: int, k: int) -> np.ndarray:
     return np.array(
         [math.sqrt(2.0 / (N + 1)) * math.sin(math.pi * k * (ell + 1) / (N + 1))
@@ -232,16 +265,40 @@ def main() -> None:
         N, H_nnn, gamma, t_max, n_steps,
     )
 
-    # Test 5: same four H-cases but at gamma > 0. gamma merely sets a time unit
+    # Test 5: complex hopping (Peierls phase) -- BDI vs AIII split.
+    # K still anticommutes with H (KHK = -H, Lemma 1), so spectrum inversion
+    # E_k + E_{N+1-k} = 0 holds. But T-symmetry breaks: H is no longer real,
+    # so the proof's complex-conjugation step in Lemma 4 fails. AZ class
+    # drops to AIII, and observable identity should break.
+    phases = rng.uniform(0.0, 2.0 * math.pi, size=N - 1)
+    H_complex = build_H_peierls(N, J_uniform, phases)
+    phi_str = "[" + ", ".join(f"{p:.2f}" for p in phases) + "]"
+    print(f"Test 5  uniform |J|={J_uniform} + Peierls phases phi={phi_str}")
+    print(f"        (BDI -> AIII: spectrum still inverts, observables should diverge)")
+
+    # 5a: spectrum inversion check (Lemma 2 should still hold)
+    inv_real = check_spectrum_inversion(build_H_uniform(N, J_uniform))
+    inv_complex = check_spectrum_inversion(H_complex)
+    print(f"  spectrum inversion |E_k + E_(N+1-k)|:  real H = {inv_real[0]:.3e},  complex H = {inv_complex[0]:.3e}")
+    print(f"    (both should be ~0; if so, Lemma 2 confirmed for AIII)")
+
+    # 5b: trajectory identity check (Lemma 4 should break)
+    run_test(
+        f"        trajectory identity (expect breakdown):",
+        N, H_complex, gamma, t_max, n_steps,
+    )
+
+    # Test 6: same five H-cases but at gamma > 0. gamma merely sets a time unit
     # and does not affect partner identity; this confirms the effect is structural.
     gamma_check = 0.1
-    print(f"Test 5  same four H-cases at gamma={gamma_check} (sanity: gamma just sets time unit)")
+    print(f"Test 6  same five H-cases at gamma={gamma_check} (sanity: gamma just sets time unit)")
     print(f"{'case':>20}  {'worst |MI_k - MI_km|':>24}  {'worst |SumLogPi|':>20}")
     cases = [
         ("uniform J=1",      H_u),
         ("non-uniform J",    H_nu),
         ("uniform J + V",    H_onsite),
         ("uniform J + NNN",  H_nnn),
+        ("Peierls complex J", H_complex),
     ]
     for label, H in cases:
         worst_mi = 0.0
@@ -264,10 +321,14 @@ def main() -> None:
     print("    (bipartite sublattice gauge), not by R (spatial reflection).")
     print("  - K invariance holds for any bipartite H (uniform or non-uniform J,")
     print("    any gamma_0 profile, real hopping). Breaks when H loses bipartite")
-    print("    structure: on-site potential V_l (Test 3) and NNN hopping J' that")
-    print("    connects same-sublattice sites (Test 4) both falsify K-partnership.")
-    print("  - The Lemma 1 prediction (PROOF_K_PARTNERSHIP) that NNN bonds violate")
-    print("    KHK = -H because (-1)^(i+(i+2)) = +1 is now numerically confirmed.")
+    print("    structure (V_l on-site Test 3; NNN hopping Test 4) or when T")
+    print("    breaks via complex hopping (Test 5: BDI -> AIII).")
+    print("  - Lemma 1 (KHK = -H) numerically confirmed via NNN breakdown (Test 4).")
+    print("  - Lemma 2 (spectrum inversion) numerically confirmed under Peierls")
+    print("    phase (Test 5a): |E_k + E_(N+1-k)| ~ 1e-15 even with complex H.")
+    print("  - Lemma 4 (observable identity) numerically falsified under Peierls")
+    print("    phase (Test 5b): trajectories diverge despite KHK = -H. Sharp")
+    print("    BDI/AIII split as predicted.")
     print("  - gamma_0 is the time anchor: dynamics depend only on Q = J/gamma_0")
     print("    and H-structure; partner identity is Q-independent.")
     print()

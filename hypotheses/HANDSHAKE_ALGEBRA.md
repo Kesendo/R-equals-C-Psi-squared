@@ -65,7 +65,7 @@ Robustness ladder — stricter axes first:
 | non-uniform J XX/XX+YY, any γ-profile           | ✗ | ✓ | ✓      | holds            |
 | + on-site potential V_ℓ                         | ✗ | ✗ | ✓      | breaks           |
 | + next-nearest-neighbor hopping                 | ✗ | ✗ | ✓      | breaks           |
-| complex hopping (Peierls phase t_{ij} ∈ ℂ)      | ? | ✓ | ✗      | spectrum inverts; observables differ |
+| complex hopping (Peierls phase t_{ij} ∈ ℂ)      | ? | ✓ | ✗      | spectrum inverts (verified ≤ 1.1·10⁻¹⁵); observables diverge (verified up to 5.3·10⁻¹) |
 | Heisenberg/XXZ Δ ≠ 0 on open chain              | ✓ | ✗ (boundary) | ✓ | breaks at boundary |
 | Heisenberg/XXZ Δ ≠ 0 on even-N periodic chain   | ✓ | ✓ | ✓      | holds            |
 
@@ -138,7 +138,7 @@ On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 /
 2. **A protocol that achieves end-to-end MI without any form of shared preparation.** Would falsify the composition-law-as-agreement reading.
 3. **A non-trivial algebra structure (group law, non-idempotent composition) that we missed.** Would upgrade the algebra from idempotent relation to something richer. Not yet seen.
 4. **Hardware signatures that differ qualitatively from F75 · F76 predictions.** Would indicate the rule set is missing a term.
-5. **K-partnership breakdown on a bipartite chain with real hopping.** Would invalidate the receiver-menu folding argument. Checked numerically at N=9 with γ=0 and γ=0.1 (`simulations/_pi_partner_identity.py`, four test cases): partner identity holds to machine precision for uniform and non-uniform J, breaks only with on-site potential or NNN hopping (as predicted from KHK = -H requiring bipartite structure with NN-only hopping). For complex hopping the AZ class drops from BDI to AIII and observable identity is not guaranteed even with K intact; not yet numerically tested.
+5. **K-partnership breakdown on a bipartite chain with real hopping.** Would invalidate the receiver-menu folding argument. Checked numerically at N=9 with γ=0 and γ=0.1 (`simulations/_pi_partner_identity.py`, five test cases): partner identity holds to machine precision for uniform and non-uniform real J, breaks with on-site potential V_ℓ, NNN hopping J′, or complex (Peierls-phase) hopping. The Peierls test additionally verifies the BDI/AIII split: spectrum inversion E_k + E_{N+1-k} = 0 holds at 10⁻¹⁵ in both classes, confirming Lemma 2 of [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), but observable identity requires real H (Lemma 4) and breaks under Peierls phases up to 5.3·10⁻¹ in MI(0, N-1).
 
 ## What this does NOT claim
 
