@@ -119,3 +119,4 @@ The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbrok
 - `simulations/_soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
 - `simulations/_soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
 - `simulations/_soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.
+- `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: hardware-runnable. First script in that pipeline directory that imports framework.py directly. Modes: `--simulate` (Aer), `--hardware` (real IBM Heron r2). Aer self-test reproduces Δ⟨X₀Z₂⟩ = -0.64 (framework ideal: -0.62).
