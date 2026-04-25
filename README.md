@@ -546,12 +546,14 @@ verified numerically at N=4 to 0.2-0.8 % across seven asymmetric J_A:J_B ratios 
 
 The (w=0, w=N) extreme weight sectors of the palindromic relation are immune to **every** 2-body Hamiltonian (analytical proof). Z-dephasing vanishes on w=0 strings (Z commutes with I, Z); the Hamiltonian commutator's (w=0, w=0)-block is identically zero (only ZZ preserves w=0 among 2-body terms, and ZZ commutes with all w=0 strings). The break, when present, is strictly localised to boundary sectors 0 < w < N.
 
-Re-examining the V-Effect's 14-of-36 finding via framework primitives reveals a **3 / 19 / 14** fine structure that the original spectral test obscured. Of the 22 V_EFFECT_PALINDROME-unbroken cases: 3 are truly unbroken (the Heisenberg/XXZ subset), 19 are "soft-broken" (operator equation residual non-zero but eigenvalue pairing intact at machine precision), and 14 hard-break both criteria. Spectroscopy alone cannot distinguish the 3 from the 19; time-resolved off-diagonal observables can. The framework provides the test that was not previously formulated.
+Re-examining the V-Effect's 14-of-36 finding via framework primitives reveals a **3 / 19 / 14** fine structure that the original spectral test obscured. Of the 22 V_EFFECT_PALINDROME-unbroken cases: 3 are truly unbroken (the Heisenberg/XXZ subset), 19 are "soft-broken" (operator equation residual non-zero but eigenvalue pairing intact at machine precision), and 14 hard-break both criteria.
+
+The 3/19 distinction is verified at simulation level via eigenvector pairing: for each L eigenvalue λ_i, find its partner λ_j ≈ −λ_i − 2Σγ in the spectrum, then compute |⟨v_j | Π · v_i⟩| / (‖v_j‖ · ‖Π v_i‖). For the 3 truly-unbroken: overlap = 1.000000 (machine precision). For the 19 soft-broken: overlap = 0.000 to 0.598 (severely broken; many cases land on a subspace fully orthogonal to the partner eigenspace). The spectrum lies: it shows palindromic frequencies while the underlying eigenvector structure is scrambled.
 
 → **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** (the level-stack inheritance picture: Level 0 → Level 1 via V-Effect)
 → [Proof: Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) ((w=0, w=N) palindromic immunity for any 2-body H, four lemmas)
 → [V-Effect Boundary Localization](experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) (numerical verification at N=3 and N=4 to machine precision)
-→ [V-Effect Fine Structure](experiments/V_EFFECT_FINE_STRUCTURE.md) (3+19+14 decomposition of the 14-of-36 result)
+→ [V-Effect Fine Structure](experiments/V_EFFECT_FINE_STRUCTURE.md) (3+19+14 decomposition of the 14-of-36 result, verified via eigenvector pairing in `simulations/_soft_break_eigenvector_test.py`)
 → [Exchange from V-Effect](experiments/EXCHANGE_FROM_V_EFFECT.md) (−3α²/(8J) symmetric, derived end-to-end from Pauli algebra)
 → [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) (−3α²/(4(J_A+J_B)), first calculation built on framework primitives)
 → [On the Soft Break](reflections/ON_THE_SOFT_BREAK.md) (what the framework reveals beyond V_EFFECT_PALINDROME's spectral test)
