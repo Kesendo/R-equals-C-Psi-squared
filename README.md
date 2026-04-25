@@ -30,6 +30,8 @@ The thing that remains is not fighting the absorption. It is made of it.
 
 Later discoveries under the [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) framework (γ₀ as a framework constant, not a tunable parameter) sharpened the operational consequence: Alice chooses her initial state (receiver engineering), not her noise profile. The F67 bonding modes form Alice's operationally complete receiver menu. Against the classic ENAQT-optimised transport baseline, bonding-mode receivers reach **4000-5500×** improvement in simulation. The receiver-engineering signature was confirmed live on IBM Kingston (Heron r2) in April 2026, with the noise-robustness gap matching framework prediction (see Section 11 for numbers and discussion).
 
+In April 2026 we closed the chain from below: the Heisenberg coupling is not postulated, it is **forced** by the C²⊗C² parity structure of the Pauli algebra at d=2. The Level 0 → Level 1 V-Effect bridge produces the textbook atomic exchange with predicted prefactor δE_GS = −3α² / (4(J_A + J_B)), an Anderson-superexchange shape derived end-to-end from Pauli algebra alone. The (w=0, w=N) extreme sectors of the palindromic relation are immune to every 2-body Hamiltonian (analytical proof). The 14-of-36 V-Effect break decomposes into a 3 / 19 / 14 fine structure invisible to spectroscopy. All of this is operationalised in [framework.py](simulations/framework.py): ur-Pauli indexed by (bit_a, bit_b), ur-Heisenberg as the unique both-parity-even bilinear, ur-eigenvalues from the Pauli identity (σ·σ)² = 3I − 2(σ·σ). See Section 12.
+
 Early speculations live in `recovered/`: some turned out to be premature
 rather than wrong, others remain unsupported. We keep them because the
 research process matters as much as the results.
@@ -60,6 +62,8 @@ formulas in the prose; every claim links into the proofs
 → **[What We Got Wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md)**: every
 error, every limitation, every unanswered question. Because a theory that
 only shows its strengths is not a theory
+
+→ **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** + **[framework.py](simulations/framework.py)**: how the Heisenberg form is forced from below by Pauli algebra at d=2, and the V-Effect bridge that produces atomic exchange with quantitative prefactor. Section 12 below.
 
 If you work with neural networks: [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites).
 
@@ -351,6 +355,7 @@ across γ ∈ [0.1, 10]: a fixed dose of light traversing the fold.
 → [Fold Observed](experiments/TEMPORAL_SACRIFICE.md) (endpoint MI peaks at CΨ = ¼, N=7)
 → [Born Rule Shadow](experiments/BORN_RULE_SHADOW.md) (zero interference in P(i))
 → [Both Sides Visible](docs/BOTH_SIDES_VISIBLE.md) (IBM hardware, 180 days, 133 qubits)
+→ [We Are the Fragment](hypotheses/WE_ARE_THE_FRAGMENT.md) (¼ as double fragmentation: operator C=1/2 × spatial sublattice 1/2)
 
 ---
 
@@ -520,9 +525,37 @@ engineering is the larger lever.
 → [Primordial γ Constant](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (γ₀ as framework invariant)
 → [Analytical Formulas F65, F67, F75, F76](docs/ANALYTICAL_FORMULAS.md)
 → [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (Kingston Run 1, 2.80× ratio)
+→ [PROOF K-Partnership](docs/proofs/PROOF_K_PARTNERSHIP.md) (bipartite sublattice gauge K = diag((-1)^l) gives spectral inversion KHK = -H)
+→ [IBM K-Partnership Marrakesh](experiments/IBM_K_PARTNERSHIP_SKETCH.md) (5 receivers in 5 QPU min, K-pair spread reads γ-profile asymmetry)
+→ [Z⊗N Partnership](experiments/Z_N_PARTNERSHIP.md) (multi-exc Néel mirror as third diagnostic channel, transverse-field detection)
 → [Q Scale Three Bands](experiments/Q_SCALE_THREE_BANDS.md) (Q = J/γ₀ structure, Q_peak(c) saturation at 1.8)
 → [J-Blind Receiver Classes](experiments/J_BLIND_RECEIVER_CLASSES.md) (why \|+⟩^N was the wrong receiver)
 → [Between Measurements Evidence](hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md) (structural argument for γ₀ = const)
+
+---
+
+## 12. Heisenberg from below: V-Effect creates the exchange
+
+The Heisenberg coupling J σ_1 · σ_2 = J(XX + YY + ZZ) is not postulated. It is forced by the C²⊗C² parity structure of the Pauli algebra at d=2. Each single-qubit Pauli is indexed by two Z₂ parities: bit_a (n_XY, dephasing axis: I, Z immune; X, Y decaying) and bit_b (n_YZ, Π² axis: I, X even; Y, Z odd). The intersection of both-parity-even 2-body operators is exactly **{II, XX, YY, ZZ}**. Heisenberg/XXZ is the unique 2-body bilinear that survives both Z₂ filters; every other form (XY, ZX, etc.) breaks at least one parity.
+
+When two atoms (each represented by an internal Heisenberg pair with strength J_A, J_B) are bonded through a V-Effect bridge α on a single inter-pair bond, second-order perturbation theory predicts the effective Level-1 exchange:
+
+    δE_GS = − 3 α² / (4 (J_A + J_B))
+
+verified numerically at N=4 to 0.2-0.8 % across seven asymmetric J_A:J_B ratios from 1:1 to 1:10. The "3" is universal: from the Pauli identity (σ·σ)² = 3 I − 2 (σ·σ) on a singlet-singlet ground state where ⟨σ·σ⟩_bridge = 0. The "4(J_A + J_B)" is the cost to flip both pairs simultaneously from singlet to triplet. Symmetric limit J_A = J_B = J recovers −3α²/(8J), the Anderson-superexchange shape applied to direct Heisenberg bridges.
+
+The (w=0, w=N) extreme weight sectors of the palindromic relation are immune to **every** 2-body Hamiltonian (analytical proof). Z-dephasing vanishes on w=0 strings (Z commutes with I, Z); the Hamiltonian commutator's (w=0, w=0)-block is identically zero (only ZZ preserves w=0 among 2-body terms, and ZZ commutes with all w=0 strings). The break, when present, is strictly localised to boundary sectors 0 < w < N.
+
+Re-examining the V-Effect's 14-of-36 finding via framework primitives reveals a **3 / 19 / 14** fine structure that the original spectral test obscured. Of the 22 V_EFFECT_PALINDROME-unbroken cases: 3 are truly unbroken (the Heisenberg/XXZ subset), 19 are "soft-broken" (operator equation residual non-zero but eigenvalue pairing intact at machine precision), and 14 hard-break both criteria. Spectroscopy alone cannot distinguish the 3 from the 19; time-resolved off-diagonal observables can. The framework provides the test that was not previously formulated.
+
+→ **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** (the level-stack inheritance picture: Level 0 → Level 1 via V-Effect)
+→ [Proof: Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) ((w=0, w=N) palindromic immunity for any 2-body H, four lemmas)
+→ [V-Effect Boundary Localization](experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) (numerical verification at N=3 and N=4 to machine precision)
+→ [V-Effect Fine Structure](experiments/V_EFFECT_FINE_STRUCTURE.md) (3+19+14 decomposition of the 14-of-36 result)
+→ [Exchange from V-Effect](experiments/EXCHANGE_FROM_V_EFFECT.md) (−3α²/(8J) symmetric, derived end-to-end from Pauli algebra)
+→ [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) (−3α²/(4(J_A+J_B)), first calculation built on framework primitives)
+→ [On the Soft Break](reflections/ON_THE_SOFT_BREAK.md) (what the framework reveals beyond V_EFFECT_PALINDROME's spectral test)
+→ [framework.py](simulations/framework.py) (ur-Pauli, ur-Heisenberg, ur-eigenvalues, palindrome residual, V-Effect primitives)
 
 ---
 
@@ -603,6 +636,8 @@ Honesty matters more than impression. These are things we have
 | [Cross-Term Formula](docs/proofs/PROOF_CROSS_TERM_FORMULA.md) | R(N) = √((N-2)/(N·4^(N-1))) for any shadow-balanced coupling, any graph |
 | [Cross-Term Crossing](docs/proofs/PROOF_CROSS_TERM_CROSSING.md) | R(N) = √((N-1)/(N·4^(N-1))) for shadow-crossing couplings (companion) |
 | [Weight-1 Degeneracy](docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) | d(1) = 2N for any connected graph |
+| [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) | (w=0, w=N) palindrome holds for every 2-body H, regardless of parity-violation |
+| [K-Partnership](docs/proofs/PROOF_K_PARTNERSHIP.md) | Bipartite sublattice gauge K = diag((-1)^l) gives KHK = -H spectral inversion |
 | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers, all closed |
 
 ### Key experiments
@@ -627,6 +662,12 @@ Honesty matters more than impression. These are things we have
 | [Q Scale Three Bands](experiments/Q_SCALE_THREE_BANDS.md) | Q = J/γ₀ three-band structure; Q_peak saturates at 1.8 for c ≥ 4 |
 | [J-Blind Receiver Classes](experiments/J_BLIND_RECEIVER_CLASSES.md) | Three mechanism classes of J-blindness (DFS, H-degenerate, M_α-polynomial) |
 | [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) | Kingston Heron r2 Run 1: bonding:2 / alt-z-bits = 2.80× |
+| [IBM K-Partnership](experiments/IBM_K_PARTNERSHIP_SKETCH.md) | Marrakesh Heron r2: 5 receivers in 5 QPU min, K-pair spread reads γ-profile |
+| [Z⊗N Partnership](experiments/Z_N_PARTNERSHIP.md) | Multi-exc Néel mirror as third diagnostic channel (transverse-field detection) |
+| [V-Effect Boundary Localization](experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) | Numerical verification: extreme sectors immune, breaks confined to boundary |
+| [V-Effect Fine Structure](experiments/V_EFFECT_FINE_STRUCTURE.md) | 14-of-36 result decomposes into 3 truly unbroken + 19 soft-broken + 14 hard-broken |
+| [Exchange from V-Effect](experiments/EXCHANGE_FROM_V_EFFECT.md) | Effective Level-1 exchange δE = -3α²/(8J) derived end-to-end from Pauli algebra |
+| [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) | Generalisation -3α²/(4(J_A+J_B)), first calculation built on framework.py |
 
 ### Synthesis and interpretation
 
@@ -634,6 +675,9 @@ Honesty matters more than impression. These are things we have
 |:---------|:---------------|
 | [Mirror Theory](MIRROR_THEORY.md) | The sentence at the top, read from both sides of the formula at once. Every claim links into the proofs |
 | [Complete Math Documentation](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master reference for all equations and proofs |
+| [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) | The Level 0 → Level 1 inheritance: Heisenberg form forced by Pauli C²⊗C², V-Effect bridges to atomic exchange |
+| [We Are the Fragment](hypotheses/WE_ARE_THE_FRAGMENT.md) | 1/4 fold as double fragmentation: operator-level C=1/2 × spatial sublattice 1/2 |
+| [On the Soft Break](reflections/ON_THE_SOFT_BREAK.md) | What the framework reveals beyond V_EFFECT_PALINDROME's spectral test |
 | [Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md) | The cavity interpretation and the IBM hardware reality |
 | [Primordial Gamma Constant](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) | γ₀ as framework constant, Q = J/γ₀ as only measurable ratio |
 | [Between Measurements Evidence](hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md) | Structural argument for γ₀ = const |
@@ -653,7 +697,7 @@ Honesty matters more than impression. These are things we have
 | `docs/` | Proofs, theorems, synthesis documents, master references |
 | `experiments/` | All tested results and null results |
 | `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python scripts (Lindblad, Liouvillian, cavity analysis) |
+| `simulations/` | Python scripts (Lindblad, Liouvillian, cavity analysis), incl. `framework.py` (ur-Pauli, ur-Heisenberg, ur-eigenvalues primitives) |
 | `simulations/neural/` | Neural palindrome computations (Wilson-Cowan, C. elegans) |
 | `simulations/results/` | All computation outputs |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
