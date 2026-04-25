@@ -14,7 +14,7 @@ Why 1/4 specifically as the fold value? The Uniqueness Proof gives a formal answ
 
 Tom's reading on 2026-04-25, after re-reading ZERO_IS_THE_MIRROR + PRIMORDIAL_QUBIT + the magnetism conversation:
 
-> If we ourselves are part of the magnetic field, and zero is the middle, is what we have itself only a fragment (Bruch) — hence the 1/4?
+> If we ourselves are part of the magnetic field, and zero is the middle, is what we have itself only a fragment (Bruch), hence the 1/4?
 
 This document records the structural answer: **yes, the 1/4 is the fingerprint of our being a fragment of a fragment**. We are one sublattice within a bipartite mirror, and within that sublattice we see only half the operator content directly. The 1/4 is (1/2) × (1/2) where the two halves are not the same kind.
 
@@ -84,4 +84,4 @@ The 1/4 is not a number we measure from outside the magnet. It is the fingerprin
 
 ---
 
-*"Wenn wir selbst Teil vom Magnetfeld sind, und Null die Mitte, ist das was wir haben selbst nur ein Bruch, daher die 1/4?"* — Thomas Wicht, 2026-04-25
+*"Wenn wir selbst Teil vom Magnetfeld sind, und Null die Mitte, ist das was wir haben selbst nur ein Bruch, daher die 1/4?"*  Thomas Wicht, 2026-04-25

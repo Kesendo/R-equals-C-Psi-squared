@@ -12,7 +12,7 @@
 
 The textbook narrative places the Heisenberg coupling J σ_1 · σ_2 at Level 1 (atoms): two electrons in neighboring orbitals, Coulomb + Pauli exclusion → effective spin exchange → Heisenberg. This document inverts the direction. The Heisenberg form is forced at Level 0 (single qubit) by the C²⊗C² parity structure of the Pauli algebra: it is the unique 2-body bilinear that respects both Z₂ symmetries (bit_a parity, bit_b parity) of the primordial qubit. The atomic-level "exchange interaction" does not generate the math. It inherits it through the V-Effect transition, the same V-Effect that gives atoms their open valences and selects boundary modes for chemistry while keeping extreme modes as inert cores.
 
-The reason "everything works" — magnetism, condensed-matter physics, every level above Level 0 that recovers J σ_1 · σ_2 from a different mechanism — is precisely this inheritance. When we measure Heisenberg dynamics on IBM superconducting qubit hardware, we are not simulating an atomic-level model; we are reading the Level 0 algebra directly. The transmons, the Josephson junctions, the entire Level-1+ infrastructure are carriers; the algebra they carry is older.
+The reason "everything works" (magnetism, condensed-matter physics, every level above Level 0 that recovers J σ_1 · σ_2 from a different mechanism) is precisely this inheritance. When we measure Heisenberg dynamics on IBM superconducting qubit hardware, we are not simulating an atomic-level model; we are reading the Level 0 algebra directly. The transmons, the Josephson junctions, the entire Level-1+ infrastructure are carriers; the algebra they carry is older.
 
 What we know with certainty: the algebra forces inheritance. The math at Level 0 selects {II, XX, YY, ZZ} as the unique both-parity-even 2-body operators, [L, Π²] = 0 holds for all N, and the V-Effect mechanism between palindromic qubit pairs orphans 14 of 36 boundary modes while keeping extreme modes immune. What we have not done: zoomed in on the V-Effect transition itself. The math is our witness that inheritance works, not a direct observation of the bridge.
 
@@ -124,7 +124,7 @@ The Heisenberg coupling J at Level 1 IS the strength with which the V-Effect tra
 
 **What we have not done:** zoomed in on the V-Effect transition between Level 0 and Level 1. We have:
 
-- Computed V-Effect on coupled qubit pairs at Level 0 (V_EFFECT_PALINDROME, computed).
+- Computed V-Effect on coupled qubit pairs at Level 0 (computed; see V-Effect link in references).
 - Verified [L, Π²] = 0 at Level 0 for N up to 5 (PROOF_BIT_B_PARITY_SYMMETRY).
 - Observed Heisenberg dynamics on IBM hardware at Level 0.
 - Computed atomic exchange in textbook physics at Level 1.
@@ -151,11 +151,11 @@ The hierarchy ([HIERARCHY_OF_INCOMPLETENESS](../docs/HIERARCHY_OF_INCOMPLETENESS
 
 The recurrence is not metaphor. C = 0.5 is the algebraic condition that opens a level to the next. At C = 1, no V-Effect bridge can form because there are no boundary modes to orphan; the level is closed. At C = 0.5, the V-Effect always works.
 
-Heisenberg coupling appears at every level because every level inherits the form from Level 0 through V-Effect bridges built on C = 0.5 incompleteness. The reason quantum chemistry, magnetism, and IBM hardware all *give the same answer* — Heisenberg form, 1/4 fold, palindromic spectrum — is that they all carry the same Level 0 algebra. They are not independently rediscovering it.
+Heisenberg coupling appears at every level because every level inherits the form from Level 0 through V-Effect bridges built on C = 0.5 incompleteness. The reason quantum chemistry, magnetism, and IBM hardware all *give the same answer* (Heisenberg form, 1/4 fold, palindromic spectrum) is that they all carry the same Level 0 algebra. They are not independently rediscovering it.
 
 ## §6. Hardware reads Level 0 directly
 
-(Sketch — to be expanded with old IBM-data review.)
+(Sketch, to be expanded with old IBM-data review.)
 
 What IBM hardware tomography measures is not "an atomic spin model approximated by superconducting circuits". It is **direct access to Level 0 algebra**, with Level 1+ infrastructure (transmons, Josephson junctions, control electronics) acting as carrier.
 
@@ -190,7 +190,7 @@ When we run tomography on IBM transmons, we are not "simulating quantum mechanic
 
 **For the inverse direction:**
 
-Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field, single Z-detuning, etc.) breaks Level 1+ at corresponding points. The Z⊗N-Partnership ([Z_N_PARTNERSHIP](../experiments/Z_N_PARTNERSHIP.md)) shows this directly: a single X-field at Level 0 imprints on the multi-qubit Néel-mirror at Level 1 (multi-excitation sector). Hardware-level calibration drifts that produce single-X errors should leave a Z⊗N-break signature — the Level-1 echo of a Level-0 violation.
+Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field, single Z-detuning, etc.) breaks Level 1+ at corresponding points. The Z⊗N-Partnership ([Z_N_PARTNERSHIP](../experiments/Z_N_PARTNERSHIP.md)) shows this directly: a single X-field at Level 0 imprints on the multi-qubit Néel-mirror at Level 1 (multi-excitation sector). Hardware-level calibration drifts that produce single-X errors should leave a Z⊗N-break signature, the Level-1 echo of a Level-0 violation.
 
 ## §8. What is open
 
@@ -210,4 +210,4 @@ The math of Heisenberg is not derived at Level 1 and used at Level 0; it is deri
 
 ---
 
-*"Was wir schon wissen, der V-Effekt ermöglicht uns den Weg zwischen den Level, hingesehen oder gezoomt haben wir nie. Die Mathematik sagt uns, die Vererbung stimmt."* — Thomas Wicht, 2026-04-25
+*"Was wir schon wissen, der V-Effekt ermöglicht uns den Weg zwischen den Level, hingesehen oder gezoomt haben wir nie. Die Mathematik sagt uns, die Vererbung stimmt."*  Thomas Wicht, 2026-04-25

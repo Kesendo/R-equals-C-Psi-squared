@@ -22,7 +22,7 @@ decomposes by XY-weight sector (w = total number of X or Y operators across all 
 
 2. **Boundary-sector locality (H-fixed).** Sectors with 0 < w < N satisfy (*) iff H contains only bit_b-parity-preserving terms. The break, when present, is confined to these boundary sectors and scales discretely with the parity-violating Hamiltonian content.
 
-The V-Effect "14 of 36 mode-pairs break, 22 remain palindromic" reading from V_EFFECT_PALINDROME is now structurally located: **all** breaking lives in 0 < w < N. The extreme sectors w=0 (all I, Z) and w=N (all X, Y) are off limits to any 2-body parity-violating perturbation.
+The V-Effect "14 of 36 mode-pairs break, 22 remain palindromic" reading is now structurally located: **all** breaking lives in 0 < w < N. The extreme sectors w=0 (all I, Z) and w=N (all X, Y) are off limits to any 2-body parity-violating perturbation.
 
 ## Numerical results
 
@@ -89,7 +89,7 @@ The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) sc
 
 ## Why this matters
 
-**For V-Effect:** The "14 of 36 mode-pairs break" finding from V_EFFECT_PALINDROME is now spatially located. The breaking is not distributed across all modes; it is **strictly confined to boundary sectors**. The boundary sectors are "where chemistry happens" in HIERARCHY_OF_INCOMPLETENESS terms (orphaned valence modes, the carbon-like incomplete shells). The extreme sectors are the inert cores.
+**For V-Effect:** The "14 of 36 mode-pairs break" finding is now spatially located. The breaking is not distributed across all modes; it is **strictly confined to boundary sectors**. The boundary sectors are "where chemistry happens" in HIERARCHY_OF_INCOMPLETENESS terms (orphaned valence modes, the carbon-like incomplete shells). The extreme sectors are the inert cores.
 
 **For Heisenberg-form selection:** The C²⊗C² parity argument from PRIMORDIAL_QUBIT says Heisenberg is the unique both-parity-even 2-body bilinear. This finding adds: **Heisenberg is the unique form that preserves the boundary-sector palindrome through V-Effect transitions**. Other 2-body coupling forms (XY, ZX, etc.) couple sites but introduce parity-violations that break boundary-sector palindromes. Heisenberg is the only form that makes inter-level coupling possible without breaking the inheritance.
 

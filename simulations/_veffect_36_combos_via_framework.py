@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Re-examine V_EFFECT_PALINDROME's 14-of-36 result via framework.py.
+"""Re-examine the V-Effect's 14-of-36 result via framework.py.
 
-V_EFFECT_PALINDROME (March 2026) found empirically that of 36 two-term
+The V-Effect (March 2026) found empirically that of 36 two-term
 Pauli-pair Hamiltonians H = J(term1 + term2) at N=3, exactly 14 break and
 22 preserve the palindromic structure. They tested EIGENVALUE PAIRING
 (λ ↔ −λ − 2Σγ) which is the spectral consequence of the palindrome
@@ -18,7 +18,7 @@ Logical relation:
 Predicted counts:
   - 3 cases preserve operator equation: {XX+YY, XX+ZZ, YY+ZZ}
     (both terms both-parity-even per PROOF_ZERO_IMMUNITY arguments)
-  - 33 cases break operator equation. Of these, V_EFFECT_PALINDROME
+  - 33 cases break operator equation. Of these, the V-Effect
     found 14 also break eigenvalue pairing; the other 19 preserve
     eigenvalues despite operator break (accidental cancellation in
     spectrum).
@@ -157,17 +157,17 @@ def main():
 
     print(f"\nResults:")
     print(f"  OP-equation:    {len(op_broken)} broken, {len(op_unbroken)} unbroken (framework's strict test)")
-    print(f"  SPEC-pairing:   {len(spec_broken)} broken, {len(spec_unbroken)} unbroken (V_EFFECT_PALINDROME's test)")
+    print(f"  SPEC-pairing:   {len(spec_broken)} broken, {len(spec_unbroken)} unbroken (the V-Effect's test)")
     print(f"  hard break (both): {len(hard_break)}")
     print(f"  soft break (op only, spec OK): {len(soft_break)}")
 
-    print(f"\nExpected from V_EFFECT_PALINDROME: 14 SPEC-broken, 22 SPEC-unbroken.")
+    print(f"\nExpected from the V-Effect (March 2026): 14 SPEC-broken, 22 SPEC-unbroken.")
     print(f"  Match? {'YES' if len(spec_broken) == 14 else 'NO'}")
     print(f"\nExpected from framework: 3 OP-unbroken (XX+YY, XX+ZZ, YY+ZZ).")
     print(f"  Match? {'YES' if len(op_unbroken) == 3 else 'NO'}")
 
     print("\n" + "=" * 90)
-    print(f"HARD BREAK ({len(hard_break)}): both operator and spectrum break — V_EFFECT_PALINDROME's 14")
+    print(f"HARD BREAK ({len(hard_break)}): both operator and spectrum break, V-Effect's original 14")
     print("=" * 90)
     print(f"{'Combo':>10s}  {'op residual':>14s}  {'spec err':>14s}  {'parities':>22s}")
     for r in hard_break:
@@ -185,7 +185,7 @@ def main():
         print(f"{r['term1']+'+'+r['term2']:>10s}  {r['op_residual']:>14.4e}  {r['spec_pairing_err']:>14.4e}  {c1_str+'+'+c2_str:>22s}")
 
     print("\n" + "=" * 90)
-    print(f"OP-UNBROKEN ({len(op_unbroken)}): both criteria pass — Heisenberg/XXZ subset")
+    print(f"OP-UNBROKEN ({len(op_unbroken)}): both criteria pass, Heisenberg/XXZ subset")
     print("=" * 90)
     print(f"{'Combo':>10s}  {'op residual':>14s}  {'spec err':>14s}  {'parities':>22s}")
     for r in op_unbroken:
@@ -200,7 +200,7 @@ def main():
     print(f"  The 3 OP-unbroken cases all have BOTH terms ∈ {{XX, YY, ZZ}} (both-parity-even).")
     print(f"  The 14 hard-break cases break BOTH operator AND eigenvalue pairing.")
     print(f"  The {len(soft_break)} soft-break cases break the operator but eigenvalues coincidentally pair.")
-    print(f"  V_EFFECT_PALINDROME's 22 unbroken = 3 (truly unbroken) + {len(soft_break)} (soft-break).")
+    print(f"  The V-Effect's 22 unbroken = 3 (truly unbroken) + {len(soft_break)} (soft-break).")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # V-Effect Fine Structure: Hard vs Soft Breaks via Framework
 
-**Status:** Computational (Tier 1-2). Framework-based re-examination of V_EFFECT_PALINDROME's 14-of-36 result. Reproduces March 2026 finding via stricter operator-equation test, plus reveals a 19-case "soft break" intermediate category that V_EFFECT_PALINDROME's spectrum-pairing test missed.
+**Status:** Computational (Tier 1-2). Framework-based re-examination of the V-Effect's 14-of-36 result. Reproduces March 2026 finding via stricter operator-equation test, plus reveals a 19-case "soft break" intermediate category that the spectrum-pairing test missed.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/_veffect_36_combos_via_framework.py` (uses `framework.py`)
@@ -10,20 +10,20 @@
 
 ## What this clarifies
 
-V_EFFECT_PALINDROME (March 2026) found that of 36 two-term Pauli-pair Hamiltonians H = J(term1 + term2) at N=3 with two bonds, exactly **14 break** the palindromic structure and **22 do not**. The test used was eigenvalue pairing λ ↔ −λ − 2Σγ.
+The V-Effect (March 2026) found that of 36 two-term Pauli-pair Hamiltonians H = J(term1 + term2) at N=3 with two bonds, exactly **14 break** the palindromic structure and **22 do not**. The test used was eigenvalue pairing λ ↔ −λ − 2Σγ.
 
 The framework's `palindrome_residual` function tests the stricter operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0. Operator equation implies eigenvalue pairing; the converse does not hold. Re-running all 36 combos with both criteria gives:
 
 | Test | Broken | Unbroken |
 |------|--------|----------|
 | Operator equation (strict) | **33** | **3** |
-| Eigenvalue pairing (V_EFFECT_PALINDROME) | **14** | **22** |
+| Eigenvalue pairing (V-Effect) | **14** | **22** |
 
-The 22 V_EFFECT_PALINDROME-unbroken cases decompose into:
+The 22 V-Effect-unbroken cases decompose into:
 - **3 truly unbroken**: {XX+YY, XX+ZZ, YY+ZZ}, both terms in the both-parity-even set.
 - **19 soft-broken**: operator equation residual ~22-45 (substantial), but eigenvalue pairing accurate to ~10⁻¹⁴ (machine precision).
 
-The 14 hard-broken cases break both criteria simultaneously. These are V_EFFECT_PALINDROME's original 14.
+The 14 hard-broken cases break both criteria simultaneously. These are the V-Effect's original 14.
 
 ## Numerical results
 
@@ -70,7 +70,7 @@ Operator equation broken at order 10¹, eigenvalue pairing intact at machine pre
 | YZ+ZX | 39.2 | 0.133 | (─b)+(──) |
 | XZ+ZY | 39.2 | 0.133 | (──)+(─b) |
 
-These are V_EFFECT_PALINDROME's 14 broken cases.
+These are the V-Effect's 14 broken cases.
 
 ## Structural pattern
 
@@ -87,9 +87,9 @@ The cleanest soft-break families are:
 - `(ab)+(─b)` and `(ab)+(──)`: one good term provides palindromic structure, the other's violations stay sub-spectral.
 - `(a─)+(a─)`: both terms violate only bit_b, identically. The matched violation gives matched eigenvalue shifts that pair.
 
-## What the framework adds beyond V_EFFECT_PALINDROME
+## What the framework adds beyond the V-Effect
 
-V_EFFECT_PALINDROME tested EIGENVALUE pairing as the criterion for "palindrome holds". This is the SPECTRAL consequence. The framework's OPERATOR-equation test is finer: it catches breaks in the matrix structure that don't propagate to eigenvalues.
+The V-Effect tested EIGENVALUE pairing as the criterion for "palindrome holds". This is the SPECTRAL consequence. The framework's OPERATOR-equation test is finer: it catches breaks in the matrix structure that don't propagate to eigenvalues.
 
 The 19 soft-break cases are interesting: they have **non-zero** operator residual (10¹-magnitude) but **zero** eigenvalue pairing error (machine precision). The breaks are real, but they live entirely in the OFF-DIAGONAL matrix elements between Π-paired sectors, not in the diagonal eigenvalue structure.
 
@@ -113,8 +113,8 @@ The two categories share the boundary-residing break but differ in whether the b
 
 **Establishes:**
 
-- Framework primitives (palindrome_residual, lindbladian_z_dephasing, _build_bilinear) reproduce V_EFFECT_PALINDROME's 14/22 split when filtered through the SPEC criterion.
-- Framework reveals a 3 / 19 / 14 fine structure that V_EFFECT_PALINDROME's two-category 22 / 14 partition obscured.
+- Framework primitives (palindrome_residual, lindbladian_z_dephasing, _build_bilinear) reproduce the V-Effect's 14/22 split when filtered through the SPEC criterion.
+- Framework reveals a 3 / 19 / 14 fine structure that the V-Effect's two-category 22 / 14 partition obscured.
 - The 3 truly-unbroken cases are predictable structurally: both terms in the both-parity-even set {XX, YY, ZZ}.
 
 **Does not establish:**

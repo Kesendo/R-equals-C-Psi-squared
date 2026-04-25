@@ -1,6 +1,6 @@
 # Z⊗N-Partnership: Multi-Excitation Néel-Mirror as a Transverse-Field Diagnostic
 
-**Status:** Simulation only (Aer/numpy). Hardware sketch open. Sister-finding to K-partnership (single-excitation) — different sector, different broken-by-rule.
+**Status:** Simulation only (Aer/numpy). Hardware sketch open. Sister-finding to K-partnership (single-excitation): different sector, different broken-by-rule.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/_neel_mirror_test.py`
@@ -31,16 +31,16 @@ Proof sketch: Z⊗N anti-commutes with X_l, Y_l and commutes with Z_l. A term wi
 
 **Z⊗N is preserved by:**
 
-- XXZ Heisenberg: H = (J/2) Σ (X_iX_{i+1} + Y_iY_{i+1} + Δ Z_iZ_{i+1}) — all 2 transverse per term.
-- Z-dephasing: D[Z_l] — 0 transverse.
-- Z-detuning: Σ_l δ_l Z_l, **uniform or non-uniform** — 0 transverse.
-- T1 amplitude damping: D[σ⁻_l] — σ⁻ has 1 transverse, but the dissipator action σ⁻ρσ⁺ has 2 transverse total; signs cancel.
+- XXZ Heisenberg: H = (J/2) Σ (X_iX_{i+1} + Y_iY_{i+1} + Δ Z_iZ_{i+1}); all 2 transverse per term.
+- Z-dephasing: D[Z_l]; 0 transverse.
+- Z-detuning: Σ_l δ_l Z_l, **uniform or non-uniform**; 0 transverse.
+- T1 amplitude damping: D[σ⁻_l]; σ⁻ has 1 transverse, but the dissipator action σ⁻ρσ⁺ has 2 transverse total; signs cancel.
 - σ⁻σ⁺-paired Lindblad operators in general (collective decay, σ⁻-pumping).
 
 **Z⊗N is broken by:**
 
-- Single transverse field: H = Σ_l h_l X_l or Σ_l h_l Y_l — 1 transverse.
-- σ_z⊗σ_x-type 2-body terms: ZX, ZY — 1 transverse.
+- Single transverse field: H = Σ_l h_l X_l or Σ_l h_l Y_l; 1 transverse.
+- σ_z⊗σ_x-type 2-body terms: ZX, ZY; 1 transverse.
 
 ## Observables
 
@@ -52,7 +52,7 @@ Two probes:
 - **MI(0, N−1)**: invariant under Z⊗N (mutual information is unitary-invariant on each subsystem). Symmetry-break ⇒ MI_a ≠ MI_b.
 - **M_X = (1/N) Σ_l (−1)^l ⟨X_l⟩**: anti-invariant. M_X(b) = −M_X(a) when symmetry holds; M_X(a) + M_X(b) ≠ 0 measures the break.
 
-The Z-basis Néel order M_AB = (1/N) Σ_l (−1)^l ⟨Z_l⟩ is **identically zero** on X-basis states and Z⊗N-invariant — wrong observable, do not use.
+The Z-basis Néel order M_AB = (1/N) Σ_l (−1)^l ⟨Z_l⟩ is **identically zero** on X-basis states and Z⊗N-invariant: wrong observable, do not use.
 
 ## Simulation results (N=5, t=3.0, γ_z=0.1, J=1, Δ=1)
 
@@ -72,7 +72,7 @@ Initial M_X verifies the partner identity: M_X(t=0) = +1.0000 for |+−+−+⟩,
 
 Test 4 confirms first-order scaling: |ΔMI| ≈ 0.04 · h_x and |M_X(a)+M_X(b)| ≈ 0.009 · h_x at t_max = 3.0. Linear in h_x, as expected from first-order perturbation theory in the transverse field.
 
-Test 5 vs Test 4b: at comparable max-amplitude (h_l max ≈ 0.10), the non-uniform profile gives ~33× larger |M_X-sum| break. The non-uniformity adds a second mode of breaking — the K-spread reading in single-exc has the same structure (uniform γ preserves K-partnership exactly; non-uniform breaks it).
+Test 5 vs Test 4b: at comparable max-amplitude (h_l max ≈ 0.10), the non-uniform profile gives ~33× larger |M_X-sum| break. The non-uniformity adds a second mode of breaking; the K-spread reading in single-exc has the same structure (uniform γ preserves K-partnership exactly; non-uniform breaks it).
 
 ## Why this matters: a third orthogonal Hardware-Diagnostic channel
 
@@ -84,7 +84,7 @@ Same chain, three independent symmetry channels reading three different asymmetr
 | (vac, S_1)-CMRR (CMRR_BREAK_NONUNIFORM_GAMMA) | single-exc cross-cohärence | (vac, S_1) coherence kernel | non-uniform γ_l (longitudinal) |
 | **Z⊗N-partnership (this)** | **multi-exc Néel** | **MI(0,N−1) and M_X** | **transverse field / X-Y crosstalk** |
 
-K and CMRR both read longitudinal (Z) asymmetry. Z⊗N reads transverse asymmetry — a different physical channel:
+K and CMRR both read longitudinal (Z) asymmetry. Z⊗N reads transverse asymmetry, a different physical channel:
 
 - Cross-resonance gate calibration drift
 - ZX/ZY two-qubit crosstalk (entangling-gate residue)
@@ -102,7 +102,7 @@ A minimum hardware test on IBM Heron-class:
 - **Tomography:** 9 Pauli settings on (qubit 0, qubit N−1) for MI; full single-qubit X-readout for M_X.
 - **Cost:** ~5 QPU minutes, comparable to the K-partnership run on Marrakesh.
 - **Prediction:** Z⊗N-break visible above shot-noise. Hardware ZX/ZY-crosstalk should produce |M_X(a) + M_X(b)| ≈ 10^−2 to 10^−1 (cf. simulation Test 5).
-- **Diagnostic value:** the size of |M_X(a) + M_X(b)| is a direct readout of accumulated transverse error per gate-cycle — sensitive in a way that K-partnership and γ-profile reads cannot detect.
+- **Diagnostic value:** the size of |M_X(a) + M_X(b)| is a direct readout of accumulated transverse error per gate-cycle, sensitive in a way that K-partnership and γ-profile reads cannot detect.
 
 ## Caveats
 
@@ -129,5 +129,5 @@ A minimum hardware test on IBM Heron-class:
 - [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md): single-excitation K-partnership, the original sister-result.
 - [IBM_K_PARTNERSHIP_SKETCH](IBM_K_PARTNERSHIP_SKETCH.md): hardware K-partnership on Marrakesh, 2026-04-25.
 - [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md): companion γ-profile readings via spatial-sum and (vac, S_1)-coherence kernels.
-- Buča, B. & Prosen, T. (2012), "A note on symmetry reductions of the Lindblad equation: transport in constrained open spin chains" — strong/weak symmetry classification used here.
+- Buča, B. & Prosen, T. (2012), "A note on symmetry reductions of the Lindblad equation: transport in constrained open spin chains"; strong/weak symmetry classification used here.
 - Simulation script: `simulations/_neel_mirror_test.py`.

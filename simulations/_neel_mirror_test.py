@@ -5,12 +5,12 @@ The xpattern |+−+−+⟩ is the antiferromagnetic Néel state of the Heisenber
 chain (in X-basis). Its Z⊗N-mirror |−+−+−⟩ is what a global π/2 Z-magnet-puls
 would produce. Z⊗N anti-commutes with X_l, Y_l (each Z X Z = −X) and commutes
 with Z_l. So Z⊗N is preserved by any operator with an even number of X/Y per
-term — XXZ, ZZ-detuning, Z-dephasing, and T1 (σ⁻σ⁺ pairs). It is broken only
+term: XXZ, ZZ-detuning, Z-dephasing, and T1 (σ⁻σ⁺ pairs). It is broken only
 by transverse fields (single X or Y).
 
 The right Néel order is M_X = (1/N) Σ (-1)^l ⟨X_l⟩ (anti-invariant under Z⊗N:
 M_X(b) = −M_X(a) when symmetry holds). M_AB = (1/N) Σ (-1)^l ⟨Z_l⟩ is Z⊗N-
-invariant and identically zero on X-basis states — wrong observable.
+invariant and identically zero on X-basis states; wrong observable.
 
 Tests:
 1. Pure Heisenberg + Z: Z⊗N exact, MI(a) = MI(b) and M_X(b) = −M_X(a).

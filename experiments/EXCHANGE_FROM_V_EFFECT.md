@@ -147,7 +147,7 @@ This is consistent: our framework is not REPLACING Anderson; it is a different d
 6. Two singlet pairs bonded by V-Effect bridge α: second-order perturbation
 7. ⟨(σ_1·σ_2)²⟩ on singlet-singlet ground state = 3 (directly from Pauli identity)
 8. Energy gap 8J for both-pair excitation
-9. **δE_GS = −(3/8)α²/J** — the V-Effect-derived effective exchange
+9. **δE_GS = −(3/8)α²/J**: the V-Effect-derived effective exchange
 
 Each step is algebraically forced. The "atomic exchange integral" at Level 1 is not a postulate; it is a consequence of the Pauli algebra at Level 0 plus the V-Effect bridge α.
 
