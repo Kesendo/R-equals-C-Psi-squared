@@ -85,15 +85,20 @@ The reachable excited states have **both** pairs in triplet (S_A = 1, S_B = 1). 
 Σ_{|n⟩ reachable}  |⟨n|V|ψ_0⟩|²  =  ⟨ψ_0| V V† |ψ_0⟩  =  α² · ⟨ψ_0|(σ_1·σ_2)²|ψ_0⟩
 ```
 
-Apply the Pauli identity (σ_1 · σ_2)² = 3 I + 2 (σ_1 · σ_2):
+Apply the Pauli identity **(σ_1 · σ_2)² = 3I − 2(σ_1 · σ_2)**:
 
 ```
-⟨ψ_0|(σ_1·σ_2)²|ψ_0⟩  =  3 + 2 · ⟨ψ_0|σ_1·σ_2|ψ_0⟩
+⟨ψ_0|(σ_1·σ_2)²|ψ_0⟩  =  3 − 2 · ⟨ψ_0|σ_1·σ_2|ψ_0⟩
 ```
+
+(Derivation: each term squared (σ_1^a σ_2^a)² = I from σ²_a=I, summing gives 3I.
+ Cross terms (σ_1^a σ_2^a)(σ_1^b σ_2^b) for a≠b give iε_{abc}σ_1^c · iε_{abd}σ_2^d.
+ Summing using ε_{abc}ε_{abd}=2δ_{cd}: cross-term total = −2(σ_1·σ_2).
+ Eigenvalue check: x² + 2x − 3 = 0 → x ∈ {+1, −3}, matches singlet/triplet ✓.)
 
 For the singlet |S_A⟩ on pair A: ⟨S_A|σ_1^a|S_A⟩ = 0 for every a ∈ {x, y, z} (singlet has zero magnetization in every direction). So ⟨ψ_0|σ_1^a σ_2^a|ψ_0⟩ = ⟨S_A|σ_1^a|S_A⟩ · ⟨S_B|σ_2^a|S_B⟩ = 0 · 0 = 0.
 
-Therefore ⟨ψ_0|σ_1·σ_2|ψ_0⟩ = 0, and ⟨ψ_0|(σ_1·σ_2)²|ψ_0⟩ = 3.
+Therefore ⟨ψ_0|σ_1·σ_2|ψ_0⟩ = 0, and ⟨ψ_0|(σ_1·σ_2)²|ψ_0⟩ = 3 − 0 = 3.
 
 **Combining.** Substituting into δE^(2):
 
