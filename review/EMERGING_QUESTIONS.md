@@ -414,8 +414,35 @@ For three of four states, Σ f_i is of order unity. For ψ_2 it is an order of m
 
 (c) **Excitation-sector weight.** ψ_k-bonding has 70% of |c|² in the slow subspace; \|+⟩⁷ has 6%. The large Σ f_i for \|+⟩⁷ might be entirely a fast-mode-against-slow-mode contribution that the slow-dominated states don't see. Testable by running the same calculation restricting the initial state to the slow subspace only.
 
-**Status:** open
-**Pointer:** scan ψ_k for k = 1..N at fixed defect, look for a k-dependence in Σ f_i that would discriminate (a)/(b)/(c). If the pattern is clean, it is a new regularity worth naming. If it is noisy, the state-dependence of Σ f_i is simply "what it is" and the closure law is accurately described as "an empirical regularity with no simple structure". Either outcome sharpens the PTF doc.
+**Status:** sub-question answered 2026-04-26 by [_eq014_psi_k_full_scan.py](../simulations/_eq014_psi_k_full_scan.py). EQ-014 main question (closure as theorem) closed earlier.
+
+**Result.** Full scan k = 1..7 at N=7, bond (0,1), δJ = 0.01:
+
+| k | Σ f_i | M_k (Fourier) | \|M_k\| |
+|---|---|---|---|
+| 1 | +0.9682 | +0.2706 | 0.2706 |
+| 2 | +0.0578 | +0.7071 | 0.7071 |
+| 3 | +0.3603 | +0.6533 | 0.6533 |
+| 4 | **+2.1366** | **0.0000** | **0.0000** |
+| 5 | +0.3603 | −0.6533 | 0.6533 |
+| 6 | +0.0578 | −0.7071 | 0.7071 |
+| 7 | +0.9682 | −0.2706 | 0.2706 |
+
+Three structural observations:
+
+1. **Σ f_i is exactly mirror-symmetric about k = (N+1)/2 = 4:** Σ f_i(k) = Σ f_i(N+1−k). Reproducibility of the prior k = 1, 2, 3 values is perfect.
+
+2. **Pearson(Σ f_i, |M_k|) = −0.97**: strong *negative* correlation. The Fourier overlap M_k = sin(πk/(N+1))·sin(2πk/(N+1)) (the first-order energy shift) is *inversely* related to the first-order coefficient. Selection rule (a) was the *inverse* of what was hypothesised.
+
+3. **The peak at k = 4** is the chiral fixed point: ψ_4 = (1,0,−1,0,1,0,−1)/2 is an eigenvector of K_1 = diag((−1)^i) with eigenvalue +1. The perturbation V_L = (X_0X_1+Y_0Y_1)/2 anti-commutes with K_1 (chiral-odd; AZ class BDI). Acting on a K_1 fixed-point with a chiral-odd perturbation produces maximal off-diagonal eigenvector mixing — no diagonal energy shift to absorb it — hence the largest Σ f_i.
+
+**Mechanism.** Σ f_i is driven by *eigenvector mixing*, not eigenvalue shift. When the diagonal V_L matrix element vanishes (k = 4, the node-at-defect case), the energy is protected but the eigenvector reorganises maximally; this reorganisation propagates through the bilinear purity expansion to produce the largest first-order coefficient. The k → N+1−k mirror symmetry follows from the chiral symmetry K_1 of the open XY chain: K_1 maps ψ_k ↔ ψ_{N+1−k} (up to a (−1)^i staggered phase), and the per-site purity P_i = |ψ(i)|² is K_1-invariant, so both states give identical α_i and hence identical Σ f_i.
+
+**Naming.** The pattern is a *chiral mirror law for the closure-breaking coefficient*: Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), peaks at the chiral fixed point k = (N+1)/2 (when N is odd) or has a doubled peak in adjacent indices (when N is even, no exact fixed point).
+
+**Consequence for PTF.** PTF Section 2.1 / 3.4's "closure law as empirical regularity" can now be stated more precisely: the closure law's first-order coefficient is structured by the chain's chiral symmetry K_1 and the chirality of V_L. Specifically: V_L is chiral-odd (anti-commutes with K_1), and Σ f_i traces the K_1-fixed-point structure of the initial state's momentum content.
+
+**Open sub-direction.** Does the same chiral mirror law hold at other N? At N = 8 (even, no exact chiral fixed point), Σ f_i should peak at k = 4 and k = 5 by chiral pairing. At N = 9, peak at k = 5 again. Verification at one additional N (say N = 5 or N = 9) would confirm the chiral interpretation across system sizes. Pure simulator work, ~1-2 min compute per N.
 
 ---
 
