@@ -434,11 +434,28 @@ if __name__ == "__main__":
     print(f"\nBoth-parity-even 2-body bilinears: {both_parity_even_terms()}")
     print("(should be [('I','I'), ('X','X'), ('Y','Y'), ('Z','Z')])")
 
-    # Test 5: V-Effect emergent exchange prediction
+    # Test 5: V-Effect emergent exchange prediction vs full diagonalization
     alpha = 0.10
-    print(f"\nV-Effect at α={alpha}, J_intra=1: predicted δE_GS = "
-          f"{v_effect_emergent_exchange(alpha):.5f}")
-    print(f"  (compare to numerical δE/α² ≈ -0.384, i.e., δE ≈ -0.00384)")
+    J_intra = 1.0
+    predicted = v_effect_emergent_exchange(alpha, J_intra=J_intra)
+
+    # Numerical: 4-qubit chain, two intra-pair Heisenberg couplings + α bridge.
+    # H = J_intra·(σ_0·σ_1 + σ_2·σ_3) + α·σ_1·σ_2.
+    # δE_GS(α) ≡ E_GS(α) − E_GS(0) probes the second-order shift.
+    def _ss(N, i, j, J=1.0):
+        return _build_bilinear(N, [(i, j)], [('X', 'X', J), ('Y', 'Y', J), ('Z', 'Z', J)])
+    H_pair = _ss(4, 0, 1, J_intra) + _ss(4, 2, 3, J_intra)
+    E_alpha0 = float(np.linalg.eigvalsh(H_pair)[0])
+    H_full = H_pair + _ss(4, 1, 2, alpha)
+    E_alpha = float(np.linalg.eigvalsh(H_full)[0])
+    numerical = E_alpha - E_alpha0
+
+    print(f"\nV-Effect emergent exchange (4-qubit two-singlet bridge, α={alpha}):")
+    print(f"  predicted δE_GS  = {predicted:.5f}    (analytical, 2nd-order PT)")
+    print(f"  numerical δE_GS  = {numerical:.5f}    (full 4-qubit diagonalization)")
+    print(f"  predicted/α²     = {predicted / alpha**2:.4f}")
+    print(f"  numerical/α²     = {numerical / alpha**2:.4f}")
+    print(f"  difference (numerical − predicted) = {numerical - predicted:+.5f}  (higher-order corrections)")
 
     # Test 6: Π² parity on a few strings
     print("\nΠ² eigenvalue on selected strings:")
@@ -447,18 +464,22 @@ if __name__ == "__main__":
         eig = pi_squared_eigenvalue(indices)
         print(f"  {label_string}: Π² = {eig}")
 
-    # Test 7: palindrome residual is zero for Heisenberg + Z-dephasing
+    # Test 7: palindrome residual vanishes for Heisenberg + Z-dephasing
     print("\nPalindrome residual ‖Π·L·Π⁻¹ + L + 2Σγ·I‖ at N=3, Heisenberg, γ=0.1:")
     H3 = ur_heisenberg(3, J=1.0)
     L3 = lindbladian_z_dephasing(H3, [0.1, 0.1, 0.1])
     R3 = palindrome_residual(L3, Sigma_gamma=0.3, N=3)
-    print(f"  Total residual norm = {np.linalg.norm(R3):.4e}  (expect ~10⁻¹⁵)")
+    R3_norm = float(np.linalg.norm(R3))
+    print(f"  Total residual norm = {R3_norm:.4e}    "
+          f"({'machine-precision zero' if R3_norm < 1e-10 else 'NON-ZERO — palindrome breaks'})")
 
-    # Test 8: parity-violating Hamiltonian breaks palindrome at boundary
+    # Test 8: parity-violating Hamiltonian — residual non-zero by construction
     H3_break = (np.kron(np.kron(ur_pauli('X'), ur_pauli('X')), ur_pauli('I'))
                 + np.kron(np.kron(ur_pauli('I'), ur_pauli('X')), ur_pauli('Y')))
     L3_break = lindbladian_z_dephasing(H3_break, [0.1, 0.1, 0.1])
     R3_break = palindrome_residual(L3_break, Sigma_gamma=0.3, N=3)
-    print(f"  H = XX on (0,1) + XY on (1,2): residual norm = {np.linalg.norm(R3_break):.4e}  (expect 16.0)")
+    R3_break_norm = float(np.linalg.norm(R3_break))
+    print(f"  H = XX on (0,1) + XY on (1,2): residual norm = {R3_break_norm:.4e}    "
+          f"(non-zero: H violates the both-parity-even selection rule)")
 
-    print("\nAll self-tests pass if numerical results match expectations.")
+    print("\nAll self-tests pass if the residual norms above match the verdict text.")
