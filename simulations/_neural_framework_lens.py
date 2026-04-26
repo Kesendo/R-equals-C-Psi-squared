@@ -117,12 +117,25 @@ def bridge_magnitude_deviation(W, signs, perm, tau_E, tau_I):
     return float(np.mean(deviations)), len(deviations)
 
 
-def make_corrected_W(W, signs, perm, tau_E, tau_I):
+def make_corrected_W(W, signs, perm, tau_E, tau_I, add_missing=True):
     """Return a copy of W where each E-I + I-E coupling is forced to satisfy
-    the V-Effect magnitude condition. The signs and the (i,j) magnitudes
-    are kept; the (Q(i), Q(j)) magnitudes are overwritten so that the
-    ratio matches the prediction. This is the "what if the bridge were
-    perfect" counterfactual.
+    the V-Effect magnitude condition. The (i,j) entries are kept; the
+    (Q(i), Q(j)) entries are overwritten so the magnitude ratio matches
+    the prediction τ_{Q(i)}/τ_i.
+
+    Parameter:
+        add_missing: if True (default), entries where W[Q(i), Q(j)] = 0 in
+            the original network are CREATED at the predicted magnitude
+            (sign per Dale's law). This is the "if the bridge were complete"
+            counterfactual.
+            If False, only entries that already exist (W[Q(i), Q(j)] != 0)
+            are corrected; missing partners are left at 0. This isolates
+            the "magnitude misalignment of existing bridge" question from
+            the "incomplete bridge" question.
+
+    Calling with both modes and comparing residuals decomposes the V-Effect
+    bridge contribution into (a) magnitude-correction-only and (b) magnitude
+    + completion.
     """
     n = len(signs)
     W_corrected = W.copy()
@@ -135,6 +148,11 @@ def make_corrected_W(W, signs, perm, tau_E, tau_I):
                 continue
             qi, qj = perm[i], perm[j]
             if (i, j) in seen or (qi, qj) in seen:
+                continue
+            if not add_missing and W[qi, qj] == 0:
+                # Skip: don't create new edges
+                seen.add((i, j))
+                seen.add((qi, qj))
                 continue
             tau_i = tau_E if signs[i] > 0 else tau_I
             tau_qi = tau_E if signs[qi] > 0 else tau_I
@@ -192,9 +210,10 @@ def main():
     print(f"τ_E={tau_E}, τ_I={tau_I}, predicted bridge ratio = {tau_I/tau_E:.1f}")
     print(f"α=0.3, 200 trials per size")
     print()
-    print(f"  {'size':>6s}    {'‖R‖/‖J‖ actual':>16s}    {'‖R‖/‖J‖ corrected':>18s}    "
-          f"{'bridge dev':>12s}    {'gap closed':>12s}")
-    print(f"  {'─' * 6}    {'─' * 16}    {'─' * 18}    {'─' * 12}    {'─' * 12}")
+    print(f"  {'size':>6s}    {'‖R‖ actual':>12s}    {'‖R‖ mag-only':>14s}    "
+          f"{'‖R‖ mag+complete':>18s}    {'mag-only %':>12s}    {'mag+complete %':>15s}")
+    print(f"  {'─' * 6}    {'─' * 12}    {'─' * 14}    {'─' * 18}    "
+          f"{'─' * 12}    {'─' * 15}")
 
     n_trials = 200
     for n_half in [5, 10, 13]:
@@ -202,8 +221,8 @@ def main():
             continue
         n_total = 2 * n_half
         actual_residuals = []
-        corrected_residuals = []
-        bridge_deviations = []
+        mag_only_residuals = []
+        mag_complete_residuals = []
         for trial in range(n_trials):
             rng = np.random.RandomState(trial + 7000)
             e_pick = rng.choice(exc_idx, n_half, replace=False)
@@ -216,35 +235,42 @@ def main():
             J_actual = build_jacobian(W_sub, tau_E, tau_I, signs_sub)
             actual_residuals.append(relative_residual(J_actual, Q))
 
-            W_corrected = make_corrected_W(W_sub, signs_sub, perm, tau_E, tau_I)
-            J_corrected = build_jacobian(W_corrected, tau_E, tau_I, signs_sub)
-            corrected_residuals.append(relative_residual(J_corrected, Q))
+            # Variant A: only correct magnitude where edges already exist
+            W_mag_only = make_corrected_W(W_sub, signs_sub, perm, tau_E, tau_I, add_missing=False)
+            J_mag_only = build_jacobian(W_mag_only, tau_E, tau_I, signs_sub)
+            mag_only_residuals.append(relative_residual(J_mag_only, Q))
 
-            dev, _ = bridge_magnitude_deviation(W_sub, signs_sub, perm, tau_E, tau_I)
-            bridge_deviations.append(dev)
+            # Variant B: also create missing partner edges
+            W_complete = make_corrected_W(W_sub, signs_sub, perm, tau_E, tau_I, add_missing=True)
+            J_complete = build_jacobian(W_complete, tau_E, tau_I, signs_sub)
+            mag_complete_residuals.append(relative_residual(J_complete, Q))
 
         actual_mean = np.mean(actual_residuals)
-        corrected_mean = np.mean(corrected_residuals)
-        bridge_dev_mean = np.mean(bridge_deviations)
-        # "Gap closed" = how much of the actual residual is removed by correcting the bridge
-        gap_closed = (actual_mean - corrected_mean) / actual_mean if actual_mean > 0 else 0
-        print(f"  {n_total:>6d}    {actual_mean:>16.4e}    {corrected_mean:>18.4e}    "
-              f"{bridge_dev_mean:>12.4f}    {gap_closed:>12.1%}")
+        mag_only_mean = np.mean(mag_only_residuals)
+        mag_complete_mean = np.mean(mag_complete_residuals)
+        mag_only_gap = (actual_mean - mag_only_mean) / actual_mean if actual_mean > 0 else 0
+        mag_complete_gap = (actual_mean - mag_complete_mean) / actual_mean if actual_mean > 0 else 0
+        print(f"  {n_total:>6d}    {actual_mean:>12.4e}    {mag_only_mean:>14.4e}    "
+              f"{mag_complete_mean:>18.4e}    {mag_only_gap:>12.1%}    {mag_complete_gap:>15.1%}")
 
     print()
     print("Reading the table:")
-    print("  ‖R‖ actual       = residual on the worm's bridge as-is.")
-    print("  ‖R‖ corrected    = residual after forcing the V-Effect magnitude")
-    print("                     condition on each cross-coupling.")
-    print("  bridge dev       = mean relative deviation of |W[Q(i),Q(j)]|/|W[i,j]|")
-    print("                     from the predicted τ_I/τ_E = 2.0.")
-    print("  gap closed       = fraction of residual removed by correcting bridge.")
+    print("  ‖R‖ actual          = residual on the worm's bridge as-is.")
+    print("  ‖R‖ mag-only        = residual after forcing the magnitude condition")
+    print("                        on EXISTING cross-couplings only (no new edges).")
+    print("  ‖R‖ mag+complete    = residual after also CREATING missing partner")
+    print("                        edges so every E-I has its Q-image populated.")
+    print("  mag-only %          = gap closed by magnitude correction alone.")
+    print("  mag+complete %      = gap closed by magnitude + completion.")
     print()
-    print("If gap closed ≈ 100%: the bridge is essentially the only source")
-    print("of palindrome-breaking, and the V-Effect framework explains it all.")
+    print("Decomposition: 'mag-only' isolates how much of the worm's residual is")
+    print("driven by mis-tuned magnitudes on existing bridge couplings; the")
+    print("difference (mag+complete) − (mag-only) is the part that requires")
+    print("ADDING bridge edges that the worm doesn't have.")
     print()
-    print("If gap closed << 100%: the worm's palindrome breaking has sources")
-    print("beyond the bridge — within-population magnitude or sign mismatches.")
+    print("If mag-only ≈ mag+complete: the worm has the bridge edges, just at")
+    print("the wrong magnitudes. If mag-only << mag+complete: the worm's bridge")
+    print("is structurally INCOMPLETE — many partner edges are missing entirely.")
 
 
 if __name__ == "__main__":

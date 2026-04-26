@@ -53,12 +53,25 @@ def palindrome_residual_generic(M, A, S):
     M is the generator (L in quantum, J in neural).
     S is the dissipation shift: scalar·I or a diagonal matrix.
     """
-    # Allow A unitary (Π) or orthogonal real (Q permutation):
-    # both have A⁻¹ = A.conj().T for the cases we care about.
-    A_inv = A.conj().T if np.allclose(A @ A.conj().T, np.eye(A.shape[0]), atol=1e-9) else np.linalg.inv(A)
-    n = M.shape[0]
+    # A is unitary in our cases (Π in Pauli basis is unitary; Q permutation
+    # is orthogonal real). Try the unitary fast path with A⁻¹ = A†; fall back
+    # to np.linalg.inv only if the unitary check fails. Avoid the d×d matmul
+    # cost when not needed.
+    A_dag = A.conj().T
+    n = A.shape[0]
+    # Sample-check unitarity cheaply: trace((A†A − I)·something) instead of
+    # forming the full d×d product. For unitary matrices, ‖A†A − I‖_F² =
+    # tr((A†A − I)·(A†A − I)†) which we approximate via diagonal sum check
+    # on a few rows. Here we just do the full check at the size we operate
+    # on; the cost is one d×d matmul. Acceptable for d ≤ 4^7 ≈ 16k.
+    if np.allclose(A_dag @ A, np.eye(n), atol=1e-9):
+        A_inv = A_dag
+    else:
+        A_inv = np.linalg.inv(A)
+
+    m = M.shape[0]
     if np.isscalar(S):
-        S_mat = S * np.eye(n)
+        S_mat = S * np.eye(m)
     else:
         S_mat = np.diag(S) if S.ndim == 1 else S
     return A @ M @ A_inv + M + 2 * S_mat
