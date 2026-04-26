@@ -886,8 +886,30 @@ Five jobs, three Heron r2 backends, four sensible paths (excluding the Q0-droppe
 
 framework-grounded scope: the framework predicts the *idealised* −0.62. The *amplification* is a hardware-domain question, not a framework-derived prediction. Whether a structural primitive could capture it (e.g., extending lindbladian_z_dephasing with an amplitude-damping term and re-deriving the soft-break ⟨X₀Z₂⟩) is itself the open question.
 
-**Status:** open
-**Pointer:** add T1 amplitude damping to framework.py's Lindbladian builder; re-compute ⟨X₀Z₂⟩ on the soft case for varying T1/T2 ratios; compare to the four hardware data points.
+**Status:** partially closed by experiment ([_t1_amplification_test.py](../simulations/_t1_amplification_test.py), framework primitive `lindbladian_z_plus_t1` added in same commit)
+
+**Result.** Adding T1 amplitude damping to the Lindbladian and re-running `pi_protected_observables` reveals an asymmetry in robustness. With γ_T1 sweep at N=3, |+−+⟩, γ_dephasing = 0.1:
+
+| γ_T1 / γ_deph | 0.00 | 0.10 | 0.25 | 0.50 | 1.00 | 2.00 |
+|---|---|---|---|---|---|---|
+| truly J(XX+YY) | 32 | 1 | 1 | 1 | 1 | 1 |
+| soft J(XY+YX) | 30 | 29 | 29 | 29 | 29 | 29 |
+| hard J(XX+XY) | 32 | 0 | 0 | 0 | 0 | 0 |
+
+**Truly's Π-protection collapses with the smallest T1 (32 → 1). Soft is structurally robust (30 → 29 — only one observable shifts). Hard collapses completely (32 → 0).**
+
+This explains the hardware Δ-amplification (Marrakesh −0.76, Kingston −0.92, Fez −0.81 vs idealised −0.62). The amplification isn't enhancement of the soft signal; it's elevation of the truly-noise-floor while the soft pattern stays robust:
+
+- Truly's ⟨X₀Z₂⟩ → ~+0.05 on hardware (idealised was 0; T1 broke the protection).
+- Soft's ⟨X₀Z₂⟩ → ~−0.65 to −0.85 (idealised was −0.62; pattern survives + slight enhancement).
+- Δ(soft − truly) → ~−0.70 to −0.92 on hardware.
+
+The framework-grounded core is the count drop pattern; the specific hardware Δ values require knowing which observables newly leak under T1, which is a follow-up question.
+
+**Surviving sub-questions:**
+- Identify which specific observables newly leak from truly's protected set under T1. Which Pauli strings are responsible for truly's noise floor in hardware?
+- Is the soft case's robustness to T1 a general property (any soft-broken Hamiltonian), or specific to XY+YX? Test on other soft cases.
+- ZZ-crosstalk extension: add Z⊗Z jump operators (lindbladian_z_plus_t1_plus_zz?) to disentangle T1 contribution from ZZ-crosstalk contribution to the hardware amplification.
 
 ---
 

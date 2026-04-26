@@ -267,13 +267,33 @@ def _build_bilinear(N, bonds, terms):
 # Section 6: Lindbladian and palindrome residual
 # ----------------------------------------------------------------------
 
+def lindbladian_general(H, c_ops):
+    """General Lindbladian L(ρ) = -i[H, ρ] + Σ_k (c_k ρ c_k† − ½{c_k†c_k, ρ}).
+
+    c_ops: list of Lindblad jump operators (each a d×d matrix). Returned in the
+    operator-vec convention used throughout this repository (flatten('F')):
+        L = -i(H⊗I - I⊗Hᵀ) + Σ_k [ c_k ⊗ c_k* − ½(c_k†c_k ⊗ I) − ½(I ⊗ (c_k†c_k)ᵀ) ].
+    Compatible with `_vec_to_pauli_basis_transform` and `palindrome_residual`.
+    """
+    if not np.allclose(H, H.conj().T):
+        raise ValueError("Hamiltonian H must be Hermitian.")
+    d = H.shape[0]
+    Id = np.eye(d, dtype=complex)
+    L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    for c in c_ops:
+        c_dag_c = c.conj().T @ c
+        L = L + (np.kron(c, c.conj())
+                 - 0.5 * np.kron(c_dag_c, Id)
+                 - 0.5 * np.kron(Id, c_dag_c.T))
+    return L
+
+
 def lindbladian_z_dephasing(H, gamma_l):
     """Lindbladian L(ρ) = -i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l - ρ).
 
-    Returned as a d²×d² matrix in the same vec convention used throughout
-    this repository: L = -i(H⊗I - I⊗Hᵀ) + Σ_l γ_l (Z_l ⊗ Z_l* - I⊗I).
-    Compatible with `_vec_to_pauli_basis_transform` which uses flatten('F').
-    Assumes N ≥ 1; physically meaningful for N ≥ 2 with at least one bond.
+    Specific case of `lindbladian_general` with c_l = √γ_l · Z_l. The
+    γ·(Z·ρ·Z − ρ) form is the pure-dephasing limit; the framework's
+    palindrome (Π·L·Π⁻¹ + L + 2Σγ·I = 0) is derived for this Lindbladian.
     """
     if not np.allclose(H, H.conj().T):
         raise ValueError("Hamiltonian H must be Hermitian.")
@@ -287,6 +307,44 @@ def lindbladian_z_dephasing(H, gamma_l):
         Zl = site_op(N, l, 'Z')
         L = L + gamma * (np.kron(Zl, Zl.conj()) - np.kron(Id, Id))
     return L
+
+
+def lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l):
+    """Z-dephasing + T1 amplitude damping.
+
+    L(ρ) = -i[H, ρ]
+           + Σ_l γ_l · (Z_l ρ Z_l − ρ)        (pure Z-dephasing)
+           + Σ_l γ^{T1}_l · (σ⁻_l ρ σ⁺_l − ½{σ⁺_l σ⁻_l, ρ})  (amplitude damping)
+
+    σ⁻ = (X − iY)/2 is the lowering operator (|1⟩→|0⟩). When γ^{T1}_l = 0
+    on every site, this reduces to `lindbladian_z_dephasing`. The framework's
+    palindrome holds for the Z-dephasing piece alone; the T1 piece introduces
+    breaking that breaks the operator equation. This function lets the caller
+    measure how `pi_protected_observables` shifts with increasing T1.
+    """
+    if not np.allclose(H, H.conj().T):
+        raise ValueError("Hamiltonian H must be Hermitian.")
+    d = H.shape[0]
+    N = int(round(math.log2(d)))
+    c_ops = []
+    # Z-dephasing jump operators
+    for l, gamma in enumerate(gamma_l):
+        if gamma == 0:
+            continue
+        c_ops.append(np.sqrt(gamma) * site_op(N, l, 'Z'))
+    # T1 amplitude damping (σ⁻ on each site)
+    sigma_minus_2 = np.array([[0, 1], [0, 0]], dtype=complex)  # |0⟩⟨1|
+    for l, gamma_t1 in enumerate(gamma_t1_l):
+        if gamma_t1 == 0:
+            continue
+        # site_op with σ⁻ — direct construction
+        ops = [np.eye(2, dtype=complex)] * N
+        ops[l] = sigma_minus_2
+        sigma_minus_l = ops[0]
+        for op in ops[1:]:
+            sigma_minus_l = np.kron(sigma_minus_l, op)
+        c_ops.append(np.sqrt(gamma_t1) * sigma_minus_l)
+    return lindbladian_general(H, c_ops)
 
 
 def palindrome_residual(L, Sigma_gamma, N):
