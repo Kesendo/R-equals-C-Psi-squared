@@ -336,6 +336,29 @@ The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pai
 Data: [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md).
 Writeup: the 2D c-plane extension of this result is in [CPSI_COMPLEX_PLANE](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
 
+### Precision update (April 26, 2026): point-by-point F25 confirmation, T2-echo gap revealed
+
+Same Kingston pair (14, 15), now sampled densely with 19 delays (factors 0.05 to 3.0 of the predicted t_cross). 9-Pauli tomography per delay, 2048 shots per basis circuit, 171 circuits total. The closed-form F25 = f·(1+f²)/6 with f = exp(−4γt) was fit to the trajectory with γ as the only free parameter.
+
+**Result.** F25 fits the hardware trajectory at point-by-point precision:
+
+![Hardware trajectory through the cusp](../visualizations/cusp_precision_trajectory.png)
+
+The cusp at CΨ = 1/4 is crossed at t = 2.49 μs (visible as the green dotted line). RMS residual against the in-situ fit: 0.0097, within shot noise (σ ≈ 0.5/√2048 ≈ 0.011). Pointwise residuals:
+
+![Pointwise residuals](../visualizations/cusp_precision_residuals.png)
+
+**The T2-echo gap.** The pair's reported single-qubit T2-echo on April 26 was [430, 303] μs (γ_calib = 1/(2·T2_min) = 1.65/ms, predicting t_cross = 22.7 μs). The hardware trajectory crosses the cusp at **2.49 μs**, not 22.7. The fit confirms γ_fit = 14.98/ms — **9.08× faster** than the T2-echo calibration says. The orange dashed curve in the trajectory plot shows what the T2-echo prediction would have been; it is off by an order of magnitude.
+
+This refines the April-16 finding (then 1.2-1.5× T2-echo / T2* gap) by showing that on dense sampling the gap is much larger for the joint Bell+ dephasing rate. The pair was selected as the most stable always-crosser across 15 calibration files (April 12 to 26): mean T2_min = 311.6 μs, CV 13%, never below 269.5 μs. The T2-echo metric reported by IBM's calibration pipeline therefore systematically overstates the coherence time relevant to entangled-state free evolution; the ratio is pair- and day-specific.
+
+**What this confirms (and what it doesn't):**
+- Confirms: the F25 closed form is the right *functional shape* for the hardware trajectory, point-by-point, within shot noise.
+- Confirms: γ extracted from the trajectory itself (in-situ) is the right input for the framework's predictions, not the T2-echo calibration value.
+- Does not confirm: that γ-invariance of K_dwell holds on a single pair (this run used one pair). The April-16 two-pair γ-invariance result remains the only direct test of that claim.
+
+Pipeline: `ibm_quantum_tomography/run_cusp_precision.py` (Kingston-anchored, accepts `--pair` and `--gamma-override`). Plot script: `simulations/_plot_cusp_precision.py`. Hardware JSON: `cusp_precision_ibm_kingston_20260426_115939.json` in the IBM tomography results folder. Job ID: `d7mu36lqrg3c738lnda0`.
+
 ---
 
 ## 7. Visualization: Decoherence as a Geodesic
