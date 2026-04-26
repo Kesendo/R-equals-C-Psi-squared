@@ -841,8 +841,24 @@ The cusp at CΨ = 1/4 is a state-level event observed on the Bell+ trajectory ([
 
 framework.py grounds: palindrome_residual at all times for Bell+/Heisenberg/Z-dephasing remains zero. The state-level CΨ trajectory passes through 1/4. Two layers, no obvious bridge primitive yet.
 
-**Status:** open
-**Pointer:** scan M's structure as ε = 1/4 - CΨ varies along the Bell+ trajectory. If a specific block or eigenvector relation undergoes a non-analytic behaviour at ε = 0, that is the operator-level signature.
+**Status:** closed 2026-04-26 (structured partial-null) by [_eq028_cusp_operator_signature.py](../simulations/_eq028_cusp_operator_signature.py).
+
+**Result.** No sharp operator-level event AT the cusp moment itself — no eigenvalue collision, no eigenvector reorientation, no non-analytic structure of M(t). The Liouvillian L is time-independent; only ρ(t) changes. The cusp at CΨ=1/4 is a state-level event.
+
+But L's spectrum does *pre-classify* the cusp behaviour. Decomposing ρ(t*) into L's eigenmode clusters at the first cusp crossing time, the dominant mode's TYPE predicts how the trajectory crosses:
+
+| Hamiltonian | t* first | Dominant λ | Type | Crossings |
+|---|---|---|---|---|
+| truly J(XX+YY) | 1.50 | −0.010 + 0i | real, very slow decay | 1 |
+| soft J(YZ+ZY) | 1.63 | −0.205 + 0i | real, slow decay | 1 |
+| soft J(XY+YX) | 1.32 | −0.266 ± 5.653i | **complex, oscillatory** | 3 |
+| soft J(IY+YI) | 0.37 | 0.000 + 0i | exact zero (steady state) | 5 |
+
+Real-dominant first crossing → single monotonic descent. Complex-oscillatory dominant → multiple crossings (the heartbeat). Zero-eigenvalue dominant (factorising dynamics) → multiple crossings driven by oscillatory sub-dominant modes.
+
+Reading: the cusp itself has no operator-level signature; it is purely state-level. But the operator spectrum is the *pre-determinant* of how the cusp will be encountered: a real-dominant projection of ρ_0 means a single one-way crossing; a complex-dominant projection means oscillatory recrossings; a zero-dominant projection means the cusp is approached repeatedly via subdominant oscillations.
+
+This unifies with today's Lebensader / Stromkabel readings (EQ-030): the operator side (L's spectrum + Π) holds the structure that the state side (ρ(t)'s CΨ trajectory) traces out. The cusp crossings are where the state visits the boundary; the operator spectrum is where the rules of those visits are written.
 
 ---
 
