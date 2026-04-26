@@ -404,6 +404,116 @@ def v_effect_emergent_exchange(alpha, J_intra=1.0):
 
 
 # ----------------------------------------------------------------------
+# Section 10: Π-protected observables  (operator → state-level bridge)
+# ----------------------------------------------------------------------
+
+def pauli_basis_vector(rho, N):
+    """Express a 2^N × 2^N density matrix as a 4^N Pauli-basis coefficient vector.
+
+    Returns vec[k] = (1/2^N) · Tr(σ_k · ρ), so that ρ = (1/2^N) · Σ_k vec[k] · σ_k.
+    The Pauli-string indexing matches `_k_to_indices` / `_indices_to_k`.
+    """
+    d2 = 4 ** N
+    vec = np.zeros(d2, dtype=complex)
+    for k in range(d2):
+        sigma_k = pauli_string(list(_k_to_indices(k, N)))
+        vec[k] = np.trace(sigma_k @ rho) / (2 ** N)
+    return vec
+
+
+def _pauli_label(k, N):
+    """Convert flat Pauli index k to label string like 'XIZ' (left-most-first)."""
+    return ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(k, N))
+
+
+def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1e-8):
+    """Identify which Pauli-string observables σ_α have ⟨σ_α(t)⟩ = 0 for all t,
+    given an initial state `rho_0` under Lindblad evolution L = -i[H, ·] +
+    Σ γ_l (Z_l ρ Z_l − ρ).
+
+    Algebraic content (no fit, no time-evolution):
+
+        ⟨σ_α(t)⟩ = 2^N · Σ_k V[α, k] · c[k] · exp(λ_k t)
+                 = 2^N · Σ_λ S_λ(α) · exp(λ t)
+
+    where (λ_k, V[:,k]) are eigenvalues / right-eigenvectors of L_pauli,
+    c = V⁻¹ · ρ_0_pauli are the left-projections of the initial state,
+    and S_λ(α) = Σ_{k : λ_k = λ} V[α, k] · c[k] is the total contribution
+    at decay rate λ (cluster of degenerate eigenvalues counts once).
+
+    Sums of exponentials with distinct rates are identically zero iff the
+    coefficient at each rate vanishes:
+
+        σ_α is **Π-protected** iff S_λ(α) = 0 for every cluster λ.
+
+    This is strictly weaker than "each individual V[α, k]·c[k] vanishes":
+    contributions can cancel within a degenerate cluster (Heisenberg
+    + Z-dephasing on |+−+⟩: ⟨X₀IZ₂⟩ = 0 for all t, despite individual
+    eigenmodes contributing — they cancel pairwise within SU(2)
+    multiplets).
+
+    Returns:
+        {
+          'protected': list of {'k', 'pauli', 'max_cluster_contribution'},
+          'active':    list of {'k', 'pauli', 'max_cluster_contribution',
+                                'dominant_eigenvalue'},
+          'eigenvalues': L_pauli eigenvalues,
+          'n_clusters': number of distinct eigenvalue clusters.
+        }
+
+    Identity (k=0) is excluded; ⟨I⟩ = 1 trivially.
+    """
+    L = lindbladian_z_dephasing(H, gamma_l)
+    M_basis = _vec_to_pauli_basis_transform(N)
+    L_pauli = (M_basis.conj().T @ L @ M_basis) / (2 ** N)
+
+    evals, V = np.linalg.eig(L_pauli)
+    Vinv = np.linalg.inv(V)
+
+    rho_pauli = pauli_basis_vector(rho_0, N)
+    c = Vinv @ rho_pauli
+
+    # Cluster eigenvalues by approximate equality (degeneracies cancel inside)
+    n = len(evals)
+    used = np.zeros(n, dtype=bool)
+    clusters = []
+    for i in range(n):
+        if used[i]:
+            continue
+        cluster = [i]
+        used[i] = True
+        for j in range(i + 1, n):
+            if not used[j] and abs(evals[j] - evals[i]) < cluster_tol:
+                cluster.append(j)
+                used[j] = True
+        clusters.append(cluster)
+
+    d2 = 4 ** N
+    protected, active = [], []
+    for alpha in range(1, d2):  # skip identity
+        # Sum V[α, k] · c[k] within each degenerate cluster
+        cluster_sums = []
+        for cluster in clusters:
+            S = sum(V[alpha, k] * c[k] for k in cluster)
+            cluster_sums.append((S, cluster[0]))
+        max_S = max((abs(S) for S, _ in cluster_sums), default=0.0)
+        entry = {
+            'k': alpha,
+            'pauli': _pauli_label(alpha, N),
+            'max_cluster_contribution': float(max_S),
+        }
+        if max_S < threshold:
+            protected.append(entry)
+        else:
+            # Largest-cluster eigenvalue (the dominant rate of departure from 0)
+            dom_S, dom_idx = max(cluster_sums, key=lambda x: abs(x[0]))
+            entry['dominant_eigenvalue'] = complex(evals[dom_idx])
+            active.append(entry)
+    return {'protected': protected, 'active': active,
+            'eigenvalues': evals, 'n_clusters': len(clusters)}
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
@@ -481,5 +591,39 @@ if __name__ == "__main__":
     R3_break_norm = float(np.linalg.norm(R3_break))
     print(f"  H = XX on (0,1) + XY on (1,2): residual norm = {R3_break_norm:.4e}    "
           f"(non-zero: H violates the both-parity-even selection rule)")
+
+    # Test 9: Π-protected observables (operator → state bridge)
+    print("\nΠ-protected observables on |+−+⟩ at N=3, γ=0.1:")
+    plus = np.array([1, 1], dtype=complex) / math.sqrt(2)
+    minus = np.array([1, -1], dtype=complex) / math.sqrt(2)
+    psi_xneel_3 = np.kron(plus, np.kron(minus, plus))
+    rho_xneel = np.outer(psi_xneel_3, psi_xneel_3.conj())
+
+    cases_9 = [
+        ('truly  J(XX+YY)', [('X', 'X', 1.0), ('Y', 'Y', 1.0)]),
+        ('soft   J(XY+YX)', [('X', 'Y', 1.0), ('Y', 'X', 1.0)]),
+        ('Heisenberg     ', [('X', 'X', 1.0), ('Y', 'Y', 1.0), ('Z', 'Z', 1.0)]),
+    ]
+    bonds_3 = [(0, 1), (1, 2)]
+    for label, terms in cases_9:
+        H = _build_bilinear(3, bonds_3, terms)
+        result = pi_protected_observables(H, [0.1] * 3, rho_xneel, N=3)
+        n_prot, n_act = len(result['protected']), len(result['active'])
+        # Check key observables: XIZ and ZIX (the cross-correlation that lit up
+        # for soft on hardware Snapshot D, stayed near 0 for truly/Heisenberg).
+        prot_labels = {p['pauli'] for p in result['protected']}
+        xiz_prot = 'XIZ' in prot_labels
+        zix_prot = 'ZIX' in prot_labels
+        xiz_S = next((a['max_cluster_contribution'] for a in result['active']
+                      if a['pauli'] == 'XIZ'),
+                     next((p['max_cluster_contribution'] for p in result['protected']
+                           if p['pauli'] == 'XIZ'), 0.0))
+        zix_S = next((a['max_cluster_contribution'] for a in result['active']
+                      if a['pauli'] == 'ZIX'),
+                     next((p['max_cluster_contribution'] for p in result['protected']
+                           if p['pauli'] == 'ZIX'), 0.0))
+        xiz_str = f"protected (S={xiz_S:.1e})" if xiz_prot else f"active (S={xiz_S:.3f})"
+        zix_str = f"protected (S={zix_S:.1e})" if zix_prot else f"active (S={zix_S:.3f})"
+        print(f"  {label}: {n_prot:>3d} protected, {n_act:>3d} active  |  XIZ {xiz_str:<24s}  ZIX {zix_str:<24s}")
 
     print("\nAll self-tests pass if the residual norms above match the verdict text.")
