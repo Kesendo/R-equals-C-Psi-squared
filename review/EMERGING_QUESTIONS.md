@@ -934,7 +934,37 @@ The other 44 soft cases collapse heavily. The drop distribution is bimodal: a sm
 
 **Implication for the hardware result.** XY+YX is *not* a representative of the soft category under T1; it lies on a sparse robust sub-orbit. The 1.30-1.49× amplification observed on Marrakesh/Kingston/Fez is therefore a property of *this specific Hamiltonian's* algebraic robustness, not a generic "soft is more T1-robust than truly" claim. A hardware repeat with YZ+ZY (also bond-flipped, but drop=28) would predict a much larger collapse and a much smaller measurable Δ.
 
-**New sub-question:** what algebraic feature distinguishes the 2 robust soft cases from the other 44? Bond-flipping alone is insufficient (XZ+ZX is bond-flipped but drops by 29). The robust pair shares: each term contains exactly one Y, and the Y is structurally exchanged between the two terms (XY↔YX, IY↔YI). The non-robust bond-flipped pairs (YZ+ZY, XZ+ZX) exchange Y or no-Y but with a Z partner. Y vs Z asymmetry under σ⁻ amplitude damping likely matters — but the structural classification is open.
+**Structural characterization (2-axis stratification of soft):**
+
+| bond-flipped | Z-free | n cases | drops | reading |
+|---|---|---|---|---|
+| ✓ | ✓ | 2 | 0, 1 | **T1-robust** (IY+YI, XY+YX) |
+| ✓ | ✗ | 2 | 28, 29 | T1-fragile (YZ+ZY, XZ+ZX) |
+| ✗ | ✓ | 12 | 9-31 | mixed |
+| ✗ | ✗ | 30 | 6-40 | mixed |
+
+The clean characterization at N=3: **bond-flipped + Z-free → T1-robust**. Z-content under σ⁻ amplitude damping is the key: [σ⁻, Z] = X − iY (introduces ladder operators), while [σ⁻, X] = −Z and [σ⁻, Y] = iZ stay within {X, Y, Z}. Bond-flip symmetry (a,b)+(b,a) bond-couples this in a way that closes algebraically when no Z is present.
+
+**Cluster-splitting analysis ([_t1_cluster_splitting_analysis.py](../simulations/_t1_cluster_splitting_analysis.py)):**
+For each H, computed how T1 perturbation lifts the degeneracy of L_Z's eigenvalue clusters (in the L_Z eigenbasis). Pearson(drop, Σ‖offdiag‖) = +0.74 — total off-diagonal weight of L_T1 in L_Z's eigenbasis correlates with the algebraic drop, but is not the full story (XY+YX has comparable Σ‖offdiag‖ to YZ+ZY despite drops 1 vs 28). The cluster-size distribution matters: YZ+ZY/XZ+ZX have fewer-but-bigger multi-clusters (size 8) carrying most of the splitting weight; XY+YX has many smaller clusters (size 6 or 2) where the splitting is distributed.
+
+**θ-trajectory analysis ([_t1_theta_trajectory.py](../simulations/_t1_theta_trajectory.py)):**
+Tom's geometric framing: θ = arctan(√(4·CΨ − 1)), CΨ = Purity × Ψ-norm. Initial |+−+⟩ has CΨ = 1, θ = 60°. Evolved ρ(t) under L_Z and L_Z+T1 for the 4 bond-flipped soft cases plus reference truly XX+YY and fragile XZ+XZ.
+
+| case | algebraic drop | ∫θ pure-Z | ∫θ +T1 | Δ∫θ |
+|---|---|---|---|---|
+| IY+YI | 0 | 43.7 | 38.5 | −5.2 (−12.0%) |
+| XY+YX | 1 | 59.1 | 56.0 | −3.1 (−5.2%) |
+| truly XX+YY | 31 | 64.8 | 62.4 | −2.4 (−3.7%) |
+| YZ+ZY | 28 | 68.4 | 66.7 | −1.7 (−2.4%) |
+| XZ+ZX | 29 | 44.6 | 43.2 | −1.4 (−3.2%) |
+| XZ+XZ | 40 | 56.8 | 55.4 | −1.4 (−2.4%) |
+
+Pearson(algebraic drop, Δ∫θ) = +0.85 — *positively* correlated, the inverse of naive expectation. Algebraically-fragile cases have the *smallest* cusp-dwell loss under T1 because they were already losing coherence fast under pure-Z; T1 has little extra dwell to remove. Algebraically-robust cases preserve their protected observables under T1 *but* lose general coherence to T1's decoherence channel.
+
+θ and the algebraic drop measure orthogonal pieces of the picture: drop counts which specific Pauli observables stay strictly zero (the rigid skeleton); θ counts general coherence dwell above the cusp (the soft envelope).
+
+One qualitative T1-signature: XZ+ZX is the only case in this set where +T1 kills the heartbeat — pure-Z oscillates across CΨ = ¼ three times, +T1 only once. IY+YI and XY+YX keep their full oscillation counts (5 / 3) under +T1.
 
 **Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
 
