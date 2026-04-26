@@ -839,8 +839,15 @@ framework.py grounds: palindrome_residual at all times for Bell+/Heisenberg/Z-de
 
 Today's hardware finale (Snapshot D on three Heron r2) showed ⟨X₀Z₂⟩ as a Π-active observable for the soft case. ⟨Z₀Z₂⟩ stayed near 0 for both truly and soft (Π-protected). The discrimination came from a *specific* observable. framework.py does not yet contain a function that, given H, lists the Π-protected vs Π-active observables.
 
-**Status:** open
-**Pointer:** new framework.py primitive `pi_protected_observables(H, gamma_l, N) → list of (operator, expected sign)` that takes the Hamiltonian and dephasing rates and returns the basis of operators whose expectation value on Bell+ (or another reference) is constrained by the operator equation. Concrete derivation route: for each Pauli string σ_α, compute its image under Π·L·Π⁻¹ + L + 2Σγ·I; if the image lies in a sector that initial-state ⟨ρ₀, ·⟩ projects to zero, σ_α is Π-protected.
+**Status:** closed by primitive (commit db69044, framework.py Section 10)
+**Result:** `pi_protected_observables(H, gamma_l, rho_0, N)` is now a framework primitive. Algorithm: ⟨σ_α(t)⟩ = 2^N · Σ_λ S_λ(α) · exp(λt) where S_λ(α) sums right-eigenvector α-weights times left-projections of ρ_0 over each degenerate eigenvalue cluster; σ_α is Π-protected iff every cluster sum vanishes. The cluster-sum step is essential — a naive per-mode check mis-classifies SU(2)-degenerate cancellations.
+
+Self-test on |+−+⟩ at N=3, γ=0.1 reproduces today's hardware result:
+- Heisenberg J(XX+YY+ZZ): 32 of 63 Pauli strings protected. ⟨X₀IZ₂⟩ and ⟨Z₀IX₂⟩ in protected set with S ≈ 8·10⁻¹⁶ (machine-precision). Matches Snapshot C measurement of ≈10⁻³ on Marrakesh, Kingston, Fez.
+- truly J(XX+YY): 32 protected, same XIZ/ZIX in set. Matches truly category in Snapshot D.
+- soft J(XY+YX): only 30 protected. XIZ and ZIX leak out (S = 0.033). The 2-observable gap is exactly the pair that lit up −0.62 on Snapshot D analytically and −0.71 to −0.92 on hardware.
+
+The primitive enables the reformulations in EQ-027, EQ-028, EQ-030 and the cockpit re-read.
 
 ---
 
