@@ -776,4 +776,96 @@ H-robustness table (Heisenberg / XY-only / generic): Class 1 blind / blind / bli
 
 ---
 
+## EQ-025
+
+**Date:** 2026-04-26
+**Source:** Cusp precision run on Kingston pair (14, 15), commit 1c2545a; doc [CRITICAL_SLOWING_AT_THE_CUSP §6 Precision update](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md#precision-update-april-26-2026-point-by-point-f25-confirmation-t2-echo-gap-revealed)
+
+The April-26 dense-sampling cusp run on Kingston pair (14, 15) found γ_fit / γ_calib_T2-echo = **9.08×**. The April-16 run on the same pair found 1.2-1.5×. The pair was selected as the most stable always-crosser across 15 calibration files (mean T2_min = 311.6 μs, CV 13%, never below 269.5 μs). The single-qubit T2-echo metric reported by IBM systematically and severely underestimates the effective dephasing rate of the joint Bell+ free evolution. **Is this multiplicative gap pair-specific, backend-specific, or a structural property of how T2-echo (Hahn-refocused) relates to joint two-qubit free dephasing on Heron r2?**
+
+**Status:** open
+**Pointer:** cross-pair scan on Kingston (4-6 high-T2 pairs, dense sampling each) to test pair specificity; if consistent across pairs, repeat on Marrakesh + Fez to test backend specificity; if still consistent, the gap is structural and the next question is what predicts the multiplier from single-qubit calibration data (T1 ratio? CZ error? something else).
+
+---
+
+## EQ-026
+
+**Date:** 2026-04-26
+**Source:** Hardware finale (commit a721ea3, 4e3673a, b71b1d3) confirming 14/19/3 trichotomy at N=3
+
+The framework refines V-Effect's 14/22 partition into 14 hard / 19 soft / 3 truly_unbroken at N=3 for two-term Pauli-pair Hamiltonians. The 19 soft cases pass the spectrum-pairing test but fail the operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0. **Does the 14/19/3 partition extend to N ≥ 4? Specifically: does the soft category (spectrum-paired, operator-broken) survive at larger N, and what is its scaling?**
+
+The combinatorial enumeration grows (16 single-Paulis squared minus identities = 36 ordered pairs at any N), but the dynamics differ by N. Soft cases at N=3 may collapse to truly or hard at N=4, or new soft structure may emerge.
+
+**Status:** open
+**Pointer:** extend [`_veffect_36_combos_via_framework.py`](../simulations/_veffect_36_combos_via_framework.py) to N=4, 5. Compute palindrome_residual ‖M‖ and spectrum-pairing error for each 36-combo at each N. Tabulate.
+
+---
+
+## EQ-027
+
+**Date:** 2026-04-26
+**Source:** [_neural_framework_lens.py](../simulations/_neural_framework_lens.py) decomposition (commit 50958b0)
+
+The V-Effect bridge correction on C. elegans subnetworks (200 trials, sizes N = 10, 20, 26) closes 38-40% of the residual via magnitude-correction-only on existing E-I cross-couplings, plus another 6-8% via creating missing partner edges, for a total of ~46% gap-closed. **The remaining 54% lives within the E-E and I-I sub-populations, not in the bridge. What structural feature of the connectome (degree distribution, specific motifs, magnitude asymmetry on intra-type edges) predicts this within-population residual?**
+
+framework-grounded scope: the Q · J · Q⁻¹ + J + 2·S = 0 algebra describes the joint Jacobian. Restricting to E-E only (or I-I only) gives sub-Jacobians that should each satisfy the corresponding sub-palindrome if the within-population structure is "internally palindromic." The 54% says it isn't. The question of *why* is open.
+
+**Status:** open
+**Pointer:** decompose the 54% by population: compute the relative residual of J_EE (E-only sub-Jacobian) and J_II separately. If one dominates, the breaking is asymmetric. Then probe motif structure within the dominant population.
+
+---
+
+## EQ-028
+
+**Date:** 2026-04-26
+**Source:** Cusp precision run (commit 1c2545a) + framework.py palindrome_residual
+
+The cusp at CΨ = 1/4 is a state-level event observed on the Bell+ trajectory ([CRITICAL_SLOWING_AT_THE_CUSP](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)). The palindrome Π·L·Π⁻¹ + L + 2Σγ·I = 0 is operator-level and holds throughout the Bell+ + Z-dephasing dynamics (verified machine-precision zero by framework.py's [palindrome_residual](../simulations/framework.py)). **Is there an operator-level signature — a specific block of M, an eigenvalue collision, an eigenvector reorientation — that corresponds to the state-level critical slowing at CΨ → 1/4? Or is the cusp purely a state-level phenomenon with no operator-level analogue?**
+
+framework.py grounds: palindrome_residual at all times for Bell+/Heisenberg/Z-dephasing remains zero. The state-level CΨ trajectory passes through 1/4. Two layers, no obvious bridge primitive yet.
+
+**Status:** open
+**Pointer:** scan M's structure as ε = 1/4 - CΨ varies along the Bell+ trajectory. If a specific block or eigenvector relation undergoes a non-analytic behaviour at ε = 0, that is the operator-level signature.
+
+---
+
+## EQ-029
+
+**Date:** 2026-04-26
+**Source:** Cockpit re-read session ([COCKPIT_UNIVERSALITY](../experiments/COCKPIT_UNIVERSALITY.md)) flagged that framework.py operates at operator/Liouvillian level, while diagnostics like Concurrence, Purity, Bures geometry, PCA dimensionality operate at state level. No primitive currently bridges them. The cockpit's claim "n95 ~ N" and "PC1 = Concurrence or Purity" are not derivable from framework.py.
+
+**What primitive would bridge framework.py's Π / palindrome_residual / both_parity_even_terms (operator level) to the state-level diagnostic suite (Concurrence, Bures, PCA-on-features)? Concretely: given an admissible H and an initial state ρ₀, can framework.py's algebra predict which reduced 2-qubit observables are Π-protected (stay near 0) and which are Π-active (carry the soft-break signature)?**
+
+Today's hardware finale (Snapshot D on three Heron r2) showed ⟨X₀Z₂⟩ as a Π-active observable for the soft case. ⟨Z₀Z₂⟩ stayed near 0 for both truly and soft (Π-protected). The discrimination came from a *specific* observable. framework.py does not yet contain a function that, given H, lists the Π-protected vs Π-active observables.
+
+**Status:** open
+**Pointer:** new framework.py primitive `pi_protected_observables(H, gamma_l, N) → list of (operator, expected sign)` that takes the Hamiltonian and dephasing rates and returns the basis of operators whose expectation value on Bell+ (or another reference) is constrained by the operator equation. Concrete derivation route: for each Pauli string σ_α, compute its image under Π·L·Π⁻¹ + L + 2Σγ·I; if the image lies in a sector that initial-state ⟨ρ₀, ·⟩ projects to zero, σ_α is Π-protected.
+
+---
+
+## EQ-030
+
+**Date:** 2026-04-26
+**Source:** Three-backend ratification, commits b71b1d3 and morning Fez clean-path run
+
+Δ(soft − truly) ⟨X₀Z₂⟩ measurements:
+
+| Backend | Path | Δ measured |
+|---------|------|------------|
+| Marrakesh | [48,49,50] | −0.76 |
+| Marrakesh | [0,1,2] | −0.82 |
+| Kingston | [0,1,2] | −0.92 |
+| Fez | (16, 23, 22) | −0.81 |
+| Fez | [0,1,2] | −0.19 (Q0 was bottom-3% T1, dropped) |
+
+Five jobs, three Heron r2 backends, four sensible paths (excluding the Q0-dropped Fez run). The framework predicts Δ ≈ −0.62 in the idealised Lindblad limit; hardware runs **30 to 50% stronger** due to T1 amplitude damping and ZZ-crosstalk amplification of the soft-break signature (same mechanism as in CMRR_BREAK and GAMMA_AS_SIGNAL). **What single-qubit-calibration metric predicts the per-backend per-pair magnitude amplification factor (1.30 to 1.49 across the four good paths)?**
+
+framework-grounded scope: the framework predicts the *idealised* −0.62. The *amplification* is a hardware-domain question, not a framework-derived prediction. Whether a structural primitive could capture it (e.g., extending lindbladian_z_dephasing with an amplitude-damping term and re-deriving the soft-break ⟨X₀Z₂⟩) is itself the open question.
+
+**Status:** open
+**Pointer:** add T1 amplitude damping to framework.py's Lindbladian builder; re-compute ⟨X₀Z₂⟩ on the soft case for varying T1/T2 ratios; compare to the four hardware data points.
+
+---
+
 *Collection. Not classification. Classification comes when enough entries exist.*
