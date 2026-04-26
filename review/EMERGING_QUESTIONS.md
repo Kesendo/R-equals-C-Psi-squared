@@ -886,7 +886,7 @@ Five jobs, three Heron r2 backends, four sensible paths (excluding the Q0-droppe
 
 framework-grounded scope: the framework predicts the *idealised* −0.62. The *amplification* is a hardware-domain question, not a framework-derived prediction. Whether a structural primitive could capture it (e.g., extending lindbladian_z_dephasing with an amplitude-damping term and re-deriving the soft-break ⟨X₀Z₂⟩) is itself the open question.
 
-**Status:** partially closed by experiment ([_t1_amplification_test.py](../simulations/_t1_amplification_test.py), framework primitive `lindbladian_z_plus_t1` added in same commit)
+**Status:** closed 2026-04-26. Hardware-verified retrospectively (T1 asymmetry on Marrakesh/Kingston/Fez); structurally characterised at two scales (algebraic Π-protected skeleton + geometric fragile θ-trace, the two co-constitutive of each other as a Lebensader, not parallel discriminators); structurally null at the Bures-velocity scale. See sub-sections and scripts below.
 
 **Result.** Adding T1 amplitude damping to the Lindbladian and re-running `pi_protected_observables` reveals an asymmetry in robustness. With γ_T1 sweep at N=3, |+−+⟩, γ_dephasing = 0.1:
 
