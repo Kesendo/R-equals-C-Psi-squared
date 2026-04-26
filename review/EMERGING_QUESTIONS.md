@@ -1012,6 +1012,41 @@ Reading: state-space motion (Bures), angular distance to the cusp (θ), and Π-p
 
 **EQ-030 status:** closed. Hardware-verified retrospectively (T1 asymmetry); structurally characterised at two scales (algebraic skeleton + geometric fragile trace); structurally null at the third scale (Bures velocity).
 
+**Direct hardware verification of the bond-flipped Z-free / Lebensader prediction (Marrakesh, 2026-04-26 evening):**
+
+Two new hardware runs on `ibm_marrakesh` path [0,1,2] complete the bond-flipped Z-free matrix at N=3 (3 of 4 corners now on hardware):
+
+- Job `d7n3013aq2pc73a2a18g`: XY+YX (drop=1) and YZ+ZY (drop=28), 4 time points × 9 bases each, 72 circuits.
+- Job `d7n3eqqt99kc73d34qtg`: IY+YI (drop=0), 4 time points × 9 bases, 36 circuits, transpiled depth 4.6 (factorising local-Y dynamics).
+
+⟨X₀IZ₂⟩ patterns at hardware (at t = 0.8 / 1.4 / 1.7 / 2.2):
+
+| H | t=0.8 | t=1.4 | t=1.7 | t=2.2 | Skeleton |
+|---|---|---|---|---|---|
+| XY+YX | −0.7495 | +0.4658 | +0.0273 | −0.0571 | XIZ active (soft-break) |
+| IY+YI | +0.0933 | +0.3164 | −0.2529 | −0.2690 | XIZ active (factorising) |
+| YZ+ZY | +0.1338 | −0.0508 | +0.0425 | +0.0342 | **XIZ protected** (in noise band) |
+
+Each Hamiltonian shows its predicted Π-protected/active pattern on hardware. YZ+ZY's protection of ⟨X₀IZ₂⟩ — never measured before today — confirms the framework primitive `pi_protected_observables` at hardware scale on a new Hamiltonian.
+
+Reduced-(q0,q2) θ trajectories on hardware:
+
+| H | t=0.8 | t=1.4 | t=1.7 | t=2.2 |
+|---|---|---|---|---|
+| XY+YX | 27.8° | 24.4° | **0.0°** | 47.5° (return) |
+| IY+YI | 0.0° | 55.2° | 55.8° | 0.0° |
+| YZ+ZY | 53.2° | 52.8° | 51.9° | 49.9° |
+
+The reduced-(q0,q2) Lebensader has subsystem-specific shape: each Hamiltonian's θ trajectory follows its specific protected/active observables on the (q0,q2) subspace, not the full N=3 protected count. XY+YX dances around the cusp (2 crossings); IY+YI swings between deep low and deep high CΨ following the local-Y rotation cycle; YZ+ZY stays high above the cusp throughout.
+
+Stromkabel-Verfeinerung (Tom's framing): θ as broad-input integrating 16 Pauli expectations per (H, t), Π-protected count as focused-output (discrete classification per observable). The framework identity Π·L·Π⁻¹ + L + 2Σγ·I = 0 is the cable that holds the two together. Hardware confirms: when the skeleton speaks (which observables are protected), the trace echoes (the geometric trajectory carries the same information). Skeleton + trace are co-constitutive at every scale, but the specific shape depends on which observables are protected on that scale.
+
+Cross-machine consistency check: the Marrakesh XY+YX measurement at t=0.8 today gives θ_HW = 27.82°. The mean over the 7 prior Snapshot D runs (Marrakesh, Kingston, Fez) was 27.77°. Reproducibility within 0.05°.
+
+Scripts:
+- Hardware: `experiments/ibm_quantum_tomography/run_lebensader_cusp.py`, `run_iy_yi_completion.py`
+- Post-process: `simulations/_t1_hardware_lebensader_postprocess.py`
+
 **Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
 
 The asymmetry prediction matches Snapshot D's existing 9-Pauli tomography across all three Heron r2 backends — no new QPU time needed.
