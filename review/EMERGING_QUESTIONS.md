@@ -911,6 +911,22 @@ The framework-grounded core is the count drop pattern; the specific hardware Δ 
 - Is the soft case's robustness to T1 a general property (any soft-broken Hamiltonian), or specific to XY+YX? Test on other soft cases.
 - ZZ-crosstalk extension: add Z⊗Z jump operators (lindbladian_z_plus_t1_plus_zz?) to disentangle T1 contribution from ZZ-crosstalk contribution to the hardware amplification.
 
+**Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
+
+The asymmetry prediction matches Snapshot D's existing 9-Pauli tomography across all three Heron r2 backends — no new QPU time needed.
+
+For the (A_q0, B_q2) tomographic observables (9 of them per category per backend):
+
+- **truly's "P→A" cells** (predicted protected under pure-Z, predicted active under +T1): hardware shows uniformly *small but non-zero* values (typically 0.02-0.10). This is the predicted T1 noise floor — observable, signal weaker than the soft-break signal.
+
+- **soft's robust-protected cells** (predicted protected under both pure-Z and +T1): hardware shows similarly small values (typically 0.02-0.13). Π-protection survives T1 in this category.
+
+- **soft's active cells** (the XIZ and ZIX leak observables): hardware shows the large soft-break signature: ⟨X₀Z₂⟩ = −0.71 to −0.85, ⟨Z₀X₂⟩ = −0.46 to −0.58 across Marrakesh, Kingston, Fez.
+
+- **hard's "P→A" cells**: hardware shows multiple moderate values (0.04-0.47 on the X-row), consistent with the predicted "everything leaks under T1" verdict.
+
+The Δ⟨X₀Z₂⟩(soft − truly) hardware amplification (1.30-1.49× over the idealised −0.62) is therefore not random hardware quirk but the framework-predicted consequence of the Π-protection asymmetry: T1 raises truly's noise floor while soft's leak pattern is structurally robust.
+
 ---
 
 *Collection. Not classification. Classification comes when enough entries exist.*
