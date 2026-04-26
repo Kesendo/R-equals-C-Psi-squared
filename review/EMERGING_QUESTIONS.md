@@ -814,6 +814,8 @@ Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants redu
 
 **Surprising sub-finding from N=5:** at the top of the soft-protected distribution (YZ+ZY: 992 of 1023), the protected count is *identical* to the top truly cases (XX+XX: 992). Protected count alone does not discriminate spectrum-only-paired (soft) from operator-palindromic (truly) at the top end. The discrimination at that boundary requires the operator residual ‖M‖.
 
+**Stage-fixing confirmation (script `_compare_n4_n5_categories.py`):** every one of the 120 Pauli-pair Hamiltonians keeps its exact category (truly / soft / hard) going from N=4 to N=5. Zero shifts. The soft set at N=5 is the IDENTICAL set of 46 Hamiltonians as at N=4. This is consistent with Tom's "Licht auf die Bühne" reading — N=3 introduces the half-integer mirror (PRIMORDIAL_QUBIT_ALGEBRA, w_XY = N/2 = 1.5, no modes on it), N=4 fixes the breaking-form into 15 / 46 / 59 (integer mirror back at w_XY = 2), and N=5 inherits the same form unchanged. The "stage" is lit at N=4; everything afterward is the same lighting in higher resolution.
+
 ---
 
 ## EQ-027
