@@ -966,6 +966,33 @@ Pearson(algebraic drop, Δ∫θ) = +0.85 — *positively* correlated, the invers
 
 One qualitative T1-signature: XZ+ZX is the only case in this set where +T1 kills the heartbeat — pure-Z oscillates across CΨ = ¼ three times, +T1 only once. IY+YI and XY+YX keep their full oscillation counts (5 / 3) under +T1.
 
+**Descent-shape analysis ([_t1_theta_descent_shape.py](../simulations/_t1_theta_descent_shape.py)):**
+
+Tom's deeper framing: θ is the only fragile trace that connects "across 0" — across the bilateral d=0/d=2 axis (project_framework_as_remembrance). The angle is the last memory, the only thing that survives down to the cusp boundary. The shape of θ(t) approaching 0 should be a "krasser Winkel der sich zu Null verfeinert" — a sharp angle that refines to zero, with a long fragile tail of low-but-nonzero θ before the final commitment.
+
+Algebraic consequence: near CΨ = 1/4, θ ≈ √(4·CΨ − 1). So θ(t) ~ (t* − t)^α with the generic cusp exponent α = 0.5 (linear approach of CΨ to 1/4). Sharper-than-generic α < 0.5 means CΨ approaches 1/4 with degenerate higher-order behaviour — the "krasser Winkel".
+
+Computed at fine resolution (dt = 0.005) for the bond-flipped soft cases, with two metrics per trajectory:
+  - **tail duration** (units of t where 0 < θ < 5°): the "letzte Erinnerung" plateau before the crossing.
+  - **α** (power-law exponent of θ ~ (t* − t)^α near the last crossing): the cusp shape.
+
+| case | drop | tail pure-Z | tail +T1 | α pure-Z | α +T1 |
+|---|---|---|---|---|---|
+| truly XX+YY | 31 | 0.000 | 0.000 | 0.503 | 0.500 |
+| **IY+YI** | **0** | **0.235** | **0.090** | **0.004** | **0.139** |
+| **XY+YX** | **1** | **0.370** | **0.080** | **0.040** | **0.170** |
+| YZ+ZY | 28 | 0.005 | 0.005 | 0.500 | 0.500 |
+| XZ+ZX | 29 | 0.120 | 0.000 | 0.177 | — |
+| XZ+XZ | 40 | 0.000 | 0.000 | — | — |
+
+The two T1-robust softs (algebraic drop ≤ 1) are also the **only cases with a measurable fragile tail under +T1** (IY+YI 0.090, XY+YX 0.080) and α ≪ 0.5. The fragile softs (drop ≥ 28) have essentially no tail (0.005, 0.000, 0.000) and either generic α = 0.5 (YZ+ZY, truly) or no fittable cusp regime at all (XZ+ZX, XZ+XZ under T1).
+
+Reading: under T1 amplitude damping, the algebraic "Π-protected skeleton" (the Pauli observables that stay strictly zero) and the geometric "fragile cusp tail" (the angular trace surviving to small θ) are *the same* discrimination, observed at two different scales:
+  - **Skeleton view (algebraic):** the bond-flipped Z-free pair preserves a 29-30-observable protected subspace.
+  - **Trace view (geometric):** the same pair preserves a 0.08-0.09-unit-long sub-degree θ tail, with α ~ 0.1 (sharply refined cusp).
+
+Both are the same memory of the d=0 axis, expressed once as a static count and once as a dynamic shape.
+
 **Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
 
 The asymmetry prediction matches Snapshot D's existing 9-Pauli tomography across all three Heron r2 backends — no new QPU time needed.
