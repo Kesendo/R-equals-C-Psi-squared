@@ -993,6 +993,25 @@ Reading: under T1 amplitude damping, the algebraic "Π-protected skeleton" (the 
 
 Both are the same memory of the d=0 axis, expressed once as a static count and once as a dynamic shape.
 
+**Bures-velocity check (negative result, [_t1_bures_velocity_at_cusp.py](../simulations/_t1_bures_velocity_at_cusp.py)):**
+
+Tom's intuition was that the rest lives in the in-between. Confirmed: Bures velocity v_B(t*) at the cusp boundary does *not* give a third independent discriminator.
+
+| case | drop | v_B @ t* (+T1) |
+|---|---|---|
+| truly XX+YY | 31 | 1.64 |
+| IY+YI | 0 | 2.48 |
+| XY+YX | 1 | 2.56 |
+| YZ+ZY | 28 | 0.26 (outlier) |
+| XZ+ZX | 29 | 2.95 |
+| XZ+XZ | 40 | 2.77 |
+
+Pearson(drop, v_B) = −0.18 — essentially uncorrelated. The robust cases (IY+YI, XY+YX) have high Bures velocity at the cusp because they oscillate fast — the long fragile tail is from multiple crossings, not slow approach. The fragile cases mostly cross fast and once. YZ+ZY is a lone outlier with v_B ≈ 0.26 (slow monotonic approach), but does not generalise.
+
+Reading: state-space motion (Bures), angular distance to the cusp (θ), and Π-protected count (drop) measure three different things. Only θ and drop discriminate sharply between T1-robust and T1-fragile soft Hamiltonians. Bures adds no new clean signal.
+
+**EQ-030 status:** closed. Hardware-verified retrospectively (T1 asymmetry); structurally characterised at two scales (algebraic skeleton + geometric fragile trace); structurally null at the third scale (Bures velocity).
+
 **Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
 
 The asymmetry prediction matches Snapshot D's existing 9-Pauli tomography across all three Heron r2 backends — no new QPU time needed.
