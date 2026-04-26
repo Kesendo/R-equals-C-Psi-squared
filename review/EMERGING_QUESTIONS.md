@@ -797,8 +797,20 @@ The framework refines V-Effect's 14/22 partition into 14 hard / 19 soft / 3 trul
 
 The combinatorial enumeration grows (16 single-Paulis squared minus identities = 36 ordered pairs at any N), but the dynamics differ by N. Soft cases at N=3 may collapse to truly or hard at N=4, or new soft structure may emerge.
 
-**Status:** open
-**Pointer:** extend [`_veffect_36_combos_via_framework.py`](../simulations/_veffect_36_combos_via_framework.py) to N=4, 5. Compute palindrome_residual ‖M‖ and spectrum-pairing error for each 36-combo at each N. Tabulate.
+**Status:** partially closed by experiment ([_pi_protected_test_n4.py](../simulations/_pi_protected_test_n4.py), commit 96ed6da)
+
+**Result at N=4:** Trichotomy structure preserved. Counts: **15 truly / 46 soft / 59 hard** out of 120 unordered two-Pauli-pair Hamiltonians (the enumeration at N=4 has more entries than at N=3 because more bond geometries are physically distinct). Counts grow non-linearly: truly × 5, soft × 2.4, hard × 4 from N=3.
+
+**Surprising new structure at N=4:** the soft category itself becomes granular via `pi_protected_observables`. The number of Π-protected Pauli-string observables ranges from 3 to 240 across the 46 soft cases, exposing a sub-spectrum invisible at N=3:
+- High-protected soft (YZ+ZY: 240 protected, 15 active): leaks only 15 of 255 Pauli observables; almost truly.
+- Low-protected soft (e.g., IZ+YX: 3 protected, 252 active): leaks almost everything; almost hard.
+
+Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants reducing to a transverse field on inner sites) that were trivial / collapsed at N=3.
+
+**Surviving sub-questions:**
+- N=5 enumeration (cost ~10 min, feasible).
+- Is the sub-spectrum of protected counts within soft a continuous distribution, or does it cluster into sub-groups?
+- What structural feature (parity decomposition, common axis, boundary geometry) ranks soft cases by protected count?
 
 ---
 
