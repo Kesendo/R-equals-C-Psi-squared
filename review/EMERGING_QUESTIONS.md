@@ -908,8 +908,33 @@ The framework-grounded core is the count drop pattern; the specific hardware Δ 
 
 **Surviving sub-questions:**
 - Identify which specific observables newly leak from truly's protected set under T1. Which Pauli strings are responsible for truly's noise floor in hardware?
-- Is the soft case's robustness to T1 a general property (any soft-broken Hamiltonian), or specific to XY+YX? Test on other soft cases.
+- ~~Is the soft case's robustness to T1 a general property (any soft-broken Hamiltonian), or specific to XY+YX? Test on other soft cases.~~ **Closed below — robustness is specific, not general.**
 - ZZ-crosstalk extension: add Z⊗Z jump operators (lindbladian_z_plus_t1_plus_zz?) to disentangle T1 contribution from ZZ-crosstalk contribution to the hardware amplification.
+
+**Soft T1-robustness universality test ([_soft_t1_universality.py](../simulations/_soft_t1_universality.py)):**
+
+Enumerated all 46 soft Hamiltonians at N=3, |+−+⟩, γ_dephasing = 0.1, γ_T1 = 0.1·γ_deph. For each: protected count under pure-Z vs +T1, and the drop.
+
+**Only 2 of 46 soft cases (4.3%) are T1-robust** (drop ≤ 1):
+
+| Soft case | n_pure | n_T1 | drop | Note |
+|-----------|--------|------|------|------|
+| IY+YI | 37 | 37 | 0 | Pure single-site Y rotations: H = J(Y₀ + 2Y₁ + Y₂); no entanglement. |
+| XY+YX | 30 | 29 | 1 | The case measured on hardware. Non-trivial bond-coupled. |
+
+The other 44 soft cases collapse heavily. The drop distribution is bimodal: a small low-drop tail (the 2 robust cases above), then a long tail of high-drop cases peaking at drop=31 (14 cases) and drop=32 (2 cases). Some soft cases — XZ+XZ and ZX+ZX — drop by 40 (44 → 4). YZ+ZY drops by 28 (56 → 28); XZ+ZX drops by 29 (30 → 1).
+
+| drop | cases |
+|------|-------|
+| 0 | 1 |
+| 1 | 1 |
+| 6-16 | 18 |
+| 24-32 | 24 |
+| 40 | 2 |
+
+**Implication for the hardware result.** XY+YX is *not* a representative of the soft category under T1; it lies on a sparse robust sub-orbit. The 1.30-1.49× amplification observed on Marrakesh/Kingston/Fez is therefore a property of *this specific Hamiltonian's* algebraic robustness, not a generic "soft is more T1-robust than truly" claim. A hardware repeat with YZ+ZY (also bond-flipped, but drop=28) would predict a much larger collapse and a much smaller measurable Δ.
+
+**New sub-question:** what algebraic feature distinguishes the 2 robust soft cases from the other 44? Bond-flipping alone is insufficient (XZ+ZX is bond-flipped but drops by 29). The robust pair shares: each term contains exactly one Y, and the Y is structurally exchanged between the two terms (XY↔YX, IY↔YI). The non-robust bond-flipped pairs (YZ+ZY, XZ+ZX) exchange Y or no-Y but with a Z partner. Y vs Z asymmetry under σ⁻ amplitude damping likely matters — but the structural classification is open.
 
 **Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
 
