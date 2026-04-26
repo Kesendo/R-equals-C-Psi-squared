@@ -808,9 +808,11 @@ The combinatorial enumeration grows (16 single-Paulis squared minus identities =
 Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants reducing to a transverse field on inner sites) that were trivial / collapsed at N=3.
 
 **Surviving sub-questions:**
-- N=5 enumeration (cost ~10 min, feasible).
-- Is the sub-spectrum of protected counts within soft a continuous distribution, or does it cluster into sub-groups?
-- What structural feature (parity decomposition, common axis, boundary geometry) ranks soft cases by protected count?
+- ~~N=5 enumeration (cost ~10 min, feasible).~~ **Closed:** N=5 gives 15 / 46 / 59 — identical counts to N=4. Trichotomy stabilises after N=4. Protected-count ranges scale by 4× (matching the 4^5/4^4 ratio). Pipeline: `_pi_protected_test_n4.py 5` produces `pi_protected_test_n5.log`.
+- Is the sub-spectrum of protected counts within soft a continuous distribution, or does it cluster into sub-groups? **Partially closed:** discrete clusters at N=5. 992 (1 case: YZ+ZY), 862 (2 cases: IY+IY, YI+YI), 781 (1 case: IY+YI), 772 (6 cases: XY+XY, XZ+XZ, YX+YX, YZ+YZ, ZX+ZX, ZY+ZY). Sub-cluster sizes look symmetry-related; the 6-element 772-class shares "pure Pauli-axis pairing" structure.
+- What structural feature ranks soft cases by protected count? **Open:** the sub-cluster sizes (1, 2, 1, 6, ...) suggest specific symmetry orbits; identifying which symmetry would close this.
+
+**Surprising sub-finding from N=5:** at the top of the soft-protected distribution (YZ+ZY: 992 of 1023), the protected count is *identical* to the top truly cases (XX+XX: 992). Protected count alone does not discriminate spectrum-only-paired (soft) from operator-palindromic (truly) at the top end. The discrimination at that boundary requires the operator residual ‖M‖.
 
 ---
 

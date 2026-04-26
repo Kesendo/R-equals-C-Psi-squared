@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
-"""EQ-026 attack: extend the 14/19/3 trichotomy to N=4 using pi_protected_observables.
+"""EQ-026 attack: extend the 14/19/3 trichotomy to N>=4 using pi_protected_observables.
 
-For each of the 36 ordered two-term Pauli-pair Hamiltonians at N=4
-(σ_a σ_b + σ_c σ_d on each of the three bonds (0,1), (1,2), (2,3)),
-classify by:
+Configurable for N via CLI arg (default 4). For each of the
+unordered two-term Pauli-pair Hamiltonians (σ_a σ_b + σ_c σ_d on each
+adjacent bond), classify by:
   1. Operator residual ‖M‖ via framework.palindrome_residual
   2. Eigenvalue spectrum pairing under λ ↔ −λ − 2Σγ
-  3. Number of Π-protected Pauli-string observables on |+−+−⟩
+  3. Number of Π-protected Pauli-string observables on |+−+−...⟩
 
-If the trichotomy structure (truly / soft / hard) holds at N=4, the
+If the trichotomy structure (truly / soft / hard) holds at N>=4, the
 counts should cluster into three groups: high-protected (truly),
 intermediate (soft), low (hard).
 
-The init state |+−+−⟩ generalises Snapshot D's N=3 |+−+⟩.
+The init state |+−+−...⟩ generalises Snapshot D's N=3 |+−+⟩.
+
+Usage:
+    python _pi_protected_test_n4.py            # N=4 (default)
+    python _pi_protected_test_n4.py 5          # N=5 (~30-60 min compute)
 """
 import math
 import sys
@@ -56,17 +60,17 @@ def spectrum_pair_max_err(L, sigma_gamma):
 
 
 def main():
-    N = 4
+    N = int(sys.argv[1]) if len(sys.argv) > 1 else 4
     GAMMA = 0.1
     J = 1.0
     Σγ = N * GAMMA
 
-    # |+−+−⟩ initial state
+    # |+−+−...⟩ initial state, alternating starting with +
     plus = np.array([1, 1], dtype=complex) / math.sqrt(2)
     minus = np.array([1, -1], dtype=complex) / math.sqrt(2)
     psi = plus.copy()
-    for sign in [-1, +1, -1]:  # signs[1..N-1]
-        psi = np.kron(psi, plus if sign > 0 else minus)
+    for k in range(1, N):
+        psi = np.kron(psi, minus if k % 2 == 1 else plus)
     rho_0 = np.outer(psi, psi.conj())
 
     bonds = [(i, i + 1) for i in range(N - 1)]
@@ -93,8 +97,10 @@ def main():
         seen.add(sorted_terms)
         pairs.append((sorted_terms, terms))
 
-    print(f"Testing pi_protected_observables at N={N}, γ={GAMMA}, |+−+−⟩")
+    init_label = "|" + "".join("+" if k % 2 == 0 else "−" for k in range(N)) + "⟩"
+    print(f"Testing pi_protected_observables at N={N}, γ={GAMMA}, init {init_label}")
     print(f"{len(pairs)} unordered two-term Pauli-pair Hamiltonians.")
+    print(f"Liouvillian dim = 4^{N} = {4**N}; expected runtime ~ {len(pairs) * (4**N)**3 / 1e10:.1f} min")
     print()
     print(f"  {'H = J(...)':>12s}  {'‖M‖_op':>10s}  {'spec_err':>10s}  "
           f"{'protected':>10s}  {'active':>8s}  {'verdict':>10s}")
