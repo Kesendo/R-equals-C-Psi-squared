@@ -348,6 +348,12 @@ The cusp at CΨ = 1/4 is crossed at t = 2.49 μs (visible as the green dotted li
 
 ![Pointwise residuals](../visualizations/cusp_precision_residuals.png)
 
+The same hardware points placed on the Mandelbrot set (cf. Section 7's idealised plot):
+
+![Hardware Bell+ trajectory on the Mandelbrot set](../visualizations/bellplus_trajectory_on_mandelbrot_hardware_zoom.png)
+
+Each colored dot is one measured CΨ value, color-coded by t. The trajectory enters from the divergent zone (right of the cardioid cusp), traverses the cusp at CΨ = 1/4 (green X), and decays into the cardioid interior (classical zone). The full-view version is at `visualizations/bellplus_trajectory_on_mandelbrot_hardware.png`.
+
 **The T2-echo gap.** The pair's reported single-qubit T2-echo on April 26 was [430, 303] μs (γ_calib = 1/(2·T2_min) = 1.65/ms, predicting t_cross = 22.7 μs). The hardware trajectory crosses the cusp at **2.49 μs**, not 22.7. The fit confirms γ_fit = 14.98/ms — **9.08× faster** than the T2-echo calibration says. The orange dashed curve in the trajectory plot shows what the T2-echo prediction would have been; it is off by an order of magnitude.
 
 This refines the April-16 finding (then 1.2-1.5× T2-echo / T2* gap) by showing that on dense sampling the gap is much larger for the joint Bell+ dephasing rate. The pair was selected as the most stable always-crosser across 15 calibration files (April 12 to 26): mean T2_min = 311.6 μs, CV 13%, never below 269.5 μs. The T2-echo metric reported by IBM's calibration pipeline therefore systematically overstates the coherence time relevant to entangled-state free evolution; the ratio is pair- and day-specific.
