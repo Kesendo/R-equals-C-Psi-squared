@@ -480,3 +480,15 @@ K_dwell(delta) = gamma * 2*delta / |slope_at_crossing|, with delta = 0.04:
 
 Hardware JSON and plots are stored in the IBM experiment directory (external to this repo):
 `AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_slowing_hardware_ibm_kingston_20260416_*.json`
+
+---
+
+## Anchor: April-26 Kingston measurement on the Mandelbrot set
+
+The two pictures below are the live hardware version of the Section 7 idealised plot. Each colored dot is one CΨ value measured on `ibm_kingston` (qubits 14, 15) at one of 19 delay points; color encodes time. The trajectory enters from the right (divergent zone, just outside the cardioid), crosses CΨ = 1/4 (green X, the cardioid cusp), and decays into the cardioid interior (classical zone).
+
+![Hardware Bell+ trajectory on the Mandelbrot set — zoom](../visualizations/bellplus_trajectory_on_mandelbrot_hardware_zoom.png)
+
+![Hardware Bell+ trajectory on the Mandelbrot set — full view](../visualizations/bellplus_trajectory_on_mandelbrot_hardware.png)
+
+The zoom shows the cusp crossing in detail; the full view places the same trajectory in the global Mandelbrot context. Companion line plot (CΨ vs t with F25 fit) is at `visualizations/cusp_precision_trajectory.png`. Pipeline: `simulations/_plot_cusp_mandelbrot_hardware.py`. Data source: `cusp_precision_ibm_kingston_20260426_115939.json`. Job ID: `d7mu36lqrg3c738lnda0`.
