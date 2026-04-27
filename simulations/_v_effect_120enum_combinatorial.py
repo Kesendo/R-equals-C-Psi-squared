@@ -213,5 +213,59 @@ def main():
                 print()
 
 
+def main_n2_transition():
+    """Identify the 26 cases that transition soft → hard at N=2 → N=3.
+
+    These are the V-Effect's 'newly-activated' cases: the second bond's
+    contribution at N=3 is what breaks spectrum-pairing for these
+    specific bilinear pairs.
+    """
+    pairs = enumerate_120()
+
+    results_N2 = {}
+    results_N3 = {}
+    for pair in pairs:
+        t1, t2 = pair
+        terms = [(t1[0], t1[1], J), (t2[0], t2[1], J)]
+        H2 = fw._build_bilinear(2, [(0, 1)], terms)
+        H3 = fw._build_bilinear(3, [(0, 1), (1, 2)], terms)
+        results_N2[pair] = classify_empirical(H2, 2, GAMMA)
+        results_N3[pair] = classify_empirical(H3, 3, GAMMA)
+
+    transitions = {'truly→truly': 0, 'soft→soft': 0, 'soft→hard': 0,
+                    'hard→hard': 0, 'other': 0}
+    soft_to_hard = []
+    intrinsic_hard = []
+    for pair in pairs:
+        c2, c3 = results_N2[pair], results_N3[pair]
+        label = f"{pair[0][0]}{pair[0][1]}+{pair[1][0]}{pair[1][1]}"
+        key = f"{c2}→{c3}"
+        if key in transitions:
+            transitions[key] += 1
+        else:
+            transitions['other'] += 1
+        if c2 == 'soft' and c3 == 'hard':
+            soft_to_hard.append(label)
+        if c2 == 'hard':
+            intrinsic_hard.append(label)
+
+    print(f"N=2 → N=3 transitions in 120-enum:")
+    for k, v in transitions.items():
+        print(f"  {k}: {v}")
+    print()
+    print(f"The 26 'V-Effect activation' cases (soft at N=2, hard at N≥3):")
+    for label in soft_to_hard:
+        print(f"  {label}")
+    print()
+    print(f"The 33 intrinsic-hard cases (already hard at N=2):")
+    for label in intrinsic_hard[:10]:
+        print(f"  {label}")
+    if len(intrinsic_hard) > 10:
+        print(f"  ... ({len(intrinsic_hard) - 10} more)")
+
+
 if __name__ == "__main__":
     main()
+    print()
+    print("=" * 80)
+    main_n2_transition()
