@@ -1711,6 +1711,52 @@ def single_excitation_sine_energies(N, J=1.0):
                       for k in range(1, N + 1)])
 
 
+def k_local_reduced_density(rho, sites, N):
+    """Trace out all sites except those in `sites`. Returns 2^k × 2^k matrix.
+
+    ρ is the full d×d density matrix (d = 2^N) with big-endian site
+    convention (site i ↔ bit (N-1-i) of the basis index, equivalently axis
+    i in the rho.reshape([2]*2N) tensor).
+
+    Used by PTF generalizations: site-local (k=1), pair-local (k=2),
+    triple-local (k=3), and so on. Per F70, the k-local reduced state
+    captures sector coherences with |ΔN| ≤ k of the original ρ.
+
+    **Chiral mirror identity.** For K_1 = ⊗_i (−1)^i (chiral / sublattice
+    symmetry), if ρ_{B} = K_1 ρ_{A} K_1†, then the k-local reductions are
+    related by ρ_{B,sites} = (∏_{i ∈ sites} Z_i) ρ_{A,sites} (∏_{i ∈ sites} Z_i).
+    Any K_1-invariant function of ρ_{sites} (e.g. purity Tr(ρ²), spectrum)
+    is therefore identical between K_1-paired states. This is the structural
+    origin of the chiral mirror law Σ f_{i_1...i_k}(ψ_k) = Σ f_{i_1...i_k}(ψ_{N+1−k})
+    for k-local PTF observables on sine-mode-bonding states (EQ-014, EQ-020).
+    """
+    sites = tuple(sorted(sites))
+    k = len(sites)
+    if k == 0 or k == N:
+        return rho if k == N else np.array([[float(np.trace(rho))]], dtype=complex)
+    shape = [2] * (2 * N)
+    T = rho.reshape(shape)
+    letters = "abcdefghijklmnopqrstuvwxyz"
+    if 2 * N > len(letters):
+        raise ValueError(f"k_local_reduced_density: N={N} too large for einsum spec")
+    row = list(letters[:N])
+    col = list(letters[N:2 * N])
+    for s in range(N):
+        if s not in sites:
+            col[s] = row[s]   # contract: trace out
+    in_spec = "".join(row) + "".join(col)
+    out_spec = "".join(row[s] for s in sites) + "".join(col[s] for s in sites)
+    out = np.einsum(f"{in_spec}->{out_spec}", T)
+    d_sub = 2 ** k
+    return out.reshape(d_sub, d_sub)
+
+
+def k_local_purity(rho, sites, N):
+    """Purity of the k-local reduced state Tr(ρ_{sites}²)."""
+    rho_sites = k_local_reduced_density(rho, sites, N)
+    return float(np.real(np.trace(rho_sites @ rho_sites)))
+
+
 # ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
@@ -1871,5 +1917,23 @@ if __name__ == "__main__":
         chiral_max_diff = max(chiral_max_diff,
                                 float(np.linalg.norm(K_1_psi_k - psi_mirror)))
     print(f"  Chiral mirror K_1 ψ_k = ψ_{{N+1−k}}: max ‖Δ‖ = {chiral_max_diff:.2e}")
+
+    # Test 12: k-local reduced density and purity
+    print("\nk-local reduced density (Section 16):")
+    # Build a 3-qubit Bell-pair-extended state |Φ+>_{0,1} ⊗ |0>_2
+    # |Φ+> = (|00> + |11>)/√2, ρ_AB = diag-corner mass on (0,0) and (3,3)
+    psi_3q = np.zeros(8, dtype=complex)
+    psi_3q[0b000] = 1.0 / math.sqrt(2)  # |000>
+    psi_3q[0b110] = 1.0 / math.sqrt(2)  # |110>: bits 1, 2 set (sites 0, 1 excited)
+    rho_3q = np.outer(psi_3q, psi_3q.conj())
+    # Site 0 alone (1-local): purity 1/2 (mixed reduction of Bell+)
+    p0 = k_local_purity(rho_3q, [0], 3)
+    # Sites 0, 1 (2-local): purity 1 (Bell+ pair is pure)
+    p01 = k_local_purity(rho_3q, [0, 1], 3)
+    # Sites 0, 1, 2 (3-local = full): purity 1 (whole state is pure)
+    p012 = k_local_purity(rho_3q, [0, 1, 2], 3)
+    print(f"  |Φ+>_{{0,1}} ⊗ |0>_2 purities: 1-local at 0: {p0:.4f} (expect 0.5)")
+    print(f"                                  pair (0,1):    {p01:.4f} (expect 1.0)")
+    print(f"                                  triple (full): {p012:.4f} (expect 1.0)")
 
     print("\nAll self-tests pass if the residual norms above match the verdict text.")

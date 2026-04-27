@@ -799,6 +799,48 @@ Does the pair-local closure Σ_{(i,j)} ln(α_{ij}) have its own symmetry structu
 **Status:** open (new thread opened today)
 **Pointer:** repeat the c_1 investigation at pair level and triple level for N=5, extract kernels, compare to PTF site-level closure. If a pair-painter closure exists as a structural law, PTF's "painters around a mountain" picture extends to "painter pairs around a mountain" with a richer vision that captures the |ΔN| = 2 structure.
 
+### EQ-020 partial closure 2026-04-27: chiral mirror law extends to pair-painter
+
+**Source:** [_eq020_pair_painter_chiral_mirror.py](../simulations/_eq020_pair_painter_chiral_mirror.py), [_eq020_pair_painter_delta_n2.py](../simulations/_eq020_pair_painter_delta_n2.py).
+
+**Structural finding.** The chiral mirror law Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}) extends from site-painter (EQ-014) to pair-painter:
+
+    Σ f_{ij}(ψ_k) = Σ f_{ij}(ψ_{N+1−k})    for sine-mode bonding states.
+
+**Verified at machine precision** (10⁻¹³ to 10⁻¹¹) at N=5 and N=7 across all mirror pairs.
+
+**Sine-mode bonding states only** (vac+ψ_k)/√2: K_1 maps the global state to (vac+ψ_{N+1-k})/√2 exactly. K_1-rotation of ρ → K_1 ρ K_1^† acts on any pair-reduced ρ_{ij} as ρ_{ij}^K = (Z_i Z_j) ρ_{ij} (Z_i Z_j) — a unitary similarity, so Tr(ρ_{ij}²) is K_1-invariant. Hence α_{ij}(k) = α_{ij}(N+1-k) and Σ ln α_{ij} respects the mirror.
+
+**The mechanism is structural and generalizes:** for any k-local observable that is a function of ρ_{i_1 ... i_k} and is invariant under (Z_{i_1} ... Z_{i_k}) similarity, K_1-paired initial states give equal observables. In particular, k-local purity for k = 1, 2, 3, ... all respect the chiral mirror on sine-mode-bonding states.
+
+**N=5 sine-mode bonding states:**
+
+| k | f_site | f_pair |
+|---|--------|--------|
+| 1, 5 | +0.922 | +0.749 |
+| 2, 4 | +0.282 | +0.184 |
+| 3 (fixed) | +0.641 | +0.447 |
+
+**N=7 sine-mode bonding states:**
+
+| k | f_site | f_pair |
+|---|--------|--------|
+| 1, 7 | +0.968 | +1.042 |
+| 2, 6 | +0.038 | +0.019 |
+| 3, 5 | +0.349 | +0.556 |
+| 4 (fixed) | +2.098 | +1.569 |
+
+**The ratio f_pair / f_site is NOT constant** across k — pair-painter has a different k-dependence than site-painter. At N=7 k=4 (chiral fixed point), site f peaks at 2.10 but pair f drops to 1.57. The "pair-painter peak at chiral fixed point" inherited from site-painter does NOT happen identically; pair-painter has its own k-structure.
+
+**Dicke-mixed states (e.g. (vac+S_2)/√2, ΔN=2 coherence)** do NOT have the K_1-mirror structure of sine-mode states because K_1 acts non-trivially on Dicke states. The pair-painter-vs-site-painter shift on these states is structural in a different sense — it tracks the |ΔN|≤k visibility of F70 — and no clean chiral mirror law is expected.
+
+**Framework primitives added:** `k_local_reduced_density(rho, sites, N)` and `k_local_purity(rho, sites, N)` in framework.py Section 16. Docstring documents the chiral mirror identity for k-local observables.
+
+**Surviving sub-questions:**
+- **Triple-painter closure (k=3) at N=6, 7:** does the chiral mirror law extend? Framework says it should (same K_1 mechanism), but verification not yet run.
+- **Closure at trivial k = N:** the full state ρ has Tr(ρ²) = 1 exactly for pure ρ_0 under unitary part of L, so α_{full} = 1, ln α = 0 — closure is trivial. The interesting question is at INTERMEDIATE k.
+- **Dicke-mixed-state pattern:** for non-K_1-eigenstate initial states, what symmetry (if any) does Σ f_{i_1...i_k} respect?
+
 ---
 
 ## EQ-021
