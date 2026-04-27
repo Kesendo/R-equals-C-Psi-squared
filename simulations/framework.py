@@ -1583,6 +1583,97 @@ def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
 
 
 # ----------------------------------------------------------------------
+# Section 16: Cavity-mode-exposure (F64) — single-excitation coherence
+# ----------------------------------------------------------------------
+
+def single_excitation_h1(N, bonds, J=1.0):
+    """Single-excitation block H_1 (N×N) for an XX+YY (hopping) Hamiltonian.
+
+    H_1[i, j] = J_{ij} if (i, j) ∈ bonds, else 0. Encodes the |i⟩→|j⟩ amplitude
+    in the basis where |i⟩ has a single excitation at site i.
+
+    For Heisenberg/XXZ Hamiltonians, the XX+YY part contributes the off-diagonal
+    hopping; the ZZ part contributes a constant shift on the diagonal that does
+    not affect eigenvectors. So this primitive — and the F64 formula derived
+    from it — apply identically to XY, Heisenberg, XXZ in the single-excitation
+    sector.
+
+    `J` may be a scalar (uniform) or a list of length len(bonds) (per-bond).
+    """
+    H1 = np.zeros((N, N), dtype=complex)
+    if np.isscalar(J):
+        J_per_bond = [float(J)] * len(bonds)
+    else:
+        J_per_bond = list(J)
+        if len(J_per_bond) != len(bonds):
+            raise ValueError("len(J) must match len(bonds) when J is a list")
+    for (i, j), J_ij in zip(bonds, J_per_bond):
+        H1[i, j] += J_ij
+        H1[j, i] += J_ij
+    return H1
+
+
+def cavity_coh_liouvillian(H1, B, gamma_B):
+    """Single-excitation vac↔1exc coherence Liouvillian L_coh = i·H_1 − 2γ_B·|B⟩⟨B|.
+
+    Acts on the N-dim coherence space {|vac⟩⟨e_i|}. Derivation:
+        L(|vac⟩⟨e_i|) = -i[H, |vac⟩⟨e_i|] + γ_B(Z_B(...)Z_B − (...))
+                      = i Σ_j H_{ji} |vac⟩⟨e_j| − 2γ_B δ_{iB} |vac⟩⟨e_i|
+    so (L_coh c)_j = i (H_1 c)_j − 2γ_B c_B δ_{jB}, i.e. L_coh = i·H_1 − 2γ_B·P_B.
+
+    For ANY L_coh eigenvector v_k with eigenvalue λ_k, taking ⟨v_k|·|v_k⟩ on
+    both sides of L_coh v_k = λ_k v_k and using H_1 = H_1†:
+        −Re(λ_k) = 2γ_B · |v_k(B)|²        (F64 EXACTLY, mode by mode).
+
+    For U(1)-conserving Hamiltonians (XY, Heisenberg, XXZ) with single-site
+    Z-dephasing on B, this is the exact restriction of the d²×d² Liouvillian
+    to the vac↔1exc coherence sector.
+    """
+    L = 1j * H1.copy()
+    L[B, B] -= 2.0 * gamma_B
+    return L
+
+
+def cavity_mode_decomposition(H1, B, gamma_B, S=None, eps_a_S=1e-9):
+    """Diagonalize L_coh; return per-mode (rate, |v(B)|², |v(S)|, eigenvector).
+
+    For each L_coh eigenvalue λ_k with eigenvector v_k (normalized):
+        rate_k = −Re(λ_k)         (decay rate of mode k)
+        a_B²_k = |v_k(B)|²         (B-site exposure; F64: rate = 2γ_B · a_B²)
+        a_S_k  = |v_k(S)|          (S-site overlap; only when S is given)
+
+    If `S` is given, modes with |v(S)| < eps_a_S are filtered out (they carry
+    no S-coherence content and do not appear as decay channels for any
+    observable read out at S). The protected modes — i.e. eigenvectors with
+    |v(B)|² = 0 from a degenerate-subspace rotation — are returned with
+    rate = 0 exactly. F64 captures protection: rate = 0 ⟺ |v(B)|² = 0.
+
+    Returns list of dicts sorted by rate (slowest first), each with keys:
+      'k', 'rate', 'a_B_squared', 'a_S', 'eigenvalue', 'eigenvector'.
+    """
+    N = H1.shape[0]
+    L_coh = cavity_coh_liouvillian(H1, B, gamma_B)
+    evals, V = np.linalg.eig(L_coh)
+    out = []
+    for k in range(N):
+        v = V[:, k]
+        v = v / np.linalg.norm(v)
+        a_B2 = float(abs(v[B]) ** 2)
+        a_S = None if S is None else float(abs(v[S]))
+        if S is not None and a_S < eps_a_S:
+            continue
+        out.append({
+            'k': k,
+            'rate': float(-evals[k].real),
+            'a_B_squared': a_B2,
+            'a_S': a_S,
+            'eigenvalue': complex(evals[k]),
+            'eigenvector': v,
+        })
+    return sorted(out, key=lambda r: r['rate'])
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
@@ -1694,5 +1785,25 @@ if __name__ == "__main__":
         xiz_str = f"protected (S={xiz_S:.1e})" if xiz_prot else f"active (S={xiz_S:.3f})"
         zix_str = f"protected (S={zix_S:.1e})" if zix_prot else f"active (S={zix_S:.3f})"
         print(f"  {label}: {n_prot:>3d} protected, {n_act:>3d} active  |  XIZ {xiz_str:<24s}  ZIX {zix_str:<24s}")
+
+    # Test 10: F64 cavity-mode-exposure — exact identity rate = 2γ_B·|v(B)|²
+    print("\nF64 cavity-mode-exposure (Section 16):")
+    print("  rate(mode k) = 2·γ_B·|v_k(B)|² for L_coh = i·H_1 − 2γ_B·|B⟩⟨B|")
+    chain5 = [(i, i + 1) for i in range(4)]
+    H1_chain5 = single_excitation_h1(5, chain5, J=1.0)
+    modes_chain = cavity_mode_decomposition(H1_chain5, B=4, gamma_B=0.05, S=0)
+    max_err_chain = max(
+        abs(m['rate'] - 2 * 0.05 * m['a_B_squared'])
+        / max(m['rate'], 1e-15)
+        for m in modes_chain if m['rate'] > 1e-15
+    )
+    print(f"  chain N=5 (S=0,B=4):    {len(modes_chain)} S-modes, max rel err = {max_err_chain:.2e}")
+
+    star5 = [(0, i) for i in range(1, 5)]
+    H1_star5 = single_excitation_h1(5, star5, J=1.0)
+    modes_star = cavity_mode_decomposition(H1_star5, B=0, gamma_B=0.05, S=4)
+    n_protected = sum(1 for m in modes_star if abs(m['rate']) < 1e-12)
+    print(f"  star N=5 (S=4,B=0 hub): {len(modes_star)} S-modes, "
+          f"{n_protected} truly protected (rate = 0, |v(B)|² = 0)")
 
     print("\nAll self-tests pass if the residual norms above match the verdict text.")
