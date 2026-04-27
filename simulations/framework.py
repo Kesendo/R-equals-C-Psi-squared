@@ -819,12 +819,24 @@ def cockpit_panel(H, gamma_l, rho_0, N,
             'mode_type': mode_type,
             'classification': classification}
 
-    # Lebensader rating: simple qualitative reading from skeleton + trace
-    if skeleton['drop'] <= 1 and tail_duration > 0.05:
+    # Lebensader rating: report skeleton and trace as SEPARATE statuses,
+    # plus a combined reading. They decouple at N ≥ 4, so the user should
+    # read both axes independently.
+    skel_status = 'intact' if skeleton['drop'] <= 1 else (
+        'partial' if skeleton['drop'] <= 5 else 'broken'
+    )
+    # Trace threshold: N-scaled. Empirically max tail among skeleton-intact
+    # cases is ~0.86 at N=3, 0.010 at N=4, 0.005 at N=5. A threshold of
+    # max(0.05, 0.86 / 2^(N-3)) catches the same proportion at each N.
+    tail_threshold = max(0.005, 0.86 / (2 ** max(0, N - 3)))
+    trace_status = 'long' if tail_duration > tail_threshold else (
+        'short' if tail_duration > tail_threshold / 10 else 'absent'
+    )
+    if skel_status == 'intact' and trace_status == 'long':
         leb_rating = 'intact (skeleton holds, trace lives)'
-    elif skeleton['drop'] <= 1 and tail_duration <= 0.05:
+    elif skel_status == 'intact' and trace_status != 'long':
         leb_rating = 'partial (skeleton holds, trace short)'
-    elif skeleton['drop'] > 1 and tail_duration > 0.05:
+    elif skel_status != 'intact' and trace_status == 'long':
         leb_rating = 'partial (skeleton bleeds, trace persists)'
     else:
         leb_rating = 'collapsed (both skeleton and trace gone)'
@@ -837,7 +849,10 @@ def cockpit_panel(H, gamma_l, rho_0, N,
 
     return {
         'lebensader': {'skeleton': skeleton, 'trace': trace,
-                       'rating': leb_rating},
+                       'rating': leb_rating,
+                       'skeleton_status': skel_status,
+                       'trace_status': trace_status,
+                       'tail_threshold_for_N': tail_threshold},
         'cusp': cusp,
         'chiral': chiral,
         'y_parity': y_parity,
