@@ -54,9 +54,9 @@ def main():
     print()
 
     print(f"{'case':<14s}  {'drop':>4s}  {'n_cross':>7s}  "
-          f"{'tail (0<θ<5°)':>14s}  {'α':>7s}  {'cusp class':<35s}  "
-          f"{'Lebensader rating':<35s}")
-    print('-' * 130)
+          f"{'tail (0<θ<5°)':>14s}  {'α':>7s}  {'pattern':<11s}  "
+          f"{'mode type':<40s}  {'Lebensader rating':<35s}")
+    print('-' * 145)
 
     for label, terms in cases:
         H = fw._build_bilinear(N, bonds, terms)
@@ -73,17 +73,21 @@ def main():
         alpha_str = f"{tr['alpha_descent']:>+7.3f}" if tr['alpha_descent'] is not None else "    —  "
         print(f"{label:<14s}  {skel['drop']:>4d}  {tr['n_crossings']:>7d}  "
               f"{tr['tail_duration_sub5deg']:>13.4f}  {alpha_str}  "
-              f"{cusp['classification']:<35s}  {rating:<35s}")
+              f"{cusp['pattern']:<11s}  "
+              f"{cusp['mode_type']:<40s}  {rating:<35s}")
 
     print()
     print("Reading guide:")
-    print("  'intact'    — bond-flipped Z-free pairs (XY+YX, IY+YI)")
-    print("  'partial'   — skeleton holds OR trace persists, not both")
-    print("  'collapsed' — Z-containing fragile cases under T1")
+    print("  Lebensader rating:")
+    print("    'intact'    — bond-flipped Z-free pairs (XY+YX, IY+YI)")
+    print("    'partial'   — skeleton holds OR trace persists, not both")
+    print("    'collapsed' — Z-containing fragile cases under T1")
     print()
-    print("  cusp class 'monotonic'  → real-decay dominated, single crossing")
-    print("  cusp class 'heartbeat'  → complex oscillatory, multiple crossings")
-    print("  cusp class 'factorising' → zero-mode dominated, factorising dynamics")
+    print("  Cusp axes (orthogonal):")
+    print("    pattern    'monotonic' (1 crossing) | 'heartbeat' (>1 crossing)")
+    print("    mode type  'real-decay' | 'oscillatory'")
+    print("               | 'steady-state + real-decay sub-mode' (settling)")
+    print("               | 'steady-state + oscillatory sub-mode' (factorising)")
 
 
 if __name__ == "__main__":

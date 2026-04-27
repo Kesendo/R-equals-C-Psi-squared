@@ -756,15 +756,18 @@ def cockpit_panel(H, gamma_l, rho_0, N,
             alpha = float(coef[0])
 
     # ---- Cusp-pattern classifier ----
+    # Two orthogonal axes: pattern (n_crossings) and dominant-mode TYPE.
+    # The combined label is (pattern, mode-type) so users can read both.
     if not crossings:
-        cusp_class = 'never crosses'
+        pattern = 'never crosses'
         dom_eigval = None
+        dom_eigval_nonzero = None
+        mode_type = 'n/a'
     else:
         t_first, _, idx_first = crossings[0]
         rho_at_cross = traj[idx_first]
         rho_pauli_at = pauli_basis_vector(rho_at_cross, N)
         c_at = Vinv_active @ rho_pauli_at
-        # Cluster the eigenvalues, find the cluster with largest |c|
         clusters = _cluster_eigenvalues(evals_active, tol=cluster_tol)
         cluster_norms = []
         for cl in clusters:
@@ -772,13 +775,36 @@ def cockpit_panel(H, gamma_l, rho_0, N,
             cluster_norms.append((norm_cl, cl))
         cluster_norms.sort(key=lambda x: -x[0])
         dom_eigval = complex(evals_active[cluster_norms[0][1][0]])
-        # Classify
-        if abs(dom_eigval) < 1e-3:
-            cusp_class = 'factorising (zero-mode dominated)'
-        elif abs(dom_eigval.imag) > 1e-3:
-            cusp_class = 'heartbeat (oscillatory mode dominated)'
+        # Dominant NON-ZERO eigenvalue cluster (excludes steady-state if it's
+        # the absolute largest — the actual driving mode of the dynamics).
+        nonzero_norms = [(n, cl) for n, cl in cluster_norms
+                          if abs(complex(evals_active[cl[0]])) > 1e-6]
+        if nonzero_norms:
+            dom_eigval_nonzero = complex(evals_active[nonzero_norms[0][1][0]])
         else:
-            cusp_class = 'monotonic (real-decay dominated)'
+            dom_eigval_nonzero = None
+
+        pattern = 'monotonic' if n_crossings == 1 else 'heartbeat'
+
+        # Classify the dominant-mode TYPE (uses the non-zero mode if steady
+        # state is the absolute largest, otherwise the absolute largest).
+        ref_eigval = (dom_eigval_nonzero if abs(dom_eigval) < 1e-6
+                       else dom_eigval)
+        if ref_eigval is None:
+            mode_type = 'pure steady state'
+        elif abs(dom_eigval) < 1e-6:
+            # Steady state is the largest cluster → "settling" regime
+            if abs(ref_eigval.imag) > 1e-3:
+                mode_type = 'steady-state + oscillatory sub-mode'
+            else:
+                mode_type = 'steady-state + real-decay sub-mode'
+        elif abs(ref_eigval.imag) > 1e-3:
+            mode_type = 'oscillatory'
+        else:
+            mode_type = 'real-decay'
+
+    classification = (f"{pattern} | {mode_type}"
+                      if pattern != 'never crosses' else 'never crosses')
 
     trace = {'theta_max': theta_max,
              'n_crossings': n_crossings,
@@ -788,7 +814,10 @@ def cockpit_panel(H, gamma_l, rho_0, N,
 
     cusp = {'n_crossings': n_crossings,
             'dominant_eigenvalue_at_first_crossing': dom_eigval,
-            'classification': cusp_class}
+            'dominant_nonzero_eigenvalue': dom_eigval_nonzero,
+            'pattern': pattern,
+            'mode_type': mode_type,
+            'classification': classification}
 
     # Lebensader rating: simple qualitative reading from skeleton + trace
     if skeleton['drop'] <= 1 and tail_duration > 0.05:
