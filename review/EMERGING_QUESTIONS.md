@@ -444,6 +444,46 @@ Three structural observations:
 
 **Open sub-direction.** Does the same chiral mirror law hold at other N? At N = 8 (even, no exact chiral fixed point), Σ f_i should peak at k = 4 and k = 5 by chiral pairing. At N = 9, peak at k = 5 again. Verification at one additional N (say N = 5 or N = 9) would confirm the chiral interpretation across system sizes. Pure simulator work, ~1-2 min compute per N.
 
+### EQ-014 sub-direction closed 2026-04-27: chiral mirror confirmed at N=5 and N=8
+
+**Source:** [_eq014_chiral_mirror_multi_N.py](../simulations/_eq014_chiral_mirror_multi_N.py).
+
+Tested both odd-with-fixed-point (N=5, k=3 fixed) and even-without-fixed-point (N=8) cases. Mirror law Σ f_i(k) = Σ f_i(N+1−k) holds at machine precision in every case.
+
+**N=5 (odd, k=3 is K_1 fixed point):**
+
+| k | Σ f_i | M_k |
+|---|-------|-----|
+| 1 | +0.9424 | +0.4330 |
+| 2 | +0.2868 | +0.7500 |
+| 3 | +0.6544 | 0 (fixed point) |
+| 4 | +0.2868 | −0.7500 |
+| 5 | +0.9424 | −0.4330 |
+
+Mirror pairs (1,5) and (2,4) match to 4·10⁻¹¹. k=3 is the chiral fixed point with M_k = 0; Σ f_i = 0.65 at this point (local peak in the "M_k=0" sense, but not the global maximum — k=1 has higher Σ f_i = 0.94).
+
+**N=8 (even, no fixed point):**
+
+| k | Σ f_i | M_k |
+|---|-------|-----|
+| 1 | +0.9409 | +0.2198 |
+| 2 | +0.0571 | +0.6330 |
+| 3 | +0.0745 | +0.7500 |
+| 4 | +2.3439 | +0.3368 |
+| 5 | +2.3439 | −0.3368 |
+| 6 | +0.0745 | −0.7500 |
+| 7 | +0.0571 | −0.6330 |
+| 8 | +0.9409 | −0.2198 |
+
+Mirror pairs (1,8), (2,7), (3,6), (4,5) match to 1·10⁻⁹. Peak is at the central pair (k=4, k=5) with Σ f_i = 2.34 each — these are NOT M_k=0 modes (M_k = 0.337 there). The "M_k=0 → peak" rule from N=7 (where k=4 was a chiral fixed point with M_k=0) does NOT generalize: at even N, the peak is at the central pair without M_k=0.
+
+**Refined understanding.** The chiral mirror law (k ↔ N+1-k symmetry of Σ f_i) is structural and holds at every N. The "peak structure" is more subtle:
+- At odd N: k=(N+1)/2 is K_1-fixed (K_1 ψ_k = ψ_k), M_k = 0, and is a *local* peak in Σ f_i.
+- At even N: no K_1-fixed point exists; the peak is at the doubled central pair k=N/2, k=N/2+1, where M_k ≠ 0.
+- The largest Σ f_i correlates with K_1-mixing magnitude on ψ_k, not strictly with M_k=0.
+
+**Framework primitive added (commit referenced below):** `single_excitation_sine_mode(N, k)` and `single_excitation_sine_energies(N, J)` in framework.py Section 16, including the K_1 chiral mirror identity in the docstring. Self-test verifies K_1 ψ_k = ψ_{N+1−k} to machine precision.
+
 ---
 
 ## EQ-015

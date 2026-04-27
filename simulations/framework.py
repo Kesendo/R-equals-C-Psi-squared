@@ -1673,6 +1673,44 @@ def cavity_mode_decomposition(H1, B, gamma_B, S=None, eps_a_S=1e-9):
     return sorted(out, key=lambda r: r['rate'])
 
 
+def single_excitation_sine_mode(N, k):
+    """k-th OBC sine-mode eigenvector ψ_k(i) for the uniform XY chain.
+
+    For H_1[i, j] = J·δ_{|i−j|, 1} on N sites with open boundaries (i.e.
+    `single_excitation_h1(N, [(i, i+1) for i in range(N-1)], J)`), eigenvectors
+    have the closed form (J-independent):
+
+        ψ_k(i) = √(2/(N+1)) · sin(π·k·(i+1)/(N+1)),    k = 1, …, N.
+
+    Returns the N-dim real, unit-norm vector. Faster than `np.linalg.eigh` and
+    gives the exact form needed for analytical work.
+
+    **Chiral mirror identity.** For K_1 = ⊗_i (−1)^i the chiral / sublattice
+    Z₂ symmetry of the open chain, K_1 ψ_k = ψ_{N+1−k} exactly (no sign).
+    This follows from sin(π(N+1−k)(i+1)/(N+1)) = (−1)^i sin(πk(i+1)/(N+1)).
+    At odd N, the middle mode k = (N+1)/2 is a K_1 fixed point: K_1 ψ_k = ψ_k.
+    Per-site purity P_i = |ψ(i)|² is K_1-invariant under this mapping, so
+    any per-site observable on ψ_k equals the same observable on ψ_{N+1−k}.
+    This is the structural origin of the chiral mirror law for the closure-
+    breaking coefficient (PERSPECTIVAL_TIME_FIELD, EQ-014).
+    """
+    return np.array([math.sqrt(2.0 / (N + 1))
+                      * math.sin(math.pi * k * (i + 1) / (N + 1))
+                      for i in range(N)])
+
+
+def single_excitation_sine_energies(N, J=1.0):
+    """Spectrum of the OBC uniform XY chain in the single-excitation sector:
+
+        E_k = 2J · cos(πk/(N+1)),    k = 1, …, N.
+
+    The spectrum is palindromic about 0 (E_k + E_{N+1−k} = 0), which is the
+    K_1-chiral signature on H_1 (K_1 H_1 K_1 = −H_1; AZ class BDI).
+    """
+    return np.array([2.0 * J * math.cos(math.pi * k / (N + 1))
+                      for k in range(1, N + 1)])
+
+
 # ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
@@ -1805,5 +1843,33 @@ if __name__ == "__main__":
     n_protected = sum(1 for m in modes_star if abs(m['rate']) < 1e-12)
     print(f"  star N=5 (S=4,B=0 hub): {len(modes_star)} S-modes, "
           f"{n_protected} truly protected (rate = 0, |v(B)|² = 0)")
+
+    # Test 11: OBC sine-mode closed form + chiral mirror identity
+    print("\nOBC sine-mode closed form (Section 16):")
+    N_test = 7
+    bonds_test = [(i, i + 1) for i in range(N_test - 1)]
+    H1_test = single_excitation_h1(N_test, bonds_test, J=1.0)
+    evals_h1, evecs_h1 = np.linalg.eigh(H1_test)
+    # eigh returns ASCENDING eigenvalues; closed-form k=1 has HIGHEST E = 2cos(π/(N+1)).
+    # Map: closed-form k → eigh index N - k.
+    max_diff = 0.0
+    for kk in range(1, N_test + 1):
+        v_closed = single_excitation_sine_mode(N_test, kk)
+        v_num = np.real(evecs_h1[:, N_test - kk])
+        if v_closed @ v_num < 0:
+            v_num = -v_num
+        max_diff = max(max_diff, float(np.linalg.norm(v_closed - v_num)))
+    print(f"  N={N_test}: closed-form ψ_k vs eigh, max ‖Δ‖ = {max_diff:.2e}")
+
+    # Chiral mirror: K_1 ψ_k = ψ_{N+1-k}
+    K_1_diag = np.array([(-1) ** i for i in range(N_test)])
+    chiral_max_diff = 0.0
+    for kk in range(1, N_test + 1):
+        psi_k = single_excitation_sine_mode(N_test, kk)
+        psi_mirror = single_excitation_sine_mode(N_test, N_test + 1 - kk)
+        K_1_psi_k = K_1_diag * psi_k
+        chiral_max_diff = max(chiral_max_diff,
+                                float(np.linalg.norm(K_1_psi_k - psi_mirror)))
+    print(f"  Chiral mirror K_1 ψ_k = ψ_{{N+1−k}}: max ‖Δ‖ = {chiral_max_diff:.2e}")
 
     print("\nAll self-tests pass if the residual norms above match the verdict text.")
