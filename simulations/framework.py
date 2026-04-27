@@ -1276,6 +1276,170 @@ def parity_panel(H, gamma_l, rho_0, N, parity_kind, gamma_t1_l=None):
 
 
 # ----------------------------------------------------------------------
+# Section 15: recommend_initial_state — best ρ_0 for given H
+# ----------------------------------------------------------------------
+#
+# Given a Hamiltonian H + dissipator (γ_dephasing, γ_T1), test a catalog
+# of standard initial states and return the one that activates the most
+# Z₂ / U(1) protections.
+#
+# Protection counts come from pi_protected_observables under L_full:
+# they include cluster cancellation from Y-parity, bit_a, K_full, and
+# any other symmetries that happen to apply for the given (H, ρ_0).
+#
+# The recommender doesn't classify which symmetry kicks in (use the
+# 4-panel cockpit for that diagnosis); it just returns the maximum-
+# protection initial state from a catalog of computational and
+# superposition states. All catalog members are operationally trivial
+# to prepare on a real quantum device.
+
+
+def _compute_n_protected(H, gamma_l, gamma_t1_l, rho_0, N,
+                          threshold=1e-9, cluster_tol=1e-8):
+    """Count pi_protected Pauli observables under L_full = L_dephasing + L_T1."""
+    if any(g != 0 for g in gamma_t1_l):
+        L = lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l)
+    else:
+        L = lindbladian_z_dephasing(H, gamma_l)
+    M_basis = _vec_to_pauli_basis_transform(N)
+    L_pauli = (M_basis.conj().T @ L @ M_basis) / (2 ** N)
+    evals, V = np.linalg.eig(L_pauli)
+    Vinv = np.linalg.inv(V)
+    rho_pauli = pauli_basis_vector(rho_0, N)
+    c = Vinv @ rho_pauli
+
+    n_eig = len(evals)
+    used = np.zeros(n_eig, dtype=bool)
+    clusters = []
+    for i in range(n_eig):
+        if used[i]:
+            continue
+        cl = [i]
+        used[i] = True
+        for j in range(i + 1, n_eig):
+            if not used[j] and abs(evals[j] - evals[i]) < cluster_tol:
+                cl.append(j)
+                used[j] = True
+        clusters.append(cl)
+
+    n_protected = 0
+    for alpha in range(1, 4 ** N):
+        max_S = max(
+            abs(sum(V[alpha, k] * c[k] for k in cl)) for cl in clusters
+        )
+        if max_S < threshold:
+            n_protected += 1
+    return n_protected
+
+
+def standard_initial_state_catalog(N):
+    """Catalog of ρ_0 candidates for the recommender.
+
+    Returns a list of (label, ρ_0_matrix). All candidates are pure states
+    that can be prepared on a real quantum device with a constant number
+    of single-qubit + nearest-neighbour gates.
+
+    Includes:
+      - All 2^N computational basis states |b_{N-1}…b_1 b_0⟩
+      - |+⟩^N (all-Hadamard)
+      - |+−+−…⟩ (alternating Hadamard + Z)
+      - |GHZ⟩ = (|0…0⟩ + |1…1⟩)/√2
+      - |W⟩ = symmetric single-excitation
+      - (|0⟩ + i|1⟩)^N / 2^(N/2) (Y-eigenstate, bit_b-pure)
+    """
+    plus = np.array([1, 1], dtype=complex) / math.sqrt(2)
+    minus = np.array([1, -1], dtype=complex) / math.sqrt(2)
+    zero = np.array([1, 0], dtype=complex)
+    one = np.array([0, 1], dtype=complex)
+    plus_y = np.array([1, 1j], dtype=complex) / math.sqrt(2)  # +Y eigenstate
+
+    out = []
+    d = 2 ** N
+
+    # Computational basis states
+    for b in range(d):
+        psi = np.zeros(d, dtype=complex)
+        psi[b] = 1.0
+        bits = format(b, f'0{N}b')
+        out.append((f"|{bits}⟩", np.outer(psi, psi.conj())))
+
+    # |+⟩^N
+    psi_plus = plus.copy()
+    for _ in range(N - 1):
+        psi_plus = np.kron(psi_plus, plus)
+    out.append(("|+⟩^N", np.outer(psi_plus, psi_plus.conj())))
+
+    # |+−+−…⟩
+    psi_alt = plus.copy()
+    for k in range(1, N):
+        psi_alt = np.kron(psi_alt, minus if k % 2 == 1 else plus)
+    out.append(("|+−+…⟩", np.outer(psi_alt, psi_alt.conj())))
+
+    # |GHZ⟩
+    psi_ghz = np.zeros(d, dtype=complex)
+    psi_ghz[0] = psi_ghz[d - 1] = 1.0 / math.sqrt(2)
+    out.append(("|GHZ⟩", np.outer(psi_ghz, psi_ghz.conj())))
+
+    # |W⟩ = symmetric single-excitation
+    psi_w = np.zeros(d, dtype=complex)
+    for k in range(N):
+        psi_w[1 << k] = 1.0 / math.sqrt(N)
+    out.append(("|W⟩", np.outer(psi_w, psi_w.conj())))
+
+    # Y-eigenstate: (|0⟩+i|1⟩)/√2 on each qubit (bit_b-pure)
+    psi_yeig = plus_y.copy()
+    for _ in range(N - 1):
+        psi_yeig = np.kron(psi_yeig, plus_y)
+    out.append(("|+y⟩^N", np.outer(psi_yeig, psi_yeig.conj())))
+
+    # |+y -y +y …⟩ alternating Y-eigenstates
+    minus_y = np.array([1, -1j], dtype=complex) / math.sqrt(2)
+    psi_yalt = plus_y.copy()
+    for k in range(1, N):
+        psi_yalt = np.kron(psi_yalt, minus_y if k % 2 == 1 else plus_y)
+    out.append(("|+y -y +y…⟩", np.outer(psi_yalt, psi_yalt.conj())))
+
+    return out
+
+
+def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
+                              candidates=None, top_k=5,
+                              threshold=1e-9, cluster_tol=1e-8):
+    """For a given H + dissipator, recommend ρ_0 that maximises Π-protection.
+
+    Tests `candidates` (default: standard_initial_state_catalog(N)) and
+    returns the top_k by pi_protected count.
+
+    Returns dict:
+      'best': {'rho_0', 'label', 'n_protected'}
+      'top_k': list of (label, n_protected, rho_0) sorted desc
+      'catalog_size': int
+    """
+    if gamma_t1_l is None:
+        gamma_t1_l = [0.0] * N
+    if candidates is None:
+        candidates = standard_initial_state_catalog(N)
+
+    results = []
+    for label, rho_0 in candidates:
+        n_prot = _compute_n_protected(
+            H, gamma_l, gamma_t1_l, rho_0, N,
+            threshold=threshold, cluster_tol=cluster_tol,
+        )
+        results.append((label, n_prot, rho_0))
+
+    results.sort(key=lambda x: -x[1])
+
+    best_label, best_n, best_rho = results[0]
+    return {
+        'best': {'rho_0': best_rho, 'label': best_label,
+                  'n_protected': best_n},
+        'top_k': results[:top_k],
+        'catalog_size': len(candidates),
+    }
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
