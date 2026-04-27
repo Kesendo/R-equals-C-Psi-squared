@@ -58,7 +58,7 @@ Numerical values at the exact sextic root (α²_opt from sympy nroots at 25-digi
 
 scipy's bounded minimizer reaches these same values to within 3.7 × 10⁻¹⁰ in α²_opt; the values are shown at the sympy precision for internal consistency (scipy's α_opt and β_opt would each differ from the above in the 10th digit).
 
-The same family at N ≥ 4 stays below the fold: best min pair-CΨ(0) is 0.167 (N = 4), 0.146 (N = 5), 0.134 (N = 6). F69 is a strictly N = 3 statement.
+The same family at N ≥ 4 stays below the fold: best min pair-CΨ(0) is 0.167 (N = 4), 0.146 (N = 5), 0.134 (N = 6). F69's 0.3204 value is GHZ+W-slice-specific to N = 3. Note: this is not the same as "N = 3 is privileged for above-fold saddles" — see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) at the bottom; central-Dicke-triple slices give above-fold saddles at every tested N.
 
 ---
 
@@ -168,7 +168,7 @@ F69 is not a protection result. It does not claim the optimum state lives longer
 
 CΨ = C · Ψ is a product. F60 starves the L1 side, F62 starves the purity side. Neither parent has both factors strong simultaneously. F69 arranges both through cross-sector interference in the preparation step.
 
-## Scope: N = 3 is special
+## Scope: the GHZ+W slice is N = 3 specific (other slices are N-generic — see post-2026-04-27 update)
 
 Running the same optimization inside α|GHZ_N⟩ + β|W_N⟩ at larger N gives no crossing of 1/4:
 
@@ -195,7 +195,7 @@ Scanned the full permutation-symmetric Dicke subspace at N ∈ {3..8} to map all
 
 **Scan.** Real unit vectors c ∈ S^N per N. Structured seeds (Dicke basis states, GHZ_N, GHZ+W α-sweep with α ∈ {0.2, 0.4, 0.5, 0.6127, 0.7, 0.85}, all Dicke pair superpositions, uniform Dicke mix) plus 20,000 random uniform samples on S^N per N. L-BFGS-B on an inner-normalized objective with mild quadratic pull to the unit sphere (swapped in for SLSQP after SLSQP hit LAPACK matmul overflow on this objective). Stationary-point classification via 4 random 1% perturbations plus re-optimization; escape Δpair-CΨ > 10⁻⁴ flags a saddle. Product-state filter: single-qubit purity Tr(ρ_A²) > 1 − 10⁻³ excludes from the candidate list.
 
-**Result.** At every tested N ∈ {3..8}, no non-product local maxima exist on the Dicke sphere. The only non-product stationary points found are Dicke basis elements and the GHZ+W family optimum, all saddles on the full sphere.
+**Result.** At every tested N ∈ {3..8}, no non-product local maxima exist on the Dicke sphere — verdict still holds. The original 2026-04-17 conclusion that "the only non-product stationary points are Dicke basis elements and the GHZ+W family optimum" was UNDERCOUNTED, see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) below: many other 2-Dicke and 3-Dicke slices admit stationary saddles above 1/4 at every tested N. All are saddles on the full sphere, consistent with "no local maxima".
 
 | family | N = 3 | 4 | 5 | 6 | 7 | 8 |
 |--------|-------|---|---|---|---|---|
@@ -282,3 +282,48 @@ python f69_dicke_landscape.py             # full Dicke-subspace scan (N = 3..8),
 ```
 
 All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyond the standard scientific stack. The first four run in < 15 s; `f69_dicke_landscape.py` takes longer (20,000 random starts × 6 N-values with L-BFGS-B refinement, typical runtime on the order of minutes). Outputs land in `simulations/results/`.
+
+---
+
+## Post-2026-04-27 update: other slice-stationary saddles above the fold
+
+**EQ-016 reframe** ([review/EMERGING_QUESTIONS.md](../review/EMERGING_QUESTIONS.md), commits be73bda + a5bef40): the original 2026-04-17 landscape scan undercounted slice-stationary points. Re-running with explicit binary-Dicke and triple-Dicke slice scans finds many more above-fold saddles at every tested N.
+
+**Binary-Dicke slice maxima above 1/4** (|D_i⟩+|D_j⟩):
+
+| N | total | above 1/4 | best slice | max cpsi |
+|---|-------|-----------|------------|----------|
+| 3 | 6 | 3 | D_1+D_2 | 0.4815 (= 13/27, exceeds F69's 0.3204) |
+| 4 | 10 | 4 | D_2+D_3 | 0.4022 |
+| 5 | 15 | 5 | D_2+D_3 | 0.3720 |
+| 6 | 21 | 6 | D_2+D_3 | 0.3456 |
+
+**Triple-Dicke slice maxima above 1/4** (|D_i⟩+|D_j⟩+|D_k⟩):
+
+| N | total | above 1/4 | best slice | max cpsi |
+|---|-------|-----------|------------|----------|
+| 3 | 4 | 4 | D_1+D_2+D_3 | 0.8011 |
+| 4 | 10 | 9 | D_2+D_3+D_4 / D_1+D_2+D_3 | 0.7136 |
+| 5 | 20 | 16 | D_2+D_3+D_4 | 0.6492 |
+| 6 | 35 | 25 | D_2+D_3+D_4 | 0.6163 |
+
+**Verified saddles on full sphere:** every tested top triple has linear-order ascent in some unused Dicke direction, confirming saddle status (perturbation test in [`_eq016_verify_full_sphere.py`](../simulations/_eq016_verify_full_sphere.py)). The 2026-04-17 conclusion "no non-product local maxima on full sphere" still stands; the conclusion "GHZ+W is the widest fold-crossing family" was wrong.
+
+**N→∞ asymptote.** Central-Dicke-triple |D_{k-1}⟩+|D_k⟩+|D_{k+1}⟩ at k = N/2 with symmetric coefficients (a, b, a) and 2a²+b²=1: cpsi(N) → 0.4312 + 1.05/N. The asymptote 0.4312 is the larger real root in (0, 1/2) of the **degree-6 polynomial**
+
+    (x − 2x²)(19 − 30x − 93x²)² = (12 + 144x − 1132x² + 1488x³)²
+
+(parallel to F69's own irreducible sextic). At a²/b² ≈ 9/16, a/b ≈ 3/4 to 5 decimals — quasi-rational but not exact.
+
+**What stays correct from the original analysis:**
+- F69's pair-CΨ = 0.3204 is N=3-specific (GHZ+W slice peaks below 1/4 at N≥4).
+- "No non-product local maxima above 1/4 on the full Dicke sphere at any N" still holds (all above-fold candidates are saddles).
+- Hardware test of F69 vs GHZ_3 vs W_3 at N=3 still distinguishable (three separable points: 0, 0.123, 0.320).
+
+**What was overstated:**
+- "F69 is a strictly N=3 statement" — true for the value 0.3204, false for the *phenomenon* of above-fold saddles. Central-Dicke-triple slices have saddles up to 0.80 at N=3, 0.71 at N=4, ..., asymptoting to 0.4312 at large N.
+- "GHZ+W is the widest fold-crossing family" — wrong. Central-Dicke triples lift much higher.
+
+**What is structurally privileged at N=3:** the *closed form* (irreducible sextic) of the GHZ+W slice — but this same flavor of sextic-root structure recurs at the N→∞ central-triple slice. Sextic-asymptote is a generic feature of the slice-saddle landscape of pair-CΨ, not unique to N=3.
+
+**Scripts:** [`_eq016_n4_full_landscape.py`](../simulations/_eq016_n4_full_landscape.py), [`_eq016_verify_full_sphere.py`](../simulations/_eq016_verify_full_sphere.py), [`_eq016_central_triple_asymptotics.py`](../simulations/_eq016_central_triple_asymptotics.py), [`_eq016_central_triple_n_infinity.py`](../simulations/_eq016_central_triple_n_infinity.py).

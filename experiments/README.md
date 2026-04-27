@@ -104,7 +104,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) | Closed-form K(ε,tol) = (1/2)ln(4ε/tol) + α(tol)√ε with zero fit parameters. Dwell time K_dwell = 1.080·δ (γ-independent) |
 | [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) | Two distinct decoherence exits proven from sector conservation: lens (SE states, CΨ ≈ 0.07, slow Liouvillian mode, preserves excitation count) and cusp (multi-sector states, CΨ ≈ 0.33, cross 1/4 fold, only population distribution survives). Geometrically separated, not complementary halves |
 | [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) | Complex-valued CΨ extends the boundary to 2D: trajectories spiral in c-plane around \|c\|=1/4 circle with rotation rate Ω/(4γ). Observed on ibm_kingston with two Bell⁺ pairs at opposite 7.59 kHz and 4.36 kHz z-detuning |
-| [GHZ+W Sector Mix](GHZ_W_SECTOR_MIX.md) | Family \|ψ(α)⟩ = α\|GHZ_3⟩ + √(1−α²)\|W_3⟩ reaches min pair-CΨ(0) = 0.320 (1.28× above fold) at α²_opt satisfying irreducible sextic 2900x⁶ − 8060x⁵ + 4211x⁴ + 3832x³ − 2428x² − 512x + 300 = 0. Strictly N=3 phenomenon |
+| [GHZ+W Sector Mix](GHZ_W_SECTOR_MIX.md) | Family \|ψ(α)⟩ = α\|GHZ_3⟩ + √(1−α²)\|W_3⟩ reaches min pair-CΨ(0) = 0.320 (1.28× above fold) at α²_opt satisfying irreducible sextic 2900x⁶ − ... = 0. The 0.320 value is GHZ+W-slice specific to N=3; other slices (central-Dicke triples) lift cpsi above 1/4 at every N (cpsi(N) → 0.4312 at N→∞, also a sextic root). All saddles on the full sphere |
 
 ### Palindromic Spectral Structure
 
