@@ -145,11 +145,13 @@ def enumerate_120():
 
 def main():
     pairs = enumerate_120()
+    from itertools import combinations as _combinations
     topologies = {
+        'chain N=2 (baseline)': (2, [(0, 1)]),
         'chain N=4': (4, [(0, 1), (1, 2), (2, 3)]),
         'ring N=4':  (4, [(0, 1), (1, 2), (2, 3), (3, 0)]),
         'star N=4':  (4, [(0, 1), (0, 2), (0, 3)]),
-        'chain N=2 (baseline)': (2, [(0, 1)]),
+        'K_4 N=4 (complete)': (4, list(_combinations(range(4), 2))),
     }
 
     print("V-Effect topology sensitivity at N=4 vs chain N=2 baseline")
@@ -176,16 +178,21 @@ def main():
 
     print()
     print("Reading:")
-    print("  - Chain N=4: full V-Effect activation (chain classifier match perfect).")
-    print("  - Ring N=4: chain + 2 cycle-closure extras.")
-    print("  - Star N=4: NO V-Effect activation despite 3 bonds — same as N=2.")
+    print("  - Chain N=2: baseline single-bond, no 2-bond compatibility (15/72/33).")
+    print("  - Chain N=4: full V-Effect activation, 26 cases shift soft→hard (15/46/59).")
+    print("  - Ring N=4: chain + cycle closure rescues XZ+ZY and YZ+ZX (15/48/57).")
+    print("  - Star N=4: NO V-Effect despite 3 bonds — IDENTICAL to N=2 baseline.")
+    print("  - K_4 N=4: complete graph, 4 more cases hard than chain (15/42/63).")
     print()
-    print("  V-Effect requires CHAIN-ADJACENT bond pairs (one bond's endpoint =")
-    print("  another bond's startpoint, NOT a shared center). Star's bonds all")
-    print("  radiate from a hub, which lacks this structure.")
+    print("  Compatibility layer stack:")
+    print("    A. single-bond compatibility (any topology with ≥1 bond)")
+    print("    B. chain-adjacent 2-bond (chain N≥3 — V-Effect proper)")
+    print("    C. cycle-closure rescue (ring)")
+    print("    D. high-connectivity adjustments (K_4)")
     print()
-    print("  The 'atmosphere complexity' grows with TOPOLOGICAL ADJACENCY,")
-    print("  not just bond count or N.")
+    print("  Bond density alone doesn't determine activation: star and chain at")
+    print("  N=4 both have 3 bonds (density 0.5) but very different verdicts.")
+    print("  Adjacency STRUCTURE matters: chain-adjacent vs hub-spokes.")
 
 
 if __name__ == "__main__":
