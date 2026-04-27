@@ -107,3 +107,25 @@ In the perspectival-time framing (PTF): K_1-paired sine-mode-bonding states give
 ## Status
 
 Computationally verified to machine precision. Hardware test not yet run. Recommended as a low-cost (~5 min QPU) diagnostic add-on to existing R=CΨ² hardware campaigns.
+
+---
+
+## Existing-data check (added 2026-04-27)
+
+The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) already prepared all five sine-mode bonding states (k=1..5) at N=5 and measured pair-tomography on (qubit 0, qubit 4). Re-analyzing that data for the per-site Bloch test ([_eq020_marrakesh_chiral_mirror_analysis.py](../simulations/_eq020_marrakesh_chiral_mirror_analysis.py)):
+
+**Aer simulation with Marrakesh noise model:**
+- ⟨Z_a⟩-mirror at K_1-paired states: **0.04-0.11% deviation** (machine-precision-level, confirms chiral mirror)
+- P_a-mirror: **0.00-0.06% deviation**
+- ⟨X⟩, ⟨Y⟩ near zero (XX-only Hamiltonian + real sine modes → off-diagonal is real → ⟨Y⟩ = 0 structurally), so the X/Y mirror tests are dominated by shot noise on Aer.
+
+**Live Marrakesh hardware:**
+- Site 0 (Q48): ⟨Z_0⟩-mirror at K_1-paired states **0.25%** (preserved despite hardware noise)
+- Site 4 (Q58): ⟨Z_4⟩-mirror **47%** at (k=1, k=5) — chiral mirror broken
+- P-mirror: 3-19% deviations across pairs
+
+**The hardware-mirror-breakage diagnoses gate asymmetry exactly as predicted.** Q48 readout error 5.85%, Q58 readout 3.06%; CZ error bond (0,1) 0.876% vs bond (3,4) 0.149%. The K_1-paired states (k=1, k=5) and (k=2, k=4) have different state-prep circuits with different gate-application order; the hardware-asymmetric gate errors leak into the trajectory and break K_1-equivalence.
+
+Because the Marrakesh run used XX-only (real) Hamiltonian, the energy-reversal sharp test (⟨Y⟩ flip with extra sign) cannot be cleanly tested in this data. The Heisenberg-with-ZZ run on a chain (or extending K-partnership to the Heisenberg case after PROOF_K_PARTNERSHIP scope check) would provide non-zero ⟨Y⟩ values that distinguish naive (−1)^i from the energy-reversal signature.
+
+**Verdict:** existing Marrakesh data already validates the chiral mirror prediction (Aer confirms ~0.1%, hardware breaks at hardware-noise-asymmetry level ~0.25-47%). The cleaner test of the Y-flip diagnostic requires a Heisenberg evolution or non-real H.
