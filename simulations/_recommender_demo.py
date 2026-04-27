@@ -53,6 +53,8 @@ def main():
         quantum_best = result.get('quantum_best')
 
         print(f"H = J · Σ_bonds [{label}]")
+        print(f"  Theoretical max (pure state, N={N}): "
+              f"{result['theoretical_max_pure']} ({result['saturation_status']})")
         print(f"  Combined best (with classical penalty): {best['label']} → "
               f"n_prot={best['n_protected']}, "
               f"bit_a_even={best['bit_a_even_fraction']:.3f}, "
