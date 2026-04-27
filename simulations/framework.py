@@ -1718,17 +1718,25 @@ def k_local_reduced_density(rho, sites, N):
     convention (site i ↔ bit (N-1-i) of the basis index, equivalently axis
     i in the rho.reshape([2]*2N) tensor).
 
-    Used by PTF generalizations: site-local (k=1), pair-local (k=2),
-    triple-local (k=3), and so on. Per F70, the k-local reduced state
-    captures sector coherences with |ΔN| ≤ k of the original ρ.
+    Used by PTF generalizations across painter resolutions:
+      site-painter (k=1):    P_i = Tr(ρ_i²) defines per-site perspectival
+                             time α_i via P_i^B(t) ≈ P_i^A(α_i · t).
+      pair-painter (k=2):    P_{ij} defines joint perspectival time α_{ij}.
+      triple-painter (k=3):  P_{ijk} defines triple-joint α_{ijk}.
 
-    **Chiral mirror identity.** For K_1 = ⊗_i (−1)^i (chiral / sublattice
-    symmetry), if ρ_{B} = K_1 ρ_{A} K_1†, then the k-local reductions are
-    related by ρ_{B,sites} = (∏_{i ∈ sites} Z_i) ρ_{A,sites} (∏_{i ∈ sites} Z_i).
-    Any K_1-invariant function of ρ_{sites} (e.g. purity Tr(ρ²), spectrum)
-    is therefore identical between K_1-paired states. This is the structural
-    origin of the chiral mirror law Σ f_{i_1...i_k}(ψ_k) = Σ f_{i_1...i_k}(ψ_{N+1−k})
-    for k-local PTF observables on sine-mode-bonding states (EQ-014, EQ-020).
+    Each k-painter "paints time" at its observation resolution. Per F70,
+    the k-local reduced state sees sector coherences with |ΔN| ≤ k of ρ.
+
+    **Chiral mirror identity (perspectival-time symmetry).** For
+    K_1 = ⊗_i (−1)^i (chiral / sublattice Z₂), if ρ_{B} = K_1 ρ_{A} K_1†,
+    then the k-local reductions relate by ρ_{B,sites} = (∏_{i ∈ sites} Z_i)
+    ρ_{A,sites} (∏_{i ∈ sites} Z_i). Any K_1-invariant function of ρ_{sites}
+    (e.g. purity Tr(ρ²), spectrum) is identical between K_1-paired states.
+    Structurally, K_1-paired sine-mode-bonding initial states give the
+    SAME SET of perspectival times across all painter resolutions
+    (Σ f_{i_1...i_k}(ψ_k) = Σ f_{i_1...i_k}(ψ_{N+1−k})). K_1 is the
+    symmetry of perspectival-time experience, not of a derived scalar.
+    See EQ-014 (site), EQ-020 (pair, triple).
     """
     sites = tuple(sorted(sites))
     k = len(sites)

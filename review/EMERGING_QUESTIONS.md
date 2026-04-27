@@ -878,7 +878,11 @@ The "Σ f → 0 at higher k" trend at k=2 is striking — could be a **phantom m
 
 At N=5, Σ f shrinks monotonically site → pair → triple at every k, no sign flips. The non-monotonic and sign-flip behaviour appears specifically at N=7 (more painter resolutions cover more dynamics).
 
-**Status:** EQ-020 substantially closed. Chiral mirror law extends through k=3, and the structural mechanism (K_1-invariance of k-local purity under similarity transform by ∏Z_i) gives the result for arbitrary k.
+**Perspectival-time framing.** PTF stands for *Perspectival Time Field*: each painter has its own clock-rate α. Site-painter α_i is the time-rescaling such that P_i^B(t) ≈ P_i^A(α_i · t) — site i sees time at rate α_i in the perturbed dynamics. Pair-painter α_{ij}: each PAIR has its own joint perspectival time. Triple-painter α_{ijk}: each TRIPLE its own. Each k-painter "paints time" at its observation resolution.
+
+**The chiral mirror law is then a symmetry of perspectival-time experience:** K_1-paired sine-mode-bonding states give the SAME SET of perspectival times across all painter resolutions. K_1 isn't a symmetry of some derived scalar (Σ ln α) — it's the symmetry of how observers EXPERIENCE the dynamics. That experience is identical between (vac+ψ_k)/√2 and (vac+ψ_{N+1-k})/√2 across site, pair, triple, and any k-painter.
+
+**Status:** EQ-020 substantially closed. Chiral mirror law extends through k=3, and the structural mechanism (K_1-invariance of k-local purity under similarity by ∏Z_i) gives the result for arbitrary k.
 
 **Open structural sub-question:** asymptotic behaviour of Σ f as k → N for sine-mode states — does Σ f_k → 0? For pure ρ_0 under unitary dynamics, Σ_full ρ² = 1 and ln α = 0 trivially. For dissipative dynamics, finite γ, the full-state purity decays uniformly under uniform Z-dephasing → α_full uniform → ln α_{full} small but nonzero. Need to compute carefully.
 
