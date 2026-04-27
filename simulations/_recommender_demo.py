@@ -49,13 +49,26 @@ def main():
             H, [GAMMA] * N, N, gamma_t1_l=[GAMMA_T1] * N, top_k=5,
         )
         best = result['best']
-        max_protection_frac = best['n_protected'] / (4 ** N - 1)
+        pure_best = result['pure_protection_best']
+        quantum_best = result.get('quantum_best')
+
         print(f"H = J · Σ_bonds [{label}]")
-        print(f"  Best: {best['label']} → {best['n_protected']} protected "
-              f"({max_protection_frac:.0%})")
-        print(f"  Top 5:")
-        for lbl, n, _ in result['top_k']:
-            print(f"    {lbl:<20s}  {n:>3d} protected")
+        print(f"  Combined best (with classical penalty): {best['label']} → "
+              f"n_prot={best['n_protected']}, "
+              f"bit_a_even={best['bit_a_even_fraction']:.3f}, "
+              f"score={best['score']:.3f}")
+        if quantum_best and quantum_best['label'] != best['label']:
+            print(f"  Quantum best (no classical states): {quantum_best['label']} → "
+                  f"n_prot={quantum_best['n_protected']}, "
+                  f"bit_a_even={quantum_best['bit_a_even_fraction']:.3f}")
+        for w in result['warnings']:
+            print(f"  ⚠ {w}")
+        print(f"  Top 5 by combined score:")
+        for r in result['top_k']:
+            classical_tag = " (classical)" if r['is_classical_diagonal'] else ""
+            print(f"    {r['label']:<14s}  n_prot={r['n_protected']:>3d}  "
+                  f"bit_a_even={r['bit_a_even_fraction']:.3f}  "
+                  f"score={r['score']:>+5.3f}{classical_tag}")
         print()
 
 

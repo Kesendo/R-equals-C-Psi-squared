@@ -1402,17 +1402,60 @@ def standard_initial_state_catalog(N):
     return out
 
 
+def _bit_a_even_fraction(rho_0, N):
+    """Fraction of ρ_0's Pauli-basis coefficient norm on bit_a-EVEN sector.
+
+    bit_a-even Pauli operators (composed of I and Z only on each site)
+    are immune to Z-dephasing (the framework's 'slow / immune' sector,
+    F61). bit_a-odd operators (containing X or Y) decay under Z-dephasing.
+
+    README Section 10 Rule 1: GHZ projects 100% onto bit_a-odd / XOR modes
+    → bit_a_even_fraction ≈ 0. W distributes across modes → higher.
+
+    Returns ‖c on bit_a-even Paulis‖ / ‖c on non-identity Paulis‖.
+    """
+    rho_pauli = pauli_basis_vector(rho_0, N)
+    bit_a_arr, _ = _bit_a_b_classify_paulis(N)
+    # Exclude identity (alpha=0) since it always has weight 1 trivially.
+    mask_even = (bit_a_arr == 0)
+    mask_even[0] = False
+    mask_total = np.ones(4 ** N, dtype=bool)
+    mask_total[0] = False
+    norm_even = float(np.linalg.norm(rho_pauli[mask_even]))
+    norm_total = float(np.linalg.norm(rho_pauli[mask_total]))
+    if norm_total < 1e-12:
+        return 1.0  # only identity content; trivially "stable"
+    return norm_even / norm_total
+
+
 def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
                               candidates=None, top_k=5,
-                              threshold=1e-9, cluster_tol=1e-8):
-    """For a given H + dissipator, recommend ρ_0 that maximises Π-protection.
+                              threshold=1e-9, cluster_tol=1e-8,
+                              score_weight_slow=0.5):
+    """For a given H + dissipator, recommend ρ_0 maximising COMBINED score.
 
-    Tests `candidates` (default: standard_initial_state_catalog(N)) and
-    returns the top_k by pi_protected count.
+    Combines two metrics:
+      n_protected:    number of Pauli observables strictly zero forever
+                       (Π-protection count)
+      slow_fraction:  fraction of ρ_0's L-eigenmode coefficient norm on
+                       slow modes (= long signal lifetime for the
+                       non-protected observables)
+
+    README Section 10 Rule 1 says 'use W states, not GHZ': GHZ has
+    n_protected high but slow_fraction = 0 (all weight on fast XOR modes,
+    so the experimental signal decays before measurement). The combined
+    score is:
+      score = n_protected / max_n_protected
+              + score_weight_slow * slow_fraction
+
+    Default score_weight_slow = 0.5 gives equal weight to (normalised)
+    protection count and slow-mode fraction. Set score_weight_slow = 0
+    to recover pure-protection ranking.
 
     Returns dict:
-      'best': {'rho_0', 'label', 'n_protected'}
-      'top_k': list of (label, n_protected, rho_0) sorted desc
+      'best':       {rho_0, label, n_protected, slow_fraction, score}
+      'top_k':      list sorted by combined score, with warnings
+      'pure_protection_best':  for comparison, the n_protected-only winner
       'catalog_size': int
     """
     if gamma_t1_l is None:
@@ -1426,16 +1469,79 @@ def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
             H, gamma_l, gamma_t1_l, rho_0, N,
             threshold=threshold, cluster_tol=cluster_tol,
         )
-        results.append((label, n_prot, rho_0))
+        slow_frac = _bit_a_even_fraction(rho_0, N)
+        # Detect "trivially classical" states (eigenstate of Z⊗N basis):
+        # only I and Z components, no X or Y. Pure diagonals have
+        # bit_a_even_fraction = 1.0 AND no off-diagonal coherence.
+        rho_pauli = pauli_basis_vector(rho_0, N)
+        bit_a_arr, _ = _bit_a_b_classify_paulis(N)
+        # Coherence content = norm of bit_a-odd part (anything with X or Y)
+        bit_a_odd_norm = float(np.linalg.norm(rho_pauli[bit_a_arr == 1]))
+        is_classical_diagonal = bit_a_odd_norm < 1e-10
 
-    results.sort(key=lambda x: -x[1])
+        results.append({
+            'label': label,
+            'n_protected': n_prot,
+            'bit_a_even_fraction': slow_frac,
+            'is_classical_diagonal': is_classical_diagonal,
+            'rho_0': rho_0,
+        })
 
-    best_label, best_n, best_rho = results[0]
+    if results:
+        max_n = max(r['n_protected'] for r in results)
+        max_n = max(max_n, 1)
+        for r in results:
+            # Combined score: protection + slow-mode weight - classical penalty
+            classical_penalty = 0.5 if r['is_classical_diagonal'] else 0.0
+            r['score'] = (r['n_protected'] / max_n
+                           + score_weight_slow * r['bit_a_even_fraction']
+                           - classical_penalty)
+
+    # Sort by combined score
+    by_score = sorted(results, key=lambda r: -r['score'])
+    # Sort by pure n_protected (for comparison)
+    by_n = sorted(results, key=lambda r: -r['n_protected'])
+    # Filter out classical-diagonal, then by score (for "meaningful demo" rec)
+    quantum_only = [r for r in results if not r['is_classical_diagonal']]
+    by_quantum_score = sorted(quantum_only, key=lambda r: -r['score'])
+
+    best = by_score[0]
+    pure_best = by_n[0]
+    quantum_best = by_quantum_score[0] if quantum_only else None
+
+    warnings = []
+    if pure_best['is_classical_diagonal']:
+        warnings.append(
+            f"Pure-protection winner is {pure_best['label']}, a classical "
+            f"Z-eigenstate (no X/Y coherence). Protection is mostly trivial "
+            f"conservation — no quantum demonstration value. Consider "
+            f"{quantum_best['label']} for a meaningful experiment."
+        )
+    # GHZ caveat (README Section 10 Rule 1) — always warn if GHZ in top 3
+    ghz_in_top = any('GHZ' in r['label'] for r in by_score[:3])
+    if ghz_in_top:
+        ghz_record = next((r for r in results if r['label'] == '|GHZ⟩'), None)
+        w_record = next((r for r in results if r['label'] == '|W⟩'), None)
+        msg = (
+            f"|GHZ⟩ in top recommendations. README Section 10 Rule 1: "
+            f"'Use W states, not GHZ. GHZ excites only the fastest-absorbing "
+            f"modes (all light, maximum absorption). W distributes across modes.' "
+            f"For experimentally-meaningful demos, the non-protected "
+            f"observables decay slower with W."
+        )
+        if ghz_record and w_record:
+            msg += (f" |GHZ⟩: n_prot={ghz_record['n_protected']}, "
+                    f"|W⟩: n_prot={w_record['n_protected']}.")
+        warnings.append(msg)
+
     return {
-        'best': {'rho_0': best_rho, 'label': best_label,
-                  'n_protected': best_n},
-        'top_k': results[:top_k],
+        'best': best,
+        'pure_protection_best': pure_best,
+        'quantum_best': quantum_best,
+        'top_k': by_score[:top_k],
+        'top_k_by_protection': by_n[:top_k],
         'catalog_size': len(candidates),
+        'warnings': warnings,
     }
 
 
