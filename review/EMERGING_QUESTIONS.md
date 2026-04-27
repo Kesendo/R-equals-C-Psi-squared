@@ -519,6 +519,44 @@ Why is N=3 structurally privileged for sector mixing? Is it because dim(Dicke) =
 **Status:** open
 **Pointer:** investigate whether the ascent direction at the F69 saddle (c_2 > 0 toward product states) has an analog at N=4 that could lift entangled states above the fold via a different mixing strategy; check whether the 3-tangle/pair-concurrence tradeoff has a topological obstruction at N >= 4. See Engineering Blueprint Rule 1 (April 16 note on sector mixing).
 
+### EQ-016 reframe 2026-04-27: N=3 is NOT privileged — saddles above 1/4 are abundant at every tested N
+
+**Source:** [_eq016_n4_full_landscape.py](../simulations/_eq016_n4_full_landscape.py); reads no prior data.
+
+The original framing assumed F69's pair-CΨ = 0.3204 was the ONLY non-product saddle above 1/4 at N=3, with no analog at N≥4. Today's binary- and triple-Dicke enumerations across N ∈ {3, 4, 5, 6} refute this:
+
+**Binary-Dicke saddles (|D_i⟩+|D_j⟩ binary mixes), max pair-CΨ:**
+
+| N | total pairs | above 1/4 | max cpsi | best pair |
+|---|-------------|-----------|----------|-----------|
+| 3 | 6 | 3 | 0.4815 (= 13/27) | D_1+D_2 |
+| 4 | 10 | 4 | 0.4022 | D_2+D_3 |
+| 5 | 15 | 5 | 0.3720 | D_2+D_3 |
+| 6 | 21 | 6 | 0.3456 | D_2+D_3 |
+
+The number of binary-Dicke saddles above 1/4 grows linearly with N (= N at every tested N). The max decreases slowly but stays above 1/4. Best at every N is the central pair D_⌊N/2⌋ + D_⌈N/2⌉.
+
+**Triple-Dicke saddles (|D_i⟩+|D_j⟩+|D_k⟩ family), max pair-CΨ:**
+
+| N | total triples | above 1/4 | max cpsi |
+|---|---------------|-----------|----------|
+| 3 | 4 | 4 | 0.8011 |
+| 4 | 10 | 9 | 0.7136 |
+| 5 | 20 | 16 | 0.6492 |
+| 6 | 35 | 25 | 0.6163 |
+
+Triple-Dicke families lift FAR above F69's 0.32 at every N. The best triple at every tested N is "central": (D_{⌊N/2⌋-1}, D_{⌊N/2⌋}, D_{⌊N/2⌋+1}). At N=5 the central triple gives cpsi = 0.649 with purity_A = 0.86 (genuinely entangled). At N=6 the central triple gives 0.616 with purity_A = 0.83.
+
+**Reframed verdict.** F69 (pair-CΨ = 0.3204) is just ONE example of a much larger family of saddles that exist at every N. The original F69 doc statement "no non-product local maxima above 1/4" remains correct (these triple-Dicke maxima are saddles on the full sphere — gradient flow from any perturbation reaches product manifold), but the implication "N=3 is structurally privileged" is wrong. F69 is not special; the central-Dicke saddles are.
+
+**The structural pattern:** the abundance of saddles above 1/4 grows polynomially with N (binary: O(N), triple: O(N²)). The MAX cpsi decreases slowly with N but stays well above 1/4. So pair-CΨ has a rich saddle landscape at every N, with central-Dicke saddles being the highest.
+
+**What was actually privileged about N=3 was the algebraic CLOSED FORM** of the GHZ+W slice: an irreducible sextic polynomial in α². At N≥4, GHZ_N+W_N gives a smaller polynomial result (peak below 1/4) because GHZ_N has rank-2 pair-reduction (Tr(ρ²)=1/2) while W_N's pair concurrence dilutes as 1/N. The "GHZ+W" slice happens to be a poor saddle direction at N≥4. But OTHER Dicke combinations (central-pair or central-triple) work just fine.
+
+**Status:** closed 2026-04-27 (reframed as binary/triple-Dicke saddle abundance, not N=3-privilege).
+
+**Surviving sub-question:** is there a closed form for the max pair-CΨ in the central-Dicke triple slice at general N? The data points (N, max) = (3, 0.80), (4, 0.71), (5, 0.65), (6, 0.62) suggest a slowly-decreasing function. A scaling like 1/(1 + c log N) or similar would clarify the asymptotic structure.
+
 ---
 
 ## EQ-017
