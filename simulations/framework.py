@@ -829,12 +829,185 @@ def cockpit_panel(H, gamma_l, rho_0, N,
     else:
         leb_rating = 'collapsed (both skeleton and trace gone)'
 
+    # ---- Chiral panel: K_full sublattice symmetry ----
+    chiral = chiral_panel(H, rho_0, N)
+
     return {
         'lebensader': {'skeleton': skeleton, 'trace': trace,
                        'rating': leb_rating},
         'cusp': cusp,
+        'chiral': chiral,
         '_trajectory_for_inspection': {'times': times, 'cpsi': cpsi_t,
                                         'theta': theta_t},
+    }
+
+
+# ----------------------------------------------------------------------
+# Section 12: Chiral panel — K_full = ⊗_{odd i} Z_i sublattice symmetry
+# ----------------------------------------------------------------------
+#
+# K is the chiral / sublattice symmetry of the XY chain (AZ class BDI).
+# K_full = ⊗_{odd i} Z_i (Z on odd-indexed sites) anti-commutes with the
+# bilinear bond Hamiltonian H_xy = (X_a X_{a+1} + Y_a Y_{a+1})/2:
+#     K_full · H_xy · K_full = −H_xy
+# Z-dephasing commutes with K_full trivially (Z operators on any site
+# commute with each Z on odd sites). So when K_full anti-commutes with
+# H, the full Lindbladian L = −i[H, ·] + L_dephasing has K as a
+# super-operator symmetry: K · L[ρ] · K = L[K ρ K]. This block-
+# diagonalises L into K-symmetric and K-antisymmetric sectors of ρ.
+#
+# The chiral panel reports:
+#   - K_full structure
+#   - K-symmetry status of H ([K,H] = 0 or {K,H} = 0 or neither)
+#   - Pauli classification: each P_α is K-even (K P K = +P) or K-odd
+#   - ρ_0's K-decomposition: ρ_+ + ρ_- with weights w_+, w_- = Tr(ρ_±²)
+#   - chiral skeleton: Pauli observables that are K-protected
+#     (⟨P⟩(0) = 0 by K-mismatch and stay zero forever if K is a symmetry)
+
+
+def chiral_K_full(N):
+    """K_full = ⊗_{odd i} Z_i, the chain chiral / sublattice operator."""
+    Z = np.array([[1, 0], [0, -1]], dtype=complex)
+    I2 = np.eye(2, dtype=complex)
+    out = np.array([[1.0]], dtype=complex)
+    for i in range(N):
+        out = np.kron(out, Z if (i % 2 == 1) else I2)
+    return out
+
+
+def k_classify_pauli(N, K_full=None):
+    """For each Pauli string α, return its K-eigenvalue (+1 or −1).
+
+    Returns a dict {alpha_int: ±1} for α = 0..4^N-1, plus a list of
+    K-even labels and K-odd labels.
+    """
+    if K_full is None:
+        K_full = chiral_K_full(N)
+    out = {}
+    for alpha in range(4 ** N):
+        idx_tuple = _k_to_indices(alpha, N)
+        P = np.array([[1.0]], dtype=complex)
+        for idx in idx_tuple:
+            P = np.kron(P, _PAULI_MATRICES[idx])
+        KPK = K_full @ P @ K_full
+        if np.allclose(KPK, P, atol=1e-10):
+            out[alpha] = +1
+        elif np.allclose(KPK, -P, atol=1e-10):
+            out[alpha] = -1
+        else:
+            out[alpha] = 0  # mixed (shouldn't happen for K_full = ⊗Z's)
+    return out
+
+
+def k_classify_hamiltonian(H, N, K_full=None):
+    """Test whether H is K-even ([K,H]=0), K-odd ({K,H}=0), or mixed.
+
+    Returns 'K-even', 'K-odd', or 'K-mixed'.
+    """
+    if K_full is None:
+        K_full = chiral_K_full(N)
+    KHK = K_full @ H @ K_full
+    if np.allclose(KHK, H, atol=1e-10):
+        return 'K-even'
+    if np.allclose(KHK, -H, atol=1e-10):
+        return 'K-odd'
+    return 'K-mixed'
+
+
+def chiral_panel(H, rho_0, N, K_full=None):
+    """Chiral structure panel for (H, ρ_0). Reports K-symmetry status of L
+    and the K-character of the initial state — a STATIC structural reading,
+    not dynamical Pauli-protection.
+
+    K dynamical protection of ⟨P⟩(t) = 0 requires:
+      (1) K is a symmetry of L (K-status of H in {'K-even', 'K-odd'})
+      (2) ρ_0 is in a K-eigenstate (w_+ = 0 OR w_- = 0)
+
+    Both conditions are reported. The 'chiral_protected_dynamic' set is
+    populated only when both hold.
+
+    Separately, 'static_zero_at_t0' reports Pauli observables with
+    ⟨P_α⟩(0) = 0 by virtue of the (K-class of P, K-projection of ρ_0)
+    contraction. These are NOT guaranteed to stay zero under L unless
+    the dynamic conditions also hold.
+
+    Returns dict with:
+      'K_status':        'K-even' / 'K-odd' / 'K-mixed'
+      'K_symmetric_L':   bool — is K a symmetry of L?
+                          True iff K_status ∈ {'K-even', 'K-odd'}
+      'rho_decomposition': {'w_plus': Tr(ρ_+²), 'w_minus': Tr(ρ_-²),
+                             'rho_plus': ρ_+, 'rho_minus': ρ_-}
+      'rho_is_K_eigenstate': bool — w_+ < 1e-12 OR w_- < 1e-12
+      'pauli_classification': {'n_K_even': count, 'n_K_odd': count}
+      'static_zero_at_t0':  Pauli labels with ⟨P⟩(0) = 0 from K-structure
+                             (does NOT imply dynamical protection)
+      'chiral_protected_dynamic': Pauli labels GUARANTEED to stay zero
+                                    (only nonempty when both conditions hold)
+    """
+    if K_full is None:
+        K_full = chiral_K_full(N)
+
+    K_status = k_classify_hamiltonian(H, N, K_full=K_full)
+    K_symmetric_L = (K_status in ('K-even', 'K-odd'))
+
+    rho_KKt = K_full @ rho_0 @ K_full
+    rho_plus = (rho_0 + rho_KKt) / 2
+    rho_minus = (rho_0 - rho_KKt) / 2
+    w_plus = float(np.real(np.trace(rho_plus @ rho_plus)))
+    w_minus = float(np.real(np.trace(rho_minus @ rho_minus)))
+    rho_is_K_eigenstate = (w_plus < 1e-12) or (w_minus < 1e-12)
+
+    k_class = k_classify_pauli(N, K_full=K_full)
+    n_even = sum(1 for v in k_class.values() if v == +1)
+    n_odd = sum(1 for v in k_class.values() if v == -1)
+
+    static_zero = []
+    for alpha in range(1, 4 ** N):
+        # ⟨P_α⟩(0) = Tr(P_α ρ_0). If P is K-even, only ρ_+ contributes;
+        # if K-odd, only ρ_-.
+        P_alpha_idx = _k_to_indices(alpha, N)
+        P_alpha = np.array([[1.0]], dtype=complex)
+        for idx in P_alpha_idx:
+            P_alpha = np.kron(P_alpha, _PAULI_MATRICES[idx])
+        if k_class[alpha] == +1:
+            exp_val = float(np.real(np.trace(P_alpha @ rho_plus)))
+        elif k_class[alpha] == -1:
+            exp_val = float(np.real(np.trace(P_alpha @ rho_minus)))
+        else:
+            exp_val = 1.0  # K-mixed P shouldn't appear at all
+        if abs(exp_val) < 1e-10:
+            static_zero.append(alpha)
+
+    # Dynamical protection: only when BOTH conditions hold.
+    chiral_protected_dynamic = []
+    if K_symmetric_L and rho_is_K_eigenstate:
+        for alpha in range(1, 4 ** N):
+            if (k_class[alpha] == +1 and w_minus < 1e-12) or \
+               (k_class[alpha] == -1 and w_plus < 1e-12):
+                chiral_protected_dynamic.append(alpha)
+
+    static_zero_labels = [
+        ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(a, N))
+        for a in static_zero
+    ]
+    chiral_dynamic_labels = [
+        ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(a, N))
+        for a in chiral_protected_dynamic
+    ]
+
+    return {
+        'K_status': K_status,
+        'K_symmetric_L': K_symmetric_L,
+        'rho_decomposition': {
+            'w_plus': w_plus, 'w_minus': w_minus,
+            'rho_plus': rho_plus, 'rho_minus': rho_minus,
+        },
+        'rho_is_K_eigenstate': rho_is_K_eigenstate,
+        'pauli_classification': {
+            'n_K_even': n_even, 'n_K_odd': n_odd,
+        },
+        'static_zero_at_t0': static_zero_labels,
+        'chiral_protected_dynamic': chiral_dynamic_labels,
     }
 
 
