@@ -1160,6 +1160,122 @@ def y_parity_panel(H, gamma_l, rho_0, N, gamma_t1_l=None):
 
 
 # ----------------------------------------------------------------------
+# Section 14: bit_a / bit_b parity panels — multiplicative Z₂ gradings
+# ----------------------------------------------------------------------
+#
+# The Pauli algebra has TWO underlying Z₂ gradings (multiplicative under
+# Pauli multiplication, since (a₁,b₁) · (a₂,b₂) = (a₁⊕a₂, b₁⊕b₂)):
+#
+#   bit_a-parity (#X + #Y mod 2):  parity of "decaying" sites in P
+#   bit_b-parity (#Y + #Z mod 2):  parity of "Π²-odd" sites in P
+#
+# Their XOR (bit_a XOR bit_b) gives a third multiplicative grading:
+#   #X + #Z mod 2  (parity of "Π²-even non-I" sites, excluding Y).
+#
+# Y-parity (#Y mod 2) is NOT a multiplicative grading (e.g., X·Z = ±iY
+# adds a Y) but IS preserved empirically by certain L's (Section 13).
+#
+# Z-dephasing preserves ALL three multiplicative parities (σ_z has
+# bit_a=0, bit_b=1, fixed values; conjugation only flips Pauli signs).
+# T1 amplitude damping σ⁻ has bit_a=1 (pure) but mixed bit_b → T1
+# preserves bit_a-parity but NOT bit_b-parity in general.
+#
+# A multiplicative parity is preserved by L iff [H, ·] preserves it,
+# which happens iff H has parity-even content in its Pauli decomposition.
+
+
+def _bit_a_b_classify_paulis(N):
+    """Return (bit_a_parity, bit_b_parity) ∈ {0,1}² for each Pauli α."""
+    bit_a_arr = np.zeros(4 ** N, dtype=int)
+    bit_b_arr = np.zeros(4 ** N, dtype=int)
+    for alpha in range(4 ** N):
+        idx_tuple = _k_to_indices(alpha, N)
+        a_total = sum(idx[0] for idx in idx_tuple) % 2
+        b_total = sum(idx[1] for idx in idx_tuple) % 2
+        bit_a_arr[alpha] = a_total
+        bit_b_arr[alpha] = b_total
+    return bit_a_arr, bit_b_arr
+
+
+def parity_panel(H, gamma_l, rho_0, N, parity_kind, gamma_t1_l=None):
+    """Multiplicative Z₂ parity panel: 'bit_a', 'bit_b', or 'bit_a_xor_b'.
+
+    Reports:
+      L_preserves_parity:  is L block-diagonal in this parity?
+      L_offdiag_weight, L_relative_offdiag
+      rho_0_decomposition: w_even, w_odd norms in Pauli basis
+      pauli_classification: n_even, n_odd
+      protected:  Pauli labels with ⟨P⟩ guaranteed zero (parity-mismatch
+                   on a parity-eigenstate ρ_0)
+    """
+    if gamma_t1_l is None:
+        gamma_t1_l = [0.0] * N
+    if any(g != 0 for g in gamma_t1_l):
+        L = lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l)
+    else:
+        L = lindbladian_z_dephasing(H, gamma_l)
+
+    M_basis = _vec_to_pauli_basis_transform(N)
+    L_pauli = (M_basis.conj().T @ L @ M_basis) / (2 ** N)
+
+    bit_a_arr, bit_b_arr = _bit_a_b_classify_paulis(N)
+    if parity_kind == 'bit_a':
+        parity = bit_a_arr
+    elif parity_kind == 'bit_b':
+        parity = bit_b_arr
+    elif parity_kind == 'bit_a_xor_b':
+        parity = (bit_a_arr ^ bit_b_arr).astype(int)
+    else:
+        raise ValueError(f"Unknown parity_kind: {parity_kind}")
+
+    even_idx = np.where(parity == 0)[0]
+    odd_idx = np.where(parity == 1)[0]
+
+    L_oe = L_pauli[np.ix_(odd_idx, even_idx)]
+    L_eo = L_pauli[np.ix_(even_idx, odd_idx)]
+    offdiag_norm = float(np.linalg.norm(L_oe)) + float(np.linalg.norm(L_eo))
+    diag_norm = float(np.linalg.norm(L_pauli[np.ix_(even_idx, even_idx)])) \
+                 + float(np.linalg.norm(L_pauli[np.ix_(odd_idx, odd_idx)]))
+    relative_offdiag = offdiag_norm / (diag_norm + 1e-15)
+    L_preserves = (relative_offdiag < 1e-10)
+
+    rho_pauli_vec = pauli_basis_vector(rho_0, N)
+    rho_even_vec = rho_pauli_vec.copy()
+    rho_even_vec[odd_idx] = 0
+    rho_odd_vec = rho_pauli_vec.copy()
+    rho_odd_vec[even_idx] = 0
+    w_even = float(np.linalg.norm(rho_even_vec))
+    w_odd = float(np.linalg.norm(rho_odd_vec))
+
+    odd_labels = [
+        ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(int(a), N))
+        for a in odd_idx
+    ]
+
+    protected = []
+    if L_preserves and w_odd < 1e-10:
+        protected = list(odd_labels)
+    elif L_preserves and w_even < 1e-10:
+        even_labels = [
+            ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(int(a), N))
+            for a in even_idx if a != 0
+        ]
+        protected = even_labels
+
+    return {
+        'parity_kind': parity_kind,
+        'L_preserves_parity': L_preserves,
+        'L_offdiag_weight': offdiag_norm,
+        'L_relative_offdiag': relative_offdiag,
+        'rho_0_decomposition': {'w_even': w_even, 'w_odd': w_odd},
+        'pauli_classification': {
+            'n_even': int(len(even_idx)), 'n_odd': int(len(odd_idx)),
+        },
+        'protected': protected,
+    }
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
