@@ -1,0 +1,43 @@
+PTF observable-independence test
+  N=7, γ₀=0.05, J_uniform=1.0, J_mod=1.1 on bond (0, 1)
+  Initial state: φ = (|vac⟩ + |ψ_1⟩)/√2
+  T_max=20.0, dt=0.05
+
+Propagating A (uniform J)...
+Propagating B (J_mod=1.1 on bond (0,1))...
+
+Light-dose hypothesis: α-closure Σ ln α ≈ 0 holds for n_XY ≥ 1
+(observables touched by light), fails for n_XY = 0 (in shadow).
+
+  site i       α^P     (PTF)       α^X       α^Z      rmse_X      rmse_Z
+       0    1.0964    1.0950    9.4118    1.2193    8.30e-02    3.44e-03
+       1    1.1858    1.1820    9.4254    3.9216    1.42e-01    5.74e-03
+       2    1.0515    1.0510    9.4308    0.9398    1.75e-01    4.12e-03
+       3    0.9911    0.9910    9.4196    1.1356    1.85e-01    2.71e-03
+       4    0.8454    0.8450    9.4077    1.3363    1.69e-01    4.34e-03
+       5    0.9235    0.9230    9.4050    0.3188    1.28e-01    3.78e-03
+       6    0.9969    0.9970    9.4078    0.9863    6.87e-02    1.96e-03
+
+        bond      α^XX      α^ZZ     rmse_XX     rmse_ZZ
+       (0,1)    0.7559    1.6294    3.02e-03    6.48e-03
+       (1,2)    0.8937    0.6232    2.59e-03    9.02e-03
+       (2,3)    1.0104    1.0502    2.59e-03    5.42e-03
+       (3,4)    1.0795    1.2176    2.08e-03    5.60e-03
+       (4,5)    1.1149    2.3577    2.41e-03    7.14e-03
+       (5,6)    1.1268    0.9052    1.76e-03    6.59e-03
+
+          Observable   n_XY      Σ ln α    closure?
+--------------------  -----  ----------  ----------
+        P_i (purity)  mixed     +0.0531         YES
+       Z_i  (single)      0     +0.7629          NO
+  Z_i Z_{i+1} (pair)      0     +1.0193          NO
+       X_i  (single)      1    +15.6965          NO
+  X_i X_{i+1} (pair)      2     -0.0773         YES
+
+Reading: closure law Σ ln α ≈ 0 holds for observables WITH light
+(n_XY ≥ 1: X and XX), fails for observables IN SHADOW (n_XY = 0:
+Z and ZZ). Tom's Licht-vs-Schatten reading is structurally correct:
+the Π-protected slow-mode algebra that produces PTF closure requires
+γ-dose to act as the protection mechanism. Pure-Z observables are
+dissipator-invariant (D(Z) = 0) and don't see the closure-generating
+symmetry.

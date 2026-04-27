@@ -1,0 +1,29 @@
+PTF blind-sector verification (N=7, J_mod=1.1 on bond (0, 1))
+  Hypothesis: Σ ln α ≈ 0 for n_XY ≥ 1 (light), fails for n_XY = 0 (shadow)
+
+Propagating A (uniform J)...
+Propagating B (J_mod on defect bond)...
+
+=== Single-site observables (Σ over sites i=0..N−1) ===
+  Pauli   n_XY      Σ ln α     min α     max α  #bound    closure?
+      X      1    +15.6965     9.405     9.431       0          NO
+      Y      1    +16.1181    10.000    10.000       7          NO
+      Z      0     +0.7629     0.319     3.922       0          NO
+
+=== Two-site observables L_i M_j  (Σ over i<j pairs) ===
+    L M   n_XY      Σ ln α     min α     max α  #bound    closure?
+     XX      2     -0.2071     0.756     1.167       0   ~marginal
+     XY      2    +23.1526     1.031    10.000       3          NO
+     XZ      1    +47.0974     9.405     9.431       0          NO
+     YX      2    +23.1526     1.031    10.000       3          NO
+     YY      2     -0.2071     0.756     1.167       0   ~marginal
+     YZ      1    +48.3543    10.000    10.000      21          NO
+     ZX      1    +47.0813     9.405     9.431       0          NO
+     ZY      1    +48.3543    10.000    10.000      21          NO
+     ZZ      0     +6.9935     0.603    10.000       2          NO
+
+=== Aggregate by light dose n_XY ===
+   n_XY   #families    mean |Σ ln α|    failure rate  reading
+      0           2           3.8782  2/2    shadow (closure fails)
+      1           6          37.1170  6/6    weak light (mixed)
+      2           4          11.6799  2/4    full light (closure holds)

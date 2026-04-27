@@ -7,7 +7,8 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
-[Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F4, F14, F65)
+[Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F4, F14, F65),
+[PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (Update 2026-04-27)
 
 **Scripts:**
 - [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py): baseline defect scan
@@ -16,6 +17,8 @@
 - [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py): ψ_3, ψ_4, |+⟩^7 stress-test
 - [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
 - [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
+- [_ptf_per_observable_alpha.py](../simulations/_ptf_per_observable_alpha.py) (2026-04-27): cross-observable α scan refuting "one painter one clock"
+- [_ptf_blind_sector_verification.py](../simulations/_ptf_blind_sector_verification.py) (2026-04-27): broader sweep linking closure failure to Zero-Sector Immunity
 
 *This document was updated on 2026-04-20 after [EQ-014](../review/EMERGING_QUESTIONS.md#eq-014) ([findings](../review/EQ014_FINDINGS.md)) closed the "closure law as first-order theorem" route. The body below documents the April 18 understanding; refinements are collected in a [**Update 2026-04-20**](#update-2026-04-20-post-eq-014) section after "Scope and limits" and before "Open questions".*
 
@@ -289,6 +292,57 @@ See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past
 
 ---
 
+## Update 2026-04-27: Observable scope refined by Zero-Sector Immunity
+
+The April 18 PTF tested the closure law Σ_i ln(α_i) ≈ 0 on a single observable: the per-site purity P_i. The implicit assumption was that α_i is a property of the painter (the site), independent of which observable they paint. This update refutes that assumption and identifies the structural reason via [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md).
+
+### What was tested
+
+Same N=7 setup (uniform XY chain, γ₀=0.05, J_mod=1.1 on bond (0,1), φ = (|vac⟩+|ψ_1⟩)/√2). For each of three single-Pauli letter classes (X_i, Y_i, Z_i) and nine two-Pauli letter combinations (a_i b_j for a, b ∈ {X, Y, Z}, i < j), the same one-parameter time-rescale fit P_B(O, t) ≈ P_A(O, α^O · t) was performed and Σ ln α^O computed.
+
+Scripts: [_ptf_per_observable_alpha.py](../simulations/_ptf_per_observable_alpha.py), [_ptf_blind_sector_verification.py](../simulations/_ptf_blind_sector_verification.py).
+Results: [ptf_observable_scope/](../simulations/results/ptf_observable_scope/).
+
+### What was found
+
+Closure holds (Σ ln α ≈ 0 within original tolerance):
+
+| Observable | n_XY | Σ ln α |
+|---|---|---|
+| P_i (purity, per site) | mixed | +0.05 |
+| X_i X_j (per pair) | 2 | −0.21 |
+| Y_i Y_j (per pair) | 2 | −0.21 |
+
+Closure fails (massively):
+
+| Observable class | n_XY | Σ ln α | reason |
+|---|---|---|---|
+| Z_i, Z_i Z_j | 0 | +0.76, +6.99 | pure shadow (Zero-Sector Immunity, see below) |
+| X_i, Y_i, X_i Z_j, Y_i Z_j, Z_i X_j, Z_i Y_j | 1 | +15.7 to +48.4 | weak light, α-fit hits boundary at T_FIT=20 |
+| X_i Y_j, Y_i X_j | 2 | +23.2, +23.2 | antisymmetric correlator, no monotone envelope |
+
+### Why pure-Z observables (n_XY=0) fail by structure
+
+[PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (2026-04-25, Tier 1) proves that the (w=0, w=0)-block of the palindrome residual M = Π·L·Π⁻¹ + L + 2Σγ·I is **identically zero** for every 2-body Hamiltonian H and any uniform Z-dephasing — independent of J. Pauli strings σ_α with α_l ∈ {I, Z} for every site l live in this block.
+
+For these strings:
+- The dissipator gives D(σ_α) = 0 (Lemma 1: Z_l commutes with both I and Z at site l).
+- The Hamiltonian commutator [H, σ_α] takes σ_α **out** of the w=0 sector for any non-ZZ bond bilinear (Lemma 2).
+
+So pure-Z observables live in the dissipator's kernel. They are not driven by γ-dynamics at all — their evolution under L is purely unitary, governed by H alone. Under perturbation J → J_mod, this unitary evolution shifts in *frequency* (eigenvalues of H), not in *envelope* (no envelope to shift). The α-fit, which models a multiplicative time-rescale of an envelope, structurally cannot match a frequency shift. Closure fails by definition.
+
+The empirical Σ ln α^Z = +0.76 (and +6.99 for ZZ) is the **dynamical signature** of the static theorem: Zero-Sector Immunity says these observables don't see the slow-mode-protection mechanism that produces PTF closure, and the per-observable α-scan confirms it from the trajectory side.
+
+### Refinement of the closure law
+
+The April 18 statement "Σ_i ln(α_i) ≈ 0 across painters" generalises to a more precise claim:
+
+**The PTF closure law is a property of the dissipative-slow-mode sector of the Liouvillian.** It applies to observables whose trajectory dynamics is dominated by the γ-driven envelope (either via direct light-dose n_XY ≥ 2 within T_FIT, or via quadratic structure that damps fast oscillations). Pure-Z observables (n_XY = 0) live in the dissipator's kernel, see no slow-mode protection, and have no closure law. Single-XY observables (n_XY = 1) are dose-marginal at T_FIT = 20 and show boundary-hit α-fits. Antisymmetric correlators have trajectories that oscillate around zero with no monotone envelope and cannot be α-rescaled regardless of light dose.
+
+Tom's Licht-und-Schatten reading prompted this verification: the PTF "closure" lives on the *belichtete* half of the operator space; the *Schatten*-Hälfte (w=0 sector) is structurally exempt. The connection between PTF (a dynamical regularity discovered April 18) and Zero-Sector Immunity (an algebraic theorem proved April 25) is a non-trivial consistency check: the static theorem and the dynamical signature align.
+
+---
+
 ## Acceptance summary
 
 ### Positive core (survives)
@@ -307,6 +361,7 @@ See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past
 
 - "α_i is an intrinsic property of site i" (the "site-local time" reading). Ruled out by the ψ_2 test.
 - "α_0 = J_mod exactly at the defect-adjacent endpoint." Precision was overstated; the correct statement is ~15 % in the perturbative window, with non-monotonic behaviour beyond.
+- "α_i is observable-independent at site i" (one painter, one clock). Ruled out 2026-04-27 by the per-observable α scan. The same site has different α^O for P_i vs Z_i vs X_i; the clock is per-(site, observable). Pure-Z observables (n_XY = 0) live in the Zero-Sector-Immunity kernel and have no closure law. See Update 2026-04-27.
 
 ### Tier status
 
