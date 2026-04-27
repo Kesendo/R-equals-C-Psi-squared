@@ -1492,6 +1492,32 @@ which is **irreducible over ℚ** (sympy `Poly.is_irreducible` returns True; `fa
 
 (iii) **F69 on the full sphere.** F69 is stationary on the (c_0 = c_3, c_1, c_2 = 0) slice but is a saddle on the full CP^3: c_2 > 0 is an ascent direction at F69 (Δpair-CΨ = +0.011 at c_2 = 0.01), and gradient flow from such a perturbation reaches |+⟩^3 (pair-CΨ = 1, product state). The 0.3204 value is a real algebraic fact about the slice, not a universal optimum.
 
+(iv) **Slice-stationary saddles beyond GHZ+W (added 2026-04-27).** The (ii) enumeration was incomplete in scope. Many other 2-/3-Dicke slices admit stationary points above 1/4 at every tested N. Like F69, all are saddles on the full Dicke sphere (consistent with the (ii) "no non-product local maxima" verdict, verified by perturbation in each unused Dicke direction giving non-zero linear-order shift), but they constitute additional slice-stationary points beyond the original list of "Dicke basis + GHZ+W optimum".
+
+**Binary-Dicke slice maxima |D_i⟩+|D_j⟩** above 1/4:
+
+| N | total pairs | above 1/4 | best slice | max cpsi |
+|---|-------------|-----------|------------|----------|
+| 3 | 6 | 3 | D_1+D_2 | 0.4815 (= 13/27, exceeds F69) |
+| 4 | 10 | 4 | D_2+D_3 | 0.4022 |
+| 5 | 15 | 5 | D_2+D_3 | 0.3720 |
+| 6 | 21 | 6 | D_2+D_3 | 0.3456 |
+
+**Triple-Dicke slice maxima |D_i⟩+|D_j⟩+|D_k⟩** above 1/4:
+
+| N | total triples | above 1/4 | best slice | max cpsi |
+|---|---------------|-----------|------------|----------|
+| 3 | 4 | 4 | D_1+D_2+D_3 | 0.8011 |
+| 4 | 10 | 9 | D_2+D_3+D_4 / D_1+D_2+D_3 | 0.7136 |
+| 5 | 20 | 16 | D_2+D_3+D_4 | 0.6492 |
+| 6 | 35 | 25 | D_2+D_3+D_4 | 0.6163 |
+
+The central-Dicke-triple slice is privileged at every tested N (purity_A 0.83-0.94, genuinely entangled). What was actually privileged about N=3 was the irreducible-sextic *closed form* of the GHZ+W slice. The original "F69 is special" reading conflated this algebraic feature with geometric uniqueness; geometrically, F69 is one slice-saddle among many, and not even the highest at N=3.
+
+**Open algebraic question:** closed form for the central-Dicke-triple slice maximum at general N. The N=3..6 sequence (0.8011, 0.7136, 0.6492, 0.6163) decreases slowly; the asymptotic form is unknown.
+
+Script: [`_eq016_n4_full_landscape.py`](../simulations/_eq016_n4_full_landscape.py), [`_eq016_verify_full_sphere.py`](../simulations/_eq016_verify_full_sphere.py) (saddle-confirmation perturbation tests).
+
 **Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) for the preparation-vs-evolution asymmetry discussion.
 
 **Hardware signature.** Under Kingston-grade Z-dephasing the F69 optimum crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs. A single 2-qubit tomography at t = 0 distinguishes GHZ_3 (0), W_3 (0.123), and F69 (0.320) as three separable points, no timing needed.
