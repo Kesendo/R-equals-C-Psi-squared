@@ -832,11 +832,15 @@ def cockpit_panel(H, gamma_l, rho_0, N,
     # ---- Chiral panel: K_full sublattice symmetry ----
     chiral = chiral_panel(H, rho_0, N)
 
+    # ---- Y-parity panel: bit_a · bit_b grading ----
+    y_parity = y_parity_panel(H, gamma_l, rho_0, N, gamma_t1_l=gamma_t1_l)
+
     return {
         'lebensader': {'skeleton': skeleton, 'trace': trace,
                        'rating': leb_rating},
         'cusp': cusp,
         'chiral': chiral,
+        'y_parity': y_parity,
         '_trajectory_for_inspection': {'times': times, 'cpsi': cpsi_t,
                                         'theta': theta_t},
     }
@@ -1008,6 +1012,135 @@ def chiral_panel(H, rho_0, N, K_full=None):
         },
         'static_zero_at_t0': static_zero_labels,
         'chiral_protected_dynamic': chiral_dynamic_labels,
+    }
+
+
+# ----------------------------------------------------------------------
+# Section 13: Y-parity panel — Z₂ grading on Pauli-Y count
+# ----------------------------------------------------------------------
+#
+# Y-parity = parity of the number of Y operators in a Pauli string.
+# Equivalently: parity of sum over sites of (bit_a · bit_b) since Y is
+# the unique Pauli with both bit_a = 1 (decaying) AND bit_b = 1 (Π²-odd).
+#
+# Unlike Π and K, Y-parity is NOT a conjugation symmetry of the Pauli
+# algebra (no Pauli operator U has U P U = (-1)^{#Y(P)} P). Pauli
+# multiplication does not preserve Y-count in general (e.g., X·Z = ±iY
+# adds a Y).
+#
+# Y-parity preservation is therefore a system-specific algebraic
+# property: it requires that L (as a super-operator) maps Y-parity-even
+# operators to Y-parity-even operators, equivalently that L is
+# block-diagonal in the Y-parity decomposition of the Pauli basis.
+#
+# This panel checks this empirically by projecting L_pauli onto the
+# Y-even/Y-odd Pauli subspaces and measuring the off-diagonal weight.
+#
+# Empirical finding (from cockpit-120 enum + intact_hards_analysis):
+# at N=3, |+−+⟩, the 6 Lebensader-intact cases (XY+YX, IY+YI, XY+YZ,
+# XY+ZY, YX+YZ, YX+ZY) all have L preserving Y-parity, and ρ_0 = |+−+⟩
+# has Y-parity-0 (no Y components). So all 28 Y-odd observables stay
+# strictly zero forever for these 6 cases.
+
+
+def _y_parity_classify_paulis(N):
+    """Return Y-parity (0 or 1) for each Pauli index α = 0..4^N-1."""
+    out = np.zeros(4 ** N, dtype=int)
+    for alpha in range(4 ** N):
+        idx_tuple = _k_to_indices(alpha, N)
+        n_y = sum(1 for idx in idx_tuple if idx == (1, 1))  # Y = (1, 1)
+        out[alpha] = n_y % 2
+    return out
+
+
+def y_parity_panel(H, gamma_l, rho_0, N, gamma_t1_l=None):
+    """Y-parity panel: checks whether L preserves Y-parity, and reports
+    ρ_0's Y-parity decomposition + the protected Y-odd Pauli set.
+
+    Returns dict with:
+      'L_preserves_Y_parity':  bool — is L block-diagonal in Y-parity?
+      'L_offdiag_weight':      Frobenius norm of off-diagonal Y-parity blocks
+                                (in the Pauli basis). Small = Y-parity preserved.
+      'rho_0_Y_decomposition': {'w_even': ..., 'w_odd': ...,
+                                 'rho_even_pauli_norm': ...}
+                                Pauli-vector norms of Y-even and Y-odd parts
+                                of ρ_0 in the Pauli basis.
+      'pauli_classification':  {'n_Y_even': count, 'n_Y_odd': count}
+      'Y_odd_observables':     List of Pauli labels in the Y-odd sector
+                                (28 at N=3).
+      'Y_parity_protected':    Y-odd Pauli labels that stay zero forever
+                                (requires L_preserves_Y_parity = True AND
+                                ρ_0 has no Y-odd content).
+    """
+    if gamma_t1_l is None:
+        gamma_t1_l = [0.0] * N
+
+    # Build L (with T1 if active)
+    if any(g != 0 for g in gamma_t1_l):
+        L = lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l)
+    else:
+        L = lindbladian_z_dephasing(H, gamma_l)
+
+    M_basis = _vec_to_pauli_basis_transform(N)
+    L_pauli = (M_basis.conj().T @ L @ M_basis) / (2 ** N)
+
+    y_parity = _y_parity_classify_paulis(N)
+    even_idx = np.where(y_parity == 0)[0]
+    odd_idx = np.where(y_parity == 1)[0]
+    n_even = len(even_idx)
+    n_odd = len(odd_idx)
+
+    # Off-diagonal blocks: L_pauli[odd, even] and L_pauli[even, odd].
+    # If L preserves Y-parity, both should be ≈ 0.
+    L_oe = L_pauli[np.ix_(odd_idx, even_idx)]
+    L_eo = L_pauli[np.ix_(even_idx, odd_idx)]
+    offdiag_norm = float(np.linalg.norm(L_oe)) + float(np.linalg.norm(L_eo))
+    diag_norm = float(np.linalg.norm(L_pauli[np.ix_(even_idx, even_idx)])) \
+                 + float(np.linalg.norm(L_pauli[np.ix_(odd_idx, odd_idx)]))
+    relative_offdiag = offdiag_norm / (diag_norm + 1e-15)
+    L_preserves_Y_parity = (relative_offdiag < 1e-10)
+
+    # ρ_0 Y-parity decomposition (in Pauli basis)
+    rho_pauli_vec = pauli_basis_vector(rho_0, N)
+    rho_even_pauli = rho_pauli_vec.copy()
+    rho_even_pauli[odd_idx] = 0
+    rho_odd_pauli = rho_pauli_vec.copy()
+    rho_odd_pauli[even_idx] = 0
+    w_even = float(np.linalg.norm(rho_even_pauli))
+    w_odd = float(np.linalg.norm(rho_odd_pauli))
+
+    # Y-odd Pauli labels
+    y_odd_labels = [
+        ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(int(a), N))
+        for a in odd_idx
+    ]
+
+    # Y-parity-protected: Y-odd Paulis that stay 0 forever
+    Y_parity_protected = []
+    if L_preserves_Y_parity and w_odd < 1e-10:
+        # ρ_0 is Y-even, L preserves Y-parity → all Y-odd ⟨P⟩ = 0 forever
+        Y_parity_protected = list(y_odd_labels)
+    elif L_preserves_Y_parity and w_even < 1e-10:
+        # ρ_0 is Y-odd, L preserves Y-parity → all Y-even ⟨P⟩ = 0 forever
+        # (rare case; would protect 27 Y-even non-identity strings + identity)
+        even_labels = [
+            ''.join(PAULI_LABELS[idx] for idx in _k_to_indices(int(a), N))
+            for a in even_idx if a != 0
+        ]
+        Y_parity_protected = even_labels
+
+    return {
+        'L_preserves_Y_parity': L_preserves_Y_parity,
+        'L_offdiag_weight': offdiag_norm,
+        'L_relative_offdiag': relative_offdiag,
+        'rho_0_Y_decomposition': {
+            'w_even': w_even, 'w_odd': w_odd,
+        },
+        'pauli_classification': {
+            'n_Y_even': int(n_even), 'n_Y_odd': int(n_odd),
+        },
+        'Y_odd_observables': y_odd_labels,
+        'Y_parity_protected': Y_parity_protected,
     }
 
 
