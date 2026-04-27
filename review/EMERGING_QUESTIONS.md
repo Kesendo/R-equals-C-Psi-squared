@@ -601,6 +601,28 @@ Extended the N=5 c_1(bond, Dicke) matrix to N in {3, 4, 6} using the LSQ α-fit 
 
 **Surviving sub-question:** is the two-peak bond pattern at N=6 |S_1⟩ a clean multi-sine-mode superposition under pointwise-c_1, and if so what is the mode decomposition?
 
+### EQ-019 Update 2026-04-27: chain-adjacency layer hypothesis falsified
+
+**Source:** [_eq019_chain_adjacency_analysis](../simulations/_eq019_chain_adjacency_analysis.py); reads existing bond_scan JSONs at N ∈ {3, 4, 5, 6}.
+
+The V-Effect compatibility-layer derivation (project_v_effect_combinatorial, commits 81caf67 / 079c7ce / 8030ef2) introduces a "chain-adjacency" layer that activates at N=3 chain and depends on whether a bond is endpoint (1-sided chain-adjacent) or interior (2-sided). Natural hypothesis: bond-position dependence of c_1 is a manifestation of this layer.
+
+**Test.** Compute mean |c_1| at endpoint bonds (adj=1) vs interior bonds (adj=2) for each (N, |S_n⟩) where both adjacency degrees are present. If hypothesis holds, EP/IT ratio should be > 1 monotonically across N for all states (1-sided > 2-sided in |c_1|).
+
+**Result.**
+
+| state | N=4 | N=5 | N=6 |
+|-------|-----|-----|-----|
+| \|S_1⟩ | 1.83 | 0.77 | 0.12 |
+| \|S_2⟩ | 0.95 | 25.27 | 1.51 |
+| \|S_3⟩ | — | 25.27 | 1.57 |
+
+The ratio inverts state-by-state and N-by-N: \|S_1⟩ has interior LARGER than endpoint at N=5, N=6; \|S_2⟩ has the famous factor-26 only at N=5, becomes ~1.5 at N=6. No monotone scaling in either direction. Chain-adjacency degree alone does NOT determine |c_1| ordering.
+
+**Conclusion.** The V-Effect chain-adjacency layer governs truly/soft/hard compatibility (a yes/no spectrum-pairing test). It does not transfer to the closure-breaking coefficient c_1, which is a state-dependent perturbation-response metric. The right framework for c_1 bond-position dependence is the sine-basis geometry already identified in EQ-021 closure (endpoint dominance is open-boundary Fourier geometry, not chain-adjacency).
+
+**The factor-26 at N=5 |S_2⟩, |S_3⟩ stands as a real (N=5)-specific resonance,** clean in numerics (rmse machine-precision, mirror-symmetric across bonds), but NOT a manifestation of any layer-stack rule that generalizes across (N, n).
+
 ---
 
 ## EQ-020
