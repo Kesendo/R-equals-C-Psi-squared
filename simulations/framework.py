@@ -373,6 +373,71 @@ def _vec_to_pauli_basis_transform(N):
     return M
 
 
+def palindrome_residual_norm_ratio_squared(N1, N2, hamiltonian_class='main'):
+    """Closed-form ‖M(N2)‖_F² / ‖M(N1)‖_F² for chain Pauli-pair Hamiltonians.
+
+    For a chain with uniform-coefficient bilinear Pauli-pair bond Hamiltonians
+    under uniform Z-dephasing, the Frobenius norm of the palindrome residual
+    M = Π·L·Π⁻¹ + L + 2Σγ·I follows two rational scaling laws between
+    adjacent N (N2 = N1 + 1):
+
+        main class         ratio² = 4·k / (k − 1)
+        single-body class  ratio² = 4·(2k − 1) / (2k − 3)
+
+    where k = N1. Both → 4 as k → ∞ (the universal d²-extension factor:
+    one extra qubit quadruples the operator-space dimension).
+
+    The **main class** consists of Pauli pairs whose bond bilinear has at
+    least one genuine 2-body term. For these, ‖M(N)‖² ∝ (N − 1)·4^(N − 2)
+    (bond count × per-bond Liouvillian extension), so the ratio is
+    4·(N − 1)/(N − 2) evaluated at source N = k.
+
+    The **single-body class** consists of pairs of the form (Iσ, σI) for
+    σ ∈ {X, Y, Z}, where the bond bilinear σ·I + I·σ reduces to a sum of
+    single-site Pauli terms. For σ ∈ {X, Y} the H-commutator part of M
+    cancels (Π σ Π⁻¹ = −σ, so [ΠHΠ⁻¹, ·] + [H, ·] = 0); only the
+    dissipator + trace remainder contributes, giving the modified law
+    4·(2k − 1)/(2k − 3) (slightly above the main class, converging to 4
+    from above).
+
+    The IZ+ZI case lands in **hard** rather than soft (Π Z Π⁻¹ = +Z, so
+    H-commutator does not cancel), but its residual still respects the
+    same single-body algebraic structure.
+
+    Verified at N=3 → N=4 and N=4 → N=5 across all 120 unordered
+    Pauli-pair chain Hamiltonians at γ = 0.1, J = 1.0; see
+    experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md.
+
+    Args:
+        N1: source chain length (>= 2, i.e. >= 1 bond)
+        N2: target chain length (must equal N1 + 1)
+        hamiltonian_class: 'main' or 'single_body'
+
+    Returns:
+        Predicted ratio of squared Frobenius norms.
+    """
+    if N1 < 2:
+        raise ValueError(f"N1 must be >= 2 (chain needs at least one bond); got {N1}")
+    if N2 != N1 + 1:
+        raise NotImplementedError(
+            f"closed-form scaling verified for adjacent N (N2 = N1 + 1) only; "
+            f"got N1={N1}, N2={N2}"
+        )
+    k = N1
+    if hamiltonian_class == 'main':
+        return 4.0 * k / (k - 1)
+    if hamiltonian_class == 'single_body':
+        if 2 * k - 3 <= 0:
+            raise ValueError(
+                f"single-body formula requires N1 >= 2; got N1={N1} "
+                f"(denominator 2N1 − 3 = {2*k - 3})"
+            )
+        return 4.0 * (2 * k - 1) / (2 * k - 3)
+    raise ValueError(
+        f"hamiltonian_class must be 'main' or 'single_body'; got {hamiltonian_class!r}"
+    )
+
+
 # ----------------------------------------------------------------------
 # Section 7: ur-Eigenvalues from Pauli closure
 # ----------------------------------------------------------------------

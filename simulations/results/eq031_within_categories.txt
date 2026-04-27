@@ -1,0 +1,58 @@
+EQ-031 within-category analysis (120 Pauli-pair Hamiltonians)
+  N=3 → N=4
+  init |+−+...⟩, γ=0.1, J=1.0
+
+=== TRULY (15 Hamiltonians) ===
+    n_prot N=3:  min=32.0  max=56.0  mean=44.3  std=10.8
+    n_prot N=4:  min=128.0  max=240.0  mean=187.6  std=49.3
+    n_act  N=3:  min=7.0  max=31.0  mean=18.7  std=10.8
+    n_act  N=4:  min=15.0  max=127.0  mean=67.4  std=49.3
+  n_prot Spearman(N=3, N=4): +1.0000
+  n_prot / (4^N − 1):  N=3 mean=0.703, N=4 mean=0.736  (diff=+0.033)
+
+=== SOFT (46 Hamiltonians) ===
+   op_norm N=3:  min=2.263e+01  max=6.400e+01  mean=3.221e+01  std=1.044e+01
+   op_norm N=4:  min=5.543e+01  max=1.568e+02  mean=7.901e+01  std=2.566e+01
+  op_norm Spearman(N=3, N=4): +1.0000
+  op_norm ratio N=4/N=3: min=2.449, max=2.582, mean=2.452, std=0.019
+  ratio² range: min=6.0000, max=6.6667
+  framework prediction: main=6.0000, single_body=6.6667
+    n_prot N=3:  min=8.0  max=56.0  mean=29.4  std=12.8
+    n_prot N=4:  min=3.0  max=240.0  mean=116.5  std=64.0
+    n_act  N=3:  min=7.0  max=55.0  mean=33.6  std=12.8
+    n_act  N=4:  min=15.0  max=252.0  mean=138.5  std=64.0
+  n_prot Spearman(N=3, N=4): +0.9007
+  n_prot / (4^N − 1):  N=3 mean=0.467, N=4 mean=0.457  (diff=-0.010)
+
+=== HARD (59 Hamiltonians) ===
+   op_norm N=3:  min=2.263e+01  max=4.525e+01  mean=3.078e+01  std=7.098e+00
+   op_norm N=4:  min=5.543e+01  max=1.109e+02  mean=7.549e+01  std=1.750e+01
+  op_norm Spearman(N=3, N=4): +0.9925
+  op_norm ratio N=4/N=3: min=2.449, max=2.582, mean=2.452, std=0.017
+  ratio² range: min=6.0000, max=6.6667
+  framework prediction: main=6.0000, single_body=6.6667
+  spec_err N=3:  min=8.815e-02  max=6.000e-01  mean=3.188e-01  std=1.582e-01
+  spec_err N=4:  min=1.002e-01  max=8.000e-01  mean=3.960e-01  std=2.111e-01
+  spec_err Spearman(N=3, N=4): +0.8954
+    n_prot N=3:  min=8.0  max=46.0  mean=29.0  std=9.7
+    n_prot N=4:  min=3.0  max=202.0  mean=116.6  std=48.1
+    n_act  N=3:  min=17.0  max=55.0  mean=34.0  std=9.7
+    n_act  N=4:  min=53.0  max=252.0  mean=138.4  std=48.1
+  n_prot Spearman(N=3, N=4): +0.9903
+  n_prot / (4^N − 1):  N=3 mean=0.461, N=4 mean=0.457  (diff=-0.003)
+
+=== Spotlight: largest fine-structure changes ===
+
+Top-5 op_norm growth (within soft+hard):
+       IY+YI (soft )  op_norm: 3.919e+01 → 1.012e+02  (ratio 2.58)
+       IZ+ZI (hard )  op_norm: 3.919e+01 → 1.012e+02  (ratio 2.58)
+       IY+YZ (hard )  op_norm: 3.919e+01 → 9.600e+01  (ratio 2.45)
+       IY+ZY (hard )  op_norm: 3.919e+01 → 9.600e+01  (ratio 2.45)
+       IZ+YZ (hard )  op_norm: 3.919e+01 → 9.600e+01  (ratio 2.45)
+
+Top-5 op_norm shrink:
+       IX+IY (soft )  op_norm: 2.263e+01 → 5.543e+01  (ratio 2.45)
+       IX+IZ (hard )  op_norm: 2.263e+01 → 5.543e+01  (ratio 2.45)
+       IX+XY (hard )  op_norm: 2.263e+01 → 5.543e+01  (ratio 2.45)
+       IX+XZ (hard )  op_norm: 2.263e+01 → 5.543e+01  (ratio 2.45)
+       IX+YI (soft )  op_norm: 2.263e+01 → 5.543e+01  (ratio 2.45)

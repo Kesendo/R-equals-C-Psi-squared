@@ -1,0 +1,15 @@
+Classifying 120 Hamiltonians at N=3 (cusp entry, half-int mirror) and N=4 (cusp exit, int mirror)
+
+         N=3 →        N=4    count    examples
+  ----------   ----------    -----    --------------------------------------------------
+        hard →       hard       59   (same)   IX+IZ, IX+XY, IX+XZ, IX+YX, IX+ZI, IX+ZX, ... (53 more)
+        soft →       soft       46   (same)   IX+IY, IX+YI, IX+YZ, IX+ZY, IY+IY, IY+XI, ... (40 more)
+       truly →      truly       15   (same)   IX+IX, IX+XI, IX+XX, IX+YY, IX+ZZ, XI+XI, ... (9 more)
+
+At N=3 (with full 120 enumeration): 15 truly, 46 soft, 59 hard
+At N=4: 15 truly, 46 soft, 59 hard
+
+stable across N=3 → N=4:  120/120
+category shifted:          0/120
+
+Specific category shifts at the cusp:
