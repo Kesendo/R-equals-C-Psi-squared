@@ -559,6 +559,41 @@ Triple-Dicke families lift FAR above F69's 0.32 at every N. The best triple at e
 
 **Surviving sub-question:** is there a closed form for the max pair-CΨ in the central-Dicke triple slice at general N? The data points (N, max) = (3, 0.80), (4, 0.71), (5, 0.65), (6, 0.62) suggest a slowly-decreasing function. A scaling like 1/(1 + c log N) or similar would clarify the asymptotic structure.
 
+### EQ-016 sub-question closed 2026-04-27: central-triple cpsi(N) is sextic-asymptotic
+
+**Source:** [_eq016_central_triple_asymptotics.py](../simulations/_eq016_central_triple_asymptotics.py), [_eq016_central_triple_n_infinity.py](../simulations/_eq016_central_triple_n_infinity.py).
+
+The central-Dicke-triple max pair-CΨ has the asymptotic form
+
+    cpsi(N) ≈ cpsi_∞ + α/N,   cpsi_∞ ≈ 0.431236, α ≈ 1.05    (at large N)
+
+**Verified:** cpsi(N) − cpsi_∞ scales exactly as 1/N (differences-ratio test: 0.333 = 1/3 between Δ(N=50→100) and Δ(N=100→150), as predicted by 1/N decay). Numerical at N=10000: cpsi = 0.4313, matching the asymptote 0.4312 to 4 decimals.
+
+**Asymptotic ρ_∞ matrix at half-filled k = N/2:** in the N→∞ limit at the (a, b, a) symmetric ansatz, the pair-AB matrix simplifies dramatically — every diagonal entry → 1/4, off-diagonals are governed only by (a, b):
+
+    ρ_∞ = [1/4,    ab/2,   ab/2,   a²/4]
+          [ab/2,   1/4,    1/4,    ab/2]
+          [ab/2,   1/4,    1/4,    ab/2]
+          [a²/4,   ab/2,   ab/2,   1/4]
+
+with the d_1 off-diagonal (between |01⟩ and |10⟩) equal to the diagonal 1/4. This reflects the asymptotic uniformity of binomial-coefficient ratios.
+
+**Pair-CΨ in the limit:**
+
+    Tr(ρ_∞²) = 3/8 + 2a²b² + a⁴/8
+    L1_off_∞ = 1/2 + 4ab + a²/2     (positive coefficients)
+    cpsi_∞(a, b) = Tr(ρ_∞²) · L1_off_∞ / 3,  subject to 2a² + b² = 1.
+
+**Optimum:** maximize cpsi_∞(a, b) on the constraint manifold. Setting dcpsi_∞/da = 0 and squaring to eliminate √(ab), one gets the **degree-6 polynomial** in x = a²:
+
+    (x − 2x²) · (19 − 30x − 93x²)² = (12 + 144x − 1132x² + 1488x³)²
+
+with two real roots in (0, 1/2): x ≈ 0.2370 (saddle, cpsi ≈ 0.4274) and **x ≈ 0.2647** (max, cpsi ≈ 0.4312). The optimum value is *not* a clean rational but is **another irreducible sextic root**, parallel to F69 itself (which is the slice-stationary root of the original 2900x⁶ − 8060x⁵ + 4211x⁴ + ... = 0).
+
+**Quasi-rational approximation:** x_opt = 0.2647148... is incredibly close to 9/34 = 0.2647059... (Δ = 9·10⁻⁶) and a/b = 0.75003 (very close to 3/4, Δ = 3·10⁻⁵). These rationals are *not* exact but are useful approximations.
+
+**Structural reading.** F69 introduced the GHZ+W slice's irreducible sextic at N=3. Today's central-triple analysis shows the SAME flavor of sextic-root structure governs the FULL N→∞ asymptote of the central-Dicke-triple slice. The "sextic" thread runs deeper than F69 alone — it's a generic feature of the slice-saddle landscape of pair-CΨ, with N=3 being one realization on the GHZ+W slice and N→∞ being another on the central-triple slice. Both give "algebraic numbers of degree 6" with no radical form.
+
 ---
 
 ## EQ-017
