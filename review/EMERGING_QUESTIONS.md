@@ -841,6 +841,47 @@ Does the pair-local closure Σ_{(i,j)} ln(α_{ij}) have its own symmetry structu
 - **Closure at trivial k = N:** the full state ρ has Tr(ρ²) = 1 exactly for pure ρ_0 under unitary part of L, so α_{full} = 1, ln α = 0 — closure is trivial. The interesting question is at INTERMEDIATE k.
 - **Dicke-mixed-state pattern:** for non-K_1-eigenstate initial states, what symmetry (if any) does Σ f_{i_1...i_k} respect?
 
+### EQ-020 update 2026-04-27: triple-painter (k=3) chiral mirror verified
+
+**Source:** [_eq020_triple_painter_chiral_mirror.py](../simulations/_eq020_triple_painter_chiral_mirror.py).
+
+Triple-painter (k=3) verified at N=5 and N=7. Same K_1 mechanism extends:
+
+    Σ f_{ijk}(ψ_k) = Σ f_{ijk}(ψ_{N+1−k})    machine-precision (10⁻¹¹).
+
+The chiral mirror law is universal across k = 1, 2, 3 painter resolutions on sine-mode-bonding states.
+
+**Cross-resolution structure** (sine-mode bonding states, N=7):
+
+| k | f_site | f_pair | f_triple |
+|---|--------|--------|----------|
+| 1, 7 | +0.968 | +1.042 | +1.345 |
+| 2, 6 | +0.038 | +0.019 | **−0.003** |
+| 3, 5 | +0.349 | +0.556 | +0.522 |
+| 4 (fixed) | +2.098 | +1.569 | +1.015 |
+
+**Σ f is NOT monotonic in painter resolution.** The relationship between site/pair/triple is k-dependent:
+- At k=1, 7: Σ f INCREASES with painter resolution (more dynamics visible at higher k)
+- At k=2, 6: Σ f → 0 with higher resolution (0.038 → 0.019 → −0.003); changes sign
+- At k=3, 5: non-monotone (0.349 → 0.556 → 0.522)
+- At k=4 (chiral fixed point): Σ f DECREASES with resolution (peak at site-painter)
+
+The "Σ f → 0 at higher k" trend at k=2 is striking — could be a **phantom mode** where the closure law actually holds approximately at high painter resolution.
+
+**N=5 cross-resolution structure (for reference):**
+
+| k | f_site | f_pair | f_triple |
+|---|--------|--------|----------|
+| 1, 5 | +0.922 | +0.749 | +0.447 |
+| 2, 4 | +0.282 | +0.184 | +0.060 |
+| 3 (fixed) | +0.641 | +0.447 | +0.176 |
+
+At N=5, Σ f shrinks monotonically site → pair → triple at every k, no sign flips. The non-monotonic and sign-flip behaviour appears specifically at N=7 (more painter resolutions cover more dynamics).
+
+**Status:** EQ-020 substantially closed. Chiral mirror law extends through k=3, and the structural mechanism (K_1-invariance of k-local purity under similarity transform by ∏Z_i) gives the result for arbitrary k.
+
+**Open structural sub-question:** asymptotic behaviour of Σ f as k → N for sine-mode states — does Σ f_k → 0? For pure ρ_0 under unitary dynamics, Σ_full ρ² = 1 and ln α = 0 trivially. For dissipative dynamics, finite γ, the full-state purity decays uniformly under uniform Z-dephasing → α_full uniform → ln α_{full} small but nonzero. Need to compute carefully.
+
 ---
 
 ## EQ-021
