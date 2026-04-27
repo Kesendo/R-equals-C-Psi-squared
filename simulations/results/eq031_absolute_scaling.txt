@@ -1,0 +1,30 @@
+EQ-031 step (a): absolute ‖M(N)‖² scaling test
+  γ=0.1, J=1.0, N ∈ {2, 3, 4, 5}
+  Predicted main:        ‖M(N)‖² = c_H · (N − 1) · 4^(N−2)
+  Predicted single-body: ‖M(N)‖² = c_H · (2N − 3) · 4^(N−2)
+
+       Hamiltonian        class  N=2      measured  N=3      measured  N=4      measured  N=5      measured
+     XX+YY (truly)        truly           0.0000e+00           6.0320e-31           1.6455e-30           5.9873e-30
+     IX+XI (truly)        truly           0.0000e+00           6.0320e-31           1.6455e-30           5.9873e-30
+      IX+IY (soft)         main           6.4000e+01           5.1200e+02           3.0720e+03           1.6384e+04
+      XY+YZ (hard)         main           1.9200e+02           1.5360e+03           9.2160e+03           4.9152e+04
+      XX+YZ (hard)         main           1.2800e+02           1.0240e+03           6.1440e+03           3.2768e+04
+      IX+IZ (hard)         main           6.4000e+01           5.1200e+02           3.0720e+03           1.6384e+04
+      XY+ZX (hard)         main           1.2800e+02           1.0240e+03           6.1440e+03           3.2768e+04
+      IY+YI (soft)  single_body           1.2800e+02           1.5360e+03           1.0240e+04           5.7344e+04
+      IZ+ZI (hard)  single_body           1.2800e+02           1.5360e+03           1.0240e+04           5.7344e+04
+
+Anchor c_H from N=2 (single bond), then predict N=3, 4, 5:
+
+       Hamiltonian        class    c_H (N=2)  N=3   meas/pred  N=4   meas/pred  N=5   meas/pred
+      IX+IY (soft)         main   6.4000e+01           1.000000           1.000000           1.000000
+      XY+YZ (hard)         main   1.9200e+02           1.000000           1.000000           1.000000
+      XX+YZ (hard)         main   1.2800e+02           1.000000           1.000000           1.000000
+      IX+IZ (hard)         main   6.4000e+01           1.000000           1.000000           1.000000
+      XY+ZX (hard)         main   1.2800e+02           1.000000           1.000000           1.000000
+      IY+YI (soft)  single_body   1.2800e+02           1.000000           1.000000           1.000000
+      IZ+ZI (hard)  single_body   1.2800e+02           1.000000           1.000000           1.000000
+
+Summary (meas/pred = 1.000000 means absolute formula is exact):
+  main class:        n=15, min=1.000000, max=1.000000, mean=1.000000, std=2.11e-16
+  single-body class: n=6, min=1.000000, max=1.000000, mean=1.000000, std=2.13e-16

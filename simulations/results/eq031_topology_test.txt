@@ -1,0 +1,25 @@
+EQ-031 step (b): topology dependence of ‖M(N)‖² scaling
+  γ=0.1, J=1.0
+
+Conjecture:
+  main class         ‖M(N)‖² = c_H · B(G) · 4^(N−2)
+  single-body class  ‖M(N)‖² = c_H · D2(G)/2 · 4^(N−2)
+
+Anchoring c_H from N=3 chain (B=2, D2=6, factor 4):
+  XY+YZ (main): ‖M(3, chain)‖² = 1.5360e+03, c_H = 1.9200e+02
+  IY+YI (single): ‖M(3, chain)‖² = 1.5360e+03, c_H = 1.2800e+02
+
+    topology  N    B   D2                      XY+YZ (main)                    IY+YI (single)
+  ---------- --  --- ----  --------------------------------  --------------------------------
+       chain  4    3   10    m= 9.216e+03  m/p=1.000000    m= 1.024e+04  m/p=1.000000
+       chain  5    4   14    m= 4.915e+04  m/p=1.000000    m= 5.734e+04  m/p=1.000000
+        ring  4    4   16    m= 1.229e+04  m/p=1.000000    m= 1.638e+04  m/p=1.000000
+        ring  5    5   20    m= 6.144e+04  m/p=1.000000    m= 8.192e+04  m/p=1.000000
+        star  4    3   12    m= 9.216e+03  m/p=1.000000    m= 1.229e+04  m/p=1.000000
+        star  5    4   20    m= 4.915e+04  m/p=1.000000    m= 8.192e+04  m/p=1.000000
+    complete  4    6   36    m= 1.843e+04  m/p=1.000000    m= 3.686e+04  m/p=1.000000
+    complete  5   10   80    m= 1.229e+05  m/p=1.000000    m= 3.277e+05  m/p=1.000000
+
+If meas/pred = 1.000000 across topologies, the conjecture holds.
+If not, the deviation pattern tells us what additional topology
+structure (cycles, hubs, triangles) the formula has missed.

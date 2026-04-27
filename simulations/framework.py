@@ -373,6 +373,112 @@ def _vec_to_pauli_basis_transform(N):
     return M
 
 
+def palindrome_residual_norm_squared_factor_graph(N, B, D2, hamiltonian_class='main'):
+    """Universal N-scaling factor F(N, G) = ‖M(N, G)‖² / c_H for any graph G.
+
+    Generalises the chain formula to arbitrary connectivity:
+
+        main class         ‖M(N, G)‖² = c_H · B(G) · 4^(N − 2)
+        single-body class  ‖M(N, G)‖² = c_H · (D2(G) / 2) · 4^(N − 2)
+
+    where:
+      B(G)  = number of bonds in the graph
+      D2(G) = Σ_i deg_G(i)² = sum of squared vertex degrees
+
+    The chain case recovers (N − 1) and (2N − 3) from B = N − 1 and
+    D2 = 4N − 6 (degree sequence 1, 2, 2, ..., 2, 1).
+
+    Verified to machine precision (m/p = 1.000000) on:
+      chain (B = N−1)             N = 4, 5
+      ring  (B = N)               N = 4, 5
+      star  (B = N−1, hub)        N = 4, 5
+      K_N   (B = N(N−1)/2)        N = 4, 5
+
+    The c_H anchor is graph-independent: at N=2 chain and any topology
+    with one bond it equals ‖M(2, single bond)‖². See
+    experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md.
+
+    Args:
+        N: number of sites in the graph (>= 2)
+        B: bond count of G (must be >= 1)
+        D2: Σ_i deg_G(i)² (must equal 2B for bond-count consistency check)
+        hamiltonian_class: 'main' or 'single_body'
+
+    Returns:
+        F(N, G) such that ‖M(N, G)‖² = c_H · F(N, G), where c_H = ‖M(2)‖²
+        for any one-bond Hamiltonian with the same Pauli-pair structure.
+    """
+    if N < 2:
+        raise ValueError(f"N must be >= 2; got {N}")
+    if B < 1:
+        raise ValueError(f"B must be >= 1 (graph needs at least one bond); got {B}")
+    deg_sum = 2 * B  # handshake lemma; cheap consistency check on D2
+    if D2 < deg_sum:
+        # D2 >= sum(deg) by Cauchy-Schwarz only when each deg >= 1, but
+        # we can at least require D2 >= 2B (each end of each bond contributes >=1)
+        raise ValueError(
+            f"D2 ({D2}) inconsistent with B ({B}); "
+            f"D2 must be at least 2B = {deg_sum}"
+        )
+    if hamiltonian_class == 'main':
+        return B * (4 ** (N - 2))
+    if hamiltonian_class == 'single_body':
+        return (D2 / 2) * (4 ** (N - 2))
+    raise ValueError(
+        f"hamiltonian_class must be 'main' or 'single_body'; got {hamiltonian_class!r}"
+    )
+
+
+def palindrome_residual_norm_squared_factor(N, hamiltonian_class='main'):
+    """Universal N-scaling factor F(N) such that ‖M(N)‖_F² = c_H · F(N).
+
+    For chain Pauli-pair Hamiltonians under uniform Z-dephasing, the squared
+    Frobenius norm of the palindrome residual M = Π·L·Π⁻¹ + L + 2Σγ·I obeys
+    a closed-form *absolute* scaling, not just a ratio law:
+
+        main class         ‖M(N)‖² = c_H · (N − 1) · 4^(N − 2)
+        single-body class  ‖M(N)‖² = c_H · (2N − 3) · 4^(N − 2)
+
+    where c_H = ‖M(2)‖² is a per-Hamiltonian anchor constant fixed at the
+    minimum chain length (one bond). Verified to machine precision (std
+    < 3·10⁻¹⁶) at N ∈ {2, 3, 4, 5} on representative Hamiltonians from each
+    class; see experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md.
+
+    The (N − 1) factor counts bonds; the 4^(N − 2) factor is the operator-
+    space extension when adding qubits beyond the minimal 2-site bond. The
+    single-body class replaces (N − 1) by (2N − 3) = (N − 1) + (N − 2),
+    bond count plus interior-site count, reflecting the doubled middle-site
+    weight of bilinears of the form (Iσ, σI).
+
+    For non-chain topologies use `palindrome_residual_norm_squared_factor_graph`,
+    which takes the bond count and the second moment of the degree sequence
+    directly. The chain formulas recover from B = N − 1 and D2 = 4N − 6.
+
+    Args:
+        N: chain length (>= 2)
+        hamiltonian_class: 'main' or 'single_body'
+
+    Returns:
+        F(N) such that ‖M(N)‖_F² = c_H · F(N), where c_H = ‖M(2)‖².
+        Caller multiplies by c_H (computed once at N=2) to predict all
+        larger N without re-eigenvaluing.
+
+    Example:
+        >>> N2_norm_sq = ...  # measure at N=2 once
+        >>> for N in [3, 4, 5, 6, 7]:
+        ...     predicted = N2_norm_sq * fw.palindrome_residual_norm_squared_factor(N)
+    """
+    if N < 2:
+        raise ValueError(f"N must be >= 2 (chain needs at least one bond); got {N}")
+    if hamiltonian_class == 'main':
+        return (N - 1) * (4 ** (N - 2))
+    if hamiltonian_class == 'single_body':
+        return (2 * N - 3) * (4 ** (N - 2))
+    raise ValueError(
+        f"hamiltonian_class must be 'main' or 'single_body'; got {hamiltonian_class!r}"
+    )
+
+
 def palindrome_residual_norm_ratio_squared(N1, N2, hamiltonian_class='main'):
     """Closed-form ‖M(N2)‖_F² / ‖M(N1)‖_F² for chain Pauli-pair Hamiltonians.
 
