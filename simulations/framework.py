@@ -2006,6 +2006,90 @@ def f71_antisymmetric_projector(N):
     return (np.eye(2 ** N, dtype=complex) - chain_mirror_state(N)) / 2.0
 
 
+def f71_eigenstate_class(psi, tol=1e-6):
+    """Classify state psi as F71-eigenstate (and which) or F71-mixed.
+
+    Returns:
+        +1 if R|ψ⟩ = +|ψ⟩ within tolerance (F71-symmetric eigenstate)
+        −1 if R|ψ⟩ = −|ψ⟩ within tolerance (F71-antisymmetric eigenstate)
+        None if neither (F71-mixed/breaking state)
+
+    F71-eigenstates of either sign trigger the bond-block decomposition of
+    the J-Jacobian (see Section 17 docstring). F71-mixed states do not.
+    """
+    N = int(round(np.log2(len(psi))))
+    if 2 ** N != len(psi):
+        raise ValueError(f"psi length {len(psi)} is not a power of 2")
+    R = chain_mirror_state(N)
+    Rpsi = R @ psi
+    norm_psi = np.linalg.norm(psi)
+    if norm_psi < tol:
+        raise ValueError("psi has zero norm")
+    overlap = np.vdot(psi, Rpsi) / (norm_psi ** 2)
+    if abs(overlap.imag) > tol:
+        return None
+    o_real = float(overlap.real)
+    if abs(o_real - 1.0) < tol:
+        return +1
+    if abs(o_real + 1.0) < tol:
+        return -1
+    return None
+
+
+def receiver_engineering_signature(psi):
+    """F71-based prediction of receiver-engineering favorability for state psi.
+
+    Combines F71-eigenstate classification with the bond-mirror-basis split
+    to forecast whether the J-Jacobian of psi has the balanced k+k block
+    structure (capacity-optimal at high SNR) or unbalanced (k+1, k) structure
+    (capacity-suboptimal — F71-eigenstate loses to F71-breaking).
+
+    The capacity-optimality claim is Tier 2: empirically verified at N=5
+    (balanced 2+2, F71-symmetric beats F71-breaking by ~5% mean Shannon
+    capacity, hardware-confirmed via bonding:2 receiver vs alt-z-bits at
+    2.80× MI(0,N−1) on Kingston) and inverted at N=6 (unbalanced 3+2,
+    F71-breaking wins by ~5% mean Shannon capacity). Extension to N=7
+    (predicted balanced 3+3, F71-eigenstate wins) and N=8 (predicted
+    unbalanced 4+3, F71-breaking wins) is testable but uncomputed.
+
+    See experiments/J_BLIND_RECEIVER_CLASSES.md (Update 2026-04-28 N-scaling)
+    and experiments/RECEIVER_VS_GAMMA_SACRIFICE.md.
+
+    Args:
+        psi: state vector in C^{2^N}
+
+    Returns dict with keys:
+        N:                  chain length inferred from len(psi)
+        f71_eigenvalue:     +1, −1, or None (F71-mixed)
+        bond_block_dims:    (n_sym, n_asym) split of the (N-1) bond-input space
+        bond_block_balanced: True iff n_sym == n_asym
+        prediction:         one of:
+            'capacity-optimal (balanced split, F71-eigenstate)'
+            'capacity-suboptimal (unbalanced split, F71-eigenstate)'
+            'no-prediction (F71-mixed state — no block structure)'
+    """
+    N = int(round(np.log2(len(psi))))
+    eig = f71_eigenstate_class(psi)
+    sym, asym = bond_mirror_basis(N)
+    n_sym, n_asym = len(sym), len(asym)
+    balanced = (n_sym == n_asym)
+
+    if eig is None:
+        prediction = 'no-prediction (F71-mixed state — no block structure)'
+    elif balanced:
+        prediction = 'capacity-optimal (balanced split, F71-eigenstate)'
+    else:
+        prediction = 'capacity-suboptimal (unbalanced split, F71-eigenstate)'
+
+    return {
+        'N': N,
+        'f71_eigenvalue': eig,
+        'bond_block_dims': (n_sym, n_asym),
+        'bond_block_balanced': balanced,
+        'prediction': prediction,
+    }
+
+
 def bond_mirror_basis(N):
     """Symmetric / antisymmetric basis vectors for the bond-input space.
 

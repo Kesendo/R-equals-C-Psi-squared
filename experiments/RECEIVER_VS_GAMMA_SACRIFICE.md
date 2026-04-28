@@ -337,6 +337,32 @@ Under γ₀ = const, with the F67 menu:
 - [BETWEEN_MEASUREMENTS_EVIDENCE](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md): the structural argument for γ₀ = const this reframing is consistent with
 - `simulations/eq024_refinement_shadow_lens_broken.py`: initial Python Brecher-test draft (commit `bf080a3`, coarse t-grid, superseded)
 - `simulations/_check_brecher_n5_finegrid.py`: Python fine-grid verification at N=5 (commit `dbf396a`)
+## Update 2026-04-28: parity prediction (untested, framework primitive added)
+
+The N=5, 7, 9 sweep covers **odd N only**, where the bond-mirror permutation R̄: J_b → J_{N-2-b} on the (N-1)-dim bond-input space splits into balanced k+k blocks. The block-decomposition mechanism (EQ-024 follow-up, [J_BLIND_RECEIVER_CLASSES Update 2026-04-28 N-scaling](J_BLIND_RECEIVER_CLASSES.md)) predicts that **at even N the split becomes unbalanced (k+1, k) due to a self-mirror bond, and the F71-eigenstate capacity advantage inverts** — F71-breaking receivers should win.
+
+Predicted scaling:
+
+| N | bond count | bond-block split | F71-eigenstate prediction |
+|---|---|---|---|
+| 5 | 4 | 2+2 (balanced) | optimal — confirmed (alt-z-bits 0.843 here, 2.80× hardware) |
+| 6 | 5 | 3+2 (unbalanced) | **suboptimal — untested** |
+| 7 | 6 | 3+3 (balanced) | optimal (existing data 0.490 confirms among odd-N) |
+| 8 | 7 | 4+3 (unbalanced) | **suboptimal — untested** |
+| 9 | 8 | 4+4 (balanced) | optimal (existing data 0.274) |
+
+To check the prediction, the existing brecher receiver-engineering protocol (alt-z-bits |010010⟩ vs |+−+−+−⟩ at N=6) needs new C# runs. If the existing 11-15× advantage shrinks or inverts at N=6, the parity-tied mechanism is confirmed for the receiver-engineering metric (MI(0, N-1)) and not just the J-Jacobian Shannon capacity.
+
+**Framework primitive.** `simulations/framework.py` Section 17 (added 2026-04-28) exposes:
+
+- `f71_eigenstate_class(psi)`: returns +1 / −1 / None
+- `bond_mirror_basis(N)`: returns (sym_basis, asym_basis) for the bond-input space
+- `receiver_engineering_signature(psi)`: combines both into a one-line forecast (`'capacity-optimal'` / `'capacity-suboptimal'` / `'no-prediction'`)
+
+For any candidate receiver state at any N, the framework now returns the parity prediction directly. Bonding modes ψ_k are F71-eigenstates with sign (−1)^(k+1); the block split is balanced iff N is odd.
+
+---
+
 - `compute/RCPsiSquared.Propagate/`: C# brecher mode and scan runner (commit `dbf396a`)
 - `simulations/results/eq024_refinement/brecher_scan_csharp.txt`, `brecher_scan_n7.txt`, `brecher_scan_n9.txt`: C# fine-grid Sum-MI results (commits `dbf396a`, `d22c0fe`)
 - `simulations/results/eq024_refinement/brecher_scan_with_mi0n.txt`: C# scan with both Sum-MI and MI(0, N-1) tracking (commit `ad99bea`)
