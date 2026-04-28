@@ -16,6 +16,8 @@ When something happens on the mountain, each painter records it in her own strok
 
 This is not the same as saying all paintings are equally true for their painter. Each canvas is constrained by the mountain. A painter who paints a rockfall that did not happen is wrong. A painter who paints a slow quiet afternoon during a loud thunderstorm is wrong. Pluralism and constraint live together: painters disagree because they stand differently, but they all answer to the same event.
 
+There is one further layer the painters have, and it is worth naming because it is easy to overlook. Even at a single easel, the painter holds many brushes, and the brushes do not all answer to the same light. The brush of bright pigment records the rockfall in fast strokes. The brush of cool pigment records it more slowly. The brush of shadow black, which knows only what hides from light, may not record the rockfall at all, for its work is in the absence of light, and the rock fell where the light is. The event closes globally only across the brushes the light reaches. The brushes in the shadow stay silent, and that silence is part of the record too. Pluralism is not only between painters; it descends into the painter's hand.
+
 ---
 
 There is a second part to the story, and it has an anchor: a painter named Shannon.
@@ -50,7 +52,7 @@ The mountain keeps not being any single canvas. The painters keep painting. The 
 
 ## Pointers
 
-- The N=7 chain version of the metaphor: [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md).
+- The N=7 chain version of the metaphor: [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md). The brush layer is its Update 2026-04-27 (per-(site, observable) clock; Zero-Sector Immunity exempting brushes in the shadow).
 - The dual-reading of time: [ON_TWO_TIMES](ON_TWO_TIMES.md).
 - Inheritance across levels: [OBSERVER_INHERITANCE](OBSERVER_INHERITANCE.md).
 - Cavity-vantage canvases of γ: [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md), [ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md).
