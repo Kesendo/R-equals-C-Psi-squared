@@ -2137,6 +2137,398 @@ def bond_mirror_basis(N):
 
 
 # ----------------------------------------------------------------------
+# Section 18: Cockpit — composed classes for repeated queries
+# ----------------------------------------------------------------------
+#
+# The Sections 1-17 are PRIMITIVES — small functions that compute one
+# thing each. Real questions usually require composing 5-10 primitives
+# (build H, build L, run palindrome_residual, classify, compute spectrum,
+# etc.). Doing this as ad-hoc code in every script means:
+#   - re-deriving the composition every time
+#   - forgetting which primitives we already verified
+#   - losing track of which predictions have been hardware-confirmed
+#
+# Section 18 introduces three classes that compose primitives into
+# answers. Each method is a callable shortcut that replaces document-
+# reading and re-derivation:
+#
+#   ChainSystem:    encapsulates (N, γ, J, topology, H_type), caches H/L,
+#                   exposes high-level methods like classify_pauli_pair,
+#                   predict_residual_norm_squared, etc.
+#   Receiver:       wraps a state vector with F71-classification and
+#                   signature(); provides .rho, .f71_class.
+#   Confirmations:  data-driven lookup table of hardware-confirmed
+#                   predictions. Each entry maps a name to (date, machine,
+#                   job_id, predicted vs measured, file paths).
+#
+# The intent: future sessions call methods (cockpit.what_was_confirmed
+# ('palindrome_trichotomy')) instead of re-reading 5 markdown docs to
+# remember what was verified. Each new structural finding adds one method
+# or one Confirmations entry. Discoverability via .<TAB> in interactive
+# Python.
+
+class ChainSystem:
+    """Encapsulates a quantum chain at fixed (N, γ, J, topology, H_type).
+
+    Caches Hamiltonian and Liouvillian on first access. Exposes high-level
+    methods that compose framework primitives into single-call answers.
+
+    Args:
+        N: number of qubits.
+        gamma_0: uniform Z-dephasing rate per site (default 0.05).
+        J: bond coupling (uniform; default 1.0).
+        topology: 'chain' (default), 'ring', 'star', 'complete'.
+        H_type: 'heisenberg' (default; XX+YY+ZZ per bond) or
+                'xy' (XX+YY per bond, scaled by J/2).
+
+    Attributes:
+        N, d (=2^N), d2 (=4^N), gamma_0, J, topology, H_type
+        bonds: list of (i, j) tuples
+        B: bond count len(bonds)
+        D2: Σ_i deg(i)² (second moment of degree sequence)
+        degrees: list of per-site degrees
+        H (cached property): Hamiltonian as d×d matrix
+        L (cached property): Liouvillian as d²×d² matrix
+
+    Example:
+        >>> chain = ChainSystem(N=5)
+        >>> chain.classify_pauli_pair([('X','X'), ('Y','Y')])
+        'truly'
+        >>> chain.predict_residual_norm_squared('main')
+        # returns c_H · (N-1) · 4^(N-2) when used with a per-Hamiltonian c_H
+    """
+
+    def __init__(self, N, gamma_0=0.05, J=1.0, topology='chain', H_type='heisenberg'):
+        if N < 2:
+            raise ValueError(f"N must be >= 2; got {N}")
+        if H_type not in ('heisenberg', 'xy'):
+            raise ValueError(f"H_type must be 'heisenberg' or 'xy'; got {H_type!r}")
+        self.N = N
+        self.d = 2 ** N
+        self.d2 = self.d * self.d
+        self.gamma_0 = float(gamma_0)
+        self.J = float(J)
+        self.topology = topology
+        self.H_type = H_type
+        self._build_topology()
+        self._H_cache = None
+        self._L_cache = None
+
+    def _build_topology(self):
+        N = self.N
+        if self.topology == 'chain':
+            self.bonds = [(i, i + 1) for i in range(N - 1)]
+        elif self.topology == 'ring':
+            self.bonds = [(i, (i + 1) % N) for i in range(N)]
+        elif self.topology == 'star':
+            self.bonds = [(0, i) for i in range(1, N)]
+        elif self.topology == 'complete':
+            self.bonds = [(i, j) for i in range(N) for j in range(i + 1, N)]
+        else:
+            raise ValueError(f"unknown topology: {self.topology!r}")
+        self.B = len(self.bonds)
+        deg = [0] * N
+        for i, j in self.bonds:
+            deg[i] += 1
+            deg[j] += 1
+        self.degrees = deg
+        self.D2 = sum(d * d for d in deg)
+
+    @property
+    def H(self):
+        if self._H_cache is None:
+            self._H_cache = self._build_H()
+        return self._H_cache
+
+    @property
+    def L(self):
+        if self._L_cache is None:
+            self._L_cache = self._build_L()
+        return self._L_cache
+
+    def _site_op(self, op, k):
+        return _site_op_kron(op, k, self.N)
+
+    def _build_H(self):
+        d = self.d
+        H = np.zeros((d, d), dtype=complex)
+        Xm, Ym, Zm = pauli_matrix('X'), pauli_matrix('Y'), pauli_matrix('Z')
+        for (i, j) in self.bonds:
+            xi, xj = self._site_op(Xm, i), self._site_op(Xm, j)
+            yi, yj = self._site_op(Ym, i), self._site_op(Ym, j)
+            if self.H_type == 'heisenberg':
+                zi, zj = self._site_op(Zm, i), self._site_op(Zm, j)
+                H = H + self.J * (xi @ xj + yi @ yj + zi @ zj)
+            elif self.H_type == 'xy':
+                H = H + (self.J / 2.0) * (xi @ xj + yi @ yj)
+        return H
+
+    def _build_L(self):
+        H = self.H
+        d, d2 = self.d, self.d2
+        Id = np.eye(d, dtype=complex)
+        L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+        Zm = pauli_matrix('Z')
+        for k in range(self.N):
+            Zk = self._site_op(Zm, k)
+            L = L + self.gamma_0 * (np.kron(Zk, Zk.conj()) - np.eye(d2))
+        return L
+
+    def classify_pauli_pair(self, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6):
+        """Trichotomy classification (truly / soft / hard) for a Pauli-pair H.
+
+        Builds H from the given terms on this chain's bonds, computes the
+        palindrome residual M and the spectrum-pairing error, returns the
+        verdict.
+
+        Args:
+            terms: list of (a, b) letter tuples, e.g. [('X','X'), ('Y','Y')].
+                   Each tuple contributes J_scale·σ_a^i σ_b^{i+1} per bond.
+            J_scale: bond coupling for the test Hamiltonian (default 1.0).
+                     Independent of self.J (which is for the chain's default H).
+
+        Returns:
+            'truly' | 'soft' | 'hard'
+        """
+        bilinear = [(t[0], t[1], J_scale) for t in terms]
+        H_test = _build_bilinear(self.N, self.bonds, bilinear)
+        L_test = lindbladian_z_dephasing(H_test, [self.gamma_0] * self.N)
+        Sigma_gamma = self.N * self.gamma_0
+        M = palindrome_residual(L_test, Sigma_gamma, self.N)
+        op_norm = float(np.linalg.norm(M))
+        evals = np.linalg.eigvals(L_test)
+        # spectrum pairing error
+        used = np.zeros(len(evals), dtype=bool)
+        max_err = 0.0
+        for i in range(len(evals)):
+            if used[i]:
+                continue
+            target = -evals[i] - 2 * Sigma_gamma
+            dists = np.abs(evals - target)
+            for j in range(len(evals)):
+                if used[j]:
+                    dists[j] = np.inf
+            best_j = int(np.argmin(dists))
+            if best_j != i:
+                used[i] = True
+                used[best_j] = True
+            else:
+                used[i] = True
+            max_err = max(max_err, float(dists[best_j]))
+        if op_norm < op_tol:
+            return 'truly'
+        if max_err < spec_tol:
+            return 'soft'
+        return 'hard'
+
+    def predict_residual_norm_squared(self, c_H, hamiltonian_class='main'):
+        """Closed-form ‖M(N, G)‖² = c_H · F(N, G) without computing M.
+
+        Uses palindrome_residual_norm_squared_factor_graph with this chain's
+        topology invariants (B, D2). For chains specifically, B = N-1 and
+        D2 = 4N - 6.
+
+        Args:
+            c_H: per-Hamiltonian anchor, equal to ‖M(2)‖² for that Hamiltonian.
+            hamiltonian_class: 'main' or 'single_body'.
+
+        Returns:
+            Predicted ‖M(N, G)‖² scalar.
+        """
+        factor = palindrome_residual_norm_squared_factor_graph(
+            self.N, self.B, self.D2, hamiltonian_class
+        )
+        return c_H * factor
+
+
+# Helper for ChainSystem._site_op (avoids accidental recursion with site_op
+# which doesn't exist as a name in framework.py — inline kron-chain instead):
+def _site_op_kron(op, site, N):
+    I2 = np.eye(2, dtype=complex)
+    factors = [I2] * N
+    factors[site] = op
+    out = factors[0]
+    for f in factors[1:]:
+        out = np.kron(out, f)
+    return out
+
+
+def pauli_matrix(letter):
+    """Return the 2×2 Pauli matrix for letter ∈ {'I', 'X', 'Y', 'Z'} as complex array."""
+    if letter == 'I':
+        return np.eye(2, dtype=complex)
+    if letter == 'X':
+        return np.array([[0, 1], [1, 0]], dtype=complex)
+    if letter == 'Y':
+        return np.array([[0, -1j], [1j, 0]], dtype=complex)
+    if letter == 'Z':
+        return np.array([[1, 0], [0, -1]], dtype=complex)
+    raise ValueError(f"Unknown Pauli letter: {letter!r}")
+
+
+class Receiver:
+    """A quantum state vector with framework-aware F71 classification.
+
+    Wraps a state ψ and exposes its F71-eigenvalue, signature, and density
+    matrix. Optionally bound to a ChainSystem for context.
+
+    Attributes:
+        psi: complex array of length 2^N
+        N: int (inferred from len(psi))
+        chain: optional ChainSystem
+        f71_class: cached +1, −1, or None
+        rho: cached density matrix |ψ⟩⟨ψ|
+
+    Example:
+        >>> chain = ChainSystem(N=5)
+        >>> r = Receiver(some_psi, chain=chain)
+        >>> r.f71_class            # +1, -1, or None
+        >>> r.signature()['prediction']
+    """
+
+    def __init__(self, psi, chain=None):
+        self.psi = np.asarray(psi, dtype=complex).ravel()
+        self.N = int(round(np.log2(len(self.psi))))
+        if 2 ** self.N != len(self.psi):
+            raise ValueError(f"psi length {len(self.psi)} is not a power of 2")
+        if chain is not None and chain.N != self.N:
+            raise ValueError(f"chain.N ({chain.N}) does not match psi N ({self.N})")
+        self.chain = chain
+        self._f71_class_cache = "unset"  # sentinel
+        self._rho_cache = None
+
+    @property
+    def f71_class(self):
+        if self._f71_class_cache == "unset":
+            self._f71_class_cache = f71_eigenstate_class(self.psi)
+        return self._f71_class_cache
+
+    @property
+    def rho(self):
+        if self._rho_cache is None:
+            rho = np.outer(self.psi, self.psi.conj())
+            self._rho_cache = (rho + rho.conj().T) / 2.0
+        return self._rho_cache
+
+    def signature(self):
+        """Return F71-based receiver-engineering forecast."""
+        return receiver_engineering_signature(self.psi)
+
+
+class Confirmations:
+    """Hardware-confirmed framework predictions, accessible by name.
+
+    Each entry records:
+      date, machine, job_id (or 'multiple'), observable,
+      predicted_value, measured_value, hardware_data, experiment_doc,
+      framework_primitive, description.
+
+    Use:
+        >>> Confirmations.lookup()                  # all entries
+        >>> Confirmations.lookup('palindrome_trichotomy')
+        >>> Confirmations.list_names()
+    """
+
+    _ENTRIES = {
+        'palindrome_trichotomy': {
+            'date': '2026-04-26',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7mjnjjaq2pc73a1pk4g',
+            'observable': '<X_0 Z_2>',
+            'predicted_value': {'truly': 0.000, 'soft': -0.623, 'hard': +0.195,
+                                'delta_soft_minus_truly': -0.623},
+            'measured_value': {'truly': +0.011, 'soft': -0.711, 'hard': +0.205,
+                               'delta_soft_minus_truly': -0.722},
+            'hardware_data': 'data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json',
+            'experiment_doc': 'experiments/V_EFFECT_FINE_STRUCTURE.md',
+            'framework_primitive': 'palindrome_residual + classify_pauli_pair',
+            'description': 'Super-operator palindrome trichotomy (truly/soft/hard) tomographically distinguishable on Heron r2 hardware at N=3. T1/T2 noise actually amplifies the soft-break signal.',
+        },
+        'f25_cusp_trajectory': {
+            'date': '2026-04-26',
+            'machine': 'ibm_kingston',
+            'job_id': 'd7mu36lqrg3c738lnda0',
+            'observable': 'CΨ(t) for Bell+',
+            'predicted_value': 'F25: CΨ(t) = f·(1+f²)/6 with f = exp(-4·γ·t)',
+            'measured_value': 'RMS residual 0.0097 vs in-situ γ_fit',
+            'hardware_data': 'data/ibm_cusp_slowing_april2026/ (April 26 precision run)',
+            'experiment_doc': 'experiments/CRITICAL_SLOWING_AT_THE_CUSP.md',
+            'framework_primitive': 'F25 closed-form CΨ(t)',
+            'description': 'Bell+ trajectory through CΨ=1/4 cusp confirmed point-by-point on Kingston (19 delay points, qubits 14-15).',
+        },
+        'f57_kdwell_gamma_invariance': {
+            'date': '2026-04-16',
+            'machine': 'ibm_kingston',
+            'job_id': 'cusp_slowing_kingston_20260416',
+            'observable': 'K_dwell / δ for Bell+',
+            'predicted_value': 'F57: γ-independent, F25 prefactor 1.0801 for pure Z-dephasing',
+            'measured_value': 'Pair A 0.6492, Pair B 0.6937 (6.3% spread despite 2.55× γ ratio)',
+            'hardware_data': 'data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json',
+            'experiment_doc': 'experiments/CRITICAL_SLOWING_AT_THE_CUSP.md',
+            'framework_primitive': 'K_dwell formula in F57',
+            'description': 'γ-invariance of K_dwell at CΨ=1/4 boundary verified on Kingston with two qubit pairs at 2.55× different γ. Absolute prefactor 0.67 vs predicted 1.08 due to T1 amplitude damping.',
+        },
+        'bonding_mode_receiver': {
+            'date': '2026-04-24',
+            'machine': 'ibm_kingston',
+            'job_id': 'multiple (see external pipeline)',
+            'observable': 'MI(0, N-1) for bonding:2 vs alt-z-bits',
+            'predicted_value': '4000-5500× over ENAQT in simulation N=5..13; ratio ≈ 1.4-3× hardware-realistic',
+            'measured_value': 'bonding:2 / alt-z-bits = 2.80× on Kingston N=5',
+            'hardware_data': 'external (AIEvolution.UI/experiments/ibm_quantum_tomography)',
+            'experiment_doc': 'experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md',
+            'framework_primitive': 'F67 bonding-mode + F71 chain-mirror symmetry',
+            'description': 'Receiver-engineering bonding-mode advantage measured on Kingston. Largest engineering lever in the framework portfolio. Confirms F67 + F71 structure on hardware.',
+        },
+        'chiral_mirror_law': {
+            'date': '2026-04-25',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'k_partnership_marrakesh_20260425',
+            'observable': 'Bloch components of K-partner pair states',
+            'predicted_value': 'Chiral mirror identity from K=diag((-1)^l)',
+            'measured_value': 'retrospective verification, identity holds',
+            'hardware_data': 'data/ibm_k_partnership_april2026/k_partnership_marrakesh_20260425_140913.json',
+            'experiment_doc': 'experiments/CHIRAL_MIRROR_HARDWARE_PREDICTION.md',
+            'framework_primitive': 'Section 12 — K_full chiral conjugation',
+            'description': 'Chiral mirror law (K H K = -H spectral inversion) verified retrospectively on Marrakesh K-partnership data.',
+        },
+        'pi_protected_xiz_yzzy': {
+            'date': '2026-04-26',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7n3013aq2pc73a2a18g',
+            'observable': '<X_0 I Z_2>',
+            'predicted_value': 'protected (≈0) for YZ+ZY soft Hamiltonian',
+            'measured_value': '+0.13 to +0.04 (within noise band, never above ±0.13)',
+            'hardware_data': 'data/ibm_marrakesh_april2026 (lebensader run, see EQ-030)',
+            'experiment_doc': 'review/EMERGING_QUESTIONS.md (EQ-030)',
+            'framework_primitive': 'pi_protected_observables (Section 10)',
+            'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian. Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
+        },
+    }
+
+    @classmethod
+    def lookup(cls, name=None):
+        """Return all confirmations (if name=None) or one entry by name."""
+        if name is None:
+            return dict(cls._ENTRIES)
+        if name in cls._ENTRIES:
+            return dict(cls._ENTRIES[name])
+        raise KeyError(
+            f"No confirmation named {name!r}. Available: {list(cls._ENTRIES.keys())}"
+        )
+
+    @classmethod
+    def list_names(cls):
+        """Return list of all confirmation names."""
+        return list(cls._ENTRIES.keys())
+
+    @classmethod
+    def by_machine(cls, machine):
+        """Return confirmations filtered by machine name (e.g., 'ibm_marrakesh')."""
+        return {k: dict(v) for k, v in cls._ENTRIES.items() if v.get('machine') == machine}
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
