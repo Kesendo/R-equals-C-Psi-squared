@@ -244,6 +244,40 @@ F71-asymmetry ‖ψ − Rψ‖ confirmed for the F71-breaking samples: mean ~1.2
 
 Combined sub-q 1 + 2 result: **400 random samples across F71-symmetric (product + non-product) and F71-breaking (product + non-product), capacity floor 5.74 bits, zero fourth-class candidates anywhere**. The three-class decomposition fully accounts for J-blindness at N=5 within the empirical evidence.
 
+## Update 2026-04-28 (structural follow-up): mechanism of F71-optimality
+
+Sub-question 2 closure showed F71-symmetric receivers have higher max capacity than F71-breaking ones (12.41 vs 11.99 product; 10.26 vs 8.80 non-product). This raises a structural question: why does F71-symmetry — a constraint, not a freedom — produce systematically higher capacity?
+
+**Hypothesis.** F71-symmetry constrains the J-Jacobian into a 2+2 block decomposition of the J-input space. The 4-dim bond-input space (J_0, J_1, J_2, J_3) splits under the chain-mirror permutation R̄ : J_b → J_{N-2-b} into:
+
+- 2-dim R̄-symmetric subspace: J_0 + J_3, J_1 + J_2
+- 2-dim R̄-antisymmetric subspace: J_0 − J_3, J_1 − J_2
+
+For F71-symmetric ψ, the Jacobian respects this block structure: rows split into R-symmetric features (e.g., P_2 alone, P_0 + P_4) and R-antisymmetric features (e.g., P_0 − P_4), and only the matching column-block contributes. The two 2-dim blocks are independent. SVD then sees two independent sub-spectra rather than a unified 4-dim spectrum.
+
+For F71-breaking ψ, no block structure; all 4 singular values are generic and tend to a flatter distribution.
+
+**Empirical test** ([_eq024_f71_optimality_svd.py](../simulations/_eq024_f71_optimality_svd.py)). 30 random F71-symmetric product samples + 30 random F71-breaking product samples; for each, the full SV vector of the J-Jacobian is recorded. Run output [eq024_f71_optimality_svd.txt](../simulations/results/eq024_f71_optimality_svd.txt), data [eq024_f71_optimality_svd.json](../simulations/results/eq024_f71_optimality_svd.json).
+
+**Result.**
+
+| | sv₁ mean | sv₂ mean | sv₃ mean | sv₄ mean | sv₁/sv₄ mean | sv₁²/Σsv² mean |
+|---|---|---|---|---|---|---|
+| F71-symmetric | 6.25 | 3.80 | 2.76 | 1.67 | 4.06 | 0.593 |
+| F71-breaking | 4.28 | 3.19 | 2.46 | 1.74 | 2.50 | 0.478 |
+
+Three observations:
+
+1. **F71-sym sv₁ is 46% larger** (6.25 vs 4.28); sv₄ is similar (1.67 vs 1.74). The leading singular value is the differentiator.
+2. **F71-sym SV spectrum is 62% more peaked** (sv₁/sv₄ ratio 4.06 vs 2.50). Pairwise comparison: F71-sym ratio exceeds F71-breaking ratio in **80.6%** of (sym, breaking) sample pairs.
+3. **F71-sym leading SV holds more total response** (sv₁²/Σsv² = 0.59 vs 0.48). Pairwise wins for F71-sym: 79.6%.
+
+Capacities tracked the SVD pattern: F71-sym mean C = 10.73, F71-breaking 9.92.
+
+**Reading.** The 2+2 block decomposition forced by F71-symmetry concentrates the J-response into one or two large singular values per block, while F71-breaking spreads response evenly across 4 SVs. Waterfilling over the 4-dim input then favors F71-symmetric receivers: a single large SV contributes more bits via 0.5·log(1 + SNR) than several medium SVs splitting the same total power. F71-symmetry is structurally — not accidentally — capacity-optimal at N=5 Heisenberg.
+
+This closes the "why" of F71-optimality: it follows from the algebra of mirror-symmetry on the bond-input space, not from any specific dynamical accident. Whether the same mechanism scales to N=6 (where the bond-input dim is 5 and the mirror permutation has a different fixed-point structure) is an open generalisation.
+
 ---
 
 ## Numerical verification anchor

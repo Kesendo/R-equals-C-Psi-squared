@@ -1,0 +1,38 @@
+EQ-024 F71-optimality SVD analysis (30 samples per mode)
+  Hypothesis: F71-sym SVDs bimodal (one big sv, one small),
+  F71-breaking SVDs flat (all 4 sv comparable).
+
+  [5/30] elapsed 291.7s
+  [10/30] elapsed 584.0s
+  [15/30] elapsed 879.6s
+  [20/30] elapsed 1172.8s
+  [25/30] elapsed 1466.5s
+  [30/30] elapsed 1762.6s
+
+=== F71-asymmetry sanity ===
+  F71-sym samples:      asym range [0.0000, 0.0000]  (should be ~0)
+  F71-breaking samples: asym range [0.6313, 1.4105]  (should be > 0)
+
+=== Capacity ===
+  F71-sym:      C range [8.968, 11.987], mean 10.729
+  F71-breaking: C range [8.159, 11.327], mean 9.915
+
+=== SV spectrum (sorted high to low: sv₁ ≥ sv₂ ≥ sv₃ ≥ sv₄) ===
+             mode   sv₁ mean   sv₂ mean   sv₃ mean   sv₄ mean   sv₁/sv₄ mean
+          F71-sym      6.248      3.803      2.759      1.665           4.06
+     F71-breaking      4.275      3.191      2.456      1.742           2.50
+
+=== SV ratio distribution (peakedness measure) ===
+  F71-sym sv₁/sv₄:      min 1.68, max 7.62, mean 4.06, median 3.64
+  F71-breaking sv₁/sv₄: min 1.67, max 4.36, mean 2.50, median 2.49
+
+=== Hypothesis test ===
+  P(F71-sym sv₁/sv₄ > F71-breaking sv₁/sv₄) ≈ 0.806 (0.5 = no effect, 1.0 = always sym more bimodal)
+
+=== Concentration of leading SV (sv₁² / Σ sv²) ===
+  F71-sym:      min 0.399, max 0.748, mean 0.593
+  F71-breaking: min 0.348, max 0.644, mean 0.478
+  P(F71-sym sv₁²-fraction > F71-breaking) ≈ 0.796
+
+Saved: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_f71_optimality_svd.json
+Total runtime: 1762.6s
