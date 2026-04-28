@@ -188,11 +188,28 @@ The minimum capacity 7.54 bits is well above the J-blind threshold (0.05 bits). 
 
 **Open generalisation.** Non-product F71-symmetric pure states live in a 20-dim Hilbert subspace (38 real parameters modulo norm and phase). Random sampling there has substantially more room for a fourth class to hide. This extension is lifted as a separate sub-question (1b below).
 
-### Sub-question 1b (new, 2026-04-28): non-product F71-symmetric extension
+### Sub-question 1b (closed 2026-04-28): non-product F71-symmetric extension
 
-The Update 2026-04-28 result covers F71-symmetric *product* states (6-parameter Bloch family). The full F71-symmetric Hilbert subspace at N=5 is the +1 eigenspace of the chain-mirror operator R, dimension 20 (8 self-mirror computational-basis states |a b c b a⟩ + 12 mirror-pairs, total 8 + 12 = 20-dim). Non-product F71-symmetric pure states span this 20-dim subspace minus the 6-dim product surface.
+The product-state Update 2026-04-28 covered the 6-parameter Bloch family. The full F71-symmetric Hilbert subspace at N=5 is the +1 eigenspace of the chain-mirror operator R (|a₀a₁a₂a₃a₄⟩ → |a₄a₃a₂a₁a₀⟩), dimension 20 (8 self-mirror computational-basis states + 12 mirror-pair symmetric combinations). Non-product F71-symmetric pure states span this 20-dim subspace, 38 real parameters modulo norm and phase.
 
-A fourth class could exist in the non-product region without contradicting the product-state result. Empirical attack: random sampling in the 20-dim symmetric subspace, same classification + Jacobian pipeline.
+**Empirical test.** Same pipeline as the product version but with Haar-uniform sampling on the 20-dim symmetric subspace: draw a random Gaussian vector in C^32, project via P_sym = (I + R)/2, normalise. Script: [_eq024_three_class_completeness_nonproduct.py](../simulations/_eq024_three_class_completeness_nonproduct.py). Results: [eq024_three_class_completeness_nonproduct.json](../simulations/results/eq024_three_class_completeness_nonproduct.json), [eq024_three_class_completeness_nonproduct.txt](../simulations/results/eq024_three_class_completeness_nonproduct.txt).
+
+**Result.** 100 Haar-random samples, seed 1, total runtime 38 minutes:
+
+| metric | non-product (sub-q 1b) | product (sub-q 1) |
+|---|---|---|
+| sample-space real dim | 38 | 6 |
+| in-class samples | 0 | 0 |
+| outside-class samples | 100 | 100 |
+| capacity range (bits) | 5.74 – 10.26 | 7.54 – 12.41 |
+| capacity mean | 7.46 | 10.48 |
+| capacity median | 7.40 | 10.50 |
+| std | 0.87 | 0.99 |
+| samples with C < 0.05 bits | **0** | **0** |
+
+The non-product distribution is tighter and lower than the product-slice distribution. Haar-uniform superpositions tend to be J-sensitive at a typical level around 7.5 bits, with min 5.74 bits — well above the J-blind threshold. Product states cover a wider, more-skewed-high distribution because the 6-dim product surface includes high-purity points (rather than typical mixed-purity superpositions).
+
+**Verdict.** Strong empirical support for three-class completeness within the **full** F71-symmetric pure-state subspace at N=5. Both the 6-dim product slice and the full 20-dim symmetric subspace yield zero fourth-class candidates over 200 total Haar-uniform samples (capacity floor 5.74 bits across both, with no observation anywhere near zero). Sub-question 1 is now closed for F71-symmetric receivers; F71-breaking is the natural next question (sub-question 2).
 
 ---
 

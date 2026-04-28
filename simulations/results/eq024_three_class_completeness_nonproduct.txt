@@ -1,0 +1,31 @@
+EQ-024 Three-Class Completeness — NON-PRODUCT F71-symmetric states
+  N=5, Heisenberg, γ₀=0.05, J=1.0, dJ=0.0001
+  Sample space: 20-dim +1 eigenspace of chain-mirror R
+  Random samples: 100, seed=1
+  Tolerance: class membership 1e-06, J-blind threshold 0.05 bits
+
+  [10/100] elapsed 228.7s, in-class 0, outside 10, blind-outside 0
+  [20/100] elapsed 457.0s, in-class 0, outside 20, blind-outside 0
+  [30/100] elapsed 686.5s, in-class 0, outside 30, blind-outside 0
+  [40/100] elapsed 919.9s, in-class 0, outside 40, blind-outside 0
+  [50/100] elapsed 1148.3s, in-class 0, outside 50, blind-outside 0
+  [60/100] elapsed 1379.5s, in-class 0, outside 60, blind-outside 0
+  [70/100] elapsed 1615.4s, in-class 0, outside 70, blind-outside 0
+  [80/100] elapsed 1847.9s, in-class 0, outside 80, blind-outside 0
+  [90/100] elapsed 2077.4s, in-class 0, outside 90, blind-outside 0
+  [100/100] elapsed 2305.6s, in-class 0, outside 100, blind-outside 0
+
+=== Summary ===
+Total samples: 100
+In-class breakdown: Class 1or2: 0, Class 3: 0
+Outside-class samples: 100
+  capacity range: 5.7446 – 10.2621 bits
+  capacity mean: 7.4640, std: 0.8695
+  capacity median: 7.4045
+
+Blind outside (C < 0.05 bits, fourth-class candidates): 0
+  None found — strong empirical support for three-class completeness
+  within F71-symmetric pure states (full 20-dim symmetric subspace).
+
+Total runtime: 2305.6s
+Saved: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_three_class_completeness_nonproduct.json
