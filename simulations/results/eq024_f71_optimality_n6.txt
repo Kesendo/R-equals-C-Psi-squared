@@ -1,0 +1,44 @@
+Building bond operators...
+Building dissipator...
+Setup done.
+EQ-024 F71-optimality at N=6: SVD analysis
+  10 samples per mode (F71-sym product, F71-breaking product)
+  Bond-input dim = 5, predicted block decomp: 3+2 (sym/antisym)
+  Liouvillian dim = 4096, spectral propagation via eig(L)
+
+  [1/10] elapsed 1483s, sym sv₁=3.98, brk sv₁=5.16, ETA 222.4 min
+  [2/10] elapsed 2921s, sym sv₁=7.86, brk sv₁=3.94, ETA 194.7 min
+  [3/10] elapsed 4318s, sym sv₁=3.92, brk sv₁=5.41, ETA 167.9 min
+  [4/10] elapsed 5709s, sym sv₁=3.93, brk sv₁=3.45, ETA 142.7 min
+  [5/10] elapsed 7104s, sym sv₁=3.04, brk sv₁=3.50, ETA 118.4 min
+  [6/10] elapsed 8545s, sym sv₁=3.90, brk sv₁=3.77, ETA 94.9 min
+  [7/10] elapsed 9980s, sym sv₁=2.87, brk sv₁=3.71, ETA 71.3 min
+  [8/10] elapsed 11367s, sym sv₁=3.70, brk sv₁=3.56, ETA 47.4 min
+  [9/10] elapsed 12712s, sym sv₁=3.88, brk sv₁=3.82, ETA 23.5 min
+  [10/10] elapsed 14067s, sym sv₁=5.65, brk sv₁=3.10, ETA 0.0 min
+
+=== Capacity ===
+  F71-sym:      C range [10.363, 13.651], mean 11.905
+  F71-breaking: C range [11.575, 14.019], mean 12.555
+
+=== SV spectrum (5 SVs at N=6) ===
+             mode  sv1 mean  sv2 mean  sv3 mean  sv4 mean  sv5 mean  sv₁/sv₅ mean
+          F71-sym     4.273     3.386     2.582     2.168     1.527       3.55
+     F71-breaking     3.940     3.452     2.880     2.440     1.876       2.11
+
+=== Hypothesis test (peakedness sv₁/sv₅) ===
+  F71-sym:      min 1.65, max 8.30, mean 3.55, median 2.45
+  F71-breaking: min 1.67, max 3.09, mean 2.11, median 1.97
+  P(F71-sym sv₁/sv₅ > F71-breaking sv₁/sv₅) ≈ 0.600
+
+=== Concentration sv₁²/Σsv² ===
+  F71-sym:      min 0.254, max 0.722, mean 0.401
+  F71-breaking: min 0.295, max 0.397, mean 0.340
+  P(F71-sym concentration > F71-breaking) ≈ 0.520
+
+=== Comparison to N=5 baseline (from sub-q follow-up, seed 42) ===
+  N=5: F71-sym sv₁/sv₄ mean 4.06, F71-breaking 2.50, P_sym>brk = 0.806
+  N=6: F71-sym sv₁/sv₅ mean 3.55, F71-breaking 2.11, P_sym>brk = 0.520 (concentration)
+
+Saved: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_f71_optimality_n6.json
+Total runtime: 14067s

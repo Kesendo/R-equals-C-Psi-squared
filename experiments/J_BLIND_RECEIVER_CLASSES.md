@@ -150,7 +150,7 @@ Five surviving sub-questions, lifted to EQ-024 in `review/EMERGING_QUESTIONS.md`
 
 1. **Three-class completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision at N=5. **Status 2026-04-28: partially closed for F71-symmetric *product* states (100 random samples, all out-of-class C in [7.54, 12.41] bits, no fourth-class candidate); see Update 2026-04-28 below. Non-product F71-symmetric extension remains open as its own sub-question.**
 2. **F71-breaking receiver capacity.** The afternoon sweep was F71-symmetric only. F71-breaking receivers do not unlock additional rank (max rank for bond inputs at N=5 is 4 regardless of receiver), but they may change the gain spectrum. Worth quantifying. **Status 2026-04-28: closed**. F71-breaking receivers tested via 100 random product (10 indep Bloch angles) + 100 Haar-random non-product (full C^32) samples; max C = 11.99 bits (product) and 8.80 bits (non-product), both below the F71-symmetric maxima 12.41 and 10.26. F71-symmetry is not a capacity-suboptimality constraint; it covers the optimal region. See Update 2026-04-28 (continued).
-3. **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096.
+3. **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096. **Status 2026-04-28: ceiling rises to ~14 bits at N=6 (F71-breaking max 14.02; F71-symmetric max 13.65). Dimensional-loss bit is partially recovered. F71-optimality inverts: at N=6, F71-breaking beats F71-symmetric. See Update 2026-04-28 (N-scaling).**
 4. **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.3, 0.6, 8.0): does it sit in a specific chromaticity sector or interpolate?
 5. **Operational meaning of the J-vs-γ gain gap.** J sv_max ≈ 10 vs γ sv_max ≈ 21.4 at N=5. Fixed ratio (~46%) across N, or N-dependent?
 
@@ -277,6 +277,42 @@ Capacities tracked the SVD pattern: F71-sym mean C = 10.73, F71-breaking 9.92.
 **Reading.** The 2+2 block decomposition forced by F71-symmetry concentrates the J-response into one or two large singular values per block, while F71-breaking spreads response evenly across 4 SVs. Waterfilling over the 4-dim input then favors F71-symmetric receivers: a single large SV contributes more bits via 0.5·log(1 + SNR) than several medium SVs splitting the same total power. F71-symmetry is structurally — not accidentally — capacity-optimal at N=5 Heisenberg.
 
 This closes the "why" of F71-optimality: it follows from the algebra of mirror-symmetry on the bond-input space, not from any specific dynamical accident. Whether the same mechanism scales to N=6 (where the bond-input dim is 5 and the mirror permutation has a different fixed-point structure) is an open generalisation.
+
+## Update 2026-04-28 (N-scaling): F71-optimality inverts at N=6
+
+Empirical test of whether the F71-optimality mechanism scales to N=6 Heisenberg, where the bond-input dim is 5 and the mirror permutation R̄: J_b → J_{N-2-b} has bond 2 as a self-mirror fixed point. Block decomposition becomes 3+2 (R̄-symmetric: J_0+J_4, J_1+J_3, J_2 self; R̄-antisymmetric: J_0−J_4, J_1−J_3) instead of N=5's balanced 2+2.
+
+Script: [_eq024_f71_optimality_n6.py](../simulations/_eq024_f71_optimality_n6.py). Results: [eq024_f71_optimality_n6.json](../simulations/results/eq024_f71_optimality_n6.json), [eq024_f71_optimality_n6.txt](../simulations/results/eq024_f71_optimality_n6.txt). 10 samples per mode (smaller than N=5's 30 due to ~12 min per sample at d² = 4096); spectral propagation via eig(L) replaces direct expm.
+
+**Result.** Comparison N=5 ↔ N=6 (mean values):
+
+| metric | N=5 (2+2) | N=6 (3+2) |
+|---|---|---|
+| F71-sym sv₁/sv_min ratio | 4.06 | 3.55 |
+| F71-breaking sv₁/sv_min ratio | 2.50 | 2.11 |
+| P(F71-sym ratio > F71-breaking) | 0.806 | 0.600 |
+| F71-sym mean C (bits) | 10.73 | 11.91 |
+| F71-breaking mean C (bits) | 9.92 | **12.56** |
+| Capacity-optimal class | F71-symmetric | **F71-breaking** |
+
+Two structural observations:
+
+1. **The block-decomposition peakedness mechanism survives but weakens** at N=6. F71-symmetric SV spectra are still more peaked on average (sv₁/sv_min 3.55 vs 2.11), but the pairwise advantage drops from 80.6% to 60.0%. The block decomposition still operates; it just produces less differentiation.
+
+2. **The capacity ranking inverts.** At N=6, F71-breaking *beats* F71-symmetric in mean capacity (12.56 vs 11.91 bits) and max capacity (14.02 vs 13.65). The N=5 advantage of F71-symmetric is gone at N=6.
+
+**Reading.** Waterfilling capacity scales (at high SNR) with the geometric mean of singular values, not just the top SV. The 3+2 block decomposition at N=6 produces F71-symmetric SV spectra with one large peak (in the symmetric block) but four smaller trailing values — geometric mean ≈ 2.63. F71-breaking SVs at N=6 are more uniform (mean ≈ 2.92 in geometric sense), giving higher total log-summation. F71-symmetric concentration buys peak singular value but loses the bulk-channel contribution.
+
+At N=5 with balanced 2+2 blocks, F71-symmetric concentrated TWO SVs (one per block), keeping the top-2 contribution high while still using the trailing-2 channels productively. At N=6 with unbalanced 3+2, only one SV dominates while the other two symmetric-block SVs and two antisymmetric-block SVs are smaller; the "concentration trick" loses ground to the F71-breaking distribution.
+
+**Generalised prediction (parity-tied structural claim).**
+
+- **Even bond count (odd N: 3, 5, 7, ...):** balanced block split (k+k). F71-optimality should hold.
+- **Odd bond count (even N: 4, 6, 8, ...):** unbalanced split with self-mirror bond. F71-optimality fails or weakens.
+
+The mechanism is parity-tied: whether the number of bonds is even (paired) or odd (one self-mirror) determines whether the block decomposition is balanced. The capacity-optimal receiver class follows this parity.
+
+Open: confirm at N=7 (6 bonds, 3+3 balanced split — should restore F71-optimality) and N=8 (7 bonds, 4+3 unbalanced — should keep F71-suboptimal). Both N=7 (d²=16384) and N=8 (d²=65536) require substantially more compute per sample than N=6 (d²=4096), so this prediction stands as a candidate next test rather than a near-term goal.
 
 ---
 
