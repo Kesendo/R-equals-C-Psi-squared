@@ -56,11 +56,16 @@ class ChainSystem:
             → full Lebensader analysis (skeleton + trace + cusp + chiral + Y-parity)
     """
 
+    _FROZEN = frozenset({'N', 'd', 'd2', 'gamma_0', 'J', 'topology', 'H_type',
+                          'bonds', 'B', 'degrees', 'D2'})
+
     def __init__(self, N, gamma_0=0.05, J=1.0, topology='chain', H_type='heisenberg'):
         if N < 2:
             raise ValueError(f"N must be >= 2; got {N}")
         if H_type not in ('heisenberg', 'xy'):
             raise ValueError(f"H_type must be 'heisenberg' or 'xy'; got {H_type!r}")
+        # bypass __setattr__ guard during init
+        object.__setattr__(self, '_initialized', False)
         self.N = N
         self.d = 2 ** N
         self.d2 = self.d * self.d
@@ -71,6 +76,20 @@ class ChainSystem:
         self._build_topology()
         self._H_cache = None
         self._L_cache = None
+        object.__setattr__(self, '_initialized', True)
+
+    def __setattr__(self, name, value):
+        # Freeze structural attributes after construction. Caches (H, L) are
+        # immutable in spirit because the Hamiltonian / Liouvillian depend on
+        # all the frozen attrs; allowing J or gamma_0 mutation would silently
+        # decouple cache from declared chain state. Make a new ChainSystem
+        # instead.
+        if getattr(self, '_initialized', False) and name in self._FROZEN:
+            raise AttributeError(
+                f"ChainSystem.{name} is immutable after construction. "
+                f"Make a new ChainSystem(...) with the desired {name}."
+            )
+        object.__setattr__(self, name, value)
 
     def _build_topology(self):
         N = self.N
@@ -200,7 +219,7 @@ class ChainSystem:
             )
 
         if terms is not None:
-            bilinear = [(t[0], t[1], 1.0) for t in terms]
+            bilinear = [(t[0], t[1], self.J) for t in terms]
             H = _build_bilinear(self.N, self.bonds, bilinear)
         else:
             H = self.H
@@ -243,16 +262,37 @@ class Receiver:
         signature() → receiver_engineering_signature dict
     """
 
-    def __init__(self, psi, chain=None):
-        self.psi = np.asarray(psi, dtype=complex).ravel()
+    def __init__(self, psi, chain=None, atol=1e-6):
+        psi_arr = np.asarray(psi, dtype=complex)
+        if psi_arr.ndim != 1:
+            raise ValueError(
+                f"psi must be a 1D state vector; got shape {psi_arr.shape}. "
+                f"To wrap a density matrix, use Receiver.from_rho(rho, chain) instead."
+            )
+        self.psi = psi_arr
         self.N = int(round(np.log2(len(self.psi))))
         if 2 ** self.N != len(self.psi):
             raise ValueError(f"psi length {len(self.psi)} is not a power of 2")
+        norm = float(np.linalg.norm(self.psi))
+        if not np.isclose(norm, 1.0, atol=atol):
+            raise ValueError(
+                f"psi must be normalized (||psi||=1); got ||psi||={norm:.6g}. "
+                f"Either normalize before passing or use Receiver.from_psi_unnormalized(...)."
+            )
         if chain is not None and chain.N != self.N:
             raise ValueError(f"chain.N ({chain.N}) does not match psi N ({self.N})")
         self.chain = chain
         self._f71_class_cache = "unset"
         self._rho_cache = None
+
+    @classmethod
+    def from_psi_unnormalized(cls, psi, chain=None):
+        """Wrap a non-normalized state vector by normalizing first."""
+        psi = np.asarray(psi, dtype=complex).ravel()
+        n = float(np.linalg.norm(psi))
+        if n == 0.0:
+            raise ValueError("psi is the zero vector; cannot normalize.")
+        return cls(psi / n, chain=chain)
 
     @property
     def f71_class(self):
@@ -358,10 +398,10 @@ class Confirmations:
             'observable': '<X_0 I Z_2>',
             'predicted_value': 'protected (≈0) for YZ+ZY soft Hamiltonian',
             'measured_value': '+0.13 to +0.04 (within noise band, never above ±0.13)',
-            'hardware_data': 'data/ibm_marrakesh_april2026 (lebensader run, see EQ-030)',
-            'experiment_doc': 'review/EMERGING_QUESTIONS.md (EQ-030)',
+            'hardware_data': 'external (raw JSON not in repo; results documented inline in experiment_doc)',
+            'experiment_doc': 'review/EMERGING_QUESTIONS.md',
             'framework_primitive': 'pi_protected_observables',
-            'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian. Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
+            'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian (EQ-030). Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
         },
         'lebensader_skeleton_trace_decoupling': {
             'date': '2026-04-26',
@@ -370,10 +410,10 @@ class Confirmations:
             'observable': 'Π-protected counts (skeleton) + θ-trajectory tails (trace)',
             'predicted_value': 'Skeleton/trace decouple at N≥4, co-occur at N=3. T1 makes drop measurable: bond-flipped Z-free pairs (XY+YX, IY+YI) preserve skeleton (drop≤1) and trace (long θ-tail); Z-containing soft pairs (YZ+ZY, XZ+ZX) collapse both (drop≈28-29, no tail).',
             'measured_value': 'drop=28 for YZ+ZY confirmed on Marrakesh. Pearson(drop, Δ∫θ)=+0.85. Bures velocity gives no third discriminator.',
-            'hardware_data': 'data/ibm_k_partnership_april2026/k_partnership_marrakesh_*.json + Snapshot D / Lebensader runs',
-            'experiment_doc': 'review/EMERGING_QUESTIONS.md (EQ-030 closure)',
+            'hardware_data': 'external (raw JSON not in repo; tables of <X_0 I Z_2> per t and basis documented inline in experiment_doc)',
+            'experiment_doc': 'review/EMERGING_QUESTIONS.md',
             'framework_primitive': 'cockpit_panel — composes pi_protected_observables + θ-trajectory',
-            'description': 'Lebensader as Stromkabel: skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis. ChainSystem.cockpit_panel gives this in one call.',
+            'description': 'Lebensader as Stromkabel (EQ-030 closure): skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis. ChainSystem.cockpit_panel gives this in one call.',
         },
     }
 

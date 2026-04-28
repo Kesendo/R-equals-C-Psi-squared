@@ -202,3 +202,98 @@ def test_bond_mirror_basis_dimensions():
         sym, asym = fw.bond_mirror_basis(N)
         assert (len(sym), len(asym)) == (expected_sym, expected_asym), \
             f"N={N}: got ({len(sym)}, {len(asym)}), expected ({expected_sym}, {expected_asym})"
+
+
+# ----------------------------------------------------------------------
+# Cockpit defensive guarantees (PTF round 1)
+# ----------------------------------------------------------------------
+
+def test_chainsystem_J_immutable_after_init():
+    chain = fw.ChainSystem(N=3, J=1.0)
+    with pytest.raises(AttributeError, match="immutable"):
+        chain.J = 2.0
+
+
+def test_chainsystem_gamma_0_immutable_after_init():
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    with pytest.raises(AttributeError, match="immutable"):
+        chain.gamma_0 = 0.5
+
+
+def test_chainsystem_topology_immutable_after_init():
+    chain = fw.ChainSystem(N=3, topology='chain')
+    with pytest.raises(AttributeError, match="immutable"):
+        chain.topology = 'ring'
+
+
+def test_receiver_rejects_2d_input():
+    """Receiver must reject density matrices passed where psi is expected."""
+    rho = np.eye(8, dtype=complex) / 8.0  # 8x8 max-mixed
+    with pytest.raises(ValueError, match="1D state vector"):
+        fw.Receiver(rho)
+
+
+def test_receiver_rejects_unnormalized_psi():
+    psi = np.array([1.0, 1.0, 0.0, 0.0], dtype=complex)  # norm sqrt(2)
+    with pytest.raises(ValueError, match="normalized"):
+        fw.Receiver(psi)
+
+
+def test_receiver_from_psi_unnormalized():
+    psi = np.array([1.0, 1.0, 0.0, 0.0], dtype=complex)
+    r = fw.Receiver.from_psi_unnormalized(psi)
+    assert np.isclose(np.linalg.norm(r.psi), 1.0)
+    assert r.N == 2
+
+
+def test_cockpit_panel_rejects_non_hermitian_rho():
+    chain = fw.ChainSystem(N=2, gamma_0=0.05)
+    rho_nh = np.array([[0.5, 0.2, 0, 0],
+                       [0.2, 0.3, 0, 0],
+                       [0, 0, 0.1, 0.05],
+                       [0, 0, 0.05j, 0.1]], dtype=complex)
+    with pytest.raises(ValueError, match="Hermitian"):
+        fw.cockpit_panel(chain.H, [0.05]*2, rho_nh, 2, t_max=0.5, dt=0.05)
+
+
+def test_cockpit_panel_rejects_non_psd_rho():
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    rho_neg = np.zeros((8,8), dtype=complex)
+    rho_neg[0,0] = 1.5
+    rho_neg[1,1] = -0.5  # negative eigenvalue
+    with pytest.raises(ValueError, match="positive semi-definite"):
+        fw.cockpit_panel(chain.H, [0.05]*3, rho_neg, 3, t_max=0.5, dt=0.05)
+
+
+def test_cockpit_panel_rejects_trace_mismatch():
+    chain = fw.ChainSystem(N=2, gamma_0=0.05)
+    rho_no_trace = np.eye(4, dtype=complex) * 0.5  # trace = 2
+    with pytest.raises(ValueError, match="trace"):
+        fw.cockpit_panel(chain.H, [0.05]*2, rho_no_trace, 2, t_max=0.5, dt=0.05)
+
+
+def test_cockpit_panel_terms_uses_chain_J():
+    """terms-mode must scale by self.J, not hardcoded 1.0.
+
+    A chain at J=2 with terms=YZ+ZY should give a different residual
+    (scaled by J²=4) than the same chain at J=1.
+    """
+    plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
+    minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
+    psi = np.kron(np.kron(plus, minus), plus)
+
+    chain1 = fw.ChainSystem(N=3, J=1.0, gamma_0=0.05)
+    r1 = fw.Receiver(psi, chain=chain1)
+    p1 = chain1.cockpit_panel(r1, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
+                              t_max=2.0, dt=0.01)
+
+    chain2 = fw.ChainSystem(N=3, J=2.0, gamma_0=0.05)
+    r2 = fw.Receiver(psi, chain=chain2)
+    p2 = chain2.cockpit_panel(r2, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
+                              t_max=2.0, dt=0.01)
+
+    # Different J → different θ-trajectory (Hamiltonian rescales coherent dynamics)
+    theta1 = p1['_trajectory_for_inspection']['theta']
+    theta2 = p2['_trajectory_for_inspection']['theta']
+    assert not np.allclose(theta1, theta2), \
+        "cockpit_panel(terms=...) must use self.J, not hardcoded 1.0"

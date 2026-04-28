@@ -23,6 +23,27 @@ from .pauli import _vec_to_pauli_basis_transform, pauli_basis_vector
 from .symmetry import chiral_panel, y_parity_panel
 
 
+def _validate_rho(rho, N, atol=1e-6):
+    """Reject non-density-matrix inputs. Cheap; runs once at entry."""
+    d = 2 ** N
+    if rho.shape != (d, d):
+        raise ValueError(f"rho_0 shape {rho.shape} != expected ({d},{d}) for N={N}")
+    if not np.allclose(rho, rho.conj().T, atol=atol):
+        raise ValueError(
+            f"rho_0 is not Hermitian (max anti-Hermitian part "
+            f"{float(np.max(np.abs(rho - rho.conj().T))):.3e}); pass a valid density matrix."
+        )
+    tr = complex(np.trace(rho))
+    if not np.isclose(tr, 1.0, atol=atol):
+        raise ValueError(f"rho_0 trace {tr.real:.6f} (+ {tr.imag:.3e}j) != 1; not a density matrix.")
+    eigvals = np.linalg.eigvalsh(0.5 * (rho + rho.conj().T))
+    if eigvals[0] < -atol:
+        raise ValueError(
+            f"rho_0 is not positive semi-definite (min eigvalue {float(eigvals[0]):.3e}); "
+            f"not a valid density matrix."
+        )
+
+
 def _purity_psi_norm_cpsi(rho):
     """CΨ glossary: Purity·Ψ-norm. Ψ-norm = L1(ρ)/(d-1)."""
     p = float(np.real(np.trace(rho @ rho)))
@@ -99,6 +120,7 @@ def cockpit_panel(H, gamma_l, rho_0, N,
     the difference. Trace: θ-trajectory metrics (max, tail duration, α
     descent exponent). Rating combines both with status labels.
     """
+    _validate_rho(np.asarray(rho_0, dtype=complex), N)
     if gamma_t1_l is None:
         gamma_t1_l = [0.0] * N
     times = np.linspace(0.0, t_max, int(t_max / dt) + 1)
