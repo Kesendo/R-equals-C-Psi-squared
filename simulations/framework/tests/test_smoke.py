@@ -208,6 +208,32 @@ def test_bond_mirror_basis_dimensions():
 # Cockpit defensive guarantees (PTF round 1)
 # ----------------------------------------------------------------------
 
+def test_chainsystem_n2_warns_about_structural_degeneracy():
+    """N=2 is allowed but warns; fundamental ops still produce correct values."""
+    import warnings
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter('always')
+        chain = fw.ChainSystem(N=2)
+        user_warnings = [x for x in w if issubclass(x.category, UserWarning)]
+        assert len(user_warnings) == 1
+        assert 'structurally degenerate' in str(user_warnings[0].message)
+    # Math still works at N=2 — fundamental vocabulary
+    assert chain.classify_pauli_pair([('X','X'),('Y','Y'),('Z','Z')]) == 'truly'
+    assert chain.classify_pauli_pair([('Y','Z'),('Z','Y')]) == 'soft'
+    assert abs(chain.predict_residual_norm_squared_from_terms(
+        [('Y','Z'),('Z','Y')]) - 256.0) < 1e-6  # 2^4·2·8 = 256 at N=2
+
+
+def test_chainsystem_n3plus_does_not_warn():
+    import warnings
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter('always')
+        fw.ChainSystem(N=3)
+        fw.ChainSystem(N=4)
+        user_warnings = [x for x in w if issubclass(x.category, UserWarning)]
+        assert len(user_warnings) == 0
+
+
 def test_chainsystem_J_immutable_after_init():
     chain = fw.ChainSystem(N=3, J=1.0)
     with pytest.raises(AttributeError, match="immutable"):
@@ -246,6 +272,7 @@ def test_receiver_from_psi_unnormalized():
     assert r.N == 2
 
 
+@pytest.mark.filterwarnings("ignore::UserWarning")
 def test_cockpit_panel_rejects_non_hermitian_rho():
     chain = fw.ChainSystem(N=2, gamma_0=0.05)
     rho_nh = np.array([[0.5, 0.2, 0, 0],
@@ -265,6 +292,7 @@ def test_cockpit_panel_rejects_non_psd_rho():
         fw.cockpit_panel(chain.H, [0.05]*3, rho_neg, 3, t_max=0.5, dt=0.05)
 
 
+@pytest.mark.filterwarnings("ignore::UserWarning")
 def test_cockpit_panel_rejects_trace_mismatch():
     chain = fw.ChainSystem(N=2, gamma_0=0.05)
     rho_no_trace = np.eye(4, dtype=complex) * 0.5  # trace = 2

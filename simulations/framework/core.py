@@ -9,6 +9,8 @@ shortcuts. Each method replaces document-reading with a single call.
 """
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 
 from .lindblad import (
@@ -64,6 +66,18 @@ class ChainSystem:
             raise ValueError(f"N must be >= 2; got {N}")
         if H_type not in ('heisenberg', 'xy'):
             raise ValueError(f"H_type must be 'heisenberg' or 'xy'; got {H_type!r}")
+        if N == 2:
+            warnings.warn(
+                "ChainSystem(N=2) is mathematically valid but structurally "
+                "degenerate: F71 bond_mirror_basis has only 1 sym mode and 0 "
+                "asym modes (every F71-eigenstate is capacity-suboptimal); "
+                "only 1 bond exists; the drop=28 hardware anchor is "
+                "unreproducible (4^2=16 Pauli strings total). Fundamental "
+                "vocabulary (classify, Π, palindrome residual, Frobenius "
+                "scaling) holds; structural vocabulary (F71-balance, multi-"
+                "bond cockpit signatures) needs N>=3.",
+                UserWarning, stacklevel=2,
+            )
         # bypass __setattr__ guard during init
         object.__setattr__(self, '_initialized', False)
         self.N = N
