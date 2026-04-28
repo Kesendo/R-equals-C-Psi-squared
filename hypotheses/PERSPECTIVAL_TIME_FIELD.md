@@ -326,10 +326,10 @@ Closure fails (massively):
 [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (2026-04-25, Tier 1) proves that the (w=0, w=0)-block of the palindrome residual M = Π·L·Π⁻¹ + L + 2Σγ·I is **identically zero** for every 2-body Hamiltonian H and any uniform Z-dephasing — independent of J. Pauli strings σ_α with α_l ∈ {I, Z} for every site l live in this block.
 
 For these strings:
-- The dissipator gives D(σ_α) = 0 (Lemma 1: Z_l commutes with both I and Z at site l).
-- The Hamiltonian commutator [H, σ_α] takes σ_α **out** of the w=0 sector for any non-ZZ bond bilinear (Lemma 2).
+- The dissipator gives D(σ_α) = 0 (Lemma 1: Z_l commutes with both I and Z at site l). Pure-Z Pauli strings sit in the kernel of the dissipator with eigenvalue 0.
+- The Hamiltonian commutator [H, σ_α] either vanishes (for bond bilinears in {IZ, ZI, ZZ} — single-site Z-fields or pure ZZ couplings, all of which commute with anything in w=0) or takes σ_α **out** of the w=0 sector (for bond bilinears containing X or Y — Lemma 2). Either way, nothing lands inside the (w=0, w=0) block of M. For our XY chain (H = J Σ (XX + YY)/2 per bond), every bond bilinear contains X and Y, so [H, σ_α] is non-zero and points out of w=0.
 
-So pure-Z observables live in the dissipator's kernel. They are not driven by γ-dynamics at all — their evolution under L is purely unitary, governed by H alone. Under perturbation J → J_mod, this unitary evolution shifts in *frequency* (eigenvalues of H), not in *envelope* (no envelope to shift). The α-fit, which models a multiplicative time-rescale of an envelope, structurally cannot match a frequency shift. Closure fails by definition.
+So pure-Z observables live in the dissipator's kernel. The Heisenberg-picture dual L\*(σ_α) = i[H, σ_α] for σ_α in w=0: pure unitary, no D contribution. Under perturbation J → J_mod, this unitary evolution shifts in *frequency* (eigenvalues of H), not in *envelope*: the envelope of ⟨σ_α⟩(t) for σ_α in w=0 comes entirely from γ-driven decoherence of ρ's off-diagonal blocks (rate 4γ for popcount-1 off-diagonals at our setup), which is itself J-independent. The α-fit, which models a multiplicative time-rescale of an envelope, structurally cannot match a frequency shift sitting on top of a J-independent envelope. Closure fails by definition.
 
 The empirical Σ ln α^Z = +0.76 (and +6.99 for ZZ) is the **dynamical signature** of the static theorem: Zero-Sector Immunity says these observables don't see the slow-mode-protection mechanism that produces PTF closure, and the per-observable α-scan confirms it from the trajectory side.
 
