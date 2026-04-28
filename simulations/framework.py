@@ -1937,6 +1937,122 @@ def k_local_purity(rho, sites, N):
 
 
 # ----------------------------------------------------------------------
+# Section 17: Chain-mirror (F71) spatial symmetry
+# ----------------------------------------------------------------------
+#
+# F71 is the chain-reflection symmetry of the uniform-J Liouvillian:
+# the operator R: |b₀ b₁ … b_{N-1}⟩ → |b_{N-1} … b₁ b₀⟩ commutes with H,
+# the dissipator D, and hence L. Proved as F71 in
+# docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md.
+#
+# Physical meaning: the chain has no preferred end; site 0 and site N-1
+# are interchangeable. Pure states ψ with R|ψ⟩ = |ψ⟩ are F71-symmetric;
+# their density matrices commute with R.
+#
+# Bond-input parity. The reflection induces a permutation on the (N-1)
+# bonds: bond b ↔ bond (N-2-b). The bond-input vector space then splits
+# into +1 and −1 eigenspaces of this permutation:
+#
+#   even N (odd bond count):   one self-mirror bond at index (N-2)/2.
+#                              symmetric subspace dim = ⌈(N-1)/2⌉ = N/2
+#                              antisymmetric subspace dim = ⌊(N-1)/2⌋
+#                              = N/2 − 1.  Asymmetric split (k+1, k).
+#   odd N (even bond count):   no self-mirror bond. Both subspaces dim
+#                              (N-1)/2.  Balanced split (k, k).
+#
+# For an F71-symmetric receiver ψ, the J-Jacobian respects this split:
+# rows decompose into R-symmetric and R-antisymmetric features, and the
+# J-input columns decompose into symmetric/antisymmetric J-modes. The
+# Jacobian is then block-diagonal in this basis. Empirical consequence
+# (EQ-024, 2026-04-28): F71-symmetric receivers achieve higher Shannon
+# capacity than F71-breaking ones at odd N (balanced split, e.g. N=5)
+# and LOWER capacity at even N (unbalanced split, e.g. N=6). The
+# capacity-optimal receiver class flips with bond-count parity.
+# Documented in experiments/J_BLIND_RECEIVER_CLASSES.md.
+
+def chain_mirror_state(N):
+    """Chain-mirror operator R on 2^N Hilbert space.
+
+    R|b₀ b₁ … b_{N-1}⟩ = |b_{N-1} … b₁ b₀⟩ (bit-reversal permutation).
+    R is real, symmetric, and involutory (R² = I), so its eigenvalues are
+    ±1. Used as the structural operator for F71 chain-reflection symmetry.
+
+    Returns:
+        (2^N, 2^N) sparse-but-dense permutation matrix.
+    """
+    dim = 2 ** N
+    R = np.zeros((dim, dim), dtype=complex)
+    for i in range(dim):
+        rev = 0
+        x = i
+        for _ in range(N):
+            rev = (rev << 1) | (x & 1)
+            x >>= 1
+        R[rev, i] = 1.0
+    return R
+
+
+def f71_symmetric_projector(N):
+    """Projector P_sym = (I + R) / 2 onto the F71-symmetric (+1) eigenspace.
+
+    For a Haar-uniform pure state ψ in the F71-symmetric subspace:
+    draw g ∈ C^{2^N} Gaussian, set ψ = P_sym · g and renormalise.
+    """
+    return (np.eye(2 ** N, dtype=complex) + chain_mirror_state(N)) / 2.0
+
+
+def f71_antisymmetric_projector(N):
+    """Projector P_anti = (I − R) / 2 onto the F71-antisymmetric (−1) eigenspace."""
+    return (np.eye(2 ** N, dtype=complex) - chain_mirror_state(N)) / 2.0
+
+
+def bond_mirror_basis(N):
+    """Symmetric / antisymmetric basis vectors for the bond-input space.
+
+    The bond reflection R̄: J_b → J_{N-2-b} acts on R^{N-1}. Returns two
+    orthonormal bases: the +1 eigenspace and the −1 eigenspace of R̄.
+
+    Returns:
+        sym_basis: (n_sym, N-1) array, rows are orthonormal symmetric basis vectors
+        asym_basis: (n_asym, N-1) array, rows are orthonormal antisymmetric basis vectors
+
+    Dimension structure:
+      odd N (even bond count, e.g. N=5: 4 bonds): n_sym = n_asym = (N-1)/2.
+      even N (odd bond count, e.g. N=6: 5 bonds): n_sym = (N-1+1)/2 = N/2,
+        n_asym = (N-1-1)/2 = N/2 − 1. The self-mirror bond at index
+        (N-2)/2 contributes to the symmetric basis only.
+
+    Use to project a J-Jacobian onto its block-decomposed columns:
+      A_sym = A @ sym_basis.T      (N_features × n_sym)
+      A_asym = A @ asym_basis.T    (N_features × n_asym)
+    These two blocks are independent for F71-symmetric receivers.
+    """
+    n_bonds = N - 1
+    sym = []
+    asym = []
+    used = [False] * n_bonds
+    for b in range(n_bonds):
+        if used[b]:
+            continue
+        b_mirror = n_bonds - 1 - b
+        if b == b_mirror:
+            # self-mirror bond, goes into symmetric subspace
+            v = np.zeros(n_bonds)
+            v[b] = 1.0
+            sym.append(v)
+            used[b] = True
+        else:
+            # mirror pair; symmetric = (e_b + e_{b'})/√2, antisym = (e_b − e_{b'})/√2
+            v_s = np.zeros(n_bonds); v_s[b] = 1 / np.sqrt(2); v_s[b_mirror] = 1 / np.sqrt(2)
+            v_a = np.zeros(n_bonds); v_a[b] = 1 / np.sqrt(2); v_a[b_mirror] = -1 / np.sqrt(2)
+            sym.append(v_s)
+            asym.append(v_a)
+            used[b] = True
+            used[b_mirror] = True
+    return np.array(sym), np.array(asym)
+
+
+# ----------------------------------------------------------------------
 # Self-test
 # ----------------------------------------------------------------------
 
