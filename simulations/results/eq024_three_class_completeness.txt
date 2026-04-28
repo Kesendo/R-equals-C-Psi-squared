@@ -1,0 +1,30 @@
+EQ-024 Three-Class Completeness test (random F71-symmetric product states)
+  N=5, Heisenberg, γ₀=0.05, J=1.0, dJ=0.0001
+  Random samples: 100, seed=0
+  Tolerance: class membership 1e-06, J-blind capacity threshold 0.05 bits
+
+  [10/100] elapsed 240.8s, in-class 0, outside 10, blind-outside 0
+  [20/100] elapsed 477.4s, in-class 0, outside 20, blind-outside 0
+  [30/100] elapsed 716.9s, in-class 0, outside 30, blind-outside 0
+  [40/100] elapsed 950.9s, in-class 0, outside 40, blind-outside 0
+  [50/100] elapsed 1182.8s, in-class 0, outside 50, blind-outside 0
+  [60/100] elapsed 1410.9s, in-class 0, outside 60, blind-outside 0
+  [70/100] elapsed 1639.2s, in-class 0, outside 70, blind-outside 0
+  [80/100] elapsed 1867.7s, in-class 0, outside 80, blind-outside 0
+  [90/100] elapsed 2097.2s, in-class 0, outside 90, blind-outside 0
+  [100/100] elapsed 2325.8s, in-class 0, outside 100, blind-outside 0
+
+=== Summary ===
+Total samples: 100
+In-class breakdown: Class 1or2: 0, Class 3: 0
+Outside-class samples: 100
+  capacity range: 7.5398 – 12.4055 bits
+  capacity mean: 10.4790, std: 0.9922
+  capacity median: 10.4972
+
+Blind outside (C < 0.05 bits, fourth-class candidates): 0
+  None found — strong empirical support for three-class completeness
+  within F71-symmetric product states.
+
+Total runtime: 2325.8s
+Saved: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_three_class_completeness.json

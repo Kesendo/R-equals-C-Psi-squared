@@ -148,7 +148,7 @@ A potential connection: the Nelder-Mead optimum receiver from Direction 3 has F7
 
 Five surviving sub-questions, lifted to EQ-024 in `review/EMERGING_QUESTIONS.md`:
 
-1. **Three-class completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision at N=5.
+1. **Three-class completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision at N=5. **Status 2026-04-28: partially closed for F71-symmetric *product* states (100 random samples, all out-of-class C in [7.54, 12.41] bits, no fourth-class candidate); see Update 2026-04-28 below. Non-product F71-symmetric extension remains open as its own sub-question.**
 2. **F71-breaking receiver capacity.** The afternoon sweep was F71-symmetric only. F71-breaking receivers do not unlock additional rank (max rank for bond inputs at N=5 is 4 regardless of receiver), but they may change the gain spectrum. Worth quantifying.
 3. **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096.
 4. **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.3, 0.6, 8.0): does it sit in a specific chromaticity sector or interpolate?
@@ -158,6 +158,43 @@ Plus two structural questions specific to this document:
 
 6. **Class 2 generalisations beyond GHZ.** Are there L_D-closed H-degenerate blocks of dimension > 2 at N=5 or higher? A block in higher Dicke sectors with degenerate H-eigenvalues under both Heisenberg and XY would extend Class 2 beyond the |0⟩⁵ ⊕ |1⟩⁵ pair.
 7. **Tightness of Class 3 under XY.** Direction 1 verified that |+⟩⁵ and |S_1⟩ become J-sensitive under XY-only. Are there U(1)-symmetric M_α-like polynomial subspaces that ARE J-blind under XY? Such a class would be the U(1)-version of Class 3, and would replace SU(2) symmetry with U(1) plus an additional condition.
+
+## Update 2026-04-28: Sub-question 1 partial closure (F71-symmetric product states)
+
+Empirical test of three-class completeness within F71-symmetric product states at N=5 (Heisenberg, γ₀=0.05, J=1.0). Script: [_eq024_three_class_completeness.py](../simulations/_eq024_three_class_completeness.py). Results: [eq024_three_class_completeness.json](../simulations/results/eq024_three_class_completeness.json), [eq024_three_class_completeness.txt](../simulations/results/eq024_three_class_completeness.txt) (run log).
+
+**Method.** Random sample F71-symmetric product states ψ = |a⟩|b⟩|c⟩|b⟩|a⟩ via 6 random Bloch angles (θ ∈ [0, π], φ ∈ [0, 2π)). Run output: [eq024_three_class_completeness.txt](../simulations/results/eq024_three_class_completeness.txt). For each sample, classify in/out of Classes 1-3:
+
+- Class 1 or 2 test: ‖ψ‖² on span{|0⟩⁵, |1⟩⁵} > 1 − 10⁻⁶. Within product F71-symmetric states, this collapses to ψ being exactly |0⟩⁵ or |1⟩⁵ (since a product state can only land on one computational basis vector at a time).
+- Class 3 test: rotate ψ to z-basis via U_α^† (single-qubit rotation taking α-basis eigenstates to z-basis) for α ∈ {x, y, z}, project onto Dicke-state subspace, check norm preserved within 10⁻⁶.
+
+For samples outside all three classes, compute the full J-Jacobian and Shannon channel capacity via waterfilling (same setup as Direction 3: 25 features × 6 time points = 150-dim observable, dJ = 10⁻⁴, spread = 0.02, σ = 0.01, P_total = 4·spread²).
+
+**Result.** 100 random samples, seed 0, total runtime 39 minutes:
+
+| metric | value |
+|---|---|
+| in-class samples | 0 |
+| outside-class samples | 100 |
+| capacity range (bits) | 7.54 – 12.41 |
+| capacity mean | 10.48 |
+| capacity median | 10.50 |
+| std | 0.99 |
+| samples with C < 0.05 bits (J-blind candidates) | **0** |
+
+The minimum capacity 7.54 bits is well above the J-blind threshold (0.05 bits). Direction 3's max-search saturated at 12.07 bits over 39+4 structured F71-symmetric receivers; the random sweep here reaches 12.41 bits (slightly higher max, as random covers the parameter space more uniformly).
+
+**Verdict.** Strong empirical support for three-class completeness within F71-symmetric **product** states at N=5 Heisenberg. No fourth-class mechanism appears in the random sweep.
+
+**Open generalisation.** Non-product F71-symmetric pure states live in a 20-dim Hilbert subspace (38 real parameters modulo norm and phase). Random sampling there has substantially more room for a fourth class to hide. This extension is lifted as a separate sub-question (1b below).
+
+### Sub-question 1b (new, 2026-04-28): non-product F71-symmetric extension
+
+The Update 2026-04-28 result covers F71-symmetric *product* states (6-parameter Bloch family). The full F71-symmetric Hilbert subspace at N=5 is the +1 eigenspace of the chain-mirror operator R, dimension 20 (8 self-mirror computational-basis states |a b c b a⟩ + 12 mirror-pairs, total 8 + 12 = 20-dim). Non-product F71-symmetric pure states span this 20-dim subspace minus the 6-dim product surface.
+
+A fourth class could exist in the non-product region without contradicting the product-state result. Empirical attack: random sampling in the 20-dim symmetric subspace, same classification + Jacobian pipeline.
+
+---
 
 ## Numerical verification anchor
 
