@@ -272,6 +272,77 @@ def test_cockpit_panel_rejects_trace_mismatch():
         fw.cockpit_panel(chain.H, [0.05]*2, rho_no_trace, 2, t_max=0.5, dt=0.05)
 
 
+def test_residual_norm_squared_matches_classify_truly():
+    """For Heisenberg (truly), ||M||^2 ≈ 0."""
+    chain = fw.ChainSystem(N=4)
+    norm_sq = chain.residual_norm_squared([('X','X'),('Y','Y'),('Z','Z')])
+    assert norm_sq < 1e-10
+
+
+def test_residual_norm_squared_matches_known_value():
+    """At chain N=4, YZ+ZY soft pair has ||M||^2 = 12288 (= c_H_main(256) * F(48))."""
+    chain = fw.ChainSystem(N=4)
+    norm_sq = chain.residual_norm_squared([('Y','Z'),('Z','Y')])
+    assert abs(norm_sq - 12288.0) < 1e-6
+
+
+def test_predict_from_terms_matches_numerical_chain():
+    """Frobenius prediction matches numerical ||M||^2 across topologies and N."""
+    cases = [
+        (3, 'chain', [('I','Y')], 512.0),         # 2^5·1·16  (||H||²_F=2B·d=2·2·8=16)
+        (4, 'chain', [('I','Y')], 3072.0),        # 2^6·1·48
+        (4, 'chain', [('Y','Z')], 6144.0),        # 2^6·2·48
+        (4, 'chain', [('Y','Z'),('Z','Y')], 12288.0),
+        (4, 'chain', [('I','Y'),('Y','I')], 10240.0),
+        (4, 'ring',  [('Y','Z'),('Z','Y')], 16384.0),
+        (4, 'star',  [('Y','Z'),('Z','Y')], 12288.0),
+        (4, 'complete', [('I','Y'),('Y','I')], 36864.0),
+        (5, 'chain', [('Y','Z'),('Z','Y')], 65536.0),
+    ]
+    for N, topo, terms, expected in cases:
+        chain = fw.ChainSystem(N=N, topology=topo)
+        pred = chain.predict_residual_norm_squared_from_terms(terms)
+        assert abs(pred - expected) < 1e-6, \
+            f"N={N} topo={topo} terms={terms}: predicted {pred}, expected {expected}"
+
+
+def test_predict_from_terms_truly_returns_zero():
+    chain = fw.ChainSystem(N=4)
+    assert chain.predict_residual_norm_squared_from_terms(
+        [('X','X'),('Y','Y'),('Z','Z')]) == 0.0
+    assert chain.predict_residual_norm_squared_from_terms([('I','X'),('X','I')]) == 0.0
+
+
+def test_predict_from_terms_rejects_mixed_class():
+    """Mixed n_YZ-per-term raises ValueError (caller must split)."""
+    chain = fw.ChainSystem(N=4)
+    with pytest.raises(ValueError, match="not homogeneous"):
+        chain.predict_residual_norm_squared_from_terms(
+            [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
+
+
+def test_predict_from_terms_decomposes_additively():
+    """For mixed-class H, sum of per-class predictions equals total numerical ||M||^2."""
+    chain = fw.ChainSystem(N=4)
+    p_2yz = chain.predict_residual_norm_squared_from_terms([('Y','Z'),('Z','Y')])
+    p_1yz = chain.predict_residual_norm_squared_from_terms([('I','Y'),('Y','I')])
+    actual = chain.residual_norm_squared(
+        [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
+    assert abs(p_2yz + p_1yz - actual) < 1e-6
+
+
+def test_predict_from_terms_is_truly_override():
+    """is_truly override skips the numerical classify call."""
+    chain = fw.ChainSystem(N=4)
+    # XX+YY+ZZ is truly; user passes the flag and we return 0 without classify
+    assert chain.predict_residual_norm_squared_from_terms(
+        [('X','X'),('Y','Y'),('Z','Z')], is_truly=True) == 0.0
+    # YZ+ZY is non-truly; user can override too, formula returns Frobenius value
+    val = chain.predict_residual_norm_squared_from_terms(
+        [('Y','Z'),('Z','Y')], is_truly=False)
+    assert abs(val - 12288.0) < 1e-6
+
+
 def test_cockpit_panel_terms_uses_chain_J():
     """terms-mode must scale by self.J, not hardcoded 1.0.
 

@@ -202,6 +202,75 @@ class ChainSystem:
         )
         return c_H * factor
 
+    def residual_norm_squared(self, terms, J_scale=None):
+        """Numerical ‖M‖² for a Pauli-pair Hamiltonian on this chain.
+
+        Builds H, the Z-dephasing Lindbladian, and the palindrome residual M;
+        returns ‖M‖²_F. For 'truly' classes, ≈ 0 to floating-point precision.
+
+        Replaces the recurring 4-line boilerplate
+        (_build_bilinear → lindbladian_z_dephasing → palindrome_residual → norm).
+
+        Args:
+            terms: list of (a, b) letter tuples.
+            J_scale: optional override for chain.J (default uses self.J).
+        """
+        J = self.J if J_scale is None else float(J_scale)
+        bilinear = [(a, b, J) for (a, b) in terms]
+        H = _build_bilinear(self.N, self.bonds, bilinear)
+        L = lindbladian_z_dephasing(H, [self.gamma_0] * self.N)
+        Sigma_gamma = self.N * self.gamma_0
+        M = palindrome_residual(L, Sigma_gamma, self.N)
+        return float(np.linalg.norm(M) ** 2)
+
+    def predict_residual_norm_squared_from_terms(self, terms, is_truly=None):
+        """Closed-form ‖M‖² from terms via Frobenius identity (no L computed).
+
+        Verified empirically across chain/ring/star/K_N at N=3..6:
+
+            ‖M‖²_F = 2^(N+2) · n_YZ · ‖H‖²_F   (homogeneous non-truly H)
+                   = 0                            (truly H)
+
+        n_YZ = number of Y/Z letters per Pauli-pair term (the bit_b-odd letters,
+        which are the Π-symmetry-breaking ones). Term list must be homogeneous
+        in n_YZ; mixed-class lists must be split and added per-class.
+
+        Topology enters only via ‖H‖²_F (cheap to compute). The graph-dependent
+        c_H scaling of `predict_residual_norm_squared` is the chain/ring/star
+        special case where Pauli strings are uniquely-bonded; this method is
+        universal.
+
+        Args:
+            terms: Pauli-pair list (homogeneous in Y/Z count per term).
+            is_truly: optional override. If None, calls classify_pauli_pair.
+                      Pass True/False to skip the numerical classification when
+                      the truly status is known (e.g., from prior analysis).
+
+        Raises:
+            ValueError: if the term list is not homogeneous in n_YZ_per_term.
+        """
+        if not terms:
+            return 0.0
+        # truly check first — truly Hamiltonians (e.g. Heisenberg XX+YY+ZZ) can
+        # mix n_YZ per term (0+2+2) and still be palindrome-respecting; the
+        # homogeneity rule only applies to the non-truly Frobenius branch.
+        if is_truly is None:
+            is_truly = (self.classify_pauli_pair(terms) == 'truly')
+        if is_truly:
+            return 0.0
+        n_yz_per_term = [sum(1 for L in (a, b) if L in 'YZ') for (a, b) in terms]
+        if len(set(n_yz_per_term)) > 1:
+            raise ValueError(
+                f"Term list is not homogeneous in Y/Z count per term "
+                f"(got {n_yz_per_term}). Split into homogeneous parts and add "
+                f"the predictions: ||M_total||^2 = sum_k predict(...)_k."
+            )
+        n_yz = n_yz_per_term[0]
+        bilinear = [(a, b, self.J) for (a, b) in terms]
+        H = _build_bilinear(self.N, self.bonds, bilinear)
+        H_frob_sq = float(np.real(np.trace(H.conj().T @ H)))
+        return (2 ** (self.N + 2)) * n_yz * H_frob_sq
+
     def cockpit_panel(self, receiver, terms=None, gamma_t1=None,
                       t_max=10.0, dt=0.005,
                       threshold=1e-9, cluster_tol=1e-8):
