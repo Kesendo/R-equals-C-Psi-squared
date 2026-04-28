@@ -2340,6 +2340,63 @@ class ChainSystem:
         )
         return c_H * factor
 
+    def cockpit_panel(self, receiver, terms=None, gamma_t1=None,
+                      t_max=10.0, dt=0.005,
+                      threshold=1e-9, cluster_tol=1e-8):
+        """Full Lebensader cockpit panel via Section 11's cockpit_panel.
+
+        Composes skeleton (Π-protected count under pure-Z and +T1) +
+        trace (θ-trajectory metrics) + cusp-pattern + chiral panel +
+        Y-parity panel into one structured dict.
+
+        Args:
+            receiver: Receiver instance providing the initial state ρ_0.
+            terms: optional list of (a, b) Pauli letter tuples for a
+                   custom Pauli-pair Hamiltonian on this chain's bonds.
+                   If None, uses this chain's default H (heisenberg/xy
+                   with self.J).
+            gamma_t1: scalar or list of length N for T1 amplitude-damping
+                      rates per site. None or zero disables T1.
+            t_max, dt: time grid for trajectory.
+            threshold, cluster_tol: tolerances for protected-observable
+                                    classification.
+
+        Returns:
+            dict with keys 'lebensader', 'cusp', 'chiral', 'y_parity',
+            and '_trajectory_for_inspection'. See cockpit_panel docstring.
+        """
+        if receiver.N != self.N:
+            raise ValueError(
+                f"receiver.N ({receiver.N}) does not match chain.N ({self.N})"
+            )
+
+        # Build the Hamiltonian: custom Pauli-pair if terms given, else default
+        if terms is not None:
+            J_scale = 1.0
+            bilinear = [(t[0], t[1], J_scale) for t in terms]
+            H = _build_bilinear(self.N, self.bonds, bilinear)
+        else:
+            H = self.H
+
+        gamma_l = [self.gamma_0] * self.N
+        if gamma_t1 is None:
+            gamma_t1_l = [0.0] * self.N
+        elif np.isscalar(gamma_t1):
+            gamma_t1_l = [float(gamma_t1)] * self.N
+        else:
+            gamma_t1_l = list(gamma_t1)
+            if len(gamma_t1_l) != self.N:
+                raise ValueError(
+                    f"gamma_t1 list length {len(gamma_t1_l)} != N {self.N}"
+                )
+
+        return cockpit_panel(
+            H, gamma_l, receiver.rho, self.N,
+            gamma_t1_l=gamma_t1_l,
+            t_max=t_max, dt=dt,
+            threshold=threshold, cluster_tol=cluster_tol,
+        )
+
 
 # Helper for ChainSystem._site_op (avoids accidental recursion with site_op
 # which doesn't exist as a name in framework.py — inline kron-chain instead):
@@ -2503,6 +2560,18 @@ class Confirmations:
             'experiment_doc': 'review/EMERGING_QUESTIONS.md (EQ-030)',
             'framework_primitive': 'pi_protected_observables (Section 10)',
             'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian. Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
+        },
+        'lebensader_skeleton_trace_decoupling': {
+            'date': '2026-04-26',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7n3013aq2pc73a2a18g + d7n3eqqt99kc73d34qtg',
+            'observable': 'Π-protected counts (skeleton) + θ-trajectory tails (trace)',
+            'predicted_value': 'Skeleton/trace decouple at N≥4, co-occur at N=3. T1 makes drop measurable: bond-flipped Z-free pairs (XY+YX, IY+YI) preserve skeleton (drop≤1) and trace (long θ-tail); Z-containing soft pairs (YZ+ZY, XZ+ZX) collapse both (drop≈28-29, no tail).',
+            'measured_value': 'drop=28 for YZ+ZY confirmed on Marrakesh. Pearson(drop, Δ∫θ)=+0.85. Bures velocity gives no third discriminator.',
+            'hardware_data': 'data/ibm_k_partnership_april2026/k_partnership_marrakesh_*.json + Snapshot D / Lebensader runs',
+            'experiment_doc': 'review/EMERGING_QUESTIONS.md (EQ-030 closure)',
+            'framework_primitive': 'cockpit_panel (Section 11) — composes pi_protected_observables + θ-trajectory',
+            'description': 'Lebensader as Stromkabel: skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis. ChainSystem.cockpit_panel gives this in one call.',
         },
     }
 
