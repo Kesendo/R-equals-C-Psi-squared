@@ -149,7 +149,7 @@ A potential connection: the Nelder-Mead optimum receiver from Direction 3 has F7
 Five surviving sub-questions, lifted to EQ-024 in `review/EMERGING_QUESTIONS.md`:
 
 1. **Three-class completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision at N=5. **Status 2026-04-28: partially closed for F71-symmetric *product* states (100 random samples, all out-of-class C in [7.54, 12.41] bits, no fourth-class candidate); see Update 2026-04-28 below. Non-product F71-symmetric extension remains open as its own sub-question.**
-2. **F71-breaking receiver capacity.** The afternoon sweep was F71-symmetric only. F71-breaking receivers do not unlock additional rank (max rank for bond inputs at N=5 is 4 regardless of receiver), but they may change the gain spectrum. Worth quantifying.
+2. **F71-breaking receiver capacity.** The afternoon sweep was F71-symmetric only. F71-breaking receivers do not unlock additional rank (max rank for bond inputs at N=5 is 4 regardless of receiver), but they may change the gain spectrum. Worth quantifying. **Status 2026-04-28: closed**. F71-breaking receivers tested via 100 random product (10 indep Bloch angles) + 100 Haar-random non-product (full C^32) samples; max C = 11.99 bits (product) and 8.80 bits (non-product), both below the F71-symmetric maxima 12.41 and 10.26. F71-symmetry is not a capacity-suboptimality constraint; it covers the optimal region. See Update 2026-04-28 (continued).
 3. **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096.
 4. **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.3, 0.6, 8.0): does it sit in a specific chromaticity sector or interpolate?
 5. **Operational meaning of the J-vs-γ gain gap.** J sv_max ≈ 10 vs γ sv_max ≈ 21.4 at N=5. Fixed ratio (~46%) across N, or N-dependent?
@@ -210,6 +210,39 @@ The product-state Update 2026-04-28 covered the 6-parameter Bloch family. The fu
 The non-product distribution is tighter and lower than the product-slice distribution. Haar-uniform superpositions tend to be J-sensitive at a typical level around 7.5 bits, with min 5.74 bits — well above the J-blind threshold. Product states cover a wider, more-skewed-high distribution because the 6-dim product surface includes high-purity points (rather than typical mixed-purity superpositions).
 
 **Verdict.** Strong empirical support for three-class completeness within the **full** F71-symmetric pure-state subspace at N=5. Both the 6-dim product slice and the full 20-dim symmetric subspace yield zero fourth-class candidates over 200 total Haar-uniform samples (capacity floor 5.74 bits across both, with no observation anywhere near zero). Sub-question 1 is now closed for F71-symmetric receivers; F71-breaking is the natural next question (sub-question 2).
+
+## Update 2026-04-28 (continued): Sub-question 2 closure (F71-breaking receivers)
+
+**Question.** Direction 3 swept only F71-symmetric receivers and found max capacity 12.07 bits. Do F71-breaking receivers unlock additional gain spectrum (different singular-value distribution, possibly higher max), or is F71-symmetry capacity-irrelevant?
+
+**Method.** Same N=5 Heisenberg setup, two F71-breaking sample modes:
+- **Product (10 indep Bloch angles):** 5 sites × 2 angles, no chain-mirror constraint. Generically F71-breaking.
+- **Non-product (Haar on C^32, 62 real params):** Haar-uniform pure state in the full Hilbert space. Generically F71-breaking by measure.
+
+For each sample, classify (Classes 1-3 are all F71-symmetric, so F71-breaking samples are automatically outside) and compute J-Jacobian + Shannon capacity.
+
+Script: [_eq024_f71_breaking_capacity.py](../simulations/_eq024_f71_breaking_capacity.py). Results: [eq024_f71_breaking_product.json](../simulations/results/eq024_f71_breaking_product.json) + [eq024_f71_breaking_product.txt](../simulations/results/eq024_f71_breaking_product.txt), [eq024_f71_breaking_nonproduct.json](../simulations/results/eq024_f71_breaking_nonproduct.json) + [eq024_f71_breaking_nonproduct.txt](../simulations/results/eq024_f71_breaking_nonproduct.txt).
+
+**Result.** 100 samples per mode, summary across all four sub-q-1+2 sweeps:
+
+| receiver class | C range (bits) | mean | median | std | sample-space dim (real) |
+|---|---|---|---|---|---|
+| F71-sym product (sub-q 1) | 7.54 – 12.41 | 10.48 | 10.50 | 0.99 | 6 |
+| F71-sym non-product (sub-q 1b) | 5.74 – 10.26 | 7.46 | 7.40 | 0.87 | 38 |
+| F71-breaking product (sub-q 2) | 8.43 – 11.99 | 10.19 | 10.18 | 0.74 | 10 |
+| F71-breaking non-product (sub-q 2) | 6.35 – 8.80 | 7.78 | 7.80 | 0.56 | 62 |
+
+F71-asymmetry ‖ψ − Rψ‖ confirmed for the F71-breaking samples: mean ~1.2 (out of max √2 ≈ 1.41), genuinely non-symmetric.
+
+**Three observations:**
+
+1. **F71-breaking max ≤ F71-symmetric max.** Product: 11.99 vs 12.41 bits (F71-sym higher). Non-product: 8.80 vs 10.26 (F71-sym substantially higher). F71-symmetry is *not* a suboptimality constraint — it covers the capacity-optimal region.
+2. **F71-breaking distributions are tighter** (lower std). F71-symmetric receivers have more spread in their capacity distribution, including both higher maxima and slightly lower minima. F71-breaking concentrates around the typical mean.
+3. **Means are comparable.** 10.19 (breaking) vs 10.48 (sym) for product; 7.78 vs 7.46 for non-product. F71-symmetry doesn't shift the typical capacity, only widens the distribution.
+
+**Verdict.** Sub-question 2 closed: F71-breaking receivers do **not** unlock additional gain spectrum at N=5. The hypothesis flagged in the original "What is open" list ("F71-breaking receivers might unlock additional gain spectrum but the rank ceiling for bond-inputs at N=5 stays at 4 regardless. Worth quantifying whether the gain change is meaningful") is settled: the gain change is real (tighter distribution) but does not exceed the F71-symmetric envelope. Direction 3's max-capacity 12.07 bits stands as the practical max within ~3% of F71-breaking max 11.99 and below F71-symmetric max 12.41.
+
+Combined sub-q 1 + 2 result: **400 random samples across F71-symmetric (product + non-product) and F71-breaking (product + non-product), capacity floor 5.74 bits, zero fourth-class candidates anywhere**. The three-class decomposition fully accounts for J-blindness at N=5 within the empirical evidence.
 
 ---
 

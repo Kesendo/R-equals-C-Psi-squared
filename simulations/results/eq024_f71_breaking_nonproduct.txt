@@ -1,0 +1,27 @@
+EQ-024 sub-question 2: F71-breaking receiver capacity
+  Mode: F71-breaking non-product (Haar on C^32, 62 real params)
+  N=5, Heisenberg, γ₀=0.05, J=1.0, dJ=0.0001
+  Random samples: 100, seed=3
+
+  [10/100] elapsed 1714.7s, in-class 0, min asym 1.060, blind-outside 0
+  [20/100] elapsed 3417.3s, in-class 0, min asym 1.060, blind-outside 0
+  [30/100] elapsed 5037.0s, in-class 0, min asym 0.938, blind-outside 0
+  [40/100] elapsed 6262.5s, in-class 0, min asym 0.938, blind-outside 0
+  [50/100] elapsed 7376.3s, in-class 0, min asym 0.938, blind-outside 0
+  [60/100] elapsed 8917.4s, in-class 0, min asym 0.938, blind-outside 0
+  [70/100] elapsed 10199.9s, in-class 0, min asym 0.924, blind-outside 0
+  [80/100] elapsed 11188.2s, in-class 0, min asym 0.924, blind-outside 0
+  [90/100] elapsed 12140.0s, in-class 0, min asym 0.924, blind-outside 0
+  [100/100] elapsed 13054.6s, in-class 0, min asym 0.924, blind-outside 0
+
+=== Summary ===
+Total samples: 100
+In-class breakdown: Class 1or2: 0, Class 3: 0
+F71-asymmetry ‖ψ − Rψ‖: min=0.9242, max=1.5300, mean=1.2261
+Capacity range: 6.3473 – 8.8030 bits
+Capacity mean / median / std: 7.7775 / 7.8030 / 0.5591
+
+Blind candidates (C < 0.05): 0
+
+Total runtime: 13054.6s
+Saved: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\eq024_f71_breaking_nonproduct.json
