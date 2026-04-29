@@ -34,6 +34,20 @@ def _site_op_kron(op, site, N):
     return out
 
 
+def _pauli_pair_is_truly(a, b):
+    """Syntactic per-term truly check for a single Pauli-pair bilinear.
+
+    A bond bilinear (a, b) preserves the Π-palindrome (M = 0) iff
+    a == b (any of II, XX, YY, ZZ) or {a, b} ⊆ {I, X}. Verified
+    against classify_pauli_pair for all 16 single-term pairs.
+    """
+    if a == b:
+        return True
+    if a in {'I', 'X'} and b in {'I', 'X'}:
+        return True
+    return False
+
+
 # ----------------------------------------------------------------------
 # ChainSystem
 # ----------------------------------------------------------------------
@@ -253,63 +267,61 @@ class ChainSystem:
         M = palindrome_residual(L, Sigma_gamma, self.N)
         return float(np.linalg.norm(M) ** 2)
 
-    def predict_residual_norm_squared_from_terms(self, terms, is_truly=None,
-                                                  gamma_t1=None):
-        """Closed-form ‖M‖² from terms via Frobenius identity (no L computed).
+    def predict_residual_norm_squared_from_terms(self, terms, gamma_t1=None):
+        """Closed-form ‖M‖² from terms via per-term Frobenius identity (no L computed).
 
-        Verified empirically across chain/ring/star/K_N at N=3..6:
+        Verified empirically across chain/ring/star/K_N at N=3..6 plus the
+        full V-Effect 36-combos enumeration at N=3:
 
-            ‖M(L_Z)‖²    = 2^(N+2) · n_YZ · ‖H‖²_F     (homogeneous non-truly H)
-                         = 0                              (truly H)
+            ‖M(L_Z)‖²    = sum_k [ 2^(N+2) · n_YZ_k · ‖H_k‖²_F · (1 if non-truly else 0) ]
             ‖M(L_Z+T1)‖² = ‖M(L_Z)‖² + 4^(N−1) · [ 3·Σ γT1² + 4·(Σ γT1)² ]
 
-        n_YZ = number of Y/Z letters per Pauli-pair term (the bit_b-odd letters,
-        which are the Π-symmetry-breaking ones). Term list must be homogeneous
-        in n_YZ; mixed-class lists must be split and added per-class.
+        Each Pauli-pair term k contributes independently because distinct
+        Pauli strings are orthogonal in Frobenius, AND truly-class single
+        terms (a==b, or {a,b}⊆{I,X}) contribute nothing because M_k=0
+        algebraically. The V-Effect cases YY+YZ, YY+ZY, YZ+ZZ, ZY+ZZ
+        enforce per-term-truly handling: gross-list classify is not enough.
+
+        n_YZ_k = number of Y/Z letters in term k (bit_b-odd letters, which
+        are the Π-symmetry-breaking ones).
 
         T1 contribution is Hamiltonian-independent, γ_Z-independent, and
         orthogonal to the Hamiltonian palindrome residual (no cross-term).
         Verified at N=3..6 for arbitrary {γ_T1_l} distributions.
 
-        Topology enters only via ‖H‖²_F (cheap to compute). The graph-dependent
-        c_H scaling of `predict_residual_norm_squared` is the chain/ring/star
-        special case where Pauli strings are uniquely-bonded; this method is
-        universal.
+        Topology enters only via ‖H_k‖²_F (cheap to compute). The graph-
+        dependent c_H scaling of `predict_residual_norm_squared` is the
+        chain/ring/star special case where Pauli strings are uniquely-bonded;
+        this method is universal.
 
         Args:
-            terms: Pauli-pair list (homogeneous in Y/Z count per term).
-            is_truly: optional override. If None, calls classify_pauli_pair.
-                      Pass True/False to skip the numerical classification when
-                      the truly status is known (e.g., from prior analysis).
+            terms: list of (a, b) Pauli letter tuples.
             gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform
                       across sites), list of length N, or None / 0 (no T1).
-
-        Raises:
-            ValueError: if the term list is not homogeneous in n_YZ_per_term.
         """
-        # Hamiltonian palindrome part
-        if not terms:
-            z_part = 0.0
-        else:
-            if is_truly is None:
-                is_truly = (self.classify_pauli_pair(terms) == 'truly')
-            if is_truly:
-                z_part = 0.0
-            else:
-                n_yz_per_term = [sum(1 for L in (a, b) if L in 'YZ')
-                                 for (a, b) in terms]
-                if len(set(n_yz_per_term)) > 1:
-                    raise ValueError(
-                        f"Term list is not homogeneous in Y/Z count per term "
-                        f"(got {n_yz_per_term}). Split into homogeneous parts "
-                        f"and add the predictions: ||M_total||^2 = "
-                        f"sum_k predict(...)_k."
-                    )
-                n_yz = n_yz_per_term[0]
-                bilinear = [(a, b, self.J) for (a, b) in terms]
-                H = _build_bilinear(self.N, self.bonds, bilinear)
-                H_frob_sq = float(np.real(np.trace(H.conj().T @ H)))
-                z_part = (2 ** (self.N + 2)) * n_yz * H_frob_sq
+        # Hamiltonian palindrome part. Decompose into:
+        #   1. Drop per-term truly-class terms (they contribute M=0).
+        #   2. Group remaining terms by n_YZ-class (Π-symmetry-breaking count).
+        #   3. Within each n_YZ-class, Pauli strings can overlap (e.g.
+        #      (I,Y) and (Y,I) both place Y on the middle site of a chain),
+        #      so the per-class Frobenius norm is the norm of the combined
+        #      sub-Hamiltonian, not a sum of per-term norms.
+        #   4. Across n_YZ-classes M-residuals are orthogonal — sum the
+        #      per-class predictions.
+        from collections import defaultdict
+        n_yz_groups = defaultdict(list)
+        for (a, b) in terms:
+            if _pauli_pair_is_truly(a, b):
+                continue
+            n_yz_k = sum(1 for L in (a, b) if L in 'YZ')
+            n_yz_groups[n_yz_k].append((a, b))
+        z_part = 0.0
+        for n_yz, group_terms in n_yz_groups.items():
+            H_group = _build_bilinear(
+                self.N, self.bonds, [(a, b, self.J) for (a, b) in group_terms]
+            )
+            H_group_frob_sq = float(np.real(np.trace(H_group.conj().T @ H_group)))
+            z_part += (2 ** (self.N + 2)) * n_yz * H_group_frob_sq
 
         # T1 dissipator contribution (Hamiltonian-independent, additive)
         if gamma_t1 is None:

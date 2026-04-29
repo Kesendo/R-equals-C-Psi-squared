@@ -341,12 +341,16 @@ def test_predict_from_terms_truly_returns_zero():
     assert chain.predict_residual_norm_squared_from_terms([('I','X'),('X','I')]) == 0.0
 
 
-def test_predict_from_terms_rejects_mixed_class():
-    """Mixed n_YZ-per-term raises ValueError (caller must split)."""
+def test_predict_from_terms_handles_mixed_n_yz_classes():
+    """Per-term Frobenius sum handles mixed n_YZ classes automatically (no split needed)."""
     chain = fw.ChainSystem(N=4)
-    with pytest.raises(ValueError, match="not homogeneous"):
-        chain.predict_residual_norm_squared_from_terms(
-            [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
+    # Mixed n_YZ=(2,2) for YZ+ZY plus n_YZ=(1,1) for IY+YI.
+    # Each term contributes 2^(N+2)·n_YZ_k·||H_k||²_F separately.
+    pred = chain.predict_residual_norm_squared_from_terms(
+        [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
+    actual = chain.residual_norm_squared(
+        [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
+    assert abs(pred - actual) < 1e-6
 
 
 def test_predict_from_terms_decomposes_additively():
@@ -420,16 +424,37 @@ def test_residual_norm_squared_with_t1_matches_predict():
                     f"N={N} terms={terms} gT1={gT1}: pred={pred} num={num}"
 
 
-def test_predict_from_terms_is_truly_override():
-    """is_truly override skips the numerical classify call."""
-    chain = fw.ChainSystem(N=4)
-    # XX+YY+ZZ is truly; user passes the flag and we return 0 without classify
-    assert chain.predict_residual_norm_squared_from_terms(
-        [('X','X'),('Y','Y'),('Z','Z')], is_truly=True) == 0.0
-    # YZ+ZY is non-truly; user can override too, formula returns Frobenius value
+def test_predict_from_terms_v_effect_mixed_truly_nontruly():
+    """V-Effect 36-combos exposed: per-term truly handling matters.
+
+    YY+YZ has n_YZ=(2,2) homogeneously, but YY is truly (M=0) so only YZ
+    contributes. Old gross-list logic predicted 2048; correct is 1024.
+    """
+    chain = fw.ChainSystem(N=3, gamma_0=0.1)
+    # YY+YZ: YY truly (M=0), YZ contributes 32·2·16 = 1024
     val = chain.predict_residual_norm_squared_from_terms(
-        [('Y','Z'),('Z','Y')], is_truly=False)
-    assert abs(val - 12288.0) < 1e-6
+        [('Y','Y'),('Y','Z')])
+    actual = chain.residual_norm_squared([('Y','Y'),('Y','Z')])
+    assert abs(val - actual) < 1e-6
+    assert abs(val - 1024.0) < 1e-6
+    # XX+YZ: XX truly, YZ contributes
+    val = chain.predict_residual_norm_squared_from_terms(
+        [('X','X'),('Y','Z')])
+    actual = chain.residual_norm_squared([('X','X'),('Y','Z')])
+    assert abs(val - actual) < 1e-6
+
+
+def test_predict_from_terms_v_effect_full_36_combos():
+    """All 36 V-Effect combos at N=3: predict matches numerical exactly."""
+    from itertools import combinations
+    SINGLE = ['XX','XY','XZ','YX','YY','YZ','ZX','ZY','ZZ']
+    chain = fw.ChainSystem(N=3, gamma_0=0.1)
+    for t1, t2 in combinations(SINGLE, 2):
+        terms = [(t1[0], t1[1]), (t2[0], t2[1])]
+        pred = chain.predict_residual_norm_squared_from_terms(terms)
+        num = chain.residual_norm_squared(terms)
+        assert abs(pred - num) < 1e-6, \
+            f"{t1}+{t2}: pred={pred}, num={num}"
 
 
 def test_cockpit_panel_terms_uses_chain_J():
