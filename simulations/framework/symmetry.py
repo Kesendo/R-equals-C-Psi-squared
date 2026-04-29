@@ -87,6 +87,42 @@ def is_both_parity_even(idx_pair):
 # capacity-optimal at odd N, capacity-suboptimal at even N. See
 # experiments/J_BLIND_RECEIVER_CLASSES.md.
 
+def zn_mirror_state(psi_or_rho, N):
+    """Apply Z⊗N (= ⊗_l Z_l) globally to a state vector or density matrix.
+
+    Z⊗N has the property: Z⊗N · σ_a · Z⊗N = (-1)^n_XY · σ_a for any Pauli
+    string σ_a, where n_XY = #{l : a_l ∈ {X, Y}}. Equivalently it's the
+    bit_a-parity sign in our convention.
+
+    For an X-basis Néel-state |+−+−…⟩, Z⊗N gives |−+−+…⟩ — the AFM-mirror
+    partner. Operators with even n_XY per term (XX, YY, ZZ, II, σ⁻σ⁺ pairs,
+    Z-detuning δ_l Z_l) commute with Z⊗N. Single-site X or Y (transverse
+    fields) anti-commute and thus break Z⊗N.
+
+    Args:
+        psi_or_rho: state vector (length 2^N) or density matrix (2^N × 2^N)
+        N: number of qubits
+
+    Returns:
+        Z⊗N · ψ for state vectors; Z⊗N · ρ · Z⊗N for density matrices.
+    """
+    arr = np.asarray(psi_or_rho, dtype=complex)
+    Z = np.array([[1, 0], [0, -1]], dtype=complex)
+    Zn = Z
+    for _ in range(N - 1):
+        Zn = np.kron(Zn, Z)
+    if arr.ndim == 1:
+        if arr.shape[0] != 2 ** N:
+            raise ValueError(f"psi length {arr.shape[0]} != 2^N = {2**N}")
+        return Zn @ arr
+    if arr.ndim == 2:
+        d = 2 ** N
+        if arr.shape != (d, d):
+            raise ValueError(f"rho shape {arr.shape} != ({d},{d})")
+        return Zn @ arr @ Zn
+    raise ValueError(f"psi_or_rho must be 1D or 2D; got ndim={arr.ndim}")
+
+
 def chain_mirror_state(N):
     """Chain-mirror operator R on 2^N Hilbert space.
 

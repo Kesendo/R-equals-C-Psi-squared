@@ -343,6 +343,73 @@ class ChainSystem:
 
         return z_part + t1_part
 
+    def zn_mirror_diagnostic(self, rho_a, rho_b, tol=1e-6):
+        """Z⊗N-Mirror Symmetrie-Test zwischen zwei Dichtematrizen.
+
+        Wenn ρ_a und ρ_b Z⊗N-Partner sind (ρ_b = (Z⊗N)·ρ_a·(Z⊗N)), gilt für
+        jede Pauli-String-Erwartung:
+
+            ⟨P⟩_b = (−1)^n_XY(P) · ⟨P⟩_a
+
+        wobei n_XY(P) = Anzahl X- oder Y-Buchstaben in P. Diese Identität
+        scheitert in Anwesenheit von transverse fields h_l X_l oder h_l Y_l;
+        sie gilt für XXZ, Z-Dephasing, T1 (σ⁻σ⁺ pairs), und non-uniform
+        Z-Detuning (Mini-Magnetfeld δ_l Z_l).
+
+        Liefert max-Abweichung über alle 4^N Pauli-Strings → 'preserved' wenn
+        unter tol, sonst 'broken'.
+
+        Args:
+            rho_a: 2^N × 2^N Dichtematrix
+            rho_b: 2^N × 2^N Dichtematrix (vermuteter Z⊗N-Partner von ρ_a)
+            tol: Toleranz für 'preserved' Verdict.
+
+        Returns:
+            dict mit 'max_violation' (max Pauli-String-Abweichung),
+            'verdict' ('preserved' | 'broken'), 'worst_string' (Pauli-Label
+            wo die Abweichung am größten), 'worst_a', 'worst_b' (die zwei
+            Erwartungen die nicht stimmen).
+        """
+        from .pauli import _PAULI_MATRICES, _k_to_indices, _pauli_label, bit_a
+        N = self.N
+        d = 2 ** N
+        rho_a = np.asarray(rho_a, dtype=complex)
+        rho_b = np.asarray(rho_b, dtype=complex)
+        if rho_a.shape != (d, d) or rho_b.shape != (d, d):
+            raise ValueError(
+                f"rho_a, rho_b must be {d}×{d} for N={N}; got "
+                f"{rho_a.shape}, {rho_b.shape}"
+            )
+        max_violation = 0.0
+        worst_k = 0
+        worst_a = 0.0
+        worst_b = 0.0
+        for k in range(4 ** N):
+            indices = _k_to_indices(k, N)
+            # Build Pauli string σ_indices
+            P = _PAULI_MATRICES[indices[0]]
+            for idx in indices[1:]:
+                P = np.kron(P, _PAULI_MATRICES[idx])
+            exp_a = float(np.real(np.trace(rho_a @ P)))
+            exp_b = float(np.real(np.trace(rho_b @ P)))
+            n_xy = sum(bit_a(idx) for idx in indices)  # X, Y have bit_a=1
+            sign = (-1) ** n_xy
+            violation = abs(exp_b - sign * exp_a)
+            if violation > max_violation:
+                max_violation = violation
+                worst_k = k
+                worst_a = exp_a
+                worst_b = exp_b
+        worst_label = _pauli_label(worst_k, N)
+        return {
+            'max_violation': max_violation,
+            'verdict': 'preserved' if max_violation < tol else 'broken',
+            'worst_string': worst_label,
+            'worst_a': worst_a,
+            'worst_b': worst_b,
+            'tol': tol,
+        }
+
     def gamma_probe_setup(self, gamma_assumed=None, target_precision=0.01):
         """Optimal γ-Sensing-Parameter via Cusp-nahe CΨ-Probe (Bell+ unter Z-Dephasing).
 
@@ -449,7 +516,8 @@ class ChainSystem:
                                        T1_l=None, Tphi_l=None,
                                        T1pump_l=None,
                                        Xnoise_l=None, Ynoise_l=None,
-                                       J_zz=None):
+                                       J_zz=None,
+                                       h_x_l=None, h_y_l=None, h_z_l=None):
         """Propagate ρ_0 → ρ(t) under the full hardware noise Lindbladian.
 
         State-level bridge primitive: where `predict_residual_with_hardware_noise`
@@ -476,6 +544,11 @@ class ChainSystem:
             J_zz: optional ZZ-crosstalk strength. Adds Σ_(i,j) J_zz · Z_i Z_j
                 over the chain's bond graph as a Hamiltonian correction (not
                 a dissipator). Models the always-on ZZ-coupling on Heron r2.
+            h_x_l, h_y_l: optional per-site transverse field strengths;
+                add Σ_l h_l · X_l (resp. Y_l) as Hamiltonian terms. These
+                BREAK Z⊗N-symmetry (single X/Y has odd n_XY).
+            h_z_l: optional per-site longitudinal Z-detuning ("Mini-Magnetfeld");
+                adds Σ_l h_l · Z_l. This PRESERVES Z⊗N (Z commutes with Z⊗N).
 
         Returns:
             ρ(t) as 2^N × 2^N complex array.
@@ -503,6 +576,26 @@ class ChainSystem:
         if J_zz is not None and J_zz != 0:
             H_zz = _build_bilinear(self.N, self.bonds, [('Z', 'Z', float(J_zz))])
             H = H + H_zz
+
+        # Optional single-site Hamiltonian fields:
+        # - h_x_l: transverse X-field per site h_x · X_l (breaks Z⊗N!)
+        # - h_y_l: transverse Y-field per site h_y · Y_l (breaks Z⊗N!)
+        # - h_z_l: longitudinal Z-detuning δ · Z_l (Mini-Magnetfeld; preserves Z⊗N)
+        Xm = pauli_matrix('X')
+        Ym = pauli_matrix('Y')
+        Zm = pauli_matrix('Z')
+        if h_x_l is not None:
+            for l, h in enumerate(h_x_l):
+                if h != 0:
+                    H = H + float(h) * _site_op_kron(Xm, l, self.N)
+        if h_y_l is not None:
+            for l, h in enumerate(h_y_l):
+                if h != 0:
+                    H = H + float(h) * _site_op_kron(Ym, l, self.N)
+        if h_z_l is not None:
+            for l, h in enumerate(h_z_l):
+                if h != 0:
+                    H = H + float(h) * _site_op_kron(Zm, l, self.N)
 
         # Build c_ops
         c_ops = []
