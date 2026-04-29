@@ -1872,6 +1872,60 @@ The rescaled deviation (MM − 1)·(N + 1) converges to 3/(4 ln 2) = 1.0820 with
 **Scripts:** [`_mm_asymptotic.py`](../simulations/_mm_asymptotic.py) (asymptotic scan and coefficient check).
 **Source:** F75 (small-p Taylor expansion of the entropy), F65 (sin² amplitudes), standard Parseval-type identity for sin⁴ sums.
 
+### F78. Single-body M decomposes additively over sites (Tier 1, verified N=3-5, 3 topologies, 3 Pauli letters)
+
+For any single-body Hamiltonian H = Σ_l c_l · P_l (P ∈ {X, Y, Z}, weights c_l from bond-summing or arbitrary) with uniform Z-dephasing γ, the palindrome residual M = Π·L·Π⁻¹ + L + 2σ·I decomposes:
+
+    M = Σ_l M_l ⊗ I_(others)
+
+where each M_l is a 4×4 normal matrix on per-site Pauli space. Eigenvalues of M_l:
+
+    P = X: eigenvalues all 0  (M_l = 0, the truly case)
+    P = Y: eigenvalues ±2 c_l γ · i, each with multiplicity 2
+    P = Z: eigenvalues ±2 c_l γ · i, each with multiplicity 2  (identical spectrum to Y)
+
+Therefore M's eigenvalues are Σ_l ε_l · 2c_l γ · i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. **Singular values of M are |Σ_l ε_l · 2c_l γ|** with the same multiplicities; cluster sizes are pure sign-combination statistics on the weight vector (c_l).
+
+**Why Y and Z give identical SVD:** both have bit_b = 1 (Π-non-trivial), so M_l has the same spectral structure. The soft-vs-hard distinction (Y soft, Z hard) lives in **L's eigenvectors**, not in M's singular values. SVD of M is Pauli-letter-blind within {Y, Z} for single-body.
+
+**Cluster-multiplicator formula (chain).** For chain weights c_l = (1, 2, ..., 2, 1) (bond-summed I·P + P·I), the multiplicators come from u + 2v with u = ε_0 + ε_{N-1} ∈ {-2, 0, 2} (mults 1, 2, 1) and v = Σ_internal ε_l (binomial walk on N-2 steps). The central binomial coefficient C(N-1, ⌊(N-1)/2⌋) appearing as the largest non-trivial cluster mult is just the walk's central peak; no Weyl group, no S_N irrep, no group-theory needed.
+
+**Valid for:** single-body bond-bilinears (I·P + P·I), single-body site sums, any topology (chain, star, ring, complete K_N, arbitrary graph), uniform Z-dephasing.
+**Breaks for:** 2-body bond-bilinears (XX, XY, YZ+ZY, ...): L does not factor as Σ_l L_l. Befund 3 ("hard XX+XY uniform SVD") falls outside this theorem; separate analysis required.
+**Replaces:** the previously open conjecture that SVD-cluster regularity reflected hidden Weyl-group / S_N / site-permutation structure. The structure is much simpler: additive tensor sum on site-Pauli space.
+**Verified:** numerical match for N=3, 4, 5; topologies chain, star, complete; Pauli letters X, Y, Z.
+**Scripts:** [`_svd_active_spectator.py`](../simulations/_svd_active_spectator.py), [`_svd_single_body_extension.py`](../simulations/_svd_single_body_extension.py); 2-body open-question probe in [`_svd_two_body_probe.py`](../simulations/_svd_two_body_probe.py).
+**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F79). Master Lemma + per-site additive structure + direct M_l matrix computation.
+
+### F79. Π²-block decomposition of M for 2-body bilinears (Tier 1, verified N=3-5)
+
+For 2-body bond-bilinear H = Σ_bonds Σ_t c_t·(P_t ⊗ Q_t) with uniform Z-dephasing γ, define the Π²-parity of each bilinear term:
+
+    p(P_t, Q_t) = (bit_b(P_t) + bit_b(Q_t)) mod 2
+
+where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean structure determined by Π²-parities of H's terms:
+
+1. **All terms Π²-even (p=0)**: M is **block-diagonal** in Π²-eigenspaces V_+ ⊕ V_-. Off-diagonal blocks M[V_+, V_-] and M[V_-, V_+] vanish **exactly**. Each diagonal block has its own SVD spectrum.
+
+2. **All terms Π²-odd (p=1)**: M is **purely off-diagonal** between V_+ and V_-. Diagonal blocks M[V_+, V_+] and M[V_-, V_-] vanish **exactly**. Singular values appear with even multiplicity (each SV contributes once from V_+ side, once from V_- side).
+
+3. **Mixed parities**: M has both diagonal and off-diagonal contributions.
+
+**Π²-odd universality.** Within the pure Π²-odd 2-body class, the **specific Pauli letters are M-irrelevant**: any single Π²-odd 2-body bilinear gives the same M-SVD spectrum at fixed N. Verified at N=5 chain: XY alone, XZ alone, XX+XY, and XX+XZ all yield clusters [(5.464, 512), (1.464, 512)] — exactly identical. The XX truly part contributes 0; the Π²-odd part dominates with universal cluster pattern.
+
+**Even-diag ≡ odd-off-diag correspondence.** The diagonal V_+ block of a Π²-even Hamiltonian's M can match (in SV-spectrum, including multiplicities) the off-diagonal V_+,V_- block of a Π²-odd Hamiltonian's M. Verified N=4 chain: YZ's V_+ block [(8.944, 16), (6.472, 32), (4.0, 16), (2.472, 32), (0.0, 32)] matches XY+YX's off-diag block exactly. This explains the empirical "YZ ≡ XY+YX SVD-identical" observation: same SV structure, just placed in different Π²-blocks.
+
+**Why XX+XY appears "max-uniform" (Befund 3 closed).** XX is Π²-even and truly (M_XX = 0). XY is Π²-odd. The full Hamiltonian is "Π²-odd-only-effective", so M is purely off-diagonal between equal-dim V_+ and V_-. SV multiplicities are forced to 4^N/2 each by block-dimension equality. At N=3 the two off-diag SVs collide by coincidence to a single uniform value 2√2; at N≥4 they split. The "uniformity" is exactly the equal-block-mult signature of Π²-odd structure, not a special property of XX+XY.
+
+**Frobenius additivity.** ‖M‖²_F = Σ_bonds ‖M_b‖² holds across all topologies including overlapping bonds (chain). Per-bond M_b's are F-orthogonal. Already F49.
+
+**Valid for:** Any 2-body bond bilinear over any topology under uniform Z-dephasing. Verified N=3, 4, 5 across chain, star, disjoint topologies; verified Π²-odd universality (XY ≡ XZ ≡ XX+XY ≡ XX+XZ).
+**Breaks for:** Mixed-Π²-parity Hamiltonians (where some terms are even, some odd) only partially: M has both diagonal and off-diagonal parts. Inhomogeneous γ may disrupt some symmetries (untested).
+**Replaces:** ad-hoc analysis of "why XX+XY uniform" and "why YZ ≡ XY+YX" — both follow from the Π²-block theorem.
+**Verified:** Numerical N=3-5, multiple bilinear classes, multiple topologies.
+**Scripts:** [`_svd_two_body_pi_squared_block.py`](../simulations/_svd_two_body_pi_squared_block.py), [`_svd_two_body_structure.py`](../simulations/_svd_two_body_structure.py).
+**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 ([L, Π²]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
