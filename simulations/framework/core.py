@@ -343,6 +343,108 @@ class ChainSystem:
 
         return z_part + t1_part
 
+    def gamma_probe_setup(self, gamma_assumed=None, target_precision=0.01):
+        """Optimal γ-Sensing-Parameter via Cusp-nahe CΨ-Probe (Bell+ unter Z-Dephasing).
+
+        Closes a gap in the existing F25/F57 cusp-slowing theory: the cusp at
+        CΨ=1/4 is a *good* probe region but not the Fisher-Information optimum.
+        The optimum lies post-cusp at K = γt ≈ 0.119 (CΨ ≈ 0.144).
+
+        F25: CΨ(t) = f·(1+f²)/6 with f = exp(-4γt). Bernoulli-style Fisher per
+        shot: I(γ) = (dCΨ/dγ)² / (1 - CΨ²). Maximizing over t at fixed γ gives
+        the optimal probe time.
+
+        K = γ·t is the natural dimensionless probe variable (cf. F57 K_dwell
+        γ-invariance). At fixed K, the Fisher result is γ-independent up to
+        the trivial 1/γ² shots-rescaling.
+
+        Args:
+            gamma_assumed: prior estimate of γ. If None, uses self.gamma_0.
+            target_precision: relative precision Δγ/γ desired.
+
+        Returns:
+            dict with t_optimal, cpsi_target, K_optimal, fisher_per_shot,
+            shots_needed, plus the cusp parameters t_cusp, K_cusp, cpsi_cusp.
+        """
+        from scipy.optimize import minimize_scalar, brentq
+        if gamma_assumed is None:
+            gamma_assumed = self.gamma_0
+        gamma = float(gamma_assumed)
+
+        def cpsi(t):
+            f = np.exp(-4 * gamma * t)
+            return f * (1 + f * f) / 6.0
+
+        def dcpsi_dgamma(t):
+            f = np.exp(-4 * gamma * t)
+            return (1 + 3 * f * f) / 6.0 * (-4 * t * f)
+
+        def neg_fisher(t):
+            c = cpsi(t)
+            dc = dcpsi_dgamma(t)
+            return -(dc * dc / max(1 - c * c, 1e-12))
+
+        # Bounds in K = γt: K_opt ≈ 0.119, so search K ∈ [0.001, 5] which
+        # safely brackets the maximum without hitting the flat-Fisher tail.
+        res = minimize_scalar(neg_fisher,
+                              bounds=(0.001 / gamma, 5.0 / gamma),
+                              method='bounded')
+        t_opt = float(res.x)
+        cpsi_opt = float(cpsi(t_opt))
+        fisher_opt = -float(res.fun)
+
+        f_cusp = brentq(lambda f: f * (1 + f * f) - 1.5, 0.1, 1.0)
+        t_cusp = -np.log(f_cusp) / (4 * gamma)
+        cpsi_cusp = 0.25  # by construction
+
+        delta_gamma = float(target_precision) * gamma
+        shots = int(np.ceil(1.0 / (fisher_opt * delta_gamma * delta_gamma)))
+
+        return {
+            't_optimal':        t_opt,
+            'cpsi_target':      cpsi_opt,
+            'K_optimal':        gamma * t_opt,
+            'fisher_per_shot':  fisher_opt,
+            'shots_needed':     shots,
+            'target_precision': float(target_precision),
+            't_cusp':           float(t_cusp),
+            'K_cusp':           gamma * float(t_cusp),
+            'cpsi_cusp':        cpsi_cusp,
+            'gamma_assumed':    gamma,
+        }
+
+    def estimate_gamma_from_cpsi(self, cpsi_measured, t):
+        """Invert F25 to extract γ from a measured CΨ at time t (Bell+ under Z-dephasing).
+
+        F25: CΨ = f·(1+f²)/6 with f = exp(-4γt). Solving the cubic
+        f·(1+f²) = 6·CΨ for f ∈ (0, 1) gives γ = -ln(f) / (4t).
+
+        Bell+ initial CΨ(t=0) = 1/3, so cpsi_measured must satisfy
+        0 < cpsi_measured < 1/3 for the inversion to make sense.
+
+        Args:
+            cpsi_measured: measured CΨ value (e.g. from hardware tomography).
+            t: probe time at which CΨ was measured.
+
+        Returns:
+            Estimated γ as float.
+        """
+        from scipy.optimize import brentq
+        cpsi = float(cpsi_measured)
+        if cpsi >= 1.0 / 3.0:
+            raise ValueError(
+                f"cpsi_measured = {cpsi} ≥ 1/3 = CΨ(t=0); cannot invert "
+                f"(Bell+ never starts above this)."
+            )
+        if cpsi <= 0:
+            raise ValueError(
+                f"cpsi_measured = {cpsi} ≤ 0; physically invalid for Bell+."
+            )
+        if t <= 0:
+            raise ValueError(f"t must be > 0; got {t}")
+        f = brentq(lambda fv: fv * (1 + fv * fv) / 6.0 - cpsi, 1e-12, 1.0 - 1e-12)
+        return -float(np.log(f)) / (4.0 * float(t))
+
     def propagate_with_hardware_noise(self, rho_0, t, terms=None,
                                        T1_l=None, Tphi_l=None,
                                        T1pump_l=None,
