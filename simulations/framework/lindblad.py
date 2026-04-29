@@ -151,6 +151,45 @@ def palindrome_residual_norm_squared_factor(N, hamiltonian_class='main'):
     raise ValueError(f"hamiltonian_class must be 'main' or 'single_body'; got {hamiltonian_class!r}")
 
 
+def dissipator_c1_c2_from_pauli(alpha, beta, delta):
+    """Closed-form (c1, c2) for a single-class dissipator from its Pauli decomposition.
+
+    Given a Lindblad operator c = α·X + β·Y + δ·Z + ε·I (the ε·I component is
+    Π-trivial and contributes nothing), the per-class palindrome-residual
+    contribution at H=0 is
+
+        ‖M(c)‖²_F = 4^(N-1) · [ c1 · Σ γ_l² + c2 · (Σ γ_l)² ]
+
+    with closed forms (verified empirically on 25+ test classes including
+    pure Paulis, σ⁻, σ⁺, real and complex superpositions, scaled operators):
+
+        c1 = 16·|α|²·(|α|² + |β|² + |δ|²)
+           + 32·|β|²·|δ|²
+           + 16·Im(αβ*)² + 16·Im(αδ*)²
+
+        c2 = 16·(|α|² + |β|² + |δ|²)²
+
+    Structural interpretation (bit_b parity, see PROOF_BIT_B_PARITY_SYMMETRY):
+        - α (X-component, bit_b-even): direct Π-conflict via |α|²·||c||² term
+        - β, δ (Y, Z components, bit_b-odd): cross-conflict via |β|²·|δ|²
+        - α-β and α-δ phases: extra bit_b-mixing terms via Im(αβ*)², Im(αδ*)²
+        - β-δ phases: Π-trivial (no Re(βδ*) or Im(βδ*) terms)
+        - Identity component: Π-trivial (drops out)
+
+    Returns:
+        (c1, c2) tuple of floats.
+    """
+    a2 = abs(alpha)**2
+    b2 = abs(beta)**2
+    d2 = abs(delta)**2
+    norm_sq = a2 + b2 + d2
+    im_ab = (alpha * np.conj(beta)).imag
+    im_ad = (alpha * np.conj(delta)).imag
+    c1 = 16 * a2 * norm_sq + 32 * b2 * d2 + 16 * im_ab**2 + 16 * im_ad**2
+    c2 = 16 * norm_sq**2
+    return float(c1), float(c2)
+
+
 def palindrome_residual_norm_ratio_squared(N1, N2, hamiltonian_class='main'):
     """Adjacent-N ratio ‖M(N2)‖²/‖M(N1)‖² (with N2 = N1+1).
 

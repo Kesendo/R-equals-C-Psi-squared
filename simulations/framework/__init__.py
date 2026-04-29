@@ -61,6 +61,7 @@ from .lindblad import (
     palindrome_residual_norm_squared_factor,
     palindrome_residual_norm_squared_factor_graph,
     palindrome_residual_norm_ratio_squared,
+    dissipator_c1_c2_from_pauli,
 )
 
 from .observables import pi_protected_observables
