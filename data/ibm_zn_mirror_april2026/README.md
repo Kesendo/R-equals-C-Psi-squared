@@ -19,7 +19,7 @@ transverse-field detection on IBM Heron r2.
 - **Hamiltonian:** Heisenberg XX+YY+ZZ, J = 1.0
 - **Evolution:** t = 0.8, n_trotter = 3
 - **Tomography:** 9 Pauli bases on (q0, q2), 4096 shots/basis
-- **Total:** 18 circuits, ~3-4 min QPU
+- **Total:** 18 circuits, **23 s billed QPU** (Batch-mode efficient, faster than the per-job session overhead estimate)
 
 ## Results
 
