@@ -1164,6 +1164,56 @@ def test_F78_single_body_M_additive_decomposition():
             f"SV={sv_value}: expected mult {expected_mult}, got {actual_mult}"
 
 
+def test_F79_single_bond_lebensader_reduction():
+    """F79 single-bond Π²-odd universality, proven via Lebensader reduction.
+
+    For a single-bond Π²-odd 2-body bilinear H = c·(P⊗Q) at sites (i, j),
+    M(P⊗Q at bond) is spectrally equivalent to M(Π(P⊗Q) at single site).
+    Specifically, all four single-bond Π²-odd letter pairs and all four
+    Π-reduced single-body operators give the same M-cluster pattern.
+
+    This closes the single-bond half of the F79 universality observation.
+    See PROOF_SVD_CLUSTER_STRUCTURE.md "Refined scope of the universality"
+    (April 2026 follow-up).
+    """
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_bilinear, site_op
+
+    N = 4
+    single_bond = [(0, 1)]
+
+    # Single-bond Π²-odd 2-body bilinears (4 letter pairs)
+    two_body_cases = [('X', 'Y'), ('X', 'Z'), ('Y', 'X'), ('Z', 'X')]
+    two_body_svs = []
+    for P, Q in two_body_cases:
+        H = _build_bilinear(N, single_bond, [(P, Q, 1.0)])
+        L = lindbladian_z_dephasing(H, [1.0]*N)
+        M = palindrome_residual(L, N*1.0, N)
+        svs = np.sort(np.linalg.svd(M, compute_uv=False))[::-1]
+        two_body_svs.append(svs)
+
+    # All four 2-body cases must have identical SV spectrum
+    for svs in two_body_svs[1:]:
+        np.testing.assert_allclose(two_body_svs[0], svs, atol=1e-9)
+
+    # Π-reduced single-body cases (Z or Y at site 0 or 1)
+    one_body_cases = [(1, 'Z'), (1, 'Y'), (0, 'Z'), (0, 'Y')]
+    one_body_svs = []
+    for site, P in one_body_cases:
+        H = site_op(N, site, P)
+        L = lindbladian_z_dephasing(H, [1.0]*N)
+        M = palindrome_residual(L, N*1.0, N)
+        svs = np.sort(np.linalg.svd(M, compute_uv=False))[::-1]
+        one_body_svs.append(svs)
+
+    # All four 1-body cases must have identical SV spectrum
+    for svs in one_body_svs[1:]:
+        np.testing.assert_allclose(one_body_svs[0], svs, atol=1e-9)
+
+    # 2-body and 1-body must match (the Lebensader reduction)
+    np.testing.assert_allclose(two_body_svs[0], one_body_svs[0], atol=1e-9)
+
+
 def test_F79_two_body_pi_squared_block_decomposition():
     """F79: For 2-body bond bilinear M = Π·L·Π⁻¹+L+2σ·I,
     Π²-parity = (bit_b(P)+bit_b(Q)) mod 2 of each bilinear term determines
