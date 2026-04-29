@@ -190,6 +190,68 @@ def dissipator_c1_c2_from_pauli(alpha, beta, delta):
     return float(c1), float(c2)
 
 
+def dissipator_d2_from_pauli(alpha1, beta1, delta1, alpha2, beta2, delta2):
+    """Closed-form d2 cross-term constant for two single-class dissipators.
+
+    Given two Lindblad operators c1 = α1·X+β1·Y+δ1·Z+ε1·I and c2 = α2·X+β2·Y+δ2·Z+ε2·I,
+    the cross-term in ‖M(L_c1+L_c2)‖² has the bilinear form
+
+        Cross = 4^(N-1) · [ d1 · Σ(γ1_l·γ2_l) + d2 · (Σγ1)·(Σγ2) ]
+
+    The d2 part has a universal closed form (verified across 196 class-pair
+    combinations, all topologies, σ_offset=0):
+
+        d2 = 32 · ||c1_traceless||² · ||c2_traceless||²
+           = 32 · (|α1|²+|β1|²+|δ1|²) · (|α2|²+|β2|²+|δ2|²)
+
+    The d1 part is also bilinear in the two Pauli decompositions but the
+    closed form is involved (mixes α-α phase products, β-δ Π-cross terms,
+    and α-(β,δ) imaginary cross terms similar to single-class c1). Use
+    `_dissipator_d1_numerical_fit` for d1 if needed.
+    """
+    a1 = abs(alpha1)**2 + abs(beta1)**2 + abs(delta1)**2
+    a2 = abs(alpha2)**2 + abs(beta2)**2 + abs(delta2)**2
+    return 32.0 * a1 * a2
+
+
+# Hardware-relevant dissipator class table (verified at N=3, σ_offset=0).
+# Each entry: name → ((alpha, beta, delta), c1, c2). For class K with rate
+# γ_K_l per site l: per-class contribution = 4^(N-1)·[c1·Σγ²+c2·(Σγ)²].
+HARDWARE_DISSIPATORS = {
+    'T1':     {'pauli': (0.5, -0.5j, 0), 'c1': 3.0,  'c2': 4.0,
+               'desc': "amplitude relaxation σ⁻ = (X−iY)/2"},
+    'T1pump': {'pauli': (0.5, 0.5j, 0),  'c1': 3.0,  'c2': 4.0,
+               'desc': "amplitude pumping σ⁺ = (X+iY)/2 (thermal excitation)"},
+    'Tphi':   {'pauli': (0, 0, 1),       'c1': 0.0,  'c2': 16.0,
+               'desc': "pure dephasing σ_z (Π-respecting with σ_offset=γ; "
+                       "c1=c2=0 there, but c2=16 with σ_offset=0)"},
+    'Xnoise': {'pauli': (1, 0, 0),       'c1': 16.0, 'c2': 16.0,
+               'desc': "X-axis noise / cross-talk σ_x"},
+    'Ynoise': {'pauli': (0, 1, 0),       'c1': 0.0,  'c2': 16.0,
+               'desc': "Y-axis noise σ_y (Π-respecting with σ_offset=γ)"},
+}
+
+# Cross-class d1 table (numerically extracted, σ_offset=0).
+# Symmetric: d1[(K1, K2)] = d1[(K2, K1)]. Self-pair gives 2·c1(K).
+HARDWARE_DISSIPATOR_D1 = {
+    ('T1',     'T1'):     6.0,
+    ('T1',     'T1pump'): -2.0,    # cross compensates: heat bath less Π-breaking
+    ('T1',     'Tphi'):   0.0,
+    ('T1',     'Xnoise'): 8.0,
+    ('T1',     'Ynoise'): 0.0,
+    ('T1pump', 'T1pump'): 6.0,
+    ('T1pump', 'Tphi'):   0.0,
+    ('T1pump', 'Xnoise'): 8.0,
+    ('T1pump', 'Ynoise'): 0.0,
+    ('Tphi',   'Tphi'):   0.0,
+    ('Tphi',   'Xnoise'): 0.0,
+    ('Tphi',   'Ynoise'): 0.0,
+    ('Xnoise', 'Xnoise'): 32.0,
+    ('Xnoise', 'Ynoise'): 0.0,
+    ('Ynoise', 'Ynoise'): 0.0,
+}
+
+
 def palindrome_residual_norm_ratio_squared(N1, N2, hamiltonian_class='main'):
     """Adjacent-N ratio ‖M(N2)‖²/‖M(N1)‖² (with N2 = N1+1).
 

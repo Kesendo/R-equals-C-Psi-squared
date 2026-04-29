@@ -250,6 +250,111 @@ def test_dissipator_c1_c2_matches_numerical_M():
                 f"({alpha},{beta},{delta}) γ={gamma_l}: actual={actual} pred={predicted}"
 
 
+def test_hardware_dissipators_table_consistency():
+    """HARDWARE_DISSIPATORS table c1/c2 match dissipator_c1_c2_from_pauli."""
+    for name, spec in fw.HARDWARE_DISSIPATORS.items():
+        a, b, d = spec['pauli']
+        c1_pred, c2_pred = fw.dissipator_c1_c2_from_pauli(a, b, d)
+        assert c1_pred == spec['c1'], f"{name}: c1 table {spec['c1']} vs computed {c1_pred}"
+        assert c2_pred == spec['c2'], f"{name}: c2 table {spec['c2']} vs computed {c2_pred}"
+
+
+def test_predict_residual_with_hardware_noise_t1_only():
+    """T1 only: matches the existing T1 closed form."""
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    T1_l = [0.005] * 3
+    result = chain.predict_residual_with_hardware_noise(T1_l=T1_l)
+    # T1 alone: 4^(N-1) · [3·Σγ² + 4·(Σγ)²] = 16·[3·3·0.005² + 4·0.015²]
+    expected = 16 * (3 * 3 * 0.005**2 + 4 * 0.015**2)
+    assert abs(result['per_class']['T1'] - expected) < 1e-12
+    assert abs(result['total'] - expected) < 1e-12
+    assert result['cross'] == {}
+
+
+def test_predict_residual_with_hardware_noise_t1_plus_tphi():
+    """T1 + Tphi simultaneous: matches numerical ‖M‖² with σ_offset=0."""
+    import numpy as np
+    from framework import lindbladian_general, palindrome_residual, site_op
+
+    sigma_x_2 = np.array([[0,1],[1,0]], dtype=complex)
+    sigma_y_2 = np.array([[0,-1j],[1j,0]], dtype=complex)
+    sigma_z_2 = np.array([[1,0],[0,-1]], dtype=complex)
+    sigma_minus = (sigma_x_2 - 1j*sigma_y_2)/2
+
+    def site_op_local(N, l, op):
+        I2 = np.eye(2, dtype=complex)
+        ops = [I2]*N
+        ops[l] = op
+        out = ops[0]
+        for o in ops[1:]:
+            out = np.kron(out, o)
+        return out
+
+    N = 3
+    chain = fw.ChainSystem(N=N, gamma_0=0.05)
+    gT1, gTphi = 0.005, 0.005
+
+    # Numerical
+    c_ops = []
+    for l in range(N):
+        c_ops.append(np.sqrt(gT1) * site_op_local(N, l, sigma_minus))
+        c_ops.append(np.sqrt(gTphi) * site_op_local(N, l, sigma_z_2))
+    H = np.zeros((2**N, 2**N), dtype=complex)
+    L = lindbladian_general(H, c_ops)
+    M = palindrome_residual(L, 0.0, N)
+    actual = float(np.linalg.norm(M)**2)
+
+    # Predicted via cockpit method
+    result = chain.predict_residual_with_hardware_noise(
+        T1_l=[gT1]*N, Tphi_l=[gTphi]*N)
+    assert abs(result['total'] - actual) < 1e-9, \
+        f"actual={actual} predicted={result['total']}"
+    # Check the cross-term is non-zero (cross_T1_Tphi has d1=0, d2=16, only d2 contributes)
+    assert ('T1', 'Tphi') in result['cross']
+
+
+def test_predict_residual_with_hardware_noise_full_stack():
+    """Full hardware stack: T1 + Tphi + Xnoise; closed form matches numerical."""
+    import numpy as np
+    from framework import lindbladian_general, palindrome_residual
+
+    sigma_x_2 = np.array([[0,1],[1,0]], dtype=complex)
+    sigma_y_2 = np.array([[0,-1j],[1j,0]], dtype=complex)
+    sigma_z_2 = np.array([[1,0],[0,-1]], dtype=complex)
+    sigma_minus = (sigma_x_2 - 1j*sigma_y_2)/2
+    I2 = np.eye(2, dtype=complex)
+
+    def site_op_local(N, l, op):
+        ops = [I2]*N
+        ops[l] = op
+        out = ops[0]
+        for o in ops[1:]:
+            out = np.kron(out, o)
+        return out
+
+    N = 3
+    chain = fw.ChainSystem(N=N, gamma_0=0.05)
+    rates = {'T1': [0.001, 0.002, 0.003],
+             'Tphi': [0.0005, 0.001, 0.0008],
+             'Xnoise': [0.0001, 0.0002, 0.0001]}
+
+    c_ops = []
+    op_map = {'T1': sigma_minus, 'Tphi': sigma_z_2, 'Xnoise': sigma_x_2}
+    for cls, gl in rates.items():
+        op = op_map[cls]
+        for l, g in enumerate(gl):
+            c_ops.append(np.sqrt(g) * site_op_local(N, l, op))
+    H = np.zeros((2**N, 2**N), dtype=complex)
+    L = lindbladian_general(H, c_ops)
+    M = palindrome_residual(L, 0.0, N)
+    actual = float(np.linalg.norm(M)**2)
+
+    result = chain.predict_residual_with_hardware_noise(
+        T1_l=rates['T1'], Tphi_l=rates['Tphi'], Xnoise_l=rates['Xnoise'])
+    assert abs(result['total'] - actual) < 1e-9, \
+        f"actual={actual}, predicted={result['total']}"
+
+
 def test_palindrome_residual_norm_ratio_squared_n3_n4():
     # main: 4·k/(k-1) at k=3 → 6
     assert fw.palindrome_residual_norm_ratio_squared(3, 4, 'main') == 6.0
