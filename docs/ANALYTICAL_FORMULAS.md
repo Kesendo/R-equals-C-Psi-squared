@@ -469,11 +469,21 @@ noise on Bell states. O(1) instead of matrix exponentiation.
 
     K_Z     = 0.0374    (pure Z-dephasing)
     K_X     = 0.0867    (pure X-noise)
-    K_Y     = 0.0867    (pure Y-noise)
+    K_Y     = 0.0374    (pure Y-noise)
     K_depol = 0.0440    (depolarizing, gamma/3 each axis)
 
 Complements F14 (K per bridge metric). These are K per
 noise TYPE, all measured with CΨ on Bell+ state.
+
+**Note (correction 2026-04-29):** earlier versions of this table listed
+K_Y = 0.0867. That was a typo. F26 with γ_y = γ (others = 0) gives
+α = 4γ, β = 0, δ = 4γ, so u = e^{-4γt}, v = 1, w = e^{-4γt}, and CΨ
+reduces to u·(1+u²)/6 — *identical functional form to pure Z*. Hence
+K_Y = K_Z = 0.0374. The K_Y ↔ K_X-symmetry claim was wrong; the actual
+pairing is K_Y ↔ K_Z (both have one of {β, δ} = 0 with α ≠ 0). This
+is consistent with Bell+'s correlation structure: Y⊗Y·|Bell+⟩ = -|Bell+⟩,
+while X⊗X and Z⊗Z fix it. Verified in
+`framework.CPSI_CUSP_K_PER_CHANNEL` and the smoke tests.
 
 **Valid for:** Bell+ state, single-axis or depolarizing noise.
 **Replaces:** per-channel crossing time derivation.

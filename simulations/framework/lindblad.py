@@ -190,6 +190,59 @@ def dissipator_c1_c2_from_pauli(alpha, beta, delta):
     return float(c1), float(c2)
 
 
+def cpsi_bell_plus(gamma_x, gamma_y, gamma_z, t):
+    """F26: CΨ(t) closed form for Bell+ under arbitrary 3-axis Pauli noise.
+
+    Bell+ = (|00⟩ + |11⟩)/√2 evolves under c_x = √γ_x · X_l, c_y = √γ_y · Y_l,
+    c_z = √γ_z · Z_l dissipators on each of the 2 qubits. Then
+
+        CΨ(t) = u · (1 + u² + v² + w²) / 12
+
+        u = exp(−α·t),  α = 4·(γ_y + γ_z)
+        v = exp(−β·t),  β = 4·(γ_x + γ_z)
+        w = exp(−δ·t),  δ = 4·(γ_x + γ_y)
+
+    Tier-1 proven (PROOF_MONOTONICITY_CPSI.md). Replaces Lindblad master
+    equation solver for multi-axis Pauli noise on Bell+ states.
+
+    F25 special case (γ_x = γ_y = 0): u = v = exp(−4γ_z·t), w = 1, recovers
+    CΨ = u(1+u²)/6.
+
+    Args:
+        gamma_x, gamma_y, gamma_z: per-axis Pauli-channel rates (uniform on
+            both qubits — Bell+ symmetry is preserved only under uniform noise).
+        t: evolution time.
+
+    Returns:
+        CΨ(t) as float.
+    """
+    import math
+    alpha = 4 * (gamma_y + gamma_z)
+    beta = 4 * (gamma_x + gamma_z)
+    delta = 4 * (gamma_x + gamma_y)
+    u = math.exp(-alpha * t)
+    v = math.exp(-beta * t)
+    w = math.exp(-delta * t)
+    return u * (1 + u * u + v * v + w * w) / 12.0
+
+
+# K values (γ·t_cusp) at which CΨ first crosses 1/4, per noise channel.
+# Computed directly from F26 cusp condition CΨ(t) = 1/4. K is γ-invariant.
+#
+# Note: F27 in ANALYTICAL_FORMULAS.md (and the table in
+# PROOF_MONOTONICITY_CPSI.md) lists K_Y = 0.0867. That contradicts F26:
+# pure Y gives α=4γ, β=0, δ=4γ → CΨ = u(1+u²)/6 (identical functional form
+# to pure Z), so K_Y = K_Z = 0.0374. Doc typo. The true Bell+-symmetric
+# pair is K_Y ↔ K_Z (both involve a non-zero α with one of {β, δ} = 0),
+# while K_X is the asymmetric case (α=0, both β and δ non-zero).
+CPSI_CUSP_K_PER_CHANNEL = {
+    'Z':            0.0374,  # pure Z-dephasing
+    'X':            0.0867,  # pure X-noise
+    'Y':            0.0374,  # pure Y-noise (= K_Z by F26 functional symmetry)
+    'depolarizing': 0.0440,  # γ/3 on each axis
+}
+
+
 def dissipator_d2_from_pauli(alpha1, beta1, delta1, alpha2, beta2, delta2):
     """Closed-form d2 cross-term constant for two single-class dissipators.
 

@@ -535,6 +535,75 @@ def test_estimate_gamma_rejects_out_of_range():
         chain.estimate_gamma_from_cpsi(0.1, t=0)
 
 
+def test_cpsi_bell_plus_recovers_f25_for_pure_z():
+    """F26 with γ_x=γ_y=0 must reduce to F25: CΨ = f·(1+f²)/6 with f=exp(-4γz·t)."""
+    import numpy as np
+    gz = 0.05
+    t = 2.0
+    f = np.exp(-4 * gz * t)
+    cpsi_f25 = f * (1 + f**2) / 6.0
+    cpsi_f26 = fw.cpsi_bell_plus(0.0, 0.0, gz, t)
+    assert abs(cpsi_f26 - cpsi_f25) < 1e-12
+
+
+def test_cpsi_bell_plus_at_t0_gives_one_third():
+    """Bell+ at t=0: CΨ = 1·(1+1+1+1)/12 = 4/12 = 1/3."""
+    cpsi = fw.cpsi_bell_plus(0.05, 0.07, 0.03, 0.0)
+    assert abs(cpsi - 1.0/3.0) < 1e-12
+
+
+def test_cpsi_bell_plus_monotonic_decay():
+    """CΨ monotonically decreases with t for any nonzero noise (F26 corollary)."""
+    cpsi_values = [fw.cpsi_bell_plus(0.05, 0.0, 0.05, t) for t in [0.0, 1.0, 2.0, 5.0, 10.0]]
+    for i in range(len(cpsi_values) - 1):
+        assert cpsi_values[i+1] < cpsi_values[i]
+
+
+def test_cpsi_cusp_K_per_channel_matches_F27():
+    """F27 K-values: Z=0.0374, X=Y=0.0867, depol=0.0440. Cross-check via cusp finder."""
+    from scipy.optimize import brentq
+    for channel, K_expected in fw.CPSI_CUSP_K_PER_CHANNEL.items():
+        if channel == 'Z':
+            gx, gy, gz = 0.0, 0.0, 1.0
+        elif channel == 'X':
+            gx, gy, gz = 1.0, 0.0, 0.0
+        elif channel == 'Y':
+            gx, gy, gz = 0.0, 1.0, 0.0
+        elif channel == 'depolarizing':
+            gx, gy, gz = 1/3, 1/3, 1/3
+        # Solve CΨ(t) = 1/4 with γ = 1
+        t_cusp = brentq(lambda t: fw.cpsi_bell_plus(gx, gy, gz, t) - 0.25, 1e-6, 100)
+        K_computed = 1.0 * t_cusp
+        assert abs(K_computed - K_expected) < 0.001, \
+            f"channel {channel}: K computed {K_computed} vs F27 {K_expected}"
+
+
+@pytest.mark.filterwarnings("ignore::UserWarning")
+def test_gamma_probe_setup_x_channel():
+    """gamma_probe_setup with channel='X' should give K_cusp = 0.0867 vs Z's 0.0374."""
+    chain = fw.ChainSystem(N=2)
+    setup_z = chain.gamma_probe_setup(gamma_assumed=0.05, channel='Z')
+    setup_x = chain.gamma_probe_setup(gamma_assumed=0.05, channel='X')
+    setup_y = chain.gamma_probe_setup(gamma_assumed=0.05, channel='Y')
+    setup_d = chain.gamma_probe_setup(gamma_assumed=0.05, channel='depolarizing')
+    # K_cusp from F26 cusp condition (note: K_Y = K_Z, NOT K_X — doc has typo)
+    assert abs(setup_z['K_cusp'] - 0.0374) < 0.001
+    assert abs(setup_x['K_cusp'] - 0.0867) < 0.001
+    assert abs(setup_y['K_cusp'] - 0.0374) < 0.001  # K_Y = K_Z, not K_X
+    assert abs(setup_d['K_cusp'] - 0.0440) < 0.001
+
+
+@pytest.mark.filterwarnings("ignore::UserWarning")
+def test_estimate_gamma_round_trip_x_channel():
+    """Round-trip γ → CΨ_X(t) → estimate_γ for X-channel."""
+    chain = fw.ChainSystem(N=2)
+    gamma_true = 0.07
+    t = 2.0
+    cpsi = fw.cpsi_bell_plus(gamma_true, 0.0, 0.0, t)
+    gamma_est = chain.estimate_gamma_from_cpsi(cpsi, t, channel='X')
+    assert abs(gamma_est - gamma_true) < 1e-9
+
+
 @pytest.mark.filterwarnings("ignore::UserWarning")
 def test_gamma_probe_setup_kingston_data_consistency():
     """Kingston cusp-slowing F25 RMS residual was 0.0097; with 1% target,

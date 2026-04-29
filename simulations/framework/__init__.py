@@ -65,6 +65,8 @@ from .lindblad import (
     dissipator_d2_from_pauli,
     HARDWARE_DISSIPATORS,
     HARDWARE_DISSIPATOR_D1,
+    cpsi_bell_plus,
+    CPSI_CUSP_K_PER_CHANNEL,
 )
 
 from .observables import pi_protected_observables
