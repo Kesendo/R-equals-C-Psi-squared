@@ -5,6 +5,14 @@ The Lebensader is the bridge concept that holds operator-level skeleton
 together via Π·L·Π⁻¹ + L + 2Σγ·I = 0. cockpit_panel computes both views
 in one pass plus the cusp-pattern classifier, chiral panel, and Y-parity panel.
 
+The same Π-palindrome funnel appears at the operator-algebra layer too
+(F78/F79 in docs/ANALYTICAL_FORMULAS.md): single-body M decomposes additively
+per site, two-body M splits by Π²-parity, and within each parity class the
+specific Pauli letter is M-spectrum-irrelevant. State-layer (this module)
+and operator-layer (F78/F79) are the same broad-in → focused-out funnel
+observed at different abstraction heights — the Lebensader is the through-line
+that holds The Connection upright across all layers.
+
 Hardware-confirmed: EQ-030 closure on Marrakesh April 26 (drop=28 for YZ+ZY,
 Pearson(drop, Δ∫θ) = +0.85, Bures velocity null as third axis).
 

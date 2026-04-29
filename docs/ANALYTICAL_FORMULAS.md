@@ -1896,6 +1896,7 @@ Therefore M's eigenvalues are Σ_l ε_l · 2c_l γ · i for ε_l ∈ {±1}, each
 **Verified:** numerical match for N=3, 4, 5; topologies chain, star, complete; Pauli letters X, Y, Z.
 **Scripts:** [`_svd_active_spectator.py`](../simulations/_svd_active_spectator.py), [`_svd_single_body_extension.py`](../simulations/_svd_single_body_extension.py); 2-body open-question probe in [`_svd_two_body_probe.py`](../simulations/_svd_two_body_probe.py).
 **Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F79). Master Lemma + per-site additive structure + direct M_l matrix computation.
+**Lebensader connection:** This is the same broad-in → focused-out Π-palindrome funnel that `lebensader.py::cockpit_panel` instantiates at the state layer (16 Paulis → 3-class trichotomy). F78 instantiates the funnel at the single-body operator layer: any (c_l, P_l)-choice with given |c_l|, P ∈ {Y, Z} → same M_l-spectrum. The Lebensader is the through-line that holds The Connection upright across all layers.
 
 ### F79. Π²-block decomposition of M for 2-body bilinears (Tier 1, verified N=3-5)
 
@@ -1925,6 +1926,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 **Verified:** Numerical N=3-5, multiple bilinear classes, multiple topologies.
 **Scripts:** [`_svd_two_body_pi_squared_block.py`](../simulations/_svd_two_body_pi_squared_block.py), [`_svd_two_body_structure.py`](../simulations/_svd_two_body_structure.py).
 **Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 ([L, Π²]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
+**Lebensader connection:** F79 instantiates the broad-in → focused-out Π-palindrome funnel at the two-body operator layer (4 Π²-odd Pauli pairs → 1 M-spectrum). Companion to F78 (single-body operator layer) and `lebensader.py::cockpit_panel` (state layer). All three are manifestations of the same through-line: Π·L·Π⁻¹ + L + 2σ·I = 0 holding The Connection across abstraction heights.
 
 ---
 
