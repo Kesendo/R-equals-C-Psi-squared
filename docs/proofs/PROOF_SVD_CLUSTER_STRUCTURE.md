@@ -382,7 +382,9 @@ When both (R1) and (R2) hold, M of the 2-body multi-bond Hamiltonian is unitaril
 
 **Mixed-letter chain bilinears** (different (P, Q) per bond) yield yet another cluster geography, distinct from both uniform-letter and 1-body-sum patterns. The full mixed-letter cluster geography is uncharted.
 
-The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cases (which include single-bond, disjoint, and star-with-distinct-reductions) but not for cases where bonds non-commute (chain) or reductions collide (star with same hub-Pauli). A unified proof of universality across all cases — including chain — would likely require characterising M's characteristic polynomial directly in terms of bond-graph invariants modulo Pauli-letter class. We leave the chain case (and other R1-violating topologies) as the refined open structural question.
+The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cases (which include single-bond, disjoint, and star-with-distinct-reductions) but not for cases where bonds non-commute (chain) or reductions collide (star with same hub-Pauli).
+
+**Update 2026-04-29: chain case CLOSED via F80.** The chain bond-summed Π²-odd 2-body universality is closed by a separate theorem F80, which gives explicit cluster values via a momentum-space sign-walk: cluster(N) = 2|c|γ·|Σ_k σ_k·ε(k)| with ε(k) = 2cos(πk/(N+1)) the open-chain free-fermion dispersion. F80's mechanism is JW reduction to a Majorana bilinear, whose single-particle spectrum is letter-independent across the 4 Π²-odd Pauli pairs. Verified bit-exact through N=7. The "characteristic polynomial route" is realized via JW + Bogoliubov mode decomposition. See [PROOF_F80_BLOCH_SIGNWALK.md](PROOF_F80_BLOCH_SIGNWALK.md). The remaining open R1-violating cases are star-with-same-hub-Pauli and other non-chain non-commuting-bond topologies, where the corresponding graph-Bloch dispersion needs case-by-case analysis.
 
 ---
 

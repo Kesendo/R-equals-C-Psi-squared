@@ -1,0 +1,14 @@
+=== Fast verification: top eigenvalues of M·M^† for N=7 chain (X,Y) ===
+  Predicted clusters: [np.float64(8.0547), np.float64(4.9932), np.float64(2.3978), np.float64(0.6636)]
+  Predicted SV² values: [np.float64(64.878), np.float64(24.932), np.float64(5.749), np.float64(0.44)]
+
+Building M (N=7, 16384×16384 complex)...
+  M built (328.8s, shape (16384, 16384))
+Computing M·M^†...
+  M·M^† done (39.0s)
+Top 6 eigenvalues of M·M^†:
+  eigsh done (1.6s)
+  Top 6 eigenvalues: [np.float64(64.87785353934596), np.float64(64.87785353934592), np.float64(64.8778535393459), np.float64(64.87785353934586), np.float64(64.87785353934585), np.float64(24.932161336698158)]
+  Top SVs: [np.float64(8.054678984251698), np.float64(8.054678984251694), np.float64(8.054678984251694), np.float64(8.05467898425169), np.float64(8.05467898425169), np.float64(4.993211525330983)]
+
+  Predicted top: 8.0547 (SV²=64.878)

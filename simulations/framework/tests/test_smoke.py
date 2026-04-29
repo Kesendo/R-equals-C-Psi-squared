@@ -1214,6 +1214,65 @@ def test_F79_single_bond_lebensader_reduction():
     np.testing.assert_allclose(two_body_svs[0], one_body_svs[0], atol=1e-9)
 
 
+def test_F80_bloch_signwalk_chain_pi2_odd():
+    """F80: chain Π²-odd 2-body M-cluster values follow the open-chain
+    free-fermion Bloch sign-walk formula:
+
+        cluster(N) = 2|c|·|Σ_{k=1..⌊N/2⌋} σ_k · 2cos(πk/(N+1))|
+
+    for σ_k ∈ {±1}, with multiplicity 4^N / (number of distinct values).
+
+    Verified at N=4, 5 (small enough for fast pytest); N=6, 7 verified
+    in scripts (see _pi2_odd_universality_data_sweep.py and
+    _n7_bloch_signwalk_verification.txt).
+    """
+    from itertools import product as iproduct
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_bilinear
+
+    def predict(N, c=1.0):
+        eps = [2.0 * np.cos(np.pi * k / (N + 1)) for k in range(1, N // 2 + 1)]
+        sign_combos = list(iproduct([1, -1], repeat=len(eps)))
+        sums = [abs(sum(s * e for s, e in zip(sigs, eps))) for sigs in sign_combos]
+        # Distinct values
+        distinct = []
+        for v in sums:
+            if not any(abs(v - d) < 1e-9 for d in distinct):
+                distinct.append(v)
+        return sorted([2 * c * v for v in distinct], reverse=True)
+
+    for N in [4, 5]:
+        bonds = [(i, i + 1) for i in range(N - 1)]
+        # Test all 4 Π²-odd Pauli pairs (universality)
+        for (P, Q) in [('X', 'Y'), ('X', 'Z'), ('Y', 'X'), ('Z', 'X')]:
+            H = _build_bilinear(N, bonds, [(P, Q, 1.0)])
+            L = lindbladian_z_dephasing(H, [1.0] * N)
+            M = palindrome_residual(L, N * 1.0, N)
+            svs = np.linalg.svd(M, compute_uv=False)
+
+            # Distinct cluster values (above zero)
+            observed = []
+            for s in svs:
+                if s > 1e-6 and not any(abs(s - o) < 1e-5 for o in observed):
+                    observed.append(s)
+            observed = sorted(observed, reverse=True)
+
+            predicted = predict(N)
+            assert len(observed) == len(predicted), \
+                f"N={N} ({P},{Q}): {len(observed)} observed clusters vs {len(predicted)} predicted"
+            for o, p in zip(observed, predicted):
+                assert abs(o - p) < 1e-6, \
+                    f"N={N} ({P},{Q}): observed cluster {o} vs predicted {p}"
+
+            # Verify multiplicity 4^N / num_distinct (excluding zero)
+            n_distinct = len(predicted)
+            expected_mult = (4 ** N) // n_distinct
+            for pred in predicted:
+                actual_mult = int(np.sum(np.abs(svs - pred) < 1e-6))
+                assert actual_mult == expected_mult, \
+                    f"N={N} ({P},{Q}) cluster {pred}: mult {actual_mult} vs {expected_mult}"
+
+
 def test_F79_two_body_pi_squared_block_decomposition():
     """F79: For 2-body bond bilinear M = Π·L·Π⁻¹+L+2σ·I,
     Π²-parity = (bit_b(P)+bit_b(Q)) mod 2 of each bilinear term determines

@@ -1,0 +1,27 @@
+=== PREDICTION: chain N=7 (X,Y) cluster values ===
+
+  ε(k) = 2cos(πk/8) for k=1,2,3:
+    ε(1) = 1.8478
+    ε(2) = 1.4142
+    ε(3) = 0.7654
+
+  Sign-walk predictions (each cluster mult predicted = 4^7/4 = 4096):
+    Predicted clusters: [np.float64(8.0547), np.float64(4.9932), np.float64(2.3978), np.float64(0.6636)]
+
+=== Now COMPUTE M for chain N=7 (X,Y) ===
+(matrix is 16384×16384, ~4.3 GB; SVD takes some minutes)
+
+  H built (0.0s)
+  L built (46.1s, total 46.1s)
+  M built (227.2s, total 273.4s, shape (16384, 16384))
+
+  Computing SVs (this is the slow part)...
+  SVD done (940.7s)
+
+  Distinct cluster values: [(np.float64(8.0547), 4096), (np.float64(4.9932), 4096), (np.float64(2.3978), 4096), (np.float64(0.6636), 4096)]
+
+  Predictions:
+    Predicted: [np.float64(8.0547), np.float64(4.9932), np.float64(2.3978), np.float64(0.6636)]
+    Observed:  [np.float64(8.0547), np.float64(4.9932), np.float64(2.3978), np.float64(0.6636)]
+    Mults observed: [4096, 4096, 4096, 4096]
+    MATCH? YES — Bloch sign-walk theorem confirmed at N=7
