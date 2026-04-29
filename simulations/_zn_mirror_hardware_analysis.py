@@ -114,29 +114,40 @@ def main(json_path):
     print(f"  Max violation (over all 15 Pauli strings):  {max_viol:.6f}")
     print(f"  RMS violation (over all 15 Pauli strings):  {rms_viol:.6f}")
 
-    # Effective transverse-field estimate (linear scaling)
+    # Effective transverse-field estimate (linear scaling, both hypotheses)
     print()
     print("=== Effective transverse-field estimate ===\n")
-    print("Linear scaling (numerical, see _zn_mirror_hardware_prediction.py):")
-    print("  max_viol(h_x) ≈ 0.085 · h_x   (for uniform h_x)")
-    print("  max_viol(h_y) ≈ 3.5 · h_y     (40× stronger; via bit_b coupling to Z-deph)")
+    print("Linear scalings from framework (see _zn_mirror_hardware_prediction.py):")
+    print("  max_viol(h_x) ≈ 0.085 · h_x  (single-X bit_b-even, weak coupling)")
+    print("  max_viol(h_y) ≈ 3.5 · h_y    (single-Y bit_b-odd, ~40× stronger)")
     print()
     h_x_est = max_viol / 0.085
     h_y_est = max_viol / 3.5
-    print(f"  If purely h_x: |h_x_eff| ≈ {h_x_est:.4f}")
-    print(f"  If purely h_y: |h_y_eff| ≈ {h_y_est:.4f}")
+    print(f"  Hypothesis A (purely h_x): |h_x_eff| ≈ {h_x_est:.4f}")
+    print(f"  Hypothesis B (purely h_y): |h_y_eff| ≈ {h_y_est:.4f}")
+    print()
+    print("  Which is more plausible? Y-Z-mixing structure of the worst-violating")
+    print("  Pauli strings (e.g. Y,Z and Z,Y both broken implies Y-axis rotation)")
+    print("  usually points to h_y rather than h_x.")
     print()
     if max_viol < 0.02:
         print("  Verdict: max_viol < 0.02 — consistent with NO transverse-field "
               "(or below readout-noise floor at 4096 shots).")
     elif max_viol < 0.05:
-        print("  Verdict: max_viol ∈ [0.02, 0.05] — possible weak transverse-field "
-              "or readout asymmetry. Suggest cross-check with 16384 shots if budget allows.")
-    else:
-        print("  Verdict: max_viol > 0.05 — significant transverse-field component "
-              "or strong calibration drift on the chosen qubits.")
+        print(f"  Verdict: max_viol ∈ [0.02, 0.05] — weak signal. Either small "
+              f"h_y_eff ≈ {h_y_est:.4f}, or shot-noise/readout asymmetry. "
+              f"Cross-check with more shots if budget allows.")
+    elif h_y_est < 0.5 and h_x_est > 0.5:
+        print(f"  Verdict: max_viol = {max_viol:.4f} → likely effective h_y_eff ≈ "
+              f"{h_y_est:.4f} (h_x_eff ≈ {h_x_est:.4f} would be unrealistically large).")
         worst = rows_sorted[0][0]
-        print(f"           Worst Pauli string: {worst}. Sites involved: see decomposition.")
+        print(f"           Worst Pauli string: {worst}.")
+    else:
+        print(f"  Verdict: max_viol = {max_viol:.4f} → significant transverse-field. "
+              f"h_x_eff ≈ {h_x_est:.4f} OR h_y_eff ≈ {h_y_est:.4f} "
+              f"(inspect worst-Pauli structure to disambiguate).")
+        worst = rows_sorted[0][0]
+        print(f"           Worst Pauli string: {worst}.")
 
     # Diagnostic via the framework cockpit method (3-qubit version requires full ρ)
     print()

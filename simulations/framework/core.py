@@ -932,6 +932,21 @@ class Confirmations:
             'framework_primitive': 'pi_protected_observables',
             'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian (EQ-030). Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
         },
+        'marrakesh_transverse_y_field_detection': {
+            'date': '2026-04-29',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7ornigror3c73c0c6ug',
+            'observable': 'Z⊗N-Mirror max-violation between ρ_a=|+−+⟩ and ρ_b=|−+−⟩',
+            'predicted_value': 'h_y=0.05 → max_violation ≈ 0.18 (linear scaling 3.5·h_y); '
+                               'h_x=0.05 → max_violation ≈ 0.004 (linear scaling 0.085·h_x); '
+                               'clean stack → max_violation < 1e-3',
+            'measured_value': 'max_violation = 0.182 (worst Pauli: Z,Z), RMS = 0.087. '
+                              'Matches h_y=0.05 prediction exactly. h_y_eff ≈ 0.05.',
+            'hardware_data': 'data/ibm_zn_mirror_april2026/zn_mirror_ibm_marrakesh_20260429_102824.json',
+            'experiment_doc': 'data/ibm_zn_mirror_april2026/README.md',
+            'framework_primitive': 'chain.zn_mirror_diagnostic + zn_mirror_state',
+            'description': 'First hardware verification of the Z⊗N-Mirror diagnostic. Marrakesh shows effective transverse Y-field h_y_eff ≈ 0.05 at Hamiltonian level on path [48,49,50]. NOT a transverse X-field (which would give 40× smaller violation). The Y-vs-X asymmetry predicted by the framework (Y is bit_b-odd like Z-dephasing axis, mixes more strongly) is confirmed empirically. Worst-violating Pauli string is Z,Z, indicating state-preparation rotation between |+−+⟩ and |−+−⟩ runs that is consistent with single-site h_y rotation.',
+        },
         'gamma_0_marrakesh_calibration': {
             'date': '2026-04-29',
             'machine': 'ibm_marrakesh',

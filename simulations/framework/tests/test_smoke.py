@@ -108,12 +108,13 @@ def test_receiver_at_n6_predicts_suboptimal():
 # Confirmations
 # ----------------------------------------------------------------------
 
-def test_confirmations_has_eight_entries():
+def test_confirmations_has_nine_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 8
+    assert len(names) == 9
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
+    assert 'marrakesh_transverse_y_field_detection' in names
 
 
 def test_confirmations_lookup_palindrome_trichotomy():
@@ -132,7 +133,7 @@ def test_confirmations_unknown_raises():
 def test_confirmations_by_machine():
     marrakesh = fw.Confirmations.by_machine('ibm_marrakesh')
     kingston = fw.Confirmations.by_machine('ibm_kingston')
-    assert len(marrakesh) >= 5
+    assert len(marrakesh) >= 6
     assert len(kingston) >= 3
 
 
