@@ -343,6 +343,105 @@ class ChainSystem:
 
         return z_part + t1_part
 
+    def propagate_with_hardware_noise(self, rho_0, t, terms=None,
+                                       T1_l=None, Tphi_l=None,
+                                       T1pump_l=None,
+                                       Xnoise_l=None, Ynoise_l=None):
+        """Propagate ρ_0 → ρ(t) under the full hardware noise Lindbladian.
+
+        State-level bridge primitive: where `predict_residual_with_hardware_noise`
+        gives the operator-level scalar ‖M‖², this method gives ρ(t) so the
+        user can compute Pauli expectations, drift vs idealized, partial
+        traces, etc. The two methods together cover both halves of the
+        ON_THE_INSTRUMENT picture (operator and state level).
+
+        Builds L = -i[H,·]
+                + sum_l γ_Z_l (Z_l ρ Z_l - ρ)        from Tphi (or chain.gamma_0)
+                + sum_l γ_T1_l D[σ⁻_l]
+                + sum_l γ_T1pump_l D[σ⁺_l]
+                + sum_l γ_X_l D[X_l]
+                + sum_l γ_Y_l D[Y_l]
+        with D[c]ρ = cρc† − ½{c†c, ρ}.
+
+        Args:
+            rho_0: 2^N × 2^N initial density matrix or Receiver instance.
+            t: propagation time.
+            terms: optional Pauli-pair Hamiltonian terms; if None uses chain.H.
+            T1_l, Tphi_l, T1pump_l, Xnoise_l, Ynoise_l: per-site rate lists or
+                None. Tphi_l (if given) overrides chain.gamma_0; otherwise
+                chain.gamma_0 uniform applies.
+
+        Returns:
+            ρ(t) as 2^N × 2^N complex array.
+        """
+        from scipy.linalg import expm
+        from .lindblad import lindbladian_general
+
+        # Resolve initial ρ
+        if isinstance(rho_0, Receiver):
+            rho_0_mat = rho_0.rho
+        else:
+            rho_0_mat = np.asarray(rho_0, dtype=complex)
+        d = self.d
+        if rho_0_mat.shape != (d, d):
+            raise ValueError(f"rho_0 shape {rho_0_mat.shape} != ({d},{d})")
+
+        # Resolve Hamiltonian
+        if terms is not None:
+            bilinear = [(t_pair[0], t_pair[1], self.J) for t_pair in terms]
+            H = _build_bilinear(self.N, self.bonds, bilinear)
+        else:
+            H = self.H
+
+        # Build c_ops
+        c_ops = []
+        # Tphi (Z-dephasing): use Tphi_l if provided, else chain.gamma_0 uniform
+        if Tphi_l is None:
+            tphi_eff = [self.gamma_0] * self.N
+        else:
+            tphi_eff = [float(g) for g in Tphi_l]
+            if len(tphi_eff) != self.N:
+                raise ValueError(f"Tphi_l length {len(tphi_eff)} != N {self.N}")
+        Z = pauli_matrix('Z')
+        for l, g in enumerate(tphi_eff):
+            if g > 0:
+                c_ops.append(np.sqrt(g) * _site_op_kron(Z, l, self.N))
+
+        # T1 (σ⁻)
+        if T1_l is not None:
+            sigma_minus = np.array([[0, 1], [0, 0]], dtype=complex)
+            for l, g in enumerate(T1_l):
+                if g > 0:
+                    c_ops.append(np.sqrt(g) * _site_op_kron(sigma_minus, l, self.N))
+
+        # T1 pump (σ⁺)
+        if T1pump_l is not None:
+            sigma_plus = np.array([[0, 0], [1, 0]], dtype=complex)
+            for l, g in enumerate(T1pump_l):
+                if g > 0:
+                    c_ops.append(np.sqrt(g) * _site_op_kron(sigma_plus, l, self.N))
+
+        # X-noise
+        if Xnoise_l is not None:
+            X = pauli_matrix('X')
+            for l, g in enumerate(Xnoise_l):
+                if g > 0:
+                    c_ops.append(np.sqrt(g) * _site_op_kron(X, l, self.N))
+
+        # Y-noise
+        if Ynoise_l is not None:
+            Y = pauli_matrix('Y')
+            for l, g in enumerate(Ynoise_l):
+                if g > 0:
+                    c_ops.append(np.sqrt(g) * _site_op_kron(Y, l, self.N))
+
+        # Build full Lindbladian and propagate
+        L = lindbladian_general(H, c_ops)
+        rho_vec = rho_0_mat.flatten('F')
+        rho_t_vec = expm(L * float(t)) @ rho_vec
+        rho_t = rho_t_vec.reshape(d, d, order='F')
+        return 0.5 * (rho_t + rho_t.conj().T)  # symmetrize numerical drift
+
     def predict_residual_with_hardware_noise(self, terms=None,
                                               T1_l=None, Tphi_l=None,
                                               T1pump_l=None,
