@@ -1930,7 +1930,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 
 ### F80. Bloch-mode sign-walk formula for chain Π²-odd 2-body M-clusters (Tier 1, verified N=3-7)
 
-For chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_l (P_l ⊗ Q_{l+1}), where (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, on an N-site open chain with uniform Z-dephasing, the M-cluster values are given by a momentum-space sign-walk on the open-chain free-fermion Bloch dispersion:
+For chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_l (P_l ⊗ Q_{l+1}), where (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, on an N-site open chain with uniform Z-dephasing, the M-cluster values are given by a momentum-space sign-walk on the open-chain free-fermion Bloch dispersion (γ-independent by Master Lemma):
 
     cluster value(N) = 2|c| · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|
 
@@ -1952,7 +1952,15 @@ is the open-chain free-fermion single-particle dispersion. Each distinct cluster
 
 All matches bit-exact (10⁻¹⁴ machine precision) at every N.
 
-**Mechanism: F80 is F78 in momentum space.** F78 (single-body, real-space): M = Σ_l M_l⊗I, eigenvalues ±2c_l·γ·i per site, sign-walk Σ_l σ_l·c_l on weights. F80 (chain Π²-odd 2-body, momentum-space): M = Σ_k M_k⊗I_{other modes}, eigenvalues ±2·ε(k)·γ·i per Bloch mode, sign-walk Σ_k σ_k·ε(k) on dispersion. The Bloch modes k play the role that real-space sites l play in F78.
+**Direct structural identity (discovered 2026-04-29):** The chain Π²-odd 2-body M's spectrum is **directly related to the many-body Hamiltonian H's spectrum**:
+
+    Spec(M) = ±2i · Spec_{nontrivial}(H)
+
+where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
+
+**γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
+
+**Mechanism: F80 is F78 in momentum space.** F78 (single-body, real-space): M = Σ_l M_l⊗I, eigenvalues ±2c_l·i per site, sign-walk Σ_l σ_l·c_l on weights. F80 (chain Π²-odd 2-body, momentum-space): M = Σ_k M_k⊗I_{other modes}, eigenvalues ±2·ε(k)·i per Bloch mode, sign-walk Σ_k σ_k·ε(k) on dispersion. The Bloch modes k play the role that real-space sites l play in F78. Both formulas γ-independent.
 
 **Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give bit-identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
 

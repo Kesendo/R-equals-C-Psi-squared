@@ -1216,11 +1216,17 @@ def test_F79_single_bond_lebensader_reduction():
 
 def test_F80_bloch_signwalk_chain_pi2_odd():
     """F80: chain Π²-odd 2-body M-cluster values follow the open-chain
-    free-fermion Bloch sign-walk formula:
+    free-fermion Bloch sign-walk formula (γ-independent by Master Lemma):
 
         cluster(N) = 2|c|·|Σ_{k=1..⌊N/2⌋} σ_k · 2cos(πk/(N+1))|
 
-    for σ_k ∈ {±1}, with multiplicity 4^N / (number of distinct values).
+    Equivalent direct identity (discovered 2026-04-29 via data sweep):
+
+        Spec(M)_{nontrivial} = ±2i · Spec(H)_{nontrivial, many-body}
+
+    M's spectrum is directly 2i times the chain Hamiltonian's many-body
+    eigenvalues. The Bloch sign-walk form is just the free-fermion many-body
+    spectrum written out using Bogoliubov mode energies E_k = 4|c|·cos(πk/(N+1)).
 
     Verified at N=4, 5 (small enough for fast pytest); N=6, 7 verified
     in scripts (see _pi2_odd_universality_data_sweep.py and
