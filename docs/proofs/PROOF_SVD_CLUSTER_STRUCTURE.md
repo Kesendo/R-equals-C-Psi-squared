@@ -359,16 +359,30 @@ By Corollary 4.2, this means M_XY, M_XZ, M_YX, M_ZX are pairwise **unitarily equ
 
 **Bound: where the universality breaks.** The Π²-even non-truly class (only YZ, ZY at the pure 2-body level) is universal in the same way: M_YZ ≡ M_ZY at the spectrum level. But mixing across parities (e.g., adding YZ + XY) produces a non-pure Hamiltonian whose M has both diagonal and off-diagonal contributions and a richer spectrum. The universality is strictly within-parity-class.
 
-**Refined scope of the universality (April 2026 follow-up).** Subsequent exploration via the Lebensader reduction (per-bond Π applied to the bilinear) showed that the universality has two distinct regimes:
+**Refined scope of the universality (April 2026 follow-up).** Systematic exploration via the Lebensader reduction (per-bond Π applied to each bilinear) reveals when the reduction proves universality and when it fails. The reduction works iff TWO conditions hold:
 
-1. **Single-bond level (PROVEN).** For a single bond H = c·(P⊗Q) at sites (i, j) with (P, Q) Π²-odd: per-bond Π reduces (P⊗Q) to a single Pauli string at one site of the bond (e.g., Π(X⊗Y) = i·Z_j; Π(Y⊗X) = i·Z_i; etc.). M(P⊗Q at single bond) and M(Π(P⊗Q) at single site) are spectrally identical (verified numerically at N=3, 4, 5). Combined with F78's universality (Y vs Z single-body give identical M_l-spectrum), this proves single-bond Π²-odd universality through the Lebensader reduction chain:
-   M(P⊗Q at single bond) ≡ M(single Pauli at single site, via Π) ≡ M(other Pauli at same site, via F78) ≡ M(P'⊗Q' at single bond, via Π reverse).
+(R1) **Bond commutativity.** The bond bilinears commute pairwise as Hamiltonian operators. For Π²-odd 2-body (P, Q) summed over bonds {(i_k, j_k)}: bonds commute iff they don't share a site, OR they share a site at which both bonds carry the SAME Pauli letter.
 
-2. **Multi-bond level (PARTIALLY OPEN).** For chain bond-summed H = Σ_b c_b·(P_b ⊗ Q_b) with all bonds carrying the same (P, Q) (uniform letter), the universality across the four (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)} choices holds empirically but NOT via per-bond Π reduction. The per-bond reduction gives the right Frobenius norm (F49) but the wrong cluster pattern: M(chain uniform (X,Y) at N=4) has clusters {(2√5, 128), (2, 128)}; M(Z_1 + Z_2 + Z_3 at N=4, the per-bond Π-image) has {(6, 64), (2, 192)}. Both anti-Hermitian, same ‖M‖²_F = 3072, but different spectra. The reduction fails because consecutive bonds in chain share sites and don't commute as Hamiltonian terms ([X_0Y_1, X_1Y_2] = -2i·X_0 Z_1 Y_2 ≠ 0), creating cross-bond structure that the 1-body sum lacks.
+(R2) **Reduction non-collision.** The per-bond Π-images (single Paulis at one site each) hit pairwise distinct sites, with no two bonds reducing to the same site.
 
-3. **Mixed-letter chain bilinears.** Different (P, Q) per bond gives a different cluster pattern in general (not the uniform-letter pattern). Some specific mixed combinations match the 1-body sum cluster {(6, 64), (2, 192)} (e.g., [(X,Y), (X,Z), (Y,X)] on chain N=4). The full mixed-letter cluster geography is uncharted.
+When both (R1) and (R2) hold, M of the 2-body multi-bond Hamiltonian is unitarily equivalent to M of the per-bond Π-image (a 1-body sum), and F78's universality applies.
 
-The Lebensader reduction therefore closes the single-bond universality completely and refines the open question to: why is multi-bond chain Π²-odd uniform-letter spectral universality preserved when the per-bond reduction is not? A proof would likely require characterising M's characteristic polynomial directly in terms of bond-graph invariants modulo letter-class. We leave this as the refined open structural question.
+| Case | (R1) commute? | (R2) no collision? | Reduction works? | Universality holds? |
+|------|---------------|---------------------|------------------|----------------------|
+| Single-bond Π²-odd | trivial | trivial | ✓ | ✓ (via reduction + F78) |
+| Disjoint multi-bond (bonds share no sites) | ✓ | ✓ | ✓ | ✓ (via reduction + F78) |
+| Star (X, Y), X on hub | ✓ (same X at hub) | ✓ (Z's go to distinct leaves) | ✓ | ✓ (via reduction + F78) |
+| Star (Y, X), Y on hub | ✓ (same Y at hub) | ✗ (all reductions collide on hub) | ✗ | ✓ (empirical) |
+| Chain (X, Y) bond-summed | ✗ ([X_l Y_{l+1}, X_{l+1} Y_{l+2}] ≠ 0) | ✓ | ✗ | ✓ (empirical) |
+
+**Cluster comparison at N=4 chain (X, Y) showing reduction failure:**
+- M(chain (X, Y)) clusters: {(2√5, 128), (2, 128)}
+- M(Z_1 + Z_2 + Z_3) clusters: {(6, 64), (2, 192)}
+- Same ‖M‖²_F = 3072 (F49), different cluster patterns.
+
+**Mixed-letter chain bilinears** (different (P, Q) per bond) yield yet another cluster geography, distinct from both uniform-letter and 1-body-sum patterns. The full mixed-letter cluster geography is uncharted.
+
+The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cases (which include single-bond, disjoint, and star-with-distinct-reductions) but not for cases where bonds non-commute (chain) or reductions collide (star with same hub-Pauli). A unified proof of universality across all cases — including chain — would likely require characterising M's characteristic polynomial directly in terms of bond-graph invariants modulo Pauli-letter class. We leave the chain case (and other R1-violating topologies) as the refined open structural question.
 
 ---
 
