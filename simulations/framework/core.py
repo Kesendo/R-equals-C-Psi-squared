@@ -346,7 +346,8 @@ class ChainSystem:
     def propagate_with_hardware_noise(self, rho_0, t, terms=None,
                                        T1_l=None, Tphi_l=None,
                                        T1pump_l=None,
-                                       Xnoise_l=None, Ynoise_l=None):
+                                       Xnoise_l=None, Ynoise_l=None,
+                                       J_zz=None):
         """Propagate ρ_0 → ρ(t) under the full hardware noise Lindbladian.
 
         State-level bridge primitive: where `predict_residual_with_hardware_noise`
@@ -370,6 +371,9 @@ class ChainSystem:
             T1_l, Tphi_l, T1pump_l, Xnoise_l, Ynoise_l: per-site rate lists or
                 None. Tphi_l (if given) overrides chain.gamma_0; otherwise
                 chain.gamma_0 uniform applies.
+            J_zz: optional ZZ-crosstalk strength. Adds Σ_(i,j) J_zz · Z_i Z_j
+                over the chain's bond graph as a Hamiltonian correction (not
+                a dissipator). Models the always-on ZZ-coupling on Heron r2.
 
         Returns:
             ρ(t) as 2^N × 2^N complex array.
@@ -392,6 +396,11 @@ class ChainSystem:
             H = _build_bilinear(self.N, self.bonds, bilinear)
         else:
             H = self.H
+
+        # Optional ZZ-crosstalk (Hamiltonian correction)
+        if J_zz is not None and J_zz != 0:
+            H_zz = _build_bilinear(self.N, self.bonds, [('Z', 'Z', float(J_zz))])
+            H = H + H_zz
 
         # Build c_ops
         c_ops = []
@@ -727,6 +736,19 @@ class Confirmations:
             'experiment_doc': 'review/EMERGING_QUESTIONS.md',
             'framework_primitive': 'pi_protected_observables',
             'description': 'First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian (EQ-030). Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.',
+        },
+        'gamma_0_marrakesh_calibration': {
+            'date': '2026-04-29',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7mjnjjaq2pc73a1pk4g',
+            'observable': '<X_0 Z_2> for 3 Pauli-pair Hamiltonians (truly XX+YY, soft XY+YX, hard XX+XY)',
+            'predicted_value': 'effective γ_Z = 0.05 fits all three HW values',
+            'measured_value': 'best-fit γ_Z = 0.05 (sweep over [0.01, 0.15] with 71 points), '
+                              'total residual² = 6.4e-4 across 3 Hamiltonians',
+            'hardware_data': 'data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json',
+            'experiment_doc': 'data/ibm_soft_break_april2026/README.md',
+            'framework_primitive': 'ChainSystem.propagate_with_hardware_noise + 2D fit',
+            'description': 'Independent confirmation of γ_0=0.05 default (from cusp-slowing/F65/F67 calibration) via top-down fit against Marrakesh April 26 soft-break Pauli expectations. The README idealized prediction at γ_Z=0.1 was 2× too high; real Marrakesh effective Z-dephasing is 0.05, exactly the framework default. T1 contributes negligibly to the residual; the dominant Hardware-vs-idealized drift in <X_0 Z_2> is corrected by reducing γ_Z, not by adding T1.',
         },
         'lebensader_skeleton_trace_decoupling': {
             'date': '2026-04-26',

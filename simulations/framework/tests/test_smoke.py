@@ -108,11 +108,12 @@ def test_receiver_at_n6_predicts_suboptimal():
 # Confirmations
 # ----------------------------------------------------------------------
 
-def test_confirmations_has_seven_entries():
+def test_confirmations_has_eight_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 7
+    assert len(names) == 8
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
+    assert 'gamma_0_marrakesh_calibration' in names
 
 
 def test_confirmations_lookup_palindrome_trichotomy():
@@ -131,7 +132,7 @@ def test_confirmations_unknown_raises():
 def test_confirmations_by_machine():
     marrakesh = fw.Confirmations.by_machine('ibm_marrakesh')
     kingston = fw.Confirmations.by_machine('ibm_kingston')
-    assert len(marrakesh) >= 4
+    assert len(marrakesh) >= 5
     assert len(kingston) >= 3
 
 
@@ -419,6 +420,32 @@ def test_propagate_with_hardware_noise_matches_marrakesh_xz_for_soft():
     exp = float(np.real(np.trace(rho_02 @ np.kron(X, Z))))
     # README idealized: -0.623; HW: -0.711. Our propagation should match idealized.
     assert abs(exp - (-0.623)) < 0.02
+
+
+def test_propagate_with_hardware_noise_zz_crosstalk_changes_dynamics():
+    """J_zz adds Z-Z Hamiltonian correction; non-trivial effect on Pauli expectations."""
+    chain = fw.ChainSystem(N=3, J=1.0, gamma_0=0.05)
+    plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
+    minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
+    psi = np.kron(np.kron(plus, minus), plus)
+    rho_0 = np.outer(psi, psi.conj())
+    rho_no_zz = chain.propagate_with_hardware_noise(
+        rho_0, t=0.8, terms=[('X','X'),('Y','Y')])
+    rho_with_zz = chain.propagate_with_hardware_noise(
+        rho_0, t=0.8, terms=[('X','X'),('Y','Y')], J_zz=0.3)
+
+    Y = np.array([[0,-1j],[1j,0]], dtype=complex)
+    Z = np.array([[1,0],[0,-1]], dtype=complex)
+    Y0Z2 = np.kron(Y, Z)
+    def y0z2(rho):
+        rho_3q = rho.reshape(2,2,2,2,2,2)
+        rho_02 = np.einsum('ikjlkm->ijlm', rho_3q).reshape(4, 4)
+        return float(np.real(np.trace(rho_02 @ Y0Z2)))
+    e_no = y0z2(rho_no_zz)
+    e_with = y0z2(rho_with_zz)
+    # ZZ-crosstalk should shift <Y_0 Z_2> by > 0.1
+    assert abs(e_with - e_no) > 0.1, \
+        f"J_zz=0.3 should shift <Y_0 Z_2> by >0.1; got Δ={abs(e_with - e_no):.4f}"
 
 
 def test_propagate_with_hardware_noise_t1_has_nontrivial_effect():
