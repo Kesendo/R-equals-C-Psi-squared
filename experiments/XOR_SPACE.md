@@ -11,6 +11,7 @@ decay rate GHZ W comparison, R=CPsi2 XOR space -->
 **Date:** March 16, 2026 (updated March 18, 2026)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+**Cockpit-Lens (2026-04-29):** the "XY-weight" stratification used here is `n_XY = total bit_a` per Pauli-string in the lean cockpit's vocabulary; the "Π maps k → N−k" claim is per-site bit_a-flip (Π: I↔X, Y↔Z). XOR_SPACE describes the *spectral* manifestation (Liouvillian eigenmode decay rates) of the same n_XY-stratification that V_EFFECT_BOUNDARY_LOCALIZATION (April 25) describes *algebraically* (Pauli-string sectors). The N+1 XOR center modes are the spectral echo of the Π-orbit-endpoints whose pairing partner is the steady state. GHZ→100%-XOR / W→100%-palindromic matches the f71_eigenstate_class diagnostic in the cockpit (`Receiver.f71_class`).
 
 ---
 
