@@ -35,7 +35,7 @@ on 9 windows of the star topology (Bell_SA ⊗ |+⟩_B, J_SA=1.0, J_SB=2.0,
 γ=0.05) reveals that **3 dimensions explain 98% of the variance**: sector
 balance (69%), mixedness (22%), and temporal decay (7%). The windows do
 not roam through generic 15-parameter two-qubit state space; they live on
-a 7-parameter X⊗X-symmetric subspace. Two transition modes exist:
+a 7-parameter X⊗X-symmetric subspace (re-analyzed 2026-04-29: this is algebraically the n_YZ-even = Π²-eigenstate-(+1) Sektor of the 16 Pauli-Pairs minus the trivial II — see PROOF_BIT_B_PARITY_SYMMETRY / F63). Two transition modes exist:
 **glide** (smooth correlated rotation in YZ/ZY Pauli plane, both qubits
 together) and **switch** (hard sector flip via single-qubit-B operation,
 coinciding with S-coherence dropping to zero). The phase skeleton is
