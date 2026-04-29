@@ -359,6 +359,67 @@ def test_predict_from_terms_decomposes_additively():
     assert abs(p_2yz + p_1yz - actual) < 1e-6
 
 
+def test_predict_from_terms_t1_truly_hamiltonian():
+    """For truly Hamiltonians, the T1 contribution is the *only* term."""
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    pred = chain.predict_residual_norm_squared_from_terms(
+        [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
+    actual = chain.residual_norm_squared(
+        [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
+    # 4^(3-1) * [3·3·0.005² + 4·(3·0.005)²] = 16·(0.000225 + 0.0009) = 16·0.001125 = 0.018
+    assert abs(pred - 0.018) < 1e-9
+    assert abs(pred - actual) < 1e-9
+
+
+def test_predict_from_terms_t1_soft_hamiltonian_additive():
+    """T1 additively extends the Frobenius result for soft Hamiltonians."""
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    z_only = chain.predict_residual_norm_squared_from_terms(
+        [('Y','Z'),('Z','Y')])  # 2048
+    with_t1 = chain.predict_residual_norm_squared_from_terms(
+        [('Y','Z'),('Z','Y')], gamma_t1=0.005)
+    # T1 part = 16·[3·3·0.005² + 4·(0.015)²] = 16·0.001125 = 0.018
+    assert abs(with_t1 - z_only - 0.018) < 1e-9
+    actual = chain.residual_norm_squared(
+        [('Y','Z'),('Z','Y')], gamma_t1=0.005)
+    assert abs(with_t1 - actual) < 1e-9
+
+
+def test_predict_from_terms_t1_nonuniform_distribution():
+    """T1 formula handles arbitrary per-site distributions."""
+    chain = fw.ChainSystem(N=4, gamma_0=0.05)
+    gamma_t1 = [0.001, 0.005, 0.01, 0.002]
+    pred = chain.predict_residual_norm_squared_from_terms(
+        [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
+    actual = chain.residual_norm_squared(
+        [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
+    assert abs(pred - actual) < 1e-9
+
+
+def test_predict_from_terms_t1_no_hamiltonian():
+    """Pure-T1 (no Hamiltonian) gives the analytic dissipator formula."""
+    chain = fw.ChainSystem(N=3, gamma_0=0.05)
+    # H = 0 → only T1 part survives.
+    pred_empty = chain.predict_residual_norm_squared_from_terms(
+        [], gamma_t1=0.005)
+    # 4^(3-1) · [3·3·0.005² + 4·(0.015)²] = 16 · 0.001125 = 0.018
+    assert abs(pred_empty - 0.018) < 1e-9
+
+
+def test_residual_norm_squared_with_t1_matches_predict():
+    """Numerical residual_norm_squared(gamma_t1=...) matches predict's closed form."""
+    for N in [3, 4]:
+        chain = fw.ChainSystem(N=N, gamma_0=0.05)
+        for terms in [[('Y','Z'),('Z','Y')], [('I','Y'),('Y','I')],
+                      [('X','X'),('Y','Y'),('Z','Z')]]:
+            for gT1 in [0.001, 0.005, 0.01]:
+                pred = chain.predict_residual_norm_squared_from_terms(
+                    terms, gamma_t1=gT1)
+                num = chain.residual_norm_squared(terms, gamma_t1=gT1)
+                assert abs(pred - num) < 1e-6, \
+                    f"N={N} terms={terms} gT1={gT1}: pred={pred} num={num}"
+
+
 def test_predict_from_terms_is_truly_override():
     """is_truly override skips the numerical classify call."""
     chain = fw.ChainSystem(N=4)

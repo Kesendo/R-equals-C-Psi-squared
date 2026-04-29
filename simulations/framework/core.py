@@ -216,38 +216,60 @@ class ChainSystem:
         )
         return c_H * factor
 
-    def residual_norm_squared(self, terms, J_scale=None):
+    def residual_norm_squared(self, terms, J_scale=None, gamma_t1=None):
         """Numerical ‖M‖² for a Pauli-pair Hamiltonian on this chain.
 
-        Builds H, the Z-dephasing Lindbladian, and the palindrome residual M;
-        returns ‖M‖²_F. For 'truly' classes, ≈ 0 to floating-point precision.
+        Builds H, the Lindbladian (Z-dephasing or Z+T1 if `gamma_t1` is set),
+        and the palindrome residual M; returns ‖M‖²_F. For 'truly' classes
+        with gamma_t1=0, ≈ 0 to floating-point precision.
 
-        Replaces the recurring 4-line boilerplate
-        (_build_bilinear → lindbladian_z_dephasing → palindrome_residual → norm).
+        Replaces the recurring boilerplate
+        (_build_bilinear → lindbladian_* → palindrome_residual → norm).
 
         Args:
             terms: list of (a, b) letter tuples.
             J_scale: optional override for chain.J (default uses self.J).
+            gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform),
+                      list of length N, or None / 0 (pure Z-dephasing).
         """
+        from .lindblad import lindbladian_z_plus_t1
         J = self.J if J_scale is None else float(J_scale)
         bilinear = [(a, b, J) for (a, b) in terms]
         H = _build_bilinear(self.N, self.bonds, bilinear)
-        L = lindbladian_z_dephasing(H, [self.gamma_0] * self.N)
-        Sigma_gamma = self.N * self.gamma_0
+        gamma_z_l = [self.gamma_0] * self.N
+        if gamma_t1 is None:
+            L = lindbladian_z_dephasing(H, gamma_z_l)
+        else:
+            if np.isscalar(gamma_t1):
+                gamma_t1_l = [float(gamma_t1)] * self.N
+            else:
+                gamma_t1_l = [float(g) for g in gamma_t1]
+                if len(gamma_t1_l) != self.N:
+                    raise ValueError(
+                        f"gamma_t1 list length {len(gamma_t1_l)} != N {self.N}"
+                    )
+            L = lindbladian_z_plus_t1(H, gamma_z_l, gamma_t1_l)
+        Sigma_gamma = sum(gamma_z_l)
         M = palindrome_residual(L, Sigma_gamma, self.N)
         return float(np.linalg.norm(M) ** 2)
 
-    def predict_residual_norm_squared_from_terms(self, terms, is_truly=None):
+    def predict_residual_norm_squared_from_terms(self, terms, is_truly=None,
+                                                  gamma_t1=None):
         """Closed-form ‖M‖² from terms via Frobenius identity (no L computed).
 
         Verified empirically across chain/ring/star/K_N at N=3..6:
 
-            ‖M‖²_F = 2^(N+2) · n_YZ · ‖H‖²_F   (homogeneous non-truly H)
-                   = 0                            (truly H)
+            ‖M(L_Z)‖²    = 2^(N+2) · n_YZ · ‖H‖²_F     (homogeneous non-truly H)
+                         = 0                              (truly H)
+            ‖M(L_Z+T1)‖² = ‖M(L_Z)‖² + 4^(N−1) · [ 3·Σ γT1² + 4·(Σ γT1)² ]
 
         n_YZ = number of Y/Z letters per Pauli-pair term (the bit_b-odd letters,
         which are the Π-symmetry-breaking ones). Term list must be homogeneous
         in n_YZ; mixed-class lists must be split and added per-class.
+
+        T1 contribution is Hamiltonian-independent, γ_Z-independent, and
+        orthogonal to the Hamiltonian palindrome residual (no cross-term).
+        Verified at N=3..6 for arbitrary {γ_T1_l} distributions.
 
         Topology enters only via ‖H‖²_F (cheap to compute). The graph-dependent
         c_H scaling of `predict_residual_norm_squared` is the chain/ring/star
@@ -259,31 +281,53 @@ class ChainSystem:
             is_truly: optional override. If None, calls classify_pauli_pair.
                       Pass True/False to skip the numerical classification when
                       the truly status is known (e.g., from prior analysis).
+            gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform
+                      across sites), list of length N, or None / 0 (no T1).
 
         Raises:
             ValueError: if the term list is not homogeneous in n_YZ_per_term.
         """
+        # Hamiltonian palindrome part
         if not terms:
-            return 0.0
-        # truly check first — truly Hamiltonians (e.g. Heisenberg XX+YY+ZZ) can
-        # mix n_YZ per term (0+2+2) and still be palindrome-respecting; the
-        # homogeneity rule only applies to the non-truly Frobenius branch.
-        if is_truly is None:
-            is_truly = (self.classify_pauli_pair(terms) == 'truly')
-        if is_truly:
-            return 0.0
-        n_yz_per_term = [sum(1 for L in (a, b) if L in 'YZ') for (a, b) in terms]
-        if len(set(n_yz_per_term)) > 1:
-            raise ValueError(
-                f"Term list is not homogeneous in Y/Z count per term "
-                f"(got {n_yz_per_term}). Split into homogeneous parts and add "
-                f"the predictions: ||M_total||^2 = sum_k predict(...)_k."
-            )
-        n_yz = n_yz_per_term[0]
-        bilinear = [(a, b, self.J) for (a, b) in terms]
-        H = _build_bilinear(self.N, self.bonds, bilinear)
-        H_frob_sq = float(np.real(np.trace(H.conj().T @ H)))
-        return (2 ** (self.N + 2)) * n_yz * H_frob_sq
+            z_part = 0.0
+        else:
+            if is_truly is None:
+                is_truly = (self.classify_pauli_pair(terms) == 'truly')
+            if is_truly:
+                z_part = 0.0
+            else:
+                n_yz_per_term = [sum(1 for L in (a, b) if L in 'YZ')
+                                 for (a, b) in terms]
+                if len(set(n_yz_per_term)) > 1:
+                    raise ValueError(
+                        f"Term list is not homogeneous in Y/Z count per term "
+                        f"(got {n_yz_per_term}). Split into homogeneous parts "
+                        f"and add the predictions: ||M_total||^2 = "
+                        f"sum_k predict(...)_k."
+                    )
+                n_yz = n_yz_per_term[0]
+                bilinear = [(a, b, self.J) for (a, b) in terms]
+                H = _build_bilinear(self.N, self.bonds, bilinear)
+                H_frob_sq = float(np.real(np.trace(H.conj().T @ H)))
+                z_part = (2 ** (self.N + 2)) * n_yz * H_frob_sq
+
+        # T1 dissipator contribution (Hamiltonian-independent, additive)
+        if gamma_t1 is None:
+            t1_part = 0.0
+        else:
+            if np.isscalar(gamma_t1):
+                gamma_t1_l = [float(gamma_t1)] * self.N
+            else:
+                gamma_t1_l = [float(g) for g in gamma_t1]
+                if len(gamma_t1_l) != self.N:
+                    raise ValueError(
+                        f"gamma_t1 list length {len(gamma_t1_l)} != N {self.N}"
+                    )
+            sum_g2 = sum(g * g for g in gamma_t1_l)
+            sum_g = sum(gamma_t1_l)
+            t1_part = (4 ** (self.N - 1)) * (3 * sum_g2 + 4 * sum_g * sum_g)
+
+        return z_part + t1_part
 
     def cockpit_panel(self, receiver, terms=None, gamma_t1=None,
                       t_max=10.0, dt=0.005,
