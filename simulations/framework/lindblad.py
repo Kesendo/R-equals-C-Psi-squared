@@ -69,7 +69,7 @@ def lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l):
     L(ρ) = -i[H, ρ] + Σ_l γ_l · (Z_l ρ Z_l − ρ)
                     + Σ_l γ^{T1}_l · (σ⁻_l ρ σ⁺_l − ½{σ⁺_l σ⁻_l, ρ})
 
-    σ⁻ = (X − iY)/2 = lowering operator (|1⟩→|0⟩). With γ^{T1}_l = 0 reduces to
+    σ⁻ = (X + iY)/2 = [[0,1],[0,0]] = lowering operator (|1⟩→|0⟩). With γ^{T1}_l = 0 reduces to
     `lindbladian_z_dephasing`. T1 introduces palindrome-breaking; used by
     cockpit_panel to measure how Π-protected count shifts under amplitude damping.
     """

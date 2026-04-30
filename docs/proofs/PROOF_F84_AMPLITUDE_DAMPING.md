@@ -103,7 +103,7 @@ The full Lindbladian under H + Z-dephasing + amplitude damping decomposes as L =
 
 Substituting into the palindrome equation as in PROOF_F82 Step 5:
 
-    Π · L · Π⁻² = L − 2 · L_{H_odd} − 2 · D_{AmplDamp, odd}.
+    Π² · L · Π⁻² = L − 2 · L_{H_odd} − 2 · D_{AmplDamp, odd}.
 
 (L_{H_odd} and D_{AmplDamp, odd} are mutually orthogonal in operator space: the Hamiltonian commutator part has different matrix-element support from the amplitude-damping channel part.) Then:
 

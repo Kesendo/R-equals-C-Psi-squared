@@ -1848,6 +1848,11 @@ def test_F84_amplitude_damping_thermal_bath():
     expected_net = 0.05 * np.sqrt(3) * (2 ** 2)
     assert abs(d_net['f81_violation'] - expected_net) < 1e-9
 
+    # Net HEATING at intermediate (γ_↓=0.05, γ_↑=0.10), violation symmetric to net cooling
+    d_net_heat = chain.pi_decompose_M(soft, gamma_z=0.1, gamma_t1=0.05, gamma_pump=0.10)
+    assert abs(d_net_heat['f81_violation'] - expected_net) < 1e-9, \
+        f"Net heating must give same violation as net cooling at same |Δγ|, got {d_net_heat['f81_violation']}"
+
     # Closed-form forward primitive matches numerical
     pred = chain.predict_amplitude_damping_violation(0.1, 0.05)
     assert abs(pred - expected_net) < 1e-12
