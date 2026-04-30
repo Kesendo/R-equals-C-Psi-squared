@@ -1604,3 +1604,57 @@ def test_F81_violation_T1_diagnostic():
     assert d_yz['norm_sq']['L_H_odd'] < 1e-15
     # f81_violation = ‖M_anti‖ since L_H_odd = 0
     assert d_yz['f81_violation'] > 1e-3
+
+
+def test_F82_closed_form_T1_dissipator():
+    """F82: f81_violation = ‖D_{T1, odd}‖_F = √(Σ_l γ²_T1_l) · 2^(N−1).
+
+    Verifies the closed-form scaling of the F81 violation under T1 amplitude
+    damping for various N, uniform and non-uniform per-site rates, and across
+    multiple Hamiltonians (the violation is H-independent).
+    """
+    soft = [('X', 'Y'), ('Y', 'X')]
+
+    # N-scaling: ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N−1) for uniform γ_T1
+    expected = {
+        2: 0.10 * (2 ** 0.5) * (2 ** 1),  # 0.10 · √2 · 2 = 0.2828
+        3: 0.10 * (3 ** 0.5) * (2 ** 2),  # 0.10 · √3 · 4 = 0.6928
+        4: 0.10 * (4 ** 0.5) * (2 ** 3),  # 0.10 · √4 · 8 = 1.6000
+        5: 0.10 * (5 ** 0.5) * (2 ** 4),  # 0.10 · √5 · 16 = 3.5777
+    }
+    import warnings
+    for N, exp_val in expected.items():
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")  # silence N=2 degeneracy warning
+            chain = fw.ChainSystem(N=N)
+        d = chain.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=0.1)
+        assert abs(d['f81_violation'] - exp_val) < 1e-9, \
+            f"N={N}: F82 closed form predicts {exp_val:.6f}, got {d['f81_violation']:.6f}"
+
+    # Non-uniform per-site γ_T1 at N=3
+    chain3 = fw.ChainSystem(N=3)
+    test_cases = [
+        ([0.10, 0.0, 0.0], 0.10 * (2 ** 2)),                       # single-site
+        ([0.10, 0.10, 0.0], (2 * 0.10 ** 2) ** 0.5 * (2 ** 2)),    # two-site
+        ([0.05, 0.10, 0.15], (0.05**2 + 0.10**2 + 0.15**2)**0.5 * (2 ** 2)),  # all different
+    ]
+    for gt1_l, expected_violation in test_cases:
+        d = chain3.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
+        assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
+            f"γ_T1_l={gt1_l}: predicted {expected_violation:.6f}, got {d['f81_violation']:.6f}"
+
+    # H-independence at fixed γ_T1 (uniform 0.1 at N=3): violation = 0.6928 for any H
+    expected_violation = 0.10 * (3 ** 0.5) * (2 ** 2)
+    for label, terms in [('truly XX+YY', [('X', 'X'), ('Y', 'Y')]),
+                         ('soft XY+YX', soft),
+                         ('hard XX+XY', [('X', 'X'), ('X', 'Y')]),
+                         ('YZ+ZY (Π²-even non-truly)', [('Y', 'Z'), ('Z', 'Y')])]:
+        d = chain3.pi_decompose_M(terms, gamma_z=0.1, gamma_t1=0.1)
+        assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
+            f"{label}: violation should be H-independent, got {d['f81_violation']:.6f}"
+
+    # γ_z-independence at fixed γ_T1: violation = 0.6928 for γ_z ∈ {0, 0.1, 1.0}
+    for gz in [0.0, 0.1, 1.0]:
+        d = chain3.pi_decompose_M(soft, gamma_z=gz, gamma_t1=0.1)
+        assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
+            f"γ_z={gz}: violation should be γ_z-independent, got {d['f81_violation']:.6f}"

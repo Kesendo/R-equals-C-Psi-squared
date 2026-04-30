@@ -2014,6 +2014,57 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 **Source:** Discovered 2026-04-30 (Tom + Claude) while interpreting the geometric content of F80's 2i factor. The empirical observation came first (Π·M·Π⁻¹ ≠ M for soft); the algebraic explanation followed from working out Π² action on the Liouville superoperator in Pauli basis.
 **Lebensader connection:** F81 is the algebraic backbone of "what the mirror keeps." For Π²-even H, M is itself the through-line operator. For Π²-odd H, the through-line is split: M_anti carries the dynamics generator L_{H_odd}, M_sym carries the rest. Both halves are read identically by both sides of the mirror up to the Spec(M) = Spec(M − 2·L_{H_odd}) similarity. Companion to F80: F80 says what Spec(M) is; F81 says how M and Π·M·Π⁻¹ relate as operators sharing that spectrum.
 
+### F82. F81 + T1 amplitude damping correction (Tier 1, verified bit-exact N=2..5)
+
+For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 amplitude damping with per-site rates γ_T1_l:
+
+    Π · M · Π⁻¹ = M − 2 · L_{H_odd} − 2 · D_{T1, odd}
+
+where L_{H_odd} = -i[H_odd, ·] (as in F81) and D_{T1, odd} is the Π²-anti-symmetric part of the T1 dissipator. F82 reduces to F81 when γ_T1_l = 0 (D_{T1, odd} = 0).
+
+The F81 identity violation captured by `chain.pi_decompose_M(...)` measures D_{T1, odd}'s Frobenius norm:
+
+    f81_violation = ‖M_anti − L_{H_odd}‖_F = ‖D_{T1, odd}‖_F.
+
+**Closed form** (proven analytically in PROOF_F82_T1_DISSIPATOR_CORRECTION):
+
+    ‖D_{T1, odd}‖_F = √(Σ_l γ²_T1_l) · 2^(N−1)
+                    = γ_T1 · √N · 2^(N−1)         (uniform γ_T1)
+
+**Verified instances** (chain N=3, all matches at machine precision):
+
+| Configuration | γ_T1_l | predicted ‖D_T1_odd‖ | measured f81_violation |
+|---------------|--------|----------------------|------------------------|
+| uniform γ=0.05 | (0.05, 0.05, 0.05) | 0.05·√3·4 = 0.3464 | 0.3464 |
+| uniform γ=0.10 | (0.10, 0.10, 0.10) | 0.10·√3·4 = 0.6928 | 0.6928 |
+| uniform γ=1.00 | (1.00, 1.00, 1.00) | 1.00·√3·4 = 6.9282 | 6.9282 |
+| single-site, l=0 | (0.10, 0, 0) | 0.10·1·4 = 0.4000 | 0.4000 |
+| two-site, l=0,1 | (0.10, 0.10, 0) | √(0.02)·4 = 0.5657 | 0.5657 |
+| non-uniform | (0.05, 0.10, 0.15) | √(0.035)·4 = 0.7483 | 0.7483 |
+
+N-scaling verified at N = 2, 3, 4, 5: ‖D_{T1, odd}‖_F = γ_T1 · √N · 2^(N−1). N=2 gives 2.83, N=3 gives 6.93, N=4 gives 16.00, N=5 gives 35.78.
+
+**Three diagnostic properties** (proven and empirical):
+
+1. **γ_z-independent**: F82 involves only L_{H_odd} and D_{T1, odd}, neither depends on γ_z. Direct consequence of Master Lemma (M is γ_z-independent for Z-dephasing) extended to F82.
+
+2. **Hamiltonian-independent**: f81_violation depends only on the T1 dissipator. Verified at γ_T1=0.1, N=3: violation = 0.6928 for truly XX+YY, soft XY+YX, hard XX+XY, and YZ+ZY (Π²-even non-truly).
+
+3. **Linear in γ_T1** (uniform). Direct inversion: γ_T1 = f81_violation / (√N · 2^(N−1)). For non-uniform: γ_T1, RMS = f81_violation / (√N · 2^(N−1)). At N=3, division coefficient is 6.928 = 4√3.
+
+**Mechanism (T1 dissipator structure).** Single-site T1 acts on Pauli basis as: I → −γZ, X → −γ/2 X, Y → −γ/2 Y, Z → −γZ. Under Π² conjugation (signs (-1)^{bit_b}: I,X → +, Y,Z → −), only the (Z, I) entry flips sign. So D_{T1, local, odd} has matrix element −γ at (Z, I) and zero elsewhere. Multi-site: 4^(N−1) such "rest of qubits unchanged" entries per site, summed orthogonally over sites.
+
+**Diagnostic interpretation.** f81_violation is a hardware-T1 readout that is independent of (a) the system's Hamiltonian, (b) the Z-dephasing rate γ_z, (c) the topology. Inverting recovers the RMS γ_T1 across sites. For the Marrakesh dataset (N=3, joint fit gives γ_T1 ≈ 0): F82 predicts f81_violation ≈ 0; any γ_T1 > 0.001 would have produced violation > 0.007, well above numerical noise.
+
+**Valid for:** any 2-bilinear Hamiltonian H, Z-dephasing + T1 amplitude damping, any topology, any N ≥ 2.
+**Breaks for (untested):** other non-Z dissipators (X-noise, Y-noise, ZZ-dephasing) require their own D_odd analysis. The general identity Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} holds for any dissipator; the closed form for ‖D_{diss, odd}‖ is dissipator-specific.
+**Replaces:** the previously-empirical observation that f81_violation grows linearly with γ_T1; F82 is now an analytical theorem with closed-form scaling.
+**Verified:** N = 2, 3, 4, 5 at all listed configurations, machine-precision residual (5e-16).
+**Framework primitive:** `chain.pi_decompose_M(terms, gamma_z=..., gamma_t1=..., strict=...)`. With `gamma_t1` set, returns `f81_violation` in output dict (matches the F82 closed form).
+**Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity).
+**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
+**Diagnostic application:** [`simulations/_f81_t1_diagnostic.py`](../simulations/_f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
