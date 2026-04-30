@@ -25,8 +25,8 @@ where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is
 
 ## Numerical verification (N=3 chain, Z-dephasing γ_z=0.1, all residuals at machine precision)
 
-| Configuration (γ_↓, γ_↑) | |Δγ| | Predicted ‖D_odd‖ | Measured f81_violation |
-|--------------------------|-----|-------------------|------------------------|
+| Configuration (γ_↓, γ_↑) | \|Δγ\| | Predicted ‖D_odd‖ | Measured f81_violation |
+|--------------------------|--------|-------------------|------------------------|
 | (0.10, 0.00) cooling only | 0.10 | 0.10·√3·4 = 0.6928 | 0.6928 ✓ |
 | (0.00, 0.10) heating only | 0.10 | 0.10·√3·4 = 0.6928 | 0.6928 ✓ |
 | (0.10, 0.10) detailed balance | 0.00 | 0.0000 | 0.0000 ✓ |
