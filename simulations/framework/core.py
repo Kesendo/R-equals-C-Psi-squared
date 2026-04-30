@@ -1642,6 +1642,18 @@ class Confirmations:
             'framework_primitive': 'cockpit_panel — composes pi_protected_observables + θ-trajectory',
             'description': 'Lebensader as Stromkabel (EQ-030 closure): skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis. ChainSystem.cockpit_panel gives this in one call.',
         },
+        'f83_pi2_class_signature_marrakesh': {
+            'date': '2026-04-30',
+            'machine': 'ibm_marrakesh',
+            'job_id': 'd7pol1e7g7gs73cf7j90',
+            'observable': 'Per-category 2-qubit Pauli expectations (q0=4, q2=6) for 4 F77 Π²-classes',
+            'predicted_value': 'Trotter+γ_Z=0.1 patterns: pi2_odd_pure ⟨X₀Z₂⟩=-0.723, pi2_even_nontruly ⟨X₀X₂⟩=+0.726, mixed ⟨Z₀X₂⟩=-0.621, truly all small. F83 anti-fractions = {1/2, 0, 1/6} structurally.',
+            'measured_value': '4-category discrimination CONFIRMED via unique-fingerprint Paulis: pi2_odd_pure ⟨X₀Z₂⟩=-0.849, pi2_even_nontruly ⟨X₀X₂⟩=+0.919, mixed ⟨Z₀X₂⟩=-0.721, truly ⟨Y₀Z₂⟩=+0.670. All separations >>10σ at 4096 shots. ⟨X₀Z₂⟩ pi2_odd_pure is 0.13 stronger than Trotter+Aer-with-calibration prediction (-0.722) — OPEN whether F82/F84 amplitude-damping signature or coherent calibration drift.',
+            'hardware_data': 'data/ibm_f83_signature_april2026/f83_signature_ibm_marrakesh_20260430_190035.json',
+            'experiment_doc': 'data/ibm_f83_signature_april2026/README.md',
+            'framework_primitive': 'classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form)',
+            'description': 'F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6] (top-ranked by 2026-04-30T16:25Z calibration). Each of the 4 F77 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. Confirms F83 structural prediction at hardware level. The pi2_odd_pure ⟨X₀Z₂⟩ amplification beyond Trotter+T1 noise model is documented as an open question; possible F82/F84 vacuum amplitude-damping signature or coherent calibration drift between CSV download (16:25 UTC) and job execution (~19:00 UTC).',
+        },
     }
 
     @classmethod
