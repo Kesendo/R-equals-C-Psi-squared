@@ -31,19 +31,39 @@ directly to construct Hamiltonians and observables.
 
 ## Results: hardware vs prediction
 
-| Observable | Framework idealized (γ=0.1 Z-only) | Aer w/ Marrakesh-like noise | **Hardware Marrakesh** |
-|------------|-------------------------------------|------------------------------|-------------------------|
-| ⟨X₀Z₂⟩ truly_unbroken | 0.000 | -0.020 | **+0.011** |
-| ⟨X₀Z₂⟩ soft_broken | -0.623 | -0.660 | **-0.711** |
-| ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.230 | **+0.205** |
-| **Δ(soft − truly)** | **-0.62** | **-0.64** | **-0.72** |
+| Observable | Continuous Lindblad (γ=0.1 Z-only) | Trotter n=3 (γ=0.1 Z-only) | Aer w/ Marrakesh-like noise | **Hardware Marrakesh** |
+|------------|------------------------------------|----------------------------|------------------------------|-------------------------|
+| ⟨X₀Z₂⟩ truly_unbroken | +0.000 | +0.000 | -0.020 | **+0.011** |
+| ⟨X₀Z₂⟩ soft_broken | -0.623 | -0.723 | -0.660 | **-0.711** |
+| ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.327 | +0.230 | **+0.205** |
+| **Δ(soft − truly)** | **-0.62** | **-0.72** | **-0.64** | **-0.72** |
 
-The hardware discriminator is slightly STRONGER than the idealized framework
-prediction. Plausible explanation: T1 thermal relaxation and ZZ crosstalk
-compound the soft-break operator-level break in observables that are not
-purely diagonal in L's eigenbasis. The same effect was anticipated in earlier
-γ-profile work (CMRR_BREAK_NONUNIFORM_GAMMA, GAMMA_AS_SIGNAL): non-uniform
-hardware effects amplify symmetry-breaking signatures.
+The hardware Δ(soft − truly) matches the **Trotter n=3** prediction to
+within 0.0014, not the continuous-Lindblad idealization. The earlier
+hardening explanation (T1 thermal relaxation amplifying the soft-break)
+is **incorrect**: T1 monotonically *attenuates* the soft signal (γ_T1=0.5
+gives Δ = -0.44 at γ_Z=0.1, further from hardware). Quantification in
+[`simulations/_marrakesh_t1_amplification_test.py`](../../simulations/_marrakesh_t1_amplification_test.py).
+
+The actual mechanism is **Trotter discretization at δt = 0.267**: with
+‖H‖ ~ J·N ~ 3, the small-step condition ‖H·δt‖ ≪ 1 fails. First-order
+Trotter biases ⟨X₀Z₂⟩ outward by ≈ +0.10 for soft (XY+YX → -0.62 to
+-0.72, matching hardware) and by ≈ +0.13 for hard (XX+XY → +0.19 to
++0.33, overshooting hardware). Hard's mismatch implies the [XX, XY]
+commutator structure of XX+XY damps the Trotter bias by an additional
+gate-level mechanism; continuous Lindblad happens to land closer for
+hard, but Δ(soft − truly), the discriminator the framework actually
+predicts, is matched by Trotter alone.
+
+Joint optimization of (γ_Z, γ_T1) over all 45 hardware
+observable-Hamiltonian pairs converges to γ_T1 ≈ 0 with γ_Z = 0.143;
+the data does not support adding T1.
+
+The Trotter prediction also recovers the correct hardware sign for all
+Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩), where continuous
+Lindblad predicts the wrong sign. This is independent confirmation that
+the hardware is in the regime where continuous evolution is the wrong
+physics, not a noise-channel correction.
 
 ## Other discriminating Pauli expectations
 
@@ -83,10 +103,10 @@ This run does NOT establish:
 - That the soft-break detection works at N > 3 (open).
 - That the prediction holds for arbitrary soft-break combos beyond the
   three tested. Selection here is one representative per category.
-- A complete error budget. The slight enhancement of the soft-break signal
-  on hardware vs Aer is consistent with the framework but the precise
-  mechanism (T1 amplification vs ZZ crosstalk vs Trotter error) is not
-  separately quantified.
+- A complete readout-error budget. After accounting for Trotter
+  discretization (which fully explains Δ_hw vs Δ_continuous), residual
+  per-observable RMS ≈ 0.08 remains, attributable to readout error and
+  CR-gate calibration drift, but not separately quantified here.
 
 ## Reproducing the run
 
@@ -102,7 +122,9 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [V_EFFECT_FINE_STRUCTURE](../../experiments/V_EFFECT_FINE_STRUCTURE.md): the empirical 3/19/14 split that this hardware run targets.
 - [ON_THE_SOFT_BREAK](../../reflections/ON_THE_SOFT_BREAK.md): the super-operator framing.
 - [PROOF_ZERO_IMMUNITY](../../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical anchor for the (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
-- [framework.py](../../simulations/framework.py): the primitives used to build the Hamiltonians and predict observables.
+- [framework/](../../simulations/framework/): the lean cockpit package; primitives used to build the Hamiltonians and predict observables.
 - [_soft_break_eigenvector_test.py](../../simulations/_soft_break_eigenvector_test.py): super-operator-level verification (eigenvector pairing).
 - [_soft_break_aer_test.py](../../simulations/_soft_break_aer_test.py): Aer with Marrakesh-like noise.
+- [_marrakesh_t1_amplification_test.py](../../simulations/_marrakesh_t1_amplification_test.py): refutation of the original T1 amplification interpretation; Trotter n=3 fully accounts for the hardening.
+- [_f80_ibm_soft_break_check.py](../../simulations/_f80_ibm_soft_break_check.py): F80 structural-template verification on this dataset.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: the hardware-runnable pipeline.
