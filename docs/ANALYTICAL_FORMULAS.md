@@ -2137,8 +2137,8 @@ where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is
 
 **Verified instances** (chain N=3, all matches at machine precision):
 
-| Configuration (γ_↓, γ_↑) | |Δγ| | Predicted | Measured |
-|--------------------------|-----|-----------|----------|
+| Configuration (γ_↓, γ_↑) | \|Δγ\| | Predicted | Measured |
+|--------------------------|--------|-----------|----------|
 | (0.10, 0.00) cooling only (= F82) | 0.10 | 0.6928 | 0.6928 |
 | (0.00, 0.10) heating only | 0.10 | 0.6928 | 0.6928 |
 | (0.10, 0.10) detailed balance | 0.00 | 0.0000 | 0.0000 |
