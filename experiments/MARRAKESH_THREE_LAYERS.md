@@ -30,11 +30,11 @@ Marrakesh ran 27 circuits: 3 Hamiltonians (truly_unbroken = XX+YY, soft_broken =
 
 ## Layer 1: F77 trichotomy (algebraic)
 
-The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂) into three classes by Pauli-letter parity:
+The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂) into three classes by Pauli-letter parity. Π²-parity of a Pauli letter is `bit_b` where I, X → 0 and Y, Z → 1; a bilinear (P, Q) is Π²-even iff bit_b(P) + bit_b(Q) ≡ 0 (mod 2), Π²-odd iff ≡ 1.
 
-- **truly**: both bilinears in the both-parity-even set {XX, YY, ZZ, IX, XI}, the Heisenberg/XY-model subset. Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds exactly.
-- **soft**: both bilinears Π²-odd in matched ways (e.g., XY and YX both have bit_b sum = 1). Eigenvalue pairing λ ↔ −λ − 2Σγ holds (V-Effect-undetected) but the operator equation fails.
-- **hard**: bilinears mix Π²-parities (one even, one odd). Both eigenvalue pairing AND operator equation fail.
+- **truly**: both bilinears in the both-parity-even set {XX, YY, ZZ, IX, XI} (Π² = 0 from bit_b alone, plus matched Π¹ = bit_a). This is the Heisenberg + XXZ + IX/XI single-body algebraic class. Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds exactly.
+- **soft**: both bilinears Π²-odd in matched bit_a ways (e.g., XY and YX both have bit_b sum = 1, with matched bit_a). Eigenvalue pairing λ ↔ −λ − 2Σγ holds (V-Effect-undetected) but the operator equation fails.
+- **hard**: bilinears mix Π²-parities (one Π²-even, one Π²-odd) or fail bit_a matching. Both eigenvalue pairing AND operator equation fail.
 
 `chain.classify_pauli_pair([(a,b), (c,d)])` returns `'truly' | 'soft' | 'hard'`. For the Marrakesh trio:
 
@@ -53,10 +53,10 @@ This classification is independent of γ, t, ρ₀, topology, and observable. It
 For chain Π²-odd 2-body bilinears, F80 reads the M-spectrum directly from the Hamiltonian eigenvalues:
 
 ```
-Spec(M)_{nontrivial} = ±2i · Spec(H_non-truly), mult ×2^N
+Spec(M)_{nontrivial} = { 2i · λ : λ ∈ Spec(H_non-truly) }, mult_M(2i·λ) = mult_H(λ) · 2^N
 ```
 
-where H_non-truly drops the truly-class bilinears (which contribute M = 0 by Master Lemma). Truly's M = 0 entirely; soft's M-spectrum reflects XY+YX; hard's M-spectrum reflects only the XY component (XX is dropped). At N=3, J=1:
+The ± shape of M's spectrum comes from H_non-truly's particle-hole pair structure (H is Hermitian and chiral-symmetric, so its eigenvalues already come in ±λ pairs); applying 2i·(·) preserves that. H_non-truly drops the truly-class bilinears, which contribute M = 0 by the Master Lemma (M is γ-independent for pure Z-dephasing; cf. PROOF_F80_BLOCH_SIGNWALK §1). Truly's M = 0 entirely; soft's M-spectrum reflects XY+YX; hard's M-spectrum reflects only the XY component (XX is dropped). At N=3, J=1:
 
 | Class | predicted Spec(M) | mult | numerical match |
 |-------|-------------------|------|-----------------|
@@ -159,7 +159,7 @@ total RMS     = 0.0805
 
 The data does not support adding T1 at all.
 
-**Why Trotter:** at δt = 0.8/3 = 0.267 with ‖H‖ ~ J·N ~ 3, ‖H·δt‖ ≈ 0.8 violates the small-step condition. First-order Trotter has systematic bias O(‖H·δt‖²·t) that points outward in the |X₀Z₂| direction by ≈ +0.10. Trotter is the *circuit's actual physics*, not a noise channel.
+**Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.76, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t) that points outward in the \|X₀Z₂\| direction by ≈ +0.10. Trotter is the *circuit's actual physics*, not a noise channel.
 
 **Independent confirmation from sign structure:** continuous Lindblad predicts the WRONG SIGN for all Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩); Trotter recovers the correct hardware sign. This is not a noise correction; it is a regime correction.
 

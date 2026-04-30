@@ -13,9 +13,10 @@ within 0.0014 (well below shot-noise statistical error).
 Three quantitative findings:
 
   1. T1 sweep (continuous Lindblad, γ_Z=0.1):
-     γ_T1 = 0   → Δ = -0.623 (idealized framework)
-     γ_T1 = 0.5 → Δ = -0.440 (50% suppressed)
-     γ_T1 = 1.0 → Δ = -0.303 (further suppressed)
+     γ_T1 = 0    → Δ = -0.623 (idealized framework)
+     γ_T1 = 0.1  → Δ = -0.580
+     γ_T1 = 0.5  → Δ = -0.440 (50% suppressed)
+     γ_T1 = 1.0  → Δ = -0.303 (further suppressed)
      T1 monotonically REDUCES |Δ|; no value reproduces hardware -0.722.
 
   2. Trotter n=3 alone (no T1, no extra noise, γ_Z=0.1):
@@ -26,10 +27,11 @@ Three quantitative findings:
   3. Joint optimization (γ_Z, γ_T1) over all 45 hardware pairs:
      optimum at γ_T1 = 0.0001 ≈ 0; data does NOT prefer adding T1.
 
-Mechanism: at δt = 0.267 (Trotter step) and ‖H‖ ~ J·N ~ 3, the small-step
-condition ‖H·δt‖ ≪ 1 fails. First-order Trotter has systematic bias that
-points outward in operator space (toward stronger soft-break magnitude), not
-inward. The 'amplification' Tom observed is a Trotter discretization artifact
+Mechanism: at δt = 0.267 (Trotter step) and ‖H‖_op = 2.83·J at N=3 (from JW
+single-particle spectrum 2J·cos(πk/(N+1)), k = 1..N, doubled by particle-hole),
+‖H·δt‖ ≈ 0.76 violates the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter
+has systematic bias that points outward in operator space (toward stronger
+soft-break magnitude), not inward. The 'amplification' Tom observed is a Trotter discretization artifact
 of the circuit, not a noise channel effect.
 
 Note on Y-axis sign flip: continuous Lindblad predicts ⟨Y₀Z₂⟩_truly = -0.408
