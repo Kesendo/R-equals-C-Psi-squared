@@ -1,15 +1,15 @@
 # On the Residual
 
-**Status:** Reflection. After the F77-F85 chain closed: F77 trichotomy, F80 spectral identity, F81 Π-conjugation, F82 T1 violation, F83 anti-fraction, F84 thermal amplitude damping, F85 k-body generalization. Together they form the framework's residual-operator diagnostic toolkit.
+**Status:** Reflection. After the F-chain closed: trichotomy classifier (built on F79 Π²-block + V_EFFECT_FINE_STRUCTURE's 3/19/14 split), F80 spectral identity, F81 Π-conjugation, F82 T1 violation, F83 anti-fraction, F84 thermal amplitude damping, F85 k-body generalization. Together they form the framework's residual-operator diagnostic toolkit.
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Context:** Six structural theorems built across two sessions on a foundation laid by F49/F77, one reviewer pass per theorem, all framework-locked at 97 pytest tests. This reflection consolidates what they collectively read about M.
+**Context:** Six structural theorems (F80-F85) built across two sessions on the foundation of F49 (Frobenius scaling) and F79 (Π²-block decomposition), with the trichotomy classifier (truly/soft/hard) as the algebraic gate. One reviewer pass per theorem, all framework-locked at 97 pytest tests. This reflection consolidates what they collectively read about M.
 
 ---
 
-The palindromic equation Π·L·Π⁻¹ + L + 2Σγ·I = M defines a single operator M in 4^N × 4^N operator space. M is what the mirror cannot reflect away. Across the F-chain F77 to F85, M became the framework's universal diagnostic operator: every F-theorem extracts one structural property, and together they characterize M completely for 2-body chain Hamiltonians under Z-dephasing plus thermal amplitude damping, with most of the chain extending to k-body.
+The palindromic equation Π·L·Π⁻¹ + L + 2Σγ·I = M defines a single operator M in 4^N × 4^N operator space. M is what the mirror cannot reflect away. Across the F-chain F80 to F85, M became the framework's universal diagnostic operator: every F-theorem extracts one structural property, and together they characterize M completely for 2-body chain Hamiltonians under Z-dephasing plus thermal amplitude damping, with most of the chain extending to k-body.
 
-[F77](../docs/ANALYTICAL_FORMULAS.md) classifies Hamiltonians algebraically by their relationship to M. Truly Hamiltonians give M = 0; they sit inside the palindrome's closure. Soft Hamiltonians break the palindrome operationally but preserve eigenvalue pairing, M ≠ 0 with structured spectrum. Hard Hamiltonians break both, M ≠ 0 and the eigenvalue pairing is gone. F77 is the gate: it decides whether the rest of the F-chain has anything to say.
+The trichotomy classifier (`chain.classify_pauli_pair`, with algebraic foundation in F79's Π²-block decomposition and empirical validation in [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md)'s 3/19/14 split at N=3) sorts Hamiltonians by their relationship to M. Truly Hamiltonians give M = 0; they sit inside the palindrome's closure. Soft Hamiltonians break the palindrome operationally but preserve eigenvalue pairing, M ≠ 0 with structured spectrum. Hard Hamiltonians break both, M ≠ 0 and the eigenvalue pairing is gone. The classifier is the gate: it decides whether the rest of the F-chain has anything to say.
 
 [F80](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) sizes M for Π²-odd Hamiltonians. The spectral identity Spec(M) = 2i · Spec(H_non-truly), with multiplicities scaled by 2^N, says M's eigenvalues are exactly twice the Hamiltonian's spectrum rotated 90° into the imaginary axis. Multiplication by i is the geometric meaning of "what we measure as energy on our side comes out as oscillation rate on the mirror's side." The factor of 2 reflects the palindrome equation's two L copies plus H's particle-hole pair structure. F80 reads M's strength: large H spectrum gives large M spectrum with a fixed transformation between them. Verified bit-exact at 2-body N=3..7 and now at k=3 (N=4,5,6) and k=4 (N=5,6).
 
@@ -21,7 +21,7 @@ The palindromic equation Π·L·Π⁻¹ + L + 2Σγ·I = M defines a single oper
 
 [F85](../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md) closes the chain by extending everything to k-body Hamiltonians. The 2-body F49 formula based on n_YZ counting was a coincidence; the structurally correct factor c(k) ∈ {0, 1, 2} is determined by Π²-class alone. The truly criterion at any body count is "#Y even AND #Z even." The trichotomy persists (3/4/2 at k=2, 7/14/6 at k=3, 21/40/20 at k=4, with closed form (3^k − (−1)^k)/2 for the Π²-odd count). F80, F81, F82, F83, F84 generalize verbatim. The F-chain's structural content is body-count-independent.
 
-What M is, taken as a whole: M is the residual that survives the palindrome's closure attempt, an operator that lives in the 4^N × 4^N space of two-sided operations on quantum states. Π's role is not to remove M but to make M legible. Every F-theorem extracts one face: F77 = which Hamiltonians give M ≠ 0; F80 = M's spectrum is 2i · H's spectrum; F81 = M decomposes Π-orthogonally; F82/F84 = the dissipator part of M_anti is purely a vacuum-fluctuation signature; F83 = the Π-decomposition ratio is closed-form computable; F85 = all of the above generalize to k-body via Π²-class.
+What M is, taken as a whole: M is the residual that survives the palindrome's closure attempt, an operator that lives in the 4^N × 4^N space of two-sided operations on quantum states. Π's role is not to remove M but to make M legible. Every F-theorem extracts one face: trichotomy classifier = which Hamiltonians give M ≠ 0; F80 = M's spectrum is 2i · H's spectrum; F81 = M decomposes Π-orthogonally; F82/F84 = the dissipator part of M_anti is purely a vacuum-fluctuation signature; F83 = the Π-decomposition ratio is closed-form computable; F85 = all of the above generalize to k-body via Π²-class.
 
 The toolkit's operational meaning: given any Hamiltonian H and dissipator profile, the F-chain tells us in closed form what M's spectrum is, how M decomposes under Π, what fraction is drive vs memory, and what hardware T1-rate would imply a specific F81 violation. None of these computations require building the 4^N × 4^N M itself; they reduce to O(N) or O(2^N) work via the framework primitives.
 
@@ -29,11 +29,12 @@ What the F-chain does not do: it does not predict ⟨P⟩(t) directly. The dynam
 
 What is open: F80's cluster-value Bloch sign-walk closed form at k ≥ 3 is structurally expected but not enumerated. Higher-body topology beyond chain (ring, star, K_N at k ≥ 3) is not verified. Two-qubit dissipators (correlated decay, ZZ-cross-channel) are an analytical extension. Each is a follow-on, not a gap in what has been shown.
 
-The F-chain F77-F85 is the framework's structural reading of the palindrome's residual. M is the through-line; the seven theorems are the seven faces M shows when read from different angles. The lens is now sharp enough that the next operator-level question can be asked without re-deriving the basics.
+The F-chain F80-F85 plus the trichotomy classifier is the framework's structural reading of the palindrome's residual. M is the through-line; the seven faces (one per theorem plus the classifier) are what M shows when read from different angles. The lens is now sharp enough that the next operator-level question can be asked without re-deriving the basics.
 
 ---
 
-*"Π is the framework's universal diagnostic operator." The F-chain's collective claim.*
+*"M is the framework's universal diagnostic operator." The F-chain's collective claim.*
+*"Π is the conjugation that makes M legible." The palindrome's structural role.*
 *"M is the residual the mirror cannot reflect away." The palindrome's structural definition.*
 *"Spec(M) = 2i · Spec(H_non-truly), mult ×2^N." [F80](../docs/ANALYTICAL_FORMULAS.md), the geometric heart.*
 *"#Y even AND #Z even." [F85](../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md), the truly criterion at any body count.*
