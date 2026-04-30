@@ -2120,6 +2120,62 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 
 **Lebensader connection:** F83 closes the analytical Π-decomposition picture for 2-body chain. Pure Π²-odd → 50/50 (F81 Step 8). Pure Π²-even non-truly → 100/0 (F81 trivial). Mixed → 1/(2+4r) (F83). The continuous interpolation r → anti-fraction reads "how much of M is Π-antisymmetric drive vs Π-symmetric memory" as a function of Hamiltonian composition. Together with F80 (Spec(M)), F81 (Π-decomposition identity), F82 (T1-correction), the structural picture of M is complete for 2-body chain Hamiltonians under Z-dephasing + T1.
 
+### F84. F82 generalized to thermal amplitude damping (Tier 1, verified bit-exact N=3)
+
+For any 2-bilinear Hamiltonian H under Z-dephasing plus thermal amplitude damping with per-site cooling rate γ_↓_l (σ⁻ channel) and heating rate γ_↑_l (σ⁺ channel):
+
+    Π · M · Π⁻¹ = M − 2 · L_{H_odd} − 2 · D_{AmplDamp, odd}
+
+with closed form:
+
+    ‖D_{AmplDamp, odd}‖_F = √(Σ_l (γ_↓_l − γ_↑_l)²) · 2^(N−1)
+                          = |Δγ|_RMS · √N · 2^(N−1)         (uniform Δγ)
+
+where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is recovered when γ_↑ = 0 (vacuum bath / T = 0).
+
+**Pauli-Channel Cancellation Lemma (F84 corollary):** Pure D[Z], D[X], D[Y] dissipators are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Hence f81_violation specifically detects population-inverting (energy-emitting/absorbing) channels, not phase-only or bit-flip-only noise.
+
+**Verified instances** (chain N=3, all matches at machine precision):
+
+| Configuration (γ_↓, γ_↑) | |Δγ| | Predicted | Measured |
+|--------------------------|-----|-----------|----------|
+| (0.10, 0.00) cooling only (= F82) | 0.10 | 0.6928 | 0.6928 |
+| (0.00, 0.10) heating only | 0.10 | 0.6928 | 0.6928 |
+| (0.10, 0.10) detailed balance | 0.00 | 0.0000 | 0.0000 |
+| (0.10, 0.05) net cooling | 0.05 | 0.3464 | 0.3464 |
+| (0.05, 0.10) net heating | 0.05 | 0.3464 | 0.3464 |
+| (0.20, 0.05) strong cooling | 0.15 | 1.0392 | 1.0392 |
+| Non-uniform mixed | (RMS Δγ) | √(Σ(γ_↓−γ_↑)²)·4 | matches |
+
+**Thermodynamic interpretation.** For a thermal photon bath at frequency ω, temperature T:
+- Mean occupation n_th = 1 / (exp(ℏω/k_B T) − 1)
+- γ_↓ = γ_0 · (n_th + 1) (spontaneous + stimulated emission)
+- γ_↑ = γ_0 · n_th (stimulated absorption)
+- Δγ = γ_↓ − γ_↑ = γ_0 (vacuum component, temperature-independent)
+
+f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-number contributions cancel (γ_↓ ↔ γ_↑ pair symmetrically); only the vacuum (zero-point) component breaks the Π palindrome. **f81_violation is a quantum-statistical fingerprint of zero-point fluctuations**, immune to thermal symmetric noise.
+
+**Three regimes:**
+
+| Regime | γ_↓ vs γ_↑ | f81_violation |
+|--------|------------|---------------|
+| Vacuum (T = 0) | γ_↑ = 0 | full F82: √(Σγ²_↓)·2^(N−1) |
+| Detailed balance (T → ∞) | γ_↓ = γ_↑ | 0 |
+| Finite T | γ_↓ > γ_↑ > 0 | γ_0·√N·2^(N−1) (vacuum-only) |
+
+**Inversion (RMS net cooling rate):** |Δγ|_RMS = f81_violation / (√N · 2^(N−1)). Recovers vacuum-fluctuation amplitude regardless of bath temperature.
+
+**Valid for:** any 2-bilinear chain H, Z-dephasing + thermal amplitude damping, any topology supported by F49, any N ≥ 2.
+**Verified:** 7 (γ_↓, γ_↑) configurations at N=3, machine-precision residual; D[X], D[Y] cancellation explicitly tested.
+**Replaces:** F82's "T1 detector" interpretation; F84 corrects to "vacuum-amplitude-damping detector" — the F81 violation does not measure raw T1 rate but only the temperature-independent vacuum component of amplitude damping.
+**Framework primitives:**
+- `chain.pi_decompose_M(terms, gamma_z, gamma_t1, gamma_pump, strict)`: extended with `gamma_pump` parameter for σ⁺ heating; uses `lindbladian_general` when both are present.
+- `chain.predict_amplitude_damping_violation(gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
+- `chain.estimate_net_cooling_from_violation(f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
+**Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D[X], D[Y] explicitly verified to give zero violation).
+**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D[Z], D[X], D[Y] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
+**Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

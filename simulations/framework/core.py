@@ -417,7 +417,7 @@ class ChainSystem:
             m_spectrum[m_ev] = h_mult * bra_factor
         return m_spectrum
 
-    def pi_decompose_M(self, terms, gamma_z=None, gamma_t1=None, strict=None):
+    def pi_decompose_M(self, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, strict=None):
         """F81: Decompose M under Π-conjugation into symmetric/antisymmetric parts.
 
         Recurring question: for a given 2-bilinear Hamiltonian H, what is the
@@ -448,12 +448,24 @@ class ChainSystem:
         hardware. With T1 enabled, this method returns the violation as
         'f81_violation' instead of raising.
 
+        F84 (proved in PROOF_F84_AMPLITUDE_DAMPING) extends F82 to thermal
+        amplitude damping (cooling γ_↓ = gamma_t1 + heating γ_↑ = gamma_pump):
+
+            f81_violation = √(Σ_l (γ_↓_l − γ_↑_l)²) · 2^(N−1)
+
+        For γ_↓ = γ_↑ (detailed balance / thermal equilibrium): violation = 0
+        even though both channels are active. The F81 violation isolates the
+        net cooling rate, equivalent to the vacuum-fluctuation contribution.
+
         Args:
             terms: list of (a, b) Pauli letter tuples; H = J·Σ_l Σ_terms (a_l b_(l+1)).
             gamma_z: per-site Z-dephasing rate (uniform if scalar; defaults to chain.gamma_0).
-            gamma_t1: optional per-site T1 amplitude-damping rates (None = no T1).
+            gamma_t1: optional per-site T1 cooling rates (σ⁻ amplitude damping). None = no cooling.
+            gamma_pump: optional per-site T1 heating rates (σ⁺ amplitude damping). None = no heating.
+                For thermal photon bath at temperature T: γ_↓ = γ_0·(n_th+1), γ_↑ = γ_0·n_th.
             strict: if True, raises when F81 violation > 1e-7. Defaults to True for
-                pure Z-dephasing, False when gamma_t1 is given.
+                pure Z-dephasing, False when any non-Z dissipator (gamma_t1 or
+                gamma_pump) is given.
 
         Returns:
             dict with keys:
@@ -466,8 +478,11 @@ class ChainSystem:
 
         Raises (only when strict=True): RuntimeError if F81 violation > 1e-7.
         """
-        from .lindblad import lindbladian_z_dephasing, lindbladian_z_plus_t1, palindrome_residual
-        from .pauli import _vec_to_pauli_basis_transform, bit_b, _resolve
+        from .lindblad import (
+            lindbladian_z_dephasing, lindbladian_z_plus_t1,
+            lindbladian_general, palindrome_residual,
+        )
+        from .pauli import _vec_to_pauli_basis_transform, bit_b, _resolve, site_op
         from .symmetry import build_pi_full
 
         gz = gamma_z if gamma_z is not None else self.gamma_0
@@ -477,10 +492,16 @@ class ChainSystem:
             gt1_l = [gamma_t1] * self.N if np.isscalar(gamma_t1) else list(gamma_t1)
         else:
             gt1_l = [0.0] * self.N
+        if gamma_pump is not None:
+            gpump_l = [gamma_pump] * self.N if np.isscalar(gamma_pump) else list(gamma_pump)
+        else:
+            gpump_l = [0.0] * self.N
         any_t1 = any(g != 0 for g in gt1_l)
+        any_pump = any(g != 0 for g in gpump_l)
+        any_amplitude_damping = any_t1 or any_pump
 
         if strict is None:
-            strict = not any_t1
+            strict = not any_amplitude_damping
 
         bilinear_all = [(a, b, self.J) for (a, b) in terms]
         bilinear_odd = []
@@ -492,7 +513,36 @@ class ChainSystem:
                 bilinear_odd.append((a, b, self.J))
 
         H_full = _build_bilinear(self.N, self.bonds, bilinear_all)
-        if any_t1:
+        if any_pump:
+            # Build via lindbladian_general with explicit cooling + heating channels
+            d = 2 ** self.N
+            c_ops = []
+            # Z-dephasing as collapse operators
+            for l, gz_l in enumerate(gamma_l):
+                if gz_l != 0:
+                    c_ops.append(np.sqrt(gz_l) * site_op(self.N, l, 'Z'))
+            # Cooling (σ⁻)
+            sm = np.array([[0, 1], [0, 0]], dtype=complex)
+            for l, gd_l in enumerate(gt1_l):
+                if gd_l != 0:
+                    ops = [np.eye(2, dtype=complex)] * self.N
+                    ops[l] = sm
+                    op_full = ops[0]
+                    for op in ops[1:]:
+                        op_full = np.kron(op_full, op)
+                    c_ops.append(np.sqrt(gd_l) * op_full)
+            # Heating (σ⁺)
+            sp_ = np.array([[0, 0], [1, 0]], dtype=complex)
+            for l, gp_l in enumerate(gpump_l):
+                if gp_l != 0:
+                    ops = [np.eye(2, dtype=complex)] * self.N
+                    ops[l] = sp_
+                    op_full = ops[0]
+                    for op in ops[1:]:
+                        op_full = np.kron(op_full, op)
+                    c_ops.append(np.sqrt(gp_l) * op_full)
+            L_full = lindbladian_general(H_full, c_ops)
+        elif any_t1:
             L_full = lindbladian_z_plus_t1(H_full, gamma_l, gt1_l)
         else:
             L_full = lindbladian_z_dephasing(H_full, gamma_l)
@@ -571,6 +621,89 @@ class ChainSystem:
                 )
         sum_sq = sum(g * g for g in gt1)
         return float(np.sqrt(sum_sq) * (2 ** (self.N - 1)))
+
+    def predict_amplitude_damping_violation(self, gamma_t1_l, gamma_pump_l=None):
+        """F84 closed form: predict the F81 violation from cooling + heating rates.
+
+        Theorem F84 (proved in PROOF_F84_AMPLITUDE_DAMPING) generalizes F82
+        to thermal amplitude damping with both cooling (σ⁻) and heating (σ⁺):
+
+            ‖D_{AmplDamp, odd}‖_F = √(Σ_l (γ_↓_l − γ_↑_l)²) · 2^(N−1)
+
+        The F81 violation depends only on the *net* cooling rate Δγ_l =
+        γ_↓_l − γ_↑_l. At thermal equilibrium γ_↓ = γ_↑ (detailed balance),
+        the violation is zero even though both channels are active. The
+        violation isolates the vacuum-fluctuation contribution.
+
+        Pauli-channel dissipators D[Z], D[X], D[Y] do not contribute to
+        f81_violation (Pauli-Channel Cancellation Lemma in PROOF_F84): they
+        are Π²-symmetric. F84 violation is exclusive to σ⁻/σ⁺ channels.
+
+        Args:
+            gamma_t1_l: per-site cooling rates γ_↓_l (σ⁻ amplitude damping).
+                Scalar (uniform) or list of length N.
+            gamma_pump_l: per-site heating rates γ_↑_l (σ⁺ amplitude damping).
+                Scalar (uniform), list of length N, or None (= no heating, pure F82).
+
+        Returns:
+            Predicted ‖D_{AmplDamp, odd}‖_F as float. Generalizes F82's
+            `predict_T1_dissipator_violation` (which is the special case
+            gamma_pump_l = None / 0).
+
+        Use case: predict the F81 violation expected for a given thermal
+        amplitude-damping profile (cooling + heating rates per site), then
+        compare with `pi_decompose_M(gamma_t1, gamma_pump)` or with
+        process-tomography-derived L on hardware. At any temperature, the
+        violation reads out the temperature-independent vacuum component.
+        """
+        if np.isscalar(gamma_t1_l):
+            gt1 = [float(gamma_t1_l)] * self.N
+        else:
+            gt1 = list(gamma_t1_l)
+            if len(gt1) != self.N:
+                raise ValueError(
+                    f"gamma_t1_l must have length {self.N}, got {len(gt1)}"
+                )
+        if gamma_pump_l is None:
+            gp = [0.0] * self.N
+        elif np.isscalar(gamma_pump_l):
+            gp = [float(gamma_pump_l)] * self.N
+        else:
+            gp = list(gamma_pump_l)
+            if len(gp) != self.N:
+                raise ValueError(
+                    f"gamma_pump_l must have length {self.N}, got {len(gp)}"
+                )
+        sum_sq = sum((d - u) ** 2 for d, u in zip(gt1, gp))
+        return float(np.sqrt(sum_sq) * (2 ** (self.N - 1)))
+
+    def estimate_net_cooling_from_violation(self, f81_violation):
+        """F84 inverse closed form: extract RMS net cooling rate from f81_violation.
+
+        Inverts F84:
+
+            |Δγ|_RMS = √(Σ_l (γ_↓_l − γ_↑_l)² / N) = f81_violation / (√N · 2^(N−1))
+
+        For uniform γ_↓, γ_↑: returns the actual Δγ = γ_↓ − γ_↑. For
+        non-uniform rates: returns the RMS net rate; per-site rates and
+        the cooling/heating split require additional probes.
+
+        At any temperature, this recovers the vacuum-fluctuation amplitude:
+        thermal photon balance (γ_↓ ↔ γ_↑) cancels under the F81 anti-symmetric
+        projection, leaving only the spontaneous-emission rate.
+
+        Equivalent to `estimate_T1_from_violation` when the bath is at T=0
+        (γ_↑ = 0, hence Δγ = γ_↓).
+
+        Args:
+            f81_violation: ‖M_anti − L_{H_odd}‖_F as returned by `pi_decompose_M`.
+
+        Returns:
+            RMS |γ_↓ − γ_↑| across the N sites, as float ≥ 0.
+        """
+        if f81_violation < 0:
+            raise ValueError(f"f81_violation must be non-negative, got {f81_violation}")
+        return float(f81_violation / (np.sqrt(self.N) * (2 ** (self.N - 1))))
 
     def predict_pi_decomposition(self, terms):
         """F83 closed form: predict ‖M‖², ‖M_anti‖², ‖M_sym‖², and anti-fraction
