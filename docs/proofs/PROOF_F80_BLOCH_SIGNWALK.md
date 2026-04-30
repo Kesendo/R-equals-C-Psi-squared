@@ -113,9 +113,9 @@ After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same 
 
 **Empirical structural identity (verified bit-exact at N=3, 4, 5, 6, 7):**
 
-    Spec(M) ⊇ {±2i · E : E ∈ Spec_{many-body}(H)}
+    Spec(M) = {±2i · E : E ∈ Spec_{many-body}(H)}    (multi-set equality)
 
-where H is the chain Hamiltonian with bond coupling c and no dissipator (γ-independent by Master Lemma). M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence:
+with multiplicity mult_M(2i·λ) = mult_H(λ) · 2^N. M's distinct eigenvalues equal 2i times H's distinct many-body eigenvalues, no kernel. The 2^N factor comes from the bra-side dimension of operator space. H is taken as the chain Hamiltonian with bond coupling c and no dissipator (γ-independent by Master Lemma). Hence:
 
     cluster value of M = 2|c| · |H many-body eigenvalue|
 
