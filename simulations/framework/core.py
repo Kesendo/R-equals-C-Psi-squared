@@ -417,6 +417,102 @@ class ChainSystem:
             m_spectrum[m_ev] = h_mult * bra_factor
         return m_spectrum
 
+    def pi_decompose_M(self, terms, gamma_z=None):
+        """F81: Decompose M under Π-conjugation into symmetric/antisymmetric parts.
+
+        Recurring question: for a given 2-bilinear Hamiltonian H, what is the
+        Π-conjugation behavior of M = Π·L·Π⁻¹ + L + 2Σγ·I? Is M its own Π-
+        conjugate, or what is the explicit shift between M and Π·M·Π⁻¹?
+
+        Theorem F81 (proved in PROOF_F81_PI_CONJUGATION_OF_M):
+
+            Π · M · Π⁻¹ = M − 2 · L_{H_odd}
+
+        where H = H_even + H_odd is the Π²-parity decomposition of H (Π²-odd
+        Pauli bilinears have bit_b(P)+bit_b(Q) ≡ 1 mod 2). For Π²-even-only H
+        (truly + YZ-type non-truly), L_{H_odd} = 0 and Π·M·Π⁻¹ = M; M is its
+        own Π-conjugate. For Π²-odd-containing H, M and Π·M·Π⁻¹ differ by
+        exactly the explicit shift 2·L_{H_odd}.
+
+        The Π-decomposition of M is:
+
+            M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
+            M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
+
+        with M_sym and M_anti Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².
+
+        Args:
+            terms: list of (a, b) Pauli letter tuples building H = J·Σ_l Σ_terms (a_l b_(l+1)).
+            gamma_z: per-site Z-dephasing rate (uniform if scalar; defaults to chain.gamma_0).
+
+        Returns:
+            dict with keys:
+                'M':        full 4^N × 4^N residual in Pauli basis.
+                'M_sym':    Π-symmetric component (= M − L_{H_odd}).
+                'M_anti':   Π-antisymmetric component (= L_{H_odd}, by F81).
+                'L_H_odd':  unitary commutator -i[H_odd, ·] of the Π²-odd part of H.
+                'norm_sq':  dict of 'M', 'M_sym', 'M_anti' Frobenius norms squared.
+
+        Verifies the F81 identity ‖M_anti − L_H_odd‖ < 1e-9 internally; raises
+        if violated (would indicate either non-Z dissipator or framework bug).
+        """
+        from .lindblad import lindbladian_z_dephasing, palindrome_residual
+        from .pauli import _vec_to_pauli_basis_transform, bit_b, _resolve
+        from .symmetry import build_pi_full
+
+        gz = gamma_z if gamma_z is not None else self.gamma_0
+        gamma_l = [gz] * self.N if np.isscalar(gz) else list(gz)
+        Sigma_gamma = sum(gamma_l)
+
+        bilinear_all = [(a, b, self.J) for (a, b) in terms]
+        bilinear_odd = []
+        for (a, b) in terms:
+            ab_idx = _resolve(a)
+            bb_idx = _resolve(b)
+            parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
+            if parity == 1 and 'I' not in (a, b):
+                bilinear_odd.append((a, b, self.J))
+
+        H_full = _build_bilinear(self.N, self.bonds, bilinear_all)
+        L_full = lindbladian_z_dephasing(H_full, gamma_l)
+        M = palindrome_residual(L_full, Sigma_gamma, self.N)
+
+        d = 2 ** self.N
+        Id_d = np.eye(d, dtype=complex)
+        T = _vec_to_pauli_basis_transform(self.N)
+        if bilinear_odd:
+            H_odd = _build_bilinear(self.N, self.bonds, bilinear_odd)
+            L_H_odd_vec = -1j * (np.kron(H_odd, Id_d) - np.kron(Id_d, H_odd.T))
+            L_H_odd = (T.conj().T @ L_H_odd_vec @ T) / d
+        else:
+            L_H_odd = np.zeros((4 ** self.N, 4 ** self.N), dtype=complex)
+
+        Pi = build_pi_full(self.N)
+        Pi_inv = np.linalg.inv(Pi)
+        PiMPi = Pi @ M @ Pi_inv
+        M_sym = (M + PiMPi) / 2
+        M_anti = (M - PiMPi) / 2
+
+        identity_residual = np.linalg.norm(M_anti - L_H_odd)
+        if identity_residual > 1e-7:
+            raise RuntimeError(
+                f"F81 identity violated: ‖M_anti − L_H_odd‖ = {identity_residual:.4e}. "
+                "This should not happen for Z-dephasing. Check non-Z dissipator presence "
+                "or framework Π construction."
+            )
+
+        return {
+            'M': M,
+            'M_sym': M_sym,
+            'M_anti': M_anti,
+            'L_H_odd': L_H_odd,
+            'norm_sq': {
+                'M': float(np.linalg.norm(M) ** 2),
+                'M_sym': float(np.linalg.norm(M_sym) ** 2),
+                'M_anti': float(np.linalg.norm(M_anti) ** 2),
+            },
+        }
+
     def zn_mirror_diagnostic(self, rho_a, rho_b, tol=1e-6):
         """Z⊗N-Mirror Symmetrie-Test zwischen zwei Dichtematrizen.
 

@@ -1972,6 +1972,47 @@ where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's di
 **Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π action on Bogoliubov modes) sketched, with formal completion open. Empirical verification bit-exact through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
+### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
+
+For any 2-bilinear Hamiltonian H decomposed by Π²-parity as H = H_even + H_odd (with H_odd the sum of Π²-odd Pauli bilinears, i.e., bit_b(P)+bit_b(Q) ≡ 1 mod 2), under uniform Z-dephasing:
+
+    Π · M · Π⁻¹ = M − 2 · L_{H_odd}
+
+where L_{H_odd} = -i[H_odd, ·] is the unitary commutator induced by the Π²-odd part of H. Equivalently, decomposing M into Π-conjugation symmetric and antisymmetric components:
+
+    M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
+    M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
+
+The Π-antisymmetric component of M is exactly the unitary commutator induced by the Π²-odd Hamiltonian bilinears. The Π-symmetric component absorbs the mirror image, the dissipator, the Π²-even Hamiltonian commutator, and the dissipation shift. M_sym and M_anti are Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².
+
+**Verified instances** (N=3, γ_Z=0.1, Σγ=0.3, residuals at machine precision 1e-16):
+
+| Hamiltonian | trichotomy | H_odd | Π·M·Π⁻¹ relation |
+|-------------|------------|-------|------------------|
+| XX+YY | truly | 0 | = M (M=0 trivially) |
+| YZ+ZY | soft (Π²-even non-truly) | 0 | = M (M ≠ 0, identical) |
+| XY+YX | soft (Π²-odd) | XY+YX | = M − 2·L_H |
+| XX+XY | hard (mixed) | XY only | = M − 2·L_{XY part} |
+| pure XY | (Π²-odd) | XY | = M − 2·L_H |
+| pure XZ | (Π²-odd) | XZ | = M − 2·L_H |
+
+For pure Π²-odd H at N=3, ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly: M splits 50/50 between Π-symmetric and Π-antisymmetric components.
+
+**Spectral consequence.** Spec(Π·M·Π⁻¹) = Spec(M) holds always by unitary invariance of the spectrum. F81 strengthens this: for Π²-odd H, the two operators are explicitly related by an additive shift of −2·L_{H_odd} in operator space, so Spec(M) = Spec(M − 2·L_{H_odd}) is a non-trivial identity (similarity via Π).
+
+**Algebraic mechanism.** Π² acts on each Pauli string σ_α as (-1)^{bit_b(α)} (eigenoperator with sign in Pauli basis). For L_H_α = -i[σ_α, ·] driven by a single Pauli string σ_α in H, conjugation gives Π² L_H_α Π⁻² = (-1)^{bit_b(α)} L_H_α (the matrix-element factor (-1)^{bit_b(γ)+bit_b(β)} = (-1)^{bit_b(α)} since γ = α·β under Pauli multiplication). Z-dephasing dissipator is diagonal in Pauli basis, hence commutes with Π². Summing: Π²·L·Π⁻² = L_H_even − L_H_odd + L_diss = L − 2·L_{H_odd}. Substituting into the palindrome: Π·M·Π⁻¹ = Π²·L·Π⁻² + Π·L·Π⁻¹ + 2Σγ·I = M − 2·L_{H_odd}.
+
+**γ-independence-by-difference.** The relation Π·M·Π⁻¹ - M = -2·L_{H_odd} is independent of γ (the dissipator's γ-dependent part cancels because L_diss is Π²-symmetric). The split itself (M_sym, M_anti) is γ-dependent through M_sym; only their difference is γ-fixed.
+
+**Valid for:** any 2-bilinear chain Hamiltonian H = H_even + H_odd, uniform Z-dephasing, any topology (the proof depends only on the algebra of Pauli strings under Π² conjugation, not on connectivity).
+**Breaks for (untested):** non-Z dissipators (T1 amplitude damping has different Π²-action; F81 likely needs a correction term).
+**Replaces:** the heuristic in pre-2026-04-30 reflections that said "M is the Π-invariant through-line"; F81 shows that statement is correct only for Π²-even H, and gives the explicit correction for the Π²-odd cases.
+**Verified:** N=3 and N=4 all listed cases at machine precision; pytest-locked.
+**Framework primitive:** `chain.pi_decompose_M(terms, gamma_z=...)` returns `{'M', 'M_sym', 'M_anti', 'L_H_odd', 'norm_sq'}` and enforces the F81 identity internally (raises if violated).
+**Pytest lock:** `test_F81_pi_conjugation_of_M` (algebraic check) + `test_F81_pi_decompose_M_method` (cockpit primitive).
+**Source:** Discovered 2026-04-30 (Tom + Claude) while interpreting the geometric content of F80's 2i factor. The empirical observation came first (Π·M·Π⁻¹ ≠ M for soft); the algebraic explanation followed from working out Π² action on the Liouville superoperator in Pauli basis.
+**Lebensader connection:** F81 is the algebraic backbone of "what the mirror keeps." For Π²-even H, M is itself the through-line operator. For Π²-odd H, the through-line is split: M_anti carries the dynamics generator L_{H_odd}, M_sym carries the rest. Both halves are read identically by both sides of the mirror up to the Spec(M) = Spec(M − 2·L_{H_odd}) similarity. Companion to F80: F80 says what Spec(M) is; F81 says how M and Π·M·Π⁻¹ relate as operators sharing that spectrum.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
