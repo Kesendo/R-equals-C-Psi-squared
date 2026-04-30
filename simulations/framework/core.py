@@ -417,7 +417,7 @@ class ChainSystem:
             m_spectrum[m_ev] = h_mult * bra_factor
         return m_spectrum
 
-    def pi_decompose_M(self, terms, gamma_z=None):
+    def pi_decompose_M(self, terms, gamma_z=None, gamma_t1=None, strict=None):
         """F81: Decompose M under Π-conjugation into symmetric/antisymmetric parts.
 
         Recurring question: for a given 2-bilinear Hamiltonian H, what is the
@@ -426,7 +426,7 @@ class ChainSystem:
 
         Theorem F81 (proved in PROOF_F81_PI_CONJUGATION_OF_M):
 
-            Π · M · Π⁻¹ = M − 2 · L_{H_odd}
+            Π · M · Π⁻¹ = M − 2 · L_{H_odd}    (Z-dephasing only)
 
         where H = H_even + H_odd is the Π²-parity decomposition of H (Π²-odd
         Pauli bilinears have bit_b(P)+bit_b(Q) ≡ 1 mod 2). For Π²-even-only H
@@ -437,32 +437,50 @@ class ChainSystem:
         The Π-decomposition of M is:
 
             M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
-            M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
+            M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}    (when F81 holds)
 
         with M_sym and M_anti Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².
 
+        For non-Z dissipators (T1 amplitude damping in particular), F81 is no
+        longer exact; the identity residual ‖M_anti − L_{H_odd}‖_F is positive
+        and quantifies the non-Π²-symmetric content of the dissipator. This
+        makes the F81 violation a quantitative diagnostic for non-Z noise on
+        hardware. With T1 enabled, this method returns the violation as
+        'f81_violation' instead of raising.
+
         Args:
-            terms: list of (a, b) Pauli letter tuples building H = J·Σ_l Σ_terms (a_l b_(l+1)).
+            terms: list of (a, b) Pauli letter tuples; H = J·Σ_l Σ_terms (a_l b_(l+1)).
             gamma_z: per-site Z-dephasing rate (uniform if scalar; defaults to chain.gamma_0).
+            gamma_t1: optional per-site T1 amplitude-damping rates (None = no T1).
+            strict: if True, raises when F81 violation > 1e-7. Defaults to True for
+                pure Z-dephasing, False when gamma_t1 is given.
 
         Returns:
             dict with keys:
-                'M':        full 4^N × 4^N residual in Pauli basis.
-                'M_sym':    Π-symmetric component (= M − L_{H_odd}).
-                'M_anti':   Π-antisymmetric component (= L_{H_odd}, by F81).
-                'L_H_odd':  unitary commutator -i[H_odd, ·] of the Π²-odd part of H.
-                'norm_sq':  dict of 'M', 'M_sym', 'M_anti' Frobenius norms squared.
+                'M':            full 4^N × 4^N residual in Pauli basis.
+                'M_sym':        Π-symmetric component (= M − L_{H_odd} when F81 holds).
+                'M_anti':       Π-antisymmetric component.
+                'L_H_odd':      reference operator -i[H_odd, ·] of the Π²-odd part of H.
+                'f81_violation': float ‖M_anti − L_{H_odd}‖_F (zero for Z-only).
+                'norm_sq':      dict of 'M', 'M_sym', 'M_anti', 'L_H_odd' Frobenius norms².
 
-        Verifies the F81 identity ‖M_anti − L_H_odd‖ < 1e-9 internally; raises
-        if violated (would indicate either non-Z dissipator or framework bug).
+        Raises (only when strict=True): RuntimeError if F81 violation > 1e-7.
         """
-        from .lindblad import lindbladian_z_dephasing, palindrome_residual
+        from .lindblad import lindbladian_z_dephasing, lindbladian_z_plus_t1, palindrome_residual
         from .pauli import _vec_to_pauli_basis_transform, bit_b, _resolve
         from .symmetry import build_pi_full
 
         gz = gamma_z if gamma_z is not None else self.gamma_0
         gamma_l = [gz] * self.N if np.isscalar(gz) else list(gz)
         Sigma_gamma = sum(gamma_l)
+        if gamma_t1 is not None:
+            gt1_l = [gamma_t1] * self.N if np.isscalar(gamma_t1) else list(gamma_t1)
+        else:
+            gt1_l = [0.0] * self.N
+        any_t1 = any(g != 0 for g in gt1_l)
+
+        if strict is None:
+            strict = not any_t1
 
         bilinear_all = [(a, b, self.J) for (a, b) in terms]
         bilinear_odd = []
@@ -474,7 +492,10 @@ class ChainSystem:
                 bilinear_odd.append((a, b, self.J))
 
         H_full = _build_bilinear(self.N, self.bonds, bilinear_all)
-        L_full = lindbladian_z_dephasing(H_full, gamma_l)
+        if any_t1:
+            L_full = lindbladian_z_plus_t1(H_full, gamma_l, gt1_l)
+        else:
+            L_full = lindbladian_z_dephasing(H_full, gamma_l)
         M = palindrome_residual(L_full, Sigma_gamma, self.N)
 
         d = 2 ** self.N
@@ -493,12 +514,12 @@ class ChainSystem:
         M_sym = (M + PiMPi) / 2
         M_anti = (M - PiMPi) / 2
 
-        identity_residual = np.linalg.norm(M_anti - L_H_odd)
-        if identity_residual > 1e-7:
+        f81_violation = float(np.linalg.norm(M_anti - L_H_odd))
+        if strict and f81_violation > 1e-7:
             raise RuntimeError(
-                f"F81 identity violated: ‖M_anti − L_H_odd‖ = {identity_residual:.4e}. "
-                "This should not happen for Z-dephasing. Check non-Z dissipator presence "
-                "or framework Π construction."
+                f"F81 identity violated: ‖M_anti − L_H_odd‖ = {f81_violation:.4e}. "
+                "Set strict=False to receive the violation as output, or check for "
+                "non-Z dissipator presence."
             )
 
         return {
@@ -506,10 +527,12 @@ class ChainSystem:
             'M_sym': M_sym,
             'M_anti': M_anti,
             'L_H_odd': L_H_odd,
+            'f81_violation': f81_violation,
             'norm_sq': {
                 'M': float(np.linalg.norm(M) ** 2),
                 'M_sym': float(np.linalg.norm(M_sym) ** 2),
                 'M_anti': float(np.linalg.norm(M_anti) ** 2),
+                'L_H_odd': float(np.linalg.norm(L_H_odd) ** 2),
             },
         }
 

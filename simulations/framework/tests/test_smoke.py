@@ -1557,3 +1557,50 @@ def test_F81_pi_decompose_M_method():
         sym_frac = d['norm_sq']['M_sym'] / d['norm_sq']['M']
         assert abs(sym_frac - 0.5) < 1e-9, \
             f"N=4 XY+YX γ_z={gz}: 50/50 should be γ-independent, got {sym_frac}"
+
+
+def test_F81_violation_T1_diagnostic():
+    """F81 violation ‖M_anti − L_{H_odd}‖_F as a non-Z-dissipator diagnostic.
+
+    For pure Z-dephasing the F81 identity holds exactly (violation ≈ 0). For
+    T1 amplitude damping the dissipator is no longer Π²-symmetric and the
+    violation grows linearly with γ_T1. This makes the violation a
+    quantitative diagnostic for non-Z noise content on real hardware.
+    """
+    chain = fw.ChainSystem(N=3)
+    soft_terms = [('X', 'Y'), ('Y', 'X')]
+
+    # Z-only: violation must be at machine precision (strict=True default)
+    d = chain.pi_decompose_M(soft_terms, gamma_z=0.1)
+    assert d['f81_violation'] < 1e-10, \
+        f"Z-only F81 violation should be ~0, got {d['f81_violation']:.4e}"
+
+    # T1 enabled: strict default to False, violation reported
+    violations = []
+    for gt1 in [0.0, 0.05, 0.1, 0.2, 0.5]:
+        d = chain.pi_decompose_M(soft_terms, gamma_z=0.1, gamma_t1=gt1)
+        violations.append(d['f81_violation'])
+
+    # γ_T1 = 0 gives zero violation
+    assert violations[0] < 1e-10
+
+    # Strictly monotone in γ_T1
+    for i in range(1, len(violations)):
+        assert violations[i] > violations[i - 1], \
+            f"F81 violation should be monotone in γ_T1, got {violations}"
+
+    # Linear-in-γ_T1: violations[2] / violations[1] should equal 0.1/0.05 = 2
+    assert abs(violations[2] / violations[1] - 2.0) < 1e-6, \
+        f"F81 violation should be linear in γ_T1 (small γ_T1), got ratio {violations[2]/violations[1]}"
+
+    # strict=True with T1 should raise
+    with pytest.raises(RuntimeError, match="F81 identity violated"):
+        chain.pi_decompose_M(soft_terms, gamma_z=0.1, gamma_t1=0.1, strict=True)
+
+    # Π²-even non-truly H (YZ+ZY) under T1: M_anti and L_H_odd both contain
+    # T1's contribution? Let's check it doesn't crash and violation is reasonable.
+    d_yz = chain.pi_decompose_M([('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1, gamma_t1=0.05)
+    # For Π²-even non-truly: L_H_odd = 0, but M_anti now has T1 content (non-zero)
+    assert d_yz['norm_sq']['L_H_odd'] < 1e-15
+    # f81_violation = ‖M_anti‖ since L_H_odd = 0
+    assert d_yz['f81_violation'] > 1e-3
