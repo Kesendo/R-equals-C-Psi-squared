@@ -32,7 +32,7 @@ with M_sym ⊥_F M_anti (Frobenius-orthogonal) and ‖M‖²_F = ‖M_sym‖²_F
 | pure XY | (Π²-odd) | XY | 1.5e-16 | (analogous) |
 | pure XZ | (Π²-odd) | XZ | 1.5e-16 | (analogous) |
 
-For the pure Π²-odd cases at N=3, the Π-decomposition has ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly (50/50 split). For the hard mixed case at N=3, also 50/50 (specific to this combination of XX and XY).
+For pure Π²-odd 2-body chain Hamiltonians at any N and any γ, the Π-decomposition has ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly (50/50 split). Verified numerically at N=3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}; analytical reason given in Step 8 below. The hard mixed case (XX+XY) at N=3 also gives 50/50 by a separate numerical coincidence specific to that combination, not a general structural theorem.
 
 ---
 
@@ -110,6 +110,28 @@ Spec(Π·M·Π⁻¹) = Spec(M) by unitary invariance of the spectrum (Π is unit
     Spec(M) = Spec(M − 2·L_{H_odd}).
 
 Subtracting 2·L_{H_odd} from M yields a similar matrix (related by Π-conjugation). Combined with F80's structural identity Spec(M) = ±2i · Spec_{many-body}(H_non-truly), this constrains how L_{H_odd}'s spectrum interacts with M's: Spec(L_{H_odd}) need not equal Spec(M) in general (and does not, since M has eigenvalues outside L_{H_odd}'s range when H_even or L_diss is nonzero), but the *similarity* M ~ M − 2·L_{H_odd} via Π-conjugation is exact.
+
+### Step 8: 50/50 split for pure Π²-odd 2-body chain Hamiltonians
+
+For pure Π²-odd 2-body chain H (no Π²-even bilinears), under uniform Z-dephasing at any γ ≥ 0 and any N, the Π-decomposition norm ratio is exactly 1:1:
+
+    ‖M_sym‖²_F = ‖M_anti‖²_F = ‖M‖²_F / 2.
+
+Proof: Frobenius orthogonality from Step 6 gives ‖M‖² = ‖M_sym‖² + ‖M_anti‖² always. From Step 6 and the pure-odd assumption, M_anti = L_{H_odd} = L_H = -i[H, ·] (the entire L_H is Π²-odd). The ratio ‖M_anti‖² / (‖M‖²/2) = 2·‖L_H‖²/‖M‖² determines the split.
+
+Compute the two Frobenius norms separately. For pure Π²-odd 2-body chain H = c·Σ_l (P_l ⊗ Q_{l+1}), the Frobenius residual norm is (PROOF_SVD_CLUSTER_STRUCTURE.md, F49 chain version):
+
+    ‖M‖²_F = 4 · ‖H‖²_F · 2^N.
+
+For traceless Hermitian H acting on a 2^N-dimensional Hilbert space, the unitary commutator superoperator L_H = -i[H, ·] satisfies:
+
+    ‖L_H‖²_F = 2 · 2^N · ‖H‖²_F.
+
+(Standard identity: ‖[H, ·]‖²_F = 2·d·‖H‖²_F − 2·|tr(H)|², with tr(H) = 0 for any sum of distinct non-identity Pauli strings.)
+
+Substituting: 2·‖L_H‖²/‖M‖² = (2·2·2^N·‖H‖²) / (4·‖H‖²·2^N) = 1. Hence ‖M_anti‖² = ‖M‖²/2 exactly, independent of N and γ.
+
+The 50/50 split is therefore a structural consequence of the Frobenius scaling F49 (for ‖M‖²) plus the standard commutator-Frobenius identity (for ‖L_H‖²). It generalizes to any pure Π²-odd 2-body chain H. It does *not* generalize to mixed Hamiltonians (XX+XY at N=3 happens to give 50/50 by a numerical coincidence; XX+XY at higher N is not guaranteed to). It does not generalize to Π²-even non-truly H (where M_anti = 0 and the split is 100/0 trivially).
 
 ---
 

@@ -1509,7 +1509,7 @@ def test_F81_pi_decompose_M_method():
       - the Pythagoras identity ‖M‖² = ‖M_sym‖² + ‖M_anti‖² holds
       - works correctly across the trichotomy at N=3 and N=4
     """
-    for N in [3, 4]:
+    for N in [3, 4, 5]:
         chain = fw.ChainSystem(N=N)
 
         # Truly XX+YY: M = 0, both sym and anti vanish
@@ -1524,14 +1524,14 @@ def test_F81_pi_decompose_M_method():
         assert d_yz['norm_sq']['M_anti'] < 1e-15  # L_H_odd = 0
         assert abs(d_yz['norm_sq']['M_sym'] - d_yz['norm_sq']['M']) < 1e-9
 
-        # Pure Π²-odd XY+YX: 50/50 split
+        # Pure Π²-odd XY+YX: 50/50 split (analytical, N- and γ-independent)
         d_soft = chain.pi_decompose_M([('X', 'Y'), ('Y', 'X')], gamma_z=0.1)
         sym_frac = d_soft['norm_sq']['M_sym'] / d_soft['norm_sq']['M']
         anti_frac = d_soft['norm_sq']['M_anti'] / d_soft['norm_sq']['M']
-        assert abs(sym_frac - 0.5) < 1e-6, f"N={N} XY+YX: sym fraction {sym_frac}"
-        assert abs(anti_frac - 0.5) < 1e-6, f"N={N} XY+YX: anti fraction {anti_frac}"
+        assert abs(sym_frac - 0.5) < 1e-9, f"N={N} XY+YX: sym fraction {sym_frac}"
+        assert abs(anti_frac - 0.5) < 1e-9, f"N={N} XY+YX: anti fraction {anti_frac}"
 
-        # Pythagoras: ‖M‖² = ‖M_sym‖² + ‖M_anti‖² for all cases
+        # Pythagoras: ‖M‖² = ‖M_sym‖² + ‖M_anti‖² for all cases (always holds)
         for label, d_dict in [('truly', d_truly), ('YZ', d_yz), ('soft', d_soft)]:
             total = d_dict['norm_sq']['M_sym'] + d_dict['norm_sq']['M_anti']
             assert abs(total - d_dict['norm_sq']['M']) < 1e-8, \
@@ -1539,7 +1539,21 @@ def test_F81_pi_decompose_M_method():
 
         # Hard XX+XY (mixed): only XY contributes to L_H_odd
         d_hard = chain.pi_decompose_M([('X', 'X'), ('X', 'Y')], gamma_z=0.1)
-        # Verify M_anti matches L_H_odd from XY-only bilinear
+        # Verify L_H_odd extraction is correct: same as XY-only Hamiltonian's L_H_odd
         d_xy_only = chain.pi_decompose_M([('X', 'Y')], gamma_z=0.1)
         assert np.allclose(d_hard['L_H_odd'], d_xy_only['L_H_odd'], atol=1e-12), \
             f"N={N} hard's L_H_odd should equal pure-XY's L_H_odd"
+        # Pythagoras still holds for mixed; 50/50 NOT analytically guaranteed for mixed
+        total_hard = d_hard['norm_sq']['M_sym'] + d_hard['norm_sq']['M_anti']
+        assert abs(total_hard - d_hard['norm_sq']['M']) < 1e-8, \
+            f"N={N} hard: Pythagoras fails: {total_hard} vs {d_hard['norm_sq']['M']}"
+
+    # Test γ-independence of the 50/50 split for pure Π²-odd (chain N=4)
+    chain4 = fw.ChainSystem(N=4)
+    for gz in [0.0, 0.05, 1.0]:
+        d = chain4.pi_decompose_M([('X', 'Y'), ('Y', 'X')], gamma_z=gz)
+        if d['norm_sq']['M'] < 1e-15:
+            continue  # γ=0 may give M=0 if H itself is Π²-protected; here it doesn't
+        sym_frac = d['norm_sq']['M_sym'] / d['norm_sq']['M']
+        assert abs(sym_frac - 0.5) < 1e-9, \
+            f"N=4 XY+YX γ_z={gz}: 50/50 should be γ-independent, got {sym_frac}"

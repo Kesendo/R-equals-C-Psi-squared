@@ -1996,7 +1996,7 @@ The Π-antisymmetric component of M is exactly the unitary commutator induced by
 | pure XY | (Π²-odd) | XY | = M − 2·L_H |
 | pure XZ | (Π²-odd) | XZ | = M − 2·L_H |
 
-For pure Π²-odd H at N=3, ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly: M splits 50/50 between Π-symmetric and Π-antisymmetric components.
+For pure Π²-odd 2-body chain H at any N and any γ ≥ 0, ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly: M splits 50/50 between Π-symmetric and Π-antisymmetric components. This follows analytically from the Frobenius identities ‖M‖²_F = 4·‖H‖²_F·2^N (F49 chain version) and ‖L_H‖²_F = 2·2^N·‖H‖²_F (standard commutator identity for traceless Hermitian H), giving ‖M‖² = 2·‖L_H‖² exactly. The split is therefore N- and γ-independent for pure Π²-odd chain. Verified numerically at N = 3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}.
 
 **Spectral consequence.** Spec(Π·M·Π⁻¹) = Spec(M) holds always by unitary invariance of the spectrum. F81 strengthens this: for Π²-odd H, the two operators are explicitly related by an additive shift of −2·L_{H_odd} in operator space, so Spec(M) = Spec(M − 2·L_{H_odd}) is a non-trivial identity (similarity via Π).
 
