@@ -572,6 +572,63 @@ class ChainSystem:
         sum_sq = sum(g * g for g in gt1)
         return float(np.sqrt(sum_sq) * (2 ** (self.N - 1)))
 
+    def predict_pi_decomposition_anti_fraction(self, terms):
+        """F83 closed form: predict the Π-decomposition anti-fraction from H alone.
+
+        Theorem F83 (proved in PROOF_F83_PI_DECOMPOSITION_RATIO):
+
+            anti-fraction = ‖M_anti‖² / ‖M‖²
+                          = ‖H_odd‖² / (2·‖H_odd‖² + 4·‖H_even_nontruly‖²)
+                          = 1 / (2 + 4·r),    r = ‖H_even_nontruly‖² / ‖H_odd‖².
+
+        Special cases:
+            r = 0  (pure Π²-odd):              anti = 1/2 (the F81 50/50 split)
+            r = ∞  (pure Π²-even non-truly):  anti = 0 (the F81 100/0 split)
+            r = 1  (equal-Frobenius mix):     anti = 1/6 (the 5/6+1/6 finding)
+
+        The truly part of H drops out by the Master Lemma; only the Π²-odd
+        and Π²-even non-truly bilinears contribute. Closed form depends only
+        on H, not on γ_z (Master Lemma) or topology (verified for chain at
+        N=3,4,5; ring/star/K_N inherit from F49 generalization).
+
+        Args:
+            terms: list of (a, b) Pauli letter tuples.
+
+        Returns:
+            anti-fraction as float in [0, 1/2]. Returns 0 if H_odd = 0
+            (pure Π²-even non-truly or all-truly). For all-truly H the M
+            is identically zero and the ratio is mathematically undefined;
+            this method returns 0 in that case as the limiting value.
+
+        Use case: predict the F81/F83 anti-fraction directly from term
+        list without building any matrix; companion to numerical
+        `pi_decompose_M` which computes the same ratio explicitly from M.
+        """
+        from .pauli import bit_b, _resolve
+
+        h_odd_sq = 0.0
+        h_even_nontruly_sq = 0.0
+        for (a, b) in terms:
+            if _pauli_pair_is_truly(a, b):
+                continue
+            if 'I' in (a, b):
+                # single-body falls outside F83 scope; treat as non-contribution
+                # to anti/even-nontruly distinction (F78 covers single-body separately)
+                continue
+            ab_idx = _resolve(a)
+            bb_idx = _resolve(b)
+            parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
+            n_bonds = len(self.bonds)
+            term_norm_sq = n_bonds * (2 ** self.N)  # bond-summed Frobenius²
+            if parity == 1:
+                h_odd_sq += term_norm_sq
+            else:
+                h_even_nontruly_sq += term_norm_sq
+
+        if h_odd_sq < 1e-15:
+            return 0.0
+        return float(h_odd_sq / (2 * h_odd_sq + 4 * h_even_nontruly_sq))
+
     def estimate_T1_from_violation(self, f81_violation):
         """F82 inverse closed form: extract RMS γ_T1 from a measured F81 violation.
 

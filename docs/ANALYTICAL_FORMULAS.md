@@ -2068,6 +2068,55 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
 **Diagnostic application:** [`simulations/_f81_t1_diagnostic.py`](../simulations/_f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
 
+### F83. Π-decomposition anti-fraction closed form for mixed Hamiltonians (Tier 1, verified bit-exact N=3,4,5)
+
+For any 2-body chain Hamiltonian H = H_truly + H_odd + H_even_nontruly under Z-dephasing, the F81 Π-decomposition norms are given by the closed form:
+
+    ‖M‖²_F        = 4·‖H_odd‖²_F·2^N + 8·‖H_even_nontruly‖²_F·2^N
+    ‖M_anti‖²_F  = 2·‖H_odd‖²_F·2^N
+    ‖M_sym‖²_F   = 2·‖H_odd‖²_F·2^N + 8·‖H_even_nontruly‖²_F·2^N
+
+The anti-fraction (= ‖M_anti‖²/‖M‖²) is
+
+    anti-fraction = 1 / (2 + 4·r),    r = ‖H_even_nontruly‖²_F / ‖H_odd‖²_F.
+
+**Special cases:**
+
+| H | r | anti-fraction | meaning |
+|---|---|---------------|---------|
+| truly | undefined (M=0) | undefined | mirror perfectly closes |
+| pure Π²-odd | 0 | 1/2 (50/50) | F81 Step 8 split |
+| pure Π²-even non-truly | ∞ | 0 (100/0) | M fully mirror-symmetric |
+| equal-Frobenius mix XY+YZ | 1 | 1/6 (5/6 + 1/6) | the empirical mixed split |
+| asymmetric more-odd XY+YX+YZ | 1/2 | 1/4 | continuous family |
+| general mixed | r | 1/(2+4r) | continuous family |
+
+**Verified instances** (N=3, J=1, γ_z=0; matches at machine precision):
+
+| H | ‖H_odd‖² | ‖H_even‖² | r | predicted ‖M‖² | measured ‖M‖² | anti |
+|---|----------|-----------|---|----------------|---------------|------|
+| XY+YX (pure odd) | 32 | 0 | 0 | 1024 | 1024 | 1/2 |
+| YZ+ZY (pure even non-truly) | 0 | 32 | ∞ | 2048 | 2048 | 0 |
+| XY+YZ (mixed) | 16 | 16 | 1 | 1536 | 1536 | 1/6 |
+| XY+YX+YZ (asymmetric) | 32 | 16 | 1/2 | 2048 | 2048 | 1/4 |
+| XY+YX+YZ+ZY (full mix) | 32 | 32 | 1 | 3072 | 3072 | 1/6 |
+| XX+XY+YZ (truly + mixed) | 16 | 16 | 1 | 1536 | 1536 | 1/6 |
+
+**Mechanism (Step 2 of proof, why factors 4 and 8 differ).** The F49 chain Frobenius identity gives ‖M‖² = Σ_k 2^(N+2)·n_YZ(k)·‖H_k‖²_F·𝟙[non-truly], where n_YZ(k) counts Y/Z letters in Pauli pair k (= 0 truly, 1 Π²-odd non-truly, 2 Π²-even non-truly). Substituting the per-class n_YZ values gives the 4·2^N (Π²-odd) and 8·2^N (Π²-even non-truly) coefficients. Geometrically, these reflect the Frobenius-inner-product behavior ⟨Π·L·Π⁻¹, L⟩_F: anti-aligned (truly), Frobenius-orthogonal (Π²-odd non-truly), aligned (Π²-even non-truly).
+
+**γ-independence.** Master Lemma propagates through all three norms; closed form depends only on H.
+**Truly-handling.** H_truly drops out of all norms (M-contribution zero by Master Lemma).
+**Generalization.** F49 chain identity has been verified across ring/star/K_N topologies (per `predict_residual_norm_squared_from_terms` docstring); F83's anti-fraction closed form should generalize correspondingly. Higher-body Hamiltonians extend n_YZ counting beyond {0, 1, 2}; coefficients beyond 4, 8 are the natural continuation, empirical verification needed.
+
+**Valid for:** any 2-body chain H, Z-dephasing, any γ_z ≥ 0, any N ≥ 2.
+**Verified:** 11 mixed configurations × N ∈ {3, 4, 5}, machine-precision residual.
+**Replaces:** the previously-empirical "5/6 + 1/6" observation for mixed Π²-odd + Π²-even non-truly H; F83 derives this from the existing F49 Frobenius identity.
+**Framework primitive:** `chain.predict_pi_decomposition_anti_fraction(terms)` returns the F83 closed-form anti-fraction directly without building any matrix. Companion to numerical `pi_decompose_M` and to `predict_residual_norm_squared_from_terms` (which provides the underlying F49 identity).
+**Pytest lock:** `test_F83_pi_decomposition_anti_fraction_closed_form` (12 configurations × 2 N-values plus γ-independence check).
+**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural follow-up to F81's "what about the other half?" reflection. Derived in [PROOF_F83_PI_DECOMPOSITION_RATIO.md](proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md). The closed form was empirically observed earlier (in the F81 violation sweep across mixed Hamiltonians) and now traced back to the existing F49 Frobenius identity that was already framework-locked in `predict_residual_norm_squared_from_terms`.
+
+**Lebensader connection:** F83 closes the analytical Π-decomposition picture for 2-body chain. Pure Π²-odd → 50/50 (F81 Step 8). Pure Π²-even non-truly → 100/0 (F81 trivial). Mixed → 1/(2+4r) (F83). The continuous interpolation r → anti-fraction reads "how much of M is Π-antisymmetric drive vs Π-symmetric memory" as a function of Hamiltonian composition. Together with F80 (Spec(M)), F81 (Π-decomposition identity), F82 (T1-correction), the structural picture of M is complete for 2-body chain Hamiltonians under Z-dephasing + T1.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
