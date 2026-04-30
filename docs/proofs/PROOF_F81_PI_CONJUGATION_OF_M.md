@@ -111,27 +111,34 @@ Spec(Π·M·Π⁻¹) = Spec(M) by unitary invariance of the spectrum (Π is unit
 
 Subtracting 2·L_{H_odd} from M yields a similar matrix (related by Π-conjugation). Combined with F80's structural identity Spec(M) = ±2i · Spec_{many-body}(H_non-truly), this constrains how L_{H_odd}'s spectrum interacts with M's: Spec(L_{H_odd}) need not equal Spec(M) in general (and does not, since M has eigenvalues outside L_{H_odd}'s range when H_even or L_diss is nonzero), but the *similarity* M ~ M − 2·L_{H_odd} via Π-conjugation is exact.
 
-### Step 8: 50/50 split for pure Π²-odd 2-body chain Hamiltonians
+### Step 8: 50/50 split when all non-truly bilinears are Π²-odd
 
-For pure Π²-odd 2-body chain H (no Π²-even bilinears), under uniform Z-dephasing at any γ ≥ 0 and any N, the Π-decomposition norm ratio is exactly 1:1:
+The 50/50 split ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 holds for any 2-body chain Hamiltonian whose **non-truly bilinears are all Π²-odd**. This includes both pure Π²-odd H (H = H_odd) and mixed truly + Π²-odd H (H = H_truly + H_odd, e.g. XX+XY). The condition fails when H contains Π²-even non-truly bilinears (YZ-type), where M_anti shrinks relative to M_sym.
 
-    ‖M_sym‖²_F = ‖M_anti‖²_F = ‖M‖²_F / 2.
+Derivation: Frobenius orthogonality from Step 6 gives ‖M‖² = ‖M_sym‖² + ‖M_anti‖² always. M_anti = L_{H_odd} = -i[H_odd, ·] by F81. So 50/50 ⟺ ‖M_anti‖² = ‖M‖²/2 ⟺ ‖M‖² = 2·‖L_{H_odd}‖².
 
-Proof: Frobenius orthogonality from Step 6 gives ‖M‖² = ‖M_sym‖² + ‖M_anti‖² always. From Step 6 and the pure-odd assumption, M_anti = L_{H_odd} = L_H = -i[H, ·] (the entire L_H is Π²-odd). The ratio ‖M_anti‖² / (‖M‖²/2) = 2·‖L_H‖²/‖M‖² determines the split.
+Two ingredients:
 
-Compute the two Frobenius norms separately. For pure Π²-odd 2-body chain H = c·Σ_l (P_l ⊗ Q_{l+1}), the Frobenius residual norm is (PROOF_SVD_CLUSTER_STRUCTURE.md, F49 chain version):
+(i) **Master Lemma for the residual:** truly bilinears contribute zero to M (PROOF_SVD_CLUSTER_STRUCTURE.md). Therefore ‖M‖² depends only on the non-truly part of H. If all non-truly bilinears are Π²-odd, then "non-truly" coincides with "Π²-odd," and the Frobenius residual scaling (F49 chain version) reads:
 
-    ‖M‖²_F = 4 · ‖H‖²_F · 2^N.
+    ‖M‖²_F = 4 · ‖H_odd‖²_F · 2^N.
 
-For traceless Hermitian H acting on a 2^N-dimensional Hilbert space, the unitary commutator superoperator L_H = -i[H, ·] satisfies:
+(ii) **Standard commutator-Frobenius identity:** for traceless Hermitian H_odd acting on a 2^N-dimensional Hilbert space,
 
-    ‖L_H‖²_F = 2 · 2^N · ‖H‖²_F.
+    ‖L_{H_odd}‖²_F = 2 · 2^N · ‖H_odd‖²_F.
 
-(Standard identity: ‖[H, ·]‖²_F = 2·d·‖H‖²_F − 2·|tr(H)|², with tr(H) = 0 for any sum of distinct non-identity Pauli strings.)
+(Standard: ‖[H, ·]‖²_F = 2·d·‖H‖²_F − 2·|tr(H)|², with tr(H_odd) = 0 since H_odd is a sum of non-identity Pauli strings.)
 
-Substituting: 2·‖L_H‖²/‖M‖² = (2·2·2^N·‖H‖²) / (4·‖H‖²·2^N) = 1. Hence ‖M_anti‖² = ‖M‖²/2 exactly, independent of N and γ.
+Substituting: 2·‖L_{H_odd}‖² / ‖M‖² = (2 · 2 · 2^N · ‖H_odd‖²) / (4 · ‖H_odd‖² · 2^N) = 1. Hence ‖M_anti‖² = ‖M‖² / 2 exactly, independent of N, γ, or the relative coefficients of truly and Π²-odd bilinears in H.
 
-The 50/50 split is therefore a structural consequence of the Frobenius scaling F49 (for ‖M‖²) plus the standard commutator-Frobenius identity (for ‖L_H‖²). It generalizes to any pure Π²-odd 2-body chain H. It does *not* generalize to mixed Hamiltonians (XX+XY at N=3 happens to give 50/50 by a numerical coincidence; XX+XY at higher N is not guaranteed to). It does not generalize to Π²-even non-truly H (where M_anti = 0 and the split is 100/0 trivially).
+**Empirically verified**: pure Π²-odd (XY+YX, XY, XZ), mixed truly + Π²-odd (XX+XY, YY+XY), at N=3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}, all to machine precision. Cases that violate the condition (Π²-even non-truly content) give different splits:
+
+  - Pure Π²-even non-truly (YZ alone, YZ+ZY): 100/0 (M_anti = 0 trivially since H_odd = 0).
+  - Mixed Π²-odd + Π²-even non-truly (XY+YZ, XX+XY+YZ): 5/6 sym + 1/6 anti at N=3 and N=4 (the 1/6 reflects the smaller fraction of Π²-odd content within H_non-truly).
+
+The 5/6:1/6 split for mixed odd+even cases is empirical at N=3,4; an analytical derivation analogous to the 50/50 case would require a generalized Frobenius-residual scaling for mixed H_non-truly. Open.
+
+**Scope of 50/50**: this analytical result covers truly H (trivial: M=0), pure Π²-odd 2-body chain H, and mixed truly + Π²-odd 2-body chain H. It does not cover Hamiltonians with Π²-even non-truly content.
 
 ---
 
