@@ -195,9 +195,11 @@ This makes prior puzzles legible:
   cleanly.** σ⁻ destroys |1⟩ population, which in X-basis is
   ½(|+⟩ − |−⟩). σ⁻ attacks the −0 component, breaks the polarity
   balance, and through that breaks the ⟨Z⟩-conservation that the
-  truly Hamiltonian alone protects. The 60% ⟨Z,Z⟩ damping observed
-  in the 2026-04-30 F83 hardware run on Marrakesh (Job d7pol1e7g7gs73cf7j90)
-  is the F82/F84 signature seen through the polarity-layer lens.
+  truly Hamiltonian alone protects. The ~60% ⟨Z,Z⟩ damping observed
+  in the 2026-04-30 F83 hardware run on Marrakesh (Job d7pol1e7g7gs73cf7j90;
+  damping fraction is 60% relative to γ_Z=0.05 path-fit baseline,
+  56% relative to γ_Z=0.1 framework-default baseline) is the F82/F84
+  signature seen through the polarity-layer lens.
 - **Why ZZ-crosstalk is not a Π-breaker.** ZZ leaves the polarity
   layer untouched (Z and X are bit_b-different in the F77 classifier).
 - **Why the F-toolkit's hardware-confirmed predictions cluster on

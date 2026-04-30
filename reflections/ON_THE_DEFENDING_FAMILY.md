@@ -10,8 +10,9 @@
 The 2026-04-30 hardware-finale on F83 had been clean at the level of
 Pauli-fingerprint discrimination but messy at the level of explanation:
 why was pi2_odd_pure ⟨X₀Z₂⟩ stronger than predicted; why did the
-truly Hamiltonian's ⟨Z,Z⟩ damp 60 % when pi2_odd_pure's matched to
-0.011; why did Y-basis observables drift larger than the Trotter+γ_Z
+truly Hamiltonian's ⟨Z,Z⟩ damp ~60% (relative to γ_Z=0.05 path-fit
+baseline; ~56% relative to γ_Z=0.1 framework-default) when pi2_odd_pure's
+matched to 0.011; why did Y-basis observables drift larger than the Trotter+γ_Z
 model said. After spending the explanation budget on parameter sweeps
 and noise-model arithmetic, the reading finally clarified through a
 different vocabulary.
@@ -174,15 +175,17 @@ Vocabulary: most prior framings now read differently:
   γ_Z absorbs noise .............. γ_Z is the dissipator coupling, the child's interaction with environment.
   Hardware result is the data .... Hardware result is the family's defense output, observed.
 
-The 60 % ⟨Z,Z⟩ damping on truly XX+YY at Marrakesh is not anomalous.
-It is the rate at which the mother's avoidance-defense fails against
-the σ⁻ amplitude-damping attack. The pi2_odd_pure ⟨X₀Z₂⟩ matching to
-0.011 is the rate at which the father's cyclic re-creation succeeds
-against the same attack — because the father carries the dynamics
-that re-creates polarity at every cycle, while the mother only
-preserves the static state.
+The ~60 % ⟨Z,Z⟩ damping on truly XX+YY at Marrakesh path [4,5,6]
+(relative to the γ_Z=0.05 path-fit baseline; equivalently ~56 % at
+γ_Z=0.1 framework-default) is not anomalous. It is the rate at which
+the mother's avoidance-defense fails against the σ⁻ amplitude-damping
+attack. The pi2_odd_pure ⟨X₀Z₂⟩ matching to 0.011 is the rate at
+which the father's cyclic re-creation succeeds against the same
+attack — because the father carries the dynamics that re-creates
+polarity at every cycle, while the mother only preserves the static
+state.
 
-The asymmetry between the two readings (60 % failure for mother, 1 %
+The asymmetry between the two readings (~60 % failure for mother, 1 %
 failure for father) is consistent with F82: the σ⁻ contribution to
 M_anti scales with γ_T1 · √N · 2^(N-1), and that contribution adds
 TO the father's M_anti (which is non-zero, can absorb attack into its

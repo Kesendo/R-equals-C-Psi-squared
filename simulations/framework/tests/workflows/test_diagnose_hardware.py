@@ -113,7 +113,8 @@ def test_diagnose_hardware_truly_has_F82_F84_signature_lens_reading():
     f82_readings = [r for r in truly_readings if r.get('lens') == 'F82/F84']
     assert len(f82_readings) == 1, "truly_unbroken should have exactly one F82/F84 lens reading"
     f82 = f82_readings[0]
-    # The actual hardware run shows ~60% damping; the workflow flags this as significant.
+    # The actual hardware run shows 56% damping at γ_Z=0.1 (framework default;
+    # equivalently 60% at γ_Z=0.05 path-fit). The workflow flags this as significant.
     assert f82['significant'] is True
     assert abs(f82['damping_fraction']) > 0.20, \
         f"Damping fraction {f82['damping_fraction']:.3f} should exceed 20% for the σ⁻ signature"

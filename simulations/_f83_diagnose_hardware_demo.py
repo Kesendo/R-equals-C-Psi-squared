@@ -60,6 +60,10 @@ def load_measured(json_path):
 def main():
     measured, backend, path, job_id = load_measured(F83_HARDWARE_JSON)
 
+    GAMMA_Z = 0.1  # framework-default baseline (matches April 26 fit to 0.0014)
+    T_EVAL = 0.8
+    N_TROTTER = 3
+
     print("=" * 78)
     print("F83 hardware: F-toolkit lens-reading via diagnose_hardware workflow")
     print("=" * 78)
@@ -67,13 +71,16 @@ def main():
     print(f"  Path:    {path}")
     print(f"  Job ID:  {job_id}")
     print(f"  Calibration: T1={F83_CALIBRATION['T1']} μs, T2={F83_CALIBRATION['T2']} μs")
+    print(f"  Trotter prediction baseline: γ_Z={GAMMA_Z}, t={T_EVAL}, n_trotter={N_TROTTER} (16-Pauli RMS)")
+    print(f"  Path-fit γ_Z_eff for [4,5,6] is 0.05 (per _f83_gamma_z_sweep.py); 7-Pauli RMS values")
+    print(f"  in data/ibm_f83_signature_april2026/README.md use that path-fit baseline.")
     print()
 
     chain = fw.ChainSystem(N=3)
     result = fw.diagnose_hardware(
         chain, measured, F83_TERMS_PER_CATEGORY,
         calibration=F83_CALIBRATION,
-        t=0.8, n_trotter=3, gamma_z=0.1,
+        t=T_EVAL, n_trotter=N_TROTTER, gamma_z=GAMMA_Z,
         shots=4096,
     )
 
