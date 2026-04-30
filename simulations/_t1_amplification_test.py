@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """EQ-030 attack: how does T1 amplitude damping shift the Π-protected set?
 
-Hardware finale today (Marrakesh, Kingston, Fez) measured Δ⟨X₀Z₂⟩ for the
-soft-broken Hamiltonian J(XY+YX) at 1.30-1.49× the idealized Lindblad
-prediction. The amplification was attributed to T1 amplitude damping
-(plus ZZ-crosstalk). framework.py originally only handles pure Z-dephasing
-where the palindrome holds. With the new `lindbladian_z_plus_t1` primitive,
+Hardware finale (Marrakesh, Kingston, Fez) measured Δ⟨X₀Z₂⟩ for the
+soft-broken Hamiltonian J(XY+YX) at 1.14-1.49× the continuous-Lindblad
+idealization. The amplification was originally attributed to T1 amplitude
+damping (plus ZZ-crosstalk). The 2026-04-30 follow-up
+(_marrakesh_t1_amplification_test.py) refuted that attribution for the
+Marrakesh soft-break run: T1 monotonically attenuates the soft signal;
+Trotter n=3 discretization at δt=0.267 fully accounts for the hardening.
+The script below remains valid as a separate question: even though T1 does
+not amplify ⟨X₀Z₂⟩, it does break the strict Π-palindrome and shifts the
+Π-protected count. framework.py originally only handles pure Z-dephasing
+where the palindrome holds. With the `lindbladian_z_plus_t1` primitive,
 we can ask: for the soft case, how does the protected-set evolve as
 T1-rate is added?
 

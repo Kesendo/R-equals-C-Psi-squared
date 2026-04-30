@@ -982,14 +982,18 @@ class Confirmations:
             'machine': 'ibm_marrakesh',
             'job_id': 'd7mjnjjaq2pc73a1pk4g',
             'observable': '<X_0 Z_2>',
-            'predicted_value': {'truly': 0.000, 'soft': -0.623, 'hard': +0.195,
-                                'delta_soft_minus_truly': -0.623},
+            'predicted_value': {
+                'continuous_lindblad_gamma_Z_0.1': {'truly': 0.000, 'soft': -0.623, 'hard': +0.195,
+                                                    'delta_soft_minus_truly': -0.623},
+                'trotter_n3_gamma_Z_0.1':         {'truly': 0.000, 'soft': -0.723, 'hard': +0.327,
+                                                    'delta_soft_minus_truly': -0.723},
+            },
             'measured_value': {'truly': +0.011, 'soft': -0.711, 'hard': +0.205,
                                'delta_soft_minus_truly': -0.722},
             'hardware_data': 'data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json',
-            'experiment_doc': 'experiments/V_EFFECT_FINE_STRUCTURE.md',
-            'framework_primitive': 'palindrome_residual + classify_pauli_pair',
-            'description': 'Super-operator palindrome trichotomy (truly/soft/hard) tomographically distinguishable on Heron r2 hardware at N=3. T1/T2 noise actually amplifies the soft-break signal.',
+            'experiment_doc': 'experiments/MARRAKESH_THREE_LAYERS.md',
+            'framework_primitive': 'classify_pauli_pair + predict_M_spectrum_pi2_odd + propagate_with_hardware_noise',
+            'description': 'Super-operator palindrome trichotomy (truly/soft/hard) tomographically distinguishable on Heron r2 hardware at N=3. Hardware Δ(soft − truly) = -0.722 matches the Trotter n=3 prediction to 0.0014, NOT the continuous-Lindblad idealization (Δ = -0.623). Original interpretation that T1 amplifies the soft-break is REFUTED: T1 monotonically attenuates |Δ| (γ_T1=0.5 gives Δ=-0.44). The hardening is Trotter discretization at δt=0.267 with ‖H‖_op = 2.83·J, where ‖H·δt‖ ≈ 0.76 violates the small-step regime. See _marrakesh_t1_amplification_test.py.',
         },
         'f25_cusp_trajectory': {
             'date': '2026-04-26',
@@ -1071,13 +1075,16 @@ class Confirmations:
             'machine': 'ibm_marrakesh',
             'job_id': 'd7mjnjjaq2pc73a1pk4g',
             'observable': '<X_0 Z_2> for 3 Pauli-pair Hamiltonians (truly XX+YY, soft XY+YX, hard XX+XY)',
-            'predicted_value': 'effective γ_Z = 0.05 fits all three HW values',
+            'predicted_value': 'continuous-equivalent γ_Z ≈ 0.05 (continuous Lindblad fit); '
+                               'Trotter-modeled γ_Z ≈ 0.1 (the same 0.1 the framework idealized prediction used)',
             'measured_value': 'best-fit γ_Z = 0.05 (sweep over [0.01, 0.15] with 71 points), '
-                              'total residual² = 6.4e-4 across 3 Hamiltonians',
+                              'total residual² = 6.4e-4 across 3 Hamiltonians (continuous Lindblad, '
+                              'no Trotter modeling). When Trotter n=3 is modeled, the same data fits '
+                              'γ_Z = 0.1 exactly via Δ matching to 0.0014 (see _marrakesh_t1_amplification_test).',
             'hardware_data': 'data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json',
             'experiment_doc': 'data/ibm_soft_break_april2026/README.md',
-            'framework_primitive': 'ChainSystem.propagate_with_hardware_noise + 2D fit',
-            'description': 'Independent confirmation of γ_0=0.05 default (from cusp-slowing/F65/F67 calibration) via top-down fit against Marrakesh April 26 soft-break Pauli expectations. The README idealized prediction at γ_Z=0.1 was 2× too high; real Marrakesh effective Z-dephasing is 0.05, exactly the framework default. T1 contributes negligibly to the residual; the dominant Hardware-vs-idealized drift in <X_0 Z_2> is corrected by reducing γ_Z, not by adding T1.',
+            'framework_primitive': 'ChainSystem.propagate_with_hardware_noise + 2D fit (continuous Lindblad)',
+            'description': 'Continuous-Lindblad fit of γ_Z against Marrakesh ⟨X₀Z₂⟩ data converges to 0.05, which absorbs the Trotter n=3 discretization correction into a lower effective γ_Z. The 2026-04-30 follow-up showed that a Trotter-modeled fit returns γ_Z = 0.1 with Δ-matching to 0.0014, meaning the original framework-idealized γ_Z = 0.1 was correct (not 2× too high). The two values 0.05 (continuous) and 0.1 (Trotter) are the same data through two physics models. T1 contributes negligibly in either model.',
         },
         'lebensader_skeleton_trace_decoupling': {
             'date': '2026-04-26',
