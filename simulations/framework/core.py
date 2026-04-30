@@ -574,7 +574,7 @@ class ChainSystem:
 
     def predict_pi_decomposition(self, terms):
         """F83 closed form: predict ‖M‖², ‖M_anti‖², ‖M_sym‖², and anti-fraction
-        from H alone, without building any matrix.
+        from H alone, without computing M.
 
         Theorem F83 (proved in PROOF_F83_PI_DECOMPOSITION_RATIO):
 
@@ -589,11 +589,16 @@ class ChainSystem:
             r = 1  (equal-Frobenius mix):     anti = 1/6  (5/6+1/6 finding)
 
         The truly part of H drops out by the Master Lemma; only the Π²-odd
-        and Π²-even non-truly bilinears contribute. γ_z-independent. Closed
-        form is O(N) work, no matrix construction.
+        and Π²-even non-truly bilinears contribute. γ_z-independent.
+
+        Topology-independent: ‖H_odd‖² and ‖H_even_nontruly‖² are computed
+        by building the actual sub-Hamiltonian matrices and taking
+        Frobenius norms (consistent with F49's `predict_residual_norm_squared_from_terms`).
+        Works for chain, ring, star, K_N, and any topology where the
+        underlying F49 Frobenius identity holds.
 
         Args:
-            terms: list of (a, b) Pauli letter tuples (chain bond-summed H).
+            terms: list of (a, b) Pauli letter tuples (bond-summed H).
 
         Returns:
             dict with keys:
@@ -611,8 +616,12 @@ class ChainSystem:
         """
         from .pauli import bit_b, _resolve
 
-        h_odd_sq = 0.0
-        h_even_nontruly_sq = 0.0
+        # Group non-truly terms by Π²-parity, then build sub-Hamiltonians per
+        # group and take Frobenius norms (matches F49's matrix-based approach;
+        # correctly handles inter-string Frobenius cross-terms on non-chain
+        # topologies where Pauli strings can overlap).
+        odd_terms = []
+        even_nontruly_terms = []
         for (a, b) in terms:
             if _pauli_pair_is_truly(a, b):
                 continue
@@ -621,23 +630,33 @@ class ChainSystem:
             ab_idx = _resolve(a)
             bb_idx = _resolve(b)
             parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
-            n_bonds = len(self.bonds)
-            term_norm_sq = n_bonds * (2 ** self.N)
             if parity == 1:
-                h_odd_sq += term_norm_sq
+                odd_terms.append((a, b, self.J))
             else:
-                h_even_nontruly_sq += term_norm_sq
+                even_nontruly_terms.append((a, b, self.J))
+
+        if odd_terms:
+            H_odd = _build_bilinear(self.N, self.bonds, odd_terms)
+            h_odd_sq = float(np.real(np.trace(H_odd.conj().T @ H_odd)))
+        else:
+            h_odd_sq = 0.0
+        if even_nontruly_terms:
+            H_even = _build_bilinear(self.N, self.bonds, even_nontruly_terms)
+            h_even_nontruly_sq = float(np.real(np.trace(H_even.conj().T @ H_even)))
+        else:
+            h_even_nontruly_sq = 0.0
 
         d_pow = 2 ** self.N
         m_sq = 4 * h_odd_sq * d_pow + 8 * h_even_nontruly_sq * d_pow
         m_anti_sq = 2 * h_odd_sq * d_pow
         m_sym_sq = m_sq - m_anti_sq
-        if m_sq < 1e-15:
+
+        if h_odd_sq < 1e-15:
+            r = float('inf')
             anti_fraction = 0.0
-            r = float('inf') if h_odd_sq < 1e-15 else 0.0
         else:
-            anti_fraction = m_anti_sq / m_sq
-            r = float('inf') if h_odd_sq < 1e-15 else h_even_nontruly_sq / h_odd_sq
+            r = h_even_nontruly_sq / h_odd_sq
+            anti_fraction = m_anti_sq / m_sq if m_sq > 0 else 0.0
 
         return {
             'M_sq': float(m_sq),

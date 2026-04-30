@@ -1736,7 +1736,7 @@ def test_F83_pi_decomposition_anti_fraction_closed_form():
         ('full mix XY+YX+YZ+ZY', [('X', 'Y'), ('Y', 'X'), ('Y', 'Z'), ('Z', 'Y')], 1.0 / 6),
         ('truly+mixed XX+XY+YZ', [('X', 'X'), ('X', 'Y'), ('Y', 'Z')], 1.0 / 6),
     ]
-    for N in [3, 4]:
+    for N in [3, 4, 5]:
         chain = fw.ChainSystem(N=N)
         for label, terms, expected_anti in test_cases:
             predicted = chain.predict_pi_decomposition_anti_fraction(terms)
@@ -1777,7 +1777,7 @@ def test_F83_predict_pi_decomposition_full_closed_form():
         ('XY+YX+YZ+ZY (full mix)', [('X', 'Y'), ('Y', 'X'), ('Y', 'Z'), ('Z', 'Y')]),
         ('XX+XY+YZ (truly + mixed)', [('X', 'X'), ('X', 'Y'), ('Y', 'Z')]),
     ]
-    for N in [3, 4]:
+    for N in [3, 4, 5]:
         chain = fw.ChainSystem(N=N)
         for label, terms in test_cases:
             pred = chain.predict_pi_decomposition(terms)
