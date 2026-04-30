@@ -22,17 +22,17 @@ def test_chainsystem_n5_chain_invariants():
 
 def test_chainsystem_classify_known_pauli_pairs():
     chain = fw.ChainSystem(N=5)
-    assert chain.classify_pauli_pair([('X', 'X'), ('Y', 'Y')]) == 'truly'
-    assert chain.classify_pauli_pair([('Y', 'Z'), ('Z', 'Y')]) == 'soft'
-    assert chain.classify_pauli_pair([('I', 'X'), ('I', 'Z')]) == 'hard'
+    assert fw.classify_pauli_pair(chain, [('X', 'X'), ('Y', 'Y')]) == 'truly'
+    assert fw.classify_pauli_pair(chain, [('Y', 'Z'), ('Z', 'Y')]) == 'soft'
+    assert fw.classify_pauli_pair(chain, [('I', 'X'), ('I', 'Z')]) == 'hard'
 
 
 def test_chainsystem_predict_residual_norm_squared():
     chain = fw.ChainSystem(N=5)
     # main: (N-1) · 4^(N-2) = 4 · 64 = 256
-    assert chain.predict_residual_norm_squared(1.0, 'main') == 256.0
+    assert fw.predict_residual_norm_squared(chain, 1.0, 'main') == 256.0
     # single_body at chain N=5: D2/2 · 4^(N-2) = 14/2 · 64 = 7·64 = 448
-    assert chain.predict_residual_norm_squared(1.0, 'single_body') == 448.0
+    assert fw.predict_residual_norm_squared(chain, 1.0, 'single_body') == 448.0
 
 
 def test_chainsystem_topology_invariants():
@@ -64,10 +64,10 @@ def test_chainsystem_n2_warns_about_structural_degeneracy():
         assert len(user_warnings) == 1
         assert 'structurally degenerate' in str(user_warnings[0].message)
     # Math still works at N=2 — fundamental vocabulary
-    assert chain.classify_pauli_pair([('X','X'),('Y','Y'),('Z','Z')]) == 'truly'
-    assert chain.classify_pauli_pair([('Y','Z'),('Z','Y')]) == 'soft'
-    assert abs(chain.predict_residual_norm_squared_from_terms(
-        [('Y','Z'),('Z','Y')]) - 256.0) < 1e-6  # 2^4·2·8 = 256 at N=2
+    assert fw.classify_pauli_pair(chain, [('X','X'),('Y','Y'),('Z','Z')]) == 'truly'
+    assert fw.classify_pauli_pair(chain, [('Y','Z'),('Z','Y')]) == 'soft'
+    assert abs(fw.predict_residual_norm_squared_from_terms(
+        chain, [('Y','Z'),('Z','Y')]) - 256.0) < 1e-6  # 2^4·2·8 = 256 at N=2
 
 
 def test_chainsystem_n3plus_does_not_warn():
@@ -119,8 +119,8 @@ def test_residual_norm_squared_with_t1_matches_predict():
         for terms in [[('Y','Z'),('Z','Y')], [('I','Y'),('Y','I')],
                       [('X','X'),('Y','Y'),('Z','Z')]]:
             for gT1 in [0.001, 0.005, 0.01]:
-                pred = chain.predict_residual_norm_squared_from_terms(
-                    terms, gamma_t1=gT1)
+                pred = fw.predict_residual_norm_squared_from_terms(
+                    chain, terms, gamma_t1=gT1)
                 num = chain.residual_norm_squared(terms, gamma_t1=gT1)
                 assert abs(pred - num) < 1e-6, \
                     f"N={N} terms={terms} gT1={gT1}: pred={pred} num={num}"

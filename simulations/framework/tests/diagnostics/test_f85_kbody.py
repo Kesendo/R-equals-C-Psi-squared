@@ -65,8 +65,8 @@ def test_F85_kbody_predict_pi_decomposition():
     for N in [4, 5]:
         chain = fw.ChainSystem(N=N)
         for label, terms, expected_anti in test_cases_k3:
-            pred = chain.predict_pi_decomposition(terms)
-            num = chain.pi_decompose_M(terms, gamma_z=0.0)
+            pred = fw.predict_pi_decomposition(chain,terms)
+            num = fw.pi_decompose_M(chain,terms, gamma_z=0.0)
             # Closed form matches numerical bit-exact
             assert abs(pred['M_sq'] - num['norm_sq']['M']) < 1e-9, \
                 f"N={N} {label}: M_sq pred={pred['M_sq']}, num={num['norm_sq']['M']}"
@@ -85,8 +85,8 @@ def test_F85_kbody_predict_pi_decomposition():
         [('X', 'X', 'X', 'Y')],         # 3X 1Y arrangement → Π²-odd
     ]
     for terms in test_cases_k4:
-        pred = chain4.predict_pi_decomposition(terms)
-        num = chain4.pi_decompose_M(terms, gamma_z=0.0)
+        pred = fw.predict_pi_decomposition(chain4,terms)
+        num = fw.pi_decompose_M(chain4,terms, gamma_z=0.0)
         assert abs(pred['M_sq'] - num['norm_sq']['M']) < 1e-9, \
             f"k=4 {terms}: M_sq pred {pred['M_sq']} vs num {num['norm_sq']['M']}"
 

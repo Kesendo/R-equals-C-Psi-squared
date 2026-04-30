@@ -57,7 +57,7 @@ def main():
         print(f"\n=== {label}: terms = {terms} ===")
         for N in [3, 4]:
             chain = fw.ChainSystem(N=N, J=1.0)
-            cls = chain.classify_pauli_pair(terms)
+            cls = fw.classify_pauli_pair(chain, terms)
             H = build_H(N, terms)
             L = lindbladian_z_dephasing(H, [1.0]*N)
             M = palindrome_residual(L, N*1.0, N)

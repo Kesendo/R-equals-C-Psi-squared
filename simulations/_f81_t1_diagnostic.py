@@ -44,7 +44,7 @@ def main():
     print(f"  {'γ_z':>6} | {'F81 violation':>16} | {'(should be 0)':>15}")
     print("  " + "-" * 45)
     for gz in [0.0, 0.05, 0.1, 0.5, 1.0]:
-        d = chain.pi_decompose_M(soft, gamma_z=gz)
+        d = fw.pi_decompose_M(chain,soft, gamma_z=gz)
         v = d["f81_violation"]
         print(f"  {gz:>6.2f} | {v:>16.4e} | machine precision ✓")
     print()
@@ -55,7 +55,7 @@ def main():
     print("  " + "-" * 65)
     base = None
     for gt1 in [0.0, 0.01, 0.05, 0.1, 0.2, 0.5, 1.0]:
-        d = chain.pi_decompose_M(soft, gamma_z=0.1, gamma_t1=gt1)
+        d = fw.pi_decompose_M(chain,soft, gamma_z=0.1, gamma_t1=gt1)
         v = d["f81_violation"]
         rel = v / np.sqrt(d["norm_sq"]["M_anti"]) if d["norm_sq"]["M_anti"] > 1e-10 else 0.0
         if gt1 == 0.01:
@@ -78,7 +78,7 @@ def main():
     print(f"  {'γ_z':>6} | {'F81 violation':>16}")
     print("  " + "-" * 30)
     for gz in [0.0, 0.05, 0.1, 0.2, 0.5, 1.0]:
-        d = chain.pi_decompose_M(soft, gamma_z=gz, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain,soft, gamma_z=gz, gamma_t1=0.1)
         print(f"  {gz:>6.2f} | {d['f81_violation']:>16.4e}")
     print()
     print("  Reading: F81 violation depends on γ_T1 alone (not γ_z),")
@@ -94,14 +94,14 @@ def main():
     for label, terms in [("truly XX+YY", [("X", "X"), ("Y", "Y")]),
                          ("soft XY+YX", soft),
                          ("hard XX+XY", [("X", "X"), ("X", "Y")])]:
-        d = chain.pi_decompose_M(terms, gamma_z=0.143, gamma_t1=0.0)
+        d = fw.pi_decompose_M(chain,terms, gamma_z=0.143, gamma_t1=0.0)
         print(f"    {label:<14}: F81 violation = {d['f81_violation']:.4e}  ✓ (Z-only model fits)")
     print()
     print("  Hypothetical (γ_z=0.143, γ_T1=0.1) for comparison:")
     for label, terms in [("truly XX+YY", [("X", "X"), ("Y", "Y")]),
                          ("soft XY+YX", soft),
                          ("hard XX+XY", [("X", "X"), ("X", "Y")])]:
-        d = chain.pi_decompose_M(terms, gamma_z=0.143, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain,terms, gamma_z=0.143, gamma_t1=0.1)
         print(f"    {label:<14}: F81 violation = {d['f81_violation']:.4e}  (T1 would imply this)")
     print()
     print("  Reading: the actual Marrakesh fit converges to γ_T1 ≈ 0, hence")

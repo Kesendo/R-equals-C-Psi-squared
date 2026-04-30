@@ -93,7 +93,7 @@ def main():
     print()
 
     for name, terms, classification in cases:
-        cls = chain.classify_pauli_pair(terms)
+        cls = fw.classify_pauli_pair(chain, terms)
         print(f"  {name} ({classification}, framework says: {cls})")
         print(f"    bilinears: {terms}")
 
@@ -101,7 +101,7 @@ def main():
         # hard_broken has truly XX + Π²-odd XY → predicts XY contribution only.
         # We catch ValueError if the case is out of F80's scope.
         try:
-            pred = chain.predict_M_spectrum_pi2_odd(terms, c=J)
+            pred = fw.predict_M_spectrum_pi2_odd(chain, terms, c=J)
             actual = actual_M_spectrum(N, bonds, [(a, b, J) for (a, b) in terms])
             pred_keys = sorted({round(k.imag, 6): v for k, v in pred.items()}.items())
             actual_keys = sorted(actual.items())

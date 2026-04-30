@@ -19,9 +19,9 @@ Quick start:
     fw.Confirmations.list_names()
     fw.Confirmations.lookup('palindrome_trichotomy')
 
-    # Trichotomy classification
+    # Trichotomy classification (diagnostics package)
     chain = fw.ChainSystem(N=5)
-    chain.classify_pauli_pair([('Y','Z'), ('Z','Y')])  # → 'soft'
+    fw.classify_pauli_pair(chain, [('Y','Z'), ('Z','Y')])  # → 'soft'
 
     # Receiver-engineering forecast
     r = fw.Receiver(psi)
@@ -79,3 +79,18 @@ from .lebensader import cockpit_panel
 from .chain_system import ChainSystem
 from .receiver import Receiver
 from .confirmations import Confirmations
+
+# Diagnostics: F-theorem readings as free functions
+from .diagnostics import (
+    classify_pauli_pair,
+    predict_residual_norm_squared,
+    predict_residual_norm_squared_from_terms,
+    predict_M_spectrum_pi2_odd,
+    pi_decompose_M,
+    predict_T1_dissipator_violation,
+    estimate_T1_from_violation,
+    predict_pi_decomposition,
+    predict_pi_decomposition_anti_fraction,
+    predict_amplitude_damping_violation,
+    estimate_net_cooling_from_violation,
+)

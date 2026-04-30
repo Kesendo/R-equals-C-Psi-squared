@@ -116,7 +116,7 @@ def test_F80_predict_M_spectrum_pi2_odd_method():
         ('ZX', [('Z', 'X')], 1.0),
         ('XY c=0.5', [('X', 'Y')], 0.5),
     ]:
-        pred = normalize_pred(chain3.predict_M_spectrum_pi2_odd(terms, c=c))
+        pred = normalize_pred(fw.predict_M_spectrum_pi2_odd(chain3,terms, c=c))
         actual = actual_M_spectrum(3, bonds3, [(a, b, c) for (a, b) in terms])
         assert pred == actual, f"N=3 {label}: pred {pred} vs actual {actual}"
 
@@ -128,30 +128,30 @@ def test_F80_predict_M_spectrum_pi2_odd_method():
         ('XY+YX', [('X', 'Y'), ('Y', 'X')]),
         ('XY', [('X', 'Y')]),
     ]:
-        pred = normalize_pred(chain4.predict_M_spectrum_pi2_odd(terms, c=1.0))
+        pred = normalize_pred(fw.predict_M_spectrum_pi2_odd(chain4,terms, c=1.0))
         actual = actual_M_spectrum(4, bonds4, [(a, b, 1.0) for (a, b) in terms])
         assert pred == actual, f"N=4 {label}: pred {pred} vs actual {actual}"
 
     # Test 7: truly-only returns {0: 4^N}
-    pred_truly = chain3.predict_M_spectrum_pi2_odd([('X', 'X'), ('Y', 'Y')], c=1.0)
+    pred_truly = fw.predict_M_spectrum_pi2_odd(chain3,[('X', 'X'), ('Y', 'Y')], c=1.0)
     assert pred_truly == {0 + 0j: 4 ** 3}, f"truly-only: expected {{0: 64}}, got {pred_truly}"
 
     # Test 8: mixed truly + Π²-odd (XX + XY) drops the truly contribution
-    pred_mixed = chain3.predict_M_spectrum_pi2_odd([('X', 'X'), ('X', 'Y')], c=1.0)
-    pred_xy = chain3.predict_M_spectrum_pi2_odd([('X', 'Y')], c=1.0)
+    pred_mixed = fw.predict_M_spectrum_pi2_odd(chain3,[('X', 'X'), ('X', 'Y')], c=1.0)
+    pred_xy = fw.predict_M_spectrum_pi2_odd(chain3,[('X', 'Y')], c=1.0)
     assert pred_mixed == pred_xy, f"truly XX should be dropped: mixed {pred_mixed} vs XY {pred_xy}"
 
     # Test 9-10: identity raises (single-body falls under F78, not F80)
     with pytest.raises(ValueError, match="single-body"):
-        chain3.predict_M_spectrum_pi2_odd([('I', 'Y')], c=1.0)
+        fw.predict_M_spectrum_pi2_odd(chain3,[('I', 'Y')], c=1.0)
     with pytest.raises(ValueError, match="single-body"):
-        chain3.predict_M_spectrum_pi2_odd([('Z', 'I')], c=1.0)
+        fw.predict_M_spectrum_pi2_odd(chain3,[('Z', 'I')], c=1.0)
 
     # Test 11-12: Π²-even non-truly raises (YZ, ZY out of F80 scope)
     with pytest.raises(ValueError, match="Π²-even"):
-        chain3.predict_M_spectrum_pi2_odd([('Y', 'Z')], c=1.0)
+        fw.predict_M_spectrum_pi2_odd(chain3,[('Y', 'Z')], c=1.0)
     with pytest.raises(ValueError, match="Π²-even"):
-        chain3.predict_M_spectrum_pi2_odd([('Z', 'Y')], c=1.0)
+        fw.predict_M_spectrum_pi2_odd(chain3,[('Z', 'Y')], c=1.0)
 
 
 def test_F80_kbody_spectrum_identity():

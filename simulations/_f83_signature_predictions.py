@@ -185,7 +185,7 @@ def main():
     print(f'  {"Hamiltonian":<24} {"F77 class":<32} {"F83 anti-frac":>15} {"r":>8}')
     print('  ' + '-' * 80)
     for cat, terms, descr, _ in CATEGORIES:
-        d = chain.predict_pi_decomposition(terms)
+        d = fw.predict_pi_decomposition(chain, terms)
         anti = d['anti_fraction']
         r = d['r']
         r_str = f'{r:.3f}' if r != float('inf') else '∞'

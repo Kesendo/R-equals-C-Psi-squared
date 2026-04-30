@@ -141,8 +141,8 @@ For Π²-odd content the "drive" (M_anti) is half of M; for Π²-even non-truly 
 
 **Verified:** N = 3, 4, 5 across 11 mixed Hamiltonian configurations at machine precision.
 **Framework primitives:**
-- `chain.predict_residual_norm_squared_from_terms(terms)`: returns ‖M‖² (already implements the underlying F49 Frobenius identity).
-- (To be added in this commit) `chain.predict_pi_decomposition_anti_fraction(terms)`: returns the F83 anti-fraction closed form 1/(2 + 4·r).
+- `fw.predict_residual_norm_squared_from_terms(chain, terms)`: returns ‖M‖² (already implements the underlying F49 Frobenius identity).
+- (To be added in this commit) `fw.predict_pi_decomposition_anti_fraction(chain, terms)`: returns the F83 anti-fraction closed form 1/(2 + 4·r).
 **Pytest lock:** to be added.
 
 **Verified topologies:** chain (N=3,4,5 in `test_F83_pi_decomposition_anti_fraction_closed_form`), ring/star/complete K_N (N=4 in `test_F83_topology_generalization`). The matrix-based `predict_pi_decomposition` primitive builds H_odd and H_even_nontruly via `_build_bilinear` which respects the chosen topology's bond graph, so F83 is topology-independent within F49's verified scope.

@@ -36,7 +36,7 @@ The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂)
 - **soft**: both bilinears Π²-odd in matched bit_a ways (e.g., XY and YX both have bit_b sum = 1, with matched bit_a). Eigenvalue pairing λ ↔ −λ − 2Σγ holds (V-Effect-undetected) but the operator equation fails.
 - **hard**: bilinears mix Π²-parities (one Π²-even, one Π²-odd) or fail bit_a matching. Both eigenvalue pairing AND operator equation fail.
 
-`chain.classify_pauli_pair([(a,b), (c,d)])` returns `'truly' | 'soft' | 'hard'`. For the Marrakesh trio:
+`fw.classify_pauli_pair(chain, [(a,b), (c,d)])` returns `'truly' | 'soft' | 'hard'`. For the Marrakesh trio:
 
 | Hamiltonian | Bilinears | F77 class |
 |-------------|-----------|-----------|
@@ -192,8 +192,8 @@ Layer 3 (Obs):   16 Paulis × 7 categories
 ```
 
 The `framework/` package now operates on all three layers:
-- `chain.classify_pauli_pair(terms)` for Layer 1
-- `chain.predict_M_spectrum_pi2_odd(terms, c)` for Layer 2 (framework primitive, commit `e30eeb6`)
+- `fw.classify_pauli_pair(chain, terms)` for Layer 1
+- `fw.predict_M_spectrum_pi2_odd(chain, terms, c)` for Layer 2 (framework primitive, commit `e30eeb6`)
 - `chain.cockpit_panel(receiver, terms, gamma_t1)` for Layer 3 trichotomy classification + Π-protected drop count
 - For the 16-Pauli signature pattern itself, the right primitive does not yet exist; this synthesis surfaces the recurring question.
 

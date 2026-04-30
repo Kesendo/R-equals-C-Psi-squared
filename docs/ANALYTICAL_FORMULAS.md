@@ -2008,7 +2008,7 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 **Breaks for (untested):** non-Z dissipators (T1 amplitude damping has different Π²-action; F81 likely needs a correction term).
 **Replaces:** the heuristic in pre-2026-04-30 reflections that said "M is the Π-invariant through-line"; F81 shows that statement is correct only for Π²-even H, and gives the explicit correction for the Π²-odd cases.
 **Verified:** N=3 and N=4 all listed cases at machine precision; pytest-locked.
-**Framework primitive:** `chain.pi_decompose_M(terms, gamma_z=..., gamma_t1=..., strict=...)` returns `{'M', 'M_sym', 'M_anti', 'L_H_odd', 'f81_violation', 'norm_sq'}`. For pure Z-dephasing the F81 identity holds exactly (`f81_violation` ≈ 0); the primitive enforces this with `strict=True` by default. With `gamma_t1` enabled, `strict` defaults to False and the identity residual is returned for diagnostic use.
+**Framework primitive:** `fw.pi_decompose_M(chain, terms, gamma_z=..., gamma_t1=..., strict=...)` returns `{'M', 'M_sym', 'M_anti', 'L_H_odd', 'f81_violation', 'norm_sq'}`. For pure Z-dephasing the F81 identity holds exactly (`f81_violation` ≈ 0); the primitive enforces this with `strict=True` by default. With `gamma_t1` enabled, `strict` defaults to False and the identity residual is returned for diagnostic use.
 **Pytest lock:** `test_F81_pi_conjugation_of_M` (algebraic check) + `test_F81_pi_decompose_M_method` (cockpit primitive) + `test_F81_violation_T1_diagnostic` (T1 diagnostic).
 **Diagnostic application:** the F81 violation `‖M_anti − L_{H_odd}‖_F` quantifies non-Π²-symmetric dissipator content. For Z + T1 at N=3 chain soft XY+YX, the violation grows linearly: `f81_violation ≈ 6.928 · γ_T1`, γ_z-independent (Master Lemma), Hamiltonian-independent (the violation is purely a property of the T1 dissipator). Inverting gives `γ_T1 ≈ f81_violation / 6.928` as a hardware T1-rate readout from the fitted L. See `simulations/_f81_t1_diagnostic.py` for the demonstration.
 **Source:** Discovered 2026-04-30 (Tom + Claude) while interpreting the geometric content of F80's 2i factor. The empirical observation came first (Π·M·Π⁻¹ ≠ M for soft); the algebraic explanation followed from working out Π² action on the Liouville superoperator in Pauli basis.
@@ -2022,7 +2022,7 @@ For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 ampl
 
 where L_{H_odd} = -i[H_odd, ·] (as in F81) and D_{T1, odd} is the Π²-anti-symmetric part of the T1 dissipator. F82 reduces to F81 when γ_T1_l = 0 (D_{T1, odd} = 0).
 
-The F81 identity violation captured by `chain.pi_decompose_M(...)` measures D_{T1, odd}'s Frobenius norm:
+The F81 identity violation captured by `fw.pi_decompose_M(chain, ...)` measures D_{T1, odd}'s Frobenius norm:
 
     f81_violation = ‖M_anti − L_{H_odd}‖_F = ‖D_{T1, odd}‖_F.
 
@@ -2061,9 +2061,9 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 **Replaces:** the previously-empirical observation that f81_violation grows linearly with γ_T1; F82 is now an analytical theorem with closed-form scaling.
 **Verified:** N = 2, 3, 4, 5 at all listed configurations, machine-precision residual (5e-16).
 **Framework primitives:**
-- `chain.pi_decompose_M(terms, gamma_z=..., gamma_t1=..., strict=...)`: with `gamma_t1` set, returns `f81_violation` in output dict (numerical, matches closed form).
-- `chain.predict_T1_dissipator_violation(gamma_t1_l)`: forward closed form, returns √(Σγ²)·2^(N−1) directly without building the dissipator.
-- `chain.estimate_T1_from_violation(f81_violation)`: inverse closed form, recovers RMS γ_T1 from a measured/fitted F81 violation. Hardware T1-rate readout primitive.
+- `fw.pi_decompose_M(chain, terms, gamma_z=..., gamma_t1=..., strict=...)`: with `gamma_t1` set, returns `f81_violation` in output dict (numerical, matches closed form).
+- `fw.predict_T1_dissipator_violation(chain, gamma_t1_l)`: forward closed form, returns √(Σγ²)·2^(N−1) directly without building the dissipator.
+- `fw.estimate_T1_from_violation(chain, f81_violation)`: inverse closed form, recovers RMS γ_T1 from a measured/fitted F81 violation. Hardware T1-rate readout primitive.
 **Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity) + `test_F82_closed_form_T1_dissipator` (N-scaling, non-uniform formula, H-/γ_z-independence) + `test_F82_predict_and_invert_primitives` (forward/inverse pair matches numerical evaluation).
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
 **Diagnostic application:** [`simulations/_f81_t1_diagnostic.py`](../simulations/_f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
@@ -2112,9 +2112,9 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 **Verified:** 11 mixed configurations × N ∈ {3, 4, 5} on chain, plus 4 configurations × {ring, star, K_4} at N=4, all machine-precision residual.
 **Replaces:** the previously-empirical "5/6 + 1/6" observation for mixed Π²-odd + Π²-even non-truly H; F83 derives this from the existing F49 Frobenius identity.
 **Framework primitives:**
-- `chain.predict_pi_decomposition(terms)`: full F83 closed form, returns dict with `{'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction', 'h_odd_sq', 'h_even_nontruly_sq', 'r'}`. O(N) work, no matrix construction; companion to numerical `pi_decompose_M`.
-- `chain.predict_pi_decomposition_anti_fraction(terms)`: convenience wrapper returning just the anti-fraction float.
-- `chain.predict_residual_norm_squared_from_terms(terms, gamma_t1)`: existing F49 ‖M‖² primitive (now consistent with F83's ‖M‖² prediction by construction).
+- `fw.predict_pi_decomposition(chain, terms)`: full F83 closed form, returns dict with `{'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction', 'h_odd_sq', 'h_even_nontruly_sq', 'r'}`. O(N) work, no matrix construction; companion to numerical `pi_decompose_M`.
+- `fw.predict_pi_decomposition_anti_fraction(chain, terms)`: convenience wrapper returning just the anti-fraction float.
+- `fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1)`: existing F49 ‖M‖² primitive (now consistent with F83's ‖M‖² prediction by construction).
 **Pytest lock:** `test_F83_pi_decomposition_anti_fraction_closed_form` (12 configurations × 2 N-values + γ-independence) + `test_F83_predict_pi_decomposition_full_closed_form` (full norm-triple match against numerical `pi_decompose_M` + Pythagoras + special cases at canonical r values).
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural follow-up to F81's "what about the other half?" reflection. Derived in [PROOF_F83_PI_DECOMPOSITION_RATIO.md](proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md). The closed form was empirically observed earlier (in the F81 violation sweep across mixed Hamiltonians) and now traced back to the existing F49 Frobenius identity that was already framework-locked in `predict_residual_norm_squared_from_terms`.
 
@@ -2169,9 +2169,9 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 **Verified:** 7 (γ_↓, γ_↑) configurations at N=3, machine-precision residual; D[X], D[Y] cancellation explicitly tested.
 **Replaces:** F82's "T1 detector" interpretation; F84 corrects to "vacuum-amplitude-damping detector"; the F81 violation does not measure raw T1 rate but only the temperature-independent vacuum component of amplitude damping.
 **Framework primitives:**
-- `chain.pi_decompose_M(terms, gamma_z, gamma_t1, gamma_pump, strict)`: extended with `gamma_pump` parameter for σ⁺ heating; uses `lindbladian_general` when both are present.
-- `chain.predict_amplitude_damping_violation(gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
-- `chain.estimate_net_cooling_from_violation(f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
+- `fw.pi_decompose_M(chain, terms, gamma_z, gamma_t1, gamma_pump, strict)`: extended with `gamma_pump` parameter for σ⁺ heating; uses `lindbladian_general` when both are present.
+- `fw.predict_amplitude_damping_violation(chain, gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
+- `fw.estimate_net_cooling_from_violation(chain, f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
 **Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D[X], D[Y] explicitly verified to give zero violation).
 **Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D[Z], D[X], D[Y] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
 **Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
@@ -2223,9 +2223,9 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 - `_pauli_tuple_is_truly(letters)`: O(k) syntactic classifier.
 - `_pauli_tuple_pi2_class(letters)`: returns 'truly' / 'pi2_odd' / 'pi2_even_nontruly'.
 - `_build_kbody_chain(N, terms)`: chain sliding-window k-body builder.
-- `chain.predict_pi_decomposition(terms)`: extended to accept k-body tuples; auto-detects body count.
-- `chain.pi_decompose_M(terms, gamma_z, gamma_t1, gamma_pump)`: extended for k-body.
-- `chain.predict_residual_norm_squared_from_terms(terms, gamma_t1)`: rewritten using Π²-class; backward-compatible at 2-body.
+- `fw.predict_pi_decomposition(chain, terms)`: extended to accept k-body tuples; auto-detects body count.
+- `fw.pi_decompose_M(chain, terms, gamma_z, gamma_t1, gamma_pump)`: extended for k-body.
+- `fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1)`: rewritten using Π²-class; backward-compatible at 2-body.
 **Pytest lock:** `test_F85_kbody_trichotomy_counts` + `test_F85_kbody_predict_pi_decomposition` + `test_F85_kbody_F81_identity_at_k3`. Plus all 2-body tests (92 prior) pass unchanged via backward compatibility.
 **Source:** Discovered 2026-04-30 (Tom + Claude) by empirical 3-body and 4-body enumeration. The {0, 4, 8} factor scheme persists across k, but n_YZ ≠ c(k) for k ≥ 3. The structural truly criterion "#Y even AND #Z even" was identified by inspecting which Π²-even k-tuples give M = 0. Closed form derived in [PROOF_F85_KBODY_GENERALIZATION.md](proofs/PROOF_F85_KBODY_GENERALIZATION.md).
 

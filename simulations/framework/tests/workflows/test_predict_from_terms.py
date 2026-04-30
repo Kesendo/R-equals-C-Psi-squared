@@ -120,16 +120,16 @@ def test_predict_from_terms_matches_numerical_chain():
     ]
     for N, topo, terms, expected in cases:
         chain = fw.ChainSystem(N=N, topology=topo)
-        pred = chain.predict_residual_norm_squared_from_terms(terms)
+        pred = fw.predict_residual_norm_squared_from_terms(chain,terms)
         assert abs(pred - expected) < 1e-6, \
             f"N={N} topo={topo} terms={terms}: predicted {pred}, expected {expected}"
 
 
 def test_predict_from_terms_truly_returns_zero():
     chain = fw.ChainSystem(N=4)
-    assert chain.predict_residual_norm_squared_from_terms(
+    assert fw.predict_residual_norm_squared_from_terms(chain,
         [('X','X'),('Y','Y'),('Z','Z')]) == 0.0
-    assert chain.predict_residual_norm_squared_from_terms([('I','X'),('X','I')]) == 0.0
+    assert fw.predict_residual_norm_squared_from_terms(chain,[('I','X'),('X','I')]) == 0.0
 
 
 def test_predict_from_terms_handles_mixed_n_yz_classes():
@@ -137,7 +137,7 @@ def test_predict_from_terms_handles_mixed_n_yz_classes():
     chain = fw.ChainSystem(N=4)
     # Mixed n_YZ=(2,2) for YZ+ZY plus n_YZ=(1,1) for IY+YI.
     # Each term contributes 2^(N+2)·n_YZ_k·||H_k||²_F separately.
-    pred = chain.predict_residual_norm_squared_from_terms(
+    pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
     actual = chain.residual_norm_squared(
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
@@ -147,8 +147,8 @@ def test_predict_from_terms_handles_mixed_n_yz_classes():
 def test_predict_from_terms_decomposes_additively():
     """For mixed-class H, sum of per-class predictions equals total numerical ||M||^2."""
     chain = fw.ChainSystem(N=4)
-    p_2yz = chain.predict_residual_norm_squared_from_terms([('Y','Z'),('Z','Y')])
-    p_1yz = chain.predict_residual_norm_squared_from_terms([('I','Y'),('Y','I')])
+    p_2yz = fw.predict_residual_norm_squared_from_terms(chain,[('Y','Z'),('Z','Y')])
+    p_1yz = fw.predict_residual_norm_squared_from_terms(chain,[('I','Y'),('Y','I')])
     actual = chain.residual_norm_squared(
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
     assert abs(p_2yz + p_1yz - actual) < 1e-6
@@ -157,7 +157,7 @@ def test_predict_from_terms_decomposes_additively():
 def test_predict_from_terms_t1_truly_hamiltonian():
     """For truly Hamiltonians, the T1 contribution is the *only* term."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
-    pred = chain.predict_residual_norm_squared_from_terms(
+    pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
     actual = chain.residual_norm_squared(
         [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
@@ -169,9 +169,9 @@ def test_predict_from_terms_t1_truly_hamiltonian():
 def test_predict_from_terms_t1_soft_hamiltonian_additive():
     """T1 additively extends the Frobenius result for soft Hamiltonians."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
-    z_only = chain.predict_residual_norm_squared_from_terms(
+    z_only = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Z'),('Z','Y')])  # 2048
-    with_t1 = chain.predict_residual_norm_squared_from_terms(
+    with_t1 = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Z'),('Z','Y')], gamma_t1=0.005)
     # T1 part = 16·[3·3·0.005² + 4·(0.015)²] = 16·0.001125 = 0.018
     assert abs(with_t1 - z_only - 0.018) < 1e-9
@@ -184,7 +184,7 @@ def test_predict_from_terms_t1_nonuniform_distribution():
     """T1 formula handles arbitrary per-site distributions."""
     chain = fw.ChainSystem(N=4, gamma_0=0.05)
     gamma_t1 = [0.001, 0.005, 0.01, 0.002]
-    pred = chain.predict_residual_norm_squared_from_terms(
+    pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
     actual = chain.residual_norm_squared(
         [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
@@ -195,7 +195,7 @@ def test_predict_from_terms_t1_no_hamiltonian():
     """Pure-T1 (no Hamiltonian) gives the analytic dissipator formula."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     # H = 0 → only T1 part survives.
-    pred_empty = chain.predict_residual_norm_squared_from_terms(
+    pred_empty = fw.predict_residual_norm_squared_from_terms(chain,
         [], gamma_t1=0.005)
     # 4^(3-1) · [3·3·0.005² + 4·(0.015)²] = 16 · 0.001125 = 0.018
     assert abs(pred_empty - 0.018) < 1e-9
@@ -209,13 +209,13 @@ def test_predict_from_terms_v_effect_mixed_truly_nontruly():
     """
     chain = fw.ChainSystem(N=3, gamma_0=0.1)
     # YY+YZ: YY truly (M=0), YZ contributes 32·2·16 = 1024
-    val = chain.predict_residual_norm_squared_from_terms(
+    val = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Y'),('Y','Z')])
     actual = chain.residual_norm_squared([('Y','Y'),('Y','Z')])
     assert abs(val - actual) < 1e-6
     assert abs(val - 1024.0) < 1e-6
     # XX+YZ: XX truly, YZ contributes
-    val = chain.predict_residual_norm_squared_from_terms(
+    val = fw.predict_residual_norm_squared_from_terms(chain,
         [('X','X'),('Y','Z')])
     actual = chain.residual_norm_squared([('X','X'),('Y','Z')])
     assert abs(val - actual) < 1e-6
@@ -228,7 +228,7 @@ def test_predict_from_terms_v_effect_full_36_combos():
     chain = fw.ChainSystem(N=3, gamma_0=0.1)
     for t1, t2 in combinations(SINGLE, 2):
         terms = [(t1[0], t1[1]), (t2[0], t2[1])]
-        pred = chain.predict_residual_norm_squared_from_terms(terms)
+        pred = fw.predict_residual_norm_squared_from_terms(chain,terms)
         num = chain.residual_norm_squared(terms)
         assert abs(pred - num) < 1e-6, \
             f"{t1}+{t2}: pred={pred}, num={num}"

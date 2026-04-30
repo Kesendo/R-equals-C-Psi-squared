@@ -32,7 +32,7 @@ def test_F82_closed_form_T1_dissipator():
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")  # silence N=2 degeneracy warning
             chain = fw.ChainSystem(N=N)
-        d = chain.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain,[('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=0.1)
         assert abs(d['f81_violation'] - exp_val) < 1e-9, \
             f"N={N}: F82 closed form predicts {exp_val:.6f}, got {d['f81_violation']:.6f}"
 
@@ -44,7 +44,7 @@ def test_F82_closed_form_T1_dissipator():
         ([0.05, 0.10, 0.15], (0.05**2 + 0.10**2 + 0.15**2)**0.5 * (2 ** 2)),  # all different
     ]
     for gt1_l, expected_violation in test_cases:
-        d = chain3.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
+        d = fw.pi_decompose_M(chain3,[('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
         assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
             f"γ_T1_l={gt1_l}: predicted {expected_violation:.6f}, got {d['f81_violation']:.6f}"
 
@@ -54,13 +54,13 @@ def test_F82_closed_form_T1_dissipator():
                          ('soft XY+YX', soft),
                          ('hard XX+XY', [('X', 'X'), ('X', 'Y')]),
                          ('YZ+ZY (Π²-even non-truly)', [('Y', 'Z'), ('Z', 'Y')])]:
-        d = chain3.pi_decompose_M(terms, gamma_z=0.1, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain3,terms, gamma_z=0.1, gamma_t1=0.1)
         assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
             f"{label}: violation should be H-independent, got {d['f81_violation']:.6f}"
 
     # γ_z-independence at fixed γ_T1: violation = 0.6928 for γ_z ∈ {0, 0.1, 1.0}
     for gz in [0.0, 0.1, 1.0]:
-        d = chain3.pi_decompose_M(soft, gamma_z=gz, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain3,soft, gamma_z=gz, gamma_t1=0.1)
         assert abs(d['f81_violation'] - expected_violation) < 1e-9, \
             f"γ_z={gz}: violation should be γ_z-independent, got {d['f81_violation']:.6f}"
 
@@ -78,42 +78,42 @@ def test_F82_predict_and_invert_primitives():
     for N in [3, 4]:
         chain = fw.ChainSystem(N=N)
         for gt1 in [0.05, 0.1, 0.5]:
-            predicted = chain.predict_T1_dissipator_violation(gt1)
-            d = chain.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1)
+            predicted = fw.predict_T1_dissipator_violation(chain,gt1)
+            d = fw.pi_decompose_M(chain,[('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1)
             assert abs(predicted - d['f81_violation']) < 1e-9, \
                 f"N={N} γ_T1={gt1}: predict={predicted}, measured={d['f81_violation']}"
 
         # Non-uniform rates
         gt1_l = [0.05, 0.1, 0.15][:N] + [0.0] * max(0, N - 3)
-        predicted_nu = chain.predict_T1_dissipator_violation(gt1_l)
-        d_nu = chain.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
+        predicted_nu = fw.predict_T1_dissipator_violation(chain,gt1_l)
+        d_nu = fw.pi_decompose_M(chain,[('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
         assert abs(predicted_nu - d_nu['f81_violation']) < 1e-9, \
             f"N={N} non-uniform: predict={predicted_nu}, measured={d_nu['f81_violation']}"
 
     # Inverse direction: estimate_T1_from_violation recovers uniform γ_T1
     chain3 = fw.ChainSystem(N=3)
     for gt1_true in [0.0, 0.05, 0.1, 0.5]:
-        d = chain3.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.1, gamma_t1=gt1_true)
-        gt1_rms = chain3.estimate_T1_from_violation(d['f81_violation'])
+        d = fw.pi_decompose_M(chain3,[('X', 'X'), ('Y', 'Y')], gamma_z=0.1, gamma_t1=gt1_true)
+        gt1_rms = fw.estimate_T1_from_violation(chain3,d['f81_violation'])
         assert abs(gt1_rms - gt1_true) < 1e-9, \
             f"γ_T1 inversion: true={gt1_true}, recovered={gt1_rms}"
 
     # Inverse on non-uniform recovers RMS, not individual rates
     gt1_l = [0.05, 0.1, 0.15]
     rms_expected = (sum(g * g for g in gt1_l) / 3) ** 0.5
-    d_nu = chain3.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
-    rms_recovered = chain3.estimate_T1_from_violation(d_nu['f81_violation'])
+    d_nu = fw.pi_decompose_M(chain3,[('X', 'X'), ('Y', 'Y')], gamma_z=0.0, gamma_t1=gt1_l)
+    rms_recovered = fw.estimate_T1_from_violation(chain3,d_nu['f81_violation'])
     assert abs(rms_recovered - rms_expected) < 1e-9, \
         f"non-uniform RMS: expected={rms_expected}, recovered={rms_recovered}"
 
     # Edge cases
-    assert chain3.predict_T1_dissipator_violation(0.0) == 0.0
-    assert chain3.estimate_T1_from_violation(0.0) == 0.0
+    assert fw.predict_T1_dissipator_violation(chain3,0.0) == 0.0
+    assert fw.estimate_T1_from_violation(chain3,0.0) == 0.0
 
     # Length validation
     with pytest.raises(ValueError, match="must have length"):
-        chain3.predict_T1_dissipator_violation([0.1, 0.2])  # length 2 ≠ 3
+        fw.predict_T1_dissipator_violation(chain3,[0.1, 0.2])  # length 2 ≠ 3
 
     # Negative violation rejected
     with pytest.raises(ValueError, match="non-negative"):
-        chain3.estimate_T1_from_violation(-0.1)
+        fw.estimate_T1_from_violation(chain3,-0.1)

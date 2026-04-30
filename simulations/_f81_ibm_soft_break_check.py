@@ -73,7 +73,7 @@ def main():
     print("  " + "-" * 90)
     decompositions = {}
     for name, terms, label in cases:
-        d = chain.pi_decompose_M(terms, gamma_z=0.0)
+        d = fw.pi_decompose_M(chain, terms, gamma_z=0.0)
         decompositions[name] = d
         xz_hw = hw["expectations"][name]["X,Z"]
         ns = d["norm_sq"]

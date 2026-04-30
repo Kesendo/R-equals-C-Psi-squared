@@ -117,19 +117,19 @@ def test_F81_pi_decompose_M_method():
         chain = fw.ChainSystem(N=N)
 
         # Truly XX+YY: M = 0, both sym and anti vanish
-        d_truly = chain.pi_decompose_M([('X', 'X'), ('Y', 'Y')], gamma_z=0.1)
+        d_truly = fw.pi_decompose_M(chain,[('X', 'X'), ('Y', 'Y')], gamma_z=0.1)
         assert d_truly['norm_sq']['M'] < 1e-15
         assert d_truly['norm_sq']['M_sym'] < 1e-15
         assert d_truly['norm_sq']['M_anti'] < 1e-15
 
         # Π²-even non-truly YZ+ZY: M ≠ 0, M_anti = 0 (no Π²-odd bilinears)
-        d_yz = chain.pi_decompose_M([('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1)
+        d_yz = fw.pi_decompose_M(chain,[('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1)
         assert d_yz['norm_sq']['M'] > 1e-3
         assert d_yz['norm_sq']['M_anti'] < 1e-15  # L_H_odd = 0
         assert abs(d_yz['norm_sq']['M_sym'] - d_yz['norm_sq']['M']) < 1e-9
 
         # Pure Π²-odd XY+YX: 50/50 split (analytical, N- and γ-independent)
-        d_soft = chain.pi_decompose_M([('X', 'Y'), ('Y', 'X')], gamma_z=0.1)
+        d_soft = fw.pi_decompose_M(chain,[('X', 'Y'), ('Y', 'X')], gamma_z=0.1)
         sym_frac = d_soft['norm_sq']['M_sym'] / d_soft['norm_sq']['M']
         anti_frac = d_soft['norm_sq']['M_anti'] / d_soft['norm_sq']['M']
         assert abs(sym_frac - 0.5) < 1e-9, f"N={N} XY+YX: sym fraction {sym_frac}"
@@ -142,9 +142,9 @@ def test_F81_pi_decompose_M_method():
                 f"N={N} {label}: Pythagoras fails: {total} vs {d_dict['norm_sq']['M']}"
 
         # Hard XX+XY (mixed): only XY contributes to L_H_odd
-        d_hard = chain.pi_decompose_M([('X', 'X'), ('X', 'Y')], gamma_z=0.1)
+        d_hard = fw.pi_decompose_M(chain,[('X', 'X'), ('X', 'Y')], gamma_z=0.1)
         # Verify L_H_odd extraction is correct: same as XY-only Hamiltonian's L_H_odd
-        d_xy_only = chain.pi_decompose_M([('X', 'Y')], gamma_z=0.1)
+        d_xy_only = fw.pi_decompose_M(chain,[('X', 'Y')], gamma_z=0.1)
         assert np.allclose(d_hard['L_H_odd'], d_xy_only['L_H_odd'], atol=1e-12), \
             f"N={N} hard's L_H_odd should equal pure-XY's L_H_odd"
         # Pythagoras still holds for mixed; 50/50 NOT analytically guaranteed for mixed
@@ -155,7 +155,7 @@ def test_F81_pi_decompose_M_method():
     # Test γ-independence of the 50/50 split for pure Π²-odd (chain N=4)
     chain4 = fw.ChainSystem(N=4)
     for gz in [0.0, 0.05, 1.0]:
-        d = chain4.pi_decompose_M([('X', 'Y'), ('Y', 'X')], gamma_z=gz)
+        d = fw.pi_decompose_M(chain4,[('X', 'Y'), ('Y', 'X')], gamma_z=gz)
         if d['norm_sq']['M'] < 1e-15:
             continue  # γ=0 may give M=0 if H itself is Π²-protected; here it doesn't
         sym_frac = d['norm_sq']['M_sym'] / d['norm_sq']['M']
@@ -175,14 +175,14 @@ def test_F81_violation_T1_diagnostic():
     soft_terms = [('X', 'Y'), ('Y', 'X')]
 
     # Z-only: violation must be at machine precision (strict=True default)
-    d = chain.pi_decompose_M(soft_terms, gamma_z=0.1)
+    d = fw.pi_decompose_M(chain,soft_terms, gamma_z=0.1)
     assert d['f81_violation'] < 1e-10, \
         f"Z-only F81 violation should be ~0, got {d['f81_violation']:.4e}"
 
     # T1 enabled: strict default to False, violation reported
     violations = []
     for gt1 in [0.0, 0.05, 0.1, 0.2, 0.5]:
-        d = chain.pi_decompose_M(soft_terms, gamma_z=0.1, gamma_t1=gt1)
+        d = fw.pi_decompose_M(chain,soft_terms, gamma_z=0.1, gamma_t1=gt1)
         violations.append(d['f81_violation'])
 
     # γ_T1 = 0 gives zero violation
@@ -199,11 +199,11 @@ def test_F81_violation_T1_diagnostic():
 
     # strict=True with T1 should raise
     with pytest.raises(RuntimeError, match="F81 identity violated"):
-        chain.pi_decompose_M(soft_terms, gamma_z=0.1, gamma_t1=0.1, strict=True)
+        fw.pi_decompose_M(chain,soft_terms, gamma_z=0.1, gamma_t1=0.1, strict=True)
 
     # Π²-even non-truly H (YZ+ZY) under T1: M_anti and L_H_odd both contain
     # T1's contribution? Let's check it doesn't crash and violation is reasonable.
-    d_yz = chain.pi_decompose_M([('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1, gamma_t1=0.05)
+    d_yz = fw.pi_decompose_M(chain,[('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1, gamma_t1=0.05)
     # For Π²-even non-truly: L_H_odd = 0, but M_anti now has T1 content (non-zero)
     assert d_yz['norm_sq']['L_H_odd'] < 1e-15
     # f81_violation = ‖M_anti‖ since L_H_odd = 0
