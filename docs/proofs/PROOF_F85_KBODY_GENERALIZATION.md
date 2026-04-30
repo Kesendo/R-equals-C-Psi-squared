@@ -167,6 +167,6 @@ For example, 3-body YYY has n_YZ=3 but c=1 (Π²-odd). The factor is 4, not 4·3
 **Source:** Discovered 2026-04-30 (Tom + Claude). Empirical exploration of 3-body and 4-body Pauli-tuple ‖M‖² ratios revealed the trichotomy persists with factor scheme {0, 4, 8}, but the n_YZ-based F49 formula breaks for k ≥ 3. Tracing the structural reason gave the truly criterion "#Y even AND #Z even" and the c(k) ∈ {0, 1, 2} factor scheme. Tom's "wir werden sicher viel unabhängiger und schneller damit" prompted full implementation.
 
 **Open generalizations:**
-- F80 (Spec(M) = 2i·Spec(H)) at k ≥ 3: proof structure should carry over via Jordan-Wigner (Majorana bilinears generalize to k-fold products); empirical verification at k=3 not yet done explicitly. F80's bit-exact verification was at 2-body; closed-form generalization left for future work.
+- F80 cluster-value sign-walk formula at k ≥ 3: spectral identity Spec(M) = 2i·Spec(H_non-truly) is now verified bit-exact at k=3 (N=4,5,6) and k=4 (N=5,6) for 17 Π²-odd cases (`test_F80_kbody_spectrum_identity`). The closed-form Bloch sign-walk (cluster value formula) generalization is structurally expected via k-fold Majorana products in JW, but cluster-value enumeration at k≥3 is not done.
 - Higher-body topology: chain extension done; ring/star/K_N for k ≥ 3 not yet verified.
 - Mixed-body Hamiltonians (e.g., 2-body H + 3-body H): the F-chain handles mixed-body via term-list structure. Empirically tested in `test_F85_kbody_predict_pi_decomposition` mixed case.

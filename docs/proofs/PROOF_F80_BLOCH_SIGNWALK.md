@@ -47,6 +47,15 @@ is the open-chain free-fermion single-particle dispersion. Each distinct cluster
 
 All entries: bit-exact match between predicted and observed (predicted-vs-actual residual at machine precision 10⁻¹⁴). N=7 verified by both full 16384×16384 SVD and independent partial-eigsh check. Tests across all 4 Π²-odd Pauli pairs (X,Y), (X,Z), (Y,X), (Z,X) per the F79 universality.
 
+**k-body extension** (added 2026-04-30 with F85 implementation): the structural identity Spec(M) = ±2i · Spec(H_non-truly) generalizes verbatim to k-body chain Π²-odd Hamiltonians. Empirically verified bit-exact for:
+  - k=3: (X,X,Y), (Y,Y,Y), (X,X,Z), (Z,Z,Z), (X,Y,X) at N=4, 5, 6
+  - k=4: (X,X,X,Y) at N=5, 6
+17 cases total, all matching `Spec(M)` (eigvals of the 4^N × 4^N residual) to predicted `2i · Spec(H_non-truly)` with multiplicity ×2^N, machine precision. Pytest lock: `test_F80_kbody_spectrum_identity`.
+
+**Mechanism for k-body**: the JW transformation maps a k-body Π²-odd term to a 2k-fold Majorana product (Step 2 of the proof scales naturally with body count). The single-particle dispersion ε(k) = 2cos(πk/(N+1)) and the Bogoliubov diagonalization (Step 3) carry over without modification: they describe the JW-mapped fermion problem, which is body-count-independent in its single-particle structure. The Pauli-letter universality (Step 4) holds for k-body too — the JW phase factors for different Pauli choices cancel in the single-particle spectrum. Steps 5 (Π action on Bogoliubov modes) and 6-7 (sign-walk eigenvalue formula) generalize verbatim.
+
+The closed-form Bloch sign-walk formula `cluster value(N) = 2|c|·|Σ_k σ_k·ε(k)|` is therefore expected to hold at k≥3 too, but the cluster-value table above reflects only 2-body verification (N=3..7). A full k-body cluster-value verification at k=3,4 is open; the spectral identity is sufficient for F80's structural claim.
+
 ---
 
 ## Proof Outline

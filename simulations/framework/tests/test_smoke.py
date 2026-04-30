@@ -1899,6 +1899,52 @@ def test_F85_kbody_predict_pi_decomposition():
             f"k=4 {terms}: M_sq pred {pred['M_sq']} vs num {num['norm_sq']['M']}"
 
 
+def test_F80_kbody_spectrum_identity():
+    """F80 (Spec(M) = ±2i·Spec(H_non-truly), mult ×2^N) generalizes to k-body
+    chain Π²-odd Hamiltonians.
+
+    PROOF_F80 had bit-exact verification at 2-body chain N=3..7. The proof
+    structure (JW + Bogoliubov + per-mode tensor sum) carries verbatim to
+    k-body via k-fold Majorana products. This test empirically verifies the
+    generalization at k=3 (N=4) and k=4 (N=5) for representative Π²-odd
+    Hamiltonians.
+
+    Counterpart to test_F80_bloch_signwalk_chain_pi2_odd (which tests the
+    cluster-value sign-walk formula at 2-body via SVD); this test verifies
+    the underlying spectral identity at higher k.
+    """
+    from collections import Counter
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_kbody_chain
+
+    def verify(N, letters):
+        H = _build_kbody_chain(N, [letters + (1.0,)])
+        L = lindbladian_z_dephasing(H, [0.0] * N)
+        M = palindrome_residual(L, 0.0, N)
+        M_evs = np.linalg.eigvals(M)
+        H_evs = np.linalg.eigvalsh(H)
+        # Verify M is purely imaginary (anti-Hermitian)
+        max_real = max(abs(ev.real) for ev in M_evs)
+        assert max_real < 1e-6, f'k={len(letters)} {letters} N={N}: M has real part {max_real}'
+        # F80: Spec(M) = 2i · Spec(H), mult ×2^N
+        h_counts = Counter(round(float(e), 8) for e in H_evs)
+        m_im_counts = Counter(round(ev.imag, 6) for ev in M_evs)
+        bra_factor = 2 ** N
+        predicted = Counter()
+        for lam, mult in h_counts.items():
+            predicted[round(2 * lam, 6)] += mult * bra_factor
+        assert predicted == m_im_counts, \
+            f'k={len(letters)} {letters} N={N}: F80 fails. ' \
+            f'Predicted {dict(predicted)}, measured {dict(m_im_counts)}'
+
+    # k=3 chain Π²-odd at N=4 (lightweight)
+    for letters in [('X', 'X', 'Y'), ('Y', 'Y', 'Y'), ('X', 'X', 'Z'), ('X', 'Y', 'X')]:
+        verify(4, letters)
+
+    # k=4 chain Π²-odd at N=5
+    verify(5, ('X', 'X', 'X', 'Y'))
+
+
 def test_F85_kbody_classifier_at_k5_spot_check():
     """F85 truly criterion verified at k=5 via spot check.
 
