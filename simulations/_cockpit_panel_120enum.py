@@ -27,6 +27,7 @@ if sys.platform == "win32":
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 import framework as fw
+from framework.lebensader import cockpit_panel as lebensader_cockpit_panel
 
 
 def spectrum_pair_max_err(L, sigma_gamma):
@@ -98,7 +99,7 @@ def main():
         H = fw._build_bilinear(N, bonds, bilinear)
         cat = classify(H, N, GAMMA)
         try:
-            panel = fw.cockpit_panel(
+            panel = lebensader_cockpit_panel(
                 H, [GAMMA] * N, rho_0, N, gamma_t1_l=[GAMMA_T1] * N,
                 t_max=8.0, dt=0.005,
             )

@@ -28,7 +28,7 @@ Quick start:
     r.signature()['prediction']
 
     # Full Lebensader analysis
-    chain.cockpit_panel(r, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005)
+    fw.cockpit_panel(chain, r, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005)
 
 The legacy primitives (Sections 1-15 of the original framework.py that aren't
 part of the cockpit path) live in framework_archive.py — kept in repo for
@@ -73,8 +73,6 @@ from .lindblad import (
 
 from .observables import pi_protected_observables
 
-from .lebensader import cockpit_panel
-
 # Cockpit OOP layer
 from .chain_system import ChainSystem
 from .receiver import Receiver
@@ -93,4 +91,15 @@ from .diagnostics import (
     predict_pi_decomposition_anti_fraction,
     predict_amplitude_damping_violation,
     estimate_net_cooling_from_violation,
+)
+
+# Workflows: composing primitives and diagnostics into analysis flows
+from .workflows import (
+    residual_norm_squared,
+    zn_mirror_diagnostic,
+    gamma_probe_setup,
+    estimate_gamma_from_cpsi,
+    propagate_with_hardware_noise,
+    predict_residual_with_hardware_noise,
+    cockpit_panel,
 )

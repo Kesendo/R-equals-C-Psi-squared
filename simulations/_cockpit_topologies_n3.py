@@ -31,6 +31,7 @@ if sys.platform == "win32":
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 import framework as fw
+from framework.lebensader import cockpit_panel as lebensader_cockpit_panel
 
 
 def chiral_K_for_topology(topology, N):
@@ -94,7 +95,7 @@ def main():
 
         for label, terms in cases:
             H = fw._build_bilinear(N, bonds, terms)
-            panel = fw.cockpit_panel(
+            panel = lebensader_cockpit_panel(
                 H, [GAMMA_DEPH] * N, rho_0, N,
                 gamma_t1_l=[GAMMA_T1] * N, t_max=8.0, dt=0.005,
             )

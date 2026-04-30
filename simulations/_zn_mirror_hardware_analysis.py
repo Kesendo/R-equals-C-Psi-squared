@@ -155,7 +155,7 @@ def main(json_path):
     print("(Note: this runs on the (q0,q2) reduced state, not the full 3-qubit state.")
     print(" Full-3-qubit Z⊗N test would require full Pauli tomography.)")
     chain_2q = fw.ChainSystem(N=2, gamma_0=0.05)
-    diag = chain_2q.zn_mirror_diagnostic(rho_a_2q, rho_b_2q, tol=0.02)
+    diag = fw.zn_mirror_diagnostic(chain_2q, rho_a_2q, rho_b_2q, tol=0.02)
     print(f"  max_violation: {diag['max_violation']:.6f}")
     print(f"  verdict:       {diag['verdict']}")
     print(f"  worst_string:  {diag['worst_string']}")

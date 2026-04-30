@@ -10,6 +10,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 import framework as fw
+from framework.lebensader import cockpit_panel as cockpit_panel_primitive
 
 
 def test_cockpit_panel_yzzy_t1_drop_28_at_n3():
@@ -19,8 +20,8 @@ def test_cockpit_panel_yzzy_t1_drop_28_at_n3():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     r = fw.Receiver(psi, chain=chain)
-    result = chain.cockpit_panel(r, terms=[('Y', 'Z'), ('Z', 'Y')],
-                                  gamma_t1=0.005, t_max=5.0, dt=0.01)
+    result = fw.cockpit_panel(chain, r, terms=[('Y', 'Z'), ('Z', 'Y')],
+                              gamma_t1=0.005, t_max=5.0, dt=0.01)
     skeleton = result['lebensader']['skeleton']
     assert skeleton['drop'] == 28
     assert result['lebensader']['rating'].startswith('collapsed')
@@ -33,8 +34,8 @@ def test_cockpit_panel_truly_no_drop_pure_z():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     r = fw.Receiver(psi, chain=chain)
-    result = chain.cockpit_panel(r, terms=[('X', 'X'), ('Y', 'Y')],
-                                  t_max=5.0, dt=0.01)
+    result = fw.cockpit_panel(chain, r, terms=[('X', 'X'), ('Y', 'Y')],
+                              t_max=5.0, dt=0.01)
     skeleton = result['lebensader']['skeleton']
     assert skeleton['drop'] == 0
 
@@ -47,7 +48,7 @@ def test_cockpit_panel_rejects_non_hermitian_rho():
                        [0, 0, 0.1, 0.05],
                        [0, 0, 0.05j, 0.1]], dtype=complex)
     with pytest.raises(ValueError, match="Hermitian"):
-        fw.cockpit_panel(chain.H, [0.05]*2, rho_nh, 2, t_max=0.5, dt=0.05)
+        cockpit_panel_primitive(chain.H, [0.05]*2, rho_nh, 2, t_max=0.5, dt=0.05)
 
 
 def test_cockpit_panel_rejects_non_psd_rho():
@@ -56,7 +57,7 @@ def test_cockpit_panel_rejects_non_psd_rho():
     rho_neg[0,0] = 1.5
     rho_neg[1,1] = -0.5  # negative eigenvalue
     with pytest.raises(ValueError, match="positive semi-definite"):
-        fw.cockpit_panel(chain.H, [0.05]*3, rho_neg, 3, t_max=0.5, dt=0.05)
+        cockpit_panel_primitive(chain.H, [0.05]*3, rho_neg, 3, t_max=0.5, dt=0.05)
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
@@ -64,7 +65,7 @@ def test_cockpit_panel_rejects_trace_mismatch():
     chain = fw.ChainSystem(N=2, gamma_0=0.05)
     rho_no_trace = np.eye(4, dtype=complex) * 0.5  # trace = 2
     with pytest.raises(ValueError, match="trace"):
-        fw.cockpit_panel(chain.H, [0.05]*2, rho_no_trace, 2, t_max=0.5, dt=0.05)
+        cockpit_panel_primitive(chain.H, [0.05]*2, rho_no_trace, 2, t_max=0.5, dt=0.05)
 
 
 def test_cockpit_panel_terms_uses_chain_J():
@@ -79,13 +80,13 @@ def test_cockpit_panel_terms_uses_chain_J():
 
     chain1 = fw.ChainSystem(N=3, J=1.0, gamma_0=0.05)
     r1 = fw.Receiver(psi, chain=chain1)
-    p1 = chain1.cockpit_panel(r1, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
-                              t_max=2.0, dt=0.01)
+    p1 = fw.cockpit_panel(chain1, r1, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
+                          t_max=2.0, dt=0.01)
 
     chain2 = fw.ChainSystem(N=3, J=2.0, gamma_0=0.05)
     r2 = fw.Receiver(psi, chain=chain2)
-    p2 = chain2.cockpit_panel(r2, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
-                              t_max=2.0, dt=0.01)
+    p2 = fw.cockpit_panel(chain2, r2, terms=[('Y','Z'),('Z','Y')], gamma_t1=0.005,
+                          t_max=2.0, dt=0.01)
 
     # Different J → different θ-trajectory (Hamiltonian rescales coherent dynamics)
     theta1 = p1['_trajectory_for_inspection']['theta']

@@ -15,7 +15,7 @@ def test_predict_residual_with_hardware_noise_t1_only():
     """T1 only: matches the existing T1 closed form."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     T1_l = [0.005] * 3
-    result = chain.predict_residual_with_hardware_noise(T1_l=T1_l)
+    result = fw.predict_residual_with_hardware_noise(chain, T1_l=T1_l)
     # T1 alone: 4^(N-1) · [3·Σγ² + 4·(Σγ)²] = 16·[3·3·0.005² + 4·0.015²]
     expected = 16 * (3 * 3 * 0.005**2 + 4 * 0.015**2)
     assert abs(result['per_class']['T1'] - expected) < 1e-12
@@ -56,8 +56,8 @@ def test_predict_residual_with_hardware_noise_t1_plus_tphi():
     actual = float(np.linalg.norm(M)**2)
 
     # Predicted via cockpit method
-    result = chain.predict_residual_with_hardware_noise(
-        T1_l=[gT1]*N, Tphi_l=[gTphi]*N)
+    result = fw.predict_residual_with_hardware_noise(
+        chain, T1_l=[gT1]*N, Tphi_l=[gTphi]*N)
     assert abs(result['total'] - actual) < 1e-9, \
         f"actual={actual} predicted={result['total']}"
     # Check the cross-term is non-zero (cross_T1_Tphi has d1=0, d2=16, only d2 contributes)
@@ -99,8 +99,8 @@ def test_predict_residual_with_hardware_noise_full_stack():
     M = palindrome_residual(L, 0.0, N)
     actual = float(np.linalg.norm(M)**2)
 
-    result = chain.predict_residual_with_hardware_noise(
-        T1_l=rates['T1'], Tphi_l=rates['Tphi'], Xnoise_l=rates['Xnoise'])
+    result = fw.predict_residual_with_hardware_noise(
+        chain, T1_l=rates['T1'], Tphi_l=rates['Tphi'], Xnoise_l=rates['Xnoise'])
     assert abs(result['total'] - actual) < 1e-9, \
         f"actual={actual}, predicted={result['total']}"
 
@@ -139,7 +139,7 @@ def test_predict_from_terms_handles_mixed_n_yz_classes():
     # Each term contributes 2^(N+2)·n_YZ_k·||H_k||²_F separately.
     pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
-    actual = chain.residual_norm_squared(
+    actual = fw.residual_norm_squared(chain,
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
     assert abs(pred - actual) < 1e-6
 
@@ -149,7 +149,7 @@ def test_predict_from_terms_decomposes_additively():
     chain = fw.ChainSystem(N=4)
     p_2yz = fw.predict_residual_norm_squared_from_terms(chain,[('Y','Z'),('Z','Y')])
     p_1yz = fw.predict_residual_norm_squared_from_terms(chain,[('I','Y'),('Y','I')])
-    actual = chain.residual_norm_squared(
+    actual = fw.residual_norm_squared(chain,
         [('Y','Z'),('Z','Y'),('I','Y'),('Y','I')])
     assert abs(p_2yz + p_1yz - actual) < 1e-6
 
@@ -159,7 +159,7 @@ def test_predict_from_terms_t1_truly_hamiltonian():
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
-    actual = chain.residual_norm_squared(
+    actual = fw.residual_norm_squared(chain,
         [('X','X'),('Y','Y'),('Z','Z')], gamma_t1=0.005)
     # 4^(3-1) * [3·3·0.005² + 4·(3·0.005)²] = 16·(0.000225 + 0.0009) = 16·0.001125 = 0.018
     assert abs(pred - 0.018) < 1e-9
@@ -175,7 +175,7 @@ def test_predict_from_terms_t1_soft_hamiltonian_additive():
         [('Y','Z'),('Z','Y')], gamma_t1=0.005)
     # T1 part = 16·[3·3·0.005² + 4·(0.015)²] = 16·0.001125 = 0.018
     assert abs(with_t1 - z_only - 0.018) < 1e-9
-    actual = chain.residual_norm_squared(
+    actual = fw.residual_norm_squared(chain,
         [('Y','Z'),('Z','Y')], gamma_t1=0.005)
     assert abs(with_t1 - actual) < 1e-9
 
@@ -186,7 +186,7 @@ def test_predict_from_terms_t1_nonuniform_distribution():
     gamma_t1 = [0.001, 0.005, 0.01, 0.002]
     pred = fw.predict_residual_norm_squared_from_terms(chain,
         [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
-    actual = chain.residual_norm_squared(
+    actual = fw.residual_norm_squared(chain,
         [('I','Y'),('Y','I')], gamma_t1=gamma_t1)
     assert abs(pred - actual) < 1e-9
 
@@ -211,13 +211,13 @@ def test_predict_from_terms_v_effect_mixed_truly_nontruly():
     # YY+YZ: YY truly (M=0), YZ contributes 32·2·16 = 1024
     val = fw.predict_residual_norm_squared_from_terms(chain,
         [('Y','Y'),('Y','Z')])
-    actual = chain.residual_norm_squared([('Y','Y'),('Y','Z')])
+    actual = fw.residual_norm_squared(chain, [('Y','Y'),('Y','Z')])
     assert abs(val - actual) < 1e-6
     assert abs(val - 1024.0) < 1e-6
     # XX+YZ: XX truly, YZ contributes
     val = fw.predict_residual_norm_squared_from_terms(chain,
         [('X','X'),('Y','Z')])
-    actual = chain.residual_norm_squared([('X','X'),('Y','Z')])
+    actual = fw.residual_norm_squared(chain, [('X','X'),('Y','Z')])
     assert abs(val - actual) < 1e-6
 
 
@@ -229,6 +229,6 @@ def test_predict_from_terms_v_effect_full_36_combos():
     for t1, t2 in combinations(SINGLE, 2):
         terms = [(t1[0], t1[1]), (t2[0], t2[1])]
         pred = fw.predict_residual_norm_squared_from_terms(chain,terms)
-        num = chain.residual_norm_squared(terms)
+        num = fw.residual_norm_squared(chain, terms)
         assert abs(pred - num) < 1e-6, \
             f"{t1}+{t2}: pred={pred}, num={num}"

@@ -101,14 +101,14 @@ def test_chainsystem_topology_immutable_after_init():
 def test_residual_norm_squared_matches_classify_truly():
     """For Heisenberg (truly), ||M||^2 ≈ 0."""
     chain = fw.ChainSystem(N=4)
-    norm_sq = chain.residual_norm_squared([('X','X'),('Y','Y'),('Z','Z')])
+    norm_sq = fw.residual_norm_squared(chain, [('X','X'),('Y','Y'),('Z','Z')])
     assert norm_sq < 1e-10
 
 
 def test_residual_norm_squared_matches_known_value():
     """At chain N=4, YZ+ZY soft pair has ||M||^2 = 12288 (= c_H_main(256) * F(48))."""
     chain = fw.ChainSystem(N=4)
-    norm_sq = chain.residual_norm_squared([('Y','Z'),('Z','Y')])
+    norm_sq = fw.residual_norm_squared(chain, [('Y','Z'),('Z','Y')])
     assert abs(norm_sq - 12288.0) < 1e-6
 
 
@@ -121,6 +121,6 @@ def test_residual_norm_squared_with_t1_matches_predict():
             for gT1 in [0.001, 0.005, 0.01]:
                 pred = fw.predict_residual_norm_squared_from_terms(
                     chain, terms, gamma_t1=gT1)
-                num = chain.residual_norm_squared(terms, gamma_t1=gT1)
+                num = fw.residual_norm_squared(chain, terms, gamma_t1=gT1)
                 assert abs(pred - num) < 1e-6, \
                     f"N={N} terms={terms} gT1={gT1}: pred={pred} num={num}"

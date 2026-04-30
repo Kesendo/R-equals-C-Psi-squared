@@ -18,7 +18,7 @@ def test_propagate_with_hardware_noise_no_evolution():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_t = chain.propagate_with_hardware_noise(rho_0, t=0.0)
+    rho_t = fw.propagate_with_hardware_noise(chain,rho_0, t=0.0)
     np.testing.assert_allclose(rho_t, rho_0, atol=1e-12)
 
 
@@ -29,7 +29,7 @@ def test_propagate_with_hardware_noise_no_dissipation_unitary():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_t = chain.propagate_with_hardware_noise(
+    rho_t = fw.propagate_with_hardware_noise(chain,
         rho_0, t=1.0, terms=[('X','X'),('Y','Y'),('Z','Z')])
     assert abs(np.trace(rho_t).real - 1.0) < 1e-10
     # Purity preserved (unitary on pure state)
@@ -45,7 +45,7 @@ def test_propagate_with_hardware_noise_matches_marrakesh_xz_for_truly():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_t = chain.propagate_with_hardware_noise(
+    rho_t = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','X'),('Y','Y')])
     # Trace out middle qubit, compute <X_0 Z_2>
     rho_3q = rho_t.reshape(2,2,2,2,2,2)
@@ -66,7 +66,7 @@ def test_propagate_with_hardware_noise_matches_marrakesh_xz_for_soft():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_t = chain.propagate_with_hardware_noise(
+    rho_t = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','Y'),('Y','X')])
     rho_3q = rho_t.reshape(2,2,2,2,2,2)
     rho_02 = np.einsum('ikjlkm->ijlm', rho_3q).reshape(4, 4)
@@ -84,9 +84,9 @@ def test_propagate_with_hardware_noise_zz_crosstalk_changes_dynamics():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_no_zz = chain.propagate_with_hardware_noise(
+    rho_no_zz = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','X'),('Y','Y')])
-    rho_with_zz = chain.propagate_with_hardware_noise(
+    rho_with_zz = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','X'),('Y','Y')], J_zz=0.3)
 
     Y = np.array([[0,-1j],[1j,0]], dtype=complex)
@@ -110,9 +110,9 @@ def test_propagate_with_hardware_noise_t1_has_nontrivial_effect():
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
     psi = np.kron(np.kron(plus, minus), plus)
     rho_0 = np.outer(psi, psi.conj())
-    rho_id = chain.propagate_with_hardware_noise(
+    rho_id = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','Y'),('Y','X')])
-    rho_t1 = chain.propagate_with_hardware_noise(
+    rho_t1 = fw.propagate_with_hardware_noise(chain,
         rho_0, t=0.8, terms=[('X','Y'),('Y','X')],
         T1_l=[0.05]*3)  # 10× larger T1 to ensure visible effect
 

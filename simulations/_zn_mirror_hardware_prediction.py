@@ -55,7 +55,7 @@ rho_b_0 = np.outer(psi_b, psi_b.conj())
 
 # Verify partners at t=0
 chain = fw.ChainSystem(N=N, J=J, gamma_0=gamma_Z_eff)
-diag_t0 = chain.zn_mirror_diagnostic(rho_a_0, rho_b_0)
+diag_t0 = fw.zn_mirror_diagnostic(chain, rho_a_0, rho_b_0)
 assert diag_t0['verdict'] == 'preserved', \
     f"Initial states should be exact Z⊗N partners; got {diag_t0}"
 
@@ -88,9 +88,9 @@ scenarios = [
 print(f"{'Scenario':<48s} {'max_viol':>14s} {'verdict':<12s} {'worst_string'}")
 print("-" * 90)
 for label, noise in scenarios:
-    rho_a = chain.propagate_with_hardware_noise(rho_a_0, t=t_final, terms=heisenberg, **noise)
-    rho_b = chain.propagate_with_hardware_noise(rho_b_0, t=t_final, terms=heisenberg, **noise)
-    diag = chain.zn_mirror_diagnostic(rho_a, rho_b, tol=1e-9)
+    rho_a = fw.propagate_with_hardware_noise(chain, rho_a_0, t=t_final, terms=heisenberg, **noise)
+    rho_b = fw.propagate_with_hardware_noise(chain, rho_b_0, t=t_final, terms=heisenberg, **noise)
+    diag = fw.zn_mirror_diagnostic(chain, rho_a, rho_b, tol=1e-9)
     print(f"  {label:<46s}  {diag['max_violation']:>13.4e}  "
           f"{diag['verdict']:<10s}  {diag['worst_string']}")
 
@@ -103,8 +103,8 @@ print("\n=== Expected Pauli-expectations on (q0, q2) under realistic Marrakesh s
 print("(reduce 3-qubit ρ to (q0, q2) via tracing out q1; same as soft_break April 26 measurement)\n")
 
 realistic_noise = {'T1_l':[0.005]*N, 'Tphi_l':[0.05]*N, 'J_zz':0.05}
-rho_a_real = chain.propagate_with_hardware_noise(rho_a_0, t=t_final, terms=heisenberg, **realistic_noise)
-rho_b_real = chain.propagate_with_hardware_noise(rho_b_0, t=t_final, terms=heisenberg, **realistic_noise)
+rho_a_real = fw.propagate_with_hardware_noise(chain, rho_a_0, t=t_final, terms=heisenberg, **realistic_noise)
+rho_b_real = fw.propagate_with_hardware_noise(chain, rho_b_0, t=t_final, terms=heisenberg, **realistic_noise)
 
 def reduce_q0q2(rho_3q):
     rho_t = rho_3q.reshape(2,2,2,2,2,2)

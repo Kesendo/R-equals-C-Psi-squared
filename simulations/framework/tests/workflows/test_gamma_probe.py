@@ -16,7 +16,7 @@ import framework as fw
 def test_gamma_probe_setup_at_default_gamma():
     """Verify the optimal probe parameters at γ=0.05 match the manual analysis."""
     chain = fw.ChainSystem(N=2)
-    setup = chain.gamma_probe_setup(gamma_assumed=0.05, target_precision=0.01)
+    setup = fw.gamma_probe_setup(chain,gamma_assumed=0.05, target_precision=0.01)
     # K_optimal ≈ 0.119 (4·γ·t ≈ 0.474 → K = γt ≈ 0.119)
     assert abs(setup['K_optimal'] - 0.119) < 0.01
     # cpsi_target ≈ 0.144
@@ -33,7 +33,7 @@ def test_gamma_probe_K_invariance():
     chain = fw.ChainSystem(N=2)
     K_vals = []
     for gamma in [0.01, 0.05, 0.1, 0.5]:
-        setup = chain.gamma_probe_setup(gamma_assumed=gamma)
+        setup = fw.gamma_probe_setup(chain,gamma_assumed=gamma)
         K_vals.append(setup['K_optimal'])
     # All K_optimal values should agree (γ-invariance)
     assert all(abs(k - K_vals[0]) < 1e-6 for k in K_vals), \
@@ -42,7 +42,7 @@ def test_gamma_probe_K_invariance():
 
 def test_gamma_probe_default_gamma_uses_chain_gamma_0():
     chain = fw.ChainSystem(N=3, gamma_0=0.07)
-    setup = chain.gamma_probe_setup()
+    setup = fw.gamma_probe_setup(chain)
     assert setup['gamma_assumed'] == 0.07
 
 
@@ -54,7 +54,7 @@ def test_estimate_gamma_from_cpsi_inverts_f25():
     t = 2.0  # arbitrary probe time
     f = np.exp(-4 * gamma_true * t)
     cpsi = f * (1 + f**2) / 6.0
-    gamma_est = chain.estimate_gamma_from_cpsi(cpsi, t)
+    gamma_est = fw.estimate_gamma_from_cpsi(chain, cpsi, t)
     assert abs(gamma_est - gamma_true) < 1e-9
 
 
@@ -62,21 +62,21 @@ def test_estimate_gamma_from_cpsi_inverts_f25():
 def test_estimate_gamma_rejects_out_of_range():
     chain = fw.ChainSystem(N=2)
     with pytest.raises(ValueError, match="≥ 1/3"):
-        chain.estimate_gamma_from_cpsi(0.5, t=1.0)
+        fw.estimate_gamma_from_cpsi(chain, 0.5, t=1.0)
     with pytest.raises(ValueError, match="≤ 0"):
-        chain.estimate_gamma_from_cpsi(-0.1, t=1.0)
+        fw.estimate_gamma_from_cpsi(chain, -0.1, t=1.0)
     with pytest.raises(ValueError, match="t must be > 0"):
-        chain.estimate_gamma_from_cpsi(0.1, t=0)
+        fw.estimate_gamma_from_cpsi(chain, 0.1, t=0)
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
 def test_gamma_probe_setup_x_channel():
     """gamma_probe_setup with channel='X' should give K_cusp = 0.0867 vs Z's 0.0374."""
     chain = fw.ChainSystem(N=2)
-    setup_z = chain.gamma_probe_setup(gamma_assumed=0.05, channel='Z')
-    setup_x = chain.gamma_probe_setup(gamma_assumed=0.05, channel='X')
-    setup_y = chain.gamma_probe_setup(gamma_assumed=0.05, channel='Y')
-    setup_d = chain.gamma_probe_setup(gamma_assumed=0.05, channel='depolarizing')
+    setup_z = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='Z')
+    setup_x = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='X')
+    setup_y = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='Y')
+    setup_d = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='depolarizing')
     # K_cusp from F26 cusp condition (note: K_Y = K_Z, NOT K_X — doc has typo)
     assert abs(setup_z['K_cusp'] - 0.0374) < 0.001
     assert abs(setup_x['K_cusp'] - 0.0867) < 0.001
@@ -91,7 +91,7 @@ def test_estimate_gamma_round_trip_x_channel():
     gamma_true = 0.07
     t = 2.0
     cpsi = fw.cpsi_bell_plus(gamma_true, 0.0, 0.0, t)
-    gamma_est = chain.estimate_gamma_from_cpsi(cpsi, t, channel='X')
+    gamma_est = fw.estimate_gamma_from_cpsi(chain, cpsi, t, channel='X')
     assert abs(gamma_est - gamma_true) < 1e-9
 
 
@@ -100,6 +100,6 @@ def test_gamma_probe_setup_kingston_data_consistency():
     """Kingston cusp-slowing F25 RMS residual was 0.0097; with 1% target,
     shots-needed should be reasonable (~10⁵-10⁶)."""
     chain = fw.ChainSystem(N=2)
-    setup = chain.gamma_probe_setup(gamma_assumed=0.05, target_precision=0.01)
+    setup = fw.gamma_probe_setup(chain,gamma_assumed=0.05, target_precision=0.01)
     # Order of magnitude check: should be ~10⁶ shots for 1% precision
     assert 1e5 < setup['shots_needed'] < 1e7
