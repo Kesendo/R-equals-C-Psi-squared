@@ -1899,6 +1899,58 @@ def test_F85_kbody_predict_pi_decomposition():
             f"k=4 {terms}: M_sq pred {pred['M_sq']} vs num {num['norm_sq']['M']}"
 
 
+def test_F85_kbody_classifier_at_k5_spot_check():
+    """F85 truly criterion verified at k=5 via spot check.
+
+    Full 243-tuple enumeration at k=5 is computationally expensive (would
+    add several minutes to the suite); instead we spot-check 8 representative
+    5-tuples covering all three Π²-classes plus various letter compositions.
+
+    Together with the full enumeration at k=2, 3, 4 in
+    `test_F85_kbody_trichotomy_counts`, this provides empirical evidence
+    that the analytic rule "#Y even AND #Z even ⟹ truly" continues to hold
+    at k=5. The closed form for the Π²-odd count (3^k − (−1)^k)/2 = 122 at
+    k=5 is verifiable analytically (binomial generating function).
+    """
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_kbody_chain
+    from framework.core import _pauli_tuple_pi2_class
+
+    N = 5
+    test_cases = [
+        ('XXXXX', 'truly'),         # all X (#Y=0 even, #Z=0 even)
+        ('YYYYY', 'pi2_odd'),       # all Y (#Y=5 odd → bit_b=1)
+        ('ZZZZZ', 'pi2_odd'),       # all Z (#Z=5 odd → bit_b=1)
+        ('XXXYZ', 'pi2_even_nontruly'),  # bit_b=0 but #Z=1 odd
+        ('YYZZX', 'truly'),         # #Y=2 even, #Z=2 even
+        ('XYZXY', 'pi2_odd'),       # bit_b=1 odd
+        ('YYZZY', 'pi2_odd'),       # bit_b=1 (3Y + 2Z = 5 mod 2 = 1)
+        ('XZYXZ', 'pi2_odd'),       # bit_b=1 (1Y + 2Z = 3 mod 2 = 1)
+    ]
+    for label, expected in test_cases:
+        letters = tuple(label)
+        cls_ana = _pauli_tuple_pi2_class(letters)
+        assert cls_ana == expected, f'{label}: analytic={cls_ana}, expected {expected}'
+
+        # Numerical verification
+        H = _build_kbody_chain(N, [letters + (1.0,)])
+        H_sq = float(np.real(np.trace(H.conj().T @ H)))
+        L = lindbladian_z_dephasing(H, [0.0] * N)
+        M = palindrome_residual(L, 0.0, N)
+        M_sq = float(np.linalg.norm(M) ** 2)
+        if M_sq < 1e-10:
+            cls_num = 'truly'
+        else:
+            ratio = M_sq / (H_sq * 2 ** N)
+            if abs(ratio - 4) < 1e-6:
+                cls_num = 'pi2_odd'
+            elif abs(ratio - 8) < 1e-6:
+                cls_num = 'pi2_even_nontruly'
+            else:
+                cls_num = f'unexpected ratio {ratio}'
+        assert cls_ana == cls_num, f'{label}: analytic={cls_ana}, numerical={cls_num}'
+
+
 def test_F85_kbody_F81_identity_at_k3():
     """F85: F81 identity Π·M·Π⁻¹ = M − 2·L_{H_odd} generalizes verbatim to k-body.
 

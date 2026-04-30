@@ -325,34 +325,43 @@ class ChainSystem:
         return float(np.linalg.norm(M) ** 2)
 
     def predict_residual_norm_squared_from_terms(self, terms, gamma_t1=None):
-        """Closed-form ‖M‖² from terms via per-term Frobenius identity (no L computed).
+        """Closed-form ‖M‖² from terms via F85 Π²-class Frobenius identity.
 
-        Verified empirically across chain/ring/star/K_N at N=3..6 plus the
-        full V-Effect 36-combos enumeration at N=3:
+        Theorem F85 (proved in PROOF_F85_KBODY_GENERALIZATION) generalizes
+        the F49 formula to k-body terms via Π²-class:
 
-            ‖M(L_Z)‖²    = sum_k [ 2^(N+2) · n_YZ_k · ‖H_k‖²_F · (1 if non-truly else 0) ]
-            ‖M(L_Z+T1)‖² = ‖M(L_Z)‖² + 4^(N−1) · [ 3·Σ γT1² + 4·(Σ γT1)² ]
+            ‖M(L_Z)‖²    = Σ_k 4·c(k)·‖H_k‖²_F·2^N
+            ‖M(L_Z+T1)‖² = ‖M(L_Z)‖² + 4^(N−1) · [3·Σ γT1² + 4·(Σ γT1)²]
 
-        Each Pauli-pair term k contributes independently because distinct
-        Pauli strings are orthogonal in Frobenius, AND truly-class single
-        terms (a==b, or {a,b}⊆{I,X}) contribute nothing because M_k=0
-        algebraically. The V-Effect cases YY+YZ, YY+ZY, YZ+ZZ, ZY+ZZ
-        enforce per-term-truly handling: gross-list classify is not enough.
+        where c(k) is the F85 Π²-class factor:
 
-        n_YZ_k = number of Y/Z letters in term k (bit_b-odd letters, which
-        are the Π-symmetry-breaking ones).
+            c(truly term)              = 0     (M = 0 by Master Lemma)
+            c(Π²-odd non-truly)        = 1     (factor 4·2^N)
+            c(Π²-even non-truly)       = 2     (factor 8·2^N)
+
+        Truly criterion (k-body): #Y even AND #Z even. At 2-body this
+        reduces to "a == b OR {a,b} ⊆ {I,X}" (matches `_pauli_pair_is_truly`).
+
+        Each non-truly term contributes independently because distinct
+        Pauli strings within a Π²-class are orthogonal in Frobenius, AND
+        Π²-classes are mutually orthogonal in operator space.
+
+        For 2-body, F85's c(k) coincides with F49's n_YZ_k (Π²-odd ↔
+        n_YZ=1, Π²-even non-truly ↔ n_YZ=2). For k ≥ 3, n_YZ is no
+        longer the determining quantity (e.g., YYY has n_YZ=3 but c=1).
 
         T1 contribution is Hamiltonian-independent, γ_Z-independent, and
         orthogonal to the Hamiltonian palindrome residual (no cross-term).
         Verified at N=3..6 for arbitrary {γ_T1_l} distributions.
 
-        Topology enters only via ‖H_k‖²_F (cheap to compute). The graph-
-        dependent c_H scaling of `predict_residual_norm_squared` is the
-        chain/ring/star special case where Pauli strings are uniquely-bonded;
-        this method is universal.
+        Topology: 2-body uses the chain's bond graph (chain/ring/star/K_N
+        all supported via F49); k ≥ 3 uses chain sliding-window semantics
+        (F85 chain-only). Mixed-body term lists may degrade non-chain
+        topology silently for the k-body group.
 
         Args:
-            terms: list of (a, b) Pauli letter tuples.
+            terms: list of Pauli-letter tuples. Each tuple has length k ≥ 1.
+                Mixed body counts in the same call are supported.
             gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform
                       across sites), list of length N, or None / 0 (no T1).
         """
@@ -379,15 +388,21 @@ class ChainSystem:
                 group_terms.append(letters + (self.J,))
             if not group_terms:
                 continue
-            # Build sub-Hamiltonian; if all 2-body, use bond graph (topology-aware);
-            # else use chain sliding-window (k-body).
-            all_two_body = all(len(t) == 3 for t in group_terms)
-            if all_two_body:
-                two_body_terms = [(t[0], t[1], t[2]) for t in group_terms]
-                H_group = _build_bilinear(self.N, self.bonds, two_body_terms)
-            else:
+            # Build sub-Hamiltonian per Π²-class. 2-body terms use the
+            # bond graph (chain/ring/star/K_N via F49); k-body terms use
+            # chain sliding-window (F85 chain-only). If both present in
+            # the same group, build them separately and add (preserves
+            # non-chain topology for the 2-body part).
+            two_body = [t for t in group_terms if len(t) == 3]
+            kbody = [t for t in group_terms if len(t) > 3]
+            d = 2 ** self.N
+            H_group = np.zeros((d, d), dtype=complex)
+            if two_body:
+                two_body_clean = [(t[0], t[1], t[2]) for t in two_body]
+                H_group = H_group + _build_bilinear(self.N, self.bonds, two_body_clean)
+            if kbody:
                 from .pauli import _build_kbody_chain
-                H_group = _build_kbody_chain(self.N, group_terms)
+                H_group = H_group + _build_kbody_chain(self.N, kbody)
             H_group_frob_sq = float(np.real(np.trace(H_group.conj().T @ H_group)))
             c_factor = 1 if cls == 'pi2_odd' else 2
             z_part += 4 * (2 ** self.N) * c_factor * H_group_frob_sq
@@ -586,17 +601,22 @@ class ChainSystem:
             if cls == 'pi2_odd':
                 bilinear_odd.append(letters + (self.J,))
 
-        # Determine if all terms are 2-body (preserves chain/ring/star/K_N
-        # topology via self.bonds) or contains higher-body terms (uses chain
-        # sliding-window via _build_kbody_chain).
-        all_two_body = all(len(t) == 2 for t in terms)
-
-        if all_two_body:
-            two_body_all = [(t[0], t[1], self.J) for t in terms]
-            two_body_odd = [(t[0], t[1], t[-1]) for t in bilinear_odd]
-            H_full = _build_bilinear(self.N, self.bonds, two_body_all)
-        else:
-            H_full = _build_kbody_chain(self.N, all_terms_kbody)
+        # Build H_full per term. 2-body terms use the bond graph
+        # (chain/ring/star/K_N via F49); k-body terms use chain sliding-window
+        # (F85 chain-only). If mixed body counts are present, build them
+        # separately and add to preserve non-chain topology for the 2-body part.
+        d_full = 2 ** self.N
+        H_full = np.zeros((d_full, d_full), dtype=complex)
+        two_body_terms_raw = [t for t in terms if len(t) == 2]
+        kbody_terms_raw = [t for t in terms if len(t) > 2]
+        if two_body_terms_raw:
+            two_body_all = [(t[0], t[1], self.J) for t in two_body_terms_raw]
+            H_full = H_full + _build_bilinear(self.N, self.bonds, two_body_all)
+        if kbody_terms_raw:
+            kbody_all_with_coeff = [tuple(t) + (self.J,) for t in kbody_terms_raw]
+            H_full = H_full + _build_kbody_chain(self.N, kbody_all_with_coeff)
+        # all_two_body kept for back-compat with later L_H_odd construction
+        all_two_body = (len(kbody_terms_raw) == 0)
         if any_pump:
             # Build via lindbladian_general with explicit cooling + heating channels
             d = 2 ** self.N
@@ -636,11 +656,15 @@ class ChainSystem:
         Id_d = np.eye(d, dtype=complex)
         T = _vec_to_pauli_basis_transform(self.N)
         if bilinear_odd:
-            if all_two_body:
-                two_body_odd = [(t[0], t[1], t[-1]) for t in bilinear_odd]
-                H_odd = _build_bilinear(self.N, self.bonds, two_body_odd)
-            else:
-                H_odd = _build_kbody_chain(self.N, bilinear_odd)
+            # Same mixed-body splitting as H_full above
+            two_body_odd = [t for t in bilinear_odd if len(t) == 3]
+            kbody_odd = [t for t in bilinear_odd if len(t) > 3]
+            H_odd = np.zeros((d_full, d_full), dtype=complex)
+            if two_body_odd:
+                tbo = [(t[0], t[1], t[-1]) for t in two_body_odd]
+                H_odd = H_odd + _build_bilinear(self.N, self.bonds, tbo)
+            if kbody_odd:
+                H_odd = H_odd + _build_kbody_chain(self.N, kbody_odd)
             L_H_odd_vec = -1j * (np.kron(H_odd, Id_d) - np.kron(Id_d, H_odd.T))
             L_H_odd = (T.conj().T @ L_H_odd_vec @ T) / d
         else:
@@ -850,18 +874,27 @@ class ChainSystem:
             elif cls == 'pi2_even_nontruly':
                 even_nontruly_terms.append(term_with_coeff)
 
-        # Build sub-Hamiltonians: 2-body uses the bond graph (chain/ring/...),
-        # k-body uses sliding-window chain semantics (consistent with F85 scope).
+        # Build sub-Hamiltonians per Π²-class. Topology handling:
+        #   - 2-body terms in the group → _build_bilinear with self.bonds
+        #     (chain/ring/star/K_N, F49 scope).
+        #   - k-body (k ≥ 3) terms → _build_kbody_chain (chain sliding-window,
+        #     F85 chain-only scope).
+        # If a group contains both 2-body and k-body terms, build them
+        # separately and add to avoid silently degrading non-chain topology
+        # for the 2-body part.
         def _build_group(group_terms):
             if not group_terms:
                 return None
-            # Detect body-count: if all terms are 2-tuples, use _build_bilinear
-            # to respect non-chain topology. Otherwise use _build_kbody_chain.
-            all_two_body = all(len(t) == 3 for t in group_terms)  # 2 letters + 1 coeff
-            if all_two_body:
-                two_body_terms = [(t[0], t[1], t[2]) for t in group_terms]
-                return _build_bilinear(self.N, self.bonds, two_body_terms)
-            return _build_kbody_chain(self.N, group_terms)
+            two_body = [t for t in group_terms if len(t) == 3]  # 2 letters + 1 coeff
+            kbody = [t for t in group_terms if len(t) > 3]
+            d = 2 ** self.N
+            H = np.zeros((d, d), dtype=complex)
+            if two_body:
+                two_body_clean = [(t[0], t[1], t[2]) for t in two_body]
+                H = H + _build_bilinear(self.N, self.bonds, two_body_clean)
+            if kbody:
+                H = H + _build_kbody_chain(self.N, kbody)
+            return H
 
         H_odd = _build_group(odd_terms)
         h_odd_sq = float(np.real(np.trace(H_odd.conj().T @ H_odd))) if H_odd is not None else 0.0
