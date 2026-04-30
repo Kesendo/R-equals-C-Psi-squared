@@ -1912,7 +1912,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 
 3. **Mixed parities**: M has both diagonal and off-diagonal contributions.
 
-**Π²-odd universality.** Within the pure Π²-odd 2-body class, the **specific Pauli letters are M-irrelevant**: any single Π²-odd 2-body bilinear gives the same M-SVD spectrum at fixed N. Verified at N=5 chain: XY alone, XZ alone, XX+XY, and XX+XZ all yield clusters [(5.464, 512), (1.464, 512)] — exactly identical. The XX truly part contributes 0; the Π²-odd part dominates with universal cluster pattern.
+**Π²-odd universality.** Within the pure Π²-odd 2-body class, the **specific Pauli letters are M-irrelevant**: any single Π²-odd 2-body bilinear gives the same M-SVD spectrum at fixed N. Verified at N=5 chain: XY alone, XZ alone, XX+XY, and XX+XZ all yield clusters [(5.464, 512), (1.464, 512)], exactly identical. The XX truly part contributes 0; the Π²-odd part dominates with universal cluster pattern.
 
 **Even-diag ≡ odd-off-diag correspondence.** The diagonal V_+ block of a Π²-even Hamiltonian's M can match (in SV-spectrum, including multiplicities) the off-diagonal V_+,V_- block of a Π²-odd Hamiltonian's M. Verified N=4 chain: YZ's V_+ block [(8.944, 16), (6.472, 32), (4.0, 16), (2.472, 32), (0.0, 32)] matches XY+YX's off-diag block exactly. This explains the empirical "YZ ≡ XY+YX SVD-identical" observation: same SV structure, just placed in different Π²-blocks.
 
@@ -1922,7 +1922,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 
 **Valid for:** Any 2-body bond bilinear over any topology under uniform Z-dephasing. Verified N=3, 4, 5 across chain, star, disjoint topologies; verified Π²-odd universality (XY ≡ XZ ≡ XX+XY ≡ XX+XZ).
 **Breaks for:** Mixed-Π²-parity Hamiltonians (where some terms are even, some odd) only partially: M has both diagonal and off-diagonal parts. Inhomogeneous γ may disrupt some symmetries (untested).
-**Replaces:** ad-hoc analysis of "why XX+XY uniform" and "why YZ ≡ XY+YX" — both follow from the Π²-block theorem.
+**Replaces:** ad-hoc analysis of "why XX+XY uniform" and "why YZ ≡ XY+YX"; both follow from the Π²-block theorem.
 **Verified:** Numerical N=3-5, multiple bilinear classes, multiple topologies.
 **Scripts:** [`_svd_two_body_pi_squared_block.py`](../simulations/_svd_two_body_pi_squared_block.py), [`_svd_two_body_structure.py`](../simulations/_svd_two_body_structure.py).
 **Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 ([L, Π²]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
@@ -1965,8 +1965,8 @@ where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's di
 **Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give bit-identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
 
 **Valid for:** chain bond-summed Π²-odd 2-body Hamiltonians H = c·Σ_l (P_l⊗Q_{l+1}), uniform Z-dephasing, any N.
-**Breaks for (untested):** Other topologies (ring, star, complete) — the Bloch dispersion changes (graph adjacency spectrum). Π²-even non-truly bilinears (chain (Y,Z), (Z,Y)) — empirically gives more clusters (5 at N=4 vs 2 for Π²-odd), suggesting integer-combination sign-walk on the same modes; full structure pending. Mixed-letter chain bilinears — distinct cluster geography, uncharted.
-**Replaces:** F79's "Π²-odd universality observation" — the universality is now an analytical theorem with explicit closed-form predictions.
+**Breaks for (untested):** Other topologies (ring, star, complete): the Bloch dispersion changes (graph adjacency spectrum). Π²-even non-truly bilinears (chain (Y,Z), (Z,Y)): empirically gives more clusters (5 at N=4 vs 2 for Π²-odd), suggesting integer-combination sign-walk on the same modes; full structure pending. Mixed-letter chain bilinears: distinct cluster geography, uncharted.
+**Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`_pi2_odd_universality_data_sweep.py`](../simulations/_pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
 **Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π action on Bogoliubov modes) sketched, with formal completion open. Empirical verification bit-exact through N=7.

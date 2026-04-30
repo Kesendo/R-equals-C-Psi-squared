@@ -355,7 +355,7 @@ This follows from the spectral theorem for normal operators: each anti-Hermitian
 
 By Corollary 4.2, this means M_XY, M_XZ, M_YX, M_ZX are pairwise **unitarily equivalent**.
 
-**Frobenius accounting (necessary condition).** F49 gives ‖M‖²_F as a function of bond pattern and per-bond coefficients squared. For any Π²-odd 2-body single-bond bilinear (P, Q) with |c|² = 1, ‖M‖² is determined entirely by N and topology — not by the specific (P, Q) letters within the parity class. So Frobenius norm equality is automatic for these pairs. Spectrum equality is strictly stronger.
+**Frobenius accounting (necessary condition).** F49 gives ‖M‖²_F as a function of bond pattern and per-bond coefficients squared. For any Π²-odd 2-body single-bond bilinear (P, Q) with |c|² = 1, ‖M‖² is determined entirely by N and topology, not by the specific (P, Q) letters within the parity class. So Frobenius norm equality is automatic for these pairs. Spectrum equality is strictly stronger.
 
 **Bound: where the universality breaks.** The Π²-even non-truly class (only YZ, ZY at the pure 2-body level) is universal in the same way: M_YZ ≡ M_ZY at the spectrum level. But mixing across parities (e.g., adding YZ + XY) produces a non-pure Hamiltonian whose M has both diagonal and off-diagonal contributions and a richer spectrum. The universality is strictly within-parity-class.
 

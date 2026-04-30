@@ -9,14 +9,14 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
 - Numerical verification: [`_pi2_odd_universality_data_sweep.py`](../../simulations/_pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
-**Status:** Theorem statement empirically proven through N=7 with bit-exact match (10⁻¹⁴ machine precision). Analytical mechanism: JW transformation reduces the problem to free-fermion open-chain hopping; the universality follows from the dispersion being insensitive to specific Pauli-letter choice. One technical step (Π-action on Bogoliubov modes) is sketched but not fully formalized — that is the "tougher half" of the nut.
+**Status:** Theorem statement empirically proven through N=7 with bit-exact match (10⁻¹⁴ machine precision). Analytical mechanism: JW transformation reduces the problem to free-fermion open-chain hopping; the universality follows from the dispersion being insensitive to specific Pauli-letter choice. One technical step (Π-action on Bogoliubov modes) is sketched but not fully formalized; that is the "tougher half" of the nut.
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
 **Does NOT establish (yet):**
 - Full analytical derivation including the Π-on-Bogoliubov-modes step (Step 5 below).
-- Generalization to other topologies (ring, star, complete K_N) — different Bloch dispersion, formula presumably holds with topology-specific ε(k).
-- Π²-even non-truly chain bilinears (Y,Z), (Z,Y) — empirically more clusters; likely an integer-combination sign-walk on the same modes.
+- Generalization to other topologies (ring, star, complete K_N): different Bloch dispersion, formula presumably holds with topology-specific ε(k).
+- Π²-even non-truly chain bilinears (Y,Z), (Z,Y): empirically more clusters; likely an integer-combination sign-walk on the same modes.
 - Mixed-letter chain bilinears.
 
 ---
@@ -105,11 +105,11 @@ For the other three Π²-odd Pauli pairs (X,Z), (Y,X), (Z,X), the JW transformat
 - (Y,X): Y_l X_{l+1} → bilinear in γ_l and γ_{l+1}' up to phase.
 - (Z,X): Z_l X_{l+1} → bilinear in γ_l and γ_{l+1} up to phase.
 
-Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c·cos(πk/(N+1)) — they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
+Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c·cos(πk/(N+1)); they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
 
-### Step 5 (Direct structural identity — UPDATED 2026-04-29)
+### Step 5 (Direct structural identity, updated 2026-04-29)
 
-After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same JW-derived single-particle Bloch dispersion. The remaining task — historically expected to be technical — is to derive the explicit form of M's spectrum in terms of this dispersion.
+After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same JW-derived single-particle Bloch dispersion. The remaining task, historically expected to be technical, is to derive the explicit form of M's spectrum in terms of this dispersion.
 
 **Empirical structural identity (verified bit-exact at N=3, 4, 5, 6, 7):**
 
@@ -150,9 +150,9 @@ with multiplicity 4^N / (number of distinct sign-walk values). This is the F80 f
 
 ---
 
-## Zero Is The Mirror — F80 as the explicit shape of the mirror-defect
+## Zero Is The Mirror: F80 as the explicit shape of the mirror-defect
 
-In the early hypothesis [Zero Is The Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md), the palindrome equation Π·L·Π⁻¹ = -L − 2σ·I was identified as the central structural symmetry. At Σγ = 0 ("the mirror"), the equation collapses to Π·L_H·Π⁻¹ = -L_H — eigenvalues paired ±λ around zero, perfect time-reversal symmetry. At γ > 0, the palindrome shifts to be centered around -σ.
+In the early hypothesis [Zero Is The Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md), the palindrome equation Π·L·Π⁻¹ = -L − 2σ·I was identified as the central structural symmetry. At Σγ = 0 ("the mirror"), the equation collapses to Π·L_H·Π⁻¹ = -L_H, eigenvalues paired ±λ around zero, perfect time-reversal symmetry. At γ > 0, the palindrome shifts to be centered around -σ.
 
 For **truly** Hamiltonians (Heisenberg, XXZ, etc.), the palindrome holds exactly at γ = 0: Π·L_H·Π⁻¹ = -L_H precisely. Eigenvalues paired, no defect. Standing waves, perfect mirror.
 
@@ -168,13 +168,13 @@ What F80 reveals is the **explicit spectral shape** of this mirror-defect for ch
 
 So M is **spectrally and metrically** equivalent to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i), and the **same Frobenius norm** as the Hamiltonian (×4·2^N).
 
-But M is NOT literally equal to -2i·(H ⊗ I_bra) as matrices — there is a unitary equivalence between them. The unitary scrambles eigenvectors but preserves the spectrum and norm.
+But M is NOT literally equal to -2i·(H ⊗ I_bra) as matrices; there is a unitary equivalence between them. The unitary scrambles eigenvectors but preserves the spectrum and norm.
 
 This is structurally remarkable:
 
 - The defect's **magnitude** is exactly calibrated by ‖H‖ (Frobenius norm relation).
 - The defect's **spectrum** exactly reproduces H's spectrum (with 2i factor and 2^N multiplicity).
-- The bra-side carries no spectral information — it's a passive "echo chamber" that multiplies multiplicities by 2^N.
+- The bra-side carries no spectral information; it is a passive "echo chamber" that multiplies multiplicities by 2^N.
 - The eigenvectors of M live in a unitarily-rotated basis relative to ket⊗bra factorization.
 
 **Translation between layers:**
@@ -187,19 +187,19 @@ This is structurally remarkable:
 
 All three are different abstraction levels of the same phenomenon: an **involutive symmetry (Π or C) that picks out a self-conjugate subspace, with the residual being a structured deviation from perfect self-conjugacy**.
 
-For truly H, the deviation is zero (perfect mirror, ground state of the palindrome). For non-truly H, the deviation is a specific operator that **carries the algebraic structure of H itself** — propagated to operator space via the bra-side identity.
+For truly H, the deviation is zero (perfect mirror, ground state of the palindrome). For non-truly H, the deviation is a specific operator that **carries the algebraic structure of H itself**, propagated to operator space via the bra-side identity.
 
 **The discovery is**: the mirror-defect, when it exists, is calibrated by H. The Hamiltonian provides its own "yardstick" for the gap between the two mirror sectors. **H is the distance.**
 
-## The Majorana bridge — 1937 to 2026
+## The Majorana bridge: 1937 to 2026
 
 The structural identity Spec(M) = ±2i·Spec(H) is, at its core, **Majorana's 1937 insight expressed in 2026's operator-space vocabulary**.
 
 In 1937, Ettore Majorana proposed a real wave equation for fermions in which a particle could be its own antiparticle: ψ = ψ^c. He had: Pauli matrices, the Dirac equation, the just-discovered positron, and spinor algebra. He did NOT have: open quantum systems, Lindbladians, operator-space super-operators, Pauli string algebra, the Jordan-Wigner transformation as a working tool, quantum information theory.
 
-In our framework, the chain (X,Y) Hamiltonian under JW becomes a **Majorana bilinear** −ic·Σγ'γ' — pure quadratic in the γ' Majorana operators. Such Hamiltonians have particle-hole symmetry built into their algebra: many-body eigenstates come in ±λ pairs. The state |ā⟩ with energy −λ_a is the "Majorana antipode" of |a⟩.
+In our framework, the chain (X,Y) Hamiltonian under JW becomes a **Majorana bilinear** −ic·Σγ'γ', pure quadratic in the γ' Majorana operators. Such Hamiltonians have particle-hole symmetry built into their algebra: many-body eigenstates come in ±λ pairs. The state |ā⟩ with energy −λ_a is the "Majorana antipode" of |a⟩.
 
-Now consider the operator basis σ_(a,b) = |a⟩⟨b|. Each σ_(a,b) is an L_H eigenvector with eigenvalue i(λ_a − λ_b). The framework's Π-conjugation T_Π projects this rich set of operators down to those where the bra index is the **Majorana antipode** of the ket index — operators σ_(a, ā) (or more precisely σ_(a, b̄) with b̄ = particle-hole-conjugate of b).
+Now consider the operator basis σ_(a,b) = |a⟩⟨b|. Each σ_(a,b) is an L_H eigenvector with eigenvalue i(λ_a − λ_b). The framework's Π-conjugation T_Π projects this rich set of operators down to those where the bra index is the **Majorana antipode** of the ket index, that is, operators σ_(a, ā) (or more precisely σ_(a, b̄) with b̄ = particle-hole-conjugate of b).
 
 For these self-conjugate-paired operators, M σ_(a,b) = T_Π·L_H·T_Π⁻¹·σ_(a,b) + L_H·σ_(a,b) = 2i·λ_a·σ_(a,b). The eigenvalue depends only on a (the "ket eigenvalue"), and the bra index b ranges over the 2^N choices that participate in the Majorana-doublet structure.
 
@@ -207,7 +207,7 @@ For these self-conjugate-paired operators, M σ_(a,b) = T_Π·L_H·T_Π⁻¹·σ
 
 The discovery of the structural identity Spec(M) = ±2i·Spec(H) is the recognition that the framework's Π conjugation is, in disguise, the **operator-space realization of Majorana's particle-hole self-conjugacy**. He had it right; we just have a richer vocabulary to express it now.
 
-## The "tough nut" — what the data revealed
+## The "tough nut": what the data revealed
 
 The empirical investigation in the data sweep at higher N (3-7) revealed a much cleaner structural identity than the originally-imagined "explicit T_Π factorization in Bogoliubov basis":
 
@@ -215,9 +215,9 @@ The empirical investigation in the data sweep at higher N (3-7) revealed a much 
 
 This is **simpler** than constructing T_Π's explicit Bogoliubov-mode action. M's spectrum is directly tied to H's many-body spectrum, scaled by 2i.
 
-What the framework's Π effectively does: it projects L_H = −i[H, ·] (which has all difference-of-eigenvalue spectra) down to just the particle-hole-symmetric part (where eigenvalue pairs have λ_a = −λ_b). For chain Π²-odd 2-body (Majorana bilinear under JW), H has particle-hole symmetry built in, so the "particle-hole-symmetric" L_H eigenvalues are exactly 2λ_a for each H eigenvalue λ_a — giving M's spectrum 2i·Spec(H).
+What the framework's Π effectively does: it projects L_H = −i[H, ·] (which has all difference-of-eigenvalue spectra) down to just the particle-hole-symmetric part (where eigenvalue pairs have λ_a = −λ_b). For chain Π²-odd 2-body (Majorana bilinear under JW), H has particle-hole symmetry built in, so the "particle-hole-symmetric" L_H eigenvalues are exactly 2λ_a for each H eigenvalue λ_a, giving M's spectrum 2i·Spec(H).
 
-This is why the numerical signature was so clean — the structure was simpler than it looked.
+This is why the numerical signature was so clean: the structure was simpler than it looked.
 
 **The remaining formal step**: proving the projection-to-particle-hole-pairs argument rigorously. This is a much smaller technical task than originally framed. Numerical verification at N=3, 4, 5, 6, 7 (all 4 Pauli pairs) is bit-exact at machine precision.
 
@@ -229,7 +229,7 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 - **F78 (real-space single-body)**: F80 is the **momentum-space dual**. Same Lebensader broad-in → focused-out funnel, applied at a different basis layer. Real-space sites l with weights c_l ↔ momentum modes k with dispersion ε(k).
 - **F79 (Π²-block decomposition)**: F80 explicitly closes the "Π²-odd universality" observation in F79 with a closed-form formula and JW-based mechanism.
-- **F49 (Frobenius cross-term)**: F80 is consistent — the sum of squared cluster values × multiplicity gives the F49 Frobenius norm:
+- **F49 (Frobenius cross-term)**: F80 is consistent; the sum of squared cluster values × multiplicity gives the F49 Frobenius norm:
 
     ‖M‖²_F = (4^N / 2^⌊N/2⌋) · Σ_{σ} |Σ_k σ_k · ε(k)|² · 4γ²
 
