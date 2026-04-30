@@ -182,6 +182,41 @@ def _build_bilinear(N, bonds, terms):
     return H
 
 
+def _build_kbody_chain(N, terms):
+    """Build H = Σ_l Σ_term coeff · σ_{a_1}^l σ_{a_2}^{l+1} ... σ_{a_k}^{l+k-1}
+    over a chain (sliding window of consecutive sites).
+
+    F85 generalization of `_build_bilinear` to k-body Pauli terms on a chain.
+    For each term (a_1, a_2, ..., a_k, coeff), sums the k-body Pauli string
+    over all chain positions l = 0, 1, ..., N - k.
+
+    Args:
+        N: number of qubits
+        terms: list of (a_1, a_2, ..., a_k, coeff) tuples where the k Pauli
+            letters are followed by the coefficient. Mixed body counts are
+            allowed (different terms can have different k).
+
+    Returns:
+        2^N × 2^N Hermitian matrix.
+    """
+    d = 2 ** N
+    H = np.zeros((d, d), dtype=complex)
+    for term in terms:
+        letters = term[:-1]
+        coeff = term[-1]
+        k = len(letters)
+        if k > N:
+            raise ValueError(
+                f"k-body term of length {k} cannot fit on N={N} chain"
+            )
+        for l in range(N - k + 1):
+            op = site_op(N, l, letters[0])
+            for i in range(1, k):
+                op = op @ site_op(N, l + i, letters[i])
+            H = H + coeff * op
+    return H
+
+
 def _site_op_kron(op, site, N):
     """Helper: 2×2 op on `site`, identity elsewhere (different signature from site_op)."""
     I2 = np.eye(2, dtype=complex)

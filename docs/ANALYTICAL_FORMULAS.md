@@ -478,7 +478,7 @@ noise TYPE, all measured with CΨ on Bell+ state.
 **Note (correction 2026-04-29):** earlier versions of this table listed
 K_Y = 0.0867. That was a typo. F26 with γ_y = γ (others = 0) gives
 α = 4γ, β = 0, δ = 4γ, so u = e^{-4γt}, v = 1, w = e^{-4γt}, and CΨ
-reduces to u·(1+u²)/6 — *identical functional form to pure Z*. Hence
+reduces to u·(1+u²)/6, *identical functional form to pure Z*. Hence
 K_Y = K_Z = 0.0374. The K_Y ↔ K_X-symmetry claim was wrong; the actual
 pairing is K_Y ↔ K_Z (both have one of {β, δ} = 0 with α ≠ 0). This
 is consistent with Bell+'s correlation structure: Y⊗Y·|Bell+⟩ = -|Bell+⟩,
@@ -2167,7 +2167,7 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 
 **Valid for:** any 2-bilinear chain H, Z-dephasing + thermal amplitude damping, any topology supported by F49, any N ≥ 2.
 **Verified:** 7 (γ_↓, γ_↑) configurations at N=3, machine-precision residual; D[X], D[Y] cancellation explicitly tested.
-**Replaces:** F82's "T1 detector" interpretation; F84 corrects to "vacuum-amplitude-damping detector" — the F81 violation does not measure raw T1 rate but only the temperature-independent vacuum component of amplitude damping.
+**Replaces:** F82's "T1 detector" interpretation; F84 corrects to "vacuum-amplitude-damping detector"; the F81 violation does not measure raw T1 rate but only the temperature-independent vacuum component of amplitude damping.
 **Framework primitives:**
 - `chain.pi_decompose_M(terms, gamma_z, gamma_t1, gamma_pump, strict)`: extended with `gamma_pump` parameter for σ⁺ heating; uses `lindbladian_general` when both are present.
 - `chain.predict_amplitude_damping_violation(gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
@@ -2175,6 +2175,61 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 **Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D[X], D[Y] explicitly verified to give zero violation).
 **Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D[Z], D[X], D[Y] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
 **Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
+
+### F85. Higher-body Hamiltonian generalization of F49 / F-chain (Tier 1, verified bit-exact k=2,3,4)
+
+For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π²-class trichotomy and the F49 Frobenius scaling generalize:
+
+**Truly criterion** (term contributes M = 0 by Master Lemma):
+
+    truly  ⟺  #Y is even  AND  #Z is even
+
+**Π²-parity**: bit_b(σ) = (#Y + #Z) mod 2. Π²-odd if bit_b = 1.
+
+**Frobenius factor c(k)** per non-truly term:
+
+    c(truly)              = 0
+    c(Π²-odd non-truly)    = 1   (factor 4·2^N)
+    c(Π²-even non-truly)   = 2   (factor 8·2^N)
+
+**F49 generalized**: ‖M‖²_F per term = 4·c(k)·‖H_k‖²_F·2^N. The 2-body F49 formula 2^(N+2)·n_YZ·‖H_k‖² coincided with c(k) only because at k=2: n_YZ=1 ↔ Π²-odd, n_YZ=2 ↔ Π²-even non-truly. **For k ≥ 3, n_YZ is no longer the determining quantity** (e.g., YYY has n_YZ=3 but c=1). Only the Π²-class matters.
+
+**Trichotomy enumeration** (Pauli tuples over {X, Y, Z}^k):
+
+| k | total | truly | Π²-odd | Π²-even non-truly |
+|---|-------|-------|--------|-------------------|
+| 2 | 9 = 3² | 3 | 4 | 2 |
+| 3 | 27 = 3³ | 7 | 14 | 6 |
+| 4 | 81 = 3⁴ | 21 | 40 | 20 |
+
+**Closed form for Π²-odd count**: \|Π²-odd at k\| = (3^k − (−1)^k) / 2. Verified k=2,3,4.
+
+**F-chain extension to k-body** (proof structure verbatim):
+
+| Theorem | k-body status |
+|---------|---------------|
+| F77 trichotomy | extends via _pauli_tuple_is_truly |
+| F80 Spec(M) = 2i·Spec(H) | proof structure carries (JW with k-fold Majorana products), explicit N=3..7 was 2-body |
+| F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} | verbatim, verified at k=3 chain N=4 |
+| F82 T1 dissipator | dissipator-only, body-count-independent |
+| F83 anti-fraction 1/(2+4r) | verbatim with Π²-class grouping |
+| F84 thermal amplitude damping | dissipator-only, body-count-independent |
+
+**Verified at k=3, k=4**: 27+81 = 108 explicit Pauli tuple cases, all matching the c(k) factor scheme bit-exact. Mixed-body Hamiltonians (e.g., 2-body H + 3-body H) handled via term-list structure.
+
+**Valid for:** any k-body 2 ≤ k ≤ N Hamiltonian on chain (sliding-window), Z-dephasing + amplitude damping, any γ ≥ 0, any N ≥ k.
+**Replaces:** F49's n_YZ-based formula at 2-body remains correct (coincidence); for k ≥ 3, F85's c(k)-based formula is the structurally correct extension.
+**Framework primitives (k-body support added 2026-04-30):**
+- `_pauli_tuple_is_truly(letters)`: O(k) syntactic classifier.
+- `_pauli_tuple_pi2_class(letters)`: returns 'truly' / 'pi2_odd' / 'pi2_even_nontruly'.
+- `_build_kbody_chain(N, terms)`: chain sliding-window k-body builder.
+- `chain.predict_pi_decomposition(terms)`: extended to accept k-body tuples; auto-detects body count.
+- `chain.pi_decompose_M(terms, gamma_z, gamma_t1, gamma_pump)`: extended for k-body.
+- `chain.predict_residual_norm_squared_from_terms(terms, gamma_t1)`: rewritten using Π²-class; backward-compatible at 2-body.
+**Pytest lock:** `test_F85_kbody_trichotomy_counts` + `test_F85_kbody_predict_pi_decomposition` + `test_F85_kbody_F81_identity_at_k3`. Plus all 2-body tests (92 prior) pass unchanged via backward compatibility.
+**Source:** Discovered 2026-04-30 (Tom + Claude) by empirical 3-body and 4-body enumeration. The {0, 4, 8} factor scheme persists across k, but n_YZ ≠ c(k) for k ≥ 3. The structural truly criterion "#Y even AND #Z even" was identified by inspecting which Π²-even k-tuples give M = 0. Closed form derived in [PROOF_F85_KBODY_GENERALIZATION.md](proofs/PROOF_F85_KBODY_GENERALIZATION.md).
+
+**Lebensader connection:** F85 closes the body-count generalization of the F-chain. Together with F80 (Spec), F81 (decomposition), F82 (T1), F83 (anti-fraction), F84 (thermal): the structural Π-decomposition theory for Hamiltonians + dissipators is complete on chain (any topology for 2-body via F49; chain only for k ≥ 3).
 
 ---
 

@@ -42,12 +42,67 @@ def _pauli_pair_is_truly(a, b):
     A bond bilinear (a, b) preserves the Π-palindrome (M = 0) iff
     a == b (any of II, XX, YY, ZZ) or {a, b} ⊆ {I, X}. Verified
     against classify_pauli_pair for all 16 single-term pairs.
+
+    Equivalent to `_pauli_tuple_is_truly((a, b))` and kept for
+    backward compatibility.
     """
-    if a == b:
-        return True
-    if a in {'I', 'X'} and b in {'I', 'X'}:
-        return True
-    return False
+    return _pauli_tuple_is_truly((a, b))
+
+
+def _pauli_tuple_is_truly(letters):
+    """F85 syntactic per-term truly check for a k-body Pauli tuple.
+
+    A k-body Pauli term (P_1, ..., P_k) on a chain preserves the
+    Π-palindrome (M = 0 for that term alone) iff:
+
+        bit_b sum is even (Π²-even)  AND  #Z is even
+
+    where bit_b sum = #Y + #Z and #Z is the count of Z letters.
+    Equivalently: both #Y and #Z are even (since both parities being
+    even gives both sums even).
+
+    Special case (2-body): the rule reduces to "a == b OR {a, b} ⊆ {I, X}",
+    matching `_pauli_pair_is_truly`:
+      - XX, YY, ZZ: #Y, #Z each even (0 or 2). Truly ✓
+      - IX, XI: #Y = #Z = 0 even. Truly ✓
+      - YZ, ZY: #Y = #Z = 1 odd. Non-truly ✓
+      - XY, YX, XZ, ZX: bit_b sum = 1 odd. Π²-odd ✓
+
+    Verified bit-exact against numerical `palindrome_residual` at
+    k = 2, 3, 4 (all 9 + 27 + 81 letter combinations over {X, Y, Z};
+    plus single-body cases over {I, X, Y, Z}).
+
+    Args:
+        letters: tuple/list of k Pauli letters from {'I', 'X', 'Y', 'Z'}.
+
+    Returns:
+        True if the term is truly (M=0 for this term alone), False otherwise.
+    """
+    n_y = sum(1 for L in letters if L == 'Y')
+    n_z = sum(1 for L in letters if L == 'Z')
+    return (n_y % 2 == 0) and (n_z % 2 == 0)
+
+
+def _pauli_tuple_pi2_class(letters):
+    """F85 Π²-class of a k-body Pauli term: 'truly', 'pi2_odd', or 'pi2_even_nontruly'.
+
+    Determines the F85 Frobenius factor c(k) for the term:
+        truly:               factor = 0     (M = 0 by Master Lemma)
+        Π²-odd non-truly:    factor = 4·2^N (single-term)
+        Π²-even non-truly:   factor = 8·2^N (single-term)
+
+    Args:
+        letters: tuple/list of k Pauli letters from {'I', 'X', 'Y', 'Z'}.
+
+    Returns:
+        One of 'truly', 'pi2_odd', 'pi2_even_nontruly'.
+    """
+    if _pauli_tuple_is_truly(letters):
+        return 'truly'
+    n_y = sum(1 for L in letters if L == 'Y')
+    n_z = sum(1 for L in letters if L == 'Z')
+    bit_b_parity = (n_y + n_z) % 2
+    return 'pi2_odd' if bit_b_parity == 1 else 'pi2_even_nontruly'
 
 
 # ----------------------------------------------------------------------
@@ -301,29 +356,41 @@ class ChainSystem:
             gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform
                       across sites), list of length N, or None / 0 (no T1).
         """
-        # Hamiltonian palindrome part. Decompose into:
-        #   1. Drop per-term truly-class terms (they contribute M=0).
-        #   2. Group remaining terms by n_YZ-class (Π-symmetry-breaking count).
-        #   3. Within each n_YZ-class, Pauli strings can overlap (e.g.
-        #      (I,Y) and (Y,I) both place Y on the middle site of a chain),
-        #      so the per-class Frobenius norm is the norm of the combined
-        #      sub-Hamiltonian, not a sum of per-term norms.
-        #   4. Across n_YZ-classes M-residuals are orthogonal — sum the
-        #      per-class predictions.
-        from collections import defaultdict
-        n_yz_groups = defaultdict(list)
-        for (a, b) in terms:
-            if _pauli_pair_is_truly(a, b):
-                continue
-            n_yz_k = sum(1 for L in (a, b) if L in 'YZ')
-            n_yz_groups[n_yz_k].append((a, b))
+        # F85 Hamiltonian palindrome part. Decompose into:
+        #   1. Drop per-term truly-class terms via _pauli_tuple_is_truly
+        #      (M = 0 by Master Lemma; truly = #Y even AND #Z even).
+        #   2. Group remaining terms by Π²-class (pi2_odd or pi2_even_nontruly).
+        #      For 2-body, this matches F49's n_YZ grouping (n_YZ=1 ↔ Π²-odd,
+        #      n_YZ=2 ↔ Π²-even non-truly). For k-body (k ≥ 3), the n_YZ-based
+        #      F49 formula breaks; only Π²-class determines the factor c ∈ {1, 2}.
+        #   3. Within each class, Pauli strings can overlap so per-class Frobenius
+        #      norm is the norm of the combined sub-Hamiltonian.
+        #   4. Sum per-class contributions: factor 4·2^N for Π²-odd (c=1) and
+        #      8·2^N for Π²-even non-truly (c=2).
         z_part = 0.0
-        for n_yz, group_terms in n_yz_groups.items():
-            H_group = _build_bilinear(
-                self.N, self.bonds, [(a, b, self.J) for (a, b) in group_terms]
-            )
+        for cls in ('pi2_odd', 'pi2_even_nontruly'):
+            group_terms = []
+            for term in terms:
+                letters = tuple(term)
+                if _pauli_tuple_is_truly(letters):
+                    continue
+                if _pauli_tuple_pi2_class(letters) != cls:
+                    continue
+                group_terms.append(letters + (self.J,))
+            if not group_terms:
+                continue
+            # Build sub-Hamiltonian; if all 2-body, use bond graph (topology-aware);
+            # else use chain sliding-window (k-body).
+            all_two_body = all(len(t) == 3 for t in group_terms)
+            if all_two_body:
+                two_body_terms = [(t[0], t[1], t[2]) for t in group_terms]
+                H_group = _build_bilinear(self.N, self.bonds, two_body_terms)
+            else:
+                from .pauli import _build_kbody_chain
+                H_group = _build_kbody_chain(self.N, group_terms)
             H_group_frob_sq = float(np.real(np.trace(H_group.conj().T @ H_group)))
-            z_part += (2 ** (self.N + 2)) * n_yz * H_group_frob_sq
+            c_factor = 1 if cls == 'pi2_odd' else 2
+            z_part += 4 * (2 ** self.N) * c_factor * H_group_frob_sq
 
         # T1 dissipator contribution (Hamiltonian-independent, additive)
         if gamma_t1 is None:
@@ -482,7 +549,10 @@ class ChainSystem:
             lindbladian_z_dephasing, lindbladian_z_plus_t1,
             lindbladian_general, palindrome_residual,
         )
-        from .pauli import _vec_to_pauli_basis_transform, bit_b, _resolve, site_op
+        from .pauli import (
+            _vec_to_pauli_basis_transform, bit_b, _resolve, site_op,
+            _build_kbody_chain,
+        )
         from .symmetry import build_pi_full
 
         gz = gamma_z if gamma_z is not None else self.gamma_0
@@ -503,16 +573,30 @@ class ChainSystem:
         if strict is None:
             strict = not any_amplitude_damping
 
-        bilinear_all = [(a, b, self.J) for (a, b) in terms]
+        # Classify terms: F85 generalization to k-body. Use _pauli_tuple_pi2_class.
+        all_terms_kbody = [tuple(t) + (self.J,) for t in terms]
         bilinear_odd = []
-        for (a, b) in terms:
-            ab_idx = _resolve(a)
-            bb_idx = _resolve(b)
-            parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
-            if parity == 1 and 'I' not in (a, b):
-                bilinear_odd.append((a, b, self.J))
+        for term in terms:
+            letters = tuple(term)
+            if _pauli_tuple_is_truly(letters):
+                continue
+            if 'I' in letters:
+                continue
+            cls = _pauli_tuple_pi2_class(letters)
+            if cls == 'pi2_odd':
+                bilinear_odd.append(letters + (self.J,))
 
-        H_full = _build_bilinear(self.N, self.bonds, bilinear_all)
+        # Determine if all terms are 2-body (preserves chain/ring/star/K_N
+        # topology via self.bonds) or contains higher-body terms (uses chain
+        # sliding-window via _build_kbody_chain).
+        all_two_body = all(len(t) == 2 for t in terms)
+
+        if all_two_body:
+            two_body_all = [(t[0], t[1], self.J) for t in terms]
+            two_body_odd = [(t[0], t[1], t[-1]) for t in bilinear_odd]
+            H_full = _build_bilinear(self.N, self.bonds, two_body_all)
+        else:
+            H_full = _build_kbody_chain(self.N, all_terms_kbody)
         if any_pump:
             # Build via lindbladian_general with explicit cooling + heating channels
             d = 2 ** self.N
@@ -552,7 +636,11 @@ class ChainSystem:
         Id_d = np.eye(d, dtype=complex)
         T = _vec_to_pauli_basis_transform(self.N)
         if bilinear_odd:
-            H_odd = _build_bilinear(self.N, self.bonds, bilinear_odd)
+            if all_two_body:
+                two_body_odd = [(t[0], t[1], t[-1]) for t in bilinear_odd]
+                H_odd = _build_bilinear(self.N, self.bonds, two_body_odd)
+            else:
+                H_odd = _build_kbody_chain(self.N, bilinear_odd)
             L_H_odd_vec = -1j * (np.kron(H_odd, Id_d) - np.kron(Id_d, H_odd.T))
             L_H_odd = (T.conj().T @ L_H_odd_vec @ T) / d
         else:
@@ -706,10 +794,11 @@ class ChainSystem:
         return float(f81_violation / (np.sqrt(self.N) * (2 ** (self.N - 1))))
 
     def predict_pi_decomposition(self, terms):
-        """F83 closed form: predict ‖M‖², ‖M_anti‖², ‖M_sym‖², and anti-fraction
-        from H alone, without computing M.
+        """F83 (k-body via F85): predict ‖M‖², ‖M_anti‖², ‖M_sym‖², and
+        anti-fraction from H alone, without computing M.
 
-        Theorem F83 (proved in PROOF_F83_PI_DECOMPOSITION_RATIO):
+        Theorem F83/F85 (proven in PROOF_F83_PI_DECOMPOSITION_RATIO and
+        PROOF_F85_KBODY_GENERALIZATION):
 
             ‖M‖²_F        = 4·‖H_odd‖²·2^N + 8·‖H_even_nontruly‖²·2^N
             ‖M_anti‖²_F  = 2·‖H_odd‖²·2^N
@@ -721,63 +810,63 @@ class ChainSystem:
             r = ∞  (pure Π²-even non-truly):  anti = 0    (F81 100/0)
             r = 1  (equal-Frobenius mix):     anti = 1/6  (5/6+1/6 finding)
 
-        The truly part of H drops out by the Master Lemma; only the Π²-odd
-        and Π²-even non-truly bilinears contribute. γ_z-independent.
+        F85 generalization to k-body: terms can be tuples of any length k ≥ 2.
+        Truly classification (M = 0 for term alone): #Y even AND #Z even.
+        Π²-class determines factor c ∈ {0, 1, 2}, replacing F49's 2-body-
+        coincidental n_YZ formula with the structurally correct c(k) formula.
 
-        Topology-independent: ‖H_odd‖² and ‖H_even_nontruly‖² are computed
-        by building the actual sub-Hamiltonian matrices and taking
-        Frobenius norms (consistent with F49's `predict_residual_norm_squared_from_terms`).
-        Works for chain, ring, star, K_N, and any topology where the
-        underlying F49 Frobenius identity holds.
+        For 2-body, c(k) = n_YZ(k) coincidentally (Π²-odd ↔ n_YZ=1,
+        Π²-even non-truly ↔ n_YZ=2). For k ≥ 3, the n_YZ formula breaks
+        and only the Π²-class matters.
+
+        γ_z-independent. Topology-independent (verified chain/ring/star/K_N
+        at 2-body; chain at k = 3, 4 for higher-body).
 
         Args:
-            terms: list of (a, b) Pauli letter tuples (bond-summed H).
+            terms: list of Pauli-letter tuples. Each tuple has length k ≥ 1
+                and contains letters from {'I', 'X', 'Y', 'Z'}. Mixed body
+                counts in the same call are supported.
 
         Returns:
             dict with keys:
-                'M_sq':              ‖M‖²_F predicted from F83.
-                'M_anti_sq':         ‖M_anti‖²_F = 2·‖H_odd‖²·2^N.
-                'M_sym_sq':          ‖M_sym‖²_F = M_sq − M_anti_sq.
-                'anti_fraction':     ratio M_anti_sq / M_sq (0 if M=0).
-                'h_odd_sq':          ‖H_odd‖²_F (Π²-odd non-truly Frobenius²).
-                'h_even_nontruly_sq': ‖H_even_nontruly‖²_F (Π²-even non-truly Frobenius²).
-                'r':                 ratio h_even_nontruly_sq / h_odd_sq (∞ if h_odd=0).
-
-        Use case: forward F83 prediction without building L or M; companion
-        to numerical `pi_decompose_M` which computes the same quantities
-        explicitly from L.
+                'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction',
+                'h_odd_sq', 'h_even_nontruly_sq', 'r'.
         """
-        from .pauli import bit_b, _resolve
+        from .pauli import _build_bilinear, _build_kbody_chain
 
-        # Group non-truly terms by Π²-parity, then build sub-Hamiltonians per
-        # group and take Frobenius norms (matches F49's matrix-based approach;
-        # correctly handles inter-string Frobenius cross-terms on non-chain
-        # topologies where Pauli strings can overlap).
+        # Group non-truly terms by Π²-class (truly drops, Π²-odd, Π²-even non-truly)
         odd_terms = []
         even_nontruly_terms = []
-        for (a, b) in terms:
-            if _pauli_pair_is_truly(a, b):
+        for term in terms:
+            letters = tuple(term)
+            if _pauli_tuple_is_truly(letters):
                 continue
-            if 'I' in (a, b):
-                continue  # single-body falls outside F83 scope (F78 territory)
-            ab_idx = _resolve(a)
-            bb_idx = _resolve(b)
-            parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
-            if parity == 1:
-                odd_terms.append((a, b, self.J))
-            else:
-                even_nontruly_terms.append((a, b, self.J))
+            if 'I' in letters:
+                continue  # single-body or partial-identity outside F83/F85 scope
+            cls = _pauli_tuple_pi2_class(letters)
+            term_with_coeff = letters + (self.J,)
+            if cls == 'pi2_odd':
+                odd_terms.append(term_with_coeff)
+            elif cls == 'pi2_even_nontruly':
+                even_nontruly_terms.append(term_with_coeff)
 
-        if odd_terms:
-            H_odd = _build_bilinear(self.N, self.bonds, odd_terms)
-            h_odd_sq = float(np.real(np.trace(H_odd.conj().T @ H_odd)))
-        else:
-            h_odd_sq = 0.0
-        if even_nontruly_terms:
-            H_even = _build_bilinear(self.N, self.bonds, even_nontruly_terms)
-            h_even_nontruly_sq = float(np.real(np.trace(H_even.conj().T @ H_even)))
-        else:
-            h_even_nontruly_sq = 0.0
+        # Build sub-Hamiltonians: 2-body uses the bond graph (chain/ring/...),
+        # k-body uses sliding-window chain semantics (consistent with F85 scope).
+        def _build_group(group_terms):
+            if not group_terms:
+                return None
+            # Detect body-count: if all terms are 2-tuples, use _build_bilinear
+            # to respect non-chain topology. Otherwise use _build_kbody_chain.
+            all_two_body = all(len(t) == 3 for t in group_terms)  # 2 letters + 1 coeff
+            if all_two_body:
+                two_body_terms = [(t[0], t[1], t[2]) for t in group_terms]
+                return _build_bilinear(self.N, self.bonds, two_body_terms)
+            return _build_kbody_chain(self.N, group_terms)
+
+        H_odd = _build_group(odd_terms)
+        h_odd_sq = float(np.real(np.trace(H_odd.conj().T @ H_odd))) if H_odd is not None else 0.0
+        H_even = _build_group(even_nontruly_terms)
+        h_even_nontruly_sq = float(np.real(np.trace(H_even.conj().T @ H_even))) if H_even is not None else 0.0
 
         d_pow = 2 ** self.N
         m_sq = 4 * h_odd_sq * d_pow + 8 * h_even_nontruly_sq * d_pow
