@@ -3,12 +3,14 @@
 Layered as primitive modules + a Section-18 OOP cockpit on top.
 
 Modules:
-  pauli        — Pauli matrices, basis transforms, _build_bilinear
-  symmetry     — Π conjugation, F71 chain-mirror, chiral panel, Y-parity panel
-  lindblad     — Lindbladian, palindrome residual, ‖M‖² scaling
-  observables  — Π-protected observables (Section 10)
-  lebensader   — cockpit_panel (Section 11): skeleton + trace + cusp
-  core         — ChainSystem, Receiver, Confirmations (Section 18 cockpit)
+  pauli         — Pauli matrices, basis transforms, _build_bilinear
+  symmetry      — Π conjugation, F71 chain-mirror, chiral panel, Y-parity panel
+  lindblad      — Lindbladian, palindrome residual, ‖M‖² scaling
+  observables   — Π-protected observables (Section 10)
+  lebensader    — cockpit_panel (Section 11): skeleton + trace + cusp
+  chain_system  — ChainSystem (Section 18 cockpit, the workhorse class)
+  receiver      — Receiver (state-bearing F71-aware wrapper)
+  confirmations — Confirmations (hardware-confirmed predictions registry)
 
 Quick start:
     import framework as fw
@@ -74,4 +76,6 @@ from .observables import pi_protected_observables
 from .lebensader import cockpit_panel
 
 # Cockpit OOP layer
-from .core import ChainSystem, Receiver, Confirmations
+from .chain_system import ChainSystem
+from .receiver import Receiver
+from .confirmations import Confirmations

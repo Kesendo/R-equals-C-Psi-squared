@@ -23,7 +23,7 @@ def test_F85_kbody_trichotomy_counts():
     """
     from itertools import product
     from collections import Counter
-    from framework.core import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
+    from framework.symmetry import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
 
     expected_counts = {
         2: {'truly': 3, 'pi2_odd': 4, 'pi2_even_nontruly': 2},
@@ -41,7 +41,7 @@ def test_F85_kbody_trichotomy_counts():
         assert counts['pi2_odd'] == expected_odd
 
     # Backward compat: 2-body classification matches _pauli_pair_is_truly
-    from framework.core import _pauli_pair_is_truly
+    from framework.symmetry import _pauli_pair_is_truly
     for a, b in product('IXYZ', repeat=2):
         pair_check = _pauli_pair_is_truly(a, b)
         tuple_check = _pauli_tuple_is_truly((a, b))
@@ -106,7 +106,7 @@ def test_F85_kbody_classifier_at_k5_spot_check():
     """
     from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
     from framework.pauli import _build_kbody_chain
-    from framework.core import _pauli_tuple_pi2_class
+    from framework.symmetry import _pauli_tuple_pi2_class
 
     N = 5
     test_cases = [

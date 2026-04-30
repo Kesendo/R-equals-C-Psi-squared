@@ -444,3 +444,76 @@ def y_parity_panel(H, gamma_l, rho_0, N, gamma_t1_l=None):
         'Y_odd_observables': y_odd_labels,
         'Y_parity_protected': Y_parity_protected,
     }
+
+
+# ----------------------------------------------------------------------
+# F85 syntactic Π²-class helpers (moved from core.py 2026-04-30)
+# ----------------------------------------------------------------------
+
+def _pauli_pair_is_truly(a, b):
+    """Syntactic per-term truly check for a single Pauli-pair bilinear.
+
+    A bond bilinear (a, b) preserves the Π-palindrome (M = 0) iff
+    a == b (any of II, XX, YY, ZZ) or {a, b} ⊆ {I, X}. Verified
+    against classify_pauli_pair for all 16 single-term pairs.
+
+    Equivalent to `_pauli_tuple_is_truly((a, b))` and kept for
+    backward compatibility.
+    """
+    return _pauli_tuple_is_truly((a, b))
+
+
+def _pauli_tuple_is_truly(letters):
+    """F85 syntactic per-term truly check for a k-body Pauli tuple.
+
+    A k-body Pauli term (P_1, ..., P_k) on a chain preserves the
+    Π-palindrome (M = 0 for that term alone) iff:
+
+        bit_b sum is even (Π²-even)  AND  #Z is even
+
+    where bit_b sum = #Y + #Z and #Z is the count of Z letters.
+    Equivalently: both #Y and #Z are even (since both parities being
+    even gives both sums even).
+
+    Special case (2-body): the rule reduces to "a == b OR {a, b} ⊆ {I, X}",
+    matching `_pauli_pair_is_truly`:
+      - XX, YY, ZZ: #Y, #Z each even (0 or 2). Truly ✓
+      - IX, XI: #Y = #Z = 0 even. Truly ✓
+      - YZ, ZY: #Y = #Z = 1 odd. Non-truly ✓
+      - XY, YX, XZ, ZX: bit_b sum = 1 odd. Π²-odd ✓
+
+    Verified bit-exact against numerical `palindrome_residual` at
+    k = 2, 3, 4 (all 9 + 27 + 81 letter combinations over {X, Y, Z};
+    plus single-body cases over {I, X, Y, Z}).
+
+    Args:
+        letters: tuple/list of k Pauli letters from {'I', 'X', 'Y', 'Z'}.
+
+    Returns:
+        True if the term is truly (M=0 for this term alone), False otherwise.
+    """
+    n_y = sum(1 for L in letters if L == 'Y')
+    n_z = sum(1 for L in letters if L == 'Z')
+    return (n_y % 2 == 0) and (n_z % 2 == 0)
+
+
+def _pauli_tuple_pi2_class(letters):
+    """F85 Π²-class of a k-body Pauli term: 'truly', 'pi2_odd', or 'pi2_even_nontruly'.
+
+    Determines the F85 Frobenius factor c(k) for the term:
+        truly:               factor = 0     (M = 0 by Master Lemma)
+        Π²-odd non-truly:    factor = 4·2^N (single-term)
+        Π²-even non-truly:   factor = 8·2^N (single-term)
+
+    Args:
+        letters: tuple/list of k Pauli letters from {'I', 'X', 'Y', 'Z'}.
+
+    Returns:
+        One of 'truly', 'pi2_odd', 'pi2_even_nontruly'.
+    """
+    if _pauli_tuple_is_truly(letters):
+        return 'truly'
+    n_y = sum(1 for L in letters if L == 'Y')
+    n_z = sum(1 for L in letters if L == 'Z')
+    bit_b_parity = (n_y + n_z) % 2
+    return 'pi2_odd' if bit_b_parity == 1 else 'pi2_even_nontruly'
