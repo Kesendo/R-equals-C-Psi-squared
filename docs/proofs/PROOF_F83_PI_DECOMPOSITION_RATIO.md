@@ -145,7 +145,8 @@ For Π²-odd content the "drive" (M_anti) is half of M; for Π²-even non-truly 
 - (To be added in this commit) `chain.predict_pi_decomposition_anti_fraction(terms)`: returns the F83 anti-fraction closed form 1/(2 + 4·r).
 **Pytest lock:** to be added.
 
+**Verified topologies:** chain (N=3,4,5 in `test_F83_pi_decomposition_anti_fraction_closed_form`), ring/star/complete K_N (N=4 in `test_F83_topology_generalization`). The matrix-based `predict_pi_decomposition` primitive builds H_odd and H_even_nontruly via `_build_bilinear` which respects the chosen topology's bond graph, so F83 is topology-independent within F49's verified scope.
+
 **Open generalizations:**
-- Other topologies (ring, star, complete K_N): the per-Pauli-pair Frobenius identity in `predict_residual_norm_squared_from_terms` is verified across these topologies, so F83 should generalize. Anti-fraction formula uses same r = ‖H_even_nontruly‖²/‖H_odd‖² ratio.
 - Higher-body Hamiltonians (3-body, 4-body): the n_YZ counting generalizes; coefficients beyond 1, 2 (for n_YZ values 0 through k) are the natural extension. Empirical verification needed.
 - Non-Z dissipators: F82 covers T1 specifically; combining F82 with F83 for general dissipator + general Hamiltonian is the next step.

@@ -2106,10 +2106,10 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 
 **γ-independence.** Master Lemma propagates through all three norms; closed form depends only on H.
 **Truly-handling.** H_truly drops out of all norms (M-contribution zero by Master Lemma).
-**Generalization.** F49 chain identity has been verified across ring/star/K_N topologies (per `predict_residual_norm_squared_from_terms` docstring); F83's anti-fraction closed form should generalize correspondingly. Higher-body Hamiltonians extend n_YZ counting beyond {0, 1, 2}; coefficients beyond 4, 8 are the natural continuation, empirical verification needed.
+**Generalization.** F83 verified on chain, ring, star, complete K_N at N=4 (`test_F83_topology_generalization`); the matrix-based primitive builds H_odd and H_even_nontruly via `_build_bilinear` which respects the chosen topology's bond graph, so the closed form is topology-independent within F49's verified scope. Higher-body Hamiltonians extend n_YZ counting beyond {0, 1, 2}; coefficients beyond 4, 8 are the natural continuation, empirical verification needed.
 
-**Valid for:** any 2-body chain H, Z-dephasing, any γ_z ≥ 0, any N ≥ 2.
-**Verified:** 11 mixed configurations × N ∈ {3, 4, 5}, machine-precision residual.
+**Valid for:** any 2-body H on any topology supported by F49 (chain, ring, star, complete K_N), Z-dephasing, any γ_z ≥ 0, any N ≥ 2.
+**Verified:** 11 mixed configurations × N ∈ {3, 4, 5} on chain, plus 4 configurations × {ring, star, K_4} at N=4, all machine-precision residual.
 **Replaces:** the previously-empirical "5/6 + 1/6" observation for mixed Π²-odd + Π²-even non-truly H; F83 derives this from the existing F49 Frobenius identity.
 **Framework primitives:**
 - `chain.predict_pi_decomposition(terms)`: full F83 closed form, returns dict with `{'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction', 'h_odd_sq', 'h_even_nontruly_sq', 'r'}`. O(N) work, no matrix construction; companion to numerical `pi_decompose_M`.

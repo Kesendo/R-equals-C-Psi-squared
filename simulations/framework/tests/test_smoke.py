@@ -1817,3 +1817,41 @@ def test_F83_predict_pi_decomposition_full_closed_form():
     pred_truly = chain3.predict_pi_decomposition([('X', 'X'), ('Y', 'Y')])
     assert pred_truly['M_sq'] == 0.0
     assert pred_truly['anti_fraction'] == 0.0
+
+
+def test_F83_topology_generalization():
+    """F83 closed form is topology-independent: ring, star, complete K_N
+    give the same closed-form prediction as numerical pi_decompose_M.
+
+    The matrix-based F83 primitive (post-review fix) builds H_odd and
+    H_even_nontruly via _build_bilinear which respects the chosen
+    topology's bond graph. This test verifies that the closed form
+    matches numerical L → M → pi_decompose_M at N=4 for each non-chain
+    topology.
+    """
+    test_cases = [
+        ('XY+YX (pure odd)', [('X', 'Y'), ('Y', 'X')]),
+        ('YZ+ZY (pure even non-truly)', [('Y', 'Z'), ('Z', 'Y')]),
+        ('XY+YZ (mixed equal)', [('X', 'Y'), ('Y', 'Z')]),
+        ('XX+XY+YZ (truly + mixed)', [('X', 'X'), ('X', 'Y'), ('Y', 'Z')]),
+    ]
+    N = 4
+    for topology in ['ring', 'star', 'complete']:
+        chain = fw.ChainSystem(N=N, topology=topology)
+        for label, terms in test_cases:
+            pred = chain.predict_pi_decomposition(terms)
+            num = chain.pi_decompose_M(terms, gamma_z=0.0)
+
+            # Match closed form to numerical decomposition
+            assert abs(pred['M_sq'] - num['norm_sq']['M']) < 1e-9, \
+                f"topology={topology} {label} ‖M‖²: pred={pred['M_sq']}, num={num['norm_sq']['M']}"
+            assert abs(pred['M_anti_sq'] - num['norm_sq']['M_anti']) < 1e-9, \
+                f"topology={topology} {label} ‖M_anti‖²: pred={pred['M_anti_sq']}, num={num['norm_sq']['M_anti']}"
+            assert abs(pred['M_sym_sq'] - num['norm_sq']['M_sym']) < 1e-9, \
+                f"topology={topology} {label} ‖M_sym‖²: pred={pred['M_sym_sq']}, num={num['norm_sq']['M_sym']}"
+
+            # anti_fraction matches numerical (when M ≠ 0)
+            if num['norm_sq']['M'] > 1e-12:
+                num_anti_frac = num['norm_sq']['M_anti'] / num['norm_sq']['M']
+                assert abs(pred['anti_fraction'] - num_anti_frac) < 1e-9, \
+                    f"topology={topology} {label} anti-fraction"
