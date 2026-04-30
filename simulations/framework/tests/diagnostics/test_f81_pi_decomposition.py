@@ -208,3 +208,66 @@ def test_F81_violation_T1_diagnostic():
     assert d_yz['norm_sq']['L_H_odd'] < 1e-15
     # f81_violation = ‖M_anti‖ since L_H_odd = 0
     assert d_yz['f81_violation'] > 1e-3
+
+
+def test_F81_recover_H_odd_from_M_anti_round_trip():
+    """Trace-back: recover_H_odd_from_M_anti inverts F81 identity exactly
+    for pure Z-dephasing.
+
+    For H = J·(XY+YX) at uniform J=1, Z-dephasing γ_Z=0.1, N=3:
+      - pi_decompose_M produces M_anti = L_{H_odd}.
+      - recover_H_odd_from_M_anti must return the same H_odd to machine
+        precision (least-squares residual < 1e-10).
+
+    Coverage:
+      - Pure Π²-odd Hamiltonian (XY+YX): direct round-trip.
+      - Mixed (XX + XY): only the XY part is the Π²-odd component.
+      - Truly (XX+YY): M_anti = 0, recovered H_odd = 0.
+    """
+    from framework.pauli import _build_bilinear
+
+    chain = fw.ChainSystem(N=3)
+    bonds = chain.bonds
+
+    # Case 1: pure Π²-odd XY+YX
+    d_soft = fw.pi_decompose_M(chain, [('X', 'Y'), ('Y', 'X')], gamma_z=0.1)
+    rec = fw.recover_H_odd_from_M_anti(chain, d_soft['M_anti'])
+    assert rec['fit_residual'] < 1e-10, \
+        f"Soft round-trip residual {rec['fit_residual']:.4e} should be ~0"
+    H_odd_true = _build_bilinear(chain.N, bonds, [('X', 'Y', 1.0), ('Y', 'X', 1.0)])
+    assert np.linalg.norm(rec['H_odd'] - H_odd_true) < 1e-10, \
+        "Recovered H_odd should match J·(XY+YX) at chain bonds"
+
+    # Case 2: mixed XX + XY (XX is truly, XY is Π²-odd)
+    d_mixed = fw.pi_decompose_M(chain, [('X', 'X'), ('X', 'Y')], gamma_z=0.1)
+    rec_mixed = fw.recover_H_odd_from_M_anti(chain, d_mixed['M_anti'])
+    H_odd_xy_only = _build_bilinear(chain.N, bonds, [('X', 'Y', 1.0)])
+    assert np.linalg.norm(rec_mixed['H_odd'] - H_odd_xy_only) < 1e-10, \
+        "Mixed XX+XY: recovered H_odd should equal pure XY part"
+
+    # Case 3: truly XX+YY → M_anti = 0 → recovered H_odd = 0
+    d_truly = fw.pi_decompose_M(chain, [('X', 'X'), ('Y', 'Y')], gamma_z=0.1)
+    rec_truly = fw.recover_H_odd_from_M_anti(chain, d_truly['M_anti'])
+    assert np.linalg.norm(rec_truly['H_odd']) < 1e-10, \
+        "Truly XX+YY: recovered H_odd should be zero"
+
+    # Case 4: pure Π²-even non-truly YZ+ZY → M_anti = 0 → recovered H_odd = 0
+    d_yz = fw.pi_decompose_M(chain, [('Y', 'Z'), ('Z', 'Y')], gamma_z=0.1)
+    rec_yz = fw.recover_H_odd_from_M_anti(chain, d_yz['M_anti'])
+    assert np.linalg.norm(rec_yz['H_odd']) < 1e-10, \
+        "Π²-even non-truly: recovered H_odd should be zero (lives in M_sym)"
+
+    # Coefficients should label the correct chain bonds for the soft case.
+    soft_coefs = rec['coefficients']
+    expected_letter_tuples = {
+        ('X', 'Y', 'I'),  # XY at bond (0,1)
+        ('Y', 'X', 'I'),  # YX at bond (0,1)
+        ('I', 'X', 'Y'),  # XY at bond (1,2)
+        ('I', 'Y', 'X'),  # YX at bond (1,2)
+    }
+    actual_letter_tuples = set(soft_coefs.keys())
+    assert expected_letter_tuples.issubset(actual_letter_tuples), \
+        f"Expected bilinear bond Pauli strings missing: {expected_letter_tuples - actual_letter_tuples}"
+    for letters in expected_letter_tuples:
+        assert abs(soft_coefs[letters] - 1.0) < 1e-10, \
+            f"Coefficient for {letters} should be 1.0 (= J), got {soft_coefs[letters]}"

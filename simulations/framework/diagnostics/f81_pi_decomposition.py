@@ -1,6 +1,8 @@
 """F81 Π-decomposition of M into symmetric/antisymmetric parts."""
 from __future__ import annotations
 
+from itertools import product as _iproduct
+
 import numpy as np
 
 from ..lindblad import (
@@ -14,6 +16,7 @@ from ..pauli import (
     _build_kbody_chain,
     _vec_to_pauli_basis_transform,
     site_op,
+    ur_pauli,
 )
 from ..symmetry import (
     _pauli_tuple_is_truly,
@@ -209,4 +212,99 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
             'M_anti': float(np.linalg.norm(M_anti) ** 2),
             'L_H_odd': float(np.linalg.norm(L_H_odd) ** 2),
         },
+    }
+
+
+def recover_H_odd_from_M_anti(chain, M_anti, tol=1e-7):
+    """Trace-back: given M_anti, recover the Π²-odd Hamiltonian H_odd.
+
+    F81 says M_anti = L_{H_odd} = -i[H_odd, ·] for pure Z-dephasing
+    dissipators. This function inverts the relationship: given M_anti
+    in Pauli operator basis, recover H_odd by least-squares projection
+    onto the basis of commutator-action operators L_{P_α} for Π²-odd
+    Pauli strings P_α.
+
+    The Π²-odd Pauli strings span the antisymmetric (Π-anti) subspace
+    of the operator space; M_anti, by F81, lies in this subspace
+    exactly (for Z-only dissipators). With T1 amplitude damping, the
+    decomposition has a residual equal to the F81 violation magnitude.
+
+    This is the operational completion of F81: M_anti contains H_odd
+    fully, and this function extracts it.
+
+    Args:
+        chain: ChainSystem providing N.
+        M_anti: 4^N × 4^N matrix in Pauli basis (output of pi_decompose_M).
+        tol: warning threshold for the fit residual; if |residual| > tol,
+            the F81 identity does not hold tightly (e.g. T1 contamination).
+
+    Returns:
+        dict with keys:
+            'H_odd':        2^N × 2^N Hermitian operator (recovered Π²-odd Hamiltonian).
+            'coefficients': dict {Pauli_letter_tuple: real coefficient}
+                            for non-zero entries (|h| > 1e-10).
+            'fit_residual': float, ‖M_anti − Σ h_α L_{P_α}‖_F.
+            'pauli_basis_size': number of Π²-odd Pauli strings used in the fit.
+    """
+    N = chain.N
+    d = 2 ** N
+    T_basis = _vec_to_pauli_basis_transform(N)
+    Id_d = np.eye(d, dtype=complex)
+
+    # Enumerate all Π²-odd N-body Pauli strings (those that span L_{H_odd}).
+    pauli_letters = ['I', 'X', 'Y', 'Z']
+    candidates = []  # list of (letters_tuple, P_op, L_P_pauli_basis)
+    for letters in _iproduct(pauli_letters, repeat=N):
+        # Skip identity (zero contribution)
+        if all(L == 'I' for L in letters):
+            continue
+        # Skip non-Π²-odd (don't contribute to M_anti per F81)
+        if _pauli_tuple_is_truly(letters):
+            continue
+        if _pauli_tuple_pi2_class(letters) != 'pi2_odd':
+            continue
+        # Build full Pauli operator
+        P_op = ur_pauli(letters[0])
+        for letter in letters[1:]:
+            P_op = np.kron(P_op, ur_pauli(letter))
+        # Build L_{P} = -i[P, ·] in Pauli basis
+        L_P_vec = -1j * (np.kron(P_op, Id_d) - np.kron(Id_d, P_op.T))
+        L_P_pauli = (T_basis.conj().T @ L_P_vec @ T_basis) / d
+        candidates.append((letters, P_op, L_P_pauli))
+
+    if not candidates:
+        return {
+            'H_odd': np.zeros((d, d), dtype=complex),
+            'coefficients': {},
+            'fit_residual': float(np.linalg.norm(M_anti)),
+            'pauli_basis_size': 0,
+        }
+
+    # Least-squares fit: M_anti ≈ Σ_α h_α L_{P_α}
+    # Build A: each column is vec(L_{P_α}). Solve A·h = vec(M_anti).
+    A = np.column_stack([L_P.flatten() for _, _, L_P in candidates])
+    b = M_anti.flatten()
+    h_vec, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
+
+    # h_α should be real for Hermitian H. Take real part; track imaginary residual.
+    h_real = h_vec.real
+
+    # Reconstruct H_odd
+    H_odd = np.zeros((d, d), dtype=complex)
+    coefficients = {}
+    for (letters, P_op, _), h_val in zip(candidates, h_real):
+        if abs(h_val) > 1e-10:
+            coefficients[letters] = float(h_val)
+            H_odd = H_odd + h_val * P_op
+    # Hermitize (numerical cleanup)
+    H_odd = (H_odd + H_odd.conj().T) / 2
+
+    # Compute fit residual
+    fit_residual = float(np.linalg.norm(b - A @ h_vec))
+
+    return {
+        'H_odd': H_odd,
+        'coefficients': coefficients,
+        'fit_residual': fit_residual,
+        'pauli_basis_size': len(candidates),
     }

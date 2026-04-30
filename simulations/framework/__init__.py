@@ -85,6 +85,7 @@ from .diagnostics import (
     predict_residual_norm_squared_from_terms,
     predict_M_spectrum_pi2_odd,
     pi_decompose_M,
+    recover_H_odd_from_M_anti,
     predict_T1_dissipator_violation,
     estimate_T1_from_violation,
     predict_pi_decomposition,
@@ -102,4 +103,6 @@ from .workflows import (
     propagate_with_hardware_noise,
     predict_residual_with_hardware_noise,
     cockpit_panel,
+    predict_signature_table,
+    diagnose_hardware,
 )
