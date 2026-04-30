@@ -84,14 +84,14 @@ The single-site T1 dissipator on site l with rate γ_T1_l:
 
     D_{T1, l}(ρ) = γ_T1_l · [σ⁻_l ρ σ⁺_l − ½ {σ⁺_l σ⁻_l, ρ}].
 
-To find its Π²-anti-symmetric part, compute its action on single-qubit Pauli operators on site l (action on other sites is identity). With σ⁻ = (X−iY)/2, σ⁺ = (X+iY)/2, σ⁺σ⁻ = (I+Z)/2:
+To find its Π²-anti-symmetric part, compute its action on single-qubit Pauli operators on site l (action on other sites is identity). The framework's [`lindbladian_z_plus_t1`](../../simulations/framework/lindblad.py) uses the lowering convention σ⁻ = (X+iY)/2 = [[0, 1], [0, 0]] (taking |1⟩ → |0⟩). Then σ⁺ = (X−iY)/2 = [[0, 0], [1, 0]], σ⁻σ⁺ = (I+Z)/2 (= |0⟩⟨0|), and σ⁺σ⁻ = (I−Z)/2 (= |1⟩⟨1|):
 
-    D_{T1, local}(I) = γ · [σ⁻ I σ⁺ − σ⁺σ⁻] = γ · [(I−Z)/2 − (I+Z)/2] = −γ · Z,
+    D_{T1, local}(I) = γ · [σ⁻ I σ⁺ − σ⁺σ⁻] = γ · [(I+Z)/2 − (I−Z)/2] = +γ · Z,
     D_{T1, local}(X) = γ · [0 − ½ X] = −γ/2 · X,
     D_{T1, local}(Y) = γ · [0 − ½ Y] = −γ/2 · Y,
-    D_{T1, local}(Z) = γ · [(I−Z)/2 − (I+Z)/2 − Z·(I+Z)/2 + ...] = −γ · Z.
+    D_{T1, local}(Z) = γ · [σ⁻ Z σ⁺ − ½ {σ⁺σ⁻, Z}] = γ · [−(I+Z)/2 − (Z−I)/2] = −γ · Z.
 
-(The X and Y rows simplify because σ⁻ X σ⁺ = σ⁻ Y σ⁺ = 0 and the anticommutator gives X/2 and Y/2 respectively. The Z row uses {σ⁺σ⁻, Z} = (Z+I)/2 + (Z+Z²)/2 = Z+I and σ⁻ Z σ⁺ = (I−Z)/2.)
+(The X and Y rows simplify because σ⁻ X σ⁺ = σ⁻ Y σ⁺ = 0 and the anticommutator with X or Y reduces to X/2, Y/2 respectively since {Z, X} = {Z, Y} = 0. The Z row uses σ⁻ Z σ⁺ = −(I+Z)/2 (Z anticommutes with σ⁺ in the lowering decomposition) and {σ⁺σ⁻, Z} = (I−Z)/2 · Z + Z · (I−Z)/2 = Z − I (using Z² = I).)
 
 In Pauli-basis matrix form (rows = output, columns = input, Π² eigenvalues for I,X,Y,Z = +1,+1,−1,−1):
 
@@ -100,7 +100,7 @@ In Pauli-basis matrix form (rows = output, columns = input, Π² eigenvalues for
 | **I** | 0       | 0       | 0       | 0       |
 | **X** | 0       | −γ/2    | 0       | 0       |
 | **Y** | 0       | 0       | −γ/2    | 0       |
-| **Z** | **−γ**  | 0       | 0       | **−γ**  |
+| **Z** | **+γ**  | 0       | 0       | −γ      |
 
 The Π² conjugation factor on entry (γ, β) is (-1)^{bit_b(γ)+bit_b(β)}:
 
@@ -109,19 +109,21 @@ The Π² conjugation factor on entry (γ, β) is (-1)^{bit_b(γ)+bit_b(β)}:
   - (Z, Z): 1+1 = 0, sign +1, preserved.
   - **(Z, I): 1+0 = 1, sign −1, FLIPS.**
 
-Only the (Z, I) entry is Π²-anti-symmetric. Therefore D_{T1, local, odd} has matrix elements
+Only the (Z, I) entry is Π²-anti-symmetric. Therefore D_{T1, local, odd} has matrix element
 
-    [D_{T1, local, odd}]_{Z, I} = −γ_T1_l,    all others zero.
+    [D_{T1, local, odd}]_{Z, I} = +γ_T1_l,    all others zero.
+
+(The sign of this entry depends on the σ⁻ convention. With σ⁻ = (X−iY)/2 (raising-into-|0⟩ convention used in some physics texts), the sign would be −γ. The closed form for ‖D_{T1, odd}‖_F derived below is convention-independent since it depends only on the magnitude γ.)
 
 ### Step 4: Multi-site D_{T1, odd} structure
 
 For the multi-qubit setting, D_{T1, l} acts as D_{T1, local} on site l and as identity on the other N−1 qubits. In the framework's Pauli-string basis (4^N basis vectors), the (Z_l, I_l) "site-l flip" corresponds to a transition from any Pauli string containing I at site l to the same string with I→Z at site l. There are 4^(N−1) such transitions per site (4 Pauli choices per other-qubit, N−1 other qubits).
 
-Each of these matrix elements has value −γ_T1_l. The Π²-anti-symmetric part D_{T1, l, odd} has 4^(N−1) entries of value −γ_T1_l in the framework's normalized Pauli basis. Frobenius norm squared:
+Each of these matrix elements has value ±γ_T1_l (sign per Step 3's convention note). The Π²-anti-symmetric part D_{T1, l, odd} has 4^(N−1) entries of magnitude γ_T1_l in the framework's normalized Pauli basis. Frobenius norm squared:
 
     ‖D_{T1, l, odd}‖²_F = γ²_T1_l · 4^(N−1).
 
-(The 4^(N−1) factor combines the "other qubit" basis count and the framework's Pauli-basis normalization. Verified empirically at N = 2, 3, 4, 5; the analytical decomposition matches the numerical Frobenius norm to machine precision.)
+The 4^(N−1) factor follows from the framework's Pauli-basis transform conventions: the transform M (from `_vec_to_pauli_basis_transform`) satisfies M†M = 2^N · I, so each Pauli string σ_α of Hilbert-Schmidt norm ‖σ_α‖²_HS = 2^N corresponds to a unit vector in the Pauli basis. The transform definition `palindrome_residual` line 107 reads L_pauli = M† L_vec M / 2^N, which divides matrix elements by 2^N, exactly canceling the 2^N factor coming from each Pauli string's HS norm. The net effect: a single (γ, β) Hilbert-Schmidt entry of value γ_T1_l in the operator-space representation maps to a single (γ, β) matrix element of value γ_T1_l in the framework's normalized Pauli basis. With 4^(N−1) such "rest of qubits unchanged" entries per site, ‖D_{T1, l, odd}‖²_F = γ²_T1_l · 4^(N−1). Verified empirically at N = 2, 3, 4, 5 to machine precision.
 
 ### Step 5: Combining sites
 

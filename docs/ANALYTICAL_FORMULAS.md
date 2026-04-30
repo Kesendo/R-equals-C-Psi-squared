@@ -2042,7 +2042,7 @@ The F81 identity violation captured by `chain.pi_decompose_M(...)` measures D_{T
 | two-site, l=0,1 | (0.10, 0.10, 0) | √(0.02)·4 = 0.5657 | 0.5657 |
 | non-uniform | (0.05, 0.10, 0.15) | √(0.035)·4 = 0.7483 | 0.7483 |
 
-N-scaling verified at N = 2, 3, 4, 5: ‖D_{T1, odd}‖_F = γ_T1 · √N · 2^(N−1). N=2 gives 2.83, N=3 gives 6.93, N=4 gives 16.00, N=5 gives 35.78.
+N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−1)): N=2 → 2√2 = 2.828, N=3 → 4√3 = 6.928, N=4 → 8·2 = 16.000, N=5 → 16·√5 = 35.778. So at γ_T1 = 0.1, the violations are 0.283, 0.693, 1.600, 3.578 respectively (factor 0.1 from γ_T1 multiplied by the coefficient).
 
 **Three diagnostic properties** (proven and empirical):
 
