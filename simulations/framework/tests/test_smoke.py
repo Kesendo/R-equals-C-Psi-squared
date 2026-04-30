@@ -1329,3 +1329,80 @@ def test_F79_two_body_pi_squared_block_decomposition():
                                     compute_uv=False))[::-1]
     np.testing.assert_allclose(svs_XY, svs_XZ, atol=1e-9)
     np.testing.assert_allclose(svs_XY, svs_XXY, atol=1e-9)
+
+
+def test_F80_predict_M_spectrum_pi2_odd_method():
+    """ChainSystem.predict_M_spectrum_pi2_odd reproduces actual M's spectrum
+    bit-exact for chain Π²-odd 2-body bilinears.
+
+    Verifies the F80 structural identity Spec(M) = ±2i · Spec(H_non-truly)
+    with multiplicity ×2^N: prediction (computed from H eigenvalues only)
+    matches numerical M-eigenvalues from palindrome_residual.
+
+    Also covers the trichotomy edge cases: truly-only returns {0: 4^N},
+    identity letters and Π²-even non-truly bilinears raise ValueError.
+    """
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_bilinear
+
+    def actual_M_spectrum(N, bonds, terms_with_c):
+        H = _build_bilinear(N, bonds, terms_with_c)
+        L = lindbladian_z_dephasing(H, [0.0] * N)  # γ=0 isolates structural M
+        M = palindrome_residual(L, 0.0, N)
+        evs = np.linalg.eigvals(M)
+        out = {}
+        for ev in evs:
+            assert abs(ev.real) < 1e-7, f"M eigenvalue must be purely imaginary, got {ev}"
+            key = round(ev.imag, 6)
+            out[key] = out.get(key, 0) + 1
+        return out
+
+    def normalize_pred(pred):
+        return {round(k.imag, 6): v for k, v in pred.items()}
+
+    # Test 1-4: chain N=3 various Π²-odd cases at γ=0
+    chain3 = fw.ChainSystem(N=3)
+    bonds3 = [(0, 1), (1, 2)]
+
+    for label, terms, c in [
+        ('XY+YX', [('X', 'Y'), ('Y', 'X')], 1.0),
+        ('XY', [('X', 'Y')], 1.0),
+        ('ZX', [('Z', 'X')], 1.0),
+        ('XY c=0.5', [('X', 'Y')], 0.5),
+    ]:
+        pred = normalize_pred(chain3.predict_M_spectrum_pi2_odd(terms, c=c))
+        actual = actual_M_spectrum(3, bonds3, [(a, b, c) for (a, b) in terms])
+        assert pred == actual, f"N=3 {label}: pred {pred} vs actual {actual}"
+
+    # Test 5-6: chain N=4
+    chain4 = fw.ChainSystem(N=4)
+    bonds4 = [(0, 1), (1, 2), (2, 3)]
+
+    for label, terms in [
+        ('XY+YX', [('X', 'Y'), ('Y', 'X')]),
+        ('XY', [('X', 'Y')]),
+    ]:
+        pred = normalize_pred(chain4.predict_M_spectrum_pi2_odd(terms, c=1.0))
+        actual = actual_M_spectrum(4, bonds4, [(a, b, 1.0) for (a, b) in terms])
+        assert pred == actual, f"N=4 {label}: pred {pred} vs actual {actual}"
+
+    # Test 7: truly-only returns {0: 4^N}
+    pred_truly = chain3.predict_M_spectrum_pi2_odd([('X', 'X'), ('Y', 'Y')], c=1.0)
+    assert pred_truly == {0 + 0j: 4 ** 3}, f"truly-only: expected {{0: 64}}, got {pred_truly}"
+
+    # Test 8: mixed truly + Π²-odd (XX + XY) drops the truly contribution
+    pred_mixed = chain3.predict_M_spectrum_pi2_odd([('X', 'X'), ('X', 'Y')], c=1.0)
+    pred_xy = chain3.predict_M_spectrum_pi2_odd([('X', 'Y')], c=1.0)
+    assert pred_mixed == pred_xy, f"truly XX should be dropped: mixed {pred_mixed} vs XY {pred_xy}"
+
+    # Test 9-10: identity raises (single-body falls under F78, not F80)
+    with pytest.raises(ValueError, match="single-body"):
+        chain3.predict_M_spectrum_pi2_odd([('I', 'Y')], c=1.0)
+    with pytest.raises(ValueError, match="single-body"):
+        chain3.predict_M_spectrum_pi2_odd([('Z', 'I')], c=1.0)
+
+    # Test 11-12: Π²-even non-truly raises (YZ, ZY out of F80 scope)
+    with pytest.raises(ValueError, match="Π²-even"):
+        chain3.predict_M_spectrum_pi2_odd([('Y', 'Z')], c=1.0)
+    with pytest.raises(ValueError, match="Π²-even"):
+        chain3.predict_M_spectrum_pi2_odd([('Z', 'Y')], c=1.0)
