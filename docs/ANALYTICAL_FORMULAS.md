@@ -2060,8 +2060,11 @@ N-scaling verified at N = 2, 3, 4, 5: ‖D_{T1, odd}‖_F = γ_T1 · √N · 2^(
 **Breaks for (untested):** other non-Z dissipators (X-noise, Y-noise, ZZ-dephasing) require their own D_odd analysis. The general identity Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} holds for any dissipator; the closed form for ‖D_{diss, odd}‖ is dissipator-specific.
 **Replaces:** the previously-empirical observation that f81_violation grows linearly with γ_T1; F82 is now an analytical theorem with closed-form scaling.
 **Verified:** N = 2, 3, 4, 5 at all listed configurations, machine-precision residual (5e-16).
-**Framework primitive:** `chain.pi_decompose_M(terms, gamma_z=..., gamma_t1=..., strict=...)`. With `gamma_t1` set, returns `f81_violation` in output dict (matches the F82 closed form).
-**Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity).
+**Framework primitives:**
+- `chain.pi_decompose_M(terms, gamma_z=..., gamma_t1=..., strict=...)`: with `gamma_t1` set, returns `f81_violation` in output dict (numerical, matches closed form).
+- `chain.predict_T1_dissipator_violation(gamma_t1_l)`: forward closed form, returns √(Σγ²)·2^(N−1) directly without building the dissipator.
+- `chain.estimate_T1_from_violation(f81_violation)`: inverse closed form, recovers RMS γ_T1 from a measured/fitted F81 violation. Hardware T1-rate readout primitive.
+**Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity) + `test_F82_closed_form_T1_dissipator` (N-scaling, non-uniform formula, H-/γ_z-independence) + `test_F82_predict_and_invert_primitives` (forward/inverse pair matches numerical evaluation).
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
 **Diagnostic application:** [`simulations/_f81_t1_diagnostic.py`](../simulations/_f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
 
