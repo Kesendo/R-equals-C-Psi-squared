@@ -2111,8 +2111,11 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 **Valid for:** any 2-body chain H, Z-dephasing, any γ_z ≥ 0, any N ≥ 2.
 **Verified:** 11 mixed configurations × N ∈ {3, 4, 5}, machine-precision residual.
 **Replaces:** the previously-empirical "5/6 + 1/6" observation for mixed Π²-odd + Π²-even non-truly H; F83 derives this from the existing F49 Frobenius identity.
-**Framework primitive:** `chain.predict_pi_decomposition_anti_fraction(terms)` returns the F83 closed-form anti-fraction directly without building any matrix. Companion to numerical `pi_decompose_M` and to `predict_residual_norm_squared_from_terms` (which provides the underlying F49 identity).
-**Pytest lock:** `test_F83_pi_decomposition_anti_fraction_closed_form` (12 configurations × 2 N-values plus γ-independence check).
+**Framework primitives:**
+- `chain.predict_pi_decomposition(terms)`: full F83 closed form, returns dict with `{'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction', 'h_odd_sq', 'h_even_nontruly_sq', 'r'}`. O(N) work, no matrix construction; companion to numerical `pi_decompose_M`.
+- `chain.predict_pi_decomposition_anti_fraction(terms)`: convenience wrapper returning just the anti-fraction float.
+- `chain.predict_residual_norm_squared_from_terms(terms, gamma_t1)`: existing F49 ‖M‖² primitive (now consistent with F83's ‖M‖² prediction by construction).
+**Pytest lock:** `test_F83_pi_decomposition_anti_fraction_closed_form` (12 configurations × 2 N-values + γ-independence) + `test_F83_predict_pi_decomposition_full_closed_form` (full norm-triple match against numerical `pi_decompose_M` + Pythagoras + special cases at canonical r values).
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural follow-up to F81's "what about the other half?" reflection. Derived in [PROOF_F83_PI_DECOMPOSITION_RATIO.md](proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md). The closed form was empirically observed earlier (in the F81 violation sweep across mixed Hamiltonians) and now traced back to the existing F49 Frobenius identity that was already framework-locked in `predict_residual_norm_squared_from_terms`.
 
 **Lebensader connection:** F83 closes the analytical Π-decomposition picture for 2-body chain. Pure Π²-odd → 50/50 (F81 Step 8). Pure Π²-even non-truly → 100/0 (F81 trivial). Mixed → 1/(2+4r) (F83). The continuous interpolation r → anti-fraction reads "how much of M is Π-antisymmetric drive vs Π-symmetric memory" as a function of Hamiltonian composition. Together with F80 (Spec(M)), F81 (Π-decomposition identity), F82 (T1-correction), the structural picture of M is complete for 2-body chain Hamiltonians under Z-dephasing + T1.

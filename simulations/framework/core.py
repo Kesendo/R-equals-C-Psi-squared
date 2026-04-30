@@ -572,37 +572,42 @@ class ChainSystem:
         sum_sq = sum(g * g for g in gt1)
         return float(np.sqrt(sum_sq) * (2 ** (self.N - 1)))
 
-    def predict_pi_decomposition_anti_fraction(self, terms):
-        """F83 closed form: predict the Π-decomposition anti-fraction from H alone.
+    def predict_pi_decomposition(self, terms):
+        """F83 closed form: predict ‖M‖², ‖M_anti‖², ‖M_sym‖², and anti-fraction
+        from H alone, without building any matrix.
 
         Theorem F83 (proved in PROOF_F83_PI_DECOMPOSITION_RATIO):
 
-            anti-fraction = ‖M_anti‖² / ‖M‖²
-                          = ‖H_odd‖² / (2·‖H_odd‖² + 4·‖H_even_nontruly‖²)
-                          = 1 / (2 + 4·r),    r = ‖H_even_nontruly‖² / ‖H_odd‖².
+            ‖M‖²_F        = 4·‖H_odd‖²·2^N + 8·‖H_even_nontruly‖²·2^N
+            ‖M_anti‖²_F  = 2·‖H_odd‖²·2^N
+            ‖M_sym‖²_F   = 2·‖H_odd‖²·2^N + 8·‖H_even_nontruly‖²·2^N
+            anti-fraction = ‖M_anti‖² / ‖M‖² = 1 / (2 + 4·r)
 
-        Special cases:
-            r = 0  (pure Π²-odd):              anti = 1/2 (the F81 50/50 split)
-            r = ∞  (pure Π²-even non-truly):  anti = 0 (the F81 100/0 split)
-            r = 1  (equal-Frobenius mix):     anti = 1/6 (the 5/6+1/6 finding)
+        with r = ‖H_even_nontruly‖²/‖H_odd‖². Special cases:
+            r = 0  (pure Π²-odd):              anti = 1/2  (F81 50/50)
+            r = ∞  (pure Π²-even non-truly):  anti = 0    (F81 100/0)
+            r = 1  (equal-Frobenius mix):     anti = 1/6  (5/6+1/6 finding)
 
         The truly part of H drops out by the Master Lemma; only the Π²-odd
-        and Π²-even non-truly bilinears contribute. Closed form depends only
-        on H, not on γ_z (Master Lemma) or topology (verified for chain at
-        N=3,4,5; ring/star/K_N inherit from F49 generalization).
+        and Π²-even non-truly bilinears contribute. γ_z-independent. Closed
+        form is O(N) work, no matrix construction.
 
         Args:
-            terms: list of (a, b) Pauli letter tuples.
+            terms: list of (a, b) Pauli letter tuples (chain bond-summed H).
 
         Returns:
-            anti-fraction as float in [0, 1/2]. Returns 0 if H_odd = 0
-            (pure Π²-even non-truly or all-truly). For all-truly H the M
-            is identically zero and the ratio is mathematically undefined;
-            this method returns 0 in that case as the limiting value.
+            dict with keys:
+                'M_sq':              ‖M‖²_F predicted from F83.
+                'M_anti_sq':         ‖M_anti‖²_F = 2·‖H_odd‖²·2^N.
+                'M_sym_sq':          ‖M_sym‖²_F = M_sq − M_anti_sq.
+                'anti_fraction':     ratio M_anti_sq / M_sq (0 if M=0).
+                'h_odd_sq':          ‖H_odd‖²_F (Π²-odd non-truly Frobenius²).
+                'h_even_nontruly_sq': ‖H_even_nontruly‖²_F (Π²-even non-truly Frobenius²).
+                'r':                 ratio h_even_nontruly_sq / h_odd_sq (∞ if h_odd=0).
 
-        Use case: predict the F81/F83 anti-fraction directly from term
-        list without building any matrix; companion to numerical
-        `pi_decompose_M` which computes the same ratio explicitly from M.
+        Use case: forward F83 prediction without building L or M; companion
+        to numerical `pi_decompose_M` which computes the same quantities
+        explicitly from L.
         """
         from .pauli import bit_b, _resolve
 
@@ -612,22 +617,46 @@ class ChainSystem:
             if _pauli_pair_is_truly(a, b):
                 continue
             if 'I' in (a, b):
-                # single-body falls outside F83 scope; treat as non-contribution
-                # to anti/even-nontruly distinction (F78 covers single-body separately)
-                continue
+                continue  # single-body falls outside F83 scope (F78 territory)
             ab_idx = _resolve(a)
             bb_idx = _resolve(b)
             parity = (bit_b(ab_idx) + bit_b(bb_idx)) % 2
             n_bonds = len(self.bonds)
-            term_norm_sq = n_bonds * (2 ** self.N)  # bond-summed Frobenius²
+            term_norm_sq = n_bonds * (2 ** self.N)
             if parity == 1:
                 h_odd_sq += term_norm_sq
             else:
                 h_even_nontruly_sq += term_norm_sq
 
-        if h_odd_sq < 1e-15:
-            return 0.0
-        return float(h_odd_sq / (2 * h_odd_sq + 4 * h_even_nontruly_sq))
+        d_pow = 2 ** self.N
+        m_sq = 4 * h_odd_sq * d_pow + 8 * h_even_nontruly_sq * d_pow
+        m_anti_sq = 2 * h_odd_sq * d_pow
+        m_sym_sq = m_sq - m_anti_sq
+        if m_sq < 1e-15:
+            anti_fraction = 0.0
+            r = float('inf') if h_odd_sq < 1e-15 else 0.0
+        else:
+            anti_fraction = m_anti_sq / m_sq
+            r = float('inf') if h_odd_sq < 1e-15 else h_even_nontruly_sq / h_odd_sq
+
+        return {
+            'M_sq': float(m_sq),
+            'M_anti_sq': float(m_anti_sq),
+            'M_sym_sq': float(m_sym_sq),
+            'anti_fraction': float(anti_fraction),
+            'h_odd_sq': float(h_odd_sq),
+            'h_even_nontruly_sq': float(h_even_nontruly_sq),
+            'r': float(r),
+        }
+
+    def predict_pi_decomposition_anti_fraction(self, terms):
+        """F83 anti-fraction convenience wrapper around `predict_pi_decomposition`.
+
+        Returns just the float anti-fraction = ‖M_anti‖²/‖M‖² = 1/(2+4r) for
+        the given Hamiltonian terms. See `predict_pi_decomposition` for the
+        full F83 closed-form prediction (M, M_anti, M_sym norms plus inputs).
+        """
+        return self.predict_pi_decomposition(terms)['anti_fraction']
 
     def estimate_T1_from_violation(self, f81_violation):
         """F82 inverse closed form: extract RMS γ_T1 from a measured F81 violation.

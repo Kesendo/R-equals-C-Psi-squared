@@ -1762,3 +1762,58 @@ def test_F83_pi_decomposition_anti_fraction_closed_form():
             measured = d['norm_sq']['M_anti'] / d['norm_sq']['M']
             assert abs(measured - 1.0 / 6) < 1e-9, \
                 f"γ_z={gz}: anti-fraction should be γ-independent, got {measured}"
+
+
+def test_F83_predict_pi_decomposition_full_closed_form():
+    """F83 forward primitive: predict_pi_decomposition returns all closed-form
+    norms (‖M‖², ‖M_anti‖², ‖M_sym‖²) plus anti-fraction from H alone. The
+    predictions must match the numerical pi_decompose_M output bit-exact.
+    """
+    test_cases = [
+        ('XY+YX (pure odd)', [('X', 'Y'), ('Y', 'X')]),
+        ('YZ+ZY (pure even non-truly)', [('Y', 'Z'), ('Z', 'Y')]),
+        ('XY+YZ (mixed equal)', [('X', 'Y'), ('Y', 'Z')]),
+        ('XY+YX+YZ (asymmetric)', [('X', 'Y'), ('Y', 'X'), ('Y', 'Z')]),
+        ('XY+YX+YZ+ZY (full mix)', [('X', 'Y'), ('Y', 'X'), ('Y', 'Z'), ('Z', 'Y')]),
+        ('XX+XY+YZ (truly + mixed)', [('X', 'X'), ('X', 'Y'), ('Y', 'Z')]),
+    ]
+    for N in [3, 4]:
+        chain = fw.ChainSystem(N=N)
+        for label, terms in test_cases:
+            pred = chain.predict_pi_decomposition(terms)
+            num = chain.pi_decompose_M(terms, gamma_z=0.0)
+
+            # All three norm-squared predictions match numerical
+            assert abs(pred['M_sq'] - num['norm_sq']['M']) < 1e-9, \
+                f"N={N} {label} ‖M‖²: pred={pred['M_sq']}, num={num['norm_sq']['M']}"
+            assert abs(pred['M_anti_sq'] - num['norm_sq']['M_anti']) < 1e-9, \
+                f"N={N} {label} ‖M_anti‖²: pred={pred['M_anti_sq']}, num={num['norm_sq']['M_anti']}"
+            assert abs(pred['M_sym_sq'] - num['norm_sq']['M_sym']) < 1e-9, \
+                f"N={N} {label} ‖M_sym‖²: pred={pred['M_sym_sq']}, num={num['norm_sq']['M_sym']}"
+
+            # anti_fraction matches the convenience wrapper
+            wrapper = chain.predict_pi_decomposition_anti_fraction(terms)
+            assert abs(pred['anti_fraction'] - wrapper) < 1e-15
+
+            # Pythagoras: M_anti_sq + M_sym_sq = M_sq
+            assert abs(pred['M_anti_sq'] + pred['M_sym_sq'] - pred['M_sq']) < 1e-9
+
+    # Special-case ratios at N=3 for canonical r values
+    chain3 = fw.ChainSystem(N=3)
+    pred_pure_odd = chain3.predict_pi_decomposition([('X', 'Y'), ('Y', 'X')])
+    assert pred_pure_odd['r'] == 0.0
+    assert abs(pred_pure_odd['anti_fraction'] - 0.5) < 1e-15
+
+    pred_pure_even = chain3.predict_pi_decomposition([('Y', 'Z'), ('Z', 'Y')])
+    assert pred_pure_even['r'] == float('inf')
+    assert pred_pure_even['anti_fraction'] == 0.0
+    assert pred_pure_even['M_anti_sq'] == 0.0
+
+    pred_equal_mix = chain3.predict_pi_decomposition([('X', 'Y'), ('Y', 'Z')])
+    assert abs(pred_equal_mix['r'] - 1.0) < 1e-15
+    assert abs(pred_equal_mix['anti_fraction'] - 1.0/6) < 1e-15
+
+    # All-truly: M=0, anti_fraction defaults to 0
+    pred_truly = chain3.predict_pi_decomposition([('X', 'X'), ('Y', 'Y')])
+    assert pred_truly['M_sq'] == 0.0
+    assert pred_truly['anti_fraction'] == 0.0
