@@ -7,7 +7,86 @@ import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
 from ..diagnostics.f83_anti_fraction import predict_pi_decomposition
+from ..symmetry import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
 from .predict_signature_table import predict_signature_table
+
+
+def _family_composition(terms):
+    """Identify which Π²-roles (Mother / Father / Child) are present in the
+    Hamiltonian terms based on per-term Π²-class classification.
+
+    F77 + F83 together encode this implicitly; this helper makes the
+    Trinity reading explicit for the lens output.
+
+    Returns:
+        dict with keys:
+          'roles': list of present roles in order ['Mother', 'Father', 'Child']
+          'family': human-readable family-composition string
+          'defense_character': human-readable defense interpretation
+          'has_mother', 'has_father', 'has_child': booleans
+    """
+    has_mother = any(_pauli_tuple_is_truly(t) for t in terms)
+    has_father = any(
+        (not _pauli_tuple_is_truly(t)) and 'I' not in t
+        and _pauli_tuple_pi2_class(t) == 'pi2_odd'
+        for t in terms
+    )
+    has_child = any(
+        (not _pauli_tuple_is_truly(t)) and 'I' not in t
+        and _pauli_tuple_pi2_class(t) == 'pi2_even_nontruly'
+        for t in terms
+    )
+
+    roles = []
+    if has_mother:
+        roles.append('Mother')
+    if has_father:
+        roles.append('Father')
+    if has_child:
+        roles.append('Child')
+
+    if not roles:
+        family = '(empty)'
+        defense = 'none (no Hamiltonian)'
+    elif roles == ['Mother']:
+        family = 'Mother only'
+        defense = 'avoidance (truly Hamiltonian; no recirculation, M = 0 idealized)'
+    elif roles == ['Father']:
+        family = 'Father only'
+        defense = 'active recirculation (pure Π²-odd, M_anti = L_{H_odd} dominates)'
+    elif roles == ['Child']:
+        family = 'Child only'
+        defense = 'passive reflection (pure Π²-even non-truly, M_sym dominates, M_anti = 0)'
+    elif roles == ['Mother', 'Father']:
+        family = 'Mother + Father (no Child)'
+        defense = ('Mother substrate plus Father drive; no Child component. Family '
+                   'is two-thirds: avoidance + active recirculation, no passive reflection.')
+    elif roles == ['Mother', 'Child']:
+        family = 'Mother + Child (no Father)'
+        defense = ('Mother substrate plus Child reflection; no Father drive. '
+                   'Static-like steady state without active dynamics.')
+    elif roles == ['Father', 'Child']:
+        family = 'Father + Child (no explicit Mother)'
+        defense = ('Father drive plus Child reflection; no explicit truly substrate. '
+                   'Mother is implicit (palindrome ground) but not in H. Trinity '
+                   'is incomplete; full-trinity sensitivity to T2 inhomogeneity expected.')
+    elif roles == ['Mother', 'Father', 'Child']:
+        family = 'full trinity (Mother + Father + Child)'
+        defense = ('All three defense modes co-active. Child component requires '
+                   'chain-asymmetric structure → per-qubit T2 inhomogeneity '
+                   'translates to drift in observable patterns.')
+    else:
+        family = ' + '.join(roles)
+        defense = 'composite'
+
+    return {
+        'roles': roles,
+        'family': family,
+        'defense_character': defense,
+        'has_mother': has_mother,
+        'has_father': has_father,
+        'has_child': has_child,
+    }
 
 
 def diagnose_hardware(
@@ -101,6 +180,17 @@ def diagnose_hardware(
             'reading': f"{category} is {f77} per F77 trichotomy classifier",
         })
 
+        # Family composition lens (Trinity reading: which roles are present)
+        fam = _family_composition(terms)
+        readings.append({
+            'lens': 'Family',
+            'reading': f"{fam['family']} — {fam['defense_character']}",
+            'roles': fam['roles'],
+            'has_mother': fam['has_mother'],
+            'has_father': fam['has_father'],
+            'has_child': fam['has_child'],
+        })
+
         # F83 lens
         if f83['M_sq'] < 1e-12:
             readings.append({
@@ -176,6 +266,7 @@ def diagnose_hardware(
             'F77_class': f77,
             'F83_anti_fraction': float(f83['anti_fraction']) if f83['M_sq'] > 1e-12 else None,
             'F83_r': float(f83['r']) if (f83['M_sq'] > 1e-12 and f83['r'] != float('inf')) else None,
+            'family': fam,
             'predictions': pred,
             'measurements': meas,
             'residuals': residuals,

@@ -166,6 +166,61 @@ def test_diagnose_hardware_Y_Z_asymmetry_attributed_to_T2_inhomogeneity():
     assert 'T2 inhomogeneity' in yz['attribution']
 
 
+def test_diagnose_hardware_family_composition_mapping():
+    """Family-composition lens identifies which Trinity roles (Mother/Father/Child)
+    are present in each Hamiltonian. Pure cases have one role; mixed cases have
+    multiple roles; truly-only has Mother only."""
+    chain = fw.ChainSystem(N=3)
+
+    # Synthetic data isn't needed — family is structurally determined by terms.
+    # Build measured = predicted to satisfy diagnose_hardware structure.
+    test_cases = [
+        # (terms, expected_roles)
+        ([('X', 'X'), ('Y', 'Y')],          ['Mother']),                   # pure truly
+        ([('X', 'Y'), ('Y', 'X')],          ['Father']),                   # pure Π²-odd
+        ([('Y', 'Z'), ('Z', 'Y')],          ['Child']),                    # pure Π²-even non-truly
+        ([('X', 'X'), ('X', 'Y')],          ['Mother', 'Father']),         # truly + odd (April 26 hard_broken)
+        ([('X', 'Y'), ('Y', 'Z')],          ['Father', 'Child']),          # odd + even-nt (April 30 mixed)
+        ([('X', 'X'), ('X', 'Y'), ('Y', 'Z')], ['Mother', 'Father', 'Child']),  # full trinity
+    ]
+    terms_per_category = {f'case_{i}': terms for i, (terms, _) in enumerate(test_cases)}
+    predictions = fw.predict_signature_table(chain, terms_per_category, gamma_z=0.1)
+    result = fw.diagnose_hardware(chain, predictions, terms_per_category, gamma_z=0.1)
+
+    for i, (terms, expected_roles) in enumerate(test_cases):
+        cat = f'case_{i}'
+        family = result['per_category'][cat]['family']
+        assert family['roles'] == expected_roles, \
+            f"{terms}: expected roles {expected_roles}, got {family['roles']}"
+        # Find the family lens reading
+        family_readings = [r for r in result['per_category'][cat]['lens_readings']
+                           if r.get('lens') == 'Family']
+        assert len(family_readings) == 1
+        assert family_readings[0]['roles'] == expected_roles
+
+
+def test_diagnose_hardware_family_distinguishes_april26_april30_hard_cases():
+    """The April 26 hard_broken (XX+XY) is Mother + Father (no Child).
+    The April 30 mixed_anti_one_sixth (XY+YZ) is Father + Child (no explicit
+    Mother). Both classify as F77 'hard' but the Family lens distinguishes
+    them, matching the empirical drift difference (0.067 RMS vs 0.114 RMS)."""
+    chain = fw.ChainSystem(N=3)
+
+    terms = {
+        'april26_hard': [('X', 'X'), ('X', 'Y')],   # Mother + Father, no Child
+        'april30_mixed': [('X', 'Y'), ('Y', 'Z')],  # Father + Child, no Mother
+    }
+    predictions = fw.predict_signature_table(chain, terms, gamma_z=0.1)
+    result = fw.diagnose_hardware(chain, predictions, terms, gamma_z=0.1)
+
+    assert result['per_category']['april26_hard']['family']['roles'] == ['Mother', 'Father']
+    assert result['per_category']['april26_hard']['family']['has_child'] is False
+
+    assert result['per_category']['april30_mixed']['family']['roles'] == ['Father', 'Child']
+    assert result['per_category']['april30_mixed']['family']['has_mother'] is False
+    assert result['per_category']['april30_mixed']['family']['has_child'] is True
+
+
 def test_diagnose_hardware_synthetic_round_trip():
     """Round-trip sanity: feed predict_signature_table's output back as
     measured. diagnose_hardware should report zero residual and no F82/F84
