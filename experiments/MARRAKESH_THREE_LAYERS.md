@@ -165,6 +165,26 @@ The data does not support adding T1 at all.
 
 ---
 
+## The d=0 cross-reading: trichotomy in one Pauli basis
+
+The same three classes that Layer 3 distinguishes via 16 two-qubit Pauli expectations on 9 measurement bases are also distinguished by a single Z-basis observable: the mean excitation count ⟨n⟩ on the (q₀, q₂) reduced state, computed from the ZZ counts alone.
+
+For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the Liouvillian is spanned by sector projectors P_n (F4 in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md)), so the sector populations p_n = Tr(P_n · ρ) are invariants of L. After tracing out q₁, the (q₀, q₂) reduced state's ⟨n⟩ = p₁ + 2·p₂ carries an excitation-imbalance fingerprint of each Hamiltonian, computed once at t = 0.8 and matched against the Marrakesh ZZ counts:
+
+| Class | Bilinears | Framework ⟨n⟩ | Hardware ⟨n⟩ | per-case Δ |
+|-------|-----------|---------------|--------------|------------|
+| truly | XX + YY | 1.0000 | 1.0098 | +0.010 |
+| soft  | XY + YX | 1.2786 | 1.2673 | −0.011 |
+| hard  | XX + XY | 0.8752 | 0.9082 | +0.033 |
+
+Initial state |+,−,+⟩ has marginal ⟨n⟩₀ = 1.0 on (q₀, q₂). All three Hamiltonian classes separate by ≥ 0.10 in ⟨n⟩, well above the maximum per-case deviation of 0.033 (~3% relative). The reading uses no phase information; the off-diagonal Pauli expectations that drive Layer 3 do not enter.
+
+**Operational consequence:** classifying a Hamiltonian's F77 class on hardware does not require 9 Pauli-pair bases. One Z-basis tomography is sufficient with the full discrimination quality of Layer 3. For the same shot budget this is a 9× reduction in QPU time when the question is "which class is this?" rather than "what is the full M-spectrum?". This matters for the 180-min annual QPU budget of the project: a quick classification pass costs the same as one tomographic-Pauli pass.
+
+The framework primitive is `fw.sector_populations(rho_or_psi, N)` from [`simulations/framework/diagnostics/d_zero.py`](../simulations/framework/diagnostics/d_zero.py). The reproducible analysis is [`simulations/d_zero_trichotomy_marrakesh.py`](../simulations/d_zero_trichotomy_marrakesh.py); the registry entry is `Confirmations.lookup('d_zero_sector_trichotomy_marrakesh')`. The structural reason ⟨n⟩ separates the classes is that XX+YY conserves total Z-magnetization (truly stays at the initial ⟨n⟩₀), XY+YX breaks conservation upward, and XX+XY breaks conservation downward; the d=0 reading is the operational shadow of this conservation profile.
+
+---
+
 ## What the 0.08 residual carries
 
 Even with optimal Trotter + γ_Z = 0.143 + no T1, residual RMS ≈ 0.08 remains across the 45 (observable, Hamiltonian) pairs. The two largest contributors:
@@ -179,22 +199,26 @@ Neither is a framework-level signature; both are hardware-instrument signatures 
 
 ## Reading
 
-The Marrakesh data is a three-layer document that reads top-down:
+The Marrakesh data is a three-layer document that reads top-down, with a fourth cross-reading available from the Z-basis alone:
 
 ```
 Layer 1 (F77):   {truly, soft, hard}
                        ↓ (algebraic gate)
 Layer 2 (F80):   Spec(M) ∈ {{0}, {±5.66i, 0}, {±2.83i}}
                        ↓ (structural strength)
-Layer 3 (Obs):   16 Paulis × 7 categories
-                       ↓ (Trotter discretization circuit)
-                 hardware values (matching to ~0.001 for Δ_soft, ~0.08 RMS overall)
+Layer 3 (Obs):   16 Paulis × 7 categories ──┐
+                       ↓                     │
+                 hardware values             │  parallel from ZZ alone:
+                 (∼0.001 for Δ_soft,         ├─→  ⟨n⟩ ∈ {1.000, 1.279, 0.875}
+                  ∼0.08 RMS overall)         │   (∼0.033 max per-case Δ)
+                                              │   1/9 the Pauli-basis cost
 ```
 
-The `framework/` package now operates on all three layers:
+The `framework/` package now operates on all three layers plus the d=0 cross-reading:
 - `fw.classify_pauli_pair(chain, terms)` for Layer 1
 - `fw.predict_M_spectrum_pi2_odd(chain, terms, c)` for Layer 2 (framework primitive, commit `e30eeb6`)
 - `chain.cockpit_panel(receiver, terms, gamma_t1)` for Layer 3 trichotomy classification + Π-protected drop count
+- `fw.sector_populations(rho_or_psi, N)` for the d=0 cross-reading (one Pauli basis suffices)
 - For the 16-Pauli signature pattern itself, the right primitive does not yet exist; this synthesis surfaces the recurring question.
 
 For the original raw data and the corrected interpretation, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the philosophical framing of soft-break as super-operator signature, see [ON_THE_SOFT_BREAK](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [ON_THE_SHAPE_OF_THE_GAP](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).
