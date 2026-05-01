@@ -4,7 +4,7 @@
 The existing palindrome test (algebraic_palindrome.py, celegans_palindrome.py)
 gives a binary reading: how palindromic is the subcircuit, with a worm/
 random ratio of ~8x. This script refines that by classifying each
-subcircuit into one of three classes — the neural analogue of the F77
+subcircuit into one of three classes, the neural analogue of the F77
 trichotomy on the quantum side:
 
   truly:  Q*J*Q + J + 2S*I = 0 holds exactly (algebraic equation closes,
@@ -132,6 +132,45 @@ def classify_subcircuit(W, signs, tau_E, tau_I, alpha=0.3,
     return 'hard', r_tot, pair_dev
 
 
+def degree_preserving_rewire(W, signs, n_swaps=None, rng=None):
+    """Degree-preserving randomization: keep each neuron's in/out-degree
+    sequence, randomly reroute edges. Inlined from validation_checks.py
+    to avoid top-level-script side effects on import.
+
+    This is the proper null model: it controls for degree distribution
+    so any palindrome advantage seen against this null is purely a
+    wiring effect, not a degree-distribution artifact.
+    """
+    if rng is None:
+        rng = np.random.RandomState()
+    W_new = W.copy()
+    n = W.shape[0]
+    edges = [(i, j) for i in range(n) for j in range(n)
+             if i != j and W[i, j] != 0]
+    if len(edges) < 2:
+        return W_new
+    if n_swaps is None:
+        n_swaps = len(edges) * 10
+
+    for _ in range(n_swaps):
+        idx1, idx2 = rng.choice(len(edges), 2, replace=False)
+        i, j = edges[idx1]
+        k, l = edges[idx2]
+        if i == k or j == l or i == l or k == j:
+            continue
+        if W_new[i, l] != 0 or W_new[k, j] != 0:
+            continue
+        if signs[j] != signs[l]:
+            continue
+        W_new[i, l] = W_new[i, j]
+        W_new[k, j] = W_new[k, l]
+        W_new[i, j] = 0
+        W_new[k, l] = 0
+        edges[idx1] = (i, l)
+        edges[idx2] = (k, j)
+    return W_new
+
+
 def main():
     W_norm_full, signs_full = load_worm()
     exc_idx = np.where(signs_full > 0)[0]
@@ -147,10 +186,9 @@ def main():
     print(f'Thresholds: truly r_tot<0.01, soft pair_dev<0.05')
     print('=' * 78)
 
-    counts = {'worm': {'truly': 0, 'soft': 0, 'hard': 0},
-              'random_dale': {'truly': 0, 'soft': 0, 'hard': 0}}
-    residuals = {'worm': [], 'random_dale': []}
-    pair_devs = {'worm': [], 'random_dale': []}
+    sources = ('worm', 'random_dale', 'degree_preserved')
+    counts = {s: {'truly': 0, 'soft': 0, 'hard': 0} for s in sources}
+    residuals = {s: [] for s in sources}
 
     for trial in range(n_trials):
         rng = np.random.RandomState(trial + 1000)
@@ -162,13 +200,12 @@ def main():
         signs_sub = signs_full[idx]
 
         # Worm subcircuit
-        klass, r_tot, pair_dev = classify_subcircuit(
+        klass, r_tot, _ = classify_subcircuit(
             W_sub, signs_sub, tau_E, tau_I, alpha=0.3)
         counts['worm'][klass] += 1
         residuals['worm'].append(r_tot)
-        pair_devs['worm'].append(pair_dev)
 
-        # Random Dale's-law control of matched density
+        # Random Dale's-law control of matched density (Erdős-Rényi-Dale)
         density = np.count_nonzero(W_sub) / (n_total * (n_total - 1))
         W_rand = np.zeros((n_total, n_total))
         for i in range(n_total):
@@ -178,29 +215,41 @@ def main():
         mx = np.max(np.abs(W_rand))
         if mx > 0:
             W_rand /= mx
-        klass_r, r_tot_r, pair_dev_r = classify_subcircuit(
+        klass_r, r_tot_r, _ = classify_subcircuit(
             W_rand, signs_sub, tau_E, tau_I, alpha=0.3)
         counts['random_dale'][klass_r] += 1
         residuals['random_dale'].append(r_tot_r)
-        pair_devs['random_dale'].append(pair_dev_r)
 
-    print(f'{"":<14s} | {"truly":>8s} | {"soft":>8s} | {"hard":>8s} | residual: median  | pair_dev: median')
+        # Degree-preserving null: keeps the worm's degree sequence,
+        # randomly reroutes edges. Tests whether the trichotomy
+        # enrichment is due to specific wiring or just degree distribution
+        # (per the existing caveat in docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md
+        # that the binary palindrome advantage is fully explained by
+        # degree distribution).
+        W_dp = degree_preserving_rewire(W_sub, signs_sub, rng=rng)
+        klass_dp, r_tot_dp, _ = classify_subcircuit(
+            W_dp, signs_sub, tau_E, tau_I, alpha=0.3)
+        counts['degree_preserved'][klass_dp] += 1
+        residuals['degree_preserved'].append(r_tot_dp)
+
+    print(f'{"":<18s} | {"truly":>8s} | {"soft":>8s} | {"hard":>8s} | residual: median')
     print('-' * 78)
-    for src in ('worm', 'random_dale'):
+    for src in sources:
         c = counts[src]
         n = sum(c.values())
         med_r = np.median(residuals[src])
-        med_p = np.median(pair_devs[src])
-        print(f'{src:<14s} | {c["truly"]:>5d}/{n} | {c["soft"]:>5d}/{n} | {c["hard"]:>5d}/{n} | {med_r:.4f}           | {med_p:.4f}')
+        print(f'{src:<18s} | {c["truly"]:>5d}/{n} | {c["soft"]:>5d}/{n} | {c["hard"]:>5d}/{n} | {med_r:.4f}')
 
     print()
-    p_soft_worm = counts['worm']['soft'] / n_trials
-    p_soft_rand = counts['random_dale']['soft'] / n_trials
-    p_hard_worm = counts['worm']['hard'] / n_trials
-    p_hard_rand = counts['random_dale']['hard'] / n_trials
-    print(f'soft fraction: worm={p_soft_worm:.2%}, random={p_soft_rand:.2%}, '
-          f'enrichment={p_soft_worm/max(p_soft_rand, 1e-3):.2f}x')
-    print(f'hard fraction: worm={p_hard_worm:.2%}, random={p_hard_rand:.2%}')
+    p_truly = {s: counts[s]['truly'] / n_trials for s in sources}
+    print(f'truly fractions: worm={p_truly["worm"]:.1%}, '
+          f'erdos_dale={p_truly["random_dale"]:.1%}, '
+          f'degree_preserved={p_truly["degree_preserved"]:.1%}')
+    print()
+    print('Reading: if "worm" and "degree_preserved" are similar but both '
+          'much higher than "random_dale", the trichotomy enrichment is due '
+          'to degree distribution alone (per existing caveat). If "worm" is '
+          'distinctly higher than "degree_preserved", specific wiring contributes.')
 
 
 if __name__ == '__main__':

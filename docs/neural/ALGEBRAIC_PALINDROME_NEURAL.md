@@ -274,6 +274,30 @@ Sequential E-I pairing vs best of 20 random pairings: ratio changes
 from 0.118 to 0.121. The arbitrary pairing choice does not affect the
 conclusion.
 
+### F77-style trichotomy refinement
+
+The binary palindrome test (residual high vs. low) can be sharpened
+into the F77 trichotomy borrowed from the quantum side: each subcircuit
+is classified into
+
+  - **truly**: ‖R‖ / ‖J‖ < 0.01 (algebraic equation closes within 1%)
+  - **soft**: residual exceeds 1% but the eigenvalues of J still come
+    in palindromic pairs (λ ↔ −2S − λ within 5%)
+  - **hard**: even the eigenvalue pairing fails
+
+For C. elegans 5E + 5I subcircuits (n = 2000): truly 58.4%, soft
+41.1%, hard 0.5%. Erdős-Rényi-Dale random: 22.2% / 76.6% / 1.1%. The
+worm has **3× more truly-class subcircuits and effectively zero hard**.
+
+Re-applying the degree-preserving null at N = 20 and N = 26 (where
+175/200 and 200/200 trials actually get rewired) reproduces the binary
+finding for the trichotomy: **degree-preserved networks have the same
+truly fractions as the worm** (31/200 vs 31/200 at N = 20, 5/200 vs
+5/200 at N = 26). Specific wiring contributes nothing to the trichotomy
+beyond what degree distribution already provides.
+
+Script: [`simulations/neural/celegans_trichotomy.py`](../../simulations/neural/celegans_trichotomy.py).
+
 ---
 
 ## 5. The Standing Wave Between E and I
