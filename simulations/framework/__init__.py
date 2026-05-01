@@ -103,6 +103,7 @@ from .diagnostics import (
     polarity_diagnostic,
     stationary_modes,
     d_zero_decomposition,
+    sector_populations,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows

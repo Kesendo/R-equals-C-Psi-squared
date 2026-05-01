@@ -1,4 +1,5 @@
-"""d=0 substrate diagnostics: kernel of L and d=0/d=2 state decomposition.
+"""d=0 substrate diagnostics: kernel of L, d=0/d=2 state decomposition,
+and sector populations.
 
 The framework's d²−2d=0 condition forces d=0 or d=2. d=2 is the qubit
 dimension; d=0 is the substrate axis the qubit sits on. The polarity
@@ -6,27 +7,25 @@ layer (THE_POLARITY_LAYER.md) gives ±0/0 internal structure to that
 axis at the d=2 projection level.
 
 This module reads the d=0 substrate directly via the kernel of the
-Liouvillian L. Eigenvectors of L with eigenvalue 0 are the **stationary
-modes** — what does not decohere under L_D and does not rotate under
-L_H. For uniform XY/Heisenberg chain + Z-dephasing they are the
-excitation-sector projectors P_n (F4 in ANALYTICAL_FORMULAS.md), all
-living in the {I, Z}^N Pauli sublattice (n_xy = 0, lens-immune per
-XOR_SPACE.md).
-
-Below d=2 sit the **classical populations**: the sector probabilities
-that survive forever. Above d=0 sit the quantum coherences (Polarity
-±0, off-axis Y/Z) that decohere. The d=0 / d=2 decomposition exposes
-both layers explicitly.
+Liouvillian L. Eigenvectors of L with eigenvalue 0 are the stationary
+modes: what does not decohere under L_D and does not rotate under L_H.
+For uniform XY/Heisenberg chain + Z-dephasing they are the excitation-
+sector projectors P_n (F4 in ANALYTICAL_FORMULAS.md), all living in the
+{I, Z}^N Pauli sublattice (n_xy = 0, lens-immune per XOR_SPACE.md).
+The natural observables on the d=0 axis are the sector populations
+p_n = Tr(P_n · ρ): conserved under L, hardware-trivial to measure
+(Z-basis tomography, group shots by Hamming weight).
 
 Public API:
   stationary_modes(chain, L=None, tol=1e-9)
   d_zero_decomposition(rho, chain, tol=1e-9)
+  sector_populations(rho_or_psi, N=None)
 """
 from __future__ import annotations
 
 import numpy as np
 
-from ..pauli import _vec_to_pauli_basis_transform
+from ..pauli import _vec_to_pauli_basis_transform, to_density_matrix
 
 
 def stationary_modes(chain, L=None, tol=1e-9):
@@ -113,4 +112,53 @@ def d_zero_decomposition(rho, chain, tol=1e-9):
         'd0_weight': float(np.real(np.trace(rho_d0))),
         'd2_norm': float(np.linalg.norm(rho_d2)),
         'kernel_dimension': sm['kernel_dimension'],
+    }
+
+
+def sector_populations(rho_or_psi, N=None):
+    """Sector populations p_n = Σ_{|k|=n} ρ_kk for n ∈ {0, 1, ..., N}.
+
+    The natural observables on the d=0 axis. For uniform XY/Heisenberg
+    + Z-dephasing, these are the projections of ρ onto the kernel modes
+    P_n (excitation-sector projectors): p_n = Tr(P_n · ρ). Conserved by
+    H = XY/Heisenberg and by Z-dephasing; drift in p_n(t) is a direct
+    fingerprint of non-{Z, XY/Heisenberg} noise (T1 σ⁻ shifts mass to
+    lower n; transverse fields h_x·X, h_y·Y mix sectors with Δn = ±1).
+
+    Hardware-trivial measurement protocol: Z-basis tomography, group
+    shots by Hamming weight, p_n = (#shots with n excitations) / total.
+    No phase tomography needed.
+
+    Args:
+        rho_or_psi: 2^N × 2^N density matrix or 2^N pure-state vector.
+        N: number of qubits (inferred from shape if None).
+
+    Returns:
+        dict with:
+          'p':       (N+1)-array of real probabilities, p[n] = Tr(P_n · ρ)
+          'mean_n':  ⟨n⟩ = Σ n·p_n (mean excitation count, conserved)
+          'var_n':   Σ (n − ⟨n⟩)² · p_n (excitation-count variance)
+          'entropy': −Σ p_n log p_n (Shannon, base e; 0·log0 := 0)
+          'N':       number of qubits
+    """
+    rho, N = to_density_matrix(rho_or_psi, N=N)
+    diag = np.real(np.diag(rho))
+    d_phys = 2 ** N
+    p = np.zeros(N + 1)
+    for k in range(d_phys):
+        n_k = bin(k).count('1')
+        p[n_k] += diag[k]
+
+    n_axis = np.arange(N + 1)
+    mean_n = float(np.sum(n_axis * p))
+    var_n = float(np.sum((n_axis - mean_n) ** 2 * p))
+    nonzero = p > 0
+    entropy = float(-np.sum(p[nonzero] * np.log(p[nonzero])))
+
+    return {
+        'p': p,
+        'mean_n': mean_n,
+        'var_n': var_n,
+        'entropy': entropy,
+        'N': N,
     }

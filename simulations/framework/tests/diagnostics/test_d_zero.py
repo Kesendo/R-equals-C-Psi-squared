@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
@@ -160,6 +161,85 @@ def test_d_zero_decomposition_steady_state_of_basis_state_is_sector_projector():
     # Other sectors should be empty
     for idx in (0, 3, 5, 6, 7):
         assert abs(diag[idx]) < 1e-6
+
+
+def test_sector_populations_basis_states():
+    """|0⟩^N has p_0 = 1; |1⟩^N has p_N = 1; mean and variance trivial."""
+    N = 3
+    d_phys = 2 ** N
+
+    psi_zero = np.eye(d_phys)[0]   # |000⟩
+    sp = fw.sector_populations(psi_zero, N=N)
+    assert sp['p'][0] == pytest.approx(1.0)
+    assert sp['p'][1:].sum() == pytest.approx(0.0)
+    assert sp['mean_n'] == pytest.approx(0.0)
+    assert sp['var_n'] == pytest.approx(0.0)
+    assert sp['entropy'] == pytest.approx(0.0)
+
+    psi_one = np.eye(d_phys)[-1]   # |111⟩
+    sp = fw.sector_populations(psi_one, N=N)
+    assert sp['p'][N] == pytest.approx(1.0)
+    assert sp['mean_n'] == pytest.approx(N)
+
+
+def test_sector_populations_plus_state_is_binomial():
+    """|+⟩^N has p_n = C(N,n) / 2^N (binomial), ⟨n⟩ = N/2, var = N/4."""
+    from math import comb
+    N = 4
+    psi = fw.polarity_state(N, +1)
+    sp = fw.sector_populations(psi, N=N)
+    expected = np.array([comb(N, n) / (2 ** N) for n in range(N + 1)])
+    assert np.allclose(sp['p'], expected, atol=1e-12)
+    assert sp['mean_n'] == pytest.approx(N / 2)
+    assert sp['var_n'] == pytest.approx(N / 4)
+
+
+def test_sector_populations_within_sector_superposition():
+    """(|001⟩+|010⟩)/√2 sits entirely in n=1; p_1 = 1, ⟨n⟩ = 1, var = 0."""
+    N = 3
+    d_phys = 2 ** N
+    psi = (np.eye(d_phys)[1] + np.eye(d_phys)[2]) / np.sqrt(2)
+    sp = fw.sector_populations(psi, N=N)
+    assert sp['p'][1] == pytest.approx(1.0)
+    assert sp['mean_n'] == pytest.approx(1.0)
+    assert sp['var_n'] == pytest.approx(0.0)
+
+
+def test_sector_populations_density_matrix_input():
+    """Both ψ and ρ inputs supported, give the same answer."""
+    N = 3
+    psi = fw.polarity_state(N, +1)
+    rho = np.outer(psi, psi.conj())
+    sp_psi = fw.sector_populations(psi, N=N)
+    sp_rho = fw.sector_populations(rho, N=N)
+    assert np.allclose(sp_psi['p'], sp_rho['p'], atol=1e-12)
+
+
+def test_sector_populations_conserved_under_xy_z_dephasing():
+    """The d=0 axis observable: p_n is invariant under uniform XY+Z-dephasing
+    Liouvillian. This is the operational meaning of "sector populations live
+    in the kernel of L".
+
+    Drift in p_n(t) would indicate non-{Z, XY/Heisenberg} noise (T1, σ±,
+    transverse fields), which is the basis of the d=0 hardware diagnostic.
+    """
+    from scipy.linalg import expm
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    psi_0 = fw.polarity_state(N, +1)
+    rho_0 = np.outer(psi_0, psi_0.conj())
+    p_0 = fw.sector_populations(rho_0, N=N)['p']
+
+    # Propagate to several timepoints and verify p stays fixed
+    L = chain.L
+    rho_vec_0 = rho_0.flatten('F')
+    d_phys = 2 ** N
+    for t in (0.1, 1.0, 5.0):
+        rho_vec_t = expm(L * t) @ rho_vec_0
+        rho_t = rho_vec_t.reshape(d_phys, d_phys, order='F')
+        p_t = fw.sector_populations(rho_t, N=N)['p']
+        assert np.allclose(p_t, p_0, atol=1e-9), \
+            f"sector populations drifted at t={t}: max |Δp| = {np.max(np.abs(p_t - p_0)):.2e}"
 
 
 def test_psi_vanishes_on_d_zero_substrate():
