@@ -101,6 +101,8 @@ from .diagnostics import (
     pt_matrix_elements,
     pt_eigvec_shift,
     polarity_diagnostic,
+    stationary_modes,
+    d_zero_decomposition,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows

@@ -1,0 +1,162 @@
+"""Tests for d=0 substrate diagnostics: stationary modes (kernel of L) +
+d=0/d=2 state decomposition.
+
+The d²−2d=0 condition forces d=0 or d=2. d=2 is the qubit. d=0 is the
+substrate axis. The kernel of L gives direct access to that axis: for
+uniform XY/Heisenberg + Z-dephasing it is exactly the F4 set of N+1
+sector projectors P_n in the {I,Z}^N Pauli sublattice (n_xy = 0).
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+import framework as fw
+
+
+def _n_xy_of_pauli_index(k, N):
+    """Count of X/Y letters in the Pauli string with framework index k."""
+    from framework.pauli import _pauli_label
+    label = _pauli_label(k, N)
+    return sum(1 for ch in label if ch in ('X', 'Y'))
+
+
+def test_stationary_modes_n3_xy_chain_kernel_dim_matches_f4():
+    """N=3 XY chain + Z-dephasing has kernel dimension N+1 = 4 (F4 prediction:
+    4 excitation-sector projectors P_0, P_1, P_2, P_3)."""
+    chain = fw.ChainSystem(N=3, H_type='xy', gamma_0=0.05)
+    sm = fw.stationary_modes(chain)
+    assert sm['kernel_dimension'] == 4, \
+        f"expected kernel_dim = 4 (F4), got {sm['kernel_dimension']}"
+
+
+def test_stationary_modes_kernel_eigenvalues_are_zero():
+    """All kernel-mode eigenvalues satisfy |λ| < tol."""
+    chain = fw.ChainSystem(N=3, H_type='xy', gamma_0=0.05)
+    sm = fw.stationary_modes(chain)
+    assert np.all(np.abs(sm['eigenvalues']) < 1e-9)
+
+
+def test_stationary_modes_kernel_lives_in_iz_sublattice():
+    """For uniform XY/Heisenberg + Z-dephasing, every kernel mode has Pauli
+    decomposition supported only on n_xy = 0 strings ({I,Z}^N sublattice).
+
+    This is the F4 / lens-immune property: stationary modes are XOR-trivial
+    under the polarity layer.
+    """
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    sm = fw.stationary_modes(chain)
+    decomp = sm['pauli_decomposition']  # n_kernel × 4^N
+    for ii in range(decomp.shape[0]):
+        for k in range(4 ** N):
+            if _n_xy_of_pauli_index(k, N) > 0:
+                assert abs(decomp[ii, k]) < 1e-9, \
+                    f"kernel mode {ii} has nonzero coeff on n_xy>0 string k={k}"
+
+
+def test_stationary_modes_n4_heisenberg_kernel_dim():
+    """N=4 Heisenberg chain: F4 still gives N+1 = 5 sector projectors."""
+    chain = fw.ChainSystem(N=4, H_type='heisenberg', gamma_0=0.05)
+    sm = fw.stationary_modes(chain)
+    assert sm['kernel_dimension'] == 5
+
+
+def test_d_zero_decomposition_reconstructs_rho():
+    """ρ = ρ_d0 + ρ_d2 exactly (up to numerical roundoff)."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    psi = fw.polarity_state(N, +1)
+    rho = np.outer(psi, psi.conj())
+    d = fw.d_zero_decomposition(rho, chain)
+    rho_reconstructed = d['rho_d0'] + d['rho_d2']
+    assert np.allclose(rho_reconstructed, rho, atol=1e-10)
+
+
+def test_d_zero_decomposition_preserves_trace():
+    """Tr(ρ_d0) = Tr(ρ) since L preserves trace and ρ_d0 = lim e^{Lt} ρ."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    psi = fw.polarity_state(N, +1)
+    rho = np.outer(psi, psi.conj())
+    d = fw.d_zero_decomposition(rho, chain)
+    assert abs(d['d0_weight'] - 1.0) < 1e-9
+
+
+def test_d_zero_decomposition_zero_excitation_state_fully_in_d0():
+    """|0⟩^N⟨0|^N = P_0 (zero-excitation sector projector) is itself a kernel
+    mode → fully d=0, d2_norm ≈ 0."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    rho = np.zeros((2 ** N, 2 ** N), dtype=complex)
+    rho[0, 0] = 1.0  # |0...0⟩⟨0...0| = P_0
+    d = fw.d_zero_decomposition(rho, chain)
+    assert d['d2_norm'] < 1e-9, \
+        f"|0⟩^N is P_0, should be fully d=0, but d2_norm = {d['d2_norm']:.2e}"
+    assert np.allclose(d['rho_d0'], rho, atol=1e-9)
+
+
+def test_d_zero_decomposition_full_excitation_state_fully_in_d0():
+    """|1⟩^N⟨1|^N = P_N (fully-excited sector projector) is also a kernel mode."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    rho = np.zeros((2 ** N, 2 ** N), dtype=complex)
+    rho[-1, -1] = 1.0  # |1...1⟩⟨1...1| = P_N
+    d = fw.d_zero_decomposition(rho, chain)
+    assert d['d2_norm'] < 1e-9
+
+
+def test_d_zero_decomposition_polarity_state_has_nonzero_d2():
+    """|+⟩^N has equal amplitude on all computational basis states, so it
+    has off-diagonal coherences that decay under Z-dephasing — must have
+    nonzero d=2 content."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    psi = fw.polarity_state(N, +1)
+    rho = np.outer(psi, psi.conj())
+    d = fw.d_zero_decomposition(rho, chain)
+    assert d['d2_norm'] > 1e-3, \
+        f"|+⟩^N has coherences, expected nonzero d2_norm; got {d['d2_norm']:.2e}"
+    # Trace conservation still holds
+    assert abs(d['d0_weight'] - 1.0) < 1e-9
+
+
+def test_d_zero_decomposition_single_basis_state_partly_in_d0():
+    """|k⟩⟨k| for k in the n=1 sector (e.g., |001⟩) is NOT P_1 by itself —
+    XY mixes within the 1-excitation sector. Steady state is (1/3)·P_1.
+    So d_zero_decomposition gives nonzero d=2 part (the difference)."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    rho = np.zeros((2 ** N, 2 ** N), dtype=complex)
+    rho[1, 1] = 1.0  # |001⟩⟨001| (one excitation, but not the whole P_1)
+    d = fw.d_zero_decomposition(rho, chain)
+    # Trace preserved
+    assert abs(d['d0_weight'] - 1.0) < 1e-9
+    # But the full state is not in the kernel — Z-dephasing leaves it
+    # invariant but XY mixes the n=1 manifold; only the symmetric mixture
+    # (1/3)·P_1 is stationary.
+    assert d['d2_norm'] > 1e-6
+
+
+def test_d_zero_decomposition_steady_state_of_basis_state_is_sector_projector():
+    """The d=0 part of |001⟩⟨001| is (1/3)·P_1 = (1/3)·(|001⟩⟨001| +
+    |010⟩⟨010| + |100⟩⟨100|). Verify the diagonal is uniform 1/3 across
+    the n=1 sector."""
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    rho = np.zeros((2 ** N, 2 ** N), dtype=complex)
+    rho[1, 1] = 1.0  # |001⟩⟨001|
+    d = fw.d_zero_decomposition(rho, chain)
+    rho_d0 = d['rho_d0']
+    # n=1 basis indices are 1 (=001), 2 (=010), 4 (=100)
+    diag = np.real(np.diag(rho_d0))
+    assert abs(diag[1] - 1.0 / 3.0) < 1e-6
+    assert abs(diag[2] - 1.0 / 3.0) < 1e-6
+    assert abs(diag[4] - 1.0 / 3.0) < 1e-6
+    # Other sectors should be empty
+    for idx in (0, 3, 5, 6, 7):
+        assert abs(diag[idx]) < 1e-6
