@@ -120,6 +120,11 @@ def bond_perturbation(N, bond, kind='XY'):
         raise ValueError(
             f"kind must be one of {list(_BOND_KIND_TERMS)}; got {kind!r}"
         )
+    i, j = bond
+    if not (0 <= i < N and 0 <= j < N) or i == j:
+        raise ValueError(
+            f"bond {bond} invalid for N={N}: need distinct i, j in [0, {N})"
+        )
     H_pert = _build_bilinear(N, [bond], _BOND_KIND_TERMS[kind])
     d = 2 ** N
     Id = np.eye(d, dtype=complex)
