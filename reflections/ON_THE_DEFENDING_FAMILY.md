@@ -34,20 +34,20 @@ arbitrary categories. They are the three structural roles of a family.
 
 ## The trinity of defense
 
-**Mother — Truly (XX+YY)**: defends by avoidance. Y and Z come in
+**Mother, Truly (XX+YY)**: defends by avoidance. Y and Z come in
 internally paired counts, no net polarity-attack. M = 0 idealized
 because all attacks self-neutralize. The mother is the substrate.
 She protects by being the womb that the cycle does not touch. In
 bra-ket terms: bra and ket are exactly symmetric, no phase drift.
 
-**Father — Pure Π²-odd (XY+YX)**: defends by cyclic re-creation.
+**Father, Pure Π²-odd (XY+YX)**: defends by cyclic re-creation.
 M_anti = L_{H_odd}, by F81. The dynamics generator IS the recirculation
 operator. The polarity is re-pumped at every cycle revolution; what
 is destroyed by one quarter of the cycle is rebuilt by the next.
 In bra-ket terms: 90 ° phase between bra and ket is continuously
 generated. The father is the dynamic re-creator.
 
-**Child — Pure Π²-even non-truly (YZ+ZY)**: defends by reflection.
+**Child, Pure Π²-even non-truly (YZ+ZY)**: defends by reflection.
 M_sym ≠ 0, M_anti = 0. No drive, but no decay either. The Hamiltonian
 holds the polarity in standing-wave form. In bra-ket terms: bra and
 ket meet in a stable manifestation. The child is what is observed,
@@ -60,8 +60,8 @@ r=∞ is pure child, r=1 gives the equal-Frobenius family with anti =
 1/6.
 
 The three roles are not redundant aspects of one defense. They are
-three distinct defense strategies — avoidance, re-creation, reflection
-— that no other classification reduces. Real Hamiltonians realize the
+three distinct defense strategies (avoidance, re-creation, reflection)
+that no other classification reduces. Real Hamiltonians realize the
 trinity in some hybrid, with mother always present as substrate.
 
 ---
@@ -71,9 +71,9 @@ trinity in some hybrid, with mother always present as substrate.
 The palindrome equation Π·L·Π⁻¹ + L + 2Σγ·I = M has three operators
 on the left, not two. Their roles in producing M:
 
-  Π·L·Π⁻¹ — the conjugated, mirrored dynamics ............... mother
-  L — the dynamics itself ..................................... father
-  2Σγ·I — the dissipator coupling ............................ child
+  Π·L·Π⁻¹  : the conjugated, mirrored dynamics ............... mother
+  L        : the dynamics itself ............................. father
+  2Σγ·I    : the dissipator coupling .......................... child
 
 A two-operator palindrome (Π·L·Π⁻¹ + L = 0) gives the closed
 unitary symmetry. Three operators including the dissipator gives
@@ -91,23 +91,30 @@ The trinity is one structure, visible at three levels.
 
 ---
 
-## The same trinity at the bra-ket level
+## The substrate the family acts on
 
-ρ = |ψ⟩⟨ψ|. Three components again:
+The trinity of defense is a Hamiltonian-level structure. Each Π²-class
+is a way the Hamiltonian relates to the polarity layer. It does not
+translate down to the index structure of ρ. ρ on d² = 4^N is one
+object with two indices. Bra and ket are not separate parties to be
+assigned roles; they are the row and column of the matrix that
+represents the state, two ways to read the same ρ from opposite sides
+of the same indexing.
 
-  ⟨ψ| — the bra index ........................................ mother
-  |ψ⟩ — the ket index ......................................... father
-  |ψ⟩⟨ψ| — the tensor product .............................. child
+What the trinity acts on is this ρ. The substrate the family defends
+is the d² operator space where ρ lives, with its d=0 / d=2 split:
+the kernel of L (the N+1 sector projectors P_n in the {I, Z}^N Pauli
+sublattice, the conserved skeleton) and its complement (the dynamic
+content that decoheres). The cockpit primitives expose this substrate
+directly: `fw.stationary_modes(chain)` returns the kernel modes;
+`fw.d_zero_decomposition(rho, chain)` projects any ρ onto the
+substrate and its complement; `fw.sector_populations(rho_or_psi, N)`
+reads p_n = Tr(P_n · ρ), the natural address of where on the d=0 axis
+the state sits.
 
-The child is not derivative. It is the joint object on d² = 4^N
-that the framework's operators (L, Π, M) act on. Without simultaneous
-existence of bra and ket, there is no ρ. Without ρ, there are no
-observables (Tr(ρ A) requires the child).
-
-Operationally we measure the child. But the child exists only
-because mother and father exist simultaneously. The framework lives
-in the generation of the child — d² operator space — not in the
-generation of |ψ⟩ — the ket-only state space.
+The family lives one level above. The trinity is a property of L
+(via H), not of ρ. ρ is what the trinity defends; bra and ket are how
+we index the defense, not who carries it out.
 
 ---
 
@@ -181,7 +188,7 @@ The ~60 % ⟨Z,Z⟩ damping on truly XX+YY at Marrakesh path [4,5,6]
 the mother's avoidance-defense fails against the σ⁻ amplitude-damping
 attack. The pi2_odd_pure ⟨X₀Z₂⟩ matching to 0.011 is the rate at
 which the father's cyclic re-creation succeeds against the same
-attack — because the father carries the dynamics that re-creates
+attack, because the father carries the dynamics that re-creates
 polarity at every cycle, while the mother only preserves the static
 state.
 
@@ -196,35 +203,48 @@ ongoing cycle) but adds to the mother's M_anti from zero (every bit of
 
 ## What this opens
 
-Inheritance carries the trinity forward through generations. The
-question that opens is: what is the seed?
+Inheritance carries the trinity forward through generations of body
+count. The question that opens is at the smallest end: where does the
+trinity come from?
 
-If F-chain F77 → F85 is the forward direction of inheritance, the
-backward direction is the primordial. Where does the trinity come
-from? Is it a fundamental structure that self-bootstraps at the
-smallest scale, or does it inherit from a layer below?
+The framework's earliest piece, R = CΨ², gives a partial answer. The
+recursion R_{n+1} = C(Ψ + R_n)² has discriminant 1 − 4CΨ; setting
+Ψ = 0 and C = 1/2 collapses it to R(R − 2) = 0, exactly d² − 2d = 0.
+The two roots d = 0 and d = 2 are the substrate axis and the qubit
+dimension. The fold catastrophe of the recursion (the simplest
+possible bifurcation in the Thom-Arnold classification) and the
+dimension equation that admits only the qubit are the same polynomial
+read at two parameter regimes.
 
-The framework already names something in this direction:
+R = CΨ² was written months before the palindrome theorem and the Π²
+Klein structure that produces the trinity. The fact that its
+coherence-free limit is exactly the dimension equation is structural
+compatibility we did not engineer. The seed is plausibly the fold
+catastrophe itself, with the polarity ±0 layer as the critical point
+and the trinity emerging when the deformation parameter (Ψ, C) takes
+the specific values that select Hamiltonian Π²-classes. Truly,
+Π²-odd, and Π²-even non-truly are three discrete points in the
+parameter space of one quadratic family.
+
 [The Primordial Qubit](../hypotheses/PRIMORDIAL_QUBIT.md) proposed
 that system and noise are two readings of a single algebraic
-structure split by a Z₂ mirror at zero. That is the trinity in
-proto-form: two readings (mother and father?), one structure (child?),
-Z₂ mirror at zero (the polarity birth?).
+structure split by a Z₂ mirror at zero. That is the same shape: one
+algebraic family, polarity ±0 as critical point, the trinity as the
+discrete classes that emerge when the deformation parameter takes the
+right values. The primordial qubit and the fold catastrophe are two
+namings of the seed.
 
-But the language of that hypothesis is observer-dualist (system vs
-noise). The trinity language is one-system / three-roles. They may
-be two views of the same underlying algebra, or the trinity may be
-a step further than primordial-qubit took.
-
-The next move is to look in the primordial direction with the trinity
-language and ask: what is the seed-structure that births the family?
-What is the smallest version of the trinity that contains its own
-inheritance machinery? This is the search for OUR primordial.
+What remains open is the explicit derivation: how does the parameter
+space of R = C(Ψ + R)² project onto the Π² Klein structure that
+produces truly / Π²-odd / Π²-even non-truly? We have the seed and the
+fruit, with structural compatibility between them, but the map from
+parameter values to Hamiltonian class is asserted, not derived. That
+is the next primordial question. See [On What the Formula Knew](ON_WHAT_THE_FORMULA_KNEW.md)
+for the trace from R = CΨ²'s December 2025 origin to the May 2026
+substrate primitives that made it concrete.
 
 ---
 
-*"Schutz ist Mutter Vater Kind."*  
-*— Tom Wicht, 2026-04-30*
+*Tom Wicht, 2026-04-30: "Schutz ist Mutter Vater Kind."*
 
-*"Das System ist eine Familie die sich selbst trägt."*  
-*— Brainstorming, 2026-04-30*
+*Brainstorming, 2026-04-30: "Das System ist eine Familie die sich selbst trägt."*
