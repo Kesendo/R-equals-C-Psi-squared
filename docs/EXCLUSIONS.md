@@ -6,7 +6,7 @@ algebraically exact, irreversible quantum classical transition, fold catastrophe
 topological invariant, time origin external Lindblad, R=CPsi2 logical exclusions -->
 
 **Status:** Derived from proven results. Each exclusion cites its proof.
-**Date:** March 25, 2026
+**Date:** March 25, 2026 (updated 2026-05-01: d=0 substrate primitives, periodic table palindrome cross-domain evidence, classical/quantum reading exclusion)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -33,6 +33,8 @@ non-trivial solution is d = 2 (the qubit).
 
 **Verification:** Qutrits (d=3, the three-level analogue of qubits) tested against 236 dephasing dissipators:
 0/236 palindromic. The equation d² - 2d = 9 - 6 = 3, not zero.
+
+**Operational handle (2026-05-01):** The d=0 substrate is now directly readable via `fw.stationary_modes(chain)` (the kernel of the Liouvillian L), `fw.d_zero_decomposition(rho, chain)` (substrate/decohering split of any state), and `fw.sector_populations(rho_or_psi, N)` (the natural d=0 observables p_n = Tr(P_n · ρ), measurable on hardware via Z-basis tomography alone). For uniform XY/Heisenberg + Z-dephasing the kernel has dimension N+1 (F4 sector projectors in {I, Z}^N).
 
 **Proof:** [Qubit Necessity](QUBIT_NECESSITY.md),
 [Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
@@ -160,6 +162,8 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
 **Hardware:** Confirmed on IBM Torino at 1.9% deviation
 ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)).
 
+**Cross-domain evidence (2026-05-01):** The same pair-sum-constant signature predicted by F1 appears empirically in the periodic table of the elements. First ionization energies across periods 2-6 (CoV 0.07-0.10, p < 10⁻⁴ for period 6 with 32 elements including the f-block); Pauling and Allen electronegativities show even tighter palindrome (CoV 0.008-0.04). Three independent property scales, five periods, the same statistical signature. The cross-domain transport from quantum F1 to atomic shell Hamiltonians is empirical, not derived. See `simulations/periodic_palindrome.py` and §3 of [MATHEMATICAL_CONNECTIONS](MATHEMATICAL_CONNECTIONS.md).
+
 **Ruled out:**
 - "The symmetry is approximate and breaks at some scale": it is
   algebraically exact and has been verified up to N=8 (65,536×65,536
@@ -168,6 +172,9 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
   do not produce algebraically exact symmetries with zero exceptions
 - "This symmetry is statistical": the palindromic pairing is
   algebraic, not the result of averaging or large numbers
+- "The palindrome is unique to spin chains under dephasing": the same
+  statistical signature appears in atomic ionization energies and
+  electronegativities, an entirely different physical system
 
 ---
 
@@ -203,6 +210,15 @@ is (½)² = ¼. See [Neural 1/4](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 - "There are other boundaries at other values": α = 2 (purity) is
   the unique Rényi order with a state-independent threshold
   ([Uniqueness Proof](proofs/UNIQUENESS_PROOF.md))
+- "The cusp connects classical and quantum regimes": the cusp is
+  the algebraic site where the recursion's solution-multiplicity
+  changes (0 real fixed points → 1 degenerate → 2 real). All
+  measured variables (CΨ trajectory, sector populations, off-diagonal
+  coherence, per-site Bloch components) cross the cusp smoothly.
+  The cusp does not connect two worlds; it is the internal site
+  where stability becomes algebraically available. See
+  `simulations/_cusp_investigation.py` for the full reading on
+  Bell+ under Z-dephasing
 
 ---
 
@@ -227,6 +243,22 @@ Markovian backflow through J-coupling to a coherent reservoir.
   specifically, no Pauli-gate sequence has any effect
 - "Active error correction can push CΨ back above ¼": only energy
   exchange (J-coupling) works, not phase refocusing (DD)
+
+---
+
+## Exclusion 7: The classical/quantum distinction is not a world-separation
+
+**Basis (2026-05-01):** d=0 (sector populations, kernel of L) and d=2 (off-diagonal coherences, decohering content) are not two ontologies but two indices of one ρ on operator space d² = 4^N. R = CΨ² and d² − 2d = 0 are the same polynomial at two parameter regimes: setting Ψ=0 and C=1/2 in R = C(Ψ + R)² collapses to R(R−2) = 0, exactly the dimension equation. The qubit on IBM hardware is one piece of aluminum with simultaneous classical (geometry, temperature, position in a fridge) and quantum (superposition, entanglement when the operations ask) readings; there is no separated quantum sphere from which it descends.
+
+**Verification:** The algebraic identity Ψ(ρ_d0) = 0 for the kernel projection is exact for uniform XY/Heisenberg + Z-dephasing, verified numerically by `test_psi_vanishes_on_d_zero_substrate` in `simulations/framework/tests/diagnostics/test_d_zero.py`. Any state's coherence (Ψ) vanishes on its d=0 projection by construction; both d=0 and d=2 are diagonal-vs-off-diagonal entries of the same Hilbert-space density matrix.
+
+**Proof:** Structural identity documented in [reflections/ON_WHAT_THE_FORMULA_KNEW](../reflections/ON_WHAT_THE_FORMULA_KNEW.md) (R=CΨ² and d²−2d=0 as one quadratic family). The motto "Reality is what happens between us / mirrors / sectors" reads at the operator level: sectors P_n are static, the d=2 off-diagonal content between them is dynamic (`reflections/TRANSMISSION` for the canonical poetic form).
+
+**Ruled out:**
+- "There is a quantum world somewhere separate from the classical world we inhabit": the framework's structures are operator-space distinctions, not world-separations
+- "We are external observers of a quantum system from a classical world": we are inside the same operator space whose dynamics we describe; the framework is self-description from within
+- "Classical physics emerges from quantum physics through some metaphysical transition": both readings exist on the same substrate at all times; the only "transition" is the algebraic phase change at the cusp (Exclusion 5)
+- "d=0 is the classical part and d=2 is the quantum part": both are entries of the same density matrix on the same Hilbert space; the labels mark *reading mode*, not ontology
 
 ---
 
