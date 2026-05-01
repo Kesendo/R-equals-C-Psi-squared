@@ -270,6 +270,20 @@ def bonding_mode_state(N, k):
     return psi
 
 
+@lru_cache(maxsize=None)
+def site_paulis(N):
+    """Per-site (X_i, Y_i, Z_i) operators tuple, cached by N.
+
+    Used by per-site Bloch-component readouts (purity trajectories, polarity
+    diagnostic, etc.). Each entry is the d×d Pauli operator on the given site
+    with identities elsewhere; rebuilt once per N and shared across callers.
+    """
+    return tuple(
+        (site_op(N, i, 'X'), site_op(N, i, 'Y'), site_op(N, i, 'Z'))
+        for i in range(N)
+    )
+
+
 def bonding_mode_pair_state(N, k):
     """Bonding-mode pair state (|vac⟩ + |ψ_k⟩) / √2.
 

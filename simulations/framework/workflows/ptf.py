@@ -17,27 +17,16 @@ Public API:
 """
 from __future__ import annotations
 
-from functools import lru_cache
-
 import numpy as np
 from scipy.interpolate import interp1d
 from scipy.optimize import minimize_scalar
 
 from ..lindblad import bond_perturbation
-from ..pauli import site_op
+from ..pauli import site_paulis as _site_paulis
 
 
 _ALPHA_BOUNDS = (0.1, 10.0)
 _BOUNDARY_TOL = 1e-3
-
-
-@lru_cache(maxsize=None)
-def _site_paulis(N):
-    """Per-site (X_i, Y_i, Z_i) operators, cached by N."""
-    return tuple(
-        (site_op(N, i, 'X'), site_op(N, i, 'Y'), site_op(N, i, 'Z'))
-        for i in range(N)
-    )
 
 
 def _propagation_setup(L, rho_0):

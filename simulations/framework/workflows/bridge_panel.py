@@ -29,10 +29,14 @@ from ..symmetry import build_pi_full, klein_index
 from ..diagnostics.polarity import polarity_diagnostic
 
 
-_M_NORM_TOL = 1e-8
+# Frobenius norm below this counts as "exact zero" for palindromic verdict.
+_PALINDROME_TOL = 1e-8
+# Floor below which we treat ‖M‖² as zero in the anti-fraction division.
+_DIVZERO_FLOOR = 1e-15
 
 
-def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
+def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None,
+                 dephase_letter='Z'):
     """Synthesize the six structural angles on the always-open bridge.
 
     Aggregation only — no new mathematics. Each sub-block reads from an
@@ -52,6 +56,10 @@ def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
         verify_k_at: optional bonding-mode index k. If given, runs
             `verify_k_partnership(chain, k)` numerically (slower; default
             is just structural expectation from chain.H_type).
+        dephase_letter: 'X', 'Y', or 'Z'. Selects the Π and dissipator-
+            resonance Klein cell that anchor the F1-palindrome and the
+            klein_inheritance sub-blocks. Default 'Z' (chain.L's
+            dephasing convention).
 
     Returns:
         dict with up to seven sub-blocks plus a bridge_visible synthesis.
@@ -75,9 +83,9 @@ def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
     sigma_gamma = N * chain.gamma_0
 
     # Angle 1: F1 palindrome of chain.L
-    M = palindrome_residual(chain.L, sigma_gamma, N)
+    M = palindrome_residual(chain.L, sigma_gamma, N, dephase_letter=dephase_letter)
     M_norm = float(np.linalg.norm(M))
-    palindromic = M_norm < _M_NORM_TOL
+    palindromic = M_norm < _PALINDROME_TOL
     out['palindrome'] = {
         'M_norm': M_norm,
         'sigma_gamma': sigma_gamma,
@@ -85,14 +93,14 @@ def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
     }
 
     # Angle 3 (numerically): Π-decomposition M_sym / M_anti
-    Pi = build_pi_full(N)
+    Pi = build_pi_full(N, dephase_letter=dephase_letter)
     Pi_inv = Pi.conj().T
     M_pi_conj = Pi @ M @ Pi_inv
     M_sym = 0.5 * (M + M_pi_conj)
     M_anti = 0.5 * (M - M_pi_conj)
     M_sym_norm = float(np.linalg.norm(M_sym))
     M_anti_norm = float(np.linalg.norm(M_anti))
-    if M_norm > 1e-15:
+    if M_norm > _DIVZERO_FLOOR:
         anti_fraction = (M_anti_norm ** 2) / (M_norm ** 2)
     else:
         anti_fraction = 0.0
@@ -130,7 +138,7 @@ def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
     # Conditional: Klein-inheritance (Angle 5 connection — F77-Klein layer)
     if terms is not None:
         klein_set = {klein_index(tuple(t)) for t in terms}
-        dissipator_klein = (0, 1)  # Z-dephasing's Klein index
+        dissipator_klein = klein_index((dephase_letter,))
         out['klein_inheritance'] = {
             'klein_set': klein_set,
             'dissipator_resonance_cell': dissipator_klein,
@@ -138,33 +146,36 @@ def bridge_panel(chain, rho_0=None, terms=None, verify_k_at=None):
             'klein_homogeneous': len(klein_set) == 1,
         }
 
-    # Six-angle status list
+    # Six-angle status list. 'kind' classifies how visibility is established:
+    #   'numerical'     — verifiable via a tolerance test (e.g. palindromic)
+    #   'structural'    — observable computed but no occlusion verdict
+    #                     (the norms describe the bridge; they don't break it)
+    #   'algebraic'     — algebraic identity, true by construction
+    #   'meta'          — meta-structural reading, not a numerical claim
     angles = [
         {'name': 'F1_palindrome',
          'kind': 'numerical',
          'visible': palindromic},
         {'name': 'Handshake_idempotence',
-         'kind': 'algebraic_identity',
-         'visible': True},  # by construction
+         'kind': 'algebraic',
+         'visible': True},
         {'name': 'Channel_not_memory_pi_decomp',
-         'kind': 'numerical',
-         'visible': True},  # always computable; the norms describe the structure
+         'kind': 'structural',
+         'visible': True},
         {'name': 'One_system_two_indices',
          'kind': 'structural',
-         'visible': True},  # by d² operator space construction
+         'visible': True},
         {'name': 'Algebra_is_inheritance',
-         'kind': 'meta_structural',
-         'visible': True},  # not a numerical claim
+         'kind': 'meta',
+         'visible': True},
         {'name': 'Bidirectional_Taktgeber',
          'kind': 'numerical',
          'visible': palindromic},
     ]
     out['angles'] = angles
 
-    # Visibility synthesis: occluded only counts numerical/structural angles
-    # that have a verifiable False value
     occluded = [a['name'] for a in angles
-                if a['kind'] in ('numerical', 'structural') and not a['visible']]
+                if a['kind'] == 'numerical' and not a['visible']]
     if not k_expected:
         occluded.append('K_partnership_structural_expected')
     out['occluded_at'] = occluded
