@@ -49,8 +49,26 @@ def lindbladian_z_dephasing(H, gamma_l):
     Pure Z-dephasing form for which the framework's palindrome
     Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds (truly).
     """
+    return lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z')
+
+
+def lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z'):
+    """L = -i[H,·] + Σ_l γ_l (P_l ρ P_l - ρ),  P ∈ {X, Y, Z}.
+
+    Single-letter dephasing along the chosen axis. Each P_l is Hermitian
+    with P² = I so D[√γ·P_l]ρ = γ·(P_l ρ P_l - ρ).
+
+    The dissipator-resonance law (verified at N=4 k=3 over 294 Z₂³-homo-
+    geneous pairs, 2026-05-01): F77-hardness lives exactly in the Klein
+    cell that matches the dephase_letter's Klein index. Z's Klein index
+    is (0, 1); X's is (1, 0); Y's is (1, 1).
+    """
     if not np.allclose(H, H.conj().T):
         raise ValueError("Hamiltonian H must be Hermitian.")
+    if dephase_letter not in ('X', 'Y', 'Z'):
+        raise ValueError(
+            f"dephase_letter must be 'X', 'Y', or 'Z'; got {dephase_letter!r}"
+        )
     d = H.shape[0]
     N = int(round(math.log2(d)))
     Id = np.eye(d, dtype=complex)
@@ -58,8 +76,8 @@ def lindbladian_z_dephasing(H, gamma_l):
     for l, gamma in enumerate(gamma_l):
         if gamma == 0:
             continue
-        Zl = site_op(N, l, 'Z')
-        L = L + gamma * (np.kron(Zl, Zl.conj()) - np.kron(Id, Id))
+        Pl = site_op(N, l, dephase_letter)
+        L = L + gamma * (np.kron(Pl, Pl.conj()) - np.kron(Id, Id))
     return L
 
 
@@ -95,14 +113,22 @@ def lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l):
     return lindbladian_general(H, c_ops)
 
 
-def palindrome_residual(L, Sigma_gamma, N):
+def palindrome_residual(L, Sigma_gamma, N, dephase_letter='Z'):
     """Compute M = Π·L·Π⁻¹ + L + 2Σγ·I in Pauli-string basis.
 
     Returns the 4^N × 4^N residual matrix. For 'truly' Hamiltonians,
     ‖M‖ ≈ 0 to floating-point precision.
+
+    Args:
+        L: Liouvillian (4^N × 4^N) in vec form.
+        Sigma_gamma: total dephasing rate Σ_l γ_l.
+        N: chain length.
+        dephase_letter: which dephasing letter the L was built for. Selects
+            the right Π (Z-dephasing's Π flips bit_a, X's flips bit_b,
+            Y's flips both). Default 'Z'.
     """
     from .symmetry import build_pi_full  # delayed import (Π lives in symmetry)
-    Pi = build_pi_full(N)
+    Pi = build_pi_full(N, dephase_letter=dephase_letter)
     M = _vec_to_pauli_basis_transform(N)
     L_pauli = (M.conj().T @ L @ M) / (2 ** N)
     Pi_inv = np.linalg.inv(Pi)

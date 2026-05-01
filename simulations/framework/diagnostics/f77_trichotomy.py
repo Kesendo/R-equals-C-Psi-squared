@@ -8,11 +8,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..lindblad import lindbladian_z_dephasing, palindrome_residual
+from ..lindblad import lindbladian_pauli_dephasing, palindrome_residual
 from ..pauli import _build_bilinear, _build_kbody_chain
 
 
-def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6):
+def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6,
+                        dephase_letter='Z'):
     """Trichotomy classification (truly / soft / hard) for a Pauli-pair or k-body H.
 
     Builds H from the given terms on this chain (length-2 terms via the
@@ -26,6 +27,13 @@ def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6):
         J_scale: bond coupling for the test Hamiltonian (default 1.0).
         op_tol: tolerance for ‖M‖ < op_tol → truly.
         spec_tol: tolerance for spectrum-pairing closure → soft (else hard).
+        dephase_letter: dissipator letter for the Lindbladian and the
+            corresponding Π palindrome operator. Default 'Z'.
+
+    The dissipator-resonance law (verified at N=4 k=3 over 294 Z₂³-homo-
+    geneous pairs, 2026-05-01): F77-hardness lives exactly in the Klein
+    cell that matches the dephase_letter's Klein index. Z's Klein index
+    is (0, 1); X's is (1, 0); Y's is (1, 1). SU(2)-rotation-equivalent.
 
     Returns:
         'truly' | 'soft' | 'hard'
@@ -54,9 +62,12 @@ def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6):
         kbody_with_coeff = [tuple(t) + (J_scale,) for t in kbody_terms]
         H_test = H_test + _build_kbody_chain(chain.N, kbody_with_coeff)
 
-    L_test = lindbladian_z_dephasing(H_test, [chain.gamma_0] * chain.N)
+    L_test = lindbladian_pauli_dephasing(
+        H_test, [chain.gamma_0] * chain.N, dephase_letter=dephase_letter
+    )
     Sigma_gamma = chain.N * chain.gamma_0
-    M = palindrome_residual(L_test, Sigma_gamma, chain.N)
+    M = palindrome_residual(L_test, Sigma_gamma, chain.N,
+                            dephase_letter=dephase_letter)
     op_norm = float(np.linalg.norm(M))
     if op_norm < op_tol:
         return 'truly'

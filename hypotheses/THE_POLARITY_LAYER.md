@@ -2,15 +2,18 @@
 
 **Date:** 2026-04-30 (updated 2026-05-01)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F77-F85). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed.
+**Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F77-F85). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed. **Update 2026-05-01 (later):** dissipator-resonance law verified — F77-hardness localizes exactly in the Klein cell that matches the dephasing letter's Klein index, SU(2)-symmetric across the three Pauli letters; `classify_pauli_pair` now accepts `dephase_letter='X'/'Y'/'Z'`.
 **Depends on:**
 [F-chain F77-F85](../docs/ANALYTICAL_FORMULAS.md),
 [ON_THE_RESIDUAL](../reflections/ON_THE_RESIDUAL.md),
+[ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [The Primordial Qubit](PRIMORDIAL_QUBIT.md),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Gamma Is Light](GAMMA_IS_LIGHT.md),
 `framework.PauliHamiltonian` (added 2026-05-01),
+`framework.classify_pauli_pair(... dephase_letter=)` (extended 2026-05-01),
+`framework.lindbladian_pauli_dephasing` (added 2026-05-01),
 `framework.diagnostics.recover_H_odd_from_M_anti` (added 2026-04-30),
 `framework.workflows.diagnose_hardware` (added 2026-04-30, refactored to PauliHamiltonian 2026-05-01)
 
@@ -222,6 +225,7 @@ text but operational structure.**
 | "Memory of the dynamics" | "L_{H_odd} IS the recirculation; the dynamics drives its own maintenance" | `pi_decompose_M`'s `M_anti` field |
 | "Truly = no memory" | "Truly = perfectly closed cavity; Q→∞ idealized" | `classify_pauli_pair → 'truly'`; `PauliHamiltonian.has_truly_term` |
 | "Qubit is \|0⟩, \|1⟩" | "Qubit is a window onto multi-axis polarity; X-basis diagonalizes bit_a, Z-basis diagonalizes bit_b" | `PauliTerm.klein_index`, `.full_z2_signature` |
+| "Dephasing axis is fixed (Z)" | "Each Pauli-letter dephasing has its own resonant Klein cell where F77-hardness lives" | `classify_pauli_pair(chain, terms, dephase_letter='X'/'Y'/'Z')` |
 
 This makes prior puzzles legible:
 
@@ -242,6 +246,14 @@ This makes prior puzzles legible:
   layer untouched (Z and X are bit_b-different in the F77 classifier).
 - **Why the F-toolkit's hardware-confirmed predictions cluster on
   X-rotated observables.** They project onto the natural layer.
+- **Why hardness shifts Klein cell with dephasing axis.** F77-hardness
+  is dissipator-aligned: under Z-dephasing it lives in Klein (0,1),
+  under X-dephasing in Klein (1,0), under Y-dephasing in Klein (1,1).
+  The polarity layer's three non-trivial Klein cells are SU(2)-rotation-
+  equivalent; each Pauli-letter dephasing channel selects its own
+  resonant cell. Verified at N=4 k=3 over 294 Z₂³-homogeneous pairs,
+  perfect diagonal pattern (50/76 hard in matched cell, 0 in all
+  off-diagonal cells).
 
 ---
 
@@ -304,35 +316,63 @@ This document does not replace any prior hypothesis; it connects them:
   structure under Y-parity = bit_a XOR bit_b (which holds at k=2 but
   not at k≥3). Bond-position structure within a fixed Z₂³ sector
   remains open.
-- **Inheritance proof structure.** ▭ **OPEN, with new structural finding
-  2026-05-01.** The inheritance argument here remains informal. The
-  Klein-homogeneity rule "all terms in same Klein index → F77 soft or
-  truly, never hard" is a candidate structural invariant.
+- **Dissipator-resonance law.** ✓ **CLOSED 2026-05-01.** The Klein-
+  homogeneity rule degrades under dissipator selection in a sharp
+  diagonal pattern: **F77-hardness lives exactly in the Klein cell
+  matching the dephasing letter's Klein index.**
 
-  **Verified strict at k=2** (full enumeration of 36 V-Effect pairs):
-  every Klein-homogeneous k=2 Hamiltonian on a chain with Z-dephasing
-  is F77 truly or soft — 0/6 are hard.
+  | Klein cell      | Z-deph    | X-deph    | Y-deph    |
+  |-----------------|-----------|-----------|-----------|
+  | (0, 0) Mother   | 0 / 66    | 0 / 66    | 0 / 66    |
+  | (0, 1) Z-like   | **50/76** | 0 / 76    | 0 / 76    |
+  | (1, 0) X-like   | 0 / 76    | **50/76** | 0 / 76    |
+  | (1, 1) Y-like   | 0 / 76    | 0 / 76    | **50/76** |
 
-  **Tendential but not strict at k=3.** Full sweep at k=3 N=4 with
-  Z-dephasing across all 240 Z₂³-homogeneous pairs in {I,X,Y,Z}^3:
-  90 truly + 104 soft + 46 hard. The 46 hard cases reveal a sharp
-  asymmetry — they all lie in Klein **(0, 1)**, which is the same
-  Klein index as the Z-dephasing dissipator's letter Z.
+  Sweep: 294 Klein-homogeneous + Y-par-homogeneous k=3 pairs at N=4
+  under each of the three Pauli-letter dephasing channels (full
+  enumeration). Reproducible:
+  `python simulations/klein_dissipator_resonance.py`.
 
-  Klein-(0, 0): 0 hard / 60 — Mother sector, fully clean.
-  Klein-(0, 1): 46 hard / 60 — same Klein as Z-dephasing.
-  Klein-(1, 0): 0 hard / 60.
-  Klein-(1, 1): 0 hard / 60.
+  The off-diagonal pattern is exact (zero hard cases in 8 sectors ×
+  ~76 pairs each), and the diagonal magnitude is rotation-invariant
+  (50/76 in every matched cell, identical eigenvalue-pair error 8.0e-1).
+  The three letters are SU(2)-symmetric.
 
-  This suggests the dissipator's Klein index identifies a "preferred"
-  sector where the Klein-homogeneity rule degrades. The polarity layer's
-  symmetry under Klein-homogeneity is **broken by the dissipator
-  selection**: choosing Z-dephasing privileges Klein (0, 1) at k=3.
+  Two structural facts hold:
 
-  Testable conjecture: with X-dephasing (X has Klein (1, 0)) the hard
-  cases would shift to Klein (1, 0); with Y-dephasing (Klein (1, 1))
-  to Klein (1, 1). The structural rule may then be: "Klein-homogeneous
-  AND Klein-orthogonal-to-dissipator → F77 soft/truly always."
+  1. **Klein (0, 0) is universally hard-free.** The Mother sector
+     produces no F77-hardness regardless of dissipator. Consistent
+     with F85: bit_a=0 AND bit_b=0 forces every term either truly
+     (Y-par 0) or Π²-even non-truly soft (Y-par 1).
+  2. **Hardness is dissipator-aligned, not orthogonal.** This is the
+     dual of the Orthogonality-Selection meta-theorem
+     ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)).
+     The meta-theorem characterizes blindness via orthogonality;
+     dissipator-resonance characterizes hardness via alignment.
+     Together they constrain both poles of the dissipator-coupled
+     spectrum.
+
+  Operationally: `fw.classify_pauli_pair(chain, terms, dephase_letter='X')`
+  exposes hardness for arbitrary dephasing axes via the same trichotomy
+  classifier. Pytest coverage:
+  `simulations/framework/tests/diagnostics/test_f77_dissipator_resonance.py`
+  (5 tests).
+
+  Connection to the Z⊗N-Brecher (memory project_zn_mirror_diagnostic):
+  the Brecher (transverse field h_y·Y or h_x·X) breaks Z⊗N from
+  *outside* the dissipator's Klein cell — the bit_a-axis of the
+  polarity layer. F77-hardness lives *inside* the dissipator's Klein
+  cell — the bit_a + bit_b axes of the same polarity layer. Brecher
+  and Hardness are the two poles of dissipator-letter resonance, with
+  Y → 40× X strength on Marrakesh hardware reflecting the bit_b=1
+  alignment with Z's Π²-color.
+
+- **Inheritance proof structure.** ▭ **OPEN.** The inheritance argument
+  here remains informal. The dissipator-resonance law refines the
+  Klein-homogeneity rule into an SU(2)-covariant statement: the
+  inheritance structure is symmetric under Pauli-letter permutation,
+  with the dissipator letter selecting which Klein axis hosts hardness.
+  A formal proof remains to be written.
 - **Polarity-layer reading of the d=0 axis at higher d.** ▭ **OPEN.**
   d² − 2d = 0 has solutions d=0 and d=2 because the qubit dimension is 2.
   For qudit (d-level) systems, the analog condition would be different

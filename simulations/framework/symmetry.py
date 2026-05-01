@@ -24,22 +24,70 @@ from .pauli import (
 # ----------------------------------------------------------------------
 # Π conjugation (per site and full Pauli-string basis)
 # ----------------------------------------------------------------------
-# Π per site: I↔X (sign 1), Y↔Z (sign i). bit_a flips, bit_b preserved,
-# phase = i if bit_b=1.
+# Π is the palindrome operator for a single-letter dephasing dissipator.
+# Per dephase_letter ∈ {'X', 'Y', 'Z'} it flips the Klein axis that
+# swaps the dissipator's per-letter immune sector with its damped sector:
+#
+#   Z-dephasing (immune {I, Z}, damped {X, Y}): flip bit_a, phase  i^bit_b.
+#                I↔X (sign 1), Y↔Z (sign  i).
+#   X-dephasing (immune {I, X}, damped {Y, Z}): flip bit_b, phase −i^bit_a.
+#                I↔Z (sign 1), X↔Y (sign −i).
+#   Y-dephasing (immune {I, Y}, damped {X, Z}): flip bit_a, phase −i^bit_b.
+#                I↔X (sign 1), Y↔Z (sign −i).
+#
+# Π_X and Π_Y are derived from Π_Z by SU(2) rotation: Π_X = V_xz·Π_Z·V_xz⁻¹
+# (Hadamard X↔Z), Π_Y = V_yz·Π_Z·V_yz⁻¹ (X-axis π/2 rotation Y↔Z). The
+# resulting phase carries the sign of V's action on the rotated letters.
 
-def pi_action(idx):
-    """Return ((new_a, new_b), phase) for Π acting on Pauli at idx."""
+def pi_action(idx, dephase_letter='Z'):
+    """Return ((new_a, new_b), phase) for Π acting on Pauli at idx.
+
+    Args:
+        idx: Pauli letter index, either a string ('I','X','Y','Z') or
+            (bit_a, bit_b) tuple.
+        dephase_letter: which dissipator's palindrome is being built. The
+            choice determines which Klein axis Π flips and the phase
+            convention. Default 'Z'.
+
+    Returns:
+        ((new_a, new_b), phase) — the Klein index after Π and the phase.
+    """
     a, b = _resolve(idx)
-    return (1 - a, b), (1j if b == 1 else 1)
+    if dephase_letter == 'Z':
+        return (1 - a, b), (1j if b == 1 else 1)
+    if dephase_letter == 'X':
+        return (a, 1 - b), (-1j if a == 1 else 1)
+    if dephase_letter == 'Y':
+        return (1 - a, b), (-1j if b == 1 else 1)
+    raise ValueError(
+        f"dephase_letter must be 'X', 'Y', or 'Z'; got {dephase_letter!r}"
+    )
 
 
-def pi_squared_eigenvalue(indices):
-    """Π² eigenvalue on a Pauli string = (-1)^{total_bit_b}."""
-    return (-1) ** (sum(bit_b(idx) for idx in indices) % 2)
+def pi_squared_eigenvalue(indices, dephase_letter='Z'):
+    """Π² eigenvalue on a Pauli string for a given dephasing letter.
+
+    For Z-dephasing: (-1)^{total_bit_b}.
+    For X-dephasing: (-1)^{total_bit_a}.
+    For Y-dephasing: (-1)^{total_bit_b}  (same as Z, since Π_Y has same
+                       axis as Π_Z; the phases differ but Π² parity matches).
+    """
+    if dephase_letter in ('Z', 'Y'):
+        return (-1) ** (sum(bit_b(idx) for idx in indices) % 2)
+    if dephase_letter == 'X':
+        return (-1) ** (sum(bit_a(idx) for idx in indices) % 2)
+    raise ValueError(
+        f"dephase_letter must be 'X', 'Y', or 'Z'; got {dephase_letter!r}"
+    )
 
 
-def build_pi_full(N):
-    """Π in the 4^N Pauli-string basis: 4^N × 4^N matrix."""
+def build_pi_full(N, dephase_letter='Z'):
+    """Π in the 4^N Pauli-string basis: 4^N × 4^N matrix.
+
+    Args:
+        N: chain length.
+        dephase_letter: which dissipator's palindrome operator. Default 'Z'.
+    """
     d2 = 4 ** N
     Pi = np.zeros((d2, d2), dtype=complex)
     for k in range(d2):
@@ -47,7 +95,7 @@ def build_pi_full(N):
         new_indices = []
         sign = 1
         for idx in indices:
-            (na, nb), phase = pi_action(idx)
+            (na, nb), phase = pi_action(idx, dephase_letter=dephase_letter)
             new_indices.append((na, nb))
             sign *= phase
         new_k = _indices_to_k(new_indices)

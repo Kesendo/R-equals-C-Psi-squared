@@ -59,6 +59,7 @@ from .symmetry import (
 from .lindblad import (
     lindbladian_general,
     lindbladian_z_dephasing,
+    lindbladian_pauli_dephasing,
     lindbladian_z_plus_t1,
     palindrome_residual,
     palindrome_residual_norm_squared_factor,
