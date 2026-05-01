@@ -304,14 +304,35 @@ This document does not replace any prior hypothesis; it connects them:
   structure under Y-parity = bit_a XOR bit_b (which holds at k=2 but
   not at k≥3). Bond-position structure within a fixed Z₂³ sector
   remains open.
-- **Inheritance proof structure.** ▭ **OPEN.** The inheritance argument
-  here remains informal. A formal version would specify: which formal
-  systems permit self-description from inside? What are the structural
-  conditions on the inheritance relation? The F-chain is the existence
-  proof for the framework's own inheritance. The Klein-homogeneity rule
-  (verified at k=2 full enumeration; k=3 sample): "all terms in same
-  Klein index → F77 soft or truly, never hard" gives one structural
-  invariant for the inheritance.
+- **Inheritance proof structure.** ▭ **OPEN, with new structural finding
+  2026-05-01.** The inheritance argument here remains informal. The
+  Klein-homogeneity rule "all terms in same Klein index → F77 soft or
+  truly, never hard" is a candidate structural invariant.
+
+  **Verified strict at k=2** (full enumeration of 36 V-Effect pairs):
+  every Klein-homogeneous k=2 Hamiltonian on a chain with Z-dephasing
+  is F77 truly or soft — 0/6 are hard.
+
+  **Tendential but not strict at k=3.** Full sweep at k=3 N=4 with
+  Z-dephasing across all 240 Z₂³-homogeneous pairs in {I,X,Y,Z}^3:
+  90 truly + 104 soft + 46 hard. The 46 hard cases reveal a sharp
+  asymmetry — they all lie in Klein **(0, 1)**, which is the same
+  Klein index as the Z-dephasing dissipator's letter Z.
+
+  Klein-(0, 0): 0 hard / 60 — Mother sector, fully clean.
+  Klein-(0, 1): 46 hard / 60 — same Klein as Z-dephasing.
+  Klein-(1, 0): 0 hard / 60.
+  Klein-(1, 1): 0 hard / 60.
+
+  This suggests the dissipator's Klein index identifies a "preferred"
+  sector where the Klein-homogeneity rule degrades. The polarity layer's
+  symmetry under Klein-homogeneity is **broken by the dissipator
+  selection**: choosing Z-dephasing privileges Klein (0, 1) at k=3.
+
+  Testable conjecture: with X-dephasing (X has Klein (1, 0)) the hard
+  cases would shift to Klein (1, 0); with Y-dephasing (Klein (1, 1))
+  to Klein (1, 1). The structural rule may then be: "Klein-homogeneous
+  AND Klein-orthogonal-to-dissipator → F77 soft/truly always."
 - **Polarity-layer reading of the d=0 axis at higher d.** ▭ **OPEN.**
   d² − 2d = 0 has solutions d=0 and d=2 because the qubit dimension is 2.
   For qudit (d-level) systems, the analog condition would be different
