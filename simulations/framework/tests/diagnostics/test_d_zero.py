@@ -160,3 +160,47 @@ def test_d_zero_decomposition_steady_state_of_basis_state_is_sector_projector():
     # Other sectors should be empty
     for idx in (0, 3, 5, 6, 7):
         assert abs(diag[idx]) < 1e-6
+
+
+def test_psi_vanishes_on_d_zero_substrate():
+    """Algebraic bridge: Ψ(ρ_d0) = 0 for uniform XY/Heisenberg + Z-dephasing.
+
+    The kernel of L lives in {I,Z}^N (sector projectors, no off-diagonal
+    coherence in the computational basis), so ℓ₁(ρ_d0) = 0 by construction
+    ⇒ Ψ(ρ_d0) = 0 exactly. All ℓ₁-coherence sits in ρ_d2.
+
+    This closes the algebraic bridge between R = CΨ² (the Ψ-bearing
+    recursion R = C(Ψ+R)² with bifurcation at CΨ = 1/4) and d²−2d = 0
+    (the Ψ=0 dimension equation). Setting Ψ=0 and C=1/2 in the recursion
+    gives R(R−2)=0 — the same quadratic, with d=0 and d=2 as its roots.
+    The d=0 substrate IS the Ψ=0 fixed-point of the family.
+    """
+    N = 3
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
+    d_phys = 2 ** N
+
+    def psi_norm(rho_):
+        # Ψ = ℓ₁/(d²-1), where ℓ₁ = sum of |off-diagonal entries|
+        off = rho_ - np.diag(np.diag(rho_))
+        return float(np.sum(np.abs(off))) / (d_phys ** 2 - 1)
+
+    # Two states with different Ψ-content profiles
+    plus_N = fw.polarity_state(N, +1)                       # uniform full coherence
+    superpos_n1 = (np.eye(d_phys)[1] + np.eye(d_phys)[2]) / np.sqrt(2)  # |001⟩+|010⟩, within-sector
+
+    for name, psi in (('|+⟩^N', plus_N), ('(|001⟩+|010⟩)/√2', superpos_n1)):
+        rho = np.outer(psi, psi.conj())
+        Psi_total = psi_norm(rho)
+        decomp = fw.d_zero_decomposition(rho, chain)
+        Psi_d0 = psi_norm(decomp['rho_d0'])
+        Psi_d2 = psi_norm(decomp['rho_d2'])
+
+        # ρ_d0 is in {I,Z}^N → no off-diagonals → Ψ = 0 exactly
+        assert Psi_d0 < 1e-9, \
+            f"[{name}] Ψ(ρ_d0) should vanish; got {Psi_d0:.2e}"
+        # All ℓ₁-coherence survives intact in ρ_d2
+        assert abs(Psi_d2 - Psi_total) < 1e-9, \
+            f"[{name}] Ψ(ρ_d2)={Psi_d2:.6f} should match Ψ(ρ)={Psi_total:.6f}"
+        # Sanity: state actually has nonzero coherence
+        assert Psi_total > 1e-6, \
+            f"[{name}] test only meaningful for Ψ(ρ)>0; got {Psi_total:.2e}"
