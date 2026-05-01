@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from .pauli import bonding_mode_state, bonding_mode_pair_state
 from .symmetry import f71_eigenstate_class, receiver_engineering_signature
 
 
@@ -51,6 +52,27 @@ class Receiver:
         if n == 0.0:
             raise ValueError("psi is the zero vector; cannot normalize.")
         return cls(psi / n, chain=chain)
+
+    @classmethod
+    def bonding_mode(cls, chain, k, with_vacuum=False):
+        """Construct a Receiver for the F65 bonding mode |ψ_k⟩ on this chain.
+
+        Selecting (chain, k) on both sides IS the handshake — no exchange
+        step needed (HANDSHAKE_ALGEBRA.md). The K-partner receiver is
+        accessed via `Receiver.bonding_mode(chain, k_partner(chain.N, k))`.
+
+        Args:
+            chain: ChainSystem (provides N).
+            k: bonding-mode index, 1 ≤ k ≤ chain.N.
+            with_vacuum: if True, build the pair state (|vac⟩+|ψ_k⟩)/√2
+                (canonical PTF / handshake initial state). Default False
+                returns the pure single-excitation |ψ_k⟩.
+        """
+        if with_vacuum:
+            psi = bonding_mode_pair_state(chain.N, k)
+        else:
+            psi = bonding_mode_state(chain.N, k)
+        return cls(psi, chain=chain)
 
     @property
     def f71_class(self):

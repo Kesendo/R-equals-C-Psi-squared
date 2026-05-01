@@ -44,6 +44,7 @@ from .pauli import (
     _resolve, _k_to_indices, _indices_to_k, _pauli_label,
     _vec_to_pauli_basis_transform, pauli_basis_vector,
     _build_bilinear, _site_op_kron,
+    bonding_mode_state, bonding_mode_pair_state,
 )
 
 from .symmetry import (
@@ -53,7 +54,7 @@ from .symmetry import (
     f71_eigenstate_class, receiver_engineering_signature, bond_mirror_basis,
     chiral_K_full, k_classify_pauli, k_classify_hamiltonian, chiral_panel,
     y_parity_panel, zn_mirror_state,
-    klein_index, KLEIN_LABELS,
+    klein_index, KLEIN_LABELS, k_partner,
 )
 
 from .lindblad import (
@@ -115,4 +116,5 @@ from .workflows import (
     lens_pipeline,
     ptf_alpha_fit,
     ptf_painter_panel,
+    verify_k_partnership,
 )

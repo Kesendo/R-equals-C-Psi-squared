@@ -623,3 +623,32 @@ KLEIN_LABELS = {
     (1, 0): 'C',     # Child (Π²-even non-truly)
     (1, 1): 'F_b',   # Father subtype b (Z-Father, bit_a-breaking Π²-odd)
 }
+
+
+# ----------------------------------------------------------------------
+# K-partnership (HANDSHAKE_ALGEBRA.md)
+# ----------------------------------------------------------------------
+# The bipartite sublattice gauge K = diag((-1)^ℓ) swaps bonding modes:
+# K · ψ_k = ψ_{N+1-k}. Under bipartite NN-hopping with real H, the partner
+# bonding modes give identical mirror-pair |·|²-observables (populations,
+# coherence moduli, MI, log-purity).
+
+def k_partner(N, k):
+    """K-partner index for the F65 bonding-mode k.
+
+    Under the bipartite sublattice gauge K = diag((-1)^ℓ), the bonding mode
+    ψ_k maps to ψ_{N+1-k}: K · ψ_k(ℓ) = (-1)^ℓ ψ_k(ℓ) = ψ_{N+1-k}(ℓ).
+
+    For odd N the middle index k = (N+1)/2 is its own partner (self-K).
+    For even N every k has a distinct partner.
+
+    Args:
+        N: chain length.
+        k: bonding-mode index, 1 ≤ k ≤ N.
+
+    Returns:
+        Partner index N+1-k.
+    """
+    if not 1 <= k <= N:
+        raise ValueError(f"k={k} outside [1, N={N}]")
+    return N + 1 - k

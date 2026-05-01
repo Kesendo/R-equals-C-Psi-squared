@@ -10,6 +10,7 @@ Public API:
   bit_a, bit_b, total_bit_a, total_bit_b_parity
   _k_to_indices, _indices_to_k
   _vec_to_pauli_basis_transform, pauli_basis_vector, _pauli_label
+  bonding_mode_state(N, k), bonding_mode_pair_state(N, k)
 """
 from __future__ import annotations
 
@@ -230,3 +231,57 @@ def _site_op_kron(op, site, N):
     for f in factors[1:]:
         out = np.kron(out, f)
     return out
+
+
+# ----------------------------------------------------------------------
+# Single-excitation bonding-mode states (F65)
+# ----------------------------------------------------------------------
+# ψ_k(j) = √(2/(N+1)) · sin(πk(j+1)/(N+1)) is the j-th site amplitude of
+# the k-th single-excitation eigenmode of the open uniform XX chain. The
+# state vector embeds these amplitudes at single-excitation basis kets
+# |1_j⟩ — site j → bit position N−1−j in the 2^N index (MSB convention,
+# consistent with site_op's Kronecker order: site 0 = leftmost factor).
+
+def bonding_mode_state(N, k):
+    """F65 single-excitation bonding mode |ψ_k⟩ = Σ_j ψ_k(j) |1_j⟩.
+
+    The handshake-algebra k coordinate (HANDSHAKE_ALGEBRA.md): selecting
+    a value of k IS the per-side handshake. Two callers who independently
+    construct `bonding_mode_state(N, k)` with the same k have agreed on
+    the receiver — no exchange step needed.
+
+    K-partner: bonding_mode_state(N, k_partner(N, k)) gives identical
+    mirror-pair |·|²-observables under bipartite NN-hopping with real H.
+
+    Args:
+        N: chain length.
+        k: bonding-mode index, 1 ≤ k ≤ N.
+
+    Returns:
+        Length-2^N normalized complex state vector.
+    """
+    if not 1 <= k <= N:
+        raise ValueError(f"k={k} outside [1, N={N}]")
+    psi = np.zeros(2 ** N, dtype=complex)
+    norm = np.sqrt(2.0 / (N + 1))
+    for j in range(N):
+        psi[2 ** (N - 1 - j)] = norm * np.sin(np.pi * k * (j + 1) / (N + 1))
+    return psi
+
+
+def bonding_mode_pair_state(N, k):
+    """Bonding-mode pair state (|vac⟩ + |ψ_k⟩) / √2.
+
+    The canonical PTF / handshake initial state: a coherent superposition
+    of the vacuum and the k-th bonding mode. Its single-qubit purity
+    trajectories are the painter's canvas in PERSPECTIVAL_TIME_FIELD.md.
+    """
+    if not 1 <= k <= N:
+        raise ValueError(f"k={k} outside [1, N={N}]")
+    psi = np.zeros(2 ** N, dtype=complex)
+    psi[0] = 1.0
+    norm = np.sqrt(2.0 / (N + 1))
+    for j in range(N):
+        psi[2 ** (N - 1 - j)] += norm * np.sin(np.pi * k * (j + 1) / (N + 1))
+    psi /= np.linalg.norm(psi)
+    return psi
