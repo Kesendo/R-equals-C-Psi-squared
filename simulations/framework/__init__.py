@@ -61,6 +61,7 @@ from .lindblad import (
     lindbladian_z_dephasing,
     lindbladian_pauli_dephasing,
     lindbladian_z_plus_t1,
+    bond_perturbation,
     palindrome_residual,
     palindrome_residual_norm_squared_factor,
     palindrome_residual_norm_squared_factor_graph,
@@ -95,6 +96,8 @@ from .diagnostics import (
     predict_pi_decomposition_anti_fraction,
     predict_amplitude_damping_violation,
     estimate_net_cooling_from_violation,
+    pt_matrix_elements,
+    pt_eigvec_shift,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows
@@ -110,4 +113,6 @@ from .workflows import (
     diagnose_hardware,
     slow_modes,
     lens_pipeline,
+    ptf_alpha_fit,
+    ptf_painter_panel,
 )

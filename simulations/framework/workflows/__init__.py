@@ -8,3 +8,4 @@ from .cockpit_panel import cockpit_panel
 from .predict_signature_table import predict_signature_table
 from .diagnose_hardware import diagnose_hardware
 from .lens import slow_modes, lens_pipeline
+from .ptf import ptf_alpha_fit, ptf_painter_panel

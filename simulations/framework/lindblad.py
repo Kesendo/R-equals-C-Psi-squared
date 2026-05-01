@@ -21,6 +21,7 @@ import numpy as np
 from .pauli import (
     site_op,
     _vec_to_pauli_basis_transform,
+    _build_bilinear,
 )
 
 
@@ -79,6 +80,50 @@ def lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z'):
         Pl = site_op(N, l, dephase_letter)
         L = L + gamma * (np.kron(Pl, Pl.conj()) - np.kron(Id, Id))
     return L
+
+
+_BOND_KIND_TERMS = {
+    # kind → list of (op_a, op_b, coefficient)
+    'XY':         [('X', 'X', 0.5), ('Y', 'Y', 0.5)],
+    'heisenberg': [('X', 'X', 1.0), ('Y', 'Y', 1.0), ('Z', 'Z', 1.0)],
+    'XX':         [('X', 'X', 1.0)],
+    'YY':         [('Y', 'Y', 1.0)],
+    'ZZ':         [('Z', 'Z', 1.0)],
+}
+
+
+def bond_perturbation(N, bond, kind='XY'):
+    """The "dynamics-of-dynamics" superoperator V_L^b = ∂L/∂J_b at a single bond.
+
+    Construct V_L^b such that under L_total = L_A + δJ · V_L^b the Liouvillian
+    L_A picks up a δJ-strength bond-(b, b+1) Hamiltonian perturbation. V_L^b is
+    the commutator superoperator with H_pert evaluated at unit coupling, so
+    perturbing L by adding a J-modulated bond is equivalent to adding δJ·V_L^b.
+
+    The two natural readings:
+      - L (Lindbladian) describes how ρ evolves: dρ/dt = L·ρ.
+      - V_L^b describes how L itself changes when bond b moves: ∂L/∂J_b = V_L^b.
+        I.e. V_L^b is the variation-Liouvillian, "the dynamics of the dynamics".
+
+    Used by the PTF (Perspectival Time Field) workflow to compute first-order
+    eigenvector mixing of slow modes under a bond defect.
+
+    Args:
+        N: chain length.
+        bond: (i, j) site pair carrying the perturbation.
+        kind: 'XY' (default, ½(XX+YY)), 'heisenberg' (XX+YY+ZZ), 'XX', 'YY', 'ZZ'.
+
+    Returns:
+        4^N × 4^N complex matrix in vec form, the variation-Liouvillian V_L^b.
+    """
+    if kind not in _BOND_KIND_TERMS:
+        raise ValueError(
+            f"kind must be one of {list(_BOND_KIND_TERMS)}; got {kind!r}"
+        )
+    H_pert = _build_bilinear(N, [bond], _BOND_KIND_TERMS[kind])
+    d = 2 ** N
+    Id = np.eye(d, dtype=complex)
+    return -1j * (np.kron(H_pert, Id) - np.kron(Id, H_pert.T))
 
 
 def lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l):
