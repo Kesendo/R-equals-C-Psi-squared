@@ -12,6 +12,7 @@ Public API:
   _vec_to_pauli_basis_transform, pauli_basis_vector, _pauli_label
   bonding_mode_state(N, k), bonding_mode_pair_state(N, k)
   polarity_state(N, signs)
+  to_density_matrix(rho_or_psi, N=None), site_paulis(N)
 """
 from __future__ import annotations
 
@@ -268,6 +269,28 @@ def bonding_mode_state(N, k):
     for j in range(N):
         psi[2 ** (N - 1 - j)] = norm * np.sin(np.pi * k * (j + 1) / (N + 1))
     return psi
+
+
+def to_density_matrix(rho_or_psi, N=None):
+    """Coerce a 1D state vector or 2D density matrix into (ρ, N).
+
+    For state-vector input, returns the outer product. For density-matrix
+    input, returns it unchanged. N is inferred from shape if not given.
+    Raises ValueError for any other ndim.
+    """
+    arr = np.asarray(rho_or_psi, dtype=complex)
+    if arr.ndim == 1:
+        n_inferred = int(round(np.log2(len(arr))))
+        rho = np.outer(arr, arr.conj())
+    elif arr.ndim == 2:
+        n_inferred = int(round(np.log2(arr.shape[0])))
+        rho = arr
+    else:
+        raise ValueError(
+            f"input must be 1D state vector or 2D density matrix; "
+            f"got ndim={arr.ndim}"
+        )
+    return rho, (n_inferred if N is None else N)
 
 
 @lru_cache(maxsize=None)

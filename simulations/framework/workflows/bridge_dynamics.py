@@ -22,16 +22,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..pauli import site_paulis
-from .ptf import _propagation_setup
+from ..pauli import site_paulis, to_density_matrix
+from ._propagation import propagation_setup, per_site_bloch_trajectory
 
 
 def bloch_trajectory(chain, rho_0, t_grid, L=None):
     """Per-site Bloch trajectory (⟨X_i⟩, ⟨Y_i⟩, ⟨Z_i⟩) over t.
-
-    Spectral propagation: eigendecompose L once, evaluate ρ(t) at each t
-    via R · diag(exp(λ·t)) · c0. Per site, compute the three Bloch
-    components by tracing against the cached site_paulis operators.
 
     Args:
         chain: ChainSystem (provides N, default L).
@@ -40,35 +36,15 @@ def bloch_trajectory(chain, rho_0, t_grid, L=None):
         L: optional Liouvillian override. Default chain.L.
 
     Returns:
-        np.ndarray of shape (N, len(t_grid), 3). Slice [i, :, 0] is ⟨X_i⟩(t)
+        np.ndarray of shape (N, len(t_grid), 3). [i, :, 0] is ⟨X_i⟩(t)
         — the polarity-axis trajectory of site i. [i, :, 1] is ⟨Y_i⟩(t),
         [i, :, 2] is ⟨Z_i⟩(t).
     """
     if L is None:
         L = chain.L
-    N = chain.N
-    d = 2 ** N
-    arr = np.asarray(rho_0, dtype=complex)
-    if arr.ndim == 1:
-        rho_mat = np.outer(arr, arr.conj())
-    elif arr.ndim == 2:
-        rho_mat = arr
-    else:
-        raise ValueError(f"rho_0 must be 1D state or 2D density matrix; got {arr.ndim}D")
-
-    evals, R, _R_inv, c0 = _propagation_setup(L, rho_mat)
-    paulis = site_paulis(N)
-
-    n_t = len(t_grid)
-    trajectory = np.zeros((N, n_t, 3))
-    for ti, t in enumerate(t_grid):
-        rho_t = (R @ (np.exp(evals * t) * c0)).reshape(d, d, order='F')
-        rho_t = 0.5 * (rho_t + rho_t.conj().T)
-        for i, (Xi, Yi, Zi) in enumerate(paulis):
-            trajectory[i, ti, 0] = float(np.real(np.trace(Xi @ rho_t)))
-            trajectory[i, ti, 1] = float(np.real(np.trace(Yi @ rho_t)))
-            trajectory[i, ti, 2] = float(np.real(np.trace(Zi @ rho_t)))
-    return trajectory
+    rho_mat, _ = to_density_matrix(rho_0, chain.N)
+    evals, R, _R_inv, c0 = propagation_setup(L, rho_mat)
+    return per_site_bloch_trajectory(evals, R, c0, t_grid, site_paulis(chain.N))
 
 
 def polarity_crossings(trajectory, t_grid, axis_index=0, tol=1e-6):

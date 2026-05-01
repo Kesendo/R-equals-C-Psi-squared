@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..pauli import site_paulis
+from ..pauli import site_paulis, to_density_matrix
 
 
 def polarity_diagnostic(rho_or_psi, N=None):
@@ -41,17 +41,7 @@ def polarity_diagnostic(rho_or_psi, N=None):
               the per-site Bloch length lives on the X-axis.
           'site_blochs': array N×3, full (⟨X⟩, ⟨Y⟩, ⟨Z⟩) Bloch vectors per site.
     """
-    arr = np.asarray(rho_or_psi, dtype=complex)
-    if arr.ndim == 1:
-        if N is None:
-            N = int(round(np.log2(len(arr))))
-        rho = np.outer(arr, arr.conj())
-    elif arr.ndim == 2:
-        if N is None:
-            N = int(round(np.log2(arr.shape[0])))
-        rho = arr
-    else:
-        raise ValueError(f"input must be 1D state or 2D density matrix; got ndim={arr.ndim}")
+    rho, N = to_density_matrix(rho_or_psi, N)
     if 2 ** N != rho.shape[0]:
         raise ValueError(f"shape {rho.shape} inconsistent with N={N}")
 

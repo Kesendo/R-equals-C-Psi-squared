@@ -23,45 +23,21 @@ from scipy.optimize import minimize_scalar
 
 from ..lindblad import bond_perturbation
 from ..pauli import site_paulis as _site_paulis
+from ._propagation import propagation_setup as _propagation_setup, per_site_bloch_trajectory
 
 
 _ALPHA_BOUNDS = (0.1, 10.0)
 _BOUNDARY_TOL = 1e-3
 
 
-def _propagation_setup(L, rho_0):
-    """Eigendecompose L and project ρ_0 into the eigenbasis.
-
-    Returns (evals, R, R_inv, c0) where c0 = R⁻¹ · vec(ρ_0).
-    Vec convention: column-stack (matches lindbladian_general's
-    `np.kron(H, Id) - np.kron(Id, H.T)`).
-    """
-    rho_vec = rho_0.flatten('F').astype(complex)
-    evals, R = np.linalg.eig(L)
-    R_inv = np.linalg.inv(R)
-    c0 = R_inv @ rho_vec
-    return evals, R, R_inv, c0
-
-
 def _purity_trajectory(evals, R, c0, t_grid, site_paulis):
-    """Per-site purity P_i(t) = ½(1 + ⟨X_i⟩² + ⟨Y_i⟩² + ⟨Z_i⟩²) via precomputed
-    eigendecomposition of L (vec form).
+    """Per-site purity P_i(t) = ½(1 + ⟨X_i⟩² + ⟨Y_i⟩² + ⟨Z_i⟩²).
 
-    Returns N × len(t_grid) array.
+    Returns N × len(t_grid) array. Reduces the per-site Bloch trajectory
+    via P_i = ½(1 + ‖Bloch_i‖²).
     """
-    N = len(site_paulis)
-    d = R.shape[0]
-    d_phys = int(round(np.sqrt(d)))
-    purities = np.zeros((N, len(t_grid)))
-    for ti, t in enumerate(t_grid):
-        rho_t = (R @ (np.exp(evals * t) * c0)).reshape(d_phys, d_phys, order='F')
-        rho_t = 0.5 * (rho_t + rho_t.conj().T)
-        for i, (Xi, Yi, Zi) in enumerate(site_paulis):
-            x = float(np.real(np.trace(Xi @ rho_t)))
-            y = float(np.real(np.trace(Yi @ rho_t)))
-            z = float(np.real(np.trace(Zi @ rho_t)))
-            purities[i, ti] = 0.5 * (1.0 + x * x + y * y + z * z)
-    return purities
+    blochs = per_site_bloch_trajectory(evals, R, c0, t_grid, site_paulis)
+    return 0.5 * (1.0 + np.sum(blochs ** 2, axis=2))
 
 
 def _alpha_fit_one_site(t_grid, P_A, P_B):
