@@ -45,6 +45,7 @@ from .pauli import (
     _vec_to_pauli_basis_transform, pauli_basis_vector,
     _build_bilinear, _site_op_kron,
     bonding_mode_state, bonding_mode_pair_state,
+    polarity_state,
 )
 
 from .symmetry import (
@@ -99,6 +100,7 @@ from .diagnostics import (
     estimate_net_cooling_from_violation,
     pt_matrix_elements,
     pt_eigvec_shift,
+    polarity_diagnostic,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows
@@ -117,4 +119,5 @@ from .workflows import (
     ptf_alpha_fit,
     ptf_painter_panel,
     verify_k_partnership,
+    bridge_panel,
 )

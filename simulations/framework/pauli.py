@@ -11,6 +11,7 @@ Public API:
   _k_to_indices, _indices_to_k
   _vec_to_pauli_basis_transform, pauli_basis_vector, _pauli_label
   bonding_mode_state(N, k), bonding_mode_pair_state(N, k)
+  polarity_state(N, signs)
 """
 from __future__ import annotations
 
@@ -285,3 +286,55 @@ def bonding_mode_pair_state(N, k):
         psi[2 ** (N - 1 - j)] += norm * np.sin(np.pi * k * (j + 1) / (N + 1))
     psi /= np.linalg.norm(psi)
     return psi
+
+
+# ----------------------------------------------------------------------
+# Polarity-axis states (the +0 / 0 / −0 layer)
+# ----------------------------------------------------------------------
+# X-basis eigenstates carry the polarity-layer projection of the qubit:
+# |+⟩ = (|0⟩+|1⟩)/√2 is the +0 polarity; |−⟩ = (|0⟩−|1⟩)/√2 is the −0
+# polarity. Tensor products over N sites — |s_0, s_1, ..., s_{N-1}⟩ with
+# s_j ∈ {+, −} — span the full polarity sublattice. THE_POLARITY_LAYER.md
+# names this the bit_a-axis projection of the qubit; the d=0 axis lives
+# at the center, between +0 and −0.
+
+_X_PLUS = np.array([1.0, 1.0], dtype=complex) / np.sqrt(2.0)
+_X_MINUS = np.array([1.0, -1.0], dtype=complex) / np.sqrt(2.0)
+
+
+def polarity_state(N, signs):
+    """N-site X-basis polarity state on the +0/−0 axis.
+
+    Each site is in |+⟩ (sign +1, +0 polarity) or |−⟩ (sign −1, −0 polarity).
+    The state is a tensor product following site_op's MSB convention:
+    the signs argument is left-to-right = site 0 to site N-1 = leftmost
+    Kronecker factor first.
+
+    Args:
+        N: chain length.
+        signs: scalar ±1 (uniform polarity, |+⟩^N or |−⟩^N) or sequence
+            of N values in {+1, −1}, one per site.
+
+    Returns:
+        Length-2^N normalized complex state vector.
+
+    Examples:
+        polarity_state(3, +1)            → |+,+,+⟩  (uniform +0)
+        polarity_state(3, [+1,-1,+1])    → |+,−,+⟩  (X-basis Néel)
+        polarity_state(3, [-1,-1,-1])    → |−,−,−⟩  (uniform −0)
+    """
+    if np.isscalar(signs):
+        signs_list = [int(signs)] * N
+    else:
+        signs_list = list(signs)
+    if len(signs_list) != N:
+        raise ValueError(
+            f"signs has length {len(signs_list)}, expected N={N}"
+        )
+    if not all(s in (1, -1) for s in signs_list):
+        raise ValueError(f"signs must each be +1 or -1; got {signs_list}")
+    factors = [_X_PLUS if s == 1 else _X_MINUS for s in signs_list]
+    state = factors[0]
+    for f in factors[1:]:
+        state = np.kron(state, f)
+    return state
