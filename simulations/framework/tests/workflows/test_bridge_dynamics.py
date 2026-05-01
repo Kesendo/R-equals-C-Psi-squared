@@ -20,7 +20,7 @@ import framework as fw
 def test_bloch_trajectory_shape_and_initial_state():
     """Output shape (N, len(t_grid), 3); at t=0 matches polarity_diagnostic."""
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.01)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     t_grid = np.linspace(0, 1.0, 50)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -38,7 +38,7 @@ def test_bloch_trajectory_y_zero_for_real_amplitude_state():
     amplitudes, which real-amplitude polarity/bonding modes don't have.
     """
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.01)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     t_grid = np.linspace(0, 5.0, 100)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -49,7 +49,7 @@ def test_bloch_trajectory_y_zero_for_real_amplitude_state():
 def test_bloch_trajectory_polarity_state_oscillates_through_boundary():
     """|+⟩^N under XY+Z-deph oscillates: ⟨X_i⟩ does cross 0 for at least one site."""
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.005)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     t_grid = np.linspace(0, 5.0, 200)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -77,7 +77,7 @@ def test_bloch_trajectory_static_initial_state_no_crossings():
 def test_polarity_crossings_returns_events():
     """polarity_crossings finds the boundary events for an oscillating state."""
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.005)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     t_grid = np.linspace(0, 5.0, 200)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -94,7 +94,7 @@ def test_polarity_crossings_returns_events():
 def test_polarity_crossings_y_axis():
     """axis_index=1 reports Y-axis crossings (different boundary on the Bloch ball)."""
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.005)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     t_grid = np.linspace(0, 2.0, 100)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -210,7 +210,7 @@ def test_bridge_reflection_signature_real_trajectory_runs():
     the origin (Tom-degenerate); the function returns None angle, which
     is the correct flagging.
     """
-    chain = fw.ChainSystem(N=3, H_type='xy', gamma_0=0.005)
+    chain = fw.ChainSystem(N=3, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(3, +1)
     t_grid = np.linspace(0, 5.0, 200)
     traj = fw.bloch_trajectory(chain, psi, t_grid)
@@ -228,7 +228,7 @@ def test_bridge_reflection_signature_real_trajectory_runs():
 def test_bloch_trajectory_accepts_density_matrix_input():
     """Both |ψ⟩ and ρ inputs supported."""
     N = 3
-    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.01)
+    chain = fw.ChainSystem(N=N, H_type='xy', gamma_0=0.05)
     psi = fw.polarity_state(N, +1)
     rho = np.outer(psi, psi.conj())
     t_grid = np.linspace(0, 1.0, 20)
