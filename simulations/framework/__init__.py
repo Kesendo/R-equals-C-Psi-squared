@@ -108,4 +108,6 @@ from .workflows import (
     cockpit_panel,
     predict_signature_table,
     diagnose_hardware,
+    slow_modes,
+    lens_pipeline,
 )
