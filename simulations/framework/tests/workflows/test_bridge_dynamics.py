@@ -113,6 +113,118 @@ def test_polarity_crossings_invalid_axis_raises():
         fw.polarity_crossings(traj, t_grid, axis_index=5)
 
 
+def test_bridge_reflection_signature_synthetic_rotation():
+    """Synthetic +→−, −→+ pair with explicit YZ vectors gives the
+    expected rotation angle.
+    """
+    events = [
+        {'site': 0, 't_cross': 1.0, 'bloch_at_cross': (0.0, 0.6, 0.8),
+         'direction': '+→−'},
+        {'site': 0, 't_cross': 2.0, 'bloch_at_cross': (0.0, 0.8, 0.6),
+         'direction': '−→+'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert len(sig['cycles']) == 1
+    cyc = sig['cycles'][0]
+    assert cyc['site'] == 0
+    assert cyc['cycle_duration'] == 1.0
+    # angle = arccos((0.6·0.8 + 0.8·0.6) / (1 · 1)) = arccos(0.96)
+    expected = float(np.degrees(np.arccos(0.96)))
+    assert abs(cyc['rotation_angle_deg'] - expected) < 1e-9
+    assert sig['incomplete_sites'] == []
+
+
+def test_bridge_reflection_signature_90_degree_rotation():
+    """YZ_in = (1, 0), YZ_out = (0, 1) gives the canonical 90° signature."""
+    events = [
+        {'site': 0, 't_cross': 0.5, 'bloch_at_cross': (0.0, 1.0, 0.0),
+         'direction': '+→−'},
+        {'site': 0, 't_cross': 1.5, 'bloch_at_cross': (0.0, 0.0, 1.0),
+         'direction': '−→+'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert abs(sig['cycles'][0]['rotation_angle_deg'] - 90.0) < 1e-9
+
+
+def test_bridge_reflection_signature_180_degree_rotation():
+    """YZ_in = (1, 0), YZ_out = (-1, 0) gives 180° (direct return)."""
+    events = [
+        {'site': 0, 't_cross': 0.5, 'bloch_at_cross': (0.0, 1.0, 0.0),
+         'direction': '+→−'},
+        {'site': 0, 't_cross': 1.5, 'bloch_at_cross': (0.0, -1.0, 0.0),
+         'direction': '−→+'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert abs(sig['cycles'][0]['rotation_angle_deg'] - 180.0) < 1e-9
+
+
+def test_bridge_reflection_signature_degenerate_yz_origin():
+    """When either YZ vector is at the origin, rotation is undefined (None)."""
+    events = [
+        {'site': 0, 't_cross': 1.0, 'bloch_at_cross': (0.0, 0.0, 0.0),
+         'direction': '+→−'},
+        {'site': 0, 't_cross': 2.0, 'bloch_at_cross': (0.0, 0.5, 0.5),
+         'direction': '−→+'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert sig['cycles'][0]['rotation_angle_deg'] is None
+    assert sig['cycles'][0]['rotation_angle_rad'] is None
+
+
+def test_bridge_reflection_signature_incomplete_cycle_flagged():
+    """A +→− entry with no following −→+ return is flagged as incomplete."""
+    events = [
+        {'site': 0, 't_cross': 1.0, 'bloch_at_cross': (0.0, 0.5, 0.5),
+         'direction': '+→−'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert len(sig['cycles']) == 0
+    assert (0, '+→−') in sig['incomplete_sites']
+
+
+def test_bridge_reflection_signature_per_site_independence():
+    """Events from different sites are paired independently."""
+    events = [
+        {'site': 0, 't_cross': 1.0, 'bloch_at_cross': (0.0, 1.0, 0.0),
+         'direction': '+→−'},
+        {'site': 1, 't_cross': 1.5, 'bloch_at_cross': (0.0, 0.0, 1.0),
+         'direction': '+→−'},
+        {'site': 0, 't_cross': 2.0, 'bloch_at_cross': (0.0, 0.0, 1.0),
+         'direction': '−→+'},
+        {'site': 1, 't_cross': 2.5, 'bloch_at_cross': (0.0, 1.0, 0.0),
+         'direction': '−→+'},
+    ]
+    sig = fw.bridge_reflection_signature(events)
+    assert len(sig['cycles']) == 2
+    sites = {c['site'] for c in sig['cycles']}
+    assert sites == {0, 1}
+    # Both sites have a 90° rotation
+    for cyc in sig['cycles']:
+        assert abs(cyc['rotation_angle_deg'] - 90.0) < 1e-9
+
+
+def test_bridge_reflection_signature_real_trajectory_runs():
+    """Integration: real chain trajectory → events → signature without error.
+
+    For a permutation-symmetric initial state the YZ at crossings is at
+    the origin (Tom-degenerate); the function returns None angle, which
+    is the correct flagging.
+    """
+    chain = fw.ChainSystem(N=3, H_type='xy', gamma_0=0.005)
+    psi = fw.polarity_state(3, +1)
+    t_grid = np.linspace(0, 5.0, 200)
+    traj = fw.bloch_trajectory(chain, psi, t_grid)
+    events = fw.polarity_crossings(traj, t_grid)
+    sig = fw.bridge_reflection_signature(events)
+    # function runs, returns the right shape
+    assert isinstance(sig, dict)
+    assert 'cycles' in sig
+    assert 'incomplete_sites' in sig
+    # |+⟩^N is permutation-symmetric → YZ-at-crossing is degenerate
+    for cyc in sig['cycles']:
+        assert cyc['rotation_angle_deg'] is None
+
+
 def test_bloch_trajectory_accepts_density_matrix_input():
     """Both |ψ⟩ and ρ inputs supported."""
     N = 3

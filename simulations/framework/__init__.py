@@ -122,4 +122,5 @@ from .workflows import (
     bridge_panel,
     bloch_trajectory,
     polarity_crossings,
+    bridge_reflection_signature,
 )

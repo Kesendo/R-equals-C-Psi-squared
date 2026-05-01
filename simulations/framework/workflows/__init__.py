@@ -11,4 +11,4 @@ from .lens import slow_modes, lens_pipeline
 from .ptf import ptf_alpha_fit, ptf_painter_panel
 from .handshake import verify_k_partnership
 from .bridge_panel import bridge_panel
-from .bridge_dynamics import bloch_trajectory, polarity_crossings
+from .bridge_dynamics import bloch_trajectory, polarity_crossings, bridge_reflection_signature
