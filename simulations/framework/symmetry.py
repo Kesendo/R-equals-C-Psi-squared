@@ -517,3 +517,56 @@ def _pauli_tuple_pi2_class(letters):
     n_z = sum(1 for L in letters if L == 'Z')
     bit_b_parity = (n_y + n_z) % 2
     return 'pi2_odd' if bit_b_parity == 1 else 'pi2_even_nontruly'
+
+
+# Klein-Vierergruppe Z₂×Z₂ index: (bit_a, bit_b) parity of a Pauli term.
+#
+# Per-letter (bit_a, bit_b):
+#     I: (0, 0)   X: (1, 0)   Y: (1, 1)   Z: (0, 1)
+#
+# The Klein-Vierergruppe is the structural alphabet of the framework:
+# four slots labeled by (bit_a, bit_b) ∈ {(0,0), (0,1), (1,0), (1,1)}.
+# Klein-product (vector sum mod 2) corresponds to operator-product structure.
+#
+# F77 hardness empirically requires Klein-INHOMOGENEOUS Hamiltonians (terms
+# with different Klein indices). Homogeneous Hamiltonians are always
+# soft or truly. Verified at k=2 (full enumeration of 36 V-Effect pairs)
+# and k=3 (sample, full enumeration would be 64²=4096 pairs).
+
+_LETTER_KLEIN_BITS = {'I': (0, 0), 'X': (1, 0), 'Y': (1, 1), 'Z': (0, 1)}
+
+
+def klein_index(letters):
+    """Klein-Vierergruppe (Z₂ × Z₂) index of a Pauli term as (bit_a, bit_b).
+
+    The Klein index is the parity-sum of per-letter (bit_a, bit_b)
+    contributions. Two Pauli terms with the same Klein index are in
+    the same Klein-class; their pair is "homogeneous" in the sense
+    relevant to F77 trichotomy.
+
+    Single-letter Klein indices:
+        I → (0, 0),  X → (1, 0),  Y → (1, 1),  Z → (0, 1)
+
+    Examples (bilinears):
+        XX, YY, ZZ: (0, 0)  — Mother / truly
+        XY, YX:    (0, 1)  — Father subtype a (Y-Father)
+        YZ, ZY:    (1, 0)  — Child
+        XZ, ZX:    (1, 1)  — Father subtype b (Z-Father)
+
+    Args:
+        letters: tuple/list of k Pauli letters from {'I', 'X', 'Y', 'Z'}.
+
+    Returns:
+        (bit_a_parity, bit_b_parity) ∈ {(0,0), (0,1), (1,0), (1,1)}.
+    """
+    a = sum(_LETTER_KLEIN_BITS[L][0] for L in letters) % 2
+    b = sum(_LETTER_KLEIN_BITS[L][1] for L in letters) % 2
+    return (a, b)
+
+
+KLEIN_LABELS = {
+    (0, 0): 'M',     # Mother (truly substrate)
+    (0, 1): 'F_a',   # Father subtype a (Y-Father, bit_a-preserving Π²-odd)
+    (1, 0): 'C',     # Child (Π²-even non-truly)
+    (1, 1): 'F_b',   # Father subtype b (Z-Father, bit_a-breaking Π²-odd)
+}

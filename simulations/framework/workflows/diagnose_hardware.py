@@ -7,85 +7,109 @@ import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
 from ..diagnostics.f83_anti_fraction import predict_pi_decomposition
-from ..symmetry import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
+from ..symmetry import klein_index, KLEIN_LABELS
 from .predict_signature_table import predict_signature_table
 
 
-def _family_composition(terms):
-    """Identify which Π²-roles (Mother / Father / Child) are present in the
-    Hamiltonian terms based on per-term Π²-class classification.
+# Klein index → defense-mode description (replacing the 3-role Trinity collapse).
+# Mother/Father_a/Father_b/Child correspond to the four Klein-Vierergruppe slots.
+_KLEIN_DEFENSE = {
+    (0, 0): ('M',
+             'Mother (truly substrate): M = 0 idealized; avoidance defense.'),
+    (0, 1): ('F_a',
+             'Father subtype a (Y-Father, bit_a-preserving Π²-odd): '
+             'active recirculation, M_anti = L_{H_odd} dominates.'),
+    (1, 0): ('C',
+             'Child (Π²-even non-truly): passive reflection, '
+             'M_sym dominates, M_anti = 0.'),
+    (1, 1): ('F_b',
+             'Father subtype b (Z-Father, bit_a-breaking Π²-odd): '
+             'active recirculation that breaks Z⊗N parity.'),
+}
 
-    F77 + F83 together encode this implicitly; this helper makes the
-    Trinity reading explicit for the lens output.
+
+def _family_composition(terms):
+    """Identify which Klein-Vierergruppe slots are present in the Hamiltonian
+    terms (4-element classification, NOT the 3-role Trinity collapse).
+
+    The Klein-Vierergruppe Z₂×Z₂ has four slots labeled by (bit_a, bit_b):
+
+        (0, 0) → M    Mother (truly: I, X, XX, YY, ZZ etc.)
+        (0, 1) → F_a  Father subtype a (Y-Father: Y, XY, YX)
+        (1, 0) → C    Child (Π²-even non-truly: YZ, ZY)
+        (1, 1) → F_b  Father subtype b (Z-Father: Z, XZ, ZX)
+
+    The Trinity (3-role) reading collapsed F_a and F_b under Y↔Z swap.
+    The Klein-4 (4-element) reading does NOT collapse — operationally, F_a
+    and F_b combine differently with other elements (e.g., F_a + F_b can
+    be hard while F_a + F_a is always soft).
+
+    Klein-homogeneity check: Hamiltonians whose terms all share the same
+    Klein index ("homogeneous") are always F77-soft or F77-truly — never
+    hard. Verified at k=2 (full 36 V-Effect pairs) and k=3 (sample).
+    Klein-inhomogeneity is necessary (not sufficient) for F77-hard.
 
     Returns:
         dict with keys:
-          'roles': list of present roles in order ['Mother', 'Father', 'Child']
-          'family': human-readable family-composition string
+          'klein_set':         sorted list of distinct Klein indices (bit_a, bit_b) tuples
+          'klein_labels':      list of Klein labels (M, F_a, F_b, C) in canonical order
+          'klein_homogeneous': True if all terms share one Klein index
+          'family':            human-readable family-composition string
           'defense_character': human-readable defense interpretation
-          'has_mother', 'has_father', 'has_child': booleans
+          'klein_term_indices': list of per-term Klein indices (parallel to terms)
+          'has_mother':        legacy: True if (0,0) ∈ klein_set
+          'has_father':        legacy: True if (0,1) or (1,1) ∈ klein_set
+          'has_child':         legacy: True if (1,0) ∈ klein_set
     """
-    has_mother = any(_pauli_tuple_is_truly(t) for t in terms)
-    has_father = any(
-        (not _pauli_tuple_is_truly(t)) and 'I' not in t
-        and _pauli_tuple_pi2_class(t) == 'pi2_odd'
-        for t in terms
-    )
-    has_child = any(
-        (not _pauli_tuple_is_truly(t)) and 'I' not in t
-        and _pauli_tuple_pi2_class(t) == 'pi2_even_nontruly'
-        for t in terms
-    )
+    klein_term_indices = [klein_index(t) for t in terms]
+    klein_set = set(klein_term_indices)
+    klein_homogeneous = (len(klein_set) <= 1)
 
-    roles = []
-    if has_mother:
-        roles.append('Mother')
-    if has_father:
-        roles.append('Father')
-    if has_child:
-        roles.append('Child')
+    # Canonical ordering: M, F_a, F_b, C
+    canonical_order = [(0, 0), (0, 1), (1, 1), (1, 0)]
+    klein_set_ordered = [k for k in canonical_order if k in klein_set]
+    klein_labels_present = [_KLEIN_DEFENSE[k][0] for k in klein_set_ordered]
 
-    if not roles:
+    has_mother = (0, 0) in klein_set
+    has_father_a = (0, 1) in klein_set
+    has_father_b = (1, 1) in klein_set
+    has_child = (1, 0) in klein_set
+    has_father = has_father_a or has_father_b
+
+    if not klein_set:
         family = '(empty)'
         defense = 'none (no Hamiltonian)'
-    elif roles == ['Mother']:
-        family = 'Mother only'
-        defense = 'avoidance (truly Hamiltonian; no recirculation, M = 0 idealized)'
-    elif roles == ['Father']:
-        family = 'Father only'
-        defense = 'active recirculation (pure Π²-odd, M_anti = L_{H_odd} dominates)'
-    elif roles == ['Child']:
-        family = 'Child only'
-        defense = 'passive reflection (pure Π²-even non-truly, M_sym dominates, M_anti = 0)'
-    elif roles == ['Mother', 'Father']:
-        family = 'Mother + Father (no Child)'
-        defense = ('Mother substrate plus Father drive; no Child component. Family '
-                   'is two-thirds: avoidance + active recirculation, no passive reflection.')
-    elif roles == ['Mother', 'Child']:
-        family = 'Mother + Child (no Father)'
-        defense = ('Mother substrate plus Child reflection; no Father drive. '
-                   'Static-like steady state without active dynamics.')
-    elif roles == ['Father', 'Child']:
-        family = 'Father + Child (no explicit Mother)'
-        defense = ('Father drive plus Child reflection; no explicit truly substrate. '
-                   'Mother is implicit (palindrome ground) but not in H. Trinity '
-                   'is incomplete; full-trinity sensitivity to T2 inhomogeneity expected.')
-    elif roles == ['Mother', 'Father', 'Child']:
-        family = 'full trinity (Mother + Father + Child)'
-        defense = ('All three defense modes co-active. Child component requires '
-                   'chain-asymmetric structure → per-qubit T2 inhomogeneity '
-                   'translates to drift in observable patterns.')
+    elif klein_homogeneous:
+        single = klein_labels_present[0]
+        klein_idx = klein_set_ordered[0]
+        defense_text = _KLEIN_DEFENSE[klein_idx][1]
+        family = f"{single} only (Klein-homogeneous → F77 soft or truly)"
+        defense = f"{defense_text} Klein-homogeneous: eigenvalue pairing preserved (always soft/truly)."
     else:
-        family = ' + '.join(roles)
-        defense = 'composite'
+        family = " + ".join(klein_labels_present) + " (Klein-inhomogeneous → can be soft or hard)"
+        # Build composite defense character
+        defense_parts = []
+        for klein_idx in klein_set_ordered:
+            label, text = _KLEIN_DEFENSE[klein_idx]
+            defense_parts.append(f"{label}: {text}")
+        defense = (
+            f"Klein-inhomogeneous ({', '.join(klein_labels_present)}): "
+            f"F77-hard is possible but not guaranteed (depends on bond combinatorics). "
+            + " ".join(defense_parts)
+        )
 
     return {
-        'roles': roles,
+        'klein_set': klein_set_ordered,
+        'klein_labels': klein_labels_present,
+        'klein_homogeneous': klein_homogeneous,
+        'klein_term_indices': klein_term_indices,
         'family': family,
         'defense_character': defense,
+        # Legacy fields for backward compatibility (Trinity-collapse view)
         'has_mother': has_mother,
         'has_father': has_father,
         'has_child': has_child,
+        'roles': [_KLEIN_DEFENSE[k][0] for k in klein_set_ordered],
     }
 
 
@@ -180,15 +204,15 @@ def diagnose_hardware(
             'reading': f"{category} is {f77} per F77 trichotomy classifier",
         })
 
-        # Family composition lens (Trinity reading: which roles are present)
+        # Klein-Vierergruppe lens: which 4-element slots are present in H,
+        # plus Klein-homogeneity (necessary condition for F77 soft/truly).
         fam = _family_composition(terms)
         readings.append({
-            'lens': 'Family',
+            'lens': 'Klein',
             'reading': f"{fam['family']} — {fam['defense_character']}",
-            'roles': fam['roles'],
-            'has_mother': fam['has_mother'],
-            'has_father': fam['has_father'],
-            'has_child': fam['has_child'],
+            'klein_labels': fam['klein_labels'],
+            'klein_homogeneous': fam['klein_homogeneous'],
+            'klein_term_indices': fam['klein_term_indices'],
         })
 
         # F83 lens

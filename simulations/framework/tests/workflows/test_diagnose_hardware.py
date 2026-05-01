@@ -167,59 +167,86 @@ def test_diagnose_hardware_Y_Z_asymmetry_attributed_to_T2_inhomogeneity():
     assert 'T2 inhomogeneity' in yz['attribution']
 
 
-def test_diagnose_hardware_family_composition_mapping():
-    """Family-composition lens identifies which Trinity roles (Mother/Father/Child)
-    are present in each Hamiltonian. Pure cases have one role; mixed cases have
-    multiple roles; truly-only has Mother only."""
+def test_diagnose_hardware_klein_classification_mapping():
+    """Klein-Vierergruppe lens identifies which Klein slots (M, F_a, F_b, C)
+    are present in each Hamiltonian. Replaces the prior 3-role Trinity
+    classification, which collapsed F_a and F_b under Y↔Z swap and hid the
+    operational distinction (e.g., F_a + F_b can be hard, F_a + F_a is soft)."""
     chain = fw.ChainSystem(N=3)
 
-    # Synthetic data isn't needed — family is structurally determined by terms.
-    # Build measured = predicted to satisfy diagnose_hardware structure.
     test_cases = [
-        # (terms, expected_roles)
-        ([('X', 'X'), ('Y', 'Y')],          ['Mother']),                   # pure truly
-        ([('X', 'Y'), ('Y', 'X')],          ['Father']),                   # pure Π²-odd
-        ([('Y', 'Z'), ('Z', 'Y')],          ['Child']),                    # pure Π²-even non-truly
-        ([('X', 'X'), ('X', 'Y')],          ['Mother', 'Father']),         # truly + odd (April 26 hard_broken)
-        ([('X', 'Y'), ('Y', 'Z')],          ['Father', 'Child']),          # odd + even-nt (April 30 mixed)
-        ([('X', 'X'), ('X', 'Y'), ('Y', 'Z')], ['Mother', 'Father', 'Child']),  # full trinity
+        # (terms, expected_klein_labels)
+        ([('X', 'X'), ('Y', 'Y')],          ['M']),                 # pure truly
+        ([('X', 'Y'), ('Y', 'X')],          ['F_a']),               # pure F_a (Y-Father)
+        ([('X', 'Z'), ('Z', 'X')],          ['F_b']),               # pure F_b (Z-Father)
+        ([('Y', 'Z'), ('Z', 'Y')],          ['C']),                 # pure Child
+        ([('X', 'X'), ('X', 'Y')],          ['M', 'F_a']),          # M + F_a (April 26 hard_broken)
+        ([('X', 'X'), ('X', 'Z')],          ['M', 'F_b']),          # M + F_b
+        ([('X', 'Y'), ('X', 'Z')],          ['F_a', 'F_b']),        # F_a + F_b (always hard at k=2)
+        ([('X', 'Y'), ('Y', 'Z')],          ['F_a', 'C']),          # F_a + C (April 30 mixed)
     ]
     terms_per_category = {f'case_{i}': terms for i, (terms, _) in enumerate(test_cases)}
     predictions = fw.predict_signature_table(chain, terms_per_category, gamma_z=0.1)
     result = fw.diagnose_hardware(chain, predictions, terms_per_category, gamma_z=0.1)
 
-    for i, (terms, expected_roles) in enumerate(test_cases):
+    for i, (terms, expected_labels) in enumerate(test_cases):
         cat = f'case_{i}'
         family = result['per_category'][cat]['family']
-        assert family['roles'] == expected_roles, \
-            f"{terms}: expected roles {expected_roles}, got {family['roles']}"
-        # Find the family lens reading
-        family_readings = [r for r in result['per_category'][cat]['lens_readings']
-                           if r.get('lens') == 'Family']
-        assert len(family_readings) == 1
-        assert family_readings[0]['roles'] == expected_roles
+        assert family['klein_labels'] == expected_labels, \
+            f"{terms}: expected Klein labels {expected_labels}, got {family['klein_labels']}"
+        # Klein-homogeneity check
+        assert family['klein_homogeneous'] == (len(expected_labels) == 1), \
+            f"{terms}: klein_homogeneous mismatch"
+        # Find the Klein lens reading
+        klein_readings = [r for r in result['per_category'][cat]['lens_readings']
+                          if r.get('lens') == 'Klein']
+        assert len(klein_readings) == 1
+        assert klein_readings[0]['klein_labels'] == expected_labels
 
 
-def test_diagnose_hardware_family_distinguishes_april26_april30_hard_cases():
-    """The April 26 hard_broken (XX+XY) is Mother + Father (no Child).
-    The April 30 mixed_anti_one_sixth (XY+YZ) is Father + Child (no explicit
-    Mother). Both classify as F77 'hard' but the Family lens distinguishes
-    them, matching the empirical drift difference (0.067 RMS vs 0.114 RMS)."""
+def test_diagnose_hardware_klein_homogeneity_predicts_soft():
+    """Klein-homogeneous Hamiltonians (all terms with same Klein index) are
+    always F77 soft or truly, never hard. This is the structural prediction
+    revealed by stripping the Trinity-collapse and using Klein-4 directly."""
+    chain = fw.ChainSystem(N=3)
+
+    # All Klein-homogeneous test cases (each Hamiltonian's terms share one Klein slot)
+    homogeneous_cases = [
+        [('X', 'X'), ('Y', 'Y')],  # M, M → truly
+        [('X', 'X'), ('Z', 'Z')],  # M, M → truly
+        [('X', 'Y'), ('Y', 'X')],  # F_a, F_a → soft
+        [('X', 'Z'), ('Z', 'X')],  # F_b, F_b → soft
+        [('Y', 'Z'), ('Z', 'Y')],  # C, C → soft
+    ]
+
+    for terms in homogeneous_cases:
+        f77 = fw.classify_pauli_pair(chain, terms)
+        assert f77 in ('truly', 'soft'), \
+            f"Klein-homogeneous Hamiltonian {terms} should be truly or soft, got {f77}"
+
+
+def test_diagnose_hardware_klein_distinguishes_april26_april30_hard_cases():
+    """The April 26 hard_broken (XX+XY) is Klein {M, F_a}.
+    The April 30 mixed_anti_one_sixth (XY+YZ) is Klein {F_a, C}.
+    Both Klein-inhomogeneous (necessary for hard); both classified F77-hard
+    by the eigenvalue-pairing classifier. The Klein lens distinguishes
+    their composition, matching the empirical drift difference."""
     chain = fw.ChainSystem(N=3)
 
     terms = {
-        'april26_hard': [('X', 'X'), ('X', 'Y')],   # Mother + Father, no Child
-        'april30_mixed': [('X', 'Y'), ('Y', 'Z')],  # Father + Child, no Mother
+        'april26_hard': [('X', 'X'), ('X', 'Y')],   # M + F_a
+        'april30_mixed': [('X', 'Y'), ('Y', 'Z')],  # F_a + C
     }
     predictions = fw.predict_signature_table(chain, terms, gamma_z=0.1)
     result = fw.diagnose_hardware(chain, predictions, terms, gamma_z=0.1)
 
-    assert result['per_category']['april26_hard']['family']['roles'] == ['Mother', 'Father']
-    assert result['per_category']['april26_hard']['family']['has_child'] is False
+    fam_april26 = result['per_category']['april26_hard']['family']
+    assert fam_april26['klein_labels'] == ['M', 'F_a']
+    assert fam_april26['klein_homogeneous'] is False
 
-    assert result['per_category']['april30_mixed']['family']['roles'] == ['Father', 'Child']
-    assert result['per_category']['april30_mixed']['family']['has_mother'] is False
-    assert result['per_category']['april30_mixed']['family']['has_child'] is True
+    fam_april30 = result['per_category']['april30_mixed']['family']
+    assert fam_april30['klein_labels'] == ['F_a', 'C']
+    assert fam_april30['klein_homogeneous'] is False
 
 
 def test_diagnose_hardware_synthetic_round_trip():
