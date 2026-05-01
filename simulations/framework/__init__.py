@@ -120,4 +120,6 @@ from .workflows import (
     ptf_painter_panel,
     verify_k_partnership,
     bridge_panel,
+    bloch_trajectory,
+    polarity_crossings,
 )
