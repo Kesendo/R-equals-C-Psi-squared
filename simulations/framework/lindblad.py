@@ -131,7 +131,8 @@ def palindrome_residual(L, Sigma_gamma, N, dephase_letter='Z'):
     Pi = build_pi_full(N, dephase_letter=dephase_letter)
     M = _vec_to_pauli_basis_transform(N)
     L_pauli = (M.conj().T @ L @ M) / (2 ** N)
-    Pi_inv = np.linalg.inv(Pi)
+    # Π is a unitary signed permutation: Π⁻¹ = Π†. Avoid np.linalg.inv.
+    Pi_inv = Pi.conj().T
     return Pi @ L_pauli @ Pi_inv + L_pauli + 2 * Sigma_gamma * np.eye(4 ** N)
 
 

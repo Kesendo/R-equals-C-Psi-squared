@@ -11,6 +11,8 @@ Public API:
 """
 from __future__ import annotations
 
+from functools import lru_cache
+
 import numpy as np
 
 from .pauli import (
@@ -67,26 +69,28 @@ def pi_action(idx, dephase_letter='Z'):
 def pi_squared_eigenvalue(indices, dephase_letter='Z'):
     """Π² eigenvalue on a Pauli string for a given dephasing letter.
 
-    For Z-dephasing: (-1)^{total_bit_b}.
-    For X-dephasing: (-1)^{total_bit_a}.
-    For Y-dephasing: (-1)^{total_bit_b}  (same as Z, since Π_Y has same
-                       axis as Π_Z; the phases differ but Π² parity matches).
+    Π² counts the bit that the per-letter phase depends on (the bit
+    preserved under the axis flip): bit_b for Z and Y, bit_a for X.
     """
-    if dephase_letter in ('Z', 'Y'):
-        return (-1) ** (sum(bit_b(idx) for idx in indices) % 2)
-    if dephase_letter == 'X':
-        return (-1) ** (sum(bit_a(idx) for idx in indices) % 2)
-    raise ValueError(
-        f"dephase_letter must be 'X', 'Y', or 'Z'; got {dephase_letter!r}"
-    )
+    if dephase_letter not in ('X', 'Y', 'Z'):
+        raise ValueError(
+            f"dephase_letter must be 'X', 'Y', or 'Z'; got {dephase_letter!r}"
+        )
+    bit_fn = bit_a if dephase_letter == 'X' else bit_b
+    return (-1) ** (sum(bit_fn(idx) for idx in indices) % 2)
 
 
+@lru_cache(maxsize=None)
 def build_pi_full(N, dephase_letter='Z'):
     """Π in the 4^N Pauli-string basis: 4^N × 4^N matrix.
 
     Args:
         N: chain length.
         dephase_letter: which dissipator's palindrome operator. Default 'Z'.
+
+    Cached by (N, dephase_letter) since Π depends only on these. Π is a
+    unitary signed permutation: callers should treat the returned array
+    as read-only.
     """
     d2 = 4 ** N
     Pi = np.zeros((d2, d2), dtype=complex)
@@ -100,6 +104,7 @@ def build_pi_full(N, dephase_letter='Z'):
             sign *= phase
         new_k = _indices_to_k(new_indices)
         Pi[new_k, k] = sign
+    Pi.flags.writeable = False
     return Pi
 
 

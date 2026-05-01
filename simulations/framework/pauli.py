@@ -13,6 +13,7 @@ Public API:
 """
 from __future__ import annotations
 
+from functools import lru_cache
 from itertools import product as iproduct
 
 import numpy as np
@@ -131,10 +132,12 @@ def _pauli_label(k, N):
 # Basis transforms (Pauli ↔ vec)
 # ----------------------------------------------------------------------
 
+@lru_cache(maxsize=None)
 def _vec_to_pauli_basis_transform(N):
     """Transformation matrix from Pauli-string basis to column-stack vec.
 
     M (d² × 4^N) such that vec(σ_α) = M[:, α]. M†M = 2^N · I (orthogonality).
+    Cached by N; callers should treat the returned array as read-only.
     """
     d2 = 4 ** N
     d = 2 ** N
@@ -143,6 +146,7 @@ def _vec_to_pauli_basis_transform(N):
         indices = _k_to_indices(k, N)
         sigma = pauli_string(list(indices))
         M[:, k] = sigma.flatten('F')
+    M.flags.writeable = False
     return M
 
 
