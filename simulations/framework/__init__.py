@@ -78,6 +78,7 @@ from .observables import pi_protected_observables
 from .chain_system import ChainSystem
 from .receiver import Receiver
 from .confirmations import Confirmations
+from .pauli_hamiltonian import PauliTerm, PauliHamiltonian
 
 # Diagnostics: F-theorem readings as free functions
 from .diagnostics import (
