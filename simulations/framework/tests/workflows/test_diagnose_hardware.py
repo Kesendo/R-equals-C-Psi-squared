@@ -167,56 +167,53 @@ def test_diagnose_hardware_Y_Z_asymmetry_attributed_to_T2_inhomogeneity():
     assert 'T2 inhomogeneity' in yz['attribution']
 
 
-def test_diagnose_hardware_klein_classification_mapping():
-    """Klein-Vierergruppe lens identifies which Klein slots (M, F_a, F_b, C)
-    are present in each Hamiltonian. Replaces the prior 3-role Trinity
-    classification, which collapsed F_a and F_b under Y↔Z swap and hid the
-    operational distinction (e.g., F_a + F_b can be hard, F_a + F_a is soft)."""
+def test_diagnose_hardware_structural_klein_set_no_labels():
+    """Structure lens exposes raw Klein indices (bit_a, bit_b) tuples, not
+    label letters. Replaces the prior Klein-letter labels (M, F_a, F_b, C)
+    which were k=2-specific and confusing at k≥3."""
     chain = fw.ChainSystem(N=3)
 
     test_cases = [
-        # (terms, expected_klein_labels)
-        ([('X', 'X'), ('Y', 'Y')],          ['M']),                 # pure truly
-        ([('X', 'Y'), ('Y', 'X')],          ['F_a']),               # pure F_a (Y-Father)
-        ([('X', 'Z'), ('Z', 'X')],          ['F_b']),               # pure F_b (Z-Father)
-        ([('Y', 'Z'), ('Z', 'Y')],          ['C']),                 # pure Child
-        ([('X', 'X'), ('X', 'Y')],          ['M', 'F_a']),          # M + F_a (April 26 hard_broken)
-        ([('X', 'X'), ('X', 'Z')],          ['M', 'F_b']),          # M + F_b
-        ([('X', 'Y'), ('X', 'Z')],          ['F_a', 'F_b']),        # F_a + F_b (always hard at k=2)
-        ([('X', 'Y'), ('Y', 'Z')],          ['F_a', 'C']),          # F_a + C (April 30 mixed)
+        # (terms, expected_klein_set as sorted tuples)
+        ([('X', 'X'), ('Y', 'Y')],          [(0, 0)]),                 # pure (0,0)
+        ([('X', 'Y'), ('Y', 'X')],          [(0, 1)]),                 # pure (0,1)
+        ([('X', 'Z'), ('Z', 'X')],          [(1, 1)]),                 # pure (1,1)
+        ([('Y', 'Z'), ('Z', 'Y')],          [(1, 0)]),                 # pure (1,0)
+        ([('X', 'X'), ('X', 'Y')],          [(0, 0), (0, 1)]),         # April 26 hard
+        ([('X', 'X'), ('X', 'Z')],          [(0, 0), (1, 1)]),         # M + (1,1)
+        ([('X', 'Y'), ('X', 'Z')],          [(0, 1), (1, 1)]),         # always hard at k=2
+        ([('X', 'Y'), ('Y', 'Z')],          [(0, 1), (1, 0)]),         # April 30 mixed
     ]
     terms_per_category = {f'case_{i}': terms for i, (terms, _) in enumerate(test_cases)}
     predictions = fw.predict_signature_table(chain, terms_per_category, gamma_z=0.1)
     result = fw.diagnose_hardware(chain, predictions, terms_per_category, gamma_z=0.1)
 
-    for i, (terms, expected_labels) in enumerate(test_cases):
+    for i, (terms, expected_klein_set) in enumerate(test_cases):
         cat = f'case_{i}'
-        family = result['per_category'][cat]['family']
-        assert family['klein_labels'] == expected_labels, \
-            f"{terms}: expected Klein labels {expected_labels}, got {family['klein_labels']}"
+        struct = result['per_category'][cat]['structure']
+        assert struct['klein_set'] == expected_klein_set, \
+            f"{terms}: expected klein_set {expected_klein_set}, got {struct['klein_set']}"
         # Klein-homogeneity check
-        assert family['klein_homogeneous'] == (len(expected_labels) == 1), \
-            f"{terms}: klein_homogeneous mismatch"
-        # Find the Klein lens reading
-        klein_readings = [r for r in result['per_category'][cat]['lens_readings']
-                          if r.get('lens') == 'Klein']
-        assert len(klein_readings) == 1
-        assert klein_readings[0]['klein_labels'] == expected_labels
+        expected_homo = (len(expected_klein_set) == 1)
+        assert struct['is_klein_homogeneous'] == expected_homo
+        # Find the Structure lens reading
+        struct_readings = [r for r in result['per_category'][cat]['lens_readings']
+                           if r.get('lens') == 'Structure']
+        assert len(struct_readings) == 1
+        assert struct_readings[0]['klein_set'] == expected_klein_set
 
 
 def test_diagnose_hardware_klein_homogeneity_predicts_soft():
     """Klein-homogeneous Hamiltonians (all terms with same Klein index) are
-    always F77 soft or truly, never hard. This is the structural prediction
-    revealed by stripping the Trinity-collapse and using Klein-4 directly."""
+    always F77 soft or truly, never hard. Structural fact verified at k=2."""
     chain = fw.ChainSystem(N=3)
 
-    # All Klein-homogeneous test cases (each Hamiltonian's terms share one Klein slot)
     homogeneous_cases = [
-        [('X', 'X'), ('Y', 'Y')],  # M, M → truly
-        [('X', 'X'), ('Z', 'Z')],  # M, M → truly
-        [('X', 'Y'), ('Y', 'X')],  # F_a, F_a → soft
-        [('X', 'Z'), ('Z', 'X')],  # F_b, F_b → soft
-        [('Y', 'Z'), ('Z', 'Y')],  # C, C → soft
+        [('X', 'X'), ('Y', 'Y')],  # both (0,0) → truly
+        [('X', 'X'), ('Z', 'Z')],  # both (0,0) → truly
+        [('X', 'Y'), ('Y', 'X')],  # both (0,1) → soft
+        [('X', 'Z'), ('Z', 'X')],  # both (1,1) → soft
+        [('Y', 'Z'), ('Z', 'Y')],  # both (1,0) → soft
     ]
 
     for terms in homogeneous_cases:
@@ -225,28 +222,52 @@ def test_diagnose_hardware_klein_homogeneity_predicts_soft():
             f"Klein-homogeneous Hamiltonian {terms} should be truly or soft, got {f77}"
 
 
-def test_diagnose_hardware_klein_distinguishes_april26_april30_hard_cases():
-    """The April 26 hard_broken (XX+XY) is Klein {M, F_a}.
-    The April 30 mixed_anti_one_sixth (XY+YZ) is Klein {F_a, C}.
-    Both Klein-inhomogeneous (necessary for hard); both classified F77-hard
-    by the eigenvalue-pairing classifier. The Klein lens distinguishes
-    their composition, matching the empirical drift difference."""
+def test_diagnose_hardware_structural_distinguishes_april26_april30_hard_cases():
+    """April 26 hard_broken (XX+XY) has klein_set {(0,0), (0,1)}.
+    April 30 mixed_anti_one_sixth (XY+YZ) has klein_set {(0,1), (1,0)}.
+    Both Klein-inhomogeneous; both F77-hard. The Structure lens shows the
+    raw klein indices that distinguish them, no label-collapse."""
     chain = fw.ChainSystem(N=3)
 
     terms = {
-        'april26_hard': [('X', 'X'), ('X', 'Y')],   # M + F_a
-        'april30_mixed': [('X', 'Y'), ('Y', 'Z')],  # F_a + C
+        'april26_hard': [('X', 'X'), ('X', 'Y')],
+        'april30_mixed': [('X', 'Y'), ('Y', 'Z')],
     }
     predictions = fw.predict_signature_table(chain, terms, gamma_z=0.1)
     result = fw.diagnose_hardware(chain, predictions, terms, gamma_z=0.1)
 
-    fam_april26 = result['per_category']['april26_hard']['family']
-    assert fam_april26['klein_labels'] == ['M', 'F_a']
-    assert fam_april26['klein_homogeneous'] is False
+    s26 = result['per_category']['april26_hard']['structure']
+    assert s26['klein_set'] == [(0, 0), (0, 1)]
+    assert s26['is_klein_homogeneous'] is False
 
-    fam_april30 = result['per_category']['april30_mixed']['family']
-    assert fam_april30['klein_labels'] == ['F_a', 'C']
-    assert fam_april30['klein_homogeneous'] is False
+    s30 = result['per_category']['april30_mixed']['structure']
+    assert s30['klein_set'] == [(0, 1), (1, 0)]
+    assert s30['is_klein_homogeneous'] is False
+
+
+def test_diagnose_hardware_structure_exposes_y_parity_axis():
+    """The Structure lens exposes Y-parity as an independent axis. At k=2
+    Y-parity is determined by Klein index (redundant); the diagnostic still
+    reports it as a property so users can verify consistency."""
+    chain = fw.ChainSystem(N=3)
+
+    terms = {
+        'truly': [('X', 'X'), ('Y', 'Y')],            # Y-par: [0, 0]
+        'pi2_odd': [('X', 'Y'), ('Y', 'X')],          # Y-par: [1, 1]
+        'pi2_even_nontruly': [('Y', 'Z'), ('Z', 'Y')], # Y-par: [1, 1]
+    }
+    predictions = fw.predict_signature_table(chain, terms, gamma_z=0.1)
+    result = fw.diagnose_hardware(chain, predictions, terms, gamma_z=0.1)
+
+    s_truly = result['per_category']['truly']['structure']
+    assert s_truly['per_term_y_parities'] == [0, 0]
+    assert s_truly['is_y_parity_homogeneous'] is True
+    assert s_truly['y_parity_set'] == [0]
+
+    s_odd = result['per_category']['pi2_odd']['structure']
+    assert s_odd['per_term_y_parities'] == [1, 1]
+    assert s_odd['is_y_parity_homogeneous'] is True
+    assert s_odd['y_parity_set'] == [1]
 
 
 def test_diagnose_hardware_synthetic_round_trip():

@@ -1,4 +1,11 @@
-"""Hardware-data diagnostic: apply the F-toolkit lens to measured 2-qubit Pauli expectations."""
+"""Hardware-data diagnostic: apply the F-toolkit lens to measured 2-qubit Pauli expectations.
+
+Exposes raw structural properties of the Hamiltonian via PauliHamiltonian
+(klein_set, y_parity_set, full Z₂³ signature, per-term properties) without
+the Klein-4 letter labels or Trinity Mother/Father/Child collapse.
+Application-layer interpretations live elsewhere; the diagnostic only
+exposes structural facts.
+"""
 from __future__ import annotations
 
 from typing import Optional
@@ -7,109 +14,72 @@ import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
 from ..diagnostics.f83_anti_fraction import predict_pi_decomposition
-from ..symmetry import klein_index, KLEIN_LABELS
+from ..pauli_hamiltonian import PauliHamiltonian, PauliTerm
 from .predict_signature_table import predict_signature_table
 
 
-# Klein index → defense-mode description (replacing the 3-role Trinity collapse).
-# Mother/Father_a/Father_b/Child correspond to the four Klein-Vierergruppe slots.
-_KLEIN_DEFENSE = {
-    (0, 0): ('M',
-             'Mother (truly substrate): M = 0 idealized; avoidance defense.'),
-    (0, 1): ('F_a',
-             'Father subtype a (Y-Father, bit_a-preserving Π²-odd): '
-             'active recirculation, M_anti = L_{H_odd} dominates.'),
-    (1, 0): ('C',
-             'Child (Π²-even non-truly): passive reflection, '
-             'M_sym dominates, M_anti = 0.'),
-    (1, 1): ('F_b',
-             'Father subtype b (Z-Father, bit_a-breaking Π²-odd): '
-             'active recirculation that breaks Z⊗N parity.'),
-}
+def _structural_summary(terms, chain_length):
+    """Build a PauliHamiltonian and extract its raw structural properties.
 
+    Returns a dict with the Hamiltonian object plus its derived properties
+    exposed as plain Python values for serialization. No labels, no Trinity
+    collapse — just the structure itself.
 
-def _family_composition(terms):
-    """Identify which Klein-Vierergruppe slots are present in the Hamiltonian
-    terms (4-element classification, NOT the 3-role Trinity collapse).
+    Three independent Z₂ axes per term:
+      bit_a: (#X + #Y) mod 2 — Z⊗N parity break
+      bit_b: (#Y + #Z) mod 2 — Π² parity
+      Y-par: #Y mod 2          — independent at k ≥ 3
 
-    The Klein-Vierergruppe Z₂×Z₂ has four slots labeled by (bit_a, bit_b):
-
-        (0, 0) → M    Mother (truly: I, X, XX, YY, ZZ etc.)
-        (0, 1) → F_a  Father subtype a (Y-Father: Y, XY, YX)
-        (1, 0) → C    Child (Π²-even non-truly: YZ, ZY)
-        (1, 1) → F_b  Father subtype b (Z-Father: Z, XZ, ZX)
-
-    The Trinity (3-role) reading collapsed F_a and F_b under Y↔Z swap.
-    The Klein-4 (4-element) reading does NOT collapse — operationally, F_a
-    and F_b combine differently with other elements (e.g., F_a + F_b can
-    be hard while F_a + F_a is always soft).
-
-    Klein-homogeneity check: Hamiltonians whose terms all share the same
-    Klein index ("homogeneous") are always F77-soft or F77-truly — never
-    hard. Verified at k=2 (full 36 V-Effect pairs) and k=3 (sample).
-    Klein-inhomogeneity is necessary (not sufficient) for F77-hard.
-
-    Returns:
-        dict with keys:
-          'klein_set':         sorted list of distinct Klein indices (bit_a, bit_b) tuples
-          'klein_labels':      list of Klein labels (M, F_a, F_b, C) in canonical order
-          'klein_homogeneous': True if all terms share one Klein index
-          'family':            human-readable family-composition string
-          'defense_character': human-readable defense interpretation
-          'klein_term_indices': list of per-term Klein indices (parallel to terms)
-          'has_mother':        legacy: True if (0,0) ∈ klein_set
-          'has_father':        legacy: True if (0,1) or (1,1) ∈ klein_set
-          'has_child':         legacy: True if (1,0) ∈ klein_set
+    Klein-homogeneity (all terms share Klein index) is empirically necessary
+    (not sufficient) for F77 soft or truly. Verified k=2 full enumeration,
+    k=3 sample.
     """
-    klein_term_indices = [klein_index(t) for t in terms]
-    klein_set = set(klein_term_indices)
-    klein_homogeneous = (len(klein_set) <= 1)
+    H = PauliHamiltonian.from_letter_tuples(terms, chain_length=chain_length)
 
-    # Canonical ordering: M, F_a, F_b, C
-    canonical_order = [(0, 0), (0, 1), (1, 1), (1, 0)]
-    klein_set_ordered = [k for k in canonical_order if k in klein_set]
-    klein_labels_present = [_KLEIN_DEFENSE[k][0] for k in klein_set_ordered]
+    # Canonical ordering for display: lex-sorted tuples
+    klein_set_sorted = sorted(H.klein_set)
+    y_parity_set_sorted = sorted(H.y_parity_set)
+    z2_signature_set_sorted = sorted(H.full_z2_signature_set)
 
-    has_mother = (0, 0) in klein_set
-    has_father_a = (0, 1) in klein_set
-    has_father_b = (1, 1) in klein_set
-    has_child = (1, 0) in klein_set
-    has_father = has_father_a or has_father_b
-
-    if not klein_set:
-        family = '(empty)'
-        defense = 'none (no Hamiltonian)'
-    elif klein_homogeneous:
-        single = klein_labels_present[0]
-        klein_idx = klein_set_ordered[0]
-        defense_text = _KLEIN_DEFENSE[klein_idx][1]
-        family = f"{single} only (Klein-homogeneous → F77 soft or truly)"
-        defense = f"{defense_text} Klein-homogeneous: eigenvalue pairing preserved (always soft/truly)."
+    # Build a structural reading text
+    if not H.terms:
+        reading = "empty Hamiltonian"
+    elif H.is_klein_homogeneous:
+        klein_str = str(klein_set_sorted[0])
+        reading = (
+            f"Klein-homogeneous (all terms share Klein index {klein_str}); "
+            f"eigenvalue pairing preserved (F77 soft or truly guaranteed by structure)."
+        )
+        if not H.is_z2_homogeneous:
+            reading += (
+                f" Klein-homogeneous but Z₂³-inhomogeneous: Y-parities differ "
+                f"({y_parity_set_sorted}), full Z₂³ signatures differ "
+                f"({z2_signature_set_sorted}); this distinction matters at k ≥ 3."
+            )
     else:
-        family = " + ".join(klein_labels_present) + " (Klein-inhomogeneous → can be soft or hard)"
-        # Build composite defense character
-        defense_parts = []
-        for klein_idx in klein_set_ordered:
-            label, text = _KLEIN_DEFENSE[klein_idx]
-            defense_parts.append(f"{label}: {text}")
-        defense = (
-            f"Klein-inhomogeneous ({', '.join(klein_labels_present)}): "
-            f"F77-hard is possible but not guaranteed (depends on bond combinatorics). "
-            + " ".join(defense_parts)
+        klein_str = ', '.join(str(k) for k in klein_set_sorted)
+        reading = (
+            f"Klein-inhomogeneous (terms span Klein indices {{{klein_str}}}); "
+            f"F77 hard is possible but not guaranteed (depends on bond "
+            f"combinatorics within the inhomogeneous span)."
         )
 
     return {
-        'klein_set': klein_set_ordered,
-        'klein_labels': klein_labels_present,
-        'klein_homogeneous': klein_homogeneous,
-        'klein_term_indices': klein_term_indices,
-        'family': family,
-        'defense_character': defense,
-        # Legacy fields for backward compatibility (Trinity-collapse view)
-        'has_mother': has_mother,
-        'has_father': has_father,
-        'has_child': has_child,
-        'roles': [_KLEIN_DEFENSE[k][0] for k in klein_set_ordered],
+        'hamiltonian': H,
+        'klein_set': klein_set_sorted,
+        'is_klein_homogeneous': H.is_klein_homogeneous,
+        'y_parity_set': y_parity_set_sorted,
+        'is_y_parity_homogeneous': H.is_y_parity_homogeneous,
+        'full_z2_signature_set': z2_signature_set_sorted,
+        'is_z2_homogeneous': H.is_z2_homogeneous,
+        'per_term_klein_indices': H.per_term_klein_indices,
+        'per_term_y_parities': H.per_term_y_parities,
+        'per_term_pi2_classes': H.per_term_pi2_classes,
+        'per_term_full_z2_signatures': [t.full_z2_signature for t in H.terms],
+        'k_body_set': sorted(H.k_body_set),
+        'is_uniform_body': H.is_uniform_body,
+        'has_truly_term': H.has_truly_term,
+        'reading': reading,
     }
 
 
@@ -204,15 +174,19 @@ def diagnose_hardware(
             'reading': f"{category} is {f77} per F77 trichotomy classifier",
         })
 
-        # Klein-Vierergruppe lens: which 4-element slots are present in H,
-        # plus Klein-homogeneity (necessary condition for F77 soft/truly).
-        fam = _family_composition(terms)
+        # Structure lens: raw Z₂³ axes (bit_a, bit_b, Y-parity) per term and
+        # aggregate homogeneity flags from PauliHamiltonian.
+        struct = _structural_summary(terms, chain.N)
         readings.append({
-            'lens': 'Klein',
-            'reading': f"{fam['family']} — {fam['defense_character']}",
-            'klein_labels': fam['klein_labels'],
-            'klein_homogeneous': fam['klein_homogeneous'],
-            'klein_term_indices': fam['klein_term_indices'],
+            'lens': 'Structure',
+            'reading': struct['reading'],
+            'klein_set': struct['klein_set'],
+            'is_klein_homogeneous': struct['is_klein_homogeneous'],
+            'y_parity_set': struct['y_parity_set'],
+            'is_y_parity_homogeneous': struct['is_y_parity_homogeneous'],
+            'is_z2_homogeneous': struct['is_z2_homogeneous'],
+            'per_term_klein_indices': struct['per_term_klein_indices'],
+            'per_term_y_parities': struct['per_term_y_parities'],
         })
 
         # F83 lens
@@ -290,7 +264,7 @@ def diagnose_hardware(
             'F77_class': f77,
             'F83_anti_fraction': float(f83['anti_fraction']) if f83['M_sq'] > 1e-12 else None,
             'F83_r': float(f83['r']) if (f83['M_sq'] > 1e-12 and f83['r'] != float('inf')) else None,
-            'family': fam,
+            'structure': struct,
             'predictions': pred,
             'measurements': meas,
             'residuals': residuals,
