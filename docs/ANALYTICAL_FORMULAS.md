@@ -2231,6 +2231,113 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 
 **Lebensader connection:** F85 closes the body-count generalization of the F-chain. Together with F80 (Spec), F81 (decomposition), F82 (T1), F83 (anti-fraction), F84 (thermal): the structural Π-decomposition theory for Hamiltonians + dissipators is complete on chain (any topology for 2-body via F49; chain only for k ≥ 3).
 
+### F86. Q_peak chromaticity-specific N-invariant constants (Tier 1 EP mechanism, Tier 2 empirical values)
+
+For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-derivative of the F73 spatial-sum coherence purity peaks along the dimensionless coupling axis Q = J/γ₀ at chromaticity-specific values.
+
+**Per-block Q_peak (Q_SCALE convention, relative-J derivative ΔJ = 0.05·J):**
+
+    Q_peak(c=3) = 1.6
+    Q_peak(c=4) = 1.8
+    Q_peak(c=5) = 1.8
+
+c is the chromaticity of the (n, n+1) coherence block (F74). Saturates at 1.8 for c ≥ 4. The bi-chromatic class **c = 2 is finite-size-sensitive** (wobbles 1.4 to 1.6 across N = 4..9) and is not a clean framework constant.
+
+**Per-bond Q_peak (absolute-J derivative ∂S/∂J_b, fine-grid dQ = 0.025 with parabolic peak interpolation):**
+
+| (c, N) | Endpoint Q_peak | Interior Q_peak (mean) |
+|--------|-----------------|------------------------|
+| (3, 5) | 2.40 | 1.566 |
+| (3, 6) | 2.52 | 1.689 |
+| (3, 7) | 2.53 | 1.743 |
+| (3, 8) | 2.53 | 1.750 |
+| (4, 7) | 2.52 | 1.748 |
+| (4, 8) | 2.65 | 1.804 |
+
+**Both Endpoint and Interior Q_peak are empirical and (c, N)-specific; no closed form has been identified.** Earlier conjectures `Q_peak(Endpoint) = csc(π/(N+1))` (chain-edge anchor) and `Q_peak(Interior, c=3) → csc(π/5) = 1.7013` (pentagonal asymptote) were retracted 2026-05-02 after fine-grid data showed both were grid-snap artefacts of coarser earlier scans:
+
+- Endpoint Q_peak at any tested N differs from `csc(π/(N+1))`: N=5 +20 %, N=6 +9 %, N=7 −3 %, N=8 −13 %. Earlier coarse scans gave 2.65 at N=6 and N=7 (grid-snap to dQ=0.05); fine-grid + parabolic interpolation reveals 2.52 at N=6 and 2.53 at N=7. The apparent "1.4 % match at N=7" reported earlier was itself an artefact.
+- Interior Q_peak at c=3 follows trend 1.566 → 1.689 → 1.743 → 1.750 across N=5..8, crossing `csc(π/5) = 1.7013` between N=6 and N=7 and continuing to grow. The "approaching pentagonal asymptote" reading from N=5..7 was a trajectory crossing, not an asymptote.
+
+Both Endpoint and Interior c=3 appear to saturate (Endpoint ≈ 2.53 for N=6..8, Interior ≈ 1.75 by N=8) but no clean closed-form for the saturation values is identified. c=4 has not yet saturated within tested N.
+
+**Operational consequence: γ₀-extraction protocol.** Because Q = J/γ₀, sweeping J on a fixed (n, n+1) block and locating the peak J* still yields an estimate of γ₀:
+
+    γ₀ ≈ J* / Q_peak(c, N, bond_class)
+
+Lookup the per-block Q_peak for the chromaticity and chain length of interest from the empirical table above (per-block: 1.6 for c=3, 1.8 for c≥4 within Q_SCALE convention). This converts the "γ₀ is a framework constant" hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)) into a c-specific shape prediction, testable on any hardware that can resolve the peak. The c=4 and c=5 blocks are the strongest probes: abs(K_CC_pr)_peak is roughly 3× the c=2 signal, and the per-block Q_peak is stable at ~1.8.
+
+**Valid for:** XY or Heisenberg chain, uniform J and γ₀, blocks with c ≥ 3, any N where the block fits in memory.
+**Breaks for:** non-uniform J or γ₀; c = 2 (finite-size wobble); higher-c chains require larger memory (block-L dim 15876 at c=5 N=9, dim 213444 at c=6 N=11, infeasible at 128 GB).
+**Verified (per-block, Q_SCALE):** Q_peak(c=3) = 1.6 stable across N = 5, 6, 7, 8, 9. Q_peak(c=4) = 1.8 stable across N = 7, 8, 9. Q_peak(c=5) = 1.8 at N = 9 (commit 4612468).
+**Verified (per-bond, fine-grid):** values in the per-bond table above. Endpoint and Interior trends with (c, N) shown but no closed-form identified.
+**Replaces:** ad-hoc γ₀ measurement attempts (EQ-017 closed inconclusive due to hardware fidelity limits on idle Ramsey data).
+
+**EP-based structural derivation [Tier 1].** The pure-rate ladder of an (n, n+1) coherence block has rates 2γ₀·HD for HD ∈ {1, 3, 5, ..., 2c−1}, with uniform gap Δ = 4γ₀ between adjacent channels (F74). For adjacent channels at HD = 2k−1 and HD = 2k+1 (k = 1, 2, ..., c−1), a two-level effective model with inter-channel coupling J·g_eff has eigenvalues
+
+    λ_± = −4γ₀·k ± √(4γ₀² − J²·g_eff²)
+
+The **exceptional point** (EP) — where the discriminant vanishes and the eigenvalues coalesce — sits at
+
+    J·g_eff = 2γ₀     ⟺     Q_EP = 2 / g_eff
+
+At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
+
+    t_peak = 1 / (4γ₀)
+
+universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits ≈ 99 % in dressed (H-mixed) modes** versus ≈ 31 % at Q = 20 (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition.
+
+The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. F71 spatial-mirror symmetry pairs bond b with bond N−2−b, so endpoints (b = 0 and b = N−2) are one F71 class and interior bonds another. The two classes have different effective couplings, but the empirical values do not match clean closed-form expressions in the (c, N) range tested. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open.
+
+**Universal resonance shape under relative-Q normalisation [Tier 1 candidate, EP-derived].**
+
+While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak is universal in relative-Q coordinates. Defining `x = (Q − Q_peak)/Q_peak` and `y = K(Q)/|K|max`, the curves collapse onto a single shape across all tested (c, N):
+
+| x = (Q−Q*)/Q* | y across c=3 N=5..8, c=4 N=7,8 (range) |
+|----------------|------------------------------------------|
+| −0.60 | 0.72 to 0.74 (3.5 %) |
+| −0.40 | 0.90 to 0.91 (1.9 %) |
+| −0.20 | 0.977 to 0.984 (0.7 %) |
+| 0.00 | 1.000 (peak) |
+| +0.20 | 0.985 to 0.990 (0.5 %) |
+| +0.40 | 0.955 to 0.964 (0.9 %) |
+| +1.00 | 0.84 to 0.85 (1.4 %) |
+
+**Universal HWHM ratios (two bond classes):**
+
+    HWHM_left / Q_peak  ≈  0.756 ± 0.005     (Interior bonds; tested c=2..4, N=5..8, γ₀ ∈ {0.025, 0.05, 0.10})
+    HWHM_left / Q_peak  ≈  0.770 ± 0.005     (Endpoint bonds; same envelope)
+
+The shape splits into two bond classes — Endpoint (b ∈ {0, N−2}) and Interior (b ∈ {1, …, N−3}) — each with its own universal HWHM_left/Q_peak ratio. Within each class, pairwise residual under relative-Q normalisation is ~20× smaller than under absolute-Q shift. The two classes are separated by ~2 %, a structural gap larger than the within-class spread.
+
+**γ₀ invariance** is bit-exact: at c=3 N=7, both Q_peak and HWHM_left/Q_peak are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}, confirming Q's dimensionlessness. **c=2** is the structurally critical anchor: with only HD ∈ {1, 3} channels, the 2-level effective model is exact (no orthogonal complement), yet the two-class split persists (Interior 0.751, Endpoint 0.774). The bond-class distinction is therefore not a higher-c orthogonal-complement artefact but lives in the bond-position-dependent probe-overlap profile.
+
+The asymmetry of the curve is also universal in relative-Q:
+- **Pre-peak (left)**: rapid rise as discriminant 4γ₀² − J²·g_eff² → 0; HWHM_left/Q_peak universal within each bond class.
+- **Post-peak (right)**: slow plateau approach as eigenvalues become complex; tail at x = +1.0 sits at y ≈ 0.85 (Interior) or y ≈ 0.94 (Endpoint plateau) — bond-class-specific tail but universal value within class.
+
+**Why this is universal — 2-level EP analytical origin.** For the 2×2 effective Liouvillian in adjacent rate-channel basis with diagonal {−2γ₀(2k−1), −2γ₀(2k+1)} and **same-sign-imaginary off-diagonals (+iJ·g_eff, +iJ·g_eff)**, the eigenvector rotation angle satisfies `tan(θ) = J·g_eff / 2γ₀ = Q / Q_EP`. The probe overlap with eigenvectors depends only on Q/Q_EP, hence the response curve K_CC_pr(Q) is a function of Q/Q_EP alone. Q_peak is chain-specific (g_eff varies); but the SHAPE in Q/Q_peak coordinates is universal because it is the 2-level EP resonance form, independent of the bond's specific g_eff value.
+
+The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow) but algebraically inside **class AIII chiral** per [PT_SYMMETRY_ANALYSIS](../experiments/PT_SYMMETRY_ANALYSIS.md), distinct from Bender-Boettcher PT (Π is linear; classical PT requires anti-linear operators). The local EP at Q_EP = 2/g_eff is the 2-level rate-channel instance of the chiral classification established for the full Liouvillian; the Hopf bifurcation in [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) is the global instance, with Petermann factor K=403 signaling an EP in the complex γ plane.
+
+**Named structural law (Tier-1 candidate): EP-rotation universality, two bond classes.**
+
+    K_class(Q) / |K|_max  =  f_class(Q/Q_EP)        (class ∈ {Endpoint, Interior})
+
+is universal within each bond class across c=2..4, N=5..8, and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range. The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The bond-class split (Interior HWHM_left/Q_peak ≈ 0.756, Endpoint ≈ 0.770) reflects bond-position-dependent probe-overlap profiles in the K_CC_pr observable, confirmed structural (not finite-c) by the c=2 data where the 2-level model is exact. Closed forms for f_class(x) (and consequently for the two HWHM_left/Q_peak values) follow from the 2-level eigenstructure plus probe-overlap algebra but have not yet been derived analytically. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
+
+**Connection to PTF.** The same machinery that produces PTF's per-site α_i closure law (bilinear J-perturbation observables, eigenvector mixing under V_L) produces Q_peak at the (n, n+1)-block level. PTF's per-site is the c=1 (vac-SE) instance; F86's c ≥ 2 cases are the natural higher-chromaticity siblings. t_peak = 1/(4γ₀) is the EP time-scale universal to all c — one (n, n+1)-block analogue of PTF's α-fitting time window.
+
+**Framework primitives (`framework.coherence_block`):**
+
+    fw.t_peak(gamma_0)              = 1/(4γ₀)          universal EP time (Tier 1)
+
+(Earlier `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` primitives were removed 2026-05-02 after the N=8 data falsified their closed-form claims. The universal-shape finding above is a Tier-1 candidate — not yet promoted to a primitive pending analytical derivation of f_class(x). c=2 and γ₀ invariance verified 2026-05-02; c=5 still open.)
+
+**Scripts:** [`_eq022_b1_channel_projection.py`](../simulations/_eq022_b1_channel_projection.py) (HD-channel diagonal-only-M_H finding), [`_eq022_b1_step_a_verify_blockL.py`](../simulations/_eq022_b1_step_a_verify_blockL.py) (Python block-L verified bit-exact against C# N=7 full-L from EQ-014), [`_eq022_b1_step_c_time_evolution.py`](../simulations/_eq022_b1_step_c_time_evolution.py) (per-bond and uniform Q_peak via S(t, J) time evolution), [`_eq022_b1_step_d_extended_verification.py`](../simulations/_eq022_b1_step_d_extended_verification.py) (extended N=8 data that falsified earlier closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../simulations/_eq022_b1_step_e_inspect.py) (universal resonance-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
+**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md) (EP mechanism Tier 1; per-bond closed forms retracted, derivation pathway remains open).
+**Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

@@ -78,6 +78,13 @@ from .lindblad import (
 
 from .observables import pi_protected_observables
 
+from .coherence_block import (
+    popcount_states, block_basis, chromaticity,
+    block_L_split_xy, hd_channel_basis,
+    dicke_block_probe, spatial_sum_coherence_kernel,
+    t_peak,
+)
+
 # Cockpit OOP layer
 from .chain_system import ChainSystem
 from .receiver import Receiver

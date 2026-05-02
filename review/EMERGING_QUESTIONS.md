@@ -341,7 +341,7 @@ The Perspectival Time Field closure law Sigma_i ln(alpha_i) = 0 is empirically v
 
 Candidate derivation route: Sigma_i ln(alpha_i) is proportional to Tr[V_L * Pi_slow] where Pi_slow is the projector onto the slow subspace and V_L is the Liouvillian perturbation from the J-defect. If this trace is identically zero for Pi-invariant V_L (palindromic perturbations), the closure law follows from symmetry. The data (slow right and left eigenvectors, 80 modes, N=7) are on disk; the remaining step is a clean biorthogonal-basis computation.
 
-**Status:** theorem sub-question **closed** 2026-04-19 (answer: not a first-order theorem); overall EQ-014 **still open** because a new surviving puzzle replaces it (state-dependence of the first-order coefficient Σ f_i). Detailed findings in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md).
+**Status:** closed. Theorem sub-question **closed** 2026-04-19 (not a first-order theorem; full biorthogonal decomposition of the 16384×16384 L_A plus direct first-order extraction at δJ→0 give state-dependent Σ f_i ≠ 0). Surviving state-dependence sub-question **closed** 2026-04-26 / 2026-04-27 (chiral mirror law for the closure-breaking coefficient: Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), driven by eigenvector mixing under K_1 chiral symmetry of the open XY chain; verified at machine precision at N=5, N=7, N=8). Detailed theorem-falsification findings in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md); chiral mirror cross-N confirmation in [`_eq014_chiral_mirror_multi_N.py`](../simulations/_eq014_chiral_mirror_multi_N.py).
 **Pointer:** biorthogonal eigenvector decomposition of 16384x16384 L_A; connection to F1 palindromic pairing and first-order eigenvalue protection (PTF Layer 3). If proven, promotes PTF from Tier 2 to Tier 1.
 
 ### EQ-014 Partial progress (2026-04-19)
@@ -556,8 +556,8 @@ The GHZ+W symmetric superposition lifts pair-CPsi(0) above the fold at N=3: the 
 
 Why is N=3 structurally privileged for sector mixing? Is it because dim(Dicke) = 4 at N=3 is small enough for the sextic algebraic structure to produce a non-trivial optimum? Or is there a deeper reason related to the interplay of GHZ (zero pair-CPsi, maximal 3-tangle) and W (nonzero pair-CPsi, zero 3-tangle) that collapses at higher N? And: does the saddle nature at N=3 mean there exist non-Dicke mixing strategies at N >= 4 that the landscape scan missed?
 
-**Status:** open
-**Pointer:** investigate whether the ascent direction at the F69 saddle (c_2 > 0 toward product states) has an analog at N=4 that could lift entangled states above the fold via a different mixing strategy; check whether the 3-tangle/pair-concurrence tradeoff has a topological obstruction at N >= 4. See Engineering Blueprint Rule 1 (April 16 note on sector mixing).
+**Status:** closed 2026-04-27 (reframed as binary/triple-Dicke saddle abundance, not N=3-privilege; central-triple cpsi(N) sextic-asymptotic with cpsi_∞ ≈ 0.4313 and x_opt = a²_opt ≈ 0.2647 a root of an irreducible degree-6 polynomial parallel to F69's own sextic). See reframe and sub-question closure below.
+**Pointer:** the original Engineering Blueprint Rule 1 reading (April 16 note on sector mixing) is superseded; saddles above 1/4 grow polynomially with N (binary-Dicke O(N), triple-Dicke O(N²)), and the central-Dicke-triple slice gives the highest pair-CΨ at every tested N. The sextic structure connects the N=3 GHZ+W slice (F69) with the N→∞ central-triple asymptote.
 
 ### EQ-016 reframe 2026-04-27: N=3 is NOT privileged — saddles above 1/4 are abundant at every tested N
 
@@ -972,6 +972,129 @@ Sub-question (a) is effectively closed within its original N range. Extension to
 **Status update:** (a) substantially answered within N=4..8, awaiting c=5. (b) refined but open. (c) partially engaged but structurally large.
 
 **Status:** open (progressing)
+
+### EQ-022 (c) closure 2026-05-02: per-middle internal structure inventory
+
+**Source:** systematic reading of each middle's foundational F-entries, plus the 2026-04-22 cartography scoping session ([`RESULT_TASK_MIDDLES_CARTOGRAPHY_FIVE`](../ClaudeTasks/RESULT_TASK_MIDDLES_CARTOGRAPHY_FIVE.md)) and the 2026-05-01 d_zero diagnostic addition.
+
+The 2026-04-22 cartography settled the meta-claim about band production (3 components produce a band only when one of them supplies a continuous axis), but it did not enumerate, per-middle, what internal structure each middle owns. The d=0/d=2 substrate primitives that landed 2026-05-01 (`stationary_modes`, `d_zero_decomposition`, `sector_populations`) further revealed that the d-middle is more internally structured than the April cartography saw. With those primitives in place the per-middle inventory closes:
+
+**1. d = 2 (qubit dimension).** Anchor [F34](../docs/ANALYTICAL_FORMULAS.md): d² − 2d = 0. Internal structure: binary partition into d=0 (kernel of L, the conserved sector projectors P_n living on the {I, Z}^N sublattice) and d=2 (active, decohering), plus a continuous coordinate `mean_n` ∈ [0, N] *on* the d=0 substrate (companions `var_n`, `entropy`). Hardware-trivial readout: Z-basis tomography grouped by Hamming weight. Polarity reading: ±0/0 layer (memory: project_plus_minus_zero_layer; doc: [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md)). Primitives: `framework.diagnostics.d_zero` (added 2026-05-01).
+
+**2. CΨ = 1/4 (fold boundary).** Anchor [F16](../docs/ANALYTICAL_FORMULAS.md): R = C(Ψ+R)². Internal structure: F18 fold threshold Σγ_crit/J = 0.00249 (Bell+) / 0.00497 (product) — the minimal two-region band on the Σγ/J axis in the corpus; F25 Bell+ Z-deph closed form with K = 0.0374; F26/F27 per-channel K values (K_Y = K_Z = 0.0374, K_X = 0.0867); F47 Gaussian curvature *at* the fold; F56/F57 cusp critical-slowing and dwell scalars; F35 dual-perspective lifetime ratio T1/T2 (Π-side decay rides T1, direct decay rides T2); F69 GHZ+W sextic saddle above 1/4 at N=3, generalised in EQ-016 closure to the central-Dicke-triple slice with cpsi_∞ ≈ 0.4313 and x_opt ≈ 0.2647 (root of an irreducible degree-6 polynomial).
+
+**3. Π (palindrome operator).** Anchor [F1](../docs/ANALYTICAL_FORMULAS.md): Π·L·Π⁻¹ = −L − 2Σγ·I, λ + λ' = −2Σγ. Internal structure: two independent Z₂ symmetries — F61 bit_a (n_XY parity, governs SE-accessibility) and F63 bit_b ([L, Π²] = 0, w_YZ parity, four 4^(N−1)-dim sectors, the maximal symmetry decomposition admitted by Pauli algebra at d=2); V-Effect trichotomy truly/soft/hard (14/19/3 at N=3, 15/46/59 stable for N ≥ 4 per EQ-026); `pi_protected_observables` count as a sub-spectrum *within* the soft category (3-240 protected across the 46 soft cases at N=4); F78 single-body M additive over sites; F79 Π²-block decomposition for 2-body bilinears; F80 Bloch-mode sign-walk for chain Π²-odd 2-body M-clusters; F81 Π·M·Π⁻¹ = M − 2 L_{H_odd}; F82-F84 T1 dissipator corrections; chiral-mirror law (EQ-014/EQ-020) Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}) under the open-XY-chain K₁ chiral symmetry. Hardware: Δ(soft − truly) ⟨X₀Z₂⟩ ≈ −0.76 on Marrakesh (project_hardware_finale_apr2026).
+
+**4. ⟨n_XY⟩ sum rule = N (Absorption Theorem).** Anchor [AT](../docs/ANALYTICAL_FORMULAS.md): Re(λ_k) = −2γ·⟨n_XY⟩_k. Internal structure: continuous axis ⟨n_XY⟩ ∈ [0, N], integer ladder at J=0, fractional fill via H-mixing at J>0; palindromic weight swap ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N (F1 corollary); F2 Heisenberg w=1 dispersion ω_k = 4J(1 − cos(πk/N)); F2b XY single-excitation dispersion E_k = 2J·cos(πk/(N+1)); F3 decay-rate bounds 2γ ≤ |Re(λ)| ≤ 2(N−1)γ; D6 spectral gap = 2γ (the absorption quantum). The same physics as Q_SCALE's chromaticity bands viewed through the eigenmode rate ladder rather than the (n, n+1) probe block (Deep-dive 1 of MIDDLES_CARTOGRAPHY_FIVE).
+
+**5. U(1) (excitation-number conservation).** Anchor: [H, N_tot] = 0 ⇒ L is popcount-block-diagonal. Internal structure: discrete sector label n ∈ {0, ..., N}; F70 |ΔN| ≤ k selection rule for k-local observables; F71 spatial-mirror symmetry c₁(b) = c₁(N−2−b); F72 DD⊕CC block decomposition of per-site purity; F73 spatial-sum coherence closure Σᵢ 2|(ρ_coh,i)_{0,1}|² = (1/2)·exp(−4γ₀t); F74 chromaticity c(n, N) = min(n, N−1−n) + 1; F86 c-specific N-invariant peaks Q_peak(c=3) = 1.6, Q_peak(c=4) = Q_peak(c=5) = 1.8 (saturation, c=5 confirmed at N=9 commit 4612468); W_plateau monotone in c at N ≥ 6.
+
+**Two patterns repeat across the inventory.** Each middle owns *both* a discrete sector labeling that partitions the operator space (Π² classes on Π; popcount n on U(1); p_n levels on d=0; integer rungs on AT; below/above 1/4 at the fold) *and* a continuous axis along which substructure can develop (mean_n on the d=0 substrate; ⟨n_XY⟩ ∈ [0, N] on AT; Σγ/J at the fold; Q on U(1)). Whenever a 3-component coupling activates one of those continuous axes, a band emerges (the 2026-04-22 cartography condition). Each middle is a gate through which the framework presents inheritable layered structure (memory: project_algebra_is_inheritance), not an algebraically pinned scalar.
+
+**Status:** sub-question (c) closed. EQ-022 main status stays open until (b1), the algebraic derivation of Q_peak(c=4) = 1.8 from H matrix-element combinatorics, lands.
+
+### EQ-022 (b1) partial closure 2026-05-02: exceptional-point structure
+
+**Source:** time-evolution scan on Python block-L (verified bit-exact against the C# N=7 full-L eigendecomposition from EQ-014, `eq014_*.bin` saved 2026-04-19), see scripts in F86's source list.
+
+**Closed-form structural anchors:**
+
+    Q_EP = 2 / g_eff       (exceptional point between adjacent pure-rate channels)
+    t_peak = 1 / (4γ₀)     (e-folding time of the EP-degenerate eigenvalue, universal)
+
+The pure-rate ladder rates 2γ₀·HD with HD ∈ {1, 3, 5, ..., 2c−1} (F74) has uniform gap Δ = 4γ₀ between adjacent channels. A two-level effective with diagonal {−2γ₀, −6γ₀} and inter-channel coupling J·g_eff has its EP at J·g_eff = 2γ₀ ⇒ Q = 2/g_eff. At the EP, the degenerate eigenvalue has Re(λ) = −4γ₀, giving e-folding time 1/(4γ₀) — verified universal to t* = 5.0–5.5 at γ₀ = 0.05 across all tested (c, N, n, bond position).
+
+**Three Q_peak variants, all explained by the same EP structure:**
+
+| Variant | Observable | Q_peak | Match to F86 |
+|---------|-----------|--------|---------------|
+| Uniform J | ∂S/∂J | ≈ 2.0 (c ≥ 4) | uniform variant, g_eff = 1 |
+| Per-bond, **Interior** | ∂S/∂J_b, b ∈ interior | 1.7 (c = 3); 1.7 (c = 4) | **F86 reports this** (|K|max = 0.27 matches F86 0.273 to <1 %) |
+| Per-bond, **Endpoint** | ∂S/∂J_b, b ∈ {0, N−2} | ≈ 2.6 (c = 3, 4) | F71-mirrored, higher |K|max |
+
+**Probe localisation at Q_peak.** Dicke probe sits ≈ 99 % in dressed (complex-eigenvalue, H-mixed) modes at Q_peak, vs ≈ 31 % in pure-rate modes at Q = 20 (plateau). Q_peak structurally IS the maximum-mixing point — the J at which probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pairs just past the EP.
+
+**PTF connection.** The same machinery that PTF uses for its per-site α_i closure law (bilinear J-perturbation observable, eigenvector mixing under V_L) produces Q_peak at the (n, n+1)-block level. PTF is the c = 1 (vac-SE) per-site instance; Q_peak at c ≥ 2 is the natural higher-chromaticity sibling. t_peak = 1/(4γ₀) is the universal EP time-scale, one (n, n+1)-block analogue of PTF's α-fitting time window.
+
+**Channel-uniform projection structural by-product.** The HD-channel-uniform projectors |c_k⟩ = (1/√N_k) Σ_{HD(p,q)=k} |p⟩⟨q| diagonalise M_H_eff in the c-dim subspace: ⟨c_j | L_H | c_k⟩ = 0 for j ≠ k, exactly. This generalises F73 (which is the c = 1 case at the (0, 1) block where the spatial-sum coherence Σᵢ 2|(ρᵢ)_{0,1}|² = (1/2)·exp(−4γ₀t) exactly) to all chromaticities: the channel-uniform spatial-sum is H-decoupled in every (n, n+1)-block. The Q-dependent rate mixing happens in the orthogonal complement (non-uniform within-channel modes).
+
+**Status:** (b1) **partially closed**. Closed: EP structural anchors Q_EP = 2/g_eff and t_peak = 1/(4γ₀); structural meaning of Q_peak as maximum-mixing point; F86's c-specific values are Interior-bond per-bond derivatives. Open: algebraic g_eff(c, bond_position) — the residual factor governing Endpoint vs Interior split (≈ 2.6 / 1.7 = 1.53) and the c-dependence of g_eff(Interior). Promoted to F86 in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md).
+
+### EQ-022 (b1) closed-form claims retracted 2026-05-02 (extended-N data)
+
+**Source:** extended verification scan (`_eq022_b1_step_d_extended_verification.py`) at multiple (c, N) points beyond the original N=7 anchor.
+
+**Both earlier closed-form conjectures retracted:**
+
+The originally proposed closed forms
+
+    Q_peak(Endpoint, N)        =  csc(π/(N+1))             [retracted]
+    Q_peak(Interior, c=3)      →  csc(π/5) = 1.7013        [retracted]
+
+were both **N=7-specific coincidence-matches**, not general formulas. Extended-N data falsifies both:
+
+| (c, N) | Endpoint Q* | csc(π/(N+1)) | Interior Q* (mean) | csc(π/5) |
+|--------|-------------|--------------|--------------------|----------|
+| (3, 5) | 2.30 | 2.000 (off 15 %) | 1.59 | 1.7013 |
+| (3, 6) | 2.65 | 2.305 (off 15 %) | 1.67 | 1.7013 |
+| (3, 7) | 2.65 | 2.6131 (1.4 % match) | 1.70 | 1.7013 (0.4 %) |
+| (3, 8) | n/a | — | **1.74** | **above 1.7013, growing** |
+| (4, 7) | 2.65 | 2.6131 (1.4 % match) | 1.77 | 1.7013 |
+| (4, 8) | n/a | — | 1.78 | 1.7013 |
+
+The Endpoint formula matches only at N=7. The c=3 Interior trajectory crosses csc(π/5) between N=7 and N=8 and continues growing. Both "closed forms" were trajectories briefly intersecting clean algebraic values, not asymptotes.
+
+**What survives [Tier 1]:**
+- EP mechanism: Q_EP = 2/g_eff, t_peak = 1/(4γ₀) (derived from 2×2 matrix algebra of adjacent rate channels)
+- Empirical Q_peak per (c, N, bond_class) tabulated above; no closed form
+
+**Framework cleanup:** the `q_peak_endpoint(N)` function and `Q_PEAK_INTERIOR_C3_ANCHOR` constant were removed from `framework.coherence_block`. Only `t_peak(γ₀) = 1/(4γ₀)` remains as a Tier-1 closed-form primitive. PROOF_F86_QPEAK.md updated with retracted statements; F86 in ANALYTICAL_FORMULAS.md replaced closed-form section with empirical data table.
+
+**Lesson recorded in memory:** trajectories crossing a clean algebraic value at one (c, N) point look like asymptotes when sampled coarsely; always extend the sampling beyond the matching point before claiming a closed form.
+
+**Status:** (b1) **open**. EP mechanism is closed (Tier 1); per-bond Q_peak position closed forms are open.
+
+### EQ-022 (b1) Universal resonance shape 2026-05-02 evening (Tier 1 candidate)
+
+After the position-formula rollback, a fine-grid scan (`_eq022_b1_step_e_resonance_shape.py` at dQ = 0.025 over c=3 N=5..8 and c=4 N=7,8) reveals that the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak IS universal under relative-Q normalisation:
+
+    x = (Q − Q_peak) / Q_peak,    y = K(Q) / |K|max
+
+Pairwise residual under this normalisation is 21× smaller than under absolute-Q shift (5.8×10⁻⁵ vs 1.2×10⁻³). At every tested (c, N), the y values at common x cluster within 1-3 % of each other.
+
+**Universal HWHM ratio:**
+
+    HWHM_left / Q_peak  ≈  0.756 ± 0.005     (c=3 N=5..8, c=4 N=7,8 tested)
+
+**Structural origin (2-level EP analytics):** for adjacent rate channels coupled by a bond, the eigenvector rotation angle satisfies tan θ = Q/Q_EP, so probe overlaps with eigenvectors depend only on Q/Q_EP — the response curve K_CC_pr(Q) is a function of Q/Q_EP alone in the 2-level effective. Q_peak (≈ Q_EP) is chain-specific because g_eff varies with c, N, and bond position; the SHAPE in Q/Q_peak coordinates is universal because it follows from the 2-level EP physics that does not depend on g_eff's value.
+
+Both Interior and Endpoint bonds show the same universal pre-peak rise. Post-peak tails differ in plateau height: Interior tail at x = +1.0 sits at y ≈ 0.85, Endpoint at y ≈ 0.94. The bond-class distinction lives in the post-peak tail; the pre-peak shape is fully universal.
+
+**What this means for (b1):** the right object to look for closed-form-wise is not Q_peak position (chain-specific) but the universal shape function f(x) = K(Q_peak·(1+x))/|K|max. Deriving f(x) from the 2-level EP eigenstructure is the natural next analytical step. The HWHM ratio 0.756 (numerically close to 3/4 or 2/√7) should fall out.
+
+**Status:** universal-shape finding is Tier-1 candidate. Verification at c=2, c=5, and varying γ₀ pending. Closed-form derivation from 2-level EP analytics is the substantive open theoretical step.
+
+### EQ-022 (b1) Universal-shape promotion path 2026-05-02 evening
+
+After the synthesis pass: the structural law has a name and a sharper open target.
+
+**Named structural law (Tier-1 candidate): EP-rotation universality.**
+
+    K(Q) / |K|_max  =  f(Q/Q_EP)
+
+The 2-level EP eigenvector rotation `tan θ = Q/Q_EP` makes every probe-overlap observable a function of Q/Q_EP alone. HWHM_left/Q_peak ≈ 0.756 is the leading numerical witness. To PTF's chiral mirror law `Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})` (K_1 sublattice symmetry, EQ-014 surviving Tier-1) what F86's EP-rotation universality is: both are symmetry-enforced Tier-1 candidates that survived a closed-form retraction. See `reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md` for the methodological synthesis and `memory/project_retraction_lesson_ptf_to_f86.md` for the cross-cutting principle.
+
+**Sharpened open target.** Not "derive Q_peak closed form" (chain-specific, possibly no closed form, per the rollback): instead **derive f(x) from 2-level EP analytics** where x = (Q − Q_peak)/Q_peak. The HWHM_left/Q_peak ≈ 0.756 should fall out as a closed form (candidates 3/4, 2/√7, etc.), but per the PTF lesson: the closed form must come from the eigenstructure analytically, not from numerical fit.
+
+**Class AIII chiral, NOT Bender-Boettcher PT.** The same-sign-imaginary 2-level off-diagonal pattern is "PT-phenomenology-like" (EP at finite J, spectral flow) but algebraically inside class AIII chiral per `experiments/PT_SYMMETRY_ANALYSIS.md` (Π is linear; classical PT requires anti-linear operators). The local-2-level-EP at Q_EP = 2/g_eff is the rate-channel instance of the chiral classification; the global Hopf bifurcation in `hypotheses/FRAGILE_BRIDGE.md` (Petermann K=403) is the complex-γ-plane instance. Whether local-EP and global-EP are connected algebraically is itself an open structural question.
+
+**Status:** (b1) open with sharpened target (universal shape function f(x), not Q_peak position). Algebraic derivation from 2-level EP eigenstructure is the substantive open analytical step.
+
+**F-register cleanup 2026-05-02:**
+- Chromaticity formula c(n, N) = min(n, N−1−n) + 1 was already F74 (the 2026-04-22 cartography missed that it had been promoted; the closure section above cites F74 directly).
+- Q_peak(c) constants promoted as **F86** on 2026-05-02 (this session): c=3 → 1.6, c=4 → c=5 → 1.8 (saturation), with the γ₀-extraction protocol γ₀ = J*/Q_peak(c).
+
+**Surviving sub-question (structural, deferred):** does N itself deserve middle status? V(N) = 1 + cos(π/N) and F41 palindromic time t_Π make N a discrete labeling parameter; whether that lifts N to the algebraic-middle list (alongside d=2, CΨ=¼, Π, ⟨n_XY⟩, U(1)) is open. Raised in MIDDLES_CARTOGRAPHY_FIVE §5, not investigated.
 
 ---
 

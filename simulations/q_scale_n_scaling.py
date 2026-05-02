@@ -49,7 +49,6 @@ import argparse
 import json
 import sys
 import time
-from math import comb
 from pathlib import Path
 
 import numpy as np
@@ -58,95 +57,24 @@ from scipy.linalg import eig, expm
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import framework as fw  # noqa: E402
 
 RESULTS_DIR = Path(__file__).parent / "results" / "q_scale_n_scaling"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# ---------------------------------------------------------------------------
-# Block-restricted L construction
-# ---------------------------------------------------------------------------
-def popcount_states(N, n):
-    """List of computational basis states with popcount n, big-endian."""
-    return [x for x in range(2 ** N) if bin(x).count("1") == n]
-
-
 def build_L_cc_block(N, n, J_list, gamma_0):
-    """Construct L restricted to the (popcount=n, popcount=n+1) CC block.
+    """Construct L restricted to the (popcount=n, popcount=n+1) CC block
+    with per-bond couplings J_list. Returns (L, P_n, P_np1).
 
-    Basis: flat index k = p_idx * |P_{n+1}| + q_idx, where p in popcount-n
-    states and q in popcount-(n+1) states. Returns (L, P_n, P_np1).
+    Wraps `framework.block_L_split_xy` which provides the J-independent
+    dephasing D and the per-bond H coefficients M_H_per_bond, then assembles
+    L = D + Σ_b J_list[b] · M_H_per_bond[b].
     """
-    assert 0 <= n <= N - 1
-    P_n = popcount_states(N, n)
-    P_np1 = popcount_states(N, n + 1)
-    Mn = len(P_n)
-    Mnp1 = len(P_np1)
-    M = Mn * Mnp1
-    p_to_idx = {p: i for i, p in enumerate(P_n)}
-    q_to_idx = {q: i for i, q in enumerate(P_np1)}
-
-    def basis_idx(p, q):
-        return p_to_idx[p] * Mnp1 + q_to_idx[q]
-
-    L = np.zeros((M, M), dtype=complex)
-
-    for p in P_n:
-        for q in P_np1:
-            i = basis_idx(p, q)
-
-            # Dephasing (diagonal): -2 * gamma_0 * Hamming(p, q)
-            D = bin(p ^ q).count("1")
-            L[i, i] += -2.0 * gamma_0 * D
-
-            # H acting from left: -i * H|p><q|
-            # H_{bond b} sends |p> -> J_b |p'> where p' = p XOR mask(b) iff bits at bond differ.
-            for bond in range(N - 1):
-                # bit_b and bit_{b+1} of p, with site 0 = MSB (big-endian)
-                bit_b = (p >> (N - 1 - bond)) & 1
-                bit_bp1 = (p >> (N - 2 - bond)) & 1
-                if bit_b != bit_bp1:
-                    mask = (1 << (N - 1 - bond)) | (1 << (N - 2 - bond))
-                    p_new = p ^ mask
-                    # p_new has same popcount as p (bit swap)
-                    L[basis_idx(p_new, q), i] += -1j * J_list[bond]
-
-            # H acting from right: +i * |p><q|H
-            # Symmetric: bond b acts on q.
-            for bond in range(N - 1):
-                bit_b = (q >> (N - 1 - bond)) & 1
-                bit_bp1 = (q >> (N - 2 - bond)) & 1
-                if bit_b != bit_bp1:
-                    mask = (1 << (N - 1 - bond)) | (1 << (N - 2 - bond))
-                    q_new = q ^ mask
-                    L[basis_idx(p, q_new), i] += 1j * J_list[bond]
-
+    D, M_H_per_bond, P_n, P_np1 = fw.block_L_split_xy(N, n, gamma_0)
+    L = D + sum(J_list[b] * M_H_per_bond[b] for b in range(N - 1))
     return L, P_n, P_np1
-
-
-# ---------------------------------------------------------------------------
-# Dicke coherence probe in block basis
-# ---------------------------------------------------------------------------
-def dicke_cc_probe_flat(N, n):
-    """Return rho_cc = (|S_n><S_{n+1}| + h.c.) / 2 restricted to the (n, n+1)
-    CC block, as a flat vector in the block basis.
-
-    Note: the Hermitian operator has support in both (n, n+1) and (n+1, n)
-    blocks. For the spatial-sum S observable we work with the (n, n+1) block
-    alone and treat the (n+1, n) part separately if needed. For W extraction
-    we only need the (n, n+1) block part.
-
-    |S_n> = (1/sqrt(C(N,n))) * Sum_{p: popcount=n} |p>
-    |S_n><S_{n+1}| = (1 / sqrt(C(N,n) * C(N,n+1))) * Sum_{p, q} |p><q|
-
-    So rho_cc restricted to (n, n+1) block has every basis element coefficient
-    = 1/(2 * sqrt(C(N,n) * C(N,n+1))).
-    """
-    Mn = comb(N, n)
-    Mnp1 = comb(N, n + 1)
-    coeff = 1.0 / (2.0 * np.sqrt(Mn * Mnp1))
-    M = Mn * Mnp1
-    return np.full(M, coeff, dtype=complex)
 
 
 def site_local_cc_probe_flat(N, n, site, spectator_bits):
@@ -171,8 +99,8 @@ def site_local_cc_probe_flat(N, n, site, spectator_bits):
         ket_1_idx |= bit_1 << (N - 1 - s)
 
     # In (n, n+1) block: p = ket_0_idx (popcount n), q = ket_1_idx (popcount n+1)
-    P_n = popcount_states(N, n)
-    P_np1 = popcount_states(N, n + 1)
+    P_n = fw.popcount_states(N, n)
+    P_np1 = fw.popcount_states(N, n + 1)
     p_to_idx = {p: i for i, p in enumerate(P_n)}
     q_to_idx = {q: i for i, q in enumerate(P_np1)}
     Mnp1 = len(P_np1)
@@ -284,7 +212,7 @@ def q_scan_block(N, n, gamma_0, J_base_q_one, Q_grid, verbose=True):
     chrom = c
     out = {}
     # Pre-compute probe
-    rho_init = dicke_cc_probe_flat(N, n)
+    rho_init = fw.dicke_block_probe(N, n)
     # Time grid for K via propagation
     T_max = 100.0
     n_times = 201
@@ -401,7 +329,7 @@ def main():
             J = Q * gamma_0
             J_list = [J] * (N - 1)
             L_block, P_n, P_np1 = build_L_cc_block(N, n, J_list, gamma_0)
-            rho_init = dicke_cc_probe_flat(N, n)
+            rho_init = fw.dicke_block_probe(N, n)
             W, _, _, _ = compute_W_block(L_block, rho_init, gamma_0, N, chromaticity=2)
             err = abs(W - W_expected)
             status = "OK" if err < 0.005 else "MISMATCH"
