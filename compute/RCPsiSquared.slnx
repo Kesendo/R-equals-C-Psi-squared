@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="RCPsiSquared.Cli/RCPsiSquared.Cli.csproj" />
+  <Project Path="RCPsiSquared.Core.Tests/RCPsiSquared.Core.Tests.csproj" />
+  <Project Path="RCPsiSquared.Core/RCPsiSquared.Core.csproj" />
+  <Project Path="RCPsiSquared.Diagnostics.Tests/RCPsiSquared.Diagnostics.Tests.csproj" />
+  <Project Path="RCPsiSquared.Diagnostics/RCPsiSquared.Diagnostics.csproj" />
+  <Project Path="RCPsiSquared.Visualization/RCPsiSquared.Visualization.csproj" />
+</Solution>
