@@ -12,15 +12,21 @@ namespace RCPsiSquared.Core.F86;
 ///   <item><b>N=6 central-vs-flanking inversion between c=2 and c=3:</b> the self-paired
 ///         central bond gives Q_peak BELOW the flanking inner orbit at c=2 N=6
 ///         (1.43 vs 1.63), but ABOVE it at c=3 N=6 (1.71 vs 1.66).</item>
-///   <item><b>High-Q secondary peaks at c=2 N≥7:</b> inner-non-central bonds (b=1, b=N−3)
-///         show Q_peak shifted to high Q (>6 in observed grid), while central bonds keep
-///         the canonical Interior peak ~1.5. Likely related to coupling with an
-///         Endpoint-like eigenmode at higher Q.</item>
+///   <item><b>Two-peak K-curve at c=2 N≥7 inner-non-central bonds:</b> verified at c=2 N=7
+///         on extended grid [0.2, 20] × 100 pts. Bond b=1 has TWO local maxima — a
+///         low-Q peak at Q ≈ 1.8 (K = 0.109) and a high-Q peak at Q ≈ 7.2 (K = 0.149).
+///         The high-Q peak DOMINATES K_max, so the global Q_peak finder picks 7.2.
+///         The structural origin is NOT a single non-top SVD mode: c=2 N=7 has 30 SVD
+///         modes with σ ∈ [0.72, 2.83], giving Q_EP_k ∈ [0.71, 2.78] — none at 7.2.
+///         The high-Q peak comes from multi-mode coupling or higher-order spectral
+///         structure (avoided crossings between modes at deep post-EP Q).</item>
 /// </list>
 ///
 /// <para>The simple "Endpoint vs Interior" dichotomy is the leading approximation; the full
-/// per-F71-orbit structure is finer-grained and c-dependent. Closed-form classification
-/// remains open.</para>
+/// per-F71-orbit structure is finer-grained and c-dependent. The two-peak observation
+/// suggests inner orbit-1 bonds at c=2 N≥7 transition to a different effective regime
+/// at high Q — possibly an "Endpoint-like" higher-Q resonance that becomes K_max-dominant.
+/// Closed-form classification remains open.</para>
 /// </summary>
 public sealed class PerF71OrbitObservation : F86Claim
 {
@@ -35,8 +41,8 @@ public sealed class PerF71OrbitObservation : F86Claim
         {
             new OrbitWitness(2, 5, new[] { 2.50, 1.49 }),
             new OrbitWitness(2, 6, new[] { 2.57, 1.63, 1.43 }, centralIndex: 2),
-            new OrbitWitness(2, 7, new[] { 2.56, 6.00, 1.50 }, note: "inner orbit Q_peak off-grid (>6)"),
-            new OrbitWitness(2, 8, new[] { 2.53, 6.00, 1.52, 1.58 }, centralIndex: 3, note: "inner orbit off-grid"),
+            new OrbitWitness(2, 7, new[] { 2.56, 7.24, 1.50 }, note: "inner orbit has TWO peaks: low-Q ~1.8 K=0.11, high-Q 7.2 K=0.15 (dominant)"),
+            new OrbitWitness(2, 8, new[] { 2.53, 6.00, 1.52, 1.58 }, centralIndex: 3, note: "inner orbit two-peak structure expected (not yet measured at extended grid)"),
             new OrbitWitness(3, 5, new[] { 2.39, 1.61 }),
             new OrbitWitness(3, 6, new[] { 2.54, 1.66, 1.71 }, centralIndex: 2,
                 note: "central > flanking, opposite of c=2 N=6"),
