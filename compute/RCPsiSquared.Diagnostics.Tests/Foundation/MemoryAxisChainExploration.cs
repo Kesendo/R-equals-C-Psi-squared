@@ -1,7 +1,11 @@
+using System.Numerics;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.States;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit.Abstractions;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
@@ -126,6 +130,41 @@ public class MemoryAxisChainExploration
                 string trimmed = ex.Message.Length > 80 ? ex.Message.Substring(0, 80) + "..." : ex.Message;
                 _output.WriteLine($"    {name,-12}: rejected (\"{trimmed}\")");
             }
+        }
+    }
+
+    [Fact]
+    public void DumpRhoMemoryReadingForCanonicalStates_AtN3()
+    {
+        _output.WriteLine("=== MemoryAxisRho readings at N = 3 (J = 1.0, γ₀ = 0.05) ===");
+        _output.WriteLine($"{"state",-20} {"static",10} {"memory",10} {"Π²-odd/mem",12}");
+        _output.WriteLine(new string('-', 56));
+
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+        int d = 1 << chain.N;
+
+        // Maximally mixed
+        var rhoMm = ComplexMatrix.Build.DiagonalIdentity(d) / d;
+        Dump("ρ_mm = I/d", MemoryAxisRho.Decompose(rhoMm, chain));
+
+        // Computational vacuum |000⟩
+        var psi000 = ComplexVector.Build.Dense(d);
+        psi000[0] = Complex.One;
+        Dump("|000⟩", MemoryAxisRho.Decompose(DensityMatrix.FromStateVector(psi000), chain));
+
+        // Polarity states
+        Dump("|+++⟩", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(PolarityState.Uniform(N: 3, sign: +1)), chain));
+        Dump("|−−−⟩", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(PolarityState.Uniform(N: 3, sign: -1)), chain));
+        Dump("|+−+⟩", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(PolarityState.Build(N: 3, signs: new[] { +1, -1, +1 })), chain));
+        Dump("|+−−⟩", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(PolarityState.Build(N: 3, signs: new[] { +1, -1, -1 })), chain));
+
+        void Dump(string name, MemoryAxisRhoResult r)
+        {
+            _output.WriteLine($"{name,-20} {r.StaticFraction,10:F4} {r.MemoryFraction,10:F4} {r.Pi2OddFractionWithinMemory,12:F4}");
         }
     }
 
