@@ -14,8 +14,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// L is supplied in the framework's vec form (the same as
 /// <see cref="Lindblad.LindbladianBuilder"/>'s output). Internally the residual is
-/// computed in the 4^N Pauli-string basis via M_pauli = M_vec_to_pauli · L · M_vec_to_pauli^†
-/// scaled by 1/2^N.
+/// computed in the 4^N Pauli-string basis via L_pauli = M_vec_to_pauli^† · L · M_vec_to_pauli / 2^N.
+/// The 1/2^N normalisation is correct because <c>M_vec_to_pauli</c> satisfies
+/// M† · M = 2^N · I, so M⁻¹ = M† / 2^N and the similarity transform is L · M⁻¹.
 /// </summary>
 public static class PalindromeResidual
 {

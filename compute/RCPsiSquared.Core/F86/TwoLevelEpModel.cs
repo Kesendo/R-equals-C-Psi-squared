@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Statement 1: the 2-level effective Liouvillian for the channel pair
@@ -20,7 +21,7 @@ namespace RCPsiSquared.Core.F86;
 /// (Π linear; classical PT anti-linear) — see <c>experiments/PT_SYMMETRY_ANALYSIS.md</c>
 /// and <c>hypotheses/FRAGILE_BRIDGE.md</c>.</para>
 /// </summary>
-public sealed class TwoLevelEpModel : F86Claim
+public sealed class TwoLevelEpModel : Claim
 {
     public int K { get; }
     public double GammaZero { get; }

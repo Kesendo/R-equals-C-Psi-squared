@@ -2,6 +2,7 @@ using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Statement 2 universal-shape function values f_class(x) at fixed x points,
@@ -30,7 +31,7 @@ public sealed class ShapeFunctionPoint
     public double SpreadPercent => YMean > 0 ? 100.0 * Spread / YMean : 0;
 }
 
-public sealed class ShapeFunctionWitnesses : F86Claim
+public sealed class ShapeFunctionWitnesses : Claim
 {
     public BondClass BondClass { get; }
     public double GammaZero { get; }

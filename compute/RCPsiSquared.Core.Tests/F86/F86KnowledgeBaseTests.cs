@@ -3,6 +3,7 @@ using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Tests.F86;
 
 public class F86KnowledgeBaseTests
@@ -155,7 +156,7 @@ public class F86KnowledgeBaseTests
         Assert.Contains("Retracted", retractedJson);
         Assert.Contains("csc(π/(N+1))", retractedJson);
 
-        var openQ = OpenQuestion.Standard[0];
+        var openQ = F86OpenQuestions.Standard[0];
         Assert.Contains("Open question", InspectionJsonExporter.ToJson(openQ));
     }
 }

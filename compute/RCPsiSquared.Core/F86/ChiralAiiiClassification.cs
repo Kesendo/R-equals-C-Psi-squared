@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 algebraic-classification claim: the same-sign-imaginary 2-level form is
@@ -13,7 +14,7 @@ namespace RCPsiSquared.Core.F86;
 /// signaling an EP in the complex γ plane. Whether the local-2-level-EP and the
 /// global-complex-γ-EP are connected algebraically is itself open.</para>
 /// </summary>
-public sealed class ChiralAiiiClassification : F86Claim
+public sealed class ChiralAiiiClassification : Claim
 {
     public ChiralAiiiClassification()
         : base("class AIII chiral (NOT Bender-Boettcher PT)",

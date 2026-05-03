@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>A formerly-claimed F86 closed form that was refuted by extended-N data. Kept
@@ -11,7 +12,7 @@ namespace RCPsiSquared.Core.F86;
 /// retracted claims here surfaces them in the OM tree so future investigations cannot
 /// silently re-introduce them.</para>
 /// </summary>
-public sealed class RetractedClaim : F86Claim
+public sealed class RetractedClaim : Claim
 {
     public string PreviousFormula { get; }
     public string Refutation { get; }

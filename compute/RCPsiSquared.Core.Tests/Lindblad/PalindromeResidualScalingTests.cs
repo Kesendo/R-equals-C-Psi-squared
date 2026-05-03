@@ -17,12 +17,15 @@ public class PalindromeResidualScalingTests
     }
 
     [Theory]
-    [InlineData(2, 3, HamiltonianClass.Main, 8.0)]   // 4·2/1 = 8
-    [InlineData(3, 4, HamiltonianClass.Main, 6.0)]   // 4·3/2 = 6
-    [InlineData(4, 5, HamiltonianClass.Main, 16.0 / 3.0)]  // 4·4/3
-    public void AdjacentRatio_MatchesFormula(int N1, int _N2, HamiltonianClass cls, double expected)
+    [InlineData(2, HamiltonianClass.Main, 8.0)]              // 4·2/1 = 8
+    [InlineData(3, HamiltonianClass.Main, 6.0)]              // 4·3/2 = 6
+    [InlineData(4, HamiltonianClass.Main, 16.0 / 3.0)]       // 4·4/3
+    [InlineData(2, HamiltonianClass.SingleBody, 12.0)]       // 4·(2·2−1)/(2·2−3) = 12/1 = 12
+    [InlineData(3, HamiltonianClass.SingleBody, 20.0 / 3.0)] // 4·(2·3−1)/(2·3−3) = 20/3
+    [InlineData(4, HamiltonianClass.SingleBody, 28.0 / 5.0)] // 4·(2·4−1)/(2·4−3) = 28/5
+    public void AdjacentRatio_MatchesFormula(int N, HamiltonianClass cls, double expected)
     {
-        Assert.Equal(expected, PalindromeResidualScaling.AdjacentRatio(N1, cls), 12);
+        Assert.Equal(expected, PalindromeResidualScaling.AdjacentRatio(N, cls), 12);
     }
 
     [Fact]

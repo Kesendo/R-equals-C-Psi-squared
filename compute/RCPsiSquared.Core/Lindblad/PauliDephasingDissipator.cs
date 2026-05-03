@@ -11,8 +11,8 @@ namespace RCPsiSquared.Core.Lindblad;
 /// Π·L·Π⁻¹ + L + 2Σγ·I = 0 bit-exactly when H is "truly" (XY/Heisenberg). See
 /// docs/ANALYTICAL_FORMULAS.md F1 and <see cref="Symmetry.PalindromeResidual"/>.
 ///
-/// Dissipator-resonance law (**F77** + dephasing-axis dependence, verified at N=4 k=3 over
-/// 294 Z₂³-homogeneous pairs, 2026-05-01): F77-hardness lives in the Klein cell that matches
+/// Dissipator-resonance law (**F87** + dephasing-axis dependence, verified at N=4 k=3 over
+/// 294 Z₂³-homogeneous pairs, 2026-05-01): F87-hardness lives in the Klein cell that matches
 /// the dephase letter's Klein index — Z=(0,1), X=(1,0), Y=(1,1) in the bit_a/bit_b convention
 /// of <see cref="Pauli.PauliLetter"/>.
 /// </summary>

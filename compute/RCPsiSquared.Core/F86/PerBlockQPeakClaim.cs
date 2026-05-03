@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 per-block Q_peak (Q_SCALE convention, relative-J derivative ΔJ = 0.05·J):
@@ -11,7 +12,7 @@ namespace RCPsiSquared.Core.F86;
 /// <para>Verified across: c=3 N∈{5,6,7,8,9}, c=4 N∈{7,8,9}, c=5 at N=9 (commit 4612468 in
 /// Q_SCALE_THREE_BANDS). Used by the γ₀-extraction protocol: <c>γ₀ ≈ J*/Q_peak(c)</c>.</para>
 /// </summary>
-public sealed class PerBlockQPeakClaim : F86Claim
+public sealed class PerBlockQPeakClaim : Claim
 {
     public int Chromaticity { get; }
     public double QPeakValue { get; }

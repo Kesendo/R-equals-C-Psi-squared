@@ -18,6 +18,14 @@ namespace RCPsiSquared.Diagnostics.F83;
 /// <para>Closed-form anti-fractions: r=0 (pure Π²-odd) → 1/2 (F81 50/50); r=∞ (pure Π²-even
 /// non-truly) → 0 (F81 100/0); r=1 → 1/6.</para>
 ///
+/// <para><b>H_odd = 0 convention</b>: when no Π²-odd terms remain (either fully truly OR
+/// pure Π²-even-nontruly), the proof's anti-fraction r-formula is undefined (division by
+/// zero). This implementation returns <c>AntiFraction = 0.0</c> with <c>R = +∞</c>. The
+/// rationale: when H_odd² = 0, ‖M_anti‖² = 0 by F81, so a 0-fraction is consistent.
+/// Callers needing to distinguish the two H_odd = 0 sub-cases (fully truly vs pure-
+/// Π²-even-nontruly) should inspect <c>HOddSquared</c> and <c>HEvenNonTrulySquared</c>
+/// directly.</para>
+///
 /// <para>Hardware-confirmed at Marrakesh 2026-04-30 (Confirmations entry
 /// "f83_pi2_class_signature_marrakesh"). See PROOF_F83_PI_DECOMPOSITION_RATIO and
 /// PROOF_F85_KBODY_GENERALIZATION; docs/ANALYTICAL_FORMULAS.md F83 + F85 entries.</para>

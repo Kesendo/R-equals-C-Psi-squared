@@ -4,7 +4,7 @@ namespace RCPsiSquared.Core.Pauli;
 
 /// <summary>A single Pauli-pair bond term: σ_a on site i, σ_b on site i+1 (or whichever bond).
 ///
-/// The canonical 2-letter representation used across the F-diagnostics (F49, F77, F80, F81,
+/// The canonical 2-letter representation used across the F-diagnostics (F49, F87, F80, F81,
 /// F83). For raw N-letter terms see <see cref="PauliTerm"/>.
 /// </summary>
 public sealed record PauliPairBondTerm(PauliLetter LetterA, PauliLetter LetterB)

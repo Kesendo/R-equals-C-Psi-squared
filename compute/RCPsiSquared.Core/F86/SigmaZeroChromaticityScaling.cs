@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
@@ -24,9 +25,9 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para>Open: an analytical derivation of the 2√(2(c−1)) closed form from the multi-particle
 /// XY single-particle spectrum (extension of the c=2 OBC sine-mode argument in
-/// <see cref="OpenQuestion.Standard"/> Item 5).</para>
+/// <see cref="F86OpenQuestions.Standard"/> Item 5).</para>
 /// </summary>
-public sealed class SigmaZeroChromaticityScaling : F86Claim
+public sealed class SigmaZeroChromaticityScaling : Claim
 {
     public double GammaZero { get; }
     public IReadOnlyList<int> Chromaticities { get; }

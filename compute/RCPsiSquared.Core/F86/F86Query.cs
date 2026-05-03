@@ -1,35 +1,17 @@
-using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Resonance;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86-specific query helpers on top of the generic <see cref="InspectionQuery"/>
-/// layer. These are the named questions we actually ask of the F86 knowledge base —
-/// "what's at tier X", "give me the witness at (c, N)", "compare measured to predicted".
+/// <summary>F86-specific query helpers: typed lookups into the F86 knowledge base
+/// (witnesses at (c, N), γ₀ extraction, measured-vs-predicted comparison, etc.).
 ///
-/// <para>Each method is a typed query, not a tree-walk-and-string-match. Use these when
-/// asking F86 questions; fall back to <c>kb.Walk()...</c> for ad-hoc exploration.</para>
+/// <para>Cross-cutting tier/anchor queries (<c>AllClaims</c>, <c>ClaimsAtTier</c>,
+/// <c>CountByTier</c>, <c>AnchorsReferenced</c>, <c>TierInventoryLine</c>) live in
+/// <see cref="KnowledgeBaseQuery"/> and apply to every F-theorem KB.</para>
 /// </summary>
 public static class F86Query
 {
-    /// <summary>All <see cref="F86Claim"/> objects in the tree (recursive).</summary>
-    public static IEnumerable<F86Claim> AllClaims(this F86KnowledgeBase kb) =>
-        kb.Walk().OfType<F86Claim>();
-
-    /// <summary>All claims at a specific tier.</summary>
-    public static IEnumerable<F86Claim> ClaimsAtTier(this F86KnowledgeBase kb, Tier tier) =>
-        kb.AllClaims().Where(c => c.Tier == tier);
-
-    /// <summary>Counts of claims grouped by tier — useful for the "tier inventory" summary.</summary>
-    public static IReadOnlyDictionary<Tier, int> CountByTier(this F86KnowledgeBase kb) =>
-        kb.AllClaims()
-            .GroupBy(c => c.Tier)
-            .ToDictionary(g => g.Key, g => g.Count());
-
-    /// <summary>Unique anchor pointers referenced by any claim in this knowledge base.</summary>
-    public static IReadOnlySet<string> AnchorsReferenced(this F86KnowledgeBase kb) =>
-        kb.AllClaims().Select(c => c.Anchor).ToHashSet();
-
     /// <summary>The Interior universal-shape witness at (c, N), or null if not in the
     /// witness table.</summary>
     public static UniversalShapeWitness? InteriorWitnessAt(this F86KnowledgeBase kb, int c, int N) =>
@@ -76,20 +58,4 @@ public static class F86Query
     /// <summary>All open theoretical items — the "what's still missing" view.</summary>
     public static IReadOnlyList<OpenQuestion> OpenItems(this F86KnowledgeBase kb) =>
         kb.OpenQuestions;
-
-    /// <summary>One-line tier inventory string: "T1d=5, T1c=5, T2e=3, retracted=2, open=3".</summary>
-    public static string TierInventoryLine(this F86KnowledgeBase kb)
-    {
-        var counts = kb.CountByTier();
-        return string.Join(", ", new[]
-        {
-            (Tier.Tier1Derived, "T1d"),
-            (Tier.Tier1Candidate, "T1c"),
-            (Tier.Tier2Empirical, "T2e"),
-            (Tier.Tier2Verified, "T2v"),
-            (Tier.OpenQuestion, "open"),
-            (Tier.Retracted, "retracted"),
-        }.Where(t => counts.TryGetValue(t.Item1, out var count) && count > 0)
-         .Select(t => $"{t.Item2}={counts[t.Item1]}"));
-    }
 }

@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 per-bond Q_peak witness at (c, N, BondClass) — self-computing
@@ -51,7 +52,7 @@ public sealed class PerBondQPeakWitness : IInspectable
 
 /// <summary>Group container of <see cref="PerBondQPeakWitness"/> for one bond class —
 /// self-computing typed table form of the per-bond Q_peak rows in F86.</summary>
-public sealed class PerBondQPeakWitnessTable : F86Claim
+public sealed class PerBondQPeakWitnessTable : Claim
 {
     public BondClass BondClass { get; }
     public IReadOnlyList<PerBondQPeakWitness> Witnesses { get; }

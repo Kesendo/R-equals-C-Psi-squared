@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
@@ -20,7 +21,7 @@ namespace RCPsiSquared.Core.F86;
 /// is a first approximation; the full structure is per-F71-orbit, with mid-chain orbits
 /// showing further variation.</para>
 /// </summary>
-public sealed class F71MirrorInvariance : F86Claim
+public sealed class F71MirrorInvariance : Claim
 {
     public F71MirrorInvariance()
         : base("F71 spatial-mirror invariance: Q_peak(b) = Q_peak(N−2−b)",

@@ -31,8 +31,8 @@ For hardware-confirmed predictions on top of these formulas, see
 
 | C# | F-formula |
 |----|-----------|
-| `PauliLetter` enum | bit_a/bit_b convention from **F77** trichotomy and **F81** Π-decomposition |
-| `PauliTerm.Pi2Parity` | Π²-parity (Σ bit_b mod 2) — selects the F77 Π²-class |
+| `PauliLetter` enum | bit_a/bit_b convention from **F87** trichotomy and **F81** Π-decomposition |
+| `PauliTerm.Pi2Parity` | Π²-parity (Σ bit_b mod 2), selects the F87 Π²-class |
 | `PauliTerm.YParity` | independent at k≥3-body terms (F85 generalization) |
 | `PauliHamiltonian.XYChain(N, J)` | the canonical F-framework Hamiltonian |
 | `PauliHamiltonian.Bilinear(...)` | bond-and-term builder used by `Lindblad.BondPerturbation` |
@@ -125,7 +125,7 @@ For hardware-confirmed predictions on top of these formulas, see
 
 | C# | F-formula |
 |----|-----------|
-| `PiProtectedObservables.Compute(H, γ, ρ_0, N)` | **F77 / F81** algebraic skeleton: Π-protected Pauli observables (always-zero expectations); hardware-confirmed at Marrakesh 2026-04-26 (Confirmations entry `pi_protected_xiz_yzzy`) |
+| `PiProtectedObservables.Compute(H, γ, ρ_0, N)` | **F87 / F81** algebraic skeleton: Π-protected Pauli observables (always-zero expectations); hardware-confirmed at Marrakesh 2026-04-26 (Confirmations entry `pi_protected_xiz_yzzy`) |
 
 ## Receivers
 

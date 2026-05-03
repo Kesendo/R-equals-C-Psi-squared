@@ -5,26 +5,26 @@ using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 
-namespace RCPsiSquared.Diagnostics.F77;
+namespace RCPsiSquared.Diagnostics.F87;
 
-/// <summary>F77 Π²-class trichotomy: every Pauli-pair (or k-body) Hamiltonian on a chain
+/// <summary>F87 Π²-class trichotomy: every Pauli-pair (or k-body) Hamiltonian on a chain
 /// under single-letter dephasing is exactly one of {truly, soft, hard}.
 ///
 /// <list type="bullet">
 ///   <item><b>truly</b>: ‖M‖ = 0 (palindrome residual vanishes; F1 holds bit-exactly)</item>
 ///   <item><b>soft</b>: ‖M‖ &gt; 0 BUT the L spectrum still pairs each λ with −λ−2σ within tolerance</item>
-///   <item><b>hard</b>: spectrum pairing also fails — full Π-symmetry-broken</item>
+///   <item><b>hard</b>: spectrum pairing also fails, full Π-symmetry-broken</item>
 /// </list>
 ///
 /// Hardware-confirmed at Marrakesh 2026-04-26 (Δ(soft − truly) = −0.722 measured vs −0.723
 /// Trotter-n3 prediction). See <see cref="Core.Confirmations.ConfirmationsRegistry"/> entry
 /// "palindrome_trichotomy".
 ///
-/// Dissipator-resonance law (verified 2026-05-01): F77-hardness lives in the Klein cell
-/// matching the dephase letter's Klein index — Z = (0, 1), X = (1, 0), Y = (1, 1).
+/// Dissipator-resonance law (verified 2026-05-01): F87-hardness lives in the Klein cell
+/// matching the dephase letter's Klein index: Z = (0, 1), X = (1, 0), Y = (1, 1).
 /// SU(2)-rotation-equivalent.
 ///
-/// See docs/ANALYTICAL_FORMULAS.md F77 entry for the structural derivation.
+/// See docs/ANALYTICAL_FORMULAS.md F87 entry for the structural derivation.
 /// </summary>
 public static class PauliPairTrichotomy
 {

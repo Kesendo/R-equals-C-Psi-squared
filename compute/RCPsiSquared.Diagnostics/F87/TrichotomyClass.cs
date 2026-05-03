@@ -1,4 +1,4 @@
-namespace RCPsiSquared.Diagnostics.F77;
+namespace RCPsiSquared.Diagnostics.F87;
 
 public enum TrichotomyClass
 {

@@ -7,11 +7,11 @@ namespace RCPsiSquared.Core.Pauli;
 /// Structural properties (k_body, n_x, n_y, n_z, bit-parities) are derived from the letter
 /// sequence and exposed as properties for diagnostic use:
 /// <list type="bullet">
-///   <item><see cref="Pi2Parity"/> — selects **F77** Π²-class (truly / soft / hard)</item>
+///   <item><see cref="Pi2Parity"/>: selects **F87** Π²-class (truly / soft / hard)</item>
 ///   <item><see cref="YParity"/> — independent at k≥3 (**F85** k-body generalization)</item>
 ///   <item><see cref="TotalBitA"/> — Z⊗N parity (commutes/anti-commutes with global Z)</item>
 /// </list>
-/// See docs/ANALYTICAL_FORMULAS.md (F77, F81, F85) and the bit_a/bit_b convention in
+/// See docs/ANALYTICAL_FORMULAS.md (F87, F81, F85) and the bit_a/bit_b convention in
 /// <see cref="PauliLetter"/>.
 /// </summary>
 public sealed record PauliTerm(IReadOnlyList<PauliLetter> Letters, Complex Coefficient)

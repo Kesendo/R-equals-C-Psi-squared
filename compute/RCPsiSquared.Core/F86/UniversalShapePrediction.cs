@@ -2,6 +2,7 @@ using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Statement 2 (Tier 1 candidate, 2026-05-02): per bond class, the K-curve
@@ -22,7 +23,7 @@ namespace RCPsiSquared.Core.F86;
 /// the 2-level EP analytics. Candidate closed forms (3/4, 2/√7, …) must come from the
 /// algebra, not from least-squares fits.</para>
 /// </summary>
-public sealed class UniversalShapePrediction : F86Claim
+public sealed class UniversalShapePrediction : Claim
 {
     public BondClass BondClass { get; }
     public double ExpectedHwhmOverQPeak { get; }

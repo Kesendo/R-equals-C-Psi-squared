@@ -81,8 +81,16 @@ public sealed record ChainSystem
         return PauliDephasingDissipator.BuildZ(H, gammaList);
     }
 
-    /// <summary>Total dephasing rate Σ_l γ₀ (uniform γ₀ across N sites). Used by
-    /// <see cref="Symmetry.PalindromeResidual"/> as the σ in Π·L·Π⁻¹ + L + 2σ·I = 0.</summary>
+    /// <summary>Total dephasing rate Σ_l γ₀ assuming **uniform** γ₀ across N sites: returns
+    /// N · GammaZero. Used by <see cref="Symmetry.PalindromeResidual"/> as the σ in
+    /// Π·L·Π⁻¹ + L + 2σ·I = 0.
+    ///
+    /// <para><b>Caveat for non-uniform γ workflows</b>: F1 is valid for site-dependent γ_l
+    /// (the identity is per-site additive in the Klein parities), but this property only
+    /// returns the uniform value. When a caller uses <c>PauliDephasingDissipator.Build</c>
+    /// with a non-uniform <c>gammaPerSite</c> list, they must compute σ = Σ_l γ_l explicitly
+    /// (e.g. <c>gammaPerSite.Sum()</c>) and pass it to <c>PalindromeResidual.Build</c> instead
+    /// of using this property.</para></summary>
     public double SigmaGamma => N * GammaZero;
 
     private static IReadOnlyList<Bond> DefaultBonds(int N, double J, TopologyKind topology) => topology switch

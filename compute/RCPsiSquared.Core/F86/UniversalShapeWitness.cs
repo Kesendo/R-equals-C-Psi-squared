@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 

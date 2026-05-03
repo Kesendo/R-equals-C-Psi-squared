@@ -40,6 +40,57 @@ public class PalindromeResidualTests
     }
 
     [Fact]
+    public void F1_Palindrome_IsExactlyZero_ForXDephasedHeisenbergChain()
+    {
+        // Heisenberg = XX+YY+ZZ is invariant under cyclic Pauli rotation X→Y→Z, so it's
+        // "truly" under X-, Y-, and Z-dephasing. F1 must hold bit-exactly with the
+        // X-axis-specific Π built by PiOperator.BuildFull(N, PauliLetter.X).
+        int N = 3;
+        double gamma = 0.05;
+        var H = PauliHamiltonian.HeisenbergChain(N, J: 1.0).ToMatrix();
+        var gammaList = Enumerable.Repeat(gamma, N).ToArray();
+        var L = PauliDephasingDissipator.Build(H, gammaList, PauliLetter.X);
+        double sigmaGamma = N * gamma;
+
+        var residual = PalindromeResidual.Build(L, N, sigmaGamma, PauliLetter.X);
+        double frob = residual.FrobeniusNorm();
+        Assert.True(frob < 1e-9, $"F1 X-dephased Heisenberg residual not zero at N={N}: ‖M‖_F = {frob}");
+    }
+
+    [Fact]
+    public void F1_Palindrome_IsExactlyZero_ForYDephasedHeisenbergChain()
+    {
+        // Same SU(2)-cyclic argument as the X-dephasing case: Heisenberg is truly under Y too.
+        int N = 3;
+        double gamma = 0.05;
+        var H = PauliHamiltonian.HeisenbergChain(N, J: 1.0).ToMatrix();
+        var gammaList = Enumerable.Repeat(gamma, N).ToArray();
+        var L = PauliDephasingDissipator.Build(H, gammaList, PauliLetter.Y);
+        double sigmaGamma = N * gamma;
+
+        var residual = PalindromeResidual.Build(L, N, sigmaGamma, PauliLetter.Y);
+        double frob = residual.FrobeniusNorm();
+        Assert.True(frob < 1e-9, $"F1 Y-dephased Heisenberg residual not zero at N={N}: ‖M‖_F = {frob}");
+    }
+
+    [Fact]
+    public void F1_Palindrome_IsExactlyZero_ForNonUniformZDephasing()
+    {
+        // F1 is per-site additive in the Klein parities, so non-uniform γ_l still gives M=0
+        // for a truly H. The σ in Π·L·Π⁻¹ + L + 2σ·I = 0 must be the actual Σγ_l, not the
+        // chain.SigmaGamma uniform shortcut. Documents the caller pattern when γ is non-uniform.
+        int N = 3;
+        double[] gammaList = { 0.04, 0.07, 0.06 };  // non-uniform
+        var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
+        var L = PauliDephasingDissipator.BuildZ(H, gammaList);
+        double sigmaGamma = gammaList.Sum();  // 0.17, NOT chain.SigmaGamma (which is N·γ₀)
+
+        var residual = PalindromeResidual.Build(L, N, sigmaGamma, PauliLetter.Z);
+        double frob = residual.FrobeniusNorm();
+        Assert.True(frob < 1e-9, $"F1 non-uniform γ residual not zero at N={N}: ‖M‖_F = {frob}");
+    }
+
+    [Fact]
     public void F1_Palindrome_BreaksFor_T1Dissipator()
     {
         // T1 amplitude damping σ⁻ = (X − iY)/2 carries Y-component (bit_b=1) and breaks F1 trivially.

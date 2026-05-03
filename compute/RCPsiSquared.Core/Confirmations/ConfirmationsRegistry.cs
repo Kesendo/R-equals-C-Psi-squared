@@ -140,7 +140,7 @@ public static class ConfirmationsRegistry
             Date: "2026-04-30",
             Machine: "ibm_marrakesh",
             JobId: "d7pol1e7g7gs73cf7j90",
-            Observable: "Per-category 2-qubit Pauli expectations (q0=4, q2=6) for 4 F77 Π²-classes",
+            Observable: "Per-category 2-qubit Pauli expectations (q0=4, q2=6) for 4 F87 Π²-classes",
             PredictedValue:
                 "Trotter+γ_Z patterns at the path-fit γ_Z_eff: pi2_odd_pure ⟨X₀Z₂⟩, pi2_even_nontruly ⟨X₀X₂⟩, mixed ⟨Z₀X₂⟩, truly ⟨Y₀Z₂⟩. " +
                 "F83 anti-fractions = {1/2, 0, 1/6} structurally (closed form on H letters).",
@@ -152,7 +152,7 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "data/ibm_f83_signature_april2026/README.md",
             FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form)",
             Description:
-                "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F77 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
+                "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
                 "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk."),
     };
 

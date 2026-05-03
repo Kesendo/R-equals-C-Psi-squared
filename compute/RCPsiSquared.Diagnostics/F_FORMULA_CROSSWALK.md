@@ -18,11 +18,13 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 | `F49.FrobeniusScaling.PredictNormSquared` | F49 closed-form ‖M‖²_F = c_H · F(N, G) | OPERATOR_RIGIDITY_ACROSS_CUSP.md | — |
 | `F49.FrobeniusScaling.PredictNormSquaredFromTerms` | F85 k-body generalisation via Π²-class | [`PROOF_F85_KBODY_GENERALIZATION.md`](../../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md) | — |
 
-## F77 — Pauli-pair trichotomy
+## F87 — Pauli-pair trichotomy
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `F77.PauliPairTrichotomy.Classify` | F77 truly/soft/hard classifier | docs/ANALYTICAL_FORMULAS.md F77 entry | `palindrome_trichotomy` (Marrakesh 2026-04-26) |
+| `F87.PauliPairTrichotomy.Classify` | F87 truly/soft/hard classifier (uses F1 residual as discriminator) | docs/ANALYTICAL_FORMULAS.md F87 entry | `palindrome_trichotomy` (Marrakesh 2026-04-26) |
+
+(Pre-2026-05-03 this lived under `F77/` as an informal label; the formal F77 in the registry is unrelated, namely Multi-drop MM(0) saturation. F87 was filed retrospectively when the typed `F87KnowledgeBase` cleanup surfaced the naming collision.)
 
 ## F80 — Bloch sign-walk
 
@@ -82,8 +84,8 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 ## How to read a Diagnostics file without guessing
 
-1. Open the C# file (e.g. `F77/PauliPairTrichotomy.cs`).
-2. The class XML doc explicitly names the F-formula (e.g. "F77") and links to:
+1. Open the C# file (e.g. `F87/PauliPairTrichotomy.cs`).
+2. The class XML doc explicitly names the F-formula (e.g. "F87") and links to:
    - `docs/ANALYTICAL_FORMULAS.md` (the formula entry)
    - The proof in `docs/proofs/` if one exists
    - The Core primitive(s) it composes (`PauliHamiltonian`, `PalindromeResidual`, etc.)

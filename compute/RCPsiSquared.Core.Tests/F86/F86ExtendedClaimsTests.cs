@@ -2,6 +2,7 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Tests.F86;
 
 public class F86ExtendedClaimsTests
@@ -153,7 +154,7 @@ public class F86ExtendedClaimsTests
     [Fact]
     public void OpenQuestion_StandardList_HasItem1Prime_Item4Prime_Item5()
     {
-        var open = OpenQuestion.Standard;
+        var open = F86OpenQuestions.Standard;
         Assert.Equal(3, open.Count);
         Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
         Assert.Contains(open, q => q.Name.Contains("Item 1'"));

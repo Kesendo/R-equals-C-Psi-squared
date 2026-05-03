@@ -2,6 +2,7 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Tests.F86;
 
 /// <summary>Tests for the two new F86 findings discovered 2026-05-03 in the OOP-driven

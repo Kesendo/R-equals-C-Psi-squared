@@ -1,7 +1,7 @@
 namespace RCPsiSquared.Core.Pauli;
 
 /// <summary>The four single-qubit Pauli operators, indexed by (bit_a, bit_b) ∈ {0,1}²
-/// and packed as <c>a + 2·b</c>. The naming follows the F77/F81 framework convention:
+/// and packed as <c>a + 2·b</c>. The naming follows the F87/F81 framework convention:
 ///
 ///   I = (0, 0) = 0    bit_a = 0 (no XY-content)         bit_b = 0 (Π²-even)
 ///   X = (1, 0) = 1    bit_a = 1 (XY content)            bit_b = 0 (Π²-even)

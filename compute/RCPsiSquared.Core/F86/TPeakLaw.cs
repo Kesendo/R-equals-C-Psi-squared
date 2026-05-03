@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Statement 1: <c>t_peak = 1/(4γ₀)</c> — universal e-folding time at the
@@ -11,7 +12,7 @@ namespace RCPsiSquared.Core.F86;
 /// matches the full Liouvillian numerics exactly. Construct from γ₀ and the value falls out
 /// trivially via <see cref="EpAlgebra.TPeak"/>.</para>
 /// </summary>
-public sealed class TPeakLaw : F86Claim
+public sealed class TPeakLaw : Claim
 {
     public double GammaZero { get; }
     public double Value { get; }

@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
@@ -15,7 +16,7 @@ namespace RCPsiSquared.Core.F86;
 /// from a closed form. Closed-form classification of orbit pattern and plateau enhancement
 /// remains open.</para>
 /// </summary>
-public sealed class PerF71OrbitObservation : F86Claim
+public sealed class PerF71OrbitObservation : Claim
 {
     public IReadOnlyList<OrbitWitness> Witnesses { get; }
 

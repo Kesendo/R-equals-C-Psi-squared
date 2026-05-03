@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Tier-1 derived structural fingerprint: at Q = Q_peak the Dicke probe sits
@@ -12,7 +13,7 @@ namespace RCPsiSquared.Core.F86;
 /// 31 % at plateau is the structural signature documented in <c>ANALYTICAL_FORMULAS.md</c>
 /// F86 EP-based structural derivation paragraph.</para>
 /// </summary>
-public sealed class DressedModeWeightClaim : F86Claim
+public sealed class DressedModeWeightClaim : Claim
 {
     public double WeightAtQPeak { get; } = 0.99;
     public double WeightAtPlateau { get; } = 0.31;

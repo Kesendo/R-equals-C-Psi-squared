@@ -22,29 +22,50 @@ public class FrobeniusScalingTests
     }
 
     [Fact]
-    public void Pi2OddSoftHamiltonian_Predicts_NonzeroNorm_MatchesActualResidual()
+    public void Pi2EvenNonTrulySoftHamiltonian_PredictsNorm_MatchesNumericalResidual()
     {
-        // YZ+ZY soft Hamiltonian: bit_b sum (1+1)+(1+1)=4 → Π²-even? Wait that's both sites.
-        // Per term: YZ has bit_b=(1,1) sum=2 even, ZY has bit_b=(1,1) sum=2 even. Π²-even.
-        // But not truly (each has #Y=1 odd). So Π²-even non-truly → c=2.
+        // YZ+ZY: bit_b(Y)+bit_b(Z) = 1+1 = 2 even per term → Π²-even. Each term has #Y=1 odd
+        // → not truly. Π²-even non-truly, c=2; predicted ‖M‖² = 8·2^N·‖H_group‖²_F.
         var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         var terms = new[]
         {
             new PauliPairBondTerm(PauliLetter.Y, PauliLetter.Z),
             new PauliPairBondTerm(PauliLetter.Z, PauliLetter.Y),
         };
-        double predicted = FrobeniusScaling.PredictNormSquaredFromTerms(chain, terms);
-        Assert.True(predicted > 0, "soft non-truly Hamiltonian should give nonzero ‖M‖²");
+        AssertPredictedMatchesNumerical(chain, terms, machinePrecisionTolerance: 1e-9);
+    }
 
-        // Cross-check: build L explicitly and measure ‖M‖_F², compare.
+    [Fact]
+    public void Pi2OddNonTrulyHamiltonian_PredictsNorm_MatchesNumericalResidual()
+    {
+        // XY+YX: bit_b(X)+bit_b(Y) = 0+1 = 1 odd per term → Π²-odd. Not truly (#Y=1 odd).
+        // Π²-odd non-truly, c=1; predicted ‖M‖² = 4·2^N·‖H_group‖²_F.
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+        var terms = new[]
+        {
+            new PauliPairBondTerm(PauliLetter.X, PauliLetter.Y),
+            new PauliPairBondTerm(PauliLetter.Y, PauliLetter.X),
+        };
+        AssertPredictedMatchesNumerical(chain, terms, machinePrecisionTolerance: 1e-9);
+    }
+
+    private static void AssertPredictedMatchesNumerical(ChainSystem chain,
+        IReadOnlyList<PauliPairBondTerm> terms, double machinePrecisionTolerance)
+    {
+        double predicted = FrobeniusScaling.PredictNormSquaredFromTerms(chain, terms);
+        Assert.True(predicted > 0, "non-truly Π²-class Hamiltonian must give nonzero ‖M‖²");
+
         var bilinearSpec = terms.Select(t =>
             (t.LetterA, t.LetterB, (System.Numerics.Complex)chain.J)).ToList();
         var H = PauliHamiltonian.Bilinear(chain.N, chain.Bonds, bilinearSpec).ToMatrix();
         var L = PauliDephasingDissipator.BuildZ(H, Enumerable.Repeat(chain.GammaZero, chain.N).ToArray());
         var M = PalindromeResidual.Build(L, chain.N, chain.SigmaGamma, PauliLetter.Z);
         double actual = Math.Pow(M.FrobeniusNorm(), 2);
-        // Match within 5% (small numerical tolerance for Frobenius computation through the basis transform)
-        Assert.InRange(predicted, 0.95 * actual, 1.05 * actual);
+
+        Assert.Equal(actual, predicted, precision: 9);
+        // Belt-and-braces: relative error must also be small (catches absolute-tolerance leniency at large norms).
+        Assert.True(Math.Abs(predicted - actual) / actual < machinePrecisionTolerance,
+            $"predicted {predicted}, actual {actual}, rel-err {Math.Abs(predicted - actual) / actual:E3}");
     }
 
     [Fact]

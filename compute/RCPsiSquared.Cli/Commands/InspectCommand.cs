@@ -1,9 +1,13 @@
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Decomposition.Views;
+using RCPsiSquared.Core.F1;
+using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Visualization.Inspection;
 
 namespace RCPsiSquared.Cli.Commands;
@@ -20,22 +24,21 @@ public static class InspectCommand
         var p = new ArgParser(args);
         p.RequireNoPositional();
         int N = p.RequireInt("N");
-        int n = p.RequireInt("n");
-        double gamma = p.RequireDouble("gamma");
         string rootKind = p.OptionalString("root") ?? "fourmode";
         int maxDepth = (int)(p.OptionalDouble("max-depth") ?? 4);
         bool withQSweep = p.HasFlag("q-sweep");
         string? exportJson = p.OptionalString("export-json");
-
         bool withMeasured = p.HasFlag("with-measured");
         int? qGridPoints = p.OptionalDouble("q-grid-points") is { } v ? (int)v : null;
 
-        var block = new CoherenceBlock(N, n, gamma);
         IInspectable root = rootKind switch
         {
-            "fourmode" => BuildFourModeRoot(block, withQSweep, qGridPoints),
-            "f86" => BuildF86Root(block, withMeasured, qGridPoints),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86"),
+            "f71" => new F71KnowledgeBase(N),
+            "f1" => BuildF1Root(p, N),
+            "f87" => BuildF87Root(p, N),
+            "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
+            "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, f71, f1, f87"),
         };
 
         bool wroteSomething = false;
@@ -57,6 +60,28 @@ public static class InspectCommand
         }
 
         return wroteSomething ? 0 : 2;
+    }
+
+    private static F1KnowledgeBase BuildF1Root(ArgParser p, int N)
+    {
+        int? bondCount = p.OptionalDouble("bond-count") is { } bv ? (int)bv : null;
+        int? d2 = p.OptionalDouble("degree-squared-sum") is { } dv ? (int)dv : null;
+        return new F1KnowledgeBase(N, bondCount, d2);
+    }
+
+    private static F87KnowledgeBase BuildF87Root(ArgParser p, int N)
+    {
+        double j = p.OptionalDouble("J") ?? 1.0;
+        double gamma = p.OptionalDouble("gamma") ?? 0.05;
+        var chain = new ChainSystem(N, J: j, GammaZero: gamma);
+        return new F87KnowledgeBase(chain);
+    }
+
+    private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
+    {
+        int n = p.RequireInt("n");
+        double gamma = p.RequireDouble("gamma");
+        return new CoherenceBlock(N, n, gamma);
     }
 
     private static IInspectable BuildF86Root(CoherenceBlock block, bool withMeasured, int? qGridPoints)

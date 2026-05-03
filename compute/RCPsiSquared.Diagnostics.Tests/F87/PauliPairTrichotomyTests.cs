@@ -1,8 +1,8 @@
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
-using RCPsiSquared.Diagnostics.F77;
+using RCPsiSquared.Diagnostics.F87;
 
-namespace RCPsiSquared.Diagnostics.Tests.F77;
+namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 public class PauliPairTrichotomyTests
 {
@@ -18,7 +18,7 @@ public class PauliPairTrichotomyTests
     [Fact]
     public void XXplusYY_IsTruly_UnderZDephasing()
     {
-        // Canonical XY chain (XX + YY) is "truly" under Z-dephasing — the F1 anchor.
+        // Canonical XY chain (XX + YY) is "truly" under Z-dephasing, the F1 anchor.
         var terms = new[]
         {
             new PauliPairBondTerm(PauliLetter.X, PauliLetter.X),
@@ -45,7 +45,7 @@ public class PauliPairTrichotomyTests
     [Fact]
     public void YZplusZY_IsSoft_UnderZDephasing()
     {
-        // YZ+ZY: bit_b sum is (1+1)+(1+1) = 4 → Π²-even, but bond-flipped form. Soft per F77.
+        // YZ+ZY: bit_b sum is (1+1)+(1+1) = 4 → Π²-even, but bond-flipped form. Soft per F87.
         // This is the EQ-030 Marrakesh-confirmed soft Hamiltonian (drop=28).
         var terms = new[]
         {
@@ -59,7 +59,7 @@ public class PauliPairTrichotomyTests
     [Fact]
     public void XXplusXY_IsHard()
     {
-        // XX+XY: mixes Π²-even with Π²-odd. Hard per F77 trichotomy.
+        // XX+XY: mixes Π²-even with Π²-odd. Hard per F87 trichotomy.
         var terms = new[]
         {
             new PauliPairBondTerm(PauliLetter.X, PauliLetter.X),

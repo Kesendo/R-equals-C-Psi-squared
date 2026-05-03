@@ -1,39 +1,11 @@
-using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 substantive item that has not yet been resolved. Mirrors the "Substantive
-/// items remaining" / "Open elements" sections of <c>docs/proofs/PROOF_F86_QPEAK.md</c>.
-///
-/// <para>Encoding open questions as typed objects in the knowledge graph means future work
-/// can iterate over them programmatically — what's still missing for full Tier 1 promotion
-/// is a query, not a manual ANALYTICAL_FORMULAS.md scan.</para>
-/// </summary>
-public sealed class OpenQuestion : F86Claim
+/// <summary>The substantive open theoretical items remaining for F86: the "what's missing
+/// for full Tier 1 promotion" list from <c>docs/proofs/PROOF_F86_QPEAK.md</c>.</summary>
+public static class F86OpenQuestions
 {
-    public string Description { get; }
-    public string Approach { get; }
-
-    public OpenQuestion(string name, string description, string approach, string anchor)
-        : base(name, Tier.OpenQuestion, anchor)
-    {
-        Description = description;
-        Approach = approach;
-    }
-
-    public override string DisplayName => $"[OPEN] {Name}";
-    public override string Summary => Description;
-
-    protected override IEnumerable<IInspectable> ExtraChildren
-    {
-        get
-        {
-            yield return new InspectableNode("description", summary: Description);
-            yield return new InspectableNode("approach", summary: Approach);
-        }
-    }
-
-    /// <summary>The three substantive open items from PROOF_F86_QPEAK "What's missing for full Tier 1".</summary>
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
         new OpenQuestion(

@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c> — exceptional-point Q at which
@@ -10,7 +11,7 @@ namespace RCPsiSquared.Core.F86;
 /// position bit-exactly when g_eff is taken as the SVD-top inter-channel singular value σ_0.
 /// For c=2, σ_0 → 2√2 asymptotically (numerical witness across N=5..8).</para>
 /// </summary>
-public sealed class QEpLaw : F86Claim
+public sealed class QEpLaw : Claim
 {
     public double GEff { get; }
     public double Value { get; }

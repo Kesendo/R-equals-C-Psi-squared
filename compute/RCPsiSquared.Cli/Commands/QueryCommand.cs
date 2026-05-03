@@ -3,6 +3,7 @@ using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 
+using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Cli.Commands;
 
 /// <summary>The Object Manager query layer: ask typed questions of an

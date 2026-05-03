@@ -2,6 +2,7 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
@@ -111,7 +112,7 @@ public sealed class F86KnowledgeBase : IInspectable
         Sigma0Scaling = new SigmaZeroChromaticityScaling(block.GammaZero, cache: WitnessCache);
 
         Retracted = RetractedClaim.Standard;
-        OpenQuestions = OpenQuestion.Standard;
+        OpenQuestions = F86OpenQuestions.Standard;
 
         FourModeInsufficiencyNote = new InspectableNode(
             "4-mode minimal effective insufficient",
