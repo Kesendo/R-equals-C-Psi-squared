@@ -1,3 +1,4 @@
+using System.Numerics;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
@@ -197,6 +198,56 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains(faceNodes, c => c.DisplayName.Contains("face 2"));
         Assert.Contains(faceNodes, c => c.DisplayName.Contains("face 3"));
         Assert.Contains(claim.Children, c => c.DisplayName.StartsWith("closure"));
+    }
+
+    /// <summary>
+    /// Walks the Polynomial → Half → Mirror trio end-to-end as a single bit-exact
+    /// sequence: Π's spectrum {±1} shifted by 0.5 toward 0 yields the structural
+    /// pair {±0.5}; the Bloch realisation reproduces the same pair as the signed
+    /// deviation of pure-state populations from the maximally mixed 1/2 baseline;
+    /// F80's 2i factor lifts each ±0.5-side onto the imaginary axis as ±2iλ. Each
+    /// step is trivial in isolation, but the connected sequence makes the trio's
+    /// internal consistency visible in code.
+    /// </summary>
+    [Fact]
+    public void LoopWalk_PiSpectrum_HalfShift_BlochAndF80Lift()
+    {
+        // Step 1: Π² = I gives Π's spectrum exactly {+1, −1}; the count 2 is d=2.
+        double[] piSpectrum = { +1.0, -1.0 };
+        Assert.Equal(2, piSpectrum.Length);
+        Assert.Equal(0.0, piSpectrum.Sum());
+
+        // Step 2: Shift each eigenvalue by 0.5 toward 0 (= multiply by 1/2 since
+        // |λ| = 1). Result: {+0.5, −0.5}, the structural pair at d=2.
+        double[] shifted = piSpectrum.Select(v => v / 2.0).ToArray();
+        Assert.Equal(+0.5, shifted[0]);
+        Assert.Equal(-0.5, shifted[1]);
+        Assert.Equal(0.0, shifted.Sum());
+
+        // Step 3: Bloch realisation. ρ_|0⟩ = diag(1, 0) at the single-qubit level;
+        // ρ_mm = diag(1/2, 1/2). Signed deviation = (+0.5, −0.5), the same pair.
+        // The 1/2 in ρ = (I + r·σ)/2 IS Π's eigenvalue transport onto the memory axis.
+        double[] purePopulations = { 1.0, 0.0 };
+        double[] mixedPopulations = { 0.5, 0.5 };
+        double[] deviation = purePopulations
+            .Zip(mixedPopulations, (p, m) => p - m)
+            .ToArray();
+        Assert.Equal(+0.5, deviation[0]);
+        Assert.Equal(-0.5, deviation[1]);
+
+        // Step 4: F80 lift. H eigenvalue λ on the real axis maps via the i factor
+        // (90° rotation) and the chiral pair-doubling 2 to ±2iλ on M's imaginary
+        // axis. Bit-exact identity verified at N=3..7 + k-body in
+        // PROOF_F80_BLOCH_SIGNWALK; this step just verifies the algebraic shape.
+        double lambda = 1.5;
+        Complex i = Complex.ImaginaryOne;
+        Complex mPlus = +2.0 * i * lambda;
+        Complex mMinus = -2.0 * i * lambda;
+        Assert.Equal(0.0, mPlus.Real, 12);    // purely imaginary = 90° from real
+        Assert.Equal(0.0, mMinus.Real, 12);
+        Assert.Equal(+2.0 * lambda, mPlus.Imaginary);
+        Assert.Equal(-2.0 * lambda, mMinus.Imaginary);
+        Assert.Equal(Complex.Zero, mPlus + mMinus);  // pair centred on d=0 axis
     }
 
     [Fact]
