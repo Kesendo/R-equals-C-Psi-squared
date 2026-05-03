@@ -61,36 +61,48 @@ public class F86NewIdeasProbe(ITestOutputHelper output)
         }
     }
 
-    [Fact(Skip = "diagnostic — full-grid scan; remove Skip to reproduce 2026-05-03 exploration data")]
+    [Fact(Skip = "diagnostic — full-grid scan; remove Skip + skip c=4 N=8 to avoid OOM. Data captured in PerF71OrbitObservation.")]
     public void Probe_PerBondQPeak_F71MirrorInvariance()
     {
-        // Idea (c): per-bond Q_peak for each individual bond. F71 says bond b and N−2−b
-        // are spatial-mirror partners — their per-bond Q_peak should be identical.
-        output.WriteLine("Per-bond Q_peak (γ₀ = 0.05, full grid):");
-        foreach (var (c, N) in new[] { (2, 5), (2, 6), (2, 7), (3, 5), (3, 6) })
+        // F71 spatial-mirror: bond b and N−2−b are partners. Group bonds by F71 orbit
+        // and print per-orbit Q_peak values to detect substructure (Endpoint vs Interior
+        // vs central self-paired vs flanking).
+        output.WriteLine("Per-F71-orbit Q_peak (γ₀ = 0.05, grid [0.2, 6.0] × 60 pts):");
+        output.WriteLine("orbit indexed from outside (0 = endpoint pair) inward; * = self-paired");
+        output.WriteLine("");
+
+        var cases = new[]
+        {
+            (2, 5), (2, 6), (2, 7), (2, 8),
+            (3, 5), (3, 6), (3, 7), (3, 8),
+            (4, 7), (4, 8),
+        };
+
+        foreach (var (c, N) in cases)
         {
             int n = c - 1;
             var block = new CoherenceBlock(N, n, gammaZero: 0.05);
-            var qGrid = ResonanceScan.LinearQGrid(0.20, 6.00, 40);
+            var qGrid = ResonanceScan.LinearQGrid(0.20, 6.00, 60);
             var curve = new ResonanceScan(block).ComputeKCurve(qGrid);
 
             int numBonds = N - 1;
+            int numOrbits = (numBonds + 1) / 2;
             var line = new System.Text.StringBuilder();
-            line.Append($"c={c} N={N}: ");
-            for (int b = 0; b < numBonds; b++)
+            line.Append($"c={c} N={N} ({numBonds} bonds, {numOrbits} orbits): ");
+            for (int orbit = 0; orbit < numOrbits; orbit++)
             {
-                var peak = curve.PeakAtBond(b);
-                line.Append($"b{b}={peak.QPeak:F3}");
-                if (b < numBonds - 1) line.Append(' ');
-            }
-            // Check F71 mirror: bond b ↔ bond N−2−b
-            line.Append("  | F71 deviations: ");
-            for (int b = 0; b < numBonds / 2; b++)
-            {
-                var peakA = curve.PeakAtBond(b);
-                var peakB = curve.PeakAtBond(numBonds - 1 - b);
-                double dev = peakA.QPeak - peakB.QPeak;
-                line.Append($"b{b}↔b{numBonds - 1 - b}={dev:+0.0000;-0.0000} ");
+                int bA = orbit;
+                int bB = numBonds - 1 - orbit;
+                var peakA = curve.PeakAtBond(bA);
+                if (bA == bB)
+                {
+                    line.Append($"orbit{orbit}*={peakA.QPeak:F3} ");
+                }
+                else
+                {
+                    var peakB = curve.PeakAtBond(bB);
+                    line.Append($"orbit{orbit}={peakA.QPeak:F3}/{peakB.QPeak:F3} ");
+                }
             }
             output.WriteLine(line.ToString());
         }

@@ -385,7 +385,23 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
 4. **Q_SCALE per-block vs per-bond convergence.** Q_SCALE's per-block 1.6 / 1.8 / 1.8 are consistent with per-bond Interior fine-grid (1.69-1.74 / 1.78 / ~1.80) within the relative-vs-absolute J prefactor effect (~5-15 %). Both observables agree on the underlying EP mechanism.
 
-5. **Within-Interior bond-position variation — partially addressed by Statement 3.** F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly, and the per-F71-orbit observation (c=2 N=6: central b=2 → 1.440 vs flanking b=1, b=3 → 1.648) shows Interior is not uniform within the F71-orbit grouping. The full per-orbit closed form for Q_peak as a function of (c, N, bond) within the Interior class remains open; F71 gives the symmetry, not the value.
+5. **Within-Interior bond-position variation — partially addressed by Statement 3.** F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. Per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM):
+
+   | (c, N) | endpoints | mid orbits → central | observation |
+   |---|---|---|---|
+   | (2, 5) | 2.50 | 1.49 | endpoint ≫ inner |
+   | (2, 6) | 2.57 | 1.63 → **1.43*** | central < flanking |
+   | (2, 7) | 2.56 | 6.00 (off-grid) → 1.50 | inner orbit Q_peak shifted high-Q |
+   | (2, 8) | 2.53 | 6.00 → 1.52 → **1.58*** | inner orbit off-grid; central > middle inner |
+   | (3, 5) | 2.39 | 1.61 | endpoint > inner |
+   | (3, 6) | 2.54 | 1.66 → **1.71*** | **central > flanking** (opposite of c=2 N=6) |
+   | (3, 7) | 2.59 | 1.74 → 1.71 | inner > central |
+   | (3, 8) | 2.60 | 1.76 → 1.70 → **1.71*** | non-monotonic |
+   | (4, 7) | 2.61 | 1.75 → 1.78 | central > inner |
+
+   (* = self-paired central orbit; index runs from outermost orbit inward.)
+
+   Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3** — c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7** — bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair retains the canonical Interior peak ~1.5. Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Encoded as `RCPsiSquared.Core.F86.PerF71OrbitObservation`.
 
 ---
 

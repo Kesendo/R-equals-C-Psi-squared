@@ -89,4 +89,24 @@ public class F86NewIdeasTests
         Assert.Equal(Tier.Tier1Candidate, kb.Sigma0Scaling.Tier);
         Assert.Equal(Tier.Tier1Derived, kb.F71Mirror.Tier);
     }
+
+    [Fact]
+    public void PerF71OrbitObservation_HasNineWitnessCases_AndFlagsCInversion()
+    {
+        var obs = new PerF71OrbitObservation();
+        Assert.Equal(Tier.Tier2Empirical, obs.Tier);
+        Assert.Equal(9, obs.Witnesses.Count);
+
+        // c=2 N=6 has central < flanking
+        var c2N6 = obs.Witnesses.First(w => w.Chromaticity == 2 && w.N == 6);
+        Assert.Equal(2, c2N6.CentralIndex);
+        Assert.True(c2N6.QPeakPerOrbit[2] < c2N6.QPeakPerOrbit[1],
+            $"c=2 N=6: central {c2N6.QPeakPerOrbit[2]} should be < flanking {c2N6.QPeakPerOrbit[1]}");
+
+        // c=3 N=6 has central > flanking — the inversion
+        var c3N6 = obs.Witnesses.First(w => w.Chromaticity == 3 && w.N == 6);
+        Assert.Equal(2, c3N6.CentralIndex);
+        Assert.True(c3N6.QPeakPerOrbit[2] > c3N6.QPeakPerOrbit[1],
+            $"c=3 N=6: central {c3N6.QPeakPerOrbit[2]} should be > flanking {c3N6.QPeakPerOrbit[1]}");
+    }
 }

@@ -39,6 +39,7 @@ public sealed class F86KnowledgeBase : IInspectable
     public IReadOnlyList<PerBlockQPeakClaim> PerBlockQPeaks { get; }
     public PerBondQPeakWitnessTable EndpointPerBondTable { get; }
     public PerBondQPeakWitnessTable InteriorPerBondTable { get; }
+    public PerF71OrbitObservation PerOrbitSubstructure { get; }
     public DressedModeWeightClaim DressedModeWeight { get; }
     public ChiralAiiiClassification AlgebraicClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
@@ -102,6 +103,7 @@ public sealed class F86KnowledgeBase : IInspectable
         PerBlockQPeaks = PerBlockQPeakClaim.Standard;
         EndpointPerBondTable = PerBondQPeakWitnessTable.BuildEndpoint(block.GammaZero, WitnessCache);
         InteriorPerBondTable = PerBondQPeakWitnessTable.BuildInterior(block.GammaZero, WitnessCache);
+        PerOrbitSubstructure = new PerF71OrbitObservation();
 
         DressedModeWeight = new DressedModeWeightClaim();
         AlgebraicClass = new ChiralAiiiClassification();
@@ -191,6 +193,7 @@ public sealed class F86KnowledgeBase : IInspectable
             PerBlockQPeaks.Cast<IInspectable>().ToArray());
         yield return EndpointPerBondTable;
         yield return InteriorPerBondTable;
+        yield return PerOrbitSubstructure;
     }
 
     /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the
