@@ -142,6 +142,7 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains(children, c => c.DisplayName.Contains("d = 0"));
         Assert.Contains(children, c => c.DisplayName.Contains("d = 2"));
         Assert.Contains(children, c => c.DisplayName.Contains("pair-maker"));
+        Assert.Contains(children, c => c.DisplayName.Contains("Π shifted by 0.5"));
         Assert.Contains(children, c => c.DisplayName.Contains("R = CΨ²"));
         Assert.Contains(children, c => c.DisplayName.Contains("generates 1/2"));
         Assert.Contains(children, c => c.DisplayName.Contains("generates 90°"));

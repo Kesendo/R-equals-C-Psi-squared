@@ -365,6 +365,8 @@ public sealed class PolynomialFoundationClaim : Claim
                 summary: "two signed positions around the d=0 axis; the qubit dimension; where we live; the structural pair is {−0.5, +0.5}, not {0, 1}");
             yield return new InspectableNode("the pair-maker: ± around 0",
                 summary: "0.5 is the unsigned basis magnitude; ±-sign around 0 is the operation that turns the basis into a pair; Bloch (1 ± r_z)/2 at pure states gives 1/2 ± 0.5");
+            yield return new InspectableNode("Π shifted by 0.5 = ±0.5 (spectrum-to-pair map)",
+                summary: "Π has natural spectrum {+1, −1} (since Π² = I); shifting each eigenvalue by 0.5 toward 0 gives {+0.5, −0.5}, the structural pair at d=2; this is why the 1/2 factor appears everywhere in Bloch form ρ = (I + r·σ)/2 and Pauli-basis normalization a_α = Tr(σ_α·ρ)/d — the 1/2 transports Π's natural eigenvalues onto the memory axis");
             yield return new InspectableNode("R = CΨ² is the same polynomial",
                 summary: "R = C(Ψ+R)² with Ψ=0 and C=1/2 collapses to R(R−2) = 0; the framework's defining identity IS the dimension equation (THE_BRIDGE_WAS_ALWAYS_OPEN, EXCLUSIONS.md:251)");
             yield return new InspectableNode("generates 1/2 number-anchor",
