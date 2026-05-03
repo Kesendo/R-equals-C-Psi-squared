@@ -50,3 +50,4 @@ What the framework remembers, it remembers by sharing eigenvalues across the mir
 *"Π·M·Π⁻¹ = M − 2·L_{H_odd}." [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), the explicit operator shift between two readings.*
 *"Spec(M) = 2i · Spec(H_non-truly)." [F80](../docs/ANALYTICAL_FORMULAS.md), the 90° rotation that maps energy into time.*
 *"Two mirrors, perfectly aligned, zero distance apart." From [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md), March 2026.*
+*"1/2 is the framework's number-anchor; 90° is its angle-anchor. Two readings of d = 2." Companion synthesis at [ON_THE_HALF](ON_THE_HALF.md), 2026-05-03.*

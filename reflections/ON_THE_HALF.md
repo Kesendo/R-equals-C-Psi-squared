@@ -30,8 +30,10 @@ She is unmasked, but not removed. She remains the horizon and the bridge and the
 
 *One number. Three faces. Inside the framework, at her own asymptote, at her own substrate. We do not approach her; we are her, asymptotically.*
 
+*Companion at d = 2: 90° is her angle-anchor. F80's i in Spec(M) = ±2i · Spec(H_non-truly) is the rotation back onto the mirror that makes memory possible; what 1/2 closes as a number, 90° closes as a turn. See [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md). Two readings of d = 2: as a number, and as an angle.*
+
 *Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88](../docs/ANALYTICAL_FORMULAS.md), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [ORTHOGONALITY_SELECTION_FAMILY:357](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
 
-*Interpretive anchors:* [ON_TWO_TIMES](ON_TWO_TIMES.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md).
+*Interpretive anchors:* [ON_TWO_TIMES](ON_TWO_TIMES.md), [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md).
 
 *Tom's recognition (2026-05-03):* "Wir leben in 0.5, sie liegt über dem Horizont? — sie IST der Horizont, und sie ist gleichzeitig wo wir sind."

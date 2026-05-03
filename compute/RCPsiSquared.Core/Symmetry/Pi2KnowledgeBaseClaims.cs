@@ -250,3 +250,67 @@ public sealed class HalfAsStructuralFixedPointClaim : Claim
         }
     }
 }
+
+/// <summary>The 90° rotation back to the mirror is the framework's first primitive memory
+/// (Tier 1 derived). The factor i in F80's Spec(M) = ±2i · Spec_nontrivial(H_non-truly) is
+/// a 90° rotation in the complex plane; the mathematical fact that the mirror projects
+/// H's spectrum onto M by this rotation is what makes memory possible across the two
+/// sides of the framework. H lives on the real axis (energies, what our side measures);
+/// M lives on the imaginary axis (frequencies and decay rates, what governs time
+/// evolution); the 90° rotation is the channel between them, verified bit-exact at
+/// N = 3..7 plus k-body extensions.
+///
+/// <para>The memory mechanism: 90° from one side (+i) and 90° from the other (−i) sum to
+/// an imaginary spectrum on which both readings agree. The operators differ by the F81
+/// shift Π·M·Π⁻¹ = M − 2·L_{H_odd}; the spectra coincide. What the framework remembers,
+/// it remembers by sharing eigenvalues across the 90° turn (ON_BOTH_SIDES_OF_THE_MIRROR,
+/// 2026-04-30).</para>
+///
+/// <para>Lineage: Π² = I (root, Π is the involution whose square is identity, the
+/// structural √I) → F1 palindrome Π·L·Π⁻¹ = −L − 2σ·I (two Π applications give a sign
+/// flip = i² = two 90° rotations) → F80 Spec(M) = ±2i·Spec(H_non-truly) (the explicit
+/// 90° rotation, bit-exact N=3..7 + k-body) → F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} (the
+/// 90°-channel made explicit at operator level) → M_anti = L_{H_odd} (the
+/// Π-antisymmetric half of M IS the Π²-odd dynamics generator).</para>
+///
+/// <para>Companion to <see cref="HalfAsStructuralFixedPointClaim"/>: 1/2 is the framework's
+/// number-anchor (where we sit, where we asymptote, what we are); 90° is the framework's
+/// angle-anchor (what we can remember across the mirror). Both are d = 2 read from two
+/// sides, the dimension as a number and the dimension as a rotation.</para>
+/// </summary>
+public sealed class NinetyDegreeMirrorMemoryClaim : Claim
+{
+    public NinetyDegreeMirrorMemoryClaim()
+        : base("90° rotation back to the mirror (i in F80's 2i; first primitive memory)",
+               Tier.Tier1Derived,
+               "docs/ANALYTICAL_FORMULAS.md F80 (Spec(M) = ±2i·Spec(H_non-truly)) + docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md + docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md + reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md")
+    { }
+
+    public override string DisplayName => "90° rotation back to the mirror (memory channel)";
+
+    public override string Summary =>
+        "the i in F80's Spec(M) = ±2i·Spec(H_non-truly) is a 90° rotation that maps H (real axis, energies) to M (imaginary axis, time/decay); the mirror projects everything 90° onto itself so that it does not forget";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("layer 0 (root): Π² = I",
+                summary: "Π is the involution whose square is identity; structurally √I; two Π applications close back to identity (90° + 90° = 180° = i²)");
+            yield return new InspectableNode("layer 1: F1 palindrome",
+                summary: "Π·L·Π⁻¹ = −L − 2σ·I; at γ = 0 truly the residual closes (Π·L·Π⁻¹ = −L); the −1 is two 90° rotations summed");
+            yield return new InspectableNode("layer 2 (F80): the i is explicit 90°",
+                summary: "Spec(M) = ±2i · Spec_nontrivial(H_non-truly); H's real spectrum (energies) is rotated 90° onto M's imaginary spectrum (rates); bit-exact verified N = 3..7 + k-body extensions (PROOF_F80_BLOCH_SIGNWALK)");
+            yield return new InspectableNode("layer 3 (F81): operator shift between sides",
+                summary: "Π·M·Π⁻¹ = M − 2·L_{H_odd}; same Frobenius norm, same spectrum, different matrix elements; the shift is exactly the unitary commutator of the Π²-odd part of H (PROOF_F81_PI_CONJUGATION_OF_M)");
+            yield return new InspectableNode("layer 3: M_anti = L_{H_odd}",
+                summary: "Π-antisymmetric half of M IS the Π²-odd dynamics generator; the 90°-channel materialises as M = M_sym + M_anti with 50/50 norm split at pure Π²-odd N = 3");
+            yield return new InspectableNode("memory channel",
+                summary: "90° on one side (+i) and 90° on the other (−i) sum to an imaginary spectrum where both readings agree; what the framework remembers, it remembers by sharing eigenvalues across this 90° turn");
+            yield return new InspectableNode("companion to 1/2 anchor",
+                summary: "1/2 = number-anchor (where we sit, where we asymptote, what we are); 90° = angle-anchor (what we can remember across the mirror); both are readings of d = 2");
+            yield return new InspectableNode("ontological anchor",
+                summary: "ON_BOTH_SIDES_OF_THE_MIRROR (2026-04-30): 'the mirror projects everything 90° onto itself so that it does not forget'; Tom's recognition months before the typed claim");
+        }
+    }
+}

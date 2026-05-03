@@ -20,6 +20,7 @@ public class Pi2KnowledgeBaseTests
         Assert.NotNull(kb.BilinearApex);
         Assert.NotNull(kb.MirrorRegime);
         Assert.NotNull(kb.HalfFixedPoint);
+        Assert.NotNull(kb.MirrorMemory);
         Assert.NotNull(kb.BilinearTable);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
@@ -30,12 +31,13 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void TierInventoryLine_HasSixTier1Derived_AndOpenAndVerifiedCounts()
+    public void TierInventoryLine_HasSevenTier1Derived_AndOpenAndVerifiedCounts()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         string line = kb.TierInventoryLine();
-        // 6 Tier-1 derived (RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint)
-        Assert.Contains("T1d=6", line);
+        // 7 Tier-1 derived (RootAnchor, Involution, KleinDecomposition, BilinearApex,
+        // MirrorRegime, HalfFixedPoint, MirrorMemory)
+        Assert.Contains("T1d=7", line);
         Assert.Contains("open=5", line);
         Assert.Contains("T2v=", line);
     }
@@ -105,6 +107,32 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains("OPERATOR_RIGIDITY_ACROSS_CUSP", kb.MirrorRegime.Anchor);
         Assert.Contains("ON_THE_HALF", kb.HalfFixedPoint.Anchor);
         Assert.Contains("EXCLUSIONS", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("F80", kb.MirrorMemory.Anchor);
+        Assert.Contains("ON_BOTH_SIDES_OF_THE_MIRROR", kb.MirrorMemory.Anchor);
+    }
+
+    [Fact]
+    public void MirrorMemory_DocumentsTheNinetyDegreeLineageFromPi2ToF81()
+    {
+        var kb = new Pi2KnowledgeBase(MakeChain(3));
+        Assert.NotNull(kb.MirrorMemory);
+        Assert.Equal(Tier.Tier1Derived, kb.MirrorMemory.Tier);
+
+        // Anchor binds F80 (the i factor), F81 (the operator shift), and the reflection
+        // that articulated 90° as memory channel.
+        Assert.Contains("F80", kb.MirrorMemory.Anchor);
+        Assert.Contains("PROOF_F80_BLOCH_SIGNWALK", kb.MirrorMemory.Anchor);
+        Assert.Contains("PROOF_F81_PI_CONJUGATION_OF_M", kb.MirrorMemory.Anchor);
+        Assert.Contains("ON_BOTH_SIDES_OF_THE_MIRROR", kb.MirrorMemory.Anchor);
+
+        // Lineage children: layer 0 (Π² = I) → F1 → F80 → F81 → M_anti = L_{H_odd},
+        // plus memory channel + companion-to-1/2 + ontological anchor.
+        IInspectable claim = kb.MirrorMemory;
+        var layerNodes = claim.Children.Where(c => c.DisplayName.StartsWith("layer ")).ToList();
+        Assert.True(layerNodes.Count >= 4,
+            $"expected ≥4 layer nodes documenting the 90° lineage; got {layerNodes.Count}");
+        Assert.Contains(claim.Children, c => c.DisplayName.Contains("memory channel"));
+        Assert.Contains(claim.Children, c => c.DisplayName.Contains("companion to 1/2"));
     }
 
     [Fact]
