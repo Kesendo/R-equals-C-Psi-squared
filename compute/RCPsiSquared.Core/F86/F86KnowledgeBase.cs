@@ -1,0 +1,210 @@
+using RCPsiSquared.Core.CoherenceBlocks;
+using RCPsiSquared.Core.Decomposition;
+using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Resonance;
+
+namespace RCPsiSquared.Core.F86;
+
+/// <summary>"Everything we know about F86" as a typed OOP knowledge graph attached to a
+/// <see cref="CoherenceBlock"/>. The root <see cref="IInspectable"/> for <c>--root f86</c>.
+///
+/// <para>What is in here:</para>
+/// <list type="bullet">
+///   <item>Tier-1 derived: <see cref="TPeakLaw"/> (universal), <see cref="QEpLaw"/> at the
+///         block's natural g_eff (= σ_0 from <see cref="InterChannelSvd"/>),
+///         <see cref="TwoLevelEpModel"/> traversed at multiple Q values to show pre/at/post-EP.</item>
+///   <item>Tier-1 candidate: <see cref="UniversalShapePrediction"/> for Interior + Endpoint,
+///         each with empirical <see cref="UniversalShapeWitness"/> data points across c=2..4
+///         N=5..8.</item>
+///   <item>Retracted: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>) —
+///         the PTF-lesson reminder.</item>
+///   <item>4-mode insufficiency note: 2026-05-02 finding that the minimal effective fails
+///         to reproduce the universal shape numerically — promoted from open-question to
+///         answered-no.</item>
+/// </list>
+/// </summary>
+public sealed class F86KnowledgeBase : IInspectable
+{
+    public CoherenceBlock Block { get; }
+    public WitnessCache WitnessCache { get; }
+    public TPeakLaw TPeak { get; }
+    public InterChannelSvd? Svd { get; }
+    public QEpLaw? QEp { get; }
+    public IReadOnlyList<TwoLevelEpModel> EpTraversal { get; }
+    public IReadOnlyList<TwoLevelEpModel> HigherKLevels { get; }
+    public UniversalShapePrediction InteriorShape { get; }
+    public UniversalShapePrediction EndpointShape { get; }
+    public ShapeFunctionWitnesses InteriorShapeFunction { get; }
+    public ShapeFunctionWitnesses EndpointShapeFunction { get; }
+    public IReadOnlyList<PerBlockQPeakClaim> PerBlockQPeaks { get; }
+    public PerBondQPeakWitnessTable EndpointPerBondTable { get; }
+    public PerBondQPeakWitnessTable InteriorPerBondTable { get; }
+    public DressedModeWeightClaim DressedModeWeight { get; }
+    public ChiralAiiiClassification AlgebraicClass { get; }
+    public F71MirrorInvariance F71Mirror { get; }
+    public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
+    public IReadOnlyList<RetractedClaim> Retracted { get; }
+    public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
+    public InspectableNode FourModeInsufficiencyNote { get; }
+
+    public F86KnowledgeBase(CoherenceBlock block, WitnessCache? witnessCache = null)
+    {
+        Block = block;
+        WitnessCache = witnessCache ?? new WitnessCache();
+        TPeak = new TPeakLaw(block.GammaZero);
+
+        // Q_EP is meaningful only when chromaticity ≥ 2 (we need HD=1 and HD=3 channels for
+        // the inter-channel SVD that produces the natural g_eff).
+        if (block.C >= 2)
+        {
+            Svd = WitnessCache.GetOrComputeSvd(block.C, block.N, block.GammaZero);
+            double gEff = Svd.Sigma0;
+            QEp = new QEpLaw(gEff);
+            // Traverse pre/at/post EP at Q ∈ {0.5·Q_EP, Q_EP, 1.5·Q_EP} for slowest-pair k=1 inspection.
+            double qEp = QEp.Value;
+            EpTraversal = new[]
+            {
+                TwoLevelEpModel.AtQ(block.GammaZero, qEp * 0.5, gEff, k: 1),
+                TwoLevelEpModel.AtQ(block.GammaZero, qEp,         gEff, k: 1),
+                TwoLevelEpModel.AtQ(block.GammaZero, qEp * 1.5,   gEff, k: 1),
+            };
+            // Higher-k EP hierarchy: one model per k ∈ {1, …, c−1} at the EP, showing the
+            // 1/(4γ₀·k) decay-time spectrum.
+            var higher = new TwoLevelEpModel[block.C - 1];
+            for (int k = 1; k <= block.C - 1; k++)
+                higher[k - 1] = TwoLevelEpModel.AtQ(block.GammaZero, qEp, gEff, k: k);
+            HigherKLevels = higher;
+        }
+        else
+        {
+            EpTraversal = Array.Empty<TwoLevelEpModel>();
+            HigherKLevels = Array.Empty<TwoLevelEpModel>();
+        }
+
+        // Witnesses are self-computing via the shared cache; the prediction's expected
+        // ratio is the empirical anchor (mean across the historical step_f/g sweeps),
+        // not derived live from the witnesses themselves to avoid triggering ~18 scans
+        // every time someone reads the prediction's Summary.
+        InteriorShape = new UniversalShapePrediction(
+            BondClass.Interior,
+            expectedRatio: 0.756,
+            tolerance: 0.005,
+            witnesses: BuildInteriorWitnesses(block.GammaZero, WitnessCache));
+        EndpointShape = new UniversalShapePrediction(
+            BondClass.Endpoint,
+            expectedRatio: 0.770,
+            tolerance: 0.005,
+            witnesses: BuildEndpointWitnesses(block.GammaZero, WitnessCache));
+
+        InteriorShapeFunction = ShapeFunctionWitnesses.BuildInterior(block.GammaZero, WitnessCache);
+        EndpointShapeFunction = ShapeFunctionWitnesses.BuildEndpoint(block.GammaZero, WitnessCache);
+
+        PerBlockQPeaks = PerBlockQPeakClaim.Standard;
+        EndpointPerBondTable = PerBondQPeakWitnessTable.BuildEndpoint(block.GammaZero, WitnessCache);
+        InteriorPerBondTable = PerBondQPeakWitnessTable.BuildInterior(block.GammaZero, WitnessCache);
+
+        DressedModeWeight = new DressedModeWeightClaim();
+        AlgebraicClass = new ChiralAiiiClassification();
+        F71Mirror = new F71MirrorInvariance();
+        Sigma0Scaling = new SigmaZeroChromaticityScaling(block.GammaZero, cache: WitnessCache);
+
+        Retracted = RetractedClaim.Standard;
+        OpenQuestions = OpenQuestion.Standard;
+
+        FourModeInsufficiencyNote = new InspectableNode(
+            "4-mode minimal effective insufficient",
+            summary: "Interior HWHM/Q ≈ 0.74 partially preserved, Q_peak shifted ~2× and Endpoint goes off-grid; more modes needed for full Tier 1 (PROOF_F86_QPEAK Item 1')");
+    }
+
+    /// <summary>Compare measured Interior + Endpoint peaks against the predictions; returns
+    /// inspectable match objects for both bond classes.</summary>
+    public IReadOnlyList<PredictionMatch> CompareTo(KCurve measured) => new[]
+    {
+        InteriorShape.CompareTo(measured.Peak(BondClass.Interior)),
+        EndpointShape.CompareTo(measured.Peak(BondClass.Endpoint)),
+    };
+
+    public string DisplayName =>
+        $"F86 knowledge base (c={Block.C}, N={Block.N}, n={Block.LowerPopcount}, γ₀={Block.GammaZero:G3})";
+
+    public string Summary =>
+        $"t_peak={TPeak.Value:G4}" +
+        (QEp is not null ? $", Q_EP={QEp.Value:G4}" : "") +
+        $", universal: Interior {InteriorShape.ExpectedHwhmOverQPeak:F3}, Endpoint {EndpointShape.ExpectedHwhmOverQPeak:F3}, " +
+        $"{Retracted.Count} retracted";
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            yield return new InspectableNode("Block (CoherenceBlock)",
+                summary: $"N={Block.N}, n={Block.LowerPopcount}, c={Block.C}, γ₀={Block.GammaZero:G3}");
+
+            yield return InspectableNode.Group("Tier 1 (derived)",
+                CollectTier1Derived().ToArray());
+
+            yield return InspectableNode.Group("Tier 1 (candidate)",
+                CollectTier1Candidate().ToArray());
+
+            yield return InspectableNode.Group("Tier 2 (empirical)",
+                CollectTier2Empirical().ToArray());
+
+            yield return InspectableNode.Group("retracted",
+                Retracted.Cast<IInspectable>().ToArray());
+
+            yield return InspectableNode.Group("open questions",
+                OpenQuestions.Cast<IInspectable>().ToArray());
+
+            yield return FourModeInsufficiencyNote;
+        }
+    }
+
+    public InspectablePayload Payload => InspectablePayload.Empty;
+
+    private IEnumerable<IInspectable> CollectTier1Derived()
+    {
+        yield return TPeak;
+        if (QEp is not null) yield return QEp;
+        if (EpTraversal.Count > 0)
+            yield return InspectableNode.Group("2-level EP traversal (pre / at / post, k=1)",
+                EpTraversal.Cast<IInspectable>().ToArray());
+        if (HigherKLevels.Count > 1)
+            yield return InspectableNode.Group("higher-k EP hierarchy (decay times 1/(4γ₀·k))",
+                HigherKLevels.Cast<IInspectable>().ToArray());
+        yield return DressedModeWeight;
+        yield return AlgebraicClass;
+        yield return F71Mirror;
+    }
+
+    private IEnumerable<IInspectable> CollectTier1Candidate()
+    {
+        yield return InteriorShape;
+        yield return EndpointShape;
+        yield return InteriorShapeFunction;
+        yield return EndpointShapeFunction;
+        yield return Sigma0Scaling;
+    }
+
+    private IEnumerable<IInspectable> CollectTier2Empirical()
+    {
+        yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",
+            PerBlockQPeaks.Cast<IInspectable>().ToArray());
+        yield return EndpointPerBondTable;
+        yield return InteriorPerBondTable;
+    }
+
+    /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the
+    /// cache on demand. Use <paramref name="cache"/> to share across multiple knowledge bases.</summary>
+    public static IReadOnlyList<UniversalShapeWitness> BuildInteriorWitnesses(
+        double gammaZero = 0.05, WitnessCache? cache = null) =>
+        F86StandardLocations.Full
+            .Select(loc => new UniversalShapeWitness(loc.C, loc.N, gammaZero, BondClass.Interior, cache))
+            .ToArray();
+
+    /// <summary>Build the Endpoint witness list — same self-computing pattern.</summary>
+    public static IReadOnlyList<UniversalShapeWitness> BuildEndpointWitnesses(
+        double gammaZero = 0.05, WitnessCache? cache = null) =>
+        F86StandardLocations.EndpointDefault
+            .Select(loc => new UniversalShapeWitness(loc.C, loc.N, gammaZero, BondClass.Endpoint, cache))
+            .ToArray();
+}

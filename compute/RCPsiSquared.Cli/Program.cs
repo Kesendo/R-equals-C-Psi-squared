@@ -27,6 +27,8 @@ public static class Program
                 "decompose" => DecomposeCommand.Run(rest),
                 "ep" => EpCommand.Run(rest),
                 "plot" => PlotCommand.Run(rest),
+                "inspect" => InspectCommand.Run(rest),
+                "query" => QueryCommand.Run(rest),
                 _ => UnknownCommand(command),
             };
         }
@@ -64,10 +66,24 @@ public static class Program
         Console.WriteLine("              args: <kind> --N <int> --n <int> --gamma <double> --out <path>");
         Console.WriteLine("              kind: kcurve | shape");
         Console.WriteLine();
+        Console.WriteLine("  inspect     walk an IInspectable tree and print it (Object Manager)");
+        Console.WriteLine("              args: --N <int> --n <int> --gamma <double> [--root fourmode|f86] [--max-depth 4]");
+        Console.WriteLine("                    [--q-sweep] [--with-measured] [--q-grid-points N]");
+        Console.WriteLine("                    [--export-json <path>] [--json-only]");
+        Console.WriteLine();
+        Console.WriteLine("  query       ask typed questions of the F86 knowledge graph");
+        Console.WriteLine("              args: --N <int> --n <int> --gamma <double> --q <query> [extra args]");
+        Console.WriteLine("              queries: tier-inventory | tier=<name> | anchors |");
+        Console.WriteLine("                       witnesses-at --c <int> --wN <int> | per-block-qpeak --c <int> |");
+        Console.WriteLine("                       per-bond-qpeak --c <int> --N <int> --bond <Endpoint|Interior> |");
+        Console.WriteLine("                       extract-gamma --j <double> --c <int> | open | retracted |");
+        Console.WriteLine("                       compare [--q-grid-points N]");
+        Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");
         Console.WriteLine("  rcpsi decompose --N 7 --n 1 --gamma 0.05 --out decomp.json");
         Console.WriteLine("  rcpsi ep --gamma 0.05 --g-eff 2.8284");
         Console.WriteLine("  rcpsi plot kcurve --N 5 --n 1 --gamma 0.05 --out kcurve.png");
+        Console.WriteLine("  rcpsi inspect --N 5 --n 1 --gamma 0.05 --max-depth 3");
     }
 }

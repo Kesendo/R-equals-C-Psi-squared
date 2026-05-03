@@ -15,6 +15,24 @@ compute/**/*.zip
 *.vsidx
 *.suo
 *.user
+
+# --- .NET test / build artefacts that land outside bin/obj ---
+compute/**/TestResults/
+compute/**/artifacts/
+compute/**/BenchmarkDotNet.Artifacts/
+compute/**/*.binlog
+compute/**/coverage*.xml
+compute/**/coverage*.json
+compute/**/*.coverage
+compute/**/*.coveragexml
+
+# --- IDE caches outside Visual Studio ---
+.idea/
+*.swp
+
+# --- Verify test framework received-not-yet-committed snapshots ---
+compute/**/*.received.*
+
 simulations/results/csharp_compute_*.txt
 
 # --- Transient logs (any location) ---

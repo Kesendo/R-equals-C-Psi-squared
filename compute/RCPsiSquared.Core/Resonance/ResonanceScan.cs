@@ -34,14 +34,15 @@ public sealed class ResonanceScan
     }
 
     /// <summary>Default Q grid: dQ = 0.025, range [0.20, 4.00] (153 points).</summary>
-    public static double[] DefaultQGrid()
+    public static double[] DefaultQGrid() => LinearQGrid(0.20, 4.00, 153);
+
+    /// <summary>Reduced-resolution Q grid for fast inspection: <paramref name="points"/>
+    /// linearly spaced between <paramref name="lo"/> and <paramref name="hi"/>.</summary>
+    public static double[] LinearQGrid(double lo, double hi, int points)
     {
-        const double dq = 0.025;
-        const double q0 = 0.20;
-        const double q1 = 4.00;
-        int n = (int)Math.Round((q1 - q0) / dq) + 1;
-        var g = new double[n];
-        for (int i = 0; i < n; i++) g[i] = q0 + i * dq;
+        if (points < 2) throw new ArgumentOutOfRangeException(nameof(points), $"need ≥2 points; got {points}");
+        var g = new double[points];
+        for (int i = 0; i < points; i++) g[i] = lo + (hi - lo) * i / (points - 1);
         return g;
     }
 

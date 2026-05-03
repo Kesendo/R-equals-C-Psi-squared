@@ -94,6 +94,22 @@ For hardware-confirmed predictions on top of these formulas, see
 | `EpAlgebra.SlowestPairEigenvalues(γ₀, J, g_eff)` | λ_±(k=1) = −4γ₀ ± √(4γ₀²−J²·g_eff²), 2-level effective |
 | `BondClass.{Endpoint, Interior}` | **F86 Statement 2**: two bond-class universal HWHM ratios (Interior ≈ 0.756, Endpoint ≈ 0.770) |
 | `KCurve.Peak(class)`, `ResonanceScan.ComputeKCurve` | empirical Q-scan for F86 K_CC_pr observable |
+| `FourModeResonanceScan.ComputeKCurve` | same Duhamel + spectral-contour formulation as `ResonanceScan` but in the 4×4 effective basis (`FourModeEffective`); **finding 2026-05-02:** 4-mode reproduces Interior HWHM/Q ≈ 0.74 (close to universal 0.756) but Q_peak shifts ~2× and Endpoint goes off-grid → confirms PROOF_F86_QPEAK "more modes needed" |
+
+## F86 (typed knowledge graph)
+
+| C# | F-formula |
+|----|-----------|
+| `F86.Tier` | tier label enum: `Tier1Derived` / `Tier1Candidate` / `Tier2Verified` / `Retracted` |
+| `F86.F86Claim` | base abstraction: every typed F86 fact is an `IInspectable` carrying `Name`, `Tier`, `Anchor` |
+| `F86.TPeakLaw(γ₀)` | **F86 Statement 1**: t_peak = 1/(4γ₀), Tier 1 derived |
+| `F86.QEpLaw(g_eff)` | **F86 Statement 1**: Q_EP = 2/g_eff, Tier 1 derived |
+| `F86.TwoLevelEpModel(γ₀, J, g_eff)` | full 2-level eigenvalue state with `EpRegime` (PreEp / AtEp / PostEp); algebraic class AIII chiral, NOT Bender PT |
+| `F86.UniversalShapePrediction(class, ratio, tol, witnesses)` | **F86 Statement 2** (Tier 1 candidate): Interior ≈ 0.756, Endpoint ≈ 0.770; carries empirical witness list |
+| `F86.UniversalShapeWitness(c, N, γ₀, ratio)` | one (c, N) data point — the Tier-1-candidate evidence base across c=2..4, N=5..8 |
+| `F86.PredictionMatch` | result of comparing measured `PeakResult` to a `UniversalShapePrediction` (within tolerance / outside) |
+| `F86.RetractedClaim` | typed retracted claim (csc(π/(N+1)) Endpoint, csc(π/5) c=3 Interior) — PTF-lesson reminder |
+| `F86.F86KnowledgeBase(block)` | root: assembles all F86 facts attached to a `CoherenceBlock` (laws + predictions + witnesses + retracted-list + 4-mode insufficiency note) |
 
 ## Decomposition
 
@@ -102,6 +118,8 @@ For hardware-confirmed predictions on top of these formulas, see
 | `HdSubspaceProjector.Build` | orthonormal projector onto a HD-channel subspace (full, not just channel-uniform) |
 | `InterChannelSvd.Build(block, hd1, hd2)` | SVD of inter-channel coupling — gives σ_0 ≈ 2√2 asymptotic for c=2 (PROOF_F86_QPEAK structural exploration) |
 | `FourModeBasis.Build(block)` | 4-mode minimal effective basis {\|c_1⟩, \|c_3⟩, \|u_0⟩, \|v_0⟩} for F86 f_class derivation |
+| `FourModeEffective.Build(block)` | F86 4-mode projection: D_eff, M_H_per_bond_eff[b], M_H_total_eff, probe_eff, S_kernel_eff (all 4×4 / 4-vector) |
+| `FourModeEffective.LEffAtQ(q)` | F86 4×4 effective Liouvillian L_eff(Q) = D_eff + (Q·γ₀)·M_H_total_eff |
 
 ## Observables
 

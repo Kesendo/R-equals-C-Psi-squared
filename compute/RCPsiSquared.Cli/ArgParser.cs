@@ -64,6 +64,10 @@ public sealed class ArgParser
     public string? OptionalString(string key) =>
         _options.TryGetValue(key, out var v) && v.Length > 0 ? v : null;
 
+    /// <summary>True if <c>--key</c> was passed (with or without a value). Use for boolean
+    /// flags where presence alone is the signal.</summary>
+    public bool HasFlag(string key) => _options.ContainsKey(key);
+
     public double? OptionalDouble(string key) =>
         OptionalString(key) is { } v
             ? double.Parse(v, System.Globalization.CultureInfo.InvariantCulture)

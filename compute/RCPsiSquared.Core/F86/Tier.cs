@@ -1,0 +1,38 @@
+namespace RCPsiSquared.Core.F86;
+
+/// <summary>Knowledge-tier of an F86 claim. Mirrors the framework-wide tier convention
+/// (see <c>hypotheses/</c> README and <c>docs/proofs/PROOF_F86_QPEAK.md</c>).
+///
+/// <list type="bullet">
+///   <item><see cref="Tier1Derived"/>: analytic proof, bit-exact verified.</item>
+///   <item><see cref="Tier1Candidate"/>: strong numerical witness, no full algebraic
+///         derivation yet — promotion to Tier 1 needs the missing piece.</item>
+///   <item><see cref="Tier2Verified"/>: hardware-confirmed prediction (Marrakesh / Kingston
+///         entries in <see cref="Confirmations.ConfirmationsRegistry"/>).</item>
+///   <item><see cref="Retracted"/>: claim was made, then refuted by extended-N data
+///         (e.g. csc(π/(N+1)) Endpoint, csc(π/5) c=3 Interior — N=7 coincidences).</item>
+/// </list>
+/// </summary>
+public enum Tier
+{
+    Tier1Derived,
+    Tier1Candidate,
+    Tier2Empirical,
+    Tier2Verified,
+    OpenQuestion,
+    Retracted,
+}
+
+public static class TierExtensions
+{
+    public static string Label(this Tier tier) => tier switch
+    {
+        Tier.Tier1Derived => "Tier 1 (derived)",
+        Tier.Tier1Candidate => "Tier 1 (candidate)",
+        Tier.Tier2Empirical => "Tier 2 (empirical)",
+        Tier.Tier2Verified => "Tier 2 (hardware-verified)",
+        Tier.OpenQuestion => "Open question",
+        Tier.Retracted => "Retracted",
+        _ => "Unknown",
+    };
+}
