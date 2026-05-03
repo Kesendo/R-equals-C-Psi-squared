@@ -20,6 +20,58 @@ namespace RCPsiSquared.Core.Tests.F86;
 public class F86PetermannProbe(ITestOutputHelper output)
 {
     [Fact]
+    public void Probe_PetermannArgMax_VsN_AtC2()
+    {
+        // Fine-scan Q ∈ [0.5, 4.0] for c=2 N=5..8; identify Q_EP_max (where max K_n peaks)
+        // for each of the two canonical peaks (Interior region Q ∈ [0.7, 1.7], Endpoint
+        // region Q ∈ [2.0, 4.0]). See if Q_EP_max has a clean N-trend.
+        output.WriteLine("c=2: Q_EP_max from Petermann factor max K_n, vs N");
+        output.WriteLine("(N | Q_EP_Interior | K_Interior | Q_EP_Endpoint | K_Endpoint)");
+
+        foreach (int N in new[] { 5, 6, 7, 8 })
+        {
+            var block = new CoherenceBlock(N, 1, gammaZero: 0.05);
+            var decomp = block.Decomposition;
+
+            double bestQInt = 0, bestKInt = 0, bestQEnd = 0, bestKEnd = 0;
+            int steps = 70;
+            for (int i = 0; i < steps; i++)
+            {
+                double q = 0.5 + (4.0 - 0.5) * i / (steps - 1);
+                double j = q * block.GammaZero;
+                var L = decomp.D + (Complex)j * decomp.MhTotal;
+                var R = L.Evd().EigenVectors;
+                var Rinv = R.Inverse();
+                int dim = R.RowCount;
+                double maxK = 0;
+                for (int n = 0; n < dim; n++)
+                {
+                    double rNorm2 = 0, lNorm2 = 0;
+                    for (int k = 0; k < dim; k++)
+                    {
+                        rNorm2 += R[k, n].Magnitude * R[k, n].Magnitude;
+                        lNorm2 += Rinv[n, k].Magnitude * Rinv[n, k].Magnitude;
+                    }
+                    double kn = rNorm2 * lNorm2;
+                    if (kn > maxK) maxK = kn;
+                }
+
+                // Categorize: Interior region (Q < 2), Endpoint region (Q ≥ 2)
+                if (q < 2.0)
+                {
+                    if (maxK > bestKInt) { bestKInt = maxK; bestQInt = q; }
+                }
+                else
+                {
+                    if (maxK > bestKEnd) { bestKEnd = maxK; bestQEnd = q; }
+                }
+            }
+
+            output.WriteLine($"N={N}: Q_EP_Int={bestQInt:F3} (K={bestKInt:F0})  |  Q_EP_End={bestQEnd:F3} (K={bestKEnd:F0})");
+        }
+    }
+
+    [Fact]
     public void Probe_PetermannFactor_C2N7_VsQ()
     {
         var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
