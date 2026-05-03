@@ -143,29 +143,93 @@ public class MemoryAxisChainExploration
         var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         int d = 1 << chain.N;
 
-        // Maximally mixed
+        // Z-basis static states (kernel of L)
         var rhoMm = ComplexMatrix.Build.DiagonalIdentity(d) / d;
         Dump("ρ_mm = I/d", MemoryAxisRho.Decompose(rhoMm, chain));
 
-        // Computational vacuum |000⟩
         var psi000 = ComplexVector.Build.Dense(d);
         psi000[0] = Complex.One;
-        Dump("|000⟩", MemoryAxisRho.Decompose(DensityMatrix.FromStateVector(psi000), chain));
+        Dump("|000⟩ (Z, P_0)", MemoryAxisRho.Decompose(DensityMatrix.FromStateVector(psi000), chain));
 
-        // Polarity states
-        Dump("|+++⟩", MemoryAxisRho.Decompose(
+        var psi001 = ComplexVector.Build.Dense(d);
+        psi001[1] = Complex.One;
+        Dump("|001⟩ (Z, P_1)", MemoryAxisRho.Decompose(DensityMatrix.FromStateVector(psi001), chain));
+
+        // X-basis polarity states (Π²-even content only, since {I, X} are both Π²-even)
+        Dump("|+++⟩ (X)", MemoryAxisRho.Decompose(
             DensityMatrix.FromStateVector(PolarityState.Uniform(N: 3, sign: +1)), chain));
-        Dump("|−−−⟩", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(PolarityState.Uniform(N: 3, sign: -1)), chain));
-        Dump("|+−+⟩", MemoryAxisRho.Decompose(
+        Dump("|+−+⟩ (X)", MemoryAxisRho.Decompose(
             DensityMatrix.FromStateVector(PolarityState.Build(N: 3, signs: new[] { +1, -1, +1 })), chain));
-        Dump("|+−−⟩", MemoryAxisRho.Decompose(
+        Dump("|+−−⟩ (X)", MemoryAxisRho.Decompose(
             DensityMatrix.FromStateVector(PolarityState.Build(N: 3, signs: new[] { +1, -1, -1 })), chain));
+
+        // Y-basis polarity states ({I, Y}, where Y is Π²-odd; expect non-zero Π²-odd memory)
+        Dump("|+i,+i,+i⟩ (Y)", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { +1, +1, +1 })), chain));
+        Dump("|+i,−i,+i⟩ (Y)", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { +1, -1, +1 })), chain));
+        Dump("|−i,+i,−i⟩ (Y)", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { -1, +1, -1 })), chain));
+
+        // Mixed-basis (X on edges, Y on middle): partial Π²-odd content
+        Dump("|+,+i,+⟩ (X-Y-X)", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(MixedXYProduct(N: 3, axes: new[] { 'X', 'Y', 'X' }, signs: new[] { +1, +1, +1 })), chain));
+        Dump("|+i,+,+i⟩ (Y-X-Y)", MemoryAxisRho.Decompose(
+            DensityMatrix.FromStateVector(MixedXYProduct(N: 3, axes: new[] { 'Y', 'X', 'Y' }, signs: new[] { +1, +1, +1 })), chain));
 
         void Dump(string name, MemoryAxisRhoResult r)
         {
             _output.WriteLine($"{name,-20} {r.StaticFraction,10:F4} {r.MemoryFraction,10:F4} {r.Pi2OddFractionWithinMemory,12:F4}");
         }
+    }
+
+    /// <summary>Y-basis polarity tensor product: |+i⟩ = (|0⟩ + i|1⟩)/√2, |−i⟩ = (|0⟩ − i|1⟩)/√2,
+    /// per-site signs +1 (=|+i⟩) or −1 (=|−i⟩). Big-endian site convention matches PolarityState.</summary>
+    private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
+    {
+        int d = 1 << N;
+        var vec = ComplexVector.Build.Dense(d);
+        double norm = 1.0 / Math.Sqrt(d);
+
+        for (int idx = 0; idx < d; idx++)
+        {
+            Complex amp = Complex.One;
+            for (int k = 0; k < N; k++)
+            {
+                int bit = (idx >> (N - 1 - k)) & 1;
+                if (bit == 1)
+                    amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
+            }
+            vec[idx] = amp * norm;
+        }
+        return vec;
+    }
+
+    /// <summary>Mixed X/Y-basis tensor product: each site is in either σ_x or σ_y eigenstate
+    /// per <paramref name="axes"/> ('X' or 'Y'), with sign +1 (|+⟩ or |+i⟩) or −1 (|−⟩ or |−i⟩).</summary>
+    private static ComplexVector MixedXYProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
+    {
+        int d = 1 << N;
+        var vec = ComplexVector.Build.Dense(d);
+        double norm = 1.0 / Math.Sqrt(d);
+
+        for (int idx = 0; idx < d; idx++)
+        {
+            Complex amp = Complex.One;
+            for (int k = 0; k < N; k++)
+            {
+                int bit = (idx >> (N - 1 - k)) & 1;
+                if (bit == 1)
+                {
+                    if (axes[k] == 'X')
+                        amp *= signs[k]; // +1 for |+⟩, −1 for |−⟩
+                    else // 'Y'
+                        amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
+                }
+            }
+            vec[idx] = amp * norm;
+        }
+        return vec;
     }
 
     private static PauliPairBondTerm Bond(PauliLetter a, PauliLetter b) => new(a, b);
