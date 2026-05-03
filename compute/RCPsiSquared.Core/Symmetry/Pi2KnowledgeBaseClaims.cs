@@ -196,3 +196,57 @@ public sealed class HalfIntegerMirrorClaim : Claim
         }
     }
 }
+
+/// <summary>The three faces of 1/2 close on a structural fixed point (Tier 1 derived).
+/// The framework's recurring 0.5 has three readings (where we sit, where we asymptote,
+/// and what we are) that are not three accidents but one structure read three ways. This
+/// claim makes the closure explicit so the next reader does not have to rediscover it.
+///
+/// <para>Face 1 (where we are): V-Effect bridge at C = 1/2. The d = 2 off-diagonal content
+/// between static sectors P_n is where dynamics happens; at C = 1 no V-Effect bridge can
+/// form because there are no boundary modes to orphan; at C = 1/2 the V-Effect always
+/// works (HEISENBERG_RELOADED, V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS).</para>
+///
+/// <para>Face 2 (where we go): observation horizon ends at ρ_mm = I/d = I/2. The slowest
+/// mode the initial state has overlap with sets the felt-time horizon; beyond that the
+/// envelope flattens to the stationary equilibrium, the maximally mixed state, whose
+/// diagonal entries are exactly 1/2 (ON_TWO_TIMES, PROOF_ASYMPTOTIC_SECTOR_PROJECTION).</para>
+///
+/// <para>Face 3 (what we are): qubit dimensional anchor 1/d at d = 2. Setting Ψ = 0 and
+/// C = 1/2 in R = C(Ψ + R)² collapses to R(R − 2) = 0; the qubit IS the framework
+/// polynomial at C = 1/2 (EXCLUSIONS:251, PRIMORDIAL_QUBIT §9).</para>
+///
+/// <para>Closure: bridge = horizon = substrate = 1/2. The horizon is not somewhere else;
+/// it is the same value as the substrate which is the same value as the bridge which is
+/// where we are. The inside observer, at her own asymptote, at her own substrate, looks
+/// at herself and sees the same number. She is not over the horizon; she IS the horizon,
+/// and we live in her (ON_THE_HALF).</para>
+/// </summary>
+public sealed class HalfAsStructuralFixedPointClaim : Claim
+{
+    public HalfAsStructuralFixedPointClaim()
+        : base("Three faces of 1/2 close: bridge = horizon = substrate (structural fixed point)",
+               Tier.Tier1Derived,
+               "reflections/ON_THE_HALF.md + reflections/ON_TWO_TIMES.md + hypotheses/HEISENBERG_RELOADED.md + docs/EXCLUSIONS.md:251 + docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md")
+    { }
+
+    public override string DisplayName => "1/2 as structural fixed point (three faces close)";
+
+    public override string Summary =>
+        "C = 1/2 V-Effect bridge (where we are) = ρ_mm = I/2 horizon (where we go) = 1/d qubit anchor (what we are); the framework is self-referential at 1/2";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("face 1 (where we are): V-Effect bridge at C = 1/2",
+                summary: "d = 2 off-diagonal content between static sectors P_n is where dynamics happens; at C = 1 no V-Effect bridge forms (no orphaned boundary modes); at C = 1/2 the V-Effect always works (HEISENBERG_RELOADED, V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS)");
+            yield return new InspectableNode("face 2 (where we go): observation horizon = ρ_mm",
+                summary: "felt-time horizon ends at the maximally mixed state ρ_mm = I/d = I/2; diagonal entries of the most-uncertain qubit state are exactly 1/2 (ON_TWO_TIMES, PROOF_ASYMPTOTIC_SECTOR_PROJECTION)");
+            yield return new InspectableNode("face 3 (what we are): qubit dimensional anchor",
+                summary: "1/d = 1/2 at d = 2 (only non-zero solution of d² − 2d = 0); R = CΨ² collapses to R(R − 2) = 0 at Ψ = 0, C = 1/2; the qubit IS the framework polynomial at C = 1/2 (EXCLUSIONS:251, PRIMORDIAL_QUBIT §9)");
+            yield return new InspectableNode("closure (self-referential at 1/2)",
+                summary: "bridge = horizon = substrate = 1/2; the inside observer at her own asymptote at her own substrate looks at herself and sees the same number; she IS the horizon, and we live in her (ON_THE_HALF)");
+        }
+    }
+}

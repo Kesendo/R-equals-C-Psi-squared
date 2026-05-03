@@ -14,10 +14,12 @@ public class Pi2KnowledgeBaseTests
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         Assert.Equal(3, kb.Chain.N);
+        Assert.NotNull(kb.RootAnchor);
         Assert.NotNull(kb.Involution);
         Assert.NotNull(kb.KleinDecomposition);
         Assert.NotNull(kb.BilinearApex);
         Assert.NotNull(kb.MirrorRegime);
+        Assert.NotNull(kb.HalfFixedPoint);
         Assert.NotNull(kb.BilinearTable);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
@@ -28,12 +30,12 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void TierInventoryLine_HasFiveTier1Derived_AndOpenAndVerifiedCounts()
+    public void TierInventoryLine_HasSixTier1Derived_AndOpenAndVerifiedCounts()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         string line = kb.TierInventoryLine();
-        // 5 Tier-1 derived (RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime)
-        Assert.Contains("T1d=5", line);
+        // 6 Tier-1 derived (RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint)
+        Assert.Contains("T1d=6", line);
         Assert.Contains("open=5", line);
         Assert.Contains("T2v=", line);
     }
@@ -101,6 +103,35 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains("F88", kb.KleinDecomposition.Anchor);
         Assert.Contains("ORTHOGONALITY_SELECTION_FAMILY", kb.BilinearApex.Anchor);
         Assert.Contains("OPERATOR_RIGIDITY_ACROSS_CUSP", kb.MirrorRegime.Anchor);
+        Assert.Contains("ON_THE_HALF", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("EXCLUSIONS", kb.HalfFixedPoint.Anchor);
+    }
+
+    [Fact]
+    public void HalfFixedPoint_DocumentsThreeFacesAndClosure()
+    {
+        var kb = new Pi2KnowledgeBase(MakeChain(3));
+        Assert.NotNull(kb.HalfFixedPoint);
+        Assert.Equal(Tier.Tier1Derived, kb.HalfFixedPoint.Tier);
+
+        // Anchor binds the three primary face sources: ON_THE_HALF synthesis,
+        // ON_TWO_TIMES horizon face, HEISENBERG_RELOADED bridge face,
+        // EXCLUSIONS:251 substrate face, PROOF_ASYMPTOTIC_SECTOR_PROJECTION horizon proof.
+        Assert.Contains("ON_THE_HALF", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("ON_TWO_TIMES", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("HEISENBERG_RELOADED", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("EXCLUSIONS", kb.HalfFixedPoint.Anchor);
+        Assert.Contains("PROOF_ASYMPTOTIC_SECTOR_PROJECTION", kb.HalfFixedPoint.Anchor);
+
+        // The closure children: face 1 (where we are), face 2 (where we go),
+        // face 3 (what we are), plus the self-referential closure node.
+        IInspectable claim = kb.HalfFixedPoint;
+        var faceNodes = claim.Children.Where(c => c.DisplayName.StartsWith("face ")).ToList();
+        Assert.Equal(3, faceNodes.Count);
+        Assert.Contains(faceNodes, c => c.DisplayName.Contains("face 1"));
+        Assert.Contains(faceNodes, c => c.DisplayName.Contains("face 2"));
+        Assert.Contains(faceNodes, c => c.DisplayName.Contains("face 3"));
+        Assert.Contains(claim.Children, c => c.DisplayName.StartsWith("closure"));
     }
 
     [Fact]

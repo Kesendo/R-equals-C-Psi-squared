@@ -16,13 +16,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>What's in here:</para>
 /// <list type="bullet">
-///   <item>Tier-1 derived: <see cref="Involution"/>, <see cref="KleinDecomposition"/>,
-///         <see cref="BilinearApex"/>, <see cref="MirrorRegime"/></item>
+///   <item>Tier-1 derived: <see cref="RootAnchor"/> (1/d = 1/2 lineage), <see cref="Involution"/>,
+///         <see cref="KleinDecomposition"/>, <see cref="BilinearApex"/>, <see cref="MirrorRegime"/>,
+///         <see cref="HalfFixedPoint"/> (three faces close)</item>
 ///   <item>Tier-2 empirical: <see cref="BilinearTable"/> (9 Pauli-pair × 4 cells)</item>
 ///   <item>Tier-2 hardware-verified: <see cref="HardwareConfirmations"/> (Marrakesh f83
 ///         X-axis-flip pattern)</item>
-///   <item>Open: <see cref="OpenQuestions"/> — X-flip mechanism, 2:2 truly-kernel,
-///         N≥4 transition, k-body extension, mirror-regime relation</item>
+///   <item>Open: <see cref="OpenQuestions"/> (X-flip mechanism, 2:2 truly-kernel,
+///         N≥4 transition, k-body extension, mirror-regime relation)</item>
 /// </list>
 ///
 /// <para>Schicht-Hierarchie der Π²-Primitive (für Implementierung):</para>
@@ -50,6 +51,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public KleinFourCellClaim KleinDecomposition { get; }
     public BilinearApexClaim BilinearApex { get; }
     public HalfIntegerMirrorClaim MirrorRegime { get; }
+    public HalfAsStructuralFixedPointClaim HalfFixedPoint { get; }
     public Pi2KleinBilinearTable BilinearTable { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -62,6 +64,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
         KleinDecomposition = new KleinFourCellClaim();
         BilinearApex = new BilinearApexClaim();
         MirrorRegime = new HalfIntegerMirrorClaim(chain.N);
+        HalfFixedPoint = new HalfAsStructuralFixedPointClaim();
         BilinearTable = new Pi2KleinBilinearTable();
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_hardwareConfirmationNames);
         OpenQuestions = Pi2OpenQuestions.Standard;
@@ -84,7 +87,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
                          $"topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime);
+                RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
                 BilinearTable);
