@@ -80,18 +80,22 @@ public class F86NewIdeasProbe(ITestOutputHelper output)
         }
     }
 
-    [Fact]
-    public void Probe_HighQFeature_c2N8_b1_ExtendedGrid()
+    [Theory]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Probe_HighQFeature_C2_b1_ExtendedGrid(int N)
     {
-        // Same as c=2 N=7 probe but for N=8 — verify two-peak pattern persists at higher N.
-        var block = new CoherenceBlock(N: 8, n: 1, gammaZero: 0.05);
+        // Investigate the c=2 N≥7 high-Q observation: bonds b=1 and b=N−3 (orbit 1) showed
+        // Q_peak >6 in the [0.2, 6.0] grid. Extend to [0.2, 20] to see if the high-Q feature
+        // is a real peak / plateau or a grid artefact.
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var qGrid = ResonanceScan.LinearQGrid(0.20, 20.0, 100);
         var curve = new ResonanceScan(block).ComputeKCurve(qGrid);
 
-        output.WriteLine($"c=2 N=8, grid [0.2, 20.0] × 100 pts:");
-        output.WriteLine("bond | Q_peak | K_max  | first 3 local maxima");
+        output.WriteLine($"c=2 N={N}, grid [0.2, 20.0] × 100 pts:");
+        output.WriteLine("bond | Q_peak | K_max  | top 3 local maxima");
 
-        for (int b = 0; b < 7; b++)
+        for (int b = 0; b < N - 1; b++)
         {
             var peak = curve.PeakAtBond(b);
             var localMaxima = new List<(double Q, double K)>();
@@ -104,40 +108,7 @@ public class F86NewIdeasProbe(ITestOutputHelper output)
             }
             string maxList = string.Join(", ",
                 localMaxima.OrderByDescending(m => m.K).Take(3).Select(m => $"({m.Q:F2}, K={m.K:F4})"));
-            output.WriteLine($"  b{b} | {peak.QPeak:F3} | {peak.KMax:F4} | top maxima: {maxList}");
-        }
-    }
-
-    [Fact]
-    public void Probe_HighQFeature_c2N7_b1_ExtendedGrid()
-    {
-        // Investigate the c=2 N=7 high-Q observation: bonds b=1 and b=5 (orbit 1) showed
-        // Q_peak >6 in the [0.2, 6.0] grid. Extend to [0.2, 20] to see if there's a real
-        // peak at higher Q or if the K-curve is monotonic / has another structure.
-        var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
-        var qGrid = ResonanceScan.LinearQGrid(0.20, 20.0, 100);
-        var curve = new ResonanceScan(block).ComputeKCurve(qGrid);
-
-        output.WriteLine($"c=2 N=7, grid [0.2, 20.0] × 100 pts:");
-        output.WriteLine("bond | Q_peak | K_max  | first 5 Q points where K decreases");
-
-        for (int b = 0; b < 6; b++)
-        {
-            var peak = curve.PeakAtBond(b);
-            var classCurve = new double[qGrid.Length];
-            for (int q = 0; q < qGrid.Length; q++) classCurve[q] = curve.KByBond[b, q];
-
-            // Find local maxima (where K[q-1] < K[q] > K[q+1])
-            var localMaxima = new List<(double Q, double K)>();
-            for (int q = 1; q < qGrid.Length - 1; q++)
-            {
-                if (classCurve[q - 1] < classCurve[q] && classCurve[q] > classCurve[q + 1])
-                    localMaxima.Add((qGrid[q], classCurve[q]));
-            }
-
-            string maxList = string.Join(", ",
-                localMaxima.Take(3).Select(m => $"({m.Q:F2}, K={m.K:F4})"));
-            output.WriteLine($"  b{b} | {peak.QPeak:F3} | {peak.KMax:F4} | local maxima: {maxList}");
+            output.WriteLine($"  b{b} | {peak.QPeak:F3} | {peak.KMax:F4} | {maxList}");
         }
     }
 

@@ -75,17 +75,18 @@ public sealed class MultiKBasis
             int hd1 = 2 * k - 1;
             int hd2 = 2 * k + 1;
             var svd = InterChannelSvd.Build(block, hd1, hd2);
-            quartets[k - 1] = new KQuartet(k, hd1, hd2, cuVectors[k - 1], cuVectors[k],
-                svd.U0InFullBlock, svd.V0InFullBlock, svd.Sigma0);
+            quartets[k - 1] = new KQuartet(k, hd1, hd2, svd.Sigma0);
             candidates.Add(svd.U0InFullBlock);
             candidates.Add(svd.V0InFullBlock);
         }
 
         // Step 2: Gram-Schmidt orthonormalisation, dropping vectors that fall below tolerance.
+        // (No defensive clone needed — operator `-` returns a new vector each iteration, so
+        // the original candidate is never mutated.)
         var orthonormal = new List<ComplexVector>();
         foreach (var candidate in candidates)
         {
-            var v = candidate.Clone();
+            var v = candidate;
             foreach (var u in orthonormal)
                 v -= u.ConjugateDotProduct(v) * u;
             double norm = v.L2Norm();
@@ -119,29 +120,9 @@ public sealed class MultiKBasis
         BasisMatrix.ConjugateTranspose() * v;
 }
 
-/// <summary>One k-quartet: (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) plus the
-/// inter-channel singular value σ_0^{(k)} = |⟨u_0^{(k)}|M_H|v_0^{(k)}⟩|.</summary>
-public sealed class KQuartet
-{
-    public int K { get; }
-    public int Hd1 { get; }
-    public int Hd2 { get; }
-    public ComplexVector ChannelUniform1 { get; }
-    public ComplexVector ChannelUniform2 { get; }
-    public ComplexVector U0 { get; }
-    public ComplexVector V0 { get; }
-    public double Sigma0 { get; }
-
-    public KQuartet(int k, int hd1, int hd2,
-        ComplexVector cu1, ComplexVector cu2, ComplexVector u0, ComplexVector v0, double sigma0)
-    {
-        K = k;
-        Hd1 = hd1;
-        Hd2 = hd2;
-        ChannelUniform1 = cu1;
-        ChannelUniform2 = cu2;
-        U0 = u0;
-        V0 = v0;
-        Sigma0 = sigma0;
-    }
-}
+/// <summary>Structural metadata for the k-th quartet: HD pair (2k−1, 2k+1) coupling and
+/// its top singular value σ_0^{(k)}. The pre-Gram-Schmidt vectors are not preserved —
+/// after orthonormalisation the basis columns are linear combinations of the original
+/// quartet vectors, so the structural identifiers (K, Hd1, Hd2, Sigma0) are the only
+/// post-GS-meaningful fields.</summary>
+public sealed record KQuartet(int K, int Hd1, int Hd2, double Sigma0);

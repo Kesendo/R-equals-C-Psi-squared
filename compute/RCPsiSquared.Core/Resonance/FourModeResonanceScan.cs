@@ -46,13 +46,8 @@ public sealed class FourModeResonanceScan
         return new KCurve(Effective.Block, qArr, tArr, kByBond, tAtPeak);
     }
 
-    private double[] DefaultTGrid(int points = 21)
-    {
-        double tPeak = EpAlgebra.TPeak(Effective.Block.GammaZero);
-        var g = new double[points];
-        for (int i = 0; i < points; i++) g[i] = (0.6 + 1.0 * i / (points - 1)) * tPeak;
-        return g;
-    }
+    private double[] DefaultTGrid(int points = 21) =>
+        ResonanceScan.DefaultTGrid(Effective.Block.GammaZero, points);
 
     private void ScanAtQ(int iQ, double q, double[] tGrid, double[,] kByBond, double[,] tAtPeak)
     {

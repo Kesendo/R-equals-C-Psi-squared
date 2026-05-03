@@ -47,14 +47,14 @@ public sealed class ResonanceScan
     }
 
     /// <summary>Default t grid: 21 points spanning [0.6, 1.6]·t_peak with t_peak = 1/(4γ₀).</summary>
-    public double[] DefaultTGrid(int points = 21)
+    public double[] DefaultTGrid(int points = 21) => DefaultTGrid(Block.GammaZero, points);
+
+    /// <summary>Default t grid for any γ₀: 21 points spanning [0.6, 1.6]·t_peak (= 1/(4γ₀)).
+    /// Shared between full-block and effective-mode scanners.</summary>
+    public static double[] DefaultTGrid(double gammaZero, int points = 21)
     {
-        double tPeak = EpAlgebra.TPeak(Block.GammaZero);
-        double t0 = 0.6 * tPeak;
-        double t1 = 1.6 * tPeak;
-        var g = new double[points];
-        for (int i = 0; i < points; i++) g[i] = t0 + (t1 - t0) * i / (points - 1);
-        return g;
+        double tPeak = EpAlgebra.TPeak(gammaZero);
+        return LinearQGrid(0.6 * tPeak, 1.6 * tPeak, points);
     }
 
     public KCurve ComputeKCurve(IReadOnlyList<double>? qGrid = null, IReadOnlyList<double>? tGrid = null)
