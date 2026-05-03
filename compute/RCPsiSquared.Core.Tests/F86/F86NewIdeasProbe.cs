@@ -81,6 +81,34 @@ public class F86NewIdeasProbe(ITestOutputHelper output)
     }
 
     [Fact]
+    public void Probe_HighQFeature_c2N8_b1_ExtendedGrid()
+    {
+        // Same as c=2 N=7 probe but for N=8 — verify two-peak pattern persists at higher N.
+        var block = new CoherenceBlock(N: 8, n: 1, gammaZero: 0.05);
+        var qGrid = ResonanceScan.LinearQGrid(0.20, 20.0, 100);
+        var curve = new ResonanceScan(block).ComputeKCurve(qGrid);
+
+        output.WriteLine($"c=2 N=8, grid [0.2, 20.0] × 100 pts:");
+        output.WriteLine("bond | Q_peak | K_max  | first 3 local maxima");
+
+        for (int b = 0; b < 7; b++)
+        {
+            var peak = curve.PeakAtBond(b);
+            var localMaxima = new List<(double Q, double K)>();
+            for (int q = 1; q < qGrid.Length - 1; q++)
+            {
+                double kPrev = curve.KByBond[b, q - 1];
+                double kCur = curve.KByBond[b, q];
+                double kNext = curve.KByBond[b, q + 1];
+                if (kPrev < kCur && kCur > kNext) localMaxima.Add((qGrid[q], kCur));
+            }
+            string maxList = string.Join(", ",
+                localMaxima.OrderByDescending(m => m.K).Take(3).Select(m => $"({m.Q:F2}, K={m.K:F4})"));
+            output.WriteLine($"  b{b} | {peak.QPeak:F3} | {peak.KMax:F4} | top maxima: {maxList}");
+        }
+    }
+
+    [Fact]
     public void Probe_HighQFeature_c2N7_b1_ExtendedGrid()
     {
         // Investigate the c=2 N=7 high-Q observation: bonds b=1 and b=5 (orbit 1) showed
