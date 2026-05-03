@@ -7,6 +7,7 @@ using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Visualization.Inspection;
 
@@ -36,9 +37,10 @@ public static class InspectCommand
             "f71" => new F71KnowledgeBase(N),
             "f1" => BuildF1Root(p, N),
             "f87" => BuildF87Root(p, N),
+            "pi2" => BuildPi2Root(p, N),
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, f71, f1, f87"),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, f71, f1, f87, pi2"),
         };
 
         bool wroteSomething = false;
@@ -75,6 +77,14 @@ public static class InspectCommand
         double gamma = p.OptionalDouble("gamma") ?? 0.05;
         var chain = new ChainSystem(N, J: j, GammaZero: gamma);
         return new F87KnowledgeBase(chain);
+    }
+
+    private static Pi2KnowledgeBase BuildPi2Root(ArgParser p, int N)
+    {
+        double j = p.OptionalDouble("J") ?? 1.0;
+        double gamma = p.OptionalDouble("gamma") ?? 0.05;
+        var chain = new ChainSystem(N, J: j, GammaZero: gamma);
+        return new Pi2KnowledgeBase(chain);
     }
 
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)

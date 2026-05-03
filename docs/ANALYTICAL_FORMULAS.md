@@ -2360,7 +2360,7 @@ The trichotomy uses F1 as its **discriminator** (M as the test object), F49 / F8
 
 The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc73a1pk4g`, observable ⟨X₀ Z₂⟩) measured Δ(soft − truly) = −0.722, matching the Trotter-n3 prediction of −0.723 (residual 0.001; the 0.0014 figure cited in the Confirmations registry is computed against an unrounded predicted value); see [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/). The classifier was extracted into a free function on 2026-04-30 (commit 23b2154) and given the filename `f77_trichotomy.py` after the function's existing internal label, even though the registry F77 slot was already occupied by MM(0). The dephase-letter / Klein-resonance extension (commit 435c4b2, 2026-05-01) generalised the classifier to X, Y, Z dephasing axes. F87 is the registry-formal entry for the trichotomy, filed retrospectively on 2026-05-03 alongside the typed `F87KnowledgeBase` cleanup that surfaced the F77/F87 naming collision.
 
-**Π² classifier dependence on dephase letter** (commit 435c4b2). The bit_b parity that selects the Π²-class is bit_b only when the dissipator letter is Z; for X-dephasing the relevant Klein index is bit_b (with bit_a fixing the immune sector), for Y-dephasing it is bit_a. The Klein-Vierergruppe cells are Z = (bit_a, bit_b) = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. F87 hardness lives in the Klein cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
+**Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The Klein-Vierergruppe cells are Z = (bit_a, bit_b) = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. F87 hardness lives in the Klein cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
 
 **Valid for:** uniform single-letter dephasing on any graph; arbitrary k-body Pauli terms (k ≥ 2; F85 lifts the criterion to higher body); dephase letter ∈ {X, Y, Z} (SU(2)-rotation-equivalent under Klein-cell permutation).
 **Breaks for:** depolarizing noise (F1 itself breaks with linear-in-γ residual, see F5); non-uniform γ_i or graph asymmetries that already break F1.
@@ -2368,6 +2368,42 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 **Replaces:** ad-hoc "is this Hamiltonian truly Heisenberg?" tests with a bit-exact 3-way classifier (and the 4-way Π²-refinement) directly from the F1 residual.
 **Hardware:** [`palindrome_trichotomy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26; [`f83_pi2_class_signature_marrakesh`](../simulations/framework/confirmations.py) Marrakesh 2026-04-30; [`pi_protected_xiz_yzzy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26 (first-time-on-hardware Π-protection on YZ+ZY soft).
 **Source:** [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md), [MARRAKESH_THREE_LAYERS](../experiments/MARRAKESH_THREE_LAYERS.md), [`reflections/ON_THE_RESIDUAL.md`](../reflections/ON_THE_RESIDUAL.md), memory entries `project_v_effect_combinatorial`, `project_hardware_finale_apr2026`, `project_f77_f87_rename`.
+
+### F88. Two-axis Π² decomposition of Pauli operator space (Tier 1, structural finding 2026-05-03)
+
+The F1-palindrome operator Π depends on the dephasing letter (cf. F1, F87). Its square Π² acts diagonally on every Pauli string σ_α with eigenvalue ±1, and the parity that determines this eigenvalue depends on which dephase letter parametrises Π:
+
+    Π²_Z eigenvalue on σ_α  =  (−1)^(Σ bit_b)        (Σ over the N letters of α)
+    Π²_X eigenvalue on σ_α  =  (−1)^(Σ bit_a)
+    Π²_Y eigenvalue on σ_α  =  (−1)^(Σ bit_b)        (same as Π²_Z; both Π_Y and Π_Z flip bit_a per `PiOperator.ActOnLetter`)
+
+Z- and Y-dephasing collapse onto the same Π² character. X-dephasing gives the orthogonal one. Together (Π²_Z, Π²_X) form **two independent involution axes** that decompose the 4^N Pauli operator space into four cells:
+
+    Pp = (Π²_Z = +1, Π²_X = +1)   contains 2-body truly bilinears              (XX, YY, ZZ)
+    Pm = (Π²_Z = +1, Π²_X = −1)   contains 2-body Π²-even non-truly bilinears  (YZ, ZY)
+    Mp = (Π²_Z = −1, Π²_X = +1)   contains 2-body Π²-odd subgroup A             (XY, YX)
+    Mm = (Π²_Z = −1, Π²_X = −1)   contains 2-body Π²-odd subgroup B             (XZ, ZX)
+
+**Refinement of F87 + Pi2Class (the algebraic 4-way over term lists)**: F87's spectral 3-way `Truly / Soft / Hard` and the algebraic 4-way `Pi2Class` (`Truly / Pi2OddPure / Pi2EvenNonTruly / Mixed`) both use only the Π²_Z axis. Adding Π²_X reveals genuine sub-structure:
+
+- `Pi2Class.Pi2OddPure` splits into Mp (XY, YX) and Mm (XZ, ZX) Klein sub-cases.
+- `Pi2Class.Mixed` splits according to the Π²_X parity of its non-truly bilinear (e.g. XX+XY occupies Pp+Mp; XX+XZ occupies Pp+Mm).
+
+F80's "universality across 4 Π²-odd cases" is therefore a universality across **two** Klein-cells (Mp + Mm), not one. The Klein view sees a finer cut that F80's M-spectrum projection averages over.
+
+**Empirical Marrakesh fingerprint pattern (2026-04-30, ibm_marrakesh job d7pol1e7g7gs73cf7j90)**: in the f83 4-class signature test, each H-class diagnostic observable lives in the Klein-cell that is the **X-axis flip** of the Hamiltonian's M-active bilinear cell. M-active means the non-truly bilinears (truly bilinears drop by Master Lemma):
+
+    Truly H (M-active = none; bilinears all in Pp) → ⟨Y₀ I Z₂⟩ in Pm   (X-axis flip of Pp)
+    Pi2EvenNonTruly H (Pm)                         → ⟨X₀ I X₂⟩ in Pp   (X-axis flip of Pm)
+    Pi2OddPure subgroup A H (Mp)                    → ⟨X₀ I Z₂⟩ in Mm   (X-axis flip of Mp)
+    Mixed H (M-active in Mp)                        → ⟨Z₀ I X₂⟩ in Mm   (X-axis flip of Mp)
+
+The X-flip pattern is empirically locked across all 4 fingerprint cases; the structural mechanism for why the framework's diagnostic observables sit precisely in the X-flipped cell is open and worth its own EQ.
+
+**Valid for:** any N. The cells depend only on Pauli string parities (Σ bit_a, Σ bit_b), not on N or topology.
+**Verified:** N=3 chain, J=1, γ_Z=0.05 across 6 representative Hamiltonians spanning the 5 F87 class-types (Truly Heisenberg, Truly XY-only, Pi2EvenNonTruly, Pi2OddPure subgroup A, Pi2OddPure subgroup B, Mixed) + 4 Marrakesh f83 fingerprint observables. Bit-exact at machine precision (`Pi2KleinViewTests`, `Pi2KleinHardwareViewTests`, `Pi2KleinIsFinerThanPi2ClassTests`).
+**Replaces:** the implicit assumption that F87's 4-way Pi2Class captures the full Π²-decomposition. The Klein view is genuinely finer; Pi2Class.Mixed has two Klein sub-types we had not previously distinguished.
+**Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal, staying within the framework's own vocabulary (Π is the project's discovery, not a textbook import).
 
 ---
 
