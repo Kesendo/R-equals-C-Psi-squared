@@ -314,3 +314,65 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
         }
     }
 }
+
+/// <summary>The framework's foundational polynomial (Tier 1 derived; deepest root).
+/// The dimension equation d² − 2d = 0 is the same polynomial as R = CΨ² (set Ψ = 0
+/// and C = 1/2 in R = C(Ψ + R)² to collapse to R(R − 2) = 0); its two solutions are
+/// d = 0 (the substrate axis) and d = 2 (the count of ±0.5 signed positions around
+/// the axis). d = 1 is algebraically excluded; the polynomial does not allow it. The
+/// polynomial IS the minimum-memory equation: memory requires distinction, distinction
+/// requires at least two values, and the polynomial selects exactly that minimum.
+///
+/// <para>The pair at d = 2 is not {|0⟩, |1⟩} (conventional basis labels) but
+/// {−0.5, +0.5}: signed positions around d = 0. 0.5 is the unsigned basis magnitude;
+/// the ±-sign around 0 is the pair-maker. Bloch makes it concrete: ρ = (I + r·σ)/2,
+/// diagonal (1 ± r_z)/2; at the maximally mixed state both diagonals are 1/2 (the
+/// axis); at the pure states |0⟩ and |1⟩ they are 1 and 0, i.e. 1/2 + 0.5 and
+/// 1/2 − 0.5.</para>
+///
+/// <para>This is the trunk that generates both framework anchors:
+/// <see cref="HalfAsStructuralFixedPointClaim"/> (1/2 number-anchor, the unsigned
+/// magnitude basis) and <see cref="NinetyDegreeMirrorMemoryClaim"/> (90° angle-anchor,
+/// the rotation that flips +0.5 ↔ −0.5 across the d = 0 axis). The formula R = CΨ²
+/// encoded its own qubit-dimensionality as the Ψ = 0 fixed point
+/// (THE_BRIDGE_WAS_ALWAYS_OPEN, ON_WHAT_THE_FORMULA_KNEW): the formula knows the
+/// dimension, the dimension knows the formula.</para>
+/// </summary>
+public sealed class PolynomialFoundationClaim : Claim
+{
+    public PolynomialFoundationClaim()
+        : base("d²−2d=0 ↔ R=CΨ² (foundational polynomial; minimum-memory equation)",
+               Tier.Tier1Derived,
+               "docs/EXCLUSIONS.md:251 + docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md + reflections/ON_WHAT_THE_FORMULA_KNEW.md + reflections/ON_THE_HALF.md + hypotheses/ZERO_IS_THE_MIRROR.md")
+    { }
+
+    public override string DisplayName => "d²−2d=0 ↔ R=CΨ² (foundational polynomial)";
+
+    public override string Summary =>
+        "memory requires at least two values; the polynomial d²−2d=0 selects exactly the minimum dimension that supports a pair (d=0 axis + d=2 count of ±0.5 positions); d=1 is algebraically excluded; R=CΨ² is the same polynomial with C=1/2";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("layer −2 (semantic root): minimum-memory requirement",
+                summary: "memory needs distinction; distinction needs at least two values; one value alone cannot remember another; this is the bottom of the framework in words, not in algebra");
+            yield return new InspectableNode("layer −1: polynomial enforces the minimum",
+                summary: "d²−2d=0 has solutions {0, 2}; d=1 is not a solution; the polynomial IS the minimum-dimension equation, the algebraic version of 'at least two'");
+            yield return new InspectableNode("solution d = 0: substrate axis",
+                summary: "the half we conjugate around; not a dimension we inhabit; ZERO_IS_THE_MIRROR (March 2026); operator-level: the kernel of L (static sectors P_n)");
+            yield return new InspectableNode("solution d = 2: count of ±0.5 positions",
+                summary: "two signed positions around the d=0 axis; the qubit dimension; where we live; the structural pair is {−0.5, +0.5}, not {0, 1}");
+            yield return new InspectableNode("the pair-maker: ± around 0",
+                summary: "0.5 is the unsigned basis magnitude; ±-sign around 0 is the operation that turns the basis into a pair; Bloch (1 ± r_z)/2 at pure states gives 1/2 ± 0.5");
+            yield return new InspectableNode("R = CΨ² is the same polynomial",
+                summary: "R = C(Ψ+R)² with Ψ=0 and C=1/2 collapses to R(R−2) = 0; the framework's defining identity IS the dimension equation (THE_BRIDGE_WAS_ALWAYS_OPEN, EXCLUSIONS.md:251)");
+            yield return new InspectableNode("generates 1/2 number-anchor",
+                summary: "1/d = 1/2 at d=2 is the unsigned magnitude of ±0.5; HalfAsStructuralFixedPoint is the synthesis (three faces close at 1/2)");
+            yield return new InspectableNode("generates 90° angle-anchor",
+                summary: "the i in F80's 2i is the rotation that flips +0.5 ↔ −0.5 across the d=0 axis; NinetyDegreeMirrorMemory is the synthesis (mirror does not forget)");
+            yield return new InspectableNode("self-reference",
+                summary: "R = CΨ² encoded its own qubit-dimensionality as the Ψ=0 fixed point of R(R−2)=0; the formula knows the dimension, the dimension knows the formula (ON_WHAT_THE_FORMULA_KNEW)");
+        }
+    }
+}

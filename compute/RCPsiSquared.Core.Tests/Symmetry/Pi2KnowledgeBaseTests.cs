@@ -14,6 +14,7 @@ public class Pi2KnowledgeBaseTests
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         Assert.Equal(3, kb.Chain.N);
+        Assert.NotNull(kb.PolynomialFoundation);
         Assert.NotNull(kb.RootAnchor);
         Assert.NotNull(kb.Involution);
         Assert.NotNull(kb.KleinDecomposition);
@@ -31,13 +32,13 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void TierInventoryLine_HasSevenTier1Derived_AndOpenAndVerifiedCounts()
+    public void TierInventoryLine_HasEightTier1Derived_AndOpenAndVerifiedCounts()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         string line = kb.TierInventoryLine();
-        // 7 Tier-1 derived (RootAnchor, Involution, KleinDecomposition, BilinearApex,
-        // MirrorRegime, HalfFixedPoint, MirrorMemory)
-        Assert.Contains("T1d=7", line);
+        // 8 Tier-1 derived (PolynomialFoundation, RootAnchor, Involution, KleinDecomposition,
+        // BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory)
+        Assert.Contains("T1d=8", line);
         Assert.Contains("open=5", line);
         Assert.Contains("T2v=", line);
     }
@@ -109,6 +110,41 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains("EXCLUSIONS", kb.HalfFixedPoint.Anchor);
         Assert.Contains("F80", kb.MirrorMemory.Anchor);
         Assert.Contains("ON_BOTH_SIDES_OF_THE_MIRROR", kb.MirrorMemory.Anchor);
+        Assert.Contains("EXCLUSIONS", kb.PolynomialFoundation.Anchor);
+        Assert.Contains("THE_BRIDGE_WAS_ALWAYS_OPEN", kb.PolynomialFoundation.Anchor);
+        Assert.Contains("ON_WHAT_THE_FORMULA_KNEW", kb.PolynomialFoundation.Anchor);
+    }
+
+    [Fact]
+    public void PolynomialFoundation_DocumentsTheTrunkBelowBothAnchors()
+    {
+        var kb = new Pi2KnowledgeBase(MakeChain(3));
+        Assert.NotNull(kb.PolynomialFoundation);
+        Assert.Equal(Tier.Tier1Derived, kb.PolynomialFoundation.Tier);
+
+        // Anchor binds the polynomial-as-trunk literature: the dimension equation
+        // (EXCLUSIONS:251), the bridge synthesis (THE_BRIDGE_WAS_ALWAYS_OPEN), the
+        // formula-knew-itself reflection (ON_WHAT_THE_FORMULA_KNEW), and the d=0
+        // mirror reading (ZERO_IS_THE_MIRROR).
+        Assert.Contains("EXCLUSIONS", kb.PolynomialFoundation.Anchor);
+        Assert.Contains("THE_BRIDGE_WAS_ALWAYS_OPEN", kb.PolynomialFoundation.Anchor);
+        Assert.Contains("ON_WHAT_THE_FORMULA_KNEW", kb.PolynomialFoundation.Anchor);
+        Assert.Contains("ZERO_IS_THE_MIRROR", kb.PolynomialFoundation.Anchor);
+
+        // Children: minimum-memory layer, the polynomial enforcement layer, the two
+        // solutions (d=0 axis + d=2 count), the pair-maker, R=CΨ² collapse, and
+        // generation paths to both anchors (1/2 and 90°), plus self-reference.
+        IInspectable claim = kb.PolynomialFoundation;
+        var children = claim.Children.ToList();
+        Assert.True(children.Count >= 8,
+            $"expected ≥8 children documenting the polynomial trunk; got {children.Count}");
+        Assert.Contains(children, c => c.DisplayName.Contains("minimum-memory"));
+        Assert.Contains(children, c => c.DisplayName.Contains("d = 0"));
+        Assert.Contains(children, c => c.DisplayName.Contains("d = 2"));
+        Assert.Contains(children, c => c.DisplayName.Contains("pair-maker"));
+        Assert.Contains(children, c => c.DisplayName.Contains("R = CΨ²"));
+        Assert.Contains(children, c => c.DisplayName.Contains("generates 1/2"));
+        Assert.Contains(children, c => c.DisplayName.Contains("generates 90°"));
     }
 
     [Fact]

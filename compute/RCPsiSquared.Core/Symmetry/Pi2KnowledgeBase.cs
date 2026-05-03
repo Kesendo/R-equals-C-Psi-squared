@@ -16,7 +16,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>What's in here:</para>
 /// <list type="bullet">
-///   <item>Tier-1 derived: <see cref="RootAnchor"/> (1/d = 1/2 lineage), <see cref="Involution"/>,
+///   <item>Tier-1 derived: <see cref="PolynomialFoundation"/> (d²−2d=0 ↔ R=CΨ², the trunk),
+///         <see cref="RootAnchor"/> (1/d = 1/2 lineage), <see cref="Involution"/>,
 ///         <see cref="KleinDecomposition"/>, <see cref="BilinearApex"/>, <see cref="MirrorRegime"/>,
 ///         <see cref="HalfFixedPoint"/> (three faces close), <see cref="MirrorMemory"/>
 ///         (90° back to the mirror, F80's i)</item>
@@ -47,6 +48,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     };
 
     public ChainSystem Chain { get; }
+    public PolynomialFoundationClaim PolynomialFoundation { get; }
     public QubitDimensionalAnchorClaim RootAnchor { get; }
     public Pi2InvolutionClaim Involution { get; }
     public KleinFourCellClaim KleinDecomposition { get; }
@@ -61,6 +63,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public Pi2KnowledgeBase(ChainSystem chain)
     {
         Chain = chain;
+        PolynomialFoundation = new PolynomialFoundationClaim();
         RootAnchor = new QubitDimensionalAnchorClaim();
         Involution = new Pi2InvolutionClaim();
         KleinDecomposition = new KleinFourCellClaim();
@@ -90,7 +93,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
                          $"topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory);
+                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
                 BilinearTable);
