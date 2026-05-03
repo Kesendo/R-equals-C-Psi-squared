@@ -23,17 +23,26 @@ namespace RCPsiSquared.Core.F86;
 ///                 Q ≈ 7.6-8.6, K ≈ 0.153. N=8 central self-paired b=3: plateau at Q ≈ 15-17,
 ///                 K ≈ 0.099. The "Q_peak" reading is the argmax of this plateau.</item>
 ///         </list>
-///         The plateau is NOT from a single non-top SVD mode: all 30 SVD singular values for
-///         c=2 N=7 give Q_EP_k ∈ [0.71, 2.78] — none at 7.2. The plateau comes from
-///         multi-mode saturation behaviour at deep post-EP Q, where the probe sits ~99 %
-///         on dressed modes and K stays near its post-EP saturation value.</item>
+///         The plateau is NOT a near-EP region: Petermann factor probe at c=2 N=7 across
+///         Q ∈ [0.3, 20] shows max K_n ≈ 6 at the plateau (Q ≈ 7-8) — eigenvectors are
+///         well-separated. Two clear near-EPs sit at the canonical peaks instead: Q ≈ 1
+///         (max K_n = 123, near Interior canonical 1.5) and Q ≈ 3 (max K_n = 181, near
+///         Endpoint canonical 2.5-2.6). The plateau is therefore a multi-mode coherent
+///         enhancement effect at deep post-EP, not an EP-driven Petermann collapse.</item>
 /// </list>
 ///
 /// <para>The simple "Endpoint vs Interior" dichotomy is the leading approximation. The
 /// full per-F71-orbit structure is finer-grained, c-dependent, and N-dependent: at large
 /// N the orbit-1 (and eventually central) bonds transition into a saturation regime where
 /// K_b plateaus past the slowest-pair Q_EP rather than decaying. Closed-form classification
-/// remains open.</para>
+/// of both the orbit pattern and the plateau enhancement remains open.</para>
+///
+/// <para>Connection to <see href="hypotheses/FRAGILE_BRIDGE.md">FRAGILE_BRIDGE</see>:
+/// same Petermann diagnostic on a different parameter axis. There K = 403 above γ_crit
+/// signals an EP in the complex γ plane; here K = 181 at Q ≈ 3 signals a near-EP on the
+/// real Q axis at Endpoint canonical peak. The c=2 N=7 full block-L has structural near-EPs
+/// at canonical Q_peak positions, confirming the EP mechanism for those peaks while
+/// disconnecting it from the high-Q saturation plateau.</para>
 /// </summary>
 public sealed class PerF71OrbitObservation : F86Claim
 {
