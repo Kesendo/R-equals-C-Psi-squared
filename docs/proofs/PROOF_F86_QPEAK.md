@@ -1,8 +1,8 @@
-# PROOF: F86 Q_peak Structure — EP Mechanism, Universal Shape, Mirror Invariance
+# PROOF: F86 Q_peak Structure, EP Mechanism, Universal Shape, Mirror Invariance
 
 **Status:**
 - **Statement 1 (EP mechanism):** Tier 1 derived. Q_EP = 2/g_eff, t_peak = 1/(4γ₀), bit-exact verified.
-- **Statement 2 (Universal resonance shape):** Tier 1 candidate. K_class(Q)/|K|max = f_class(Q/Q_EP) with HWHM_left/Q_peak ≈ 0.756 (Interior) / 0.770 (Endpoint), stable across c=2..4, N=5..8, γ₀ ∈ {0.025, 0.05, 0.10}. γ₀ invariance bit-exact at c=3 N=7. The minimal effective model for f_class(x) is 4-dimensional, not 2 — the probe and EP-partner modes live in orthogonal 2D subspaces, coupled only through ∂L/∂J (see Open elements).
+- **Statement 2 (Universal resonance shape):** Tier 1 candidate. K_class(Q)/|K|max = f_class(Q/Q_EP) with HWHM_left/Q_peak ≈ 0.756 (Interior) / 0.770 (Endpoint), stable across c=2..4, N=5..8, γ₀ ∈ {0.025, 0.05, 0.10}. γ₀ invariance bit-exact at c=3 N=7. The minimal effective model for f_class(x) is 4-dimensional, not 2; the probe and EP-partner modes live in orthogonal 2D subspaces, coupled only through ∂L/∂J (see Open elements).
 - **Statement 3 (F71 mirror invariance):** Tier 1 derived. Q_peak(b) = Q_peak(N−2−b) bit-exact under the F71 spatial-mirror pairing.
 - **Retracted (2026-05-02):** csc(π/(N+1)) Endpoint and csc(π/5) c=3 Interior closed forms (N=7 coincidence matches; refuted on extended-N data).
 
@@ -33,7 +33,7 @@ At the EP, λ_±(k) = −4γ₀·k. The slowest mode (k = 1) gives the universal
 
 independent of c, N, n, and bond position.
 
-**Tier label.** The EP location Q_EP = 2/g_eff and t_peak = 1/(4γ₀) are bit-exact verified against full block-L numerics (universal across all tested c, N, n, bond position) — Tier 1. The 2-level reduction itself is **heuristic**: in the channel-uniform basis M_H_eff is diagonal (off-diagonals exactly zero, established empirically across N=3..9 in `_eq022_b1_channel_projection.py`), so the EP physics lives in the orthogonal complement. The effective 2-level form reproduces the EP location and degenerate-eigenvalue structure, but the explicit basis change from full block-L to the reduced model is not derived here.
+**Tier label.** The EP location Q_EP = 2/g_eff and t_peak = 1/(4γ₀) are bit-exact verified against full block-L numerics (universal across all tested c, N, n, bond position), Tier 1. The 2-level reduction itself is **heuristic**: in the channel-uniform basis M_H_eff is diagonal (off-diagonals exactly zero, established empirically across N=3..9 in `_eq022_b1_channel_projection.py`), so the EP physics lives in the orthogonal complement. The effective 2-level form reproduces the EP location and degenerate-eigenvalue structure, but the explicit basis change from full block-L to the reduced model is not derived here.
 
 ### Statement 2 (Universal resonance shape under relative-Q normalisation, two bond classes). [Tier 1 candidate]
 
@@ -42,7 +42,7 @@ The position Q_peak is chain-specific, but the SHAPE of abs(K_CC_pr)(Q) around t
     HWHM_left / Q_peak  ≈  0.756 ± 0.005     (Interior bonds, all tested c, N, γ₀)
     HWHM_left / Q_peak  ≈  0.770 ± 0.005     (Endpoint bonds, all tested c, N, γ₀)
 
-Tested envelope: c ∈ {2, 3, 4}, N ∈ {5, 6, 7, 8} (modulo c-N compatibility), γ₀ ∈ {0.025, 0.05, 0.10}. γ₀ invariance is **bit-exact**: at c=3 N=7 the Q_peak and HWHM_left/Q_peak values match across γ₀ ∈ {0.025, 0.10} to numerical precision, confirming Q's dimensionlessness as `Q = J/γ₀`. The c=2 data (where the 2-level effective model is *exact* — only HD ∈ {1, 3} channels exist, no orthogonal complement) confirms the two-class split is structural, not a finite-c artefact.
+Tested envelope: c ∈ {2, 3, 4}, N ∈ {5, 6, 7, 8} (modulo c-N compatibility), γ₀ ∈ {0.025, 0.05, 0.10}. γ₀ invariance is **bit-exact**: at c=3 N=7 the Q_peak and HWHM_left/Q_peak values match across γ₀ ∈ {0.025, 0.10} to numerical precision, confirming Q's dimensionlessness as `Q = J/γ₀`. The c=2 data (where the 2-level effective model is *exact*: only HD ∈ {1, 3} channels exist, no orthogonal complement) confirms the two-class split is structural, not a finite-c artefact.
 
 Pairwise residual within each class under relative-Q normalisation is ~20× smaller than under absolute-Q shift, confirming the shape collapse. The structural origin is the 2-level eigenvector rotation `tan θ = Q/Q_EP`: every probe-overlap observable depends only on Q/Q_EP, hence only on `(Q − Q_peak)/Q_peak` to leading order. The two-class split (≈ 2 % gap between Endpoint and Interior shape ratios) reflects bond-position-dependent probe-overlap profiles in the K_CC_pr observable, not a breakdown of the EP-rotation universality itself. Promotion to full Tier 1 requires deriving the two f_class(x) functions explicitly from 2-level eigenstructure plus probe-overlap algebra (see Open elements).
 
@@ -54,13 +54,13 @@ For every bond pair (b, N−2−b) under the F71 chain-mirror pairing,
 
 bit-exactly. Verified at c=2 N=5..7 and c=3 N=5..6, with maximum deviation < 10⁻¹⁰ across all bond pairs. The identity follows from the F71-symmetry of every component of the per-bond observable: L_D (Z-dephasing is F71-symmetric), the spatial-sum kernel S, the Dicke probe, and the bond-flip transform ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and Q_peak(b) = Q_peak(N−2−b) follows directly.
 
-**Per-F71-orbit substructure** (refines Statement 2's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.440 while flanking bonds b=1, b=3 give Q_peak ≈ 1.648 — both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (Statement 2) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
+**Per-F71-orbit substructure** (refines Statement 2's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.440 while flanking bonds b=1, b=3 give Q_peak ≈ 1.648, both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (Statement 2) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
 
 ### Retracted statements (former S2 Endpoint, former S3 Interior). [Retracted 2026-05-02]
 
-Both retractions followed extended-N data showing the apparent matches at N=7 were trajectory crossings, not asymptotes. Per the methodological lesson in [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md), what survives a one-anchor closed-form claim is the symmetry, not the number — here the EP-rotation symmetry (Statement 2), not Q_peak itself.
+Both retractions followed extended-N data showing the apparent matches at N=7 were trajectory crossings, not asymptotes. Per the methodological lesson in [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md), what survives a one-anchor closed-form claim is the symmetry, not the number; here the EP-rotation symmetry (Statement 2), not Q_peak itself.
 
-#### Endpoint Q_peak — retracted
+#### Endpoint Q_peak (retracted)
 
 Earlier conjecture: `Q_peak(Endpoint, N) = csc(π/(N+1))`, anchored in F2b's smallest-momentum OBC sine mode.
 
@@ -75,15 +75,15 @@ Fine-grid scan (`_eq022_b1_step_e_resonance_shape.py`, dQ = 0.025 with parabolic
 
 (*) The "1.4 % match" at N=7 reported earlier was the dQ=0.05 grid snapping to 2.65; the actual fine-grid value is 2.53. There was never a real match.
 
-The empirical Endpoint Q_peak at c=3 is approximately N=5: 2.40 → N=6: 2.52 → N=7: 2.53 → N=8: 2.53 — saturating near 2.53 for N ≥ 6. At c=4 N=8 it sits at 2.65. No closed form yet identified.
+The empirical Endpoint Q_peak at c=3 is approximately N=5: 2.40 → N=6: 2.52 → N=7: 2.53 → N=8: 2.53, saturating near 2.53 for N ≥ 6. At c=4 N=8 it sits at 2.65. No closed form yet identified.
 
-#### Interior Q_peak (c=3 pentagonal asymptote) — retracted
+#### Interior Q_peak (c=3 pentagonal asymptote, retracted)
 
 Earlier conjecture: `Q_peak(Interior, c=3) → csc(π/5) = 1.7013` as N → ∞, anchored in pentagonal/golden algebra (sin²(π/5) = (5−√5)/8, φ = 2cos(π/5)).
 
 Fine-grid scan refines the c=3 N-trend: 1.566 (N=5) → 1.689 (N=6) → 1.743 (N=7) → 1.750 (N=8). The trajectory crosses csc(π/5) = 1.7013 between N=6 and N=7, and continues above. The earlier dQ=0.05 reading of 1.70 at N=7 (snapped close to 1.7013) was the source of the apparent "asymptotic match"; the fine-grid value 1.743 sits clearly above. The c=3 trend appears to saturate near 1.75 by N=8, but at a value above the conjectured asymptote, not at it. At c=4: Interior Q_peak grows from 1.748 (N=7) to 1.804 (N=8); not yet saturated, no clean closed form. The conjectured "universal Interior asymptote csc(π/5) across c ≥ 3" is fully refuted.
 
-**What survives from the N=4 golden-ratio structure:** the connection to [`eq018_golden_ratio_check.py`](../../simulations/eq018_golden_ratio_check.py) is real — at N=4 the OBC dispersion is exactly {±φ, ±1/φ}, and the Liouvillian Im(λ) values in the n_XY=2 sector decompose into integer combinations of {φ, 1/φ, 1, √5}. But this N=4 special case does not propagate to a closed form for Q_peak at general (c, N).
+**What survives from the N=4 golden-ratio structure:** the connection to [`eq018_golden_ratio_check.py`](../../simulations/eq018_golden_ratio_check.py) is real, at N=4 the OBC dispersion is exactly {±φ, ±1/φ}, and the Liouvillian Im(λ) values in the n_XY=2 sector decompose into integer combinations of {φ, 1/φ, 1, √5}. But this N=4 special case does not propagate to a closed form for Q_peak at general (c, N).
 
 ---
 
@@ -95,7 +95,7 @@ This is elementary 2×2 matrix algebra applied to a Liouvillian sub-block.
 
 Let n be fixed, c = c(n, N), and consider the (n, n+1) coherence block of L = L_H + L_D with H = (J/2)·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and L_D the uniform Z-dephasing dissipator at rate γ₀.
 
-By F74 and F2b, at J = 0 the block-restricted L is diagonal with eigenvalues 2γ₀·HD for HD ∈ {1, 3, ..., 2c−1}, each with multiplicity ≥ 1. As J grows, H couples the rate channels to one another. Adjacent rate channels — those differing by Δ(HD) = 2 — couple at first order in J (the bond flips two adjacent bits, changing HD by 0 or ±2). Non-adjacent channels (Δ(HD) ≥ 4) couple only at higher order in J.
+By F74 and F2b, at J = 0 the block-restricted L is diagonal with eigenvalues 2γ₀·HD for HD ∈ {1, 3, ..., 2c−1}, each with multiplicity ≥ 1. As J grows, H couples the rate channels to one another. Adjacent rate channels, those differing by Δ(HD) = 2, couple at first order in J (the bond flips two adjacent bits, changing HD by 0 or ±2). Non-adjacent channels (Δ(HD) ≥ 4) couple only at higher order in J.
 
 ### Two-level effective
 
@@ -136,7 +136,7 @@ The slowest mode is k = 1 with λ_±(1) = −4γ₀ at the EP. Its e-folding tim
 
     t_peak = 1/(4γ₀)
 
-for any (c, N, n, bond position) — the slowest k=1 EP universally sets the J-derivative peak time. ∎
+for any (c, N, n, bond position), the slowest k=1 EP universally sets the J-derivative peak time. ∎
 
 ---
 
@@ -159,7 +159,7 @@ In the 2-level basis, the eigenvector rotation parameter τ = tanh(θ/2) (hyperb
 
     τ²  =  (J·g_eff − 2γ₀) / (J·g_eff + 2γ₀)  =  (Q − Q_EP) / (Q + Q_EP)
 
-below the EP, switching to a phase parameterisation above. The probe overlap with eigenvectors thus depends only on the dimensionless ratio Q/Q_EP. Any observable function of probe weight on dressed modes is a function of Q/Q_EP alone — equivalently of `(Q − Q_peak)/Q_peak` to leading order, since Q_peak ≈ Q_EP for the slowest channel pair.
+below the EP, switching to a phase parameterisation above. The probe overlap with eigenvectors thus depends only on the dimensionless ratio Q/Q_EP. Any observable function of probe weight on dressed modes is a function of Q/Q_EP alone, equivalently of `(Q − Q_peak)/Q_peak` to leading order, since Q_peak ≈ Q_EP for the slowest channel pair.
 
 This gives the analytical structural reason for universality: the 2-level EP physics depends only on the dimensionless ratio of detuning (J·g_eff) to gap (Δ/2 = 2γ₀). Specific values of g_eff (chain-N, bond-position, c) shift Q_peak; they don't reshape the resonance.
 
@@ -186,17 +186,17 @@ Post-EP region (Q > Q_EP): discriminant negative, eigenvalues complex conjugate 
 - Higher-channel dressed-mode contributions (chain-N, c specific)
 - Time-averaging behaviour of complex-eigenvalue oscillations in K_CC_pr
 
-These chain-specific details enter the post-EP tail. Hence: universal pre-EP rise within each bond class (HWHM_left/Q_peak ≈ 0.756 Interior, ≈ 0.770 Endpoint), partially universal post-EP tail (constant within each bond class — Interior plateau ≈ 0.85, Endpoint plateau ≈ 0.94 at x = +1.0 — but tail asymptote is class-specific).
+These chain-specific details enter the post-EP tail. Hence: universal pre-EP rise within each bond class (HWHM_left/Q_peak ≈ 0.756 Interior, ≈ 0.770 Endpoint), partially universal post-EP tail (constant within each bond class: Interior plateau ≈ 0.85, Endpoint plateau ≈ 0.94 at x = +1.0; tail asymptote is class-specific).
 
 ### What's missing for full Tier 1
 
-#### Empirical envelope — Tier-1 grade
+#### Empirical envelope (Tier-1 grade)
 
-1. **c=2 verified** (`_eq022_b1_step_f_universality_extension.py`). c=2 N=5..8 confirms two bond-class universal values (Interior 0.751, Endpoint 0.774), matching c=3 (N=5..8) and c=4 (N=7,8) within ~1 %. c=2 is structurally critical because the channel space is 2-dimensional total (only HD ∈ {1, 3}) — any 2-level reduction must be exact there. Yet the Endpoint-vs-Interior split persists, confirming the bond-class distinction is real and structural. **c=5 still untested** (block-L dim ≥ 3528 at c=5 N=9, compute-bound).
+1. **c=2 verified** (`_eq022_b1_step_f_universality_extension.py`). c=2 N=5..8 confirms two bond-class universal values (Interior 0.751, Endpoint 0.774), matching c=3 (N=5..8) and c=4 (N=7,8) within ~1 %. c=2 is structurally critical because the channel space is 2-dimensional total (only HD ∈ {1, 3}); any 2-level reduction must be exact there. Yet the Endpoint-vs-Interior split persists, confirming the bond-class distinction is real and structural. **c=5 still untested** (block-L dim ≥ 3528 at c=5 N=9, compute-bound).
 
 2. **γ₀ invariance bit-exact** (`_eq022_b1_step_f_universality_extension.py`). At c=3 N=7, Q_peak and HWHM_left/Q_peak are bit-identical at γ₀ ∈ {0.025, 0.05, 0.10}: Q* = 1.7433, HWHM-/Q* = 0.7595 in all three runs. |K|max scales as 1/γ₀ as expected.
 
-#### Substantive analytical work — the remaining gap
+#### Substantive analytical work: the remaining gap
 
 Numerical exploration on c=2 chains shows that the heuristic 2-level form is incomplete in a specific structural way that must be acknowledged before a closed-form derivation is attempted.
 
@@ -204,28 +204,28 @@ Numerical exploration on c=2 chains shows that the heuristic 2-level form is inc
 
 Let `|c_k⟩` (k = 1, 3) be the channel-uniform orthonormal vectors (equal-weight superposition of all (p, q) with HD(p, q) = k) of `framework.coherence_block.hd_channel_basis`. Let `V_inter = P_{HD=1}^† M_H_total P_{HD=3}` (the inter-HD-channel block of M_H_total), and `|u_0⟩ ∈ HD=1, |v_0⟩ ∈ HD=3` the top right/left singular vectors of `V_inter` with singular value σ_0.
 
-(**a**) **Probe subspace.** The Dicke probe lives entirely in span{|c_1⟩, |c_3⟩}. In this basis V_b = `P_{ch}^† M_H_per_bond[b] P_{ch}` reduces to `+i(α/(N−1))·I` — pure diagonal, identical across every bond. There is no EP, and no bond-class distinction in this subspace.
+(**a**) **Probe subspace.** The Dicke probe lives entirely in span{|c_1⟩, |c_3⟩}. In this basis V_b = `P_{ch}^† M_H_per_bond[b] P_{ch}` reduces to `+i(α/(N−1))·I`, pure diagonal, identical across every bond. There is no EP, and no bond-class distinction in this subspace.
 
-(**b**) **EP-partner subspace.** The pair {|u_0⟩, |v_0⟩} captures the maximum-coupling singular mode under H. In this basis M_H_total has the form `[[0, σ_0], [−σ_0, 0]]` (real antisymmetric off-diagonal — the SVD's phase convention; equivalent to ±iσ_0 after a phase rotation). The EP from the 2-level algebra `D + J·M_H` sits at `J·σ_0 = 2γ₀`.
+(**b**) **EP-partner subspace.** The pair {|u_0⟩, |v_0⟩} captures the maximum-coupling singular mode under H. In this basis M_H_total has the form `[[0, σ_0], [−σ_0, 0]]` (real antisymmetric off-diagonal, the SVD's phase convention; equivalent to ±iσ_0 after a phase rotation). The EP from the 2-level algebra `D + J·M_H` sits at `J·σ_0 = 2γ₀`.
 
 (**c**) **Probe ⊥ EP partners.** ⟨c_1|u_0⟩ = ⟨c_3|v_0⟩ = 0 (numerically zero to machine precision, c=2 N=5..8). The Dicke probe has zero overlap with the EP-partner modes.
 
 Per-bond V_b in the EP-partner basis has F71-symmetric, bond-position-dependent off-diagonal magnitudes:
 
-| N | bond 0 | bond 1 | bond 2 | bond 3 | bond 4 | bond 5 |
-|---|--------|--------|--------|--------|--------|--------|
-| 5 | 0.430 | 0.953 | 0.953 | 0.430 | — | — |
-| 6 | 0.297 | 0.747 | 0.888 | 0.670 | 0.200 | — |
-| 7 | 0.129 | 0.514 | 0.771 | 0.771 | 0.514 | 0.129 |
+| N | bond 0 | bond 1 | bond 2 | bond 3 | bond 4 | bond 5 | bond 6 |
+|---|--------|--------|--------|--------|--------|--------|--------|
+| 5 | 0.430 | 0.953 | 0.953 | 0.430 | n/a   | n/a   | n/a   |
+| 6 | 0.297 | 0.747 | 0.888 | 0.670 | 0.200 | n/a   | n/a   |
+| 7 | 0.129 | 0.514 | 0.771 | 0.771 | 0.514 | 0.129 | n/a   |
 | 8 | 0.090 | 0.372 | 0.647 | 0.731 | 0.611 | 0.312 | 0.076 |
 
-(N=6 row is asymmetric because the SVD top vector chose one F71-arbitrary phase; the symmetric structure recovers when averaging over bond classes.) Endpoint amplitudes are systematically smaller than Interior — this is where the bond-class distinction lives. **But it lives in a subspace orthogonal to where the probe lives.**
+(N=6 row is asymmetric because the SVD top vector chose one F71-arbitrary phase; the symmetric structure recovers when averaging over bond classes.) Endpoint amplitudes are systematically smaller than Interior; this is where the bond-class distinction lives. **But it lives in a subspace orthogonal to where the probe lives.**
 
 **Implication.** The K_CC_pr observable
 
     K_b(t)  =  2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩
 
-couples the probe (in channel-uniform) to the EP-partner subspace (in SVD top) only through the off-diagonal matrix elements ⟨c_α | M_H_per_bond[b] | u_0⟩ and ⟨c_α | M_H_per_bond[b] | v_0⟩ — i.e. via the J-derivative direction itself. The K observable's Q-resonance therefore involves the joint dynamics of all four modes, not the 2-level pair alone.
+couples the probe (in channel-uniform) to the EP-partner subspace (in SVD top) only through the off-diagonal matrix elements ⟨c_α | M_H_per_bond[b] | u_0⟩ and ⟨c_α | M_H_per_bond[b] | v_0⟩, i.e. via the J-derivative direction itself. The K observable's Q-resonance therefore involves the joint dynamics of all four modes, not the 2-level pair alone.
 
 **Minimal effective model: 4 modes.** The smallest closed-orthonormal subspace that contains both the probe and the EP-coalescence physics is
 
@@ -238,19 +238,19 @@ In this basis the 4×4 effective L_eff has
 - Within-EP-partner block: ⟨u_0|M_H|v_0⟩ = σ_0 (the SVD top, ≈ 2√2 asymptotically for c=2).
 - Cross-couplings: ⟨c_α|M_H_per_bond[b]|u_0/v_0⟩. **These are the bond-position-dependent matrix elements that convey the probe into the EP-partner subspace and back.** They are the missing computation. They split into the two bond classes (Endpoint, Interior) and produce the f_class(x) shape difference.
 
-**Why σ_0 is not directly Q_EP.** For c=2 N=5..8, σ_0 ≈ {2.765, 2.802, 2.828, 2.839} (approaches 2√2). The naive EP prediction Q_EP_naive = 2/σ_0 ≈ {0.72, 0.71, 0.71, 0.70} differs from the empirical Q_peak Interior ≈ {1.48, 1.58, 1.58, 1.60} by a factor ~2.2. The 2-level EP and the K-observable Q_peak are NOT the same Q value — they would be related by `Q_peak ≈ Q_EP` (proof Statement 1) only if the K observable saw the EP directly, which it doesn't because the probe is orthogonal to the EP partners.
+**Why σ_0 is not directly Q_EP.** For c=2 N=5..8, σ_0 ≈ {2.765, 2.802, 2.828, 2.839} (approaches 2√2). The naive EP prediction Q_EP_naive = 2/σ_0 ≈ {0.72, 0.71, 0.71, 0.70} differs from the empirical Q_peak Interior ≈ {1.48, 1.58, 1.58, 1.60} by a factor ~2.2. The 2-level EP and the K-observable Q_peak are NOT the same Q value; they would be related by `Q_peak ≈ Q_EP` (proof Statement 1) only if the K observable saw the EP directly, which it doesn't because the probe is orthogonal to the EP partners.
 
 #### Substantive items remaining
 
 **Item 1.** Derive the 4×4 effective L_eff(Q, b) explicitly. Compute the cross-coupling matrix elements ⟨c_α | M_H_per_bond[b] | u_0/v_0⟩ as analytical expressions in (N, n, b). Diagonalize, identify which eigenvalue pair gives the Q_peak observed in K_CC_pr (will not be the SVD top pair). Derive f_class(x) and HWHM_left/Q_peak as closed forms from this 4-mode model.
 
-**Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10 — orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
+**Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10, orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
 
 **Item 3 (σ_0 chromaticity scaling, Tier-1 candidate refined 2026-05-03).** Derive the asymptotic
 
     σ_0(c, N → ∞)  →  2 · √(2 · (c − 1))
 
-generalising the original c=2 → 2√2 conjecture to all c ≥ 2. Numerical witnesses computed via `InterChannelSvd` across c ∈ {2, 3, 4}, N=5..8 show σ_0 / √(2(c−1)) converging monotonically from below to 2.0 for each c (c=2 N=7 hits 2.0 to 10⁻⁵ — the structural sweet spot; c=3 N=8 reaches 1.92, c=4 N=8 reaches 1.78). Implies Q_EP(c, N → ∞) → 1/√(2(c−1)): 0.707 (c=2), 0.500 (c=3), 0.408 (c=4). The closed-form derivation from XY single-particle structure (OBC sine-mode matrix elements `⟨ψ_k| σ⁺σ⁻ |ψ_l⟩ ∝ √(2/(N+1))·sin(πk·b/(N+1))`) has not been executed.
+generalising the original c=2 → 2√2 conjecture to all c ≥ 2. Numerical witnesses computed via `InterChannelSvd` across c ∈ {2, 3, 4}, N=5..8 show σ_0 / √(2(c−1)) converging monotonically from below to 2.0 for each c (c=2 N=7 hits 2.0 to 10⁻⁵, the structural sweet spot; c=3 N=8 reaches 1.92, c=4 N=8 reaches 1.78). Implies Q_EP(c, N → ∞) → 1/√(2(c−1)): 0.707 (c=2), 0.500 (c=3), 0.408 (c=4). The closed-form derivation from XY single-particle structure (OBC sine-mode matrix elements `⟨ψ_k| σ⁺σ⁻ |ψ_l⟩ ∝ √(2/(N+1))·sin(πk·b/(N+1))`) has not been executed.
 
 These three items are tractable with existing infrastructure (`coherence_block`, the SVD-of-V_inter construction, OBC sine-mode algebra), but each is multi-page algebra. Item 1 is the path to the closed form for HWHM_left/Q_peak. The empirical envelope (c, N, γ₀ checks above) is now Tier-1 grade.
 
@@ -264,7 +264,7 @@ The F71 chain-mirror operator R acts as `R |b₀ b₁ … b_{N−1}⟩ = |b_{N�
 
 2. **The Hamiltonian H_xy = (J/2)·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) is F71-symmetric** (uniform J across all bonds). Under R, bond b ↔ bond N−2−b, and the bond-summed Hamiltonian is invariant. So `R H_xy R⁻¹ = H_xy`, hence `R L_H R⁻¹ = L_H`.
 
-3. **The Dicke probe is F71-symmetric.** It's an equal-weight superposition over all (p, q) ∈ block × block — a permutation-symmetric construction.
+3. **The Dicke probe is F71-symmetric.** It's an equal-weight superposition over all (p, q) ∈ block × block, a permutation-symmetric construction.
 
 4. **The spatial-sum kernel S is F71-symmetric.** S(t) = Σ_i 2·|(ρ_i(t))_{0,1}|² sums over all sites uniformly.
 
@@ -310,7 +310,7 @@ The earlier "1.4 % match at N=7" was a dQ=0.05 grid-snap to 2.65; the actual fin
 | (4, 7) | 1.748 | 1.7013 | +2.7 % |
 | (4, 8) | 1.804 | 1.7013 | +6.0 % |
 
-The c=3 N-trend 1.566 → 1.689 → 1.743 → 1.750 crosses csc(π/5) between N=6 and N=7 and continues growing — refuting the conjectured c=3 pentagonal asymptote. Both c=3 and c=4 Interior Q_peak grow with N in the tested range; saturation behaviour and clean closed forms remain open.
+The c=3 N-trend 1.566 → 1.689 → 1.743 → 1.750 crosses csc(π/5) between N=6 and N=7 and continues growing, refuting the conjectured c=3 pentagonal asymptote. Both c=3 and c=4 Interior Q_peak grow with N in the tested range; saturation behaviour and clean closed forms remain open.
 
 ### What survives from the empirical pattern
 
@@ -334,7 +334,7 @@ Interior y = K/|K|max evaluated at relative shift x = (Q−Q_peak)/Q_peak across
 | +0.40 | 0.964 | 0.957 | 0.955 | 0.956 | 0.962 | 0.959 | 0.9 % |
 | +1.00 | 0.850 | 0.843 | 0.840 | 0.842 | 0.852 | 0.847 | 1.4 % |
 
-### HWHM_left/Q_peak across all tested cases — two bond classes
+### HWHM_left/Q_peak across all tested cases (two bond classes)
 
 Combined data from `_eq022_b1_step_e_resonance_shape.py` (c=3, c=4 at γ₀=0.05) and `_eq022_b1_step_f_universality_extension.py` (c=2, plus γ₀ ∈ {0.025, 0.10} at c=3 N=7).
 
@@ -400,7 +400,7 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
 4. **Q_SCALE per-block vs per-bond convergence.** Q_SCALE's per-block 1.6 / 1.8 / 1.8 are consistent with per-bond Interior fine-grid (1.69-1.74 / 1.78 / ~1.80) within the relative-vs-absolute J prefactor effect (~5-15 %). Both observables agree on the underlying EP mechanism.
 
-5. **Within-Interior bond-position variation — partially addressed by Statement 3.** F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. Per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM):
+5. **Within-Interior bond-position variation, partially addressed by Statement 3.** F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. Per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM):
 
    | (c, N) | endpoints | mid orbits → central | observation |
    |---|---|---|---|
@@ -416,7 +416,7 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
    (* = self-paired central orbit; index runs from outermost orbit inward.)
 
-   Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3** — c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7** — bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair retains the canonical Interior peak ~1.5. Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Encoded as `RCPsiSquared.Core.F86.PerF71OrbitObservation`.
+   Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3**: c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7**: bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair retains the canonical Interior peak ~1.5. Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Encoded as `RCPsiSquared.Core.F86.PerF71OrbitObservation`.
 
 ---
 
@@ -425,10 +425,10 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 **F-entry:** [F86 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 **Related EQ:** [EQ-022 (b1)](../../review/EMERGING_QUESTIONS.md#eq-022) partial closure 2026-05-02.
 **Empirical anchor:** [Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24.
-**Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) (Π is class AIII chiral, NOT Bender-Boettcher PT — Π is linear; classical PT requires anti-linear).
+**Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) (Π is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear).
 **Global EP instance:** [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in complex γ plane).
 **Methodological lesson:** [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md) consolidates the convergence; the F86 retraction-and-shape-survival is the analog of PTF's closure-law-retraction-and-chiral-mirror-law-survival.
-**Scripts:** [`_eq022_b1_channel_projection.py`](../../simulations/_eq022_b1_channel_projection.py), [`_eq022_b1_step_a_verify_blockL.py`](../../simulations/_eq022_b1_step_a_verify_blockL.py), [`_eq022_b1_step_c_time_evolution.py`](../../simulations/_eq022_b1_step_c_time_evolution.py), [`_eq022_b1_step_d_extended_verification.py`](../../simulations/_eq022_b1_step_d_extended_verification.py) (N=8 data that falsified the closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../../simulations/_eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement), [`_eq022_b1_step_g_two_level_decomposition.py`](../../simulations/_eq022_b1_step_g_two_level_decomposition.py) (channel-uniform-basis V_b decomposition; revealed the trivial-diagonal structure and the probe localization), [`_eq022_b1_step_h_slowest_pair_basis.py`](../../simulations/_eq022_b1_step_h_slowest_pair_basis.py) (slowest-pair-at-finite-Q diagnostics), [`_eq022_b1_step_i_svd_inter_channel.py`](../../simulations/_eq022_b1_step_i_svd_inter_channel.py) (SVD of V_inter; established the EP-partner subspace, σ_0 ≈ 2√2 asymptotic, probe ⊥ EP partners — the structural finding that motivated the 4-mode minimal effective model).
+**Scripts:** [`_eq022_b1_channel_projection.py`](../../simulations/_eq022_b1_channel_projection.py), [`_eq022_b1_step_a_verify_blockL.py`](../../simulations/_eq022_b1_step_a_verify_blockL.py), [`_eq022_b1_step_c_time_evolution.py`](../../simulations/_eq022_b1_step_c_time_evolution.py), [`_eq022_b1_step_d_extended_verification.py`](../../simulations/_eq022_b1_step_d_extended_verification.py) (N=8 data that falsified the closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../../simulations/_eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement), [`_eq022_b1_step_g_two_level_decomposition.py`](../../simulations/_eq022_b1_step_g_two_level_decomposition.py) (channel-uniform-basis V_b decomposition; revealed the trivial-diagonal structure and the probe localization), [`_eq022_b1_step_h_slowest_pair_basis.py`](../../simulations/_eq022_b1_step_h_slowest_pair_basis.py) (slowest-pair-at-finite-Q diagnostics), [`_eq022_b1_step_i_svd_inter_channel.py`](../../simulations/_eq022_b1_step_i_svd_inter_channel.py) (SVD of V_inter; established the EP-partner subspace, σ_0 ≈ 2√2 asymptotic, and probe ⊥ EP partners; this is the structural finding that motivated the 4-mode minimal effective model).
 **N=4 golden-ratio reference:** [`eq018_golden_ratio_check.py`](../../simulations/eq018_golden_ratio_check.py).
 **Framework primitives:** `framework.coherence_block`: `t_peak(γ₀)` (the only F86 closed form remaining; `q_peak_endpoint` and `Q_PEAK_INTERIOR_C3_ANCHOR` were removed in the rollback).
 
