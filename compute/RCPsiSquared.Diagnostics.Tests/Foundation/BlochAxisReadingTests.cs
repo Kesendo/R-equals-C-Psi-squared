@@ -46,7 +46,7 @@ public class BlochAxisReadingTests
             Assert.Equal(0.0, q.Ry, 10);
             Assert.Equal(0.0, q.Rz, 10);
             Assert.Equal(1.0, q.RMagnitude, 10);
-            Assert.Equal(0.5, q.EigenDeviation, 10);  // ←  the structural ±0.5 pair
+            Assert.Equal(0.5, q.EigenDeviation, 10);  // structural ±0.5 pair
             Assert.Equal('X', q.DominantAxis);
             Assert.Equal(+1, q.DominantSign);
         }
@@ -75,7 +75,7 @@ public class BlochAxisReadingTests
     {
         // |+i,+i,+i⟩ has each qubit on +Y axis: r_k = (0, 1, 0).
         const int N = 3;
-        var psi = YBasisProduct(N, new[] { +1, +1, +1 });
+        var psi = PauliEigenstateProducts.YBasis(N, new[] { +1, +1, +1 });
         var rho = DensityMatrix.FromStateVector(psi);
 
         var result = BlochAxisReading.Compute(rho, N);
@@ -156,7 +156,7 @@ public class BlochAxisReadingTests
     {
         // |+,+i,0⟩: q0 = X+, q1 = Y+, q2 = Z+.
         const int N = 3;
-        var psi = GeneralBasisProduct(N, axes: new[] { 'X', 'Y', 'Z' }, signs: new[] { +1, +1, +1 });
+        var psi = PauliEigenstateProducts.General(N, axes: new[] { 'X', 'Y', 'Z' }, signs: new[] { +1, +1, +1 });
         var rho = DensityMatrix.FromStateVector(psi);
 
         var result = BlochAxisReading.Compute(rho, N);
@@ -172,57 +172,4 @@ public class BlochAxisReadingTests
         }
     }
 
-    // === Helpers ===
-
-    private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                    amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
-    }
-
-    private static ComplexVector GeneralBasisProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double sqrt2 = Math.Sqrt(2.0);
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            bool zero = false;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                switch (axes[k])
-                {
-                    case 'X':
-                        amp *= (bit == 0 ? 1.0 : (double)signs[k]) / sqrt2;
-                        break;
-                    case 'Y':
-                        if (bit == 0) amp *= 1.0 / sqrt2;
-                        else amp *= (signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne) / sqrt2;
-                        break;
-                    case 'Z':
-                        if ((signs[k] == +1 && bit == 1) || (signs[k] == -1 && bit == 0))
-                            zero = true;
-                        break;
-                }
-                if (zero) break;
-            }
-            vec[idx] = zero ? Complex.Zero : amp;
-        }
-        return vec;
-    }
 }

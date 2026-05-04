@@ -64,8 +64,8 @@ public sealed record MemoryAxisRhoResult(
 
 /// <summary>Decompose ρ into the trio's three structural components: static (d=0 axis),
 /// memory Π²-even (d=2 axis, Π²-fixed), memory Π²-odd (d=2 axis, Π²-anti-fixed,
-/// M_anti-related). All decompositions use existing primitives — DZeroDecomposition for
-/// the static/memory split, Pi2Projection.Split for the Π²-axis split — so the result
+/// M_anti-related). All decompositions use existing primitives: DZeroDecomposition for
+/// the static/memory split, Pi2Projection.Split for the Π²-axis split, so the result
 /// is the trio's framing applied to existing infrastructure, not new physics.</summary>
 public static class MemoryAxisRho
 {

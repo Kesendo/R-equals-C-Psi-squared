@@ -30,9 +30,10 @@ public sealed record QubitBlochReading(int QubitIndex, double Rx, double Ry, dou
     /// structural memory-axis pair); equals 0 at the maximally mixed state.</summary>
     public double EigenDeviation => RMagnitude / 2.0;
 
-    /// <summary>Dominant Bloch axis: 'X', 'Y', 'Z', or 'I' (maximally mixed). The axis
-    /// also tells us the Π²-class of this qubit's contribution: 'X' is Π²-even (under
-    /// Z-dephasing), 'Y' and 'Z' are Π²-odd.</summary>
+    /// <summary>Dominant Bloch axis: 'X', 'Y', 'Z', or 'I' (maximally mixed). Under the
+    /// framework's standard Z-dephasing convention the axis also reports the qubit's
+    /// Π²-class: 'X' is Π²-even, 'Y' and 'Z' are Π²-odd. The bit_a/bit_b roles shift
+    /// under X-dephasing; see F88 in <c>docs/ANALYTICAL_FORMULAS.md</c>.</summary>
     public char DominantAxis
     {
         get
@@ -74,17 +75,14 @@ public static class BlochAxisReading
             throw new ArgumentException(
                 $"expected {d}×{d} matrix for N={N}; got {rho.RowCount}×{rho.ColumnCount}");
 
+        var sitePaulis = PauliString.SitePaulis(N);
         var qubits = new List<QubitBlochReading>(N);
         for (int k = 0; k < N; k++)
         {
-            var sigmaX = PauliString.SiteOp(N, k, PauliLetter.X);
-            var sigmaY = PauliString.SiteOp(N, k, PauliLetter.Y);
-            var sigmaZ = PauliString.SiteOp(N, k, PauliLetter.Z);
-
+            var (sigmaX, sigmaY, sigmaZ) = sitePaulis[k];
             double rx = (sigmaX * rho).Trace().Real;
             double ry = (sigmaY * rho).Trace().Real;
             double rz = (sigmaZ * rho).Trace().Real;
-
             qubits.Add(new QubitBlochReading(k, rx, ry, rz));
         }
         return new BlochAxisReadingResult(N, qubits);

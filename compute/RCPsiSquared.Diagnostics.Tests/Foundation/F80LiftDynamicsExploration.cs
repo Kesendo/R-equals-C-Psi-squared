@@ -65,7 +65,7 @@ public class F80LiftDynamicsExploration
         // Initial states to compare
         var initialStates = new (string Name, ComplexVector Psi)[]
         {
-            ("|+i,+i,+i⟩ (Y)",  YBasisProduct(N, new[] { +1, +1, +1 })),
+            ("|+i,+i,+i⟩ (Y)",  PauliEigenstateProducts.YBasis(N, new[] { +1, +1, +1 })),
             ("|+++⟩ (X)",        PolarityState.Uniform(N, sign: +1)),
         };
 
@@ -101,25 +101,6 @@ public class F80LiftDynamicsExploration
     }
 
     // === Helpers ===
-
-    private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                    amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
-    }
 
     private static ComplexVector VecF(ComplexMatrix m)
     {

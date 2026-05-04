@@ -123,7 +123,7 @@ public class MemoryAxisChainExploration
             try
             {
                 var result = MemoryAxisChain.Compute(chain, terms);
-                _output.WriteLine($"    {name,-12}: SURPRISING — F80 accepted; Spec(M) = {FormatSpectrum(result.F80ImaginarySpectrum)}");
+                _output.WriteLine($"    {name,-12}: SURPRISING (F80 accepted); Spec(M) = {FormatSpectrum(result.F80ImaginarySpectrum)}");
             }
             catch (ArgumentException ex)
             {
@@ -165,17 +165,17 @@ public class MemoryAxisChainExploration
 
         // Y-basis polarity states ({I, Y}, where Y is Π²-odd; expect non-zero Π²-odd memory)
         Dump("|+i,+i,+i⟩ (Y)", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { +1, +1, +1 })), chain));
+            DensityMatrix.FromStateVector(PauliEigenstateProducts.YBasis(N: 3, signs: new[] { +1, +1, +1 })), chain));
         Dump("|+i,−i,+i⟩ (Y)", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { +1, -1, +1 })), chain));
+            DensityMatrix.FromStateVector(PauliEigenstateProducts.YBasis(N: 3, signs: new[] { +1, -1, +1 })), chain));
         Dump("|−i,+i,−i⟩ (Y)", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(YBasisProduct(N: 3, signs: new[] { -1, +1, -1 })), chain));
+            DensityMatrix.FromStateVector(PauliEigenstateProducts.YBasis(N: 3, signs: new[] { -1, +1, -1 })), chain));
 
         // Mixed-basis (X on edges, Y on middle): partial Π²-odd content
         Dump("|+,+i,+⟩ (X-Y-X)", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(MixedXYProduct(N: 3, axes: new[] { 'X', 'Y', 'X' }, signs: new[] { +1, +1, +1 })), chain));
+            DensityMatrix.FromStateVector(PauliEigenstateProducts.General(N: 3, axes: new[] { 'X', 'Y', 'X' }, signs: new[] { +1, +1, +1 })), chain));
         Dump("|+i,+,+i⟩ (Y-X-Y)", MemoryAxisRho.Decompose(
-            DensityMatrix.FromStateVector(MixedXYProduct(N: 3, axes: new[] { 'Y', 'X', 'Y' }, signs: new[] { +1, +1, +1 })), chain));
+            DensityMatrix.FromStateVector(PauliEigenstateProducts.General(N: 3, axes: new[] { 'Y', 'X', 'Y' }, signs: new[] { +1, +1, +1 })), chain));
 
         void Dump(string name, MemoryAxisRhoResult r)
         {
@@ -215,60 +215,11 @@ public class MemoryAxisChainExploration
 
         void Dump(string name, char[] axes, int[] signs, ChainSystem chainSys)
         {
-            var psi = GeneralBasisProduct(N: 3, axes: axes, signs: signs);
+            var psi = PauliEigenstateProducts.General(N: 3, axes: axes, signs: signs);
             var rho = DensityMatrix.FromStateVector(psi);
             var r = MemoryAxisRho.Decompose(rho, chainSys);
             _output.WriteLine($"{name,-22} {r.StaticFraction,10:F4} {r.MemoryFraction,10:F4} {r.Pi2OddFractionWithinMemory,12:F4}");
         }
-    }
-
-    /// <summary>Y-basis polarity tensor product: |+i⟩ = (|0⟩ + i|1⟩)/√2, |−i⟩ = (|0⟩ − i|1⟩)/√2,
-    /// per-site signs +1 (=|+i⟩) or −1 (=|−i⟩). Big-endian site convention matches PolarityState.</summary>
-    private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                    amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
-    }
-
-    /// <summary>Mixed X/Y-basis tensor product: each site is in either σ_x or σ_y eigenstate
-    /// per <paramref name="axes"/> ('X' or 'Y'), with sign +1 (|+⟩ or |+i⟩) or −1 (|−⟩ or |−i⟩).</summary>
-    private static ComplexVector MixedXYProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                {
-                    if (axes[k] == 'X')
-                        amp *= signs[k]; // +1 for |+⟩, −1 for |−⟩
-                    else // 'Y'
-                        amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-                }
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
     }
 
     [Fact]
@@ -307,19 +258,19 @@ public class MemoryAxisChainExploration
 
         // Y-basis
         Dump("|+i,+i,+i⟩", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })));
+            PauliEigenstateProducts.General(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })));
         Dump("|+i,−i,+i⟩", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, -1, +1 })));
+            PauliEigenstateProducts.General(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, -1, +1 })));
 
         // Mixed
         Dump("|+,+i,0⟩", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, +1 })));
+            PauliEigenstateProducts.General(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, +1 })));
         Dump("|+,+i,1⟩", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, -1 })));
+            PauliEigenstateProducts.General(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, -1 })));
         Dump("|0,+i,1⟩ (Z-Y-Z)", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, -1 })));
+            PauliEigenstateProducts.General(N, new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, -1 })));
 
-        // GHZ state — entangled, per-qubit "blind" but full state has structure
+        // GHZ: entangled, per-qubit "blind" but full state has structure
         var ghz = ComplexVector.Build.Dense(d);
         ghz[0] = 1.0 / Math.Sqrt(2.0);
         ghz[d - 1] = 1.0 / Math.Sqrt(2.0);
@@ -365,7 +316,7 @@ public class MemoryAxisChainExploration
 
         // For comparison: pure product Y-state (no entanglement)
         Compare("|+i,+i,+i⟩ (product, Y)", DensityMatrix.FromStateVector(
-            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })), chain);
+            PauliEigenstateProducts.General(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })), chain);
 
         void Compare(string name, ComplexMatrix rho, ChainSystem c)
         {
@@ -383,47 +334,6 @@ public class MemoryAxisChainExploration
             char sign = q.DominantSign > 0 ? '+' : '−';
             return $"{q.DominantAxis}{sign}{q.EigenDeviation:F3}";
         }
-    }
-
-    /// <summary>General X/Y/Z-basis tensor product. axes[k] ∈ {'X', 'Y', 'Z'}; signs[k] ∈ {+1, −1}.
-    /// For 'X': ±1 = |+⟩/|−⟩; 'Y': ±1 = |+i⟩/|−i⟩; 'Z': ±1 = |0⟩/|1⟩ (computational basis).</summary>
-    private static ComplexVector GeneralBasisProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double sqrt2 = Math.Sqrt(2.0);
-
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            bool zero = false;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                switch (axes[k])
-                {
-                    case 'X':
-                        amp *= (bit == 0 ? 1.0 : (double)signs[k]) / sqrt2;
-                        break;
-                    case 'Y':
-                        if (bit == 0) amp *= 1.0 / sqrt2;
-                        else amp *= (signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne) / sqrt2;
-                        break;
-                    case 'Z':
-                        // |0⟩ (sign=+1) keeps bit=0, drops bit=1; |1⟩ (sign=−1) keeps bit=1
-                        if ((signs[k] == +1 && bit == 1) || (signs[k] == -1 && bit == 0))
-                        {
-                            zero = true;
-                        }
-                        break;
-                    default:
-                        throw new ArgumentException($"unknown axis '{axes[k]}'; expected X/Y/Z");
-                }
-                if (zero) break;
-            }
-            vec[idx] = zero ? Complex.Zero : amp;
-        }
-        return vec;
     }
 
     private static PauliPairBondTerm Bond(PauliLetter a, PauliLetter b) => new(a, b);

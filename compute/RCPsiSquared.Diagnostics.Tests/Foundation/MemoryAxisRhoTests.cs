@@ -129,7 +129,7 @@ public class MemoryAxisRhoTests
     public void YOnlyState_HasPi2OddFraction_2NMinus1_Over_2NMinus1(int N, double expectedFraction)
     {
         var chain = MakeChain(N);
-        var psi = YBasisProduct(N, Enumerable.Repeat(+1, N).ToArray()); // all |+i⟩
+        var psi = PauliEigenstateProducts.YBasis(N, Enumerable.Repeat(+1, N).ToArray()); // all |+i⟩
         var rho = DensityMatrix.FromStateVector(psi);
 
         var result = MemoryAxisRho.Decompose(rho, chain);
@@ -153,7 +153,7 @@ public class MemoryAxisRhoTests
     {
         var chain = MakeChain(N);
         var signs = Enumerable.Repeat(+1, N).ToArray();
-        var psi = MixedXYProduct(N, axes, signs);
+        var psi = PauliEigenstateProducts.General(N, axes, signs);
         var rho = DensityMatrix.FromStateVector(psi);
 
         var result = MemoryAxisRho.Decompose(rho, chain);
@@ -182,50 +182,4 @@ public class MemoryAxisRhoTests
         Assert.Equal(0.0, result.Pi2OddFractionWithinMemory, 10);
     }
 
-    // === Helpers ===
-
-    /// <summary>Y-basis polarity tensor product: |+i⟩ = (|0⟩ + i|1⟩)/√2,
-    /// |−i⟩ = (|0⟩ − i|1⟩)/√2, per-site signs +1 = |+i⟩, −1 = |−i⟩.</summary>
-    private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                    amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
-    }
-
-    /// <summary>Mixed X/Y-basis tensor product: each site is in either σ_x or σ_y
-    /// eigenstate per <paramref name="axes"/> ('X' or 'Y'), with sign +1 or −1.</summary>
-    private static ComplexVector MixedXYProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
-    {
-        int d = 1 << N;
-        var vec = ComplexVector.Build.Dense(d);
-        double norm = 1.0 / Math.Sqrt(d);
-        for (int idx = 0; idx < d; idx++)
-        {
-            Complex amp = Complex.One;
-            for (int k = 0; k < N; k++)
-            {
-                int bit = (idx >> (N - 1 - k)) & 1;
-                if (bit == 1)
-                {
-                    if (axes[k] == 'X') amp *= signs[k];
-                    else /* 'Y' */     amp *= signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
-                }
-            }
-            vec[idx] = amp * norm;
-        }
-        return vec;
-    }
 }

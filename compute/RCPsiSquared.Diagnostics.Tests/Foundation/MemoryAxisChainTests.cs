@@ -76,7 +76,7 @@ public class MemoryAxisChainTests
     [Fact]
     public void StructuralPair_IsPlusMinusHalf()
     {
-        // The static memory-axis anchor — same pair at every trio layer
+        // The static memory-axis anchor: same pair at every trio layer
         Assert.Equal(2, MemoryAxisChainResult.StructuralPair.Count);
         Assert.Equal(+0.5, MemoryAxisChainResult.StructuralPair[0]);
         Assert.Equal(-0.5, MemoryAxisChainResult.StructuralPair[1]);
