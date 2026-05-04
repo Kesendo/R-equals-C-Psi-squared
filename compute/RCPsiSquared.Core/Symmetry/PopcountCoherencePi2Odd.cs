@@ -194,16 +194,9 @@ public static class PopcountCoherencePi2Odd
 
     /// <summary>True iff the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at the
     /// X⊗N-symmetric popcount-mirror configuration, where 2n + 1 = N (odd N only).
-    /// At this anchor the state is X⊗N-symmetric, hence Π²-EVEN-only (X⊗N
-    /// conjugation maps σ_α → (−1)^bit_b(α) σ_α, so eigenstates of X⊗N have zero
-    /// expectation on Π²-odd Pauli strings). Π²-odd-fraction-within-memory = 0.
-    ///
-    /// <para>Inheritance: shares the X⊗N-symmetry root with the GHZ_N / Bell-state /
-    /// HD = N pair-state anchor (<see cref="IsHdComplement"/>). Both classes are
-    /// X⊗N-eigenstates and therefore F60-classical (pair-CΨ = 0) and F88-classical
-    /// (Π²-odd = 0) simultaneously. Two structurally-distinct state classes
-    /// (HD = N pair vs. Dicke-mirror multi-state) sharing the same Π²-classical
-    /// origin via a single algebraic mechanism.</para></summary>
+    /// At this anchor the state is X⊗N-symmetric, hence Π²-EVEN-only;
+    /// Π²-odd-fraction-within-memory = 0. Sibling node of <see cref="IsHdComplement"/>
+    /// under the X⊗N-symmetry root in the class-level inheritance graph.</summary>
     public static bool IsDickeMirror(int N, int n) => 2 * n + 1 == N;
 
     /// <summary>True iff Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at a
