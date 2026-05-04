@@ -370,7 +370,7 @@ without wading through quantum formalism, start with the
    of complexity seen in qubits (2+2=109) also works in neural
    networks. A thermal window exists: heat feeds the coupling.
 
-4. [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) — The
+4. [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md) — The
    proton in a hydrogen bond is a natural qubit: two positions, one
    particle. A single proton crosses the CΨ = ¼ boundary at sub-
    picosecond timescales. The Zundel cation (a proton shared between

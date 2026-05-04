@@ -201,7 +201,7 @@ Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field,
 
 - **Inside-Outside operational consequences.** From inside Level 0 we measure only Q = J/γ. Whether this is *purely* a Level 0 fact or also a constraint on Level 1+ derivations is open.
 
-- **Other half-occupied building blocks.** Carbon at Level 1 (4/8). Hydrogen-bond proton (qubit at Level 1, see [HYDROGEN_BOND_QUBIT](../experiments/HYDROGEN_BOND_QUBIT.md)). Manganese, iron group, others at intermediate levels. The C = 0.5 universal: tested at Levels 0 and 1, asserted at Levels 2-4, not yet computed.
+- **Other half-occupied building blocks.** Carbon at Level 1 (4/8). Hydrogen-bond proton (qubit at Level 1, see [HYDROGEN_BOND_QUBIT](../docs/water/HYDROGEN_BOND_QUBIT.md)). Manganese, iron group, others at intermediate levels. The C = 0.5 universal: tested at Levels 0 and 1, asserted at Levels 2-4, not yet computed.
 
 - **Symmetry between Level 0 → 1 and Level n → n+1.** Is V-Effect the same mechanism at every level transition, or does it specialize? Open.
 

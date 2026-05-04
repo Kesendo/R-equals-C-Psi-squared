@@ -3,7 +3,7 @@
 **Status:** Hypothesis (Tier 4), motivated by computation
 **Date:** March 28, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Depends on:** [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md),
+**Depends on:** [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md),
 [Resonant Return](../experiments/RESONANT_RETURN.md) (sacrifice-zone formula)
 
 ---
@@ -121,5 +121,5 @@ If the spectral densities are the same: no sacrifice-zone effect.
 
 *See also:*
 [Resonant Return](../experiments/RESONANT_RETURN.md) (sacrifice-zone formula),
-[Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) (J/γ regimes),
+[Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md) (J/γ regimes),
 [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md) (hardware verification)

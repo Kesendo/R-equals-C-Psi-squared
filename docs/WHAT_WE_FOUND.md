@@ -705,7 +705,7 @@ rate are comparable. Coupling two water molecules through a hydrogen bond
 creates 104 new frequencies. Normal liquid water is too noisy (the proton
 behaves classically). Enzyme active sites may be quiet enough for the
 quantum effect.
-([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
+([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
 ### Exact palindromic symmetry is dead, broken magnitudes are alive
 
@@ -741,7 +741,7 @@ tunneling rate is 4.8 times the noise rate (quantum regime). CΨ crosses
 1/4 six times in 21 femtoseconds. ~6 crossings per proton transfer event.
 Every drop of water is a field of fold crossings (~10³⁴ per second). The
 fold was in the water before the first molecule replicated.
-([Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md))
+([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
 ### The maximum sensitivity of a neuron is exactly 1/4
 
@@ -821,7 +821,7 @@ sacrifice-zone formula that achieves 139-360x improvement.
 **If the biology connection draws you in:**
 [Neural palindrome](neural/README.md) shows the same structure in
 nerve cells, with no quantum physics required.
-[Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md) bridges
+[Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md) bridges
 quantum mechanics and chemistry through water.
 
 **If you want the mathematics:**

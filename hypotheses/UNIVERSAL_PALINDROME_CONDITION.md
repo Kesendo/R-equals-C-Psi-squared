@@ -101,7 +101,7 @@ d = 2. This IS the quantum palindrome applied to a physical system.
 Computed: palindrome exact, V-Effect creates 104 new frequencies when
 two water molecules couple through a H-bond. Three regimes: classical
 (J/γ << 1, bulk water), fold (J/γ ~ 1, enzymes), quantum (J/γ >> 1).
-See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+See [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md).
 
 In neural: synthetic networks with exact condition give residual = 0.
 C. elegans balanced subnetworks are 8× more palindromic than random.
@@ -121,7 +121,7 @@ The proton in a hydrogen bond is a qubit (d=2). The palindrome is
 proven. 104 new frequencies via V-Effect when two molecules couple.
 This is not a new domain; it is the quantum palindrome applied to
 a physical system. It bridges quantum (Level 0) and chemistry.
-See [Hydrogen Bond Qubit](../experiments/HYDROGEN_BOND_QUBIT.md).
+See [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md).
 
 In the Zundel configuration (proton centered between two oxygens,
 H₅O₂⁺), J/γ = 4.8 at 300K. CΨ crosses 1/4 six times in 21

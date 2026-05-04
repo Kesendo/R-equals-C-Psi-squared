@@ -140,7 +140,7 @@ for the fastest paired modes (⟨n_XY⟩ ≈ N-1). The XOR drain at 2Nγ
 with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ). These are NOT exceptions:
 they are mixed-sector modes with fractional ⟨n_XY⟩ < 1. The Absorption
 Theorem holds exactly for these modes; the rate 2γ⟨n_XY⟩ is correct
-for non-integer ⟨n_XY⟩ ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
+for non-integer ⟨n_XY⟩ ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
 
 **Valid for:** Heisenberg chain, uniform Z-dephasing, all N.
 **Replaces:** eigenvalue range computation.
@@ -272,7 +272,7 @@ Under non-uniform γ: applies only to the extremal (best-Q) mode.
 
 **Valid for:** Heisenberg chain, Z-dephasing, all N.
 **Physically validated:** proton water chain N=1-5, machine-precision
-match ([Proton Water Chain](../experiments/PROTON_WATER_CHAIN.md)).
+match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for V-Effect measurement.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
