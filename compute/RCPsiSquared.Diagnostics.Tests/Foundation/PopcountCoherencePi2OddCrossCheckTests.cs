@@ -75,6 +75,50 @@ public class PopcountCoherencePi2OddCrossCheckTests
     }
 
     [Theory]
+    [InlineData(3, 1)]                       // Dicke mirror N=3 popcount-(1, 2)
+    [InlineData(5, 2)]                       // Dicke mirror N=5 popcount-(2, 3)
+    [InlineData(4, 1)]                       // Dicke K-intermediate N=4 popcount-(1, 2)
+    [InlineData(4, 2)]                       // Dicke K-intermediate N=4 popcount-(2, 3)
+    [InlineData(6, 2)]                       // Dicke K-intermediate N=6 popcount-(2, 3)
+    [InlineData(6, 3)]                       // Dicke K-intermediate N=6 popcount-(3, 4)
+    [InlineData(5, 1)]                       // Dicke generic
+    [InlineData(5, 0)]                       // Dicke generic boundary
+    public void DickeSuperposition_ClosedFormMatchesMemoryAxisRho(int N, int n)
+    {
+        var chain = new ChainSystem(N: N, J: 1.0, GammaZero: 0.05);
+        var sm = StationaryModes.Compute(chain);
+        int d = 1 << N;
+
+        var psi = ComplexVector.Build.Dense(d);
+        double normN = 1.0 / Math.Sqrt(Binomial(N, n));
+        double normNp1 = 1.0 / Math.Sqrt(Binomial(N, n + 1));
+        for (int x = 0; x < d; x++)
+        {
+            int pop = System.Numerics.BitOperations.PopCount((uint)x);
+            if (pop == n) psi[x] += normN;
+            else if (pop == n + 1) psi[x] += normNp1;
+        }
+        psi /= Math.Sqrt(2.0);
+        var rho = DensityMatrix.FromStateVector(psi);
+
+        var reading = MemoryAxisRho.Decompose(rho, chain, sm);
+        double predicted = PopcountCoherencePi2Odd.Pi2OddInMemoryDickeSuperposition(N, n);
+
+        Assert.True(Math.Abs(reading.Pi2OddFractionWithinMemory - predicted) < 1e-9,
+            $"Dicke (|D_{n}⟩+|D_{n + 1}⟩)/√2 at N={N}: numeric={reading.Pi2OddFractionWithinMemory:G15}, predicted={predicted:G15}");
+    }
+
+    private static long Binomial(int n, int k)
+    {
+        if (k < 0 || k > n) return 0;
+        if (k == 0 || k == n) return 1;
+        if (k > n - k) k = n - k;
+        long c = 1;
+        for (int i = 0; i < k; i++) c = c * (n - i) / (i + 1);
+        return c;
+    }
+
+    [Theory]
     [InlineData(2, 0b00, 0b11)]              // GHZ_2 / Bell+ at popcount-(0, 2) HD = 2 = N
     [InlineData(3, 0b000, 0b111)]            // GHZ_3 popcount-(0, 3) HD = 3 = N
     [InlineData(4, 0b0000, 0b1111)]          // GHZ_4 popcount-(0, 4) HD = 4 = N

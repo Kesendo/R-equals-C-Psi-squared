@@ -220,4 +220,66 @@ public class PopcountCoherencePi2OddTests
     {
         Assert.Equal(expected, PopcountCoherencePi2Odd.IsHdComplement(N, hd));
     }
+
+    // ──────────── Dicke superposition (multi-state F88 extension) ────────────
+
+    [Theory]
+    [InlineData(3, 1, 0.0)]                  // mirror N=3 (1+2=3=N, X⊗N-symmetric)
+    [InlineData(5, 2, 0.0)]                  // mirror N=5
+    [InlineData(7, 3, 0.0)]                  // mirror N=7
+    [InlineData(4, 1, 0.375)]                // K-intermediate N=4 (n=1 = N/2-1)
+    [InlineData(4, 2, 0.375)]                // K-intermediate N=4 (n=2 = N/2)
+    [InlineData(6, 2, 0.375)]                // K-intermediate N=6
+    [InlineData(6, 3, 0.375)]                // K-intermediate N=6
+    [InlineData(8, 3, 0.375)]                // K-intermediate N=8
+    [InlineData(8, 4, 0.375)]                // K-intermediate N=8
+    [InlineData(3, 0, 0.5)]                  // generic
+    [InlineData(5, 0, 0.5)]                  // generic
+    [InlineData(5, 1, 0.5)]                  // generic
+    [InlineData(7, 0, 0.5)]                  // generic
+    public void Pi2OddTotalDickeSuperposition_ThreeAnchors(int N, int n, double expected)
+    {
+        Assert.Equal(expected, PopcountCoherencePi2Odd.Pi2OddTotalDickeSuperposition(N, n), 12);
+    }
+
+    [Theory]
+    [InlineData(3, 1, 0.0)]                  // mirror → Π²-classical (Π²-odd/mem = 0)
+    [InlineData(5, 2, 0.0)]
+    [InlineData(7, 3, 0.0)]
+    [InlineData(4, 1, 33.0 / 86.0)]          // K-intermediate N=4 (1,2): 33/86 ≈ 0.384
+    [InlineData(4, 2, 33.0 / 86.0)]
+    [InlineData(6, 2, 88.0 / 233.0)]         // K-intermediate N=6 (2,3): 88/233 ≈ 0.378
+    [InlineData(6, 3, 88.0 / 233.0)]
+    [InlineData(3, 0, 0.5)]                  // generic
+    [InlineData(5, 1, 0.5)]                  // generic
+    [InlineData(7, 0, 0.5)]                  // generic
+    public void Pi2OddInMemoryDickeSuperposition_KnownValues(int N, int n, double expected)
+    {
+        Assert.Equal(expected, PopcountCoherencePi2Odd.Pi2OddInMemoryDickeSuperposition(N, n), 10);
+    }
+
+    [Theory]
+    [InlineData(3, 1, true)]                 // odd N central pair
+    [InlineData(5, 2, true)]
+    [InlineData(7, 3, true)]
+    [InlineData(4, 1, false)]                // even N never Dicke-mirror
+    [InlineData(5, 1, false)]                // not central
+    public void IsDickeMirror_TrueIff2NPlus1EqualsN(int N, int n, bool expected)
+    {
+        Assert.Equal(expected, PopcountCoherencePi2Odd.IsDickeMirror(N, n));
+    }
+
+    [Theory]
+    [InlineData(4, 1, true)]                 // even N, n = N/2-1
+    [InlineData(4, 2, true)]                 // even N, n = N/2
+    [InlineData(6, 2, true)]
+    [InlineData(6, 3, true)]
+    [InlineData(8, 3, true)]
+    [InlineData(8, 4, true)]
+    [InlineData(5, 2, false)]                // odd N never K-intermediate
+    [InlineData(4, 0, false)]                // not central
+    public void IsDickeKIntermediate_OnlyAtCentralEvenN(int N, int n, bool expected)
+    {
+        Assert.Equal(expected, PopcountCoherencePi2Odd.IsDickeKIntermediate(N, n));
+    }
 }

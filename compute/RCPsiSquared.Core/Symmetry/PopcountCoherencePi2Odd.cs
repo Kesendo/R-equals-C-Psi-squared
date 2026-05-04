@@ -146,4 +146,69 @@ public static class PopcountCoherencePi2Odd
     /// in off-diagonal plus zero matching bits). Captures GHZ_N, Bell states
     /// at N = 2, intra-sector Singlet/Triplet at N = 2.</summary>
     public static bool IsHdComplement(int N, int hd) => hd == N;
+
+    // ──────────── Dicke-superposition extension (multi-state) ────────────
+    //
+    // Pair state (|p⟩+|q⟩)/√2 has total Π²-odd-of-ρ = 1/2 universally for HD < N.
+    // Dicke superposition |ψ⟩ = (|D_n⟩ + |D_{n+1}⟩)/√2 (the canonical F86 K_CC_pr
+    // probe at adjacent popcount-(n, n+1)) has a different total Π²-odd content
+    // due to its bit-permutation symmetry. The static side is identical to the
+    // pair-state formula (kernel only sees popcount weights, both have w_n = 1/2,
+    // w_{n+1} = 1/2). The memory side differs: total Π²-odd-of-ρ has three anchors
+    // in (N, n): 0 at popcount-mirror (X⊗N-symmetric → Π²-EVEN-only state),
+    // 3/8 at K-intermediate (even N, n or n+1 = N/2), 1/2 generic.
+    //
+    // Verified bit-exact at N = 3..8 across all (n, n+1) pairs; analytical proof
+    // of the 3/8 K-intermediate anchor remains open.
+
+    /// <summary>True iff the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at the
+    /// X⊗N-symmetric popcount-mirror configuration, where 2n + 1 = N (odd N only).
+    /// At this anchor the state is X⊗N-symmetric, hence Π²-EVEN-only (X⊗N
+    /// conjugation maps σ_α → (−1)^bit_b(α) σ_α, so eigenstates of X⊗N have zero
+    /// expectation on Π²-odd Pauli strings). Π²-odd-fraction-within-memory = 0.
+    ///
+    /// <para>Inheritance: shares the X⊗N-symmetry root with the GHZ_N / Bell-state /
+    /// HD = N pair-state anchor (<see cref="IsHdComplement"/>). Both classes are
+    /// X⊗N-eigenstates and therefore F60-classical (pair-CΨ = 0) and F88-classical
+    /// (Π²-odd = 0) simultaneously. Two structurally-distinct state classes
+    /// (HD = N pair vs. Dicke-mirror multi-state) sharing the same Π²-classical
+    /// origin via a single algebraic mechanism.</para></summary>
+    public static bool IsDickeMirror(int N, int n) => 2 * n + 1 == N;
+
+    /// <summary>True iff Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at a
+    /// K-intermediate configuration: even N and (n = N/2 − 1 or n = N/2).
+    /// At this anchor total Π²-odd-of-ρ = 3/8 (verified bit-exact N = 4, 6, 8;
+    /// analytical proof open).</summary>
+    public static bool IsDickeKIntermediate(int N, int n) =>
+        (N % 2 == 0) && (n == N / 2 - 1 || n == N / 2);
+
+    /// <summary>Total Π²-odd-of-ρ for Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2.
+    /// Three anchors:
+    /// 0 at popcount-mirror (2n + 1 = N, odd N, state is X⊗N-symmetric);
+    /// 3/8 at K-intermediate (even N, n ∈ {N/2 − 1, N/2});
+    /// 1/2 generic. Differs from pair-state's universal 1/2 due to bit-permutation
+    /// symmetry of Dicke states constraining off-diagonal Π²-odd content.</summary>
+    public static double Pi2OddTotalDickeSuperposition(int N, int n)
+    {
+        if (IsDickeMirror(N, n)) return 0.0;
+        if (IsDickeKIntermediate(N, n)) return 3.0 / 8.0;
+        return 0.5;
+    }
+
+    /// <summary>Closed-form Π²-odd-fraction-within-memory for Dicke superposition
+    /// |ψ⟩ = (|D_n⟩ + |D_{n+1}⟩)/√2. Static fraction s and α_static reuse the
+    /// pair-state formulas (kernel projection only sees popcount weights;
+    /// |D_n⟩'s diagonal projects to P_n / C(N, n) just like a single basis state).
+    /// The memory side uses Pi2OddTotalDickeSuperposition's three-anchor structure:
+    ///
+    ///     Π²-odd / memory = (α_total_Dicke − α_static · s) / (1 − s)
+    ///
+    /// Verified bit-exact against numerical state-level reading at N = 3..8.</summary>
+    public static double Pi2OddInMemoryDickeSuperposition(int N, int n)
+    {
+        double s = StaticFraction(N, n, n + 1);
+        double aStatic = AlphaKrawtchouk(N, n, n + 1);
+        double aTotal = Pi2OddTotalDickeSuperposition(N, n);
+        return (aTotal - aStatic * s) / (1.0 - s);
+    }
 }
