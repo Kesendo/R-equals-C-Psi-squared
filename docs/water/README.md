@@ -73,19 +73,15 @@ Open follow-up directions, parked here to be picked up when we next walk past:
   matching pump-probe IR data. Not a five-minute appendix; flagged for a
   separate session.
 
-- **Π²-odd/memory popcount-mirror refinement (2026-05-04).** PROOF_F86_QPEAK
-  §Statement 2 line 168 claims popcount-coherence states |ψ⟩ = (|p⟩ + |q⟩)/√2
-  have Π²-odd-fraction-within-memory = 0.5 exactly at any HD and any bit
-  positions; verified at N = 5 c = 2. The water EP-resonance run revealed a
-  precise structural exception: when n_p + n_q = N, X-flip conjugation cancels
-  all odd-|S| Pauli content in the kernel projection (X⊗N · σ_S · X⊗N =
-  (−1)^|S| σ_S), pushing all 1/2 of the total Π²-odd content into memory.
-  Result: Π²-odd/memory = (1/2) / (1 − static_frac), e.g. 10/19 = 0.5263 for
-  N = 5 popcount-(2, 3). Proof's general claim should be qualified: 0.5
-  exactly when n_p + n_q ≠ N; (1/2) / (1 − static_frac) when n_p + n_q = N.
-  Sweep at N = 6, 7 confirms: N = 7 popcount-(2, 3) gives 0.5 exactly (no
-  mirror, since 2 + 3 ≠ 7), N = 7 popcount-(3, 4) gives 0.507 (mirror at
-  3 + 4 = 7). Decision deferred to next pass at PROOF_F86_QPEAK Statement 2.
+- **Π²-odd/memory popcount-mirror refinement (2026-05-04, RESOLVED).** The
+  earlier "0.5 exactly at any HD any bit positions" claim in PROOF_F86_QPEAK
+  §Statement 2 was refined into a three-anchor closed form via Krawtchouk
+  polynomial analysis: α = 0 at popcount-mirror (odd N central pair),
+  α = (N+2)/(4(N+1)) at near-mirror near-half (even N central pairs),
+  α = 1/2 elsewhere; Π²-odd/memory = (1/2 − α·s) / (1 − s). Bit-exact
+  verified N = 3..16 (Krawtchouk) and N = 3..6 (vs. MemoryAxisRho).
+  Implementation: [`PopcountCoherencePi2Odd.cs`](../../compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs)
+  + tests; refinement landed in [PROOF_F86_QPEAK §Statement 2 Structural inheritance from F88](../proofs/PROOF_F86_QPEAK.md).
 
 - **DNA Phase 6 (Watson-Crick ↔ Hoogsteen tautomers).** Pre-existing in
   `proton_water_chain.py`'s Phase 6 sketch; not yet run with the 2026-05-04
