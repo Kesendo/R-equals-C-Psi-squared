@@ -319,10 +319,16 @@ public class MemoryAxisChainExploration
         Dump("|0,+i,1⟩ (Z-Y-Z)", DensityMatrix.FromStateVector(
             GeneralBasisProduct(N, new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, -1 })));
 
+        // GHZ state — entangled, per-qubit "blind" but full state has structure
+        var ghz = ComplexVector.Build.Dense(d);
+        ghz[0] = 1.0 / Math.Sqrt(2.0);
+        ghz[d - 1] = 1.0 / Math.Sqrt(2.0);
+        Dump("|GHZ⟩ = (|000⟩+|111⟩)/√2", DensityMatrix.FromStateVector(ghz));
+
         void Dump(string name, ComplexMatrix rho)
         {
             var r = BlochAxisReading.Compute(rho, N);
-            _output.WriteLine($"{name,-22} {Format(r.Qubits[0]),18} {Format(r.Qubits[1]),18} {Format(r.Qubits[2]),18}");
+            _output.WriteLine($"{name,-26} {Format(r.Qubits[0]),18} {Format(r.Qubits[1]),18} {Format(r.Qubits[2]),18}");
         }
 
         static string Format(QubitBlochReading q)
@@ -330,6 +336,52 @@ public class MemoryAxisChainExploration
             if (q.DominantAxis == 'I') return "I  (mixed)";
             char sign = q.DominantSign > 0 ? '+' : '−';
             return $"{q.DominantAxis} {sign} {q.EigenDeviation:F3}";
+        }
+    }
+
+    [Fact]
+    public void DumpBlochVsMemoryReading_OnEntangledStates_ShowsScaleSplit()
+    {
+        _output.WriteLine("=== Bloch (per-qubit) vs MemoryAxisRho (full operator) on entangled states ===");
+        _output.WriteLine("(per-qubit Bloch is blind to entanglement; MemoryAxisRho sees correlations)");
+        _output.WriteLine("");
+
+        const int N = 3;
+        int d = 1 << N;
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+
+        // GHZ |000⟩+|111⟩
+        var ghz = ComplexVector.Build.Dense(d);
+        ghz[0] = 1.0 / Math.Sqrt(2.0);
+        ghz[d - 1] = 1.0 / Math.Sqrt(2.0);
+        Compare("|GHZ⟩ = (|000⟩+|111⟩)/√2", DensityMatrix.FromStateVector(ghz), chain);
+
+        // W state |001⟩+|010⟩+|100⟩
+        var w = ComplexVector.Build.Dense(d);
+        w[1] = 1.0 / Math.Sqrt(3.0);  // |001⟩
+        w[2] = 1.0 / Math.Sqrt(3.0);  // |010⟩
+        w[4] = 1.0 / Math.Sqrt(3.0);  // |100⟩
+        Compare("|W⟩ = (|001⟩+|010⟩+|100⟩)/√3", DensityMatrix.FromStateVector(w), chain);
+
+        // For comparison: pure product Y-state (no entanglement)
+        Compare("|+i,+i,+i⟩ (product, Y)", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })), chain);
+
+        void Compare(string name, ComplexMatrix rho, ChainSystem c)
+        {
+            var bloch = BlochAxisReading.Compute(rho, N);
+            var rhoMem = MemoryAxisRho.Decompose(rho, c);
+            _output.WriteLine($"  {name}");
+            _output.WriteLine($"    per-qubit Bloch:  q0={Format(bloch.Qubits[0])}  q1={Format(bloch.Qubits[1])}  q2={Format(bloch.Qubits[2])}");
+            _output.WriteLine($"    MemoryAxisRho:    static={rhoMem.StaticFraction:F4}  memory={rhoMem.MemoryFraction:F4}  Π²-odd/mem={rhoMem.Pi2OddFractionWithinMemory:F4}");
+            _output.WriteLine("");
+        }
+
+        static string Format(QubitBlochReading q)
+        {
+            if (q.DominantAxis == 'I') return "I (mixed)";
+            char sign = q.DominantSign > 0 ? '+' : '−';
+            return $"{q.DominantAxis}{sign}{q.EigenDeviation:F3}";
         }
     }
 
