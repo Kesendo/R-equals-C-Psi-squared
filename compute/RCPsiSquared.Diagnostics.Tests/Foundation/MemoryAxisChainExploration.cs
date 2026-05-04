@@ -183,6 +183,45 @@ public class MemoryAxisChainExploration
         }
     }
 
+    [Fact]
+    public void DumpYZMixedBasisReadings_AtN3()
+    {
+        _output.WriteLine("=== Y-Z mixed bases (both Π²-odd letter sources) at N = 3 ===");
+        _output.WriteLine($"{"state",-22} {"static",10} {"memory",10} {"Π²-odd/mem",12}");
+        _output.WriteLine(new string('-', 58));
+
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+
+        // Y-only and Z-only baselines for comparison
+        Dump("|+i,+i,+i⟩ (Y-Y-Y)", new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 }, chain);
+        Dump("|0,0,1⟩    (Z-Z-Z)", new[] { 'Z', 'Z', 'Z' }, new[] { +1, +1, -1 }, chain);
+
+        // Y-Z mix: Y in middle, Z basis on edges (different popcounts)
+        Dump("|0,+i,0⟩ (Z-Y-Z, p=0)", new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, +1 }, chain);
+        Dump("|0,+i,1⟩ (Z-Y-Z, p=1)", new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, -1 }, chain);
+        Dump("|1,+i,1⟩ (Z-Y-Z, p=2)", new[] { 'Z', 'Y', 'Z' }, new[] { -1, +1, -1 }, chain);
+
+        // Z in middle, Y on edges
+        Dump("|+i,0,+i⟩ (Y-Z-Y, p=0)", new[] { 'Y', 'Z', 'Y' }, new[] { +1, +1, +1 }, chain);
+        Dump("|+i,1,+i⟩ (Y-Z-Y, p=1)", new[] { 'Y', 'Z', 'Y' }, new[] { +1, -1, +1 }, chain);
+
+        // Three-letter mix: X-Y-Z (all axis types in one state)
+        Dump("|+,+i,0⟩ (X-Y-Z)", new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, +1 }, chain);
+        Dump("|+,+i,1⟩ (X-Y-Z)", new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, -1 }, chain);
+
+        // X-Z (no Y; Z is also Π²-odd, so still expect non-zero)
+        Dump("|+,0,+⟩ (X-Z-X, p=0)", new[] { 'X', 'Z', 'X' }, new[] { +1, +1, +1 }, chain);
+        Dump("|+,1,+⟩ (X-Z-X, p=1)", new[] { 'X', 'Z', 'X' }, new[] { +1, -1, +1 }, chain);
+
+        void Dump(string name, char[] axes, int[] signs, ChainSystem chainSys)
+        {
+            var psi = GeneralBasisProduct(N: 3, axes: axes, signs: signs);
+            var rho = DensityMatrix.FromStateVector(psi);
+            var r = MemoryAxisRho.Decompose(rho, chainSys);
+            _output.WriteLine($"{name,-22} {r.StaticFraction,10:F4} {r.MemoryFraction,10:F4} {r.Pi2OddFractionWithinMemory,12:F4}");
+        }
+    }
+
     /// <summary>Y-basis polarity tensor product: |+i⟩ = (|0⟩ + i|1⟩)/√2, |−i⟩ = (|0⟩ − i|1⟩)/√2,
     /// per-site signs +1 (=|+i⟩) or −1 (=|−i⟩). Big-endian site convention matches PolarityState.</summary>
     private static ComplexVector YBasisProduct(int N, IReadOnlyList<int> signs)
@@ -228,6 +267,47 @@ public class MemoryAxisChainExploration
                 }
             }
             vec[idx] = amp * norm;
+        }
+        return vec;
+    }
+
+    /// <summary>General X/Y/Z-basis tensor product. axes[k] ∈ {'X', 'Y', 'Z'}; signs[k] ∈ {+1, −1}.
+    /// For 'X': ±1 = |+⟩/|−⟩; 'Y': ±1 = |+i⟩/|−i⟩; 'Z': ±1 = |0⟩/|1⟩ (computational basis).</summary>
+    private static ComplexVector GeneralBasisProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
+    {
+        int d = 1 << N;
+        var vec = ComplexVector.Build.Dense(d);
+        double sqrt2 = Math.Sqrt(2.0);
+
+        for (int idx = 0; idx < d; idx++)
+        {
+            Complex amp = Complex.One;
+            bool zero = false;
+            for (int k = 0; k < N; k++)
+            {
+                int bit = (idx >> (N - 1 - k)) & 1;
+                switch (axes[k])
+                {
+                    case 'X':
+                        amp *= (bit == 0 ? 1.0 : (double)signs[k]) / sqrt2;
+                        break;
+                    case 'Y':
+                        if (bit == 0) amp *= 1.0 / sqrt2;
+                        else amp *= (signs[k] == +1 ? Complex.ImaginaryOne : -Complex.ImaginaryOne) / sqrt2;
+                        break;
+                    case 'Z':
+                        // |0⟩ (sign=+1) keeps bit=0, drops bit=1; |1⟩ (sign=−1) keeps bit=1
+                        if ((signs[k] == +1 && bit == 1) || (signs[k] == -1 && bit == 0))
+                        {
+                            zero = true;
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException($"unknown axis '{axes[k]}'; expected X/Y/Z");
+                }
+                if (zero) break;
+            }
+            vec[idx] = zero ? Complex.Zero : amp;
         }
         return vec;
     }
