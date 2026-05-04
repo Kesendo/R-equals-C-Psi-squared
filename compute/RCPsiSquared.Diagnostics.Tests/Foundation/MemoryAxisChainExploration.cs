@@ -271,6 +271,68 @@ public class MemoryAxisChainExploration
         return vec;
     }
 
+    [Fact]
+    public void DumpPerQubitBlochReading_AcrossCanonicalStates_AtN3()
+    {
+        _output.WriteLine("=== Per-qubit Bloch ±0.5-pair reading at N = 3 ===");
+        _output.WriteLine("(EigenDeviation = |r_k|/2; the structural ±-pair around 1/2)");
+        _output.WriteLine($"{"state",-22} {"q0 (axis ± dev)",18} {"q1 (axis ± dev)",18} {"q2 (axis ± dev)",18}");
+        _output.WriteLine(new string('-', 80));
+
+        const int N = 3;
+        int d = 1 << N;
+
+        // Mixed
+        var rhoMm = ComplexMatrix.Build.DiagonalIdentity(d) / d;
+        Dump("ρ_mm = I/d", rhoMm);
+
+        // Z-basis
+        var psi000 = ComplexVector.Build.Dense(d);
+        psi000[0] = Complex.One;
+        Dump("|000⟩", DensityMatrix.FromStateVector(psi000));
+
+        var psi001 = ComplexVector.Build.Dense(d);
+        psi001[1] = Complex.One;
+        Dump("|001⟩", DensityMatrix.FromStateVector(psi001));
+
+        var psi111 = ComplexVector.Build.Dense(d);
+        psi111[d - 1] = Complex.One;
+        Dump("|111⟩", DensityMatrix.FromStateVector(psi111));
+
+        // X-basis
+        Dump("|+++⟩", DensityMatrix.FromStateVector(PolarityState.Uniform(N, +1)));
+        Dump("|−−−⟩", DensityMatrix.FromStateVector(PolarityState.Uniform(N, -1)));
+        Dump("|+−+⟩", DensityMatrix.FromStateVector(
+            PolarityState.Build(N, new[] { +1, -1, +1 })));
+
+        // Y-basis
+        Dump("|+i,+i,+i⟩", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, +1, +1 })));
+        Dump("|+i,−i,+i⟩", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'Y', 'Y', 'Y' }, new[] { +1, -1, +1 })));
+
+        // Mixed
+        Dump("|+,+i,0⟩", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, +1 })));
+        Dump("|+,+i,1⟩", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'X', 'Y', 'Z' }, new[] { +1, +1, -1 })));
+        Dump("|0,+i,1⟩ (Z-Y-Z)", DensityMatrix.FromStateVector(
+            GeneralBasisProduct(N, new[] { 'Z', 'Y', 'Z' }, new[] { +1, +1, -1 })));
+
+        void Dump(string name, ComplexMatrix rho)
+        {
+            var r = BlochAxisReading.Compute(rho, N);
+            _output.WriteLine($"{name,-22} {Format(r.Qubits[0]),18} {Format(r.Qubits[1]),18} {Format(r.Qubits[2]),18}");
+        }
+
+        static string Format(QubitBlochReading q)
+        {
+            if (q.DominantAxis == 'I') return "I  (mixed)";
+            char sign = q.DominantSign > 0 ? '+' : '−';
+            return $"{q.DominantAxis} {sign} {q.EigenDeviation:F3}";
+        }
+    }
+
     /// <summary>General X/Y/Z-basis tensor product. axes[k] ∈ {'X', 'Y', 'Z'}; signs[k] ∈ {+1, −1}.
     /// For 'X': ±1 = |+⟩/|−⟩; 'Y': ±1 = |+i⟩/|−i⟩; 'Z': ±1 = |0⟩/|1⟩ (computational basis).</summary>
     private static ComplexVector GeneralBasisProduct(int N, IReadOnlyList<char> axes, IReadOnlyList<int> signs)
