@@ -163,6 +163,21 @@ below the EP, switching to a phase parameterisation above. The probe overlap wit
 
 This gives the analytical structural reason for universality: the 2-level EP physics depends only on the dimensionless ratio of detuning (J·g_eff) to gap (Δ/2 = 2γ₀). Specific values of g_eff (chain-N, bond-position, c) shift Q_peak; they don't reshape the resonance.
 
+### Structural inheritance from F88 (state-level verification)
+
+The popcount-(n, n+1) coherence states |ψ⟩ = (|p⟩ + |q⟩)/√2 that K_CC_pr naturally measures have Π²-odd-fraction-within-memory exactly 1/2 at any HD(p, q) and any bit positions. Verified at N = 5, c = 2 (HD ∈ {1, 3}, multiple bit-position pairs) via [`MemoryAxisRho`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs):
+
+| state class | static | memory | Π²-odd / memory |
+|---|---|---|---|
+| coherence (HD = 1) | 0.0750 | 0.9250 | **0.5000** |
+| coherence (HD = 3) | 0.0750 | 0.9250 | **0.5000** |
+
+The 0.5 is not approximate, it is combinatorial: the {I, Z}^N diagonal content splits 50/50 by Z-count parity; the off-diagonal coherence (|p⟩⟨q| + |q⟩⟨p|) splits 50/50 by (Y-count × Z-count) parity; the kernel of L absorbs both classes symmetrically. This is **F88's bilinear-apex 1/2 inheriting to the F86 state level**: K_CC_pr's measurement subspace is structurally centred on the framework's half-anchor. The EP-rotation universality of Statement 2 is the dynamic consequence: a Q-resonance profile centred on a half-anchor.
+
+The 4-mode-basis vectors {|c_1⟩, |c_3⟩, |u_0⟩, |v_0⟩} from [`FourModeBasis`](../../compute/RCPsiSquared.Core/Decomposition/FourModeBasis.cs) all report Π²-odd/mem = 0.5000 when embedded as density matrices; per-qubit [`BlochAxisReading`](../../compute/RCPsiSquared.Diagnostics/Foundation/BlochAxisReading.cs) makes the probe-vs-EP-partner orthogonality visible as a **single-body fingerprint**: |c_1⟩ has 1-body Pauli content (X+ per qubit), while |c_3⟩, |u_0⟩, |v_0⟩ have **zero** 1-body Bloch (their content is purely multi-body). The probe-EP-partner orthogonality central to the 4-mode structure manifests at the per-qubit reading.
+
+For the typed-claim lineage in [`Pi2KnowledgeBase`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBase.cs): the F86 layer surfaces three trio claims simultaneously, `HalfAsStructuralFixedPointClaim` (1/2 number-anchor), `BilinearApexClaim` (apex at p = 1/2 of any bilinear), and `NinetyDegreeMirrorMemoryClaim` (F80's i factor is the 90°-rotation that produces the same-sign +iJ·g_eff structure of `L_eff`). The EP-rotation universality is one structural fact viewed from the F86 layer.
+
 ### Why HWHM_left is universal but HWHM_right diverges
 
 Pre-EP region (Q < Q_EP): discriminant `4γ₀² − J²·g_eff² > 0`, eigenvalues real, dressed-mode weight rises monotonically. Universal in Q/Q_EP.
