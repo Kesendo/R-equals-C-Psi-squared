@@ -170,6 +170,26 @@ Same geometric mode selection as qubit chains
 ([Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)): noise kills
 modes with weight on the noisy site; modes localized elsewhere survive.
 
+**Mechanism reading (sharpened from
+[CAVITY_MODE_LOCALIZATION](../../experiments/CAVITY_MODE_LOCALIZATION.md),
+2026-03-30, parallel qubit-chain track).** The sacrifice zone protects
+**cavity modes, not qubits**: Liouvillian eigenmode profiles are
+γ-profile-invariant (geometric standing waves sin(πkj/N)); the γ-profile
+only selects which of the fixed modes survive longest. Edge sacrifice
+exploits a pre-existing geometric structure rather than creating
+protection. r = 0.994 sacrifice-weight ↔ decay-rate correlation at N=5;
+formula F11 in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md).
+
+**Operational update (2026-04-23, 22 days after this doc).**
+Under uniform γ₀ and uniform J, smart initial-state choice
+(F67 bonding mode k=2, or |+−+−+⟩, or |01010⟩) beats the γ-Sacrifice-Zone
+profile by factor 11.5× on Sum-MI at N=5: receiver-engineering >
+γ-engineering. See [RECEIVER_VS_GAMMA_SACRIFICE](../../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
+The water-chain Sacrifice Zone numbers above are still valid for the
+fixed-receiver setup tested here, but the broader operational lesson is
+that γ-profile engineering is one of several routes; receiver choice on
+a uniform chain often dominates.
+
 ---
 
 ## Water vs DNA
