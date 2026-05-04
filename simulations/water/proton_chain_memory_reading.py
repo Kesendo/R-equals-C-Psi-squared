@@ -153,6 +153,7 @@ def per_proton_bloch(rho, N):
 
 
 def evolve(rho0, L, t):
+    """expm-based; OK for small d. For N >= 4 prefer evolve_eigendecomp."""
     d = rho0.shape[0]
     vec0 = rho0.flatten(order='F')
     vec_t = expm(L * t) @ vec0
@@ -160,34 +161,52 @@ def evolve(rho0, L, t):
     return (rho_t + rho_t.conj().T) / 2.0
 
 
+def diagonalize_propagator(L):
+    """One-shot eigendecomp of the Liouvillian for fast time-stepping at large N.
+
+    Returns (lambdas, R, R_inv) such that exp(L·t) = R · diag(exp(λ·t)) · R^-1.
+    """
+    lambdas, R = np.linalg.eig(L)
+    R_inv = np.linalg.inv(R)
+    return lambdas, R, R_inv
+
+
+def evolve_via_eigendecomp(rho0, lambdas, R, R_inv, t):
+    d = rho0.shape[0]
+    vec0 = rho0.flatten(order='F')
+    c = R_inv @ vec0
+    vec_t = R @ (np.exp(lambdas * t) * c)
+    rho_t = vec_t.reshape((d, d), order='F')
+    return (rho_t + rho_t.conj().T) / 2.0
+
+
 # ---------------------- Main analysis ----------------------
 
-def run():
-    N = 3
-    J = 1.0
-    gamma = 0.05
+def analyse(N, J=1.0, gamma=0.05, times=None):
+    """Run the trio's state-level diagnostics on a Heisenberg+Z-dephasing chain at N qubits.
+
+    For each canonical initial state (X-polarity, Y-polarity, sector-bound), evolve under
+    L for the given times and dump (static, memory, Π²-odd-in-memory, per-proton |r|).
+    """
+    if times is None:
+        times = [0.0, 1.0, 5.0, 10.0, 25.0, 50.0, 100.0, 200.0]
+
     H = heisenberg_chain(N, J)
     L = z_dephasing_lindblad(H, gamma, N)
-
-    print(f"=== 3-proton water chain, Heisenberg J = {J}, Z-dephasing gamma = {gamma} ===")
-    print(f"Time unit: 1/J. Heisenberg chain is 'truly' (Pi^2-even); F1 palindrome holds bit-exact.")
-    print(f"Expected long-time behaviour: rho -> I/d = I/8 (the d=0 axis, maximally mixed).")
-    print()
+    lambdas, R, R_inv = diagonalize_propagator(L)
 
     states = [
-        ("|+++>      (X-polarity, Pi^2-even content only)",
-         x_basis_product(N, [+1, +1, +1])),
-        ("|+i,+i,+i> (Y-polarity, Pi^2-odd 4/7 in memory)",
-         y_basis_product(N, [+1, +1, +1])),
-        ("|001>      (Z-basis, popcount-1 sector)",
-         computational_state(N, [0, 0, 1])),
-        ("|+, 0, +>  (mixed X-Z basis)",
-         np.kron(np.kron(np.array([1, 1], complex)/np.sqrt(2),
-                         np.array([1, 0], complex)),
-                 np.array([1, 1], complex)/np.sqrt(2))),
+        (f"|+>^{N}      (X-polarity)",
+         x_basis_product(N, [+1] * N)),
+        (f"|+i>^{N}     (Y-polarity, expect Pi2-odd/mem = (2^(N-1))/(2^N-1) at t=0)",
+         y_basis_product(N, [+1] * N)),
+        (f"|0..01>     (popcount-1 sector, expect Pi2-odd/mem = 0.5 throughout)",
+         computational_state(N, [0] * (N - 1) + [1])),
     ]
 
-    times = [0.0, 1.0, 5.0, 10.0, 25.0, 50.0, 100.0, 200.0]
+    print(f"=== N = {N}: Heisenberg J = {J}, Z-dephasing gamma = {gamma}, d = {2**N} ===")
+    print(f"kernel dim of L = {N + 1} (sector projectors P_0..P_{N}); F1 palindrome bit-exact.")
+    print()
 
     for name, psi in states:
         rho0 = density_matrix(psi)
@@ -195,7 +214,7 @@ def run():
         print(f"{'t':>6} {'static':>9} {'memory':>9} {'Pi2-odd/mem':>13}  per-proton |r|")
         print("-" * 78)
         for t in times:
-            rho_t = evolve(rho0, L, t)
+            rho_t = evolve_via_eigendecomp(rho0, lambdas, R, R_inv, t)
             rho_d0 = kernel_projection(rho_t, N)
             rho_d2 = rho_t - rho_d0
             _, rho_d2_odd = pi2_split(rho_d2, N)
@@ -217,17 +236,68 @@ def run():
             print(f"{t:>6.1f} {static_frac:>9.4f} {memory_frac:>9.4f} {odd_in_mem:>13.4f}  {bloch_str}")
         print()
 
-    print("=== Reading ===")
+
+def expected_y_polarity_pi2_odd_initial(N):
+    """X-Y combinatorial theorem: at t=0, Y-polarity has 2^(N-1) Pi2-odd Pauli strings
+    out of 2^N total; within memory (excluding III), Pi2-odd/mem = 2^(N-1) / (2^N - 1)."""
+    return (1 << (N - 1)) / float((1 << N) - 1)
+
+
+def expected_sector_bound_static_fraction(N, popcount):
+    """Single computational basis state |b> with popcount(b) = n has rho_d0 = (1/C(N,n))·P_n.
+    ‖rho_d0‖² = 1/C(N,n)."""
+    from math import comb
+    return 1.0 / comb(N, popcount)
+
+
+def expected_sector_bound_per_proton_r(N, popcount):
+    """At long t, |0..01> in P_1 thermalises within sector to P_n/C(N,n).
+    Per-proton rz = (C(N-1,n) - C(N-1,n-1)) / C(N,n)."""
+    from math import comb
+    return abs(comb(N - 1, popcount) - comb(N - 1, popcount - 1)) / comb(N, popcount)
+
+
+def run():
+    print("Trio's state-level diagnostics on Heisenberg + Z-dephasing water chains")
+    print("=" * 78)
     print()
-    print("Compare to IBM Torino single qubit (memory_reading_ibm_torino.py):")
-    print(" - There: T1+T2, memory migrates X+ -> Z+ (thermal Z+, |r|/2 stays > 0.20).")
-    print(" - Here:  pure Z-dephasing, memory decays toward d=0 axis (|r| -> 0 per qubit,")
-    print("          and rho_d2 -> 0 in operator-norm).")
+    print("Predicted Y-polarity Pi2-odd/mem at t=0 (X-Y combinatorial theorem):")
+    for N in (3, 4, 5):
+        pred = expected_y_polarity_pi2_odd_initial(N)
+        num, den = (1 << (N - 1)), ((1 << N) - 1)
+        print(f"  N = {N}: 2^{N-1}/(2^{N}-1) = {num}/{den} = {pred:.4f}")
     print()
-    print("The water Heisenberg chain is the framework's CANONICAL setup: the trio's")
-    print("'memory disappears toward I/d' prediction is realised exactly. Hardware T1")
-    print("breaks this by introducing a preferred direction. Pure dephasing (water at")
-    print("room temperature kT >> hbar omega, or framework Z-dephasing) does not.")
+    print("Predicted sector-bound (popcount-1) static fraction (= 1/C(N,1) = 1/N):")
+    for N in (3, 4, 5):
+        print(f"  N = {N}: static = {expected_sector_bound_static_fraction(N, 1):.4f}; "
+              f"per-proton |r|_eq = {expected_sector_bound_per_proton_r(N, 1):.4f}")
+    print()
+
+    for N in (3, 4, 5):
+        analyse(N)
+
+    print("=== Cross-N reading ===")
+    print()
+    print("Three structural inheritance patterns visible across N = 3, 4, 5:")
+    print()
+    print(" 1. X-polarity (|+>^N):  Pi2-odd/mem stays exactly 0 throughout. {I, X} are both")
+    print("    Pi2-even under Z-dephasing; no Pi2-odd content is ever created. Memory")
+    print("    decays to zero (rho -> I/d).")
+    print()
+    print(" 2. Y-polarity (|+i>^N): Pi2-odd/mem starts at predicted (2^(N-1))/(2^N-1)")
+    print("    (4/7, 8/15, 16/31 at N = 3, 4, 5) and GROWS toward 1.0 over time.")
+    print("    Pi2-EVEN content decays faster than Pi2-odd (matches yesterday's F80 lift")
+    print("    dynamics observation). Inheritance pattern: Pi2-odd is structurally robust.")
+    print()
+    print(" 3. Sector-bound (|0..01>): Pi2-odd/mem stays EXACTLY 0.5 throughout for all N")
+    print("    (matches yesterday's F86 verification: popcount-coherence-class states have")
+    print("    50% Pi2-odd content combinatorially). Static fraction approaches 1/C(N,1) =")
+    print("    1/N (1/3, 1/4, 1/5). Per-proton |r| asymptotes to (N-2)/N (1/3, 1/2, 3/5).")
+    print()
+    print("The framework's d=0-axis prediction (memory -> I/d) holds exactly when the")
+    print("initial state is symmetric under sector permutations (case 1). Non-symmetric")
+    print("initial states settle into the sector projector P_n, not into I/d, because")
+    print("Heisenberg conserves popcount.")
 
 
 if __name__ == "__main__":
