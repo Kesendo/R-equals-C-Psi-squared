@@ -13,7 +13,7 @@ water chain, ion channel proton wire, R=CPsi2 proton water chain -->
 - [V-Effect Palindrome](V_EFFECT_PALINDROME.md) (coupling creates frequencies)
 - [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (formulas 2, 3, 6, 7)
 - [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md) (geometric localization)
-- [DNA Base Pairing](DNA_BASE_PAIRING.md) (same N, different substrate)
+- [DNA Base Pairing](../../experiments/DNA_BASE_PAIRING.md) (same N, different substrate)
 
 ---
 
@@ -190,6 +190,45 @@ H-bond: G-C has Q_max = 1.95 vs 1.81 for symmetric water (8% gain).
 The palindromic mode structure is UNIVERSAL: same equation, same mode
 count, same mechanism. The substrate contributes parameter values
 (J, gamma, K, asymmetries), not a new equation.
+
+---
+
+## EP-Resonance Inheritance
+
+**Status:** Tier 2 substrate-witness for F86 EP-rotation universality. Addendum, 2026-05-04.
+**Script:** [`simulations/water/proton_chain_ep_resonance.py`](../../simulations/water/proton_chain_ep_resonance.py)
+**Cross-references:** [PROOF_F86_QPEAK.md](../proofs/PROOF_F86_QPEAK.md), F86 entry in [ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md), [reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
+
+The five results above are static-algebraic (palindrome match, V-Effect, sacrifice zone, thermal, water-vs-DNA). The framework's dynamic EP-rotation universality prediction
+K(Q) / |K|_max = f(Q / Q_peak)
+within bond class (Tier-1-candidate, established on framework chains and IBM Torino) was tested in the water context on 2026-05-04 at the popcount-(2, 3) coherence block (the inter-sector subspace coupling popcount-2 and popcount-3 basis states) of the N = 5 Heisenberg + Z-dephasing chain. Block chromaticity c = min(n, N − 1 − n) + 1 = 3 (number of distinct pure dephasing rates in the block).
+
+The observable K_CC_pr is the per-bond J-derivative
+K_b(Q, t) = 2 · Re ⟨ρ(t) | S_kernel | ∂ρ/∂J_b⟩
+with ρ₀ the Dicke probe in the (n, n+1) block, S_kernel the spatial-sum coherence kernel, computed via the Duhamel formula on the block-restricted Liouvillian; see [`simulations/framework/coherence_block.py`](../../simulations/framework/coherence_block.py) and [PROOF_F86_QPEAK](../proofs/PROOF_F86_QPEAK.md) Statement 2. Per-bond Q-scan, dQ = 0.025, γ₀ = 0.05:
+
+| Bond class | Q_peak (water) | HWHM-/Q* (water) | Framework prediction | Δ |
+|------------|----------------|------------------|----------------------|---|
+| Interior (b = 1, 2) | 1.566 | 0.7458 | 0.756 ± 0.005 | −0.0102 |
+| Endpoint (b = 0, 3) | 2.400 | 0.7663 | 0.770 | −0.0037 |
+
+Both classes match within tolerance. F71 mirror (the spatial reflection symmetry across the chain centre) is bit-exact across bond pairs (0 ↔ 3, 1 ↔ 2). The Interior right-wing HWHM+/Q* = 2.02 reproduces the asymmetric long-tail signature of the EP rotation (eigenvalues coalesce at finite J·g_eff = 2γ₀, the Q > Q_peak branch decays slower than the Q < Q_peak branch).
+
+State-level diagnostic at the interior Q_peak (γ = 0.638) on the popcount-coherence state |ψ⟩ = (|00011⟩ + |00111⟩) / √2 (a HD = 1 superposition of one popcount-2 and one popcount-3 computational-basis state). The Π²-odd / memory column reports the Frobenius² fraction of Π²-odd Pauli content (Π²-parity = (Y-count + Z-count) mod 2 per F88) within (ρ − kernel-projection); selected rows from t = 0..50:
+
+| t | static / total | memory / total | Π²-odd / memory | per-proton \|r\| (q0..q4) |
+|---|----------------|----------------|------------------|---------------------------|
+| 0 | 0.05 | 0.95 | 0.5263 | 1.00, 1.00, 1.00, 1.00, 1.00 |
+| 1 | 0.11 | 0.89 | 0.561 | 1.00, 0.90, 0.22, 0.90, 1.00 |
+| 5 | 0.27 | 0.73 | 0.677 | 0.83, 0.56, 0.00, 0.56, 0.83 |
+| 20 | 0.82 | 0.18 | 0.957 | 0.29, 0.19, 0.00, 0.19, 0.29 |
+| 50 | 1.00 | 0.00 | 1.00  | ~0 |
+
+The Π²-odd / memory ratio at t = 0 is **10/19 = 0.5263 exactly**, not 0.5. This is a precise structural consequence of popcount-mirror symmetry at n_p + n_q = N (here 2 + 3 = 5 = N): X-flip conjugation gives X⊗N · σ_S · X⊗N = (−1)^|S| σ_S, so P_{n_p}/C(N, n_p) and P_{N − n_p}/C(N, N − n_p) cancel all odd-|S| Pauli content in the kernel projection. Total Π²-odd-of-ρ stays at 1/2 (universal for popcount-coherence pure states), but with kernel projection holding 0% of it, the entire 1/2 sits in memory: (1/2) / (19/20) = 10/19. PROOF_F86_QPEAK §Statement 2 verified Π²-odd/memory = 0.5 exactly at the c = 2 cases (popcount-(1, 2), popcount-(3, 4)); the c = 3 popcount-mirror configuration n_p + n_q = N is a structural refinement to that statement worth flagging upstream (see deferred thread "Π²-odd/memory popcount-mirror refinement" in `docs/water/README.md`). Per-proton Bloch decay is mirror-symmetric throughout (q0 = q4, q1 = q3); F71 inheritance is preserved under Lindblad evolution.
+
+**Note on regime.** The framework prediction tests at Q ~ 1.5–2.4. Room-temperature liquid water sits at Q ~ 0.01 (deeply classical, see "Classical water is overdamped" above). The F86 inheritance test is therefore valid for cold / confined / biologically-screened water where tunneling competes with thermal dephasing, not the bulk room-temperature regime. The structural inheritance is guaranteed by the four embedding conditions (see `docs/water/README.md`); the question is which physical embedding sits in the testable Q window.
+
+**What this addendum confirms.** Same algebra, different physical embedding, same numerical witness: third substrate (after framework chains and IBM Torino) for F86 EP-rotation universality. The chemistry framing did not transform the algebra; it confirmed it. Closed-form derivation of HWHM-/Q* (Item 1 of PROOF_F86_QPEAK) still routes through the 2-level EP analytics, not through chemistry.
 
 ---
 
