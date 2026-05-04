@@ -165,30 +165,56 @@ This gives the analytical structural reason for universality: the 2-level EP phy
 
 ### Structural inheritance from F88 (state-level verification)
 
-The popcount-(n, n+1) coherence states |ψ⟩ = (|p⟩ + |q⟩)/√2 that K_CC_pr naturally measures have a Π²-odd-fraction-within-memory determined by a precise three-anchor closed form, derived from Krawtchouk polynomial reflection symmetries and verified bit-exact via [`PopcountCoherencePi2Odd`](../../compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs) (N = 3..16) plus the cross-check against [`MemoryAxisRho`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) (N = 3..6, all popcount-coherence pairs):
+Popcount-coherence pair states |ψ⟩ = (|p⟩ + |q⟩)/√2 with popcount(p) = n_p, popcount(q) = n_q, HD(p, q) = h have a Π²-odd-fraction-within-memory determined by a precise closed form derived from Krawtchouk polynomial reflection symmetries. The formula generalises across **all** popcount pairs (adjacent n_q = n_p + 1, non-adjacent, and intra-sector n_p = n_q) and HD values, verified bit-exact via [`PopcountCoherencePi2Odd`](../../compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs) against [`MemoryAxisRho`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) on 213 configurations at N = 2..7 (max deviation 8.88e−16).
 
-**Total Π²-odd-of-ρ = 1/2 universally** for popcount-coherence pure states: |p⟩⟨p| and |q⟩⟨q| each carry half-half Z-count-parity content; the off-diagonals |p⟩⟨q| + |q⟩⟨p| split 50/50 by (Y-count + Z-count) parity (= Π²-parity per F88).
+**Static fraction** s is HD/bit-position invariant:
+- Inter-sector (n_p ≠ n_q): s = 1/(4·C(N, n_p)) + 1/(4·C(N, n_q))
+- Intra-sector (n_p = n_q): s = 1/C(N, n)
 
-**Static fraction** s = 1/(4·C(N, n_p)) + 1/(4·C(N, n_q)) is HD/bit-position invariant. The kernel of L (= span{P_n} for Heisenberg + Z-dephasing) absorbs only the popcount-sector content of the diagonal; the off-diagonals project to zero in the kernel.
+The kernel of L (= span{P_n} for Heisenberg + Z-dephasing) absorbs only popcount-sector content; off-diagonals project to zero in the kernel.
 
-**α = Π²-odd-fraction of the kernel projection** has three anchors:
+**α = Π²-odd-fraction of the kernel projection** has three anchor categories driven by Krawtchouk identities:
 
-- **α = 0** (popcount-mirror, n_p + n_q = N; only at odd N, central pair (N−1)/2, (N+1)/2). Krawtchouk reflection K_{N−n}(s; N) = (−1)^s K_n(s; N) cancels all odd-|S| Pauli content between the two sectors P_{n_p}/C(N,n_p) and P_{N−n_p}/C(N,n_q).
-- **α = (N + 2) / (4·(N + 1))** (near-mirror near-half, only at even N, n_p ∈ {N/2 − 1, N/2}). K_{N/2}(s; N) = 0 for odd s due to bit-flip symmetry of the half-popcount sector.
-- **α = 1/2** elsewhere. Proven for boundary pair (0, 1) via Σ_s C(N, s) K_n(s; N) (−1)^s = 2^N · [n = N]; bit-exact for all other tested cases up to N = 16 (general analytical proof open).
+- **α = 0** at popcount-mirror n_p + n_q = N. Covers inter-sector mirror (n_p ≠ n_q) and intra-sector mirror (n_p = n_q = N/2 at even N). Krawtchouk reflection K_{N−n}(s; N) = (−1)^s K_n(s; N) cancels all odd-s Pauli content between the two sectors.
+- **α = K-intermediate** at "K-vanishing" configurations: even N with exactly one of {n_p, n_q} equal to N/2 (no mirror). K_{N/2}(s; N) = 0 for odd s due to bit-flip symmetry of the half-popcount sector. The α value is a Krawtchouk-derived rational that varies with the specific (n_p, n_q):
+  - *Adjacent K-intermediate* (n_q = n_p + 1, n_p ∈ {N/2 − 1, N/2}): α = (N + 2)/(4·(N + 1)). Examples: 3/10 at N = 4, 2/7 at N = 6 popcount-(2, 3) and (3, 4), 5/18 at N = 8.
+  - *Non-adjacent K-intermediate* (popcount difference ≥ 2): α follows the Krawtchouk sum without simple closed form. Examples: 3/7 at N = 4 popcount-(0, 2); 5/13 at N = 6 popcount-(1, 3) and (3, 5); 10/21 at N = 6 popcount-(0, 3).
+- **α = 1/2** generic (no Krawtchouk vanishing on either side). Proven for boundary pair (0, 1) via Σ_s C(N, s) K_n(s; N) (−1)^s = 2^N · [n = N]; bit-exact for all other tested generic cases (general analytical proof open).
 
-**Π²-odd / memory = (1/2 − α · s) / (1 − s).** Verified state-level table:
+**Total Π²-odd of ρ** is HD-dependent:
+- HD < N (at least one matching bit): 1/2.
+- HD = N (p, q complementary): 0. The off-diagonal Re(|p⟩⟨q|) has only X-and-even-Y-count Pauli strings (Y² = I cancellation kills odd-Y-count terms), and with no matching bits there is no Z-content; all surviving terms are Π²-EVEN. The diagonal residual also vanishes for popcount-(0, N) where each sector has a single basis state.
 
-| N | (n_p, n_q) | bucket | static s | α | Π²-odd / memory |
-|---|------------|--------|----------|---|-----------------|
-| 3 | (1, 2) | mirror | 1/6 | 0 | **3/5 = 0.6** |
-| 5 | (1, 2) | generic (c = 2 verified case) | 3/40 | 1/2 | **1/2 exact** |
-| 5 | (2, 3) | mirror | 1/20 | 0 | **10/19 ≈ 0.5263** |
-| 7 | (3, 4) | mirror | 1/70 | 0 | **35/69 ≈ 0.5072** |
-| 4 | (1, 2) | near-mirror half | 5/48 | 3/10 | **≈ 0.5233** |
-| 6 | (2, 3) | near-mirror half | 7/240 | 2/7 | **≈ 0.5064** |
+**Π²-odd / memory closed form:**
 
-This is **F88's bilinear-apex 1/2 inheriting to the F86 state level via three structurally-distinguished anchors**: K_CC_pr's measurement subspace is centred on the framework's half-anchor in the generic case, with two structured deviations (popcount-mirror, near-mirror half) at specific (N, n_p) configurations. The EP-rotation universality of Statement 2 is the dynamic consequence: a Q-resonance profile centred on a half-anchor with a c-and-N-specific shift in the structured-anchor cases.
+  Π²-odd / memory = ┌  0                          if HD = N (Π²-classical)
+                    └  (1 / 2 − α · s) / (1 − s)  otherwise
+
+Verified state-level table across all anchor categories:
+
+| N | (n_p, n_q, HD) | category | static s | α | Π²-odd / memory |
+|---|----------------|----------|----------|---|-----------------|
+| 2 | (0, 2, 2) | HD = N (Bell+ / GHZ_2) | 1/2 | 0 | **0** |
+| 2 | (1, 1, 2) | HD = N (Singlet/Triplet) | 1/2 | 0 | **0** |
+| 3 | (0, 3, 3) | HD = N (GHZ_3) | 1/2 | 0 | **0** |
+| 4 | (0, 4, 4) | HD = N (GHZ_4) | 1/2 | 0 | **0** |
+| 5 | (0, 5, 5) | HD = N (GHZ_5) | 1/2 | 0 | **0** |
+| 3 | (1, 2, 1) | inter mirror, HD < N | 1/6 | 0 | **3/5 = 0.6** |
+| 5 | (2, 3, 1) | inter mirror, HD < N | 1/20 | 0 | **10/19 ≈ 0.5263** |
+| 7 | (3, 4, 1) | inter mirror, HD < N | 1/70 | 0 | **35/69 ≈ 0.5072** |
+| 5 | (1, 4, 3) | inter mirror, non-adjacent | 1/10 | 0 | **5/9 ≈ 0.5556** |
+| 6 | (2, 4, 2) | inter mirror, non-adjacent | 1/30 | 0 | **15/29 ≈ 0.5172** |
+| 4 | (2, 2, 2) | intra-mirror N/2 | 1/6 | 0 | **3/5 = 0.6** |
+| 4 | (1, 2, 1) | adjacent K-intermediate | 5/48 | 3/10 | **≈ 0.5233** |
+| 4 | (0, 2, 2) | non-adjacent K-intermediate | 7/24 | 3/7 | **9/17 ≈ 0.5294** |
+| 6 | (0, 3, 3) | non-adjacent K-intermediate | 21/80 | 10/21 | **30/59 ≈ 0.5085** |
+| 5 | (1, 2, 1) | inter generic | 3/40 | 1/2 | **1/2 exact** |
+| 7 | (2, 3, 1) | inter generic | 2/105 | 1/2 | **1/2 exact** |
+| 3 | (1, 1, 2) | intra generic | 1/3 | 1/2 | **1/2 exact** |
+
+This is **F88's bilinear-apex 1/2 inheriting to the F86 state level**: K_CC_pr's measurement subspace is centred on the framework's half-anchor in the generic case, with structured deviations at specific (N, n_p, n_q, HD) configurations. The HD = N anchor is the **Π²-classical extreme**: GHZ_N, Bell states, and intra-sector all-bits-differ states have zero Π²-odd content. This connects to [F60](../ANALYTICAL_FORMULAS.md) (pair-CΨ = 0 for GHZ_N): the same "classical" classification read from two orthogonal observables (F60 via partial-trace pair-tomography, F88 via Π²-projection on the full state).
+
+The EP-rotation universality of Statement 2 is the dynamic consequence: a Q-resonance profile centred on a half-anchor with a c-and-N-specific shift in the structured-anchor cases (mirror, K-intermediate); the Π²-classical states at HD = N sit outside the K_CC_pr measurement scope (they have no Π²-odd memory content for the J-derivative observable to resonate with).
 
 The 4-mode-basis vectors {|c_1⟩, |c_3⟩, |u_0⟩, |v_0⟩} from [`FourModeBasis`](../../compute/RCPsiSquared.Core/Decomposition/FourModeBasis.cs) all report Π²-odd/mem = 0.5000 when embedded as density matrices; per-qubit [`BlochAxisReading`](../../compute/RCPsiSquared.Diagnostics/Foundation/BlochAxisReading.cs) makes the probe-vs-EP-partner orthogonality visible as a **single-body fingerprint**: |c_1⟩ has 1-body Pauli content (X+ per qubit), while |c_3⟩, |u_0⟩, |v_0⟩ have **zero** 1-body Bloch (their content is purely multi-body). The probe-EP-partner orthogonality central to the 4-mode structure manifests at the per-qubit reading.
 
