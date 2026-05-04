@@ -18,6 +18,37 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_F86_QPEAK.md</c> §Structural inheritance from F88.
 /// Python verifier (213 cases at N = 2..7, max deviation 8.88e−16):
 /// <c>simulations/_pi2_odd_general_closed_form.py</c>.</para>
+///
+/// <para><b>API as inheritance graph.</b> The methods below are not a flat
+/// utility set; each is a downstream node of one of four algebraic root
+/// mechanisms. The inheritance edges make the cockpit-discipline filter
+/// concrete (cf. <c>memory/project_algebra_is_inheritance.md</c> Locus 4):
+/// each addition asks not only "what recurring question" but also "which root
+/// am I downstream of, and who inherits from me?"</para>
+///
+/// <list type="bullet">
+///   <item><b>Krawtchouk reflection-orthogonality lemma</b>
+///         (Σ_s (−1)^s · C(N, s) · K_n(s; N) · K_m(s; N) = 2^N · C(N, n) · [n + m = N]):
+///         <see cref="AlphaAnchor"/>, <see cref="AlphaKIntermediateClosed"/>,
+///         <see cref="Pi2OddInMemory"/>. The lemma derives all three pair-state
+///         α anchors from a single algebraic identity.</item>
+///   <item><b>X⊗N-symmetry → Π²-EVEN-only states</b>
+///         (X⊗N · σ_α · X⊗N = (−1)^{bit_b(α)} · σ_α):
+///         <see cref="IsHdComplement"/> (HD = N pair states: GHZ_N, Bell, intra-complements),
+///         <see cref="IsDickeMirror"/> (Dicke-mirror multi-state, 2n + 1 = N).
+///         Two structurally-distinct state-class families, one shared root. F60
+///         (pair-CΨ = 0) and F88 (Π²-odd = 0) are two access paths to this same root.</item>
+///   <item><b>Popcount-weight invariance</b>
+///         (kernel of L = span{P_n}, only sees w_n = Σ_i |c_i|² · [popcount(b_i) = n]):
+///         <see cref="StaticFraction"/>, and indirectly any multi-state superposition
+///         that matches a pair state's {w_n} (W states, Bonding-Bell-Pair, Dicke
+///         superposition all inherit static-side via this).</item>
+///   <item><b>Dicke bit-permutation symmetry × K_{N/2}-vanishing</b>:
+///         <see cref="Pi2OddTotalDickeSuperposition"/>, <see cref="Pi2OddInMemoryDickeSuperposition"/>,
+///         <see cref="IsDickeKIntermediate"/>. Three Dicke α_total anchors (0 / 3/8 / 1/2)
+///         from this combination; 3/8 K-intermediate is bit-exact verified, analytical
+///         proof open.</item>
+/// </list>
 /// </summary>
 public static class PopcountCoherencePi2Odd
 {
