@@ -59,7 +59,7 @@ public class Pi2ClassTests
     [Fact]
     public void TrulyMixedWithEvenNonTruly_IsPi2EvenNonTruly()
     {
-        // XX (truly) + YZ (Π²-even non-truly) — both Π²-even, but YZ breaks truly criterion.
+        // XX (truly) + YZ (Π²-even non-truly): both Π²-even, but YZ breaks truly criterion.
         var terms = new[] { Term(PauliLetter.X, PauliLetter.X), Term(PauliLetter.Y, PauliLetter.Z) };
         Assert.Equal(Pi2Class.Pi2EvenNonTruly, terms.Pi2ClassOf());
     }
@@ -99,12 +99,15 @@ public class Pi2ClassTests
         // The algebraic test (no L build) gives Pi2Class; the spectral test (full L + Spec)
         // gives TrichotomyClass; the cross-walk maps the first to the second.
         var actualPi2 = ((IReadOnlyList<PauliPairBondTerm>)terms).Pi2ClassOf();
-        Assert.Equal(expectedPi2, actualPi2);
+        Assert.True(expectedPi2 == actualPi2,
+            $"[{label}] algebraic Pi2Class: expected {expectedPi2}, got {actualPi2}");
 
         var actualSpectral = PauliPairTrichotomy.Classify(MakeChain(3), terms);
-        Assert.Equal(expectedSpectral, actualSpectral);
+        Assert.True(expectedSpectral == actualSpectral,
+            $"[{label}] spectral TrichotomyClass: expected {expectedSpectral}, got {actualSpectral}");
 
-        Assert.Equal(actualSpectral, actualPi2.PredictedTrichotomy());
+        Assert.True(actualSpectral == actualPi2.PredictedTrichotomy(),
+            $"[{label}] cross-walk: spectral {actualSpectral} ≠ predicted {actualPi2.PredictedTrichotomy()} from Pi2Class {actualPi2}");
     }
 
     public static IEnumerable<object[]> CanonicalCrossWalkCases() => new[]
