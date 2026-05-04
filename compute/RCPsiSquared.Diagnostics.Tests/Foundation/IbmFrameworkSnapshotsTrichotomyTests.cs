@@ -63,21 +63,12 @@ public class IbmFrameworkSnapshotsTrichotomyTests
         foreach (var (key, expValue) in expectations)
         {
             string[] parts = key.Split(',');
-            var letters = new[] { ParsePauliLetter(parts[0]), ParsePauliLetter(parts[1]) };
+            var letters = new[] { PauliLetterExtensions.FromSymbol(parts[0][0]), PauliLetterExtensions.FromSymbol(parts[1][0]) };
             var sigma = PauliString.Build(letters);
             rho += (Complex)(expValue / 4.0) * sigma;
         }
         return rho;
     }
-
-    private static PauliLetter ParsePauliLetter(string s) => s switch
-    {
-        "I" => PauliLetter.I,
-        "X" => PauliLetter.X,
-        "Y" => PauliLetter.Y,
-        "Z" => PauliLetter.Z,
-        _ => throw new ArgumentException($"unknown Pauli letter: {s}"),
-    };
 
     /// <summary>16 Pauli expectation values from snapshot D (q0, q2 reduced after partial
     /// trace over q1). Values verbatim from

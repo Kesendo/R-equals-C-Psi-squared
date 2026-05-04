@@ -38,22 +38,8 @@ from _pi2_odd_general_closed_form import (
     static_fraction_general,
     alpha_krawtchouk_general,
     numerical_pi2_odd_in_memory,
+    kernel_projection_popcount,
 )
-
-
-I2 = np.eye(2, dtype=complex)
-SX = np.array([[0, 1], [1, 0]], dtype=complex)
-SY = np.array([[0, -1j], [1j, 0]], dtype=complex)
-SZ = np.array([[1, 0], [0, -1]], dtype=complex)
-PAULIS = [I2, SX, SY, SZ]
-BIT_B = [0, 0, 1, 1]
-
-
-def kron_n(mats):
-    out = mats[0]
-    for m in mats[1:]:
-        out = np.kron(out, m)
-    return out
 
 
 def basis_state(N, bits):
@@ -135,7 +121,7 @@ def main():
             print(f"{label:<46} N={N} too large for numerical sweep, skipping")
             continue
         result_num = numerical_pi2_odd_in_memory(rho, N)
-        static_num = float(np.linalg.norm(rho_d0_only(rho, N), "fro") ** 2 / np.linalg.norm(rho, "fro") ** 2)
+        static_num = float(np.linalg.norm(kernel_projection_popcount(rho, N), "fro") ** 2 / np.linalg.norm(rho, "fro") ** 2)
 
         # Pair-state F88 prediction at the same popcount-weights
         n_p, n_q = pop_pair
@@ -147,23 +133,6 @@ def main():
         pair_prediction = pi2_odd_in_memory_general(N, n_p, n_q, hd_default)
         weight_str = f"{pop_pair}"
         print(f"{label:<46} {N:>3} {weight_str:<22} {static_num:>9.6f} {result_num:>11.6f} {pair_prediction:>18.6f}")
-
-
-def rho_d0_only(rho, N):
-    """Returns just the kernel projection ρ_d0 (without computing the rest)."""
-    d = 2**N
-    rho_d0 = np.zeros_like(rho)
-    for n in range(N + 1):
-        P_n = np.zeros((d, d), dtype=complex)
-        for b in range(d):
-            if bin(b).count("1") == n:
-                P_n[b, b] = 1.0
-        rank_n = int(np.real(np.trace(P_n @ P_n)))
-        if rank_n == 0:
-            continue
-        coeff = np.real(np.trace(P_n @ rho)) / rank_n
-        rho_d0 = rho_d0 + coeff * P_n
-    return rho_d0
 
 
 if __name__ == "__main__":

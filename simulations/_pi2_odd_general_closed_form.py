@@ -92,7 +92,11 @@ def coherence_state(N, p_bits, q_bits, sign=+1):
     return np.outer(psi, psi.conj())
 
 
-def numerical_pi2_odd_in_memory(rho, N):
+def kernel_projection_popcount(rho, N):
+    """ρ_d0 = Σ_n (Tr(P_n · ρ) / Tr(P_n²)) · P_n with P_n the popcount-n sector
+    projector. For Heisenberg + Z-dephasing, kernel of L = span{P_n}, so this is
+    the canonical state-level kernel projector. Shared helper for the F88-Lens
+    sweep + multi-state probe."""
     d = 2**N
     rho_d0 = np.zeros_like(rho)
     for n in range(N + 1):
@@ -105,7 +109,13 @@ def numerical_pi2_odd_in_memory(rho, N):
             continue
         coeff = np.real(np.trace(P_n @ rho)) / rank_n
         rho_d0 = rho_d0 + coeff * P_n
+    return rho_d0
+
+
+def numerical_pi2_odd_in_memory(rho, N):
+    rho_d0 = kernel_projection_popcount(rho, N)
     rho_d2 = rho - rho_d0
+    d = 2**N
 
     inv = 1.0 / d
     odd_memory_sq = 0.0

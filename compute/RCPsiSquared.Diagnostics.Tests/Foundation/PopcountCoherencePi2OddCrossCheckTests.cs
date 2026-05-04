@@ -90,8 +90,8 @@ public class PopcountCoherencePi2OddCrossCheckTests
         int d = 1 << N;
 
         var psi = ComplexVector.Build.Dense(d);
-        double normN = 1.0 / Math.Sqrt(Binomial(N, n));
-        double normNp1 = 1.0 / Math.Sqrt(Binomial(N, n + 1));
+        double normN = 1.0 / Math.Sqrt(PopcountCoherencePi2Odd.Binomial(N, n));
+        double normNp1 = 1.0 / Math.Sqrt(PopcountCoherencePi2Odd.Binomial(N, n + 1));
         for (int x = 0; x < d; x++)
         {
             int pop = System.Numerics.BitOperations.PopCount((uint)x);
@@ -106,16 +106,6 @@ public class PopcountCoherencePi2OddCrossCheckTests
 
         Assert.True(Math.Abs(reading.Pi2OddFractionWithinMemory - predicted) < 1e-9,
             $"Dicke (|D_{n}⟩+|D_{n + 1}⟩)/√2 at N={N}: numeric={reading.Pi2OddFractionWithinMemory:G15}, predicted={predicted:G15}");
-    }
-
-    private static long Binomial(int n, int k)
-    {
-        if (k < 0 || k > n) return 0;
-        if (k == 0 || k == n) return 1;
-        if (k > n - k) k = n - k;
-        long c = 1;
-        for (int i = 0; i < k; i++) c = c * (n - i) / (i + 1);
-        return c;
     }
 
     [Theory]
