@@ -137,6 +137,54 @@ else:
     print(f"    The state ROTATES from X-axis to Z-axis instead of thermalising to I/2.")
 
 print()
+print("=== Analytical T1+T2 simulation: where do other initial states end up? ===")
+print()
+
+# Empirical parameters extracted from the IBM run
+T1_eff = T1                     # ~consistent with calibration (rz fit at t=895)
+T2_eff = 102.0                  # empirical, from in-plane decay
+rz_eq = mags[-1] * np.sign(rzs[-1])   # asymptotic rz from last data point ≈ 0.72
+
+print(f"Using T1 = {T1_eff:.0f} us, T2_eff = {T2_eff:.0f} us, rz_eq = {rz_eq:.2f}")
+print("Bloch equations: rx(t) = rx(0)·exp(-t/T2), ry analogous, rz(t) = rz_eq + (rz(0)-rz_eq)·exp(-t/T1)")
+print()
+
+
+def evolve_bloch(rx0, ry0, rz0, t):
+    rx = rx0 * np.exp(-t / T2_eff)
+    ry = ry0 * np.exp(-t / T2_eff)
+    rz = rz_eq + (rz0 - rz_eq) * np.exp(-t / T1_eff)
+    return rx, ry, rz
+
+
+initial_states = [
+    ("|+>",  +1.0,  0.0,  0.0),
+    ("|->",  -1.0,  0.0,  0.0),
+    ("|+i>",  0.0, +1.0,  0.0),
+    ("|-i>",  0.0, -1.0,  0.0),
+    ("|0>",   0.0,  0.0, +1.0),
+    ("|1>",   0.0,  0.0, -1.0),
+]
+
+eval_ts = [0, 50, 100, 200, 400, 800, 2000]
+
+for name, rx0, ry0, rz0 in initial_states:
+    print(f"  initial {name}: r(0) = ({rx0:+.0f}, {ry0:+.0f}, {rz0:+.0f})")
+    for t in eval_ts:
+        rx, ry, rz = evolve_bloch(rx0, ry0, rz0, t)
+        rmag = np.sqrt(rx*rx + ry*ry + rz*rz)
+        ax, sign = dominant_axis(rx, ry, rz)
+        sign_str = '+' if sign > 0 else ('-' if sign < 0 else '')
+        print(f"    t = {t:>4} us:  r = ({rx:+.3f}, {ry:+.3f}, {rz:+.3f})  |r|/2 = {rmag/2:.3f}  axis = {ax}{sign_str}")
+    print()
+
+print("CONFIRMED: every initial state asymptotes to Z+ (rz → rz_eq ≈ 0.72), regardless of")
+print("starting axis. T1 has a preferred direction (ground state); T2 dephases X/Y but does")
+print("not flip Z. The d=0 axis (I/2, |r|/2 = 0) is approached only in the special case of")
+print("pure T2 with no T1 (zero-temperature pure-dephasing channel). Real hardware always")
+print("has some T1, so the asymptote is shifted toward Z+ thermal direction.")
+
+print()
 print("=== Structural reading ===")
 print()
 print("The framework's d=0 axis is the maximally mixed I/2 (zero Bloch magnitude).")
