@@ -38,6 +38,33 @@ public class PopcountCoherencePi2OddTests
         Assert.Equal(expected, PopcountCoherencePi2Odd.AlphaAnchor(N, np, nq), 12);
     }
 
+    [Theory]
+    // K-intermediate closed form α = C(N, N/2) / (2·(C(N, n_other) + C(N, N/2)))
+    [InlineData(4, 0, 2, 3.0 / 7)]
+    [InlineData(4, 1, 2, 3.0 / 10)]          // adjacent near-mirror half: recovers (N+2)/(4(N+1)) = 6/20
+    [InlineData(4, 2, 3, 3.0 / 10)]
+    [InlineData(4, 2, 4, 3.0 / 7)]           // mirror image of (0, 2)
+    [InlineData(6, 0, 3, 10.0 / 21)]
+    [InlineData(6, 1, 3, 5.0 / 13)]
+    [InlineData(6, 2, 3, 2.0 / 7)]           // adjacent near-mirror half: 8/28
+    [InlineData(6, 3, 4, 2.0 / 7)]
+    [InlineData(6, 3, 5, 5.0 / 13)]
+    [InlineData(8, 3, 4, 5.0 / 18)]          // adjacent near-mirror half: 10/36
+    [InlineData(10, 4, 5, 3.0 / 11)]         // adjacent near-mirror half: 12/44
+    public void AlphaKIntermediateClosed_MatchesFormula(int N, int np, int nq, double expected)
+    {
+        Assert.Equal(expected, PopcountCoherencePi2Odd.AlphaKIntermediateClosed(N, np, nq), 12);
+    }
+
+    [Theory]
+    [InlineData(5, 2, 3)]                    // odd N: never K-intermediate
+    [InlineData(4, 0, 1)]                    // neither n_p nor n_q is N/2
+    [InlineData(4, 2, 2)]                    // intra-mirror, not K-intermediate
+    public void AlphaKIntermediateClosed_ThrowsOnNonKIntermediate(int N, int np, int nq)
+    {
+        Assert.Throws<ArgumentException>(() => PopcountCoherencePi2Odd.AlphaKIntermediateClosed(N, np, nq));
+    }
+
     [Fact]
     public void AlphaAnchor_AgreesWithKrawtchouk_AllCompatiblePairs_NUpTo10()
     {
@@ -104,6 +131,34 @@ public class PopcountCoherencePi2OddTests
     public void Krawtchouk_HalfPopcountVanishesOnOddS(int N, int sOdd)
     {
         Assert.Equal(0, PopcountCoherencePi2Odd.Krawtchouk(N / 2, sOdd, N));
+    }
+
+    [Fact]
+    public void Krawtchouk_ReflectionOrthogonalityLemma_AllPairsAtNUpTo7()
+    {
+        // Σ_s (−1)^s · C(N, s) · K_n(s; N) · K_m(s; N) = 2^N · C(N, n) · [n + m = N].
+        // This is the core lemma underlying the closed form for E − O at all
+        // anchor categories in PopcountCoherencePi2Odd.
+        for (int N = 2; N <= 7; N++)
+        {
+            for (int n = 0; n <= N; n++)
+            {
+                for (int m = 0; m <= N; m++)
+                {
+                    long lhs = 0;
+                    for (int s = 0; s <= N; s++)
+                    {
+                        long term = PopcountCoherencePi2Odd.Binomial(N, s)
+                                  * PopcountCoherencePi2Odd.Krawtchouk(n, s, N)
+                                  * PopcountCoherencePi2Odd.Krawtchouk(m, s, N);
+                        lhs += (s % 2 == 0) ? term : -term;
+                    }
+                    long rhs = (n + m == N) ? (1L << N) * PopcountCoherencePi2Odd.Binomial(N, n) : 0;
+                    Assert.True(lhs == rhs,
+                        $"N={N} n={n} m={m}: LHS={lhs}, RHS={rhs}");
+                }
+            }
+        }
     }
 
     // ─────────────── Static fraction ───────────────

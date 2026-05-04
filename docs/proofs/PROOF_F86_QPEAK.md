@@ -173,13 +173,19 @@ Popcount-coherence pair states |ψ⟩ = (|p⟩ + |q⟩)/√2 with popcount(p) = 
 
 The kernel of L (= span{P_n} for Heisenberg + Z-dephasing) absorbs only popcount-sector content; off-diagonals project to zero in the kernel.
 
-**α = Π²-odd-fraction of the kernel projection** has three anchor categories driven by Krawtchouk identities:
+**α = Π²-odd-fraction of the kernel projection** has three anchor categories, all in closed form, driven by the following Krawtchouk identity (proven below):
 
-- **α = 0** at popcount-mirror n_p + n_q = N. Covers inter-sector mirror (n_p ≠ n_q) and intra-sector mirror (n_p = n_q = N/2 at even N). Krawtchouk reflection K_{N−n}(s; N) = (−1)^s K_n(s; N) cancels all odd-s Pauli content between the two sectors.
-- **α = K-intermediate** at "K-vanishing" configurations: even N with exactly one of {n_p, n_q} equal to N/2 (no mirror). K_{N/2}(s; N) = 0 for odd s due to bit-flip symmetry of the half-popcount sector. The α value is a Krawtchouk-derived rational that varies with the specific (n_p, n_q):
-  - *Adjacent K-intermediate* (n_q = n_p + 1, n_p ∈ {N/2 − 1, N/2}): α = (N + 2)/(4·(N + 1)). Examples: 3/10 at N = 4, 2/7 at N = 6 popcount-(2, 3) and (3, 4), 5/18 at N = 8.
-  - *Non-adjacent K-intermediate* (popcount difference ≥ 2): α follows the Krawtchouk sum without simple closed form. Examples: 3/7 at N = 4 popcount-(0, 2); 5/13 at N = 6 popcount-(1, 3) and (3, 5); 10/21 at N = 6 popcount-(0, 3).
-- **α = 1/2** generic (no Krawtchouk vanishing on either side). Proven for boundary pair (0, 1) via Σ_s C(N, s) K_n(s; N) (−1)^s = 2^N · [n = N]; bit-exact for all other tested generic cases (general analytical proof open).
+  **Lemma.** Σ_s (−1)^s · C(N, s) · K_n(s; N) · K_m(s; N) = 2^N · C(N, n) · [n + m = N].
+
+The lemma follows from Krawtchouk reflection K_n(s; N) = (−1)^s K_{N−n}(s; N) plus orthogonality Σ_s C(N, s) K_a(s; N) K_b(s; N) = 2^N · C(N, a) · δ_{a, b}: substituting gives Σ_s C(N, s) K_{N−n}(s; N) K_m(s; N) = 2^N C(N, m) δ_{N−n, m}. Applying this to E − O := Σ_s (−1)^s · C(N, s) · (A_s + B_s)² (with A_s = K_{n_p}(s; N)/C(N, n_p), B_s = K_{n_q}(s; N)/C(N, n_q)) yields three indicator-weighted contributions:
+
+  E − O = (2^N / C(N, n_p)) · [n_p = N/2] + (2^N / C(N, n_q)) · [n_q = N/2] + (2 · 2^N / C(N, n_q)) · [n_p + n_q = N]
+
+The three anchor categories follow:
+
+- **α = 0** at popcount-mirror n_p + n_q = N (covers inter-mirror n_p ≠ n_q and intra-mirror n_p = n_q = N/2 at even N). Total Π²-odd is forced to vanish by the reflection K_{N − n}(s; N) = (−1)^s K_n(s; N) cancelling between the two sectors P_{n_p}/C(N, n_p) and P_{N − n_p}/C(N, n_q).
+- **α = K-intermediate** at K-vanishing (even N with exactly one of {n_p, n_q} equal to N/2, no mirror): K_{N/2}(s; N) = 0 for odd s due to bit-flip symmetry of the half-popcount sector. The value is **α = C(N, N/2) / (2 · (C(N, n_other) + C(N, N/2)))**, where n_other ∈ {n_p, n_q} is the entry not equal to N/2. (Adjacent special case n_other = N/2 ± 1: simplifies to (N + 2)/(4·(N + 1)) using C(N, N/2 ± 1) = C(N, N/2) · N/(N + 2).) Worked values: 3/7 at N = 4 popcount-(0, 2); 3/10 at N = 4 popcount-(1, 2); 10/21 at N = 6 popcount-(0, 3); 5/13 at N = 6 popcount-(1, 3); 2/7 at N = 6 popcount-(2, 3); 5/18 at N = 8 popcount-(3, 4); 3/11 at N = 10 popcount-(4, 5).
+- **α = 1/2** generic (none of n_p + n_q = N, n_p = N/2, n_q = N/2 holds). All three indicators vanish, so E − O = 0, hence Σ_{s odd} = Σ_{s even}, hence α = 1/2 exactly. **Proven for all such (N, n_p, n_q).**
 
 **Total Π²-odd of ρ** is HD-dependent:
 - HD < N (at least one matching bit): 1/2.

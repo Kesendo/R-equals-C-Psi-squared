@@ -4,12 +4,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// popcount-coherence pair states |ψ⟩ = (|p⟩ + |q⟩)/√2 (any popcount pair, any
 /// HD), plus the Krawtchouk-form verifier.
 ///
-/// <para>Π²-odd / memory = (1/2 − α · s) / (1 − s), with α = 0 at popcount-mirror,
-/// α = Krawtchouk-rational at K-intermediate (one of n_p, n_q equals N/2 at even N),
-/// α = 1/2 generic; Π²-odd / memory = 0 at the HD = N Π²-classical anchor (GHZ_N,
-/// Bell-states, intra-complements). The HD = N anchor connects to F60: GHZ_N has
-/// pair-CΨ = 0 (partial-trace) and Π²-EVEN-only content (projection): two
-/// orthogonal readings of the same "classical" classification.</para>
+/// <para>Π²-odd / memory = (1/2 − α · s) / (1 − s), with all three α anchors in
+/// closed form: α = 0 at popcount-mirror; α = C(N, N/2) / (2·(C(N, n_other) +
+/// C(N, N/2))) at K-intermediate (one of n_p, n_q equals N/2 at even N, n_other
+/// is the other); α = 1/2 generic. Π²-odd / memory = 0 at the HD = N
+/// Π²-classical anchor (GHZ_N, Bell-states, intra-complements). The HD = N anchor
+/// connects to F60: GHZ_N has pair-CΨ = 0 (partial-trace) and Π²-EVEN-only content
+/// (projection): two orthogonal readings of the same "classical" classification.</para>
 ///
 /// <para>Canonical statement, structural reasons (Krawtchouk reflection
 /// K_{N−n}(s; N) = (−1)^s K_n(s; N) at popcount-mirror; K_{N/2}(s; N) = 0 for odd s
@@ -79,21 +80,37 @@ public static class PopcountCoherencePi2Odd
         return total > 0 ? oddSum / total : 0.0;
     }
 
-    /// <summary>α via the three structural anchors. For α = 0 (popcount-mirror,
-    /// covers intra-mirror at n_p = n_q = N/2) and α = 1/2 (generic) returns the
-    /// closed-form value directly. For K-intermediate (one of n_p, n_q equals N/2
-    /// at even N, no mirror), falls back to <see cref="AlphaKrawtchouk"/> since
-    /// the value is a Krawtchouk-derived rational that varies with (n_p, n_q).
-    /// Bit-exactly equivalent to <see cref="AlphaKrawtchouk"/> on all tested cases
-    /// (N = 2..7, 213 popcount-coherence-pair configurations). The α = 1/2
-    /// generic case is proven analytically only for the boundary pair (0, 1)
-    /// (via Σ_s C(N, s) K_n(s; N) (−1)^s = 2^N · [n = N]); for other generic
-    /// (n_p, n_q) it is verified bit-exact rather than formally derived.</summary>
+    /// <summary>α in closed form via the three structural anchors. All three
+    /// branches are derived from the Krawtchouk identity
+    /// Σ_s (−1)^s · C(N, s) · K_n(s; N) · K_m(s; N) = 2^N · C(N, n) · [n + m = N]
+    /// (consequence of orthogonality + reflection K_n(s; N) = (−1)^s K_{N−n}(s; N)),
+    /// which gives E − O := Σ_{s even} − Σ_{s odd} of C(N, s) · (A_s + B_s)² as
+    /// a sum of three indicator-weighted terms; α = 0 (mirror), α = 1/2 (generic)
+    /// follow by setting indicators to 0; α at K-intermediate is given by
+    /// <see cref="AlphaKIntermediateClosed"/>. Bit-exactly equivalent to
+    /// <see cref="AlphaKrawtchouk"/> at machine precision.</summary>
     public static double AlphaAnchor(int N, int np, int nq)
     {
         if (np + nq == N) return 0.0;
-        if (N % 2 == 0 && (np == N / 2 || nq == N / 2)) return AlphaKrawtchouk(N, np, nq);
+        if (N % 2 == 0 && (np == N / 2 || nq == N / 2)) return AlphaKIntermediateClosed(N, np, nq);
         return 0.5;
+    }
+
+    /// <summary>Closed form for α at K-intermediate configurations:
+    /// α = C(N, N/2) / (2 · (C(N, n_other) + C(N, N/2))), where
+    /// n_other ∈ {n_p, n_q} is the entry not equal to N/2. Derived from the
+    /// Krawtchouk reflection-orthogonality lemma applied to E − O at the
+    /// K-vanishing configuration. Recovers the adjacent near-mirror-half formula
+    /// (N + 2)/(4·(N + 1)) when n_other = N/2 ± 1 (since C(N, N/2 ± 1) =
+    /// C(N, N/2) · N/(N + 2)). Throws if (n_p, n_q) is not K-intermediate.</summary>
+    public static double AlphaKIntermediateClosed(int N, int np, int nq)
+    {
+        if (!IsKIntermediate(N, np, nq))
+            throw new ArgumentException($"({np}, {nq}) at N={N} is not K-intermediate");
+        int nOther = (nq == N / 2) ? np : nq;
+        double cHalf = Binomial(N, N / 2);
+        double cOther = Binomial(N, nOther);
+        return cHalf / (2.0 * (cOther + cHalf));
     }
 
     /// <summary>Closed-form prediction Π²-odd-fraction-within-memory for
