@@ -3,6 +3,7 @@ using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.States;
+using RCPsiSquared.Diagnostics.DZero;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit.Abstractions;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -36,38 +37,39 @@ public class F86VerificationExploration
     private readonly ITestOutputHelper _output;
     public F86VerificationExploration(ITestOutputHelper output) => _output = output;
 
+    private static ChainSystem MakeChain(int N) => new(N, J: 1.0, GammaZero: 0.05);
+
     [Fact]
     public void DumpF86CoherenceState_HasPi2OddMemoryContent_AtN5C2()
     {
         const int N = 5;
         int d = 1 << N;
-        var chain = new ChainSystem(N, J: 1.0, GammaZero: 0.05);
+        var chain = MakeChain(N);
+        var sm = StationaryModes.Compute(chain);
 
         _output.WriteLine($"=== F86 coherence states at N=5, c=2 (popcounts 1↔2) ===");
         _output.WriteLine("(K_CC_pr observable measures coherence between adjacent popcount sectors)");
         _output.WriteLine("");
 
-        // HD = 1: |00001⟩ ↔ |00011⟩ (single bit flip at site 3)
-        DumpCoherenceState(N, d, chain, "|00001⟩+|00011⟩ (HD=1)", 0b00001, 0b00011);
-        // HD = 1, different position: |00010⟩ ↔ |00110⟩
-        DumpCoherenceState(N, d, chain, "|00010⟩+|00110⟩ (HD=1)", 0b00010, 0b00110);
-        // HD = 3: |00001⟩ ↔ |11100⟩ (popcounts 1, 3 — wrong popcount diff)
-        // Need HD=3 with popcount diff 1: |00001⟩ ↔ |01110⟩ (popcount 1, 3 — diff 2, also wrong)
-        // For popcount diff 1 + HD=3: e.g. |00001⟩ ↔ |11000⟩? popcount 1, 2, HD=3 ✓
-        DumpCoherenceState(N, d, chain, "|00001⟩+|11000⟩ (HD=3)", 0b00001, 0b11000);
-        DumpCoherenceState(N, d, chain, "|00010⟩+|01100⟩ (HD=3)", 0b00010, 0b01100);
+        // HD=1: single-bit-flip cross-sector coherence
+        DumpCoherenceState(N, d, chain, sm, "|00001⟩+|00011⟩ (HD=1)", 0b00001, 0b00011);
+        DumpCoherenceState(N, d, chain, sm, "|00010⟩+|00110⟩ (HD=1)", 0b00010, 0b00110);
+        // HD=3 with popcount diff 1: e.g. |00001⟩↔|11000⟩, |00010⟩↔|01100⟩
+        DumpCoherenceState(N, d, chain, sm, "|00001⟩+|11000⟩ (HD=3)", 0b00001, 0b11000);
+        DumpCoherenceState(N, d, chain, sm, "|00010⟩+|01100⟩ (HD=3)", 0b00010, 0b01100);
     }
 
     [Fact]
     public void DumpFourModeBasisVectors_AsTestStates_AtN5C2()
     {
         const int N = 5;
-        const int n = 1; // c=min(1, 3)+1 = 2
+        const int n = 1;
         int d = 1 << N;
 
-        var chain = new ChainSystem(N, J: 1.0, GammaZero: 0.05);
+        var chain = MakeChain(N);
+        var sm = StationaryModes.Compute(chain);
         var block = new CoherenceBlock(N, n, gammaZero: chain.GammaZero);
-        Assert.Equal(2, block.C); // chromaticity 2
+        Assert.Equal(2, block.C);
 
         var fmb = FourModeBasis.Build(block);
 
@@ -82,7 +84,7 @@ public class F86VerificationExploration
             var v = fmb.BasisMatrix.Column(col);
             var rho = EmbedAsDensityMatrix(v, block, d);
 
-            var memReading = MemoryAxisRho.Decompose(rho, chain);
+            var memReading = MemoryAxisRho.Decompose(rho, chain, sm);
             var blochReading = BlochAxisReading.Compute(rho, N);
 
             _output.WriteLine($"[{col}] {labels[col]}");
@@ -92,14 +94,14 @@ public class F86VerificationExploration
         }
     }
 
-    private void DumpCoherenceState(int N, int d, ChainSystem chain, string name, int pBits, int qBits)
+    private void DumpCoherenceState(int N, int d, ChainSystem chain, StationaryModesResult sm, string name, int pBits, int qBits)
     {
         var psi = ComplexVector.Build.Dense(d);
         psi[pBits] = 1.0 / Math.Sqrt(2);
         psi[qBits] = 1.0 / Math.Sqrt(2);
         var rho = DensityMatrix.FromStateVector(psi);
 
-        var memReading = MemoryAxisRho.Decompose(rho, chain);
+        var memReading = MemoryAxisRho.Decompose(rho, chain, sm);
         var blochReading = BlochAxisReading.Compute(rho, N);
 
         _output.WriteLine($"  {name}");
@@ -109,10 +111,14 @@ public class F86VerificationExploration
     }
 
     /// <summary>Embed a coherence-block vector v ∈ ℂ^(Mp·Mq) as a Hermitian operator
-    /// A = Σ v[i,j]·(|p_i⟩⟨q_j| + h.c.) on d×d, then form ρ = (I/d + α·A) / Tr with α
-    /// chosen small enough for positivity and renormalised.</summary>
+    /// A = Σ v[i,j]·(|p_i⟩⟨q_j| + h.c.) on d×d, then form ρ = (I/d + α·A) where α is
+    /// chosen so that ρ stays positive (smallest eigenvalue ≥ 1/d − α). With A
+    /// L2-normalised and α = 0.4/d, the floor is 0.6/d > 0; the leading 0.4 is a
+    /// margin choice (smaller α weakens the perturbation, larger risks negativity).</summary>
     private static ComplexMatrix EmbedAsDensityMatrix(ComplexVector v, CoherenceBlock block, int d)
     {
+        const double AlphaFraction = 0.4;
+
         var A = ComplexMatrix.Build.Dense(d, d);
         for (int i = 0; i < block.Basis.Mp; i++)
         {
@@ -125,14 +131,13 @@ public class F86VerificationExploration
                 A[q, p] += Complex.Conjugate(coeff);
             }
         }
-        // Normalise A to operator-norm 1, then add to I/d with small alpha for positivity
+
         double opNorm = A.L2Norm();
         if (opNorm > 0) A = A / opNorm;
-        double alpha = 0.4 / d; // ρ = I/d + α·A, eigenvalue ≥ 1/d − α ≥ 1/d − 0.4/d = 0.6/d > 0
-        var rho = ComplexMatrix.Build.DiagonalIdentity(d) / d + alpha * A;
-        // Renormalise trace to 1 (alpha·A has zero trace, but numerical drift)
-        double tr = rho.Trace().Real;
-        if (Math.Abs(tr - 1.0) > 1e-10) rho = rho / tr;
-        return rho;
+        // The popcount-(n, n+1) coherence block has StatesP ∩ StatesQ = ∅, so A is purely
+        // off-diagonal in the computational basis and Tr(α·A) = 0 algebraically. ρ has
+        // trace 1 from I/d + 0; no renormalisation needed.
+        double alpha = AlphaFraction / d;
+        return ComplexMatrix.Build.DiagonalIdentity(d) / d + alpha * A;
     }
 }
