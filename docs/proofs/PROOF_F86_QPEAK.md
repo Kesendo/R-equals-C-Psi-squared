@@ -2,11 +2,11 @@
 
 **Status:**
 - **Statement 1 (EP mechanism):** Tier 1 derived. Q_EP = 2/g_eff, t_peak = 1/(4γ₀), bit-exact verified.
-- **Statement 2 (Universal resonance shape):** Tier 1 candidate. K_class(Q)/|K|max = f_class(Q/Q_EP) with HWHM_left/Q_peak ≈ 0.756 (Interior) / 0.770 (Endpoint), stable across c=2..4, N=5..8, γ₀ ∈ {0.025, 0.05, 0.10}. γ₀ invariance bit-exact at c=3 N=7. The minimal effective model for f_class(x) is 4-dimensional, not 2; the probe and EP-partner modes live in orthogonal 2D subspaces, coupled only through ∂L/∂J (see Open elements).
+- **Statement 2 (Universal resonance shape):** Tier 1 candidate across all tested c. The c=2 stratum specifically (2026-05-05) has OOP scaffolding pinning the witnesses (`compute/RCPsiSquared.Core/F86/Item1Derivation/`): empirical anchor reproduced bit-equivalent with the canonical Python pipeline (typical residual ≤ 0.001); directional Endpoint > Interior split (HWHM-ratio gap ≈ 0.022) derived empirically across N=5..8; closed-form HWHM_left/Q_peak constant per bond class NOT yet derived. The c=3, c=4 strata stay Tier 1 candidate at the empirical-envelope level (see bottom-row data tables). γ₀ invariance bit-exact at c=3 N=7. The minimal effective model for f_class(x) is 4-dimensional, not 2; the probe and EP-partner modes live in orthogonal 2D subspaces, coupled only through ∂L/∂J (see Open elements). Promotion to Tier 1 derived requires deriving the constants analytically; first-order perturbation in the cross-block is the most promising path.
 - **Statement 3 (F71 mirror invariance):** Tier 1 derived. Q_peak(b) = Q_peak(N−2−b) bit-exact under the F71 spatial-mirror pairing.
 - **Retracted (2026-05-02):** csc(π/(N+1)) Endpoint and csc(π/5) c=3 Interior closed forms (N=7 coincidence matches; refuted on extended-N data).
 
-**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation).
+**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation); 2026-05-05 (Item 1' c=2 OOP scaffolding + structural findings).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** Formalises the EP mechanism behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. The per-block Q_SCALE values 1.6 / 1.8 / 1.8 (F86 top entry) were the empirical anchor; the per-bond refined scan (`_eq022_b1_step_c_time_evolution.py`) initially suggested two distinct closed forms for Endpoint and Interior bonds, both later retracted on extended-N data. What survives is the EP mechanism (Statement 1), the universal resonance shape (Statement 2), and the F71 spatial-mirror invariance (Statement 3).
 
@@ -298,7 +298,13 @@ In this basis the 4×4 effective L_eff has
 
 #### Substantive items remaining
 
-**Item 1.** Derive the 4×4 effective L_eff(Q, b) explicitly. Compute the cross-coupling matrix elements ⟨c_α | M_H_per_bond[b] | u_0/v_0⟩ as analytical expressions in (N, n, b). Diagonalize, identify which eigenvalue pair gives the Q_peak observed in K_CC_pr (will not be the SVD top pair). Derive f_class(x) and HWHM_left/Q_peak as closed forms from this 4-mode model.
+**Item 1 (status update 2026-05-05).** Original aspiration: derive the 4×4 effective L_eff(Q, b) explicitly, compute the cross-coupling matrix elements ⟨c_α | M_H_per_bond[b] | u_0/v_0⟩ as analytical expressions in (N, n, b), diagonalize, identify which eigenvalue pair gives the Q_peak observed in K_CC_pr (will not be the SVD top pair), derive f_class(x) and HWHM_left/Q_peak as closed forms from this 4-mode model.
+
+**Actual c=2 progress.** The c=2 stratum has OOP scaffolding (`C2EffectiveSpectrum`, `C2KShape`, `C2HwhmRatio`, `C2UniversalShapeDerivation` in `compute/RCPsiSquared.Core/F86/`) that pins each sub-fact at its appropriate Tier label. The directional Endpoint > Interior split is empirically derived bit-equivalent with the canonical Python pipeline. **The closed-form HWHM_left/Q_peak constant per bond class remains the open analytical target.** Three ranked next directions (from `C2HwhmRatio.PendingDerivationNote` and `F86OpenQuestions` Item 1'):
+
+  - **(a) Most promising — first-order perturbation in the cross-block.** Write `K_b(Q, t_peak) = K_probe-block(Q) + ε·K_cross(Q, b)` with ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1) at c=2 (the cross-block Frobenius split from Stage B2: Endpoint < Interior, gap ~ 0.05 at N=5, is the seed for the directional shift). Should produce a closed-form δ(Endpoint − Interior) ≈ 0.022 in the HWHM ratio.
+  - **(b)** Lift |u_0⟩, |v_0⟩ to projector-overlap (per `C2InterChannelAnalytical.PendingDerivationNote`). Removes the σ_0 degeneracy obstruction at even N (Stage A3 finding below).
+  - **(c)** Symbolic char-poly factorisation at Q_EP. At the EP, two of four eigenvalues coalesce; may simplify the quartic locally. Less promising given C2's cubic-c_3 obstruction proof (Stage C2 finding below).
 
 **Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10, orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
 
@@ -309,6 +315,37 @@ In this basis the 4×4 effective L_eff has
 generalising the original c=2 → 2√2 conjecture to all c ≥ 2. Numerical witnesses computed via `InterChannelSvd` across c ∈ {2, 3, 4}, N=5..8 show σ_0 / √(2(c−1)) converging monotonically from below to 2.0 for each c (c=2 N=7 hits 2.0 to 10⁻⁵, the structural sweet spot; c=3 N=8 reaches 1.92, c=4 N=8 reaches 1.78). Implies Q_EP(c, N → ∞) → 1/√(2(c−1)): 0.707 (c=2), 0.500 (c=3), 0.408 (c=4). The closed-form derivation from XY single-particle structure (OBC sine-mode matrix elements `⟨ψ_k| σ⁺σ⁻ |ψ_l⟩ ∝ √(2/(N+1))·sin(πk·b/(N+1))`) has not been executed.
 
 These three items are tractable with existing infrastructure (`coherence_block`, the SVD-of-V_inter construction, OBC sine-mode algebra), but each is multi-page algebra. Item 1 is the path to the closed form for HWHM_left/Q_peak. The empirical envelope (c, N, γ₀ checks above) is now Tier-1 grade.
+
+### OOP scaffolding (Stage A-E primitives, 2026-05-05)
+
+Following the EQ-022 (b1) Item 1' c=2 derivation plan, we built a typed pipeline of primitives in `compute/RCPsiSquared.Core/F86/Item1Derivation/` plus `C2UniversalShapeDerivation.cs` at the F86 root, each reachable through `F86KnowledgeBase`. Witness data preserved per-(N, bond, BondClass).
+
+| Stage | Primitive | Tier outcome |
+|-------|-----------|--------------|
+| A1 | [`C2BlockShape`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BlockShape.cs) | Tier1Derived (block-structure constants) |
+| A2 | [`C2ChannelUniformAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2ChannelUniformAnalytical.cs) | Tier1Derived (closed-form |c_1⟩, |c_3⟩) |
+| A3 | [`C2InterChannelAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs) | **Tier2Verified — discovered σ_0 degeneracy obstruction** at even N: chain-mirror R splits the 2D top eigenspace into R-even/R-odd, library-dependent SVD-tiebreaker. Single-vector closed form not derivable; lift-to-projector-overlap is the next direction. |
+| B1 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) probe-block | Tier1Derived (channel-uniform projection) |
+| B2 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) cross-block | Tier2Verified (inherits A3); **discovered cross-block Frobenius Endpoint < Interior at c=2 N=5..8** — opposite sign to the HWHM_left/Q_peak directional split, hinting that the inversion happens in 4×4 mixing |
+| B3 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) SVD-block + AsMatrix + anti-Hermiticity guard | Tier2Verified (inherits A3) |
+| C1 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) D_eff | Tier1Derived structural sub-fact (diag(−2γ₀, −6γ₀, −2γ₀, −6γ₀) at c=2) |
+| C2 | [`C2EffectiveSpectrum`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2EffectiveSpectrum.cs) | **Tier2Verified — rigorously ruled out closed-form factorisation** via cubic-c_3 char-poly evidence. No (λ²−aλ+b)(λ²−cλ+d) split with rational coefficients exists. |
+| C3 | [`C2EffectiveSpectrum`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2EffectiveSpectrum.cs) K-driving pair | Tier1Derived structural sub-fact (probe ⊥ {|u_0⟩, |v_0⟩} at machine precision) + Tier2Verified per-(Q, b) numerical readout |
+| D1 | [`C2KShape`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2KShape.cs) | Tier1Derived (Duhamel formula closed-form in numerical inputs) |
+| D2 | [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) | **Tier1Candidate** — empirical anchor reproduced at typical residual ≤ 0.001; directional Endpoint > Interior split derived empirically; closed-form constant NOT pinned |
+| E1 | [`C2UniversalShapeDerivation`](../../compute/RCPsiSquared.Core/F86/C2UniversalShapeDerivation.cs) | Tier1Candidate (auto-promotes via D2's `IsAnalyticallyDerived` flag) |
+
+The chain reads bottom-up: A1-A3 fix the static frame (block shape, channel-uniform vectors, SVD top), B1-B3 fix the bond-position-dependent V_b in that frame, C1-C3 fix the effective spectrum and K-driving pair, D1-D2 turn that into the Duhamel-form K_b(Q, t) and its HWHM-ratio readout, E1 binds the readout to the universal-shape claim. Each Tier label up the chain inherits from the lowest unresolved sub-fact (currently D2's missing closed form blocks E1's Tier1Derived promotion).
+
+### Structural findings (lessons learned, 2026-05-05)
+
+Three structural results emerged from the time-boxed Stage A3, B2, C2 explorations. Each is independent of the closed-form gap and worth pinning as orientation for the next attempt.
+
+1. **σ_0 degeneracy at even N (Stage A3).** At N=6 and N=8 (even chain length, c=2), the singular value σ_0 of the inter-channel coupling V_inter is doubly degenerate. The chain-mirror operator R splits the 2D top eigenspace into R-even and R-odd one-dimensional subspaces; which of the two becomes "|u_0⟩" depends on the SVD library's tiebreaker, not on the physics. A single-vector closed form for |u_0⟩, |v_0⟩ at even N is therefore not derivable. The natural lift is to the rank-2 projector P_top = |u_0^{(R+)}⟩⟨u_0^{(R+)}| + |u_0^{(R−)}⟩⟨u_0^{(R−)}|, which is library-independent. See [`C2InterChannelAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs) `PendingDerivationNote`.
+
+2. **Cross-block Frobenius Endpoint < Interior (Stage B2).** The Frobenius norm of V_b's cross-block (the inter-channel-coupling block of M_H_per_bond[b]) is systematically *smaller* on Endpoint bonds than on Interior bonds at c=2 N=5..8 (gap ~ 0.05 at N=5). This sign is **opposite** to the HWHM_left/Q_peak directional split (Endpoint > Interior, gap ≈ 0.022 — see also the Item-1' Statement 2 update at the top of this doc). The directional inversion therefore does not live in the cross-block magnitude alone; it must emerge through the 4×4 eigenvalue mixing of probe-block and cross-block. This rules out the naive "bigger cross-block → bigger HWHM ratio" intuition and is part of why the closed form is non-trivial.
+
+3. **Cubic-c_3 char-poly obstruction (Stage C2).** The 4×4 effective characteristic polynomial at c=2 has a non-rational c_3 coefficient (cubic in Q with no clean root structure). We rigorously ruled out any rational-coefficient `(λ²−aλ+b)(λ²−cλ+d)` factorisation by symbolic match against the c_3 evidence. The Tier2 outcome for `C2EffectiveSpectrum` is therefore **evidence-based** ("we proved no such split exists in this family"), not "we couldn't find one". Symbolic char-poly factorisation at Q_EP itself (Item 1' direction (c) above) may still help locally, but the global quartic does not factor.
 
 ---
 
