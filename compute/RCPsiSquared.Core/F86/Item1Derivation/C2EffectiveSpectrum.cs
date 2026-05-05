@@ -1,15 +1,19 @@
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.CoherenceBlocks;
+using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Probes;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
 /// <summary>F86 Item 1 (c=2 stratum): the four eigenvalues of the 4-mode effective Liouvillian
 /// L_eff(Q) = D_eff + Q·γ₀·M_h_total_eff in the basis B = [|c_1⟩, |c_3⟩, |u_0⟩, |v_0⟩]
-/// (PROOF_F86_QPEAK Item 1).
+/// (PROOF_F86_QPEAK Item 1), plus per-(Q, bond) identification of the K-driving eigenvalue
+/// pair (Stage C3).
 ///
 /// <para><b>API note on the bond parameter.</b> <see cref="Eigenvalues"/> takes (Q, bond) for
 /// API uniformity with downstream Stage C/D consumers (C3 K-driving pair identification,
@@ -21,6 +25,29 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// keeps the signature aligned with C3/D, where bond-distinguishing structure (probe
 /// projection, Duhamel weighting per bond) does enter — but the eigenstructure itself is
 /// global at c=2 by construction.</para>
+///
+/// <para><b>Stage C3: K-driving eigenvalue pair.</b> The K_CC_pr observable is built from
+/// Duhamel-evaluating the probe state's overlap with each eigenvector of L_eff(Q), so the
+/// 2-of-4 eigenvectors with largest probe overlap dominate the dynamics — these are the
+/// "K-driving pair" (PROOF_F86_QPEAK Statement 1). At Q = Q_EP both eigenvalues approach
+/// Re(λ) = −4γ₀ as the EP rotation collapses the leading 2-level pair.</para>
+///
+/// <list type="bullet">
+///   <item><b>Structural Tier 1 sub-fact:</b> the probe vector projected to the 4-mode
+///   basis is exactly <c>(probeC1, probeC3, 0, 0)</c> — the |u_0⟩, |v_0⟩ components are zero
+///   by basis orthogonality (probe ⊥ {|u_0⟩, |v_0⟩} per
+///   <see cref="InterChannelSvd"/>'s structural finding). Verified at machine precision by
+///   <see cref="ProbeProjection"/>: the Im‖component‖ on indices 2, 3 is &lt; 1e-14 across
+///   N=5..8. This means the probe lives entirely in span{|c_1⟩, |c_3⟩}.</item>
+///   <item><b>Numerical Tier 2 readout:</b> identifying which 2-of-4 eigenvectors of
+///   L_eff(Q, b) lie closest to span{|c_1⟩, |c_3⟩} is (Q, b)-dependent because the
+///   eigenvector rotation depends on the (γ₀, J)-balance. <see cref="KDrivingPair"/> and
+///   <see cref="KDrivingPairIndices"/> compute this numerically per (Q, bond) via the
+///   probe-overlap |⟨probe | w_i⟩|² ranking. The class-level <see cref="Tier"/> remains
+///   <c>Tier2Verified</c> (inherited from the C2 char-poly cubic obstruction); the Tier 1
+///   structural sub-fact is documented here and pinned by the
+///   <c>ProbeProjection_HasZeroSvdTopComponents</c> test.</item>
+/// </list>
 ///
 /// <para><b>Tier outcome: Tier2Verified.</b> The constructor probes whether the 4×4
 /// characteristic polynomial factorises into two 2×2 quadratics under any natural similarity
@@ -105,20 +132,32 @@ public sealed class C2EffectiveSpectrum : Claim
                 nameof(block));
 
         var bondCoupling = C2BondCoupling.Build(block);
+        // FourModeBasis used here purely as the projection helper for the Dicke probe; we do
+        // not need to retain the basis instance because L_eff(Q, b) is reassembled from
+        // BondCoupling for every Eigenvalues/ProbeOverlapsSquared call (single source of
+        // truth for the matrix entries, anti-Hermiticity-guarded).
+        var fourModeBasis = FourModeBasis.Build(block);
+        var probeFull = DickeBlockProbe.Build(block);
+        var probeProjection = fourModeBasis.Project(probeFull);
         var resolved = Resolve(block, bondCoupling);
-        return new C2EffectiveSpectrum(block, bondCoupling, resolved);
+        return new C2EffectiveSpectrum(block, bondCoupling, probeProjection, resolved);
     }
 
     /// <summary>Private constructor: <see cref="Resolution.Tier"/> is the single source of
     /// truth for the Claim's Tier. All Tier/eigenvalue-strategy data flows from one
     /// Resolution instance, so Tier and IsAnalyticallyDerived cannot drift internally.</summary>
-    private C2EffectiveSpectrum(CoherenceBlock block, C2BondCoupling bondCoupling, Resolution resolved)
+    private C2EffectiveSpectrum(
+        CoherenceBlock block,
+        C2BondCoupling bondCoupling,
+        ComplexVector probeProjection,
+        Resolution resolved)
         : base("c=2 4-mode effective spectrum",
                resolved.Tier,
                "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
     {
         Block = block;
         BondCoupling = bondCoupling;
+        _probeProjection = probeProjection;
         IsAnalyticallyDerived = resolved.IsAnalyticallyDerived;
         PendingDerivationNote = resolved.PendingDerivationNote;
     }
@@ -194,6 +233,126 @@ public sealed class C2EffectiveSpectrum : Claim
         return dEff + (Complex)j * vSum;
     }
 
+    /// <summary>The Dicke-state probe projected onto the 4-mode basis B = [|c_1⟩, |c_3⟩,
+    /// |u_0⟩, |v_0⟩]. Computed as <c>B† · DickeBlockProbe</c> via
+    /// <see cref="FourModeBasis.Project(ComplexVector)"/>.
+    ///
+    /// <para><b>Structural Tier 1 sub-fact:</b> components 2, 3 (onto |u_0⟩, |v_0⟩) are zero
+    /// at machine precision. The probe lives entirely in the channel-uniform 2D subspace
+    /// span{|c_1⟩, |c_3⟩} per A2 + the structural orthogonality fact in
+    /// <see cref="InterChannelSvd"/> ("the probe (Dicke state) is orthogonal to |u_0⟩, |v_0⟩").
+    /// This is the structural seed for the Tier-1 sub-claim that the probe ⊥ SVD-top
+    /// directions independent of the (Q, b)-rotation; it is the input to the per-(Q, b)
+    /// numerical K-driving pair identification in <see cref="KDrivingPair"/>.</para>
+    ///
+    /// <para>Cached on construction (single Dicke probe per CoherenceBlock).</para>
+    /// </summary>
+    public ComplexVector ProbeProjection => _probeProjection;
+
+    private readonly ComplexVector _probeProjection;
+
+    /// <summary>The K-driving eigenvalue pair: the 2 of 4 eigenvalues of L_eff(Q, b) whose
+    /// eigenvectors have largest squared overlap with the projected probe vector
+    /// <see cref="ProbeProjection"/> (which lives entirely in span{|c_1⟩, |c_3⟩}, see XML doc
+    /// of <see cref="ProbeProjection"/>).
+    ///
+    /// <para>At Q = Q_EP these two eigenvalues approach Re(λ) = −4γ₀ per F86 Statement 1
+    /// (the EP collapse of the leading 2-level pair); around Q_peak the K-driving pair
+    /// dominates the K_CC_pr observable Duhamel sum.</para>
+    ///
+    /// <para>The first component <c>LamPlus</c> is the K-driving eigenvalue with the larger
+    /// real part (slower-decaying mode); <c>LamMinus</c> is the smaller-real-part one. Both
+    /// indices are returned in matching order by <see cref="KDrivingPairIndices"/>.</para>
+    ///
+    /// <para><b>Tier 2 verified (numerical):</b> per-(Q, bond) Evd() of L_eff(Q, bond) and
+    /// |⟨probe | w_i⟩|² ranking. The structural Tier 1 sub-fact (probe ⊥ {|u_0⟩, |v_0⟩})
+    /// is verified at machine precision separately; the eigenvector rotation that mixes
+    /// span{|c_1⟩, |c_3⟩} with span{|u_0⟩, |v_0⟩} is what makes this numerical.</para>
+    /// </summary>
+    public (Complex LamPlus, Complex LamMinus) KDrivingPair(double Q, int bond)
+    {
+        var (idxPlus, idxMinus) = KDrivingPairIndices(Q, bond);
+        var eigs = Eigenvalues(Q, bond);
+        return (eigs[idxPlus], eigs[idxMinus]);
+    }
+
+    /// <summary>Indices i, j ∈ {0, 1, 2, 3} of the K-driving eigenvectors in the order that
+    /// <see cref="Eigenvalues"/> returns them (sorted Re desc / Im asc). The indices are
+    /// distinct: <c>IndexPlus</c> corresponds to the larger-real-part eigenvalue of the
+    /// K-driving pair, <c>IndexMinus</c> to the smaller-real-part one.
+    ///
+    /// <para>Computed via <see cref="ProbeOverlapsSquared"/>: top 2 entries of the squared
+    /// overlap |⟨probe | w_i⟩|² over the four eigenvectors are the K-driving pair.</para>
+    /// </summary>
+    public (int IndexPlus, int IndexMinus) KDrivingPairIndices(double Q, int bond)
+    {
+        var overlaps = ProbeOverlapsSquared(Q, bond);
+        var eigs = Eigenvalues(Q, bond);
+
+        // Top-2 indices by overlap (descending).
+        // Use a simple argsort over 4 elements with a stable tiebreaker (larger Re wins).
+        int[] order = { 0, 1, 2, 3 };
+        Array.Sort(order, (a, b) =>
+        {
+            int cmp = overlaps[b].CompareTo(overlaps[a]); // descending overlap
+            if (cmp != 0) return cmp;
+            return eigs[b].Real.CompareTo(eigs[a].Real); // tiebreaker: descending Re(λ)
+        });
+
+        int idx0 = order[0];
+        int idx1 = order[1];
+
+        // Order the pair so IndexPlus corresponds to the larger-Re eigenvalue.
+        if (eigs[idx0].Real >= eigs[idx1].Real)
+            return (idx0, idx1);
+        return (idx1, idx0);
+    }
+
+    /// <summary>Per-eigenvector squared probe overlap |⟨probe | w_i⟩|² for i ∈ {0..3} in the
+    /// order that <see cref="Eigenvalues"/> returns. Indexed identically to
+    /// <see cref="KDrivingPairIndices"/>: <c>overlaps[KDrivingPairIndices.IndexPlus]</c> and
+    /// <c>overlaps[KDrivingPairIndices.IndexMinus]</c> are the two largest entries.
+    ///
+    /// <para>The eigenvectors w_i of L_eff(Q, b) are obtained from <c>Evd().EigenVectors</c>
+    /// (column i is w_i in the same row order as the unsorted MathNet eigenvalue list); we
+    /// then reorder to match the (Re desc / Im asc) eigenvalue ordering of
+    /// <see cref="Eigenvalues"/>. The probe is the 4-mode-basis projection (see
+    /// <see cref="ProbeProjection"/>); only its first two components are nonzero, so the
+    /// overlap reduces to <c>|probe[0]·w_i[0]^* + probe[1]·w_i[1]^*|²</c> in practice — but
+    /// we compute the full 4-vector inner product for clarity and to keep the code path
+    /// independent of the ProbeProjection structural fact (which is verified separately by
+    /// the <c>ProbeProjection_HasZeroSvdTopComponents</c> test).</para>
+    /// </summary>
+    public double[] ProbeOverlapsSquared(double Q, int bond)
+    {
+        if (bond < 0 || bond >= Block.NumBonds)
+            throw new ArgumentOutOfRangeException(nameof(bond),
+                $"bond must be in [0, {Block.NumBonds - 1}]; got {bond}.");
+
+        var lEff = LEffAtQ(Q);
+        var evd = lEff.Evd();
+        var rawEigs = evd.EigenValues.ToArray();
+        var rawVecs = evd.EigenVectors;  // 4×4, each column an eigenvector
+
+        // Build (eigenvalue, column-index) pairs and sort by Re desc / Im asc, matching the
+        // ordering used by Eigenvalues(Q, bond). This makes the returned overlap array
+        // index-aligned with KDrivingPairIndices.
+        int[] sortedIndices = { 0, 1, 2, 3 };
+        Array.Sort(sortedIndices, (a, b) => CompareByRealDescThenImagAsc(rawEigs[a], rawEigs[b]));
+
+        var overlaps = new double[4];
+        for (int i = 0; i < 4; i++)
+        {
+            int rawCol = sortedIndices[i];
+            // ⟨probe | w_i⟩ = probe.Conjugate() · w_i = Σ_k conj(probe[k]) · w_i[k]
+            Complex inner = Complex.Zero;
+            for (int k = 0; k < 4; k++)
+                inner += Complex.Conjugate(_probeProjection[k]) * rawVecs[k, rawCol];
+            overlaps[i] = inner.Magnitude * inner.Magnitude;
+        }
+        return overlaps;
+    }
+
     private static int CompareByRealDescThenImagAsc(Complex a, Complex b)
     {
         int cmpReal = b.Real.CompareTo(a.Real); // descending
@@ -266,6 +425,14 @@ public sealed class C2EffectiveSpectrum : Claim
                 "IsAnalyticallyDerived",
                 summary: IsAnalyticallyDerived ? "true (Tier1Derived)" : "false (Tier2Verified, numerical Evd)");
             yield return BondCoupling;
+            // C3: probe-projection structural sub-fact + per-(Q, b) numerical readout note.
+            double svdComponentMag = Math.Max(_probeProjection[2].Magnitude, _probeProjection[3].Magnitude);
+            yield return new InspectableNode(
+                "ProbeProjection",
+                summary: $"4-mode-basis projection of Dicke probe; |c|⊥SVD-top (max |w_2|, |w_3|) = {svdComponentMag:E2} (Tier1 structural)");
+            yield return new InspectableNode(
+                "KDrivingPair",
+                summary: "per-(Q, bond) numerical Tier2 readout: top-2 eigenvectors by |⟨probe | w_i⟩|² → KDrivingPair(Q, b), KDrivingPairIndices(Q, b), ProbeOverlapsSquared(Q, b)");
             if (PendingDerivationNote is not null)
                 yield return new InspectableNode("PendingDerivationNote", summary: PendingDerivationNote);
         }
