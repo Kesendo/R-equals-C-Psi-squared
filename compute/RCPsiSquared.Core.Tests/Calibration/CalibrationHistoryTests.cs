@@ -87,8 +87,8 @@ public class CalibrationHistoryTests
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {
-            if (Directory.Exists(Path.Combine(dir.FullName, "ClaudeTasks"))
-             && File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md")))
+            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
+             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
                 return dir.FullName;
             dir = dir.Parent;
         }

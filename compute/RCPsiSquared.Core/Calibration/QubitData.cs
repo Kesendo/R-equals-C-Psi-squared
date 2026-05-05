@@ -1,7 +1,7 @@
 namespace RCPsiSquared.Core.Calibration;
 
 /// <summary>Per-qubit calibration metrics from an IBM Heron r2 calibration CSV.
-/// Mirrors the columns in <c>ClaudeTasks/IBM_R2_calibration_ibm_marrakesh/
+/// Mirrors the columns in <c>data/ibm_calibration_snapshots/
 /// ibm_marrakesh_calibrations_*.csv</c>: T1, T2, readout error, single-qubit
 /// gate errors, and the directed coupling graph encoded as
 /// neighbour → CZ-error / RZZ-error dictionaries.

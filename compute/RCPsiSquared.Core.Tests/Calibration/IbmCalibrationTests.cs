@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// <summary>Regression + parser tests for <see cref="IbmCalibration"/>.
 ///
 /// <para>Empirical anchors are pinned to the 2026-04-25 Marrakesh CSV
-/// (<c>ClaudeTasks/IBM_R2_calibration_ibm_marrakesh/ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv</c>).
+/// (<c>data/ibm_calibration_snapshots/ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv</c>).
 /// They mirror the Python reference output of <c>simulations/ibm_calibration.py</c>:
 /// 156 operational qubits, best 3-chain = [4, 3, 2] with score ≈ 867.07,
 /// best 5-chain = [1, 2, 3, 4, 5] with score ≈ 1246.58, and the documented
@@ -18,7 +18,7 @@ public class IbmCalibrationTests
 {
     private static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
         IbmCalibration.Load(Path.Combine(FindRepoRoot(),
-            "ClaudeTasks", "IBM_R2_calibration_ibm_marrakesh",
+            "data", "ibm_calibration_snapshots",
             "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
 
     [Fact]
@@ -206,13 +206,13 @@ public class IbmCalibrationTests
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {
-            if (Directory.Exists(Path.Combine(dir.FullName, "ClaudeTasks"))
-             && File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md")))
+            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
+             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
                 return dir.FullName;
             dir = dir.Parent;
         }
         throw new InvalidOperationException(
-            $"could not locate repository root (ClaudeTasks/ + MIRROR_THEORY.md) " +
+            $"could not locate repository root (MIRROR_THEORY.md + compute/) " +
             $"starting from {AppContext.BaseDirectory}");
     }
 }

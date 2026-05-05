@@ -32,7 +32,7 @@ from ibm_calibration import load_calibration
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 HISTORY = REPO_ROOT / "data" / "ibm_history" / "results" / "ibm_marrakesh_history.csv"
-CALIB = (REPO_ROOT / "ClaudeTasks" / "IBM_R2_calibration_ibm_marrakesh"
+CALIB = (REPO_ROOT / "data" / "ibm_calibration_snapshots"
          / "ibm_marrakesh_calibrations_2026-04-30T16_25_19Z.csv")
 
 

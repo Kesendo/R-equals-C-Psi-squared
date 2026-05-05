@@ -12,7 +12,7 @@ public class QubitRegimeTests
 {
     private static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
         IbmCalibration.Load(Path.Combine(FindRepoRoot(),
-            "ClaudeTasks", "IBM_R2_calibration_ibm_marrakesh",
+            "data", "ibm_calibration_snapshots",
             "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
 
     [Fact]
@@ -131,8 +131,8 @@ public class QubitRegimeTests
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {
-            if (Directory.Exists(Path.Combine(dir.FullName, "ClaudeTasks"))
-             && File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md")))
+            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
+             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
                 return dir.FullName;
             dir = dir.Parent;
         }

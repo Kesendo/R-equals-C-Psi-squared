@@ -1,6 +1,6 @@
 """IBM Heron r2 calibration loader, qubit scoring, and chain finder.
 
-Loads a calibration CSV (e.g. from `ClaudeTasks/IBM_R2_calibration_ibm_marrakesh/`)
+Loads a calibration CSV (e.g. from `data/ibm_calibration_snapshots/`)
 and provides:
 
 - `load_calibration(csv_path)`: parse rows into QubitData records
@@ -167,8 +167,8 @@ def main():
     repo_root = Path(__file__).resolve().parents[1]
     calib_path = (
         repo_root
-        / "ClaudeTasks"
-        / "IBM_R2_calibration_ibm_marrakesh"
+        / "data"
+        / "ibm_calibration_snapshots"
         / "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv"
     )
     print(f"Loading {calib_path.name}")

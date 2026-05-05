@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ibm_calibration import load_calibration, score_qubit
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CALIB_DIR = REPO_ROOT / "ClaudeTasks" / "IBM_R2_calibration_ibm_marrakesh"
+CALIB_DIR = REPO_ROOT / "data" / "ibm_calibration_snapshots"
 CALIB_APR25 = CALIB_DIR / "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv"
 CALIB_APR30 = CALIB_DIR / "ibm_marrakesh_calibrations_2026-04-30T16_25_19Z.csv"
 
