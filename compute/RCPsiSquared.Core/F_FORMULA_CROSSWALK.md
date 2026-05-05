@@ -112,6 +112,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F86.F86KnowledgeBase(block)` | root: assembles all F86 facts attached to a `CoherenceBlock` (laws + predictions + witnesses + retracted-list + 4-mode insufficiency note) |
 | `F86.Item1Derivation.C2BlockShape(block)` | **PROOF_F86_QPEAK Item 1 (c=2)** anchor: elementary block-structure constants (`PnDimension=N`, `PnPlus1Dimension=N(N−1)/2`, `HdEqualsOnePairs=N(N−1)`, `HdEqualsThreePairs=N(N−1)(N−2)/2`); Tier 1 derived from popcount combinatorics |
 | `F86.Item1Derivation.C2ChannelUniformAnalytical(block)` | PROOF_F86_QPEAK Item 1 (c=2): closed-form channel-uniform vectors `C1Vector` (HD=1, weight 1/√(N(N−1))) and `C3Vector` (HD=3, weight 1/√(N(N−1)(N−2)/2)) cached on construction; Tier 1 derived, machine-precision overlap with `FourModeBasis` columns 0/1 across N=5..8 |
+| `F86.Item1Derivation.C2InterChannelAnalytical(block)` | PROOF_F86_QPEAK Item 1 (c=2): SVD-top inter-channel vectors `U0` ∈ HD=1 subspace and `V0` ∈ HD=3 subspace of V_inter = P_HD1† · M_H_total · P_HD3, plus `Sigma0`. Tier 2 verified (numerical fallback): σ_0 is exactly degenerate at even N (deg=2 at N=6, N=8), making single-direction Tier1Derived ill-posed against MathNet's SVD tiebreaker. `IsAnalyticallyDerived = false`; `PendingDerivationNote` summarises ansätze tried (ψ_k(s)·ψ_k(e) products fail; u_matrix is rank ≥ 2) and the projector-onto-2D-eigenspace lift as the cleanest next direction |
 
 ## Decomposition
 
