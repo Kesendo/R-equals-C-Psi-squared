@@ -20,7 +20,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="RootAnchor"/> (1/d = 1/2 lineage), <see cref="Involution"/>,
 ///         <see cref="KleinDecomposition"/>, <see cref="BilinearApex"/>, <see cref="MirrorRegime"/>,
 ///         <see cref="HalfFixedPoint"/> (three faces close), <see cref="MirrorMemory"/>
-///         (90° back to the mirror, F80's i)</item>
+///         (90° back to the mirror, F80's i), <see cref="PolarityLayerOrigin"/></item>
 ///   <item>Tier-2 empirical: <see cref="BilinearTable"/> (9 Pauli-pair × 4 cells)</item>
 ///   <item>Tier-2 hardware-verified: <see cref="HardwareConfirmations"/> (Marrakesh f83
 ///         X-axis-flip pattern)</item>
