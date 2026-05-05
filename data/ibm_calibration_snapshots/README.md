@@ -11,6 +11,8 @@ anchors for analysis scripts.
 | `ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv` | ibm_marrakesh (Heron r2) | 2026-04-25 | 156 |
 | `ibm_marrakesh_calibrations_2026-04-30T16_25_19Z.csv` | ibm_marrakesh (Heron r2) | 2026-04-30 | 156 |
 | `ibm_marrakesh_calibrations_2026-05-05T04_18_17Z.csv` | ibm_marrakesh (Heron r2) | 2026-05-05 | 156 |
+| `ibm_kingston_calibrations_2026-05-05T07_48_33Z.csv`  | ibm_kingston (Heron r2)  | 2026-05-05 | 156 |
+| `ibm_fez_calibrations_2026-05-05T08_00_06Z.csv`       | ibm_fez (Heron r2)       | 2026-05-05 | 156 |
 
 These are point-in-time snapshots, distinct from the multi-day time series
 in `data/ibm_history/results/ibm_<backend>_history.csv`. The April 25 file
