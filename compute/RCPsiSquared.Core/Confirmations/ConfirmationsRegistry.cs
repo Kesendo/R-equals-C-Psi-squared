@@ -177,7 +177,7 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "simulations/_f88_lens_ibm_kingston_uniform_quantum.py",
             FrameworkPrimitive: "F88-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
             Description:
-                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston confirmed PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, walk = 0). " +
+                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, all crossing > 95%). " +
                 "Result confirms regime-uniformity hypothesis: BOTH uniform-classical (Marrakesh [48,49,50] truly = 0.0013) AND uniform-quantum (Kingston [43,56,63] truly = 0.0022) give clean truly-baselines, while regime-mixed (Marrakesh [0,1,2] truly = 0.0297) is an order of magnitude dirtier. " +
                 "Three findings per single 39-second billed run: regime-uniformity is the cause of the truly-baseline gap (not which side of the boundary); F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping confirmed substrate-independent across two Heron-r2 chips.",
             QubitPath: new[] { 43, 56, 63 }),

@@ -2,13 +2,15 @@
 
 The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 UTC) is the
 first F87 trichotomy test on a uniform-quantum CZ-coupled triple. Multi-day
-biographies confirm all three qubits PulseStable across 91 days, with
-r ∈ [0.07, 0.10] (deeply quantum-side).
+biographies confirm all three qubits PulseStable across 91 days (mean r
+in [0.09, 0.10], all crossing the boundary on > 95% of days, deeply
+quantum-side).
 
 Question: how does the F88-Lens Π²-odd-memory reading on this chain compare
 to the regime-mixed Marrakesh [0, 1, 2] (April 26, framework_snapshots) and
 the uniform-classical Marrakesh [48, 49, 50] (April 26, soft_break)? The
-BOTH_SIDES_VISIBLE update flagged the 23× truly-baseline gap as a possible
+BOTH_SIDES_VISIBLE update flagged the 22.8× truly-baseline gap (Marrakesh
+[48, 49, 50] = 0.0013 vs Marrakesh [0, 1, 2] = 0.0297) as a possible
 regime-uniformity effect; this run is the first uniform-quantum data point.
 """
 from __future__ import annotations
@@ -98,7 +100,7 @@ def main():
     print("  Interpretation guide:")
     print("    - if regime-uniformity is what cleans the truly-baseline:")
     print("        Kingston uniform-quantum truly should be similar to Marrakesh uniform-classical")
-    print("        (the 23× framework_snapshots [0,1,2] vs [48,49,50] gap was 0.030 vs 0.0013)")
+    print("        (the 22.8× framework_snapshots [0,1,2] vs [48,49,50] gap was 0.0297 vs 0.0013)")
     print("    - if quantum-side dephasing dominates:")
     print("        Kingston uniform-quantum truly should be LARGER than Marrakesh classical")
     print("        (more T2-driven dephasing accumulating in the truly-baseline noise floor)")

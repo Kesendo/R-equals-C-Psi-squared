@@ -32,9 +32,7 @@ if sys.platform == "win32":
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ibm_calibration import (
-    load_calibration, score_qubit, best_chain, chain_score,
-)
+from ibm_calibration import load_calibration, best_chain, chain_score
 from _qubit_biography import load_history, archetype_from_series, R_STAR
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -60,6 +58,9 @@ def regime_count(qubits, path):
     return q, len(path) - q
 
 
+STABLE_ARCHETYPES = frozenset({"pulse-stable", "silent-stable", "classic-stable"})
+
+
 def archetype_for_path(history, path):
     archs = []
     for qid in path:
@@ -67,12 +68,8 @@ def archetype_for_path(history, path):
             archs.append("missing")
             continue
         rs = np.array([rec[3] for rec in history[qid]])
-        archs.append(archetype_for_series_str(rs))
+        archs.append(archetype_from_series(rs))
     return archs
-
-
-def archetype_for_series_str(rs):
-    return archetype_from_series(rs)
 
 
 def main():
@@ -98,8 +95,12 @@ def main():
     print(f"  Best 3-chain:  {p3}, score = {s3:.2f}")
     print(f"  Best 5-chain:  {p5}, score = {s5:.2f}")
     print()
-    print(f"  Apr-25 had:    [4, 3, 2] (score 867.07), [1, 2, 3, 4, 5] (1246.58)")
-    print(f"  Apr-30 had:    [93, 94, 95] (917.06), [95, 94, 93, 92, 91] (1469.23)")
+    p3_apr25, s3_apr25 = best_chain(snap25, 3)
+    p5_apr25, s5_apr25 = best_chain(snap25, 5)
+    p3_apr30, s3_apr30 = best_chain(snap30, 3)
+    p5_apr30, s5_apr30 = best_chain(snap30, 5)
+    print(f"  Apr-25 had:    {list(p3_apr25)} (score {s3_apr25:.2f}), {list(p5_apr25)} ({s5_apr25:.2f})")
+    print(f"  Apr-30 had:    {list(p3_apr30)} (score {s3_apr30:.2f}), {list(p5_apr30)} ({s5_apr30:.2f})")
 
     # Add today's winners to the named paths if not already present
     today_paths = []
@@ -156,12 +157,10 @@ def main():
     for label, path in all_paths:
         s = chain_score(snap05, path)
         archs = archetype_for_path(history, path)
-        n_stable = sum(1 for a in archs if a in ("pulse-stable", "silent-stable", "classic-stable"))
-        n_twitch = sum(1 for a in archs if a == "twitch")
-        # heuristic: prefer addressable-on-history (no missing), penalize twitch heavily,
-        # weigh stable archetypes positively, then score as tiebreaker
         if "missing" in archs:
             continue
+        n_stable = sum(1 for a in archs if a in STABLE_ARCHETYPES)
+        n_twitch = sum(1 for a in archs if a == "twitch")
         composite = (n_stable * 100) - (n_twitch * 200) + s
         if composite > best_combo_score:
             best_combo_score = composite
@@ -174,10 +173,10 @@ def main():
         print(f"    91-day archetypes: {', '.join(archs)}")
         print(f"    Composite (score + stability bonus - twitch penalty): {best_combo_score:.2f}")
     print()
-    print("  Reading: a high May-5 score on a recently-flipped cluster (Apr-30 winners)")
-    print("  may not be the right pick if the 91-day archetypes show twitch or lifecycle")
-    print("  drift. Stable + addressable + decent score beats bleeding-edge score on a")
-    print("  drift-volatile path.")
+    print("  Reading: the composite weights twitch qubits at -200/each so any path with")
+    print("  a twitcher gets pushed below alternatives at comparable score. With current")
+    print("  score range ~800-1500 and stable-bonus ~100-500, score still dominates ties")
+    print("  among non-twitch paths; stability matters mainly as a veto on twitch chains.")
 
 
 if __name__ == "__main__":

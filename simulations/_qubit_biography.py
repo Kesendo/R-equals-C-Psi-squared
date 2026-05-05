@@ -44,7 +44,7 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_HISTORY = REPO_ROOT / "data" / "ibm_history" / "ibm_torino_history.csv"
 
-R_STAR = 0.213
+R_STAR = 0.212755  # canonical CΨ=¼ boundary, matching QubitRegime.R_STAR in C# Calibration cockpit
 SILENT_DELTA = 0.10        # mean r ≥ R*+δ_silent → silent (far above boundary)
 WINDOW = 7                 # days per sliding window
 STD_HIGH = 0.05            # window std above this = "twitch" / volatile

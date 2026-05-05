@@ -35,6 +35,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ibm_calibration import load_calibration, score_qubit, best_chain, chain_score
+from _qubit_biography import R_STAR
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SNAP_DIR = REPO_ROOT / "data" / "ibm_calibration_snapshots"
@@ -43,7 +44,6 @@ SNAPS = {
     "kingston":  SNAP_DIR / "ibm_kingston_calibrations_2026-05-05T07_48_33Z.csv",
     "fez":       SNAP_DIR / "ibm_fez_calibrations_2026-05-05T08_00_06Z.csv",
 }
-R_STAR = 0.212755
 
 
 def stable_quantum(qubits, r_threshold=R_STAR):
@@ -109,7 +109,7 @@ def main():
 
     # --- Section 2: stable-quantum population ---
     print()
-    print("2. STABLE-QUANTUM POPULATION (r < R* = 0.213)")
+    print(f"2. STABLE-QUANTUM POPULATION (r < R* = {R_STAR:.4f})")
     print()
     print(f"  {'backend':<12} {'sq count':>9} {'sq fraction':>12}")
     print("  " + "-" * 40)
