@@ -280,10 +280,23 @@ public class C2BondCouplingTests
     [InlineData(8)]
     public void Vb_IsAntiHermitian_AcrossAllBondsAndEntries(int N)
     {
-        // The load-bearing guard: V_b = -i [H_b, ·] projected to the 4-mode basis is
-        // structurally anti-Hermitian. If probe-block, cross-block, or SVD-block accessors
-        // diverge in sign convention, the three sub-blocks no longer combine to satisfy
-        // the global anti-Hermiticity. This test catches such regressions.
+        // V_b = -i [H_b, ·] projected to the 4-mode basis is structurally anti-Hermitian.
+        //
+        // What this test catches:
+        // - Sign drift within the probe-block 2×2 (probe entries are computed independently;
+        //   the relation V_b[β, α] = -conj(V_b[α, β]) within α,β ∈ {0,1} must hold).
+        // - Sign drift within the SVD-block 2×2 (same, for j,k ∈ {2,3}).
+        //
+        // What this test does NOT catch on its own:
+        // - A sign error in CrossBlockEntry — AsMatrix builds the bottom-left 2×2 as
+        //   m[j, α] = -conj(m[α, j]) by construction (anti-Hermitian relation), so
+        //   a buggy CrossBlockEntry produces a buggy bottom-left mirror, and Vb+Vb†
+        //   stays zero in the cross sector.
+        //
+        // The genuine cross-cutting check across all three sub-blocks is
+        // AsMatrix_FullVb_MatchesFourModeEffective, which compares entry-by-entry
+        // against B† M B (computed independently by FourModeEffective). Together
+        // these two tests catch any sign error.
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var coupling = C2BondCoupling.Build(block);
 
