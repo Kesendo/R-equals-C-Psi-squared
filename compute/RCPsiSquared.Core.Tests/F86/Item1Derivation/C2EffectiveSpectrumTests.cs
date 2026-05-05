@@ -79,6 +79,24 @@ public class C2EffectiveSpectrumTests
         Assert.Throws<ArgumentOutOfRangeException>(() => spectrum.Eigenvalues(1.0, block.NumBonds));
     }
 
+    [Fact]
+    public void KDrivingPair_OutOfRangeBond_Throws()
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var spectrum = C2EffectiveSpectrum.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => spectrum.KDrivingPair(1.0, bond: -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => spectrum.KDrivingPair(1.0, bond: block.NumBonds));
+    }
+
+    [Fact]
+    public void KDrivingPairIndices_OutOfRangeBond_Throws()
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var spectrum = C2EffectiveSpectrum.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => spectrum.KDrivingPairIndices(1.0, bond: -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => spectrum.KDrivingPairIndices(1.0, bond: block.NumBonds));
+    }
+
     [Theory]
     [InlineData(5)]
     [InlineData(6)]
@@ -198,9 +216,9 @@ public class C2EffectiveSpectrumTests
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var spectrum = C2EffectiveSpectrum.Build(block);
         var probe = spectrum.ProbeProjection;
-        Assert.True(probe[2].Magnitude < 1e-12,
+        Assert.True(probe[2].Magnitude < 1e-14,
             $"|probe·u_0| should be ~0; got {probe[2].Magnitude:E2} at N={N}");
-        Assert.True(probe[3].Magnitude < 1e-12,
+        Assert.True(probe[3].Magnitude < 1e-14,
             $"|probe·v_0| should be ~0; got {probe[3].Magnitude:E2} at N={N}");
         // Sanity: c_1, c_3 components are non-trivial (probe is fully concentrated there).
         double cuMag = Math.Sqrt(probe[0].Magnitude * probe[0].Magnitude +
@@ -316,7 +334,7 @@ public class C2EffectiveSpectrumTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
-    public void KDrivingPair_OverlapDominanceFraction_IsNearOne(int N)
+    public void KDrivingPair_OverlapDominanceFraction_ExceedsThreshold(int N)
     {
         // Empirical sanity: the probe ⊥ {|u_0⟩, |v_0⟩} structural fact means the K-driving
         // pair carries the dominant fraction of the total |⟨probe | w⟩|² mass. At small
@@ -324,6 +342,7 @@ public class C2EffectiveSpectrumTests
         // diagonal blocks), the dominance fraction is close to 1. This isn't a Tier-1
         // closed-form bound — it depends on the (Q, b)-rotation — but it's the empirical
         // signature that K-driving identification is unambiguous in practice.
+        // (observed values empirically ≥ 0.9 across the test grid; threshold 0.7 leaves headroom)
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var spectrum = C2EffectiveSpectrum.Build(block);
         foreach (double Q in new[] { 1.0, 1.5, 2.0 })
