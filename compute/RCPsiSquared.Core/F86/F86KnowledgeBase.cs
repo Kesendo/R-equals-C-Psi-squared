@@ -49,8 +49,8 @@ public sealed class F86KnowledgeBase : IInspectable
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
     /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
     /// <see cref="Item1Derivation.C2HwhmRatio"/>: empirical anchor + directional
-    /// Endpoint &gt; Interior split, both pinned for the c=2 stratum across N=5..8.
-    /// Non-null iff <c>Block.C == 2</c>.</summary>
+    /// Endpoint &gt; Interior split, both pinned for the c=2 stratum (witness anchor:
+    /// c=2 N=5..8 in the canonical sweep). Non-null iff <c>Block.C == 2</c>.</summary>
     public C2UniversalShapeDerivation? C2UniversalShape { get; }
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }

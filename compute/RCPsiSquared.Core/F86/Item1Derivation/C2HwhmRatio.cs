@@ -49,7 +49,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   at the class-mean level for every N=5..8 sampled (gap ≈ 0.0198..0.0245). This is
 ///   the c=2 bond-class signature the closed form must reproduce. Algebraic origin: the
 ///   <see cref="C2BondCoupling.CrossBlockWitnesses"/> Frobenius split — Endpoint cross-
-///   block Frobenius &gt; Interior cross-block Frobenius (B2 finding) — is the seed; the
+///   block Frobenius &lt; Interior cross-block Frobenius (B2 finding) — is the seed; the
 ///   missing piece is the algebra connecting cross-block Frobenius to HWHM ratio shift.</item>
 /// </list>
 ///
@@ -199,10 +199,12 @@ public sealed class C2HwhmRatio : Claim
 
     /// <summary>Empirical-pinned directional structure: at the class-mean level (the
     /// canonical Python pipeline contract), Endpoint &gt; Interior is the c=2 bond-class
-    /// signature. Across N=5..8 the gap is consistently ~0.022, derivable from the
-    /// cross-block Frobenius split (B2: ‖V_endpoint cross‖_F &gt; ‖V_interior cross‖_F at
-    /// c=2). The algebra connecting the cross-block Frobenius to the HWHM ratio is what's
-    /// missing — when that lands, the closed form follows.</summary>
+    /// signature in HWHM_left/Q_peak (Endpoint ≈ 0.7728, Interior ≈ 0.7506). Across
+    /// N=5..8 the gap is consistently ~0.022, with the cross-block Frobenius split
+    /// (B2: ‖V_endpoint cross‖_F &lt; ‖V_interior cross‖_F at c=2; e.g. N=5 endpoint=0.1237,
+    /// interior=0.1934) entering as the directional seed via first-order perturbation. The
+    /// algebra connecting the cross-block Frobenius to the HWHM ratio is what's missing —
+    /// when that lands, the closed form follows.</summary>
     private static bool TryDeriveDirectionalSplit(IReadOnlyDictionary<BondClass, double> classRatios)
     {
         if (!classRatios.TryGetValue(BondClass.Endpoint, out double endpointRatio)) return false;
@@ -494,7 +496,7 @@ public sealed class C2HwhmRatio : Claim
                "      ‖V_b cross‖_F / σ_0. The first-order correction to Q_peak is\n" +
                "      δQ_peak = -(∂K_cross/∂Q|_ε=0) / (∂²K_probe-block/∂Q²), and similarly\n" +
                "      for the HWHM-left crossing. The cross-block Frobenius is\n" +
-               "      bond-class-dependent (B2 finding: Endpoint > Interior), so this should\n" +
+               "      bond-class-dependent (B2 finding: Endpoint < Interior), so this should\n" +
                "      produce a closed-form bond-class-dependent shift δ(Endpoint - Interior)\n" +
                "      ≈ 0.022.\n" +
                "  (b) Lift to projector-overlap onto the 2D top eigenspace (per A3's\n" +

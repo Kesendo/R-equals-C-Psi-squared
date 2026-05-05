@@ -118,4 +118,21 @@ public class C2UniversalShapeDerivationTests
             derivation.IsClosedFormDerived);
         Assert.Same(derivation.HwhmRatio.Witnesses, derivation.Witnesses);
     }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(7)]
+    public void Tier_AutoPromotionConditional_HoldsSymbolically(int N)
+    {
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var derivation = C2UniversalShapeDerivation.Build(block);
+
+        // The wrapper Tier MUST track the underlying IsClosedFormDerived flag.
+        // Currently false → Tier1Candidate; if a future session promotes D2 to
+        // IsAnalyticallyDerived = true, this test pins the auto-promotion contract:
+        var expectedTier = derivation.IsClosedFormDerived
+            ? Tier.Tier1Derived
+            : Tier.Tier1Candidate;
+        Assert.Equal(expectedTier, derivation.Tier);
+    }
 }

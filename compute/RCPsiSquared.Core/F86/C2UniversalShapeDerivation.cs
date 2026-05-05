@@ -61,9 +61,9 @@ public sealed class C2UniversalShapeDerivation : Claim
     public CoherenceBlock Block { get; }
 
     /// <summary>The Stage D2 primitive: per-bond HWHM_left/Q_peak witnesses + class-mean
-    /// canonical-pipeline ratios. Held here as the composition access point — every
-    /// downstream consumer of the c=2 universal-shape derivation reaches the actual
-    /// numerical content through this property.</summary>
+    /// canonical-pipeline ratios. Held here as the composition access point — we reach
+    /// the actual numerical content of the c=2 universal-shape derivation through this
+    /// property.</summary>
     public C2HwhmRatio HwhmRatio { get; }
 
     /// <summary>Class-mean HWHM_left/Q_peak for Interior bonds (canonical-pipeline:
@@ -177,8 +177,8 @@ public sealed class C2UniversalShapeDerivation : Claim
                     : "false (Tier1Candidate: empirical anchor + directional split derived; " +
                       "closed form open — see PendingDerivationNote for next directions)");
             yield return HwhmRatio;
-            yield return InspectableNode.Group("witnesses (per bond)",
-                Witnesses.Cast<IInspectable>().ToArray());
+            // Witnesses are exposed via HwhmRatio → witnesses (per bond); no need to
+            // duplicate the group at the wrapper level.
             if (PendingDerivationNote is not null)
                 yield return new InspectableNode("PendingDerivationNote", summary: PendingDerivationNote);
         }

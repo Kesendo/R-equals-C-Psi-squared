@@ -10,7 +10,8 @@ public static class F86OpenQuestions
     {
         new OpenQuestion(
             "Item 1' (c=2): closed-form HWHM_left/Q_peak constant",
-            "Empirical anchor reproduced at 0.0001 (C2HwhmRatio Tier1Candidate, c=2 N=5..8). " +
+            "Empirical anchor reproduced within tolerance 0.005 (typical residual ≤ 0.001) " +
+            "(C2HwhmRatio Tier1Candidate, c=2 N=5..8). " +
             "Directional Endpoint > Interior split derived empirically (gap ≈ 0.022). " +
             "Closed-form constant for HWHM_left/Q_peak ratios per bond class NOT pinned this " +
             "session. Three next directions ranked: (a) first-order perturbation in cross-block " +
