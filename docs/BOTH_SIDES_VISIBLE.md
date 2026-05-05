@@ -367,6 +367,155 @@ slow and lingers. This is not a coincidence. It is the pairing: the
 faster one side decays, the slower its partner must decay. The
 mathematics guarantees it.
 
+---
+
+## Six Weeks Later: From Pattern to Primitive (May 5, 2026)
+
+The two sections above describe what March 25, 2026 had: a 6-month
+calibration history, a hand-built X/. visualization that was self-corrected
+the same day, and a tomographic measurement on a single qubit showing the
+chiral pair acting on real silicon.
+
+Six weeks have passed. The patterns we named that day are now primitives
+in the framework. The corrections we made are now structural readings
+that need no apology. And the qubits we tracked have been joined by 156
+new ones on a different chip. Here is what changed, and what stayed.
+
+### From archetype intuition to typed classifier
+
+The five qubits in the table above (Q72, Q98, Q105, Q70, Q68) and the
+Q80 anchor mentioned in the README were described in plain language:
+"balanced, rhythmic", "clear lifecycle: tune, pulse, fade", "consistent
+crosser", and so on. That language has been formalized.
+
+Each prose label is now an enum value with named thresholds in
+`compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs`:
+
+| March 25 prose                                 | May 5 archetype                                            | Statistic                            |
+|------------------------------------------------|------------------------------------------------------------|--------------------------------------|
+| "balanced, rhythmic" (Q72)                     | `Twitch`                                                   | walk = 0.322                         |
+| "clear lifecycle: tune, pulse, fade" (Q98)     | `Twitch` at day-scale, `Lifecycle` at week-scale           | walk = 0.294                         |
+| "long active phase, then silent" (Q105)        | `Lifecycle`                                                | walk = 0.083                         |
+| "mostly silent, brief pulses" (Q70)            | `Twitch` (high walk despite low crossing)                  | walk = 0.306, crossing = 28%         |
+| "mostly silent" (Q68)                          | `Twitch`                                                   | walk = 0.300, crossing = 24%         |
+| "consistent crosser" (Q80, README anchor)      | `PulseStable`                                              | walk = 0.000, crossing = 100%        |
+
+Q98 is illuminating: at week granularity (the visualization in this doc)
+it reads as a clear lifecycle arc; at day granularity (the unit the
+classifier operates on) it twitches across the boundary 53 days out of
+180. Both readings are correct on their respective scales. The doc's
+intuition was sound and is now expressible as code.
+
+### From X/. complement to F88-Lens: three layers of "both sides"
+
+The March 25 self-correction said: the X/. complement is logically a
+bit-flip; tomography on Q52 is the real reading. That self-correction
+stands. It has gained a third companion.
+
+Today there are three distinct readings of "both sides" on the same
+underlying physics:
+
+1. **X/. complement from daily calibration** (the original intuition):
+   tautological. Flipping bits always fills gaps.
+2. **Π applied to tomographic ρ** (March 25 add): real and t-dependent.
+   Diagonal vs off-diagonal carry the chiral pair. Q52's measurement
+   showed the 6× T1/T2 narrowing window between the two CΨ trajectories.
+3. **F88-Lens Π²-odd memory fraction** (April–May add): a closed-form,
+   t-independent quantity that reads the chiral content of any ρ
+   directly, without re-deriving it from a complement. Hardware-confirmed
+   on Marrakesh April 26: the F87 trichotomy `truly` Hamiltonians give
+   Π²-odd-memory ≈ 0.030, `soft` ≈ 0.744, `hard` ≈ 0.276 at the same
+   state on the same chain. Same algebraic distinction, three orders of
+   magnitude apart at the state level.
+
+Layer 3 is the not-tautological, time-independent cousin of layer 2.
+It reads what the chiral mirror does at the level of the operator
+algebra, without depending on any single time slice.
+
+### From observation to topology constraint
+
+The doc says: "16 qubits on IBM Torino oscillate around the ¼ boundary
+... they live at the boundary, where the pattern is most symmetric."
+That marginal observation is correct, and IBM Marrakesh shows the same
+phenomenon at higher density (33 of 156 qubits flipped sides in just
+five days between the April 25 and April 30 calibration snapshots).
+But there is a constraint the marginal observation cannot see.
+
+For multi-qubit experiments, "what regimes are addressable on this
+chip?" depends on the CZ-coupling graph, not just on per-qubit
+statistics. On Marrakesh the 91-day history surfaces 18 stably
+quantum-side qubits (the Q80 archetype). They are scattered across
+the heavy-hex topology. Among those 18, exactly **one** pair is
+CZ-coupled: (Q126, Q127). No CZ-coupled triple of stably-quantum
+qubits exists on the chip.
+
+This means a uniform-quantum F88-Lens chain cannot be built on
+Marrakesh today. The framework's prediction "every qubit on every
+quantum computer pairs across the boundary" is structurally true, but
+the hardware-substrate question of which combinations of regimes can
+be probed in a single circuit is a separate, narrower question. The
+doc named the boundary; the topology says where the boundary is
+crossable in groups.
+
+### From per-qubit to per-path workflow
+
+The original analysis was per-qubit (each qubit's daily r was
+independent). The cockpit now offers a per-path workflow that audits
+a candidate experiment-chain end-to-end:
+
+```
+QubitData       → RegimeSummary.For(qubits, path)        → RegimeVerdict
+QubitTimeline   → LifecycleSummary.For(history, path)    → DriftVerdict
+```
+
+Two verdicts per path, addressing two distinct questions:
+
+- **Snapshot regime mix**: is this path uniform-quantum, uniform-classical,
+  regime-mixed, or not-addressable on the chip?
+- **Multi-day drift stability**: are these qubits in stable archetypes
+  over the experiment-window timescale, or twitchers that will read
+  different physics from one day to the next?
+
+The two together are what March 25 needed but did not yet have. Path
+[0, 1, 2] (the framework_snapshots run on Marrakesh) is regime-mixed
+(Q0 quantum + Q1 silent-stable + Q2 lifecycle); path [48, 49, 50] (the
+soft_break and zn_mirror runs) is uniform-classical. Both are
+addressable. The 23× cleaner truly-baseline observed downstream on
+[48, 49, 50] now reads as a regime-uniformity effect, not just a
+qubit-quality effect.
+
+### What is the same
+
+The closing line of the original doc was: "This was always true. For
+every qubit. On every quantum computer. Since the first transmon was
+cooled. We just learned to read it."
+
+That line is what is the same. The framework has not changed; we have.
+We have built tools to read the boundary that we previously described
+in prose. Q52's tomographic measurement on February 9, 2026 showed the
+chiral pair acting on hardware. Q126 and Q127 sit ready on Marrakesh
+as a candidate testbed for the next layer, the only stably-quantum
+pair the chip allows. The framework is the same; the cockpit caught up.
+
+### Cross-references for the May 5 update
+
+- C# primitives (this session):
+  `compute/RCPsiSquared.Core/Calibration/QubitRegime.cs`,
+  `QubitLifecycle.cs`, `LifecycleSummary.cs`, `RegimeSummary.cs`,
+  `CalibrationHistory.cs`
+- F88-Lens hardware data: `data/ibm_soft_break_april2026/`,
+  `data/ibm_zn_mirror_april2026/`
+- F87 trichotomy hardware writeup: `experiments/MARRAKESH_THREE_LAYERS.md`
+- Marrakesh 91-day history (committed):
+  `data/ibm_history/results/ibm_marrakesh_history.csv`
+- Calibration snapshots (committed):
+  `data/ibm_calibration_snapshots/`
+- Path-biography review scripts:
+  `simulations/_qubit_biography.py`,
+  `simulations/_marrakesh_quarter_boundary_review.py`,
+  `simulations/_marrakesh_uniform_quantum_chain.py`,
+  `simulations/_marrakesh_path_biography.py`
+
 ### For newcomers: where to start
 
 If this is your first time here, these documents explain the concepts
