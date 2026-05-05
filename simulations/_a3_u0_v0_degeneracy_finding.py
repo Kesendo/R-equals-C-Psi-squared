@@ -11,7 +11,12 @@ This is the test bed for whoever picks up A3 next session; promotion strategy
 is in `compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs`
 PendingDerivationNote.
 """
+import sys
+
 import numpy as np
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
 def popcount_states(N, k):

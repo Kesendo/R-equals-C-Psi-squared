@@ -59,23 +59,32 @@ public sealed class C2InterChannelAnalytical : Claim
     /// Visible in the inspection tree so a future session can pick up where this one left off.</summary>
     public string? PendingDerivationNote { get; }
 
-    /// <summary>Public constructor: validates c=2, then calls into <see cref="Resolve"/>.
-    /// The actual Tier is the one inside the resolution; we hard-code Tier2Verified in the
-    /// base() call here because the current session ships the numerical-fallback path. If a
-    /// future session promotes to Tier1Derived, they bump both the base() argument and the
-    /// <see cref="Resolve"/> return.</summary>
-    public C2InterChannelAnalytical(CoherenceBlock block)
-        : base("c=2 inter-channel SVD-top analytical",
-               Tier.Tier2Verified,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+    /// <summary>Public factory: validates c=2, runs <see cref="Resolve"/>, then constructs
+    /// the instance with the Tier and vectors that <see cref="Resolve"/> returned. Use this
+    /// instead of a public constructor so that <see cref="Resolution.Tier"/> is the single
+    /// source of truth for the Claim's Tier — there is no second hard-coded value to keep
+    /// in sync. A future session promoting to Tier1Derived only needs to return a different
+    /// Resolution from <see cref="Resolve"/>; the base() call below picks it up automatically.</summary>
+    public static C2InterChannelAnalytical Build(CoherenceBlock block)
     {
         if (block.C != 2)
             throw new ArgumentException(
                 $"C2InterChannelAnalytical applies only to the c=2 stratum; got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
                 nameof(block));
 
-        Block = block;
         var resolved = Resolve(block);
+        return new C2InterChannelAnalytical(block, resolved);
+    }
+
+    /// <summary>Private constructor: <see cref="Resolution.Tier"/> is the single source of
+    /// truth for the Claim's Tier. All Tier/vector data flows from one Resolution instance,
+    /// so Tier and IsAnalyticallyDerived cannot drift internally.</summary>
+    private C2InterChannelAnalytical(CoherenceBlock block, Resolution resolved)
+        : base("c=2 inter-channel SVD-top analytical",
+               resolved.Tier,
+               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+    {
+        Block = block;
         U0 = resolved.U0;
         V0 = resolved.V0;
         Sigma0 = resolved.Sigma0;

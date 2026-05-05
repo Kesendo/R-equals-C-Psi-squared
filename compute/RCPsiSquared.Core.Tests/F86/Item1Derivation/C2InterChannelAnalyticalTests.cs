@@ -19,7 +19,7 @@ public class C2InterChannelAnalyticalTests
     public void U0V0_OverlapWithNumericalSvd_AtMachinePrecision(int N)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
-        var analytical = new C2InterChannelAnalytical(block);
+        var analytical = C2InterChannelAnalytical.Build(block);
         var numerical = InterChannelSvd.Build(block, hd1: 1, hd2: 3);
 
         var u0Overlap = (analytical.U0.Conjugate() * numerical.U0InFullBlock).Magnitude;
@@ -38,7 +38,7 @@ public class C2InterChannelAnalyticalTests
     public void Sigma0_MatchesNumericalSvd(int N)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
-        var analytical = new C2InterChannelAnalytical(block);
+        var analytical = C2InterChannelAnalytical.Build(block);
         var numerical = InterChannelSvd.Build(block, hd1: 1, hd2: 3);
 
         Assert.InRange(analytical.Sigma0, numerical.Sigma0 - 1e-10, numerical.Sigma0 + 1e-10);
@@ -48,7 +48,7 @@ public class C2InterChannelAnalyticalTests
     public void Tier_IsTier1DerivedOrTier2Verified_NotOther()
     {
         var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
-        var analytical = new C2InterChannelAnalytical(block);
+        var analytical = C2InterChannelAnalytical.Build(block);
         Assert.True(analytical.Tier == Tier.Tier1Derived || analytical.Tier == Tier.Tier2Verified,
             $"Expected Tier1Derived or Tier2Verified; got {analytical.Tier}");
     }
@@ -57,7 +57,7 @@ public class C2InterChannelAnalyticalTests
     public void IsAnalyticallyDerived_ConsistentWithTier()
     {
         var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
-        var analytical = new C2InterChannelAnalytical(block);
+        var analytical = C2InterChannelAnalytical.Build(block);
         if (analytical.IsAnalyticallyDerived)
             Assert.Equal(Tier.Tier1Derived, analytical.Tier);
         else
@@ -68,6 +68,6 @@ public class C2InterChannelAnalyticalTests
     public void Constructor_ThrowsIfNotC2()
     {
         var block = new CoherenceBlock(N: 5, n: 2, gammaZero: 0.05);  // c=3
-        Assert.Throws<ArgumentException>(() => new C2InterChannelAnalytical(block));
+        Assert.Throws<ArgumentException>(() => C2InterChannelAnalytical.Build(block));
     }
 }
