@@ -62,10 +62,11 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para>The presence of an odd-power term in c_3 confirms the polynomial is NOT a biquadratic
 /// in Q, so it does not reduce to <c>(λ² − a·λ + b)(λ² − c·λ + d)</c> with closed-form
 /// rational coefficients in Q. Statement 1's 2×2 reduction
-/// <c>[[−2γ₀, +i·2γ₀], [+i·2γ₀, −6γ₀]]</c> captures the dominant EP physics for the slowest
-/// pair as an <i>approximation</i>, not an exact factorisation of the full 4×4. The pair-sum
-/// pattern <c>λ_0 + λ_3 ≈ −8γ₀ ≈ λ_1 + λ_2</c> is empirically visible at sample (N, Q) but
-/// is not algebraically clean (deviations of order 0.5% at N=5, Q=1).</para>
+/// <c>[[−2γ₀, +iJ·g_eff], [+iJ·g_eff, −6γ₀]]</c> (with J·g_eff = 2γ₀ at the EP) captures the
+/// dominant EP physics for the slowest pair as an <i>approximation</i>, not an exact
+/// factorisation of the full 4×4. The Q-parametric form is what Stage D's K_b(Q, t) work
+/// will need. The pair-sum pattern <c>λ_0 + λ_3 ≈ −8γ₀ ≈ λ_1 + λ_2</c> is empirically visible
+/// at sample (N, Q) but is not algebraically clean (deviations of order 0.5% at N=5, Q=1).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Statement 1 (EP mechanism).</para>
 /// </summary>

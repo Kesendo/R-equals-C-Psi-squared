@@ -144,12 +144,15 @@ public class C2EffectiveSpectrumTests
     }
 
     [Fact]
-    public void Tier_TracksBondCouplingTier()
+    public void Tier_IsIndependentOfBondCouplingTier_BothObstructionsCoexist()
     {
-        // The class Tier is currently independent of BondCoupling's Tier (which is Tier2
-        // due to A3's even-N σ_0 obstruction). C2's own Tier comes from whether the 4×4
-        // factorisation lands; the two are independent obstructions.
-        // This test just pins that BondCoupling is reachable and is its expected Tier.
+        // C2EffectiveSpectrum.Tier and BondCoupling.Tier are independent obstructions, not
+        // a parent-child inheritance: BondCoupling.Tier = Tier2Verified comes from A3's
+        // even-N σ_0 degeneracy; C2EffectiveSpectrum.Tier = Tier2Verified comes from the
+        // independent cubic-c_3 obstruction in the 4×4 char poly (no biquadratic reduction).
+        // Even if A3 were promoted to Tier1Derived, this spectrum's Tier would stay
+        // Tier2Verified due to the cubic-c_3 obstruction — and vice versa.
+        // This test pins that BondCoupling is reachable and carries its own Tier verdict.
         var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
         var spectrum = C2EffectiveSpectrum.Build(block);
         Assert.NotNull(spectrum.BondCoupling);
@@ -167,6 +170,13 @@ public class C2EffectiveSpectrumTests
         {
             Assert.NotNull(spectrum.PendingDerivationNote);
             Assert.Contains("Tier2Verified", spectrum.PendingDerivationNote!);
+        }
+
+        if (spectrum.Tier == Tier.Tier2Verified)
+        {
+            Assert.NotNull(spectrum.PendingDerivationNote);
+            Assert.Contains("cubic", spectrum.PendingDerivationNote!,
+                StringComparison.OrdinalIgnoreCase);  // pins the c_3-cubic obstruction-of-record
         }
     }
 }
