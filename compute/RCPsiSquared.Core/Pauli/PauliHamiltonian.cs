@@ -12,6 +12,34 @@ namespace RCPsiSquared.Core.Pauli;
 /// </summary>
 public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
 {
+    /// <summary>Set of distinct Klein indices (bit_a, bit_b) across all non-identity terms.
+    /// Identity terms are excluded (their Klein index (0,0) is trivial).</summary>
+    public IReadOnlySet<(int BitA, int BitB)> KleinSet =>
+        Terms.Where(t => t.KBody > 0).Select(t => t.KleinIndex).ToHashSet();
+
+    /// <summary>True if all non-identity terms share the same Klein index. Empirical
+    /// structural fact (k=2 full enumeration; k=3 sample): Klein-homogeneous Hamiltonians
+    /// under matched-Klein dephasing are always F87 soft or truly, never F87 hard.</summary>
+    public bool IsKleinHomogeneous => KleinSet.Count <= 1;
+
+    /// <summary>Set of distinct full Z₂³ signatures (bit_a, bit_b, Y-par) across non-identity
+    /// terms. At k=2 this has the same cardinality as <see cref="KleinSet"/>; at k≥3 it
+    /// can be strictly finer (Y-parity becomes independent).</summary>
+    public IReadOnlySet<(int BitA, int BitB, int YParity)> FullZ2SignatureSet =>
+        Terms.Where(t => t.KBody > 0).Select(t => t.FullZ2Signature).ToHashSet();
+
+    /// <summary>True if all non-identity terms share the same full Z₂³ signature. Strictly
+    /// finer than <see cref="IsKleinHomogeneous"/> at k≥3; equivalent at k=2.</summary>
+    public bool IsZ2Homogeneous => FullZ2SignatureSet.Count <= 1;
+
+    /// <summary>Per-term Klein index list (in term order, non-identity terms only).</summary>
+    public IReadOnlyList<(int BitA, int BitB)> PerTermKleinIndices =>
+        Terms.Where(t => t.KBody > 0).Select(t => t.KleinIndex).ToList();
+
+    /// <summary>Per-term full Z₂³ signature list (in term order, non-identity terms only).</summary>
+    public IReadOnlyList<(int BitA, int BitB, int YParity)> PerTermFullZ2Signatures =>
+        Terms.Where(t => t.KBody > 0).Select(t => t.FullZ2Signature).ToList();
+
     public ComplexMatrix ToMatrix()
     {
         int d = 1 << N;
