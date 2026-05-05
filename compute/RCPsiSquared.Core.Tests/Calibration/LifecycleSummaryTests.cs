@@ -6,9 +6,7 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// drift-aware audit. Anchored to the 91-day Marrakesh history.</summary>
 public class LifecycleSummaryTests
 {
-    private static readonly Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d = new(() =>
-        CalibrationHistory.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_history", "results", "ibm_marrakesh_history.csv")));
+    private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d => CalibrationFixtures.Marrakesh91d;
 
     [Fact]
     public void SoftBreakPath_OnMarrakesh91d_DriftClassified()
@@ -18,8 +16,8 @@ public class LifecycleSummaryTests
         Assert.False(s.HasMissingHistory);
         // Path [48, 49, 50] has 3 lifecycle qubits per the path-biography review;
         // accept either drift-stable or drift-moderate but not drift-volatile.
-        Assert.NotEqual("drift-volatile", s.DriftVerdict);
-        Assert.NotEqual("insufficient-history", s.DriftVerdict);
+        Assert.NotEqual(DriftVerdict.DriftVolatile, s.DriftVerdict);
+        Assert.NotEqual(DriftVerdict.InsufficientHistory, s.DriftVerdict);
         Assert.Equal(0, s.TwitchCount);
     }
 
@@ -38,7 +36,7 @@ public class LifecycleSummaryTests
     {
         var s = LifecycleSummary.For(Marrakesh91d.Value, new[] { 126, 127 });
         Assert.True(s.AllStable);
-        Assert.Equal("drift-stable", s.DriftVerdict);
+        Assert.Equal(DriftVerdict.DriftStable, s.DriftVerdict);
         Assert.Equal(0, s.TwitchCount);
         Assert.Equal(0, s.LifecycleCount);
         Assert.Equal(2, s.StableCount);
@@ -51,7 +49,7 @@ public class LifecycleSummaryTests
         Assert.Equal(2, s.Qubits.Count);
         Assert.Equal(LifecycleArchetype.InsufficientData, s.Qubits[1].Archetype);
         Assert.True(s.HasMissingHistory);
-        Assert.Equal("insufficient-history", s.DriftVerdict);
+        Assert.Equal(DriftVerdict.InsufficientHistory, s.DriftVerdict);
     }
 
     [Fact]
@@ -77,12 +75,12 @@ public class LifecycleSummaryTests
         // All-stable synthetic history: 30 days, all r ≈ 0.4 (classical-side, no flips).
         var hist = new Dictionary<int, QubitTimeline>
         {
-            [0] = MakeStable(0, days: 30, t1: 100, t2: 80),
-            [1] = MakeStable(1, days: 30, t1: 100, t2: 80),
+            [0] = CalibrationFixtures.StableTimeline(0, days: 30, t1Us: 100, t2Us: 80),
+            [1] = CalibrationFixtures.StableTimeline(1, days: 30, t1Us: 100, t2Us: 80),
         };
         var s = LifecycleSummary.For(hist, new[] { 0, 1 });
         Assert.True(s.AllStable);
-        Assert.Equal("drift-stable", s.DriftVerdict);
+        Assert.Equal(DriftVerdict.DriftStable, s.DriftVerdict);
     }
 
     [Fact]
@@ -90,46 +88,14 @@ public class LifecycleSummaryTests
     {
         var hist = new Dictionary<int, QubitTimeline>
         {
-            [0] = MakeStable(0, days: 30, t1: 100, t2: 80),     // SilentStable
-            [1] = MakeAlternating(1, days: 30, t1: 100),         // Twitch
+            [0] = CalibrationFixtures.StableTimeline(0, days: 30, t1Us: 100, t2Us: 80),  // SilentStable
+            [1] = CalibrationFixtures.AlternatingTimeline(1, days: 30),                  // Twitch
         };
         var s = LifecycleSummary.For(hist, new[] { 0, 1 });
         Assert.True(s.AnyTwitch);
-        Assert.Equal("drift-volatile", s.DriftVerdict);
+        Assert.Equal(DriftVerdict.DriftVolatile, s.DriftVerdict);
         Assert.Equal(1, s.StableCount);
         Assert.Equal(1, s.TwitchCount);
     }
 
-    private static QubitTimeline MakeStable(int qid, int days, double t1, double t2)
-    {
-        var list = new List<CalibrationDay>(days);
-        for (int i = 0; i < days; i++)
-            list.Add(new CalibrationDay($"2026-01-{i + 1:D2}", t1, t2));
-        return new QubitTimeline(qid, list);
-    }
-
-    private static QubitTimeline MakeAlternating(int qid, int days, double t1)
-    {
-        var list = new List<CalibrationDay>(days);
-        for (int i = 0; i < days; i++)
-        {
-            double t2 = (i % 2 == 0) ? 20.0 : 80.0;
-            list.Add(new CalibrationDay($"2026-01-{i + 1:D2}", t1, t2));
-        }
-        return new QubitTimeline(qid, list);
-    }
-
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
 }

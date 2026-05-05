@@ -2,6 +2,32 @@ using RCPsiSquared.Core.Confirmations;
 
 namespace RCPsiSquared.Core.Calibration;
 
+/// <summary>Pre-submit audit label for a candidate qubit-path on hardware.
+/// <see cref="NotAddressable"/> always wins (a path that can't run can't be
+/// classified by regime); the three regime labels apply to addressable paths.</summary>
+public enum RegimeVerdict
+{
+    UniformQuantum,
+    UniformClassical,
+    RegimeMixed,
+    NotAddressable,
+}
+
+/// <summary><see cref="RegimeVerdict"/> ↔ kebab-case label conversion for logs
+/// and headlines. Kept stable so callers can serialise to text, then back via
+/// <see cref="Parse"/>.</summary>
+public static class RegimeVerdictLabels
+{
+    public static string Label(this RegimeVerdict v) => v switch
+    {
+        RegimeVerdict.UniformQuantum => "uniform-quantum",
+        RegimeVerdict.UniformClassical => "uniform-classical",
+        RegimeVerdict.RegimeMixed => "regime-mixed",
+        RegimeVerdict.NotAddressable => "not-addressable",
+        _ => throw new ArgumentOutOfRangeException(nameof(v)),
+    };
+}
+
 /// <summary>One row of a <see cref="RegimeSummary"/>: per-qubit calibration plus
 /// the regime classification derived from <see cref="QubitRegime"/>.</summary>
 public sealed record PerQubitRegime(
@@ -46,15 +72,19 @@ public sealed record RegimeSummary(
     /// pair is CZ-coupled and every qubit is operational on this calibration.</summary>
     public bool IsAddressable => AllCzCoupled && AllOperational;
 
-    /// <summary>One-word audit label, suitable for logging and pre-submit gates:
-    /// <c>uniform-quantum</c>, <c>uniform-classical</c>, <c>regime-mixed</c>,
-    /// or <c>not-addressable</c> (overrides the regime label since an
-    /// unaddressable path can't run at all).</summary>
-    public string Verdict =>
-        !IsAddressable ? "not-addressable" :
-        QuantumCount == Path.Count ? "uniform-quantum" :
-        ClassicalCount == Path.Count ? "uniform-classical" :
-        "regime-mixed";
+    /// <summary>Audit label for pre-submit gating.
+    /// <see cref="RegimeVerdict.NotAddressable"/> overrides the regime labels
+    /// (a non-addressable path can't run, so its regime composition is moot).
+    /// For the addressable case, the regime-uniformity check picks
+    /// <see cref="RegimeVerdict.UniformQuantum"/> /
+    /// <see cref="RegimeVerdict.UniformClassical"/> /
+    /// <see cref="RegimeVerdict.RegimeMixed"/>. Use <see cref="RegimeVerdictLabels.Label"/>
+    /// for kebab-case strings in logs.</summary>
+    public RegimeVerdict Verdict =>
+        !IsAddressable ? RegimeVerdict.NotAddressable :
+        QuantumCount == Path.Count ? RegimeVerdict.UniformQuantum :
+        ClassicalCount == Path.Count ? RegimeVerdict.UniformClassical :
+        RegimeVerdict.RegimeMixed;
 
     /// <summary>Build the summary for <paramref name="path"/> against an
     /// already-loaded calibration. Throws <see cref="ArgumentException"/> if
@@ -95,7 +125,7 @@ public sealed record RegimeSummary(
         }
 
         bool allOp = perQubit.All(x => x.Operational);
-        double score = IbmCalibration.ChainScore(qubits, path);
+        double score = IbmCalibration.ChainScore(byId, path);
 
         return new RegimeSummary(
             Path: path,
@@ -114,7 +144,7 @@ public sealed record RegimeSummary(
     {
         string addr = IsAddressable ? "addressable" : "not-addressable";
         string pathStr = "[" + string.Join(", ", Path) + "]";
-        return $"path {pathStr} | {Verdict} ({QuantumCount}q, {BoundaryCount}b, {ClassicalCount}c) "
+        return $"path {pathStr} | {Verdict.Label()} ({QuantumCount}q, {BoundaryCount}b, {ClassicalCount}c) "
              + $"| score {Score:F2} | {addr}";
     }
 

@@ -1,5 +1,29 @@
 namespace RCPsiSquared.Core.Calibration;
 
+/// <summary>Multi-day drift label for a candidate path. Distinct from
+/// <see cref="RegimeVerdict"/>: that one classifies the snapshot regime;
+/// this one classifies how stable the regime is over the history window.</summary>
+public enum DriftVerdict
+{
+    DriftStable,
+    DriftModerate,
+    DriftVolatile,
+    InsufficientHistory,
+}
+
+/// <summary>Kebab-case label conversion for <see cref="DriftVerdict"/>.</summary>
+public static class DriftVerdictLabels
+{
+    public static string Label(this DriftVerdict v) => v switch
+    {
+        DriftVerdict.DriftStable => "drift-stable",
+        DriftVerdict.DriftModerate => "drift-moderate",
+        DriftVerdict.DriftVolatile => "drift-volatile",
+        DriftVerdict.InsufficientHistory => "insufficient-history",
+        _ => throw new ArgumentOutOfRangeException(nameof(v)),
+    };
+}
+
 /// <summary>One row of a <see cref="LifecycleSummary"/>: a single path qubit
 /// with its multi-day boundary statistics and archetype.</summary>
 public sealed record QubitLifecycleStats(
@@ -51,15 +75,20 @@ public sealed record LifecycleSummary(
     public bool HasMissingHistory => InsufficientDataCount > 0;
 
     /// <summary>Composite drift label, distinct from
-    /// <see cref="RegimeSummary.Verdict"/>: <c>drift-stable</c> if every qubit
-    /// is in a stable archetype; <c>drift-volatile</c> if any qubit is twitching;
-    /// <c>drift-moderate</c> otherwise (lifecycle qubits present but no twitchers);
-    /// <c>insufficient-history</c> if any qubit lacks &gt; 1 calibration day.</summary>
-    public string DriftVerdict =>
-        HasMissingHistory ? "insufficient-history" :
-        AnyTwitch ? "drift-volatile" :
-        AllStable ? "drift-stable" :
-        "drift-moderate";
+    /// <see cref="RegimeSummary.Verdict"/>:
+    /// <see cref="Calibration.DriftVerdict.InsufficientHistory"/> if any qubit
+    /// lacks &gt; 1 calibration day (always wins);
+    /// <see cref="Calibration.DriftVerdict.DriftVolatile"/> if any qubit is
+    /// <see cref="LifecycleArchetype.Twitch"/>;
+    /// <see cref="Calibration.DriftVerdict.DriftStable"/> if every qubit is
+    /// in a stable archetype; otherwise
+    /// <see cref="Calibration.DriftVerdict.DriftModerate"/>. Use
+    /// <see cref="DriftVerdictLabels.Label"/> for kebab-case strings.</summary>
+    public DriftVerdict DriftVerdict =>
+        HasMissingHistory ? Calibration.DriftVerdict.InsufficientHistory :
+        AnyTwitch ? Calibration.DriftVerdict.DriftVolatile :
+        AllStable ? Calibration.DriftVerdict.DriftStable :
+        Calibration.DriftVerdict.DriftModerate;
 
     /// <summary>Build the lifecycle summary for <paramref name="path"/> against
     /// a pre-loaded history map. Qubits missing from the history get
@@ -122,7 +151,7 @@ public sealed record LifecycleSummary(
     {
         int days = Qubits.Count == 0 ? 0 : Qubits.Max(q => q.DayCount);
         string pathStr = "[" + string.Join(", ", Path) + "]";
-        return $"path {pathStr} | {DriftVerdict} ({StableCount} stable, "
+        return $"path {pathStr} | {DriftVerdict.Label()} ({StableCount} stable, "
              + $"{LifecycleCount} lifecycle, {TwitchCount} twitch) over {days} days";
     }
 }

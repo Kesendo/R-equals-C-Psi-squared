@@ -148,9 +148,14 @@ public static class IbmCalibration
 
     /// <summary>Score a specific chain (for comparison against
     /// <see cref="BestChain"/>). Same scoring rule.</summary>
-    public static double ChainScore(IReadOnlyList<QubitData> qubits, IReadOnlyList<int> path)
+    public static double ChainScore(IReadOnlyList<QubitData> qubits, IReadOnlyList<int> path) =>
+        ChainScore(qubits.ToDictionary(q => q.Qubit), path);
+
+    /// <summary>Same scoring rule as <see cref="ChainScore(IReadOnlyList{QubitData}, IReadOnlyList{int})"/>
+    /// but takes an already-built qubit lookup, avoiding the dictionary rebuild
+    /// when callers (e.g. <see cref="RegimeSummary.For"/>) already have one.</summary>
+    public static double ChainScore(IReadOnlyDictionary<int, QubitData> byId, IReadOnlyList<int> path)
     {
-        var byId = qubits.ToDictionary(q => q.Qubit);
         double score = path.Sum(p => ScoreQubit(byId[p]));
         for (int i = 0; i < path.Count - 1; i++)
         {

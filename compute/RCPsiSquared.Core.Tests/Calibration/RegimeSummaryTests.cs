@@ -8,17 +8,14 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// single <see cref="RegimeSummary"/> record.</summary>
 public class RegimeSummaryTests
 {
-    private static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
-        IbmCalibration.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_calibration_snapshots",
-            "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
+    private static Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 => CalibrationFixtures.Marrakesh20260425;
 
     [Fact]
     public void FrameworkSnapshotsPath_IsRegimeMixedAndAddressable()
     {
         var qubits = Marrakesh20260425.Value;
         var s = RegimeSummary.For(qubits, new[] { 0, 1, 2 });
-        Assert.Equal("regime-mixed", s.Verdict);
+        Assert.Equal(RegimeVerdict.RegimeMixed, s.Verdict);
         Assert.False(s.IsRegimeUniform);
         Assert.True(s.IsAddressable);
         Assert.Equal(1, s.QuantumCount);
@@ -32,7 +29,7 @@ public class RegimeSummaryTests
     {
         var qubits = Marrakesh20260425.Value;
         var s = RegimeSummary.For(qubits, new[] { 48, 49, 50 });
-        Assert.Equal("uniform-classical", s.Verdict);
+        Assert.Equal(RegimeVerdict.UniformClassical, s.Verdict);
         Assert.True(s.IsRegimeUniform);
         Assert.True(s.IsAddressable);
         Assert.Equal(3, s.ClassicalCount);
@@ -44,7 +41,7 @@ public class RegimeSummaryTests
     {
         var qubits = Marrakesh20260425.Value;
         var s = RegimeSummary.For(qubits, new[] { 1, 2, 3, 4, 5 });
-        Assert.Equal("uniform-classical", s.Verdict);
+        Assert.Equal(RegimeVerdict.UniformClassical, s.Verdict);
         Assert.True(s.IsRegimeUniform);
         Assert.Equal(5, s.ClassicalCount);
     }
@@ -75,7 +72,7 @@ public class RegimeSummaryTests
         Assert.False(s.AllCzCoupled);
         Assert.True(s.AllOperational);
         Assert.False(s.IsAddressable);
-        Assert.Equal("not-addressable", s.Verdict);
+        Assert.Equal(RegimeVerdict.NotAddressable, s.Verdict);
     }
 
     [Fact]
@@ -113,7 +110,7 @@ public class RegimeSummaryTests
         var calChain = IbmCalibration.SelectBestChain(qubits, length: 5);
         var s = RegimeSummary.For(qubits, calChain.QubitIds);
         Assert.True(s.IsAddressable);
-        Assert.Equal("uniform-classical", s.Verdict);
+        Assert.Equal(RegimeVerdict.UniformClassical, s.Verdict);
         Assert.Equal(calChain.Score, s.Score, precision: 1);
     }
 
@@ -147,17 +144,4 @@ public class RegimeSummaryTests
         Assert.Empty(s.RelatedConfirmations());
     }
 
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
 }

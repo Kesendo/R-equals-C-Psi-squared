@@ -8,14 +8,12 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// biography review showed walk 0.022 over the window).</summary>
 public class QubitLifecycleTests
 {
-    private static readonly Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d = new(() =>
-        CalibrationHistory.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_history", "results", "ibm_marrakesh_history.csv")));
+    private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d => CalibrationFixtures.Marrakesh91d;
 
     [Fact]
     public void Classify_AlwaysQuantumSide_IsPulseStable()
     {
-        var t = SyntheticTimeline(qid: 0, days: 30, t1: 100, t2: 30);  // r ≈ 0.15 < R*
+        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 30);  // r ≈ 0.15 < R*
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(t));
         Assert.Equal(0.0, QubitLifecycle.WalkRate(t));
         Assert.Equal(1.0, QubitLifecycle.CrossingFraction(t), precision: 6);
@@ -24,7 +22,7 @@ public class QubitLifecycleTests
     [Fact]
     public void Classify_AlwaysClassical_IsSilentStable()
     {
-        var t = SyntheticTimeline(qid: 0, days: 30, t1: 100, t2: 80);  // r = 0.40 > R*
+        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 80);  // r = 0.40 > R*
         Assert.Equal(LifecycleArchetype.SilentStable, QubitLifecycle.Classify(t));
         Assert.Equal(0.0, QubitLifecycle.WalkRate(t));
         Assert.Equal(0.0, QubitLifecycle.CrossingFraction(t));
@@ -34,13 +32,7 @@ public class QubitLifecycleTests
     public void Classify_AlternatingDays_IsTwitch()
     {
         // 30 days alternating r=0.10 (quantum) and r=0.40 (classical) → walk = 1.0
-        var days = new List<CalibrationDay>();
-        for (int i = 0; i < 30; i++)
-        {
-            double t2 = (i % 2 == 0) ? 20.0 : 80.0;
-            days.Add(new CalibrationDay($"2026-01-{i + 1:D2}", T1Us: 100, T2Us: t2));
-        }
-        var t = new QubitTimeline(0, days);
+        var t = CalibrationFixtures.AlternatingTimeline(qid: 0, days: 30);
         Assert.Equal(LifecycleArchetype.Twitch, QubitLifecycle.Classify(t));
         Assert.True(QubitLifecycle.WalkRate(t) > QubitLifecycle.TwitchWalkThreshold);
     }
@@ -101,25 +93,4 @@ public class QubitLifecycleTests
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[127]));
     }
 
-    private static QubitTimeline SyntheticTimeline(int qid, int days, double t1, double t2)
-    {
-        var list = new List<CalibrationDay>(days);
-        for (int i = 0; i < days; i++)
-            list.Add(new CalibrationDay($"2026-01-{i + 1:D2}", t1, t2));
-        return new QubitTimeline(qid, list);
-    }
-
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
 }

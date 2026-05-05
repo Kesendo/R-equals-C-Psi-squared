@@ -8,9 +8,7 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// 14196 records, 156 qubits × 91 days, 2026-02-04 to 2026-05-05).</summary>
 public class CalibrationHistoryTests
 {
-    private static readonly Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d = new(() =>
-        CalibrationHistory.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_history", "results", "ibm_marrakesh_history.csv")));
+    private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d => CalibrationFixtures.Marrakesh91d;
 
     [Fact]
     public void Load_Marrakesh91d_HasAll156Qubits()
@@ -82,17 +80,4 @@ public class CalibrationHistoryTests
         finally { File.Delete(path); }
     }
 
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
 }

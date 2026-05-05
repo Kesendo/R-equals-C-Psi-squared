@@ -10,10 +10,7 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// soft_break path [48, 49, 50] is uniform-classical.</summary>
 public class QubitRegimeTests
 {
-    private static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
-        IbmCalibration.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_calibration_snapshots",
-            "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
+    private static Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 => CalibrationFixtures.Marrakesh20260425;
 
     [Fact]
     public void RStar_MatchesPolynomialFoldCatastropheConstant()
@@ -30,9 +27,12 @@ public class QubitRegimeTests
     }
 
     [Fact]
-    public void RParam_ZeroT1_ReturnsZero()
+    public void RParam_NonOperationalT1_ReturnsPositiveInfinityAndClassifiesClassical()
     {
-        Assert.Equal(0.0, QubitRegime.RParam(t1Us: 0, t2Us: 100));
+        Assert.Equal(double.PositiveInfinity, QubitRegime.RParam(t1Us: 0, t2Us: 100));
+        Assert.Equal(double.PositiveInfinity, QubitRegime.RParam(t1Us: -1, t2Us: 100));
+        Assert.Equal(Regime.ClassicalSide, QubitRegime.Classify(t1Us: 0, t2Us: 100));
+        Assert.False(QubitRegime.IsQuantumSide(t1Us: 0, t2Us: 100));
     }
 
     [Fact]
@@ -126,17 +126,4 @@ public class QubitRegimeTests
         }
     }
 
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
 }

@@ -16,10 +16,7 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// </summary>
 public class IbmCalibrationTests
 {
-    private static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
-        IbmCalibration.Load(Path.Combine(FindRepoRoot(),
-            "data", "ibm_calibration_snapshots",
-            "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
+    private static Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 => CalibrationFixtures.Marrakesh20260425;
 
     [Fact]
     public void Load_Marrakesh20260425_Has156OperationalQubits()
@@ -199,20 +196,5 @@ public class IbmCalibrationTests
         string path = Path.Combine(Path.GetTempPath(), $"ibm_calib_test_{Guid.NewGuid():N}.csv");
         File.WriteAllText(path, contents);
         return path;
-    }
-
-    private static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root (MIRROR_THEORY.md + compute/) " +
-            $"starting from {AppContext.BaseDirectory}");
     }
 }

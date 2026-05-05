@@ -41,10 +41,13 @@ public static class QubitRegime
     public const double R_STAR = 0.212755;
 
     /// <summary>r = T2 / (2·T1), the single ratio that controls CΨ_min on a
-    /// single transmon. Returns 0 when T1 ≤ 0 (treats invalid calibration as
-    /// classical-side; callers needing strict validation should check first).</summary>
+    /// single transmon. Returns <see cref="double.PositiveInfinity"/> when
+    /// T1 ≤ 0 so non-operational qubits classify as
+    /// <see cref="Regime.ClassicalSide"/> (the safe default; invalid hardware
+    /// must not look like a clean quantum-side reading). Callers needing strict
+    /// validation should check operationality before classification.</summary>
     public static double RParam(double t1Us, double t2Us) =>
-        t1Us > 0 ? t2Us / (2.0 * t1Us) : 0.0;
+        t1Us > 0 ? t2Us / (2.0 * t1Us) : double.PositiveInfinity;
 
     /// <summary>Classify a qubit by its T1/T2. Default ε = 0 returns binary
     /// QuantumSide/ClassicalSide; pass ε &gt; 0 to surface the

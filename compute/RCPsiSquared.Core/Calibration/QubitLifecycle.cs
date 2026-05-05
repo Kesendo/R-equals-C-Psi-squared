@@ -24,9 +24,9 @@ public enum LifecycleArchetype
     /// <summary>Walk &gt; <see cref="QubitLifecycle.TwitchWalkThreshold"/>:
     /// rapidly flipping daily. The Q72/Q98 archetype.</summary>
     Twitch,
-    /// <summary>Walk &lt; <see cref="QubitLifecycle.LifecycleWalkThreshold"/>,
-    /// crossing &lt; <see cref="QubitLifecycle.SilentStableCrossing"/>, but
-    /// std &gt; <see cref="QubitLifecycle.DriftySilentStdDev"/>: mostly above
+    /// <summary>Walk ≤ <see cref="QubitLifecycle.LifecycleWalkThreshold"/>,
+    /// crossing &lt; <see cref="QubitLifecycle.SilentStableCrossing"/>, and
+    /// std ≥ <see cref="QubitLifecycle.DriftySilentStdDev"/>: mostly above
     /// the boundary, with large excursions when it does deviate.</summary>
     DriftySilent,
     /// <summary>Fewer than 2 calibration days available, walk rate undefined.</summary>
@@ -93,19 +93,21 @@ public static class QubitLifecycle
             : timeline.Days.Count(d => d.Regime == Regime.QuantumSide)
               / (double)timeline.Days.Count;
 
-    /// <summary>Walk rate: fraction of consecutive day-pairs where r flipped
-    /// across R*. Empirical primary indicator of boundary volatility.</summary>
+    /// <summary>Walk rate: fraction of consecutive day-pairs where the qubit
+    /// flipped across R* (i.e. the <see cref="Regime"/> classification of
+    /// <see cref="CalibrationDay.Regime"/> changed). Primary empirical indicator
+    /// of boundary volatility.</summary>
     public static double WalkRate(QubitTimeline timeline)
     {
         var days = timeline.Days;
         if (days.Count < 2) return 0.0;
         int flips = 0;
-        bool prevQuantum = days[0].RParam < QubitRegime.R_STAR;
+        Regime prev = days[0].Regime;
         for (int i = 1; i < days.Count; i++)
         {
-            bool isQuantum = days[i].RParam < QubitRegime.R_STAR;
-            if (isQuantum != prevQuantum) flips++;
-            prevQuantum = isQuantum;
+            Regime curr = days[i].Regime;
+            if (curr != prev) flips++;
+            prev = curr;
         }
         return (double)flips / (days.Count - 1);
     }
