@@ -45,6 +45,7 @@ public sealed class F87KnowledgeBase : IInspectable
 
     public ChainSystem Chain { get; }
     public F87TrichotomyClassification Trichotomy { get; }
+    public DissipatorResonanceLaw DissipatorResonance { get; }
     public IReadOnlyList<F87CanonicalWitness> CanonicalWitnesses { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -53,6 +54,7 @@ public sealed class F87KnowledgeBase : IInspectable
     {
         Chain = chain;
         Trichotomy = new F87TrichotomyClassification();
+        DissipatorResonance = new DissipatorResonanceLaw();
         CanonicalWitnesses = F87CanonicalWitness.StandardSet(chain);
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f87ConfirmationNames);
         OpenQuestions = F87OpenQuestions.Standard;
@@ -72,7 +74,7 @@ public sealed class F87KnowledgeBase : IInspectable
                 summary: $"N={Chain.N}, J={Chain.J:G3}, γ₀={Chain.GammaZero:G3}, topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                Trichotomy);
+                Trichotomy, DissipatorResonance);
 
             yield return InspectableNode.Group("Tier 2 (empirical canonical witnesses)",
                 CanonicalWitnesses.Cast<IInspectable>().ToArray());
