@@ -110,6 +110,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F86.PredictionMatch` | result of comparing measured `PeakResult` to a `UniversalShapePrediction` (within tolerance / outside) |
 | `F86.RetractedClaim` | typed retracted claim (csc(π/(N+1)) Endpoint, csc(π/5) c=3 Interior) — PTF-lesson reminder |
 | `F86.F86KnowledgeBase(block)` | root: assembles all F86 facts attached to a `CoherenceBlock` (laws + predictions + witnesses + retracted-list + 4-mode insufficiency note) |
+| `F86.Item1Derivation.C2BlockShape(block)` | **PROOF_F86_QPEAK Item 1 (c=2)** anchor: elementary block-structure constants (`PnDimension=N`, `PnPlus1Dimension=N(N−1)/2`, `HdEqualsOnePairs=N(N−1)`, `HdEqualsThreePairs=N(N−1)(N−2)/2`); Tier 1 derived from popcount combinatorics |
 
 ## Decomposition
 
