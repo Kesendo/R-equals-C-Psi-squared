@@ -29,7 +29,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent / ".env")
 
 IBM_TOKEN = os.environ.get("IBM_QUANTUM_TOKEN", "YOUR_TOKEN_HERE")
-BACKEND_NAME = "ibm_torino"
+DEFAULT_BACKEND = "ibm_marrakesh"
 OUTPUT_DIR = Path(__file__).parent / "results"
 OUTPUT_DIR.mkdir(exist_ok=True)
 HISTORY_DAYS = 180
@@ -98,13 +98,13 @@ def compute_qubit_record(date_str, qubit_id, T1_us, T2_us, freq_ghz=None):
         't_coh_over_T2': round(LN4,6),
     }
 
-def collect_historical_data(token, days=180):
+def collect_historical_data(token, days=180, backend_name=DEFAULT_BACKEND):
     from qiskit_ibm_runtime import QiskitRuntimeService
-    print(f"Connecting to {BACKEND_NAME}...")
+    print(f"Connecting to {backend_name}...")
     service = QiskitRuntimeService(channel="ibm_quantum_platform", token=token)
-    backend = service.backend(BACKEND_NAME)
+    backend = service.backend(backend_name)
     num_qubits = backend.num_qubits
-    print(f"Backend: {BACKEND_NAME}, {num_qubits} qubits")
+    print(f"Backend: {backend_name}, {num_qubits} qubits")
     end_date = datetime.now(timezone.utc)
     start_date = end_date - timedelta(days=days)
     print(f"History: {start_date.date()} to {end_date.date()}")
@@ -352,25 +352,31 @@ def main():
     p.add_argument('--mode', choices=['collect','analyze','synthetic','full'], default='synthetic')
     p.add_argument('--days', type=int, default=HISTORY_DAYS)
     p.add_argument('--token', type=str, default=None)
+    p.add_argument('--backend', type=str, default=DEFAULT_BACKEND,
+                   help='IBM backend name (default: ibm_marrakesh)')
+    p.add_argument('--csv', type=str, default=None,
+                   help='Override output/input CSV filename')
     a = p.parse_args()
     tok = a.token or IBM_TOKEN
+    short = a.backend.replace('ibm_', '')
+    out_csv = a.csv or f"ibm_{short}_history.csv"
     if a.mode in ('collect','full'):
         if tok == "YOUR_TOKEN_HERE":
             print("No token! Running synthetic...\n")
             recs = generate_synthetic_data()
-            save_csv(recs, "ibm_torino_synthetic.csv")
+            save_csv(recs, f"ibm_{short}_synthetic.csv")
         else:
-            recs = collect_historical_data(tok, a.days)
-            save_csv(recs)
+            recs = collect_historical_data(tok, a.days, backend_name=a.backend)
+            save_csv(recs, out_csv)
         d = analyze(recs)
         if d: plot_all(d)
     elif a.mode == 'analyze':
-        recs = load_csv()
+        recs = load_csv(out_csv)
         d = analyze(recs)
         if d: plot_all(d)
     elif a.mode == 'synthetic':
         recs = generate_synthetic_data()
-        save_csv(recs, "ibm_torino_synthetic.csv")
+        save_csv(recs, f"ibm_{short}_synthetic.csv")
         d = analyze(recs)
         if d: plot_all(d)
     print("\nFertig!")
