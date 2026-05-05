@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 GPT_Prompts/
 ClaudeTasks
+docs/superpowers/
 commit_msg.tmp
 check.bat/
 compute/**/bin/
