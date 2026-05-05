@@ -50,8 +50,12 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
     /// <see cref="Item1Derivation.C2HwhmRatio"/>: empirical anchor + directional
     /// Endpoint &gt; Interior split, both pinned for the c=2 stratum (witness anchor:
-    /// c=2 N=5..8 in the canonical sweep). Non-null iff <c>Block.C == 2</c>.</summary>
-    public C2UniversalShapeDerivation? C2UniversalShape { get; }
+    /// c=2 N=5..8 in the canonical sweep). Non-null iff <c>Block.C == 2</c>.
+    /// Lazily built on first access — the underlying full-block Q-scan
+    /// (153×21 eigendecompositions) is paid only by consumers that read the property.</summary>
+    public C2UniversalShapeDerivation? C2UniversalShape => _c2UniversalShape.Value;
+
+    private readonly Lazy<C2UniversalShapeDerivation?> _c2UniversalShape;
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -120,10 +124,10 @@ public sealed class F86KnowledgeBase : IInspectable
 
         // c=2-specific top-level synthesis of Stages A–D (Stage E1 integration). Only built
         // for c=2 blocks; null otherwise — c≥3 strata fall under OpenQuestions Item 4'
-        // (multi-k extension to c≥3, out of scope for the c=2 derivation plan).
-        C2UniversalShape = block.C == 2
-            ? C2UniversalShapeDerivation.Build(block)
-            : null;
+        // (multi-k extension to c≥3, out of scope for the c=2 derivation plan). Lazy so the
+        // full-block Q-scan inside C2UniversalShapeDerivation.Build runs only on first access.
+        _c2UniversalShape = new Lazy<C2UniversalShapeDerivation?>(() =>
+            block.C == 2 ? C2UniversalShapeDerivation.Build(block) : null);
 
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;

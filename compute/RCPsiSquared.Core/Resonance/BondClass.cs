@@ -20,4 +20,12 @@ public static class BondClassExtensions
         BondClass.Interior => Enumerable.Range(1, numBonds - 2).ToArray(),
         _ => throw new ArgumentOutOfRangeException(nameof(cls)),
     };
+
+    /// <summary>Classify a bond index. Endpoint = bonds {0, numBonds-1}; Interior otherwise.</summary>
+    public static BondClass OfBond(int bond, int numBonds)
+    {
+        if (numBonds < 1) throw new ArgumentOutOfRangeException(nameof(numBonds));
+        if (bond < 0 || bond >= numBonds) throw new ArgumentOutOfRangeException(nameof(bond));
+        return (bond == 0 || bond == numBonds - 1) ? BondClass.Endpoint : BondClass.Interior;
+    }
 }

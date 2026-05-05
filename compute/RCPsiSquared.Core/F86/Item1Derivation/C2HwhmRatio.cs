@@ -75,8 +75,11 @@ public sealed class C2HwhmRatio : Claim
     /// <see cref="ResonanceScan"/> for bond-class fidelity). Held here as the
     /// composition access point for the next-direction (a) work — first-order
     /// perturbation in the cross-block — which will use C2KShape directly to
-    /// derive the closed-form HWHM_left/Q_peak.</summary>
-    public C2KShape KShape { get; }
+    /// derive the closed-form HWHM_left/Q_peak. Lazily built on first access; the
+    /// empirical-pipeline path skips it entirely.</summary>
+    public C2KShape KShape => _kShape.Value;
+
+    private readonly Lazy<C2KShape> _kShape;
 
     /// <summary>Per-bond witnesses: <c>(Bond, BondClass, Q_peak, K_max, HWHM_left,
     /// HWHM_left/Q_peak)</c>. One entry per bond, populated lazily on Build via the
@@ -105,9 +108,10 @@ public sealed class C2HwhmRatio : Claim
     private readonly IReadOnlyList<HwhmRatioWitness> _witnesses;
     private readonly IReadOnlyDictionary<BondClass, double> _classAveragedRatios;
 
-    /// <summary>Public factory: validates c=2, builds the K-shape primitive (for the analytical
-    /// phase), computes the per-bond witnesses via the full-block <see cref="ResonanceScan"/>
-    /// fine-grid Q-scan, then resolves the Tier.</summary>
+    /// <summary>Public factory: validates c=2, computes the per-bond witnesses via the
+    /// full-block <see cref="ResonanceScan"/> fine-grid Q-scan, then resolves the Tier. The
+    /// composed <see cref="C2KShape"/> primitive is lazily built on first <see cref="KShape"/>
+    /// access and is not exercised by this factory.</summary>
     public static C2HwhmRatio Build(CoherenceBlock block)
     {
         if (block.C != 2)
@@ -115,26 +119,24 @@ public sealed class C2HwhmRatio : Claim
                 $"C2HwhmRatio applies only to the c=2 stratum; got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
                 nameof(block));
 
-        var kshape = C2KShape.Build(block);
         var (witnesses, classRatios) = ComputeWitnessesAndClassRatios(block);
         double twoLevelSanity = ComputeTwoLevelHwhmRatio();
         var resolved = Resolve(block, witnesses, classRatios, twoLevelSanity);
-        return new C2HwhmRatio(block, kshape, witnesses, classRatios, twoLevelSanity, resolved);
+        return new C2HwhmRatio(block, witnesses, classRatios, twoLevelSanity, resolved);
     }
 
     private C2HwhmRatio(
         CoherenceBlock block,
-        C2KShape kshape,
         IReadOnlyList<HwhmRatioWitness> witnesses,
         IReadOnlyDictionary<BondClass, double> classRatios,
         double twoLevelSanity,
         Resolution resolved)
         : base("c=2 HWHM_left/Q_peak ratio per bond class",
                resolved.Tier,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2), Stage D2")
+               Item1Anchors.StageD2)
     {
         Block = block;
-        KShape = kshape;
+        _kShape = new Lazy<C2KShape>(() => C2KShape.Build(block));
         _witnesses = witnesses;
         _classAveragedRatios = classRatios;
         TwoLevelEpDecaySanity = twoLevelSanity;
@@ -282,7 +284,7 @@ public sealed class C2HwhmRatio : Claim
                     IReadOnlyDictionary<BondClass, double> ClassRatios)
         ComputeWitnessesAndClassRatios(CoherenceBlock block)
     {
-        var qGrid = BuildFineQGrid();
+        var qGrid = ResonanceScan.DefaultQGrid();
         var scan = new ResonanceScan(block);
         // Full-block K_b(Q, t) Q-scan, peak-over-t per (b, Q). Same Duhamel routine as Python.
         var kCurve = scan.ComputeKCurve(qGrid);
@@ -298,7 +300,7 @@ public sealed class C2HwhmRatio : Claim
                 kRow[i] = kCurve.KByBond[b, i];
 
             var (qPeak, kMax, hwhmLeft) = FindPeakAndHwhmLeft(qGrid, kRow);
-            var bondClass = (b == 0 || b == numBonds - 1) ? BondClass.Endpoint : BondClass.Interior;
+            var bondClass = BondClassExtensions.OfBond(b, numBonds);
             witnesses[b] = new HwhmRatioWitness(
                 Bond: b,
                 BondClass: bondClass,
@@ -323,15 +325,6 @@ public sealed class C2HwhmRatio : Claim
         }
 
         return (witnesses, classRatios);
-    }
-
-    /// <summary>The fine Q-grid: dQ = 0.025 over [0.20, 4.00] (153 points). Same as the Python
-    /// reference pipeline and the existing <see cref="ResonanceScan.DefaultQGrid"/>.</summary>
-    private static double[] BuildFineQGrid()
-    {
-        // Reuse the canonical default Q-grid for bit-equivalence with FourModeResonanceScan
-        // and the Python pipeline.
-        return ResonanceScan.DefaultQGrid();
     }
 
     /// <summary>Find peak Q* and |K|max with parabolic interpolation around the argmax,
@@ -377,7 +370,7 @@ public sealed class C2HwhmRatio : Claim
         double gEff = 2.0;
         double tPeak = 1.0 / (4.0 * gamma0);
 
-        var qGrid = BuildFineQGrid();
+        var qGrid = ResonanceScan.DefaultQGrid();
         var kCurve = new double[qGrid.Length];
         for (int i = 0; i < qGrid.Length; i++)
             kCurve[i] = TwoLevelKAmplitude(qGrid[i], gamma0, gEff, tPeak);

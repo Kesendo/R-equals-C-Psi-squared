@@ -35,7 +35,7 @@ public sealed class C2ChannelUniformAnalytical : Claim
 
     public C2ChannelUniformAnalytical(CoherenceBlock block)
         : base("c=2 channel-uniform analytical", Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+               Item1Anchors.Root)
     {
         if (block.C != 2)
             throw new ArgumentException(

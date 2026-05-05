@@ -153,7 +153,7 @@ public sealed class C2EffectiveSpectrum : Claim
         Resolution resolved)
         : base("c=2 4-mode effective spectrum",
                resolved.Tier,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+               Item1Anchors.Root)
     {
         Block = block;
         BondCoupling = bondCoupling;
@@ -225,8 +225,7 @@ public sealed class C2EffectiveSpectrum : Claim
         double j = Q * Block.GammaZero;
         var dEff = BondCoupling.DEffDiagonal();
         // Σ_b V_b — uniform-J assembly. Mirrors FourModeEffective.LEffAtQ but flows through
-        // the C2BondCoupling.AsMatrix path, which is anti-Hermiticity-guarded entry-by-entry
-        // (commit 89b3df4 added the guard test).
+        // the C2BondCoupling.AsMatrix path, which is anti-Hermiticity-guarded entry-by-entry.
         var vSum = ComplexMatrix.Build.Dense(4, 4);
         for (int b = 0; b < Block.NumBonds; b++)
             vSum = vSum + BondCoupling.AsMatrix(b);

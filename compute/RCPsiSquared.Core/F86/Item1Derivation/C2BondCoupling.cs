@@ -80,8 +80,7 @@ public sealed class C2BondCoupling : Claim
 
     /// <summary>Public factory: validates c=2, builds the channel-uniform + SVD-top
     /// compositions, computes per-bond cross-block witnesses, then constructs the instance.
-    /// Mirrors the static-factory pattern from A3 (commit <c>2f62331</c>) so future
-    /// promotion to Tier 1 stays type-safe.</summary>
+    /// Static-factory pattern keeps future promotion to Tier 1 type-safe.</summary>
     public static C2BondCoupling Build(CoherenceBlock block)
     {
         if (block.C != 2)
@@ -106,7 +105,7 @@ public sealed class C2BondCoupling : Claim
                // The probe-block (B1) is structurally Tier1Derived in isolation; documented
                // in the class-level XML doc above.
                interChannel.Tier,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+               Item1Anchors.Root)
     {
         Block = block;
         ChannelUniform = channelUniform;
@@ -343,9 +342,7 @@ public sealed class C2BondCoupling : Claim
                 entryC3U0.Magnitude * entryC3U0.Magnitude +
                 entryC3V0.Magnitude * entryC3V0.Magnitude);
 
-            var bondClass = (b == 0 || b == numBonds - 1)
-                ? BondClass.Endpoint
-                : BondClass.Interior;
+            var bondClass = BondClassExtensions.OfBond(b, numBonds);
 
             list[b] = new CrossBlockWitness(
                 Bond: b,

@@ -82,7 +82,7 @@ public sealed class C2InterChannelAnalytical : Claim
     private C2InterChannelAnalytical(CoherenceBlock block, Resolution resolved)
         : base("c=2 inter-channel SVD-top analytical",
                resolved.Tier,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+               Item1Anchors.Root)
     {
         Block = block;
         U0 = resolved.U0;

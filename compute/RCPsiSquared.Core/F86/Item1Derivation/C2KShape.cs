@@ -72,8 +72,7 @@ public sealed class C2KShape : Claim
     public ComplexMatrix SKernelEff { get; }
 
     /// <summary>Public factory: validates c=2, composes BondCoupling + Spectrum, and projects
-    /// the S_kernel via <see cref="FourModeEffective.Build"/>. Mirrors the static-factory
-    /// pattern from C2/C3.</summary>
+    /// the S_kernel via <see cref="FourModeEffective.Build"/>.</summary>
     public static C2KShape Build(CoherenceBlock block)
     {
         if (block.C != 2)
@@ -103,7 +102,7 @@ public sealed class C2KShape : Claim
                // this Claim — Tier is per-claim, not inherited. Analogous to C1's D_eff which
                // is Tier1Derived inside the Tier2 BondCoupling class.
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2), Stage D")
+               Item1Anchors.StageD)
     {
         Block = block;
         BondCoupling = bondCoupling;

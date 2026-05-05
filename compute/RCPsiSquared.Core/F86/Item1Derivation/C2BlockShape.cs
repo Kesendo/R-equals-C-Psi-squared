@@ -30,7 +30,7 @@ public sealed class C2BlockShape : Claim
     public int HdEqualsThreePairs { get; }
 
     public C2BlockShape(CoherenceBlock block)
-        : base("c=2 block shape", Tier.Tier1Derived, "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2)")
+        : base("c=2 block shape", Tier.Tier1Derived, Item1Anchors.Root)
     {
         if (block.C != 2)
             throw new ArgumentException(

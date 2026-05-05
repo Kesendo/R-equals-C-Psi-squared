@@ -130,7 +130,7 @@ public sealed class C2UniversalShapeDerivation : Claim
                // split is derived empirically + closed form open. The closed form will flip
                // both this and IsAnalyticallyDerived on the underlying primitive.
                hwhmRatio.IsAnalyticallyDerived ? Tier.Tier1Derived : Tier.Tier1Candidate,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2), Statement 2")
+               Item1Anchors.Statement2)
     {
         Block = block;
         HwhmRatio = hwhmRatio;
