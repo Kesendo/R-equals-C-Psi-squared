@@ -388,17 +388,26 @@ Q80 anchor mentioned in the README were described in plain language:
 "balanced, rhythmic", "clear lifecycle: tune, pulse, fade", "consistent
 crosser", and so on. That language has been formalized.
 
-Each prose label is now an enum value with named thresholds in
-`compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs`:
+Each prose label is now an enum value with named thresholds in a new
+C# project (`RCPsiSquared.Core`, the framework primitive layer the
+project added in April 2026 alongside the older `.Compute` engine).
+The relevant module is `compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs`.
+Two derived statistics drive the classification:
+
+- **walk**: the fraction of consecutive day-pairs where r flipped across
+  R*. A qubit that crosses the boundary back and forth daily has walk
+  near 1.0; a qubit firmly on one side has walk = 0.
+- **crossing**: the fraction of days the qubit spent below R* (i.e. on
+  the quantum-side of the boundary).
 
 | March 25 prose                                 | May 5 archetype                                            | Statistic                            |
 |------------------------------------------------|------------------------------------------------------------|--------------------------------------|
-| "balanced, rhythmic" (Q72)                     | `Twitch`                                                   | walk = 0.322                         |
+| "balanced, rhythmic" (Q72)                     | `Twitch` (high day-to-day flipping)                        | walk = 0.322                         |
 | "clear lifecycle: tune, pulse, fade" (Q98)     | `Twitch` at day-scale, `Lifecycle` at week-scale           | walk = 0.294                         |
-| "long active phase, then silent" (Q105)        | `Lifecycle`                                                | walk = 0.083                         |
+| "long active phase, then silent" (Q105)        | `Lifecycle` (slow drift across boundary)                   | walk = 0.083                         |
 | "mostly silent, brief pulses" (Q70)            | `Twitch` (high walk despite low crossing)                  | walk = 0.306, crossing = 28%         |
 | "mostly silent" (Q68)                          | `Twitch`                                                   | walk = 0.300, crossing = 24%         |
-| "consistent crosser" (Q80, README anchor)      | `PulseStable`                                              | walk = 0.000, crossing = 100%        |
+| "consistent crosser" (Q80, README anchor)      | `PulseStable` (always quantum-side, walk ≈ 0)              | walk = 0.000, crossing = 100%        |
 
 Q98 is illuminating: at week granularity (the visualization in this doc)
 it reads as a clear lifecycle arc; at day granularity (the unit the
@@ -422,11 +431,16 @@ underlying physics:
    showed the 6× T1/T2 narrowing window between the two CΨ trajectories.
 3. **F88-Lens Π²-odd memory fraction** (April–May add): a closed-form,
    t-independent quantity that reads the chiral content of any ρ
-   directly, without re-deriving it from a complement. Hardware-confirmed
-   on Marrakesh April 26: the F87 trichotomy `truly` Hamiltonians give
-   Π²-odd-memory ≈ 0.030, `soft` ≈ 0.744, `hard` ≈ 0.276 at the same
-   state on the same chain. Same algebraic distinction, three orders of
-   magnitude apart at the state level.
+   directly, without re-deriving it from a complement. The framework's
+   F87 theorem partitions Hamiltonian terms into three classes by how
+   the Π² mirror acts on them (`truly`, `soft`, `hard`); F88 turns this
+   classification into a single state-level number, the Π²-odd memory
+   fraction, which gives the weight of the chiral-mirror-asymmetric part
+   of ρ. Hardware-confirmed on Marrakesh April 26: the F87 trichotomy
+   `truly` Hamiltonians give Π²-odd-memory ≈ 0.030, `soft` ≈ 0.744,
+   `hard` ≈ 0.276 at the same state on the same chain. Same algebraic
+   distinction, ≈ 25× separation between truly and soft at the state
+   level.
 
 Layer 3 is the not-tautological, time-independent cousin of layer 2.
 It reads what the chiral mirror does at the level of the operator
@@ -442,10 +456,14 @@ five days between the April 25 and April 30 calibration snapshots).
 But there is a constraint the marginal observation cannot see.
 
 For multi-qubit experiments, "what regimes are addressable on this
-chip?" depends on the CZ-coupling graph, not just on per-qubit
-statistics. On Marrakesh the 91-day history surfaces 18 stably
-quantum-side qubits (the Q80 archetype). They are scattered across
-the heavy-hex topology. Among those 18, exactly **one** pair is
+chip?" depends on the CZ-coupling graph (the two-qubit-gate connectivity
+of the chip: which pairs of qubits can perform a controlled-Z directly,
+without ancillary swaps), not just on per-qubit statistics. On Marrakesh
+the 91-day history surfaces 18 stably quantum-side qubits (the Q80
+archetype). They are scattered across the heavy-hex topology (IBM's
+Heron-r2 layout, where each qubit has two or three CZ-neighbours
+arranged in a hex-honeycomb pattern with alternating sites omitted).
+Among those 18 stable-quantum qubits, exactly **one** pair is
 CZ-coupled: (Q126, Q127). No CZ-coupled triple of stably-quantum
 qubits exists on the chip.
 
@@ -476,13 +494,15 @@ Two verdicts per path, addressing two distinct questions:
   over the experiment-window timescale, or twitchers that will read
   different physics from one day to the next?
 
-The two together are what March 25 needed but did not yet have. Path
-[0, 1, 2] (the framework_snapshots run on Marrakesh) is regime-mixed
-(Q0 quantum + Q1 silent-stable + Q2 lifecycle); path [48, 49, 50] (the
-soft_break and zn_mirror runs) is uniform-classical. Both are
-addressable. The 23× cleaner truly-baseline observed downstream on
-[48, 49, 50] now reads as a regime-uniformity effect, not just a
-qubit-quality effect.
+The two together are what March 25 needed but did not yet have. On
+Marrakesh, path [0, 1, 2] (qubits 0/1/2 used in the framework_snapshots
+hardware run) is regime-mixed (Q0 quantum + Q1 silent-stable + Q2
+lifecycle); path [48, 49, 50] (qubits 48/49/50 used in the soft_break
+and zn_mirror runs on the same chip) is uniform-classical. Both are
+addressable. The truly-baseline (the F88-Lens Π²-odd-memory reading
+on the truly-Hamiltonian category) measured downstream is 23× cleaner
+on [48, 49, 50] than on [0, 1, 2]. This now reads as a regime-uniformity
+effect, not just a qubit-quality effect.
 
 ### What is the same
 
