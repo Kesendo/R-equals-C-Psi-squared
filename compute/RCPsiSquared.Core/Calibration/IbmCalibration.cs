@@ -3,22 +3,29 @@ using System.Globalization;
 namespace RCPsiSquared.Core.Calibration;
 
 /// <summary>IBM Heron r2 calibration CSV loader and qubit/chain quality scoring.
-/// C# counterpart to <c>simulations/ibm_calibration.py</c>; both are validated
-/// against the 2026-04-26 framework_snapshots / soft_break runs (path
-/// [48, 49, 50] scores higher than [0, 1, 2], matching the empirical 23×
-/// truly-baseline ratio).
+/// C# counterpart to <c>simulations/ibm_calibration.py</c>. Score ranking on the
+/// 2026-04-25 Marrakesh CSV places path [48, 49, 50] (≈ 682) above [0, 1, 2]
+/// (≈ 597), a ~14% gap; the same ranking corresponds to a 23× cleaner state-level
+/// truly-baseline observed downstream by F88-Lens on those qubits (see
+/// <c>project_f88_lens_ibm_marrakesh.md</c>). Calibration score is the input;
+/// state-level F88 cleanliness is the consequence, not a 1:1 ratio match.
 ///
-/// <para>Score function: T2-dominated, with multiplicative penalties for
-/// single-qubit-gate-error and readout error. Rationale: F88-Lens experiments
-/// at t ~ 1/J ~ 1us are dephasing-limited, so T2 is the dominant per-qubit
-/// noise driver of the truly Π²-odd-baseline.</para>
+/// <para>Score function: <see cref="ScoreQubit"/> is coherence-dominated with
+/// multiplicative gate and readout penalties. Rationale: F88-Lens experiments are
+/// run at simulation times t ~ 1/J where dephasing (T2) rather than amplitude
+/// damping (T1) sets the truly Π²-odd-baseline floor on Heron r2 (T1 ≳ T2 ~ 100 μs);
+/// per-qubit chain-quality is therefore coherence-driven.</para>
 ///
 /// <para>Chain finder: DFS over the CZ-coupled graph; chain score = sum of
 /// per-qubit scores plus −1000·CZ-error per bond (weaker errors raise the
 /// score). Returns the global optimum over all paths of the requested length
-/// without revisits.</para></summary>
+/// without revisits. DFS is unpruned; intended for length ≲ 10 on Heron-class
+/// connectivity (degree ≈ 3). For longer chains add branch-and-bound on
+/// remaining-path-score.</para></summary>
 public static class IbmCalibration
 {
+    private const string OperationalYes = "Yes";
+
     /// <summary>Parse an IBM calibration CSV into <see cref="QubitData"/> records.
     /// Handles empty fields (non-operational qubits sometimes have missing gate-
     /// error entries) by defaulting to 0.</summary>
@@ -58,15 +65,19 @@ public static class IbmCalibration
                 ReadoutError: SafeFloat(f[iReadout]),
                 SxError: SafeFloat(f[iSx]),
                 PauliXError: SafeFloat(f[iPx]),
-                Operational: f[iOp].Trim().Equals("Yes", StringComparison.OrdinalIgnoreCase),
+                Operational: f[iOp].Trim().Equals(OperationalYes, StringComparison.OrdinalIgnoreCase),
                 CzNeighbours: ParseNeighbourField(f[iCz]),
                 RzzNeighbours: ParseNeighbourField(f[iRzz])));
         }
         return qubits;
     }
 
-    /// <summary>Composite quality score; higher is better. Rewards high T1/T2,
-    /// penalises gate and readout errors. Non-operational qubits return
+    /// <summary>Composite quality score; higher is better. Coherence term is
+    /// <c>min(T2, 2·T1)</c> (T2 capped at the pure-T1 limit, dampening anomalous
+    /// T2 reads where the CSV reports T2 &gt; 2·T1). Gate term is
+    /// <c>(1−sx_err)^4 · (1−Px_err)^4</c> (4th-power per gate type, since each
+    /// F88-Lens basis change costs ~4 sx/Px gates per qubit). Readout term is
+    /// <c>(1−readout_err)</c>. Non-operational qubits return
     /// <see cref="double.NegativeInfinity"/>.</summary>
     public static double ScoreQubit(QubitData q)
     {
@@ -85,6 +96,13 @@ public static class IbmCalibration
     /// qubits via DFS. Score = qubit-sum + Σ −1000·CZ-error along bonds.
     /// Returns (path, score). Path is a list of qubit indices in chain order.</summary>
     public static (IReadOnlyList<int> Path, double Score) BestChain(
+        IReadOnlyList<QubitData> qubits, int length)
+    {
+        var (path, score, _) = BestChainCore(qubits, length);
+        return (path, score);
+    }
+
+    private static (List<int> Path, double Score, Dictionary<int, QubitData> ById) BestChainCore(
         IReadOnlyList<QubitData> qubits, int length)
     {
         if (length < 1) throw new ArgumentOutOfRangeException(nameof(length), "length must be ≥ 1");
@@ -125,7 +143,7 @@ public static class IbmCalibration
             var visited = new HashSet<int> { q.Qubit };
             Dfs(path, visited, ScoreQubit(q));
         }
-        return (bestPath, bestScore);
+        return (bestPath, bestScore, byId);
     }
 
     /// <summary>Score a specific chain (for comparison against
@@ -156,13 +174,12 @@ public static class IbmCalibration
     /// throws if no operational chain of that length exists.</summary>
     public static CalibrationChain SelectBestChain(IReadOnlyList<QubitData> qubits, int length)
     {
-        var (path, score) = BestChain(qubits, length);
+        var (path, score, byId) = BestChainCore(qubits, length);
         if (path.Count != length)
             throw new InvalidOperationException(
                 $"no operational CZ-coupled chain of length {length} found in calibration");
-        var byId = qubits.ToDictionary(q => q.Qubit);
         var ordered = path.Select(id => byId[id]).ToArray();
-        return new CalibrationChain(QubitIds: path, Score: score, Qubits: ordered);
+        return new CalibrationChain(Score: score, Qubits: ordered);
     }
 
     // ──────────── private helpers ────────────
