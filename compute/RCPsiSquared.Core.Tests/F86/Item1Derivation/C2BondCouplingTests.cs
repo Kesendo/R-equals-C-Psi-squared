@@ -207,4 +207,101 @@ public class C2BondCouplingTests
         var block = new CoherenceBlock(N: 5, n: 2, gammaZero: 0.05);  // c=3
         Assert.Throws<ArgumentException>(() => C2BondCoupling.Build(block));
     }
+
+    // ---- B3: SVD-block + AsMatrix + anti-Hermiticity guard ----------------------
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void SvdBlock_AllBondsAllEntries_MatchFourModeEffective(int N)
+    {
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        var effective = FourModeEffective.Build(block);
+
+        for (int b = 0; b < block.NumBonds; b++)
+        {
+            var expected = effective.MhPerBondEff[b];
+            for (int j = 2; j < 4; j++)
+                for (int k = 2; k < 4; k++)
+                {
+                    var actual = coupling.SvdBlockEntry(b, j, k);
+                    var diff = (actual - expected[j, k]).Magnitude;
+                    Assert.True(diff < 1e-12,
+                        $"V_b[{j},{k}] at N={N}, b={b}: expected {expected[j, k]}, got {actual}, diff={diff:E2}");
+                }
+        }
+    }
+
+    [Fact]
+    public void SvdBlockEntry_OutOfRangeJ_Throws()
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.SvdBlockEntry(0, j: 1, k: 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.SvdBlockEntry(0, j: 4, k: 2));
+    }
+
+    [Fact]
+    public void SvdBlockEntry_OutOfRangeK_Throws()
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.SvdBlockEntry(0, j: 2, k: 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.SvdBlockEntry(0, j: 2, k: 4));
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void AsMatrix_FullVb_MatchesFourModeEffective(int N)
+    {
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        var effective = FourModeEffective.Build(block);
+
+        for (int b = 0; b < block.NumBonds; b++)
+        {
+            var ours = coupling.AsMatrix(b);
+            var theirs = effective.MhPerBondEff[b];
+            var diff = (ours - theirs).FrobeniusNorm();
+            Assert.True(diff < 1e-12, $"V_b at N={N}, b={b}: ‖ours − theirs‖_F = {diff:E2}");
+        }
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Vb_IsAntiHermitian_AcrossAllBondsAndEntries(int N)
+    {
+        // The load-bearing guard: V_b = -i [H_b, ·] projected to the 4-mode basis is
+        // structurally anti-Hermitian. If probe-block, cross-block, or SVD-block accessors
+        // diverge in sign convention, the three sub-blocks no longer combine to satisfy
+        // the global anti-Hermiticity. This test catches such regressions.
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+
+        for (int b = 0; b < block.NumBonds; b++)
+        {
+            var Vb = coupling.AsMatrix(b);
+            var anti = Vb + Vb.ConjugateTranspose();
+            Assert.True(anti.FrobeniusNorm() < 1e-10,
+                $"Anti-Hermiticity violated at N={N}, b={b}: ‖V_b + V_b†‖_F = {anti.FrobeniusNorm():E2}");
+        }
+    }
+
+    [Fact]
+    public void AsMatrix_OutOfRangeBond_Throws()
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.AsMatrix(-1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.AsMatrix(block.NumBonds));
+    }
 }

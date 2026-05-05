@@ -21,7 +21,13 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   <see cref="CrossBlockWitnesses"/> collection tagged by <see cref="BondClass"/>.
 ///   This is the bond-position-dependent block: its Frobenius norm splits Endpoint vs
 ///   Interior and is the algebraic seed of the F86 universal-shape statement.</item>
-///   <item><b>B3 (SVD-block, bottom-right 2×2):</b> reserved.</item>
+///   <item><b>B3 (SVD-block, bottom-right 2×2):</b> entries V_b[j, k] for j, k ∈ {2, 3}
+///   via <see cref="SvdBlockEntry"/>; same Tier 2 inheritance from A3 as the cross-block.
+///   Plus <see cref="AsMatrix"/> assembling the full 4×4 V_b from the three sub-blocks
+///   (top-left probe, top-right cross, bottom-right SVD, bottom-left = -conj(top-right)
+///   by anti-Hermiticity of M_H_per_bond). The anti-Hermiticity guard test
+///   (<c>‖V_b + V_b†‖_F &lt; 1e-10</c> across all bonds, all N=5..8) cross-checks that
+///   the three sub-block sign conventions are consistent.</item>
 /// </list>
 ///
 /// <para><b>Class-level Tier: <c>Tier2Verified</c></b> — reflects the weakest link. The
@@ -43,7 +49,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   generically off-diagonal; the sum vanishes by the bond-uniform-J identity.</item>
 ///   <item><b>Per-bond entries:</b> Probe-block via direct projection
 ///   <c>V_b[α, β] = ⟨c_α | M_H_per_bond[b] | c_β⟩</c>; cross-block via
-///   <c>V_b[α, j] = ⟨c_α | M_H_per_bond[b] | x_j⟩</c> where x_2 = |u_0⟩, x_3 = |v_0⟩.</item>
+///   <c>V_b[α, j] = ⟨c_α | M_H_per_bond[b] | x_j⟩</c>; SVD-block via
+///   <c>V_b[j, k] = ⟨x_j | M_H_per_bond[b] | x_k⟩</c> where x_2 = |u_0⟩, x_3 = |v_0⟩.</item>
 /// </list>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2).</para>
@@ -159,6 +166,79 @@ public sealed class C2BondCoupling : Claim
         return cAlpha.Conjugate() * (mh * xJ);
     }
 
+    /// <summary>V_b[j, k] for j, k ∈ {2, 3} = SVD-block (bottom-right 2×2) of the 4-mode
+    /// projected matrix.
+    ///
+    /// <para>Direct projection <c>⟨x_j | M_H_per_bond[b] | x_k⟩</c> where x_2 = |u_0⟩
+    /// (HD=1 SVD-top, lifted to full block) and x_3 = |v_0⟩ (HD=3 SVD-top). Same
+    /// projection-formula pattern as <see cref="ProbeBlockEntry"/> and
+    /// <see cref="CrossBlockEntry"/>.</para>
+    ///
+    /// <para><b>Per-entry Tier:</b> inherits Tier 2 from A3's |u_0⟩, |v_0⟩ obstruction —
+    /// same source as the cross-block. Matches
+    /// <c>FourModeEffective.MhPerBondEff[b][j, k]</c> at 1e-12 (library-internal
+    /// consistency).</para>
+    /// </summary>
+    public Complex SvdBlockEntry(int bond, int j, int k)
+    {
+        ValidateBond(bond);
+        if (j < 2 || j > 3)
+            throw new ArgumentOutOfRangeException(nameof(j),
+                $"j (SVD-block row, SVD-top side) must be 2 or 3; got {j}.");
+        if (k < 2 || k > 3)
+            throw new ArgumentOutOfRangeException(nameof(k),
+                $"k (SVD-block column, SVD-top side) must be 2 or 3; got {k}.");
+
+        var xJ = SvdTopVector(j);
+        var xK = SvdTopVector(k);
+        var mh = Block.Decomposition.MhPerBond[bond];
+        // ⟨x_j | M | x_k⟩ = x_j.Conjugate() · (M · x_k)
+        return xJ.Conjugate() * (mh * xK);
+    }
+
+    /// <summary>The full 4×4 V_b matrix at the given bond, assembled from the three
+    /// sub-block accessors <see cref="ProbeBlockEntry"/>, <see cref="CrossBlockEntry"/>,
+    /// <see cref="SvdBlockEntry"/>, with the bottom-left 2×2 filled in via the
+    /// anti-Hermitian relation <c>V_b[j, α] = -conj(V_b[α, j])</c>.
+    ///
+    /// <para>M_H_per_bond[b] = -i [H_b, ·] is anti-Hermitian as a superoperator, so its
+    /// 4×4 projection is also anti-Hermitian: <c>V_b + V_b† = 0</c>. The
+    /// <c>Vb_IsAntiHermitian_AcrossAllBondsAndEntries</c> test verifies this at 1e-10
+    /// across all bonds and N=5..8, cross-checking that the three sub-blocks have
+    /// consistent sign conventions.</para>
+    ///
+    /// <para>Useful for downstream consumers (Stage C eigenvalue analysis, Stage D
+    /// Duhamel evaluation) and for verifying entry-by-entry agreement with
+    /// <c>FourModeEffective.MhPerBondEff[b]</c>.</para>
+    /// </summary>
+    public Matrix<Complex> AsMatrix(int bond)
+    {
+        ValidateBond(bond);
+        var m = Matrix<Complex>.Build.Dense(4, 4);
+
+        // Top-left 2×2: probe-block V_b[α, β] for α, β ∈ {0, 1}.
+        for (int alpha = 0; alpha < 2; alpha++)
+            for (int beta = 0; beta < 2; beta++)
+                m[alpha, beta] = ProbeBlockEntry(bond, alpha, beta);
+
+        // Top-right 2×2: cross-block V_b[α, j] for α ∈ {0, 1}, j ∈ {2, 3}.
+        // Bottom-left 2×2: filled by anti-Hermiticity V_b[j, α] = -conj(V_b[α, j]).
+        for (int alpha = 0; alpha < 2; alpha++)
+            for (int j = 2; j < 4; j++)
+            {
+                var entry = CrossBlockEntry(bond, alpha, j);
+                m[alpha, j] = entry;
+                m[j, alpha] = -Complex.Conjugate(entry);
+            }
+
+        // Bottom-right 2×2: SVD-block V_b[j, k] for j, k ∈ {2, 3}.
+        for (int j = 2; j < 4; j++)
+            for (int k = 2; k < 4; k++)
+                m[j, k] = SvdBlockEntry(bond, j, k);
+
+        return m;
+    }
+
     private void ValidateBond(int bond)
     {
         if (bond < 0 || bond >= Block.NumBonds)
@@ -227,12 +307,12 @@ public sealed class C2BondCoupling : Claim
     }
 
     public override string DisplayName =>
-        $"c=2 bond coupling V_b probe + cross block (N={Block.N}, bonds={Block.NumBonds})";
+        $"c=2 bond coupling V_b 4×4 (N={Block.N}, bonds={Block.NumBonds})";
 
     public override string Summary =>
-        $"probe-block 2×2 V_b[α,β] (α,β∈{{0,1}}) + cross-block 2×2 V_b[α,j] (α∈{{0,1}}, j∈{{2,3}}); " +
-        $"F73 sum-rule Σ_b V_b[α,β]=0 for α≠β; cross-block Frobenius BondClass-tagged " +
-        $"({Tier.Label()})";
+        $"full 4×4 V_b: probe (α,β∈{{0,1}}) + cross (α∈{{0,1}}, j∈{{2,3}}) + SVD (j,k∈{{2,3}}); " +
+        $"F73 sum-rule Σ_b V_b[α,β]=0 for α≠β; cross-block Frobenius BondClass-tagged; " +
+        $"anti-Hermitian V_b + V_b† = 0 (1e-10) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
