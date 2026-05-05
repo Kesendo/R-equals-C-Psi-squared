@@ -527,8 +527,10 @@ that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
 Path [43, 56, 63] on ibm_kingston, the most balanced of the three
 triples (r mean 0.103 / 0.089 / 0.104, walk = 0 across 91 days, all
 three deeply quantum-side). Job d7sqjpiudops73976960, 4096 shots/basis,
-36 circuits (4 Hamiltonian categories × 9 measurement bases), 3-5 QPU
-minutes.
+36 circuits (4 Hamiltonian categories × 9 measurement bases), 39 seconds
+of billed QPU time (the AIEvolution submit script's "3-5 minute"
+estimate is a conservative upper bound; this Heron-r2 run came in well
+under one minute).
 
 F88-Lens Π²-odd-memory readings, side by side with the prior anchors:
 
