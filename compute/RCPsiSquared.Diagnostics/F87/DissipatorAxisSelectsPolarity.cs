@@ -48,7 +48,7 @@ public sealed class DissipatorAxisSelectsPolarityClaim : Claim
             yield return new InspectableNode("what is being differentiated",
                 summary: "Pi2KnowledgeBase.PolarityLayerOrigin: multi-axis Z₂² (k=2) Klein-Vierergruppe with bit_a (X-eigenstate polarity) and bit_b (Π² parity); at k≥3 a third independent Y-parity axis (Z₂³, 8 sectors); +0/−0 lives on bit_a (cf. PolarityLayerOriginClaim layer 3)");
             yield return new InspectableNode("where F87-hardness lives",
-                summary: "F87KnowledgeBase.DissipatorResonance: the 4×3 witness table — Mother (0,0) universally hard-free (0/66 across all letters); diagonal cells 50/76; off-diagonal 0/76; verified at N=4 k=3 (294 Z₂³-homogeneous pairs)");
+                summary: "F87KnowledgeBase.DissipatorResonance: the 4×3 witness table: Mother (0,0) universally hard-free (0/66 across all letters); diagonal cells 50/76; off-diagonal 0/76; verified at N=4 k=3 (294 Z₂³-homogeneous pairs)");
             yield return new InspectableNode("the selector (Z → bit_b axis)",
                 summary: "Z-dephasing has Klein index (0, 1); F87-hardness lives in Klein (0, 1); Π²_Z structure activates the bit_b axis of the polarity layer");
             yield return new InspectableNode("the selector (X → bit_a axis)",
@@ -56,7 +56,7 @@ public sealed class DissipatorAxisSelectsPolarityClaim : Claim
             yield return new InspectableNode("the selector (Y → both axes)",
                 summary: "Y-dephasing has Klein index (1, 1); F87-hardness lives in Klein (1, 1); Π²_Y activates bit_a + bit_b simultaneously");
             yield return new InspectableNode("two readings unified (Brecher ↔ Hardness)",
-                summary: "Brecher = transverse field h_y·Y / h_x·X breaking Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis only); Hardness = F87 spectrum-pairing failure INSIDE the matched Klein cell (bit_a + bit_b); same polarity layer, two perturbation types — unitary vs dissipative");
+                summary: "Brecher = transverse field h_y·Y / h_x·X breaking Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis only); Hardness = F87 spectrum-pairing failure INSIDE the matched Klein cell (bit_a + bit_b); same polarity layer, two perturbation types: unitary vs dissipative");
             yield return new InspectableNode("γ-as-light bridge",
                 summary: "γ entering the cavity (hypotheses/GAMMA_IS_LIGHT.md) is not Shannon-noise; it is the choice of polarity-axis colour. The dissipator letter is the wavelength along which the +0/−0 differentiation becomes operational at d=2");
             yield return new InspectableNode("operational anchor",
