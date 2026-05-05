@@ -198,6 +198,49 @@ public sealed class C2BondCoupling : Claim
         return xJ.Conjugate() * (mh * xK);
     }
 
+    /// <summary>D_eff = B† · D · B in the 4-mode basis at c=2:
+    /// <c>diag(−2γ₀, −6γ₀, −2γ₀, −6γ₀)</c>.
+    ///
+    /// <para>Off-diagonal entries are exactly zero because each of the four basis vectors
+    /// <c>|c_1⟩, |c_3⟩, |u_0⟩, |v_0⟩</c> lives entirely inside one HD subspace (HD=1 for
+    /// indices 0 and 2; HD=3 for indices 1 and 3), and D is HD-diagonal with entries
+    /// <c>D[i, i] = −2γ₀ · HD(p, q)</c>. Hence
+    /// <c>D_eff[i, j] = ⟨b_i | D | b_j⟩ = (−2γ₀ · HD_i) · ⟨b_i | b_j⟩</c>, which is
+    /// <c>−2γ₀ · HD_i · δ_{ij}</c> by orthonormality of B (verified by
+    /// <see cref="FourModeBasis.OffOrthonormalityResidual"/>).</para>
+    ///
+    /// <para><b>Tier 1 derived (structural):</b> closed form from the F73 generalisation
+    /// (D HD-diagonal) plus the basis-construction rule (one HD subspace per index). Unlike
+    /// the cross/SVD blocks which inherit A3's Tier 2 obstruction, D_eff has no such
+    /// dependence — the SVD direction inside the HD subspace is irrelevant because D is
+    /// proportional to the identity inside each HD subspace. The class-level Tier remains
+    /// Tier 2 verified (governed by the weakest link, B2 cross-block); D_eff being clean
+    /// does not promote the class.</para>
+    /// </summary>
+    public Matrix<Complex> DEffDiagonal()
+    {
+        var m = Matrix<Complex>.Build.Dense(4, 4);
+        double gamma0 = Block.GammaZero;
+        // |c_1⟩ (index 0) and |u_0⟩ (index 2) are in the HD=1 subspace ⇒ −2γ₀ · 1 = −2γ₀
+        // |c_3⟩ (index 1) and |v_0⟩ (index 3) are in the HD=3 subspace ⇒ −2γ₀ · 3 = −6γ₀
+        m[0, 0] = new Complex(-2.0 * gamma0, 0.0);
+        m[1, 1] = new Complex(-6.0 * gamma0, 0.0);
+        m[2, 2] = new Complex(-2.0 * gamma0, 0.0);
+        m[3, 3] = new Complex(-6.0 * gamma0, 0.0);
+        return m;
+    }
+
+    /// <summary>Diagonal entry <c>D_eff[i, i]</c> for i ∈ {0, 1, 2, 3}: closed form in γ₀.
+    /// <c>−2γ₀</c> for indices 0, 2 (HD=1); <c>−6γ₀</c> for indices 1, 3 (HD=3).</summary>
+    public double DEffDiagonalEntry(int i)
+    {
+        if (i < 0 || i > 3)
+            throw new ArgumentOutOfRangeException(nameof(i),
+                $"D_eff index must be in [0, 3]; got {i}.");
+        int hd = (i == 0 || i == 2) ? 1 : 3;
+        return -2.0 * Block.GammaZero * hd;
+    }
+
     /// <summary>The full 4×4 V_b matrix at the given bond, assembled from the three
     /// sub-block accessors <see cref="ProbeBlockEntry"/>, <see cref="CrossBlockEntry"/>,
     /// <see cref="SvdBlockEntry"/>, with the bottom-left 2×2 filled in via the

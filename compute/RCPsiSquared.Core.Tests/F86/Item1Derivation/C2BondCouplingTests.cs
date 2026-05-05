@@ -317,4 +317,83 @@ public class C2BondCouplingTests
         Assert.Throws<ArgumentOutOfRangeException>(() => coupling.AsMatrix(-1));
         Assert.Throws<ArgumentOutOfRangeException>(() => coupling.AsMatrix(block.NumBonds));
     }
+
+    // ---- C1: D_eff diagonal closed form -----------------------------------------
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void DEff_DiagonalEntries_MatchClosedForm(int N)
+    {
+        double gammaZero = 0.05;
+        var block = new CoherenceBlock(N, n: 1, gammaZero: gammaZero);
+        var coupling = C2BondCoupling.Build(block);
+
+        var dEff = coupling.DEffDiagonal();
+        Assert.Equal(4, dEff.RowCount);
+        Assert.Equal(4, dEff.ColumnCount);
+
+        // Closed-form: diag(-2γ₀, -6γ₀, -2γ₀, -6γ₀)
+        Assert.True((dEff[0, 0] - new Complex(-2 * gammaZero, 0)).Magnitude < 1e-14);
+        Assert.True((dEff[1, 1] - new Complex(-6 * gammaZero, 0)).Magnitude < 1e-14);
+        Assert.True((dEff[2, 2] - new Complex(-2 * gammaZero, 0)).Magnitude < 1e-14);
+        Assert.True((dEff[3, 3] - new Complex(-6 * gammaZero, 0)).Magnitude < 1e-14);
+
+        // Off-diagonals zero
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                if (i != j)
+                    Assert.True(dEff[i, j].Magnitude < 1e-12,
+                        $"D_eff[{i},{j}] should be zero; got {dEff[i, j]} at N={N}");
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void DEff_MatchesFourModeEffective_AtMachinePrecision(int N)
+    {
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        var effective = FourModeEffective.Build(block);
+
+        var ours = coupling.DEffDiagonal();
+        var theirs = effective.DEff;
+        var diff = (ours - theirs).FrobeniusNorm();
+        Assert.True(diff < 1e-12, $"D_eff at N={N}: ‖ours − theirs‖_F = {diff:E2}");
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void DEffDiagonalEntry_MatchesDEffDiagonalMatrix(int N)
+    {
+        // Scalar accessor and matrix must agree on the diagonal (defensive cross-check).
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        var dEff = coupling.DEffDiagonal();
+
+        for (int i = 0; i < 4; i++)
+        {
+            double scalar = coupling.DEffDiagonalEntry(i);
+            Assert.True(Math.Abs(dEff[i, i].Real - scalar) < 1e-14,
+                $"DEffDiagonalEntry({i})={scalar} disagrees with DEffDiagonal()[{i},{i}]={dEff[i, i].Real}");
+            Assert.True(Math.Abs(dEff[i, i].Imaginary) < 1e-14);
+        }
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(4)]
+    public void DEffDiagonalEntry_OutOfRange_Throws(int i)
+    {
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
+        var coupling = C2BondCoupling.Build(block);
+        Assert.Throws<ArgumentOutOfRangeException>(() => coupling.DEffDiagonalEntry(i));
+    }
 }
