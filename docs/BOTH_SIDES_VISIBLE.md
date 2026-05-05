@@ -391,7 +391,8 @@ crosser", and so on. That language has been formalized.
 Each prose label is now an enum value with named thresholds in a new
 C# project (`RCPsiSquared.Core`, the framework primitive layer the
 project added in April 2026 alongside the older `.Compute` engine).
-The relevant module is `compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs`.
+The relevant module is
+[QubitLifecycle.cs](../compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs).
 Two derived statistics drive the classification:
 
 - **walk**: the fraction of consecutive day-pairs where r flipped across
@@ -520,21 +521,25 @@ pair the chip allows. The framework is the same; the cockpit caught up.
 ### Cross-references for the May 5 update
 
 - C# primitives (this session):
-  `compute/RCPsiSquared.Core/Calibration/QubitRegime.cs`,
-  `QubitLifecycle.cs`, `LifecycleSummary.cs`, `RegimeSummary.cs`,
-  `CalibrationHistory.cs`
-- F88-Lens hardware data: `data/ibm_soft_break_april2026/`,
-  `data/ibm_zn_mirror_april2026/`
-- F87 trichotomy hardware writeup: `experiments/MARRAKESH_THREE_LAYERS.md`
+  [QubitRegime.cs](../compute/RCPsiSquared.Core/Calibration/QubitRegime.cs),
+  [QubitLifecycle.cs](../compute/RCPsiSquared.Core/Calibration/QubitLifecycle.cs),
+  [LifecycleSummary.cs](../compute/RCPsiSquared.Core/Calibration/LifecycleSummary.cs),
+  [RegimeSummary.cs](../compute/RCPsiSquared.Core/Calibration/RegimeSummary.cs),
+  [CalibrationHistory.cs](../compute/RCPsiSquared.Core/Calibration/CalibrationHistory.cs)
+- F88-Lens hardware data:
+  [ibm_soft_break_april2026/](../data/ibm_soft_break_april2026/),
+  [ibm_zn_mirror_april2026/](../data/ibm_zn_mirror_april2026/)
+- F87 trichotomy hardware writeup:
+  [MARRAKESH_THREE_LAYERS.md](../experiments/MARRAKESH_THREE_LAYERS.md)
 - Marrakesh 91-day history (committed):
-  `data/ibm_history/results/ibm_marrakesh_history.csv`
+  [ibm_marrakesh_history.csv](../data/ibm_history/results/ibm_marrakesh_history.csv)
 - Calibration snapshots (committed):
-  `data/ibm_calibration_snapshots/`
+  [ibm_calibration_snapshots/](../data/ibm_calibration_snapshots/)
 - Path-biography review scripts:
-  `simulations/_qubit_biography.py`,
-  `simulations/_marrakesh_quarter_boundary_review.py`,
-  `simulations/_marrakesh_uniform_quantum_chain.py`,
-  `simulations/_marrakesh_path_biography.py`
+  [_qubit_biography.py](../simulations/_qubit_biography.py),
+  [_marrakesh_quarter_boundary_review.py](../simulations/_marrakesh_quarter_boundary_review.py),
+  [_marrakesh_uniform_quantum_chain.py](../simulations/_marrakesh_uniform_quantum_chain.py),
+  [_marrakesh_path_biography.py](../simulations/_marrakesh_path_biography.py)
 
 ### For newcomers: where to start
 
