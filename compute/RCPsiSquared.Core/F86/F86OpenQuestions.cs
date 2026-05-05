@@ -9,10 +9,17 @@ public static class F86OpenQuestions
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
         new OpenQuestion(
-            "Item 1': derive 4×4 effective L_eff(Q, b)",
-            "Compute cross-coupling ⟨c_α | M_H_per_bond[b] | u_0/v_0⟩ as analytical expressions in (N, n, b); diagonalise; identify which eigenvalue pair gives the Q_peak observed in K_CC_pr (NOT the SVD top pair); derive f_class(x) and HWHM_left/Q_peak as closed forms.",
-            "Multi-page algebra; XY single-particle structure of the (n, n+1) block; OBC sine-mode matrix elements.",
-            "docs/proofs/PROOF_F86_QPEAK.md Item 1'"),
+            "Item 1' (c=2): closed-form HWHM_left/Q_peak constant",
+            "Empirical anchor reproduced at 0.0001 (C2HwhmRatio Tier1Candidate, c=2 N=5..8). " +
+            "Directional Endpoint > Interior split derived empirically (gap ≈ 0.022). " +
+            "Closed-form constant for HWHM_left/Q_peak ratios per bond class NOT pinned this " +
+            "session. Three next directions ranked: (a) first-order perturbation in cross-block " +
+            "(most promising — leverages B2's Endpoint < Interior cross-block Frobenius split, " +
+            "ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1)); (b) projector-overlap lift of A3's |u_0⟩, |v_0⟩; " +
+            "(c) symbolic char-poly factorisation at Q_EP.",
+            "Direction (a): perturb the K-resonance K_b(Q, t) around the Statement-1 2×2 EP form. " +
+            "The cross-block contribution at first order in ε should produce the directional split.",
+            "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2); F86OpenQuestions.cs (this file)"),
         new OpenQuestion(
             "Item 4': extend 4-mode construction to c≥3",
             "Each adjacent-channel pair (HD=2k−1, HD=2k+1) for k ∈ {1, …, c−1} contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet → full effective L is 4·(c−1)-dimensional. Verify slowest pair k=1 still dominates K_b response.",

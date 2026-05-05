@@ -16,7 +16,9 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="TwoLevelEpModel"/> traversed at multiple Q values to show pre/at/post-EP.</item>
 ///   <item>Tier-1 candidate: <see cref="UniversalShapePrediction"/> for Interior + Endpoint,
 ///         each with empirical <see cref="UniversalShapeWitness"/> data points across c=2..4
-///         N=5..8.</item>
+///         N=5..8. For c=2 specifically, <see cref="C2UniversalShapeDerivation"/> wraps
+///         the Stage D2 <c>C2HwhmRatio</c> with empirical anchor + directional Endpoint &gt;
+///         Interior split derived.</item>
 ///   <item>Retracted: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>) —
 ///         the PTF-lesson reminder.</item>
 ///   <item>4-mode insufficiency note: 2026-05-02 finding that the minimal effective fails
@@ -45,6 +47,11 @@ public sealed class F86KnowledgeBase : IInspectable
     public ChiralAiiiClassification AlgebraicClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
+    /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
+    /// <see cref="Item1Derivation.C2HwhmRatio"/>: empirical anchor + directional
+    /// Endpoint &gt; Interior split, both pinned for the c=2 stratum across N=5..8.
+    /// Non-null iff <c>Block.C == 2</c>.</summary>
+    public C2UniversalShapeDerivation? C2UniversalShape { get; }
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -110,6 +117,13 @@ public sealed class F86KnowledgeBase : IInspectable
         AlgebraicClass = new ChiralAiiiClassification();
         F71Mirror = new F71MirrorInvariance();
         Sigma0Scaling = new SigmaZeroChromaticityScaling(block.GammaZero, cache: WitnessCache);
+
+        // c=2-specific top-level synthesis of Stages A–D (Stage E1 integration). Only built
+        // for c=2 blocks; null otherwise — c≥3 strata fall under OpenQuestions Item 4'
+        // (multi-k extension to c≥3, out of scope for the c=2 derivation plan).
+        C2UniversalShape = block.C == 2
+            ? C2UniversalShapeDerivation.Build(block)
+            : null;
 
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
@@ -186,6 +200,9 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return InteriorShapeFunction;
         yield return EndpointShapeFunction;
         yield return Sigma0Scaling;
+        // c=2 top-level synthesis from Stages A–D: only present for c=2 blocks.
+        if (C2UniversalShape is not null)
+            yield return C2UniversalShape;
     }
 
     private IEnumerable<IInspectable> CollectTier2Empirical()
