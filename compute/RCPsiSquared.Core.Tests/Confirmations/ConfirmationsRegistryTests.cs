@@ -22,9 +22,9 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasNineEntries()
+    public void All_HasTenEntries()
     {
-        Assert.Equal(9, ConfirmationsRegistry.All.Count);
+        Assert.Equal(10, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -117,12 +117,13 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Five of nine were backfilled; four remain null (chiral_mirror_law,
-        // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
-        // since their paths are not unambiguously documented.
+        // Six of ten have paths (five backfilled + the May-5 Kingston entry);
+        // four remain null (chiral_mirror_law, f57_kdwell_gamma_invariance,
+        // bonding_mode_receiver, f25_cusp_trajectory) since their paths are
+        // not unambiguously documented.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(5, withPath);
+        Assert.Equal(6, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

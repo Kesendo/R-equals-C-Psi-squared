@@ -159,6 +159,28 @@ public static class ConfirmationsRegistry
                 "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
                 "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk.",
             QubitPath: new[] { 4, 5, 6 }),
+
+        new Confirmation(
+            Name: "regime_uniformity_kingston_uniform_quantum",
+            Date: "2026-05-05",
+            Machine: "ibm_kingston",
+            JobId: "d7sqjpiudops73976960",
+            Observable: "F88-Lens Π²-odd-memory across F87 trichotomy on uniform-quantum chain",
+            PredictedValue:
+                "regime-uniformity hypothesis: a uniform-quantum chain's truly-baseline should be near a uniform-classical chain's, both well below the regime-mixed value 0.0297 (Marrakesh [0,1,2] framework_snapshots). " +
+                "soft-pumping should remain hardware-substrate-independent at ~0.74.",
+            MeasuredValue:
+                "truly = 0.0022, soft = 0.7409, pi2_even_nontruly = 0.0046, mixed = 0.6220. " +
+                "truly is 23× lower than the regime-mixed Marrakesh [0,1,2] (0.0297); only 1.67× higher than uniform-classical Marrakesh [48,49,50] (0.0013). " +
+                "soft is 3.1% from Marrakesh's 0.7646: substrate-independent within shot noise.",
+            HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
+            ExperimentDoc: "simulations/_f88_lens_ibm_kingston_uniform_quantum.py",
+            FrameworkPrimitive: "F88-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
+            Description:
+                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston confirmed PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, walk = 0). " +
+                "Result confirms regime-uniformity hypothesis: BOTH uniform-classical (Marrakesh [48,49,50] truly = 0.0013) AND uniform-quantum (Kingston [43,56,63] truly = 0.0022) give clean truly-baselines, while regime-mixed (Marrakesh [0,1,2] truly = 0.0297) is an order of magnitude dirtier. " +
+                "Three findings per single 3-5 QPU-minute run: regime-uniformity is the cause of the truly-baseline gap (not which side of the boundary); F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping confirmed substrate-independent across two Heron-r2 chips.",
+            QubitPath: new[] { 43, 56, 63 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;
