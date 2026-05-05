@@ -527,7 +527,8 @@ that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
 Path [43, 56, 63] on ibm_kingston, the most balanced of the three
 triples (r mean 0.103 / 0.089 / 0.104, walk = 0 across 91 days, all
 three deeply quantum-side). Job d7sqjpiudops73976960, 4096 shots/basis,
-27 circuits, 3-5 QPU minutes.
+36 circuits (4 Hamiltonian categories × 9 measurement bases), 3-5 QPU
+minutes.
 
 F88-Lens Π²-odd-memory readings, side by side with the prior anchors:
 
@@ -540,11 +541,16 @@ F88-Lens Π²-odd-memory readings, side by side with the prior anchors:
 Three findings from one run:
 
 1. **Regime-uniformity confirmed.** Kingston uniform-quantum
-   truly-baseline 0.0022 sits 23× below the regime-mixed Marrakesh
-   path (0.0297) and only 1.67× above the uniform-classical Marrakesh
+   truly-baseline 0.0022 sits 13.5× below the regime-mixed Marrakesh
+   path (0.0297) and only 1.69× above the uniform-classical Marrakesh
    path (0.0013). Both uniform sides of the boundary give clean
-   truly-readings; the dirty truly-baseline is specific to mixed
-   chains. The hypothesis becomes a confirmation.
+   truly-readings within the same order of magnitude; the dirty
+   truly-baseline is specific to mixed chains. The 22.8× gap between
+   uniform-classical and regime-mixed (the original Marrakesh
+   [0,1,2] vs [48,49,50] pair) is explained: it is an order-of-
+   magnitude jump caused by mixing, with the Kingston uniform-quantum
+   point sitting on the clean side of that jump. The hypothesis becomes
+   a confirmation.
 
 2. **F87 trichotomy on a second backend.** Operator-level signatures
    on Kingston (truly near zero, pi2_odd_pure ⟨X₀Z₂⟩ = -0.7739,

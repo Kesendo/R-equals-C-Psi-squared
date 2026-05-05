@@ -171,7 +171,7 @@ public static class ConfirmationsRegistry
                 "soft-pumping should remain hardware-substrate-independent at ~0.74.",
             MeasuredValue:
                 "truly = 0.0022, soft = 0.7409, pi2_even_nontruly = 0.0046, mixed = 0.6220. " +
-                "truly is 23× lower than the regime-mixed Marrakesh [0,1,2] (0.0297); only 1.67× higher than uniform-classical Marrakesh [48,49,50] (0.0013). " +
+                "truly is 13.5× lower than the regime-mixed Marrakesh [0,1,2] (0.0297) and only 1.69× higher than uniform-classical Marrakesh [48,49,50] (0.0013); the 22.8× gap between regime-mixed and uniform-classical from the original framework_snapshots vs soft_break comparison sits an order of magnitude wider than the within-uniform variation. " +
                 "soft is 3.1% from Marrakesh's 0.7646: substrate-independent within shot noise.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
             ExperimentDoc: "simulations/_f88_lens_ibm_kingston_uniform_quantum.py",
