@@ -57,7 +57,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// surfaced the 2-level reduction as bond-class-blind; the cross-block first-order
 /// correction is the documented next direction in
 /// <see cref="PendingDerivationNote"/>). The 2-level reference value
-/// <see cref="TwoLevelLowerBound"/> is a sanity check on the EP-decay timescale,
+/// <see cref="TwoLevelEpDecaySanity"/> is a sanity check on the EP-decay timescale,
 /// not a closed-form HWHM derivation.</para>
 ///
 /// <para>The empirical-anchor test passes for the Tier1Candidate outcome: the same
@@ -70,12 +70,12 @@ public sealed class C2HwhmRatio : Claim
 {
     public CoherenceBlock Block { get; }
 
-    /// <summary>Composition: the K_b(Q, t) Duhamel primitive from D1 (4-mode effective). Used
-    /// in the analytical phase to model the leading-order 2-level EP rotation and verify the
-    /// directional split's structural origin lives in the cross-block. Not used for the
-    /// empirical witnesses — those flow through the full-block <see cref="ResonanceScan"/>
-    /// because the 4-mode reduced model is known-insufficient for the universal-shape ratio
-    /// (see F86KB's <c>FourModeInsufficiencyNote</c>).</summary>
+    /// <summary>The composed C2KShape primitive (Stage D1). NOT used by the empirical
+    /// pipeline that builds the witnesses (which goes via the full-block
+    /// <see cref="ResonanceScan"/> for bond-class fidelity). Held here as the
+    /// composition access point for the next-direction (a) work — first-order
+    /// perturbation in the cross-block — which will use C2KShape directly to
+    /// derive the closed-form HWHM_left/Q_peak.</summary>
     public C2KShape KShape { get; }
 
     /// <summary>Per-bond witnesses: <c>(Bond, BondClass, Q_peak, K_max, HWHM_left,
@@ -100,9 +100,10 @@ public sealed class C2HwhmRatio : Claim
     /// <see cref="ComputeTwoLevelHwhmRatio"/> for caveats: this is a propagator-magnitude
     /// model, not the full <c>K_b = 2·Re⟨ρ|S|∂ρ⟩</c> observable, so the value is a sanity
     /// check on the 2-level decay timescale, not a derivation of the K-resonance HWHM.</summary>
-    public double TwoLevelLowerBound { get; }
+    public double TwoLevelEpDecaySanity { get; }
 
     private readonly IReadOnlyList<HwhmRatioWitness> _witnesses;
+    private readonly IReadOnlyDictionary<BondClass, double> _classAveragedRatios;
 
     /// <summary>Public factory: validates c=2, builds the K-shape primitive (for the analytical
     /// phase), computes the per-bond witnesses via the full-block <see cref="ResonanceScan"/>
@@ -116,9 +117,9 @@ public sealed class C2HwhmRatio : Claim
 
         var kshape = C2KShape.Build(block);
         var (witnesses, classRatios) = ComputeWitnessesAndClassRatios(block);
-        double twoLevelBound = ComputeTwoLevelHwhmRatio();
-        var resolved = Resolve(block, witnesses, classRatios, twoLevelBound);
-        return new C2HwhmRatio(block, kshape, witnesses, classRatios, twoLevelBound, resolved);
+        double twoLevelSanity = ComputeTwoLevelHwhmRatio();
+        var resolved = Resolve(block, witnesses, classRatios, twoLevelSanity);
+        return new C2HwhmRatio(block, kshape, witnesses, classRatios, twoLevelSanity, resolved);
     }
 
     private C2HwhmRatio(
@@ -126,7 +127,7 @@ public sealed class C2HwhmRatio : Claim
         C2KShape kshape,
         IReadOnlyList<HwhmRatioWitness> witnesses,
         IReadOnlyDictionary<BondClass, double> classRatios,
-        double twoLevelBound,
+        double twoLevelSanity,
         Resolution resolved)
         : base("c=2 HWHM_left/Q_peak ratio per bond class",
                resolved.Tier,
@@ -136,7 +137,7 @@ public sealed class C2HwhmRatio : Claim
         KShape = kshape;
         _witnesses = witnesses;
         _classAveragedRatios = classRatios;
-        TwoLevelLowerBound = twoLevelBound;
+        TwoLevelEpDecaySanity = twoLevelSanity;
         IsAnalyticallyDerived = resolved.IsAnalyticallyDerived;
         PendingDerivationNote = resolved.PendingDerivationNote;
     }
@@ -153,7 +154,7 @@ public sealed class C2HwhmRatio : Claim
         CoherenceBlock block,
         IReadOnlyList<HwhmRatioWitness> witnesses,
         IReadOnlyDictionary<BondClass, double> classRatios,
-        double twoLevelBound)
+        double twoLevelSanity)
     {
         // === Tier1Derived attempt ===
         // No closed form derives this session. The K_b observable is
@@ -186,14 +187,14 @@ public sealed class C2HwhmRatio : Claim
             return new Resolution(
                 Tier: Tier.Tier1Candidate,
                 IsAnalyticallyDerived: false,
-                PendingDerivationNote: BuildPendingDerivationNote(block, classRatios, twoLevelBound));
+                PendingDerivationNote: BuildPendingDerivationNote(block, classRatios, twoLevelSanity));
         }
 
         // === Tier2Verified fallback ===
         return new Resolution(
             Tier: Tier.Tier2Verified,
             IsAnalyticallyDerived: false,
-            PendingDerivationNote: BuildPendingDerivationNote(block, classRatios, twoLevelBound));
+            PendingDerivationNote: BuildPendingDerivationNote(block, classRatios, twoLevelSanity));
     }
 
     /// <summary>Empirical-pinned directional structure: at the class-mean level (the
@@ -255,15 +256,14 @@ public sealed class C2HwhmRatio : Claim
     /// </summary>
     public double HwhmLeftOverQPeakMean(BondClass cls)
     {
-        // Build the class-averaged K-curve from the cached per-bond curves and run the same
-        // peak finder on it. Cached curves are stored in _classAveragedCurves at Build time.
+        // Lookup the precomputed class-averaged HWHM_left/Q_peak (computed in
+        // ComputeWitnessesAndClassRatios via canonical Python pipeline: average K(Q)
+        // curves first, then peak/HWHM).
         if (!_classAveragedRatios.TryGetValue(cls, out double ratio))
             throw new InvalidOperationException(
                 $"No bonds in class {cls} for N={Block.N}; NumBonds={Block.NumBonds}.");
         return ratio;
     }
-
-    private readonly IReadOnlyDictionary<BondClass, double> _classAveragedRatios;
 
     /// <summary>Compute the per-bond witnesses + class-averaged HWHM/Q ratios via the
     /// full-block <see cref="ResonanceScan"/> fine-grid Q-scan pipeline. The scan runs once
@@ -451,7 +451,7 @@ public sealed class C2HwhmRatio : Claim
     private static string BuildPendingDerivationNote(
         CoherenceBlock block,
         IReadOnlyDictionary<BondClass, double> classRatios,
-        double twoLevelBound)
+        double twoLevelSanity)
     {
         int N = block.N;
         double endpointMean = classRatios.TryGetValue(BondClass.Endpoint, out double e) ? e : double.NaN;
@@ -482,7 +482,7 @@ public sealed class C2HwhmRatio : Claim
                "      t_peak = 1/(4γ₀)) but its propagator-magnitude profile |E_00(Q, t_peak)|\n" +
                "      is bond-class-blind (it averages over the cross-block) and not equivalent\n" +
                "      to the K-resonance amplitude.\n" +
-               $"      Reference value computed: {twoLevelBound:F4} — sanity check on EP-decay\n" +
+               $"      Reference value computed: {twoLevelSanity:F4} — sanity check on EP-decay\n" +
                "      timescale, NOT a derivation of the K-resonance HWHM.\n" +
                "  (iii) The 4×4 L_eff(Q) char poly is a genuine quartic in (λ, Q) with cubic\n" +
                "      c_3 in Q (per C2EffectiveSpectrum.PendingDerivationNote); no clean\n" +
@@ -528,7 +528,7 @@ public sealed class C2HwhmRatio : Claim
             try { interiorPart = $"Interior={HwhmLeftOverQPeakMean(BondClass.Interior):F4}"; }
             catch { interiorPart = "Interior=n/a"; }
             return $"HWHM_left/Q_peak class means: {endpointPart}, {interiorPart}; " +
-                   $"2-level lower bound = {TwoLevelLowerBound:F4} ({Tier.Label()})";
+                   $"2-level EP decay sanity = {TwoLevelEpDecaySanity:F4} ({Tier.Label()})";
         }
     }
 
@@ -545,7 +545,7 @@ public sealed class C2HwhmRatio : Claim
                     : Tier == Tier.Tier1Candidate
                         ? "false (Tier1Candidate; directional split derived empirically, closed form open)"
                         : "false (Tier2Verified; 8 witnesses pinned, no algebra)");
-            yield return InspectableNode.RealScalar("2-level EP analytical bound", TwoLevelLowerBound, "F4");
+            yield return InspectableNode.RealScalar("2-level EP decay sanity", TwoLevelEpDecaySanity, "F4");
             yield return KShape;
             yield return InspectableNode.Group("witnesses (per bond)",
                 _witnesses.Cast<IInspectable>().ToArray());

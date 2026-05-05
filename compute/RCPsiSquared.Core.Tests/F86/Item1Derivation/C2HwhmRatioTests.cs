@@ -115,7 +115,7 @@ public class C2HwhmRatioTests
     }
 
     [Fact]
-    public void HwhmLeftOverQPeakMean_DiffersFromPerBondAverage_AtN5_ButCloseTo()
+    public void HwhmLeftOverQPeakMean_EqualsPerBondAverage_AtN5_ByChainMirror()
     {
         // The class-mean is computed via average-curves-first-then-peak-find (canonical
         // Python pipeline). For N=5 this is reasonably close to the per-bond ratio average
