@@ -1,3 +1,5 @@
+using RCPsiSquared.Core.Confirmations;
+
 namespace RCPsiSquared.Core.Calibration;
 
 /// <summary>One row of a <see cref="RegimeSummary"/>: per-qubit calibration plus
@@ -115,4 +117,13 @@ public sealed record RegimeSummary(
         return $"path {pathStr} | {Verdict} ({QuantumCount}q, {BoundaryCount}b, {ClassicalCount}c) "
              + $"| score {Score:F2} | {addr}";
     }
+
+    /// <summary>Confirmations from <see cref="ConfirmationsRegistry"/> whose
+    /// <see cref="Confirmation.QubitPath"/> matches this summary's path exactly.
+    /// Pass <paramref name="machine"/> to restrict to one backend (e.g.
+    /// <c>"ibm_marrakesh"</c>).</summary>
+    public IEnumerable<Confirmation> RelatedConfirmations(string? machine = null) =>
+        machine == null
+            ? ConfirmationsRegistry.ByPath(Path)
+            : ConfirmationsRegistry.ByMachineAndPath(machine, Path);
 }

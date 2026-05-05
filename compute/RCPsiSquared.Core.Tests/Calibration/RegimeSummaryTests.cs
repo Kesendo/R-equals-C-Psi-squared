@@ -117,6 +117,36 @@ public class RegimeSummaryTests
         Assert.Equal(calChain.Score, s.Score, precision: 1);
     }
 
+    [Fact]
+    public void RelatedConfirmations_FrameworkSnapshotsPath_FindsBothEntries()
+    {
+        var qubits = Marrakesh20260425.Value;
+        var s = RegimeSummary.For(qubits, new[] { 0, 1, 2 });
+        var hits = s.RelatedConfirmations().Select(c => c.Name).ToList();
+        Assert.Contains("pi_protected_xiz_yzzy", hits);
+        Assert.Contains("lebensader_skeleton_trace_decoupling", hits);
+    }
+
+    [Fact]
+    public void RelatedConfirmations_MachineFilter_RestrictsToBackend()
+    {
+        var qubits = Marrakesh20260425.Value;
+        var s = RegimeSummary.For(qubits, new[] { 48, 49, 50 });
+        var marrakesh = s.RelatedConfirmations(machine: "ibm_marrakesh").ToList();
+        Assert.NotEmpty(marrakesh);
+        Assert.All(marrakesh, c => Assert.Equal("ibm_marrakesh", c.Machine));
+        Assert.Empty(s.RelatedConfirmations(machine: "ibm_kingston"));
+    }
+
+    [Fact]
+    public void RelatedConfirmations_UntestedPath_ReturnsEmpty()
+    {
+        var qubits = Marrakesh20260425.Value;
+        // [4, 3, 2] is the Apr-25 best 3-chain, never run as documented path.
+        var s = RegimeSummary.For(qubits, new[] { 4, 3, 2 });
+        Assert.Empty(s.RelatedConfirmations());
+    }
+
     private static string FindRepoRoot()
     {
         var dir = new DirectoryInfo(AppContext.BaseDirectory);

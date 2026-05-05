@@ -29,7 +29,8 @@ public static class ConfirmationsRegistry
                 "Super-operator palindrome trichotomy (truly/soft/hard) tomographically distinguishable on Heron r2 hardware at N=3. " +
                 "Hardware Δ(soft − truly) = -0.722 matches the Trotter n=3 prediction to 0.0014, NOT the continuous-Lindblad idealization (Δ = -0.623). " +
                 "Original interpretation that T1 amplifies the soft-break is REFUTED: T1 monotonically attenuates |Δ| (γ_T1=0.5 gives Δ=-0.44). " +
-                "The hardening is Trotter discretization at δt=0.267 with ‖H‖_op = 2.83·J, where ‖H·δt‖ ≈ 0.76 violates the small-step regime."),
+                "The hardening is Trotter discretization at δt=0.267 with ‖H‖_op = 2.83·J, where ‖H·δt‖ ≈ 0.76 violates the small-step regime.",
+            QubitPath: new[] { 48, 49, 50 }),
 
         new Confirmation(
             Name: "f25_cusp_trajectory",
@@ -97,7 +98,8 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
             FrameworkPrimitive: "pi_protected_observables",
             Description: "First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian (EQ-030). " +
-                "Confirms framework primitive at hardware scale on a Hamiltonian not previously tested."),
+                "Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.",
+            QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
             Name: "marrakesh_transverse_y_field_detection",
@@ -115,7 +117,8 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "data/ibm_zn_mirror_april2026/README.md",
             FrameworkPrimitive: "chain.zn_mirror_diagnostic + zn_mirror_state",
             Description: "First hardware verification of the Z⊗N-Mirror diagnostic. Marrakesh shows effective transverse Y-field h_y_eff ≈ 0.05 at Hamiltonian level on path [48,49,50]. " +
-                "NOT a transverse X-field (which would give 40× smaller violation). The Y-vs-X asymmetry predicted by the framework (Y is bit_b-odd like Z-dephasing axis, mixes more strongly) is confirmed empirically."),
+                "NOT a transverse X-field (which would give 40× smaller violation). The Y-vs-X asymmetry predicted by the framework (Y is bit_b-odd like Z-dephasing axis, mixes more strongly) is confirmed empirically.",
+            QubitPath: new[] { 48, 49, 50 }),
 
         new Confirmation(
             Name: "lebensader_skeleton_trace_decoupling",
@@ -130,10 +133,11 @@ public static class ConfirmationsRegistry
             MeasuredValue: "drop=28 for YZ+ZY confirmed on Marrakesh. Pearson(drop, Δ∫θ)=+0.85. Bures velocity gives no third discriminator.",
             HardwareData: "external (raw JSON not in repo; tables of <X_0 I Z_2> per t and basis documented inline in experiment doc)",
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
-            FrameworkPrimitive: "cockpit_panel — composes pi_protected_observables + θ-trajectory",
+            FrameworkPrimitive: "cockpit_panel: composes pi_protected_observables + θ-trajectory",
             Description:
                 "Lebensader as Stromkabel (EQ-030 closure): skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. " +
-                "Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis."),
+                "Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis.",
+            QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
             Name: "f83_pi2_class_signature_marrakesh",
@@ -153,7 +157,8 @@ public static class ConfirmationsRegistry
             FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form)",
             Description:
                 "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
-                "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk."),
+                "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk.",
+            QubitPath: new[] { 4, 5, 6 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;
@@ -165,4 +170,25 @@ public static class ConfirmationsRegistry
 
     public static IEnumerable<Confirmation> ByMachine(string machine) =>
         _all.Where(c => c.Machine == machine);
+
+    /// <summary>Confirmations whose <see cref="Confirmation.QubitPath"/> matches
+    /// <paramref name="path"/> as a sequence (ordered, length-equal). Skips
+    /// entries with no documented path.</summary>
+    public static IEnumerable<Confirmation> ByPath(IReadOnlyList<int> path) =>
+        _all.Where(c => c.QubitPath != null && c.QubitPath.SequenceEqual(path));
+
+    /// <summary>Combined filter: by machine + by exact qubit path. Useful for
+    /// "what has been confirmed on path X of machine Y?" pre-submit lookups.</summary>
+    public static IEnumerable<Confirmation> ByMachineAndPath(string machine, IReadOnlyList<int> path) =>
+        ByPath(path).Where(c => c.Machine == machine);
+
+    /// <summary>Confirmations whose <see cref="Confirmation.QubitPath"/> shares at
+    /// least one qubit with <paramref name="path"/>. Looser than
+    /// <see cref="ByPath"/>; useful for "what's been touched on any of these qubits?"
+    /// queries.</summary>
+    public static IEnumerable<Confirmation> ByPathOverlap(IReadOnlyList<int> path)
+    {
+        var s = new HashSet<int>(path);
+        return _all.Where(c => c.QubitPath != null && c.QubitPath.Any(s.Contains));
+    }
 }

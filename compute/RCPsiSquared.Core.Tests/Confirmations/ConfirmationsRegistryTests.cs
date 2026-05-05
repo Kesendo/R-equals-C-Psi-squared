@@ -55,4 +55,74 @@ public class ConfirmationsRegistryTests
         Assert.Contains(kingston, c => c.Name == "f25_cusp_trajectory");
         Assert.Contains(kingston, c => c.Name == "f57_kdwell_gamma_invariance");
     }
+
+    [Fact]
+    public void ByPath_FrameworkSnapshotsPath_ReturnsBothMarrakeshN3Entries()
+    {
+        var hits = ConfirmationsRegistry.ByPath(new[] { 0, 1, 2 }).ToList();
+        Assert.Contains(hits, c => c.Name == "pi_protected_xiz_yzzy");
+        Assert.Contains(hits, c => c.Name == "lebensader_skeleton_trace_decoupling");
+    }
+
+    [Fact]
+    public void ByPath_SoftBreakPath_ReturnsBothMarrakeshN3Entries()
+    {
+        var hits = ConfirmationsRegistry.ByPath(new[] { 48, 49, 50 }).ToList();
+        Assert.Contains(hits, c => c.Name == "palindrome_trichotomy");
+        Assert.Contains(hits, c => c.Name == "marrakesh_transverse_y_field_detection");
+    }
+
+    [Fact]
+    public void ByPath_F83Path_ReturnsF83Entry()
+    {
+        var hits = ConfirmationsRegistry.ByPath(new[] { 4, 5, 6 }).ToList();
+        Assert.Contains(hits, c => c.Name == "f83_pi2_class_signature_marrakesh");
+    }
+
+    [Fact]
+    public void ByPath_OrderSensitive_ReversedDoesNotMatch()
+    {
+        // [50, 49, 48] is the same chain physically but the registered direction
+        // is [48, 49, 50]; ByPath uses sequence equality, so the reverse must miss.
+        var fwd = ConfirmationsRegistry.ByPath(new[] { 48, 49, 50 }).ToList();
+        var rev = ConfirmationsRegistry.ByPath(new[] { 50, 49, 48 }).ToList();
+        Assert.NotEmpty(fwd);
+        Assert.Empty(rev);
+    }
+
+    [Fact]
+    public void ByMachineAndPath_RestrictsToBackend()
+    {
+        var hits = ConfirmationsRegistry
+            .ByMachineAndPath("ibm_marrakesh", new[] { 0, 1, 2 }).ToList();
+        Assert.NotEmpty(hits);
+        Assert.All(hits, c => Assert.Equal("ibm_marrakesh", c.Machine));
+        Assert.Empty(ConfirmationsRegistry
+            .ByMachineAndPath("ibm_torino", new[] { 0, 1, 2 }));
+    }
+
+    [Fact]
+    public void ByPathOverlap_AnyQubitMatches()
+    {
+        // Q49 alone overlaps with both [48,49,50] paths.
+        var hits = ConfirmationsRegistry.ByPathOverlap(new[] { 49 }).ToList();
+        Assert.Contains(hits, c => c.Name == "palindrome_trichotomy");
+        Assert.Contains(hits, c => c.Name == "marrakesh_transverse_y_field_detection");
+        // Q1 overlaps with [0,1,2] paths only.
+        var hits2 = ConfirmationsRegistry.ByPathOverlap(new[] { 1 }).ToList();
+        Assert.Contains(hits2, c => c.Name == "pi_protected_xiz_yzzy");
+        Assert.DoesNotContain(hits2, c => c.Name == "palindrome_trichotomy");
+    }
+
+    [Fact]
+    public void EntriesWithoutDocumentedPath_StayNull()
+    {
+        // Five of nine were backfilled; four remain null (chiral_mirror_law,
+        // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
+        // since their paths are not unambiguously documented.
+        int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
+        int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
+        Assert.Equal(5, withPath);
+        Assert.Equal(4, withoutPath);
+    }
 }
