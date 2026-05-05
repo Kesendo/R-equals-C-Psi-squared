@@ -371,6 +371,24 @@ This document does not replace any prior hypothesis; it connects them:
   Y → 40× X strength on Marrakesh hardware reflecting the bit_b=1
   alignment with Z's Π²-color.
 
+  **Update 2026-05-05 (typed bridge in C#):** the dissipator-resonance
+  closure was extended to a typed Tier-1 `Claim`,
+  `DissipatorAxisSelectsPolarityClaim` in
+  `compute/RCPsiSquared.Diagnostics/F87/`, registered as the third
+  Tier-1 entry of `F87KnowledgeBase` alongside `Trichotomy` and
+  `DissipatorResonance`. The Claim names the structural reading: the
+  dissipator letter is the choice of which polarity axis the qubit's
+  +0/−0 differentiation is read along (Z → bit_b, X → bit_a, Y → both;
+  SU(2)-rotation-equivalent across the three letters). It binds the
+  Brecher-from-outside reading (transverse field on bit_a) and the
+  Hardness-from-inside reading (F87-hardness in the matched Klein cell
+  on bit_a + bit_b) as two perturbation types acting on one polarity
+  layer. No new numerical witnesses; the 4×3 Klein-cell hardness table
+  is delegated to `DissipatorResonanceLaw.StandardWitnessTable`.
+  Synthesis-derived: see
+  `docs/superpowers/syntheses/2026-05-05-polarity-layer-symphony.md`
+  (gitignored workshop artefact).
+
 - **Inheritance proof structure.** ▭ **OPEN.** The inheritance argument
   here remains informal. The dissipator-resonance law refines the
   Klein-homogeneity rule into an SU(2)-covariant statement: the
