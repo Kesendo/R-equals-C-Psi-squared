@@ -38,6 +38,16 @@ public sealed record PauliTerm(IReadOnlyList<PauliLetter> Letters, Complex Coeff
     /// <summary>Π²-parity (Y+Z count mod 2). 0 = Π²-even, 1 = Π²-odd.</summary>
     public int Pi2Parity => PauliIndex.TotalBitBParity(Letters);
 
+    /// <summary>Klein-Vierergruppe Z₂×Z₂ index (bit_a parity, bit_b parity) of the term.
+    /// bit_a = (#X + #Y) mod 2; bit_b = (#Y + #Z) mod 2 = <see cref="Pi2Parity"/>.
+    /// 2-body bilinears: XX/YY/ZZ → (0,0) Mother (truly), XY/YX → (0,1) (Π²-odd subset),
+    /// YZ/ZY → (1,0) (Π²-even non-truly), XZ/ZX → (1,1) (Π²-odd subset).</summary>
+    public (int BitA, int BitB) KleinIndex => (TotalBitA & 1, Pi2Parity);
+
+    /// <summary>Full Z₂³ structural signature (bit_a, bit_b, Y-parity). At k=2 Y-parity
+    /// is determined by Klein; at k≥3 it is independent and the polarity is Z₂³ (8 sectors).</summary>
+    public (int BitA, int BitB, int YParity) FullZ2Signature => (TotalBitA & 1, Pi2Parity, YParity);
+
     /// <summary>Y-count modulo 2. Independent from Klein at k ≥ 3-body.</summary>
     public int YParity => Ny & 1;
 
