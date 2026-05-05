@@ -1096,6 +1096,51 @@ The 2-level EP eigenvector rotation `tan θ = Q/Q_EP` makes every probe-overlap 
 
 **Surviving sub-question (structural, deferred):** does N itself deserve middle status? V(N) = 1 + cos(π/N) and F41 palindromic time t_Π make N a discrete labeling parameter; whether that lifts N to the algebraic-middle list (alongside d=2, CΨ=¼, Π, ⟨n_XY⟩, U(1)) is open. Raised in MIDDLES_CARTOGRAPHY_FIVE §5, not investigated.
 
+### EQ-022 (b1) Update 2026-05-05: c=2 OOP scaffolding lands; closed form still open
+
+**Source:** Item 1' c=2 derivation plan (`docs/superpowers/plans/2026-05-05-eq022-item1-prime-c2-derivation.md`), 14 commits 2026-05-05 implementing Stages A-E (analytical 4-mode primitives + F86KnowledgeBase integration). All primitives in `compute/RCPsiSquared.Core/F86/` and `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
+
+**Tier outcome at c=2:** Tier1Candidate. Empirical anchor (HWHM_left/Q_peak per bond class N=5..8) reproduced bit-equivalent with the canonical Python pipeline (typical residual ≤ 0.001). Directional Endpoint > Interior split (HWHM ratio gap ≈ 0.022) derived empirically. Closed-form HWHM_left/Q_peak constant per bond class NOT yet derived.
+
+**OOP scaffolding** (12 typed-knowledge-graph primitives across Stages A-E):
+
+| Stage | Primitive | Tier |
+|-------|-----------|------|
+| A1 | C2BlockShape | Tier1Derived |
+| A2 | C2ChannelUniformAnalytical | Tier1Derived |
+| A3 | C2InterChannelAnalytical | Tier2Verified (σ_0 degeneracy at even N) |
+| B1 | C2BondCoupling probe-block | Tier1Derived |
+| B2 | C2BondCoupling cross-block | Tier2Verified (inherits A3) |
+| B3 | C2BondCoupling SVD-block + AsMatrix + anti-Hermiticity guard | Tier2Verified (inherits A3) |
+| C1 | C2BondCoupling D_eff | Tier1Derived structural sub-fact |
+| C2 | C2EffectiveSpectrum | Tier2Verified (cubic-c_3 obstruction proof) |
+| C3 | C2EffectiveSpectrum K-driving pair | Tier1Derived structural sub-fact (probe ⊥ |u_0⟩, |v_0⟩) + Tier2Verified per-(Q,b) readout |
+| D1 | C2KShape | Tier1Derived (Duhamel formula) |
+| D2 | C2HwhmRatio | Tier1Candidate |
+| E1 | C2UniversalShapeDerivation (in F86KnowledgeBase) | Tier1Candidate (auto-promotes via D2 flag) |
+
+**Three structural findings** from the time-boxed exploration:
+
+1. **σ_0 degeneracy at even N** (A3): chain-mirror R splits the 2D top eigenspace; single-vector |u_0⟩, |v_0⟩ closed forms are library-dependent. Lift to projector-overlap is the next direction.
+
+2. **Cross-block Frobenius inversion** (B2): Endpoint < Interior at c=2 N=5..8 — opposite sign to the HWHM_left/Q_peak ordering (Endpoint > Interior). The directional inversion happens through the 4×4 eigenvalue mixing.
+
+3. **Cubic-c_3 char poly obstruction** (C2): rigorously rules out any rational-coefficient (λ²-aλ+b)(λ²-cλ+d) factorisation of L_eff(Q,b). The Tier2 outcome for C2EffectiveSpectrum is evidence-based.
+
+**Three ranked next directions:**
+
+- (a) **Most promising:** First-order perturbation in the cross-block. ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1) at c=2; cross-block Frobenius split (Endpoint < Interior) is the seed for the directional shift.
+- (b) Lift |u_0⟩, |v_0⟩ to projector-overlap (per A3's PendingDerivationNote).
+- (c) Symbolic char-poly factorisation at Q_EP.
+
+**Status:** EQ-022 (b1) Item 1' c=2 stratum: Tier1Candidate scaffolding complete; closed-form constant open. Items 4' (multi-k extension to c≥3) and 5 (σ_0 → 2√(2(c-1))) remain out of scope (separate plans).
+
+**Pointers:**
+- Plan: [`docs/superpowers/plans/2026-05-05-eq022-item1-prime-c2-derivation.md`](../docs/superpowers/plans/2026-05-05-eq022-item1-prime-c2-derivation.md)
+- Updated proof: [`docs/proofs/PROOF_F86_QPEAK.md`](../docs/proofs/PROOF_F86_QPEAK.md) Item 1 + new "OOP scaffolding" + "Structural findings" sub-sections
+- Open questions: `compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs` Item 1' (refreshed)
+- KB integration: `compute/RCPsiSquared.Core/F86/F86KnowledgeBase.cs` `C2UniversalShape` property
+
 ---
 
 ## EQ-023
