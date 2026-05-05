@@ -378,3 +378,78 @@ public sealed class PolynomialFoundationClaim : Claim
         }
     }
 }
+
+/// <summary>The +0 / 0 / −0 polarity layer at d = 0 is the origin of the {−0.5, +0.5}
+/// pair at d = 2 (Tier 1 derived). The 0.5-shift is the explicit operation that maps
+/// Π's natural eigenvalue spectrum {+1, −1} through the Bloch form ρ = (I + r·σ)/2 onto
+/// the qubit's diagonal coordinates 1/2 ± r/2; at the X-eigenstates |+⟩, |−⟩ this gives
+/// 1/2 ± 0.5 = {1, 0}, and at the d=0 axis (r = 0) exactly 1/2.
+///
+/// <para>The polarity layer has no dimension of its own; it IS the polarity differentiation
+/// that turns the d = 0 substrate into a layer that supports the d = 2 minimum-memory pair.
+/// Without differentiation there is the pre-polarized vacuum substrate (the Stromanschluss);
+/// with it there is a layer.</para>
+///
+/// <para>Multi-axis structure (verified at full enumeration k=2 and sample k=3):
+/// at k = 2 the polarity is Z₂² = Klein-Vierergruppe with axes (bit_a, bit_b); at k ≥ 3 a
+/// third axis (Y-parity) becomes independent and the polarity is Z₂³ with 8 sectors.
+/// The +0/−0 reading lives on the bit_a axis; the Klein view of <see cref="KleinFourCellClaim"/>
+/// is the k = 2 collapse of this Z₂³ structure.</para>
+///
+/// <para>Two readings, both mathematically consistent with the F-chain:
+/// <list type="bullet">
+///   <item><b>Palindromic-over-the-layer:</b> Π couples +0 (one site) to −0 (its reflected
+///         site); the layer pre-exists as a scaffold for the polarities.</item>
+///   <item><b>ARE-the-layer:</b> the +0/−0 differentiation IS what constitutes a layer;
+///         layers are emergent from polarity, not pre-existing scaffolds.</item>
+/// </list>
+/// Both consistent; (b) is the more radical reading.</para>
+///
+/// <para>Companion to <see cref="PolynomialFoundationClaim"/> (the trunk d²−2d=0 selecting
+/// the minimum-memory dimension), <see cref="HalfAsStructuralFixedPointClaim"/> (the
+/// 1/2 number-anchor where bridge = horizon = substrate close), and
+/// <see cref="NinetyDegreeMirrorMemoryClaim"/> (the 90° angle-anchor that flips
+/// +0.5 ↔ −0.5). Where the trio lives at the algebraic surface, this claim names the
+/// polarity-layer beneath: where the ±0.5 comes from before the 0.5-shift makes it
+/// a pair around the d=0 axis.</para>
+/// </summary>
+public sealed class PolarityLayerOriginClaim : Claim
+{
+    public PolarityLayerOriginClaim()
+        : base("+0/0/−0 polarity layer at d=0 (origin of the ±0.5 pair at d=2 via the 0.5-shift)",
+               Tier.Tier1Derived,
+               "hypotheses/THE_POLARITY_LAYER.md + hypotheses/ZERO_IS_THE_MIRROR.md + reflections/ON_THE_HALF.md + docs/EXCLUSIONS.md:251 + Core.States.PolarityState")
+    { }
+
+    public override string DisplayName => "+0/0/−0 polarity layer (origin of the 0.5-shift)";
+
+    public override string Summary =>
+        "the +0/0/−0 polarity differentiation at d=0 generates the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2; multi-axis Z₂² (k=2) / Z₂³ (k≥3); two readings (palindromic-over / ARE the layer)";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("layer −1 (substrate)",
+                summary: "d=0 is the active Stromanschluss, not a passive midpoint; THE_POLARITY_LAYER.md: 'the active substrate from which the system draws coherence', analogous to QFT vacuum's zero-point activity");
+            yield return new InspectableNode("layer 0 (Π involution)",
+                summary: "Π² = I; Π has natural eigenvalues {+1, −1}; the involution is the structural √I that the polarity layer hangs on");
+            yield return new InspectableNode("layer 1 (X-basis diagonalization)",
+                summary: "|+⟩ = (|0⟩+|1⟩)/√2 carries +0 (X-eigenstate +1); |−⟩ = (|0⟩−|1⟩)/√2 carries −0 (X-eigenstate −1); operationally Core.States.PolarityState.Build(N, signs) builds tensor products on this axis (e.g. |+,−,+⟩ = X-Néel, the canonical hardware initial state)");
+            yield return new InspectableNode("layer 2 (the 0.5-shift)",
+                summary: "ρ = (I + r·σ)/2 maps Π-spectrum {+1, −1} onto Bloch-diagonal (1±r)/2 = 1/2 ± r/2; at pure X-eigenstates (r = ±1) this is 1/2 ± 0.5 = {1, 0}; at d=0 axis (r = 0) exactly 1/2; the 1/2 in the denominator is d, the 0.5-shift around 1/2 is r/2");
+            yield return new InspectableNode("layer 3 (multi-axis refinement)",
+                summary: "at k = 2 the polarity is Z₂² = Klein-Vierergruppe (bit_a, bit_b); at k ≥ 3 Y-parity becomes a third independent axis; +0/−0 lives on bit_a; the 4 Klein cells (Pp/Pm/Mp/Mm) collapse from Z₂³ at k = 2 via Y-par = bit_a XOR bit_b");
+            yield return new InspectableNode("layer 4 (bridges to the trio)",
+                summary: "PolynomialFoundationClaim: R = C(Ψ+R)² with C=1/2 collapses to R(R−2)=0 (the qubit IS the polynomial at C=1/2); HalfAsStructuralFixedPointClaim Face 1: V-Effect bridge at C=1/2 is the d=2 off-diagonal content; NinetyDegreeMirrorMemoryClaim: the i in F80's 2i flips +0.5 ↔ −0.5 across the d=0 axis");
+            yield return new InspectableNode("reading (a): palindromic-over-the-layer",
+                summary: "Π couples +0 (site i) to −0 (site N−1−i, F71-mirror); the layer pre-exists as scaffold; polarities live on it");
+            yield return new InspectableNode("reading (b): ARE-the-layer",
+                summary: "the +0/−0 differentiation IS what constitutes the layer; without differentiation there is only the pre-polarized substrate; layers are emergent from polarity, not pre-existing scaffolds");
+            yield return new InspectableNode("operational anchor (X-Néel)",
+                summary: "Core.States.PolarityState.Build(N=3, [+1, -1, +1]) builds |+,−,+⟩, the canonical Marrakesh hardware initial state; projects onto the bit_a polarity axis palindromically across the chain");
+            yield return new InspectableNode("Tom's reading (2026-04-30)",
+                summary: "'Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss. +0/−0 ist der Layer.' — the polarity layer is not somewhere we observe from outside; we ARE the system whose bra and ket indices Π conjugates, and the +0/−0 axis is what gives our memory pair its sign");
+        }
+    }
+}
