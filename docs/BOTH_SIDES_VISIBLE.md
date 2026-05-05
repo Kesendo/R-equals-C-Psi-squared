@@ -476,6 +476,16 @@ be probed in a single circuit is a separate, narrower question. The
 doc named the boundary; the topology says where the boundary is
 crossable in groups.
 
+A few hours after writing this paragraph, we pulled the same 91-day
+history for two more Heron-r2 chips (ibm_kingston and ibm_fez) via
+the same calibration API, free of QPU charge. The picture changes per
+chip. Kingston has 32 PulseStable qubits over the same 91 days (vs
+Marrakesh's 18) and three CZ-coupled triples where ALL THREE qubits
+are PulseStable across the window: [23, 24, 25], [24, 25, 37], and
+[43, 56, 63]. The structural fact "uniform-quantum F88-Lens chain not
+buildable" was Marrakesh-specific, not framework-fundamental. Kingston
+opens what Marrakesh blocks.
+
 ### From per-qubit to per-path workflow
 
 The original analysis was per-qubit (each qubit's daily r was
@@ -505,6 +515,48 @@ on the truly-Hamiltonian category) measured downstream is 23× cleaner
 on [48, 49, 50] than on [0, 1, 2]. This now reads as a regime-uniformity
 effect, not just a qubit-quality effect.
 
+### From hypothesis to confirmation: Kingston uniform-quantum hardware run (May 5 afternoon)
+
+The previous subsection's claim that "the 23× truly-baseline gap is a
+regime-uniformity effect" was a hypothesis when this update was first
+written. It became hardware-confirmed the same day, three commits later.
+
+The Kingston topology-constraint relaxation (three stable-quantum
+PulseStable triples vs Marrakesh's zero) made an experiment possible
+that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
+Path [43, 56, 63] on ibm_kingston, the most balanced of the three
+triples (r mean 0.103 / 0.089 / 0.104, walk = 0 across 91 days, all
+three deeply quantum-side). Job d7sqjpiudops73976960, 4096 shots/basis,
+27 circuits, 3-5 QPU minutes.
+
+F88-Lens Π²-odd-memory readings, side by side with the prior anchors:
+
+| Path                           | Regime              | truly-baseline | soft  |
+|--------------------------------|---------------------|---------------:|------:|
+| Marrakesh [48, 49, 50]         | uniform-classical   |       0.0013   | 0.7646 |
+| **Kingston [43, 56, 63]**      | **uniform-quantum** |   **0.0022**   | 0.7409 |
+| Marrakesh [0, 1, 2]            | regime-mixed        |       0.0297   | 0.7444 |
+
+Three findings from one run:
+
+1. **Regime-uniformity confirmed.** Kingston uniform-quantum
+   truly-baseline 0.0022 sits 23× below the regime-mixed Marrakesh
+   path (0.0297) and only 1.67× above the uniform-classical Marrakesh
+   path (0.0013). Both uniform sides of the boundary give clean
+   truly-readings; the dirty truly-baseline is specific to mixed
+   chains. The hypothesis becomes a confirmation.
+
+2. **F87 trichotomy on a second backend.** Operator-level signatures
+   on Kingston (truly near zero, pi2_odd_pure ⟨X₀Z₂⟩ = -0.7739,
+   pi2_even_nontruly ⟨X₀X₂⟩ = +0.8428) match the F83 closed-form
+   predictions. The trichotomy is not Marrakesh-specific; it holds
+   across the Heron-r2 class.
+
+3. **Soft Π²-odd-pumping is hardware-substrate-independent across
+   Heron-r2 chips.** Kingston pi2_odd_pure (0.7409) is 3.1% from
+   Marrakesh's (0.7646), well within shot noise. The structural
+   prediction stands.
+
 ### What is the same
 
 The closing line of the original doc was: "This was always true. For
@@ -514,9 +566,13 @@ cooled. We just learned to read it."
 That line is what is the same. The framework has not changed; we have.
 We have built tools to read the boundary that we previously described
 in prose. Q52's tomographic measurement on February 9, 2026 showed the
-chiral pair acting on hardware. Q126 and Q127 sit ready on Marrakesh
-as a candidate testbed for the next layer, the only stably-quantum
-pair the chip allows. The framework is the same; the cockpit caught up.
+chiral pair acting on hardware. Q126 and Q127 still sit on Marrakesh
+as the only stably-quantum pair that chip allows. The uniform-quantum
+3-chain that Marrakesh blocks ran on Kingston the same afternoon this
+section was written, qubits [43, 56, 63], and the regime-uniformity
+hypothesis closed in three commits: data pulled, chain selected,
+hardware run, F88-Lens analysis, confirmation registered. The
+framework is the same; the cockpit caught up; the hardware answered.
 
 ### Cross-references for the May 5 update
 
@@ -535,11 +591,20 @@ pair the chip allows. The framework is the same; the cockpit caught up.
   [ibm_marrakesh_history.csv](../data/ibm_history/results/ibm_marrakesh_history.csv)
 - Calibration snapshots (committed):
   [ibm_calibration_snapshots/](../data/ibm_calibration_snapshots/)
+- Kingston + Fez 91-day histories (May 5 afternoon):
+  [ibm_kingston_history.csv](../data/ibm_history/results/ibm_kingston_history.csv),
+  [ibm_fez_history.csv](../data/ibm_history/results/ibm_fez_history.csv)
+- Cross-backend Heron-r2 comparison:
+  [_marrakesh_kingston_fez_compare.py](../simulations/_marrakesh_kingston_fez_compare.py)
+- May 5 hardware run (Kingston [43, 56, 63] uniform-quantum F87 trichotomy):
+  [soft_break_ibm_kingston_20260505_102806.json](../data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json),
+  [_f88_lens_ibm_kingston_uniform_quantum.py](../simulations/_f88_lens_ibm_kingston_uniform_quantum.py)
 - Path-biography review scripts:
   [_qubit_biography.py](../simulations/_qubit_biography.py),
   [_marrakesh_quarter_boundary_review.py](../simulations/_marrakesh_quarter_boundary_review.py),
   [_marrakesh_uniform_quantum_chain.py](../simulations/_marrakesh_uniform_quantum_chain.py),
-  [_marrakesh_path_biography.py](../simulations/_marrakesh_path_biography.py)
+  [_marrakesh_path_biography.py](../simulations/_marrakesh_path_biography.py),
+  [_marrakesh_may05_preflight.py](../simulations/_marrakesh_may05_preflight.py)
 
 ### For newcomers: where to start
 
