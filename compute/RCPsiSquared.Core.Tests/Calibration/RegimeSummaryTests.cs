@@ -144,4 +144,33 @@ public class RegimeSummaryTests
         Assert.Empty(s.RelatedConfirmations());
     }
 
+    [Fact]
+    public void IsRecommendedForSubmit_UniformPath_IsTrue()
+    {
+        var qubits = Marrakesh20260425.Value;
+        var s = RegimeSummary.For(qubits, new[] { 48, 49, 50 });
+        Assert.True(s.IsRecommendedForSubmit);
+        Assert.Equal(RegimeVerdict.UniformClassical, s.Verdict);
+    }
+
+    [Fact]
+    public void IsRecommendedForSubmit_RegimeMixedPath_IsFalse()
+    {
+        var qubits = Marrakesh20260425.Value;
+        // Path [0, 1, 2] mixes Q0 quantum + Q1, Q2 classical → 13.5× extra
+        // truly-baseline noise on the 2026-05-05 hardware confirmation.
+        var s = RegimeSummary.For(qubits, new[] { 0, 1, 2 });
+        Assert.False(s.IsRecommendedForSubmit);
+        Assert.Equal(RegimeVerdict.RegimeMixed, s.Verdict);
+    }
+
+    [Fact]
+    public void IsRecommendedForSubmit_NotAddressable_IsFalse()
+    {
+        var qubits = Marrakesh20260425.Value;
+        var s = RegimeSummary.For(qubits, new[] { 0, 50 });
+        Assert.False(s.IsRecommendedForSubmit);
+        Assert.Equal(RegimeVerdict.NotAddressable, s.Verdict);
+    }
+
 }

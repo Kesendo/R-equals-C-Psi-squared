@@ -86,6 +86,20 @@ public sealed record RegimeSummary(
         ClassicalCount == Path.Count ? RegimeVerdict.UniformClassical :
         RegimeVerdict.RegimeMixed;
 
+    /// <summary>Recommended pre-submit gate for F88-Lens / F87-trichotomy
+    /// experiments where the truly-baseline matters. True iff
+    /// <see cref="IsAddressable"/> AND <see cref="IsRegimeUniform"/>.
+    ///
+    /// <para>Rule grounded in the 2026-05-05 Kingston [43, 56, 63] hardware
+    /// run (Confirmation <c>regime_uniformity_kingston_uniform_quantum</c>):
+    /// regime-uniform paths give clean truly-baselines (uniform-classical
+    /// 0.0013, uniform-quantum 0.0022, ratio 1.69×) while regime-mixed
+    /// paths add ~13.5× extra noise (Marrakesh [0, 1, 2] truly = 0.0297
+    /// vs uniform-classical baseline). Mixed paths still produce signal
+    /// but with reduced trichotomy contrast; uniform paths are the safer
+    /// default for clean readings.</para></summary>
+    public bool IsRecommendedForSubmit => IsAddressable && IsRegimeUniform;
+
     /// <summary>Build the summary for <paramref name="path"/> against an
     /// already-loaded calibration. Throws <see cref="ArgumentException"/> if
     /// any qubit on the path is missing from the calibration.</summary>

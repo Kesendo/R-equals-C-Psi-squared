@@ -90,6 +90,21 @@ public sealed record LifecycleSummary(
         AllStable ? Calibration.DriftVerdict.DriftStable :
         Calibration.DriftVerdict.DriftModerate;
 
+    /// <summary>Recommended pre-submit gate for multi-day-comparable experiments.
+    /// False iff any qubit on the path is <see cref="LifecycleArchetype.Twitch"/>
+    /// or the history is insufficient to classify; true otherwise (DriftStable
+    /// or DriftModerate are both acceptable for short experiments).
+    ///
+    /// <para>A twitch qubit will read different physics from one day to the
+    /// next at the same calibration score, which makes any cross-day comparison
+    /// (e.g. F88-Lens replication, F87 trichotomy reproduction) noisy in a
+    /// way that single-snapshot regime-checks cannot detect. Pair this gate
+    /// with <see cref="RegimeSummary.IsRecommendedForSubmit"/> to cover both
+    /// snapshot regime composition and multi-day stability.</para></summary>
+    public bool IsRecommendedForSubmit =>
+        DriftVerdict != DriftVerdict.DriftVolatile
+     && DriftVerdict != DriftVerdict.InsufficientHistory;
+
     /// <summary>Build the lifecycle summary for <paramref name="path"/> against
     /// a pre-loaded history map. Qubits missing from the history get
     /// <see cref="LifecycleArchetype.InsufficientData"/>; the call does not throw.</summary>

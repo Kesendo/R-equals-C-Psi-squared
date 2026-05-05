@@ -98,4 +98,44 @@ public class LifecycleSummaryTests
         Assert.Equal(1, s.TwitchCount);
     }
 
+    [Fact]
+    public void IsRecommendedForSubmit_StablePath_IsTrue()
+    {
+        var s = LifecycleSummary.For(Marrakesh91d.Value, new[] { 126, 127 });
+        Assert.True(s.IsRecommendedForSubmit);
+        Assert.Equal(DriftVerdict.DriftStable, s.DriftVerdict);
+    }
+
+    [Fact]
+    public void IsRecommendedForSubmit_TwitchPresent_IsFalse()
+    {
+        var hist = new Dictionary<int, QubitTimeline>
+        {
+            [0] = CalibrationFixtures.StableTimeline(0, days: 30, t1Us: 100, t2Us: 80),
+            [1] = CalibrationFixtures.AlternatingTimeline(1, days: 30),
+        };
+        var s = LifecycleSummary.For(hist, new[] { 0, 1 });
+        Assert.False(s.IsRecommendedForSubmit);
+        Assert.Equal(DriftVerdict.DriftVolatile, s.DriftVerdict);
+    }
+
+    [Fact]
+    public void IsRecommendedForSubmit_InsufficientHistory_IsFalse()
+    {
+        var s = LifecycleSummary.For(Marrakesh91d.Value, new[] { 0, 9999 });
+        Assert.False(s.IsRecommendedForSubmit);
+        Assert.Equal(DriftVerdict.InsufficientHistory, s.DriftVerdict);
+    }
+
+    [Fact]
+    public void IsRecommendedForSubmit_DriftModerate_IsTrue()
+    {
+        // Path [48, 49, 50] is mostly lifecycle (slow drift across boundary,
+        // but no twitchers); LifecycleSummary should classify it as
+        // DriftModerate and accept it for submission.
+        var s = LifecycleSummary.For(Marrakesh91d.Value, new[] { 48, 49, 50 });
+        Assert.True(s.IsRecommendedForSubmit);
+        Assert.NotEqual(DriftVerdict.DriftVolatile, s.DriftVerdict);
+    }
+
 }
