@@ -14,7 +14,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>What is in here:</para>
 /// <list type="bullet">
-///   <item>Tier-1 derived: <see cref="Trichotomy"/>: the F87 statement itself.</item>
+///   <item>Tier-1 derived: <see cref="Trichotomy"/> (the F87 statement itself);
+///         <see cref="DissipatorResonance"/> (F87-hardness aligns with dephase-letter
+///         Klein index, SU(2)-symmetric).</item>
 ///   <item>Tier-2 empirical: <see cref="CanonicalWitnesses"/>: five canonical Pauli-pair
 ///         Hamiltonians (XX+YY, Heisenberg, YZ+ZY, XX+XY, XY+YX) classified live on the
 ///         chain.</item>
@@ -63,8 +65,8 @@ public sealed class F87KnowledgeBase : IInspectable
     public string DisplayName => $"F87 knowledge base (N={Chain.N}, J={Chain.J:G3}, γ₀={Chain.GammaZero:G3}, {Chain.Topology})";
 
     public string Summary =>
-        $"Pauli-pair trichotomy (truly/soft/hard) via F1 residual; {CanonicalWitnesses.Count} canonical witnesses, " +
-        $"{HardwareConfirmations.Count} hardware confirmations, {OpenQuestions.Count} open items";
+        $"Pauli-pair trichotomy (truly/soft/hard) via F1 residual + dissipator-resonance law (F87-hardness ∈ matched Klein cell); " +
+        $"{CanonicalWitnesses.Count} canonical witnesses, {HardwareConfirmations.Count} hardware confirmations, {OpenQuestions.Count} open items";
 
     public IEnumerable<IInspectable> Children
     {
