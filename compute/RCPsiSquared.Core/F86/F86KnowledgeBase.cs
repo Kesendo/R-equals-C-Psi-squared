@@ -56,6 +56,18 @@ public sealed class F86KnowledgeBase : IInspectable
     public C2UniversalShapeDerivation? C2UniversalShape => _c2UniversalShape.Value;
 
     private readonly Lazy<C2UniversalShapeDerivation?> _c2UniversalShape;
+
+    /// <summary>Block-independent meta-claim: the F86 local EP at real Q_EP and the
+    /// FRAGILE_BRIDGE global EP in the complex-γ plane are the same exceptional-point
+    /// structure under shared AIII chiral algebra, validated empirically by the c=2
+    /// N=5..8 Petermann-K sweep (2026-05-06). <see cref="Knowledge.Tier.Tier2Verified"/>:
+    /// shared algebra + real-axis hit empirically pinned; complex-γ analytic continuation
+    /// is the documented gap. Exposed at the KB root for any block, not just c=2 — the
+    /// algebraic statement is shared across all c. Lazy: a single static-data Claim with
+    /// no compute cost.</summary>
+    public LocalGlobalEpLink LocalGlobalEpLink => _localGlobalEpLink.Value;
+
+    private readonly Lazy<LocalGlobalEpLink> _localGlobalEpLink;
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -128,6 +140,12 @@ public sealed class F86KnowledgeBase : IInspectable
         // full-block Q-scan inside C2UniversalShapeDerivation.Build runs only on first access.
         _c2UniversalShape = new Lazy<C2UniversalShapeDerivation?>(() =>
             block.C == 2 ? C2UniversalShapeDerivation.Build(block) : null);
+
+        // Block-independent meta-claim wiring the F86 local EP at real Q_EP to
+        // FRAGILE_BRIDGE's complex-γ-plane EP under shared AIII chiral algebra.
+        // Available for any block — the algebraic statement is shared across all c;
+        // the pinned witnesses are the c=2 N=5..8 Petermann-K sweep.
+        _localGlobalEpLink = new Lazy<LocalGlobalEpLink>(() => LocalGlobalEpLink.Build());
 
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
@@ -216,6 +234,11 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return EndpointPerBondTable;
         yield return InteriorPerBondTable;
         yield return PerOrbitSubstructure;
+        // Block-independent meta-claim: Tier2Verified hardware/empirical-grounded
+        // structural connection between F86's local EP and FRAGILE_BRIDGE's global EP.
+        // Lives in the Tier 2 group because Tier2Verified is the Tier 2 sub-tier;
+        // surfaces at the KB root via the LocalGlobalEpLink property for direct access.
+        yield return LocalGlobalEpLink;
     }
 
     /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the

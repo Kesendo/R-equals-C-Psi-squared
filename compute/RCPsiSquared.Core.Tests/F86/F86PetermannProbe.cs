@@ -51,6 +51,89 @@ public class F86PetermannProbe(ITestOutputHelper output)
         }
     }
 
+    /// <summary>Finer-grid Petermann sweep across N=5..8 at c=2, with explicit Interior/Endpoint
+    /// peak tracking. Counterpart to <see cref="Probe_PetermannArgMax_VsN_AtC2"/> with twice the
+    /// Q-resolution near the empirical Q_peak ≈ 1.5-2.5 region. Used to decide whether K grows
+    /// monotonically with N (real-axis hit of FRAGILE_BRIDGE's complex-γ EP) or stays bounded
+    /// (off-axis siblings). The σ_0 R-even/R-odd degeneracy at even N (A3 finding) predicts a
+    /// parity asymmetry in the K-spike pattern across N.
+    /// </summary>
+    [Fact]
+    public void Probe_PetermannFineGrid_C2_VsN()
+    {
+        output.WriteLine("c=2 Petermann fine-grid sweep, N=5..8");
+        output.WriteLine("Q-grid: 121 points uniform on [0.50, 4.00] (dQ ≈ 0.029)");
+        output.WriteLine("(N | dim | maxK_global | argmax_Q | maxK_Int | argmaxQ_Int | maxK_End | argmaxQ_End | parity)");
+        output.WriteLine("--------------------------------------------------------------------------------------------");
+
+        var qGrid = ResonanceScan.LinearQGrid(0.50, 4.00, 121);
+
+        foreach (int N in new[] { 5, 6, 7, 8 })
+        {
+            var block = new CoherenceBlock(N, 1, gammaZero: 0.05);
+            var decomp = block.Decomposition;
+            int dim = decomp.D.RowCount;
+
+            double maxKGlobal = 0, qAtMaxGlobal = 0;
+            double maxKInt = 0, qAtMaxInt = 0;
+            double maxKEnd = 0, qAtMaxEnd = 0;
+            var perQ = new (double Q, double MaxK)[qGrid.Length];
+
+            for (int iQ = 0; iQ < qGrid.Length; iQ++)
+            {
+                double q = qGrid[iQ];
+                double j = q * block.GammaZero;
+                var L = decomp.D + (Complex)j * decomp.MhTotal;
+                double maxK = ComputeMaxPetermannK(L);
+                perQ[iQ] = (q, maxK);
+
+                if (maxK > maxKGlobal) { maxKGlobal = maxK; qAtMaxGlobal = q; }
+                if (q < 2.0)
+                {
+                    if (maxK > maxKInt) { maxKInt = maxK; qAtMaxInt = q; }
+                }
+                else
+                {
+                    if (maxK > maxKEnd) { maxKEnd = maxK; qAtMaxEnd = q; }
+                }
+            }
+
+            string parity = (N % 2 == 0) ? "even" : "odd ";
+            output.WriteLine(
+                $"N={N} | dim={dim,5} | maxK={maxKGlobal,9:F1} at Q={qAtMaxGlobal:F3} " +
+                $"| Int: K={maxKInt,9:F1} at Q={qAtMaxInt:F3} " +
+                $"| End: K={maxKEnd,9:F1} at Q={qAtMaxEnd:F3} | {parity}");
+        }
+
+        // Per-Q slice for each N (terse) for posterity.
+        output.WriteLine("");
+        output.WriteLine("Per-Q maxK slices (every 4th grid point):");
+        output.WriteLine("Q       | N=5         | N=6         | N=7         | N=8");
+        output.WriteLine("--------+-------------+-------------+-------------+-------------");
+
+        var slices = new Dictionary<int, double[]>();
+        foreach (int N in new[] { 5, 6, 7, 8 })
+        {
+            var block = new CoherenceBlock(N, 1, gammaZero: 0.05);
+            var decomp = block.Decomposition;
+            var arr = new double[qGrid.Length];
+            for (int iQ = 0; iQ < qGrid.Length; iQ++)
+            {
+                double j = qGrid[iQ] * block.GammaZero;
+                var L = decomp.D + (Complex)j * decomp.MhTotal;
+                arr[iQ] = ComputeMaxPetermannK(L);
+            }
+            slices[N] = arr;
+        }
+
+        for (int iQ = 0; iQ < qGrid.Length; iQ += 4)
+        {
+            output.WriteLine(
+                $"{qGrid[iQ],6:F3}  | {slices[5][iQ],11:F1} | {slices[6][iQ],11:F1} " +
+                $"| {slices[7][iQ],11:F1} | {slices[8][iQ],11:F1}");
+        }
+    }
+
     [Fact]
     public void Probe_PetermannFactor_C2N7_VsQ()
     {
