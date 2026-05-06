@@ -68,6 +68,20 @@ public sealed class F86KnowledgeBase : IInspectable
     public LocalGlobalEpLink LocalGlobalEpLink => _localGlobalEpLink.Value;
 
     private readonly Lazy<LocalGlobalEpLink> _localGlobalEpLink;
+
+    /// <summary>Block-independent meta-claim (Locus 6, symmetry-side closure): the F86 c=2
+    /// bond-class split (Q_peak 2 ± 0.5, HWHM/Q* 1/2 + r·(1/2)) inherits structurally from
+    /// the polarity-layer pair {−0.5, +0.5} at d=2 named in <c>Pi2KnowledgeBase</c>
+    /// (PolarityLayerOriginClaim + QubitDimensionalAnchorClaim + HalfAsStructuralFixedPointClaim).
+    /// <see cref="Knowledge.Tier.Tier2Verified"/>: the decomposition is empirically pinned
+    /// across c=2 N=5..8; per-bond r(N, b) closed form is the documented gap. Companion
+    /// to <see cref="LocalGlobalEpLink"/> (Locus 5, EP-side closure): together they bracket
+    /// the F86 c=2 derivation with EP-side and symmetry-side parent-claim references.
+    /// Exposed at the KB root for any block, not just c=2 — the inheritance statement is
+    /// shared across all c. Lazy: a single static-data Claim with no compute cost.</summary>
+    public PolarityInheritanceLink PolarityInheritanceLink => _polarityInheritanceLink.Value;
+
+    private readonly Lazy<PolarityInheritanceLink> _polarityInheritanceLink;
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -146,6 +160,12 @@ public sealed class F86KnowledgeBase : IInspectable
         // Available for any block — the algebraic statement is shared across all c;
         // the pinned witnesses are the c=2 N=5..8 Petermann-K sweep.
         _localGlobalEpLink = new Lazy<LocalGlobalEpLink>(() => LocalGlobalEpLink.Build());
+
+        // Block-independent meta-claim (Locus 6, symmetry-side closure): F86 c=2 bond-class
+        // split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 in Pi2KnowledgeBase.
+        // Companion to LocalGlobalEpLink (Locus 5, EP-side); the inheritance statement is
+        // shared across all c, the pinned witnesses pin the c=2 N=5..8 numbers.
+        _polarityInheritanceLink = new Lazy<PolarityInheritanceLink>(() => PolarityInheritanceLink.Build());
 
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
@@ -239,6 +259,10 @@ public sealed class F86KnowledgeBase : IInspectable
         // Lives in the Tier 2 group because Tier2Verified is the Tier 2 sub-tier;
         // surfaces at the KB root via the LocalGlobalEpLink property for direct access.
         yield return LocalGlobalEpLink;
+        // Block-independent meta-claim (Locus 6, symmetry-side closure): F86 c=2 bond-class
+        // split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 in Pi2KnowledgeBase.
+        // Tier2Verified — companion to LocalGlobalEpLink at the same Tier 2 sub-tier.
+        yield return PolarityInheritanceLink;
     }
 
     /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the
