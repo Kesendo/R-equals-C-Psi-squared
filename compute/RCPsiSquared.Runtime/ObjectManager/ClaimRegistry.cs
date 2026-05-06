@@ -54,4 +54,54 @@ public sealed class ClaimRegistry
     public IReadOnlyList<Type> TopologicalOrder => _topologicalOrder;
 
     public IEnumerable<Edge> AllEdges() => _edges;
+
+    public IReadOnlyList<Claim> AllOfTier(Tier t) =>
+        _claims.Values.Where(c => c.Tier == t).ToList();
+
+    public IReadOnlyList<Claim> AncestorsOf<T>() where T : Claim =>
+        AncestorsOf(typeof(T));
+
+    public IReadOnlyList<Claim> AncestorsOf(Type childType)
+    {
+        var seen = new HashSet<Type>();
+        var queue = new Queue<Type>();
+        foreach (var e in _edges.Where(e => e.Child == childType))
+            queue.Enqueue(e.Parent);
+        while (queue.Count > 0)
+        {
+            var t = queue.Dequeue();
+            if (!seen.Add(t)) continue;
+            foreach (var e in _edges.Where(e => e.Child == t))
+                queue.Enqueue(e.Parent);
+        }
+        return seen.Select(t => _claims[t]).ToList();
+    }
+
+    public IReadOnlyList<Claim> DescendantsOf<T>() where T : Claim =>
+        DescendantsOf(typeof(T));
+
+    public IReadOnlyList<Claim> DescendantsOf(Type parentType)
+    {
+        var seen = new HashSet<Type>();
+        var queue = new Queue<Type>();
+        foreach (var e in _edges.Where(e => e.Parent == parentType))
+            queue.Enqueue(e.Child);
+        while (queue.Count > 0)
+        {
+            var t = queue.Dequeue();
+            if (!seen.Add(t)) continue;
+            foreach (var e in _edges.Where(e => e.Parent == t))
+                queue.Enqueue(e.Child);
+        }
+        return seen.Select(t => _claims[t]).ToList();
+    }
+
+    public IReadOnlyList<Edge> EdgesFrom<T>() where T : Claim =>
+        _edges.Where(e => e.Parent == typeof(T)).ToList();
+
+    public IReadOnlyList<Edge> EdgesInto<T>() where T : Claim =>
+        _edges.Where(e => e.Child == typeof(T)).ToList();
+
+    public IReadOnlyList<OpenQuestion> OpenQuestionsBlockedBy<T>() where T : Claim =>
+        DescendantsOf<T>().OfType<OpenQuestion>().ToList();
 }
