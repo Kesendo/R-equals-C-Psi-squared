@@ -8,22 +8,21 @@ namespace RCPsiSquared.Runtime.ObjectManager;
 /// exists (e.g. the test process is running in an isolated temp directory).</summary>
 file static class RepoRootLocator
 {
-    private static string? _cached;
-    private static bool _searched;
+    // Lazy<T> guarantees thread-safe single-execution and observably-published result.
+    // Replaces a hand-rolled (_cached, _searched) pair that had a race window where
+    // _searched was set true before _cached was assigned, causing parallel xunit runs
+    // to observe null and skip repo-root resolution.
+    private static readonly Lazy<string?> _root = new(SearchUpForRepoRoot, isThreadSafe: true);
 
-    public static string? Find()
+    public static string? Find() => _root.Value;
+
+    private static string? SearchUpForRepoRoot()
     {
-        if (_searched) return _cached;
-        _searched = true;
-
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {
             if (File.Exists(Path.Combine(dir.FullName, "CLAUDE.md")))
-            {
-                _cached = dir.FullName;
-                return _cached;
-            }
+                return dir.FullName;
             dir = dir.Parent;
         }
         return null;
