@@ -23,6 +23,9 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
 | `F87.PauliPairTrichotomy.Classify` | F87 truly/soft/hard classifier (uses F1 residual as discriminator) | docs/ANALYTICAL_FORMULAS.md F87 entry | `palindrome_trichotomy` (Marrakesh 2026-04-26) |
+| `F87.DissipatorResonanceLaw` | F87-hardness ∈ Klein cell matching dephase-letter Klein index (Z→(0,1), X→(1,0), Y→(1,1)); SU(2)-symmetric; Mother (0,0) hard-free | hypotheses/THE_POLARITY_LAYER.md (Open Directions, CLOSED 2026-05-01) + simulations/klein_dissipator_resonance.py | — (witness table N=4 k=3 full enumeration) |
+| `F87.KleinCellHardnessWitness` | one cell of the 4×3 hardness table (DephaseLetter, KleinIndex, HardCount, TotalCount) | same | — |
+| `F87.DissipatorAxisSelectsPolarityClaim` | Typed bridge: `Pi2KnowledgeBase.PolarityLayerOrigin` ↔ `F87KnowledgeBase.DissipatorResonance`. Names "dissipator letter = polarity-axis selector"; SU(2)-rotation-equivalent; unifies Brecher-from-outside (transverse field) and Hardness-from-inside (F87) as two readings of one polarity | hypotheses/THE_POLARITY_LAYER.md §Dissipator-resonance law | — (synthesised 2026-05-05, no new witness numbers) |
 
 (Pre-2026-05-03 this lived under `F77/` as an informal label; the formal F77 in the registry is unrelated, namely Multi-drop MM(0) saturation. F87 was filed retrospectively when the typed `F87KnowledgeBase` cleanup surfaced the naming collision.)
 

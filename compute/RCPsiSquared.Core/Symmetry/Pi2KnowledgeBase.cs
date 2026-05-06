@@ -20,7 +20,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="RootAnchor"/> (1/d = 1/2 lineage), <see cref="Involution"/>,
 ///         <see cref="KleinDecomposition"/>, <see cref="BilinearApex"/>, <see cref="MirrorRegime"/>,
 ///         <see cref="HalfFixedPoint"/> (three faces close), <see cref="MirrorMemory"/>
-///         (90° back to the mirror, F80's i)</item>
+///         (90° back to the mirror, F80's i), <see cref="PolarityLayerOrigin"/></item>
 ///   <item>Tier-2 empirical: <see cref="BilinearTable"/> (9 Pauli-pair × 4 cells)</item>
 ///   <item>Tier-2 hardware-verified: <see cref="HardwareConfirmations"/> (Marrakesh f83
 ///         X-axis-flip pattern)</item>
@@ -56,6 +56,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public HalfIntegerMirrorClaim MirrorRegime { get; }
     public HalfAsStructuralFixedPointClaim HalfFixedPoint { get; }
     public NinetyDegreeMirrorMemoryClaim MirrorMemory { get; }
+    public PolarityLayerOriginClaim PolarityLayerOrigin { get; }
     public Pi2KleinBilinearTable BilinearTable { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -71,6 +72,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
         MirrorRegime = new HalfIntegerMirrorClaim(chain.N);
         HalfFixedPoint = new HalfAsStructuralFixedPointClaim();
         MirrorMemory = new NinetyDegreeMirrorMemoryClaim();
+        PolarityLayerOrigin = new PolarityLayerOriginClaim();
         BilinearTable = new Pi2KleinBilinearTable();
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_hardwareConfirmationNames);
         OpenQuestions = Pi2OpenQuestions.Standard;
@@ -93,7 +95,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
                          $"topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory);
+                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory, PolarityLayerOrigin);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
                 BilinearTable);

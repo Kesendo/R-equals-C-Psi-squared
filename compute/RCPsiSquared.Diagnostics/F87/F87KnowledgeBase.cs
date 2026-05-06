@@ -14,7 +14,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>What is in here:</para>
 /// <list type="bullet">
-///   <item>Tier-1 derived: <see cref="Trichotomy"/>: the F87 statement itself.</item>
+///   <item>Tier-1 derived: <see cref="Trichotomy"/> (the F87 statement itself);
+///         <see cref="DissipatorResonance"/> (F87-hardness aligns with dephase-letter
+///         Klein index, SU(2)-symmetric); <see cref="DissipatorAxisSelectsPolarity"/>
+///         (typed bridge: dissipator letter = polarity-axis selector).</item>
 ///   <item>Tier-2 empirical: <see cref="CanonicalWitnesses"/>: five canonical Pauli-pair
 ///         Hamiltonians (XX+YY, Heisenberg, YZ+ZY, XX+XY, XY+YX) classified live on the
 ///         chain.</item>
@@ -45,6 +48,8 @@ public sealed class F87KnowledgeBase : IInspectable
 
     public ChainSystem Chain { get; }
     public F87TrichotomyClassification Trichotomy { get; }
+    public DissipatorResonanceLaw DissipatorResonance { get; }
+    public DissipatorAxisSelectsPolarityClaim DissipatorAxisSelectsPolarity { get; }
     public IReadOnlyList<F87CanonicalWitness> CanonicalWitnesses { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -53,6 +58,8 @@ public sealed class F87KnowledgeBase : IInspectable
     {
         Chain = chain;
         Trichotomy = new F87TrichotomyClassification();
+        DissipatorResonance = new DissipatorResonanceLaw();
+        DissipatorAxisSelectsPolarity = new DissipatorAxisSelectsPolarityClaim();
         CanonicalWitnesses = F87CanonicalWitness.StandardSet(chain);
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f87ConfirmationNames);
         OpenQuestions = F87OpenQuestions.Standard;
@@ -61,8 +68,8 @@ public sealed class F87KnowledgeBase : IInspectable
     public string DisplayName => $"F87 knowledge base (N={Chain.N}, J={Chain.J:G3}, γ₀={Chain.GammaZero:G3}, {Chain.Topology})";
 
     public string Summary =>
-        $"Pauli-pair trichotomy (truly/soft/hard) via F1 residual; {CanonicalWitnesses.Count} canonical witnesses, " +
-        $"{HardwareConfirmations.Count} hardware confirmations, {OpenQuestions.Count} open items";
+        $"Pauli-pair trichotomy (truly/soft/hard) via F1 residual + dissipator-resonance law (F87-hardness ∈ matched Klein cell) + polarity-axis-selector bridge to PolarityLayerOrigin; " +
+        $"{CanonicalWitnesses.Count} canonical witnesses, {HardwareConfirmations.Count} hardware confirmations, {OpenQuestions.Count} open items";
 
     public IEnumerable<IInspectable> Children
     {
@@ -72,7 +79,7 @@ public sealed class F87KnowledgeBase : IInspectable
                 summary: $"N={Chain.N}, J={Chain.J:G3}, γ₀={Chain.GammaZero:G3}, topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                Trichotomy);
+                Trichotomy, DissipatorResonance, DissipatorAxisSelectsPolarity);
 
             yield return InspectableNode.Group("Tier 2 (empirical canonical witnesses)",
                 CanonicalWitnesses.Cast<IInspectable>().ToArray());

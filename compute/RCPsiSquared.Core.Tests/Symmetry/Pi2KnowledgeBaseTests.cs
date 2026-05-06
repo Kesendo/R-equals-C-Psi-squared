@@ -22,6 +22,7 @@ public class Pi2KnowledgeBaseTests
         Assert.NotNull(kb.MirrorRegime);
         Assert.NotNull(kb.HalfFixedPoint);
         Assert.NotNull(kb.MirrorMemory);
+        Assert.NotNull(kb.PolarityLayerOrigin);
         Assert.NotNull(kb.BilinearTable);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
@@ -32,13 +33,13 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void TierInventoryLine_HasEightTier1Derived_AndOpenAndVerifiedCounts()
+    public void TierInventoryLine_HasNineTier1Derived_AndOpenAndVerifiedCounts()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         string line = kb.TierInventoryLine();
-        // 8 Tier-1 derived (PolynomialFoundation, RootAnchor, Involution, KleinDecomposition,
-        // BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory)
-        Assert.Contains("T1d=8", line);
+        // 9 Tier-1 derived (PolynomialFoundation, RootAnchor, Involution, KleinDecomposition,
+        // BilinearApex, MirrorRegime, HalfFixedPoint, MirrorMemory, PolarityLayerOrigin)
+        Assert.Contains("T1d=9", line);
         Assert.Contains("open=5", line);
         Assert.Contains("T2v=", line);
     }

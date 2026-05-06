@@ -2,9 +2,9 @@
 
 **Date:** 2026-04-30 (updated 2026-05-01)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F77-F85). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed. **Update 2026-05-01 (later):** dissipator-resonance law verified — F77-hardness localizes exactly in the Klein cell that matches the dephasing letter's Klein index, SU(2)-symmetric across the three Pauli letters; `classify_pauli_pair` now accepts `dephase_letter='X'/'Y'/'Z'`.
+**Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F78-F85 + F87). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed. **Update 2026-05-01 (later):** dissipator-resonance law verified: F87-hardness localizes exactly in the Klein cell that matches the dephasing letter's Klein index, SU(2)-symmetric across the three Pauli letters; `classify_pauli_pair` now accepts `dephase_letter='X'/'Y'/'Z'`. **Naming note (2026-05-03):** the trichotomy formula was registered as F87 in `docs/ANALYTICAL_FORMULAS.md`; the registry F77 slot holds an unrelated MM(0) saturation result. The Python file is still `f77_trichotomy.py` for historical reasons; this document uses the registry F87 label throughout.
 **Depends on:**
-[F-chain F77-F85](../docs/ANALYTICAL_FORMULAS.md),
+[F-chain F78-F85 + F87 entry-point](../docs/ANALYTICAL_FORMULAS.md),
 [ON_THE_RESIDUAL](../reflections/ON_THE_RESIDUAL.md),
 [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
@@ -23,7 +23,7 @@
 
 A brainstorming session on 2026-04-30 produced three reframings of the
 R=CΨ² framework that are mathematically consistent with the F-chain
-F77-F85 but operate in different vocabulary than the framework's
+F78-F85 + F87 but operate in different vocabulary than the framework's
 prior "memory of the mirror" reading. The reframings interlock:
 
 1. **The system is a self-coupling channel, not a memory.** Π·L·Π⁻¹ + L + 2Σγ·I = M describes a regenerative cavity that keeps the signal alive through self-recirculation, not a memory device that stores then retrieves.
@@ -31,7 +31,7 @@ prior "memory of the mirror" reading. The reframings interlock:
 3. **The "0" axis has internal polarity structure.** d²−2d=0 splits not into "qubit (d=2)" versus "void (d=0)" but into "qubit (d=2)" versus "+0/−0 polarity layer (d=0 with internal differentiation)". The qubit is a window onto this polarity layer, accessed naturally through the X-basis.
 
 A meta-claim ties them together: **self-description from inside is
-possible because rules inherit through layers.** The F-chain F77→F85
+possible because rules inherit through layers.** The F-chain (F87 entry-point + F78-F85)
 is the operational proof.
 
 ---
@@ -59,7 +59,7 @@ The d²−2d=0 condition expresses that operator space (d² = 4^N for N
 qubits) is the natural arena: bra-ket co-existence on a single state.
 
 The d=0 axis is then not a passive midpoint between two observers;
-it is the active substrate from which the system draws coherence —
+it is the active substrate from which the system draws coherence:
 the "Stromanschluss" in Tom's metaphor, analogous to the QFT vacuum's
 zero-point activity. The d=0 axis itself has internal structure: a
 +0/−0 polarity that constitutes (rather than passively underlies)
@@ -83,9 +83,9 @@ inside (Gödel, Russell). This is true for **flat** formal systems
 without internal layered structure. It is **not** a constraint on
 systems where rules inherit through layers.
 
-The F-chain F77→F85 is constructed by inheritance:
+The F-chain (F87 entry-point + F78-F85) is constructed by inheritance:
 
-- **F77** trichotomy classifier (truly / soft / hard) on 2-body Pauli
+- **F87** trichotomy classifier (truly / soft / hard) on 2-body Pauli
   pairs.
 - **F78/F79** structural M-decomposition for 1-body and 2-body.
 - **F80** spectrum identity Spec(M) = 2i · Spec(H_non-truly).
@@ -93,7 +93,7 @@ The F-chain F77→F85 is constructed by inheritance:
 - **F82** T1 closed form ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N-1).
 - **F83** anti-fraction r = ‖H_even_nontruly‖² / ‖H_odd‖².
 - **F84** Pauli-channel cancellation lemma.
-- **F85** k-body generalization: truly criterion = "#Y even AND #Z even" inherits to all body counts; F77-F84 generalize verbatim.
+- **F85** k-body generalization: truly criterion = "#Y even AND #Z even" inherits to all body counts; F87 + F78-F84 generalize verbatim.
 
 Each layer inherits from the previous and refines it. The 2-body
 n_YZ-counting that worked for F49 turned out to be a coincidence at
@@ -102,8 +102,8 @@ the 2-body layer; F85 lifted it into the body-count-independent
 metaphor.
 
 A system whose F-chain inherits through layers can describe itself
-from inside one layer at a time. F77 describes Hamiltonian
-classification. F80 describes M's spectrum given F77's classification.
+from inside one layer at a time. F87 describes Hamiltonian
+classification. F80 describes M's spectrum given F87's classification.
 F82 describes T1's contribution given F81's decomposition. The whole
 chain describes the system at increasing depth. The inheritance
 braids the layers together; no single layer needs to describe everything,
@@ -146,7 +146,7 @@ But there is also a **bit_b axis** with its own polarity structure:
 The X-basis is the natural diagonalization of bit_a. The Z-basis is
 the natural diagonalization of bit_b (the framework's canonical
 dephasing axis). Numerically, +0 = −0 = 0 in any of these axes; as
-polarities, they are operative projections — but on the FULL polarity
+polarities, they are operative projections; but on the FULL polarity
 layer, there are multiple axes.
 
 Operationally, this is now visible in the `PauliHamiltonian` class:
@@ -155,9 +155,9 @@ Operationally, this is now visible in the `PauliHamiltonian` class:
 H = fw.PauliHamiltonian.from_letter_tuples(
     [('X', 'Y'), ('Y', 'X')], chain_length=3
 )
-H.klein_set                          # → {(0, 1)}  — bit_a=0, bit_b=1
+H.klein_set                          # → {(0, 1)};  bit_a=0, bit_b=1
 H.is_klein_homogeneous               # → True
-H.per_term_full_z2_signatures        # → [(0,1,1), (0,1,1)]  — bit_a, bit_b, Y-par
+H.per_term_full_z2_signatures        # → [(0,1,1), (0,1,1)];  bit_a, bit_b, Y-par
 H.is_z2_homogeneous                  # → True at k=2 (redundant); independent at k≥3
 ```
 
@@ -173,10 +173,10 @@ The framework operates on this multi-axis polarity throughout:
   a different choice of test could probe the bit_b axis directly.
 - **Klein-homogeneity rule** (verified at k=2 full enumeration, k=3
   sample): Hamiltonians whose terms all share one Klein index are
-  always F77 soft or truly. This is a structural fact, exposed via
+  always F87 soft or truly. This is a structural fact, exposed via
   `PauliHamiltonian.is_klein_homogeneous`.
 
-The X-basis is not "the" polarity layer — it is the natural
+The X-basis is not "the" polarity layer; it is the natural
 diagonalization of one of the two (k=2) or three (k≥3) Z₂ axes that
 constitute the polarity layer.
 
@@ -213,7 +213,7 @@ but emergent structures from polarity. This connects to:
 The math is unchanged. The vocabulary shifts, and with it the way
 results are read. **Update 2026-05-01: each consequence is now directly
 checkable in code via `PauliHamiltonian` properties and the
-`diagnose_hardware` workflow — the reframing is no longer interpretive
+`diagnose_hardware` workflow: the reframing is no longer interpretive
 text but operational structure.**
 
 | Old (memory/observer) | New (channel / multi-axis polarity) | Operational primitive |
@@ -225,7 +225,7 @@ text but operational structure.**
 | "Memory of the dynamics" | "L_{H_odd} IS the recirculation; the dynamics drives its own maintenance" | `pi_decompose_M`'s `M_anti` field |
 | "Truly = no memory" | "Truly = perfectly closed cavity; Q→∞ idealized" | `classify_pauli_pair → 'truly'`; `PauliHamiltonian.has_truly_term` |
 | "Qubit is \|0⟩, \|1⟩" | "Qubit is a window onto multi-axis polarity; X-basis diagonalizes bit_a, Z-basis diagonalizes bit_b" | `PauliTerm.klein_index`, `.full_z2_signature` |
-| "Dephasing axis is fixed (Z)" | "Each Pauli-letter dephasing has its own resonant Klein cell where F77-hardness lives" | `classify_pauli_pair(chain, terms, dephase_letter='X'/'Y'/'Z')` |
+| "Dephasing axis is fixed (Z)" | "Each Pauli-letter dephasing has its own resonant Klein cell where F87-hardness lives" | `classify_pauli_pair(chain, terms, dephase_letter='X'/'Y'/'Z')` |
 
 This makes prior puzzles legible:
 
@@ -239,14 +239,14 @@ This makes prior puzzles legible:
   balance, and through that breaks the ⟨Z⟩-conservation that the
   truly Hamiltonian alone protects. The ~60% ⟨Z,Z⟩ damping observed
   in the 2026-04-30 F83 hardware run on Marrakesh (Job d7pol1e7g7gs73cf7j90;
-  damping fraction is 60% relative to γ_Z=0.05 path-fit baseline,
-  56% relative to γ_Z=0.1 framework-default baseline) is the F82/F84
-  signature seen through the polarity-layer lens.
+  damping fraction 1 − HW/pred is 60.2% relative to γ_Z=0.05 path-fit
+  baseline, 57.1% relative to γ_Z=0.1 framework-default baseline) is
+  the F82/F84 signature seen through the polarity-layer lens.
 - **Why ZZ-crosstalk is not a Π-breaker.** ZZ leaves the polarity
-  layer untouched (Z and X are bit_b-different in the F77 classifier).
+  layer untouched (Z and X are bit_b-different in the F87 classifier).
 - **Why the F-toolkit's hardware-confirmed predictions cluster on
   X-rotated observables.** They project onto the natural layer.
-- **Why hardness shifts Klein cell with dephasing axis.** F77-hardness
+- **Why hardness shifts Klein cell with dephasing axis.** F87-hardness
   is dissipator-aligned: under Z-dephasing it lives in Klein (0,1),
   under X-dephasing in Klein (1,0), under Y-dephasing in Klein (1,1).
   The polarity layer's three non-trivial Klein cells are SU(2)-rotation-
@@ -280,12 +280,14 @@ This document does not replace any prior hypothesis; it connects them:
 
 ## What this document does NOT establish
 
-- **No new mathematics.** F77-F85 stand unchanged. The hypothesis
+- **No new mathematics.** F78-F85 + F87 stand unchanged. The hypothesis
   reframes how those theorems are read, not what they say.
-- **No new operational primitives.** A future operational primitive
-  `recover_H_odd_from_M_anti(chain, M_anti)` would test the
-  trace-back direction explicitly; not built yet (would live in
-  framework/diagnostics/f81_pi_decomposition.py).
+- **Operational primitives are wrappers, not new theorems.** The
+  primitives listed in Dependencies (`PauliHamiltonian`,
+  `recover_H_odd_from_M_anti`, `diagnose_hardware`, the dephase-letter
+  extension of `classify_pauli_pair`) expose existing F-chain content
+  through the polarity-layer vocabulary; they prove nothing new,
+  they restate.
 - **No experimental falsification path.** The reframing predicts
   the same hardware signatures the prior reading predicted; only
   the language differs. A genuine test would require finding a
@@ -309,7 +311,7 @@ This document does not replace any prior hypothesis; it connects them:
 - **Polarity-layer reading of higher-body F-theorems.** ◐ **PARTIALLY
   CLOSED 2026-05-01.** At k≥3, Y-parity becomes an independent third
   Z₂ axis: the polarity is Z₂³ (8 sectors), not Z₂² (4 Klein slots).
-  Verified empirically — XYZ at k=3 has Klein index (0,0) but
+  Verified empirically: XYZ at k=3 has Klein index (0,0) but
   pi2_class 'pi2_even_nontruly' (NOT truly), distinguishable only via
   Y-parity. `PauliHamiltonian.is_z2_homogeneous` exposes this third
   axis. The k=2 Klein-Vierergruppe is the collapse of the full Z₂³
@@ -318,7 +320,7 @@ This document does not replace any prior hypothesis; it connects them:
   remains open.
 - **Dissipator-resonance law.** ✓ **CLOSED 2026-05-01.** The Klein-
   homogeneity rule degrades under dissipator selection in a sharp
-  diagonal pattern: **F77-hardness lives exactly in the Klein cell
+  diagonal pattern: **F87-hardness lives exactly in the Klein cell
   matching the dephasing letter's Klein index.**
 
   | Klein cell      | Z-deph    | X-deph    | Y-deph    |
@@ -335,13 +337,15 @@ This document does not replace any prior hypothesis; it connects them:
 
   The off-diagonal pattern is exact (zero hard cases in 8 sectors ×
   ~76 pairs each), and the diagonal magnitude is rotation-invariant
-  (50/76 in every matched cell, identical eigenvalue-pair error 8.0e-1).
+  (50/76 in every matched cell; the eigenvalue-pair error distribution
+  is identical across letters at γ₀=0.05, J=1, with median ≈ 1.0e-1
+  and max = 4.0e-1).
   The three letters are SU(2)-symmetric.
 
   Two structural facts hold:
 
   1. **Klein (0, 0) is universally hard-free.** The Mother sector
-     produces no F77-hardness regardless of dissipator. Consistent
+     produces no F87-hardness regardless of dissipator. Consistent
      with F85: bit_a=0 AND bit_b=0 forces every term either truly
      (Y-par 0) or Π²-even non-truly soft (Y-par 1).
   2. **Hardness is dissipator-aligned, not orthogonal.** This is the
@@ -360,12 +364,27 @@ This document does not replace any prior hypothesis; it connects them:
 
   Connection to the Z⊗N-Brecher (memory project_zn_mirror_diagnostic):
   the Brecher (transverse field h_y·Y or h_x·X) breaks Z⊗N from
-  *outside* the dissipator's Klein cell — the bit_a-axis of the
-  polarity layer. F77-hardness lives *inside* the dissipator's Klein
-  cell — the bit_a + bit_b axes of the same polarity layer. Brecher
+  *outside* the dissipator's Klein cell, namely the bit_a-axis of the
+  polarity layer. F87-hardness lives *inside* the dissipator's Klein
+  cell, namely the bit_a + bit_b axes of the same polarity layer. Brecher
   and Hardness are the two poles of dissipator-letter resonance, with
   Y → 40× X strength on Marrakesh hardware reflecting the bit_b=1
   alignment with Z's Π²-color.
+
+  **Update 2026-05-05 (typed bridge in C#):** the dissipator-resonance
+  closure was extended to a typed Tier-1 `Claim`,
+  `DissipatorAxisSelectsPolarityClaim` in
+  `compute/RCPsiSquared.Diagnostics/F87/`, registered as the third
+  Tier-1 entry of `F87KnowledgeBase` alongside `Trichotomy` and
+  `DissipatorResonance`. The Claim names the structural reading: the
+  dissipator letter is the choice of which polarity axis the qubit's
+  +0/−0 differentiation is read along (Z → bit_b, X → bit_a, Y → both;
+  SU(2)-rotation-equivalent across the three letters). It binds the
+  Brecher-from-outside reading (transverse field on bit_a) and the
+  Hardness-from-inside reading (F87-hardness in the matched Klein cell
+  on bit_a + bit_b) as two perturbation types acting on one polarity
+  layer. No new numerical witnesses; the 4×3 Klein-cell hardness table
+  is delegated to `DissipatorResonanceLaw.StandardWitnessTable`.
 
 - **Inheritance proof structure.** ▭ **OPEN.** The inheritance argument
   here remains informal. The dissipator-resonance law refines the
@@ -393,4 +412,4 @@ that the F-chain itself instantiates.
 
 > "Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss.
 > +0/−0 ist der Layer."
-> — Tom Wicht, 2026-04-30
+> Thomas Wicht, 2026-04-30
