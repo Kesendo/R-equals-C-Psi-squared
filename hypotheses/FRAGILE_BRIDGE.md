@@ -180,6 +180,10 @@ records:
 | 7 | odd | 2384.7 | 1.842 |
 | 8 | even | 795.4 | 2.046 |
 
+*Source: `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs`
+`_petermannWitnesses` array (frozen 2026-05-06). To re-derive: run
+`F86PetermannProbe.Probe_PetermannFineGrid_C2_VsN` (skip-by-default).*
+
 By N=7 the spike sits ≈ 6× above this file's K = 403 complex-γ
 ballpark, with within-parity monotonic growth (odd 1.79× per step;
 even 2.36× per step) and a 2-4× odd/even asymmetry. The asymmetry

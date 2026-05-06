@@ -47,8 +47,10 @@ public class LocalGlobalEpLinkTests
         // FRAGILE_BRIDGE Petermann K=403 is the global-EP near-singularity ballpark.
         // By N=7 the c=2 local EP K is ~6× above this on the real Q axis,
         // empirically confirming "real-axis hit" (not "off-axis siblings").
-        Assert.True(n7.MaxKGlobal > 403.0 * 5.0,
-            $"By N=7 c=2 K should exceed 5×K_FRAGILE; got {n7.MaxKGlobal}");
+        const double SafetyFactor = 5.0; // empirical: actual ratio is ~5.92×
+        double threshold = LocalGlobalEpLink.FragileBridgeKReference * SafetyFactor;
+        Assert.True(n7.MaxKGlobal > threshold,
+            $"By N=7 c=2 K should exceed {SafetyFactor}×K_FRAGILE ({threshold}); got {n7.MaxKGlobal}");
     }
 
     [Fact]

@@ -1,6 +1,7 @@
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.CoherenceBlocks;
+using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
 using Xunit.Abstractions;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -58,26 +59,38 @@ public class F86PetermannProbe(ITestOutputHelper output)
     /// (off-axis siblings). The σ_0 R-even/R-odd degeneracy at even N (A3 finding) predicts a
     /// parity asymmetry in the K-spike pattern across N.
     /// </summary>
-    [Fact]
+    [Fact(Skip = "Expensive ~30s probe; run via --filter when investigating local↔global EP link or refreshing LocalGlobalEpLink witnesses")]
     public void Probe_PetermannFineGrid_C2_VsN()
     {
-        output.WriteLine("c=2 Petermann fine-grid sweep, N=5..8");
-        output.WriteLine("Q-grid: 121 points uniform on [0.50, 4.00] (dQ ≈ 0.029)");
+        output.WriteLine($"c=2 Petermann fine-grid sweep, N=5..8");
+        output.WriteLine($"Q-grid: {LocalGlobalEpLink.SweepQPoints} points uniform on " +
+                         $"[{LocalGlobalEpLink.SweepQMin:F2}, {LocalGlobalEpLink.SweepQMax:F2}]");
         output.WriteLine("(N | dim | maxK_global | argmax_Q | maxK_Int | argmaxQ_Int | maxK_End | argmaxQ_End | parity)");
         output.WriteLine("--------------------------------------------------------------------------------------------");
 
-        var qGrid = ResonanceScan.LinearQGrid(0.50, 4.00, 121);
+        var qGrid = ResonanceScan.LinearQGrid(
+            LocalGlobalEpLink.SweepQMin,
+            LocalGlobalEpLink.SweepQMax,
+            LocalGlobalEpLink.SweepQPoints);
+
+        // Single-pass EVD: compute per-Q slice arrays once, then derive both the
+        // header summary (max-K + Interior/Endpoint peaks) and the printed slices
+        // from the same cached arrays. Halves the EVD work compared to the earlier
+        // two-pass version.
+        var slices = new Dictionary<int, double[]>();
+        var summaries = new List<(int N, int Dim, double MaxKGlobal, double QAtMaxGlobal,
+                                  double MaxKInt, double QAtMaxInt, double MaxKEnd, double QAtMaxEnd)>();
 
         foreach (int N in new[] { 5, 6, 7, 8 })
         {
-            var block = new CoherenceBlock(N, 1, gammaZero: 0.05);
+            var block = new CoherenceBlock(N, 1, gammaZero: LocalGlobalEpLink.SweepGammaZero);
             var decomp = block.Decomposition;
             int dim = decomp.D.RowCount;
 
             double maxKGlobal = 0, qAtMaxGlobal = 0;
             double maxKInt = 0, qAtMaxInt = 0;
             double maxKEnd = 0, qAtMaxEnd = 0;
-            var perQ = new (double Q, double MaxK)[qGrid.Length];
+            var arr = new double[qGrid.Length];
 
             for (int iQ = 0; iQ < qGrid.Length; iQ++)
             {
@@ -85,7 +98,7 @@ public class F86PetermannProbe(ITestOutputHelper output)
                 double j = q * block.GammaZero;
                 var L = decomp.D + (Complex)j * decomp.MhTotal;
                 double maxK = ComputeMaxPetermannK(L);
-                perQ[iQ] = (q, maxK);
+                arr[iQ] = maxK;
 
                 if (maxK > maxKGlobal) { maxKGlobal = maxK; qAtMaxGlobal = q; }
                 if (q < 2.0)
@@ -98,33 +111,24 @@ public class F86PetermannProbe(ITestOutputHelper output)
                 }
             }
 
-            string parity = (N % 2 == 0) ? "even" : "odd ";
-            output.WriteLine(
-                $"N={N} | dim={dim,5} | maxK={maxKGlobal,9:F1} at Q={qAtMaxGlobal:F3} " +
-                $"| Int: K={maxKInt,9:F1} at Q={qAtMaxInt:F3} " +
-                $"| End: K={maxKEnd,9:F1} at Q={qAtMaxEnd:F3} | {parity}");
+            slices[N] = arr;
+            summaries.Add((N, dim, maxKGlobal, qAtMaxGlobal, maxKInt, qAtMaxInt, maxKEnd, qAtMaxEnd));
         }
 
-        // Per-Q slice for each N (terse) for posterity.
+        // Pass 2: format the cached results — no recomputation.
+        foreach (var s in summaries)
+        {
+            string parity = (s.N % 2 == 0) ? "even" : "odd";
+            output.WriteLine(
+                $"N={s.N} | dim={s.Dim,5} | maxK={s.MaxKGlobal,9:F1} at Q={s.QAtMaxGlobal:F3} " +
+                $"| Int: K={s.MaxKInt,9:F1} at Q={s.QAtMaxInt:F3} " +
+                $"| End: K={s.MaxKEnd,9:F1} at Q={s.QAtMaxEnd:F3} | {parity}");
+        }
+
         output.WriteLine("");
         output.WriteLine("Per-Q maxK slices (every 4th grid point):");
         output.WriteLine("Q       | N=5         | N=6         | N=7         | N=8");
         output.WriteLine("--------+-------------+-------------+-------------+-------------");
-
-        var slices = new Dictionary<int, double[]>();
-        foreach (int N in new[] { 5, 6, 7, 8 })
-        {
-            var block = new CoherenceBlock(N, 1, gammaZero: 0.05);
-            var decomp = block.Decomposition;
-            var arr = new double[qGrid.Length];
-            for (int iQ = 0; iQ < qGrid.Length; iQ++)
-            {
-                double j = qGrid[iQ] * block.GammaZero;
-                var L = decomp.D + (Complex)j * decomp.MhTotal;
-                arr[iQ] = ComputeMaxPetermannK(L);
-            }
-            slices[N] = arr;
-        }
 
         for (int iQ = 0; iQ < qGrid.Length; iQ += 4)
         {

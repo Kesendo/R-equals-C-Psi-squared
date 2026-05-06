@@ -37,6 +37,26 @@ namespace RCPsiSquared.Core.F86;
 /// </summary>
 public sealed class LocalGlobalEpLink : Claim
 {
+    /// <summary>Reference parameters for the empirical Petermann-K sweep. The
+    /// <see cref="Witnesses"/> below are pinned to these values; a future refresh
+    /// of the witnesses requires re-running
+    /// <c>F86PetermannProbe.Probe_PetermannFineGrid_C2_VsN</c> at these settings.
+    /// γ₀=0.05, c=2 block (1,2), Q-grid <see cref="SweepQPoints"/> points uniform
+    /// on [<see cref="SweepQMin"/>, <see cref="SweepQMax"/>].</summary>
+    public const double SweepGammaZero = 0.05;
+    /// <inheritdoc cref="SweepGammaZero"/>
+    public const double SweepQMin = 0.50;
+    /// <inheritdoc cref="SweepGammaZero"/>
+    public const double SweepQMax = 4.00;
+    /// <inheritdoc cref="SweepGammaZero"/>
+    public const int SweepQPoints = 121;
+
+    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — the global-EP near-singularity
+    /// reference value from <c>hypotheses/FRAGILE_BRIDGE.md</c>. Used by
+    /// <see cref="LocalGlobalEpLinkTests"/> as the comparison baseline for the
+    /// real-axis hit at N=7.</summary>
+    public const double FragileBridgeKReference = 403.0;
+
     /// <summary>Same-sign-imaginary 2×2 algebra, the shared algebraic object:
     /// L_eff − (trace/2)·I = [[−Δ/2, +iJ·g_eff], [+iJ·g_eff, +Δ/2]] (PROOF_F86_QPEAK
     /// Statement 1). AIII chiral classification (PT_SYMMETRY_ANALYSIS): linear Π, Π⁴=I,
@@ -50,9 +70,10 @@ public sealed class LocalGlobalEpLink : Claim
     public string GlobalInstanceAnchor => "hypotheses/FRAGILE_BRIDGE.md";
 
     /// <summary>Empirical witnesses from the c=2 N=5..8 Petermann-K sweep
-    /// (γ₀=0.05, c=2 block (1,2), Q-grid 121 pts on [0.50, 4.00], 2026-05-06).
-    /// One witness per N. Hard-coded as a static pinned table — this is a frozen
-    /// empirical anchor, not a live-recomputed Claim.</summary>
+    /// (pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
+    /// <see cref="SweepQMax"/>, <see cref="SweepQPoints"/>; c=2 block (1,2);
+    /// 2026-05-06). One witness per N. Hard-coded as a static pinned table —
+    /// this is a frozen empirical anchor, not a live-recomputed Claim.</summary>
     public IReadOnlyList<PetermannSpikeWitness> Witnesses => _petermannWitnesses;
 
     /// <summary>The not-yet-executed bridge: explicit complex-γ analytic continuation.
@@ -92,7 +113,7 @@ public sealed class LocalGlobalEpLink : Claim
         "F86 ↔ FRAGILE_BRIDGE: shared EP under AIII chiral algebra";
 
     public override string Summary =>
-        $"Tier2Verified: real-axis hit empirically validated (c=2 N=5..8 Petermann K up to {_petermannWitnesses[2].MaxKGlobal:F0} at N=7, ~6× FRAGILE_BRIDGE K=403); analytic continuation pending";
+        $"Tier2Verified: real-axis hit empirically validated (c=2 N=5..8 Petermann K up to {_petermannWitnesses.Single(w => w.N == 7).MaxKGlobal:F0} at N=7, ~6× FRAGILE_BRIDGE K=403); analytic continuation pending";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -112,20 +133,22 @@ public sealed class LocalGlobalEpLink : Claim
     }
 
     /// <summary>Pinned empirical table from the 2026-05-06 c=2 N=5..8 Petermann-K sweep.
-    /// γ₀=0.05, c=2 block (1,2), Q-grid 121 pts on [0.50, 4.00].
+    /// Pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
+    /// <see cref="SweepQMax"/>, <see cref="SweepQPoints"/>; c=2 block (1,2).
     /// Order: N=5, 6, 7, 8 (parity alternates odd/even/odd/even).</summary>
+    // Pinned data from F86PetermannProbe.Probe_PetermannFineGrid_C2_VsN; refresh by un-skipping that probe.
     private static readonly PetermannSpikeWitness[] _petermannWitnesses = new[]
     {
-        new PetermannSpikeWitness(N: 5, Parity: "odd",  BlockDim: 50,
+        new PetermannSpikeWitness(N: 5, BlockDim: 50,
             MaxKGlobal: 1333.6, ArgMaxQ: 1.288,
             MaxKInterior: 1333.6, MaxKEndpoint:  252.5),
-        new PetermannSpikeWitness(N: 6, Parity: "even", BlockDim: 90,
+        new PetermannSpikeWitness(N: 6, BlockDim: 90,
             MaxKGlobal:  337.9, ArgMaxQ: 0.938,
             MaxKInterior:  337.9, MaxKEndpoint:  131.7),
-        new PetermannSpikeWitness(N: 7, Parity: "odd",  BlockDim: 147,
+        new PetermannSpikeWitness(N: 7, BlockDim: 147,
             MaxKGlobal: 2384.7, ArgMaxQ: 1.842,
             MaxKInterior: 2384.7, MaxKEndpoint: 1341.2),
-        new PetermannSpikeWitness(N: 8, Parity: "even", BlockDim: 224,
+        new PetermannSpikeWitness(N: 8, BlockDim: 224,
             MaxKGlobal:  795.4, ArgMaxQ: 2.046,
             MaxKInterior:  580.0, MaxKEndpoint:  795.4),
     };
@@ -135,15 +158,15 @@ public sealed class LocalGlobalEpLink : Claim
 /// data point linking the F86 local EP at real Q to FRAGILE_BRIDGE's K=403 ballpark.
 ///
 /// <para>Hosts the per-N spike data: the global Petermann factor maximum across the
-/// Q-grid, the Q at which it peaked, and the per-bond-class breakdown. The parity
-/// label (odd/even N) carries A3's σ_0 R-even/R-odd-degeneracy prediction: odd-N
-/// peaks empirically dominate even-N peaks by 2–4× at every step.</para>
+/// Q-grid, the Q at which it peaked, and the per-bond-class breakdown. The
+/// <see cref="Parity"/> label (derived from <paramref name="N"/>) carries A3's σ_0
+/// R-even/R-odd-degeneracy prediction: odd-N peaks empirically dominate even-N peaks
+/// by 2–4× at every step.</para>
 ///
 /// <para>Block dimension is the dimension of the c=2 block (n=1 → n=2 coherence
 /// subspace) — verifies the sweep ran on the correct block.</para>
 /// </summary>
 /// <param name="N">Chain length.</param>
-/// <param name="Parity">"odd" or "even" — A3 parity class.</param>
 /// <param name="BlockDim">Dimension of the c=2 block at this N.</param>
 /// <param name="MaxKGlobal">max Petermann K across the Q-grid (max over both bond
 /// classes — the global maximum).</param>
@@ -152,7 +175,6 @@ public sealed class LocalGlobalEpLink : Claim
 /// <param name="MaxKEndpoint">max Petermann K restricted to Endpoint bonds.</param>
 public sealed record PetermannSpikeWitness(
     int N,
-    string Parity,
     int BlockDim,
     double MaxKGlobal,
     double ArgMaxQ,
@@ -160,6 +182,10 @@ public sealed record PetermannSpikeWitness(
     double MaxKEndpoint
 ) : IInspectable
 {
+    /// <summary>Parity class derived from <see cref="N"/>: "odd" or "even".
+    /// A3 prediction: odd-N peaks dominate even-N peaks by 2–4× at every step.</summary>
+    public string Parity => N % 2 == 0 ? "even" : "odd";
+
     public string DisplayName => $"Petermann-K spike at c=2 N={N} ({Parity})";
 
     public string Summary => $"max K = {MaxKGlobal:F1} at Q = {ArgMaxQ:F3}";
