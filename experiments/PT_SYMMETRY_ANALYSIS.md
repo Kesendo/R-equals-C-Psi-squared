@@ -423,7 +423,8 @@ an open question.
    (Tier2Verified). The complex-γ analytic continuation, explicit
    modulated gain-loss in `LindbladPropagator`, remains the open piece
    for Tier1Derived promotion. The 2-4× odd/even Petermann-K asymmetry
-   empirically confirms A3's σ_0 R-even/R-odd-degeneracy prediction.
+   empirically confirms A3's σ_0 R-even/R-odd-degeneracy prediction
+   (`compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs`).
 
 ---
 
