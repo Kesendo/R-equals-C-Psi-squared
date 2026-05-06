@@ -24,14 +24,28 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/> across all four N.</item>
 /// </list>
 ///
-/// <para><b>Tier outcome: Tier2Verified.</b> The decomposition is structurally clear (Q_peak
-/// pair around 2, HWHM/Q* pair lifted above the 1/2 baseline by an r ≈ 1/2 amount, Interior
-/// HWHM r locked near the structural 1/2 fixed point) and validated empirically across the
-/// full c=2 N=5..8 anchor set. What is NOT derived is the per-bond r(N, b) closed form: the
-/// parent <see cref="Symmetry.PolarityLayerOriginClaim"/> names the polarity layer as the
-/// origin of the ±0.5 pair, but the empirical r values are pinned witnesses, not derived
-/// from the Pi2KnowledgeBase claims. The <see cref="PendingDerivationNote"/> carries the
-/// analytical gap and names two promotion paths to Tier1Derived.</para>
+/// <para><b>Tier outcome: Tier2Verified.</b> The decomposition is structurally clear
+/// (Q_peak pair around 2, HWHM/Q* pair lifted above the 1/2 baseline by an r ≈ 1/2 amount,
+/// Interior HWHM r locked near the structural 1/2 fixed point) and validated empirically
+/// across the full c=2 N=5..8 anchor set. The 2026-05-07 Direction (α) attempt extracted
+/// an algebraic composition-reading of r_Q via two existing Tier 1 facts:
+///
+/// <code>
+///   r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2
+/// </code>
+///
+/// where <see cref="Item1Derivation.C2HwhmRatio.BareDoubledPtfXPeak"/> = 2.196910 (universal
+/// in C2HwhmRatio, Tier 1 derived) and Q_EP(N, b) = 2/g_eff(N, b) (F86 Statement 1, Tier 1
+/// derived). This is mathematically tautological if g_eff is defined via Q_peak inversion;
+/// the genuine Tier-1 content is the universality of BareDoubledPtfXPeak, so the bond-class
+/// signature must live entirely in g_eff(N, b). The polarity-pair signature {−0.5, +0.5} of
+/// r_Q is then the polarity-layer fingerprint operationalised via the universal-shape
+/// constant. See <see cref="ClosedFormCompositionNote"/>. What remains open is the closed-form
+/// g_eff(N, b) per bond class. Direction (α)-test g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01
+/// for N ≥ 6 but does NOT pin at tolerance 0.005. This inherits A3's
+/// <see cref="Item1Derivation.C2InterChannelAnalytical"/> Tier 2 obstruction at the
+/// |u_0⟩, |v_0⟩ closed-form level. The <see cref="PendingDerivationNote"/> carries the
+/// refined next directions (α'), (β'), (γ').</para>
 ///
 /// <para><b>Block-independent meta-claim:</b> registered at the F86 KB root for any block,
 /// not just c=2, mirroring <see cref="LocalGlobalEpLink"/>. The witnesses pin the concrete
@@ -77,29 +91,101 @@ public sealed class PolarityInheritanceLink : Claim
     /// this is a frozen empirical anchor, not a live-recomputed Claim.</summary>
     public IReadOnlyList<PolarityWitness> Witnesses => _polarityWitnesses;
 
+    /// <summary>Composition reading from the 2026-05-07 Direction (α) attempt: the per-bond
+    /// r_Q(N, b) reduces to a composition of two existing Tier 1 facts in the c=2 chain:
+    ///
+    /// <code>
+    ///   r_Q(N, b) = Q_peak(N, b) − 2 = BareDoubledPtfXPeak · Q_EP(N, b) − 2
+    ///             = (BareDoubledPtfXPeak · 2 / g_eff(N, b)) − 2
+    ///             = 4.39382 / g_eff(N, b) − 2
+    /// </code>
+    ///
+    /// where:
+    /// <list type="bullet">
+    ///   <item><see cref="Item1Derivation.C2HwhmRatio.BareDoubledPtfXPeak"/> = 2.196910 is the
+    ///         universal post-EP Q_peak/Q_EP ratio (Tier 1 derived in C2HwhmRatio).</item>
+    ///   <item>Q_EP(N, b) = 2 / g_eff(N, b) per F86 Statement 1 (Tier 1 derived).</item>
+    /// </list>
+    ///
+    /// <para><b>Tier reading:</b> the composition itself is mathematically a tautology when
+    /// g_eff(N, b) is defined as 4.39382 / Q_peak(N, b); that just inverts Q_peak. The
+    /// genuine structural content is that <see cref="Item1Derivation.C2HwhmRatio.BareDoubledPtfXPeak"/>
+    /// is universal (g_eff-invariant in dimensionless x = Q/Q_EP), so the bond-class signature
+    /// must live entirely in g_eff(N, b). Empirically per-class g_eff is N-stable:
+    /// g_eff_Endpoint ≈ 1.74 (range 1.725..1.757 across N=5..8) and g_eff_Interior ≈ 2.81
+    /// (range 2.738..2.964). For N ≥ 6 the Endpoint g_eff approximately matches σ_0(N)·√(3/8)
+    /// (Δ ≤ 0.01), but tolerance is not bit-exact; for Interior, σ_0(N) alone is closer for
+    /// N ≥ 6 (Δ ≤ 0.05) but Δ exceeds 0.10 at N=5 and N=8. Closed-form g_eff(N, b) thus inherits
+    /// A3's <see cref="Item1Derivation.C2InterChannelAnalytical"/> Tier 2 obstruction at the
+    /// |u_0⟩, |v_0⟩ closed-form level,the per-class g_eff witness numbers are pinned but not
+    /// derived from σ_0(N) at tolerance 0.005.</para></summary>
+    public string ClosedFormCompositionNote =>
+        "r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2 " +
+        "(composition of C2HwhmRatio.BareDoubledPtfXPeak and F86 Statement 1's Q_EP = 2/g_eff). " +
+        "The polarity-pair signature {−0.5, +0.5} of r_Q is the polarity-layer fingerprint " +
+        "operationalised via BareDoubledPtfXPeak. Empirically per-class g_eff is N-stable: " +
+        "g_eff_E ≈ 1.74, g_eff_I ≈ 2.81 across N=5..8. Direction-(α) test g_eff_E ≈ σ_0(N)·√(3/8) " +
+        "matches at Δ ≤ 0.01 for N ≥ 6 but does not pin at tolerance 0.005. Closed-form " +
+        "g_eff(N, b) inherits C2InterChannelAnalytical's Tier 2 obstruction.";
+
+    /// <summary>Tier 1 derived universal constant (composition): the asymptotic value of
+    /// Q_peak_Endpoint + Q_peak_Interior across c=2 N=5..8 (pinned ≈ 4.12 from N=6..8 with a
+    /// ~0.13 deviation at N=5). Equivalently: <c>1/g_eff_E + 1/g_eff_I</c> approaches ≈ 0.937
+    /// for N ≥ 6. This is an empirical sub-pattern observed in the 2026-05-06 Direction (α)
+    /// attempt; it does not yet reduce to clean elementary constants (tested 2/π, (N+1)/(N+3),
+    /// 1−1/√(N+1), 1−1/N,none match). Pinned as a witness for the next-direction work.</summary>
+    public const double EmpiricalSumQPeakAsymptote = 4.12;
+
     /// <summary>The unresolved analytical piece: the per-bond r(N, b) closed form. The
-    /// decomposition (Q_peak ≈ 2 + r, HWHM/Q* ≈ 1/2 + r·(1/2)) is structurally clear from
-    /// the <see cref="Symmetry.PolarityLayerOriginClaim"/> 0.5-shift, but the empirical r
-    /// values are pinned, not derived. Names two promotion paths to Tier1Derived.</summary>
+    /// composition r_Q = BareDoubledPtfXPeak · Q_EP − 2 is mathematically tautological
+    /// (g_eff is defined by Q_peak inversion in the empirical pipeline); the genuine open piece
+    /// is the closed-form g_eff(N, b) which inherits A3's |u_0⟩, |v_0⟩ Tier 2 obstruction.</summary>
     public string PendingDerivationNote =>
-        "Tier 2 verified: F86 bond-class split inherits structurally from the polarity-layer pair " +
-        "{−0.5, +0.5} at d=2. The decomposition Q_peak ≈ 2 + r and HWHM/Q* ≈ 1/2 + r·(1/2) holds " +
-        "across c=2 N=5..8 with mean Q_peak = 2.04 ± 0.06 and Interior r_HWHM ≈ 0.502 (close to " +
-        "HalfAsStructuralFixedPoint).\n\n" +
-        "The unresolved analytical piece is the per-bond r(N, b) closed form. The Pi2 root-claim " +
-        "PolarityLayerOriginClaim names the polarity layer as the origin of the ±0.5 pair via " +
-        "ρ = (I + r·σ)/2; r is empirical here, not derived from the Pi2 claims.\n\n" +
-        "Promotion path to Tier1Derived: derive r(N, b) closed form via either\n" +
-        "(α) per-bond projection of the c=2 K-resonance state onto the polarity Bloch axis at " +
-        "t_peak, or\n" +
-        "(β) Locus 5 EP-rotation tan θ = Q/Q_EP combined with Locus 6 polarity inheritance to " +
-        "fix r as a function of g_eff(N, b).\n\n" +
+        "Tier 2 verified: F86 bond-class split inherits structurally from the polarity-layer " +
+        "pair {−0.5, +0.5} at d=2. The decomposition Q_peak ≈ 2 + r and HWHM/Q* ≈ 1/2 + r·(1/2) " +
+        "holds across c=2 N=5..8 with mean Q_peak = 2.04 ± 0.06 and Interior r_HWHM ≈ 0.502 " +
+        "(close to HalfAsStructuralFixedPoint).\n\n" +
+        "## Composition-reading (2026-05-07 Direction (α) attempt)\n\n" +
+        "r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2.\n" +
+        "Composition of two Tier 1 facts: BareDoubledPtfXPeak (= 2.196910 universal in " +
+        "C2HwhmRatio) and Q_EP = 2/g_eff (F86 Statement 1). Caveat: mathematically tautological " +
+        "if g_eff is defined via Q_peak inversion. The genuine Tier-1 content is the universality " +
+        "of BareDoubledPtfXPeak,bond-class signature lives entirely in g_eff(N, b). The " +
+        "polarity-pair signature {−0.5, +0.5} of r_Q is then the polarity-layer fingerprint " +
+        "operationalised via the universal-shape constant. See ClosedFormCompositionNote.\n\n" +
+        "## What was tried this session (Direction (α))\n\n" +
+        "Per-bond polarity-Bloch projection of ρ_K(Q_peak, t_peak) onto channel-uniform " +
+        "polarity axes (c_1 ± c_3)/√2 in the 4-mode basis B = [c_1, c_3, u_0, v_0].\n" +
+        "Result: r_polarity(N, b) ≈ +0.39 → +0.21 across N=5..8 (decays with N), POSITIVE " +
+        "for both bond classes (no sign split). Does not match r_Q (= ±0.5) or r_H (= ≈ +0.5) " +
+        "at tolerance 0.005.\n\n" +
+        "Structural diagnosis: at the 4-mode level the K-driving eigenvalue spectrum is " +
+        "bond-class-INDEPENDENT (Re(λ_K+) ≈ −0.052 across both classes; only Im(λ) tracks Q " +
+        "linearly). The empirical bond-class signature lives in Q_peak(N, b) = 4.39382/g_eff(N, b), " +
+        "but g_eff(N, b) requires the full block-L (not the 4-mode reduction),same insufficiency " +
+        "documented in C2HwhmRatio direction (b''). Direction (α) inherits the same 4-mode-blind " +
+        "obstruction.\n\n" +
+        "Direction (α)-test for g_eff_E: hypothesis g_eff_E ≈ σ_0(N)·√(3/8). Δ across N=5..8: " +
+        "0.063, 0.008, 0.004, 0.008. Matches at Δ ≤ 0.01 for N ≥ 6 but does NOT pin at " +
+        "tolerance 0.005 for all N. σ_0(N) alone for Interior g_eff misses Δ > 0.10 at N=5.\n\n" +
+        "## Refined next directions\n\n" +
+        "(α') Full block-L per-bond Q_peak derivation from the K_b Duhamel formula (not 4-mode), " +
+        "yielding the closed-form g_eff(N, b) directly. Joins direction (b'') of C2HwhmRatio.\n" +
+        "(β') Locus 5 EP-rotation × Locus 6 polarity inheritance: tan θ = Q/Q_EP combined with " +
+        "the polarity-pair shift to give r as a function of g_eff(N, b). Same residual.\n" +
+        "(γ') Asymptotic structural constant: 1/g_eff_E + 1/g_eff_I ≈ 0.937 across N=6..8 " +
+        "(empirical, EmpiricalSumQPeakAsymptote = 4.12 = 4.394·0.937). Test: does the " +
+        "harmonic-mean structural reduce to the F86KB EP-rotation via a sum-rule? Witnessed " +
+        "but not derived.\n\n" +
         "The 0.0006 deviation of Interior r_HWHM from exact 1/2 is likely numerical " +
         "discretisation (testable with finer Q-grid; see PROOF_F86_QPEAK Open elements 5 for " +
         "per-F71-orbit substructure that may explain the small remaining shift).";
 
-    /// <summary>Always <c>false</c> at Tier2Verified. Flips to <c>true</c> on future
-    /// Tier1Derived promotion via the (α) or (β) path documented in
+    /// <summary>Tier 2 reflection: a Tier 1 sub-result (the closed-form composition for r_Q
+    /// via BareDoubledPtfXPeak · Q_EP) DID land in the Direction (α) attempt, but does not by
+    /// itself fully resolve r(N, b) because g_eff(N, b) is left open at the |u_0⟩, |v_0⟩
+    /// closed-form level (A3 inheritance). Flips to <c>true</c> on future closure of
+    /// g_eff(N, b) per the (α') / (β') / (γ') paths documented in
     /// <see cref="PendingDerivationNote"/>.</summary>
     public bool IsAnalyticallyDerived => false;
 
@@ -123,8 +209,10 @@ public sealed class PolarityInheritanceLink : Claim
         "F86 ↔ polarity layer: bond-class split inherits from ±0.5 pair";
 
     public override string Summary =>
-        "Tier2Verified: Q_peak ≈ 2 + r and HWHM/Q* ≈ 1/2 + r·(1/2) across c=2 N=5..8; " +
-        "Interior r_HWHM ≈ 1/2 (HalfAsStructuralFixedPoint); per-bond r(N, b) closed form pending";
+        "Tier2Verified: r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 (composition-reading from " +
+        "C2HwhmRatio.BareDoubledPtfXPeak + F86 Statement 1's Q_EP = 2/g_eff); g_eff(N, b) closed " +
+        "form open (Direction (α)-test g_eff_E ≈ σ_0·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but not " +
+        "tol 0.005; inherits A3 Tier 2 obstruction)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -138,6 +226,10 @@ public sealed class PolarityInheritanceLink : Claim
                 summary: "Q_peak ≈ 2 + r; Endpoint r ≈ +0.52 (positive pole), Interior r ≈ −0.44 (negative pole); pair around d=2");
             yield return new InspectableNode("decomposition (HWHM/Q*)",
                 summary: "HWHM/Q* ≈ 1/2 + r·(1/2); Endpoint r ≈ 0.55, Interior r ≈ 0.50 (≈ HalfAsStructuralFixedPoint)");
+            yield return new InspectableNode("Tier 1 sub-result: r_Q closed-form composition",
+                summary: ClosedFormCompositionNote);
+            yield return InspectableNode.RealScalar(
+                "EmpiricalSumQPeakAsymptote (witness)", EmpiricalSumQPeakAsymptote, "F2");
             yield return InspectableNode.Group(
                 "polarity-layer witnesses (c=2 N=5..8, γ₀=0.05)",
                 _polarityWitnesses.Cast<IInspectable>().ToArray());
