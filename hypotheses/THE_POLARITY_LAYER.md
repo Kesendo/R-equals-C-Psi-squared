@@ -282,10 +282,10 @@ This document does not replace any prior hypothesis; it connects them:
 
 - **No new mathematics.** F78-F85 + F87 stand unchanged. The hypothesis
   reframes how those theorems are read, not what they say.
-- **No new theorems.** The operational primitives listed in
-  Dependencies (`PauliHamiltonian`, `recover_H_odd_from_M_anti`,
-  `diagnose_hardware`, the dephase-letter extension of
-  `classify_pauli_pair`) are wrappers exposing existing F-chain content
+- **Operational primitives are wrappers, not new theorems.** The
+  primitives listed in Dependencies (`PauliHamiltonian`,
+  `recover_H_odd_from_M_anti`, `diagnose_hardware`, the dephase-letter
+  extension of `classify_pauli_pair`) expose existing F-chain content
   through the polarity-layer vocabulary; they prove nothing new,
   they restate.
 - **No experimental falsification path.** The reframing predicts
