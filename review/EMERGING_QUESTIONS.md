@@ -1129,7 +1129,7 @@ The 2-level EP eigenvector rotation `tan θ = Q/Q_EP` makes every probe-overlap 
 
 **Three ranked next directions:**
 
-- (a) **Most promising:** First-order perturbation in the cross-block. ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1) at c=2; cross-block Frobenius split (Endpoint < Interior) is the seed for the directional shift.
+- (a) ~~**Most promising**~~ [superseded 2026-05-06 evening: see Update 2026-05-06 (evening) below — Direction (a) demoted, Direction (a') probe-block 2-level resonance promoted]: First-order perturbation in the cross-block. ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1) at c=2; cross-block Frobenius split (Endpoint < Interior) is the seed for the directional shift.
 - (b) Lift |u_0⟩, |v_0⟩ to projector-overlap (per A3's PendingDerivationNote).
 - (c) Symbolic char-poly factorisation at Q_EP.
 
