@@ -16,6 +16,10 @@ The bond-class signature comes from how the dL/dJ_b enters the Duhamel formula -
 this is the V_b cross-block in the 4-mode picture. We want to derive HWHM_left/Q_peak.
 """
 
+import sys
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 import numpy as np
 
 
@@ -339,7 +343,7 @@ def derive_analytic_2level_K_b():
     # (-2 - lambda_+) v_0 + 2ix v_1 = 0
     # v = [2ix, 2 + lambda_+] = [2ix, -2 + 2*sqrt(1-x^2)] (for x < 1)
     # For x > 1: v = [2ix, -2 + 2i*sqrt(x^2-1)] (right eigenvector for lambda_+)
-    # Normalize later — just use numerical confirmation.
+    # Normalize later; just use numerical confirmation.
     import sympy as sp
     x = sp.Symbol('x', real=True, positive=True)
     s = 2 * sp.sqrt(x**2 - 1)

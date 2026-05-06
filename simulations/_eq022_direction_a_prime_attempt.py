@@ -3,7 +3,7 @@
 Predecessor work:
   - Direction (b) (commit f232a76) found that the bare doubled-PTF Ansatz gives universal
     HWHM_left/Q_peak = 0.6715 (SVD-block FLOOR), independent of g_eff. Empirical Interior
-    0.7506 / Endpoint 0.7728 sit ABOVE this floor by 0.08-0.10 — non-perturbative gap.
+    0.7506 / Endpoint 0.7728 sit ABOVE this floor by 0.08-0.10 (non-perturbative gap).
   - Direction (b)'s PendingDerivationNote refined direction (a'): close the gap via the
     probe-block 2-level sub-resonance, using per-bond probe-block coupling g_eff_probe(N, b)
     instead of σ_0.
@@ -68,7 +68,7 @@ def hamming_distance(p, q):
 
 def bond_flip_targets(state, N):
     """For each bond b in [0, N-2], if bits at sites b and b+1 differ, yield
-    (b, flipped_state) — the state with those two bits swapped.
+    (b, flipped_state), the state with those two bits swapped.
 
     Big-endian: site 0 = MSB at bit position N-1, site b at bit position N-1-b.
     """
@@ -478,7 +478,7 @@ def test_pb_plus_sv_decoupled():
     """
     print()
     print("=" * 82)
-    print("Step 6: Decoupled 4-mode (probe-block + SVD-block decoupled) — 2-level superposition")
+    print("Step 6: Decoupled 4-mode (probe-block + SVD-block decoupled): 2-level superposition")
     print("=" * 82)
     print()
     gamma0 = 0.05

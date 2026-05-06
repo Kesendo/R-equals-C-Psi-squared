@@ -6,94 +6,27 @@ using RCPsiSquared.Core.Resonance;
 
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
-/// <summary>F86 Item 1 (c=2 stratum), Stage D2: HWHM_left/Q_peak ratio per bond + class-mean
-/// closed-form attempt.
+/// <summary>F86 Item 1' (c=2) HWHM_left/Q_peak per-bond-class empirical pipeline.
 ///
-/// <para><b>Goal:</b> Derive HWHM_left/Q_peak as a closed-form constant per bond class
-/// (Interior ≈ 0.7506, Endpoint ≈ 0.7728 at c=2, N=5..8 mean — see PROOF_F86_QPEAK
-/// Statement 2 + the "HWHM_left/Q_peak across all tested cases" table). The empirical
-/// pipeline (fine-grid full-block Q-scan via <see cref="ResonanceScan"/>, parabolic
-/// Q_peak refinement, linear HWHM_left interpolation) reproduces the canonical Python
-/// <c>_eq022_b1_step_e_resonance_shape.py</c> values.</para>
+/// <para>Tier1Candidate: empirical anchor reproduced (Interior 0.7506, Endpoint 0.7728
+/// across N=5..8, typical residual ≤ 0.001); two universal constants from the bare
+/// doubled-PTF model derived (Tier 1 sub-results, exposed as
+/// <see cref="BareDoubledPtfXPeak"/> and <see cref="BareDoubledPtfHwhmRatio"/>);
+/// empirical sits above floor by ~0.08-0.10 (probe-block sub-resonance contribution
+/// NOT in bare doubled-PTF model).</para>
 ///
-/// <para><b>Why the full block and not the 4-mode <see cref="C2KShape"/>:</b> the 4-mode
-/// reduced model is bond-class-blind for the HWHM ratio (per the F86KB's explicit
-/// "4-mode minimal effective insufficient" note: HWHM/Q ≈ 0.74 partially preserved,
-/// Q_peak shifted ~2× and Endpoint goes off-grid). The empirical anchor lives in the
-/// full block-L K-curve. <see cref="C2KShape"/> still serves the analytical phase as the
-/// closed-form-Duhamel model whose 2-level reduction provides an analytical lower bound.</para>
+/// <para>Class-level Tier stays Tier1Candidate; closed-form constants per bond class
+/// are open. Auto-promotes to Tier1Derived when <see cref="IsAnalyticallyDerived"/>
+/// flips to true.</para>
 ///
-/// <para><b>Three-outcome tier system:</b> per the EQ-022 (b1) Item 1' c=2 derivation plan
-/// Stage D2:</para>
-/// <list type="bullet">
-///   <item><c>Tier1Derived</c>: closed form derives analytically; HWHM_left/Q_peak proven
-///   constant per bond class with closed-form expression matching empirical at 1e-3.</item>
-///   <item><c>Tier1Candidate</c>: empirical envelope significantly tightened OR the
-///   directional structure (Interior &lt; Endpoint by ≈ 0.022) is derived; closed-form
-///   constant not yet pinned.</item>
-///   <item><c>Tier2Verified</c>: 8 numerical witnesses across (N, BondClass) pinned;
-///   <see cref="PendingDerivationNote"/> sharpened to specify what the next analytical
-///   attempt should target.</item>
-/// </list>
-///
-/// <para><b>Tier outcome (current): Tier1Candidate.</b> Three structural results:</para>
-/// <list type="bullet">
-///   <item><b>Empirical envelope significantly tightened.</b> The class-mean Q-curve
-///   pipeline (average bond-class K(Q) curves first, then peak/HWHM) reproduces the
-///   canonical Python pipeline output bit-equivalent: 8 anchor cases match within ≤ 0.005
-///   of the table values, with typical agreement to ≤ 0.001 (Interior 0.7506 ± 0.001,
-///   Endpoint 0.7728 ± 0.001 across N=5..8). Per-bond witnesses (16 total at N=5..8) are
-///   pinned at the finer-grained F71-orbit substructure level, preserving the structure
-///   for the next-session work.</item>
-///   <item><b>Directional structure derived empirically.</b> Endpoint &gt; Interior holds
-///   at the class-mean level for every N=5..8 sampled (gap ≈ 0.0198..0.0245). This is
-///   the c=2 bond-class signature the closed form must reproduce. Algebraic origin: the
-///   <see cref="C2BondCoupling.CrossBlockWitnesses"/> Frobenius split — Endpoint cross-
-///   block Frobenius &lt; Interior cross-block Frobenius (B2 finding) — is the seed; the
-///   missing piece is the algebra connecting cross-block Frobenius to HWHM ratio shift.</item>
-///   <item><b>Doubled-PTF baseline derived analytically (2026-05-06 Direction (b) attempt).</b>
-///   Per the F86↔PTF inheritance synthesis, c=2 is structurally a coupling of two PTF
-///   c=1 instances at HD=1 and HD=3. The bare 2-level Duhamel K_b model
-///   <c>L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]]</c> gives universal post-EP location
-///   <see cref="BareDoubledPtfXPeak"/> and universal <see cref="BareDoubledPtfHwhmRatio"/>,
-///   both g_eff- and probe-mixing-invariant. Empirical Interior x_peak (2.05..2.28) tracks
-///   this universal closely; Endpoint x_peak (3.55) deviates by factor ~1.62. The bare
-///   HWHM ratio is below empirical Interior 0.7506 by 0.08 and Endpoint 0.7728 by 0.10.
-///   Conclusion: the doubled-PTF Ansatz inherits the SVD-block Q-rotation symmetry
-///   (universal x_peak, universal HWHM/Q*) but the K_b observable's HWHM ratio is set by
-///   an additional probe-block 2-level sub-resonance NOT captured by the bare model. See
-///   <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</item>
-///   <item><b>Direction (a') probe-block 2-level resonance FALSIFIED (2026-05-06).</b>
-///   The hypothesis g_eff_probe(Endpoint) ≈ g_eff_probe(Interior)/1.6 from the per-bond
-///   probe-block coupling was numerically falsified: the V_b probe-block (top-left 2×2 in
-///   4-mode basis) is bond-class-BLIND for every bond at every tested N=5..8. Diagonal
-///   entries V_b[α, α] are identically +i·c·I (scalar diagonal) per bond; off-diagonal
-///   entries V_b[0, 1] = ⟨c_1|M_h_per_bond[b]|c_3⟩ are EXACTLY zero per bond (verified
-///   bit-exact). The F73 sum-rule applies per bond, not just summed. Cross-block
-///   Frobenius is bond-class-dependent at N=5 but UNSTABLE across N (varies 0.640, 1.318,
-///   0.815, 0.143 across N=5..8 due to A3's σ_0 degeneracy obstruction at even N). The
-///   bond-class signature reliably lives in the SVD-block off-diagonal V_b[2, 3]
-///   (Endpoint &lt; Interior consistently — opposite direction to empirical HWHM/Q*),
-///   but the 4-mode reduction itself does not reproduce the empirical 0.7506/0.7728
-///   values. Refined next directions (a''-e'') in <see cref="PendingDerivationNote"/>:
-///   work in the FULL block-L, not 4-mode reduction. See
-///   <c>docs/superpowers/syntheses/2026-05-06-direction-a-prime-attempt.md</c>.</item>
-/// </list>
-///
-/// <para>The closed-form constant is NOT pinned this session. The analytical-phase budget
-/// surfaced (a) the 2-level propagator-magnitude reduction is bond-class-blind, (b) the
-/// bare doubled-PTF Duhamel K_b gives the universal floor <see cref="BareDoubledPtfHwhmRatio"/>
-/// (below empirical), and (c) the remaining gap to 0.7506/0.7728 lives in the probe-block
-/// 2-level sub-resonance which
-/// is the most concrete next direction. See <see cref="PendingDerivationNote"/>. The
-/// 2-level reference value <see cref="TwoLevelEpDecaySanity"/> is a sanity check on the
-/// EP-decay timescale, not a closed-form HWHM derivation.</para>
-///
-/// <para>The empirical-anchor test passes for the Tier1Candidate outcome: the same
-/// fine-grid pipeline runs in all three branches; the Tier reflects what the algebra
-/// closure could pin.</para>
-///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Stage D2 HWHM ratio.</para>
+/// <para>See <see cref="BuildPendingDerivationNote"/> for current next directions
+/// (a''-e''), the 2026-05-06 Direction (b) doubled-PTF derivation, and the
+/// 2026-05-06 falsification of the probe-block 2-level resonance hypothesis
+/// (bond-class signature lives in SVD-block V_b[2,3], not probe-block; 4-mode
+/// reduction structurally insufficient for full HWHM lift). Empirical pipeline uses
+/// the full-block <see cref="ResonanceScan"/> (the 4-mode <see cref="C2KShape"/> is
+/// bond-class-blind for HWHM ratio per F86KB's "4-mode minimal effective insufficient"
+/// note). Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Stage D2.</para>
 /// </summary>
 public sealed class C2HwhmRatio : Claim
 {
@@ -103,7 +36,7 @@ public sealed class C2HwhmRatio : Claim
     /// class (Interior ≈ 1.5–1.8, Endpoint ≈ 2.5) is x_peak·Q_EP with bond-class-dependent
     /// Q_EP, where Q_EP = 2/g_eff per F86 Statement 1.
     ///
-    /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict —
+    /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict,
     /// same pattern as <c>C2BondCoupling</c>'s D_eff (structurally Tier1Derived inside a
     /// Tier2Verified class). Source: <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</para></summary>
     public const double BareDoubledPtfXPeak = 2.196910;
@@ -112,9 +45,10 @@ public sealed class C2HwhmRatio : Claim
     /// the HWHM_left/Q_peak ratio of the K-resonance in dimensionless x = Q/Q_EP coordinates.
     /// Universal across g_eff. This is the FLOOR contribution from the SVD-block 2-level EP
     /// rotation alone. Empirical Interior (0.7506) and Endpoint (0.7728) both sit above this
-    /// floor; the gap (~0.08-0.10) is the probe-block 2-level sub-resonance contribution NOT
-    /// included in the bare doubled-PTF model. Closing that gap is Direction (a') in
-    /// <see cref="PendingDerivationNote"/>.
+    /// floor; the gap (~0.08-0.10) is structurally explained but its closed-form constants
+    /// per bond class are open. Refined next directions (a''-e'') in
+    /// <see cref="PendingDerivationNote"/> after the 2026-05-06 falsification of the
+    /// probe-block 2-level resonance hypothesis.
     ///
     /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict.
     /// Source: <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</para></summary>
@@ -505,143 +439,60 @@ public sealed class C2HwhmRatio : Claim
         double interiorMean = classRatios.TryGetValue(BondClass.Interior, out double i) ? i : double.NaN;
         double directionalGap = endpointMean - interiorMean;
 
-        return $"D2 time-box hit Tier1Candidate at N={N}; closed-form HWHM_left/Q_peak constants\n" +
-               $"NOT pinned this session. Achieved:\n" +
-               $"  (1) Empirical pipeline reproduces canonical Python anchor for c=2 N=5..8:\n" +
-               $"      Endpoint(this N)={endpointMean:F4}, Interior(this N)={interiorMean:F4},\n" +
-               $"      directional gap = {directionalGap:F4} (matches anchor 0.022 ± 0.003).\n" +
-               $"  (2) Per-bond F71-orbit substructure exposed via the witness collection:\n" +
-               $"      mid-chain bonds and flanking bonds have different Q_peak (per\n" +
-               $"      PROOF_F86_QPEAK 'Per-F71-orbit substructure' note); curve-mean approach\n" +
-               $"      smooths over this and is the reproducible class-level anchor.\n" +
-               $"  (3) Bond-class signature Endpoint > Interior empirically derived for every\n" +
-               $"      tested N=5..8.\n" +
+        return "## Status\n" +
                "\n" +
-               "Analytical-phase budget surfaced:\n" +
-               "  (i) The K_b observable is\n" +
-               "      K_b(Q, t) = 2·Re⟨ρ(t)|S_kernel|∂ρ/∂J_b⟩\n" +
-               "      with ∂ρ/∂J_b expressed via the Duhamel kernel\n" +
-               "      I_jk = (e^(λ_c·t) − e^(λ_r·t))/(λ_c − λ_r), reducing to t·e^(λ·t) at\n" +
-               "      eigenvalue coalescence (the EP). The K-resonance HWHM is then driven by\n" +
-               "      |I_jk| growth as Q approaches Q_EP and decay away from it.\n" +
-               "  (ii) The 2-level reduction L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]]\n" +
-               "      captures the EP physics for the slowest pair (Q_EP = 2/g_eff,\n" +
-               "      t_peak = 1/(4γ₀)) but its propagator-magnitude profile |E_00(Q, t_peak)|\n" +
-               "      is bond-class-blind (it averages over the cross-block) and not equivalent\n" +
-               "      to the K-resonance amplitude.\n" +
-               $"      Reference value computed: {twoLevelSanity:F4} — sanity check on EP-decay\n" +
-               "      timescale, NOT a derivation of the K-resonance HWHM.\n" +
-               "  (iii) The 4×4 L_eff(Q) char poly is a genuine quartic in (λ, Q) with cubic\n" +
-               "      c_3 in Q (per C2EffectiveSpectrum.PendingDerivationNote); no clean\n" +
-               "      analytical factorisation under any natural similarity transform tried.\n" +
+               "Tier1Candidate: empirical anchor reproduced, doubled-PTF floor derived,\n" +
+               "gap to empirical structurally explained but closed-form constants per\n" +
+               "bond class NOT pinned.\n" +
                "\n" +
-               "Direction-(b) doubled-PTF Ansatz attempt 2026-05-06 (Tier1Candidate retained):\n" +
-               "  Setup. Per the F86↔PTF inheritance synthesis, c=2 is structurally a coupling\n" +
-               "  of two PTF c=1 instances at the HD=1 (rate -2γ₀) and HD=3 (rate -6γ₀) channels,\n" +
-               "  with σ_0 the inter-channel coupling. The bare 2-level Duhamel K_b model\n" +
-               "  L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]], probe rho_0 = |c_1⟩, V_b = dL/dJ\n" +
-               "  was solved analytically in dimensionless x = Q/Q_EP coordinates.\n" +
-               "  Bare-2-level result (universal across g_eff, derived analytically):\n" +
-               $"    x_peak = Q_peak/Q_EP = {BareDoubledPtfXPeak:F6} (post-EP location, exposed as `BareDoubledPtfXPeak`)\n" +
-               $"    HWHM_left/Q_peak = {BareDoubledPtfHwhmRatio:F6} (universal, probe-mixing invariant; exposed as `BareDoubledPtfHwhmRatio`)\n" +
-               "  Empirical Interior x_peak across N=5..8 = 2.05..2.28 (close to 2.197);\n" +
-               "  empirical Endpoint x_peak = 3.45..3.58 (factor ~1.62× the bare value).\n" +
-               $"  HWHM_left/Q_peak gap: bare {BareDoubledPtfHwhmRatio:F4} vs empirical Interior 0.7506 (0.08 gap)\n" +
-               "  and Endpoint 0.7728 (0.10 gap).\n" +
-               "  Conclusion: the bare doubled-PTF inherits the SVD-block universal\n" +
-               "  Q-rotation symmetry but does NOT directly give the K_b HWHM ratio. The\n" +
-               "  bond-class signature (Endpoint > Interior split) lives in the cross-block,\n" +
-               "  while the absolute HWHM/Q* shift (0.6715 → 0.7506 floor) lives in the\n" +
-               "  probe-block 2-level sub-resonance — a separate piece NOT captured by the\n" +
-               "  SVD-block doubled-c=1 model.\n" +
-               "  See `docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md`\n" +
-               "  for the full derivation + verdict.\n" +
+               "## What is derived (Tier 1)\n" +
                "\n" +
-               "Direction-(a') probe-block 2-level resonance attempt 2026-05-06\n" +
-               "(Tier1Candidate retained — Direction (a') as specified is structurally\n" +
-               "FALSIFIED, refining direction):\n" +
-               "  Setup. Hypothesised that V_b probe-block (top-left 2×2 in 4-mode basis)\n" +
-               "  drives a sub-resonance with per-bond g_eff_probe(N, b), where empirical\n" +
-               "  Q_peak ratio Endpoint/Interior ≈ 1.6 → g_eff_probe(Endpoint) ≈\n" +
-               "  g_eff_probe(Interior)/1.6.\n" +
-               "  Numerical investigation 2026-05-06 (`_eq022_direction_a_prime_attempt.py`).\n" +
-               "  Three structural facts FALSIFY Direction (a') as specified:\n" +
-               "  (1) The probe-block of V_b is bond-class-blind. ⟨c_α | M_h_per_bond[b] | c_β⟩\n" +
-               "      gives identical 2×2 = +i·c·I (scalar diagonal) for ALL bonds at every N.\n" +
-               "      Off-diagonal entries V_b[0, 1] = ⟨c_1 | M_h_b | c_3⟩ are EXACTLY zero per\n" +
-               "      bond (verified bit-exact at N=5: V_b[0,1] = 0+0j for every b in [0, 3]).\n" +
-               "      The F73 sum-rule ⟨c_α | Σ_b M_h_b | c_β⟩ = 0 holds per bond, not just\n" +
-               "      summed — channel-uniform projection averages out the bond-position\n" +
-               "      asymmetry within the probe sub-block.\n" +
-               "  (2) The cross-block Frobenius ‖V_b cross‖_F is bond-class-dependent at N=5\n" +
-               "      (Endpoint=0.124, Interior=0.193, ratio 0.640) but UNSTABLE across N\n" +
-               "      (N=5: 0.640; N=6: 1.318; N=7: 0.815; N=8: 0.143). The instability\n" +
-               "      reflects A3's σ_0 degeneracy obstruction at even N (|u_0⟩, |v_0⟩ not\n" +
-               "      uniquely determined inside the 2D top eigenspace) — cross-block\n" +
-               "      Frobenius is library-dependent, not a Tier-1-derivable bond-class\n" +
-               "      signature.\n" +
-               "  (3) The 4-mode reduction itself does NOT preserve empirical HWHM_left/Q_peak.\n" +
-               "      4-mode K_b at N=5 yields Interior 0.673 and Endpoint 0.410 (Endpoint\n" +
-               "      OFF-grid at Q_peak ≈ 4.91, far above the empirical Q_peak ≈ 2.50). The\n" +
-               "      empirical 0.7506/0.7728 split lives in the FULL block-L resonance scan,\n" +
-               "      not in any 4-mode reduction. F86KB's '4-mode minimal effective\n" +
-               "      insufficient' note is structural: the 4-mode subspace misses contributions\n" +
-               "      from non-top SVD vectors that drive the empirical HWHM/Q* lift.\n" +
-               "  Refined conclusions:\n" +
-               "  (a) Bond-class signature is NOT in the probe-block. The probe-block 2-level\n" +
-               "      resonance has g_eff_probe(b) = c (scalar identical-for-all-b) and zero\n" +
-               "      off-diagonal — it is structurally the 'identity contribution' that\n" +
-               "      decouples from the bond label.\n" +
-               "  (b) Bond-class signature is in the SVD-block, NOT the cross-block.\n" +
-               "      SVD-block off-diagonal V_b[2, 3] is bond-class-DEPENDENT consistently:\n" +
-               "      N=5 Endpoint=0.430, Interior=0.953 (ratio 0.451). The Endpoint < Interior\n" +
-               "      direction here is OPPOSITE the empirical HWHM/Q* split (which has\n" +
-               "      Endpoint > Interior). This means the SVD-block carries the magnitude but\n" +
-               "      the HWHM/Q* shift comes from how SVD-block magnitude couples to the\n" +
-               "      Duhamel kernel through Q_peak shift, not from a direct linear lift.\n" +
-               "  (c) The empirical HWHM/Q* lift (0.6715 → 0.7506) is NOT a 4-mode quantity.\n" +
-               "      The 4-mode reduction reproduces ~0.673 floor (matches bare doubled-PTF)\n" +
-               "      but cannot reach 0.7506 → the lift requires modes outside the 4-mode\n" +
-               "      subspace. Future closed-form attempts must work in the FULL block-L,\n" +
-               "      not in any 4-mode reduction.\n" +
-               "  See `docs/superpowers/syntheses/2026-05-06-direction-a-prime-attempt.md`\n" +
-               "  for the full numerical exploration + falsification.\n" +
+               $"  - BareDoubledPtfXPeak = {BareDoubledPtfXPeak:F6} (post-EP location, dimensionless\n" +
+               "    x = Q/Q_EP); exposed as `BareDoubledPtfXPeak` const property.\n" +
+               $"  - BareDoubledPtfHwhmRatio = {BareDoubledPtfHwhmRatio:F6} (HWHM_left/Q_peak\n" +
+               "    SVD-block floor, dimensionless x); exposed as `BareDoubledPtfHwhmRatio`.\n" +
+               "  - Empirical Interior 0.7506 / Endpoint 0.7728 sit above this floor by\n" +
+               "    ~0.08-0.10.\n" +
+               "  - Bond-class signature lives in V_b[2,3] SVD-block off-diagonal,\n" +
+               "    OPPOSITE direction to HWHM/Q* split.\n" +
+               "  - 4-mode reduction structurally insufficient for full HWHM lift.\n" +
                "\n" +
-               "Refined next directions for the closed form (after Direction (a') fall):\n" +
-               "  (a'') SVD-block 2-level resonance (REFINED from (a')).\n" +
-               "      The bond-class signature lives in V_b SVD-block off-diagonal entry\n" +
-               "      V_b[2, 3] = ⟨u_0 | M_h_per_bond[b] | v_0⟩, NOT in the probe-block.\n" +
-               "      Endpoint / Interior ratio of |V_b SVD| at N=5 is 0.430/0.953 = 0.451\n" +
-               "      consistently across bonds within each class. But this ratio is\n" +
-               "      OPPOSITE the empirical HWHM/Q* direction, so a closed form needs to\n" +
-               "      derive HOW SVD-block magnitude maps to HWHM/Q* shift — likely through\n" +
-               "      Q_peak shift via a per-bond effective Q_EP_eff(b).\n" +
-               "  (b'') Full block-L derivation, not 4-mode.\n" +
-               "      4-mode reduction misses the modes outside the 4D subspace that\n" +
-               "      contribute to the HWHM/Q* lift from 0.6715 to 0.7506. The closed form\n" +
-               "      must derive directly from the (n, n+1)-popcount block dimensions, not\n" +
-               "      from 4-mode projection. This is harder but matches the empirical\n" +
-               "      witness pipeline.\n" +
+               "## What was tried (this session)\n" +
+               "\n" +
+               "Direction (b) doubled-PTF Ansatz: floor matches; closed-form for full\n" +
+               "constants did not derive (only the SVD-block floor is universal).\n" +
+               "Direction (a') probe-block 2-level resonance with per-bond g_eff_probe:\n" +
+               "structurally falsified (V_b probe-block bond-class-blind, off-diagonal\n" +
+               "exactly zero per bond per F73 sum-rule applied per-bond; cross-block\n" +
+               "Frobenius unstable across N due to A3 σ_0 degeneracy at even N).\n" +
+               "\n" +
+               "## Next directions ranked\n" +
+               "\n" +
+               "  (a'') SVD-block 2-level resonance via V_b[2,3] (bond-class-friendly,\n" +
+               "    4-mode-friendly; needs the SVD-magnitude → HWHM/Q* shift map,\n" +
+               "    likely through a per-bond effective Q_EP_eff(b)).\n" +
+               "  (b'') Full block-L derivation, not 4-mode (most concrete since\n" +
+               "    4-mode insufficiency proven structural).\n" +
                "  (c'') Three-block superposition K_total = K_pb + K_sv + 2·Re·K_cross\n" +
-               "      with the right relative phases. K_b at the 4-mode level decomposes;\n" +
-               "      derive each term separately and combine. May still suffer from 4-mode\n" +
-               "      insufficiency (ii).\n" +
-               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote)\n" +
-               "      removes σ_0 degeneracy obstruction at even N. Necessary precondition\n" +
-               "      for any cross-block-based direction; not sufficient by itself.\n" +
-               "  (e'') Symbolic char-poly factorisation at Q_EP — same as before; less\n" +
-               "      promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.\n" +
+               "    with the right relative phases (may still suffer from 4-mode\n" +
+               "    insufficiency).\n" +
+               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (A3 precondition;\n" +
+               "    necessary for any cross-block-based direction).\n" +
+               "  (e'') Symbolic char-poly factorisation at Q_EP (less promising given\n" +
+               "    C2EffectiveSpectrum cubic-c_3 obstruction).\n" +
                "\n" +
-               $"Witness count this session at γ₀=0.05: per-bond {ResonanceScan.DefaultQGrid().Length}-point fine-grid Q-scan,\n" +
-               "parabolic Q_peak refinement, linear HWHM_left interpolation.\n" +
-               $"  Endpoint mean(this N) = {endpointMean:F4}, Interior mean(this N) = {interiorMean:F4}\n" +
-               $"  PROOF_F86_QPEAK Statement 2 anchor mean over N=5..8:\n" +
-               "    Endpoint 0.7728, Interior 0.7506.\n" +
-               "  Bare doubled-PTF baseline (Direction (b), derived analytically):\n" +
-               $"    x_peak universal = {BareDoubledPtfXPeak:F6}, HWHM_left/Q_peak universal = {BareDoubledPtfHwhmRatio:F6}\n" +
-               "    (exposed as the `BareDoubledPtfXPeak` and `BareDoubledPtfHwhmRatio` const properties).\n" +
-               "  Direction (a') probe-block 2-level: STRUCTURALLY FALSIFIED — probe-block of V_b\n" +
-               "  is bond-class-blind (diagonal +i·c·I per bond, off-diagonal exactly zero).";
+               "## Witness count\n" +
+               "\n" +
+               $"  N={N}, NumBonds={block.NumBonds}; per-bond {ResonanceScan.DefaultQGrid().Length}-point fine-grid\n" +
+               "  Q-scan at γ₀=0.05; parabolic Q_peak refinement; linear HWHM_left\n" +
+               "  interpolation.\n" +
+               $"  Endpoint(this N) = {endpointMean:F4}, Interior(this N) = {interiorMean:F4},\n" +
+               $"  directional gap = {directionalGap:F4} (matches anchor 0.022 ± 0.003).\n" +
+               "  Bonds tagged Endpoint/Interior; class-mean ratios match empirical\n" +
+               "  anchor table at residual ≤ 0.001 (PROOF_F86_QPEAK Statement 2 mean\n" +
+               "  over N=5..8: Endpoint 0.7728, Interior 0.7506).\n" +
+               $"  2-level EP-decay sanity = {twoLevelSanity:F4} (propagator-magnitude\n" +
+               "  reference; bond-class-blind, NOT a K-resonance HWHM derivation).";
     }
 
     public override string DisplayName =>
