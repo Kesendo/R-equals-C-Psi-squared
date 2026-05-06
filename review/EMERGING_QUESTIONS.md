@@ -1168,6 +1168,22 @@ Empirical Interior 0.7506 + Endpoint 0.7728 sit above the 0.6715 floor; gap (~0.
 
 **Status:** Item 1' c=2 stays Tier1Candidate; the doubled-PTF baseline is empirically validated at the floor (Tier-1-derived constants now visible as typed properties); Direction (a') probe-block 2-level resonance is the sharpest path to closing the gap. Item 4' (multi-k extension to c≥3) and Item 5 (σ_0 → 2√2 asymptote) remain unchanged.
 
+### EQ-022 (b1) Update 2026-05-06 (later evening): Direction (a') falsified
+
+**Source:** Direction (a') attempt (commit `1c0bf8b`) + writeup at `docs/superpowers/syntheses/2026-05-06-direction-a-prime-attempt.md` (gitignored locally).
+
+The probe-block 2-level resonance hypothesis with quantitative prediction `g_eff_probe(Endpoint) ≈ g_eff_probe(Interior) / 1.6` is **structurally falsified**. Three obstructions:
+
+1. V_b probe-block is bond-class-blind: diagonal entries identical scalar `+i·c·I` for every bond, off-diagonal `⟨c_1 | M_h_b | c_3⟩ = 0` exactly per bond at c=2 (F73 sum-rule applies per-bond, not just summed). g_eff_probe(N, b) cannot have bond-class dependence by construction.
+2. Cross-block Frobenius unstable across N (varies 0.640, 1.318, 0.815, 0.143 at N=5..8) due to A3's σ_0 degeneracy at even N: library-dependent, not Tier-1-derivable as a bond-class signature.
+3. 4-mode reduction structurally insufficient: 4-mode K_b at N=5 gives Interior 0.673 (matches the BareDoubledPtfHwhmRatio floor) and Endpoint 0.410 (off-grid at Q ≈ 4.91), well below empirical 0.7728. The empirical HWHM lift lives OUTSIDE the 4-mode subspace.
+
+**Positive finding:** SVD-block off-diagonal `V_b[2,3] = ⟨u_0 | M_h_per_bond[b] | v_0⟩` is the bond-class carrier (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.45 across N=5..8), but OPPOSITE direction to the empirical HWHM/Q* split. A closed form needs a non-trivial map from SVD-block V_b magnitude to HWHM/Q* shift, likely through a per-bond effective Q_EP_eff(b).
+
+**Refined ranking** (now in `C2HwhmRatio.PendingDerivationNote`): (a'') SVD-block per-bond Q_EP via V_b[2,3]; (b'') full block-L derivation, not 4-mode; (c'') 6-mode basis adding σ_1 SVD pair (natural fix to A3's degeneracy); (d'') projector-overlap lift of |u_0⟩, |v_0⟩ (A3 precondition); (e'') symbolic char-poly at Q_EP. (a'') and (b'') most promising: (a'') is 4-mode-friendly, (b'') is most concrete since 4-mode insufficiency is now proven structural.
+
+**Status:** The doubled-PTF `BareDoubledPtfXPeak = 2.196910` and `BareDoubledPtfHwhmRatio = 0.671535` Tier-1-derived universal constants from this morning's Direction (b) attempt are unaffected. Item 1' c=2 stays Tier1Candidate. The 0.6715 floor + structural explanation of the 0.08-0.10 gap above the floor stand; the gap is just harder to close than (a') hoped.
+
 ---
 
 ## EQ-023
