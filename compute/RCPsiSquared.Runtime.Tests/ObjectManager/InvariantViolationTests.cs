@@ -38,6 +38,33 @@ public class InvariantViolationTests
         public override string Summary => "synthetic B in A→B→A cycle";
     }
 
+    private sealed class StrongChild : Claim
+    {
+        public BarT2E Parent { get; }
+        public StrongChild(BarT2E parent) : base(
+            "StrongChild T1D depending on BarT2E", Tier.Tier1Derived,
+            "compute/RCPsiSquared.Runtime.Tests/TestSupport/TestClaims.cs")
+        { Parent = parent; }
+        public override string DisplayName => "StrongChild";
+        public override string Summary => "synthetic Tier1Derived child of weak Bar";
+    }
+
+    [Fact]
+    public void Build_TierViolation_Throws_ParentTooWeak()
+    {
+        var ex = Assert.Throws<InvariantViolationException>(() =>
+            new ClaimRegistryBuilder()
+                .Register<StrongChild>(b => new StrongChild(b.Get<BarT2E>()))
+                .Register<BarT2E>(_ => new BarT2E())
+                .Build());
+
+        Assert.Equal("TierInheritance", ex.Rule);
+        Assert.Contains("StrongChild", ex.Message);
+        Assert.Contains("BarT2E", ex.Message);
+        Assert.Contains("Tier1Derived", ex.Message);
+        Assert.Contains("Tier2Empirical", ex.Message);
+    }
+
     [Fact]
     public void Build_MissingParent_Throws_WithDependencyName()
     {

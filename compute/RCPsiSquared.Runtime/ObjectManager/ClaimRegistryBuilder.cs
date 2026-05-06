@@ -68,6 +68,21 @@ public sealed class ClaimRegistryBuilder
                     path: pending.ToArray());
         }
 
+        // Tier inheritance: parent must be at least as strong as child.
+        foreach (var edge in edges)
+        {
+            var parent = resolved[edge.Parent];
+            var child = resolved[edge.Child];
+            if (!TierStrength.IsAtLeastAsStrong(parent.Tier, child.Tier))
+                throw new InvariantViolationException(
+                    rule: "TierInheritance",
+                    message: $"Tier inheritance violation: {edge.Child.Name} ({child.Tier}) ← {edge.Parent.Name} ({parent.Tier}). " +
+                             $"parent.Tier must be at least as strong as child.Tier.",
+                    hint: $"Either downgrade {edge.Child.Name} or strengthen the foundation under {edge.Parent.Name}.",
+                    offendingClaim: edge.Child,
+                    path: new[] { edge.Parent, edge.Child });
+        }
+
         return new ClaimRegistry(resolved, edges, order);
     }
 
