@@ -4,6 +4,8 @@
     <ProjectReference Include="..\RCPsiSquared.Core\RCPsiSquared.Core.csproj" />
     <ProjectReference Include="..\RCPsiSquared.Diagnostics\RCPsiSquared.Diagnostics.csproj" />
     <ProjectReference Include="..\RCPsiSquared.Visualization\RCPsiSquared.Visualization.csproj" />
+    <ProjectReference Include="..\RCPsiSquared.Runtime\RCPsiSquared.Runtime.csproj" />
+    <ProjectReference Include="..\RCPsiSquared.Orchestration\RCPsiSquared.Orchestration.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

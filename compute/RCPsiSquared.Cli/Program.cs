@@ -29,6 +29,7 @@ public static class Program
                 "plot" => PlotCommand.Run(rest),
                 "inspect" => InspectCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
+                "knowledge" => KnowledgeCommand.Run(rest),
                 _ => UnknownCommand(command),
             };
         }
@@ -78,6 +79,10 @@ public static class Program
         Console.WriteLine("                       per-bond-qpeak --c <int> --N <int> --bond <Endpoint|Interior> |");
         Console.WriteLine("                       extract-gamma --j <double> --c <int> | open | retracted |");
         Console.WriteLine("                       compare [--q-grid-points N]");
+        Console.WriteLine();
+        Console.WriteLine("  knowledge   query the typed-knowledge registry built from Runtime + Orchestration");
+        Console.WriteLine("              args: <sub> [args]");
+        Console.WriteLine("              subs: tier <T1D|T1C|T2V|T2E|OQ|R> | ancestors <Name> | descendants <Name> | all");
         Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");
