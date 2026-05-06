@@ -162,6 +162,44 @@ The oscillation frequency at threshold decreases with bridge strength:
 At large J_bridge, the Hopf bifurcation approaches a saddle-node:
 almost no oscillation, just slow drift into instability.
 
+### 3.1 Local-EP connection (2026-05-06)
+
+The same algebraic object (same-sign-imaginary 2×2 form, AIII chiral)
+appears in F86 Statement 1 at finite Σγ = N·γ₀ as a real-axis EP at
+Q_EP = 2/g_eff: see [`PROOF_F86_QPEAK.md`](../docs/proofs/PROOF_F86_QPEAK.md)
+Statement 1 and the Tier 2 connection note added 2026-05-06.
+
+A Petermann-K sweep on the real Q axis at c=2 N=5..8
+(`compute/RCPsiSquared.Core.Tests/F86/F86PetermannProbe.cs:Probe_PetermannFineGrid_C2_VsN`)
+records:
+
+| N | parity | max K | argmax Q |
+|---|--------|-------|----------|
+| 5 | odd | 1333.6 | 1.288 |
+| 6 | even | 337.9 | 0.938 |
+| 7 | odd | 2384.7 | 1.842 |
+| 8 | even | 795.4 | 2.046 |
+
+By N=7 the spike sits ≈ 6× above this file's K = 403 complex-γ
+ballpark, with within-parity monotonic growth (odd 1.79× per step;
+even 2.36× per step) and a 2-4× odd/even asymmetry. The asymmetry
+confirms A3's σ_0 R-even/R-odd-degeneracy prediction empirically
+(chain-mirror R splitting of σ_0 at even N; see
+`compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs`).
+
+Reading: the local F86 EP is a real-axis hit of the same EP whose
+near-singularity this file detects at complex γ; the connection is an
+analytic continuation along complex γ, structurally specified but not
+yet executed in code. The two perspectives are two residuals of the
+F1 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0`: Σγ = N·γ₀ for the
+local instance, Σγ = 0 for the global gain-loss instance.
+
+Encoded as `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs`
+(Tier2Verified Claim, four PetermannSpikeWitness entries pinning the
+table). The PendingDerivationNote there names the complex-γ
+infrastructure (explicit modulated gain-loss in `LindbladPropagator`)
+or a closed-form K(N) at the EP as the path to Tier1Derived.
+
 ## 4. N-dependence: topological, not geometric
 
 How does the stability limit change with system size? The answer is

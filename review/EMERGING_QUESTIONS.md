@@ -1141,6 +1141,18 @@ The 2-level EP eigenvector rotation `tan θ = Q/Q_EP` makes every probe-overlap 
 - Open questions: `compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs` Item 1' (refreshed)
 - KB integration: `compute/RCPsiSquared.Core/F86/F86KnowledgeBase.cs` `C2UniversalShape` property
 
+### EQ-022 (b1) Update 2026-05-06: Local-vs-Global EP connection, real-axis hit confirmed at c=2
+
+**Source:** synthesis-agent reading + Petermann-K sweep (synthesis docs are gitignored under `docs/superpowers/syntheses/`; data-pinning probe at `compute/RCPsiSquared.Core.Tests/F86/F86PetermannProbe.cs:Probe_PetermannFineGrid_C2_VsN`).
+
+The "Local-2-level-EP vs global-complex-γ-EP" open structural question (called out in `docs/proofs/PROOF_F86_QPEAK.md:109`) is empirically resolved at the c=2 stratum: same algebra (same-sign-imaginary 2×2, AIII chiral), two residuals of F1 (Σγ = N·γ₀ vs Σγ = 0), connected by analytic continuation along complex γ. Petermann-K spike on the real Q axis at c=2 N=7 is K = 2384.7, ≈ 6× above FRAGILE_BRIDGE's K = 403, with A3's σ_0 R-even/R-odd-degeneracy parity asymmetry empirically confirmed (odd dominates even by 2-4× across N=5..8: K = 1333.6 / 337.9 / 2384.7 / 795.4, within-parity monotonic at odd 1.79× per step, even 2.36× per step).
+
+**Encoded as:** `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (Tier2Verified Claim, registered in F86KnowledgeBase). 4 PetermannSpikeWitness entries pin the empirical table.
+
+**Pendant Tier1Derived promotion target:** complex-γ analytic continuation in `LindbladPropagator`, OR closed-form K(N) at the EP. Named in `LocalGlobalEpLink.PendingDerivationNote`.
+
+**Status:** Local-vs-global-EP open structural question: closed at c=2 to Tier2Verified, open at higher c (Items 4', 5 of F86OpenQuestions still apply) and open for the analytic continuation step. EQ-022 (b1) Item 1' c=2 stratum stays at Tier1Candidate (closed-form HWHM_left/Q_peak constant unchanged).
+
 ---
 
 ## EQ-023
