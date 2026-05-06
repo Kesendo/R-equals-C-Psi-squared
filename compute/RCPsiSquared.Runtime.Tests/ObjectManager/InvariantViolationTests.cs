@@ -125,4 +125,14 @@ public class InvariantViolationTests
         Assert.Contains("docs/proofs/PROOF_DOES_NOT_EXIST.md", ex.Message);
         Assert.Contains("BadAnchor", ex.Message);
     }
+
+    [Fact]
+    public void Build_AfterBuild_BuilderUnusable()
+    {
+        var builder = new ClaimRegistryBuilder();
+        builder.Build();
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+        Assert.Throws<InvalidOperationException>(() =>
+            builder.Register<FooT1D>(_ => new FooT1D()));
+    }
 }
