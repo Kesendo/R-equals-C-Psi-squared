@@ -28,7 +28,15 @@ namespace RCPsiSquared.Core.F86;
 /// (Q_peak pair around 2, HWHM/Q* pair lifted above the 1/2 baseline by an r ≈ 1/2 amount,
 /// Interior HWHM r locked near the structural 1/2 fixed point) and validated empirically
 /// across the full c=2 N=5..8 anchor set. The 2026-05-07 Direction (α) attempt extracted
-/// an algebraic composition-reading of r_Q via two existing Tier 1 facts:
+/// an algebraic composition-reading of r_Q via two existing Tier 1 facts. The 2026-05-08
+/// code review reclassified Direction (α)'s "no sign split in the polarity-Bloch projection"
+/// finding as <b>structurally tautological under the uniform-J 4-mode reduction</b> rather
+/// than an empirical falsification: the 4-mode L_eff(Q) is bond-summed by design (see
+/// <see cref="Decomposition.FourModeEffective.LEffAtQ"/>), so its eigenstates cannot
+/// carry bond-class information no matter the projection axis. The bond-class signature
+/// must enter through dL/dJ_b per-bond V_b in the K-resonance, not through L_eff spectrum.</para>
+///
+/// <para>The composition-reading itself stands:</para>
 ///
 /// <code>
 ///   r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2
@@ -160,12 +168,17 @@ public sealed class PolarityInheritanceLink : Claim
         "Result: r_polarity(N, b) ≈ +0.39 → +0.21 across N=5..8 (decays with N), POSITIVE " +
         "for both bond classes (no sign split). Does not match r_Q (= ±0.5) or r_H (= ≈ +0.5) " +
         "at tolerance 0.005.\n\n" +
-        "Structural diagnosis: at the 4-mode level the K-driving eigenvalue spectrum is " +
-        "bond-class-INDEPENDENT (Re(λ_K+) ≈ −0.052 across both classes; only Im(λ) tracks Q " +
-        "linearly). The empirical bond-class signature lives in Q_peak(N, b) = 4.39382/g_eff(N, b), " +
-        "but g_eff(N, b) requires the full block-L (not the 4-mode reduction),same insufficiency " +
-        "documented in C2HwhmRatio direction (b''). Direction (α) inherits the same 4-mode-blind " +
-        "obstruction.\n\n" +
+        "## Structural reframing (2026-05-08 code review)\n\n" +
+        "Direction (α) is **structurally tautological under the uniform-J 4-mode reduction**, " +
+        "not an empirical falsification. The 4-mode L_eff(Q) = D_eff + Q·γ₀·MhTotalEff is " +
+        "**bond-summed by design** (FourModeEffective.LEffAtQ). Per-bond information enters " +
+        "ONLY through the per-bond MhPerBondEff[b] used in the Duhamel K_b(Q, t) evaluation, " +
+        "NOT through the L_eff spectrum or eigenstates. Any attempt to extract the bond-class " +
+        "signature from the 4-mode L_eff EIGENSTATES alone (Direction (α)'s polarity-Bloch " +
+        "projection at t_peak) is therefore guaranteed to be bond-class-blind by construction. " +
+        "What looked like 'empirical falsification' is actually the design constraint that " +
+        "L_eff is the same operator for every bond at uniform J. The bond-class signature " +
+        "lives in the K-resonance via per-bond V_b, not in the L_eff spectrum.\n\n" +
         "Direction (α)-test for g_eff_E: hypothesis g_eff_E ≈ σ_0(N)·√(3/8). Δ across N=5..8: " +
         "0.063, 0.008, 0.004, 0.008. Matches at Δ ≤ 0.01 for N ≥ 6 but does NOT pin at " +
         "tolerance 0.005 for all N. σ_0(N) alone for Interior g_eff misses Δ > 0.10 at N=5.\n\n" +

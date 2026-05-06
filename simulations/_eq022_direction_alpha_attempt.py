@@ -46,8 +46,15 @@ import sys
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+import os
+
 import numpy as np
 from numpy.linalg import eig, inv, svd, norm
+
+# Use the framework primitive for the F73 spatial-sum coherence kernel rather
+# than a placeholder identity matrix. (Code-review fix, 2026-05-08.)
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+from framework.coherence_block import spatial_sum_coherence_kernel
 
 
 # Empirical anchor table from PolarityInheritanceLink witnesses (gamma_0 = 0.05, c=2 N=5..8)
@@ -128,17 +135,16 @@ def build_full_block_operators(N, gamma0):
 
     M_h_total = sum(M_h_per_bond)
 
-    # D: the full Z-dephasing dissipator restricted to the (1,2) block.
-    # D[i, i] (for state pair (p, q)) = -gamma_0 * popcount(p XOR q)^2 by Z-dephasing.
-    # (Bonds work in the 4N-Pauli basis, but block-restricted here; popcount(p^q)
-    # = HD between basis indices, not Pauli-string xy-weight; for c=2 (n=1) the lookup
-    # is HD = 1 or 3.)
+    # D: the full Z-dephasing dissipator restricted to the (1, 2) block.
+    # Convention from BlockLDecomposition.cs / framework.coherence_block.block_L_split_xy:
+    #   D[i, i] = -2·gamma_0·HD(p, q)
+    # NOT -gamma_0·HD². (Code-review bug fix, 2026-05-08; was -gamma_0·HD² before.)
     D = np.zeros((Mtot, Mtot), dtype=complex)
     for p in states_p:
         for q in states_q:
             i = flat(p, q)
             hd = bin(p ^ q).count("1")
-            D[i, i] = -gamma0 * hd * hd
+            D[i, i] = -2.0 * gamma0 * hd
 
     # Probe: Dicke (n=1) state to (n=2) state coupling. The Dicke probe in the (1,2) block
     # is the (proportional) symmetric-superposition factored as |Dicke_1> tensor |Dicke_2>:
@@ -146,12 +152,11 @@ def build_full_block_operators(N, gamma0):
     probe = np.ones(Mtot, dtype=complex)
     probe = probe / norm(probe)
 
-    # S_kernel: the spatial-sum coherence kernel. For our purposes (peak-of-K vs Q-shape)
-    # the simplest valid kernel = identity. In the C# pipeline S_kernel is the spatial-sum
-    # coherence kernel (FourModeEffective.SKernelEff); we just use identity here as a probe-
-    # consistent spatial sum since both restrict to the (1,2) block. (This is sufficient for
-    # locating Q_peak and t_peak; precise K values might differ at constant factors.)
-    S_kernel = np.eye(Mtot, dtype=complex)
+    # S_kernel: the F73 spatial-sum coherence kernel computed via the framework primitive.
+    # (Code-review bug fix, 2026-05-08; was identity before, which silently changed the
+    # observable being maximised. With the proper kernel, K_b(Q, t_peak) = ρ(t)† S ∂_J ρ.)
+    # The (1, 2) block corresponds to n = 1 in the framework convention.
+    S_kernel = spatial_sum_coherence_kernel(N, n=1)
 
     return states_p, states_q, flat, Mtot, M_h_per_bond, M_h_total, D, probe, S_kernel
 

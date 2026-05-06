@@ -22,6 +22,15 @@ namespace RCPsiSquared.Core.Decomposition;
 ///         that splits Endpoint vs Interior shapes.</item>
 /// </list>
 ///
+/// <para><b>Structural design constraint:</b> at uniform J, L_eff(Q) = D_eff + Q·γ₀·MhTotalEff
+/// is <b>bond-summed by design</b> (see <see cref="LEffAtQ"/>). Per-bond information enters
+/// ONLY through the per-bond <see cref="MhPerBondEff"/>[b] in dL/dJ_b (used by K_b(Q, t)
+/// Duhamel evaluation in <c>FourModeResonanceScan</c>), NOT through the L_eff spectrum or
+/// eigenstates. Any direction that hopes to extract bond-class signature from the 4-mode
+/// L_eff EIGENVALUES or EIGENSTATES alone (e.g. Direction (α) polarity-Bloch projection at
+/// t_peak) is structurally tautological under this reduction. The bond-class signature
+/// lives in the K-resonance via per-bond V_b, not in the spectrum.</para>
+///
 /// <para>The L_eff(Q) = D_eff + J·Σ_b V_b_eff is a 4×4 matrix; eigendecomposition is
 /// instant, Duhamel integrals are tiny. The comparison <c>FourModeResonanceScan</c> vs
 /// <c>ResonanceScan</c> (full block-L) reveals whether the 4-mode model captures the

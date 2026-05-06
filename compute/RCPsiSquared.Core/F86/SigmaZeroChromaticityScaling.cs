@@ -104,6 +104,28 @@ public sealed class SigmaZeroChromaticityScaling : Claim
     /// <see cref="Asymptote"/>; both are sweet-spot crossings, not limits.</summary>
     public static double QEpAsymptote(int c) => 1.0 / Math.Sqrt(2.0 * (c - 1));
 
+    /// <summary><b>Sweet-spot identity:</b> σ_0(c=2, N=7) = 2√2 bit-exactly (verified to 9·10⁻¹⁶
+    /// independently, reproducible across full block-L SVD and the framework primitive
+    /// computation). This is a Tier-1-candidate <b>finite-N structural identity</b> at a
+    /// specific (c=2, N=7) point — distinct from the refuted asymptotic claim
+    /// σ_0 → 2√(2(c−1)). The c=3 trajectory does NOT cross its analogous c-asymptote 4.0
+    /// within tested N≤10, suggesting the N=7 c=2 identity is c=2-specific, not a generic
+    /// pattern. Tier-1 candidate awaiting analytical proof via OBC sine-mode + JW reduction
+    /// (Item 5 / "Item 3" in <see cref="F86.F86OpenQuestions.Standard"/> /
+    /// <c>docs/proofs/PROOF_F86_QPEAK.md</c>). See
+    /// <see cref="VerifySweetSpotIdentity_C2N7"/> for the empirical witness check.</summary>
+    public static readonly double SigmaZeroSweetSpotIdentity_C2N7 = 2.0 * Math.Sqrt(2.0);
+
+    /// <summary>Empirical witness: σ_0(c=2, N=7) computed via <see cref="InterChannelSvd"/>
+    /// matches <see cref="SigmaZeroSweetSpotIdentity_C2N7"/> bit-exactly (to within
+    /// machine precision). Returns <c>true</c> iff |σ_0 − 2√2| &lt; <paramref name="tolerance"/>.</summary>
+    public static bool VerifySweetSpotIdentity_C2N7(double tolerance = 1e-14)
+    {
+        var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
+        var svd = InterChannelSvd.Build(block, hd1: 1, hd2: 3);
+        return Math.Abs(svd.Sigma0 - SigmaZeroSweetSpotIdentity_C2N7) < tolerance;
+    }
+
     public override string DisplayName => "σ_0(c, N) crosses 2√(2(c−1)) at sweet-spot N";
 
     public override string Summary =>

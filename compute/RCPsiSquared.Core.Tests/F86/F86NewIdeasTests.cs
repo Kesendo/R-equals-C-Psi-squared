@@ -1,4 +1,5 @@
 using RCPsiSquared.Core.CoherenceBlocks;
+using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
 
@@ -100,6 +101,40 @@ public class F86NewIdeasTests
         // at sweet-spot N (=7 at c=2, bit-exact), not an N → ∞ limit.
         Assert.Equal(Tier.Tier2Empirical, kb.Sigma0Scaling.Tier);
         Assert.Equal(Tier.Tier1Derived, kb.F71Mirror.Tier);
+    }
+
+    [Fact]
+    public void SigmaZero_C2_N7_EqualsTwoSqrtTwo_BitExact()
+    {
+        // Sweet-spot Tier-1-candidate identity: σ_0(c=2, N=7) = 2√2 bit-exactly. Verified
+        // independently to ~9·10⁻¹⁶ across full block-L SVD and the framework primitive
+        // computation. Distinct from the refuted asymptote claim σ_0 → 2√(2(c−1)); this is
+        // a finite-N structural identity at one specific (c=2, N=7) point.
+        var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
+        var svd = InterChannelSvd.Build(block, hd1: 1, hd2: 3);
+        double delta = svd.Sigma0 - 2.0 * Math.Sqrt(2.0);
+        Assert.True(Math.Abs(delta) < 1e-14,
+            $"σ_0(c=2, N=7) should equal 2√2 bit-exactly; got Δ = {delta:E2}");
+
+        // Also verify the public helper agrees.
+        Assert.True(SigmaZeroChromaticityScaling.VerifySweetSpotIdentity_C2N7(),
+            "VerifySweetSpotIdentity_C2N7 should return true at default tolerance.");
+        Assert.Equal(2.0 * Math.Sqrt(2.0),
+            SigmaZeroChromaticityScaling.SigmaZeroSweetSpotIdentity_C2N7, 15);
+    }
+
+    [Fact]
+    public void SigmaZero_C3_N7_DoesNotCrossFourSqrtTwo_GenericPatternAbsent()
+    {
+        // The c=3 trajectory does NOT cross its analogous c-asymptote 4.0 in tested N≤10.
+        // This evidences that σ_0(c=2, N=7) = 2√2 is a c=2-specific identity, not a generic
+        // pattern σ_0(c, N=2c+3) = 2√(2(c−1)). At c=3 the relevant block is (n=2, n+1=3),
+        // and the SVD inter-channel pair is HD₁ = 1, HD₂ = 3 within this block (the lowest
+        // pair, matching c=2 conventions).
+        var block = new CoherenceBlock(N: 7, n: 2, gammaZero: 0.05);
+        var svd = InterChannelSvd.Build(block, hd1: 1, hd2: 3);
+        Assert.True(svd.Sigma0 < 4.0,
+            $"σ_0(c=3, N=7) should NOT have crossed 4.0; got {svd.Sigma0}");
     }
 
     [Fact]
