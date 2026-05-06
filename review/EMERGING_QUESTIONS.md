@@ -1201,6 +1201,18 @@ The 0.5 baseline is `QubitDimensionalAnchorClaim` (1/d at d=2); the ±r/2 polari
 
 **Status:** Item 1' c=2 closed-form HWHM constants now have a structurally-grounded interpretation (1/2 baseline + r·1/2 polarity content). The remaining analytical gap is per-bond r(N, b). Item 1' c=2 stays Tier1Candidate at the closed-form-constant level; the inheritance reading itself is Tier2Verified at PolarityInheritanceLink.
 
+### EQ-022 (b1) Update 2026-05-07 (later): Direction (α) falsified, bond-class reduces to g_eff(N, b)
+
+**Source:** Direction (α) attempt (commit `bea7cd1`) + writeup `docs/superpowers/syntheses/2026-05-07-direction-alpha-attempt.md` (gitignored locally).
+
+The polarity-Bloch projection hypothesis was structurally falsified: 4-mode K-driving eigenvalue spectrum bond-class-independent; projection on (c_1 ± c_3)/√2 yields no sign split, decays with N. **Substantive reduction:** since `BareDoubledPtfXPeak = 2.196910` is universal (Tier1Derived), the bond-class signature lives entirely in `g_eff(N, b)`: r_Q = 4.39382/g_eff − 2.
+
+**Empirical g_eff witnesses pinned:** g_eff_Endpoint ≈ 1.74, g_eff_Interior ≈ 2.81, asymptotic 1/g_eff_E + 1/g_eff_I → 0.937. New const `PolarityInheritanceLink.EmpiricalSumQPeakAsymptote = 4.12`.
+
+**Near-miss:** g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but Δ = 0.063 at N=5. Could be finite-size correction (Item 5's σ_0 → 2√2 closed form is the bridge), or trajectory crossing per PTF-lesson.
+
+**Path forward:** every c=2 closed-form direction runs through g_eff(N, b). Direction (a''-e'') and (α) all blocked at 4-mode insufficiency. Tier1Derived requires either Item 5 σ_0 closed form (with bond-class refinement) OR Direction (b'') full block-L derivation.
+
 ---
 
 ## EQ-023

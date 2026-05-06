@@ -76,6 +76,18 @@ C2HwhmRatio class-level Tier stays Tier1Candidate; the typed-property promotion 
 
 **Encoded as** `compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs` (Tier2Verified). Witnesses pin the empirical r values per (N, bond class). Tier1Derived promotion target: per-bond r(N, b) closed form via either (α) per-bond polarity-Bloch projection at t_peak, or (β) Locus 5 EP-rotation tan θ = Q/Q_EP combined with Locus 6 polarity inheritance to fix r as a function of g_eff(N, b).
 
+**2026-05-07 (later, Direction (α) refinement): bond-class lives entirely in g_eff(N, b).** A 90-min Direction (α) attempt (commit `bea7cd1`) produced a substantive algebraic reduction even though Tier1Derived did not land:
+
+**Composition reading:** `r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382/g_eff(N, b) − 2`. Since `BareDoubledPtfXPeak` is universal (= 2.196910, Tier1Derived from the bare doubled-PTF Ansatz), the entire bond-class split is encoded in `g_eff(N, b)`. Encoded as `PolarityInheritanceLink.ClosedFormCompositionNote`.
+
+**Empirical g_eff witnesses (c=2 N=5..8):** g_eff_Endpoint ≈ 1.74 (range 1.725–1.757), g_eff_Interior ≈ 2.81 (range 2.738–2.964). The asymptotic harmonic-mean closure 1/g_eff_E + 1/g_eff_I → ≈ 0.937 (pinned as `EmpiricalSumQPeakAsymptote = 4.12`).
+
+**Tantalising near-miss:** g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but Δ = 0.063 at N=5. Either finite-size correction (Item 5's σ_0 closed form is the bridge) or trajectory crossing (PTF-lesson warning). Not promoted; documented as next-direction probe.
+
+**Direction (α) structurally falsified at the 4-mode level:** the 4-mode K-driving eigenvalue spectrum is bond-class-INDEPENDENT (Re(λ_K) identical for both classes); the polarity-Bloch projection (c_1 ± c_3)/√2 yields +0.39 → +0.21 for both classes, decays with N, no sign split. The bond-class signature lives in Q_peak via g_eff(class), NOT in the 4-mode eigenstate-mix.
+
+**Conclusion:** Every closed-form direction for c=2 runs through `g_eff(N, b)`. Directions (a''-e'') and (α) all share the 4-mode-blind obstruction. Path to Tier1Derived: either Item 5 (σ_0 closed form, then bond-class refinement) OR Direction (b'') (full block-L derivation, abandon 4-mode reduction).
+
 ### Statement 3 (F71 spatial-mirror invariance of per-bond Q_peak). [Tier 1 derived]
 
 For every bond pair (b, N−2−b) under the F71 chain-mirror pairing,
@@ -345,6 +357,7 @@ In this basis the 4×4 effective L_eff has
   - **(d'') Lift |u_0⟩, |v_0⟩ to projector-overlap** (per A3 PendingDerivationNote). Removes σ_0 degeneracy obstruction at even N. Necessary precondition for any cross-block-based direction; not sufficient by itself.
   - **(e'') Symbolic char-poly factorisation at Q_EP**: same as before; less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.
   - **(f'') Locus 6 polarity-inheritance closure** (newly derived 2026-05-07): F86 bond-class split inherits from polarity-layer pair {−0.5, +0.5}; per-bond r(N, b) closed form is the analytical gap. Promotion path: derive r from per-bond Bloch-axis projection at t_peak. Most concrete since the empirical decomposition Q_peak = 2 + r, HWHM/Q* = 1/2 + r·1/2 already holds across c=2 N=5..8.
+  - (α') **Polarity-Bloch projection at t_peak, falsified 2026-05-07 (later) (commit `bea7cd1`).** 4-mode K-driving eigenstate is bond-class-blind (Re(λ_K) identical across classes); projection on (c_1 ± c_3)/√2 yields no sign split, decays from +0.39 → +0.21 with N. Substantive reduction: r_Q = `BareDoubledPtfXPeak · Q_EP − 2 = 4.39382/g_eff − 2` so the closed form must derive g_eff(N, b) directly, not via state projection. Empirical witnesses pinned: g_eff_E ≈ 1.74, g_eff_I ≈ 2.81; asymptotic 1/g_eff_E + 1/g_eff_I → 0.937 as `EmpiricalSumQPeakAsymptote = 4.12`. Near-miss g_eff_E ≈ σ_0·√(3/8) matches Δ ≤ 0.01 for N ≥ 6, Δ = 0.063 at N=5: either Item 5's σ_0 closed form is the bridge or it is a trajectory crossing (PTF-lesson). See Statement 2 sub-section above.
 
 **Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10, orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
 
