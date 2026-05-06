@@ -91,4 +91,17 @@ public class InvariantViolationTests
         Assert.Contains(typeof(CycleA), ex.Path);
         Assert.Contains(typeof(CycleB), ex.Path);
     }
+
+    [Fact]
+    public void Build_Duplicate_Throws_OnSecondRegistration()
+    {
+        var builder = new ClaimRegistryBuilder()
+            .Register<FooT1D>(_ => new FooT1D());
+
+        var ex = Assert.Throws<InvariantViolationException>(() =>
+            builder.Register<FooT1D>(_ => new FooT1D()));
+
+        Assert.Equal("DuplicateRegistration", ex.Rule);
+        Assert.Contains("FooT1D", ex.Message);
+    }
 }

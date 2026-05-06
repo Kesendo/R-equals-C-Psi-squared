@@ -19,6 +19,12 @@ public sealed class ClaimRegistryBuilder
     {
         if (_built)
             throw new InvalidOperationException("ClaimRegistry already built; the builder is single-shot.");
+        if (_factories.ContainsKey(typeof(T)))
+            throw new InvariantViolationException(
+                rule: "DuplicateRegistration",
+                message: $"Type {typeof(T).Name} registered twice. The builder is single-pass; remove one of the Register calls.",
+                hint: $"Search the registration code for '.Register<{typeof(T).Name}>'.",
+                offendingClaim: typeof(T));
         _factories[typeof(T)] = ctx => factory(ctx);
         return this;
     }
