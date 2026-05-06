@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   attempt should target.</item>
 /// </list>
 ///
-/// <para><b>Tier outcome (this session): Tier1Candidate.</b> Two structural results:</para>
+/// <para><b>Tier outcome (current): Tier1Candidate.</b> Three structural results:</para>
 /// <list type="bullet">
 ///   <item><b>Empirical envelope significantly tightened.</b> The class-mean Q-curve
 ///   pipeline (average bond-class K(Q) curves first, then peak/HWHM) reproduces the
@@ -51,14 +51,27 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   <see cref="C2BondCoupling.CrossBlockWitnesses"/> Frobenius split — Endpoint cross-
 ///   block Frobenius &lt; Interior cross-block Frobenius (B2 finding) — is the seed; the
 ///   missing piece is the algebra connecting cross-block Frobenius to HWHM ratio shift.</item>
+///   <item><b>Doubled-PTF baseline derived analytically (2026-05-06 Direction (b) attempt).</b>
+///   Per the F86↔PTF inheritance synthesis, c=2 is structurally a coupling of two PTF
+///   c=1 instances at HD=1 and HD=3. The bare 2-level Duhamel K_b model
+///   <c>L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]]</c> gives universal post-EP location
+///   <c>x_peak = Q_peak/Q_EP = 2.196910</c> and universal <c>HWHM_left/Q_peak = 0.671535</c>,
+///   both g_eff- and probe-mixing-invariant. Empirical Interior x_peak (2.05..2.28) tracks
+///   this universal closely; Endpoint x_peak (3.55) deviates by factor ~1.62. The bare
+///   HWHM ratio 0.6715 is below empirical Interior 0.7506 by 0.08 and Endpoint 0.7728 by
+///   0.10. Conclusion: the doubled-PTF Ansatz inherits the SVD-block Q-rotation symmetry
+///   (universal x_peak, universal HWHM/Q*) but the K_b observable's HWHM ratio is set by
+///   an additional probe-block 2-level sub-resonance NOT captured by the bare model. See
+///   <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</item>
 /// </list>
 ///
-/// <para>The closed-form constant is NOT pinned this session (the analytical-phase budget
-/// surfaced the 2-level reduction as bond-class-blind; the cross-block first-order
-/// correction is the documented next direction in
-/// <see cref="PendingDerivationNote"/>). The 2-level reference value
-/// <see cref="TwoLevelEpDecaySanity"/> is a sanity check on the EP-decay timescale,
-/// not a closed-form HWHM derivation.</para>
+/// <para>The closed-form constant is NOT pinned this session. The analytical-phase budget
+/// surfaced (a) the 2-level propagator-magnitude reduction is bond-class-blind, (b) the
+/// bare doubled-PTF Duhamel K_b gives universal 0.6715 (below empirical), and (c) the
+/// remaining gap to 0.7506/0.7728 lives in the probe-block 2-level sub-resonance which
+/// is the most concrete next direction. See <see cref="PendingDerivationNote"/>. The
+/// 2-level reference value <see cref="TwoLevelEpDecaySanity"/> is a sanity check on the
+/// EP-decay timescale, not a closed-form HWHM derivation.</para>
 ///
 /// <para>The empirical-anchor test passes for the Tier1Candidate outcome: the same
 /// fine-grid pipeline runs in all three branches; the Tier reflects what the algebra
@@ -483,29 +496,60 @@ public sealed class C2HwhmRatio : Claim
                "      c_3 in Q (per C2EffectiveSpectrum.PendingDerivationNote); no clean\n" +
                "      analytical factorisation under any natural similarity transform tried.\n" +
                "\n" +
-               "Promising next directions for the closed form:\n" +
-               "  (a) First-order perturbation in the cross-block: expand the full 4-mode\n" +
-               "      K_b(Q, t_peak) = K_probe-block(Q) + ε · K_cross(Q, b) + O(ε²) with ε ~\n" +
-               "      ‖V_b cross‖_F / σ_0. The first-order correction to Q_peak is\n" +
-               "      δQ_peak = -(∂K_cross/∂Q|_ε=0) / (∂²K_probe-block/∂Q²), and similarly\n" +
-               "      for the HWHM-left crossing. The cross-block Frobenius is\n" +
-               "      bond-class-dependent (B2 finding: Endpoint < Interior), so this should\n" +
-               "      produce a closed-form bond-class-dependent shift δ(Endpoint - Interior)\n" +
-               "      ≈ 0.022.\n" +
-               "  (b) Lift to projector-overlap onto the 2D top eigenspace (per A3's\n" +
-               "      PendingDerivationNote): if the closed-form |u_0⟩, |v_0⟩ promote to\n" +
-               "      Tier1Derived, the V_b cross-block becomes analytical and the first-order\n" +
-               "      correction in (a) is fully closed.\n" +
-               "  (c) Symbolic char-poly factorisation in the (γ₀, J·g_eff) variables using\n" +
-               "      the Q_EP location as an anchor: at Q = Q_EP two of the four eigenvalues\n" +
-               "      coalesce, which may simplify the quartic locally; the slow-pair\n" +
-               "      eigenvalue's Q-derivative at the EP is what sets the K-resonance HWHM.\n" +
+               "Direction-(b) doubled-PTF Ansatz attempt 2026-05-06 (Tier1Candidate retained):\n" +
+               "  Setup. Per the F86↔PTF inheritance synthesis, c=2 is structurally a coupling\n" +
+               "  of two PTF c=1 instances at the HD=1 (rate -2γ₀) and HD=3 (rate -6γ₀) channels,\n" +
+               "  with σ_0 the inter-channel coupling. The bare 2-level Duhamel K_b model\n" +
+               "  L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]], probe rho_0 = |c_1⟩, V_b = dL/dJ\n" +
+               "  was solved analytically in dimensionless x = Q/Q_EP coordinates.\n" +
+               "  Bare-2-level result (universal across g_eff, derived analytically):\n" +
+               "    x_peak = Q_peak/Q_EP = 2.196910 (10-digit precision, post-EP location)\n" +
+               "    HWHM_left/Q_peak = 0.671535 (universal, probe-mixing invariant)\n" +
+               "  Empirical Interior x_peak across N=5..8 = 2.05..2.28 (close to 2.197);\n" +
+               "  empirical Endpoint x_peak = 3.45..3.58 (factor ~1.62× the bare value).\n" +
+               "  HWHM_left/Q_peak gap: bare 0.6715 vs empirical Interior 0.7506 (0.08 gap)\n" +
+               "  and Endpoint 0.7728 (0.10 gap).\n" +
+               "  Conclusion: the bare doubled-PTF inherits the SVD-block universal\n" +
+               "  Q-rotation symmetry but does NOT directly give the K_b HWHM ratio. The\n" +
+               "  bond-class signature (Endpoint > Interior split) lives in the cross-block,\n" +
+               "  while the absolute HWHM/Q* shift (0.6715 → 0.7506 floor) lives in the\n" +
+               "  probe-block 2-level sub-resonance — a separate piece NOT captured by the\n" +
+               "  SVD-block doubled-c=1 model.\n" +
+               "  See `docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md`\n" +
+               "  for the full derivation + verdict.\n" +
+               "\n" +
+               "Refined next directions for the closed form:\n" +
+               "  (a) Probe-block 2-level resonance (NEW direction from 2026-05-06).\n" +
+               "      Project per-bond V_b onto the |c_1⟩, |c_3⟩ probe-block and derive the\n" +
+               "      closed-form K-resonance HWHM/Q_peak from the resulting 2-level Duhamel\n" +
+               "      observable, using per-bond probe-block coupling g_eff_probe(N, b)\n" +
+               "      instead of σ_0. Empirical Q_peak ratio Endpoint/Interior ≈ 1.6 matches\n" +
+               "      the empirical x_peak ratio, suggesting g_eff_probe(Endpoint) ≈\n" +
+               "      g_eff_probe(Interior)/1.6 — i.e. the probe-block coupling drives the\n" +
+               "      Q_peak split, not the cross-block. This is the most concrete next path.\n" +
+               "  (b) Three-block superposition K_total = K_pb + K_sv + 2·Re·K_cross.\n" +
+               "      The actual K_b is the sum of probe-block, SVD-block, cross-coupling\n" +
+               "      contributions; HWHM ratio depends on which dominates at half-max.\n" +
+               "      The cross-block coupling is what makes Endpoint vs Interior split.\n" +
+               "  (c) First-order σ_0 perturbation in the cross-block (original direction (a)\n" +
+               "      from 2026-05-05). Numerically tested with cross-block strength sweep —\n" +
+               "      gives small |K|max corrections but negligible HWHM/Q* shift, suggesting\n" +
+               "      this perturbation is NOT the leading mechanism for the bond-class split.\n" +
+               "      Cross-block matters for the directional gap, but not via simple σ_0\n" +
+               "      perturbation of the bare-2-level baseline.\n" +
+               "  (d) Lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote);\n" +
+               "      removes σ_0 degeneracy obstruction at even N, useful for direction (b)\n" +
+               "      but not by itself sufficient for the HWHM closed form.\n" +
+               "  (e) Symbolic char-poly factorisation at Q_EP — same as before; less\n" +
+               "      promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.\n" +
                "\n" +
                $"Witness count this session at γ₀=0.05: per-bond {ResonanceScan.DefaultQGrid().Length}-point fine-grid Q-scan,\n" +
                "parabolic Q_peak refinement, linear HWHM_left interpolation.\n" +
                $"  Endpoint mean(this N) = {endpointMean:F4}, Interior mean(this N) = {interiorMean:F4}\n" +
                $"  PROOF_F86_QPEAK Statement 2 anchor mean over N=5..8:\n" +
-               "    Endpoint 0.7728, Interior 0.7506.";
+               "    Endpoint 0.7728, Interior 0.7506.\n" +
+               "  Bare doubled-PTF baseline (this session, derived analytically):\n" +
+               "    x_peak universal = 2.196910, HWHM_left/Q_peak universal = 0.671535.";
     }
 
     public override string DisplayName =>
