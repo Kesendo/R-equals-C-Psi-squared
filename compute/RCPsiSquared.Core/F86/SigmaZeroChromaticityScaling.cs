@@ -5,27 +5,55 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 Tier-1-candidate: σ_0 chromaticity scaling.
+/// <summary>F86 Tier-2-empirical: σ_0 chromaticity scaling. The 2√(2(c−1))
+/// value is a CROSSING POINT, not an asymptote.
 ///
-/// <para>The c=2 asymptote σ_0 → 2√2 generalises to all c ≥ 2:</para>
-/// <code>
-///   σ_0(c, N → ∞)  →  2 · √(2 · (c − 1))
-/// </code>
-/// <para>Equivalently, the dimensionless quantity σ_0 / √(2(c−1)) converges monotonically
-/// from below to 2 as N grows, for each tested c. Q_EP = 2 / σ_0 then asymptotes to
-/// <c>1 / √(2(c−1))</c>: 0.707 (c=2), 0.500 (c=3), 0.408 (c=4).</para>
+/// <para>At c=2, the conjecture σ_0(c=2, N → ∞) → 2√2 was driven by the bit-exact match
+/// at N=7: σ_0(c=2, N=7) = 2√2 to within 10⁻¹⁵. The 2026-05-08 σ_0 bridge sweep
+/// (script <c>simulations/_eq022_sigma0_bridge_sweep.py</c>, synthesis writeup
+/// <c>docs/superpowers/syntheses/2026-05-07-sigma0-bridge-sweep.md</c>) extended N to 11
+/// and observed that σ_0 keeps GROWING past 2√2 monotonically: 2.8284 (N=7) → 2.8393 (N=8)
+/// → 2.8483 (N=9) → 2.8525 (N=10) → 2.8561 (N=11). Aitken extrapolation suggests an
+/// actual N → ∞ limit between ~2.85 and ~2.89, NOT 2√2. The 2√(2(c−1)) form is a
+/// trajectory crossing at one specific N per c (N=7 at c=2), structurally analogous to
+/// the F86 retraction-lesson (Q_peak Endpoint = csc(π/(N+1)) was an N=7 coincidence;
+/// see <see cref="RetractedClaim"/>). The true closed form for the asymptote is open.</para>
 ///
-/// <para>Numerical witnesses across c ∈ {2, 3, 4}, N ∈ {5..8} (computed live via
-/// <see cref="InterChannelSvd.Build"/>):</para>
+/// <para>What survives the retraction:</para>
 /// <list type="bullet">
-///   <item>c=2 N=7 hits the asymptote 2.0 to within 10⁻⁵ — the structural sweet spot</item>
-///   <item>c=3 N=8 reaches 1.92, still climbing</item>
-///   <item>c=4 N=8 reaches 1.78, slowest convergence</item>
+///   <item>The c=2 N=7 sweet-spot crossing σ_0 = 2√2 is empirically rock-solid (still
+///         testable via <c>SigmaZeroChromaticityScaling_C2N7_HitsAsymptoteWithinTenMicro</c>
+///         in <c>F86NewIdeasTests</c>).</item>
+///   <item>σ_0/√(2(c−1)) increases monotonically with N for each tested c; the SCALING
+///         in c is preserved.</item>
+///   <item>At higher c (c=3, c=4), the ratio is still well below 2.0 even at N=8 and the
+///         sweet-spot crossing has not yet occurred, so c=3 and c=4 may have their OWN
+///         crossing N_c* where ratio = 2.0, distinct from N_c=2* = 7.</item>
 /// </list>
 ///
-/// <para>Open: an analytical derivation of the 2√(2(c−1)) closed form from the multi-particle
-/// XY single-particle spectrum (extension of the c=2 OBC sine-mode argument in
-/// <see cref="F86OpenQuestions.Standard"/> Item 5).</para>
+/// <para>Numerical witnesses across c ∈ {2, 3, 4}, N ∈ {5..9} (extended 2026-05-08 from
+/// the original N=5..8 grid; computed live via <see cref="InterChannelSvd.Build"/>):</para>
+/// <list type="bullet">
+///   <item>c=2: N=5 → 1.955, N=6 → 1.981, <b>N=7 → 2.000</b> (crossing), N=8 → 2.008,
+///         N=9 → 2.014, N=10 → 2.017, N=11 → 2.020</item>
+///   <item>c=3 N=8 reaches 1.92, still climbing; sweet spot N_c* not yet reached at N=8</item>
+///   <item>c=4 N=9 reaches 1.84, slowest convergence; sweet spot N_c* far above N=9</item>
+/// </list>
+///
+/// <para>Bridge to F86 c=2 g_eff_Endpoint: σ_0(c=2, N) · √(3/8) approximates the empirical
+/// g_eff_E (= 4.39382/Q_peak_Endpoint via the C2HwhmRatio composition) with Δ ≤ 0.01 for
+/// N ≥ 6 and Δ = 0.005 at N=7 (sweet-spot crossing again); Δ = 0.064 at N=5 is finite-size
+/// breakdown. Verified in the same 2026-05-08 sweep. Higher-c bridge √(3/8) untestable
+/// without an empirical g_eff table at c=3, c=4. See
+/// <see cref="PolarityInheritanceLink.PendingDerivationNote"/> for the (α'), (β'), (γ')
+/// next directions on the closed-form g_eff(N, b).</para>
+///
+/// <para>Open: the true σ_0(c, N → ∞) closed form. The 2√(2(c−1)) trajectory crossing at
+/// (c, N) = (2, 7) is preserved as a sweet-spot witness; the actual asymptote (likely
+/// involving an OBC band-edge factor of the form 2cos(π/(N+1)) or similar
+/// finite-size correction) is unresolved and is anchored in
+/// <see cref="F86OpenQuestions.Standard"/> "Item 5: derive the true σ_0(c, N → ∞) asymptote"
+/// (this corresponds to PROOF_F86_QPEAK.md Item 3 in the proof-doc numbering).</para>
 /// </summary>
 public sealed class SigmaZeroChromaticityScaling : Claim
 {
@@ -42,13 +70,16 @@ public sealed class SigmaZeroChromaticityScaling : Claim
         IReadOnlyList<int>? chromaticities = null,
         IReadOnlyList<int>? Ns = null,
         WitnessCache? cache = null)
-        : base("σ_0 chromaticity scaling: σ_0 → 2√(2(c−1))",
-               Tier.Tier1Candidate,
-               "docs/proofs/PROOF_F86_QPEAK.md Item 5 (open) generalised across c")
+        : base("σ_0 chromaticity scaling: 2√(2(c−1)) trajectory crossing (asymptote retracted)",
+               Tier.Tier2Empirical,
+               "docs/proofs/PROOF_F86_QPEAK.md Item 3 (open: closed-form asymptote) + " +
+               "docs/superpowers/syntheses/2026-05-07-sigma0-bridge-sweep.md (2√(2(c−1)) refuted as asymptote, preserved as N=7 crossing)")
     {
         GammaZero = gammaZero;
         Chromaticities = chromaticities ?? new[] { 2, 3, 4 };
-        this.Ns = Ns ?? new[] { 5, 6, 7, 8 };
+        // Default Ns extended 2026-05-08 to include N=9: this is the witness that observes
+        // c=2 ratio 2.014 > 2.0, falsifying the "monotone from below" reading of the asymptote.
+        this.Ns = Ns ?? new[] { 5, 6, 7, 8, 9 };
         Cache = cache ?? WitnessCache.Default;
         _witnesses = new Lazy<IReadOnlyList<SigmaZeroScalingWitness>>(BuildWitnesses);
     }
@@ -63,31 +94,36 @@ public sealed class SigmaZeroChromaticityScaling : Claim
         return list;
     }
 
-    /// <summary>Asymptotic for given c: <c>2√(2(c−1))</c>.</summary>
+    /// <summary>Trajectory-crossing value for given c: <c>2√(2(c−1))</c>. NOT an asymptote
+    /// (refuted 2026-05-08; see class summary). At c=2 this equals 2√2 = 2.8284 and is
+    /// crossed bit-exactly at N=7. Higher-c crossing N is unknown from current data.</summary>
     public static double Asymptote(int c) => 2.0 * Math.Sqrt(2.0 * (c - 1));
 
-    /// <summary>Asymptotic Q_EP for given c: <c>1/√(2(c−1))</c>.</summary>
+    /// <summary>Q_EP value at the trajectory-crossing N: <c>1/√(2(c−1))</c>. NOT an
+    /// asymptotic Q_EP (refuted 2026-05-08). Preserved for symmetry with
+    /// <see cref="Asymptote"/>; both are sweet-spot crossings, not limits.</summary>
     public static double QEpAsymptote(int c) => 1.0 / Math.Sqrt(2.0 * (c - 1));
 
-    public override string DisplayName => "σ_0(c, N) → 2√(2(c−1))";
+    public override string DisplayName => "σ_0(c, N) crosses 2√(2(c−1)) at sweet-spot N";
 
     public override string Summary =>
-        $"asymptotes per c: {string.Join(", ", Chromaticities.Select(c => $"c={c}→{Asymptote(c):F3}"))} ({Tier.Label()})";
+        $"crossings per c: {string.Join(", ", Chromaticities.Select(c => $"c={c}→{Asymptote(c):F3}"))} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             foreach (int c in Chromaticities)
-                yield return new InspectableNode($"asymptote c={c}",
-                    summary: $"σ_0 → {Asymptote(c):F4} = 2√(2·{c - 1}); Q_EP → {QEpAsymptote(c):F4} = 1/√(2·{c - 1})",
-                    payload: new InspectablePayload.Real($"σ_0 asymptote (c={c})", Asymptote(c), "F4"));
+                yield return new InspectableNode($"trajectory-crossing value c={c}",
+                    summary: $"σ_0 = {Asymptote(c):F4} = 2√(2·{c - 1}) crossed at sweet-spot N (=7 at c=2); " +
+                             $"Q_EP = {QEpAsymptote(c):F4} = 1/√(2·{c - 1}) at that N. NOT an asymptote.",
+                    payload: new InspectablePayload.Real($"σ_0 crossing value (c={c})", Asymptote(c), "F4"));
             foreach (var w in Witnesses) yield return w;
         }
     }
 }
 
-/// <summary>Single (c, N) σ_0 witness — computes σ_0 from <see cref="InterChannelSvd.Build"/>
+/// <summary>Single (c, N) σ_0 witness; computes σ_0 from <see cref="InterChannelSvd.Build"/>
 /// and exposes it together with the chromaticity-normalised value σ_0/√(2(c−1)).</summary>
 public sealed class SigmaZeroScalingWitness : IInspectable
 {
@@ -114,7 +150,7 @@ public sealed class SigmaZeroScalingWitness : IInspectable
     public string DisplayName => $"σ_0 c={Chromaticity} N={N}";
 
     public string Summary =>
-        $"σ_0 = {Sigma0:F4}, σ_0/√(2(c−1)) = {NormalisedRatio:F4} (asymptote 2.0)";
+        $"σ_0 = {Sigma0:F4}, σ_0/√(2(c−1)) = {NormalisedRatio:F4} (crosses 2.0 at sweet-spot N; not the asymptote)";
 
     public IEnumerable<IInspectable> Children
     {
@@ -124,7 +160,7 @@ public sealed class SigmaZeroScalingWitness : IInspectable
             yield return InspectableNode.RealScalar("N", N);
             yield return InspectableNode.RealScalar("σ_0", Sigma0, "F6");
             yield return InspectableNode.RealScalar("σ_0 / √(2(c−1))", NormalisedRatio, "F6");
-            yield return InspectableNode.RealScalar("Δ from asymptote", DeltaFromAsymptote, "F6");
+            yield return InspectableNode.RealScalar("Δ from 2√(2(c−1)) crossing value", DeltaFromAsymptote, "F6");
         }
     }
 

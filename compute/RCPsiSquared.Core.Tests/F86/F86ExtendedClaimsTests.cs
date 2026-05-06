@@ -86,20 +86,27 @@ public class F86ExtendedClaimsTests
     }
 
     [Fact]
-    public void Sigma0Scaling_AsymptoteIsTwoSqrtTwoCMinusOne_AndComputesSelfFromInterChannelSvd()
+    public void Sigma0Scaling_TrajectoryCrossingValueIsTwoSqrtTwoCMinusOne_AndComputesSelfFromInterChannelSvd()
     {
         // σ_0 witnesses use small InterChannelSvd computations — fast, no need for reduced grid.
         // SigmaZeroChromaticityScaling subsumes the old c=2 Sigma0AsymptoticClaim by covering all c.
+        // Note (2026-05-08): the 2√(2(c−1)) value is a trajectory CROSSING (sweet-spot at c=2 N=7,
+        // bit-exact), not an asymptote; see SigmaZeroChromaticityScaling class summary. The test
+        // name was renamed accordingly. Default Ns extended from {5,6,7,8} to {5,6,7,8,9} to
+        // expose the post-crossing region where ratio > 2.0 at c=2.
         var claim = new SigmaZeroChromaticityScaling(0.05, chromaticities: new[] { 2 });
         Assert.Equal(2.0 * Math.Sqrt(2.0), SigmaZeroChromaticityScaling.Asymptote(c: 2), 12);
-        Assert.Equal(4, claim.Witnesses.Count);
+        Assert.Equal(5, claim.Witnesses.Count);
         // The σ_0 values are now computed live from InterChannelSvd.Build(block).Sigma0.
         Assert.True(claim.Witnesses[0].Sigma0 > 2.7 && claim.Witnesses[0].Sigma0 < 2.9,
             $"σ_0 at c=2 N=5 = {claim.Witnesses[0].Sigma0:F4} should be near 2√2 ≈ 2.828");
-        // c=2 N=7 should hit 2√2 to ~4 decimals (the structural sweet spot).
+        // c=2 N=7 should hit 2√2 to ~4 decimals (the structural sweet spot crossing).
         Assert.InRange(claim.Witnesses[2].Sigma0,
             SigmaZeroChromaticityScaling.Asymptote(2) - 0.001,
             SigmaZeroChromaticityScaling.Asymptote(2) + 0.001);
+        // c=2 N=9 is post-crossing: σ_0 > 2√2.
+        Assert.True(claim.Witnesses[4].Sigma0 > 2.0 * Math.Sqrt(2.0),
+            $"σ_0 at c=2 N=9 = {claim.Witnesses[4].Sigma0:F4} should be > 2√2 (post-crossing region)");
     }
 
     [Fact]

@@ -34,13 +34,20 @@ public class F86NewIdeasTests
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
-    public void SigmaZeroChromaticityScaling_NormalisedRatio_ConvergesMonotonicallyTo2(int c)
+    public void SigmaZeroChromaticityScaling_NormalisedRatio_GrowsMonotonicallyWithN(int c)
     {
-        // Within each chromaticity, σ_0/√(2(c−1)) should grow monotonically with N
-        // toward the asymptote 2.0.
+        // Within each chromaticity, σ_0/√(2(c−1)) grows monotonically with N. The 2.0
+        // value is a TRAJECTORY CROSSING (sweet-spot at c=2 N=7, bit-exact to ~10⁻¹⁵),
+        // NOT an asymptote: σ_0/√(2·1) at c=2 keeps climbing past 2.0 to 2.014 at N=9
+        // and ~2.020 at N=11 (verified 2026-05-08 in the σ_0 bridge sweep). So the
+        // monotone-growth claim survives, but the upper-bound envelope must now include
+        // values above 2.0; see the class-level summary in SigmaZeroChromaticityScaling
+        // for the full retraction context (c=2 case is empirically the only one tested
+        // past the 2.0 crossing within the current N range; c=3 and c=4 may have their
+        // own sweet-spot N_c* > 8).
         int[] Ns = c switch
         {
-            2 => new[] { 5, 6, 7, 8 },
+            2 => new[] { 5, 6, 7, 8, 9 },
             3 => new[] { 5, 6, 7, 8 },
             4 => new[] { 7, 8 },
             _ => throw new ArgumentException(),
@@ -55,8 +62,9 @@ public class F86NewIdeasTests
                 $"σ_0/√(2(c−1)) should grow monotonically with N at c={c}: " +
                 $"N={Ns[i]}→{ratios[i]:F4}, N={Ns[i + 1]}→{ratios[i + 1]:F4}");
 
-        // All values approach 2.0 from below at the tested envelope (0.65 < ratio < 2.01).
-        Assert.All(ratios, r => Assert.InRange(r, 1.65, 2.01));
+        // Envelope: c=2 ratio at N=9 is 2.014 (above 2.0, the post-crossing region);
+        // c=3 and c=4 still climb from below. Range covers both pre- and post-crossing.
+        Assert.All(ratios, r => Assert.InRange(r, 1.65, 2.05));
     }
 
     [Theory]
@@ -87,7 +95,10 @@ public class F86NewIdeasTests
 
         Assert.NotNull(kb.Sigma0Scaling);
         Assert.NotNull(kb.F71Mirror);
-        Assert.Equal(Tier.Tier1Candidate, kb.Sigma0Scaling.Tier);
+        // Tier was demoted from Tier1Candidate to Tier2Empirical 2026-05-08 after the σ_0
+        // bridge sweep falsified the asymptote reading: 2√(2(c−1)) is a trajectory crossing
+        // at sweet-spot N (=7 at c=2, bit-exact), not an N → ∞ limit.
+        Assert.Equal(Tier.Tier2Empirical, kb.Sigma0Scaling.Tier);
         Assert.Equal(Tier.Tier1Derived, kb.F71Mirror.Tier);
     }
 

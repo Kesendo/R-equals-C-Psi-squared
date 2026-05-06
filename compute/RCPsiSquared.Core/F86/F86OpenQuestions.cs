@@ -27,9 +27,20 @@ public static class F86OpenQuestions
             "Iterate the 4-mode construction over k; concatenate the orthonormal subspaces; project full block-L; numerical verification at c=3, c=4 first.",
             "docs/proofs/PROOF_F86_QPEAK.md Item 4'"),
         new OpenQuestion(
-            "Item 5: derive σ_0 → 2√2 asymptote (c=2)",
-            "The trajectory σ_0(N) = {2.7651, 2.8023, 2.8284, 2.8393} at N=5..8 converges to 2√2 = 2.8284. The 2√2 has the look of an XY-chain matrix element √(2/(N+1))·sin(πk·b/(N+1)) but the closed form is not yet derived.",
-            "OBC sine-mode algebra applied to the inter-HD-channel coupling matrix; Bogoliubov / JW transform of the SE chain may make this transparent.",
-            "docs/proofs/PROOF_F86_QPEAK.md Item 5"),
+            "Item 5: derive the true σ_0(c, N → ∞) asymptote (was: 2√(2(c−1)); CROSSING, NOT LIMIT)",
+            "RETRACTED 2026-05-08: the 2√(2(c−1)) value is a TRAJECTORY CROSSING, not an asymptote. " +
+            "σ_0(c=2, N=7) = 2√2 bit-exact (10⁻¹⁵), but σ_0 keeps growing past it: " +
+            "σ_0(c=2, N=8..11) = 2.8393, 2.8483, 2.8525, 2.8561, all values above 2√2 = 2.8284. " +
+            "Aitken extrapolation suggests true limit ~2.85..2.89 (not 2√2). The σ_0 bridge sweep " +
+            "(simulations/_eq022_sigma0_bridge_sweep.py + " +
+            "docs/superpowers/syntheses/2026-05-07-sigma0-bridge-sweep.md) verified the refutation. " +
+            "What survives: monotone growth in N within each c, c=2 N=7 sweet-spot crossing, σ_0·√(3/8) " +
+            "bridge to g_eff_E (Δ ≤ 0.01 for N ≥ 6, Δ = 0.005 at N=7).",
+            "OBC sine-mode algebra applied to inter-HD-channel coupling; Bogoliubov / JW free-fermion " +
+            "transform may make finite-size corrections transparent. The TRUE asymptote (above 2√2 at " +
+            "c=2) likely involves an OBC band-edge factor. Higher-c sweet-spot N_c* (where ratio crosses " +
+            "2.0) is also unknown; c=3 ratio at N=8 is 1.92, still climbing.",
+            "docs/proofs/PROOF_F86_QPEAK.md Item 5 (open) + " +
+            "docs/superpowers/syntheses/2026-05-07-sigma0-bridge-sweep.md"),
     };
 }

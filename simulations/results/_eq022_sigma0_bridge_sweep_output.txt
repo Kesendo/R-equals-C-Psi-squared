@@ -1,0 +1,60 @@
+# sigma_0 bridge sweep, gamma_0 = 0.05, sqrt(3/8) = 0.612372
+
+# (HD pair convention: HD1=1, HD2=3, slowest-pair coupling, matches InterChannelSvd.Build(block, hd1: 1, hd2: 3) and SigmaZeroChromaticityScaling.cs)
+# framework loaded: ChainSystem? True
+
+c	N	n_HD1	n_HD2	sigma_0	sigma_0/sqrt(2(c-1))	sigma_0*sqrt(3/8)	g_eff_E_emp	Delta_bridge	Delta_asymptote
+2	5	20	30	2.765095	1.955218	1.693268	1.756966	-0.063698	-0.063332
+2	6	30	60	2.801967	1.981290	1.715847	1.725096	-0.009249	-0.026461
+2	7	42	105	2.828427	2.000000	1.732051	1.736756	-0.004706	+0.000000
+2	8	56	168	2.839346	2.007721	1.738737	1.747393	-0.008656	+0.010919
+2	9	72	252	2.848349	2.014087	1.744250	N/A	N/A	+0.019922
+3	5	30	60	3.403318	1.701659	2.084098	N/A	N/A	-0.596682
+3	6	60	180	3.630539	1.815269	2.223242	N/A	N/A	-0.369461
+3	7	105	420	3.774853	1.887427	2.311616	N/A	N/A	-0.225147
+3	8	168	840	3.846095	1.923047	2.355243	N/A	N/A	-0.153905
+4	7	140	630	4.136608	1.688763	2.533145	N/A	N/A	-0.762372
+4	8	280	1680	4.360500	1.780167	2.670250	N/A	N/A	-0.538480
+4	9	504	3780	4.517031	1.844070	2.766105	N/A	N/A	-0.381949
+
+# === Hypothesis check (A): sigma_0/sqrt(2(c-1)) -> 2.0 monotone in N ===
+#   c=2:
+#     N=5: ratio=1.9552 (Delta_to_2.0=-0.0448, |Delta|<=0.01? no, monotone? OK)
+#     N=6: ratio=1.9813 (Delta_to_2.0=-0.0187, |Delta|<=0.01? no, monotone? OK)
+#     N=7: ratio=2.0000 (Delta_to_2.0=+0.0000, |Delta|<=0.01? YES, monotone? OK)
+#     N=8: ratio=2.0077 (Delta_to_2.0=+0.0077, |Delta|<=0.01? YES, monotone? OK)
+#     N=9: ratio=2.0141 (Delta_to_2.0=+0.0141, |Delta|<=0.01? no, monotone? OK)
+#   c=3:
+#     N=5: ratio=1.7017 (Delta_to_2.0=-0.2983, |Delta|<=0.01? no, monotone? OK)
+#     N=6: ratio=1.8153 (Delta_to_2.0=-0.1847, |Delta|<=0.01? no, monotone? OK)
+#     N=7: ratio=1.8874 (Delta_to_2.0=-0.1126, |Delta|<=0.01? no, monotone? OK)
+#     N=8: ratio=1.9230 (Delta_to_2.0=-0.0770, |Delta|<=0.01? no, monotone? OK)
+#   c=4:
+#     N=7: ratio=1.6888 (Delta_to_2.0=-0.3112, |Delta|<=0.01? no, monotone? OK)
+#     N=8: ratio=1.7802 (Delta_to_2.0=-0.2198, |Delta|<=0.01? no, monotone? OK)
+#     N=9: ratio=1.8441 (Delta_to_2.0=-0.1559, |Delta|<=0.01? no, monotone? OK)
+
+# === Hypothesis check (B): sigma_0*sqrt(3/8) =? g_eff_E (c=2 only) ===
+#   N=5: predicted=1.6933, empirical=1.7570, Delta=-0.0637 (|Delta|<=0.01? no, |Delta|<=0.005? no)
+#   N=6: predicted=1.7158, empirical=1.7251, Delta=-0.0092 (|Delta|<=0.01? YES, |Delta|<=0.005? no)
+#   N=7: predicted=1.7321, empirical=1.7368, Delta=-0.0047 (|Delta|<=0.01? YES, |Delta|<=0.005? YES)
+#   N=8: predicted=1.7387, empirical=1.7474, Delta=-0.0087 (|Delta|<=0.01? YES, |Delta|<=0.005? no)
+
+# === Hypothesis check (C): does sqrt(3/8) generalise to c=3, c=4? ===
+#   No empirical g_eff_E table for c >= 3 in PolarityInheritanceLink.
+#   Sanity: sigma_0*sqrt(3/8) at higher c lands in the asymptotic 2*sqrt(2(c-1))*sqrt(3/8) =
+#     c=2: 2*sqrt(2*1)*sqrt(3/8) = sqrt(3) = 1.7321
+#       N=5: sigma_0*sqrt(3/8) = 1.6933 (gap to c-asymptote-bridge 1.7321: -0.0388)
+#       N=6: sigma_0*sqrt(3/8) = 1.7158 (gap to c-asymptote-bridge 1.7321: -0.0162)
+#       N=7: sigma_0*sqrt(3/8) = 1.7321 (gap to c-asymptote-bridge 1.7321: +0.0000)
+#       N=8: sigma_0*sqrt(3/8) = 1.7387 (gap to c-asymptote-bridge 1.7321: +0.0067)
+#       N=9: sigma_0*sqrt(3/8) = 1.7443 (gap to c-asymptote-bridge 1.7321: +0.0122)
+#     c=3: 2*sqrt(2*2)*sqrt(3/8) = sqrt(6) = 2.4495
+#       N=5: sigma_0*sqrt(3/8) = 2.0841 (gap to c-asymptote-bridge 2.4495: -0.3654)
+#       N=6: sigma_0*sqrt(3/8) = 2.2232 (gap to c-asymptote-bridge 2.4495: -0.2262)
+#       N=7: sigma_0*sqrt(3/8) = 2.3116 (gap to c-asymptote-bridge 2.4495: -0.1379)
+#       N=8: sigma_0*sqrt(3/8) = 2.3552 (gap to c-asymptote-bridge 2.4495: -0.0942)
+#     c=4: 2*sqrt(2*3)*sqrt(3/8) = sqrt(9) = 3.0000
+#       N=7: sigma_0*sqrt(3/8) = 2.5331 (gap to c-asymptote-bridge 3.0000: -0.4669)
+#       N=8: sigma_0*sqrt(3/8) = 2.6702 (gap to c-asymptote-bridge 3.0000: -0.3298)
+#       N=9: sigma_0*sqrt(3/8) = 2.7661 (gap to c-asymptote-bridge 3.0000: -0.2339)
