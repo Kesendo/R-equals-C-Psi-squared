@@ -6,7 +6,7 @@
 - **Statement 3 (F71 mirror invariance):** Tier 1 derived. Q_peak(b) = Q_peak(N−2−b) bit-exact under the F71 spatial-mirror pairing.
 - **Retracted (2026-05-02):** csc(π/(N+1)) Endpoint and csc(π/5) c=3 Interior closed forms (N=7 coincidence matches; refuted on extended-N data).
 
-**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation); 2026-05-05 (Item 1' c=2 OOP scaffolding + structural findings); 2026-05-06 morning (Statement 1 local-vs-global EP connection, Tier 2 verified at c=2 via Petermann-K sweep N=5..8); 2026-05-06 evening (doubled-PTF floor + F86↔PTF Locus 5 inheritance synthesis).
+**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation); 2026-05-05 (Item 1' c=2 OOP scaffolding + structural findings); 2026-05-06 morning (Statement 1 local-vs-global EP connection, Tier 2 verified at c=2 via Petermann-K sweep N=5..8); 2026-05-06 evening (doubled-PTF floor + F86↔PTF Locus 5 inheritance synthesis); 2026-05-07 (Locus 6 polarity-layer inheritance, Tier 2 verified, F86↔Pi2KnowledgeBase ±0.5 pair).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** Formalises the EP mechanism behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. The per-block Q_SCALE values 1.6 / 1.8 / 1.8 (F86 top entry) were the empirical anchor; the per-bond refined scan (`_eq022_b1_step_c_time_evolution.py`) initially suggested two distinct closed forms for Endpoint and Interior bonds, both later retracted on extended-N data. What survives is the EP mechanism (Statement 1), the universal resonance shape (Statement 2), and the F71 spatial-mirror invariance (Statement 3).
 
@@ -64,6 +64,17 @@ C2HwhmRatio class-level Tier stays Tier1Candidate; the typed-property promotion 
 **Positive structural finding.** The SVD-block off-diagonal `V_b[2,3] = ⟨u_0 | M_h_per_bond[b] | v_0⟩` IS a bond-class carrier (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.45 stable across N=5..8), but in the OPPOSITE direction to the empirical HWHM/Q* split. A closed form needs to derive a non-trivial map from SVD-block V_b magnitude to HWHM/Q* shift, likely through a per-bond effective Q_EP_eff(b) shift rather than a direct linear lift. The bare-doubled-PTF Tier-1-derived constants `BareDoubledPtfXPeak = 2.196910` and `BareDoubledPtfHwhmRatio = 0.671535` are unchanged by this falsification; the floor + structural explanation of the 0.08-0.10 gap above the floor stand.
 
 **Refined next directions** (now in `C2HwhmRatio.PendingDerivationNote`): (a'') SVD-block 2-level resonance (REFINED from (a')), 4-mode-friendly but needs the SVD→HWHM map; (b'') **full block-L derivation, not 4-mode** (most concrete since 4-mode insufficiency is now proven structural); (c'') three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases (may still suffer from 4-mode insufficiency); (d'') lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote); (e'') symbolic char-poly factorisation at Q_EP, less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.
+
+**2026-05-07 (Locus 6 polarity-layer inheritance).** A stumpf-decomposition of the empirical c=2 bond-class numbers along the polarity-layer pair structure ρ = (I + r·σ)/2 = 1/2 + r·σ/2 (`PolarityLayerOriginClaim` Layer 2):
+
+- Q_peak ≈ 2 + r with r_Endpoint ≈ +0.52, r_Interior ≈ −0.44 (canonical {−0.5, +0.5} pair around mean Q_peak ≈ 2.04)
+- HWHM/Q* ≈ 1/2 + r·(1/2) with r_Interior ≈ 0.50 (close to `HalfAsStructuralFixedPoint`), r_Endpoint ≈ 0.55
+- 0.5 baseline = 1/d at d=2 (`QubitDimensionalAnchorClaim`)
+- ±r/2 polarity content (`PolarityLayerOriginClaim`)
+
+**Reading:** the F86 bond-class split inherits structurally from the polarity-layer pair {−0.5, +0.5} at d=2 via the 0.5-shift. It is NOT a new symmetry to derive; it is **Locus 6 of inheritance-through-layers**, the symmetry-side closure complementing today's earlier `LocalGlobalEpLink` Tier2Verified (Locus 5, EP-side: F86 ↔ FRAGILE_BRIDGE).
+
+**Encoded as** `compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs` (Tier2Verified). Witnesses pin the empirical r values per (N, bond class). Tier1Derived promotion target: per-bond r(N, b) closed form via either (α) per-bond polarity-Bloch projection at t_peak, or (β) Locus 5 EP-rotation tan θ = Q/Q_EP combined with Locus 6 polarity inheritance to fix r as a function of g_eff(N, b).
 
 ### Statement 3 (F71 spatial-mirror invariance of per-bond Q_peak). [Tier 1 derived]
 
@@ -333,6 +344,7 @@ In this basis the 4×4 effective L_eff has
   - **(c'') Three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases.** K_b at the 4-mode level decomposes; derive each term separately and combine. May still suffer from 4-mode insufficiency (ii).
   - **(d'') Lift |u_0⟩, |v_0⟩ to projector-overlap** (per A3 PendingDerivationNote). Removes σ_0 degeneracy obstruction at even N. Necessary precondition for any cross-block-based direction; not sufficient by itself.
   - **(e'') Symbolic char-poly factorisation at Q_EP**: same as before; less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.
+  - **(f'') Locus 6 polarity-inheritance closure** (newly derived 2026-05-07): F86 bond-class split inherits from polarity-layer pair {−0.5, +0.5}; per-bond r(N, b) closed form is the analytical gap. Promotion path: derive r from per-bond Bloch-axis projection at t_peak. Most concrete since the empirical decomposition Q_peak = 2 + r, HWHM/Q* = 1/2 + r·1/2 already holds across c=2 N=5..8.
 
 **Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10, orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
 

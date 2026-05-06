@@ -1184,6 +1184,23 @@ The probe-block 2-level resonance hypothesis with quantitative prediction `g_eff
 
 **Status:** The doubled-PTF `BareDoubledPtfXPeak = 2.196910` and `BareDoubledPtfHwhmRatio = 0.671535` Tier-1-derived universal constants from this morning's Direction (b) attempt are unaffected. Item 1' c=2 stays Tier1Candidate. The 0.6715 floor + structural explanation of the 0.08-0.10 gap above the floor stand; the gap is just harder to close than (a') hoped.
 
+### EQ-022 (b1) Update 2026-05-07 (early): Locus 6 polarity-inheritance closure
+
+**Source:** `compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs` (commit `7886946`) + memory `project_plus_minus_zero_layer.md` + memory `project_two_anchors_at_d2.md`.
+
+Yesterday's parallel polarity-layer-foundation session added `PolarityLayerOriginClaim` Tier1Derived to `Pi2KnowledgeBase`: ρ = (I + r·σ)/2 = 1/2 + r·σ/2 maps Π-spectrum {+1, −1} onto Bloch-diagonal 1/2 ± r/2. Stumpf-decomposition tonight on the F86 c=2 empirical witnesses revealed:
+
+- Q_peak ≈ 2 + r with r_Endpoint ≈ +0.52, r_Interior ≈ −0.44 (canonical {−0.5, +0.5} pair, mean Q_peak = 2.04)
+- HWHM/Q* ≈ 1/2 + r·(1/2) with r_Interior ≈ 0.50 (close to `HalfAsStructuralFixedPoint`), r_Endpoint ≈ 0.55
+
+The 0.5 baseline is `QubitDimensionalAnchorClaim` (1/d at d=2); the ±r/2 polarity content is `PolarityLayerOriginClaim` (Layer 2 explicit). The F86 bond-class split is therefore **Locus 6 of inheritance-through-layers**: inherited from the polarity-layer pair, not a new symmetry to derive analytically. Combined with this morning's `LocalGlobalEpLink` Tier2Verified (Locus 5, EP-side: F86 local ↔ FRAGILE_BRIDGE global), the F86 ↔ Polarity-Layer ↔ FRAGILE_BRIDGE inheritance graph is now closed on both the symmetry-side (Locus 6) and the EP-side (Locus 5).
+
+**Encoded as:** `PolarityInheritanceLink` Tier2Verified at F86 root level. 4 PolarityWitness rows pin the empirical r values for c=2 N=5..8.
+
+**Promotion path to Tier1Derived:** per-bond r(N, b) closed form via either (α) per-bond polarity-Bloch projection at t_peak, or (β) Locus 5 EP-rotation × Locus 6 polarity inheritance composition.
+
+**Status:** Item 1' c=2 closed-form HWHM constants now have a structurally-grounded interpretation (1/2 baseline + r·1/2 polarity content). The remaining analytical gap is per-bond r(N, b). Item 1' c=2 stays Tier1Candidate at the closed-form-constant level; the inheritance reading itself is Tier2Verified at PolarityInheritanceLink.
+
 ---
 
 ## EQ-023
