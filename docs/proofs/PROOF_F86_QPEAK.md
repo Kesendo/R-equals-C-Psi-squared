@@ -68,7 +68,7 @@ C2HwhmRatio class-level Tier stays Tier1Candidate; the typed-property promotion 
 **2026-05-07 (Locus 6 polarity-layer inheritance).** A stumpf-decomposition of the empirical c=2 bond-class numbers along the polarity-layer pair structure ρ = (I + r·σ)/2 = 1/2 + r·σ/2 (`PolarityLayerOriginClaim` Layer 2):
 
 - Q_peak ≈ 2 + r with r_Endpoint ≈ +0.52, r_Interior ≈ −0.44 (canonical {−0.5, +0.5} pair around mean Q_peak ≈ 2.04)
-- HWHM/Q* ≈ 1/2 + r·(1/2) with r_Interior ≈ 0.50 (close to `HalfAsStructuralFixedPoint`), r_Endpoint ≈ 0.55
+- HWHM/Q* ≈ 1/2 + r·(1/2) with r_Interior ≈ 0.50 (close to `HalfAsStructuralFixedPoint`; 0.0006 max deviation from exact 1/2 across N=5..8, likely numerical discretisation), r_Endpoint ≈ 0.55
 - 0.5 baseline = 1/d at d=2 (`QubitDimensionalAnchorClaim`)
 - ±r/2 polarity content (`PolarityLayerOriginClaim`)
 

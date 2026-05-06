@@ -152,28 +152,14 @@ public sealed class PolarityInheritanceLink : Claim
     /// pipeline (γ₀ = <see cref="WitnessGammaZero"/>; values pinned at 4-decimal precision
     /// from the live pipeline; refresh by re-running <c>C2HwhmRatio</c> + the per-block
     /// Q_peak readouts at these settings). Order: N=5, 6, 7, 8.</summary>
+    // Refresh: re-run C2HwhmRatio.HwhmLeftOverQPeakMean(BondClass.{Interior,Endpoint}) and the
+    // per-block Q_peak readouts at γ₀=0.05 for each N=5..8 to update the pinned table below.
     private static readonly PolarityWitness[] _polarityWitnesses = new[]
     {
-        new PolarityWitness(N: 5,
-            QPeakInterior: 1.4821, QPeakEndpoint: 2.5008,
-            HwhmRatioInterior: 0.7455, HwhmRatioEndpoint: 0.7700,
-            RQpeakInterior: -0.5179, RQpeakEndpoint: 0.5008,
-            RHwhmInterior: 0.4910, RHwhmEndpoint: 0.5400),
-        new PolarityWitness(N: 6,
-            QPeakInterior: 1.5801, QPeakEndpoint: 2.5470,
-            HwhmRatioInterior: 0.7529, HwhmRatioEndpoint: 0.7738,
-            RQpeakInterior: -0.4199, RQpeakEndpoint: 0.5470,
-            RHwhmInterior: 0.5058, RHwhmEndpoint: 0.5476),
-        new PolarityWitness(N: 7,
-            QPeakInterior: 1.5831, QPeakEndpoint: 2.5299,
-            HwhmRatioInterior: 0.7507, HwhmRatioEndpoint: 0.7738,
-            RQpeakInterior: -0.4169, RQpeakEndpoint: 0.5299,
-            RHwhmInterior: 0.5014, RHwhmEndpoint: 0.5476),
-        new PolarityWitness(N: 8,
-            QPeakInterior: 1.6049, QPeakEndpoint: 2.5145,
-            HwhmRatioInterior: 0.7531, HwhmRatioEndpoint: 0.7734,
-            RQpeakInterior: -0.3951, RQpeakEndpoint: 0.5145,
-            RHwhmInterior: 0.5062, RHwhmEndpoint: 0.5468),
+        new PolarityWitness(N: 5, QPeakInterior: 1.4821, QPeakEndpoint: 2.5008, HwhmRatioInterior: 0.7455, HwhmRatioEndpoint: 0.7700),
+        new PolarityWitness(N: 6, QPeakInterior: 1.5801, QPeakEndpoint: 2.5470, HwhmRatioInterior: 0.7529, HwhmRatioEndpoint: 0.7738),
+        new PolarityWitness(N: 7, QPeakInterior: 1.5831, QPeakEndpoint: 2.5299, HwhmRatioInterior: 0.7507, HwhmRatioEndpoint: 0.7738),
+        new PolarityWitness(N: 8, QPeakInterior: 1.6049, QPeakEndpoint: 2.5145, HwhmRatioInterior: 0.7531, HwhmRatioEndpoint: 0.7734),
     };
 }
 
@@ -192,33 +178,35 @@ public sealed class PolarityInheritanceLink : Claim
 ///         to exactly 1/2 across N=5..8.</item>
 /// </list>
 ///
-/// <para>The R-fields are pre-computed from the raw Q_peak and HWHM/Q* values via
-/// R_QPeak = QPeak − 2 and R_Hwhm = 2·(HwhmRatio − 1/2); they encode the polarity-layer
-/// content explicitly so consumers do not have to re-decompose.</para>
+/// <para>The R-fields are exposed as computed properties from the raw Q_peak and HWHM/Q*
+/// values via R_QPeak = QPeak − 2 and R_Hwhm = 2·(HwhmRatio − 1/2); they encode the
+/// polarity-layer content explicitly so consumers do not have to re-decompose.</para>
 /// </summary>
 /// <param name="N">Chain length.</param>
 /// <param name="QPeakInterior">Q_peak for the Interior bond class at this N.</param>
 /// <param name="QPeakEndpoint">Q_peak for the Endpoint bond class at this N.</param>
 /// <param name="HwhmRatioInterior">HWHM/Q* for the Interior bond class at this N.</param>
 /// <param name="HwhmRatioEndpoint">HWHM/Q* for the Endpoint bond class at this N.</param>
-/// <param name="RQpeakInterior">Polarity-content r for Interior Q_peak: r = QPeakInterior − 2.</param>
-/// <param name="RQpeakEndpoint">Polarity-content r for Endpoint Q_peak: r = QPeakEndpoint − 2.</param>
-/// <param name="RHwhmInterior">Polarity-content r for Interior HWHM ratio:
-/// r = 2·(HwhmRatioInterior − 1/2).</param>
-/// <param name="RHwhmEndpoint">Polarity-content r for Endpoint HWHM ratio:
-/// r = 2·(HwhmRatioEndpoint − 1/2).</param>
 public sealed record PolarityWitness(
     int N,
     double QPeakInterior,
     double QPeakEndpoint,
     double HwhmRatioInterior,
-    double HwhmRatioEndpoint,
-    double RQpeakInterior,
-    double RQpeakEndpoint,
-    double RHwhmInterior,
-    double RHwhmEndpoint
+    double HwhmRatioEndpoint
 ) : IInspectable
 {
+    /// <summary>Polarity-content r for Interior Q_peak: r = QPeakInterior − 2.</summary>
+    public double RQpeakInterior => QPeakInterior - 2.0;
+
+    /// <summary>Polarity-content r for Endpoint Q_peak: r = QPeakEndpoint − 2.</summary>
+    public double RQpeakEndpoint => QPeakEndpoint - 2.0;
+
+    /// <summary>Polarity-content r for Interior HWHM ratio: r = 2·(HwhmRatioInterior − 1/2).</summary>
+    public double RHwhmInterior => 2.0 * (HwhmRatioInterior - 0.5);
+
+    /// <summary>Polarity-content r for Endpoint HWHM ratio: r = 2·(HwhmRatioEndpoint − 1/2).</summary>
+    public double RHwhmEndpoint => 2.0 * (HwhmRatioEndpoint - 0.5);
+
     /// <summary>Mean Q_peak across the two bond classes, empirically ≈ 2 (the d=2
     /// dimensional anchor) across N=5..8.</summary>
     public double QPeakMean => (QPeakInterior + QPeakEndpoint) / 2.0;

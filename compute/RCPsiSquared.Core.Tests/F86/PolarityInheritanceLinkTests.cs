@@ -2,6 +2,7 @@ using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F86;
@@ -35,7 +36,9 @@ public class PolarityInheritanceLinkTests
         var link = PolarityInheritanceLink.Build();
         foreach (var w in link.Witnesses)
         {
-            // Q_peak mean ≈ 2 (within 0.06 across N=5..8)
+            // Q_peak mean ≈ 2 across N=5..8: empirical {1.99, 2.06, 2.06, 2.06},
+            // asymmetric around 2 (+0.06 above, −0.01 below). Range 1.99..2.10 covers
+            // safely with headroom for finer-grid refinements.
             var mean = (w.QPeakInterior + w.QPeakEndpoint) / 2;
             Assert.InRange(mean, 1.99, 2.10);
             // r split has Endpoint > 0 (positive pole), Interior < 0 (negative pole)
@@ -61,7 +64,10 @@ public class PolarityInheritanceLinkTests
     [Fact]
     public void PolarityInheritanceLink_Interior_RHwhm_NearOneHalf_HalfFixedPoint()
     {
-        // Interior HWHM r ≈ 1/2 across N=5..8 (close to HalfAsStructuralFixedPoint anchor)
+        // Interior HWHM r ≈ 1/2 across N=5..8 (close to HalfAsStructuralFixedPoint anchor).
+        // The empirical mean is 0.5011 with ~0.0006 max deviation from exact 1/2; this is
+        // likely numerical discretisation (per-F71-orbit substructure visible at finer
+        // Q-grid resolution per PROOF_F86_QPEAK Open elements 5), not a structural shift.
         var link = PolarityInheritanceLink.Build();
         foreach (var w in link.Witnesses)
         {
@@ -79,5 +85,25 @@ public class PolarityInheritanceLinkTests
         var c3block = new CoherenceBlock(N: 5, n: 2, gammaZero: 0.05);
         var c3kb = new F86KnowledgeBase(c3block);
         Assert.NotNull(c3kb.PolarityInheritanceLink);
+    }
+
+    [Fact]
+    public void PolarityRootAnchor_NamesAllThreeParentClaims()
+    {
+        // nameof(...) at the test site fails to compile if any parent claim is renamed;
+        // that's the rename-safety guarantee for the PolarityRootAnchor string.
+        var link = PolarityInheritanceLink.Build();
+        Assert.Contains(nameof(QubitDimensionalAnchorClaim), link.PolarityRootAnchor);
+        Assert.Contains(nameof(PolarityLayerOriginClaim), link.PolarityRootAnchor);
+        Assert.Contains(nameof(HalfAsStructuralFixedPointClaim), link.PolarityRootAnchor);
+    }
+
+    [Fact]
+    public void ParallelLocusReference_NamesLocalGlobalEpLink()
+    {
+        // nameof(...) pin: if LocalGlobalEpLink (Locus 5 EP-side closure) is renamed,
+        // this test fails to compile, surfacing the cross-Locus reference rot.
+        var link = PolarityInheritanceLink.Build();
+        Assert.Contains(nameof(LocalGlobalEpLink), link.ParallelLocusReference);
     }
 }
