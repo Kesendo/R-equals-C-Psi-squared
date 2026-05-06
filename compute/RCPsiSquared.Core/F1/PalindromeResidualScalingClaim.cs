@@ -23,7 +23,7 @@ namespace RCPsiSquared.Core.F1;
 /// <para>Source: <c>experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md</c>. The scaling
 /// computation lives in <see cref="PalindromeResidualScaling"/>.</para>
 /// </summary>
-public sealed class PalindromeResidualScalingClaim : Claim
+public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
 {
     public int N { get; }
     public HamiltonianClass HClass { get; }
@@ -84,5 +84,35 @@ public sealed class PalindromeResidualScalingClaim : Claim
             yield return new InspectableNode("verification",
                 summary: "bit-exact at N = 4, 5 across chain, ring, star, K_N");
         }
+    }
+
+    public DriftReport Verify()
+    {
+        // Drift check: only validate the chain default (no graph args). Compare the
+        // calculator output against the hand-arithmetic closed form for this class.
+        if (BondCount is not null || DegreeSquaredSum is not null)
+            return new DriftReport(
+                ClaimType: typeof(PalindromeResidualScalingClaim),
+                IsDrift: false,
+                Description: "graph-aware mode skips drift check (no hand identity available without recomputing the calculator).",
+                Magnitude: null);
+
+        double pow = Math.Pow(4, N - 2);
+        double expected = HClass switch
+        {
+            HamiltonianClass.Main => (N - 1) * pow,
+            HamiltonianClass.SingleBody => (2 * N - 3) * pow,
+            _ => double.NaN,
+        };
+        double actual = Factor;
+        double diff = Math.Abs(actual - expected);
+
+        return new DriftReport(
+            ClaimType: typeof(PalindromeResidualScalingClaim),
+            IsDrift: diff > 0.0,
+            Description: diff > 0.0
+                ? $"F73 drift at (N={N}, {HClass}): pinned identity = {expected}, calculator = {actual}, |delta| = {diff}."
+                : $"F73 OK at (N={N}, {HClass}): {actual} matches identity bit-exactly.",
+            Magnitude: diff);
     }
 }
