@@ -55,11 +55,11 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   Per the F86↔PTF inheritance synthesis, c=2 is structurally a coupling of two PTF
 ///   c=1 instances at HD=1 and HD=3. The bare 2-level Duhamel K_b model
 ///   <c>L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]]</c> gives universal post-EP location
-///   <c>x_peak = Q_peak/Q_EP = 2.196910</c> and universal <c>HWHM_left/Q_peak = 0.671535</c>,
+///   <see cref="BareDoubledPtfXPeak"/> and universal <see cref="BareDoubledPtfHwhmRatio"/>,
 ///   both g_eff- and probe-mixing-invariant. Empirical Interior x_peak (2.05..2.28) tracks
 ///   this universal closely; Endpoint x_peak (3.55) deviates by factor ~1.62. The bare
-///   HWHM ratio 0.6715 is below empirical Interior 0.7506 by 0.08 and Endpoint 0.7728 by
-///   0.10. Conclusion: the doubled-PTF Ansatz inherits the SVD-block Q-rotation symmetry
+///   HWHM ratio is below empirical Interior 0.7506 by 0.08 and Endpoint 0.7728 by 0.10.
+///   Conclusion: the doubled-PTF Ansatz inherits the SVD-block Q-rotation symmetry
 ///   (universal x_peak, universal HWHM/Q*) but the K_b observable's HWHM ratio is set by
 ///   an additional probe-block 2-level sub-resonance NOT captured by the bare model. See
 ///   <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</item>
@@ -67,8 +67,9 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///
 /// <para>The closed-form constant is NOT pinned this session. The analytical-phase budget
 /// surfaced (a) the 2-level propagator-magnitude reduction is bond-class-blind, (b) the
-/// bare doubled-PTF Duhamel K_b gives universal 0.6715 (below empirical), and (c) the
-/// remaining gap to 0.7506/0.7728 lives in the probe-block 2-level sub-resonance which
+/// bare doubled-PTF Duhamel K_b gives the universal floor <see cref="BareDoubledPtfHwhmRatio"/>
+/// (below empirical), and (c) the remaining gap to 0.7506/0.7728 lives in the probe-block
+/// 2-level sub-resonance which
 /// is the most concrete next direction. See <see cref="PendingDerivationNote"/>. The
 /// 2-level reference value <see cref="TwoLevelEpDecaySanity"/> is a sanity check on the
 /// EP-decay timescale, not a closed-form HWHM derivation.</para>
@@ -81,6 +82,29 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// </summary>
 public sealed class C2HwhmRatio : Claim
 {
+    /// <summary>Tier 1 derived universal constant from the 2026-05-06 doubled-PTF Ansatz at c=2:
+    /// the post-EP location of the K-resonance peak in dimensionless x = Q/Q_EP coordinates.
+    /// Universal across g_eff and probe-mixing-angle. The empirical absolute Q_peak per bond
+    /// class (Interior ≈ 1.5–1.8, Endpoint ≈ 2.5) is x_peak·Q_EP with bond-class-dependent
+    /// Q_EP, where Q_EP = 2/g_eff per F86 Statement 1.
+    ///
+    /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict —
+    /// same pattern as <c>C2BondCoupling</c>'s D_eff (structurally Tier1Derived inside a
+    /// Tier2Verified class). Source: <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</para></summary>
+    public const double BareDoubledPtfXPeak = 2.196910;
+
+    /// <summary>Tier 1 derived universal constant from the 2026-05-06 doubled-PTF Ansatz at c=2:
+    /// the HWHM_left/Q_peak ratio of the K-resonance in dimensionless x = Q/Q_EP coordinates.
+    /// Universal across g_eff. This is the FLOOR contribution from the SVD-block 2-level EP
+    /// rotation alone. Empirical Interior (0.7506) and Endpoint (0.7728) both sit above this
+    /// floor; the gap (~0.08-0.10) is the probe-block 2-level sub-resonance contribution NOT
+    /// included in the bare doubled-PTF model. Closing that gap is Direction (a') in
+    /// <see cref="PendingDerivationNote"/>.
+    ///
+    /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict.
+    /// Source: <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</para></summary>
+    public const double BareDoubledPtfHwhmRatio = 0.671535;
+
     public CoherenceBlock Block { get; }
 
     /// <summary>The composed C2KShape primitive (Stage D1). NOT used by the empirical
@@ -503,11 +527,11 @@ public sealed class C2HwhmRatio : Claim
                "  L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]], probe rho_0 = |c_1⟩, V_b = dL/dJ\n" +
                "  was solved analytically in dimensionless x = Q/Q_EP coordinates.\n" +
                "  Bare-2-level result (universal across g_eff, derived analytically):\n" +
-               "    x_peak = Q_peak/Q_EP = 2.196910 (10-digit precision, post-EP location)\n" +
-               "    HWHM_left/Q_peak = 0.671535 (universal, probe-mixing invariant)\n" +
+               $"    x_peak = Q_peak/Q_EP = {BareDoubledPtfXPeak:F6} (post-EP location, exposed as `BareDoubledPtfXPeak`)\n" +
+               $"    HWHM_left/Q_peak = {BareDoubledPtfHwhmRatio:F6} (universal, probe-mixing invariant; exposed as `BareDoubledPtfHwhmRatio`)\n" +
                "  Empirical Interior x_peak across N=5..8 = 2.05..2.28 (close to 2.197);\n" +
                "  empirical Endpoint x_peak = 3.45..3.58 (factor ~1.62× the bare value).\n" +
-               "  HWHM_left/Q_peak gap: bare 0.6715 vs empirical Interior 0.7506 (0.08 gap)\n" +
+               $"  HWHM_left/Q_peak gap: bare {BareDoubledPtfHwhmRatio:F4} vs empirical Interior 0.7506 (0.08 gap)\n" +
                "  and Endpoint 0.7728 (0.10 gap).\n" +
                "  Conclusion: the bare doubled-PTF inherits the SVD-block universal\n" +
                "  Q-rotation symmetry but does NOT directly give the K_b HWHM ratio. The\n" +
@@ -549,7 +573,8 @@ public sealed class C2HwhmRatio : Claim
                $"  PROOF_F86_QPEAK Statement 2 anchor mean over N=5..8:\n" +
                "    Endpoint 0.7728, Interior 0.7506.\n" +
                "  Bare doubled-PTF baseline (this session, derived analytically):\n" +
-               "    x_peak universal = 2.196910, HWHM_left/Q_peak universal = 0.671535.";
+               $"    x_peak universal = {BareDoubledPtfXPeak:F6}, HWHM_left/Q_peak universal = {BareDoubledPtfHwhmRatio:F6}\n" +
+               "    (exposed as the `BareDoubledPtfXPeak` and `BareDoubledPtfHwhmRatio` const properties).";
     }
 
     public override string DisplayName =>

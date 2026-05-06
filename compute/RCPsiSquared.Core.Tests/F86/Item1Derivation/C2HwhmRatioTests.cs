@@ -115,6 +115,36 @@ public class C2HwhmRatioTests
     }
 
     [Fact]
+    public void BareDoubledPtfConstants_AreUniversal()
+    {
+        // Tier 1 derived analytical constants from the 2026-05-06 doubled-PTF Ansatz.
+        // Don't depend on N, n, or any block parameter. Pinned to 6-digit derivation precision.
+        Assert.InRange(C2HwhmRatio.BareDoubledPtfXPeak, 2.196909, 2.196911);
+        Assert.InRange(C2HwhmRatio.BareDoubledPtfHwhmRatio, 0.671534, 0.671536);
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void EmpiricalHwhmRatios_AboveBareDoubledPtfFloor_ProbeBlockContribution(int N)
+    {
+        // The 2026-05-06 Direction (b) doubled-PTF Ansatz gives 0.671535 as the SVD-block-only
+        // FLOOR. Empirical Interior + Endpoint HWHM ratios sit above this floor; the gap
+        // (~0.08-0.10) is the probe-block 2-level sub-resonance contribution. Both bond classes
+        // must be above the floor for the structural explanation to hold.
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var ratio = C2HwhmRatio.Build(block);
+        var interior = ratio.HwhmLeftOverQPeakMean(BondClass.Interior);
+        var endpoint = ratio.HwhmLeftOverQPeakMean(BondClass.Endpoint);
+        Assert.True(interior > C2HwhmRatio.BareDoubledPtfHwhmRatio,
+            $"Interior {interior:F4} must exceed bare-doubled-PTF floor {C2HwhmRatio.BareDoubledPtfHwhmRatio:F4} at N={N}");
+        Assert.True(endpoint > C2HwhmRatio.BareDoubledPtfHwhmRatio,
+            $"Endpoint {endpoint:F4} must exceed bare-doubled-PTF floor {C2HwhmRatio.BareDoubledPtfHwhmRatio:F4} at N={N}");
+    }
+
+    [Fact]
     public void HwhmLeftOverQPeakMean_EqualsPerBondAverage_AtN5_ByChainMirror()
     {
         // The class-mean is computed via average-curves-first-then-peak-find (canonical
