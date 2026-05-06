@@ -61,8 +61,6 @@ public sealed class DissipatorAxisSelectsPolarityClaim : Claim
                 summary: "γ entering the cavity (hypotheses/GAMMA_IS_LIGHT.md) is not Shannon-noise; it is the choice of polarity-axis colour. The dissipator letter is the wavelength along which the +0/−0 differentiation becomes operational at d=2");
             yield return new InspectableNode("operational anchor",
                 summary: "PauliPairTrichotomy.Classify(chain, terms, dephaseLetter: X|Y|Z) operationalises the axis-selection: the same Pauli pair classified under three different letters lands in three different Klein cells, hard in exactly one (the matched cell)");
-            yield return new InspectableNode("Synthese-provenance (2026-05-05)",
-                summary: "the bridge was implicit in DissipatorResonanceLaw's 4×3 witness table and in THE_POLARITY_LAYER.md §Dissipator-resonance law (Brecher-vs-Hardness reading); the typed claim makes it explicit so future readings do not have to re-derive it from the witness table");
         }
     }
 }

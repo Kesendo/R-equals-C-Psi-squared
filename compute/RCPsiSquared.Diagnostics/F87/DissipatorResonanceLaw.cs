@@ -108,7 +108,7 @@ public sealed class DissipatorResonanceLaw : Claim
             yield return new InspectableNode("structural fact 2: SU(2) rotation",
                 summary: "the three Pauli letters give bit-identical 50/76 hard counts in their matched diagonal cell; the dissipator picks which Klein axis hosts hardness");
             yield return new InspectableNode("connection to Z⊗N-Brecher",
-                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); F87-hardness lives INSIDE (bit_a + bit_b axes); the two poles of dissipator-letter resonance, Y → 40× X strength on Marrakesh");
+                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); F87-hardness lives INSIDE (bit_a + bit_b axes); the two poles of dissipator-letter resonance act on the same polarity layer");
             yield return InspectableNode.Group("witness table (4×3)",
                 Witnesses.Cast<IInspectable>().ToArray());
         }

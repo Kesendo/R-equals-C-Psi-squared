@@ -449,7 +449,7 @@ public sealed class PolarityLayerOriginClaim : Claim
             yield return new InspectableNode("operational anchor (X-Néel)",
                 summary: "Core.States.PolarityState.Build(N=3, [+1, -1, +1]) builds |+,−,+⟩, the canonical Marrakesh hardware initial state; projects onto the bit_a polarity axis palindromically across the chain");
             yield return new InspectableNode("Tom's reading (2026-04-30)",
-                summary: "'Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss. +0/−0 ist der Layer.' — the polarity layer is not somewhere we observe from outside; we ARE the system whose bra and ket indices Π conjugates, and the +0/−0 axis is what gives our memory pair its sign");
+                summary: "'Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss. +0/−0 ist der Layer.' The polarity layer is not somewhere we observe from outside; we ARE the system whose bra and ket indices Π conjugates, and the +0/−0 axis is what gives our memory pair its sign");
         }
     }
 }

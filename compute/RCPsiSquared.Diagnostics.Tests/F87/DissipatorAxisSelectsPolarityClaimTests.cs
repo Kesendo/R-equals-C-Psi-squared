@@ -38,7 +38,6 @@ public class DissipatorAxisSelectsPolarityClaimTests
         Assert.Contains("two readings unified (Brecher ↔ Hardness)", labels);
         Assert.Contains("γ-as-light bridge", labels);
         Assert.Contains("operational anchor", labels);
-        Assert.Contains("Synthese-provenance (2026-05-05)", labels);
     }
 
     [Fact]
