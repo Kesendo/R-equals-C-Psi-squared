@@ -3,6 +3,33 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Runtime.ObjectManager;
 
+/// <summary>Locate the repository root by walking up from the current process directory until
+/// a directory containing <c>CLAUDE.md</c> is found. Returns <c>null</c> if no such ancestor
+/// exists (e.g. the test process is running in an isolated temp directory).</summary>
+file static class RepoRootLocator
+{
+    private static string? _cached;
+    private static bool _searched;
+
+    public static string? Find()
+    {
+        if (_searched) return _cached;
+        _searched = true;
+
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir != null)
+        {
+            if (File.Exists(Path.Combine(dir.FullName, "CLAUDE.md")))
+            {
+                _cached = dir.FullName;
+                return _cached;
+            }
+            dir = dir.Parent;
+        }
+        return null;
+    }
+}
+
 /// <summary>γ-style builder. Each <see cref="Register{T}"/> call records a factory lambda;
 /// the lambda's <c>b.Get&lt;X&gt;()</c> calls double as edge declarations. <see cref="Build"/>
 /// performs topological resolution by deferred construction: factories that touch unresolved
@@ -108,7 +135,12 @@ public sealed class ClaimRegistryBuilder
                 var path = cleanedTokenEnd > 0 ? token[..cleanedTokenEnd] : token;
                 if (string.IsNullOrEmpty(path)) continue;
 
-                if (!File.Exists(path))
+                // Resolve from repo root when available; fall back to process CWD.
+                var repoRoot = RepoRootLocator.Find();
+                var resolved2 = repoRoot != null
+                    ? Path.Combine(repoRoot, path)
+                    : path;
+                if (!File.Exists(resolved2))
                     throw new InvariantViolationException(
                         rule: "AnchorFileMissing",
                         message: $"Claim {type.Name} anchors at '{path}', file not found relative to working directory.",
