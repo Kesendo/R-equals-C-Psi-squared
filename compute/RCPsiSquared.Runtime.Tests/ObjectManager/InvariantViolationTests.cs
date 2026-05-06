@@ -22,6 +22,22 @@ public class InvariantViolationTests
         public override string Summary => "synthetic Baz";
     }
 
+    private sealed class CycleA : Claim
+    {
+        public Claim Other { get; }
+        public CycleA(Claim other) : base("CycleA", Tier.Tier1Derived, "x") { Other = other; }
+        public override string DisplayName => "CycleA";
+        public override string Summary => "synthetic A in A→B→A cycle";
+    }
+
+    private sealed class CycleB : Claim
+    {
+        public Claim Other { get; }
+        public CycleB(Claim other) : base("CycleB", Tier.Tier1Derived, "x") { Other = other; }
+        public override string DisplayName => "CycleB";
+        public override string Summary => "synthetic B in A→B→A cycle";
+    }
+
     [Fact]
     public void Build_MissingParent_Throws_WithDependencyName()
     {
@@ -33,5 +49,19 @@ public class InvariantViolationTests
         Assert.Equal("MissingParent", ex.Rule);
         Assert.Contains("Baz", ex.Message);
         Assert.Contains("NeedsBaz", ex.Message);
+    }
+
+    [Fact]
+    public void Build_Cycle_Throws_WithCyclePath()
+    {
+        var ex = Assert.Throws<InvariantViolationException>(() =>
+            new ClaimRegistryBuilder()
+                .Register<CycleA>(b => new CycleA(b.Get<CycleB>()))
+                .Register<CycleB>(b => new CycleB(b.Get<CycleA>()))
+                .Build());
+
+        Assert.Equal("Cycle", ex.Rule);
+        Assert.Contains(typeof(CycleA), ex.Path);
+        Assert.Contains(typeof(CycleB), ex.Path);
     }
 }
