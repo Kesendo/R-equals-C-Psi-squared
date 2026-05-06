@@ -1,3 +1,4 @@
+using System.IO;
 using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Runtime.ObjectManager;
@@ -87,6 +88,33 @@ public sealed class ClaimRegistryBuilder
                     hint: $"Either downgrade {edge.Child.Name} or strengthen the foundation under {edge.Parent.Name}.",
                     offendingClaim: edge.Child,
                     path: new[] { edge.Parent, edge.Child });
+        }
+
+        // Anchor-file existence (best-effort heuristic: any anchor token containing ".md").
+        // Anchor strings often pack multiple references separated by " + " or " / "; we split on
+        // those, take tokens with .md, and check each individual file path.
+        foreach (var (type, claim) in resolved)
+        {
+            if (string.IsNullOrWhiteSpace(claim.Anchor)) continue;
+
+            var tokens = claim.Anchor.Split(new[] { " + ", " / ", ", " }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var raw in tokens)
+            {
+                var token = raw.Trim();
+                if (!token.Contains(".md", StringComparison.Ordinal)) continue;
+
+                // Strip a trailing section marker like " §x" or " (Section 2)" before checking.
+                var cleanedTokenEnd = token.IndexOfAny(new[] { ' ', '#', '(' });
+                var path = cleanedTokenEnd > 0 ? token[..cleanedTokenEnd] : token;
+                if (string.IsNullOrEmpty(path)) continue;
+
+                if (!File.Exists(path))
+                    throw new InvariantViolationException(
+                        rule: "AnchorFileMissing",
+                        message: $"Claim {type.Name} anchors at '{path}', file not found relative to working directory.",
+                        hint: $"Either write the anchor file at '{path}' or correct the Anchor on {type.Name}.",
+                        offendingClaim: type);
+            }
         }
 
         return new ClaimRegistry(resolved, edges, order);

@@ -104,4 +104,25 @@ public class InvariantViolationTests
         Assert.Equal("DuplicateRegistration", ex.Rule);
         Assert.Contains("FooT1D", ex.Message);
     }
+
+    private sealed class BadAnchor : Claim
+    {
+        public BadAnchor() : base("BadAnchor", Tier.Tier1Derived,
+            "docs/proofs/PROOF_DOES_NOT_EXIST.md") { }
+        public override string DisplayName => "BadAnchor";
+        public override string Summary => "synthetic claim with non-existent anchor";
+    }
+
+    [Fact]
+    public void Build_AnchorMissing_Throws_WithAnchorPath()
+    {
+        var ex = Assert.Throws<InvariantViolationException>(() =>
+            new ClaimRegistryBuilder()
+                .Register<BadAnchor>(_ => new BadAnchor())
+                .Build());
+
+        Assert.Equal("AnchorFileMissing", ex.Rule);
+        Assert.Contains("docs/proofs/PROOF_DOES_NOT_EXIST.md", ex.Message);
+        Assert.Contains("BadAnchor", ex.Message);
+    }
 }
