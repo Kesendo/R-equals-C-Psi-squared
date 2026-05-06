@@ -1153,6 +1153,21 @@ The "Local-2-level-EP vs global-complex-γ-EP" open structural question (called 
 
 **Status:** Local-vs-global-EP open structural question: closed at c=2 to Tier2Verified, open at higher c (Items 4', 5 of F86OpenQuestions still apply) and open for the analytic continuation step. EQ-022 (b1) Item 1' c=2 stratum stays at Tier1Candidate (closed-form HWHM_left/Q_peak constant unchanged).
 
+### EQ-022 (b1) Update 2026-05-06 (evening): doubled-PTF floor + Locus 5 inheritance synthesis
+
+**Source:** Direction (b) attempt (commit `f232a76`) + typed-property promotion (commit `359151a`) + F86↔PTF synthesis (gitignored locally at `docs/superpowers/syntheses/2026-05-06-f86-ptf-inheritance.md`).
+
+**Direction (b) result:** The bare doubled-PTF Ansatz (c=2 = two coupled PTF c=1 instances, σ_0 as Π-shift perturbation parameter) yields two Tier-1-derived universal constants:
+
+- `BareDoubledPtfXPeak = 2.196910` (post-EP location, dimensionless x = Q/Q_EP)
+- `BareDoubledPtfHwhmRatio = 0.671535` (HWHM_left/Q_peak SVD-block floor, dimensionless x)
+
+Empirical Interior 0.7506 + Endpoint 0.7728 sit above the 0.6715 floor; gap (~0.08-0.10) is the probe-block 2-level sub-resonance, NOT a small σ_0 perturbation. Direction (a) (cross-block first-order σ_0) demoted; new Direction (a') (probe-block 2-level resonance with per-bond `g_eff_probe`) promoted, with quantitative prediction `g_eff_probe(Endpoint) ≈ g_eff_probe(Interior) / 1.6`.
+
+**F86↔PTF synthesis (Locus 5 inheritance):** PTF's K_1 chiral mirror law and F86's Q-rotation universal shape are two daughters of one parent (Π class AIII chiral, `{Π, L_c} = 0`). K_1 = Π on H_1 sine-mode basis (discrete Z₂); Q-rotation = Π on same-sign-imaginary 2×2 in rate-channel basis (continuous SO(2)). Shared clock: `t_peak = 1/(4γ₀)`. Combined with this morning's `LocalGlobalEpLink` Tier2Verified (EP-side closure: F86 local + FRAGILE_BRIDGE global as one EP at two F1-residuals), Locus 5 is now closed on both sides; the same single Π-AIII parent yields four downstream nodes (PTF K_1, F86 Q-rotation, F86 local EP, FRAGILE_BRIDGE global EP) at three F1-residuals (Σγ = N·γ₀, Σγ = 0, H_odd ≠ 0).
+
+**Status:** Item 1' c=2 stays Tier1Candidate; the doubled-PTF baseline is empirically validated at the floor (Tier-1-derived constants now visible as typed properties); Direction (a') probe-block 2-level resonance is the sharpest path to closing the gap. Item 4' (multi-k extension to c≥3) and Item 5 (σ_0 → 2√2 asymptote) remain unchanged.
+
 ---
 
 ## EQ-023
