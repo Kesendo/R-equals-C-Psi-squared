@@ -77,7 +77,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// across c=2 N=5..8; per-bond r(N, b) closed form is the documented gap. Companion
     /// to <see cref="LocalGlobalEpLink"/> (Locus 5, EP-side closure): together they bracket
     /// the F86 c=2 derivation with EP-side and symmetry-side parent-claim references.
-    /// Exposed at the KB root for any block, not just c=2 — the inheritance statement is
+    /// Exposed at the KB root for any block, not just c=2; the inheritance statement is
     /// shared across all c. Lazy: a single static-data Claim with no compute cost.</summary>
     public PolarityInheritanceLink PolarityInheritanceLink => _polarityInheritanceLink.Value;
 
@@ -261,7 +261,7 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return LocalGlobalEpLink;
         // Block-independent meta-claim (Locus 6, symmetry-side closure): F86 c=2 bond-class
         // split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 in Pi2KnowledgeBase.
-        // Tier2Verified — companion to LocalGlobalEpLink at the same Tier 2 sub-tier.
+        // Tier2Verified, companion to LocalGlobalEpLink at the same Tier 2 sub-tier.
         yield return PolarityInheritanceLink;
     }
 

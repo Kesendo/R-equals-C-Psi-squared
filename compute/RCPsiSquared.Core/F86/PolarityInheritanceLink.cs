@@ -11,7 +11,7 @@ namespace RCPsiSquared.Core.F86;
 /// in <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/>.
 ///
 /// <para><b>The decomposition (stumpf reading of the polarity-layer pair):</b> ρ = (I + r·σ)/2
-/// has two parts — the unsigned 1/2 baseline (= 1/d at d=2) and the signed ±r/2 polarity
+/// has two parts: the unsigned 1/2 baseline (= 1/d at d=2) and the signed ±r/2 polarity
 /// content. The empirical c=2 N=5..8 numbers from the <c>C2HwhmRatio</c> witnesses match this
 /// decomposition cleanly:</para>
 ///
@@ -73,7 +73,7 @@ public sealed class PolarityInheritanceLink : Claim
     /// <summary>Empirical witnesses pinning the polarity-layer decomposition at c=2 N=5..8
     /// (γ₀ = <see cref="WitnessGammaZero"/>; values pinned at 4-decimal precision from
     /// <c>C2HwhmRatio.HwhmLeftOverQPeakMean</c> and the per-block Q_peak readouts of the
-    /// 2026-05-06 c=2 sweep). One witness per N. Hard-coded as a static pinned table —
+    /// 2026-05-06 c=2 sweep). One witness per N. Hard-coded as a static pinned table:
     /// this is a frozen empirical anchor, not a live-recomputed Claim.</summary>
     public IReadOnlyList<PolarityWitness> Witnesses => _polarityWitnesses;
 
@@ -114,7 +114,7 @@ public sealed class PolarityInheritanceLink : Claim
     { }
 
     /// <summary>Public factory: builds the meta-claim with the four pinned polarity-layer
-    /// witnesses. No <see cref="CoherenceBlocks.CoherenceBlock"/> required — the claim is
+    /// witnesses. No <see cref="CoherenceBlocks.CoherenceBlock"/> required: the claim is
     /// block-independent (the witnesses pin the concrete c=2 N=5..8 numbers, but the
     /// inheritance statement is shared across all c).</summary>
     public static PolarityInheritanceLink Build() => new();
@@ -177,7 +177,7 @@ public sealed class PolarityInheritanceLink : Claim
     };
 }
 
-/// <summary>One row of the polarity-layer witness table — a frozen empirical data point
+/// <summary>One row of the polarity-layer witness table, a frozen empirical data point
 /// pinning the c=2 bond-class decomposition at fixed N. The decomposition reads:
 ///
 /// <list type="bullet">
@@ -219,11 +219,11 @@ public sealed record PolarityWitness(
     double RHwhmEndpoint
 ) : IInspectable
 {
-    /// <summary>Mean Q_peak across the two bond classes — empirically ≈ 2 (the d=2
+    /// <summary>Mean Q_peak across the two bond classes, empirically ≈ 2 (the d=2
     /// dimensional anchor) across N=5..8.</summary>
     public double QPeakMean => (QPeakInterior + QPeakEndpoint) / 2.0;
 
-    /// <summary>Mean HWHM/Q* across the two bond classes — empirically ≈ 1/2 + r̄·(1/2)
+    /// <summary>Mean HWHM/Q* across the two bond classes, empirically ≈ 1/2 + r̄·(1/2)
     /// with r̄ ≈ 0.52 across N=5..8.</summary>
     public double HwhmRatioMean => (HwhmRatioInterior + HwhmRatioEndpoint) / 2.0;
 
