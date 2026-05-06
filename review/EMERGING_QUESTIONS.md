@@ -1197,7 +1197,7 @@ The 0.5 baseline is `QubitDimensionalAnchorClaim` (1/d at d=2); the ±r/2 polari
 
 **Encoded as:** `PolarityInheritanceLink` Tier2Verified at F86 root level. 4 PolarityWitness rows pin the empirical r values for c=2 N=5..8.
 
-**Promotion path to Tier1Derived:** per-bond r(N, b) closed form via either (α) per-bond polarity-Bloch projection at t_peak, or (β) Locus 5 EP-rotation × Locus 6 polarity inheritance composition.
+**Promotion path to Tier1Derived:** per-bond r(N, b) closed form via ~~(α) per-bond polarity-Bloch projection at t_peak~~ [superseded 2026-05-07 (later); see below], or (β) Locus 5 EP-rotation × Locus 6 polarity inheritance composition.
 
 **Status:** Item 1' c=2 closed-form HWHM constants now have a structurally-grounded interpretation (1/2 baseline + r·1/2 polarity content). The remaining analytical gap is per-bond r(N, b). Item 1' c=2 stays Tier1Candidate at the closed-form-constant level; the inheritance reading itself is Tier2Verified at PolarityInheritanceLink.
 
@@ -1209,9 +1209,9 @@ The polarity-Bloch projection hypothesis was structurally falsified: 4-mode K-dr
 
 **Empirical g_eff witnesses pinned:** g_eff_Endpoint ≈ 1.74, g_eff_Interior ≈ 2.81, asymptotic 1/g_eff_E + 1/g_eff_I → 0.937. New const `PolarityInheritanceLink.EmpiricalSumQPeakAsymptote = 4.12`.
 
-**Near-miss:** g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but Δ = 0.063 at N=5. Could be finite-size correction (Item 5's σ_0 → 2√2 closed form is the bridge), or trajectory crossing per PTF-lesson.
+**Near-miss:** g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but Δ = 0.063 at N=5. Could be finite-size correction (Item 3's σ_0 → 2√2 closed form is the bridge), or trajectory crossing per PTF-lesson.
 
-**Path forward:** every c=2 closed-form direction runs through g_eff(N, b). Direction (a''-e'') and (α) all blocked at 4-mode insufficiency. Tier1Derived requires either Item 5 σ_0 closed form (with bond-class refinement) OR Direction (b'') full block-L derivation.
+**Path forward:** every c=2 closed-form direction runs through g_eff(N, b). Direction (a''-e'') and (α) all blocked at 4-mode insufficiency. Tier1Derived requires either Item 3 σ_0 closed form (with bond-class refinement) OR Direction (b'') full block-L derivation.
 
 ---
 

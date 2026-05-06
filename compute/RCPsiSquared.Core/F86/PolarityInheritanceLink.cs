@@ -128,12 +128,13 @@ public sealed class PolarityInheritanceLink : Claim
         "matches at Δ ≤ 0.01 for N ≥ 6 but does not pin at tolerance 0.005. Closed-form " +
         "g_eff(N, b) inherits C2InterChannelAnalytical's Tier 2 obstruction.";
 
-    /// <summary>Tier 1 derived universal constant (composition): the asymptotic value of
+    /// <summary>Tier 2 empirical witness (sub-pattern): the asymptotic value of
     /// Q_peak_Endpoint + Q_peak_Interior across c=2 N=5..8 (pinned ≈ 4.12 from N=6..8 with a
     /// ~0.13 deviation at N=5). Equivalently: <c>1/g_eff_E + 1/g_eff_I</c> approaches ≈ 0.937
-    /// for N ≥ 6. This is an empirical sub-pattern observed in the 2026-05-06 Direction (α)
-    /// attempt; it does not yet reduce to clean elementary constants (tested 2/π, (N+1)/(N+3),
-    /// 1−1/√(N+1), 1−1/N,none match). Pinned as a witness for the next-direction work.</summary>
+    /// for N ≥ 6. This is an empirical sub-pattern observed in the 2026-05-07 Direction (α)
+    /// attempt; no closed form pinned (tested 2/π, (N+1)/(N+3), 1−1/√(N+1), 1−1/N, none match).
+    /// Pinned as a witness for the next-direction work, consistent with the parent class's
+    /// Tier2Verified discipline.</summary>
     public const double EmpiricalSumQPeakAsymptote = 4.12;
 
     /// <summary>The unresolved analytical piece: the per-bond r(N, b) closed form. The
