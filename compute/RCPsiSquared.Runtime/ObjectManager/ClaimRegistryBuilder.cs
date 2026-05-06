@@ -78,18 +78,23 @@ public sealed class ClaimRegistryBuilder
             foreach (var type in pending.ToList())
             {
                 Type currentlyResolving = type;
-                var ctx = new RecordingBuilderContext(resolved, registered, currentlyResolving, edges);
+                // Tentative edge buffer: edges accumulate per attempt and commit only on
+                // success. Without this, a deferred factory that resolved some parents
+                // before throwing on a later one would re-add those edges every retry pass.
+                var attemptEdges = new List<Edge>();
+                var ctx = new RecordingBuilderContext(resolved, registered, currentlyResolving, attemptEdges);
                 try
                 {
                     var claim = _factories[type](ctx);
                     resolved[type] = claim;
                     order.Add(type);
                     pending.Remove(type);
+                    edges.AddRange(attemptEdges);
                     progress++;
                 }
                 catch (DependencyNotYetAvailableException)
                 {
-                    // defer
+                    // defer; tentative edges discarded
                 }
             }
 
@@ -129,8 +134,10 @@ public sealed class ClaimRegistryBuilder
                 var token = raw.Trim();
                 if (!token.Contains(".md", StringComparison.Ordinal)) continue;
 
-                // Strip a trailing section marker like " §x" or " (Section 2)" before checking.
-                var cleanedTokenEnd = token.IndexOfAny(new[] { ' ', '#', '(' });
+                // Strip trailing markers before checking: ' ' / '#' / '(' for section
+                // labels, ':' for line-number suffixes like 'docs/X.md:251' used in some
+                // Pi2 claim anchors.
+                var cleanedTokenEnd = token.IndexOfAny(new[] { ' ', '#', '(', ':' });
                 var path = cleanedTokenEnd > 0 ? token[..cleanedTokenEnd] : token;
                 if (string.IsNullOrEmpty(path)) continue;
 

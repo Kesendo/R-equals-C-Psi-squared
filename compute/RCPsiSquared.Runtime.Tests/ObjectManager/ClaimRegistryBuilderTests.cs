@@ -56,4 +56,33 @@ public class ClaimRegistryBuilderTests
         Assert.Contains("FooT1D", edge.Reason);
         Assert.Contains("Child", edge.Reason);
     }
+
+    private sealed class TwoParents : Claim
+    {
+        public TwoParents(FooT1D first, BarT2E second)
+            : base("synthetic TwoParents", Tier.Tier2Empirical,
+                   "compute/RCPsiSquared.Runtime.Tests/TestSupport/TestClaims.cs")
+        { _ = first; _ = second; }
+        public override string DisplayName => "TwoParents";
+        public override string Summary => "synthetic two-parent child to probe deferred-attempt edge accumulation";
+    }
+
+    [Fact]
+    public void Build_DeferredFactoryWithMultipleParents_DoesNotDuplicateEdges()
+    {
+        // Register child first so its factory is deferred at least once. The first attempt
+        // resolves FooT1D (recording an edge in the tentative buffer) then throws on
+        // BarT2E (not yet registered); the buffer must be discarded so the second attempt
+        // does not produce duplicate edges.
+        var registry = new ClaimRegistryBuilder()
+            .Register<TwoParents>(b => new TwoParents(b.Get<FooT1D>(), b.Get<BarT2E>()))
+            .Register<FooT1D>(_ => new FooT1D())
+            .Register<BarT2E>(_ => new BarT2E())
+            .Build();
+
+        var edges = registry.AllEdges().ToList();
+        Assert.Equal(2, edges.Count);
+        Assert.Contains(edges, e => e.Parent == typeof(FooT1D) && e.Child == typeof(TwoParents));
+        Assert.Contains(edges, e => e.Parent == typeof(BarT2E) && e.Child == typeof(TwoParents));
+    }
 }
