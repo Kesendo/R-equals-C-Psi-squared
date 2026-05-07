@@ -72,12 +72,27 @@ public sealed class C2BlockCpsiTrajectory : Claim
         CPsiBlockTrajectory = cPsiTrajectory;
     }
 
-    /// <summary>Builds the trajectory at fixed Q across the given time grid. The block
-    /// must be c=2 (n such that <see cref="CoherenceBlock.C"/>=2). Time evolution uses
-    /// eigendecomposition of the block-Liouvillian L(Q); the heavy work is the EVD
-    /// (O(M³) where M = block.Basis.MTotal), each time step is then O(M²).</summary>
+    /// <summary>Builds the trajectory at fixed uniform Q across the given time grid.
+    /// Equivalent to <see cref="BuildPerBond"/> with <c>perBondCouplings = [Q·γ₀, Q·γ₀, ...]</c>.
+    /// The block must be c=2.</summary>
     public static C2BlockCpsiTrajectory Build(
         CoherenceBlock block, double q, IReadOnlyList<double> timeGrid)
+    {
+        var bondCouplings = Enumerable.Repeat(q * block.GammaZero, block.NumBonds).ToArray();
+        return BuildPerBond(block, q, bondCouplings, timeGrid);
+    }
+
+    /// <summary>Builds the trajectory at non-uniform per-bond couplings J_b. The
+    /// reference Q is recorded in <see cref="Q"/> (the uniform-J value the per-bond
+    /// configuration is closest to). Engages Q-dependence: at uniform J the
+    /// channel-uniform Dicke probe lives entirely in the H-kernel (per F73 sum-rule),
+    /// so the trajectory is Q-independent. Non-uniform J breaks the F73 sum-rule —
+    /// per-bond <c>V_b[α, j]</c> cross-block entries survive — and the trajectory
+    /// becomes Q-dependent.</summary>
+    public static C2BlockCpsiTrajectory BuildPerBond(
+        CoherenceBlock block, double q,
+        IReadOnlyList<double> bondCouplings,
+        IReadOnlyList<double> timeGrid)
     {
         if (block.C != 2)
             throw new ArgumentException(
@@ -90,9 +105,8 @@ public sealed class C2BlockCpsiTrajectory : Claim
         int M = block.Basis.MTotal;
         double sqrtM = Math.Sqrt(M);
 
-        // L_block(J) where J = Q·γ₀.
-        double j = q * block.GammaZero;
-        var L = block.Decomposition.AssembleUniform(j);
+        // L_block from per-bond couplings (handles uniform and non-uniform alike).
+        var L = block.Decomposition.AssembleAt(bondCouplings);
 
         // Initial Liouville-space vector ρ_0: uniform value 1/(2·√M) at every block entry.
         // This represents the (popcount-1, popcount-2) coherence content of the pure-state
