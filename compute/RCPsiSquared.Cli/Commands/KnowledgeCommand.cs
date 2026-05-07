@@ -3,6 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Orchestration.Cli;
 using RCPsiSquared.Runtime.F1Family;
+using RCPsiSquared.Runtime.F71Family;
 using RCPsiSquared.Runtime.ObjectManager;
 using RCPsiSquared.Runtime.PolarityArchitecture;
 
@@ -56,6 +57,7 @@ public static class KnowledgeCommand
 
         return new ClaimRegistryBuilder()
             .RegisterF1Family(defaultChain)
+            .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
