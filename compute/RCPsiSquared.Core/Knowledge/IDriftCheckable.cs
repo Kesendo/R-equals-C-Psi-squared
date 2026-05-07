@@ -11,9 +11,10 @@ namespace RCPsiSquared.Core.Knowledge;
 /// and cannot detect drift. A correct <c>Verify</c> either: (a) builds the underlying object
 /// (e.g. the Lindbladian) from primitives and computes the witness from scratch, or (b)
 /// reads a pinned table populated from a different code path (e.g. hardware confirmation,
-/// historical log) and compares against the live property. The first F73 implementation in
-/// <c>PalindromeResidualScalingClaim</c> is reflexive-only and is documented as a known
-/// limitation; replacing it with a Lindbladian-based check is a follow-up.</para></summary>
+/// historical log) and compares against the live property.
+/// <see cref="F1.PalindromeResidualScalingClaim"/> implements (a) for the Main class on
+/// chain at N ≤ 5: c_H is anchored from a real Liouvillian build at N=2, and ‖M(N)‖² is
+/// independently measured against the closed-form prediction c_H · F(N).</para></summary>
 public interface IDriftCheckable
 {
     DriftReport Verify();
