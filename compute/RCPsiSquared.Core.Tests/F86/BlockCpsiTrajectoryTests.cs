@@ -6,10 +6,11 @@ using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F86;
 
-/// <summary>F86 c=2 block CΨ trajectory tests for Question B from
-/// <c>project_rcpsi_to_f86_open_questions</c>: does the (popcount-1, popcount-2)
-/// coherence block of an N-qubit chain have a well-defined CΨ that crosses 1/4?</summary>
-public class C2BlockCpsiTrajectoryTests
+/// <summary>F86 (popcount-n, popcount-(n+1)) block CΨ trajectory tests for Question B
+/// from <c>project_rcpsi_to_f86_open_questions</c>: does the c-stratum coherence block
+/// of an N-qubit chain inherit the 1/4 R=CΨ² boundary? Generalised to chromaticity
+/// c ≥ 2 on 2026-05-07 (lifted from c=2-only to verify chromaticity-universality).</summary>
+public class BlockCpsiTrajectoryTests
 {
     /// <summary>The algebraic anchor: CΨ_block(t=0) = 1/4 exactly for the maximally-coherent
     /// pure-state initial |ψ⟩ = (|D_1⟩ + |D_2⟩)/√2 at any N. This is a pencil-paper
@@ -26,7 +27,7 @@ public class C2BlockCpsiTrajectoryTests
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         // Single time point at t=0 to measure the initial value alone.
-        var trajectory = C2BlockCpsiTrajectory.Build(
+        var trajectory = BlockCpsiTrajectory.Build(
             block, q: 1.0, timeGrid: new[] { 0.0 });
         double cpsi0 = trajectory.CPsiInitial;
         Assert.True(Math.Abs(cpsi0 - 0.25) < 1e-10,
@@ -43,7 +44,7 @@ public class C2BlockCpsiTrajectoryTests
     public void InitialCBlock_EqualsOneQuarter_Independent(int N)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
-        var trajectory = C2BlockCpsiTrajectory.Build(
+        var trajectory = BlockCpsiTrajectory.Build(
             block, q: 1.0, timeGrid: new[] { 0.0 });
         double c0 = trajectory.CBlockTrajectory[0];
         Assert.True(Math.Abs(c0 - 0.25) < 1e-10,
@@ -59,7 +60,7 @@ public class C2BlockCpsiTrajectoryTests
     public void InitialPsiBlock_Saturates_AtUnity(int N)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
-        var trajectory = C2BlockCpsiTrajectory.Build(
+        var trajectory = BlockCpsiTrajectory.Build(
             block, q: 1.0, timeGrid: new[] { 0.0 });
         double psi0 = trajectory.PsiBlockTrajectory[0];
         Assert.True(Math.Abs(psi0 - 1.0) < 1e-10,
@@ -77,7 +78,7 @@ public class C2BlockCpsiTrajectoryTests
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var times = Enumerable.Range(0, 20).Select(i => i * 0.5).ToArray();  // t = 0..9.5 in 0.5 steps
-        var trajectory = C2BlockCpsiTrajectory.Build(block, Q, times);
+        var trajectory = BlockCpsiTrajectory.Build(block, Q, times);
 
         Assert.True(Math.Abs(trajectory.CPsiInitial - 0.25) < 1e-10);
         for (int i = 1; i < trajectory.CPsiBlockTrajectory.Count; i++)
@@ -106,7 +107,7 @@ public class C2BlockCpsiTrajectoryTests
     public void CBlock_MatchesClosedForm_PureDephasing(int N, double Q, double t)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
-        var trajectory = C2BlockCpsiTrajectory.Build(block, Q, new[] { t });
+        var trajectory = BlockCpsiTrajectory.Build(block, Q, new[] { t });
         double measured = trajectory.CBlockTrajectory[0];
 
         // Closed-form: (1/(2N))·exp(−4γt) + ((N−2)/(4N))·exp(−12γt)
@@ -135,8 +136,8 @@ public class C2BlockCpsiTrajectoryTests
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var times = new[] { 0.0, 0.5, 1.0, 2.0 };
-        var t1 = C2BlockCpsiTrajectory.Build(block, Q1, times);
-        var t2 = C2BlockCpsiTrajectory.Build(block, Q2, times);
+        var t1 = BlockCpsiTrajectory.Build(block, Q1, times);
+        var t2 = BlockCpsiTrajectory.Build(block, Q2, times);
 
         for (int i = 0; i < times.Length; i++)
         {
@@ -173,8 +174,8 @@ public class C2BlockCpsiTrajectoryTests
         double[] coupling2 = Enumerable.Repeat(2.0 * γ, block.NumBonds).ToArray();
         coupling2[bondToVary] = (2.0 + 0.5) * γ;
 
-        var trajQ1 = C2BlockCpsiTrajectory.BuildPerBond(block, 1.0, coupling1, times);
-        var trajQ2 = C2BlockCpsiTrajectory.BuildPerBond(block, 2.0, coupling2, times);
+        var trajQ1 = BlockCpsiTrajectory.BuildPerBond(block, 1.0, coupling1, times);
+        var trajQ2 = BlockCpsiTrajectory.BuildPerBond(block, 2.0, coupling2, times);
 
         // At t=0, both still match by Cauchy-Schwarz initial structure (Δ doesn't affect t=0).
         Assert.True(Math.Abs(trajQ1.CBlockTrajectory[0] - trajQ2.CBlockTrajectory[0]) < 1e-9);
@@ -184,5 +185,66 @@ public class C2BlockCpsiTrajectoryTests
         Assert.True(diffAtT5 > 1e-6,
             $"N={N}, bond={bondToVary}: trajectories should differ at t=5 with non-uniform J; " +
             $"got Δ={diffAtT5:E2}, expected > 1e-6");
+    }
+
+    /// <summary>**Chromaticity-universal anchor** (Tier 1 derived 2026-05-07):
+    /// CΨ_block(0) = 1/4 EXACTLY for any (N, c, n) with c ≥ 2, not just c=2.
+    /// Combinatorial identity: Σ_k M_{HD=2k+1} = M_block, so
+    /// M_block · (1/(2√M_block))² = 1/4 regardless of how the entries split across
+    /// HD channels. The 1/4 Mandelbrot boundary instances at every coherence block.</summary>
+    [Theory]
+    [InlineData(5, 2)]   // c=3, popcount-2 ↔ popcount-3, M=100
+    [InlineData(6, 2)]   // c=3, M=300
+    [InlineData(7, 2)]   // c=3, M=735
+    [InlineData(7, 3)]   // c=4 (mid-chain), M=1225
+    [InlineData(8, 3)]   // c=4, M=3136 — heavy but tractable
+    public void InitialCPsiBlock_EqualsOneQuarter_ChromaticityUniversal(int N, int n)
+    {
+        var block = new CoherenceBlock(N, n, gammaZero: 0.05);
+        var trajectory = BlockCpsiTrajectory.Build(block, q: 1.0, timeGrid: new[] { 0.0 });
+        double cpsi0 = trajectory.CPsiInitial;
+        Assert.True(Math.Abs(cpsi0 - 0.25) < 1e-10,
+            $"N={N}, n={n}, c={block.C}: CΨ_block(0) = {cpsi0:F12}, expected 0.25 within 1e-10. " +
+            $"Chromaticity-universal algebraic identity should hold exactly.");
+    }
+
+    /// <summary>The closed-form C_block(t) prediction matches the numerical trajectory
+    /// across (N, c, n). Pinned at multiple chromaticities: c=2 (n=1), c=3 (n=2),
+    /// c=4 (n=3 at N≥7).</summary>
+    [Theory]
+    [InlineData(5, 2, 1.0)]   // c=3, t=1
+    [InlineData(6, 2, 0.5)]   // c=3
+    [InlineData(7, 2, 1.0)]   // c=3
+    [InlineData(7, 3, 0.5)]   // c=4
+    [InlineData(8, 3, 1.0)]   // c=4
+    public void CBlock_MatchesClosedForm_GeneralChromaticity(int N, int n, double t)
+    {
+        var block = new CoherenceBlock(N, n, gammaZero: 0.05);
+        var trajectory = BlockCpsiTrajectory.Build(block, q: 1.0, timeGrid: new[] { t });
+        double measured = trajectory.CBlockTrajectory[0];
+        double predicted = BlockCpsiClosedForm.At(N, n, gammaZero: 0.05, t);
+
+        Assert.True(Math.Abs(measured - predicted) < 1e-3,
+            $"N={N}, n={n}, c={block.C}, t={t}: measured C_block={measured:F6}, " +
+            $"predicted={predicted:F6}, Δ={Math.Abs(measured - predicted):E2}");
+    }
+
+    /// <summary>The closed-form prediction at t=0 equals 1/4 exactly for any (N, n)
+    /// with c ≥ 2 — the combinatorial identity Σ_k M_{HD=2k+1} = M_block in numerical
+    /// form via <see cref="BlockCpsiClosedForm"/>.</summary>
+    /// <summary>The closed-form prediction at t=0 equals 1/4 exactly across c=2..6
+    /// — pure combinatorial identity, no numerical EVD involved (the closed form is
+    /// just a sum of binomials weighted by exponentials at t=0).</summary>
+    [Theory]
+    [InlineData(5, 1)]   // c=2
+    [InlineData(5, 2)]   // c=3
+    [InlineData(7, 3)]   // c=4
+    [InlineData(9, 4)]   // c=5
+    [InlineData(11, 5)]  // c=6
+    public void ClosedForm_PinsQuarter_AtZero(int N, int n)
+    {
+        double predicted = BlockCpsiClosedForm.At(N, n, gammaZero: 0.05, t: 0.0);
+        Assert.True(Math.Abs(predicted - 0.25) < 1e-12,
+            $"N={N}, n={n}: closed-form C_block(0) = {predicted:F14}, expected 0.25.");
     }
 }

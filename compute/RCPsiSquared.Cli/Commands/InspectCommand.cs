@@ -114,7 +114,7 @@ public static class InspectCommand
         return ResonanceScan.LinearQGrid(gridLo, gridHi, gridPoints);
     }
 
-    /// <summary>Builds <see cref="C2BlockCpsiTrajectory"/> at the given <c>--Q</c> across a
+    /// <summary>Builds <see cref="BlockCpsiTrajectory"/> at the given <c>--Q</c> across a
     /// time grid spanning [0, <c>--t-max</c>] with <c>--t-points</c> samples (defaults
     /// t_max = 4·t_peak = 1/γ₀, t-points = 41). The trajectory tests Question B from
     /// the 2026-05-07 open-questions memory: does CΨ_block cross 1/4 under L_block(Q)
@@ -126,7 +126,7 @@ public static class InspectCommand
         int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 41;
         var timeGrid = new double[tPoints];
         for (int i = 0; i < tPoints; i++) timeGrid[i] = tMax * i / (tPoints - 1);
-        return C2BlockCpsiTrajectory.Build(block, q, timeGrid);
+        return BlockCpsiTrajectory.Build(block, q, timeGrid);
     }
 
     /// <summary>Builds <see cref="C2BlockCpsiQScan"/> with single-bond perturbation across

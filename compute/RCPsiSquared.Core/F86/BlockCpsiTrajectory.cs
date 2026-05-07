@@ -8,41 +8,44 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 c=2 block CΨ trajectory — empirical test of Question B from
-/// <c>project_rcpsi_to_f86_open_questions</c>: does the (popcount-1, popcount-2)
-/// coherence block of an N-qubit chain have a well-defined CΨ that crosses the 1/4
-/// Mandelbrot-cardioid boundary, paralleling Roadmap Layer 2's 2-qubit subsystem
-/// crossing?
+/// <summary>F86 (popcount-n, popcount-(n+1)) block CΨ trajectory — empirical test of
+/// Question B from <c>project_rcpsi_to_f86_open_questions</c>: does the c-stratum
+/// coherence block of an N-qubit chain inherit the 1/4 Mandelbrot-cardioid boundary
+/// of R=CΨ²? Generalised to any chromaticity c ≥ 2 (lifted from c=2-only on 2026-05-07).
 ///
 /// <para><b>Initial state (algebraic anchor):</b> the maximally-coherent pure
-/// superposition |ψ⟩ = (|D_1⟩ + |D_2⟩)/√2, with |D_1⟩ the popcount-1 Dicke state and
-/// |D_2⟩ the popcount-2 Dicke state. Its (popcount-1, popcount-2) coherence block has
-/// uniform amplitudes 1/(2·√(N·C(N,2))) at every entry (Cauchy-Schwarz saturating).
-/// By direct calculation: C_block(0) = Σ |ρ_ab|² = 1/4 EXACTLY for any N. With the
-/// max-coherence-saturation normalization Ψ_block = ℓ₁ / ℓ₁_max, Ψ_block(0) = 1.
-/// Hence CΨ_block(0) = 1/4 by algebraic identity, sitting exactly on the R=CΨ²
-/// Mandelbrot boundary.</para>
+/// superposition |ψ⟩ = (|D_n⟩ + |D_{n+1}⟩)/√2, with |D_k⟩ the popcount-k Dicke state.
+/// Its (popcount-n, popcount-(n+1)) coherence block has uniform amplitudes
+/// 1/(2·√(C(N,n)·C(N,n+1))) at every entry (Cauchy-Schwarz saturating). By direct
+/// counting: C_block(0) = Σ |ρ_ab|² = M_block/(4·M_block) = 1/4 EXACTLY for any N
+/// AND any chromaticity c. **Chromaticity-universal.** With the max-coherence-
+/// saturation normalization Ψ_block = ℓ₁ / ℓ₁_max, Ψ_block(0) = 1. Hence CΨ_block(0)
+/// = 1/4 by algebraic identity, sitting exactly on the R=CΨ² Mandelbrot boundary at
+/// any c.</para>
 ///
-/// <para><b>Test:</b> evolve |ψ⟩⟨ψ|'s c=2 block under <c>BlockLDecomposition</c>'s
-/// uniform-J Liouvillian L(Q) and track CΨ_block(t). The first-crossing time t_cross
-/// (when CΨ_block falls below 1/4 — actually starts at 1/4, so any decrease is a
-/// crossing) and its Q-dependence are the empirical witnesses. If t_cross or some
-/// trajectory feature aligns with Q_EP = 2/g_eff or t_peak = 1/(4γ₀), Question B
-/// closes with structural evidence for inheritance from R=CΨ².</para>
+/// <para><b>Closed-form trajectory under pure dephasing:</b>
+/// <code>
+/// C_block(t) = (1/4) · Σ_{k=0..c-1} (M_{HD=2k+1} / M_block) · exp(−4γ·(2k+1)·t)
+/// </code>
+/// where M_{HD=2k+1} = C(N, n−k)·C(N−n+k, k)·C(N−n, k+1) is the count of basis pairs
+/// at Hamming distance 2k+1, and M_block = C(N,n)·C(N,n+1). For c=2, n=1: yields
+/// (1/(2N))·exp(−4γt) + ((N−2)/(4N))·exp(−12γt). For c=3, n=2: three exponentials.
+/// Trajectory is dephasing-dominated under uniform J (channel-uniform initial sits in
+/// the H-kernel via F73 sum-rule).</para>
 ///
 /// <para><b>Computational form.</b> The block-Liouvillian L_block ∈ ℂ^(M×M) with
-/// M = N·C(N,2) is built once via <c>BlockLDecomposition.AssembleUniform</c>. The
-/// initial Liouville-space vector ρ_0 ∈ ℂ^M has every entry equal to
-/// 1/(2·√M). Time evolution uses eigendecomposition of L_block (computed once); each
-/// time step is a matrix-vector product. CΨ_block(t) is computed entry-wise from
-/// ρ(t).</para>
+/// M = M_block is built once via <c>BlockLDecomposition.AssembleUniform</c>. The
+/// initial Liouville-space vector ρ_0 ∈ ℂ^M has every entry equal to 1/(2·√M).
+/// Time evolution uses eigendecomposition of L_block (computed once); each time step
+/// is a matrix-vector product.</para>
 ///
-/// <para><b>Tier:</b> Tier2Verified — empirical witness, algebraically pinned at
-/// t=0 (CΨ_block(0) = 1/4 exactly), with the Q-dependent crossing trajectory as the
-/// research data. Anchor: <c>docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md</c>
-/// Layer 2 (subsystem crossing) generalised to coherence-blocks.</para>
+/// <para><b>Tier:</b> Tier1Derived for the algebraic identity CΨ_block(0) = 1/4 at any
+/// (N, c, n). Tier2Verified for the closed-form trajectory (verified numerically;
+/// proof of channel-uniform = H-kernel structure is the F73 sum-rule, established).
+/// Anchor: <c>docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md</c> Layer 2 (subsystem
+/// crossing) generalised to coherence-blocks at arbitrary chromaticity.</para>
 /// </summary>
-public sealed class C2BlockCpsiTrajectory : Claim
+public sealed class BlockCpsiTrajectory : Claim
 {
     public CoherenceBlock Block { get; }
     public double Q { get; }
@@ -54,7 +57,7 @@ public sealed class C2BlockCpsiTrajectory : Claim
     public double CPsiInitial => CPsiBlockTrajectory[0];
     public double CPsiFinal => CPsiBlockTrajectory[^1];
 
-    public C2BlockCpsiTrajectory(
+    public BlockCpsiTrajectory(
         CoherenceBlock block, double q,
         IReadOnlyList<double> timeGrid,
         IReadOnlyList<double> cTrajectory,
@@ -75,7 +78,7 @@ public sealed class C2BlockCpsiTrajectory : Claim
     /// <summary>Builds the trajectory at fixed uniform Q across the given time grid.
     /// Equivalent to <see cref="BuildPerBond"/> with <c>perBondCouplings = [Q·γ₀, Q·γ₀, ...]</c>.
     /// The block must be c=2.</summary>
-    public static C2BlockCpsiTrajectory Build(
+    public static BlockCpsiTrajectory Build(
         CoherenceBlock block, double q, IReadOnlyList<double> timeGrid)
     {
         var bondCouplings = Enumerable.Repeat(q * block.GammaZero, block.NumBonds).ToArray();
@@ -89,14 +92,15 @@ public sealed class C2BlockCpsiTrajectory : Claim
     /// so the trajectory is Q-independent. Non-uniform J breaks the F73 sum-rule —
     /// per-bond <c>V_b[α, j]</c> cross-block entries survive — and the trajectory
     /// becomes Q-dependent.</summary>
-    public static C2BlockCpsiTrajectory BuildPerBond(
+    public static BlockCpsiTrajectory BuildPerBond(
         CoherenceBlock block, double q,
         IReadOnlyList<double> bondCouplings,
         IReadOnlyList<double> timeGrid)
     {
-        if (block.C != 2)
+        if (block.C < 2)
             throw new ArgumentException(
-                $"C2BlockCpsiTrajectory applies only to the c=2 stratum; got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
+                $"BlockCpsiTrajectory requires chromaticity c ≥ 2; got c={block.C} (N={block.N}, n={block.LowerPopcount}). " +
+                "c=1 stratum has only HD=1 channel (no inter-channel coupling) — trivial single-exponential decay.",
                 nameof(block));
         if (timeGrid is null) throw new ArgumentNullException(nameof(timeGrid));
         if (timeGrid.Count == 0)
@@ -156,7 +160,7 @@ public sealed class C2BlockCpsiTrajectory : Claim
             cPsiTraj.Add(C * psi);
         }
 
-        return new C2BlockCpsiTrajectory(block, q, timeGrid.ToArray(),
+        return new BlockCpsiTrajectory(block, q, timeGrid.ToArray(),
             cTraj, psiTraj, cPsiTraj);
     }
 
@@ -171,7 +175,7 @@ public sealed class C2BlockCpsiTrajectory : Claim
     }
 
     public override string DisplayName =>
-        $"C2BlockCpsiTrajectory (N={Block.N}, Q={Q:F3}, M={Block.Basis.MTotal})";
+        $"BlockCpsiTrajectory (N={Block.N}, Q={Q:F3}, M={Block.Basis.MTotal})";
 
     public override string Summary =>
         $"CΨ_block: {CPsiInitial:F4} → {CPsiFinal:F4} at Q={Q:F3}, " +

@@ -5,7 +5,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 c=2 block CΨ Q-sweep with one bond perturbed: tests whether the 1/4
-/// Mandelbrot boundary inherited at the c=2 level (per <see cref="C2BlockCpsiTrajectory"/>)
+/// Mandelbrot boundary inherited at the c=2 level (per <see cref="BlockCpsiTrajectory"/>)
 /// shows a Q_EP signature in the non-uniform-J regime.
 ///
 /// <para><b>Setup:</b> uniform background J = Q·γ₀ across all bonds, plus an additional
@@ -75,7 +75,7 @@ public sealed class C2BlockCpsiQScan : Claim
             for (int i = 0; i < block.NumBonds; i++) couplings[i] = background;
             couplings[perturbedBondIndex] = background + perturbationDelta;
 
-            var trajectory = C2BlockCpsiTrajectory.BuildPerBond(
+            var trajectory = BlockCpsiTrajectory.BuildPerBond(
                 block, q, couplings, snapshotTimes);
 
             cTraj.Add(trajectory.CBlockTrajectory[0]);
