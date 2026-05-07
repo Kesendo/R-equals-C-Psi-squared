@@ -6,7 +6,7 @@
 
 ---
 
-## Statement
+## Theorem 1: CΨ_block(0) = 1/4 on the Dicke superposition
 
 For any N-qubit chain and any chromaticity c ≥ 2, the maximally-coherent
 pure-state superposition
@@ -28,7 +28,7 @@ single-qubit level (Layer 1, [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUAR
 and at the 2-qubit subsystem level (Layer 2) **also** instances at every
 coherence-block level from a single combinatorial identity.
 
-## Proof
+## Proof of Theorem 1
 
 The (popcount-n, popcount-(n+1)) block is the set of matrix entries ρ_{ab} where
 popcount(a) = n and popcount(b) = n+1. The block dimension is
@@ -58,6 +58,65 @@ occupation of |ψ⟩⟨ψ|, so ℓ₁ achieves its maximum and Ψ_block = 1. The
 product CΨ_block(0) = 1/4 follows.
 
 ∎
+
+## Theorem 2: 1/4 as block-purity maximum
+
+The 1/4 above is not just one specific value at one specific initial state — it is
+the **maximum** of C_block(0) over all pure states with support in the
+(popcount-n ⊕ popcount-(n+1)) Hilbert subspace.
+
+**Statement.** For any pure state |ψ⟩ = α|φ_n⟩ + β|φ_{n+1}⟩ with |φ_k⟩ a
+unit-norm popcount-k state (k ∈ {n, n+1}) and |α|² + |β|² = 1, the
+(popcount-n, popcount-(n+1)) coherence block content satisfies
+
+$$C_\text{block}(0) \;=\; |\alpha|^2 \cdot |\beta|^2 \;\leq\; \frac{1}{4}$$
+
+with equality iff |α| = |β| = 1/√2. The Dicke choice |φ_n⟩ = |D_n⟩,
+|φ_{n+1}⟩ = |D_{n+1}⟩ is one realisation of the maximum; any other normalized
+choice within each popcount sector achieves the same maximum |α·β|² = 1/4
+when amplitudes are balanced.
+
+**Proof.** Decomposing the off-diagonal block of ρ = |ψ⟩⟨ψ|: for popcount-n
+state a and popcount-(n+1) state b,
+
+$$\rho_{ab} \;=\; \langle a | \psi \rangle \langle \psi | b \rangle
+\;=\; \alpha \langle a | \phi_n \rangle \cdot \beta^* \langle \phi_{n+1} | b \rangle.$$
+
+Squaring and summing over the block,
+
+$$C_\text{block}(0) \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2
+\;=\; |\alpha|^2 |\beta|^2 \cdot \left(\sum_a |\langle a | \phi_n \rangle|^2\right)
+\cdot \left(\sum_b |\langle \phi_{n+1} | b \rangle|^2\right)
+\;=\; |\alpha|^2 |\beta|^2$$
+
+since each inner sum is the unit-norm of |φ_n⟩ and |φ_{n+1}⟩. By
+AM-GM, |α|²|β|² ≤ ((|α|² + |β|²)/2)² = 1/4 with equality iff |α|² = |β|² = 1/2.
+
+∎
+
+**Strengthening to CΨ_block.** For ℓ₁ on the block: Cauchy-Schwarz on the
+amplitudes gives Σ_a |⟨a|φ_n⟩| ≤ √C(N, n), equality iff |⟨a|φ_n⟩| is
+uniform — i.e., |φ_n⟩ = |D_n⟩ (up to phase). Same for |φ_{n+1}⟩. With our
+calibrated normalisation ℓ₁_max = √M_block / 2:
+
+$$\Psi_\text{block} \;=\; \frac{|\alpha \beta| \cdot \sqrt{M_\text{block}}}{\sqrt{M_\text{block}}/2} \cdot (\text{Dicke factor}) \;\leq\; 2|\alpha \beta|$$
+
+with equality iff both sector states are Dicke. Hence
+
+$$C\Psi_\text{block} \;=\; |\alpha|^2 |\beta|^2 \cdot 2|\alpha \beta| \;=\; 2|\alpha\beta|^3 \;\leq\; \frac{1}{4}$$
+
+with equality iff |α| = |β| = 1/√2 AND |φ_n⟩ = |D_n⟩, |φ_{n+1}⟩ = |D_{n+1}⟩
+(up to a common phase). The maximum is realized by **exactly** the canonical
+Dicke symmetric superposition (|D_n⟩+|D_{n+1}⟩)/√2 from Theorem 1.
+
+∎
+
+**Reading.** 1/4 is not "the value where this initial happens to land". It
+is the **tight upper bound** on CΨ_block(0) over ALL pure states in the
+popcount-{n, n+1} sector, achieved at a UNIQUE state (up to phase). The
+Mandelbrot-cardioid-cusp boundary is a hard ceiling at this layer, and
+the Dicke symmetric superposition is the canonical realiser — analogous
+to how Bell+ realises CΨ = 1/3 at the d=4 subsystem level.
 
 ## Closed-form trajectory under pure Z-dephasing
 

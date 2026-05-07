@@ -85,6 +85,25 @@ public sealed class BlockCpsiTrajectory : Claim
         return BuildPerBond(block, q, bondCouplings, timeGrid);
     }
 
+    /// <summary>Builds the trajectory from a custom initial Liouville-space vector
+    /// (length M = block.Basis.MTotal) under uniform J = q·γ₀. Use case: testing
+    /// Theorem 2 of <c>docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md</c> by constructing
+    /// non-Dicke-symmetric initial states and verifying CΨ_block(0) ≤ 1/4 with
+    /// equality only on the canonical Dicke superposition.</summary>
+    public static BlockCpsiTrajectory BuildFromInitial(
+        CoherenceBlock block, double q,
+        ComplexVector initialBlockVector,
+        IReadOnlyList<double> timeGrid)
+    {
+        if (initialBlockVector is null) throw new ArgumentNullException(nameof(initialBlockVector));
+        if (initialBlockVector.Count != block.Basis.MTotal)
+            throw new ArgumentException(
+                $"initialBlockVector dim {initialBlockVector.Count} does not match block dim {block.Basis.MTotal}.",
+                nameof(initialBlockVector));
+        var bondCouplings = Enumerable.Repeat(q * block.GammaZero, block.NumBonds).ToArray();
+        return BuildCore(block, q, bondCouplings, initialBlockVector, timeGrid);
+    }
+
     /// <summary>Builds the trajectory at non-uniform per-bond couplings J_b. The
     /// reference Q is recorded in <see cref="Q"/> (the uniform-J value the per-bond
     /// configuration is closest to). Engages Q-dependence: at uniform J the
@@ -107,30 +126,40 @@ public sealed class BlockCpsiTrajectory : Claim
             throw new ArgumentException("timeGrid must be non-empty", nameof(timeGrid));
 
         int M = block.Basis.MTotal;
+        // Default initial: uniform value 1/(2·√M) at every block entry — the
+        // (|D_n⟩+|D_{n+1}⟩)/√2 maximally-coherent canonical state. Theorem 1 of
+        // PROOF_BLOCK_CPSI_QUARTER pins CΨ_block(0) = 1/4 here.
+        double initVal = 1.0 / (2.0 * Math.Sqrt(M));
+        var rho0 = ComplexVector.Build.Dense(M, _ => new Complex(initVal, 0.0));
+        return BuildCore(block, q, bondCouplings, rho0, timeGrid);
+    }
+
+    private static BlockCpsiTrajectory BuildCore(
+        CoherenceBlock block, double q,
+        IReadOnlyList<double> bondCouplings,
+        ComplexVector rho0,
+        IReadOnlyList<double> timeGrid)
+    {
+        if (timeGrid is null) throw new ArgumentNullException(nameof(timeGrid));
+        if (timeGrid.Count == 0)
+            throw new ArgumentException("timeGrid must be non-empty", nameof(timeGrid));
+
+        int M = block.Basis.MTotal;
         double sqrtM = Math.Sqrt(M);
 
         // L_block from per-bond couplings (handles uniform and non-uniform alike).
         var L = block.Decomposition.AssembleAt(bondCouplings);
-
-        // Initial Liouville-space vector ρ_0: uniform value 1/(2·√M) at every block entry.
-        // This represents the (popcount-1, popcount-2) coherence content of the pure-state
-        // |ψ⟩ = (|D_1⟩ + |D_2⟩)/√2; algebraically C_block(0) = M · |ρ_0|² = M / (4M) = 1/4.
-        double initVal = 1.0 / (2.0 * sqrtM);
-        var rho0 = ComplexVector.Build.Dense(M, _ => new Complex(initVal, 0.0));
 
         // Eigendecomposition for repeated time-stepping: exp(L·t)·v = R·diag(exp(λ_i·t))·R⁻¹·v.
         var evd = L.Evd();
         var R = evd.EigenVectors;
         var Rinv = R.Inverse();
         var lambda = evd.EigenValues;
-        // Pre-compute coefficients c_i = (R⁻¹·ρ_0)_i.
         var c0 = Rinv * rho0;
 
-        // Max ℓ₁ (Cauchy-Schwarz bound under our diagonal-occupation): for the initial
-        // diagonal occupation pattern (popcount-1 sector at 1/(2N), popcount-2 sector at
-        // 1/(2·C(N,2)) per state), |ρ_ab|_max = 1/(2·√(N·C(N,2))) = 1/(2·√M). The
-        // saturating ℓ₁ across all M entries is M · 1/(2·√M) = √M/2. We use this as
-        // the Ψ normalisation: Ψ_block = ℓ₁ / (√M/2). Initial Ψ_block(0) = 1 by saturation.
+        // Ψ_block normalisation: ℓ₁_max = √M/2 calibrated to the canonical Dicke
+        // symmetric superposition (saturates Cauchy-Schwarz at ℓ₁ = M·1/(2√M) = √M/2).
+        // For other initial states, Ψ_block ≤ 2·|αβ| ≤ 1 (Theorem 2).
         double ell1Max = sqrtM / 2.0;
 
         var cTraj = new List<double>(timeGrid.Count);
@@ -143,9 +172,6 @@ public sealed class BlockCpsiTrajectory : Claim
             for (int i = 0; i < M; i++) expDiag[i] = Complex.Exp(lambda[i] * t) * c0[i];
             var rhoT = R * expDiag;
 
-            // C_block = Σ |ρ_ab|² over block (block-purity content).
-            // Ψ_block = ℓ₁(ρ_block) / ℓ₁_max where ℓ₁_max = √M/2 (Cauchy-Schwarz
-            // saturating bound under initial diagonal occupation).
             double C = 0.0;
             double ell1 = 0.0;
             for (int i = 0; i < M; i++)

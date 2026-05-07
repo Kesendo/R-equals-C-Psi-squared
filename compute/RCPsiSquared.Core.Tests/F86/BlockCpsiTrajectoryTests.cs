@@ -247,4 +247,41 @@ public class BlockCpsiTrajectoryTests
         Assert.True(Math.Abs(predicted - 0.25) < 1e-12,
             $"N={N}, n={n}: closed-form C_block(0) = {predicted:F14}, expected 0.25.");
     }
+
+    /// <summary>Theorem 2 of PROOF_BLOCK_CPSI_QUARTER: for any pure state
+    /// |ψ⟩ = α|D_n⟩ + β|D_{n+1}⟩ with |α|²+|β|²=1, C_block(0) = |α|²|β|² ≤ 1/4
+    /// with equality iff |α|=|β|=1/√2. Construct asymmetric Dicke superpositions
+    /// directly as Liouville-space vectors and verify the formula.</summary>
+    [Theory]
+    [InlineData(5, 0.5, 0.5, 0.25)]      // symmetric — equals the upper bound
+    [InlineData(5, 0.6, 0.4, 0.24)]      // |α|² = 0.6, |β|² = 0.4 → 0.24
+    [InlineData(5, 0.8, 0.2, 0.16)]      // |α|² = 0.8, |β|² = 0.2 → 0.16
+    [InlineData(5, 0.9, 0.1, 0.09)]      // strongly asymmetric
+    [InlineData(7, 0.5, 0.5, 0.25)]      // c=2 N=7 symmetric
+    [InlineData(5, 0.7, 0.3, 0.21)]      // c=2 N=5
+    public void Theorem2_AsymmetricDicke_CBlockEqualsAlphaSquaredBetaSquared(
+        int N, double alphaSquared, double betaSquared, double expectedC)
+    {
+        // |ψ⟩ = α|D_1⟩ + β|D_2⟩ at the c=2 (popcount-1, popcount-2) block.
+        // Block element ρ_ab = α·β*·⟨a|D_1⟩·⟨D_2|b⟩ = α·β/√M (real for real α, β).
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        int M = block.Basis.MTotal;
+        double alpha = Math.Sqrt(alphaSquared);
+        double beta = Math.Sqrt(betaSquared);
+        double rhoEntry = alpha * beta / Math.Sqrt(M);
+        var rho0 = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(
+            M, _ => new System.Numerics.Complex(rhoEntry, 0.0));
+
+        var trajectory = BlockCpsiTrajectory.BuildFromInitial(
+            block, q: 1.0, rho0, timeGrid: new[] { 0.0 });
+
+        double measured = trajectory.CBlockTrajectory[0];
+        Assert.True(Math.Abs(measured - expectedC) < 1e-10,
+            $"N={N}, |α|²={alphaSquared}, |β|²={betaSquared}: " +
+            $"measured C_block={measured:F8}, expected={expectedC:F8} = α²·β².");
+
+        // Also verify the bound: C_block ≤ 1/4 always.
+        Assert.True(measured <= 0.25 + 1e-10,
+            $"Theorem 2 upper bound violated: C_block = {measured:F8} > 1/4");
+    }
 }
