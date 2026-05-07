@@ -64,6 +64,7 @@ public static class KnowledgeCommand
             .RegisterF71Family(N: defaultChain.N)
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: 1.0)
             .RegisterF86Extended(gammaZero: defaultChain.GammaZero)
+            .RegisterF86Item1Light(N: defaultChain.N, n: 1, gammaZero: defaultChain.GammaZero)
             .RegisterPi2Family()
             .RegisterHalfIntegerMirror(N: defaultChain.N)
             .RegisterF86PolarityLink()
