@@ -3,36 +3,32 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F71-orbit-decorated K-resonance witness: one orbit's measured Q_peak,
-/// HWHM_left, HWHM_left/Q_peak, |K|max from the c=2 C2HwhmRatio pipeline. K-prefix
-/// distinguishes from the existing per-(c,N) <see cref="OrbitWitness"/> in
-/// <see cref="PerF71OrbitObservation"/> (Q_peak-array record, frozen empirical).
-///
-/// <para>For 2-bond orbits the values are the F71-mirror-pair average (max-deviation
-/// guarded by <see cref="PerF71OrbitKTable.Build"/>); for self-paired orbits the
-/// values are the single-bond witness directly. No baked-in EscapeFlag — see
-/// <see cref="IsEscaped"/> for grid-relative escape classification.</para></summary>
+/// <summary>One F71 orbit's measured K-resonance values from the c=2 C2HwhmRatio pipeline:
+/// Q_peak, HWHM_left, |K|max, plus the derived HWHM_left/Q_peak ratio. 2-bond orbits hold
+/// the F71-mirror-pair average (max-deviation guarded in <see cref="PerF71OrbitKTable.Build"/>);
+/// self-paired orbits hold the single-bond witness.</summary>
 public sealed record OrbitKWitness(
     F71BondOrbit Orbit,
     double QPeak,
     double HwhmLeft,
-    double HwhmLeftOverQPeak,
     double KMax
 ) : IInspectable
 {
-    /// <summary>Returns true when QPeak sits within one grid spacing of the upper bound
-    /// of the given Q-grid — i.e., the peak finder pinned to the grid edge and the
-    /// orbit has no detected resonance peak in the scanned range. Grid-relative by
-    /// design (no pre-baked EscapeFlag).</summary>
+    /// <summary>HWHM_left/Q_peak ratio, derived from the two stored fields. Computing it
+    /// here avoids the mean-of-ratios pitfall when 2-bond orbits average the underlying
+    /// witnesses (mean of HwhmLeft / mean of QPeak ≠ mean of HwhmLeft/QPeak in general,
+    /// though the F71-mirror guard makes the difference negligible).</summary>
+    public double HwhmLeftOverQPeak => HwhmLeft / QPeak;
+
+    /// <summary>True when QPeak sits within one grid spacing of the upper bound of
+    /// <paramref name="qGrid"/> — the peak finder pinned to the edge, no detected
+    /// resonance in the scanned range. Uses the last grid interval as dQ so log-spaced
+    /// grids work without changing the contract.</summary>
     public bool IsEscaped(IReadOnlyList<double> qGrid)
     {
         if (qGrid is null) throw new ArgumentNullException(nameof(qGrid));
         if (qGrid.Count < 2)
             throw new ArgumentException("qGrid must have at least 2 points", nameof(qGrid));
-        // Use the last grid interval as dQ: correct for any monotone grid (uniform
-        // or widening toward qMax). For the default uniform grid both endpoints
-        // give identical dQ; this form additionally works for log-spaced grids
-        // without changing the contract.
         double dQ = qGrid[^1] - qGrid[^2];
         double qMax = qGrid[^1];
         return QPeak >= qMax - dQ;

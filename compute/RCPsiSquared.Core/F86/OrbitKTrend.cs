@@ -1,28 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F71-orbit Q_peak trend across an N-range. Tier2Verified.
-/// <see cref="BuildTrend"/> iterates the given blocks, builds per-N
-/// <see cref="PerF71OrbitKTable"/>, picks the orbit at <paramref name="orbitIndex"/>
-/// from each, returns the (N, OrbitKWitness) sequence. <see cref="IsEscaping"/>
-/// reads true when the trend's Q_peak is monotonically non-decreasing AND the
-/// latest N's witness is grid-escaped — together signal that the orbit's resonance
-/// peak has migrated past the scanned Q range.</summary>
+/// <summary>One F71 orbit's Q_peak trajectory across an N-range, Tier2Verified.
+/// <see cref="IsEscaping"/> classifies the trajectory as escaping when Q_peak grows
+/// monotonically and the latest witness sits at the grid edge.</summary>
 public sealed class OrbitKTrend : Claim
 {
     public int OrbitIndex { get; }
-    public IReadOnlyList<(int N, OrbitKWitness Witness)> Trend { get; }
+    public IReadOnlyList<OrbitKTrendEntry> Trend { get; }
 
-    public OrbitKTrend(int orbitIndex, IReadOnlyList<(int N, OrbitKWitness Witness)> trend)
+    public OrbitKTrend(int orbitIndex, IReadOnlyList<OrbitKTrendEntry> trend)
         : base($"F71-orbit #{orbitIndex} K-resonance trend across N range",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F86_QPEAK.md Statement 2 + Statement 3")
+               F86Anchors.Statement2Plus3)
     {
         OrbitIndex = orbitIndex;
         Trend = trend;
@@ -35,14 +28,14 @@ public sealed class OrbitKTrend : Claim
         if (blockList.Count == 0)
             throw new ArgumentException("blocks list must be non-empty", nameof(blocks));
 
-        var trend = new List<(int N, OrbitKWitness)>(blockList.Count);
+        var trend = new List<OrbitKTrendEntry>(blockList.Count);
         foreach (var block in blockList)
         {
             var table = PerF71OrbitKTable.Build(block);
             if (orbitIndex < 0 || orbitIndex >= table.OrbitWitnesses.Count)
                 throw new ArgumentOutOfRangeException(nameof(orbitIndex),
                     $"orbitIndex {orbitIndex} out of range for N={block.N} ({table.OrbitWitnesses.Count} orbits)");
-            trend.Add((block.N, table.OrbitWitnesses[orbitIndex]));
+            trend.Add(new OrbitKTrendEntry(block.N, table.OrbitWitnesses[orbitIndex]));
         }
         return new OrbitKTrend(orbitIndex, trend);
     }
@@ -50,14 +43,11 @@ public sealed class OrbitKTrend : Claim
     public bool IsEscaping(IReadOnlyList<double> qGrid)
     {
         if (qGrid is null) throw new ArgumentNullException(nameof(qGrid));
-        // Monotone non-decreasing check (vacuous for 1-element trend) ...
         for (int i = 1; i < Trend.Count; i++)
         {
             if (Trend[i].Witness.QPeak < Trend[i - 1].Witness.QPeak)
                 return false;
         }
-        // ... AND the latest witness must be grid-escaped. BuildTrend guarantees the
-        // trend is non-empty.
         return Trend[^1].Witness.IsEscaped(qGrid);
     }
 
@@ -75,8 +65,12 @@ public sealed class OrbitKTrend : Claim
             yield return new InspectableNode("orbit index", summary: OrbitIndex.ToString());
             yield return new InspectableNode("N range",
                 summary: $"{Trend[0].N}..{Trend[^1].N}");
-            foreach (var (n, witness) in Trend)
-                yield return new InspectableNode($"N={n}", summary: witness.Summary);
+            foreach (var entry in Trend)
+                yield return new InspectableNode($"N={entry.N}", summary: entry.Witness.Summary);
         }
     }
 }
+
+/// <summary>One entry in an <see cref="OrbitKTrend"/>: the chain length and its
+/// orbit witness.</summary>
+public sealed record OrbitKTrendEntry(int N, OrbitKWitness Witness);

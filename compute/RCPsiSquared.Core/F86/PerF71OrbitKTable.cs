@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86.Item1Derivation;
@@ -9,14 +6,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F71-orbit-grouped K-resonance witness table for c=2 K-resonance data.
-/// Tier2Verified. <see cref="Build"/> consumes
-/// <see cref="F71BondOrbitDecomposition"/> (F71, Tier1Derived) and
-/// <see cref="C2HwhmRatio.Build"/>.Witnesses (F86 per-bond), groups by orbit, and
-/// averages 2-bond orbits with F71 mirror invariance guarded at 1e-6 max-deviation.
-/// Live-computed counterpart to <see cref="PerF71OrbitObservation"/> (which is
-/// frozen 9-case sweep across (c, N)). Anchor: PROOF_F86_QPEAK Statement 2 +
-/// Statement 3 (F71 mirror invariance).</summary>
+/// <summary>F71-orbit-grouped K-resonance witnesses for one c=2 block. Tier2Verified;
+/// live-computed counterpart to <see cref="PerF71OrbitObservation"/> (frozen 9-case sweep).</summary>
 public sealed class PerF71OrbitKTable : Claim
 {
     public CoherenceBlock Block { get; }
@@ -27,12 +18,18 @@ public sealed class PerF71OrbitKTable : Claim
         IReadOnlyList<OrbitKWitness> orbitWitnesses)
         : base("c=2 F71-orbit K-resonance witness table",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F86_QPEAK.md Statement 2 + Statement 3")
+               F86Anchors.Statement2Plus3)
     {
         Block = block;
         OrbitWitnesses = orbitWitnesses;
     }
 
+    /// <summary>Builds the table for one block: walks
+    /// <see cref="F71BondOrbitDecomposition"/> orbits and joins each with the
+    /// <see cref="C2HwhmRatio"/> per-bond witnesses. 2-bond orbits average their two
+    /// bond witnesses; the F71-mirror invariance guard rejects max-Δ &gt; 1e-6 (which
+    /// would indicate a numerical regression, since R-paired bonds are bit-identical
+    /// by construction).</summary>
     public static PerF71OrbitKTable Build(CoherenceBlock block)
     {
         if (block.C != 2)
@@ -41,43 +38,35 @@ public sealed class PerF71OrbitKTable : Claim
                 nameof(block));
 
         var orbits = new F71BondOrbitDecomposition(block.N).Orbits;
-        var hwhmRatio = C2HwhmRatio.Build(block);
-        var bondWitnesses = hwhmRatio.Witnesses;
+        var bondWitnesses = C2HwhmRatio.Build(block).Witnesses;
 
         var orbitWitnesses = new List<OrbitKWitness>(orbits.Count);
         foreach (var orbit in orbits)
         {
-            if (orbit.IsSelfPaired)
-            {
-                var w = bondWitnesses[orbit.BondA];
-                orbitWitnesses.Add(new OrbitKWitness(
-                    orbit,
-                    QPeak: w.QPeak,
-                    HwhmLeft: w.HwhmLeft,
-                    HwhmLeftOverQPeak: w.HwhmLeftOverQPeak,
-                    KMax: w.KMax));
-            }
-            else
-            {
-                var wA = bondWitnesses[orbit.BondA];
-                var wB = bondWitnesses[orbit.BondB!.Value];
-                double maxDev = Math.Max(
-                    Math.Max(Math.Abs(wA.QPeak - wB.QPeak),
-                             Math.Abs(wA.HwhmLeft - wB.HwhmLeft)),
-                    Math.Abs(wA.KMax - wB.KMax));
-                if (maxDev > 1e-6)
-                    throw new InvalidOperationException(
-                        $"F71 mirror invariance violated at orbit {{b={orbit.BondA}, b={orbit.BondB}}}: " +
-                        $"max-Δ = {maxDev:E2} exceeds 1e-6");
-                orbitWitnesses.Add(new OrbitKWitness(
-                    orbit,
-                    QPeak: 0.5 * (wA.QPeak + wB.QPeak),
-                    HwhmLeft: 0.5 * (wA.HwhmLeft + wB.HwhmLeft),
-                    HwhmLeftOverQPeak: 0.5 * (wA.HwhmLeftOverQPeak + wB.HwhmLeftOverQPeak),
-                    KMax: 0.5 * (wA.KMax + wB.KMax)));
-            }
+            orbitWitnesses.Add(orbit.IsSelfPaired
+                ? FromSingleBond(orbit, bondWitnesses[orbit.BondA])
+                : FromMirrorPair(orbit, bondWitnesses[orbit.BondA], bondWitnesses[orbit.BondB!.Value]));
         }
         return new PerF71OrbitKTable(block, orbitWitnesses);
+    }
+
+    private static OrbitKWitness FromSingleBond(F71BondOrbit orbit, HwhmRatioWitness w) =>
+        new(orbit, QPeak: w.QPeak, HwhmLeft: w.HwhmLeft, KMax: w.KMax);
+
+    private static OrbitKWitness FromMirrorPair(F71BondOrbit orbit, HwhmRatioWitness wA, HwhmRatioWitness wB)
+    {
+        double maxDev = Math.Max(
+            Math.Max(Math.Abs(wA.QPeak - wB.QPeak), Math.Abs(wA.HwhmLeft - wB.HwhmLeft)),
+            Math.Abs(wA.KMax - wB.KMax));
+        if (maxDev > 1e-6)
+            throw new InvalidOperationException(
+                $"F71 mirror invariance violated at orbit {{b={orbit.BondA}, b={orbit.BondB}}}: " +
+                $"max-Δ = {maxDev:E2} exceeds 1e-6");
+        return new OrbitKWitness(
+            orbit,
+            QPeak: 0.5 * (wA.QPeak + wB.QPeak),
+            HwhmLeft: 0.5 * (wA.HwhmLeft + wB.HwhmLeft),
+            KMax: 0.5 * (wA.KMax + wB.KMax));
     }
 
     public override string DisplayName =>

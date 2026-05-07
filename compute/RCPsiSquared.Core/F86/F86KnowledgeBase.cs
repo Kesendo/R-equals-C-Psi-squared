@@ -264,7 +264,6 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private IEnumerable<IInspectable> CollectTier2Empirical()
     {
-        // Live F71-orbit K-resonance witness table for c=2.
         if (OrbitKTable is not null) yield return OrbitKTable;
 
         yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",

@@ -39,17 +39,14 @@ public class OrbitKTrendTests
     [Fact]
     public void BuildTrend_CenterOrbit_QPeakStable_AcrossN5To10()
     {
-        // Center orbit index varies by N (it is OrbitWitnesses.Count - 1). Build a
-        // single-block trend per N and verify (a) the center witness Q_peak is in the
-        // canonical mid-chain range [1.4, 1.7], and (b) the trend is NOT escaping the
-        // default grid (mid-chain Q_peak ≈ 1.55, well inside [0.20, 4.00]).
+        // Center orbit index = N/2 - 1 (orbit count is N/2, center is the largest index).
+        // Single-block trend per N exercises BuildTrend without a redundant Build call.
         int[] ns = { 5, 6, 7, 8, 9, 10 };
         var defaultGrid = ResonanceScan.DefaultQGrid();
         foreach (int n in ns)
         {
             var block = new CoherenceBlock(n, n: 1, gammaZero: 0.05);
-            // Determine center index from the per-N table count.
-            int centerIndex = PerF71OrbitKTable.Build(block).OrbitWitnesses.Count - 1;
+            int centerIndex = n / 2 - 1;
             var trend = OrbitKTrend.BuildTrend(centerIndex, new[] { block });
 
             Assert.Single(trend.Trend);
