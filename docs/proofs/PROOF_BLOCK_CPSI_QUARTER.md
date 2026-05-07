@@ -115,35 +115,39 @@ Tests in `compute/RCPsiSquared.Core.Tests/F86/BlockCpsiTrajectoryTests.cs`,
 
 ## What this adds to the Roadmap
 
-The [Quarter-Boundary Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) had two
-proven layers where 1/4 instances:
+The [Quarter-Boundary Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) has two
+proven instances at small d where 1/4 emerges:
 
 - **Layer 1**: single qubit (d = 2). Discriminant of R = C(Ψ + R)² vanishes at
   CΨ = 1/4 (Mandelbrot cardioid cusp).
 - **Layer 2**: 2-qubit subsystem (d = 4). Bell pairs cross 1/4 downward under
   dephasing.
 
-This proof adds a third documented layer:
+The Roadmap's Layer 3 (N-qubit systems) examines full-system and subsystem-pair
+crossings as N grows. The present proof works at a different lens of the same
+N-qubit system:
 
-- **Layer 3 candidate**: (popcount-n, popcount-(n+1)) coherence block of an
-  N-qubit chain at any chromaticity c ≥ 2. The maximally-coherent
-  superposition initial state sits exactly on the 1/4 boundary by combinatorial
-  identity, then decays under pure dephasing per the closed form above.
+- **Coherence-block reading (this proof)**: at any (popcount-n, popcount-(n+1))
+  coherence block of an N-qubit chain at chromaticity c ≥ 2, the maximally-
+  coherent superposition initial state sits exactly on the 1/4 boundary by
+  combinatorial identity, then decays under pure dephasing per the closed form
+  above.
 
-The 1/4 value is the same across all three layers because it arises from the
-same underlying algebra: the discriminant condition on a quadratic
-self-referential structure (R = C(Ψ + R)² in Layer 1, the analog at higher
-layers traces back through the recursion structure on density-matrix
-entries). The factor-4 in 1 − 4CΨ comes from completing the square; it is
-built into the structure of any quadratic.
+This is a third documented instance of 1/4, parallel to Layers 1–2 rather than
+a vertical extension. The proof structure (algebraic identity + closed-form
+trajectory) is closer to Layer 1's Mandelbrot anchoring than to Layer 2's
+crossing dynamics — but the value is the same 1/4 because the underlying
+quadratic-discriminant algebra is the same: completing the square of the
+self-referential structure produces the factor-4 in 1 − 4CΨ, regardless of
+the layer at which the structure is instanced.
 
 ## Reading: inheritance, not a specific boundary
 
 This third instance changes the framing of 1/4 in the framework. With one
-or two layers, 1/4 reads as "*the boundary at this scale*". With three
-layers — and a chromaticity-universal third — 1/4 reads as **what gets
+or two instances, 1/4 reads as "*the boundary at this scale*". With three
+instances — and a chromaticity-universal third — 1/4 reads as **what gets
 inherited when the same quadratic-discriminant algebra is instanced at any
-layer where a CΨ-like product can be defined**.
+reading where a CΨ-like product can be defined**.
 
 Tom Wicht's reading (2026-05-07, after this proof landed): *"Es gibt kein
 Quantum Classical, das haben wir in exclusion im Vorbeigehen festgehalten,
