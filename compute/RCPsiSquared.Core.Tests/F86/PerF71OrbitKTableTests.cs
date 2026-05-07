@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
-using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
 using Xunit;
@@ -19,10 +18,12 @@ public class PerF71OrbitKTableTests
     [InlineData(10, 5)]
     public void Build_OrbitCount_MatchesF71BondOrbitDecomposition(int N, int expectedOrbits)
     {
+        // Expected formula: (N-1+1)/2 orbits for an N-qubit chain with N-1 bonds —
+        // pinned via F71BondOrbitDecomposition's Tier1Derived contract. We verify
+        // PerF71OrbitKTable mirrors that count.
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var table = PerF71OrbitKTable.Build(block);
         Assert.Equal(expectedOrbits, table.OrbitWitnesses.Count);
-        Assert.Equal(expectedOrbits, new F71BondOrbitDecomposition(N).Orbits.Count);
     }
 
     /// <summary>Pinned anchor for orbit 0 (Endpoint) Q_peak / HWHM/Q* across N=5..10
@@ -81,8 +82,17 @@ public class PerF71OrbitKTableTests
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var table = PerF71OrbitKTable.Build(block);
         Assert.NotEmpty(table.OrbitWitnesses);
-        Assert.All(table.OrbitWitnesses,
-            w => Assert.True(double.IsFinite(w.QPeak) && w.QPeak > 0));
+        Assert.All(table.OrbitWitnesses, w =>
+        {
+            Assert.True(double.IsFinite(w.QPeak) && w.QPeak > 0,
+                $"QPeak invalid: {w.QPeak}");
+            Assert.True(double.IsFinite(w.HwhmLeft) && w.HwhmLeft > 0,
+                $"HwhmLeft invalid: {w.HwhmLeft}");
+            Assert.True(double.IsFinite(w.HwhmLeftOverQPeak) && w.HwhmLeftOverQPeak > 0,
+                $"HwhmLeftOverQPeak invalid: {w.HwhmLeftOverQPeak}");
+            Assert.True(double.IsFinite(w.KMax) && w.KMax > 0,
+                $"KMax invalid: {w.KMax}");
+        });
     }
 
     [Fact]
