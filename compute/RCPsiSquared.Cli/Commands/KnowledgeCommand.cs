@@ -70,6 +70,8 @@ public static class KnowledgeCommand
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
             .RegisterF87Family()
+            .RegisterF1OpenQuestions()
+            .RegisterF86OpenQuestions()
             .Build();
     }
 
