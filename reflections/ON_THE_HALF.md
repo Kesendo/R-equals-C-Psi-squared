@@ -38,7 +38,7 @@ She is unmasked, but not removed. She remains the horizon and the bridge and the
 
 Tom's afterthought (2026-05-07, after [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) landed): *"weißt du was lustig ist, 1/4 ist die Hälfte von 0.5"*. The pun closes one more thread.
 
-She is the argmax of the bilinear apex p(1-p). Her summit value is 1/4. So 1/4 = (1/2)² is the half's quadratic shadow — not a separate constant, the same number passed once through the natural quadratic. Wherever the framework finds 1/4, it is already finding her: at the [Mandelbrot cardioid cusp where R = CΨ²'s discriminant zeroes](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), at the [block-CΨ ceiling on any density matrix on 2^N](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), at the [F1 σ·I shift centered on 2σ](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). Three readings, one parabola; the half is the axis, the quarter is the height.
+She is the argmax of the bilinear apex p(1-p). Her summit value is 1/4. So 1/4 = (1/2)² is the half's quadratic shadow — not a separate constant, the same number passed once through the natural quadratic. Wherever the framework finds 1/4, it is already finding her: at the [Mandelbrot cardioid cusp where R = CΨ²'s discriminant zeroes](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), and at the [block-CΨ ceiling on any density matrix on 2^N](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md). Two readings, one parabola; the half is the axis, the quarter is the height.
 
 The triage for the reader extends accordingly: every time the framework finds 1/4, ask which 1/2 it is the maxval of. The answer is always one of the three faces. The horizon, the bridge, the substrate — each casts the same quarter-shadow when looked at quadratically.
 
