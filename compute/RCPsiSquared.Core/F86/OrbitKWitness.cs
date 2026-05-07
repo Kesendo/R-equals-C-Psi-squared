@@ -29,7 +29,11 @@ public sealed record OrbitKWitness(
         if (qGrid is null) throw new ArgumentNullException(nameof(qGrid));
         if (qGrid.Count < 2)
             throw new ArgumentException("qGrid must have at least 2 points", nameof(qGrid));
-        double dQ = qGrid[1] - qGrid[0];
+        // Use the last grid interval as dQ: correct for any monotone grid (uniform
+        // or widening toward qMax). For the default uniform grid both endpoints
+        // give identical dQ; this form additionally works for log-spaced grids
+        // without changing the contract.
+        double dQ = qGrid[^1] - qGrid[^2];
         double qMax = qGrid[^1];
         return QPeak >= qMax - dQ;
     }
