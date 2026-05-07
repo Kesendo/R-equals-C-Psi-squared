@@ -60,6 +60,7 @@ public static class KnowledgeCommand
             .RegisterF1Family(defaultChain)
             .RegisterF71Family(N: defaultChain.N)
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: 1.0)
+            .RegisterF86Extended(gammaZero: defaultChain.GammaZero)
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
