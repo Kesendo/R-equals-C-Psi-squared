@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Orchestration.Cli;
 using RCPsiSquared.Runtime.ObjectManager;
+using RCPsiSquared.Runtime.PolarityArchitecture;
 
 namespace RCPsiSquared.Cli.Commands;
 
@@ -44,9 +45,13 @@ public static class KnowledgeCommand
 
     private static ClaimRegistry BuildRegistry()
     {
-        // CLI ships an empty registry by default. Domain registrations (e.g.
-        // RegisterF1Family) plug in here when the CLI surface needs to expose them.
-        return new ClaimRegistryBuilder().Build();
+        // Schicht 2 default: the polarity architecture (Pi2 + F86 + F88).
+        // Future schichten extend this chain.
+        return new ClaimRegistryBuilder()
+            .RegisterPi2Family()
+            .RegisterF86PolarityLink()
+            .RegisterF88PopcountCoherence()
+            .Build();
     }
 
     private static Tier ParseTier(string[] args)
