@@ -69,6 +69,8 @@ public static class KnowledgeCommand
             .RegisterHalfIntegerMirror(N: defaultChain.N)
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
+            // RegisterF87Family must follow RegisterPi2Family: DissipatorAxisSelectsPolarityClaim
+            // resolves PolarityLayerOriginClaim via b.Get<>() at registration-factory time.
             .RegisterF87Family()
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

@@ -25,4 +25,12 @@ public static class TierStrength
     /// parent Claim of weaker strength.</summary>
     public static bool IsAtLeastAsStrong(Tier parent, Tier child) =>
         Of(parent) >= Of(child);
+
+    /// <summary>All <see cref="Tier"/> values sorted strongest first. Single source of
+    /// truth for any consumer that needs to walk tiers in strength order
+    /// (e.g. the Markdown renderer's section ordering).</summary>
+    public static IReadOnlyList<Tier> AllByStrength { get; } = Enum
+        .GetValues<Tier>()
+        .OrderByDescending(Of)
+        .ToArray();
 }

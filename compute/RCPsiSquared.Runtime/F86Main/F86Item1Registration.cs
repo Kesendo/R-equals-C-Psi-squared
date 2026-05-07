@@ -33,12 +33,8 @@ public static class F86Item1Registration
         int n,
         double gammaZero)
     {
+        // C2BlockShape's ctor already throws ArgumentException on block.C != 2; let it.
         var block = new CoherenceBlock(N, n, gammaZero);
-        if (block.C != 2)
-            throw new ArgumentException(
-                $"F86 Item 1 derivation applies only to the c=2 stratum; got c={block.C} from (N={N}, n={n}).",
-                nameof(n));
-
         return builder
             .Register<C2BlockShape>(_ => new C2BlockShape(block))
             .Register<C2ChannelUniformAnalytical>(b =>

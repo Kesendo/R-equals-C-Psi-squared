@@ -45,18 +45,7 @@ public sealed class KnowledgeRenderer
         sb.AppendLine($"{allClaims.Count} claim(s), {allEdges.Count} edge(s).");
         sb.AppendLine();
 
-        // Tier strength order, strongest first.
-        var tiersInOrder = new[]
-        {
-            Tier.Tier1Derived,
-            Tier.Tier1Candidate,
-            Tier.Tier2Verified,
-            Tier.Tier2Empirical,
-            Tier.OpenQuestion,
-            Tier.Retracted,
-        };
-
-        foreach (var tier in tiersInOrder)
+        foreach (var tier in TierStrength.AllByStrength)
         {
             var claimsAtTier = _registry.AllOfTier(tier);
             if (claimsAtTier.Count == 0) continue;

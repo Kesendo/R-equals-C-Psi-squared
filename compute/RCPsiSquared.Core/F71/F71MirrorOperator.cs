@@ -23,7 +23,7 @@ public sealed class F71MirrorOperator : Claim
     public F71MirrorOperator(int N)
         : base("F71 chain-mirror operator R",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md")
+               F71Anchors.Proof)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
         this.N = N;

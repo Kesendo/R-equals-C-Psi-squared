@@ -30,7 +30,7 @@ public sealed class C1MirrorIdentity : Claim
     public C1MirrorIdentity()
         : base("F71 c₁ mirror identity: c₁(b) = c₁(N−2−b)",
                Tier.Tier1Derived,
-               "docs/ANALYTICAL_FORMULAS.md F71 + docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md")
+               $"{F71Anchors.Formulas} + {F71Anchors.Proof}")
     { }
 
     public override string DisplayName => "F71: c₁(N, b, ρ₀) = c₁(N, N−2−b, ρ₀)";

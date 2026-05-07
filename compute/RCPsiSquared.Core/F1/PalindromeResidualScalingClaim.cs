@@ -90,13 +90,21 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
         }
     }
 
-    public DriftReport Verify()
+    private DriftReport? _cachedReport;
+
+    public DriftReport Verify() => _cachedReport ??= ComputeVerify();
+
+    private DriftReport ComputeVerify()
     {
         // Operational verification: anchor the Hamiltonian-dependent constant c_H from
         // a small system (N=2, 16x16 Pauli-basis) and use the closed form to predict
         // ‖M‖² at the registered N. Then build the actual Liouvillian at N, compute
         // ‖M(N)‖² independently, and assert it matches the prediction. Same H structure
         // (XX+YZ chain, J=1) at both N=2 and N to keep c_H consistent.
+        //
+        // Result is memoised on the claim instance: the Hamiltonian, gamma, and N are
+        // immutable, so subsequent Verify() calls return the cached DriftReport in O(1)
+        // instead of paying the ~14s Liouvillian-build cost again.
         //
         // Limitations: SingleBody verification needs a single-body H builder we do not
         // currently expose; graph-aware mode (BondCount + DegreeSquaredSum supplied)
@@ -159,7 +167,7 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
             return new DriftReport(
                 ClaimType: typeof(PalindromeResidualScalingClaim),
                 IsDrift: false,
-                Description: $"F73 operational anchor at N=2 (H=XX+YZ chain): ‖M(2)‖² = {cHObserved:G10} = c_H by definition.",
+                Description: $"PalindromeResidualScaling operational anchor at N=2 (H=XX+YZ chain): ‖M(2)‖² = {cHObserved:G10} = c_H by definition.",
                 Magnitude: 0.0);
 
         double observed = mNormSquaredAt(N);
@@ -175,8 +183,8 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
             ClaimType: typeof(PalindromeResidualScalingClaim),
             IsDrift: drift,
             Description: drift
-                ? $"F73 operational drift at (N={N}, {HClass}, H=XX+YZ chain): observed ‖M({N})‖² = {observed:G10}, predicted c_H · F = {cHObserved:G6} · {Factor:G6} = {predicted:G10}, |delta| = {diff:G3}."
-                : $"F73 operational OK at (N={N}, {HClass}, H=XX+YZ chain): observed {observed:G10} matches predicted c_H · F = {predicted:G10} to {diff:G3} (tolerance {tolerance:G3}).",
+                ? $"PalindromeResidualScaling operational drift at (N={N}, {HClass}, H=XX+YZ chain): observed ‖M({N})‖² = {observed:G10}, predicted c_H · F = {cHObserved:G6} · {Factor:G6} = {predicted:G10}, |delta| = {diff:G3}."
+                : $"PalindromeResidualScaling operational OK at (N={N}, {HClass}, H=XX+YZ chain): observed {observed:G10} matches predicted c_H · F = {predicted:G10} to {diff:G3} (tolerance {tolerance:G3}).",
             Magnitude: diff);
     }
 }

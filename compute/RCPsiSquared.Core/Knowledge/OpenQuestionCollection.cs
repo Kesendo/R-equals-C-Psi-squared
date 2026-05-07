@@ -21,10 +21,21 @@ public sealed class OpenQuestionCollection<TFamilyMarker> : Claim
 {
     public IReadOnlyList<OpenQuestion> Items { get; }
 
-    public OpenQuestionCollection(string familyName, IReadOnlyList<OpenQuestion> items, string anchor)
-        : base($"{familyName} open questions", Tier.OpenQuestion, anchor)
+    public OpenQuestionCollection(IReadOnlyList<OpenQuestion> items, string anchor)
+        : base($"{DeriveFamilyName()} open questions", Tier.OpenQuestion, anchor)
     {
         Items = items;
+    }
+
+    /// <summary>Strip the conventional "Marker" suffix from the type name so that
+    /// <c>F1Marker</c> becomes "F1" without forcing each registration site to repeat
+    /// the family name.</summary>
+    private static string DeriveFamilyName()
+    {
+        var name = typeof(TFamilyMarker).Name;
+        return name.EndsWith("Marker", StringComparison.Ordinal)
+            ? name[..^"Marker".Length]
+            : name;
     }
 
     public override string DisplayName =>

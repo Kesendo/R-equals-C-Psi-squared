@@ -21,7 +21,6 @@ public static class F1OpenQuestionsRegistration
         {
             _ = b.Get<F1PalindromeIdentity>();
             return new OpenQuestionCollection<F1Marker>(
-                familyName: "F1",
                 items: F1OpenQuestions.Standard,
                 anchor: "compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs");
         });

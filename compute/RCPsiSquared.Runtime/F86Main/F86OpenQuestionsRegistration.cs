@@ -20,7 +20,6 @@ public static class F86OpenQuestionsRegistration
         {
             _ = b.Get<ChiralAiiiClassification>();
             return new OpenQuestionCollection<F86Marker>(
-                familyName: "F86",
                 items: F86OpenQuestions.Standard,
                 anchor: "compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs");
         });
