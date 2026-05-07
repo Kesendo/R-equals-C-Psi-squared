@@ -42,7 +42,7 @@ public class F86PolarityLinkRegistrationTests
     public void RegisterF86PolarityLink_TierInheritance_VerifiedSurvives()
     {
         // PolarityInheritanceLink is Tier2Verified; its parents are Tier1Derived.
-        // TierStrength: Tier1Derived (5) > Tier2Verified (3); inheritance OK.
+        // TierStrength check (parent at least as strong as child) passes.
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()

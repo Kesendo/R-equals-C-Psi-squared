@@ -45,8 +45,8 @@ public static class KnowledgeCommand
 
     private static ClaimRegistry BuildRegistry()
     {
-        // Schicht 2 default: the polarity architecture (Pi2 + F86 + F88).
-        // Future schichten extend this chain.
+        // Polarity architecture: Pi2 foundation, F86 cross-KB link, F88 dual-parent leaf.
+        // Add further Register* calls here as new typed-knowledge families are introduced.
         return new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()

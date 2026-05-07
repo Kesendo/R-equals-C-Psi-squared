@@ -9,14 +9,17 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 public class InheritanceGraphTests
 {
-    [Fact]
-    public void DescendantsOf_PolynomialFoundation_ReturnsAllEightOthers()
-    {
-        var registry = new ClaimRegistryBuilder()
+    private static ClaimRegistry BuildFullPolarityRegistry() =>
+        new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
             .Build();
+
+    [Fact]
+    public void DescendantsOf_PolynomialFoundation_ReturnsAllEightOthers()
+    {
+        var registry = BuildFullPolarityRegistry();
 
         var descendants = registry.DescendantsOf<PolynomialFoundationClaim>()
             .Select(c => c.GetType()).ToHashSet();
@@ -35,11 +38,7 @@ public class InheritanceGraphTests
     [Fact]
     public void AncestorsOf_PopcountCoherence_TraversesDualPath()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterPi2Family()
-            .RegisterF86PolarityLink()
-            .RegisterF88PopcountCoherence()
-            .Build();
+        var registry = BuildFullPolarityRegistry();
 
         var ancestors = registry.AncestorsOf<PopcountCoherenceClaim>()
             .Select(c => c.GetType()).ToHashSet();
@@ -90,8 +89,11 @@ public class InheritanceGraphTests
                 .Build());
 
         Assert.Equal("TierInheritance", ex.Rule);
-        // The first failing edge is detected; either KleinFourCell or PopcountCoherence
-        // can surface in the message depending on edge iteration order.
         Assert.Contains("WeakerFakePolarityLayerOrigin", ex.Message);
+        // Edge iteration order is not stable; either child name may surface first,
+        // but the message must name at least one of them.
+        Assert.True(
+            ex.Message.Contains("KleinFourCellClaim") || ex.Message.Contains("PopcountCoherenceClaim"),
+            $"expected at least one child name in message, got: {ex.Message}");
     }
 }

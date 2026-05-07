@@ -10,9 +10,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// states is the state-level root). Both paths trace back to
 /// <see cref="PolynomialFoundationClaim"/> via QubitDimensionalAnchorClaim.
 ///
-/// <para>This is the architecture's first dual-parent edge; the Builder records both
-/// b.Get&lt;X&gt;() calls as separate Edges, and AncestorsOf returns both paths in the
-/// transitive closure.</para></summary>
+/// <para>The Builder records both b.Get&lt;X&gt;() calls as separate Edges, and AncestorsOf
+/// returns both paths in the transitive closure.</para></summary>
 public static class F88PopcountCoherenceRegistration
 {
     public static ClaimRegistryBuilder RegisterF88PopcountCoherence(this ClaimRegistryBuilder builder) =>

@@ -10,7 +10,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// HalfAsStructuralFixedPointClaim (the three-faces synthesis).
 ///
 /// <para>Tier consistency: PolarityInheritanceLink is Tier2Verified; all three
-/// parents are Tier1Derived. TierStrength: 5 >= 3, inheritance check passes.</para>
+/// parents are Tier1Derived. The TierStrength inheritance check (parent at least as
+/// strong as child) passes.</para>
 ///
 /// <para>The F86KnowledgeBase aggregator's own PolarityInheritanceLink instance is
 /// unrelated to the Runtime registration; both call PolarityInheritanceLink.Build()

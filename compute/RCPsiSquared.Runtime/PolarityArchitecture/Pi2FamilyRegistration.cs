@@ -18,7 +18,12 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <para>All seven claims are Tier1Derived with parameterless ctors. The Pi2KnowledgeBase
 /// aggregator in Core remains untouched; the Runtime registry holds parallel instances
-/// (stateless, so equivalence by content is sufficient).</para></summary>
+/// (stateless, so equivalence by content is sufficient).</para>
+///
+/// <para>Two Pi2KnowledgeBase entries are deliberately excluded: <c>Pi2InvolutionClaim</c>
+/// (a consequence of F1, not a foundation) and <c>HalfIntegerMirrorClaim</c> (parameterised
+/// by N, would need a ChainSystem injection that the polarity architecture does not require).
+/// They can be added in a later iteration if the registry needs them.</para></summary>
 public static class Pi2FamilyRegistration
 {
     public static ClaimRegistryBuilder RegisterPi2Family(this ClaimRegistryBuilder builder) =>
