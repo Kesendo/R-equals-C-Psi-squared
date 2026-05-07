@@ -43,7 +43,8 @@ public static class InspectCommand
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
             "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
             "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, f71, f1, f87, pi2"),
+            "c2cpsi-scan" => BuildC2CpsiScanRoot(BuildCoherenceBlock(p, N), p),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2"),
         };
 
         bool wroteSomething = false;
@@ -126,6 +127,24 @@ public static class InspectCommand
         var timeGrid = new double[tPoints];
         for (int i = 0; i < tPoints; i++) timeGrid[i] = tMax * i / (tPoints - 1);
         return C2BlockCpsiTrajectory.Build(block, q, timeGrid);
+    }
+
+    /// <summary>Builds <see cref="C2BlockCpsiQScan"/> with single-bond perturbation across
+    /// a Q range. Args: <c>--bond N</c> (perturbed bond index, 0..NumBonds-1),
+    /// <c>--delta D</c> (perturbation magnitude in units of γ₀, default 0.5),
+    /// <c>--snap-t T</c> (snapshot time, default t_peak = 1/(4γ₀)),
+    /// <c>--q-lo</c>, <c>--q-hi</c>, <c>--q-grid-points</c> (defaults 0.2, 3.0, 29).</summary>
+    private static IInspectable BuildC2CpsiScanRoot(CoherenceBlock block, ArgParser p)
+    {
+        int bond = p.OptionalDouble("bond") is { } b ? (int)b : 0;
+        double deltaUnits = p.OptionalDouble("delta") ?? 0.5;
+        double delta = deltaUnits * block.GammaZero;
+        double snapT = p.OptionalDouble("snap-t") ?? (1.0 / (4.0 * block.GammaZero));
+        double qLo = p.OptionalDouble("q-lo") ?? 0.2;
+        double qHi = p.OptionalDouble("q-hi") ?? 3.0;
+        int qPoints = p.OptionalDouble("q-grid-points") is { } np ? (int)np : 29;
+        var qGrid = ResonanceScan.LinearQGrid(qLo, qHi, qPoints);
+        return C2BlockCpsiQScan.Build(block, bond, delta, snapT, qGrid);
     }
 
     private static IInspectable BuildF86Root(CoherenceBlock block, bool withMeasured, int? qGridPoints)
