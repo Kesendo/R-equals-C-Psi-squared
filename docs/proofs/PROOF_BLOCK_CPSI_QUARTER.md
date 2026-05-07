@@ -214,27 +214,27 @@ von 0.5"*. The pun reveals what holds the three layers together:
 
 $$\max_{p \in [0, 1]} p(1-p) \;=\; \tfrac{1}{4} \quad \text{at} \quad p = \tfrac{1}{2}.$$
 
-This single fact unifies all three layers where 1/4 emerges in the framework:
+This single fact ties together the layer where 1/2 is anchored and the two
+layers where 1/4 emerges as its maxval:
 
-- **Pi2KnowledgeBase: `HalfAsStructuralFixedPoint`.** 1/2 is the polarity-layer
-  axis, the argmax of the product p(1-p).
+- **Pi2KnowledgeBase: `BilinearApexClaim`** (Tier 1 derived,
+  [`Pi2KnowledgeBaseClaims.cs:130`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)).
+  "p·(1−p) is maximised at p = 1/2 universally", anchored on
+  [ORTHOGONALITY_SELECTION_FAMILY:357](../../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
+  The synthesis claim `HalfAsStructuralFixedPointClaim` then closes 1/2's
+  three faces (bridge / horizon / substrate) on this primitive.
 - **Theorem 2 (this proof).** C_block ≤ p_n · p_{n+1} ≤ 1/4 with maximum at
-  p_n = p_{n+1} = 1/2 by AM-GM. The 1/4 is the maximum value; the 1/2 is the
-  argument that achieves it.
+  p_n = p_{n+1} = 1/2 by AM-GM. The 1/4 is the maxval; the 1/2 is the
+  argmax that achieves it.
 - **R = CΨ² Mandelbrot cardioid (Layer 1).** Discriminant 1 − 4CΨ = 0 at
   CΨ = 1/4, with the factor 4 from completing the square in the quadratic.
   Equivalent reading: CΨ = (1/2)² where 1/2 emerges as the natural "half"
   from the quadratic's completed-square form.
 
-The polarity 1/2 is the **axis**; the boundary 1/4 is the **summit height**
-of the quadratic form whose argmax is that axis. They are not two separate
-constants but argmax/maxval of one function.
-
-This is the framework-internal reason 1/4 inherits across layers without
-modification: every layer instances the same quadratic form, and that form's
-argmax/maxval pair is invariant. The single qubit's R=CΨ² discriminant, the
-2-qubit subsystem's bifurcation crossing, and the c-block's tight upper
-bound — three readings, one parabola.
+1/4 inherits across layers because every layer instances the same quadratic
+form, and that form's argmax/maxval pair is invariant. The single qubit's
+R=CΨ² discriminant, the 2-qubit subsystem's bifurcation crossing, and the
+c-block's tight upper bound: three readings, one parabola.
 
 Tom Wicht's reading (2026-05-07, after this proof landed): *"Es gibt kein
 Quantum Classical, das haben wir in exclusion im Vorbeigehen festgehalten,
