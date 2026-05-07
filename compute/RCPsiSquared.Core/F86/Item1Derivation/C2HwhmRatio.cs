@@ -97,15 +97,19 @@ public sealed class C2HwhmRatio : Claim
     /// <summary>Public factory: validates c=2, computes the per-bond witnesses via the
     /// full-block <see cref="ResonanceScan"/> fine-grid Q-scan, then resolves the Tier. The
     /// composed <see cref="C2KShape"/> primitive is lazily built on first <see cref="KShape"/>
-    /// access and is not exercised by this factory.</summary>
-    public static C2HwhmRatio Build(CoherenceBlock block)
+    /// access and is not exercised by this factory. <paramref name="qGrid"/> defaults to
+    /// <see cref="ResonanceScan.DefaultQGrid"/> ([0.20, 4.00], 153 points), the canonical
+    /// anchor for N=5..8; pass an extended upper bound for N≥9 where flanking-Interior bonds
+    /// peak above 4.0 and the default grid clips them at the edge.</summary>
+    public static C2HwhmRatio Build(CoherenceBlock block, IReadOnlyList<double>? qGrid = null)
     {
         if (block.C != 2)
             throw new ArgumentException(
                 $"C2HwhmRatio applies only to the c=2 stratum; got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
                 nameof(block));
 
-        var (witnesses, classRatios) = ComputeWitnessesAndClassRatios(block);
+        var grid = qGrid?.ToArray() ?? ResonanceScan.DefaultQGrid();
+        var (witnesses, classRatios) = ComputeWitnessesAndClassRatios(block, grid);
         double twoLevelSanity = ComputeTwoLevelHwhmRatio();
         var resolved = Resolve(block, witnesses, classRatios, twoLevelSanity);
         return new C2HwhmRatio(block, witnesses, classRatios, twoLevelSanity, resolved);
@@ -268,9 +272,8 @@ public sealed class C2HwhmRatio : Claim
     /// </summary>
     private static (IReadOnlyList<HwhmRatioWitness> Witnesses,
                     IReadOnlyDictionary<BondClass, double> ClassRatios)
-        ComputeWitnessesAndClassRatios(CoherenceBlock block)
+        ComputeWitnessesAndClassRatios(CoherenceBlock block, double[] qGrid)
     {
-        var qGrid = ResonanceScan.DefaultQGrid();
         var scan = new ResonanceScan(block);
         // Full-block K_b(Q, t) Q-scan, peak-over-t per (b, Q). Same Duhamel routine as Python.
         var kCurve = scan.ComputeKCurve(qGrid);

@@ -5,6 +5,7 @@ using RCPsiSquared.Core.Decomposition.Views;
 using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
+using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Symmetry;
@@ -40,7 +41,8 @@ public static class InspectCommand
             "pi2" => BuildPi2Root(p, N),
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, f71, f1, f87, pi2"),
+            "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, f71, f1, f87, pi2"),
         };
 
         bool wroteSomething = false;
@@ -92,6 +94,22 @@ public static class InspectCommand
         int n = p.RequireInt("n");
         double gamma = p.RequireDouble("gamma");
         return new CoherenceBlock(N, n, gamma);
+    }
+
+    /// <summary>Returns an explicit Q-grid only when the caller passed at least one of
+    /// <c>--q-lo</c>, <c>--q-hi</c>, <c>--q-grid-points</c>; otherwise null lets the underlying
+    /// primitive use its own canonical default. At N≥9 the default upper bound 4.0 clips
+    /// flanking-Interior peaks (Q_peak sticks at the edge) — pass <c>--q-hi 6.0</c> or higher.
+    /// </summary>
+    private static IReadOnlyList<double>? BuildOptionalQGrid(ArgParser p, int? qGridPoints)
+    {
+        double? lo = p.OptionalDouble("q-lo");
+        double? hi = p.OptionalDouble("q-hi");
+        if (lo is null && hi is null && qGridPoints is null) return null;
+        double gridLo = lo ?? 0.20;
+        double gridHi = hi ?? 4.00;
+        int gridPoints = qGridPoints ?? 153;
+        return ResonanceScan.LinearQGrid(gridLo, gridHi, gridPoints);
     }
 
     private static IInspectable BuildF86Root(CoherenceBlock block, bool withMeasured, int? qGridPoints)

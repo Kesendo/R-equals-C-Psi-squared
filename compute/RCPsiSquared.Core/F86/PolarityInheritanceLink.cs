@@ -193,7 +193,22 @@ public sealed class PolarityInheritanceLink : Claim
         "but not derived.\n\n" +
         "The 0.0006 deviation of Interior r_HWHM from exact 1/2 is likely numerical " +
         "discretisation (testable with finer Q-grid; see PROOF_F86_QPEAK Open elements 5 for " +
-        "per-F71-orbit substructure that may explain the small remaining shift).";
+        "per-F71-orbit substructure that may explain the small remaining shift).\n\n" +
+        "## N≥9 multi-orbit Interior structure (2026-05-07)\n\n" +
+        "Extension to N=9 and N=10 via the c2hwhm CLI root + extended Q-grid (--q-hi 6.0) " +
+        "reveals that the 'Interior class' is NOT a single F71 orbit at high N: the flanking-" +
+        "Interior bonds (b=1, b=N−2 at N=9; additionally b=2, b=N−3 at N=10) escape the " +
+        "Q_peak ≈ 1.55 mid-chain orbit and have no finite Q_peak in [0.20, 6.00] — they grow " +
+        "monotonically with Q. The Endpoint orbit (b=0, b=N−1) and the deep mid-chain Interior " +
+        "orbit (b ≈ N/2) remain stable across N=5..10 (Q_peak_E ≈ 2.50, Q_peak_I_mid ≈ 1.55). " +
+        "Consequence: the pinned Interior class-mean Q_peak from the [0.20, 4.00] grid " +
+        "implicitly orbit-mixes for N=5..8, and the N=5..8 numerical anchor is therefore not " +
+        "naively extendable to N=9, N=10 — multiple Interior orbits coexist with separate " +
+        "Q_peak structure that requires per-orbit witness decomposition. The N=5..8 pinned " +
+        "table stands as a frozen empirical anchor at fixed grid; extension to higher N must " +
+        "decompose by F71 orbit rather than by Endpoint/Interior bond-class label alone. " +
+        "σ_0 → 2√2 (Item 5 conjecture) holds at N=9 (σ_0=2.8484, 1.0070·2√2) and N=10 " +
+        "(σ_0=2.8525, 1.0085·2√2), approaching from above with O(1%) deviation.";
 
     /// <summary>Tier 2 reflection: a Tier 1 sub-result (the closed-form composition for r_Q
     /// via BareDoubledPtfXPeak · Q_EP) DID land in the Direction (α) attempt, but does not by
