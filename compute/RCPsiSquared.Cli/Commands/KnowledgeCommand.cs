@@ -2,6 +2,7 @@ using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Orchestration.Cli;
+using RCPsiSquared.Orchestration.Render;
 using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Runtime.F71Family;
@@ -35,6 +36,7 @@ public static class KnowledgeCommand
                 "ancestors" => cli.Render(new KnowledgeQuery.Ancestors(ResolveType(registry, rest))),
                 "descendants" => cli.Render(new KnowledgeQuery.Descendants(ResolveType(registry, rest))),
                 "all" => cli.Render(new KnowledgeQuery.All()),
+                "render" => new KnowledgeRenderer(registry).Render(),
                 _ => null,
             };
             if (output is null)
@@ -110,5 +112,6 @@ public static class KnowledgeCommand
         Console.WriteLine("  ancestors <ClaimTypeName>        transitive parents of a Claim");
         Console.WriteLine("  descendants <ClaimTypeName>      transitive children of a Claim");
         Console.WriteLine("  all                              list every registered Claim");
+        Console.WriteLine("  render                           render the registry as Markdown grouped by Tier");
     }
 }
