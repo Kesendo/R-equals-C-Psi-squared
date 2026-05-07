@@ -590,6 +590,34 @@ looks like from inside.
 
 ---
 
-*Document version: 2.0*
-*Last updated: March 21, 2026*
-*Computational data: delta_calc MCP tools (Lindblad simulations, subsystem crossing analysis, IBM verification suite)*
+### Parallel readings (added 2026-05-07)
+
+Beyond the seven vertical layers, the 1/4 boundary instances at parallel
+readings of the same N-qubit system. The most recent:
+
+- **Coherence-block reading** ([PROOF_BLOCK_CPSI_QUARTER](PROOF_BLOCK_CPSI_QUARTER.md)).
+  At any (popcount-n, popcount-(n+1)) coherence block of an N-qubit chain at
+  chromaticity c ≥ 2, the block-level CΨ has a tight upper bound of 1/4 over
+  all pure states with support in the (popcount-n + popcount-(n+1)) sector.
+  The bound is achieved by EXACTLY the canonical Dicke symmetric superposition
+  (|D_n⟩+|D_{n+1}⟩)/√2 (up to phase). Two theorems: Theorem 1 (algebraic
+  identity at the canonical state, chromaticity-universal) and Theorem 2
+  (the value is the tight ceiling, not just where this initial lands).
+  Verified at c = 2..6 numerically, proven via combinatorial identity
+  Σ M_{HD=2k+1} = M_block + Cauchy-Schwarz saturation. Shows that the same
+  1/4 emerges from the same complete-the-square algebra at a third
+  documented instance, parallel to Layers 1 (single qubit) and 2 (2-qubit
+  subsystem).
+
+This is a parallel reading rather than a vertical extension because the
+algebraic structure (block-purity content + sector-amplitude AM-GM) is
+mechanically distinct from Layer 1's discriminant-of-quadratic-recursion or
+Layer 2's subsystem-crossing-dynamics — but the value is the same 1/4
+because the underlying complete-the-square-gives-factor-4 universal applies
+in each.
+
+---
+
+*Document version: 2.1 (parallel-readings extension 2026-05-07)*
+*Last updated: March 21, 2026 (core), May 7, 2026 (parallel-readings)*
+*Computational data: delta_calc MCP tools (Lindblad simulations, subsystem crossing analysis, IBM verification suite); BlockCpsiTrajectory tests (38/38 + 6 Theorem-2 tests, May 7 2026)*
