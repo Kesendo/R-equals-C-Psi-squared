@@ -1,6 +1,10 @@
+using System.Numerics;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.F1;
 
@@ -88,28 +92,91 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
 
     public DriftReport Verify()
     {
-        // Reflexive guard only: both sides resolve to PalindromeResidualScaling.FactorChain,
-        // so this can never report drift on its own. The check guards against accidental
-        // refactor that diverges Factor from FactorChain. A genuine drift detector requires
-        // an independent ground truth (e.g. ‖M‖² built from a Lindbladian) and is the
-        // documented follow-up on IDriftCheckable.
+        // Operational verification: anchor the Hamiltonian-dependent constant c_H from
+        // a small system (N=2, 16x16 Pauli-basis) and use the closed form to predict
+        // ‖M‖² at the registered N. Then build the actual Liouvillian at N, compute
+        // ‖M(N)‖² independently, and assert it matches the prediction. Same H structure
+        // (XX+YZ chain, J=1) at both N=2 and N to keep c_H consistent.
+        //
+        // Limitations: SingleBody verification needs a single-body H builder we do not
+        // currently expose; graph-aware mode (BondCount + DegreeSquaredSum supplied)
+        // would need a custom topology builder. Both fall back to a labelled OK report
+        // until those builders land. N is capped at 5 because PalindromeResidual.Build
+        // internally constructs a 4^N x 4^N transform; at N=5 that is 1024x1024 (~16MB
+        // dense complex), at N=6 it is 4096x4096 (~256MB) which stalls under default xunit
+        // memory budgets.
         if (BondCount is not null || DegreeSquaredSum is not null)
             return new DriftReport(
                 ClaimType: typeof(PalindromeResidualScalingClaim),
                 IsDrift: false,
-                Description: "graph-aware mode skips drift check (closed-form has no hand identity without the calculator).",
+                Description: $"graph-aware mode skips operational drift check at (N={N}, {HClass}).",
                 Magnitude: null);
 
-        double expected = PalindromeResidualScaling.FactorChain(N, HClass);
-        double actual = Factor;
-        double diff = Math.Abs(actual - expected);
+        if (HClass != HamiltonianClass.Main)
+            return new DriftReport(
+                ClaimType: typeof(PalindromeResidualScalingClaim),
+                IsDrift: false,
+                Description: $"SingleBody operational verification not yet implemented at N={N}; needs a single-body H builder.",
+                Magnitude: null);
+
+        if (N < 2 || N > 5)
+            return new DriftReport(
+                ClaimType: typeof(PalindromeResidualScalingClaim),
+                IsDrift: false,
+                Description: $"Operational verification limited to N=2..5 (4^N Pauli-basis transform); N={N} skipped.",
+                Magnitude: null);
+
+        double mNormSquaredAt(int n)
+        {
+            var bonds = new Bond[n - 1];
+            for (int i = 0; i < n - 1; i++) bonds[i] = new Bond(i, i + 1, 1.0);
+            var terms = new (PauliLetter, PauliLetter, Complex)[]
+            {
+                (PauliLetter.X, PauliLetter.X, Complex.One),
+                (PauliLetter.Y, PauliLetter.Z, Complex.One),
+            };
+            var H = PauliHamiltonian.Bilinear(n, bonds, terms).ToMatrix();
+            const double gammaZ = 0.05;
+            var gammaList = Enumerable.Repeat(gammaZ, n).ToArray();
+            var L = PauliDephasingDissipator.BuildZ(H, gammaList);
+            var M = PalindromeResidual.Build(L, n, n * gammaZ, PauliLetter.Z);
+            double frob = M.FrobeniusNorm();
+            return frob * frob;
+        }
+
+        // Anchor c_H at N=2 (one bond), where ‖M(2)‖² = c_H · F(2) and F(2) = 1 for Main
+        // chain (B=1, 4^0=1). So c_H = ‖M(2)‖² directly.
+        double cHObserved = mNormSquaredAt(2);
+        if (cHObserved < 1e-12)
+            return new DriftReport(
+                ClaimType: typeof(PalindromeResidualScalingClaim),
+                IsDrift: false,
+                Description: $"c_H anchor at N=2 is below 1e-12 (Hamiltonian behaved truly under F1); operational verification not applicable.",
+                Magnitude: null);
+
+        if (N == 2)
+            // c_H comes from N=2 itself; verification is reflexive at the anchor point.
+            return new DriftReport(
+                ClaimType: typeof(PalindromeResidualScalingClaim),
+                IsDrift: false,
+                Description: $"F73 operational anchor at N=2 (H=XX+YZ chain): ‖M(2)‖² = {cHObserved:G10} = c_H by definition.",
+                Magnitude: 0.0);
+
+        double observed = mNormSquaredAt(N);
+        double predicted = cHObserved * Factor;
+        double diff = Math.Abs(observed - predicted);
+        // Tolerance: allow for accumulated floating-point error across the 4^N basis
+        // transform. Empirically the error is 12+ orders of magnitude below predicted
+        // for N=3..5; 1e-6 relative is generous.
+        double tolerance = 1e-6 * predicted;
+        bool drift = diff > tolerance;
 
         return new DriftReport(
             ClaimType: typeof(PalindromeResidualScalingClaim),
-            IsDrift: diff > 0.0,
-            Description: diff > 0.0
-                ? $"F73 reflexive drift at (N={N}, {HClass}): expected = {expected}, actual = {actual}, |delta| = {diff}."
-                : $"F73 reflexive OK at (N={N}, {HClass}): {actual} (independent ground truth pending).",
+            IsDrift: drift,
+            Description: drift
+                ? $"F73 operational drift at (N={N}, {HClass}, H=XX+YZ chain): observed ‖M({N})‖² = {observed:G10}, predicted c_H · F = {cHObserved:G6} · {Factor:G6} = {predicted:G10}, |delta| = {diff:G3}."
+                : $"F73 operational OK at (N={N}, {HClass}, H=XX+YZ chain): observed {observed:G10} matches predicted c_H · F = {predicted:G10} to {diff:G3} (tolerance {tolerance:G3}).",
             Magnitude: diff);
     }
 }
