@@ -49,7 +49,7 @@ public static class Program
 
     private static void PrintUsage()
     {
-        Console.WriteLine("rcpsi — RCPsiSquared.Core CLI");
+        Console.WriteLine("rcpsi: RCPsiSquared.Core CLI");
         Console.WriteLine();
         Console.WriteLine("usage: rcpsi <command> [options]");
         Console.WriteLine();
