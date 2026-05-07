@@ -112,7 +112,7 @@ public sealed class C2UniversalShapeDerivation : Claim
     /// form, the returned Tier promotes to Tier1Derived; this method's contract does not
     /// change.</para>
     /// </summary>
-    public static C2UniversalShapeDerivation Build(CoherenceBlock block)
+    public static C2UniversalShapeDerivation Build(CoherenceBlock block, WitnessCache? cache = null)
     {
         if (block.C != 2)
             throw new ArgumentException(
@@ -120,7 +120,7 @@ public sealed class C2UniversalShapeDerivation : Claim
                 $"got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
                 nameof(block));
 
-        var hwhmRatio = C2HwhmRatio.Build(block);
+        var hwhmRatio = cache?.GetOrComputeC2HwhmRatio(block) ?? C2HwhmRatio.Build(block);
         return new C2UniversalShapeDerivation(block, hwhmRatio);
     }
 

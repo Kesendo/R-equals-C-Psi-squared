@@ -29,8 +29,10 @@ public sealed class PerF71OrbitKTable : Claim
     /// <see cref="C2HwhmRatio"/> per-bond witnesses. 2-bond orbits average their two
     /// bond witnesses; the F71-mirror invariance guard rejects max-Δ &gt; 1e-6 (which
     /// would indicate a numerical regression, since R-paired bonds are bit-identical
-    /// by construction).</summary>
-    public static PerF71OrbitKTable Build(CoherenceBlock block)
+    /// by construction). Pass <paramref name="cache"/> to share the underlying
+    /// <see cref="C2HwhmRatio"/> with sibling claims (e.g.
+    /// <see cref="C2UniversalShapeDerivation"/>) and avoid a duplicate Q-scan.</summary>
+    public static PerF71OrbitKTable Build(CoherenceBlock block, WitnessCache? cache = null)
     {
         if (block.C != 2)
             throw new ArgumentException(
@@ -38,7 +40,8 @@ public sealed class PerF71OrbitKTable : Claim
                 nameof(block));
 
         var orbits = new F71BondOrbitDecomposition(block.N).Orbits;
-        var bondWitnesses = C2HwhmRatio.Build(block).Witnesses;
+        var hwhmRatio = cache?.GetOrComputeC2HwhmRatio(block) ?? C2HwhmRatio.Build(block);
+        var bondWitnesses = hwhmRatio.Witnesses;
 
         var orbitWitnesses = new List<OrbitKWitness>(orbits.Count);
         foreach (var orbit in orbits)

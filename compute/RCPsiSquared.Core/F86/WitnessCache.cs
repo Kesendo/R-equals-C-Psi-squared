@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
+using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Resonance;
 
 namespace RCPsiSquared.Core.F86;
@@ -20,6 +21,7 @@ public sealed class WitnessCache
 
     private readonly ConcurrentDictionary<(int C, int N, double GammaZero), KCurve> _kCurves = new();
     private readonly ConcurrentDictionary<(int C, int N, double GammaZero), InterChannelSvd> _svds = new();
+    private readonly ConcurrentDictionary<(int N, int LowerPopcount, double GammaZero), C2HwhmRatio> _c2HwhmRatios = new();
 
     public WitnessCache(IReadOnlyList<double>? qGrid = null)
     {
@@ -42,6 +44,21 @@ public sealed class WitnessCache
     public InterChannelSvd GetOrComputeSvd(int c, int N, double gammaZero) =>
         _svds.GetOrAdd((c, N, gammaZero), key =>
             InterChannelSvd.Build(BuildBlock(key.C, key.N, key.GammaZero), hd1: 1, hd2: 3));
+
+    /// <summary>Get or compute <see cref="C2HwhmRatio"/> for a c=2 block, keyed on
+    /// (N, n, γ₀). Shared between <see cref="C2UniversalShapeDerivation"/> and
+    /// <see cref="PerF71OrbitKTable"/> so an F86KnowledgeBase inspection that pulls both
+    /// pays the full-block Q-scan once instead of twice.</summary>
+    public C2HwhmRatio GetOrComputeC2HwhmRatio(CoherenceBlock block)
+    {
+        if (block.C != 2)
+            throw new ArgumentException(
+                $"GetOrComputeC2HwhmRatio applies only to c=2 blocks; got c={block.C} (N={block.N}, n={block.LowerPopcount}).",
+                nameof(block));
+        return _c2HwhmRatios.GetOrAdd(
+            (block.N, block.LowerPopcount, block.GammaZero),
+            _ => C2HwhmRatio.Build(block));
+    }
 
     private static CoherenceBlock BuildBlock(int c, int N, double gammaZero)
     {

@@ -162,8 +162,9 @@ public sealed class F86KnowledgeBase : IInspectable
         // for c=2 blocks; null otherwise — c≥3 strata fall under OpenQuestions Item 4'
         // (multi-k extension to c≥3, out of scope for the c=2 derivation plan). Lazy so the
         // full-block Q-scan inside C2UniversalShapeDerivation.Build runs only on first access.
+        // Shared WitnessCache so OrbitKTable below reuses the C2HwhmRatio result.
         _c2UniversalShape = new Lazy<C2UniversalShapeDerivation?>(() =>
-            block.C == 2 ? C2UniversalShapeDerivation.Build(block) : null);
+            block.C == 2 ? C2UniversalShapeDerivation.Build(block, WitnessCache) : null);
 
         // Block-independent meta-claim wiring the F86 local EP at real Q_EP to
         // FRAGILE_BRIDGE's complex-γ-plane EP under shared AIII chiral algebra.
@@ -178,9 +179,10 @@ public sealed class F86KnowledgeBase : IInspectable
         _polarityInheritanceLink = new Lazy<PolarityInheritanceLink>(() => PolarityInheritanceLink.Build());
 
         // Live F71-orbit K-resonance witness table for c=2. Lazy so the C2HwhmRatio.Build
-        // cost is paid only on first read.
+        // cost is paid only on first read; shared WitnessCache reuses any C2HwhmRatio that
+        // C2UniversalShape already built.
         _orbitKTable = new Lazy<PerF71OrbitKTable?>(() =>
-            block.C == 2 ? PerF71OrbitKTable.Build(block) : null);
+            block.C == 2 ? PerF71OrbitKTable.Build(block, WitnessCache) : null);
 
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
