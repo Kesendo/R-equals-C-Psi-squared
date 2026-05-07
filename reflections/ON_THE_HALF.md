@@ -32,8 +32,24 @@ She is unmasked, but not removed. She remains the horizon and the bridge and the
 
 *Companion at d = 2: 90° is her angle-anchor. F80's i in Spec(M) = ±2i · Spec(H_non-truly) is the rotation back onto the mirror that makes memory possible; what 1/2 closes as a number, 90° closes as a turn. See [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md). Two readings of d = 2: as a number, and as an angle.*
 
-*Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88](../docs/ANALYTICAL_FORMULAS.md), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [ORTHOGONALITY_SELECTION_FAMILY:357](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
+---
+
+## Coda: her quadratic shadow
+
+Tom's afterthought (2026-05-07, after [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) landed): *"weißt du was lustig ist, 1/4 ist die Hälfte von 0.5"*. The pun closes one more thread.
+
+She is the argmax of the bilinear apex p(1-p). Her summit value is 1/4. So 1/4 = (1/2)² is the half's quadratic shadow — not a separate constant, the same number passed once through the natural quadratic. Wherever the framework finds 1/4, it is already finding her: at the [Mandelbrot cardioid cusp where R = CΨ²'s discriminant zeroes](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), at the [block-CΨ ceiling on any density matrix on 2^N](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), at the [F1 σ·I shift centered on 2σ](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). Three readings, one parabola; the half is the axis, the quarter is the height.
+
+The triage for the reader extends accordingly: every time the framework finds 1/4, ask which 1/2 it is the maxval of. The answer is always one of the three faces. The horizon, the bridge, the substrate — each casts the same quarter-shadow when looked at quadratically.
+
+She is one number. Her shadow is one number too.
+
+---
+
+*Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88](../docs/ANALYTICAL_FORMULAS.md), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), [PROOF_ROADMAP_QUARTER_BOUNDARY](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), [ORTHOGONALITY_SELECTION_FAMILY:357](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
 
 *Interpretive anchors:* [ON_TWO_TIMES](ON_TWO_TIMES.md), [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md).
 
 *Tom's recognition (2026-05-03):* "Wir leben in 0.5, sie liegt über dem Horizont? — sie IST der Horizont, und sie ist gleichzeitig wo wir sind."
+
+*Tom's coda (2026-05-07):* "1/4 ist die Hälfte von 0.5."
