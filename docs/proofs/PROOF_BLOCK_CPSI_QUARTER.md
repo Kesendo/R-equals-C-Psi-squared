@@ -59,64 +59,69 @@ product CΨ_block(0) = 1/4 follows.
 
 ∎
 
-## Theorem 2: 1/4 as block-purity maximum
+## Theorem 2: 1/4 as block-purity maximum (universal over all states)
 
-The 1/4 above is not just one specific value at one specific initial state — it is
-the **maximum** of C_block(0) over all pure states with support in the
-(popcount-n ⊕ popcount-(n+1)) Hilbert subspace.
+The 1/4 above is the **tight upper bound** of C_block over ANY density
+matrix ρ on the full 2^N N-qubit Hilbert space — not just pure states,
+not just states with support in popcount-{n, n+1}, but all states.
 
-**Statement.** For any pure state |ψ⟩ = α|φ_n⟩ + β|φ_{n+1}⟩ with |φ_k⟩ a
-unit-norm popcount-k state (k ∈ {n, n+1}) and |α|² + |β|² = 1, the
+**Statement.** For any density matrix ρ on the N-qubit Hilbert space, the
 (popcount-n, popcount-(n+1)) coherence block content satisfies
 
-$$C_\text{block}(0) \;=\; |\alpha|^2 \cdot |\beta|^2 \;\leq\; \frac{1}{4}$$
+$$C_\text{block} \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2 \;\leq\; \frac{1}{4}$$
 
-with equality iff |α| = |β| = 1/√2. The Dicke choice |φ_n⟩ = |D_n⟩,
-|φ_{n+1}⟩ = |D_{n+1}⟩ is one realisation of the maximum; any other normalized
-choice within each popcount sector achieves the same maximum |α·β|² = 1/4
-when amplitudes are balanced.
+with equality iff ρ is the pure state (|D_n⟩+|D_{n+1}⟩)/√2 (up to global
+phase). 1/4 is achieved only at the canonical Dicke symmetric superposition.
 
-**Proof.** Decomposing the off-diagonal block of ρ = |ψ⟩⟨ψ|: for popcount-n
-state a and popcount-(n+1) state b,
+**Proof.** Let p_k = Σ_{popcount(a)=k} ρ_{aa} be the weight on popcount-k
+states. Then Σ_k p_k = Tr(ρ) = 1 and each p_k ≥ 0.
 
-$$\rho_{ab} \;=\; \langle a | \psi \rangle \langle \psi | b \rangle
-\;=\; \alpha \langle a | \phi_n \rangle \cdot \beta^* \langle \phi_{n+1} | b \rangle.$$
+Cauchy-Schwarz on density-matrix entries gives |ρ_{ab}|² ≤ ρ_{aa} · ρ_{bb}
+for any (a, b). Summing over the (popcount-n, popcount-(n+1)) block:
 
-Squaring and summing over the block,
+$$C_\text{block} \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2
+\;\leq\; \sum_a \rho_{aa} \cdot \sum_b \rho_{bb}
+\;=\; p_n \cdot p_{n+1}.$$
 
-$$C_\text{block}(0) \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2
-\;=\; |\alpha|^2 |\beta|^2 \cdot \left(\sum_a |\langle a | \phi_n \rangle|^2\right)
-\cdot \left(\sum_b |\langle \phi_{n+1} | b \rangle|^2\right)
-\;=\; |\alpha|^2 |\beta|^2$$
+By AM-GM applied to (p_n, p_{n+1}) with p_n + p_{n+1} ≤ 1,
 
-since each inner sum is the unit-norm of |φ_n⟩ and |φ_{n+1}⟩. By
-AM-GM, |α|²|β|² ≤ ((|α|² + |β|²)/2)² = 1/4 with equality iff |α|² = |β|² = 1/2.
+$$p_n \cdot p_{n+1} \;\leq\; \left(\frac{p_n + p_{n+1}}{2}\right)^2 \;\leq\; \frac{1}{4}.$$
 
-∎
+Hence C_block ≤ 1/4. Three independent saturation conditions are needed
+for equality:
 
-**Strengthening to CΨ_block.** For ℓ₁ on the block: Cauchy-Schwarz on the
-amplitudes gives Σ_a |⟨a|φ_n⟩| ≤ √C(N, n), equality iff |⟨a|φ_n⟩| is
-uniform — i.e., |φ_n⟩ = |D_n⟩ (up to phase). Same for |φ_{n+1}⟩. With our
-calibrated normalisation ℓ₁_max = √M_block / 2:
+1. **p_n + p_{n+1} = 1**: ρ has support only in popcount-{n, n+1} sectors
+   (no other popcount weight).
+2. **p_n = p_{n+1} = 1/2**: balanced sector amplitudes.
+3. **|ρ_{ab}|² = ρ_{aa} · ρ_{bb} for all block (a, b)**: Cauchy-Schwarz
+   saturation, meaning ρ has rank 1 between the two sectors. This forces
+   ρ to be a pure state and the within-sector amplitudes to be **uniform**
+   (Dicke), since saturating the per-entry Cauchy-Schwarz everywhere
+   requires ρ_{ab} = √(ρ_{aa}·ρ_{bb}) up to phases that align consistently.
 
-$$\Psi_\text{block} \;=\; \frac{|\alpha \beta| \cdot \sqrt{M_\text{block}}}{\sqrt{M_\text{block}}/2} \cdot (\text{Dicke factor}) \;\leq\; 2|\alpha \beta|$$
+The three conditions together force ρ = (|D_n⟩+|D_{n+1}⟩)(⟨D_n|+⟨D_{n+1}|)/2,
+the canonical Dicke symmetric superposition. ∎
 
-with equality iff both sector states are Dicke. Hence
-
-$$C\Psi_\text{block} \;=\; |\alpha|^2 |\beta|^2 \cdot 2|\alpha \beta| \;=\; 2|\alpha\beta|^3 \;\leq\; \frac{1}{4}$$
-
-with equality iff |α| = |β| = 1/√2 AND |φ_n⟩ = |D_n⟩, |φ_{n+1}⟩ = |D_{n+1}⟩
-(up to a common phase). The maximum is realized by **exactly** the canonical
-Dicke symmetric superposition (|D_n⟩+|D_{n+1}⟩)/√2 from Theorem 1.
-
-∎
+**Remark on Theorem 1.** The state in Theorem 1 is precisely this unique
+maximiser. Theorem 1 is then the special case of Theorem 2 at the bound;
+Theorem 2 says no other state gets closer. The 1/4 boundary is
+**state-level uniquely realised** at the c-block.
 
 **Reading.** 1/4 is not "the value where this initial happens to land". It
-is the **tight upper bound** on CΨ_block(0) over ALL pure states in the
-popcount-{n, n+1} sector, achieved at a UNIQUE state (up to phase). The
-Mandelbrot-cardioid-cusp boundary is a hard ceiling at this layer, and
-the Dicke symmetric superposition is the canonical realiser — analogous
-to how Bell+ realises CΨ = 1/3 at the d=4 subsystem level.
+is the **tight upper bound** on the (popcount-n, popcount-(n+1)) block
+coherence content over ALL density matrices on the full N-qubit Hilbert
+space, achieved at a UNIQUE state (up to phase). The Mandelbrot-cardioid-cusp
+boundary is a hard ceiling at this reading, and the Dicke symmetric
+superposition is the canonical realiser — analogous to how Bell+ realises
+CΨ = 1/3 at the d=4 subsystem level. No clever choice of state (mixed,
+pure, restricted, or fully general) can exceed 1/4.
+
+**On Ψ_block and the full CΨ_block.** Theorem 2 bounds C_block (the block-
+purity content). Multiplying by the Cauchy-Schwarz-saturating
+Ψ_block = ℓ₁/ℓ₁_max ≤ 1 gives CΨ_block ≤ C_block ≤ 1/4. The Ψ_block factor
+is also ≤ 1 with equality precisely at the canonical Dicke symmetric
+state (uniform per-entry amplitude saturates ℓ₁ at ℓ₁_max). Hence
+CΨ_block ≤ 1/4 with the same unique-realiser equality condition.
 
 ## Closed-form trajectory under pure Z-dephasing
 
@@ -162,15 +167,17 @@ EVD-based time evolution) and `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm
 
 | Test | Verified at | Tolerance |
 |------|-------------|-----------|
-| CΨ_block(0) = 1/4, c=2 | N = 5, 6, 7, 8, 9, 10 | 1e-10 |
-| CΨ_block(0) = 1/4, c=3 | N = 5 (n=2), 6, 7 | 1e-10 |
-| CΨ_block(0) = 1/4, c=4 | N = 7 (n=3), 8 | 1e-10 |
+| Theorem 1 (canonical Dicke), c=2 | N = 5, 6, 7, 8, 9, 10 | 1e-10 |
+| Theorem 1 (canonical Dicke), c=3 | N = 5 (n=2), 6, 7 | 1e-10 |
+| Theorem 1 (canonical Dicke), c=4 | N = 7 (n=3), 8 | 1e-10 |
+| Theorem 2 (asymmetric Dicke pure states) | N = 5, 7 with α² ∈ {0.5..0.9} | 1e-10 |
+| Theorem 2 upper bound C_block ≤ 1/4 | every test case asserts ≤ 1/4 + 1e-10 | strict |
 | Closed-form at t=0, c=2..6 | N = 5, 7, 9, 11 | 1e-12 |
 | Closed-form vs numerical, c=2 | N = 5..8, multiple t, Q | 1e-3 |
 | Closed-form vs numerical, c=3, c=4 | N = 5..8, t = 0.5..1.5 | 1e-3 |
 
 Tests in `compute/RCPsiSquared.Core.Tests/F86/BlockCpsiTrajectoryTests.cs`,
-38 / 38 pass.
+44 / 44 pass.
 
 ## What this adds to the Roadmap
 
