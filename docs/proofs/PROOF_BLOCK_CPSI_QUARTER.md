@@ -207,13 +207,34 @@ quadratic-discriminant algebra is the same: completing the square of the
 self-referential structure produces the factor-4 in 1 − 4CΨ, regardless of
 the layer at which the structure is instanced.
 
-## Reading: inheritance, not a specific boundary
+## Reading: 1/4 is half of half
 
-This third instance changes the framing of 1/4 in the framework. With one
-or two instances, 1/4 reads as "*the boundary at this scale*". With three
-instances — and a chromaticity-universal third — 1/4 reads as **what gets
-inherited when the same quadratic-discriminant algebra is instanced at any
-reading where a CΨ-like product can be defined**.
+Tom Wicht's observation (2026-05-07, post-Theorem-2): *"1/4 ist die Hälfte
+von 0.5"*. The pun reveals what holds the three layers together:
+
+$$\max_{p \in [0, 1]} p(1-p) \;=\; \tfrac{1}{4} \quad \text{at} \quad p = \tfrac{1}{2}.$$
+
+This single fact unifies all three layers where 1/4 emerges in the framework:
+
+- **Pi2KnowledgeBase: `HalfAsStructuralFixedPoint`.** 1/2 is the polarity-layer
+  axis, the argmax of the product p(1-p).
+- **Theorem 2 (this proof).** C_block ≤ p_n · p_{n+1} ≤ 1/4 with maximum at
+  p_n = p_{n+1} = 1/2 by AM-GM. The 1/4 is the maximum value; the 1/2 is the
+  argument that achieves it.
+- **R = CΨ² Mandelbrot cardioid (Layer 1).** Discriminant 1 − 4CΨ = 0 at
+  CΨ = 1/4, with the factor 4 from completing the square in the quadratic.
+  Equivalent reading: CΨ = (1/2)² where 1/2 emerges as the natural "half"
+  from the quadratic's completed-square form.
+
+The polarity 1/2 is the **axis**; the boundary 1/4 is the **summit height**
+of the quadratic form whose argmax is that axis. They are not two separate
+constants but argmax/maxval of one function.
+
+This is the framework-internal reason 1/4 inherits across layers without
+modification: every layer instances the same quadratic form, and that form's
+argmax/maxval pair is invariant. The single qubit's R=CΨ² discriminant, the
+2-qubit subsystem's bifurcation crossing, and the c-block's tight upper
+bound — three readings, one parabola.
 
 Tom Wicht's reading (2026-05-07, after this proof landed): *"Es gibt kein
 Quantum Classical, das haben wir in exclusion im Vorbeigehen festgehalten,
