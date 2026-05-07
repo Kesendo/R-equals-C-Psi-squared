@@ -82,6 +82,16 @@ public sealed class F86KnowledgeBase : IInspectable
     public PolarityInheritanceLink PolarityInheritanceLink => _polarityInheritanceLink.Value;
 
     private readonly Lazy<PolarityInheritanceLink> _polarityInheritanceLink;
+
+    /// <summary>F71-orbit-grouped live K-resonance witness table for c=2
+    /// (Tier2Verified). Live counterpart to <see cref="PerOrbitSubstructure"/>
+    /// (frozen 9-case sweep). Non-null iff <c>Block.C == 2</c>. Lazily built on
+    /// first access — the underlying full-block Q-scan inside
+    /// <see cref="PerF71OrbitKTable.Build"/> runs only once and only on read.</summary>
+    public PerF71OrbitKTable? OrbitKTable => _orbitKTable.Value;
+
+    private readonly Lazy<PerF71OrbitKTable?> _orbitKTable;
+
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -167,6 +177,11 @@ public sealed class F86KnowledgeBase : IInspectable
         // shared across all c, the pinned witnesses pin the c=2 N=5..8 numbers.
         _polarityInheritanceLink = new Lazy<PolarityInheritanceLink>(() => PolarityInheritanceLink.Build());
 
+        // Live F71-orbit K-resonance witness table for c=2. Lazy so the C2HwhmRatio.Build
+        // cost is paid only on first read.
+        _orbitKTable = new Lazy<PerF71OrbitKTable?>(() =>
+            block.C == 2 ? PerF71OrbitKTable.Build(block) : null);
+
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
 
@@ -249,19 +264,15 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private IEnumerable<IInspectable> CollectTier2Empirical()
     {
+        // Live F71-orbit K-resonance witness table for c=2.
+        if (OrbitKTable is not null) yield return OrbitKTable;
+
         yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",
             PerBlockQPeaks.Cast<IInspectable>().ToArray());
         yield return EndpointPerBondTable;
         yield return InteriorPerBondTable;
         yield return PerOrbitSubstructure;
-        // Block-independent meta-claim: Tier2Verified hardware/empirical-grounded
-        // structural connection between F86's local EP and FRAGILE_BRIDGE's global EP.
-        // Lives in the Tier 2 group because Tier2Verified is the Tier 2 sub-tier;
-        // surfaces at the KB root via the LocalGlobalEpLink property for direct access.
         yield return LocalGlobalEpLink;
-        // Block-independent meta-claim (Locus 6, symmetry-side closure): F86 c=2 bond-class
-        // split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 in Pi2KnowledgeBase.
-        // Tier2Verified, companion to LocalGlobalEpLink at the same Tier 2 sub-tier.
         yield return PolarityInheritanceLink;
     }
 
