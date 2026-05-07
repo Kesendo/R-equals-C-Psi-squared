@@ -26,7 +26,7 @@ public sealed class F71MirrorInvariance : Claim
     public F71MirrorInvariance()
         : base("F71 spatial-mirror invariance: Q_peak(b) = Q_peak(N−2−b)",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F71.md (chain mirror) + 2026-05-03 F86 numerical verification")
+               "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md (chain mirror) + 2026-05-03 F86 numerical verification")
     { }
 
     public override string DisplayName => "F71 mirror: Q_peak(b) = Q_peak(N−2−b)";
