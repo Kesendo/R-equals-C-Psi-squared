@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RCPsiSquared.Core\RCPsiSquared.Core.csproj" />
+    <ProjectReference Include="..\RCPsiSquared.Runtime\RCPsiSquared.Runtime.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

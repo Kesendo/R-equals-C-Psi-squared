@@ -3,6 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Orchestration.Cli;
 using RCPsiSquared.Runtime.F1Family;
+using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Runtime.F71Family;
 using RCPsiSquared.Runtime.F86Main;
 using RCPsiSquared.Runtime.ObjectManager;
@@ -64,6 +65,7 @@ public static class KnowledgeCommand
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
+            .RegisterF87Family()
             .Build();
     }
 

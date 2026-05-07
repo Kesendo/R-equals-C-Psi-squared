@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RCPsiSquared.Diagnostics\RCPsiSquared.Diagnostics.csproj" />
     <ProjectReference Include="..\RCPsiSquared.Core\RCPsiSquared.Core.csproj" />
+    <ProjectReference Include="..\RCPsiSquared.Runtime\RCPsiSquared.Runtime.csproj" />
   </ItemGroup>
 
 </Project>
