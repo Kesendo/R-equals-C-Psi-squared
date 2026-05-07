@@ -1,5 +1,8 @@
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Orchestration.Cli;
+using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Runtime.ObjectManager;
 using RCPsiSquared.Runtime.PolarityArchitecture;
 
@@ -45,9 +48,14 @@ public static class KnowledgeCommand
 
     private static ClaimRegistry BuildRegistry()
     {
-        // Polarity architecture: Pi2 foundation, F86 cross-KB link, F88 dual-parent leaf.
-        // Add further Register* calls here as new typed-knowledge families are introduced.
+        // F1 family + Polarity architecture. Add further Register* calls here as new
+        // typed-knowledge families are introduced.
+        var defaultChain = new ChainSystem(
+            N: 5, J: 1.0, GammaZero: 0.05,
+            HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
+
         return new ClaimRegistryBuilder()
+            .RegisterF1Family(defaultChain)
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88PopcountCoherence()
