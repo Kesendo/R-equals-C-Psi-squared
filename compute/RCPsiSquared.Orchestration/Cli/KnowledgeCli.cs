@@ -5,9 +5,9 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Orchestration.Cli;
 
-/// <summary>Layer 3 consumer 1 (CLI inspector). Renders deterministic ASCII output for the
-/// supported <see cref="KnowledgeQuery"/> shapes. Output is keyed and memoised; the registry
-/// is immutable, so the rendered string is cacheable as long as both registry and query are
+/// <summary>CLI inspector consumer. Renders deterministic ASCII output for the supported
+/// <see cref="KnowledgeQuery"/> shapes. Output is keyed and memoised; the registry is
+/// immutable, so the rendered string is cacheable as long as both registry and query are
 /// reference-equal.</summary>
 public sealed class KnowledgeCli
 {
@@ -35,48 +35,43 @@ public sealed class KnowledgeCli
         return output;
     }
 
-    private string RenderTier(KnowledgeTier level)
+    private string RenderTier(KnowledgeTier level) => RenderList(
+        header: $"Tier {level.Label()}",
+        emptyText: "(empty)",
+        claims: _registry.AllOfTier(level),
+        formatLine: c => $"  - {c.GetType().Name}: {c.DisplayName}");
+
+    private string RenderAncestors(Type childType) => RenderList(
+        header: $"Ancestors of {childType.Name}",
+        emptyText: "(no ancestors)",
+        claims: _registry.AncestorsOf(childType),
+        formatLine: c => $"  - {c.GetType().Name}: {c.DisplayName} [{c.Tier.Label()}]");
+
+    private string RenderDescendants(Type parentType) => RenderList(
+        header: $"Descendants of {parentType.Name}",
+        emptyText: "(no descendants)",
+        claims: _registry.DescendantsOf(parentType),
+        formatLine: c => $"  - {c.GetType().Name}: {c.DisplayName} [{c.Tier.Label()}]");
+
+    private string RenderAll() => RenderList(
+        header: "Registry",
+        emptyText: "(empty)",
+        claims: _registry.All().ToList(),
+        formatLine: c => $"  - {c.GetType().Name} [{c.Tier.Label()}]: {c.DisplayName}");
+
+    private static string RenderList(
+        string header,
+        string emptyText,
+        IReadOnlyList<Claim> claims,
+        Func<Claim, string> formatLine)
     {
-        var claims = _registry.AllOfTier(level);
         if (claims.Count == 0)
-            return $"Tier {level.Label()}: (empty)\n";
+            return $"{header}: {emptyText}\n";
+
         var sb = new StringBuilder();
-        sb.AppendLine($"Tier {level.Label()}: {claims.Count} Claim(s)");
+        sb.AppendLine($"{header}: {claims.Count} Claim(s)");
         foreach (var c in claims)
-            sb.AppendLine($"  - {c.GetType().Name}: {c.DisplayName}");
-        return sb.ToString();
-    }
-
-    private string RenderAncestors(Type childType)
-    {
-        var ancestors = _registry.AncestorsOf(childType);
-        if (ancestors.Count == 0)
-            return $"Ancestors of {childType.Name}: (no ancestors)\n";
-        var sb = new StringBuilder();
-        sb.AppendLine($"Ancestors of {childType.Name}:");
-        foreach (var c in ancestors)
-            sb.AppendLine($"  - {c.GetType().Name}: {c.DisplayName} [{c.Tier.Label()}]");
-        return sb.ToString();
-    }
-
-    private string RenderDescendants(Type parentType)
-    {
-        var descendants = _registry.DescendantsOf(parentType);
-        if (descendants.Count == 0)
-            return $"Descendants of {parentType.Name}: (no descendants)\n";
-        var sb = new StringBuilder();
-        sb.AppendLine($"Descendants of {parentType.Name}:");
-        foreach (var c in descendants)
-            sb.AppendLine($"  - {c.GetType().Name}: {c.DisplayName} [{c.Tier.Label()}]");
-        return sb.ToString();
-    }
-
-    private string RenderAll()
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine($"Registry: {_registry.All().Count()} Claim(s)");
-        foreach (var c in _registry.All())
-            sb.AppendLine($"  - {c.GetType().Name} [{c.Tier.Label()}]: {c.DisplayName}");
+            sb.AppendLine(formatLine(c));
         return sb.ToString();
     }
 }

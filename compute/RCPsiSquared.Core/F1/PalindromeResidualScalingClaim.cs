@@ -88,22 +88,19 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
 
     public DriftReport Verify()
     {
-        // Drift check: only validate the chain default (no graph args). Compare the
-        // calculator output against the hand-arithmetic closed form for this class.
+        // Reflexive guard only: both sides resolve to PalindromeResidualScaling.FactorChain,
+        // so this can never report drift on its own. The check guards against accidental
+        // refactor that diverges Factor from FactorChain. A genuine drift detector requires
+        // an independent ground truth (e.g. ‖M‖² built from a Lindbladian) and is the
+        // documented follow-up on IDriftCheckable.
         if (BondCount is not null || DegreeSquaredSum is not null)
             return new DriftReport(
                 ClaimType: typeof(PalindromeResidualScalingClaim),
                 IsDrift: false,
-                Description: "graph-aware mode skips drift check (no hand identity available without recomputing the calculator).",
+                Description: "graph-aware mode skips drift check (closed-form has no hand identity without the calculator).",
                 Magnitude: null);
 
-        double pow = Math.Pow(4, N - 2);
-        double expected = HClass switch
-        {
-            HamiltonianClass.Main => (N - 1) * pow,
-            HamiltonianClass.SingleBody => (2 * N - 3) * pow,
-            _ => double.NaN,
-        };
+        double expected = PalindromeResidualScaling.FactorChain(N, HClass);
         double actual = Factor;
         double diff = Math.Abs(actual - expected);
 
@@ -111,8 +108,8 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
             ClaimType: typeof(PalindromeResidualScalingClaim),
             IsDrift: diff > 0.0,
             Description: diff > 0.0
-                ? $"F73 drift at (N={N}, {HClass}): pinned identity = {expected}, calculator = {actual}, |delta| = {diff}."
-                : $"F73 OK at (N={N}, {HClass}): {actual} matches identity bit-exactly.",
+                ? $"F73 reflexive drift at (N={N}, {HClass}): expected = {expected}, actual = {actual}, |delta| = {diff}."
+                : $"F73 reflexive OK at (N={N}, {HClass}): {actual} (independent ground truth pending).",
             Magnitude: diff);
     }
 }

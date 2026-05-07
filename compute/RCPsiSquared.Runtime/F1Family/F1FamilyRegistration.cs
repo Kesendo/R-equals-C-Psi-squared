@@ -5,12 +5,13 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.F1Family;
 
-/// <summary>Schicht 1 registration: ChainSystemPrimitive then F1PalindromeIdentity then
-/// PalindromeResidualScalingClaim. F1PalindromeIdentity has no Core-side parameter (it is
-/// the project's master palindrome); we declare an edge from ChainSystemPrimitive anyway so
-/// the topological order surfaces the parameterisation before the abstract identity.
-/// PalindromeResidualScalingClaim depends on both: the closed form is the F1 residual's
-/// Frobenius scaling for a given (N, HamiltonianClass) pair on a given chain.</summary>
+/// <summary>Builder extension that registers the F1 family: ChainSystemPrimitive, then
+/// F1PalindromeIdentity, then PalindromeResidualScalingClaim. F1PalindromeIdentity has no
+/// Core-side parameter (it is the project's master palindrome); we declare an edge from
+/// ChainSystemPrimitive anyway so the topological order surfaces the parameterisation before
+/// the abstract identity. PalindromeResidualScalingClaim depends on both: the closed form
+/// is the F1 residual's Frobenius scaling for a given (N, HamiltonianClass) pair on a given
+/// chain.</summary>
 public static class F1FamilyRegistration
 {
     /// <summary>Register the three F1 family Claims for a given <paramref name="chain"/>.

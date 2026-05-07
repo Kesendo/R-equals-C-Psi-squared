@@ -44,7 +44,8 @@ public static class KnowledgeCommand
 
     private static ClaimRegistry BuildRegistry()
     {
-        // Schicht 0: empty registry. Schicht 1 (Task 17) plugs in F1FamilyRegistration here.
+        // CLI ships an empty registry by default. Domain registrations (e.g.
+        // RegisterF1Family) plug in here when the CLI surface needs to expose them.
         return new ClaimRegistryBuilder().Build();
     }
 

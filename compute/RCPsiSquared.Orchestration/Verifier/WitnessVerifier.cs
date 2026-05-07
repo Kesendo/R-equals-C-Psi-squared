@@ -3,10 +3,10 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Orchestration.Verifier;
 
-/// <summary>Layer 3 consumer 2 (verifier). Wraps <see cref="DriftCheckSession"/> and
-/// exposes a structured <see cref="VerifyResult"/> with totals, drifted count, and the
-/// individual reports. Used as an xunit assertion in CI: drift count = 0 means the pinned
-/// witness tables are still in sync with their live derivations.</summary>
+/// <summary>Drift-check consumer. Wraps <see cref="DriftCheckSession"/> and exposes a
+/// structured <see cref="VerifyResult"/> with totals, drifted count, and the individual
+/// reports. Used as an xunit assertion in CI: drift count = 0 means the pinned witness
+/// tables are still in sync with their live derivations.</summary>
 public sealed class WitnessVerifier
 {
     private readonly DriftCheckSession _session;

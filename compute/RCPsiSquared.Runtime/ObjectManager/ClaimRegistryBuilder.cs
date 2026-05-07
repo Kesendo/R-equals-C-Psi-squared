@@ -71,18 +71,22 @@ public sealed class ClaimRegistryBuilder
         var order = new List<Type>();
         var pending = new HashSet<Type>(_factories.Keys);
         var registered = new HashSet<Type>(_factories.Keys);
+        // Tentative edges accumulate during a single factory attempt and commit only on
+        // success. Without this, a factory that resolved some parents before throwing on
+        // a later one would re-add those edges every retry pass. Reused per attempt via
+        // Clear() to avoid allocation per pending claim per pass.
+        var attemptEdges = new List<Edge>();
 
+        // Worst case is O(N^2) factory invocations for an N-claim chain registered child-
+        // first: one claim resolves per pass. Acceptable at the current scale (typical
+        // registries are < 100 claims).
         while (pending.Count > 0)
         {
             int progress = 0;
             foreach (var type in pending.ToList())
             {
-                Type currentlyResolving = type;
-                // Tentative edge buffer: edges accumulate per attempt and commit only on
-                // success. Without this, a deferred factory that resolved some parents
-                // before throwing on a later one would re-add those edges every retry pass.
-                var attemptEdges = new List<Edge>();
-                var ctx = new RecordingBuilderContext(resolved, registered, currentlyResolving, attemptEdges);
+                attemptEdges.Clear();
+                var ctx = new RecordingBuilderContext(resolved, registered, type, attemptEdges);
                 try
                 {
                     var claim = _factories[type](ctx);
@@ -94,7 +98,7 @@ public sealed class ClaimRegistryBuilder
                 }
                 catch (DependencyNotYetAvailableException)
                 {
-                    // defer; tentative edges discarded
+                    // defer; tentative edges discarded on next Clear()
                 }
             }
 

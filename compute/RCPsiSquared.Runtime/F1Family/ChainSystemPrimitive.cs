@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Runtime.F1Family;
 
-/// <summary>Schicht 1 wrapper: exposes a <see cref="ChainSystem"/> as a registered
+/// <summary>Runtime wrapper that exposes a <see cref="ChainSystem"/> as a registered
 /// <see cref="Claim"/> so F1 / F73 Claims can declare it as a parent. The Claim itself is
 /// trivially Tier1Derived (a parameterisation, no hypothesis); the anchor points at the
 /// Core record.</summary>
