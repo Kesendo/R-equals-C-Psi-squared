@@ -163,8 +163,9 @@ public sealed class BilinearApexClaim : Claim
 /// The same maxval surfaces at three independent layers of the framework: the Mandelbrot
 /// cardioid cusp where R = CΨ²'s discriminant 1 − 4CΨ vanishes (PROOF_ROADMAP_QUARTER_BOUNDARY
 /// Layer 1), the Theorem 2 ceiling on the (popcount-n, popcount-n+1) coherence-block CΨ
-/// over any density matrix on 2^N (PROOF_BLOCK_CPSI_QUARTER), and the squared-dimension
-/// Pauli-normalization 1/d² = 1/4 at d = 2.</summary>
+/// over any density matrix on 2^N (operationalised in F86/BlockCpsiTrajectory.cs +
+/// F86/BlockCpsiClosedForm.cs), and the maximally-mixed-state purity Tr((I/d)²) = 1/d²
+/// at d = 2 (the asymptotic horizon of every dephasing process; PROOF_ASYMPTOTIC_SECTOR_PROJECTION).</summary>
 public sealed class QuarterAsBilinearMaxvalClaim : Claim
 {
     public QuarterAsBilinearMaxvalClaim()
@@ -176,7 +177,7 @@ public sealed class QuarterAsBilinearMaxvalClaim : Claim
     public override string DisplayName => "Maxval 1/4 of any bilinear form p·(1−p)";
 
     public override string Summary =>
-        "1/4 = (1/2)² is the universal maximum value of any bilinear form p·(1−p) on [0,1], attained at p = 1/2; surfaces at the Mandelbrot cardioid cusp, the c-block CΨ ceiling, and the d=2 Pauli-normalization";
+        "1/4 = (1/2)² is the universal maximum value of any bilinear form p·(1−p) on [0,1], attained at p = 1/2; surfaces at the Mandelbrot cardioid cusp, the c-block CΨ ceiling, and the maximally-mixed purity 1/d² at d = 2";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -187,9 +188,9 @@ public sealed class QuarterAsBilinearMaxvalClaim : Claim
             yield return new InspectableNode("Mandelbrot cardioid cusp",
                 summary: "discriminant 1 − 4CΨ = 0 at CΨ = 1/4 = (1/2)²; factor 4 = 2² from completing the square (PROOF_ROADMAP_QUARTER_BOUNDARY Layer 1)");
             yield return new InspectableNode("Theorem 2 c-block ceiling",
-                summary: "C_block ≤ p_n · p_{n+1} ≤ 1/4 over any density matrix on 2^N, AM-GM-saturated at p_n = p_{n+1} = 1/2; chromaticity-universal at c ≥ 2 (PROOF_BLOCK_CPSI_QUARTER Theorem 2)");
-            yield return new InspectableNode("d = 2 Pauli normalization",
-                summary: "1/d² = 1/4 at d = 2; the squared-dimension anchor for Pauli-basis decomposition (vec[α] = Tr(σ_α·ρ)/2^N)");
+                summary: "C_block ≤ p_n · p_{n+1} ≤ 1/4 over any density matrix on 2^N, AM-GM-saturated at p_n = p_{n+1} = 1/2; chromaticity-universal at c ≥ 2 (PROOF_BLOCK_CPSI_QUARTER Theorem 2; operationalised in F86.BlockCpsiTrajectory + F86.BlockCpsiClosedForm)");
+            yield return new InspectableNode("maximally-mixed purity",
+                summary: "Tr((I/d)²) = 1/d² = 1/4 at d = 2; the asymptotic-horizon purity of ρ_mm = I/2 (PROOF_ASYMPTOTIC_SECTOR_PROJECTION); a genuine 1/d² instance distinct from the 1/d Pauli normalisation");
             yield return new InspectableNode("companion to BilinearApexClaim",
                 summary: "argmax/maxval pair: BilinearApexClaim names p = 1/2 as the argmax; this claim names 1/4 = (1/2)² as the maxval (ON_THE_HALF Coda 2026-05-07)");
         }
@@ -209,12 +210,13 @@ public sealed class QuarterAsBilinearMaxvalClaim : Claim
 /// natural quadratic; wherever it finds 1/2, the corresponding 1/4 ceiling comes with it.
 /// </para>
 ///
-/// <para>Inheritance evidence: the 1/2 lineage (<see cref="QubitDimensionalAnchorClaim"/>
-/// six layers) and the 1/4 lineage (Mandelbrot cardioid + Theorem 2 c-block ceiling) are
-/// not parallel but paired. The same parabola, two readings: the half is the axis, the
-/// quarter is the height. See reflections/ON_THE_HALF.md "Coda: her quadratic shadow" for
-/// the synthesis statement and docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md "Reading: 1/4 is
-/// half of half" for the proof-internal articulation.</para>
+/// <para>Inheritance evidence: the 1/2 lineage (<see cref="QubitDimensionalAnchorClaim"/>,
+/// eleven children) and the 1/4 lineage (Mandelbrot cardioid + Theorem 2 c-block ceiling +
+/// maximally-mixed purity) are not parallel but paired. The same parabola, two readings:
+/// the half is the axis, the quarter is the height. See reflections/ON_THE_HALF.md
+/// "Coda: her quadratic shadow" for the synthesis statement and
+/// docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md "Reading: 1/4 is half of half" for the
+/// proof-internal articulation.</para>
 /// </summary>
 public sealed class ArgmaxMaxvalPairClaim : Claim
 {
@@ -240,7 +242,7 @@ public sealed class ArgmaxMaxvalPairClaim : Claim
             yield return new InspectableNode("pair invariance",
                 summary: "every framework layer instancing the bilinear apex inherits both 1/2 and 1/4 together; the half is the axis, the quarter is the height; the parabola does not separate them");
             yield return new InspectableNode("Tom's coda (2026-05-07)",
-                summary: "'1/4 ist die Hälfte von 0.5' — the quarter is the half's quadratic shadow; the recurring 1/2 (six lineage layers) and the recurring 1/4 (Mandelbrot + Theorem 2) are one structure read two ways");
+                summary: "'1/4 ist die Hälfte von 0.5' — the quarter is the half's quadratic shadow; the recurring 1/2 (QubitDimensionalAnchorClaim's eleven children) and the recurring 1/4 (Mandelbrot + Theorem 2 + maximally-mixed purity) are one structure read two ways");
             yield return new InspectableNode("inheritance reading",
                 summary: "1/4 inherits across layers because every layer instances the same quadratic form, and that form's argmax/maxval pair is invariant; the synthesis claim closes the pair, complementing HalfAsStructuralFixedPointClaim's three-faces closure of the 1/2 side");
         }
