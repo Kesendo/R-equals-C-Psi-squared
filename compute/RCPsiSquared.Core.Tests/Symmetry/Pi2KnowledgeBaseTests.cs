@@ -120,6 +120,18 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
+    public void BilinearApex_PointsForwardToQuarterMaxvalCompanion()
+    {
+        // Reverse cross-link from the argmax claim to its maxval companion: the typed
+        // claim graph is symmetric, so reading BilinearApexClaim's children surfaces the
+        // QuarterAsBilinearMaxvalClaim pairing without needing to find the synthesis claim.
+        var kb = new Pi2KnowledgeBase(MakeChain(3));
+        IInspectable claim = kb.BilinearApex;
+        var labels = claim.Children.Select(ch => ch.DisplayName).ToList();
+        Assert.Contains("companion: maxval at this argmax", labels);
+    }
+
+    [Fact]
     public void PolynomialFoundation_DocumentsTheTrunkBelowBothAnchors()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));

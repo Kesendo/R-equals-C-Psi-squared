@@ -126,7 +126,12 @@ public sealed class KleinFourCellClaim : Claim
 /// bilinear form p·(1−p) in a probability variable is maximised at p = 1/2. Manifestations:
 /// F81 50/50 split for pure Π²-odd; F83 anti-fraction at r=0; balanced Π² partition
 /// (each subspace = 4^N / 2 strings); slow-mode Π²_Z balance within active Π²_X axis
-/// (Schicht 3 finding).</summary>
+/// (Schicht 3 finding).
+///
+/// <para>Companion: <see cref="QuarterAsBilinearMaxvalClaim"/> names 1/4 = (1/2)² as the
+/// maxval at this argmax; the two together close as the argmax/maxval pair via
+/// <see cref="ArgmaxMaxvalPairClaim"/>.</para>
+/// </summary>
 public sealed class BilinearApexClaim : Claim
 {
     public BilinearApexClaim()
@@ -152,6 +157,8 @@ public sealed class BilinearApexClaim : Claim
                 summary: "each Π²_Z eigenspace contains 4^N / 2 Pauli strings; balanced 50/50 by combinatorics");
             yield return new InspectableNode("slow-mode apex (Schicht 3)",
                 summary: "within active Π²_X axis, slow-mode Pp/(Pp+Mp) ≈ 1/2 (and Pm/(Pm+Mm) ≈ 1/2)");
+            yield return new InspectableNode("companion: maxval at this argmax",
+                summary: "1/4 = (1/2)² is the value of p·(1−p) at this argmax (QuarterAsBilinearMaxvalClaim); pair closes via ArgmaxMaxvalPairClaim — argmax/maxval are inseparable readings of one parabola (ON_THE_HALF Coda 2026-05-07)");
         }
     }
 }
