@@ -49,12 +49,15 @@ public sealed class OrbitKTrend : Claim
 
     public bool IsEscaping(IReadOnlyList<double> qGrid)
     {
-        if (Trend.Count < 2) return false;
+        if (qGrid is null) throw new ArgumentNullException(nameof(qGrid));
+        // Monotone non-decreasing check (vacuous for 1-element trend) ...
         for (int i = 1; i < Trend.Count; i++)
         {
             if (Trend[i].Witness.QPeak < Trend[i - 1].Witness.QPeak)
                 return false;
         }
+        // ... AND the latest witness must be grid-escaped. BuildTrend guarantees the
+        // trend is non-empty.
         return Trend[^1].Witness.IsEscaped(qGrid);
     }
 
