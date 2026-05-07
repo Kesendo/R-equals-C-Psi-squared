@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RCPsiSquared.Runtime\RCPsiSquared.Runtime.csproj" />
+    <ProjectReference Include="..\RCPsiSquared.Diagnostics\RCPsiSquared.Diagnostics.csproj" />
   </ItemGroup>
 
 </Project>
