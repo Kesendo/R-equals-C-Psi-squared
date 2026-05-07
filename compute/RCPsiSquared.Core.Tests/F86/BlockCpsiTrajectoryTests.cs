@@ -284,4 +284,40 @@ public class BlockCpsiTrajectoryTests
         Assert.True(measured <= 0.25 + 1e-10,
             $"Theorem 2 upper bound violated: C_block = {measured:F8} > 1/4");
     }
+
+    /// <summary>Theorem 2 (general form): for ANY state with mass at popcount-k
+    /// outside {n, n+1}, C_block(popcount-n, popcount-(n+1)) is reduced from 1/4
+    /// proportional to (p_n · p_{n+1}). For (|vac⟩ + |D_1⟩ + |D_2⟩)/√3 (equal mass on
+    /// popcount-0, 1, 2), p_1 = p_2 = 1/3, so C_block(popcount-1, popcount-2) = 1/9.
+    /// Verifies the bound structure beyond the 2-sector pure-state case.</summary>
+    [Theory]
+    [InlineData(5)]
+    [InlineData(7)]
+    public void Theorem2_ThreeSectorState_ReducesCBlockToOneNinth(int N)
+    {
+        // |ψ⟩ = (|vac⟩ + |D_1⟩ + |D_2⟩)/√3 has p_0 = p_1 = p_2 = 1/3.
+        // The (popcount-1, popcount-2) block element ρ_ab = (1/3) · ⟨a|D_1⟩⟨D_2|b⟩
+        // = (1/3) / √(M_block). Block content C_block = M·(1/(9M)) = 1/9.
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        int M = block.Basis.MTotal;
+        double rhoEntry = (1.0 / 3.0) / Math.Sqrt(M);
+        var rho0 = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(
+            M, _ => new System.Numerics.Complex(rhoEntry, 0.0));
+
+        var trajectory = BlockCpsiTrajectory.BuildFromInitial(
+            block, q: 1.0, rho0, timeGrid: new[] { 0.0 });
+
+        double measured = trajectory.CBlockTrajectory[0];
+        const double expected = 1.0 / 9.0;
+        Assert.True(Math.Abs(measured - expected) < 1e-10,
+            $"N={N}: 3-sector state gave C_block = {measured:F8}, expected 1/9 = {expected:F8}");
+
+        // Theorem 2 universal bound check
+        Assert.True(measured <= 0.25 + 1e-10,
+            $"Theorem 2 universal bound violated at 3-sector state: C_block = {measured:F8}");
+
+        // Stronger: this state achieves the p_n·p_{n+1} = 1/9 sub-bound.
+        // p_n + p_{n+1} = 2/3 < 1, so AM-GM ceiling is (1/3)² = 1/9.
+        Assert.True(Math.Abs(measured - (1.0/3.0) * (1.0/3.0)) < 1e-10);
+    }
 }
