@@ -115,6 +115,8 @@ public class F86KnowledgeBaseTests
         Assert.Empty(kb.EpTraversal);
         // t_peak still applies (universal in γ₀ alone).
         Assert.Equal(5.0, kb.TPeak.Value, 12);
+        // OrbitKTable is c=2-only; null for c=1 blocks (parallel to C2UniversalShape gating).
+        Assert.Null(kb.OrbitKTable);
     }
 
     [Fact]
