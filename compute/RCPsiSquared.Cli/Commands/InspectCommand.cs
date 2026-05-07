@@ -42,7 +42,8 @@ public static class InspectCommand
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
             "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, f71, f1, f87, pi2"),
+            "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, f71, f1, f87, pi2"),
         };
 
         bool wroteSomething = false;
@@ -110,6 +111,21 @@ public static class InspectCommand
         double gridHi = hi ?? 4.00;
         int gridPoints = qGridPoints ?? 153;
         return ResonanceScan.LinearQGrid(gridLo, gridHi, gridPoints);
+    }
+
+    /// <summary>Builds <see cref="C2BlockCpsiTrajectory"/> at the given <c>--Q</c> across a
+    /// time grid spanning [0, <c>--t-max</c>] with <c>--t-points</c> samples (defaults
+    /// t_max = 4·t_peak = 1/γ₀, t-points = 41). The trajectory tests Question B from
+    /// the 2026-05-07 open-questions memory: does CΨ_block cross 1/4 under L_block(Q)
+    /// evolution from the maximally-coherent initial state?</summary>
+    private static IInspectable BuildC2CpsiRoot(CoherenceBlock block, ArgParser p)
+    {
+        double q = p.OptionalDouble("Q") ?? 1.0;
+        double tMax = p.OptionalDouble("t-max") ?? (1.0 / block.GammaZero);
+        int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 41;
+        var timeGrid = new double[tPoints];
+        for (int i = 0; i < tPoints; i++) timeGrid[i] = tMax * i / (tPoints - 1);
+        return C2BlockCpsiTrajectory.Build(block, q, timeGrid);
     }
 
     private static IInspectable BuildF86Root(CoherenceBlock block, bool withMeasured, int? qGridPoints)
