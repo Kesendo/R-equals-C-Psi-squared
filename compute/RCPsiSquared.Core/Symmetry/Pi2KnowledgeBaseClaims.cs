@@ -157,8 +157,8 @@ public sealed class BilinearApexClaim : Claim
                 summary: "each Π²_Z eigenspace contains 4^N / 2 Pauli strings; balanced 50/50 by combinatorics");
             yield return new InspectableNode("slow-mode apex (Schicht 3)",
                 summary: "within active Π²_X axis, slow-mode Pp/(Pp+Mp) ≈ 1/2 (and Pm/(Pm+Mm) ≈ 1/2)");
-            yield return new InspectableNode("companion: maxval at this argmax",
-                summary: "1/4 = (1/2)² is the value of p·(1−p) at this argmax (QuarterAsBilinearMaxvalClaim); pair closes via ArgmaxMaxvalPairClaim — argmax/maxval are inseparable readings of one parabola (ON_THE_HALF Coda 2026-05-07)");
+            yield return new InspectableNode("companion to QuarterAsBilinearMaxvalClaim",
+                summary: "1/4 = (1/2)² is the value of p·(1−p) at this argmax; pair closes via ArgmaxMaxvalPairClaim: argmax/maxval are inseparable readings of one parabola (ON_THE_HALF Coda 2026-05-07)");
         }
     }
 }

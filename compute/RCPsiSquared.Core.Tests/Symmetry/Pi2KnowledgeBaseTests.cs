@@ -128,7 +128,7 @@ public class Pi2KnowledgeBaseTests
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         IInspectable claim = kb.BilinearApex;
         var labels = claim.Children.Select(ch => ch.DisplayName).ToList();
-        Assert.Contains("companion: maxval at this argmax", labels);
+        Assert.Contains("companion to QuarterAsBilinearMaxvalClaim", labels);
     }
 
     [Fact]
