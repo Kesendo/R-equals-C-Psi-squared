@@ -16,7 +16,7 @@ public class HalfIntegerMirrorRegistrationTests
             .Build();
 
         Assert.True(registry.Contains<HalfIntegerMirrorClaim>());
-        Assert.Equal(8, registry.All().Count()); // 7 Pi2 + 1
+        Assert.Equal(9, registry.All().Count()); // 8 Pi2 + 1
     }
 
     [Fact]

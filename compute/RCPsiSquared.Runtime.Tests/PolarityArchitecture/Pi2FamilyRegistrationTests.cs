@@ -8,19 +8,20 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 public class Pi2FamilyRegistrationTests
 {
     [Fact]
-    public void RegisterPi2Family_BuildsSevenClaims()
+    public void RegisterPi2Family_BuildsEightClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .Build();
 
-        Assert.Equal(7, registry.All().Count());
+        Assert.Equal(8, registry.All().Count());
         Assert.True(registry.Contains<PolynomialFoundationClaim>());
         Assert.True(registry.Contains<QubitDimensionalAnchorClaim>());
         Assert.True(registry.Contains<NinetyDegreeMirrorMemoryClaim>());
         Assert.True(registry.Contains<PolarityLayerOriginClaim>());
         Assert.True(registry.Contains<BilinearApexClaim>());
         Assert.True(registry.Contains<HalfAsStructuralFixedPointClaim>());
+        Assert.True(registry.Contains<QuarterAsBilinearMaxvalClaim>());
         Assert.True(registry.Contains<KleinFourCellClaim>());
     }
 

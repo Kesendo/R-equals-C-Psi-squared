@@ -17,19 +17,20 @@ public class InheritanceGraphTests
             .Build();
 
     [Fact]
-    public void DescendantsOf_PolynomialFoundation_ReturnsAllEightOthers()
+    public void DescendantsOf_PolynomialFoundation_ReturnsAllOthers()
     {
         var registry = BuildFullPolarityRegistry();
 
         var descendants = registry.DescendantsOf<PolynomialFoundationClaim>()
             .Select(c => c.GetType()).ToHashSet();
 
-        Assert.Equal(8, descendants.Count);
+        Assert.Equal(9, descendants.Count);
         Assert.Contains(typeof(QubitDimensionalAnchorClaim), descendants);
         Assert.Contains(typeof(NinetyDegreeMirrorMemoryClaim), descendants);
         Assert.Contains(typeof(PolarityLayerOriginClaim), descendants);
         Assert.Contains(typeof(BilinearApexClaim), descendants);
         Assert.Contains(typeof(HalfAsStructuralFixedPointClaim), descendants);
+        Assert.Contains(typeof(QuarterAsBilinearMaxvalClaim), descendants);
         Assert.Contains(typeof(KleinFourCellClaim), descendants);
         Assert.Contains(typeof(PolarityInheritanceLink), descendants);
         Assert.Contains(typeof(PopcountCoherenceClaim), descendants);
