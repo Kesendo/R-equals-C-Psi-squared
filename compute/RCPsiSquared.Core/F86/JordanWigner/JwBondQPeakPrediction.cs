@@ -106,27 +106,43 @@ public sealed class JwBondQPeakPrediction : Claim
             return X;
         }
 
-        // Per cluster-pair, compute max |X̃[λ,λ]| (D-only, bond-independent) over shared
-        // W-eigenvalues. Cache for reuse across bonds.
-        var pairXMagCache = new Dictionary<(int, int), double>();
-        double GetPairXMag(int c1, int c2)
+        // Per cluster-pair, compute the dominant 2x2 EP Q_EP via the GENERAL formula
+        // Q_EP = √(4|x|² − (a−b)²) / (γ·|Δδ|) where x = X̃[i, j], a = λ_c1[i], b = λ_c2[j].
+        // Reduces to T12's a=b form when λ_c1[i] = λ_c2[j]. Allows a≠b sub-block contributions.
+        // Returns (max |x|, corresponding Q_EP). Cached per cluster-pair.
+        var pairBestEpCache = new Dictionary<(int, int), (double xMag, double qEp)>();
+        (double xMag, double qEp) GetPairBestEp(int c1, int c2)
         {
             var key = (c1, c2);
-            if (pairXMagCache.TryGetValue(key, out double cached)) return cached;
+            if (pairBestEpCache.TryGetValue(key, out var cached)) return cached;
             var (λ1, U1) = GetEigenBasis(c1);
             var (λ2, U2) = GetEigenBasis(c2);
             var X = BuildXForPair(c1, c2);
             var Xtilde = U1.ConjugateTranspose() * X * U2;
+            double absΔδ = Math.Abs(disp.Clusters[c1].Delta - disp.Clusters[c2].Delta);
+
             double bestX = 0;
+            double bestQEp = double.NaN;
             for (int i = 0; i < λ1.Length; i++)
                 for (int j = 0; j < λ2.Length; j++)
                 {
-                    if (Math.Abs(λ1[i] - λ2[j]) > 1e-8) continue;
                     double mag = Xtilde[i, j].Magnitude;
-                    if (mag > bestX) bestX = mag;
+                    if (mag < 1e-12) continue;
+                    double aMinusB = λ1[i] - λ2[j];
+                    double disc = 4 * mag * mag - aMinusB * aMinusB;
+                    if (disc <= 0) continue;  // No real-Q EP from this sub-block
+                    if (absΔδ < 1e-8) continue;
+                    double qEp = Math.Sqrt(disc) / (γ * absΔδ);
+                    // Track entry with max |x| (dominant coupling); ties broken by smaller Q_EP
+                    if (mag > bestX || (mag == bestX && (double.IsNaN(bestQEp) || qEp < bestQEp)))
+                    {
+                        bestX = mag;
+                        bestQEp = qEp;
+                    }
                 }
-            pairXMagCache[key] = bestX;
-            return bestX;
+            cached = (bestX, bestQEp);
+            pairBestEpCache[key] = cached;
+            return cached;
         }
 
         var bondPredictions = new BondQPeakPrediction[affinity.Bonds.Count];
@@ -135,17 +151,19 @@ public sealed class JwBondQPeakPrediction : Claim
         {
             var bondAff = affinity.Bonds[b];
 
-            // Selection rule: top-MhPerBond pair often has |X̃[λ,λ]|=0 on shared eigenvalues.
-            // Walk the ranked list and pick the highest-coupling pair with non-zero |X̃[λ,λ]|.
+            // Walk the bond's affinity ranking and pick the first pair where the GENERAL 2x2
+            // EP formula yields a real-Q solution (i.e. some |x| with 4|x|² > (a-b)² exists).
             ClusterPairCouplingEntry? selectedPair = null;
             double selectedX = 0;
+            double selectedQEp = double.NaN;
             foreach (var candidate in bondAff.RankedPairs)
             {
-                double xMag = GetPairXMag(candidate.Cluster1Index, candidate.Cluster2Index);
-                if (xMag > 1e-12)
+                var (xMag, qEpCandidate) = GetPairBestEp(candidate.Cluster1Index, candidate.Cluster2Index);
+                if (!double.IsNaN(qEpCandidate))
                 {
                     selectedPair = candidate;
                     selectedX = xMag;
+                    selectedQEp = qEpCandidate;
                     break;
                 }
             }
@@ -166,9 +184,7 @@ public sealed class JwBondQPeakPrediction : Claim
 
             double absΔδ = selectedPair.AbsoluteDeltaδ;
             double bestX = selectedX;
-            double qEp = absΔδ > 1e-8 && bestX > 1e-12
-                ? 2 * bestX / (γ * absΔδ)
-                : double.NaN;
+            double qEp = selectedQEp;
             double qPeakPred = double.IsNaN(qEp) ? double.NaN : BareDoubledPtfXPeak * qEp;
             double qPeakEmp = empirical.Witnesses[b].QPeak;
             double relResid = (double.IsNaN(qPeakPred) || qPeakEmp <= 0)

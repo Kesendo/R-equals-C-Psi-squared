@@ -15,6 +15,8 @@ public class JwBondQPeakPredictionTests
     public JwBondQPeakPredictionTests(ITestOutputHelper output) => _out = output;
 
     [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
@@ -25,7 +27,12 @@ public class JwBondQPeakPredictionTests
         Assert.Equal(N - 1, pred.Bonds.Count);
     }
 
+    // N=3 doesn't satisfy the 2x2 architecture: for all cluster-pairs at N=3, no (i, j)
+    // sub-block has 4|x|² > (a-b)², so the general 2x2 EP formula yields no real-Q solution.
+    // The architecture starts at N=4 (smallest c=2 with Endpoint+Interior distinction AND
+    // a cluster-pair geometry rich enough for the 2x2 EP to exist).
     [Theory]
+    [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
@@ -47,6 +54,7 @@ public class JwBondQPeakPredictionTests
     // |Δδ|, different |X̃|) for mirror partners due to ranking-tie-breaking, so prediction
     // tolerance is relaxed. The structural invariance (max relative deviation < 50%) holds.
     [Theory]
+    [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
@@ -70,6 +78,7 @@ public class JwBondQPeakPredictionTests
     // — the JW-track 2x2 closed-form architecture works for Endpoint bonds. Innermost-bonds
     // need multi-cluster-Petermann combination (open Tier1-Promotion; not tested here).
     [Theory]
+    [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
@@ -100,6 +109,20 @@ public class JwBondQPeakPredictionTests
     }
 
     [Fact]
+    public void N3_PredictionReturnsNaN_StructuralLowerLimit()
+    {
+        // Architectural lower limit: at N=3 no cluster-pair has a (i, j) sub-block where
+        // 4|X̃[i, j]|² > (λ_c1[i] − λ_c2[j])². The cluster geometry is too sparse for the
+        // general 2x2 EP formula. The empirical Q_peak at N=3 (=1.806 for both bonds)
+        // exists but comes from non-2x2 dynamics.
+        var block = new CoherenceBlock(N: 3, n: 1, gammaZero: 0.05);
+        var pred = JwBondQPeakPrediction.Build(block);
+        foreach (var b in pred.Bonds)
+            Assert.True(double.IsNaN(b.QPeakPredicted),
+                $"N=3 bond {b.Bond}: prediction should be NaN at the architectural lower limit");
+    }
+
+    [Fact]
     public void Build_RejectsNonC2Block()
     {
         var block = new CoherenceBlock(N: 5, n: 2, gammaZero: 0.05);
@@ -124,11 +147,11 @@ public class JwBondQPeakPredictionTests
     }
 
     [Fact]
-    public void Reconnaissance_EmitsPredictionVsEmpirical_AcrossN5To7()
+    public void Reconnaissance_EmitsPredictionVsEmpirical_AcrossN3To7()
     {
         _out.WriteLine("  N | bond | class    | |Δδ|   | |X̃|     | Q_EP_pred | Q_peak_pred | Q_peak_emp | rel-residual");
         _out.WriteLine("  --|------|----------|--------|---------|-----------|-------------|------------|--------------");
-        foreach (int N in new[] { 5, 6, 7 })
+        foreach (int N in new[] { 3, 4, 5, 6, 7 })
         {
             var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
             var pred = JwBondQPeakPrediction.Build(block);
