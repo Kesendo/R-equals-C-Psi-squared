@@ -27,7 +27,9 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// T2 (<c>C2BlockJwDecomposition</c>, per-bond (k1, k2) bilinear coefficients) and T3
 /// (<c>C2BondKModeProfile</c>, per-bond k-mode profile) build on this primitive.</para>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 5 + textbook XY-JW.</para>
+/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track
+/// foundation; the proof's "Item 1 (status update 2026-05-05)" section frames the open
+/// closed-form HWHM/Q_peak target this primitive feeds) + textbook XY-JW identity.</para>
 /// </summary>
 public sealed class XyJordanWignerModes : Claim
 {
@@ -61,7 +63,7 @@ public sealed class XyJordanWignerModes : Claim
     private XyJordanWignerModes(int n, double j, IReadOnlyList<double> dispersion, Matrix<double> matrix)
         : base("XY Jordan-Wigner OBC sine-mode basis + dispersion",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md (Item 5) + textbook XY-JW")
+               "docs/proofs/PROOF_F86_QPEAK.md Item 1' Direction (b'') (JW track) + textbook XY-JW")
     {
         N = n;
         J = j;
