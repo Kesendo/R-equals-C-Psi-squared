@@ -11,6 +11,8 @@ public class XyJordanWignerModesTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void SineModes_AreOrthonormal(int N)
     {
         var modes = XyJordanWignerModes.Build(N);
@@ -25,6 +27,7 @@ public class XyJordanWignerModesTests
     [Theory]
     [InlineData(5)]
     [InlineData(8)]
+    [InlineData(10)]
     public void Dispersion_MatchesXyEigenvalues_AtJEqualsOne(int N)
     {
         var modes = XyJordanWignerModes.Build(N, J: 1.0);
@@ -41,6 +44,8 @@ public class XyJordanWignerModesTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void Dispersion_ScalesLinearlyWithJ(int N)
     {
         var modesA = XyJordanWignerModes.Build(N, J: 1.0);

@@ -24,6 +24,8 @@ public class C2BondKModeProfileTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void EndpointK90Mean_NotLessThan_MinInteriorK90(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -39,6 +41,7 @@ public class C2BondKModeProfileTests
     [Theory]
     [InlineData(5)]
     [InlineData(8)]
+    [InlineData(10)]
     public void RowL1Profile_LengthEqualsN(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -52,6 +55,7 @@ public class C2BondKModeProfileTests
     [Theory]
     [InlineData(5)]
     [InlineData(8)]
+    [InlineData(10)]
     public void TopThreeKIndices_AreOneIndexedAndDistinct(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -71,6 +75,7 @@ public class C2BondKModeProfileTests
     [Theory]
     [InlineData(5)]
     [InlineData(8)]
+    [InlineData(10)]
     public void K99_AtLeast_K90(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -85,6 +90,7 @@ public class C2BondKModeProfileTests
     [Theory]
     [InlineData(5)]
     [InlineData(8)]
+    [InlineData(10)]
     public void K90_AtLeastOne_AtMostN(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -120,11 +126,11 @@ public class C2BondKModeProfileTests
     }
 
     [Fact]
-    public void Reconnaissance_EmitsPerNBondProfiles_AcrossN5To8()
+    public void Reconnaissance_EmitsPerNBondProfiles_AcrossN5To10()
     {
         _out.WriteLine("  N | b | class    | K_90 | K_99 | top-3 k indices | row-L1 profile (k=1..N)");
         _out.WriteLine("  --|---|----------|------|------|-----------------|----------");
-        foreach (int N in new[] { 5, 6, 7, 8 })
+        foreach (int N in new[] { 5, 6, 7, 8, 9, 10 })
         {
             var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
             var profile = C2BondKModeProfile.Build(block);

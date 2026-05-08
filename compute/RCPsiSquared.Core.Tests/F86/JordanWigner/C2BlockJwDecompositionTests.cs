@@ -16,6 +16,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void F73SumRuleResidual_BelowTolerance(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -29,6 +31,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void EndpointBond_HasMoreUniformKDistribution_ThanInnermostInteriorBond(int N)
     {
         // Physical claim: Endpoint bonds (b ∈ {0, N−2}) sit at the OBC boundary, where the
@@ -89,6 +93,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void NumBonds_MatchesBlockNumBonds(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -101,6 +107,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void BondClassTagging_FirstAndLastEndpoint_OthersInterior(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -117,6 +125,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void Coefficients_AreSymmetric_InK1K2(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -166,6 +176,8 @@ public class C2BlockJwDecompositionTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void Modes_AreXyJordanWignerModes_WithMatchingN(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);

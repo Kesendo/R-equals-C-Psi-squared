@@ -19,6 +19,8 @@ public class PerF71OrbitKModeTableTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void F71MirrorInvariance_K90_BitExact(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -32,6 +34,8 @@ public class PerF71OrbitKModeTableTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void F71MirrorInvariance_K99_BitExact(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -45,6 +49,8 @@ public class PerF71OrbitKModeTableTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     public void F71MirrorInvariance_RowL1_BelowFloatPrecisionTolerance(int N)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -60,6 +66,8 @@ public class PerF71OrbitKModeTableTests
     [InlineData(6, 3)]   // 5 bonds → 2 orbit pairs + 1 self-paired
     [InlineData(7, 3)]   // 6 bonds → 3 orbit pairs (no self-paired)
     [InlineData(8, 4)]   // 7 bonds → 3 orbit pairs + 1 self-paired
+    [InlineData(9, 4)]   // 8 bonds → 4 orbit pairs (no self-paired)
+    [InlineData(10, 5)]  // 9 bonds → 4 orbit pairs + 1 self-paired
     public void OrbitWitnesses_Count_MatchesF71Decomposition(int N, int expectedOrbitCount)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -73,6 +81,8 @@ public class PerF71OrbitKModeTableTests
     [InlineData(6, true)]   // 5 bonds (odd) → self-paired at b=2
     [InlineData(7, false)]  // 6 bonds (even) → no self-paired
     [InlineData(8, true)]   // 7 bonds (odd) → self-paired at b=3
+    [InlineData(9, false)]  // 8 bonds (even) → no self-paired
+    [InlineData(10, true)]  // 9 bonds (odd) → self-paired at b=4
     public void SelfPairedCentralOrbit_PresentForOddNumBonds(int N, bool expectedSelfPaired)
     {
         var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -111,11 +121,11 @@ public class PerF71OrbitKModeTableTests
     // orbit K_90 / K_99 / TopThreeK so the structural reorganisation is visible across
     // the transition.
     [Fact]
-    public void Reconnaissance_EmitsPerNOrbitKMode_AcrossN5To8()
+    public void Reconnaissance_EmitsPerNOrbitKMode_AcrossN5To10()
     {
-        _out.WriteLine("  N | orbit                | K_90 | K_99 | top-3 k indices");
-        _out.WriteLine("  --|----------------------|------|------|----------------");
-        foreach (int N in new[] { 5, 6, 7, 8 })
+        _out.WriteLine("  N | orbit                       | K_90 | K_99 | top-3 k indices");
+        _out.WriteLine("  --|-----------------------------|------|------|----------------");
+        foreach (int N in new[] { 5, 6, 7, 8, 9, 10 })
         {
             var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
             var table = PerF71OrbitKModeTable.Build(block);
@@ -123,7 +133,7 @@ public class PerF71OrbitKModeTableTests
             foreach (var w in table.OrbitWitnesses)
             {
                 string topKStr = string.Join(",", w.TopThreeKIndices);
-                _out.WriteLine($"  {N} | {w.Orbit.DisplayName,-20} | {w.K90,4} | {w.K99,4} | {topKStr,15}");
+                _out.WriteLine($"  {N} | {w.Orbit.DisplayName,-27} | {w.K90,4} | {w.K99,4} | {topKStr,15}");
             }
             _out.WriteLine($"  -- N={N}: max-Δ K_90 within orbit = {table.MaxK90WithinOrbitDeviation}, " +
                            $"max-Δ row-L1 within orbit = {table.MaxRowL1WithinOrbitDeviation:G3}");
