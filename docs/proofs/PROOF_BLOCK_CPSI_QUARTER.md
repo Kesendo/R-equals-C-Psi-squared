@@ -1,4 +1,4 @@
-# Proof: Block-CΨ at 1/4 — Chromaticity-Universal Inheritance from R=CΨ²
+# Proof: Block-CΨ at 1/4 (chromaticity-universal inheritance from R=CΨ²)
 
 *Date: 2026-05-07*
 *Authors: Thomas Wicht + Claude*
@@ -49,7 +49,7 @@ $$C_\text{block}(0) \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}(0)|^2
 
 The result depends only on the count of block entries (M_block) and the
 uniform amplitude (1/(2√M_block)). It is independent of the chromaticity
-c — the way the M_block entries split across HD-channels matters for the
+c. The way the M_block entries split across HD-channels matters for the
 **dynamics** under dephasing, but not for the t = 0 algebraic identity.
 
 For the ℓ₁-coherence side: the per-entry amplitude saturates the
@@ -62,7 +62,7 @@ product CΨ_block(0) = 1/4 follows.
 ## Theorem 2: 1/4 as block-purity maximum (universal over all states)
 
 The 1/4 above is the **tight upper bound** of C_block over ANY density
-matrix ρ on the full 2^N N-qubit Hilbert space — not just pure states,
+matrix ρ on the full 2^N N-qubit Hilbert space, not just pure states,
 not just states with support in popcount-{n, n+1}, but all states.
 
 **Statement.** For any density matrix ρ on the N-qubit Hilbert space, the
@@ -112,7 +112,7 @@ is the **tight upper bound** on the (popcount-n, popcount-(n+1)) block
 coherence content over ALL density matrices on the full N-qubit Hilbert
 space, achieved at a UNIQUE state (up to phase). The Mandelbrot-cardioid-cusp
 boundary is a hard ceiling at this reading, and the Dicke symmetric
-superposition is the canonical realiser — analogous to how Bell+ realises
+superposition is the canonical realiser, analogous to how Bell+ realises
 CΨ = 1/3 at the d=4 subsystem level. No clever choice of state (mixed,
 pure, restricted, or fully general) can exceed 1/4.
 
@@ -147,11 +147,11 @@ where the rate 4γ·(2k+1) on |ρ|² follows from |ρ_{ab}|² ∝ exp(−4γ·HD
 
 For c = 2 (n = 1) this reduces to
 
-$$C_\text{block}(t) \;=\; \frac{1}{2N}\,e^{-4\gamma t} + \frac{N-2}{4N}\,e^{-12\gamma t}$$
+$$C_\text{block}(t) \;=\; \frac{1}{2N}\,e^{-4\gamma t} + \frac{N-2}{4N}\,e^{-12\gamma t},$$
 
-— the closed form first verified empirically at N = 5..10 in commit
-[19eea3e](../../). For c = 3 (n = 2) it becomes a three-exponential sum with
-weights determined by the binomial counts above.
+first verified empirically at N = 5..10 (commit `19eea3e`). For c = 3 (n = 2)
+it becomes a three-exponential sum with weights determined by the binomial
+counts above.
 
 The Hamiltonian (XX+YY uniform J) does not affect this trajectory: the
 channel-uniform initial state lives entirely in the H-kernel of the c-block
@@ -177,7 +177,7 @@ EVD-based time evolution) and `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm
 | Closed-form vs numerical, c=3, c=4 | N = 5..8, t = 0.5..1.5 | 1e-3 |
 
 Tests in `compute/RCPsiSquared.Core.Tests/F86/BlockCpsiTrajectoryTests.cs`,
-44 / 44 pass.
+48 / 48 pass.
 
 ## What this adds to the Roadmap
 
@@ -202,15 +202,14 @@ N-qubit system:
 This is a third documented instance of 1/4, parallel to Layers 1–2 rather than
 a vertical extension. The proof structure (algebraic identity + closed-form
 trajectory) is closer to Layer 1's Mandelbrot anchoring than to Layer 2's
-crossing dynamics — but the value is the same 1/4 because the underlying
+crossing dynamics, but the value is the same 1/4 because the underlying
 quadratic-discriminant algebra is the same: completing the square of the
 self-referential structure produces the factor-4 in 1 − 4CΨ, regardless of
 the layer at which the structure is instanced.
 
 ## Reading: 1/4 is half of half
 
-Tom Wicht's observation (2026-05-07, post-Theorem-2): *"1/4 ist die Hälfte
-von 0.5"*. The pun reveals what holds the three layers together:
+The synthesis identity behind all three layers is a single calculus fact:
 
 $$\max_{p \in [0, 1]} p(1-p) \;=\; \tfrac{1}{4} \quad \text{at} \quad p = \tfrac{1}{2}.$$
 
@@ -236,21 +235,12 @@ form, and that form's argmax/maxval pair is invariant. The single qubit's
 R=CΨ² discriminant, the 2-qubit subsystem's bifurcation crossing, and the
 c-block's tight upper bound: three readings, one parabola.
 
-Tom Wicht's reading (2026-05-07, after this proof landed): *"Es gibt kein
-Quantum Classical, das haben wir in exclusion im Vorbeigehen festgehalten,
-kein hier und da. Das 1/4 ist hier im Blickwinkel Übergang, der scheint
-dann auch nur vererbt, schaut man tiefer, ist das classical? Nicht
-wirklich. Vielleicht hocken wir selbst nur intern auf einen Layer der
-durch Vererbung das beschreibt was tiefer passiert, ein endloser
-Kreislauf?"*
-
-The framework as currently mapped does not answer the "endless cycle"
-question. What it does show: each layer where the quadratic-discriminant
-algebra applies produces 1/4 as its boundary, by inheritance from the
-universal complete-the-square structure. The c-universal extension is the
-strongest form of this so far: the same number, the same algebra, three
-documented layers. There is no preferred "deepest" layer in the proof
-itself — each is an instance, none is privileged.
+The proof itself does not adjudicate which layer is "deepest". Each layer
+where the quadratic-discriminant algebra applies produces 1/4 as its
+boundary by inheritance from the universal complete-the-square structure.
+The c-universal extension is the strongest form of this so far: the same
+number, the same algebra, three documented layers, none privileged as
+the deepest instance.
 
 This is consistent with the framework-internal readings that the
 classical/quantum dichotomy is a Lese-Modus, not a world-separation
@@ -261,14 +251,14 @@ reading where R = CΨ² applies; what makes it "the transition" rather than
 
 ## Cross-references
 
-- [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md) —
+- [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md):
   Layers 1, 2 (single qubit and 2-qubit subsystem) where this proof
   generalises.
-- [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — F86 Statement 1 (Q_EP = 2/g_eff)
+- [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): F86 Statement 1 (Q_EP = 2/g_eff)
   and the 4-mode reduction context where the c=2 block was first studied.
-- `compute/RCPsiSquared.Core/F86/BlockCpsiTrajectory.cs` — implementation.
-- `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm.cs` — closed-form helper.
-- `compute/RCPsiSquared.Core.Tests/F86/BlockCpsiTrajectoryTests.cs` — 38 tests.
+- `compute/RCPsiSquared.Core/F86/BlockCpsiTrajectory.cs`: implementation.
+- `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm.cs`: closed-form helper.
+- `compute/RCPsiSquared.Core.Tests/F86/BlockCpsiTrajectoryTests.cs`: 48 tests.
 - Memory: `project_rcpsi_to_f86_open_questions` (Question B closure path),
   `project_one_world_two_readings`, `project_algebra_is_inheritance`,
   `project_two_anchors_at_d2`.
