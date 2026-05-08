@@ -113,11 +113,22 @@ public sealed class PerF71OrbitLQPeakTable : Claim
                 double qPeakDev = Math.Abs(bA.QPeak - bB.QPeak);
                 double kMaxDev = Math.Abs(bA.XbNormAtPeak - bB.XbNormAtPeak);
 
-                if (qPeakDev > F71MirrorQPeakTolerance || kMaxDev > F71MirrorKMaxTolerance)
+                bool qPeakViolated = qPeakDev > F71MirrorQPeakTolerance;
+                bool kMaxViolated = kMaxDev > F71MirrorKMaxTolerance;
+                if (qPeakViolated || kMaxViolated)
+                {
+                    string violator = (qPeakViolated, kMaxViolated) switch
+                    {
+                        (true, true) => "QPeak + KMax tolerances",
+                        (true, false) => "QPeak tolerance",
+                        (false, true) => "KMax tolerance",
+                        _ => "(unreachable)"
+                    };
                     throw new InvalidOperationException(
-                        $"F71 mirror invariance violated at orbit {{b={orbit.BondA}, b={orbit.BondB}}}: " +
+                        $"F71 mirror invariance violated at orbit {{b={orbit.BondA}, b={orbit.BondB}}} ({violator}): " +
                         $"|ΔQ_peak|={qPeakDev:E2} (tol {F71MirrorQPeakTolerance:G3}), " +
                         $"|ΔKMax|={kMaxDev:E2} (tol {F71MirrorKMaxTolerance:G3})");
+                }
 
                 maxQPeakDev = Math.Max(maxQPeakDev, qPeakDev);
                 maxKMaxDev = Math.Max(maxKMaxDev, kMaxDev);
