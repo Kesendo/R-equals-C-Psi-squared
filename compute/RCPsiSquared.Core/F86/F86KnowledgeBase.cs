@@ -92,6 +92,16 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<PerF71OrbitKTable?> _orbitKTable;
 
+    /// <summary>Block-independent meta-claim (Tier2Verified): the IBM 2026-04-26
+    /// framework_snapshots viewed through Theorem 2's universal C_block ≤ 1/4 ceiling
+    /// (PROOF_BLOCK_CPSI_QUARTER). Pinned 32-row witness table over (Aer / Marrakesh /
+    /// Kingston / Fez) × (heisenberg / truly / soft / hard) × ((0,1) / (1,2)) blocks of
+    /// the (q0, q2) reduced ρ on the N=3 |+−+⟩ chain at t=0.8, J=1.0. Independent of
+    /// <see cref="Block"/>; the lens applies at every c-block.</summary>
+    public IbmBlockCpsiHardwareTable IbmBlockCpsiHardwareTable => _ibmBlockCpsiHardwareTable.Value;
+
+    private readonly Lazy<IbmBlockCpsiHardwareTable> _ibmBlockCpsiHardwareTable;
+
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -184,6 +194,11 @@ public sealed class F86KnowledgeBase : IInspectable
         _orbitKTable = new Lazy<PerF71OrbitKTable?>(() =>
             block.C == 2 ? PerF71OrbitKTable.Build(block, WitnessCache) : null);
 
+        // Block-independent Tier-2-Verified table: IBM 2026-04-26 framework_snapshots
+        // through Theorem 2's C_block lens. Static-data Claim, no compute cost; lazy
+        // construction only on first read.
+        _ibmBlockCpsiHardwareTable = new Lazy<IbmBlockCpsiHardwareTable>(() => new IbmBlockCpsiHardwareTable());
+
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
 
@@ -275,6 +290,7 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return PerOrbitSubstructure;
         yield return LocalGlobalEpLink;
         yield return PolarityInheritanceLink;
+        yield return IbmBlockCpsiHardwareTable;
     }
 
     /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the
