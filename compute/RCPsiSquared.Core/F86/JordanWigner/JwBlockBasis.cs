@@ -110,13 +110,10 @@ public sealed class JwBlockBasis : Claim
             throw new InvalidOperationException(
                 $"Triple-count mismatch: enumerated {triples.Count} triples but coherence block has Mtot = {Mtot}.");
 
-        // 2) Build U (complex Mtot × Mtot).
-        //    Row index: flat = pIdx · Mq + qIdx (matching BlockBasis.FlatIndex).
-        //    Column index: α = triple index.
-        //    U[flat, α] = ψ_k(p) · [ψ_{k₁}(p)·ψ_{k₂}(q) − ψ_{k₁}(q)·ψ_{k₂}(p)]
-        //    where p is the single-excitation site of StatesP[pIdx]
-        //    and (b, c) with b<c are the two-excitation sites of StatesQ[qIdx];
-        //    here we identify (p in popcount-2-bra, q in popcount-2-bra) as the (b, c) pair.
+        // 2) Build U: column α = JW basis vector |k⟩⟨k₁,k₂| in computational basis.
+        //    No 1/√2 prefactor on the Slater — Wick-contracted bra-ket already absorbs the
+        //    antisymmetry through the single (b<c) representative. Adding 1/√2 breaks
+        //    orthonormality; this is the documented trap from the 2026-05-08 exploration.
         var uRaw = new Complex[Mtot, Mtot];
         for (int pIdx = 0; pIdx < basis.Mp; pIdx++)
         {

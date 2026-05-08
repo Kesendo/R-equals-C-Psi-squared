@@ -115,11 +115,11 @@ public class JwBlockBasisTests
     }
 
     [Fact]
-    public void Reconnaissance_EmitsResiduals_AcrossN4To6()
+    public void Reconnaissance_EmitsResiduals_AcrossN4To7()
     {
         _out.WriteLine("  N | Mtot | ortho-resid | diag-resid  | eig-match-resid");
         _out.WriteLine("  --|------|-------------|-------------|-----------------");
-        foreach (int N in new[] { 4, 5, 6 })
+        foreach (int N in new[] { 4, 5, 6, 7 })
         {
             var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
             var jw = JwBlockBasis.Build(block);
