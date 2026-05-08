@@ -469,29 +469,34 @@ public sealed class C2HwhmRatio : Claim
                "exactly zero per bond per F73 sum-rule applied per-bond; cross-block\n" +
                "Frobenius unstable across N due to A3 σ_0 degeneracy at even N).\n" +
                "\n" +
-               "## Next directions ranked (after 2026-05-08 landscape-mapping pass)\n" +
+               "## Next directions ranked (2026-05-08 landscape-mapping + (d''/a'') pass;\n" +
+               "## (a'') empirically falsified)\n" +
                "\n" +
-               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (FOUNDATIONAL).\n" +
+               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (FOUNDATIONAL, DONE).\n" +
                "    Riesz spectral projection P_top := Σ_k |u_k⟩⟨u_k| over the\n" +
-               "    σ_0-degenerate eigenspace is library-invariant. Solves the A3\n" +
-               "    even-N obstruction without requiring closed-form HWHM. Promotes\n" +
-               "    A3 from Tier2Verified → Tier1Derived at the projector level.\n" +
-               "    Precondition for any (a'')/(c'')-style cross-block work; new\n" +
-               "    primitive C2InterChannelProjector.\n" +
-               "  (b'') Full block-L derivation, not 4-mode (STRUCTURAL FALLBACK).\n" +
+               "    σ_0-degenerate eigenspace is library-invariant. Implemented as\n" +
+               "    typed primitive C2InterChannelProjector with runtime\n" +
+               "    library-stability witness (Frobenius residual < 1e-10 across\n" +
+               "    N=5..8); Tier1Derived at projector level. Foundational lift\n" +
+               "    used by C2SvdBlockProjectedMagnitude and the (a'') falsification\n" +
+               "    probe below.\n" +
+               "  (b'') Full block-L derivation, not 4-mode (STRUCTURAL FALLBACK,\n" +
+               "    NOW THE ACTIVE PATH after (a'') falsification).\n" +
                "    BlockLDecomposition + ResonanceScan already do per-bond Duhamel;\n" +
                "    needed work is eigendecomposition-anatomy at Q = Q_EP per bond,\n" +
                "    identifying which eigenvalue clusters control HWHM. Most likely\n" +
                "    outcome: Tier1Candidate with explicit error term, not closed-form\n" +
                "    Tier1Derived (the cubic-Q obstruction propagates from 4×4 to\n" +
                "    full block-L). Compute trivial up to N=12 c=2 (dim 792).\n" +
-               "  (a'') SVD-block 2-level resonance via V_b[2,3] (HIGH-RISK).\n" +
-               "    Needs (d'') as precondition (V_b[2,3] is library-dependent at\n" +
-               "    even N before projector lift). Critical concern: pure SVD-block\n" +
-               "    algebra IS the bare-doubled-PTF floor 0.671535, so (a'') alone\n" +
-               "    cannot produce the empirical +0.08-0.10 lift. Numerical Δ-vs-r\n" +
-               "    pre-screen across N=5..10 (~1h) decides whether the bond-class\n" +
-               "    mapping collapses on a single curve or stays fragmented.\n" +
+               "  (a'') SVD-block 2-level resonance via V_b[2,3] (FALSIFIED 2026-05-08).\n" +
+               "    Riesz-lifted via C2SvdBlockProjectedMagnitude;\n" +
+               "    C2DirectionAFalsificationProbe produces verdict 'Falsified' across\n" +
+               "    N ∈ {5, 6, 7, 8}: sign(Δ_E − Δ_I) = +1 consistently (Endpoint has\n" +
+               "    larger HWHM-lift), but sign(r_E − r_I) = −1 consistently (Endpoint\n" +
+               "    has smaller SVD-block magnitude). Anti-monotonic relation rules\n" +
+               "    out any single-variable monotone map Δ(r). Bond-class signature\n" +
+               "    must live in a different observable (cross-block Frobenius and/or\n" +
+               "    a phase variable), not in the SVD-block magnitude alone.\n" +
                "  (c'') Three-block superposition K_total = K_pb + K_sv + 2·Re·K_cross\n" +
                "    (LIKELY DEAD-END). Additive decomposition of the 4-mode model\n" +
                "    cannot exceed the 4-mode floor; 4-mode insufficiency propagates\n" +
