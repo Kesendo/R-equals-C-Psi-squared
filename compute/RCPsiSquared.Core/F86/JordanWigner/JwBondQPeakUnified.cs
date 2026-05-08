@@ -137,6 +137,31 @@ public sealed class JwBondQPeakUnified : Claim
             return bestQEp;
         }
 
+        // Per cluster-pair, return ALL (Q_EP, Re(λ_at_EP)) candidates from sub-block (i, j)
+        // entries. Re(λ_at_EP) = (λ_c1[i] + λ_c2[j])/2 (the pair-average, palindromic-paired)
+        // serves as the natural Lorentzian-width via Standing-Wave-Theory.
+        IEnumerable<(double qEp, double reλ, double weight)> GetPairContributions(int c1, int c2)
+        {
+            var (λ1, U1) = GetEigBasis(c1);
+            var (λ2, U2) = GetEigBasis(c2);
+            var X = BuildXForPair(c1, c2);
+            var Xtilde = U1.ConjugateTranspose() * X * U2;
+            double absΔδ = Math.Abs(disp.Clusters[c1].Delta - disp.Clusters[c2].Delta);
+            if (absΔδ < 1e-8) yield break;
+            for (int i = 0; i < λ1.Length; i++)
+                for (int j = 0; j < λ2.Length; j++)
+                {
+                    double mag = Xtilde[i, j].Magnitude;
+                    if (mag < 1e-12) continue;
+                    double aMinusB = λ1[i] - λ2[j];
+                    double disc = 4 * mag * mag - aMinusB * aMinusB;
+                    if (disc <= 0) continue;
+                    double q = Math.Sqrt(disc) / (γ * absΔδ);
+                    double reλ = 0.5 * (λ1[i] + λ2[j]);  // average D-eigenvalue at the pair
+                    yield return (q, reλ, mag * mag);
+                }
+        }
+
         // Q-grid for Lorentzian-sum argmax
         double[] qGrid = Enumerable.Range(0, 80).Select(i => 0.1 + 0.1 * i).ToArray();
 
@@ -171,7 +196,10 @@ public sealed class JwBondQPeakUnified : Claim
             }
             else
             {
-                // Innermost NEW-NEW: Lorentzian sum × 2.197 over top K pairs
+                // Innermost NEW-NEW: Lorentzian sum × 2.197 over top K pairs with heuristic
+                // width Γ = LorentzianWidth = 0.5. T16 attempt with palindrome-derived
+                // Γ = |Re(λ_at_EP)|/γ regressed N=5 from 11% to 48%; the structural
+                // palindrome-width relation needs more analytical work (beyond simple Re(λ)).
                 var contributions = new List<(double w, double qEp)>();
                 int taken = 0;
                 foreach (var candidate in bondAff.RankedPairs)
