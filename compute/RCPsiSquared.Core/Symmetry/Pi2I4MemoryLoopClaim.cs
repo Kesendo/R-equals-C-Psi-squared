@@ -49,7 +49,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Anchors: <c>docs/historical/CORE_ALGEBRA.md</c> (θ compass, the framework's
 /// original 90° anchor) + <c>docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md</c> (F80 ±2i) +
 /// <c>docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md</c> (F81 Π-conjugation) +
-/// <c>hypotheses/ZERO_IS_THE_MIRROR.md</c> + <c>MIRROR_THEORY.md</c>.</para></summary>
+/// <c>experiments/ERROR_CORRECTION_PALINDROME.md</c> (March 2026: Π⁴ = I bit-exact at N=3,
+/// Π-eigenvalues {+1, −1, +i, −i} each with multiplicity 16; the four 16-dimensional Z₄
+/// sectors of the 64-dimensional Pauli space — the abstract Z₄ memory loop physically
+/// realised on the palindromic Liouvillian) + <c>hypotheses/ZERO_IS_THE_MIRROR.md</c> +
+/// <c>MIRROR_THEORY.md</c>.</para></summary>
 public sealed class Pi2I4MemoryLoopClaim : Claim
 {
     /// <summary>The cyclic order: four 90° rotations close back to identity.</summary>
@@ -61,6 +65,7 @@ public sealed class Pi2I4MemoryLoopClaim : Claim
                "docs/historical/CORE_ALGEBRA.md (θ compass, original 90°) + " +
                "docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md + " +
                "docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md + " +
+               "experiments/ERROR_CORRECTION_PALINDROME.md (Π⁴ = I bit-exact at N=3, Π-eigenvalues {+1, −1, +i, −i} each multiplicity 16) + " +
                "hypotheses/ZERO_IS_THE_MIRROR.md + MIRROR_THEORY.md")
     { }
 

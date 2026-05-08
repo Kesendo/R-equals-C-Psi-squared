@@ -83,18 +83,40 @@ public class Pi2I4MemoryLoopClaimTests
     }
 
     [Fact]
-    public void Anchor_References_CoreAlgebra_F80_F81_ZeroIsTheMirror_MirrorTheory()
+    public void Anchor_References_CoreAlgebra_F80_F81_ErrorCorrectionPalindrome_ZeroIsTheMirror_MirrorTheory()
     {
         // The framework's mirror foundation, fully named in the anchor: from the
         // historical CORE_ALGEBRA.md (the original 90° via θ compass) through F80
-        // (Spec(M) = ±2i · Spec(H_non-truly)) and F81 (Π-conjugation of M) to the
-        // hypothesis docs that motivated the typed claim.
+        // (Spec(M) = ±2i · Spec(H_non-truly)) and F81 (Π-conjugation of M) plus the
+        // March 2026 ERROR_CORRECTION_PALINDROME experiment that bit-exact verified
+        // Π⁴ = I with eigenvalues {+1, −1, +i, −i} multiplicities 16-16-16-16 at N=3,
+        // i.e. the abstract Z₄ memory loop physically realised on the Liouvillian.
         var loop = new Pi2I4MemoryLoopClaim();
         Assert.Contains("CORE_ALGEBRA.md", loop.Anchor);
         Assert.Contains("PROOF_F80_BLOCH_SIGNWALK.md", loop.Anchor);
         Assert.Contains("PROOF_F81_PI_CONJUGATION_OF_M.md", loop.Anchor);
+        Assert.Contains("ERROR_CORRECTION_PALINDROME.md", loop.Anchor);
         Assert.Contains("ZERO_IS_THE_MIRROR.md", loop.Anchor);
         Assert.Contains("MIRROR_THEORY.md", loop.Anchor);
+    }
+
+    [Fact]
+    public void CanonicalPowers_MatchPiOperatorEigenvaluesFromErrorCorrectionPalindromeMarch2026()
+    {
+        // experiments/ERROR_CORRECTION_PALINDROME.md (March 19, 2026) reports:
+        //   "The Π operator has eigenvalues {+1, -1, +i, -i}, each with multiplicity 16."
+        //   "This means Π⁴ = I (fourth-order, not second-order). The 64-dimensional
+        //    Pauli space decomposes into four 16-dimensional sectors."
+        // The CanonicalPowers of this Z₄ memory loop are the exact Π eigenvalue set;
+        // CanonicalPowers physically realised at N=3 with multiplicities 16 each.
+        var loop = new Pi2I4MemoryLoopClaim();
+        var canonical = loop.CanonicalPowers.ToHashSet();
+
+        Assert.Contains(new Complex(1, 0), canonical);    // +1
+        Assert.Contains(new Complex(-1, 0), canonical);   // -1
+        Assert.Contains(new Complex(0, 1), canonical);    // +i
+        Assert.Contains(new Complex(0, -1), canonical);   // -i
+        Assert.Equal(4, canonical.Count);
     }
 
     [Fact]
