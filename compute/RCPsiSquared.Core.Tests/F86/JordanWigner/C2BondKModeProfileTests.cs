@@ -128,6 +128,7 @@ public class C2BondKModeProfileTests
         {
             var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
             var profile = C2BondKModeProfile.Build(block);
+            Assert.Equal(N - 1, profile.Bonds.Count);
             foreach (var bond in profile.Bonds)
             {
                 string topKStr = string.Join(",", bond.TopThreeKIndices);
@@ -139,6 +140,5 @@ public class C2BondKModeProfileTests
                            $"min Interior K_90 = {profile.MinInteriorK90:F2}");
             _out.WriteLine("");
         }
-        Assert.True(true);  // emit-only test
     }
 }
