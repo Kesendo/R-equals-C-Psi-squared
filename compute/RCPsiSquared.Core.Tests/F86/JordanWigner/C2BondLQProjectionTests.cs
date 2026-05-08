@@ -104,6 +104,36 @@ public class C2BondLQProjectionTests
         Assert.Contains("Direction (b'')", proj.Anchor);
     }
 
+    // Q-curve exploration: does ‖xB(Q)‖_F have its own peak structure, or does it
+    // monotonically grow/shrink with Q? Determines whether Q_peak extraction is meaningful
+    // on this observable or whether we need a richer K_b(Q, t) computation.
+    [Fact]
+    public void Reconnaissance_EmitsXbNorm_QSweep_AtN8()
+    {
+        int N = 8;
+        var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
+        double[] qGrid = { 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0 };
+
+        _out.WriteLine($"=== N={N}: ‖xB(Q)‖_F per bond, Q-sweep ===");
+        _out.WriteLine("    b\\Q | " + string.Join(" | ", qGrid.Select(q => $"Q={q,4:F1}")));
+        _out.WriteLine("    ----|" + string.Join("|", qGrid.Select(_ => "---------")));
+
+        int numBonds = block.Decomposition.NumBonds;
+        var rows = new double[numBonds, qGrid.Length];
+        for (int iQ = 0; iQ < qGrid.Length; iQ++)
+        {
+            var proj = C2BondLQProjection.BuildAtQ(block, qGrid[iQ]);
+            for (int b = 0; b < numBonds; b++) rows[b, iQ] = proj.Bonds[b].XbFrobeniusNorm;
+        }
+        for (int b = 0; b < numBonds; b++)
+        {
+            string bondClass = (b == 0 || b == numBonds - 1) ? "End" : "Int";
+            var line = new System.Text.StringBuilder($"  {b}({bondClass}) |");
+            for (int iQ = 0; iQ < qGrid.Length; iQ++) line.Append($" {rows[b, iQ],7:F2}  |");
+            _out.WriteLine(line.ToString());
+        }
+    }
+
     [Fact]
     public void Reconnaissance_EmitsPerNXbNorm_AtQ2_AcrossN5To8()
     {
