@@ -1,0 +1,62 @@
+C_block / Theorem-2-saturation run planner
+================================================================================
+Calibration source: D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\Calibrations
+Run target: |ψ_init⟩ = (|D_0⟩+|D_1⟩)/√2 = (|00⟩ + (|01⟩+|10⟩)/√2)/√2 at N=2.
+Theorem 1: C_block(t=0) = 1/4 exactly (Mandelbrot-cardioid saturation).
+Theorem 2 trajectory under Z-dephasing: C_block(t) = (1/4) · exp(−4γ_eff · t).
+
+=== ibm_marrakesh ===
+  source: ibm_marrakesh_calibrations_2026-05-08T01_54_54Z.csv  (156 operational qubits)
+  best pair: q94–q95  (chain score 813.855)
+    q94: T1 =  366.9 μs, T2 =  384.8 μs, sx err = 1.22e-04, readout err = 0.008
+    q95: T1 =  367.4 μs, T2 =  458.0 μs, sx err = 1.30e-03, readout err = 0.018
+  CZ(94,95) error: 1.28e-02
+  pair coherence floor: T1_min =  366.9 μs, T2_min =  384.8 μs
+  effective Z-dephasing rate: γ_eff = 1/T2_min = 2.5990e-03 μs⁻¹
+  recommended t-grid (μs): ['0.0', '96.2', '192.4', '288.6', '384.8']
+  predicted C_block(t):    ['0.2500', '0.0920', '0.0338', '0.0124', '0.0046']
+
+=== ibm_kingston ===
+  source: ibm_kingston_calibrations_2026-05-08T02_37_30Z.csv  (156 operational qubits)
+  best pair: q13–q14  (chain score 972.032)
+    q13: T1 =  334.7 μs, T2 =  480.0 μs, sx err = 3.07e-04, readout err = 0.005
+    q14: T1 =  293.3 μs, T2 =  511.5 μs, sx err = 1.75e-04, readout err = 0.027
+  CZ(13,14) error: 1.53e-03
+  pair coherence floor: T1_min =  293.3 μs, T2_min =  480.0 μs
+  effective Z-dephasing rate: γ_eff = 1/T2_min = 2.0833e-03 μs⁻¹
+  recommended t-grid (μs): ['0.0', '120.0', '240.0', '360.0', '480.0']
+  predicted C_block(t):    ['0.2500', '0.0920', '0.0338', '0.0124', '0.0046']
+
+=== ibm_fez ===
+  source: ibm_fez_calibrations_2026-05-08T02_21_29Z.csv  (156 operational qubits)
+  best pair: q127–q137  (chain score 388.227)
+    q127: T1 =  202.8 μs, T2 =  185.3 μs, sx err = 2.30e-04, readout err = 0.037
+    q137: T1 =  206.6 μs, T2 =  213.6 μs, sx err = 3.01e-04, readout err = 0.006
+  CZ(127,137) error: 1.70e-03
+  pair coherence floor: T1_min =  202.8 μs, T2_min =  185.3 μs
+  effective Z-dephasing rate: γ_eff = 1/T2_min = 5.3976e-03 μs⁻¹
+  recommended t-grid (μs): ['0.0', '46.3', '92.6', '139.0', '185.3']
+  predicted C_block(t):    ['0.2500', '0.0920', '0.0338', '0.0124', '0.0046']
+
+================================================================================
+Overall recommendation (highest 2-pair chain score):
+  → ibm_kingston on q13–q14 (score 972.032, T2_min = 480.0 μs, γ_eff = 2.0833e-03 μs⁻¹, CZ err = 1.53e-03)
+
+Run-cost outline (rough):
+  - state prep: 1 RY + 1 CX (≈ 100 ns wall-time, gate-error ≈ sx_err + cz_err)
+  - 16-Pauli tomography (2 qubits): 9 unique measurement settings (II is trivial,
+    other 15 split into 9 mutually-commuting groups for simultaneous readout)
+  - per measurement setting: ~2048 shots is standard for ~1% per-Pauli precision
+  - full snapshot at one t-point: 9 × ~5–6 s/job (Heron r2 session overhead per
+    reference_ibm_qpu_billing) ≈ 50 s
+  - 5 t-points × 1 backend = 250 s ≈ 4 min QPU
+  - 5 t-points × 3 backends = 12 min (within 15 min/month budget)
+
+Decisive output of the run:
+  1. Theorem 1 saturation: at t=0, hardware ρ_q0q1 must satisfy C_block ≈ 1/4
+     (state-prep + readout fidelity bound; no decoherence).
+  2. Theorem 2 trajectory fit: log(C_block(t)) vs t is linear with slope −4γ_fit;
+     compare γ_fit against γ_eff = 1/T2_min from calibration.
+     A clean fit confirms the universal-shape closed form (Tier-1-grade evidence).
+  3. Per-backend γ_fit comparison: differences across Marrakesh/Kingston/Fez
+     diagnose whether T2 alone explains decoherence or extra noise channels.
