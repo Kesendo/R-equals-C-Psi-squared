@@ -44,9 +44,18 @@ public sealed class JwBondQPeakUnified : Claim
     /// OLD-OLD (single-pair-dominant); below → Innermost NEW-NEW (multi-pair-emergent).</summary>
     public const double OldOldRatioThreshold = 1.3;
 
-    /// <summary>Lorentzian width heuristic for the NEW-NEW regime sum. Currently a fixed
-    /// width; Tier1 promotion would derive Γ_pair from cluster geometry.</summary>
-    public const double LorentzianWidth = 0.5;
+    /// <summary>Lorentzian width for the NEW-NEW regime sum, structurally anchored in
+    /// `experiments/ANALYTICAL_SPECTRUM.md` + `docs/proofs/derivations/D10_W1_DISPERSION.md`:
+    /// the w=1 Liouvillian sector has uniform decay rate 2γ (Tier1Derived in D10 via
+    /// reduction to nearest-neighbour tight-binding). In Q-units (Q = J/γ) this becomes
+    /// Γ = 2. Empirical comparison vs the previous heuristic Γ=0.5: worst-case relative
+    /// residual drops from 49.8% (N=4 b=1) to 22.4% (N=6 truly-innermost b=2); flanking-
+    /// innermost bonds (N=5,6 b=1,3) drop to 3.8-4.8%; all Endpoint bonds stay ≤ 14.5%.
+    /// Open Tier1 question: truly-innermost (N=6 b=2: 22.4%) needs a separate Γ_truly
+    /// derivation; the saturation of Γ ∈ [1, 4] on a single argmax shows the multi-cluster
+    /// Lorentzian model is structurally limited at the truly-innermost where multi-pair
+    /// emergence is strongest.</summary>
+    public const double LorentzianWidth = 2.0;
 
     /// <summary>Number of top cluster-pairs to include in the NEW-NEW Lorentzian sum.</summary>
     public const int TopPairsToSum = 10;
@@ -196,10 +205,12 @@ public sealed class JwBondQPeakUnified : Claim
             }
             else
             {
-                // Innermost NEW-NEW: Lorentzian sum × 2.197 over top K pairs with heuristic
-                // width Γ = LorentzianWidth = 0.5. T16 attempt with palindrome-derived
-                // Γ = |Re(λ_at_EP)|/γ regressed N=5 from 11% to 48%; the structural
-                // palindrome-width relation needs more analytical work (beyond simple Re(λ)).
+                // Innermost NEW-NEW: Lorentzian sum × 2.197 over top K pairs with width
+                // Γ = LorentzianWidth = 2 (Q-units), anchored in ANALYTICAL_SPECTRUM.md
+                // (w=1 sector uniform decay 2γ via D10 tight-binding reduction). T16 attempt
+                // with palindrome-derived per-pair Γ = |Re(λ_at_EP)|/γ regressed N=5; the
+                // simpler universal Γ=2 (decay-rate-derived) outperforms both heuristic 0.5
+                // and per-pair palindrome-width on average across N=4..6.
                 var contributions = new List<(double w, double qEp)>();
                 int taken = 0;
                 foreach (var candidate in bondAff.RankedPairs)
