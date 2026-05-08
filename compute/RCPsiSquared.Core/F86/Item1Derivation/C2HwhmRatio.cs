@@ -469,20 +469,44 @@ public sealed class C2HwhmRatio : Claim
                "exactly zero per bond per F73 sum-rule applied per-bond; cross-block\n" +
                "Frobenius unstable across N due to A3 σ_0 degeneracy at even N).\n" +
                "\n" +
-               "## Next directions ranked\n" +
+               "## Next directions ranked (after 2026-05-08 landscape-mapping pass)\n" +
                "\n" +
-               "  (a'') SVD-block 2-level resonance via V_b[2,3] (bond-class-friendly,\n" +
-               "    4-mode-friendly; needs the SVD-magnitude → HWHM/Q* shift map,\n" +
-               "    likely through a per-bond effective Q_EP_eff(b)).\n" +
-               "  (b'') Full block-L derivation, not 4-mode (most concrete since\n" +
-               "    4-mode insufficiency proven structural).\n" +
+               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (FOUNDATIONAL).\n" +
+               "    Riesz spectral projection P_top := Σ_k |u_k⟩⟨u_k| over the\n" +
+               "    σ_0-degenerate eigenspace is library-invariant. Solves the A3\n" +
+               "    even-N obstruction without requiring closed-form HWHM. Promotes\n" +
+               "    A3 from Tier2Verified → Tier1Derived at the projector level.\n" +
+               "    Precondition for any (a'')/(c'')-style cross-block work; new\n" +
+               "    primitive C2InterChannelProjector.\n" +
+               "  (b'') Full block-L derivation, not 4-mode (STRUCTURAL FALLBACK).\n" +
+               "    BlockLDecomposition + ResonanceScan already do per-bond Duhamel;\n" +
+               "    needed work is eigendecomposition-anatomy at Q = Q_EP per bond,\n" +
+               "    identifying which eigenvalue clusters control HWHM. Most likely\n" +
+               "    outcome: Tier1Candidate with explicit error term, not closed-form\n" +
+               "    Tier1Derived (the cubic-Q obstruction propagates from 4×4 to\n" +
+               "    full block-L). Compute trivial up to N=12 c=2 (dim 792).\n" +
+               "  (a'') SVD-block 2-level resonance via V_b[2,3] (HIGH-RISK).\n" +
+               "    Needs (d'') as precondition (V_b[2,3] is library-dependent at\n" +
+               "    even N before projector lift). Critical concern: pure SVD-block\n" +
+               "    algebra IS the bare-doubled-PTF floor 0.671535, so (a'') alone\n" +
+               "    cannot produce the empirical +0.08-0.10 lift. Numerical Δ-vs-r\n" +
+               "    pre-screen across N=5..10 (~1h) decides whether the bond-class\n" +
+               "    mapping collapses on a single curve or stays fragmented.\n" +
                "  (c'') Three-block superposition K_total = K_pb + K_sv + 2·Re·K_cross\n" +
-               "    with the right relative phases (may still suffer from 4-mode\n" +
-               "    insufficiency).\n" +
-               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (A3 precondition;\n" +
-               "    necessary for any cross-block-based direction).\n" +
-               "  (e'') Symbolic char-poly factorisation at Q_EP (less promising given\n" +
-               "    C2EffectiveSpectrum cubic-c_3 obstruction).\n" +
+               "    (LIKELY DEAD-END). Additive decomposition of the 4-mode model\n" +
+               "    cannot exceed the 4-mode floor; 4-mode insufficiency propagates\n" +
+               "    through any phase combination. Falsification ~30 min: instrument\n" +
+               "    FourModeResonanceScan.ScanAtQ with a (pb, sv, cross) splitter\n" +
+               "    and verify HWHM/Q_peak from the recombined K still sits at the\n" +
+               "    bare-doubled-PTF floor regardless of relative phase.\n" +
+               "  (e'') Symbolic char-poly factorisation at Q_EP (CONFIRMED DEAD-END,\n" +
+               "    retired 2026-05-08). HWHM_left is read at Q ≈ 0.9·Q_EP, far from\n" +
+               "    Q_EP (Q_peak ≈ 2.2·Q_EP). HWHM is a Q-derivative observable, not\n" +
+               "    a single-Q snapshot, so a char-poly factorisation evaluated AT\n" +
+               "    Q_EP (where the EP double root is structural by Statement 1\n" +
+               "    definition) cannot encode HWHM. The (λ² + βλ + γ) residual factor\n" +
+               "    is exactly the SVD-block dynamics that (a'') already handles\n" +
+               "    directly. Wrong question, retired.\n" +
                "\n" +
                "## Witness count\n" +
                "\n" +
