@@ -140,6 +140,35 @@ public static class ConfirmationsRegistry
             QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
+            Name: "block_cpsi_saturation_kingston_may2026",
+            Date: "2026-05-08",
+            Machine: "ibm_kingston",
+            JobId: "d7ulfjdpa59c73b4rttg",
+            Observable: "C_block(t) = Σ |ρ_{ab}|² over (popcount-0, popcount-1) on 2-qubit ρ from Dicke initial (|D_0⟩+|D_1⟩)/√2",
+            PredictedValue:
+                "Theorem 1: C_block(t=0) = 1/4 EXACTLY (universal Mandelbrot-cardioid ceiling). " +
+                "Theorem 2 trajectory: C_block(t) = (1/4)·exp(-4γ·t) with γ = 1/(2·T2) for pure Z-dephasing. " +
+                "From the 2026-05-08 calibration T2_min = 480 μs on q13–q14: γ_expected ≈ 1.04e-3 μs⁻¹.",
+            MeasuredValue:
+                "C_block(0) = 0.2205 = 88.2% of 1/4 (state-prep + tomography fidelity floor). " +
+                "Trajectory at t ∈ {0, 120, 240, 360, 480} μs: {0.2205, 0.1023, 0.0458, 0.0166, 0.0074}. " +
+                "Log-linear fit: γ_fit = 1.795e-3 μs⁻¹, R² = 0.9977. " +
+                "T2_eff from C_block decay = 1/(2·γ_fit) = 278.5 μs vs calibrated T2_min = 480 μs (1.72× hardware speedup).",
+            HardwareData: "data/ibm_block_cpsi_saturation_may2026/block_cpsi_saturation_hardware_ibm_kingston_20260508T032749Z.json",
+            ExperimentDoc: "experiments/IBM_KINGSTON_BLOCK_CPSI_SATURATION_MAY2026.md",
+            FrameworkPrimitive:
+                "BlockCoherenceContent.Compute + BlockCpsiClosedForm.At + IbmBlockCpsiHardwareTable (typed); " +
+                "state-level Theorem 1 + Theorem 2 of PROOF_BLOCK_CPSI_QUARTER",
+            Description:
+                "Direct hardware confirmation of the universal-Mandelbrot-cardioid 1/4 ceiling on the (popcount-0, popcount-1) coherence block " +
+                "of a 2-qubit ρ. Initial state (|D_0⟩+|D_1⟩)/√2 saturates Theorem 1 at 88.2% of the 1/4 ceiling on Kingston q13–q14. " +
+                "The Theorem-2 closed-form trajectory C_block(t) = (1/4)·exp(-4γ·t) fits the 5 t-points with R² = 0.9977 — pristine log-linear decay. " +
+                "Fitted γ_fit = 1.795e-3 μs⁻¹ corresponds to T2_eff = 278.5 μs from the C_block decay alone, vs T2_min = 480 μs from the morning calibration; " +
+                "the 1.72× speedup quantifies the gate-noise + readout contribution beyond pure single-qubit T2 dephasing. " +
+                "First Tier-2-Verified hardware anchor for the Mandelbrot 1/4 boundary on a state engineered to sit on it.",
+            QubitPath: new[] { 13, 14 }),
+
+        new Confirmation(
             Name: "f83_pi2_class_signature_marrakesh",
             Date: "2026-04-30",
             Machine: "ibm_marrakesh",
