@@ -39,7 +39,7 @@ public class IbmBlockCpsiHardwareTableTests
     {
         var ws = Table().Witnesses;
         foreach (string backend in IbmBlockCpsiHardwareTable.Backends)
-        foreach (string scen in IbmBlockCpsiHardwareTable.Scenarios)
+        foreach (var scen in IbmBlockCpsiHardwareTable.Scenarios)
         foreach (int blockN in new[] { 0, 1 })
         {
             var matches = ws.Where(w => w.Backend == backend
@@ -69,40 +69,40 @@ public class IbmBlockCpsiHardwareTableTests
     [Fact]
     public void IdealAsymmetryRatios_AreSymmetric_ForPi2EvenScenarios()
     {
-        // heisenberg (XX+YY+ZZ) and truly (XX+YY) are Π²-even: block(0,1) = block(1,2)
+        // Heisenberg (XX+YY+ZZ) and Truly (XX+YY) are Π²-even: block(0,1) = block(1,2)
         // at the continuous-time noiseless level → ratio = 1.000.
         var t = Table();
-        Assert.Equal(1.0, t.IdealAsymmetryRatios["heisenberg"], precision: 4);
-        Assert.Equal(1.0, t.IdealAsymmetryRatios["truly"], precision: 4);
+        Assert.Equal(1.0, t.IdealAsymmetryRatios[BlockCpsiScenario.Heisenberg], precision: 4);
+        Assert.Equal(1.0, t.IdealAsymmetryRatios[BlockCpsiScenario.Truly],      precision: 4);
     }
 
     [Fact]
     public void IdealAsymmetryRatios_AreAboveOne_ForPi2OddScenarios()
     {
-        // soft (XY+YX, Π²-odd) and hard (XX+XY, mixed) break popcount-block symmetry:
-        // block(0,1) > block(1,2) → ratio > 1 strictly. soft is more asymmetric than hard.
+        // Soft (XY+YX, Π²-odd) and Hard (XX+XY, mixed) break popcount-block symmetry:
+        // block(0,1) > block(1,2) → ratio > 1 strictly. Soft is more asymmetric than Hard.
         var t = Table();
-        double soft = t.IdealAsymmetryRatios["soft"];
-        double hard = t.IdealAsymmetryRatios["hard"];
-        Assert.True(soft > 1.0, $"soft asymmetry should be > 1; got {soft:F3}");
-        Assert.True(hard > 1.0, $"hard asymmetry should be > 1; got {hard:F3}");
+        double soft = t.IdealAsymmetryRatios[BlockCpsiScenario.Soft];
+        double hard = t.IdealAsymmetryRatios[BlockCpsiScenario.Hard];
+        Assert.True(soft > 1.0, $"Soft asymmetry should be > 1; got {soft:F3}");
+        Assert.True(hard > 1.0, $"Hard asymmetry should be > 1; got {hard:F3}");
         Assert.True(soft > hard,
-            $"soft asymmetry should exceed hard (Π²-odd more strongly than mixed); got soft={soft:F3} hard={hard:F3}");
+            $"Soft asymmetry should exceed Hard (Π²-odd more strongly than mixed); got soft={soft:F3} hard={hard:F3}");
     }
 
     [Fact]
     public void IdealAsymmetryRatios_PinnedValues_MatchTheRecordedRatios()
     {
         // Pinned values from simulations/results/_block_cpsi_lens_ibm_snapshots.txt:
-        // ideal heisenberg block(0,1)=0.0642 / block(1,2)=0.0642 ≈ 1.000
-        // ideal truly      block(0,1)=0.1064 / block(1,2)=0.1064 ≈ 1.000
-        // ideal soft       block(0,1)=0.1838 / block(1,2)=0.0499 ≈ 3.683
-        // ideal hard       block(0,1)=0.1707 / block(1,2)=0.0785 ≈ 2.175
+        // ideal Heisenberg block(0,1)=0.0642 / block(1,2)=0.0642 ≈ 1.000
+        // ideal Truly      block(0,1)=0.1064 / block(1,2)=0.1064 ≈ 1.000
+        // ideal Soft       block(0,1)=0.1838 / block(1,2)=0.0499 ≈ 3.683
+        // ideal Hard       block(0,1)=0.1707 / block(1,2)=0.0785 ≈ 2.175
         var r = Table().IdealAsymmetryRatios;
-        Assert.Equal(1.000, r["heisenberg"], precision: 3);
-        Assert.Equal(1.000, r["truly"],      precision: 3);
-        Assert.Equal(3.683, r["soft"],       precision: 3);
-        Assert.Equal(2.175, r["hard"],       precision: 3);
+        Assert.Equal(1.000, r[BlockCpsiScenario.Heisenberg], precision: 3);
+        Assert.Equal(1.000, r[BlockCpsiScenario.Truly],      precision: 3);
+        Assert.Equal(3.683, r[BlockCpsiScenario.Soft],       precision: 3);
+        Assert.Equal(2.175, r[BlockCpsiScenario.Hard],       precision: 3);
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class IbmBlockCpsiHardwareTableTests
     public void Witness_ExposesFractionOfQuarter_AndDeltaFromIdeal()
     {
         var w = Table().Witnesses.First(x => x.Backend == "ibm_marrakesh"
-                                          && x.Scenario == "hard"
+                                          && x.Scenario == BlockCpsiScenario.Hard
                                           && x.BlockN == 0);
         Assert.Equal(w.CBlockMeasured / 0.25, w.FractionOfQuarter, precision: 12);
         Assert.Equal(w.CBlockMeasured - w.CBlockIdealContinuous, w.DeltaFromIdeal, precision: 12);
