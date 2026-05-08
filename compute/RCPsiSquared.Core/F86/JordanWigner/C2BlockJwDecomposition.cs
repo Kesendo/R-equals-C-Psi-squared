@@ -85,8 +85,6 @@ public sealed class C2BlockJwDecomposition : Claim
             for (int k1 = 0; k1 < N; k1++)
                 for (int k2 = 0; k2 < N; k2++)
                 {
-                    // SineMode takes 1-indexed k and 0-indexed j; we store at [k1, k2] so
-                    // matrix entry [k1-0-indexed, k2-0-indexed] holds C_b(k1+1, k2+1).
                     double psik1_b   = modes.SineMode(k1 + 1, b);
                     double psik1_bp1 = modes.SineMode(k1 + 1, b + 1);
                     double psik2_b   = modes.SineMode(k2 + 1, b);
@@ -97,11 +95,6 @@ public sealed class C2BlockJwDecomposition : Claim
             bonds[b] = new BondJwCoefficients(Bond: b, BondClass: bondClass, Coefficients: coeffs);
         }
 
-        // F73 sum-rule: Σ_b C_b should equal C_total[k1, k2] = (ε_{k1}/J)·δ_{k1, k2}.
-        // The textbook identity Σ_b [ψ_{k1}(b)ψ_{k2}(b+1) + ψ_{k1}(b+1)ψ_{k2}(b)]
-        //   = 2 cos(π k1 / (N+1)) δ_{k1, k2}
-        //   = (ε_{k1} / J) δ_{k1, k2}
-        // makes this exact; the residual is floating-point drift only.
         var sum = Matrix<double>.Build.Dense(N, N);
         foreach (var bond in bonds) sum += bond.Coefficients;
 
