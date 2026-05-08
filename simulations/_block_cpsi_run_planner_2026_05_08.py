@@ -87,7 +87,7 @@ def main() -> None:
     emit(f"Calibration source: {CALIB_DIR}")
     emit("Run target: |ψ_init⟩ = (|D_0⟩+|D_1⟩)/√2 = (|00⟩ + (|01⟩+|10⟩)/√2)/√2 at N=2.")
     emit("Theorem 1: C_block(t=0) = 1/4 exactly (Mandelbrot-cardioid saturation).")
-    emit("Theorem 2 trajectory under Z-dephasing: C_block(t) = (1/4) · exp(−4γ_eff · t).")
+    emit("Theorem 3 trajectory under Z-dephasing: C_block(t) = (1/4) · exp(−4γ_eff · t).")
     emit()
 
     overall_recommendation: tuple[float, str, list[int], float, float, float] | None = None
@@ -144,7 +144,7 @@ def main() -> None:
     emit("Decisive output of the run:")
     emit("  1. Theorem 1 saturation: at t=0, hardware ρ_q0q1 must satisfy C_block ≈ 1/4")
     emit("     (state-prep + readout fidelity bound; no decoherence).")
-    emit("  2. Theorem 2 trajectory fit: log(C_block(t)) vs t is linear with slope −4γ_fit;")
+    emit("  2. Theorem 3 trajectory fit: log(C_block(t)) vs t is linear with slope −4γ_fit;")
     emit("     compare γ_fit against γ_eff = 1/T2_min from calibration.")
     emit("     A clean fit confirms the universal-shape closed form (Tier-1-grade evidence).")
     emit("  3. Per-backend γ_fit comparison: differences across Marrakesh/Kingston/Fez")

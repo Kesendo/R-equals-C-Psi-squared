@@ -123,7 +123,7 @@ is also ≤ 1 with equality precisely at the canonical Dicke symmetric
 state (uniform per-entry amplitude saturates ℓ₁ at ℓ₁_max). Hence
 CΨ_block ≤ 1/4 with the same unique-realiser equality condition.
 
-## Closed-form trajectory under pure Z-dephasing
+## Theorem 3: Closed-form trajectory under pure Z-dephasing
 
 Under local Z-dephasing γ on each site, |ρ_{ab}(t)| = |ρ_{ab}(0)| · exp(−2γ·HD(a,b)·t)
 where HD(a,b) is the Hamming distance between basis states a and b. For the

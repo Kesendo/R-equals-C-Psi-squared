@@ -1,17 +1,19 @@
-# Block-CΨ Saturation on IBM Kingston (Theorem 1 + 2 hardware anchor)
+# Block-CΨ Saturation on IBM Kingston (Theorems 1 + 3 hardware anchor)
 
 **Tier:** 2 (hardware-verified)
 **Date:** 2026-05-08
-**Status:** Theorem 1 saturation confirmed at 88.2% of the 1/4 ceiling on Kingston q13–q14. Theorem 2 closed-form trajectory fits 5 t-points with R² = 0.9977.
+**Status:** Theorem 1 saturation confirmed at 88.2% of the 1/4 ceiling on Kingston q13–q14. Theorem 3 closed-form trajectory fits 5 t-points with R² = 0.9977.
 
 ---
 
 ## What this means
 
-The framework's PROOF_BLOCK_CPSI_QUARTER says two things about the block-purity content `C_block` on the (popcount-n, popcount-(n+1)) coherence block of any density matrix:
+The framework's PROOF_BLOCK_CPSI_QUARTER carries three theorems about the block-purity content `C_block` on the (popcount-n, popcount-(n+1)) coherence block of any density matrix. This run anchors two of them:
 
 - **Theorem 1:** the canonical Dicke superposition `(|D_n⟩+|D_{n+1}⟩)/√2` saturates `C_block = 1/4` exactly. This is the universal Mandelbrot-cardioid ceiling realised at a unique state.
-- **Theorem 2:** under pure Z-dephasing γ on each site, `C_block(t) = (1/4)·exp(−4γ·t)`, a clean closed-form trajectory from the ceiling down to zero.
+- **Theorem 3:** under pure Z-dephasing γ on each site, `C_block(t) = (1/4)·exp(−4γ·t)`, a clean closed-form trajectory from the ceiling down to zero (chromaticity-universal).
+
+(Theorem 2 of the same proof, the universal upper bound `C_block ≤ 1/4` for any density matrix, is not directly tested by this single-state run; the run is consistent with it because the measured value never exceeds 1/4.)
 
 The previous IBM lens runs (2026-04-26 framework_snapshots) probed `|+−+⟩`, which sits structurally far from the Dicke maximiser; the lens never approached the ceiling. This run is the first that puts hardware *on* the ceiling and watches it slide down.
 
@@ -38,7 +40,7 @@ Tr(ρ) = 1.000 at every point (sanity check on the reconstruction).
 
 **Theorem 1 anchor:** C_block(t=0) = 0.2205, that is 88.2% of the 1/4 ceiling. The 12% gap is the state-prep + tomography fidelity floor (q13 readout 0.5%, q14 readout 2.7%, plus `StatePreparation` decomposed to ~3 native gates plus the basis-rotation Hadamard / S†H per qubit).
 
-**Theorem 2 trajectory:** unconstrained log-linear fit on the 5 t-points yields γ_fit = 1.795e-3 μs⁻¹ with R² = 0.9977. The fit's effective t=0 intercept lands at C_block ≈ 0.233 (close to the measured 0.2205, which itself is 88.2% of the algebraic 1/4 ceiling); from that intercept the late-time tail predicts 0.0075 at t = T2_min, against the measured 0.0074 (one-digit residual). The closed-form `C_block(t) = (1/4)·exp(−4γ·t)` is the underlying structural prediction; the prep-fidelity floor shifts the operational intercept down from 0.25 to 0.233 but leaves the slope (and hence γ_fit) intact.
+**Theorem 3 trajectory:** unconstrained log-linear fit on the 5 t-points yields γ_fit = 1.795e-3 μs⁻¹ with R² = 0.9977. The fit's effective t=0 intercept lands at C_block ≈ 0.233 (close to the measured 0.2205, which itself is 88.2% of the algebraic 1/4 ceiling); from that intercept the late-time tail predicts 0.0075 at t = T2_min, against the measured 0.0074 (one-digit residual). The closed-form `C_block(t) = (1/4)·exp(−4γ·t)` is the underlying structural prediction; the prep-fidelity floor shifts the operational intercept down from 0.25 to 0.233 but leaves the slope (and hence γ_fit) intact.
 
 **Conversion to T2:** the formula's γ corresponds to per-site Lindblad Z-dephasing rate. The IBM-calibration T2 maps to γ = 1/(2·T2). From the fitted γ:
 - T2_eff = 1/(2·γ_fit) = 278.5 μs.

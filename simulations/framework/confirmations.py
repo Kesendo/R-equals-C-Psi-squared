@@ -167,7 +167,7 @@ class Confirmations:
             'observable': 'C_block(t) = Σ |ρ_{ab}|² over (popcount-0, popcount-1) on 2-qubit ρ from Dicke initial (|D_0⟩+|D_1⟩)/√2',
             'predicted_value': {
                 'theorem_1_t0': 0.25,
-                'theorem_2_trajectory_form': '(1/4) * exp(-4 * gamma * t), with gamma = 1/(2*T2) for pure Z-dephasing',
+                'theorem_3_trajectory_form': '(1/4) * exp(-4 * gamma * t), with gamma = 1/(2*T2) for pure Z-dephasing',
                 'gamma_expected_from_T2_min_480us': 1.042e-3,
             },
             'measured_value': {
@@ -181,9 +181,9 @@ class Confirmations:
                 'hardware_to_T2_speedup': 1.72,
             },
             'hardware_data': 'data/ibm_block_cpsi_saturation_may2026/block_cpsi_saturation_hardware_ibm_kingston_20260508T032749Z.json',
-            'experiment_doc': 'experiments/IBM_KINGSTON_BLOCK_CPSI_SATURATION_MAY2026.md',
-            'framework_primitive': 'BlockCoherenceContent.Compute + BlockCpsiClosedForm.At + IbmBlockCpsiHardwareTable (typed); state-level Theorem 1 + Theorem 2 of PROOF_BLOCK_CPSI_QUARTER',
-            'description': 'Direct hardware confirmation of the universal-Mandelbrot-cardioid 1/4 ceiling on the (popcount-0, popcount-1) coherence block of a 2-qubit ρ. Initial state (|D_0⟩+|D_1⟩)/√2 saturates Theorem 1 at 88.2% of 1/4 on Kingston q13–q14 (state-prep + tomography fidelity floor). The Theorem-2 closed-form trajectory C_block(t) = (1/4)·exp(-4γt) fits the 5 t-points (0, 120, 240, 360, 480 μs) with R² = 0.9977 — pristine log-linear decay. Fitted γ_fit = 1.795e-3 μs⁻¹ corresponds to T2_eff = 278.5 μs from the C_block decay alone, vs T2_min = 480 μs from the morning calibration; the 1.72× speedup quantifies the gate-noise + readout contribution beyond pure single-qubit T2 dephasing. First Tier-2-Verified hardware anchor for the Mandelbrot 1/4 boundary on a state engineered to sit on it.',
+            'experiment_doc': 'experiments/IBM_BLOCK_CPSI_SATURATION.md',
+            'framework_primitive': 'BlockCoherenceContent.Compute + BlockCpsiClosedForm.At + IbmBlockCpsiHardwareTable (typed); state-level Theorem 1 + Theorem 3 trajectory of PROOF_BLOCK_CPSI_QUARTER',
+            'description': 'Direct hardware confirmation of the universal-Mandelbrot-cardioid 1/4 ceiling on the (popcount-0, popcount-1) coherence block of a 2-qubit ρ. Initial state (|D_0⟩+|D_1⟩)/√2 saturates Theorem 1 at 88.2% of 1/4 on Kingston q13–q14 (state-prep + tomography fidelity floor). The Theorem-3 closed-form trajectory C_block(t) = (1/4)·exp(-4γt) fits the 5 t-points (0, 120, 240, 360, 480 μs) with R² = 0.9977 (pristine log-linear decay). Fitted γ_fit = 1.795e-3 μs⁻¹ corresponds to T2_eff = 278.5 μs from the C_block decay alone, vs T2_min = 480 μs from the morning calibration; the 1.72× speedup quantifies the gate-noise + readout contribution beyond pure single-qubit T2 dephasing. First Tier-2-Verified hardware anchor for the Mandelbrot 1/4 boundary on a state engineered to sit on it.',
         },
         'f83_pi2_class_signature_marrakesh': {
             'date': '2026-04-30',
