@@ -488,6 +488,33 @@ public sealed class C2HwhmRatio : Claim
                "    outcome: Tier1Candidate with explicit error term, not closed-form\n" +
                "    Tier1Derived (the cubic-Q obstruction propagates from 4×4 to\n" +
                "    full block-L). Compute trivial up to N=12 c=2 (dim 792).\n" +
+               "\n" +
+               "    JW track scaffold (2026-05-08):\n" +
+               "      T1 XyJordanWignerModes (Tier1Derived): OBC sine-mode basis\n" +
+               "        ψ_k(j) = √(2/(N+1))·sin(π k (j+1)/(N+1)) and dispersion\n" +
+               "        ε_k = 2J·cos(π k/(N+1)). Witnesses: row-orthonormality +\n" +
+               "        match against direct hopping-matrix EVD.\n" +
+               "      T2 C2BlockJwDecomposition (Tier2Verified): per-bond N×N\n" +
+               "        bilinear-fermion coefficient matrix\n" +
+               "        C_b(k1, k2) = ψ_{k1}(b)·ψ_{k2}(b+1) + ψ_{k1}(b+1)·ψ_{k2}(b),\n" +
+               "        symmetric in (k1, k2). Witness: F73 sum-rule residual\n" +
+               "        ‖Σ_b C_b − (ε_k/J)·δ‖_F < 1e-10 across N=5..8 (~1e-15\n" +
+               "        in practice).\n" +
+               "      T3 C2BondKModeProfile (Tier2Verified): per-bond k-mode\n" +
+               "        profile from row-summing |C_b[k, k2]|. Exposes K_90, K_99,\n" +
+               "        TopThreeKIndices per bond plus aggregate EndpointK90Mean,\n" +
+               "        InteriorK90Mean, MinInteriorK90.\n" +
+               "      Empirical finding: Endpoint-vs-Interior K_90 asymmetry flips\n" +
+               "        with N. N=5..7 Endpoint mean > Interior mean; N=8 Interior\n" +
+               "        mean (7.80) overtakes Endpoint mean (7.00) because flanking\n" +
+               "        Interior bonds become more k-uniform than Endpoints, while\n" +
+               "        the innermost-Interior bond stays the most localized.\n" +
+               "        Surviving N=5..8 invariant: EndpointK90Mean ≥ MinInteriorK90.\n" +
+               "      Open Tier1 promotion path: closed-form Endpoint HWHM/Q_peak\n" +
+               "        derivation from the JW spectrum, projecting M_h_per_bond\n" +
+               "        onto the (n=1, n+1=2) coherence-block bilinear-fermion\n" +
+               "        superoperator. T1-T3 are the foundation primitives; the\n" +
+               "        bilinear-fermion superoperator extension is the open work.\n" +
                "  (a'') SVD-block 2-level resonance via V_b[2,3] (FALSIFIED 2026-05-08).\n" +
                "    Riesz-lifted via C2SvdBlockProjectedMagnitude;\n" +
                "    C2DirectionAFalsificationProbe produces verdict 'Falsified' across\n" +
