@@ -6,40 +6,20 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86.JordanWigner;
 
-/// <summary>F86 Item 1' Direction (b'') JW track, T11 (Pfad A step 3): the dissipator D's
-/// Frobenius² decomposition in the JW dispersion-cluster basis.
+/// <summary>Dissipator D's Frobenius² decomposition in the JW dispersion-cluster basis.
+/// Composes <see cref="JwBlockBasis"/> + <see cref="JwDispersionStructure"/> and splits
+/// <c>D' = U⁻¹·D·U</c> into diagonal, within-cluster off-diagonal, and between-cluster
+/// (cluster-mixing) Frobenius² pieces.
 ///
-/// <para>Composes <see cref="JwBlockBasis"/> (T9) and <see cref="JwDispersionStructure"/> (T10).
-/// Computes <c>D' = U⁻¹·D·U</c> and decomposes its Frobenius² into three orthogonal pieces:
-/// diagonal (within each JW basis vector), within-cluster off-diagonal (intra-dispersion-
-/// degenerate-cluster), and between-cluster off-diagonal (cluster-mixing).</para>
+/// <para>The between-cluster piece dominates the within-cluster (~10-13% vs ~3-7% across
+/// N=4..6) — D mixes JW dispersion-clusters, which is the EP-creating mechanism at finite Q.
+/// Cluster-cardinality-symmetry: same-size clusters have bit-identical intra-cluster
+/// D-Frobenius² (verified via <see cref="MaxIntraClusterFrobeniusDeviationForSameSize"/>),
+/// rolling F71-mirror plus δ ↔ −δ cosine-identity symmetry into one empirical fact.</para>
 ///
-/// <para>Empirical structure (verified bit-exact N=4..6):</para>
-/// <list type="bullet">
-///   <item>~80-86% diagonal</item>
-///   <item>~3-7% within-cluster (intra-cluster off-diagonal)</item>
-///   <item>~10-13% between-cluster (cluster-mixing — EP-relevant)</item>
-/// </list>
-///
-/// <para><b>EP-relevance:</b> the between-cluster Frobenius² dominates the within-cluster
-/// — D mixes JW dispersion-clusters, NOT just intra-cluster. The EP-bildung at finite Q
-/// comes from this cluster-mixing: two eigenvalues from different δ-clusters (different
-/// MhTotal-eigenvalues) collide as Q grows because D couples them. The dominant
-/// between-cluster D-coupling pair determines the leading EP per bond — the foundation for
-/// the closed-form 2-block effective Hamiltonian (Pfad A step 4).</para>
-///
-/// <para><b>Cluster-cardinality-symmetry (verified bit-exact N=4..6):</b> clusters with the
-/// same size have <i>bit-identical</i> intra-cluster D-Frobenius² (diagonal and off-diagonal).
-/// E.g. at N=6, all 6 size-7 clusters share diag=0.3729 and off=0.0269. This is F71-mirror
-/// invariance plus the δ ↔ −δ cosine-identity symmetry rolled into a single empirical fact.
-/// Verified per <see cref="MaxIntraClusterFrobeniusDeviationForSameSize"/>.</para>
-///
-/// <para><b>Class-level Tier: Tier2Verified.</b> Numerical decomposition; the underlying
-/// algebraic structure (JW-mixing of D + cluster-cardinality-symmetry) is Tier1 algebraic
-/// content from sine-mode parity, but this primitive ships the runtime Frobenius witnesses
-/// at machine precision.</para>
-///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
+/// <para>Tier2Verified runtime decomposition; the underlying JW-mixing + cluster-cardinality-
+/// symmetry is Tier1 algebraic from sine-mode parity. Anchors:
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
 /// <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c>.</para>
 /// </summary>
 public sealed class JwDispersionDProjection : Claim
@@ -124,11 +104,8 @@ public sealed class JwDispersionDProjection : Claim
                 OffDiagonalFrobeniusSquared: perClusterOff[c]);
         }
 
-        // Cluster-cardinality-symmetry witness: clusters with the same size should have
-        // bit-identical intra-cluster diag and off Frobenius².
         double maxDev = 0;
-        var bySize = clusterProjections.GroupBy(c => c.Cluster.Triples.Count).Where(g => g.Count() > 1);
-        foreach (var group in bySize)
+        foreach (var group in clusterProjections.GroupBy(c => c.Cluster.Triples.Count).Where(g => g.Count() > 1))
         {
             var arr = group.ToArray();
             for (int i = 0; i < arr.Length; i++)

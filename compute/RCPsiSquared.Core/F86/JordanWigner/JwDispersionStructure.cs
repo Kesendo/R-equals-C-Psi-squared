@@ -3,43 +3,13 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86.JordanWigner;
 
-/// <summary>F86 Item 1' Direction (b'') JW track, T10 (Pfad A step 2): enumerate the
-/// dispersion-degenerate sub-spaces of L_H on the c=2 (n=1, n+1=2) coherence block.
+/// <summary>Dispersion-degenerate clusters of L_H on the c=2 (n=1, n+1=2) coherence block:
+/// JW triples (k, k₁, k₂) grouped by δ = ε_k − ε_{k₁} − ε_{k₂} where ε_k is the OBC
+/// sine-mode dispersion (T1 <see cref="XyJordanWignerModes"/>).
 ///
-/// <para>For each JW triple α = (k, k₁, k₂) the unitary part of L(Q) has eigenvalue
-/// δ_α = ε_k − ε_{k₁} − ε_{k₂} (at unit J), where ε_k = 2·cos(π·k/(N+1)) is the OBC
-/// sine-mode dispersion (T1 <see cref="XyJordanWignerModes"/>). Triples with the same δ
-/// form dispersion-degenerate clusters that, together with the dissipator's off-diagonal
-/// JW-mixing, host the EP-creating level repulsion at finite Q.</para>
-///
-/// <para>Empirical structure (verified bit-exact N=4..8):</para>
-/// <list type="bullet">
-///   <item>67%–84% of triples sit in degenerate clusters (size ≥ 2)</item>
-///   <item>Max cluster size grows linearly with N: 4 (N=4) → 10 (N=8)</item>
-///   <item>Cluster structure is symmetric under δ ↔ −δ via the cosine identity
-///   ε_k = −ε_{N+1−k}</item>
-/// </list>
-///
-/// <para>Three algebraic patterns generate degenerate triples at δ = −ε_m:</para>
-/// <list type="bullet">
-///   <item><b>Pattern A (trivial inversion):</b> (k, m, k) for any k ≠ m gives δ = −ε_m
-///   independent of k</item>
-///   <item><b>Pattern B (complement pair):</b> (N+1−m, k₁, k₂) with k₁+k₂ = N+1 gives
-///   δ = ε_{N+1−m} − 0 = −ε_m via ε_{k₁} + ε_{k₂} = 0</item>
-///   <item><b>Pattern C (residual):</b> rare specific solutions ε_{k₁} + ε_{k₂} = 2·ε_m</item>
-/// </list>
-///
-/// <para>The primitive exposes the empirical clustering as data; algebraic-pattern
-/// interpretation is an open Tier1-Derivation step (next: bond-specific D-coupling
-/// matrix in cluster basis, then closed-form K-resonance). This primitive is the
-/// foundation for that work.</para>
-///
-/// <para><b>Class-level Tier: Tier1Derived.</b> Combinatorial enumeration + δ-value
-/// grouping is exact algebra; the runtime <see cref="Tolerance"/> bounds FP drift.
-/// Total triple count = N · C(N, 2) (verified at construction).</para>
-///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
-/// textbook XY OBC sine-mode dispersion.</para>
+/// <para>Tier1Derived (combinatorial + δ-grouping is exact algebra; <see cref="Tolerance"/>
+/// bounds FP drift). Total triple count = N · C(N, 2) verified at construction.
+/// Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track).</para>
 /// </summary>
 public sealed class JwDispersionStructure : Claim
 {

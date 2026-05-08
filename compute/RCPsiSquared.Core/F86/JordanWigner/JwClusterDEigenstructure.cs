@@ -7,43 +7,20 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.F86.JordanWigner;
 
-/// <summary>F86 Item 1' Direction (b'') JW track, T12 (Pfad A step 4.2): per-JW-cluster
-/// intra-cluster D-eigenvalue spectrum, with the cluster-cardinality-symmetry verified at
-/// the eigenvalue level (bit-exact).
+/// <summary>Per-JW-cluster intra-cluster D-eigenvalue spectrum: for each cluster c of size k,
+/// diagonalises the k×k Hermitian sub-matrix <c>W_c = D'_{cluster c}</c>. The k eigenvalues
+/// are the L-eigenvalues for this cluster at Q=0.
 ///
-/// <para>Composes <see cref="JwBlockBasis"/> (T9) + <see cref="JwDispersionStructure"/> (T10).
-/// For each JW dispersion-cluster c (size k), computes the k×k Hermitian sub-matrix
-/// <c>W_c = D'_{cluster c}</c> and diagonalizes it. The k eigenvalues of W_c are the
-/// "intra-cluster D-eigenvalues" — at Q=0 these are the actual L-eigenvalues for this
-/// cluster.</para>
+/// <para>Cluster-cardinality-symmetry at the eigenvalue level: same-size clusters have
+/// identical W_c spectra. Stronger than T11's Frobenius²-level symmetry — same-size W_c
+/// matrices are unitarily equivalent. At N=4 γ=0.05 all 4 size-4 clusters share
+/// {−6γ, −4.4γ, −3.6γ, −2γ}; verified via
+/// <see cref="MaxIntraClusterEigenvalueDeviationForSameSize"/>
+/// below <see cref="SymmetryTolerance"/> bit-exact.</para>
 ///
-/// <para><b>Cluster-cardinality-symmetry at the eigenvalue level (verified bit-exact N=4..6):</b>
-/// clusters with the same size have <i>identical</i> W_c eigenvalue spectra. E.g. at N=4
-/// all 4 size-4 clusters share the spectrum <c>{−6γ, −4.4γ, −3.6γ, −2γ}</c> within FP drift
-/// (max |Δλ| = 1.67e-16). This is a stronger statement than T11's Frobenius²-level cluster-
-/// cardinality-symmetry: it says the W_c matrices are <i>unitarily equivalent</i> across
-/// same-size clusters, not just Frobenius-norm-matched.</para>
-///
-/// <para><b>Tier1 implication for the EP closed form:</b> in the W-eigenbasis (which
-/// diagonalises W_c for both clusters of a pair), the inter-cluster D-coupling X̃ has
-/// specific structure. For each shared W-eigenvalue λ between two clusters c₁ and c₂,
-/// if X̃[λ, λ] ≠ 0, the L_eff(Q) eigenvalue problem reduces to a 2×2 sub-block on the
-/// (W-eigenvector, W-eigenvector) pair. The 2×2 EP formula gives:</para>
-///
-/// <para><c>Q_EP^{(λ)} = 2 · |X̃[λ, λ]| / (γ · |δ_{c₁} − δ_{c₂}|)</c></para>
-///
-/// <para>under the a = b condition (same W-eigenvalue λ). Multiple sub-block EPs combine to
-/// give the bond-specific Q_peak. This is the structural skeleton of Step 4 of Pfad A; the
-/// open Tier1-Derivation step is the analytical formula for X̃[λ, λ] in terms of bond-
-/// position and cluster geometry.</para>
-///
-/// <para><b>Class-level Tier: Tier1Derived.</b> Cluster-cardinality-symmetry at eigenvalue
-/// level is an algebraic theorem (F71-mirror invariance + cosine-identity δ ↔ −δ symmetry +
-/// W_c hermiticity). The runtime <see cref="MaxIntraClusterEigenvalueDeviationForSameSize"/>
-/// witness bounds FP drift below 1e-10.</para>
-///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
-/// <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c>.</para>
+/// <para>Tier1Derived (F71-mirror invariance + cosine-identity δ ↔ −δ symmetry + W_c
+/// hermiticity). Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'')
+/// (JW track) + <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c>.</para>
 /// </summary>
 public sealed class JwClusterDEigenstructure : Claim
 {
@@ -98,20 +75,21 @@ public sealed class JwClusterDEigenstructure : Claim
             witnesses[c] = new JwClusterEigenstructureWitness(cluster, eigvals);
         }
 
-        // Cluster-cardinality-symmetry at eigenvalue level: same-size clusters → same spectrum
         double maxDev = 0;
-        var bySize = witnesses.GroupBy(w => w.Cluster.Triples.Count).Where(g => g.Count() > 1);
-        foreach (var group in bySize)
+        foreach (var group in witnesses.GroupBy(w => w.Cluster.Triples.Count).Where(g => g.Count() > 1))
         {
             var arr = group.ToArray();
             int k = arr[0].Eigenvalues.Count;
             for (int i = 0; i < arr.Length; i++)
                 for (int j = i + 1; j < arr.Length; j++)
-                {
                     for (int e = 0; e < k; e++)
                         maxDev = Math.Max(maxDev, Math.Abs(arr[i].Eigenvalues[e] - arr[j].Eigenvalues[e]));
-                }
         }
+
+        if (maxDev > SymmetryTolerance)
+            throw new InvalidOperationException(
+                $"Cluster-cardinality-symmetry violated: max same-size eigenvalue deviation = {maxDev:E2} " +
+                $"exceeds tolerance {SymmetryTolerance:G3}");
 
         return new JwClusterDEigenstructure(block, jw, disp, witnesses, maxDev);
     }
