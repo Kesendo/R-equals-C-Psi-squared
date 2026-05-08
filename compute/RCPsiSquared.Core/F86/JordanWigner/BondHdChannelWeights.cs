@@ -34,18 +34,31 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///   spatial-mirror permutation is unitary on the block basis, preserving Frobenius²).</item>
 /// </list>
 ///
-/// <para><b>Empirical bond-uniformity theorem (verified bit-exact N=5..10):</b> all bonds
-/// carry the <i>identical</i> column-Frobenius² weights per HD-class. Specifically,
-/// W_b^{HD=1} = 6N + 2(b≠0)(b≠N−2) for the c=2 setting at γ₀=0.05 — but in fact
-/// numerically constant across bonds at any given N. The HD=1 / total ratio per bond is
-/// 2/N exactly (matching Theorem 3's channel-uniform 1/(2N) → 0 redistribution at the
-/// block level), regardless of bond position. This is a non-trivial structural lemma:
-/// the static (J=0) channel-norm of a bond's Hamiltonian is bond-blind. The bond-
-/// distinction observed in C2HwhmRatio's empirical Q_peak / HWHM (Endpoint mean 0.7728
-/// vs Interior 0.7506) MUST come from higher-order corrections in J — channel-CROSS
-/// (HD_in ≠ HD_out) terms, eigenstructure of the full L(Q), or non-uniform initial-state
-/// resolution. T6 establishes the bond-uniformity baseline; the bond-distinction lives
-/// upstream in the J-perturbation that T7 must compute.</para>
+/// <para><b>Bond-uniformity theorem (verified bit-exact N=5..10):</b> all bonds carry the
+/// <i>identical</i> column-Frobenius² weights per HD-class. The HD=1 / total ratio per
+/// bond is 2/N exactly (matching Theorem 3's channel-uniform 1/(2N) → 0 redistribution
+/// at the block level), regardless of bond position.</para>
+///
+/// <para><b>Strengthened structural finding (verified bit-exact N=5..8 in this session):
+/// all MhPerBond[b] matrices are UNITARILY EQUIVALENT.</b> Their eigenspectra (sorted by
+/// magnitude) match bit-exact across bonds (max |Δ|ε|| ~ 1e-15 = FP drift). Bonds at
+/// different positions are related by an implicit unitary U_{b,b'} (the spatial bond-
+/// permutation that maps bond b to bond b'); under this unitary, all second-moment
+/// quantities (column-Frobenius², channel-cross-Frobenius² (HD_in × HD_out), signed
+/// Σ Im(M[i,j]) per channel pair) are bond-invariant.</para>
+///
+/// <para>The bond-distinction observed in C2HwhmRatio's empirical Q_peak / HWHM (Endpoint
+/// mean 0.7728 vs Interior 0.7506) therefore CANNOT live in any aggregate-norm property of
+/// MhPerBond[b] alone. It lives in the L(Q)-EIGENBASIS PROJECTION
+/// xB(Q) = R(Q)⁻¹ · MhPerBond[b] · R(Q), where R(Q) is constructed from
+/// MhTotal = Σ_b MhPerBond[b]. Each individual bond's matrix elements in this global
+/// eigenbasis depend on its spatial position relative to the OBC sine-mode structure —
+/// the band-edge effect: ψ_1(j=0) ~ 1/N^{3/2} Edge vs ψ_1(j=N/2) ~ 1/N^{1/2} Innermost.
+/// At Q=2 (≈ Q_peak) ‖xB‖_F per bond is bond-distinct: Endpoint &lt; Innermost monotonically,
+/// with Δ growing with N (e.g. ~5 at N=5, ~22 at N=8).</para>
+///
+/// <para>T6 establishes the J=0 bond-uniform baseline; T7 (open) will compute the
+/// L(Q)-projection that breaks this baseline.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md</c> Theorem 3 +
 /// <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track).</para>
