@@ -105,6 +105,7 @@ public static class KnowledgeCommand
             .RegisterF1T1AmplitudeDampingPi2Inheritance()
             .RegisterF5DepolarizingErrorPi2Inheritance()
             .RegisterDickeSuperpositionQuarterPi2Inheritance()
+            .RegisterF39DetPiPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
