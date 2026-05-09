@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         dyadic ladder = <see cref="HalfAsStructuralFixedPointClaim"/>
 ///         (1/d for d = 2). The Π²-even and Π²-odd subspaces of the 4^N
 ///         Pauli operator space have exactly equal dimension <c>4^N / 2</c>.
-///         The "1/2" is the structural fixed point, not a coincidence —
+///         The "1/2" is the structural fixed point, not a coincidence,
 ///         transitively visible through <see cref="Pi2DyadicLadderClaim"/>.</item>
 ///   <item><b>Sector dimension factorisation</b>: each Π² eigenspace has
 ///         dimension <c>2 · 4^(N−1) = a_0 · a_{3−2N}</c> on the dyadic
@@ -72,8 +72,9 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     public int CyclicOrder => Pi2I4MemoryLoopClaim.ClosureOrder;
 
     /// <summary>The Π² eigenvalues read off the Z₄ memory loop: square of each
-    /// canonical i-power gives <c>{1, −1, 1, −1}</c> (= {+1, −1} each twice in
-    /// the period-4 cycle). Live computation through
+    /// canonical i-power gives <c>{+1, −1, +1, −1}</c>. Derivation:
+    /// <c>(i^0)² = 1</c>, <c>(i^1)² = i² = −1</c>, <c>(i^2)² = (−1)² = +1</c>,
+    /// <c>(i^3)² = (−i)² = −1</c>. Live computation through
     /// <see cref="Pi2I4MemoryLoopClaim.PowerOfI"/>.</summary>
     public IReadOnlyList<int> Pi2EigenvaluesFromMemoryLoop()
     {
@@ -129,7 +130,9 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     public int LadderIndexForFourPowerNMinus1(int N) => 3 - 2 * N;
 
     /// <summary>The qubit count whose operator-space d² equals the
-    /// <c>4^(N−1)</c> factor: <c>N − 1</c>. Same shift as F39 / F1-T1.</summary>
+    /// <c>4^(N−1)</c> factor: <c>N − 1</c>. Same shift as F39 / F1-T1.
+    /// At N=1 returns 0: the trivial identity scale <c>a_1 = 1</c> on the ladder,
+    /// not a physical qubit count.</summary>
     public int OperatorSpaceQubitCountFor(int N) => N - 1;
 
     /// <summary>The half-half balance ratio: <c>EigenspaceDim / FullDim = 1/2</c>

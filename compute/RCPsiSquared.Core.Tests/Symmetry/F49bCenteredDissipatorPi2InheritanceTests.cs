@@ -52,7 +52,7 @@ public class F49bCenteredDissipatorPi2InheritanceTests
     [InlineData(6)]
     public void MirrorPinnedFourPowerN_AgreesWithFourPowerNFactor(int N)
     {
-        // F49b's 4^N IS the operator-space dimension d² for N qubits — direct anchor,
+        // F49b's 4^N IS the operator-space dimension d² for N qubits: direct anchor,
         // no derivation overhead. Cross-check between the ladder reading and the
         // pinned mirror table.
         var f = Build();

@@ -10,7 +10,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{1−2N} = 4^N</c>.</item>
 ///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: direct cross-pinning of
-///         <c>4^N = d²</c> for N qubits (no derivation overhead — the most direct
+///         <c>4^N = d²</c> for N qubits (no derivation overhead, the most direct
 ///         operator-space anchor of any F-formula in the inheritance graph).</item>
 /// </list>
 ///

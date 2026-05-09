@@ -33,12 +33,6 @@ public class F38Pi2InvolutionPi2InheritanceTests
     [Fact]
     public void Pi2EigenvaluesFromMemoryLoop_AlternatesPlusMinus()
     {
-        // (i^0)² = 1, (i^2)² = 1, (i^4)² = 1, (i^6)² = 1 — but we want squares of
-        // i^k for k = 0, 1, 2, 3 in the canonical Z₄ cycle:
-        //   (i^0)² = 1 = +1
-        //   (i^1)² = i² = -1
-        //   (i^2)² = (-1)² = +1
-        //   (i^3)² = (-i)² = -1
         var eigs = BuildClaim().Pi2EigenvaluesFromMemoryLoop();
         Assert.Equal(new[] { +1, -1, +1, -1 }, eigs);
     }

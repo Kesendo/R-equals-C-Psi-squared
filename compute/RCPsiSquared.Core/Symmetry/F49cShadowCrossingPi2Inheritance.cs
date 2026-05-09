@@ -121,9 +121,9 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
     public double R(int N) => Math.Sqrt(RSquared(N));
 
     /// <summary>F49 (shadow-balanced) sibling: R²_F49(N) = (N − 2) / (N · 4^(N−1)).
-    /// Returns ∞ at N=2 actually 0 (since N-2=0); the difference R²_F49c − R²_F49
-    /// = 1/(N · 4^(N−1)) reveals the shadow-crossing "extra spectator" relative
-    /// to shadow-balanced.</summary>
+    /// Returns 0 at N=2 (since N − 2 = 0; exact Pythagorean decomposition); the
+    /// difference R²_F49c − R²_F49 = 1/(N · 4^(N−1)) reveals the shadow-crossing
+    /// "extra spectator" relative to shadow-balanced.</summary>
     public double F49ShadowBalancedRSquared(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F49 sibling reading requires N ≥ 2.");
@@ -131,7 +131,7 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
     }
 
     /// <summary>The shadow-crossing minus shadow-balanced gap: <c>R²_F49c − R²_F49
-    /// = 1/(N · 4^(N−1))</c> — a clean Pi2-anchored quantity (only N and the
+    /// = 1/(N · 4^(N−1))</c>: a clean Pi2-anchored quantity (only N and the
     /// dyadic 4^(N−1) factor enter).</summary>
     public double ShadowCrossingMinusBalancedGap(int N) => 1.0 / (N * FourPowerNMinus1Factor(N));
 
@@ -160,7 +160,7 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
         get
         {
             yield return new InspectableNode("F49c closed form",
-                summary: "R(N) = √((N−1)/(N·4^(N−1))); Tier 1 proven (PROOF_CROSS_TERM_CROSSING) + verified N=3..6, 5 coupling types, 2 topologies");
+                summary: "R(N) = √((N−1)/(N·4^(N−1))); Tier 1 proven (PROOF_CROSS_TERM_CROSSING.md) + verified N=3..6, 5 coupling types, 2 topologies (per CROSS_TERM_CROSSING.md experiment log)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "4^(N−1) = a_{3−2N} on the dyadic halving ladder = d² for (N−1) qubits via OperatorSpaceMirror; same (N−1)-qubit shift as F38, F39, F1-T1");
             yield return new InspectableNode("combinatorial part",

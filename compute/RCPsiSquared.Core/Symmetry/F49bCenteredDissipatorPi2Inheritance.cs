@@ -62,7 +62,7 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
 
     /// <summary>Cross-verification through the operator-space mirror: the pinned
     /// d² for N qubits matches <see cref="FourPowerNFactor"/>(N) bit-exactly. This
-    /// is the most direct Pi2-Inheritance — F49b's 4^N IS the per-qubit
+    /// is the most direct Pi2-Inheritance: F49b's 4^N IS the per-qubit
     /// operator-space dimension, no shift.</summary>
     public double MirrorPinnedFourPowerN(int N)
     {
@@ -72,9 +72,8 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
         return pair.OperatorSpace;
     }
 
-    /// <summary>Live composition of the "4^N · N" scaling at γ=1: full operator-
-    /// space dimension times chain length. Drift between this and the F49b
-    /// closed form surfaces as a registry inconsistency.</summary>
+    /// <summary>Convenience accessor: the F49b closed form ‖L_Dc‖² at γ = 1,
+    /// which is <c>4^N · N</c> (full operator-space dimension times chain length).</summary>
     public double LiveScalingAtUnitGamma(int N) => FourPowerNFactor(N) * N;
 
     public F49bCenteredDissipatorPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
