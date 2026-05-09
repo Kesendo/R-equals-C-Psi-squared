@@ -126,6 +126,7 @@ public static class KnowledgeCommand
             .RegisterF73SpatialSumPurityClosurePi2Inheritance()
             .RegisterF82T1AmplitudeDampingPi2Inheritance()
             .RegisterF84ThermalAmplitudeDampingPi2Inheritance()
+            .RegisterF85KBodyFChainPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
