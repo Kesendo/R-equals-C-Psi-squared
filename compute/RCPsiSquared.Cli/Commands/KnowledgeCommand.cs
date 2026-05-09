@@ -9,6 +9,7 @@ using RCPsiSquared.Runtime.F71Family;
 using RCPsiSquared.Runtime.F86Main;
 using RCPsiSquared.Runtime.ObjectManager;
 using RCPsiSquared.Runtime.PolarityArchitecture;
+using RCPsiSquared.Runtime.Spectrum;
 
 namespace RCPsiSquared.Cli.Commands;
 
@@ -53,25 +54,55 @@ public static class KnowledgeCommand
 
     private static ClaimRegistry BuildRegistry()
     {
-        // F1 family + Polarity architecture. Add further Register* calls here as new
-        // typed-knowledge families are introduced.
+        // Full registry: foundations + Pi2-axes + F88 closed form + F-formula
+        // inheritance claims + open questions. Order does not matter (the builder
+        // resolves topologically), but grouping reflects the inheritance structure.
         var defaultChain = new ChainSystem(
             N: 5, J: 1.0, GammaZero: 0.05,
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
+        var gEff = 1.74;   // pinned Endpoint g_eff from PolarityInheritanceLink
 
         return new ClaimRegistryBuilder()
+            // Foundations
             .RegisterF1Family(defaultChain)
             .RegisterF71Family(N: defaultChain.N)
-            .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: 1.0)
+            .RegisterPi2Family()
+            .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)
             .RegisterF86Extended(gammaZero: defaultChain.GammaZero)
             .RegisterF86Item1Light(N: defaultChain.N, n: 1, gammaZero: defaultChain.GammaZero)
-            .RegisterPi2Family()
             .RegisterHalfIntegerMirror(N: defaultChain.N)
-            .RegisterF86PolarityLink()
+            // Pi2-axes (Halbierungsleiter, Z₄ memory, operator-space mirror)
+            .RegisterPi2DyadicLadder()
+            .RegisterPi2I4MemoryLoop()
+            .RegisterPi2Involution()
+            // F88 closed form (memory side anchors)
             .RegisterF88PopcountCoherence()
+            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88PopcountPairLens(N: defaultChain.N, np: 1, nq: 2)
+            // Operator-space mirror (number-side ↔ operator-side per qubit)
+            .RegisterPi2OperatorSpaceMirror()
+            // Spectrum foundation
+            .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)
+            // F86 inheritance + meta-claims
+            .RegisterF86PolarityLink()
+            .RegisterF86LocalGlobalEpLink()
+            .RegisterF86PerF71OrbitObservation()
+            .RegisterF86JordanWignerLight(N: defaultChain.N, n: 1, gammaZero: defaultChain.GammaZero)
+            // F87 family + canonical witnesses
             // RegisterF87Family must follow RegisterPi2Family: DissipatorAxisSelectsPolarityClaim
             // resolves PolarityLayerOriginClaim via b.Get<>() at registration-factory time.
             .RegisterF87Family()
+            .RegisterF87StandardWitnessSet()
+            // F-formula Pi2-Foundation inheritance claims
+            .RegisterF1Pi2Inheritance()
+            .RegisterF49Pi2Inheritance()
+            .RegisterF80FactorPi2Inheritance()
+            .RegisterF81Pi2Inheritance()
+            .RegisterF86QEpPi2Inheritance()
+            .RegisterF86TPeakPi2Inheritance()
+            .RegisterF87Pi2Inheritance()
+            .RegisterQubitNecessityPi2Inheritance()
+            // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
             .Build();
