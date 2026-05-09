@@ -130,6 +130,7 @@ public static class KnowledgeCommand
             .RegisterF65XxChainSpectrumPi2Inheritance()
             .RegisterF67BondingBellPairPi2Inheritance()
             .RegisterF68PalindromicPartnerPi2Inheritance()
+            .RegisterF50WeightOneDegeneracyPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
