@@ -143,6 +143,9 @@ public static class KnowledgeCommand
             .RegisterF2W1DispersionPi2Inheritance()
             .RegisterF2bXyChainSpectrumPi2Inheritance()
             .RegisterF3DecayRateBoundsPi2Inheritance()
+            .RegisterF74ChromaticityPi2Inheritance()
+            .RegisterF78SingleBodyMAdditivePi2Inheritance()
+            .RegisterF79TwoBodyPi2BlockPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
