@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F86 Statement 3 sub-claim (F71 spatial-mirror invariance of per-bond
 /// Q_peak), the third Tier-1-derived sub-claim of F86's multi-mechanism
-/// Sammelbecken: <c>Q_peak(b) = Q_peak(N−2−b)</c> bit-exactly across all
+/// collection: <c>Q_peak(b) = Q_peak(N−2−b)</c> bit-exactly across all
 /// tested (c, N).
 ///
 /// <para>F86 packages three structurally-distinct Tier-1 sub-claims, each
@@ -72,25 +72,15 @@ public sealed class F86F71MirrorPi2Inheritance : Claim
 
     /// <summary>The mirror partner of bond b under F71 spatial reflection: N−2−b.
     /// Delegates to F71MirrorSymmetryPi2Inheritance.MirrorPartner-style logic.</summary>
-    public int MirrorPartnerBond(int N, int b)
-    {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F86 mirror requires N ≥ 2.");
-        if (b < 0 || b > N - 2) throw new ArgumentOutOfRangeException(nameof(b), b, $"b must be in [0, {N - 2}]; got {b}.");
-        return N - 2 - b;
-    }
+    public int MirrorPartnerBond(int N, int b) => _f71.MirrorPair(N, b);
 
     /// <summary>True iff bond b is self-paired under F71 mirror: b = N−2−b ⟺ b = (N−2)/2.
-    /// Only integer for even N (no self-paired center for odd N).</summary>
-    public bool IsSelfPairedBond(int N, int b)
-    {
-        return MirrorPartnerBond(N, b) == b;
-    }
+    /// Only integer for even N (no self-paired center for odd N). Delegates to
+    /// <see cref="F71MirrorSymmetryPi2Inheritance.IsSelfPaired"/>.</summary>
+    public bool IsSelfPairedBond(int N, int b) => _f71.IsSelfPaired(N, b);
 
     /// <summary>Drift check: the F86 mirror partner sum is N−2 for any valid b.</summary>
-    public bool MirrorPartnerSumHolds(int N, int b)
-    {
-        return b + MirrorPartnerBond(N, b) == N - 2;
-    }
+    public bool MirrorPartnerSumHolds(int N, int b) => b + _f71.MirrorPair(N, b) == N - 2;
 
     public F86F71MirrorPi2Inheritance(
         F71MirrorSymmetryPi2Inheritance f71,
@@ -124,7 +114,7 @@ public sealed class F86F71MirrorPi2Inheritance : Claim
             yield return new InspectableNode("verified envelope",
                 summary: "c=2 N=5..7 + c=3 N=5..6 + all bond pairs, max deviation < 10⁻¹⁰");
             yield return new InspectableNode("per-F71-orbit substructure caveat",
-                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6: central 1.440 < flanking 1.648; c=3 N=6: central 1.71 > flanking 1.66 — opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
+                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6: central 1.440 < flanking 1.648; c=3 N=6: central 1.71 > flanking 1.66, opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
             yield return new InspectableNode("F86 multi-mechanism context",
                 summary: "this is the third of three F86 Tier-1 sub-claim Pi2-Inheritances. Companions: F86TPeakPi2Inheritance (a_{-1} anchor on t_peak), F86QEpPi2Inheritance (a_0 anchor on Q_EP). Tier-2 / open / empirical parts stay in F86KnowledgeBase typed family.");
             yield return new InspectableNode("verified examples",
