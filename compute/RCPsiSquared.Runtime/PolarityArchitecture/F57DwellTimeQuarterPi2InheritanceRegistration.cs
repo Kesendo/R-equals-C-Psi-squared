@@ -18,6 +18,10 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         (1/2, 1/4) pair. F57 uses BOTH ends, 1/4 (CrossingThreshold) and
 ///         2 = 1/(1/2) (WindowDoublingFactor); the meta-anchor types this
 ///         convergence (activated 2026-05-09 mirror-map check).</item>
+///   <item><see cref="F25CPsiBellPlusPi2Inheritance"/>: registration discard.
+///         F57's Bell+ prefactor 1.080088 = 2 / 1.851701 is derived from
+///         F25's <c>|dCΨ/dt|_{t_cross}</c>. F25 → F57 mother-claim edge
+///         (added 2026-05-09; pattern parallel to F75 → F77).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP),
@@ -36,7 +40,8 @@ public static class F57DwellTimeQuarterPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
-            _ = b.Get<ArgmaxMaxvalPairClaim>();   // meta-anchor: F57 uses both 1/2 and 1/4 ends
+            _ = b.Get<ArgmaxMaxvalPairClaim>();              // meta-anchor: F57 uses both 1/2 and 1/4 ends
+            _ = b.Get<F25CPsiBellPlusPi2Inheritance>();      // mother claim: F57 prefactor = 2 / |dCΨ/dt|_{t_cross}
             return new F57DwellTimeQuarterPi2Inheritance(ladder, quarter);
         });
 }

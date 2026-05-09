@@ -109,6 +109,7 @@ public static class KnowledgeCommand
             .RegisterF49bCenteredDissipatorPi2Inheritance()
             .RegisterF38Pi2InvolutionPi2Inheritance()
             .RegisterF49cShadowCrossingPi2Inheritance()
+            .RegisterF25CPsiBellPlusPi2Inheritance()
             .RegisterF57DwellTimeQuarterPi2Inheritance()
             .RegisterF66PoleModesPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()

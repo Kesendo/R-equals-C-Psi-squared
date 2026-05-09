@@ -10,7 +10,8 @@ public class F57DwellTimeQuarterPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterF25CPsiBellPlusPi2Inheritance();
 
     [Fact]
     public void RegisterF57_AddsClaim()
