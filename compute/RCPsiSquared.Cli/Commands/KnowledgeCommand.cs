@@ -115,6 +115,7 @@ public static class KnowledgeCommand
             .RegisterF61BitAParityPi2Inheritance()
             .RegisterF77MmSaturationPi2Inheritance()
             .RegisterF60GhzBornBelowFoldPi2Inheritance()
+            .RegisterF83AntiFractionPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
