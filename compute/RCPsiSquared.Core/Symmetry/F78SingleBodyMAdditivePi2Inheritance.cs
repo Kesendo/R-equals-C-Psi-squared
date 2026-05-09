@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// multiplicators come from u + 2v where u = ε_0 + ε_{N−1} ∈ {−2, 0, 2}
 /// (mults 1, 2, 1) and v = Σ_internal ε_l (binomial walk on N−2 steps).
 /// The central binomial coefficient C(N−1, ⌊(N−1)/2⌋) appearing as the
-/// largest non-trivial cluster mult is just the walk's central peak —
+/// largest non-trivial cluster mult is just the walk's central peak;
 /// no Weyl group, no S_N irrep, no group-theory needed.</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
@@ -152,7 +152,7 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim
             yield return new InspectableNode("Y ≡ Z SVD-blindness",
                 summary: "Both Y and Z carry bit_b = 1 (Π-non-trivial); M_l identical spectral structure; soft-vs-hard distinction lives in L's eigenVECTORS not M's singular values");
             yield return new InspectableNode("F1 connection",
-                summary: $"M IS F1's residual operator Π·L·Π⁻¹ + L + 2σ·I; F1.TwoFactor (= {_f1.TwoFactor}) = F78's EigenvalueCoefficient — same a_0 anchor at operator and per-site levels");
+                summary: $"M IS F1's residual operator Π·L·Π⁻¹ + L + 2σ·I; F1.TwoFactor (= {_f1.TwoFactor}) = F78's EigenvalueCoefficient; same a_0 anchor at operator and per-site levels");
             yield return new InspectableNode("F80 specialization at 2-body chain Π²-odd",
                 summary: "F80 (Bloch sign-walk for chain 2-body Π²-odd) is the same ±2i structure at the 2-body chain level; F78 single-body and F80 2-body share the (±2i) factor on Pi2-Foundation a_0 + Pi2I4MemoryLoop axes");
             yield return new InspectableNode("cluster-multiplicator (chain)",

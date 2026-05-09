@@ -21,7 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// discretization correction.</para>
 ///
 /// <para>F56 IS equivalent to the CΨ recursion near the 1/4 boundary. The
-/// 1/4 position is exactly QuarterAsBilinearMaxval — the bilinear-apex
+/// 1/4 position is exactly QuarterAsBilinearMaxval: the bilinear-apex
 /// maxval where p(1−p) is maximised at p = 1/2 (HalfAsStructuralFixedPoint).
 /// Both Pi2-Foundation anchors appear in F56 by construction.</para>
 ///

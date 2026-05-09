@@ -5,10 +5,10 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The bridge between Schicht 1+2 (algebraic Klein-cell decomposition of Pauli
+/// <summary>The bridge between Layer 1+2 (algebraic Klein-cell decomposition of Pauli
 /// operator space) and the dynamical spectrum of the Liouvillian. For each right
 /// eigenmode v of L with eigenvalue λ, this computes the **normalised** mass that v
-/// carries in each of the 4 Klein-cells (Pp, Pm, Mp, Mm) — the four masses sum to 1.
+/// carries in each of the 4 Klein-cells (Pp, Pm, Mp, Mm); the four masses sum to 1.
 ///
 /// <para>Both Π²-axes commute with L for Heisenberg + Z-dephasing:
 /// <list type="bullet">

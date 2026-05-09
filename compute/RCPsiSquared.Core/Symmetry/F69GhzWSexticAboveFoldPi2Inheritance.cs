@@ -21,7 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>F69 is the structural finding that the GHZ+W superposition at N=3
 /// can lift pair-CΨ(0) ABOVE the 1/4 fold, even though both pure components
 /// (F60 GHZ and F62 W) sit strictly below it. The optimum α²_opt is a degree-6
-/// algebraic number with NO radical form in nested square roots — the sextic
+/// algebraic number with NO radical form in nested square roots; the sextic
 /// is irreducible over ℚ, so no closed-form expression in radicals exists.</para>
 ///
 /// <para><b>Optimum (computed from sextic root at 25-digit precision):</b></para>
@@ -51,7 +51,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para><b>Scope (N=3 only):</b> The same GHZ+W slice peaks at 0.167 (N=4),
-/// 0.146 (N=5), 0.134 (N=6), 0.125 (N=7), 0.118 (N=8) — all below 1/4. The
+/// 0.146 (N=5), 0.134 (N=6), 0.125 (N=7), 0.118 (N=8); all below 1/4. The
 /// GHZ-purity contribution scales as 1/(2^N − 1) and collapses too fast for
 /// the W-contribution to lift the peak back above the fold.</para>
 ///
@@ -115,7 +115,7 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
 
     /// <summary>The GHZ+W superposition mechanism is N=3-specific (verified by enumeration
     /// at N=4..8). The same family peaks at 0.167 (N=4), 0.146 (N=5), 0.134 (N=6),
-    /// 0.125 (N=7), 0.118 (N=8) — all below 1/4. F69's lift exists only at N=3.</summary>
+    /// 0.125 (N=7), 0.118 (N=8); all below 1/4. F69's lift exists only at N=3.</summary>
     public bool LiftExistsAtN(int N) => N == 3;
 
     /// <summary>3-tangle τ_ABC at the optimum (N=3). The high value 0.799 indicates
@@ -163,7 +163,7 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
             yield return new InspectableNode("3-tangle near-GHZ at optimum",
                 summary: $"τ_ABC = {ThreeTangleAtOptimum} (close to 1 = pure GHZ); pair concurrence C(A,B) = {PairConcurrenceAtOptimum} ≈ 0 (no bipartite entanglement, all tripartite)");
             yield return new InspectableNode("N=3 unique",
-                summary: "GHZ+W slice peaks at N=4..8: 0.167, 0.146, 0.134, 0.125, 0.118 — all below 1/4 fold. The lift exists only at N=3 because GHZ-purity scales as 1/(2^N − 1) and collapses for N ≥ 4.");
+                summary: "GHZ+W slice peaks at N=4..8: 0.167, 0.146, 0.134, 0.125, 0.118; all below 1/4 fold. The lift exists only at N=3 because GHZ-purity scales as 1/(2^N − 1) and collapses for N ≥ 4.");
             yield return new InspectableNode("full Dicke saddles",
                 summary: "Pair-CΨ has no non-product local maxima on the permutation-symmetric Dicke sphere at N ∈ {3..8}; only Dicke basis elements (max ≈ 0.123 at N=3) and the GHZ+W family optimum itself; all saddles with escape Δpair-CΨ ≈ 0.68 on 1% c_2 perturbation at N=3");
         }

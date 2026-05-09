@@ -64,7 +64,7 @@ public sealed class F67BondingBellPairPi2Inheritance : Claim
         return _f65.SingleExcitationRate(N, k: 1, gammaZero);
     }
 
-    /// <summary>T_2 = 1/α_1 = (N+1)/(4γ₀·sin²(π/(N+1))) — bonding-mode dephasing time.
+    /// <summary>T_2 = 1/α_1 = (N+1)/(4γ₀·sin²(π/(N+1))); bonding-mode dephasing time.
     /// Requires γ₀ &gt; 0 (zero γ means no dephasing, infinite coherence).</summary>
     public double T2(int N, double gammaZero)
     {

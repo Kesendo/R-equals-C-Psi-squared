@@ -35,12 +35,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         single-site sector.</item>
 /// </list>
 ///
-/// <para>Both "2"s come from <see cref="Pi2DyadicLadderClaim.Term"/>(0) — the
+/// <para>Both "2"s come from <see cref="Pi2DyadicLadderClaim.Term"/>(0): the
 /// polynomial root d. The total count 2N and the eigenvalue position −2γ share
 /// the same Pi2-Foundation anchor; F50 typifies them via two separate properties.</para>
 ///
 /// <para><b>Topology universality:</b> F50 holds for ANY connected graph with
-/// isotropic Heisenberg coupling — chain, star, ring, complete, tree. The 2N
+/// isotropic Heisenberg coupling: chain, star, ring, complete, tree. The 2N
 /// count is graph-invariant. This universality is unique to k = 0 and k = 1;
 /// for k ≥ 2, d_real(k) becomes topology-dependent (Chain &lt; Star &lt; Ring
 /// &lt; Complete; cf. WEIGHT2_KERNEL).</para>

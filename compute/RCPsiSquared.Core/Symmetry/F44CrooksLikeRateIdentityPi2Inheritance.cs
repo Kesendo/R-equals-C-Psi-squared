@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F44 is the algebraic rate identity for any palindromic Liouvillian
-/// pair. It is NOT a Crooks fluctuation theorem despite the resemblance — there
+/// pair. It is NOT a Crooks fluctuation theorem despite the resemblance: there
 /// is no thermodynamic detailed balance underneath. The palindrome has the
 /// FORM of detailed balance without BEING detailed balance: the Jarzynski
 /// equality fails (⟨exp(−Δd)⟩ ≈ 0.93, not 1).</para>
@@ -52,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Crooks/Jarzynski check (NEGATIVE).</b> The thermodynamic test
 /// fails: ⟨exp(−Δd)⟩ averaged over palindromic pairs is ≈ 0.93, not 1 as the
 /// Jarzynski equality would require. F44 looks like a fluctuation theorem
-/// but is purely algebraic — d_fast + d_slow = 2·Σγ is structural, not
+/// but is purely algebraic: d_fast + d_slow = 2·Σγ is structural, not
 /// statistical-mechanical.</para>
 ///
 /// <para>Tier1Derived: F44 is Tier 1 proven in D08 (one-line algebraic
@@ -74,7 +74,7 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
     /// Live from Pi2DyadicLadder a_0. Same anchor as F1's TwoFactor.</summary>
     public double SumCoefficient => _ladder.Term(0);
 
-    /// <summary>The "2" in ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)) — comes from the
+    /// <summary>The "2" in ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)); comes from the
     /// identity ln((1+x)/(1−x)) = 2·artanh(x). Same a_0 anchor as SumCoefficient.</summary>
     public double ArTanhCoefficient => _ladder.Term(0);
 
@@ -152,7 +152,7 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
         "F44 Crooks-like rate identity as Pi2-Foundation a_0 + F1 inheritance";
 
     public override string Summary =>
-        $"ln(d_fast/d_slow) = 2·artanh(Δd/(2·Σγ)) for palindromic pairs; both 2's = a_0 (= {SumCoefficient}); algebraic only — Jarzynski equality fails (⟨exp(−Δd)⟩ ≈ {EmpiricalJarzynskiMean}, not 1) ({Tier.Label()})";
+        $"ln(d_fast/d_slow) = 2·artanh(Δd/(2·Σγ)) for palindromic pairs; both 2's = a_0 (= {SumCoefficient}); algebraic only, Jarzynski equality fails (⟨exp(−Δd)⟩ ≈ {EmpiricalJarzynskiMean}, not 1) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -169,7 +169,7 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
             yield return new InspectableNode("F68 specialization",
                 summary: "F68 (α_b + α_p = 2γ₀) is F44 applied to the F67 bonding-mode pair under endpoint Z-dephasing where Σγ = γ₀. F44 generalizes to any palindromic pair.");
             yield return new InspectableNode("NOT a Crooks fluctuation theorem",
-                summary: $"Jarzynski equality test: ⟨exp(−Δd)⟩ ≈ {EmpiricalJarzynskiMean}, not 1. F44 has the FORM of detailed balance without BEING detailed balance — purely algebraic, no thermodynamic content. See experiments/ENTROPY_PRODUCTION.md.");
+                summary: $"Jarzynski equality test: ⟨exp(−Δd)⟩ ≈ {EmpiricalJarzynskiMean}, not 1. F44 has the FORM of detailed balance without BEING detailed balance: purely algebraic, no thermodynamic content. See experiments/ENTROPY_PRODUCTION.md.");
             yield return new InspectableNode("verified example (F68 N=3, γ=0.05)",
                 summary: $"d_fast = 0.075 (F68 partner), d_slow = 0.025 (F68 bonding); Δd = 0.05; sum = 0.1 = 2·Σγ ✓; ln(d_fast/d_slow) = 2·artanh(0.5) = {LogRatio(0.05, 0.05):G6}");
         }

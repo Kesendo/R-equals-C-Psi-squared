@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// eigenvalue level: every L-eigenvalue −α_b has a partner −α_p such that
 /// α_b + α_p = 2γ₀ (equivalently, α_b + α_p = 2σ for σ = Σγ; here σ = γ₀ for
 /// endpoint dephasing). The bonding-mode partner V_p lives in the
-/// XY-weight-(N−1) Pauli sector — Π-mirror of the bonding mode's w=1.</para>
+/// XY-weight-(N−1) Pauli sector; Π-mirror of the bonding mode's w=1.</para>
 ///
 /// <para>Two Pi2-Foundation anchors:</para>
 /// <list type="bullet">

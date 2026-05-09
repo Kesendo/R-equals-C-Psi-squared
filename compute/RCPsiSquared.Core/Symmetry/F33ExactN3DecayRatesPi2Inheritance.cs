@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Why N=3 is special:</b> at N=3 the rates are exact rationals
 /// (1, 4/3, 5/3 in 2γ-units). At N ≥ 4 the internal rates become
-/// topology-dependent — only the boundary rates 2γ (weight-1, F50) and
+/// topology-dependent: only the boundary rates 2γ (weight-1, F50) and
 /// 2(N−1)γ (XOR sector, F43) remain universal. The intermediate spectrum
 /// becomes irrational/topology-specific.</para>
 ///
@@ -41,7 +41,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>WeightOneRateCoefficient = 2 = a_0</b>: in rate_1 = 2γ. Live
 ///         from <see cref="Pi2DyadicLadderClaim.Term"/>(0). Identical to
 ///         <see cref="F50WeightOneDegeneracyPi2Inheritance.DecayRateFactor"/>
-///         — F33's rate_1 IS the N=3 specialization of F50's universal
+///         F33's rate_1 IS the N=3 specialization of F50's universal
 ///         weight-1 eigenvalue position.</item>
 /// </list>
 ///
@@ -90,14 +90,14 @@ public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim
         return 10.0 * gammaZero / 3.0;
     }
 
-    /// <summary>F33's XOR-sector boundary rate at N=3: 2·(N−1)·γ = 6·γ. Same anchor
-    /// as F43's XorSectorRate(3, γ) but at the partner-of-XOR boundary; the actual
-    /// XOR-sector rate at N=3 is 2·N·γ = 6γ (matches with N−1 = 2 multiplier here
-    /// because the boundary refers to the highest-weight non-XOR sector).</summary>
+    /// <summary>F33's highest paired-mode rate at N=3: 2·(N−1)·γ = 4·γ (the
+    /// "fastest paired" boundary from F3, w=N−1 = 2 modes at N=3). Distinct from
+    /// F43's XOR-sector rate 2·N·γ = 6γ which sits one rung above. F33's
+    /// XorBoundaryRate is the F3 max-rate boundary specialised to N=3, not
+    /// the XOR sector itself.</summary>
     public double XorBoundaryRate(double gammaZero)
     {
         if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        // 2(N-1)γ at N=3 = 4γ
         return WeightOneRateCoefficient * 2.0 * gammaZero;
     }
 

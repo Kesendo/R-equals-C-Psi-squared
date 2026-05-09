@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         rate_min and the "2" in ln(100) = 2·ln(10) share the same a_0.</item>
 /// </list>
 ///
-/// <para>The "ln(10)" itself is irrational and has no Pi2 anchor — it comes
+/// <para>The "ln(10)" itself is irrational and has no Pi2 anchor; it comes
 /// from the 99% absorption convention. The structural Pi2 content is the
 /// rate_min = 2γ inheritance from F50.</para>
 ///
@@ -52,7 +52,7 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim
     /// <summary>The "2" coefficient in rate_min = 2γ (transitively from F50).</summary>
     public double RateMinCoefficient => _ladder.Term(0);
 
-    /// <summary>K_death = ln(10) ≈ 2.303 — universal absorption dose for 99%
+    /// <summary>K_death = ln(10) ≈ 2.303; universal absorption dose for 99%
     /// absorption of the slowest mortal mode. Independent of N, γ, topology.</summary>
     public static readonly double KDeath = Math.Log(10.0);
 

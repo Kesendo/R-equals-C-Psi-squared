@@ -24,7 +24,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>Maximum chromaticity:</b> for odd N, c_max = (N+1)/2 at the unique
 ///         center block n = (N−1)/2. For even N, c_max = N/2 at the two adjacent
 ///         center blocks n = N/2 − 1 and n = N/2.</item>
-///   <item><b>Mirror axis at n = (N−1)/2:</b> c(n, N) = c(N−1−n, N) — the
+///   <item><b>Mirror axis at n = (N−1)/2:</b> c(n, N) = c(N−1−n, N); the
 ///         chromaticity is palindromic in n. Same axis as F43's sector-pairing
 ///         (w → N−w with axis at N/2 for the full sector); F74 lives at the
 ///         (n, n+1)-coherence-block level with axis at (N−1)/2.</item>
@@ -42,7 +42,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// popcount-n ↔ popcount-(n+1) coherences require an odd parity of differing
 /// bit positions.</para>
 ///
-/// <para>Tier1Derived: F74 is Tier 1 combinatorial — proof in
+/// <para>Tier1Derived: F74 is Tier 1 combinatorial; proof in
 /// <c>docs/proofs/derivations/D6</c>-related material; verified N=3..7.
 /// Pi2-Foundation anchoring is composition through Pi2DyadicLadder.</para>
 ///

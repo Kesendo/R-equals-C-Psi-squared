@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// site B in an N-qubit chain with XX+YY (or Heisenberg) coupling. The
 /// effective dephasing rate of the slowest single-excitation eigenmode at
 /// inner site S is γ_eff = γ_B · |a_B|² where a_B is the B-site amplitude
-/// of the SE Hamiltonian eigenvector. γ_B appears as a constant prefactor —
+/// of the SE Hamiltonian eigenvector. γ_B appears as a constant prefactor;
 /// not diminished by intervening sites; it is a global eigenvector property,
 /// not a layered composition.</para>
 ///
@@ -40,7 +40,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>EigenvalueConventionCoefficient = 2 = a_0</b>: in α = 2γ_B·|a_B|².
 ///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor
-///         as F1 TwoFactor, F50 DecayRateFactor, F44 SumCoefficient — the
+///         as F1 TwoFactor, F50 DecayRateFactor, F44 SumCoefficient: the
 ///         standard QM commutator factor relating ρ-decay to L-eigenvalue.</item>
 ///   <item><b>g(r=1) = 1/4 = QuarterAsBilinearMaxval</b>: the uniform-J
 ///         (r=1) special value of the N=3 g(r) closed form sits exactly at
@@ -113,7 +113,7 @@ public sealed class F64CavityModeExposurePi2Inheritance : Claim
     public const double N3GValueAtCrossover = 1.0 / 3.0;
 
     /// <summary>N=3 g-value at uniform J (r = 1): g(1) = 1/4. Equals the
-    /// QuarterAsBilinearMaxval ceiling — the single-site exposure under uniform
+    /// QuarterAsBilinearMaxval ceiling: the single-site exposure under uniform
     /// coupling sits exactly at the bilinear-apex maxval.</summary>
     public double N3GValueAtUniformJ => UniformJSpecialValue;
 

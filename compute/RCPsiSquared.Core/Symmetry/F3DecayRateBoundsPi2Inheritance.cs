@@ -23,12 +23,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         ⟨n_XY⟩ ≈ N−1.</item>
 ///   <item><b>bandwidth = 2·(N−2)·γ:</b> max − min = 2·(N−1)·γ − 2·γ.</item>
 ///   <item><b>XOR boundary = 2·N·γ:</b> the XOR drain (⟨n_XY⟩ = N) sits at
-///         2·N·γ — above the max range. Identical to F43's XorSectorRate.</item>
+///         2·N·γ, above the max range. Identical to F43's XorSectorRate.</item>
 /// </list>
 ///
 /// <para><b>Caveat resolved (Hamiltonian mixing):</b> at N ≥ 4, Hamiltonian
 /// mixing creates hybrid modes with rates BELOW 2γ (N=4: 0.98γ, N=5: 0.62γ).
-/// These are not exceptions — they are mixed-sector modes with fractional
+/// These are not exceptions; they are mixed-sector modes with fractional
 /// ⟨n_XY⟩ &lt; 1; the Absorption Theorem α = 2γ·⟨n_XY⟩ holds exactly even for
 /// non-integer ⟨n_XY⟩. The "min rate = 2γ" bound applies to PURE-sector modes
 /// only; for the FULL spectrum the relevant lower bound is 2γ·min(⟨n_XY⟩).</para>
@@ -159,7 +159,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim
             yield return new InspectableNode("F43 sibling (XOR boundary)",
                 summary: "F3's XOR boundary 2Nγ IS F43's XorSectorRate(N, γ); both anchor the same a_0·N·γ structure at the high end of the rate spectrum");
             yield return new InspectableNode("hybrid-mode caveat",
-                summary: "at N ≥ 4 Hamiltonian mixing creates hybrid modes with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ); these are not exceptions — they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
+                summary: "at N ≥ 4 Hamiltonian mixing creates hybrid modes with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ); these are not exceptions; they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
             yield return new InspectableNode("verified at N=5, γ=0.05",
                 summary: $"min = {MinRate(0.05):G6}, max = {MaxRate(5, 0.05):G6}, bandwidth = {Bandwidth(5, 0.05):G6}, XOR = {XorBoundary(5, 0.05):G6}");
             yield return new InspectableNode("Absorption Theorem ladder",

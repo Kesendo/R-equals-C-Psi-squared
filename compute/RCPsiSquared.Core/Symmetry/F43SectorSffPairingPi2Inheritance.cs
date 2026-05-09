@@ -25,7 +25,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><see cref="F41PalindromicTimePi2Inheritance"/>: pair DIFFERENCE in
 ///         the time domain (period t_Pi).</item>
 ///   <item><b>F43 (this claim)</b>: SECTOR-LEVEL identity (K_freq(w) =
-///         K_freq(N−w)) — the palindromic mirror at the Pauli-string-weight
+///         K_freq(N−w)): the palindromic mirror at the Pauli-string-weight
 ///         partition.</item>
 /// </list>
 ///
@@ -50,7 +50,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>F43 itself is sector-pairing-symmetric (K_freq(w) = K_freq(N−w))
-/// without a numerical "2" anchor — that lives in the XOR-sector specialization
+/// without a numerical "2" anchor; that lives in the XOR-sector specialization
 /// above. The sector-pairing identity is purely structural (Π palindrome at
 /// sector level), inherited from F1.</para>
 ///

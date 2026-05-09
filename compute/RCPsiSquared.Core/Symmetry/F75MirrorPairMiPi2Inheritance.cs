@@ -61,7 +61,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>Tier1Derived: F75 is Tier 1 proven algebraic
-/// (PROOF_RECEIVER_VS_GAMMA_SACRIFICE Section); verified numerically
+/// (experiments/RECEIVER_VS_GAMMA_SACRIFICE.md); verified numerically
 /// against C# brecher propagation at N=5..13, k=1..7, ~25 data points;
 /// PeakMM = 0.925..0.931 × MM(0) with tight consistency. The
 /// Pi2-Foundation anchoring is algebraic-trivial composition.</para>

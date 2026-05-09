@@ -95,7 +95,7 @@ public sealed class F2bXyChainSpectrumPi2Inheritance : Claim
     }
 
     /// <summary>Drift check: ψ_k(−1 virtual) = sin(0) = 0 and ψ_k(N virtual) =
-    /// sin(πk) = 0 — the OBC Dirichlet boundary conditions hold by construction.</summary>
+    /// sin(πk) = 0; the OBC Dirichlet boundary conditions hold by construction.</summary>
     public bool ObcBoundaryConditionsHold(int N, int k, double tolerance = 1e-12)
     {
         // Site i = -1: ψ_k(-1) ∝ sin(0) = 0 (would be edge of virtual chain)

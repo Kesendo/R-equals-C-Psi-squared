@@ -63,7 +63,7 @@ public sealed class Pi2DyadicLadderClaim : Claim
     /// <summary>Indices n ∈ {1, 4, 5, ...} where the ladder predicts a value but no typed
     /// Claim has been hinged yet. n=1 is the trivial identity scale (a_1=1); n≥4 are
     /// open predictions of the algebraic continuation.</summary>
-    public IReadOnlyList<int> OpenAnchorIndices => new[] { 1, 4, 5, 6, 7, 8 };
+    public IReadOnlyList<int> OpenAnchorIndices { get; } = new[] { 1, 4, 5, 6, 7, 8 };
 
     public Pi2DyadicLadderClaim()
         : base("Dyadic halving ladder a_n = 2^(1−n) (Pi2 foundation continuation)",
