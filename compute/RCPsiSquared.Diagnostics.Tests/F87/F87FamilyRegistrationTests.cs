@@ -16,7 +16,7 @@ public class F87FamilyRegistrationTests
             .RegisterF87Family()
             .Build();
 
-        Assert.Equal(11, registry.All().Count()); // 8 Pi2 + 3 F87
+        Assert.Equal(12, registry.All().Count()); // 9 Pi2 + 3 F87
         Assert.True(registry.Contains<F87TrichotomyClassification>());
         Assert.True(registry.Contains<DissipatorResonanceLaw>());
         Assert.True(registry.Contains<DissipatorAxisSelectsPolarityClaim>());

@@ -14,6 +14,10 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         polynomial root d).</item>
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: the bilinear-apex maxval
 ///         anchor identifying 1/4 as max p·(1−p) at p=1/2.</item>
+///   <item><see cref="ArgmaxMaxvalPairClaim"/>: the meta-anchor closing the
+///         (1/2, 1/4) pair. F57 uses BOTH ends — 1/4 (CrossingThreshold) and
+///         2 = 1/(1/2) (WindowDoublingFactor); the meta-anchor types this
+///         convergence (activated 2026-05-09 mirror-map check).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP),
@@ -32,6 +36,7 @@ public static class F57DwellTimeQuarterPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            _ = b.Get<ArgmaxMaxvalPairClaim>();   // meta-anchor: F57 uses both 1/2 and 1/4 ends
             return new F57DwellTimeQuarterPi2Inheritance(ladder, quarter);
         });
 }

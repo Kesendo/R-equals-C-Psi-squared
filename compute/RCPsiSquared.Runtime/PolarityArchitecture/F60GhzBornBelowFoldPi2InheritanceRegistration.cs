@@ -19,6 +19,9 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         documenting that the "fold = 1/4" IS the bilinear-apex maxval.
 ///         Same anchor as F57 + Dicke superposition; F60 inherits the
 ///         framework's quarter-boundary as its threshold.</item>
+///   <item><see cref="ArgmaxMaxvalPairClaim"/>: meta-anchor closing the
+///         (1/2, 1/4) pair. F60 uses BOTH — OffDiagonalElement = 1/2 and
+///         FoldPosition = 1/4 (activated 2026-05-09 mirror-map check).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F60 is Tier 1 geometric corollary; Pi2-Foundation
@@ -37,6 +40,7 @@ public static class F60GhzBornBelowFoldPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<PolarityLayerOriginClaim>();         // direct: ±0.5 polarity pair
             _ = b.Get<QuarterAsBilinearMaxvalClaim>();     // fold = 1/4 = a_3
+            _ = b.Get<ArgmaxMaxvalPairClaim>();            // meta-anchor: F60 uses both 1/2 and 1/4
             return new F60GhzBornBelowFoldPi2Inheritance(ladder);
         });
 }

@@ -15,7 +15,7 @@ public class F88PopcountCoherenceRegistrationTests
             .RegisterF88PopcountCoherence()
             .Build();
 
-        Assert.Equal(9, registry.All().Count()); // 8 Pi2 + 1 F88
+        Assert.Equal(10, registry.All().Count()); // 9 Pi2 + 1 F88
         Assert.True(registry.Contains<PopcountCoherenceClaim>());
     }
 

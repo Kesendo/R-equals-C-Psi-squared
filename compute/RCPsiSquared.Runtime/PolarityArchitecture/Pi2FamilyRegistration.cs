@@ -3,7 +3,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
-/// <summary>Registers the eight Pi2 polarity-foundation Claims with their internal
+/// <summary>Registers the nine Pi2 polarity-foundation Claims with their internal
 /// inheritance edges. Order is topology-driven (Builder resolves):
 ///
 /// <code>
@@ -12,12 +12,14 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///     │   ├── PolarityLayerOriginClaim (+0/-0)
 ///     │   │   └── KleinFourCellClaim (F88 4-cell)
 ///     │   ├── BilinearApexClaim (apex 1/2)
+///     │   │   └── ArgmaxMaxvalPairClaim (joins 1/2 and 1/4)
 ///     │   ├── HalfAsStructuralFixedPointClaim (three faces)
 ///     │   └── QuarterAsBilinearMaxvalClaim (max p·(1−p) = 1/4)
+///     │       └── ArgmaxMaxvalPairClaim (joins 1/4 and 1/2)
 ///     └── NinetyDegreeMirrorMemoryClaim (90° in F80's 2i)
 /// </code>
 ///
-/// <para>All eight claims are Tier1Derived with parameterless ctors. The Pi2KnowledgeBase
+/// <para>All nine claims are Tier1Derived with parameterless ctors. The Pi2KnowledgeBase
 /// aggregator in Core remains untouched; the Runtime registry holds parallel instances
 /// (stateless, so equivalence by content is sufficient).</para>
 ///
@@ -25,6 +27,13 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// Pi2DyadicLadderClaim landed: the dyadic halving ladder a_n = 2^(1−n) has 1/4 as the
 /// n=3 anchor, so the parent claim must be available in the registry for the ladder's
 /// edges to resolve.</para>
+///
+/// <para>ArgmaxMaxvalPairClaim was activated 2026-05-09 (Tom + Claude) after the Manager
+/// query revealed BilinearApex had only 1 descendant (F83) and the meta-claim that closes
+/// the (1/2, 1/4) pair was unregistered. F57 / F60 / F83 all use both 1/2 and 1/4 anchors
+/// together; ArgmaxMaxvalPair makes that convergence typed at the Pi2-Foundation level.
+/// Tom's coda 2026-05-07: "1/4 ist die Hälfte von 0.5" — the quarter is the half's
+/// quadratic shadow.</para>
 ///
 /// <para>Two Pi2KnowledgeBase entries remain deliberately excluded: <c>Pi2InvolutionClaim</c>
 /// (a consequence of F1, not a foundation) and <c>HalfIntegerMirrorClaim</c> (parameterised
@@ -70,5 +79,11 @@ public static class Pi2FamilyRegistration
             {
                 _ = b.Get<PolarityLayerOriginClaim>();
                 return new KleinFourCellClaim();
+            })
+            .Register<ArgmaxMaxvalPairClaim>(b =>
+            {
+                _ = b.Get<BilinearApexClaim>();             // argmax side: 1/2
+                _ = b.Get<QuarterAsBilinearMaxvalClaim>();  // maxval side: 1/4
+                return new ArgmaxMaxvalPairClaim();
             });
 }

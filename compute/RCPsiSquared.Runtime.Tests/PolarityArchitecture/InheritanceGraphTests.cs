@@ -24,7 +24,8 @@ public class InheritanceGraphTests
         var descendants = registry.DescendantsOf<PolynomialFoundationClaim>()
             .Select(c => c.GetType()).ToHashSet();
 
-        Assert.Equal(9, descendants.Count);
+        Assert.Equal(10, descendants.Count);
+        Assert.Contains(typeof(ArgmaxMaxvalPairClaim), descendants);
         Assert.Contains(typeof(QubitDimensionalAnchorClaim), descendants);
         Assert.Contains(typeof(NinetyDegreeMirrorMemoryClaim), descendants);
         Assert.Contains(typeof(PolarityLayerOriginClaim), descendants);
