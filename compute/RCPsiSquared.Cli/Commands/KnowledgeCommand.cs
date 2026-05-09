@@ -113,6 +113,7 @@ public static class KnowledgeCommand
             .RegisterF66PoleModesPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()
             .RegisterF61BitAParityPi2Inheritance()
+            .RegisterF77MmSaturationPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
