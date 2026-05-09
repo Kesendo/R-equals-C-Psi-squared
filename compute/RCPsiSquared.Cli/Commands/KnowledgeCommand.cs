@@ -108,6 +108,7 @@ public static class KnowledgeCommand
             .RegisterF39DetPiPi2Inheritance()
             .RegisterF49bCenteredDissipatorPi2Inheritance()
             .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF49cShadowCrossingPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
