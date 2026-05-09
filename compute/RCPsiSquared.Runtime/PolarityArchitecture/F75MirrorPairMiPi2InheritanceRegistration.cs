@@ -20,6 +20,10 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         F75 cites F71 as source: "the mirror symmetry that justifies
 ///         c_{N−1−j} = ±c_j". F71 → F75 is a typed inheritance edge
 ///         (mother claim).</item>
+///   <item><see cref="F65XxChainSpectrumPi2Inheritance"/>: registration discard.
+///         F75's BondingModePopulation IS F65's |ψ_k(i)|² spectrum amplitudes.
+///         F65 → F75 source-claim edge for the bonding-mode amplitude formula
+///         (added 2026-05-09 mirror-map check).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F75 is Tier 1 proven algebraic; verified
@@ -40,6 +44,7 @@ public static class F75MirrorPairMiPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<BilinearApexClaim>();                          // domain [0, 1/2]
             var f71 = b.Get<F71MirrorSymmetryPi2Inheritance>();      // mirror symmetry source + MirrorPairCount delegate
+            _ = b.Get<F65XxChainSpectrumPi2Inheritance>();           // bonding-mode amplitude source
             return new F75MirrorPairMiPi2Inheritance(ladder, f71);
         });
 }

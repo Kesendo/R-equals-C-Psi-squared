@@ -12,7 +12,9 @@ public class F75MirrorPairMiPi2InheritanceRegistrationTests
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterHalfIntegerMirror(N: 5)
-            .RegisterF71MirrorSymmetryPi2Inheritance();
+            .RegisterF71MirrorSymmetryPi2Inheritance()
+            .RegisterF66PoleModesPi2Inheritance()
+            .RegisterF65XxChainSpectrumPi2Inheritance();
 
     [Fact]
     public void RegisterF75_AddsClaim()

@@ -13,6 +13,8 @@ public class F77MmSaturationPi2InheritanceRegistrationTests
             .RegisterPi2DyadicLadder()
             .RegisterHalfIntegerMirror(N: 5)
             .RegisterF71MirrorSymmetryPi2Inheritance()
+            .RegisterF66PoleModesPi2Inheritance()
+            .RegisterF65XxChainSpectrumPi2Inheritance()
             .RegisterF75MirrorPairMiPi2Inheritance();
 
     [Fact]
