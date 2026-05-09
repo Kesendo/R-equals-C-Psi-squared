@@ -128,6 +128,7 @@ public static class KnowledgeCommand
             .RegisterF84ThermalAmplitudeDampingPi2Inheritance()
             .RegisterF85KBodyFChainPi2Inheritance()
             .RegisterF65XxChainSpectrumPi2Inheritance()
+            .RegisterF67BondingBellPairPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
