@@ -102,6 +102,7 @@ public static class KnowledgeCommand
             .RegisterF86TPeakPi2Inheritance()
             .RegisterF87Pi2Inheritance()
             .RegisterQubitNecessityPi2Inheritance()
+            .RegisterF1T1AmplitudeDampingPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
