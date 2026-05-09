@@ -10,7 +10,10 @@ public class F77MmSaturationPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterHalfIntegerMirror(N: 5)
+            .RegisterF71MirrorSymmetryPi2Inheritance()
+            .RegisterF75MirrorPairMiPi2Inheritance();
 
     [Fact]
     public void RegisterF77_AddsClaim()

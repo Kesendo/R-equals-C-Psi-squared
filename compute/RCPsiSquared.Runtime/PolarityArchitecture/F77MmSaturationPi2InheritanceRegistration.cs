@@ -15,6 +15,12 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         to document that the "1/2" in F77's mechanism IS the structural
 ///         fixed point. Transitively reachable through the ladder; the discard
 ///         makes the dependency explicit at registration time.</item>
+///   <item><see cref="F75MirrorPairMiPi2Inheritance"/>: registration discard.
+///         F77 IS the asymptotic limit (Taylor expansion at p → 0) of F75's
+///         general MI formula. Per ANALYTICAL_FORMULAS F77: "the 1-bit limit
+///         is not a conjecture; it falls out of F75 by Taylor expansion".
+///         F75 → F77 is the typed mother-claim inheritance edge (added
+///         2026-05-09 mirror-map check).</item>
 /// </list>
 ///
 /// <para>"ZERO IS THE MIRROR" reading (Tom 2026-05-09): the inheritance graph's
@@ -38,7 +44,8 @@ public static class F77MmSaturationPi2InheritanceRegistration
         builder.Register<F77MmSaturationPi2Inheritance>(b =>
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
-            _ = b.Get<HalfAsStructuralFixedPointClaim>();   // documents 1/2 = structural fixed point
+            _ = b.Get<HalfAsStructuralFixedPointClaim>();      // documents 1/2 = structural fixed point
+            _ = b.Get<F75MirrorPairMiPi2Inheritance>();        // mother claim: F77 = Taylor limit of F75
             return new F77MmSaturationPi2Inheritance(ladder);
         });
 }
