@@ -121,6 +121,7 @@ public static class KnowledgeCommand
             .RegisterF76TDecayMirrorPairMiPi2Inheritance()
             .RegisterF62WStateBornBelowFoldPi2Inheritance()
             .RegisterF70DeltaNSelectionRulePi2Inheritance()
+            .RegisterF72BlockDiagonalPurityPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
