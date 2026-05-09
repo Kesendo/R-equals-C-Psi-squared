@@ -140,6 +140,8 @@ public static class KnowledgeCommand
             .RegisterF4StationaryModeCountPi2Inheritance()
             .RegisterF55UniversalAbsorptionDosePi2Inheritance()
             .RegisterF64CavityModeExposurePi2Inheritance()
+            .RegisterF2W1DispersionPi2Inheritance()
+            .RegisterF2bXyChainSpectrumPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
