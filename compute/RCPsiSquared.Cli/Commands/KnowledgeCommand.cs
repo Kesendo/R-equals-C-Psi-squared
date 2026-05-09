@@ -146,6 +146,7 @@ public static class KnowledgeCommand
             .RegisterF74ChromaticityPi2Inheritance()
             .RegisterF78SingleBodyMAdditivePi2Inheritance()
             .RegisterF79TwoBodyPi2BlockPi2Inheritance()
+            .RegisterF56CriticalSlowingPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
