@@ -117,7 +117,7 @@ public class PerF71OrbitKTableTests
     }
 
     /// <summary>The chain-center F71 orbit (deepest interior under spatial mirror)
-    /// sits at HWHM_left/Q_peak ≈ 1 − 1/4 = 3/4 within tol 0.005 across N=9, 10. The
+    /// sits at HWHM_left/Q_peak ≈ 1 − 1/4 = 3/4 within tol 0.005 across N=9..12. The
     /// 1/4 = a_3 = QuarterAsBilinearMaxvalClaim on Pi2DyadicLadder is the mirror
     /// partner of 3/4 (= 1 − a_3) via inversion symmetry a_n · a_{2−n} = 1.
     ///
@@ -127,23 +127,28 @@ public class PerF71OrbitKTableTests
     ///   <item>Outside view (Q=0 going inward): half-max-left at Q ≈ Q_peak/4.</item>
     /// </list>
     ///
-    /// <para><b>Orbit-escape signature:</b> while the center orbit stays anchored at
-    /// 3/4 within ≤ 0.2% across N=9, 10, the first-flanking orbit at N=9 escapes
-    /// the default scan grid (see <see cref="IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid"/>).
-    /// The class-mean Interior HwhmLeftOverQPeak drift in
-    /// <c>PolarityInheritanceLink._polarityWitnesses</c> across N=5..8 (max ±0.0045
-    /// from 3/4) is the visible signature of orbit-mixing: at N≤8 all Interior orbits
-    /// are still bounded but flanking orbits are already drifting toward escape; at
-    /// N≥9 flanking orbits hit the grid and the class-mean breaks down. The center
-    /// orbit's 3/4 ≈ 1 − a_3 plateau is what remains stable.</para>
+    /// <para><b>Center stays, flanking drifts (the "ist es vorbei" empirical
+    /// resolution):</b> Tom 2026-05-10 asked whether Center had already crossed 3/4
+    /// past tolerance with growing N. The answer is NO at N=9..12 within tol 0.005:
+    /// Center remains anchored at 1 − a_3 = 3/4 across the extended envelope.
+    /// The class-mean Interior HwhmLeftOverQPeak drift IS empirically visible
+    /// (N=11 class-mean = 0.7574, drift +0.0074, OUTSIDE tol), but it comes from
+    /// flanking interior orbits drifting upward and eventually escaping the scan
+    /// grid (see <see cref="IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid"/> at
+    /// N=9). Center at the chain-deepest F71 orbit holds the 3/4 anchor while
+    /// flanking orbits leave it. The class-mean smooths over both contributions;
+    /// Center alone, isolated, stays.</para>
     ///
     /// <para>Tier 1 candidate. Mirror-partner reading is exact in the structural
-    /// sense (HwhmRatio_center = 1 − a_3); empirical drift ≤ 0.2% at N=9, 10 leaves
-    /// the closed-form Tier 1 promotion open in F86b Direction (a''-d'') in
-    /// <c>C2HwhmRatio.PendingDerivationNote</c>.</para></summary>
+    /// sense (HwhmRatio_center = 1 − a_3); empirical drift ≤ 0.5% across N=9..12
+    /// leaves the closed-form Tier 1 promotion open in F86b Direction (a''-d'') in
+    /// <c>C2HwhmRatio.PendingDerivationNote</c>. The N=11, 12 extension was added
+    /// 2026-05-10 to settle Tom's "ist es schon vorbei" question empirically.</para></summary>
     [Theory]
     [InlineData(9)]
     [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(12)]
     public void CenterOrbit_HwhmRatio_AnchorsToQuarterMirrorPartner(int N)
     {
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
