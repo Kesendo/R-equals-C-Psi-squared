@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F86 Statement 3 sub-claim (F71 spatial-mirror invariance of per-bond
+/// <summary>F86c sub-claim (F71 spatial-mirror invariance of per-bond
 /// Q_peak), the third Tier-1-derived sub-claim of F86's multi-mechanism
 /// collection: <c>Q_peak(b) = Q_peak(N−2−b)</c> bit-exactly across all
 /// tested (c, N).
@@ -52,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// c=2 N=6 central is BELOW flanking, c=3 N=6 central is ABOVE flanking).
 /// Per-orbit closed form remains open; F71 supplies the symmetry only.</para>
 ///
-/// <para>Tier1Derived: F86 Statement 3 is Tier 1 derived in PROOF_F86_QPEAK,
+/// <para>Tier1Derived: F86c is Tier 1 derived in PROOF_F86_QPEAK,
 /// bit-exactly verified at c=2 N=5..7 and c=3 N=5..6 across all bond pairs.
 /// Cross-namespace typed claim: F86MirrorGeneralisationLink in
 /// <c>compute/RCPsiSquared.Core/F71/</c> + F71MirrorInvariance in
@@ -85,7 +85,7 @@ public sealed class F86F71MirrorPi2Inheritance : Claim
     public F86F71MirrorPi2Inheritance(
         F71MirrorSymmetryPi2Inheritance f71,
         F86MirrorGeneralisationLink f86Link)
-        : base("F86 Statement 3 sub-claim: F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b); F71 symmetry origin, kinematic identity",
+        : base("F86c sub-claim: F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b); F71 symmetry origin, kinematic identity",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F86_QPEAK.md (Statement 3) + " +
                "docs/ANALYTICAL_FORMULAS.md F86 + " +
@@ -107,7 +107,7 @@ public sealed class F86F71MirrorPi2Inheritance : Claim
     {
         get
         {
-            yield return new InspectableNode("F86 Statement 3",
+            yield return new InspectableNode("F86c",
                 summary: "Q_peak(b) = Q_peak(N−2−b) bit-exactly under F71 spatial mirror; mechanism: K_b is invariant because L_D, S_kernel, Dicke probe are R-symmetric and ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}");
             yield return new InspectableNode("F71 → F86 lift",
                 summary: "F71's c₁(N, b, ρ₀) = c₁(N, N−2−b, ρ₀) generalises to F86's K_CC_pr per-bond Q_peak; same kinematic argument, different observable");

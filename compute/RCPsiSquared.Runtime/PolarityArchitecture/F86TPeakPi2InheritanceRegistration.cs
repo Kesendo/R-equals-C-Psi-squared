@@ -8,7 +8,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// "4" denominator as Pi2-Foundation <c>a_{−1} = d²</c> for N=1. Two parent edges:
 ///
 /// <list type="bullet">
-///   <item><see cref="TPeakLaw"/>: the F86 Statement 1 closed form (parameterised by γ₀).</item>
+///   <item><see cref="TPeakLaw"/>: the F86a closed form (parameterised by γ₀).</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>.</item>
 /// </list>
 ///

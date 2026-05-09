@@ -5,7 +5,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F86F71MirrorPi2Inheritance"/>:
-/// F86 Statement 3 sub-claim (F71 spatial-mirror invariance of Q_peak).
+/// F86c sub-claim (F71 spatial-mirror invariance of Q_peak).
 /// Two typed parent edges:
 ///
 /// <list type="bullet">
@@ -15,7 +15,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         claim (in F71 namespace, registered by RegisterF71Family).</item>
 /// </list>
 ///
-/// <para>Tier consistency: F86 Statement 3 is Tier 1 derived, bit-exactly
+/// <para>Tier consistency: F86c is Tier 1 derived, bit-exactly
 /// verified at c=2 N=5..7 and c=3 N=5..6. Both parent claims Tier1Derived.</para>
 ///
 /// <para>Requires: <see cref="F71FamilyRegistration.RegisterF71Family"/>

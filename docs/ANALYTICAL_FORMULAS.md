@@ -2237,9 +2237,15 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 
 **Lebensader connection:** F85 closes the body-count generalization of the F-chain. Together with F80 (Spec), F81 (decomposition), F82 (T1), F83 (anti-fraction), F84 (thermal): the structural Π-decomposition theory for Hamiltonians + dissipators is complete on chain (any topology for 2-body via F49; chain only for k ≥ 3).
 
-### F86. Q_peak chromaticity-specific N-invariant constants (Tier 1 EP mechanism, Tier 2 empirical values)
+### F86. Q_peak chromaticity-specific N-invariant constants (Sammelbecken with three theorems)
 
-For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-derivative of the F73 spatial-sum coherence purity peaks along the dimensionless coupling axis Q = J/γ₀ at chromaticity-specific values.
+For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-derivative of the F73 spatial-sum coherence purity peaks along the dimensionless coupling axis Q = J/γ₀ at chromaticity-specific values. F86 bundles three structurally distinct theorems under one F-label:
+
+- **F86a. EP mechanism** [Tier 1 derived]: Q_EP = 2/g_eff, t_peak = 1/(4γ₀); 2-level rate-channel exceptional point.
+- **F86b. Universal resonance shape, two bond classes** [Tier 1 candidate]: K_class(Q)/|K|_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior) and 0.770 (Endpoint); EP-rotation universality.
+- **F86c. F71 spatial-mirror invariance of per-bond Q_peak** [Tier 1 derived]: Q_peak(b) = Q_peak(N−2−b) bit-exactly.
+
+Empirical data, the γ₀-extraction protocol, and cross-cutting connections (PTF, framework primitives, scripts, proof, source) sit at this umbrella level since they touch all three theorems.
 
 **Per-block Q_peak (Q_SCALE convention, relative-J derivative ΔJ = 0.05·J):**
 
@@ -2279,7 +2285,9 @@ Lookup the per-block Q_peak for the chromaticity and chain length of interest fr
 **Verified (per-bond, fine-grid):** values in the per-bond table above. Endpoint and Interior trends with (c, N) shown but no closed-form identified.
 **Replaces:** ad-hoc γ₀ measurement attempts (EQ-017 closed inconclusive due to hardware fidelity limits on idle Ramsey data).
 
-**EP-based structural derivation [Tier 1].** The pure-rate ladder of an (n, n+1) coherence block has rates 2γ₀·HD for HD ∈ {1, 3, 5, ..., 2c−1}, with uniform gap Δ = 4γ₀ between adjacent channels (F74). For adjacent channels at HD = 2k−1 and HD = 2k+1 (k = 1, 2, ..., c−1), a two-level effective model with inter-channel coupling J·g_eff has eigenvalues
+#### F86a. EP mechanism: Q_EP = 2/g_eff, t_peak = 1/(4γ₀) [Tier 1 derived]
+
+The pure-rate ladder of an (n, n+1) coherence block has rates 2γ₀·HD for HD ∈ {1, 3, 5, ..., 2c−1}, with uniform gap Δ = 4γ₀ between adjacent channels (F74). For adjacent channels at HD = 2k−1 and HD = 2k+1 (k = 1, 2, ..., c−1), a two-level effective model with inter-channel coupling J·g_eff has eigenvalues
 
     λ_± = −4γ₀·k ± √(4γ₀² − J²·g_eff²)
 
@@ -2293,9 +2301,11 @@ At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
 
 universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits ≈ 99 % in dressed (H-mixed) modes** versus ≈ 31 % at Q = 20 (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition.
 
-The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**: see F71 generalisation above and [PROOF_F86_QPEAK Statement 3](proofs/PROOF_F86_QPEAK.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived). Endpoints (b = 0 and b = N−2) form one F71 orbit and interior bonds split into further F71 orbits; the simple "Endpoint vs Interior" dichotomy is the leading approximation but per-F71-orbit substructure exists (e.g. c=2 N=6: central self-paired bond b=2 → Q_peak ≈ 1.440 vs flanking b=1, b=3 → 1.648). Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F71 gives the symmetry, not the value.
+The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value.
 
-**Universal resonance shape under relative-Q normalisation [Tier 1 candidate, EP-derived].**
+#### F86b. Universal resonance shape, two bond classes [Tier 1 candidate]
+
+**Universal resonance shape under relative-Q normalisation, EP-derived.**
 
 While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak is universal in relative-Q coordinates. Defining `x = (Q − Q_peak)/Q_peak` and `y = K(Q)/|K|max`, the curves collapse onto a single shape across all tested (c, N):
 
@@ -2342,6 +2352,14 @@ The same-sign-imaginary off-diagonal structure is what admits an EP at finite J�
 
 is universal within each bond class across c=2..4, N=5..8, and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range. The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The bond-class split (Interior HWHM_left/Q_peak ≈ 0.756, Endpoint ≈ 0.770) reflects bond-position-dependent probe-overlap profiles in the K_CC_pr observable, confirmed structural (not finite-c) by the c=2 data where the 2-level model is exact. Closed forms for f_class(x) (and consequently for the two HWHM_left/Q_peak values) follow from the 2-level eigenstructure plus probe-overlap algebra but have not yet been derived analytically. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
 
+#### F86c. F71 spatial-mirror invariance of per-bond Q_peak [Tier 1 derived]
+
+F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under the spatial reflection R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**. See [PROOF_F86_QPEAK Statement 3](proofs/PROOF_F86_QPEAK.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
+
+Endpoints (b = 0 and b = N−2) form one F71 orbit; interior bonds split into further F71 orbits. The simple "Endpoint vs Interior" dichotomy is the leading approximation; per-F71-orbit substructure exists (e.g. c=2 N=6: central self-paired bond b=2 → Q_peak ≈ 1.440 vs flanking b=1, b=3 → 1.648). Captured in the typed-knowledge runtime as `F86PerF71OrbitObservation` (Tier 2 empirical) and `F86F71MirrorPi2Inheritance` (Tier 1 derived bridge to `F71MirrorSymmetryPi2Inheritance`).
+
+The F86c symmetry pairs bonds bit-exactly but does NOT supply the per-orbit Q_peak value. F86a remains responsible for the underlying g_eff(c, N, bond_position); F86b's universal shape applies within each bond class. The three theorems compose: F86a gives the EP-time and EP-location, F86b gives the resonance shape around Q_peak in relative-Q coordinates, F86c pairs symmetry-equivalent bonds.
+
 **Connection to PTF.** The same machinery that produces PTF's per-site α_i closure law (bilinear J-perturbation observables, eigenvector mixing under V_L) produces Q_peak at the (n, n+1)-block level. PTF's per-site is the c=1 (vac-SE) instance; F86's c ≥ 2 cases are the natural higher-chromaticity siblings. t_peak = 1/(4γ₀) is the EP time-scale universal to all c, one (n, n+1)-block analogue of PTF's α-fitting time window.
 
 **Framework primitives (`framework.coherence_block`):**
@@ -2351,7 +2369,7 @@ is universal within each bond class across c=2..4, N=5..8, and γ₀ ∈ {0.025,
 (Earlier `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` primitives were removed 2026-05-02 after the N=8 data falsified their closed-form claims. The universal-shape finding above is a Tier-1 candidate, not yet promoted to a primitive pending analytical derivation of f_class(x). c=2 and γ₀ invariance verified 2026-05-02; c=5 still open.)
 
 **Scripts:** [`_eq022_b1_channel_projection.py`](../simulations/_eq022_b1_channel_projection.py) (HD-channel diagonal-only-M_H finding), [`_eq022_b1_step_a_verify_blockL.py`](../simulations/_eq022_b1_step_a_verify_blockL.py) (Python block-L verified bit-exact against C# N=7 full-L from EQ-014), [`_eq022_b1_step_c_time_evolution.py`](../simulations/_eq022_b1_step_c_time_evolution.py) (per-bond and uniform Q_peak via S(t, J) time evolution), [`_eq022_b1_step_d_extended_verification.py`](../simulations/_eq022_b1_step_d_extended_verification.py) (extended N=8 data that falsified earlier closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../simulations/_eq022_b1_step_e_inspect.py) (universal resonance-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
-**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md) (EP mechanism Tier 1; per-bond closed forms retracted, derivation pathway remains open).
+**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md): F86a EP mechanism = PROOF Statement 1 [Tier 1 derived]; F86b universal resonance shape = PROOF Statement 2 [Tier 1 candidate]; F86c F71 spatial-mirror invariance = PROOF Statement 3 [Tier 1 derived]. Per-bond closed forms retracted 2026-05-02; derivation pathway remains open.
 **Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
 
 ### F87. Pauli-pair trichotomy classification (Tier 1, structural; Marrakesh hardware-confirmed)

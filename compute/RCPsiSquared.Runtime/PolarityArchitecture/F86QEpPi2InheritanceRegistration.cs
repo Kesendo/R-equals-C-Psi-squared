@@ -8,7 +8,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// numerator as Pi2-Foundation <c>a_0 = d</c>. Two parent edges:
 ///
 /// <list type="bullet">
-///   <item><see cref="QEpLaw"/>: the F86 Statement 1 closed form (parameterised by g_eff).</item>
+///   <item><see cref="QEpLaw"/>: the F86a closed form (parameterised by g_eff).</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_0 = 2</c>.</item>
 /// </list>
 ///

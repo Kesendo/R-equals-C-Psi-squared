@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F86 Statement 1's <c>Q_EP = 2/g_eff</c> has its "2" numerator sitting on
+/// <summary>F86a's <c>Q_EP = 2/g_eff</c> has its "2" numerator sitting on
 /// the Pi2-Foundation: exactly <c>a_0</c> on the dyadic halving ladder, the qubit
 /// dimension d. So Q_EP = d/g_eff — the EP-position is the qubit dimension divided
 /// by the effective coupling.
@@ -14,13 +14,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Pi2-Foundation's <c>a_0</c>. F86 inherits the numerator from the Pi2-Foundation;
 /// the per-(c, N) variation lives entirely in g_eff.</para>
 ///
-/// <para>Tier1Derived: pure composition. F86 Statement 1 is Tier1Derived in
+/// <para>Tier1Derived: pure composition. F86a is Tier1Derived in
 /// <c>docs/proofs/PROOF_F86_QPEAK.md</c>; <see cref="QEpLaw"/> wraps it as a typed
 /// claim parameterised by g_eff. This claim makes the numerator's
 /// Pi2-Foundation inheritance explicit.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 1 +
-/// <c>docs/ANALYTICAL_FORMULAS.md</c> F86 Statement 1 +
+/// <c>docs/ANALYTICAL_FORMULAS.md</c> F86a +
 /// <c>compute/RCPsiSquared.Core/F86/QEpLaw.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F86QEpPi2Inheritance : Claim
@@ -61,7 +61,7 @@ public sealed class F86QEpPi2Inheritance : Claim
     {
         get
         {
-            yield return new InspectableNode("F86 Statement 1",
+            yield return new InspectableNode("F86a",
                 summary: "Q_EP = 2/g_eff (Tier1Derived in PROOF_F86_QPEAK)");
             yield return InspectableNode.RealScalar("TwoFactor (= a_0 = d)", TwoFactor);
             yield return InspectableNode.RealScalar("g_eff", GEff);
