@@ -1,10 +1,10 @@
-# Marrakesh Three Layers: F77 → F80 → Observables
+# Marrakesh Three Layers: F87 → F80 → Observables
 
-**Status:** Hardware-grounded synthesis (Tier 1). Re-interpretation of `data/ibm_soft_break_april2026/` through the F77 trichotomy + F80 M-spectrum + 7-category observable structure that emerged after F80 was framework-locked (commit `e30eeb6`, 2026-04-30).
+**Status:** Hardware-grounded synthesis (Tier 1). Re-interpretation of `data/ibm_soft_break_april2026/` through the F87 trichotomy + F80 M-spectrum + 7-category observable structure that emerged after F80 was framework-locked (commit `e30eeb6`, 2026-04-30).
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Data:** [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/) (ibm_marrakesh, Heron r2, path [48,49,50], 2026-04-26)
-**See also:** [V_EFFECT_FINE_STRUCTURE](V_EFFECT_FINE_STRUCTURE.md), [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md) (F77, F80)
+**See also:** [V_EFFECT_FINE_STRUCTURE](V_EFFECT_FINE_STRUCTURE.md), [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md) (F87, F80)
 
 ---
 
@@ -12,13 +12,13 @@
 
 The Marrakesh dataset (3 Hamiltonians × 16 two-qubit Pauli expectations on q₀, q₂ = 48 qubits-apart-by-one mediator at q₁=49) carries **three nested layers of distinction** that the framework now reads in order:
 
-1. **F77 trichotomy** (algebraic): truly / soft / hard, classified by Pauli-letter parity of the two bilinears
+1. **F87 trichotomy** (algebraic): truly / soft / hard, classified by Pauli-letter parity of the two bilinears
 2. **F80 M-spectrum** (structural): {0} / {±5.66i, 0} / {±2.83i}, computed from H eigenvalues alone via `predict_M_spectrum_pi2_odd`
 3. **Observable signature** (operational): 7 categories of how the 16 Paulis populate, with categorical hardware confirmation
 
 A fourth finding emerged during interpretation: the "T1 amplification" hardening hypothesis from the dataset's original README is quantitatively wrong. The hardening is fully accounted for by Trotter n=3 discretization at δt = 0.267, where ‖H·δt‖ ≈ 0.8 violates the small-step regime. T1 actually attenuates the soft signal monotonically.
 
-The three-layer reading lets each level inform the next: F77 says *whether* M is non-zero; F80 says *what* M's spectrum is; the observable categories say *which* Paulis the dynamics paints onto via that template.
+The three-layer reading lets each level inform the next: F87 says *whether* M is non-zero; F80 says *what* M's spectrum is; the observable categories say *which* Paulis the dynamics paints onto via that template.
 
 ---
 
@@ -28,7 +28,7 @@ Marrakesh ran 27 circuits: 3 Hamiltonians (truly_unbroken = XX+YY, soft_broken =
 
 ---
 
-## Layer 1: F77 trichotomy (algebraic)
+## Layer 1: F87 trichotomy (algebraic)
 
 The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂) into three classes by Pauli-letter parity. Π²-parity of a Pauli letter is `bit_b` where I, X → 0 and Y, Z → 1; a bilinear (P, Q) is Π²-even iff bit_b(P) + bit_b(Q) ≡ 0 (mod 2), Π²-odd iff ≡ 1.
 
@@ -38,7 +38,7 @@ The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂)
 
 `fw.classify_pauli_pair(chain, [(a,b), (c,d)])` returns `'truly' | 'soft' | 'hard'`. For the Marrakesh trio:
 
-| Hamiltonian | Bilinears | F77 class |
+| Hamiltonian | Bilinears | F87 class |
 |-------------|-----------|-----------|
 | truly_unbroken | XX, YY | `'truly'` |
 | soft_broken | XY, YX | `'soft'` |
@@ -68,7 +68,7 @@ Hard's |M|_max is *half* of soft's (2.83 vs 5.66) because H_hard_non-truly = 1 b
 
 The numerical match is verified bit-exact in [`simulations/_f80_ibm_soft_break_check.py`](../simulations/_f80_ibm_soft_break_check.py) by computing M = Π·L·Π⁻¹ + L + 2Σγ·I directly from the dense Liouvillian and comparing eigenvalues. F80's prediction sees only H eigenvalues; it never builds the 4^N × 4^N matrix.
 
-Layer 2 is the *strength dial*: F77 says *whether* the door is open, F80 says *how wide*.
+Layer 2 is the *strength dial*: F87 says *whether* the door is open, F80 says *how wide*.
 
 ---
 
@@ -90,7 +90,7 @@ Each of the 16 two-qubit Pauli expectations on (q₀, q₂) lands in one of 7 ca
 
 - **Category A** (truly only) holds the Heisenberg-Y-Z correlations that XX+YY naturally generates from |+,−,+⟩. Both soft (XY+YX) and hard (XX+XY) destroy them: soft because its eigenvector pairing is broken in the right way to suppress the YZ-class observables; hard because the parity mix kills them.
 
-- **Category C** is the *direct* F77 signature: observables that vanish for truly (Π palindrome holds) and for hard (XY's Π²-odd contribution doesn't reach Z₀X₂ from the |+,−,+⟩ initial state without YX as a partner), but light up for soft (XY+YX has both partners).
+- **Category C** is the *direct* F87 signature: observables that vanish for truly (Π palindrome holds) and for hard (XY's Π²-odd contribution doesn't reach Z₀X₂ from the |+,−,+⟩ initial state without YX as a partner), but light up for soft (XY+YX has both partners).
 
 - **Category D** is hard's exclusive: observables that need the parity-mixing structure of XX+XY to be generated. Soft cannot create them.
 
@@ -179,7 +179,7 @@ For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the
 
 Initial state |+,−,+⟩ has marginal ⟨n⟩₀ = 1.0 on (q₀, q₂). All three Hamiltonian classes separate by ≥ 0.10 in ⟨n⟩, well above the maximum per-case deviation of 0.033 (~3% relative). The reading uses no phase information; the off-diagonal Pauli expectations that drive Layer 3 do not enter.
 
-**Operational consequence:** classifying a Hamiltonian's F77 class on hardware does not require 9 Pauli-pair bases. One Z-basis tomography is sufficient with the full discrimination quality of Layer 3. For the same shot budget this is a 9× reduction in QPU time when the question is "which class is this?" rather than "what is the full M-spectrum?". This matters for the 180-min annual QPU budget of the project: a quick classification pass costs the same as one tomographic-Pauli pass.
+**Operational consequence:** classifying a Hamiltonian's F87 class on hardware does not require 9 Pauli-pair bases. One Z-basis tomography is sufficient with the full discrimination quality of Layer 3. For the same shot budget this is a 9× reduction in QPU time when the question is "which class is this?" rather than "what is the full M-spectrum?". This matters for the 180-min annual QPU budget of the project: a quick classification pass costs the same as one tomographic-Pauli pass.
 
 The framework primitive is `fw.sector_populations(rho_or_psi, N)` from [`simulations/framework/diagnostics/d_zero.py`](../simulations/framework/diagnostics/d_zero.py). The reproducible analysis is [`simulations/d_zero_trichotomy_marrakesh.py`](../simulations/d_zero_trichotomy_marrakesh.py); the registry entry is `Confirmations.lookup('d_zero_sector_trichotomy_marrakesh')`. The structural reason ⟨n⟩ separates the classes is that XX+YY conserves total Z-magnetization (truly stays at the initial ⟨n⟩₀), XY+YX breaks conservation upward, and XX+XY breaks conservation downward; the d=0 reading is the operational shadow of this conservation profile.
 
@@ -202,7 +202,7 @@ Neither is a framework-level signature; both are hardware-instrument signatures 
 The Marrakesh data is a three-layer document that reads top-down, with a fourth cross-reading available from the Z-basis alone:
 
 ```
-Layer 1 (F77):   {truly, soft, hard}
+Layer 1 (F87):   {truly, soft, hard}
                        ↓ (algebraic gate)
 Layer 2 (F80):   Spec(M) ∈ {{0}, {±5.66i, 0}, {±2.83i}}
                        ↓ (structural strength)
