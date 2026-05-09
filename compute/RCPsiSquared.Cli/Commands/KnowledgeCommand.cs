@@ -132,6 +132,7 @@ public static class KnowledgeCommand
             .RegisterF68PalindromicPartnerPi2Inheritance()
             .RegisterF50WeightOneDegeneracyPi2Inheritance()
             .RegisterF69GhzWSexticAboveFoldPi2Inheritance()
+            .RegisterF44CrooksLikeRateIdentityPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
