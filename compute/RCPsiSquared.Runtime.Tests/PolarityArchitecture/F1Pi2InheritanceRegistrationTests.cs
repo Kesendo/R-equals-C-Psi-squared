@@ -19,7 +19,8 @@ public class F1Pi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterPi2I4MemoryLoop();
 
     [Fact]
     public void RegisterF1Pi2Inheritance_AddsClaim()
@@ -32,7 +33,7 @@ public class F1Pi2InheritanceRegistrationTests
     }
 
     [Fact]
-    public void RegisterF1Pi2Inheritance_AncestorsContainBothParents()
+    public void RegisterF1Pi2Inheritance_AncestorsContainAllThreeParents()
     {
         var registry = BuildBaseRegistry()
             .RegisterF1Pi2Inheritance()
@@ -43,6 +44,21 @@ public class F1Pi2InheritanceRegistrationTests
 
         Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
+        Assert.Contains(typeof(Pi2I4MemoryLoopClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF1Pi2Inheritance_SignFlipFromZ4_IsMinusOne()
+    {
+        // Cross-registry verification: F1's "−1" sign flip in "−L" = i² on Z₄
+        // memory loop (Layer 1 reading documented in Pi2I4MemoryLoop docstring).
+        var registry = BuildBaseRegistry()
+            .RegisterF1Pi2Inheritance()
+            .Build();
+
+        var f = registry.Get<F1Pi2Inheritance>();
+        Assert.Equal(-1.0, f.SignFlipFromZ4.Real, precision: 14);
+        Assert.Equal(0.0, f.SignFlipFromZ4.Imaginary, precision: 14);
     }
 
     [Fact]
@@ -62,7 +78,21 @@ public class F1Pi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterPi2I4MemoryLoop()
                 // Missing: RegisterF1Family
+                .RegisterF1Pi2Inheritance()
+                .Build());
+    }
+
+    [Fact]
+    public void RegisterF1Pi2Inheritance_WithoutMemoryLoop_Throws()
+    {
+        Assert.Throws<InvariantViolationException>(() =>
+            new ClaimRegistryBuilder()
+                .RegisterF1Family(DefaultChain())
+                .RegisterPi2Family()
+                .RegisterPi2DyadicLadder()
+                // Missing: RegisterPi2I4MemoryLoop
                 .RegisterF1Pi2Inheritance()
                 .Build());
     }

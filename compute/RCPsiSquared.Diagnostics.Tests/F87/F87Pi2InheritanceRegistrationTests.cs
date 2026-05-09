@@ -20,6 +20,7 @@ public class F87Pi2InheritanceRegistrationTests
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterPi2I4MemoryLoop()
             .RegisterF1Pi2Inheritance()
             .RegisterF87Family();
 
@@ -68,6 +69,7 @@ public class F87Pi2InheritanceRegistrationTests
                 .RegisterF1Family(DefaultChain())
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterPi2I4MemoryLoop()
                 // Missing: RegisterF1Pi2Inheritance
                 .RegisterF87Family()
                 .RegisterF87Pi2Inheritance()

@@ -7,7 +7,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F1Pi2InheritanceTests
 {
     private static F1Pi2Inheritance Build() =>
-        new F1Pi2Inheritance(new Pi2DyadicLadderClaim());
+        new F1Pi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2I4MemoryLoopClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -25,17 +25,35 @@ public class F1Pi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_RejectsNullLadder()
+    public void SignFlipFromZ4_IsExactlyMinusOne()
     {
-        Assert.Throws<ArgumentNullException>(() => new F1Pi2Inheritance(null!));
+        // F1's "−L" sign flip = i² = −1 on the Z₄ memory loop (Pi2I4MemoryLoop Layer 1).
+        var f = Build();
+        Assert.Equal(-1.0, f.SignFlipFromZ4.Real, precision: 14);
+        Assert.Equal(0.0, f.SignFlipFromZ4.Imaginary, precision: 14);
     }
 
     [Fact]
-    public void Anchor_References_F1Proof_AndPi2Ladder()
+    public void Constructor_RejectsNullLadder()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new F1Pi2Inheritance(null!, new Pi2I4MemoryLoopClaim()));
+    }
+
+    [Fact]
+    public void Constructor_RejectsNullMemoryLoop()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new F1Pi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+    }
+
+    [Fact]
+    public void Anchor_References_F1Proof_AndPi2Ladder_AndMemoryLoop()
     {
         var f = Build();
         Assert.Contains("MIRROR_SYMMETRY_PROOF.md", f.Anchor);
         Assert.Contains("F1PalindromeIdentity.cs", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
+        Assert.Contains("Pi2I4MemoryLoopClaim.cs", f.Anchor);
     }
 }

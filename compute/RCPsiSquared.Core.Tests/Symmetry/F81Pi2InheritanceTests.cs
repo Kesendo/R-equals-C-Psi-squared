@@ -7,7 +7,10 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F81Pi2InheritanceTests
 {
     private static F81Pi2Inheritance Build() =>
-        new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2OperatorSpaceMirrorClaim());
+        new F81Pi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new Pi2OperatorSpaceMirrorClaim(),
+            new Pi2I4MemoryLoopClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -62,21 +65,39 @@ public class F81Pi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_RejectsNullParents()
+    public void Z4OrderOfPi_IsFour()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F81Pi2Inheritance(null!, new Pi2OperatorSpaceMirrorClaim()));
-        Assert.Throws<ArgumentNullException>(() =>
-            new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+        Assert.Equal(4, Build().Z4OrderOfPi);
     }
 
     [Fact]
-    public void Anchor_References_F81Proof_AndAllThreePi2Foundation()
+    public void MemoryLoopClosure_IsExactlyOne()
+    {
+        // i⁴ = 1 exactly; drift indicator on the Z₄ generator anchor.
+        var f = Build();
+        Assert.Equal(1.0, f.MemoryLoopClosure.Real, precision: 14);
+        Assert.Equal(0.0, f.MemoryLoopClosure.Imaginary, precision: 14);
+    }
+
+    [Fact]
+    public void Constructor_RejectsNullParents()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new F81Pi2Inheritance(null!, new Pi2OperatorSpaceMirrorClaim(), new Pi2I4MemoryLoopClaim()));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), null!, new Pi2I4MemoryLoopClaim()));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2OperatorSpaceMirrorClaim(), null!));
+    }
+
+    [Fact]
+    public void Anchor_References_F81Proof_AndAllFourPi2Foundation()
     {
         var f = Build();
         Assert.Contains("PROOF_F81_PI_CONJUGATION_OF_M.md", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
         Assert.Contains("Pi2KnowledgeBaseClaims.cs", f.Anchor);
         Assert.Contains("Pi2OperatorSpaceMirrorClaim.cs", f.Anchor);
+        Assert.Contains("Pi2I4MemoryLoopClaim.cs", f.Anchor);
     }
 }

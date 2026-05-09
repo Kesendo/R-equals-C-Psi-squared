@@ -10,7 +10,8 @@ public class F87Pi2InheritanceTests
     private static F87Pi2Inheritance Build()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f1 = new F1Pi2Inheritance(ladder);
+        var memoryLoop = new Pi2I4MemoryLoopClaim();
+        var f1 = new F1Pi2Inheritance(ladder, memoryLoop);
         return new F87Pi2Inheritance(f1);
     }
 
