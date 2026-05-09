@@ -123,6 +123,7 @@ public static class KnowledgeCommand
             .RegisterF62WStateBornBelowFoldPi2Inheritance()
             .RegisterF70DeltaNSelectionRulePi2Inheritance()
             .RegisterF72BlockDiagonalPurityPi2Inheritance()
+            .RegisterF73SpatialSumPurityClosurePi2Inheritance()
             .RegisterF82T1AmplitudeDampingPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
