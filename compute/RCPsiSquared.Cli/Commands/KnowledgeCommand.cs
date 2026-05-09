@@ -111,6 +111,7 @@ public static class KnowledgeCommand
             .RegisterF49cShadowCrossingPi2Inheritance()
             .RegisterF57DwellTimeQuarterPi2Inheritance()
             .RegisterF66PoleModesPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
