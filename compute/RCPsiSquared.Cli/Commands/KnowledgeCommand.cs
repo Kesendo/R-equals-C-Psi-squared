@@ -136,6 +136,8 @@ public static class KnowledgeCommand
             .RegisterF23XorDrainVanishingFractionPi2Inheritance()
             .RegisterF41PalindromicTimePi2Inheritance()
             .RegisterF43SectorSffPairingPi2Inheritance()
+            .RegisterF33ExactN3DecayRatesPi2Inheritance()
+            .RegisterF4StationaryModeCountPi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
