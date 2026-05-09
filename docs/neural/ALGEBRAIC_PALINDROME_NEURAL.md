@@ -274,10 +274,10 @@ Sequential E-I pairing vs best of 20 random pairings: ratio changes
 from 0.118 to 0.121. The arbitrary pairing choice does not affect the
 conclusion.
 
-### F77-style trichotomy refinement
+### F87-style trichotomy refinement
 
 The binary palindrome test (residual high vs. low) can be sharpened
-into the F77 trichotomy borrowed from the quantum side: each subcircuit
+into the F87 trichotomy borrowed from the quantum side: each subcircuit
 is classified into
 
   - **truly**: ‖R‖ / ‖J‖ < 0.01 (algebraic equation closes within 1%)

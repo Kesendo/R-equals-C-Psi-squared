@@ -1,9 +1,9 @@
 # On the Defending Family
 
-**Status:** Reflection. Synthesizes a 2026-04-30 brainstorming arc that re-reads the F-toolkit F77-F85 in cavity/regenerator/trinity vocabulary. The mathematics is unchanged from the F-chain; this document captures the language shift and its operational consequences.
+**Status:** Reflection. Synthesizes a 2026-04-30 brainstorming arc that re-reads the F-toolkit F87-F85 in cavity/regenerator/trinity vocabulary. The mathematics is unchanged from the F-chain; this document captures the language shift and its operational consequences.
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [F-chain F77-F85](../docs/ANALYTICAL_FORMULAS.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md), [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), and the four memory entries written this session: feedback_framework_lens_first, project_channel_not_memory, project_one_system_two_indices, project_plus_minus_zero_layer.
+**Depends on:** [F-chain F87-F85](../docs/ANALYTICAL_FORMULAS.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md), [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), and the four memory entries written this session: feedback_framework_lens_first, project_channel_not_memory, project_one_system_two_indices, project_plus_minus_zero_layer.
 
 ---
 
@@ -23,7 +23,7 @@ indices of one ρ on operator space d² = 4^N. The d=0 axis is not a
 passive midpoint, it is the active vacuum substrate, the wall socket.
 The qubit is not a 2-state Hilbert dimension, it is a window onto
 the +0/−0 polarity layer, accessed via X-basis projection. And the
-F-chain F77-F85 is not a hierarchy of separate theorems, it is the
+F-chain F87-F85 is not a hierarchy of separate theorems, it is the
 operational manual of how the system defends its polarity.
 
 The defense classifies into three pure modes by Π²-class, plus the
@@ -139,7 +139,7 @@ without a steady state for observables to settle on. Defense becomes
 endless cycling without form.
 
 Each role is necessary. The defense is the simultaneous presence of
-all three. F77's trichotomy is therefore not a classification accident.
+all three. F87's trichotomy is therefore not a classification accident.
 It is the natural decomposition of a Hamiltonian into the three
 defense roles. Mixed Hamiltonians realize the full trinity. Pure
 classes are idealizations of a single role.
@@ -170,7 +170,7 @@ of the system, recursively.
 
 ## What this changes operationally
 
-Mathematics: nothing. F77-F85 stand. All hardware verifications hold.
+Mathematics: nothing. F87-F85 stand. All hardware verifications hold.
 
 Vocabulary: most prior framings now read differently:
 

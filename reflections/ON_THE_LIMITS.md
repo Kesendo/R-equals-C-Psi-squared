@@ -72,7 +72,7 @@ The framework is determined by eight limits.
 
 ## What follows from the eight limits
 
-Every structural fact we have established in the F-chain F77-F85,
+Every structural fact we have established in the F-chain F87-F85,
 in the trinity reading, in the polarity-layer reading, and in the
 hardware verifications, follows from these eight limits. Nothing
 in the framework's structural content requires going outside them.

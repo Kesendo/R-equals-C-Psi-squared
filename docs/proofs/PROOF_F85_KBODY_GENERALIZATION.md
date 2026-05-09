@@ -138,7 +138,7 @@ F85 closes the analytical Π-decomposition theory across body-counts:
 | Theorem | scope before F85 | scope after F85 |
 |---------|------------------|-----------------|
 | F49 (Frobenius scaling) | 2-body, n_YZ-based | k-body, c(k)-based via Π²-class |
-| F77 (trichotomy) | 2-body bilinears | k-body terms |
+| F87 (trichotomy) | 2-body bilinears | k-body terms |
 | F80 (Spec(M) = 2i·Spec(H)) | 2-body chain Π²-odd | k-body chain Π²-odd (proof structure carries over; explicit verification N=3..7 only at 2-body) |
 | F81 (Π·M·Π⁻¹ = M − 2·L_H_odd) | 2-body | k-body verbatim |
 | F82, F84 (dissipator violations) | dissipator only | unchanged |

@@ -1,7 +1,7 @@
 # IBM Marrakesh F83 4-Hamiltonian Signature Test, April 2026
 
 Live hardware verification of F83's structural prediction that the four
-F77 Π²-classes (truly / pure Π²-odd / pure Π²-even-non-truly / mixed)
+F87 Π²-classes (truly / pure Π²-odd / pure Π²-even-non-truly / mixed)
 produce **operationally distinguishable Pauli-expectation patterns** on
 N=3 chains, read through the F-toolkit lens.
 
@@ -38,9 +38,9 @@ advance what each class reveals:
 
 | Π²-class | F-toolkit reading | Idealized M | What it shows |
 |----------|--------------------|-------------|----------------|
-| `truly_unbroken` (XX+YY) | F77 truly: M = 0; F84 says environmental σ⁻ amplitude damping breaks the ⟨Z⟩-conservation that the Hamiltonian stipulates | 0 | The environment, cleanly. Any HW deviation IS the F82/F84 amplitude-damping contribution. |
-| `pi2_odd_pure` (XY+YX) | F77 pure-Π²-odd; F81 says M_anti = L_{H_odd} dominates; F83 anti = 1/2 | M_anti dominant | The dynamics-generator side of M. F83 anti-fraction is the structural prediction. |
-| `pi2_even_nontruly` (YZ+ZY) | F77 pure-Π²-even-non-truly; F81 says M_sym dominates; F83 anti = 0 | M_sym dominant | The mirror-echo side of M (memory-only, no drive). |
+| `truly_unbroken` (XX+YY) | F87 truly: M = 0; F84 says environmental σ⁻ amplitude damping breaks the ⟨Z⟩-conservation that the Hamiltonian stipulates | 0 | The environment, cleanly. Any HW deviation IS the F82/F84 amplitude-damping contribution. |
+| `pi2_odd_pure` (XY+YX) | F87 pure-Π²-odd; F81 says M_anti = L_{H_odd} dominates; F83 anti = 1/2 | M_anti dominant | The dynamics-generator side of M. F83 anti-fraction is the structural prediction. |
+| `pi2_even_nontruly` (YZ+ZY) | F87 pure-Π²-even-non-truly; F81 says M_sym dominates; F83 anti = 0 | M_sym dominant | The mirror-echo side of M (memory-only, no drive). |
 | `mixed_anti_one_sixth` (XY+YZ) | F83 anti = 1/6 with r = 1 (equal Frobenius mix) | M_anti and M_sym in fixed ratio | The continuous tunability of F83 at one decimal point. |
 
 This guides what we measure and how to read it. The two pure-class
@@ -49,7 +49,7 @@ F82/F84. mixed tests F83 at a non-trivial ratio.
 
 ## F83 anti-fraction discrimination: CONFIRMED
 
-The four F77 Π²-classes are operationally distinguishable on hardware
+The four F87 Π²-classes are operationally distinguishable on hardware
 via Pauli-expectation pattern. Each category has at least one
 unique-fingerprint observable that separates it from all three other
 categories at >>10σ (statistical error 0.0156 at 4096 shots):
