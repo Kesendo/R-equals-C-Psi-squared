@@ -138,6 +138,8 @@ public static class KnowledgeCommand
             .RegisterF43SectorSffPairingPi2Inheritance()
             .RegisterF33ExactN3DecayRatesPi2Inheritance()
             .RegisterF4StationaryModeCountPi2Inheritance()
+            .RegisterF55UniversalAbsorptionDosePi2Inheritance()
+            .RegisterF64CavityModeExposurePi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
