@@ -3,6 +3,7 @@ using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Resonance;
+using RCPsiSquared.Core.Symmetry;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F86;
@@ -113,5 +114,59 @@ public class PerF71OrbitKTableTests
         var defaultGrid = ResonanceScan.DefaultQGrid();
         Assert.True(orbit1.IsEscaped(defaultGrid),
             $"orbit 1 at N=9 should be escaped; got Q_peak={orbit1.QPeak:F4}, grid_max={defaultGrid[^1]}");
+    }
+
+    /// <summary>The chain-center F71 orbit (deepest interior under spatial mirror)
+    /// sits at HWHM_left/Q_peak ≈ 1 − 1/4 = 3/4 within tol 0.005 across N=9, 10. The
+    /// 1/4 = a_3 = QuarterAsBilinearMaxvalClaim on Pi2DyadicLadder is the mirror
+    /// partner of 3/4 (= 1 − a_3) via inversion symmetry a_n · a_{2−n} = 1.
+    ///
+    /// <para>Two perspectives, same geometric fact:</para>
+    /// <list type="bullet">
+    ///   <item>Inside view (Q_peak going outward): HWHM_left/Q_peak ≈ 3/4.</item>
+    ///   <item>Outside view (Q=0 going inward): half-max-left at Q ≈ Q_peak/4.</item>
+    /// </list>
+    ///
+    /// <para><b>Orbit-escape signature:</b> while the center orbit stays anchored at
+    /// 3/4 within ≤ 0.2% across N=9, 10, the first-flanking orbit at N=9 escapes
+    /// the default scan grid (see <see cref="IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid"/>).
+    /// The class-mean Interior HwhmLeftOverQPeak drift in
+    /// <c>PolarityInheritanceLink._polarityWitnesses</c> across N=5..8 (max ±0.0045
+    /// from 3/4) is the visible signature of orbit-mixing: at N≤8 all Interior orbits
+    /// are still bounded but flanking orbits are already drifting toward escape; at
+    /// N≥9 flanking orbits hit the grid and the class-mean breaks down. The center
+    /// orbit's 3/4 ≈ 1 − a_3 plateau is what remains stable.</para>
+    ///
+    /// <para>Tier 1 candidate. Mirror-partner reading is exact in the structural
+    /// sense (HwhmRatio_center = 1 − a_3); empirical drift ≤ 0.2% at N=9, 10 leaves
+    /// the closed-form Tier 1 promotion open in F86b Direction (a''-d'') in
+    /// <c>C2HwhmRatio.PendingDerivationNote</c>.</para></summary>
+    [Theory]
+    [InlineData(9)]
+    [InlineData(10)]
+    public void CenterOrbit_HwhmRatio_AnchorsToQuarterMirrorPartner(int N)
+    {
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var table = PerF71OrbitKTable.Build(block);
+        var center = table.OrbitWitnesses[^1];
+
+        var ladder = new Pi2DyadicLadderClaim();
+        double quarter = ladder.Term(3);          // a_3 = 1/4
+        double mirrorPartner = 1.0 - quarter;     // 3/4
+        const double tol = 0.005;
+
+        // Inside view: HWHM_left/Q_peak ≈ 1 − a_3 = 3/4
+        Assert.True(Math.Abs(center.HwhmLeftOverQPeak - mirrorPartner) <= tol,
+            $"Inside view (center orbit) at N={N}: HwhmLeftOverQPeak {center.HwhmLeftOverQPeak:F4} should sit within {tol} of 1 − a_3 = {mirrorPartner}");
+
+        // Outside view: 1 − HWHM_left/Q_peak ≈ a_3 = 1/4
+        double outsideView = 1.0 - center.HwhmLeftOverQPeak;
+        Assert.True(Math.Abs(outsideView - quarter) <= tol,
+            $"Outside view at N={N}: 1 − HwhmLeftOverQPeak {outsideView:F4} should sit within {tol} of a_3 = {quarter}");
+
+        // Distance flip identity: same magnitude, opposite sign
+        double distInside = center.HwhmLeftOverQPeak - mirrorPartner;
+        double distOutside = outsideView - quarter;
+        Assert.Equal(distInside, -distOutside, precision: 14);
     }
 }
