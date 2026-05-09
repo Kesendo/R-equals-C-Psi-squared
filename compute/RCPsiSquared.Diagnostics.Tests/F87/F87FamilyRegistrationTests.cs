@@ -53,4 +53,40 @@ public class F87FamilyRegistrationTests
         Assert.Contains(typeof(QubitDimensionalAnchorClaim), ancestors);
         Assert.Contains(typeof(PolynomialFoundationClaim), ancestors);
     }
+
+    [Fact]
+    public void RegisterF87Family_DissipatorResonance_AncestorContainsF87Trichotomy()
+    {
+        // DissipatorResonanceLaw is the empirical statement about F87-hardness, so
+        // F87TrichotomyClassification is its typed parent (the F87 closed form is
+        // the source of "hardness" being a thing).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterPi2Family()
+            .RegisterF87Family()
+            .Build();
+
+        var ancestors = registry.AncestorsOf<DissipatorResonanceLaw>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F87TrichotomyClassification), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF87Family_DissipatorAxis_AncestorContainsDissipatorResonanceAndF87Trichotomy()
+    {
+        // DissipatorAxisSelectsPolarityClaim's docstring states "witnesses live upstream"
+        // → DissipatorResonanceLaw is its second typed parent (alongside PolarityLayerOrigin).
+        // Transitively, F87TrichotomyClassification is also an ancestor through
+        // DissipatorResonanceLaw.
+        var registry = new ClaimRegistryBuilder()
+            .RegisterPi2Family()
+            .RegisterF87Family()
+            .Build();
+
+        var ancestors = registry.AncestorsOf<DissipatorAxisSelectsPolarityClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(DissipatorResonanceLaw), ancestors);
+        Assert.Contains(typeof(F87TrichotomyClassification), ancestors);
+    }
 }
