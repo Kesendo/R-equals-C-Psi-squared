@@ -10,13 +10,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// eigenmode v of L with eigenvalue λ, this computes the **normalised** mass that v
 /// carries in each of the 4 Klein-cells (Pp, Pm, Mp, Mm) — the four masses sum to 1.
 ///
-/// <para>Π²_Z commutes with L (consequence of F1: Π·L·Π⁻¹ = −L − 2σ·I, squared), so the
-/// L-eigenspace for any non-degenerate eigenvalue lives entirely in one Π²_Z eigenspace.
-/// For degenerate eigenvalues spanning both Π²_Z subspaces, a generic basis (such as the
-/// one MathNet's Evd returns) can mix across them — the *eigenspace* respects Π²_Z, but
-/// individual basis vectors may not. The Klein-cell masses below describe the chosen
-/// basis vector's distribution; aggregated over a degenerate subspace they recover the
-/// Π²_Z structure.</para>
+/// <para>Both Π²-axes commute with L for Heisenberg + Z-dephasing:
+/// <list type="bullet">
+///   <item><b>Π²_Z:</b> [L, Π²_Z] = 0 via F63 (w_YZ parity conservation; consequence of
+///         F1's palindrome identity Π·L·Π⁻¹ = −L − 2σ·I squared).</item>
+///   <item><b>Π²_X:</b> [L, Π²_X] = 0 via F61 (n_XY parity conservation; the orthogonal
+///         axis bit_a-parity).</item>
+/// </list>
+/// Together these make the (Π²_Z, Π²_X) Klein-cell membership a conserved quantity, so
+/// the L-eigenspace for any non-degenerate eigenvalue lives entirely in one Klein cell.
+/// For degenerate eigenvalues spanning both subspaces of either axis, a generic basis
+/// (such as the one MathNet's Evd returns) can mix across them — the *eigenspace*
+/// respects (Π²_Z, Π²_X), but individual basis vectors may not. The Klein-cell masses
+/// below describe the chosen basis vector's distribution; aggregated over a degenerate
+/// subspace they recover the conserved Klein structure.</para>
 ///
 /// <para>Use this to read which Klein-cells the dynamics populates for a given Hamiltonian
 /// across the slow / fast spectrum: do slow modes (Re(λ) ≈ 0) populate the same Klein-cells
