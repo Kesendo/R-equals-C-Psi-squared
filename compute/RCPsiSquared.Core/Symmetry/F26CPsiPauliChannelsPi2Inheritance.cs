@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         F25's denominator 6 = 12/2 reflects single-axis specialization.</item>
 ///   <item><b>F25 corollary edge</b>: F26 reduces to F25 when γ_x = γ_y = 0;
 ///         typed mother-corollary inheritance pattern (parallel to F75 →
-///         F77 wired today).</item>
+///         F77).</item>
 /// </list>
 ///
 /// <para>Three-axis structure: each (α, β, δ) is 4 · (sum of two γ's
@@ -77,8 +77,9 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim
     /// <summary>Three rate coefficients α, β, δ for given (γ_x, γ_y, γ_z).</summary>
     public (double Alpha, double Beta, double Delta) RateCoefficients(double gammaX, double gammaY, double gammaZ)
     {
-        if (gammaX < 0.0 || gammaY < 0.0 || gammaZ < 0.0)
-            throw new ArgumentOutOfRangeException("γ rates must be ≥ 0.");
+        if (gammaX < 0.0) throw new ArgumentOutOfRangeException(nameof(gammaX), gammaX, "γ_x must be ≥ 0.");
+        if (gammaY < 0.0) throw new ArgumentOutOfRangeException(nameof(gammaY), gammaY, "γ_y must be ≥ 0.");
+        if (gammaZ < 0.0) throw new ArgumentOutOfRangeException(nameof(gammaZ), gammaZ, "γ_z must be ≥ 0.");
         double four = DecayRateCoefficient;
         return (
             Alpha: four * (gammaY + gammaZ),
@@ -102,7 +103,8 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim
     /// F25's. Drift check across single-channel limit.</summary>
     public bool RecoversF25AtSingleChannelLimit(double gammaZ, double t)
     {
-        if (gammaZ < 0.0 || t < 0.0) throw new ArgumentOutOfRangeException();
+        if (gammaZ < 0.0) throw new ArgumentOutOfRangeException(nameof(gammaZ), gammaZ, "γ_z must be ≥ 0.");
+        if (t < 0.0) throw new ArgumentOutOfRangeException(nameof(t), t, "t must be ≥ 0.");
         return Math.Abs(CPsiAtTime(0.0, 0.0, gammaZ, t) - _f25.CPsiAtTime(gammaZ, t)) < 1e-12;
     }
 

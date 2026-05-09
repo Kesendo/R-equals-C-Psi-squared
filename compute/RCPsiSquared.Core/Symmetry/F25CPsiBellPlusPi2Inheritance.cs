@@ -17,7 +17,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>F25 is the mother claim of <see cref="F57DwellTimeQuarterPi2Inheritance"/>:
 /// F57's Bell+ K_dwell prefactor 1.080088 = 2/1.851701 derives directly from
 /// F25's <c>|dCΨ/dt|</c> at the crossing. F57 → F25 is the typed
-/// mother-claim inheritance edge (parallel pattern to F77 → F75 wired today).</para>
+/// mother-claim inheritance edge (parallel pattern to F77 → F75).</para>
 ///
 /// <para>Three Pi2-Foundation anchors:</para>
 ///
@@ -159,7 +159,7 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("BellPlusKInvariant (state-specific)", BellPlusKInvariant);
             yield return InspectableNode.RealScalar("BellPlusF57Prefactor (= 2/1.851701)", BellPlusF57Prefactor);
             yield return new InspectableNode("F25 ↔ F57 mother-corollary chain",
-                summary: "F25 closed form gives |dCΨ/dt|_{t_cross} = 1.851701 for Bell+; F57's prefactor 1.080088 = 2 / 1.851701 (the 2 IS Coefficient2 = a_0). Pattern parallel to F75 → F77 mother-claim wired today.");
+                summary: "F25 closed form gives |dCΨ/dt|_{t_cross} = 1.851701 for Bell+; F57's prefactor 1.080088 = 2 / 1.851701 (the 2 IS Coefficient2 = a_0). Pattern parallel to F75 → F77 mother-claim chain.");
             yield return new InspectableNode("Verifications",
                 summary: $"CΨ(0) = 1·(1+1)/6 = 1/3 (Bell+ initial, above fold; drift check: {BellPlusInitialIsOneThird()}); CΨ at f* = 0.8612 ≈ 0.25 (drift check: {CrossingFConsistency()})");
             yield return new InspectableNode("State-specific values (NOT Pi2-anchored)",

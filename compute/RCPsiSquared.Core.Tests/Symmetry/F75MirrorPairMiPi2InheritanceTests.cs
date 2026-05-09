@@ -5,10 +5,17 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F75MirrorPairMiPi2InheritanceTests
 {
-    private static F75MirrorPairMiPi2Inheritance BuildClaim() =>
-        new F75MirrorPairMiPi2Inheritance(
-            new Pi2DyadicLadderClaim(),
-            new F71MirrorSymmetryPi2Inheritance());
+    private static F75MirrorPairMiPi2Inheritance BuildClaim()
+    {
+        var ladder = new Pi2DyadicLadderClaim();
+        var qubitAnchor = new QubitDimensionalAnchorClaim();
+        var f66 = new F66PoleModesPi2Inheritance(ladder, qubitAnchor);
+        var f65 = new F65XxChainSpectrumPi2Inheritance(ladder, f66);
+        return new F75MirrorPairMiPi2Inheritance(
+            ladder,
+            new F71MirrorSymmetryPi2Inheritance(),
+            f65);
+    }
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -129,15 +136,28 @@ public class F75MirrorPairMiPi2InheritanceTests
     [Fact]
     public void Constructor_NullLadder_Throws()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var f66 = new F66PoleModesPi2Inheritance(ladder, new QubitDimensionalAnchorClaim());
+        var f65 = new F65XxChainSpectrumPi2Inheritance(ladder, f66);
         Assert.Throws<ArgumentNullException>(() =>
-            new F75MirrorPairMiPi2Inheritance(null!, new F71MirrorSymmetryPi2Inheritance()));
+            new F75MirrorPairMiPi2Inheritance(null!, new F71MirrorSymmetryPi2Inheritance(), f65));
     }
 
     [Fact]
     public void Constructor_NullF71_Throws()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var f66 = new F66PoleModesPi2Inheritance(ladder, new QubitDimensionalAnchorClaim());
+        var f65 = new F65XxChainSpectrumPi2Inheritance(ladder, f66);
         Assert.Throws<ArgumentNullException>(() =>
-            new F75MirrorPairMiPi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+            new F75MirrorPairMiPi2Inheritance(ladder, null!, f65));
+    }
+
+    [Fact]
+    public void Constructor_NullF65_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new F75MirrorPairMiPi2Inheritance(new Pi2DyadicLadderClaim(), new F71MirrorSymmetryPi2Inheritance(), null!));
     }
 
     [Fact]

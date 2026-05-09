@@ -34,7 +34,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <c>2^(N+2)·n_YZ</c> halved (n_YZ = 1/2 effective for T1 single-site).</item>
 ///   <item><b>F81 mother claim</b>: F82 reduces to F81 at γ_T1 = 0; the
 ///         typed mother-claim edge (parallel pattern to F77 → F75 mother
-///         claim wired today).</item>
+///         claim).</item>
 /// </list>
 ///
 /// <para>Three diagnostic properties (proven and empirical):</para>

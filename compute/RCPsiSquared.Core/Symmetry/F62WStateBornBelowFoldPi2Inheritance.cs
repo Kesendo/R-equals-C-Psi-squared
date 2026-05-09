@@ -54,7 +54,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>F61 cited in F62 proof</b>: per ANALYTICAL_FORMULAS F62
 ///         "Combined with the Parity Selection Rule (F61), this proves that
 ///         single-excitation states on Heisenberg chains under Z-dephasing
-///         never cross CΨ = 1/4." F61 is the bit_a parity claim — W-states
+///         never cross CΨ = 1/4." F61 is the bit_a parity claim: W-states
 ///         have purely even n_XY content, so SE optimisers cannot reach
 ///         odd-n_XY modes (per F61's accessibility ceiling). F62 + F61
 ///         together close the "single-excitation regime is structurally
@@ -158,8 +158,8 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
                 summary: "F62 + F61 together: SE states have purely even n_XY (F61); W_N is SE; W_N born below fold for N ≥ 3 (F62); SE optimisers structurally cannot cross 1/4 on Heisenberg + Z-dephasing");
             yield return new InspectableNode("operational consequence",
                 summary: "single-excitation regime is outside framework's quantum band for N ≥ 3, regardless of γ. Multi-excitation encodings required (Dicke, mirror-pair, etc.)");
-            // Verified table from ANALYTICAL_FORMULAS F62
-            for (int N = 2; N <= 10; N += (N == 2 ? 1 : (N == 3 ? 2 : (N == 5 ? 5 : 1))))
+            // Verified table from ANALYTICAL_FORMULAS F62 at N ∈ {2, 3, 5, 10}
+            foreach (int N in new[] { 2, 3, 5, 10 })
             {
                 double cpsi = CPsiAtZeroForWState(N);
                 yield return new InspectableNode(

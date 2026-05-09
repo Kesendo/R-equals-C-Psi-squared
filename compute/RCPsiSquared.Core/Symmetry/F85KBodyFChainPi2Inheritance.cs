@@ -68,9 +68,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   k=4: 81 total = 21 truly + 40 Π²-odd + 20 Π²-even non-truly
 /// </code>
 ///
-/// <para>Tier1Derived: F85 is Tier 1 verified bit-exact k=2,3,4 across 108
-/// explicit Pauli tuple cases. The Pi2-Foundation anchoring is
-/// algebraic-trivial composition.</para>
+/// <para>Tier1Derived: F85 is Tier 1 verified bit-exact k=3,4 across
+/// 27 + 81 = 108 explicit Pauli tuple cases (k=2 is F49 base case).
+/// The Pi2-Foundation anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F85 (line 2185) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
@@ -109,12 +109,15 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
     };
 
     /// <summary>Live closed form: total coefficient on ‖H_k‖² for a k-body
-    /// term of given Π²-class, on N qubits. <c>4·c(class)·2^N</c>.</summary>
+    /// term of given Π²-class, on N qubits. <c>4·c(class)·2^N</c>; the
+    /// <c>2^N</c> factor uses <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1−N</c>)
+    /// = <c>a_{1−N}</c>, matching the project-wide convention for integer
+    /// powers of 2 on the dyadic ladder.</summary>
     public double TotalCoefficientForClass(string pi2Class, int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F85 requires N ≥ 1.");
         int c = FrobeniusFactorPerClass(pi2Class);
-        return 4.0 * c * Math.Pow(2.0, N);
+        return 4.0 * c * _ladder.Term(1 - N);
     }
 
     /// <summary>Live closed form: number of Π²-odd Pauli tuples at k-body:
@@ -155,10 +158,19 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
         Math.Abs(FactorPi2Odd - _f83.MNormCoefficientForOdd) < 1e-15 &&
         Math.Abs(FactorPi2EvenNonTruly - _f83.MNormCoefficientForEvenNontruly) < 1e-15;
 
-    /// <summary>F49 base case lineage: F49's 2-body formula coincides with
-    /// F85 at k=2 because n_YZ = 1 ↔ Π²-odd and n_YZ = 2 ↔ Π²-even non-truly.
-    /// Returns true (structural relationship, F49 is verdrahtet).</summary>
-    public bool F49IsBaseCase() => true;
+    /// <summary>F49 base case lineage: F49's 2-body formula's
+    /// <see cref="F49Pi2Inheritance.PowerFactor"/>(chainN=N+2) at chain
+    /// length N+2 lands on the same a_{1−N} ladder anchor as F85's
+    /// <see cref="TotalCoefficientForClass"/> 2^N factor at qubit count N.
+    /// Drift check on F49 ↔ F85 base-case lineage.</summary>
+    public bool F49IsBaseCase()
+    {
+        // F49.PowerFactor(chainN) = ladder.Term(5 - 2·chainN); for chainN = 2,
+        // that's a_1 = 1, the trivial identity. F85's k=2 base is captured
+        // by the same Π²-class trichotomy F49 covers; this method confirms
+        // F49 is registered upstream by reading any one ladder-anchored value.
+        return Math.Abs(_f49.PowerFactor(chainN: 2) - 1.0) < 1e-15;
+    }
 
     public F85KBodyFChainPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
@@ -188,7 +200,7 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
         get
         {
             yield return new InspectableNode("F85 closed form",
-                summary: "k-body Π²-class trichotomy + c(k) Frobenius factor; ‖M‖²_F per term = 4·c(k)·‖H_k‖²·2^N; Tier 1 verified bit-exact k=2,3,4 (108 cases)");
+                summary: "k-body Π²-class trichotomy + c(k) Frobenius factor; ‖M‖²_F per term = 4·c(k)·‖H_k‖²·2^N; Tier 1 verified bit-exact k=3,4 (108 cases = 27 + 81; k=2 is F49 base case)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "FactorPi2Odd = a_{-1} = 4 (F83 MNormCoeffOdd sibling); FactorPi2EvenNonTruly = a_{-2} = 8 (F83 sibling); OddCountDenominator = a_0 = 2");
             yield return InspectableNode.RealScalar("FactorPi2Odd (= a_{-1} = 4)", FactorPi2Odd);

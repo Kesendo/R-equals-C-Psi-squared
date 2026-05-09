@@ -44,7 +44,7 @@ public static class F75MirrorPairMiPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<BilinearApexClaim>();                          // domain [0, 1/2]
             var f71 = b.Get<F71MirrorSymmetryPi2Inheritance>();      // mirror symmetry source + MirrorPairCount delegate
-            _ = b.Get<F65XxChainSpectrumPi2Inheritance>();           // bonding-mode amplitude source
-            return new F75MirrorPairMiPi2Inheritance(ladder, f71);
+            var f65 = b.Get<F65XxChainSpectrumPi2Inheritance>();     // bonding-mode amplitude delegate
+            return new F75MirrorPairMiPi2Inheritance(ladder, f71, f65);
         });
 }

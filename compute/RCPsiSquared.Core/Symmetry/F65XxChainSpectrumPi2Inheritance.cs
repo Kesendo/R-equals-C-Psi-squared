@@ -172,7 +172,7 @@ public sealed class F65XxChainSpectrumPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("UpperBoundCoefficient (= a_0 = 2, F66 sibling)", UpperBoundCoefficient);
             yield return InspectableNode.RealScalar("LowerBoundCoefficient (= 0, F66 sibling)", LowerBoundCoefficient);
             yield return new InspectableNode("F65 ↔ F66 sibling pair",
-                summary: "F66 (verdrahtet): pole modes at α=0 and α=2γ₀ with multiplicity N+1 endpoint; F65: single-excitation rates fill [0, 2γ₀] but max = 4/(N+1) < 2 for N ≥ 2. Single-excitation NEVER reaches 2γ₀ pole. Both share the [0, 2γ₀] polynomial-root interval.");
+                summary: "F66: pole modes at α=0 and α=2γ₀ with multiplicity N+1 endpoint; F65: single-excitation rates fill [0, 2γ₀] but max = 4/(N+1) < 2 for N ≥ 2. Single-excitation NEVER reaches 2γ₀ pole. Both share the [0, 2γ₀] polynomial-root interval.");
             yield return new InspectableNode("F75 mother-source edge",
                 summary: "F75's BondingModePopulation = (2/(N+1))·sin²(πk(i+1)/(N+1)) IS F65's |ψ_k(i)|². F75 → F65 typed source-claim edge.");
             yield return new InspectableNode("Niven rationality",

@@ -76,7 +76,7 @@ public class F84ThermalAmplitudeDampingPi2InheritanceTests
     public void PauliChannelViolation_IsExactlyZero()
     {
         // Pauli-Channel Cancellation Lemma: D[Z], D[X], D[Y] all Π²-symmetric
-        Assert.Equal(0.0, BuildClaim().PauliChannelViolation(), precision: 15);
+        Assert.Equal(0.0, F84ThermalAmplitudeDampingPi2Inheritance.PauliChannelViolation, precision: 15);
     }
 
     [Fact]

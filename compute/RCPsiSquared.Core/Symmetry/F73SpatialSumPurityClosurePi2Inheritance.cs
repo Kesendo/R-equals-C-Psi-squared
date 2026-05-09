@@ -80,9 +80,16 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim
     private readonly F72BlockDiagonalPurityPi2Inheritance _f72;
 
     /// <summary>The closure baseline <c>1/2</c> in <c>(1/2)·exp(−4γ₀t)</c>.
-    /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c>.
-    /// Same anchor as F72's <c>Tr(ρ_i²) = 1/2 + ...</c> baseline.</summary>
-    public double ClosureBaseline => _ladder.Term(2);
+    /// Delegates to <see cref="F72BlockDiagonalPurityPi2Inheritance.BaselineTraceSquared"/>;
+    /// F73 inherits the same a_2 = 1/2 baseline as F72's <c>Tr(ρ_i²)</c>
+    /// decomposition.</summary>
+    public double ClosureBaseline => _f72.BaselineTraceSquared;
+
+    /// <summary>True iff the F70 single-site ΔN-bound (= 1) governs the
+    /// (vac, SE) coherence sector this closure operates on. Drift check
+    /// on the F70 → F73 scaffolding inheritance.</summary>
+    public bool InheritsF70SingleSiteBound() =>
+        Math.Abs(_f70.SingleSiteMaxDeltaN - 1.0) < 1e-15;
 
     /// <summary>The "4" decay-rate coefficient in <c>exp(−4γ₀t)</c>. Live
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.

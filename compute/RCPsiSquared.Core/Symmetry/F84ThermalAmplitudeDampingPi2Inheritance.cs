@@ -139,11 +139,10 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim
 
     /// <summary>Pauli-Channel Cancellation Lemma: pure D[Z], D[X], D[Y]
     /// dissipators contribute 0 to f81 violation. Only σ⁻/σ⁺ are
-    /// Π²-anti-symmetric. Returns 0 since pure-Pauli channels have
-    /// Δγ = 0 by construction (γ_cool/γ_heat refer to σ±, not Pauli letters).
-    /// This method documents the lemma; actual D[Pauli] violation is 0
+    /// Π²-anti-symmetric. Pure-Pauli channels have Δγ = 0 by construction
+    /// (γ_cool/γ_heat refer to σ±, not Pauli letters), so violation = 0
     /// by structure, not by formula evaluation.</summary>
-    public double PauliChannelViolation() => 0.0;
+    public const double PauliChannelViolation = 0.0;
 
     /// <summary>Inverse: recover RMS |Δγ| from a measured f81 violation.
     /// <c>|Δγ|_RMS = f81_violation / (√N · 2^(N−1))</c>. Same form as F82's

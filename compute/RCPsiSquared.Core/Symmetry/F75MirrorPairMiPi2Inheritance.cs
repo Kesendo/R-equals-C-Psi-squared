@@ -77,6 +77,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
 {
     private readonly Pi2DyadicLadderClaim _ladder;
     private readonly F71MirrorSymmetryPi2Inheritance _f71;
+    private readonly F65XxChainSpectrumPi2Inheritance _f65;
 
     /// <summary>The MI saturation value: <c>2 bits</c> at <c>p_ℓ = 1/2</c>
     /// (Bell-state mirror-pair). Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
@@ -129,15 +130,11 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
         Math.Abs(MIPerPair(DomainUpperBound) - MaxMIPerPair) < 1e-12;
 
     /// <summary>Bonding-mode site population: <c>p_ℓ(k, N) = (2/(N+1)) sin²(πk(ℓ+1)/(N+1))</c>
-    /// for the k-th bonding mode on a uniform N-site chain.</summary>
-    public double BondingModePopulation(int N, int k, int site)
-    {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F75 requires N ≥ 2.");
-        if (k < 1 || k > N) throw new ArgumentOutOfRangeException(nameof(k), k, $"k must be in [1, {N}]; got {k}.");
-        if (site < 0 || site >= N) throw new ArgumentOutOfRangeException(nameof(site), site, $"site must be in [0, {N - 1}]; got {site}.");
-        double s = Math.Sin(Math.PI * k * (site + 1) / (N + 1));
-        return 2.0 / (N + 1) * s * s;
-    }
+    /// for the k-th bonding mode on a uniform N-site chain. Delegates to
+    /// <see cref="F65XxChainSpectrumPi2Inheritance.BondingModePopulation"/>;
+    /// F65 is the spectrum-source typed claim.</summary>
+    public double BondingModePopulation(int N, int k, int site) =>
+        _f65.BondingModePopulation(N, k, site);
 
     /// <summary>MM(0) for bonding-mode k summed over all mirror-pairs: O(N) work,
     /// no propagation. Verified table at N=5..13 for various k against PeakMM
@@ -156,18 +153,21 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
 
     public F75MirrorPairMiPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
-        F71MirrorSymmetryPi2Inheritance f71)
-        : base("F75 MI(p) = 2·h(p) − h(2p) inherits from Pi2-Foundation: 2 = a_0 (sat); domain [0, 1/2] = BilinearApex; mirror = F71",
+        F71MirrorSymmetryPi2Inheritance f71,
+        F65XxChainSpectrumPi2Inheritance f65)
+        : base("F75 MI(p) = 2·h(p) − h(2p) inherits from Pi2-Foundation: 2 = a_0 (sat); domain [0, 1/2] = BilinearApex; mirror = F71; spectrum = F65",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F75 + " +
                "simulations/_mm_zero_derivation.py + " +
                "experiments/RECEIVER_VS_GAMMA_SACRIFICE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (BilinearApexClaim) + " +
-               "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs")
+               "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/F65XxChainSpectrumPi2Inheritance.cs (bonding-mode source)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
+        _f65 = f65 ?? throw new ArgumentNullException(nameof(f65));
     }
 
     public override string DisplayName =>
