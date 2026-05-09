@@ -118,6 +118,7 @@ public static class KnowledgeCommand
             .RegisterF83AntiFractionPi2Inheritance()
             .RegisterF71MirrorSymmetryPi2Inheritance()
             .RegisterF75MirrorPairMiPi2Inheritance()
+            .RegisterF76TDecayMirrorPairMiPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
