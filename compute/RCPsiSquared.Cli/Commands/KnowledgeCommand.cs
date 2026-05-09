@@ -134,6 +134,7 @@ public static class KnowledgeCommand
             .RegisterF69GhzWSexticAboveFoldPi2Inheritance()
             .RegisterF44CrooksLikeRateIdentityPi2Inheritance()
             .RegisterF23XorDrainVanishingFractionPi2Inheritance()
+            .RegisterF41PalindromicTimePi2Inheritance()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
