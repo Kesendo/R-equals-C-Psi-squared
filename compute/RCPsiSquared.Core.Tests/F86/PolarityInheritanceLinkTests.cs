@@ -106,4 +106,77 @@ public class PolarityInheritanceLinkTests
         var link = PolarityInheritanceLink.Build();
         Assert.Contains(nameof(LocalGlobalEpLink), link.ParallelLocusReference);
     }
+
+    [Fact]
+    public void Interior_HwhmRatio_MirrorsQuarterAcrossInsideOutsideViews()
+    {
+        // The Interior HWHM_left/Q_peak ratio sits at 1 − 1/4 = 3/4 across N=5..8
+        // with max empirical drift 0.0045 (0.6% from 3/4 at N=5). The mirror partner
+        // is 1/4 = a_3 on Pi2DyadicLadder (= QuarterAsBilinearMaxvalClaim = Mandelbrot
+        // cardioid cusp = bilinear-apex maxval).
+        //
+        // Two perspectives, same geometric fact:
+        //   inside view (Q_peak going outward): HWHM_left/Q_peak ≈ 3/4
+        //   outside view (Q=0 going inward):    half-max-left at Q ≈ Q_peak/4
+        //
+        // The distance from each anchor flips sign exactly:
+        //   |HWHM_ratio − 3/4| = |(1 − HWHM_ratio) − 1/4|
+        //
+        // Tier 1 candidate (companion to Interior_RHwhm_NearOneHalf_HalfFixedPoint
+        // which anchors the same fact to HalfAsStructuralFixedPoint via r ≈ 1/2;
+        // this test makes the 1/4 mirror-partner reading explicit). Closed-form
+        // derivation is open in F86b Direction (a''-d''); see
+        // C2HwhmRatio.PendingDerivationNote.
+        var link = PolarityInheritanceLink.Build();
+        var ladder = new Pi2DyadicLadderClaim();
+        double quarter = ladder.Term(3);          // a_3 = 1/4
+        double mirrorPartner = 1.0 - quarter;     // 3/4
+        const double tol = 0.005;
+
+        foreach (var w in link.Witnesses)
+        {
+            // Inside view: Interior ≈ 3/4
+            Assert.True(Math.Abs(w.HwhmRatioInterior - mirrorPartner) <= tol,
+                $"Inside view at N={w.N}: HwhmRatioInterior {w.HwhmRatioInterior:F4} should sit within {tol} of 1 − a_3 = {mirrorPartner}");
+
+            // Outside view: 1 − Interior ≈ 1/4
+            double outsideView = 1.0 - w.HwhmRatioInterior;
+            Assert.True(Math.Abs(outsideView - quarter) <= tol,
+                $"Outside view at N={w.N}: 1 − HwhmRatioInterior {outsideView:F4} should sit within {tol} of a_3 = {quarter}");
+
+            // Distance flip identity: same magnitude, opposite sign
+            double distInside = w.HwhmRatioInterior - mirrorPartner;
+            double distOutside = outsideView - quarter;
+            Assert.Equal(distInside, -distOutside, precision: 14);
+        }
+    }
+
+    [Fact]
+    public void Endpoint_HwhmRatio_NotAtQuarterMirrorPartner()
+    {
+        // Bond-class contrast: Endpoint sits at ~0.7727 across N=5..8 — NOT at
+        // 1 − 1/4 = 3/4. Both views are clearly off the 1/4 mirror-partner:
+        //   inside view  0.770..0.774 (≥ 2.0% above 3/4)
+        //   outside view 0.226..0.230 (≥ 2.0% below 1/4)
+        //
+        // The structural distinction between Interior (mirror-partnered to 1/4)
+        // and Endpoint (separate plateau) is the bond-class signature; F86b's
+        // open closed-form derivation is responsible for both. This test pins
+        // that Endpoint does NOT sit at the same mirror partner.
+        var link = PolarityInheritanceLink.Build();
+        var ladder = new Pi2DyadicLadderClaim();
+        double quarter = ladder.Term(3);          // a_3 = 1/4
+        double mirrorPartner = 1.0 - quarter;     // 3/4
+        const double minGapFromMirrorPartner = 0.018; // empirical min gap is 0.020 at N=5
+
+        foreach (var w in link.Witnesses)
+        {
+            Assert.True(w.HwhmRatioEndpoint - mirrorPartner >= minGapFromMirrorPartner,
+                $"Endpoint at N={w.N}: HwhmRatioEndpoint {w.HwhmRatioEndpoint:F4} should sit ≥ {minGapFromMirrorPartner} above 1 − a_3 = {mirrorPartner} (bond-class contrast with Interior)");
+
+            double outsideView = 1.0 - w.HwhmRatioEndpoint;
+            Assert.True(quarter - outsideView >= minGapFromMirrorPartner,
+                $"Outside view at N={w.N}: 1 − HwhmRatioEndpoint {outsideView:F4} should sit ≥ {minGapFromMirrorPartner} below a_3 = {quarter} (bond-class contrast with Interior)");
+        }
+    }
 }
