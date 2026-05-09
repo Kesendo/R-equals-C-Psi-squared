@@ -148,6 +148,7 @@ public static class KnowledgeCommand
             .RegisterF79TwoBodyPi2BlockPi2Inheritance()
             .RegisterF56CriticalSlowingPi2Inheritance()
             .RegisterF86F71MirrorPi2Inheritance()
+            .RegisterPolynomialDiscriminantAnchor()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             // Open questions
             .RegisterF1OpenQuestions()
