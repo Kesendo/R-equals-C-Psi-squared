@@ -23,10 +23,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// involution that F38 defined. The two readings of one fact:</para>
 ///
 /// <list type="bullet">
-///   <item><b>F38 — what Π² is</b>: <c>Π² = (−1)^w_YZ</c> on Pauli strings;
+///   <item><b>F38, what Π² is</b>: <c>Π² = (−1)^w_YZ</c> on Pauli strings;
 ///         each eigenspace has dimension <c>4^N / 2 = 2·4^(N − 1)</c> on the
 ///         dyadic ladder (<see cref="F38Pi2InvolutionPi2Inheritance"/>).</item>
-///   <item><b>F63 — that L respects it</b>: <c>[L, Π²] = 0</c> means every
+///   <item><b>F63, that L respects it</b>: <c>[L, Π²] = 0</c> means every
 ///         eigenmode of L lives in either the Π²-even or Π²-odd subspace
 ///         (no mixing). Combined with F61's <c>[L, Π²_X] = 0</c> (bit_a
 ///         parity), the four C₂ × C₂ blocks decouple completely.</item>
@@ -45,7 +45,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>TotalConservedPerSector(N) = N + 1</b>: the count of
 ///         elementary symmetric polynomials e_d(Z₁, ..., Z_N) for d = 0..N,
 ///         which commute with both H and Z_B. Matches F66's endpoint
-///         multiplicity exactly — F63 is the symmetry-side reading of F66's
+///         multiplicity exactly: F63 is the symmetry-side reading of F66's
 ///         spectrum-side count.</item>
 ///   <item><b>Maximality (per F34)</b>: the C₂ × C₂ decomposition is the
 ///         maximal Z₂ × Z₂ symmetry admitted by the d = 2 Pauli algebra. No

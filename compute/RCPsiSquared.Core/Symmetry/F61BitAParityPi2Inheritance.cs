@@ -26,11 +26,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// independent Z₂ classification exists.</para>
 ///
 /// <list type="bullet">
-///   <item><b>F61 — bit_a parity (n_XY)</b>: L commutes with the n_XY parity
+///   <item><b>F61, bit_a parity (n_XY)</b>: L commutes with the n_XY parity
 ///         operator. Mechanism: Heisenberg bonds (XX, YY) flip exactly two
 ///         bit_a bits per term so n_XY parity is preserved; Z-dephasing
 ///         dissipator <c>Z ρ Z</c> has zero bit_a flips.</item>
-///   <item><b>F63 — bit_b parity (w_YZ)</b>: L commutes with the w_YZ parity
+///   <item><b>F63, bit_b parity (w_YZ)</b>: L commutes with the w_YZ parity
 ///         operator (<see cref="F63LCommutesPi2Pi2Inheritance"/>).</item>
 ///   <item><b>Combined</b>: 4-block decomposition <c>(bit_a, bit_b) ∈ {0,1}²</c>
 ///         with each block of dimension <c>4^(N − 1)</c>.</item>
@@ -56,8 +56,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Scope: F61 holds for isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY),
 /// any graph, any site-dependent γ_k. <b>Breaks for</b>: amplitude damping
-/// (T1) — note this is broader breakage than F63, which is preserved under
-/// T1 — and transverse fields (odd-n_XY terms in H). The asymmetry between
+/// (T1, note this is broader breakage than F63, which is preserved under
+/// T1) and transverse fields (odd-n_XY terms in H). The asymmetry between
 /// F61 and F63 break-conditions is the structural difference between bit_a
 /// and bit_b parity.</para>
 ///

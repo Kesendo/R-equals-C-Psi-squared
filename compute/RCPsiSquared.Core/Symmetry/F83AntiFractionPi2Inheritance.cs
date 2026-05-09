@@ -28,7 +28,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>MaximumAntiFraction = 1/2 at r=0</b>: <see cref="BilinearApexClaim"/>
 ///         apex value. The first F-formula that hangs structurally on the
-///         BilinearApex anchor — argmax-side counterpart to QuarterAsBilinearMaxval
+///         BilinearApex anchor: argmax-side counterpart to QuarterAsBilinearMaxval
 ///         which has many descendants.</item>
 ///   <item><b>"2" denominator coefficient = a_0</b>: <see cref="Pi2DyadicLadderClaim.Term"/>(0)
 ///         = polynomial root d. Constant term in the anti-fraction denominator
@@ -182,9 +182,9 @@ public sealed class F83AntiFractionPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("MNormCoefficientForOdd (= a_{-1} = 4)", MNormCoefficientForOdd);
             yield return InspectableNode.RealScalar("MNormCoefficientForEvenNontruly (= a_{-2} = 8)", MNormCoefficientForEvenNontruly);
             yield return new InspectableNode("BilinearApex direct edge (Tom 2026-05-09 mirror-map check)",
-                summary: "before F83, BilinearApexClaim had 0 descendants — argmax-side of the bilinear-apex pair (vs QuarterAsBilinearMaxval's 23 descendants). F83 is the first F-formula on the argmax side.");
+                summary: "before F83, BilinearApexClaim had 0 descendants (argmax-side of the bilinear-apex pair, vs QuarterAsBilinearMaxval's 23 descendants). F83 is the first F-formula on the argmax side.");
             yield return new InspectableNode("special cases (each is a Pi2 ladder reading)",
-                summary: "r=0 → 1/2 (BilinearApex max); r=1/2 → 1/4 (QuarterAsBilinearMaxval); r=1 → 1/6 (kombinatorisch, NOT Pi2); r→∞ → 0");
+                summary: "r=0 → 1/2 (BilinearApex max); r=1/2 → 1/4 (QuarterAsBilinearMaxval); r=1 → 1/6 (combinatorial, NOT Pi2); r→∞ → 0");
             yield return new InspectableNode("Lebensader connection (F-chain F77→F85)",
                 summary: "F83 closes the Π-decomposition picture: F81 (Π-conjugation identity), F82 (T1 correction), F83 (anti-fraction continuous family), F80 (Spec(M)). Together: structural picture of M complete for 2-body chain Hamiltonians under Z-dephasing + T1.");
             // Special cases verified
@@ -196,7 +196,7 @@ public sealed class F83AntiFractionPi2Inheritance : Claim
                 summary: $"anti-fraction = {AntiFraction(0.5):G6}, expected 1/4 (QuarterCrossoverHolds: {QuarterCrossoverHolds()})");
             yield return new InspectableNode(
                 "anti-fraction at r=1 (equal Frobenius mix)",
-                summary: $"anti-fraction = {AntiFraction(1):G6}, expected 1/6 (kombinatorisch)");
+                summary: $"anti-fraction = {AntiFraction(1):G6}, expected 1/6 (combinatorial)");
         }
     }
 }

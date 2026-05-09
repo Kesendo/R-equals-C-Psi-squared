@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Core.Symmetry;
 
@@ -26,7 +27,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// out of F75 by Taylor expansion of f(p) = 2 h(p) − h(2 p)"). F75 is the
 /// general formula; F77 the asymptotic limit.</para>
 ///
-/// <para>Four Pi2-Foundation anchors converge in F75:</para>
+/// <para>Five Pi2-Foundation anchors converge in F75:</para>
 ///
 /// <list type="bullet">
 ///   <item><b>p_ℓ ∈ [0, 1/2]</b> domain = <see cref="BilinearApexClaim"/>.
@@ -75,6 +76,7 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F75MirrorPairMiPi2Inheritance : Claim
 {
     private readonly Pi2DyadicLadderClaim _ladder;
+    private readonly F71MirrorSymmetryPi2Inheritance _f71;
 
     /// <summary>The MI saturation value: <c>2 bits</c> at <c>p_ℓ = 1/2</c>
     /// (Bell-state mirror-pair). Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
@@ -98,13 +100,10 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
     /// non-trivially on the underlying state.</summary>
     public IReadOnlyList<int> MirrorSigns => new[] { +1, -1 };
 
-    /// <summary>Mirror-pair count for an N-site chain: <c>⌊N/2⌋</c>. Same
-    /// count as <see cref="F71MirrorSymmetryPi2Inheritance.IndependentComponentCount"/>.</summary>
-    public int MirrorPairCount(int N)
-    {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F75 requires N ≥ 2.");
-        return N / 2;
-    }
+    /// <summary>Mirror-pair count for an N-site chain: <c>⌊N/2⌋</c>. Delegates
+    /// to <see cref="F71MirrorSymmetryPi2Inheritance.IndependentComponentCount"/>;
+    /// F75 + F71 share the same count via this typed bridge.</summary>
+    public int MirrorPairCount(int N) => _f71.IndependentComponentCount(N);
 
     /// <summary>Maximum total MM(0) bound: <c>⌊N/2⌋ · 2 = N − (N mod 2)</c> bits.
     /// Achieved iff every mirror-pair is in a pure Bell state (requires
@@ -119,7 +118,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
         if (p < 0.0 || p > DomainUpperBound)
             throw new ArgumentOutOfRangeException(nameof(p), p,
                 $"p must lie in [0, {DomainUpperBound:G}]; got {p}.");
-        return 2.0 * BinaryEntropy(p) - BinaryEntropy(2.0 * p);
+        return 2.0 * Entropy.Binary(p) - Entropy.Binary(2.0 * p);
     }
 
     /// <summary>Live drift check: <c>MI(0) = 0</c> bit (no entanglement).</summary>
@@ -155,14 +154,9 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
         return mm;
     }
 
-    private static double BinaryEntropy(double x)
-    {
-        if (x <= 0.0 || x >= 1.0) return 0.0;
-        const double Log2 = 0.6931471805599453;
-        return -(x * Math.Log(x) + (1.0 - x) * Math.Log(1.0 - x)) / Log2;
-    }
-
-    public F75MirrorPairMiPi2Inheritance(Pi2DyadicLadderClaim ladder)
+    public F75MirrorPairMiPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        F71MirrorSymmetryPi2Inheritance f71)
         : base("F75 MI(p) = 2·h(p) − h(2p) inherits from Pi2-Foundation: 2 = a_0 (sat); domain [0, 1/2] = BilinearApex; mirror = F71",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F75 + " +
@@ -173,6 +167,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
     }
 
     public override string DisplayName =>
@@ -198,13 +193,14 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
                 summary: "F71 mirror symmetry is cited as F75's structural source; the 'c_{N−1−j} = ±c_j' constraint IS the F71 spatial-mirror at the wave-function level");
             yield return new InspectableNode("k=2 maximization",
                 summary: "even k places node at chain center → all mass on mirror-pairs (Σ p_ℓ = 1/2 over pairs); odd k wastes 2/(N+1) at self-mirror site");
-            // Sample bonding-mode MM(0) values from F75 verified table
+            // Sample bonding-mode MM(0) values; comparison to PeakMM is external
+            // (per ANALYTICAL_FORMULAS.md F75 verified table at γ₀=0.05, J=1).
             yield return new InspectableNode(
                 "bonding mode N=5, k=2 (verified maximum)",
-                summary: $"MM(0) = {BondingModeMMAtZero(5, 2):G6} bits (analytic 1.245; PeakMM sim 1.241; ratio 0.997)");
+                summary: $"MM(0) = {BondingModeMMAtZero(5, 2):G6} bits (per ANALYTICAL_FORMULAS table: analytic 1.245, PeakMM sim 1.241, ratio 0.997)");
             yield return new InspectableNode(
                 "bonding mode N=7, k=4 (resonance enhancement)",
-                summary: $"MM(0) = {BondingModeMMAtZero(7, 4):G6} bits (analytic 1.245)");
+                summary: $"MM(0) = {BondingModeMMAtZero(7, 4):G6} bits (per ANALYTICAL_FORMULAS table: analytic 1.245)");
             yield return new InspectableNode(
                 "Bell-pair upper bound at N=4",
                 summary: $"max MM = {MaxTotalMM(4)} bits (= 2 pairs × 2 bits, requires super-single-excitation state)");

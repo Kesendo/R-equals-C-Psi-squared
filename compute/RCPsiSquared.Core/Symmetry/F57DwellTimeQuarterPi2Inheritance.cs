@@ -18,8 +18,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F57 is the dwell time of a CΨ trajectory inside the 2δ-window centred
-/// on the bilinear-apex boundary <c>CΨ = 1/4</c>. The two Pi2-Foundation anchors
-/// are structurally explicit, the state-specific prefactor sits on top:</para>
+/// on the bilinear-apex boundary <c>CΨ = 1/4</c>. Two Pi2-Foundation anchors
+/// are structurally explicit (CrossingThreshold + WindowDoublingFactor),
+/// γ-invariance is the K-invariance reading, and the state-specific prefactor
+/// sits on top:</para>
 ///
 /// <list type="bullet">
 ///   <item><b>CrossingThreshold = 1/4</b>: the boundary itself is

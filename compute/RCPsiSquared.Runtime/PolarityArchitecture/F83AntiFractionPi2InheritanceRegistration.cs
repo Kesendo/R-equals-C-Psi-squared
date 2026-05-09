@@ -19,11 +19,11 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         "max anti-fraction = 1/2 at r=0" reading IS the BilinearApex
 ///         apex value (ON_THE_HALF Coda 2026-05-07's argmax-maxval pair).</item>
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: registration discard.
-///         F83 crosses 1/4 at r=1/2 — same anchor as F57 + Dicke + F60 fold.
+///         F83 crosses 1/4 at r=1/2, same anchor as F57 + Dicke + F60 fold.
 ///         The crossover edge ties the BilinearApex argmax (1/2) to its
 ///         maxval shadow (1/4) through F83's continuous family.</item>
 ///   <item><see cref="ArgmaxMaxvalPairClaim"/>: meta-anchor closing the
-///         (1/2, 1/4) pair. F83 uses BOTH — MaximumAntiFraction = 1/2 (at r=0)
+///         (1/2, 1/4) pair. F83 uses BOTH: MaximumAntiFraction = 1/2 (at r=0)
 ///         AND QuarterCrossover at r=1/2 → 1/4. F83 IS the continuous family
 ///         that traverses the pair (activated 2026-05-09 mirror-map check).</item>
 /// </list>

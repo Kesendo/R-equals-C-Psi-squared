@@ -20,7 +20,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         Same anchor as F57 + Dicke superposition; F60 inherits the
 ///         framework's quarter-boundary as its threshold.</item>
 ///   <item><see cref="ArgmaxMaxvalPairClaim"/>: meta-anchor closing the
-///         (1/2, 1/4) pair. F60 uses BOTH — OffDiagonalElement = 1/2 and
+///         (1/2, 1/4) pair. F60 uses BOTH: OffDiagonalElement = 1/2 and
 ///         FoldPosition = 1/4 (activated 2026-05-09 mirror-map check).</item>
 /// </list>
 ///

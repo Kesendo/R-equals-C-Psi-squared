@@ -15,7 +15,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: the bilinear-apex maxval
 ///         anchor identifying 1/4 as max p·(1−p) at p=1/2.</item>
 ///   <item><see cref="ArgmaxMaxvalPairClaim"/>: the meta-anchor closing the
-///         (1/2, 1/4) pair. F57 uses BOTH ends — 1/4 (CrossingThreshold) and
+///         (1/2, 1/4) pair. F57 uses BOTH ends, 1/4 (CrossingThreshold) and
 ///         2 = 1/(1/2) (WindowDoublingFactor); the meta-anchor types this
 ///         convergence (activated 2026-05-09 mirror-map check).</item>
 /// </list>

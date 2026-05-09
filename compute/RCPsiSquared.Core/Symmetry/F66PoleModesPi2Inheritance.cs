@@ -22,7 +22,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// onto each other by the Π palindrome conjugation that exchanges total
 /// XY-weight w ↔ N − w (cf. F1, F43).</para>
 ///
-/// <para>Two Pi2-Foundation anchors hold the pole positions:</para>
+/// <para>Pole-position anchors (two Pi2-Foundation, two structural):</para>
 ///
 /// <list type="bullet">
 ///   <item><b>UpperPoleCoefficient = 2</b>: the "2" in α = 2γ₀ is
@@ -46,7 +46,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Scope: verified ONLY for the uniform XY chain with B at the endpoint
 /// (N = 3..7). At interior B (e.g. centre of N=5 chain) the multiplicity is
-/// 64, not 6 — the N + 1 count is endpoint-specific. F66 does NOT cover ring,
+/// 64, not 6, so the N + 1 count is endpoint-specific. F66 does NOT cover ring,
 /// star, or Y-junction topologies.</para>
 ///
 /// <para>Tier1Derived: F66 is Tier 1 verified analytically + numerically
@@ -166,7 +166,7 @@ public sealed class F66PoleModesPi2Inheritance : Claim
             yield return new InspectableNode("endpoint multiplicity N+1",
                 summary: "verified N=3..7 for uniform XY chain with B at endpoint; counts elementary symmetric polynomials e_d(Z₁..Z_N), conserved by F63's [L, Π²] = 0");
             yield return new InspectableNode("scope warning",
-                summary: "verified ONLY uniform XY chain with B at endpoint; interior B and other topologies (ring, star, Y-junction) are open. At N=5 centre, α=0 multiplicity is 64 not 6 — N+1 endpoint-specific.");
+                summary: "verified ONLY uniform XY chain with B at endpoint; interior B and other topologies (ring, star, Y-junction) are open. At N=5 centre, α=0 multiplicity is 64 not 6, so N+1 is endpoint-specific.");
             yield return new InspectableNode("verifications",
                 summary: "⟨n_XY⟩_B = 1.000000 exact for α=2γ₀ modes (N=3..5, Pauli-basis projection); multiplicity N+1 at each pole (N=3..7); F63 conservation: e_d drift < 10⁻¹⁴ under Lindblad N=4 over 80 time units");
             // Sample dissipation intervals

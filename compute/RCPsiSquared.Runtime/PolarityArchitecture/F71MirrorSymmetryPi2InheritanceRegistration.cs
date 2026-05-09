@@ -17,7 +17,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         claim is parameterised by N (registered at chain N=5 by default
 ///         in the cockpit); F71's universal MirrorPair logic does not need N
 ///         at construction time. Before F71 wiring, HalfIntegerMirror had
-///         0 descendants — the N-parity Pi2-Foundation primitive was
+///         0 descendants: the N-parity Pi2-Foundation primitive was
 ///         registered but unused (Tom 2026-05-09 mirror-map check).</item>
 /// </list>
 ///

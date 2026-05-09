@@ -5,8 +5,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F77MmSaturationPi2Inheritance"/>:
 /// F77's <c>MM(0) → 1 bit</c> saturation as the first F-formula sitting on the
-/// Pi2 dyadic ladder's self-mirror pivot a_1. Two parent edges (one explicit,
-/// one as registration discard):
+/// Pi2 dyadic ladder's self-mirror pivot a_1. Three parent edges (one explicit,
+/// two as registration discards):
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_1 = 1</c> (saturation
@@ -31,7 +31,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// feedback_F77_F87_rename) as the missed wiring.</para>
 ///
 /// <para>Tier consistency: F77 is Tier 1 asymptotic proven; Pi2-Foundation
-/// anchoring is algebraic-trivial composition. All three claims Tier1Derived
+/// anchoring is algebraic-trivial composition. All four claims Tier1Derived
 /// (5 ≥ 5).</para>
 ///
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/>

@@ -105,9 +105,7 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     public long FullOperatorSpaceDimension(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F38 requires N ≥ 1.");
-        long d2 = 1L;
-        for (int i = 0; i < N; i++) d2 *= 4L;
-        return d2;
+        return 1L << (2 * N);
     }
 
     /// <summary>The dimension of each Π² eigenspace: <c>4^N / 2 = 2 · 4^(N−1)</c>.

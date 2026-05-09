@@ -8,7 +8,8 @@ public class F76TDecayMirrorPairMiPi2InheritanceTests
     private static F76TDecayMirrorPairMiPi2Inheritance BuildClaim()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f75 = new F75MirrorPairMiPi2Inheritance(ladder);
+        var f71 = new F71MirrorSymmetryPi2Inheritance();
+        var f75 = new F75MirrorPairMiPi2Inheritance(ladder, f71);
         return new F76TDecayMirrorPairMiPi2Inheritance(ladder, f75);
     }
 
@@ -64,7 +65,8 @@ public class F76TDecayMirrorPairMiPi2InheritanceTests
     {
         // MI_pair(p, t=0) = MI_F75(p) for any p ∈ [0, 1/2]
         var ladder = new Pi2DyadicLadderClaim();
-        var f75 = new F75MirrorPairMiPi2Inheritance(ladder);
+        var f71 = new F71MirrorSymmetryPi2Inheritance();
+        var f75 = new F75MirrorPairMiPi2Inheritance(ladder, f71);
         var f76 = new F76TDecayMirrorPairMiPi2Inheritance(ladder, f75);
 
         for (double p = 0.05; p <= 0.5; p += 0.05)
@@ -132,7 +134,8 @@ public class F76TDecayMirrorPairMiPi2InheritanceTests
     public void Constructor_NullLadder_Throws()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f75 = new F75MirrorPairMiPi2Inheritance(ladder);
+        var f71 = new F71MirrorSymmetryPi2Inheritance();
+        var f75 = new F75MirrorPairMiPi2Inheritance(ladder, f71);
         Assert.Throws<ArgumentNullException>(() =>
             new F76TDecayMirrorPairMiPi2Inheritance(null!, f75));
     }

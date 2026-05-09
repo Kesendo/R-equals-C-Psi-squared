@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Core.Symmetry;
 
@@ -53,7 +54,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>The 0.93 envelope reading: at γ₀ = 0.05, t = 0.1 (the C# brecher
 /// first-measurement grid point), <c>λ = e^{−0.02} = 0.9802</c>. The ratio
 /// MM(t)/MM(0) sits at 0.93 ± 0.006 across 25+ tested (N, k) combinations.
-/// The 0.93 is NOT a hidden constant — it is the direct consequence of
+/// The 0.93 is NOT a hidden constant; it is the direct consequence of
 /// γ₀·t = 0.005 at the first sample. Different γ₀·t gives different envelope
 /// values (γ₀·t = 0.0025 → 0.965, γ₀·t = 0.01 → 0.868). The "0.93" is the
 /// γ₀ signature for this specific operating point.</para>
@@ -100,7 +101,7 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
         if (p < 0.0 || p > 0.5)
             throw new ArgumentOutOfRangeException(nameof(p), p, "p must be in [0, 1/2].");
         double lambda = Lambda(gammaZero, t);
-        return 2.0 * BinaryEntropy(p) - JointEntropy(p, lambda);
+        return 2.0 * Entropy.Binary(p) - Entropy.JointPair(p, lambda);
     }
 
     /// <summary>Live drift check: at <c>t = 0</c>, F76 recovers F75 exactly.
@@ -115,7 +116,7 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
         if (p < 0.0 || p > 0.5)
             throw new ArgumentOutOfRangeException(nameof(p), p, "p must be in [0, 1/2].");
         // λ = 0: S_ab = -(1-2p)log(1-2p) - p·log(p) - p·log(p) = h(1-2p) + 2p (since two p log p terms each contribute)
-        return 2.0 * BinaryEntropy(p) - (BinaryEntropy(1.0 - 2.0 * p) + 2.0 * p);
+        return 2.0 * Entropy.Binary(p) - (Entropy.Binary(1.0 - 2.0 * p) + 2.0 * p);
     }
 
     /// <summary>The MM(t)/MM(0) envelope ratio at given γ₀·t for a bonding-mode
@@ -134,25 +135,6 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
             mm0 += _f75.MIPerPair(p);
         }
         return mm0 > 0.0 ? mmT / mm0 : 0.0;
-    }
-
-    private static double BinaryEntropy(double x)
-    {
-        if (x <= 0.0 || x >= 1.0) return 0.0;
-        const double Log2 = 0.6931471805599453;
-        return -(x * Math.Log(x) + (1.0 - x) * Math.Log(1.0 - x)) / Log2;
-    }
-
-    private static double JointEntropy(double p, double lambda)
-    {
-        // S_ab(p, λ) = −(1−2p) log₂(1−2p) − p(1+λ) log₂(p(1+λ)) − p(1−λ) log₂(p(1−λ))
-        const double Log2 = 0.6931471805599453;
-        double s = 0.0;
-        double v;
-        v = 1.0 - 2.0 * p;     if (v > 1e-15) s -= v * Math.Log(v);
-        v = p * (1.0 + lambda); if (v > 1e-15) s -= v * Math.Log(v);
-        v = p * (1.0 - lambda); if (v > 1e-15) s -= v * Math.Log(v);
-        return s / Log2;
     }
 
     public F76TDecayMirrorPairMiPi2Inheritance(

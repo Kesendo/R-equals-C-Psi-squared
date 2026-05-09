@@ -6,7 +6,9 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F75MirrorPairMiPi2InheritanceTests
 {
     private static F75MirrorPairMiPi2Inheritance BuildClaim() =>
-        new F75MirrorPairMiPi2Inheritance(new Pi2DyadicLadderClaim());
+        new F75MirrorPairMiPi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new F71MirrorSymmetryPi2Inheritance());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -127,12 +129,21 @@ public class F75MirrorPairMiPi2InheritanceTests
     [Fact]
     public void Constructor_NullLadder_Throws()
     {
-        Assert.Throws<ArgumentNullException>(() => new F75MirrorPairMiPi2Inheritance(null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F75MirrorPairMiPi2Inheritance(null!, new F71MirrorSymmetryPi2Inheritance()));
+    }
+
+    [Fact]
+    public void Constructor_NullF71_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new F75MirrorPairMiPi2Inheritance(new Pi2DyadicLadderClaim(), null!));
     }
 
     [Fact]
     public void MirrorPairCount_NLessThan2_Throws()
     {
+        // Delegated to F71.IndependentComponentCount which requires N ≥ 2.
         Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().MirrorPairCount(1));
     }
 }

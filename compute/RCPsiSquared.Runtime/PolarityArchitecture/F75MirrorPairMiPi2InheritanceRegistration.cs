@@ -39,7 +39,7 @@ public static class F75MirrorPairMiPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<BilinearApexClaim>();                          // domain [0, 1/2]
-            _ = b.Get<F71MirrorSymmetryPi2Inheritance>();            // mirror symmetry source
-            return new F75MirrorPairMiPi2Inheritance(ladder);
+            var f71 = b.Get<F71MirrorSymmetryPi2Inheritance>();      // mirror symmetry source + MirrorPairCount delegate
+            return new F75MirrorPairMiPi2Inheritance(ladder, f71);
         });
 }
