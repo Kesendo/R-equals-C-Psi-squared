@@ -22,12 +22,6 @@ public class F87Pi2InheritanceTests
     }
 
     [Fact]
-    public void KleinClassCount_IsFour()
-    {
-        Assert.Equal(4, F87Pi2Inheritance.KleinClassCount);
-    }
-
-    [Fact]
     public void TransitivelyInheritedTwoFactor_IsExactlyTwo()
     {
         // F87's discriminator M is F1's residual; F1's "2" coefficient is a_0 = 2 on
@@ -37,30 +31,20 @@ public class F87Pi2InheritanceTests
     }
 
     [Fact]
-    public void KleinAlignedClassNames_HasFourEntries_MatchingKleinFourCells()
-    {
-        // F87's 4-way Π²-class refinement IS the KleinFour decomposition; the names
-        // align Pp / Pm / Mp / Mm = truly / Π²-even non-truly / Π²-odd A / Π²-odd B.
-        var f = Build();
-        Assert.Equal(4, f.KleinAlignedClassNames.Count);
-        Assert.Contains("truly", f.KleinAlignedClassNames);
-        Assert.Contains("pi2_even_nontruly", f.KleinAlignedClassNames);
-        Assert.Contains("pi2_odd_subgroup_A", f.KleinAlignedClassNames);
-        Assert.Contains("pi2_odd_subgroup_B", f.KleinAlignedClassNames);
-    }
-
-    [Fact]
     public void Constructor_RejectsNullF1Inheritance()
     {
         Assert.Throws<ArgumentNullException>(() => new F87Pi2Inheritance(null!));
     }
 
     [Fact]
-    public void Anchor_References_F87_AndF1Pi2_AndKleinFour()
+    public void Anchor_References_F87_AndF1Pi2()
     {
+        // F87's only typed parent edges are F87TrichotomyClassification (the F87
+        // closed form itself) and F1Pi2Inheritance (the transitive "2" = a_0 anchor).
+        // No KleinFour edge: F87 entstand vor Klein cells, sie sind unterschiedlich.
         var f = Build();
         Assert.Contains("F87TrichotomyClassification.cs", f.Anchor);
         Assert.Contains("F1Pi2Inheritance.cs", f.Anchor);
-        Assert.Contains("Pi2KnowledgeBaseClaims.cs", f.Anchor);
+        Assert.DoesNotContain("Pi2KnowledgeBaseClaims.cs", f.Anchor);
     }
 }

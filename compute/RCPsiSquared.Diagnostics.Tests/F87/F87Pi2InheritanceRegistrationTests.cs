@@ -35,7 +35,7 @@ public class F87Pi2InheritanceRegistrationTests
     }
 
     [Fact]
-    public void RegisterF87Pi2Inheritance_AncestorsContainAllThreeParents()
+    public void RegisterF87Pi2Inheritance_AncestorsContainBothParents()
     {
         var registry = BuildBaseRegistry()
             .RegisterF87Pi2Inheritance()
@@ -46,7 +46,9 @@ public class F87Pi2InheritanceRegistrationTests
 
         Assert.Contains(typeof(F87TrichotomyClassification), ancestors);
         Assert.Contains(typeof(F1Pi2Inheritance), ancestors);
-        Assert.Contains(typeof(KleinFourCellClaim), ancestors);
+        // KleinFourCellClaim is no longer a direct parent: F87 entstand vor Klein cells,
+        // sie sind unterschiedlich. KleinFour stays typed via its own primitives.
+        Assert.DoesNotContain(typeof(KleinFourCellClaim), ancestors);
     }
 
     [Fact]
