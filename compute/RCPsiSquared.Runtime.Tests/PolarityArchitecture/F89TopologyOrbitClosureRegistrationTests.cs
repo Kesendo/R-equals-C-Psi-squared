@@ -1,4 +1,3 @@
-using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
 using RCPsiSquared.Runtime.PolarityArchitecture;
@@ -28,17 +27,6 @@ public class F89TopologyOrbitClosureRegistrationTests
     }
 
     [Fact]
-    public void RegisterF89_TierIsTier1Derived()
-    {
-        var registry = BuildBaseRegistry()
-            .RegisterF89TopologyOrbitClosure()
-            .Build();
-
-        Assert.Equal(Tier.Tier1Derived,
-            registry.Get<F89TopologyOrbitClosure>().Tier);
-    }
-
-    [Fact]
     public void RegisterF89_AncestorsContainBothCitedParents()
     {
         var registry = BuildBaseRegistry()
@@ -50,18 +38,5 @@ public class F89TopologyOrbitClosureRegistrationTests
 
         Assert.Contains(typeof(F73SpatialSumPurityClosurePi2Inheritance), ancestors);
         Assert.Contains(typeof(F71MirrorSymmetryPi2Inheritance), ancestors);
-    }
-
-    [Fact]
-    public void RegisterF89_LiveDriftChecksAllHold()
-    {
-        var registry = BuildBaseRegistry()
-            .RegisterF89TopologyOrbitClosure()
-            .Build();
-        var f89 = registry.Get<F89TopologyOrbitClosure>();
-
-        Assert.True(f89.S0AtN7IsSixSevenths());
-        Assert.True(f89.F71MirrorIsInSameOrbit(7, 0));
-        Assert.True(f89.F73AnalogConsistent());
     }
 }

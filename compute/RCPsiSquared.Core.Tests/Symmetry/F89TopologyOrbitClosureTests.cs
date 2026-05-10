@@ -5,26 +5,16 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F89TopologyOrbitClosureTests
 {
-    private static F89TopologyOrbitClosure BuildClaim()
-    {
-        var ladder = new Pi2DyadicLadderClaim();
-        var f70 = new F70DeltaNSelectionRulePi2Inheritance(ladder);
-        var f72 = new F72BlockDiagonalPurityPi2Inheritance(ladder, f70);
-        var f73 = new F73SpatialSumPurityClosurePi2Inheritance(ladder, f70, f72);
-        var f71 = new F71MirrorSymmetryPi2Inheritance();
-        return new F89TopologyOrbitClosure(f73, f71);
-    }
-
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        Assert.Equal(Tier.Tier1Derived, BuildClaim().Tier);
+        Assert.Equal(Tier.Tier1Derived, new F89TopologyOrbitClosure().Tier);
     }
 
     [Fact]
     public void Anchor_PointsToAnalyticalFormulasAndExperimentWriteup()
     {
-        var anchor = BuildClaim().Anchor;
+        var anchor = new F89TopologyOrbitClosure().Anchor;
         Assert.Contains("docs/ANALYTICAL_FORMULAS.md F89", anchor);
         Assert.Contains("experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md", anchor);
     }
@@ -176,31 +166,9 @@ public class F89TopologyOrbitClosureTests
     }
 
     [Fact]
-    public void S0AtN7IsSixSevenths_HoldsExactly()
-    {
-        Assert.True(BuildClaim().S0AtN7IsSixSevenths());
-    }
-
-    [Theory]
-    [InlineData(7, 0)]
-    [InlineData(7, 1)]
-    [InlineData(7, 2)]
-    [InlineData(11, 4)]
-    public void F71MirrorIsInSameOrbit_HoldsForAllBonds(int n, int b)
-    {
-        Assert.True(BuildClaim().F71MirrorIsInSameOrbit(n, b));
-    }
-
-    [Fact]
-    public void F73AnalogConsistent_HoldsExactly()
-    {
-        Assert.True(BuildClaim().F73AnalogConsistent());
-    }
-
-    [Fact]
     public void DisplayName_NamesTopologyOrbitClosure()
     {
-        var name = BuildClaim().DisplayName;
+        var name = new F89TopologyOrbitClosure().DisplayName;
         Assert.Contains("F89", name);
         Assert.Contains("topology", name, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("orbit", name, StringComparison.OrdinalIgnoreCase);
