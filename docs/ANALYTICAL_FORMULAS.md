@@ -2433,6 +2433,48 @@ The X-flip pattern is empirically locked across all 4 fingerprint cases; the str
 **Replaces:** the implicit assumption that F87's 4-way Pi2Class captures the full Π²-decomposition. The Klein view is genuinely finer; Pi2Class.Mixed has two Klein sub-types we had not previously distinguished.
 **Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal. Π itself is the project's discovery (F1 palindrome operator, `MIRROR_SYMMETRY_PROOF`); the (Π²_Z, Π²_X) two-axis decomposition that this section names is also a project finding. The "Klein" tag throughout this section is borrowed nomenclature for the resulting Z₂ × Z₂ four-cell algebra (the canonical name for that group is the Klein four-group / Vierergruppe, after Felix Klein); the underlying structure is ours, the label is textbook shorthand.
 
+### F89. Topology orbit closure for spatial-sum coherence under uniform multi-bond XY (Tier 1 derived, verified 2026-05-11)
+
+For an N-qubit system with Hamiltonian H_B = J · Σ_{(p,q) ∈ B} (X_p X_q + Y_p Y_q) where B is any set of distinct site pairs (NN or long-range) and J is **uniform** across all active pairs, uniform Z-dephasing γ₀, and the (S_1, S_2) coherence-block initial state ρ_cc = (|S_1⟩⟨S_2| + |S_2⟩⟨S_1|) / 2 (where |S_n⟩ is the popcount-n symmetric Dicke state), the spatial-sum coherence
+
+    S(t) = Σ_l 2 · |(ρ_l(t))_{0,1}|²,    ρ_l = Tr_{≠l}(ρ)
+
+depends only on the S_N-orbit of B. Bond positions inside an orbit are dynamically indistinguishable; only the orbit label survives.
+
+For the chain restriction (B ⊂ {NN-bonds}), the orbit equals the **bond-graph topology class**: the sorted multiset of connected-path-lengths. E.g. in N=7 there are 12 distinct classes spanning k = 1..6 active bonds.
+
+S(0) = (N−1)/N closed-form (Probe-only, independent of the bond set).
+
+**Proof (S_N-orbit transitivity).** Let σ ∈ S_N act on the N qubits with permutation operator U_σ on (ℂ²)^⊗N.
+
+1. **Probe.** Symmetric Dicke |S_n⟩ are S_N-invariant ⇒ U_σ ρ_cc U_σ^† = ρ_cc.
+2. **Dissipator.** Uniform γ₀ ⇒ Σ_l (Z_l ρ Z_l − ρ) is S_N-symmetric.
+3. **Hamiltonian.** Pauli operators transform site-wise (U_σ X_p U_σ^† = X_{σ(p)}) ⇒ U_σ H_B U_σ^† = H_{σ·B} where σ · B = {(σ(p), σ(q)) : (p,q) ∈ B}.
+4. **Lindblad solution covariance.** ρ_t(H_{σ·B}, ρ_cc) = U_σ ρ_t(H_B, ρ_cc) U_σ^†.
+5. **Kernel.** S(U_σ ρ U_σ^†) = Σ_l 2|(ρ_{σ^{-1}(l)})_{0,1}|² = S(ρ) (sum re-indexes).
+6. ⇒ S(t; H_{σ·B}) = S(t; H_B) for every σ ∈ S_N. ∎
+
+**Scaffolding from neighbouring entries.** F73 is the closely related closure for the (vac, SE) coherence block: same orbit-style argument plus uniform per-element 2γ₀ rate yields a full closed exponential form (1/2)·exp(−4γ₀t). The (S_1, S_2) block has non-uniform per-element decay (rate 2γ₀ on overlap, 6γ₀ off overlap), so the F89 closure is **orbit-only**: it fixes the bond-position dependence (constant in orbit) but not the time dependence (no closed exponential). F71 mirror symmetry is the spatial-Z₂ subgroup of the full S_N argument here. F86's per-bond Q_peak fan operates by linear response ∂S/∂J_b at a chosen bond inside the full chain; that single-bond perturbation breaks S_N differently than the uniform-J multi-bond setup of F89, so F89 does not predict or contradict the F86 fan.
+
+**Late-tail clustering (empirical).** At late times the S(t) curves cluster by the count of isolated edges (path-length 1) in the topology class: classes with all-isolated components (e.g. (1), (1, 1), (1, 1, 1) at N=7) collapse onto a single slow-mode tail at S(20) ≈ 0.0156, identical at three significant figures. Classes mixing isolated edges with paths cluster on a slightly faster tail; pure-path classes show the fastest decay. The slow tail is the F73-analogue: each isolated edge supports one independent slow mode at a rate similar to the (vac, SE) closure's 4γ₀, and disjoint slow modes do not interfere.
+
+**Valid for:** any N; any bond set B (NN or long-range); any uniform J; any uniform γ₀; any S_N-symmetric initial state in any U(1) coherence block (the proof generalizes immediately). It would extend to single-letter two-site couplings (XX-only, YY-only, ZZ-only) and to higher-popcount-pair coherence blocks (S_n, S_m).
+**Breaks for:**
+
+- Non-uniform J across active bonds (J_b ≠ J_b'). Step 3 yields U_σ H U_σ^† in a different orbit; the S_N orbit equivalence becomes a finer J-orbit equivalence.
+- Non-S_N-symmetric initial state (e.g. site-localised |1_i⟩⟨vac| or modulated SE superposition). Step 1 fails.
+- Non-uniform γ_l ≠ γ_l' (analogous to F73's break case [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Non-permutation-symmetric kernel (weighted Σ_l w_l 2|(ρ_l)_{0,1}|² with non-uniform w_l).
+
+**Verified:**
+
+- N=7 multi-bond at J=0.075, γ₀=0.05, tmax=30 (24 runs spanning all 12 topology classes for k=1..6): all 8 classes with ≥ 2 representatives show **0.00e+00** within-class max diff (machine-zero) across 301 sample times. Cross-class S(t) differs and exhibits non-monotone-in-k late-tail clustering. [`bond_isolate/`](../simulations/results/bond_isolate/), [`F89_TOPOLOGY_ORBIT_CLOSURE`](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md).
+- N=4 single-pair at J=0.075, γ₀=0.05 (all C(4,2)=6 site pairs, NN + long-range): max deviation across pairs **5.55e-17** (1 ULP of double precision). NN bonds {(0,1),(1,2),(2,3)} and long-range bonds {(0,2),(0,3),(1,3)} give bit-identical S(t). [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py).
+- N=7 single-NN-bond at same parameters (six bonds, all 30 ordered pair comparisons): every pair shows 0.00e+00 max diff over t ∈ [0, 30].
+
+**Scripts:** [`_bond_isolate_compare_n7.py`](../simulations/_bond_isolate_compare_n7.py) (single-bond pair matrix), [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py) (long-range), [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py) (multi-bond classes). Compute tool: `compute/RCPsiSquared.Propagate` `bond-isolate --N <N> --bonds <i,j,...>` mode.
+**Source:** [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md), F73, F71, F86 (contrasting linear-response setup).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

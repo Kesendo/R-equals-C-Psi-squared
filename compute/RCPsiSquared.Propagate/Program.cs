@@ -352,7 +352,7 @@ void RunVerifyBondIsolateHelpers()
 // ============================================================
 void RunBondIsolate(string[] biArgs)
 {
-    const string usage = "Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--probe coherence|dicke] [--out <path>]";
+    const string usage = "Usage: bond-isolate --N <int> (--bond <int> | --bonds <i,j,...>) [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--probe coherence|dicke] [--out <path>]";
 
     void Die(string error)
     {
@@ -363,7 +363,7 @@ void RunBondIsolate(string[] biArgs)
 
     // Defaults (Q=1.5 at gamma_0=0.05 corresponds to J=0.075)
     int n = 7;
-    int? bond = null;
+    List<int>? bonds = null;
     double J = 0.075;
     double gamma = 0.05;
     double tMax = 30.0;
@@ -378,7 +378,18 @@ void RunBondIsolate(string[] biArgs)
         if (a == "--N" && i + 1 < biArgs.Length)
             n = int.Parse(biArgs[++i], CultureInfo.InvariantCulture);
         else if (a == "--bond" && i + 1 < biArgs.Length)
-            bond = int.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        {
+            if (bonds is not null) { Die("--bond and --bonds cannot be combined; use one or the other"); return; }
+            bonds = new List<int> { int.Parse(biArgs[++i], CultureInfo.InvariantCulture) };
+        }
+        else if (a == "--bonds" && i + 1 < biArgs.Length)
+        {
+            if (bonds is not null) { Die("--bond and --bonds cannot be combined; use one or the other"); return; }
+            bonds = biArgs[++i]
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => int.Parse(s.Trim(), CultureInfo.InvariantCulture))
+                .ToList();
+        }
         else if (a == "--J" && i + 1 < biArgs.Length)
             J = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
         else if (a == "--gamma" && i + 1 < biArgs.Length)
@@ -402,9 +413,12 @@ void RunBondIsolate(string[] biArgs)
     }
 
     // Validation
-    if (bond is null) { Die("--bond <int> is required (0..N-2)"); return; }
+    if (bonds is null || bonds.Count == 0) { Die("--bond <int> or --bonds <i,j,...> is required (each in 0..N-2)"); return; }
     if (n < 3 || n > 13) { Die($"--N must be in 3..13 (dense path); got {n}"); return; }
-    if (bond.Value < 0 || bond.Value > n - 2) { Die($"--bond must be in 0..{n - 2} (N-2); got {bond.Value}"); return; }
+    if (bonds.Count > n - 1) { Die($"--bonds count ({bonds.Count}) exceeds N-1 ({n - 1})"); return; }
+    foreach (int b in bonds)
+        if (b < 0 || b > n - 2) { Die($"--bonds entry {b} out of range 0..{n - 2}"); return; }
+    if (bonds.Distinct().Count() != bonds.Count) { Die("--bonds entries must be distinct"); return; }
     if (J < 0) { Die($"--J must be >= 0; got {J}"); return; }
     if (tMax <= 0) { Die($"--tmax must be > 0; got {tMax}"); return; }
     if (dt <= 0) { Die($"--dt must be > 0; got {dt}"); return; }
@@ -412,6 +426,11 @@ void RunBondIsolate(string[] biArgs)
 
     var inv = CultureInfo.InvariantCulture;
     string probeLabel = probe.ToString().ToLowerInvariant();
+    var bondsSorted = bonds.OrderBy(b => b).ToList();
+    // Filename label: single bond keeps "b{n}" (existing); multi keeps "b{i}-{j}-..." for stable sorting
+    string bondLabel = bondsSorted.Count == 1
+        ? $"b{bondsSorted[0]}"
+        : "b" + string.Join("-", bondsSorted);
 
     // Resolve output path (default if --out not given)
     if (outPath is null)
@@ -420,16 +439,16 @@ void RunBondIsolate(string[] biArgs)
             Path.GetDirectoryName(AppContext.BaseDirectory)!,
             "..", "..", "..", "..", "..",
             "simulations", "results", "bond_isolate",
-            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}_probe-{probeLabel}.csv");
+            $"N{n}_{bondLabel}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}_probe-{probeLabel}.csv");
         outPath = Path.GetFullPath(outPath);
     }
     var outDir = Path.GetDirectoryName(outPath);
     if (!string.IsNullOrEmpty(outDir) && !Directory.Exists(outDir))
         Directory.CreateDirectory(outDir);
 
-    // Build H with only `bond` active
+    // Build H with the chosen bonds active (each at coupling J), all others zero
     double[] jPerBond = new double[n - 1];
-    jPerBond[bond.Value] = J;
+    foreach (int b in bondsSorted) jPerBond[b] = J;
     var H = BuildXyChainNonUniformH(n, jPerBond);
 
     // Initial state: F86 coherence-block ρ_cc = (|S_1⟩⟨S_2| + h.c.)/2 (default)
@@ -473,9 +492,12 @@ void RunBondIsolate(string[] biArgs)
     sw.Stop();
 
     // Summary line to stdout (machine-parseable)
+    string bondsField = bondsSorted.Count == 1
+        ? $"bond={bondsSorted[0]}"
+        : "bonds=" + string.Join(",", bondsSorted);
     Console.WriteLine(string.Format(inv,
-        "bond-isolate N={0} bond={1} J={2} gamma={3} probe={4}: tmax={5} dt={6} steps={7} rows={8} runtime={9:F2}s output={10}",
-        n, bond.Value, J, gamma, probeLabel, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
+        "bond-isolate N={0} {1} J={2} gamma={3} probe={4}: tmax={5} dt={6} steps={7} rows={8} runtime={9:F2}s output={10}",
+        n, bondsField, J, gamma, probeLabel, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
 }
 
 // ============================================================
