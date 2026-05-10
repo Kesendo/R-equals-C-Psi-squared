@@ -38,7 +38,7 @@ Two probes compared:
 
 **Magnitude-squared formula |C_b|² CANNOT predict g_eff bond-dependence**:
 
-| Orbit | Bond pair | D_b (Dicke |·|²) | empirical g_eff |
+| Orbit | Bond pair | D_b (Dicke \|·\|²) | empirical g_eff |
 |---|---|---|---|
 | 0 (Endpoint) | b=0↔9 | 2.37e-03 | 1.76 |
 | 1 | b=1↔8 | 5.13e-03 | 0.50 |
