@@ -219,6 +219,37 @@ The above closed form applies only to the all-isolated subclass (1)^m. For mixed
 
 A general closed form per topology class is open work.
 
+### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
+
+The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
+
+**(vac, SE)_B sector** (k+1-dimensional sub-block):
+- Every basis pair (|0⟩, |1_i⟩) has n_diff = 1 site (uniform across all i ∈ block)
+- Per-coherence dephasing rate 2γ₀ uniformly
+- L_super on this sub-block = -i·H_B^SE − 2γ₀·I, eigenvalues are E_k − 2iγ₀ for H_B^SE eigenstates k
+- **Clean structure**: k+1 modes at rate 2γ₀, frequencies = H_B SE eigenvalues
+
+**(SE, DE)_B sector** (3·C(k+1, 2)-dimensional sub-block):
+- Basis pairs split into **overlap** (SE site ∈ DE-pair, n_diff = 1, rate 2γ₀) and **no-overlap** (SE site ∉ DE-pair, n_diff = 3, rate 6γ₀)
+- For 2-qubit block (k = 1): the only DE state is |11⟩ which contains both sites; **every** SE state overlaps with it. No no-overlap pairs exist. → uniform rate 2γ₀ on (SE, DE) sub-block, just like (vac, SE).
+- For (k+1)-qubit blocks with k ≥ 2: no-overlap SE-DE pairs DO exist (e.g. SE at site 0, DE at sites {1, 2} on 3 qubits). → mixed dephasing rates {2γ₀, 6γ₀} on the sub-block diagonal, coupled by H_B's off-diagonal mixing → eigenvalues land in [2γ₀, 6γ₀] continuum.
+
+**Numerical verification** (script `_f89c_liouvillian_eigenstructure.py`):
+
+| Topology | Distinct decay rates Γ/γ |
+|---|---|
+| 2-qubit block (k=1) | {0, 2, 4} (three clean rates) |
+| 3-qubit block (k=2) | {0, 2, 2.556, 2.889, 3.112, 3.444, 4, 6} (eight rates, including fractional) |
+| 4-qubit block (k=3) | 25 distinct rates including many fractional |
+
+For path-2 (3 qubits) the fractional rates pair as (2.556, 3.444) and (2.889, 3.111), each summing to 6γ₀. These are eigenvalues of 2×2 sub-blocks of L_super^{(SE, DE)} where two basis pairs of mixed dephasing rates are coupled by H_B; the eigenvalues are -3γ₀ ± |c| with H_B coupling |c|.
+
+**Lemma**: The all-isolated topology (1)^m is the **unique** topology where S(t) decays via a single rate envelope (4γ₀) with a single oscillation frequency (4J). For any topology containing a path-k block with k ≥ 2, the (SE, DE)_B sector has at least one no-overlap pair, leading to mixed dephasing rates and non-clean L_super spectra.
+
+**Consequence**: F89's all-isolated closed form (with Pi2 dual-anchor a_{−1} = 4 on both energy axes) is structurally privileged: not by accident, but because the 2-qubit-block geometry forbids no-overlap (SE, DE) pairs. The Pi2-Foundation a_{−1} = 4 anchor enters cleanly because there's a single dephasing rate to anchor.
+
+**Status**: structural lemma is **Tier 1 derived** (counting argument + numerical Liouvillian eigendecomposition verification at k = 1, 2, 3). Closed forms per non-isolated topology class remain Tier 2 empirical (would require explicit eigendecomposition per topology, multi-exponential expressions).
+
 ## Implications
 
 **Bond position is invisible to S_N-symmetric probes evaluated through S_N-symmetric kernels.** The specific spatial location of each active bond is averaged out; only the topology class of the bond-graph survives.
