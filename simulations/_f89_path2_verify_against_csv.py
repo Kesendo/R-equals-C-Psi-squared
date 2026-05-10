@@ -83,7 +83,7 @@ def closed_form_path2(N: int, J: float, gamma: float, t: np.ndarray) -> np.ndarr
     # Common factor
     overall_envelope = sp.exp(-4 * gs * ts) * sp.exp(-8 * sqrt2_s * sp.I * Js * ts)
     # Conjugate factor for the block_complex part to make it real
-    # The original printed expression has conjugate(1/sqrt(N-1)) — for N real positive, conjugate is just 1/sqrt(N-1)
+    # The original printed expression has conjugate(1/sqrt(N-1)); for N real positive, conjugate is just 1/sqrt(N-1)
     norm = 1 / (16 * Ns**2 * sp.sqrt(Ns - 1))
 
     S_total_sym = norm * overall_envelope * (bare_complex + block_complex / sp.sqrt(Ns - 1))

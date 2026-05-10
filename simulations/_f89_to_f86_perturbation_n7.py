@@ -15,7 +15,7 @@ F86 orbit K_max values (Dicke probe, ResonanceScan):
 We are sampling at Q = J0/γ = 0.075/0.05 = 1.5 for ALL bonds (single Q point);
 F86's |K|max ranking is for each bond at its OWN Q_peak (different Q per orbit).
 The bond-isolate ranking we compute here is K_b at one shared Q (= 1.5), comparable to
-F86's K_b(Q=1.5) per orbit — NOT to F86's |K|max-per-orbit.
+F86's K_b(Q=1.5) per orbit, NOT to F86's |K|max-per-orbit.
 
 What we test: does the orbit-ranking of K_b(Q=1.5) on ρ_cc match F86's K_b(Q=1.5) on Dicke?
 """

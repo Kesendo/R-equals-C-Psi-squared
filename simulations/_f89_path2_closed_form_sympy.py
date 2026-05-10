@@ -151,18 +151,18 @@ for a in range(DIM_B):
         n_diff = sum(1 for l in range(3) if z_eigenvalue(a, l) != z_eigenvalue(b, l))
         decay_mask[a, b] = sp.exp(-2 * gamma * n_diff * t)
 
-# Note: under H_B + Z-deph, the Hamiltonian and dephasing don't commute in general,
-# but BOTH preserve the popcount sectors. For the (vac, SE) and (SE, DE)
-# coherence blocks, the Hamiltonian acts inside the block (preserving popcount)
-# and dephasing decays each basis-pair element by the rate above. The rate
-# depends only on the basis-state pair (a, b), NOT on which Hamiltonian operations
-# moved amplitude to that pair. This means we can apply the dephasing mask
-# elementwise to the Hamiltonian-evolved ρ_B(t).
-#
-# This is the "interaction-picture" simplification: in the Z-basis, dephasing acts
-# diagonally on basis-pair coherences, and for U(1)-preserving H, the Heisenberg
-# evolution stays inside fixed popcount sectors so dephasing rates remain constant
-# along the trajectory.
+# Note: this elementwise-dephasing approximation is exact ONLY when all populated
+# basis-pair coherences in a given sector share the SAME dephasing rate. It IS
+# exact for the (vac, SE) sector (uniform rate 2γ_0 per coherence) and for the
+# (SE, DE) sector when no no-overlap pairs are populated (which holds for 2-qubit
+# blocks, F89's all-isolated case). It is NOT exact when H_B mixes populated
+# basis pairs of DIFFERENT dephasing rates within the same sector: for a 3-qubit
+# block (path-2), the (SE, DE) sector populates BOTH n_diff=1 (rate 2γ_0)
+# overlap pairs AND n_diff=3 (rate 6γ_0) no-overlap pairs, and H_B couples them,
+# so the true Lindblad evolution mixes the two rates rather than treating each
+# pair independently. The 0.1 percent residual against bond-isolate RK4 at N=7
+# is precisely this mixing effect; for an exact treatment, full L_super
+# eigendecomposition is required (see _f89c_liouvillian_eigenstructure.py).
 
 # Hamiltonian-evolved ρ_B(t):
 print("\nComputing U_t · ρ_B(0) · U_t† symbolically...")

@@ -242,7 +242,7 @@ The Liouvillian L_super of any per-block dynamics decomposes over computational-
 | 3-qubit block (k=2) | {0, 2, 2.556, 2.889, 3.112, 3.444, 4, 6} (eight rates, including fractional) |
 | 4-qubit block (k=3) | 25 distinct rates including many fractional |
 
-For path-2 (3 qubits) the fractional rates pair as (2.556, 3.444) and (2.889, 3.111), each summing to 6γ₀. These are eigenvalues of 2×2 sub-blocks of L_super^{(SE, DE)} where two basis pairs of mixed dephasing rates are coupled by H_B; the eigenvalues are -3γ₀ ± |c| with H_B coupling |c|.
+For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewise 2.889 + 3.112 = 6γ₀), a numerical regularity. Per-sector decomposition of L_super (verified by direct sub-block diagonalization 2026-05-11): the (SE, DE)_B sub-block alone yields rates {2.0, 3.112, 3.444, 4.0, 6.0}γ₀; the rates 2.556 and 2.889 originate in the (SE, SE)_B sub-block (single-excitation populations coupled to SE-SE off-diagonal coherences via H_B mixing). The pair-sum-to-6γ₀ regularity is therefore a cross-sector coincidence, not a single-sub-block algebraic structure; the underlying mechanism (mixed-rate diagonal in any sub-block coupled by H_B) is general.
 
 **Lemma**: The all-isolated topology (1)^m is the **unique** topology where S(t) decays via a single rate envelope (4γ₀) with a single oscillation frequency (4J). For any topology containing a path-k block with k ≥ 2, the (SE, DE)_B sector has at least one no-overlap pair, leading to mixed dephasing rates and non-clean L_super spectra.
 
