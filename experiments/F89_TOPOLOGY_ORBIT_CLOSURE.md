@@ -187,6 +187,25 @@ Factoring out the m-independent S(0) = (N − 1)/N:
 
 Mechanism for the universal asymptotic 4γ₀ rate: in all-isolated topology, every populated coherence in any reduced 2-qubit block sits in either the (vac, SE)_B or (SE, DE)_B-overlap sector, both decaying at 2γ₀ per coherence (one site differs in the basis-state pair). The (no-overlap SE, DE) coherences with rate 6γ₀ require a single-excitation site outside the doubly-excited pair, which cannot occur on a 2-qubit block alone. Connected-path topologies open the no-overlap channel and therefore lose late-time amplitude faster.
 
+### Pi2-Foundation inheritance reading
+
+The all-isolated closed form has TWO time coefficients of value 4: the decay rate 4γ₀ in exp(−4γ₀ t) and the oscillation frequency 4J in cos(4J t). Both trace to the same Pi2 dyadic ladder term a_{−1} = 4 via the same mechanism: the linear-amplitude frequency 2 = a_{0} doubles to 4 = a_{−1} when the amplitude is squared.
+
+| Energy axis | Linear-amplitude frequency | |·|² frequency | Pi2 ladder anchor |
+|---|---|---|---|
+| γ (Z-dephasing) | per-coherence rate 2γ₀ | S-decay rate 4γ₀ | a_{0} = 2 → a_{−1} = 4 |
+| J (XY hopping) | H_B-eigenstate frequency 2J | S-oscillation frequency 4J | a_{0} = 2 → a_{−1} = 4 |
+
+The γ-axis inheritance is identical to F73's `DecayRateCoefficient` anchor: per-coherence Z-deph rate 2γ₀ doubles to S-decay rate 4γ₀ via |·|². The J-axis inheritance is the same a_{0} → a_{−1} doubling on the J-axis: H_B-eigenstate frequency 2J doubles to S-oscillation frequency 4J via |·|². Same Pi2 ladder anchor a_{−1} = 4 governs both energy axes.
+
+The (N−1)/N baseline and the 4m(N−2)/(N²(N−1)) correction prefactor are combinatorial (S_N orbit + 2-qubit block algebra), NOT Pi2-anchored. Only the time coefficients inherit.
+
+In the Schicht-0 typed knowledge layer, F89 now cites `Pi2DyadicLadderClaim` as a constructor-injected parent and exposes both inherited coefficients as live properties:
+- `F89TopologyOrbitClosure.DecayRateCoefficient` = `Pi2DyadicLadderClaim.Term(−1)` = 4 (γ-axis)
+- `F89TopologyOrbitClosure.OscillationFrequencyCoefficient` = `Pi2DyadicLadderClaim.Term(−1)` = 4 (J-axis mirror)
+
+The drift check `F89TopologyOrbitClosure.Pi2DoublingConsistent()` verifies both equal 4 (catches drift between the literal 4.0 in `AllIsolatedClosedForm` and the ladder anchor). The Schicht-1 `RegisterF89_AncestorsContainAllParents` test asserts the runtime ancestor walk now reaches `Pi2DyadicLadderClaim` from F89.
+
 ### Other topology classes (Tier 2 empirical, derivation open)
 
 The above closed form applies only to the all-isolated subclass (1)^m. For mixed topologies (e.g. (1, 2), (2, 2), (1, 1, 2), and pure paths (3), (4), (5), (6)) the closed form is open. The empirical late-tail behavior:
