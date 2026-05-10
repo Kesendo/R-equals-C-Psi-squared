@@ -46,7 +46,7 @@ if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
 {
     try { Control.UseNativeMKL(); } catch { }
     Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
-    VerifyBondIsolateHelpers();
+    RunVerifyBondIsolateHelpers();
     return;
 }
 
@@ -177,8 +177,9 @@ double SpatialSumCoherenceS(Matrix<Complex> rho, int n)
 
 // Smoke checks for T1-T4. Run via:
 //   dotnet run -c Release -- verify-bond-isolate-helpers
-void VerifyBondIsolateHelpers()
+void RunVerifyBondIsolateHelpers()
 {
+    var inv = CultureInfo.InvariantCulture;
     Console.WriteLine("=== Bond-isolate helpers smoke check ===");
     int failures = 0;
 
@@ -201,16 +202,16 @@ void VerifyBondIsolateHelpers()
         var matchErr = (H - Hdirect).FrobeniusNorm();
 
         bool ok = dimOk && hermErr < 1e-12 && matchErr < 1e-12;
-        Console.WriteLine($"  T1 BuildXyChainNonUniformH: " +
-            $"dim={H.RowCount}x{H.ColumnCount} hermErr={hermErr:E2} matchErr={matchErr:E2} " +
-            (ok ? "PASS" : "FAIL"));
+        Console.WriteLine(string.Format(inv,
+            "  T1 BuildXyChainNonUniformH: dim={0}x{1} hermErr={2:E2} matchErr={3:E2} {4}",
+            H.RowCount, H.ColumnCount, hermErr, matchErr, ok ? "PASS" : "FAIL"));
         if (!ok) failures++;
 
         // ArgumentException check
         bool argChecked = false;
         try { BuildXyChainNonUniformH(5, new[] { 1.0, 1.0 }); }
         catch (ArgumentException) { argChecked = true; }
-        Console.WriteLine($"  T1 length-validation: " + (argChecked ? "PASS" : "FAIL"));
+        Console.WriteLine("  T1 length-validation: " + (argChecked ? "PASS" : "FAIL"));
         if (!argChecked) failures++;
     }
 
@@ -235,9 +236,9 @@ void VerifyBondIsolateHelpers()
 
         bool ok = trErr < 1e-14 && hermErr < 1e-14
                   && Math.Abs(sMax - 1.0) < 1e-12 && sRest < 1e-12;
-        Console.WriteLine($"  T2 DickeProbeRho: " +
-            $"trErr={trErr:E2} hermErr={hermErr:E2} sMax={sMax:F12} sRest={sRest:E2} " +
-            (ok ? "PASS" : "FAIL"));
+        Console.WriteLine(string.Format(inv,
+            "  T2 DickeProbeRho: trErr={0:E2} hermErr={1:E2} sMax={2:F12} sRest={3:E2} {4}",
+            trErr, hermErr, sMax, sRest, ok ? "PASS" : "FAIL"));
         if (!ok) failures++;
     }
 
@@ -250,9 +251,9 @@ void VerifyBondIsolateHelpers()
         for (int l = 0; l < n; l++)
             maxDev = Math.Max(maxDev, Math.Abs(z[l] - 0.6));
         bool ok = maxDev < 1e-14;
-        Console.Write($"  T3 PerSiteBlochZ: maxDev={maxDev:E2} z=[");
+        Console.Write(string.Format(inv, "  T3 PerSiteBlochZ: maxDev={0:E2} z=[", maxDev));
         for (int l = 0; l < n; l++)
-            Console.Write((l == 0 ? "" : ", ") + z[l].ToString("F12"));
+            Console.Write((l == 0 ? "" : ", ") + z[l].ToString("F12", inv));
         Console.WriteLine("] " + (ok ? "PASS" : "FAIL"));
         if (!ok) failures++;
     }
@@ -263,8 +264,9 @@ void VerifyBondIsolateHelpers()
         var rho = DickeProbeRho(n);
         double s = SpatialSumCoherenceS(rho, n);
         bool ok = Math.Abs(s) < 1e-14;
-        Console.WriteLine($"  T4 SpatialSumCoherenceS(Dicke N=5): S={s:E2} " +
-            (ok ? "PASS" : "FAIL"));
+        Console.WriteLine(string.Format(inv,
+            "  T4 SpatialSumCoherenceS(Dicke N=5): S={0:E2} {1}",
+            s, ok ? "PASS" : "FAIL"));
         if (!ok) failures++;
     }
 
