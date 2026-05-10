@@ -77,6 +77,10 @@ For hardware-confirmed predictions on top of these formulas, see
 | `ChiralK.ClassifyHamiltonian(H, N)` | K-even / K-odd / K-mixed |
 | `ZGlobalMirror.Build(N)` | Z⊗N global Z-string (used by `chain.zn_mirror_diagnostic`) |
 | `HdChannelBasis.Build(block)` | channel-uniform projectors P; M_H_total is diagonal in this basis (extends F73 to all c) |
+| `F89TopologyOrbitClosure` (Symmetry/) | **F89**: S(t) for ρ_cc + uniform-J multi-bond XY depends only on the S_N-orbit of the bond set; for chain B, orbit = topology class (sorted multiset of connected-path-lengths). Tier 1 derived |
+| `F89TopologyOrbitClosure.S0ClosedForm(N)` | **F89**: S(0) = (N−1)/N for ρ_cc, probe-only closed form |
+| `F89TopologyOrbitClosure.ChainTopologyClass(N, bonds)` | **F89**: canonical orbit label = sorted multiset of connected-path-lengths in the bond-graph |
+| `F89TopologyOrbitClosure.AreInSameChainOrbit(N, bondsA, bondsB)` | **F89**: predicate that S(t; bondsA) = S(t; bondsB) per orbit transitivity |
 
 ## Probes
 
