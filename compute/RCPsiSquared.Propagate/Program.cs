@@ -145,6 +145,41 @@ Matrix<Complex> DickeProbeRho(int n)
     return rho;
 }
 
+// |S_n⟩ = symmetric Dicke state of popcount-n in N qubits, normalized.
+// ρ_cc = (|S_1⟩⟨S_2| + |S_2⟩⟨S_1|) / 2 — Hermitian, traceless, lives in (1,2) coherence block.
+// This is the F86 "coherence-block" probe (Q_SCALE_THREE_BANDS line 50).
+Matrix<Complex> CoherenceBlockProbeRho(int n)
+{
+    int d = 1 << n;
+    // Build |S_1⟩ in computational basis: amplitude 1/√N at each popcount-1 basis state.
+    var s1 = DenseVector.Create(d, Complex.Zero);
+    int countS1 = 0;
+    for (int i = 0; i < d; i++)
+        if (System.Numerics.BitOperations.PopCount((uint)i) == 1) countS1++;
+    double a1 = 1.0 / Math.Sqrt(countS1);  // = 1/√n
+    for (int i = 0; i < d; i++)
+        if (System.Numerics.BitOperations.PopCount((uint)i) == 1)
+            s1[i] = a1;
+
+    // Build |S_2⟩ in computational basis: amplitude 1/√C(N,2) at each popcount-2 basis state.
+    var s2 = DenseVector.Create(d, Complex.Zero);
+    int countS2 = 0;
+    for (int i = 0; i < d; i++)
+        if (System.Numerics.BitOperations.PopCount((uint)i) == 2) countS2++;
+    double a2 = 1.0 / Math.Sqrt(countS2);  // = 1/√(n(n-1)/2)
+    for (int i = 0; i < d; i++)
+        if (System.Numerics.BitOperations.PopCount((uint)i) == 2)
+            s2[i] = a2;
+
+    // ρ_cc = (|S_1⟩⟨S_2| + |S_2⟩⟨S_1|) / 2
+    // = (s1·s2† + s2·s1†) / 2  (outer products, Hermitian)
+    var rho = DenseMatrix.Create(d, d, Complex.Zero);
+    for (int i = 0; i < d; i++)
+        for (int j = 0; j < d; j++)
+            rho[i, j] = 0.5 * (s1[i] * Complex.Conjugate(s2[j]) + s2[i] * Complex.Conjugate(s1[j]));
+    return rho;
+}
+
 // T3: Per-site ⟨Z_l⟩ = Tr(ρ Z_l) using MSB convention (qubit 0 at bit n-1).
 double[] PerSiteBlochZ(Matrix<Complex> rho, int n)
 {
@@ -253,6 +288,35 @@ void RunVerifyBondIsolateHelpers()
         if (!ok) failures++;
     }
 
+    // T2b: CoherenceBlockProbeRho — ρ_cc lives between popcount-1 and popcount-2 sectors.
+    // Verify: Hermitian, Tr=0, has non-zero off-diagonal entries between popcount-1 and
+    // popcount-2 states.
+    {
+        var rho = CoherenceBlockProbeRho(5);
+        double trErr = Math.Abs(rho.Trace().Real);  // should be 0
+        double hermErr = (rho - rho.ConjugateTranspose()).FrobeniusNorm();
+        // Find indices i with popcount(i)=1 and j with popcount(j)=2
+        int p1Idx = -1, p2Idx = -1;
+        for (int idx = 0; idx < 32; idx++)
+        {
+            if (p1Idx < 0 && System.Numerics.BitOperations.PopCount((uint)idx) == 1) p1Idx = idx;
+            if (p2Idx < 0 && System.Numerics.BitOperations.PopCount((uint)idx) == 2) p2Idx = idx;
+        }
+        bool offDiagNonZero = Complex.Abs(rho[p1Idx, p2Idx]) > 1e-12;
+        bool pass = trErr < 1e-14 && hermErr < 1e-14 && offDiagNonZero;
+        if (pass)
+            Console.WriteLine(string.Format(inv,
+                "  T2b CoherenceBlockProbeRho: trErr={0:E2} hermErr={1:E2} ρ[p1, p2]={2:E2} PASS",
+                trErr, hermErr, Complex.Abs(rho[p1Idx, p2Idx])));
+        else
+        {
+            Console.WriteLine(string.Format(inv,
+                "  T2b CoherenceBlockProbeRho: FAIL trErr={0:E2} hermErr={1:E2}",
+                trErr, hermErr));
+            failures++;
+        }
+    }
+
     // T3: Per-site Z on Dicke probe — all sites should give 0.6 = 3/5
     {
         int n = 5;
@@ -301,6 +365,7 @@ void RunBondIsolate(string[] biArgs)
     double tMax = 30.0;
     double dt = 0.1;
     string? outPath = null;
+    string probe = "coherence";  // F86-aligned default; "dicke" = legacy |D_1⟩⟨D_1|
 
     // Manual arg walk (same pattern as RunProfileEvaluation)
     for (int i = 1; i < biArgs.Length; i++)
@@ -320,13 +385,23 @@ void RunBondIsolate(string[] biArgs)
             dt = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
         else if (a == "--out" && i + 1 < biArgs.Length)
             outPath = biArgs[++i];
+        else if (a == "--probe" && i + 1 < biArgs.Length)
+        {
+            probe = biArgs[++i];
+            if (probe != "coherence" && probe != "dicke")
+            {
+                Console.Error.WriteLine($"ERROR: --probe must be 'coherence' or 'dicke'; got '{probe}'");
+                Environment.Exit(1);
+                return;
+            }
+        }
     }
 
     // Validation
     if (bond is null)
     {
         Console.Error.WriteLine("ERROR: --bond <int> is required (0..N-2)");
-        Console.Error.WriteLine("Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--out <path>]");
+        Console.Error.WriteLine("Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--probe coherence|dicke] [--out <path>]");
         Environment.Exit(1);
         return;
     }
@@ -376,7 +451,7 @@ void RunBondIsolate(string[] biArgs)
             Path.GetDirectoryName(AppContext.BaseDirectory)!,
             "..", "..", "..", "..", "..",
             "simulations", "results", "bond_isolate",
-            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}.csv");
+            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}_probe-{probe}.csv");
         outPath = Path.GetFullPath(outPath);
     }
     var outDir = Path.GetDirectoryName(outPath);
@@ -388,8 +463,9 @@ void RunBondIsolate(string[] biArgs)
     jPerBond[bond.Value] = J;
     var H = BuildXyChainNonUniformH(n, jPerBond);
 
-    // Initial state: Dicke |D_1><D_1|
-    var rho = DickeProbeRho(n);
+    // Initial state: F86 coherence-block ρ_cc = (|S_1⟩⟨S_2| + h.c.)/2 (default)
+    // or Dicke |D_1⟩⟨D_1| (legacy, popcount-1 only — gives S(t)=0 forever).
+    var rho = probe == "coherence" ? CoherenceBlockProbeRho(n) : DickeProbeRho(n);
 
     // Uniform Z-dephasing at rate gamma on every site
     var gammas = Enumerable.Repeat(gamma, n).ToArray();
@@ -429,8 +505,8 @@ void RunBondIsolate(string[] biArgs)
 
     // Summary line to stdout (machine-parseable)
     Console.WriteLine(string.Format(inv,
-        "bond-isolate N={0} bond={1} J={2} gamma={3}: tmax={4} dt={5} steps={6} rows={7} runtime={8:F2}s output={9}",
-        n, bond.Value, J, gamma, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
+        "bond-isolate N={0} bond={1} J={2} gamma={3} probe={4}: tmax={5} dt={6} steps={7} rows={8} runtime={9:F2}s output={10}",
+        n, bond.Value, J, gamma, probe, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
 }
 
 // ============================================================
