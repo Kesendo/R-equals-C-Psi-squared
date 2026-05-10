@@ -31,8 +31,21 @@ public sealed class PerF71OrbitKTable : Claim
     /// would indicate a numerical regression, since R-paired bonds are bit-identical
     /// by construction). Pass <paramref name="cache"/> to share the underlying
     /// <see cref="C2HwhmRatio"/> with sibling claims (e.g.
-    /// <see cref="C2UniversalShapeDerivation"/>) and avoid a duplicate Q-scan.</summary>
-    public static PerF71OrbitKTable Build(CoherenceBlock block, WitnessCache? cache = null)
+    /// <see cref="C2UniversalShapeDerivation"/>) and avoid a duplicate Q-scan.
+    ///
+    /// <para><paramref name="throwOnGridEdgeSnap"/> propagates to
+    /// <see cref="Item1Derivation.C2HwhmRatio.Build"/> and defaults to <c>false</c>
+    /// (opt-in strict mode). When <c>true</c>, raises
+    /// <see cref="Item1Derivation.GridEdgeEscapeException"/> on any bond whose Q_peak
+    /// lands at the grid upper edge. Default is <c>false</c> for backwards compatibility.
+    /// When using a shared <paramref name="cache"/>, the cached
+    /// <see cref="Item1Derivation.C2HwhmRatio"/> retains its own throw-on-snap setting from
+    /// the moment it was first computed; this parameter applies only when this call
+    /// triggers the underlying scan.</para></summary>
+    public static PerF71OrbitKTable Build(
+        CoherenceBlock block,
+        WitnessCache? cache = null,
+        bool throwOnGridEdgeSnap = false)
     {
         if (block.C != 2)
             throw new ArgumentException(
@@ -40,7 +53,7 @@ public sealed class PerF71OrbitKTable : Claim
                 nameof(block));
 
         var orbits = new F71BondOrbitDecomposition(block.N).Orbits;
-        var hwhmRatio = cache?.GetOrComputeC2HwhmRatio(block) ?? C2HwhmRatio.Build(block);
+        var hwhmRatio = cache?.GetOrComputeC2HwhmRatio(block) ?? C2HwhmRatio.Build(block, throwOnGridEdgeSnap: throwOnGridEdgeSnap);
         var bondWitnesses = hwhmRatio.Witnesses;
 
         var orbitWitnesses = new List<OrbitKWitness>(orbits.Count);

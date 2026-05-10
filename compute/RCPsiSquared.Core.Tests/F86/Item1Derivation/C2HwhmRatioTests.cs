@@ -82,6 +82,34 @@ public class C2HwhmRatioTests
         Assert.Throws<ArgumentException>(() => C2HwhmRatio.Build(block));
     }
 
+    [Fact]
+    public void Build_ThrowsGridEdgeEscape_AtN9_WithDefaultGrid_AndExplicitStrictMode()
+    {
+        // Tom 2026-05-10: "Lass uns auch eine Exception einbauen, wenn der Peak exakt
+        // DefaultQGrid Grenze ist, das ist ja Fehlerquelle pur."
+        //
+        // At N=9 c=2 with the default Q-grid [0.20, 4.00], the first-flanking interior
+        // orbit (b=1 ↔ b=N−2−1=6) has its true Q_peak above 4.0 — confirmed empirically
+        // 2026-05-10 via extended-grid scan at N=11 where Q_peak=8.79. The default-grid
+        // peak finder snaps it to Q=4.0 which is a grid artefact, not physical.
+        //
+        // With throwOnGridEdgeSnap: true the snap raises GridEdgeEscapeException so the
+        // caller cannot silently consume meaningless Q_peak/HWHM data. Default behavior
+        // (false) preserves backwards compatibility for tests that explicitly study escape
+        // (see PerF71OrbitKTableTests.IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid).
+        var block = new CoherenceBlock(N: 9, n: 1, gammaZero: 0.05);
+        var ex = Assert.Throws<GridEdgeEscapeException>(
+            () => C2HwhmRatio.Build(block, qGrid: null, throwOnGridEdgeSnap: true));
+        // Sanity: the escaped bond is one of the flanking-1 pair (b=1 or b=6 at N=9
+        // numBonds=8; F71 mirror pairs b=1 ↔ b=6). The peak finder picks whichever
+        // shows up first in the scan; bit-identical mirror pair both at grid edge.
+        Assert.True(ex.Bond == 1 || ex.Bond == 6,
+            $"escaped bond should be flanking-1 pair (b=1 or b=6) at N=9; got b={ex.Bond}");
+        Assert.Equal(4.0, ex.GridUpper, precision: 12);
+        Assert.True(ex.QPeak >= ex.GridUpper - ex.DQ,
+            $"Q_peak {ex.QPeak} should be within one dQ {ex.DQ} of grid upper {ex.GridUpper}");
+    }
+
     [Theory]
     [InlineData(5)]
     [InlineData(7)]

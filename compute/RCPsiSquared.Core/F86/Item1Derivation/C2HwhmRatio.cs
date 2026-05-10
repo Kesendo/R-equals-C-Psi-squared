@@ -100,8 +100,20 @@ public sealed class C2HwhmRatio : Claim
     /// access and is not exercised by this factory. <paramref name="qGrid"/> defaults to
     /// <see cref="ResonanceScan.DefaultQGrid"/> ([0.20, 4.00], 153 points), the canonical
     /// anchor for N=5..8; pass an extended upper bound for N≥9 where flanking-Interior bonds
-    /// peak above 4.0 and the default grid clips them at the edge.</summary>
-    public static C2HwhmRatio Build(CoherenceBlock block, IReadOnlyList<double>? qGrid = null)
+    /// peak above 4.0 and the default grid clips them at the edge.
+    ///
+    /// <para><paramref name="throwOnGridEdgeSnap"/> (default <c>false</c> — opt-in
+    /// strict mode): when <c>true</c>, throws <see cref="GridEdgeEscapeException"/> if any
+    /// bond's Q_peak lands within one dQ of the grid upper edge. The silent grid-snap is
+    /// "Fehlerquelle pur" (Tom Wicht 2026-05-10) because the reported Q_peak/HWHM is then
+    /// a grid artefact, not physical data; the strict mode catches this. Default is
+    /// <c>false</c> for backwards compatibility with the existing test suite which has
+    /// pinned values dependent on the lenient behaviour at N≥9 (e.g. the
+    /// <c>IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid</c> regression test).</para></summary>
+    public static C2HwhmRatio Build(
+        CoherenceBlock block,
+        IReadOnlyList<double>? qGrid = null,
+        bool throwOnGridEdgeSnap = false)
     {
         if (block.C != 2)
             throw new ArgumentException(
@@ -110,9 +122,35 @@ public sealed class C2HwhmRatio : Claim
 
         var grid = qGrid?.ToArray() ?? ResonanceScan.DefaultQGrid();
         var (witnesses, classRatios) = ComputeWitnessesAndClassRatios(block, grid);
+        if (throwOnGridEdgeSnap)
+            ValidateNoGridEdgeSnaps(witnesses, grid);
         double twoLevelSanity = ComputeTwoLevelHwhmRatio();
         var resolved = Resolve(block, witnesses, classRatios, twoLevelSanity);
         return new C2HwhmRatio(block, witnesses, classRatios, twoLevelSanity, resolved);
+    }
+
+    /// <summary>Throws <see cref="GridEdgeEscapeException"/> if any bond's Q_peak lands within
+    /// one grid spacing of the upper Q-grid edge. The within-one-dQ tolerance matches
+    /// <c>OrbitKWitness.IsEscaped</c> so the two checks agree.</summary>
+    private static void ValidateNoGridEdgeSnaps(IReadOnlyList<HwhmRatioWitness> witnesses, double[] grid)
+    {
+        if (grid.Length < 2) return;
+        double dQ = grid[^1] - grid[^2];
+        double qMax = grid[^1];
+        double threshold = qMax - dQ;
+        for (int i = 0; i < witnesses.Count; i++)
+        {
+            var w = witnesses[i];
+            if (w.QPeak >= threshold)
+            {
+                throw new GridEdgeEscapeException(
+                    bond: w.Bond,
+                    qPeak: w.QPeak,
+                    gridUpper: qMax,
+                    dQ: dQ,
+                    message: $"C2HwhmRatio bond b={w.Bond} ({w.BondClass}) Q_peak={w.QPeak:F4} sits within one dQ={dQ:F4} of grid upper edge {qMax:F4}; the reported Q_peak/HWHM is a grid-snap artefact, not physical resonance data. Extend qGrid (pass a wider upper bound to C2HwhmRatio.Build / PerF71OrbitKTable.Build) or pass throwOnGridEdgeSnap: false if escape is the intended subject of study.");
+            }
+        }
     }
 
     private C2HwhmRatio(
