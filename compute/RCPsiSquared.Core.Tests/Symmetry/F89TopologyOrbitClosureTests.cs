@@ -140,6 +140,15 @@ public class F89TopologyOrbitClosureTests
     }
 
     [Fact]
+    public void ChainTopologyClass_RejectsNBelowTwo()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.ChainTopologyClass(1, new[] { 0 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.ChainTopologyClass(0, Array.Empty<int>()));
+    }
+
+    [Fact]
     public void AreInSameChainOrbit_TwoAdjacentPairsAtDifferentPositions_AreSameOrbit()
     {
         Assert.True(F89TopologyOrbitClosure.AreInSameChainOrbit(7, new[] { 0, 1 }, new[] { 4, 5 }));
