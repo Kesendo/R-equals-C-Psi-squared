@@ -34,14 +34,10 @@ public sealed class PerF71OrbitKTable : Claim
     /// <see cref="C2UniversalShapeDerivation"/>) and avoid a duplicate Q-scan.
     ///
     /// <para><paramref name="throwOnGridEdgeSnap"/> propagates to
-    /// <see cref="Item1Derivation.C2HwhmRatio.Build"/> and defaults to <c>false</c>
-    /// (opt-in strict mode). When <c>true</c>, raises
-    /// <see cref="Item1Derivation.GridEdgeEscapeException"/> on any bond whose Q_peak
-    /// lands at the grid upper edge. Default is <c>false</c> for backwards compatibility.
-    /// When using a shared <paramref name="cache"/>, the cached
-    /// <see cref="Item1Derivation.C2HwhmRatio"/> retains its own throw-on-snap setting from
-    /// the moment it was first computed; this parameter applies only when this call
-    /// triggers the underlying scan.</para></summary>
+    /// <see cref="Item1Derivation.C2HwhmRatio.Build"/>. When using a shared
+    /// <paramref name="cache"/>, the cached <see cref="Item1Derivation.C2HwhmRatio"/>
+    /// retains its own throw-on-snap setting from when it was first computed.</para></summary>
+    /// <seealso cref="Item1Derivation.GridEdgeEscapeException"/>
     public static PerF71OrbitKTable Build(
         CoherenceBlock block,
         WitnessCache? cache = null,

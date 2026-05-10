@@ -84,33 +84,9 @@ public class PolarityLayerOriginClaimTests
     [Fact]
     public void PolarityPair_CenteredOnD0Root_WithHalfMagnitudeAndUnitSpan()
     {
-        // Tom 2026-05-10: "D=0 und da kommt die 0.5 verschiebung w es passiert +-"
-        //
-        // The polarity pair {−0.5, +0.5} at d=2 sits structurally as a triple of
-        // Pi2-Foundation identities:
-        //
-        //   sum:        (−0.5) + (+0.5) = 0 = d=0 root of d²−2d=0
-        //               (the "+-" averages to the polynomial mirror axis)
-        //   span:       |+0.5 − (−0.5)| = 1 (unit interval; the 0.5-shift in
-        //               PolarityLayerOriginClaim layer 2 is half this span)
-        //   magnitude:  |±0.5| = 1/2 = a_2 on Pi2DyadicLadder
-        //               (= HalfAsStructuralFixedPoint magnitude)
-        //
-        // Two structural readings of the same fact:
-        //   reading 1: pair centered on d=0 axis with half-shift to either side
-        //              (PolarityLayerOriginClaim layer 4: "the 0.5-shift around 1/2 is r/2")
-        //   reading 2: dynamics happens at the ±0.5 displacement from d=0
-        //              (Tom 2026-05-10: "der Raum in dem es passiert +-")
-        //
-        // The Π involution at d=2 has natural eigenvalues {+1, −1}. Under the
-        // 0.5-shift ρ = (I + r·σ)/2 these map to Bloch-diagonals (1±r)/2 = 1/2 ± r/2.
-        // At the d=0 axis r=0 the diagonals collapse to exactly 1/2 = a_2, the
-        // polarity baseline (HalfAsStructuralFixedPoint). At pure X-eigenstates
-        // r = ±1 the diagonals split to 1/2 ± 0.5 = {1, 0}.
-        //
-        // PolarityLayerOriginClaim names this structure; this test pins the
-        // underlying algebra at precision 15 by anchoring the magnitude to
-        // Pi2DyadicLadder.Term(2) instead of a hardcoded 0.5 — rename-safe.
+        // Pin the polarity pair {−a_2, +a_2} = {−0.5, +0.5} to three Pi2 identities at
+        // precision 15: sum = 0 (d=0 root), span = 1, magnitude = a_2. Anchored to
+        // Pi2DyadicLadder.Term(2) for rename-safety, not a hardcoded 0.5.
         var ladder = new Pi2DyadicLadderClaim();
         double half = ladder.Term(2);   // a_2 = 1/2 = HalfAsStructuralFixedPoint magnitude
         double plus = +half;

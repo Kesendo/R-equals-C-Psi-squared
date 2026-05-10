@@ -148,35 +148,30 @@ Matrix<Complex> DickeProbeRho(int n)
 // |S_n⟩ = symmetric Dicke state of popcount-n in N qubits, normalized.
 // ρ_cc = (|S_1⟩⟨S_2| + |S_2⟩⟨S_1|) / 2 — Hermitian, traceless, lives in (1,2) coherence block.
 // This is the F86 "coherence-block" probe (Q_SCALE_THREE_BANDS line 50).
+// Sparse construction: only popcount-1 × popcount-2 entries are non-zero (~N³/2 entries
+// in a d² grid), so we pre-collect the index lists and iterate only those.
 Matrix<Complex> CoherenceBlockProbeRho(int n)
 {
     int d = 1 << n;
-    // Build |S_1⟩ in computational basis: amplitude 1/√N at each popcount-1 basis state.
-    var s1 = DenseVector.Create(d, Complex.Zero);
-    int countS1 = 0;
+    var idxP1 = new List<int>();
+    var idxP2 = new List<int>();
     for (int i = 0; i < d; i++)
-        if (System.Numerics.BitOperations.PopCount((uint)i) == 1) countS1++;
-    double a1 = 1.0 / Math.Sqrt(countS1);  // = 1/√n
-    for (int i = 0; i < d; i++)
-        if (System.Numerics.BitOperations.PopCount((uint)i) == 1)
-            s1[i] = a1;
+    {
+        int p = System.Numerics.BitOperations.PopCount((uint)i);
+        if (p == 1) idxP1.Add(i);
+        else if (p == 2) idxP2.Add(i);
+    }
+    double a1 = 1.0 / Math.Sqrt(idxP1.Count);  // = 1/√n
+    double a2 = 1.0 / Math.Sqrt(idxP2.Count);  // = 1/√(n(n-1)/2)
+    double v = 0.5 * a1 * a2;                  // s_1 and s_2 amplitudes are real
 
-    // Build |S_2⟩ in computational basis: amplitude 1/√C(N,2) at each popcount-2 basis state.
-    var s2 = DenseVector.Create(d, Complex.Zero);
-    int countS2 = 0;
-    for (int i = 0; i < d; i++)
-        if (System.Numerics.BitOperations.PopCount((uint)i) == 2) countS2++;
-    double a2 = 1.0 / Math.Sqrt(countS2);  // = 1/√(n(n-1)/2)
-    for (int i = 0; i < d; i++)
-        if (System.Numerics.BitOperations.PopCount((uint)i) == 2)
-            s2[i] = a2;
-
-    // ρ_cc = (|S_1⟩⟨S_2| + |S_2⟩⟨S_1|) / 2
-    // = (s1·s2† + s2·s1†) / 2  (outer products, Hermitian)
     var rho = DenseMatrix.Create(d, d, Complex.Zero);
-    for (int i = 0; i < d; i++)
-        for (int j = 0; j < d; j++)
-            rho[i, j] = 0.5 * (s1[i] * Complex.Conjugate(s2[j]) + s2[i] * Complex.Conjugate(s1[j]));
+    foreach (int i in idxP1)
+        foreach (int j in idxP2)
+        {
+            rho[i, j] += v;  // (|S_1⟩⟨S_2|)/2
+            rho[j, i] += v;  // (|S_2⟩⟨S_1|)/2  (real, so conjugate is identity)
+        }
     return rho;
 }
 
@@ -357,6 +352,15 @@ void RunVerifyBondIsolateHelpers()
 // ============================================================
 void RunBondIsolate(string[] biArgs)
 {
+    const string usage = "Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--probe coherence|dicke] [--out <path>]";
+
+    void Die(string error)
+    {
+        Console.Error.WriteLine($"ERROR: {error}");
+        Console.Error.WriteLine(usage);
+        Environment.Exit(1);
+    }
+
     // Defaults (Q=1.5 at gamma_0=0.05 corresponds to J=0.075)
     int n = 7;
     int? bond = null;
@@ -365,7 +369,7 @@ void RunBondIsolate(string[] biArgs)
     double tMax = 30.0;
     double dt = 0.1;
     string? outPath = null;
-    string probe = "coherence";  // F86-aligned default; "dicke" = legacy |D_1⟩⟨D_1|
+    ProbeKind probe = ProbeKind.Coherence;  // F86-aligned default; Dicke = legacy |D_1⟩⟨D_1|
 
     // Manual arg walk (same pattern as RunProfileEvaluation)
     for (int i = 1; i < biArgs.Length; i++)
@@ -387,62 +391,27 @@ void RunBondIsolate(string[] biArgs)
             outPath = biArgs[++i];
         else if (a == "--probe" && i + 1 < biArgs.Length)
         {
-            probe = biArgs[++i];
-            if (probe != "coherence" && probe != "dicke")
+            string raw = biArgs[++i];
+            probe = raw.ToLowerInvariant() switch
             {
-                Console.Error.WriteLine($"ERROR: --probe must be 'coherence' or 'dicke'; got '{probe}'");
-                Environment.Exit(1);
-                return;
-            }
+                "coherence" => ProbeKind.Coherence,
+                "dicke" => ProbeKind.Dicke,
+                _ => throw new ArgumentException($"--probe must be 'coherence' or 'dicke'; got '{raw}'")
+            };
         }
     }
 
     // Validation
-    if (bond is null)
-    {
-        Console.Error.WriteLine("ERROR: --bond <int> is required (0..N-2)");
-        Console.Error.WriteLine("Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--probe coherence|dicke] [--out <path>]");
-        Environment.Exit(1);
-        return;
-    }
-    if (n < 3 || n > 13)
-    {
-        Console.Error.WriteLine($"ERROR: --N must be in 3..13 (dense path); got {n}");
-        Environment.Exit(1);
-        return;
-    }
-    if (bond.Value < 0 || bond.Value > n - 2)
-    {
-        Console.Error.WriteLine($"ERROR: --bond must be in 0..{n - 2} (N-2); got {bond.Value}");
-        Environment.Exit(1);
-        return;
-    }
-    if (J < 0)
-    {
-        Console.Error.WriteLine($"ERROR: --J must be >= 0; got {J}");
-        Environment.Exit(1);
-        return;
-    }
-    if (tMax <= 0)
-    {
-        Console.Error.WriteLine($"ERROR: --tmax must be > 0; got {tMax}");
-        Environment.Exit(1);
-        return;
-    }
-    if (dt <= 0)
-    {
-        Console.Error.WriteLine($"ERROR: --dt must be > 0; got {dt}");
-        Environment.Exit(1);
-        return;
-    }
-    if (dt >= tMax)
-    {
-        Console.Error.WriteLine($"ERROR: --dt ({dt}) must be < --tmax ({tMax})");
-        Environment.Exit(1);
-        return;
-    }
+    if (bond is null) { Die("--bond <int> is required (0..N-2)"); return; }
+    if (n < 3 || n > 13) { Die($"--N must be in 3..13 (dense path); got {n}"); return; }
+    if (bond.Value < 0 || bond.Value > n - 2) { Die($"--bond must be in 0..{n - 2} (N-2); got {bond.Value}"); return; }
+    if (J < 0) { Die($"--J must be >= 0; got {J}"); return; }
+    if (tMax <= 0) { Die($"--tmax must be > 0; got {tMax}"); return; }
+    if (dt <= 0) { Die($"--dt must be > 0; got {dt}"); return; }
+    if (dt >= tMax) { Die($"--dt ({dt}) must be < --tmax ({tMax})"); return; }
 
     var inv = CultureInfo.InvariantCulture;
+    string probeLabel = probe.ToString().ToLowerInvariant();
 
     // Resolve output path (default if --out not given)
     if (outPath is null)
@@ -451,7 +420,7 @@ void RunBondIsolate(string[] biArgs)
             Path.GetDirectoryName(AppContext.BaseDirectory)!,
             "..", "..", "..", "..", "..",
             "simulations", "results", "bond_isolate",
-            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}_probe-{probe}.csv");
+            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}_probe-{probeLabel}.csv");
         outPath = Path.GetFullPath(outPath);
     }
     var outDir = Path.GetDirectoryName(outPath);
@@ -465,7 +434,7 @@ void RunBondIsolate(string[] biArgs)
 
     // Initial state: F86 coherence-block ρ_cc = (|S_1⟩⟨S_2| + h.c.)/2 (default)
     // or Dicke |D_1⟩⟨D_1| (legacy, popcount-1 only — gives S(t)=0 forever).
-    var rho = probe == "coherence" ? CoherenceBlockProbeRho(n) : DickeProbeRho(n);
+    var rho = probe == ProbeKind.Coherence ? CoherenceBlockProbeRho(n) : DickeProbeRho(n);
 
     // Uniform Z-dephasing at rate gamma on every site
     var gammas = Enumerable.Repeat(gamma, n).ToArray();
@@ -506,7 +475,7 @@ void RunBondIsolate(string[] biArgs)
     // Summary line to stdout (machine-parseable)
     Console.WriteLine(string.Format(inv,
         "bond-isolate N={0} bond={1} J={2} gamma={3} probe={4}: tmax={5} dt={6} steps={7} rows={8} runtime={9:F2}s output={10}",
-        n, bond.Value, J, gamma, probe, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
+        n, bond.Value, J, gamma, probeLabel, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
 }
 
 // ============================================================
@@ -1735,3 +1704,10 @@ Log(new string('=', 70));
 Log();
 Log($"Total runtime: {totalSw.Elapsed}");
 Log($"Results: {outPath}");
+
+// File-scoped types must come AFTER the top-level statements.
+internal enum ProbeKind
+{
+    Coherence,
+    Dicke
+}

@@ -102,14 +102,10 @@ public sealed class C2HwhmRatio : Claim
     /// anchor for N=5..8; pass an extended upper bound for N≥9 where flanking-Interior bonds
     /// peak above 4.0 and the default grid clips them at the edge.
     ///
-    /// <para><paramref name="throwOnGridEdgeSnap"/> (default <c>false</c> — opt-in
-    /// strict mode): when <c>true</c>, throws <see cref="GridEdgeEscapeException"/> if any
-    /// bond's Q_peak lands within one dQ of the grid upper edge. The silent grid-snap is
-    /// "Fehlerquelle pur" (Tom Wicht 2026-05-10) because the reported Q_peak/HWHM is then
-    /// a grid artefact, not physical data; the strict mode catches this. Default is
-    /// <c>false</c> for backwards compatibility with the existing test suite which has
-    /// pinned values dependent on the lenient behaviour at N≥9 (e.g. the
-    /// <c>IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid</c> regression test).</para></summary>
+    /// <para><paramref name="throwOnGridEdgeSnap"/>: opt-in strict mode that raises
+    /// <see cref="GridEdgeEscapeException"/> when any bond's Q_peak sits within one dQ
+    /// of the grid upper edge.</para></summary>
+    /// <seealso cref="GridEdgeEscapeException"/>
     public static C2HwhmRatio Build(
         CoherenceBlock block,
         IReadOnlyList<double>? qGrid = null,
