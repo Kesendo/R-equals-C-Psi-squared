@@ -40,6 +40,17 @@ if (args.Length >= 1 && args[0] == "brecher")
 }
 
 // ============================================================
+// BOND-ISOLATE MODE: single-bond XY chain dynamics + per-site Z + S(t) CSV
+// ============================================================
+if (args.Length >= 1 && args[0] == "bond-isolate")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunBondIsolate(args);
+    return;
+}
+
+// ============================================================
 // VERIFY BOND-ISOLATE HELPERS: smoke checks for T1-T4 (Tom 2026-05-11)
 // ============================================================
 if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
@@ -272,6 +283,154 @@ void RunVerifyBondIsolateHelpers()
 
     Console.WriteLine($"=== {(failures == 0 ? "ALL PASS" : $"{failures} FAILURE(S)")} ===");
     if (failures != 0) Environment.ExitCode = 1;
+}
+
+// ============================================================
+// BOND-ISOLATE MODE
+// XY chain with only ONE bond active, Dicke |D_1> probe, uniform Z-dephasing,
+// per-site <Z_l> + F73 spatial-sum coherence S(t) into CSV.
+// Plan ref: docs/superpowers/plans/2026-05-11-bond-isolate-mode.md (Task 5).
+// ============================================================
+void RunBondIsolate(string[] biArgs)
+{
+    // Defaults (Q=1.5 at gamma_0=0.05 corresponds to J=0.075)
+    int n = 7;
+    int? bond = null;
+    double J = 0.075;
+    double gamma = 0.05;
+    double tMax = 30.0;
+    double dt = 0.1;
+    string? outPath = null;
+
+    // Manual arg walk (same pattern as RunProfileEvaluation)
+    for (int i = 1; i < biArgs.Length; i++)
+    {
+        string a = biArgs[i];
+        if (a == "--N" && i + 1 < biArgs.Length)
+            n = int.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--bond" && i + 1 < biArgs.Length)
+            bond = int.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--J" && i + 1 < biArgs.Length)
+            J = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--gamma" && i + 1 < biArgs.Length)
+            gamma = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--tmax" && i + 1 < biArgs.Length)
+            tMax = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--dt" && i + 1 < biArgs.Length)
+            dt = double.Parse(biArgs[++i], CultureInfo.InvariantCulture);
+        else if (a == "--out" && i + 1 < biArgs.Length)
+            outPath = biArgs[++i];
+    }
+
+    // Validation
+    if (bond is null)
+    {
+        Console.Error.WriteLine("ERROR: --bond <int> is required (0..N-2)");
+        Console.Error.WriteLine("Usage: bond-isolate --N <int> --bond <int> [--J 0.075] [--gamma 0.05] [--tmax 30] [--dt 0.1] [--out <path>]");
+        Environment.Exit(1);
+        return;
+    }
+    if (n < 3 || n > 13)
+    {
+        Console.Error.WriteLine($"ERROR: --N must be in 3..13 (dense path); got {n}");
+        Environment.Exit(1);
+        return;
+    }
+    if (bond.Value < 0 || bond.Value > n - 2)
+    {
+        Console.Error.WriteLine($"ERROR: --bond must be in 0..{n - 2} (N-2); got {bond.Value}");
+        Environment.Exit(1);
+        return;
+    }
+    if (J < 0)
+    {
+        Console.Error.WriteLine($"ERROR: --J must be >= 0; got {J}");
+        Environment.Exit(1);
+        return;
+    }
+    if (tMax <= 0)
+    {
+        Console.Error.WriteLine($"ERROR: --tmax must be > 0; got {tMax}");
+        Environment.Exit(1);
+        return;
+    }
+    if (dt <= 0)
+    {
+        Console.Error.WriteLine($"ERROR: --dt must be > 0; got {dt}");
+        Environment.Exit(1);
+        return;
+    }
+    if (dt >= tMax)
+    {
+        Console.Error.WriteLine($"ERROR: --dt ({dt}) must be < --tmax ({tMax})");
+        Environment.Exit(1);
+        return;
+    }
+
+    var inv = CultureInfo.InvariantCulture;
+
+    // Resolve output path (default if --out not given)
+    if (outPath is null)
+    {
+        outPath = Path.Combine(
+            Path.GetDirectoryName(AppContext.BaseDirectory)!,
+            "..", "..", "..", "..", "..",
+            "simulations", "results", "bond_isolate",
+            $"N{n}_b{bond.Value}_J{J.ToString("F4", inv)}_gamma{gamma.ToString("F4", inv)}.csv");
+        outPath = Path.GetFullPath(outPath);
+    }
+    var outDir = Path.GetDirectoryName(outPath);
+    if (!string.IsNullOrEmpty(outDir) && !Directory.Exists(outDir))
+        Directory.CreateDirectory(outDir);
+
+    // Build H with only `bond` active
+    double[] jPerBond = new double[n - 1];
+    jPerBond[bond.Value] = J;
+    var H = BuildXyChainNonUniformH(n, jPerBond);
+
+    // Initial state: Dicke |D_1><D_1|
+    var rho = DickeProbeRho(n);
+
+    // Uniform Z-dephasing at rate gamma on every site
+    var gammas = Enumerable.Repeat(gamma, n).ToArray();
+    var prop = new LindbladPropagator(H, gammas, n);
+
+    int nSteps = (int)Math.Round(tMax / dt);
+
+    // Build measurement times t_k = k*dt for k = 0..nSteps.
+    // LindbladPropagator.Propagate calls the callback at t=0 (if measureTimes[0] <= dt/2)
+    // and after each integrated step when |t_step - t_meas| < dt/2.
+    var tMeas = new double[nSteps + 1];
+    for (int k = 0; k <= nSteps; k++) tMeas[k] = k * dt;
+
+    using var writer = new StreamWriter(outPath, false, System.Text.Encoding.UTF8);
+    // CSV header
+    writer.Write("t");
+    for (int l = 0; l < n; l++) writer.Write(",Z_" + l.ToString(inv));
+    writer.WriteLine(",S");
+
+    var sw = Stopwatch.StartNew();
+    int rowCount = 0;
+
+    prop.Propagate(rho, tMax, dt, tMeas, (t, rhoT) =>
+    {
+        var blochZ = PerSiteBlochZ(rhoT, n);
+        double s = SpatialSumCoherenceS(rhoT, n);
+
+        writer.Write(t.ToString("F4", inv));
+        for (int l = 0; l < n; l++)
+            writer.Write("," + blochZ[l].ToString("F6", inv));
+        writer.WriteLine("," + s.ToString("F6", inv));
+        rowCount++;
+    });
+
+    writer.Flush();
+    sw.Stop();
+
+    // Summary line to stdout (machine-parseable)
+    Console.WriteLine(string.Format(inv,
+        "bond-isolate N={0} bond={1} J={2} gamma={3}: tmax={4} dt={5} steps={6} rows={7} runtime={8:F2}s output={9}",
+        n, bond.Value, J, gamma, tMax, dt, nSteps, rowCount, sw.Elapsed.TotalSeconds, outPath));
 }
 
 // ============================================================
