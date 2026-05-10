@@ -40,6 +40,17 @@ if (args.Length >= 1 && args[0] == "brecher")
 }
 
 // ============================================================
+// VERIFY BOND-ISOLATE HELPERS: smoke checks for T1-T4 (Tom 2026-05-11)
+// ============================================================
+if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    VerifyBondIsolateHelpers();
+    return;
+}
+
+// ============================================================
 // OUTPUT
 // ============================================================
 var outFileName = args.Contains("pull") ? "pull_principle.txt" : "mediator_bridge_scale.txt";
@@ -85,6 +96,180 @@ Complex[] BellPair(int q0, int q1, int nQubits)
     psi[0] = 1.0 / Math.Sqrt(2);
     psi[(1 << (nQubits - 1 - q0)) | (1 << (nQubits - 1 - q1))] = 1.0 / Math.Sqrt(2);
     return psi;
+}
+
+// ============================================================
+// HELPERS for bond-isolate mode (Tom 2026-05-11)
+// ============================================================
+
+// T1: Build XY-only chain Hamiltonian H = Σ_b J_b · (X_b X_{b+1} + Y_b Y_{b+1})
+// with non-uniform J. Throws ArgumentException when length mismatches.
+Matrix<Complex> BuildXyChainNonUniformH(int n, double[] jPerBond)
+{
+    if (jPerBond.Length != n - 1)
+        throw new ArgumentException(
+            $"jPerBond length must be n-1 = {n - 1}; got {jPerBond.Length}",
+            nameof(jPerBond));
+    var bonds = new Bond[n - 1];
+    for (int b = 0; b < n - 1; b++)
+        bonds[b] = new Bond(b, b + 1, jPerBond[b], new[] { "X", "Y" });
+    return Topology.BuildHamiltonian(n, bonds);
+}
+
+// T2: Uniform single-excitation Dicke probe state ρ_0 = |D_1⟩⟨D_1|.
+// In computational basis: ρ_0[i, j] = 1/n if popcount(i)==1 AND popcount(j)==1, else 0.
+Matrix<Complex> DickeProbeRho(int n)
+{
+    int d = 1 << n;
+    var rho = DenseMatrix.Create(d, d, Complex.Zero);
+    for (int i = 0; i < d; i++)
+    {
+        if (System.Numerics.BitOperations.PopCount((uint)i) != 1) continue;
+        for (int j = 0; j < d; j++)
+        {
+            if (System.Numerics.BitOperations.PopCount((uint)j) != 1) continue;
+            rho[i, j] = 1.0 / n;
+        }
+    }
+    return rho;
+}
+
+// T3: Per-site ⟨Z_l⟩ = Tr(ρ Z_l) using MSB convention (qubit 0 at bit n-1).
+double[] PerSiteBlochZ(Matrix<Complex> rho, int n)
+{
+    int d = 1 << n;
+    var result = new double[n];
+    for (int l = 0; l < n; l++)
+    {
+        double sum = 0;
+        int shift = n - 1 - l;
+        for (int i = 0; i < d; i++)
+        {
+            int bit = (i >> shift) & 1;
+            int sign = bit == 0 ? 1 : -1;
+            sum += sign * rho[i, i].Real;
+        }
+        result[l] = sum;
+    }
+    return result;
+}
+
+// T4: F73 spatial-sum coherence purity S = Σ_l 2·|(ρ_l)_{0,1}|².
+// (ρ_l)[0,1] = Σ_rest ρ[i with bit_l=0, i with bit_l=1].
+double SpatialSumCoherenceS(Matrix<Complex> rho, int n)
+{
+    int d = 1 << n;
+    double s = 0;
+    for (int l = 0; l < n; l++)
+    {
+        int shift = n - 1 - l;
+        Complex offdiag = Complex.Zero;
+        for (int i = 0; i < d; i++)
+        {
+            if (((i >> shift) & 1) != 0) continue;
+            int j = i | (1 << shift);
+            offdiag += rho[i, j];
+        }
+        s += 2.0 * (offdiag.Real * offdiag.Real + offdiag.Imaginary * offdiag.Imaginary);
+    }
+    return s;
+}
+
+// Smoke checks for T1-T4. Run via:
+//   dotnet run -c Release -- verify-bond-isolate-helpers
+void VerifyBondIsolateHelpers()
+{
+    Console.WriteLine("=== Bond-isolate helpers smoke check ===");
+    int failures = 0;
+
+    // T1: Build H at N=5 with jPerBond = [0, 1, 0, 0]; only bond 1 (qubits 1-2) active.
+    {
+        int n = 5;
+        var jPerBond = new[] { 0.0, 1.0, 0.0, 0.0 };
+        var H = BuildXyChainNonUniformH(n, jPerBond);
+
+        // Dimension check
+        bool dimOk = H.RowCount == 32 && H.ColumnCount == 32;
+
+        // Hermiticity: ‖H − H†‖_F < 1e-12
+        var diff = H - H.ConjugateTranspose();
+        double hermErr = diff.FrobeniusNorm();
+
+        // Compare with direct construction J·(X_1⊗X_2 + Y_1⊗Y_2) at qubits 1,2
+        var Hdirect = PauliOps.At(PauliOps.X, 1, n) * PauliOps.At(PauliOps.X, 2, n)
+                    + PauliOps.At(PauliOps.Y, 1, n) * PauliOps.At(PauliOps.Y, 2, n);
+        var matchErr = (H - Hdirect).FrobeniusNorm();
+
+        bool ok = dimOk && hermErr < 1e-12 && matchErr < 1e-12;
+        Console.WriteLine($"  T1 BuildXyChainNonUniformH: " +
+            $"dim={H.RowCount}x{H.ColumnCount} hermErr={hermErr:E2} matchErr={matchErr:E2} " +
+            (ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+
+        // ArgumentException check
+        bool argChecked = false;
+        try { BuildXyChainNonUniformH(5, new[] { 1.0, 1.0 }); }
+        catch (ArgumentException) { argChecked = true; }
+        Console.WriteLine($"  T1 length-validation: " + (argChecked ? "PASS" : "FAIL"));
+        if (!argChecked) failures++;
+    }
+
+    // T2: Dicke probe at N=5
+    {
+        int n = 5;
+        var rho = DickeProbeRho(n);
+
+        // Tr(ρ) = 1
+        Complex tr = Complex.Zero;
+        for (int i = 0; i < rho.RowCount; i++) tr += rho[i, i];
+        double trErr = Math.Abs(tr.Real - 1.0) + Math.Abs(tr.Imaginary);
+
+        // Hermiticity
+        double hermErr = (rho - rho.ConjugateTranspose()).FrobeniusNorm();
+
+        // Rank-1: largest singular value ≈ 1, others ≈ 0 (Σ_i s_i² = 1 and max s_i ≈ 1)
+        var svd = rho.Svd(true);
+        double sMax = svd.S[0].Real;
+        double sRest = 0;
+        for (int i = 1; i < svd.S.Count; i++) sRest += svd.S[i].Real;
+
+        bool ok = trErr < 1e-14 && hermErr < 1e-14
+                  && Math.Abs(sMax - 1.0) < 1e-12 && sRest < 1e-12;
+        Console.WriteLine($"  T2 DickeProbeRho: " +
+            $"trErr={trErr:E2} hermErr={hermErr:E2} sMax={sMax:F12} sRest={sRest:E2} " +
+            (ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    // T3: Per-site Z on Dicke probe — all sites should give 0.6 = 3/5
+    {
+        int n = 5;
+        var rho = DickeProbeRho(n);
+        var z = PerSiteBlochZ(rho, n);
+        double maxDev = 0;
+        for (int l = 0; l < n; l++)
+            maxDev = Math.Max(maxDev, Math.Abs(z[l] - 0.6));
+        bool ok = maxDev < 1e-14;
+        Console.Write($"  T3 PerSiteBlochZ: maxDev={maxDev:E2} z=[");
+        for (int l = 0; l < n; l++)
+            Console.Write((l == 0 ? "" : ", ") + z[l].ToString("F12"));
+        Console.WriteLine("] " + (ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    // T4: Spatial-sum coherence on Dicke probe — should be 0
+    {
+        int n = 5;
+        var rho = DickeProbeRho(n);
+        double s = SpatialSumCoherenceS(rho, n);
+        bool ok = Math.Abs(s) < 1e-14;
+        Console.WriteLine($"  T4 SpatialSumCoherenceS(Dicke N=5): S={s:E2} " +
+            (ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    Console.WriteLine($"=== {(failures == 0 ? "ALL PASS" : $"{failures} FAILURE(S)")} ===");
+    if (failures != 0) Environment.ExitCode = 1;
 }
 
 // ============================================================
