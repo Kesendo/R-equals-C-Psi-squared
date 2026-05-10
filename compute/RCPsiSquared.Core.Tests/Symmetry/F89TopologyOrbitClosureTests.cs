@@ -8,13 +8,13 @@ public class F89TopologyOrbitClosureTests
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        Assert.Equal(Tier.Tier1Derived, new F89TopologyOrbitClosure().Tier);
+        Assert.Equal(Tier.Tier1Derived, new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim()).Tier);
     }
 
     [Fact]
     public void Anchor_PointsToAnalyticalFormulasAndExperimentWriteup()
     {
-        var anchor = new F89TopologyOrbitClosure().Anchor;
+        var anchor = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim()).Anchor;
         Assert.Contains("docs/ANALYTICAL_FORMULAS.md F89", anchor);
         Assert.Contains("experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md", anchor);
     }
@@ -168,7 +168,7 @@ public class F89TopologyOrbitClosureTests
     [Fact]
     public void DisplayName_NamesTopologyOrbitClosure()
     {
-        var name = new F89TopologyOrbitClosure().DisplayName;
+        var name = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim()).DisplayName;
         Assert.Contains("F89", name);
         Assert.Contains("topology", name, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("orbit", name, StringComparison.OrdinalIgnoreCase);
@@ -259,5 +259,52 @@ public class F89TopologyOrbitClosureTests
         double t = 5.0;
         double s = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m: 0, j, gamma, t);
         Assert.Equal((double)(n - 1) / n * Math.Exp(-4.0 * gamma * t), s, precision: 14);
+    }
+
+    [Fact]
+    public void Constructor_RejectsNullLadder()
+    {
+        Assert.Throws<ArgumentNullException>(() => new F89TopologyOrbitClosure(null!));
+    }
+
+    [Fact]
+    public void DecayRateCoefficient_EqualsFour_FromPi2LadderTermMinusOne()
+    {
+        var f89 = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim());
+        Assert.Equal(4.0, f89.DecayRateCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void OscillationFrequencyCoefficient_EqualsFour_FromPi2LadderTermMinusOne()
+    {
+        var f89 = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim());
+        Assert.Equal(4.0, f89.OscillationFrequencyCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void DecayAndOscillationCoefficients_AreEqual_SameLadderAnchor()
+    {
+        var f89 = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim());
+        Assert.Equal(f89.DecayRateCoefficient, f89.OscillationFrequencyCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void Pi2DoublingConsistent_HoldsExactly()
+    {
+        var f89 = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim());
+        Assert.True(f89.Pi2DoublingConsistent());
+    }
+
+    [Fact]
+    public void DecayRateCoefficient_MatchesF73DecayRateCoefficient()
+    {
+        // Both F73 and F89 inherit a_{-1} = 4 from Pi2DyadicLadder for the
+        // γ-axis time-decay. The coefficient must be identical (mirror anchor).
+        var ladder = new Pi2DyadicLadderClaim();
+        var f70 = new F70DeltaNSelectionRulePi2Inheritance(ladder);
+        var f72 = new F72BlockDiagonalPurityPi2Inheritance(ladder, f70);
+        var f73 = new F73SpatialSumPurityClosurePi2Inheritance(ladder, f70, f72);
+        var f89 = new F89TopologyOrbitClosure(ladder);
+        Assert.Equal(f73.DecayRateCoefficient, f89.DecayRateCoefficient, precision: 14);
     }
 }

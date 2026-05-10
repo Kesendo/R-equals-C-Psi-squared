@@ -27,7 +27,7 @@ public class F89TopologyOrbitClosureRegistrationTests
     }
 
     [Fact]
-    public void RegisterF89_AncestorsContainBothCitedParents()
+    public void RegisterF89_AncestorsContainAllParents()
     {
         var registry = BuildBaseRegistry()
             .RegisterF89TopologyOrbitClosure()
@@ -36,7 +36,21 @@ public class F89TopologyOrbitClosureRegistrationTests
         var ancestors = registry.AncestorsOf<F89TopologyOrbitClosure>()
             .Select(c => c.GetType()).ToHashSet();
 
+        Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
         Assert.Contains(typeof(F73SpatialSumPurityClosurePi2Inheritance), ancestors);
         Assert.Contains(typeof(F71MirrorSymmetryPi2Inheritance), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89_DecayCoefficient_MatchesPi2LadderAnchor()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89TopologyOrbitClosure()
+            .Build();
+
+        var f89 = registry.Get<F89TopologyOrbitClosure>();
+        Assert.Equal(4.0, f89.DecayRateCoefficient, precision: 14);
+        Assert.Equal(4.0, f89.OscillationFrequencyCoefficient, precision: 14);
+        Assert.True(f89.Pi2DoublingConsistent());
     }
 }

@@ -42,6 +42,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// with universal asymptotic rate 4γ₀ matching F73's vac-SE rate. Mixed-topology
 /// and pure-path closed forms remain Tier 2 empirical (derivation open).</para>
 ///
+/// <para>Pi2-Foundation inheritance (two roles, same a_{−1}): both the time-decay
+/// coefficient 4γ₀ and the time-oscillation coefficient 4J in the all-isolated
+/// closed form trace to <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = 4. The
+/// γ-axis inheritance is identical to F73's
+/// <see cref="F73SpatialSumPurityClosurePi2Inheritance.DecayRateCoefficient"/>
+/// (per-coherence rate 2γ₀ doubles to S-decay rate 4γ₀ on |·|²). The J-axis
+/// inheritance is the same a_{0}=2 → a_{−1}=4 doubling: H_B-eigenstate
+/// frequency 2J doubles to S-oscillation frequency 4J on |·|². The Pi2 ladder
+/// thus anchors the time coefficients on both energy axes; the (N−1)/N baseline
+/// and the 4m(N−2)/(N²(N−1)) correction prefactor are combinatorial (S_N-orbit
+/// and 2-qubit-block algebra), not Pi2-anchored.</para>
+///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F89 (line 2436) +
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> +
 /// <c>simulations/_bond_isolate_compare_n7.py</c> +
@@ -51,6 +63,31 @@ namespace RCPsiSquared.Core.Symmetry;
 /// CLI mode.</para></summary>
 public sealed class F89TopologyOrbitClosure : Claim
 {
+    private readonly Pi2DyadicLadderClaim _ladder;
+
+    /// <summary>The "4" decay-rate coefficient in <c>exp(−4γ₀ t)</c>, the asymptotic
+    /// rate of S(t) for any all-isolated topology class. Live from
+    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = a_{−1} = 4. Identical anchor
+    /// to F73's <see cref="F73SpatialSumPurityClosurePi2Inheritance.DecayRateCoefficient"/>:
+    /// the per-coherence Z-deph rate 2γ₀ (= a_{0}·γ₀) doubles to S-decay rate 4γ₀
+    /// (= a_{−1}·γ₀) on |·|².</summary>
+    public double DecayRateCoefficient => _ladder.Term(-1);
+
+    /// <summary>The "4" oscillation-frequency coefficient in <c>cos(4J t)</c>, the
+    /// frequency of the m-correction in S(t) for all-isolated topology classes.
+    /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = a_{−1} = 4, the
+    /// J-axis mirror of the same Pi2 ladder anchor that gives F73's decay rate:
+    /// the H_B-eigenstate frequency 2J (= a_{0}·J) doubles to S-oscillation
+    /// frequency 4J (= a_{−1}·J) on |·|².</summary>
+    public double OscillationFrequencyCoefficient => _ladder.Term(-1);
+
+    /// <summary>Live drift check: both the γ-axis decay coefficient and the J-axis
+    /// oscillation coefficient resolve to <c>a_{−1} = 4</c> from the Pi2 ladder, and
+    /// match the literal <c>4.0</c> used in <see cref="AllIsolatedClosedForm"/>.</summary>
+    public bool Pi2DoublingConsistent() =>
+        Math.Abs(DecayRateCoefficient - 4.0) < 1e-15
+        && Math.Abs(OscillationFrequencyCoefficient - 4.0) < 1e-15;
+
     /// <summary>Probe-only closed form: S(0) = (N − 1) / N for ρ_cc on N qubits.
     /// Bond-set independent (depends only on the probe).</summary>
     public static double S0ClosedForm(int n)
@@ -151,7 +188,7 @@ public sealed class F89TopologyOrbitClosure : Claim
         return (s0 + correction) * Math.Exp(-4.0 * gammaZero * t);
     }
 
-    public F89TopologyOrbitClosure()
+    public F89TopologyOrbitClosure(Pi2DyadicLadderClaim ladder)
         : base("F89 topology orbit closure: S(t) for ρ_cc + uniform-J multi-bond XY depends only on the S_N-orbit of the bond set; for chain-restricted B, orbit = topology class (sorted multiset of connected-path-lengths)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F89 + " +
@@ -160,9 +197,12 @@ public sealed class F89TopologyOrbitClosure : Claim
                "simulations/_bond_isolate_long_range_verify.py + " +
                "simulations/_bond_isolate_topology_classes_n7.py + " +
                "compute/RCPsiSquared.Propagate (bond-isolate --bonds i,j,...) + " +
-               "compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs (cited) + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (a_{-1}=4 anchor for both decay and oscillation coefficients) + " +
+               "compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs (cited; same a_{-1} anchor) + " +
                "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs (cited)")
-    { }
+    {
+        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+    }
 
     public override string DisplayName =>
         "F89 topology orbit closure for ρ_cc + uniform-J multi-bond XY";
@@ -176,6 +216,10 @@ public sealed class F89TopologyOrbitClosure : Claim
         {
             yield return InspectableNode.RealScalar("S(0) at N=7 (= 6/7)", S0ClosedForm(7));
             yield return InspectableNode.RealScalar("S(0) at N=4 (= 3/4)", S0ClosedForm(4));
+            yield return InspectableNode.RealScalar("DecayRateCoefficient (= a_{-1} = 4, γ-axis)", DecayRateCoefficient);
+            yield return InspectableNode.RealScalar("OscillationFrequencyCoefficient (= a_{-1} = 4, J-axis mirror)", OscillationFrequencyCoefficient);
+            yield return new InspectableNode("Pi2 inheritance (a_{-1}=4 doubling on both energy axes)",
+                summary: "γ-side: per-coherence Z-deph rate 2γ₀ = a_{0}·γ₀ doubles to S-decay rate 4γ₀ = a_{-1}·γ₀ on |·|² (identical to F73). J-side: H_B-eigenstate frequency 2J = a_{0}·J doubles to S-oscillation frequency 4J = a_{-1}·J on |·|² (NEW to F89). Same Pi2 ladder anchor a_{-1}=4 governs both.");
             yield return new InspectableNode("Verification anchors",
                 summary: "N=7 multi-bond: 24 runs covering 12 topology classes for k=1..6; 8 classes with ≥2 reps all show 0.00e+00 within-class diff. N=4 single-pair: 6 NN+LR pairs within 5.55e−17 via direct expm. N=7 single-NN-bond: 30 ordered pairs at 0.00e+00.");
             yield return new InspectableNode("All-isolated subclass closed form (Tier 1 derived)",
