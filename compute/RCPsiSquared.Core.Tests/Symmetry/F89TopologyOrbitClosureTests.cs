@@ -173,4 +173,91 @@ public class F89TopologyOrbitClosureTests
         Assert.Contains("topology", name, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("orbit", name, StringComparison.OrdinalIgnoreCase);
     }
+
+    [Theory]
+    [InlineData(7, 1)]
+    [InlineData(7, 2)]
+    [InlineData(7, 3)]
+    [InlineData(11, 5)]
+    public void AllIsolatedClosedForm_AtTZero_EqualsSZero(int n, int m)
+    {
+        double s = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m, j: 0.075, gammaZero: 0.05, t: 0.0);
+        Assert.Equal((double)(n - 1) / n, s, precision: 14);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    public void AllIsolatedClosedForm_AtInPhaseMoment_IndependentOfM(int m)
+    {
+        // cos(4Jt) = 1 at t = k·π/(2J); pick k=1 → t = π/(2J).
+        const int n = 7;
+        const double j = 0.075;
+        const double gamma = 0.05;
+        double tInPhase = Math.PI / (2.0 * j);
+
+        double s = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m, j, gamma, tInPhase);
+        double sExpected = (double)(n - 1) / n * Math.Exp(-4.0 * gamma * tInPhase);
+        Assert.Equal(sExpected, s, precision: 12);
+    }
+
+    [Theory]
+    [InlineData(7, 1, 0.0, 6.0 / 7.0)]
+    [InlineData(7, 1, 21.0, 0.012853, 5)]   // ≈ in-phase moment
+    [InlineData(7, 2, 21.0, 0.012853, 5)]   // ≈ in-phase moment
+    [InlineData(7, 3, 21.0, 0.012853, 5)]   // ≈ in-phase moment
+    public void AllIsolatedClosedForm_MatchesEmpiricalSpotCheck(int n, int m, double t, double expected, int precision = 12)
+    {
+        double s = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m, j: 0.075, gammaZero: 0.05, t: t);
+        Assert.Equal(expected, s, precision: precision);
+    }
+
+    [Fact]
+    public void AllIsolatedClosedForm_AsymptoticRateIs4Gamma_AcrossM()
+    {
+        // For two times t1, t2 both at cos(4Jt)=1, ratio S(t2)/S(t1) = exp(-4γ(t2-t1))
+        // independent of m.
+        const int n = 7;
+        const double j = 0.075;
+        const double gamma = 0.05;
+        double t1 = Math.PI / (2.0 * j);
+        double t2 = 3.0 * Math.PI / (2.0 * j);
+        double expectedRatio = Math.Exp(-4.0 * gamma * (t2 - t1));
+
+        for (int m = 1; m <= 3; m++)
+        {
+            double r = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m, j, gamma, t2)
+                     / F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m, j, gamma, t1);
+            Assert.Equal(expectedRatio, r, precision: 12);
+        }
+    }
+
+    [Fact]
+    public void AllIsolatedClosedForm_RejectsBadInputs()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.AllIsolatedClosedForm(n: 1, m: 0, j: 1, gammaZero: 0.05, t: 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.AllIsolatedClosedForm(n: 7, m: -1, j: 1, gammaZero: 0.05, t: 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.AllIsolatedClosedForm(n: 7, m: 4, j: 1, gammaZero: 0.05, t: 0));  // 2m=8 > N=7
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.AllIsolatedClosedForm(n: 7, m: 1, j: 1, gammaZero: -0.01, t: 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            F89TopologyOrbitClosure.AllIsolatedClosedForm(n: 7, m: 1, j: 1, gammaZero: 0.05, t: -1));
+    }
+
+    [Fact]
+    public void AllIsolatedClosedForm_AtMZero_DegeneratesTo_S0_ExpDecay()
+    {
+        // m=0 means no bonds; pure dephasing on every site (all bare).
+        // The closed form should give S(0)·exp(-4γt) with no oscillation.
+        const int n = 7;
+        const double j = 0.075;
+        const double gamma = 0.05;
+        double t = 5.0;
+        double s = F89TopologyOrbitClosure.AllIsolatedClosedForm(n, m: 0, j, gamma, t);
+        Assert.Equal((double)(n - 1) / n * Math.Exp(-4.0 * gamma * t), s, precision: 14);
+    }
 }

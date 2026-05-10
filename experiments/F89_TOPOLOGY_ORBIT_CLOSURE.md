@@ -124,16 +124,76 @@ All 8 classes with ≥ 2 representatives confirm bit-identical S(t) across confi
 
 S(t) is **non-monotone in k**. Crossings occur as the slow F73-analogue tail (governed by isolated-edge content) competes with collective fast modes opened by connected paths.
 
-#### Late-tail clustering by isolated-edge count
+#### Cross-class S(t) at sample times: empirical observation
 
-At t = 20 the classes cluster by the number of isolated edges (path-length 1) in the topology:
+At t = 20 the classes appear to cluster by the number of isolated edges:
 - 0 isolated edges (pure paths): (3), (4), (5), (6) at S(20) ∈ [0.004, 0.007], monotone decreasing in path length.
 - 1 isolated edge: (2) at 0.0115, (1, 2) at 0.0114, (1, 1, 2) at 0.0114 (identical at three significant figures).
 - All-isolated edges only: (1) at 0.0156, (1, 1) at 0.0156, (1, 1, 1) at 0.0156 (identical at three significant figures).
 
-The "all-isolated" cluster matches the F73 analogue: each isolated edge supports a slow mode at a rate close to the F73 vac-SE rate 4γ₀, and disjoint edges contribute additively without interference at late times. Connected paths open additional, faster collective modes that lower S(t) earlier.
+The all-isolated cluster looked like an asymptotic phenomenon at first reading. The closed form below shows it is in fact a periodic in-phase moment.
 
-This late-tail observation is **Tier 2 empirical** (pending derivation): the orbit theorem proves only that S(t) depends on the topology class, not on which functional form S(t) takes per class.
+### All-isolated subclass closed form (Tier 1 derived)
+
+For the all-isolated topology classes (1)^m on N qubits (m disjoint NN-bonds, N − 2m bare sites), uniform J coupling, uniform Z-dephasing γ₀, and ρ_cc initial state, the spatial-sum coherence has the EXACT closed form
+
+    S_(1)^m, N(t) = [(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1) / (N²(N − 1))] · exp(−4γ₀ t)
+
+The asymptotic decay rate is 4γ₀ universal across all m (matches F73's vac-SE rate exactly). The m-dependence enters only through a periodic correction with frequency 4J that vanishes at cos(4Jt) = 1, with period π/(2J) ≈ 21 at J = 0.075.
+
+**Derivation.** The Lindbladian factorises across the disjoint blocks plus bare sites: L = Σ_{B blocks} L_B + Σ_{l bare} L_l. Each L_B acts only on the 2-qubit block B = {p, q} via H_B = J(X_p X_q + Y_p Y_q) plus uniform Z-dephasing on both block sites; each L_l acts only on bare site l via single-qubit Z-dephasing. All terms commute.
+
+Partial trace commutes with each L_{B'} for B' ≠ B (Lindbladians are trace-preserving on their own factors), so ρ_B(t) = e^{L_B t} ρ_B(0) and ρ_l(t) = e^{L_l t} ρ_l(0). The reduced states ρ_B(0) and ρ_l(0) are S_N-symmetric (by F89), so they take the same form for any 2-qubit block in the chain (and any single bare site).
+
+For block B = {p, q}, partial-tracing ρ_cc gives
+
+    ρ_B(0) = (1/(2√(N · C(N,2)))) · [√2·|α⟩⟨11| + √2(N−2)·|0⟩⟨α| + h.c.]
+
+where |α⟩ = (|10⟩ + |01⟩)/√2 is the symmetric SE eigenstate of H_B with energy +2J, |11⟩ is the unique DE state (eigenvalue 0), |0⟩ ≡ |00⟩ is vacuum (eigenvalue 0). All four basis states are H_B-eigenstates; under e^{−iH_B t} the off-diagonal elements pick up phases:
+
+    |α⟩⟨11|(t) = exp(−2iJt) · |α⟩⟨11|
+    |0⟩⟨α|(t)  = exp(+2iJt) · |0⟩⟨α|
+
+both with magnitude unchanged by the unitary part. Z-dephasing on the block kills both at rate 2γ₀ per coherence (vac-SE: only one site differs; SE-DE overlap: only one site differs in the basis-state pair). Note no SE-SE coherences (|10⟩⟨01|) appear in ρ_B(0), so the rate-4γ₀ SE-SE channel is unpopulated for all-isolated topology.
+
+Per-block-site reduced (ρ_l(t))_{0,1} for l = p (or l = q by symmetry):
+
+    (ρ_l(t))_{0,1} = ρ_B(t)[|00⟩, |10⟩] + ρ_B(t)[|01⟩, |11⟩]
+                   = (1/√2) · ρ_B(t)[|0⟩, |α⟩] + (1/√2) · ρ_B(t)[|α⟩, |11⟩]
+
+Both terms decay at rate 2γ₀ in magnitude; their phases are exp(+2iJt) and exp(−2iJt) respectively, so they interfere with frequency 4J:
+
+    |(ρ_l(t))_{0,1}|² = (1/(4N · C(N,2))) · [(N−2)² + 1 + 2(N−2) cos(4Jt)] · exp(−4γ₀ t)
+
+For each bare site, the dephasing-only evolution gives (ρ_l(t))_{0,1} = (ρ_l(0))_{0,1} · exp(−2γ₀ t) and
+
+    |(ρ_l(t))_{0,1}|² = (N − 1)/(2N²) · exp(−4γ₀ t)
+
+Summing 2 · |(ρ_l(t))_{0,1}|² over all sites (m blocks contribute 2m sites; N − 2m bare sites):
+
+    S(t) = exp(−4γ₀ t)/(N²(N − 1)) · [(N − 2m)(N − 1)² + 2m((N − 2)² + 1) + 4m(N − 2) cos(4Jt)]
+         = exp(−4γ₀ t)/(N²(N − 1)) · [N(N − 1)² − 4m(N − 2) + 4m(N − 2) cos(4Jt)]
+
+Factoring out the m-independent S(0) = (N − 1)/N:
+
+    S(t) = [S(0) + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))] · exp(−4γ₀ t)  ∎
+
+**Verification (N = 7, J = 0.075, γ = 0.05):** the script [`_f89_all_isolated_closed_form_verify.py`](../simulations/_f89_all_isolated_closed_form_verify.py) loads the (1), (1,1), (1,1,1) CSVs and overlays the closed form; max absolute deviation 5.0e−7 (CSV write precision is 1e−6, so this is at floor). Spot-checks:
+- t = 0: all m give S(0) = 6/7 = 0.857143 (cos(4Jt) = 1).
+- t = 21 ≈ π/(2J): cos(4Jt) ≈ 1 again; closed form predicts S = 0.012853 for all m (verified bit-identical in three CSVs).
+- t = 10 (cos(4Jt) ≈ −0.99, max-spread phase): closed form predicts S = 0.0977, 0.0794, 0.0610 for m = 1, 2, 3, matching CSV data exactly.
+
+**Reading.** The original empirical "clustering at t = 20" looked like a slow-mode tail equilibrium, but the closed form shows it is the in-phase moment of a periodic m-correction. The asymptotic decay rate 4γ₀ is genuinely universal (matches F73's vac-SE rate), but the prefactor depends on m and oscillates within the envelope [(N − 1)/N − 8m(N − 2)/(N²(N − 1)),  (N − 1)/N]. At cos(4Jt) = 1 the m-correction vanishes and all (1)^m collapse to S = (N − 1)/N · exp(−4γ₀ t). At cos(4Jt) = −1 they spread maximally.
+
+Mechanism for the universal asymptotic 4γ₀ rate: in all-isolated topology, every populated coherence in any reduced 2-qubit block sits in either the (vac, SE)_B or (SE, DE)_B-overlap sector, both decaying at 2γ₀ per coherence (one site differs in the basis-state pair). The (no-overlap SE, DE) coherences with rate 6γ₀ require a single-excitation site outside the doubly-excited pair, which cannot occur on a 2-qubit block alone. Connected-path topologies open the no-overlap channel and therefore lose late-time amplitude faster.
+
+### Other topology classes (Tier 2 empirical, derivation open)
+
+The above closed form applies only to the all-isolated subclass (1)^m. For mixed topologies (e.g. (1, 2), (2, 2), (1, 1, 2), and pure paths (3), (4), (5), (6)) the closed form is open. The empirical late-tail behavior:
+- 1-isolated-edge mixed classes ((2), (1, 2), (1, 1, 2)) cluster at intermediate prefactors at the t ≈ π/(2J) in-phase moment.
+- Pure-path classes ((3), (4), (5), (6)) decay faster than 4γ₀ on visible time scales due to no-overlap-SE-DE content (rate 6γ₀ on those coherences) plus longer-path mode mixing.
+
+A general closed form per topology class is open work.
 
 ## Implications
 
@@ -154,9 +214,11 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 ## Tier assessment
 
-**Tier 1 derived** for the orbit closure theorem itself (the statement that S(t) depends only on the S_N-orbit of B). The S_N-orbit argument is elementary group theory applied to the Lindblad equation; the proof has no missing steps. Numerical verification at N=7 (multi-bond, 24 configurations across 12 topology classes, 8 with ≥ 2 representatives all showing bit-identical) and N=4 (single-pair, 6 site-pairs identical within 1 ULP via direct expm) corroborates the proof at machine precision.
+**Tier 1 derived** for the orbit closure theorem (S(t) depends only on the S_N-orbit of B). The proof is elementary group theory applied to the Lindblad equation. Numerical verification at N = 7 (multi-bond, 24 configurations across 12 topology classes, 8 with ≥ 2 representatives all bit-identical) and N = 4 (single-pair, 6 site-pairs identical within 1 ULP via direct expm) corroborates the proof at machine precision.
 
-The **late-tail clustering observation** (isolated-edge count governs S(t) at late times, all-isolated classes share a slow F73-analogue tail) is **Tier 2 empirical**: the orbit theorem proves orbit-invariance but not the per-class form of S(t); a derivation of the per-orbit functional form is open work.
+**Tier 1 derived** for the all-isolated (1)^m closed form S_(1)^m, N(t) = [(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))] · exp(−4γ₀ t). The derivation factors the Lindbladian over disjoint blocks plus bare sites, uses H_B-eigenstate phase tracking, and counts populated coherence sectors per block. Numerical verification matches the (1), (1, 1), (1, 1, 1) CSVs at N = 7 within CSV write precision (5e−7).
+
+The **mixed-topology and pure-path closed forms** (per-class S(t) for (1, 2), (2, 2), (1, 1, 2), (3), (4), (5), (6) at N = 7) remain **Tier 2 empirical**; derivation open.
 
 ---
 

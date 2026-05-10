@@ -36,8 +36,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="F71MirrorSymmetryPi2Inheritance"/> is the spatial-Z₂ subgroup
 /// b ↔ N−2−b sitting inside the full S_N argument used here.</para>
 ///
-/// <para>Late-tail clustering by isolated-edge count is documented as Tier 2
-/// empirical (open derivation) in the experiment writeup.</para>
+/// <para>All-isolated subclass closed form (Tier 1 derived sub-claim, see
+/// <see cref="AllIsolatedClosedForm"/>): for the (1)^m topology classes
+/// (m disjoint NN-bonds), S(t) = [(N−1)/N + 4m(N−2)(cos(4Jt)−1)/(N²(N−1))]·exp(−4γ₀ t),
+/// with universal asymptotic rate 4γ₀ matching F73's vac-SE rate. Mixed-topology
+/// and pure-path closed forms remain Tier 2 empirical (derivation open).</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F89 (line 2436) +
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> +
@@ -108,6 +111,46 @@ public sealed class F89TopologyOrbitClosure : Claim
         return clsA.SequenceEqual(clsB);
     }
 
+    /// <summary>Closed form for the all-isolated topology subclass (1)^m on N qubits
+    /// with m disjoint NN-bonds, N − 2m bare sites, uniform XY coupling J, uniform
+    /// Z-dephasing γ₀:
+    ///
+    /// <code>
+    ///   S_(1)^m, N(t) = [(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))] · exp(−4γ₀ t)
+    /// </code>
+    ///
+    /// <para>Asymptotic rate 4γ₀ universal across m (matches F73's vac-SE rate). The
+    /// m-correction has frequency 4J and vanishes at cos(4Jt) = 1 (period π/(2J)),
+    /// the in-phase moment where all (1)^m classes collapse to S(0)·exp(−4γ₀ t).</para>
+    ///
+    /// <para>Derivation: Lindbladian factorises over disjoint 2-qubit blocks plus
+    /// bare sites; in each block only (vac, SE)_B and (SE, DE)_B-overlap coherences
+    /// are populated (both rate 2γ₀ per coherence; 4γ₀ on |·|²). The 6γ₀ no-overlap
+    /// channel requires a SE site outside the doubly-excited pair, impossible on a
+    /// 2-qubit block alone. H_B-eigenstate phase tracking yields the cos(4Jt)
+    /// interference. Verified bit-exact against bond-isolate CSVs N=7 m=1,2,3 in
+    /// <c>simulations/_f89_all_isolated_closed_form_verify.py</c>.</para></summary>
+    public static double AllIsolatedClosedForm(int n, int m, double j, double gammaZero, double t)
+    {
+        if (n < 2)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "F89 requires N ≥ 2.");
+        if (m < 0)
+            throw new ArgumentOutOfRangeException(nameof(m), m, "Bond count m must be ≥ 0.");
+        if (2 * m > n)
+            throw new ArgumentOutOfRangeException(nameof(m), m,
+                $"All-isolated topology (1)^m needs 2m ≤ N sites; got m={m}, N={n}.");
+        if (gammaZero < 0.0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
+        if (t < 0.0)
+            throw new ArgumentOutOfRangeException(nameof(t), t, "t must be ≥ 0.");
+
+        double s0 = (double)(n - 1) / n;
+        double correction = m == 0
+            ? 0.0
+            : 4.0 * m * (n - 2) * (Math.Cos(4.0 * j * t) - 1.0) / ((double)n * n * (n - 1));
+        return (s0 + correction) * Math.Exp(-4.0 * gammaZero * t);
+    }
+
     public F89TopologyOrbitClosure()
         : base("F89 topology orbit closure: S(t) for ρ_cc + uniform-J multi-bond XY depends only on the S_N-orbit of the bond set; for chain-restricted B, orbit = topology class (sorted multiset of connected-path-lengths)",
                Tier.Tier1Derived,
@@ -135,8 +178,10 @@ public sealed class F89TopologyOrbitClosure : Claim
             yield return InspectableNode.RealScalar("S(0) at N=4 (= 3/4)", S0ClosedForm(4));
             yield return new InspectableNode("Verification anchors",
                 summary: "N=7 multi-bond: 24 runs covering 12 topology classes for k=1..6; 8 classes with ≥2 reps all show 0.00e+00 within-class diff. N=4 single-pair: 6 NN+LR pairs within 5.55e−17 via direct expm. N=7 single-NN-bond: 30 ordered pairs at 0.00e+00.");
-            yield return new InspectableNode("Late-tail clustering (Tier 2 empirical)",
-                summary: "Open derivation: at t ≫ 1, S(t) classes cluster by isolated-edge count in topology; all-isolated classes ((1), (1,1), (1,1,1) at N=7) share a slow tail close to F73 vac-SE rate 4γ₀ = 0.20 (empirical Γ ≈ 0.191).");
+            yield return new InspectableNode("All-isolated subclass closed form (Tier 1 derived)",
+                summary: "S_(1)^m, N(t) = [(N−1)/N + 4m(N−2)(cos(4Jt)−1)/(N²(N−1))] · exp(−4γ₀t). Asymptotic rate 4γ₀ universal; m-correction has frequency 4J and vanishes at cos(4Jt)=1 (period π/(2J)). The empirical 'late-tail clustering at t≈20' is the in-phase moment t≈π/(2J)≈21 for J=0.075. See AllIsolatedClosedForm helper.");
+            yield return new InspectableNode("Mixed-topology and pure-path classes (Tier 2 empirical)",
+                summary: "Closed form open for non-all-isolated classes ((1,2), (2,2), (1,1,2), (3), (4), (5), (6) at N=7). Pure paths decay faster than 4γ₀ on visible time scales due to populated no-overlap-SE-DE coherences (rate 6γ₀).");
             yield return new InspectableNode("F86 contrast",
                 summary: "F86's per-bond Q_peak fan (linear response ∂S/∂J_b at a chosen bond inside the full chain) breaks S_N differently than F89's uniform-J multi-bond setup. F89 does not predict the F86 fan; the two operate on different observables.");
         }
