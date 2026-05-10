@@ -8,7 +8,7 @@
 - [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py): N=4 single-pair NN + long-range verification (6 site pairs, direct expm-of-Liouvillian).
 - [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py): N=7 multi-bond topology-class consistency (12 classes).
 
-**Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (24 CSVs at N=7 + two comparison plots).
+**Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (28 CSVs at N=7 + two comparison plots).
 **Related register entries:** [F73](../docs/ANALYTICAL_FORMULAS.md) (analogous closed-form closure for the (vac, SE) coherence block); [F71](../docs/ANALYTICAL_FORMULAS.md) (the spatial mirror Z₂ that sits inside the full S_N argument used here); [F86](../docs/ANALYTICAL_FORMULAS.md) (per-bond Q_peak fan, the empirical contrast: a linear response ∂J_b breaks S_N differently from the uniform-J multi-bond setup of F89).
 
 ---
@@ -23,13 +23,14 @@ For an N-qubit system with:
 
 Then S(t) **depends only on the S_N-orbit of B** under the action σ · B = {(σ(p), σ(q)) : (p,q) ∈ B}.
 
-For the chain restriction (B ⊂ {(b, b+1) : 0 ≤ b ≤ N−2} indexed by NN-bond), the orbit equals the **topology class**, defined as the sorted multiset of connected-path-lengths of the bond-graph. Examples in N=7:
+For the chain restriction (B ⊂ {(b, b+1) : 0 ≤ b ≤ N−2} indexed by NN-bond), the orbit equals the **topology class**, defined as the sorted multiset of connected-path-lengths of the bond-graph. Examples in N=7 (14 classes total for k = 1..6):
 - (1): one isolated edge (any of the six NN-bonds is a representative).
 - (2): one path of length 2 (any of the five adjacent NN-pairs).
 - (1, 1): two disjoint edges.
 - (1, 2), (3), (1, 1, 1): three classes for k=3 NN-bonds.
 - (1, 3), (2, 2), (1, 1, 2), (4): four classes for k=4 NN-bonds.
-- continuing up through (6) for the full 6-bond chain.
+- (5), (1, 4), (2, 3): three classes for k=5 NN-bonds.
+- (6): one class for the full 6-bond chain.
 
 S(0) = (N−1)/N closed-form, **constant across all classes** (depends only on the probe ρ_cc, not on the bond set).
 
@@ -65,7 +66,7 @@ Six runs of [`bond-isolate`](../compute/RCPsiSquared.Propagate/Program.cs) at N=
 | max\|S_a(t) − S_b(t)\| / S(0), every (a,b) ∈ {0..5}², a ≠ b, t ∈ [0, 30] | **0.00e+00** (every entry) |
 | max pointwise relative diff across all pairs | 0.00e+00 |
 
-S(0) = 0.857143 = 6/7 ✓. τ_half = 3.285, decay rate Γ = 0.191397, all bit-identical across the six bonds. The empirical Γ ≈ 0.191 sits close to the F73 vac-SE rate 4γ₀ = 0.20, which is consistent with the slow mode of the (S_1, S_2) coherence block tracking a structurally similar Z-decay.
+S(0) = 0.857143 = 6/7 ✓. τ_half = 3.285 and the log-linear fit on S(t) over t ∈ [0, 30] gives Γ_fit = 0.191397, all bit-identical across the six bonds. The fit value differs from the true asymptotic rate 4γ₀ = 0.20 because S(t) for the (1) topology is not a pure exponential: the all-isolated subclass closed form below shows S(t) = [(N−1)/N + 4(N−2)(cos(4Jt) − 1)/(N²(N−1))] · exp(−4γ₀ t), so the cos(4Jt) oscillation suppresses the apparent slope of log S(t) when fit through the oscillation. The exact asymptotic rate is exp(−4γ₀ t) = exp(−0.2 t) regardless of m.
 
 #### N=4, all C(4,2)=6 site pairs (NN + long-range)
 
@@ -86,7 +87,7 @@ S(0) = 0.75 = 3/4 = (N−1)/N ✓. The long-range bonds (0,2), (0,3), (1,3) give
 
 ### Multi-bond extension
 
-24 runs at N=7 covering all 12 bond-graph topology classes for k = 1..6 active bonds:
+28 runs at N=7 covering all 14 bond-graph topology classes for k = 1..6 active bonds:
 
 | Topology class | k | Representatives tested | Within-class max diff | Predicted (S_N) |
 |---|---|---|---|---|
@@ -101,9 +102,11 @@ S(0) = 0.75 = 3/4 = (N−1)/N ✓. The long-range bonds (0,2), (0,3), (1,3) give
 | (2, 2) | 4 | {0,1,3,4}, {0,1,4,5} | 0.00e+00 | identical |
 | (1, 1, 2) | 4 | {0,1,3,5} | n/a (single rep) | n/a |
 | (5) | 5 | {0,1,2,3,4}, {1,2,3,4,5} | 0.00e+00 | identical |
+| (1, 4) | 5 | {0,2,3,4,5}, {0,1,2,3,5} | 0.00e+00 | identical |
+| (2, 3) | 5 | {0,1,3,4,5}, {0,1,2,4,5} | 0.00e+00 | identical |
 | (6) | 6 | {0,1,2,3,4,5} | n/a (full chain) | n/a |
 
-All 8 classes with ≥ 2 representatives confirm bit-identical S(t) across configurations within the same class.
+All 10 classes with ≥ 2 representatives confirm bit-identical S(t) across configurations within the same class.
 
 #### Cross-class S(t) at sample times
 
@@ -120,6 +123,8 @@ All 8 classes with ≥ 2 representatives confirm bit-identical S(t) across confi
 | (2, 2) | 4 | 0.421887 | 0.239549 | 0.050575 | 0.007201 | 0.001836 |
 | (1, 1, 2) | 4 | 0.417895 | 0.230926 | 0.046647 | 0.011351 | 0.001336 |
 | (5) | 5 | 0.419527 | 0.244871 | 0.062170 | 0.005354 | 0.000556 |
+| (1, 4) | 5 | 0.414484 | 0.233145 | 0.050706 | 0.006187 | 0.000327 |
+| (2, 3) | 5 | 0.413343 | 0.229396 | 0.042394 | 0.003071 | 0.001155 |
 | (6) | 6 | 0.410454 | 0.233339 | 0.054484 | 0.003999 | 0.000767 |
 
 S(t) is **non-monotone in k**. Crossings occur as the slow F73-analogue tail (governed by isolated-edge content) competes with collective fast modes opened by connected paths.

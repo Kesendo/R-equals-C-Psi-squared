@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F89 topology orbit closure (Tier 1 derived, verified bit-identical at
-/// N=7 across 12 topology classes and N=4 across all C(4,2)=6 site pairs).
+/// N=7 across all 14 topology classes and N=4 across all C(4,2)=6 site pairs).
 ///
 /// <code>
 ///   For ρ_cc = (|S_1⟩⟨S_2| + h.c.) / 2, uniform-J multi-bond XY
@@ -221,7 +221,7 @@ public sealed class F89TopologyOrbitClosure : Claim
             yield return new InspectableNode("Pi2 inheritance (a_{-1}=4 doubling on both energy axes)",
                 summary: "γ-side: per-coherence Z-deph rate 2γ₀ = a_{0}·γ₀ doubles to S-decay rate 4γ₀ = a_{-1}·γ₀ on |·|² (identical to F73). J-side: H_B-eigenstate frequency 2J = a_{0}·J doubles to S-oscillation frequency 4J = a_{-1}·J on |·|² (NEW to F89). Same Pi2 ladder anchor a_{-1}=4 governs both.");
             yield return new InspectableNode("Verification anchors",
-                summary: "N=7 multi-bond: 24 runs covering 12 topology classes for k=1..6; 8 classes with ≥2 reps all show 0.00e+00 within-class diff. N=4 single-pair: 6 NN+LR pairs within 5.55e−17 via direct expm. N=7 single-NN-bond: 30 ordered pairs at 0.00e+00.");
+                summary: "N=7 multi-bond: 28 runs covering all 14 topology classes for k=1..6; 10 classes with ≥2 reps all show 0.00e+00 within-class diff. N=4 single-pair: 6 NN+LR pairs within 5.55e−17 via direct expm. N=7 single-NN-bond: 30 ordered pairs at 0.00e+00.");
             yield return new InspectableNode("All-isolated subclass closed form (Tier 1 derived)",
                 summary: "S_(1)^m, N(t) = [(N−1)/N + 4m(N−2)(cos(4Jt)−1)/(N²(N−1))] · exp(−4γ₀t). Asymptotic rate 4γ₀ universal; m-correction has frequency 4J and vanishes at cos(4Jt)=1 (period π/(2J)). The empirical 'late-tail clustering at t≈20' is the in-phase moment t≈π/(2J)≈21 for J=0.075. See AllIsolatedClosedForm helper.");
             yield return new InspectableNode("Mixed-topology and pure-path classes (Tier 2 empirical)",

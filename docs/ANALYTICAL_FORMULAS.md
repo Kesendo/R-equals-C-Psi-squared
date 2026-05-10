@@ -2441,7 +2441,7 @@ For an N-qubit system with Hamiltonian H_B = J · Σ_{(p,q) ∈ B} (X_p X_q + Y_
 
 depends only on the S_N-orbit of B. Bond positions inside an orbit are dynamically indistinguishable; only the orbit label survives.
 
-For the chain restriction (B ⊂ {NN-bonds}), the orbit equals the **bond-graph topology class**: the sorted multiset of connected-path-lengths. E.g. in N=7 there are 12 distinct classes spanning k = 1..6 active bonds.
+For the chain restriction (B ⊂ {NN-bonds}), the orbit equals the **bond-graph topology class**: the sorted multiset of connected-path-lengths. E.g. in N=7 there are 14 distinct classes spanning k = 1..6 active bonds.
 
 S(0) = (N−1)/N closed-form (Probe-only, independent of the bond set).
 
@@ -2476,7 +2476,7 @@ The asymptotic decay rate is 4γ₀ universal across all m (matches F73's vac-SE
 
 **Verified:**
 
-- N=7 multi-bond at J=0.075, γ₀=0.05, tmax=30 (24 runs spanning all 12 topology classes for k=1..6): all 8 classes with ≥ 2 representatives show **0.00e+00** within-class max diff (machine-zero) across 301 sample times. Cross-class S(t) differs and exhibits non-monotone-in-k late-tail clustering. [`bond_isolate/`](../simulations/results/bond_isolate/), [`F89_TOPOLOGY_ORBIT_CLOSURE`](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md).
+- N=7 multi-bond at J=0.075, γ₀=0.05, tmax=30 (28 runs spanning all 14 topology classes for k=1..6): all 10 classes with ≥ 2 representatives show **0.00e+00** within-class max diff (machine-zero) across 301 sample times. Cross-class S(t) differs and exhibits non-monotone-in-k late-tail clustering. [`bond_isolate/`](../simulations/results/bond_isolate/), [`F89_TOPOLOGY_ORBIT_CLOSURE`](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md).
 - N=4 single-pair at J=0.075, γ₀=0.05 (all C(4,2)=6 site pairs, NN + long-range): max deviation across pairs **5.55e-17** (1 ULP of double precision). NN bonds {(0,1),(1,2),(2,3)} and long-range bonds {(0,2),(0,3),(1,3)} give bit-identical S(t). [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py).
 - N=7 single-NN-bond at same parameters (six bonds, all 30 ordered pair comparisons): every pair shows 0.00e+00 max diff over t ∈ [0, 30].
 

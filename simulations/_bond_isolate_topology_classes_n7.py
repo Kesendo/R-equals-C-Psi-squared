@@ -12,7 +12,7 @@ lengths. E.g. bonds {0,1,3} = bond 0 (sites 0-1) + bond 1 (sites 1-2) + bond 3
 Outputs:
   - Topology-class table: per class, list of representatives and max within-class
     pairwise |S_a(t) - S_b(t)|.
-  - Cross-class S(t) at sample times — does the topology actually distinguish?
+  - Cross-class S(t) at sample times (does the topology actually distinguish?).
   - Plot: one curve per topology class (representative S(t)), all overlaid.
 """
 from __future__ import annotations
@@ -87,6 +87,10 @@ CONFIGS = [
     [0, 1, 3, 5],
     # 5-bond path-5
     [0, 1, 2, 3, 4], [1, 2, 3, 4, 5],
+    # 5-bond mixed: path-4 + isolated edge (1, 4)
+    [0, 2, 3, 4, 5], [0, 1, 2, 3, 5],
+    # 5-bond mixed: path-2 + path-3 (2, 3)
+    [0, 1, 3, 4, 5], [0, 1, 2, 4, 5],
     # full chain (6-bond path-6)
     [0, 1, 2, 3, 4, 5],
 ]
@@ -135,7 +139,7 @@ def main() -> None:
             max_diff = float("nan")
         k = sum(cls)
         cls_str = "(" + ", ".join(str(c) for c in cls) + ")"
-        pred = "identical" if len(members) >= 2 else "—"
+        pred = "identical" if len(members) >= 2 else "n/a"
         diff_str = f"{max_diff:.2e}" if not np.isnan(max_diff) else "n/a"
         print(f"| {cls_str:10s} | {k}       | {reps_str:52s} | {diff_str:21s} | {pred:10s} |")
         # Store representative for cross-class plot
