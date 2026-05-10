@@ -27,6 +27,33 @@ public class JwBondQPeakPredictionTests
         Assert.Equal(N - 1, pred.Bonds.Count);
     }
 
+    // Probe at N=11 c=2: dump per-bond JW Q_peak predictions to compare against
+    // 2026-05-10 extended-grid empirical data (Q∈[0.2, 32]) where Center peak resolved
+    // at Q=21.94 and bond 1, 2 at 8.79, 13.61 respectively. The JW prediction is purely
+    // algebraic (no field, no Q-scan); empirical match would mean bond-dependent g_eff
+    // is JW-projection structural, not "emergent field" content.
+    [Fact]
+    public void Probe_PerBond_QPeakPrediction_AtN11()
+    {
+        var block = new CoherenceBlock(N: 11, n: 1, gammaZero: 0.05);
+        var pred = JwBondQPeakPrediction.Build(block);
+        _out.WriteLine($"N={block.N} JW per-bond Q_peak prediction (BareDoubledPtfXPeak={JwBondQPeakPrediction.BareDoubledPtfXPeak}):");
+        foreach (var b in pred.Bonds)
+        {
+            _out.WriteLine($"  bond b={b.Bond}: Q_peak_predicted={b.QPeakPredicted:F4}, " +
+                           $"empirical_extended_grid (Q∈[0.2,32]): see 2026-05-10 c2hwhm_N11_q32.txt");
+        }
+        _out.WriteLine($"  MaxRelativeResidual = {pred.MaxRelativeResidual:P2}");
+        // Empirical anchors from 2026-05-10 extended-grid scan (Q∈[0.2, 32]):
+        //   b=0 ↔ b=9 (Endpoint):  Q_peak=2.5007
+        //   b=1 ↔ b=8 (flank-1):    Q_peak=8.7946
+        //   b=2 ↔ b=7 (flank-2):    Q_peak=13.6117
+        //   b=3 ↔ b=6 (mid-flank):  Q_peak=1.5901  (was already in default range)
+        //   b=4 ↔ b=5 (Center):     Q_peak=21.9389
+        // No assertion — this is a probe to expose the predicted values to compare.
+        Assert.NotEmpty(pred.Bonds);
+    }
+
     // N=3 doesn't satisfy the 2x2 architecture: for all cluster-pairs at N=3, no (i, j)
     // sub-block has 4|x|² > (a-b)², so the general 2x2 EP formula yields no real-Q solution.
     // The architecture starts at N=4 (smallest c=2 with Endpoint+Interior distinction AND
