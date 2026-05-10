@@ -18,7 +18,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         Z₂ b ↔ N−2−b is a subgroup of the full S_N used in F89.</item>
 /// </list>
 ///
-/// <para>Tier consistency: F89, F73, F71 are all Tier1Derived (5 ≥ 5 trivially).</para>
+/// <para>Tier consistency: F89, F73, and F71 are all Tier1Derived; no tier downgrade at injection.</para>
 ///
 /// <para>Requires:
 /// <see cref="F73SpatialSumPurityClosurePi2InheritanceRegistration.RegisterF73SpatialSumPurityClosurePi2Inheritance"/> +
