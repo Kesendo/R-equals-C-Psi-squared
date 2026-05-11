@@ -91,6 +91,26 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89Path2CardanoClaim.LinearFactorRates(γ)` | the two pure-AT eigenvalues (−2γ, −6γ) |
 | `F89Path2CardanoClaim.CubicCoefficients(q)` | dimensionless cubic coefficients (a, b, c) at given q = J/γ |
 | `F89Path2CardanoClaim.CubicEigenvaluesNumerical(q)` | Cardano-solved cubic eigenvalues at q (1 real + 1 complex pair for typical q) |
+| `F89PathKAtLockMechanismClaim` (Symmetry/) | **F89 universal AT-lock mechanism**: F_a (rate 2γ) eigvecs supported entirely on overlap basis pairs; F_b (rate 6γ) supported on no-overlap; F_b sigs ≈ 0 universally to S(t) per-site reduction; F_a count = floor(N_block/2) = number of SE-anti single-particle Bloch modes. Tier 1 derived (path-3..6 verified). |
+| `F89PathKAtLockMechanismClaim.FaCount(N_block)` | F_a mode count = floor(N_block/2) |
+| `F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(N_block)` | The orbit {2, 4, ..., 2·floor(N_block/2)} of SE-anti Bloch indices |
+| `F89PathKAtLockMechanismClaim.BlochEigenvalueY(N_block, n)` | y_n = 4·cos(πn/(N_block+1)) (in J=1 units) |
+| `F89UnifiedFaClosedFormClaim` (Symmetry/) | **F89 unified F_a closed form across path-3..6**: sigs[F_a:n](N) = P_path(y_n)/[D_path · N²(N−1)] with y_n = 4cos(πn/(N_block+1)); (P,D) = {(14y+47, 9), (10y+25, 4), (13y²+82y+129, 25), (17y²+72y+80, 18)} for path-{3,4,5,6}; sum F_a rational across all paths via Newton's identities. Tier 1 derived (bit-exact). |
+| `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` | (coefs low-to-high, denom) per path k ∈ {3, 4, 5, 6} |
+| `F89UnifiedFaClosedFormClaim.Sigma(k, n, N)` | sigs[F_a:n](N) for given path-k, Bloch index n, total qubits N |
+| `F89UnifiedFaClosedFormClaim.SigmaSum(k, N)` | Σ_n sigs[F_a:n](N) over the SE-anti Bloch orbit (rational) |
+| `F89Path3SeDeFactorisationClaim` (Symmetry/) | **F89 path-3 (SE,DE) S_2-sym factorisation**: char(λ) = F_a · F_b · F_8 (deg 2·2·8); F_a roots λ = −2γ + iJ(−1±√5), F_b roots λ = −6γ + iJ(−1±√5); F_8 octic irreducible over Q[i, √5] (sympy verified). Tier 1 derived. |
+| `F89Path3SeDeFactorisationClaim.FaRoots(γ, J)` | the two F_a quadratic roots |
+| `F89Path3SeDeFactorisationClaim.FbRoots(γ, J)` | the two F_b quadratic roots |
+| `F89Path3OcticEpClaim` (Symmetry/) | **F89 path-3 octic exceptional point**: q² = (−1+√13)/6 (from disc factor (3q⁴+q²−1)²); merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) sits at AT-spectral midpoint of rates 2γ (overlap) and 6γ (no-overlap). Tier 1 derived (analytical + machine-precision numerical). |
+| `F89Path3OcticEpClaim.QEpSquared` | (−1+√13)/6 |
+| `F89Path3OcticEpClaim.QEp` | √((−1+√13)/6) ≈ 0.658983 |
+| `F89Path3OcticEpClaim.MergedEigenvalue(γ, J)` | λ_EP = −4γ + 2iJ |
+| `F89Path3OcticGaloisClaim` (Symmetry/) | **F89 path-3 octic Galois group**: disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is NOT a perfect square in Q[q]; therefore Gal(F_8) ⊄ A_8 (Tier 1). Conjecture (Tier 2 open): Gal is non-solvable (likely S_8). |
+| `F89Path3OcticGaloisClaim.GalNotInA8` | true (Tier 1 derived) |
+| `F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen` | true (Tier 2 open) |
+| `F89PathKHbMixedDegreesClaim` (Symmetry/) | **F89 path-k H_B-mixed sub-factor degrees**: {8, 18, 32, 53} for path-{3, 4, 5, 6}; conjecturally Galois-non-solvable for degree ≥ 5 (Tier 2 conjecture in docstring). Tier 1 derived (combinatorial). |
+| `F89PathKHbMixedDegreesClaim.HbMixedSubFactorDegree(k)` | S_2-sym dim minus AT-locked count per path |
 | `AbsorptionTheoremClaim` (Symmetry/) | **PROOF_ABSORPTION_THEOREM**: Re(λ) = −2γ₀·⟨n_XY⟩; absorption quantum 2γ₀ = a_0·γ₀; rate-quantization root of F33/F50/F55/F64-F68/F74/F89 (typed parent edge in Schicht-1 Registrations). Tier 1 derived |
 | `AbsorptionTheoremClaim.Rate(nXY, γ₀)` | **AT**: α = 2γ₀·n_XY; per-Pauli-string rate |
 | `AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(nDiff, γ₀)` | **AT**: α = 2γ₀·n_diff for |A⟩⟨B| basis-pair coherence (n_XY = n_diff via {I,Z}/{X,Y} per-site decomposition) |
