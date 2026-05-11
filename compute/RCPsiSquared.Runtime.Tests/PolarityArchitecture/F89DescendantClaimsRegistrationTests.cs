@@ -122,4 +122,110 @@ public class F89DescendantClaimsRegistrationTests
             .Build();
         Assert.True(F89Path2CardanoClaim.VerifyAtStandardQ());
     }
+
+    [Fact]
+    public void RegisterF89PathKAtLockMechanism_AddsClaim()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .Build();
+        Assert.True(registry.Contains<F89PathKAtLockMechanismClaim>());
+        Assert.Equal(Tier.Tier1Derived, registry.Get<F89PathKAtLockMechanismClaim>().Tier);
+    }
+
+    [Fact]
+    public void RegisterF89UnifiedFaClosedForm_AddsClaim_AfterAtLock()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89UnifiedFaClosedFormClaim()
+            .Build();
+        Assert.True(registry.Contains<F89UnifiedFaClosedFormClaim>());
+        // Should have BOTH F89 and F89PathKAtLockMechanism as ancestors
+        var ancestors = registry.AncestorsOf<F89UnifiedFaClosedFormClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89TopologyOrbitClosure), ancestors);
+        Assert.Contains(typeof(F89PathKAtLockMechanismClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89Path3SeDeFactorisation_AddsClaim_AfterAtLock()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3SeDeFactorisationClaim()
+            .Build();
+        Assert.True(registry.Contains<F89Path3SeDeFactorisationClaim>());
+        var ancestors = registry.AncestorsOf<F89Path3SeDeFactorisationClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89TopologyOrbitClosure), ancestors);
+        Assert.Contains(typeof(F89PathKAtLockMechanismClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89Path3OcticEp_AddsClaim_AfterAtLock()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3OcticEpClaim()
+            .Build();
+        Assert.True(registry.Contains<F89Path3OcticEpClaim>());
+        var ancestors = registry.AncestorsOf<F89Path3OcticEpClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89PathKAtLockMechanismClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89Path3OcticGalois_AddsClaim_AfterAtLock()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3OcticGaloisClaim()
+            .Build();
+        Assert.True(registry.Contains<F89Path3OcticGaloisClaim>());
+        var ancestors = registry.AncestorsOf<F89Path3OcticGaloisClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89PathKAtLockMechanismClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89PathKHbMixedDegrees_AddsClaim()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKHbMixedDegreesClaim()
+            .Build();
+        Assert.True(registry.Contains<F89PathKHbMixedDegreesClaim>());
+        var ancestors = registry.AncestorsOf<F89PathKHbMixedDegreesClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89TopologyOrbitClosure), ancestors);
+    }
+
+    [Fact]
+    public void RegisterAll_NewSixClaims_AppearTogetherUnderF89()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89AdditiveIdentityClaim()
+            .RegisterF89PathKVacSeParsevalClaim()
+            .RegisterF89Path2CardanoClaim()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89UnifiedFaClosedFormClaim()
+            .RegisterF89Path3SeDeFactorisationClaim()
+            .RegisterF89Path3OcticEpClaim()
+            .RegisterF89Path3OcticGaloisClaim()
+            .RegisterF89PathKHbMixedDegreesClaim()
+            .Build();
+        var descendants = registry.DescendantsOf<F89TopologyOrbitClosure>()
+            .Select(c => c.GetType()).ToHashSet();
+        // Original three
+        Assert.Contains(typeof(F89AdditiveIdentityClaim), descendants);
+        Assert.Contains(typeof(F89PathKVacSeParsevalClaim), descendants);
+        Assert.Contains(typeof(F89Path2CardanoClaim), descendants);
+        // New six
+        Assert.Contains(typeof(F89PathKAtLockMechanismClaim), descendants);
+        Assert.Contains(typeof(F89UnifiedFaClosedFormClaim), descendants);
+        Assert.Contains(typeof(F89Path3SeDeFactorisationClaim), descendants);
+        Assert.Contains(typeof(F89Path3OcticEpClaim), descendants);
+        Assert.Contains(typeof(F89Path3OcticGaloisClaim), descendants);
+        Assert.Contains(typeof(F89PathKHbMixedDegreesClaim), descendants);
+    }
 }
