@@ -81,6 +81,16 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89TopologyOrbitClosure.S0ClosedForm(N)` | **F89**: S(0) = (N−1)/N for ρ_cc, probe-only closed form |
 | `F89TopologyOrbitClosure.ChainTopologyClass(N, bonds)` | **F89**: canonical orbit label = sorted multiset of connected-path-lengths in the bond-graph |
 | `F89TopologyOrbitClosure.AreInSameChainOrbit(N, bondsA, bondsB)` | **F89**: predicate that S(t; bondsA) = S(t; bondsB) per orbit transitivity |
+| `F89AdditiveIdentityClaim` (Symmetry/) | **F89 mixed-topology additive identity**: S_T(t) = Σ_i S_(k_i)(t) − (m−1)·N·S_bare(t; N); reduces 14 per-class closed forms to 6 pure-path-k forms + 1 rule (Lindbladian factorisation; verified 27/27 N=7 CSVs at 5.013e-7 precision floor). Tier 1 derived |
+| `F89AdditiveIdentityClaim.BarePerSite(N, γ, t)` | per-bare-site closed form (N−1)/N²·exp(−4γt) |
+| `F89AdditiveIdentityClaim.OvercountingCoefficient(m, N)` | the (m−1)·N subtraction coefficient |
+| `F89AdditiveIdentityClaim.Combine(kValues, N, γ, t, sPathKFunc)` | apply identity to combine per-pure-path-k contributions into S_T(t) |
+| `F89PathKVacSeParsevalClaim` (Symmetry/) | **F89 path-k (vac, SE) self-contribution**: S^(vac,SE)_block(t; k, N) = (k+1)(N−k−1)²/(N²(N−1))·exp(−4γt); pure exp(−4γt), no oscillation, via Parseval orthogonality of H_B^SE Bloch eigenstates (machine-precision verified across 15 (k, N) pairs). Tier 1 derived |
+| `F89PathKVacSeParsevalClaim.Coefficient(k, N)` | rational prefactor (k+1)(N−k−1)²/(N²(N−1)) |
+| `F89Path2CardanoClaim` (Symmetry/) | **F89 path-2 (SE,DE) S_2-sym closed form**: char(λ) = −(λ+2γ)(λ+6γ)·[cubic]; cubic μ³ + 10μ² + (28+32q²)μ + 24(1+4q²) = 0 in dimensionless μ=λ/γ, q=J/γ; solvable in radicals via Cardano (sympy verified). Tier 1 derived |
+| `F89Path2CardanoClaim.LinearFactorRates(γ)` | the two pure-AT eigenvalues (−2γ, −6γ) |
+| `F89Path2CardanoClaim.CubicCoefficients(q)` | dimensionless cubic coefficients (a, b, c) at given q = J/γ |
+| `F89Path2CardanoClaim.CubicEigenvaluesNumerical(q)` | Cardano-solved cubic eigenvalues at q (1 real + 1 complex pair for typical q) |
 | `AbsorptionTheoremClaim` (Symmetry/) | **PROOF_ABSORPTION_THEOREM**: Re(λ) = −2γ₀·⟨n_XY⟩; absorption quantum 2γ₀ = a_0·γ₀; rate-quantization root of F33/F50/F55/F64-F68/F74/F89 (typed parent edge in Schicht-1 Registrations). Tier 1 derived |
 | `AbsorptionTheoremClaim.Rate(nXY, γ₀)` | **AT**: α = 2γ₀·n_XY; per-Pauli-string rate |
 | `AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(nDiff, γ₀)` | **AT**: α = 2γ₀·n_diff for |A⟩⟨B| basis-pair coherence (n_XY = n_diff via {I,Z}/{X,Y} per-site decomposition) |
