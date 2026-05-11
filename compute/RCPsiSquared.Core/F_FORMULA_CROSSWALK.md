@@ -111,7 +111,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen` | true (Tier 2 open) |
 | `F89PathKHbMixedDegreesClaim` (Symmetry/) | **F89 path-k H_B-mixed sub-factor degrees**: {8, 18, 32, 53} for path-{3, 4, 5, 6}; conjecturally Galois-non-solvable for degree ≥ 5 (Tier 2 conjecture in docstring). Tier 1 derived (combinatorial). |
 | `F89PathKHbMixedDegreesClaim.HbMixedSubFactorDegree(k)` | S_2-sym dim minus AT-locked count per path |
-| `F90F86C2BridgeIdentity` (Symmetry/) | **F90 F86 c=2 ↔ F89 bridge identity**: F86 c=2 K_b(Q,t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention. Verified bit-exact at 27/29 bonds across N=5..8 including orbit escapes. Tier 1 derived |
+| `F90F86C2BridgeIdentity` (Symmetry/) | **F90 F86 c=2 ↔ F89 bridge identity**: F86 c=2 K_b(Q,t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention. Verified bit-exact at 20/22 bonds across N=5..8 including orbit escapes. Tier 1 derived |
 | `F90F86C2BridgeIdentity.JConventionFactor` | 2.0 (F89 J / F86 J) |
 | `F90F86C2BridgeIdentity.F86JToF89J(f86J)` | f86J / 2.0 |
 | `F90F86C2BridgeIdentity.F89JToF86J(f89J)` | f89J · 2.0 |

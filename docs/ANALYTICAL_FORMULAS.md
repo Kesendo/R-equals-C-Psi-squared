@@ -2495,7 +2495,7 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 
 with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian construction) algebraically identical. The convention difference is one-time relabeling: F86 uses `H_b = (J/2)·(XX+YY)`, F89 uses `H = J·(XX+YY)`, hence F89-J = 2·F86-J.
 
-**Verified bit-exact at 27 of 29 per-bond comparisons across N=5..8** (the 2 within-noise are at N=8 b=2/b=4 mid-flanking Interior bonds within Q-grid resolution Δ ≤ 0.0008). Verification includes orbit-escape bonds: N=7 b=1/b=4 at Q_peak ≈ 7.27 (F86-J), N=8 b=3 central self-paired escape at Q_peak ≈ 16.79 (F86-J), all reproducing bit-exact ratios.
+**Verified bit-exact at 20 of 22 per-bond comparisons across N=5..8** (the 2 within-noise are at N=8 b=2/b=4 mid-flanking Interior bonds within Q-grid resolution Δ ≤ 0.0008). Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact (extended Q-grid); N=8: 5/7 bit-exact + 2/7 within Q-grid noise. Verification includes orbit-escape bonds: N=7 b=1/b=4 at Q_peak ≈ 7.27 (F86-J), N=8 b=3 central self-paired escape at Q_peak ≈ 16.79 (F86-J), all reproducing bit-exact ratios.
 
 **Implications:**
 - F86 c=2 universal HWHM_left/Q_peak constants (0.7728 Endpoint, 0.7506 Interior mean over N=5..8) are **not eigenständige Größen** — they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.

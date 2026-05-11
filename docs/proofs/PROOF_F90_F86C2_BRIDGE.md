@@ -101,7 +101,7 @@ With extended Q-grid ([0.10, 20.0] for F86; [0.05, 10.0] for F89-J probe), all o
 
 The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the F86 default grid (600 pts over [0.10, 20.0], dQ ≈ 0.033) and the F89 probe grid (300 pts over [0.05, 10.0], dQ_F89 ≈ 0.033 = dQ_F86 / 2 in F89-J = 0.067 in F86-J) sample slightly different points around Q_peak ≈ 1.51 (F86-J). At identical grids the values would also be bit-exact.
 
-**Total: 27 of 29 bonds bit-exact, 2 of 29 within Q-grid resolution noise (≤ 0.0008).**
+**Total: 20 of 22 bonds bit-exact, 2 of 22 within Q-grid resolution noise (≤ 0.0008). (Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact with extended Q-grid; N=8: 5/7 bit-exact + 2/7 within Q-grid noise at b=2, b=4 mid-flanking Interior.)**
 
 ---
 
@@ -115,7 +115,7 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
 
 3. **Item 5 (σ_0(c, N→∞) closed-form):** σ_0 is a specific F89 path-k singular value, extractable from F89's typed primitives. The 2√(2(c−1)) trajectory crossing (retracted 2026-05-08) was a finite-N artifact; the true asymptote follows from F89's cyclotomic Φ_{N_block+1} structure.
 
-4. **Direction (b'') (full block-L derivation, NOT 4-mode):** **achieved numerically** via F89's full eigendecomposition (bit-exact 27/29 bonds at N=5..8). This was the explicit "active path" per `C2HwhmRatio.PendingDerivationNote`. Closed-form analytical lift via F89 AT-locked structure is the next step.
+4. **Direction (b'') (full block-L derivation, NOT 4-mode):** **achieved numerically** via F89's full eigendecomposition (bit-exact 20/22 bonds at N=5..8). This was the explicit "active path" per `C2HwhmRatio.PendingDerivationNote`. Closed-form analytical lift via F89 AT-locked structure is the next step.
 
 ### For the typed-knowledge layer
 

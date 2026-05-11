@@ -65,9 +65,10 @@ public class F90F86C2BridgeIdentityTests
     }
 
     [Fact]
-    public void BitExactBondCount_IsAtLeast27Of29()
+    public void BitExactBondCount_IsTwentyOfTwentyTwo()
     {
-        Assert.True(F90F86C2BridgeIdentity.BitExactBondCountVerified >= 27);
+        Assert.Equal(20, F90F86C2BridgeIdentity.BitExactBondCountVerified);
+        Assert.Equal(22, F90F86C2BridgeIdentity.TotalBondComparisonsVerified);
         Assert.True(F90F86C2BridgeIdentity.TotalBondComparisonsVerified >= F90F86C2BridgeIdentity.BitExactBondCountVerified);
     }
 }

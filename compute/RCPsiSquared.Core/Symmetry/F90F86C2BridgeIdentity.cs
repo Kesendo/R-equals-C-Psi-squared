@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Verified bit-exact via <c>simulations/_f89_to_f86_kbond_via_eigendecomp.py</c>
 /// at N=5..8 across every per-F71-orbit class including orbit-escape bonds (broad
-/// high-Q plateau): 27/29 bonds bit-exact, 2/29 within Q-grid resolution noise (0.0008).
+/// high-Q plateau): 20/22 bonds bit-exact, 2/22 within Q-grid resolution noise (0.0008).
 /// Escape examples reproduced: N=7 b=1/b=4 at Q_peak≈7.27 (F86-J), N=8 b=3 (central
 /// self-paired) at Q_peak≈16.79 (F86-J).</para>
 ///
@@ -41,7 +41,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Item 4' (c≥3 extension): F89 path-k Formalismus generalises; chromaticity
 ///         c bedeutet HD ∈ {1, 3, ..., 2c−1} channels statt nur {1, 3} bei c=2.</item>
 ///   <item>Direction (b'') (full block-L derivation, not 4-mode): numerical Tier-1
-///         already achieved via F89 (bit-exact 27/29 bonds at N=5..8). Closed-form
+///         already achieved via F89 (bit-exact 20/22 bonds at N=5..8). Closed-form
 ///         analytical lift via F89 AT-locked structure is the next step.</item>
 /// </list>
 ///
@@ -79,20 +79,20 @@ public sealed class F90F86C2BridgeIdentity : Claim
 
     /// <summary>Number of per-bond comparisons across N=5..8 that match bit-exact between
     /// F89→F86 (per-bond Hellmann-Feynman of F89 (SE,DE) eigendecomposition) and F86's
-    /// own ResonanceScan: 27 of 29 (the 2 within Q-grid resolution noise ≤ 0.0008 are at
-    /// N=8 b=2/b=4 mid-flanking Interior bonds, where F86 uses its default 600-pt grid
-    /// over [0.10, 20.0] and the bridge probe uses 300-pt grid over [0.05, 10.0] in F89-J).</summary>
-    public const int BitExactBondCountVerified = 27;
+    /// own ResonanceScan: 20 of 22 (the 2 within Q-grid resolution noise ≤ 0.0008 are at
+    /// N=8 b=2/b=4 mid-flanking Interior bonds).</summary>
+    public const int BitExactBondCountVerified = 20;
 
-    /// <summary>Total per-bond comparisons across N=5..8: 4 + 5 + 6 + 7 = 22 per-N
-    /// witnesses... wait, let me recount. N=5: 4 bonds; N=6: 5 bonds; N=7: 6 bonds;
-    /// N=8: 7 bonds. Total = 4 + 5 + 6 + 7 = 22 bonds across 4 N values. Plus
-    /// per-bond verification at original (no-extended-grid) gives some additional;
-    /// total 29 includes both extended and default-grid checks.</summary>
-    public const int TotalBondComparisonsVerified = 29;
+    /// <summary>Total per-bond comparisons across N=5..8: 4 + 5 + 6 + 7 = 22 unique bonds.
+    /// Of these, 20 are bit-exact match (modulo F89-J = 2·F86-J convention) and 2 (N=8
+    /// b=2 and b=4 mid-flanking Interior) are within Q-grid resolution noise ≤ 0.0008
+    /// because F86's default 600-pt grid over [0.10, 20.0] and the bridge probe's 300-pt
+    /// grid over [0.05, 10.0] (in F89-J) sample slightly different points around
+    /// Q_peak ≈ 1.51 (F86-J). At identical grids those values would also be bit-exact.</summary>
+    public const int TotalBondComparisonsVerified = 22;
 
     public F90F86C2BridgeIdentity(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention. Verified bit-exact across N=5..8 (27/29 bonds bit-exact, 2/29 within Q-grid noise) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
+        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention. Verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md + " +
                "simulations/_f89_to_f86_kbond_via_eigendecomp.py + " +
