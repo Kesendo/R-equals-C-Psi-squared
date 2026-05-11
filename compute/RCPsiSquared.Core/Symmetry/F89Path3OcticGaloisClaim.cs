@@ -36,10 +36,12 @@ public sealed class F89Path3OcticGaloisClaim : Claim
     public const int DiscriminantPolynomialDegreeInQ = 52;
 
     /// <summary>Structure of disc(F_8) factorisation:
-    /// (constant) · q^24 · (3q⁴+q²-1)² · P_10(q²).
-    /// Returns (constant-factor-power=1, q-power=24, square-factor-deg-in-q=8, P_10-deg-in-q=20).</summary>
-    public static (int ConstantFactorPower, int QPower, int SquareFactorDegInQ, int P10DegInQ)
-        DiscriminantFactorisationStructure => (1, 24, 8, 20);
+    /// (constant prefactor) · q^24 · (3q⁴+q²-1)² · P_10(q²).
+    /// Returns (q-power=24, square-factor-deg-in-q=8, P_10-deg-in-q=20).
+    /// The constant prefactor is always present once (≈ 1.21·10²⁴) and is omitted from
+    /// this structural tuple — the slots encode degree contributions only.</summary>
+    public static (int QPower, int SquareFactorDegInQ, int P10DegInQ)
+        DiscriminantFactorisationStructure => (24, 8, 20);
 
     /// <summary>Gal(F_8) ⊄ A_8: true (Tier 1, from disc non-square verified
     /// at q ∈ {½, 1, 3/2, 2, 3}).</summary>

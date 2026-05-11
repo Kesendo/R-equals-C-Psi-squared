@@ -27,8 +27,9 @@ public class F89Path3OcticGaloisClaimTests
     [Fact]
     public void DiscriminantFactorisationStructure_IsConstantQ24SquareTimesP10()
     {
-        // disc(F_8) = constant · q^24 · (3q⁴+q²-1)² · P_10(q²)
-        var (constFactorPower, qPower, squareFactorDegInQ, p10DegInQ) =
+        // disc(F_8) = constant prefactor · q^24 · (3q⁴+q²-1)² · P_10(q²)
+        // Tuple encodes degree contributions only (constant prefactor omitted; always present once).
+        var (qPower, squareFactorDegInQ, p10DegInQ) =
             F89Path3OcticGaloisClaim.DiscriminantFactorisationStructure;
         Assert.Equal(24, qPower);
         Assert.Equal(8, squareFactorDegInQ);   // (3q⁴+q²-1)² has degree 8 in q
