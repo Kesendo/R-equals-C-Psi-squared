@@ -570,6 +570,14 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **AT-lock mechanism generalisation to path-4, path-5**: numerical scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) confirms 100% overlap (F_a) / 100% no-overlap (F_b) eigvec support at all AT-locked rates 2γ, 6γ. AT-locked counts grow {4, 8, 13} for path {3, 4, 5}; H_B-mixed degrees {8, 18, 32}. F_a ω matches SE-anti single-particle Bloch eigenvalues; F_b ω matches DE 2-particle Slater eigenvalues E_(j,k) = E_j + E_k (path-3 was the special case where DE=0 multiplicity 2 absorbed F_b into single-particle freqs).
 
+**Tier 1 derived** for the **path-4 F_a AT-locked amplitude closed form** ([`_f89_path4_at_locked_amplitude_symbolic.py`](../simulations/_f89_path4_at_locked_amplitude_symbolic.py)): two F_a modes at λ = −2γ ± 3iJ (ω = ±2J = ±E_2/E_4 single-particle SE-anti Bloch) have rational amplitudes:
+
+    sigs[F_a:E_2](N) = 45 / [4·N²(N−1)]    (mode at ω = +2J)
+    sigs[F_a:E_4](N) = 5 / [4·N²(N−1)]     (mode at ω = −2J)
+    Sum F_a = 25 / [2·N²(N−1)]             (rational, no algebraic radicals)
+
+Asymmetry ratio E_high/E_low = 9 = 3² (compare path-3 where the analogous ratio was (33+14√5)/(33−14√5) ≈ 17.94, irrational). Path-4's clean rational arises because N_block+1=6 gives Bloch eigenvalues at ±2J (cos(π/3) = 1/2 exactly). Path-4 is the "rational case" between path-3 (golden-ratio √5) and path-5 (Cardano-cubic √(cos(π/7))). All other AT-locked modes (12 of 14 total, all F_b plus 2 F_a at ω = ±√3·2J ≈ ±5.196 from SE-sym Bloch) have zero per-site reduced contribution. F_b modes again have sigs ≈ 0 due to overlap-only per-site reduction requirement.
+
 **Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
 
     disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)
