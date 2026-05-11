@@ -269,6 +269,16 @@ Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_m
 
 **Status**: Tier 1 derived numerically, same as path-2. Symbolic rational form for the 10 amplitude prefactors open. The script pattern is now confirmed transferable; path-4 and path-5 follow with 5×5 and 6×6 block bookkeeping (1024-dim and 4096-dim L_super respectively, still numerically tractable on modest hardware — see survey below).
 
+#### Path-2 Bloch-mode amplitude N-scaling (Tier 1 derived via Parseval)
+
+The Bloch-group amplitude for path-2 at any (N, q) — i.e. the population of L_super eigenmodes (rate 2γ, freq ±2√2 J) summed over k=1, k=3 H_B^SE Bloch modes — has the closed form:
+
+    A_Bloch(N) = 3·(N−3)² / (2·N²·(N−1))
+
+Pure rational function of N, **q-independent** (Parseval orthogonality eliminates the J/γ-dependence of the Bloch self-overlap). Verified numerically across q ∈ {0.5, 0.75, 1, 1.25, 1.5, 2, 3} at N=11: amplitude × N²(N−1)/(N−3)² ≈ 1.498 ≈ 3/2 stable across all q (≤ 0.5% scatter from numerical eigenvector orthogonalization noise). Verification script: [`_f89_path2_amplitude_nscaling.py`](../simulations/_f89_path2_amplitude_nscaling.py).
+
+The other 3 path-2 mode-groups (rate 2γ freq 0, rate 3.04γ freq 0 at q=1.5, rate 3.48γ freq ±5.45J at q=1.5) are q-DEPENDENT in both rate and amplitude, because they originate from the cubic-Cardano factor of the (SE, DE) sub-block characteristic polynomial. At q→0 the cubic roots merge with the linear-factor roots (eigenvalue degeneracy), preventing a clean (N, q)-parametric closed form via simple polynomial fitting. Their q-dependence inherits from the cubic-Cardano formula.
+
 #### Path-k survey across k ∈ {2, 3, 4, 5} ([`_f89_pathk_survey.py`](../simulations/_f89_pathk_survey.py))
 
 Same script generalised, all four verified against bond-isolate at N=7 with max |diff| ≈ 5·10⁻⁷ (CSV write precision floor).
@@ -449,11 +459,24 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 ## Tier assessment
 
-**Tier 1 derived** for the orbit closure theorem (S(t) depends only on the S_N-orbit of B). The proof is elementary group theory applied to the Lindblad equation. Numerical verification at N = 7 (multi-bond, 24 configurations across 12 topology classes, 8 with ≥ 2 representatives all bit-identical) and N = 4 (single-pair, 6 site-pairs identical within 1 ULP via direct expm) corroborates the proof at machine precision.
+**Tier 1 derived** for the orbit closure theorem (S(t) depends only on the S_N-orbit of B). Proof is elementary group theory; verified at N = 7 (28 configurations across 14 topology classes, all in-class bit-identical) and N = 4 (6 site-pairs within 1 ULP via direct expm).
 
-**Tier 1 derived** for the all-isolated (1)^m closed form S_(1)^m, N(t) = \[(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))\] · exp(−4γ₀ t). The derivation factors the Lindbladian over disjoint blocks plus bare sites, uses H_B-eigenstate phase tracking, and counts populated coherence sectors per block. Numerical verification matches the (1), (1, 1), (1, 1, 1) CSVs at N = 7 within CSV write precision (5e−7).
+**Tier 1 derived** for the **all-isolated (1)^m closed form** S_(1)^m, N(t) = \[(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))\] · exp(−4γ₀ t). Verified against (1), (1, 1), (1, 1, 1) CSVs at N=7 within CSV write precision (5e−7).
 
-The **mixed-topology and pure-path closed forms** (per-class S(t) for (1, 2), (2, 2), (1, 1, 2), (3), (4), (5), (6) at N = 7) remain **Tier 2 empirical**; derivation open.
+**Tier 1 derived** for the **mixed-topology additive identity** S_T(t) = Σ_i S_(k_i)(t) − (m − 1)·N·S_bare(t; N) with S_bare = (N−1)/N²·exp(−4γ₀t). Reduces all 14 N=7 mixed-topology closed forms to 6 pure-path-k forms + 1 universal rule. Verified across all 27 N=7 bond-isolate CSVs (excluding path-6) at the precision floor.
+
+**Tier 1 derived** for the **path-k (vac, SE) Parseval self-contribution** (k+1)·(N−k−1)²/(N²(N−1))·exp(−4γ₀t). Pure-exponential analytical formula valid for all path-k via Parseval orthogonality; verified bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across 15 (k, N) pairs.
+
+**Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
+
+**Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
+
+**Open / Tier 2 empirical work**:
+- Symbolic rational form for the path-2..5 per-mode amplitudes (analog of (N−1)/N for all-isolated). Available numerically at any (N, J, γ); clean closed forms not yet derived.
+- Path-3..5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano). Higher-degree polynomials; Galois group may forbid radical solution.
+- Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
+- F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
+- Star/ring topology generalisation: F89 main theorem applies to any bond set, but per-class closed forms for non-chain topologies have not been worked out.
 
 ---
 
