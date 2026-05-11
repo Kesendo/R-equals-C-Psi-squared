@@ -42,18 +42,26 @@ public sealed class F89PathKAtLockMechanismClaim : Claim
         return nBlock / 2;
     }
 
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, IReadOnlyList<int>> _seAntiBlochOrbitCache = new();
+
     /// <summary>The S_2-antisymmetric Bloch index orbit {2, 4, ..., 2·floor(N_block/2)}.
     /// These are the n values for which E_n = 4J·cos(πn/(N_block+1)) gives F_a frequencies.</summary>
     public static IReadOnlyList<int> SeAntiBlochOrbit(int nBlock)
     {
         if (nBlock < 2) throw new ArgumentOutOfRangeException(nameof(nBlock), nBlock, "N_block must be ≥ 2.");
-        var orbit = new List<int>();
-        for (int n = 2; n <= nBlock; n += 2) orbit.Add(n);
-        return orbit;
+        return _seAntiBlochOrbitCache.GetOrAdd(nBlock, n =>
+        {
+            var orbit = new List<int>();
+            for (int i = 2; i <= n; i += 2) orbit.Add(i);
+            return orbit.AsReadOnly();
+        });
     }
 
     /// <summary>SE single-particle Bloch eigenvalue y_n = 4·cos(πn/(N_block+1))
-    /// (in units where J=1). At J ≠ 1, multiply by J to get physical eigenvalue.</summary>
+    /// (in units where J=1). At J ≠ 1, multiply by J to get physical eigenvalue.
+    /// This is the OBC tight-binding dispersion (see also <see cref="F2bXyChainSpectrumPi2Inheritance"/>'s
+    /// E_k = 2J·cos(πk/(N+1)); the factor of 4 here vs 2 there is the Pi2 dyadic
+    /// ladder a_{−1}=4 / a_0=2 doubling the AT-locked frequency goes through).</summary>
     public static double BlochEigenvalueY(int nBlock, int n)
     {
         if (nBlock < 2) throw new ArgumentOutOfRangeException(nameof(nBlock), nBlock, "N_block must be ≥ 2.");

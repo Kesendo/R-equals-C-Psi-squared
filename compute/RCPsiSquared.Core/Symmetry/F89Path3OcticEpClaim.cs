@@ -34,7 +34,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// § "Path-3 octic EP location".</para></summary>
 public sealed class F89Path3OcticEpClaim : Claim
 {
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89TopologyOrbitClosure _f89;
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89PathKAtLockMechanismClaim _atLock;
 
     /// <summary>q_EP² = (−1 + √13) / 6: the locus from disc factor (3q⁴+q²−1)² = 0.</summary>

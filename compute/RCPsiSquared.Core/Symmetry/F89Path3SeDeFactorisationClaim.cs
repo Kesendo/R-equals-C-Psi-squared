@@ -30,7 +30,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// § "Path-3 (SE, DE) S_2-symmetric sub-block: deg-2·deg-2·deg-8 factorisation".</para></summary>
 public sealed class F89Path3SeDeFactorisationClaim : Claim
 {
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89TopologyOrbitClosure _f89;
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89PathKAtLockMechanismClaim _atLock;
 
     /// <summary>Dimension of the S_2-symmetric sub-block of the (SE, DE) sector
@@ -43,34 +45,31 @@ public sealed class F89Path3SeDeFactorisationClaim : Claim
     /// Sum equals <see cref="S2SymSubBlockDimension"/> = 12.</summary>
     public static IReadOnlyList<int> FactorDegrees => _factorDegrees;
 
-    /// <summary>F_a quadratic roots at given (γ, J): λ = −2γ + iJ·(−1±√5).
-    /// At J=0 both roots collapse to the degenerate double root λ = −2γ
-    /// (F_a becomes (λ+2γ)² when H_B vanishes — no XY coupling regime).</summary>
-    public static Complex[] FaRoots(double gamma, double j)
+    private static readonly double Sqrt5 = Math.Sqrt(5);
+
+    /// <summary>Quadratic roots λ = −rateMultiplier·γ + iJ·(−1±√5). Both F_a (rateMultiplier=2)
+    /// and F_b (rateMultiplier=6) share this dispersion; only the AT rate differs.
+    /// At J=0 both roots collapse to the degenerate real double root λ = −rateMultiplier·γ.</summary>
+    private static Complex[] QuadraticRoots(double rateMultiplier, double gamma, double j)
     {
         if (gamma < 0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be ≥ 0.");
         if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), j, "J must be ≥ 0.");
-        double sqrt5 = Math.Sqrt(5);
+        double real = -rateMultiplier * gamma;
         return new[]
         {
-            new Complex(-2 * gamma, j * (-1 + sqrt5)),
-            new Complex(-2 * gamma, j * (-1 - sqrt5)),
+            new Complex(real, j * (-1 + Sqrt5)),
+            new Complex(real, j * (-1 - Sqrt5)),
         };
     }
 
+    /// <summary>F_a quadratic roots at given (γ, J): λ = −2γ + iJ·(−1±√5).
+    /// At J=0 both roots collapse to the degenerate double root λ = −2γ
+    /// (F_a becomes (λ+2γ)² when H_B vanishes — no XY coupling regime).</summary>
+    public static Complex[] FaRoots(double gamma, double j) => QuadraticRoots(2.0, gamma, j);
+
     /// <summary>F_b quadratic roots at given (γ, J): λ = −6γ + iJ·(−1±√5).
     /// At J=0 both roots collapse to the degenerate double root λ = −6γ.</summary>
-    public static Complex[] FbRoots(double gamma, double j)
-    {
-        if (gamma < 0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be ≥ 0.");
-        if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), j, "J must be ≥ 0.");
-        double sqrt5 = Math.Sqrt(5);
-        return new[]
-        {
-            new Complex(-6 * gamma, j * (-1 + sqrt5)),
-            new Complex(-6 * gamma, j * (-1 - sqrt5)),
-        };
-    }
+    public static Complex[] FbRoots(double gamma, double j) => QuadraticRoots(6.0, gamma, j);
 
     /// <summary>F_8 octic factor irreducibility over Q[i, √5]: true (sympy
     /// verified per <c>_f89_path3_octic_factor_test.py</c>).</summary>

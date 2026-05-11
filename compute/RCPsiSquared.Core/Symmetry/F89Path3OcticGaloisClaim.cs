@@ -29,7 +29,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// § "Path-3 octic non-solvability".</para></summary>
 public sealed class F89Path3OcticGaloisClaim : Claim
 {
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89TopologyOrbitClosure _f89;
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89PathKAtLockMechanismClaim _atLock;
 
     /// <summary>Total degree of disc(F_8) as a polynomial in q: 52.</summary>

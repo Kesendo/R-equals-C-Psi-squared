@@ -33,8 +33,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Unified closed form".</para></summary>
 public sealed class F89UnifiedFaClosedFormClaim : Claim
 {
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89TopologyOrbitClosure _f89;
+    // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     private readonly F89PathKAtLockMechanismClaim _atLock;
+
+    // Cached coefficient arrays (low-to-high degree) for the per-path polynomials
+    // P_path(y) used in sigs[F_a:n](N) = P_path(y_n) / [D_path · N²(N-1)].
+    private static readonly double[] _path3Coefs = { 47.0, 14.0 };          // 14y + 47
+    private static readonly double[] _path4Coefs = { 25.0, 10.0 };          // 10y + 25
+    private static readonly double[] _path5Coefs = { 129.0, 82.0, 13.0 };   // 13y² + 82y + 129
+    private static readonly double[] _path6Coefs = { 80.0, 72.0, 17.0 };    // 17y² + 72y + 80
 
     /// <summary>Per-path (P_path coefficients low-to-high degree, D_path) table.
     /// Returns the integer-coefficient numerator polynomial coefficients for
@@ -43,10 +52,10 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     {
         return k switch
         {
-            3 => (new double[] { 47.0, 14.0 }, 9),                      // 14y + 47
-            4 => (new double[] { 25.0, 10.0 }, 4),                      // 10y + 25
-            5 => (new double[] { 129.0, 82.0, 13.0 }, 25),              // 13y² + 82y + 129
-            6 => (new double[] { 80.0, 72.0, 17.0 }, 18),               // 17y² + 72y + 80
+            3 => (_path3Coefs, 9),
+            4 => (_path4Coefs, 4),
+            5 => (_path5Coefs, 25),
+            6 => (_path6Coefs, 18),
             _ => throw new ArgumentOutOfRangeException(nameof(k), k,
                 "Unified F_a closed form is currently tabulated for path-3..6 only. " +
                 "Path-7+ extensions: cyclotomic Φ_9 = x⁶+x³+1; coefficients open."),
