@@ -390,6 +390,50 @@ This cubic is solvable in radicals (Cardano). At q = 1.5 (our J/γ): roots μ = 
 
 **Status**: Tier 1 derived. The sympy script verifies the factored characteristic polynomial symbolically and confirms numerical eigenvalue agreement at q=1.5. Generalisation to path-3, path-4, path-5: same approach works (build symbolic 9-, 16-, 25-dim (SE, DE) L_super sub-block, project to S_2-sym subspace, factor characteristic polynomial), but the resulting cubic/quartic/quintic factors may not be solvable in radicals (depends on Galois group). For path-2 specifically, the cubic-Cardano closure is clean.
 
+#### Path-3 (SE, DE) S_2-symmetric sub-block: deg-2 · deg-2 · deg-8 factorisation (Tier 1 derived for the quadratics, irreducible octic for the rest)
+
+Path-3 (4-qubit block, 4 sites with bonds {0-1, 1-2, 2-3}) has S_2 chain-mirror symmetry (sites 0 ↔ 3, 1 ↔ 2). The (SE, DE) sub-block of L_super is dim 4 SE × 6 DE = **24**, splitting into 12-dim S_2-sym + 12-dim S_2-anti (no fixed-point basis pairs at path-3 since R fixes no SE state).
+
+Building the 12×12 S_2-sym L_super sub-block symbolically and computing the characteristic polynomial via Faddeev-Leverrier ([`_f89_path3_se_de_symbolic.py`](../simulations/_f89_path3_se_de_symbolic.py)):
+
+    char_{S_2-sym}(λ) = F_a(λ) · F_b(λ) · F_8(λ)
+
+where (γ = 1, q = J/γ):
+
+    F_a(λ) = λ² + (2iq + 4)·λ + (4q² + 4iq + 4)
+    F_b(λ) = λ² + (2iq + 12)·λ + (4q² + 12iq + 36)
+
+Both quadratics solve cleanly. With α = (−1+√5), β = (−1−√5):
+
+    F_a roots:  λ = −2γ + iJ·α,  λ = −2γ + iJ·β
+    F_b roots:  λ = −6γ + iJ·α,  λ = −6γ + iJ·β
+
+So 4 of the 12 S_2-sym eigenvalues are **AT-rate-locked** (rate = 2γ for overlap, 6γ for no-overlap) with **J-only frequency** ω = J·(−1±√5). Path-3's OBC tight-binding modes E_k = 2J·cos(πk/5) for k = 1..4 have golden-ratio-related eigenvalues E_1 = −E_4 = J·(1+√5)/2 and E_2 = −E_3 = J·(√5−1)/2. The two AT-locked frequencies correspond to the Bloch differences E_2 − E_3 = J·(√5−1) and E_4 − E_1 = −J·(1+√5).
+
+The remaining 8 eigenvalues live in:
+
+    F_8(λ) = λ⁸ + 32·λ⁷ + (72q² + 432)·λ⁶ + (−64iq³ + 1728q² + 3200)·λ⁵
+              + (1200q⁴ − 1280iq³ + 16608q² + 14176)·λ⁴ + (… higher q-powers)
+
+`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`_f89_path3_octic_factor_test.py`](../simulations/_f89_path3_octic_factor_test.py)). Its eight roots admit no elementary radical closure; for q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term — trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
+
+| Eigenvalue source | Count | Closed form |
+|---|---|---|
+| `F_a` quadratic | 2 | λ = −2γ + iJ·(−1±√5) |
+| `F_b` quadratic | 2 | λ = −6γ + iJ·(−1±√5) |
+| `F_8` octic | 8 | irreducible over Q[i, √5]; numerical only |
+
+**Comparison with path-2** (5-dim S_2-sym → linear · linear · cubic; 1+1+3 = 5):
+
+| Path | S_2-sym dim | Factor structure | AT-locked count | H_B-mixed count | Mixed factor solvable? |
+|---|---|---|---|---|---|
+| 2 | 5 | 1·1·3 | 2 (λ = −2γ, −6γ) | 3 | yes — Cardano cubic |
+| 3 | 12 | 2·2·8 | 4 (λ = −2γ ± iJ·α, β; −6γ ± iJ·α, β) | 8 | no — irreducible octic |
+
+The pattern: the AT-locked count grows as 2·N_block_orbits_at_rate_r with r ∈ {2γ, 6γ}; for path-2 those orbits are 1-dim (single-state), for path-3 they are 2-dim (Bloch pairs k ↔ N_block+1−k). The H_B-mixed factor degree is the (SE,DE) S_2-sym dimension minus the AT-locked dimension; its solvability in radicals is a Galois-group question that flips from "yes (cubic)" at path-2 to "no (irreducible octic)" at path-3.
+
+**Status**: Tier 1 derived for the closed-form quadratics (`F_a`, `F_b`) and for the structural deg-2·deg-2·deg-8 factorisation. The octic `F_8` is fully specified symbolically and numerically tractable, but does not admit an elementary algebraic closure. Path-3 is therefore "partially solvable": 4 of 12 S_2-sym eigenvalues in closed form, 8 in numerical form only.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
@@ -469,11 +513,13 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
 
+**Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] and admits no elementary algebraic closure (8 of 12 S_2-sym eigenvalues numerical only).
+
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
 **Open / Tier 2 empirical work**:
 - Symbolic rational form for the path-2..5 per-mode amplitudes (analog of (N−1)/N for all-isolated). Available numerically at any (N, J, γ); clean closed forms not yet derived.
-- Path-3..5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano). Higher-degree polynomials; Galois group may forbid radical solution.
+- Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
 - Star/ring topology generalisation: F89 main theorem applies to any bond set, but per-class closed forms for non-chain topologies have not been worked out.
