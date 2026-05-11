@@ -570,7 +570,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **AT-lock mechanism generalisation to path-4, path-5**: numerical scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) confirms 100% overlap (F_a) / 100% no-overlap (F_b) eigvec support at all AT-locked rates 2γ, 6γ. AT-locked counts grow {4, 8, 13} for path {3, 4, 5}; H_B-mixed degrees {8, 18, 32}. F_a ω matches SE-anti single-particle Bloch eigenvalues; F_b ω matches DE 2-particle Slater eigenvalues E_(j,k) = E_j + E_k (path-3 was the special case where DE=0 multiplicity 2 absorbed F_b into single-particle freqs).
 
-**Tier 1 derived** for the **path-4 F_a AT-locked amplitude closed form** ([`_f89_path4_at_locked_amplitude_symbolic.py`](../simulations/_f89_path4_at_locked_amplitude_symbolic.py)): two F_a modes at λ = −2γ ± 3iJ (ω = ±2J = ±E_2/E_4 single-particle SE-anti Bloch) have rational amplitudes:
+**Tier 1 derived** for the **path-4 F_a AT-locked amplitude closed form** ([`_f89_path4_at_locked_amplitude_symbolic.py`](../simulations/_f89_path4_at_locked_amplitude_symbolic.py)): two F_a modes at λ = −2γ ± 2iJ (ω = ±2J = ±E_2/E_4 single-particle SE-anti Bloch at N_block=5) have rational amplitudes:
 
     sigs[F_a:E_2](N) = 45 / [4·N²(N−1)]    (mode at ω = +2J)
     sigs[F_a:E_4](N) = 5 / [4·N²(N−1)]     (mode at ω = −2J)

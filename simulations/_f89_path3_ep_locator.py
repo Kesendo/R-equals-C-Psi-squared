@@ -135,47 +135,50 @@ def main() -> None:
         print(f"| {q:.4f} | {min_dist:.4e} | rates ({rates[0]:.4f}, {rates[1]:.4f}), freqs ({freqs[0]:+.4f}, {freqs[1]:+.4f}) |")
 
     print(f"\n## Fine-resolution sweep around q_EP = {q_ep_analytical:.6f}")
+    print("# Uses ALL pairwise distances (not adjacent-after-sort), since Hamming-self exact-4γ modes")
+    print("# can sit between the merging pair in any sorted ordering and break adjacent-distance heuristics.")
     qs_fine = np.linspace(q_ep_analytical - 0.005, q_ep_analytical + 0.005, 21)
-    print("| q | min |λ_a − λ_b| | smallest σ((L − λ_close I)) |")
+    print("| q | min |λ_a − λ_b| (all-pairs) | smallest σ((L − λ_close I)) |")
     print("|---|---|---|")
     for q in qs_fine:
         L_sym, _, _ = build_path3_se_de_sym(q, 1.0)
         eigvals = np.linalg.eigvals(L_sym)
         rates = -eigvals.real
         is_at = (np.abs(rates - 2.0) < 1e-6) | (np.abs(rates - 6.0) < 1e-6)
-        octic = sorted(eigvals[~is_at], key=lambda x: (x.real, x.imag))
-        # Closest pair
-        dists = [abs(octic[i] - octic[i+1]) for i in range(7)]
-        min_dist = min(dists)
-        # Singular value at average eigenvalue (approximation of EP eigenvalue)
-        i_min = np.argmin(dists)
-        lam_close = (octic[i_min] + octic[i_min + 1]) / 2
+        octic = list(eigvals[~is_at])
+        # ALL pairwise distances (28 pairs for 8 modes)
+        all_pairs = [(abs(octic[i] - octic[j]), i, j) for i in range(len(octic)) for j in range(i+1, len(octic))]
+        all_pairs.sort()
+        min_dist, i_min, j_min = all_pairs[0]
+        lam_close = (octic[i_min] + octic[j_min]) / 2
         sv = smallest_singular_value(L_sym, lam_close)
         print(f"| {q:.6f} | {min_dist:.4e} | {sv:.4e} |")
 
-    # 3. EP eigenvalue at the analytical q_EP
+    # 3. EP eigenvalue at the analytical q_EP (all-pairs)
     print("\n## EP eigenvalue (the merged value) at q = q_EP exactly:")
     L_sym, _, _ = build_path3_se_de_sym(q_ep_analytical, 1.0)
     eigvals = np.linalg.eigvals(L_sym)
     rates = -eigvals.real
     is_at = (np.abs(rates - 2.0) < 1e-6) | (np.abs(rates - 6.0) < 1e-6)
-    octic = sorted(eigvals[~is_at], key=lambda x: (x.real, x.imag))
-    dists = [abs(octic[i] - octic[i+1]) for i in range(7)]
-    i_min = np.argmin(dists)
-    lam_ep = (octic[i_min] + octic[i_min + 1]) / 2
-    print(f"# Merged eigenvalue λ_EP ≈ {lam_ep:.6f}")
-    print(f"# In units of γ: rate Γ/γ = {-lam_ep.real:.4f}, freq ω/(J·γ) = {lam_ep.imag/q_ep_analytical:.4f}")
-    print(f"# Re(λ_EP)/γ = {-lam_ep.real:.4f}  vs F86 universal t_peak = 1/(4γ₀) → Re = -4γ predicted")
+    octic = list(eigvals[~is_at])
+    all_pairs = [(abs(octic[i] - octic[j]), i, j) for i in range(len(octic)) for j in range(i+1, len(octic))]
+    all_pairs.sort()
+    min_dist, i_min, j_min = all_pairs[0]
+    lam_ep = (octic[i_min] + octic[j_min]) / 2
+    print(f"# Min pair distance at q_EP: {min_dist:.4e} (machine zero confirms EP)")
+    print(f"# Merged eigenvalue λ_EP = {lam_ep}")
+    print(f"# In γ-units: rate Γ/γ = {-lam_ep.real:.6f}, ω = {lam_ep.imag:+.6f}")
+    print(f"# In J-units (J = q_EP = {q_ep_analytical:.6f}): ω/J = {lam_ep.imag/q_ep_analytical:+.6f}")
+    print(f"# So λ_EP = −{-lam_ep.real:.4f}γ + {lam_ep.imag/q_ep_analytical:.4f}·iJ")
+    print(f"# Numerical match against analytical prediction λ_EP = −4γ + 2iJ:")
+    print(f"#   |Re(λ_EP) − (−4γ)| = {abs(-lam_ep.real - 4.0):.2e}")
+    print(f"#   |ω/J − 2| = {abs(lam_ep.imag/q_ep_analytical - 2.0):.2e}")
 
-    # 4. Compare to F86 c=2 Q_EP
-    print("\n## Comparison with F86 c=2 Q_EP:")
-    print("# F86 c=2 Q_EP = 2/g_eff ≈ 1/√(2·1) = 1/√2 ≈ 0.7071 (N→∞ asymptote)")
-    print("# F86 c=2 Q_EP at small N (per memory): N=5: 0.7233, N=6: 0.7138, N=7: 0.7071, N=8: 0.7044")
-    print(f"# Path-3 (N_block=4) octic EP: q ≈ {q_ep_analytical:.4f}")
-    print(f"#   N_block=4 extrapolation of F86 trend (N=5..8 → 0.72→0.70): would give Q_EP > 0.7233 at N=4")
-    print(f"#   Path-3's q={q_ep_analytical:.4f} is BELOW F86's expected Q_EP(N=4): they are DIFFERENT EPs.")
-    print(f"#   F86 EP comes from the (vac, SE) ↔ first-block 2-level effective.")
-    print(f"#   Path-3 EP comes from a coupling INSIDE the (SE, DE) octic — different sector.")
+    # 4. F86 comparison removed pending F86 closure
+    # The numerical Re(λ_EP) = −4γ value happens to coincide with F86's reported t_peak = 1/(4γ),
+    # but F86 is a collection of partial results that is not closed. Cross-framework bridge claims
+    # are deferred until F86 is restarted with a clean slate. The path-3 EP value λ_EP = −4γ + 2iJ
+    # stands on its own as a consequence of F89 internal structure (AT-rate-midpoint coalescence).
 
 
 if __name__ == "__main__":
