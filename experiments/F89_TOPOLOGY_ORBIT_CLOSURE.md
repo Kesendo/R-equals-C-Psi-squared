@@ -576,7 +576,26 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
     sigs[F_a:E_4](N) = 5 / [4·N²(N−1)]     (mode at ω = −2J)
     Sum F_a = 25 / [2·N²(N−1)]             (rational, no algebraic radicals)
 
-Asymmetry ratio E_high/E_low = 9 = 3² (compare path-3 where the analogous ratio was (33+14√5)/(33−14√5) ≈ 17.94, irrational). Path-4's clean rational arises because N_block+1=6 gives Bloch eigenvalues at ±2J (cos(π/3) = 1/2 exactly). Path-4 is the "rational case" between path-3 (golden-ratio √5) and path-5 (Cardano-cubic √(cos(π/7))). All other AT-locked modes (12 of 14 total, all F_b plus 2 F_a at ω = ±√3·2J ≈ ±5.196 from SE-sym Bloch) have zero per-site reduced contribution. F_b modes again have sigs ≈ 0 due to overlap-only per-site reduction requirement.
+Asymmetry ratio E_high/E_low = 9 = 3² (compare path-3 where the analogous ratio was (33+14√5)/(33−14√5) ≈ 17.94, irrational). Path-4's clean rational arises because N_block+1=6 gives Bloch eigenvalues at ±2J (cos(π/3) = 1/2 exactly).
+
+**Tier 1 derived** for the **path-5 F_a AT-locked amplitude sum closed form** (Tier 2 for individual modes — Cardano-cubic radicals): path-5 (N_block=6) has 3 F_a modes corresponding to SE-anti Bloch n=2, 4, 6 with frequencies ω/J = {+2.494, −0.890, −3.604} = {4cos(2π/7), 4cos(4π/7), 4cos(6π/7)} which are roots of the irreducible cubic y³ + 2y² − 8y − 8 = 0. Numerically ([`_f89_path5_at_locked_amplitude_symbolic.py`](../simulations/_f89_path5_at_locked_amplitude_symbolic.py)):
+
+    sigs[F_a:E_2](N) ≈ 16.5745 / [N²(N−1)]    (Cardano-cubic algebraic)
+    sigs[F_a:E_4](N) ≈ 2.6525  / [N²(N−1)]    (Cardano-cubic algebraic)
+    sigs[F_a:E_6](N) ≈ 0.0930  / [N²(N−1)]    (Cardano-cubic algebraic)
+    Sum F_a = 483 / [25·N²(N−1)]              (rational, Cardano-radicals cancel by Newton's identities)
+
+The **sum** is rational across all three paths (path-3: 22/3; path-4: 25/2; path-5: 483/25) — Galois-conjugate radicals always cancel in symmetric polynomials of the roots. **Individual amplitudes** track the algebraic complexity of N_block+1: prime 5 (golden √5), composite 6 (rational only), prime 7 (Cardano-cubic).
+
+**Pattern across paths**:
+
+| Path | N_block | N_block+1 | F_a count | Closed form character | Sum F_a · N²(N−1) |
+|---|---|---|---|---|---|
+| 3 | 4 | 5 (prime) | 2 | √5 (quadratic) | 22/3 |
+| 4 | 5 | 6 (composite) | 2 | rational only | 25/2 |
+| 5 | 6 | 7 (prime) | 3 | Cardano-cubic of cos(π/7) | 483/25 |
+
+F_a count = floor(N_block/2) = number of SE-anti single-particle Bloch modes. Algebraic complexity of individual amplitudes follows the cyclotomic polynomial Φ_{N_block+1}(x) degree (φ(5)/2=2, φ(6)/2=1 trivial, φ(7)/2=3). Path-7 (N_block=8, N_block+1=9 composite) would be expected back to lower complexity (9 has only quadratic cyclotomic Φ_9 of degree 6, but individual cosines factor through smaller fields).
 
 **Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
 
