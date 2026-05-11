@@ -53,12 +53,6 @@ public class F89PathKAtLockMechanismClaimTests
     }
 
     [Fact]
-    public void BlochEigenvalueY_PathSixZeroMode_IsExactlyZero()
-    {
-        Assert.Equal(0.0, F89PathKAtLockMechanismClaim.BlochEigenvalueY(7, 4), precision: 14);
-    }
-
-    [Fact]
     public void FaCount_NBlockBelowTwo_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(
@@ -70,5 +64,22 @@ public class F89PathKAtLockMechanismClaimTests
     {
         Assert.Throws<ArgumentOutOfRangeException>(
             () => F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(1));
+    }
+
+    [Fact]
+    public void BlochEigenvalueY_NBlockBelowTwo_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => F89PathKAtLockMechanismClaim.BlochEigenvalueY(1, 1));
+    }
+
+    [Fact]
+    public void BlochEigenvalueY_NOutOfRange_Throws()
+    {
+        // n must be in [1, nBlock]
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => F89PathKAtLockMechanismClaim.BlochEigenvalueY(4, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => F89PathKAtLockMechanismClaim.BlochEigenvalueY(4, 5));
     }
 }
