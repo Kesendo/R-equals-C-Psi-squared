@@ -448,6 +448,22 @@ For each of the 10 path-3 populated mode-groups at q=1.5, fit the per-mode ampli
 
 **Status**: Tier 1 partial. AT-locked amplitude polynomial coefficients at q=1.5 are numerically clean (rel err 10⁻¹⁶) but their closed forms in (N, q) likely involve √5 from the F_a eigenvectors; symbolic eigenvector projection to extract (N, q)-rational closed forms is open.
 
+#### AT-lock mechanism: F_a, F_b eigenvectors live in overlap-only / no-overlap-only subspaces (Tier 1 derived)
+
+Why are F_a, F_b eigenvalues exactly at AT rates 2γ and 6γ, given that H_B generally mixes overlap (2γ) and no-overlap (6γ) basis pairs? Numerical verification ([`_f89_path3_at_lock_mechanism.py`](../simulations/_f89_path3_at_lock_mechanism.py)) of the 12 S_2-sym eigenvectors shows the AT-locking arises from **eigenvector support confinement**:
+
+| Eigenvalue | Overlap-support | No-overlap-support |
+|---|---|---|
+| F_a: λ = −2γ + iJ(−1±√5) (×2) | **1.000** | 0.000 |
+| F_b: λ = −6γ + iJ(−1±√5) (×2) | 0.000 | **1.000** |
+| Octic modes (8 H_B-mixed) | 0.34..0.66 | 0.34..0.66 (complementary to overlap) |
+
+The 4 F_a/F_b eigenvectors are entirely supported on the 12-dim overlap (resp 12-dim no-overlap) basis-pair subspace; the 8 octic eigenvectors are mixed, with overlap and no-overlap support summing to 1 in **complementary pairs** — e.g. (3.349, 4.651) at fixed |ω| = 1.206J have supports (0.6628, 0.3372) and (0.3372, 0.6628), mirror-paired around 1/2. This is the **Hamming-complement bijection at the eigenvector level**: F89c's rate-bijective complement (Γ_a + Γ_b = 8γ) extends to overlap-fraction complement.
+
+**Bloch sub-block decomposition**: SE basis (4-dim) splits into SE-sym (n=1, 3) + SE-anti (n=2, 4) under S_2 mirror. DE basis (6-dim) splits into DE-sym (4-dim) + DE-anti (2-dim). The 12-dim (SE, DE) S_2-sym subspace decomposes as SE-sym × DE-sym (8-dim) + SE-anti × DE-anti (4-dim). All 4 F_a/F_b eigenvectors live in this 12-dim S_2-sym space with **fixed 2:1 weight ratio**: 2/3 support on (sym × sym) Bloch sub-block, 1/3 on (anti × anti). This 8:4 ratio matches the dimension ratio — F_a/F_b eigenvectors are uniformly L2-distributed across the orthonormal Bloch tensor basis, not localised in any tensor-product sub-block. AT-locking is therefore a **fine-tuned interference cancellation between (sym × sym) and (anti × anti) Bloch components**, not a single-tensor-state phenomenon.
+
+**Frequency identification**: F_a/F_b frequencies J·(−1±√5) match exactly the SE-anti single-particle Bloch eigenvalues E_2 = 4J·cos(2π/5) = J·(√5−1) and E_4 = 4J·cos(4π/5) = −J·(1+√5) (using the OBC tight-binding formula E_n = 4J·cos(πn/(N_block+1)) for path-3's 4-site block). The single-particle spectrum machinery is identical to that of [ANALYTICAL_SPECTRUM](ANALYTICAL_SPECTRUM.md)/[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) (W1Dispersion proof for full chain (vac, SE) sector); the new ingredients here are the multi-magnon DE Slater eigenvalues E_(j,k) = E_j + E_k and the overlap/no-overlap dephasing-channel decomposition.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
@@ -528,6 +544,8 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 **Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
 
 **Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] and admits no elementary algebraic closure (8 of 12 S_2-sym eigenvalues numerical only).
+
+**Tier 1 derived** for the **AT-lock mechanism**: F_a, F_b eigenvectors are entirely supported on overlap-only (resp no-overlap-only) basis pairs, with H_B-induced cross-coupling cancelling. F_a/F_b frequencies match SE-anti single-particle Bloch eigenvalues E_2 = J(√5−1), E_4 = −J(1+√5) at N_block=4. Octic eigenvectors are H_B-mixed with 4 Hamming-complement pairs at total rate 8γ (rate-bijective AND overlap-fraction-bijective).
 
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
