@@ -248,7 +248,7 @@ Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_m
 
 | (rate Γ/γ, |freq|/J) | Sector / Origin |
 |---|---|
-| (2.0000, 3.2361) | (vac, SE) Bloch k=1, E_1 = 4J·cos(π/5) ≈ 3.236J per F65 |
+| (2.0000, 3.2361) | (vac, SE) Bloch k=1, E_1 = 4J·cos(π/5) ≈ 3.236J (standard tight-binding OBC eigenvalue used by F65) |
 | (2.0000, 1.2361) | (vac, SE) Bloch k=3, E_3 = 4J·cos(3π/5) ≈ -1.236J |
 | (3.3488, 1.2060) | (SE, DE) H_B-mixed |
 | (3.5989, 2.9300) | (SE, DE) H_B-mixed |
@@ -259,7 +259,7 @@ Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_m
 | (4.4011, 2.9300) | partner of (3.5989, 2.9300): 3.599+4.401 = 8γ₀ ✓ |
 | (4.6512, 1.2060) | partner of (3.3488, 1.2060): 3.349+4.651 = 8γ₀ ✓ |
 
-**Hamming-complement pair-sum at path-3 = 2γ₀·N_block = 8γ₀**, matching F89c's column-bit-flip prediction (here with bar(SE) = TE since popcount complement at N=4 is 1 ↔ 3, NOT 1 ↔ 2). The pair structure is **bit-exact** in the populated subset.
+**Hamming-complement pair-sum at path-3 = 2γ₀·N_block = 8γ₀**, matching F89c's column-bit-flip prediction (here with bar(SE) = TE since popcount complement at N=4 is 1 ↔ 3, NOT 1 ↔ 2). The pair structure is **bit-exact** in the populated subset: **3 distinct unordered pairs** (3.3488 ↔ 4.6512, 3.5989 ↔ 4.4011, 3.7770 ↔ 4.2230) plus **1 self-pair** at (4γ, 4γ) summing to 8γ exactly. The path-k survey table below counts ordered pairs (each unordered pair contributes 2, plus the 1 self-pair) → 7 total ordered pair-sums.
 
 **Pure-AT 4γ₀ modes ARE populated at path-3** (unlike path-2 where they got zero projection). This is the structural difference: at N_block=4, DE = popcount-2 is its own bar-popcount, so (SE, DE) hosts S_4-symmetric eigenvectors at the AT-pure 4γ₀ rate. At N_block=3, those rates were S_3-asymmetric and dropped out.
 
@@ -276,9 +276,10 @@ Same script generalised, all four verified against bond-isolate at N=7 with max 
 | Path | N_block | d² | Mode-groups | Contributing modes | Pair-sums to 2γ·N_block |
 |---|---|---|---|---|---|
 | path-2 | 3 | 64 | 4 | 16 | 0 (S_3-asymmetric partners absent) |
-| path-3 | 4 | 256 | 10 | 65 | **7 ✓** (full Hamming-complement) |
+| path-3 | 4 | 256 | 10 | 65 | **7 ordered ✓** (3 unordered pairs + 1 self-pair at 4γ↔4γ) |
 | path-4 | 5 | 1024 | 12 | 128 | 0 (S_5-asymmetric partners absent) |
 | path-5 | 6 | 4096 | 35 | 314 | 0 (S_6-asymmetric partners absent) |
+| path-6 | 7 | 16384 | (skipped: ~1h eigendecomp; trivially satisfies additive identity since m=1 → no subtraction) |
 
 **Path-3 is privileged** in the populated mode structure: at N_block=4, DE = popcount-2 = bar(popcount-2) is self-symmetric, so column-bit-flip maps populated (SE,DE) modes to other populated (SE,DE) modes within the same S_4-symmetric subspace. For N_block ∈ {3, 5, 6} the column-flip partners land in S_{N_block}-asymmetric territory and get zero projection from ρ_cc-derived ρ_block(0) — F89c's column-bit-flip pair-sum identity holds at the L_super-spectrum level (where it is a Tier-1 derived universal property), but only path-3 has both members of each pair populated.
 
