@@ -351,6 +351,34 @@ The first two terms are exact closed forms; the third (the H_B-mixed (SE, DE) su
 
 with the topology-class oscillatory residual coming entirely from per-block (SE, DE) sub-block dynamics.
 
+#### Path-2 (SE, DE) S_2-symmetric sub-block: closed-form characteristic polynomial (Tier 1 derived)
+
+Path-2 has only S_2 chain-mirror symmetry of H_B (sites 0 ↔ 2 exchange, site 1 fixed). The 9-dim (SE, DE) sub-block of L_super splits into S_2-sym (5-dim) + S_2-anti (4-dim). ρ_block(0)'s S_3-symmetric component lies entirely in the S_2-sym 5-dim subspace.
+
+The characteristic polynomial of the 5×5 S_2-sym L_super sub-block factors **explicitly** ([`_f89_path2_se_de_symbolic.py`](../simulations/_f89_path2_se_de_symbolic.py)):
+
+    char(λ) = −(λ + 2γ)·(λ + 6γ)·[λ³ + 10γ·λ² + (28γ² + 32J²)·λ + (24γ³ + 96γJ²)]
+
+Two linear factors give pure-AT rates **2γ** and **6γ** (no J-dependence, exact-quantization eigenvalues per F89c); the **cubic factor** carries all J/γ-dependent fractional rates.
+
+In dimensionless variables μ = λ/γ, q = J/γ:
+
+    **μ³ + 10·μ² + (28 + 32q²)·μ + 24·(1 + 4q²) = 0**
+
+This cubic is solvable in radicals (Cardano). At q = 1.5 (our J/γ): roots μ = −3.0448 (real) and μ = −3.4776 ± 8.169i (complex conjugate pair) — bit-exactly matching the populated path-2 fractional rates 3.04γ, 3.48γ ± 5.45iJ.
+
+**Of the 5 S_2-sym eigenvalues, ρ_block(0) populates 4** (one of the linear factors, λ = −6γ, has zero overlap with ρ_block(0)'s S_3-symmetric content; its eigenvector lies in the no-overlap-only S_2-sym subspace orthogonal to the S_3-symmetric direction). The 4 populated eigenvalues are:
+
+| Eigenvalue | Source | Rate, freq |
+|---|---|---|
+| λ = −2γ | linear factor (2γ + λ) | (2γ, 0) — pure-AT, S_2-sym overlap mode |
+| λ = −3.0448γ | cubic real root at q=1.5 | (3.04γ, 0) |
+| λ = −3.4776γ ± 8.169iγ | cubic complex pair at q=1.5 | (3.48γ, ±5.45J) (since 8.169γ = 5.45·J at q=1.5) |
+
+**Path-2 is now fully analytically tractable**: combined with F65 (Bloch frequencies 4J·cos(πk/(N_block+1)) for the (vac, SE) sector, k=1, k=3 populated), all 4 path-2 mode-groups have closed-form rates and frequencies as algebraic expressions in (J, γ). The remaining numerical content is just the per-mode amplitudes (initial-state projections), which depend on N polynomially.
+
+**Status**: Tier 1 derived. The sympy script verifies the factored characteristic polynomial symbolically and confirms numerical eigenvalue agreement at q=1.5. Generalisation to path-3, path-4, path-5: same approach works (build symbolic 9-, 16-, 25-dim (SE, DE) L_super sub-block, project to S_2-sym subspace, factor characteristic polynomial), but the resulting cubic/quartic/quintic factors may not be solvable in radicals (depends on Galois group). For path-2 specifically, the cubic-Cardano closure is clean.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
