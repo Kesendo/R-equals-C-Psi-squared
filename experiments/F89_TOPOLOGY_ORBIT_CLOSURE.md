@@ -211,13 +211,34 @@ In the Schicht-0 typed knowledge layer, F89 now cites `Pi2DyadicLadderClaim` as 
 
 The drift check `F89TopologyOrbitClosure.Pi2DoublingConsistent()` verifies both equal 4 (catches drift between the literal 4.0 in `AllIsolatedClosedForm` and the ladder anchor). The Schicht-1 `RegisterF89_AncestorsContainAllParents` test asserts the runtime ancestor walk now reaches `Pi2DyadicLadderClaim` from F89.
 
-### Other topology classes (Tier 2 empirical, derivation open)
+### Other topology classes (Tier 2 empirical, partially closed via F89c+AT)
 
-The above closed form applies only to the all-isolated subclass (1)^m. For mixed topologies (e.g. (1, 2), (2, 2), (1, 1, 2), and pure paths (3), (4), (5), (6)) the closed form is open. The empirical late-tail behavior:
+The all-isolated closed form above applies only to (1)^m. For mixed topologies (e.g. (1, 2), (2, 2), (1, 1, 2)) and pure paths (3), (4), (5), (6) a single-formula per-class closed form is open. Empirical late-tail behavior:
 - 1-isolated-edge mixed classes ((2), (1, 2), (1, 1, 2)) cluster at intermediate prefactors at the t ≈ π/(2J) in-phase moment.
 - Pure-path classes ((3), (4), (5), (6)) decay faster than 4γ₀ on visible time scales due to no-overlap-SE-DE content (rate 6γ₀ on those coherences) plus longer-path mode mixing.
 
-A general closed form per topology class is open work.
+#### Path-2 (topology (2)) numerical multi-exponential closed form (script-derived)
+
+For topology (2) (one path-2 block of 3 connected sites + N−3 bare sites) the F89c+AT lens reduces the 64-dim block L_super to a **handful of populated modes** because ρ_block(0) inherits S_3 symmetry from ρ_cc's S_N-symmetry. The script [`_f89_path2_multi_exp_derive.py`](../simulations/_f89_path2_multi_exp_derive.py) performs the eigenvector decomposition + initial-state projection that F89c left open.
+
+**Result**: only 4 distinct (rate, |freq|) mode-groups from the 64-dim block L_super are populated (verified at N = 5, 7, 11):
+
+| (rate Γ/γ, |freq|/J) | Sector | Origin |
+|---|---|---|
+| (2.0000, 2.8284) | (vac, SE) | H_B^SE eigenvalue ±2√2 J at rate 2γ₀ (F65 single-excitation Bloch mode k=1, k=3) |
+| (2.0000, 0.0000) | (SE, DE) symmetric | n_diff=1 overlap pair, S_3-symmetric superposition |
+| (3.0448, 0.0000) | (SE, DE) H_B-mixed | (overlap, no-overlap)-mix eigenvalue at J/γ=1.5 |
+| (3.4776, 5.4459) | (SE, DE) H_B-mixed | (overlap, no-overlap)-mix eigenvalue at J/γ=1.5 |
+
+**Pure-AT modes 4γ₀ and 6γ₀ get zero projection** from ρ_cc-derived ρ_block(0): their (SE,DE) eigenvectors are S_3-asymmetric, while ρ_block(0)'s (SE,DE) part is the fully symmetric superposition `Σ_i Σ_{j<k} |SE_i⟩⟨DE_{jk}|`. The H_B^SE antisymmetric Bloch mode k=2 (E=0) similarly drops out by orthogonality to the S_3-symmetric (vac, SE) initial state.
+
+**|·|² rate spectrum** (from cross-products r_k + r_{k'}): {4, 5.0448, 5.4776, 6.0896, 6.5224, 6.9552} γ₀ at J/γ=1.5. The dominant 4γ₀ envelope matches F73's vac-SE asymptotic rate; fractional rates are H_B-mixing corrections that decay faster.
+
+**Verification**: matches bond-isolate `N7_b0-1` CSV at max |diff| = 4.99·10⁻⁷ across 301 sample times (= CSV write precision floor). At N=5: closed-form prediction S(0)=0.800, S(10)=0.0578, S(20)=0.00807 (no CSV available; pure prediction).
+
+**Status**: Tier 1 derived numerically (eigendecomposition + projection of an 8×8 block → 64-dim L_super → 4 populated mode-groups). The mode rates and frequencies are determined; the amplitudes have N-dependence that scales as 1/(N²(N−1)) for symmetric modes and N_E²/(N²(N−1)) for the (vac, SE) Bloch-mode dominant term. Closed symbolic forms for the 4 amplitude prefactors (in clean-rational form like (N−1)/N for all-isolated) are open — the numerical script gives them at any (N, J, γ).
+
+**Generalisation principle (proposed)**: For any topology with a (k+1)-qubit block, ρ_block(0) inherits S_{k+1}-symmetry from ρ_cc. Only the S_{k+1}-symmetric subspace of the L_super eigenmodes is populated. This typically reduces ~d²-dim block L_super to a handful of populated modes (4 modes for path-2; expected fewer-than-25 for path-3, fewer-than-fully-spectrum for path-k). The same script pattern applies to any block size; only the partial-trace bookkeeping changes per topology.
 
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
