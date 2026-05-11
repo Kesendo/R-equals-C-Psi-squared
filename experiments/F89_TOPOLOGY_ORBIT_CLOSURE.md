@@ -408,14 +408,14 @@ Both quadratics solve cleanly. With α = (−1+√5), β = (−1−√5):
     F_a roots:  λ = −2γ + iJ·α,  λ = −2γ + iJ·β
     F_b roots:  λ = −6γ + iJ·α,  λ = −6γ + iJ·β
 
-So 4 of the 12 S_2-sym eigenvalues are **AT-rate-locked** (rate = 2γ for overlap, 6γ for no-overlap) with **J-only frequency** ω = J·(−1±√5). Path-3's OBC tight-binding modes E_k = 2J·cos(πk/5) for k = 1..4 have golden-ratio-related eigenvalues E_1 = −E_4 = J·(1+√5)/2 and E_2 = −E_3 = J·(√5−1)/2. The two AT-locked frequencies correspond to the Bloch differences E_2 − E_3 = J·(√5−1) and E_4 − E_1 = −J·(1+√5).
+So 4 of the 12 S_2-sym eigenvalues are **AT-rate-locked** (rate = 2γ for overlap, 6γ for no-overlap) with **J-only frequency** ω = J·(−1±√5). Path-3's OBC tight-binding single-particle modes E_n = 4J·cos(πn/(N_block+1)) at N_block=4 have golden-ratio-related eigenvalues E_1 = −E_4 = J·(1+√5) and E_2 = −E_3 = J·(√5−1). The two AT-locked frequencies are exactly the SE-anti Bloch eigenvalues E_2 = J·(√5−1) and E_4 = −J·(1+√5) (full identification with closed-form derivation in the AT-lock mechanism subsection below).
 
 The remaining 8 eigenvalues live in:
 
     F_8(λ) = λ⁸ + 32·λ⁷ + (72q² + 432)·λ⁶ + (−64iq³ + 1728q² + 3200)·λ⁵
               + (1200q⁴ − 1280iq³ + 16608q² + 14176)·λ⁴ + (… higher q-powers)
 
-`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`_f89_path3_octic_factor_test.py`](../simulations/_f89_path3_octic_factor_test.py)). Its eight roots admit no elementary radical closure; for q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term — trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
+`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`_f89_path3_octic_factor_test.py`](../simulations/_f89_path3_octic_factor_test.py)). Combined with the discriminant analysis below (Gal(F_8) ⊄ A_8, conjecturally non-solvable), its eight roots are not expected to admit an elementary radical closure as functions of q. For q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term — trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
 
 | Eigenvalue source | Count | Closed form |
 |---|---|---|
@@ -427,12 +427,12 @@ The remaining 8 eigenvalues live in:
 
 | Path | S_2-sym dim | Factor structure | AT-locked count | H_B-mixed count | Mixed factor solvable? |
 |---|---|---|---|---|---|
-| 2 | 5 | 1·1·3 | 2 (λ = −2γ, −6γ) | 3 | yes — Cardano cubic |
-| 3 | 12 | 2·2·8 | 4 (λ = −2γ ± iJ·α, β; −6γ ± iJ·α, β) | 8 | no — irreducible octic |
+| 2 | 5 | 1·1·3 | 2 (λ = −2γ, −6γ) | 3 | yes — Cardano cubic (Gal ⊆ S_3 always solvable) |
+| 3 | 12 | 2·2·8 | 4 (λ = −2γ ± iJ·α, β; −6γ ± iJ·α, β) | 8 | conjecturally no — irreducible octic, Gal ⊄ A_8 |
 
-The pattern: the AT-locked count grows as 2·N_block_orbits_at_rate_r with r ∈ {2γ, 6γ}; for path-2 those orbits are 1-dim (single-state), for path-3 they are 2-dim (Bloch pairs k ↔ N_block+1−k). The H_B-mixed factor degree is the (SE,DE) S_2-sym dimension minus the AT-locked dimension; its solvability in radicals is a Galois-group question that flips from "yes (cubic)" at path-2 to "no (irreducible octic)" at path-3.
+The pattern: the AT-locked count grows as 2·N_block_orbits_at_rate_r with r ∈ {2γ, 6γ}; for path-2 those orbits are 1-dim (single-state), for path-3 they are 2-dim (Bloch pairs k ↔ N_block+1−k). The H_B-mixed factor degree is the (SE,DE) S_2-sym dimension minus the AT-locked dimension; its solvability in radicals is a Galois-group question that resolves trivially "yes" at path-2 (degree 3 always solvable) but is conjecturally "no" at path-3 (degree 8 with Gal ⊄ A_8 plus empirical absence of polynomial closed forms — formal Galois identification open).
 
-**Status**: Tier 1 derived for the closed-form quadratics (`F_a`, `F_b`) and for the structural deg-2·deg-2·deg-8 factorisation. The octic `F_8` is fully specified symbolically and numerically tractable, but does not admit an elementary algebraic closure. Path-3 is therefore "partially solvable": 4 of 12 S_2-sym eigenvalues in closed form, 8 in numerical form only.
+**Status**: Tier 1 derived for the closed-form quadratics (`F_a`, `F_b`) and for the structural deg-2·deg-2·deg-8 factorisation. The octic `F_8` is fully specified symbolically and numerically tractable; conjecturally (Tier 2) it does not admit an elementary algebraic closure (formal Galois identification still open — see below). Path-3 is therefore "partially solvable": 4 of 12 S_2-sym eigenvalues in closed form, 8 in numerical form only.
 
 #### Path-3 mode amplitudes: N-scaling structure (Tier 1 partial)
 
@@ -462,7 +462,7 @@ The 4 F_a/F_b eigenvectors are entirely supported on the 12-dim overlap (resp 12
 
 **Bloch sub-block decomposition**: SE basis (4-dim) splits into SE-sym (n=1, 3) + SE-anti (n=2, 4) under S_2 mirror. DE basis (6-dim) splits into DE-sym (4-dim) + DE-anti (2-dim). The 12-dim (SE, DE) S_2-sym subspace decomposes as SE-sym × DE-sym (8-dim) + SE-anti × DE-anti (4-dim). All 4 F_a/F_b eigenvectors live in this 12-dim S_2-sym space with **fixed 2:1 weight ratio**: 2/3 support on (sym × sym) Bloch sub-block, 1/3 on (anti × anti). This 8:4 ratio matches the dimension ratio — F_a/F_b eigenvectors are uniformly L2-distributed across the orthonormal Bloch tensor basis, not localised in any tensor-product sub-block. AT-locking is therefore a **fine-tuned interference cancellation between (sym × sym) and (anti × anti) Bloch components**, not a single-tensor-state phenomenon.
 
-**Frequency identification**: F_a/F_b frequencies J·(−1±√5) match exactly the SE-anti single-particle Bloch eigenvalues E_2 = 4J·cos(2π/5) = J·(√5−1) and E_4 = 4J·cos(4π/5) = −J·(1+√5) (using the OBC tight-binding formula E_n = 4J·cos(πn/(N_block+1)) for path-3's 4-site block). The single-particle spectrum machinery is identical to that of [ANALYTICAL_SPECTRUM](ANALYTICAL_SPECTRUM.md)/[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) (W1Dispersion proof for full chain (vac, SE) sector); the new ingredients here are the multi-magnon DE Slater eigenvalues E_(j,k) = E_j + E_k and the overlap/no-overlap dephasing-channel decomposition.
+**Frequency identification**: F_a/F_b frequencies J·(−1±√5) match exactly the SE-anti single-particle Bloch eigenvalues E_2 = 4J·cos(2π/5) = J·(√5−1) and E_4 = 4J·cos(4π/5) = −J·(1+√5) (using the OBC tight-binding formula E_n = 4J·cos(πn/(N_block+1)) for path-3's 4-site block). The Jordan-Wigner / standing-wave machinery is shared with [ANALYTICAL_SPECTRUM](ANALYTICAL_SPECTRUM.md) / [D10](../docs/proofs/derivations/D10_W1_DISPERSION.md), but the boundary conditions and resulting formulas differ: D10's W1Dispersion ω_k = 4J·(1 − cos(πk/N)) uses the full-chain w=1 sector with denominator N; here we use OBC tight-binding for an N_block-site sub-block with denominator (N_block+1). The new ingredients in F89 path-3 are (a) the multi-magnon DE Slater eigenvalues E_(j,k) = E_j + E_k inside the block and (b) the overlap/no-overlap dephasing-channel decomposition of the (SE, DE) sub-block.
 
 #### Path-3 F_a AT-locked amplitude: closed form in (N) with √5 algebraic (Tier 1 derived)
 
@@ -562,19 +562,19 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
 
-**Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] and admits no elementary algebraic closure (8 of 12 S_2-sym eigenvalues numerical only).
+**Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] (8 of 12 S_2-sym eigenvalues numerical only). Tier 2 conjecture: F_8 admits no elementary radical closure (supported by Gal ⊄ A_8 + empirical absence of polynomial-fit closed forms).
 
 **Tier 1 derived** for the **AT-lock mechanism**: F_a, F_b eigenvectors are entirely supported on overlap-only (resp no-overlap-only) basis pairs, with H_B-induced cross-coupling cancelling. F_a/F_b frequencies match SE-anti single-particle Bloch eigenvalues E_2 = J(√5−1), E_4 = −J(1+√5) at N_block=4. Octic eigenvectors are H_B-mixed with 4 Hamming-complement pairs at total rate 8γ (rate-bijective AND overlap-fraction-bijective).
 
 **Tier 1 derived** for the **path-3 F_a AT-locked amplitude closed form**: sigs[F_a:E_2](N) = (33 + 14√5)/[9·N²(N−1)] and sigs[F_a:E_4](N) = (33 − 14√5)/[9·N²(N−1)], q-independent, verified bit-exact (10⁻¹⁷ diff) across N=5..20 and q=0.5..3. Sum = 22/[3·N²(N−1)] is rational. F_b modes have zero per-site reduced contribution (eigenvector lives in no-overlap, w[l] requires overlap).
 
-**Tier 1 derived** for the **path-3 octic non-solvability**: disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
+**Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
 
-    disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_20(q²)
+    disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)
 
-where P_20(q²) is a degree-20 polynomial that is NOT a perfect square in Q (verified at q ∈ {½, 1, 3/2, 2, 3}, all give irrational √disc). The square factor (3q⁴+q²−1)² locates **exceptional points** where two octic eigenvalues merge: q² = (−1+√13)/6 ≈ 0.434, i.e. q ≈ 0.659. The overall non-square disc means **Gal(F_8) ⊄ A_8**, ruling out radical closure (S_8 is non-solvable for n ≥ 5). The 8 octic eigenvalues are therefore intrinsically transcendental/algebraic-of-higher-degree as functions of q, with **no elementary closed form**.
+where P_10(q²) is a degree-10 polynomial in q² (degree 20 in q, even powers only) that is NOT a perfect square in Q (verified at q ∈ {½, 1, 3/2, 2, 3}, all give irrational √disc). The square factor (3q⁴+q²−1)² locates **exceptional points** where two octic eigenvalues merge: q² = (−1+√13)/6 ≈ 0.434, i.e. q ≈ 0.659. The overall non-square disc forces **Gal(F_8) ⊄ A_8**. Disc-non-square alone does not prove non-solvability (e.g. S_4 is solvable but ⊄ A_4); pinning down the exact group requires further resolvent analysis (open). However, combined with the verified irreducibility of F_8 over Q[i, √5] AND the absence of any polynomial fit (≤ degree 5 in q) for the per-mode amplitudes, we conjecture (Tier 2) that Gal(F_8) is non-solvable (likely the full S_8), in which case F_8 admits no elementary radical closure as a function of q.
 
-#### Path-3 octic-mode amplitude q-dependence: empirically transcendental (Tier 2)
+#### Path-3 octic-mode amplitude q-dependence: no closed-form fit (Tier 2)
 
 For each of the 8 octic-derived modes, sigs(N) follows const(q)/[N²(N−1)] (degree-0 polynomial in N). The constant **does NOT admit a polynomial fit ≤ degree 5 in q** ([`_f89_path3_octic_amplitude_q_scan.py`](../simulations/_f89_path3_octic_amplitude_q_scan.py)):
 
@@ -590,12 +590,12 @@ For each of the 8 octic-derived modes, sigs(N) follows const(q)/[N²(N−1)] (de
 
 The Σ has no monotone behavior — it rises from 1.68 (q=0.5) to ≈3.0 (q=2.5−3) then declines at q→∞. Mode-by-mode tracking is fragile due to rate crossings; pair-summing by Hamming-complement (Γ_a + Γ_b = 8γ at fixed |ω|/J) shows the dominant pair_1 sum monotonically rising q=0.75 → q=2 then declining. **EP locus at q ≈ 0.659**: pair_1 mode (sigs=1.34) has near-singular eigvec there, consistent with the (3q⁴+q²−1)² discriminant-factor zero. This connects path-3's (SE, DE) octic structure to the F86 EP-rotation phenomenology.
 
-**Status**: Tier 2 empirical (octic amplitudes have no closed form by Galois-theoretic obstruction). The closed-form analytical layer ends at the F_a quadratics (4 of 12 S_2-sym eigenvalues + their amplitudes). Path-3 is "half-solved": exactly the AT-protected half admits radical closure.
+**Status**: Tier 2 empirical (no polynomial-in-q fit for octic amplitudes; conjecturally obstructed by the octic Galois group being non-solvable, Gal ⊄ A_8). The closed-form analytical layer ends at the F_a quadratics (4 of 12 S_2-sym eigenvalues + their amplitudes). Path-3 is "half-solved": exactly the AT-protected half admits radical closure.
 
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
 **Open / Tier 2 empirical work**:
-- Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs are open. Path-3 octic-mode amplitude closed forms in q are obstructed by Galois non-solvability (Tier 2 empirical, no rational/√5-extension fit ≤ degree 5; intrinsically transcendental as functions of q).
+- Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs are open. Path-3 octic-mode amplitude closed forms in q are conjecturally obstructed by Galois non-solvability (Tier 2 empirical: no rational/√5-extension fit ≤ degree 5 in q; formal Galois group identification beyond Gal ⊄ A_8 still open).
 - Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
