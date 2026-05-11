@@ -115,6 +115,9 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F90F86C2BridgeIdentity.JConventionFactor` | 2.0 (F89 J / F86 J) |
 | `F90F86C2BridgeIdentity.F86JToF89J(f86J)` | f86J / 2.0 |
 | `F90F86C2BridgeIdentity.F89JToF86J(f89J)` | f89J · 2.0 |
+| `F71AntiPalindromicGammaSpectralInvariance` (BlockSpectrum/) | **F91 F71-anti-palindromic γ spectral invariance**: F71-refined diagonal-block spectrum of XY+Z-deph L is invariant under γ-distributions satisfying γ_l + γ_{N−1−l} = 2·γ_avg (= 90°-rotation of γ-distribution around its mean = γ-parameter side of Pi2-Z₄'s rotational axis). F71 broken as L-symmetry; invariance lives in diagonal blocks only. Bit-exact verified N=4,5,6. Tier 1 candidate |
+| `F71AntiPalindromicGammaSpectralInvariance.AntiPalindromicDeviation(γ)` | sqrt(Σ((γ_l + γ_{N-1-l}) − 2·γ_avg)²); zero iff γ is F71-anti-palindromic |
+| `F71AntiPalindromicGammaSpectralInvariance.IsAntiPalindromic(γ, tol)` | predicate: γ within tol of F71-anti-palindromic |
 | `AbsorptionTheoremClaim` (Symmetry/) | **PROOF_ABSORPTION_THEOREM**: Re(λ) = −2γ₀·⟨n_XY⟩; absorption quantum 2γ₀ = a_0·γ₀; rate-quantization root of F33/F50/F55/F64-F68/F74/F89 (typed parent edge in Schicht-1 Registrations). Tier 1 derived |
 | `AbsorptionTheoremClaim.Rate(nXY, γ₀)` | **AT**: α = 2γ₀·n_XY; per-Pauli-string rate |
 | `AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(nDiff, γ₀)` | **AT**: α = 2γ₀·n_diff for |A⟩⟨B| basis-pair coherence (n_XY = n_diff via {I,Z}/{X,Y} per-site decomposition) |

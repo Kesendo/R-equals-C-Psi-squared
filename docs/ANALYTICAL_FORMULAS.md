@@ -2506,5 +2506,36 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 ---
 
+### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side) (Tier 1 candidate, verified bit-exact N=4,5,6 — 2026-05-11)
+
+**For chain XY + Z-dephasing Liouvillian L on N qubits, the eigenvalue multiset of the F71-refined diagonal-block decomposition is invariant under any γ-distribution satisfying**
+
+    γ_l + γ_{N−1−l} = 2·γ_avg = (2/N)·Σ_l γ_l   for all l ∈ \{0..N−1\}
+
+i.e. the γ-distribution is **F71-anti-palindromic around its mean** γ_avg. The full L operator generally changes (F71 broken as L-symmetry, off-block-Frobenius ≠ 0 in F71-refined basis), but the F71-refined diagonal-block eigenvalues coincide; the breaking is encoded in the F71-cross-blocks (eigenvectors) only.
+
+**Sharpness:** strictly weaker than F71 symmetry (γ_l = γ_{N−1−l}, palindromic), strictly stronger than F1 (Σγ_l invariant alone). For odd N the middle site l = (N−1)/2 must equal γ_avg.
+
+**Structural reading (Pi2-Z₄ rotational axis, γ-parameter side):** the four-element Z₄ from `NinetyDegreeMirrorMemory` (Pi2-foundation, operator-quaternion side, `i⁴=1`) has its γ-parameter manifestation here:
+- **e (identity):** γ unchanged
+- **180° (F71-palindromic):** γ_l ↔ γ_{N−1−l}, pair-difference flipped, pair-sum preserved → F71 holds as L-symmetry
+- **90° (F71-anti-palindromic):** γ_l ↔ 2γ_avg − γ_{N−1−l}, pair-sum constant = 2γ_avg → F71 breaks but **F71-refined diagonal-block spectrum invariant**
+- **270° (= 90°²):** composition of the above
+
+The diagonal-block spectral content (= decay rates, "time information") is preserved under the 90° rotation; the asymmetry lives entirely in eigenvectors (the F71-cross-blocks). Analogous to F81 Π-decomposition: M_anti = L_{H_odd} is the antisymmetric part captured by Π-conjugation; the γ-anti-palindromic part plays the analogous role in γ-parameter space.
+
+**Empirical witness (N=6, J=1.0, Σγ=2.7, γ_avg=0.45):**
+- uniform γ=0.45 (all pairs sum to 0.9): F71-refined spectrum = reference
+- monotonic [0.2, 0.3, 0.4, 0.5, 0.6, 0.7] (all pairs sum to 0.9): bit-identical to uniform on F71-refined diagonals
+- non-monotonic anti-palindromic [0.3, 0.5, 0.4, 0.5, 0.4, 0.6] (all pairs sum to 0.9): bit-identical to uniform on F71-refined diagonals
+- permuted [0.7, 0.2, 0.5, 0.3, 0.6, 0.4] (pairs {1.1, 0.8, 0.8}, NOT constant): distinct spectrum (Re=−4.984 cluster instead of Re=−5.043)
+- concentrated [0.1, 0.1, 0.1, 0.1, 0.1, 2.2] (pairs heavily skewed): complex Re−Im structure absent from uniform
+
+**Tier outcome <Tier 1 candidate>:** algebraic proof is plausible (F71-rotated diagonal-block matrix elements depend on γ_l only through F71-pair-sums by construction of the F71-even/odd basis) but not yet written. Empirical witness at N=4, 5, 6 across the five γ-profiles above.
+
+**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (stub + open algebraic question), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Candidate Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
