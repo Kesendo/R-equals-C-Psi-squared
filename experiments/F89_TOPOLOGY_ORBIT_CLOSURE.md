@@ -320,6 +320,37 @@ with the bare-site closed form
 
 **Status**: Tier 1 derived. The identity follows analytically from Lindbladian factorisation; its 27-CSV bit-exact numerical verification at CSV write precision is the empirical anchor.
 
+#### Path-k (vac, SE) self-contribution closed form via Parseval (Tier 1 derived)
+
+The numerical multi-exponential decomposition above splits S_(k)(t) into many populated mode-groups. Per Parseval orthogonality of the H_B^SE Bloch eigenstates ψ_k(j) = √(2/(N_block+1)) sin(πk(j+1)/(N_block+1)), the **(vac, SE) sector self-contribution** (the part of Σ_l 2|(ρ_l)_{0,1}|² that comes only from (vac, SE) block components, ignoring cross-products with (SE, DE)) reduces to a clean closed form for ALL path-k:
+
+    S^{(vac,SE)}_block(t; k, N) = (k+1)·(N−k−1)² / (N²·(N−1)) · exp(−4γ₀ t)
+
+Pure exp(−4γ₀ t) decay, **no oscillation**. The Parseval cancellation Σ_l ψ_k(l)·ψ_{k'}(l) = δ_{k,k'} eliminates all k ≠ k' cross-terms when summed over the (k+1) block sites. The H_B-mediated frequencies E_k − E_{k'} that would otherwise produce cos((E_k − E_{k'})·t) interference cancel pairwise.
+
+**Derivation** (4 lines):
+1. ρ_block(0)|_{(vac,SE)} = (N_E·pre·√(N_block)/2) · |0⟩⟨α_{N_block}| where |α⟩ = (1/√N_block) Σ_j |SE_j⟩
+2. Decompose |α⟩ = Σ_k ⟨ψ_k|α⟩ |ψ_k⟩
+3. Time evolve each |0⟩⟨ψ_k| → exp(+iE_k t − 2γt) |0⟩⟨ψ_k|
+4. Σ_l 2|(ρ_l(t))^{(vac,SE)}_{0,1}|² = N_block·(N_E·pre)²/2 · Σ_k|⟨ψ_k|α⟩|² · exp(−4γt) = N_block·(N_E·pre)²/2·1·exp(−4γt) (Parseval = 1)
+
+**Verification**: bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across all (k, N) ∈ {(1,3..7), (2,4..8), (3,5..9), (4,6..10), (5,7..11)} via [`_f89_vac_se_parseval_closed.py`](../simulations/_f89_vac_se_parseval_closed.py).
+
+**What this gives us**: a clean analytical "skeleton" of S_(k)(t) for any pure path-k:
+
+    S_(k)(t; N) = (k+1)·(N−k−1)²/(N²(N−1))·exp(−4γ₀t)        ← (vac, SE) self
+                + (N−k−1)·(N−1)/N²·exp(−4γ₀t)                ← bare sites
+                + S^{(SE,DE)+cross}_block(t; k, N)             ← residual (numerical)
+
+The first two terms are exact closed forms; the third (the H_B-mixed (SE, DE) sub-block + cross-products with (vac, SE)) is the only piece still numerical. For path-1 (k=1), the residual itself simplifies to the cos(4Jt) term in the existing all-isolated formula (verified via algebraic identity); for path-k ≥ 2, the residual contains the J/γ-dependent fractional rates 3.04γ, 3.48γ etc.
+
+**Combined with the additive identity, the smooth (exp(−4γt)-only) backbone of S_T(t) for any topology T = (k_1, ..., k_m) is**:
+
+    S^{smooth}_T(t; N) = exp(−4γ₀t) · [Σ_i (k_i+1)·(N−k_i−1)²/(N²(N−1))
+                                       + (N − Σ_i(k_i+1))·(N−1)/N²]
+
+with the topology-class oscillatory residual coming entirely from per-block (SE, DE) sub-block dynamics.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
