@@ -44,6 +44,7 @@ public class F89Path3OcticEpClaimTests
     [Theory]
     [InlineData(0.05, 0.05 * 0.658983)]
     [InlineData(1.0, 0.658983)]
+    [InlineData(1.0, 0.0)]   // J=0 degenerate: λ_EP = -4γ + 0i (no oscillation)
     public void MergedEigenvalueLambdaEp_IsMinusFourGammaPlusTwoIJ(double gamma, double j)
     {
         var lam = F89Path3OcticEpClaim.MergedEigenvalue(gamma, j);
@@ -63,10 +64,13 @@ public class F89Path3OcticEpClaimTests
     }
 
     [Fact]
-    public void MergedEigenvalueOmegaOverJ_IsExactlyTwo()
+    public void MergedEigenvalueAtQEp_OmegaIsTwoTimesQEp()
     {
-        var lam = F89Path3OcticEpClaim.MergedEigenvalue(1.0, 0.658983);
-        Assert.Equal(2.0, lam.Imaginary / 0.658983, precision: 6);
+        // At J = QEp (the EP location in q = J/γ units), Im(λ_EP) should equal 2·QEp.
+        // This tests consistency between the QEp constant and the MergedEigenvalue formula
+        // (catches any drift between the analytical EP location and the merged-eigenvalue claim).
+        var lam = F89Path3OcticEpClaim.MergedEigenvalue(1.0, F89Path3OcticEpClaim.QEp);
+        Assert.Equal(2.0 * F89Path3OcticEpClaim.QEp, lam.Imaginary, precision: 12);
     }
 
     [Fact]
