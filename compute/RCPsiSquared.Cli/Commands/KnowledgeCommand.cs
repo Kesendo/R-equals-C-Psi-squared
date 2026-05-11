@@ -83,6 +83,8 @@ public static class KnowledgeCommand
             .RegisterPi2OperatorSpaceMirror()
             // Spectrum foundation
             .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)
+            // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
+            .RegisterJointPopcountSectors()
             // F86 inheritance + meta-claims
             .RegisterF86PolarityLink()
             .RegisterF86LocalGlobalEpLink()
