@@ -63,10 +63,10 @@ Six runs of [`bond-isolate`](../compute/RCPsiSquared.Propagate/Program.cs) at N=
 
 | Diff measure | Result |
 |---|---|
-| max\|S_a(t) − S_b(t)\| / S(0), every (a,b) ∈ {0..5}², a ≠ b, t ∈ [0, 30] | **0.00e+00** (every entry) |
+| max\|S_a(t) − S_b(t)\| / S(0), every (a,b) ∈ {0..5}², a ≠ b, t ∈ \[0, 30\] | **0.00e+00** (every entry) |
 | max pointwise relative diff across all pairs | 0.00e+00 |
 
-S(0) = 0.857143 = 6/7 ✓. τ_half = 3.285 and the log-linear fit on S(t) over t ∈ [0, 30] gives Γ_fit = 0.191397, all bit-identical across the six bonds. The fit value differs from the true asymptotic rate 4γ₀ = 0.20 because S(t) for the (1) topology is not a pure exponential: the all-isolated subclass closed form below shows S(t) = [(N−1)/N + 4(N−2)(cos(4Jt) − 1)/(N²(N−1))] · exp(−4γ₀ t), so the cos(4Jt) oscillation suppresses the apparent slope of log S(t) when fit through the oscillation. The exact asymptotic rate is exp(−4γ₀ t) = exp(−0.2 t) regardless of m.
+S(0) = 0.857143 = 6/7 ✓. τ_half = 3.285 and the log-linear fit on S(t) over t ∈ \[0, 30\] gives Γ_fit = 0.191397, all bit-identical across the six bonds. The fit value differs from the true asymptotic rate 4γ₀ = 0.20 because S(t) for the (1) topology is not a pure exponential: the all-isolated subclass closed form below shows S(t) = \[(N−1)/N + 4(N−2)(cos(4Jt) − 1)/(N²(N−1))\] · exp(−4γ₀ t), so the cos(4Jt) oscillation suppresses the apparent slope of log S(t) when fit through the oscillation. The exact asymptotic rate is exp(−4γ₀ t) = exp(−0.2 t) regardless of m.
 
 #### N=4, all C(4,2)=6 site pairs (NN + long-range)
 
@@ -132,7 +132,7 @@ S(t) is **non-monotone in k**. Crossings occur as the slow F73-analogue tail (go
 #### Cross-class S(t) at sample times: empirical observation
 
 At t = 20 the classes appear to cluster by the number of isolated edges:
-- 0 isolated edges (pure paths): (3), (4), (5), (6) at S(20) ∈ [0.004, 0.007], monotone decreasing in path length.
+- 0 isolated edges (pure paths): (3), (4), (5), (6) at S(20) ∈ \[0.004, 0.007\], monotone decreasing in path length.
 - 1 isolated edge: (2) at 0.0115, (1, 2) at 0.0114, (1, 1, 2) at 0.0114 (identical at three significant figures).
 - All-isolated edges only: (1) at 0.0156, (1, 1) at 0.0156, (1, 1, 1) at 0.0156 (identical at three significant figures).
 
@@ -188,7 +188,7 @@ Factoring out the m-independent S(0) = (N − 1)/N:
 - t = 21 ≈ π/(2J): cos(4Jt) ≈ 1 again; closed form predicts S = 0.012853 for all m (verified bit-identical in three CSVs).
 - t = 10 (cos(4Jt) ≈ −0.99, max-spread phase): closed form predicts S = 0.0977, 0.0794, 0.0610 for m = 1, 2, 3, matching CSV data exactly.
 
-**Reading.** The original empirical "clustering at t = 20" looked like a slow-mode tail equilibrium, but the closed form shows it is the in-phase moment of a periodic m-correction. The asymptotic decay rate 4γ₀ is genuinely universal (matches F73's vac-SE rate), but the prefactor depends on m and oscillates within the envelope [(N − 1)/N − 8m(N − 2)/(N²(N − 1)),  (N − 1)/N]. At cos(4Jt) = 1 the m-correction vanishes and all (1)^m collapse to S = (N − 1)/N · exp(−4γ₀ t). At cos(4Jt) = −1 they spread maximally.
+**Reading.** The original empirical "clustering at t = 20" looked like a slow-mode tail equilibrium, but the closed form shows it is the in-phase moment of a periodic m-correction. The asymptotic decay rate 4γ₀ is genuinely universal (matches F73's vac-SE rate), but the prefactor depends on m and oscillates within the envelope \[(N − 1)/N − 8m(N − 2)/(N²(N − 1)),  (N − 1)/N\]. At cos(4Jt) = 1 the m-correction vanishes and all (1)^m collapse to S = (N − 1)/N · exp(−4γ₀ t). At cos(4Jt) = −1 they spread maximally.
 
 Mechanism for the universal asymptotic 4γ₀ rate: in all-isolated topology, every populated coherence in any reduced 2-qubit block sits in either the (vac, SE)_B or (SE, DE)_B-overlap sector, both decaying at 2γ₀ per coherence (one site differs in the basis-state pair). The (no-overlap SE, DE) coherences with rate 6γ₀ require a single-excitation site outside the doubly-excited pair, which cannot occur on a 2-qubit block alone. Connected-path topologies open the no-overlap channel and therefore lose late-time amplitude faster.
 
@@ -196,7 +196,7 @@ Mechanism for the universal asymptotic 4γ₀ rate: in all-isolated topology, ev
 
 The all-isolated closed form has TWO time coefficients of value 4: the decay rate 4γ₀ in exp(−4γ₀ t) and the oscillation frequency 4J in cos(4J t). Both trace to the same Pi2 dyadic ladder term a_{−1} = 4 via the same mechanism: the linear-amplitude frequency 2 = a_{0} doubles to 4 = a_{−1} when the amplitude is squared.
 
-| Energy axis | Linear-amplitude frequency | |·|² frequency | Pi2 ladder anchor |
+| Energy axis | Linear-amplitude frequency | \|·\|² frequency | Pi2 ladder anchor |
 |---|---|---|---|
 | γ (Z-dephasing) | per-coherence rate 2γ₀ | S-decay rate 4γ₀ | a_{0} = 2 → a_{−1} = 4 |
 | J (XY hopping) | H_B-eigenstate frequency 2J | S-oscillation frequency 4J | a_{0} = 2 → a_{−1} = 4 |
@@ -232,7 +232,7 @@ The Liouvillian L_super of any per-block dynamics decomposes over computational-
 **(SE, DE)_B sector** (3·C(k+1, 2)-dimensional sub-block):
 - Basis pairs split into **overlap** (SE site ∈ DE-pair, n_diff = 1, rate 2γ₀) and **no-overlap** (SE site ∉ DE-pair, n_diff = 3, rate 6γ₀)
 - For 2-qubit block (k = 1): the only DE state is |11⟩ which contains both sites; **every** SE state overlaps with it. No no-overlap pairs exist. → uniform rate 2γ₀ on (SE, DE) sub-block, just like (vac, SE).
-- For (k+1)-qubit blocks with k ≥ 2: no-overlap SE-DE pairs DO exist (e.g. SE at site 0, DE at sites {1, 2} on 3 qubits). → mixed dephasing rates {2γ₀, 6γ₀} on the sub-block diagonal, coupled by H_B's off-diagonal mixing → eigenvalues land in [2γ₀, 6γ₀] continuum.
+- For (k+1)-qubit blocks with k ≥ 2: no-overlap SE-DE pairs DO exist (e.g. SE at site 0, DE at sites {1, 2} on 3 qubits). → mixed dephasing rates {2γ₀, 6γ₀} on the sub-block diagonal, coupled by H_B's off-diagonal mixing → eigenvalues land in \[2γ₀, 6γ₀\] continuum.
 
 **Numerical verification** (script `_f89c_liouvillian_eigenstructure.py`):
 
@@ -248,8 +248,8 @@ For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewi
 
 **The column-bit-flip mechanism for the pair-sum**: H_B and uniform Z-dephasing are both X⊗N-invariant (X⊗N · X_a · X⊗N = X_a; X⊗N · Y_a · X⊗N = −Y_a flips sign but H_B = J(XX + YY) keeps the YY pair invariant; Lindblad operators √γ Z_l flip sign under X⊗N but the dissipator D[L] is invariant under L → −L). The structural mechanism for the pair-sum:
 
-1. **H_SS = H_DD on the populated sectors**. H_B restricted to SE and to DE both reduce to the same 3×3 path-2 tight-binding matrix [[0, 2, 0], [2, 0, 2], [0, 2, 0]]. This gives the (SE, SE) and (DE, DE) Liouvillian sub-blocks identical commutator parts.
-2. **Hamming complement identity**: for any N-bit strings a, b, n_diff(a, b) + n_diff(a, bar(b)) = N exactly, hence per-coherence rates transform as 2γ₀·k ↔ 2γ₀·(N−k) under the column bit-flip ρ[a, b] → ρ[a, bar(b)]. For N=3, that's 2γ₀·k ↔ 2γ₀·(3−k); rate-pairs sum to 2γ₀·N = 6γ₀ exactly.
+1. **H_SS = H_DD on the populated sectors**. H_B restricted to SE and to DE both reduce to the same 3×3 path-2 tight-binding matrix `[[0, 2, 0], [2, 0, 2], [0, 2, 0]]`. This gives the (SE, SE) and (DE, DE) Liouvillian sub-blocks identical commutator parts.
+2. **Hamming complement identity**: for any N-bit strings a, b, n_diff(a, b) + n_diff(a, bar(b)) = N exactly, hence per-coherence rates transform as 2γ₀·k ↔ 2γ₀·(N−k) under the column bit-flip `ρ[a, b] → ρ[a, bar(b)]`. For N=3, that's 2γ₀·k ↔ 2γ₀·(3−k); rate-pairs sum to 2γ₀·N = 6γ₀ exactly.
 3. The column bit-flip operation maps the (SE, SE) sub-block to the (SE, DE) sub-block (via DE = bar(SE) at N=3). Combining the H_SS = H_DD invariance with the Hamming complement of dephasing rates, the (SE, DE) eigenvalues are exactly {6γ₀ − λ : λ ∈ (SE, SE) eigenvalues}.
 
 **Empirical verification** (in [`_f89c_cross_sector_pair_structure.py`](../simulations/_f89c_cross_sector_pair_structure.py)):
@@ -290,7 +290,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the orbit closure theorem (S(t) depends only on the S_N-orbit of B). The proof is elementary group theory applied to the Lindblad equation. Numerical verification at N = 7 (multi-bond, 24 configurations across 12 topology classes, 8 with ≥ 2 representatives all bit-identical) and N = 4 (single-pair, 6 site-pairs identical within 1 ULP via direct expm) corroborates the proof at machine precision.
 
-**Tier 1 derived** for the all-isolated (1)^m closed form S_(1)^m, N(t) = [(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))] · exp(−4γ₀ t). The derivation factors the Lindbladian over disjoint blocks plus bare sites, uses H_B-eigenstate phase tracking, and counts populated coherence sectors per block. Numerical verification matches the (1), (1, 1), (1, 1, 1) CSVs at N = 7 within CSV write precision (5e−7).
+**Tier 1 derived** for the all-isolated (1)^m closed form S_(1)^m, N(t) = \[(N − 1)/N + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))\] · exp(−4γ₀ t). The derivation factors the Lindbladian over disjoint blocks plus bare sites, uses H_B-eigenstate phase tracking, and counts populated coherence sectors per block. Numerical verification matches the (1), (1, 1), (1, 1, 1) CSVs at N = 7 within CSV write precision (5e−7).
 
 The **mixed-topology and pure-path closed forms** (per-class S(t) for (1, 2), (2, 2), (1, 1, 2), (3), (4), (5), (6) at N = 7) remain **Tier 2 empirical**; derivation open.
 
