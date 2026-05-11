@@ -242,7 +242,17 @@ The Liouvillian L_super of any per-block dynamics decomposes over computational-
 | 3-qubit block (k=2) | {0, 2, 2.556, 2.889, 3.112, 3.444, 4, 6} (eight rates, including fractional) |
 | 4-qubit block (k=3) | 25 distinct rates including many fractional |
 
-For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewise 2.889 + 3.112 = 6γ₀), a numerical regularity. Per-sector decomposition of L_super (verified by direct sub-block diagonalization 2026-05-11): the (SE, DE)_B sub-block alone yields rates {2.0, 3.112, 3.444, 4.0, 6.0}γ₀; the rates 2.556 and 2.889 originate in the (SE, SE)_B sub-block (single-excitation populations coupled to SE-SE off-diagonal coherences via H_B mixing). The pair-sum-to-6γ₀ regularity is therefore a cross-sector coincidence, not a single-sub-block algebraic structure; the underlying mechanism (mixed-rate diagonal in any sub-block coupled by H_B) is general.
+For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewise 2.889 + 3.112 = 6γ₀). Per-sector decomposition of L_super (verified by direct sub-block diagonalization in [`_f89c_cross_sector_pair_structure.py`](../simulations/_f89c_cross_sector_pair_structure.py)): the (SE, DE)_B sub-block alone yields rates {2.0, 3.112, 3.444, 4.0, 6.0}γ₀; the rates 2.556 and 2.889 originate in the (SE, SE)_B sub-block (single-excitation populations coupled to SE-SE off-diagonal coherences via H_B mixing).
+
+**The pair-sum-to-6γ₀ is NOT a coincidence: it is a manifestation of the bit-flip symmetry X⊗N.** For a (k+1)-qubit block with k+1 = 3 (path-2), X⊗N (the full bit-flip operator) maps popcount p to popcount (k+1)−p, hence SE (popcount 1) ↔ DE (popcount 2). Both H_B and uniform Z-dephasing are X⊗N-invariant, so X⊗N is a Lindbladian symmetry, and:
+
+- L_super (SE, SE)_B and (DE, DE)_B sub-blocks have **bit-exact identical eigenvalues** (the X⊗N image of (SE, SE) is (DE, DE)). Verified empirically.
+- L_super (SE, DE)_B is X⊗N-invariant (self-mapping under the symmetry). Its eigenvalues form pairs (r, 6γ₀ − r) reflecting around 3γ₀.
+- The five (SE, SE) rates {0, 2, 2.556, 2.889, 4}γ₀ pair bijectively with the five (SE, DE) rates {6, 4, 3.444, 3.112, 2}γ₀; every pair sums to **exactly** 6γ₀ = (trace(SE, SE) + trace(SE, DE)) / dim = (24 + 30)/9.
+
+**Generalization**: For (k+1)-qubit blocks with k+1 odd and k+1 ≥ 3, X⊗N maps SE → popcount-k. The k+1 = 3 case is special because popcount-1 and popcount-2 are the only two non-trivial popcounts; for larger odd block sizes the corresponding sub-block pairing involves (SE, SE) ↔ ((k), (k)). For even-(k+1) blocks (e.g. k+1 = 2 or k+1 = 4), X⊗N maps SE to popcount-(k+1)−1 which differs from DE; the direct (SE, SE) ↔ (DE, DE) equality fails (verified at path-3, where the script reports H1 = False).
+
+**Implication for F89c**: the 8 distinct rates of the path-2 spectrum split into 4 X⊗N-symmetric pairs plus 1 self-paired (rate at exactly 3γ₀, if any; at path-2 there is no rate exactly at 3γ₀, so the pairing is purely off-symmetric). The X⊗N symmetry is a **structural feature** of L_super for odd-sized blocks, not specific to the path topology.
 
 **Lemma**: The all-isolated topology (1)^m is the **unique** topology where S(t) decays via a single rate envelope (4γ₀) with a single oscillation frequency (4J). For any topology containing a path-k block with k ≥ 2, the (SE, DE)_B sector has at least one no-overlap pair, leading to mixed dephasing rates and non-clean L_super spectra.
 
