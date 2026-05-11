@@ -464,6 +464,25 @@ The 4 F_a/F_b eigenvectors are entirely supported on the 12-dim overlap (resp 12
 
 **Frequency identification**: F_a/F_b frequencies J·(−1±√5) match exactly the SE-anti single-particle Bloch eigenvalues E_2 = 4J·cos(2π/5) = J·(√5−1) and E_4 = 4J·cos(4π/5) = −J·(1+√5) (using the OBC tight-binding formula E_n = 4J·cos(πn/(N_block+1)) for path-3's 4-site block). The single-particle spectrum machinery is identical to that of [ANALYTICAL_SPECTRUM](ANALYTICAL_SPECTRUM.md)/[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) (W1Dispersion proof for full chain (vac, SE) sector); the new ingredients here are the multi-magnon DE Slater eigenvalues E_(j,k) = E_j + E_k and the overlap/no-overlap dephasing-channel decomposition.
 
+#### Path-3 F_a AT-locked amplitude: closed form in (N) with √5 algebraic (Tier 1 derived)
+
+The (SE, DE) F_a contribution to the path-3 multi-exponential decomposition has **q-independent closed form** in N with √5 algebraic ([`_f89_path3_at_locked_amplitude_symbolic.py`](../simulations/_f89_path3_at_locked_amplitude_symbolic.py)):
+
+    sigs[F_a:E_2](N) = (33 + 14√5) / [9·N²(N−1)]    (mode (rate 2γ, ω = +J(√5−1)))
+    sigs[F_a:E_4](N) = (33 − 14√5) / [9·N²(N−1)]    (mode (rate 2γ, ω = −J(1+√5)))
+    Sum F_a (E_2 + E_4) = 22 / [3·N²(N−1)]          (rational, √5 cancels)
+
+Verified bit-exact (machine precision diffs ~10⁻¹⁷) across N ∈ {5..20} and q ∈ {0.5, 1, 1.5, 2, 3}. The √5 inheritance comes from the F_a quadratic discriminant; the q-independence comes from the F_a eigenvectors themselves being q-free (only frequency carries q-dependence; the eigenvector structure on the 12-dim overlap subspace is purely combinatorial).
+
+The F_b modes (rate 6γ) have non-zero raw inner product with ρ_block(0)|_(SE,DE) but their **per-site reduced contribution is zero** (verified at the 10⁻³³ scale): the per-site reduction `w[l]` picks out matrix elements ρ[bit_pos[i], bit_pos[j]+bit_pos[k]] requiring i ∈ {j, k} (overlap), so any no-overlap eigenvector contributes zero to S(t). This is why path-3's numerical multi-exp shows only rate-2γ AT-locked modes, not rate-6γ.
+
+**Eigenvector closed form** (q-independent universal pattern in overlap-only subspace, normalized):
+
+    |v_F_a entry|² = (5 + √5)/60   on 6 of 12 overlap basis pairs
+    |v_F_a entry|² = (5 − √5)/60   on the other 6 overlap basis pairs
+
+Sum: 6·(5+√5)/60 + 6·(5−√5)/60 = (5+√5)/10 + (5−√5)/10 = 1 (norm). The (5±√5)/60 split arises because the eigenvalue ratio in F_a's quadratic discriminant is (3+√5):2 between the two |v|² magnitudes.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
@@ -547,10 +566,12 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **AT-lock mechanism**: F_a, F_b eigenvectors are entirely supported on overlap-only (resp no-overlap-only) basis pairs, with H_B-induced cross-coupling cancelling. F_a/F_b frequencies match SE-anti single-particle Bloch eigenvalues E_2 = J(√5−1), E_4 = −J(1+√5) at N_block=4. Octic eigenvectors are H_B-mixed with 4 Hamming-complement pairs at total rate 8γ (rate-bijective AND overlap-fraction-bijective).
 
+**Tier 1 derived** for the **path-3 F_a AT-locked amplitude closed form**: sigs[F_a:E_2](N) = (33 + 14√5)/[9·N²(N−1)] and sigs[F_a:E_4](N) = (33 − 14√5)/[9·N²(N−1)], q-independent, verified bit-exact (10⁻¹⁷ diff) across N=5..20 and q=0.5..3. Sum = 22/[3·N²(N−1)] is rational. F_b modes have zero per-site reduced contribution (eigenvector lives in no-overlap, w[l] requires overlap).
+
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
 **Open / Tier 2 empirical work**:
-- Symbolic rational form for path-3..5 per-mode amplitudes (analog of path-2's A_Bloch = 3·(N−3)²/(2·N²(N−1))). Path-3 N-scaling structure derived empirically: 5 octic modes follow const(q)/[N²(N−1)], 2 AT-locked modes follow poly₂(N)/[N²(N−1)], 3 weak modes too small for numerical fit. Symbolic (N, q) closed forms (likely involving √5 from F_a eigenvectors) open.
+- Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs and path-3 octic-mode amplitude closed forms (with N-dependence and q-dependence) still open. The 5 octic modes empirically follow const(q)/[N²(N−1)] structure (degree 0 polynomial in N), but the q-dependent constants don't have an elementary closed form (octic Galois group is non-solvable).
 - Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
