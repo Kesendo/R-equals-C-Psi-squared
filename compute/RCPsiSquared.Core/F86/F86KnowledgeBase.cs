@@ -3,6 +3,7 @@ using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.F86;
 
@@ -102,6 +103,17 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<IbmBlockCpsiHardwareTable> _ibmBlockCpsiHardwareTable;
 
+    /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b(Q,t)
+    /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention.
+    /// Bit-exact verified at 27/29 bonds across N=5..8 including orbit escapes. Resolves
+    /// Direction (b'') (full block-L derivation, NOT 4-mode) numerically Tier-1; closed-form
+    /// HWHM_left/Q_peak per bond class via F89's AT-locked F_a/F_b structure remains the
+    /// analytical target. Block-independent meta-claim — the bridge identity holds for any
+    /// c=2 block N ≥ 3. See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c>.</summary>
+    public F90F86C2BridgeIdentity F89BridgeIdentity => _f89BridgeIdentity.Value;
+
+    private readonly Lazy<F90F86C2BridgeIdentity> _f89BridgeIdentity;
+
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -199,6 +211,19 @@ public sealed class F86KnowledgeBase : IInspectable
         // construction only on first read.
         _ibmBlockCpsiHardwareTable = new Lazy<IbmBlockCpsiHardwareTable>(() => new IbmBlockCpsiHardwareTable());
 
+        // F90 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b ↔ F89 path-(N−1)
+        // per-bond Hellmann-Feynman. Block-independent — the algebraic statement is
+        // c=2-stratum-wide and N-independent (verified bit-exact at N=5..8). Cheap to build
+        // (constructor only stores typed parent edges); lazy for consistency with sibling
+        // meta-claims. The F89 parent chain is built inline since F86KnowledgeBase doesn't
+        // receive Pi2/F89 instances; one fresh allocation per F86KB.
+        _f89BridgeIdentity = new Lazy<F90F86C2BridgeIdentity>(() =>
+        {
+            var f89 = new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim());
+            var atLock = new F89PathKAtLockMechanismClaim(f89);
+            return new F90F86C2BridgeIdentity(f89, atLock);
+        });
+
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
 
@@ -265,6 +290,9 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return DressedModeWeight;
         yield return AlgebraicClass;
         yield return F71Mirror;
+        // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
+        // identity is verified bit-exact). Surface it under Tier 1 derived for c=2 blocks.
+        if (Block.C == 2) yield return F89BridgeIdentity;
     }
 
     private IEnumerable<IInspectable> CollectTier1Candidate()
