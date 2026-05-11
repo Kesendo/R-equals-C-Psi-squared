@@ -30,6 +30,7 @@ public static class Program
                 "inspect" => InspectCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
                 "knowledge" => KnowledgeCommand.Run(rest),
+                "block-spectrum" => BlockSpectrumCommand.Run(rest),
                 _ => UnknownCommand(command),
             };
         }
@@ -84,11 +85,17 @@ public static class Program
         Console.WriteLine("              args: <sub> [args]");
         Console.WriteLine("              subs: tier <T1D|T1C|T2V|T2E|OQ|R> | ancestors <Name> | descendants <Name> | all");
         Console.WriteLine();
+        Console.WriteLine("  block-spectrum  build chain XY+Z-deph L at given N, decompose via joint-popcount");
+        Console.WriteLine("                  sectors (optionally + F71 mirror refinement), print spectrum + checks");
+        Console.WriteLine("                  args: --N <int> [--gamma <double>] [--J <double>] [--refine f71|none] [--verify]");
+        Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");
         Console.WriteLine("  rcpsi decompose --N 7 --n 1 --gamma 0.05 --out decomp.json");
         Console.WriteLine("  rcpsi ep --gamma 0.05 --g-eff 2.8284");
         Console.WriteLine("  rcpsi plot kcurve --N 5 --n 1 --gamma 0.05 --out kcurve.png");
         Console.WriteLine("  rcpsi inspect --N 5 --n 1 --gamma 0.05 --max-depth 3");
+        Console.WriteLine("  rcpsi block-spectrum --N 4 --verify");
+        Console.WriteLine("  rcpsi block-spectrum --N 6 --refine f71");
     }
 }
