@@ -517,7 +517,7 @@ public sealed class C2HwhmRatio : Claim
                "  (b'') Full block-L derivation, not 4-mode (NUMERICAL TIER-1\n" +
                "    ACHIEVED 2026-05-11 via F90 bridge identity:\n" +
                "    F86 c=2 K_b(Q, t) = F89 path-(N−1) (SE,DE) per-bond Hellmann-\n" +
-               "    Feynman, modulo F89-J = 2·F86-J convention; bit-exact 27/29\n" +
+               "    Feynman, modulo F89-J = 2·F86-J convention; bit-exact 20/22\n" +
                "    bonds across N=5..8 incl. orbit escapes. Closed-form via\n" +
                "    F89 AT-locked F_a/F_b (4-mode floor 0.6715) + H_B-mixed\n" +
                "    octic residual (lift to 0.7506/0.7728) is next analytical\n" +

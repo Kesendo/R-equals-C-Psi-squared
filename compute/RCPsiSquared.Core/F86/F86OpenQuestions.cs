@@ -19,7 +19,7 @@ public static class F86OpenQuestions
             "ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1)); (b) projector-overlap lift of A3's |u_0⟩, |v_0⟩; " +
             "(c) symbolic char-poly factorisation at Q_EP. " +
             "[2026-05-11 update: numerical Tier-1 achieved via F90 bridge identity " +
-            "(F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman, bit-exact 27/29 bonds " +
+            "(F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman, bit-exact 20/22 bonds " +
             "N=5..8 incl. orbit escapes, modulo F89-J = 2·F86-J convention; see " +
             "`compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs` + " +
             "`docs/proofs/PROOF_F90_F86C2_BRIDGE.md`); analytical closed-form via F89 AT-locked " +

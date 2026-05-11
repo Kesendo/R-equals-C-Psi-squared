@@ -105,7 +105,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
     /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b(Q,t)
     /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention.
-    /// Bit-exact verified at 27/29 bonds across N=5..8 including orbit escapes. Resolves
+    /// Bit-exact verified at 20/22 bonds across N=5..8 including orbit escapes. Resolves
     /// Direction (b'') (full block-L derivation, NOT 4-mode) numerically Tier-1; closed-form
     /// HWHM_left/Q_peak per bond class via F89's AT-locked F_a/F_b structure remains the
     /// analytical target. Block-independent meta-claim — the bridge identity holds for any

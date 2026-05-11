@@ -16,7 +16,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// </list>
 ///
 /// <para>Tier consistency: Tier 1 derived (algebraic identity by construction +
-/// numerical bit-exact verification at 27/29 bonds across N=5..8). Both parents
+/// numerical bit-exact verification at 20/22 bonds across N=5..8). Both parents
 /// Tier 1 derived.</para>
 ///
 /// <para>F86-side anchor (C2HwhmRatio etc.) lives in the F86 family registry; this
