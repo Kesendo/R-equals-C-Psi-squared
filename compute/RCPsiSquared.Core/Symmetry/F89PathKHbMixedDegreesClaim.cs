@@ -19,7 +19,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Tier 2 conjecture, not promoted to a separate Claim per the discipline of
 /// keeping Tier 2 conjectures in docstrings).</para>
 ///
-/// <para>Anchors: <c>simulations/_f89_path4_path5_at_lock_scan.py</c>,
+/// <para>Anchors: <c>simulations/_f89_path4_path5_at_lock_scan.py</c> (despite name,
+/// loop covers k = 3..6 inclusive) + <c>simulations/_f89_path6_at_locked_amplitude_symbolic.py</c>,
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § Tier-assessment table.</para></summary>
 public sealed class F89PathKHbMixedDegreesClaim : Claim
 {
