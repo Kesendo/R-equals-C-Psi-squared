@@ -37,11 +37,15 @@ public sealed class F89Path3SeDeFactorisationClaim : Claim
     /// for path-3 (N_block=4): 12.</summary>
     public const int S2SymSubBlockDimension = 12;
 
+    private static readonly IReadOnlyList<int> _factorDegrees = new[] { 2, 2, 8 };
+
     /// <summary>Factor degrees of char_(S_2-sym)(λ) = F_a · F_b · F_8: {2, 2, 8}.
     /// Sum equals <see cref="S2SymSubBlockDimension"/> = 12.</summary>
-    public static IReadOnlyList<int> FactorDegrees => new[] { 2, 2, 8 };
+    public static IReadOnlyList<int> FactorDegrees => _factorDegrees;
 
-    /// <summary>F_a quadratic roots at given (γ, J): λ = −2γ + iJ·(−1±√5).</summary>
+    /// <summary>F_a quadratic roots at given (γ, J): λ = −2γ + iJ·(−1±√5).
+    /// At J=0 both roots collapse to the degenerate double root λ = −2γ
+    /// (F_a becomes (λ+2γ)² when H_B vanishes — no XY coupling regime).</summary>
     public static Complex[] FaRoots(double gamma, double j)
     {
         if (gamma < 0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be ≥ 0.");
@@ -54,7 +58,8 @@ public sealed class F89Path3SeDeFactorisationClaim : Claim
         };
     }
 
-    /// <summary>F_b quadratic roots at given (γ, J): λ = −6γ + iJ·(−1±√5).</summary>
+    /// <summary>F_b quadratic roots at given (γ, J): λ = −6γ + iJ·(−1±√5).
+    /// At J=0 both roots collapse to the degenerate double root λ = −6γ.</summary>
     public static Complex[] FbRoots(double gamma, double j)
     {
         if (gamma < 0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be ≥ 0.");
