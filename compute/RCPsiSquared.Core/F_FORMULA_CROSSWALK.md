@@ -81,6 +81,12 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89TopologyOrbitClosure.S0ClosedForm(N)` | **F89**: S(0) = (N−1)/N for ρ_cc, probe-only closed form |
 | `F89TopologyOrbitClosure.ChainTopologyClass(N, bonds)` | **F89**: canonical orbit label = sorted multiset of connected-path-lengths in the bond-graph |
 | `F89TopologyOrbitClosure.AreInSameChainOrbit(N, bondsA, bondsB)` | **F89**: predicate that S(t; bondsA) = S(t; bondsB) per orbit transitivity |
+| `AbsorptionTheoremClaim` (Symmetry/) | **PROOF_ABSORPTION_THEOREM**: Re(λ) = −2γ₀·⟨n_XY⟩; absorption quantum 2γ₀ = a_0·γ₀; rate-quantization root of F33/F50/F55/F64-F68/F74/F89 (typed parent edge in Schicht-1 Registrations). Tier 1 derived |
+| `AbsorptionTheoremClaim.Rate(nXY, γ₀)` | **AT**: α = 2γ₀·n_XY; per-Pauli-string rate |
+| `AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(nDiff, γ₀)` | **AT**: α = 2γ₀·n_diff for |A⟩⟨B| basis-pair coherence (n_XY = n_diff via {I,Z}/{X,Y} per-site decomposition) |
+| `AbsorptionTheoremClaim.HammingComplementPairSum(blockSize, γ₀)` | **AT + F89c**: pair-sum 2γ₀·N under column bit-flip ρ[a, b] → ρ[a, bar(b)] (n_diff ↔ N − n_diff Hamming complement); spectral maximum reached pairwise |
+| `AbsorptionTheoremClaim.MaxRate(N, γ₀)` | **AT**: max rate 2γ₀·N (full XOR mode); section 4.1 of proof |
+| `AbsorptionTheoremClaim.NXyFromRate(rate, γ₀)` | **AT** read backwards: n_XY = α / (2γ₀); inverse map on the 2γ₀-grid |
 
 ## Probes
 

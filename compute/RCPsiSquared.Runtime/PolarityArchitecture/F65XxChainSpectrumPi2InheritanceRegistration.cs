@@ -28,6 +28,7 @@ public static class F65XxChainSpectrumPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f66 = b.Get<F66PoleModesPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F65XxChainSpectrumPi2Inheritance(ladder, f66);
         });
 }

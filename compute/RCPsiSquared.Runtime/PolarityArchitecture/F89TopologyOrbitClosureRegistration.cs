@@ -31,6 +31,7 @@ public static class F89TopologyOrbitClosureRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<F73SpatialSumPurityClosurePi2Inheritance>();
             _ = b.Get<F71MirrorSymmetryPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F89TopologyOrbitClosure(ladder);
         });
 }

@@ -10,7 +10,8 @@ public class F74ChromaticityPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim();
 
     [Fact]
     public void RegisterF74_AddsClaim()
@@ -69,6 +70,7 @@ public class F74ChromaticityPi2InheritanceRegistrationTests
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
+                // Missing: RegisterPi2DyadicLadder (and transitively AbsorptionTheoremClaim)
                 .RegisterF74ChromaticityPi2Inheritance()
                 .Build());
     }

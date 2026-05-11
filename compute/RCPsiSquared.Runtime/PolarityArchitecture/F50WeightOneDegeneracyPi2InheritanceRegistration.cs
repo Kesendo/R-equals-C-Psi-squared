@@ -27,6 +27,7 @@ public static class F50WeightOneDegeneracyPi2InheritanceRegistration
         builder.Register<F50WeightOneDegeneracyPi2Inheritance>(b =>
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F50WeightOneDegeneracyPi2Inheritance(ladder);
         });
 }

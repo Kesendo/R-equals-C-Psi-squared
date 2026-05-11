@@ -11,6 +11,7 @@ public class F3DecayRateBoundsPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF50WeightOneDegeneracyPi2Inheritance();
 
     [Fact]
@@ -89,6 +90,7 @@ public class F3DecayRateBoundsPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterAbsorptionTheoremClaim()
                 // Missing: RegisterF50WeightOneDegeneracyPi2Inheritance
                 .RegisterF3DecayRateBoundsPi2Inheritance()
                 .Build());

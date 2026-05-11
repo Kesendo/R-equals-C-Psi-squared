@@ -32,6 +32,7 @@ public static class F64CavityModeExposurePi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F64CavityModeExposurePi2Inheritance(ladder, quarter);
         });
 }

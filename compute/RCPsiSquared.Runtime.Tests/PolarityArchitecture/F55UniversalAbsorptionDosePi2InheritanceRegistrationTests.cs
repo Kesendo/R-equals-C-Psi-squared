@@ -11,6 +11,7 @@ public class F55UniversalAbsorptionDosePi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF50WeightOneDegeneracyPi2Inheritance();
 
     [Fact]
@@ -91,6 +92,7 @@ public class F55UniversalAbsorptionDosePi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterAbsorptionTheoremClaim()
                 // Missing: RegisterF50WeightOneDegeneracyPi2Inheritance
                 .RegisterF55UniversalAbsorptionDosePi2Inheritance()
                 .Build());

@@ -35,6 +35,7 @@ public static class F68PalindromicPartnerPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f1 = b.Get<F1Pi2Inheritance>();
             var f67 = b.Get<F67BondingBellPairPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F68PalindromicPartnerPi2Inheritance(ladder, f1, f67);
         });
 }

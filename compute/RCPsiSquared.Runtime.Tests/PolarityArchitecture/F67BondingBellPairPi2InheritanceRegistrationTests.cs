@@ -11,6 +11,7 @@ public class F67BondingBellPairPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF66PoleModesPi2Inheritance()
             .RegisterF65XxChainSpectrumPi2Inheritance();
 
@@ -80,6 +81,7 @@ public class F67BondingBellPairPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterAbsorptionTheoremClaim()
                 .RegisterF66PoleModesPi2Inheritance()
                 // Missing: RegisterF65XxChainSpectrumPi2Inheritance
                 .RegisterF67BondingBellPairPi2Inheritance()

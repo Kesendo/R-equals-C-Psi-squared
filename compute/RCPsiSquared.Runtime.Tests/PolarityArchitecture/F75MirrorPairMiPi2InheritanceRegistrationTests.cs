@@ -11,6 +11,7 @@ public class F75MirrorPairMiPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterHalfIntegerMirror(N: 5)
             .RegisterF71MirrorSymmetryPi2Inheritance()
             .RegisterF66PoleModesPi2Inheritance()

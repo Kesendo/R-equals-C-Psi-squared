@@ -31,6 +31,7 @@ public static class F66PoleModesPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var qubitAnchor = b.Get<QubitDimensionalAnchorClaim>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F66PoleModesPi2Inheritance(ladder, qubitAnchor);
         });
 }

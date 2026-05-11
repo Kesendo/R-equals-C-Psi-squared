@@ -36,6 +36,7 @@ public static class F33ExactN3DecayRatesPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f50 = b.Get<F50WeightOneDegeneracyPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F33ExactN3DecayRatesPi2Inheritance(ladder, f50);
         });
 }

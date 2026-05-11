@@ -28,6 +28,7 @@ public static class F55UniversalAbsorptionDosePi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f50 = b.Get<F50WeightOneDegeneracyPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F55UniversalAbsorptionDosePi2Inheritance(ladder, f50);
         });
 }

@@ -11,6 +11,7 @@ public class F2bXyChainSpectrumPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF66PoleModesPi2Inheritance()
             .RegisterF65XxChainSpectrumPi2Inheritance();
 
@@ -82,6 +83,7 @@ public class F2bXyChainSpectrumPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterAbsorptionTheoremClaim()
                 .RegisterF66PoleModesPi2Inheritance()
                 // Missing: RegisterF65XxChainSpectrumPi2Inheritance
                 .RegisterF2bXyChainSpectrumPi2Inheritance()

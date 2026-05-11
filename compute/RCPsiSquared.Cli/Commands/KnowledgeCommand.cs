@@ -93,6 +93,9 @@ public static class KnowledgeCommand
             // resolves PolarityLayerOriginClaim via b.Get<>() at registration-factory time.
             .RegisterF87Family()
             .RegisterF87StandardWitnessSet()
+            // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
+            // via per-Registration discard-Get edges; absorption quantum 2γ₀ from a_0)
+            .RegisterAbsorptionTheoremClaim()
             // F-formula Pi2-Foundation inheritance claims
             .RegisterF1Pi2Inheritance()
             .RegisterF49Pi2Inheritance()
@@ -124,6 +127,7 @@ public static class KnowledgeCommand
             .RegisterF70DeltaNSelectionRulePi2Inheritance()
             .RegisterF72BlockDiagonalPurityPi2Inheritance()
             .RegisterF73SpatialSumPurityClosurePi2Inheritance()
+            .RegisterF89TopologyOrbitClosure()
             .RegisterF82T1AmplitudeDampingPi2Inheritance()
             .RegisterF84ThermalAmplitudeDampingPi2Inheritance()
             .RegisterF85KBodyFChainPi2Inheritance()

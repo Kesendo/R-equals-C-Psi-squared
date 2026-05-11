@@ -10,7 +10,8 @@ public class F50WeightOneDegeneracyPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim();
 
     [Fact]
     public void RegisterF50_AddsClaim()

@@ -10,7 +10,8 @@ public class F66PoleModesPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim();
 
     [Fact]
     public void RegisterF66_AddsClaim()

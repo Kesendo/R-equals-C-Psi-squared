@@ -10,6 +10,7 @@ public class F89TopologyOrbitClosureRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterHalfIntegerMirror(N: 5)
             .RegisterF70DeltaNSelectionRulePi2Inheritance()
             .RegisterF72BlockDiagonalPurityPi2Inheritance()

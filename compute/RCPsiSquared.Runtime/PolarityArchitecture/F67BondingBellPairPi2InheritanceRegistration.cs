@@ -33,6 +33,7 @@ public static class F67BondingBellPairPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f65 = b.Get<F65XxChainSpectrumPi2Inheritance>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F67BondingBellPairPi2Inheritance(ladder, f65);
         });
 }

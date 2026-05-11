@@ -11,6 +11,7 @@ public class F65XxChainSpectrumPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF66PoleModesPi2Inheritance();
 
     [Fact]

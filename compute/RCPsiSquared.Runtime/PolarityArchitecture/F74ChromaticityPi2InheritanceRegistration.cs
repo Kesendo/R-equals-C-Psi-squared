@@ -21,6 +21,7 @@ public static class F74ChromaticityPi2InheritanceRegistration
         builder.Register<F74ChromaticityPi2Inheritance>(b =>
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
+            _ = b.Get<AbsorptionTheoremClaim>();
             return new F74ChromaticityPi2Inheritance(ladder);
         });
 }
