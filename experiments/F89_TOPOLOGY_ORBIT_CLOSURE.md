@@ -267,7 +267,22 @@ Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_m
 
 **Verification**: matches bond-isolate `N7_b0-1-2` CSV at max |diff| = 4.99·10⁻⁷ across 301 sample times (= CSV write precision floor). At N=5: closed-form prediction S(0)=0.800, S(10)=0.0498, S(20)=0.00444 (no CSV available; pure prediction).
 
-**Status**: Tier 1 derived numerically, same as path-2. Symbolic rational form for the 10 amplitude prefactors open. The script pattern is now confirmed transferable; path-4 and path-5 would follow with 5×5 and 6×6 block bookkeeping (1024-dim and 4096-dim L_super respectively, still numerically tractable on modest hardware).
+**Status**: Tier 1 derived numerically, same as path-2. Symbolic rational form for the 10 amplitude prefactors open. The script pattern is now confirmed transferable; path-4 and path-5 follow with 5×5 and 6×6 block bookkeeping (1024-dim and 4096-dim L_super respectively, still numerically tractable on modest hardware — see survey below).
+
+#### Path-k survey across k ∈ {2, 3, 4, 5} ([`_f89_pathk_survey.py`](../simulations/_f89_pathk_survey.py))
+
+Same script generalised, all four verified against bond-isolate at N=7 with max |diff| ≈ 5·10⁻⁷ (CSV write precision floor).
+
+| Path | N_block | d² | Mode-groups | Contributing modes | Pair-sums to 2γ·N_block |
+|---|---|---|---|---|---|
+| path-2 | 3 | 64 | 4 | 16 | 0 (S_3-asymmetric partners absent) |
+| path-3 | 4 | 256 | 10 | 65 | **7 ✓** (full Hamming-complement) |
+| path-4 | 5 | 1024 | 12 | 128 | 0 (S_5-asymmetric partners absent) |
+| path-5 | 6 | 4096 | 35 | 314 | 0 (S_6-asymmetric partners absent) |
+
+**Path-3 is privileged** in the populated mode structure: at N_block=4, DE = popcount-2 = bar(popcount-2) is self-symmetric, so column-bit-flip maps populated (SE,DE) modes to other populated (SE,DE) modes within the same S_4-symmetric subspace. For N_block ∈ {3, 5, 6} the column-flip partners land in S_{N_block}-asymmetric territory and get zero projection from ρ_cc-derived ρ_block(0) — F89c's column-bit-flip pair-sum identity holds at the L_super-spectrum level (where it is a Tier-1 derived universal property), but only path-3 has both members of each pair populated.
+
+**Mode-count sequence {1, 4, 10, 12, 35} is NOT closed-form in N_block alone** — it depends on accidental eigenvalue degeneracies (e.g. E_3 = 0 at m=5 collects modes at freq=0). Unlike `experiments/CAVITY_MODES_FORMULA.md`'s Σ_J m(J,N)·(2J+1)² formula for SU(2)-Heisenberg stationary modes, the populated-mode count for the XY+Z-deph + ρ_cc + S_{N_block} setup does not admit a Schur-Weyl-style closed form. The L_super dimensions 4^N_block match CAVITY_MODES exactly (same operator-space indexing), but the active symmetry groups differ (CAVITY_MODES uses SU(2), F89-(k) uses S_{N_block} + U(1)).
 
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
