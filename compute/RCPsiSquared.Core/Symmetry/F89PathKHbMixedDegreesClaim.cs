@@ -26,7 +26,9 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
     private readonly F89TopologyOrbitClosure _f89;
 
     /// <summary>Full (SE, DE) sub-block dimension for path-k: N_block · C(N_block, 2)
-    /// where N_block = k + 1.</summary>
+    /// where N_block = k + 1. This is the general combinatorial formula valid for ANY k ≥ 1
+    /// (including path-1 → 2, path-2 → 9 outside the empirical table that the other three
+    /// methods on this class restrict to k ∈ {3..6}). Throws on k &lt; 1.</summary>
     public static int SeDeFullDimension(int k)
     {
         if (k < 1) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k must be ≥ 1.");

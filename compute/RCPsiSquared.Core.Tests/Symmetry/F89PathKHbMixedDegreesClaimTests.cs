@@ -15,7 +15,9 @@ public class F89PathKHbMixedDegreesClaimTests
     }
 
     [Theory]
-    [InlineData(3, 24)]
+    [InlineData(1, 2)]      // path-1: N_block=2, dim = 2 · C(2,2) = 2 · 1 = 2
+    [InlineData(2, 9)]      // path-2: N_block=3, dim = 3 · C(3,2) = 3 · 3 = 9
+    [InlineData(3, 24)]     // path-3: N_block=4, dim = 4 · C(4,2) = 4 · 6 = 24
     [InlineData(4, 50)]
     [InlineData(5, 90)]
     [InlineData(6, 147)]
