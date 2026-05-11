@@ -568,10 +568,34 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-3 F_a AT-locked amplitude closed form**: sigs[F_a:E_2](N) = (33 + 14√5)/[9·N²(N−1)] and sigs[F_a:E_4](N) = (33 − 14√5)/[9·N²(N−1)], q-independent, verified bit-exact (10⁻¹⁷ diff) across N=5..20 and q=0.5..3. Sum = 22/[3·N²(N−1)] is rational. F_b modes have zero per-site reduced contribution (eigenvector lives in no-overlap, w[l] requires overlap).
 
+**Tier 1 derived** for the **path-3 octic non-solvability**: disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
+
+    disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_20(q²)
+
+where P_20(q²) is a degree-20 polynomial that is NOT a perfect square in Q (verified at q ∈ {½, 1, 3/2, 2, 3}, all give irrational √disc). The square factor (3q⁴+q²−1)² locates **exceptional points** where two octic eigenvalues merge: q² = (−1+√13)/6 ≈ 0.434, i.e. q ≈ 0.659. The overall non-square disc means **Gal(F_8) ⊄ A_8**, ruling out radical closure (S_8 is non-solvable for n ≥ 5). The 8 octic eigenvalues are therefore intrinsically transcendental/algebraic-of-higher-degree as functions of q, with **no elementary closed form**.
+
+#### Path-3 octic-mode amplitude q-dependence: empirically transcendental (Tier 2)
+
+For each of the 8 octic-derived modes, sigs(N) follows const(q)/[N²(N−1)] (degree-0 polynomial in N). The constant **does NOT admit a polynomial fit ≤ degree 5 in q** ([`_f89_path3_octic_amplitude_q_scan.py`](../simulations/_f89_path3_octic_amplitude_q_scan.py)):
+
+| q | Σ_8 octic sigs · N²(N−1) | Dominant mode (largest sigs · N²(N−1)) |
+|---|---|---|
+| 0.5 | 1.68 | mode at rate ≈ 3.6γ, sigs ≈ 1.34 (near EP at q=0.659) |
+| 0.75 | 1.50 | mode at rate ≈ 3.78γ, sigs ≈ 0.99 (post-EP) |
+| 1.0 | 2.20 | mode at rate ≈ 3.35γ, sigs ≈ 1.91 |
+| 1.5 | 2.73 | mode at rate ≈ 3.35γ, sigs ≈ 2.44 |
+| 2.0 | 2.92 | mode at rate ≈ 3.35γ, sigs ≈ 2.47 |
+| 3.0 | 3.00 | mode at rate ≈ 3.35γ, sigs ≈ 2.22 |
+| 5.0 | 2.76 | mode at rate ≈ 4.65γ, sigs ≈ 1.94 (rate-crossing through dominant) |
+
+The Σ has no monotone behavior — it rises from 1.68 (q=0.5) to ≈3.0 (q=2.5−3) then declines at q→∞. Mode-by-mode tracking is fragile due to rate crossings; pair-summing by Hamming-complement (Γ_a + Γ_b = 8γ at fixed |ω|/J) shows the dominant pair_1 sum monotonically rising q=0.75 → q=2 then declining. **EP locus at q ≈ 0.659**: pair_1 mode (sigs=1.34) has near-singular eigvec there, consistent with the (3q⁴+q²−1)² discriminant-factor zero. This connects path-3's (SE, DE) octic structure to the F86 EP-rotation phenomenology.
+
+**Status**: Tier 2 empirical (octic amplitudes have no closed form by Galois-theoretic obstruction). The closed-form analytical layer ends at the F_a quadratics (4 of 12 S_2-sym eigenvalues + their amplitudes). Path-3 is "half-solved": exactly the AT-protected half admits radical closure.
+
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
 **Open / Tier 2 empirical work**:
-- Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs and path-3 octic-mode amplitude closed forms (with N-dependence and q-dependence) still open. The 5 octic modes empirically follow const(q)/[N²(N−1)] structure (degree 0 polynomial in N), but the q-dependent constants don't have an elementary closed form (octic Galois group is non-solvable).
+- Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs are open. Path-3 octic-mode amplitude closed forms in q are obstructed by Galois non-solvability (Tier 2 empirical, no rational/√5-extension fit ≤ degree 5; intrinsically transcendental as functions of q).
 - Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
