@@ -81,7 +81,8 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
         : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6}; conjecturally Galois-non-solvable for degree ≥ 5",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path4_path5_at_lock_scan.py + " +
+               "simulations/_f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
+               "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
