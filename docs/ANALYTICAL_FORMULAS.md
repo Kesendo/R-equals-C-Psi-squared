@@ -116,7 +116,7 @@ The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
 this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
 
 **Valid for:** any real Hermitian Hamiltonian, Z-dephasing, any graph,
-any N, non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × [σ_k ∈ {X,Y}]).
+any N, non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
 **Breaks for:** complex Hermitian Hamiltonians (DM interactions), where
 L_H is not anti-Hermitian.
 **Replaces:** eigenvalue range computation; palindromic sum rule verification;
@@ -805,7 +805,7 @@ In Hilbert space, Pi^2 is realized as conjugation by U = X^{tensor N}
 (the global bit-flip): U sigma U = (-1)^{w_YZ} sigma for any Pauli string.
 The two definitions agree on the per-site map (I -> I, X -> X, Y -> -Y, Z -> -Z).
 
-**Companion result (F63):** [L, Pi^2] = 0 exactly for all N (proven analytically).
+**Companion result (F63):** \[L, Pi^2\] = 0 exactly for all N (proven analytically).
 Pi^2 is therefore a conserved quantum number of every Liouvillian eigenmode.
 
 **Valid for:** any N, Z-dephasing Π (P1 family).
@@ -1039,7 +1039,7 @@ near 82%. The cavity loses sharpness, not voice.
 is linear in n_bar, so eigenvalues move continuously. The oscillating
 count can only change at isolated exceptional-point (EP) crossings
 where a real pair splits into a complex conjugate pair (or vice
-versa). At N=4: four EP crossings in [0, 2], each affecting exactly
+versa). At N=4: four EP crossings in \[0, 2\], each affecting exactly
 2 eigenvalues. No macroscopic fraction ever changes character.
 
 **Not invariant:** the earlier claim "82% ± 1% invariant" was too
@@ -1123,7 +1123,7 @@ to machine precision (std < 2 × 10^-17 across γ = 0.1 to 10.0).
 **Valid for:** any state with a CΨ = 1/4 crossing under Z-dephasing.
 Prefactor is state-specific; γ-invariance of K_dwell is universal.
 **Replaces:** trajectory integration for dwell-time estimation.
-**Hardware verified:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+ pairs with 2.55x gamma ratio (qubits 124-125, T2=[150,310] us; qubits 14-15, T2=[537,381] us). K_dwell/delta = 0.649 (pair A) and 0.694 (pair B), spread 6.3% despite 2.55x gamma difference. Gamma-invariance of K_dwell confirmed on open quantum hardware. Absolute prefactor 0.67 vs theoretical 1.08 (difference from T1 amplitude damping; the F57 formula assumes pure Z-dephasing, Kingston has T1 comparable to T2). Both CΨ(t) trajectories cross 1/4 monotonically. First two-qubit observation of the CΨ = 1/4 boundary crossing on a quantum computer; the single-qubit case was validated separately on ibm_torino Q80 at 1.9% deviation (F24, IBM Run 3).
+**Hardware verified:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+ pairs with 2.55x gamma ratio (qubits 124-125, T2=\[150,310\] us; qubits 14-15, T2=\[537,381\] us). K_dwell/delta = 0.649 (pair A) and 0.694 (pair B), spread 6.3% despite 2.55x gamma difference. Gamma-invariance of K_dwell confirmed on open quantum hardware. Absolute prefactor 0.67 vs theoretical 1.08 (difference from T1 amplitude damping; the F57 formula assumes pure Z-dephasing, Kingston has T1 comparable to T2). Both CΨ(t) trajectories cross 1/4 monotonically. First two-qubit observation of the CΨ = 1/4 boundary crossing on a quantum computer; the single-qubit case was validated separately on ibm_torino Q80 at 1.9% deviation (F24, IBM Run 3).
 **Data:** [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md) (full JSON, PNG, and reanalysis scripts).
 **Related:** [CPSI_COMPLEX_PLANE](../experiments/CPSI_COMPLEX_PLANE.md) (the saved density matrices additionally reveal a 2D-spiral structure in the complex c-plane, extending the 1D real-axis picture of BOUNDARY_NAVIGATION).
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
@@ -1207,7 +1207,7 @@ below 1/4 as soon as N >= 3, regardless of any dynamics:
 | 5 | 1/31 = 0.0323  | No                      |
 
 Derivation: C(0) = 1 (pure state), and the only nonzero off-diagonal matrix
-elements are rho[0...0, 1...1] = 1/2 and its conjugate, giving L1 coherence
+elements are `rho[0...0, 1...1]` = 1/2 and its conjugate, giving L1 coherence
 = 1 and Psi(0) = L1/(d - 1) = 1/(2^N - 1). Therefore CPsi(0) = 1/(2^N - 1).
 
 For N >= 3, GHZ_N starts in the classical regime of the R = CPsi^2 framework
@@ -1283,7 +1283,7 @@ never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.
 **Source:** `simulations/cpsi_wn_analytical.py`,
 [Cusp-Lens Connection](../experiments/CUSP_LENS_CONNECTION.md)
 
-### F63. w_YZ Parity Symmetry, [L, Pi^2] = 0 (Tier 1, proven analytically, verified N=2-5)
+### F63. w_YZ Parity Symmetry, \[L, Pi^2\] = 0 (Tier 1, proven analytically, verified N=2-5)
 
     [L, Pi^2_super] = 0     (exactly, for all N)
 
@@ -1325,7 +1325,7 @@ Mechanism: conserved modes are the (N+1) elementary symmetric polynomials e_d(Z_
 of sites; any N; any graph; uniform or non-uniform gamma_k.
 **Breaks for:** single-site Y or Z terms in H (transverse field, magnetic
 field along Z); Y or X jump operators (no two-factor cancellation).
-**Verified:** ||[L, Pi^2]|| = 0.000000e+00 (identically zero, not numerically
+**Verified:** ||\[L, Pi^2\]|| = 0.000000e+00 (identically zero, not numerically
 small) at N=2, 3, 4, 5. Also for Heisenberg XXX with uniform gamma at N=3.
 Per-sector mode count formula verified at N=2-5; conserved-modes-as-e_d(Z) verified at N=2-4.
 Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
@@ -1361,8 +1361,8 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 
 **Replaces:** time-domain exponential fit for γ_eff extraction.
 **Valid for:** any graph topology (chain, star, ring, complete, tree), uniform or non-uniform per-bond J, XX+YY or Heisenberg single-excitation, Z-dephasing on any single site B; good-cavity regime (γ ≪ J). Breaks when γ ≥ J (bad cavity: B decoheres before transmitting).
-**Topology + non-uniform J generalization (2026-04-24).** Extended from uniform-J chains to arbitrary connected graphs under either uniform or non-uniform per-bond J. When H^(1) has degenerate eigenvalues (star center-mode, ring translational eigenmodes, complete-graph symmetric modes), F64 holds after standard degenerate perturbation theory: within each H-degenerate subspace, diagonalise the site-B projector P_B to get the corrected basis; F64 then applies to the eigenvalues of P_B in that basis. Verified at N=5 and N=7 across chain, star, ring, complete, Y-tree for XY and Heisenberg; max relative error < 0.001 at γ/J = 0.01 uniform J. For random J per bond in [0.5, 1.5] (30 configurations across 3 trials per N), max rel err < 0.02 in 29/30 cases; the remaining case sits at 0.07 and is consistent with expected second-order PT corrections ~(γ·δJ)/J² at the non-uniform-J scale.
-**Verified:** N=3 chain (max relative error 1.8% vs 64×64 Liouvillian), N=4 chain (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian), N=5 and N=7 on chain+star+ring+complete+Y-tree uniform J (2026-04-24, via single-excitation coherence Liouvillian directly, dim N×N, max rel err < 0.001 across all (topology, B, Hamiltonian) combinations), N=5 and N=7 same topologies non-uniform J per bond in [0.5, 1.5] over 3 random trials (2026-04-24, max rel err 0.068 in the worst case, well inside first-order PT regime).
+**Topology + non-uniform J generalization (2026-04-24).** Extended from uniform-J chains to arbitrary connected graphs under either uniform or non-uniform per-bond J. When H^(1) has degenerate eigenvalues (star center-mode, ring translational eigenmodes, complete-graph symmetric modes), F64 holds after standard degenerate perturbation theory: within each H-degenerate subspace, diagonalise the site-B projector P_B to get the corrected basis; F64 then applies to the eigenvalues of P_B in that basis. Verified at N=5 and N=7 across chain, star, ring, complete, Y-tree for XY and Heisenberg; max relative error < 0.001 at γ/J = 0.01 uniform J. For random J per bond in \[0.5, 1.5\] (30 configurations across 3 trials per N), max rel err < 0.02 in 29/30 cases; the remaining case sits at 0.07 and is consistent with expected second-order PT corrections ~(γ·δJ)/J² at the non-uniform-J scale.
+**Verified:** N=3 chain (max relative error 1.8% vs 64×64 Liouvillian), N=4 chain (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian), N=5 and N=7 on chain+star+ring+complete+Y-tree uniform J (2026-04-24, via single-excitation coherence Liouvillian directly, dim N×N, max rel err < 0.001 across all (topology, B, Hamiltonian) combinations), N=5 and N=7 same topologies non-uniform J per bond in \[0.5, 1.5\] over 3 random trials (2026-04-24, max rel err 0.068 in the worst case, well inside first-order PT regime).
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py), [`f64_topology_scan.py`](../simulations/f64_topology_scan.py) (topology generalization).
 **Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [F64_TOPOLOGY_GENERALIZATION](../experiments/F64_TOPOLOGY_GENERALIZATION.md)
 
@@ -1566,7 +1566,7 @@ For a uniform N-qubit chain with reflection-symmetric coupling and dephasing, th
 
 for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial state ρ₀.
 
-**Proof sketch.** The spatial reflection R (site i ↔ site N−1−i) commutes with the uniform Liouvillian: [L_A, R_sup] = 0. Under R, bond b maps to bond N−2−b: R · T_b · R = T_{N−2−b}. Therefore exp(L_B(b) · t) · ρ₀ and exp(L_B(N−2−b) · t) · (R · ρ₀ · R) are related by R_sup. Per-site purity is quadratic in ρ, so any phase picked up by R on coherences (R |ψ_k⟩ = (−1)^(k+1) |ψ_k⟩) squares away. This gives P_B(b, i, t) = P_B(N−2−b, N−1−i, t), from which α_i(bond b) = α_{N−1−i}(bond N−2−b). Summing ln(α_i) over all sites and re-indexing yields c₁(b) = c₁(N−2−b).
+**Proof sketch.** The spatial reflection R (site i ↔ site N−1−i) commutes with the uniform Liouvillian: \[L_A, R_sup\] = 0. Under R, bond b maps to bond N−2−b: R · T_b · R = T_{N−2−b}. Therefore exp(L_B(b) · t) · ρ₀ and exp(L_B(N−2−b) · t) · (R · ρ₀ · R) are related by R_sup. Per-site purity is quadratic in ρ, so any phase picked up by R on coherences (R |ψ_k⟩ = (−1)^(k+1) |ψ_k⟩) squares away. This gives P_B(b, i, t) = P_B(N−2−b, N−1−i, t), from which α_i(bond b) = α_{N−1−i}(bond N−2−b). Summing ln(α_i) over all sites and re-indexing yields c₁(b) = c₁(N−2−b).
 
 **Consequence.** The c₁ bond profile has at most ⌈(N−1)/2⌉ independent components instead of N−1. The endpoint value c₁(0) equals c₁(N−2); if N is **even**, the center bond c₁((N−2)/2) is self-paired (its mirror image is itself) and contributes one independent component; if N is odd, there is no center bond and all N−1 bonds pair up in (N−1)/2 disjoint pairs.
 
@@ -1576,7 +1576,7 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 
 Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant — uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S — while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification — the F71 symmetry gives the pairing, not the value. See [PROOF_F86_QPEAK Statement 3](proofs/PROOF_F86_QPEAK.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
-**Valid for:** any Hamiltonian with [H, R] = 0 (uniform coupling on a symmetric graph), any dissipator with [D, R_sup] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
+**Valid for:** any Hamiltonian with \[H, R\] = 0 (uniform coupling on a symmetric graph), any dissipator with \[D, R_sup\] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
 **Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity.
 **Verified:** N = 3, 4, 5, 6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹. Source: [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py), [`c1_veffect_scaling_small.py`](../simulations/c1_veffect_scaling_small.py).
 **Replaces:** empirical observation of mirror-symmetric c₁ bond profiles with an analytical kinematic proof.
@@ -1611,7 +1611,7 @@ Squaring keeps each contribution in its own sector class, so ⟨Z_i⟩² is bili
 
 ### F73. Spatial-sum coherence purity closure for vac-SE coherent probes (Tier 1, proven)
 
-For any N-site qubit system with Hermitian Hamiltonian H conserving single-excitation number ([H, N_total] = 0) and uniform Z-dephasing γ₀, the coherent probe ρ₀^coh = (|vac⟩⟨α| + |α⟩⟨vac|) / 2 for any normalized single-excitation state |α⟩ satisfies:
+For any N-site qubit system with Hermitian Hamiltonian H conserving single-excitation number (\[H, N_total\] = 0) and uniform Z-dephasing γ₀, the coherent probe ρ₀^coh = (|vac⟩⟨α| + |α⟩⟨vac|) / 2 for any normalized single-excitation state |α⟩ satisfies:
 
     Σ_i 2 · |(ρ_coh,i)_{0,1}(t)|² = (1/2) · exp(−4 γ₀ t)
 
@@ -1620,30 +1620,30 @@ exactly, independent of the Hamiltonian's non-U(1) structure. Here (ρ_coh,i)_{0
 **Proof (general U(1) case).** Let x_i(t) = ⟨vac|ρ(t)|1_i⟩ be the amplitude of the |vac⟩⟨1_i| component of ρ(t); equivalently the (vac, SE) block of ρ as an N-vector indexed by site. Evolution under the Lindblad master equation splits into:
 
 - **Hamiltonian part.** H preserves SE by assumption, so its restriction to SE is a Hermitian N×N matrix H_SE. The (vac, 1_i) bra-ket block evolves under H as iẋ = −H_SE x on the ket side, giving a unitary propagator U_SE(t) = exp(−i H_SE t).
-- **Dephasing part.** Each D[Z_j] acts on the (vac, 1_i) coherence element with rate γ₀ · (⟨Z_j⟩_vac − ⟨Z_j⟩_{1_i})² / 2 = γ₀ · (2 δ_{j,i})² / 2 = 2γ₀ · δ_{j,i}. Summing over j gives a uniform 2γ₀ decay on every SE-block coherence, independent of site.
+- **Dephasing part.** Each D\[Z_j\] acts on the (vac, 1_i) coherence element with rate γ₀ · (⟨Z_j⟩_vac − ⟨Z_j⟩_{1_i})² / 2 = γ₀ · (2 δ_{j,i})² / 2 = 2γ₀ · δ_{j,i}. Summing over j gives a uniform 2γ₀ decay on every SE-block coherence, independent of site.
 
 Combined: ẋ = −i H_SE x − 2γ₀ x, so x(t) = exp(−2γ₀ t) · U_SE(t) · x(0). Taking the norm: ||x(t)||² = exp(−4γ₀ t) · ||x(0)||² since U_SE is unitary. Partial-trace algebra: (ρ_coh,i)_{0,1}(t) = (1/2) · x_i(t), so Σ_i 2 · |(ρ_coh,i)_{0,1}|² = (1/2) · ||x(t)||² = (1/2) · ||x(0)||² · exp(−4γ₀ t). For the probe above, ||x(0)||² = ⟨α|α⟩ = 1. Result: (1/2) · exp(−4γ₀ t).
 
-The argument uses only (i) [H, N_total] = 0 so dynamics stay in SE, (ii) H Hermitian so U_SE unitary, (iii) γ₀ uniform. No XY structure, no translation invariance, no specific shape of |α⟩ required.
+The argument uses only (i) \[H, N_total\] = 0 so dynamics stay in SE, (ii) H Hermitian so U_SE unitary, (iii) γ₀ uniform. No XY structure, no translation invariance, no specific shape of |α⟩ required.
 
 **Alternative derivation (uniform XY, |α⟩ = |S₁⟩).** The original proof route via the sine basis |ψ_k⟩ of the uniform-XY single-excitation Hamiltonian: |S₁⟩ = Σ_{k odd} s_k |ψ_k⟩ with s_k = ⟨ψ_k|S₁⟩. Each single-excitation coherence |vac⟩⟨ψ_k| evolves as exp((iE_k − 2γ₀) t). Partial trace gives (ρ_coh,i)_{0,1}(t) = (1/2) · Σ_k s_k · ψ_k(i) · exp((iE_k − 2γ₀) t). Parseval on the sine basis Σ_i ψ_k(i) · ψ_{k'}(i) = δ_{k,k'} eliminates k ≠ k' cross terms; Σ_k s_k² = 1 by normalisation. Under bond-b perturbation, the sine basis and E_k shift but Parseval on any orthonormal SE basis preserves Σ_k |⟨ψ_k^B|S₁⟩|² = 1, so the sum is δJ-invariant. This derivation is XY-specific but exhibits the eigenmode structure explicitly.
 
-**Consequence.** The spatial-sum purity functional is exactly blind to the U(1)-preserving part of the dynamics on any vac-SE coherent probe. For any closure-breaking coefficient c₁_pr built from per-site purities via the purity-response definition, bond-δJ perturbations preserve the closure value, so K_CC[0, 1]_pr = 0 exactly under uniform γ₀, for any H in the class.
+**Consequence.** The spatial-sum purity functional is exactly blind to the U(1)-preserving part of the dynamics on any vac-SE coherent probe. For any closure-breaking coefficient c₁_pr built from per-site purities via the purity-response definition, bond-δJ perturbations preserve the closure value, so `K_CC[0, 1]_pr` = 0 exactly under uniform γ₀, for any H in the class.
 
 **Scaffolding from neighbouring entries.** F70 (site-local observables see only |ΔN| ≤ 1 content) puts the (vac, SE) block in focus as the relevant coherence sector for per-site purity. F72 (DD ⊕ CC block decomposition of Tr(ρ_i²), no cross-term) isolates the CC contribution, where the (vac, SE) coherence lives. The Absorption Theorem supplies the rate 2γ₀·n_XY = 2γ₀ for SE coherences (n_XY = 1). F73 then combines these: U(1) conservation keeps the SE sector closed under H, and the spatial sum over sites collapses the unitary H-rotation to leave only the AT decay.
 
-**Valid for:** any Hermitian H with [H, N_total] = 0 (XY, Heisenberg XXZ, translationally non-invariant hopping, frustrated-ladder variants, ...); uniform Z-dephasing γ₀; any normalized SE state |α⟩ admixed to |vac⟩; any N.
+**Valid for:** any Hermitian H with \[H, N_total\] = 0 (XY, Heisenberg XXZ, translationally non-invariant hopping, frustrated-ladder variants, ...); uniform Z-dephasing γ₀; any normalized SE state |α⟩ admixed to |vac⟩; any N.
 **Breaks for:**
 
 - Non-uniform γ_i. The uniform 2γ₀ decay on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
-- Non-U(1) Hamiltonians. [H, N_total] ≠ 0 breaks the SE-block closure assumption.
+- Non-U(1) Hamiltonians. \[H, N_total\] ≠ 0 breaks the SE-block closure assumption.
 - Dissipators changing the d_H = 1 decay rate (mixed X/Z, amplitude damping).
 - Probes with d_H > 1 admixture (e.g. (vac, S₂) with two-excitation bra-ket), where ⟨n_XY⟩ ≠ 1 and the uniform decay rate breaks.
 
 **Verified:**
 
-- Uniform XY baseline at N = 5, t₀ = 20: closure matches (1/2)·exp(−4·0.05·20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. K_CC[0, 1]_pr = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
-- U(1)-class generalization at N = 5 (6 setups: XXZ at Δ ∈ {0, 0.5, 1, 2}, random Haar SE probe at Δ = 1, inhomogeneous XY with J_i ∈ [0.5, 1.5]): all closures within 2.22·10⁻¹⁶ to 5.83·10⁻¹⁶ (1-3 ULP of double precision) across 81 time points per setup. [f73_u1_generalization/](../simulations/results/f73_u1_generalization/), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
+- Uniform XY baseline at N = 5, t₀ = 20: closure matches (1/2)·exp(−4·0.05·20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. `K_CC[0, 1]_pr` = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
+- U(1)-class generalization at N = 5 (6 setups: XXZ at Δ ∈ {0, 0.5, 1, 2}, random Haar SE probe at Δ = 1, inhomogeneous XY with J_i ∈ \[0.5, 1.5\]): all closures within 2.22·10⁻¹⁶ to 5.83·10⁻¹⁶ (1-3 ULP of double precision) across 81 time points per setup. [f73_u1_generalization/](../simulations/results/f73_u1_generalization/), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
 
 **Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline), [`f73_u1_generalization_sweep.py`](../simulations/f73_u1_generalization_sweep.py) (U(1)-class sweep).
 **Source:** F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
@@ -1664,7 +1664,7 @@ states.
 **Proof.** A basis pair (|x⟩, |y⟩) with popcount(x) = n, popcount(y) = n+1
 differs at HD = 2n + 1 − 2·match sites, where match = popcount(x AND y) is
 the number of sites carrying a 1 in both x and y. The constraints
-match ∈ [max(0, 2n+1−N), n] give HD ∈ {1, 3, ..., min(2n+1, 2N−2n−1)},
+match ∈ \[max(0, 2n+1−N), n\] give HD ∈ {1, 3, ..., min(2n+1, 2N−2n−1)},
 hence the distinct-HD count is min(n, N−1−n) + 1. The Pauli representation
 of |x⟩⟨y| has X or Y on exactly the HD sites where x and y differ, so
 ⟨n_XY⟩ = HD, and the Absorption Theorem gives rate 2γ₀·HD at J = 0.
@@ -1685,7 +1685,7 @@ of |x⟩⟨y| has X or Y on exactly the HD sites where x and y differ, so
 **Valid for:** any N-qubit system under uniform Z-dephasing. The J = 0
 statement holds kinematically for any Hamiltonian. For the dynamical
 interpretation at J > 0 (c as a stable sector label with H-mixing between
-HD channels), H must conserve total excitation number, [H, N_total] = 0;
+HD channels), H must conserve total excitation number, \[H, N_total\] = 0;
 individual eigenmode rates then shift continuously with Q = J/γ₀, but c
 still labels the block's mixing substructure.
 **Breaks for:** non-uniform γ_i (site-dependent dephasing); the J = 0
@@ -1720,16 +1720,16 @@ the mutual information between any mirror-pair sites (ℓ, N−1−ℓ) at t = 0
 
 where h(x) = −x log₂ x − (1−x) log₂(1−x) is the binary entropy.
 
-The formula is independent of the mirror sign η (only the modulus |c_ℓ|² enters). The valid range is p_ℓ ∈ [0, 1/2], with MI saturating at 2 bits when p_ℓ = 1/2 (maximal mirror-pair entanglement, the pair is in a Bell state, all other site populations vanish).
+The formula is independent of the mirror sign η (only the modulus |c_ℓ|² enters). The valid range is p_ℓ ∈ \[0, 1/2\], with MI saturating at 2 bits when p_ℓ = 1/2 (maximal mirror-pair entanglement, the pair is in a Bell state, all other site populations vanish).
 
 **Proof.** The reduced density matrix ρ_{ℓ,N−1−ℓ} in the computational basis {\|00⟩, \|01⟩, \|10⟩, \|11⟩} is block-diagonal:
 
-- ρ[\|00⟩⟨00\|] = Σ_{j ∉ {ℓ, N−1−ℓ}} |c_j|² = 1 − 2 p_ℓ
-- ρ[\|01⟩⟨01\|] = |c_{N−1−ℓ}|² = p_ℓ
-- ρ[\|10⟩⟨10\|] = |c_ℓ|² = p_ℓ
-- ρ[\|11⟩⟨11\|] = 0 (single-excitation sector)
-- ρ[\|10⟩⟨01\|] = c_ℓ c_{N−1−ℓ}^* = η p_ℓ
-- ρ[\|01⟩⟨10\|] = η p_ℓ
+- `ρ[|00⟩⟨00|]` = Σ_{j ∉ {ℓ, N−1−ℓ}} |c_j|² = 1 − 2 p_ℓ
+- `ρ[|01⟩⟨01|]` = |c_{N−1−ℓ}|² = p_ℓ
+- `ρ[|10⟩⟨10|]` = |c_ℓ|² = p_ℓ
+- `ρ[|11⟩⟨11|]` = 0 (single-excitation sector)
+- `ρ[|10⟩⟨01|]` = c_ℓ c_{N−1−ℓ}^* = η p_ℓ
+- `ρ[|01⟩⟨10|]` = η p_ℓ
 
 The eigenvalues are {1 − 2 p_ℓ, 2 p_ℓ, 0, 0}, giving S(ρ_{ℓ,N−1−ℓ}) = h(2 p_ℓ). Both single-site marginals are diag(1 − p_ℓ, p_ℓ) with S = h(p_ℓ). The subtraction S(ρ_ℓ) + S(ρ_{N−1−ℓ}) − S(ρ_{ℓ,N−1−ℓ}) yields the formula.
 
@@ -1777,7 +1777,7 @@ Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with it
 **Upper bound.** For any single-excitation mirror-symmetric state, MM ≤ ⌊N/2⌋ × 2 = N bits (all pairs in pure Bell states). This bound is not achievable from single-site bonding modes; reaching it requires tensor-product pair structures like (|10⟩−|01⟩)/√2 on each mirror-pair, which is a super-single-excitation state.
 
 **Valid for:** any pure single-excitation state with c_{N−1−j} = ±c_j on a linear N-site chain. Extends to non-linear mirror-symmetric graphs (ring, Y-junction with mirror axis) with corresponding modification of the mirror-partner indexing.
-**Breaks for:** states with multi-excitation content (formula no longer applies because ρ[\|11⟩⟨11\|] ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
+**Breaks for:** states with multi-excitation content (formula no longer applies because `ρ[|11⟩⟨11|]` ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
 **Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3, at N = 11 for k = 1, 2, 3, 4, 6, and at N = 13 for k = 1, 2, 3, 4, 5, 7 (the latter via matrix-free propagator); MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1). The sim/analytic ratio sits at **0.925 to 0.931 across all (N ≥ 7, k) tested (~25 data points)**, i.e. PeakMM = 0.93 × MM(0) with tight consistency. F75 is therefore a reliable predictor of PeakMM without any propagation.
 **Scripts:** [`_check_brecher_n5_finegrid.py`](../simulations/_check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `_mm_zero_derivation.py` (table above).
 **Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
@@ -1802,7 +1802,7 @@ giving
 At t = 0: λ = 1, eigenvalues {1-2p, 2p, 0, 0}, S_{ab} = h(2p), recovers F75.
 At t → ∞: λ = 0, eigenvalues {1-2p, p, p, 0}, S_{ab} = h(1-2p) + 2p (max-entropy mixture of the two single-excitation branches).
 
-**Closed-form envelope.** Summing over mirror-pair sites ℓ ∈ [0, ⌊N/2⌋-1]:
+**Closed-form envelope.** Summing over mirror-pair sites ℓ ∈ \[0, ⌊N/2⌋-1\]:
 
     MM(t) / MM(0) = Σ_ℓ [2 h(p_ℓ) − S_{ab}(p_ℓ, λ(t))] / Σ_ℓ [2 h(p_ℓ) − h(2 p_ℓ)]
 
@@ -1820,7 +1820,7 @@ At t → ∞: λ = 0, eigenvalues {1-2p, p, p, 0}, S_{ab} = h(1-2p) + 2p (max-en
 
 Agreement to within 0.5% across all tested (N, k). Difference between "pure-dephasing" and "exact single-excitation Lindblad" columns measures the Heisenberg-mixing correction, which is always < 0.5%.
 
-**Why Heisenberg mixing is negligible.** At t = 0+, the commutator [H, ρ_0] = [H^(1), |ψ_k⟩⟨ψ_k|] is off-diagonal in the ψ_k mode basis (the diagonal part is the unitary phase that doesn't affect MM). The off-diagonal mixing couples ψ_k to same-parity partners ψ_l via V_{lk} = (16J/(N+1)) sin(πk/(N+1)) sin(πl/(N+1)). Under mixing for small t, ψ_k "leaks" amplitude symmetrically into all ψ_l. Because MM depends only on diagonal pair populations (and specific pair coherences that dephase), and bonding modes with the same mirror-symmetry (k and N+1-k, etc.) have identical pair populations, the leakage does NOT change pair populations to first order; it only redistributes the mode occupation. Hence first-order Heisenberg-mixing has no effect on MM. Second-order (rate V²t²) is small because V/γ₀ ~ 10 but γ₀·t ~ 0.005 at the C# first-sample, making Heisenberg relative contribution (V·t)²/(4γ₀·t) ~ (V²·t)/(4γ₀) which is (16/7²) · 0.005 = 0.002 at N=7. Hence the mixing correction is ≲ 0.5% throughout the tested regime.
+**Why Heisenberg mixing is negligible.** At t = 0+, the commutator \[H, ρ_0\] = \[H^(1), |ψ_k⟩⟨ψ_k|\] is off-diagonal in the ψ_k mode basis (the diagonal part is the unitary phase that doesn't affect MM). The off-diagonal mixing couples ψ_k to same-parity partners ψ_l via V_{lk} = (16J/(N+1)) sin(πk/(N+1)) sin(πl/(N+1)). Under mixing for small t, ψ_k "leaks" amplitude symmetrically into all ψ_l. Because MM depends only on diagonal pair populations (and specific pair coherences that dephase), and bonding modes with the same mirror-symmetry (k and N+1-k, etc.) have identical pair populations, the leakage does NOT change pair populations to first order; it only redistributes the mode occupation. Hence first-order Heisenberg-mixing has no effect on MM. Second-order (rate V²t²) is small because V/γ₀ ~ 10 but γ₀·t ~ 0.005 at the C# first-sample, making Heisenberg relative contribution (V·t)²/(4γ₀·t) ~ (V²·t)/(4γ₀) which is (16/7²) · 0.005 = 0.002 at N=7. Hence the mixing correction is ≲ 0.5% throughout the tested regime.
 
 **Implication: the 0.93 envelope is the γ₀ signature, not a hidden constant.** The value 0.93 is a direct consequence of the choice γ₀·t = 0.005 at the first measurement. If γ₀ changes (at fixed t grid), the envelope changes: γ₀ = 0.025 gives ratio ≈ 0.965; γ₀ = 0.10 gives ratio ≈ 0.868.
 
@@ -1912,15 +1912,15 @@ For 2-body bond-bilinear H = Σ_bonds Σ_t c_t·(P_t ⊗ Q_t) with uniform Z-dep
 
 where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean structure determined by Π²-parities of H's terms:
 
-1. **All terms Π²-even (p=0)**: M is **block-diagonal** in Π²-eigenspaces V_+ ⊕ V_-. Off-diagonal blocks M[V_+, V_-] and M[V_-, V_+] vanish **exactly**. Each diagonal block has its own SVD spectrum.
+1. **All terms Π²-even (p=0)**: M is **block-diagonal** in Π²-eigenspaces V_+ ⊕ V_-. Off-diagonal blocks `M[V_+, V_-]` and `M[V_-, V_+]` vanish **exactly**. Each diagonal block has its own SVD spectrum.
 
-2. **All terms Π²-odd (p=1)**: M is **purely off-diagonal** between V_+ and V_-. Diagonal blocks M[V_+, V_+] and M[V_-, V_-] vanish **exactly**. Singular values appear with even multiplicity (each SV contributes once from V_+ side, once from V_- side).
+2. **All terms Π²-odd (p=1)**: M is **purely off-diagonal** between V_+ and V_-. Diagonal blocks `M[V_+, V_+]` and `M[V_-, V_-]` vanish **exactly**. Singular values appear with even multiplicity (each SV contributes once from V_+ side, once from V_- side).
 
 3. **Mixed parities**: M has both diagonal and off-diagonal contributions.
 
-**Π²-odd universality.** Within the pure Π²-odd 2-body class, the **specific Pauli letters are M-irrelevant**: any single Π²-odd 2-body bilinear gives the same M-SVD spectrum at fixed N. Verified at N=5 chain: XY alone, XZ alone, XX+XY, and XX+XZ all yield clusters [(5.464, 512), (1.464, 512)], exactly identical. The XX truly part contributes 0; the Π²-odd part dominates with universal cluster pattern.
+**Π²-odd universality.** Within the pure Π²-odd 2-body class, the **specific Pauli letters are M-irrelevant**: any single Π²-odd 2-body bilinear gives the same M-SVD spectrum at fixed N. Verified at N=5 chain: XY alone, XZ alone, XX+XY, and XX+XZ all yield clusters `[(5.464, 512), (1.464, 512)]`, exactly identical. The XX truly part contributes 0; the Π²-odd part dominates with universal cluster pattern.
 
-**Even-diag ≡ odd-off-diag correspondence.** The diagonal V_+ block of a Π²-even Hamiltonian's M can match (in SV-spectrum, including multiplicities) the off-diagonal V_+,V_- block of a Π²-odd Hamiltonian's M. Verified N=4 chain: YZ's V_+ block [(8.944, 16), (6.472, 32), (4.0, 16), (2.472, 32), (0.0, 32)] matches XY+YX's off-diag block exactly. This explains the empirical "YZ ≡ XY+YX SVD-identical" observation: same SV structure, just placed in different Π²-blocks.
+**Even-diag ≡ odd-off-diag correspondence.** The diagonal V_+ block of a Π²-even Hamiltonian's M can match (in SV-spectrum, including multiplicities) the off-diagonal V_+,V_- block of a Π²-odd Hamiltonian's M. Verified N=4 chain: YZ's V_+ block `[(8.944, 16), (6.472, 32), (4.0, 16), (2.472, 32), (0.0, 32)]` matches XY+YX's off-diag block exactly. This explains the empirical "YZ ≡ XY+YX SVD-identical" observation: same SV structure, just placed in different Π²-blocks.
 
 **Why XX+XY appears "max-uniform" (Befund 3 closed).** XX is Π²-even and truly (M_XX = 0). XY is Π²-odd. The full Hamiltonian is "Π²-odd-only-effective", so M is purely off-diagonal between equal-dim V_+ and V_-. SV multiplicities are forced to 4^N/2 each by block-dimension equality. At N=3 the two off-diag SVs collide by coincidence to a single uniform value 2√2; at N≥4 they split. The "uniformity" is exactly the equal-block-mult signature of Π²-odd structure, not a special property of XX+XY.
 
@@ -1931,7 +1931,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 **Replaces:** ad-hoc analysis of "why XX+XY uniform" and "why YZ ≡ XY+YX"; both follow from the Π²-block theorem.
 **Verified:** Numerical N=3-5, multiple bilinear classes, multiple topologies.
 **Scripts:** [`_svd_two_body_pi_squared_block.py`](../simulations/_svd_two_body_pi_squared_block.py), [`_svd_two_body_structure.py`](../simulations/_svd_two_body_structure.py).
-**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 ([L, Π²]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
+**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 (\[L, Π²\]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
 **Lebensader connection:** F79 instantiates the broad-in → focused-out Π-palindrome funnel at the two-body operator layer (4 Π²-odd Pauli pairs → 1 M-spectrum). Companion to F78 (single-body operator layer) and `lebensader.py::cockpit_panel` (state layer). All three are manifestations of the same through-line: Π·L·Π⁻¹ + L + 2σ·I = 0 holding The Connection across abstraction heights.
 
 ### F80. Bloch-mode sign-walk formula for chain Π²-odd 2-body M-clusters (Tier 1, verified N=3-7)
@@ -1984,7 +1984,7 @@ For any 2-bilinear Hamiltonian H decomposed by Π²-parity as H = H_even + H_odd
 
     Π · M · Π⁻¹ = M − 2 · L_{H_odd}
 
-where L_{H_odd} = -i[H_odd, ·] is the unitary commutator induced by the Π²-odd part of H. Equivalently, decomposing M into Π-conjugation symmetric and antisymmetric components:
+where L_{H_odd} = -i\[H_odd, ·\] is the unitary commutator induced by the Π²-odd part of H. Equivalently, decomposing M into Π-conjugation symmetric and antisymmetric components:
 
     M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
     M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
@@ -2006,7 +2006,7 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 
 **Spectral consequence.** Spec(Π·M·Π⁻¹) = Spec(M) holds always by unitary invariance of the spectrum. F81 strengthens this: for Π²-odd H, the two operators are explicitly related by an additive shift of −2·L_{H_odd} in operator space, so Spec(M) = Spec(M − 2·L_{H_odd}) is a non-trivial identity (similarity via Π).
 
-**Algebraic mechanism.** Π² acts on each Pauli string σ_α as (-1)^{bit_b(α)} (eigenoperator with sign in Pauli basis). For L_H_α = -i[σ_α, ·] driven by a single Pauli string σ_α in H, conjugation gives Π² L_H_α Π⁻² = (-1)^{bit_b(α)} L_H_α (the matrix-element factor (-1)^{bit_b(γ)+bit_b(β)} = (-1)^{bit_b(α)} since γ = α·β under Pauli multiplication). Z-dephasing dissipator is diagonal in Pauli basis, hence commutes with Π². Summing: Π²·L·Π⁻² = L_H_even − L_H_odd + L_diss = L − 2·L_{H_odd}. Substituting into the palindrome: Π·M·Π⁻¹ = Π²·L·Π⁻² + Π·L·Π⁻¹ + 2Σγ·I = M − 2·L_{H_odd}.
+**Algebraic mechanism.** Π² acts on each Pauli string σ_α as (-1)^{bit_b(α)} (eigenoperator with sign in Pauli basis). For L_H_α = -i\[σ_α, ·\] driven by a single Pauli string σ_α in H, conjugation gives Π² L_H_α Π⁻² = (-1)^{bit_b(α)} L_H_α (the matrix-element factor (-1)^{bit_b(γ)+bit_b(β)} = (-1)^{bit_b(α)} since γ = α·β under Pauli multiplication). Z-dephasing dissipator is diagonal in Pauli basis, hence commutes with Π². Summing: Π²·L·Π⁻² = L_H_even − L_H_odd + L_diss = L − 2·L_{H_odd}. Substituting into the palindrome: Π·M·Π⁻¹ = Π²·L·Π⁻² + Π·L·Π⁻¹ + 2Σγ·I = M − 2·L_{H_odd}.
 
 **γ-independence-by-difference.** The relation Π·M·Π⁻¹ - M = -2·L_{H_odd} is independent of γ (the dissipator's γ-dependent part cancels because L_diss is Π²-symmetric). The split itself (M_sym, M_anti) is γ-dependent through M_sym; only their difference is γ-fixed.
 
@@ -2026,7 +2026,7 @@ For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 ampl
 
     Π · M · Π⁻¹ = M − 2 · L_{H_odd} − 2 · D_{T1, odd}
 
-where L_{H_odd} = -i[H_odd, ·] (as in F81) and D_{T1, odd} is the Π²-anti-symmetric part of the T1 dissipator. F82 reduces to F81 when γ_T1_l = 0 (D_{T1, odd} = 0).
+where L_{H_odd} = -i\[H_odd, ·\] (as in F81) and D_{T1, odd} is the Π²-anti-symmetric part of the T1 dissipator. F82 reduces to F81 when γ_T1_l = 0 (D_{T1, odd} = 0).
 
 The F81 identity violation captured by `fw.pi_decompose_M(chain, ...)` measures D_{T1, odd}'s Frobenius norm:
 
@@ -2108,7 +2108,7 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 | XY+YX+YZ+ZY (full mix) | 32 | 32 | 1 | 3072 | 3072 | 1/6 |
 | XX+XY+YZ (truly + mixed) | 16 | 16 | 1 | 1536 | 1536 | 1/6 |
 
-**Mechanism (Step 2 of proof, why factors 4 and 8 differ).** The F49 chain Frobenius identity gives ‖M‖² = Σ_k 2^(N+2)·n_YZ(k)·‖H_k‖²_F·𝟙[non-truly], where n_YZ(k) counts Y/Z letters in Pauli pair k (= 0 truly, 1 Π²-odd non-truly, 2 Π²-even non-truly). Substituting the per-class n_YZ values gives the 4·2^N (Π²-odd) and 8·2^N (Π²-even non-truly) coefficients. Geometrically, these reflect the Frobenius-inner-product behavior ⟨Π·L·Π⁻¹, L⟩_F: anti-aligned (truly), Frobenius-orthogonal (Π²-odd non-truly), aligned (Π²-even non-truly).
+**Mechanism (Step 2 of proof, why factors 4 and 8 differ).** The F49 chain Frobenius identity gives ‖M‖² = Σ_k 2^(N+2)·n_YZ(k)·‖H_k‖²_F·𝟙\[non-truly\], where n_YZ(k) counts Y/Z letters in Pauli pair k (= 0 truly, 1 Π²-odd non-truly, 2 Π²-even non-truly). Substituting the per-class n_YZ values gives the 4·2^N (Π²-odd) and 8·2^N (Π²-even non-truly) coefficients. Geometrically, these reflect the Frobenius-inner-product behavior ⟨Π·L·Π⁻¹, L⟩_F: anti-aligned (truly), Frobenius-orthogonal (Π²-odd non-truly), aligned (Π²-even non-truly).
 
 **γ-independence.** Master Lemma propagates through all three norms; closed form depends only on H.
 **Truly-handling.** H_truly drops out of all norms (M-contribution zero by Master Lemma).
@@ -2139,7 +2139,7 @@ with closed form:
 
 where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is recovered when γ_↑ = 0 (vacuum bath / T = 0).
 
-**Pauli-Channel Cancellation Lemma (F84 corollary):** Pure D[Z], D[X], D[Y] dissipators are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Hence f81_violation specifically detects population-inverting (energy-emitting/absorbing) channels, not phase-only or bit-flip-only noise.
+**Pauli-Channel Cancellation Lemma (F84 corollary):** Pure D\[Z\], D\[X\], D\[Y\] dissipators are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Hence f81_violation specifically detects population-inverting (energy-emitting/absorbing) channels, not phase-only or bit-flip-only noise.
 
 **Verified instances** (chain N=3, all matches at machine precision):
 
@@ -2172,14 +2172,14 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 **Inversion (RMS net cooling rate):** |Δγ|_RMS = f81_violation / (√N · 2^(N−1)). Recovers vacuum-fluctuation amplitude regardless of bath temperature.
 
 **Valid for:** any 2-bilinear chain H, Z-dephasing + thermal amplitude damping, any topology supported by F49, any N ≥ 2.
-**Verified:** 7 (γ_↓, γ_↑) configurations at N=3, machine-precision residual; D[X], D[Y] cancellation explicitly tested.
+**Verified:** 7 (γ_↓, γ_↑) configurations at N=3, machine-precision residual; D\[X\], D\[Y\] cancellation explicitly tested.
 **Replaces:** F82's "T1 detector" interpretation; F84 corrects to "vacuum-amplitude-damping detector"; the F81 violation does not measure raw T1 rate but only the temperature-independent vacuum component of amplitude damping.
 **Framework primitives:**
 - `fw.pi_decompose_M(chain, terms, gamma_z, gamma_t1, gamma_pump, strict)`: extended with `gamma_pump` parameter for σ⁺ heating; uses `lindbladian_general` when both are present.
 - `fw.predict_amplitude_damping_violation(chain, gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
 - `fw.estimate_net_cooling_from_violation(chain, f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
-**Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D[X], D[Y] explicitly verified to give zero violation).
-**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D[Z], D[X], D[Y] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
+**Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D\[X\], D\[Y\] explicitly verified to give zero violation).
+**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D\[Z\], D\[X\], D\[Y\] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
 **Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
 
 ### F85. Higher-body Hamiltonian generalization of F49 / F-chain (Tier 1, verified bit-exact k=2,3,4)
@@ -2241,9 +2241,9 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 
 For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-derivative of the F73 spatial-sum coherence purity peaks along the dimensionless coupling axis Q = J/γ₀ at chromaticity-specific values. F86 bundles three structurally distinct theorems under one F-label:
 
-- **F86a. EP mechanism** [Tier 1 derived]: Q_EP = 2/g_eff, t_peak = 1/(4γ₀); 2-level rate-channel exceptional point.
-- **F86b. Universal resonance shape, two bond classes** [Tier 1 candidate]: K_class(Q)/|K|_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior) and 0.770 (Endpoint); EP-rotation universality.
-- **F86c. F71 spatial-mirror invariance of per-bond Q_peak** [Tier 1 derived]: Q_peak(b) = Q_peak(N−2−b) bit-exactly.
+- **F86a. EP mechanism** \[Tier 1 derived\]: Q_EP = 2/g_eff, t_peak = 1/(4γ₀); 2-level rate-channel exceptional point.
+- **F86b. Universal resonance shape, two bond classes** \[Tier 1 candidate\]: K_class(Q)/|K|_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior) and 0.770 (Endpoint); EP-rotation universality.
+- **F86c. F71 spatial-mirror invariance of per-bond Q_peak** \[Tier 1 derived\]: Q_peak(b) = Q_peak(N−2−b) bit-exactly.
 
 Empirical data, the γ₀-extraction protocol, and cross-cutting connections (PTF, framework primitives, scripts, proof, source) sit at this umbrella level since they touch all three theorems.
 
@@ -2285,7 +2285,7 @@ Lookup the per-block Q_peak for the chromaticity and chain length of interest fr
 **Verified (per-bond, fine-grid):** values in the per-bond table above. Endpoint and Interior trends with (c, N) shown but no closed-form identified.
 **Replaces:** ad-hoc γ₀ measurement attempts (EQ-017 closed inconclusive due to hardware fidelity limits on idle Ramsey data).
 
-#### F86a. EP mechanism: Q_EP = 2/g_eff, t_peak = 1/(4γ₀) [Tier 1 derived]
+#### F86a. EP mechanism: Q_EP = 2/g_eff, t_peak = 1/(4γ₀) \[Tier 1 derived\]
 
 The pure-rate ladder of an (n, n+1) coherence block has rates 2γ₀·HD for HD ∈ {1, 3, 5, ..., 2c−1}, with uniform gap Δ = 4γ₀ between adjacent channels (F74). For adjacent channels at HD = 2k−1 and HD = 2k+1 (k = 1, 2, ..., c−1), a two-level effective model with inter-channel coupling J·g_eff has eigenvalues
 
@@ -2303,7 +2303,7 @@ universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ�
 
 The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value.
 
-#### F86b. Universal resonance shape, two bond classes [Tier 1 candidate]
+#### F86b. Universal resonance shape, two bond classes \[Tier 1 candidate\]
 
 **Universal resonance shape under relative-Q normalisation, EP-derived.**
 
@@ -2340,7 +2340,7 @@ The same-sign-imaginary off-diagonal structure is what admits an EP at finite J�
 
 **2026-05-06 (evening).** Direction (b) of `C2HwhmRatio.PendingDerivationNote` yielded two Tier-1-derived universal constants from the bare doubled-PTF model: `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location in dimensionless x) and `HWHM_left/Q_peak = 0.671535` (SVD-block floor in dimensionless x). Empirical Interior 0.7506 and Endpoint 0.7728 sit above this floor by ~0.08-0.10; gap structurally explained as probe-block 2-level sub-resonance contribution. Encoded as `C2HwhmRatio.BareDoubledPtfXPeak` and `C2HwhmRatio.BareDoubledPtfHwhmRatio` const properties. Synthesis-side: F86↔PTF Locus 5 inheritance, where PTF K_1 (Π on H_1 sine-mode basis, discrete) and F86 Q-rotation (Π on same-sign-imaginary 2×2 in rate-channel basis, continuous) are two daughters of one Π-AIII chiral parent.
 
-**2026-05-06 (later evening).** Direction (a') (probe-block 2-level resonance with per-bond `g_eff_probe`) **structurally falsified** (commit `1c0bf8b`): V_b probe-block off-diagonal `⟨c_1 | M_h_b | c_3⟩` is exactly zero per bond at c=2 (F73 sum-rule applies per-bond), so g_eff_probe(N, b) is bond-class-blind by construction. The 4-mode reduction is also structurally insufficient: 4-mode K_b deviates from empirical at Endpoint by factor ~2 (4-mode K_b gives Endpoint 0.410 at N=5 vs empirical 0.7728). The SVD-block off-diagonal `V_b[2,3]` is the actual bond-class carrier (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.45 across N=5..8), but in the OPPOSITE direction to the empirical HWHM/Q* split. Refined direction list (now in `C2HwhmRatio.PendingDerivationNote`): (a'') SVD-block 2-level resonance (REFINED from (a')) via V_b[2,3] magnitude, (b'') full block-L derivation, not 4-mode, (c'') three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases, (d'') lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote), (e'') symbolic char-poly factorisation at Q_EP (less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof). The `BareDoubledPtfXPeak` and `BareDoubledPtfHwhmRatio` const properties are unchanged.
+**2026-05-06 (later evening).** Direction (a') (probe-block 2-level resonance with per-bond `g_eff_probe`) **structurally falsified** (commit `1c0bf8b`): V_b probe-block off-diagonal `⟨c_1 | M_h_b | c_3⟩` is exactly zero per bond at c=2 (F73 sum-rule applies per-bond), so g_eff_probe(N, b) is bond-class-blind by construction. The 4-mode reduction is also structurally insufficient: 4-mode K_b deviates from empirical at Endpoint by factor ~2 (4-mode K_b gives Endpoint 0.410 at N=5 vs empirical 0.7728). The SVD-block off-diagonal `V_b[2,3]` is the actual bond-class carrier (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.45 across N=5..8), but in the OPPOSITE direction to the empirical HWHM/Q* split. Refined direction list (now in `C2HwhmRatio.PendingDerivationNote`): (a'') SVD-block 2-level resonance (REFINED from (a')) via `V_b[2,3]` magnitude, (b'') full block-L derivation, not 4-mode, (c'') three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases, (d'') lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote), (e'') symbolic char-poly factorisation at Q_EP (less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof). The `BareDoubledPtfXPeak` and `BareDoubledPtfHwhmRatio` const properties are unchanged.
 
 **2026-05-07.** Locus 6 polarity-layer inheritance closure: F86 bond-class split inherits from the polarity-layer pair {−0.5, +0.5} at d=2. Empirical decomposition Q_peak ≈ 2 + r with r ∈ {−0.44, +0.52}, HWHM/Q* ≈ 1/2 + r·1/2 with r_Interior ≈ 0.50 (close to `HalfAsStructuralFixedPoint`). The 0.5 baseline is `QubitDimensionalAnchorClaim` (1/d at d=2); the ±r/2 polarity content is `PolarityLayerOriginClaim` Layer 2. Encoded as `compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs` (Tier2Verified) at F86 root level. Symmetry-side closure parallel to `LocalGlobalEpLink` (Locus 5, EP-side).
 
@@ -2352,7 +2352,7 @@ The same-sign-imaginary off-diagonal structure is what admits an EP at finite J�
 
 is universal within each bond class across c=2..4, N=5..8, and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range. The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The bond-class split (Interior HWHM_left/Q_peak ≈ 0.756, Endpoint ≈ 0.770) reflects bond-position-dependent probe-overlap profiles in the K_CC_pr observable, confirmed structural (not finite-c) by the c=2 data where the 2-level model is exact. Closed forms for f_class(x) (and consequently for the two HWHM_left/Q_peak values) follow from the 2-level eigenstructure plus probe-overlap algebra but have not yet been derived analytically. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
 
-#### F86c. F71 spatial-mirror invariance of per-bond Q_peak [Tier 1 derived]
+#### F86c. F71 spatial-mirror invariance of per-bond Q_peak \[Tier 1 derived\]
 
 F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under the spatial reflection R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**. See [PROOF_F86_QPEAK Statement 3](proofs/PROOF_F86_QPEAK.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
@@ -2369,7 +2369,7 @@ The F86c symmetry pairs bonds bit-exactly but does NOT supply the per-orbit Q_pe
 (Earlier `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` primitives were removed 2026-05-02 after the N=8 data falsified their closed-form claims. The universal-shape finding above is a Tier-1 candidate, not yet promoted to a primitive pending analytical derivation of f_class(x). c=2 and γ₀ invariance verified 2026-05-02; c=5 still open.)
 
 **Scripts:** [`_eq022_b1_channel_projection.py`](../simulations/_eq022_b1_channel_projection.py) (HD-channel diagonal-only-M_H finding), [`_eq022_b1_step_a_verify_blockL.py`](../simulations/_eq022_b1_step_a_verify_blockL.py) (Python block-L verified bit-exact against C# N=7 full-L from EQ-014), [`_eq022_b1_step_c_time_evolution.py`](../simulations/_eq022_b1_step_c_time_evolution.py) (per-bond and uniform Q_peak via S(t, J) time evolution), [`_eq022_b1_step_d_extended_verification.py`](../simulations/_eq022_b1_step_d_extended_verification.py) (extended N=8 data that falsified earlier closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../simulations/_eq022_b1_step_e_inspect.py) (universal resonance-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
-**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md): F86a EP mechanism = PROOF Statement 1 [Tier 1 derived]; F86b universal resonance shape = PROOF Statement 2 [Tier 1 candidate]; F86c F71 spatial-mirror invariance = PROOF Statement 3 [Tier 1 derived]. Per-bond closed forms retracted 2026-05-02; derivation pathway remains open.
+**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md): F86a EP mechanism = PROOF Statement 1 \[Tier 1 derived\]; F86b universal resonance shape = PROOF Statement 2 \[Tier 1 candidate\]; F86c F71 spatial-mirror invariance = PROOF Statement 3 \[Tier 1 derived\]. Per-bond closed forms retracted 2026-05-02; derivation pathway remains open.
 **Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
 
 ### F87. Pauli-pair trichotomy classification (Tier 1, structural; Marrakesh hardware-confirmed)
@@ -2480,7 +2480,7 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 
 - N=7 multi-bond at J=0.075, γ₀=0.05, tmax=30 (28 runs spanning all 14 topology classes for k=1..6): all 10 classes with ≥ 2 representatives show **0.00e+00** within-class max diff (machine-zero) across 301 sample times. Cross-class S(t) differs and exhibits non-monotone-in-k late-tail clustering. [`bond_isolate/`](../simulations/results/bond_isolate/), [`F89_TOPOLOGY_ORBIT_CLOSURE`](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md).
 - N=4 single-pair at J=0.075, γ₀=0.05 (all C(4,2)=6 site pairs, NN + long-range): max deviation across pairs **5.55e-17** (1 ULP of double precision). NN bonds {(0,1),(1,2),(2,3)} and long-range bonds {(0,2),(0,3),(1,3)} give bit-identical S(t). [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py).
-- N=7 single-NN-bond at same parameters (six bonds, all 30 ordered pair comparisons): every pair shows 0.00e+00 max diff over t ∈ [0, 30].
+- N=7 single-NN-bond at same parameters (six bonds, all 30 ordered pair comparisons): every pair shows 0.00e+00 max diff over t ∈ \[0, 30\].
 
 **Scripts:** [`_bond_isolate_compare_n7.py`](../simulations/_bond_isolate_compare_n7.py) (single-bond pair matrix), [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py) (long-range), [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py) (multi-bond classes). Compute tool: `compute/RCPsiSquared.Propagate` `bond-isolate --N <N> --bonds <i,j,...>` mode.
 **Source:** [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md), F73, F71, F86 (contrasting linear-response setup).
