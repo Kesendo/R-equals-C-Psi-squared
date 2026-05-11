@@ -48,16 +48,18 @@ public class F89UnifiedFaClosedFormClaimTests
 
     [Theory]
     // path-3, N=11, n=2 (y = √5−1 ≈ 1.236): sigs = (33+14√5)/[9·11²·10]
-    [InlineData(3, 11, 2, 0.005904951)]
+    [InlineData(3, 2, 11, 0.005904951)]
     // path-3, N=11, n=4 (y = -(1+√5) ≈ -3.236): sigs = (33-14√5)/[9·11²·10]
-    [InlineData(3, 11, 4, 0.0001556521)]
+    [InlineData(3, 4, 11, 0.0001556521)]
     // path-4, N=11, n=2 (y = 2): sigs = 45/[4·11²·10]
-    [InlineData(4, 11, 2, 0.009297520)]
+    [InlineData(4, 2, 11, 0.009297520)]
     // path-4, N=11, n=4 (y = -2): sigs = 5/[4·11²·10]
-    [InlineData(4, 11, 4, 0.001033058)]
+    [InlineData(4, 4, 11, 0.001033058)]
+    // path-5, N=11, n=2 (y = 4cos(2π/7) ≈ 2.494): sigs = (13y²+82y+129)/[25·11²·10]
+    [InlineData(5, 2, 11, 0.0136979332)]
     // path-6, N=11, n=4 (y = 0, zero-mode): sigs = 80/[18·11²·10] = 40/[9·11²·10]
-    [InlineData(6, 11, 4, 0.0036730946)]
-    public void Sigma_AtPathNAndN_MatchesEmpirical(int k, int blochN, int n, double expected)
+    [InlineData(6, 4, 11, 0.0036730946)]
+    public void Sigma_AtPathNAndN_MatchesEmpirical(int k, int n, int blochN, double expected)
     {
         double sigs = F89UnifiedFaClosedFormClaim.Sigma(k, n, blochN);
         Assert.Equal(expected, sigs, precision: 8);
