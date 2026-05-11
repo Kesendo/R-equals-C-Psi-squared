@@ -32,8 +32,15 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// two orthogonal axes.</para>
 ///
 /// <para>Tier2Verified composing predictor; Tier1 promotion path requires analytical
-/// derivation of the Lorentzian widths Γ_pair from cluster geometry (currently a heuristic).
-/// Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
+/// derivation of the Lorentzian widths Γ_pair from cluster geometry (currently a heuristic).</para>
+///
+/// <para>2026-05-11 update: F90 bridge identity (`F90F86C2BridgeIdentity`) provides
+/// the full-precision alternative — F86 c=2 K_b(Q,t) = F89 path-(N−1) (SE,DE) per-bond
+/// Hellmann-Feynman gives bit-exact reproduction (27/29 bonds N=5..8) without the
+/// cluster-pair Lorentzian approximation that limits this primitive's worst-case
+/// residual to 22.4%. See `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.</para>
+///
+/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
 /// <c>hypotheses/RESONANCE_NOT_CHANNEL.md</c> + <c>hypotheses/RESONANT_RETURN.md</c>.</para>
 /// </summary>
 public sealed class JwBondQPeakUnified : Claim

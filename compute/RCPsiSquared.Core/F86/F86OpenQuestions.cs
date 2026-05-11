@@ -17,10 +17,18 @@ public static class F86OpenQuestions
             "session. Three next directions ranked: (a) first-order perturbation in cross-block " +
             "(most promising — leverages B2's Endpoint < Interior cross-block Frobenius split, " +
             "ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1)); (b) projector-overlap lift of A3's |u_0⟩, |v_0⟩; " +
-            "(c) symbolic char-poly factorisation at Q_EP.",
+            "(c) symbolic char-poly factorisation at Q_EP. " +
+            "[2026-05-11 update: numerical Tier-1 achieved via F90 bridge identity " +
+            "(F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman, bit-exact 27/29 bonds " +
+            "N=5..8 incl. orbit escapes, modulo F89-J = 2·F86-J convention; see " +
+            "`compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs` + " +
+            "`docs/proofs/PROOF_F90_F86C2_BRIDGE.md`); analytical closed-form via F89 AT-locked " +
+            "F_a/F_b (4-mode floor 0.6715) + H_B-mixed octic residual structure (lift to " +
+            "0.7506/0.7728) is the remaining open work.]",
             "Direction (a): perturb the K-resonance K_b(Q, t) around the Statement-1 2×2 EP form. " +
             "The cross-block contribution at first order in ε should produce the directional split.",
-            "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2); F86OpenQuestions.cs (this file)"),
+            "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2); F86OpenQuestions.cs (this file); " +
+            "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (numerical Tier-1 via F90 bridge identity)"),
         new OpenQuestion(
             "Item 4': extend 4-mode construction to c≥3",
             "Each adjacent-channel pair (HD=2k−1, HD=2k+1) for k ∈ {1, …, c−1} contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet → full effective L is 4·(c−1)-dimensional. Verify slowest pair k=1 still dominates K_b response.",
