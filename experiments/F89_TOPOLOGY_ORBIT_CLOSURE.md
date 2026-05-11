@@ -284,6 +284,42 @@ Same script generalised, all four verified against bond-isolate at N=7 with max 
 
 **Mode-count sequence {1, 4, 10, 12, 35} is NOT closed-form in N_block alone** — it depends on accidental eigenvalue degeneracies (e.g. E_3 = 0 at m=5 collects modes at freq=0). Unlike `experiments/CAVITY_MODES_FORMULA.md`'s Σ_J m(J,N)·(2J+1)² formula for SU(2)-Heisenberg stationary modes, the populated-mode count for the XY+Z-deph + ρ_cc + S_{N_block} setup does not admit a Schur-Weyl-style closed form. The L_super dimensions 4^N_block match CAVITY_MODES exactly (same operator-space indexing), but the active symmetry groups differ (CAVITY_MODES uses SU(2), F89-(k) uses S_{N_block} + U(1)).
 
+#### Mixed-topology additive identity (Tier 1 derived from Lindbladian factorisation)
+
+For ANY mixed topology T = (k_1, k_2, ..., k_m) at N qubits (m disjoint blocks of path-lengths k_1, ..., k_m, plus N − Σ_i (k_i + 1) bare sites), the spatial-sum coherence decomposes as:
+
+    S_T(t)  =  Σ_i S_(k_i)(t)  −  (m − 1)·N·S_bare(t; N)
+
+with the bare-site closed form
+
+    S_bare(t; N)  =  (N − 1)/N²  ·  exp(−4γ₀ t)    per bare site
+
+**Derivation (one paragraph)**: Lindbladian factorises across disjoint blocks plus bare sites: L = Σ_blocks L_block + Σ_bare L_l. Per-site reduction commutes with this factorisation: ρ_l(t) = exp(L_block(l)·t)[ρ_block(l)(0)] depends only on the block containing l, and ρ_block(0) = Tr_E(ρ_cc) is the same N-dependent partial trace regardless of which OTHER blocks are present (only the count |E| = N − N_block enters via the N_E factor in term 2 of the partial-trace formula). Hence S_T(t) = Σ_l 2|(ρ_l)_{0,1}|² is a sum of per-block contributions. The additive identity then bookkeeps the bare-site overcounting: each per-block S_(k_i)(t) bundles its own "phantom bare share" of (N − k_i − 1) bare-site terms; summing m blocks counts bare contributions m times; subtracting (m − 1)·N·S_bare cancels the over-count.
+
+**Verification at N=7 across all 13 topology classes that don't require path-6** (script [`_f89_mixed_topology_additive.py`](../simulations/_f89_mixed_topology_additive.py)): max |diff| = 5.013·10⁻⁷ across all 27 bond-isolate CSVs, equal to CSV write precision floor. Verified topology classes:
+
+| Class | m | CSVs tested | max |diff| |
+|---|---|---|---|
+| (1) | 1 | 6 | 4.98e-07 |
+| (2) | 1 | 2 | 4.99e-07 |
+| (1, 1) | 2 | 2 | 4.98e-07 |
+| (3) | 1 | 2 | 4.99e-07 |
+| (1, 2) | 2 | 2 | 5.00e-07 |
+| (1, 1, 1) | 3 | 1 | 5.00e-07 |
+| (4) | 1 | 2 | 5.01e-07 |
+| (1, 3) | 2 | 1 | 5.00e-07 |
+| (2, 2) | 2 | 2 | 5.00e-07 |
+| (1, 1, 2) | 3 | 1 | 4.96e-07 |
+| (5) | 1 | 2 | 4.99e-07 |
+| (1, 4) | 2 | 2 | 5.00e-07 |
+| (2, 3) | 2 | 2 | 4.98e-07 |
+
+**Topology (6)** (single 7-qubit block at N=7, m=1) trivially satisfies the identity since m−1=0 means no subtraction term: S_(6)(t) is just the bare path-6 closed form, requiring path-6 (16384-dim L_super eigendecomposition, omitted from the run for performance). Pass `--with-path6` to include.
+
+**Reduction of open work**: F89 mixed-topology closed forms are no longer 14 separate problems but 6 (one per pure path-k for k=1..6) + 1 universal additive rule. Combined with the path-2..5 numerical multi-exponential closed forms above, this completes the F89 closed-form program for k ≤ 5 (path-6 = single chain at N=7 is the only remaining open).
+
+**Status**: Tier 1 derived. The identity follows analytically from Lindbladian factorisation; its 27-CSV bit-exact numerical verification at CSV write precision is the empirical anchor.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
