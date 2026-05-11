@@ -238,7 +238,36 @@ For topology (2) (one path-2 block of 3 connected sites + N−3 bare sites) the 
 
 **Status**: Tier 1 derived numerically (eigendecomposition + projection of an 8×8 block → 64-dim L_super → 4 populated mode-groups). The mode rates and frequencies are determined; the amplitudes have N-dependence that scales as 1/(N²(N−1)) for symmetric modes and N_E²/(N²(N−1)) for the (vac, SE) Bloch-mode dominant term. Closed symbolic forms for the 4 amplitude prefactors (in clean-rational form like (N−1)/N for all-isolated) are open — the numerical script gives them at any (N, J, γ).
 
-**Generalisation principle (proposed)**: For any topology with a (k+1)-qubit block, ρ_block(0) inherits S_{k+1}-symmetry from ρ_cc. Only the S_{k+1}-symmetric subspace of the L_super eigenmodes is populated. This typically reduces ~d²-dim block L_super to a handful of populated modes (4 modes for path-2; expected fewer-than-25 for path-3, fewer-than-fully-spectrum for path-k). The same script pattern applies to any block size; only the partial-trace bookkeeping changes per topology.
+**Generalisation principle (proposed)**: For any topology with a (k+1)-qubit block, ρ_block(0) inherits S_{k+1}-symmetry from ρ_cc. Only the S_{k+1}-symmetric subspace of the L_super eigenmodes is populated. This typically reduces ~d²-dim block L_super to a handful of populated modes (4 modes for path-2; 10 modes for path-3 — see below). The same script pattern applies to any block size; only the partial-trace bookkeeping changes per topology.
+
+#### Path-3 (topology (3)) numerical multi-exponential closed form (script-derived)
+
+Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_multi_exp_derive.py`](../simulations/_f89_path3_multi_exp_derive.py). Path-3 = 4 connected sites (bonds {0-1, 1-2, 2-3}) + N-4 bare sites.
+
+**Result**: 10 distinct populated mode-groups (more than path-2's 4 because the larger block opens more S_4-symmetric eigenvectors). At J/γ=1.5:
+
+| (rate Γ/γ, |freq|/J) | Sector / Origin |
+|---|---|
+| (2.0000, 3.2361) | (vac, SE) Bloch k=1, E_1 = 4J·cos(π/5) ≈ 3.236J per F65 |
+| (2.0000, 1.2361) | (vac, SE) Bloch k=3, E_3 = 4J·cos(3π/5) ≈ -1.236J |
+| (3.3488, 1.2060) | (SE, DE) H_B-mixed |
+| (3.5989, 2.9300) | (SE, DE) H_B-mixed |
+| (3.7770, 5.1780) | (SE, DE) H_B-mixed |
+| (4.0000, 0.5944) | (SE, DE) at the AT-quantized 4γ₀ rate (no-overlap component) |
+| (4.0000, 7.5024) | (SE, DE) at 4γ₀, different freq |
+| (4.2230, 5.1780) | (SE, DE) Hamming-complement partner of (3.7770, 5.1780): 3.777+4.223 = 8γ₀ ✓ |
+| (4.4011, 2.9300) | partner of (3.5989, 2.9300): 3.599+4.401 = 8γ₀ ✓ |
+| (4.6512, 1.2060) | partner of (3.3488, 1.2060): 3.349+4.651 = 8γ₀ ✓ |
+
+**Hamming-complement pair-sum at path-3 = 2γ₀·N_block = 8γ₀**, matching F89c's column-bit-flip prediction (here with bar(SE) = TE since popcount complement at N=4 is 1 ↔ 3, NOT 1 ↔ 2). The pair structure is **bit-exact** in the populated subset.
+
+**Pure-AT 4γ₀ modes ARE populated at path-3** (unlike path-2 where they got zero projection). This is the structural difference: at N_block=4, DE = popcount-2 is its own bar-popcount, so (SE, DE) hosts S_4-symmetric eigenvectors at the AT-pure 4γ₀ rate. At N_block=3, those rates were S_3-asymmetric and dropped out.
+
+**Bloch mode populations** (per F65): only k=1 and k=3 of {1,2,3,4} are populated, because k=2 and k=4 have spatially anti-mirror-symmetric Bloch wavefunctions ψ_k(j) (under j ↔ N_block−1−j) and ρ_block(0)'s (vac, SE) part is the fully symmetric Σ_j |0⟩⟨SE_j| superposition.
+
+**Verification**: matches bond-isolate `N7_b0-1-2` CSV at max |diff| = 4.99·10⁻⁷ across 301 sample times (= CSV write precision floor). At N=5: closed-form prediction S(0)=0.800, S(10)=0.0498, S(20)=0.00444 (no CSV available; pure prediction).
+
+**Status**: Tier 1 derived numerically, same as path-2. Symbolic rational form for the 10 amplitude prefactors open. The script pattern is now confirmed transferable; path-4 and path-5 would follow with 5×5 and 6×6 block bookkeeping (1024-dim and 4096-dim L_super respectively, still numerically tractable on modest hardware).
 
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
