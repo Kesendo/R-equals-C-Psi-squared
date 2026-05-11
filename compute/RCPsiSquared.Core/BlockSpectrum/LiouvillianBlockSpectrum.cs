@@ -102,6 +102,50 @@ public sealed class LiouvillianBlockSpectrum : Claim
         return spectrum;
     }
 
+    /// <summary>Compute the full Liouvillian spectrum without materialising the full
+    /// (4^N) × (4^N) L matrix. Each per-block matrix is built directly from the
+    /// Hilbert-space Hamiltonian (size 2^N × 2^N) via
+    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>, eigendecomposed, and discarded
+    /// before the next block. This is the only path that scales past N=6 on commodity
+    /// hardware (full L exceeds .NET 2 GB array-size limit at N=7+).</summary>
+    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=8: 256×256).</param>
+    /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
+    /// <param name="N">Qubit count.</param>
+    /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
+    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N)
+    {
+        if (H is null) throw new ArgumentNullException(nameof(H));
+        int hilbertDim = 1 << N;
+        if (H.RowCount != hilbertDim || H.ColumnCount != hilbertDim)
+            throw new ArgumentException(
+                $"H must be ({hilbertDim})×({hilbertDim}) for N={N}; got {H.RowCount}×{H.ColumnCount}.",
+                nameof(H));
+        if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
+        if (gammaPerSite.Count != N)
+            throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+
+        int liouvilleDim = 1 << (2 * N);
+        var decomp = JointPopcountSectorBuilder.Build(N);
+        var perm = decomp.Permutation;
+        var spectrum = new Complex[liouvilleDim];
+        int write = 0;
+
+        foreach (var sector in decomp.SectorRanges)
+        {
+            int size = sector.Size;
+            if (size == 0) continue;
+            var flatIndices = new int[size];
+            for (int k = 0; k < size; k++)
+                flatIndices[k] = perm[sector.Offset + k];
+
+            var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+            var blockEigs = block.Evd().EigenValues;
+            for (int i = 0; i < size; i++)
+                spectrum[write++] = blockEigs[i];
+        }
+        return spectrum;
+    }
+
     public override string DisplayName =>
         "LiouvillianBlockSpectrum: per-block eig over (N+1)² joint popcount sectors = full-L spectrum";
 

@@ -250,6 +250,44 @@ public class F71MirrorBlockRefinementTests
     }
 
     // ----------------------------------------------------------------------
+    // Per-block path: no full-L materialisation (Phase 4 N=7,8 enabler)
+    // ----------------------------------------------------------------------
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void F71MirrorBlockRefinement_ComputeSpectrumPerBlock_MatchesFullL(int N)
+    {
+        var L = BuildXYZDephasingL(N, J: 1.0, gamma: 0.5);
+        var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
+        var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
+
+        var eigsFull = L.Evd().EigenValues.ToArray();
+        var eigsPerBlock = F71MirrorBlockRefinement.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+
+        Assert.Equal(eigsFull.Length, eigsPerBlock.Length);
+        AssertMultisetEqual(eigsFull, eigsPerBlock, tol: 1e-9, N: N);
+    }
+
+    [Fact]
+    public void F71MirrorBlockRefinement_ComputeSpectrumPerBlock_NullH_Throws()
+    {
+        var gammas = new double[3];
+        Assert.Throws<ArgumentNullException>(() =>
+            F71MirrorBlockRefinement.ComputeSpectrumPerBlock(null!, gammas, 3));
+    }
+
+    [Fact]
+    public void F71MirrorBlockRefinement_ComputeSpectrumPerBlock_WrongHDim_Throws()
+    {
+        var wrong = Matrix<Complex>.Build.DenseIdentity(16);
+        var gammas = new double[3];
+        Assert.Throws<ArgumentException>(() =>
+            F71MirrorBlockRefinement.ComputeSpectrumPerBlock(wrong, gammas, 3));
+    }
+
+    // ----------------------------------------------------------------------
     // Helpers
     // ----------------------------------------------------------------------
 

@@ -15,13 +15,21 @@ namespace RCPsiSquared.Cli.Commands;
 /// over the joint-popcount sectors (optionally further refined by the F71 spatial-mirror
 /// Z₂), and reports timing + a representative slice of the spectrum.</para>
 ///
-/// <para>Usage: <c>rcpsi block-spectrum --N 6 [--gamma 0.5] [--J 1.0] [--refine f71|none] [--verify]</c>.</para>
+/// <para>Usage: <c>rcpsi block-spectrum --N 6 [--gamma 0.5] [--J 1.0] [--refine f71|none]
+/// [--verify | --no-verify] [--top K]</c>.</para>
 ///
 /// <para>The <c>--verify</c> flag additionally diagonalises the full L directly and asserts
-/// that the per-block spectrum matches as a multiset to within 1e-9.</para>
+/// that the per-block spectrum matches as a multiset to within 1e-9. Default is no-verify
+/// (full-L OOMs at N=8). The <c>--no-verify</c> flag is accepted for explicitness but is
+/// equivalent to omitting <c>--verify</c>.</para>
 ///
-/// <para>The F1 palindrome check (set-equality of the spectrum under <c>λ → −2Σγ − λ</c>)
-/// is always emitted as the final structural witness.</para></summary>
+/// <para>The <c>--top K</c> flag (default 20) controls how many leading eigenvalues are
+/// printed (sorted by Re ascending).</para>
+///
+/// <para>Per-sector timing summary (mean, max, total) is emitted when <c>N ≥ 6</c>, along
+/// with peak managed-memory delta over the block-eig computation. The F1 palindrome check
+/// (set-equality of the spectrum under <c>λ → −2Σγ − λ</c>) is always emitted as the final
+/// structural witness.</para></summary>
 public static class BlockSpectrumCommand
 {
     public static int Run(string[] args)
@@ -33,13 +41,21 @@ public static class BlockSpectrumCommand
         double J = p.OptionalDouble("J") ?? 1.0;
         string refineKind = p.OptionalString("refine") ?? "none";
         bool verify = p.HasFlag("verify");
+        bool noVerify = p.HasFlag("no-verify");
+        int topK = (int)(p.OptionalDouble("top") ?? 20.0);
+
+        if (verify && noVerify)
+            throw new ArgumentException("--verify and --no-verify are mutually exclusive.");
+        if (noVerify) verify = false;
 
         if (N < 1 || N > 12)
             throw new ArgumentOutOfRangeException(nameof(N), N, "Supported N range: 1..12.");
         if (refineKind != "none" && refineKind != "f71")
             throw new ArgumentException($"unknown --refine value: {refineKind}; expected 'none' or 'f71'.");
+        if (topK < 0)
+            throw new ArgumentException($"--top must be >= 0; got {topK}.");
 
-        Console.WriteLine($"# block-spectrum: N={N}, J={J:G6}, gamma={gamma:G6}, refine={refineKind}");
+        Console.WriteLine($"# block-spectrum: N={N}, J={J:G6}, gamma={gamma:G6}, refine={refineKind}, verify={verify}, top={topK}");
 
         // Sector summary (refinement-independent)
         int sectorCount = JointPopcountSectors.SectorCount(N);
@@ -64,14 +80,40 @@ public static class BlockSpectrumCommand
         Console.WriteLine($"# max-block memory: {FormatBytes(maxBlockMemBytes)} (full L: {FormatBytes(fullMemBytes)})");
         Console.WriteLine($"# cubic-cost speedup vs full eig: ~{speedup:F1}x");
 
-        // Build chain XY + Z-dephasing L
-        var sw = Stopwatch.StartNew();
-        var L = BuildXYZDephasingL(N, J, gamma);
-        sw.Stop();
-        Console.WriteLine($"# built L in {sw.ElapsedMilliseconds} ms");
+        // Full-L materialisation: required only for --verify (and physically impossible at N≥7
+        // because (4^N)² · 16 B exceeds the .NET 2 GB single-array limit). We always need H
+        // (Hilbert-space 2^N × 2^N) for the per-block path.
+        bool fullLAvailable = N <= 6;
+        if (verify && !fullLAvailable)
+            throw new ArgumentException($"--verify is not available at N={N}: full-L (4^N × 4^N) exceeds the .NET 2 GB array-size limit at N >= 7. Drop --verify and rely on the F1 palindrome check.");
 
-        // Compute spectrum via the chosen path
+        // Build the Hilbert-space Hamiltonian once (cheap: 2^N × 2^N).
+        var sw = Stopwatch.StartNew();
+        var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
+        var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
+        sw.Stop();
+        Console.WriteLine($"# built H (Hilbert {1 << N}×{1 << N}) in {sw.ElapsedMilliseconds} ms");
+
+        // Optionally also build full L at small N (≤ 6) for verify / legacy comparison.
+        ComplexMatrix? L = null;
+        if (fullLAvailable && verify)
+        {
+            sw.Restart();
+            L = PauliDephasingDissipator.BuildZ(H, gammaPerSite);
+            sw.Stop();
+            Console.WriteLine($"# built full L (Liouville {fullDim}×{fullDim}) in {sw.ElapsedMilliseconds} ms");
+        }
+
+        // Compute spectrum via the chosen path. Track managed-memory delta + Gen0/1/2 GC counts
+        // around the block-eig phase so we can report peak working-set growth. The per-block
+        // path NEVER materialises the full L; only per-block dense matrices of size
+        // C(N,p_c)·C(N,p_r) at a time.
         Complex[] spectrum;
+        long memBefore = GC.GetTotalMemory(forceFullCollection: true);
+        int gen0Before = GC.CollectionCount(0);
+        int gen1Before = GC.CollectionCount(1);
+        int gen2Before = GC.CollectionCount(2);
+        long memDuring;
         sw.Restart();
         if (refineKind == "f71")
         {
@@ -81,17 +123,24 @@ public static class BlockSpectrumCommand
             int nonEmpty = refined.SectorRanges.Count(s => s.Size > 0);
             Console.WriteLine($"# F71 refinement: {nonEmpty} non-empty sub-blocks (of {refined.SectorRanges.Count} total entries)");
             Console.WriteLine($"# F71-refined max sub-block size: {maxSubBlock}");
-            spectrum = F71MirrorBlockRefinement.ComputeSpectrum(L, N);
+            spectrum = ComputeSpectrumWithTimingPerBlock(H, gammaPerSite, N, refineF71: true, out var sectorTimings);
+            memDuring = GC.GetTotalMemory(forceFullCollection: false);
+            EmitSectorTimingSummary(N, sectorTimings);
         }
         else
         {
-            spectrum = LiouvillianBlockSpectrum.ComputeSpectrum(L, N);
+            spectrum = ComputeSpectrumWithTimingPerBlock(H, gammaPerSite, N, refineF71: false, out var sectorTimings);
+            memDuring = GC.GetTotalMemory(forceFullCollection: false);
+            EmitSectorTimingSummary(N, sectorTimings);
         }
         sw.Stop();
+        long memAfter = GC.GetTotalMemory(forceFullCollection: true);
         Console.WriteLine($"# computed spectrum in {sw.ElapsedMilliseconds} ms ({spectrum.Length} eigenvalues)");
+        Console.WriteLine($"# managed-memory delta during block-eig: peak ≈ {FormatBytes(Math.Max(0, memDuring - memBefore))} (post-collect ≈ {FormatBytes(Math.Max(0, memAfter - memBefore))})");
+        Console.WriteLine($"# GC collections during block-eig: gen0={GC.CollectionCount(0) - gen0Before}, gen1={GC.CollectionCount(1) - gen1Before}, gen2={GC.CollectionCount(2) - gen2Before}");
 
-        // Optional verification: full-L direct eig
-        if (verify)
+        // Optional verification: full-L direct eig (only available at N ≤ 6).
+        if (verify && L is not null)
         {
             sw.Restart();
             var eigsFull = L.Evd().EigenValues.ToArray();
@@ -101,28 +150,176 @@ public static class BlockSpectrumCommand
             Console.WriteLine($"# verify: multiset match = {(ok ? "PASS" : "FAIL")} (max |Δλ| = {maxDev:E3}, tol = 1e-9)");
             if (!ok) return 3;
         }
+        else
+        {
+            Console.WriteLine($"# verify: skipped (no --verify flag{(fullLAvailable ? "" : "; full-L impossible at N>=7 anyway")})");
+        }
 
         // F1 palindrome check: spectrum invariant under λ → −2·Σγ − λ
-        // Σγ = N · gamma (uniform per-site Z-dephasing).
+        // Σγ = N · gamma (uniform per-site Z-dephasing). Always emitted: cheap set-comparison.
         double sumGamma = N * gamma;
         bool palindrome = MultisetPalindromeOk(spectrum, sumGamma, tol: 1e-7, out double palMaxDev);
         Console.WriteLine($"# F1 palindrome check (λ → −2Σγ − λ; Σγ = {sumGamma:G6}): {(palindrome ? "PASS" : "FAIL")} (max |Δλ| = {palMaxDev:E3})");
 
-        // First ~20 eigenvalues sorted by Re
-        Console.WriteLine("# first 20 eigenvalues (sorted by Re ascending):");
-        var sorted = spectrum.OrderBy(z => z.Real).ThenBy(z => z.Imaginary).Take(20).ToArray();
-        Console.WriteLine("#   idx        Re                Im");
-        for (int i = 0; i < sorted.Length; i++)
-            Console.WriteLine($"  {i,4}  {sorted[i].Real,17:E9}  {sorted[i].Imaginary,17:E9}");
+        // First topK eigenvalues sorted by Re
+        if (topK > 0)
+        {
+            int actualTop = Math.Min(topK, spectrum.Length);
+            Console.WriteLine($"# first {actualTop} eigenvalues (sorted by Re ascending):");
+            var sorted = spectrum.OrderBy(z => z.Real).ThenBy(z => z.Imaginary).Take(actualTop).ToArray();
+            Console.WriteLine("#   idx        Re                Im");
+            for (int i = 0; i < sorted.Length; i++)
+                Console.WriteLine($"  {i,4}  {sorted[i].Real,17:E9}  {sorted[i].Imaginary,17:E9}");
+        }
 
         return 0;
     }
 
-    private static ComplexMatrix BuildXYZDephasingL(int N, double J, double gamma)
+    /// <summary>Per-block eig with per-sector wall-time accumulation. Uses the
+    /// <see cref="PerBlockLiouvillianBuilder"/> path which never materialises full L.
+    /// Mirrors <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> and
+    /// <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock"/> in structure but
+    /// instruments each sector's wall-time so we can summarise where the cost lives.
+    /// Memory is O(blockSize²) at any instant — never O(4^N · 4^N).</summary>
+    private static Complex[] ComputeSpectrumWithTimingPerBlock(
+        ComplexMatrix H, double[] gammaPerSite, int N, bool refineF71,
+        out List<(int Size, double Ms)> sectorTimings)
     {
-        var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
-        var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
-        return PauliDephasingDissipator.BuildZ(H, gammaPerSite);
+        sectorTimings = new List<(int Size, double Ms)>();
+        int liouvilleDim = 1 << (2 * N);
+        int d = 1 << N;
+
+        var spectrum = new Complex[liouvilleDim];
+        int write = 0;
+        var perBlock = new Stopwatch();
+
+        var baseDecomp = JointPopcountSectorBuilder.Build(N);
+
+        if (refineF71)
+        {
+            // Per-side F71 mirror map.
+            var mirrorBits = new int[d];
+            for (int x = 0; x < d; x++)
+            {
+                int m = 0;
+                for (int i = 0; i < N; i++)
+                    if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
+                mirrorBits[x] = m;
+            }
+            int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
+            double invSqrt2 = 1.0 / Math.Sqrt(2.0);
+
+            foreach (var sector in baseDecomp.SectorRanges)
+            {
+                int size = sector.Size;
+                if (size == 0) continue;
+                perBlock.Restart();
+
+                // Identify F71 orbits.
+                var sectorFlat = new int[size];
+                for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
+                var seen = new HashSet<int>();
+                var fixedPoints = new List<int>();
+                var pairs = new List<(int s, int ps)>();
+                foreach (int flat in sectorFlat.OrderBy(x => x))
+                {
+                    if (seen.Contains(flat)) continue;
+                    int mirror = Mirror(flat);
+                    if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
+                    else
+                    {
+                        int sMin = Math.Min(flat, mirror);
+                        int sMax = Math.Max(flat, mirror);
+                        pairs.Add((sMin, sMax));
+                        seen.Add(sMin); seen.Add(sMax);
+                    }
+                }
+                int nFix = fixedPoints.Count;
+                int nPairs = pairs.Count;
+                int unionSize = nFix + 2 * nPairs;
+                var unionFlat = new int[unionSize];
+                for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+
+                var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
+
+                var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
+                for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
+                for (int k = 0; k < nPairs; k++)
+                {
+                    int evenCol = nFix + k;
+                    R[nFix + k, evenCol] = invSqrt2;
+                    R[nFix + nPairs + k, evenCol] = invSqrt2;
+                }
+                int oddOffset = nFix + nPairs;
+                for (int k = 0; k < nPairs; k++)
+                {
+                    int oddCol = oddOffset + k;
+                    R[nFix + k, oddCol] = invSqrt2;
+                    R[nFix + nPairs + k, oddCol] = -invSqrt2;
+                }
+                var rotated = R.Transpose() * unionBlock * R;
+
+                int evenSize = nFix + nPairs;
+                if (evenSize > 0)
+                {
+                    var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
+                    var evenEigs = evenBlock.Evd().EigenValues;
+                    perBlock.Stop();
+                    sectorTimings.Add((evenSize, perBlock.Elapsed.TotalMilliseconds));
+                    for (int i = 0; i < evenSize; i++) spectrum[write++] = evenEigs[i];
+                    perBlock.Restart();
+                }
+                int oddSize = nPairs;
+                if (oddSize > 0)
+                {
+                    var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
+                    var oddEigs = oddBlock.Evd().EigenValues;
+                    perBlock.Stop();
+                    sectorTimings.Add((oddSize, perBlock.Elapsed.TotalMilliseconds));
+                    for (int i = 0; i < oddSize; i++) spectrum[write++] = oddEigs[i];
+                }
+                else
+                {
+                    perBlock.Stop();
+                }
+            }
+        }
+        else
+        {
+            foreach (var sector in baseDecomp.SectorRanges)
+            {
+                int size = sector.Size;
+                if (size == 0) continue;
+                perBlock.Restart();
+                var flatIndices = new int[size];
+                for (int k = 0; k < size; k++) flatIndices[k] = baseDecomp.Permutation[sector.Offset + k];
+                var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+                var blockEigs = block.Evd().EigenValues;
+                perBlock.Stop();
+                sectorTimings.Add((size, perBlock.Elapsed.TotalMilliseconds));
+                for (int i = 0; i < size; i++) spectrum[write++] = blockEigs[i];
+            }
+        }
+        return spectrum;
+    }
+
+    /// <summary>Per-sector timing summary: mean / max / total wall-time across blocks. Only
+    /// emitted at N ≥ 6 where individual block costs become observable. Also lists the top-5
+    /// most expensive blocks.</summary>
+    private static void EmitSectorTimingSummary(int N, List<(int Size, double Ms)> sectorTimings)
+    {
+        if (N < 6) return;
+        if (sectorTimings.Count == 0) return;
+        double total = sectorTimings.Sum(t => t.Ms);
+        double mean = total / sectorTimings.Count;
+        var maxBlock = sectorTimings.OrderByDescending(t => t.Ms).First();
+        Console.WriteLine($"# per-sector timing: count={sectorTimings.Count}, mean={mean:F1} ms, max={maxBlock.Ms:F1} ms (size={maxBlock.Size}), total={total:F1} ms");
+        var top5 = sectorTimings.OrderByDescending(t => t.Ms).Take(5).ToArray();
+        Console.WriteLine("# top-5 most expensive blocks (size, wall-time ms):");
+        for (int i = 0; i < top5.Length; i++)
+            Console.WriteLine($"#   #{i + 1}: size={top5[i].Size}, time={top5[i].Ms:F1} ms");
     }
 
     private static string FormatBytes(long bytes)

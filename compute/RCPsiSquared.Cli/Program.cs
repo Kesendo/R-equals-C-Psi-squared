@@ -86,8 +86,10 @@ public static class Program
         Console.WriteLine("              subs: tier <T1D|T1C|T2V|T2E|OQ|R> | ancestors <Name> | descendants <Name> | all");
         Console.WriteLine();
         Console.WriteLine("  block-spectrum  build chain XY+Z-deph L at given N, decompose via joint-popcount");
-        Console.WriteLine("                  sectors (optionally + F71 mirror refinement), print spectrum + checks");
-        Console.WriteLine("                  args: --N <int> [--gamma <double>] [--J <double>] [--refine f71|none] [--verify]");
+        Console.WriteLine("                  sectors (optionally + F71 mirror refinement), print spectrum + checks.");
+        Console.WriteLine("                  Per-block path never materialises full L: N=7,8 tractable on commodity HW.");
+        Console.WriteLine("                  args: --N <int> [--gamma <double>] [--J <double>] [--refine f71|none]");
+        Console.WriteLine("                        [--verify|--no-verify] [--top <int>]");
         Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");
@@ -97,5 +99,6 @@ public static class Program
         Console.WriteLine("  rcpsi inspect --N 5 --n 1 --gamma 0.05 --max-depth 3");
         Console.WriteLine("  rcpsi block-spectrum --N 4 --verify");
         Console.WriteLine("  rcpsi block-spectrum --N 6 --refine f71");
+        Console.WriteLine("  rcpsi block-spectrum --N 8 --refine f71 --top 30   # ~2 min, < 1 GB peak");
     }
 }

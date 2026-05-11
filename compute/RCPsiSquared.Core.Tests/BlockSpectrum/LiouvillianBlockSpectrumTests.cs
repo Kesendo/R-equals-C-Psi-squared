@@ -144,6 +144,55 @@ public class LiouvillianBlockSpectrumTests
     }
 
     // ----------------------------------------------------------------------
+    // Per-block path: no full-L materialisation (Phase 4 N=7,8 enabler)
+    // ----------------------------------------------------------------------
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void ComputeSpectrumPerBlock_MatchesFullL_AtUnitJAndHalfGamma(int N)
+    {
+        var L = BuildXYZDephasingL(N, J: 1.0, gamma: 0.5);
+        var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
+        var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
+
+        var eigsFull = L.Evd().EigenValues.ToArray();
+        var eigsPerBlock = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+
+        Assert.Equal(eigsFull.Length, eigsPerBlock.Length);
+        AssertMultisetEqual(eigsFull, eigsPerBlock, tol: 1e-9, N: N);
+    }
+
+    [Fact]
+    public void ComputeSpectrumPerBlock_NullH_Throws()
+    {
+        var gammas = new double[3];
+        Assert.Throws<ArgumentNullException>(() =>
+            LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(null!, gammas, 3));
+    }
+
+    [Fact]
+    public void ComputeSpectrumPerBlock_WrongHDim_Throws()
+    {
+        // N=3 expects 2^3 = 8; pass a 16×16 → mismatch.
+        var wrong = Matrix<Complex>.Build.DenseIdentity(16);
+        var gammas = new double[3];
+        Assert.Throws<ArgumentException>(() =>
+            LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(wrong, gammas, 3));
+    }
+
+    [Fact]
+    public void ComputeSpectrumPerBlock_WrongGammaLength_Throws()
+    {
+        const int N = 3;
+        var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
+        var gammas = new double[N + 1];  // wrong length
+        Assert.Throws<ArgumentException>(() =>
+            LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammas, N));
+    }
+
+    // ----------------------------------------------------------------------
     // Helpers
     // ----------------------------------------------------------------------
 

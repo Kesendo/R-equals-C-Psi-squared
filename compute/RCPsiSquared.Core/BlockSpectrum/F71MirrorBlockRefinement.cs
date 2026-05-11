@@ -250,4 +250,147 @@ public sealed class F71MirrorBlockRefinement : Claim
         }
         return spectrum;
     }
+
+    /// <summary>Compute the full Liouvillian spectrum via F71-refined per-sub-block
+    /// eigendecomposition WITHOUT materialising the full L matrix. For each joint-popcount
+    /// sector, builds the (even, odd) F71 sub-blocks directly from the Hilbert-space H +
+    /// γ_per_site by:
+    /// <list type="number">
+    ///   <item>Identifying the sector's F71-orbits (fixed-points + size-2 pairs).</item>
+    ///   <item>Constructing the union of paired flat indices (size 2·n_pairs + n_fix).</item>
+    ///   <item>Calling <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> to get the
+    ///         union block.</item>
+    ///   <item>Applying the local 1/√2 sign-walk basis change to project onto F71-even
+    ///         and F71-odd sub-blocks (a real-orthogonal transform on the union block).</item>
+    /// </list>
+    /// <para>Memory footprint is per-block: O(blockSize²) only, never O(4^N · 4^N). This is
+    /// the path used by the CLI smoke runs at N=7, 8 where full-L cannot be allocated.</para></summary>
+    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N.</param>
+    /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
+    /// <param name="N">Qubit count.</param>
+    /// <returns>Flat array of 4^N eigenvalues.</returns>
+    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N)
+    {
+        if (H is null) throw new ArgumentNullException(nameof(H));
+        int hilbertDim = 1 << N;
+        if (H.RowCount != hilbertDim || H.ColumnCount != hilbertDim)
+            throw new ArgumentException(
+                $"H must be ({hilbertDim})×({hilbertDim}) for N={N}; got {H.RowCount}×{H.ColumnCount}.",
+                nameof(H));
+        if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
+        if (gammaPerSite.Count != N)
+            throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+
+        int liouvilleDim = 1 << (2 * N);
+        int d = hilbertDim;
+
+        // Build the per-Hilbert-side P_F71 mirror map.
+        var mirrorBits = new int[d];
+        for (int x = 0; x < d; x++)
+        {
+            int m = 0;
+            for (int i = 0; i < N; i++)
+                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
+            mirrorBits[x] = m;
+        }
+        int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
+
+        var baseDecomp = JointPopcountSectorBuilder.Build(N);
+        var spectrum = new Complex[liouvilleDim];
+        int write = 0;
+
+        double invSqrt2 = 1.0 / Math.Sqrt(2.0);
+
+        foreach (var sector in baseDecomp.SectorRanges)
+        {
+            int size = sector.Size;
+            if (size == 0) continue;
+
+            // Find F71 orbits in this sector.
+            var sectorFlat = new int[size];
+            for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
+            var sectorSet = new HashSet<int>(sectorFlat);
+            var seen = new HashSet<int>();
+            var fixedPoints = new List<int>();
+            var pairs = new List<(int s, int ps)>();
+            foreach (int flat in sectorFlat.OrderBy(x => x))
+            {
+                if (seen.Contains(flat)) continue;
+                int mirror = Mirror(flat);
+                if (mirror == flat)
+                {
+                    fixedPoints.Add(flat);
+                    seen.Add(flat);
+                }
+                else
+                {
+                    int sMin = Math.Min(flat, mirror);
+                    int sMax = Math.Max(flat, mirror);
+                    pairs.Add((sMin, sMax));
+                    seen.Add(sMin);
+                    seen.Add(sMax);
+                }
+            }
+
+            // Build the union block over (fixed-points ++ pair-firsts ++ pair-seconds).
+            // Layout: rows 0..nFix-1 are fixed points; rows nFix..nFix+nPairs-1 are s_k; rows
+            // nFix+nPairs..nFix+2·nPairs-1 are ps_k. Apply a real-orthogonal local rotation
+            // R per pair: [s; ps] → [(s+ps)/√2; (s−ps)/√2]. R is block-diagonal — identity on
+            // fixed points, 2×2 [[1/√2, 1/√2], [1/√2, −1/√2]] per pair.
+            int nFix = fixedPoints.Count;
+            int nPairs = pairs.Count;
+            int unionSize = nFix + 2 * nPairs;
+            var unionFlat = new int[unionSize];
+            for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+
+            var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
+
+            // Build R: real-orthogonal basis change to (even ++ odd) order.
+            // Result block in new basis: R^T · unionBlock · R, but to avoid the full
+            // matrix multiply we apply R as a sparse linear transform: rows/cols are reordered
+            // and scaled by 1/√2 with sign patterns. We build R as a dense unionSize × unionSize
+            // sparse-pattern matrix.
+            var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
+            // Even sub-block columns: first nFix are fixed-point identity columns; then nPairs
+            // (e_s + e_{ps})/√2 columns.
+            for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
+            for (int k = 0; k < nPairs; k++)
+            {
+                int evenCol = nFix + k;
+                R[nFix + k, evenCol] = invSqrt2;
+                R[nFix + nPairs + k, evenCol] = invSqrt2;
+            }
+            // Odd sub-block columns: nPairs (e_s − e_{ps})/√2 columns.
+            int oddOffset = nFix + nPairs;
+            for (int k = 0; k < nPairs; k++)
+            {
+                int oddCol = oddOffset + k;
+                R[nFix + k, oddCol] = invSqrt2;
+                R[nFix + nPairs + k, oddCol] = -invSqrt2;
+            }
+
+            // refinedBlock = R^T · unionBlock · R is block-diagonal in (even, odd).
+            var rotated = R.Transpose() * unionBlock * R;
+
+            // Even sub-block: rows/cols [0 .. nFix + nPairs).
+            int evenSize = nFix + nPairs;
+            if (evenSize > 0)
+            {
+                var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
+                var evenEigs = evenBlock.Evd().EigenValues;
+                for (int i = 0; i < evenSize; i++) spectrum[write++] = evenEigs[i];
+            }
+            // Odd sub-block: rows/cols [evenSize .. unionSize).
+            int oddSize = nPairs;
+            if (oddSize > 0)
+            {
+                var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
+                var oddEigs = oddBlock.Evd().EigenValues;
+                for (int i = 0; i < oddSize; i++) spectrum[write++] = oddEigs[i];
+            }
+        }
+        return spectrum;
+    }
 }
