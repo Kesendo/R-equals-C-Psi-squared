@@ -86,6 +86,7 @@ public static class KnowledgeCommand
             // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
             .RegisterJointPopcountSectors()
             .RegisterLiouvillianBlockSpectrum()
+            .RegisterF71MirrorBlockRefinement()
             // F86 inheritance + meta-claims
             .RegisterF86PolarityLink()
             .RegisterF86LocalGlobalEpLink()
