@@ -1,0 +1,124 @@
+using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
+
+namespace RCPsiSquared.Core.Symmetry;
+
+/// <summary>F89 unified F_a AT-locked amplitude closed form across path-3..6
+/// (Tier 1 derived; bit-exact verified):
+///
+/// <code>
+///   sigs[F_a:n](N) = P_path(y_n) / [D_path · N²·(N−1)]
+///   y_n = 4·cos(πn/(N_block+1))   for n in S_2-anti orbit
+/// </code>
+///
+/// <para>Per-path (P_path, D_path) integer-coefficient polynomial table:</para>
+/// <list type="table">
+///   <item>path-3 (N_block=4): P(y) = 14y + 47, D = 9</item>
+///   <item>path-4 (N_block=5): P(y) = 10y + 25, D = 4</item>
+///   <item>path-5 (N_block=6): P(y) = 13y² + 82y + 129, D = 25</item>
+///   <item>path-6 (N_block=7): P(y) = 17y² + 72y + 80, D = 18</item>
+/// </list>
+///
+/// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
+/// through F_a count distinct y_n values). Sum F_a · N²(N−1) is rational across
+/// all paths via Newton's identities on the cyclotomic minimal polynomial of y.
+/// No N_block-parametric closed form for (P_path, D_path) was found from
+/// 4-point fitting (negative result).</para>
+///
+/// <para>Anchors: <c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>,
+/// <c>_f89_path4_at_locked_amplitude_symbolic.py</c>,
+/// <c>_f89_path5_at_locked_amplitude_symbolic.py</c>,
+/// <c>_f89_path6_at_locked_amplitude_symbolic.py</c>,
+/// <c>_f89_path5_cardano_cubic_individuals.py</c>,
+/// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Unified closed form".</para></summary>
+public sealed class F89UnifiedFaClosedFormClaim : Claim
+{
+    private readonly F89TopologyOrbitClosure _f89;
+    private readonly F89PathKAtLockMechanismClaim _atLock;
+
+    /// <summary>Per-path (P_path coefficients low-to-high degree, D_path) table.
+    /// Returns the integer-coefficient numerator polynomial coefficients for
+    /// sigs[F_a:n](N) · D_path · N²(N-1) = P_path(y_n) at y_n = 4·cos(πn/(N_block+1)).</summary>
+    public static (double[] CoefficientsLowToHigh, int Denominator) PathPolynomial(int k)
+    {
+        return k switch
+        {
+            3 => (new double[] { 47.0, 14.0 }, 9),                      // 14y + 47
+            4 => (new double[] { 25.0, 10.0 }, 4),                      // 10y + 25
+            5 => (new double[] { 129.0, 82.0, 13.0 }, 25),              // 13y² + 82y + 129
+            6 => (new double[] { 80.0, 72.0, 17.0 }, 18),               // 17y² + 72y + 80
+            _ => throw new ArgumentOutOfRangeException(nameof(k), k,
+                "Unified F_a closed form is currently tabulated for path-3..6 only. " +
+                "Path-7+ extensions: cyclotomic Φ_9 = x⁶+x³+1; coefficients open."),
+        };
+    }
+
+    /// <summary>Evaluate sigs[F_a:n](N) for a specific path, Bloch index n, and total qubit count N.
+    /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).</summary>
+    public static double Sigma(int k, int n, int blochN)
+    {
+        if (k < 3 || k > 6) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6} only.");
+        int nBlock = k + 1;
+        if (blochN < nBlock + 1)
+            throw new ArgumentOutOfRangeException(nameof(blochN), blochN,
+                $"N must be ≥ N_block + 1 = {nBlock + 1} for path-{k} (need at least one bare site).");
+        var (coefs, denom) = PathPolynomial(k);
+        double y = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
+        double poly = 0.0;
+        double yPow = 1.0;
+        foreach (var c in coefs)
+        {
+            poly += c * yPow;
+            yPow *= y;
+        }
+        return poly / (denom * blochN * blochN * (blochN - 1));
+    }
+
+    /// <summary>Sum of sigs[F_a:n](N) over the S_2-anti Bloch orbit n. Rational
+    /// across all paths (Newton's identities cancel the radical content):
+    /// path-3: 22/3, path-4: 25/2, path-5: 483/25, path-6: 256/9 (in units of
+    /// N²(N-1)).</summary>
+    public static double SigmaSum(int k, int blochN)
+    {
+        if (k < 3 || k > 6) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6} only.");
+        int nBlock = k + 1;
+        var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
+        double sum = 0.0;
+        foreach (var n in orbit) sum += Sigma(k, n, blochN);
+        return sum;
+    }
+
+    public F89UnifiedFaClosedFormClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
+        : base("F89 unified F_a AT-locked amplitude closed form across path-3..6: sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)] with y_n = 4cos(πn/(N_block+1)) on the SE-anti Bloch orbit; (P_path, D_path) tabulated per path; sum F_a is rational across all paths via Newton's identities on the cyclotomic minimal polynomial",
+               Tier.Tier1Derived,
+               "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "simulations/_f89_path3_at_locked_amplitude_symbolic.py + " +
+               "simulations/_f89_path4_at_locked_amplitude_symbolic.py + " +
+               "simulations/_f89_path5_at_locked_amplitude_symbolic.py + " +
+               "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +
+               "simulations/_f89_path5_cardano_cubic_individuals.py + " +
+               "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
+    {
+        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+    }
+
+    public override string DisplayName =>
+        "F89 unified F_a AT-locked amplitude closed form: sigs = P_path(y_n) / [D_path·N²(N-1)] across path-3..6";
+
+    public override string Summary =>
+        $"sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)]; (P,D) = {{(14y+47,9), (10y+25,4), (13y²+82y+129,25), (17y²+72y+80,18)}} for path-{{3,4,5,6}}; sum rational via Newton ({Tier.Label()})";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("Sample sigs path-3 N=11 n=2",
+                summary: $"{Sigma(3, 2, 11):G6} (= (33+14√5)/[9·11²·10])");
+            yield return new InspectableNode("Sample sigs path-6 N=11 n=4 (zero mode)",
+                summary: $"{Sigma(6, 4, 11):G6} (= 40/[9·11²·10])");
+            yield return new InspectableNode("Sum F_a path-5 N=11",
+                summary: $"{SigmaSum(5, 11):G6} (= 483/[25·11²·10])");
+        }
+    }
+}
