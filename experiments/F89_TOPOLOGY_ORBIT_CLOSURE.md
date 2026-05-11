@@ -568,6 +568,8 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-3 F_a AT-locked amplitude closed form**: sigs[F_a:E_2](N) = (33 + 14√5)/[9·N²(N−1)] and sigs[F_a:E_4](N) = (33 − 14√5)/[9·N²(N−1)], q-independent, verified bit-exact (10⁻¹⁷ diff) across N=5..20 and q=0.5..3. Sum = 22/[3·N²(N−1)] is rational. F_b modes have zero per-site reduced contribution (eigenvector lives in no-overlap, w[l] requires overlap).
 
+**Tier 1 derived** for the **AT-lock mechanism generalisation to path-4, path-5**: numerical scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) confirms 100% overlap (F_a) / 100% no-overlap (F_b) eigvec support at all AT-locked rates 2γ, 6γ. AT-locked counts grow {4, 8, 13} for path {3, 4, 5}; H_B-mixed degrees {8, 18, 32}. F_a ω matches SE-anti single-particle Bloch eigenvalues; F_b ω matches DE 2-particle Slater eigenvalues E_(j,k) = E_j + E_k (path-3 was the special case where DE=0 multiplicity 2 absorbed F_b into single-particle freqs).
+
 **Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
 
     disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)
@@ -612,7 +614,11 @@ The (3q⁴+q²−1)² perfect-square factor of disc(F_8) locates an **exceptiona
 
 **Open / Tier 2 empirical work**:
 - Path-3 F_a AT-locked amplitudes closed in (N) with √5: sigs[F_a:E_2/E_4] = (33 ± 14√5)/[9·N²(N−1)] verified bit-exact. Path-4, path-5 analogs are open. Path-3 octic-mode amplitude closed forms in q are conjecturally obstructed by Galois non-solvability (Tier 2 empirical: no rational/√5-extension fit ≤ degree 5 in q; formal Galois group identification beyond Gal ⊄ A_8 still open).
-- Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
+- Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations. Numerical AT-lock scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) shows the AT-lock mechanism (eigvec overlap-only / no-overlap-only support) GENERALISES to both path-4 (N_block=5) and path-5 (N_block=6), but the F_a/F_b count asymmetry emerges:
+  - **Path-4** (S_2-sym dim 26): 8 AT-locked = 2 F_a + 6 F_b. F_a ω = ±3J = ±E^SE_anti (single-particle Bloch); F_b ω in {±2J(√3+1), ±2J, ±2J(√3-1)} = 2-particle DE Slater E_(j,k) = E_j + E_k. H_B-mixed sub-factor degree 18.
+  - **Path-5** (S_2-sym dim 45): 13 AT-locked = 3 F_a + 10 F_b. F_a ω = ±E^SE_anti = {±E_4, ±E_2, ±E_6} = ±4J·cos(π·n/7) for n=2,4,6 (Cardano-cubic roots). F_b ω include exact-degeneracies (2 modes at -3.604, 2 at +2.494, 2 at -0.890), suggesting symmetry-protected multiplicities. H_B-mixed sub-factor degree 32.
+  - The path-3 coincidence (F_a freq = F_b freq = SE-anti Bloch) was N_block=4-specific: at N_block=4, DE=0 multiplicity-2 absorbed all F_b modes into single-particle freq matching. For N_block ≥ 5, F_b modes spread across DE Slater multi-particle frequencies.
+  - Symbolic closed-form factorisations for the AT-locked sub-factors remain open (sympy nullspace approach; expected: rational + √3 for path-4 due to N_block=5's clean Bloch eigenvalues; Cardano-cubic radicals for path-5 due to cos(π/7), cos(2π/7), cos(3π/7) being Galois-cubic).
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: structurally connected at path-3 via shared t_peak = 1/(4γ₀) universality at their respective 2-level EPs (Re(λ_EP) = −4γ at both); the path-3 octic EP at q ≈ 0.659 and F86 c=2 Q_EP at 1/√2 are distinct 2-level reductions in different sub-sectors but obey the same universal t_peak. Full class-AIII chiral inheritance proof open.
 - Star/ring topology generalisation: F89 main theorem applies to any bond set, but per-class closed forms for non-chain topologies have not been worked out.
