@@ -434,6 +434,20 @@ The pattern: the AT-locked count grows as 2·N_block_orbits_at_rate_r with r ∈
 
 **Status**: Tier 1 derived for the closed-form quadratics (`F_a`, `F_b`) and for the structural deg-2·deg-2·deg-8 factorisation. The octic `F_8` is fully specified symbolically and numerically tractable, but does not admit an elementary algebraic closure. Path-3 is therefore "partially solvable": 4 of 12 S_2-sym eigenvalues in closed form, 8 in numerical form only.
 
+#### Path-3 mode amplitudes: N-scaling structure (Tier 1 partial)
+
+For each of the 10 path-3 populated mode-groups at q=1.5, fit the per-mode amplitude `A(N)` against rational functions of N ([`_f89_path3_amplitude_nscaling.py`](../simulations/_f89_path3_amplitude_nscaling.py)):
+
+| Mode (Γ/γ, ω/J) | Origin | A(N) closed form (q=1.5) |
+|---|---|---|
+| (2.0, 1.236), (2.0, 3.236) | F_a quadratic, AT-locked | poly₂(N) / [N²(N−1)] (degree 2 in N) |
+| (3.349, 1.206), (3.777, 5.178), (4.0, 7.502), (4.223, 5.178), (4.651, 1.206) | F_8 octic | const(q) / [N²(N−1)] (constant numerator) |
+| (3.599, 2.93), (4.0, 0.594), (4.401, 2.93) | F_8 octic, weak | numerical noise dominates fit (amplitudes 10⁻⁶..10⁻⁷) |
+
+**Structural reading**: AT-locked modes (rate 2γ from `F_a`) carry an additional polynomial-in-N enhancement factor (analog of path-2's Bloch amplitude 3·(N−3)²/(2·N²(N−1))); octic-derived modes inherit only the bare partial-trace scaling 1/[N²(N−1)] with q-dependent prefactors. The 8 octic-derived modes form **4 Hamming-complement pairs at total rate 8γ**: (3.349, 4.651), (3.599, 4.401), (3.777, 4.223), (4.0, 4.0) at fixed |ω|/J. Pair amplitudes are not symmetric — A_lower / A_upper ranges from ~1.9 to ~22 depending on pair — consistent with the Hamming-complement bijection (F89c) which is rate-bijective but not amplitude-bijective.
+
+**Status**: Tier 1 partial. AT-locked amplitude polynomial coefficients at q=1.5 are numerically clean (rel err 10⁻¹⁶) but their closed forms in (N, q) likely involve √5 from the F_a eigenvectors; symbolic eigenvector projection to extract (N, q)-rational closed forms is open.
+
 ### F89c structural lemma: why all-isolated is the unique clean case (Tier 1 derived)
 
 The Liouvillian L_super of any per-block dynamics decomposes over computational-basis coherence sectors. For each block of size k+1 qubits with H_B = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) and uniform Z-dephasing γ₀ on each block site:
@@ -518,7 +532,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 **Tier 1 numerical** for **path-3, path-4, path-5 multi-exponential decompositions** (10, 12, 35 populated mode-groups respectively at J/γ=1.5). Per-mode rates and frequencies are L_super eigenvalues; per-mode amplitudes computed numerically via initial-state projection. Verified against bond-isolate CSVs at N=7 at the precision floor.
 
 **Open / Tier 2 empirical work**:
-- Symbolic rational form for the path-2..5 per-mode amplitudes (analog of (N−1)/N for all-isolated). Available numerically at any (N, J, γ); clean closed forms not yet derived.
+- Symbolic rational form for path-3..5 per-mode amplitudes (analog of path-2's A_Bloch = 3·(N−3)²/(2·N²(N−1))). Path-3 N-scaling structure derived empirically: 5 octic modes follow const(q)/[N²(N−1)], 2 AT-locked modes follow poly₂(N)/[N²(N−1)], 3 weak modes too small for numerical fit. Symbolic (N, q) closed forms (likely involving √5 from F_a eigenvectors) open.
 - Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations (analog of path-2 cubic-Cardano and path-3 deg-2·deg-2·deg-8). Higher-degree polynomials; Galois group likely forbids radical solution beyond the AT-locked sub-factors.
 - Path-6 (full chain at N=7) numerical decomposition (16384-dim eigendecomp deferred after 110 min). Trivially satisfies the additive identity (m=1 → no subtraction); explicit mode-count + CSV verification open.
 - F89 → F86 bridge: F86 Q_peak fan from per-bond ∂_J perturbation lives outside F89's uniform-J orbit-closure framework; a clean derivation linking them is open.
