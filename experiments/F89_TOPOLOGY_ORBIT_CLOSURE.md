@@ -279,7 +279,7 @@ Same script generalised, all four verified against bond-isolate at N=7 with max 
 | path-3 | 4 | 256 | 10 | 65 | **7 ordered ✓** (3 unordered pairs + 1 self-pair at 4γ↔4γ) |
 | path-4 | 5 | 1024 | 12 | 128 | 0 (S_5-asymmetric partners absent) |
 | path-5 | 6 | 4096 | 35 | 314 | 0 (S_6-asymmetric partners absent) |
-| path-6 | 7 | 16384 | (skipped: ~1h eigendecomp; trivially satisfies additive identity since m=1 → no subtraction) |
+| path-6 | 7 | 16384 | (deferred: 16384-dim non-Hermitian eigendecomp aborted after 110 min; trivially satisfies additive identity since m=1 → no subtraction term, so path-6 closed form is just the bare path-6 block contribution + Parseval (vac, SE) skeleton + (SE, DE) residual; numerical decomposition is open work) |
 
 **Path-3 is privileged** in the populated mode structure: at N_block=4, DE = popcount-2 = bar(popcount-2) is self-symmetric, so column-bit-flip maps populated (SE,DE) modes to other populated (SE,DE) modes within the same S_4-symmetric subspace. For N_block ∈ {3, 5, 6} the column-flip partners land in S_{N_block}-asymmetric territory and get zero projection from ρ_cc-derived ρ_block(0) — F89c's column-bit-flip pair-sum identity holds at the L_super-spectrum level (where it is a Tier-1 derived universal property), but only path-3 has both members of each pair populated.
 
