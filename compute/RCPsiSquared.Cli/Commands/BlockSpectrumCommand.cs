@@ -37,7 +37,8 @@ public static class BlockSpectrumCommand
         var p = new ArgParser(args);
         p.RequireNoPositional();
         int N = p.RequireInt("N");
-        double gamma = p.OptionalDouble("gamma") ?? 0.5;
+        double? gammaScalar = p.OptionalDouble("gamma");
+        string? gammaListStr = p.OptionalString("gamma-list");
         double J = p.OptionalDouble("J") ?? 1.0;
         string refineKind = p.OptionalString("refine") ?? "none";
         bool verify = p.HasFlag("verify");
@@ -48,6 +49,9 @@ public static class BlockSpectrumCommand
             throw new ArgumentException("--verify and --no-verify are mutually exclusive.");
         if (noVerify) verify = false;
 
+        if (gammaScalar.HasValue && gammaListStr is not null)
+            throw new ArgumentException("--gamma and --gamma-list are mutually exclusive.");
+
         if (N < 1 || N > 12)
             throw new ArgumentOutOfRangeException(nameof(N), N, "Supported N range: 1..12.");
         if (refineKind != "none" && refineKind != "f71")
@@ -55,7 +59,31 @@ public static class BlockSpectrumCommand
         if (topK < 0)
             throw new ArgumentException($"--top must be >= 0; got {topK}.");
 
-        Console.WriteLine($"# block-spectrum: N={N}, J={J:G6}, gamma={gamma:G6}, refine={refineKind}, verify={verify}, top={topK}");
+        // Build the per-site γ array: scalar broadcasts to N copies, or parse comma-separated list.
+        double[] gammaPerSite;
+        string gammaDescriptor;
+        if (gammaListStr is not null)
+        {
+            var parts = gammaListStr.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != N)
+                throw new ArgumentException(
+                    $"--gamma-list has {parts.Length} entries, expected N={N} (one γ per site).");
+            gammaPerSite = parts
+                .Select(s => double.Parse(s.Trim(), System.Globalization.CultureInfo.InvariantCulture))
+                .ToArray();
+            gammaDescriptor = $"[{string.Join(", ", gammaPerSite.Select(g => g.ToString("G6", System.Globalization.CultureInfo.InvariantCulture)))}]";
+        }
+        else
+        {
+            double gamma = gammaScalar ?? 0.5;
+            gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
+            gammaDescriptor = $"uniform {gamma:G6}";
+        }
+        double sumGamma = gammaPerSite.Sum();
+        double f71AsymNorm = InhomogeneousGammaF71BreakingWitness.F71AsymmetryNorm(gammaPerSite);
+
+        Console.WriteLine($"# block-spectrum: N={N}, J={J:G6}, gamma={gammaDescriptor}, refine={refineKind}, verify={verify}, top={topK}");
+        Console.WriteLine($"#   Σγ = {sumGamma:G6}, F71 γ-asymmetry norm sqrt(Σ(γ_l−γ_{{N-1-l}})²) = {f71AsymNorm:E3}");
 
         // Sector summary (refinement-independent)
         int sectorCount = JointPopcountSectors.SectorCount(N);
@@ -90,7 +118,6 @@ public static class BlockSpectrumCommand
         // Build the Hilbert-space Hamiltonian once (cheap: 2^N × 2^N).
         var sw = Stopwatch.StartNew();
         var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
-        var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
         sw.Stop();
         Console.WriteLine($"# built H (Hilbert {1 << N}×{1 << N}) in {sw.ElapsedMilliseconds} ms");
 
@@ -115,6 +142,7 @@ public static class BlockSpectrumCommand
         int gen2Before = GC.CollectionCount(2);
         long memDuring;
         sw.Restart();
+        double? f71OffBlockNorm = null;
         if (refineKind == "f71")
         {
             var baseDecomp = JointPopcountSectorBuilder.Build(N);
@@ -126,6 +154,9 @@ public static class BlockSpectrumCommand
             spectrum = ComputeSpectrumWithTimingPerBlock(H, gammaPerSite, N, refineF71: true, out var sectorTimings);
             memDuring = GC.GetTotalMemory(forceFullCollection: false);
             EmitSectorTimingSummary(N, sectorTimings);
+            // F71 off-block Frobenius: sum across joint-popcount sectors of the Frobenius² of the
+            // (even ↔ odd) cross blocks in the rotated union-block. Zero iff γ_l = γ_{N-1-l}.
+            f71OffBlockNorm = ComputeF71OffBlockNorm(H, gammaPerSite, N);
         }
         else
         {
@@ -155,9 +186,16 @@ public static class BlockSpectrumCommand
             Console.WriteLine($"# verify: skipped (no --verify flag{(fullLAvailable ? "" : "; full-L impossible at N>=7 anyway")})");
         }
 
-        // F1 palindrome check: spectrum invariant under λ → −2·Σγ − λ
-        // Σγ = N · gamma (uniform per-site Z-dephasing). Always emitted: cheap set-comparison.
-        double sumGamma = N * gamma;
+        // F71 off-block-Frobenius norm in the refined basis (only emitted when --refine f71):
+        // 0 iff γ_l = γ_{N-1-l} (γ-distribution palindromic). Nonzero indicates the chain
+        // spatial-mirror Z₂ is broken by the γ-asymmetry; magnitude scales with the F71
+        // asymmetry norm of the γ-distribution. Witness of InhomogeneousGammaF71BreakingWitness.
+        if (f71OffBlockNorm.HasValue)
+            Console.WriteLine($"# F71 off-block Frobenius in refined basis: {f71OffBlockNorm.Value:E3} (0 iff γ palindromic; F71 asymmetry norm = {f71AsymNorm:E3})");
+
+        // F1 palindrome check: spectrum invariant under λ → −2·Σγ − λ. Σγ = Σ_l γ_l, computed
+        // above from the (possibly inhomogeneous) per-site γ array. Π is γ-blind in that it
+        // depends only on the sum across sites, so this check holds regardless of asymmetry.
         bool palindrome = MultisetPalindromeOk(spectrum, sumGamma, tol: 1e-7, out double palMaxDev);
         Console.WriteLine($"# F1 palindrome check (λ → −2Σγ − λ; Σγ = {sumGamma:G6}): {(palindrome ? "PASS" : "FAIL")} (max |Δλ| = {palMaxDev:E3})");
 
@@ -368,5 +406,109 @@ public static class BlockSpectrumCommand
         for (int i = 0; i < n; i++)
             mirrored[i] = new Complex(-2 * sumGamma - spectrum[i].Real, spectrum[i].Imaginary);
         return MultisetMatches(spectrum, mirrored, tol, out maxDev);
+    }
+
+    /// <summary>F71 off-block Frobenius in the refined basis (no full-L materialisation).
+    ///
+    /// <para>For each joint-popcount sector we build the union-block (size = nFix + 2·nPairs)
+    /// directly via <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>, apply the same
+    /// real-orthogonal rotation R as <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock"/>
+    /// to project into (F71-even ⊕ F71-odd), and accumulate the Frobenius² of the (even↔odd)
+    /// cross blocks. Across joint-popcount sectors L has no cross terms (γ-blind block
+    /// structure), so the only F71-off-block contribution lives within each sector.</para>
+    ///
+    /// <para>Memory: O(unionSize²) at a time, max ≈ MaxSectorSize(N) entries; well below 1 GB
+    /// at N=6 and within the F71 refinement budget at N=7,8.</para></summary>
+    private static double ComputeF71OffBlockNorm(ComplexMatrix H, double[] gammaPerSite, int N)
+    {
+        int d = 1 << N;
+
+        // Per-Hilbert-side F71 mirror map (same as ComputeSpectrumWithTimingPerBlock).
+        var mirrorBits = new int[d];
+        for (int x = 0; x < d; x++)
+        {
+            int m = 0;
+            for (int i = 0; i < N; i++)
+                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
+            mirrorBits[x] = m;
+        }
+        int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
+        double invSqrt2 = 1.0 / Math.Sqrt(2.0);
+
+        var baseDecomp = JointPopcountSectorBuilder.Build(N);
+        double offBlockFroSq = 0.0;
+
+        foreach (var sector in baseDecomp.SectorRanges)
+        {
+            int size = sector.Size;
+            if (size == 0) continue;
+
+            // Identify F71 orbits within this sector.
+            var sectorFlat = new int[size];
+            for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
+            var seen = new HashSet<int>();
+            var fixedPoints = new List<int>();
+            var pairs = new List<(int s, int ps)>();
+            foreach (int flat in sectorFlat.OrderBy(x => x))
+            {
+                if (seen.Contains(flat)) continue;
+                int mirror = Mirror(flat);
+                if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
+                else
+                {
+                    int sMin = Math.Min(flat, mirror);
+                    int sMax = Math.Max(flat, mirror);
+                    pairs.Add((sMin, sMax));
+                    seen.Add(sMin); seen.Add(sMax);
+                }
+            }
+            int nFix = fixedPoints.Count;
+            int nPairs = pairs.Count;
+            int unionSize = nFix + 2 * nPairs;
+            if (unionSize == 0) continue;
+
+            var unionFlat = new int[unionSize];
+            for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+
+            var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
+
+            // Build R: same layout as ComputeSpectrumWithTimingPerBlock — first (nFix+nPairs)
+            // columns span F71-even, next nPairs columns span F71-odd.
+            var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
+            for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
+            for (int k = 0; k < nPairs; k++)
+            {
+                int evenCol = nFix + k;
+                R[nFix + k, evenCol] = invSqrt2;
+                R[nFix + nPairs + k, evenCol] = invSqrt2;
+            }
+            int oddOffset = nFix + nPairs;
+            for (int k = 0; k < nPairs; k++)
+            {
+                int oddCol = oddOffset + k;
+                R[nFix + k, oddCol] = invSqrt2;
+                R[nFix + nPairs + k, oddCol] = -invSqrt2;
+            }
+            var rotated = R.Transpose() * unionBlock * R;
+
+            // Accumulate Frobenius² over the two cross blocks (even × odd, odd × even).
+            int evenSize = nFix + nPairs;
+            int oddSize = nPairs;
+            for (int i = 0; i < evenSize; i++)
+                for (int j = 0; j < oddSize; j++)
+                {
+                    var z = rotated[i, evenSize + j];
+                    offBlockFroSq += z.Real * z.Real + z.Imaginary * z.Imaginary;
+                }
+            for (int i = 0; i < oddSize; i++)
+                for (int j = 0; j < evenSize; j++)
+                {
+                    var z = rotated[evenSize + i, j];
+                    offBlockFroSq += z.Real * z.Real + z.Imaginary * z.Imaginary;
+                }
+        }
+        return Math.Sqrt(offBlockFroSq);
     }
 }

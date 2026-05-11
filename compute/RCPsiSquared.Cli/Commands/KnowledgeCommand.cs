@@ -88,6 +88,7 @@ public static class KnowledgeCommand
             .RegisterLiouvillianBlockSpectrum()
             .RegisterBlockSpectrumPerformanceWitness()
             .RegisterF71MirrorBlockRefinement()
+            .RegisterInhomogeneousGammaF71BreakingWitness()
             // F86 inheritance + meta-claims
             .RegisterF86PolarityLink()
             .RegisterF86LocalGlobalEpLink()

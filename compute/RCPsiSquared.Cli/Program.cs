@@ -88,7 +88,8 @@ public static class Program
         Console.WriteLine("  block-spectrum  build chain XY+Z-deph L at given N, decompose via joint-popcount");
         Console.WriteLine("                  sectors (optionally + F71 mirror refinement), print spectrum + checks.");
         Console.WriteLine("                  Per-block path never materialises full L: N=7,8 tractable on commodity HW.");
-        Console.WriteLine("                  args: --N <int> [--gamma <double>] [--J <double>] [--refine f71|none]");
+        Console.WriteLine("                  args: --N <int> [--gamma <double> | --gamma-list <comma-list-len-N>]");
+        Console.WriteLine("                        [--J <double>] [--refine f71|none]");
         Console.WriteLine("                        [--verify|--no-verify] [--top <int>]");
         Console.WriteLine();
         Console.WriteLine("examples:");
