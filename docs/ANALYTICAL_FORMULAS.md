@@ -2487,5 +2487,24 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 
 ---
 
+### F90. F86 c=2 ↔ F89 bridge identity (Tier 1 derived, verified bit-exact 2026-05-11)
+
+**For all N ≥ 3 and bond b ∈ \{0, ..., N−2\}, the F86 c=2 K_b(Q, t) observable on the (n=1, n+1=2) coherence block of an N-qubit XY chain with Z-dephasing equals the per-bond Hellmann-Feynman derivative of F89 path-(N−1) (SE, DE) sub-block dynamics applied at bond b**, modulo the Hamiltonian convention factor:
+
+    K_b^{F86 c=2}(Q_F86, t) = K_b^{F89 path-(N−1) (SE,DE)}(Q_F89 = Q_F86 / 2, t)
+
+with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian construction) algebraically identical. The convention difference is one-time relabeling: F86 uses `H_b = (J/2)·(XX+YY)`, F89 uses `H = J·(XX+YY)`, hence F89-J = 2·F86-J.
+
+**Verified bit-exact at 27 of 29 per-bond comparisons across N=5..8** (the 2 within-noise are at N=8 b=2/b=4 mid-flanking Interior bonds within Q-grid resolution Δ ≤ 0.0008). Verification includes orbit-escape bonds: N=7 b=1/b=4 at Q_peak ≈ 7.27 (F86-J), N=8 b=3 central self-paired escape at Q_peak ≈ 16.79 (F86-J), all reproducing bit-exact ratios.
+
+**Implications:**
+- F86 c=2 universal HWHM_left/Q_peak constants (0.7728 Endpoint, 0.7506 Interior mean over N=5..8) are **not eigenständige Größen** — they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
+- F86 Direction (b'') (full block-L derivation, NOT 4-mode) achieved numerically via F89; closed-form via F89 AT-locked F_a/F_b structure (4-mode floor 0.6715) + H_B-mixed octic-style residual (lift to 0.7506/0.7728) is the next analytical step.
+- Per-F71-orbit substructure (proof PROOF_F86_QPEAK line 99: central b=2 vs flanking b=1/b=3 at N=6 etc.) follows directly from F89's per-bond Bloch-mode profile.
+
+**Anchor:** [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md), [`F90F86C2BridgeIdentity.cs`](../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs), [`_f89_to_f86_kbond_via_eigendecomp.py`](../simulations/_f89_to_f86_kbond_via_eigendecomp.py).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

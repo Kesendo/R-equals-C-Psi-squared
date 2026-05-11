@@ -137,6 +137,7 @@ public static class KnowledgeCommand
             .RegisterF89Path3OcticEpClaim()
             .RegisterF89Path3OcticGaloisClaim()
             .RegisterF89PathKHbMixedDegreesClaim()
+            .RegisterF90F86C2BridgeIdentity()
             .RegisterF82T1AmplitudeDampingPi2Inheritance()
             .RegisterF84ThermalAmplitudeDampingPi2Inheritance()
             .RegisterF85KBodyFChainPi2Inheritance()
