@@ -1,18 +1,14 @@
 """F89c → F89-(3): multi-exponential closed form for S_(3)(t) at any N.
 
-Topology (3): single connected path of 4 sites (path-3 block, bonds {0-1, 1-2, 2-3})
-plus N-4 bare sites. Lindbladian factorises across block + bare sites.
+Topology (3): single connected path of 4 sites (path-3 block) + N-4 bare sites.
+Generalisation of path-2 to 4-qubit block (d² = 256). Same script pattern as
+path-2 (eigenvector decomposition + initial-state projection + per-site
+reduction + bare-site addition).
 
-Generalization of path-2 (`_f89_path2_multi_exp_derive.py`) to 4-qubit block
-(d² = 256-dim L_super). Same partial-trace structure for ρ_block(0) (S_4
-symmetry inherited from ρ_cc); same script pattern (eigenvector decomposition
-+ initial-state projection + per-site reduction + bare-site addition).
-
-Per F89c spectrum at γ=J=1: 4-qubit block has 25 distinct decay rates. We
-expect the S_4 symmetry of ρ_block(0) to populate only a small subset.
-Hamming-complement pair-sum at N_block=4: 2γ₀·N_block = 8γ₀ (column bit-flip
-maps (SE,SE) ↔ (SE,TE) since bar(SE) = TE = popcount-3 at N=4, NOT (SE,DE)
-which is popcount-2-self-symmetric).
+See `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Path-3 (topology (3))
+numerical multi-exponential closed form" for the populated mode-group table
+and Hamming-complement pair structure (path-3 privileged via DE-self-symmetric
+column bit-flip).
 
 Verification: bond-isolate `N7_b0-1-2` CSV (topology (3) at N=7).
 """
@@ -24,127 +20,27 @@ from pathlib import Path
 
 import numpy as np
 
+from _f89_pathk_lib import (
+    bare_site_initial_01,
+    build_block_L,
+    compute_rho_block_0,
+    per_site_reduction_matrix,
+    reduce_block_to_site_01,
+)
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 REPO = Path(__file__).resolve().parents[1]
 CSV_DIR = REPO / "simulations" / "results" / "bond_isolate"
 
-# ----------- Operators on 4-qubit block ------------------------------------
-
-I2 = np.eye(2, dtype=complex)
-X = np.array([[0, 1], [1, 0]], dtype=complex)
-Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
-Z = np.array([[1, 0], [0, -1]], dtype=complex)
-
 N_BLOCK = 4
 D_BLOCK = 2**N_BLOCK  # 16
 
 
-def kron_at(P: np.ndarray, site: int, n_qubits: int) -> np.ndarray:
-    op = np.array([[1.0]], dtype=complex)
-    for q in range(n_qubits):
-        op = np.kron(op, P if q == site else I2)
-    return op
-
-
-def build_block_H(J: float) -> np.ndarray:
-    H = np.zeros((D_BLOCK, D_BLOCK), dtype=complex)
-    for b in range(N_BLOCK - 1):
-        H += J * (
-            kron_at(X, b, N_BLOCK) @ kron_at(X, b + 1, N_BLOCK)
-            + kron_at(Y, b, N_BLOCK) @ kron_at(Y, b + 1, N_BLOCK)
-        )
-    return H
-
-
-def build_block_L(J: float, gamma: float) -> np.ndarray:
-    """L_block on 4 qubits: -i[H, ·] + Σ_l γ (Z_l ρ Z_l - ρ). 256×256 matrix.
-
-    Convention: vec(M)[b * D + a] = M[a, b] (column-major).
-    """
-    H = build_block_H(J)
-    Id = np.eye(D_BLOCK, dtype=complex)
-    L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
-    for l in range(N_BLOCK):
-        Zl = kron_at(Z, l, N_BLOCK)
-        L += gamma * (np.kron(Zl.T, Zl) - np.kron(Id, Id))
-    return L
-
-
-# ----------- Initial state: ρ_block(0) for topology (3) at any N -----------
-
-
-def block_state_index(bits: list[int]) -> int:
-    """|b_0 b_1 b_2 b_3⟩ → state index 8·b_0 + 4·b_1 + 2·b_2 + b_3."""
-    return 8 * bits[0] + 4 * bits[1] + 2 * bits[2] + bits[3]
-
-
-def compute_rho_block_0(N: int) -> np.ndarray:
-    """ρ_block(0) = Tr_{N-4 bare}(ρ_cc) for topology (3). 16×16 complex array.
-
-    Per the same partial-trace bookkeeping as path-2 (only block size differs):
-      Tr_E(|S_1⟩⟨S_2|) = pre · [Σ_i Σ_{j<k both in block} |SE_i^B⟩⟨DE_{jk}^B|
-                              + N_E · Σ_{j ∈ block} |0^B⟩⟨SE_j^B|]
-      pre = 1 / √(N · C(N, 2))
-    Then h.c. and divide by 2.
-    """
-    if N < N_BLOCK:
-        raise ValueError(f"Topology (3) requires N >= {N_BLOCK}")
-    N_E = N - N_BLOCK
-    pre = 1.0 / np.sqrt(N * N * (N - 1) / 2)
-
-    rho = np.zeros((D_BLOCK, D_BLOCK), dtype=complex)
-
-    # Term 1: popcount(c) = 0 → Σ_{i ∈ block} Σ_{j<k both in block} |SE_i^B⟩⟨DE_{jk}^B|
-    for i in range(N_BLOCK):
-        bits_se = [0] * N_BLOCK
-        bits_se[i] = 1
-        idx_se = block_state_index(bits_se)
-        for j in range(N_BLOCK):
-            for k in range(j + 1, N_BLOCK):
-                bits_de = [0] * N_BLOCK
-                bits_de[j] = 1
-                bits_de[k] = 1
-                idx_de = block_state_index(bits_de)
-                rho[idx_se, idx_de] += pre
-
-    # Term 2: popcount(c) = 1 → N_E · Σ_{j ∈ block} |vac⟩⟨SE_j|
-    idx_vac = 0
-    for j in range(N_BLOCK):
-        bits_se = [0] * N_BLOCK
-        bits_se[j] = 1
-        idx_se = block_state_index(bits_se)
-        rho[idx_vac, idx_se] += pre * N_E
-
-    rho = (rho + rho.conj().T) / 2.0
-    return rho
-
-
-def reduce_block_to_site_01(rho_block: np.ndarray, l: int) -> complex:
-    """⟨0_l|Tr_{block\\{l}}(ρ_block)|1_l⟩ for block site l ∈ {0, 1, 2, 3}."""
-    other = [s for s in range(N_BLOCK) if s != l]
-    bit_pos = [8, 4, 2, 1]
-    val = 0.0 + 0.0j
-    for c in range(2 ** (N_BLOCK - 1)):  # 8 states of the 3 other sites
-        bits_other = [(c >> (N_BLOCK - 2 - i)) & 1 for i in range(N_BLOCK - 1)]
-        idx_0 = sum(bit_pos[other[i]] * bits_other[i] for i in range(N_BLOCK - 1))
-        idx_1 = idx_0 + bit_pos[l]
-        val += rho_block[idx_0, idx_1]
-    return val
-
-
-def bare_site_initial_01(N: int) -> float:
-    """Same closed form as path-2 (independent of block size, only depends on N).
-
-    (ρ_l)_{0,1}(0) = (N-1) / (2 · √(N · C(N, 2))) for any bare site l.
-    """
-    return (N - 1) / (2.0 * np.sqrt(N * N * (N - 1) / 2))
-
-
 def evolve_S_total(N: int, J: float, gamma: float, t_array: np.ndarray) -> np.ndarray:
     """S_(3)(t) = Σ_l 2|(ρ_l)_{0,1}(t)|² for topology (3) at N qubits."""
-    L = build_block_L(J, gamma)
-    rho_block_0 = compute_rho_block_0(N)
+    L = build_block_L(J, gamma, N_BLOCK)
+    rho_block_0 = compute_rho_block_0(N_BLOCK, N)
     vec_rho_0 = rho_block_0.flatten(order="F")
 
     eigvals, R = np.linalg.eig(L)
@@ -158,7 +54,7 @@ def evolve_S_total(N: int, J: float, gamma: float, t_array: np.ndarray) -> np.nd
         rho_block_t = vec_rho_t.reshape((D_BLOCK, D_BLOCK), order="F")
 
         S_block = sum(
-            2.0 * abs(reduce_block_to_site_01(rho_block_t, l)) ** 2
+            2.0 * abs(reduce_block_to_site_01(rho_block_t, l, N_BLOCK)) ** 2
             for l in range(N_BLOCK)
         )
         S_bare = (N - N_BLOCK) * 2.0 * (x_bare_0 * np.exp(-2 * gamma * t)) ** 2
@@ -168,27 +64,14 @@ def evolve_S_total(N: int, J: float, gamma: float, t_array: np.ndarray) -> np.nd
 
 
 def closed_form_terms(N: int, J: float, gamma: float):
-    """Multi-exponential decomposition of S_(3)(t).
-
-    Returns (eigvals_64, amp_per_site) where amp_per_site is (N_BLOCK, D_BLOCK²).
-    """
-    L = build_block_L(J, gamma)
-    rho_block_0 = compute_rho_block_0(N)
+    """Returns (eigvals, amp) where amp[l, k] = M_l(k)·c_k decomposes per-site
+    coherence amplitudes onto L_super eigenmodes."""
+    L = build_block_L(J, gamma, N_BLOCK)
+    rho_block_0 = compute_rho_block_0(N_BLOCK, N)
     vec_rho_0 = rho_block_0.flatten(order="F")
     eigvals, R = np.linalg.eig(L)
-    R_inv = np.linalg.inv(R)
-    c = R_inv @ vec_rho_0
-
-    w = np.zeros((N_BLOCK, D_BLOCK * D_BLOCK), dtype=complex)
-    for l in range(N_BLOCK):
-        other = [s for s in range(N_BLOCK) if s != l]
-        bit_pos = [8, 4, 2, 1]
-        for cc in range(2 ** (N_BLOCK - 1)):
-            bits_other = [(cc >> (N_BLOCK - 2 - i)) & 1 for i in range(N_BLOCK - 1)]
-            idx_0 = sum(bit_pos[other[i]] * bits_other[i] for i in range(N_BLOCK - 1))
-            idx_1 = idx_0 + bit_pos[l]
-            w[l, idx_1 * D_BLOCK + idx_0] = 1.0
-
+    c = np.linalg.solve(R, vec_rho_0)
+    w = per_site_reduction_matrix(N_BLOCK)
     M = w @ R
     a = M * c[None, :]
     return eigvals, a

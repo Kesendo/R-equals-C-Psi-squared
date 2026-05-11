@@ -1,32 +1,9 @@
-"""F89 mixed topology: additive identity from Lindbladian factorisation.
+"""F89 mixed topology: additive identity verification across N=7 CSVs.
 
-For any topology T = (k_1, k_2, ..., k_m) at N qubits, the spatial-sum
-coherence decomposes as:
+S_T(t) = Σ_i S_(k_i)(t) − (m − 1) · N · S_bare(t; N) for any T = (k_1, ..., k_m).
 
-    S_T(t) = Σ_i S_(k_i)(t)  −  (m − 1) · N · S_bare(t; N)
-
-where:
-- S_(k_i)(t) = closed-form per-pure-path-k_i contribution (k=1 analytic via
-  all-isolated formula; k=2..6 numerical via path-k script)
-- S_bare(t; N) = (N − 1) / N² · exp(−4γ₀ t) per bare site (closed form)
-- m = number of disjoint blocks
-- Subtraction term cancels overcounting of bare-site contributions: each
-  per-block S_(k_i) includes (N − k_i − 1) bare sites worth of contribution,
-  but the actual mixed topology has only (N − Σ_i (k_i + 1)) bare sites.
-  Total double-count: (m − 1) · N.
-
-Derivation: Lindbladian L = Σ_blocks L_block + Σ_bare L_l factorises across
-disjoint blocks. ρ(t) = ⊗ exp(L_block · t)[Tr_else(ρ_cc)]. Per-site reduction
-ρ_l(t) = Tr_else(ρ(t)) = exp(L_block_l · t)[ρ_block_l(0)] depends only on
-the block containing l. Hence S_T(t) = Σ_l 2|(ρ_l)_{0,1}|² is sum of
-per-block contributions.
-
-The per-block ρ_block(0) = Tr_E(ρ_cc) depends on N (via the 1/√(N·C(N,2))
-prefactor and N_E factor) but NOT on which OTHER blocks are present. So
-the per-block S_(k_i) function is the same regardless of mixed-topology
-context.
-
-Verification: 14 topology classes at N=7 against bond-isolate CSVs.
+See `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Mixed-topology additive
+identity" for the derivation from Lindbladian factorisation.
 """
 
 from __future__ import annotations
@@ -36,91 +13,35 @@ from pathlib import Path
 
 import numpy as np
 
+from _f89_pathk_lib import (
+    build_block_L,
+    compute_rho_block_0,
+    reduce_block_to_site_01,
+)
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 REPO = Path(__file__).resolve().parents[1]
 CSV_DIR = REPO / "simulations" / "results" / "bond_isolate"
 
-# ----------- Pauli operators ------------------------------------------------
-
-I2 = np.eye(2, dtype=complex)
-X = np.array([[0, 1], [1, 0]], dtype=complex)
-Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
-Z = np.array([[1, 0], [0, -1]], dtype=complex)
-
-
-def kron_at(P: np.ndarray, site: int, n: int) -> np.ndarray:
-    op = np.array([[1.0]], dtype=complex)
-    for q in range(n):
-        op = np.kron(op, P if q == site else I2)
-    return op
-
-
-# ----------- Per-block path-k closed form (numerical, k >= 2) --------------
-
 
 def path_k_block_S(n_block: int, N: int, J: float, gamma: float, t_array: np.ndarray) -> np.ndarray:
-    """Per-block contribution to S(t) from a (k+1)-site path block embedded in N qubits.
-
-    Returns the contribution from the n_block block-sites only (excludes bare).
-    For (k+1)-site path block, this is the k-th member of the path-k family.
-    """
+    """Per-block S(t) contribution from a n_block-site path block in N qubits."""
     D = 2**n_block
-    H = np.zeros((D, D), dtype=complex)
-    for b in range(n_block - 1):
-        H += J * (
-            kron_at(X, b, n_block) @ kron_at(X, b + 1, n_block)
-            + kron_at(Y, b, n_block) @ kron_at(Y, b + 1, n_block)
-        )
-    Id = np.eye(D, dtype=complex)
-    L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
-    for l in range(n_block):
-        Zl = kron_at(Z, l, n_block)
-        L += gamma * (np.kron(Zl.T, Zl) - np.kron(Id, Id))
-
-    bit_pos = [2 ** (n_block - 1 - i) for i in range(n_block)]
-
-    def state_idx(bits: list[int]) -> int:
-        return sum(bit_pos[i] * bits[i] for i in range(n_block))
-
-    N_E = N - n_block
-    pre = 1.0 / np.sqrt(N * N * (N - 1) / 2)
-    rho = np.zeros((D, D), dtype=complex)
-    for i in range(n_block):
-        bits = [0] * n_block
-        bits[i] = 1
-        idx_se = state_idx(bits)
-        for j in range(n_block):
-            for k in range(j + 1, n_block):
-                bits_de = [0] * n_block
-                bits_de[j] = 1
-                bits_de[k] = 1
-                rho[idx_se, state_idx(bits_de)] += pre
-    for j in range(n_block):
-        bits = [0] * n_block
-        bits[j] = 1
-        rho[0, state_idx(bits)] += pre * N_E
-    rho = (rho + rho.conj().T) / 2.0
-
+    L = build_block_L(J, gamma, n_block)
+    rho = compute_rho_block_0(n_block, N)
     vec = rho.flatten(order="F")
     eigvals, R = np.linalg.eig(L)
     c = np.linalg.solve(R, vec)
-
-    def reduce_to_site(rho_block, l):
-        other = [s for s in range(n_block) if s != l]
-        val = 0.0 + 0.0j
-        for cc in range(2 ** (n_block - 1)):
-            bits_other = [(cc >> (n_block - 2 - i)) & 1 for i in range(n_block - 1)]
-            idx_0 = sum(bit_pos[other[i]] * bits_other[i] for i in range(n_block - 1))
-            idx_1 = idx_0 + bit_pos[l]
-            val += rho_block[idx_0, idx_1]
-        return val
 
     S_block_contrib = np.zeros_like(t_array, dtype=float)
     for ti, t in enumerate(t_array):
         vec_t = R @ (np.exp(eigvals * t) * c)
         rho_t = vec_t.reshape((D, D), order="F")
-        S_block_contrib[ti] = sum(2.0 * abs(reduce_to_site(rho_t, l)) ** 2 for l in range(n_block))
+        S_block_contrib[ti] = sum(
+            2.0 * abs(reduce_block_to_site_01(rho_t, l, n_block)) ** 2
+            for l in range(n_block)
+        )
 
     return S_block_contrib
 

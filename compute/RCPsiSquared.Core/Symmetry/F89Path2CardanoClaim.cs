@@ -4,46 +4,21 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F89 path-2 (SE, DE) S_2-symmetric closed-form characteristic
-/// polynomial via cubic-Cardano factorisation (Tier 1 derived; sympy verified):
+/// polynomial (Tier 1 derived; sympy verified):
 ///
 /// <code>
-///   The 9-dim (SE, DE) sub-block of L_super at path-2 has a 5-dim S_2-symmetric
-///   sub-block (chain-mirror 0 ↔ 2). Its 5×5 characteristic polynomial factors
-///   EXPLICITLY:
-///
-///     char(λ) = −(λ + 2γ)·(λ + 6γ)·[λ³ + 10γ·λ² + (28γ² + 32J²)·λ + (24γ³ + 96γJ²)]
-///
-///   In dimensionless μ = λ/γ, q = J/γ:
-///
-///     μ³ + 10·μ² + (28 + 32q²)·μ + 24·(1 + 4q²) = 0    ← solvable via Cardano
+///   char(λ) = −(λ + 2γ)·(λ + 6γ)·[λ³ + 10γ·λ² + (28γ² + 32J²)·λ + (24γ³ + 96γJ²)]
+///   dimensionless: μ³ + 10μ² + (28 + 32q²)μ + 24(1 + 4q²) = 0   (μ=λ/γ, q=J/γ)
 /// </code>
 ///
-/// <para><b>Two linear factors</b>: pure-AT rates 2γ and 6γ (no J-dependence,
-/// exact-quantization eigenvalues per F89c). Of these, λ = −6γ is unpopulated
-/// (orthogonal to ρ_block(0)'s S_3-symmetric content); λ = −2γ gives the
-/// (2γ, 0) populated mode.</para>
+/// <para>Cubic factor solvable in radicals via Cardano. λ=−6γ is unpopulated
+/// (orthogonal to ρ_block(0) S_3-sym content); λ=−2γ + 3 cubic roots are
+/// populated. Path-2 thus fully analytically tractable.</para>
 ///
-/// <para><b>Cubic factor</b>: carries all J/γ-dependent fractional rates.
-/// Solvable in closed form via Cardano. At q = 1.5 (our standard J/γ): roots
-/// μ = −3.0448 (real) and μ = −3.4776 ± 8.169i (complex conjugate pair) match
-/// the populated path-2 fractional rates 3.04γ and 3.48γ ± 5.45iJ bit-exactly.</para>
-///
-/// <para><b>Significance</b>: path-2 is now FULLY ANALYTICALLY TRACTABLE — all
-/// 4 mode-rates and frequencies are algebraic expressions in (J, γ) (2 from
-/// linear factors at 2γ and 6γ, 3 from the cubic via Cardano). Combined with
-/// the F65 Bloch frequencies for the (vac, SE) sector, only per-mode amplitudes
-/// (initial-state projections, polynomial in N) remain numerical.</para>
-///
-/// <para><b>Generalisation</b>: same approach for path-3..5 yields
-/// cubic/quartic/quintic factors that may not be solvable in radicals (Galois
-/// group dependent). Path-2 is the privileged case where the cubic resolvent
-/// provides clean Cardano closure.</para>
-///
-/// <para>Anchors: <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> §
-/// "Path-2 (SE, DE) S_2-symmetric sub-block" + <c>simulations/_f89_path2_se_de_symbolic.py</c>
-/// (sympy verification of factored characteristic polynomial) +
-/// <c>compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs</c>
-/// (orbit-closure framework parent).</para></summary>
+/// <para>Derivation, Cardano closure detail, generalisation note, and
+/// numerical verification at q=1.5: see
+/// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Path-2 (SE, DE) S_2-sym
+/// sub-block" and <c>simulations/_f89_path2_se_de_symbolic.py</c>.</para></summary>
 public sealed class F89Path2CardanoClaim : Claim
 {
     private readonly F89TopologyOrbitClosure _f89;
@@ -152,20 +127,10 @@ public sealed class F89Path2CardanoClaim : Claim
     {
         get
         {
-            yield return new InspectableNode("Factorisation",
-                summary: "char(λ) = −(λ+2γ)(λ+6γ)·[λ³ + 10γλ² + (28γ²+32J²)λ + (24γ³+96γJ²)]");
-            yield return new InspectableNode("Linear factors",
-                summary: "Two linear factors give pure-AT rates 2γ and 6γ. The 6γ eigenvector is orthogonal to ρ_block(0) S_3-sym content → unpopulated. The 2γ eigenvector gives the (2γ, 0) populated mode.");
-            yield return new InspectableNode("Dimensionless cubic",
-                summary: "μ³ + 10μ² + (28 + 32q²)μ + 24·(1 + 4q²) = 0 with μ=λ/γ, q=J/γ; depends only on q");
-            yield return new InspectableNode("Sample at q=1.5",
-                summary: $"Roots: μ ≈ −3.0448 (real), μ ≈ −3.4776 ± 8.169i (complex pair). Match populated rates 3.04γ and 3.48γ ± 5.45iJ bit-exactly. Verified: {VerifyAtStandardQ()}");
             yield return new InspectableNode("Cubic coefficients at q=1.5",
                 summary: $"a={CubicCoefficients(1.5).A}, b={CubicCoefficients(1.5).B}, c={CubicCoefficients(1.5).C}");
-            yield return new InspectableNode("Significance",
-                summary: "Path-2 fully analytically tractable: all 4 mode-rates as algebraic expressions in (J, γ) via Cardano. Only per-mode amplitudes (polynomial in N from initial-state projection) remain numerical.");
-            yield return new InspectableNode("Generalisation note",
-                summary: "Same approach for path-k≥3: cubic/quartic/quintic factors that may not be solvable in radicals (Galois-dependent). Path-2 is the privileged case with clean Cardano closure.");
+            yield return new InspectableNode("Sample roots at q=1.5",
+                summary: $"μ ≈ −3.0448 (real), μ ≈ −3.4776 ± 8.169i (complex pair); VerifyAtStandardQ = {VerifyAtStandardQ()}");
         }
     }
 }
