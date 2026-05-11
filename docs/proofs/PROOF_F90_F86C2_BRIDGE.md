@@ -22,8 +22,10 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 | Framework | Hamiltonian | Single-particle SE Bloch | Q_peak typical |
 |---|---|---|---|
-| **F86** (per `BlockLDecomposition.cs:13-14`) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = J·cos(πk/(N+1))` | Endpoint ≈ 2.5 |
-| **F89** (per `_f89_pathk_lib.py` `build_block_H`) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
+| **F86** (per `BlockLDecomposition.cs:13-14`, C# typed) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = J·cos(πk/(N+1))` | Endpoint ≈ 2.5 |
+| **F89** (per `simulations/_f89_pathk_lib.py` `build_block_H`, Python-only at present) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
+
+The conversion factor itself is typed in C# as `F90F86C2BridgeIdentity.JConventionFactor = 2.0` with helpers `F86JToF89J(double)` and `F89JToF86J(double)`. The F89-convention Hamiltonian/Liouvillian *builder* does not yet have a C# counterpart; F86's `BlockLDecomposition` is algebraically equivalent under the F86 convention, and the bridge identity is what makes that algebraic equivalence formal.
 
 F89's effective hopping amplitude is 2× F86's. Hence F89's J = 2·F86's J, equivalently Q_F89 = Q_F86 / 2. This is a one-time relabeling, not a deeper structural difference.
 
