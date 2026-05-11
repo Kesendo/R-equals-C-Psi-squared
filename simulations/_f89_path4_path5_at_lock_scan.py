@@ -173,7 +173,7 @@ def main() -> None:
     J, gamma = 1.5, 1.0  # q = 1.5
     print(f"# F89 path-4 / path-5 AT-lock structure scan (J={J}, γ={gamma}, q={J/gamma})\n")
 
-    for k in [3, 4, 5]:  # path-3 (sanity check), path-4, path-5
+    for k in [3, 4, 5, 6]:  # path-3 (sanity check), path-4, path-5, path-6
         analyse_pathk(k, J, gamma)
 
 
