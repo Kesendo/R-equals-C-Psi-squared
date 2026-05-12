@@ -5,6 +5,7 @@ using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Tests.TestHelpers;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.Tests.BlockSpectrum;
@@ -101,7 +102,7 @@ public class BlockSpectrumPerformanceWitnessTests
         }
 
         // Correctness: multiset-equal spectrum to 1e-9 tolerance.
-        AssertMultisetEqual(lastFullEigs, lastBlockEigs, tol: 1e-9, N: N);
+        MultisetAssert.NearestNeighbourEqual(lastFullEigs, lastBlockEigs, tolerance: 1e-9, context: $"N={N}");
 
         // Speedup: block-time * ExpectedSpeedupAtN5 < full-time, i.e. at least
         // ExpectedSpeedupAtN5× faster.
@@ -128,33 +129,5 @@ public class BlockSpectrumPerformanceWitnessTests
         var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
         return PauliDephasingDissipator.BuildZ(H, gammaPerSite);
-    }
-
-    /// <summary>Greedy nearest-neighbour multiset matching, mirrors the helper in
-    /// <see cref="LiouvillianBlockSpectrumTests"/>. Duplicated here to keep the test file
-    /// self-contained (the Phase-2 helper is private).</summary>
-    private static void AssertMultisetEqual(IReadOnlyList<Complex> expected, IReadOnlyList<Complex> actual, double tol, int N)
-    {
-        Assert.Equal(expected.Count, actual.Count);
-        int n = expected.Count;
-        var taken = new bool[n];
-        for (int i = 0; i < n; i++)
-        {
-            double bestDist = double.PositiveInfinity;
-            int bestJ = -1;
-            for (int j = 0; j < n; j++)
-            {
-                if (taken[j]) continue;
-                double dist = (expected[i] - actual[j]).Magnitude;
-                if (dist < bestDist)
-                {
-                    bestDist = dist;
-                    bestJ = j;
-                }
-            }
-            Assert.True(bestJ >= 0 && bestDist < tol,
-                $"N={N}: eigenvalue {i} mismatch — expected={expected[i]}, nearest actual={(bestJ >= 0 ? actual[bestJ].ToString() : "<none>")}, |Δ|={bestDist:E3} (tol={tol:E1}).");
-            taken[bestJ] = true;
-        }
     }
 }

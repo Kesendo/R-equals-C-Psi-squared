@@ -5,7 +5,8 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F93DetuningAntiPalindromicSpectralInvariance"/>;
-/// two typed parents (<see cref="JointPopcountSectors"/>, <see cref="F71MirrorBlockRefinement"/>).</summary>
+/// three typed parents (<see cref="JointPopcountSectors"/>, <see cref="F71MirrorBlockRefinement"/>,
+/// <see cref="SymmetryFamilyInventory"/>).</summary>
 public static class F93DetuningAntiPalindromicSpectralInvarianceRegistration
 {
     public static ClaimRegistryBuilder RegisterF93DetuningAntiPalindromicSpectralInvariance(
@@ -14,6 +15,7 @@ public static class F93DetuningAntiPalindromicSpectralInvarianceRegistration
         {
             var sectors = b.Get<JointPopcountSectors>();
             var f71 = b.Get<F71MirrorBlockRefinement>();
-            return new F93DetuningAntiPalindromicSpectralInvariance(sectors, f71);
+            var inventory = b.Get<SymmetryFamilyInventory>();
+            return new F93DetuningAntiPalindromicSpectralInvariance(sectors, f71, inventory);
         });
 }

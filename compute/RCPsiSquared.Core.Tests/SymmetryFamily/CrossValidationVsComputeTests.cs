@@ -4,6 +4,7 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Tests.TestHelpers;
 using Xunit;
 using ComputeLiouvillian = RCPsiSquared.Compute.Liouvillian;
 using ComputeTopology = RCPsiSquared.Compute.Topology;
@@ -74,36 +75,6 @@ public sealed class CrossValidationVsComputeTests
 
         Assert.Equal(liouvilleDim, blockSpectrum.Length);
         Assert.Equal(liouvilleDim, computeSpectrum.Length);
-        AssertMultisetEqual(blockSpectrum, computeSpectrum, tol: 1e-9, N: N);
-    }
-
-    /// <summary>Greedy nearest-neighbour multiset comparison, robust to degenerate
-    /// eigenvalue clusters (XY chain spectra are highly degenerate under joint-popcount
-    /// blocking; sort-then-zip would mis-pair conjugate-pair members across the two
-    /// independent eigensolvers). Mirrors the Phase A pattern in
-    /// <c>BlockSpectrum.CrossValidationVsComputeTests</c>.</summary>
-    private static void AssertMultisetEqual(IReadOnlyList<Complex> expected, IReadOnlyList<Complex> actual, double tol, int N)
-    {
-        Assert.Equal(expected.Count, actual.Count);
-        int n = expected.Count;
-        var taken = new bool[n];
-        for (int i = 0; i < n; i++)
-        {
-            double bestDist = double.PositiveInfinity;
-            int bestJ = -1;
-            for (int j = 0; j < n; j++)
-            {
-                if (taken[j]) continue;
-                double dist = (expected[i] - actual[j]).Magnitude;
-                if (dist < bestDist)
-                {
-                    bestDist = dist;
-                    bestJ = j;
-                }
-            }
-            Assert.True(bestJ >= 0 && bestDist < tol,
-                $"N={N}: eigenvalue {i} mismatch, expected={expected[i]}, nearest actual={(bestJ >= 0 ? actual[bestJ].ToString() : "<none>")}, |Δ|={bestDist:E3} (tol={tol:E1}).");
-            taken[bestJ] = true;
-        }
+        MultisetAssert.NearestNeighbourEqual(blockSpectrum, computeSpectrum, tolerance: 1e-9, context: $"N={N}");
     }
 }

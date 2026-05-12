@@ -6,6 +6,7 @@ using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.SymmetryFamily;
+using RCPsiSquared.Core.Tests.TestHelpers;
 using Xunit;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
@@ -18,7 +19,8 @@ public sealed class F92BondAntiPalindromicJSpectralInvarianceTests
     {
         var sectors = new JointPopcountSectors();
         var f71 = new F71MirrorBlockRefinement(sectors);
-        var f92 = new F92BondAntiPalindromicJSpectralInvariance(sectors, f71);
+        var inventory = new SymmetryFamilyInventory();
+        var f92 = new F92BondAntiPalindromicJSpectralInvariance(sectors, f71, inventory);
         Assert.Equal(Tier.Tier1Derived, f92.Tier);
     }
 
@@ -66,7 +68,7 @@ public sealed class F92BondAntiPalindromicJSpectralInvarianceTests
         var spectrumAnti = F71MirrorBlockRefinement.ComputeSpectrumPerBlock(Hanti, gammaPerSite, N);
 
         Assert.Equal(spectrumUnif.Length, spectrumAnti.Length);
-        AssertMultisetEqual(spectrumUnif, spectrumAnti, tolerance: 1e-9);
+        MultisetAssert.NearestNeighbourEqual(spectrumUnif, spectrumAnti, tolerance: 1e-9);
     }
 
     private static double[] BuildAntiPalindromicJ(int N, double Javg)
@@ -92,23 +94,5 @@ public sealed class F92BondAntiPalindromicJSpectralInvarianceTests
             allTerms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Y, b + 1, PauliLetter.Y, c));
         }
         return new PauliHamiltonian(N, allTerms).ToMatrix();
-    }
-
-    private static void AssertMultisetEqual(IList<Complex> a, IList<Complex> b, double tolerance)
-    {
-        Assert.Equal(a.Count, b.Count);
-        var unmatched = b.ToList();
-        foreach (var x in a)
-        {
-            int bestIdx = -1; double bestDist = double.MaxValue;
-            for (int i = 0; i < unmatched.Count; i++)
-            {
-                double d = (x - unmatched[i]).Magnitude;
-                if (d < bestDist) { bestDist = d; bestIdx = i; }
-            }
-            Assert.True(bestDist < tolerance,
-                $"No multiset match within {tolerance}: {x} (best {unmatched[bestIdx]} at {bestDist:E3})");
-            unmatched.RemoveAt(bestIdx);
-        }
     }
 }

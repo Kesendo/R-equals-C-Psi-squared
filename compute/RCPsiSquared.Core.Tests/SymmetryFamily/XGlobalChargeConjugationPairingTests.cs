@@ -5,6 +5,7 @@ using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.SymmetryFamily;
+using RCPsiSquared.Core.Tests.TestHelpers;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.SymmetryFamily;
@@ -68,25 +69,7 @@ public sealed class XGlobalChargeConjugationPairingTests
             if ((pc, pr) == (pairPc, pairPr)) continue;  // self-paired, trivial
             var pairEigs = bySector[(pairPc, pairPr)];
             Assert.Equal(eigs.Count, pairEigs.Count);
-            AssertMultisetEqual(eigs, pairEigs, tolerance: 1e-9);
-        }
-    }
-
-    private static void AssertMultisetEqual(IList<Complex> a, IList<Complex> b, double tolerance)
-    {
-        Assert.Equal(a.Count, b.Count);
-        var unmatched = b.ToList();
-        foreach (var x in a)
-        {
-            int bestIdx = -1; double bestDist = double.MaxValue;
-            for (int i = 0; i < unmatched.Count; i++)
-            {
-                double d = (x - unmatched[i]).Magnitude;
-                if (d < bestDist) { bestDist = d; bestIdx = i; }
-            }
-            Assert.True(bestDist < tolerance,
-                $"No multiset match within {tolerance}: {x} (best {unmatched[bestIdx]} at {bestDist:E3})");
-            unmatched.RemoveAt(bestIdx);
+            MultisetAssert.NearestNeighbourEqual(eigs, pairEigs, tolerance: 1e-9);
         }
     }
 }

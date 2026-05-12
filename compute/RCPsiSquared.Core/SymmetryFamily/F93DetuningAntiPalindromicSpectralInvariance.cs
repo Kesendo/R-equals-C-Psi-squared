@@ -28,16 +28,19 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
 {
     private readonly BlockSpectrum.JointPopcountSectors _sectors;
     private readonly BlockSpectrum.F71MirrorBlockRefinement _f71;
+    private readonly SymmetryFamilyInventory _inventory;
 
     public F93DetuningAntiPalindromicSpectralInvariance(
         BlockSpectrum.JointPopcountSectors sectors,
-        BlockSpectrum.F71MirrorBlockRefinement f71)
+        BlockSpectrum.F71MirrorBlockRefinement f71,
+        SymmetryFamilyInventory inventory)
         : base("F93DetuningAntiPalindromicSpectralInvariance: chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h-distributions satisfying h_l+h_{N-1-l}=2·h_avg; h-side twin of F91 γ-Z₄ + F92 J-Z₄.",
                Tier.Tier1Derived,
                "Algebraic mechanism parallel to F91/F92 (diagonal blocks depend only on F71-pair-sums; cross blocks on pair-differences); bit-exact at N=4,5")
     {
         _sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
         _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
+        _inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
     }
 
     /// <summary>F71-anti-palindromic deviation norm of a per-site h_l list:

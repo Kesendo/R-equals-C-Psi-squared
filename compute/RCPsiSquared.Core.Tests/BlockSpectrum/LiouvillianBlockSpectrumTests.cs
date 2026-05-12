@@ -4,6 +4,7 @@ using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Tests.TestHelpers;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.Tests.BlockSpectrum;
@@ -75,7 +76,7 @@ public class LiouvillianBlockSpectrumTests
         var eigsBlock = LiouvillianBlockSpectrum.ComputeSpectrum(L, N);
 
         Assert.Equal(eigsFull.Length, eigsBlock.Length);
-        AssertMultisetEqual(eigsFull, eigsBlock, tol: 1e-9, N: N);
+        MultisetAssert.NearestNeighbourEqual(eigsFull, eigsBlock, tolerance: 1e-9, context: $"N={N}");
     }
 
     [Theory]
@@ -89,7 +90,7 @@ public class LiouvillianBlockSpectrumTests
         var eigsFull = L.Evd().EigenValues.ToArray();
         var eigsBlock = LiouvillianBlockSpectrum.ComputeSpectrum(L, N);
 
-        AssertMultisetEqual(eigsFull, eigsBlock, tol: 1e-9, N: N);
+        MultisetAssert.NearestNeighbourEqual(eigsFull, eigsBlock, tolerance: 1e-9, context: $"N={N}");
     }
 
     [Theory]
@@ -103,7 +104,7 @@ public class LiouvillianBlockSpectrumTests
         var eigsFull = L.Evd().EigenValues.ToArray();
         var eigsBlock = LiouvillianBlockSpectrum.ComputeSpectrum(L, N);
 
-        AssertMultisetEqual(eigsFull, eigsBlock, tol: 1e-9, N: N);
+        MultisetAssert.NearestNeighbourEqual(eigsFull, eigsBlock, tolerance: 1e-9, context: $"N={N}");
     }
 
     // ----------------------------------------------------------------------
@@ -161,7 +162,7 @@ public class LiouvillianBlockSpectrumTests
         var eigsPerBlock = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
 
         Assert.Equal(eigsFull.Length, eigsPerBlock.Length);
-        AssertMultisetEqual(eigsFull, eigsPerBlock, tol: 1e-9, N: N);
+        MultisetAssert.NearestNeighbourEqual(eigsFull, eigsPerBlock, tolerance: 1e-9, context: $"N={N}");
     }
 
     [Fact]
@@ -201,37 +202,5 @@ public class LiouvillianBlockSpectrumTests
         var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
         return PauliDephasingDissipator.BuildZ(H, gammaPerSite);
-    }
-
-    /// <summary>Assert that two complex-valued multisets are equal up to <paramref name="tol"/>.
-    /// Uses greedy nearest-neighbour matching rather than sort-then-compare: Liouvillian
-    /// eigenvalues come in highly-degenerate Re-tied clusters (especially under JW for the
-    /// XY chain), so a deterministic key sort over (Re, Im) can swap conjugate-pair members
-    /// between the two paths even when the multisets are bit-identical.
-    /// For each expected eigenvalue, finds the nearest still-unmatched actual eigenvalue
-    /// and pairs them, asserting the distance is within tolerance.</summary>
-    private static void AssertMultisetEqual(IReadOnlyList<Complex> expected, IReadOnlyList<Complex> actual, double tol, int N)
-    {
-        Assert.Equal(expected.Count, actual.Count);
-        int n = expected.Count;
-        var taken = new bool[n];
-        for (int i = 0; i < n; i++)
-        {
-            double bestDist = double.PositiveInfinity;
-            int bestJ = -1;
-            for (int j = 0; j < n; j++)
-            {
-                if (taken[j]) continue;
-                double dist = (expected[i] - actual[j]).Magnitude;
-                if (dist < bestDist)
-                {
-                    bestDist = dist;
-                    bestJ = j;
-                }
-            }
-            Assert.True(bestJ >= 0 && bestDist < tol,
-                $"N={N}: eigenvalue {i} mismatch — expected={expected[i]}, nearest actual={(bestJ >= 0 ? actual[bestJ].ToString() : "<none>")}, |Δ|={bestDist:E3} (tol={tol:E1}).");
-            taken[bestJ] = true;
-        }
     }
 }

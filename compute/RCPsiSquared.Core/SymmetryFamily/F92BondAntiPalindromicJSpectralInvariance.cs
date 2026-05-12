@@ -26,16 +26,19 @@ public sealed class F92BondAntiPalindromicJSpectralInvariance : Claim
 {
     private readonly BlockSpectrum.JointPopcountSectors _sectors;
     private readonly BlockSpectrum.F71MirrorBlockRefinement _f71;
+    private readonly SymmetryFamilyInventory _inventory;
 
     public F92BondAntiPalindromicJSpectralInvariance(
         BlockSpectrum.JointPopcountSectors sectors,
-        BlockSpectrum.F71MirrorBlockRefinement f71)
+        BlockSpectrum.F71MirrorBlockRefinement f71,
+        SymmetryFamilyInventory inventory)
         : base("F92BondAntiPalindromicJSpectralInvariance: chain XY+Z-deph L diagonal-block spectrum invariant under J-distributions satisfying J_b+J_{N-2-b}=2·J_avg; J-side twin of F91 γ-Z₄.",
                Tier.Tier1Derived,
                "Algebraic mechanism parallel to F91 PROOF (diagonal blocks depend only on F71-pair-sums T_b = J_b+J_{N-2-b}; cross blocks on pair-differences); bit-exact at N=4,5")
     {
         _sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
         _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
+        _inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
     }
 
     /// <summary>F71-anti-palindromic deviation norm of a bond-J list:
