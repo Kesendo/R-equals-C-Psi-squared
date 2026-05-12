@@ -11,7 +11,12 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// gives the spectrum of its X⊗N-pair for free.
 ///
 /// <para>Algorithmic gain: halves the number of distinct eigendecompositions needed at
-/// any N. Block sizes are unchanged; this is sector-pairing, not sector-splitting.</para></summary>
+/// any N. Block sizes are unchanged; this is sector-pairing, not sector-splitting.</para>
+///
+/// <para>Empirical anchor (April 2026, retroactively explained): <c>experiments/DEGENERACY_HUNT.md</c>
+/// observed at N=5 that the 14 degenerate eigenmodes at Re(λ)=−0.400 spread across joint-popcount
+/// sectors (1,1)↔(4,4), (2,2)↔(3,3), (1,3)↔(4,2). These pairings are X⊗N images by the rule above;
+/// the April observation is empirical confirmation of this primitive one month before it was typed.</para></summary>
 public sealed class XGlobalChargeConjugationPairing : Claim
 {
     private readonly SymmetryFamilyInventory _inventory;
