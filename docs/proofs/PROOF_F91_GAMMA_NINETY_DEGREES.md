@@ -14,7 +14,7 @@ For the chain XY + Z-dephasing Liouvillian L on N qubits (per-site γ_l, Hamilto
 
     γ_l + γ_{N−1−l} = 2·γ_avg = (2/N)·Σ_l γ_l   for all l ∈ {0..N−1}
 
-i.e. **γ is F71-anti-palindromic around its mean**. The full operator L itself generally changes — F71 is broken as L-symmetry (off-block Frobenius in the F71-refined basis is nonzero, proportional to the F71-asymmetry of γ) — but the diagonal-block eigenvalues coincide. The breaking lives entirely in eigenvectors (the F71-cross-blocks between F71-even and F71-odd sub-sectors).
+i.e. **γ is F71-anti-palindromic around its mean**. The full operator L itself generally changes (F71 is broken as L-symmetry, off-block Frobenius in the F71-refined basis is nonzero, proportional to the F71-asymmetry of γ), but the diagonal-block eigenvalues coincide. The breaking lives entirely in eigenvectors (the F71-cross-blocks between F71-even and F71-odd sub-sectors).
 
 Strictly weaker than F71-as-symmetry (which requires γ_l = γ_{N−1−l}, palindromic), strictly stronger than F1 alone (Σγ_l invariant). For odd N the middle site l = (N−1)/2 must equal γ_avg.
 
@@ -32,7 +32,7 @@ Empirical test at N=6, J=1.0, with five γ-profiles all having Σγ = 2.7 (γ_av
 | `[0.7, 0.2, 0.5, 0.3, 0.6, 0.4]` (permuted, same multiset as monotonic) | {1.1, 0.8, 0.8} | no | distinct (Re=−4.984 cluster, vs −5.043 in reference) | differs from reference |
 | `[0.1, 0.1, 0.1, 0.1, 0.1, 2.2]` (concentrated) | {2.3, 0.2, 0.2} | no | distinct (complex Re−Im at −5.106 ± 1.683i) | very distinct |
 
-The bit-exact diagonal-block coincidence across the first three rows — and the bit-exact breaking in rows 4 and 5 — together pin the invariance class to anti-palindromy. Verified at N=4 and N=5 with analogous profile sets in `F71AntiPalindromicGammaSpectralInvarianceTests`.
+The bit-exact diagonal-block coincidence across the first three rows, and the bit-exact breaking in rows 4 and 5, together pin the invariance class to anti-palindromy. Verified at N=4 and N=5 with analogous profile sets in `F71AntiPalindromicGammaSpectralInvarianceTests`.
 
 ---
 
@@ -49,7 +49,7 @@ The Pi2-Foundation Z₄ rotational axis (per `NinetyDegreeMirrorMemoryClaim` in 
 | i (90°, F71-anti-palindromic) | γ_l ↦ 2γ_avg − γ_{N−1−l} | F71 broken as L-symmetry | **unchanged (the surprising claim)** |
 | i³ (270°) | composition of the above | F71 broken | unchanged |
 
-The 90° rotation is precisely the operation that flips the F71-pair *difference* but preserves the F71-pair *sum*. Diagonal-block matrix elements in the F71-refined basis are functions of pair-sums only (by construction of the F71-even/odd basis), so they are 90°-invariant. Cross-block matrix elements depend on pair-differences and are not 90°-invariant — but they are off-diagonal in the F71-refined basis, so they enter eigenvalues only at higher perturbative orders, which our empirical witness shows vanish on the diagonal-spectrum level.
+The 90° rotation is precisely the operation that flips the F71-pair *difference* but preserves the F71-pair *sum*. Diagonal-block matrix elements in the F71-refined basis are functions of pair-sums only (by construction of the F71-even/odd basis), so they are 90°-invariant. Cross-block matrix elements depend on pair-differences and are not 90°-invariant; but they are off-diagonal in the F71-refined basis, so they enter eigenvalues only at higher perturbative orders, which our empirical witness shows vanish on the diagonal-spectrum level.
 
 ---
 
@@ -189,7 +189,7 @@ By Step 6 (eigenvalues depend only on the pair-sum multiset), all γ-distributio
 
 The proof shows two things:
 
-1. **Strong (pair-sum-multiset claim).** F71-refined diagonal-block spectrum is a function of the multiset {S_l} alone. Two γ-distributions with the **same pair-sum multiset** give identical diagonal-block spectra, regardless of how the individual γ_l are distributed within each F71-pair (and regardless of γ_avg agreement, as long as the multisets match — but two distributions with the same {S_l} multiset automatically have the same Σγ_l = Σ_l S_l for paired sites).
+1. **Strong (pair-sum-multiset claim).** F71-refined diagonal-block spectrum is a function of the multiset {S_l} alone. Two γ-distributions with the **same pair-sum multiset** give identical diagonal-block spectra, regardless of how the individual γ_l are distributed within each F71-pair (and regardless of γ_avg agreement, as long as the multisets match; two distributions with the same {S_l} multiset automatically have the same Σγ_l = Σ_l S_l for paired sites).
 
 2. **Anti-palindromic corollary (the originally claimed F91).** Within the orbit S_l = 2γ_avg ∀l, all γ are equivalent on the diagonal-block level; this orbit is closed under the 90° rotation R_{90}.
 
@@ -210,4 +210,6 @@ The empirical witness rows (uniform = monotonic anti-palindromic = non-monotonic
 - Memory record: `project_anti_palindromic_is_ninety_degrees.md` (synthesis), `project_time_is_gamma0_observer.md` (motivation from γ as Beobachter).
 - Typed C# Claim: `F71AntiPalindromicGammaSpectralInvariance` (Tier1Derived as of 2026-05-12, two typed parents: `JointPopcountSectors`, `F71MirrorBlockRefinement`).
 - Sister Claim on the operator side: `NinetyDegreeMirrorMemoryClaim` in `Pi2KnowledgeBaseClaims.cs`.
+- Sister proofs on other parameter axes: J-side `./PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`; h-detuning-side `./PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
+- Inventory: `docs/SYMMETRY_FAMILY_INVENTORY.md`; reflection: `reflections/ON_THE_SYMMETRY_FAMILY.md`.
 - Empirical witnesses: `compute/RCPsiSquared.Core.Tests/BlockSpectrum/F71AntiPalindromicGammaSpectralInvarianceTests.cs` (N=4, 5, 6) + live CLI runs via `block-spectrum --gamma-list ... --refine f71` (Phase 5).
