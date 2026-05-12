@@ -17,6 +17,8 @@ i.e. **J is F71-anti-palindromic around its mean**. The full operator L itself g
 
 Strictly weaker than F71-as-J-symmetry (J_b = J_{N−2−b}); strictly stronger than F1 alone (which only requires Σγ_l invariant, and γ here is uniform anyway).
 
+**Middle-bond constraint:** for N even (so N−1 bonds with odd count), the middle bond at b = (N−2)/2 is F71-fixed (b = N−2−b). Anti-palindromy then requires J_{(N−2)/2} = J_avg. For N odd (even bond count), all bonds pair up; no middle constraint.
+
 ## Pi2-Z₄ structure (parameter-side, J-axis)
 
 The Pi2-Foundation Z₄ rotational axis (typed in `Pi2KnowledgeBaseClaims.cs` as `NinetyDegreeMirrorMemoryClaim`) has four group elements `{e, i, i², i³}` from `i⁴ = 1`. F91 typed the γ-axis Z₄; F92 types the J-axis Z₄.
@@ -46,13 +48,20 @@ For the F71-image (a', b'), bit-reversal maps site index ℓ to N−1−ℓ. The
 
     F71 · H(J) · F71 = H(F71(J))   where (F71(J))_b = J_{N−2−b}
 
-### Step 3. F71-refined basis matrix elements.
+### Step 3. F71-symmetric/anti-symmetric J-decomposition.
 
-Following the same calculation pattern as PROOF_F91 §§3–4:
+Since H is linear in J (H(J) = Σ_b J_b·h_b with h_b = (1/2)(X_bX_{b+1} + Y_bY_{b+1})), we can decompose:
 
-⟨sym|H|sym⟩ involves contributions from H acting on |a⟩⟨b| and on |a'⟩⟨b'|, plus cross terms ⟨a,b|H|a',b'⟩ which vanish for non-overlapping (a, b) and (a', b') (or contribute symmetrically). After the F71-orbit averaging, **the H-contribution to ⟨sym|H|sym⟩ depends on J only through pair-sums** T_b := J_b + J_{N−2−b}.
+    J_sym  := (J + F71(J)) / 2,     i.e. (J_sym)_b = T_b/2 = (J_b + J_{N−2−b})/2
+    J_anti := (J − F71(J)) / 2,     i.e. (J_anti)_b = B_b/2 = (J_b − J_{N−2−b})/2
 
-The off-diagonal ⟨sym|H|antisym⟩ depends on pair-differences B_b := J_b − J_{N−2−b}.
+with J = J_sym + J_anti, hence H(J) = H(J_sym) + H(J_anti).
+
+**J_sym is F71-palindromic by construction:** F71(J_sym) = (F71(J) + J)/2 = J_sym. Therefore H(J_sym) commutes with F71-conjugation: F71·H(J_sym)·F71 = H(J_sym), and the Liouvillian super-operator [H(J_sym), ·] is F71-block-diagonal in the F71-refined basis (same Step-5 argument as PROOF_F91 § Step 5 for F71-symmetric H).
+
+**J_anti is F71-anti-palindromic** by construction: F71(J_anti) = −J_anti. Therefore F71·H(J_anti)·F71 = H(F71(J_anti)) = H(−J_anti) = −H(J_anti). The super-operator [H(J_anti), ·] anti-commutes with F71-conjugation, so in the F71-refined basis (which diagonalises F71-conjugation with eigenvalues ±1) it is **purely off-block**: it maps F71-even sub-sectors to F71-odd and vice versa, contributing only to ⟨sym|·|antisym⟩ and ⟨antisym|·|sym⟩ matrix elements, never to ⟨sym|·|sym⟩ or ⟨antisym|·|antisym⟩.
+
+**Conclusion of Step 3:** ⟨sym|[H(J), ·]|sym⟩ = ⟨sym|[H(J_sym), ·]|sym⟩, depending on J only through (J_sym)_b = T_b/2. The same holds for ⟨antisym|·|antisym⟩. Cross-block matrix elements ⟨sym|·|antisym⟩ pick up the [H(J_anti), ·] contribution and depend on J only through (J_anti)_b = B_b/2.
 
 The Z-dephasing dissipator is γ-uniform (γ_l = γ ∀l), so its contribution is identical across all γ-permutations (palindromic by triviality), and contributes the same diagonal shift to every F71-block.
 
@@ -81,7 +90,7 @@ This generalisation predicts F93 (h-detuning axis) automatically; whether furthe
 
 - Memory record: `project_anti_palindromic_is_ninety_degrees.md` (γ-side); F92 added to the inventory.
 - Typed claim: `F92BondAntiPalindromicJSpectralInvariance` (Tier1Derived, two parents).
-- Sister proof (γ-side): `docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md`.
-- Future sister (h-side): `docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
+- Sister proof (γ-side): `./PROOF_F91_GAMMA_NINETY_DEGREES.md`.
+- Future sister (h-side): `./PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
 - Inventory: `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 - Reflection: `reflections/ON_THE_SYMMETRY_FAMILY.md`.
