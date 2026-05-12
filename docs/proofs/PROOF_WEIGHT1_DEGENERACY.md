@@ -5,9 +5,11 @@ degeneracy proof, SWAP invariance Pauli strings, Z-count conserved operators,
 palindromic degeneracy analytical derivation, d(-gamma) = 2N proof, open quantum
 system spectral structure, SU(2) symmetry weight-1, R=CPsi2 commutator kernel -->
 
-**Status:** Proven (N = 2 through 7 numerically verified)
-**Date:** April 3, 2026
+**Status:** Tier 1 derived (SWAP-invariance + triangle-inequality proof for all N on any connected graph) + Tier 2 verified (bit-exact numerical match N = 2 through 7)
+**Date:** 2026-04-03
 **Authors:** Thomas Wicht, Claude (Anthropic)
+**Statement:** `d_real(Re = −2γ) = 2N` for the isotropic Heisenberg coupling on any connected graph under uniform Z-dephasing. The 2N kernel operators are the symmetric sums `T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S(c) ⊗ I_rest` grouped by active type a ∈ {X, Y} and Z-count c ∈ {0, ..., N−1}.
+**Typed claim:** [`F50WeightOneDegeneracyPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs) (Tier 1 derived; both 2s in 2N and 2γ inherit from the Pi2 dyadic ladder's a₀ anchor; F50 entry in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)).
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md),
 [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
