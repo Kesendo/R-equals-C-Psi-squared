@@ -4,17 +4,8 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.F89PathK;
 
-/// <summary>Per-site (0,1) coherence reduction from the n_block-site block density matrix.
-///
-/// <para>Given a block-reduced ρ on n_block sites,
-/// <c>⟨0_l|Tr_{block\\{l}}(ρ)|1_l⟩</c> isolates the (|0⟩,|1⟩) matrix element on site l after
-/// tracing out the other (n_block − 1) block sites. Used by F89 eigenmode-projection workflows
-/// to extract per-site amplitude trajectories from block dynamics.</para>
-///
-/// <para><see cref="PerSiteReductionMatrix"/> packs the reduction as a (n_block × d²) sparse-but-dense
-/// matrix acting on the column-major vec(ρ) of the block, so a single matvec yields the per-site
-/// amplitude vector for arbitrary block ρ.</para>
-/// </summary>
+/// <summary>Per-site (|0⟩,|1⟩) coherence reduction from the n_block-site block density matrix:
+/// <c>⟨0_l|Tr_{block\\{l}}(ρ)|1_l⟩</c>. See <see cref="F89PathKConvention"/> for the vec convention.</summary>
 public static class F89BlockSiteReduction
 {
     public static Complex ReduceBlockToSite01(ComplexMatrix rhoBlock, int l, int nBlock)
@@ -46,9 +37,8 @@ public static class F89BlockSiteReduction
     }
 
     /// <summary>Build the (n_block × d²) reduction matrix w[l, idx] such that
-    /// <c>Σ_idx w[l, idx] · vec_C(ρ)[idx] = ReduceBlockToSite01(ρ, l, n_block)</c>, where
-    /// <c>vec_C(ρ)[b·d + a] = ρ[a, b]</c> is the column-major vectorisation matching Python
-    /// <c>simulations/_f89_pathk_lib.py</c>.</summary>
+    /// <c>Σ_idx w[l, idx] · vec_C(ρ)[idx] = ReduceBlockToSite01(ρ, l, n_block)</c> on the
+    /// column-major vec convention <c>vec_C(ρ)[b·d + a] = ρ[a, b]</c>.</summary>
     public static ComplexMatrix PerSiteReductionMatrix(int nBlock)
     {
         if (nBlock < 1)

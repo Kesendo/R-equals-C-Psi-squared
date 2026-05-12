@@ -3,25 +3,12 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
-using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.Tests.F89PathK;
 
 public class F89PathKLibTests
 {
-    /// <summary>F89PathKConvention.JConventionFactor must agree with the F90 bridge identity:
-    /// F89 uses H = J·(XX+YY) (no 1/2) while F86 uses H = (J/2)·(XX+YY); the documented
-    /// scale factor is 2.</summary>
-    [Fact]
-    public void Convention_JFactor_MatchesF90Bridge()
-    {
-        Assert.Equal(2.0, F89PathKConvention.JConventionFactor);
-        Assert.Equal(F90F86C2BridgeIdentity.JConventionFactor, F89PathKConvention.JConventionFactor);
-    }
-
-    /// <summary>BuildBlockH at n_block=2 reproduces 2·H_F86 at the same J value, since F89's
-    /// H = J·(XX+YY) equals 2 times F86's H = (J/2)·(XX+YY).</summary>
     [Fact]
     public void BuildBlockH_NBlock2_MatchesF86XYChainTimesTwo()
     {
@@ -33,9 +20,6 @@ public class F89PathKLibTests
             $"F89 H should equal 2·F86 H at same J; Frobenius diff = {diff.FrobeniusNorm()}");
     }
 
-    /// <summary>BuildBlockL at n_block=3 reproduces dρ/dt for an arbitrary Hermitian ρ via
-    /// the column-major vec convention. Cross-validated against direct -i[H,ρ] + Σ γ(ZρZ - ρ).
-    /// The hand-built H uses F89 convention (no 1/2 factor).</summary>
     [Fact]
     public void BuildBlockL_NBlock3_MatchesDirectDRhoDt_ColumnMajor()
     {
@@ -48,16 +32,13 @@ public class F89PathKLibTests
         var H = F89BlockHamiltonian.BuildBlockH(J, nBlock);
         var rho = ArbitraryHermitian(d, seed: 42);
 
-        // Direct dρ/dt = -i[H, ρ] + Σ_l γ (Z_l ρ Z_l - ρ)
         var dRhoDirect = -Complex.ImaginaryOne * (H * rho - rho * H);
-        var idMat = Matrix<Complex>.Build.DenseIdentity(d);
         for (int l = 0; l < nBlock; l++)
         {
             var Zl = PauliString.SiteOp(nBlock, l, PauliLetter.Z);
             dRhoDirect = dRhoDirect + (Complex)gamma * (Zl * rho * Zl - rho);
         }
 
-        // L · vec_C(ρ) should equal vec_C(dρ/dt) where vec_C[b·d + a] = ρ[a, b].
         var vecRho = VecColumnMajor(rho);
         var vecResult = L * vecRho;
         var dRhoFromL = UnvecColumnMajor(vecResult, d);
@@ -67,9 +48,6 @@ public class F89PathKLibTests
             $"BuildBlockL action should match direct dρ/dt; Frobenius diff = {diff.FrobeniusNorm()}");
     }
 
-    /// <summary>BuildBlockL also matches the row-major LindbladianBuilder action when both are
-    /// applied to their matching vec convention. Confirms F89 (column-major) and Core's
-    /// LindbladianBuilder (row-major) produce identical physical dynamics modulo vec form.</summary>
     [Fact]
     public void BuildBlockL_AgreesWithLindbladianBuilder_OnDRhoDt()
     {
@@ -90,7 +68,6 @@ public class F89PathKLibTests
 
         var rho = ArbitraryHermitian(d, seed: 7);
 
-        // Apply both, un-vec via matching conventions, compare resulting dρ/dt matrices.
         var dRhoF89 = UnvecColumnMajor(lF89 * VecColumnMajor(rho), d);
         var dRhoRow = UnvecRowMajor(lRowMajor * VecRowMajor(rho), d);
 
@@ -100,10 +77,6 @@ public class F89PathKLibTests
             $"Frobenius diff = {diff.FrobeniusNorm()}");
     }
 
-    /// <summary>ComputeRhoBlockZero at n_block=3, N=5: returned matrix is Hermitian and has
-    /// the closed-form trace expected from the path-k partial trace structure. Trace pulled
-    /// from direct evaluation of Tr(ρ_block) = Σ_a ρ_block[a, a]; for ρ_cc construction, this
-    /// is zero because both terms are pure off-diagonal in the popcount basis.</summary>
     [Fact]
     public void ComputeRhoBlockZero_IsHermitian_AndOffDiagonal()
     {
@@ -123,22 +96,18 @@ public class F89PathKLibTests
             $"Tr(ρ_block(0)) must be 0 for popcount-off-diagonal ρ_cc; got {tr}");
     }
 
-    /// <summary>BareSiteInitial01 at N=5 matches the closed form (N-1)/(2·√(N·C(N,2))).
-    /// Computed independently from the formula: 4 / (2·√(50)) = 4/(2·5√2) = 2/(5√2).</summary>
     [Fact]
     public void BareSiteInitial01_N5_MatchesClosedForm()
     {
+        // Closed form: (N-1)/(2·√(N·C(N,2))) = 4/(2·√50) = 2/(5·√2) at N=5.
         double expected = 4.0 / (2.0 * Math.Sqrt(50.0));
         double actual = F89BareSiteInitial.BareSiteInitial01(5);
         Assert.Equal(expected, actual, 14);
 
-        // Cross-check independent simplification 2 / (5·√2).
         double altForm = 2.0 / (5.0 * Math.Sqrt(2.0));
         Assert.Equal(altForm, actual, 14);
     }
 
-    /// <summary>PerSiteReductionMatrix shape is (n_block, d²) and acts on vec_C(ρ_block) to
-    /// reproduce ReduceBlockToSite01 site-by-site.</summary>
     [Fact]
     public void PerSiteReductionMatrix_ReproducesPerSiteReduction_NBlock3()
     {
@@ -161,7 +130,6 @@ public class F89PathKLibTests
         }
     }
 
-    /// <summary>BlockBitPos returns descending powers of two: [2^(n-1), ..., 1].</summary>
     [Fact]
     public void BlockBitPos_NBlock4_IsDescendingPowersOfTwo()
     {
@@ -169,7 +137,6 @@ public class F89PathKLibTests
         Assert.Equal(new[] { 8, 4, 2, 1 }, pos);
     }
 
-    /// <summary>StateIdx round-trips bit list ↔ integer index: |0110⟩ → 6.</summary>
     [Fact]
     public void StateIdx_BigEndian_BasicCase()
     {

@@ -68,26 +68,20 @@ public static class F89BlockInitialRho
 
         for (int i = 0; i < nBlock; i++)
         {
-            var bits = new int[nBlock];
-            bits[i] = 1;
-            int idxSe = StateIdx(bits, bitPos);
+            int idxSe = bitPos[i];
             for (int j = 0; j < nBlock; j++)
             {
                 for (int k = j + 1; k < nBlock; k++)
                 {
-                    var bitsDe = new int[nBlock];
-                    bitsDe[j] = 1;
-                    bitsDe[k] = 1;
-                    rho[idxSe, StateIdx(bitsDe, bitPos)] += pre;
+                    int idxDe = bitPos[j] + bitPos[k];
+                    rho[idxSe, idxDe] += pre;
                 }
             }
         }
 
         for (int j = 0; j < nBlock; j++)
         {
-            var bits = new int[nBlock];
-            bits[j] = 1;
-            rho[0, StateIdx(bits, bitPos)] += pre * nE;
+            rho[0, bitPos[j]] += pre * nE;
         }
 
         var rhoH = (rho + rho.ConjugateTranspose()) / 2.0;
