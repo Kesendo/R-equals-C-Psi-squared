@@ -1,3 +1,6 @@
+using System.Collections.Concurrent;
+using System.Numerics;
+
 namespace RCPsiSquared.Core.BlockSpectrum;
 
 /// <summary>Builds the basis permutation that block-diagonalises the XY+Z-dephasing
@@ -31,7 +34,16 @@ public static class JointPopcountSectorBuilder
         { N = n; D = d; Permutation = perm; SectorRanges = sectors; }
     }
 
-    public static Decomposition Build(int N)
+    private static readonly ConcurrentDictionary<int, Decomposition> _cache = new();
+
+    /// <summary>Memoised: each Decomposition (Permutation array + sector ranges) is computed
+    /// once per N and shared across callers. Callers must treat the returned arrays as
+    /// read-only (no in-place mutation) — verified at the call-sites in
+    /// <c>compute/RCPsiSquared.Core/BlockSpectrum/</c>, <c>compute/RCPsiSquared.Cli/Commands/</c>,
+    /// and the BlockSpectrum tests, which only read <c>Permutation[i]</c>.</summary>
+    public static Decomposition Build(int N) => _cache.GetOrAdd(N, BuildUncached);
+
+    private static Decomposition BuildUncached(int N)
     {
         if (N < 1 || N > 12) throw new ArgumentOutOfRangeException(nameof(N), N, "Supported N range: 1..12.");
         int d = 1 << N;
@@ -44,7 +56,7 @@ public static class JointPopcountSectorBuilder
         {
             int row = flat / d;
             int col = flat % d;
-            labels[flat] = (PopCount(col), PopCount(row));
+            labels[flat] = (BitOperations.PopCount((uint)col), BitOperations.PopCount((uint)row));
         }
 
         // Sort flat indices by (pCol, pRow); stable so within-sector order is original ascending
@@ -72,6 +84,4 @@ public static class JointPopcountSectorBuilder
 
         return new Decomposition(N, d, indices, sectors);
     }
-
-    private static int PopCount(int x) => System.Numerics.BitOperations.PopCount((uint)x);
 }

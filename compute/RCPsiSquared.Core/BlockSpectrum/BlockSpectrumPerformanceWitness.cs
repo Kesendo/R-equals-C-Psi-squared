@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///   <item>N=6: block ≈ 1.0 s vs full ≈ 10 s (~10×)</item>
 /// </list>
 ///
-/// <para>Phase-4 unit tests assert: multiset-equal exactly at N=5; block-time/full-time
+/// <para>Tests assert: multiset-equal exactly at N=5; block-time/full-time
 /// ratio &lt; <c>1/ExpectedSpeedupAtN5</c> (i.e. at least
 /// <see cref="ExpectedSpeedupAtN5"/>× speedup) on min-of-3 measurement after warm-up.
 /// The conservative <see cref="ExpectedSpeedupAtN5"/> = 2.0 lower bound absorbs CI

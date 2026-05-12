@@ -236,14 +236,7 @@ public static class BlockSpectrumCommand
         if (refineF71)
         {
             // Per-side F71 mirror map.
-            var mirrorBits = new int[d];
-            for (int x = 0; x < d; x++)
-            {
-                int m = 0;
-                for (int i = 0; i < N; i++)
-                    if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-                mirrorBits[x] = m;
-            }
+            var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
             int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
             double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
@@ -424,14 +417,7 @@ public static class BlockSpectrumCommand
         int d = 1 << N;
 
         // Per-Hilbert-side F71 mirror map (same as ComputeSpectrumWithTimingPerBlock).
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
         double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 

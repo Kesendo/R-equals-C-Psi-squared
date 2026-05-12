@@ -64,7 +64,7 @@ public sealed class F71BilateralBlockRefinement : Claim
     public F71BilateralBlockRefinement(
         JointPopcountSectors sectors,
         F71MirrorBlockRefinement f71Diagonal)
-        : base("F71BilateralBlockRefinement: Z₂ × Z₂ irrep basis change Q for the two independent F71 actions on Liouville space (F71_col = I⊗Mirror, F71_row = Mirror⊗I); Q is real-orthogonal with entries 0, ±1, ±1/√2, ±1/2; orbit decomposition splits each joint-popcount sector into up to four (col_parity, row_parity) sub-blocks. Spectral block-diagonalisation of L (chain XY + local Z-deph) under Q does NOT hold even at uniform γ — the Σ_l γ_l Z_l ⊗ Z_l dissipator is not invariant under F71_row alone (becomes Σ_l γ_l Z_{N-1-l} ⊗ Z_l ≠ original). The bilateral basis is a structural irrep frame; off-sub-block Frobenius is O(γ N) at uniform γ. Useful for measuring extra dissipator chirality beyond the diagonal F71 and for hypothetical models where bilateral L-symmetry would hold (e.g. all-to-all Z⊗Z coupling).",
+        : base("F71BilateralBlockRefinement: Z₂ × Z₂ irrep basis Q for (F71_col, F71_row); structural decomposition only — chain XY+local-Z-deph dissipator is NOT block-diagonal under Q (off-sub-block Frobenius O(γ N) at uniform γ); diagonal-Z₂ subset recovers F71MirrorBlockRefinement.",
                Tier.Tier2Empirical,
                "JointPopcountSectors block-diagonality (parent) + F71MirrorBlockRefinement diagonal Z₂ (parent) + Z₂ × Z₂ irrep frame via independent F71_col / F71_row actions on Liouville space. Empirical: at uniform γ and F71-palindromic γ, off-sub-block Frobenius is NONZERO for the standard chain XY+local-Z-deph Liouvillian (N=3,4,5 measured in F71BilateralBlockRefinementTests); zero only for the diagonal-Z₂ subset (recovered by F71MirrorBlockRefinement). Structural correctness of Q (orthogonality, sector ordering, orbit accounting) verified bit-exactly.")
     {
@@ -164,14 +164,7 @@ public sealed class F71BilateralBlockRefinement : Claim
         int liouvilleDim = d * d;
 
         // Per-Hilbert-side F71 mirror map: a |b_0…b_{N-1}⟩ ↔ |b_{N-1}…b_0⟩.
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
 
         // Bilateral images of flat = row*d + col:
         //   fc(flat) = row * d + Mirror(col)         — F71_col flips bra-side (col index)

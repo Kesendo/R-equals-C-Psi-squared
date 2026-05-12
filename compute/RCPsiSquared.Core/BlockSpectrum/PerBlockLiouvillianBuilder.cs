@@ -73,10 +73,7 @@ public static class PerBlockLiouvillianBuilder
             double diag = 0;
             for (int l = 0; l < N; l++)
                 if (((diff >> l) & 1) != 0) diag += -2.0 * gammaPerSite[l];
-            // Add the H term: −i · H[r, r] · δ_{c, c} − δ_{r, r} · H[c, c]
-            //   = −i · (H[r,r] − H[c,c])  on diagonal.
-            // (Off-diagonal in the block is handled below via i!=j case; for i==j we add diag here.)
-            B[i, i] = new Complex(0, 0) + (Complex)diag;
+            B[i, i] = new Complex(diag, 0);
         }
 
         // Off-diagonal & diagonal Hamiltonian contribution:

@@ -117,16 +117,7 @@ public sealed class F71MirrorBlockRefinement : Claim
         int liouvilleDim = d * d;
 
         // Build the per-Hilbert-side P_F71 mirror map: a |b_0...b_{N-1}⟩ ↔ |b_{N-1}...b_0⟩.
-        // For an integer x with bit i (0-based, LSB = site 0) holding b_i, mirror(x) flips the
-        // bit positions: bit i of mirror(x) = bit (N−1−i) of x.
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
 
         // Liouville-space mirror: flat = row*d + col → mirror_flat = mirror(row)*d + mirror(col).
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
@@ -148,7 +139,6 @@ public sealed class F71MirrorBlockRefinement : Claim
 
             // Walk indices in ascending flat order; for each unseen flat, partner with
             // Mirror(flat) (which is also in this sector). Fixed points: Mirror(flat)==flat.
-            var sectorSet = new HashSet<int>(sectorIndices);
             var seen = new HashSet<int>();
             var fixedPoints = new List<int>();
             var pairs = new List<(int s, int ps)>();
@@ -285,14 +275,7 @@ public sealed class F71MirrorBlockRefinement : Claim
         int d = hilbertDim;
 
         // Build the per-Hilbert-side P_F71 mirror map.
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
 
         var baseDecomp = JointPopcountSectorBuilder.Build(N);
@@ -309,7 +292,6 @@ public sealed class F71MirrorBlockRefinement : Claim
             // Find F71 orbits in this sector.
             var sectorFlat = new int[size];
             for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-            var sectorSet = new HashSet<int>(sectorFlat);
             var seen = new HashSet<int>();
             var fixedPoints = new List<int>();
             var pairs = new List<(int s, int ps)>();
