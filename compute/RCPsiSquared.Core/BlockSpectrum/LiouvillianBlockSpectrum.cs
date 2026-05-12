@@ -1,7 +1,9 @@
+using System.Collections.Concurrent;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.SymmetryFamily;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.BlockSpectrum;
@@ -162,28 +164,78 @@ public sealed class LiouvillianBlockSpectrum : Claim
             cum += decomp.SectorRanges[i].Size;
         }
 
+        // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): the chain XY+Z-deph L
+        // commutes with the global X-string operator, which on joint-popcount labels maps
+        // (p_c, p_r) ↔ (N - p_c, N - p_r). Paired sectors share spectrum exactly. We compute
+        // eig only on "primary" sectors (lex-smaller of each pair, plus all self-paired
+        // sectors at even N) and copy the result onto follower sectors.
+        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = decomp.SectorRanges[i];
+            sectorIndexByPair[(s.PCol, s.PRow)] = i;
+        }
+
+        var primarySectorIndices = new List<int>();
+        var followerToPrimary = new Dictionary<int, int>();
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = decomp.SectorRanges[i];
+            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
+            {
+                primarySectorIndices.Add(i);
+                continue;
+            }
+            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
+            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
+            if (isPrimary)
+            {
+                primarySectorIndices.Add(i);
+            }
+            else
+            {
+                followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
+            }
+        }
+
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
         // MKL inside the largest sectors' Evd. See ComputeSpectrum for the rationale.
         int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
         var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
 
+        // Phase 2: parallel eig on primary sectors only.
+        var primaryEigs = new ConcurrentDictionary<int, Complex[]>();
         Parallel.ForEach(
-            Enumerable.Range(0, sectorCount), po,
+            primarySectorIndices, po,
             sIdx =>
             {
                 var sector = decomp.SectorRanges[sIdx];
                 int size = sector.Size;
-                if (size == 0) return;
+                if (size == 0)
+                {
+                    primaryEigs[sIdx] = Array.Empty<Complex>();
+                    return;
+                }
                 var flatIndices = new int[size];
                 for (int k = 0; k < size; k++)
                     flatIndices[k] = perm[sector.Offset + k];
 
                 var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
                 var blockEigs = block.Evd().EigenValues;
-                int write = writeOffsets[sIdx];
-                for (int i = 0; i < size; i++)
-                    spectrum[write + i] = blockEigs[i];
+                var arr = new Complex[size];
+                for (int i = 0; i < size; i++) arr[i] = blockEigs[i];
+                primaryEigs[sIdx] = arr;
             });
+
+        // Phase 3: sequential write to output array (primaries + followers). Followers copy
+        // the eigenvalue array of their X⊗N-partner sector (same multiset of eigenvalues).
+        for (int sIdx = 0; sIdx < sectorCount; sIdx++)
+        {
+            int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
+            var eigs = primaryEigs[sourceIdx];
+            int write = writeOffsets[sIdx];
+            for (int i = 0; i < eigs.Length; i++) spectrum[write + i] = eigs[i];
+        }
         return spectrum;
     }
 

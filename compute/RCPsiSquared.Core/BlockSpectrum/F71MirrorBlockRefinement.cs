@@ -1,7 +1,9 @@
+using System.Collections.Concurrent;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.SymmetryFamily;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.BlockSpectrum;
@@ -294,18 +296,62 @@ public sealed class F71MirrorBlockRefinement : Claim
             cum += baseDecomp.SectorRanges[i].Size;
         }
 
+        // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): chain XY+Z-deph L commutes
+        // with X⊗N, which on joint-popcount labels maps (p_c, p_r) ↔ (N - p_c, N - p_r).
+        // X⊗N also commutes with F71 (both global, commutative super-operations), so the
+        // pairing extends to F71-refined sub-sectors with parity preserved: the F71-even of
+        // (p_c, p_r) shares spectrum with F71-even of (N - p_c, N - p_r), same for odd.
+        // Compute eig only on primary sectors (lex-smaller of each pair, plus all self-paired
+        // sectors at even N) and copy onto follower sectors.
+        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = baseDecomp.SectorRanges[i];
+            sectorIndexByPair[(s.PCol, s.PRow)] = i;
+        }
+
+        var primarySectorIndices = new List<int>();
+        var followerToPrimary = new Dictionary<int, int>();
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = baseDecomp.SectorRanges[i];
+            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
+            {
+                primarySectorIndices.Add(i);
+                continue;
+            }
+            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
+            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
+            if (isPrimary)
+            {
+                primarySectorIndices.Add(i);
+            }
+            else
+            {
+                followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
+            }
+        }
+
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4. See
         // LiouvillianBlockSpectrum.ComputeSpectrum for rationale.
         int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
         var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
 
+        // Phase 2: parallel eig on primary sectors only. Stores (evenEigs, oddEigs) per
+        // primary sector. Followers reuse these arrays via copy in Phase 3.
+        var primaryEigs = new ConcurrentDictionary<int, (Complex[] Even, Complex[] Odd)>();
+
         Parallel.ForEach(
-            Enumerable.Range(0, sectorCount), po,
+            primarySectorIndices, po,
             sIdx =>
             {
                 var sector = baseDecomp.SectorRanges[sIdx];
                 int size = sector.Size;
-                if (size == 0) return;
+                if (size == 0)
+                {
+                    primaryEigs[sIdx] = (Array.Empty<Complex>(), Array.Empty<Complex>());
+                    return;
+                }
 
                 // Find F71 orbits in this sector.
                 var sectorFlat = new int[size];
@@ -347,26 +393,39 @@ public sealed class F71MirrorBlockRefinement : Claim
                 // from the F71-orbit Hadamard structure (O(n²) instead of two O(n³) matmuls).
                 var rotated = RotateUnionBlockF71InPlace(unionBlock, nFix, nPairs);
 
-                int write = writeOffsets[sIdx];
-
-                // Even sub-block: rows/cols [0 .. nFix + nPairs).
                 int evenSize = nFix + nPairs;
+                int oddSize = nPairs;
+                Complex[] evenArr = Array.Empty<Complex>();
+                Complex[] oddArr = Array.Empty<Complex>();
                 if (evenSize > 0)
                 {
                     var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
                     var evenEigs = evenBlock.Evd().EigenValues;
-                    for (int i = 0; i < evenSize; i++) spectrum[write + i] = evenEigs[i];
-                    write += evenSize;
+                    evenArr = new Complex[evenSize];
+                    for (int i = 0; i < evenSize; i++) evenArr[i] = evenEigs[i];
                 }
-                // Odd sub-block: rows/cols [evenSize .. unionSize).
-                int oddSize = nPairs;
                 if (oddSize > 0)
                 {
                     var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
                     var oddEigs = oddBlock.Evd().EigenValues;
-                    for (int i = 0; i < oddSize; i++) spectrum[write + i] = oddEigs[i];
+                    oddArr = new Complex[oddSize];
+                    for (int i = 0; i < oddSize; i++) oddArr[i] = oddEigs[i];
                 }
+                primaryEigs[sIdx] = (evenArr, oddArr);
             });
+
+        // Phase 3: sequential write to output array. Each sector writes its even-block
+        // eigenvalues then its odd-block eigenvalues in the same layout the original code
+        // produced, copying from the X⊗N-partner if this is a follower sector.
+        for (int sIdx = 0; sIdx < sectorCount; sIdx++)
+        {
+            int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
+            var (evenArr, oddArr) = primaryEigs[sourceIdx];
+            int write = writeOffsets[sIdx];
+            for (int i = 0; i < evenArr.Length; i++) spectrum[write + i] = evenArr[i];
+            write += evenArr.Length;
+            for (int i = 0; i < oddArr.Length; i++) spectrum[write + i] = oddArr[i];
+        }
         return spectrum;
     }
 

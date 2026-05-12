@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.SymmetryFamily;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Cli.Commands;
@@ -249,6 +250,30 @@ public static class BlockSpectrumCommand
             cum += baseDecomp.SectorRanges[i].Size;
         }
 
+        // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): paired sectors share
+        // spectrum exactly; primary = lex-smaller of each pair plus self-paired sectors.
+        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = baseDecomp.SectorRanges[i];
+            sectorIndexByPair[(s.PCol, s.PRow)] = i;
+        }
+        var primarySectorIndices = new List<int>();
+        var followerToPrimary = new Dictionary<int, int>();
+        for (int i = 0; i < sectorCount; i++)
+        {
+            var s = baseDecomp.SectorRanges[i];
+            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
+            {
+                primarySectorIndices.Add(i);
+                continue;
+            }
+            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
+            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
+            if (isPrimary) primarySectorIndices.Add(i);
+            else followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
+        }
+
         // Per-task timing collector (thread-safe).
         var timingBag = new ConcurrentBag<(int Size, double Ms)>();
 
@@ -264,13 +289,20 @@ public static class BlockSpectrumCommand
             var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
             int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
 
+            // Phase 2: parallel eig on primary sectors only.
+            var primaryEigs = new ConcurrentDictionary<int, (Complex[] Even, Complex[] Odd)>();
+
             Parallel.ForEach(
-                Enumerable.Range(0, sectorCount), po,
+                primarySectorIndices, po,
                 sIdx =>
                 {
                     var sector = baseDecomp.SectorRanges[sIdx];
                     int size = sector.Size;
-                    if (size == 0) return;
+                    if (size == 0)
+                    {
+                        primaryEigs[sIdx] = (Array.Empty<Complex>(), Array.Empty<Complex>());
+                        return;
+                    }
                     var perBlock = Stopwatch.StartNew();
 
                     // Identify F71 orbits.
@@ -305,47 +337,76 @@ public static class BlockSpectrumCommand
                     // H3: in-place rotation (O(n²)) instead of two MathNet matmuls (O(n³)).
                     var rotated = F71MirrorBlockRefinement.RotateUnionBlockF71InPlace(unionBlock, nFix, nPairs);
 
-                    int write = writeOffsets[sIdx];
-
                     int evenSize = nFix + nPairs;
+                    int oddSize = nPairs;
+                    Complex[] evenArr = Array.Empty<Complex>();
+                    Complex[] oddArr = Array.Empty<Complex>();
                     if (evenSize > 0)
                     {
                         var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
                         var evenEigs = evenBlock.Evd().EigenValues;
-                        for (int i = 0; i < evenSize; i++) spectrum[write + i] = evenEigs[i];
-                        write += evenSize;
+                        evenArr = new Complex[evenSize];
+                        for (int i = 0; i < evenSize; i++) evenArr[i] = evenEigs[i];
                         timingBag.Add((evenSize, perBlock.Elapsed.TotalMilliseconds));
                         perBlock.Restart();
                     }
-                    int oddSize = nPairs;
                     if (oddSize > 0)
                     {
                         var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
                         var oddEigs = oddBlock.Evd().EigenValues;
-                        for (int i = 0; i < oddSize; i++) spectrum[write + i] = oddEigs[i];
+                        oddArr = new Complex[oddSize];
+                        for (int i = 0; i < oddSize; i++) oddArr[i] = oddEigs[i];
                         timingBag.Add((oddSize, perBlock.Elapsed.TotalMilliseconds));
                     }
+                    primaryEigs[sIdx] = (evenArr, oddArr);
                 });
+
+            // Phase 3: sequential write to output array (primaries + followers).
+            for (int sIdx = 0; sIdx < sectorCount; sIdx++)
+            {
+                int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
+                var (evenArr, oddArr) = primaryEigs[sourceIdx];
+                int write = writeOffsets[sIdx];
+                for (int i = 0; i < evenArr.Length; i++) spectrum[write + i] = evenArr[i];
+                write += evenArr.Length;
+                for (int i = 0; i < oddArr.Length; i++) spectrum[write + i] = oddArr[i];
+            }
         }
         else
         {
+            // Phase 2: parallel eig on primary sectors only.
+            var primaryEigs = new ConcurrentDictionary<int, Complex[]>();
             Parallel.ForEach(
-                Enumerable.Range(0, sectorCount), po,
+                primarySectorIndices, po,
                 sIdx =>
                 {
                     var sector = baseDecomp.SectorRanges[sIdx];
                     int size = sector.Size;
-                    if (size == 0) return;
+                    if (size == 0)
+                    {
+                        primaryEigs[sIdx] = Array.Empty<Complex>();
+                        return;
+                    }
                     var perBlock = Stopwatch.StartNew();
                     var flatIndices = new int[size];
                     for (int k = 0; k < size; k++) flatIndices[k] = baseDecomp.Permutation[sector.Offset + k];
                     var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
                     var blockEigs = block.Evd().EigenValues;
                     perBlock.Stop();
-                    int write = writeOffsets[sIdx];
-                    for (int i = 0; i < size; i++) spectrum[write + i] = blockEigs[i];
+                    var arr = new Complex[size];
+                    for (int i = 0; i < size; i++) arr[i] = blockEigs[i];
+                    primaryEigs[sIdx] = arr;
                     timingBag.Add((size, perBlock.Elapsed.TotalMilliseconds));
                 });
+
+            // Phase 3: sequential write to output array (primaries + followers).
+            for (int sIdx = 0; sIdx < sectorCount; sIdx++)
+            {
+                int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
+                var eigs = primaryEigs[sourceIdx];
+                int write = writeOffsets[sIdx];
+                for (int i = 0; i < eigs.Length; i++) spectrum[write + i] = eigs[i];
+            }
         }
 
         sectorTimings = timingBag.ToList();
@@ -354,7 +415,12 @@ public static class BlockSpectrumCommand
 
     /// <summary>Per-sector timing summary: mean / max / total wall-time across blocks. Only
     /// emitted at N ≥ 6 where individual block costs become observable. Also lists the top-5
-    /// most expensive blocks.</summary>
+    /// most expensive blocks.
+    ///
+    /// <para>With X⊗N pairing active, the count reflects only primary sub-blocks actually
+    /// eigendecomposed; follower sectors share their X⊗N-partner's spectrum at zero cost
+    /// (a memcpy in Phase 3). Total halves for non-self-paired sectors, so the reported
+    /// total matches measured wall-time on the parallel path.</para></summary>
     private static void EmitSectorTimingSummary(int N, List<(int Size, double Ms)> sectorTimings)
     {
         if (N < 6) return;
@@ -362,7 +428,7 @@ public static class BlockSpectrumCommand
         double total = sectorTimings.Sum(t => t.Ms);
         double mean = total / sectorTimings.Count;
         var maxBlock = sectorTimings.OrderByDescending(t => t.Ms).First();
-        Console.WriteLine($"# per-sector timing: count={sectorTimings.Count}, mean={mean:F1} ms, max={maxBlock.Ms:F1} ms (size={maxBlock.Size}), total={total:F1} ms");
+        Console.WriteLine($"# per-sector timing (X⊗N-primary only): count={sectorTimings.Count}, mean={mean:F1} ms, max={maxBlock.Ms:F1} ms (size={maxBlock.Size}), total={total:F1} ms");
         var top5 = sectorTimings.OrderByDescending(t => t.Ms).Take(5).ToArray();
         Console.WriteLine("# top-5 most expensive blocks (size, wall-time ms):");
         for (int i = 0; i < top5.Length; i++)
