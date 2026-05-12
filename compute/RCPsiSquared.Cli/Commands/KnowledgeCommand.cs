@@ -84,6 +84,7 @@ public static class KnowledgeCommand
             // Spectrum foundation
             .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)
             // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
+            .RegisterSymmetryFamilyInventory()
             .RegisterJointPopcountSectors()
             .RegisterLiouvillianBlockSpectrum()
             .RegisterBlockSpectrumPerformanceWitness()
