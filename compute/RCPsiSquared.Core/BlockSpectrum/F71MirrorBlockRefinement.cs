@@ -256,7 +256,11 @@ public sealed class F71MirrorBlockRefinement : Claim
     ///         and F71-odd sub-blocks (a real-orthogonal transform on the union block).</item>
     /// </list>
     /// <para>Memory footprint is per-block: O(blockSize²) only, never O(4^N · 4^N). This is
-    /// the path used by the CLI smoke runs at N=7, 8 where full-L cannot be allocated.</para></summary>
+    /// the path used by the CLI smoke runs at N=7, 8 where full-L cannot be allocated.</para>
+    ///
+    /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
+    /// eigendecomposed; the other half copy from their X⊗N-partner. See
+    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
     /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N.</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
@@ -302,35 +306,11 @@ public sealed class F71MirrorBlockRefinement : Claim
         // pairing extends to F71-refined sub-sectors with parity preserved: the F71-even of
         // (p_c, p_r) shares spectrum with F71-even of (N - p_c, N - p_r), same for odd.
         // Compute eig only on primary sectors (lex-smaller of each pair, plus all self-paired
-        // sectors at even N) and copy onto follower sectors.
-        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = baseDecomp.SectorRanges[i];
-            sectorIndexByPair[(s.PCol, s.PRow)] = i;
-        }
-
-        var primarySectorIndices = new List<int>();
-        var followerToPrimary = new Dictionary<int, int>();
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = baseDecomp.SectorRanges[i];
-            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
-            {
-                primarySectorIndices.Add(i);
-                continue;
-            }
-            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
-            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
-            if (isPrimary)
-            {
-                primarySectorIndices.Add(i);
-            }
-            else
-            {
-                followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
-            }
-        }
+        // sectors at even N) and copy onto follower sectors. Primaries are sorted descending
+        // by size so the largest starts first under Parallel.ForEach.
+        var (primarySectorIndices, followerToPrimary) =
+            XGlobalChargeConjugationPairing.PartitionByXNPairing(
+                N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4. See
         // LiouvillianBlockSpectrum.ComputeSpectrum for rationale.

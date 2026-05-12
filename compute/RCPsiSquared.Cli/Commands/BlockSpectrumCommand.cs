@@ -252,27 +252,11 @@ public static class BlockSpectrumCommand
 
         // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): paired sectors share
         // spectrum exactly; primary = lex-smaller of each pair plus self-paired sectors.
-        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = baseDecomp.SectorRanges[i];
-            sectorIndexByPair[(s.PCol, s.PRow)] = i;
-        }
-        var primarySectorIndices = new List<int>();
-        var followerToPrimary = new Dictionary<int, int>();
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = baseDecomp.SectorRanges[i];
-            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
-            {
-                primarySectorIndices.Add(i);
-                continue;
-            }
-            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
-            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
-            if (isPrimary) primarySectorIndices.Add(i);
-            else followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
-        }
+        // Primaries are sorted descending by size so the largest starts first under
+        // Parallel.ForEach, overlapping its wall-time with smaller sectors' work.
+        var (primarySectorIndices, followerToPrimary) =
+            XGlobalChargeConjugationPairing.PartitionByXNPairing(
+                N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
 
         // Per-task timing collector (thread-safe).
         var timingBag = new ConcurrentBag<(int Size, double Ms)>();
@@ -419,8 +403,12 @@ public static class BlockSpectrumCommand
     ///
     /// <para>With X⊗N pairing active, the count reflects only primary sub-blocks actually
     /// eigendecomposed; follower sectors share their X⊗N-partner's spectrum at zero cost
-    /// (a memcpy in Phase 3). Total halves for non-self-paired sectors, so the reported
-    /// total matches measured wall-time on the parallel path.</para></summary>
+    /// (a memcpy in Phase 3).</para>
+    ///
+    /// <para>Note: reported total is the sum of per-task wall-clock spans (each task uses
+    /// its own Stopwatch); on the parallel path with outer DOP ≈ ProcessorCount/4, total
+    /// is roughly DOP × measured wall-time. Use the "computed spectrum in ... ms" line
+    /// above for true wall-time; this summary is for relative cost across blocks.</para></summary>
     private static void EmitSectorTimingSummary(int N, List<(int Size, double Ms)> sectorTimings)
     {
         if (N < 6) return;

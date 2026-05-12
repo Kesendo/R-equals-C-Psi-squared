@@ -50,6 +50,53 @@ public sealed class XGlobalChargeConjugationPairing : Claim
         return (total + selfPaired) / 2;
     }
 
+    /// <summary>Partition a list of joint-popcount sectors into "primary" sectors (compute eig)
+    /// and "follower" sectors (copy spectrum from X⊗N pair). Self-paired sectors are always
+    /// primary; non-self-paired pairs use lex-smaller (PCol, PRow) as primary.
+    ///
+    /// <para>Returns indices into the input sectors list. The dictionary maps follower-index
+    /// → primary-index. Used by LiouvillianBlockSpectrum and F71MirrorBlockRefinement to
+    /// avoid duplicate eig computations across X⊗N-paired sectors.</para>
+    ///
+    /// <para>Optional <paramref name="sectorSize"/> projection: when supplied, primary sectors
+    /// are sorted descending by size so the most expensive eig starts first under
+    /// <see cref="Parallel.ForEach"/>; this overlaps the largest block's wall-time with smaller
+    /// blocks running concurrently.</para></summary>
+    public static (List<int> Primaries, Dictionary<int, int> FollowerToPrimary) PartitionByXNPairing<TSector>(
+        int N,
+        IReadOnlyList<TSector> sectors,
+        Func<TSector, (int PCol, int PRow)> getPair,
+        Func<TSector, int>? sectorSize = null)
+    {
+        if (sectors is null) throw new ArgumentNullException(nameof(sectors));
+        if (getPair is null) throw new ArgumentNullException(nameof(getPair));
+
+        var sectorIndexByPair = new Dictionary<(int, int), int>(sectors.Count);
+        for (int i = 0; i < sectors.Count; i++)
+            sectorIndexByPair[getPair(sectors[i])] = i;
+
+        var primaries = new List<int>(sectors.Count);
+        var followerToPrimary = new Dictionary<int, int>();
+        for (int i = 0; i < sectors.Count; i++)
+        {
+            var (pCol, pRow) = getPair(sectors[i]);
+            if (IsSelfPaired(N, pCol, pRow))
+            {
+                primaries.Add(i);
+                continue;
+            }
+            var (pairCol, pairRow) = PairSector(N, pCol, pRow);
+            bool isPrimary = pCol < pairCol || (pCol == pairCol && pRow < pairRow);
+            if (isPrimary) primaries.Add(i);
+            else followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
+        }
+
+        if (sectorSize is not null)
+            primaries.Sort((a, b) => sectorSize(sectors[b]).CompareTo(sectorSize(sectors[a])));
+
+        return (primaries, followerToPrimary);
+    }
+
     public override string DisplayName =>
         "XGlobalChargeConjugationPairing: X⊗N pairs (p_c, p_r) ↔ (N-p_c, N-p_r); halves number of eig-calls";
 

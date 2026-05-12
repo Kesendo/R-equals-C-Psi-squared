@@ -31,6 +31,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (NinetyDegreeMirrorMemoryClaim).</para></summary>
+/// <seealso cref="F92Pi2Inheritance"/>
+/// <seealso cref="F93Pi2Inheritance"/>
 public sealed class F91Pi2Inheritance : Claim
 {
     private readonly Pi2I4MemoryLoopClaim _memoryLoop;

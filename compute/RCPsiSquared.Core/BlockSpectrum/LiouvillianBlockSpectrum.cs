@@ -132,7 +132,11 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// Hilbert-space Hamiltonian (size 2^N × 2^N) via
     /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>, eigendecomposed, and discarded
     /// before the next block. This is the only path that scales past N=6 on commodity
-    /// hardware (full L exceeds .NET 2 GB array-size limit at N=7+).</summary>
+    /// hardware (full L exceeds .NET 2 GB array-size limit at N=7+).
+    ///
+    /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
+    /// eigendecomposed; the other half copy from their X⊗N-partner. See
+    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
     /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=8: 256×256).</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
@@ -168,35 +172,12 @@ public sealed class LiouvillianBlockSpectrum : Claim
         // commutes with the global X-string operator, which on joint-popcount labels maps
         // (p_c, p_r) ↔ (N - p_c, N - p_r). Paired sectors share spectrum exactly. We compute
         // eig only on "primary" sectors (lex-smaller of each pair, plus all self-paired
-        // sectors at even N) and copy the result onto follower sectors.
-        var sectorIndexByPair = new Dictionary<(int, int), int>(sectorCount);
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = decomp.SectorRanges[i];
-            sectorIndexByPair[(s.PCol, s.PRow)] = i;
-        }
-
-        var primarySectorIndices = new List<int>();
-        var followerToPrimary = new Dictionary<int, int>();
-        for (int i = 0; i < sectorCount; i++)
-        {
-            var s = decomp.SectorRanges[i];
-            if (XGlobalChargeConjugationPairing.IsSelfPaired(N, s.PCol, s.PRow))
-            {
-                primarySectorIndices.Add(i);
-                continue;
-            }
-            var (pairCol, pairRow) = XGlobalChargeConjugationPairing.PairSector(N, s.PCol, s.PRow);
-            bool isPrimary = s.PCol < pairCol || (s.PCol == pairCol && s.PRow < pairRow);
-            if (isPrimary)
-            {
-                primarySectorIndices.Add(i);
-            }
-            else
-            {
-                followerToPrimary[i] = sectorIndexByPair[(pairCol, pairRow)];
-            }
-        }
+        // sectors at even N) and copy the result onto follower sectors. Primaries are sorted
+        // descending by size so the largest sector starts first under Parallel.ForEach,
+        // overlapping its wall-time with smaller sectors' work.
+        var (primarySectorIndices, followerToPrimary) =
+            XGlobalChargeConjugationPairing.PartitionByXNPairing(
+                N, decomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
         // MKL inside the largest sectors' Evd. See ComputeSpectrum for the rationale.

@@ -18,7 +18,7 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 /// eig only on lex-smaller "primary" sectors and copies onto follower sectors. These
 /// tests ensure the multiset of all 4^N eigenvalues remains bit-exactly equal to the full
 /// L eig (and to the unpaired sector loop) at N = 3..6.</para></summary>
-public class LiouvillianBlockSpectrumXNPairingTests
+public class BlockSpectrumXNPairingTests
 {
     [Theory]
     [InlineData(3)]
