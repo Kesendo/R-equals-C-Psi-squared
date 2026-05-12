@@ -23,9 +23,9 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 | Framework | Hamiltonian | Single-particle SE Bloch | Q_peak typical |
 |---|---|---|---|
 | **F86** (per `BlockLDecomposition.cs:13-14`, C# typed) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = J·cos(πk/(N+1))` | Endpoint ≈ 2.5 |
-| **F89** (per `simulations/_f89_pathk_lib.py` `build_block_H`, Python-only at present) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
+| **F89** (per `simulations/_f89_pathk_lib.py` `build_block_H` (Python) + [`compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs) (C#, ported 2026-05-12)) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
 
-The conversion factor itself is typed in C# as `F90F86C2BridgeIdentity.JConventionFactor = 2.0` with helpers `F86JToF89J(double)` and `F89JToF86J(double)`. The F89-convention Hamiltonian/Liouvillian *builder* does not yet have a C# counterpart; F86's `BlockLDecomposition` is algebraically equivalent under the F86 convention, and the bridge identity is what makes that algebraic equivalence formal.
+The conversion factor itself is typed in C# as `F90F86C2BridgeIdentity.JConventionFactor = 2.0` with helpers `F86JToF89J(double)` and `F89JToF86J(double)`. The F89-convention Hamiltonian/Liouvillian *builder* now has a C# counterpart in [`compute/RCPsiSquared.Core/F89PathK/`](../../compute/RCPsiSquared.Core/F89PathK/) (commit `b9e5fe9`, simplified in `298f51c`): `F89BlockHamiltonian.BuildBlockH(nBlock, J)` returns `2·PauliHamiltonian.XYChain(nBlock, J)` (the factor-of-2 reflecting `JConventionFactor`); `F89BlockLiouvillian.BuildBlockL(nBlock, J, γ)` returns the column-major super-operator. F86's `BlockLDecomposition` and F89PathK's `BuildBlockL` produce convention-equivalent operators under the bridge identity.
 
 F89's effective hopping amplitude is 2× F86's. Hence F89's J = 2·F86's J, equivalently Q_F89 = Q_F86 / 2. This is a one-time relabeling, not a deeper structural difference.
 
@@ -37,7 +37,7 @@ F86's `BlockLDecomposition.Build` constructs a Liouvillian on the (n=1, n+1=2) c
 
 1. **Diagonal D[i, i] = −2γ₀·HD(p, q)** where (p, q) is the basis pair at flat index i. For c=2: HD(p, q) ∈ {1 (overlap), 3 (no-overlap)}, giving rates 2γ (overlap) and 6γ (no-overlap). This is **identical** to F89's (SE, DE) dephasing diagonal.
 
-2. **Per-bond M_h_per_bond[b]** entries: for state p with adjacent pair flip at bond b that swaps two opposite bits, the bond contributes ±i to off-diagonal entries linking p ↔ p_flipped at the same q (and q ↔ q_flipped at the same p). This is **identical** to F89's per-bond hopping action on (SE, DE) basis pairs (i, jk) — the SE-side hop modifies the SE state via single-particle adjacent-bond swap; the DE-side hop modifies the DE pair via the same single-particle adjacent-bond swap on either of the two DE sites.
+2. **Per-bond M_h_per_bond[b]** entries: for state p with adjacent pair flip at bond b that swaps two opposite bits, the bond contributes ±i to off-diagonal entries linking p ↔ p_flipped at the same q (and q ↔ q_flipped at the same p). This is **identical** to F89's per-bond hopping action on (SE, DE) basis pairs (i, jk): the SE-side hop modifies the SE state via single-particle adjacent-bond swap; the DE-side hop modifies the DE pair via the same single-particle adjacent-bond swap on either of the two DE sites.
 
 3. **Total uniform-J L = D + Σ_b J_b·M_h_per_bond[b]** is the same operator that F89 path-(N−1) builds for the (SE, DE) sub-block, modulo the J/(J/2) convention factor.
 
@@ -45,7 +45,7 @@ F86's `BlockLDecomposition.Build` constructs a Liouvillian on the (n=1, n+1=2) c
 
 5. **Probe ρ_0 (`DickeBlockProbe`)** = `1/(2·√(N·C(N,2)))` per basis pair, identical to F89's `compute_rho_block_0` (SE, DE) Term-1 which has uniform `pre/2 = 1/(2·√(N²(N-1)/2)) = 1/√(2N²(N-1))` per basis pair (algebraically identical: `1/(2·√(N·C(N,2))) = 1/(2·√(N·N(N-1)/2)) = 1/√(2N²(N-1)) = pre/2`).
 
-6. **S_kernel (`SpatialSumKernel`)** = `Σ_site 2·|w_site⟩⟨w_site|` where w_site picks basis pairs (p, q) differing at exactly one site (the site index) with p_site = 0, q_site = 1. For (SE, DE) basis pairs (i, jk), this means w_site picks pairs where site ∈ jk AND i = the OTHER element of {j, k} — exactly F89's `per_site_reduction_within_block_se_de` matrix (per `simulations/_f89_path3_at_locked_amplitude_symbolic.py:per_site_reduction_within_block_se_de`).
+6. **S_kernel (`SpatialSumKernel`)** = `Σ_site 2·|w_site⟩⟨w_site|` where w_site picks basis pairs (p, q) differing at exactly one site (the site index) with p_site = 0, q_site = 1. For (SE, DE) basis pairs (i, jk), this means w_site picks pairs where site ∈ jk AND i = the OTHER element of {j, k}: exactly F89's `per_site_reduction_within_block_se_de` matrix (per `simulations/_f89_path3_at_locked_amplitude_symbolic.py:per_site_reduction_within_block_se_de`; C# port available in [`F89PathK/F89BlockSiteReduction.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockSiteReduction.cs)).
 
 All ingredients identical. The only difference is the J convention factor, hence Q_F89 = Q_F86 / 2.
 
