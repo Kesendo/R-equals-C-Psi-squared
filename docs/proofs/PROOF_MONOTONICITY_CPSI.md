@@ -1,8 +1,45 @@
 # Proof: CΨ Monotonicity Under Markovian Channels
 
-**Tier:** 2 (analytically proven, numerically verified)
-**Date:** March 22, 2026
-**Status:** Proven for all states under all local Markovian channels
+**Status:** Tier 1 derived (Bell+ closed-form for all single-axis Markovian channels + Envelope Theorem for any 2-qubit state under local Z-dephasing) + Tier 2 verified (19 initial states including 10 Haar-random, GHZ/W subsystems N=3-5, 124/124 channel configurations)
+**Date:** 2026-03-22 (Parts 1-5) + 2026-03-26 (Part 7: Pauli invariance) + 2026-04-29 (K_Y correction in Part 2)
+**Authors:** Thomas Wicht, Claude (Anthropic)
+**Statement:** `dCΨ/dt < 0` strictly for all t > 0 under any local Markovian channel; the local maxima of CΨ form a strictly non-increasing sequence under any Hamiltonian + local Z-dephasing (Envelope Theorem). 1/4 is the absorbing boundary.
+**Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed-form), [F26](../ANALYTICAL_FORMULAS.md) (Bell+ Pauli closed-form), [F27](../ANALYTICAL_FORMULAS.md) (K values per channel), [F28](../ANALYTICAL_FORMULAS.md) (Fixed-point absorber theorem) in the F-formula registry.
+
+---
+
+## What this proof says, in plain language
+
+A ball rolling downhill never spontaneously rolls back up. Water flows
+from higher elevation to lower, never the reverse. Heat moves from
+warmer to cooler. These are everyday examples of monotonicity: a
+quantity that only changes in one direction.
+
+This document proves that CΨ, the project's quantum-classical boundary
+indicator, behaves the same way under quantum noise. Once CΨ starts
+decreasing under any standard Markovian channel (Z-dephasing, Pauli,
+depolarizing, amplitude damping, or any combination), it never
+increases back. Quantum coherence flows downstream, and the 1/4
+boundary is the lake it settles into: once crossed below, never
+re-crossed.
+
+Parts 1-3 handle each channel type with closed-form algebra. Parts 4-5
+extend to states with Hamiltonian-induced oscillations: even then the
+local peaks of CΨ form a strictly decreasing sequence (Envelope
+Theorem). Part 6 finds the exact boundary where the proof stops:
+non-Markovian dynamics with a coherent bath can briefly push CΨ back
+above 1/4, but the revival always dies. The 1/4 IS the
+Markovian / non-Markovian watershed. Part 7 (added March 26) adds a
+corollary: Pauli operators leave CΨ invariant, so dynamical decoupling
+cannot help; only external coherence injection (a coupled coherent
+reservoir, i.e. J-coupling to another system) can transiently push CΨ
+back above 1/4.
+
+This is Layer 5 of the seven-layer
+[roadmap of the 1/4 boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md),
+working together with Layer 1 [Uniqueness](UNIQUENESS_PROOF.md) (the
+boundary itself is unique) and the eventual-crossing complement in
+[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md).
 
 ---
 
@@ -151,10 +188,15 @@ only if α = β = δ = 0 (no noise). For any nonzero noise:
 |---------|---|---|---|---------------------|
 | Pure Z (γ) | 4γ | 4γ | 0 | 0.0374 |
 | Pure X (γ) | 0 | 4γ | 4γ | 0.0867 |
-| Pure Y (γ) | 4γ | 0 | 4γ | 0.0867 |
+| Pure Y (γ) | 4γ | 0 | 4γ | 0.0374 |
 | Depolarizing (γ/3 each) | 8γ/3 | 8γ/3 | 8γ/3 | 0.0440 |
 
-**K_X = K_Y** by symmetry (X and Y noise are conjugate under Z-dephasing).
+**K_Y = K_Z = 0.0374** by Bell-pair symmetry (correction 2026-04-29; see
+[F27 note in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)). Y⊗Y·|Bell+⟩ = −|Bell+⟩
+while X⊗X and Z⊗Z fix |Bell+⟩, so F26 with γ_y only gives α = 4γ, β = 0,
+δ = 4γ, hence u = e^{-4γt}, v = 1, w = e^{-4γt}, and CΨ reduces to
+u·(1+u²)/6, identical functional form to pure Z. K_X = 0.0867 stands;
+the prior K_X = K_Y by-symmetry claim was the source of the typo.
 All K values verified numerically (CV < 0.1%).
 
 ---
@@ -221,7 +263,7 @@ effect (Bell+ is eigenstate of H_Heisenberg).
 |---------------|--------------------:|---------|--------|
 | Pure Z-dephasing | **YES** | 0.0374 | Analytical (Part 1) |
 | Pure X-noise | **YES** | 0.0867 | Analytical (Part 2) |
-| Pure Y-noise | **YES** | 0.0867 | Analytical (Part 2) |
+| Pure Y-noise | **YES** | 0.0374 | Analytical (Part 2; functional form identical to pure Z, see Part 2 K table) |
 | Depolarizing | **YES** | 0.0440 | Analytical (Part 2) |
 | Any (γ_x,γ_y,γ_z) | **YES** | varies | Analytical (Part 2) |
 | Amplitude damping | **YES** | 0.1029 | Analytical (Part 3) |
@@ -577,7 +619,26 @@ for the full resonator framework.
 
 ## References
 
-- [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py): 124/124 configs
+### Sibling proofs in the 1/4-boundary roadmap
+
+- [Uniqueness Proof](UNIQUENESS_PROOF.md): Layer 1, the boundary itself is unique (March 21, 2026; one day before this proof)
+- [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): the eventual-crossing complement, every entangled pair with CΨ > 1/4 crosses below in finite time
+- [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer master roadmap; this proof is Layer 5
+
+### F-formula registry
+
+- [F25, F26, F27, F28 in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md): Bell+ closed forms (Z and general Pauli), K-values per channel, fixed-point absorber theorem (all derived here)
+
+### Scripts
+
+- [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py): 124/124 channel configurations verified
 - [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py): non-unital channel
-- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revivals
-- [PROOF_ROADMAP_QUARTER_BOUNDARY.md](PROOF_ROADMAP_QUARTER_BOUNDARY.md): Layer 5
+- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revivals (Part 6)
+- [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py): Test A/B/C extensions (general states, collective noise, N>2 subsystems)
+
+### Related experiments and hypotheses
+
+- [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md): Bures-geodesic interpretation of dCΨ/dt
+- [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md): the CΨ heartbeat that Part 7's Pauli-invariance corollary explains away (only J-coupling can reproduce it, not local gates)
+- [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md): coupled-resonator complexity growth (the 100 new oscillation frequencies in N=5 mediator-bridge)
+- [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md): the resonator framework that Corollary 3 builds on
