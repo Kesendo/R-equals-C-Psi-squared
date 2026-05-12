@@ -219,14 +219,7 @@ public class InhomogeneousGammaF71BreakingWitnessTests
     {
         var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
         int d = 1 << N;
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
         double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
@@ -240,22 +233,7 @@ public class InhomogeneousGammaF71BreakingWitnessTests
 
             var sectorFlat = new int[size];
             for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-            var seen = new HashSet<int>();
-            var fixedPoints = new List<int>();
-            var pairs = new List<(int s, int ps)>();
-            foreach (int flat in sectorFlat.OrderBy(x => x))
-            {
-                if (seen.Contains(flat)) continue;
-                int mirror = Mirror(flat);
-                if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
-                else
-                {
-                    int sMin = Math.Min(flat, mirror);
-                    int sMax = Math.Max(flat, mirror);
-                    pairs.Add((sMin, sMax));
-                    seen.Add(sMin); seen.Add(sMax);
-                }
-            }
+            var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorFlat, Mirror);
             int nFix = fixedPoints.Count;
             int nPairs = pairs.Count;
             int unionSize = nFix + 2 * nPairs;
@@ -263,8 +241,8 @@ public class InhomogeneousGammaF71BreakingWitnessTests
 
             var unionFlat = new int[unionSize];
             for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].S;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].Ps;
 
             var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
@@ -310,14 +288,7 @@ public class InhomogeneousGammaF71BreakingWitnessTests
     {
         var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
         int d = 1 << N;
-        var mirrorBits = new int[d];
-        for (int x = 0; x < d; x++)
-        {
-            int m = 0;
-            for (int i = 0; i < N; i++)
-                if (((x >> i) & 1) != 0) m |= 1 << (N - 1 - i);
-            mirrorBits[x] = m;
-        }
+        var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
         double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
@@ -331,22 +302,7 @@ public class InhomogeneousGammaF71BreakingWitnessTests
 
             var sectorFlat = new int[size];
             for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-            var seen = new HashSet<int>();
-            var fixedPoints = new List<int>();
-            var pairs = new List<(int s, int ps)>();
-            foreach (int flat in sectorFlat.OrderBy(x => x))
-            {
-                if (seen.Contains(flat)) continue;
-                int mirror = Mirror(flat);
-                if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
-                else
-                {
-                    int sMin = Math.Min(flat, mirror);
-                    int sMax = Math.Max(flat, mirror);
-                    pairs.Add((sMin, sMax));
-                    seen.Add(sMin); seen.Add(sMax);
-                }
-            }
+            var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorFlat, Mirror);
             int nFix = fixedPoints.Count;
             int nPairs = pairs.Count;
             int unionSize = nFix + 2 * nPairs;
@@ -354,8 +310,8 @@ public class InhomogeneousGammaF71BreakingWitnessTests
 
             var unionFlat = new int[unionSize];
             for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].S;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].Ps;
 
             var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
