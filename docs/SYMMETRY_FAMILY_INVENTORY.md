@@ -9,7 +9,7 @@
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
 | 1 | **U(1) × U(1)** per-side popcount | operator (continuous) | block-diagonal (N+1)² sectors | Tier1Derived | `JointPopcountSectors` |
-| 2 | **F71** chain spatial mirror (Z₂) | operator | within-sector splitting (factor 2) — chain only, palindromic γ only | Tier1Derived | `F71MirrorBlockRefinement` |
+| 2 | **F71** chain spatial mirror (Z₂) | operator | within-sector splitting (factor 2), chain only, palindromic γ only | Tier1Derived | `F71MirrorBlockRefinement` |
 | 3 | **F91** γ-Z₄ anti-palindromic | parameter (γ_l) | spectral invariance on diagonal-block layer | Tier1Derived | `F71AntiPalindromicGammaSpectralInvariance` |
 | 4 | **F92** J-Z₄ anti-palindromic (NEW) | parameter (J_b) | spectral invariance on diagonal-block layer | Tier1Derived | `F92BondAntiPalindromicJSpectralInvariance` |
 | 5 | **F93** h-Z₄ anti-palindromic (NEW) | parameter (h_l detuning) | spectral invariance on diagonal-block layer | Tier1Derived | `F93DetuningAntiPalindromicSpectralInvariance` |
@@ -25,7 +25,7 @@
 
 | # | Symmetry | Status | Anchor |
 |---|---|---|---|
-| 8 | **F71_col × F71_row** factor-4 split | Tier2Empirical (does NOT hold — Z⊗Z dissipator correlates both sides; only diagonal product survives) | `F71BilateralBlockRefinement` |
+| 8 | **F71_col × F71_row** factor-4 split | Tier2Empirical (does NOT hold: Z⊗Z dissipator correlates both sides; only diagonal product survives) | `F71BilateralBlockRefinement` |
 
 ## Symmetries from other axes (typed elsewhere; not in SymmetryFamily but relevant)
 
