@@ -1,6 +1,6 @@
 # The Absorption Theorem
 
-**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,343 modes, CV=0)
+**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,342 modes, CV=0)
 **Date:** 2026-04-04 (discovery + proof same day)
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Re(λ) = −2γ ⟨n_XY⟩` for any Lindblad eigenmode under uniform Z-dephasing
@@ -31,13 +31,18 @@ to the light and survive forever. Components that oscillate (X and Y,
 the "light") absorb and fade. The mode's fate is the weighted average.
 
 This single equation, provable in three lines from the structure of
-the Lindblad master equation, unifies six previously separate results:
-the spectral boundaries (F3), the palindromic sum rule (10,748
+the Lindblad master equation, unifies an entire family of spectral
+results: the boundaries (F3), the palindromic sum rule (10,748
 pairs), the spectral gap (D6), the 2× decay law (F8), the mode
-classification by Pauli weight, and the N=3 exact rates (F33).
+classification by Pauli weight, the N=3 exact rates (F33), and via
+later derivation the rate factorization (F50), the weight-1 spectrum
+(F55), the GHZ/W-state rates (F64-F68), the n_XY chromaticity (F74),
+and the F89 path-k closures including the F89c Hamming-complement
+pair-sum. The typed [`AbsorptionTheoremClaim`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)
+holds the live descendant list.
 
 The theorem was discovered computationally on April 4, 2026 (ratio
-α/(2γ⟨n_XY⟩) = 1.000000 for 1,343 modes, CV = 0), then proven
+α/(2γ⟨n_XY⟩) = 1.000000 for 1,342 modes, CV = 0), then proven
 analytically the same day.
 
 ### Status
@@ -45,7 +50,7 @@ analytically the same day.
 | Component | Status | Source |
 |-----------|--------|--------|
 | Analytical proof | **Proven** | This document, Section 2 |
-| Numerical verification | **Verified** (N=2-5, 1,343 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
+| Numerical verification | **Verified** (N=2-5, 1,342 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
 | Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F3 |
 | Consequence 2: Palindromic sum rule | **Derived** | [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md) |
 | Consequence 3: Spectral gap | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
@@ -195,6 +200,16 @@ It does **not** use:
 
 The theorem holds for **any real Hermitian Hamiltonian under Z-dephasing**.
 
+**Extension to amplitude damping (F82, F84).** When σ⁻ jump operators
+are added at rate γ_T1 alongside the Z-dephasing, L_D gains a non-diagonal
+correction (eigenmodes mix sectors via excitation exchange). The
+dephasing-only identity Re(λ) = -2γ ⟨n_XY⟩ is preserved as the γ_T1 → 0
+limit; for finite γ_T1 the correction is derived in
+[`PROOF_F82_T1_DISSIPATOR_CORRECTION.md`](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)
+and [`PROOF_F84_AMPLITUDE_DAMPING.md`](PROOF_F84_AMPLITUDE_DAMPING.md).
+The "truly ⟨Z, Z⟩ damping" diagnostic in the cockpit panel reads the
+F82 signature on hardware directly.
+
 For complex Hermitian Hamiltonians (e.g. with Dzyaloshinskii-Moriya
 interactions), L_H is not anti-Hermitian, and the theorem may not hold.
 This boundary is precise and testable.
@@ -211,12 +226,21 @@ The theorem was verified computationally in
 | N (chain length) | 2, 3, 4, 5 | 1.000000 | 0.0000 |
 | γ (dephasing rate) | 0.01, 0.05, 0.1, 0.5, 1.0 | 1.000000 | 0.0000 |
 | J (coupling strength) | 0.1, 0.5, 1.0, 2.0, 5.0 | 1.000000 | 0.0000 |
-| Total modes tested | 1,343 | 1.000000 | 0.0000 |
+| Total modes tested | 1,342 | 1.000000 | 0.0000 |
 
 The ratio equals 1 to 14 decimal places across all parameters.
 No exceptions. Zero coefficient of variation.
 
 **Source:** [`simulations/absorption_theorem_discovery.py`](../../simulations/absorption_theorem_discovery.py), Step 6
+
+**Hardware confirmation.** Single-qubit tomography on IBM Torino Q52
+(25 time snapshots, 0-895 μs) reproduced the theorem at 3% deviation
+under the free-evolution T2* baseline: absorption ratio excess/(2γ) =
+1.03, with γ* fitted from the coherence envelope. The echo-refocused
+γ_echo underestimates the actual dephasing by 6× because low-frequency
+1/f noise is filtered out by Hahn echo; the T2* baseline is the correct
+one for free-evolution tomography. See
+[`IBM_ABSORPTION_THEOREM.md`](../../experiments/IBM_ABSORPTION_THEOREM.md).
 
 ---
 
@@ -322,6 +346,23 @@ The mode's fate is entirely determined by how much light it contains.
 Structure ({I,Z}) is invisible to the dephasing; only coherence ({X,Y})
 absorbs.
 
+**Per-coherence reading on computational basis.** A density-matrix
+coherence |A⟩⟨B| decomposes per-site into pure {I, Z} (where A_l = B_l)
+or pure {X, Y} (where A_l ≠ B_l). Therefore:
+
+    n_XY(|A⟩⟨B|) = n_diff(A, B)  =  Hamming distance of bit-strings A, B
+
+and the per-coherence decay rate is exactly 2γ × n_diff(A, B).
+The **Hamming-complement pair-sum** (F89c) is the immediate corollary:
+the column bit-flip ρ[a, b] → ρ[a, b̄] satisfies n_diff(a, b) +
+n_diff(a, b̄) = N, hence:
+
+    α(|a⟩⟨b|) + α(|a⟩⟨b̄|) = 2γN = 2Σγ
+
+The two coherences related by complementing one column-label always
+absorb at exactly the spectral maximum 2Σγ summed. This is the
+single-block reading of the palindromic sum rule §4.2.
+
 ### 4.6 N=3 Exact Rates (F33)
 
 **Previously:** The N=3 Heisenberg chain has three distinct non-trivial
@@ -407,6 +448,14 @@ The lens ({I,Z}) is free; it absorbs nothing. Only the light ({X,Y}) pays.
 This is why the spectral gap is 2γ, the spectral bandwidth is 2(N-2)γ,
 and the palindrome width is 2Nγ: all are integer multiples of the
 fundamental quantum 2γ.
+
+**Typed anchor.** The numerical coefficient 2 in the absorption quantum
+is the polynomial root a₀ of the Pi2 dyadic ladder
+([`Pi2DyadicLadderClaim.Term(0)`](../../compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs)):
+the same root d in d² − 2d = 0 that fixes the qubit dimension. Same
+anchor as F1 TwoFactor, F50 DecayRateFactor, F66 UpperPoleCoefficient.
+The absorption quantum 2γ is the per-mode rate reading of this single
+constant: the dyadic ladder's first rung evaluated at illumination γ.
 
 ---
 

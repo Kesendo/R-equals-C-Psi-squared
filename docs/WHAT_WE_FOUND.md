@@ -488,7 +488,7 @@ The proof is three steps: (1) the Hamiltonian part L_H is anti-Hermitian,
 so it contributes only to Im(λ); (2) the dissipator L_D is diagonal in
 the Pauli basis with eigenvalues −2γ × n_XY; (3) combining: Re(λ) equals
 the expectation of L_D over the eigenvector, which is −2γ⟨n_XY⟩. Verified
-on 1,343 modes across N=2 to N=5, coefficient of variation = 0.0000.
+on 1,342 modes across N=2 to N=5, coefficient of variation = 0.0000.
 
 The companion result: every palindromic pair is a standing wave. Tested
 on 10,748 pairs: 100% frequency match between partners. The round trip
@@ -575,7 +575,7 @@ What survives even without the philosophy:
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
-- [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation unifies spectral boundaries, factor 2, spectral gap, and palindromic sum rule. Verified on 1,343 modes, CV = 0
+- [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation unifies spectral boundaries, factor 2, spectral gap, and palindromic sum rule. Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
 

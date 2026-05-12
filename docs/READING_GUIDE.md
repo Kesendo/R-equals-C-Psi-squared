@@ -488,7 +488,7 @@ explains what previously required separate derivations.
 11. [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md):
     Not E = mγ² but α = 2γ⟨n_XY⟩: absorption equals twice dephasing
     times light-mass. Linear, not quadratic. The Absorption Theorem
-    implies the palindromic sum rule. 1,343 modes, CV = 0.
+    implies the palindromic sum rule. 1,342 modes, CV = 0.
 
 **After this you know:** The palindrome is an optical cavity. The
 Absorption Theorem is its governing equation. Every prior result

@@ -24,7 +24,7 @@ Some modes have most of their energy near the bridge (where the damping
 is); those modes fade fast. Others have their energy in the middle;
 those last longer. The Absorption Theorem says: the fading rate is
 exactly proportional to how much energy sits in the damped direction.
-Not approximately. Exactly. Verified to 14 decimal places across 1,343
+Not approximately. Exactly. Verified to 14 decimal places across 1,342
 modes.
 
 This is linear (α = 2γm) rather than quadratic (E = mc²) because the
@@ -54,7 +54,7 @@ Equivalently: **absorption rate = 2γ × light mass**.
 This is exact (not approximate), holds for all modes (not just special
 ones), and is independent of N, J, and γ. It was verified numerically
 at CV = 0.0000 (coefficient of variation: zero spread across all
-measurements) across 1,343 modes, 5 gamma values, 5 coupling strengths,
+measurements) across 1,342 modes, 5 gamma values, 5 coupling strengths,
 and 4 chain lengths.
 
 The relationship is **α = mγ, not α = mγ²**. The exponent is 1, not 2.

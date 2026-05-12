@@ -121,7 +121,7 @@ any N, non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y
 L_H is not anti-Hermitian.
 **Replaces:** eigenvalue range computation; palindromic sum rule verification;
 spectral gap derivation; unpaired mode rate identification.
-**Verified:** 1,343 modes, N=2-5, γ=0.01-1.0, J=0.1-5.0, CV = 0.0000.
+**Verified:** 1,342 modes, N=2-5, γ=0.01-1.0, J=0.1-5.0, CV = 0.0000.
 **Source:** [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md),
 [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 

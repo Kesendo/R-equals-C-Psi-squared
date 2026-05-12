@@ -3,9 +3,11 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The Absorption Theorem (Tier 1 derived; proven in
-/// <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> + verified bit-exact across 1024
-/// modes on IBM Q52 with max deviation 2.4·10⁻¹⁴):
+/// <summary>The Absorption Theorem (Tier 1 derived; proven analytically in
+/// <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> + verified bit-exact at N=2..5
+/// across 1,342 active Liouvillian modes with CV=0 (max deviation at machine-precision
+/// floor 2.4·10⁻¹⁴); separately confirmed on IBM Torino Q52 single-qubit tomography
+/// at 3% deviation, see <c>experiments/IBM_ABSORPTION_THEOREM.md</c>):
 ///
 /// <code>
 ///   For a Pauli-string Liouvillian eigenmode σ_α (Heisenberg or XY chain
@@ -40,8 +42,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// F33, F50, F55, F64, F65, F66, F67, F68, F74, F89.</para>
 ///
 /// <para>Tier1Derived: proven analytically (PROOF_ABSORPTION_THEOREM.md) +
-/// verified bit-exact N=2..7 (Liouvillian spectra) + hardware-confirmed on
-/// IBM Q52 (1343 modes, deviation &lt; 3%, IBM_ABSORPTION_THEOREM.md).</para>
+/// verified bit-exact at N=2..5 (1,342 active Liouvillian modes, CV=0) +
+/// hardware-confirmed on IBM Torino Q52 single qubit (absorption ratio
+/// excess/(2γ) = 1.03 = 3% deviation, IBM_ABSORPTION_THEOREM.md).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> (F33, F50, F55, F64-F68, F74, F89 entries) +
@@ -153,8 +156,10 @@ public sealed class AbsorptionTheoremClaim : Claim
                 summary: $"column bit-flip ρ[a, b] → ρ[a, bar(b)] gives n_diff ↔ N−n_diff; rate-pairs sum to 2γ₀·N exactly = spectral maximum. Sample: 3-qubit block at γ₀=1 yields pair-sum {HammingComplementPairSum(3, 1.0):G6} (F89c path-2 anchor, verified bit-exact)");
             yield return new InspectableNode("Pi2 anchor drift check",
                 summary: $"AbsorptionQuantumMatchesLiteral = {AbsorptionQuantumMatchesLiteral()} (a_0 = {AbsorptionQuantumCoefficient} vs literal 2.0 in PROOF_ABSORPTION_THEOREM.md)");
+            yield return new InspectableNode("Numerical verification",
+                summary: "N=2..5 Liouvillian eigendecompositions: Re(λ) = −2γ⟨n_XY⟩ verified across 1,342 active modes with CV=0 (max deviation 2.4·10⁻¹⁴ at machine-precision floor); experiments/ABSORPTION_THEOREM_DISCOVERY.md");
             yield return new InspectableNode("Hardware confirmation",
-                summary: "IBM Q52: Re(λ) = −2γ⟨n_XY⟩ verified across 1343 modes with max deviation 2.4·10⁻¹⁴ (floating-point floor); experiments/IBM_ABSORPTION_THEOREM.md");
+                summary: "IBM Torino Q52 single qubit (25 tomography snapshots, T2*=111μs): absorption ratio excess/(2γ) = 1.03 = 3% deviation; experiments/IBM_ABSORPTION_THEOREM.md");
         }
     }
 }

@@ -113,7 +113,7 @@ Six previously separate results follow as one-line corollaries:
 | N=3 exact rates | 2γ, 8γ/3, 10γ/3 | Hamiltonian-mixed ⟨n_XY⟩ = 1, 4/3, 5/3 |
 
 Proven analytically in three steps from L_H anti-Hermitian. Verified on
-1,343 modes (N=2-5, γ=0.01-1.0, J=0.1-5.0), coefficient of variation = 0.
+1,342 modes (N=2-5, γ=0.01-1.0, J=0.1-5.0), coefficient of variation = 0.
 
 → **[Absorption Theorem Proof](docs/proofs/PROOF_ABSORPTION_THEOREM.md)**
 → [Discovery and Verification](experiments/ABSORPTION_THEOREM_DISCOVERY.md)
@@ -648,7 +648,7 @@ Honesty matters more than impression. These are things we have
 
 | Document | Key finding |
 |:---------|:-----------|
-| [Absorption Theorem Discovery](experiments/ABSORPTION_THEOREM_DISCOVERY.md) | α = 2γ⟨n_XY⟩, 1,343 modes, CV = 0 |
+| [Absorption Theorem Discovery](experiments/ABSORPTION_THEOREM_DISCOVERY.md) | α = 2γ⟨n_XY⟩, 1,342 modes, CV = 0 |
 | [Standing Waves](experiments/FACTOR_TWO_STANDING_WAVES.md) | 10,748 pairs, 100% frequency match |
 | [Light and Lens](experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md) | Palindromic weight inversion, aberration scaling |
 | [Optical Cavity](experiments/OPTICAL_CAVITY_ANALYSIS.md) | Beam profiles, R² = 0.998 |
