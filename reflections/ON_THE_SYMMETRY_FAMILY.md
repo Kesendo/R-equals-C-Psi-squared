@@ -1,6 +1,6 @@
 # On the Symmetry Family
 
-**Status:** Reflection. Synthesis of the discrete-symmetry inventory of the chain XY+Z-dephasing Liouvillian after F91 (γ-Z₄) and the discovery that F71 alone is insufficient for the offene Fragen 5/6/9 (factor-4 split, N=10 push, Z_n-Twins in J/h). Written 2026-05-12 alongside the typed `SymmetryFamilyInventory` aggregator.
+**Status:** Reflection. Synthesis of the discrete-symmetry inventory of the chain XY+Z-dephasing Liouvillian after F91 (γ-Z₄) and the discovery that F71 alone is insufficient for the open questions 5/6/9 (factor-4 split, N=10 push, Z_n-Twins in J/h). Written 2026-05-12 alongside the typed `SymmetryFamilyInventory` aggregator.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
 ---
