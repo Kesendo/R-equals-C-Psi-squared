@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
@@ -218,121 +219,136 @@ public static class BlockSpectrumCommand
     /// Mirrors <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> and
     /// <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock"/> in structure but
     /// instruments each sector's wall-time so we can summarise where the cost lives.
-    /// Memory is O(blockSize²) at any instant — never O(4^N · 4^N).</summary>
+    /// Memory is O(blockSize²) at any instant — never O(4^N · 4^N).
+    ///
+    /// <para>H1: per-sector tasks run in <see cref="Parallel.ForEach"/>; per-task wall-time
+    /// captured via a <see cref="ConcurrentBag{T}"/>. Outer DOP capped at ProcessorCount/4 to
+    /// leave headroom for MKL inside the largest sectors' Evd (BLAS-oversubscription
+    /// strategy (c)).</para>
+    ///
+    /// <para>H3: F71 union-block rotation B' = R^T · unionBlock · R is computed in-place via
+    /// <see cref="F71MirrorBlockRefinement.RotateUnionBlockF71InPlace"/> (entry-by-entry from
+    /// the Hadamard structure) instead of via two O(n³) matmuls.</para></summary>
     private static Complex[] ComputeSpectrumWithTimingPerBlock(
         ComplexMatrix H, double[] gammaPerSite, int N, bool refineF71,
         out List<(int Size, double Ms)> sectorTimings)
     {
-        sectorTimings = new List<(int Size, double Ms)>();
         int liouvilleDim = 1 << (2 * N);
         int d = 1 << N;
 
         var spectrum = new Complex[liouvilleDim];
-        int write = 0;
-        var perBlock = new Stopwatch();
-
         var baseDecomp = JointPopcountSectorBuilder.Build(N);
+
+        // H1: pre-compute per-sector write offsets so each task knows its destination slice.
+        int sectorCount = baseDecomp.SectorRanges.Count;
+        var writeOffsets = new int[sectorCount];
+        int cum = 0;
+        for (int i = 0; i < sectorCount; i++)
+        {
+            writeOffsets[i] = cum;
+            cum += baseDecomp.SectorRanges[i].Size;
+        }
+
+        // Per-task timing collector (thread-safe).
+        var timingBag = new ConcurrentBag<(int Size, double Ms)>();
+
+        // BLAS-oversubscription strategy (c): cap outer DOP at ProcessorCount/4. Empirically
+        // good on a 24-core box: the few largest sectors keep MKL parallelism while many
+        // small sectors run concurrently. Outer DOP × MKL threads ≈ ProcessorCount.
+        int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
+        var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
 
         if (refineF71)
         {
             // Per-side F71 mirror map.
             var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
             int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
-            double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
-            foreach (var sector in baseDecomp.SectorRanges)
-            {
-                int size = sector.Size;
-                if (size == 0) continue;
-                perBlock.Restart();
-
-                // Identify F71 orbits.
-                var sectorFlat = new int[size];
-                for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-                var seen = new HashSet<int>();
-                var fixedPoints = new List<int>();
-                var pairs = new List<(int s, int ps)>();
-                foreach (int flat in sectorFlat.OrderBy(x => x))
+            Parallel.ForEach(
+                Enumerable.Range(0, sectorCount), po,
+                sIdx =>
                 {
-                    if (seen.Contains(flat)) continue;
-                    int mirror = Mirror(flat);
-                    if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
-                    else
+                    var sector = baseDecomp.SectorRanges[sIdx];
+                    int size = sector.Size;
+                    if (size == 0) return;
+                    var perBlock = Stopwatch.StartNew();
+
+                    // Identify F71 orbits.
+                    var sectorFlat = new int[size];
+                    for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
+                    var seen = new HashSet<int>();
+                    var fixedPoints = new List<int>();
+                    var pairs = new List<(int s, int ps)>();
+                    foreach (int flat in sectorFlat.OrderBy(x => x))
                     {
-                        int sMin = Math.Min(flat, mirror);
-                        int sMax = Math.Max(flat, mirror);
-                        pairs.Add((sMin, sMax));
-                        seen.Add(sMin); seen.Add(sMax);
+                        if (seen.Contains(flat)) continue;
+                        int mirror = Mirror(flat);
+                        if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
+                        else
+                        {
+                            int sMin = Math.Min(flat, mirror);
+                            int sMax = Math.Max(flat, mirror);
+                            pairs.Add((sMin, sMax));
+                            seen.Add(sMin); seen.Add(sMax);
+                        }
                     }
-                }
-                int nFix = fixedPoints.Count;
-                int nPairs = pairs.Count;
-                int unionSize = nFix + 2 * nPairs;
-                var unionFlat = new int[unionSize];
-                for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-                for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-                for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+                    int nFix = fixedPoints.Count;
+                    int nPairs = pairs.Count;
+                    int unionSize = nFix + 2 * nPairs;
+                    var unionFlat = new int[unionSize];
+                    for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
+                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
+                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
 
-                var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
+                    var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
-                var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
-                for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
-                for (int k = 0; k < nPairs; k++)
-                {
-                    int evenCol = nFix + k;
-                    R[nFix + k, evenCol] = invSqrt2;
-                    R[nFix + nPairs + k, evenCol] = invSqrt2;
-                }
-                int oddOffset = nFix + nPairs;
-                for (int k = 0; k < nPairs; k++)
-                {
-                    int oddCol = oddOffset + k;
-                    R[nFix + k, oddCol] = invSqrt2;
-                    R[nFix + nPairs + k, oddCol] = -invSqrt2;
-                }
-                var rotated = R.Transpose() * unionBlock * R;
+                    // H3: in-place rotation (O(n²)) instead of two MathNet matmuls (O(n³)).
+                    var rotated = F71MirrorBlockRefinement.RotateUnionBlockF71InPlace(unionBlock, nFix, nPairs);
 
-                int evenSize = nFix + nPairs;
-                if (evenSize > 0)
-                {
-                    var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
-                    var evenEigs = evenBlock.Evd().EigenValues;
-                    perBlock.Stop();
-                    sectorTimings.Add((evenSize, perBlock.Elapsed.TotalMilliseconds));
-                    for (int i = 0; i < evenSize; i++) spectrum[write++] = evenEigs[i];
-                    perBlock.Restart();
-                }
-                int oddSize = nPairs;
-                if (oddSize > 0)
-                {
-                    var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
-                    var oddEigs = oddBlock.Evd().EigenValues;
-                    perBlock.Stop();
-                    sectorTimings.Add((oddSize, perBlock.Elapsed.TotalMilliseconds));
-                    for (int i = 0; i < oddSize; i++) spectrum[write++] = oddEigs[i];
-                }
-                else
-                {
-                    perBlock.Stop();
-                }
-            }
+                    int write = writeOffsets[sIdx];
+
+                    int evenSize = nFix + nPairs;
+                    if (evenSize > 0)
+                    {
+                        var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
+                        var evenEigs = evenBlock.Evd().EigenValues;
+                        for (int i = 0; i < evenSize; i++) spectrum[write + i] = evenEigs[i];
+                        write += evenSize;
+                        timingBag.Add((evenSize, perBlock.Elapsed.TotalMilliseconds));
+                        perBlock.Restart();
+                    }
+                    int oddSize = nPairs;
+                    if (oddSize > 0)
+                    {
+                        var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
+                        var oddEigs = oddBlock.Evd().EigenValues;
+                        for (int i = 0; i < oddSize; i++) spectrum[write + i] = oddEigs[i];
+                        timingBag.Add((oddSize, perBlock.Elapsed.TotalMilliseconds));
+                    }
+                });
         }
         else
         {
-            foreach (var sector in baseDecomp.SectorRanges)
-            {
-                int size = sector.Size;
-                if (size == 0) continue;
-                perBlock.Restart();
-                var flatIndices = new int[size];
-                for (int k = 0; k < size; k++) flatIndices[k] = baseDecomp.Permutation[sector.Offset + k];
-                var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
-                var blockEigs = block.Evd().EigenValues;
-                perBlock.Stop();
-                sectorTimings.Add((size, perBlock.Elapsed.TotalMilliseconds));
-                for (int i = 0; i < size; i++) spectrum[write++] = blockEigs[i];
-            }
+            Parallel.ForEach(
+                Enumerable.Range(0, sectorCount), po,
+                sIdx =>
+                {
+                    var sector = baseDecomp.SectorRanges[sIdx];
+                    int size = sector.Size;
+                    if (size == 0) return;
+                    var perBlock = Stopwatch.StartNew();
+                    var flatIndices = new int[size];
+                    for (int k = 0; k < size; k++) flatIndices[k] = baseDecomp.Permutation[sector.Offset + k];
+                    var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+                    var blockEigs = block.Evd().EigenValues;
+                    perBlock.Stop();
+                    int write = writeOffsets[sIdx];
+                    for (int i = 0; i < size; i++) spectrum[write + i] = blockEigs[i];
+                    timingBag.Add((size, perBlock.Elapsed.TotalMilliseconds));
+                });
         }
+
+        sectorTimings = timingBag.ToList();
         return spectrum;
     }
 
@@ -419,7 +435,6 @@ public static class BlockSpectrumCommand
         // Per-Hilbert-side F71 mirror map (same as ComputeSpectrumWithTimingPerBlock).
         var mirrorBits = F71MirrorIndexHelper.BuildHilbertMirrorLookup(N);
         int Mirror(int flat) => mirrorBits[flat / d] * d + mirrorBits[flat % d];
-        double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
         var baseDecomp = JointPopcountSectorBuilder.Build(N);
         double offBlockFroSq = 0.0;
@@ -460,24 +475,8 @@ public static class BlockSpectrumCommand
 
             var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
-            // Build R: same layout as ComputeSpectrumWithTimingPerBlock — first (nFix+nPairs)
-            // columns span F71-even, next nPairs columns span F71-odd.
-            var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
-            for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
-            for (int k = 0; k < nPairs; k++)
-            {
-                int evenCol = nFix + k;
-                R[nFix + k, evenCol] = invSqrt2;
-                R[nFix + nPairs + k, evenCol] = invSqrt2;
-            }
-            int oddOffset = nFix + nPairs;
-            for (int k = 0; k < nPairs; k++)
-            {
-                int oddCol = oddOffset + k;
-                R[nFix + k, oddCol] = invSqrt2;
-                R[nFix + nPairs + k, oddCol] = -invSqrt2;
-            }
-            var rotated = R.Transpose() * unionBlock * R;
+            // H3: in-place rotation rather than two matmuls.
+            var rotated = F71MirrorBlockRefinement.RotateUnionBlockF71InPlace(unionBlock, nFix, nPairs);
 
             // Accumulate Frobenius² over the two cross blocks (even × odd, odd × even).
             int evenSize = nFix + nPairs;

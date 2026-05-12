@@ -280,99 +280,193 @@ public sealed class F71MirrorBlockRefinement : Claim
 
         var baseDecomp = JointPopcountSectorBuilder.Build(N);
         var spectrum = new Complex[liouvilleDim];
-        int write = 0;
 
+        // H1: each (joint-popcount sector → even+odd sub-blocks) chunk is independent. Pre-
+        // compute the per-sector write offset (= sum of even+odd sizes for sectors before it)
+        // so each task writes its slice deterministically. Even-size = nFix + nPairs, odd-size
+        // = nPairs, so per-sector write = sectorSize (== nFix + 2·nPairs).
+        int sectorCount = baseDecomp.SectorRanges.Count;
+        var writeOffsets = new int[sectorCount];
+        int cum = 0;
+        for (int i = 0; i < sectorCount; i++)
+        {
+            writeOffsets[i] = cum;
+            cum += baseDecomp.SectorRanges[i].Size;
+        }
+
+        // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4. See
+        // LiouvillianBlockSpectrum.ComputeSpectrum for rationale.
+        int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
+        var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
+
+        Parallel.ForEach(
+            Enumerable.Range(0, sectorCount), po,
+            sIdx =>
+            {
+                var sector = baseDecomp.SectorRanges[sIdx];
+                int size = sector.Size;
+                if (size == 0) return;
+
+                // Find F71 orbits in this sector.
+                var sectorFlat = new int[size];
+                for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
+                var seen = new HashSet<int>();
+                var fixedPoints = new List<int>();
+                var pairs = new List<(int s, int ps)>();
+                foreach (int flat in sectorFlat.OrderBy(x => x))
+                {
+                    if (seen.Contains(flat)) continue;
+                    int mirror = Mirror(flat);
+                    if (mirror == flat)
+                    {
+                        fixedPoints.Add(flat);
+                        seen.Add(flat);
+                    }
+                    else
+                    {
+                        int sMin = Math.Min(flat, mirror);
+                        int sMax = Math.Max(flat, mirror);
+                        pairs.Add((sMin, sMax));
+                        seen.Add(sMin);
+                        seen.Add(sMax);
+                    }
+                }
+
+                // Build the union block over (fixed-points ++ pair-firsts ++ pair-seconds).
+                int nFix = fixedPoints.Count;
+                int nPairs = pairs.Count;
+                int unionSize = nFix + 2 * nPairs;
+                var unionFlat = new int[unionSize];
+                for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+
+                var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
+
+                // H3: in-place F71 rotation B' = R^T · unionBlock · R is computed entry-by-entry
+                // from the F71-orbit Hadamard structure (O(n²) instead of two O(n³) matmuls).
+                var rotated = RotateUnionBlockF71InPlace(unionBlock, nFix, nPairs);
+
+                int write = writeOffsets[sIdx];
+
+                // Even sub-block: rows/cols [0 .. nFix + nPairs).
+                int evenSize = nFix + nPairs;
+                if (evenSize > 0)
+                {
+                    var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
+                    var evenEigs = evenBlock.Evd().EigenValues;
+                    for (int i = 0; i < evenSize; i++) spectrum[write + i] = evenEigs[i];
+                    write += evenSize;
+                }
+                // Odd sub-block: rows/cols [evenSize .. unionSize).
+                int oddSize = nPairs;
+                if (oddSize > 0)
+                {
+                    var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
+                    var oddEigs = oddBlock.Evd().EigenValues;
+                    for (int i = 0; i < oddSize; i++) spectrum[write + i] = oddEigs[i];
+                }
+            });
+        return spectrum;
+    }
+
+    /// <summary>H3: in-place F71 union-block rotation B' = R^T · B · R, computed entry-by-entry
+    /// from the F71-orbit Hadamard structure rather than via two O(n³) MathNet matmuls.
+    ///
+    /// <para>R is identity on the first <paramref name="nFix"/> rows/cols (F71 fixed-point
+    /// pairs) and a 2×2 Hadamard <c>[[1/√2, 1/√2], [1/√2, −1/√2]]</c> per (s, ps) pair acting
+    /// across rows/cols (nFix + k, nFix + nPairs + k) for k = 0..nPairs-1. The new basis is
+    /// laid out as <c>(fixed-points, even-pairs, odd-pairs)</c> in that order.</para>
+    ///
+    /// <para>Cost: O(unionSize²) work, no matmul. Equivalent bit-exact to <c>R^T · B · R</c>
+    /// up to floating-point rounding (verified via the existing
+    /// <c>F71MirrorBlockRefinement_OffBlockFrobenius_IsZero_ChainXYZDeph</c> tolerance).</para></summary>
+    public static ComplexMatrix RotateUnionBlockF71InPlace(ComplexMatrix B, int nFix, int nPairs)
+    {
+        int unionSize = nFix + 2 * nPairs;
+        if (B.RowCount != unionSize || B.ColumnCount != unionSize)
+            throw new ArgumentException(
+                $"B must be ({unionSize})×({unionSize}); got {B.RowCount}×{B.ColumnCount}.",
+                nameof(B));
+
+        var Bp = Matrix<Complex>.Build.Dense(unionSize, unionSize);
+        const double half = 0.5;
         double invSqrt2 = 1.0 / Math.Sqrt(2.0);
 
-        foreach (var sector in baseDecomp.SectorRanges)
+        // Layout in the new basis (B'):
+        //   rows/cols [0 .. nFix)             = fixed-point block (R = I)
+        //   rows/cols [nFix .. nFix+nPairs)   = even-pair block (e_s + e_ps)/√2
+        //   rows/cols [nFix+nPairs .. union)  = odd-pair block  (e_s − e_ps)/√2
+        // Source layout in B:
+        //   rows/cols [0 .. nFix)             = fixed points
+        //   rows/cols [nFix .. nFix+nPairs)   = s_k indices  (one per pair)
+        //   rows/cols [nFix+nPairs .. union)  = ps_k indices (one per pair)
+
+        // Block FF (fixed × fixed): identity on both sides → B'[i, j] = B[i, j].
+        for (int i = 0; i < nFix; i++)
+            for (int j = 0; j < nFix; j++)
+                Bp[i, j] = B[i, j];
+
+        // Block FE / FO (fixed-row × pair-col): identity row, Hadamard col.
+        // Even-col k:  B'[i, nFix + k] = (B[i, sk] + B[i, psk]) / √2
+        // Odd-col  k:  B'[i, nFix + nPairs + k] = (B[i, sk] − B[i, psk]) / √2
+        for (int i = 0; i < nFix; i++)
         {
-            int size = sector.Size;
-            if (size == 0) continue;
-
-            // Find F71 orbits in this sector.
-            var sectorFlat = new int[size];
-            for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-            var seen = new HashSet<int>();
-            var fixedPoints = new List<int>();
-            var pairs = new List<(int s, int ps)>();
-            foreach (int flat in sectorFlat.OrderBy(x => x))
-            {
-                if (seen.Contains(flat)) continue;
-                int mirror = Mirror(flat);
-                if (mirror == flat)
-                {
-                    fixedPoints.Add(flat);
-                    seen.Add(flat);
-                }
-                else
-                {
-                    int sMin = Math.Min(flat, mirror);
-                    int sMax = Math.Max(flat, mirror);
-                    pairs.Add((sMin, sMax));
-                    seen.Add(sMin);
-                    seen.Add(sMax);
-                }
-            }
-
-            // Build the union block over (fixed-points ++ pair-firsts ++ pair-seconds).
-            // Layout: rows 0..nFix-1 are fixed points; rows nFix..nFix+nPairs-1 are s_k; rows
-            // nFix+nPairs..nFix+2·nPairs-1 are ps_k. Apply a real-orthogonal local rotation
-            // R per pair: [s; ps] → [(s+ps)/√2; (s−ps)/√2]. R is block-diagonal — identity on
-            // fixed points, 2×2 [[1/√2, 1/√2], [1/√2, −1/√2]] per pair.
-            int nFix = fixedPoints.Count;
-            int nPairs = pairs.Count;
-            int unionSize = nFix + 2 * nPairs;
-            var unionFlat = new int[unionSize];
-            for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
-
-            var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
-
-            // Build R: real-orthogonal basis change to (even ++ odd) order.
-            // Result block in new basis: R^T · unionBlock · R, but to avoid the full
-            // matrix multiply we apply R as a sparse linear transform: rows/cols are reordered
-            // and scaled by 1/√2 with sign patterns. We build R as a dense unionSize × unionSize
-            // sparse-pattern matrix.
-            var R = Matrix<Complex>.Build.Dense(unionSize, unionSize);
-            // Even sub-block columns: first nFix are fixed-point identity columns; then nPairs
-            // (e_s + e_{ps})/√2 columns.
-            for (int i = 0; i < nFix; i++) R[i, i] = Complex.One;
             for (int k = 0; k < nPairs; k++)
             {
-                int evenCol = nFix + k;
-                R[nFix + k, evenCol] = invSqrt2;
-                R[nFix + nPairs + k, evenCol] = invSqrt2;
-            }
-            // Odd sub-block columns: nPairs (e_s − e_{ps})/√2 columns.
-            int oddOffset = nFix + nPairs;
-            for (int k = 0; k < nPairs; k++)
-            {
-                int oddCol = oddOffset + k;
-                R[nFix + k, oddCol] = invSqrt2;
-                R[nFix + nPairs + k, oddCol] = -invSqrt2;
-            }
-
-            // refinedBlock = R^T · unionBlock · R is block-diagonal in (even, odd).
-            var rotated = R.Transpose() * unionBlock * R;
-
-            // Even sub-block: rows/cols [0 .. nFix + nPairs).
-            int evenSize = nFix + nPairs;
-            if (evenSize > 0)
-            {
-                var evenBlock = rotated.SubMatrix(0, evenSize, 0, evenSize);
-                var evenEigs = evenBlock.Evd().EigenValues;
-                for (int i = 0; i < evenSize; i++) spectrum[write++] = evenEigs[i];
-            }
-            // Odd sub-block: rows/cols [evenSize .. unionSize).
-            int oddSize = nPairs;
-            if (oddSize > 0)
-            {
-                var oddBlock = rotated.SubMatrix(evenSize, oddSize, evenSize, oddSize);
-                var oddEigs = oddBlock.Evd().EigenValues;
-                for (int i = 0; i < oddSize; i++) spectrum[write++] = oddEigs[i];
+                int sk = nFix + k;
+                int psk = nFix + nPairs + k;
+                Complex bs = B[i, sk];
+                Complex bp = B[i, psk];
+                Bp[i, sk] = (bs + bp) * invSqrt2;          // even col
+                Bp[i, psk] = (bs - bp) * invSqrt2;          // odd col
             }
         }
-        return spectrum;
+
+        // Block EF / OF (pair-row × fixed-col): Hadamard row, identity col.
+        // Even-row k:  B'[nFix + k, j] = (B[sk, j] + B[psk, j]) / √2
+        // Odd-row  k:  B'[nFix + nPairs + k, j] = (B[sk, j] − B[psk, j]) / √2
+        for (int k = 0; k < nPairs; k++)
+        {
+            int sk = nFix + k;
+            int psk = nFix + nPairs + k;
+            for (int j = 0; j < nFix; j++)
+            {
+                Complex bs = B[sk, j];
+                Complex bp = B[psk, j];
+                Bp[sk, j] = (bs + bp) * invSqrt2;
+                Bp[psk, j] = (bs - bp) * invSqrt2;
+            }
+        }
+
+        // Block EE / EO / OE / OO (pair-row × pair-col): Hadamard on both sides → 4-term
+        // combination with signs from the 2×2 Hadamard pattern.
+        //   sk_l, psk_l = source indices for col-pair l
+        //   sk_k, psk_k = source indices for row-pair k
+        //   B'[evenRow_k, evenCol_l] = (B[sk_k, sk_l] + B[sk_k, psk_l] + B[psk_k, sk_l] + B[psk_k, psk_l]) / 2
+        //   B'[evenRow_k, oddCol_l]  = (B[sk_k, sk_l] − B[sk_k, psk_l] + B[psk_k, sk_l] − B[psk_k, psk_l]) / 2
+        //   B'[oddRow_k,  evenCol_l] = (B[sk_k, sk_l] + B[sk_k, psk_l] − B[psk_k, sk_l] − B[psk_k, psk_l]) / 2
+        //   B'[oddRow_k,  oddCol_l]  = (B[sk_k, sk_l] − B[sk_k, psk_l] − B[psk_k, sk_l] + B[psk_k, psk_l]) / 2
+        for (int k = 0; k < nPairs; k++)
+        {
+            int skR = nFix + k;
+            int pskR = nFix + nPairs + k;
+            for (int l = 0; l < nPairs; l++)
+            {
+                int skC = nFix + l;
+                int pskC = nFix + nPairs + l;
+                Complex a = B[skR, skC];     // (s, s)
+                Complex b = B[skR, pskC];    // (s, ps)
+                Complex c = B[pskR, skC];    // (ps, s)
+                Complex d = B[pskR, pskC];   // (ps, ps)
+
+                Bp[skR, skC] = (a + b + c + d) * half;     // even-row × even-col
+                Bp[skR, pskC] = (a - b + c - d) * half;     // even-row × odd-col
+                Bp[pskR, skC] = (a + b - c - d) * half;     // odd-row  × even-col
+                Bp[pskR, pskC] = (a - b - c + d) * half;     // odd-row  × odd-col
+            }
+        }
+
+        return Bp;
     }
 }

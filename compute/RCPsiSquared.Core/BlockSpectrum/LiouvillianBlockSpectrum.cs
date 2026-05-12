@@ -79,25 +79,48 @@ public sealed class LiouvillianBlockSpectrum : Claim
         var decomp = JointPopcountSectorBuilder.Build(N);
         var perm = decomp.Permutation;
         var spectrum = new Complex[liouvilleDim];
-        int write = 0;
 
-        foreach (var sector in decomp.SectorRanges)
+        // H1: per-sector eig is embarrassingly parallel. Pre-compute the per-sector write
+        // offset so each task knows its destination range before any work starts.
+        int sectorCount = decomp.SectorRanges.Count;
+        var writeOffsets = new int[sectorCount];
+        int cum = 0;
+        for (int i = 0; i < sectorCount; i++)
         {
-            int size = sector.Size;
-            var block = Matrix<Complex>.Build.Dense(size, size);
-            for (int r = 0; r < size; r++)
-            {
-                int rowFlat = perm[sector.Offset + r];
-                for (int c = 0; c < size; c++)
-                {
-                    int colFlat = perm[sector.Offset + c];
-                    block[r, c] = L[rowFlat, colFlat];
-                }
-            }
-            var blockEigs = block.Evd().EigenValues;
-            for (int i = 0; i < size; i++)
-                spectrum[write++] = blockEigs[i];
+            writeOffsets[i] = cum;
+            cum += decomp.SectorRanges[i].Size;
         }
+
+        // BLAS-oversubscription strategy (c): cap outer parallelism at ~ProcessorCount/4 to
+        // leave headroom for MKL's internal threading on the larger Evd calls. Empirically
+        // good balance on 24-core; the few largest sectors keep their MKL parallelism while
+        // many small sectors run concurrently. Larger outer DOP would oversubscribe (outer ×
+        // MKL threads = ProcessorCount × ProcessorCount); smaller would leave cores idle.
+        int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
+        var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
+
+        Parallel.ForEach(
+            Enumerable.Range(0, sectorCount), po,
+            sIdx =>
+            {
+                var sector = decomp.SectorRanges[sIdx];
+                int size = sector.Size;
+                if (size == 0) return;
+                var block = Matrix<Complex>.Build.Dense(size, size);
+                for (int r = 0; r < size; r++)
+                {
+                    int rowFlat = perm[sector.Offset + r];
+                    for (int c = 0; c < size; c++)
+                    {
+                        int colFlat = perm[sector.Offset + c];
+                        block[r, c] = L[rowFlat, colFlat];
+                    }
+                }
+                var blockEigs = block.Evd().EigenValues;
+                int write = writeOffsets[sIdx];
+                for (int i = 0; i < size; i++)
+                    spectrum[write + i] = blockEigs[i];
+            });
 
         return spectrum;
     }
@@ -128,21 +151,39 @@ public sealed class LiouvillianBlockSpectrum : Claim
         var decomp = JointPopcountSectorBuilder.Build(N);
         var perm = decomp.Permutation;
         var spectrum = new Complex[liouvilleDim];
-        int write = 0;
 
-        foreach (var sector in decomp.SectorRanges)
+        // H1: pre-compute per-sector write offsets so each task knows its destination slice.
+        int sectorCount = decomp.SectorRanges.Count;
+        var writeOffsets = new int[sectorCount];
+        int cum = 0;
+        for (int i = 0; i < sectorCount; i++)
         {
-            int size = sector.Size;
-            if (size == 0) continue;
-            var flatIndices = new int[size];
-            for (int k = 0; k < size; k++)
-                flatIndices[k] = perm[sector.Offset + k];
-
-            var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
-            var blockEigs = block.Evd().EigenValues;
-            for (int i = 0; i < size; i++)
-                spectrum[write++] = blockEigs[i];
+            writeOffsets[i] = cum;
+            cum += decomp.SectorRanges[i].Size;
         }
+
+        // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
+        // MKL inside the largest sectors' Evd. See ComputeSpectrum for the rationale.
+        int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
+        var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
+
+        Parallel.ForEach(
+            Enumerable.Range(0, sectorCount), po,
+            sIdx =>
+            {
+                var sector = decomp.SectorRanges[sIdx];
+                int size = sector.Size;
+                if (size == 0) return;
+                var flatIndices = new int[size];
+                for (int k = 0; k < size; k++)
+                    flatIndices[k] = perm[sector.Offset + k];
+
+                var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+                var blockEigs = block.Evd().EigenValues;
+                int write = writeOffsets[sIdx];
+                for (int i = 0; i < size; i++)
+                    spectrum[write + i] = blockEigs[i];
+            });
         return spectrum;
     }
 
