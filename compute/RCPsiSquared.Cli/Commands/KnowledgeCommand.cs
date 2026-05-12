@@ -86,6 +86,7 @@ public static class KnowledgeCommand
             // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
             .RegisterSymmetryFamilyInventory()
             .RegisterZGlobalMirrorRefinement()
+            .RegisterXGlobalChargeConjugationPairing()
             .RegisterJointPopcountSectors()
             .RegisterLiouvillianBlockSpectrum()
             .RegisterBlockSpectrumPerformanceWitness()
