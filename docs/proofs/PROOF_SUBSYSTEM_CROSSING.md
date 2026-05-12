@@ -1,12 +1,20 @@
 # Proof: Subsystem Crossing Theorem
 
-**Tier:** 2 (analytically proven for major cases, numerically verified universally)
-**Date:** March 22, 2026
-**Conjecture:** 2.1 from PROOF_ROADMAP_QUARTER_BOUNDARY
+**Status:** Tier 1 derived (Cases A and B analytically) + Tier 2 verified (Case C: 300+ random primitive CPTP maps with zero exceptions; N=3-5 subsystem pairs all cross)
+**Date:** 2026-03-22
+**Authors:** Thomas Wicht, Claude (Anthropic)
+**Statement:** For any primitive CPTP map ε on a 2-qubit system, every initial state with `CΨ(ρ₀) > 1/4` eventually has `CΨ(εⁿ(ρ₀)) < 1/4` for all sufficiently large n. The 1/4 boundary is an eventual absorber.
+**Reference formula:** [F28 (Fixed-point absorber theorem)](../ANALYTICAL_FORMULAS.md) in the F-formula registry; this proof is its analytical home.
+**Resolves:** Conjecture 2.1 from [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md) (Layer 2 of the seven-layer roadmap).
 
 ---
 
 ## What this document is about
+
+A pinball loses energy with every bumper, every flipper, every flat run
+across the table. Eventually it sinks into the drain. Quantum systems
+under noise behave the same way: each application of the noise channel
+takes them closer to the drain (the fixed point of the channel).
 
 This document proves that any quantum system under genuine noise will
 eventually have CΨ drop below ¼ and stay there. The proof combines
@@ -14,6 +22,15 @@ three ingredients: convergence to a fixed point (quantum Perron-Frobenius),
 the fact that all fixed points of primitive noise channels have CΨ < ¼,
 and continuity. Together they guarantee that CΨ = ¼ is an eventual
 absorber: once crossed, it is never permanently re-crossed.
+
+This is the third proof in the 1/4-boundary trilogy:
+[Uniqueness](UNIQUENESS_PROOF.md) (Layer 1: the boundary value 1/4 is
+structurally unique), [Monotonicity](PROOF_MONOTONICITY_CPSI.md)
+(Layer 5: CΨ envelope decreases under Markovian dynamics), and this
+proof (Layer 2: every primitive-noise trajectory eventually crosses
+below). Together they pin down the geometry: the 1/4 is unique, the
+motion toward it is monotone in envelope, and arrival is guaranteed
+for any primitive noise.
 
 ---
 
@@ -192,12 +209,21 @@ and Ψ+(0,1) ⊗ |+⟩^{N-2}. All pairs with CΨ > 1/4 cross below. ✓
 
 ---
 
-## Connection to Monotonicity (Parts 1-6)
+## Connection to the 1/4-Boundary Trilogy
 
-The Subsystem Crossing Theorem (this proof) and the Monotonicity Theorem
-([PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md)) are complementary:
+This proof is the third member of the 1/4-boundary trilogy, working
+together with [Uniqueness](UNIQUENESS_PROOF.md) (Layer 1: the boundary
+value itself is unique by the discriminant of the quadratic recursion)
+and [Monotonicity](PROOF_MONOTONICITY_CPSI.md) (Layer 5: CΨ envelope
+decreases under Markovian dynamics). The full architecture lives in
+the [seven-layer roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md);
+Uniqueness Section 5 ("CPTP Contractivity Argument, Layer 2") sketches
+the fixed-point bound that this document proves in full.
 
-| Property | Monotonicity | Crossing |
+The most direct comparison is with Monotonicity, since both are about
+CΨ trajectories under noise:
+
+| Property | Monotonicity | Crossing (this proof) |
 |----------|-------------|----------|
 | Claim | CΨ envelope decreases | CΨ eventually < 1/4 |
 | Scope | Continuous Lindblad | Any primitive CPTP |
@@ -205,9 +231,11 @@ The Subsystem Crossing Theorem (this proof) and the Monotonicity Theorem
 | Non-Markov | Transient revival possible | Still crosses (eventual) |
 | Strength | Stronger (monotone) | Weaker (eventual) but broader |
 
-Together they give: **CΨ decreases monotonically (envelope) under Markovian
-dynamics, crosses 1/4 eventually under any primitive CPTP, and cannot
-permanently return above 1/4 even under non-Markovian dynamics.**
+Together with Uniqueness, the three give: **the boundary is structurally
+unique (Uniqueness), the motion toward it is monotone in envelope
+(Monotonicity), and arrival is guaranteed for any primitive noise (this
+proof). Non-Markovian dynamics can transiently push CΨ back above 1/4,
+but the eventual crossing still holds.**
 
 ---
 
@@ -227,7 +255,17 @@ permanently return above 1/4 even under non-Markovian dynamics.**
 
 ## References
 
-- [PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md): Continuous-time monotonicity
-- [subsystem_crossing.py](../../simulations/subsystem_crossing.py): Numerical verification
-- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): Transient revival characterization
-- [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md): Layer 2, Conjecture 2.1
+### Sibling proofs in the 1/4-boundary trilogy
+
+- [Uniqueness Proof](UNIQUENESS_PROOF.md): Layer 1, the boundary itself is unique (March 21, 2026; one day before this proof and Monotonicity); Section 5 of Uniqueness ("CPTP Contractivity, Layer 2") sketches the bound this document proves in full
+- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): Layer 5, continuous-time monotonicity under Markovian dynamics
+- [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer master roadmap; this proof is Layer 2 (Conjecture 2.1)
+
+### F-formula registry
+
+- [F28 (Fixed-point absorber theorem)](../ANALYTICAL_FORMULAS.md): the typed home of Step 2 of this proof in the F-formula registry
+
+### Scripts
+
+- [subsystem_crossing.py](../../simulations/subsystem_crossing.py): numerical verification (300+ random primitive CPTP maps)
+- [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revival characterization (Part 6 of Monotonicity)
