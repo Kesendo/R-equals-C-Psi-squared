@@ -30,12 +30,12 @@ public class F71AntiPalindromicGammaSpectralInvarianceTests
     // ----------------------------------------------------------------------
 
     [Fact]
-    public void Tier_IsTier1Candidate()
+    public void Tier_IsTier1Derived()
     {
         var claim = new F71AntiPalindromicGammaSpectralInvariance(
             new JointPopcountSectors(),
             new F71MirrorBlockRefinement(new JointPopcountSectors()));
-        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
     }
 
     [Fact]

@@ -3,11 +3,14 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.BlockSpectrum;
 
-/// <summary>F71AntiPalindromicGammaSpectralInvariance (Tier 1 candidate; 2026-05-11):
-/// for chain XY + Z-dephasing Liouvillian on N qubits, the <b>F71-refined diagonal-block
-/// spectrum</b> (the multiset of eigenvalues of the (F71-even, F71-odd) diagonal sub-blocks
-/// of <c>Q^T L Q</c>) is invariant under any γ-distribution satisfying
-/// <c>γ_l + γ_{N-1-l} = 2·γ_avg</c> for all l ∈ {0..N−1},
+/// <summary>F71AntiPalindromicGammaSpectralInvariance (Tier 1 derived: algebraic proof
+/// 2026-05-12; empirical witness 2026-05-11): for chain XY + Z-dephasing Liouvillian on
+/// N qubits, the <b>F71-refined diagonal-block spectrum</b> (the multiset of eigenvalues
+/// of the (F71-even, F71-odd) diagonal sub-blocks of <c>Q^T L Q</c>) depends on the
+/// per-site γ-distribution only through the multiset of F71-pair-sums
+/// <c>S_l := γ_l + γ_{N-1-l}</c>; cross-block entries depend on pair-differences
+/// <c>D_l := γ_l − γ_{N-1-l}</c>. As a corollary, the spectrum is invariant under any
+/// γ-distribution satisfying <c>γ_l + γ_{N-1-l} = 2·γ_avg</c> for all l ∈ {0..N−1},
 /// where <c>γ_avg = (1/N)·Σ γ_l</c>. We call such γ-distributions <i>F71-anti-palindromic
 /// around their mean</i>.
 ///
@@ -50,10 +53,18 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// ([0.7, 0.2, 0.5, 0.3, 0.6, 0.4]) and concentrated γ ([0.1, 0.1, 0.1, 0.1, 0.1, 2.2])
 /// produce distinct F71-refined diagonal spectra.</para>
 ///
-/// <para>Tier outcome <see cref="Tier.Tier1Candidate"/> rather than Derived: the
-/// closed-form proof that the F71-refined diagonal blocks reduce to a γ_avg-only form when
-/// γ is anti-palindromic is plausible but not yet written. The empirical witness is strong
-/// (bit-exact across multiple anti-palindromic profiles at N=4, 5, 6).</para>
+/// <para>Tier outcome <see cref="Tier.Tier1Derived"/> as of 2026-05-12: the algebraic
+/// proof in <c>docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md</c> § Algebraic proof
+/// (Eqs. 1–13) shows the F71-refined diagonal-block matrix elements of L = −i[H, ·] + D
+/// are <b>linear functionals of γ depending only on F71-pair-sums S_l</b>: per Step 3
+/// (Eqs. 7a, 7b) <c>⟨sym|D|sym⟩ = ⟨antisym|D|antisym⟩ = −Σ_{l ∈ Δ(a, b)} S_l</c>; the
+/// Hamiltonian term is γ-independent and F71-block-diagonal (Step 5, Eq. 10); the
+/// pair-difference content lives entirely in the F71-cross-block entries
+/// <c>⟨sym|D|antisym⟩ = −Σ_{l ∈ Δ(a, b)} D_l</c> (Step 4, Eq. 9), which do NOT enter
+/// diagonal-block eigenvalues. The 90°-rotation invariance (corollary, Step 7) follows
+/// because the orbit S_l = 2γ_avg ∀l is closed under R_{90}: γ_l ↦ 2γ_avg − γ_{N-1-l}.
+/// Empirical witness (bit-exact across multiple anti-palindromic profiles at N=4, 5, 6)
+/// independently verifies the proof.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (γ-blind parent), <c>compute/RCPsiSquared.Core/BlockSpectrum/F71MirrorBlockRefinement.cs</c>
@@ -68,9 +79,9 @@ public sealed class F71AntiPalindromicGammaSpectralInvariance : Claim
     public F71AntiPalindromicGammaSpectralInvariance(
         JointPopcountSectors sectors,
         F71MirrorBlockRefinement f71)
-        : base("F71AntiPalindromicGammaSpectralInvariance: chain XY+Z-deph F71-refined diagonal-block eigenvalue multiset is invariant under any γ-distribution satisfying γ_l + γ_{N-1-l} = 2·γ_avg; full L spectrum differs (cross blocks carry the asymmetry); diagonal blocks depend only on per-pair sums = 2·γ_avg under anti-palindromy; bit-exact verified at N=4,5,6.",
-               Tier.Tier1Candidate,
-               "JointPopcountSectors (γ-blind parent) + F71MirrorBlockRefinement (γ-symmetric parent; anti-palindromy distinct, both reduce to uniform-γ at intersection); algebraic proof that F71-rotated diagonal blocks depend only on per-pair sums is plausible but not yet written; empirical bit-exact witness at N=4,5,6 in F71AntiPalindromicGammaSpectralInvarianceTests")
+        : base("F71AntiPalindromicGammaSpectralInvariance: chain XY+Z-deph F71-refined diagonal-block matrix elements depend on γ only through F71-pair-sums S_l = γ_l + γ_{N-1-l}; cross-block entries depend on pair-differences D_l = γ_l - γ_{N-1-l}; corollary: spectrum invariant under any γ-distribution satisfying γ_l + γ_{N-1-l} = 2·γ_avg (the orbit of the 90°-rotation R_{90}: γ_l ↦ 2γ_avg − γ_{N-1-l}); full L spectrum differs across the orbit (cross blocks carry the asymmetry); algebraic proof complete (PROOF_F91 § Algebraic proof, Eqs. 1–13) + bit-exact verified at N=4,5,6.",
+               Tier.Tier1Derived,
+               "JointPopcountSectors (γ-blind parent) + F71MirrorBlockRefinement (γ-symmetric parent; anti-palindromy distinct, both reduce to uniform-γ at intersection); algebraic proof in PROOF_F91 § Algebraic proof shows diagonal-block matrix elements are linear functionals of pair-sums S_l (Eqs. 7a, 7b, 11a, 11b), Hamiltonian γ-independent and F71-block-diagonal (Eq. 10), pair-differences confined to off-diagonal cross-block entries (Eq. 9); empirical bit-exact witness at N=4,5,6 in F71AntiPalindromicGammaSpectralInvarianceTests")
     {
         _sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
         _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
@@ -110,7 +121,7 @@ public sealed class F71AntiPalindromicGammaSpectralInvariance : Claim
         "F71AntiPalindromicGammaSpectralInvariance: F71-refined diagonal-block spectrum invariant under γ_l + γ_{N-1-l} = 2·γ_avg";
 
     public override string Summary =>
-        $"chain XY+Z-deph F71-refined diagonal-block spectrum invariant whenever γ is anti-palindromic around its mean; full L spectrum differs (cross blocks carry the asymmetry); bit-exact at N=4,5,6 ({Tier.Label()})";
+        $"chain XY+Z-deph F71-refined diagonal-block matrix elements depend on γ only through F71-pair-sums S_l; corollary: spectrum invariant on the anti-palindromic orbit (S_l = 2·γ_avg ∀l, closed under 90°-rotation); full L spectrum differs (cross blocks carry pair-differences D_l); algebraic proof + bit-exact N=4,5,6 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -134,8 +145,8 @@ public sealed class F71AntiPalindromicGammaSpectralInvariance : Claim
                 summary: "full L spectrum DIFFERS across anti-palindromic γ-profiles (cross-block perturbation lifts the diagonal-block degeneracy)");
             yield return new InspectableNode("witness",
                 summary: "bit-exact F71-refined diagonal-block spectrum equality across anti-palindromic γ-profiles at N=4,5,6 chain XY+Z-deph");
-            yield return new InspectableNode("open",
-                summary: "closed-form proof that F71-rotated diagonal blocks depend on γ only through per-pair sums (γ_l + γ_{N-1-l}) not yet written");
+            yield return new InspectableNode("proof",
+                summary: "PROOF_F91 § Algebraic proof (Eqs. 1–13, 2026-05-12): diagonal-block matrix elements ⟨sym|D|sym⟩ = ⟨antisym|D|antisym⟩ = −Σ S_l (linear in pair-sums only); cross-block ⟨sym|D|antisym⟩ = −Σ D_l (pair-differences only); H γ-independent and F71-block-diagonal; 90°-rotation invariance is corollary on the orbit S_l = 2γ_avg ∀l");
         }
     }
 }

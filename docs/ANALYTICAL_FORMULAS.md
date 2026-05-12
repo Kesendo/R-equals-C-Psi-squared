@@ -2506,7 +2506,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 ---
 
-### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side) (Tier 1 candidate, verified bit-exact N=4,5,6 — 2026-05-11)
+### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side) (Tier 1 derived, algebraic proof + bit-exact N=4,5,6 — 2026-05-12)
 
 **For chain XY + Z-dephasing Liouvillian L on N qubits, the eigenvalue multiset of the F71-refined diagonal-block decomposition is invariant under any γ-distribution satisfying**
 
@@ -2531,9 +2531,9 @@ The diagonal-block spectral content (= decay rates, "time information") is prese
 - permuted [0.7, 0.2, 0.5, 0.3, 0.6, 0.4] (pairs {1.1, 0.8, 0.8}, NOT constant): distinct spectrum (Re=−4.984 cluster instead of Re=−5.043)
 - concentrated [0.1, 0.1, 0.1, 0.1, 0.1, 2.2] (pairs heavily skewed): complex Re−Im structure absent from uniform
 
-**Tier outcome <Tier 1 candidate>:** algebraic proof is plausible (F71-rotated diagonal-block matrix elements depend on γ_l only through F71-pair-sums by construction of the F71-even/odd basis) but not yet written. Empirical witness at N=4, 5, 6 across the five γ-profiles above.
+**Tier outcome <Tier 1 derived>:** algebraic proof complete (2026-05-12, see PROOF_F91 § Algebraic proof). The proof's sharper conclusion: the F71-refined diagonal-block matrix elements of L = −i[H, ·] + D are linear functionals of γ that depend only on the **multiset of F71-pair-sums {S_l = γ_l + γ_{N−1−l}}**, never on individual γ_l or pair-differences D_l = γ_l − γ_{N−1−l}; pair-differences appear only in the F71-cross-block off-diagonal entries (which do not enter diagonal-block eigenvalues). The 90°-rotation R_{90} : γ_l ↦ 2γ_avg − γ_{N−1−l} preserves the anti-palindromic class S_l = 2γ_avg ∀l (and is an involution on it); within that orbit, all γ-distributions yield identical diagonal-block spectra (= the uniform γ_avg spectrum). The originally claimed F91 (90°-invariance) is the corollary of the stronger pair-sum-multiset law. Empirical witness at N=4, 5, 6 across the five γ-profiles above remains the bit-exact verification.
 
-**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (stub + open algebraic question), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Candidate Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation).
+**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (Tier 1 derived: § Algebraic proof, Eqs. 1–13), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Derived Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation).
 
 ---
 
