@@ -23,4 +23,40 @@ public static class F71MirrorIndexHelper
         }
         return bits;
     }
+
+    /// <summary>Walk a sector's Liouville flat-indices and partition them into F71 orbits:
+    /// fixed points (where <c>mirror(flat) == flat</c>) and size-2 pairs <c>(S, Ps)</c> with
+    /// <c>S &lt; Ps</c>. Iteration order is ascending by flat index, so the result is
+    /// reproducible across runs.
+    ///
+    /// <para>Used by F71-refined block-decomposition primitives to build the F71-orbit
+    /// basis: <c>(|flat⟩ ± |mirror⟩)/√2</c> for size-2 orbits; <c>|flat⟩</c> alone for fixed
+    /// points. The caller supplies the Liouville-space mirror function (typically
+    /// <c>flat → mirrorBits[flat/d]·d + mirrorBits[flat%d]</c> built from
+    /// <see cref="BuildHilbertMirrorLookup"/>).</para></summary>
+    public static (List<int> FixedPoints, List<(int S, int Ps)> Pairs) FindOrbitsInSector(
+        IReadOnlyList<int> sectorFlat,
+        Func<int, int> mirror)
+    {
+        var fixedPoints = new List<int>();
+        var pairs = new List<(int S, int Ps)>();
+        var seen = new HashSet<int>(sectorFlat.Count);
+        foreach (int flat in sectorFlat.OrderBy(x => x))
+        {
+            if (!seen.Add(flat)) continue;
+            int m = mirror(flat);
+            if (m == flat)
+            {
+                fixedPoints.Add(flat);
+            }
+            else
+            {
+                int s = Math.Min(flat, m);
+                int ps = Math.Max(flat, m);
+                pairs.Add((s, ps));
+                seen.Add(ps);
+            }
+        }
+        return (fixedPoints, pairs);
+    }
 }

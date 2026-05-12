@@ -292,29 +292,14 @@ public static class BlockSpectrumCommand
                     // Identify F71 orbits.
                     var sectorFlat = new int[size];
                     for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-                    var seen = new HashSet<int>();
-                    var fixedPoints = new List<int>();
-                    var pairs = new List<(int s, int ps)>();
-                    foreach (int flat in sectorFlat.OrderBy(x => x))
-                    {
-                        if (seen.Contains(flat)) continue;
-                        int mirror = Mirror(flat);
-                        if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
-                        else
-                        {
-                            int sMin = Math.Min(flat, mirror);
-                            int sMax = Math.Max(flat, mirror);
-                            pairs.Add((sMin, sMax));
-                            seen.Add(sMin); seen.Add(sMax);
-                        }
-                    }
+                    var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorFlat, Mirror);
                     int nFix = fixedPoints.Count;
                     int nPairs = pairs.Count;
                     int unionSize = nFix + 2 * nPairs;
                     var unionFlat = new int[unionSize];
                     for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].S;
+                    for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].Ps;
 
                     var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
@@ -501,22 +486,7 @@ public static class BlockSpectrumCommand
             // Identify F71 orbits within this sector.
             var sectorFlat = new int[size];
             for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-            var seen = new HashSet<int>();
-            var fixedPoints = new List<int>();
-            var pairs = new List<(int s, int ps)>();
-            foreach (int flat in sectorFlat.OrderBy(x => x))
-            {
-                if (seen.Contains(flat)) continue;
-                int mirror = Mirror(flat);
-                if (mirror == flat) { fixedPoints.Add(flat); seen.Add(flat); }
-                else
-                {
-                    int sMin = Math.Min(flat, mirror);
-                    int sMax = Math.Max(flat, mirror);
-                    pairs.Add((sMin, sMax));
-                    seen.Add(sMin); seen.Add(sMax);
-                }
-            }
+            var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorFlat, Mirror);
             int nFix = fixedPoints.Count;
             int nPairs = pairs.Count;
             int unionSize = nFix + 2 * nPairs;
@@ -524,8 +494,8 @@ public static class BlockSpectrumCommand
 
             var unionFlat = new int[unionSize];
             for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].S;
+            for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].Ps;
 
             var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 

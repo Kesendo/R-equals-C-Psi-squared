@@ -141,30 +141,7 @@ public sealed class F71MirrorBlockRefinement : Claim
 
             // Walk indices in ascending flat order; for each unseen flat, partner with
             // Mirror(flat) (which is also in this sector). Fixed points: Mirror(flat)==flat.
-            var seen = new HashSet<int>();
-            var fixedPoints = new List<int>();
-            var pairs = new List<(int s, int ps)>();
-            // Process in ascending order so basis-vector ordering is reproducible.
-            var ordered = sectorIndices.OrderBy(x => x).ToArray();
-            foreach (int flat in ordered)
-            {
-                if (seen.Contains(flat)) continue;
-                int mirror = Mirror(flat);
-                if (mirror == flat)
-                {
-                    fixedPoints.Add(flat);
-                    seen.Add(flat);
-                }
-                else
-                {
-                    // Use the lower index as canonical s; mirror is the partner.
-                    int s = Math.Min(flat, mirror);
-                    int ps = Math.Max(flat, mirror);
-                    pairs.Add((s, ps));
-                    seen.Add(s);
-                    seen.Add(ps);
-                }
-            }
+            var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorIndices, Mirror);
 
             // F71-even sub-block: fixed points + (e_s + e_{ps})/√2 for each pair.
             int evenStart = writeCol;
@@ -336,27 +313,7 @@ public sealed class F71MirrorBlockRefinement : Claim
                 // Find F71 orbits in this sector.
                 var sectorFlat = new int[size];
                 for (int k = 0; k < size; k++) sectorFlat[k] = baseDecomp.Permutation[sector.Offset + k];
-                var seen = new HashSet<int>();
-                var fixedPoints = new List<int>();
-                var pairs = new List<(int s, int ps)>();
-                foreach (int flat in sectorFlat.OrderBy(x => x))
-                {
-                    if (seen.Contains(flat)) continue;
-                    int mirror = Mirror(flat);
-                    if (mirror == flat)
-                    {
-                        fixedPoints.Add(flat);
-                        seen.Add(flat);
-                    }
-                    else
-                    {
-                        int sMin = Math.Min(flat, mirror);
-                        int sMax = Math.Max(flat, mirror);
-                        pairs.Add((sMin, sMax));
-                        seen.Add(sMin);
-                        seen.Add(sMax);
-                    }
-                }
+                var (fixedPoints, pairs) = F71MirrorIndexHelper.FindOrbitsInSector(sectorFlat, Mirror);
 
                 // Build the union block over (fixed-points ++ pair-firsts ++ pair-seconds).
                 int nFix = fixedPoints.Count;
@@ -364,8 +321,8 @@ public sealed class F71MirrorBlockRefinement : Claim
                 int unionSize = nFix + 2 * nPairs;
                 var unionFlat = new int[unionSize];
                 for (int i = 0; i < nFix; i++) unionFlat[i] = fixedPoints[i];
-                for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].s;
-                for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].ps;
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + k] = pairs[k].S;
+                for (int k = 0; k < nPairs; k++) unionFlat[nFix + nPairs + k] = pairs[k].Ps;
 
                 var unionBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, unionFlat);
 
