@@ -1,10 +1,12 @@
 # Incompleteness of d(d-2)=0: Where Noise Comes From (And Why the Answer Is "Not From Here")
 
-**Tier:** 2 (derived from computationally verified falsifications)
-**Date:** March 21, 2026
-**Depends on:** [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md), [bootstrap_test.py](../../simulations/bootstrap_test.py), [failed_third.py](../../simulations/failed_third.py), [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md)
-**Status:** Complete elimination proof
-**Scope:** The noise origin question within the d(d-2)=0 framework
+**Status:** Tier 2 (derived from computationally verified falsifications); 5 candidates within the framework eliminated, 0 internal candidates remain.
+**Date:** 2026-03-21
+**Authors:** Thomas Wicht, Claude (Anthropic)
+**Statement:** Within the d(d−2)=0 ontology (qubits + d=0 nothing), the dephasing noise required by the palindromic mirror symmetry cannot originate from any internal source. Noise must come from outside the framework.
+**Reference claim:** [`PolynomialFoundationClaim` + `QubitDimensionalAnchorClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (Tier 1 derived; the d²−2d=0 polynomial selects d=2 as the qubit dimension, with d=1 algebraically excluded). This proof shows the same ontology is incomplete with respect to noise origin.
+**Depends on:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), [bootstrap_test.py](../../simulations/bootstrap_test.py), [failed_third.py](../../simulations/failed_third.py), [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md)
+**Scope:** The noise origin question within the d(d−2)=0 framework.
 **Does NOT establish:** What the noise IS. Only that it cannot originate
 from within the framework's ontology.
 
@@ -152,7 +154,7 @@ operators versus d dephasing operators. This is balanced only when
 d^2-2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
 
-**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument)
+**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework.
 
 **Conclusion:** Eliminated by the framework's own algebra.
 
