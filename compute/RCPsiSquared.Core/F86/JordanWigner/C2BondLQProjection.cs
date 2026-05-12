@@ -44,6 +44,14 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
 /// <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c> for the F71 mirror invariance.</para>
+///
+/// <para>F90 status (2026-05-11): the F86 c=2 ↔ F89 path-(N−1) bridge identity
+/// achieves numerical Tier-1 for Direction (b'') via per-bond Hellmann-Feynman
+/// (bit-exact 20/22 bonds at N=5..8). The JW-track primitives in this file remain
+/// active as the alternative analytical route toward the closed-form HWHM_left/Q_peak
+/// constants; the per-bond numerical answer itself is no longer the open piece.
+/// See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c> +
+/// <c>compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs</c>.</para>
 /// </summary>
 public sealed class C2BondLQProjection : Claim
 {

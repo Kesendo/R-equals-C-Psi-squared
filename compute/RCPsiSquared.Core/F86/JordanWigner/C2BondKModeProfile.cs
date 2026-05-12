@@ -40,10 +40,19 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// distillation itself adds no analytic content beyond T2's textbook XY-JW identity. The
 /// open Tier 1 promotion path is the closed-form Endpoint HWHM/Q_peak from the JW spectrum,
 /// which is the open work tracked alongside the JW track in <c>F86OpenQuestions</c> (Item 1'
-/// Direction (b'')). Until that closed form is derived, the per-bond k-mode profile here is
+/// Direction (b'')). Until the analytical closed form is derived (F90 has numerical Tier-1;
+/// analytical closed form remains open), the per-bond k-mode profile here is
 /// the structural lens that highlights which sine modes carry the bond's spectral weight.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track).</para>
+///
+/// <para>F90 status (2026-05-11): the F86 c=2 ↔ F89 path-(N−1) bridge identity
+/// achieves numerical Tier-1 for Direction (b'') via per-bond Hellmann-Feynman
+/// (bit-exact 20/22 bonds at N=5..8). The JW-track primitives in this file remain
+/// active as the alternative analytical route toward the closed-form HWHM_left/Q_peak
+/// constants; the per-bond numerical answer itself is no longer the open piece.
+/// See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c> +
+/// <c>compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs</c>.</para>
 /// </summary>
 public sealed class C2BondKModeProfile : Claim
 {
