@@ -114,30 +114,62 @@ public class Pi2DyadicLadderClaimTests
     }
 
     [Fact]
-    public void KnownAnchors_HasThreeEntries()
+    public void KnownAnchors_HasFourEntriesAcrossThreeDistinctIndices()
     {
+        // n=0 carries TWO co-existing roles (QubitDimensional + AbsorptionTheorem); n=2 and n=3
+        // each carry one. So 4 entries at 3 distinct indices.
         var ladder = new Pi2DyadicLadderClaim();
-        Assert.Equal(3, ladder.KnownAnchors.Count);
+        Assert.Equal(4, ladder.KnownAnchors.Count);
+        Assert.Equal(3, ladder.KnownAnchors.Select(a => a.N).Distinct().Count());
+        Assert.Equal(2, ladder.KnownAnchors.Count(a => a.N == 0));
     }
 
     [Fact]
-    public void KnownAnchors_PinsQubitDimAtN0_HalfFixedAtN2_BilinearMaxvalAtN3()
+    public void KnownAnchors_PinsQubitDimAndAbsorptionAtN0_HalfFixedAtN2_BilinearMaxvalAtN3()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var byN = ladder.KnownAnchors.ToDictionary(a => a.N);
+        var byN = ladder.KnownAnchors.ToLookup(a => a.N);
 
-        Assert.Contains(0, byN.Keys);
-        Assert.Contains(2, byN.Keys);
-        Assert.Contains(3, byN.Keys);
+        Assert.True(byN.Contains(0));
+        Assert.True(byN.Contains(2));
+        Assert.True(byN.Contains(3));
 
-        Assert.Equal(typeof(QubitDimensionalAnchorClaim), byN[0].ClaimType);
-        Assert.Equal(2.0, byN[0].Value, precision: 12);
+        var n0 = byN[0].ToList();
+        Assert.Equal(2, n0.Count);
+        Assert.Contains(n0, a => a.ClaimType == typeof(QubitDimensionalAnchorClaim));
+        Assert.Contains(n0, a => a.ClaimType == typeof(AbsorptionTheoremClaim));
+        Assert.All(n0, a => Assert.Equal(2.0, a.Value, precision: 12));
 
-        Assert.Equal(typeof(HalfAsStructuralFixedPointClaim), byN[2].ClaimType);
-        Assert.Equal(0.5, byN[2].Value, precision: 12);
+        var n2 = byN[2].Single();
+        Assert.Equal(typeof(HalfAsStructuralFixedPointClaim), n2.ClaimType);
+        Assert.Equal(0.5, n2.Value, precision: 12);
 
-        Assert.Equal(typeof(QuarterAsBilinearMaxvalClaim), byN[3].ClaimType);
-        Assert.Equal(0.25, byN[3].Value, precision: 12);
+        var n3 = byN[3].Single();
+        Assert.Equal(typeof(QuarterAsBilinearMaxvalClaim), n3.ClaimType);
+        Assert.Equal(0.25, n3.Value, precision: 12);
+    }
+
+    [Fact]
+    public void AnchorsAt_N0_ReturnsBothQubitDimAndAbsorption()
+    {
+        // The plural lookup returns all anchors at an index. At n=0, both readings of a₀=2
+        // (qubit-dimension and absorption-quantum-coefficient) are present.
+        var ladder = new Pi2DyadicLadderClaim();
+        var anchorsAtZero = ladder.AnchorsAt(0).ToList();
+        Assert.Equal(2, anchorsAtZero.Count);
+        Assert.Contains(anchorsAtZero, a => a.ClaimType == typeof(QubitDimensionalAnchorClaim));
+        Assert.Contains(anchorsAtZero, a => a.ClaimType == typeof(AbsorptionTheoremClaim));
+        Assert.All(anchorsAtZero, a => Assert.Equal(2.0, a.Value, precision: 12));
+    }
+
+    [Fact]
+    public void AnchorsAt_OtherIndices_ReturnSingleAnchor()
+    {
+        var ladder = new Pi2DyadicLadderClaim();
+        Assert.Single(ladder.AnchorsAt(2));
+        Assert.Single(ladder.AnchorsAt(3));
+        Assert.Empty(ladder.AnchorsAt(1));
+        Assert.Empty(ladder.AnchorsAt(4));
     }
 
     [Fact]

@@ -26,10 +26,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>memory/feedback_d2_operator_space.md</c> for the project's d² operator-space
 /// reading.</para>
 ///
-/// <para>This is not a speculative pattern; the first three non-trivial entries
-/// (n = 0, 2, 3) are already typed Tier1Derived Claims. The ladder makes the inheritance
-/// explicit: 1/4 is the square of 1/2 is the inverse of d. There is no alien hiding here;
-/// the structure is forced at the base by d=2 and inherits algebraically.</para>
+/// <para>This is not a speculative pattern; the first non-trivial indices (n = 0, 2, 3)
+/// are already typed Tier1Derived Claims. The ladder makes the inheritance explicit:
+/// 1/4 is the square of 1/2 is the inverse of d. There is no alien hiding here; the
+/// structure is forced at the base by d=2 and inherits algebraically.</para>
+///
+/// <para><b>n=0 carries two co-existing structural readings (2026-05-12):</b> the value
+/// a₀ = 2 is BOTH the qubit operator-space dimension d=2 (from d²−2d=0; per
+/// <see cref="QubitDimensionalAnchorClaim"/>) AND the absorption quantum coefficient 2 in
+/// Re(λ) = −2γ·⟨n_XY⟩ (the Liouvillian eigenvalue grid step under uniform Z-dephasing;
+/// per <see cref="AbsorptionTheoremClaim"/>). Same number, two roles: the qubit's
+/// algebraic dimension and the dynamics' rate-quantum coefficient. The ladder makes the
+/// doppelte Rolle visible: a₀ is the linchpin between Hilbert-space algebra (where it
+/// counts basis dimensions) and Liouville-space dynamics (where it scales the carrier
+/// γ₀ into the absorption quantum 2γ₀ per <see cref="UniversalCarrierClaim"/>). Both
+/// readings sit at the same ladder index; neither dominates.</para>
 ///
 /// <para>Tier: Tier1Derived. The closed form a_n = 2^(1−n) is trivial; the lineage from
 /// the existing Pi2 foundation Claims is documented per known anchor entry. The open
@@ -43,13 +54,20 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class Pi2DyadicLadderClaim : Claim
 {
     /// <summary>Pinned table of indices where the ladder term has a typed Tier1Derived
-    /// Claim in the Pi2 foundation.</summary>
+    /// Claim in the Pi2 foundation. Multiple entries per index are allowed when the same
+    /// ladder term carries multiple co-existing structural roles (currently: n=0 has two,
+    /// the qubit-dimension reading and the absorption-quantum-coefficient reading; same
+    /// value 2.0, two co-existing meanings, both Tier 1 derived).</summary>
     public IReadOnlyList<DyadicAnchor> KnownAnchors { get; } = new[]
     {
         new DyadicAnchor(N: 0, Value: 2.0,
             ClaimType: typeof(QubitDimensionalAnchorClaim),
             ClaimName: "QubitDimensionalAnchorClaim",
-            Role: "root: d=2 from d²−2d=0"),
+            Role: "root: d=2 from d²−2d=0 (operator-space dimension of one qubit)"),
+        new DyadicAnchor(N: 0, Value: 2.0,
+            ClaimType: typeof(AbsorptionTheoremClaim),
+            ClaimName: "AbsorptionTheoremClaim",
+            Role: "absorption quantum coefficient: 2γ in Re(λ) = −2γ·⟨n_XY⟩ (Liouvillian eigenvalue grid step under uniform Z-dephasing)"),
         new DyadicAnchor(N: 2, Value: 0.5,
             ClaimType: typeof(HalfAsStructuralFixedPointClaim),
             ClaimName: "HalfAsStructuralFixedPointClaim",
@@ -102,8 +120,18 @@ public sealed class Pi2DyadicLadderClaim : Claim
     /// <summary>True iff index <paramref name="n"/> appears in <see cref="KnownAnchors"/>.</summary>
     public bool IsKnownAnchorIndex(int n) => KnownAnchors.Any(a => a.N == n);
 
-    /// <summary>The typed anchor at index <paramref name="n"/> if one exists, else null.</summary>
+    /// <summary>The first typed anchor at index <paramref name="n"/> if any exists, else
+    /// null. When the index carries multiple roles (e.g. n=0 has both QubitDimensional
+    /// and AbsorptionQuantum readings), this returns the first listed; use
+    /// <see cref="AnchorsAt"/> to get all roles.</summary>
     public DyadicAnchor? AnchorAt(int n) => KnownAnchors.FirstOrDefault(a => a.N == n);
+
+    /// <summary>All typed anchors at index <paramref name="n"/> (plural). At n=0 returns
+    /// both QubitDimensionalAnchorClaim (d=2 = operator-space dim) and
+    /// AbsorptionTheoremClaim (a₀=2 = absorption quantum coefficient); at n=2 and n=3
+    /// currently returns one each. Returns empty enumerable when n has no typed anchor.
+    /// </summary>
+    public IEnumerable<DyadicAnchor> AnchorsAt(int n) => KnownAnchors.Where(a => a.N == n);
 
     /// <summary>The operator-space dimension <c>d² = 4^N</c> for an N-qubit system lands
     /// on the upper (negative-n) side of the ladder at index <c>−(2N − 1)</c>:
@@ -115,7 +143,7 @@ public sealed class Pi2DyadicLadderClaim : Claim
         $"Pi2 dyadic halving ladder (a_n = 2^(1−n); {KnownAnchors.Count} known anchors)";
 
     public override string Summary =>
-        $"a_n = 2^(1−n) bidirectional, inversion-symmetric a_n · a_{{2−n}} = 1; {KnownAnchors.Count} typed anchors at n ∈ {{0, 2, 3}}; n=1 self-mirror pivot, n≥4 memory side, n≤−1 operator-space side d²=4^N at n=−(2N−1) ({Tier.Label()})";
+        $"a_n = 2^(1−n) bidirectional, inversion-symmetric a_n · a_{{2−n}} = 1; {KnownAnchors.Count} typed anchors at 3 distinct indices n ∈ {{0, 2, 3}} (n=0 carries TWO co-existing roles: qubit-dimension d=2 AND absorption-quantum coefficient 2γ); n=1 self-mirror pivot, n≥4 memory side, n≤−1 operator-space side d²=4^N at n=−(2N−1) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
