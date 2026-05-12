@@ -7,33 +7,21 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// <summary>F92BondAntiPalindromicJSpectralInvariance (Tier 1 derived; 2026-05-12):
 ///
 /// <para>For chain XY + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous
-/// bond couplings J_b (b ∈ {0..N-2}), the eigenvalue multiset is invariant under any
-/// J-distribution satisfying J_b + J_{N-2-b} = 2·J_avg = (2/(N-1))·Σ_b J_b for all b
-/// (i.e. J is F71-anti-palindromic around its mean). The full L itself generally changes
-/// (F71 broken as L-symmetry, off-block-Frobenius nonzero), but the diagonal-block
-/// eigenvalues coincide. Bond-coupling parameter-side twin of F91
-/// (which is the γ-side); same Pi2-Z₄ structure, applied to J_b instead of γ_l.</para>
+/// bond couplings J_b (b ∈ {0..N-2}), the F71-refined diagonal-block eigenvalue multiset
+/// is invariant under any J-distribution satisfying J_b + J_{N-2-b} = 2·J_avg (i.e. J is
+/// F71-anti-palindromic around its mean). The full L generally changes (F71 broken as
+/// L-symmetry, off-block-Frobenius nonzero), but diagonal-block eigenvalues coincide;
+/// the breaking lives in eigenvectors only.</para>
 ///
-/// <para>Pi2-Z₄ structure (parameter-side, J-axis):</para>
-/// <list type="bullet">
-///   <item>e: J_b ↦ J_b; unchanged</item>
-///   <item>i² (180°, F71-palindromic): J_b ↦ J_{N-2-b}; F71 holds as L-symmetry</item>
-///   <item>i (90°, F71-anti-palindromic): J_b ↦ 2·J_avg − J_{N-2-b}; F71 broken but diagonal-block spectrum invariant</item>
-///   <item>i³ (270°): composition</item>
-/// </list>
+/// <para>Pi2-Z₄ structure on the J-axis: identical to F91 (γ-axis) and F93 (h-axis).
+/// Diagonal blocks depend on J only through F71-pair-sums T_b = J_b + J_{N-2-b};
+/// cross blocks on pair-differences. See <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c>
+/// for the full Z₄ table and algebraic derivation.</para>
 ///
-/// <para>Algebraic mechanism (parallel to PROOF_F91 Algebraic proof): diagonal-block
-/// matrix elements of L in the F71-refined basis depend on J only through F71-pair-sums
-/// T_b := J_b + J_{N-2-b}; cross-block entries depend on pair-differences B_b := J_b − J_{N-2-b}.
-/// 90°-rotation J ↦ 2·J_avg − F71(J) preserves the anti-palindromic class T_b = 2·J_avg ∀b.
-/// Strictly weaker than F71 J-symmetry (which requires J_b = J_{N-2-b}); strictly stronger
-/// than Σ_b J_b alone.</para>
-///
-/// <para>Verified bit-exact at N=4, 5 via uniform-J vs anti-palindromic-J chain XY +
-/// uniform Z-deph Liouvillians. Algebraic proof in <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c>.</para>
-///
-/// <para>Sister claims: F71AntiPalindromicGammaSpectralInvariance (γ-axis, F91); F93 (h-detuning axis).
-/// All three share the same Pi2-Z₄ structure on different parameter axes.</para></summary>
+/// <para>Algebraic proof + empirical witness (bit-exact at N=4, 5):
+/// <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c>.</para></summary>
+/// <seealso cref="BlockSpectrum.F71AntiPalindromicGammaSpectralInvariance"/>
+/// <seealso cref="F93DetuningAntiPalindromicSpectralInvariance"/>
 public sealed class F92BondAntiPalindromicJSpectralInvariance : Claim
 {
     private readonly BlockSpectrum.JointPopcountSectors _sectors;

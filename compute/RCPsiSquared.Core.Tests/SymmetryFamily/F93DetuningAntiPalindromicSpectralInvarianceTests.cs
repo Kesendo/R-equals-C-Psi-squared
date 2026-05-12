@@ -54,12 +54,12 @@ public sealed class F93DetuningAntiPalindromicSpectralInvarianceTests
 
         // Reference: uniform h
         var Hunif = BuildXYChainPlusZDetuning(N, J, Enumerable.Repeat(havg, N).ToArray());
-        var spectrumUnif = SpectrumF71RefinedDiagonal(Hunif, gammaPerSite, N);
+        var spectrumUnif = F71MirrorBlockRefinement.ComputeSpectrumPerBlock(Hunif, gammaPerSite, N);
 
         // Anti-palindromic h: h_l + h_{N-1-l} = 2·havg ∀l
         var hAnti = BuildAntiPalindromicH(N, havg);
         var Hanti = BuildXYChainPlusZDetuning(N, J, hAnti);
-        var spectrumAnti = SpectrumF71RefinedDiagonal(Hanti, gammaPerSite, N);
+        var spectrumAnti = F71MirrorBlockRefinement.ComputeSpectrumPerBlock(Hanti, gammaPerSite, N);
 
         Assert.Equal(spectrumUnif.Length, spectrumAnti.Length);
         AssertMultisetEqual(spectrumUnif, spectrumAnti, tolerance: 1e-9);
@@ -91,16 +91,6 @@ public sealed class F93DetuningAntiPalindromicSpectralInvarianceTests
                 allTerms.Add(PauliTerm.SingleSite(N, l, PauliLetter.Z, hPerSite[l]));
         }
         return new PauliHamiltonian(N, allTerms).ToMatrix();
-    }
-
-    private static Complex[] SpectrumF71RefinedDiagonal(ComplexMatrix H, double[] gammaPerSite, int N)
-    {
-        // Use F71MirrorBlockRefinement.ComputeSpectrumPerBlock (diagonal-block-only),
-        // matching F92's test pattern (commit 93afad3). Full L spectrum differs across
-        // anti-palindromic profiles; the invariance lives on the diagonal-block layer.
-        var sectors = new JointPopcountSectors();
-        var f71 = new F71MirrorBlockRefinement(sectors);
-        return F71MirrorBlockRefinement.ComputeSpectrumPerBlock(H, gammaPerSite, N);
     }
 
     private static void AssertMultisetEqual(IList<Complex> a, IList<Complex> b, double tolerance)

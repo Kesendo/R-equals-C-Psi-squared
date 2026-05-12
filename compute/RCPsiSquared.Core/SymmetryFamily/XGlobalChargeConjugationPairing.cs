@@ -28,7 +28,8 @@ public sealed class XGlobalChargeConjugationPairing : Claim
     public static (int PairCol, int PairRow) PairSector(int N, int pCol, int pRow)
     {
         if (N < 0 || pCol < 0 || pCol > N || pRow < 0 || pRow > N)
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException(
+                $"N={N}, pCol={pCol}, pRow={pRow}: require 0 ≤ pCol, pRow ≤ N");
         return (N - pCol, N - pRow);
     }
 

@@ -20,12 +20,10 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// <para>Pi2-Z₄ structure (parameter-side, h-axis): identical to F91 (γ) and F92 (J).
 /// h-side detuning twin in the family.</para>
 ///
-/// <para>Verified bit-exact at N=4, 5 via uniform-h vs anti-palindromic-h chain XY +
-/// Z-detuning + uniform Z-deph Liouvillians. Algebraic proof in
-/// <c>docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md</c>.</para>
-///
-/// <para>Sister claims: F71AntiPalindromicGammaSpectralInvariance (γ-axis, F91),
-/// F92BondAntiPalindromicJSpectralInvariance (J-axis).</para></summary>
+/// <para>Algebraic proof + empirical witness (bit-exact at N=4, 5):
+/// <c>docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md</c>.</para></summary>
+/// <seealso cref="BlockSpectrum.F71AntiPalindromicGammaSpectralInvariance"/>
+/// <seealso cref="F92BondAntiPalindromicJSpectralInvariance"/>
 public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
 {
     private readonly BlockSpectrum.JointPopcountSectors _sectors;
