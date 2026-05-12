@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RCPsiSquared.Core\RCPsiSquared.Core.csproj" />
+    <!-- Phase A cross-validation: BlockSpectrum spectrum vs RCPsiSquared.Compute ground-truth pipeline -->
+    <ProjectReference Include="..\RCPsiSquared.Compute\RCPsiSquared.Compute.csproj" />
   </ItemGroup>
 
   <ItemGroup>
