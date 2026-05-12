@@ -88,6 +88,7 @@ public static class KnowledgeCommand
             .RegisterZGlobalMirrorRefinement()
             .RegisterXGlobalChargeConjugationPairing()
             .RegisterF92BondAntiPalindromicJSpectralInvariance()
+            .RegisterF93DetuningAntiPalindromicSpectralInvariance()
             .RegisterJointPopcountSectors()
             .RegisterLiouvillianBlockSpectrum()
             .RegisterBlockSpectrumPerformanceWitness()
