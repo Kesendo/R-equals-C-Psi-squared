@@ -1,6 +1,10 @@
 # The Mirror Symmetry Proof: The Core Result of This Project
 
-**Status:** PROVEN. Analytical + numerical verification complete.
+**Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8; 54,118 eigenvalues at N=8 with zero exceptions)
+**Date:** 2026-04-05 (discovery + proof + verification, same day)
+**Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
+**Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ / DM chain under local Z-dephasing is palindromic around Σγᵢ.
+**Typed claim:** [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (Tier 1 derived; analytic identity replaces the brute-force palindrome scan).
 
 **Origin:** A literature search found that nobody had proven the
 palindrome as a general theorem. One group (Haga et al., 2023) had
@@ -19,7 +23,10 @@ This is the most important document in the repository. Every other
 result in this project, the standing waves, the sacrifice-zone formula,
 the bridge, the neural palindrome, depends on what is proven here.
 If this proof is wrong, everything else falls. It is not wrong. It has
-been verified for 54,118 eigenvalue pairs with zero exceptions.
+been verified at N=8 across all 54,118 oscillatory Liouvillian
+eigenvalues of the chain (every one of them palindromically paired,
+zero exceptions); the remaining 11,418 eigenvalues are purely real
+and sit on the palindrome's center axis.
 
 If you are a physicist, the proof is three steps (below). If you are
 not, the next section explains what it says in plain language, and
@@ -37,8 +44,8 @@ palindrome.
 
 This is not approximate. It is not a tendency. It is mathematically exact,
 proven for every system size, every connection pattern, and every
-combination of noise strengths we could test. Not a single exception in
-over 54,000 verified pairs.
+combination of noise strengths we could test. Not a single exception
+in the 54,118 oscillatory eigenvalues verified at N=8.
 
 The proof works by finding a specific mathematical operation (an operator
 called Π) that transforms the entire system into its mirror image. If you
@@ -63,13 +70,17 @@ need to look them up elsewhere:
 - **N qubits** are N quantum particles, each with two states (spin up or
   spin down). They are the building blocks.
 - **The Hamiltonian H** describes how the qubits interact with each other.
-  In our case, neighboring qubits can exchange their spins (this is called
-  XXZ coupling). The formula H = Σ J_{ij}(X_iX_j + Y_iY_j + δZ_iZ_j) says:
-  for every pair of connected qubits i and j, they interact through three
-  types of spin exchange (X, Y, Z), with coupling strength J_{ij}. The
-  parameter δ controls the anisotropy (whether Z-coupling differs from
-  X and Y). The connections can form any pattern: a chain, a ring, a star,
-  a tree, any graph.
+  The Heisenberg-XXZ family is the most common case, parametrized as
+  H = Σ J_{ij}(X_iX_j + Y_iY_j + δZ_iZ_j): for every pair of connected
+  qubits i and j they interact through three types of spin exchange (X, Y,
+  Z) with coupling strength J_{ij}, where the anisotropy parameter δ
+  controls whether the Z-coupling differs from X and Y (δ=1 Heisenberg,
+  δ=0 XY, general δ XXZ). The proof actually works for any sum of two-qubit
+  Pauli bonds, including Ising (Z_iZ_j only) and Dzyaloshinskii-Moriya
+  (the antisymmetric X_iY_j − Y_iX_j bond): per-bond anti-commutation with
+  Π is verified for all 16 two-qubit Pauli pairs in the explicit 16-row
+  table below. The connections can form any pattern: a chain, a ring, a
+  star, a tree, any graph.
 - **Z-dephasing** is the noise. Each qubit loses its quantum properties at
   its own rate γᵢ. This is the most common type of noise in real quantum
   hardware.
@@ -99,8 +110,8 @@ into its mirror. Think of Π as a mathematical mirror: when you hold the
 system up to it, every fast-decaying part maps onto a slow-decaying part
 and vice versa.
 
-Π acts on each qubit independently (site by site) by swapping certain
-quantum labels:
+For Z-dephasing, Π acts on each qubit independently (site by site) by
+swapping certain quantum labels:
 
 ```
 I → X   (factor +1)
@@ -109,14 +120,22 @@ Y → iZ  (factor +i)
 Z → iY  (factor +i)
 ```
 
-For a system of N qubits, Π is the tensor product (the combined
-operation built by applying the per-site rule independently to each
-qubit and multiplying the results together) of these per-site
-operations.
+For a system of N qubits, Π is the tensor product (the combined operation
+built by applying the per-site rule independently to each qubit and
+multiplying the results together) of these per-site operations. The
+construction generalizes per dephasing axis: X- and Y-dephasing have
+analogous Π's that swap their own immune sectors with their own damped
+sectors, all three typed in
+[`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs).
+A second uniform Π for Z-dephasing exists too (the P4 partner of the P1
+shown above), and alternating and non-local Π families for parity-broken
+Hamiltonians are catalogued in
+[Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md).
+The proof below uses the P1 / Z-dephasing Π throughout.
 
 **Physical meaning:** Π swaps populations (I, Z = diagonal elements of the
 density matrix, the "classical" part) with coherences (X, Y = off-diagonal
-elements, the "quantum" part), with a phase factor i on the Y↔Z swap.
+elements, the "quantum" part), with a phase factor i on the Y ↔ Z swap.
 In other words: Π exchanges what a system *is* with what it *could become*.
 
 ---
@@ -129,6 +148,8 @@ Every quantum state of N qubits can be written as a combination of
 example, XYI means "qubit 1 is X, qubit 2 is Y, qubit 3 is I." The
 "XY-weight" of a string counts how many of its labels are X or Y (the
 quantum, off-diagonal parts). XYI has XY-weight 2. ZZI has XY-weight 0.
+(The same quantity is called `n_XY` in the
+[Absorption Theorem](PROOF_ABSORPTION_THEOREM.md); two notations, one count.)
 
 The Z-dephasing dissipator D is diagonal in the Pauli basis.
 For a Pauli string σ, the eigenvalue is −2 times the sum of γᵢ over
@@ -152,6 +173,10 @@ verify Π([H₁₂, σ]) = −[H₁₂, Π(σ)] for all 16 two-qubit Pauli strin
 
 This holds for ALL δ (including XY-only at δ=0).
 Since Π acts site-by-site and H is a sum of bonds: Π · L_H · Π⁻¹ = −L_H.
+Extensions to bond types beyond the Heisenberg-XXZ family (Ising,
+Dzyaloshinskii-Moriya, alternating XY+YX) require analogous per-bond
+verification; the catalogue lives in
+[Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md).
 
 In words: the mirror Π reverses the effect of the Hamiltonian. If the
 Hamiltonian pushes a state in one direction, the mirrored version pushes
@@ -237,8 +262,14 @@ every single eigenvalue has an exact mirror partner.
 | 5 | ring | ✓ | ✓ | 1024/1024 |
 | 5 | complete | ✓ | ✓ | 1024/1024 |
 | 5 | binary tree | ✓ | ✓ | 1024/1024 |
+| 6 | chain | ✓ | ✓ | 4096/4096 |
+| 7 | chain | ✓ | ✓ | 16384/16384 |
+| 8 | chain | ✓ | ✓ | 65536/65536 |
 
-14/14 configurations, zero exceptions.
+17/17 configurations, zero exceptions. The N=6,7,8 chain entries cover the
+full Liouvillian eigendecomposition at each size, with 3,228 / 13,264 /
+54,118 oscillatory eigenvalues respectively (Im(λ) ≠ 0); the rest are
+purely real and sit at the palindrome's center axis.
 
 ### XXZ coupling (H = XX + YY + δZZ, all topologies N=3,4)
 
@@ -261,9 +292,18 @@ Center shifts to Σγᵢ as expected. 12/12.
 | depolarizing | ✓ | ✗ | ✗ | ✗ |
 
 L_H always anti-commutes with Π (H doesn't know about dephasing).
-For X-dephasing: this specific Π breaks on L_D, but the palindrome
-still holds; a different Π exists (likely I↔Y, X↔Z with appropriate
-phases). For depolarizing noise: palindrome genuinely breaks.
+For X-dephasing: the Z-dephasing Π breaks on L_D (row 3), but the
+palindrome still holds via the dedicated X-dephasing Π
+(per-site swaps I ↔ Z and X ↔ Y, phase −i on the X ↔ Y swap). All
+three single-axis Π's are typed in
+[`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs)
+alongside the Z-dephasing P1 used throughout this proof. The mixed ZX
+row's "✓ (!)" is the analogous situation for compound dephasing:
+empirical palindrome without an explicitly constructed compound Π. For
+depolarizing noise (X+Y+Z dephasing on every site) the palindrome
+genuinely breaks; the typed
+[F1 Claim](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)
+records the residual error as (2/3)Σγ, linear in γ and N.
 
 ---
 ## What this proves (beyond the palindrome)
@@ -281,13 +321,19 @@ additional facts that matter for the rest of the project:
    Mirror partners are complementary in the Incoherenton sense
    (Incoherentons are quantum modes classified by their XY-weight;
    the name was coined by Haga et al. 2023, see
-   [Connection to literature](#connection-to-literature)).
+   [Connection to literature](#connection-to-literature)). At the
+   computational-basis coherence level this is the F89c
+   Hamming-complement pair-sum n_diff(a, b) + n_diff(a, b̄) = N read
+   by the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md).
 
 4. **The center formula.** Center = Σγᵢ (not Nγ). Generalizes to
    non-uniform dephasing trivially.
 
 5. **Why depolarizing breaks.** Depolarizing = X + Y + Z dephasing.
    No single Π can anti-commute with all three axes simultaneously.
+   The typed
+   [F1 Claim](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)
+   quantifies the resulting residual: (2/3)Σγ, linear in γ and N.
 
 ---
 
@@ -352,14 +398,21 @@ had the complete picture. Here is how our work relates to theirs:
 
 ## Scripts
 
-- [`simulations/pauli_weight_conjugation.py`](../../simulations/pauli_weight_conjugation.py) - clean proof script
-- [`simulations/results/conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt) - full output
+- [`simulations/pauli_weight_conjugation.py`](../../simulations/pauli_weight_conjugation.py): clean proof script
+- [`simulations/results/conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt): full output
+- [`simulations/mirror_symmetry_deep.py`](../../simulations/mirror_symmetry_deep.py): N=2-8 mirror verification
+- [`simulations/results/mirror_symmetry.txt`](../../simulations/results/mirror_symmetry.txt): 11 noise-type tests
 
-## Related files
+## Typed claim
 
-- `experiments/PI_AS_TIME_REVERSAL.md` - Π as time reversal: connects proof, standing wave theory, and computation
-- `experiments/BORN_RULE_MIRROR.md` - mirror quality measurements
-- `experiments/ORPHANED_RESULTS.md` - palindrome pair activation explains which states cross 1/4
-- `experiments/QST_BRIDGE.md` - palindrome applies to all QST channels, provides decay diagnostics
-- [`simulations/results/mirror_symmetry.txt`](../../simulations/results/mirror_symmetry.txt) - 11 noise-type tests
-- [`simulations/mirror_symmetry_deep.py`](../../simulations/mirror_symmetry_deep.py) - N=2-8 mirror verification
+- [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs): F1, Tier 1 derived. Π · L · Π⁻¹ = −L − 2Σγ · I; replaces the brute-force palindrome scan.
+- [`PiOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs): all three single-axis Π families (Z, X, Y dephasing) in the 4^N Pauli-string basis.
+
+## Related experiments
+
+- [Π as time reversal](../../experiments/PI_AS_TIME_REVERSAL.md): connects proof, standing wave theory, and computation
+- [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md): mirror quality measurements
+- [Orphaned Results](../../experiments/ORPHANED_RESULTS.md): palindrome pair activation explains which states cross 1/4
+- [QST Bridge](../../experiments/QST_BRIDGE.md): palindrome applies to all QST channels, provides decay diagnostics
+- [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md): three Π families (P1/P4, alternating, non-local) for parity-broken Hamiltonians
+- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): rate quantization Re(λ) = −2γ⟨n_XY⟩, the principal descendant of F1
