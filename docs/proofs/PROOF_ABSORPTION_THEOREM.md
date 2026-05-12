@@ -1,5 +1,14 @@
 # The Absorption Theorem
 
+**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,343 modes, CV=0)
+**Date:** 2026-04-04 (discovery + proof same day)
+**Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
+**Statement:** `Re(λ) = −2γ ⟨n_XY⟩` for any Lindblad eigenmode under uniform Z-dephasing
+**Typed claim:** [`AbsorptionTheoremClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs) (Tier 1 derived)
+**Discovery experiment:** [`ABSORPTION_THEOREM_DISCOVERY.md`](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
+
+---
+
 ## Preface
 
 A guitar string vibrates in modes. Each mode spans the entire string.
