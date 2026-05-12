@@ -2553,5 +2553,19 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 ---
 
+### F93. F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92) (Tier 1 derived, algebraic + bit-exact N=4,5; 2026-05-12)
+
+**For chain XY + per-site Z-detuning + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous longitudinal detuning h_l (Hamiltonian H = (J/2) Σ_b (XX+YY) + Σ_l h_l Z_l), the F71-refined diagonal-block eigenvalue multiset is invariant under any h-distribution satisfying**
+
+    h_l + h_{N−1−l} = 2·h_avg = (2/N)·Σ_l h_l   for all l
+
+**Scope:** longitudinal h_l Z_l only. Transverse h_l X_l / h_l Y_l breaks joint-popcount conservation and is out of scope.
+
+**Pi2-Z₄ structure (parameter-side, h-axis):** identical to F91 (γ-axis) and F92 (J-axis). Same 90°-rotation h ↦ 2·h_avg − F71(h) preserves anti-palindromic orbit. Three-axis family for chain XY+Z-deph+Z-detuning is now complete.
+
+**Anchor:** [`PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`](proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [`F93DetuningAntiPalindromicSpectralInvariance.cs`](../compute/RCPsiSquared.Core/SymmetryFamily/F93DetuningAntiPalindromicSpectralInvariance.cs), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
