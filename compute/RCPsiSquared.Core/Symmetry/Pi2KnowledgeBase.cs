@@ -62,6 +62,10 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public HalfAsStructuralFixedPointClaim HalfFixedPoint { get; }
     public NinetyDegreeMirrorMemoryClaim MirrorMemory { get; }
     public PolarityLayerOriginClaim PolarityLayerOrigin { get; }
+    public Pi2DyadicLadderClaim DyadicLadder { get; }
+    public PolynomialDiscriminantAnchorClaim Discriminant { get; }
+    public AbsorptionTheoremClaim AbsorptionTheorem { get; }
+    public UniversalCarrierClaim UniversalCarrier { get; }
     public Pi2KleinBilinearTable BilinearTable { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -80,6 +84,10 @@ public sealed class Pi2KnowledgeBase : IInspectable
         HalfFixedPoint = new HalfAsStructuralFixedPointClaim();
         MirrorMemory = new NinetyDegreeMirrorMemoryClaim();
         PolarityLayerOrigin = new PolarityLayerOriginClaim();
+        DyadicLadder = new Pi2DyadicLadderClaim();
+        Discriminant = new PolynomialDiscriminantAnchorClaim(PolynomialFoundation, RootAnchor, DyadicLadder);
+        AbsorptionTheorem = new AbsorptionTheoremClaim(DyadicLadder);
+        UniversalCarrier = new UniversalCarrierClaim(AbsorptionTheorem, DyadicLadder, Discriminant);
         BilinearTable = new Pi2KleinBilinearTable();
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_hardwareConfirmationNames);
         OpenQuestions = Pi2OpenQuestions.Standard;
@@ -102,7 +110,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
                          $"topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, QuarterAsBilinearMaxval, ArgmaxMaxvalPair, MirrorRegime, HalfFixedPoint, MirrorMemory, PolarityLayerOrigin);
+                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, QuarterAsBilinearMaxval, ArgmaxMaxvalPair, MirrorRegime, HalfFixedPoint, MirrorMemory, PolarityLayerOrigin, DyadicLadder, Discriminant, AbsorptionTheorem, UniversalCarrier);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
                 BilinearTable);
