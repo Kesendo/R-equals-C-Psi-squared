@@ -2537,5 +2537,21 @@ The diagonal-block spectral content (= decay rates, "time information") is prese
 
 ---
 
+### F92. F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91) (Tier 1 derived, algebraic + bit-exact N=4,5; 2026-05-12)
+
+**For chain XY + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous bond couplings J_b (b ∈ \{0..N−2\}), the F71-refined diagonal-block eigenvalue multiset is invariant under any J-distribution satisfying**
+
+    J_b + J_{N−2−b} = 2·J_avg = (2/(N−1))·Σ_b J_b   for all b
+
+i.e. **J is F71-anti-palindromic around its mean**. The full L operator generally changes (F71 broken as L-symmetry), but diagonal-block eigenvalues coincide; the breaking lives in eigenvectors only.
+
+**Sharpness:** strictly weaker than F71-as-J-symmetry (J_b = J_{N−2−b}); strictly stronger than uniform-Σ J alone.
+
+**Pi2-Z₄ structure (parameter-side, J-axis):** identical to F91's γ-axis structure. The 90°-rotation J ↦ 2·J_avg − F71(J) preserves the anti-palindromic orbit T_b = 2·J_avg ∀b. Operator-side Z₄ is `NinetyDegreeMirrorMemoryClaim`; γ-side is F91; J-side is F92; h-side is F93.
+
+**Anchor:** [`PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`](proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [`F92BondAntiPalindromicJSpectralInvariance.cs`](../compute/RCPsiSquared.Core/SymmetryFamily/F92BondAntiPalindromicJSpectralInvariance.cs), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
