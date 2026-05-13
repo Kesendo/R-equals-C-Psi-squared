@@ -97,6 +97,13 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <see cref="PerF71OrbitKTable.Build"/> runs only once and only on read.</summary>
     public PerF71OrbitKTable? OrbitKTable => _orbitKTable.Value;
 
+    /// <summary>F89 per-Bloch-mode σ_n extraction via R†·S·R diagonal at the c=2 stratum
+    /// (Tier 2 verified). Bit-exact match against
+    /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..6 (boundary case
+    /// nBlock = N = k+1, no bare site); provides path-7 data at c=2 N=9 (no
+    /// analytical oracle). <c>null</c> for c ≠ 2 blocks.</summary>
+    public C2FullBlockSigmaAnatomy? FullBlockSigmaAnatomy { get; }
+
     private readonly Lazy<PerF71OrbitKTable?> _orbitKTable;
 
     /// <summary>Block-independent meta-claim (Tier2Verified): the IBM 2026-04-26
@@ -213,6 +220,12 @@ public sealed class F86KnowledgeBase : IInspectable
         _orbitKTable = new Lazy<PerF71OrbitKTable?>(() =>
             block.C == 2 ? PerF71OrbitKTable.Build(block, WitnessCache) : null);
 
+        // F89 per-Bloch-mode sigma anatomy (Tier2Verified): extracts σ_n via R†·S·R diagonal
+        // for all F_a modes of the c=2 uniform-J block-L. Bit-exact vs F89UnifiedFaClosedFormClaim
+        // for path-3..6; lifts to path-7 (c=2 N=9) where no analytical oracle exists.
+        // Only meaningful at c=2 (throws otherwise); null for all other c.
+        FullBlockSigmaAnatomy = block.C == 2 ? C2FullBlockSigmaAnatomy.Build(block) : null;
+
         // Block-independent Tier-2-Verified table: IBM 2026-04-26 framework_snapshots
         // through Theorem 2's C_block lens. Static-data Claim, no compute cost; lazy
         // construction only on first read.
@@ -318,6 +331,7 @@ public sealed class F86KnowledgeBase : IInspectable
     private IEnumerable<IInspectable> CollectTier2Empirical()
     {
         if (OrbitKTable is not null) yield return OrbitKTable;
+        if (FullBlockSigmaAnatomy is not null) yield return FullBlockSigmaAnatomy;
 
         yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",
             PerBlockQPeaks.Cast<IInspectable>().ToArray());
