@@ -15,7 +15,6 @@ Output: symbolic + numeric total_F_a per path; compare against Phase 1 empirical
 g_eff per sub-class.
 """
 import sympy as sp
-import numpy as np
 
 PATH_POLY_TABLE = {
     3: ([47, 14], 9),       # 14y + 47
@@ -26,11 +25,12 @@ PATH_POLY_TABLE = {
 
 # Phase 1 anchors for cross-check
 PHASE1_GEFF_MEAN = {
-    # by_path_via_N: path-3 = N=5, path-4 = N=6, etc.
-    3: 1.4080,  # N=5 average across all 4 bonds: mean Q_peak = 1.95, g_eff = 4.39382/(1.95+2) = 1.112; rough
-    4: 1.2630,  # N=6 average
-    5: 1.0716,  # N=7 (excluding escape bonds)
-    6: 1.0489,  # N=8 (excluding escape bonds)
+    # Mean per-bond g_eff at N from Phase 1 output (non-escape bonds only).
+    # Source: simulations/_f86_hwhm_subclass_stratification.py output, 2026-05-13.
+    3: 1.1270,  # N=5: all 4 bonds (no escape sub-class at N=5)
+    4: 1.1258,  # N=6: all 5 bonds (no escape sub-class at N=6)
+    5: 1.1056,  # N=7: 4 non-escape bonds (skip Orbit2Escape at b=1, b=4)
+    6: 1.1109,  # N=8: 4 non-escape bonds (skip Orbit2Escape at b=1, b=5; CentralEscapeOrbit3 at b=3)
 }
 
 
