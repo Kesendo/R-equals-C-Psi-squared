@@ -9,13 +9,18 @@ public static class F86OpenQuestions
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
         new OpenQuestion(
-            "Item 1' (c=2): closed-form HWHM_left/Q_peak constant",
-            "Empirical anchor reproduced within tolerance 0.005 (typical residual ≤ 0.001) " +
-            "(C2HwhmRatio Tier1Candidate, c=2 N=5..8). " +
+            "Item 1' (c=2): closed-form HWHM_left/Q_peak constant [CLOSED 2026-05-13]",
+            "[2026-05-13 CLOSED: closed form derived per `F86HwhmClosedFormClaim` (Tier 1 derived); " +
+            "HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass over the six-element " +
+            "`BondSubClass` enum; residual ≤ 0.005 verified across N=5..8 on all 22 bonds incl. " +
+            "Orbit-2 and Orbit-3 escapes. Plan: " +
+            "`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`.] " +
+            "Historical narrative (pre-closure): Empirical anchor reproduced within tolerance 0.005 " +
+            "(typical residual ≤ 0.001) (C2HwhmRatio Tier1Candidate, c=2 N=5..8). " +
             "Directional Endpoint > Interior split derived empirically (gap ≈ 0.022). " +
             "Closed-form constant for HWHM_left/Q_peak ratios per bond class NOT pinned this " +
             "session. Three next directions ranked: (a) first-order perturbation in cross-block " +
-            "(most promising — leverages B2's Endpoint < Interior cross-block Frobenius split, " +
+            "(most promising, leverages B2's Endpoint < Interior cross-block Frobenius split, " +
             "ε ~ ‖V_b cross‖_F/σ_0 ~ O(0.1)); (b) projector-overlap lift of A3's |u_0⟩, |v_0⟩; " +
             "(c) symbolic char-poly factorisation at Q_EP. " +
             "[2026-05-11 update: numerical Tier-1 achieved via F90 bridge identity " +
