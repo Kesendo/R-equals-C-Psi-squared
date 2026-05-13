@@ -101,8 +101,11 @@ public sealed class F86KnowledgeBase : IInspectable
     /// (Tier 2 verified). Bit-exact match against
     /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..6 (boundary case
     /// nBlock = N = k+1, no bare site); provides path-7 data at c=2 N=9 (no
-    /// analytical oracle). <c>null</c> for c ≠ 2 blocks.</summary>
-    public C2FullBlockSigmaAnatomy? FullBlockSigmaAnatomy { get; }
+    /// analytical oracle). Non-null iff <c>Block.C == 2</c>. Lazily built on first access,
+    /// the full-block eigendecomposition runs only once and only on read.</summary>
+    public C2FullBlockSigmaAnatomy? FullBlockSigmaAnatomy => _fullBlockSigmaAnatomy.Value;
+
+    private readonly Lazy<C2FullBlockSigmaAnatomy?> _fullBlockSigmaAnatomy;
 
     private readonly Lazy<PerF71OrbitKTable?> _orbitKTable;
 
@@ -224,7 +227,8 @@ public sealed class F86KnowledgeBase : IInspectable
         // for all F_a modes of the c=2 uniform-J block-L. Bit-exact vs F89UnifiedFaClosedFormClaim
         // for path-3..6; lifts to path-7 (c=2 N=9) where no analytical oracle exists.
         // Only meaningful at c=2 (throws otherwise); null for all other c.
-        FullBlockSigmaAnatomy = block.C == 2 ? C2FullBlockSigmaAnatomy.Build(block) : null;
+        _fullBlockSigmaAnatomy = new Lazy<C2FullBlockSigmaAnatomy?>(() =>
+            block.C == 2 ? C2FullBlockSigmaAnatomy.Build(block) : null);
 
         // Block-independent Tier-2-Verified table: IBM 2026-04-26 framework_snapshots
         // through Theorem 2's C_block lens. Static-data Claim, no compute cost; lazy

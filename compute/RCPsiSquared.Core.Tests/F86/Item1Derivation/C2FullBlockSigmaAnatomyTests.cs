@@ -51,10 +51,12 @@ public class C2FullBlockSigmaAnatomyTests
     }
 
     [Theory]
-    [InlineData(5, 2)]   // c=2 N=5: path-4 → F_a count = floor(5/2) = 2
-    [InlineData(6, 3)]   // c=2 N=6: path-5 → F_a count = floor(6/2) = 3
-    [InlineData(7, 3)]   // c=2 N=7: path-6 → F_a count = floor(7/2) = 3
-    [InlineData(8, 4)]   // c=2 N=8: path-7 → F_a count = floor(8/2) = 4
+    [InlineData(4, 2)]    // c=2 N=4: path-3, smallest case, no bare site
+    [InlineData(5, 2)]    // c=2 N=5: path-4 → F_a count = floor(5/2) = 2
+    [InlineData(6, 3)]    // c=2 N=6: path-5 → F_a count = floor(6/2) = 3
+    [InlineData(7, 3)]    // c=2 N=7: path-6 → F_a count = floor(7/2) = 3
+    [InlineData(8, 4)]    // c=2 N=8: path-7 → F_a count = floor(8/2) = 4
+    [InlineData(10, 5)]   // c=2 N=10: path-9, beyond F89 closed-form table; stress check
     public void FaModes_Count_MatchesFaCount(int n, int expectedFaCount)
     {
         var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(n));
