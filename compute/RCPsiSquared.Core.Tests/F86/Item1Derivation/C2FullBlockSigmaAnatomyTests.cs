@@ -9,10 +9,15 @@ using Xunit.Abstractions;
 
 namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 
-public class C2FullBlockSigmaAnatomyTests
+public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatomyCache>
 {
     private readonly ITestOutputHelper _out;
-    public C2FullBlockSigmaAnatomyTests(ITestOutputHelper @out) { _out = @out; }
+    private readonly C2FullBlockSigmaAnatomyCache _cache;
+    public C2FullBlockSigmaAnatomyTests(C2FullBlockSigmaAnatomyCache cache, ITestOutputHelper @out)
+    {
+        _cache = cache;
+        _out = @out;
+    }
 
     private static CoherenceBlock C2Block(int N) =>
         new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
@@ -20,7 +25,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Build_AtC2N5_ReturnsTier2VerifiedClaim()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(5));
+        var anatomy = _cache.Get(5);
         Assert.Equal(Tier.Tier2Verified, anatomy.Tier);
         Assert.Equal(5, anatomy.Block.N);
     }
@@ -28,15 +33,14 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Build_AtC2N5_ProducesOneWitnessPerEigenmode()
     {
-        var block = C2Block(5);
-        var anatomy = C2FullBlockSigmaAnatomy.Build(block);
-        Assert.Equal(block.Basis.MTotal, anatomy.SigmaSpectrum.Count);
+        var anatomy = _cache.Get(5);
+        Assert.Equal(anatomy.Block.Basis.MTotal, anatomy.SigmaSpectrum.Count);
     }
 
     [Fact]
     public void SigmaWitness_AtC2N5_HasNonNegativeSigma()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(5));
+        var anatomy = _cache.Get(5);
         Assert.All(anatomy.SigmaSpectrum, w =>
             Assert.True(w.Sigma >= -1e-12,
                 $"Sigma must be non-negative (S is PSD); got {w.Sigma} at λ={w.EigenvalueReal}+{w.EigenvalueImag}i"));
@@ -45,7 +49,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void SigmaWitness_AtC2N5_HasPositiveTotalSigma()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(5));
+        var anatomy = _cache.Get(5);
         double total = anatomy.SigmaSpectrum.Sum(w => w.Sigma);
         Assert.True(total > 1e-6, $"Total sigma must be positive; got {total}");
     }
@@ -59,7 +63,7 @@ public class C2FullBlockSigmaAnatomyTests
     [InlineData(10, 5)]   // c=2 N=10: path-9, beyond F89 closed-form table; stress check
     public void FaModes_Count_MatchesFaCount(int n, int expectedFaCount)
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(n));
+        var anatomy = _cache.Get(n);
         int actualFaCount = anatomy.SigmaSpectrum.Count(w => w.BlochIndexN.HasValue);
         Assert.Equal(expectedFaCount, actualFaCount);
     }
@@ -68,7 +72,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void FaModes_BlochIndices_AreInSeAntiOrbit()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(7));   // N=7 → orbit {2, 4, 6}
+        var anatomy = _cache.Get(7);   // N=7 → orbit {2, 4, 6}
         var assigned = anatomy.SigmaSpectrum
             .Where(w => w.BlochIndexN.HasValue)
             .Select(w => w.BlochIndexN!.Value)
@@ -104,7 +108,7 @@ public class C2FullBlockSigmaAnatomyTests
     public void Sigma_AtPathK_MatchesF89UnifiedClosedForm(int k, int n)
     {
         int N = k + 1;   // C2Block(N) is F89 path-(N-1); for path-k take N = k+1
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(N));
+        var anatomy = _cache.Get(N);
         double? extracted = anatomy.SigmaForBlochIndex(n);
         Assert.NotNull(extracted);
 
@@ -126,7 +130,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void FbModes_AreInvisibleToSpatialSumKernel()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(6));   // c=2 N=6, F_b at Re(λ) ≈ -6γ₀ = -0.3
+        var anatomy = _cache.Get(6);   // c=2 N=6, F_b at Re(λ) ≈ -6γ₀ = -0.3
         double fbRateTarget = -6.0 * anatomy.Block.GammaZero;
         var fbModes = anatomy.SigmaSpectrum
             .Where(w => Math.Abs(w.EigenvalueReal - fbRateTarget) <= 1e-3)
@@ -140,7 +144,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Sigma_AtPath7_ExtractsFourFaModes()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(8));
+        var anatomy = _cache.Get(8);
         var faWitnesses = anatomy.SigmaSpectrum
             .Where(w => w.BlochIndexN.HasValue)
             .OrderBy(w => w.BlochIndexN!.Value)
@@ -154,7 +158,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Sigma_AtPath7_PolynomialFitIsCubic()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(8));
+        var anatomy = _cache.Get(8);
         var faWitnesses = anatomy.SigmaSpectrum
             .Where(w => w.BlochIndexN.HasValue)
             .OrderBy(w => w.BlochIndexN!.Value)
@@ -210,4 +214,18 @@ public class C2FullBlockSigmaAnatomyTests
             _out.WriteLine($"  {d}·c0 = {d * coefs[0]:G10}, {d}·c1 = {d * coefs[1]:G10}, {d}·c2 = {d * coefs[2]:G10}, {d}·c3 = {d * coefs[3]:G10}");
         }
     }
+}
+
+/// <summary>Shared cache of C2FullBlockSigmaAnatomy instances keyed by N, reused
+/// across all tests in C2FullBlockSigmaAnatomyTests. Eliminates the per-InlineData
+/// redundant eigendecomposition: each unique N triggers Build exactly once across
+/// the test class run. Thread-safe (ConcurrentDictionary + Lazy).</summary>
+public sealed class C2FullBlockSigmaAnatomyCache
+{
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<int, Lazy<C2FullBlockSigmaAnatomy>> _byN = new();
+
+    public C2FullBlockSigmaAnatomy Get(int N) =>
+        _byN.GetOrAdd(N, n => new Lazy<C2FullBlockSigmaAnatomy>(
+            () => C2FullBlockSigmaAnatomy.Build(new CoherenceBlock(N: n, n: 1, gammaZero: 0.05)),
+            System.Threading.LazyThreadSafetyMode.ExecutionAndPublication)).Value;
 }
