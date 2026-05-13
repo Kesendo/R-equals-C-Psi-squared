@@ -198,6 +198,37 @@ The empirical closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2�
 - **Structurally grounded** for the odd part: the key identity p_n = |S_c(n)|²·‖Mv(n)‖²/2 (numerically verified k=3..6) explains why the denominator has odd part odd(k)² from Bloch normalization. The path-3 case is algebraically exact.
 - **Sketched** for the 2-power terms: the base v2(k) from 2J hopping, the poly-degree term from Vandermonde degree growth, and the deep-2-power bonus at v2(k)≥3 are all empirically supported but lack a complete algebraic derivation.
 - **Angles B and C are negative**: cyclotomic discriminant and Vandermonde det² are both much larger than D_k; the Vandermonde cancellation mechanism (rational-polynomial collapse) is understood.
+- **Tier**: Tier-1-Candidate (empirical + partial proof). Promotion to Tier-1-Derived requires closing the three open derivation gaps below.
+
+---
+
+## Open Questions for Tier-1-Derived Promotion
+
+To upgrade `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` from Tier-1-Candidate to Tier-1-Derived, three structural gaps need full algebraic proof:
+
+### Gap 1: Polynomial-degree term `max(0, ⌊(k-5)/2⌋)`
+
+Emerges from Vandermonde-fit degree growth (orbit size = F_a count grows by 1 every 2 steps in k starting at k=5). The path-3 algebraic case shows the term equals 0 (degree 1 polynomial, no growth contribution); the path-5 case shows it equals 0 (degree 2, threshold not yet exceeded); the path-7 case shows it equals 1 (degree 3, first nonzero contribution). The pattern is structurally tied to Newton's identities on the cyclotomic minimal polynomial of y_n, but no clean derivation maps the additive contribution to v₂(D) for general k.
+
+### Gap 2: k-self 2-adic term `v₂(k)`
+
+The natural 2-adic content of k itself appears as a base contribution. Plausibly from the 2J coupling convention in F89's Hamiltonian (each bond contributes a factor of 2 to the M_h_total matrix entries), so v₂(k) accumulates as 2-adic content scaled by bond count. Needs explicit derivation showing why v₂(k) (not e.g. v₂(k+1) or v₂(F_a count)) is the right invariant.
+
+### Gap 3: Deep-2-power bonus `max(0, v₂(k) − 2)`
+
+The most mysterious term. Verified empirically at three v₂(k)≥3 data points: k=8 (v₂=3, bonus=1), k=16 (v₂=4, bonus=2), k=24 (v₂=3, bonus=1). Likely originates in 2-adic ramification of `Q(2·cos(π/(k+2)))` when k has a deep 2-power factor, but no derivation yet maps the bonus formula to a number-theoretic invariant. The threshold at v₂(k) = 2 is structurally specific and unexplained.
+
+### Candidate Attack Paths
+
+1. **Jordan-Wigner full general-k**: extend the path-3 algebraic derivation `(33+14√5)/9` to general k via OBC sine-mode Bessel coefficients. Most concrete path; significant algebraic work, expected to address all three gaps.
+
+2. **Cyclotomic Galois ring-of-integers**: compute the index `[O_K : Z[2·cos(π/(k+2))]]` for k=3..24 and check whether its 2-adic content matches the deep-2-power bonus pattern. Quick to probe (sympy); ergebnisoffen.
+
+3. **Combinatorial / Chebyshev**: σ_n is a coefficient in a Chebyshev expansion over the orbit; the 2-adic content of Chebyshev coefficients has known structure (related to Eulerian numbers and Bernoulli denominators).
+
+### Verification Stretching
+
+The formula is currently verified at k=3..24 (22 points). Additional stretch data points (k=25..40) would either strengthen the Tier-1-Candidate status or expose a counterexample. Cost per data point: ~30s for k≤24, ~2min for k≤32, ~10min for k≤40 (eigendecomp at block dim 7500 → 20000+).
 
 ---
 
