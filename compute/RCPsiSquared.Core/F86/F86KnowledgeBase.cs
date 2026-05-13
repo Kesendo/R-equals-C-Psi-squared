@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
+using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Knowledge;
@@ -48,6 +49,11 @@ public sealed class F86KnowledgeBase : IInspectable
     public ChiralAiiiClassification AlgebraicClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
+    /// <summary>F86 c=2 HWHM_left/Q_peak closed-form prediction per BondSubClass
+    /// (Tier 1 derived; 2026-05-13). Closes Item 1' from PROOF_F90_F86C2_BRIDGE.md via the
+    /// bare 4-mode floor + linear lift alpha*g_eff + beta composition. Block-independent
+    /// meta-claim; the per-sub-class fit is anchored to c=2 N=5..8 F90-bridge data.</summary>
+    public F86HwhmClosedFormClaim F86HwhmClosedForm { get; }
     /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
     /// <see cref="Item1Derivation.C2HwhmRatio"/>: empirical anchor + directional
     /// Endpoint &gt; Interior split, both pinned for the c=2 stratum (witness anchor:
@@ -179,6 +185,7 @@ public sealed class F86KnowledgeBase : IInspectable
         AlgebraicClass = new ChiralAiiiClassification();
         F71Mirror = new F71MirrorInvariance();
         Sigma0Scaling = new SigmaZeroChromaticityScaling(block.GammaZero, cache: WitnessCache);
+        F86HwhmClosedForm = new F86HwhmClosedFormClaim();
 
         // c=2-specific top-level synthesis of Stages A–D (Stage E1 integration). Only built
         // for c=2 blocks; null otherwise — c≥3 strata fall under OpenQuestions Item 4'
@@ -290,6 +297,7 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return DressedModeWeight;
         yield return AlgebraicClass;
         yield return F71Mirror;
+        yield return F86HwhmClosedForm;
         // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
         // identity is verified bit-exact). Surface it under Tier 1 derived for c=2 blocks.
         if (Block.C == 2) yield return F89BridgeIdentity;
