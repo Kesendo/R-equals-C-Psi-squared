@@ -7,6 +7,22 @@ For path-7 (N_block = 8, N = 9):
 
 Extract P_path(y) = a*y^3 + b*y^2 + c*y + d via fitting to F_a sigma values
 computed from full L eigendecomposition of (SE, DE) sub-block at N_block=8.
+
+NEGATIVE RESULT (2026-05-13): the sigma-extraction proxy
+`abs(vecs[:, idx]).max() ** 2` is too crude. It returns the SAME amplitude for
+every orbit element n (the eigenvector max element is global, not n-specific),
+so the polynomial fit collapses to a constant term and all higher-order
+coefficients vanish to floating-point noise. Sanity check on path-3..6 fails
+(extracted constants 0.174, 0.072, 0.036, 0.021 do not match the typed
+F89UnifiedFaClosedFormClaim coefficients [47,14]/9, [25,10]/4, [129,82,13]/25,
+[80,72,17]/18 either in scale or in higher-order structure). Path-7 typed
+extension (Task 5.2 in the plan) is therefore blocked on this script. A
+correct extraction needs explicit probe-overlap matrix elements
+(<F_a|S|rho_0>) per Bloch mode, not eigenvector max norms.
+
+Kept as repository memory of the attempted approach. F86HwhmClosedFormClaim
+(Phase 6) does not depend on path-7 PathPolynomial; it works at N=5..8 via the
+empirical (alpha, beta) per BondSubClass directly.
 """
 import numpy as np
 import sympy as sp
