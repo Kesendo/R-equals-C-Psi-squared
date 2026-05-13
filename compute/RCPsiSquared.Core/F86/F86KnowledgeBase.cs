@@ -99,7 +99,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
     /// <summary>F89 per-Bloch-mode σ_n extraction via R†·S·R diagonal at the c=2 stratum
     /// (Tier 2 verified). Bit-exact match against
-    /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..7 (path-7 closed form
+    /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..9 (path-7 closed form
     /// derived 2026-05-13 via this anatomy; boundary case nBlock = N = k+1, no bare site).
     /// Non-null iff <c>Block.C == 2</c>. Lazily built on first access,
     /// the full-block eigendecomposition runs only once and only on read.</summary>

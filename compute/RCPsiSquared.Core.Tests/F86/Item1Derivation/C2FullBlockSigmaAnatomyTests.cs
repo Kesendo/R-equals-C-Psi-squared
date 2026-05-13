@@ -92,6 +92,15 @@ public class C2FullBlockSigmaAnatomyTests
     [InlineData(7, 4)]
     [InlineData(7, 6)]
     [InlineData(7, 8)]
+    [InlineData(8, 2)]   // path-8 N=9: P_8 = 13y³ + 54y² + 68y + 110, D = 32
+    [InlineData(8, 4)]
+    [InlineData(8, 6)]
+    [InlineData(8, 8)]
+    [InlineData(9, 2)]   // path-9 N=10: P_9 = 31y⁴ + 190y³ + 288y² + 440y + 1476, D = 324
+    [InlineData(9, 4)]
+    [InlineData(9, 6)]
+    [InlineData(9, 8)]
+    [InlineData(9, 10)]
     public void Sigma_AtPathK_MatchesF89UnifiedClosedForm(int k, int n)
     {
         int N = k + 1;   // C2Block(N) is F89 path-(N-1); for path-k take N = k+1

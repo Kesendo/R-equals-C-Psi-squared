@@ -23,6 +23,8 @@ public class F89UnifiedFaClosedFormClaimTests
     [InlineData(4, new double[] { 25.0, 10.0 }, 4)]
     [InlineData(5, new double[] { 129.0, 82.0, 13.0 }, 25)]
     [InlineData(6, new double[] { 80.0, 72.0, 17.0 }, 18)]
+    [InlineData(8, new double[] { 110.0, 68.0, 54.0, 13.0 }, 32)]
+    [InlineData(9, new double[] { 1476.0, 440.0, 288.0, 190.0, 31.0 }, 324)]
     public void PathPolynomial_MatchesEmpiricalCoefficients(int k, double[] expectedCoefsLowToHigh, int expectedDenom)
     {
         var (coefs, denom) = F89UnifiedFaClosedFormClaim.PathPolynomial(k);
@@ -79,9 +81,9 @@ public class F89UnifiedFaClosedFormClaimTests
     [Fact]
     public void PathPolynomial_UnsupportedPath_Throws()
     {
-        // path-8 is the first unsupported path now that path-7 is tabulated
+        // path-10 is the first unsupported path now that path-8 and path-9 are tabulated
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => F89UnifiedFaClosedFormClaim.PathPolynomial(8));
+            () => F89UnifiedFaClosedFormClaim.PathPolynomial(10));
     }
 
     [Fact]

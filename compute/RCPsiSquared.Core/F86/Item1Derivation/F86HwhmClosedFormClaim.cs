@@ -41,7 +41,7 @@ public sealed class F86HwhmClosedFormClaim : Claim
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/F86/Item1Derivation/BondSubClass.cs + " +
                "compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs (BareDoubledPtfHwhmRatio = 0.671535) + " +
-               "compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs (PathPolynomial path-3..7) + " +
+               "compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs (PathPolynomial path-3..9) + " +
                "compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs (numerical anchor) + " +
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (Item 1') + " +
                "docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md")

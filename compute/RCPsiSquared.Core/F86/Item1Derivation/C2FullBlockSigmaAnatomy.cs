@@ -22,8 +22,9 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// the F86 spatial-sum kernel S = Σ_l 2·|w_l⟩⟨w_l| instead of the per-bond
 /// Hellmann-Feynman matrix M_h_per_bond[b]. Verifies bit-exactly against the
 /// analytical <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> table for
-/// path-3..7 (path-7 closed form derived 2026-05-13 from this anatomy:
-/// P_7 = 21y³+130y²+292y+382, D=98); path-8 (c=2 N=9) onward open.</para>
+/// path-3..9 (path-7 closed form derived 2026-05-13 from this anatomy; path-8 and
+/// path-9 extracted via Vandermonde fit on the same anatomy at C2Block(9) and
+/// C2Block(10) respectively); path-10+ open. Empirical rule: odd-part(D_path) = (odd-part(k))².</para>
 ///
 /// <para>Tier outcome: Tier2Verified. Pure numerical anatomy at a fixed Q value;
 /// the witnesses ARE the data, no derivation. Q defaults to 1.5 (away from Q_EP
