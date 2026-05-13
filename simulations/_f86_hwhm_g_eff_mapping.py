@@ -87,7 +87,7 @@ def main():
     print("=" * 110)
     print("Hypothesis test: HWHM_ratio = bare_floor + alpha * g_eff (per sub-class)")
     print("=" * 110)
-    print(f"{'Sub-class':<22} {'alpha (slope)':>13} {'beta (offset)':>13} {'R^2':>8} {'predict_at_g=1':>16}")
+    print(f"{'Sub-class':<22} {'alpha (slope)':>13} {'beta (lift int.)':>16} {'R^2':>8} {'predict_at_g=1':>16}")
     print("-" * 110)
     for sub in ["Endpoint", "Flanking", "Mid"]:
         rows = by_sub.get(sub, [])
