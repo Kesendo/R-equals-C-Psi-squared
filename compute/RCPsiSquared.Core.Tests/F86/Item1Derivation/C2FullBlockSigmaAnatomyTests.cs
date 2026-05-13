@@ -1,14 +1,19 @@
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 
 public class C2FullBlockSigmaAnatomyTests
 {
+    private readonly ITestOutputHelper _out;
+    public C2FullBlockSigmaAnatomyTests(ITestOutputHelper @out) { _out = @out; }
+
     private static CoherenceBlock C2Block(int N) =>
         new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
 
@@ -115,5 +120,79 @@ public class C2FullBlockSigmaAnatomyTests
         Assert.All(fbModes, w =>
             Assert.True(w.Sigma < 1e-12,
                 $"F_b mode at λ={w.EigenvalueReal}+{w.EigenvalueImag}i should have σ≈0; got {w.Sigma:G6}"));
+    }
+
+    [Fact]
+    public void Sigma_AtPath7_ExtractsFourFaModes()
+    {
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(9));
+        var faWitnesses = anatomy.SigmaSpectrum
+            .Where(w => w.BlochIndexN.HasValue)
+            .OrderBy(w => w.BlochIndexN!.Value)
+            .ToList();
+        Assert.Equal(4, faWitnesses.Count);
+        Assert.Equal(new[] { 2, 4, 6, 8 }, faWitnesses.Select(w => w.BlochIndexN!.Value).ToArray());
+        Assert.All(faWitnesses, w =>
+            Assert.True(w.Sigma > 0, $"path-7 F_a mode at n={w.BlochIndexN!.Value} must have σ > 0; got {w.Sigma}"));
+    }
+
+    [Fact]
+    public void Sigma_AtPath7_PolynomialFitIsCubic()
+    {
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(9));
+        var faWitnesses = anatomy.SigmaSpectrum
+            .Where(w => w.BlochIndexN.HasValue)
+            .OrderBy(w => w.BlochIndexN!.Value)
+            .ToList();
+        Assert.Equal(4, faWitnesses.Count);
+
+        // y_n · J for the four orbit points; σ_n · N² · (N-1) = P_path-7(y_n) (mod denom)
+        int N = 9;
+        int nBlock = 8;
+        double[] yValues = new double[4];
+        double[] sigmaScaled = new double[4];
+        for (int i = 0; i < 4; i++)
+        {
+            var w = faWitnesses[i];
+            yValues[i] = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, w.BlochIndexN!.Value);
+            sigmaScaled[i] = w.Sigma * N * N * (N - 1);
+        }
+
+        // Solve Vandermonde for cubic coefs c0 + c1·y + c2·y² + c3·y³ = sigmaScaled
+        double[,] V = new double[4, 4];
+        for (int i = 0; i < 4; i++)
+        {
+            double yi = yValues[i];
+            V[i, 0] = 1; V[i, 1] = yi; V[i, 2] = yi * yi; V[i, 3] = yi * yi * yi;
+        }
+        var matV = Matrix<double>.Build.DenseOfArray(V);
+        var vecB = Vector<double>.Build.DenseOfArray(sigmaScaled);
+        var coefs = matV.Solve(vecB);
+
+        // Reconstruct: P(y_i) should equal sigmaScaled[i] for each i (residual ≈ 0)
+        for (int i = 0; i < 4; i++)
+        {
+            double yi = yValues[i];
+            double reconstructed = coefs[0] + coefs[1] * yi + coefs[2] * yi * yi + coefs[3] * yi * yi * yi;
+            Assert.True(Math.Abs(reconstructed - sigmaScaled[i]) <= 1e-6,
+                $"Cubic fit residual at y={yi}: |reconstructed - actual| = {Math.Abs(reconstructed - sigmaScaled[i]):G6}");
+        }
+
+        _out.WriteLine($"Path-7 cubic coefficients (low to high):");
+        _out.WriteLine($"  c0 (constant)  = {coefs[0]:G10}");
+        _out.WriteLine($"  c1 (y)         = {coefs[1]:G10}");
+        _out.WriteLine($"  c2 (y²)        = {coefs[2]:G10}");
+        _out.WriteLine($"  c3 (y³)        = {coefs[3]:G10}");
+        _out.WriteLine($"Reduced (× denom guess): try D=18 (path-6 denom):");
+        _out.WriteLine($"  18·c0 = {18.0 * coefs[0]:G10} (target: small integer if denom is 18)");
+        _out.WriteLine($"  18·c1 = {18.0 * coefs[1]:G10}");
+        _out.WriteLine($"  18·c2 = {18.0 * coefs[2]:G10}");
+        _out.WriteLine($"  18·c3 = {18.0 * coefs[3]:G10}");
+
+        // Also try common cyclotomic Φ_9-related denominators
+        foreach (int d in new[] { 9, 18, 27, 36, 81, 162 })
+        {
+            _out.WriteLine($"  {d}·c0 = {d * coefs[0]:G10}, {d}·c1 = {d * coefs[1]:G10}, {d}·c2 = {d * coefs[2]:G10}, {d}·c3 = {d * coefs[3]:G10}");
+        }
     }
 }
