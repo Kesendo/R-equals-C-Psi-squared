@@ -1,0 +1,227 @@
+==============================================================================================================
+F89 path-D structure probe: cyclotomic/Galois correlates for D_path (extended paths 3..15)
+==============================================================================================================
+Parameters: J=1.0, gamma=0.05, N_fixed=9
+D search range: [1, 200000], rationalization tolerance: 0.001
+
+Extracting sigma_n for paths 3..15 ...
+
+  path-3: nBlock=4, m=5, orbit=[2, 4] (FA count=2, (SE,DE) dim=24) ... D=9 [3^2]  coefs=[47, 14]  verify=OK
+  path-4: nBlock=5, m=6, orbit=[2, 4] (FA count=2, (SE,DE) dim=50) ... D=4 [2^2]  coefs=[25, 10]  verify=OK
+  path-5: nBlock=6, m=7, orbit=[2, 4, 6] (FA count=3, (SE,DE) dim=90) ... D=25 [5^2]  coefs=[129, 82, 13]  verify=OK
+  path-6: nBlock=7, m=8, orbit=[2, 4, 6] (FA count=3, (SE,DE) dim=147) ... D=18 [2*3^2]  coefs=[80, 72, 17]  verify=OK
+  path-7: nBlock=8, m=9, orbit=[2, 4, 6, 8] (FA count=4, (SE,DE) dim=224) ... D=98 [2*7^2]  coefs=[382, 292, 130, 21]  verify=OK
+  path-8: nBlock=9, m=10, orbit=[2, 4, 6, 8] (FA count=4, (SE,DE) dim=324) ... D=32 [2^5]  coefs=[110, 68, 54, 13]  verify=D-OK
+  path-9: nBlock=10, m=11, orbit=[2, 4, 6, 8, 10] (FA count=5, (SE,DE) dim=450) ... D=324 [2^2*3^4]  coefs=[1476, 440, 288, 190, 31]  verify=D-OK
+  path-10: nBlock=11, m=12, orbit=[2, 4, 6, 8, 10] (FA count=5, (SE,DE) dim=605) ... D=200 [2^3*5^2]  coefs=[1120, 128, 32, 152, 37]  (NEW DATA)
+  path-11: nBlock=12, m=13, orbit=[2, 4, 6, 8, 10, 12] (FA count=6, (SE,DE) dim=792) ... D=968 [2^3*11^2]  coefs=[6392, 2016, -512, 212, 262, 43]  (NEW DATA)
+  path-12: nBlock=13, m=14, orbit=[2, 4, 6, 8, 10, 12] (FA count=6, (SE,DE) dim=1014) ... D=288 [2^5*3^2]  coefs=[2184, 992, -344, -84, 102, 25]  (NEW DATA)
+  path-13: nBlock=14, m=15, orbit=[2, 4, 6, 8, 10, 12, 14] (FA count=7, (SE,DE) dim=1274) ... D=2704 [2^4*13^2]  coefs=[19472, 12864, 480, -2120, 40, 346, 57]  (NEW DATA)
+  path-14: nBlock=15, m=16, orbit=[2, 4, 6, 8, 10, 12, 14] (FA count=7, (SE,DE) dim=1575) ... D=1568 [2^5*7^2]  coefs=[10752, 9472, 2336, -1984, -488, 264, 65]  (NEW DATA)
+  path-15: nBlock=16, m=17, orbit=[2, 4, 6, 8, 10, 12, 14, 16] (FA count=8, (SE,DE) dim=1920) ... D=7200 [2^5*3^2*5^2]  coefs=[47072, 33920, 19904, -848, -4528, -252, 442, 73]  (NEW DATA)
+
+==============================================================================================================
+FULL TABLE: paths 3..15 with 2-adic hypothesis columns
+==============================================================================================================
+k     nBlock  FA      D         D-factored      v2(D)   v2(k)  odd(D)    (odd(k))^2  odd-part-rule?  pred_D_odd_k    odd-k-formula?    
+---------------------------------------------------------------------------------------------------------------------------------------
+3     4       2       9         3^2             0       0      9         9          YES             9               YES               
+4     5       2       4         2^2             2       2      1         1          YES             n/a             skip              
+5     6       3       25        5^2             0       0      25        25         YES             25              YES               
+6     7       3       18        2*3^2           1       1      9         9          YES             n/a             skip              
+7     8       4       98        2*7^2           1       0      49        49         YES             98              YES               
+8     9       4       32        2^5             5       3      1         1          YES             n/a             skip              
+9     10      5       324       2^2*3^4         2       0      81        81         YES             324             YES               
+10    11      5       200       2^3*5^2         3       1      25        25         YES             n/a             skip              
+11    12      6       968       2^3*11^2        3       0      121       121        YES             968             YES               
+12    13      6       288       2^5*3^2         5       2      9         9          YES             n/a             skip              
+13    14      7       2704      2^4*13^2        4       0      169       169        YES             2704            YES               
+14    15      7       1568      2^5*7^2         5       1      49        49         YES             n/a             skip              
+15    16      8       7200      2^5*3^2*5^2     5       0      225       225        YES             7200            YES               
+
+Polynomial coefs P(y) low->high for each path:
+  k=3: D=9, P(y)=[47, 14]  [typed D=9, coefs=[47, 14]]
+  k=4: D=4, P(y)=[25, 10]  [typed D=4, coefs=[25, 10]]
+  k=5: D=25, P(y)=[129, 82, 13]  [typed D=25, coefs=[129, 82, 13]]
+  k=6: D=18, P(y)=[80, 72, 17]  [typed D=18, coefs=[80, 72, 17]]
+  k=7: D=98, P(y)=[382, 292, 130, 21]  [typed D=98, coefs=[382, 292, 130, 21]]
+  k=8: D=32, P(y)=[110, 68, 54, 13]  [typed D=32]
+  k=9: D=324, P(y)=[1476, 440, 288, 190, 31]  [typed D=324]
+  k=10: D=200, P(y)=[1120, 128, 32, 152, 37]  [new]
+  k=11: D=968, P(y)=[6392, 2016, -512, 212, 262, 43]  [new]
+  k=12: D=288, P(y)=[2184, 992, -344, -84, 102, 25]  [new]
+  k=13: D=2704, P(y)=[19472, 12864, 480, -2120, 40, 346, 57]  [new]
+  k=14: D=1568, P(y)=[10752, 9472, 2336, -1984, -488, 264, 65]  [new]
+  k=15: D=7200, P(y)=[47072, 33920, 19904, -848, -4528, -252, 442, 73]  [new]
+
+Cyclotomic minimal polynomial of 4*cos(pi/m) over Q (= y_1, first orbit element):
+  k=3, m=5: y**2 - 2*y - 4
+  k=4, m=6: y**2 - 12
+  k=5, m=7: y**3 - 2*y**2 - 8*y + 8
+  k=6, m=8: y**4 - 16*y**2 + 32
+  k=7, m=9: y**3 - 12*y - 8
+  k=8, m=10: y**4 - 20*y**2 + 80
+  k=9, m=11: y**5 - 2*y**4 - 16*y**3 + 24*y**2 + 48*y - 32
+  k=10, m=12: y**4 - 16*y**2 + 16
+  k=11, m=13: y**6 - 2*y**5 - 20*y**4 + 32*y**3 + 96*y**2 - 96*y - 64
+  k=12, m=14: y**6 - 28*y**4 + 224*y**2 - 448
+  k=13, m=15: y**4 + 2*y**3 - 16*y**2 - 32*y + 16
+  k=14, m=16: y**8 - 32*y**6 + 320*y**4 - 1024*y**2 + 512
+  k=15, m=17: y**8 - 2*y**7 - 28*y**6 + 48*y**5 + 240*y**4 - 320*y**3 - 640*y**2 + 512*y + 256
+
+Discriminant of Q(zeta_m):
+  k=3, m=5: (-1)^(2) * 5^4 / 5 = 125
+  k=4, m=6: (-1)^(1) * 6^2 / 12 = -3
+  k=5, m=7: (-1)^(3) * 7^6 / 7 = -16807
+  k=6, m=8: (-1)^(2) * 8^4 / 16 = 256
+  k=7, m=9: (-1)^(3) * 9^6 / 27 = -19683
+  k=8, m=10: (-1)^(2) * 10^4 / 80 = 125
+  k=9, m=11: (-1)^(5) * 11^10 / 11 = -2357947691
+  k=10, m=12: (-1)^(2) * 12^4 / 144 = 144
+  k=11, m=13: (-1)^(6) * 13^12 / 13 = 1792160394037
+  k=12, m=14: (-1)^(3) * 14^6 / 448 = -16807
+  k=13, m=15: (-1)^(4) * 15^8 / 2025 = 1265625
+  k=14, m=16: (-1)^(4) * 16^8 / 256 = 16777216
+  k=15, m=17: (-1)^(8) * 17^16 / 17 = 2862423051509815793
+
+==============================================================================================================
+EVEN-k HYPOTHESIS DISAMBIGUATION: v2(D) vs hypotheses (a), (b), (c)
+  (a) v2(D) = v2(k)
+  (b) v2(D) = v2(k) + max(0, FA-3)
+  (c) ad-hoc: bonus when k is a pure 2-power and FA >= 4
+==============================================================================================================
+k      v2(k)  FA    v2(D)   hyp(a)=v2(k)   hyp(b)=v2(k)+max(0,FA-3)   hyp(c)-special?       status  
+----------------------------------------------------------------------------------------------------
+4      2      2     2       2 YES          2 YES                      same-as-(a)=2         (a)+(b) 
+6      1      3     1       1 YES          1 YES                      same-as-(a)=1         (a)+(b) 
+8      3      4     5       3 NO           4 NO                       special(5)            (c)-case
+10     1      5     3       1 NO           3 YES                      same-as-(a)=1         (b)     
+12     2      6     5       2 NO           5 YES                      same-as-(a)=2         (b)     
+14     1      7     5       1 NO           5 YES                      same-as-(a)=1         (b)     
+
+Even-k hypothesis summary:
+  Hypothesis (a) [v2(D)=v2(k)] holds for ALL even k: False
+  Hypothesis (b) [v2(D)=v2(k)+max(0,FA-3)] holds for ALL even k: False
+    (a) fails at k=[8, 10, 12, 14]: k=8 v2(D)=5 predicted=3, k=10 v2(D)=3 predicted=1, k=12 v2(D)=5 predicted=2, k=14 v2(D)=5 predicted=1
+    (b) fails at k=[8]: k=8 v2(D)=5 predicted=4
+
+==============================================================================================================
+ODD-k CLOSED-FORM FORMULA CHECK: D = 2^max(0,(k-5)//2) * k^2
+==============================================================================================================
+  k=3: predicted 2^0*3^2 = 9, actual D=9 [3^2]  MATCH
+  k=5: predicted 2^0*5^2 = 25, actual D=25 [5^2]  MATCH
+  k=7: predicted 2^1*7^2 = 98, actual D=98 [2*7^2]  MATCH
+  k=9: predicted 2^2*9^2 = 324, actual D=324 [2^2*3^4]  MATCH
+  k=11: predicted 2^3*11^2 = 968, actual D=968 [2^3*11^2]  MATCH
+  k=13: predicted 2^4*13^2 = 2704, actual D=2704 [2^4*13^2]  MATCH
+  k=15: predicted 2^5*15^2 = 7200, actual D=7200 [2^5*3^2*5^2]  MATCH
+  All odd k (3..15) match closed form: True
+
+==============================================================================================================
+PATTERN OBSERVATIONS (observational, not claims)
+==============================================================================================================
+
+1. Odd-part rule: odd(D) = (odd(k))^2?
+   k=3: D=9=3^2, odd(D)=9, (odd(3))^2=9, rule: YES
+   k=4: D=4=2^2, odd(D)=1, (odd(4))^2=1, rule: YES
+   k=5: D=25=5^2, odd(D)=25, (odd(5))^2=25, rule: YES
+   k=6: D=18=2*3^2, odd(D)=9, (odd(6))^2=9, rule: YES
+   k=7: D=98=2*7^2, odd(D)=49, (odd(7))^2=49, rule: YES
+   k=8: D=32=2^5, odd(D)=1, (odd(8))^2=1, rule: YES
+   k=9: D=324=2^2*3^4, odd(D)=81, (odd(9))^2=81, rule: YES
+   k=10: D=200=2^3*5^2, odd(D)=25, (odd(10))^2=25, rule: YES
+   k=11: D=968=2^3*11^2, odd(D)=121, (odd(11))^2=121, rule: YES
+   k=12: D=288=2^5*3^2, odd(D)=9, (odd(12))^2=9, rule: YES
+   k=13: D=2704=2^4*13^2, odd(D)=169, (odd(13))^2=169, rule: YES
+   k=14: D=1568=2^5*7^2, odd(D)=49, (odd(14))^2=49, rule: YES
+   k=15: D=7200=2^5*3^2*5^2, odd(D)=225, (odd(15))^2=225, rule: YES
+   Odd-part rule holds for ALL valid k: True
+
+2. FA count equals real_subfield_degree phi(m)/2?
+   k=3: FA_count=2, phi(5)/2=2, equal: True
+   k=4: FA_count=2, phi(6)/2=1, equal: False
+   k=5: FA_count=3, phi(7)/2=3, equal: True
+   k=6: FA_count=3, phi(8)/2=2, equal: False
+   k=7: FA_count=4, phi(9)/2=3, equal: False
+   k=8: FA_count=4, phi(10)/2=2, equal: False
+   k=9: FA_count=5, phi(11)/2=5, equal: True
+   k=10: FA_count=5, phi(12)/2=2, equal: False
+   k=11: FA_count=6, phi(13)/2=6, equal: True
+   k=12: FA_count=6, phi(14)/2=3, equal: False
+   k=13: FA_count=7, phi(15)/2=4, equal: False
+   k=14: FA_count=7, phi(16)/2=4, equal: False
+   k=15: FA_count=8, phi(17)/2=8, equal: True
+
+3. Polynomial degree = FA_count - 1?
+   k=3: poly_deg=1, FA_count-1=1, consistent: True
+   k=4: poly_deg=1, FA_count-1=1, consistent: True
+   k=5: poly_deg=2, FA_count-1=2, consistent: True
+   k=6: poly_deg=2, FA_count-1=2, consistent: True
+   k=7: poly_deg=3, FA_count-1=3, consistent: True
+   k=8: poly_deg=3, FA_count-1=3, consistent: True
+   k=9: poly_deg=4, FA_count-1=4, consistent: True
+   k=10: poly_deg=4, FA_count-1=4, consistent: True
+   k=11: poly_deg=5, FA_count-1=5, consistent: True
+   k=12: poly_deg=5, FA_count-1=5, consistent: True
+   k=13: poly_deg=6, FA_count-1=6, consistent: True
+   k=14: poly_deg=6, FA_count-1=6, consistent: True
+   k=15: poly_deg=7, FA_count-1=7, consistent: True
+
+4. Factor-2 structure in D and k structure:
+   k=3=3: D=9=3^2, v2(D)=0, v2(k)=0, k-prime: True, k-prime-power: True
+   k=4=2^2: D=4=2^2, v2(D)=2, v2(k)=2, k-prime: False, k-prime-power: True
+   k=5=5: D=25=5^2, v2(D)=0, v2(k)=0, k-prime: True, k-prime-power: True
+   k=6=2*3: D=18=2*3^2, v2(D)=1, v2(k)=1, k-prime: False, k-prime-power: False
+   k=7=7: D=98=2*7^2, v2(D)=1, v2(k)=0, k-prime: True, k-prime-power: True
+   k=8=2^3: D=32=2^5, v2(D)=5, v2(k)=3, k-prime: False, k-prime-power: True
+   k=9=3^2: D=324=2^2*3^4, v2(D)=2, v2(k)=0, k-prime: False, k-prime-power: True
+   k=10=2*5: D=200=2^3*5^2, v2(D)=3, v2(k)=1, k-prime: False, k-prime-power: False
+   k=11=11: D=968=2^3*11^2, v2(D)=3, v2(k)=0, k-prime: True, k-prime-power: True
+   k=12=2^2*3: D=288=2^5*3^2, v2(D)=5, v2(k)=2, k-prime: False, k-prime-power: False
+   k=13=13: D=2704=2^4*13^2, v2(D)=4, v2(k)=0, k-prime: True, k-prime-power: True
+   k=14=2*7: D=1568=2^5*7^2, v2(D)=5, v2(k)=1, k-prime: False, k-prime-power: False
+   k=15=3*5: D=7200=2^5*3^2*5^2, v2(D)=5, v2(k)=0, k-prime: False, k-prime-power: False
+
+5. Discriminant of Q(zeta_m) vs D:
+   k=3: D=9, |disc(Q(zeta_5))| = 125, D|disc: False, ratio=N/A
+   k=4: D=4, |disc(Q(zeta_6))| = 3, D|disc: False, ratio=N/A
+   k=5: D=25, |disc(Q(zeta_7))| = 16807, D|disc: False, ratio=N/A
+   k=6: D=18, |disc(Q(zeta_8))| = 256, D|disc: False, ratio=N/A
+   k=7: D=98, |disc(Q(zeta_9))| = 19683, D|disc: False, ratio=N/A
+   k=8: D=32, |disc(Q(zeta_10))| = 125, D|disc: False, ratio=N/A
+   k=9: D=324, |disc(Q(zeta_11))| = 2357947691, D|disc: False, ratio=N/A
+   k=10: D=200, |disc(Q(zeta_12))| = 144, D|disc: False, ratio=N/A
+   k=11: D=968, |disc(Q(zeta_13))| = 1792160394037, D|disc: False, ratio=N/A
+   k=12: D=288, |disc(Q(zeta_14))| = 16807, D|disc: False, ratio=N/A
+   k=13: D=2704, |disc(Q(zeta_15))| = 1265625, D|disc: False, ratio=N/A
+   k=14: D=1568, |disc(Q(zeta_16))| = 16777216, D|disc: False, ratio=N/A
+   k=15: D=7200, |disc(Q(zeta_17))| = 2862423051509815793, D|disc: False, ratio=N/A
+
+6. P(y_n) values: D * p_n evaluated via fitted polynomial:
+   k=3: p_n = ['7.144995', '0.188339']
+          P(y_n) = D*[fit(p_n)] = [64, 2]
+   k=4: p_n = ['11.250000', '1.250000']
+          P(y_n) = D*[fit(p_n)] = [45, 5]
+   k=5: p_n = ['16.574499', '2.652495', '0.093006']
+          P(y_n) = D*[fit(p_n)] = [414, 66, 2]
+   k=6: p_n = ['23.313708', '4.444444', '0.686292']
+          P(y_n) = D*[fit(p_n)] = [420, 80, 12]
+   k=7: p_n = ['31.648029', '6.679368', '1.530612', '0.060358']
+          P(y_n) = D*[fit(p_n)] = [3102, 655, 150, 6]
+   k=8: p_n = ['41.753095', '9.409636', '2.621905', '0.465364']
+          P(y_n) = D*[fit(p_n)] = [1336, 301, 84, 15]
+   k=9: p_n = ['53.802662', '12.686401', '3.972407', '1.062069', '0.044363']
+          P(y_n) = D*[fit(p_n)] = [17432, 4110, 1287, 344, 14]
+   k=10: p_n = ['67.969632', '16.560000', '5.600000', '1.840000', '0.350368']
+          P(y_n) = D*[fit(p_n)] = [13594, 3312, 1120, 368, 70]
+   k=11: p_n = ['84.426477', '21.080252', '7.524820', '2.800634', '0.810530', '0.034973']
+          P(y_n) = D*[fit(p_n)] = [81725, 20406, 7284, 2711, 785, 34]
+   k=12: p_n = ['103.345438', '26.296643', '9.767997', '3.950666', '1.414343', '0.280469']
+          P(y_n) = D*[fit(p_n)] = [29763, 7573, 2813, 1138, 407, 81]
+   k=13: p_n = ['124.898618', '32.258443', '12.351136', '5.299320', '2.159763', '0.654781', '0.028826']
+          P(y_n) = D*[fit(p_n)] = [337726, 87227, 33397, 14329, 5840, 1771, 78]
+   k=14: p_n = ['149.258038', '39.014777', '15.296084', '6.857143', '3.048952', '1.148488', '0.233660']
+          P(y_n) = D*[fit(p_n)] = [234037, 61175, 23984, 10752, 4781, 1801, 366]
+   k=15: p_n = ['176.595668', '46.614671', '18.624815', '8.635418', '4.086325', '1.758328', '0.549163', '0.024501']
+          P(y_n) = D*[fit(p_n)] = [1271489, 335626, 134099, 62175, 29422, 12660, 3954, 176]
+

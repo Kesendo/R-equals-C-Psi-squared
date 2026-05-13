@@ -11,7 +11,7 @@ Known data from F89UnifiedFaClosedFormClaim (path-3..7):
   k=6: (P=[80,72,17],  D=18 = 2*3^2)     nBlock=7
   k=7: (P=[382,292,130,21], D=98=2*7^2)  nBlock=8
 
-This probe extracts (P, D) numerically for paths 3..9 using the (SE,DE) sub-block
+This probe extracts (P, D) numerically for paths 3..15 using the (SE,DE) sub-block
 Liouvillian eigendecomposition, then pairs results with cyclotomic/Galois invariants
 for m = nBlock+1 via sympy.
 
@@ -31,8 +31,19 @@ Method (validated against path-3..6 typed claims in F89UnifiedFaClosedFormClaim)
 
 Runtime:
   nBlock=4..9 (SE,DE) sub-block dimension = nBlock * C(nBlock,2) ranges 12..360.
-  All eigendecompositions complete in < 1 second each. Total runtime ~30 seconds
-  (dominated by sympy minimal_polynomial calls).
+  nBlock=10..16 extends to dimension 1980 (nBlock=16). All eigendecomps in dense
+  complex128 via np.linalg.eig; estimated ~5-60 s per path. Total ~5 min.
+
+Extended range: paths 3..15 (nBlock 4..16).
+
+Hypotheses under test (2-adic structure of D):
+  Odd-k candidate closed form: D_odd_k = 2^max(0,(k-5)/2) * k^2  (integer division)
+    Predicts: k=11 -> 968, k=13 -> 2704, k=15 -> 7200
+  Even-k hypotheses (fits k=4,6; differ at k=8,10,12,14):
+    (a) v2(D) = v2(k)
+    (b) v2(D) = v2(k) + max(0, FA-3)
+    (c) ad-hoc special bonus for pure 2-powers
+  Odd-part rule (all k): odd(D) = (odd(k))^2  -- verified k=3..9.
 """
 from __future__ import annotations
 
@@ -67,14 +78,48 @@ D_MAX = 200000
 # Integer rationalization tolerance
 RATIONAL_TOL = 1e-3
 
-# Typed reference (path-3..7) from F89UnifiedFaClosedFormClaim.cs
+# Typed reference (path-3..9) from F89UnifiedFaClosedFormClaim.cs + prior run
 TYPED = {
-    3: (9,  [47, 14]),
-    4: (4,  [25, 10]),
-    5: (25, [129, 82, 13]),
-    6: (18, [80,  72, 17]),
-    7: (98, [382, 292, 130, 21]),
+    3: (9,   [47, 14]),
+    4: (4,   [25, 10]),
+    5: (25,  [129, 82, 13]),
+    6: (18,  [80,  72, 17]),
+    7: (98,  [382, 292, 130, 21]),
+    8: (32,  None),   # D=32=2^5 from prior run; coefs not typed
+    9: (324, None),   # D=324=2^2*3^4 from prior run; coefs not typed
 }
+
+# Path range: 3..K_MAX (inclusive)
+K_MAX = 15
+
+# ---------------------------------------------------------------------------
+# 2-adic / odd-part helpers
+# ---------------------------------------------------------------------------
+
+def v2(n: int) -> int:
+    """2-adic valuation of n (v2(0) defined as 0)."""
+    if n <= 0:
+        return 0
+    v = 0
+    while n % 2 == 0:
+        n //= 2
+        v += 1
+    return v
+
+
+def odd_part(n: int) -> int:
+    """Odd part of n: n / 2^v2(n)."""
+    if n <= 0:
+        return n
+    while n % 2 == 0:
+        n //= 2
+    return n
+
+
+def predicted_D_odd_k(k: int) -> int:
+    """Candidate odd-k closed form: 2^max(0,(k-5)//2) * k^2."""
+    exp = max(0, (k - 5) // 2)
+    return (2 ** exp) * k * k
 
 
 # ---------------------------------------------------------------------------
@@ -361,30 +406,35 @@ def is_prime(n: int) -> bool:
 # Main
 # ---------------------------------------------------------------------------
 def main() -> None:
-    print("=" * 100)
-    print("F89 path-D structure probe: cyclotomic/Galois correlates for D_path")
-    print("=" * 100)
+    print("=" * 110)
+    print("F89 path-D structure probe: cyclotomic/Galois correlates for D_path (extended paths 3..15)")
+    print("=" * 110)
     print(f"Parameters: J={J}, gamma={GAMMA}, N_fixed={N_FIXED}")
     print(f"D search range: [1, {D_MAX}], rationalization tolerance: {RATIONAL_TOL}")
     print()
 
     results: dict[int, dict] = {}
 
-    print("Extracting sigma_n for paths 3..9 ...")
+    print(f"Extracting sigma_n for paths 3..{K_MAX} ...")
     print()
 
-    for k in range(3, 10):
+    for k in range(3, K_MAX + 1):
         n_block = k + 1
         orbit = se_anti_orbit(n_block)
         fa_count = len(orbit)
         m = n_block + 1
-        print(f"  path-{k}: nBlock={n_block}, m={m}, orbit={orbit} (FA count={fa_count})", end=" ... ", flush=True)
+        dim = n_block * (n_block * (n_block - 1) // 2)
+        print(
+            f"  path-{k}: nBlock={n_block}, m={m}, orbit={orbit} "
+            f"(FA count={fa_count}, (SE,DE) dim={dim})",
+            end=" ... ", flush=True,
+        )
 
         sigma_scaled = extract_sigma_scaled(n_block)
         inv = cyclotomic_invariants(m)
 
         # Check for NaN
-        nan_ns = [n for n, v in sigma_scaled.items() if math.isnan(v)]
+        nan_ns = [n for n, vv in sigma_scaled.items() if math.isnan(vv)]
         if nan_ns:
             print(f"WARNING: NaN sigma at n={nan_ns}")
             results[k] = {"error": f"NaN at n={nan_ns}", "n_block": n_block, "m": m,
@@ -397,18 +447,21 @@ def main() -> None:
         D_found, coefs = rationalize_polynomial_D(p_vals, y_vals, D_MAX)
 
         if D_found < 0:
-            print(f"D NOT FOUND in [1,{D_MAX}]  p_vals={[f'{v:.6f}' for v in p_vals]}")
+            print(f"D NOT FOUND in [1,{D_MAX}]  p_vals={[f'{vv:.6f}' for vv in p_vals]}")
             results[k] = {"error": "D not found", "n_block": n_block, "m": m,
                           "fa_count": fa_count, "inv": inv, "sigma_scaled": sigma_scaled,
                           "D": -1, "coefs": [], "y_vals": y_vals}
             continue
 
-        # Verify against typed data
+        # Verify against typed data (D only for k=8,9 where coefs are not typed)
         if k in TYPED:
             typed_D, typed_coefs = TYPED[k]
             D_ok = (D_found == typed_D)
-            coefs_ok = (coefs == typed_coefs) if isinstance(coefs[0], int) else False
-            status = "OK" if (D_ok and coefs_ok) else f"MISMATCH(D:{D_found}vs{typed_D},c:{coefs}vs{typed_coefs})"
+            if typed_coefs is not None and coefs:
+                coefs_ok = (coefs == typed_coefs)
+                status = "OK" if (D_ok and coefs_ok) else f"MISMATCH(D:{D_found}vs{typed_D},c:{coefs}vs{typed_coefs})"
+            else:
+                status = "D-OK" if D_ok else f"D-MISMATCH({D_found}vs{typed_D})"
             print(f"D={D_found} [{factor_str(D_found)}]  coefs={coefs}  verify={status}")
         else:
             print(f"D={D_found} [{factor_str(D_found)}]  coefs={coefs}  (NEW DATA)")
@@ -427,60 +480,77 @@ def main() -> None:
     print()
 
     # ---------------------------------------------------------------------------
-    # Print the main table
+    # Print the main table (extended with hypothesis-test columns)
     # ---------------------------------------------------------------------------
-    print("=" * 100)
-    print("FULL TABLE: path-k vs cyclotomic/Galois invariants")
-    print("=" * 100)
+    print("=" * 110)
+    print("FULL TABLE: paths 3..15 with 2-adic hypothesis columns")
+    print("=" * 110)
 
-    col_w = [4, 6, 6, 6, 12, 8, 8, 14, 8, 5, 7, 11, 12]
+    # Columns: k, nBlock, FA-cnt, D, D-factored, v2(D), v2(k), odd(D), (odd(k))^2,
+    #          odd-part-rule-ok, pred_D_odd_k (odd k only), odd-k-formula-match
+    col_w = [4, 6, 6, 8, 14, 6, 5, 8, 9, 14, 14, 18]
     headers = [
-        "k", "nBlock", "m", "phi(m)", "real-sub-deg",
-        "FA-cnt", "D", "D-factored",
-        "p=lpf(k)", "p^2", "2*p^2",
-        "D=p^2?", "D=2*p^2?"
+        "k", "nBlock", "FA", "D", "D-factored",
+        "v2(D)", "v2(k)", "odd(D)", "(odd(k))^2",
+        "odd-part-rule?", "pred_D_odd_k", "odd-k-formula?"
     ]
     sep = "  "
     header_line = sep.join(h.ljust(w) for h, w in zip(headers, col_w))
     print(header_line)
     print("-" * len(header_line))
 
-    for k in range(3, 10):
+    for k in range(3, K_MAX + 1):
         if "error" in results.get(k, {}):
             print(f"  k={k}: ERROR - {results[k]['error']}")
             continue
         r = results.get(k)
         if r is None:
+            print(f"  k={k}: no result")
             continue
         D = r["D"]
-        inv = r["inv"]
-        p = r["p_lpf_k"]
-        d_p2 = r["d_pred_p2"]
-        d_2p2 = r["d_pred_2p2"]
+        fa = r["fa_count"]
+
+        v2_D = v2(D)
+        v2_k = v2(k)
+        odd_D = odd_part(D)
+        ok = k % 2  # 1 if k is odd
+        odd_k = odd_part(k)
+        odd_k_sq = odd_k * odd_k
+        odd_part_rule_ok = "YES" if odd_D == odd_k_sq else f"NO({odd_D}!={odd_k_sq})"
+
+        if k % 2 == 1:  # odd k
+            pred = predicted_D_odd_k(k)
+            match = "YES" if D == pred else f"NO(pred={pred})"
+            pred_str = str(pred)
+        else:
+            pred_str = "n/a"
+            match = "skip"
 
         row = [
-            str(k), str(r["n_block"]), str(r["m"]),
-            str(inv["phi"]), str(inv["real_sub_deg"]),
-            str(r["fa_count"]), str(D), factor_str(D),
-            str(p), str(d_p2), str(d_2p2),
-            "YES" if D == d_p2 else "no",
-            "YES" if D == d_2p2 else "no",
+            str(k), str(r["n_block"]), str(fa), str(D), factor_str(D),
+            str(v2_D), str(v2_k), str(odd_D), str(odd_k_sq),
+            odd_part_rule_ok, pred_str, match,
         ]
         print(sep.join(v.ljust(w) for v, w in zip(row, col_w)))
 
     print()
     print("Polynomial coefs P(y) low->high for each path:")
-    for k in range(3, 10):
+    for k in range(3, K_MAX + 1):
         r = results.get(k, {})
         if "error" in r:
-            print(f"  k={k}: {r['error']}")
-        else:
-            typed_ref = f"  [typed: {TYPED[k]}]" if k in TYPED else "  [new]"
+            print(f"  k={k}: {r.get('error', 'unknown error')}")
+        elif r:
+            typed_ref = ""
+            if k in TYPED:
+                tD, tC = TYPED[k]
+                typed_ref = f"  [typed D={tD}" + (f", coefs={tC}]" if tC else "]")
+            else:
+                typed_ref = "  [new]"
             print(f"  k={k}: D={r['D']}, P(y)={r['coefs']}{typed_ref}")
 
     print()
     print("Cyclotomic minimal polynomial of 4*cos(pi/m) over Q (= y_1, first orbit element):")
-    for k in range(3, 10):
+    for k in range(3, K_MAX + 1):
         r = results.get(k, {})
         inv = r.get("inv", {})
         m = r.get("m", k + 2)
@@ -488,7 +558,7 @@ def main() -> None:
 
     print()
     print("Discriminant of Q(zeta_m):")
-    for k in range(3, 10):
+    for k in range(3, K_MAX + 1):
         r = results.get(k, {})
         inv = r.get("inv", {})
         m = r.get("m", k + 2)
@@ -497,60 +567,130 @@ def main() -> None:
     print()
 
     # ---------------------------------------------------------------------------
-    # Hypothesis test for new data k=8,9
+    # Even-k hypothesis disambiguation table
     # ---------------------------------------------------------------------------
-    print("=" * 100)
-    print("HYPOTHESIS TEST: D = p^2 or 2*p^2 where p = largest prime factor of k")
-    print("=" * 100)
-    for k in [8, 9]:
+    print("=" * 110)
+    print("EVEN-k HYPOTHESIS DISAMBIGUATION: v2(D) vs hypotheses (a), (b), (c)")
+    print("  (a) v2(D) = v2(k)")
+    print("  (b) v2(D) = v2(k) + max(0, FA-3)")
+    print("  (c) ad-hoc: bonus when k is a pure 2-power and FA >= 4")
+    print("=" * 110)
+    even_ks = [k for k in range(3, K_MAX + 1) if k % 2 == 0]
+    col_e = [5, 5, 4, 6, 13, 25, 20, 8]
+    hdr_e = ["k", "v2(k)", "FA", "v2(D)", "hyp(a)=v2(k)", "hyp(b)=v2(k)+max(0,FA-3)", "hyp(c)-special?", "status"]
+    print(sep.join(h.ljust(w) for h, w in zip(hdr_e, col_e)))
+    print("-" * sum(col_e + [2 * (len(col_e) - 1)]))
+
+    hyp_results = {}  # k -> {a_ok, b_ok, c_ok}
+    for k in even_ks:
         r = results.get(k, {})
-        if "error" in r:
-            print(f"  k={k}: {r['error']}")
+        if "error" in r or not r:
+            row_e = [str(k), str(v2(k)), "?", "?", "?", "?", "?", r.get("error", "no data")]
+            print(sep.join(v.ljust(w) for v, w in zip(row_e, col_e)))
             continue
         D = r["D"]
-        p = r["p_lpf_k"]
-        d_p2 = r["d_pred_p2"]
-        d_2p2 = r["d_pred_2p2"]
-        print(f"  k={k} = {factor_str(k)}: p=lpf({k})={p}, predicted D in {{p^2={d_p2}, 2*p^2={d_2p2}}}")
-        print(f"    Extracted D = {D} = {factor_str(D)}")
-        if D == d_p2:
-            print(f"    => HYPOTHESIS HOLDS: D = p^2 = {d_p2}")
-        elif D == d_2p2:
-            print(f"    => HYPOTHESIS HOLDS: D = 2*p^2 = {d_2p2}")
-        else:
-            print(f"    => HYPOTHESIS FAILS for k={k}: D={D} not in {{p^2={d_p2}, 2*p^2={d_2p2}}}")
-            # Show actual D factorization for inspection
-            facs = factorize(D)
-            print(f"    Actual D factorization: {facs}")
-            # Check if p^2 divides D
-            if D % (p * p) == 0:
-                print(f"    Note: p^2={p*p} DOES divide D={D} (D/p^2 = {D//(p*p)})")
-            else:
-                print(f"    Note: p^2={p*p} does NOT divide D={D}")
-        print(f"    P(y) coefs low->high: {r['coefs']}")
+        fa = r["fa_count"]
+        v2k = v2(k)
+        v2D = v2(D)
+        # Hypothesis predictions
+        pred_a = v2k
+        pred_b = v2k + max(0, fa - 3)
+        # (c): pure-2-power special rule: if k = 2^e for some e and FA >= 4, add extra
+        k_facs = factorize(k)
+        is_pure2power = (len(k_facs) == 1 and 2 in k_facs)
+        pred_c_str = f"special({v2D})" if is_pure2power and fa >= 4 else f"same-as-(a)={pred_a}"
+
+        a_ok = (v2D == pred_a)
+        b_ok = (v2D == pred_b)
+        c_ok = v2D == (v2D if (is_pure2power and fa >= 4) else pred_a)  # tautological for special
+
+        a_str = f"{pred_a} {'YES' if a_ok else 'NO'}"
+        b_str = f"{pred_b} {'YES' if b_ok else 'NO'}"
+
+        hyp_results[k] = {"a": a_ok, "b": b_ok, "c_special": is_pure2power and fa >= 4,
+                          "v2k": v2k, "v2D": v2D, "fa": fa, "D": D}
+
+        status = []
+        if a_ok:
+            status.append("(a)")
+        if b_ok:
+            status.append("(b)")
+        if is_pure2power and fa >= 4:
+            status.append("(c)-case")
+        status_str = "+".join(status) if status else "none"
+
+        row_e = [str(k), str(v2k), str(fa), str(v2D), a_str, b_str, pred_c_str, status_str]
+        print(sep.join(v.ljust(w) for v, w in zip(row_e, col_e)))
+
+    print()
+    # Summary
+    print("Even-k hypothesis summary:")
+    all_even_valid = [k for k in even_ks if k in hyp_results]
+    hyp_a_all = all(hyp_results[k]["a"] for k in all_even_valid)
+    hyp_b_all = all(hyp_results[k]["b"] for k in all_even_valid)
+    print(f"  Hypothesis (a) [v2(D)=v2(k)] holds for ALL even k: {hyp_a_all}")
+    print(f"  Hypothesis (b) [v2(D)=v2(k)+max(0,FA-3)] holds for ALL even k: {hyp_b_all}")
+    if not hyp_a_all:
+        fails_a = [k for k in all_even_valid if not hyp_results[k]["a"]]
+        print(f"    (a) fails at k={fails_a}: "
+              + ", ".join(f"k={k} v2(D)={hyp_results[k]['v2D']} predicted={hyp_results[k]['v2k']}"
+                          for k in fails_a))
+    if not hyp_b_all:
+        fails_b = [k for k in all_even_valid if not hyp_results[k]["b"]]
+        print(f"    (b) fails at k={fails_b}: "
+              + ", ".join(
+                  f"k={k} v2(D)={hyp_results[k]['v2D']} predicted={hyp_results[k]['v2k']+max(0,hyp_results[k]['fa']-3)}"
+                  for k in fails_b))
+
+    print()
+
+    # ---------------------------------------------------------------------------
+    # Odd-k closed-form formula verification summary
+    # ---------------------------------------------------------------------------
+    print("=" * 110)
+    print("ODD-k CLOSED-FORM FORMULA CHECK: D = 2^max(0,(k-5)//2) * k^2")
+    print("=" * 110)
+    odd_ks = [k for k in range(3, K_MAX + 1) if k % 2 == 1]
+    all_odd_match = True
+    for k in odd_ks:
+        r = results.get(k, {})
+        if "error" in r or not r:
+            print(f"  k={k}: ERROR - {r.get('error', 'no data')}")
+            all_odd_match = False
+            continue
+        D = r["D"]
+        pred = predicted_D_odd_k(k)
+        exp = max(0, (k - 5) // 2)
+        match = (D == pred)
+        if not match:
+            all_odd_match = False
+        print(f"  k={k}: predicted 2^{exp}*{k}^2 = {pred}, actual D={D} [{factor_str(D)}]  {'MATCH' if match else 'MISMATCH'}")
+    print(f"  All odd k (3..{K_MAX}) match closed form: {all_odd_match}")
 
     print()
 
     # ---------------------------------------------------------------------------
     # Pattern observations
     # ---------------------------------------------------------------------------
-    print("=" * 100)
+    print("=" * 110)
     print("PATTERN OBSERVATIONS (observational, not claims)")
-    print("=" * 100)
+    print("=" * 110)
 
-    valid_ks = [k for k in range(3, 10) if k in results and "error" not in results[k]]
+    valid_ks = [k for k in range(3, K_MAX + 1) if k in results and "error" not in results[k]]
 
     print()
-    print("1. p = lpf(k) and p^2 divides D?")
+    print("1. Odd-part rule: odd(D) = (odd(k))^2?")
+    all_odd_part_ok = True
     for k in valid_ks:
         r = results[k]
         D = r["D"]
-        p = r["p_lpf_k"]
-        p2_divides = (D % (p * p) == 0) if D > 0 else False
-        facs = factorize(D) if D > 0 else {}
-        p_exp = facs.get(p, 0)
-        extra_factor = D // (p ** p_exp) if D > 0 else "?"
-        print(f"   k={k}: p={p}, D={D}={factor_str(D)}, p^{p_exp}||D, extra={extra_factor}, p^2|D: {p2_divides}")
+        odd_D = odd_part(D)
+        odd_k_sq = odd_part(k) ** 2
+        ok_flag = (odd_D == odd_k_sq)
+        if not ok_flag:
+            all_odd_part_ok = False
+        print(f"   k={k}: D={D}={factor_str(D)}, odd(D)={odd_D}, (odd({k}))^2={odd_k_sq}, rule: {'YES' if ok_flag else 'NO'}")
+    print(f"   Odd-part rule holds for ALL valid k: {all_odd_part_ok}")
 
     print()
     print("2. FA count equals real_subfield_degree phi(m)/2?")
@@ -578,10 +718,9 @@ def main() -> None:
         has2 = (D % 2 == 0) if D > 0 else None
         k_is_prime = is_prime(k)
         k_is_prime_power = (len(factorize(k)) == 1)
-        k_facs = factorize(k)
         print(
             f"   k={k}={factor_str(k)}: D={D}={factor_str(D)}, "
-            f"D%2==0: {has2}, k-prime: {k_is_prime}, k-prime-power: {k_is_prime_power}"
+            f"v2(D)={v2(D)}, v2(k)={v2(k)}, k-prime: {k_is_prime}, k-prime-power: {k_is_prime_power}"
         )
 
     print()
@@ -604,13 +743,12 @@ def main() -> None:
     for k in valid_ks:
         r = results[k]
         orbit = r["orbit"]
-        p_vals = {n: r["sigma_scaled"][n] for n in orbit}
+        p_vals_map = {n: r["sigma_scaled"][n] for n in orbit}
         n_block = r["n_block"]
         D = r["D"]
         coefs = r["coefs"]
-        print(f"   k={k}: p_n = {[f'{p_vals[n]:.6f}' for n in orbit]}")
+        print(f"   k={k}: p_n = {[f'{p_vals_map[n]:.6f}' for n in orbit]}")
         if D > 0 and coefs:
-            # Evaluate P(y_n) = sum coefs[i]*y_n^i for each n
             P_vals = []
             for n in orbit:
                 y_n = bloch_y(n, n_block)
