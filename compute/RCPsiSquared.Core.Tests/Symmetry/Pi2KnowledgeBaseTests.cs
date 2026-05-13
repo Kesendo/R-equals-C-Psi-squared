@@ -35,14 +35,15 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void TierInventoryLine_HasElevenTier1Derived_AndOpenAndVerifiedCounts()
+    public void TierInventoryLine_HasFifteenTier1Derived_AndOpenAndVerifiedCounts()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
         string line = kb.TierInventoryLine();
-        // 11 Tier-1 derived (PolynomialFoundation, RootAnchor, Involution, KleinDecomposition,
+        // 15 Tier-1 derived (PolynomialFoundation, RootAnchor, Involution, KleinDecomposition,
         // BilinearApex, QuarterAsBilinearMaxval, ArgmaxMaxvalPair, MirrorRegime, HalfFixedPoint,
-        // MirrorMemory, PolarityLayerOrigin)
-        Assert.Contains("T1d=11", line);
+        // MirrorMemory, PolarityLayerOrigin, DyadicLadder, Discriminant, AbsorptionTheorem,
+        // UniversalCarrier)
+        Assert.Contains("T1d=15", line);
         Assert.Contains("open=5", line);
         Assert.Contains("T2v=", line);
     }
