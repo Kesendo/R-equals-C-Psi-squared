@@ -1,3 +1,4 @@
+using System.Numerics;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
@@ -114,13 +115,7 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
         return oddPart * oddPart * (1 << e);
     }
 
-    private static int V2(int n)
-    {
-        if (n <= 0) return 0;
-        int v = 0;
-        while ((n & 1) == 0) { v++; n >>= 1; }
-        return v;
-    }
+    private static int V2(int n) => n <= 0 ? 0 : BitOperations.TrailingZeroCount(n);
 
     /// <summary>Evaluate sigs[F_a:n](N) for a specific path, Bloch index n, and total qubit count N.
     /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).
