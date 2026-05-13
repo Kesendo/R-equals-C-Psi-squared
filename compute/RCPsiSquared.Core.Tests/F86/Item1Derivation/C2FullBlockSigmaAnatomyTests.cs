@@ -214,6 +214,34 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
             _out.WriteLine($"  {d}·c0 = {d * coefs[0]:G10}, {d}·c1 = {d * coefs[1]:G10}, {d}·c2 = {d * coefs[2]:G10}, {d}·c3 = {d * coefs[3]:G10}");
         }
     }
+
+    [Theory]
+    [InlineData(25)]   // v₂=0, predicted D = 640000  = 625·2¹⁰
+    [InlineData(26)]   // v₂=1, predicted D = 346112  = 169·2¹¹
+    [InlineData(27)]   // v₂=0, predicted D = 1492992 = 729·2¹¹
+    // k≥28 currently OOMs in BlockLDecomposition.Build (per-bond Mh matrices allocated
+    // eagerly: at nBlock=29 that is 28 × dim 11774² × 16 bytes ≈ 62 GB just for the
+    // decomposition, exceeding 92 GB total when combined with eigendecomp workspace).
+    // Restore once a uniform-only / lazy-MhPerBond build path is added to BlockLDecomposition.
+    public void PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy(int k)
+    {
+        int N = k + 1;
+        var anatomy = _cache.Get(N);
+        double[] rawCoefs = anatomy.ExtractRawPolynomialCoefficients();
+
+        int predictedD = F89UnifiedFaClosedFormClaim.PredictDenominator(k);
+        // For each coefficient, coef · predictedD should be an integer (tolerance for eigendecomp precision)
+        for (int i = 0; i < rawCoefs.Length; i++)
+        {
+            double scaled = rawCoefs[i] * predictedD;
+            double rounded = Math.Round(scaled);
+            Assert.True(Math.Abs(scaled - rounded) < 1e-4,
+                $"path-{k} coef[{i}]: raw={rawCoefs[i]:G10}, raw·D={scaled:G10}, " +
+                $"nearest integer={rounded:G10}, residual={Math.Abs(scaled - rounded):G6}, D={predictedD}");
+
+            _out.WriteLine($"  k={k} coef[{i}] · D({predictedD}) = {scaled:G10} ≈ {(long)rounded}");
+        }
+    }
 }
 
 /// <summary>Shared cache of C2FullBlockSigmaAnatomy instances keyed by N, reused

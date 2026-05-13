@@ -1,8 +1,10 @@
+using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Probes;
 using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -50,6 +52,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
                 $"C2FullBlockSigmaAnatomy applies only to the c=2 stratum; got c={block.C}.",
                 nameof(block));
 
+        MathNetSetup.EnsureInitialized();
         var witnesses = ComputeAnatomy(block, q);
         return new C2FullBlockSigmaAnatomy(block, q, witnesses);
     }
@@ -150,6 +153,48 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         foreach (var w in SigmaSpectrum)
             if (w.BlochIndexN == n) return w.Sigma;
         return null;
+    }
+
+    /// <summary>Extract the F_a polynomial coefficients (low-to-high degree) via
+    /// Vandermonde fit through the F_a-mode σ values. Returns the polynomial
+    /// P(y) such that σ_n = P(y_n) / [D_k · N² · (N-1)] up to a denominator D_k
+    /// (D_k itself is NOT determined by this method; use
+    /// <see cref="F89UnifiedFaClosedFormClaim.PredictDenominator"/> for that).
+    /// The returned coefs are rationals as floating-point — multiply by the
+    /// expected D_k and N²(N-1) and check integrality to verify the closed form.
+    ///
+    /// <para>F_a count must equal floor(N_block/2). Throws if fewer F_a modes are
+    /// detected (could indicate an off-AT-lock case, e.g. degenerate Q).</para></summary>
+    public double[] ExtractRawPolynomialCoefficients()
+    {
+        var fa = SigmaSpectrum
+            .Where(w => w.BlochIndexN.HasValue)
+            .OrderBy(w => w.BlochIndexN!.Value)
+            .ToList();
+
+        int expectedCount = Block.N / 2;
+        if (fa.Count != expectedCount)
+            throw new InvalidOperationException(
+                $"Expected {expectedCount} F_a modes (floor(N/2) for N={Block.N}); got {fa.Count}.");
+
+        int n = fa.Count;
+        int chainN = Block.N;
+        double[] yVals = new double[n];
+        double[] rhs = new double[n];
+        for (int i = 0; i < n; i++)
+        {
+            int blochN = fa[i].BlochIndexN!.Value;
+            yVals[i] = F89PathKAtLockMechanismClaim.BlochEigenvalueY(chainN, blochN);
+            // P(y_i) = σ_n · D_k · N² · (N-1); we return the σ · N² · (N-1) part
+            // (without D_k) so the caller can rationalize by D_k.
+            rhs[i] = fa[i].Sigma * chainN * chainN * (chainN - 1);
+        }
+
+        // Vandermonde: V[i, j] = y_i^j (low-to-high powers)
+        var V = Matrix<double>.Build.Dense(n, n,
+            (i, j) => Math.Pow(yVals[i], j));
+        var rhsVec = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.DenseOfArray(rhs);
+        return V.Solve(rhsVec).ToArray();
     }
 
     protected override IEnumerable<IInspectable> ExtraChildren

@@ -4,6 +4,7 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Probes;
 using RCPsiSquared.Core.Resonance;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -84,6 +85,7 @@ public sealed class C2FullBlockEigenAnatomy : Claim
                 $"C2FullBlockEigenAnatomy applies only to the c=2 stratum; got c={block.C}.",
                 nameof(block));
 
+        MathNetSetup.EnsureInitialized();
         double qValue = q ?? new QEpLaw(InterChannelSvd.Build(block, 1, 3).Sigma0).Value;
         var witnesses = ComputeAnatomy(block, qValue);
         double totalWeight = witnesses.Sum(w => w.DiagonalWeight);
