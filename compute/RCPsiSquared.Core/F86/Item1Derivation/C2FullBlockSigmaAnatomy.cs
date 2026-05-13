@@ -67,7 +67,41 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
     private static IReadOnlyList<SigmaModeWitness> ComputeAnatomy(
         CoherenceBlock block, double q)
     {
-        throw new NotImplementedException("Implemented in Task 2.");
+        double j = q * block.GammaZero;
+        ComplexMatrix L = block.Decomposition.AssembleUniform(j);
+
+        var evd = L.Evd();
+        ComplexMatrix R = evd.EigenVectors;
+        ComplexMatrix rInv = R.Inverse();
+        var lambdas = evd.EigenValues;
+
+        ComplexVector probe = DickeBlockProbe.Build(block);
+        ComplexVector c0 = rInv * probe;
+
+        ComplexMatrix sKernel = SpatialSumKernel.Build(block);
+        ComplexMatrix sEigenBasis = R.ConjugateTranspose() * sKernel * R;
+
+        int dim = block.Basis.MTotal;
+        var witnesses = new List<SigmaModeWitness>(dim);
+        for (int i = 0; i < dim; i++)
+        {
+            double overlapSq = c0[i].Magnitude;
+            overlapSq *= overlapSq;
+            double sDiag = sEigenBasis[i, i].Real;
+            double sigma = overlapSq * sDiag;
+
+            witnesses.Add(new SigmaModeWitness(
+                EigenIndexAtQ: i,
+                EigenvalueReal: lambdas[i].Real,
+                EigenvalueImag: lambdas[i].Imaginary,
+                ProbeOverlapSquared: overlapSq,
+                SKernelDiagonal: sDiag,
+                Sigma: sigma,
+                BlochIndexN: null));
+        }
+
+        witnesses.Sort((a, b) => b.Sigma.CompareTo(a.Sigma));
+        return witnesses;
     }
 
     public override string DisplayName =>
