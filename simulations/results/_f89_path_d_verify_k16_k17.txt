@@ -1,0 +1,76 @@
+========================================================================
+F89 path-D closed-form verification: k=16 and k=17
+========================================================================
+
+Candidate formula (extracted from k=3..15 data, 13 points):
+  D_k = (odd(k))^2 * 2^E(k)
+  E(k) = max(0, floor((k-5)/2)) + v2(k) + max(0, v2(k)-2)
+
+Critical test: k=16 has v2(k)=4, bonus=max(0,4-2)=2.
+  This bonus is currently supported by only ONE data point (k=8, v2=3, bonus=1).
+  k=16 is the first v2=4 case -- if actual v2(D) != 11, the bonus formula is wrong.
+
+Parameters:
+  J=1.0, gamma=0.05, N_fixed=9 (raised if n_block+2 > N_fixed)
+  D_max=5000000, rationalization tol=0.001, Bloch tol=0.001
+
+Predictions:
+  k=16: E = max(0,5) + 4 + max(0,4-2) = 5 + 4 + 2 = 11
+         D = 1^2 * 2^11 = 1 * 2048 = 2048
+  k=17: E = max(0,6) + 0 + max(0,0-2) = 6 + 0 + 0 = 6
+         D = 17^2 * 2^6 = 289 * 64 = 18496
+
+========================================================================
+Running k=16 (CRITICAL TEST for v2(k)=4 bonus) ...
+========================================================================
+
+  --- path k=16 (nBlock=17, orbit=[2, 4, 6, 8, 10, 12, 14, 16]) ---
+  Predicted: E=11 = max(0,5) + 4 + max(0,4-2) = 5 + 4 + 2
+  Predicted D = (odd(16))^2 * 2^11 = 1^2 * 2^11 = 2048
+    building (SE,DE) sub-block (dim=2312)...
+    eigendecomposing 2312x2312 matrix...
+    eigendecomp done in 10.6s.
+    F_a modes found: 17 (expected 8)
+  p_n (scaled sigmas): ['207.083443', '55.107080', '22.359375', '10.645865', '5.277583', '2.484375', '0.967099', '0.200180']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 2048 = 2^11
+  Polynomial coefs (low->high): [12768, 7040, 8224, 2032, -1928, -476, 166, 41]
+  Wall time: 10.8s
+  Result: + FORMULA CONFIRMED (predicted 2048, actual 2048)
+
+k=16 DONE (10.8s). Verdict: +
+
+========================================================================
+Running k=17 ...
+========================================================================
+
+  --- path k=17 (nBlock=18, orbit=[2, 4, 6, 8, 10, 12, 14, 16, 18]) ---
+  Predicted: E=6 = max(0,6) + 0 + max(0,0-2) = 6 + 0 + 0
+  Predicted D = (odd(17))^2 * 2^6 = 17^2 * 2^6 = 18496
+    building (SE,DE) sub-block (dim=2754)...
+    eigendecomposing 2754x2754 matrix...
+    eigendecomp done in 15.9s.
+    F_a modes found: 18 (expected 9)
+  p_n (scaled sigmas): ['240.893274', '64.540909', '26.521849', '12.900468', '6.629204', '3.328624', '1.483852', '0.472913', '0.021296']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 18496 = 2^6*17^2
+  Polynomial coefs (low->high): [133184, 40704, 38912, 38432, -1296, -7880, -688, 550, 91]
+  Wall time: 16.1s
+  Result: + FORMULA CONFIRMED (predicted 18496, actual 18496)
+
+k=17 DONE (16.1s). Verdict: +
+
+========================================================================
+SUMMARY: F89 path-D closed-form verification k=16, k=17
+========================================================================
+
+   k  nBlock      pred D       pred-factored    actual D     actual-factored  verdict
+-----------------------------------------------------------------------------------------------
+  16      17        2048                2^11        2048                2^11  + formula confirmed
+  17      18       18496            2^6*17^2       18496            2^6*17^2  + formula confirmed
+
+OVERALL: + FORMULA CONFIRMED at k=16 and k=17
+  Candidate D_k = (odd(k))^2 * 2^E(k) now validated on 15 data points (k=3..17).
+  The v2(k)=4 bonus (max(0,v2(k)-2)=2) is confirmed by k=16.
+
+Wall times: k=16: 10.8s, k=17: 16.1s
