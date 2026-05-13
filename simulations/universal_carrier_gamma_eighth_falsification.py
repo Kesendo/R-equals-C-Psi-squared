@@ -1,83 +1,24 @@
 """Falsification witness: γ₀ = 1/8 has no operational signature beyond
 substrate-invariance (2026-05-13).
 
-# What this script falsifies
+Speculation tested: γ₀ = 1/8 = a_4 on the Pi2 dyadic ladder would put
+2γ₀ = 1/4 = a_3 at the fold-boundary anchor. Numerologically attractive
+but structurally suspect (dimensional mismatch: 2γ₀ is a rate, 1/4 is
+CΨ density; substrate-invariance says any γ₀ choice gives same
+dimensionless physics).
 
-During the Universal Carrier session (2026-05-12, see commits dd27b6f /
-aec0772 / f15fc8f), Claude (assistant) proposed the speculation:
+Test (N=3 chain, J=1.0, γ₀ ∈ {0.05, 0.10, 0.125=1/8}):
+- 9 distinct non-trivial Re values at all three γ₀; no novel degeneracy
+- Pure-weight rungs (n_XY ∈ {1,2,3}, multiplicities 14,14,4) γ-invariant
+- F33 mixed Q-dependent in the same pattern at all three γ₀
+- 14 modes at Re = -1/4 at γ₀ = 1/8 = n_XY=1 cluster at γ-scaled position
 
-    "If γ₀ = 1/8 = a_4 on the Pi2 dyadic ladder, then 2γ₀ = 1/4 = a_3
-     would coincide with the fold-boundary anchor. That would be the
-     'on-ladder' choice for γ₀."
+Result: γ₀ = 1/8 is operationally indistinguishable from γ₀ = 0.05 or 0.10.
+The 2γ₀ = 1/4 match is pure number coincidence across different physical
+units. Substrate-invariance per UniversalCarrierClaim is confirmed.
 
-The speculation was numerologically attractive (everything on the Pi2
-ladder) but had three a-priori problems:
-
-1. Dimensional mismatch: 2γ₀ is a rate (1/time), 1/4 is a CΨ density
-   (dimensionless). Same number, different physical things.
-2. Substrate-invariance (per F86KnowledgeBase γ-tests + UniversalCarrierClaim):
-   γ₀ is a code/substrate convention; dimensionless physics (Q = J/γ₀,
-   K = γ·t, n_XY-grid) is γ-invariant. No γ₀ choice should be physically
-   privileged.
-3. Pattern-matching urge: the speculation was driven by "wouldn't it be
-   neat if everything aligned" rather than by any framework constraint.
-
-This script tests whether γ₀ = 1/8 produces ANY operational signature that
-other γ₀ values do not.
-
-# What was tested
-
-For N=3 chain, J=1.0, three γ₀ values {0.05, 0.10, 0.125 = 1/8}:
-- Liouvillian eigenvalue spectrum (full 4³ = 64 modes)
-- Dimensionless rate Re/γ per cluster
-- Multiplicity preservation across γ₀ values
-- Distinct-Re count (looking for novel degeneracies at γ₀ = 1/8)
-- Direct count of modes at Re = -1/4 specifically at γ₀ = 1/8
-
-# Conclusion
-
-γ₀ = 1/8 is operationally indistinguishable from γ₀ = 0.05 or 0.10.
-
-- Pure-weight rungs (n_XY ∈ {1, 2, 3}, multiplicity 14, 14, 4) show
-  identical Re/γ values across all three γ₀: γ-invariant per Absorption
-  Theorem.
-- F33-mixed clusters shift slightly with Q = J/γ across all three γ₀
-  (J=1 fixed, varying γ varies Q), in the same Q-dependent pattern; no
-  γ₀ = 1/8 specific anomaly.
-- 9 distinct non-trivial Re values at all three γ₀: no novel degeneracy
-  at γ₀ = 1/8.
-- The "14 modes at Re = -1/4" at γ₀ = 1/8 is just the n_XY = 1 cluster
-  at its γ-scaled position; identical to "14 modes at -0.10" at γ₀ =
-  0.05 or "14 modes at -0.20" at γ₀ = 0.10.
-
-The 2γ₀ = 1/4 numerical match at γ₀ = 1/8 is a pure number coincidence
-across different physical units (rate vs CΨ density). It produces no
-observable signature.
-
-The hypothesis "γ₀ = 1/8 as on-ladder convention" is empty; substrate-
-invariance (per UniversalCarrierClaim docstring) is the right reading.
-
-# Why this script is committed (rather than archived as WIP)
-
-Per CLAUDE.md "Negative results matter: document failures with the same
-rigor as successes." This file is the falsification witness. Future readers
-of the project (including future-Claude) are protected from re-spinning the
-same pattern-matching speculation by being able to re-run this and confirm
-the empty result.
-
-# Anchors
-
-- Speculation source: conversation 2026-05-12 (memory layer; see
-  user-local Claude memory project_algebra_handshake_at_quarter.md
-  open-territory section, where γ₀ = 1/8 was listed and is now removed
-  per this falsification).
-- Substrate-invariance authority: compute/RCPsiSquared.Core/Symmetry/
-  UniversalCarrierClaim.cs DefaultGammaZero const + ExtraChild
-  "substrate invariance" + ValidateAgainstPythonStepFTests covering
-  γ₀ ∈ {0.025, 0.05, 0.10}.
-- Sibling demos (positive witnesses for substrate-invariance):
-  simulations/_universal_carrier_demo.py and
-  simulations/_universal_carrier_zoom.py.
+See AbsorptionTheoremClaim, UniversalCarrierClaim.DefaultGammaZero, and
+ValidateAgainstPythonStepFTests for the substrate-invariance authority.
 """
 import sys
 import numpy as np
