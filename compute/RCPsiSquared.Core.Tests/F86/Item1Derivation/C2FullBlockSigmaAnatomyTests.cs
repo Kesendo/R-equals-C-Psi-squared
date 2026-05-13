@@ -102,4 +102,18 @@ public class C2FullBlockSigmaAnatomyTests
             $"path-{k} n={n}: extracted={extracted.Value:G10}, expected={expected:G10}, " +
             $"diff={Math.Abs(extracted.Value - expected):G6}");
     }
+
+    [Fact]
+    public void FbModes_AreInvisibleToSpatialSumKernel()
+    {
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(6));   // c=2 N=6, F_b at Re(λ) ≈ -6γ₀ = -0.3
+        double fbRateTarget = -6.0 * anatomy.Block.GammaZero;
+        var fbModes = anatomy.SigmaSpectrum
+            .Where(w => Math.Abs(w.EigenvalueReal - fbRateTarget) <= 1e-3)
+            .ToList();
+        Assert.NotEmpty(fbModes);
+        Assert.All(fbModes, w =>
+            Assert.True(w.Sigma < 1e-12,
+                $"F_b mode at λ={w.EigenvalueReal}+{w.EigenvalueImag}i should have σ≈0; got {w.Sigma:G6}"));
+    }
 }
