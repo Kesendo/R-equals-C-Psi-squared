@@ -19,6 +19,7 @@ public class F86HwhmClosedFormClaimTests
     [InlineData(6, 0, 2.52, 0.7737)]   // Endpoint
     [InlineData(6, 2, 1.44, 0.7449)]   // CentralSelfPaired
     [InlineData(7, 0, 2.53, 0.7738)]   // Endpoint
+    [InlineData(7, 2, 1.54, 0.7469)]   // Mid (N=7 b=2: q-peak in Mid range, no escape)
     [InlineData(7, 1, 7.27, 0.9162)]   // Orbit2Escape
     [InlineData(8, 3, 16.79, 0.5778)]  // CentralEscapeOrbit3
     public void PredictHwhmRatio_MatchesEmpiricalWithin0p005(int n, int b, double qPeak, double expected)

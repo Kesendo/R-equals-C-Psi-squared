@@ -12,6 +12,11 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 public sealed class F86HwhmClosedFormClaim : Claim
 {
     private const double BareFloorValue = 0.671535;
+
+    /// <summary>The g_eff conversion factor: 4.39382 = 2 × C2HwhmRatio.BareDoubledPtfXPeak (2.196910).
+    /// Matches the Python BARE_DOUBLED_PTF_XPEAK in
+    /// simulations/_f86_hwhm_subclass_stratification.py used to generate the (alpha, beta) per-sub-class
+    /// fit in <see cref="_subClassParams"/>. Anchored to PROOF_F86_QPEAK.md.</summary>
     private const double BareDoubledPtfXPeakValue = 4.39382;
 
     public double BareFloor => BareFloorValue;
