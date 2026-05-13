@@ -127,7 +127,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Sigma_AtPath7_ExtractsFourFaModes()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(9));
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(8));
         var faWitnesses = anatomy.SigmaSpectrum
             .Where(w => w.BlochIndexN.HasValue)
             .OrderBy(w => w.BlochIndexN!.Value)
@@ -141,7 +141,7 @@ public class C2FullBlockSigmaAnatomyTests
     [Fact]
     public void Sigma_AtPath7_PolynomialFitIsCubic()
     {
-        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(9));
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(8));
         var faWitnesses = anatomy.SigmaSpectrum
             .Where(w => w.BlochIndexN.HasValue)
             .OrderBy(w => w.BlochIndexN!.Value)
@@ -149,7 +149,7 @@ public class C2FullBlockSigmaAnatomyTests
         Assert.Equal(4, faWitnesses.Count);
 
         // y_n · J for the four orbit points; σ_n · N² · (N-1) = P_path-7(y_n) (mod denom)
-        int N = 9;
+        int N = 8;
         int nBlock = 8;
         double[] yValues = new double[4];
         double[] sigmaScaled = new double[4];

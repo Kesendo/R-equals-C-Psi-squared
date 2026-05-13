@@ -14,14 +14,15 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// quadratic self-pairing amplitude σ_i = |c0_i|² · (R†·S·R)[i,i].Real for every
 /// eigenmode of the uniform-J block-L. Filters F_a modes by Re(λ) ≈ −2γ₀ and
 /// assigns each one a Bloch index n in the S_2-anti orbit
-/// {2, 4, ..., 2·floor(N_block/2)} via Im(λ_i) / J ≈ y_n = 4·cos(πn/(N_block+1)).
+/// {2, 4, ..., 2·floor(N_block/2)} via Im(λ_i) / (J/2) ≈ y_n = 4·cos(πn/(N_block+1))
+/// (F89-J = F86-J/2 per F90 bridge).
 ///
 /// <para>Counterpart to <see cref="C2FullBlockEigenAnatomy"/>: same biorthogonal
 /// eigendecomposition + Dicke probe + spectral coordinates, but projected through
 /// the F86 spatial-sum kernel S = Σ_l 2·|w_l⟩⟨w_l| instead of the per-bond
 /// Hellmann-Feynman matrix M_h_per_bond[b]. Verifies bit-exactly against the
 /// analytical <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> table for
-/// path-3..6 and lifts the extraction to path-7 (c=2 N=9) where no analytical
+/// path-3..6 and lifts the extraction to path-7 (c=2 N=8) where no analytical
 /// oracle exists.</para>
 ///
 /// <para>Tier outcome: Tier2Verified. Pure numerical anatomy at a fixed Q value;
