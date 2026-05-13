@@ -82,6 +82,12 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         ComplexMatrix sEigenBasis = R.ConjugateTranspose() * sKernel * R;
 
         int dim = block.Basis.MTotal;
+        int nBlock = block.N;
+        var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
+        double faRateTarget = -2.0 * block.GammaZero;
+        double faRateTolerance = 1e-6 * block.GammaZero;
+        double faFreqTolerance = 1e-4;
+
         var witnesses = new List<SigmaModeWitness>(dim);
         for (int i = 0; i < dim; i++)
         {
@@ -90,6 +96,21 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
             double sDiag = sEigenBasis[i, i].Real;
             double sigma = overlapSq * sDiag;
 
+            int? blochIndexN = null;
+            if (Math.Abs(lambdas[i].Real - faRateTarget) <= faRateTolerance)
+            {
+                double imOverJ = lambdas[i].Imaginary / j;
+                foreach (int n in orbit)
+                {
+                    double yN = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
+                    if (Math.Abs(imOverJ - yN) <= faFreqTolerance)
+                    {
+                        blochIndexN = n;
+                        break;
+                    }
+                }
+            }
+
             witnesses.Add(new SigmaModeWitness(
                 EigenIndexAtQ: i,
                 EigenvalueReal: lambdas[i].Real,
@@ -97,7 +118,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
                 ProbeOverlapSquared: overlapSq,
                 SKernelDiagonal: sDiag,
                 Sigma: sigma,
-                BlochIndexN: null));
+                BlochIndexN: blochIndexN));
         }
 
         witnesses.Sort((a, b) => b.Sigma.CompareTo(a.Sigma));
