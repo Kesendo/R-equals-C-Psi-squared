@@ -73,7 +73,10 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         CoherenceBlock block, double q)
     {
         double j = q * block.GammaZero;
-        ComplexMatrix L = block.Decomposition.AssembleUniform(j);
+        // Use BuildUniformLAt: skips per-bond Mh storage (saves NumBonds × Mtot² memory),
+        // critical at large N (e.g. nBlock=29 saves ~62 GB vs the full Decomposition path).
+        // Equivalent to block.Decomposition.AssembleUniform(j) but does not allocate MhPerBond[].
+        ComplexMatrix L = BlockLDecomposition.BuildUniformLAt(block, j);
 
         var evd = L.Evd();
         ComplexMatrix R = evd.EigenVectors;

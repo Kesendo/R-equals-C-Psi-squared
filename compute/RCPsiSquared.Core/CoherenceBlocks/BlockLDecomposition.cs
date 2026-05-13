@@ -123,4 +123,47 @@ public sealed class BlockLDecomposition
 
     /// <summary>L = D + J · MhTotal for uniform J across all bonds.</summary>
     public ComplexMatrix AssembleUniform(double J) => D + (Complex)J * MhTotal;
+
+    /// <summary>Build the uniform-J Liouvillian L = D + J · Σ_b M_h_per_bond[b] DIRECTLY,
+    /// without ever materialising the per-bond matrices. Memory cost: 1 × Mtot² complex
+    /// (the L matrix itself) instead of (NumBonds + 2) × Mtot² for the full
+    /// <see cref="BlockLDecomposition"/>. Use when only a single uniform-J L is needed
+    /// (no per-bond Hellmann-Feynman): e.g. <see cref="F86.Item1Derivation.C2FullBlockSigmaAnatomy"/>
+    /// at high N where the per-bond storage exceeds available RAM.
+    /// <para>Numerically equivalent to <c>block.Decomposition.AssembleUniform(J)</c>,
+    /// but skips the BlockLDecomposition allocation.</para></summary>
+    public static ComplexMatrix BuildUniformLAt(CoherenceBlock block, double J)
+    {
+        int N = block.N;
+        double gamma0 = block.GammaZero;
+        BlockBasis basis = block.Basis;
+        int Mtot = basis.MTotal;
+
+        var lRaw = new Complex[Mtot, Mtot];
+
+        var pFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mp);
+        foreach (int p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
+        var qFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mq);
+        foreach (int q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
+
+        Complex hopP = new Complex(0.0, -J);
+        Complex hopQ = new Complex(0.0, +J);
+
+        foreach (int p in basis.StatesP)
+        {
+            foreach (int q in basis.StatesQ)
+            {
+                int i = basis.FlatIndex(p, q);
+                int hd = BitOperations.PopCount((uint)(p ^ q));
+                lRaw[i, i] = new Complex(-2.0 * gamma0 * hd, 0.0);
+
+                foreach (var (_, pFlipped) in pFlips[p])
+                    lRaw[basis.FlatIndex(pFlipped, q), i] += hopP;
+                foreach (var (_, qFlipped) in qFlips[q])
+                    lRaw[basis.FlatIndex(p, qFlipped), i] += hopQ;
+            }
+        }
+
+        return Matrix<Complex>.Build.DenseOfArray(lRaw);
+    }
 }
