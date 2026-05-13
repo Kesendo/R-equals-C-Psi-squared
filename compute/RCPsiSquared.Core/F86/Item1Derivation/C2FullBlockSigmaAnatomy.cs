@@ -135,6 +135,16 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
     public override string Summary =>
         $"σ-spectrum over {SigmaSpectrum.Count} modes at Q={Q:G4} ({Tier.Label()})";
 
+    /// <summary>Return the σ value of the F_a mode at Bloch index n, or <c>null</c>
+    /// if no F_a mode was assigned that index. Convenience accessor for
+    /// verification against <see cref="F89UnifiedFaClosedFormClaim.Sigma"/>.</summary>
+    public double? SigmaForBlochIndex(int n)
+    {
+        foreach (var w in SigmaSpectrum)
+            if (w.BlochIndexN == n) return w.Sigma;
+        return null;
+    }
+
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get

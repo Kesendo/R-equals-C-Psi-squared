@@ -2,6 +2,7 @@ using System.Linq;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
@@ -67,5 +68,31 @@ public class C2FullBlockSigmaAnatomyTests
             .OrderBy(n => n)
             .ToArray();
         Assert.Equal(new[] { 2, 4, 6 }, assigned);
+    }
+
+    [Theory]
+    [InlineData(3, 2)]   // path-3 N=5: P(y_2) = 14·y_2 + 47, y_2 = 4cos(2π/5) ≈ 1.236
+    [InlineData(3, 4)]
+    [InlineData(4, 2)]   // path-4 N=6
+    [InlineData(4, 4)]
+    [InlineData(5, 2)]   // path-5 N=7
+    [InlineData(5, 4)]
+    [InlineData(5, 6)]
+    [InlineData(6, 2)]   // path-6 N=8: includes the y_4 = 0 zero-mode case
+    [InlineData(6, 4)]
+    [InlineData(6, 6)]
+    public void Sigma_AtPathK_MatchesF89UnifiedClosedForm(int k, int n)
+    {
+        int N = k + 1;   // C2Block(N) is F89 path-(N-1), so for path-k we need N = k+1
+        var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(N));
+        double? extracted = anatomy.SigmaForBlochIndex(n);
+        Assert.NotNull(extracted);
+
+        // F89 Sigma expects blochN >= k+2, so pass a virtual full-chain size one beyond the block
+        int blochN = N + 1;
+        double expected = F89UnifiedFaClosedFormClaim.Sigma(k, n, blochN: blochN);
+        Assert.True(Math.Abs(extracted!.Value - expected) <= 1e-8,
+            $"path-{k} n={n}: extracted={extracted.Value:G10}, expected={expected:G10}, " +
+            $"diff={Math.Abs(extracted.Value - expected):G6}");
     }
 }
