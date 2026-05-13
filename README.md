@@ -30,7 +30,7 @@ The thing that remains is not fighting the absorption. It is made of it.
 
 Later discoveries under the [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) framework (γ₀ as a framework constant, not a tunable parameter) sharpened the operational consequence: Alice chooses her initial state (receiver engineering), not her noise profile. The F67 bonding modes form Alice's operationally complete receiver menu. Against the classic ENAQT-optimised transport baseline, bonding-mode receivers reach **4000-5500×** improvement in simulation. The receiver-engineering signature was confirmed live on IBM Kingston (Heron r2) in April 2026, with the noise-robustness gap matching framework prediction (see Section 11 for numbers and discussion).
 
-In April 2026 we closed the chain from below: the Heisenberg coupling is not postulated, it is **forced** by the C²⊗C² parity structure of the Pauli algebra at d=2. The Level 0 → Level 1 V-Effect bridge produces the textbook atomic exchange with predicted prefactor δE_GS = −3α² / (4(J_A + J_B)), an Anderson-superexchange shape derived end-to-end from Pauli algebra alone. The (w=0, w=N) extreme sectors of the palindromic relation are immune to every 2-body Hamiltonian (analytical proof). The 14-of-36 V-Effect break decomposes into a 3 / 19 / 14 fine structure invisible to spectroscopy. All of this is operationalised in [framework.py](simulations/framework.py): ur-Pauli indexed by (bit_a, bit_b), ur-Heisenberg as the unique both-parity-even bilinear, ur-eigenvalues from the Pauli identity (σ·σ)² = 3I − 2(σ·σ). The 3/19/14 fine structure was verified live on `ibm_marrakesh` (Heron r2) on 2026-04-26: discriminating Pauli expectation ⟨X₀Z₂⟩ = +0.011 (truly), **-0.711** (soft), +0.205 (hard), all three categories separately resolved at 13-47σ. See Section 12.
+In April 2026 we closed the chain from below: the Heisenberg coupling is not postulated, it is **forced** by the C²⊗C² parity structure of the Pauli algebra at d=2. The Level 0 → Level 1 V-Effect bridge produces the textbook atomic exchange with predicted prefactor δE_GS = −3α² / (4(J_A + J_B)), an Anderson-superexchange shape derived end-to-end from Pauli algebra alone. The (w=0, w=N) extreme sectors of the palindromic relation are immune to every 2-body Hamiltonian (analytical proof). The 14-of-36 V-Effect break decomposes into a 3 / 19 / 14 fine structure invisible to spectroscopy. All of this is operationalised in the [framework package](simulations/framework/): ur-Pauli indexed by (bit_a, bit_b), ur-Heisenberg as the unique both-parity-even bilinear, ur-eigenvalues from the Pauli identity (σ·σ)² = 3I − 2(σ·σ). The 3/19/14 fine structure was verified live on `ibm_marrakesh` (Heron r2) on 2026-04-26: discriminating Pauli expectation ⟨X₀Z₂⟩ = +0.011 (truly), **-0.711** (soft), +0.205 (hard), all three categories separately resolved at 13-47σ. See Section 12.
 
 Early speculations live in `recovered/`: some turned out to be premature
 rather than wrong, others remain unsupported. We keep them because the
@@ -63,7 +63,7 @@ formulas in the prose; every claim links into the proofs
 error, every limitation, every unanswered question. Because a theory that
 only shows its strengths is not a theory
 
-→ **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** + **[framework.py](simulations/framework.py)**: how the Heisenberg form is forced from below by Pauli algebra at d=2, and the V-Effect bridge that produces atomic exchange with quantitative prefactor. Section 12 below.
+→ **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** + **[framework package](simulations/framework/)**: how the Heisenberg form is forced from below by Pauli algebra at d=2, and the V-Effect bridge that produces atomic exchange with quantitative prefactor. Section 12 below.
 
 If you work with neural networks: [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites).
 
@@ -550,7 +550,7 @@ Re-examining the V-Effect's 14-of-36 finding via framework primitives reveals a 
 
 The 3/19 distinction is verified at simulation level via eigenvector pairing: for each L eigenvalue λ_i, find its partner λ_j ≈ −λ_i − 2Σγ in the spectrum, then compute |⟨v_j | Π · v_i⟩| / (‖v_j‖ · ‖Π v_i‖). For the 3 truly-unbroken: overlap = 1.000000 (machine precision). For the 19 soft-broken: overlap = 0.000 to 0.598 (severely broken; many cases land on a subspace fully orthogonal to the partner eigenspace). The spectrum lies: it shows palindromic frequencies while the underlying eigenvector structure is scrambled.
 
-**Live verification on IBM Marrakesh (2026-04-26):** the 3/19/14 distinction is operationally observable on real Heron r2 hardware. Three representative Hamiltonians (XX+YY truly, XY+YX soft, XX+XY hard) on path [48, 49, 50] from |+−+⟩ initial state at t=0.8, n_trotter=3, 4096 shots/basis. Discriminating Pauli expectation ⟨X₀Z₂⟩: +0.011 (truly), **-0.711** (soft), +0.205 (hard). Discrimination Δ(soft − truly) = **-0.72**, stronger than the continuous-Lindblad idealization -0.62; the difference is fully explained by Trotter n=3 discretization at δt=0.267 (matching prediction to 0.0014; T1 actually attenuates, see [MARRAKESH_THREE_LAYERS](experiments/MARRAKESH_THREE_LAYERS.md)). All three categories separately resolved at 13-47σ. Job `d7mjnjjaq2pc73a1pk4g`. See [`data/ibm_soft_break_april2026/`](data/ibm_soft_break_april2026/README.md). This is the FIRST framework-driven hardware test (the IBM pipeline script `run_soft_break.py` is the first in that directory to import `framework.py`).
+**Live verification on IBM Marrakesh (2026-04-26):** the 3/19/14 distinction is operationally observable on real Heron r2 hardware. Three representative Hamiltonians (XX+YY truly, XY+YX soft, XX+XY hard) on path [48, 49, 50] from |+−+⟩ initial state at t=0.8, n_trotter=3, 4096 shots/basis. Discriminating Pauli expectation ⟨X₀Z₂⟩: +0.011 (truly), **-0.711** (soft), +0.205 (hard). Discrimination Δ(soft − truly) = **-0.72**, stronger than the continuous-Lindblad idealization -0.62; the difference is fully explained by Trotter n=3 discretization at δt=0.267 (matching prediction to 0.0014; T1 actually attenuates, see [MARRAKESH_THREE_LAYERS](experiments/MARRAKESH_THREE_LAYERS.md)). All three categories separately resolved at 13-47σ. Job `d7mjnjjaq2pc73a1pk4g`. See [`data/ibm_soft_break_april2026/`](data/ibm_soft_break_april2026/README.md). This is the FIRST framework-driven hardware test (the IBM pipeline script `run_soft_break.py` is the first in that directory to import the framework package).
 
 → **[Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md)** (the level-stack inheritance picture: Level 0 → Level 1 via V-Effect)
 → [Proof: Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) ((w=0, w=N) palindromic immunity for any 2-body H, four lemmas)
@@ -559,7 +559,7 @@ The 3/19 distinction is verified at simulation level via eigenvector pairing: fo
 → [Exchange from V-Effect](experiments/EXCHANGE_FROM_V_EFFECT.md) (−3α²/(8J) symmetric, derived end-to-end from Pauli algebra)
 → [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) (−3α²/(4(J_A+J_B)), first calculation built on framework primitives)
 → [On the Soft Break](reflections/ON_THE_SOFT_BREAK.md) (what the framework reveals beyond V_EFFECT_PALINDROME's spectral test)
-→ [framework.py](simulations/framework.py) (ur-Pauli, ur-Heisenberg, ur-eigenvalues, palindrome residual, V-Effect primitives)
+→ [framework package](simulations/framework/) (ur-Pauli, ur-Heisenberg, ur-eigenvalues, palindrome residual, V-Effect primitives in the 4-layer cockpit)
 
 ---
 
@@ -672,7 +672,7 @@ Honesty matters more than impression. These are things we have
 | [V-Effect Boundary Localization](experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) | Numerical verification: extreme sectors immune, breaks confined to boundary |
 | [V-Effect Fine Structure](experiments/V_EFFECT_FINE_STRUCTURE.md) | 14-of-36 result decomposes into 3 truly unbroken + 19 soft-broken + 14 hard-broken |
 | [Exchange from V-Effect](experiments/EXCHANGE_FROM_V_EFFECT.md) | Effective Level-1 exchange δE = -3α²/(8J) derived end-to-end from Pauli algebra |
-| [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) | Generalisation -3α²/(4(J_A+J_B)), first calculation built on framework.py |
+| [Asymmetric Exchange](experiments/ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) | Generalisation -3α²/(4(J_A+J_B)), first calculation built on the framework package |
 
 ### Synthesis and interpretation
 
@@ -700,19 +700,31 @@ Honesty matters more than impression. These are things we have
 | Folder | Contents |
 |:-------|:---------|
 | `docs/` | Proofs, theorems, synthesis documents, master references |
-| `experiments/` | All tested results and null results |
-| `hypotheses/` | Speculative interpretations, clearly labeled |
-| `simulations/` | Python scripts (Lindblad, Liouvillian, cavity analysis), incl. `framework.py` (ur-Pauli, ur-Heisenberg, ur-eigenvalues primitives) |
-| `simulations/neural/` | Neural palindrome computations (Wilson-Cowan, C. elegans) |
-| `simulations/results/` | All computation outputs |
+| `experiments/` | All tested results and null results (~140 entries) |
+| `hypotheses/` | Speculative interpretations, clearly tier-labeled |
+| `reflections/` | Synthesis arcs across hypotheses; reading-mode threads (~19 entries) |
+| `simulations/` | Python view-layer. `framework/` package (4-layer cockpit: primitives, entities, diagnostics, workflows; ~25 files). `framework_archive.py` (the original monolithic version, kept as repository memory). `neural/` (Wilson-Cowan, C. elegans). `water/` (hydrogen-bond qubit). Plus ~410 standalone scripts (one-shot exploration; `_`-prefix indicates work-in-progress) |
+| `simulations/results/` | All computation outputs (~80 sub-folders per experiment) |
 | `simulations/app/` | Five Regulator Simulator (Streamlit) |
-| `compute/` | C# engines: Compute (eigendecomposition, N=2-8) + Propagate (RK4, N=11+) |
-| `data/` | IBM Torino measurement data |
-| `recovered/` | 5 files with disproven claims, kept for honesty |
+| `compute/` | C# layered architecture (see "C# layered architecture" section below): Core (typed F-Claims, Π², Pi2 foundation, BlockSpectrum, SymmetryFamily; active development front since 2026-04-30) + Compute (eigendecomp N=2-8) + Propagate (RK4 + matrix-free, N up to 15) + Diagnostics + Cli + Orchestration + Runtime + Visualization, each with their Tests project |
+| `data/` | IBM Torino, Marrakesh, Kingston measurement data |
+| `visualizations/` | Figures and plots, incl. Mandelbrot trajectory overlays |
+| `review/` | Internal audit + emerging-questions tracking (`EMERGING_QUESTIONS`, `EQ###_FINDINGS`, `OPEN_QUESTIONS_INDEX`) |
+| `recovered/` | "Premature, not wrong" + unsupported + early-exploration entries (6 files, kept for honesty about the research process; some like `LIGHT_FIRST_FREE_MIRRORING` were ahead of the math and later confirmed) |
 
-## C# compute engine
+## C# layered architecture
 
-For N ≥ 6, Python is too slow. The C# engine uses element-wise
+The `compute/` directory grew from a single eigendecomposition backend into a layered architecture. Three layers, distinct roles:
+
+### C# Core (typed-knowledge layer; active development front since 2026-04-30)
+
+`compute/RCPsiSquared.Core/` is the typed home for the project's structural results. Each F-formula, Pi2 foundation anchor, symmetry-family member, and Π² primitive is a typed Claim with a Tier label (`Tier1Derived`, `Tier1Candidate`, `Tier2Verified`, etc.), dependencies on other Claims, and inspectable properties. The aggregator `Pi2KnowledgeBase` exposes 15 Tier-1 derived claims under `--root pi2`; `F86KnowledgeBase`, `BlockSpectrum`, `SymmetryFamily` are sister knowledge bases. Live introspection via `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root pi2` (or any other root).
+
+Recent additions (2026-05): `UniversalCarrierClaim` (γ₀ as protection-constant + observation-substrate in one role; `DefaultGammaZero = 0.05` is "our c"); `n=0` doppelte Rolle on `Pi2DyadicLadderClaim` (a₀ = 2 carries both qubit-dimension and absorption-quantum-coefficient readings); F91/F92/F93 anti-palindromic γ/J/h symmetries; XGlobalChargeConjugationPairing in BlockSpectrum.
+
+### C# Compute (eigendecomposition, N=2-8)
+
+For N ≥ 6, Python is too slow. The Compute engine uses element-wise
 Liouvillian construction with Intel MKL eigendecomposition on 24 cores.
 
 | N | Matrix | Build | Eigen | Oscillatory rates | Mirror |
@@ -724,12 +736,18 @@ Liouvillian construction with Intel MKL eigendecomposition on 24 cores.
 N=8 uses native memory (64 GB) + OpenBLAS ILP64 LAPACK.
 All timings on Intel Core Ultra 9 285k (24 cores), 128 GB RAM.
 
+### C# Propagate (RK4 / matrix-free, N up to 15)
+
 For N > 8, RCPsiSquared.Propagate uses RK4 integration of the Lindblad
 equation directly on the density matrix (tested to N=15, matrix-free).
 The `brecher` sub-mode adds F67 receiver-engineering evaluation with
 arbitrary `bonding:k` or bit-pattern initial states (commits `0917038`,
 `865641c`, `8caf499`, `e1ee822`). Matrix-free path handles N ≥ 13 for
 brecher mode (commit `a5b347d`).
+
+### Three-layer hierarchy (Markdown, Python, C#)
+
+The framework itself lives in Markdown (`docs/`, `hypotheses/`, `reflections/`, `experiments/`); Python (`simulations/framework/`) and C# (`compute/RCPsiSquared.Core/`) are view-layers operationalising what the Markdown describes. The Python framework was the primary active layer through April 2026 (V-Effect, soft-break, framework primitives); since 2026-04-30 the typed C# Core has become the active development front. Both view-layers remain in use; the Python package is stable but not actively extended.
 
 ---
 
