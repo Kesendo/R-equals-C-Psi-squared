@@ -99,9 +99,9 @@ public sealed class F86KnowledgeBase : IInspectable
 
     /// <summary>F89 per-Bloch-mode σ_n extraction via R†·S·R diagonal at the c=2 stratum
     /// (Tier 2 verified). Bit-exact match against
-    /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..6 (boundary case
-    /// nBlock = N = k+1, no bare site); provides path-7 data at c=2 N=8 (no
-    /// analytical oracle). Non-null iff <c>Block.C == 2</c>. Lazily built on first access,
+    /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..7 (path-7 closed form
+    /// derived 2026-05-13 via this anatomy; boundary case nBlock = N = k+1, no bare site).
+    /// Non-null iff <c>Block.C == 2</c>. Lazily built on first access,
     /// the full-block eigendecomposition runs only once and only on read.</summary>
     public C2FullBlockSigmaAnatomy? FullBlockSigmaAnatomy => _fullBlockSigmaAnatomy.Value;
 
@@ -225,7 +225,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
         // F89 per-Bloch-mode sigma anatomy (Tier2Verified): extracts σ_n via R†·S·R diagonal
         // for all F_a modes of the c=2 uniform-J block-L. Bit-exact vs F89UnifiedFaClosedFormClaim
-        // for path-3..6; lifts to path-7 (c=2 N=8) where no analytical oracle exists.
+        // for path-3..7 (path-7 closed form derived 2026-05-13 from this anatomy).
         // Only meaningful at c=2 (throws otherwise); null for all other c.
         _fullBlockSigmaAnatomy = new Lazy<C2FullBlockSigmaAnatomy?>(() =>
             block.C == 2 ? C2FullBlockSigmaAnatomy.Build(block) : null);

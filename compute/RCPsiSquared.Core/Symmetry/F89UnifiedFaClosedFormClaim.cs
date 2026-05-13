@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F89 unified F_a AT-locked amplitude closed form across path-3..6
+/// <summary>F89 unified F_a AT-locked amplitude closed form across path-3..7
 /// (Tier 1 derived; bit-exact verified):
 ///
 /// <code>
@@ -17,13 +17,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>path-4 (N_block=5): P(y) = 10y + 25, D = 4</item>
 ///   <item>path-5 (N_block=6): P(y) = 13y² + 82y + 129, D = 25</item>
 ///   <item>path-6 (N_block=7): P(y) = 17y² + 72y + 80, D = 18</item>
+///   <item>path-7 (N_block=8): P(y) = 21y³ + 130y² + 292y + 382, D = 98 = 2·7²</item>
 /// </list>
 ///
 /// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
-/// through F_a count distinct y_n values). Sum F_a · N²(N−1) is rational across
-/// all paths via Newton's identities on the cyclotomic minimal polynomial of y.
-/// No N_block-parametric closed form for (P_path, D_path) was found from
-/// 4-point fitting (negative result).</para>
+/// through F_a count distinct y_n values); path-7: cubic via cyclotomic Φ_9 = y⁶+y³+1.
+/// Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the
+/// cyclotomic minimal polynomial of y. No N_block-parametric closed form for
+/// (P_path, D_path) was found from 4-point fitting (negative result); each path
+/// remains an individual table entry.</para>
 ///
 /// <para>Anchors: <c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>,
 /// <c>_f89_path4_at_locked_amplitude_symbolic.py</c>,
@@ -44,6 +46,7 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     private static readonly double[] _path4Coefs = { 25.0, 10.0 };          // 10y + 25
     private static readonly double[] _path5Coefs = { 129.0, 82.0, 13.0 };   // 13y² + 82y + 129
     private static readonly double[] _path6Coefs = { 80.0, 72.0, 17.0 };    // 17y² + 72y + 80
+    private static readonly double[] _path7Coefs = { 382.0, 292.0, 130.0, 21.0 };  // 21y³ + 130y² + 292y + 382
 
     /// <summary>Per-path (P_path coefficients low-to-high degree, D_path) table.
     /// Returns the integer-coefficient numerator polynomial coefficients for
@@ -56,9 +59,10 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
             4 => (_path4Coefs, 4),
             5 => (_path5Coefs, 25),
             6 => (_path6Coefs, 18),
+            7 => (_path7Coefs, 98),
             _ => throw new ArgumentOutOfRangeException(nameof(k), k,
-                "Unified F_a closed form is currently tabulated for path-3..6 only. " +
-                "Path-7+ extensions: cyclotomic Φ_9 = x⁶+x³+1; coefficients open."),
+                "Unified F_a closed form is currently tabulated for path-3..7 only. " +
+                "Path-8+ extensions: cyclotomic Φ_{nBlock+1}; coefficients open."),
         };
     }
 
@@ -66,7 +70,7 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).</summary>
     public static double Sigma(int k, int n, int blochN)
     {
-        if (k < 3 || k > 6) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6} only.");
+        if (k < 3 || k > 7) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6, 7} only.");
         int nBlock = k + 1;
         if (blochN < nBlock + 1)
             throw new ArgumentOutOfRangeException(nameof(blochN), blochN,
@@ -89,7 +93,7 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     /// N²(N-1)).</summary>
     public static double SigmaSum(int k, int blochN)
     {
-        if (k < 3 || k > 6) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6} only.");
+        if (k < 3 || k > 7) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6, 7} only.");
         int nBlock = k + 1;
         var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
         double sum = 0.0;
@@ -98,7 +102,7 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     }
 
     public F89UnifiedFaClosedFormClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F89 unified F_a AT-locked amplitude closed form across path-3..6: sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)] with y_n = 4cos(πn/(N_block+1)) on the SE-anti Bloch orbit; (P_path, D_path) tabulated per path; sum F_a is rational across all paths via Newton's identities on the cyclotomic minimal polynomial",
+        : base("F89 unified F_a AT-locked amplitude closed form across path-3..7: sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)] with y_n = 4cos(πn/(N_block+1)) on the SE-anti Bloch orbit; (P_path, D_path) tabulated per path; sum F_a is rational across all paths via Newton's identities on the cyclotomic minimal polynomial",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
                "simulations/_f89_path3_at_locked_amplitude_symbolic.py + " +
@@ -106,17 +110,18 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
                "simulations/_f89_path5_at_locked_amplitude_symbolic.py + " +
                "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +
                "simulations/_f89_path5_cardano_cubic_individuals.py + " +
-               "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs + " +
+               "simulations/_f89_to_f86_kbond_via_eigendecomp.py + compute/RCPsiSquared.Core/F86/Item1Derivation/C2FullBlockSigmaAnatomy.cs (path-7 extraction)")
     {
         _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
         _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>
-        "F89 unified F_a AT-locked amplitude closed form: sigs = P_path(y_n) / [D_path·N²(N-1)] across path-3..6";
+        "F89 unified F_a AT-locked amplitude closed form: sigs = P_path(y_n) / [D_path·N²(N-1)] across path-3..7";
 
     public override string Summary =>
-        $"sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)]; (P,D) = {{(14y+47,9), (10y+25,4), (13y²+82y+129,25), (17y²+72y+80,18)}} for path-{{3,4,5,6}}; sum rational via Newton ({Tier.Label()})";
+        $"sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)]; (P,D) = {{(14y+47,9), (10y+25,4), (13y²+82y+129,25), (17y²+72y+80,18), (21y³+130y²+292y+382,98)}} for path-{{3,4,5,6,7}}; sum rational via Newton ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

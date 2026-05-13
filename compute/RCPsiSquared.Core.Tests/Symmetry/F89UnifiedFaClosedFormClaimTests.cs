@@ -79,8 +79,9 @@ public class F89UnifiedFaClosedFormClaimTests
     [Fact]
     public void PathPolynomial_UnsupportedPath_Throws()
     {
+        // path-8 is the first unsupported path now that path-7 is tabulated
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => F89UnifiedFaClosedFormClaim.PathPolynomial(7));
+            () => F89UnifiedFaClosedFormClaim.PathPolynomial(8));
     }
 
     [Fact]

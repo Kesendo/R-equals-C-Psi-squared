@@ -88,6 +88,10 @@ public class C2FullBlockSigmaAnatomyTests
     [InlineData(6, 2)]   // path-6 N=8: includes the y_4 = 0 zero-mode case
     [InlineData(6, 4)]
     [InlineData(6, 6)]
+    [InlineData(7, 2)]   // path-7 N=8: P_7(y) = 21y³ + 130y² + 292y + 382, D = 98
+    [InlineData(7, 4)]
+    [InlineData(7, 6)]
+    [InlineData(7, 8)]
     public void Sigma_AtPathK_MatchesF89UnifiedClosedForm(int k, int n)
     {
         int N = k + 1;   // C2Block(N) is F89 path-(N-1); for path-k take N = k+1
