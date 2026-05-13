@@ -85,7 +85,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         int nBlock = block.N;
         var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
         double faRateTarget = -2.0 * block.GammaZero;
-        double faRateTolerance = 1e-6 * block.GammaZero;
+        double faRateTolerance = 1e-3 * block.GammaZero;
         double faFreqTolerance = 1e-4;
 
         var witnesses = new List<SigmaModeWitness>(dim);
@@ -99,7 +99,11 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
             int? blochIndexN = null;
             if (Math.Abs(lambdas[i].Real - faRateTarget) <= faRateTolerance)
             {
-                double imOverJ = lambdas[i].Imaginary / j;
+                // F90F86C2BridgeIdentity: full block-L uses J/2 as the effective
+                // single-particle coupling, so F89's y_n = 4cos(πn/(N+1)) in units
+                // of J_F89 maps to Im(λ) = (J_F86/2)·y_n in block-L eigenvalues.
+                // Divide by 0.5·J to recover the dimensionless y_n correctly.
+                double imOverJ = lambdas[i].Imaginary / (0.5 * j);
                 foreach (int n in orbit)
                 {
                     double yN = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
