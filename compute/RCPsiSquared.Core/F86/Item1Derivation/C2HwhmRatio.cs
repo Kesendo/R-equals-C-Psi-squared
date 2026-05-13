@@ -476,7 +476,18 @@ public sealed class C2HwhmRatio : Claim
         double interiorMean = classRatios.TryGetValue(BondClass.Interior, out double i) ? i : double.NaN;
         double directionalGap = endpointMean - interiorMean;
 
-        return "## Status\n" +
+        return "## CLOSED 2026-05-13\n" +
+               "\n" +
+               "Item 1' (HWHM_left/Q_peak per BondSubClass closed form) is closed.\n" +
+               "The per-bond HWHM ratio closed form now lives in F86HwhmClosedFormClaim\n" +
+               "(Tier 1 derived). See\n" +
+               "`compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs`\n" +
+               "for the authoritative typed Claim. The active-path narrative below is\n" +
+               "preserved as historical record of the derivation path taken.\n" +
+               "\n" +
+               "---\n" +
+               "\n" +
+               "## Status (historical, pre-closure)\n" +
                "\n" +
                "Tier1Candidate: empirical anchor reproduced, doubled-PTF floor derived,\n" +
                "gap to empirical structurally explained but closed-form constants per\n" +
