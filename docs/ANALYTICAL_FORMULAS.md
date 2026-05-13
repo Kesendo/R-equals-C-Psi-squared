@@ -2497,6 +2497,44 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 **Scripts:** [`_bond_isolate_compare_n7.py`](../simulations/_bond_isolate_compare_n7.py) (single-bond pair matrix), [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py) (long-range), [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py) (multi-bond classes). Compute tool: `compute/RCPsiSquared.Propagate` `bond-isolate --N <N> --bonds <i,j,...>` mode.
 **Source:** [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md), F73, F71, F86 (contrasting linear-response setup).
 
+#### F89 unified F_a AT-locked amplitude closed form across path-3..9 (Tier 1 derived, bit-exact verified)
+
+For each path-k, the F_a signal amplitudes satisfy
+
+    sigma_n(N) = P_k(y_n) / [D_k · N²·(N−1)]
+
+where y_n = 4·cos(πn/(N_block+1)) on the S_2-anti Bloch orbit (N_block = k+1), and (P_k, D_k) is a per-path integer-coefficient polynomial/denominator pair:
+
+| path k | P_k(y) | D_k |
+|--------|---------|-----|
+| 3 | 14y + 47 | 9 |
+| 4 | 10y + 25 | 4 |
+| 5 | 13y² + 82y + 129 | 25 |
+| 6 | 17y² + 72y + 80 | 18 |
+| 7 | 21y³ + 130y² + 292y + 382 | 98 = 2·7² |
+| 8 | 13y³ + 54y² + 68y + 110 | 32 = 2⁵ |
+| 9 | 31y⁴ + 190y³ + 288y² + 440y + 1476 | 324 = 2²·3⁴ |
+
+Polynomial degree = floor(N_block/2) − 1. Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the cyclotomic minimal polynomial. AT-lock: the F_a eigenvalue is λ_n = −2γ + i·y_n exactly (overlap subspace entries have dephasing rate 2γ regardless of N).
+
+**Source:** [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs), `simulations/_f89_path3_at_locked_amplitude_symbolic.py`, `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Unified closed form".
+
+#### F89 D_k closed form per path k (Tier-1-Candidate, 2026-05-13)
+
+The denominator D_k in sigma_n(N) = P_k(y_n) / [D_k · N²·(N−1)] has the closed form:
+
+    D_k = (odd(k))² · 2^E(k)
+    E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)
+
+Three additive contributions to E(k):
+- **Polynomial-degree term** max(0, ⌊(k-5)/2⌋) = max(0, polynomial_degree − 2). Linear growth.
+- **k-self 2-adic term** v₂(k). Tracks 2-adic content of k itself.
+- **Deep-2-power bonus** max(0, v₂(k) − 2). Kicks in at v₂(k) ≥ 3.
+
+Bit-exact verified across k = 3..24 (22 data points, zero exceptions). Replaces the prior "no N-parametric closed form" negative result from 4-point fitting (the right structure was 3 additive valuation terms, not a 4-point Lagrange interpolation).
+
+Tier: Tier-1-Candidate. Empirical fit + partial structural derivation via Jordan-Wigner free-fermion analysis (small-k cases derived algebraically; general-k proof open). Anchors: `compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs` (`PredictDenominator(int k)`), `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md`, `simulations/_f89_path_d_*.py`.
+
 ---
 
 ### F90. F86 c=2 ↔ F89 bridge identity (Tier 1 derived, verified bit-exact 2026-05-11)

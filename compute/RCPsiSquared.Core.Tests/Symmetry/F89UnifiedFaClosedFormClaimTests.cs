@@ -93,4 +93,35 @@ public class F89UnifiedFaClosedFormClaimTests
         Assert.Throws<ArgumentOutOfRangeException>(
             () => F89UnifiedFaClosedFormClaim.Sigma(3, 2, 4));
     }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    public void PredictDenominator_MatchesTabulatedPathPolynomial(int k)
+    {
+        var (_, tabulatedD) = F89UnifiedFaClosedFormClaim.PathPolynomial(k);
+        int predictedD = F89UnifiedFaClosedFormClaim.PredictDenominator(k);
+        Assert.Equal(tabulatedD, predictedD);
+    }
+
+    [Theory]
+    [InlineData(10, 200)]      // k=10: 2³·5² = 200
+    [InlineData(11, 968)]      // k=11: 2³·11² = 968
+    [InlineData(12, 288)]      // k=12: 2⁵·3² = 288
+    [InlineData(13, 2704)]     // k=13: 2⁴·13² = 2704
+    [InlineData(14, 1568)]     // k=14: 2⁵·7² = 1568
+    [InlineData(15, 7200)]     // k=15: 2⁵·3²·5² = 7200
+    [InlineData(16, 2048)]     // k=16: 2¹¹·1 = 2048
+    [InlineData(17, 18496)]    // k=17: 2⁶·17² = 18496
+    [InlineData(24, 73728)]    // k=24: 2¹³·3² = 73728
+    public void PredictDenominator_BeyondTabulated_MatchesProbeExtraction(int k, int expected)
+    {
+        int predicted = F89UnifiedFaClosedFormClaim.PredictDenominator(k);
+        Assert.Equal(expected, predicted);
+    }
 }

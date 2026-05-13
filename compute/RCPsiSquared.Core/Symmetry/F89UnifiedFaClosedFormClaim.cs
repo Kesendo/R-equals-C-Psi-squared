@@ -33,9 +33,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
 /// through F_a count distinct y_n values); path-7: cubic via cyclotomic Φ_9 = y⁶+y³+1.
 /// Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the
-/// cyclotomic minimal polynomial of y. No N_block-parametric closed form for
-/// (P_path, D_path) was found from 4-point fitting (negative result); each path
-/// remains an individual table entry.</para>
+/// cyclotomic minimal polynomial of y.</para>
+///
+/// <para><b>Denominator closed form (Tier-1-Candidate 2026-05-13, verified k=3..24):</b>
+/// <c>D_k = (odd(k))² · 2^E(k)</c> where
+/// <c>E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)</c>. Three additive
+/// contributions: polynomial-degree term (max(0, ⌊(k-5)/2⌋)), k-self 2-adic term
+/// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). The full closed form for
+/// (P_path, D_path) remains incomplete: D_k is closed (see <see cref="PredictDenominator"/>);
+/// P_k coefficients are still tabulated per path. Proof:
+/// <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
 ///
 /// <para>Anchors: <c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>,
 /// <c>_f89_path4_at_locked_amplitude_symbolic.py</c>,
@@ -80,8 +87,45 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
         };
     }
 
+    /// <summary>Predicted denominator D_k from the empirical closed form
+    /// (Tier-1-Candidate, verified bit-exact for k=3..24):
+    /// <code>
+    ///   D_k = (odd(k))² · 2^E(k)
+    ///   E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)
+    /// </code>
+    /// Three additive contributions: polynomial-degree term, k-self 2-adic term,
+    /// deep-2-power bonus (kicks in at v₂(k) ≥ 3). For k ∈ {3..9} this returns
+    /// the same value as <see cref="PathPolynomial"/>'s tabulated denominator;
+    /// for k ≥ 10 it predicts D without requiring P_k extraction.
+    ///
+    /// <para>Anchors: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> +
+    /// <c>simulations/_f89_path_d_structure_probe.py</c> +
+    /// <c>simulations/_f89_path_d_verify_k16_k17.py</c> +
+    /// <c>simulations/_f89_path_d_extend_k18_k24.py</c>.</para></summary>
+    public static int PredictDenominator(int k)
+    {
+        if (k < 3) throw new ArgumentOutOfRangeException(nameof(k), k, "k must be ≥ 3.");
+        int v2 = V2(k);
+        int oddPart = k >> v2;
+        int polyDegreeContribution = Math.Max(0, (k - 5) / 2);
+        int kSelfContribution = v2;
+        int deepBonusContribution = Math.Max(0, v2 - 2);
+        int e = polyDegreeContribution + kSelfContribution + deepBonusContribution;
+        return oddPart * oddPart * (1 << e);
+    }
+
+    private static int V2(int n)
+    {
+        if (n <= 0) return 0;
+        int v = 0;
+        while ((n & 1) == 0) { v++; n >>= 1; }
+        return v;
+    }
+
     /// <summary>Evaluate sigs[F_a:n](N) for a specific path, Bloch index n, and total qubit count N.
-    /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).</summary>
+    /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).
+    /// Note: P_k tabulation is available for k ∈ {3..9} only; D_k for k ≥ 10 is available
+    /// via <see cref="PredictDenominator"/>.</summary>
     public static double Sigma(int k, int n, int blochN)
     {
         if (k < 3 || k > 9) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6, 7, 8, 9} only.");

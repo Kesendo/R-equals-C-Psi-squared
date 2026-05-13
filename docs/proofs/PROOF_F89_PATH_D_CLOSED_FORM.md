@@ -198,3 +198,9 @@ The empirical closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2�
 - **Structurally grounded** for the odd part: the key identity p_n = |S_c(n)|²·‖Mv(n)‖²/2 (numerically verified k=3..6) explains why the denominator has odd part odd(k)² from Bloch normalization. The path-3 case is algebraically exact.
 - **Sketched** for the 2-power terms: the base v2(k) from 2J hopping, the poly-degree term from Vandermonde degree growth, and the deep-2-power bonus at v2(k)≥3 are all empirically supported but lack a complete algebraic derivation.
 - **Angles B and C are negative**: cyclotomic discriminant and Vandermonde det² are both much larger than D_k; the Vandermonde cancellation mechanism (rational-polynomial collapse) is understood.
+
+---
+
+## Typed Reference
+
+The closed form is implemented as `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` in `compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs`. Test: `compute/RCPsiSquared.Core.Tests/Symmetry/F89UnifiedFaClosedFormClaimTests.cs` (`PredictDenominator_MatchesTabulatedPathPolynomial` and `PredictDenominator_BeyondTabulated_MatchesProbeExtraction`).
