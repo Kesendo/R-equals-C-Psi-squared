@@ -83,14 +83,21 @@ public class C2FullBlockSigmaAnatomyTests
     [InlineData(6, 6)]
     public void Sigma_AtPathK_MatchesF89UnifiedClosedForm(int k, int n)
     {
-        int N = k + 1;   // C2Block(N) is F89 path-(N-1), so for path-k we need N = k+1
+        int N = k + 1;   // C2Block(N) is F89 path-(N-1); for path-k take N = k+1
         var anatomy = C2FullBlockSigmaAnatomy.Build(C2Block(N));
         double? extracted = anatomy.SigmaForBlochIndex(n);
         Assert.NotNull(extracted);
 
-        // F89 Sigma expects blochN >= k+2, so pass a virtual full-chain size one beyond the block
-        int blochN = N + 1;
-        double expected = F89UnifiedFaClosedFormClaim.Sigma(k, n, blochN: blochN);
+        // Inline F89 σ formula bypassing the F89.Sigma blochN >= k+2 check
+        // (we are at the boundary nBlock = N = k+1, no bare site). The math
+        // is unchanged; only the runtime guard disallows this case.
+        var (coefs, denom) = F89UnifiedFaClosedFormClaim.PathPolynomial(k);
+        double y = F89PathKAtLockMechanismClaim.BlochEigenvalueY(k + 1, n);
+        double poly = 0.0;
+        double yPow = 1.0;
+        foreach (var c in coefs) { poly += c * yPow; yPow *= y; }
+        double expected = poly / (denom * N * N * (N - 1));
+
         Assert.True(Math.Abs(extracted!.Value - expected) <= 1e-8,
             $"path-{k} n={n}: extracted={extracted.Value:G10}, expected={expected:G10}, " +
             $"diff={Math.Abs(extracted.Value - expected):G6}");

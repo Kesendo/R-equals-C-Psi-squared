@@ -115,13 +115,18 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
                 }
             }
 
+            // SpatialSumKernel.Build returns Σ_l 2·|w_l⟩⟨w_l| (factor 2 baked in;
+            // see compute/RCPsiSquared.Core/Probes/SpatialSumKernel.cs:51). The F89
+            // σ convention omits this factor: per simulations/_f89_pathk_survey.py:87
+            // (sig = sum |a|²) the per-site reduction stores the bare amplitude.
+            // Half of (R†·S·R)[i,i] gives the correct match against F89UnifiedFaClosedForm.
             witnesses.Add(new SigmaModeWitness(
                 EigenIndexAtQ: i,
                 EigenvalueReal: lambdas[i].Real,
                 EigenvalueImag: lambdas[i].Imaginary,
                 ProbeOverlapSquared: overlapSq,
                 SKernelDiagonal: sDiag,
-                Sigma: sigma,
+                Sigma: 0.5 * sigma,
                 BlochIndexN: blochIndexN));
         }
 
