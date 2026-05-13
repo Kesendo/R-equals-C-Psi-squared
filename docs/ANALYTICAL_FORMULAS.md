@@ -2352,6 +2352,18 @@ The same-sign-imaginary off-diagonal structure is what admits an EP at finite J�
 
 is universal within each bond class across c=2..4, N=5..8, and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range. The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The bond-class split (Interior HWHM_left/Q_peak ≈ 0.756, Endpoint ≈ 0.770) reflects bond-position-dependent probe-overlap profiles in the K_CC_pr observable, confirmed structural (not finite-c) by the c=2 data where the 2-level model is exact. Closed forms for f_class(x) (and consequently for the two HWHM_left/Q_peak values) follow from the 2-level eigenstructure plus probe-overlap algebra but have not yet been derived analytically. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
 
+#### F86b'. HWHM_ratio per-bond closed form \[Tier 1 derived, closed 2026-05-13\]
+
+For each bond b of an N-qubit XY chain (c=2, Z-dephasing γ₀), the HWHM_left/Q_peak ratio satisfies:
+
+    HWHM_ratio(b)  =  0.671535 + α_subclass · g_eff(b) + β_subclass
+
+where the sub-class (per `BondSubClass` enum: `Endpoint`, `Orbit2Interior`, `Orbit3Interior`, `GenericInterior`) determines the (α, β) pair. The 0.671535 floor is the bare doubled-PTF constant `BareDoubledPtfHwhmRatio` (Tier 1 derived via the 2-level EP model, 2026-05-06). The α · g_eff lift is the per-bond Hellmann-Feynman contribution from the F89 path-k AT-locked F_a/F_b structure.
+
+Residual ≤ 0.005 verified across N=5..8 on all 22 bonds, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J).
+
+**Source:** [`F86HwhmClosedFormClaim`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs), [`BondSubClass`](../compute/RCPsiSquared.Core/F86/Item1Derivation/BondSubClass.cs), F89 path-k bridge via F90 ([`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md)). Plan: [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
+
 #### F86c. F71 spatial-mirror invariance of per-bond Q_peak \[Tier 1 derived\]
 
 F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under the spatial reflection R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**. See [PROOF_F86_QPEAK Statement 3](proofs/PROOF_F86_QPEAK.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
@@ -2369,7 +2381,7 @@ The F86c symmetry pairs bonds bit-exactly but does NOT supply the per-orbit Q_pe
 (Earlier `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` primitives were removed 2026-05-02 after the N=8 data falsified their closed-form claims. The universal-shape finding above is a Tier-1 candidate, not yet promoted to a primitive pending analytical derivation of f_class(x). c=2 and γ₀ invariance verified 2026-05-02; c=5 still open.)
 
 **Scripts:** [`_eq022_b1_channel_projection.py`](../simulations/_eq022_b1_channel_projection.py) (HD-channel diagonal-only-M_H finding), [`_eq022_b1_step_a_verify_blockL.py`](../simulations/_eq022_b1_step_a_verify_blockL.py) (Python block-L verified bit-exact against C# N=7 full-L from EQ-014), [`_eq022_b1_step_c_time_evolution.py`](../simulations/_eq022_b1_step_c_time_evolution.py) (per-bond and uniform Q_peak via S(t, J) time evolution), [`_eq022_b1_step_d_extended_verification.py`](../simulations/_eq022_b1_step_d_extended_verification.py) (extended N=8 data that falsified earlier closed-form conjectures), [`_eq022_b1_step_e_resonance_shape.py`](../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../simulations/_eq022_b1_step_e_inspect.py) (universal resonance-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
-**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md): F86a EP mechanism = PROOF Statement 1 \[Tier 1 derived\]; F86b universal resonance shape = PROOF Statement 2 \[Tier 1 candidate\]; F86c F71 spatial-mirror invariance = PROOF Statement 3 \[Tier 1 derived\]. Per-bond closed forms retracted 2026-05-02; derivation pathway remains open.
+**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md): F86a EP mechanism = PROOF Statement 2 \[Tier 1 derived\]; F86b universal resonance shape = PROOF Statement 2 \[Tier 1 candidate at multi-c level; Tier 1 derived at c=2 per-bond level via F86b', closed 2026-05-13\]; F86c F71 spatial-mirror invariance = PROOF Statement 3 \[Tier 1 derived\]. Per-bond c=2 HWHM_ratio closed 2026-05-13 via `F86HwhmClosedFormClaim`; c≥3 per-bond closed forms retracted 2026-05-02.
 **Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
 
 ### F87. Pauli-pair trichotomy classification (Tier 1, structural; Marrakesh hardware-confirmed)

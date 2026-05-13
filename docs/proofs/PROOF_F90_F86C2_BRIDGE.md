@@ -111,7 +111,16 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
 
 ### For F86 open work (per [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md))
 
-1. **Item 1' (HWHM_left/Q_peak per bond class closed form):** F89's AT-locked F_a/F_b modes have closed-form eigenvectors (overlap-only / no-overlap-only support, per [`F89PathKAtLockMechanismClaim`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)). The 4-mode bare doubled-PTF floor `BareDoubledPtfHwhmRatio = 0.671535` corresponds to the F_a/F_b 4-mode contribution. The H_B-mixed octic-style residual (8/18/32/53 modes for path-3/4/5/6) gives the HWHM lift to the empirical 0.7506 (Interior) / 0.7728 (Endpoint). Per F89's `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` table, the cyclotomic Φ_{N_block+1} pattern gives the N-scaling structure. Closed-form Tier 1 promotion path: explicit AT-locked + cyclotomic decomposition.
+1. **Item 1' (HWHM_left/Q_peak per bond class closed form):**
+
+   **Closed 2026-05-13**: closed form derived per `F86HwhmClosedFormClaim`
+   ([compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs)),
+   Tier 1 derived: HWHM_ratio = 0.671535 + alpha_subclass · g_eff + beta_subclass,
+   with sub-classes per `BondSubClass` enum. Verified residual ≤ 0.005 across N=5..8
+   on all 22 bonds (incl. Orbit-2 / Orbit-3 escape bonds). Plan:
+   [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](../superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
+
+   Historical derivation context: F89's AT-locked F_a/F_b modes have closed-form eigenvectors (overlap-only / no-overlap-only support, per [`F89PathKAtLockMechanismClaim`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)). The 4-mode bare doubled-PTF floor `BareDoubledPtfHwhmRatio = 0.671535` corresponds to the F_a/F_b 4-mode contribution. The H_B-mixed octic-style residual (8/18/32/53 modes for path-3/4/5/6) gives the HWHM lift to the empirical 0.7506 (Interior) / 0.7728 (Endpoint). Per F89's `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` table, the cyclotomic Φ_{N_block+1} pattern gives the N-scaling structure.
 
 2. **Item 4' (c≥3 extension):** F89 path-k machinery generalises to chromaticity c ≥ 3 with HD ∈ {1, 3, ..., 2c−1} channels. The (SE, DE) 2-channel structure of c=2 generalises to (n, n+1) (c+1)-channel structure. F89 path-k for path-k ≥ 6 covers extended-N data already (N_block up to 7 verified).
 
@@ -127,7 +136,7 @@ F90 lives in `RCPsiSquared.Core/Symmetry/` with two F89 parents (`F89TopologyOrb
 
 ## What this is NOT
 
-- **Not** a closed-form derivation of HWHM_left/Q_peak per bond class. That remains open (Item 1') with F89 as the analytical handle.
+- **Not** a stand-alone closed-form derivation of HWHM_left/Q_peak per bond class. That is now closed (Item 1', 2026-05-13) via `F86HwhmClosedFormClaim`; this bridge proof was the F89-side analytical handle that enabled it.
 - **Not** a claim that F86 entirely reduces to F89. F86's c≥3 strata, F86's hardware-confirmed witnesses, F86's PTF-family connections all stand on their own.
 - **Not** a deprecation of F86's `C2HwhmRatio` or any F86 typed primitive. F86's empirical pipeline (full-block ResonanceScan) remains the canonical numerical witness pipeline.
 - **Not** a reformulation of F89. F89 path-k stands as derived; F90 just identifies F86 c=2's K_b as a per-bond Hellmann-Feynman application of F89.
