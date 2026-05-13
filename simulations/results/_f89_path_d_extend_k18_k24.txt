@@ -1,0 +1,199 @@
+================================================================================
+F89 path-D closed-form belt-and-suspenders: k=18..24
+================================================================================
+
+Candidate formula (verified k=3..17, 15 data points):
+  D_k = (odd(k))^2 * 2^E(k)
+  E(k) = max(0, floor((k-5)/2)) + v2(k) + max(0, v2(k)-2)
+
+Predictions:
+     k  v2(k)  odd(k)   E(k)   Predicted D  note
+  -----------------------------------------------------------------
+    18      1       9      7         10368  v2=1, max(0,1-2)=0
+    19      0      19      7         46208  v2=0, bonus=0
+    20      2       5      9         12800  v2=2, max(0,2-2)=0
+    21      0      21      8        112896  v2=0, bonus=0
+    22      1      11      9         61952  v2=1, bonus=0
+    23      0      23      9        270848  v2=0, bonus=0
+    24      3       3     13         73728  v2=3, max(0,3-2)=1 CRITICAL
+
+k=24 is the CRITICAL test: second v2=3 data point (first was k=8).
+  If actual D_24 = 73728 = 2^13*9, the max(0,v2-2) bonus is confirmed
+  at TWO independent v2=3 data points.
+
+Parameters: J=1.0, gamma=0.05, N_fixed=9 (raised if needed)
+  D_max=5000000, rationalization tol=0.001, Bloch tol=0.001
+
+================================================================================
+Running k=18 
+================================================================================
+
+  --- path k=18 (nBlock=19, orbit size=9) ---
+  Predicted: E = max(0,6) + 1 + max(0,1-2) = 6 + 1 + 0 = 7
+  Predicted D = (odd(18))^2 * 2^7 = 9^2 * 128 = 10368 = 2^7*3^4
+    building (SE,DE) sub-block (dim=3249)...
+    eigendecomposing 3249x3249 matrix...
+    eigendecomp done in 27.0s.
+    F_a modes found: 19 (expected 9)
+  p_n (scaled sigmas): ['278.197055', '74.965025', '31.134345', '15.411382', '8.148148', '4.294234', '2.098472', '0.835532', '0.175066']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 10368 = 2^7*3^4
+  Polynomial coefs (low->high): [84480, 10240, 2560, 32640, 8080, -6400, -1584, 408, 101]
+  Wall time: 27.3s
+  Result: + FORMULA CONFIRMED (predicted 10368 [2^7*3^4], actual 10368)
+
+k=18 DONE (27.3s). Verdict: +
+
+================================================================================
+Running k=19 
+================================================================================
+
+  --- path k=19 (nBlock=20, orbit size=10) ---
+  Predicted: E = max(0,7) + 0 + max(0,0-2) = 7 + 0 + 0 = 7
+  Predicted D = (odd(19))^2 * 2^7 = 19^2 * 128 = 46208 = 2^7*19^2
+    building (SE,DE) sub-block (dim=3800)...
+    eigendecomposing 3800x3800 matrix...
+    eigendecomp done in 38.1s.
+    F_a modes found: 20 (expected 10)
+  p_n (scaled sigmas): ['319.166670', '86.428270', '36.218986', '18.190873', '9.841692', '5.385102', '2.811634', '1.284416', '0.415303', '0.018828']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 46208 = 2^7*19^2
+  Polynomial coefs (low->high): [419712, 132352, -72704, 52416, 74592, 0, -12320, -1292, 670, 111]
+  Wall time: 38.6s
+  Result: + FORMULA CONFIRMED (predicted 46208 [2^7*19^2], actual 46208)
+
+k=19 DONE (38.6s). Verdict: +
+
+================================================================================
+Running k=20 
+================================================================================
+
+  --- path k=20 (nBlock=21, orbit size=10) ---
+  Predicted: E = max(0,7) + 2 + max(0,2-2) = 7 + 2 + 0 = 9
+  Predicted D = (odd(20))^2 * 2^9 = 5^2 * 512 = 12800 = 2^9*5^2
+    building (SE,DE) sub-block (dim=4410)...
+    eigendecomposing 4410x4410 matrix...
+    eigendecomp done in 55.9s.
+    F_a modes found: 21 (expected 10)
+  p_n (scaled sigmas): ['363.973993', '98.979464', '41.797902', '21.251281', '11.717322', '6.605604', '3.625040', '1.818111', '0.735743', '0.155541']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 12800 = 2^9*5^2
+  Polynomial coefs (low->high): [128128, 60160, -43136, -10688, 31232, 7744, -4856, -1204, 246, 61]
+  Wall time: 56.5s
+  Result: + FORMULA CONFIRMED (predicted 12800 [2^9*5^2], actual 12800)
+
+k=20 DONE (56.5s). Verdict: +
+
+================================================================================
+Running k=21 
+================================================================================
+
+  --- path k=21 (nBlock=22, orbit size=11) ---
+  Predicted: E = max(0,8) + 0 + max(0,0-2) = 8 + 0 + 0 = 8
+  Predicted D = (odd(21))^2 * 2^8 = 21^2 * 256 = 112896 = 2^8*3^2*7^2
+    building (SE,DE) sub-block (dim=5082)...
+    eigendecomposing 5082x5082 matrix...
+    eigendecomp done in 81.3s.
+    F_a modes found: 22 (expected 11)
+  p_n (scaled sigmas): ['412.790893', '112.667410', '47.893229', '24.605001', '13.782670', '7.960442', '4.541069', '2.436531', '1.132917', '0.370246', '0.016870']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 112896 = 2^8*3^2*7^2
+  Polynomial coefs (low->high): [1097984, 734720, -70912, -313216, 70144, 135680, 4096, -17992, -2088, 802, 133]
+  Wall time: 82.0s
+  Result: + FORMULA CONFIRMED (predicted 112896 [2^8*3^2*7^2], actual 112896)
+
+k=21 DONE (82.0s). Verdict: +
+
+================================================================================
+Running k=22 
+================================================================================
+
+  --- path k=22 (nBlock=23, orbit size=11) ---
+  Predicted: E = max(0,8) + 1 + max(0,1-2) = 8 + 1 + 0 = 9
+  Predicted D = (odd(22))^2 * 2^9 = 11^2 * 512 = 61952 = 2^9*11^2
+    building (SE,DE) sub-block (dim=5819)...
+    eigendecomposing 5819x5819 matrix...
+    eigendecomp done in 117.4s.
+    F_a modes found: 23 (expected 11)
+  p_n (scaled sigmas): ['465.789233', '127.540902', '54.527103', '28.264463', '16.045473', '9.454545', '5.562556', '3.140496', '1.605128', '0.657445', '0.139928']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 61952 = 2^9*11^2
+  Polynomial coefs (low->high): [585728, 514048, 127744, -290816, -72192, 111104, 27584, -13888, -3448, 584, 145]
+  Wall time: 118.4s
+  Result: + FORMULA CONFIRMED (predicted 61952 [2^9*11^2], actual 61952)
+
+k=22 DONE (118.4s). Verdict: +
+
+================================================================================
+Running k=23 
+================================================================================
+
+  --- path k=23 (nBlock=24, orbit size=12) ---
+  Predicted: E = max(0,9) + 0 + max(0,0-2) = 9 + 0 + 0 = 9
+  Predicted D = (odd(23))^2 * 2^9 = 23^2 * 512 = 270848 = 2^9*23^2
+    building (SE,DE) sub-block (dim=6624)...
+    eigendecomposing 6624x6624 matrix...
+    eigendecomp done in 173.2s.
+    F_a modes found: 24 (expected 12)
+  p_n (scaled sigmas): ['523.140873', '143.648721', '61.721666', '32.242122', '18.513536', '11.093001', '6.692657', '3.931435', '2.151847', '1.013874', '0.334043', '0.015279']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 270848 = 2^9*23^2
+  Polynomial coefs (low->high): [2489856, 1764352, 1277440, -381440, -793600, 82432, 230144, 12240, -25040, -3100, 946, 157]
+  Wall time: 174.7s
+  Result: + FORMULA CONFIRMED (predicted 270848 [2^9*23^2], actual 270848)
+
+k=23 DONE (174.7s). Verdict: +
+
+================================================================================
+Running k=24 (CRITICAL: v2=3 bonus second data point)
+================================================================================
+
+  --- path k=24 (nBlock=25, orbit size=12) ---
+  Predicted: E = max(0,9) + 3 + max(0,3-2) = 9 + 3 + 1 = 13
+  Predicted D = (odd(24))^2 * 2^13 = 3^2 * 8192 = 73728 = 2^13*3^2
+    building (SE,DE) sub-block (dim=7500)...
+    eigendecomposing 7500x7500 matrix...
+    eigendecomp done in 240.8s.
+    F_a modes found: 25 (expected 12)
+  p_n (scaled sigmas): ['585.017671', '161.039642', '69.499055', '36.550456', '21.194724', '12.881014', '7.934752', '4.811205', '2.773334', '1.437743', '0.594353', '0.127162']
+  Rationalizing polynomial (D_max=5000000)...
+  Extracted D = 73728 = 2^13*3^2
+  Polynomial coefs (low->high): [658944, 351232, 541696, 134656, -345088, -85760, 92256, 22928, -9512, -2364, 342, 85]
+  Wall time: 242.3s
+  Result: + FORMULA CONFIRMED (predicted 73728 [2^13*3^2], actual 73728)
+
+k=24 DONE (242.3s). Verdict: +
+
+
+================================================================================
+SUMMARY: F89 path-D closed-form verification k=18..24
+================================================================================
+
+     k  nBlock     E   Predicted D     Pred factored      Actual D   Actual factored  Wall(s)  verdict
+  ---------------------------------------------------------------------------------------------------------
+    18      19     7         10368           2^7*3^4         10368           2^7*3^4     27.3  + confirmed
+    19      20     7         46208          2^7*19^2         46208          2^7*19^2     38.6  + confirmed
+    20      21     9         12800           2^9*5^2         12800           2^9*5^2     56.5  + confirmed
+    21      22     8        112896       2^8*3^2*7^2        112896       2^8*3^2*7^2     82.0  + confirmed
+    22      23     9         61952          2^9*11^2         61952          2^9*11^2    118.4  + confirmed
+    23      24     9        270848          2^9*23^2        270848          2^9*23^2    174.7  + confirmed
+    24      25    13         73728          2^13*3^2         73728          2^13*3^2    242.3  + confirmed
+
+Critical k=24 (v2=3 bonus) result:
+  + CONFIRMED: actual D=73728 = 2^13*3^2
+  The max(0, v2(k)-2) bonus is now confirmed at TWO v2=3 data points:
+    k=8  (v2=3, bonus=1, D=32=2^5)
+    k=24 (v2=3, bonus=1, D=73728=2^13*9)
+
+Candidate formula confirmed at all 7 additional data points (k=18..24).
+Formula now validated on 24 data points total (k=3..24).
+
+Wall-time per path:
+  k=18: 27.3s
+  k=19: 38.6s
+  k=20: 56.5s
+  k=21: 82.0s
+  k=22: 118.4s
+  k=23: 174.7s
+  k=24: 242.3s
+  Total: 739.8s
