@@ -71,6 +71,110 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 
     private static IReadOnlyList<SigmaModeWitness> ComputeAnatomy(
         CoherenceBlock block, double q)
+        => ComputeAnatomyMklDirect(block, q);
+
+    private static IReadOnlyList<SigmaModeWitness> ComputeAnatomyMklDirect(
+        CoherenceBlock block, double q)
+    {
+        double j = q * block.GammaZero;
+        var basis = block.Basis;
+        int mTotal = basis.MTotal;
+
+        // Build L as a column-major raw Complex[] (consumed + DESTROYED by MklDirect).
+        Complex[] lRaw = BlockLDecomposition.BuildUniformLColumnMajorRaw(block, j);
+
+        // Direct LAPACK zgeev_ via fixed pointers (no MathNet marshaller cap).
+        var (values, leftVecs, rightVecs) =
+            MklDirect.EigenvaluesLeftRightDirectRaw(lRaw, mTotal);
+        // lRaw is now destroyed; do not reuse.
+
+        // Probe: uniform Dicke-coherence vector, every entry identical.
+        ComplexVector probeVec = DickeBlockProbe.Build(block);
+        Complex probeConst = probeVec[0];
+
+        // Per-site overlap index lists for the spatial-sum kernel.
+        var siteOverlap = BuildSiteOverlapIndices(basis);
+
+        int nBlock = block.N;
+        var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
+        double faRateTarget = -2.0 * block.GammaZero;
+        double faRateTolerance = 1e-3 * block.GammaZero;
+        double faFreqTolerance = 1e-4;
+
+        var witnesses = new List<SigmaModeWitness>(mTotal);
+
+        for (int i = 0; i < mTotal; i++)
+        {
+            long colBase = (long)i * mTotal;
+
+            // Biorthogonal c0[i] = (VL_i^H · probe) / (VL_i^H · VR_i).
+            // probe is uniform: VL_i^H · probe = conj(Σ_r VL_i[r]) · probeConst.
+            Complex vlSum = Complex.Zero;
+            Complex vlHvr = Complex.Zero;
+            for (int r = 0; r < mTotal; r++)
+            {
+                Complex vl = leftVecs[colBase + r];
+                vlSum += vl;
+                vlHvr += Complex.Conjugate(vl) * rightVecs[colBase + r];
+            }
+            Complex vlHprobe = Complex.Conjugate(vlSum) * probeConst;
+            Complex c0 = vlHvr.Magnitude < 1e-300 ? Complex.Zero : vlHprobe / vlHvr;
+            double overlapSq = c0.Magnitude;
+            overlapSq *= overlapSq;
+
+            // S-kernel diagonal: (R†·S·R)[i,i] = Σ_l 2·|Σ_{r in siteOverlap[l]} VR_i[r]|².
+            // SpatialSumKernel.Build bakes in the factor 2; the loop below mirrors that.
+            double sDiag = 0.0;
+            foreach (int[] siteIndices in siteOverlap)
+            {
+                Complex proj = Complex.Zero;
+                foreach (int r in siteIndices)
+                    proj += rightVecs[colBase + r];
+                sDiag += 2.0 * (proj.Real * proj.Real + proj.Imaginary * proj.Imaginary);
+            }
+
+            // SpatialSumKernel.Build returns Σ_l 2·|w_l⟩⟨w_l| (factor 2 baked in;
+            // see compute/RCPsiSquared.Core/Probes/SpatialSumKernel.cs:51). The F89
+            // σ convention omits this factor: per simulations/_f89_pathk_survey.py:87
+            // (sig = sum |a|²) the per-site reduction stores the bare amplitude.
+            // Half of (R†·S·R)[i,i] gives the correct match against F89UnifiedFaClosedForm.
+            double sigma = 0.5 * overlapSq * sDiag;
+
+            int? blochIndexN = null;
+            if (Math.Abs(values[i].Real - faRateTarget) <= faRateTolerance)
+            {
+                // F90F86C2BridgeIdentity: full block-L uses J/2 as the effective
+                // single-particle coupling, so F89's y_n = 4cos(πn/(N+1)) in units
+                // of J_F89 maps to Im(λ) = (J_F86/2)·y_n in block-L eigenvalues.
+                // Divide by 0.5·J to recover the dimensionless y_n correctly.
+                double imOverHalfJ = values[i].Imaginary / (0.5 * j);
+                foreach (int n in orbit)
+                {
+                    double yN = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
+                    if (Math.Abs(imOverHalfJ - yN) <= faFreqTolerance)
+                    {
+                        blochIndexN = n;
+                        break;
+                    }
+                }
+            }
+
+            witnesses.Add(new SigmaModeWitness(
+                EigenIndexAtQ: i,
+                EigenvalueReal: values[i].Real,
+                EigenvalueImag: values[i].Imaginary,
+                ProbeOverlapSquared: overlapSq,
+                SKernelDiagonal: sDiag,
+                Sigma: sigma,
+                BlochIndexN: blochIndexN));
+        }
+
+        witnesses.Sort((a, b) => b.Sigma.CompareTo(a.Sigma));
+        return witnesses;
+    }
+
+    private static IReadOnlyList<SigmaModeWitness> ComputeAnatomyMathNet(
+        CoherenceBlock block, double q)
     {
         double j = q * block.GammaZero;
         // Use BuildUniformLAt: skips per-bond Mh storage (saves NumBonds × Mtot² memory),
@@ -140,6 +244,32 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 
         witnesses.Sort((a, b) => b.Sigma.CompareTo(a.Sigma));
         return witnesses;
+    }
+
+    /// <summary>Per-site overlap index lists for the spatial-sum kernel: for each site l,
+    /// the flat indices of basis pairs (p, q) with p_l = 0 and q = p | bit_l. Mirrors the
+    /// construction inside <see cref="Probes.SpatialSumKernel.Build"/> but returns only the
+    /// index lists, so the (R†·S·R) diagonal can be computed per-mode without materialising
+    /// the full S matrix (which would itself hit the 2 GB cap at nBlock >= 29).</summary>
+    private static List<int[]> BuildSiteOverlapIndices(BlockBasis basis)
+    {
+        int N = basis.N;
+        int n = basis.LowerPopcount;
+        var lists = new List<int[]>(N);
+        for (int site = 0; site < N; site++)
+        {
+            var indices = new List<int>(64);
+            int maskI = 1 << (N - 1 - site);
+            foreach (int p in basis.StatesP)
+            {
+                if (((p >> (N - 1 - site)) & 1) != 0) continue;   // need p_site = 0
+                int qState = p | maskI;
+                if (System.Numerics.BitOperations.PopCount((uint)qState) != n + 1) continue;
+                indices.Add(basis.FlatIndex(p, qState));
+            }
+            lists.Add(indices.ToArray());
+        }
+        return lists;
     }
 
     public override string DisplayName =>
