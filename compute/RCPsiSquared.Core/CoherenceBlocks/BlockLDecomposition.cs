@@ -166,4 +166,60 @@ public sealed class BlockLDecomposition
 
         return Matrix<Complex>.Build.DenseOfArray(lRaw);
     }
+
+    /// <summary>Build the uniform-J Liouvillian L = D + J · Σ_b M_h_per_bond[b] as a
+    /// COLUMN-MAJOR raw <c>Complex[]</c> of length <c>(long)MTotal · MTotal</c>, suitable
+    /// for direct LAPACK <c>zgeev_</c> via <see cref="Numerics.MklDirect"/>. Element
+    /// <c>(row, col)</c> is at index <c>(long)col · MTotal + row</c>.
+    ///
+    /// <para>Unlike <see cref="BuildUniformLAt"/> (which returns a MathNet
+    /// <c>Matrix&lt;Complex&gt;</c> whose marshalled access is capped at the 2 GB
+    /// single-object limit), the raw <c>Complex[]</c> is consumed directly by
+    /// <c>MklDirect</c> with <c>fixed</c> pointers, sidestepping the marshaller. With
+    /// <c>gcAllowVeryLargeObjects</c> the array may exceed 2 GB (up to int.MaxValue
+    /// elements).</para>
+    ///
+    /// <para>WARNING: <see cref="Numerics.MklDirect.EigenvaluesLeftRightDirectRaw"/>
+    /// DESTROYS its input array. Do not reuse the returned array after passing it.</para></summary>
+    public static Complex[] BuildUniformLColumnMajorRaw(CoherenceBlock block, double J)
+    {
+        int N = block.N;
+        double gamma0 = block.GammaZero;
+        BlockBasis basis = block.Basis;
+        int Mtot = basis.MTotal;
+
+        var lRaw = new Complex[(long)Mtot * Mtot];
+
+        var pFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mp);
+        foreach (int p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
+        var qFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mq);
+        foreach (int q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
+
+        Complex hopP = new Complex(0.0, -J);
+        Complex hopQ = new Complex(0.0, +J);
+
+        foreach (int p in basis.StatesP)
+        {
+            foreach (int q in basis.StatesQ)
+            {
+                int colFlat = basis.FlatIndex(p, q);
+                int hd = BitOperations.PopCount((uint)(p ^ q));
+                // Diagonal: (row, col) = (colFlat, colFlat), column-major index colFlat*Mtot + colFlat.
+                lRaw[(long)colFlat * Mtot + colFlat] = new Complex(-2.0 * gamma0 * hd, 0.0);
+
+                foreach (var (_, pFlipped) in pFlips[p])
+                {
+                    int rowFlat = basis.FlatIndex(pFlipped, q);
+                    lRaw[(long)colFlat * Mtot + rowFlat] += hopP;
+                }
+                foreach (var (_, qFlipped) in qFlips[q])
+                {
+                    int rowFlat = basis.FlatIndex(p, qFlipped);
+                    lRaw[(long)colFlat * Mtot + rowFlat] += hopQ;
+                }
+            }
+        }
+
+        return lRaw;
+    }
 }
