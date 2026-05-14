@@ -20,4 +20,8 @@
     <Content Include="native\libopenblas64.dll" CopyToOutputDirectory="PreserveNewest" Link="libopenblas64.dll" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RCPsiSquared.Core\RCPsiSquared.Core.csproj" />
+  </ItemGroup>
+
 </Project>

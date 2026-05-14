@@ -4,12 +4,20 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="MathNet.Numerics.MKL.Win-x64" Version="3.0.0" />
     <PackageReference Include="MathNet.Numerics.Providers.MKL" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- OpenBLAS native DLLs for direct LAPACK zgeev_ via MklDirect (moved here from
+         RCPsiSquared.Compute). LP64 for nBlock <= 46340, ILP64 beyond. -->
+    <Content Include="..\RCPsiSquared.Compute\native\libopenblas.dll" Link="libopenblas.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\RCPsiSquared.Compute\native\libopenblas64.dll" Link="libopenblas64.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

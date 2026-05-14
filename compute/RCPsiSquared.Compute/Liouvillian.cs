@@ -2,6 +2,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
+using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Compute;
 

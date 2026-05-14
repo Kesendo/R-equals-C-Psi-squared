@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Compute;
+using RCPsiSquared.Core.Numerics;
 
 // Usage: dotnet run -c Release              -> full suite (N=2-7 + topology + stress + N=8)
 //        dotnet run -c Release -- n8        -> N=8 only (skip everything else)

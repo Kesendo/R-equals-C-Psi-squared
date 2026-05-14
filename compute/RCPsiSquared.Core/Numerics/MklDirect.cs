@@ -1,7 +1,7 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
 
-namespace RCPsiSquared.Compute;
+namespace RCPsiSquared.Core.Numerics;
 
 /// <summary>
 /// Direct LAPACK P/Invoke with pinned arrays to bypass the .NET 2GB marshaling limit.
