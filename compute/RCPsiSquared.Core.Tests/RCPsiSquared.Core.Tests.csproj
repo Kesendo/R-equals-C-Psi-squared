@@ -30,4 +30,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Permit Complex[] arrays over 2 GB (single-object cap) for nBlock >= 29
+         eigendecomposition via MklDirect. Limit becomes int.MaxValue elements (~34 GB).
+         Test runner process also needs this flag. -->
+    <RuntimeHostConfigurationOption Include="System.GC.AllowVeryLargeObjects" Value="true" Trim="false" />
+  </ItemGroup>
+
 </Project>

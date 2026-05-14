@@ -20,4 +20,10 @@
     <Content Include="..\RCPsiSquared.Compute\native\libopenblas64.dll" Link="libopenblas64.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Permit Complex[] arrays over 2 GB (single-object cap) for nBlock >= 29
+         eigendecomposition via MklDirect. Limit becomes int.MaxValue elements (~34 GB). -->
+    <RuntimeHostConfigurationOption Include="System.GC.AllowVeryLargeObjects" Value="true" Trim="false" />
+  </ItemGroup>
+
 </Project>
