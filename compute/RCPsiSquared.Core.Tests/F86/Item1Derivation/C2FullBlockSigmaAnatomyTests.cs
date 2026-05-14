@@ -216,13 +216,16 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
     }
 
     [Theory]
-    [InlineData(25)]   // v₂=0, predicted D = 640000  = 625·2¹⁰
-    [InlineData(26)]   // v₂=1, predicted D = 346112  = 169·2¹¹
-    [InlineData(27)]   // v₂=0, predicted D = 1492992 = 729·2¹¹
-    // k≥28 currently OOMs in BlockLDecomposition.Build (per-bond Mh matrices allocated
-    // eagerly: at nBlock=29 that is 28 × dim 11774² × 16 bytes ≈ 62 GB just for the
-    // decomposition, exceeding 92 GB total when combined with eigendecomp workspace).
-    // Restore once a uniform-only / lazy-MhPerBond build path is added to BlockLDecomposition.
+    [InlineData(25)]   // v₂=0, predicted D = 640000   = 625·2¹⁰
+    [InlineData(26)]   // v₂=1, predicted D = 346112   = 169·2¹¹
+    [InlineData(27)]   // v₂=0, predicted D = 1492992  = 729·2¹¹
+    // k≥28 currently throws ArgumentException ('Array size exceeds addressing limitations')
+    // in MathNet's MKL P/Invoke marshalling at .NET's ~2 GB managed-array limit:
+    // at nBlock=29 the complex L matrix is 11774² · 16 bytes ≈ 2.2 GB, just over the cap.
+    // BlockLDecomposition.BuildUniformLAt (commit 7b11541) already removed the per-bond
+    // OOM at the build stage; the remaining barrier is the eigendecomp marshalling.
+    // To unlock k≥28: switch C2FullBlockSigmaAnatomy to NativeMemory + ILP64 LAPACK
+    // (like compute/RCPsiSquared.Compute uses for N=8 = dim 65536² in Liouvillian).
     public void PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy(int k)
     {
         int N = k + 1;
