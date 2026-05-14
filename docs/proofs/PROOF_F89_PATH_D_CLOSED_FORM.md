@@ -228,10 +228,10 @@ The most mysterious term. Verified empirically at three v₂(k)≥3 data points:
 
 ### Verification Stretching
 
-The formula is currently verified at k=3..24 (22 points). Additional stretch data points (k=25..40) would either strengthen the Tier-1-Candidate status or expose a counterexample. Cost per data point: ~30s for k≤24, ~2min for k≤32, ~10min for k≤40 (eigendecomp at block dim 7500 → 20000+).
+The formula is verified bit-exact at k=3..24 (22 points; tables above) and, via typed C# stretch-extraction, at **k=25..30**. At **k=31,32** the extraction deviates ~1.5-2e-4 against the 1e-4 integrality tolerance — a **deliberate red signal, kept red**, not a refutation: `PredictDenominatorDeviationDiagnosticTests` characterises the deviation as Vandermonde extraction conditioning (observed = Θ(cond(V)·ε)), consistent with the degree-16 extraction instrument hitting its precision floor rather than a disagreement with D_k. The structural account is the F86b obstruction proof ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md); the F90 corollary ties the F89 D_k obstruction to F86's g_eff as one wall). The red signal is kept live because something is still missing on the route; to be continued. Cost per data point: ~30s for k≤24, ~2min for k≤32, ~10min for k≤40 (eigendecomp at block dim 7500 → 20000+); the k≥28 stretch uses `BuildFaOnly` targeted inverse iteration, not full zgeev.
 
 ---
 
 ## Typed Reference
 
-The closed form is implemented as `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` in `compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs`. Test: `compute/RCPsiSquared.Core.Tests/Symmetry/F89UnifiedFaClosedFormClaimTests.cs` (`PredictDenominator_MatchesTabulatedPathPolynomial` and `PredictDenominator_BeyondTabulated_MatchesProbeExtraction`).
+The closed form is implemented as `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` in `compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs`. Test: `compute/RCPsiSquared.Core.Tests/Symmetry/F89UnifiedFaClosedFormClaimTests.cs` (`PredictDenominator_MatchesTabulatedPathPolynomial` and `PredictDenominator_BeyondTabulated_MatchesProbeExtraction`). The stretch verification at k=25..32 is `C2FullBlockSigmaAnatomyTests.PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy` (k=25..30 pass; k=31,32 the red signal); `PredictDenominatorDeviationDiagnosticTests` is the Vandermonde-conditioning diagnostic.

@@ -248,6 +248,23 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
             $"path-{N-1} n={n}: MklDirect={sigmaMklDirect.Value:G10}, MathNet oracle={sigmaOracle.Value:G10}");
     }
 
+    /// <summary>F89 D_k closed-form verification by stretch-k extraction (k=25..32).
+    ///
+    /// <para><b>k=25..30 pass; k=31,32 are a deliberate RED SIGNAL, kept red.</b> The
+    /// k=31,32 rows deviate ~1.5-2e-4 against the 1e-4 tolerance.
+    /// <c>PredictDenominatorDeviationDiagnosticTests</c> characterises the deviation
+    /// as Vandermonde extraction conditioning (observed = Θ(cond(V)·ε) across
+    /// k=25..32), i.e. consistent with the extraction instrument hitting its
+    /// precision floor rather than a disagreement with D_k itself.</para>
+    ///
+    /// <para>The tolerance is deliberately NOT loosened and the rows are NOT skipped.
+    /// The red signal is kept live: something is still missing on the route (the
+    /// deviation is treated as a handshake, to be continued, not suppressed).
+    /// Structural context: <c>docs/proofs/PROOF_F86B_OBSTRUCTION.md</c> (g_eff / D_k
+    /// admit no closed form by the six explored routes; the F90 corollary ties the
+    /// F89 D_k obstruction to F86's g_eff) and
+    /// <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> "Verification Stretching".</para>
+    /// </summary>
     [Theory]
     [InlineData(25)]   // v₂=0, predicted D = 640000   = 625·2¹⁰
     [InlineData(26)]   // v₂=1, predicted D = 346112   = 169·2¹¹

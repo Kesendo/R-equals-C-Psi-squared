@@ -324,7 +324,16 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         var siteOverlap = BuildSiteOverlapIndices(basis);
         var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
 
-        const int inverseIterationSteps = 3;
+        // 15 steps (was 3): at large N the c=2 block spectrum is dense, so fixed-shift
+        // inverse iteration converges slower (the gap to the nearest non-target eigenvalue
+        // shrinks). 15 steps drive the eigenvector residual well below the Vandermonde-
+        // conditioning floor, so the k>=31 D_k integrality deviation is cleanly ISOLATED
+        // as cond(V) amplification, not confounded with sigma-extraction error. It does
+        // NOT make the k>=31 verification test pass: that ~1.5-2e-4 deviation is
+        // Vandermonde extraction conditioning itself, a deliberate red signal (see
+        // PredictDenominatorDeviationDiagnosticTests and docs/proofs/PROOF_F86B_OBSTRUCTION.md).
+        // Each extra step is one cheap zgetrs on the already-computed LU factors.
+        const int inverseIterationSteps = 15;
         const double rayleighResidualSanityTolerance = 1e-6;
 
         var witnesses = new List<SigmaModeWitness>();
