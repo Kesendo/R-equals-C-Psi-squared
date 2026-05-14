@@ -216,16 +216,47 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
     }
 
     [Theory]
+    [InlineData(5, 2)]    // path-4
+    [InlineData(6, 2)]    // path-5
+    [InlineData(6, 4)]
+    [InlineData(7, 2)]    // path-6
+    [InlineData(7, 4)]
+    [InlineData(8, 2)]    // path-7
+    [InlineData(8, 6)]
+    public void ComputeAnatomy_MklDirect_AgreesWithMathNetOracle(int N, int n)
+    {
+        var block = new CoherenceBlock(N: N, n: 1, gammaZero: 0.05);
+
+        // MklDirect path (the production ComputeAnatomy) via ClassFixture cache.
+        var anatomy = _cache.Get(N);
+        double? sigmaMklDirect = anatomy.SigmaForBlochIndex(n);
+        Assert.NotNull(sigmaMklDirect);
+
+        // MathNet oracle path via reflection (ComputeAnatomyMathNet is private static).
+        var mathNetMethod = typeof(C2FullBlockSigmaAnatomy).GetMethod(
+            "ComputeAnatomyMathNet",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        Assert.NotNull(mathNetMethod);
+        var oracle = (IReadOnlyList<SigmaModeWitness>)mathNetMethod!.Invoke(
+            null, new object[] { block, C2FullBlockSigmaAnatomy.DefaultQ })!;
+        double? sigmaOracle = null;
+        foreach (var w in oracle)
+            if (w.BlochIndexN == n) { sigmaOracle = w.Sigma; break; }
+        Assert.NotNull(sigmaOracle);
+
+        Assert.True(Math.Abs(sigmaMklDirect!.Value - sigmaOracle!.Value) < 1e-9,
+            $"path-{N-1} n={n}: MklDirect={sigmaMklDirect.Value:G10}, MathNet oracle={sigmaOracle.Value:G10}");
+    }
+
+    [Theory]
     [InlineData(25)]   // v₂=0, predicted D = 640000   = 625·2¹⁰
     [InlineData(26)]   // v₂=1, predicted D = 346112   = 169·2¹¹
     [InlineData(27)]   // v₂=0, predicted D = 1492992  = 729·2¹¹
-    // k≥28 currently throws ArgumentException ('Array size exceeds addressing limitations')
-    // in MathNet's MKL P/Invoke marshalling at .NET's ~2 GB managed-array limit:
-    // at nBlock=29 the complex L matrix is 11774² · 16 bytes ≈ 2.2 GB, just over the cap.
-    // BlockLDecomposition.BuildUniformLAt (commit 7b11541) already removed the per-bond
-    // OOM at the build stage; the remaining barrier is the eigendecomp marshalling.
-    // To unlock k≥28: switch C2FullBlockSigmaAnatomy to NativeMemory + ILP64 LAPACK
-    // (like compute/RCPsiSquared.Compute uses for N=8 = dim 65536² in Liouvillian).
+    [InlineData(28)]   // v₂=2, predicted D = 401408   = 49·2¹³
+    [InlineData(29)]   // v₂=0, predicted D = 3444736  = 841·2¹²
+    [InlineData(30)]   // v₂=1, predicted D = 1843200  = 225·2¹³
+    [InlineData(31)]   // v₂=0, predicted D = 7872512  = 961·2¹³
+    [InlineData(32)]   // v₂=5, predicted D = 2097152  = 2²¹  (CRITICAL: deep-2-power bonus at v₂=5)
     public void PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy(int k)
     {
         int N = k + 1;
