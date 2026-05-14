@@ -15,6 +15,7 @@ public static class MklDirect
 
     private enum ZgeevBackend { Unknown, MathNet, MklRt, OpenBlas }
     private static ZgeevBackend _resolvedBackend = ZgeevBackend.Unknown;
+    private static bool _threadsConfigured;
 
     // --- MathNet wrapper (computes eigenvectors, needs 3x memory) ---
     [DllImport("libMathNetNumericsMKL", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -106,6 +107,21 @@ public static class MklDirect
         }
     }
 
+    /// <summary>Lazily configure OpenBLAS to use all logical processors, once, on the first
+    /// zgeev dispatch. When <see cref="MklDirect"/> was lifted out of RCPsiSquared.Compute
+    /// (whose startup called <see cref="ConfigureThreads"/> explicitly) into Core, callers
+    /// like C2FullBlockSigmaAnatomy had no equivalent startup hook, leaving the direct-LAPACK
+    /// path at OpenBLAS's default thread count. This makes the path self-sufficient. No-op for
+    /// the MKL backends (their threading is governed separately) and harmless if libopenblas
+    /// is absent. Note: this only accelerates the BLAS-3 phases of zgeev (Hessenberg reduction,
+    /// eigenvector back-transform); the QR/Schur iteration is sequential by nature.</summary>
+    private static void EnsureThreadsConfigured()
+    {
+        if (_threadsConfigured) return;
+        ConfigureThreads(Environment.ProcessorCount);
+        _threadsConfigured = true;
+    }
+
     // ========== ILP64 backend (int64 parameters, for n > 46340) ==========
 
     [DllImport("libopenblas64", CallingConvention = CallingConvention.Cdecl,
@@ -125,6 +141,7 @@ public static class MklDirect
         Complex* work, int* lwork, double* rwork, int* info,
         Action<string>? log)
     {
+        EnsureThreadsConfigured();
         if (_resolvedBackend != ZgeevBackend.Unknown)
         {
             DispatchZgeev(_resolvedBackend, jobvl, jobvr, n, a, lda, w, vl, ldvl, vr, ldvr, work, lwork, rwork, info);
@@ -526,6 +543,7 @@ public static class MklDirect
     /// </summary>
     public static unsafe Complex[] EigenvaluesOnlyNativeIlp64(IntPtr matrixPtr, int n, Action<string>? log = null)
     {
+        EnsureThreadsConfigured();
         log?.Invoke($"Using ILP64 (64-bit int) path: n={n}, n²={(long)n * n:N0} > int.MaxValue");
 
         var w = new Complex[n];
