@@ -260,7 +260,11 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
     public void PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy(int k)
     {
         int N = k + 1;
-        var anatomy = _cache.Get(N);
+        // BuildFaOnly: targeted inverse iteration, F_a modes only. At k>=28 the full zgeev
+        // path is hours per row (sequential zhseqr); inverse iteration is BLAS-3 minutes.
+        // Each k here is a unique N, so the _cache (which dedupes shared-N rows) gives no
+        // benefit on this Theory anyway.
+        var anatomy = C2FullBlockSigmaAnatomy.BuildFaOnly(C2Block(N));
         double[] rawCoefs = anatomy.ExtractRawPolynomialCoefficients();
 
         int predictedD = F89UnifiedFaClosedFormClaim.PredictDenominator(k);
