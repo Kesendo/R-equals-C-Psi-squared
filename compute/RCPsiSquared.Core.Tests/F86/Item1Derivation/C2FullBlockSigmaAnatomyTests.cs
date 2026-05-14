@@ -276,6 +276,23 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
             _out.WriteLine($"  k={k} coef[{i}] · D({predictedD}) = {scaled:G10} ≈ {(long)rounded}");
         }
     }
+
+    [Theory]
+    [InlineData(5)]    // path-4 -> floor(5/2) = 2 F_a modes
+    [InlineData(6)]    // path-5 -> 3
+    [InlineData(7)]    // path-6 -> 3
+    [InlineData(8)]    // path-7 -> 4
+    public void BuildFaOnly_ProducesFloorNHalf_FaWitnesses(int N)
+    {
+        var anatomy = C2FullBlockSigmaAnatomy.BuildFaOnly(C2Block(N));
+
+        Assert.True(anatomy.FaModesOnly);
+        Assert.Equal(N / 2, anatomy.SigmaSpectrum.Count);
+        Assert.All(anatomy.SigmaSpectrum, w => Assert.True(w.BlochIndexN.HasValue,
+            $"BuildFaOnly witness at lambda={w.EigenvalueReal}+{w.EigenvalueImag}i must have a Bloch index"));
+        Assert.All(anatomy.SigmaSpectrum, w => Assert.True(w.Sigma > 0,
+            $"F_a mode n={w.BlochIndexN} must have sigma > 0; got {w.Sigma}"));
+    }
 }
 
 /// <summary>Shared cache of C2FullBlockSigmaAnatomy instances keyed by N, reused

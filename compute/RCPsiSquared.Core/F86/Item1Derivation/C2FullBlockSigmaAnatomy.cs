@@ -45,6 +45,12 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
     public double Q { get; }
     public IReadOnlyList<SigmaModeWitness> SigmaSpectrum { get; }
 
+    /// <summary>True when this anatomy was produced by <see cref="BuildFaOnly"/> via
+    /// targeted inverse iteration: <see cref="SigmaSpectrum"/> then holds ONLY the
+    /// floor(N/2) F_a witnesses, not one witness per eigenmode. False for <see cref="Build"/>
+    /// (full-spectrum zgeev).</summary>
+    public bool FaModesOnly { get; }
+
     public static C2FullBlockSigmaAnatomy Build(CoherenceBlock block, double q = DefaultQ)
     {
         if (block.C != 2)
@@ -57,9 +63,32 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         return new C2FullBlockSigmaAnatomy(block, q, witnesses);
     }
 
+    /// <summary>Build the F_a-mode sigma anatomy via targeted inverse iteration on the
+    /// analytically-known F_a eigenvalues (Re(λ) = −2γ₀, Im(λ) = (J/2)·y_n), using dense
+    /// LU instead of a full dense zgeev. Produces ONLY the floor(N/2) F_a witnesses — the
+    /// rest of the spectrum is never computed.
+    /// <para>Use at large N where a full zgeev is infeasible: zgeev's QR/Schur iteration
+    /// (zhseqr) is sequential, so a single dim-17424 decomposition is hours. The inverse
+    /// iteration here is dense LU (zgetrf), which is BLAS-3 and threads. For small N, or
+    /// when the full spectrum is needed, use <see cref="Build"/>.</para>
+    /// <para>Verified bit-exactly (1e-9) against the <see cref="Build"/> zgeev path for the
+    /// F_a σ values at path-3..9; see <c>C2FullBlockSigmaAnatomyTests</c>.</para></summary>
+    public static C2FullBlockSigmaAnatomy BuildFaOnly(CoherenceBlock block, double q = DefaultQ)
+    {
+        if (block.C != 2)
+            throw new ArgumentException(
+                $"C2FullBlockSigmaAnatomy applies only to the c=2 stratum; got c={block.C}.",
+                nameof(block));
+
+        MathNetSetup.EnsureInitialized();
+        var witnesses = ComputeFaAnatomyInverseIteration(block, q);
+        return new C2FullBlockSigmaAnatomy(block, q, witnesses, faModesOnly: true);
+    }
+
     private C2FullBlockSigmaAnatomy(
         CoherenceBlock block, double q,
-        IReadOnlyList<SigmaModeWitness> witnesses)
+        IReadOnlyList<SigmaModeWitness> witnesses,
+        bool faModesOnly = false)
         : base($"c=2 full block-L sigma anatomy at Q={q:G4}: F89 per-Bloch-mode σ_n extraction via R†·S·R diagonal",
                Tier.Tier2Verified,
                Item1Anchors.Root + "; F89UnifiedFaClosedFormClaim")
@@ -67,6 +96,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         Block = block;
         Q = q;
         SigmaSpectrum = witnesses;
+        FaModesOnly = faModesOnly;
     }
 
     private static IReadOnlyList<SigmaModeWitness> ComputeAnatomy(
@@ -270,8 +300,157 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         return lists;
     }
 
+    /// <summary>F_a-mode σ extraction via targeted inverse iteration. For each Bloch index
+    /// n in the S_2-anti orbit, shifts the block-L by the analytic eigenvalue
+    /// λ_n = −2γ₀ + i·(J/2)·y_n, LU-factorizes (L − λ_n·I) once, and inverse-iterates for
+    /// the right (TRANS='N') and left (TRANS='C') eigenvectors from the same factorization.
+    /// σ_n is then the same biorthogonal quadratic form as in
+    /// <see cref="ComputeAnatomyMklDirect"/>; the witness eigenvalue is the post-iteration
+    /// Rayleigh quotient.</summary>
+    private static IReadOnlyList<SigmaModeWitness> ComputeFaAnatomyInverseIteration(
+        CoherenceBlock block, double q)
+    {
+        double j = q * block.GammaZero;
+        var basis = block.Basis;
+        int mTotal = basis.MTotal;
+        int nBlock = block.N;
+
+        // L as a column-major raw Complex[]; kept intact for per-mode cloning + Rayleigh matvec.
+        Complex[] lRaw = BlockLDecomposition.BuildUniformLColumnMajorRaw(block, j);
+
+        ComplexVector probeVec = DickeBlockProbe.Build(block);
+        Complex probeConst = probeVec[0];   // uniform Dicke probe: every entry identical
+
+        var siteOverlap = BuildSiteOverlapIndices(basis);
+        var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
+
+        const int inverseIterationSteps = 3;
+        const double rayleighResidualSanityTolerance = 1e-6;
+
+        var witnesses = new List<SigmaModeWitness>();
+
+        foreach (int n in orbit)
+        {
+            double yN = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
+            // Analytic F_a eigenvalue: Re = −2γ₀, Im = (J/2)·y_n (F90 bridge: F89-J = F86-J/2).
+            Complex shift = new Complex(-2.0 * block.GammaZero, 0.5 * j * yN);
+
+            // (L − shift·I): clone L, subtract shift from the diagonal, LU-factorize in place.
+            Complex[] shifted = (Complex[])lRaw.Clone();
+            for (int r = 0; r < mTotal; r++)
+                shifted[(long)r * mTotal + r] -= shift;
+            var ipiv = new int[mTotal];
+            MklDirect.LuFactorizeRaw(shifted, mTotal, ipiv);
+
+            // Right eigenvector: inverse-iterate (L − shift·I) vr = vr.
+            var vr = new Complex[mTotal];
+            Array.Fill(vr, Complex.One);
+            for (int step = 0; step < inverseIterationSteps; step++)
+            {
+                MklDirect.LuSolveRaw(shifted, mTotal, ipiv, vr, conjugateTranspose: false);
+                NormalizeInPlace(vr);
+            }
+
+            // Left eigenvector: inverse-iterate (L − shift·I)^H vl = vl, same LU factors.
+            var vl = new Complex[mTotal];
+            Array.Fill(vl, Complex.One);
+            for (int step = 0; step < inverseIterationSteps; step++)
+            {
+                MklDirect.LuSolveRaw(shifted, mTotal, ipiv, vl, conjugateTranspose: true);
+                NormalizeInPlace(vl);
+            }
+
+            // Biorthogonal c0 = (vl^H · probe) / (vl^H · vr); probe is uniform.
+            Complex vlSum = Complex.Zero;
+            Complex vlHvr = Complex.Zero;
+            for (int r = 0; r < mTotal; r++)
+            {
+                vlSum += vl[r];
+                vlHvr += Complex.Conjugate(vl[r]) * vr[r];
+            }
+            Complex vlHprobe = Complex.Conjugate(vlSum) * probeConst;
+            Complex c0 = vlHvr.Magnitude < 1e-300 ? Complex.Zero : vlHprobe / vlHvr;
+            double overlapSq = c0.Real * c0.Real + c0.Imaginary * c0.Imaginary;
+
+            // S-kernel diagonal: Σ_l 2·|Σ_{r ∈ siteOverlap[l]} vr[r]|² (the factor 2 mirrors
+            // SpatialSumKernel.Build; see ComputeAnatomyMklDirect for the convention note).
+            double sDiag = 0.0;
+            foreach (int[] siteIndices in siteOverlap)
+            {
+                Complex proj = Complex.Zero;
+                foreach (int r in siteIndices)
+                    proj += vr[r];
+                sDiag += 2.0 * (proj.Real * proj.Real + proj.Imaginary * proj.Imaginary);
+            }
+            double sigma = 0.5 * overlapSq * sDiag;
+
+            // Rayleigh quotient λ = (vl^H · L · vr) / (vl^H · vr) for the witness eigenvalue,
+            // plus a coarse residual sanity gate ‖L·vr − λ·vr‖ / ‖vr‖.
+            Complex[] lvr = DenseMatVecColumnMajor(lRaw, vr, mTotal);
+            Complex vlHlvr = Complex.Zero;
+            for (int r = 0; r < mTotal; r++)
+                vlHlvr += Complex.Conjugate(vl[r]) * lvr[r];
+            Complex rayleigh = vlHvr.Magnitude < 1e-300 ? shift : vlHlvr / vlHvr;
+
+            double residualSq = 0.0, vrNormSq = 0.0;
+            for (int r = 0; r < mTotal; r++)
+            {
+                Complex diff = lvr[r] - rayleigh * vr[r];
+                residualSq += diff.Real * diff.Real + diff.Imaginary * diff.Imaginary;
+                vrNormSq += vr[r].Real * vr[r].Real + vr[r].Imaginary * vr[r].Imaginary;
+            }
+            double residual = Math.Sqrt(residualSq / vrNormSq);
+            if (residual > rayleighResidualSanityTolerance)
+                throw new InvalidOperationException(
+                    $"Inverse iteration did not converge to a clean eigenvector for Bloch " +
+                    $"index n={n} (N={nBlock}, Q={q:G4}): Rayleigh residual {residual:G6} " +
+                    $"exceeds {rayleighResidualSanityTolerance:G1}. The analytic shift may " +
+                    $"have hit a degenerate or non-isolated mode.");
+
+            witnesses.Add(new SigmaModeWitness(
+                EigenIndexAtQ: n,            // no global Evd index on this path; the Bloch index identifies the mode
+                EigenvalueReal: rayleigh.Real,
+                EigenvalueImag: rayleigh.Imaginary,
+                ProbeOverlapSquared: overlapSq,
+                SKernelDiagonal: sDiag,
+                Sigma: sigma,
+                BlochIndexN: n));
+        }
+
+        witnesses.Sort((a, b) => b.Sigma.CompareTo(a.Sigma));
+        return witnesses;
+    }
+
+    /// <summary>2-norm normalization in place. No-op if the vector is numerically zero.</summary>
+    private static void NormalizeInPlace(Complex[] v)
+    {
+        double sumSq = 0.0;
+        for (int i = 0; i < v.Length; i++)
+            sumSq += v[i].Real * v[i].Real + v[i].Imaginary * v[i].Imaginary;
+        if (sumSq < 1e-300) return;
+        double inv = 1.0 / Math.Sqrt(sumSq);
+        for (int i = 0; i < v.Length; i++)
+            v[i] *= inv;
+    }
+
+    /// <summary>Dense matrix-vector product L·v for a column-major L of length n²:
+    /// result[i] = Σ_j L[i,j]·v[j] = Σ_j lRaw[(long)j·n + i]·v[j].</summary>
+    private static Complex[] DenseMatVecColumnMajor(Complex[] lRaw, Complex[] v, int n)
+    {
+        var result = new Complex[n];
+        for (int col = 0; col < n; col++)
+        {
+            Complex vCol = v[col];
+            long colBase = (long)col * n;
+            for (int row = 0; row < n; row++)
+                result[row] += lRaw[colBase + row] * vCol;
+        }
+        return result;
+    }
+
     public override string DisplayName =>
-        $"c=2 full block-L sigma anatomy (N={Block.N}, Q={Q:G4}, dim={Block.Basis.MTotal})";
+        $"c=2 block-L sigma anatomy (N={Block.N}, Q={Q:G4}, dim={Block.Basis.MTotal}" +
+        (FaModesOnly ? ", F_a-only via inverse iteration)" : ", full spectrum)");
 
     public override string Summary =>
         $"σ-spectrum over {SigmaSpectrum.Count} modes at Q={Q:G4} ({Tier.Label()})";
