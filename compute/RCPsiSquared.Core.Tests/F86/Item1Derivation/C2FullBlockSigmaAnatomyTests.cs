@@ -293,6 +293,49 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
         Assert.All(anatomy.SigmaSpectrum, w => Assert.True(w.Sigma > 0,
             $"F_a mode n={w.BlochIndexN} must have sigma > 0; got {w.Sigma}"));
     }
+
+    [Theory]
+    [InlineData(3, 2)]   // path-3, N=4
+    [InlineData(3, 4)]
+    [InlineData(4, 2)]   // path-4, N=5
+    [InlineData(4, 4)]
+    [InlineData(5, 2)]   // path-5, N=6
+    [InlineData(5, 4)]
+    [InlineData(5, 6)]
+    [InlineData(6, 2)]   // path-6, N=7
+    [InlineData(6, 4)]
+    [InlineData(6, 6)]
+    [InlineData(7, 2)]   // path-7, N=8
+    [InlineData(7, 4)]
+    [InlineData(7, 6)]
+    [InlineData(7, 8)]
+    [InlineData(8, 2)]   // path-8, N=9
+    [InlineData(8, 4)]
+    [InlineData(8, 6)]
+    [InlineData(8, 8)]
+    [InlineData(9, 2)]   // path-9, N=10
+    [InlineData(9, 4)]
+    [InlineData(9, 6)]
+    [InlineData(9, 8)]
+    [InlineData(9, 10)]
+    public void BuildFaOnly_InverseIteration_AgreesWithZgeev(int k, int n)
+    {
+        int N = k + 1;   // C2Block(N) is F89 path-(N-1)
+        var block = C2Block(N);
+
+        // zgeev path (full spectrum) — the oracle, via the ClassFixture cache.
+        double? sigmaZgeev = _cache.Get(N).SigmaForBlochIndex(n);
+        Assert.NotNull(sigmaZgeev);
+
+        // Inverse-iteration path (F_a-only).
+        double? sigmaInverseIteration = C2FullBlockSigmaAnatomy.BuildFaOnly(block).SigmaForBlochIndex(n);
+        Assert.NotNull(sigmaInverseIteration);
+
+        Assert.True(Math.Abs(sigmaInverseIteration!.Value - sigmaZgeev!.Value) < 1e-9,
+            $"path-{k} n={n}: inverse-iteration={sigmaInverseIteration.Value:G10}, " +
+            $"zgeev oracle={sigmaZgeev.Value:G10}, " +
+            $"diff={Math.Abs(sigmaInverseIteration.Value - sigmaZgeev.Value):G6}");
+    }
 }
 
 /// <summary>Shared cache of C2FullBlockSigmaAnatomy instances keyed by N, reused
