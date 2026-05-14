@@ -60,6 +60,18 @@ public static class MklDirect
         int* n, int* nrhs, Complex* a, int* lda,
         int* ipiv, Complex* b, int* ldb, int* info);
 
+    // zgetrf: LU factorization (LP64). zgetrs: solve using the LU factors (LP64).
+    [DllImport("libopenblas", CallingConvention = CallingConvention.Cdecl,
+        EntryPoint = "zgetrf_", ExactSpelling = true)]
+    private static extern unsafe void zgetrf_openblas(
+        int* m, int* n, Complex* a, int* lda, int* ipiv, int* info);
+
+    [DllImport("libopenblas", CallingConvention = CallingConvention.Cdecl,
+        EntryPoint = "zgetrs_", ExactSpelling = true)]
+    private static extern unsafe void zgetrs_openblas(
+        byte* trans, int* n, int* nrhs, Complex* a, int* lda,
+        int* ipiv, Complex* b, int* ldb, int* info);
+
     // ========== OpenBLAS threading control ==========
     // Both LP64 and ILP64 builds need their own thread config.
 
@@ -435,6 +447,66 @@ public static class MklDirect
 
         log?.Invoke($"zgeev complete. {n} eigenvalues + left + right eigenvectors computed.");
         return (w, vl, vr);
+    }
+
+    /// <summary>
+    /// LU-factorize a column-major n x n Complex[] in place via LAPACK zgetrf (LP64,
+    /// OpenBLAS). On return, 'a' holds the packed L and U factors and 'ipiv' (length >= n)
+    /// holds the 1-based pivot indices; both are inputs to <see cref="LuSolveRaw"/>.
+    /// WARNING: 'a' is overwritten with the factorization; the original matrix is destroyed.
+    /// </summary>
+    public static unsafe void LuFactorizeRaw(Complex[] a, int n, int[] ipiv, Action<string>? log = null)
+    {
+        EnsureThreadsConfigured();
+        if (ipiv.Length < n)
+            throw new ArgumentException($"ipiv must have length >= {n}; got {ipiv.Length}.", nameof(ipiv));
+
+        int m = n;
+        int info = 0;
+        log?.Invoke($"LAPACK zgetrf LU factorization on {n}x{n} matrix...");
+
+        fixed (Complex* pA = a)
+        fixed (int* pIpiv = ipiv)
+        {
+            zgetrf_openblas(&m, &n, pA, &n, pIpiv, &info);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException(
+                $"zgetrf failed: info={info} " +
+                (info < 0 ? "(illegal argument)" : "(U is exactly singular)") + ".");
+
+        log?.Invoke("zgetrf complete.");
+    }
+
+    /// <summary>
+    /// Solve op(A) x = b in place using LU factors from <see cref="LuFactorizeRaw"/>, via
+    /// LAPACK zgetrs (LP64, OpenBLAS). op(A) = A when <paramref name="conjugateTranspose"/>
+    /// is false (TRANS='N'), or A^H when true (TRANS='C'). 'b' (length >= n) is overwritten
+    /// with the solution x. 'a' and 'ipiv' must be the factors and pivots from a prior
+    /// <see cref="LuFactorizeRaw"/> call on the same matrix.
+    /// </summary>
+    public static unsafe void LuSolveRaw(
+        Complex[] a, int n, int[] ipiv, Complex[] b, bool conjugateTranspose, Action<string>? log = null)
+    {
+        if (b.Length < n)
+            throw new ArgumentException($"b must have length >= {n}; got {b.Length}.", nameof(b));
+
+        byte trans = conjugateTranspose ? (byte)'C' : (byte)'N';
+        int nrhs = 1;
+        int info = 0;
+
+        fixed (Complex* pA = a)
+        fixed (int* pIpiv = ipiv)
+        fixed (Complex* pB = b)
+        {
+            zgetrs_openblas(&trans, &n, &nrhs, pA, &n, pIpiv, pB, &n, &info);
+        }
+
+        if (info != 0)
+            throw new InvalidOperationException($"zgetrs failed: info={info} (illegal argument).");
+
+        log?.Invoke($"zgetrs solve complete (trans={(char)trans}).");
     }
 
     /// <summary>
