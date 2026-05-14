@@ -34,13 +34,13 @@ public static class SpatialSumKernel
         for (int site = 0; site < N; site++)
         {
             siteIndices.Clear();
-            int maskI = 1 << (N - 1 - site);
+            long maskI = 1L << (N - 1 - site);
 
-            foreach (int p in basis.StatesP)
+            foreach (long p in basis.StatesP)
             {
                 if (((p >> (N - 1 - site)) & 1) != 0) continue; // need p_site = 0
-                int q = p | maskI;
-                if (BitOperations.PopCount((uint)q) != n + 1) continue;
+                long q = p | maskI;
+                if (BitOperations.PopCount((ulong)q) != n + 1) continue;
                 siteIndices.Add(basis.FlatIndex(p, q));
             }
 

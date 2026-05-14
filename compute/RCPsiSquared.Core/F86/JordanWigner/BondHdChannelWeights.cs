@@ -112,12 +112,12 @@ public sealed class BondHdChannelWeights : Claim
         var hdAtIndex = new int[Mtot];
         for (int pIdx = 0; pIdx < basis.Mp; pIdx++)
         {
-            int p = basis.StatesP[pIdx];
+            long p = basis.StatesP[pIdx];
             for (int qIdx = 0; qIdx < basis.Mq; qIdx++)
             {
-                int q = basis.StatesQ[qIdx];
+                long q = basis.StatesQ[qIdx];
                 int flat = pIdx * basis.Mq + qIdx;
-                hdAtIndex[flat] = System.Numerics.BitOperations.PopCount((uint)(p ^ q));
+                hdAtIndex[flat] = System.Numerics.BitOperations.PopCount((ulong)(p ^ q));
             }
         }
 

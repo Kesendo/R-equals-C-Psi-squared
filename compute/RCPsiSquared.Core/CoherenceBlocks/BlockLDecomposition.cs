@@ -62,17 +62,17 @@ public sealed class BlockLDecomposition
         var mhRaw = new Complex[numBonds][,];
         for (int b = 0; b < numBonds; b++) mhRaw[b] = new Complex[Mtot, Mtot];
 
-        var pFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mp);
-        foreach (int p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
-        var qFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mq);
-        foreach (int q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
+        var pFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mp);
+        foreach (long p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
+        var qFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mq);
+        foreach (long q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
 
-        foreach (int p in basis.StatesP)
+        foreach (long p in basis.StatesP)
         {
-            foreach (int q in basis.StatesQ)
+            foreach (long q in basis.StatesQ)
             {
                 int i = basis.FlatIndex(p, q);
-                int hd = BitOperations.PopCount((uint)(p ^ q));
+                int hd = BitOperations.PopCount((ulong)(p ^ q));
                 dRaw[i, i] = new Complex(-2.0 * gamma0 * hd, 0.0);
 
                 foreach (var (bond, pFlipped) in pFlips[p])
@@ -96,15 +96,15 @@ public sealed class BlockLDecomposition
 
     /// <summary>Yield (bond, flipped_state) for every bond where the state's two adjacent bits
     /// are opposite (i.e. an XX+YY swap acts non-trivially). Big-endian: site 0 = MSB.</summary>
-    private static IEnumerable<(int Bond, int Flipped)> BondFlipTargets(int state, int N)
+    private static IEnumerable<(int Bond, long Flipped)> BondFlipTargets(long state, int N)
     {
         for (int bond = 0; bond < N - 1; bond++)
         {
-            int bitHi = (state >> (N - 1 - bond)) & 1;
-            int bitLo = (state >> (N - 2 - bond)) & 1;
+            long bitHi = (state >> (N - 1 - bond)) & 1;
+            long bitLo = (state >> (N - 2 - bond)) & 1;
             if (bitHi != bitLo)
             {
-                int mask = (1 << (N - 1 - bond)) | (1 << (N - 2 - bond));
+                long mask = (1L << (N - 1 - bond)) | (1L << (N - 2 - bond));
                 yield return (bond, state ^ mask);
             }
         }
@@ -141,20 +141,20 @@ public sealed class BlockLDecomposition
 
         var lRaw = new Complex[Mtot, Mtot];
 
-        var pFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mp);
-        foreach (int p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
-        var qFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mq);
-        foreach (int q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
+        var pFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mp);
+        foreach (long p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
+        var qFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mq);
+        foreach (long q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
 
         Complex hopP = new Complex(0.0, -J);
         Complex hopQ = new Complex(0.0, +J);
 
-        foreach (int p in basis.StatesP)
+        foreach (long p in basis.StatesP)
         {
-            foreach (int q in basis.StatesQ)
+            foreach (long q in basis.StatesQ)
             {
                 int i = basis.FlatIndex(p, q);
-                int hd = BitOperations.PopCount((uint)(p ^ q));
+                int hd = BitOperations.PopCount((ulong)(p ^ q));
                 lRaw[i, i] = new Complex(-2.0 * gamma0 * hd, 0.0);
 
                 foreach (var (_, pFlipped) in pFlips[p])
@@ -190,20 +190,20 @@ public sealed class BlockLDecomposition
 
         var lRaw = new Complex[(long)Mtot * Mtot];
 
-        var pFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mp);
-        foreach (int p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
-        var qFlips = new Dictionary<int, (int Bond, int Flipped)[]>(basis.Mq);
-        foreach (int q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
+        var pFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mp);
+        foreach (long p in basis.StatesP) pFlips[p] = BondFlipTargets(p, N).ToArray();
+        var qFlips = new Dictionary<long, (int Bond, long Flipped)[]>(basis.Mq);
+        foreach (long q in basis.StatesQ) qFlips[q] = BondFlipTargets(q, N).ToArray();
 
         Complex hopP = new Complex(0.0, -J);
         Complex hopQ = new Complex(0.0, +J);
 
-        foreach (int p in basis.StatesP)
+        foreach (long p in basis.StatesP)
         {
-            foreach (int q in basis.StatesQ)
+            foreach (long q in basis.StatesQ)
             {
                 int colFlat = basis.FlatIndex(p, q);
-                int hd = BitOperations.PopCount((uint)(p ^ q));
+                int hd = BitOperations.PopCount((ulong)(p ^ q));
                 // Diagonal: (row, col) = (colFlat, colFlat), column-major index colFlat*Mtot + colFlat.
                 lRaw[(long)colFlat * Mtot + colFlat] = new Complex(-2.0 * gamma0 * hd, 0.0);
 

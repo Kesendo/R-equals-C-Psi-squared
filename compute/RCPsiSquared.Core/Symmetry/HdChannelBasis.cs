@@ -48,11 +48,11 @@ public sealed class HdChannelBasis
         {
             int targetHd = hds[k];
             var indices = new List<int>();
-            foreach (int pState in basis.StatesP)
+            foreach (long pState in basis.StatesP)
             {
-                foreach (int qState in basis.StatesQ)
+                foreach (long qState in basis.StatesQ)
                 {
-                    if (BitOperations.PopCount((uint)(pState ^ qState)) == targetHd)
+                    if (BitOperations.PopCount((ulong)(pState ^ qState)) == targetHd)
                         indices.Add(basis.FlatIndex(pState, qState));
                 }
             }

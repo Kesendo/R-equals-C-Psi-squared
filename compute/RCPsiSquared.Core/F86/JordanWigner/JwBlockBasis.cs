@@ -117,11 +117,11 @@ public sealed class JwBlockBasis : Claim
         var uRaw = new Complex[Mtot, Mtot];
         for (int pIdx = 0; pIdx < basis.Mp; pIdx++)
         {
-            int pState = basis.StatesP[pIdx];
+            long pState = basis.StatesP[pIdx];
             int pSite = SingleExcitationSite(pState, N);
             for (int qIdx = 0; qIdx < basis.Mq; qIdx++)
             {
-                int qState = basis.StatesQ[qIdx];
+                long qState = basis.StatesQ[qIdx];
                 var (qSiteB, qSiteC) = TwoExcitationSites(qState, N);
                 int flat = basis.FlatIndex(pState, qState);
                 for (int alpha = 0; alpha < triples.Count; alpha++)
@@ -206,12 +206,12 @@ public sealed class JwBlockBasis : Claim
 
     /// <summary>Site index (0-indexed, big-endian: site 0 = MSB) of the single excitation in
     /// a popcount-1 bitmask state. Throws if popcount(state) ≠ 1.</summary>
-    private static int SingleExcitationSite(int state, int N)
+    private static int SingleExcitationSite(long state, int N)
     {
         int site = -1;
         for (int s = 0; s < N; s++)
         {
-            if ((state & (1 << (N - 1 - s))) != 0)
+            if ((state & (1L << (N - 1 - s))) != 0)
             {
                 if (site != -1)
                     throw new ArgumentException(
@@ -227,12 +227,12 @@ public sealed class JwBlockBasis : Claim
 
     /// <summary>Site indices (b, c) with b &lt; c (0-indexed, big-endian: site 0 = MSB) of the
     /// two excitations in a popcount-2 bitmask state. Throws if popcount(state) ≠ 2.</summary>
-    private static (int b, int c) TwoExcitationSites(int state, int N)
+    private static (int b, int c) TwoExcitationSites(long state, int N)
     {
         int b = -1, c = -1;
         for (int s = 0; s < N; s++)
         {
-            if ((state & (1 << (N - 1 - s))) != 0)
+            if ((state & (1L << (N - 1 - s))) != 0)
             {
                 if (b == -1) b = s;
                 else if (c == -1) c = s;

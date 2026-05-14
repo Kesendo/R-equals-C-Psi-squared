@@ -53,11 +53,11 @@ public sealed class C2ChannelUniformAnalytical : Claim
         var vec = ComplexVector.Build.Dense(basis.MTotal);
         int count = 0;
         var indices = new List<int>();
-        foreach (int pState in basis.StatesP)
+        foreach (long pState in basis.StatesP)
         {
-            foreach (int qState in basis.StatesQ)
+            foreach (long qState in basis.StatesQ)
             {
-                if (BitOperations.PopCount((uint)(pState ^ qState)) == hd)
+                if (BitOperations.PopCount((ulong)(pState ^ qState)) == hd)
                 {
                     indices.Add(basis.FlatIndex(pState, qState));
                     count++;

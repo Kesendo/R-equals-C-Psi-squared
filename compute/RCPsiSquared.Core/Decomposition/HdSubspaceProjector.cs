@@ -21,11 +21,11 @@ public static class HdSubspaceProjector
     {
         BlockBasis basis = block.Basis;
         var indices = new List<int>();
-        foreach (int p in basis.StatesP)
+        foreach (long p in basis.StatesP)
         {
-            foreach (int q in basis.StatesQ)
+            foreach (long q in basis.StatesQ)
             {
-                if (BitOperations.PopCount((uint)(p ^ q)) == hammingDistance)
+                if (BitOperations.PopCount((ulong)(p ^ q)) == hammingDistance)
                     indices.Add(basis.FlatIndex(p, q));
             }
         }

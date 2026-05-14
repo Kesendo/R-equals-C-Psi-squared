@@ -287,12 +287,12 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         for (int site = 0; site < N; site++)
         {
             var indices = new List<int>(64);
-            int maskI = 1 << (N - 1 - site);
-            foreach (int p in basis.StatesP)
+            long maskI = 1L << (N - 1 - site);
+            foreach (long p in basis.StatesP)
             {
                 if (((p >> (N - 1 - site)) & 1) != 0) continue;   // need p_site = 0
-                int qState = p | maskI;
-                if (System.Numerics.BitOperations.PopCount((uint)qState) != n + 1) continue;
+                long qState = p | maskI;
+                if (System.Numerics.BitOperations.PopCount((ulong)qState) != n + 1) continue;
                 indices.Add(basis.FlatIndex(p, qState));
             }
             lists.Add(indices.ToArray());

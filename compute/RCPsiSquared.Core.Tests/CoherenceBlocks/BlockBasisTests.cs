@@ -23,9 +23,9 @@ public class BlockBasisTests
     {
         var basis = new BlockBasis(N: 5, n: 2);
         Assert.All(basis.StatesP, s =>
-            Assert.Equal(2, System.Numerics.BitOperations.PopCount((uint)s)));
+            Assert.Equal(2, System.Numerics.BitOperations.PopCount((ulong)s)));
         Assert.All(basis.StatesQ, s =>
-            Assert.Equal(3, System.Numerics.BitOperations.PopCount((uint)s)));
+            Assert.Equal(3, System.Numerics.BitOperations.PopCount((ulong)s)));
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class BlockBasisTests
         var basis = new BlockBasis(N: 5, n: 1);
         // For (p=1, q=3) at N=5: p has popcount 1 (bit 0 set, big-endian → site 4),
         // q has popcount 2. FlatIndex = IndexP(1)·Mq + IndexQ(3).
-        int p = basis.StatesP[2]; // some valid state
-        int q = basis.StatesQ[5];
+        long p = basis.StatesP[2]; // some valid state
+        long q = basis.StatesQ[5];
         int idx = basis.FlatIndex(p, q);
         Assert.Equal(basis.IndexP(p) * basis.Mq + basis.IndexQ(q), idx);
         Assert.InRange(idx, 0, basis.MTotal - 1);
