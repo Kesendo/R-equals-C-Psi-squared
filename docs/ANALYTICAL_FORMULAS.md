@@ -2301,7 +2301,7 @@ At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
 
 universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits ≈ 99 % in dressed (H-mixed) modes** versus ≈ 31 % at Q = 20 (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition.
 
-The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value.
+The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value. The [Obstruction Proof](proofs/PROOF_F86_QPEAK.md#obstruction-proof-why-g_eff-admits-no-closed-form) (2026-05-14) accounts for this structurally: g_eff is the irreducible residue, blocked from closed form by six obstruction lemmas (spectral irreducibility, even-N representation-dependence, probe-EP decoupling, finite-reduction insufficiency, signature-subspace mismatch, empirical trajectory-crossings), and via the F90 bridge the F89 D_k obstruction is the same wall.
 
 #### F86b. Universal resonance shape, two bond classes \[Tier 1 candidate\]
 

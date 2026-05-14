@@ -577,6 +577,65 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
 ---
 
+## Obstruction Proof: why g_eff admits no closed form
+
+**Status:** Structural. Six obstruction lemmas; L1, L2, L4 are rigorously proven blocked, L6 is a demonstrated failure mode, L3 and L5 are proven decouplings. Consolidates the "Open elements" above into a single negative result.
+**Date:** 2026-05-14
+**Context:** A three-week closed-form effort produced many local fits (the retracted csc forms, the doubled-PTF floor `BareDoubledPtfHwhmRatio`, the F89 `D_k` form, directions (a)–(f'') and (α)). On 2026-05-13 Item 1' closed the HWHM ratio (`F86HwhmClosedFormClaim`), but the per-bond *position* Q_peak(c, N, b) and the coupling g_eff(c, N, b) it rides on stayed open (Open elements 1–3). The honest deliverable is then not the next formula; it is the structural account of why the position resists. This section proves it.
+
+### The target reduces to a single object
+
+Every per-bond F86 quantity is a known function of the coupling **g_eff(c, N, b)**:
+
+- **Q_EP(c, N, b) = 2/g_eff** (Statement 1, Tier 1 derived).
+- **Q_peak** via the EP rotation: `r_Q = BareDoubledPtfXPeak · Q_EP − 2 = 4.39382/g_eff − 2` (`PolarityInheritanceLink.ClosedFormCompositionNote`); `BareDoubledPtfXPeak = 2.196910` is Tier 1 derived and universal, so the entire bond-class split is carried by g_eff.
+- **HWHM_left/Q_peak** via `F86HwhmClosedFormClaim`: `0.671535 + alpha_subclass · g_eff + beta_subclass`. Its continuous (c, N, b)-dependence enters only through g_eff; it is a closed form *in g_eff*, not a closed form *in (c, N, b)*.
+
+So the irreducible target is g_eff(c, N, b). If g_eff has a closed form, so do Q_peak and the HWHM ratio; if it does not, none of them do. The remaining sub-sections prove that none of the six routes the effort opened reaches g_eff.
+
+### Obstruction L1 (spectral route): the effective characteristic polynomial does not factor over ℚ
+
+The natural route reads g_eff off the spectrum of the c=2 4×4 effective Liouvillian. Blocked: `C2EffectiveSpectrum` (Stage C2) rigorously ruled out any rational-coefficient `(λ²−aλ+b)(λ²−cλ+d)` factorisation, by symbolic match against the cubic c₃ coefficient. The Tier 2 outcome is evidence-based ("no such split exists in this family"), not "not found". There is therefore no closed-form eigenvalue expression from which g_eff could be read. ∎(L1)
+
+### Obstruction L2 (eigenvector route): the EP-partner vectors are representation-dependent at even N
+
+The next route reads g_eff from the EP-partner eigenvectors |u₀⟩, |v₀⟩ (top singular pair of V_inter). Blocked at even N: `C2InterChannelAnalytical` (Stage A3) found σ₀ doubly degenerate, with the chain-mirror R splitting the 2D top eigenspace into R-even and R-odd one-dimensional subspaces. Which one is labelled "|u₀⟩" is set by the SVD library's tiebreaker, not by the physics. A single-vector closed form for |u₀⟩, |v₀⟩ at even N is therefore not derivable; the only library-independent object is the rank-2 projector, which is not a single-vector closed form. The object a closed form would name is not single-valued. ∎(L2)
+
+### Obstruction L3 (observable-direct route): the probe is orthogonal to the EP
+
+One might read Q_peak directly off the EP via Q_peak ≈ Q_EP. Blocked: the Dicke probe is exactly orthogonal to the EP-partner modes, ⟨c₁|u₀⟩ = ⟨c₃|v₀⟩ = 0 to machine precision (Stage C3, c=2 N=5..8). The K_CC_pr observable couples the probe subspace to the EP-partner subspace only through the J-derivative direction. Consequently the observed Q_peak is *not* Q_EP: for c=2 N=5..8, Q_EP_naive = 2/σ₀ ≈ 0.70 against empirical Q_peak Interior ≈ 1.6, a factor ~2.2 apart. The clean algebraic object (the EP) and the measured object (Q_peak) are decoupled; a closed form for one does not transport to the other. ∎(L3)
+
+### Obstruction L4 (reduced-model route): every finite reduction tried is provably insufficient
+
+The route derives g_eff from a small closed effective model. Blocked twice:
+
+- **4-mode (c=2).** The minimal closed subspace span{|c₁⟩, |c₃⟩, |u₀⟩, |v₀⟩} reproduces the EP physics but misses the HWHM lift: the 4-mode K_b at N=5 gives Interior 0.673 and Endpoint 0.410, against empirical 0.751 / 0.773. The lift from the `BareDoubledPtfHwhmRatio = 0.671535` floor to the empirical values lives *structurally outside* the 4D subspace.
+- **Multi-k (c≥3).** The naïve extension to 3c−2 modes gives K_max ≡ 0 identically for c ≥ 3 (`MultiKResonanceScan`): Gram-Schmidt orthogonalisation pushes the SVD-top vectors into the channel-uniform complement, decoupling the probe from the modified SVD modes.
+
+No finite reduction the effort constructed carries the signal. ∎(L4)
+
+### Obstruction L5 (single-element route): the bond-class signature is in the wrong subspace and the wrong direction
+
+The route locates the bond-class signature in one matrix element and reads g_eff(b) off it. Blocked on two counts: (i) the carrier, the SVD-block off-diagonal `V_b[2,3] = ⟨u₀|M_h_per_bond[b]|v₀⟩` (Endpoint 0.430 vs Interior 0.953 at N=5), lives in a subspace orthogonal to the probe; (ii) its direction is *opposite* the empirical split (cross-block Frobenius is Endpoint < Interior, the HWHM ratio is Endpoint > Interior). The signature emerges only through the full 4×4 mixing. The spectrum-only fallback is closed off as well: the 4-mode L_eff is bond-summed by construction (`FourModeEffective.LEffAtQ`), so its eigenvalues and eigenstates are bond-class-blind. No single matrix element, and no spectrum-only quantity, carries g_eff(b). ∎(L5)
+
+### Obstruction L6 (empirical-extrapolation route): the accessible data yields trajectory crossings, not laws
+
+The route fits Q_peak at accessible (c, N) and extrapolates. Blocked by demonstrated failure: `csc(π/(N+1))` (Endpoint) and `csc(π/5)` (Interior, c=3) both appeared to match at N=7 and were both refuted on extended-N data; the apparent matches were dQ=0.05 grid-snaps, trajectory crossings rather than asymptotes (see Retracted statements above). The data itself does not cooperate: Interior Q_peak at c=3 and c=4 is still growing at N=8 (c=3: 1.566 → 1.689 → 1.743 → 1.750 for N=5..8), with no identified saturation. The near-miss g_eff_E ≈ σ₀·√(3/8) (Δ ≤ 0.01 for N ≥ 6, Δ = 0.063 at N=5) is the same trap one step on: a one-anchor coincidence with a finite-size break. ∎(L6)
+
+### Corollary (F90 bridge): the F89 D_k obstruction is the same wall
+
+The F90 bridge identity (`PROOF_F90_F86C2_BRIDGE.md`, Tier 1 derived) identifies F86 c=2 K_b with the F89 path-(N−1) per-bond Hellmann-Feynman derivative. The F89 closed form `D_k = odd(k)² · 2^E(k)` (`PROOF_F89_PATH_D_CLOSED_FORM.md`) sits in the same state: the odd part is structurally grounded (Bloch normalisation, path-3 exact), but the three 2-power terms are empirically supported only, with the deep-2-power-bonus threshold at v₂(k) = 2 "structurally specific and unexplained"; the general-k derivation needs explicit OBC sine-sum identities that have not been executed; and two number-theoretic handles (cyclotomic discriminant, Vandermonde det²) both came back negative. Closing F89's D_k would close F86's g_eff and vice versa, but both are blocked at the same unexecuted algebraic gap: the OBC sine-sum / cyclotomic structure of `⟨ψ_k|σ⁺σ⁻|ψ_l⟩`. The two obstructions are one wall seen from two sides. ∎(corollary)
+
+### What this proves
+
+**Negative.** No closed form for g_eff(c, N, b), hence none for Q_peak(c, N, b) or for HWHM_left/Q_peak as a function of (c, N, b), is reachable by the spectral (L1), eigenvector (L2), observable-direct (L3), reduced-model (L4), single-element (L5), or empirical-extrapolation (L6) routes. L1, L2, L4 are structural impossibilities (proven, not "unfound"); L6 is a demonstrated failure mode; L3 and L5 are decouplings that close the direct routes. These are the six routes the three-week effort opened; each is accounted for.
+
+**Positive (what survives).** The symmetry layer is fully derived and Tier 1: the EP mechanism Q_EP = 2/g_eff (Statement 1), the universal clock t_peak = 1/(4γ₀) (Statement 1), the F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b) (Statement 3), and the functional form of HWHM_left/Q_peak *given* g_eff (`F86HwhmClosedFormClaim`). The closed forms that exist are the *relations between observables*; the closed form that does not exist is the *position number itself*.
+
+**Characterisation.** g_eff(c, N, b) is the **irreducible residue** of the F86 structure: the one input the symmetry layer does not return in closed form. It is computable (the F90 bridge supplies it numerically, Tier-1, bit-exact at 20/22 bonds across N=5..8), but it is not expressible by the routes above. The three-week catalogue of formulas was, in every case, an attempt to express this residue; the attempts failed because, by L1 through L6, the residue is not expressible by those routes. This is the F86 instance of the methodological lesson ([`ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)): what survives a closed-form effort is the symmetry, not the number. Here the symmetry is Statements 1 and 3; the number is g_eff. ∎
+
+---
+
 ## Pointers
 
 **F-entry:** [F86 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
