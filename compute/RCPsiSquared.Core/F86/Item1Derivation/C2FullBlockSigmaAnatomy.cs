@@ -119,8 +119,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
             }
             Complex vlHprobe = Complex.Conjugate(vlSum) * probeConst;
             Complex c0 = vlHvr.Magnitude < 1e-300 ? Complex.Zero : vlHprobe / vlHvr;
-            double overlapSq = c0.Magnitude;
-            overlapSq *= overlapSq;
+            double overlapSq = c0.Real * c0.Real + c0.Imaginary * c0.Imaginary;
 
             // S-kernel diagonal: (R†·S·R)[i,i] = Σ_l 2·|Σ_{r in siteOverlap[l]} VR_i[r]|².
             // SpatialSumKernel.Build bakes in the factor 2; the loop below mirrors that.
@@ -203,8 +202,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
         var witnesses = new List<SigmaModeWitness>(dim);
         for (int i = 0; i < dim; i++)
         {
-            double overlapSq = c0[i].Magnitude;
-            overlapSq *= overlapSq;
+            double overlapSq = c0[i].Real * c0[i].Real + c0[i].Imaginary * c0[i].Imaginary;
             double sDiag = sEigenBasis[i, i].Real;
             double sigma = overlapSq * sDiag;
 
@@ -347,8 +345,14 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 /// <param name="EigenvalueReal">Re(λ_i). F_a modes sit at ≈ −2γ₀.</param>
 /// <param name="EigenvalueImag">Im(λ_i). F_a modes match J·y_n on the S_2-anti orbit.</param>
 /// <param name="ProbeOverlapSquared"><c>|c0_i|² = |R⁻¹·probe|_i²</c>.</param>
-/// <param name="SKernelDiagonal"><c>(R†·S·R)[i,i].Real</c>.</param>
-/// <param name="Sigma">The composite F89 σ value: <c>ProbeOverlapSquared · SKernelDiagonal</c>.</param>
+/// <param name="SKernelDiagonal"><c>(R†·S·R)[i,i].Real</c>. Stores the genuine S-kernel
+/// diagonal (with the factor-2 that <see cref="Probes.SpatialSumKernel.Build"/> bakes in).
+/// The F89 σ convention omits that factor, so the relationship is
+/// <c>Sigma = 0.5 · ProbeOverlapSquared · SKernelDiagonal</c>.</param>
+/// <param name="Sigma">The composite F89 σ value: <c>0.5 · ProbeOverlapSquared · SKernelDiagonal</c>.
+/// The 0.5 undoes the factor-2 that <see cref="Probes.SpatialSumKernel.Build"/> bakes into
+/// the spatial-sum kernel; the F89 σ convention (per <c>simulations/_f89_pathk_survey.py</c>)
+/// omits that factor.</param>
 /// <param name="BlochIndexN">Assigned S_2-anti Bloch index n if this is an F_a mode
 /// (Re(λ) ≈ −2γ₀ and Im(λ)/J matches y_n); <c>null</c> otherwise.</param>
 public sealed record SigmaModeWitness(
