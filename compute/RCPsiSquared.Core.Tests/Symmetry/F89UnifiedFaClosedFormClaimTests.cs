@@ -1,3 +1,4 @@
+using System.Numerics;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 
@@ -116,6 +117,64 @@ public class F89UnifiedFaClosedFormClaimTests
         // path-3 needs N ≥ N_block + 1 = 5 to have at least one bare site
         Assert.Throws<ArgumentOutOfRangeException>(
             () => F89UnifiedFaClosedFormClaim.Sigma(3, 2, 4));
+    }
+
+    [Theory]
+    // path-10, N=12, n=2 (y = 4cos(π/6) = 2√3 ≈ 3.464): coefs (1120, 128, 32, 152, 37), D=200.
+    // P(y) = 37y⁴ + 152y³ + 32y² + 128y + 1120 ; σ = P(y_2)/(200·12²·11).
+    [InlineData(10, 2, 12)]
+    [InlineData(11, 2, 13)]
+    [InlineData(15, 4, 17)]
+    [InlineData(20, 6, 22)]
+    [InlineData(32, 4, 34)]
+    [InlineData(46, 2, 48)]
+    public void Sigma_BeyondK9_LiftedRestriction_ProducesValue(int k, int n, int blochN)
+    {
+        // Restriction k ∈ {3..9} lifted 2026-05-15; Sigma now works for any k ≥ 3.
+        double sigma = F89UnifiedFaClosedFormClaim.Sigma(k, n, blochN);
+        Assert.True(sigma > 0, $"sigma path-{k} n={n} N={blochN} should be positive; got {sigma}");
+        Assert.True(double.IsFinite(sigma), "sigma should be finite");
+    }
+
+    [Theory]
+    [InlineData(50, 2, 52)]
+    [InlineData(60, 4, 62)]
+    public void Sigma_BeyondTabulationViaPipeline_Works(int k, int n, int blochN)
+    {
+        double sigma = F89UnifiedFaClosedFormClaim.Sigma(k, n, blochN);
+        Assert.True(sigma > 0);
+        Assert.True(double.IsFinite(sigma));
+    }
+
+    [Theory]
+    [InlineData(10, 12)]
+    [InlineData(20, 22)]
+    [InlineData(32, 34)]
+    public void SigmaSum_BeyondK9_LiftedRestriction_ProducesValue(int k, int blochN)
+    {
+        double sum = F89UnifiedFaClosedFormClaim.SigmaSum(k, blochN);
+        Assert.True(sum > 0);
+        Assert.True(double.IsFinite(sum));
+    }
+
+    [Theory]
+    [InlineData(47)]
+    [InlineData(50)]
+    [InlineData(100)]
+    public void PredictDenominatorBig_MatchesPipelineDenominator(int k)
+    {
+        var pipelineD = F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig(k).Denominator;
+        var formulaD = F89UnifiedFaClosedFormClaim.PredictDenominatorBig(k);
+        Assert.Equal(pipelineD, formulaD);
+    }
+
+    [Theory]
+    [InlineData(3, 9)]
+    [InlineData(10, 200)]
+    [InlineData(46, 1109393408)]
+    public void PredictDenominatorBig_MatchesIntPredictDenominator(int k, int expected)
+    {
+        Assert.Equal(new BigInteger(expected), F89UnifiedFaClosedFormClaim.PredictDenominatorBig(k));
     }
 
     [Theory]

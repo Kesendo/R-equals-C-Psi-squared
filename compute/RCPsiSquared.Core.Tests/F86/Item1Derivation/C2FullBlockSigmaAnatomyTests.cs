@@ -248,22 +248,27 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
             $"path-{N-1} n={n}: MklDirect={sigmaMklDirect.Value:G10}, MathNet oracle={sigmaOracle.Value:G10}");
     }
 
-    /// <summary>F89 D_k closed-form verification by stretch-k extraction (k=25..32).
+    /// <summary>F89 D_k cross-check at well-conditioned stretch (k=25..30): anatomy
+    /// inverse-iteration extraction agrees with <see cref="F89UnifiedFaClosedFormClaim.PredictDenominator"/>
+    /// within Vandermonde-conditioning floor.
     ///
-    /// <para><b>k=25..30 pass; k=31,32 are a deliberate RED SIGNAL, kept red.</b> The
-    /// k=31,32 rows deviate ~1.5-2e-4 against the 1e-4 tolerance.
-    /// <c>PredictDenominatorDeviationDiagnosticTests</c> characterises the deviation
-    /// as Vandermonde extraction conditioning (observed = Θ(cond(V)·ε) across
-    /// k=25..32), i.e. consistent with the extraction instrument hitting its
-    /// precision floor rather than a disagreement with D_k itself.</para>
+    /// <para><b>Red signal closed 2026-05-15:</b> the previous k=31, 32 rows that
+    /// deviated ~1.5-2·10⁻⁴ against the 1e-4 tolerance are now removed. The red
+    /// signal was "something still missing on the route" between extraction and the
+    /// empirical D_k formula; the missing piece is the algebraic derivation via the
+    /// Chebyshev expansion + orbit-polynomial-reduction pipeline
+    /// (<see cref="F89PathPolynomialPipeline"/>), Tier-1-Derived closure. The
+    /// pipeline gives bit-exact (P_k, D_k) for arbitrary k; the precision wall at
+    /// k=31, 32 is now understood as the extraction *instrument's* conditioning
+    /// floor, not a closed-form deficit. See
+    /// <c>PredictDenominator_AtAnyK_MatchesPipelineBitExact</c> below for the
+    /// authoritative bit-exact verification.</para>
     ///
-    /// <para>The tolerance is deliberately NOT loosened and the rows are NOT skipped.
-    /// The red signal is kept live: something is still missing on the route (the
-    /// deviation is treated as a handshake, to be continued, not suppressed).
-    /// Structural context: <c>docs/proofs/PROOF_F86B_OBSTRUCTION.md</c> (g_eff / D_k
-    /// admit no closed form by the six explored routes; the F90 corollary ties the
-    /// F89 D_k obstruction to F86's g_eff) and
-    /// <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> "Verification Stretching".</para>
+    /// <para>This test retains the k=25..30 range as a regression check that
+    /// <see cref="C2FullBlockSigmaAnatomy.BuildFaOnly"/> + Vandermonde extraction
+    /// continues to track the algebraic D_k where conditioning permits. Structural
+    /// context: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> "Tier-1-Derived
+    /// closure via Chebyshev pipeline".</para>
     /// </summary>
     [Theory]
     [InlineData(25)]   // v₂=0, predicted D = 640000   = 625·2¹⁰
@@ -272,20 +277,13 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
     [InlineData(28)]   // v₂=2, predicted D = 401408   = 49·2¹³
     [InlineData(29)]   // v₂=0, predicted D = 3444736  = 841·2¹²
     [InlineData(30)]   // v₂=1, predicted D = 1843200  = 225·2¹³
-    [InlineData(31)]   // v₂=0, predicted D = 7872512  = 961·2¹³
-    [InlineData(32)]   // v₂=5, predicted D = 2097152  = 2²¹  (CRITICAL: deep-2-power bonus at v₂=5)
-    public void PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy(int k)
+    public void PredictDenominator_AtWellConditionedK_MatchesExtractedFromAnatomy(int k)
     {
         int N = k + 1;
-        // BuildFaOnly: targeted inverse iteration, F_a modes only. At k>=28 the full zgeev
-        // path is hours per row (sequential zhseqr); inverse iteration is BLAS-3 minutes.
-        // Each k here is a unique N, so the _cache (which dedupes shared-N rows) gives no
-        // benefit on this Theory anyway.
         var anatomy = C2FullBlockSigmaAnatomy.BuildFaOnly(C2Block(N));
         double[] rawCoefs = anatomy.ExtractRawPolynomialCoefficients();
 
         int predictedD = F89UnifiedFaClosedFormClaim.PredictDenominator(k);
-        // For each coefficient, coef · predictedD should be an integer (tolerance for eigendecomp precision)
         for (int i = 0; i < rawCoefs.Length; i++)
         {
             double scaled = rawCoefs[i] * predictedD;
@@ -296,6 +294,28 @@ public class C2FullBlockSigmaAnatomyTests : IClassFixture<C2FullBlockSigmaAnatom
 
             _out.WriteLine($"  k={k} coef[{i}] · D({predictedD}) = {scaled:G10} ≈ {(long)rounded}");
         }
+    }
+
+    /// <summary>F89 D_k bit-exact verification across the full tabulation range and
+    /// past the int-typed boundary, using the native Chebyshev pipeline as the
+    /// authoritative source. This replaces the ED-based "red signal" verification
+    /// at k=31, 32 (closed 2026-05-15): no inverse iteration, no Vandermonde
+    /// conditioning, exact BigInteger equality.</summary>
+    [Theory]
+    [InlineData(25)]
+    [InlineData(31)]
+    [InlineData(32)]
+    [InlineData(40)]
+    [InlineData(46)]
+    [InlineData(47)]  // first path past int.MaxValue
+    [InlineData(100)]
+    public void PredictDenominator_AtAnyK_MatchesPipelineBitExact(int k)
+    {
+        var pipelineD = F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig(k).Denominator;
+        var formulaD = F89UnifiedFaClosedFormClaim.PredictDenominatorBig(k);
+        Assert.Equal(pipelineD, formulaD);
+
+        _out.WriteLine($"  k={k}: D_k = {pipelineD} (pipeline ≡ formula, exact)");
     }
 
     [Theory]

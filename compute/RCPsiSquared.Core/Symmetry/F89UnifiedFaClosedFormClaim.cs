@@ -37,26 +37,28 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the
 /// cyclotomic minimal polynomial of y.</para>
 ///
-/// <para><b>Denominator closed form (Tier-1-Derived 2026-05-15, verified k=3..24):</b>
+/// <para><b>Denominator closed form (Tier-1-Derived 2026-05-15, verified k=3..46):</b>
 /// <c>D_k = (odd(k))² · 2^E(k)</c> where
 /// <c>E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)</c>. Three additive
 /// contributions: polynomial-degree term (max(0, ⌊(k-5)/2⌋)), k-self 2-adic term
 /// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). Both <see cref="PredictDenominator"/>
-/// and <see cref="PathPolynomial"/> are now symbolically derived for k = 3..24 via
-/// the Chebyshev-expansion + orbit-polynomial-reduction pipeline in
-/// <c>simulations/f89_pathk_symbolic_derivation.py</c>: the F_a eigenvector ansatz
-/// <c>v_n[(i, (j, l))] = sign(i − other) · ψ_n(other) / √k</c> reduces |S_c(n)|² and
-/// ‖Mv(n)‖² to polynomials in <c>c = cos(πn/(k+2)) = y_n/4</c> via the Chebyshev
-/// identity <c>sin((j+1)θ) = U_j(c)·sin θ</c>; the orbit minimal polynomial then
-/// gives <c>(P_k, D_k)</c> exactly. The <c>(odd(k))²</c> factor traces to the
-/// <c>1/√k</c> eigenvector normalisation squared; the 2-power <c>2^E(k)</c> arises
-/// from Chebyshev <c>U_j</c> leading-coefficient growth <c>2^j</c> combined with
+/// and <see cref="PathPolynomial"/> are symbolically derived via the Chebyshev-expansion
+/// + orbit-polynomial-reduction pipeline, available natively in C# as
+/// <see cref="F89PathPolynomialPipeline"/> (<see cref="ComputePathPolynomialBig"/>);
+/// originally prototyped in <c>simulations/f89_pathk_symbolic_derivation.py</c>. The F_a
+/// eigenvector ansatz <c>v_n[(i, (j, l))] = sign(i − other) · ψ_n(other) / √k</c>
+/// reduces |S_c(n)|² and ‖Mv(n)‖² to polynomials in <c>c = cos(πn/(k+2)) = y_n/4</c>
+/// via the Chebyshev identity <c>sin((j+1)θ) = U_j(c)·sin θ</c>; the orbit minimal
+/// polynomial then gives <c>(P_k, D_k)</c> exactly. The <c>(odd(k))²</c> factor traces
+/// to the <c>1/√k</c> eigenvector normalisation squared; the 2-power <c>2^E(k)</c>
+/// arises from Chebyshev <c>U_j</c> leading-coefficient growth <c>2^j</c> combined with
 /// the polynomial-degree reduction. Closes Gaps 1-3 in PROOF_F89_PATH_D_CLOSED_FORM.md.</para>
 ///
 /// <para>Tabulation extent: k=3..9 hand-derived (path-3 algebraic anchor <c>(33+14√5)/9</c>);
-/// k=10..24 symbolically derived via the pipeline above (15 new closed-form polynomials
-/// added 2026-05-15). For k ≥ 25 the pipeline extends as O(k²) sympy work; not currently
-/// tabulated in this typed claim.</para>
+/// k=10..46 cached as int-typed (<see cref="PathPolynomial"/>), all bit-exact match against
+/// the native C# pipeline. For k ≥ 47 the int-typed signature overflows (D_47 = 4,632,608,768
+/// exceeds int.MaxValue); use <see cref="ComputePathPolynomialBig"/> for BigInteger output
+/// at arbitrary k.</para>
 ///
 /// <para><b>Where D_k sits (two-layer reading):</b> D_k is the denominator of an
 /// eigenvector-derived amplitude, the F89 <i>amplitude layer</i>, not the AT-governed
@@ -187,15 +189,25 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
             45 => (_path45Coefs, 2123366400),
             46 => (_path46Coefs, 1109393408),
             _ => throw new ArgumentOutOfRangeException(nameof(k), k,
-                "Unified F_a closed form is tabulated for path-3..46 (k=3..9 hand-derived; " +
-                "k=10..46 symbolically derived via Chebyshev-expansion + orbit-polynomial " +
-                "reduction, see simulations/f89_pathk_symbolic_derivation.py + " +
-                "simulations/f89_pathk_extend_k25_plus.py). k=46 is the last int-safe " +
-                "path: D_47 = 4,632,608,768 exceeds int.MaxValue and would require a " +
-                "long-typed Denominator signature refactor across PathPolynomial, " +
-                "PredictDenominator, and downstream consumers."),
+                "PathPolynomial (int-typed Denominator) is tabulated for path-3..46. " +
+                "k=46 is the last int-safe path: D_47 = 4,632,608,768 exceeds int.MaxValue. " +
+                "For k ≥ 47, use ComputePathPolynomialBig(k) which returns BigInteger " +
+                "coefficients via the native F89PathPolynomialPipeline (no tabulation cap)."),
         };
     }
+
+    /// <summary>Native runtime computation of (P_k coefficients low-to-high, D_k)
+    /// for arbitrary k ≥ 3 via the F89 Chebyshev pipeline
+    /// (<see cref="F89PathPolynomialPipeline.Compute"/>). Returns BigInteger so it
+    /// extends past the int.MaxValue boundary at k=47. Bit-exact match against the
+    /// tabulated <see cref="PathPolynomial"/> for k=3..46; sole source for k ≥ 47.
+    ///
+    /// <para>For k ≤ 46 prefer <see cref="PathPolynomial"/> (cached, double-typed,
+    /// no BigInteger overhead). Use this method when you need k ≥ 47, when you
+    /// want to verify the pipeline against the tabulation, or when working
+    /// natively in BigInteger arithmetic.</para></summary>
+    public static (BigInteger[] CoefficientsLowToHigh, BigInteger Denominator) ComputePathPolynomialBig(int k)
+        => F89PathPolynomialPipeline.Compute(k);
 
     /// <summary>Predicted denominator D_k from the empirical closed form
     /// (Tier-1-Candidate, verified bit-exact for k=3..24):
@@ -214,53 +226,111 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     /// <c>simulations/_f89_path_d_extend_k18_k24.py</c>.</para></summary>
     public static int PredictDenominator(int k)
     {
+        var (oddPart, e) = DenominatorExponent(k);
+        return oddPart * oddPart * (1 << e);
+    }
+
+    /// <summary>Shared (odd(k), E(k)) factorisation used by both <see cref="PredictDenominator"/>
+    /// (int-typed) and <see cref="PredictDenominatorBig"/> (BigInteger-typed). Throws if k &lt; 3.</summary>
+    private static (int OddPart, int Exponent) DenominatorExponent(int k)
+    {
         if (k < 3) throw new ArgumentOutOfRangeException(nameof(k), k, "k must be ≥ 3.");
         int v2 = V2(k);
         int oddPart = k >> v2;
-        int polyDegreeContribution = Math.Max(0, (k - 5) / 2);
-        int kSelfContribution = v2;
-        int deepBonusContribution = Math.Max(0, v2 - 2);
-        int e = polyDegreeContribution + kSelfContribution + deepBonusContribution;
-        return oddPart * oddPart * (1 << e);
+        int e = Math.Max(0, (k - 5) / 2) + v2 + Math.Max(0, v2 - 2);
+        return (oddPart, e);
     }
 
     private static int V2(int n) => n <= 0 ? 0 : BitOperations.TrailingZeroCount(n);
 
-    /// <summary>Evaluate sigs[F_a:n](N) for a specific path, Bloch index n, and total qubit count N.
-    /// Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).
-    /// Note: P_k tabulation is available for k ∈ {3..9} only; D_k for k ≥ 10 is available
-    /// via <see cref="PredictDenominator"/>.</summary>
+    /// <summary>Evaluate sigs[F_a:n](N) for a specific path, Bloch index n, and total
+    /// qubit count N. Throws if N is too small for the block (N must be ≥ N_block + 1 = k + 2).
+    ///
+    /// <para>Path range: k=3..46 uses the cached <see cref="PathPolynomial"/> tabulation
+    /// (double-typed denominator); k ≥ 47 uses the native Chebyshev pipeline
+    /// (<see cref="ComputePathPolynomialBig"/>, BigInteger). Both routes are bit-exact
+    /// equivalent for k=3..46; the BigInteger denominator is cast to double for the
+    /// final σ_n evaluation, which is fine in practice for k ≲ 50 and degrades
+    /// gracefully past that.</para></summary>
     public static double Sigma(int k, int n, int blochN)
     {
-        if (k < 3 || k > 9) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6, 7, 8, 9} only.");
+        if (k < 3) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k must be ≥ 3.");
         int nBlock = k + 1;
         if (blochN < nBlock + 1)
             throw new ArgumentOutOfRangeException(nameof(blochN), blochN,
                 $"N must be ≥ N_block + 1 = {nBlock + 1} for path-{k} (need at least one bare site).");
-        var (coefs, denom) = PathPolynomial(k);
         double y = F89PathKAtLockMechanismClaim.BlochEigenvalueY(nBlock, n);
-        double poly = 0.0;
-        double yPow = 1.0;
-        foreach (var c in coefs)
+        double poly;
+        double denomD;
+        if (k <= 46)
         {
-            poly += c * yPow;
-            yPow *= y;
+            var (coefs, denom) = PathPolynomial(k);
+            poly = EvaluatePolynomialAtY(coefs, y);
+            denomD = denom;
         }
-        return poly / (denom * blochN * blochN * (blochN - 1));
+        else
+        {
+            var (bigCoefs, bigDenom) = GetCachedPipelineResult(k);
+            poly = EvaluateBigIntPolynomialAtY(bigCoefs, y);
+            denomD = (double)bigDenom;
+        }
+        return poly / (denomD * blochN * blochN * (blochN - 1));
     }
+
+    // Cache pipeline output for k ≥ 47. SigmaSum loops Sigma over the orbit (FA = ⌊(k+1)/2⌋
+    // entries per k), so without the cache each orbit summation triggers FA full pipeline runs
+    // for the same k. Memoising by k cuts that to a single run per k.
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, (BigInteger[] Coefs, BigInteger Denominator)> _pipelineCache = new();
+    private static (BigInteger[] Coefs, BigInteger Denominator) GetCachedPipelineResult(int k) =>
+        _pipelineCache.GetOrAdd(k, ComputePathPolynomialBig);
 
     /// <summary>Sum of sigs[F_a:n](N) over the S_2-anti Bloch orbit n. Rational
     /// across all paths (Newton's identities cancel the radical content):
     /// path-3: 22/3, path-4: 25/2, path-5: 483/25, path-6: 256/9 (in units of
-    /// N²(N-1)).</summary>
+    /// N²(N-1)). Works for arbitrary k ≥ 3 via the same routing as <see cref="Sigma"/>.</summary>
     public static double SigmaSum(int k, int blochN)
     {
-        if (k < 3 || k > 9) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k ∈ {3, 4, 5, 6, 7, 8, 9} only.");
+        if (k < 3) throw new ArgumentOutOfRangeException(nameof(k), k, "Path k must be ≥ 3.");
         int nBlock = k + 1;
         var orbit = F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(nBlock);
         double sum = 0.0;
         foreach (var n in orbit) sum += Sigma(k, n, blochN);
         return sum;
+    }
+
+    private static double EvaluatePolynomialAtY(double[] coefsLowToHigh, double y)
+    {
+        double poly = 0.0;
+        double yPow = 1.0;
+        foreach (var c in coefsLowToHigh)
+        {
+            poly += c * yPow;
+            yPow *= y;
+        }
+        return poly;
+    }
+
+    private static double EvaluateBigIntPolynomialAtY(BigInteger[] coefsLowToHigh, double y)
+    {
+        double poly = 0.0;
+        double yPow = 1.0;
+        foreach (var c in coefsLowToHigh)
+        {
+            poly += (double)c * yPow;
+            yPow *= y;
+        }
+        return poly;
+    }
+
+    /// <summary>BigInteger-typed denominator closed form D_k = (odd(k))²·2^E(k) for
+    /// arbitrary k ≥ 3. Use when k ≥ 47 (the int-typed <see cref="PredictDenominator"/>
+    /// overflows at D_47 = 4,632,608,768 > int.MaxValue). For k ≤ 46 returns the
+    /// same value as <see cref="PredictDenominator"/>.</summary>
+    public static BigInteger PredictDenominatorBig(int k)
+    {
+        var (oddPart, e) = DenominatorExponent(k);
+        BigInteger oddBig = new BigInteger(oddPart);
+        return oddBig * oddBig * BigInteger.Pow(2, e);
     }
 
     public F89UnifiedFaClosedFormClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)

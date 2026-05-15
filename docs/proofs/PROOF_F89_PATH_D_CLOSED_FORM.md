@@ -1,8 +1,9 @@
 # F89 Path-D Denominator Closed Form
 
-**Status:** Tier-1-Derived (2026-05-15). Closed-form `(P_k, D_k)` derived algebraically via Chebyshev-expansion + orbit-polynomial-reduction pipeline (`simulations/f89_pathk_symbolic_derivation.py`). Verified bit-exact k=3..24 (22/22 match against tabulated and predicted values); k=10..24 tabulation extended in `F89UnifiedFaClosedFormClaim.PathPolynomial`. The three open Gaps (poly-degree term, k-self 2-adic, deep-2-power bonus) are all closed by the structural derivation.
-**Date:** 2026-05-13 (Tier-1-Candidate); 2026-05-14 (two-layer framing); 2026-05-15 (Tier-1-Derived closure)
-**Probe scripts:** `simulations/_f89_path_d_theory_probe.py`, `simulations/_f89_path_d_structure_probe.py`, `simulations/_f89_path_d_verify_k16_k17.py`, `simulations/_f89_path_d_extend_k18_k24.py`, `simulations/f89_pathk_symbolic_derivation.py` (Tier-1-Derived closure)
+**Status:** Tier-1-Derived (2026-05-15). Closed-form `(P_k, D_k)` derived algebraically via Chebyshev-expansion + orbit-polynomial-reduction pipeline, now available as a native C# runtime (`compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs`, exposed via `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig`). Verified bit-exact k=3..46 (44/44 match against the cached `PathPolynomial` tabulation and `PredictDenominator` formula); extends past the int.MaxValue boundary at k=47 (D_47 = 4,632,608,768 > 2^31−1). The three open Gaps (poly-degree term, k-self 2-adic, deep-2-power bonus) are all closed by the structural derivation.
+**Date:** 2026-05-13 (Tier-1-Candidate); 2026-05-14 (two-layer framing); 2026-05-15 (Tier-1-Derived closure + native C# pipeline)
+**Native runtime:** `compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs` (exact BigInteger / BigRational arithmetic; no floating-point approximation). Original prototype: `simulations/f89_pathk_symbolic_derivation.py` (sympy-based, retained as cross-check probe).
+**Probe scripts:** `simulations/_f89_path_d_theory_probe.py`, `simulations/_f89_path_d_structure_probe.py`, `simulations/_f89_path_d_verify_k16_k17.py`, `simulations/_f89_path_d_extend_k18_k24.py`, `simulations/f89_pathk_symbolic_derivation.py` (Tier-1-Derived closure prototype)
 
 ---
 
@@ -58,6 +59,33 @@ Verified bit-exact by the probe scripts listed above (k=3..24, 22 data points).
 | 24 | 3 | 3 | 12 | 11 | 13 | 73728 | 73728 | OK | 2^13·3^2 |
 
 FA = floor((k+1)/2) = number of S_2-anti orbit elements; deg = FA-1 = polynomial degree of P_k.
+
+---
+
+## Pipeline-Extended Verification (k > 24)
+
+Computed via the native C# Chebyshev pipeline (`F89PathPolynomialPipeline.Compute(k)`) and cross-checked bit-exact against the BigInteger D_k formula (`F89UnifiedFaClosedFormClaim.PredictDenominatorBig(k)`). Both routes are algebraic: the pipeline extracts D_k as the LCM of rational coefficient denominators after reduction modulo the orbit minimal polynomial; the formula gives `odd(k)²·2^E(k)` directly. Match is bit-exact in BigInteger arithmetic, no floating-point tolerance. Source: `F89PathPolynomialPipelineStressTest.EmitMarkdownTableRows`.
+
+| k | v2(k) | odd(k) | FA | deg | E(k) | D_pred | bits | match | factored |
+|---|-------|--------|-----|-----|------|--------|------|-------|----------|
+| 25 | 0 | 25 | 13 | 12 | 10 | 640000 | 20 | OK | 25²·2¹⁰ |
+| 30 | 1 | 15 | 15 | 14 | 13 | 1843200 | 21 | OK | 15²·2¹³ |
+| 40 | 3 | 5 | 20 | 19 | 21 | 52428800 | 26 | OK | 5²·2²¹ |
+| 46 | 1 | 23 | 23 | 22 | 21 | 1109393408 | 31 | OK | 23²·2²¹ |
+| 50 | 1 | 25 | 25 | 24 | 23 | 5242880000 | 33 | OK | 25²·2²³ |
+| 60 | 2 | 15 | 30 | 29 | 29 | 120795955200 | 37 | OK | 15²·2²⁹ |
+| 75 | 0 | 75 | 38 | 37 | 35 | 193273528320000 | 48 | OK | 75²·2³⁵ |
+| 100 | 2 | 25 | 50 | 49 | 49 | 351843720888320000 | 59 | OK | 25²·2⁴⁹ |
+| 150 | 1 | 75 | 75 | 74 | 73 | 53126622932283508654080000 | 86 | OK | 75²·2⁷³ |
+| 200 | 3 | 25 | 100 | 99 | 101 | 1584563250285286751870879006720000 | 111 | OK | 25²·2¹⁰¹ |
+| 300 | 2 | 75 | 150 | 149 | 149 | 4014134135735512165476429289076705071076474880000 | 162 | OK | 75²·2¹⁴⁹ |
+
+**Key boundaries:**
+- **k=46** is the last `int`-safe path: D_46 = 1,109,393,408 < int.MaxValue = 2,147,483,647. The cached `PathPolynomial(k)` (double-typed coefs, int-typed denominator) covers k=3..46.
+- **k=47** is the first path requiring BigInteger: D_47 = 4,632,608,768 > int.MaxValue. Beyond this, `ComputePathPolynomialBig(k)` is the only route.
+- **k=300** is the largest k verified in this session: D_300 has 49 decimal digits / 162 bits. Pipeline wall-clock ~3.1 sec, scaling roughly O(k³). Practical reach extends much further (k=500 in ~14s, k=1000 in ~110s).
+
+**What this confirms:** the empirical D_k = odd(k)²·2^E(k) formula, originally fit on 22 data points (k=3..24), holds bit-exact for *every* k we test via the algebraic pipeline, including v₂(k)=3 (k=200) and v₂(k)=2 with large k (k=100, 300). The "deep-2-power bonus" `max(0, v₂(k)−2)` activates at v₂(k) ≥ 3; the k=200 row (v₂=3, E=101 = 99 polynomial + 3 self + 1 bonus) explicitly demonstrates this branch at large k. The formula is no longer an empirical fit but an algebraic identity verified across orders of magnitude in k.
 
 ---
 
@@ -255,7 +283,7 @@ Conclusion: the F89c eigenvalue pair-sum identity does NOT extend universally to
 
 ### Tier-1-Derived closure achieved via Chebyshev pipeline (2026-05-15)
 
-Closed by `simulations/f89_pathk_symbolic_derivation.py`. Three-step closed-form pipeline:
+Closed by the native C# `F89PathPolynomialPipeline` (`compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs`), exposed via `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig`. Prototyped in `simulations/f89_pathk_symbolic_derivation.py` (sympy), now ported to native exact BigInteger / BigRational arithmetic so the C# project is self-sufficient for D_k computation. Three-step closed-form pipeline:
 
 1. **F_a eigenvector ansatz** (numerically verified bit-exact k=3..9):
 
@@ -274,9 +302,10 @@ Closed by `simulations/f89_pathk_symbolic_derivation.py`. Three-step closed-form
 
 3. **Reduction modulo orbit minimal polynomial.** p_n(y) mod combined orbit polynomial (cyclotomic minimal polynomial of 2cos(πn/(k+2)) restricted to the S_2-anti orbit) yields the degree-(F_a − 1) reduced polynomial. D_k = LCM of remaining denominators; P_k(y) = D_k · reduced.
 
-**Bit-exact verification k=3..24** (22/22 match):
-- k=3..9: tabulated polynomials reproduced exactly.
-- k=10..24: 15 new closed-form polynomials extracted, D values match PredictDenominator bit-exact.
+**Bit-exact verification k=3..46** (44/44 match):
+- k=3..9: hand-derived tabulated polynomials reproduced exactly.
+- k=10..46: 37 new closed-form polynomials cached in `F89UnifiedFaClosedFormClaim.PathPolynomial`, all D values match `PredictDenominator` bit-exact.
+- The native C# pipeline reproduces every tabulated entry bit-exact (`F89PathPolynomialPipelineTests`).
 
 **Structural origin of D_k = (odd(k))² · 2^E(k):**
 
@@ -286,7 +315,7 @@ Closed by `simulations/f89_pathk_symbolic_derivation.py`. Three-step closed-form
 
 This closes all three Gaps from the Open Questions section: Gap 1 (poly-degree term) from the reduction-step Chebyshev factor, Gap 2 (k-self v₂(k)) from over-divisibility in U_j(c) at even k, Gap 3 (deep-2-power bonus) from the 2-adic over-divisibility chain at v₂(k) ≥ 3.
 
-The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is now tabulated for k=3..46 (k=10..46 via the symbolic pipeline; ~18s sympy compute for k=33..50). k=46 is the last int-safe path: D_47 = 4,632,608,768 exceeds int.MaxValue and would require a long-typed Denominator signature refactor across PathPolynomial, PredictDenominator, and downstream consumers. The Tier label is updated to Tier-1-Derived.
+The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is cached for k=3..46 with int-typed denominator (k=10..46 via the symbolic pipeline). For k ≥ 47 use `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig(k)`, which returns BigInteger coefficients and denominator and runs the same Chebyshev pipeline natively in C#; D_47 = 4,632,608,768 already exceeds int.MaxValue, so the BigInteger path is the only int-safe option beyond k=46. The Tier label is updated to Tier-1-Derived.
 
 ### Does this closure transfer to F86's g_eff? Negative (2026-05-15 probe)
 
