@@ -81,9 +81,26 @@ public class F89UnifiedFaClosedFormClaimTests
     [Fact]
     public void PathPolynomial_UnsupportedPath_Throws()
     {
-        // path-10 is the first unsupported path now that path-8 and path-9 are tabulated
+        // path-25 is the first unsupported path: k=3..24 now tabulated via Chebyshev
+        // pipeline (simulations/f89_pathk_symbolic_derivation.py). For k ≥ 25 the
+        // pipeline extends in O(k²) sympy work but is not yet added here.
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => F89UnifiedFaClosedFormClaim.PathPolynomial(10));
+            () => F89UnifiedFaClosedFormClaim.PathPolynomial(25));
+    }
+
+    [Theory]
+    [InlineData(10, 200)]
+    [InlineData(11, 968)]
+    [InlineData(12, 288)]
+    [InlineData(15, 7200)]
+    [InlineData(16, 2048)]
+    [InlineData(20, 12800)]
+    [InlineData(24, 73728)]
+    public void PathPolynomial_AtExtendedPath_DenominatorMatchesPredictDenominator(int k, int expectedD)
+    {
+        var (_, d) = F89UnifiedFaClosedFormClaim.PathPolynomial(k);
+        Assert.Equal(expectedD, d);
+        Assert.Equal(F89UnifiedFaClosedFormClaim.PredictDenominator(k), d);
     }
 
     [Fact]

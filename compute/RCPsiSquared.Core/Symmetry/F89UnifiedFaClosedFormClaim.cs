@@ -37,14 +37,26 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the
 /// cyclotomic minimal polynomial of y.</para>
 ///
-/// <para><b>Denominator closed form (Tier-1-Candidate 2026-05-13, verified k=3..24):</b>
+/// <para><b>Denominator closed form (Tier-1-Derived 2026-05-15, verified k=3..24):</b>
 /// <c>D_k = (odd(k))² · 2^E(k)</c> where
 /// <c>E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)</c>. Three additive
 /// contributions: polynomial-degree term (max(0, ⌊(k-5)/2⌋)), k-self 2-adic term
-/// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). The full closed form for
-/// (P_path, D_path) remains incomplete: D_k is closed (see <see cref="PredictDenominator"/>);
-/// P_k coefficients are still tabulated per path. Proof:
-/// <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
+/// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). Both <see cref="PredictDenominator"/>
+/// and <see cref="PathPolynomial"/> are now symbolically derived for k = 3..24 via
+/// the Chebyshev-expansion + orbit-polynomial-reduction pipeline in
+/// <c>simulations/f89_pathk_symbolic_derivation.py</c>: the F_a eigenvector ansatz
+/// <c>v_n[(i, (j, l))] = sign(i − other) · ψ_n(other) / √k</c> reduces |S_c(n)|² and
+/// ‖Mv(n)‖² to polynomials in <c>c = cos(πn/(k+2)) = y_n/4</c> via the Chebyshev
+/// identity <c>sin((j+1)θ) = U_j(c)·sin θ</c>; the orbit minimal polynomial then
+/// gives <c>(P_k, D_k)</c> exactly. The <c>(odd(k))²</c> factor traces to the
+/// <c>1/√k</c> eigenvector normalisation squared; the 2-power <c>2^E(k)</c> arises
+/// from Chebyshev <c>U_j</c> leading-coefficient growth <c>2^j</c> combined with
+/// the polynomial-degree reduction. Closes Gaps 1-3 in PROOF_F89_PATH_D_CLOSED_FORM.md.</para>
+///
+/// <para>Tabulation extent: k=3..9 hand-derived (path-3 algebraic anchor <c>(33+14√5)/9</c>);
+/// k=10..24 symbolically derived via the pipeline above (15 new closed-form polynomials
+/// added 2026-05-15). For k ≥ 25 the pipeline extends as O(k²) sympy work; not currently
+/// tabulated in this typed claim.</para>
 ///
 /// <para><b>Where D_k sits (two-layer reading):</b> D_k is the denominator of an
 /// eigenvector-derived amplitude, the F89 <i>amplitude layer</i>, not the AT-governed
@@ -76,6 +88,24 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     private static readonly double[] _path7Coefs = { 382.0, 292.0, 130.0, 21.0 };  // 21y³ + 130y² + 292y + 382
     private static readonly double[] _path8Coefs = { 110.0, 68.0, 54.0, 13.0 };          // 13y³ + 54y² + 68y + 110 (extracted)
     private static readonly double[] _path9Coefs = { 1476.0, 440.0, 288.0, 190.0, 31.0 }; // 31y⁴ + 190y³ + 288y² + 440y + 1476 (extracted)
+    // k=10..24 derived symbolically via Chebyshev-expansion + orbit-polynomial reduction
+    // (simulations/f89_pathk_symbolic_derivation.py 2026-05-15). D_k bit-exact match
+    // against PredictDenominator k=10..24; closes the Tier-1-Derived gap on D_k.
+    private static readonly double[] _path10Coefs = { 1120.0, 128.0, 32.0, 152.0, 37.0 };
+    private static readonly double[] _path11Coefs = { 6392.0, 2016.0, -512.0, 212.0, 262.0, 43.0 };
+    private static readonly double[] _path12Coefs = { 2184.0, 992.0, -344.0, -84.0, 102.0, 25.0 };
+    private static readonly double[] _path13Coefs = { 19472.0, 12864.0, 480.0, -2120.0, 40.0, 346.0, 57.0 };
+    private static readonly double[] _path14Coefs = { 10752.0, 9472.0, 2336.0, -1984.0, -488.0, 264.0, 65.0 };
+    private static readonly double[] _path15Coefs = { 47072.0, 33920.0, 19904.0, -848.0, -4528.0, -252.0, 442.0, 73.0 };
+    private static readonly double[] _path16Coefs = { 12768.0, 7040.0, 8224.0, 2032.0, -1928.0, -476.0, 166.0, 41.0 };
+    private static readonly double[] _path17Coefs = { 133184.0, 40704.0, 38912.0, 38432.0, -1296.0, -7880.0, -688.0, 550.0, 91.0 };
+    private static readonly double[] _path18Coefs = { 84480.0, 10240.0, 2560.0, 32640.0, 8080.0, -6400.0, -1584.0, 408.0, 101.0 };
+    private static readonly double[] _path19Coefs = { 419712.0, 132352.0, -72704.0, 52416.0, 74592.0, 0.0, -12320.0, -1292.0, 670.0, 111.0 };
+    private static readonly double[] _path20Coefs = { 128128.0, 60160.0, -43136.0, -10688.0, 31232.0, 7744.0, -4856.0, -1204.0, 246.0, 61.0 };
+    private static readonly double[] _path21Coefs = { 1097984.0, 734720.0, -70912.0, -313216.0, 70144.0, 135680.0, 4096.0, -17992.0, -2088.0, 802.0, 133.0 };
+    private static readonly double[] _path22Coefs = { 585728.0, 514048.0, 127744.0, -290816.0, -72192.0, 111104.0, 27584.0, -13888.0, -3448.0, 584.0, 145.0 };
+    private static readonly double[] _path23Coefs = { 2489856.0, 1764352.0, 1277440.0, -381440.0, -793600.0, 82432.0, 230144.0, 12240.0, -25040.0, -3100.0, 946.0, 157.0 };
+    private static readonly double[] _path24Coefs = { 658944.0, 351232.0, 541696.0, 134656.0, -345088.0, -85760.0, 92256.0, 22928.0, -9512.0, -2364.0, 342.0, 85.0 };
 
     /// <summary>Per-path (P_path coefficients low-to-high degree, D_path) table.
     /// Returns the integer-coefficient numerator polynomial coefficients for
@@ -91,9 +121,26 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
             7 => (_path7Coefs, 98),
             8 => (_path8Coefs, 32),
             9 => (_path9Coefs, 324),
+            10 => (_path10Coefs, 200),
+            11 => (_path11Coefs, 968),
+            12 => (_path12Coefs, 288),
+            13 => (_path13Coefs, 2704),
+            14 => (_path14Coefs, 1568),
+            15 => (_path15Coefs, 7200),
+            16 => (_path16Coefs, 2048),
+            17 => (_path17Coefs, 18496),
+            18 => (_path18Coefs, 10368),
+            19 => (_path19Coefs, 46208),
+            20 => (_path20Coefs, 12800),
+            21 => (_path21Coefs, 112896),
+            22 => (_path22Coefs, 61952),
+            23 => (_path23Coefs, 270848),
+            24 => (_path24Coefs, 73728),
             _ => throw new ArgumentOutOfRangeException(nameof(k), k,
-                "Unified F_a closed form is currently tabulated for path-3..9 only. " +
-                "Path-10+ extensions: extract via C2FullBlockSigmaAnatomy; coefficients open."),
+                "Unified F_a closed form is tabulated for path-3..24 (k=3..9 hand-derived; " +
+                "k=10..24 symbolically derived via Chebyshev-expansion + orbit-polynomial " +
+                "reduction, see simulations/f89_pathk_symbolic_derivation.py). For k ≥ 25, " +
+                "extend the symbolic pipeline or extract via C2FullBlockSigmaAnatomy."),
         };
     }
 
