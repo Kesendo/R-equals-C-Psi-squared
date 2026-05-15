@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace RCPsiSquared.Core.Resonance;
 
 /// <summary>Closed-form constants from the heuristic 2-level EP algebra (F86 Statement 1).
@@ -44,5 +46,24 @@ public static class EpAlgebra
         // Post-EP: complex pair around centre. We return the real centre for both — the
         // imaginary component must be queried separately.
         return (centre, centre);
+    }
+
+    /// <summary>Complex-valued eigenvalues of the slowest pair k=1, valid on both sides
+    /// of the EP: a real ± pair below the EP, a conjugate imaginary pair above. The
+    /// centre is <c>−4γ₀</c> in both regimes. The real-only sibling
+    /// <see cref="SlowestPairEigenvalues"/> collapses both roots to the centre post-EP
+    /// and asks the caller to query the imaginary component separately; this method
+    /// returns the full pair in one call.</summary>
+    public static (Complex LamPlus, Complex LamMinus) SlowestPairEigenvaluesComplex(double gammaZero, double j, double gEff)
+    {
+        double discriminant = 4.0 * gammaZero * gammaZero - j * j * gEff * gEff;
+        double centre = -4.0 * gammaZero;
+        if (discriminant >= 0)
+        {
+            double sqrt = Math.Sqrt(discriminant);
+            return (new Complex(centre + sqrt, 0.0), new Complex(centre - sqrt, 0.0));
+        }
+        double imag = Math.Sqrt(-discriminant);
+        return (new Complex(centre, imag), new Complex(centre, -imag));
     }
 }

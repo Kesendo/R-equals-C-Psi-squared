@@ -90,6 +90,14 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<PolarityInheritanceLink> _polarityInheritanceLink;
 
+    /// <summary>F86 meta-claim (Tier1Derived): in the 2-level reduction L_eff, the real
+    /// part −4γ₀ = −2γ₀·2 is the mirror axis of the channel pair (−2γ₀, −6γ₀); the EP is
+    /// the coalescence onto it; g_eff lives in the imaginary part as the branch's relative
+    /// clock. Pure 2×2 algebra, block-independent. See <see cref="LEffMirrorAxisClaim"/>.</summary>
+    public LEffMirrorAxisClaim LEffMirrorAxis => _lEffMirrorAxis.Value;
+
+    private readonly Lazy<LEffMirrorAxisClaim> _lEffMirrorAxis;
+
     /// <summary>F71-orbit-grouped live K-resonance witness table for c=2
     /// (Tier2Verified). Live counterpart to <see cref="PerOrbitSubstructure"/>
     /// (frozen 9-case sweep). Non-null iff <c>Block.C == 2</c>. Lazily built on
@@ -217,6 +225,12 @@ public sealed class F86KnowledgeBase : IInspectable
         // shared across all c, the pinned witnesses pin the c=2 N=5..8 numbers.
         _polarityInheritanceLink = new Lazy<PolarityInheritanceLink>(() => PolarityInheritanceLink.Build());
 
+        // Block-independent meta-claim (Tier1Derived): the L_eff mirror axis −4γ₀ = −2γ₀·2,
+        // the channel pair as a mirror pair about it, the EP as the coalescence, g_eff as the
+        // branch's relative clock in Im(λ). Pure 2×2 algebra; cheap to build, lazy for
+        // consistency with the sibling meta-claims.
+        _lEffMirrorAxis = new Lazy<LEffMirrorAxisClaim>(() => LEffMirrorAxisClaim.Build());
+
         // Live F71-orbit K-resonance witness table for c=2. Lazy so the C2HwhmRatio.Build
         // cost is paid only on first read; shared WitnessCache reuses any C2HwhmRatio that
         // C2UniversalShape already built.
@@ -315,6 +329,7 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return AlgebraicClass;
         yield return F71Mirror;
         yield return F86HwhmClosedForm;
+        yield return LEffMirrorAxis;
         // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
         // identity is verified bit-exact). Surface it under Tier 1 derived for c=2 blocks.
         if (Block.C == 2) yield return F89BridgeIdentity;

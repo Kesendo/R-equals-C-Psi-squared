@@ -53,7 +53,7 @@ namespace RCPsiSquared.Core.F86;
 /// for N ≥ 6 but does NOT pin at tolerance 0.005. This inherits A3's
 /// <see cref="Item1Derivation.C2InterChannelAnalytical"/> Tier 2 obstruction at the
 /// |u_0⟩, |v_0⟩ closed-form level. The <see cref="PendingDerivationNote"/> carries the
-/// refined next directions (α'), (β'), (γ').</para>
+/// refined next directions (α'), (β'); (γ') was tested and refuted 2026-05-14.</para>
 ///
 /// <para><b>Block-independent meta-claim:</b> registered at the F86 KB root for any block,
 /// not just c=2, mirroring <see cref="LocalGlobalEpLink"/>. The witnesses pin the concrete
@@ -141,8 +141,10 @@ public sealed class PolarityInheritanceLink : Claim
     /// ~0.13 deviation at N=5). Equivalently: <c>1/g_eff_E + 1/g_eff_I</c> approaches ≈ 0.937
     /// for N ≥ 6. This is an empirical sub-pattern observed in the 2026-05-07 Direction (α)
     /// attempt; no closed form pinned (tested 2/π, (N+1)/(N+3), 1−1/√(N+1), 1−1/N, none match).
-    /// Pinned as a witness for the next-direction work, consistent with the parent class's
-    /// Tier2Verified discipline.</summary>
+    /// Direction (γ') tested whether this is a structural constant and refuted it (2026-05-14):
+    /// on clean per-F71-orbit g_eff the per-orbit 1/g_eff sums drift and scale with orbit count,
+    /// so the per-class 4.12 / 0.937 is an orbit-mixing artefact, not a closure. Kept as the
+    /// frozen per-class witness it is.</summary>
     public const double EmpiricalSumQPeakAsymptote = 4.12;
 
     /// <summary>The unresolved analytical piece: the per-bond r(N, b) closed form. The
@@ -183,14 +185,26 @@ public sealed class PolarityInheritanceLink : Claim
         "0.063, 0.008, 0.004, 0.008. Matches at Δ ≤ 0.01 for N ≥ 6 but does NOT pin at " +
         "tolerance 0.005 for all N. σ_0(N) alone for Interior g_eff misses Δ > 0.10 at N=5.\n\n" +
         "## Refined next directions\n\n" +
+        "Reframed 2026-05-14: the F86b obstruction proof (PROOF_F86B_OBSTRUCTION.md, " +
+        "§ 'The diagnosis') establishes g_eff is the irreducible residue, not a spectral " +
+        "primitive, with no closed form by the six routes the effort opened. (α') and (β') " +
+        "are kept as the record of the closed-form effort; (γ') was tested and refuted.\n\n" +
         "(α') Full block-L per-bond Q_peak derivation from the K_b Duhamel formula (not 4-mode), " +
-        "yielding the closed-form g_eff(N, b) directly. Joins direction (b'') of C2HwhmRatio.\n" +
+        "yielding g_eff(N, b) directly. Joins direction (b'') of C2HwhmRatio: numerically " +
+        "achieved via the F90 bridge (Tier 1, bit-exact), but the closed FORM is what the " +
+        "obstruction proof rules out.\n" +
         "(β') Locus 5 EP-rotation × Locus 6 polarity inheritance: tan θ = Q/Q_EP combined with " +
         "the polarity-pair shift to give r as a function of g_eff(N, b). Same residual.\n" +
-        "(γ') Asymptotic structural constant: 1/g_eff_E + 1/g_eff_I ≈ 0.937 across N=6..8 " +
-        "(empirical, EmpiricalSumQPeakAsymptote = 4.12 = 4.394·0.937). Test: does the " +
-        "harmonic-mean structural reduce to the F86KB EP-rotation via a sum-rule? Witnessed " +
-        "but not derived.\n\n" +
+        "(γ') Asymptotic structural constant 1/g_eff_E + 1/g_eff_I ≈ 0.937 (the " +
+        "EmpiricalSumQPeakAsymptote witness): tested and refuted 2026-05-14. " +
+        "F86GammaEffClosureProbeTests fetched the clean per-F71-orbit g_eff (K_CC_pr " +
+        "observable via PerF71OrbitKTable, c=2 N=5..8) instead of the orbit-mixed per-class " +
+        "means: the per-orbit pairwise 1/g_eff sums drift (no constant ~0.937), and " +
+        "Σ(1/g_eff) scales additively with orbit count (~0.91 for two orbits, ~1.27 for " +
+        "three). The 0.937 was a per-class orbit-mixing artefact, the N≥9 multi-orbit caveat " +
+        "below already acting at N=5..8. Structurally inevitable: g_eff is not a spectral " +
+        "primitive, so a closure among 1/g_eff values cannot hold; the absolute closures " +
+        "live on the primitives γ₀ and y (Absorption Theorem), not g_eff.\n\n" +
         "The 0.0006 deviation of Interior r_HWHM from exact 1/2 is likely numerical " +
         "discretisation (testable with finer Q-grid; see PROOF_F86_QPEAK Open elements 5 for " +
         "per-F71-orbit substructure that may explain the small remaining shift).\n\n" +
@@ -214,7 +228,7 @@ public sealed class PolarityInheritanceLink : Claim
     /// via BareDoubledPtfXPeak · Q_EP) DID land in the Direction (α) attempt, but does not by
     /// itself fully resolve r(N, b) because g_eff(N, b) is left open at the |u_0⟩, |v_0⟩
     /// closed-form level (A3 inheritance). Flips to <c>true</c> on future closure of
-    /// g_eff(N, b) per the (α') / (β') / (γ') paths documented in
+    /// g_eff(N, b) per the (α') / (β') paths documented in
     /// <see cref="PendingDerivationNote"/>.</summary>
     public bool IsAnalyticallyDerived => false;
 

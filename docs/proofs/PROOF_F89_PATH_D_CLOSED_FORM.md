@@ -1,7 +1,7 @@
 # F89 Path-D Denominator Closed Form
 
 **Status:** Tier-1-Candidate (empirical: 22 data points k=3..24; structural: Angle A insight, path-3 algebraic derivation complete)
-**Date:** 2026-05-13
+**Date:** 2026-05-13; 2026-05-14 (two-layer framing)
 **Probe scripts:** `simulations/_f89_path_d_theory_probe.py`, `simulations/_f89_path_d_structure_probe.py`, `simulations/_f89_path_d_verify_k16_k17.py`, `simulations/_f89_path_d_extend_k18_k24.py`
 
 ---
@@ -78,6 +78,16 @@ sigma_n(N) = |c_n|^2 * ||Mv_n||^2
 where c_n = ⟨v_n | ρ_flat⟩ is the overlap of the normalized eigenvector v_n with the uniform state, and Mv_n = w·v_n with w the per-site reduction matrix (w[l, b] = 1 if basis element b = (i,(j,l)) with i ∈ {j,l} and the other DE site equals l).
 
 **N-invariant product.** p_n = sigma_n · N²(N−1) is independent of N (verified path-3..6), because pre = sqrt(2/(N²(N−1))) cancels exactly.
+
+---
+
+## The two layers: eigenvalue (AT-governed) and amplitude (residue)
+
+F89 has two layers, and the Absorption Theorem ([`PROOF_ABSORPTION_THEOREM.md`](PROOF_ABSORPTION_THEOREM.md)) governs only one of them.
+
+**Eigenvalue layer: primitive, closed, Tier-1-Derived.** The AT-lock `λ_n = −2γ₀ + i·y_n` (Setting, above; γ₀ is the uniform dephasing rate written γ there) is the Absorption Theorem read at ⟨n_XY⟩ = 1: the overlap-subspace F_a modes are Hamming-distance-1 coherences, so `Re(λ) = −2γ₀·⟨n_XY⟩ = −2γ₀` exactly. The real part is γ₀; the imaginary part is the Bloch dispersion y_n. Both are spectral primitives. The closure that holds *absolutely* on this layer is F89c, the Hamming-complement pair-sum: a column bit-flip `ρ[a,b] → ρ[a,b̄]` sends ⟨n_XY⟩ = n_diff to N − n_diff, so `α(|a⟩⟨b|) + α(|a⟩⟨b̄|) = 2γ₀·N` exactly, the spectral maximum, Tier-1-Derived, built from γ₀ and the integer count alone. It is the F89 instance of the palindromic sum rule.
+
+**Amplitude layer: residue, Tier-1-Candidate.** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. But `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. That is why this is a Tier-1-*Candidate*, not Tier-1-Derived: parts of a residue can be grounded (the **odd part** traces to the Bloch eigenvector normalisation `√(2/(k+2))`, path-3 exact) and other parts captured empirically (the **2-power** E(k), verified k=3..24), but the whole does not reduce to the primitive basis the way an eigenvalue does. It is the same wall as F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis").
 
 ---
 
@@ -228,7 +238,7 @@ The most mysterious term. Verified empirically at three v₂(k)≥3 data points:
 
 ### Verification Stretching
 
-The formula is verified bit-exact at k=3..24 (22 points; tables above) and, via typed C# stretch-extraction, at **k=25..30**. At **k=31,32** the extraction deviates ~1.5-2e-4 against the 1e-4 integrality tolerance — a **deliberate red signal, kept red**, not a refutation: `PredictDenominatorDeviationDiagnosticTests` characterises the deviation as Vandermonde extraction conditioning (observed = Θ(cond(V)·ε)), consistent with the degree-16 extraction instrument hitting its precision floor rather than a disagreement with D_k. The structural account is the F86b obstruction proof ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md); the F90 corollary ties the F89 D_k obstruction to F86's g_eff as one wall). The red signal is kept live because something is still missing on the route; to be continued. Cost per data point: ~30s for k≤24, ~2min for k≤32, ~10min for k≤40 (eigendecomp at block dim 7500 → 20000+); the k≥28 stretch uses `BuildFaOnly` targeted inverse iteration, not full zgeev.
+The formula is verified bit-exact at k=3..24 (22 points; tables above) and, via typed C# stretch-extraction, at **k=25..30**. At **k=31,32** the extraction deviates ~1.5-2e-4 against the 1e-4 integrality tolerance, a **deliberate red signal, kept red**, not a refutation: `PredictDenominatorDeviationDiagnosticTests` characterises the deviation as Vandermonde extraction conditioning (observed = Θ(cond(V)·ε)), consistent with the degree-16 extraction instrument hitting its precision floor rather than a disagreement with D_k. In the two-layer reading above, this is squarely an *amplitude-layer* signal: the Vandermonde extracts D_k, an amplitude-layer residue, by interpolating through the y_n primitive points, so the conditioning is a property of that extraction instrument, not of the primitive layer where F89c closes with no extraction at all. The structural account is the F86b obstruction proof ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md); the F90 corollary ties the F89 D_k obstruction to F86's g_eff as one wall). The red signal is kept live because something is still missing on the route; to be continued. Cost per data point: ~30s for k≤24, ~2min for k≤32, ~10min for k≤40 (eigendecomp at block dim 7500 → 20000+); the k≥28 stretch uses `BuildFaOnly` targeted inverse iteration, not full zgeev.
 
 ---
 

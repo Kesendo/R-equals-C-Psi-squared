@@ -52,7 +52,7 @@ public static class KnowledgeCommand
         }
     }
 
-    private static ClaimRegistry BuildRegistry()
+    internal static ClaimRegistry BuildRegistry()
     {
         // Full registry: foundations + Pi2-axes + F88 closed form + F-formula
         // inheritance claims + open questions. Order does not matter (the builder
@@ -109,6 +109,7 @@ public static class KnowledgeCommand
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
             // via per-Registration discard-Get edges; absorption quantum 2γ₀ from a_0)
             .RegisterAbsorptionTheoremClaim()
+            .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims
             .RegisterF1Pi2Inheritance()
             .RegisterF49Pi2Inheritance()

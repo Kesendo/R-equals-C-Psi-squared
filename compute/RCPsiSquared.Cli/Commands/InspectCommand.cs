@@ -16,8 +16,12 @@ namespace RCPsiSquared.Cli.Commands;
 
 /// <summary>The terminal-side Object Manager: walks an <see cref="IInspectable"/> root and
 /// emits an indented tree, JSON file, or both. Roots are selected via <c>--root</c>; depth
-/// of expansion via <c>--max-depth</c>; an optional <c>--q-sweep</c> attaches the L_eff
-/// Q-sweep view (3D / 4D structure with EVD per Q) under the root for free.
+/// of expansion via <c>--max-depth</c> (default 4, or 1 for <c>--root f86</c> to avoid
+/// firing heavy witness computes at full breadth); an optional <c>--q-sweep</c> attaches
+/// the L_eff Q-sweep view (3D / 4D structure with EVD per Q) under the root for free.
+/// Pass <c>--claim &lt;ClassName&gt;</c> instead of <c>--root</c> to render a single
+/// registered Claim from the typed-knowledge registry without instantiating any root
+/// knowledge base.
 /// </summary>
 public static class InspectCommand
 {
@@ -25,9 +29,14 @@ public static class InspectCommand
     {
         var p = new ArgParser(args);
         p.RequireNoPositional();
+
+        // --claim short-circuit: render a single registered Claim, no root knowledge base.
+        string? claimName = p.OptionalString("claim");
+        if (claimName is not null) return RunClaim(p, claimName);
+
         int N = p.RequireInt("N");
         string rootKind = p.OptionalString("root") ?? "fourmode";
-        int maxDepth = (int)(p.OptionalDouble("max-depth") ?? 4);
+        int maxDepth = (int)(p.OptionalDouble("max-depth") ?? DefaultDepthForRoot(rootKind));
         bool withQSweep = p.HasFlag("q-sweep");
         string? exportJson = p.OptionalString("export-json");
         bool withMeasured = p.HasFlag("with-measured");
@@ -182,4 +191,40 @@ public static class InspectCommand
             children: new IInspectable[] { eff, sweep });
     }
 
+    private static int RunClaim(ArgParser p, string claimName)
+    {
+        int maxDepth = (int)(p.OptionalDouble("max-depth") ?? 4);
+        string? exportJson = p.OptionalString("export-json");
+        var registry = KnowledgeCommand.BuildRegistry();
+        var claim = registry.All().FirstOrDefault(c => c.GetType().Name == claimName);
+        if (claim is null)
+        {
+            Console.Error.WriteLine($"error: no registered claim with type name '{claimName}'");
+            return 1;
+        }
+
+        bool wroteSomething = false;
+        if (exportJson is not null)
+        {
+            InspectionJsonExporter.WriteToFile(claim, exportJson);
+            Console.Error.WriteLine($"# wrote JSON to {exportJson}");
+            wroteSomething = true;
+        }
+        bool jsonOnly = p.HasFlag("json-only");
+        if (!jsonOnly)
+        {
+            Console.WriteLine(ConsoleTreeRenderer.Render(claim, maxDepth));
+            wroteSomething = true;
+        }
+        return wroteSomething ? 0 : 2;
+    }
+
+    /// <summary>Default <c>--max-depth</c> when the user did not pass one. F86's full
+    /// knowledge base, expanded at depth ≥ 2, accesses Summary/Payload on
+    /// <see cref="F86.UniversalShapeWitness"/> instances and triggers their
+    /// <see cref="Resonance.WitnessCache"/>-backed full-block scans across the entire
+    /// (c, N) anchor grid — OOM-prone on workstation memory. Default depth 1 keeps the
+    /// render to the F86KB root + Tier groups only; pass <c>--max-depth N</c> for deeper.</summary>
+    private static int DefaultDepthForRoot(string rootKind) =>
+        rootKind == "f86" ? 1 : 4;
 }

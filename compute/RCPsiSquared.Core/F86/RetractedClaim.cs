@@ -43,11 +43,11 @@ public sealed class RetractedClaim : Claim
             "Endpoint csc(π/(N+1))",
             "HWHM_left/Q_peak = csc(π/(N+1)) for Endpoint bonds",
             "N=7 coincidence; refuted by extended-N data (N=5..8 sweep diverges from formula)",
-            "docs/proofs/PROOF_F86_QPEAK.md retracted Statement 2 + memory: project_q_peak_ep_structure"),
+            "docs/proofs/PROOF_F86B_OBSTRUCTION.md (Retracted Q_peak conjectures, Endpoint) + memory: project_q_peak_ep_structure"),
         new RetractedClaim(
             "c=3 Interior csc(π/5)",
             "HWHM_left/Q_peak = csc(π/5) for c=3 Interior bonds",
             "N=7 coincidence; refuted by extended-N data",
-            "docs/proofs/PROOF_F86_QPEAK.md retracted Statement 3 + memory: project_q_peak_ep_structure"),
+            "docs/proofs/PROOF_F86B_OBSTRUCTION.md (Retracted Q_peak conjectures, c=3 Interior) + memory: project_q_peak_ep_structure"),
     };
 }

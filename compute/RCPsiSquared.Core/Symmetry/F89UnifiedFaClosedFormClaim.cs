@@ -27,9 +27,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>odd-part(D_path) = (odd-part(k))²</c>. The squarefree-k subset (k = 3..7)
 /// collapses to D = (1 or 2)·p² where p = largest prime factor; higher prime-power
 /// k (k=8=2³, k=9=3²) needs the full odd-part-squaring rule. The 2-adic exponent
-/// v₂(D_path) sequence 0, 2, 0, 1, 1, 5, 2 for k = 3..9 has NO closed form derived
-/// from k alone or from the cyclotomic discriminant of Φ_{k+2}; this 2-adic part
-/// remains an OPEN question. Probe: <c>simulations/_f89_path_d_structure_probe.py</c>.</para>
+/// v₂(D_path) is captured by the empirical <c>E(k)</c> closed form below (verified
+/// bit-exact k=3..24); what stays open is its <i>derivation</i>: no derivation from
+/// k alone or from the cyclotomic discriminant of Φ_{k+2} (Angle B negative). Probe:
+/// <c>simulations/_f89_path_d_structure_probe.py</c>.</para>
 ///
 /// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
 /// through F_a count distinct y_n values); path-7: cubic via cyclotomic Φ_9 = y⁶+y³+1.
@@ -44,6 +45,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (P_path, D_path) remains incomplete: D_k is closed (see <see cref="PredictDenominator"/>);
 /// P_k coefficients are still tabulated per path. Proof:
 /// <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
+///
+/// <para><b>Where D_k sits (two-layer reading):</b> D_k is the denominator of an
+/// eigenvector-derived amplitude, the F89 <i>amplitude layer</i>, not the AT-governed
+/// <i>eigenvalue layer</i> (λ_n = −2γ₀ + i·y_n). It is the F89 analogue of F86's g_eff:
+/// a non-primitive, which is why this closed form is Tier-1-Candidate and its 2-adic
+/// part resists derivation. The AT-governed closure that holds absolutely is F89c, the
+/// Hamming-complement pair-sum 2γ₀·N (<see cref="AbsorptionTheoremClaim.HammingComplementPairSum"/>).
+/// Two-layer section: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
 ///
 /// <para>Anchors: <c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>,
 /// <c>_f89_path4_at_locked_amplitude_symbolic.py</c>,
