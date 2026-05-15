@@ -302,6 +302,21 @@ Looking for a super-operator S on operator space with three properties:
 
 Either route is beyond a single-session attempt. The mechanism (Steps 1–5, 7) and the empirical isospectrality are both solid; the explicit operator-space unitary remains the open analytical step.
 
+### Existing repo super-operators do not close Step 6 either
+
+Re-examining what super-operators are already in the project (F1's Π, chiral K, Π², T, C, and combinations):
+
+- **Π (F1 palindrome conjugation):** maps Pauli letters I↔X, Y↔iZ per site. For our Π²-EVEN H = (J/2)(XX+YY): Π · H · Π⁻¹ = (J/2)(I − ZZ) — a *different* Hamiltonian, not ±H. F80's clean Π · H · Π⁻¹ = −H identity applies only to Π²-ODD H (F80's scope); our Π²-even case lands outside it. So [T_Π, L_H] ≠ 0 for our H. ✗
+- **K_chiral (sublattice Z, AZ class BDI):** K_chiral · H · K_chiral⁻¹ = −H, so K_chiral anti-commutes with L_H (we need commute). Bonus structural finding: K_chiral anti-commutes with R at even N (since R conjugates the alternating site signs into themselves, with a global (−1)^(N−1) factor that is −1 at even N) — same parity-of-N pattern as U_PH. ✗
+- **Π² (Pauli-letter sector):** [Π², L_H] = 0 ✓ (each XX, YY bond is Π²-even), preserves Pauli sectors ✓, but [Π², R] = 0 (n_Y + n_Z is permutation-invariant), so commutes with R rather than anti-commuting. ✗
+- **T = K_complex (anti-unitary TRS), C (anti-unitary PHS):** T commutes with H and with R; C anti-commutes with H. Neither helps. ✗
+- **Π · K_chiral combination:** product commutes with L_H abstractly (anti × anti = commute), and anti-commutes with R at even N (good). But the *concrete* conjugation action on our Π²-even L_H yields L_{(I−ZZ)} via Π, then negation via K_chiral: (Π K_chiral) · L_H · (Π K_chiral)⁻¹ = −L_{(I−ZZ)}, which is *not* L_H. The "anti-commute with L_H" identity for Π fails at the level of the actual Hamiltonian for Π²-even chains, so the combination loses property (1). ✗
+- **T · K_chiral · X⊗N and similar 3-fold combinations:** anti-commute with H rather than commute. ✗
+
+**Conclusion.** The set of standard discrete symmetries available in the project (F1 Π, F71 R, chiral K, X⊗N, Y⊗N, Z⊗N, T, C, Π², and all simple products) does NOT contain a super-operator with simultaneous [S, L_H] = 0, {S, R} = 0, and HD-block preservation for the Π²-even XY chain.
+
+The structural source of the difficulty is that F1's Π is calibrated to Π²-ODD H (where Π · H · Π⁻¹ = −H). Our XY-summed H is Π²-EVEN, so Π conjugation maps H to (I − ZZ), a different Hamiltonian, breaking the clean anti-commutation relation that Π would otherwise provide. The required super-operator likely lives in a JW-Bogoliubov-aware extension of the framework: U_PH from the BdG diagonalisation gives the right Hilbert-space algebra, but lifting it to a HD-block-preserving operator-space action needs additional Bogoliubov-aware machinery that does not currently exist in the codebase. That is Step 6's open route (a) above.
+
 ---
 
 ## Connection to existing results
