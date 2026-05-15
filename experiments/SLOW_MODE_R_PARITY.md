@@ -223,6 +223,54 @@ At N=5: Q_EP⁺ = 0.588 vs Q_EP⁻ = 0.650, a 10% relative difference. R-antisym
 
 ---
 
+## Proof sketch: parity-of-N V_inter SVD split
+
+**Theorem.** For the OBC XY chain H = (J/2)·Σ_l (X_l X_{l+1} + Y_l Y_{l+1}) under uniform Z-dephasing γ, let V_inter = P_{HD=1}^† M_H_total P_{HD=3} be R-block-decomposed as V⁺⁺ ⊕ V⁻⁻. The SVD spectra of V⁺⁺ and V⁻⁻ satisfy:
+
+- At **even** N: Spec(V⁺⁺) = Spec(V⁻⁻).
+- At **odd** N: Spec(V⁺⁺) ≠ Spec(V⁻⁻).
+
+**Mechanism.**
+
+**Step 1 (R commutes with L).** R is the site-reflection l ↔ N−1−l. H is bond-summed with bond (l, l+1) mapping to bond (N−2−l, N−1−l) under R; Σ over l is R-invariant. L_D = γ·Σ_l (σ_z_l ⊗ σ_z_l − I) is also R-invariant (uniform over sites). Hence [L, R_op] = 0 on operator space, with R_op = R_h ⊗ R_h.
+
+**Step 2 (R block-decomposes V_inter).** L_H = −i[H, ·] commutes with R_op. The HD-projectors P_{HD=k} are R-invariant (HD is permutation-invariant). So V_inter ≡ P_{HD=1}^† L_H P_{HD=3} block-decomposes by R as V⁺⁺ ⊕ V⁻⁻, with cross-blocks V⁺⁻ = V⁻⁺ = 0 (empirically verified at 10⁻¹⁶, machine precision, for all N=3..6).
+
+**Step 3 (JW Bogoliubov modes have diagonal R-action).** H under JW becomes a free-fermion bilinear; Bogoliubov modes b_k = Σ_l u_kl·γ'_l with u_kl = √(2/(N+1))·sin(πk(l+1)/(N+1)) and single-particle energies ε_k = 2J·cos(πk/(N+1)) for k = 1, ..., N. Direct computation:
+
+    φ_k(N−1−l) = √(2/(N+1))·sin(πk·(N−l)/(N+1))
+                = √(2/(N+1))·sin(πk − πk(l+1)/(N+1))
+                = −cos(πk)·φ_k(l) = (−1)^(k+1)·φ_k(l)
+
+So `R · b_k · R⁻¹ = (−1)^(k+1)·b_k`. **R is diagonal on Bogoliubov modes** (NOT a momentum-mirror k ↔ N+1−k; that would be PBC). The R-eigenvalue is (−1)^(k+1): b_k is R-even when k is odd, R-odd when k is even.
+
+**Step 4 (particle-hole partner R-parity at even vs odd N).** Particle-hole partners (k, N+1−k) satisfy ε_{N+1−k} = −ε_k. Sum of indices: k + (N+1−k) = N+1.
+
+- **N even ⟹ N+1 odd ⟹ k and N+1−k have OPPOSITE parities.** Particle-hole partners carry **opposite R-eigenvalues**.
+- **N odd ⟹ N+1 even ⟹ k and N+1−k have SAME parity.** Partners carry **same R-eigenvalue**. Plus a self-paired R-fixed zero mode at k = (N+1)/2 with ε = 0.
+
+This is the structural pivot. At even N, particle-hole symmetry of H simultaneously exchanges R-parity. At odd N, particle-hole symmetry preserves R-parity and leaves one mode (the zero mode) without a partner.
+
+**Step 5 (R-orbit count asymmetry at odd N, computational-basis side).** Independent of JW, the asymmetry shows directly in operator R-orbits:
+
+R-fixed single-bit-flip operators σ_(α, β) (HD = 1, α and β both R-palindromic) require flipping an R-fixed site. At odd N, the center site (N−1)/2 is R-fixed and flipping it on a palindromic α gives another palindromic β. Counting palindromic strings: 2^((N+1)/2). Each has exactly one HD=1 R-palindromic partner. Ordered ops: 2^((N+1)/2) R-fixed HD=1 operators.
+
+These R-fixed ops contribute exclusively to R-even (eigenvalue +1 of R on σ_(α, β) when σ is R-fixed). Hence at odd N:
+
+    dim(HD=1⁺) − dim(HD=1⁻) = 2^((N+1)/2)
+
+Verified: N=3 → 2² = 4 (empirical 14 − 10 = 4 ✓); N=5 → 2³ = 8 (empirical 84 − 76 = 8 ✓). At even N, no R-fixed site exists, so no R-fixed single-bit-flip ops, and dim(HD=1⁺) = dim(HD=1⁻).
+
+By the same argument at HD=3 (R-fixed size-3 flip-sets = one mirror pair + center), the asymmetry generalises and produces correspondingly larger dim(HD=3⁺) > dim(HD=3⁻) at odd N.
+
+**Step 6 (V⁺⁺ ≅ V⁻⁻ at even N via particle-hole-induced R-flip).** At even N, V⁺⁺ and V⁻⁻ have the SAME dimensions (no R-asymmetry from Step 5). Particle-hole symmetry of H (Step 4) provides an operation that exchanges R-even and R-odd Bogoliubov modes in pairs (k, N+1−k). Lifted to operator space, this gives a unitary U: HD=1⁺ ⊕ HD=3⁺ → HD=1⁻ ⊕ HD=3⁻ with U L_H U⁻¹ = L_H, hence U V⁺⁺ U⁻¹ = V⁻⁻. Singular value spectra coincide: Spec(V⁺⁺) = Spec(V⁻⁻).
+
+**Step 7 (V⁺⁺ ≠ V⁻⁻ at odd N).** At odd N, particle-hole symmetry preserves R-parity (Step 4), so there is no R-flip isomorphism between V⁺⁺ and V⁻⁻. The R-fixed zero mode at k = (N+1)/2 contributes additional dimensions only to V⁺⁺ (or V⁻⁻ depending on the parity of (N+1)/2), making the two blocks structurally distinct. Spec(V⁺⁺) ≠ Spec(V⁻⁻) follows from the dimensional asymmetry plus the absence of a relating symmetry.
+
+**Status of the proof:** Steps 1-5 and 7 are fully analytical. Step 6 names the unitary U from particle-hole + R-flip but does not write it out in HD-block form explicitly; an explicit construction (in terms of how particle-hole conjugation on Bogoliubov modes lifts to the HD-block-preserving operator-space action) is the remaining technical gap. Empirically Spec(V⁺⁺) = Spec(V⁻⁻) is machine-precision exact at N=4 and N=6, and Frobenius norms ‖V⁺⁺‖_F = ‖V⁻⁻‖_F also at machine precision, so the unitary equivalence holds; its explicit form is the open work.
+
+---
+
 ## Connection to existing results
 
 - **MAJORANA_AXIS_MODES at the fast end (Re = −Nγ₀):** The same R-parity decomposition sorts the axis subspace (n_XY = N/2 layer) into R-even (Sum-type Majorana bilinears, including the 18 silent modes at N=4) and R-odd (Difference-type bilinears). The structural framework (R = momentum-reversal under JW, particle-hole symmetry in operator space) is identical; only the spectrum location differs (Re = 0 → −Nγ₀).
