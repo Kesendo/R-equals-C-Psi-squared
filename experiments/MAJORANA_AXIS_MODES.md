@@ -97,8 +97,15 @@ The framework's Π conjugation projects L_H onto exactly this self-conjugate sec
 
 ---
 
-## Open questions
+## Open questions (status update 2026-05-15)
 
-1. **Even N=6:** single-particle spectrum {±2cos(π/7), ±2cos(2π/7), ±2cos(3π/7)} (three positive values). Predicted Im clusters: integer combinations; R-parity sorting expected to follow the same Sum/Difference/Silent pattern. Witness pending.
-2. **Odd N (N=3, 5):** the zero-mode at k = (N+1)/2 in the single-particle spectrum changes the structure; silent-mode count and R-parity sorting should reflect that asymmetry. Witness pending.
-3. **Formal F80 Step 5:** our R-parity findings concretize the site-reflection action on single-particle Bogoliubov modes at N=4. Whether this constitutes a formal closure of F80 Step 5 (Π action on Bogoliubov modes for the Π²-even XY-summed Hamiltonian) needs analytical follow-up.
+1. **Even N=6 axis modes: partial closure.** Verified via `python simulations/axis_modes.py 6`. **Predicted** Im(λ) clusters at integer combinations of single-particle Bloch dispersion {±1.8019, ±1.2470, ±0.4450} (= 2cos(πk/7), k=1,2,3): **confirmed** — prominent clusters at ε_k themselves (Im = ±0.445, ±1.247, ±1.802, each count 32) plus integer combinations (Im = ±1.0 (24) ≈ ε_1−ε_2+ε_3; Im = ±2.604 (16) = ε_1+ε_2−ε_3; Im = ±3.494 (16) = ε_1+ε_2+ε_3; etc.). **Surprise** at N=6:
+   - Silent-mode count is **zero** (vs 18 at N=4). No Im=0 mode survives in the n_XY=3 axis layer.
+   - R-decomposition: 360 R-even / 368 R-odd of 728 axis modes (R-odd-majority, opposite to N=4's R-even majority).
+   - 552 of 1280 layer-predicted modes leaked off-axis at the 10⁻⁹ threshold (43%), vs 2/96 at N=4 (2%) — substantial N-scaling leakage.
+
+   The qualitative pattern (Im-cluster decomposition into integer combinations of single-particle dispersion) holds at N=6. The quantitative details (silent-mode count, R-even/R-odd balance, axis-layer protection) do NOT generalize directly from N=4. N=4's specific silent-mode richness appears to be a small-N coincidence tied to the golden-ratio degeneracy structure.
+
+2. **Odd N (N=3, 5): ill-posed as written.** For odd N, n_XY = N/2 is not integer, so there is no exact axis layer at Re(λ) = −Nγ₀ on the absorption grid. The Majorana zero mode at k = (N+1)/2 (which motivated the original question) instead manifests in the V_inter SVD R-parity split at odd N (σ_0⁺ ≠ σ_0⁻ at N=3, 5; σ_0⁺ = σ_0⁻ at N=4, 6), documented in [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md) "V_inter SVD R-parity decomposition" section. The odd-N structural effect is real and characterised, just not in the axis-layer language.
+
+3. **Formal F80 Step 5 (Π action on Bogoliubov modes): still open analytically.** Our R-parity findings empirically demonstrate that R = momentum-reversal on JW Bogoliubov modes is the operator-space realisation of the JW Π conjugation, and the parity-of-N effect (σ_0⁺ ≠ σ_0⁻ at odd N from R-fixed Majorana zero mode) is consistent with the JW spectral structure. A formal proof (Π_op ≡ R block-decomposition equivalence on Bogoliubov-mode operator space) is the remaining analytical task.
