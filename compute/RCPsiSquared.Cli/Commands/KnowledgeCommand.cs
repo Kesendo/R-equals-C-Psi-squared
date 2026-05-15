@@ -150,6 +150,7 @@ public static class KnowledgeCommand
             .RegisterF89Path2CardanoClaim()
             .RegisterF89PathKAtLockMechanismClaim()
             .RegisterF89UnifiedFaClosedFormClaim()
+            .RegisterF89AmplitudeLayer()
             .RegisterF89Path3SeDeFactorisationClaim()
             .RegisterF89Path3OcticEpClaim()
             .RegisterF89Path3OcticGaloisClaim()

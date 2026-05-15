@@ -87,6 +87,33 @@ public sealed class F89AmplitudeLayerClaim : Claim
         return Math.Abs(pn - rhs);
     }
 
+    /// <summary>Decompose σ_n from C2FullBlockSigmaAnatomy into the Angle A factors
+    /// (|S_c|², ‖Mv‖²). The anatomy convention <c>σ_n = 0.5 · |c₀|² · (R†·S·R)[i,i]</c>
+    /// with (R†·S·R)[i,i] = <c>SKernelDiagonal</c> = Σ_l 2·|w_l·v_n|² combined with
+    /// the Angle A identity <c>p_n = σ_n·N²·(N−1) = |S_c|²·‖Mv‖²/2</c> uniquely
+    /// fixes the decomposition:
+    /// <code>
+    ///   |S_c|²  =  2 · ProbeOverlapSquared · N² · (N−1)
+    ///   ‖Mv‖²  =  SKernelDiagonal / 2
+    /// </code>
+    /// The factor 2 in the |S_c|² formula tracks the bra-ket convention difference
+    /// between the C2 anatomy's Dicke-probe overlap and the proof's "sum of F_a
+    /// eigenvector entries"; the factor 1/2 in ‖Mv‖² undoes the 2 baked into
+    /// <see cref="Probes.SpatialSumKernel.Build"/>'s spatial-sum kernel.</summary>
+    public static (double ScSquared, double MvSquared) DecomposeAngleA(
+        double probeOverlapSquared, double sKernelDiagonal, int chainN)
+    {
+        if (chainN < 2)
+            throw new ArgumentOutOfRangeException(nameof(chainN), chainN, "chainN must be ≥ 2.");
+        if (probeOverlapSquared < 0)
+            throw new ArgumentOutOfRangeException(nameof(probeOverlapSquared), probeOverlapSquared, "|c₀|² must be ≥ 0.");
+        if (sKernelDiagonal < 0)
+            throw new ArgumentOutOfRangeException(nameof(sKernelDiagonal), sKernelDiagonal, "(R†·S·R)[i,i] must be ≥ 0.");
+        double scSquared = 2.0 * probeOverlapSquared * chainN * chainN * (chainN - 1);
+        double mvSquared = sKernelDiagonal / 2.0;
+        return (scSquared, mvSquared);
+    }
+
     /// <summary>For the path-3 algebraic anchor: σ_2·16·3 = (33+14√5)/9 with
     /// y_2 = √5 − 1, exact. Returns the rational-plus-irrational components
     /// (rationalPart, sqrt5Coefficient, denominator) such that the value equals
