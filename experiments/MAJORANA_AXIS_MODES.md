@@ -132,10 +132,10 @@ This unifies four threads of this session into one geometric picture:
 
 ## Open questions (status update 2026-05-15)
 
-1. **Even N=6 axis modes: partial closure.** Verified via `python simulations/axis_modes.py 6`. **Predicted** Im(λ) clusters at integer combinations of single-particle Bloch dispersion {±1.8019, ±1.2470, ±0.4450} (= 2cos(πk/7), k=1,2,3): **confirmed** — prominent clusters at ε_k themselves (Im = ±0.445, ±1.247, ±1.802, each count 32) plus integer combinations (Im = ±1.0 (24) ≈ ε_1−ε_2+ε_3; Im = ±2.604 (16) = ε_1+ε_2−ε_3; Im = ±3.494 (16) = ε_1+ε_2+ε_3; etc.). **Surprise** at N=6:
+1. **Even N=6 axis modes: partial closure.** Verified via `python simulations/axis_modes.py 6`. **Predicted** Im(λ) clusters at integer combinations of single-particle Bloch dispersion {±1.8019, ±1.2470, ±0.4450} (= 2cos(πk/7), k=1,2,3): **confirmed**, with prominent clusters at ε_k themselves (Im = ±0.445, ±1.247, ±1.802, each count 32) plus integer combinations (Im = ±1.0 (24) ≈ ε_1−ε_2+ε_3; Im = ±2.604 (16) = ε_1+ε_2−ε_3; Im = ±3.494 (16) = ε_1+ε_2+ε_3; etc.). **Surprise** at N=6:
    - Silent-mode count is **zero** (vs 18 at N=4). No Im=0 mode survives in the n_XY=3 axis layer.
    - R-decomposition: 360 R-even / 368 R-odd of 728 axis modes (R-odd-majority, opposite to N=4's R-even majority).
-   - 552 of 1280 layer-predicted modes leaked off-axis at the 10⁻⁹ threshold (43%), vs 2/96 at N=4 (2%) — substantial N-scaling leakage.
+   - 552 of 1280 layer-predicted modes leaked off-axis at the 10⁻⁹ threshold (43%), vs 2/96 at N=4 (2%); substantial N-scaling leakage.
 
    The qualitative pattern (Im-cluster decomposition into integer combinations of single-particle dispersion) holds at N=6. The quantitative details (silent-mode count, R-even/R-odd balance, axis-layer protection) do NOT generalize directly from N=4. N=4's specific silent-mode richness appears to be a small-N coincidence tied to the golden-ratio degeneracy structure.
 
