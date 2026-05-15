@@ -89,6 +89,39 @@ The framework's Π conjugation projects L_H onto exactly this self-conjugate sec
 
 ---
 
+## F1 Π-rotation in the complex λ-plane: silent modes as fixed points
+
+The F1 palindrome Π · L · Π⁻¹ = −L − 2σ·I is, geometrically, a **180° rotation in the complex λ-plane around the point (−σ, 0)** with σ = Nγ₀. For λ = a + bi, Π takes λ to −λ − 2σ = (−a − 2σ) + (−b)·i: BOTH real and imaginary parts are reflected through the rotation centre. This is point reflection, not line reflection.
+
+**Fixed points of Π-rotation.** λ = −λ − 2σ has the unique solution λ = −σ. The only fixed point of the F1 rotation in the complex λ-plane is the single complex number (−σ, 0).
+
+An L-eigenmode lies at this fixed point iff Re(λ) = −σ (the axis condition, n_XY = N/2 layer for even N under uniform Z-dephasing) AND Im(λ) = 0 (the silent condition).
+
+**Therefore: silent axis modes are exactly the L-eigenstates at the F1 Π-rotation fixed point.** They are simultaneously R-even (Majorana sum-type bilinears, established above) and Π-fixed (180°-rotation-invariant), which is the operator-space realisation of Majorana self-conjugacy ψ = ψ^c at the unique fixed point of the F1 spectrum mirror.
+
+**Silent count = multiplicity of the eigenvalue (−σ, 0) in L:**
+
+- N=4: 18 silent modes, i.e. the F1 fixed-point eigenvalue has 18-fold multiplicity in L. The golden-ratio degeneracy at N=4 (many-body energies {0, ±0.618, ±1, ±1.618, ±√5} with the 4-fold zero-energy degeneracy from particle-hole-paired configurations) is what concentrates eigenmodes at the fixed point.
+- N=6: 0 silent modes. The fixed point exists geometrically at (−σ, 0), but no L-eigenvalue happens to coincide with it. The richer many-body spectrum at N=6 (three positive single-particle energies {±1.802, ±1.247, ±0.445}) spreads eigenmodes away from exact Im=0 inside the axis layer.
+
+The fixed point itself is a geometric invariant present at every N. Whether L has eigenstates AT the fixed point is a separate fact, determined by the many-body H spectrum's degeneracies.
+
+**Connection to the γ-ramping (axis shift) theme.**
+
+At γ = 0: the F1 rotation centre is at (0, 0). L = L_H is anti-Hermitian, its spectrum lies on the Im-axis through the origin. The rotation centre sits at the *edge* of where L has eigenvalues (touching the Im-axis at one point).
+
+At γ > 0: the rotation centre moves linearly along the negative Re-axis to (−σ, 0) = (−Nγ, 0). Speed dσ/dγ = N. The L spectrum spreads into the left half-plane, and the rotation centre now sits **inside** the spectrum, exactly at the n_XY = N/2 axis layer. Silent modes (if they exist at this N) coincide with the centre.
+
+The "Spiegel" therefore **translates** along the Re-axis as γ grows, no angle change (always 180° rotation). The rotation centre's qualitative relationship to the spectrum changes from boundary-point at γ = 0 to interior-point at γ > 0. The silent modes are the L-eigenstates that land exactly at this interior pivot.
+
+This unifies four threads of this session into one geometric picture:
+- F1 palindrome (Π as 180° point reflection in complex λ-plane)
+- The γ-driven shift from 0 to −σ as motion of the rotation centre
+- Silent axis modes as F1 fixed-point eigenstates
+- Operator-space Majorana self-conjugacy ψ = ψ^c as fixed-point invariance under Π-rotation
+
+---
+
 ## Connection to existing results
 
 - **F80 Spec(M) = ±2i·Spec(H):** At N=4 Π²-odd, M's nontrivial Im eigenvalues are exactly {±2√5, ±2} (F80 numerical verification). Our axis-modes Im distribution contains both values: ±√5 (R-even-only, 18 modes) maps to the M ±2√5 via the 2i factor, and ±2 (R-even-only, 2 modes) is direct. The richer Im set of the Π²-even XY-summed Hamiltonian (±1, ±φ², ±√5+φ, etc.) reflects its richer many-body spectrum, which is no longer Π-projected.
