@@ -315,7 +315,31 @@ Re-examining what super-operators are already in the project (F1's Π, chiral K,
 
 **Conclusion.** The set of standard discrete symmetries available in the project (F1 Π, F71 R, chiral K, X⊗N, Y⊗N, Z⊗N, T, C, Π², and all simple products) does NOT contain a super-operator with simultaneous [S, L_H] = 0, {S, R} = 0, and HD-block preservation for the Π²-even XY chain.
 
-The structural source of the difficulty is that F1's Π is calibrated to Π²-ODD H (where Π · H · Π⁻¹ = −H). Our XY-summed H is Π²-EVEN, so Π conjugation maps H to (I − ZZ), a different Hamiltonian, breaking the clean anti-commutation relation that Π would otherwise provide. The required super-operator likely lives in a JW-Bogoliubov-aware extension of the framework: U_PH from the BdG diagonalisation gives the right Hilbert-space algebra, but lifting it to a HD-block-preserving operator-space action needs additional Bogoliubov-aware machinery that does not currently exist in the codebase. That is Step 6's open route (a) above.
+The structural source of the difficulty is that F1's Π is calibrated to Π²-ODD H (where Π · H · Π⁻¹ = −H). Our XY-summed H is Π²-EVEN, so Π conjugation maps H to (I − ZZ), a different Hamiltonian, breaking the clean anti-commutation relation that Π would otherwise provide. The required super-operator lives in a JW-Bogoliubov-aware extension of the framework.
+
+### Correction (2026-05-15): the JW-Bogoliubov extension already exists in the codebase
+
+Initial claim above (that "the required JW-Bogoliubov-aware machinery does not currently exist in the codebase") was wrong. The infrastructure is already there, in `compute/RCPsiSquared.Core/F86/JordanWigner/` (16 typed Claims):
+
+- **`XyJordanWignerModes`** (Tier1Derived): OBC sine-mode basis ψ_k(j) = √(2/(N+1))·sin(πk(j+1)/(N+1)) + dispersion ε_k = 2J·cos(πk/(N+1)). Two construction-time witnesses verify row-orthonormality of the mode matrix and dispersion match against direct hopping-matrix EVD.
+- **`JwBlockBasis`** (Tier1Derived): the unitary basis-transformation U from the c=2 (popcount-1 ↔ popcount-2) coherence block to the JW-mode-triple basis (k, k₁, k₂). Built from Wick-contracted Slater determinants. Three machine-precision witnesses verify U·U† = I (orthonormality), U†·M_H·U is diagonal (free-fermion XY is diagonal under JW), and the diagonal entries equal −i·(ε_k − ε_{k₁} − ε_{k₂}) (textbook free-fermion dispersion identity).
+- **`JwDispersionStructure`** (Tier1Derived): clusters of JW triples by δ = ε_k − ε_{k₁} − ε_{k₂} (degenerate L_H eigenvalues).
+- **`JwClusterDEigenstructure`** (Tier1Derived): per-cluster eigenvalue spectrum of W_c = D_{cluster c}, with the explicit claim that **same-size W_c matrices are unitarily equivalent** at machine precision, anchored on **F71-mirror invariance** + cosine-identity δ ↔ −δ symmetry + W_c hermiticity.
+- **`JwBondClusterPairAffinity`** + per-bond bridges: per-bond M_H transformed into JW basis via `jw.Uinv · block.Decomposition.MhPerBond[b] · jw.U`, then organised by cluster-pair Frobenius² weights.
+
+**The relevant prototype for Step 6 is `JwClusterDEigenstructure`'s "same-size W_c unitary equivalence anchored on F71-mirror invariance".** This is exactly the kind of structural statement we need for V⁺⁺ ≅ V⁻⁻: identical-structure objects (same-size clusters / same-dim R-blocks at even N) are unitarily equivalent because F71-mirror invariance forces it. Already typed, already verified at machine precision, already Tier1Derived.
+
+### Scope alignment
+
+The existing `JwBlockBasis` is restricted to the c=2 stratum (popcount 1 ↔ popcount 2 coherences), which is one of several popcount sectors contributing to our V_inter (V_inter on the full HD=1 × HD=3 operator subspace at N=4 is 64×64; the c=2-restricted analog is smaller). Two routes for Step 6 with this infrastructure:
+
+(a) **Use JwBlockBasis directly on c=2-restricted V_inter.** Compute V_inter_{c=2} via the JW unitary U, decompose by R-parity, observe whether σ⁺ = σ⁻ at even N reproduces our finding on this sub-block. If yes (likely from the cluster-equivalence claim), the same F71-mirror argument extends to other popcount sectors via the same algebra applied at each.
+
+(b) **Lift the F71-mirror argument abstractly.** `JwClusterDEigenstructure`'s same-size-cluster unitary equivalence is established without explicit construction of the equivalence unitary — the F71-mirror invariance + cosine-identity + hermiticity together force the spectra to match. The same combination should force V⁺⁺ ≅ V⁻⁻ at even N once written out at the V_inter-block level. Concretely: V⁺⁺ V⁺⁺† and V⁻⁻ V⁻⁻† are Hermitian operators on equal-dim R-blocks; F71-mirror invariance relates them by an isometry; spectra match.
+
+Either route promotes Step 6 from "open" to "tractable using existing infrastructure". The work is still real — adapting the c=2 cluster argument to general HD-block V_inter structure — but it is no longer "build from scratch". The framework already encodes the F71-mirror-based unitary-equivalence argument as a Tier1Derived primitive.
+
+**Lesson learned (and reason for this correction):** grep the codebase before claiming "doesn't exist". The F86/JordanWigner namespace (16 Claims, Tier1Derived) was overlooked in the initial Step 6 attempt because the file naming (`Jw*`, `XyJordan*`) didn't match the standard symmetry-class vocabulary (Π, R, K) I was searching for. The infrastructure is there.
 
 ---
 
