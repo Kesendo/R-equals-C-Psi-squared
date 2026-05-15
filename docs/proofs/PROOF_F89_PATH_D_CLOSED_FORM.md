@@ -163,6 +163,18 @@ S_c(n) and Mv(n) both depend on sums of OBC tight-binding amplitudes ψ_n[j] = s
 
 **Conclusion:** The cyclotomic ring-of-integers approach does not account for D_k.
 
+**Extended 2026-05-15 (`simulations/_f89_path_d_galois_probe.py`):** Probe of disc(p_α) for α = 2·cos(π/m), k=3..14:
+
+| k | m | disc(p_α) factorisation | D_k factorisation | shared primes |
+|---:|---:|---|---|---|
+| 5 | 7 (prime) | 7² | 5² | none |
+| 7 | 9 (= 3²) | 3⁴ | 2·7² | none |
+| 9 | 11 (prime) | 11⁴ | 2²·3⁴ | none |
+| 11 | 13 (prime) | 13⁵ | 2³·11² | none |
+| 13 | 15 (= 3·5) | 3²·5³ | 2⁴·13² | none |
+
+Structural observation: disc(p_α) primes ⊆ primes(m) (cyclotomic ramification of K = Q(2cos(π/m))); D_k primes ⊆ primes(k) (chain-length dependent). Since m = k + 2, the two sets are typically disjoint. By Washington's theorem (Z[2cos(2π/n)] = O_{K_+} for the maximal real subfield), [O_K : Z[α]] = 1 identically, so disc(p_α) IS disc(K). Therefore **D_k is not a Galois-theoretic invariant of K = Q(2cos(π/(k+2)))** — it must originate in the eigenvector-amplitude structure of the block Liouvillian, not in the algebraic number theory of the Bloch eigenvalue field. Attack Path 2 from the "Open Questions" section ("Cyclotomic Galois ring-of-integers") is closed by this prime-disjointness argument.
+
 ---
 
 ### Angle C: Vandermonde Determinant (Negative, Mechanism Understood)
