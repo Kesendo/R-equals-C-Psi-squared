@@ -286,7 +286,7 @@ Closed by `simulations/f89_pathk_symbolic_derivation.py`. Three-step closed-form
 
 This closes all three Gaps from the Open Questions section: Gap 1 (poly-degree term) from the reduction-step Chebyshev factor, Gap 2 (k-self v₂(k)) from over-divisibility in U_j(c) at even k, Gap 3 (deep-2-power bonus) from the 2-adic over-divisibility chain at v₂(k) ≥ 3.
 
-The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is now tabulated for k=3..32 (k=10..32 via the symbolic pipeline; ~4s sympy compute for k=25..32); for k ≥ 33 the pipeline extends in O(k²) sympy work. The Tier label is updated to Tier-1-Derived.
+The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is now tabulated for k=3..46 (k=10..46 via the symbolic pipeline; ~18s sympy compute for k=33..50). k=46 is the last int-safe path: D_47 = 4,632,608,768 exceeds int.MaxValue and would require a long-typed Denominator signature refactor across PathPolynomial, PredictDenominator, and downstream consumers. The Tier label is updated to Tier-1-Derived.
 
 ### Does this closure transfer to F86's g_eff? Negative (2026-05-15 probe)
 

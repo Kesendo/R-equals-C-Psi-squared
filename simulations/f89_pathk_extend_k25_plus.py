@@ -25,12 +25,13 @@ def fmt_csharp_array(coefs):
 print("# F89 path-k tabulation extension k=25+")
 print(f"# {'k':>3} {'time(s)':>8} {'D_ext':>12} {'D_pred':>12} {'match':>6}  P_k(y)")
 
-MAX_K = 32   # adjust based on tolerance; sympy time grows ~O(k^2)
+MIN_K = 33   # first k not yet in F89UnifiedFaClosedFormClaim tabulation
+MAX_K = 50   # adjust based on tolerance; sympy time grows ~O(k^2)
 TIME_BUDGET_SECONDS = 600  # per-k upper bound; abort if exceeded
 total_t0 = time.time()
 
 new_polys = {}
-for k in range(25, MAX_K + 1):
+for k in range(MIN_K, MAX_K + 1):
     t0 = time.time()
     try:
         coefs, D_ext, orbit = extract_path_polynomial(k)

@@ -81,10 +81,10 @@ public class F89UnifiedFaClosedFormClaimTests
     [Fact]
     public void PathPolynomial_UnsupportedPath_Throws()
     {
-        // path-33 is the first unsupported path: k=3..32 now tabulated via Chebyshev
-        // pipeline (simulations/f89_pathk_symbolic_derivation.py and _extend_k25_plus.py).
+        // path-47 is the first unsupported path: k=3..46 tabulated via Chebyshev pipeline.
+        // k=47 would require long-typed Denominator (D_47 = 4,632,608,768 > int.MaxValue).
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => F89UnifiedFaClosedFormClaim.PathPolynomial(33));
+            () => F89UnifiedFaClosedFormClaim.PathPolynomial(47));
     }
 
     [Theory]
@@ -99,6 +99,10 @@ public class F89UnifiedFaClosedFormClaimTests
     [InlineData(28, 401408)]
     [InlineData(31, 7872512)]
     [InlineData(32, 2097152)]
+    [InlineData(33, 17842176)]
+    [InlineData(40, 52428800)]
+    [InlineData(45, 2123366400)]
+    [InlineData(46, 1109393408)]
     public void PathPolynomial_AtExtendedPath_DenominatorMatchesPredictDenominator(int k, int expectedD)
     {
         var (_, d) = F89UnifiedFaClosedFormClaim.PathPolynomial(k);
