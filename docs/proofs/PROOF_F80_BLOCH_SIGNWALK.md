@@ -249,6 +249,8 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
   - Real-space single-body operator layer: F78 (any (c, P) with P ∈ {Y, Z} → same M_l)
   - Momentum-space chain 2-body operator layer: F80 (4 Π²-odd Pauli pairs → same M-spectrum via Bloch sign-walk)
 
+- **Π²-even XY-summed cousin at N=4** (operator-space Majorana lens witness): the same JW Bloch dispersion ε(k) = 2J·cos(πk/(N+1)) = {±φ, ±1/φ} governs the Π²-even chain H = (J/2)·Σ(XX+YY). Its axis-mode (n_XY = 2) Im(λ) clusters decompose into integer combinations of {φ, 1/φ, 1, √5}, and site-reflection R sorts them into R-parity-protected groups (±√5 R-even-only, ±1 R-odd-only, 18 silent R-even). The 18 silent modes are the operator-space Majorana self-conjugate sector at N=4. See [`experiments/MAJORANA_AXIS_MODES.md`](../../experiments/MAJORANA_AXIS_MODES.md).
+
 ---
 
 ## Numerical Verification Summary
