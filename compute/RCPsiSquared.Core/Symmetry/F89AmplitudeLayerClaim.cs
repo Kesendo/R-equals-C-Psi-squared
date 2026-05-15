@@ -161,9 +161,9 @@ public sealed class F89AmplitudeLayerClaim : Claim
             yield return new InspectableNode("path-3 anchor",
                 summary: "p_2 = (33+14√5)/9, p_4 = (33−14√5)/9; algebraic from explicit A, B eigenvector entries");
             yield return new InspectableNode("verification status",
-                summary: "k=3..6 numerical (theory probe, residual ~1e-14); k=3 algebraic; k≥4 first-principles symbolic open");
-            yield return new InspectableNode("Tier-1-Derived promotion gap",
-                summary: "General-k symbolic |S_c|² and ‖Mv‖² as triple sine-sums in (n, k); template is path-3 hand-derivation");
+                summary: "k=3..24 algebraically derived (Chebyshev pipeline, simulations/f89_pathk_symbolic_derivation.py); k=3..6 also independently locked numerically via theory probe; path-3 anchor (33+14√5)/9 reproduced exactly");
+            yield return new InspectableNode("Tier-1-Derived closure status",
+                summary: "Closed 2026-05-15: F89UnifiedFaClosedFormClaim is now Tier-1-Derived. |S_c|² and ‖Mv‖² have closed-form sine-sum expressions in (n, k) via the F_a eigenvector ansatz + Chebyshev expansion. See PROOF_F89_PATH_D_CLOSED_FORM.md");
             yield return new InspectableNode("downstream instrument",
                 summary: "F86.Item1Derivation.C2FullBlockSigmaAnatomy.BuildFaOnly extracts σ_n numerically up to k=30 (red signal at k=31, 32 via Vandermonde conditioning)");
             yield return new InspectableNode("F89c amplitude-analogue rejection",
