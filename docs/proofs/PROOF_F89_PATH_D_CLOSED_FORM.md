@@ -253,6 +253,19 @@ Algebraic mechanism: σ_n + σ_{k+2−n} = 2·P_even(y_n)/[D·N²(N−1)] where 
 
 Conclusion: the F89c eigenvalue pair-sum identity does NOT extend universally to an amplitude pair-sum identity. The only universal rational structure on the amplitude layer is the orbit-sum Σ_n σ_n (Galois-invariant via Newton's identities on the cyclotomic minimal polynomial of y_n), which is already typed as `F89UnifiedFaClosedFormClaim.SigmaSum`. The amplitude layer's structure is genuinely richer than F89c's pair-sum form; D_k closure must come from a finer route than chiral pairing.
 
+### Typed amplitude-layer anchor: `F89AmplitudeLayerClaim` (2026-05-15)
+
+The Angle A structural identity `p_n = σ_n·N²·(N−1) = |S_c(n)|²·‖Mv(n)‖² / 2` is now typed in `compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs` (Tier2Verified). The claim wraps:
+
+- `ComputePn(sigma, chainN)` → p_n from σ_n
+- `ComputePnFromDecomposition(scSquared, mvSquared)` → p_n from Angle A right-hand side
+- `VerifyAngleA(sigma, chainN, scSquared, mvSquared)` → absolute residual of the identity
+- `Path3AnchorPn(n)` → exact path-3 anchor as (33 + 14·√5·sign) / 9 for n ∈ {2, 4}
+
+The class itself does not compute S_c(n) or ‖Mv(n)‖² from a CoherenceBlock; that requires F_a-eigenvector extraction which currently lives only inside `C2FullBlockSigmaAnatomy.BuildFaOnly` (private inverse-iteration data). Exposing those values would let a future extension run `VerifyAngleA` end-to-end on the typed runtime. The claim's role today is to type the structural identity, capture the path-3 algebraic anchor, and document the Tier-1-Derived promotion gap (generic-k symbolic |S_c|² and ‖Mv‖² as triple sine-sums) inside the Knowledge layer where it can be inspected and reasoned about.
+
+The claim is constructed as a Schicht-1 bridge consuming `F89UnifiedFaClosedFormClaim` (carries P_k, D_k, σ_n closed forms) and `F89PathKAtLockMechanismClaim` (carries the AT-lock λ = −2γ₀ + i·y_n eigenvalue layer). Registration into the registry builder is the next architectural step.
+
 ### Candidate Attack Paths
 
 1. **Jordan-Wigner full general-k**: extend the path-3 algebraic derivation `(33+14√5)/9` to general k via OBC sine-mode Bessel coefficients. Most concrete path; significant algebraic work, expected to address all three gaps.
