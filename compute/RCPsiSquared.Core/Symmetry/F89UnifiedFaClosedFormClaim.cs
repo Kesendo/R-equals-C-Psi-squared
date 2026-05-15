@@ -106,6 +106,16 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     private static readonly double[] _path22Coefs = { 585728.0, 514048.0, 127744.0, -290816.0, -72192.0, 111104.0, 27584.0, -13888.0, -3448.0, 584.0, 145.0 };
     private static readonly double[] _path23Coefs = { 2489856.0, 1764352.0, 1277440.0, -381440.0, -793600.0, 82432.0, 230144.0, 12240.0, -25040.0, -3100.0, 946.0, 157.0 };
     private static readonly double[] _path24Coefs = { 658944.0, 351232.0, 541696.0, 134656.0, -345088.0, -85760.0, 92256.0, 22928.0, -9512.0, -2364.0, 342.0, 85.0 };
+    // k=25..32 extracted via same Chebyshev pipeline (simulations/f89_pathk_extend_k25_plus.py
+    // 2026-05-15, ~4 sec total). All D bit-exact against PredictDenominator.
+    private static readonly double[] _path25Coefs = { 6308864.0, 1943552.0, 2441216.0, 3216384.0, -830976.0, -1674240.0, 72960.0, 367584.0, 25872.0, -33608.0, -4352.0, 1102.0, 183.0 };
+    private static readonly double[] _path26Coefs = { 3727360.0, 458752.0, 114688.0, 2838528.0, 706048.0, -1404928.0, -349440.0, 289408.0, 71984.0, -25216.0, -6272.0, 792.0, 197.0 };
+    private static readonly double[] _path27Coefs = { 17430528.0, 5488640.0, -4653056.0, 4864000.0, 7984128.0, -1400320.0, -3170816.0, 17472.0, 558752.0, 46624.0, -43840.0, -5868.0, 1270.0, 211.0 };
+    private static readonly double[] _path28Coefs = { 5048320.0, 2408448.0, -2625536.0, -653312.0, 3466240.0, 862720.0, -1297280.0, -322880.0, 216640.0, 53920.0, -16280.0, -4052.0, 454.0, 113.0 };
+    private static readonly double[] _path29Coefs = { 42471424.0, 28606464.0, -6635520.0, -22294528.0, 9932800.0, 17955840.0, -1980928.0, -5561984.0, -117504.0, 815552.0, 76320.0, -55880.0, -7672.0, 1450.0, 241.0 };
+    private static readonly double[] _path30Coefs = { 22282240.0, 19529728.0, 4866048.0, -20807680.0, -5181440.0, 15224832.0, 3791360.0, -4462592.0, -1111296.0, 624384.0, 155488.0, -41152.0, -10248.0, 1032.0, 257.0 };
+    private static readonly double[] _path31Coefs = { 93315072.0, 65601536.0, 56459264.0, -32727040.0, -66641920.0, 18495488.0, 36776960.0, -2328832.0, -9197056.0, -375936.0, 1151040.0, 116976.0, -69872.0, -9788.0, 1642.0, 273.0 };
+    private static readonly double[] _path32Coefs = { 24371200.0, 12779520.0, 24494080.0, 6103040.0, -29552640.0, -7362560.0, 15256064.0, 3800832.0, -3630848.0, -904576.0, 435872.0, 108592.0, -25544.0, -6364.0, 582.0, 145.0 };
 
     /// <summary>Per-path (P_path coefficients low-to-high degree, D_path) table.
     /// Returns the integer-coefficient numerator polynomial coefficients for
@@ -136,11 +146,20 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
             22 => (_path22Coefs, 61952),
             23 => (_path23Coefs, 270848),
             24 => (_path24Coefs, 73728),
+            25 => (_path25Coefs, 640000),
+            26 => (_path26Coefs, 346112),
+            27 => (_path27Coefs, 1492992),
+            28 => (_path28Coefs, 401408),
+            29 => (_path29Coefs, 3444736),
+            30 => (_path30Coefs, 1843200),
+            31 => (_path31Coefs, 7872512),
+            32 => (_path32Coefs, 2097152),
             _ => throw new ArgumentOutOfRangeException(nameof(k), k,
-                "Unified F_a closed form is tabulated for path-3..24 (k=3..9 hand-derived; " +
-                "k=10..24 symbolically derived via Chebyshev-expansion + orbit-polynomial " +
-                "reduction, see simulations/f89_pathk_symbolic_derivation.py). For k ≥ 25, " +
-                "extend the symbolic pipeline or extract via C2FullBlockSigmaAnatomy."),
+                "Unified F_a closed form is tabulated for path-3..32 (k=3..9 hand-derived; " +
+                "k=10..32 symbolically derived via Chebyshev-expansion + orbit-polynomial " +
+                "reduction, see simulations/f89_pathk_symbolic_derivation.py + " +
+                "simulations/f89_pathk_extend_k25_plus.py). For k ≥ 33, run the symbolic " +
+                "pipeline with extended range and add the resulting coefficient arrays."),
         };
     }
 
