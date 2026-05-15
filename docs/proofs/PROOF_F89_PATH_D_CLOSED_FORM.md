@@ -240,6 +240,19 @@ The natural 2-adic content of k itself appears as a base contribution. Plausibly
 
 The most mysterious term. Verified empirically at three v₂(k)≥3 data points: k=8 (v₂=3, bonus=1), k=16 (v₂=4, bonus=2), k=24 (v₂=3, bonus=1). Likely originates in 2-adic ramification of `Q(2·cos(π/(k+2)))` when k has a deep 2-power factor, but no derivation yet maps the bonus formula to a number-theoretic invariant. The threshold at v₂(k) = 2 is structurally specific and unexplained.
 
+### F89c amplitude-layer pair-sum analogue: NOT universal (2026-05-15 probe)
+
+`simulations/f89c_amplitude_pair_sum_probe.py` tests whether σ_n + σ_{k+2−n} (chiral pair under the involution y_n ↔ y_{k+2−n} = −y_n) carries a closed-form structure that mirrors F89c's eigenvalue pair-sum AbsorptionTheoremClaim.HammingComplementPairSum on the amplitude layer.
+
+Empirical finding (k=4, 6, 8):
+- k=4: pair (2, 4) → σ_2 + σ_4 = 1/8. Rational. Denominator 2³ ≠ structurally tied to D_4 = 4.
+- k=6: pair (2, 6) → 4/49. Fixed n=4 → 20/1323. Both rational. Denominators 7² and 3³·7² ≠ structurally tied to D_6 = 18.
+- k=8: pairs (2, 8) and (4, 6) → 217/5184 ± √5/96. **IRRATIONAL** (contains √5).
+
+Algebraic mechanism: σ_n + σ_{k+2−n} = 2·P_even(y_n)/[D·N²(N−1)] where P_even is the even-degree part of P_path. Rational iff y_n² rational, i.e. iff cos²(πn/(k+2)) rational. By Niven's theorem, cos²(2πn/m) is rational only for m ∈ {1, 2, 3, 4, 6} — the chiral-pair-sum reduction therefore yields a clean rational closed form only at k ∈ {2, 4} (m = k+2 ∈ {4, 6}) plus the accidental k=6 (m=8 where cos²(π/4) = 1/2 happens to be rational).
+
+Conclusion: the F89c eigenvalue pair-sum identity does NOT extend universally to an amplitude pair-sum identity. The only universal rational structure on the amplitude layer is the orbit-sum Σ_n σ_n (Galois-invariant via Newton's identities on the cyclotomic minimal polynomial of y_n), which is already typed as `F89UnifiedFaClosedFormClaim.SigmaSum`. The amplitude layer's structure is genuinely richer than F89c's pair-sum form; D_k closure must come from a finer route than chiral pairing.
+
 ### Candidate Attack Paths
 
 1. **Jordan-Wigner full general-k**: extend the path-3 algebraic derivation `(33+14√5)/9` to general k via OBC sine-mode Bessel coefficients. Most concrete path; significant algebraic work, expected to address all three gaps.
