@@ -286,7 +286,21 @@ Closed by `simulations/f89_pathk_symbolic_derivation.py`. Three-step closed-form
 
 This closes all three Gaps from the Open Questions section: Gap 1 (poly-degree term) from the reduction-step Chebyshev factor, Gap 2 (k-self v₂(k)) from over-divisibility in U_j(c) at even k, Gap 3 (deep-2-power bonus) from the 2-adic over-divisibility chain at v₂(k) ≥ 3.
 
-The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is now tabulated for k=3..24; for k ≥ 25 the pipeline extends in O(k²) sympy work. The Tier label is updated to Tier-1-Derived.
+The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is now tabulated for k=3..32 (k=10..32 via the symbolic pipeline; ~4s sympy compute for k=25..32); for k ≥ 33 the pipeline extends in O(k²) sympy work. The Tier label is updated to Tier-1-Derived.
+
+### Does this closure transfer to F86's g_eff? Negative (2026-05-15 probe)
+
+`simulations/f86_geff_via_f90_bridge_probe.py` tests the natural extrapolation: F90 (`PROOF_F90_F86C2_BRIDGE.md`) identifies F86's per-bond K_b(Q, t) as the Hellmann-Feynman derivative ∂_J of F89's path-(N−1) signal; could differentiating D_k(J) yield g_eff(b)?
+
+Negative. The F89 closed form lives on σ_n(N) = P_k(y_n) / [D_k · N²·(N−1)], a UNIFORM-J quantity summed over the S_2-anti Bloch orbit. F86's K_b uses Hellmann-Feynman in J_b (one bond's coupling alone), whose Duhamel integral has the structure
+
+    K_b ~ Σ_{n, n'} ⟨ρ_0|v_n⟩ ⟨v_n|M_h_per_bond[b]|v_{n'}⟩ ⟨v_{n'}|S|ρ(t)⟩ · Λ(λ_n, λ_{n'}, t)
+
+The **off-diagonal cross matrix elements ⟨v_n|M_h_per_bond[b]|v_{n'}⟩** carry the bond-distinction information, and they are precisely the data the orbit-polynomial reduction step in the Chebyshev pipeline discards. Concretely: the closed form has no b-index at all; its J-derivative is bond-invariant by construction, while F86's K_b spreads 4-60× across bonds (Endpoint vs Interior). The probe makes the bond-invariant Σ_n dσ_n/dJ vs bond-dependent K_b table explicit for path-3..7 at N=4..8.
+
+Structurally this is **L4 (reduced-model insufficiency)** from this proof's obstruction lemmata. The Chebyshev closure of D_k is itself a reduction to the F_a orbit, exploiting orbit symmetry — the same symmetry that strips bond-dependence. g_eff lives outside the orbit-reduced category by construction, as the obstruction proof's diagnosis spells out: g_eff is not a primitive of γ₀ + y, it is a parameter of a finite reduction that itself does not factorise. The Tier-1-Derived closure of D_k is one more confirmation, not a new opening.
+
+The probe identifies a possible refinement direction: keeping the bilinear (n, n')-coupled sums **without orbit reduction** gives a Chebyshev expansion in (c_n, c_{n'}) restricted to overlap pairs sharing site b. The obstruction lemmata L1/L2/L3 still hold there (no rational factorisation of the 4×4 effective char-poly, representation-dependent |u_0⟩ at even N, probe ⊥ EP partners), so this would land on K_b directly (already Tier-1 via F90 numerically), not on g_eff as algebraic primitive. The closure boundary is unchanged.
 
 ---
 
