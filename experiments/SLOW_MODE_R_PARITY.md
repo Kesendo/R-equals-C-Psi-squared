@@ -269,6 +269,39 @@ By the same argument at HD=3 (R-fixed size-3 flip-sets = one mirror pair + cente
 
 **Status of the proof:** Steps 1-5 and 7 are fully analytical. Step 6 names the unitary U from particle-hole + R-flip but does not write it out in HD-block form explicitly; an explicit construction (in terms of how particle-hole conjugation on Bogoliubov modes lifts to the HD-block-preserving operator-space action) is the remaining technical gap. Empirically Spec(V⁺⁺) = Spec(V⁻⁻) is machine-precision exact at N=4 and N=6, and Frobenius norms ‖V⁺⁺‖_F = ‖V⁻⁻‖_F also at machine precision, so the unitary equivalence holds; its explicit form is the open work.
 
+### Step 6 attempt (2026-05-15): why simple super-operator symmetries do not close the gap
+
+Looking for a super-operator S on operator space with three properties:
+
+1. [S, L_H] = 0 (commutes with the Liouvillian)
+2. {S, R} = 0 as super-operator (anti-commutes with R-parity on operator space)
+3. S preserves HD-blocks (maps HD=k → HD=k)
+
+**Standard candidates fail.**
+
+- **X⊗N, Y⊗N, Z⊗N** (per-site Pauli operations): commute with H ✓, preserve HD ✓, but commute (not anti-commute) with R ✗. They sit in the R-even sector of operator space and do not exchange R-parity.
+
+- **U_PH (particle-hole on Bogoliubov modes)**, defined by U_PH·b_k·U_PH⁻¹ = b_{N+1−k}†. Algebra gives:
+
+  - [U_PH, H] = 0 directly: Σ_k ε_k b_k†b_k → Σ_k ε_k b_{N+1−k}b_{N+1−k}† = Σ_k ε_k − Σ_k ε_k b_{N+1−k}†b_{N+1−k} = −Σ_m ε_{N+1−m} b_m†b_m = Σ_m ε_m b_m†b_m = H (using Σ ε_k = 0 from the ± pairing). ✓
+
+  - **On Hilbert space**, computing R·U_PH·b_k·U_PH⁻¹·R⁻¹ vs U_PH·R·b_k·R⁻¹·U_PH⁻¹ gives a relative factor (−1)^(N+1). So at **even N: U_PH·R = −R·U_PH (anti-commute on Hilbert space)**; at odd N they commute. This recovers Step 4's parity-of-N effect from a different angle.
+
+  - **Super-operator lift to operator space**: U_PH acts on σ_(a,b) by conjugation, σ_(a,b) → σ_(U_PH·a, U_PH·b). R-parity of σ_(a,b) is the product ε_a·ε_b of the bra and ket Hilbert R-eigenvalues. After U_PH conjugation, both Hilbert eigenvalues flip sign at even N, and the product is unchanged: (−ε_a)·(−ε_b) = ε_a·ε_b. **The conjugation lift preserves R-parity on operator space even though U_PH anti-commutes with R on Hilbert space.** The anti-commutation is squared away by the bra-ket product structure.
+
+- **Left-multiplication L_PH(σ) = U_PH·σ**: this anti-commutes with R-conjugation on operator space (only one Hilbert factor flips). [L_PH, L_H] = 0 (since [U_PH, H] = 0). But L_PH·σ_(a,b) = (U_PH|a⟩)⟨b| with U_PH|a⟩ a superposition of computational basis states at multiple HDs from |b⟩. **L_PH does not preserve HD-blocks.** Property (3) fails.
+
+- **T = K·X⊗N (anti-unitary time-reversal)**: [T, H] = 0 ✓, but T commutes with R rather than anti-commuting (since K and X⊗N both individually commute with R, and the composition inherits this). Fails (2).
+
+**Diagnosis.** Among the standard Z₂ symmetries of the XY chain (X⊗N, Y⊗N, Z⊗N, particle-hole U_PH, time-reversal T), no single super-operator simultaneously anti-commutes with R, commutes with L_H, AND preserves HD-blocks. U_PH satisfies (1)+(2) on Hilbert space, but the Hilbert anti-commutation collapses to identity under the conjugation lift to operator space.
+
+**What this says about the SVD equality.** Spec(V⁺⁺) = Spec(V⁻⁻) at even N is empirically machine-precision exact (10⁻¹⁵ at N=4 and N=6). The equality is therefore real, but does NOT follow from a single simple super-operator symmetry. The structural mechanism (particle-hole pairing inverts R-parity at even N, established in Step 4) guarantees that the *abstract isospectral relation* between V⁺⁺ and V⁻⁻ exists, but the explicit operator-space unitary U realising V⁻⁻ = U·V⁺⁺·U⁻¹ requires either:
+
+  (a) a more subtle combined symmetry (e.g., U_PH applied alongside an HD-renormalising correction that compensates for the HD scrambling of U_PH in computational basis), or
+  (b) an argument specific to the XY chain Hamiltonian structure that does not generalise to arbitrary R-symmetric L's.
+
+Either route is beyond a single-session attempt. The mechanism (Steps 1–5, 7) and the empirical isospectrality are both solid; the explicit operator-space unitary remains the open analytical step.
+
 ---
 
 ## Connection to existing results
