@@ -51,6 +51,14 @@ public sealed class JwSlaterPairBasis : Claim
 {
     public const double Tolerance = 1e-10;
 
+    /// <summary>Practical ceiling on per-sector dimension for the dense witness pipeline:
+    /// at sectorDim ≥ <see cref="MaxSectorDimForDenseWitness"/> the witness construction
+    /// (U, U·U†, Uinv·L_H·U, all sectorDim²-complex matrices) would exceed ~5 GB working set
+    /// and the dense GEMM chain dominates runtime. Caller should drop to the sparse path
+    /// (Phase 2 of the N=10 push plan) for larger sectors. At N=10 (p_c=5, p_r=5) the max
+    /// block dim is 63504, which sits past this ceiling and would OOM at ~64 GB.</summary>
+    public const int MaxSectorDimForDenseWitness = 8000;
+
     public int N { get; }
     public int PCol { get; }
     public int PRow { get; }
@@ -101,68 +109,72 @@ public sealed class JwSlaterPairBasis : Claim
 
         var modes = XyJordanWignerModes.Build(N, J);
 
-        // 1. Enumerate computational basis states with the right popcount.
         var colStates = BlockBasis.PopcountStates(N, pCol);
         var rowStates = BlockBasis.PopcountStates(N, pRow);
         int mc = colStates.Count;
         int mr = rowStates.Count;
         int sectorDim = mc * mr;
 
-        // 2. Enumerate mode subsets (lex-sorted size-p subsets of {1..N}).
+        if (sectorDim > MaxSectorDimForDenseWitness)
+            throw new ArgumentOutOfRangeException(
+                $"Sector dimension {sectorDim} (N={N}, pCol={pCol}, pRow={pRow}) exceeds " +
+                $"MaxSectorDimForDenseWitness = {MaxSectorDimForDenseWitness}. The dense witness " +
+                $"pipeline would need ~{(long)sectorDim * sectorDim * 16 / (1L << 30)} GB just for U; " +
+                $"drop to the sparse path (Phase 2 of the N=10 push plan) for sectors beyond this.");
+
         var colSubsets = EnumerateSortedSubsets(N, pCol);
         var rowSubsets = EnumerateSortedSubsets(N, pRow);
-        if (colSubsets.Count * rowSubsets.Count != sectorDim)
-            throw new InvalidOperationException(
-                $"Subset-count mismatch: |colSubsets|·|rowSubsets| = {colSubsets.Count}·{rowSubsets.Count} " +
-                $"vs sectorDim {sectorDim}.");
 
-        // 3. Build sector flat-index list (PerBlockLiouvillianBuilder convention: flat = row·d + col).
         int d = 1 << N;
         var flatIndices = new int[sectorDim];
-        int rcIdx = 0;
-        for (int ri = 0; ri < mr; ri++)
+        for (int ri = 0, k = 0; ri < mr; ri++)
             for (int ci = 0; ci < mc; ci++)
-                flatIndices[rcIdx++] = (int)(rowStates[ri] * d + colStates[ci]);
+                flatIndices[k++] = (int)(rowStates[ri] * d + colStates[ci]);
 
-        // 4. Build U[(row, col) flat, (K, L) α] = det[ψ_L(rowSites)] · det[ψ_K(colSites)].
-        //    Sector flat-index order: (ri, ci) → ri*mc + ci  (row-major over col, fastest).
-        //    JW basis order: (Kidx, Lidx) → Kidx*|L| + Lidx? or (Lidx, Kidx) → Lidx*|K| + Kidx?
-        //    Pick: alpha = Lidx*|K| + Kidx (row L outermost matches sector flat outer row).
-        var uRaw = new Complex[sectorDim, sectorDim];
-        var colSites = new int[pCol];
-        var rowSites = new int[pRow];
+        // Pre-compute Slater determinants once per (site-tuple, mode-subset). The U entries
+        // factor as slaterRow[ri, Lidx] · slaterCol[ci, Kidx], so each per-side determinant
+        // is reused across all (ci, ri) pairs on the other side.
+        var slaterCol = new double[mc, colSubsets.Count];
+        var siteBuf = new int[Math.Max(pCol, pRow)];
         for (int ci = 0; ci < mc; ci++)
         {
-            ExtractBitsAscending(colStates[ci], N, colSites);
-            for (int ri = 0; ri < mr; ri++)
+            ExtractBitsAscending(colStates[ci], N, siteBuf, pCol);
+            for (int Kidx = 0; Kidx < colSubsets.Count; Kidx++)
+                slaterCol[ci, Kidx] = SlaterDeterminant(colSubsets[Kidx], siteBuf, pCol, modes);
+        }
+        var slaterRow = new double[mr, rowSubsets.Count];
+        for (int ri = 0; ri < mr; ri++)
+        {
+            ExtractBitsAscending(rowStates[ri], N, siteBuf, pRow);
+            for (int Lidx = 0; Lidx < rowSubsets.Count; Lidx++)
+                slaterRow[ri, Lidx] = SlaterDeterminant(rowSubsets[Lidx], siteBuf, pRow, modes);
+        }
+
+        // JW basis index: alpha = Lidx · |colSubsets| + Kidx (row-side outermost matches the
+        // sector flat row-major).
+        var uRaw = new Complex[sectorDim, sectorDim];
+        for (int ri = 0; ri < mr; ri++)
+            for (int ci = 0; ci < mc; ci++)
             {
-                ExtractBitsAscending(rowStates[ri], N, rowSites);
-                int flatRow = ri * mc + ci;  // matches flatIndices[] ordering
+                int flatRow = ri * mc + ci;
                 for (int Lidx = 0; Lidx < rowSubsets.Count; Lidx++)
                 {
-                    double slaterRow = SlaterDeterminant(rowSubsets[Lidx], rowSites, modes);
+                    double sr = slaterRow[ri, Lidx];
+                    int alphaBase = Lidx * colSubsets.Count;
                     for (int Kidx = 0; Kidx < colSubsets.Count; Kidx++)
-                    {
-                        double slaterCol = SlaterDeterminant(colSubsets[Kidx], colSites, modes);
-                        int alpha = Lidx * colSubsets.Count + Kidx;
-                        uRaw[flatRow, alpha] = new Complex(slaterRow * slaterCol, 0.0);
-                    }
+                        uRaw[flatRow, alphaBase + Kidx] = new Complex(sr * slaterCol[ci, Kidx], 0.0);
                 }
             }
-        }
         var U = Matrix<Complex>.Build.DenseOfArray(uRaw);
         var Uinv = U.ConjugateTranspose();
 
-        // 5. Orthonormality witness: ‖U · U^† − I‖_F.
         var identity = Matrix<Complex>.Build.DenseIdentity(sectorDim);
         double orthoResidual = (U * Uinv - identity).FrobeniusNorm();
 
-        // 6. Hamiltonian-only block via PerBlockLiouvillianBuilder with γ=0.
         var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
         var zeroGamma = new double[N];
         var lhBlock = PerBlockLiouvillianBuilder.BuildBlockZ(H, zeroGamma, flatIndices);
 
-        // 7. Transform L_H to JW basis and verify diagonality + eigenvalue match.
         var lhJw = Uinv * lhBlock * U;
         double diagSqSum = 0.0;
         double maxEigDelta = 0.0;
@@ -174,8 +186,7 @@ public sealed class JwSlaterPairBasis : Claim
             foreach (var l in rowSubsets[Lidx]) sumEpsL += modes.Dispersion[l - 1];
             double sumEpsK = 0.0;
             foreach (var k in colSubsets[Kidx]) sumEpsK += modes.Dispersion[k - 1];
-            // L_H = -i [H, ρ] gives diag entry -i·(sumEpsL - sumEpsK) on the |L⟩⟨K| basis vector
-            // (consistent with the row·d + col convention applied with row-side L, col-side K).
+            // L_H = -i [H, ρ] is diagonal on |L⟩⟨K| with eigenvalue -i·(sumEpsL - sumEpsK).
             Complex expected = new Complex(0.0, -(sumEpsL - sumEpsK));
             Complex actual = lhJw[alpha, alpha];
             double delta = (actual - expected).Magnitude;
@@ -189,21 +200,20 @@ public sealed class JwSlaterPairBasis : Claim
         }
         double diagResidual = Math.Sqrt(diagSqSum);
 
-        if (orthoResidual > Tolerance)
-            throw new InvalidOperationException(
-                $"JwSlaterPairBasis (N={N}, pCol={pCol}, pRow={pRow}): orthonormality residual " +
-                $"{orthoResidual:G3} exceeds tolerance {Tolerance:G3}.");
-        if (diagResidual > Tolerance)
-            throw new InvalidOperationException(
-                $"JwSlaterPairBasis (N={N}, pCol={pCol}, pRow={pRow}): L_H off-diagonality residual " +
-                $"{diagResidual:G3} exceeds tolerance {Tolerance:G3}.");
-        if (maxEigDelta > Tolerance)
-            throw new InvalidOperationException(
-                $"JwSlaterPairBasis (N={N}, pCol={pCol}, pRow={pRow}): L_H eigenvalue match residual " +
-                $"{maxEigDelta:G3} exceeds tolerance {Tolerance:G3}.");
+        EnforceTolerance("orthonormality", orthoResidual, N, pCol, pRow);
+        EnforceTolerance("L_H off-diagonality", diagResidual, N, pCol, pRow);
+        EnforceTolerance("L_H eigenvalue match", maxEigDelta, N, pCol, pRow);
 
         return new JwSlaterPairBasis(N, pCol, pRow, J, modes, colSubsets, rowSubsets,
             U, Uinv, flatIndices, orthoResidual, diagResidual, maxEigDelta);
+    }
+
+    private static void EnforceTolerance(string label, double residual, int N, int pCol, int pRow)
+    {
+        if (residual > Tolerance)
+            throw new InvalidOperationException(
+                $"JwSlaterPairBasis (N={N}, pCol={pCol}, pRow={pRow}): {label} residual " +
+                $"{residual:G3} exceeds tolerance {Tolerance:G3}.");
     }
 
     /// <summary>Lex-sorted enumeration of size-k subsets of {1..N}, each subset returned
@@ -228,31 +238,30 @@ public sealed class JwSlaterPairBasis : Claim
         }
     }
 
-    /// <summary>Extract ascending bit positions of a state. State uses big-endian convention
-    /// (site 0 = MSB) matching <see cref="BlockBasis"/>; bit positions returned are 0-indexed
-    /// site numbers in ascending order. Output length = popcount(state) must equal sites.Length.</summary>
-    private static void ExtractBitsAscending(long state, int N, int[] sites)
+    /// <summary>Extract ascending bit positions of a popcount-k state. State uses big-endian
+    /// convention (site 0 = MSB) matching <see cref="BlockBasis"/>; bit positions returned
+    /// are 0-indexed site numbers in ascending order. Writes <paramref name="count"/> entries
+    /// to <paramref name="sites"/>; throws if popcount(state) ≠ count.</summary>
+    private static void ExtractBitsAscending(long state, int N, int[] sites, int count)
     {
         int written = 0;
         for (int site = 0; site < N; site++)
         {
-            // Big-endian: site 0 = MSB = bit (N-1)
             int bit = N - 1 - site;
             if (((state >> bit) & 1L) != 0)
                 sites[written++] = site;
         }
-        if (written != sites.Length)
+        if (written != count)
             throw new InvalidOperationException(
-                $"Bit-extract count {written} != expected {sites.Length} for state {state} at N={N}.");
+                $"Bit-extract count {written} != expected {count} for state {state} at N={N}.");
     }
 
-    /// <summary>Slater determinant det[ψ_{modes_i}(sites_j)]_{i,j=1..n}. For n ≤ 5 (typical
-    /// at N ≤ 10) uses Leibniz expansion; falls back to LU for larger n.</summary>
-    private static double SlaterDeterminant(int[] modes, int[] sites, XyJordanWignerModes psi)
+    /// <summary>Slater determinant det[ψ_{modes_i}(sites_j)]_{i,j=0..n−1}. Uses the
+    /// 2×2 closed form for n=2; LU decomposition (MathNet) for n ≥ 3. The n=2 fast path
+    /// matters because every (ri, Lidx) and (ci, Kidx) pair in <see cref="Build"/> hits
+    /// it once at the (n=1, n+1=2) coherence block.</summary>
+    private static double SlaterDeterminant(int[] modes, int[] sites, int n, XyJordanWignerModes psi)
     {
-        int n = modes.Length;
-        if (n != sites.Length)
-            throw new InvalidOperationException($"Slater dim mismatch: {n} modes vs {sites.Length} sites.");
         if (n == 0) return 1.0;
         if (n == 1) return psi.SineMode(modes[0], sites[0]);
         if (n == 2)
@@ -263,51 +272,8 @@ public sealed class JwSlaterPairBasis : Claim
             double dd = psi.SineMode(modes[1], sites[1]);
             return a * dd - b * c;
         }
-
-        // General Leibniz: O(n!·n) — fine for n ≤ ~7 at N ≤ 14.
-        var perm = new int[n];
-        for (int i = 0; i < n; i++) perm[i] = i;
-        double det = 0.0;
-        bool first = true;
-        double sign = 1.0;
-        do
-        {
-            double term = 1.0;
-            for (int i = 0; i < n; i++) term *= psi.SineMode(modes[i], sites[perm[i]]);
-            det += (first ? 1.0 : sign) * term;
-            first = false;
-        } while (NextPermutation(perm, out sign));
-        return det;
-    }
-
-    /// <summary>In-place next-permutation in lex order; outputs the sign of the resulting
-    /// permutation relative to identity. Returns false when wrapping back to identity.</summary>
-    private static bool NextPermutation(int[] a, out double sign)
-    {
-        int n = a.Length;
-        int i = n - 2;
-        while (i >= 0 && a[i] >= a[i + 1]) i--;
-        if (i < 0)
-        {
-            sign = 1.0;
-            return false;
-        }
-        int j = n - 1;
-        while (a[j] <= a[i]) j--;
-        (a[i], a[j]) = (a[j], a[i]);
-        Array.Reverse(a, i + 1, n - i - 1);
-        // Sign: recompute from scratch (small n).
-        sign = PermutationSign(a);
-        return true;
-    }
-
-    private static double PermutationSign(int[] a)
-    {
-        int inversions = 0;
-        for (int i = 0; i < a.Length; i++)
-            for (int j = i + 1; j < a.Length; j++)
-                if (a[i] > a[j]) inversions++;
-        return (inversions & 1) == 0 ? 1.0 : -1.0;
+        var M = Matrix<double>.Build.Dense(n, n, (i, j) => psi.SineMode(modes[i], sites[j]));
+        return M.Determinant();
     }
 
     public override string DisplayName =>

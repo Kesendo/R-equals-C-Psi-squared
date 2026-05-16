@@ -10,15 +10,15 @@ public static class F86OpenQuestions
     {
         new OpenQuestion(
             "Item 1' (c=2): analytical (α_subclass, β_subclass) for HWHM_left/Q_peak",
-            "F86HwhmClosedFormClaim (Tier 1 candidate) reproduces 22 N=5..8 anchors within 0.005 " +
-            "via `0.671535 + α_subclass · g_eff + β_subclass`. Bare floor 0.671535 IS derived " +
-            "(C2BareDoubledPtfClosedForm); the 12 (α, β) values per sub-class are fitted via " +
-            "polyfit. Tier 1 derivation requires analytical (α, β) from F89 AT-locked F_a/F_b + " +
-            "H_B-mixed octic residual per PROOF_F90_F86C2_BRIDGE.md.",
-            "Direction (b''): full block-L analytical lift via F89 cyclotomic Φ_{N+1}. Phase D " +
-            "probe (single JW cluster-pair sub-block, ‖xB(Q)‖_F): refuted multi-mode-per-cluster-pair " +
-            "internal mixing — sub-block gives no Lorentzian shape, lift must come from " +
-            "cross-cluster-pair structure.",
+            "F86HwhmClosedFormClaim (Tier1Candidate, c=2) reproduces 22 N=5..8 anchors within " +
+            "0.005 via `0.671535 + α_subclass · g_eff + β_subclass`. Bare floor 0.671535 IS " +
+            "derived (C2BareDoubledPtfClosedForm); the 12 (α, β) values per sub-class are " +
+            "fitted via polyfit. Tier 1 derivation requires analytical (α, β) from F89 " +
+            "AT-locked F_a/F_b + H_B-mixed octic residual per PROOF_F90_F86C2_BRIDGE.md.",
+            "Direction (b''): full block-L analytical lift via F89 cyclotomic Φ_{N+1}. The " +
+            "single-cluster-pair internal-mixing hypothesis (single 10×10 JW cluster-pair " +
+            "sub-block, ‖xB(Q)‖_F observable) is refuted — sub-block gives no Lorentzian " +
+            "shape, so lift must come from cross-cluster-pair structure.",
             "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2); " +
             "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (numerical Tier-1 via F90 bridge)"),
         new OpenQuestion(
@@ -27,7 +27,7 @@ public static class F86OpenQuestions
             "Iterate the 4-mode construction over k; concatenate the orthonormal subspaces; project full block-L; numerical verification at c=3, c=4 first.",
             "docs/proofs/PROOF_F86_QPEAK.md Item 4'"),
         new OpenQuestion(
-            "Item 5: derive the true σ_0(c, N → ∞) asymptote",
+            "Item 5: derive the true σ_0(c, N → ∞) asymptote (earlier 2√(2(c−1)) refuted as crossing)",
             "σ_0(c=2) grows monotonically past 2√2: σ_0(N=7..11) = 2.8284, 2.8393, 2.8483, 2.8525, " +
             "2.8561; Aitken extrapolation suggests true limit ~2.85..2.89 (the earlier 2√(2(c−1)) " +
             "conjecture was a trajectory crossing at N=7, not an asymptote). Surviving structure: " +
