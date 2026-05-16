@@ -113,6 +113,9 @@ public class JwSlaterPairArnoldiEigTests
         // N=10 (5,5) max-block: dim 63504, no dense Evd possible. Compute top-8 by Arnoldi
         // and verify (a) they're returned without OOM, (b) magnitudes are bounded by the
         // operator's Frobenius norm. The witness is "we can extract eigenvalues at N=10".
+        // γ₀ = 0.05 = F86 sweep convention; the absolute |λ| values reported are γ-dependent
+        // sample artifacts, not framework-canonical numbers (PRIMORDIAL_GAMMA_CONSTANT:
+        // γ₀ universal but unspecified; only Q = J/γ₀ is intrinsic).
         double gamma = 0.05;
         var gammaPerSite = Enumerable.Repeat(gamma, 10).ToArray();
         var sparse = JwSlaterPairSparseLBuilder.Build(N: 10, pCol: 5, pRow: 5, gammaPerSite);

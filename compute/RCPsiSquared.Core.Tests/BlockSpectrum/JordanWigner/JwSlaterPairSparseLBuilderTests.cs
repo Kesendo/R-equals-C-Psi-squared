@@ -123,6 +123,10 @@ public class JwSlaterPairSparseLBuilderTests
         // The N=10 push target: (p_c=5, p_r=5) max-block, sectorDim 63504, expected
         // nnz/row ≤ 676 (= 26·26 including diagonal). Verifies the sparse build
         // succeeds at the dim that exceeds JwSlaterPairBasis.MaxSectorDimForDenseWitness.
+        // γ₀ = 0.05 = F86 sweep convention (LocalGlobalEpLink.SweepGammaZero); only the
+        // sparsity pattern is asserted, which is γ-independent — the specific γ₀ value is
+        // a sample, not a physical constant (PRIMORDIAL_GAMMA_CONSTANT: γ₀ is universal but
+        // unspecified).
         var gamma = Enumerable.Repeat(0.05, 10).ToArray();
         var sparse = JwSlaterPairSparseLBuilder.Build(N: 10, pCol: 5, pRow: 5, gamma);
 

@@ -152,7 +152,8 @@ public sealed class JwSlaterPairArnoldiEig : Claim
         var rowPtr = src.RowPtr;
         var colIdx = src.ColIdx;
         var values = src.Values;
-        for (int alpha = 0; alpha < dim; alpha++)
+        // Rows are independent; safe to parallelise (each thread writes only its own y[alpha]).
+        Parallel.For(0, dim, alpha =>
         {
             Complex sum = Complex.Zero;
             int start = rowPtr[alpha];
@@ -160,7 +161,7 @@ public sealed class JwSlaterPairArnoldiEig : Claim
             for (int e = start; e < end; e++)
                 sum += values[e] * x[colIdx[e]];
             y[alpha] = sum;
-        }
+        });
     }
 
     private static Complex ConjugateDot(Complex[] a, Complex[] b)
