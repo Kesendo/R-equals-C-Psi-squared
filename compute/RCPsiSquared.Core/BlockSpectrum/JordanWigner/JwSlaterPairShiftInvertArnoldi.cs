@@ -43,6 +43,11 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
 {
     public const double OuterBreakdownThreshold = 1e-14;
 
+    /// <summary>Magnitude below which a diagonal entry <c>(L_JW − σI)[α, α]</c> is treated
+    /// as too small to invert reliably for Jacobi preconditioning; rows with a near-zero
+    /// diagonal fall back to no preconditioning (M^(−1)_α := 1).</summary>
+    public const double JacobiFloor = 1e-12;
+
     public JwSlaterPairSparseLBuilder Source { get; }
     public Complex Sigma { get; }
     public int NumEigenvaluesRequested { get; }
@@ -87,6 +92,11 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         if (innerTolerance <= 0) throw new ArgumentOutOfRangeException(nameof(innerTolerance));
         if (innerMaxIter < 1) throw new ArgumentOutOfRangeException(nameof(innerMaxIter));
 
+        // Jacobi preconditioner: M^(−1)_α := 1 / (L_JW − σI)[α, α], with a JacobiFloor
+        // fallback to M^(−1)_α := 1 for rows whose shifted diagonal is too small to invert.
+        // Computed once per shift-invert run since σ is fixed.
+        var jacobiInv = BuildJacobiInverse(source, sigma);
+
         var V = new Complex[numIter + 1][];
         V[0] = KrylovOps.RandomNormalized(dim, randomSeed);
         var H = new Complex[numIter + 1, numIter];
@@ -99,8 +109,9 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
 
         for (int j = 0; j < numIter; j++)
         {
-            // w = (L − σI)^(−1) V[j], computed by BiCGStab.
-            int innerSteps = SolveShiftedSystem(source, sigma, V[j], w, innerTolerance, innerMaxIter);
+            // w = (L − σI)^(−1) V[j], computed by Jacobi-preconditioned BiCGStab.
+            int innerSteps = SolveShiftedSystem(source, sigma, jacobiInv, V[j], w,
+                innerTolerance, innerMaxIter);
             innerIters.Add(innerSteps);
 
             // Modified Gram-Schmidt against V[0..j].
@@ -167,11 +178,14 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         });
     }
 
-    /// <summary>BiCGStab inner solve for <c>(L − σI)·x = b</c>. Initial guess x ≡ 0.
+    /// <summary>Right-preconditioned BiCGStab inner solve for <c>(L − σI)·x = b</c> with
+    /// Jacobi (diagonal) preconditioning <c>M = diag(L_JW − σI)</c>. Initial guess x ≡ 0.
     /// Returns the iteration count at which <c>‖r‖ / ‖b‖ &lt; tol</c> was reached, or
-    /// <paramref name="maxIter"/> if convergence failed within budget.</summary>
+    /// <paramref name="maxIter"/> if convergence failed within budget. The convergence
+    /// test is on the original (unscaled) residual <c>‖b − A·x‖</c>, so the user-stated
+    /// tolerance keeps its meaning regardless of preconditioning.</summary>
     private static int SolveShiftedSystem(JwSlaterPairSparseLBuilder src, Complex sigma,
-        Complex[] b, Complex[] x, double tol, int maxIter)
+        Complex[] jacobiInv, Complex[] b, Complex[] x, double tol, int maxIter)
     {
         int n = src.SectorDim;
         var r = new Complex[n];
@@ -180,6 +194,8 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         var v = new Complex[n];
         var s = new Complex[n];
         var t = new Complex[n];
+        var z = new Complex[n];  // z = M^(−1) p
+        var y = new Complex[n];  // y = M^(−1) s
 
         // x_0 = 0  →  r_0 = b − A·x_0 = b
         Array.Clear(x, 0, n);
@@ -209,7 +225,9 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
                 for (int i = 0; i < n; i++) p[i] = r[i] + beta * (p[i] - omega * v[i]);
             }
 
-            ApplyShiftedMatvec(src, sigma, p, v);
+            // z = M^(−1) · p,  v = A · z
+            for (int i = 0; i < n; i++) z[i] = jacobiInv[i] * p[i];
+            ApplyShiftedMatvec(src, sigma, z, v);
             Complex rtv = KrylovOps.ConjugateDot(rt, v);
             if (rtv.Magnitude < 1e-300) return k;
             alpha = rho / rtv;
@@ -218,18 +236,20 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
             double sNorm = Math.Sqrt(KrylovOps.NormSquared(s));
             if (sNorm / bNorm < tol)
             {
-                for (int i = 0; i < n; i++) x[i] += alpha * p[i];
+                for (int i = 0; i < n; i++) x[i] += alpha * z[i];
                 return k;
             }
 
-            ApplyShiftedMatvec(src, sigma, s, t);
+            // y = M^(−1) · s,  t = A · y
+            for (int i = 0; i < n; i++) y[i] = jacobiInv[i] * s[i];
+            ApplyShiftedMatvec(src, sigma, y, t);
             Complex tt = KrylovOps.ConjugateDot(t, t);
             if (tt.Magnitude < 1e-300) return k;
             omega = KrylovOps.ConjugateDot(t, s) / tt;
 
             for (int i = 0; i < n; i++)
             {
-                x[i] += alpha * p[i] + omega * s[i];
+                x[i] += alpha * z[i] + omega * y[i];
                 r[i] = s[i] - omega * t[i];
             }
 
@@ -238,6 +258,32 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
             if (omega.Magnitude < 1e-300) return k;
         }
         return maxIter;
+    }
+
+    /// <summary>Pre-compute <c>jacobiInv[α] := 1 / (L_JW[α,α] − σ)</c> with floor fallback:
+    /// rows whose shifted diagonal magnitude is below <see cref="JacobiFloor"/> get
+    /// <c>jacobiInv[α] := 1</c> (no preconditioning for that row, avoids division by
+    /// near-zero on near-singular shifts).</summary>
+    private static Complex[] BuildJacobiInverse(JwSlaterPairSparseLBuilder src, Complex sigma)
+    {
+        int dim = src.SectorDim;
+        var jacobiInv = new Complex[dim];
+        var rowPtr = src.RowPtr;
+        var colIdx = src.ColIdx;
+        var values = src.Values;
+        for (int alpha = 0; alpha < dim; alpha++)
+        {
+            Complex d = Complex.Zero;
+            int start = rowPtr[alpha];
+            int end = rowPtr[alpha + 1];
+            for (int e = start; e < end; e++)
+            {
+                if (colIdx[e] == alpha) { d = values[e]; break; }
+            }
+            Complex shifted = d - sigma;
+            jacobiInv[alpha] = shifted.Magnitude < JacobiFloor ? Complex.One : Complex.Reciprocal(shifted);
+        }
+        return jacobiInv;
     }
 
     private JwSlaterPairShiftInvertArnoldi(JwSlaterPairSparseLBuilder source,
