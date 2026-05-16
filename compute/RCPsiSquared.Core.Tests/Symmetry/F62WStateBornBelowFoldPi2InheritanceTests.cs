@@ -81,7 +81,11 @@ public class F62WStateBornBelowFoldPi2InheritanceTests
     {
         // Cross-anchor verification: GHZ_N (F60) and W_N (F62) agree on smallestN = 3.
         var ladder = new Pi2DyadicLadderClaim();
-        var f60 = new F60GhzBornBelowFoldPi2Inheritance(ladder);
+        var f60 = new F60GhzBornBelowFoldPi2Inheritance(
+            ladder,
+            new PolarityLayerOriginClaim(),
+            new QuarterAsBilinearMaxvalClaim(),
+            new ArgmaxMaxvalPairClaim());
         var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder);
 
         Assert.Equal(f60.SmallestNBelowFold, f62.SmallestNBelowFold);

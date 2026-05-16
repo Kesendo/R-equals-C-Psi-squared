@@ -66,6 +66,24 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
 {
     private readonly Pi2DyadicLadderClaim _ladder;
 
+    /// <summary>±0.5 polarity-pair anchor — the typed parent that grounds
+    /// F60's <c>OffDiagonalElement = 1/2</c> directly on the polarity-layer
+    /// axis. Added 2026-05-16 as a typed ctor parent (previously registration-
+    /// discard only).</summary>
+    public PolarityLayerOriginClaim Polarity { get; }
+
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
+    /// grounds F60's <c>FoldPosition</c> directly on the Quarter axis (same
+    /// anchor as F57 + Dicke). Added 2026-05-16 as a typed ctor parent
+    /// (previously registration-discard only).</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    /// <summary>(1/2, 1/4) argmax/maxval pair — the typed meta-anchor closing
+    /// that F60 uses BOTH 1/2 (off-diagonal) and 1/4 (fold) simultaneously.
+    /// Added 2026-05-16 as a typed ctor parent (previously registration-
+    /// discard only).</summary>
+    public ArgmaxMaxvalPairClaim ArgmaxMaxval { get; }
+
     /// <summary>The off-diagonal density-matrix element of GHZ_N:
     /// <c>ρ[0...0, 1...1] = 1/2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> = ±0.5 polarity
@@ -112,15 +130,22 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
     /// GHZ that crosses" reading.</summary>
     public bool BellPlusAboveFold() => CPsiAtZeroForGhz(2) > FoldPosition;
 
-    public F60GhzBornBelowFoldPi2Inheritance(Pi2DyadicLadderClaim ladder)
+    public F60GhzBornBelowFoldPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        PolarityLayerOriginClaim polarity,
+        QuarterAsBilinearMaxvalClaim quarter,
+        ArgmaxMaxvalPairClaim argmaxMaxval)
         : base("F60 GHZ_N CΨ(0) = 1/(2^N - 1) inherits from Pi2-Foundation: 1/2 off-diagonal = ±0.5 polarity pair; 2^N = a_{1-N}; fold = a_3",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F60 + " +
                "experiments/DWELL_PREFACTOR_GENERALIZED.md (Section 4) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolarityLayerOrigin, QuarterAsBilinearMaxval)")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolarityLayerOrigin, QuarterAsBilinearMaxval, ArgmaxMaxvalPair)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Polarity = polarity ?? throw new ArgumentNullException(nameof(polarity));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        ArgmaxMaxval = argmaxMaxval ?? throw new ArgumentNullException(nameof(argmaxMaxval));
     }
 
     public override string DisplayName =>

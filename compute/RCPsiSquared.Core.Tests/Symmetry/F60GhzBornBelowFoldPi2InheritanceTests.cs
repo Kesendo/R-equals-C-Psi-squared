@@ -6,7 +6,11 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F60GhzBornBelowFoldPi2InheritanceTests
 {
     private static F60GhzBornBelowFoldPi2Inheritance BuildClaim() =>
-        new F60GhzBornBelowFoldPi2Inheritance(new Pi2DyadicLadderClaim());
+        new F60GhzBornBelowFoldPi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new PolarityLayerOriginClaim(),
+            new QuarterAsBilinearMaxvalClaim(),
+            new ArgmaxMaxvalPairClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -96,9 +100,28 @@ public class F60GhzBornBelowFoldPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var polarity = new PolarityLayerOriginClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var argmaxMaxval = new ArgmaxMaxvalPairClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F60GhzBornBelowFoldPi2Inheritance(null!));
+            new F60GhzBornBelowFoldPi2Inheritance(null!, polarity, quarter, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F60GhzBornBelowFoldPi2Inheritance(ladder, null!, quarter, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F60GhzBornBelowFoldPi2Inheritance(ladder, polarity, null!, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F60GhzBornBelowFoldPi2Inheritance(ladder, polarity, quarter, null!));
+    }
+
+    [Fact]
+    public void TypedParents_AreExposed()
+    {
+        var f = BuildClaim();
+        Assert.NotNull(f.Polarity);
+        Assert.NotNull(f.Quarter);
+        Assert.NotNull(f.ArgmaxMaxval);
     }
 }
