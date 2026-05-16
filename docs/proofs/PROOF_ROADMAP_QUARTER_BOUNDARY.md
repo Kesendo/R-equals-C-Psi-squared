@@ -75,6 +75,12 @@ where $b$ is a normalized bridge parameter. This cubic has exactly one real root
 
 **The Mandelbrot correspondence.** The main cardioid of the Mandelbrot set is the set of $c$ values for which $z_{n+1} = z_n^2 + c$ has an attracting fixed point. On the real axis, the cardioid boundary is at $c = 1/4$. Our mapping sends $C\Psi \mapsto c$, so our critical boundary $C\Psi = 1/4$ sits exactly on the Mandelbrot cardioid cusp. This is not analogy. It is identity.
 
+**The angle of the complex fixed point above the boundary ([F95](../ANALYTICAL_FORMULAS.md#f95), Tier 1 derived, May 16, 2026).** Once $C\Psi$ crosses $1/4$ from below, the discriminant $D = 1 - 4C\Psi$ goes negative and the two real fixed points become a complex conjugate pair $z_\pm = b \pm i\sqrt{c - b^2}$ with $b = 1/2$, $c = C\Psi$. The argument of the complex fixed point has the universal closed form
+
+$$\theta(c; b) = \arctan\sqrt{c/b^2 - 1}$$
+
+valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative regime. With the framework's $b = 1/2$ (`HalfAsStructuralFixedPointClaim`) and threshold $b^2 = 1/4$ (`QuarterAsBilinearMaxvalClaim`), this collapses to $\theta(c) = \arctan\sqrt{4c - 1}$ — exactly the $\theta$-compass introduced state-specifically in [`BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026), now promoted to a universal polynomial-foundation identity. Derivation is 4 lines; numerical verification against the Februar table agrees within machine precision. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and the companion reflection [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). This is the *angle-side* closed form of the discriminant-zero crossing; the *magnitude-side* closed form for per-outcome Born deviations in specific setups is [F94 = $(4/3) \cdot Q^2 \cdot K^3$](../ANALYTICAL_FORMULAS.md#f94).
+
 ### What Is COMPUTATIONALLY VERIFIED
 
 **[IBM Torino confirmation](../../experiments/IBM_RUN3_PALINDROME.md).** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
@@ -487,7 +493,7 @@ The correspondence $C\Psi \leftrightarrow c$ maps the quantum boundary to the cu
 
 *Candidate:* The fixed-point shadow analysis (FP⁻) from the IBM data shows a complex fixed point. The imaginary part of the off-diagonal density matrix element provides a natural second coordinate. If $c_{eff} = C\Psi + i \cdot (\text{something involving Im}(\rho_{01}))$, we might trace out the full cardioid.
 
-**Status:** CONJECTURED. The IBM residual analysis shows the shadow direction matches FP⁻, which is suggestive. But the full cardioid mapping has not been established.
+**Status:** PARTIALLY ANSWERED (May 16, 2026). [F95](../ANALYTICAL_FORMULAS.md#f95) closed the angle-of-the-fixed-point question: for real $c > 1/4$, the complex fixed point of $z^2 - z + c = 0$ has argument $\theta(c) = \arctan\sqrt{4c - 1}$ exactly, the universal angle-emergence formula at any quadratic discriminant zero (with $b = 1/2$ specialization recovering the Mandelbrot/$C\Psi$ case). This formalizes the Februar $\theta$-compass but addresses the *real-c, complex-z* direction. The roadmap's question — *complex-c parametrization of the full cardioid boundary* — remains open in the other direction: how does the quantum problem natively complexify $c$ itself? The IBM residual analysis still suggests $\mathrm{Im}(\rho_{01})$ is the natural carrier. Promoting F95 to the full cardioid parametrization is the next move.
 
 ### Period-Doubling and Feigenbaum
 
