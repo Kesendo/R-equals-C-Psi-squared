@@ -87,19 +87,8 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         if (innerTolerance <= 0) throw new ArgumentOutOfRangeException(nameof(innerTolerance));
         if (innerMaxIter < 1) throw new ArgumentOutOfRangeException(nameof(innerMaxIter));
 
-        var rng = new Random(randomSeed);
-        var v0 = new Complex[dim];
-        double v0NormSq = 0.0;
-        for (int i = 0; i < dim; i++)
-        {
-            v0[i] = new Complex(rng.NextDouble() - 0.5, rng.NextDouble() - 0.5);
-            v0NormSq += v0[i].Real * v0[i].Real + v0[i].Imaginary * v0[i].Imaginary;
-        }
-        double inv0 = 1.0 / Math.Sqrt(v0NormSq);
-        for (int i = 0; i < dim; i++) v0[i] *= inv0;
-
         var V = new Complex[numIter + 1][];
-        V[0] = v0;
+        V[0] = KrylovOps.RandomNormalized(dim, randomSeed);
         var H = new Complex[numIter + 1, numIter];
         var w = new Complex[dim];
         var innerIters = new List<int>(numIter);
@@ -117,14 +106,12 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
             // Modified Gram-Schmidt against V[0..j].
             for (int i = 0; i <= j; i++)
             {
-                Complex hij = ConjugateDot(V[i], w);
+                Complex hij = KrylovOps.ConjugateDot(V[i], w);
                 H[i, j] = hij;
-                AxpyInPlace(w, V[i], -hij);
+                KrylovOps.AxpyInPlace(w, V[i], -hij);
             }
 
-            double wNormSq = 0.0;
-            for (int i = 0; i < dim; i++) wNormSq += w[i].Real * w[i].Real + w[i].Imaginary * w[i].Imaginary;
-            double wNorm = Math.Sqrt(wNormSq);
+            double wNorm = Math.Sqrt(KrylovOps.NormSquared(w));
             H[j + 1, j] = new Complex(wNorm, 0.0);
 
             if (wNorm < OuterBreakdownThreshold)
@@ -197,9 +184,9 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         // x_0 = 0  →  r_0 = b − A·x_0 = b
         Array.Clear(x, 0, n);
         Array.Copy(b, r, n);
-        Array.Copy(r, rt, n);  // r̃_0 = r_0 (van der Vorst's default choice).
+        Array.Copy(b, rt, n);  // r̃_0 = r_0 (van der Vorst's default choice).
 
-        double bNorm = Math.Sqrt(b.Sum(z => z.Real * z.Real + z.Imaginary * z.Imaginary));
+        double bNorm = Math.Sqrt(KrylovOps.NormSquared(b));
         if (bNorm < 1e-300) return 0;
 
         Complex rho = Complex.One, alpha = Complex.One, omega = Complex.One;
@@ -208,7 +195,7 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
         for (int k = 1; k <= maxIter; k++)
         {
             rhoPrev = rho;
-            rho = ConjugateDot(rt, r);
+            rho = KrylovOps.ConjugateDot(rt, r);
             if (rho.Magnitude < 1e-300) return k;
 
             if (k == 1)
@@ -223,12 +210,12 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
             }
 
             ApplyShiftedMatvec(src, sigma, p, v);
-            Complex rtv = ConjugateDot(rt, v);
+            Complex rtv = KrylovOps.ConjugateDot(rt, v);
             if (rtv.Magnitude < 1e-300) return k;
             alpha = rho / rtv;
 
             for (int i = 0; i < n; i++) s[i] = r[i] - alpha * v[i];
-            double sNorm = Math.Sqrt(s.Sum(z => z.Real * z.Real + z.Imaginary * z.Imaginary));
+            double sNorm = Math.Sqrt(KrylovOps.NormSquared(s));
             if (sNorm / bNorm < tol)
             {
                 for (int i = 0; i < n; i++) x[i] += alpha * p[i];
@@ -236,9 +223,9 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
             }
 
             ApplyShiftedMatvec(src, sigma, s, t);
-            Complex tt = ConjugateDot(t, t);
+            Complex tt = KrylovOps.ConjugateDot(t, t);
             if (tt.Magnitude < 1e-300) return k;
-            omega = ConjugateDot(t, s) / tt;
+            omega = KrylovOps.ConjugateDot(t, s) / tt;
 
             for (int i = 0; i < n; i++)
             {
@@ -246,25 +233,11 @@ public sealed class JwSlaterPairShiftInvertArnoldi : Claim
                 r[i] = s[i] - omega * t[i];
             }
 
-            double rNorm = Math.Sqrt(r.Sum(z => z.Real * z.Real + z.Imaginary * z.Imaginary));
+            double rNorm = Math.Sqrt(KrylovOps.NormSquared(r));
             if (rNorm / bNorm < tol) return k;
             if (omega.Magnitude < 1e-300) return k;
         }
         return maxIter;
-    }
-
-    private static Complex ConjugateDot(Complex[] a, Complex[] b)
-    {
-        Complex sum = Complex.Zero;
-        int n = a.Length;
-        for (int i = 0; i < n; i++) sum += Complex.Conjugate(a[i]) * b[i];
-        return sum;
-    }
-
-    private static void AxpyInPlace(Complex[] y, Complex[] x, Complex alpha)
-    {
-        int n = y.Length;
-        for (int i = 0; i < n; i++) y[i] += alpha * x[i];
     }
 
     private JwSlaterPairShiftInvertArnoldi(JwSlaterPairSparseLBuilder source,

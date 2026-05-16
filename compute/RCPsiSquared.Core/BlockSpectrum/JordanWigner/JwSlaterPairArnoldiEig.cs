@@ -3,7 +3,6 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
-using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 
@@ -79,21 +78,9 @@ public sealed class JwSlaterPairArnoldiEig : Claim
             throw new ArgumentException(
                 $"numIter {numIter} must be < sectorDim {dim}.", nameof(numIter));
 
-        // Random initial vector, complex, normalized.
-        var rng = new Random(randomSeed);
-        var v0 = new Complex[dim];
-        double norm0Sq = 0.0;
-        for (int i = 0; i < dim; i++)
-        {
-            v0[i] = new Complex(rng.NextDouble() - 0.5, rng.NextDouble() - 0.5);
-            norm0Sq += v0[i].Real * v0[i].Real + v0[i].Imaginary * v0[i].Imaginary;
-        }
-        double inv0 = 1.0 / Math.Sqrt(norm0Sq);
-        for (int i = 0; i < dim; i++) v0[i] *= inv0;
-
         // Krylov basis storage: V[k] is the k-th basis vector (Complex[dim]).
         var V = new Complex[numIter + 1][];
-        V[0] = v0;
+        V[0] = KrylovOps.RandomNormalized(dim, randomSeed);
         var H = new Complex[numIter + 1, numIter];
         var w = new Complex[dim];
 
@@ -103,20 +90,17 @@ public sealed class JwSlaterPairArnoldiEig : Claim
 
         for (int j = 0; j < numIter; j++)
         {
-            // w = A · V[j]
             SparseMatVec(source, V[j], w);
 
-            // Modified Gram-Schmidt against V[0..j]
+            // Modified Gram-Schmidt against V[0..j].
             for (int i = 0; i <= j; i++)
             {
-                Complex hij = ConjugateDot(V[i], w);
+                Complex hij = KrylovOps.ConjugateDot(V[i], w);
                 H[i, j] = hij;
-                AxpyInPlace(w, V[i], -hij);
+                KrylovOps.AxpyInPlace(w, V[i], -hij);
             }
 
-            double wNormSq = 0.0;
-            for (int i = 0; i < dim; i++) wNormSq += w[i].Real * w[i].Real + w[i].Imaginary * w[i].Imaginary;
-            double wNorm = Math.Sqrt(wNormSq);
+            double wNorm = Math.Sqrt(KrylovOps.NormSquared(w));
             H[j + 1, j] = new Complex(wNorm, 0.0);
 
             if (wNorm < BreakdownThreshold)
@@ -162,20 +146,6 @@ public sealed class JwSlaterPairArnoldiEig : Claim
                 sum += values[e] * x[colIdx[e]];
             y[alpha] = sum;
         });
-    }
-
-    private static Complex ConjugateDot(Complex[] a, Complex[] b)
-    {
-        Complex sum = Complex.Zero;
-        int n = a.Length;
-        for (int i = 0; i < n; i++) sum += Complex.Conjugate(a[i]) * b[i];
-        return sum;
-    }
-
-    private static void AxpyInPlace(Complex[] y, Complex[] x, Complex alpha)
-    {
-        int n = y.Length;
-        for (int i = 0; i < n; i++) y[i] += alpha * x[i];
     }
 
     private JwSlaterPairArnoldiEig(JwSlaterPairSparseLBuilder source,
