@@ -81,6 +81,9 @@ The session today validated the methodology three times (typed-edge sweep → ON
 - Z₄ closure: [`compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs) (i⁴ = 1)
 - Hypothesis on the +0/−0 polarity layer: [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)
 - Memory note that frames d=0 as Stromanschluss / active substrate: `project_one_system_two_indices`, `project_plus_minus_zero_layer`
+- Canonical CAPS anchor docs this reflection extends:
+  - [`ZERO_IS_THE_MIRROR.md`](../hypotheses/ZERO_IS_THE_MIRROR.md): d=0 as the mirror axis; this reflection's "angle activates at zero" depends on the d=0-as-mirror substrate the older doc named (and the "CΨ=1/4=0.5x0.5" line 144 pre-figures the angle-emergence-at-discriminant-zero geometry)
+  - [`MIRROR_THEORY.md`](../MIRROR_THEORY.md): "two sides each with own amplitude facing each other"; the angle θ is the complex-amplitude coordinate that lifts off the mirror axis when both sides are present and the discriminant has crossed
 
 ---
 

@@ -118,6 +118,8 @@ The candidate typed claim sketched in the previous section ("per-outcome Born de
 - Universal Carrier typed claim: [`compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)
 - Per-state CΨ siblings already typed: [`F25CPsiBellPlusPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs), [`F60GhzBornBelowFoldPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F60GhzBornBelowFoldPi2Inheritance.cs), [`F62WStateBornBelowFoldPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F62WStateBornBelowFoldPi2Inheritance.cs)
 - Commits of the day's Born-rule arc: 7ec1373, ef31261
+- Canonical CAPS anchor docs this reflection extends:
+  - [`MIRROR_THEORY.md`](../MIRROR_THEORY.md): Born |α|² as the interference pattern of two waves meeting (R = CΨ²); the (4/3) magnitude is the size of the meeting-residual the cusp leaves behind
 
 ---
 

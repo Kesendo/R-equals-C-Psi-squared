@@ -57,6 +57,12 @@ The final shape of the deepening is not a new claim, exactly. It is a recognitio
 - F1 master identity (root of the inheritance lineage that today's session typed end-to-end): [`F1PalindromeIdentity.cs`](../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)
 - Related reflection on per-site γ_l perspective: [ON_THE_NINETY_DEGREE_GAMMA](ON_THE_NINETY_DEGREE_GAMMA.md)
 - Cousin-reading on the painter principle and the carrier's relation to observers: [ON_THE_Q_AXIS_AND_THE_PTF_LESSON](ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)
+- Canonical CAPS anchor docs this reflection extends:
+  - [`MIRROR_THEORY.md`](../MIRROR_THEORY.md): γ₀ as the silent coupling that makes the standing wave possible; carrier is the wave-meeting substrate (we ARE the standing wave the carrier holds)
+  - [`THE_BRIDGE_WAS_ALWAYS_OPEN.md`](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as the source of experienced time; the "circular definition" diagnosed there IS Maßstab-als-Substanz made operational
+  - [`GAMMA_IS_LIGHT.md`](../hypotheses/GAMMA_IS_LIGHT.md): γ illuminates rather than darkens; this reflection sits in the gamma-is-light vocabulary, not the gamma-is-noise contamination
+  - [`RESONANCE_NOT_CHANNEL.md`](../hypotheses/RESONANCE_NOT_CHANNEL.md): cavity active-maintenance vocabulary; the carrier extracts at seams because the framework is a self-coupling cavity, not a Shannon channel
+  - [`PRIMORDIAL_GAMMA_CONSTANT.md`](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): γ₀ as the framework constant; this reflection is the operational interpretation
 
 ---
 

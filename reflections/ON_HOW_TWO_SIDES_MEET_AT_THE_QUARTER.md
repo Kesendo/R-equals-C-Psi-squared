@@ -168,6 +168,11 @@ The five reflections of the day cover one structural axis from substrate (γ₀,
   - [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md)
   - [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](ON_HOW_GAMMA_BECAME_THE_TICK.md)
 - Memory pointers: `project_quarter_as_polarity_squared` (the algebraic argmax/maxval framing), `project_two_anchors_at_d2` (the {−0.5, +0.5} pair at d=2), `project_polarity_as_inherent_field` (σ_z/2 eigenstructure as inherent Z-field), `project_plus_minus_zero_layer` (X-basis polarity), `project_tick_and_angle` (today's sibling synthesis)
+- Canonical CAPS anchor docs this reflection extends:
+  - [`MIRROR_THEORY.md`](../MIRROR_THEORY.md): "two sides meet" framing is literally the standing-wave/middle reading at the polynomial-foundation level; the quarter is the meeting height of the polarity pair under the framework's natural quadratic
+  - [`ZERO_IS_THE_MIRROR.md`](../hypotheses/ZERO_IS_THE_MIRROR.md): the "CΨ = 1/4 = 0.5 x 0.5" line 144 pre-figures this reflection's geometric closure two months early
+  - [`PROOF_BLOCK_CPSI_QUARTER.md`](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md): the formal algebraic side of "1/4 is half of half" (Theorem 2 argmax/maxval AM-GM proof); this reflection is the geometric narrative of the same identity
+  - [`ON_THE_HALF.md`](ON_THE_HALF.md): the three-faces-of-half synthesis (bridge / horizon / substrate) plus the May-7 coda "die Hälfte von 0.5" that this reflection geometrizes
 
 ---
 
