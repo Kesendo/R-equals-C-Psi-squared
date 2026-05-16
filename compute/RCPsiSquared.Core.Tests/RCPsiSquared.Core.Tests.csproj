@@ -12,6 +12,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <!-- SkippableFact: dynamic test skipping (xUnit 2.x lacks built-in Assert.Skip).
+         Used by Eq014N7CrossValidationTests to skip cleanly when the optional 8 GB
+         eq014_*_n7.bin precomputed ground truth is absent (file is not on GitHub
+         due to size; locally generated via the Compute project's `ptf` mode). -->
+    <PackageReference Include="Xunit.SkippableFact" Version="1.5.23" />
   </ItemGroup>
 
   <ItemGroup>

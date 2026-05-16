@@ -25,16 +25,13 @@ public class Eq014N7CrossValidationTests
     private readonly ITestOutputHelper _out;
     public Eq014N7CrossValidationTests(ITestOutputHelper output) => _out = output;
 
-    [Fact]
+    [SkippableFact]
     public void Eq014_EigenvalueFile_ExistsAndHasExpectedShape()
     {
-        if (!Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName))
-        {
-            _out.WriteLine($"Skipping: {Eq014GroundTruth.EigenvaluesFileName} not present " +
-                           $"at {Eq014GroundTruth.ResultsDirectory}. " +
-                           $"Generate via `cd compute/RCPsiSquared.Compute && dotnet run -c Release -- ptf`.");
-            return;
-        }
+        Skip.IfNot(Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName),
+            $"{Eq014GroundTruth.EigenvaluesFileName} not present at {Eq014GroundTruth.ResultsDirectory}. " +
+            "Optional 8 GB ground truth — not on GitHub; generate via " +
+            "`cd compute/RCPsiSquared.Compute && dotnet run -c Release -- ptf` (~48 h wall).");
 
         var eigs = Eq014GroundTruth.LoadEigenvalues();
         Assert.Equal(Eq014GroundTruth.LiouvilleDim, eigs.Length);
@@ -55,14 +52,11 @@ public class Eq014N7CrossValidationTests
                        $"mean Re(λ) = {meanRe:F6} (palindrome center = {palindromeCenter:F6})");
     }
 
-    [Fact]
+    [SkippableFact]
     public void LiouvillianBlockSpectrum_ComputeSpectrumPerBlock_AtN7_MatchesEq014()
     {
-        if (!Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName))
-        {
-            _out.WriteLine($"Skipping: {Eq014GroundTruth.EigenvaluesFileName} not present.");
-            return;
-        }
+        Skip.IfNot(Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName),
+            $"{Eq014GroundTruth.EigenvaluesFileName} not present — see file header for generation instructions.");
 
         var groundTruth = Eq014GroundTruth.LoadEigenvalues();
         var H = PauliHamiltonian.XYChain(Eq014GroundTruth.N, Eq014GroundTruth.J).ToMatrix();
@@ -85,14 +79,11 @@ public class Eq014N7CrossValidationTests
                        $"all {blockSpectrum.Length} eigenvalues match eq014 within 1e-9.");
     }
 
-    [Fact]
+    [SkippableFact]
     public void LiouvillianSectorSweep_AtN7_FullCoverage_MatchesEq014()
     {
-        if (!Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName))
-        {
-            _out.WriteLine($"Skipping: {Eq014GroundTruth.EigenvaluesFileName} not present.");
-            return;
-        }
+        Skip.IfNot(Eq014GroundTruth.IsAvailable(Eq014GroundTruth.EigenvaluesFileName),
+            $"{Eq014GroundTruth.EigenvaluesFileName} not present — see file header for generation instructions.");
 
         var groundTruth = Eq014GroundTruth.LoadEigenvalues();
         var gamma = Enumerable.Repeat(Eq014GroundTruth.Gamma, Eq014GroundTruth.N).ToArray();
