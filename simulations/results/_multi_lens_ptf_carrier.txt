@@ -1,0 +1,32 @@
+PTF + Universal Carrier tour
+  N=3, |+−+⟩, γ_deph=0.1, γ_T1=0.01, J=1.0, topology=chain
+
+Universal Carrier (chain-level invariants, depend on γ₀ only):
+  Q = J/γ₀          =  10.0000
+  t_peak = 1/(4γ₀)  =   2.5000
+  Abs quantum = 2γ₀ =   0.2000
+
+PTF readings (L_A = truly XX+YY baseline; α_i = per-site time rescaling):
+
+case          α[0]     α[1]     α[2]     Σ ln α    max RMSE  all in (0.1,10)?  
+-------------------------------------------------------------------------------
+truly XX+YY     1.0000   1.0000   1.0000   +0.0000    0.0000 yes               
+XY+YX           0.9955   0.9907   0.9955   -0.0184    0.0434 yes               
+IY+YI           0.1000   0.1000   0.1000   -6.9077    0.0893 NO                
+YZ+ZY           0.1721   0.1275   0.1721   -5.5786    0.0490 yes               
+XZ+ZX           1.0095   0.9988   1.0095   +0.0176    0.0428 yes               
+XZ+XZ           0.1721   1.8305   1.8853   -0.5213    0.0949 yes               
+
+Reading guide:
+  α[i]            = time-rescaling factor s.t. P_A(α[i]·t) ≈ P_B(i, t)
+                    α=1 → site evolves like baseline; α<1 → slower; α>1 → faster.
+  Σ ln α          = PTF closure law (Tier 2). PTF predicts ≈ 0 in perturbative window.
+  max RMSE        = worst per-site fit residual (mismatch with L_B not actually a
+                    rescaling of L_A → fit is forced; large RMSE means PTF model
+                    breaks for this case).
+
+Observation: PTF was designed for SINGLE-BOND defects (small δJ on XY chain).
+Forcing it onto wildly-different H (XY+YX, YZ+ZY, etc.) tests how far the
+perspectival-time-field reading extends. Large RMSE = the case is outside the
+perturbative regime PTF was tuned for; the α values are then 'best L_A-rescaling
+approximation' rather than a structurally honest factorisation.
