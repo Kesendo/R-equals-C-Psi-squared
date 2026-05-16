@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Confirmations;
+using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
@@ -75,7 +76,9 @@ public sealed class Pi2KnowledgeBase : IInspectable
         Chain = chain;
         PolynomialFoundation = new PolynomialFoundationClaim();
         RootAnchor = new QubitDimensionalAnchorClaim();
-        Involution = new Pi2InvolutionClaim();
+        // F1 root for the angle branch: Pi2InvolutionClaim derives from it via squaring.
+        var f1 = new F1PalindromeIdentity();
+        Involution = new Pi2InvolutionClaim(f1);
         KleinDecomposition = new KleinFourCellClaim();
         BilinearApex = new BilinearApexClaim();
         QuarterAsBilinearMaxval = new QuarterAsBilinearMaxvalClaim();

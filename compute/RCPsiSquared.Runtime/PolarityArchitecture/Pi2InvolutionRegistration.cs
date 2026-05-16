@@ -35,7 +35,7 @@ public static class Pi2InvolutionRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<Pi2InvolutionClaim>(b =>
         {
-            _ = b.Get<F1PalindromeIdentity>();   // F1 squared gives Π²·L·Π⁻² = L
-            return new Pi2InvolutionClaim();
+            var f1 = b.Get<F1PalindromeIdentity>();   // F1 squared gives Π²·L·Π⁻² = L
+            return new Pi2InvolutionClaim(f1);
         });
 }

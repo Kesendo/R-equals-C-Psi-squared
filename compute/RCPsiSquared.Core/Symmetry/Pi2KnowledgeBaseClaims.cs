@@ -1,3 +1,4 @@
+using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
@@ -62,14 +63,31 @@ public sealed class QubitDimensionalAnchorClaim : Claim
 
 /// <summary>F1 → Π² commutes with L (Tier 1 derived). Squaring the F1 palindrome
 /// Π·L·Π⁻¹ = −L − 2σ·I gives Π²·L·Π⁻² = L. Therefore each L-eigenspace lives in one
-/// Π²-eigenspace, and L is block-diagonal in the Π²-eigenbasis.</summary>
+/// Π²-eigenspace, and L is block-diagonal in the Π²-eigenbasis.
+///
+/// <para>This claim is the root of the Pi2KB's <b>angle branch</b> (90° lineage). It
+/// derives directly from <see cref="F1PalindromeIdentity"/> via the squaring step, and is
+/// then read further as the lineage Π²=I (root) → <see cref="KleinFourCellClaim"/> (F88
+/// two-axis decomposition) → <see cref="NinetyDegreeMirrorMemoryClaim"/> (90° rotation
+/// channel between H and M, F80's i). The parent edge to F1 was prose-only before this
+/// constructor injection.</para>
+/// </summary>
 public sealed class Pi2InvolutionClaim : Claim
 {
-    public Pi2InvolutionClaim()
-        : base("Π² commutes with L (consequence of F1 palindrome)",
+    /// <summary>The F1 palindrome identity whose squaring produces this Π²-involution
+    /// statement. Injected via the constructor so that the inheritance edge
+    /// <c>F1PalindromeIdentity → Pi2InvolutionClaim</c> is typed in the Claim graph
+    /// (not just stated in prose).</summary>
+    public F1PalindromeIdentity F1 { get; }
+
+    public Pi2InvolutionClaim(F1PalindromeIdentity f1)
+        : base("Π² commutes with L (squared from F1 palindrome)",
                Tier.Tier1Derived,
+               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (parent: F1 squared) + " +
                "docs/ANALYTICAL_FORMULAS.md F1 + F88")
-    { }
+    {
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+    }
 
     public override string DisplayName => "Π² commutes with L";
 
@@ -80,6 +98,8 @@ public sealed class Pi2InvolutionClaim : Claim
     {
         get
         {
+            yield return new InspectableNode("parent (typed)",
+                summary: $"F1PalindromeIdentity ({F1.Tier.Label()}): {F1.Summary} — squaring yields Π²·L·Π⁻² = L");
             yield return new InspectableNode("derivation",
                 summary: "F1: Π·L·Π⁻¹ = −L − 2σ·I; squaring gives Π²·L·Π⁻² = L");
             yield return new InspectableNode("operator-level statement",
