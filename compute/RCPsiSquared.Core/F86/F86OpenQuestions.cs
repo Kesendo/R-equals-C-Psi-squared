@@ -28,14 +28,25 @@ public static class F86OpenQuestions
             "docs/proofs/PROOF_F86_QPEAK.md Item 4'"),
         new OpenQuestion(
             "Item 5: derive the true σ_0(c, N → ∞) asymptote (earlier 2√(2(c−1)) refuted as crossing)",
-            "σ_0(c=2) grows monotonically past 2√2: σ_0(N=7..11) = 2.8284, 2.8393, 2.8483, 2.8525, " +
-            "2.8561; Aitken extrapolation suggests true limit ~2.85..2.89 (the earlier 2√(2(c−1)) " +
-            "conjecture was a trajectory crossing at N=7, not an asymptote). Surviving structure: " +
-            "monotone growth within each c; σ_0·√(3/8) bridge to g_eff_E (Δ ≤ 0.01 for N ≥ 6).",
+            "σ_0(c=2) grows monotonically past 2√2: σ_0(N=7..18) = 2.8284, 2.8393, 2.8483, 2.8525, " +
+            "2.8561, 2.8579, 2.8596, 2.8604, 2.8612, 2.8616, 2.8620, 2.8623 (the earlier 2√(2(c−1)) " +
+            "conjecture was a trajectory crossing at N=7, not an asymptote). Parity-split Aitken on " +
+            "even-N and odd-N subsequences converges to σ_0(c=2, N → ∞) ≈ 2.8628 ± 1e-4 — sharpening " +
+            "the earlier ~2.85..2.89 band by ~50×. Verified γ-independent (bit-exact across γ ∈ {0.01, " +
+            "0.5, 5.0}). Surviving structure: monotone growth within each c; σ_0·√(3/8) bridge to " +
+            "g_eff_E (Δ ≤ 0.01 for N ≥ 6); newly noted even/odd-N parity in the convergence rate " +
+            "(successive Δ's halve in pairs). Closed-form candidates ruled out at 1e-4 precision: " +
+            "2√2 (REJECTED as asymptote, retained as N=7 sweet-spot crossing), √(41/5) ≈ 2.86356, " +
+            "√(8 + π/16) ≈ 2.86292.",
             "OBC sine-mode algebra applied to inter-HD-channel coupling; Bogoliubov / JW free-fermion " +
             "transform may make finite-size corrections transparent. The true asymptote likely involves " +
-            "an OBC band-edge factor. Higher-c sweet-spot N_c* (where σ_0/√(2(c−1)) crosses 2.0) is " +
-            "also unknown; c=3 ratio at N=8 is 1.92, still climbing.",
-            "docs/proofs/PROOF_F86_QPEAK.md Item 5 (open)"),
+            "an OBC band-edge factor. Polynomial-in-1/N fits are unstable (leading coefficient drifts " +
+            "2.85 → 2.91 across degrees 1–5), so simple algebraic-correction ansätze are inadequate " +
+            "and the band-edge integral is the natural next step. Higher-c sweet-spot N_c* (where " +
+            "σ_0/√(2(c−1)) crosses 2.0) remains unknown: c=3 N=11 ratio is 1.973 (still below 2.0); " +
+            "c=4 N=8 ratio is 0.890 (far below). Cross-c ratios are NOT c-independent (1.012, 0.987, " +
+            "0.890 at current max N), so the closed form is structurally per-c, not multiplicative.",
+            "docs/proofs/PROOF_F86_QPEAK.md Item 5 (open); " +
+            "compute/RCPsiSquared.Core.Tests/F86/SigmaZeroAsymptoteReconTests.cs (numerical recon, this session)"),
     };
 }
