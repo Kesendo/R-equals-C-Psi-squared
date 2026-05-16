@@ -65,6 +65,12 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim
 {
     private readonly Pi2DyadicLadderClaim _ladder;
 
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
+    /// grounds F25's <c>CrossingThreshold</c> on the Quarter axis (same anchor
+    /// as F57 + Dicke + F60 fold + F62 fold). Added 2026-05-16 as a typed
+    /// ctor parent.</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
     /// <summary>The "4" decay-rate coefficient in <c>f = e^{−4γt}</c>. Live
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
     /// Same anchor as F76 (e^{−4γ₀t} mirror-pair coherence decay), F61/F63
@@ -127,14 +133,18 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim
         return Math.Abs(cpsi - CrossingThreshold) < 1e-3;   // 4-decimal Bell+ f* tabulated
     }
 
-    public F25CPsiBellPlusPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("F25 CΨ(t) = f(1+f²)/6 inherits from Pi2-Foundation: 4 = a_{-1} decay rate, 2 = a_0 coefficient, 1/4 = a_3 crossing",
+    public F25CPsiBellPlusPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        QuarterAsBilinearMaxvalClaim quarter)
+        : base("F25 CΨ(t) = f(1+f²)/6 inherits from Pi2-Foundation: 4 = a_{-1} decay rate, 2 = a_0 coefficient, 1/4 = a_3 crossing (Quarter)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F25 + " +
                "docs/proofs/PROOF_MONOTONICITY_CPSI.md + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
     public override string DisplayName =>

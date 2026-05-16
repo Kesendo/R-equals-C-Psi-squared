@@ -14,24 +14,26 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         polynomial root d).</item>
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: the bilinear-apex maxval
 ///         anchor identifying 1/4 as max p·(1−p) at p=1/2.</item>
-///   <item><see cref="ArgmaxMaxvalPairClaim"/>: the meta-anchor closing the
+///   <item><see cref="ArgmaxMaxvalPairClaim"/>: typed meta-anchor closing the
 ///         (1/2, 1/4) pair. F57 uses BOTH ends, 1/4 (CrossingThreshold) and
 ///         2 = 1/(1/2) (WindowDoublingFactor); the meta-anchor types this
-///         convergence (activated 2026-05-09 mirror-map check).</item>
-///   <item><see cref="F25CPsiBellPlusPi2Inheritance"/>: registration discard.
+///         convergence (typed 2026-05-16; previously registration-discard).</item>
+///   <item><see cref="F25CPsiBellPlusPi2Inheritance"/>: typed mother claim.
 ///         F57's Bell+ prefactor 1.080088 = 2 / 1.851701 is derived from
 ///         F25's <c>|dCΨ/dt|_{t_cross}</c>. F25 → F57 mother-claim edge
-///         (added 2026-05-09; pattern parallel to F75 → F77).</item>
+///         (typed 2026-05-16; pattern parallel to F75 → F77).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP),
 /// hardware-verified ibm_kingston 2026-04-16. The Pi2-Foundation anchoring is
-/// algebraic-trivial composition. All three claims Tier1Derived (5 ≥ 5).</para>
+/// algebraic-trivial composition. All four claims Tier1Derived (5 ≥ 5).</para>
 ///
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/> +
-/// <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/> in the
-/// builder pipeline. <see cref="QuarterAsBilinearMaxvalClaim"/> is registered
-/// by <see cref="Pi2FamilyRegistration"/>.</para></summary>
+/// <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/> +
+/// <see cref="F25CPsiBellPlusPi2InheritanceRegistration.RegisterF25CPsiBellPlusPi2Inheritance"/>
+/// in the builder pipeline. <see cref="QuarterAsBilinearMaxvalClaim"/> +
+/// <see cref="ArgmaxMaxvalPairClaim"/> are registered by
+/// <see cref="Pi2FamilyRegistration"/>.</para></summary>
 public static class F57DwellTimeQuarterPi2InheritanceRegistration
 {
     public static ClaimRegistryBuilder RegisterF57DwellTimeQuarterPi2Inheritance(
@@ -40,8 +42,8 @@ public static class F57DwellTimeQuarterPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
-            _ = b.Get<ArgmaxMaxvalPairClaim>();              // meta-anchor: F57 uses both 1/2 and 1/4 ends
-            _ = b.Get<F25CPsiBellPlusPi2Inheritance>();      // mother claim: F57 prefactor = 2 / |dCΨ/dt|_{t_cross}
-            return new F57DwellTimeQuarterPi2Inheritance(ladder, quarter);
+            var f25 = b.Get<F25CPsiBellPlusPi2Inheritance>();
+            var argmaxMaxval = b.Get<ArgmaxMaxvalPairClaim>();
+            return new F57DwellTimeQuarterPi2Inheritance(ladder, quarter, f25, argmaxMaxval);
         });
 }

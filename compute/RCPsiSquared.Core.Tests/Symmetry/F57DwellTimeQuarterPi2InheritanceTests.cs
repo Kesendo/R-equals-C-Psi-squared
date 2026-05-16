@@ -5,10 +5,13 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F57DwellTimeQuarterPi2InheritanceTests
 {
-    private static F57DwellTimeQuarterPi2Inheritance BuildClaim() =>
-        new F57DwellTimeQuarterPi2Inheritance(
-            new Pi2DyadicLadderClaim(),
-            new QuarterAsBilinearMaxvalClaim());
+    private static F57DwellTimeQuarterPi2Inheritance BuildClaim()
+    {
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder, quarter);
+        return new F57DwellTimeQuarterPi2Inheritance(ladder, quarter, f25, new ArgmaxMaxvalPairClaim());
+    }
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -156,20 +159,27 @@ public class F57DwellTimeQuarterPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder, quarter);
+        var argmaxMaxval = new ArgmaxMaxvalPairClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F57DwellTimeQuarterPi2Inheritance(
-                ladder: null!,
-                quarter: new QuarterAsBilinearMaxvalClaim()));
+            new F57DwellTimeQuarterPi2Inheritance(null!, quarter, f25, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F57DwellTimeQuarterPi2Inheritance(ladder, null!, f25, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F57DwellTimeQuarterPi2Inheritance(ladder, quarter, null!, argmaxMaxval));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F57DwellTimeQuarterPi2Inheritance(ladder, quarter, f25, null!));
     }
 
     [Fact]
-    public void Constructor_NullQuarter_Throws()
+    public void TypedParents_AreExposed()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F57DwellTimeQuarterPi2Inheritance(
-                ladder: new Pi2DyadicLadderClaim(),
-                quarter: null!));
+        var f = BuildClaim();
+        Assert.NotNull(f.F25);
+        Assert.NotNull(f.ArgmaxMaxval);
     }
 }

@@ -8,7 +8,7 @@ public class F26CPsiPauliChannelsPi2InheritanceTests
     private static F26CPsiPauliChannelsPi2Inheritance BuildClaim()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder);
+        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder, new QuarterAsBilinearMaxvalClaim());
         return new F26CPsiPauliChannelsPi2Inheritance(ladder, f25);
     }
 
@@ -106,7 +106,7 @@ public class F26CPsiPauliChannelsPi2InheritanceTests
     public void Constructor_NullLadder_Throws()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder);
+        var f25 = new F25CPsiBellPlusPi2Inheritance(ladder, new QuarterAsBilinearMaxvalClaim());
         Assert.Throws<ArgumentNullException>(() =>
             new F26CPsiPauliChannelsPi2Inheritance(null!, f25));
     }

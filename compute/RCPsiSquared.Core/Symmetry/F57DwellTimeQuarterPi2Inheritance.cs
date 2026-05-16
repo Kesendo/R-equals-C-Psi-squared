@@ -62,6 +62,20 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim
     private readonly Pi2DyadicLadderClaim _ladder;
     private readonly QuarterAsBilinearMaxvalClaim _quarter;
 
+    /// <summary>F25 Bell+ CΨ closed form — the typed mother claim. F57's
+    /// Bell+ prefactor <c>1.080088 = 2 / 1.851701</c> derives directly from
+    /// F25's <c>|dCΨ/dt|_{t_cross}</c>. Added 2026-05-16 as a typed ctor
+    /// parent (previously registration-discard only); the F25 → F57
+    /// mother-claim edge now participates in the ancestor graph (pattern
+    /// parallel to F75 → F77).</summary>
+    public F25CPsiBellPlusPi2Inheritance F25 { get; }
+
+    /// <summary>(1/2, 1/4) argmax/maxval pair — the typed meta-anchor closing
+    /// that F57 uses BOTH the 1/4 boundary (CrossingThreshold) and the 2 =
+    /// 1/(1/2) doubling factor (WindowDoublingFactor). Added 2026-05-16 as a
+    /// typed ctor parent (previously registration-discard only).</summary>
+    public ArgmaxMaxvalPairClaim ArgmaxMaxval { get; }
+
     /// <summary>The CΨ crossing threshold itself: <c>1/4</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(3) = <c>a_3</c> = the bilinear-apex
     /// maxval anchor (<see cref="QuarterAsBilinearMaxvalClaim"/>).</summary>
@@ -129,18 +143,24 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim
 
     public F57DwellTimeQuarterPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
-        QuarterAsBilinearMaxvalClaim quarter)
-        : base("F57 t_dwell = 2δ/|dCΨ/dt| at CΨ=1/4 inherits from Pi2-Foundation: 1/4 = a_3 (Quarter), 2 = a_0 (root d)",
+        QuarterAsBilinearMaxvalClaim quarter,
+        F25CPsiBellPlusPi2Inheritance f25,
+        ArgmaxMaxvalPairClaim argmaxMaxval)
+        : base("F57 t_dwell = 2δ/|dCΨ/dt| at CΨ=1/4 inherits from Pi2-Foundation: 1/4 = a_3 (Quarter), 2 = a_0 (root d), mother claim F25",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F57 + " +
                "experiments/CRITICAL_SLOWING_AT_THE_CUSP.md (Section 6) + " +
                "experiments/CPSI_COMPLEX_PLANE.md + " +
                "data/ibm_cusp_slowing_april2026/ (hardware run, ibm_kingston Heron r2) + " +
                "compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs (mother claim, typed) + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (ArgmaxMaxvalPair)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        F25 = f25 ?? throw new ArgumentNullException(nameof(f25));
+        ArgmaxMaxval = argmaxMaxval ?? throw new ArgumentNullException(nameof(argmaxMaxval));
     }
 
     public override string DisplayName =>

@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F25CPsiBellPlusPi2InheritanceTests
 {
     private static F25CPsiBellPlusPi2Inheritance BuildClaim() =>
-        new F25CPsiBellPlusPi2Inheritance(new Pi2DyadicLadderClaim());
+        new F25CPsiBellPlusPi2Inheritance(new Pi2DyadicLadderClaim(), new QuarterAsBilinearMaxvalClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -112,8 +112,18 @@ public class F25CPsiBellPlusPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
-        Assert.Throws<ArgumentNullException>(() => new F25CPsiBellPlusPi2Inheritance(null!));
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        Assert.Throws<ArgumentNullException>(() => new F25CPsiBellPlusPi2Inheritance(null!, quarter));
+        Assert.Throws<ArgumentNullException>(() => new F25CPsiBellPlusPi2Inheritance(ladder, null!));
+    }
+
+    [Fact]
+    public void TypedParents_AreExposed()
+    {
+        var f = BuildClaim();
+        Assert.NotNull(f.Quarter);
     }
 }
