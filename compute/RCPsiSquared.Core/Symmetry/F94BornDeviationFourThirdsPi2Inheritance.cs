@@ -84,25 +84,36 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     /// <summary>The setup this claim applies to (specific to F94 numerical value 4/3).</summary>
     public const int N = 4;
 
-    /// <summary>The "4" in the coefficient 4/3 — exactly <c>a_{−1} = 4</c> on the dyadic
-    /// ladder, the same "4" in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator.</summary>
-    public double FourFactor => _ladder.Term(-1);
-
     /// <summary>The "3" denominator in 4/3 — surviving rational after the Dyson sym3
     /// element 8 is divided by the Taylor 3! = 6 prefactor: 8/6 = 4/3.</summary>
-    public int ThreeDenominator => 3;
-
-    /// <summary>The full coefficient: <c>4/3 = a_{−1}/3</c>. Bit-exact.</summary>
-    public double Coefficient => FourFactor / ThreeDenominator;
+    public const int ThreeDenominator = 3;
 
     /// <summary>The Dyson sym3 partial-trace integer: <b>8 bit-exact</b>. The
     /// structural sum from 4 bonds × 4 sites × 3 orderings collapsing under
     /// partial-trace + initial-state projection. Open structural decomposition
-    /// (combinatorial breakdown by hand): see PROOF_F94 §"Universality remarks".</summary>
-    public int Sym3PartialTraceInteger => 8;
+    /// (combinatorial breakdown by hand): see <see cref="Pi2OpenQuestions"/>.</summary>
+    public const int Sym3PartialTraceInteger = 8;
 
     /// <summary>The Taylor 3! prefactor in the t³ term of e^{Lt}: 6 = 3·2·1.</summary>
-    public int TaylorThreeFactorial => 6;
+    public const int TaylorThreeFactorial = 6;
+
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval, mirror partner of <see cref="FourFactor"/>
+    /// via the dyadic-ladder inversion identity <c>a_{−1} · a_3 = 4 · (1/4) = 1</c>.
+    /// Typed ctor parent for consistency with F86TPeakPi2Inheritance (same Wave-6b
+    /// pattern: any claim using a_{−1} = 4 takes Quarter as mirror-partner anchor).</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    /// <summary>The "4" in the coefficient 4/3 — exactly <c>a_{−1} = 4</c> on the dyadic
+    /// ladder, the same "4" in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator.</summary>
+    public double FourFactor => _ladder.Term(-1);
+
+    /// <summary>Mirror partner on the memory side of the ladder:
+    /// <c>1/4 = a_3</c>. Equivalent reading via the inversion symmetry
+    /// <c>a_n · a_{2−n} = 1</c>: <c>FourFactor · OneOverFourFactor = 1</c> bit-exact.</summary>
+    public double OneOverFourFactor => _ladder.Term(3);
+
+    /// <summary>The full coefficient: <c>4/3 = a_{−1}/3</c>. Bit-exact.</summary>
+    public double Coefficient => FourFactor / ThreeDenominator;
 
     /// <summary>Compute <c>Δ_|00⟩(Q, K) = (4/3)·Q²·K³</c> for the leading-order
     /// Born deviation. Valid in the deep perturbative regime <c>Q² · K³ ≪ 1</c>;
@@ -140,8 +151,16 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
         return Math.Abs(fromLadder - fromSym3) < 1e-15;
     }
 
-    public F94BornDeviationFourThirdsPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("F94 dominant-outcome Born deviation Δ_|00⟩ = (4/3) Q² K³ for |0+0+⟩ N=4 Heisenberg + Z-deph, pair (0,2); derived from Dyson sym3 = 8 bit-exact",
+    /// <summary>Mirror-partner identity drift check: <c>FourFactor · OneOverFourFactor</c>
+    /// should equal 1 bit-exactly via the dyadic-ladder inversion symmetry
+    /// <c>a_n · a_{2−n} = 1</c>. Live via <see cref="Pi2DyadicLadderClaim.ProductWithMirrorPartner"/>.</summary>
+    public bool MirrorPartnerProductIsOne() =>
+        Math.Abs(_ladder.ProductWithMirrorPartner(-1) - 1.0) < 1e-15;
+
+    public F94BornDeviationFourThirdsPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        QuarterAsBilinearMaxvalClaim quarter)
+        : base("F94 dominant-outcome Born deviation Δ_|00⟩ = (4/3) Q² K³ for |0+0+⟩ N=4 Heisenberg + Z-deph, pair (0,2); derived from Dyson sym3 = 8 bit-exact; 4 = a_{−1} with mirror partner Quarter = a_3",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md + " +
                "docs/ANALYTICAL_FORMULAS.md F94 + " +
@@ -151,9 +170,11 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
                "reflections/ON_HOW_FOUR_THIRDS_APPEARED.md + " +
                "experiments/BORN_RULE_MIRROR.md + " +
                "experiments/BORN_RULE_SHADOW.md + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (a_{-1} = 4 anchor)")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (a_{-1} = 4) + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval = mirror partner)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
     public override string DisplayName =>
@@ -168,29 +189,18 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     {
         get
         {
-            yield return new InspectableNode("F94 closed form",
-                summary: "Δ_|00⟩(Q, K) = (4/3) Q² K³ + O(Q³K⁴); Tier 1 derived 2026-05-16; bit-exact Dyson sym3 = 8");
-            yield return new InspectableNode("Setup (specific)",
-                summary: "|0+0+⟩ initial state, N=4 Heisenberg ring, uniform Z-dephasing, pair (0,2) reduction, |00⟩ outcome");
             yield return InspectableNode.RealScalar("Coefficient (= 4/3)", Coefficient);
-            yield return InspectableNode.RealScalar("FourFactor (= a_{-1} from ladder)", FourFactor);
-            yield return InspectableNode.RealScalar("ThreeDenominator", ThreeDenominator);
-            yield return InspectableNode.RealScalar("Sym3PartialTraceInteger (bit-exact)", Sym3PartialTraceInteger);
+            yield return InspectableNode.RealScalar("FourFactor (= a_{-1})", FourFactor);
+            yield return InspectableNode.RealScalar("OneOverFourFactor (= a_3, mirror partner)", OneOverFourFactor);
+            yield return InspectableNode.RealScalar("Sym3PartialTraceInteger", Sym3PartialTraceInteger);
             yield return InspectableNode.RealScalar("TaylorThreeFactorial (3!)", TaylorThreeFactorial);
-            yield return new InspectableNode("Drift check",
-                summary: $"Coefficient agrees with Sym3/3!: {CoefficientAgreesWithSym3()}");
+            yield return new InspectableNode("Drift checks",
+                summary: $"CoefficientAgreesWithSym3: {CoefficientAgreesWithSym3()}; MirrorPartnerProductIsOne: {MirrorPartnerProductIsOne()}");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "The '4' in 4/3 is a_{-1} = 4 on the dyadic ladder (same as F86 t_peak denominator, F77 correction denominator). The '3' is the surviving denominator after Dyson sym3 (= 8) is reduced by the Taylor 3! prefactor.");
-            yield return new InspectableNode("Universal Carrier signature",
-                summary: "Δ_i is Q-K-invariant: no separate γ-dependence at fixed (Q, K). Verified bit-exact across 4 (γ, J) configurations. This is the operational Carrier signature at the per-outcome Born-rule level.");
-            yield return new InspectableNode("Born-rule generalization context",
-                summary: "Generalizes BORN_RULE_MIRROR R_i = C_i · Ψ_i² (Feb 2026, Tier 2/3) to a specific Tier-1 closed-form C_i: C_|00⟩ = 1 + (4/3) Q² K³. First Tier-1 anchor in the per-outcome Born-deviation family.");
-            yield return new InspectableNode("Sibling F-claims (per-state Tier-1)",
-                summary: "F25 (Bell+ CΨ closed form), F60 (GHZ pair-CΨ = 1/(2^N - 1)), F62 (W-state pair-CΨ). All Tier-1, all state-specific closed forms; F94 is their per-outcome-Born-deviation analog.");
-            yield return new InspectableNode("Open structural decomposition",
-                summary: "Combinatorial breakdown of '8' in typed Pi2 anchors (bonds × sites × orderings × Pauli-content) is open. Hand calculation tractable; would close the inheritance further.");
+                summary: "'4' = a_{-1} on dyadic ladder; mirror partner 1/4 = a_3 via inversion a_n·a_{2-n} = 1; '3' is the surviving denominator after Dyson sym3 (= 8) reduced by Taylor 3! prefactor.");
+            double sampleQ = 20.0, sampleK = 0.0143;
             yield return new InspectableNode("Sample evaluation",
-                summary: $"Δ_|00⟩(Q=20, K=0.0143) = {DeltaDominant(20.0, 0.0143):G6} = {DeltaDominant(20.0, 0.0143)*100:F4}% (matches Carrier-sweep verification point)");
+                summary: $"Δ_|00⟩(Q={sampleQ}, K={sampleK}) = {DeltaDominant(sampleQ, sampleK):G6} (matches Carrier-sweep verification point)");
         }
     }
 }

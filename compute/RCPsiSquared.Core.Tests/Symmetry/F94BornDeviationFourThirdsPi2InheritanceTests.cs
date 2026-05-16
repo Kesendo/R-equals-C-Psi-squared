@@ -6,7 +6,9 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F94BornDeviationFourThirdsPi2InheritanceTests
 {
     private static F94BornDeviationFourThirdsPi2Inheritance BuildClaim() =>
-        new F94BornDeviationFourThirdsPi2Inheritance(new Pi2DyadicLadderClaim());
+        new F94BornDeviationFourThirdsPi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new QuarterAsBilinearMaxvalClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -33,7 +35,7 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     [Fact]
     public void ThreeDenominator_IsExactlyThree()
     {
-        Assert.Equal(3, BuildClaim().ThreeDenominator);
+        Assert.Equal(3, F94BornDeviationFourThirdsPi2Inheritance.ThreeDenominator);
     }
 
     [Fact]
@@ -43,13 +45,13 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
         // ρ_0 = |0+0+⟩⟨0+0+| at N=4, partial-traced to pair (0, 2), |00⟩
         // diagonal element = 8 BIT-EXACT (computed in
         // simulations/_born_rule_tier1_derivation.py).
-        Assert.Equal(8, BuildClaim().Sym3PartialTraceInteger);
+        Assert.Equal(8, F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger);
     }
 
     [Fact]
     public void TaylorThreeFactorial_IsSix()
     {
-        Assert.Equal(6, BuildClaim().TaylorThreeFactorial);
+        Assert.Equal(6, F94BornDeviationFourThirdsPi2Inheritance.TaylorThreeFactorial);
     }
 
     [Fact]
@@ -128,10 +130,37 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F94BornDeviationFourThirdsPi2Inheritance(null!));
+            new F94BornDeviationFourThirdsPi2Inheritance(null!, quarter));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F94BornDeviationFourThirdsPi2Inheritance(ladder, null!));
+    }
+
+    [Fact]
+    public void OneOverFourFactor_IsExactlyQuarter_FromLadderTermThree()
+    {
+        // Mirror partner via inversion identity a_{-1} · a_3 = 4 · (1/4) = 1.
+        Assert.Equal(0.25, BuildClaim().OneOverFourFactor, precision: 14);
+    }
+
+    [Fact]
+    public void MirrorPartnerProductIsOne_HoldsBitExact()
+    {
+        // Drift check on the dyadic-ladder inversion identity:
+        // FourFactor · OneOverFourFactor = a_{-1} · a_3 = 1.
+        var f = BuildClaim();
+        Assert.True(f.MirrorPartnerProductIsOne());
+        Assert.Equal(1.0, f.FourFactor * f.OneOverFourFactor, precision: 14);
+    }
+
+    [Fact]
+    public void Quarter_TypedParent_IsExposed()
+    {
+        Assert.NotNull(BuildClaim().Quarter);
     }
 
     [Fact]
