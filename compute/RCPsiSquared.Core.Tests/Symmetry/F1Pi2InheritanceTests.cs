@@ -7,7 +7,10 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F1Pi2InheritanceTests
 {
     private static F1Pi2Inheritance Build() =>
-        new F1Pi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2I4MemoryLoopClaim());
+        new F1Pi2Inheritance(
+            new RCPsiSquared.Core.F1.F1PalindromeIdentity(),
+            new Pi2DyadicLadderClaim(),
+            new Pi2I4MemoryLoopClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -34,17 +37,23 @@ public class F1Pi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_RejectsNullLadder()
+    public void Constructor_RejectsNullParents()
     {
+        var f1 = new RCPsiSquared.Core.F1.F1PalindromeIdentity();
+        var ladder = new Pi2DyadicLadderClaim();
+        var loop = new Pi2I4MemoryLoopClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F1Pi2Inheritance(null!, new Pi2I4MemoryLoopClaim()));
+            new F1Pi2Inheritance(null!, ladder, loop));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F1Pi2Inheritance(f1, null!, loop));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F1Pi2Inheritance(f1, ladder, null!));
     }
 
     [Fact]
-    public void Constructor_RejectsNullMemoryLoop()
+    public void TypedParents_F1IsExposed()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F1Pi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+        Assert.NotNull(Build().F1);
     }
 
     [Fact]

@@ -9,7 +9,7 @@ public class F79TwoBodyPi2BlockPi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         var klein = new KleinFourCellClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         return new F79TwoBodyPi2BlockPi2Inheritance(klein, mirror, f1);
@@ -121,7 +121,7 @@ public class F79TwoBodyPi2BlockPi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         Assert.Throws<ArgumentNullException>(() =>
             new F79TwoBodyPi2BlockPi2Inheritance(null!, mirror, f1));
@@ -132,7 +132,7 @@ public class F79TwoBodyPi2BlockPi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         var klein = new KleinFourCellClaim();
         Assert.Throws<ArgumentNullException>(() =>
             new F79TwoBodyPi2BlockPi2Inheritance(klein, null!, f1));

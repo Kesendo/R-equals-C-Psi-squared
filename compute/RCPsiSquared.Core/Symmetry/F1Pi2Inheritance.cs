@@ -39,6 +39,17 @@ public sealed class F1Pi2Inheritance : Claim
     private readonly Pi2DyadicLadderClaim _ladder;
     private readonly Pi2I4MemoryLoopClaim _memoryLoop;
 
+    /// <summary>F1 master palindrome identity — the typed parent. This claim's
+    /// entire purpose is to lift F1's "2" coefficient and "−1" sign flip into the
+    /// Pi2-Foundation lineage; before 2026-05-16 the F1PalindromeIdentity was
+    /// referenced only by file-path string in the anchor field (a "ghost
+    /// inheritance"). Added 2026-05-16 (Wave 6a) as a typed ctor parent — this
+    /// is the single highest-leverage closure in the inheritance map sweep
+    /// because F41, F43, F44, F68, F78, F79 all take <see cref="F1Pi2Inheritance"/>
+    /// as a typed parent; promoting F1 here brings them all into the F1
+    /// PalindromeIdentity lineage transitively without per-class ctor changes.</summary>
+    public F1.F1PalindromeIdentity F1 { get; }
+
     /// <summary>The "2" coefficient in F1's "−L − 2Σγ·I" closed form. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d (qubit dimension).</summary>
     public double TwoFactor => _ladder.Term(0);
@@ -48,14 +59,18 @@ public sealed class F1Pi2Inheritance : Claim
     /// Live computation through <see cref="Pi2I4MemoryLoopClaim.PowerOfI"/>(2).</summary>
     public Complex SignFlipFromZ4 => _memoryLoop.PowerOfI(2);
 
-    public F1Pi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2I4MemoryLoopClaim memoryLoop)
-        : base("F1 palindrome's 2 coefficient inherits from Pi2-Foundation (2 = a_0); sign flip = Z₄ i²",
+    public F1Pi2Inheritance(
+        F1.F1PalindromeIdentity f1,
+        Pi2DyadicLadderClaim ladder,
+        Pi2I4MemoryLoopClaim memoryLoop)
+        : base("F1 palindrome's 2 coefficient inherits from Pi2-Foundation (2 = a_0); sign flip = Z₄ i²; master identity = F1PalindromeIdentity",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F1 + docs/proofs/MIRROR_SYMMETRY_PROOF.md + " +
-               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs + " +
+               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (typed master parent) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
     }

@@ -10,7 +10,7 @@ public class F78SingleBodyMAdditivePi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         return new F78SingleBodyMAdditivePi2Inheritance(ladder, loop, f1);
     }
 
@@ -103,7 +103,7 @@ public class F78SingleBodyMAdditivePi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         Assert.Throws<ArgumentNullException>(() =>
             new F78SingleBodyMAdditivePi2Inheritance(null!, loop, f1));
     }
@@ -113,7 +113,7 @@ public class F78SingleBodyMAdditivePi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var loop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, loop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, loop);
         Assert.Throws<ArgumentNullException>(() =>
             new F78SingleBodyMAdditivePi2Inheritance(ladder, null!, f1));
     }

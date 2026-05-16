@@ -30,9 +30,9 @@ public static class F1Pi2InheritanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<F1Pi2Inheritance>(b =>
         {
-            _ = b.Get<F1PalindromeIdentity>();              // the F1 closed form
-            var ladder = b.Get<Pi2DyadicLadderClaim>();     // provides a_0
-            var memoryLoop = b.Get<Pi2I4MemoryLoopClaim>(); // Z₄ closure of Π
-            return new F1Pi2Inheritance(ladder, memoryLoop);
+            var f1 = b.Get<F1PalindromeIdentity>();
+            var ladder = b.Get<Pi2DyadicLadderClaim>();
+            var memoryLoop = b.Get<Pi2I4MemoryLoopClaim>();
+            return new F1Pi2Inheritance(f1, ladder, memoryLoop);
         });
 }

@@ -9,7 +9,7 @@ public class F41PalindromicTimePi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, memoryLoop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, memoryLoop);
         return new F41PalindromicTimePi2Inheritance(ladder, f1);
     }
 
@@ -127,7 +127,7 @@ public class F41PalindromicTimePi2InheritanceTests
     {
         var ladder = new Pi2DyadicLadderClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f1 = new F1Pi2Inheritance(ladder, memoryLoop);
+        var f1 = new F1Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, memoryLoop);
         Assert.Throws<ArgumentNullException>(() =>
             new F41PalindromicTimePi2Inheritance(null!, f1));
     }
