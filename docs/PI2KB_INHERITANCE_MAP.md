@@ -102,7 +102,7 @@ Each line is an edge that EXISTS in narrative form (docstring, proof, reflection
 | ~~**K chiral / sublattice (BDI class)**~~ | ~~`ChiralK.cs`, memory `project_chiral_partnership`~~ | **CLOSED 2026-05-16:** `ChiralKClaim` typed as a sibling root (see Tier-1 roots list above) |
 | **F86, F57, F64 as siblings of 1/4** | `docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md`, `docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md` | Each F-claim attaches independently to the ladder; no typed "1/4-sibling" edge |
 | ~~**"Two readings" anchor**~~ | ~~`reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`, `reflections/ON_THE_HALF.md`~~ | **CLOSED 2026-05-16:** `TwoReadingsClaim` typed as Tier1Derived child of `PolynomialFoundationClaim`; enumerates seven layers of the pattern (number/angle, argmax/maxval, M/Π·M·Π⁻¹, bra/ket, inside/outside, classical/quantum, inter-sectoral) |
-| **F1 → F71 spatial → F81 chain** | `docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md` | Each leaf attaches directly to `Pi2DyadicLadderClaim`; F-to-F lineage is narrative only |
+| ~~**F1 → F81 / F80 chain**~~ (F71 not in this chain after closer reading) | ~~`docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md`~~ | **PARTIALLY CLOSED 2026-05-16:** F80 + F81 now take `F1PalindromeIdentity` as a typed ctor parent (their Π and M derive from F1's master statement). F82 + F84 inherit F1 transitively through F81. Remaining F-leaves that use sine modes / specific dynamics (F75, F76, F33, F65) do not directly use Π and so do not get F1 as a typed parent. |
 
 ---
 

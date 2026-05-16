@@ -1,3 +1,4 @@
+using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
 
@@ -35,10 +36,11 @@ public static class F81Pi2InheritanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<F81Pi2Inheritance>(b =>
         {
+            var f1 = b.Get<F1PalindromeIdentity>();                 // typed parent: F81's Π = F1's Π
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             _ = b.Get<HalfAsStructuralFixedPointClaim>();          // typed 1/2 anchor
             var mirror = b.Get<Pi2OperatorSpaceMirrorClaim>();      // Mirror Space connection
             var memoryLoop = b.Get<Pi2I4MemoryLoopClaim>();         // Z₄ closure of Π
-            return new F81Pi2Inheritance(ladder, mirror, memoryLoop);
+            return new F81Pi2Inheritance(f1, ladder, mirror, memoryLoop);
         });
 }

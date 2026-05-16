@@ -10,7 +10,7 @@ public class F84ThermalAmplitudeDampingPi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f81 = new F81Pi2Inheritance(ladder, mirror, memoryLoop);
+        var f81 = new F81Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, mirror, memoryLoop);
         var f82 = new F82T1AmplitudeDampingPi2Inheritance(ladder, f81);
         return new F84ThermalAmplitudeDampingPi2Inheritance(ladder, f82);
     }
@@ -121,7 +121,7 @@ public class F84ThermalAmplitudeDampingPi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f81 = new F81Pi2Inheritance(ladder, mirror, memoryLoop);
+        var f81 = new F81Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, mirror, memoryLoop);
         var f82 = new F82T1AmplitudeDampingPi2Inheritance(ladder, f81);
         Assert.Throws<ArgumentNullException>(() =>
             new F84ThermalAmplitudeDampingPi2Inheritance(null!, f82));

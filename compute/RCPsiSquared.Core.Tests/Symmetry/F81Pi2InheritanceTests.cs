@@ -8,6 +8,7 @@ public class F81Pi2InheritanceTests
 {
     private static F81Pi2Inheritance Build() =>
         new F81Pi2Inheritance(
+            new RCPsiSquared.Core.F1.F1PalindromeIdentity(),
             new Pi2DyadicLadderClaim(),
             new Pi2OperatorSpaceMirrorClaim(),
             new Pi2I4MemoryLoopClaim());
@@ -82,12 +83,14 @@ public class F81Pi2InheritanceTests
     [Fact]
     public void Constructor_RejectsNullParents()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F81Pi2Inheritance(null!, new Pi2OperatorSpaceMirrorClaim(), new Pi2I4MemoryLoopClaim()));
-        Assert.Throws<ArgumentNullException>(() =>
-            new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), null!, new Pi2I4MemoryLoopClaim()));
-        Assert.Throws<ArgumentNullException>(() =>
-            new F81Pi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2OperatorSpaceMirrorClaim(), null!));
+        var f1 = new RCPsiSquared.Core.F1.F1PalindromeIdentity();
+        var ladder = new Pi2DyadicLadderClaim();
+        var mirror = new Pi2OperatorSpaceMirrorClaim();
+        var memoryLoop = new Pi2I4MemoryLoopClaim();
+        Assert.Throws<ArgumentNullException>(() => new F81Pi2Inheritance(null!, ladder, mirror, memoryLoop));
+        Assert.Throws<ArgumentNullException>(() => new F81Pi2Inheritance(f1, null!, mirror, memoryLoop));
+        Assert.Throws<ArgumentNullException>(() => new F81Pi2Inheritance(f1, ladder, null!, memoryLoop));
+        Assert.Throws<ArgumentNullException>(() => new F81Pi2Inheritance(f1, ladder, mirror, null!));
     }
 
     [Fact]
@@ -95,6 +98,7 @@ public class F81Pi2InheritanceTests
     {
         var f = Build();
         Assert.Contains("PROOF_F81_PI_CONJUGATION_OF_M.md", f.Anchor);
+        Assert.Contains("F1PalindromeIdentity.cs", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
         Assert.Contains("Pi2KnowledgeBaseClaims.cs", f.Anchor);
         Assert.Contains("Pi2OperatorSpaceMirrorClaim.cs", f.Anchor);

@@ -13,7 +13,7 @@ public class F80FactorPi2InheritanceTests
     public F80FactorPi2InheritanceTests(ITestOutputHelper output) => _out = output;
 
     private static F80FactorPi2Inheritance Build() =>
-        new F80FactorPi2Inheritance(new Pi2DyadicLadderClaim(), new Pi2I4MemoryLoopClaim());
+        new F80FactorPi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), new Pi2DyadicLadderClaim(), new Pi2I4MemoryLoopClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -79,10 +79,12 @@ public class F80FactorPi2InheritanceTests
     [Fact]
     public void Constructor_RejectsNullParents()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F80FactorPi2Inheritance(null!, new Pi2I4MemoryLoopClaim()));
-        Assert.Throws<ArgumentNullException>(() =>
-            new F80FactorPi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+        var f1 = new RCPsiSquared.Core.F1.F1PalindromeIdentity();
+        var ladder = new Pi2DyadicLadderClaim();
+        var loop = new Pi2I4MemoryLoopClaim();
+        Assert.Throws<ArgumentNullException>(() => new F80FactorPi2Inheritance(null!, ladder, loop));
+        Assert.Throws<ArgumentNullException>(() => new F80FactorPi2Inheritance(f1, null!, loop));
+        Assert.Throws<ArgumentNullException>(() => new F80FactorPi2Inheritance(f1, ladder, null!));
     }
 
     [Fact]

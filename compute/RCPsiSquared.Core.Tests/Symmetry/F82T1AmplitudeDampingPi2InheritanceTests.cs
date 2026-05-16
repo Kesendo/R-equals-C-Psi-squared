@@ -10,7 +10,7 @@ public class F82T1AmplitudeDampingPi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f81 = new F81Pi2Inheritance(ladder, mirror, memoryLoop);
+        var f81 = new F81Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, mirror, memoryLoop);
         return new F82T1AmplitudeDampingPi2Inheritance(ladder, f81);
     }
 
@@ -134,7 +134,7 @@ public class F82T1AmplitudeDampingPi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f81 = new F81Pi2Inheritance(ladder, mirror, memoryLoop);
+        var f81 = new F81Pi2Inheritance(new RCPsiSquared.Core.F1.F1PalindromeIdentity(), ladder, mirror, memoryLoop);
         Assert.Throws<ArgumentNullException>(() =>
             new F82T1AmplitudeDampingPi2Inheritance(null!, f81));
     }

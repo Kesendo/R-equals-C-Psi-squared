@@ -84,12 +84,20 @@ public sealed class F81Pi2Inheritance : Claim
         return pair.OperatorSpace;
     }
 
+    /// <summary>F1 palindrome identity (Π·L·Π⁻¹ = −L − 2Σγ·I) — the typed parent whose Π
+    /// is the same operator that conjugates M here. F81 = "Π acts on M" mirrors F1 = "Π
+    /// acts on L"; the master Π definition lives in F1. Added 2026-05-16 to close the
+    /// F1 → F81 prose-only edge identified in docs/PI2KB_INHERITANCE_MAP.md.</summary>
+    public F1.F1PalindromeIdentity F1 { get; }
+
     public F81Pi2Inheritance(
+        F1.F1PalindromeIdentity f1,
         Pi2DyadicLadderClaim ladder,
         Pi2OperatorSpaceMirrorClaim mirror,
         Pi2I4MemoryLoopClaim memoryLoop)
-        : base("F81 Π-conjugation coefficients (2 and 1/2) inherit from Pi2-Foundation; M lives in operator-space; Π is Z₄ generator",
+        : base("F81 Π-conjugation coefficients (2 and 1/2) inherit from Pi2-Foundation; M lives in operator-space; Π is Z₄ generator; the Π of Π·M·Π⁻¹ is the same Π of F1's palindrome identity",
                Tier.Tier1Derived,
+               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (typed parent: F1's Π = F81's Π) + " +
                "docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md + " +
                "docs/ANALYTICAL_FORMULAS.md F81 + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
@@ -97,6 +105,7 @@ public sealed class F81Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
         _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));

@@ -56,13 +56,20 @@ public sealed class F80FactorPi2Inheritance : Claim
     /// <summary>The "−2i" half: (0, −2). Live composition.</summary>
     public Complex MinusTwoIFactor => new Complex(TwoFactor, 0) * MinusIFactor;
 
-    public F80FactorPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2I4MemoryLoopClaim loop)
-        : base("F80's ±2i factor inherits from Pi2-Foundation (2 = a_0, i = i^1)",
+    /// <summary>F1 palindrome identity — the typed parent. F80's <c>Spec(M) = ±2i · Spec(H_non-truly)</c>
+    /// works on M (the F1 residual operator), so F1's Π and the residual M live upstream.
+    /// Added 2026-05-16 to make the F1 → F80 lineage typed (previously prose-only).</summary>
+    public F1.F1PalindromeIdentity F1 { get; }
+
+    public F80FactorPi2Inheritance(F1.F1PalindromeIdentity f1, Pi2DyadicLadderClaim ladder, Pi2I4MemoryLoopClaim loop)
+        : base("F80's ±2i factor inherits from Pi2-Foundation (2 = a_0, i = i^1); M is F1's residual operator",
                Tier.Tier1Derived,
+               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (typed parent: F80's M is F1's residual) + " +
                "docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md + docs/ANALYTICAL_FORMULAS.md F80 + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _loop = loop ?? throw new ArgumentNullException(nameof(loop));
     }

@@ -27,8 +27,9 @@ public static class F80FactorPi2InheritanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<F80FactorPi2Inheritance>(b =>
         {
+            var f1 = b.Get<RCPsiSquared.Core.F1.F1PalindromeIdentity>();   // typed parent: F80's M is F1's residual
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var loop = b.Get<Pi2I4MemoryLoopClaim>();
-            return new F80FactorPi2Inheritance(ladder, loop);
+            return new F80FactorPi2Inheritance(f1, ladder, loop);
         });
 }
