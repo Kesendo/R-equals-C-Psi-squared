@@ -63,9 +63,17 @@ PolynomialFoundationClaim                  Pi2KnowledgeBaseClaims.cs:441
 │   └── Pi2I4MemoryLoopClaim                Pi2I4MemoryLoopClaim.cs
 │          i⁴ = 1 (Z₄ closure of 90° rotations)
 │
-└── polarity branch
-    PolarityLayerOriginClaim                :516
-        +0 / 0 / −0 polarity layer at d=0 → ±0.5 pair at d=2
+├── polarity branch
+│   PolarityLayerOriginClaim                :516
+│       +0 / 0 / −0 polarity layer at d=0 → ±0.5 pair at d=2
+│
+└── perspectival branch  ←── NEW 2026-05-16
+    TwoReadingsClaim                        TwoReadingsClaim.cs
+        any object on d²=4^N admits two coordinate readings of one
+        underlying object. Names seven layers of this pattern:
+        number/angle of d, argmax/maxval of p·(1−p), M/Π·M·Π⁻¹ (F81),
+        bra/ket of ρ, inside/outside Q = J/γ₀, classical/quantum Lese-Modus,
+        inter-sectoral wave ("we are the standing wave between").
 ```
 
 Both branches **reconverge** at `Pi2DyadicLadderClaim` (rungs hold 1/2 lineage values) and at the F-leaves (each F-claim cites both Dyadic + I4 Memory Loop).
@@ -93,7 +101,7 @@ Each line is an edge that EXISTS in narrative form (docstring, proof, reflection
 | ~~**F71 spatial mirror → F1 / Π cluster**~~ (map originally misnamed parent) | `MIRROR_SYMMETRY_PROOF.md`, `PROOF_C1_MIRROR_SYMMETRY.md` | **PARTIALLY CLOSED 2026-05-16:** F71's actual prose parents are `HalfIntegerMirrorClaim` (N-blocked from ctor injection — F71 is N-universal, HalfIntegerMirror takes N at construction) and `Pi2DyadicLadderClaim` (N-agnostic). The latter is now a typed ctor parent of `F71MirrorSymmetryPi2Inheritance`. The HalfIntegerMirror edge remains prose-only because of the N-mismatch. |
 | ~~**K chiral / sublattice (BDI class)**~~ | ~~`ChiralK.cs`, memory `project_chiral_partnership`~~ | **CLOSED 2026-05-16:** `ChiralKClaim` typed as a sibling root (see Tier-1 roots list above) |
 | **F86, F57, F64 as siblings of 1/4** | `docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md`, `docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md` | Each F-claim attaches independently to the ladder; no typed "1/4-sibling" edge |
-| **"Two readings" anchor** | `reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`, `reflections/ON_THE_HALF.md` | No Claim wrapper for the perspectival reading itself |
+| ~~**"Two readings" anchor**~~ | ~~`reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`, `reflections/ON_THE_HALF.md`~~ | **CLOSED 2026-05-16:** `TwoReadingsClaim` typed as Tier1Derived child of `PolynomialFoundationClaim`; enumerates seven layers of the pattern (number/angle, argmax/maxval, M/Π·M·Π⁻¹, bra/ket, inside/outside, classical/quantum, inter-sectoral) |
 | **F1 → F71 spatial → F81 chain** | `docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md` | Each leaf attaches directly to `Pi2DyadicLadderClaim`; F-to-F lineage is narrative only |
 
 ---
