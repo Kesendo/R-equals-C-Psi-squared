@@ -103,22 +103,27 @@ public class LiouvillianSectorSweepTests
             LiouvillianSectorSweep.Build(N: 5, wrongGamma, sectorDimCap: 100));
     }
 
-    [Fact]
-    public void Build_AtN10_PartialCoverage_F1PalindromeHolds()
+    [Theory]
+    [InlineData(2500)]   // ~4 % coverage, ~1 min — fast CI smoke
+    [InlineData(5500)]   // ~? % coverage, ~few min — deeper reconnaissance, includes (2,3)/(3,2)
+                         // and X⊗N partners (dim 5400 each, the next tier of sectors).
+    public void Build_AtN10_PartialCoverage_F1PalindromeHolds(int sectorDimCap)
     {
-        // N=10 reconnaissance: at cap = 2500, include sectors up to dim 2520
-        // (= (1,5), (5,1) at N=10). Skips ~half of sectors including the (5,5) max-block.
-        // F1 palindrome should still hold on the symmetric partial collected set.
+        // F1 palindrome should hold on the symmetric partial collected set at any cap
+        // (X⊗N pairing keeps included-sector set closed under the F1 involution).
         var gamma = Enumerable.Repeat(0.05, 10).ToArray();
-        var sweep = LiouvillianSectorSweep.Build(N: 10, gamma, sectorDimCap: 2500);
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var sweep = LiouvillianSectorSweep.Build(N: 10, gamma, sectorDimCap);
+        sw.Stop();
 
         Assert.True(sweep.CollectedEigenvalues.LongLength > 0);
         Assert.True(sweep.F1PalindromeResidualMax < 1e-7,
             $"N=10 partial-spectrum F1 palindrome residual {sweep.F1PalindromeResidualMax:G3} too large");
 
-        _out.WriteLine($"N=10 cap=2500: included {sweep.Included.Count}, skipped {sweep.Skipped.Count}, " +
+        _out.WriteLine($"N=10 cap={sectorDimCap}: " +
+                       $"included {sweep.Included.Count}, skipped {sweep.Skipped.Count}, " +
                        $"coverage = {sweep.CollectedEigenvalues.LongLength:N0} / {sweep.FullDim:N0} " +
-                       $"= {sweep.CoverageFraction:P2}");
+                       $"= {sweep.CoverageFraction:P3}, wall = {sw.Elapsed.TotalSeconds:F1} s");
         _out.WriteLine($"  F1 palindrome max residual = {sweep.F1PalindromeResidualMax:G3}");
     }
 }
