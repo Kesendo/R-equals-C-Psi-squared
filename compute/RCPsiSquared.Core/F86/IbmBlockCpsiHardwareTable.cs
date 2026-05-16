@@ -57,12 +57,24 @@ public enum BlockCpsiScenario
 /// </summary>
 public sealed class IbmBlockCpsiHardwareTable : Claim
 {
-    public IbmBlockCpsiHardwareTable()
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed Pi2-Foundation
+    /// parent that grounds the universal Theorem 2 ceiling against which every
+    /// row in <see cref="Witnesses"/> is asserted. Each <c>FractionOfQuarter</c>
+    /// reading is literally <c>CBlockMeasured / Quarter.Value</c>. Added
+    /// 2026-05-16 as a typed ctor parent — the safest F86-Sammelbecken edge,
+    /// promoting the Theorem-2 reading from registration-discard / docstring
+    /// mention into the actual ancestor graph (per Wave 5 of the 2026-05-16
+    /// inheritance-map sweep).</summary>
+    public Symmetry.QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    public IbmBlockCpsiHardwareTable(Symmetry.QuarterAsBilinearMaxvalClaim quarter)
         : base(
             name: "IBM 2026-04-26 framework_snapshots through Theorem 2 C_block lens",
             tier: Tier.Tier2Verified,
-            anchor: "simulations/_block_cpsi_lens_ibm_snapshots.py + simulations/results/_block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2)")
-    { }
+            anchor: "simulations/_block_cpsi_lens_ibm_snapshots.py + simulations/results/_block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2) + compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim (typed parent — Theorem 2 ceiling)")
+    {
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+    }
 
     public override string DisplayName =>
         "IBM 2026-04-26 C_block snapshots vs 1/4 ceiling (4 backends × 4 scenarios × 2 blocks)";

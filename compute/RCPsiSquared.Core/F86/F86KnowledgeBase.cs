@@ -244,8 +244,11 @@ public sealed class F86KnowledgeBase : IInspectable
 
         // Block-independent Tier-2-Verified table: IBM 2026-04-26 framework_snapshots
         // through Theorem 2's C_block lens. Static-data Claim, no compute cost; lazy
-        // construction only on first read.
-        _ibmBlockCpsiHardwareTable = new Lazy<IbmBlockCpsiHardwareTable>(() => new IbmBlockCpsiHardwareTable());
+        // construction only on first read. The Quarter parent is the universal 1/4
+        // ceiling against which every witness row is asserted (typed 2026-05-16,
+        // Wave 5 of inheritance-map sweep).
+        _ibmBlockCpsiHardwareTable = new Lazy<IbmBlockCpsiHardwareTable>(
+            () => new IbmBlockCpsiHardwareTable(new Symmetry.QuarterAsBilinearMaxvalClaim()));
 
         // F90 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b ↔ F89 path-(N−1)
         // per-bond Hellmann-Feynman. Block-independent — the algebraic statement is

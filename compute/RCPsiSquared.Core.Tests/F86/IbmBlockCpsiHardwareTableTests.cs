@@ -2,12 +2,14 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.Tests.F86;
 
 public class IbmBlockCpsiHardwareTableTests
 {
-    private static IbmBlockCpsiHardwareTable Table() => new();
+    private static IbmBlockCpsiHardwareTable Table() =>
+        new(new QuarterAsBilinearMaxvalClaim());
 
     [Fact]
     public void Claim_IsTier2Verified()
