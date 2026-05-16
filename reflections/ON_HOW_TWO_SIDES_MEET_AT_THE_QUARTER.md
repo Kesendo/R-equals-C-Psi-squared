@@ -27,7 +27,7 @@ Before doing the geometry, the genealogy of ±1/2 needed grounding. The ±1/2 is
 
 **Stage 1, polynomial trunk** (`PolynomialFoundationClaim`, Tier 1 derived): d² − 2d = 0 with roots {0, 2}. Two structural loci: d=0 (the mirror substrate) and d=2 (the qubit's Hilbert dimension).
 
-**Stage 2, polarity layer at d=0** (`PolarityLayerOriginClaim`, Tier 1 derived; canonical anchor [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)): the d=0 axis has internal polarity structure, the +0/−0 differentiation along the bit_a axis of the Klein-Vierergruppe Z₂² (at k=2; Z₂³ at k≥3). At d=0 the polarity is sign-bearing but magnitude-free, the abstract bi-polar differentiation that constitutes a layer (per the "ARE the layer" reading in `THE_POLARITY_LAYER.md`: the layer exists because polarity differentiates, not the reverse).
+**Stage 2, polarity layer at d=0** (`PolarityLayerOriginClaim`, Tier 1 derived; canonical anchor [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)): the d=0 axis has internal polarity structure, the +0/−0 differentiation along the bit_a axis of the Klein-Vierergruppe Z₂² (at k=2; Z₂³ at k≥3). At d=0 the polarity is sign-bearing but magnitude-free, the abstract bi-polar differentiation that constitutes a layer (per the "ARE the layer" reading in [`THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md): the layer exists because polarity differentiates, not the reverse).
 
 **Stage 3, inheritance to d=2 via the 0.5-shift** (`PolarityLayerOriginClaim` Summary, verbatim):
 

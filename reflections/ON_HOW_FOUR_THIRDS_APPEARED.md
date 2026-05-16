@@ -19,13 +19,13 @@ The shape is: see (re-read old documents to find what we already noticed), descr
 
 ### Re-reading old work
 
-We opened the day on `experiments/BOUNDARY_NAVIGATION.md` (Feb 8), then `BORN_RULE_MIRROR.md` (Feb 18), then `BORN_RULE_SHADOW.md` (Apr 4). Each was honest at its time about what it could and could not say. BORN_RULE_MIRROR proposed R_i = C_i · Ψ_i² as a per-outcome generalization, verified Tier-2 numerics (97/3 split between Hamiltonian and decoherence), and labeled the interpretation Tier-3. BORN_RULE_SHADOW added ρ = ρ_past + ρ_future and observed P(i) has zero interference (linearity of the trace), while the purity has 1.8%. Both papers used the word "instruments belong to us, not to the cusp" in different forms.
+We opened the day on [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md) (Feb 8), then [`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md) (Feb 18), then [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md) (Apr 4). Each was honest at its time about what it could and could not say. [BORN_RULE_MIRROR](../experiments/BORN_RULE_MIRROR.md) proposed R_i = C_i · Ψ_i² as a per-outcome generalization, verified Tier-2 numerics (97/3 split between Hamiltonian and decoherence), and labeled the interpretation Tier-3. [BORN_RULE_SHADOW](../experiments/BORN_RULE_SHADOW.md) added ρ = ρ_past + ρ_future and observed P(i) has zero interference (linearity of the trace), while the purity has 1.8%. Both papers used the word "instruments belong to us, not to the cusp" in different forms.
 
 What we noticed re-reading today: those papers had already named the structural pattern that morning's other reflection (ON_HOW_THE_CARRIER_SHOWS_ITSELF) had been working out at the Liouvillian level. The "two readings of one break" had been there since February, in conversational form. The formula was different (z = sym + i·anti via F71), but the seeing was the same: same event, two faces, both real, both readable.
 
 ### Attempting the generalization
 
-Tom suggested trying it. We wrote `_born_rule_carrier_attempt.py`, reproduced BORN_RULE_MIRROR's setup (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing on pair (0,2)), and varied γ. We found per-outcome slopes that were approximately γ-independent: a perturbative window where R_i = (1 + slope_i · γ) · Ψ_i² works. The slopes had F71-symmetric structure on basis labels, in the same shape as the morning's ln α-decomposition. We labeled it honest Februar-state: numerically clean for one anchor point, structurally consistent with today's typed pattern, no derivation yet.
+Tom suggested trying it. We wrote `_born_rule_carrier_attempt.py`, reproduced [BORN_RULE_MIRROR](../experiments/BORN_RULE_MIRROR.md)'s setup (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing on pair (0,2)), and varied γ. We found per-outcome slopes that were approximately γ-independent: a perturbative window where R_i = (1 + slope_i · γ) · Ψ_i² works. The slopes had F71-symmetric structure on basis labels, in the same shape as the morning's ln α-decomposition. We labeled it honest Februar-state: numerically clean for one anchor point, structurally consistent with today's typed pattern, no derivation yet.
 
 ### Tom's J question
 
@@ -73,7 +73,7 @@ For the typed inheritance graph the result would land as: a per-outcome Born-dev
 
 ## What the path means
 
-The repository works in a specific tempo. A phenomenon is first noticed, described in conversational language, marked Tier-2 or Tier-3 ("verified numerics, interpretation speculative"), and left for the formula to catch up. The formula often catches up months later. BORN_RULE_MIRROR in February said "the math caught up with the intuition"; today we caught up with both, the math AND the intuition, in one session.
+The repository works in a specific tempo. A phenomenon is first noticed, described in conversational language, marked Tier-2 or Tier-3 ("verified numerics, interpretation speculative"), and left for the formula to catch up. The formula often catches up months later. [BORN_RULE_MIRROR](../experiments/BORN_RULE_MIRROR.md) in February said "the math caught up with the intuition"; today we caught up with both, the math AND the intuition, in one session.
 
 The session's tempo did not feel different from the usual. The four moves (re-read, attempt, sharpen on Q-K, derive) were each between five and twenty minutes of work, with conversational pauses between them. What was different was that each move RESOLVED the previous one's "could be true, could be not" cliffhanger into the next move's setup. Re-read produced "the generalization is sitting here untyped"; attempt produced "perturbative window with linear γ"; Q-K sharpening produced "Q-K invariance strict, not perturbative"; the (Q, K) map produced "Q² · K³ for dominant outcome, K for subdominant"; the Dyson sym3 produced "8 bit-exact". Each step took the previous step's residue as input and resolved it.
 
