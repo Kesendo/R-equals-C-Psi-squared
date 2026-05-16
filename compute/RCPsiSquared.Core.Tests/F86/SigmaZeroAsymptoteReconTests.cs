@@ -19,9 +19,26 @@ public class SigmaZeroAsymptoteReconTests
     /// Aitken Δ² extrapolation. Writes a table for inspection; asserts the sequence is
     /// monotonically increasing (a structural property already noted in
     /// <see cref="RCPsiSquared.Core.F86.F86OpenQuestions"/> Item 5).</summary>
-    private const int NMax = 16;
+    private const int NMax = 18;
     private const int NMin = 5;
     private const double GammaZero = 0.05;
+
+    [Fact]
+    public void Recon_SigmaZero_C2_GammaIndependence_Confirms_HOnly_Origin()
+    {
+        // V_inter = P_HD1† · M_H_total · P_HD2 uses only the Hamiltonian part of the
+        // Liouvillian (M_H, not D). σ_0 should be γ-independent — verify by running
+        // two γ values at the same N and asserting bit-equality (within FP noise).
+        const int N = 10;
+        var sIdx1 = InterChannelSvd.Build(new CoherenceBlock(N, n: 1, gammaZero: 0.01), 1, 3).Sigma0;
+        var sIdx2 = InterChannelSvd.Build(new CoherenceBlock(N, n: 1, gammaZero: 0.50), 1, 3).Sigma0;
+        var sIdx3 = InterChannelSvd.Build(new CoherenceBlock(N, n: 1, gammaZero: 5.00), 1, 3).Sigma0;
+        _out.WriteLine($"σ_0(c=2, N=10) at γ=0.01: {sIdx1:F12}");
+        _out.WriteLine($"σ_0(c=2, N=10) at γ=0.50: {sIdx2:F12}");
+        _out.WriteLine($"σ_0(c=2, N=10) at γ=5.00: {sIdx3:F12}");
+        Assert.Equal(sIdx1, sIdx2, precision: 12);
+        Assert.Equal(sIdx1, sIdx3, precision: 12);
+    }
 
     [Fact]
     public void Recon_SigmaZero_C2_ExtendedNRange_MonotoneAndAitkenConverges()
