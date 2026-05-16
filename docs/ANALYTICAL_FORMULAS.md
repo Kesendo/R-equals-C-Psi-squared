@@ -2497,7 +2497,7 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 **Scripts:** [`_bond_isolate_compare_n7.py`](../simulations/_bond_isolate_compare_n7.py) (single-bond pair matrix), [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py) (long-range), [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py) (multi-bond classes). Compute tool: `compute/RCPsiSquared.Propagate` `bond-isolate --N <N> --bonds <i,j,...>` mode.
 **Source:** [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md), F73, F71, F86 (contrasting linear-response setup).
 
-#### F89 unified F_a AT-locked amplitude closed form across path-3..9 (Tier 1 derived, bit-exact verified)
+#### F89 unified F_a AT-locked amplitude closed form (Tier-1-Derived 2026-05-15, k=3..46 cached + k≥47 via native Chebyshev pipeline)
 
 For each path-k, the F_a signal amplitudes satisfy
 
@@ -2515,11 +2515,13 @@ where y_n = 4·cos(πn/(N_block+1)) on the S_2-anti Bloch orbit (N_block = k+1),
 | 8 | 13y³ + 54y² + 68y + 110 | 32 = 2⁵ |
 | 9 | 31y⁴ + 190y³ + 288y² + 440y + 1476 | 324 = 2²·3⁴ |
 
-Polynomial degree = floor(N_block/2) − 1. Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the cyclotomic minimal polynomial. AT-lock: the F_a eigenvalue is λ_n = −2γ + i·y_n exactly (overlap subspace entries have dephasing rate 2γ regardless of N).
+The table above lists path-3..9 hand-derived anchors. Path-10..46 are cached in `F89UnifiedFaClosedFormClaim.PathPolynomial(int k)` (int-typed denominator); k=46 is the last int-safe path (D_46 = 1,109,393,408 < int.MaxValue, D_47 = 4,632,608,768 exceeds it). For arbitrary k ≥ 47, `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig(int k)` runs the native C# Chebyshev pipeline (`F89PathPolynomialPipeline.Compute`) and returns (BigInteger[], BigInteger). All k=3..46 cached entries match the pipeline bit-exactly; pipeline-extended verification rows for k=50, 60, 75, 100, 150, 200, 300 are tabulated in `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md` § "Pipeline-Extended Verification".
 
-**Source:** [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs), `simulations/_f89_path3_at_locked_amplitude_symbolic.py`, `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Unified closed form".
+Polynomial degree = floor(N_block/2) − 1. Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the cyclotomic minimal polynomial: path-3 → 22/3, path-4 → 25/2, path-5 → 483/25, path-6 → 256/9 (in units of N²(N−1); see `F89UnifiedFaClosedFormClaim.SigmaSum`). AT-lock: the F_a eigenvalue is λ_n = −2γ + i·y_n exactly (overlap subspace entries have dephasing rate 2γ regardless of N).
 
-#### F89 D_k closed form per path k (Tier-1-Candidate, 2026-05-13)
+**Source:** [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (k=3..46 cached, `ComputePathPolynomialBig` for k≥47, `Sigma`/`SigmaSum` lifted to any k ≥ 3), [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev expansion + orbit-polynomial reduction, replaces Python sympy prototype), [`F89AmplitudeLayerClaim`](../compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs) (Tier-2-Verified Angle A identity p_n = |S_c|²·‖Mv‖²/2), `simulations/_f89_path3_at_locked_amplitude_symbolic.py`, `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe), `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Unified closed form", `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md`.
+
+#### F89 D_k closed form per path k (Tier-1-Derived 2026-05-15)
 
 The denominator D_k in sigma_n(N) = P_k(y_n) / [D_k · N²·(N−1)] has the closed form:
 
@@ -2531,9 +2533,9 @@ Three additive contributions to E(k):
 - **k-self 2-adic term** v₂(k). Tracks 2-adic content of k itself.
 - **Deep-2-power bonus** max(0, v₂(k) − 2). Kicks in at v₂(k) ≥ 3.
 
-Bit-exact verified across k = 3..24 (22 data points, zero exceptions). Replaces the prior "no N-parametric closed form" negative result from 4-point fitting (the right structure was 3 additive valuation terms, not a 4-point Lagrange interpolation).
+Originally fit empirically across k = 3..24 (22 data points, zero exceptions, 2026-05-13). Closed Tier-1-Derived 2026-05-15 via the Chebyshev-expansion + orbit-polynomial-reduction pipeline: the F_a eigenvector ansatz reduces |S_c(n)|² and ‖Mv(n)‖² to polynomials in c = cos(πn/(k+2)) via the Chebyshev identity sin((j+1)θ) = U_j(c)·sin θ; the orbit minimal polynomial then gives (P_k, D_k) exactly as algebraic objects. Verified bit-exact through k=46 (cached, int-typed denominator) and pipeline-extended at k = 50, 60, 75, 100, 150, 200, 300 (BigInteger; D_300 has 162 bits, 49 decimal digits). The deep-2-power bonus branch is explicitly demonstrated at k=200 (v₂=3, E=101).
 
-Tier: Tier-1-Candidate. Empirical fit + partial structural derivation via Jordan-Wigner free-fermion analysis (small-k cases derived algebraically; general-k proof open). Anchors: `compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs` (`PredictDenominator(int k)`), `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md`, `simulations/_f89_path_d_*.py`.
+Tier: Tier-1-Derived (closed 2026-05-15). Anchors: [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev pipeline, exact BigInteger/BigRational arithmetic), [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (`PredictDenominator(int k)` int-safe to k=46, `PredictDenominatorBig(int k)` BigInteger for arbitrary k, `ComputePathPolynomialBig` runtime), [`PROOF_F89_PATH_D_CLOSED_FORM`](proofs/PROOF_F89_PATH_D_CLOSED_FORM.md) (full proof + 33-row verification tables), `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe).
 
 ---
 
