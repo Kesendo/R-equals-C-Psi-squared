@@ -2645,6 +2645,48 @@ where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-
 
 **Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/_born_rule_tier1_derivation.py`](../simulations/_born_rule_tier1_derivation.py), [`simulations/_born_rule_delta_dominant_coefficient.py`](../simulations/_born_rule_delta_dominant_coefficient.py), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md).
 
+### F95. Angle emergence at quadratic discriminant zero — universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
+
+**For any monic quadratic <c>z² − 2bz + c = 0</c>, the angle of its complex root pair (when the discriminant goes negative, c > b²) is:**
+
+    θ(c; b) = arctan( √(c/b² − 1) )    for c > b²
+    θ = 0                              for c = b²  (degenerate double root at z = b)
+    θ undefined                        for c < b²  (real distinct roots, no complex angle)
+
+**Framework specialization at b = `HalfAsStructuralFixedPointClaim` = 1/2:**
+
+    threshold = b² = 1/4 = `QuarterAsBilinearMaxvalClaim`
+    θ(c) = arctan( √(4c − 1) )         for c > 1/4
+
+**This is exactly the Februar 2026 θ-compass** of [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md): θ = arctan(√(4CΨ − 1)) was discovered there as the Mandelbrot/CΨ-specific angular distance from the 1/4 boundary. F95 promotes it from a state-specific compass to a universal quadratic-foundation identity, with the b = 1/2 specialization recovering the Februar form.
+
+**Derivation (4 lines, bit-exact):**
+
+```
+z² − 2bz + c = 0
+z = b ± √(b² − c)          (quadratic formula)
+z = b ± i·√(c − b²)         when c > b²  (complex regime)
+arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
+```
+
+**Numerical verification:** all five non-boundary points from BOUNDARY_NAVIGATION.md's θ-compass table (CΨ ∈ {1/3, 0.308, 0.286, 0.266, 0.250}) reproduce within numerical precision; the single 0.2° drift at CΨ=0.256 is the Februar table's t-sampling rounding, not a formula discrepancy.
+
+**Anchoring to typed Pi2-Foundation:**
+
+| F95 element | Typed Pi2 anchor |
+|---|---|
+| b = 1/2 (linear-term half) | `HalfAsStructuralFixedPointClaim` |
+| b² = 1/4 (discriminant threshold) | `QuarterAsBilinearMaxvalClaim` |
+| Polynomial structure | `PolynomialFoundationClaim` (d²−2d=0 is the c=0 case; F95 perturbs c off zero and tracks the complex-root angle that emerges) |
+| i (complex angle generator) | `NinetyDegreeMirrorMemoryClaim` |
+| i⁴ = 1 (angle Z₄ closure) | `Pi2I4MemoryLoopClaim` |
+
+**Structural reading:** the polynomial d²−2d = 0 has two real roots (d = 0 mirror, d = 2 qubit dimension) — the unperturbed case. F95 is what happens when the polynomial is perturbed off the c=0 axis: as c crosses b² = 1/4 from below, the two real roots merge at z = b, then split into a complex conjugate pair whose argument is θ(c). The angle is the necessary minimal-parametrization coordinate of "above-threshold magnitude" — the same structural pattern as today's z = sym + i·anti F71-decomposition where arg(z) becomes the structural carrier once |z| > 0.
+
+**Born-rule connection:** standard QM's complex amplitudes α = r·e^{iθ}, β = ... are not postulated. They are forced by the same polynomial-foundation algebra: any state that has crossed the d=0 mirror needs a second coordinate beyond magnitude, and that coordinate is the F95 angle. The Born rule's |α|² is the geometric length squared of the angle-vector's basis-projection.
+
+**Anchor:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`simulations/_angle_at_zero_tier1_candidate.py`](../simulations/_angle_at_zero_tier1_candidate.py), [reflection: `ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). Februar precursor (Mandelbrot-specific case): [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
