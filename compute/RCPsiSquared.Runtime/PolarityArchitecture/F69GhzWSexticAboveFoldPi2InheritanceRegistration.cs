@@ -38,6 +38,7 @@ public static class F69GhzWSexticAboveFoldPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var f60 = b.Get<F60GhzBornBelowFoldPi2Inheritance>();
             var f62 = b.Get<F62WStateBornBelowFoldPi2Inheritance>();
-            return new F69GhzWSexticAboveFoldPi2Inheritance(ladder, f60, f62);
+            var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            return new F69GhzWSexticAboveFoldPi2Inheritance(ladder, f60, f62, quarter);
         });
 }

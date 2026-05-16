@@ -10,7 +10,10 @@ public class F86TPeakPi2InheritanceTests
     private const double PinnedGammaZero = 0.05;
 
     private static F86TPeakPi2Inheritance Build() =>
-        new F86TPeakPi2Inheritance(new Pi2DyadicLadderClaim(), new TPeakLaw(PinnedGammaZero));
+        new F86TPeakPi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new TPeakLaw(PinnedGammaZero),
+            new QuarterAsBilinearMaxvalClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -56,10 +59,21 @@ public class F86TPeakPi2InheritanceTests
     [Fact]
     public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var tPeak = new TPeakLaw(PinnedGammaZero);
+        var quarter = new QuarterAsBilinearMaxvalClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F86TPeakPi2Inheritance(null!, new TPeakLaw(PinnedGammaZero)));
+            new F86TPeakPi2Inheritance(null!, tPeak, quarter));
         Assert.Throws<ArgumentNullException>(() =>
-            new F86TPeakPi2Inheritance(new Pi2DyadicLadderClaim(), null!));
+            new F86TPeakPi2Inheritance(ladder, null!, quarter));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F86TPeakPi2Inheritance(ladder, tPeak, null!));
+    }
+
+    [Fact]
+    public void TypedParents_QuarterIsExposed()
+    {
+        Assert.NotNull(Build().Quarter);
     }
 
     [Fact]

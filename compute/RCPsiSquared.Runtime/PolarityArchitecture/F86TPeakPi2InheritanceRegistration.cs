@@ -24,6 +24,7 @@ public static class F86TPeakPi2InheritanceRegistration
         {
             var tPeak = b.Get<TPeakLaw>();
             var ladder = b.Get<Pi2DyadicLadderClaim>();
-            return new F86TPeakPi2Inheritance(ladder, tPeak);
+            var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            return new F86TPeakPi2Inheritance(ladder, tPeak, quarter);
         });
 }

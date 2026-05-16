@@ -12,7 +12,10 @@ public class DickeSuperpositionQuarterPi2InheritanceTests
     public DickeSuperpositionQuarterPi2InheritanceTests(ITestOutputHelper output) => _out = output;
 
     private static DickeSuperpositionQuarterPi2Inheritance Build() =>
-        new DickeSuperpositionQuarterPi2Inheritance(new Pi2DyadicLadderClaim());
+        new DickeSuperpositionQuarterPi2Inheritance(
+            new Pi2DyadicLadderClaim(),
+            new QuarterAsBilinearMaxvalClaim(),
+            new HalfAsStructuralFixedPointClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -100,9 +103,25 @@ public class DickeSuperpositionQuarterPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_RejectsNullLadder()
+    public void Constructor_RejectsNullParents()
     {
-        Assert.Throws<ArgumentNullException>(() => new DickeSuperpositionQuarterPi2Inheritance(null!));
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var half = new HalfAsStructuralFixedPointClaim();
+        Assert.Throws<ArgumentNullException>(() =>
+            new DickeSuperpositionQuarterPi2Inheritance(null!, quarter, half));
+        Assert.Throws<ArgumentNullException>(() =>
+            new DickeSuperpositionQuarterPi2Inheritance(ladder, null!, half));
+        Assert.Throws<ArgumentNullException>(() =>
+            new DickeSuperpositionQuarterPi2Inheritance(ladder, quarter, null!));
+    }
+
+    [Fact]
+    public void TypedParents_AreExposed()
+    {
+        var d = Build();
+        Assert.NotNull(d.Quarter);
+        Assert.NotNull(d.Half);
     }
 
     [Fact]

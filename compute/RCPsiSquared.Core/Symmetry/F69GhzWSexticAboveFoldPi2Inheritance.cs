@@ -126,20 +126,30 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
     /// indicating no two-qubit entanglement; the entanglement is purely tripartite.</summary>
     public const double PairConcurrenceAtOptimum = 0.0210;
 
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
+    /// grounds <c>FoldPosition</c> and <c>LiftRatioAboveFold</c> on the Quarter
+    /// axis. F69's entire structural reading is "GHZ + W mix lifts ABOVE the
+    /// 1/4 fold"; the typed Quarter parent makes the fold-ceiling explicit.
+    /// Added 2026-05-16 (Wave 6b).</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
     public F69GhzWSexticAboveFoldPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F60GhzBornBelowFoldPi2Inheritance f60,
-        F62WStateBornBelowFoldPi2Inheritance f62)
-        : base("F69 GHZ+W mix lifts pair-CΨ(0) above 1/4 fold at N=3 (sextic minimal polynomial, irreducible over ℚ); siblings F60 + F62 both born below fold",
+        F62WStateBornBelowFoldPi2Inheritance f62,
+        QuarterAsBilinearMaxvalClaim quarter)
+        : base("F69 GHZ+W mix lifts pair-CΨ(0) above 1/4 fold at N=3 (sextic minimal polynomial, irreducible over ℚ); siblings F60 + F62 both born below fold; fold = Quarter",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F69 + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F60GhzBornBelowFoldPi2Inheritance.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/F62WStateBornBelowFoldPi2Inheritance.cs")
+               "compute/RCPsiSquared.Core/Symmetry/F62WStateBornBelowFoldPi2Inheritance.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, typed)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _f60 = f60 ?? throw new ArgumentNullException(nameof(f60));
         _f62 = f62 ?? throw new ArgumentNullException(nameof(f62));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
     public override string DisplayName =>

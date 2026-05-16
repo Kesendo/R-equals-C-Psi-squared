@@ -33,9 +33,9 @@ public static class DickeSuperpositionQuarterPi2InheritanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<DickeSuperpositionQuarterPi2Inheritance>(b =>
         {
-            _ = b.Get<QuarterAsBilinearMaxvalClaim>();          // 1/4 anchor
-            _ = b.Get<HalfAsStructuralFixedPointClaim>();        // 1/2 anchor
-            var ladder = b.Get<Pi2DyadicLadderClaim>();          // ladder access
-            return new DickeSuperpositionQuarterPi2Inheritance(ladder);
+            var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            var half = b.Get<HalfAsStructuralFixedPointClaim>();
+            var ladder = b.Get<Pi2DyadicLadderClaim>();
+            return new DickeSuperpositionQuarterPi2Inheritance(ladder, quarter, half);
         });
 }

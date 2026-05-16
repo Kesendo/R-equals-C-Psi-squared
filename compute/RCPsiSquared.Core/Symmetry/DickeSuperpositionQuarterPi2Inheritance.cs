@@ -94,14 +94,31 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim
         return c;
     }
 
-    public DickeSuperpositionQuarterPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("Dicke superposition saturates C_block at 1/4 = (1/2)² on the Pi2 dyadic ladder",
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that grounds
+    /// this claim's <c>QuarterCeiling</c> on the Theorem-2 universal anchor. The
+    /// entire claim IS "Dicke saturates the Quarter ceiling at SectorBalance² = a_3";
+    /// the typed Quarter parent makes that anchor visible in the graph. Added
+    /// 2026-05-16 (Wave 6b).</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    /// <summary>1/2 structural fixed point — the typed parent that grounds the
+    /// AM-GM saturation point <c>p_n = p_{n+1} = 1/2</c>. The argmax of p(1−p)
+    /// IS where Dicke saturates. Added 2026-05-16 (Wave 6b).</summary>
+    public HalfAsStructuralFixedPointClaim Half { get; }
+
+    public DickeSuperpositionQuarterPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        QuarterAsBilinearMaxvalClaim quarter,
+        HalfAsStructuralFixedPointClaim half)
+        : base("Dicke superposition saturates C_block at 1/4 = (1/2)² on the Pi2 dyadic ladder (Quarter ceiling, Half argmax)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 1 + Theorem 2) + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, HalfAsStructuralFixedPoint typed) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 
     public override string DisplayName =>

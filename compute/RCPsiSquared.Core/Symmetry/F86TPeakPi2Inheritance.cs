@@ -47,16 +47,29 @@ public sealed class F86TPeakPi2Inheritance : Claim
     /// bit-exactly equal to <see cref="TPeakLaw.Value"/>.</summary>
     public double LiveTPeak => 1.0 / (FourFactor * GammaZero);
 
-    public F86TPeakPi2Inheritance(Pi2DyadicLadderClaim ladder, TPeakLaw tPeak)
-        : base("F86 t_peak's 4 denominator inherits from Pi2-Foundation (4 = a_{-1} = d² for N=1)",
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed mirror-partner
+    /// parent. F86's <c>t_peak = 1/(4γ₀) = a_3 / γ₀ = Quarter / γ₀</c> on the
+    /// memory side of the inversion identity <c>a_{-1} · a_3 = 4 · (1/4) = 1</c>.
+    /// The class's prose docstring already says "1/4 = a_3 ... QuarterAsBilinearMaxvalClaim";
+    /// added 2026-05-16 (Wave 6b) as a typed ctor parent to make the mirror-partner
+    /// edge participate in the graph.</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    public F86TPeakPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        TPeakLaw tPeak,
+        QuarterAsBilinearMaxvalClaim quarter)
+        : base("F86 t_peak's 4 denominator inherits from Pi2-Foundation (4 = a_{-1} = d² for N=1); mirror partner = 1/4 = a_3 = Quarter",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F86_QPEAK.md (Statement 1) + " +
                "docs/ANALYTICAL_FORMULAS.md F86 + " +
                "compute/RCPsiSquared.Core/F86/TPeakLaw.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, typed mirror partner)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _tPeak = tPeak ?? throw new ArgumentNullException(nameof(tPeak));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
     public override string DisplayName =>
