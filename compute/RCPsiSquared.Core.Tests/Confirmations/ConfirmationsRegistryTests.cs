@@ -22,9 +22,9 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasElevenEntries()
+    public void All_HasTwelveEntries()
     {
-        Assert.Equal(11, ConfirmationsRegistry.All.Count);
+        Assert.Equal(12, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -37,6 +37,21 @@ public class ConfirmationsRegistryTests
         Assert.Contains("marrakesh_transverse_y_field_detection", names);
         Assert.Contains("lebensader_skeleton_trace_decoupling", names);
         Assert.Contains("f83_pi2_class_signature_marrakesh", names);
+        Assert.Contains("f95_angle_steering_kingston_may2026", names);
+    }
+
+    [Fact]
+    public void Lookup_F95AngleSteering_HasKingstonDateAndBothPairs()
+    {
+        var entry = ConfirmationsRegistry.Lookup("f95_angle_steering_kingston_may2026");
+        Assert.NotNull(entry);
+        Assert.Equal("ibm_kingston", entry!.Machine);
+        Assert.Equal("2026-05-16", entry.Date);
+        Assert.Contains("bxyj5yd4j", entry.JobId);
+        Assert.Contains("bzklqwt7f", entry.JobId);
+        Assert.Contains("Pair A_mid", entry.MeasuredValue);
+        Assert.Contains("Pair B_high", entry.MeasuredValue);
+        Assert.Contains("F95AngleAtQuadraticZeroPi2Inheritance", entry.FrameworkPrimitive);
     }
 
     [Fact]
@@ -117,13 +132,14 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Seven of eleven have paths (five backfilled + the May-5 Kingston entry +
-        // the May-8 Kingston Block-CΨ saturation entry); four remain null
-        // (chiral_mirror_law, f57_kdwell_gamma_invariance, bonding_mode_receiver,
-        // f25_cusp_trajectory) since their paths are not unambiguously documented.
+        // Eight of twelve have paths (five backfilled + the May-5 Kingston entry +
+        // the May-8 Kingston Block-CΨ saturation entry + the May-16 F95 angle-steering
+        // entry on pair A_mid [82,83]); four remain null (chiral_mirror_law,
+        // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
+        // since their paths are not unambiguously documented.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(7, withPath);
+        Assert.Equal(8, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

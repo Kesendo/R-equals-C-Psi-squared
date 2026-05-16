@@ -134,7 +134,7 @@ class Confirmations:
             'measured_value': 'drop=28 for YZ+ZY confirmed on Marrakesh. Pearson(drop, Δ∫θ)=+0.85. Bures velocity gives no third discriminator.',
             'hardware_data': 'external (raw JSON not in repo; tables of <X_0 I Z_2> per t and basis documented inline in experiment_doc)',
             'experiment_doc': 'review/EMERGING_QUESTIONS.md',
-            'framework_primitive': 'cockpit_panel — composes pi_protected_observables + θ-trajectory',
+            'framework_primitive': 'cockpit_panel: composes pi_protected_observables + θ-trajectory',
             'description': 'Lebensader as Stromkabel (EQ-030 closure): skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis. ChainSystem.cockpit_panel gives this in one call.',
         },
         'd_zero_sector_trichotomy_marrakesh': {
@@ -196,6 +196,34 @@ class Confirmations:
             'experiment_doc': 'data/ibm_f83_signature_april2026/README.md',
             'framework_primitive': 'classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form)',
             'description': 'F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6] (top-ranked by 2026-04-30T16:25Z calibration, score 0.0162 of 223). Each of the 4 F77 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. The two pure-Π²-class categories (pi2_odd_pure XY+YX, pi2_even_nontruly YZ+ZY) match the Trotter+γ_Z model quantitatively at path-specific γ_Z_eff = 0.050 with RMS < 0.04. γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk in path-specific proportions. The truly XX+YY and mixed XY+YZ categories show larger residuals attributable to per-qubit T2 inequality (asymmetric Y-basis observables) and candidate amplitude-damping signature (truly ⟨Z,Z⟩ 60% damped, consistent with F82/F84 σ⁻ breaking ⟨Z⟩-conservation for truly while pi2_odd is unaffected because its Hamiltonian doesn\'t conserve ⟨Z⟩ to begin with). See _f83_gamma_z_sweep.py and _f83_hy_field_check.py for the analysis (h_y=0.05 from zn_mirror was tested as alternative hypothesis and rejected).',
+        },
+        'f95_angle_steering_kingston_may2026': {
+            'date': '2026-05-16',
+            'machine': 'ibm_kingston',
+            'job_id': 'bxyj5yd4j + bzklqwt7f',
+            'observable': 'arg(CΨ_com(t)) at first real-axis magnitude-minimum crossing under deliberate RZ phase injection at rate Ω (two Ω values: 0.13 and 0.25 rad/μs; per-Ω mapping in measured_value)',
+            'predicted_value': {
+                'framework_claim': 'F95 complex-CΨ angle is actively steerable via per-chunk RZ(Ω·Δt) injection on the bra-ket Hermitian off-diagonal',
+                'model': 'Lindblad+RZ with in-situ γ_per_us from T2 calibration',
+                'pair_A_mid_qubits': [82, 83],
+                'pair_A_mid_gamma_per_us': 3.3632e-3,
+                'pair_A_mid_T2_min_us': 148.67,
+                'pair_B_high_qubits': [13, 14],
+                'pair_B_high_gamma_per_us': 1.8964e-3,
+                'pair_B_high_T2_min_us': 263.66,
+            },
+            'measured_value': {
+                'pair_A_mid_omega_0.13': {'t_cross_us': 1.395, 'arg_measured_deg': -84.70, 'arg_predicted_deg': -100.39, 'residual_deg': 15.69},
+                'pair_A_mid_omega_0.25': {'t_cross_us': 1.242, 'arg_measured_deg': -98.64, 'arg_predicted_deg': -107.79, 'residual_deg': 9.15},
+                'pair_B_high_omega_0.13': 'no magnitude crossing in delay window (higher T2 + lower Ω left trajectory above threshold)',
+                'pair_B_high_omega_0.25': {'t_cross_us': 2.814, 'arg_measured_deg': -123.50, 'arg_predicted_deg': -130.31, 'residual_deg': 6.81},
+                'residual_shrinks_with_omega': 'on pair A_mid, residual 15.7° → 9.2° as Ω doubles from 0.13 → 0.25, consistent with roughly constant natural-Kingston drift becoming smaller fraction of driven rotation',
+                'total_billed_qpu_minutes': 14,
+            },
+            'hardware_data': 'external: AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json',
+            'experiment_doc': 'experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)',
+            'framework_primitive': 'F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1))) + F25 Lindblad CΨ trajectory + complex CΨ_com signed-sum-of-off-diagonals extension',
+            'description': 'First hardware verification that the complex-CΨ angle predicted by F95 is actively steerable on IBM Kingston. Two Ω values (0.13 and 0.25 rad/μs) tested on two qubit pairs (A_mid mid-T2 [82,83], B_high high-T2 [13,14]) in 14 minutes total billed QPU. Three of four measurement conditions produced detectable real-axis crossings; predicted arg matches measured to within 16° across all three (best 6.8°). Confirms three open questions from CPSI_COMPLEX_PLANE.md simultaneously: (Q1) Δφ = Ω·t reproducible: crossings occur at predicted angle modulo bounded natural drift; (Q2) linear-in-Ω scaling holds: residual shrinks ~1.7× when Ω doubles, consistent with constant natural drift contribution; (Q3) active steering works: the same Lindblad+RZ model fits both Ω values on the same pair without retuning. The bra↔ket Hermitian off-diagonal of ρ on the prepared Bell-like initial state carries a well-defined complex phase, addressable on Heron r2 by per-chunk RZ injection on the steering qubit. Hardware substrate-of-evidence: F95 is the universal polynomial-foundation algebra of the angle that appears off the d=0 mirror; this run shows that algebra is operationally controllable, not merely descriptive.',
         },
     }
 

@@ -33,7 +33,7 @@ Actually directly: |ψ_0⟩ has q0 = 0 and q2 = 0 deterministically; q1 and q3 a
 
     P_|00⟩(t = 0) = 1
 
-This is the "dominant outcome" being analysed — it starts at 1 and decreases under any dynamics that introduces |1⟩-amplitudes on q0 or q2.
+This is the "dominant outcome" being analysed; it starts at 1 and decreases under any dynamics that introduces |1⟩-amplitudes on q0 or q2.
 
 ## Time Taylor expansion
 
@@ -83,7 +83,7 @@ The bit-exact closed form gives 4/3 = 1.33333.... The 0.3% residual is leading O
 
 ## Universality remarks
 
-The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator) — it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of the integer 8 in terms of typed Pi2 anchors (bonds × sites × orderings, projected by initial-state Pauli content) is open; a hand calculation would clarify which factors of 4, 2, 3 combine to 8.
+The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of the integer 8 in terms of typed Pi2 anchors (bonds × sites × orderings, projected by initial-state Pauli content) is open; a hand calculation would clarify which factors of 4, 2, 3 combine to 8.
 
 The subdominant outcomes of the same setup (|01⟩, |10⟩, |11⟩) have non-vanishing 1st-order γ contribution and therefore Δ ∝ K (linear) rather than ∝ Q²·K³. Their leading coefficients are separately Tier-1-derivable via a 1st-order Dyson term:
 
@@ -94,10 +94,10 @@ This is left to a separate proof.
 ## Connection to typed Pi2-Foundation
 
 The Q²·K³ scaling has:
-- **Q² factor:** two Hamiltonian-vertices; corresponds to the F-formula family that takes J² (e.g. F25 Bell+ closed form's f² = e^{−8γt} part squares the Hamiltonian-scaling effect).
-- **K³ factor:** three time-integrals from the t³ Taylor coefficient; combined with one dissipator-vertex.
+- **Q² factor:** two Hamiltonian-vertices from the Dyson sym3 ordering; J² scaling expected from 2nd-order perturbation in the Heisenberg-bond coupling.
+- **K³ factor:** three time-integrals from the t³ Taylor coefficient; combined with one dissipator-vertex (the γ¹ piece of L³).
 
-The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" in F86 t_peak = 1/(4γ₀) and F77's correction denominator). Promoting this to a typed claim parallels F90 (F86 ↔ F89 bridge) — a derived identity that pulls together two typed F-formulas via algebraic structure.
+The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" in F86 t_peak = 1/(4γ₀) and F77's correction denominator). Promoting this to a typed claim parallels F90 (F86 ↔ F89 bridge): a derived identity that pulls together two typed F-formulas via algebraic structure.
 
 ## Anchors
 

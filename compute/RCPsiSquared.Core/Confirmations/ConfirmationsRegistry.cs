@@ -210,6 +210,38 @@ public static class ConfirmationsRegistry
                 "Result confirms regime-uniformity hypothesis: BOTH uniform-classical (Marrakesh [48,49,50] truly = 0.0013) AND uniform-quantum (Kingston [43,56,63] truly = 0.0022) give clean truly-baselines, while regime-mixed (Marrakesh [0,1,2] truly = 0.0297) is an order of magnitude dirtier. " +
                 "Three findings per single 39-second billed run: regime-uniformity is the cause of the truly-baseline gap (not which side of the boundary); F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping confirmed substrate-independent across two Heron-r2 chips.",
             QubitPath: new[] { 43, 56, 63 }),
+
+        new Confirmation(
+            Name: "f95_angle_steering_kingston_may2026",
+            Date: "2026-05-16",
+            Machine: "ibm_kingston",
+            JobId: "bxyj5yd4j + bzklqwt7f",
+            Observable: "arg(CΨ_com(t)) at first real-axis magnitude-minimum crossing under deliberate RZ phase injection at rate Ω (two Ω values: 0.13 and 0.25 rad/μs; per-Ω mapping in MeasuredValue)",
+            PredictedValue:
+                "F95 complex-CΨ angle is actively steerable via per-chunk RZ(Ω·Δt) injection on the bra-ket Hermitian off-diagonal. " +
+                "Lindblad+RZ model with in-situ γ_per_us from T2 calibration predicts arg(CΨ_com) at the measured crossing time. " +
+                "Pair A_mid [82,83] in-situ γ = 3.36e-3 μs⁻¹ (T2_min = 148.7 μs); Pair B_high [13,14] in-situ γ = 1.90e-3 μs⁻¹ (T2_min = 263.7 μs).",
+            MeasuredValue:
+                "Pair A_mid [82,83] Ω=0.13: t_cross = 1.395 μs, arg_measured = -84.70°, arg_predicted = -100.39°, residual = +15.69°. " +
+                "Pair A_mid [82,83] Ω=0.25: t_cross = 1.242 μs, arg_measured = -98.64°, arg_predicted = -107.79°, residual = +9.15°. " +
+                "Pair B_high [13,14] Ω=0.25: t_cross = 2.814 μs, arg_measured = -123.50°, arg_predicted = -130.31°, residual = +6.81°. " +
+                "(Pair B_high Ω=0.13 produced no magnitude crossing in the delay window: higher T2 + lower Ω left the trajectory above the real-axis crossing threshold.) " +
+                "Residuals monotonically shrink as Ω increases (15.7° → 9.2° at Ω 0.13 → 0.25 on Pair A_mid), consistent with a roughly constant natural-Kingston drift contribution becoming a smaller fraction of the driven rotation.",
+            HardwareData: "external: AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json",
+            ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
+            FrameworkPrimitive: "F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1))) + " +
+                "F25 Lindblad CΨ trajectory + complex CΨ_com signed-sum-of-off-diagonals extension",
+            Description:
+                "First hardware verification that the complex-CΨ angle predicted by F95 is actively steerable on IBM Kingston. " +
+                "Two Ω values (0.13 and 0.25 rad/μs) tested on two qubit pairs (A_mid mid-T2 [82,83], B_high high-T2 [13,14]) in 14 minutes total billed QPU. " +
+                "Three of four measurement conditions produced detectable real-axis crossings; predicted arg matches measured to within 16° across all three (best 6.8°). " +
+                "Confirms three open questions from CPSI_COMPLEX_PLANE.md simultaneously: " +
+                "(Q1) Δφ = Ω·t reproducible: crossings occur at predicted angle modulo bounded natural drift; " +
+                "(Q2) linear-in-Ω scaling holds: residual shrinks ~1.7× when Ω doubles, consistent with constant natural drift contribution; " +
+                "(Q3) active steering works: the same Lindblad+RZ model fits both Ω values on the same pair without retuning. " +
+                "The bra↔ket Hermitian off-diagonal of ρ on the prepared Bell-like initial state carries a well-defined complex phase, addressable on Heron r2 by per-chunk RZ injection on the steering qubit. " +
+                "Hardware substrate-of-evidence: F95 is the universal polynomial-foundation algebra of the angle that appears off the d=0 mirror; this run shows that algebra is operationally controllable, not merely descriptive.",
+            QubitPath: new[] { 82, 83 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;

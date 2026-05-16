@@ -1574,7 +1574,7 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 
     Q_peak(b)  =  Q_peak(N−2−b)        (bit-exactly, all c, N)
 
-Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant — uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S — while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification — the F71 symmetry gives the pairing, not the value. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
+Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant (uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S), while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification: the F71 symmetry gives the pairing, not the value. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
 **Valid for:** any Hamiltonian with \[H, R\] = 0 (uniform coupling on a symmetric graph), any dissipator with \[D, R_sup\] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
 **Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity.
@@ -2298,7 +2298,7 @@ At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
 
     t_peak = 1 / (4γ₀)
 
-universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits dominantly in dressed (H-mixed) modes** versus a much smaller fraction at large Q (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors per `DressedModeWeightClaim` Tier 1 candidate, not universal constants — empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form open.)
+universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits dominantly in dressed (H-mixed) modes** versus a much smaller fraction at large Q (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors per `DressedModeWeightClaim` Tier 1 candidate, not universal constants; empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form open.)
 
 The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value. The [Obstruction Proof](proofs/PROOF_F86B_OBSTRUCTION.md#obstruction-proof-why-g_eff-admits-no-closed-form) (2026-05-14) accounts for this structurally: g_eff is the irreducible residue, blocked from closed form by six obstruction lemmas (spectral irreducibility, even-N representation-dependence, probe-EP decoupling, finite-reduction insufficiency, signature-subspace mismatch, empirical trajectory-crossings), and via the F90 bridge the F89 D_k obstruction is the same wall.
 
@@ -2359,7 +2359,7 @@ For each bond b of an N-qubit XY chain (c=2, Z-dephasing γ₀), the HWHM_left/Q
 
 where the sub-class (per `BondSubClass` enum: `Endpoint`, `Flanking`, `Mid`, `CentralSelfPaired`, `Orbit2Escape`, `CentralEscapeOrbit3`) determines the (α, β) pair. The 0.671535 floor IS Tier 1 derived (the bare doubled-PTF constant `BareDoubledPtfHwhmRatio` via the 2-level EP model, 2026-05-06; see `C2BareDoubledPtfClosedForm`). The 12 (α, β) values per sub-class are **fitted** via `np.polyfit(...deg=1)` in [`simulations/_f86_hwhm_closed_form_verification.py`](../simulations/_f86_hwhm_closed_form_verification.py) line 78 on N=5..8 anchors, NOT derived from F89/F90 structure.
 
-Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J) — fit-quality witness, not analytical derivation.
+Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J): fit-quality witness, not analytical derivation.
 
 **Open analytical step (to promote Tier 1 candidate → Tier 1 derived):** derive (α_subclass, β_subclass) from F89 AT-locked F_a/F_b structure (4-mode floor 0.6715) + H_B-mixed octic residual (lift to 0.7506/0.7728), per [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) notes. Phase D probe (2026-05-16) refuted the multi-mode-per-cluster-pair internal-mixing hypothesis; lift must come from cross-cluster-pair structure.
 
@@ -2551,7 +2551,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 **Verified bit-exact at 20 of 22 per-bond comparisons across N=5..8** (the 2 within-noise are at N=8 b=2/b=4 mid-flanking Interior bonds within Q-grid resolution Δ ≤ 0.0008). Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact (extended Q-grid); N=8: 5/7 bit-exact + 2/7 within Q-grid noise. Verification includes orbit-escape bonds: N=7 b=1/b=4 at Q_peak ≈ 7.27 (F86-J), N=8 b=3 central self-paired escape at Q_peak ≈ 16.79 (F86-J), all reproducing bit-exact ratios.
 
 **Implications:**
-- F86 c=2 universal HWHM_left/Q_peak constants (0.7728 Endpoint, 0.7506 Interior mean over N=5..8) are **not eigenständige Größen** — they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
+- F86 c=2 universal HWHM_left/Q_peak constants (0.7728 Endpoint, 0.7506 Interior mean over N=5..8) are **not eigenständige Größen**; they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
 - F86 Direction (b'') (full block-L derivation, NOT 4-mode) achieved numerically via F89; closed-form via F89 AT-locked F_a/F_b structure (4-mode floor 0.6715) + H_B-mixed octic-style residual (lift to 0.7506/0.7728) is the next analytical step.
 - Per-F71-orbit substructure (see [PROOF_F86C_F71_MIRROR](proofs/PROOF_F86C_F71_MIRROR.md), "Per-F71-orbit substructure" section: central b=2 vs flanking b=1/b=3 at N=6 etc.) follows directly from F89's per-bond Bloch-mode profile.
 
@@ -2645,7 +2645,7 @@ where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-
 
 **Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/_born_rule_tier1_derivation.py`](../simulations/_born_rule_tier1_derivation.py), [`simulations/_born_rule_delta_dominant_coefficient.py`](../simulations/_born_rule_delta_dominant_coefficient.py), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md).
 
-### F95. Angle emergence at quadratic discriminant zero — universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
+### F95. Angle emergence at quadratic discriminant zero: universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
 
 **For any monic quadratic <c>z² − 2bz + c = 0</c>, the angle of its complex root pair (when the discriminant goes negative, c > b²) is:**
 
@@ -2669,7 +2669,7 @@ z = b ± i·√(c − b²)         when c > b²  (complex regime)
 arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 ```
 
-**Numerical verification:** all five non-boundary points from BOUNDARY_NAVIGATION.md's θ-compass table (CΨ ∈ {1/3, 0.308, 0.286, 0.266, 0.250}) reproduce within numerical precision; the single 0.2° drift at CΨ=0.256 is the Februar table's t-sampling rounding, not a formula discrepancy.
+**Numerical verification:** all five non-boundary points from BOUNDARY_NAVIGATION.md's θ-compass table (CΨ ∈ {1/3, 0.308, 0.286, 0.266, 0.250}) reproduce within numerical precision; the single 0.3° drift at CΨ=0.256 is the Februar table's t-sampling rounding, not a formula discrepancy.
 
 **Anchoring to typed Pi2-Foundation:**
 
@@ -2681,7 +2681,7 @@ arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 | i (complex angle generator) | `NinetyDegreeMirrorMemoryClaim` |
 | i⁴ = 1 (angle Z₄ closure) | `Pi2I4MemoryLoopClaim` |
 
-**Structural reading:** the polynomial d²−2d = 0 has two real roots (d = 0 mirror, d = 2 qubit dimension) — the unperturbed case. F95 is what happens when the polynomial is perturbed off the c=0 axis: as c crosses b² = 1/4 from below, the two real roots merge at z = b, then split into a complex conjugate pair whose argument is θ(c). The angle is the necessary minimal-parametrization coordinate of "above-threshold magnitude" — the same structural pattern as today's z = sym + i·anti F71-decomposition where arg(z) becomes the structural carrier once |z| > 0.
+**Structural reading:** the polynomial d²−2d = 0 has two real roots (d = 0 mirror, d = 2 qubit dimension): the unperturbed case. F95 is what happens when the polynomial is perturbed off the c=0 axis: as c crosses b² = 1/4 from below, the two real roots merge at z = b, then split into a complex conjugate pair whose argument is θ(c). The angle is the necessary minimal-parametrization coordinate of "above-threshold magnitude", the same structural pattern as today's z = sym + i·anti F71-decomposition where arg(z) becomes the structural carrier once |z| > 0.
 
 **Born-rule connection:** standard QM's complex amplitudes α = r·e^{iθ}, β = ... are not postulated. They are forced by the same polynomial-foundation algebra: any state that has crossed the d=0 mirror needs a second coordinate beyond magnitude, and that coordinate is the F95 angle. The Born rule's |α|² is the geometric length squared of the angle-vector's basis-projection.
 

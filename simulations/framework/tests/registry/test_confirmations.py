@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_twelve_entries():
+def test_confirmations_has_thirteen_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 12
+    assert len(names) == 13
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -21,6 +21,19 @@ def test_confirmations_has_twelve_entries():
     assert 'f83_pi2_class_signature_marrakesh' in names
     assert 'd_zero_sector_trichotomy_marrakesh' in names
     assert 'block_cpsi_saturation_kingston_may2026' in names
+    assert 'f95_angle_steering_kingston_may2026' in names
+
+
+def test_confirmations_lookup_f95_angle_steering():
+    e = fw.Confirmations.lookup('f95_angle_steering_kingston_may2026')
+    assert e['date'] == '2026-05-16'
+    assert e['machine'] == 'ibm_kingston'
+    assert 'bxyj5yd4j' in e['job_id']
+    assert 'bzklqwt7f' in e['job_id']
+    assert e['measured_value']['pair_A_mid_omega_0.13']['t_cross_us'] == 1.395
+    assert e['measured_value']['pair_A_mid_omega_0.25']['t_cross_us'] == 1.242
+    assert e['measured_value']['pair_B_high_omega_0.25']['t_cross_us'] == 2.814
+    assert 'F95AngleAtQuadraticZeroPi2Inheritance' in e['framework_primitive']
 
 
 def test_confirmations_lookup_palindrome_trichotomy():

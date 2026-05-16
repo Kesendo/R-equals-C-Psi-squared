@@ -32,7 +32,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// projection.</para>
 ///
 /// <para><b>Pi2-Foundation anchoring:</b> the "4" in the coefficient 4/3 is
-/// exactly <c>a_{−1} = 4</c> on the dyadic ladder (<see cref="Pi2DyadicLadderClaim"/>) —
+/// exactly <c>a_{−1} = 4</c> on the dyadic ladder (<see cref="Pi2DyadicLadderClaim"/>),
 /// the same "4" that appears in F86 t_peak = 1/(4γ₀) and F77's MM correction
 /// denominator. The "3" is the Taylor 3! ratio. The reduction 8/6 = 4/3 is
 /// algebraically forced.</para>
@@ -40,7 +40,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Universal Carrier signature:</b> Δ_i is Q-K-invariant (no separate
 /// γ-dependence when (J, γ) are scaled together at fixed Q). This is the
 /// operational signature of <see cref="UniversalCarrierClaim"/> at the
-/// per-outcome Born-rule level — γ vanishes from the ratio, only the
+/// per-outcome Born-rule level: γ vanishes from the ratio, only the
 /// dimensionless Carrier observables Q and K survive. Verified bit-exact across
 /// 4 (γ, J) configurations at fixed (Q, K).</para>
 ///
@@ -84,7 +84,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     /// <summary>The setup this claim applies to (specific to F94 numerical value 4/3).</summary>
     public const int N = 4;
 
-    /// <summary>The "3" denominator in 4/3 — surviving rational after the Dyson sym3
+    /// <summary>The "3" denominator in 4/3, surviving rational after the Dyson sym3
     /// element 8 is divided by the Taylor 3! = 6 prefactor: 8/6 = 4/3.</summary>
     public const int ThreeDenominator = 3;
 
@@ -103,7 +103,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     /// pattern: any claim using a_{−1} = 4 takes Quarter as mirror-partner anchor).</summary>
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
 
-    /// <summary>The "4" in the coefficient 4/3 — exactly <c>a_{−1} = 4</c> on the dyadic
+    /// <summary>The "4" in the coefficient 4/3, exactly <c>a_{−1} = 4</c> on the dyadic
     /// ladder, the same "4" in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator.</summary>
     public double FourFactor => _ladder.Term(-1);
 

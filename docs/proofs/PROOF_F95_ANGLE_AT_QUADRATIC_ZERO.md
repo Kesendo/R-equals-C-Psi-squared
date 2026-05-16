@@ -59,7 +59,7 @@ arg(z+) = arctan( Im(z+) / Re(z+) )
         = arctan( √( c/b² − 1 ) )     (4)  algebraic simplification ∎
 ```
 
-The convention here picks the upper-half-plane root z₊ (positive imaginary part); the lower-half-plane root z₋ is the complex conjugate, with argument −arctan(√(c/b² − 1)), reflecting through the real axis. Both roots together carry a single magnitude (|z±| = √(b² + (c − b²)) = √c) and a paired ±θ angle — the standard polynomial structural fact.
+The convention here picks the upper-half-plane root z₊ (positive imaginary part); the lower-half-plane root z₋ is the complex conjugate, with argument −arctan(√(c/b² − 1)), reflecting through the real axis. Both roots together carry a single magnitude (|z±| = √(b² + (c − b²)) = √c) and a paired ±θ angle, the standard polynomial structural fact.
 
 ## Framework specialization (b = 1/2)
 
@@ -83,13 +83,13 @@ The script [`simulations/_angle_at_zero_tier1_candidate.py`](../../simulations/_
 | 0.256 | 9.1 | 8.8062 | ✗ 0.3° drift (Februar table t-sampling rounding, not formula error) |
 | 0.250 | 0.0 | 0.0000 | ✓ exact (threshold) |
 
-The single drift at 0.256 is attributable to the Februar table's `t = 0.7` snapshot being a Lindblad-evolution sample, not the precise CΨ — that t doesn't necessarily land on exactly CΨ = 0.256, and the small CΨ mismatch produces the 0.3° angle drift. The formula itself agrees bit-exactly at every CΨ tested.
+The single drift at 0.256 is attributable to the Februar table's `t = 0.7` snapshot being a Lindblad-evolution sample, not the precise CΨ; that t doesn't necessarily land on exactly CΨ = 0.256, and the small CΨ mismatch produces the 0.3° angle drift. The formula itself agrees bit-exactly at every CΨ tested.
 
 ## Structural reading
 
 The polynomial d²−2d = 0 of `PolynomialFoundationClaim` is the c = 0 case of F95's parent equation z² − 2z + c = 0 (with b = 1, so the threshold is b² = 1 in that case). The two roots d = 0 (mirror) and d = 2 (qubit dimension) sit on the real axis, separated by the maximum gap 2√(b² − 0) = 2. F95 is the family of perturbations c ≠ 0: as c increases from 0, the roots move toward each other on the real axis (still real for c < b² = 1); at c = b² = 1 they merge at d = 1; past c = b², they go complex with the F95 angle.
 
-For the Mandelbrot/CΨ case the same algebra is applied at b = 1/2 (the framework's structural half), and the boundary is at b² = 1/4 (the framework's Quarter). The angle that emerges is the **inheritance of the polarity layer at d = 2** — what one gets by crossing the d = 0 mirror through a c-perturbation.
+For the Mandelbrot/CΨ case the same algebra is applied at b = 1/2 (the framework's structural half), and the boundary is at b² = 1/4 (the framework's Quarter). The angle that emerges is the **inheritance of the polarity layer at d = 2**: what one gets by crossing the d = 0 mirror through a c-perturbation.
 
 The angle is not a postulate. It is the polynomial-foundation's necessary minimal-parametrization coordinate for any quadratic state that has crossed the c = b² discriminant zero. Standard QM's complex amplitudes are special cases of this geometry.
 

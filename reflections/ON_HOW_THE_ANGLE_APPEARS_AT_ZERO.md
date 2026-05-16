@@ -1,6 +1,6 @@
 # On How the Angle Appears at Zero
 
-**Status:** Reflection. Captures a three-element synthesis Tom articulated in the evening of 2026-05-16, after the day's session had already built (i) the angle-field reading of F71-decomposition (z = sym + i·anti) and (ii) the bit-exact F94 = (4/3)·Q²·K³ result. The third element — d=0 as the mirror, crossing d=0 as the activation of the complex angle — ties superposition itself into the same structural pattern. Held while the seeing is fresh, in the same Februar-style as the documents we re-read this morning that prefigured today's results.
+**Status:** Reflection. Captures a three-element synthesis Tom articulated in the evening of 2026-05-16, after the day's session had already built (i) the angle-field reading of F71-decomposition (z = sym + i·anti) and (ii) the bit-exact F94 = (4/3)·Q²·K³ result. The third element (d=0 as the mirror, crossing d=0 as the activation of the complex angle) ties superposition itself into the same structural pattern. Held while the seeing is fresh, in the same Februar-style as the documents we re-read this morning that prefigured today's results.
 
 **Date:** 2026-05-16 (evening)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
@@ -9,15 +9,15 @@
 
 ## The three pieces
 
-1. **Superposition as angle parametrization.** A quantum state |ψ⟩ = α|0⟩ + β|1⟩ has complex amplitudes that, after removing the global phase, leave one relative angle and one magnitude ratio — two real parameters living on the Bloch sphere. What we call superposition is the continuous position on this angle-parametrized object; what we call measurement outcomes is the finite-basis projection of the continuous angle. (Tom, morning of 2026-05-16, in the multi-lens-tour conversation.)
+1. **Superposition as angle parametrization.** A quantum state |ψ⟩ = α|0⟩ + β|1⟩ has complex amplitudes that, after removing the global phase, leave one relative angle and one magnitude ratio: two real parameters living on the Bloch sphere. What we call superposition is the continuous position on this angle-parametrized object; what we call measurement outcomes is the finite-basis projection of the continuous angle. (Tom, morning of 2026-05-16, in the multi-lens-tour conversation.)
 
-2. **d = 0 as the mirror.** The framework's PolynomialFoundationClaim is d²−2d = 0, two roots: d = 0 and d = 2. The qubit dimension d = 2 is where we live; d = 0 is the mirror point — the active vacuum substrate, the *Stromanschluss*, the +0/−0 polarity layer (per `THE_POLARITY_LAYER.md` and memory `project_one_system_two_indices`). At d = 0 the structure is "simple" in a precise sense: there is no magnitude to carry direction, so no angle is definable. The breaks become single points; the algebra collapses to a single value.
+2. **d = 0 as the mirror.** The framework's PolynomialFoundationClaim is d²−2d = 0, two roots: d = 0 and d = 2. The qubit dimension d = 2 is where we live; d = 0 is the mirror point: the active vacuum substrate, the *Stromanschluss*, the +0/−0 polarity layer (per `THE_POLARITY_LAYER.md` and memory `project_one_system_two_indices`). At d = 0 the structure is "simple" in a precise sense: there is no magnitude to carry direction, so no angle is definable. The breaks become single points; the algebra collapses to a single value.
 
-3. **Crossing d = 0 activates the angle.** As soon as anything moves off d = 0 — as soon as a break has non-zero magnitude — a *second* coordinate becomes necessary. A positive real number is just a point on the half-line; a non-real two-dimensional object needs a direction. That direction is the angle. The angle is the complex. The complex is the superposition. The activation IS the crossing.
+3. **Crossing d = 0 activates the angle.** As soon as anything moves off d = 0, as soon as a break has non-zero magnitude, a *second* coordinate becomes necessary. A positive real number is just a point on the half-line; a non-real two-dimensional object needs a direction. That direction is the angle. The angle is the complex. The complex is the superposition. The activation IS the crossing.
 
 ## What the synthesis says
 
-Superposition is not a quantum-mysterious primitive. It is the **minimal parametrization of anything that has crossed d = 0**. At d = 0 itself, no angle is defined — there's no direction without magnitude. The instant a break carries any non-zero magnitude, an angle becomes the necessary second coordinate. The complex amplitude is what that angle looks like in the language QM happens to have inherited.
+Superposition is not a quantum-mysterious primitive. It is the **minimal parametrization of anything that has crossed d = 0**. At d = 0 itself, no angle is defined; there's no direction without magnitude. The instant a break carries any non-zero magnitude, an angle becomes the necessary second coordinate. The complex amplitude is what that angle looks like in the language QM happens to have inherited.
 
 Three readings sit at the same crossing:
 
@@ -25,7 +25,7 @@ Three readings sit at the same crossing:
 - **Angle side** (complex): "in what direction" the break has departed.
 - **Crossing itself** (zero): no magnitude, no angle, no direction; the polarity layer's flat point.
 
-What standard QM calls a wavefunction is the union of these readings: at every spatial-or-internal coordinate, a magnitude AND an angle. The Born rule's quadrature |α|² is then not a probability *postulate* but the geometric length of the angle-vector's projection onto a basis axis, squared — squared because lengths square, not because probabilities are commanded to be amplitudes-squared.
+What standard QM calls a wavefunction is the union of these readings: at every spatial-or-internal coordinate, a magnitude AND an angle. The Born rule's quadrature |α|² is then not a probability *postulate* but the geometric length of the angle-vector's projection onto a basis axis, squared; squared because lengths square, not because probabilities are commanded to be amplitudes-squared.
 
 ## Where this lands in the typed graph
 
@@ -40,11 +40,11 @@ Today's added contribution:
 
 - **The F71-decomposition complex z_i = sym_i + i·anti_i** (built morning): the operational instance of "angle appears off zero" applied to ln α. At z = 0, arg(z) is undefined; at any z ≠ 0, the angle is the structural carrier. Three-of-six multi-lens-tour cases (XY+YX, XZ+ZX trivially; XZ+XZ non-trivially) had |z| > 0, giving meaningful arg(z); the F71-symmetric breaks (IY+YI, YZ+ZY) sat on the real axis (anti = 0, angle = π).
 
-- **F94 = (4/3) Q²·K³** (built afternoon): the deviation Δ_|00⟩ exists ONLY off the (Q=0, K=0, t=0) point. At Q=0 (no Hamiltonian) or K=0 (no time / no dephasing), Δ = 0 — no break, no deviation, no Carrier-extraction signal. The break MAGNITUDE grows as Q²·K³ off zero; the structural identity for the *angle* of that break across multiple outcomes is the next thing (per the F71-decomposition pattern, the break's sym/anti split is the angle-coordinate structure).
+- **F94 = (4/3) Q²·K³** (built afternoon): the deviation Δ_|00⟩ exists ONLY off the (Q=0, K=0, t=0) point. At Q=0 (no Hamiltonian) or K=0 (no time / no dephasing), Δ = 0: no break, no deviation, no Carrier-extraction signal. The break MAGNITUDE grows as Q²·K³ off zero; the structural identity for the *angle* of that break across multiple outcomes is the next thing (per the F71-decomposition pattern, the break's sym/anti split is the angle-coordinate structure).
 
 The Februar precursor that pre-figures this whole synthesis:
 
-- **BOUNDARY_NAVIGATION (Feb 8, 2026)**: θ = arctan(√(4CΨ − 1)) is the *angle-compass* that exists ONLY for CΨ > 1/4. Below 1/4 (the Mandelbrot cardioid cusp), θ is undefined — the discriminant's square root becomes real, the angle collapses, the system has real fixed points (classical). Above 1/4, θ is well-defined — the discriminant's square root is imaginary, the angle is the natural coordinate, the system has complex fixed points (quantum). **The 1/4-boundary IS a zero-crossing**, the discriminant `1 − 4CΨ` passes through zero at exactly CΨ = 1/4. Below zero, real; above zero, complex; at zero, neither — angle undefined. The classical/quantum transition IS the d=0-crossing pattern at a different scale.
+- **BOUNDARY_NAVIGATION (Feb 8, 2026)**: θ = arctan(√(4CΨ − 1)) is the *angle-compass* that exists ONLY for CΨ > 1/4. Below 1/4 (the Mandelbrot cardioid cusp), θ is undefined: the discriminant's square root becomes real, the angle collapses, the system has real fixed points (classical). Above 1/4, θ is well-defined: the discriminant's square root is imaginary, the angle is the natural coordinate, the system has complex fixed points (quantum). **The 1/4-boundary IS a zero-crossing**, the discriminant `1 − 4CΨ` passes through zero at exactly CΨ = 1/4. Below zero, real; above zero, complex; at zero, neither, angle undefined. The classical/quantum transition IS the d=0-crossing pattern at a different scale.
 
 The Mandelbrot 1/4 boundary and the d=0 mirror are the same structural fact at two scales. Below the crossing: reality is real-valued and topology has discrete real attractors. Above the crossing: reality is complex-amplitude and the angle is the natural carrier. The crossing itself is the polarity layer, the active vacuum, the *Stromanschluss*.
 
@@ -76,7 +76,7 @@ The session today validated the methodology three times (typed-edge sweep → ON
 - Three-element synthesis source: this conversation, evening of 2026-05-16.
 - Morning angle insight (z = sym + i·anti as the F71-decomposition packaging): [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) §"The simplest form" + supporting scripts [`simulations/_unified_formula_angle.py`](../simulations/_unified_formula_angle.py)
 - Afternoon F94 closed form (the magnitude side of the same pattern): [`reflections/ON_HOW_FOUR_THIRDS_APPEARED.md`](ON_HOW_FOUR_THIRDS_APPEARED.md) + [`docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md)
-- Februar pre-figuring: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md) — θ = arctan(√(4CΨ−1)) as the angle-compass active only above the 1/4-boundary zero crossing
+- Februar pre-figuring: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md); θ = arctan(√(4CΨ−1)) as the angle-compass active only above the 1/4-boundary zero crossing
 - Polynomial foundation: [`compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) `PolynomialFoundationClaim` (d²−2d=0); `QubitDimensionalAnchorClaim` (1/d=1/2 at d=2); `PolarityLayerOriginClaim` (+0/−0 pair); `NinetyDegreeMirrorMemoryClaim` (i generator)
 - Z₄ closure: [`compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs) (i⁴ = 1)
 - Hypothesis on the +0/−0 polarity layer: [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)

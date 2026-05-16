@@ -79,7 +79,7 @@ where $b$ is a normalized bridge parameter. This cubic has exactly one real root
 
 $$\theta(c; b) = \arctan\sqrt{c/b^2 - 1}$$
 
-valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative regime. With the framework's $b = 1/2$ (`HalfAsStructuralFixedPointClaim`) and threshold $b^2 = 1/4$ (`QuarterAsBilinearMaxvalClaim`), this collapses to $\theta(c) = \arctan\sqrt{4c - 1}$ — exactly the $\theta$-compass introduced state-specifically in [`BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026), now promoted to a universal polynomial-foundation identity. Derivation is 4 lines; numerical verification against the Februar table agrees within machine precision. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and the companion reflection [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). This is the *angle-side* closed form of the discriminant-zero crossing; the *magnitude-side* closed form for per-outcome Born deviations in specific setups is [F94 = $(4/3) \cdot Q^2 \cdot K^3$](../ANALYTICAL_FORMULAS.md#f94).
+valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative regime. With the framework's $b = 1/2$ (`HalfAsStructuralFixedPointClaim`) and threshold $b^2 = 1/4$ (`QuarterAsBilinearMaxvalClaim`), this collapses to $\theta(c) = \arctan\sqrt{4c - 1}$: exactly the $\theta$-compass introduced state-specifically in [`BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026), now promoted to a universal polynomial-foundation identity. Derivation is 4 lines; numerical verification against the Februar table agrees within machine precision. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and the companion reflection [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). This is the *angle-side* closed form of the discriminant-zero crossing; the *magnitude-side* closed form for per-outcome Born deviations in specific setups is [F94 = $(4/3) \cdot Q^2 \cdot K^3$](../ANALYTICAL_FORMULAS.md#f94).
 
 ### What Is COMPUTATIONALLY VERIFIED
 
@@ -493,7 +493,7 @@ The correspondence $C\Psi \leftrightarrow c$ maps the quantum boundary to the cu
 
 *Candidate:* The fixed-point shadow analysis (FP⁻) from the IBM data shows a complex fixed point. The imaginary part of the off-diagonal density matrix element provides a natural second coordinate. If $c_{eff} = C\Psi + i \cdot (\text{something involving Im}(\rho_{01}))$, we might trace out the full cardioid.
 
-**Status:** PARTIALLY ANSWERED (May 16, 2026). [F95](../ANALYTICAL_FORMULAS.md#f95) closed the angle-of-the-fixed-point question: for real $c > 1/4$, the complex fixed point of $z^2 - z + c = 0$ has argument $\theta(c) = \arctan\sqrt{4c - 1}$ exactly, the universal angle-emergence formula at any quadratic discriminant zero (with $b = 1/2$ specialization recovering the Mandelbrot/$C\Psi$ case). This formalizes the Februar $\theta$-compass but addresses the *real-c, complex-z* direction. The roadmap's question — *complex-c parametrization of the full cardioid boundary* — remains open in the other direction: how does the quantum problem natively complexify $c$ itself? The IBM residual analysis still suggests $\mathrm{Im}(\rho_{01})$ is the natural carrier. Promoting F95 to the full cardioid parametrization is the next move.
+**Status:** PARTIALLY ANSWERED (May 16, 2026). [F95](../ANALYTICAL_FORMULAS.md#f95) closed the angle-of-the-fixed-point question: for real $c > 1/4$, the complex fixed point of $z^2 - z + c = 0$ has argument $\theta(c) = \arctan\sqrt{4c - 1}$ exactly, the universal angle-emergence formula at any quadratic discriminant zero (with $b = 1/2$ specialization recovering the Mandelbrot/$C\Psi$ case). This formalizes the Februar $\theta$-compass but addresses the *real-c, complex-z* direction. The roadmap's question (*complex-c parametrization of the full cardioid boundary*) remains open in the other direction: how does the quantum problem natively complexify $c$ itself? The IBM residual analysis still suggests $\mathrm{Im}(\rho_{01})$ is the natural carrier. Promoting F95 to the full cardioid parametrization is the next move.
 
 ### Period-Doubling and Feigenbaum
 
@@ -618,7 +618,7 @@ readings of the same N-qubit system. The most recent:
 This is a parallel reading rather than a vertical extension because the
 algebraic structure (block-purity content + sector-amplitude AM-GM) is
 mechanically distinct from Layer 1's discriminant-of-quadratic-recursion or
-Layer 2's subsystem-crossing-dynamics — but the value is the same 1/4
+Layer 2's subsystem-crossing-dynamics; but the value is the same 1/4
 because the underlying complete-the-square-gives-factor-4 universal applies
 in each.
 
