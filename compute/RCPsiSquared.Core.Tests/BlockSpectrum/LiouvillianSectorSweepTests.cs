@@ -16,7 +16,14 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 /// witness verifying the spectrum is closed under λ → −λ − 2Σγ within numerical tolerance.
 /// At small N where the cap covers every sector the sweep reproduces the full 4^N spectrum
 /// bit-for-bit; at larger N some sectors are skipped and the witness operates on the
-/// partial-but-symmetric collected set.</summary>
+/// partial-but-symmetric collected set.
+///
+/// <para>The F1 witness is expected to land at machine precision in this setup (truly XY +
+/// Z-dephasing → no F1-Brecher). The break mechanisms (T1 amplitude damping, depolarising
+/// noise, transverse-field Hamiltonians — see <see cref="F1.F1OpenQuestions"/> and
+/// <c>PalindromeResidualTests.F1_Palindrome_BreaksFor_T1Dissipator</c>) would lift the
+/// residual to <c>O(γ)</c> instead of <c>O(N · γ · ε_FP)</c>; this primitive's tight
+/// residuals at N=10 confirm no Brecher is silently introduced.</para></summary>
 public class LiouvillianSectorSweepTests
 {
     private readonly ITestOutputHelper _out;

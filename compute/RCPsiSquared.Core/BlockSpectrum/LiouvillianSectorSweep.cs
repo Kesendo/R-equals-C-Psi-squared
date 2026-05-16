@@ -29,6 +29,26 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// the collected eigenvalue set equals the full 4^N spectrum bit-for-bit (verified at
 /// N=3, 4 vs <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/> + direct Evd).</para>
 ///
+/// <para><b>F1 witness expectation — what the Brecher mechanism implies.</b> The witness
+/// is expected to land at machine precision (~1e-13 at N=10, γ=0.05) for this primitive's
+/// chain XY + Z-dephasing setup: the F-trichotomy classifies XY as "truly", and Z-dephasing
+/// is the F1-preserving dephasing axis, so there is no Brecher in play. Conditions that
+/// DO break F1 ("Brecher" mechanisms, enumerated in
+/// <see cref="F1.F1OpenQuestions"/> and witnessed at small N by
+/// <c>PalindromeResidualTests.F1_Palindrome_BreaksFor_T1Dissipator</c>):</para>
+/// <list type="bullet">
+///   <item><b>T1 amplitude damping</b> (Lindblad operator σ⁻ = (X − iY)/2 carries a Y
+///         component, bit_b = 1) — F1 residual jumps from FP-noise to <c>O(γ_T1)</c>.</item>
+///   <item><b>Depolarising noise</b> — F1 breaks with residual scaling (2/3)Σγ, linear
+///         in γ and N (closed form is an F1OpenQuestions item).</item>
+///   <item><b>Transverse-field Hamiltonians</b> h_x·X or h_y·Y at the Hamiltonian level —
+///         the Z⊗N-Brecher of <c>hypotheses/THE_POLARITY_LAYER.md</c>, takes the system
+///         out of the "truly" class.</item>
+/// </list>
+/// <para>A residual visibly above ~<c>10⁻¹⁰ · N · max(γ_l)</c> in this primitive's witness
+/// therefore indicates either an arithmetic bug in the per-block eig path or an unintended
+/// Brecher-introducing change to the L source (e.g. swapping in T1 instead of Z-dephasing).</para>
+///
 /// <para><b>Tier outcome: <see cref="Tier.Tier1Derived"/>.</b> Pure composition of Tier1
 /// primitives (<see cref="JointPopcountSectorBuilder"/>, <see cref="PerBlockLiouvillianBuilder"/>,
 /// <see cref="XGlobalChargeConjugationPairing"/>, dense LAPACK Evd) plus an arithmetic F1
@@ -36,6 +56,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para>Anchor: <see cref="LiouvillianBlockSpectrum"/> (parent full-coverage Claim);
 /// <see cref="F1.F1PalindromeIdentity"/> (the palindrome whose residual is witnessed);
+/// <see cref="F1.F1OpenQuestions"/> (enumerated F1-break mechanisms);
 /// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c>.</para>
 /// </summary>
 public sealed class LiouvillianSectorSweep : Claim
