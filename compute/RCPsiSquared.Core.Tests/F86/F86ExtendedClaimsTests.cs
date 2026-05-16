@@ -149,13 +149,22 @@ public class F86ExtendedClaimsTests
     }
 
     [Fact]
-    public void DressedModeWeightClaim_99PctAtPeak_31PctAtPlateau()
+    public void DressedModeWeightClaim_IsTier1Candidate_WithUnverifiedAnchors()
     {
+        // Tier-reviewed 2026-05-16: was Tier1Derived, downgraded to Tier1Candidate.
+        // Structural mechanism (probe weight pulled onto dressed modes past EP) IS sound,
+        // but specific hardcoded values 0.99/0.31 at PlateauQ=20 are unverified anchors:
+        // - W_peak in Q_SCALE_THREE_BANDS.md ranges 0.832 (N=4 c=2) to 0.9996 (N=9 c=3),
+        //   not universal 0.99
+        // - W_plateau is measured at Q=50 in the experiment (not Q=20), and ranges 0.42-0.86,
+        //   so the hardcoded 0.31 sits below the empirical range
+        // No C# code computes W(Q) per (c, N). Tier 1 derivation requires either analytical
+        // closed form from EP eigenvector rotation, or per-(c, N) witness collection.
         var claim = new DressedModeWeightClaim();
         Assert.Equal(0.99, claim.WeightAtQPeak);
         Assert.Equal(0.31, claim.WeightAtPlateau);
         Assert.Equal(20.0, claim.PlateauQ);
-        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
     }
 
     [Fact]

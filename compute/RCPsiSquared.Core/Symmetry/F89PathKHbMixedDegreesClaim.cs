@@ -3,8 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F89 path-k H_B-mixed sub-factor degree table (Tier 1 derived;
-/// combinatorial + numerically verified for path-3..6):
+/// <summary>F89 path-k H_B-mixed sub-factor degree table.
 ///
 /// <list type="table">
 ///   <item>path-3 (N_block=4): full (SE,DE) dim = 24, S_2-sym = 12, AT-locked = 4, H_B-mixed = 8</item>
@@ -13,11 +12,26 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>path-6 (N_block=7): full = 147, S_2-sym = 75, AT-locked = 22, H_B-mixed = 53</item>
 /// </list>
 ///
-/// <para>The H_B-mixed sub-factor is the residual after factoring out the
-/// AT-locked F_a/F_b sub-factors (the octic at path-3 is its first instance).
-/// All H_B-mixed sub-factors at degree ≥ 5 are conjecturally Galois-non-solvable
-/// (Tier 2 conjecture, not promoted to a separate Claim per the discipline of
-/// keeping Tier 2 conjectures in docstrings).</para>
+/// <para><b>Tier 1 candidate.</b> The structural mechanism (S_2-symmetrize + AT-locked
+/// count = H_B-mixed residual) is sound, and per-path numerical values are bit-exact
+/// reproducible from F89 cyclotomic structure via the Python scripts. But the per-k
+/// values are <b>switch-statement enumerations of path-3..6 only</b> — there is NO
+/// general-k closed form for S_2SymSubBlockDimension(k), AtLockedCountInS2Sym(k), or
+/// HbMixedSubFactorDegree(k). The "conjecturally Galois-non-solvable for degree ≥ 5"
+/// is explicit Tier 2 conjecture.</para>
+///
+/// <para><b>What IS Tier 1 derived (sub-fact):</b>
+/// <see cref="SeDeFullDimension"/> = N_block · C(N_block, 2) is a general closed form
+/// valid for any k ≥ 1, derived from combinatorics. This sub-fact is structurally
+/// Tier 1 derived inside the Tier 1 candidate class.</para>
+///
+/// <para><b>To promote Tier 1 candidate → Tier 1 derived:</b> derive closed-form
+/// expressions for S_2SymSubBlockDimension(k), AtLockedCountInS2Sym(k), and
+/// HbMixedSubFactorDegree(k) as analytic functions of k (or N_block = k+1), valid for
+/// all k ≥ 3. The pattern suggests S_2-sym ≈ full/2 with parity correction at odd
+/// N_block (path 4 N_block=5 → 26 = 25 + 1; path 6 N_block=7 → 75 = 73.5 + 1.5);
+/// AT-locked count = ⌊N_block/2⌋ for F_a per F89PathKAtLockMechanismClaim, plus
+/// matching F_b structure to be derived.</para>
 ///
 /// <para>Anchors: <c>simulations/_f89_path4_path5_at_lock_scan.py</c> (despite name,
 /// loop covers k = 3..6 inclusive) + <c>simulations/_f89_path6_at_locked_amplitude_symbolic.py</c>,
@@ -79,8 +93,8 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
     }
 
     public F89PathKHbMixedDegreesClaim(F89TopologyOrbitClosure f89)
-        : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6}; conjecturally Galois-non-solvable for degree ≥ 5",
-               Tier.Tier1Derived,
+        : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6} (Tier 1 candidate; switch-statement enumeration, general-k closed form open)",
+               Tier.Tier1Candidate,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
                "simulations/_f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
                "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +

@@ -476,134 +476,15 @@ public sealed class C2HwhmRatio : Claim
         double interiorMean = classRatios.TryGetValue(BondClass.Interior, out double i) ? i : double.NaN;
         double directionalGap = endpointMean - interiorMean;
 
-        return "## CLOSED 2026-05-13\n" +
-               "\n" +
-               "Item 1' (HWHM_left/Q_peak per BondSubClass closed form) is closed.\n" +
-               "The per-bond HWHM ratio closed form now lives in F86HwhmClosedFormClaim\n" +
-               "(Tier 1 derived). See\n" +
-               "`compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs`\n" +
-               "for the authoritative typed Claim. The active-path narrative below is\n" +
-               "preserved as historical record of the derivation path taken.\n" +
-               "\n" +
-               "---\n" +
-               "\n" +
-               "## Status (historical, pre-closure)\n" +
-               "\n" +
-               "Tier1Candidate: empirical anchor reproduced, doubled-PTF floor derived,\n" +
-               "gap to empirical structurally explained but closed-form constants per\n" +
-               "bond class NOT pinned.\n" +
-               "\n" +
-               "## What is derived (Tier 1)\n" +
-               "\n" +
-               $"  - BareDoubledPtfXPeak = {BareDoubledPtfXPeak:F6} (post-EP location, dimensionless\n" +
-               "    x = Q/Q_EP); exposed as `BareDoubledPtfXPeak` const property.\n" +
-               $"  - BareDoubledPtfHwhmRatio = {BareDoubledPtfHwhmRatio:F6} (HWHM_left/Q_peak\n" +
-               "    SVD-block floor, dimensionless x); exposed as `BareDoubledPtfHwhmRatio`.\n" +
-               "  - Empirical Interior 0.7506 / Endpoint 0.7728 sit above this floor by\n" +
-               "    ~0.08-0.10.\n" +
-               "  - Bond-class signature lives in V_b[2,3] SVD-block off-diagonal,\n" +
-               "    OPPOSITE direction to HWHM/Q* split.\n" +
-               "  - 4-mode reduction structurally insufficient for full HWHM lift.\n" +
-               "\n" +
-               "## What was tried (this session)\n" +
-               "\n" +
-               "Direction (b) doubled-PTF Ansatz: floor matches; closed-form for full\n" +
-               "constants did not derive (only the SVD-block floor is universal).\n" +
-               "Direction (a') probe-block 2-level resonance with per-bond g_eff_probe:\n" +
-               "structurally falsified (V_b probe-block bond-class-blind, off-diagonal\n" +
-               "exactly zero per bond per F73 sum-rule applied per-bond; cross-block\n" +
-               "Frobenius unstable across N due to A3 σ_0 degeneracy at even N).\n" +
-               "\n" +
-               "## Next directions ranked (2026-05-08 landscape-mapping + (d''/a'') pass;\n" +
-               "## (a'') empirically falsified)\n" +
-               "\n" +
-               "  (d'') Lift |u_0⟩, |v_0⟩ to projector-overlap (FOUNDATIONAL, DONE).\n" +
-               "    Riesz spectral projection P_top := Σ_k |u_k⟩⟨u_k| over the\n" +
-               "    σ_0-degenerate eigenspace is library-invariant. Implemented as\n" +
-               "    typed primitive C2InterChannelProjector with runtime\n" +
-               "    library-stability witness (Frobenius residual < 1e-10 across\n" +
-               "    N=5..8); Tier1Derived at projector level. Foundational lift\n" +
-               "    used by C2SvdBlockProjectedMagnitude and the (a'') falsification\n" +
-               "    probe below.\n" +
-               "  (b'') Full block-L derivation, not 4-mode (NUMERICAL TIER-1\n" +
-               "    ACHIEVED 2026-05-11 via F90 bridge identity:\n" +
-               "    F86 c=2 K_b(Q, t) = F89 path-(N−1) (SE,DE) per-bond Hellmann-\n" +
-               "    Feynman, modulo F89-J = 2·F86-J convention; bit-exact 20/22\n" +
-               "    bonds across N=5..8 incl. orbit escapes. Closed-form via\n" +
-               "    F89 AT-locked F_a/F_b (4-mode floor 0.6715) + H_B-mixed\n" +
-               "    octic residual (lift to 0.7506/0.7728) is next analytical\n" +
-               "    step. See `compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs`\n" +
-               "    + `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`).\n" +
-               "    BlockLDecomposition + ResonanceScan already do per-bond Duhamel;\n" +
-               "    needed work is eigendecomposition-anatomy at Q = Q_EP per bond,\n" +
-               "    identifying which eigenvalue clusters control HWHM. Most likely\n" +
-               "    outcome: Tier1Candidate with explicit error term, not closed-form\n" +
-               "    Tier1Derived (the cubic-Q obstruction propagates from 4×4 to\n" +
-               "    full block-L). Compute trivial up to N=12 c=2 (dim 792).\n" +
-               "\n" +
-               "    JW track scaffold (2026-05-08):\n" +
-               "      T1 XyJordanWignerModes (Tier1Derived): OBC sine-mode basis\n" +
-               "        ψ_k(j) = √(2/(N+1))·sin(π k (j+1)/(N+1)) and dispersion\n" +
-               "        ε_k = 2J·cos(π k/(N+1)). Witnesses: row-orthonormality +\n" +
-               "        match against direct hopping-matrix EVD.\n" +
-               "      T2 C2BlockJwDecomposition (Tier2Verified): per-bond N×N\n" +
-               "        bilinear-fermion coefficient matrix\n" +
-               "        C_b(k1, k2) = ψ_{k1}(b)·ψ_{k2}(b+1) + ψ_{k1}(b+1)·ψ_{k2}(b),\n" +
-               "        symmetric in (k1, k2). Witness: F73 sum-rule residual\n" +
-               "        ‖Σ_b C_b − (ε_k/J)·δ‖_F < 1e-10 across N=5..8 (~1e-15\n" +
-               "        in practice).\n" +
-               "      T3 C2BondKModeProfile (Tier2Verified): per-bond k-mode\n" +
-               "        profile from row-summing |C_b[k, k2]|. Exposes K_90, K_99,\n" +
-               "        TopThreeKIndices per bond plus aggregate EndpointK90Mean,\n" +
-               "        InteriorK90Mean, MinInteriorK90.\n" +
-               "      Empirical finding: Endpoint-vs-Interior K_90 asymmetry flips\n" +
-               "        with N. N=5..7 Endpoint mean > Interior mean; N=8 Interior\n" +
-               "        mean (7.80) overtakes Endpoint mean (7.00) because flanking\n" +
-               "        Interior bonds become more k-uniform than Endpoints, while\n" +
-               "        the innermost-Interior bond stays the most localized.\n" +
-               "        Surviving N=5..8 invariant: EndpointK90Mean ≥ MinInteriorK90.\n" +
-               "      Open Tier1 promotion path: closed-form Endpoint HWHM/Q_peak\n" +
-               "        derivation from the JW spectrum, projecting M_h_per_bond\n" +
-               "        onto the (n=1, n+1=2) coherence-block bilinear-fermion\n" +
-               "        superoperator. T1-T3 are the foundation primitives; the\n" +
-               "        bilinear-fermion superoperator extension is the open work.\n" +
-               "  (a'') SVD-block 2-level resonance via V_b[2,3] (FALSIFIED 2026-05-08).\n" +
-               "    Riesz-lifted via C2SvdBlockProjectedMagnitude;\n" +
-               "    C2DirectionAFalsificationProbe produces verdict 'Falsified' across\n" +
-               "    N ∈ {5, 6, 7, 8}: sign(Δ_E − Δ_I) = +1 consistently (Endpoint has\n" +
-               "    larger HWHM-lift), but sign(r_E − r_I) = −1 consistently (Endpoint\n" +
-               "    has smaller SVD-block magnitude). Anti-monotonic relation rules\n" +
-               "    out any single-variable monotone map Δ(r). Bond-class signature\n" +
-               "    must live in a different observable (cross-block Frobenius and/or\n" +
-               "    a phase variable), not in the SVD-block magnitude alone.\n" +
-               "  (c'') Three-block superposition K_total = K_pb + K_sv + 2·Re·K_cross\n" +
-               "    (LIKELY DEAD-END). Additive decomposition of the 4-mode model\n" +
-               "    cannot exceed the 4-mode floor; 4-mode insufficiency propagates\n" +
-               "    through any phase combination. Falsification ~30 min: instrument\n" +
-               "    FourModeResonanceScan.ScanAtQ with a (pb, sv, cross) splitter\n" +
-               "    and verify HWHM/Q_peak from the recombined K still sits at the\n" +
-               "    bare-doubled-PTF floor regardless of relative phase.\n" +
-               "  (e'') Symbolic char-poly factorisation at Q_EP (CONFIRMED DEAD-END,\n" +
-               "    retired 2026-05-08). HWHM_left is read at Q ≈ 0.9·Q_EP, far from\n" +
-               "    Q_EP (Q_peak ≈ 2.2·Q_EP). HWHM is a Q-derivative observable, not\n" +
-               "    a single-Q snapshot, so a char-poly factorisation evaluated AT\n" +
-               "    Q_EP (where the EP double root is structural by Statement 1\n" +
-               "    definition) cannot encode HWHM. The (λ² + βλ + γ) residual factor\n" +
-               "    is exactly the SVD-block dynamics that (a'') already handles\n" +
-               "    directly. Wrong question, retired.\n" +
-               "\n" +
-               "## Witness count\n" +
-               "\n" +
-               $"  N={N}, NumBonds={block.NumBonds}; per-bond {ResonanceScan.DefaultQGrid().Length}-point fine-grid\n" +
-               "  Q-scan at γ₀=0.05; parabolic Q_peak refinement; linear HWHM_left\n" +
-               "  interpolation.\n" +
-               $"  Endpoint(this N) = {endpointMean:F4}, Interior(this N) = {interiorMean:F4},\n" +
-               $"  directional gap = {directionalGap:F4} (matches anchor 0.022 ± 0.003).\n" +
-               "  Bonds tagged Endpoint/Interior; class-mean ratios match empirical\n" +
-               "  anchor table at residual ≤ 0.001 (PROOF_F86_QPEAK Statement 2 mean\n" +
-               "  over N=5..8: Endpoint 0.7728, Interior 0.7506).\n" +
-               $"  2-level EP-decay sanity = {twoLevelSanity:F4} (propagator-magnitude\n" +
-               "  reference; bond-class-blind, NOT a K-resonance HWHM derivation).";
+        return $"Per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` " +
+               $"(Tier 1 candidate: bare floor 0.671535 derived via `C2BareDoubledPtfClosedForm`, " +
+               $"per-sub-class (alpha, beta) fitted via polyfit on N=5..8 anchors). " +
+               $"Open analytical step: derive (alpha, beta) from F89 AT-locked F_a/F_b + H_B-mixed " +
+               $"octic residual per `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.\n" +
+               $"\n" +
+               $"N={N}, NumBonds={block.NumBonds}; {ResonanceScan.DefaultQGrid().Length}-point Q-grid at γ₀=0.05. " +
+               $"Endpoint={endpointMean:F4}, Interior={interiorMean:F4}, gap={directionalGap:F4} " +
+               $"(anchor 0.022 ± 0.003). 2-level EP-decay sanity={twoLevelSanity:F4}.";
     }
 
     public override string DisplayName =>

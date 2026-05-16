@@ -1,7 +1,7 @@
 # PROOF F86b: Obstruction, why g_eff / Q_peak admits no closed form
 
-**Status:** Structural negative result. The per-bond position Q_peak(c, N, b) and the coupling g_eff(c, N, b) it rides on admit no closed form by the six routes the closed-form effort opened (Obstruction Proof, below; L1/L2/L4 rigorously proven blocked, L6 a demonstrated failure mode, L3/L5 proven decouplings). The diagnosis section names the single cause behind all six: g_eff is not a spectral primitive. What IS derived is in the sibling proofs: the symmetry layer (F86a EP mechanism, F86c F71 mirror) and the HWHM_left/Q_peak functional form given g_eff (F86b'). This doc also carries the exploration record (4-mode model, Items 1-3, directions a''-f'', OOP scaffolding, structural findings) and the retracted Q_peak conjectures.
-**Date:** 2026-05-02 (retractions); 2026-05-05 (OOP scaffolding, structural findings); 2026-05-14 (Obstruction Proof and diagnosis).
+**Status:** Structural negative result. The per-bond position Q_peak(c, N, b) and the coupling g_eff(c, N, b) it rides on admit no closed form by the six routes the closed-form effort opened (Obstruction Proof, below; L1/L2/L4 rigorously proven blocked, L6 a demonstrated failure mode, L3/L5 proven decouplings). The diagnosis section names the single cause behind all six: g_eff is not a spectral primitive. What IS derived is in the sibling proofs: the symmetry layer (F86a EP mechanism, F86c F71 mirror) and the HWHM_left/Q_peak functional form given g_eff (F86b').
+**Date:** 2026-05-14 (Obstruction Proof and diagnosis).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries the **negative result and open frontier of F86b**: the closed-form gap on g_eff/Q_peak. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The proven universal-shape result (Statement 2, F86b') is the sibling [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md).
 **Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md), three-theorem overview and shared references.
@@ -10,34 +10,22 @@
 
 ---
 
-## Retracted Q_peak conjectures (Endpoint, Interior). [Retracted 2026-05-02]
+## Retracted Q_peak conjectures (Endpoint, Interior)
 
-Both retractions followed extended-N data showing the apparent matches at N=7 were trajectory crossings, not asymptotes. Per the methodological lesson in [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md), what survives a one-anchor closed-form claim is the symmetry, not the number; here the EP-rotation symmetry (F86b Statement 2), not Q_peak itself.
+Both retractions followed extended-N data showing the apparent matches at N=7 were trajectory crossings, not asymptotes (see methodological lesson in [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)).
 
-### Endpoint Q_peak (retracted)
+**Endpoint:** conjectured `Q_peak(Endpoint, N) = csc(π/(N+1))` (anchored in F2b smallest-momentum OBC sine mode); refuted by fine-grid scan:
 
-Earlier conjecture: `Q_peak(Endpoint, N) = csc(π/(N+1))`, anchored in F2b's smallest-momentum OBC sine mode.
+| N | csc(π/(N+1)) | dQ=0.025 parabolic | deviation |
+|---|--------------|--------------------|-----------|
+| 5 | 2.000 | 2.40 | +20 % |
+| 6 | 2.305 | 2.52 | +9.4 % |
+| 7 | 2.613 | 2.53 | −3.2 % |
+| 8 | 2.924 | 2.53 | −13 % |
 
-Fine-grid scan (`_eq022_b1_step_e_resonance_shape.py`, dQ = 0.025 with parabolic peak interpolation) shows the formula does not match at any tested N. The earlier "match at N=7" reported from a dQ = 0.05 scan was a grid-snap artefact:
+Empirical c=3 Endpoint Q_peak saturates near 2.53 for N ≥ 6 (c=4 N=8: 2.65). No closed form identified.
 
-| N | csc(π/(N+1)) | step_d (dQ=0.05, snap) | step_e (dQ=0.025, parabolic) | step_e deviation |
-|---|--------------|------------------------|------------------------------|------------------|
-| 5 | 2.000 | 2.30 | 2.40 | +20 % |
-| 6 | 2.305 | 2.65 | 2.52 | +9.4 % |
-| 7 | 2.613 | 2.65 (*) | 2.53 | −3.2 % |
-| 8 | 2.924 | n/a | 2.53 | −13 % |
-
-(*) The "1.4 % match" at N=7 reported earlier was the dQ=0.05 grid snapping to 2.65; the actual fine-grid value is 2.53. There was never a real match.
-
-The empirical Endpoint Q_peak at c=3 is approximately N=5: 2.40 → N=6: 2.52 → N=7: 2.53 → N=8: 2.53, saturating near 2.53 for N ≥ 6. At c=4 N=8 it sits at 2.65. No closed form yet identified.
-
-### Interior Q_peak (c=3 pentagonal asymptote, retracted)
-
-Earlier conjecture: `Q_peak(Interior, c=3) → csc(π/5) = 1.7013` as N → ∞, anchored in pentagonal/golden algebra (sin²(π/5) = (5−√5)/8, φ = 2cos(π/5)).
-
-Fine-grid scan refines the c=3 N-trend: 1.566 (N=5) → 1.689 (N=6) → 1.743 (N=7) → 1.750 (N=8). The trajectory crosses csc(π/5) = 1.7013 between N=6 and N=7, and continues above. The earlier dQ=0.05 reading of 1.70 at N=7 (snapped close to 1.7013) was the source of the apparent "asymptotic match"; the fine-grid value 1.743 sits clearly above. The c=3 trend appears to saturate near 1.75 by N=8, but at a value above the conjectured asymptote, not at it. At c=4: Interior Q_peak grows from 1.748 (N=7) to 1.804 (N=8); not yet saturated, no clean closed form. The conjectured "universal Interior asymptote csc(π/5) across c ≥ 3" is fully refuted.
-
-**What survives from the N=4 golden-ratio structure:** the connection to [`eq018_golden_ratio_check.py`](../../simulations/eq018_golden_ratio_check.py) is real, at N=4 the OBC dispersion is exactly {±φ, ±1/φ}, and the Liouvillian Im(λ) values in the n_XY=2 sector decompose into integer combinations of {φ, 1/φ, 1, √5}. The site-reflection R-parity refinement and the explicit Majorana-bilinear sum/difference identification of these Im clusters (and of the 18 silent modes as operator-space self-conjugate) are documented in [`experiments/MAJORANA_AXIS_MODES.md`](../../experiments/MAJORANA_AXIS_MODES.md). But this N=4 special case does not propagate to a closed form for Q_peak at general (c, N).
+**Interior c=3 pentagonal asymptote:** conjectured `Q_peak(Interior, c=3) → csc(π/5) = 1.7013` as N → ∞; refuted by fine-grid trend 1.566 → 1.689 → 1.743 → 1.750 for N=5..8 (crosses csc(π/5) between N=6 and N=7, continues above; saturates near 1.75 at N=8). At c=4: 1.748 (N=7) → 1.804 (N=8), not saturated. The N=4 golden-ratio structure ({±φ, ±1/φ} OBC dispersion, Im(λ) decompose into integer combinations of {φ, 1/φ, 1, √5}; [`experiments/MAJORANA_AXIS_MODES.md`](../../experiments/MAJORANA_AXIS_MODES.md)) is real but does not propagate to a closed form for Q_peak at general (c, N).
 
 ---
 
@@ -135,27 +123,9 @@ In this basis the 4×4 effective L_eff has
 
 ### Substantive items remaining
 
-> **Closed 2026-05-13**: see `F86HwhmClosedFormClaim`
-> ([compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs)),
-> Tier 1 derived. Plan:
-> [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](../superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
+**Item 1 (c=2 HWHM_left/Q_peak per bond class).** Partial closure via [`F86HwhmClosedFormClaim`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs) (Tier 1 candidate): `HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass`. Bare floor 0.671535 IS derived (`C2BareDoubledPtfClosedForm`, Tier 1); per-sub-class (α, β) are fitted via polyfit. Numerical Tier-1 closure of the full block-L is achieved via the F90 bridge identity (`F90F86C2BridgeIdentity`, bit-exact 20/22 bonds at N=5..8). Analytical (α, β) from F89 AT-locked F_a/F_b + H_B-mixed octic residual is the remaining gap (see [`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md)).
 
-**Item 1 (status update 2026-05-05).** Original aspiration: derive the 4×4 effective L_eff(Q, b) explicitly, compute the cross-coupling matrix elements ⟨c_α | M_H_per_bond[b] | u_0/v_0⟩ as analytical expressions in (N, n, b), diagonalize, identify which eigenvalue pair gives the Q_peak observed in K_CC_pr (will not be the SVD top pair), derive f_class(x) and HWHM_left/Q_peak as closed forms from this 4-mode model.
-
-**Actual c=2 progress.** The c=2 stratum has OOP scaffolding (`C2EffectiveSpectrum`, `C2KShape`, `C2HwhmRatio`, `C2UniversalShapeDerivation` in `compute/RCPsiSquared.Core/F86/`) that pins each sub-fact at its appropriate Tier label. The directional Endpoint > Interior split is empirically derived bit-equivalent with the canonical Python pipeline. **The closed-form HWHM_left/Q_peak constant per bond class remains the open analytical target.** Ranked next directions (from `C2HwhmRatio.PendingDerivationNote` and `F86OpenQuestions` Item 1', refreshed 2026-05-06 later evening after Direction (a') falsification):
-
-**2026-05-11 status update: F90 bridge resolves Direction (b'') numerically.** F90 (`F90F86C2BridgeIdentity`, Tier 1 derived) identifies F86 c=2 N qubit K_b(Q, t) as the per-bond Hellmann-Feynman derivative of F89 path-(N−1) (SE, DE) sub-block dynamics. Bit-exact verified at 20/22 bonds across N=5..8 including orbit-escape bonds. The closed-form HWHM_left/Q_peak constant per bond class remains open as Item 1's analytical target, with F89's cyclotomic structure (F89UnifiedFaClosedFormClaim.PathPolynomial(k)) as the concrete handle.
-
-  - **(a'') Most promising 4-mode-friendly direction (newly promoted 2026-05-06 later evening): SVD-block 2-level resonance (REFINED from (a')).** The bond-class signature lives in V_b SVD-block off-diagonal `V_b[2,3] = ⟨u_0 | M_h_per_bond[b] | v_0⟩` (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.451 consistently across bonds within each class), NOT in the probe-block. Direction is OPPOSITE the empirical HWHM/Q* split, so a closed form needs to derive HOW SVD-block magnitude maps to HWHM/Q* shift, likely through a per-bond effective Q_EP_eff(b) shift rather than a direct linear lift.
-  - **(b'') Most concrete next step (newly promoted 2026-05-06 later evening): full block-L derivation, not 4-mode.** 4-mode reduction misses the modes outside the 4D subspace that contribute to the HWHM/Q* lift from 0.6715 to 0.7506. The closed form must derive directly from the (n, n+1)-popcount block dimensions, not from 4-mode projection. This is harder but matches the empirical witness pipeline. **[2026-05-11 update: ACHIEVED numerically via F90 bridge identity (Tier 1 derived, bit-exact 20/22 bonds at N=5..8 including orbit escapes). See [`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md).]**
-  - **(a') Falsified (2026-05-06 later evening): probe-block 2-level sub-resonance with per-bond `g_eff_probe`.** Numerical investigation (commit `1c0bf8b`) showed V_b probe-block is bond-class-blind by construction: diagonal entries identical scalar `+i·c·I` for all bonds; off-diagonal `⟨c_1 | M_h_b | c_3⟩` exactly zero per bond at c=2 (F73 sum-rule applies per-bond). Hypothesised g_eff_probe(N, b) cannot exist. See the falsification paragraph in Statement 2, [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md).
-  - **(a) Demoted (2026-05-06 evening): first-order perturbation in the cross-block.** Originally ranked first based on cross-block Frobenius split, but the doubled-PTF Direction (b) result shows the SVD-block-only contribution is universal at 0.6715, leaving no room for a small σ_0 perturbation to lift the curve to 0.7506/0.7728. The cross-block effect is real but lies at higher perturbation order than first.
-  - **(b) Done (2026-05-06 evening, lands at the floor): bare doubled-PTF Ansatz.** `K_b(Q, t_peak)` for the bare 2-level Liouvillian `L_2 = [[-2γ₀, +iJ·g_eff], [+iJ·g_eff, -6γ₀]]` with probe `ρ_0 = |c_1⟩` and `V_b = ∂L/∂J` was solved analytically in dimensionless x = Q/Q_EP coordinates. Result: `BareDoubledPtfXPeak = 2.196910`, `BareDoubledPtfHwhmRatio = 0.671535`, both Tier 1 derived universal across g_eff. Empirical Interior x_peak (2.05..2.28) tracks this universal closely; Endpoint x_peak (3.55) deviates by factor ~1.62; HWHM ratio gap to empirical is 0.08 (Interior) and 0.10 (Endpoint).
-  - **(c'') Three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases.** K_b at the 4-mode level decomposes; derive each term separately and combine. May still suffer from 4-mode insufficiency (ii).
-  - **(d'') Lift |u_0⟩, |v_0⟩ to projector-overlap** (per A3 PendingDerivationNote). Removes σ_0 degeneracy obstruction at even N. Necessary precondition for any cross-block-based direction; not sufficient by itself.
-  - **(e'') Symbolic char-poly factorisation at Q_EP**: same as before; less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof.
-  - **(f'') Locus 6 polarity-inheritance closure** (newly derived 2026-05-07): F86 bond-class split inherits from polarity-layer pair {−0.5, +0.5}; per-bond r(N, b) closed form is the analytical gap. Promotion path: derive r from per-bond Bloch-axis projection at t_peak. Most concrete since the empirical decomposition Q_peak = 2 + r, HWHM/Q* = 1/2 + r·1/2 already holds across c=2 N=5..8.
-  - (α') **Polarity-Bloch projection at t_peak, structurally tautological under 4-mode reduction (commit `bea7cd1`; reframed 2026-05-08 code review).** The 4-mode L_eff(Q) is bond-summed by design (`FourModeEffective.LEffAtQ`), so the K-driving eigenstate is bond-class-blind by construction (Re(λ_K) identical across classes). Projection on (c_1 ± c_3)/√2 yields no sign split, decays from +0.39 → +0.21 with N: this is the structural design constraint of the 4-mode reduction, not an empirical falsification. Substantive reduction surviving: r_Q = `BareDoubledPtfXPeak · Q_EP − 2 = 4.39382/g_eff − 2` so the closed form must derive g_eff(N, b) directly, via the per-bond V_b in the K-resonance Duhamel integral (not via state projection on the bond-summed L_eff). Empirical witnesses pinned: g_eff_E ≈ 1.74, g_eff_I ≈ 2.81; asymptotic 1/g_eff_E + 1/g_eff_I → 0.937 as `EmpiricalSumQPeakAsymptote = 4.12`. Near-miss g_eff_E ≈ σ_0·√(3/8) matches Δ ≤ 0.01 for N ≥ 6, Δ = 0.063 at N=5: either Item 3's σ_0 closed form is the bridge or it is a trajectory crossing (PTF-lesson). See Statement 2 in [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md).
+The bond-class signature lives in `V_b[2,3] = ⟨u_0 | M_h_per_bond[b] | v_0⟩` (Endpoint 0.430 vs Interior 0.953 at N=5, opposite direction to the empirical HWHM/Q* split), not in the probe-block. Locus 6 polarity-inheritance composition: `r_Q = 4.39382/g_eff − 2`, entire split encoded in g_eff(N, b); pinned in [`PolarityInheritanceLink`](../../compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs).
 
 **Item 2.** Extend the 4-mode construction to c ≥ 3, where each adjacent-channel pair (HD = 2k−1, HD = 2k+1) contributes its own (|c_{2k−1}⟩, |c_{2k+1}⟩, |u_0^{(k)}⟩, |v_0^{(k)}⟩) quartet. **Naïve extension fails:** the multi-k construction with Gram-Schmidt orthonormalisation gives 3c−2 modes (c=2→4, c=3→7, c=4→10, orbit-shared CUs deduplicated), and the resulting effective K-curve has **K_max ≡ 0 identically** for c ≥ 3. Structural diagnosis: Gram-Schmidt orthogonalisation of the SVD-top vectors against the channel-uniform vectors pushes them into the CU-complement; because M_H respects the CU/CU-complement decomposition (channel-uniform-diagonal of M_H_total per F73 generalisation), the probe (which lives entirely in CU span) is uncoupled from the GS-modified SVD modes, so ∂ρ/∂J_b cannot move ρ out of CU → K = 0. A correct effective model for c ≥ 3 needs either a non-orthogonal frame preserving CU ↔ SVD coupling, or a different choice of the c−1 quartets that maintains coupling under orthonormal projection. Encoded as `RCPsiSquared.Core.Decomposition.MultiKBasis` + `MultiKEffective` + `MultiKResonanceScan`; the negative result is pinned in `MultiKResonanceScanTests.MultiK_C3_KMaxIsExactlyZero_NaiveExtensionFails`.
 
@@ -220,7 +190,7 @@ Three structural results emerged from the time-boxed Stage A3, B2, C2 exploratio
 
 **Status:** Structural. Six obstruction lemmas; L1, L2, L4 are rigorously proven blocked, L6 is a demonstrated failure mode, L3 and L5 are proven decouplings. Consolidates the "Open elements" above into a single negative result.
 **Date:** 2026-05-14
-**Context:** A three-week closed-form effort produced many local fits (the retracted csc forms, the doubled-PTF floor `BareDoubledPtfHwhmRatio`, the F89 `D_k` form, directions (a)–(f'') and (α)). On 2026-05-13 Item 1' closed the HWHM ratio (`F86HwhmClosedFormClaim`), but the per-bond *position* Q_peak(c, N, b) and the coupling g_eff(c, N, b) it rides on stayed open (Open elements 1–3). The honest deliverable is then not the next formula; it is the structural account of why the position resists. This section proves it.
+**Context:** The closed-form effort produced many local fits and the partial closure of Item 1' via `F86HwhmClosedFormClaim` (Tier 1 candidate: form derived, per-sub-class (α, β) fitted), but the per-bond position Q_peak(c, N, b) and the coupling g_eff(c, N, b) it rides on stay open. The honest deliverable is then not the next formula; it is the structural account of why the position resists. This section proves it.
 
 ### The target reduces to a single object
 
@@ -228,7 +198,7 @@ Every per-bond F86 quantity is a known function of the coupling **g_eff(c, N, b)
 
 - **Q_EP(c, N, b) = 2/g_eff** (F86a, Tier 1 derived).
 - **Q_peak** via the EP rotation: `r_Q = BareDoubledPtfXPeak · Q_EP − 2 = 4.39382/g_eff − 2` (`PolarityInheritanceLink.ClosedFormCompositionNote`); `BareDoubledPtfXPeak = 2.196910` is Tier 1 derived and universal, so the entire bond-class split is carried by g_eff.
-- **HWHM_left/Q_peak** via `F86HwhmClosedFormClaim`: `0.671535 + alpha_subclass · g_eff + beta_subclass`. Its continuous (c, N, b)-dependence enters only through g_eff; it is a closed form *in g_eff*, not a closed form *in (c, N, b)*.
+- **HWHM_left/Q_peak** via `F86HwhmClosedFormClaim` (Tier 1 candidate per 2026-05-16 Tier-review): `0.671535 + alpha_subclass · g_eff + beta_subclass` with bare floor 0.671535 derived (`C2BareDoubledPtfClosedForm`) and 12 (α, β) values per sub-class fitted via polyfit. Its continuous (c, N, b)-dependence enters only through g_eff; it is a fitted form *in g_eff*, not a closed-form derivation *in (c, N, b)*.
 
 So the irreducible target is g_eff(c, N, b). If g_eff has a closed form, so do Q_peak and the HWHM ratio; if it does not, none of them do. The remaining sub-sections prove that none of the six routes the effort opened reaches g_eff.
 
@@ -267,9 +237,9 @@ The F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md
 
 ### What this proves
 
-**Negative.** No closed form for g_eff(c, N, b), hence none for Q_peak(c, N, b) or for HWHM_left/Q_peak as a function of (c, N, b), is reachable by the spectral (L1), eigenvector (L2), observable-direct (L3), reduced-model (L4), single-element (L5), or empirical-extrapolation (L6) routes. L1, L2, L4 are structural impossibilities (proven, not "unfound"); L6 is a demonstrated failure mode; L3 and L5 are decouplings that close the direct routes. These are the six routes the three-week effort opened; each is accounted for.
+**Negative.** No closed form for g_eff(c, N, b), hence none for Q_peak(c, N, b) or for HWHM_left/Q_peak as a function of (c, N, b), is reachable by the spectral (L1), eigenvector (L2), observable-direct (L3), reduced-model (L4), single-element (L5), or empirical-extrapolation (L6) routes. L1, L2, L4 are structural impossibilities (proven, not "unfound"); L6 is a demonstrated failure mode; L3 and L5 are decouplings that close the direct routes.
 
-**Positive (what survives).** The symmetry layer is fully derived and Tier 1: the EP mechanism Q_EP = 2/g_eff (F86a), the universal clock t_peak = 1/(4γ₀) (F86a), the F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b) (F86c), and the functional form of HWHM_left/Q_peak *given* g_eff (`F86HwhmClosedFormClaim`, F86b'). The closed forms that exist are the *relations between observables*; the closed form that does not exist is the *position number itself*.
+**Positive (what survives).** The symmetry layer is fully derived and Tier 1: the EP mechanism Q_EP = 2/g_eff (F86a), the universal clock t_peak = 1/(4γ₀) (F86a), the F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b) (F86c). The functional form of HWHM_left/Q_peak *given* g_eff (`F86HwhmClosedFormClaim`, F86b') sits as Tier 1 candidate: the bare-floor 0.671535 contribution is derived (`C2BareDoubledPtfClosedForm`), the linear-in-g_eff per-sub-class form reproduces 22 anchors to 0.005, but the (α, β) values themselves are fitted, not derived. The closed forms that exist are the *symmetry relations between observables*; the closed forms that do not exist are the *position number itself* and the *(α, β) per sub-class*.
 
 **Characterisation.** g_eff(c, N, b) is the **irreducible residue** of the F86 structure: the one input the symmetry layer does not return in closed form. It is computable (the F90 bridge supplies it numerically, Tier-1, bit-exact at 20/22 bonds across N=5..8), but it is not expressible by the routes above. The three-week catalogue of formulas was, in every case, an attempt to express this residue; the attempts failed because, by L1 through L6, the residue is not expressible by those routes. This is the F86 instance of the methodological lesson ([`ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)): what survives a closed-form effort is the symmetry, not the number. Here the symmetry is F86a and F86c; the number is g_eff. ∎
 

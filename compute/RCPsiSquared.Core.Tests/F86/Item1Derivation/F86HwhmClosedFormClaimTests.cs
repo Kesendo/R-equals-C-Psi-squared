@@ -7,10 +7,15 @@ namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 public class F86HwhmClosedFormClaimTests
 {
     [Fact]
-    public void Tier_IsTier1Derived()
+    public void Tier_IsTier1Candidate()
     {
+        // Tier-reviewed 2026-05-16: was Tier1Derived, downgraded to Tier1Candidate because
+        // the (alpha, beta) per sub-class are fitted via polyfit on N=5..8 anchors, not
+        // derived from F89/F90 structure. Bare floor 0.671535 IS derived (C2BareDoubledPtfClosedForm),
+        // and the linear-in-g_eff form is the candidate structure, but the 12 fit values
+        // remain phenomenological. Tier1Derived requires analytical derivation of (alpha, beta).
         var claim = new F86HwhmClosedFormClaim();
-        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
     }
 
     [Theory]

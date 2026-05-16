@@ -23,21 +23,20 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>path-9 (N_block=10): P(y) = 31y⁴ + 190y³ + 288y² + 440y + 1476, D = 324 = 2²·3⁴ (extracted via C2FullBlockSigmaAnatomy 2026-05-13)</item>
 /// </list>
 ///
-/// <para><b>Empirical structural rule (verified path-3..9):</b>
-/// <c>odd-part(D_path) = (odd-part(k))²</c>. The squarefree-k subset (k = 3..7)
-/// collapses to D = (1 or 2)·p² where p = largest prime factor; higher prime-power
-/// k (k=8=2³, k=9=3²) needs the full odd-part-squaring rule. The 2-adic exponent
-/// v₂(D_path) is captured by the empirical <c>E(k)</c> closed form below (verified
-/// bit-exact k=3..24); what stays open is its <i>derivation</i>: no derivation from
-/// k alone or from the cyclotomic discriminant of Φ_{k+2} (Angle B negative). Probe:
-/// <c>simulations/_f89_path_d_structure_probe.py</c>.</para>
+/// <para><b>Structural rule:</b> <c>odd-part(D_path) = (odd-part(k))²</c>. The
+/// squarefree-k subset (k = 3..7) collapses to D = (1 or 2)·p² where p = largest
+/// prime factor; higher prime-power k (k=8=2³, k=9=3²) needs the full
+/// odd-part-squaring rule. The 2-adic exponent v₂(D_path) is captured by the
+/// <c>E(k)</c> closed form below; derived from the Chebyshev pipeline (closed
+/// 2026-05-15, see <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> § "Tier-1-Derived
+/// closure"). Probe history: <c>simulations/_f89_path_d_structure_probe.py</c>.</para>
 ///
 /// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
 /// through F_a count distinct y_n values); path-7: cubic via cyclotomic Φ_9 = y⁶+y³+1.
 /// Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the
 /// cyclotomic minimal polynomial of y.</para>
 ///
-/// <para><b>Denominator closed form (Tier-1-Derived 2026-05-15, verified k=3..46):</b>
+/// <para><b>Denominator closed form (Tier-1-Derived 2026-05-15):</b>
 /// <c>D_k = (odd(k))² · 2^E(k)</c> where
 /// <c>E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)</c>. Three additive
 /// contributions: polynomial-degree term (max(0, ⌊(k-5)/2⌋)), k-self 2-adic term
@@ -52,7 +51,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// polynomial then gives <c>(P_k, D_k)</c> exactly. The <c>(odd(k))²</c> factor traces
 /// to the <c>1/√k</c> eigenvector normalisation squared; the 2-power <c>2^E(k)</c>
 /// arises from Chebyshev <c>U_j</c> leading-coefficient growth <c>2^j</c> combined with
-/// the polynomial-degree reduction. Closes Gaps 1-3 in PROOF_F89_PATH_D_CLOSED_FORM.md.</para>
+/// the polynomial-degree reduction. All three E(k) terms structurally accounted for
+/// per <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> § "Structural origin of D_k".</para>
 ///
 /// <para>Tabulation extent: k=3..9 hand-derived (path-3 algebraic anchor <c>(33+14√5)/9</c>);
 /// k=10..46 cached as int-typed (<see cref="PathPolynomial"/>), all bit-exact match against
@@ -209,8 +209,8 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     public static (BigInteger[] CoefficientsLowToHigh, BigInteger Denominator) ComputePathPolynomialBig(int k)
         => F89PathPolynomialPipeline.Compute(k);
 
-    /// <summary>Predicted denominator D_k from the empirical closed form
-    /// (Tier-1-Candidate, verified bit-exact for k=3..24):
+    /// <summary>Predicted denominator D_k from the closed-form pattern
+    /// (Tier-1-Derived 2026-05-15 via the Chebyshev pipeline):
     /// <code>
     ///   D_k = (odd(k))² · 2^E(k)
     ///   E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)
@@ -218,9 +218,12 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     /// Three additive contributions: polynomial-degree term, k-self 2-adic term,
     /// deep-2-power bonus (kicks in at v₂(k) ≥ 3). For k ∈ {3..9} this returns
     /// the same value as <see cref="PathPolynomial"/>'s tabulated denominator;
-    /// for k ≥ 10 it predicts D without requiring P_k extraction.
+    /// for k ≥ 10 it predicts D without requiring P_k extraction. Bit-exact
+    /// match against <see cref="ComputePathPolynomialBig"/> at every tested k
+    /// including v₂(k) = 3 (k=200) and v₂(k) = 2 with large k (k=100, 300).
     ///
-    /// <para>Anchors: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> +
+    /// <para>Anchors: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> §
+    /// "Tier-1-Derived closure achieved via Chebyshev pipeline" +
     /// <c>simulations/_f89_path_d_structure_probe.py</c> +
     /// <c>simulations/_f89_path_d_verify_k16_k17.py</c> +
     /// <c>simulations/_f89_path_d_extend_k18_k24.py</c>.</para></summary>

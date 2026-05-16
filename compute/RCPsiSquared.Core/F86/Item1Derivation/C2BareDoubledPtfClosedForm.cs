@@ -75,7 +75,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// values 0.7506 (Interior) and 0.7728 (Endpoint). That lift is +0.08/+0.10 and is
 /// L4-blocked at 4-mode reduction level (see <c>docs/proofs/PROOF_F86B_OBSTRUCTION.md</c>);
 /// requires full block-L analytical structure. Tracked separately in
-/// <see cref="F86HwhmClosedFormClaim"/> via fitted (α_subclass, β_subclass) parameters.</para></summary>
+/// <see cref="F86HwhmClosedFormClaim"/> as Tier 1 candidate via fitted (α_subclass,
+/// β_subclass) parameters (not analytically derived; polyfit on N=5..8 anchors).</para></summary>
 public sealed class C2BareDoubledPtfClosedForm : Claim
 {
     /// <summary>x_peak to 12 digits of precision: ξ_peak² + 1 with ξ_peak = 1.956122438683
@@ -169,7 +170,7 @@ public sealed class C2BareDoubledPtfClosedForm : Claim
             yield return new InspectableNode("HWHM_left / x_peak",
                 summary: $"{HwhmLeftOverXPeakPrecise:F12} (transcendental, no clean algebraic match)");
             yield return new InspectableNode("Lift out of scope",
-                summary: "Per-bond-class +0.08/+0.10 to 0.7506/0.7728 is L4-blocked at 4-mode (PROOF_F86B_OBSTRUCTION.md), tracked separately in F86HwhmClosedFormClaim via fitted (α, β) parameters");
+                summary: "Per-bond-class +0.08/+0.10 to 0.7506/0.7728 is L4-blocked at 4-mode (PROOF_F86B_OBSTRUCTION.md), tracked in F86HwhmClosedFormClaim as Tier 1 candidate (fitted (α, β), not derived from F89/F90 structure)");
             yield return new InspectableNode("Verification",
                 summary: "Bit-exact match (residual ≤ 7e-17) against brute Duhamel evaluator at x ∈ {0.5, 0.722, 1.0, 1.5, 2.197, 3.0, 5.0} spanning both regimes; see C2BareDoubledPtfClosedFormTests");
         }

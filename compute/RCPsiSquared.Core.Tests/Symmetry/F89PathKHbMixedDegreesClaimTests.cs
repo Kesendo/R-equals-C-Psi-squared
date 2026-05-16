@@ -9,9 +9,15 @@ public class F89PathKHbMixedDegreesClaimTests
         new F89PathKHbMixedDegreesClaim(new F89TopologyOrbitClosure(new Pi2DyadicLadderClaim()));
 
     [Fact]
-    public void Tier_IsTier1Derived()
+    public void Tier_IsTier1Candidate()
     {
-        Assert.Equal(Tier.Tier1Derived, BuildClaim().Tier);
+        // Tier-reviewed 2026-05-16: was Tier1Derived, downgraded to Tier1Candidate.
+        // S2SymSubBlockDimension, AtLockedCountInS2Sym, HbMixedSubFactorDegree are
+        // switch-statement enumerations of path-3..6 only — no general-k closed form
+        // is derived. XML doc (line 42) says "Empirical for path-3..6" and test methods
+        // are named *MatchesEmpirical, acknowledging the enumeration nature.
+        // SeDeFullDimension = N_block · C(N_block, 2) stays as Tier 1 derived sub-fact.
+        Assert.Equal(Tier.Tier1Candidate, BuildClaim().Tier);
     }
 
     [Theory]

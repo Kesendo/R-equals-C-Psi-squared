@@ -453,6 +453,3 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 
 ### Synthesis
 - [It's All Waves](../ITS_ALL_WAVES.md) (closure argument: wave-only hierarchy)
-
-### Historical (superseded, kept for the record)
-- [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025 / Feb 2026, predates all March results)

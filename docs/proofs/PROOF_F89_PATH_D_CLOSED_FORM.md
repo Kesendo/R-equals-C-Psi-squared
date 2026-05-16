@@ -115,7 +115,7 @@ F89 has two layers, and the Absorption Theorem ([`PROOF_ABSORPTION_THEOREM.md`](
 
 **Eigenvalue layer: primitive, closed, Tier-1-Derived.** The AT-lock `λ_n = −2γ₀ + i·y_n` (Setting, above; γ₀ is the uniform dephasing rate written γ there) is the Absorption Theorem read at ⟨n_XY⟩ = 1: the overlap-subspace F_a modes are Hamming-distance-1 coherences, so `Re(λ) = −2γ₀·⟨n_XY⟩ = −2γ₀` exactly. The real part is γ₀; the imaginary part is the Bloch dispersion y_n. Both are spectral primitives. The closure that holds *absolutely* on this layer is F89c, the Hamming-complement pair-sum: a column bit-flip `ρ[a,b] → ρ[a,b̄]` sends ⟨n_XY⟩ = n_diff to N − n_diff, so `α(|a⟩⟨b|) + α(|a⟩⟨b̄|) = 2γ₀·N` exactly, the spectral maximum, Tier-1-Derived, built from γ₀ and the integer count alone. It is the F89 instance of the palindromic sum rule.
 
-**Amplitude layer: residue, Tier-1-Derived (closed 2026-05-15).** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. Until 2026-05-15 the amplitude layer was Tier-1-*Candidate*: parts of the residue grounded (the **odd part** traces to the Bloch eigenvector normalisation `√(2/(k+2))`, path-3 exact) and other parts captured empirically (the **2-power** E(k), verified k=3..24), but the whole did not reduce to the primitive basis the way an eigenvalue does. The Chebyshev-expansion + orbit-polynomial-reduction pipeline (see § "Tier-1-Derived closure" below) closes that gap algebraically; the amplitude layer is now Tier-1-Derived. The structural parallel to F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis") remains, but for D_k the algebraic route exists.
+**Amplitude layer: residue, Tier-1-Derived.** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. The amplitude layer reduces to the primitive basis via the Chebyshev-expansion + orbit-polynomial-reduction pipeline (see § "Tier-1-Derived closure" below). The structural parallel to F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis") remains, but for D_k the algebraic route exists.
 
 ---
 
@@ -242,33 +242,16 @@ Structural observation: disc(p_α) primes ⊆ primes(m) (cyclotomic ramification
 
 ## Summary
 
-The empirical closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2⌋) + v2(k) + max(0,v2(k)−2) is:
+The closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2⌋) + v2(k) + max(0,v2(k)−2) is **Tier-1-Derived** via the Chebyshev-expansion + orbit-polynomial-reduction pipeline (see § "Tier-1-Derived closure achieved via Chebyshev pipeline" below):
 
-- **Verified bit-exact** at 22 data points k=3..24.
-- **Structurally grounded** for the odd part: the key identity p_n = |S_c(n)|²·‖Mv(n)‖²/2 (numerically verified k=3..6) explains why the denominator has odd part odd(k)² from Bloch normalization. The path-3 case is algebraically exact.
-- **Sketched** for the 2-power terms: the base v2(k) from 2J hopping, the poly-degree term from Vandermonde degree growth, and the deep-2-power bonus at v2(k)≥3 are all empirically supported but lack a complete algebraic derivation.
-- **Angles B and C are negative**: cyclotomic discriminant and Vandermonde det² are both much larger than D_k; the Vandermonde cancellation mechanism (rational-polynomial collapse) is understood.
-- **Tier**: Tier-1-Derived (closed 2026-05-15 via the Chebyshev pipeline; see § "Tier-1-Derived closure achieved via Chebyshev pipeline"). The three derivation gaps catalogued below were the *promotion criteria* that the pipeline subsequently closed; the section is retained as historical context for the route from empirical fit to algebraic identity.
+- The odd part odd(k)² traces to the F_a eigenvector 1/√k normalisation squared.
+- The 2-power 2^E(k) arises from Chebyshev U_j leading-coefficient growth 2^j combined with polynomial-degree reduction; all three E(k) terms are structurally accounted for.
+- Bit-exact match between formula and pipeline across k=3..46 (tabulation), plus sampled at k ∈ {47, 100, 200, 300} including v₂(k) = 3 (k=200) and large k (k=300).
+- Angles B and C (cyclotomic discriminant, Vandermonde det²) are negative as alternative routes; the Vandermonde cancellation mechanism is understood and embedded in the pipeline.
 
 ---
 
-## Open Questions for Tier-1-Derived Promotion (closed 2026-05-15, kept for context)
-
-The three gaps catalogued here were the open derivation problems for `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` prior to 2026-05-15. All three are now closed by the Chebyshev-expansion + orbit-polynomial-reduction pipeline (see closure section below). The catalogue is preserved as the historical route; each gap maps to a specific structural feature the pipeline resolves:
-
-### Gap 1: Polynomial-degree term `max(0, ⌊(k-5)/2⌋)`
-
-Emerges from Vandermonde-fit degree growth (orbit size = F_a count grows by 1 every 2 steps in k starting at k=5). The path-3 algebraic case shows the term equals 0 (degree 1 polynomial, no growth contribution); the path-5 case shows it equals 0 (degree 2, threshold not yet exceeded); the path-7 case shows it equals 1 (degree 3, first nonzero contribution). The pattern is structurally tied to Newton's identities on the cyclotomic minimal polynomial of y_n, but no clean derivation maps the additive contribution to v₂(D) for general k.
-
-### Gap 2: k-self 2-adic term `v₂(k)`
-
-The natural 2-adic content of k itself appears as a base contribution. Plausibly from the 2J coupling convention in F89's Hamiltonian (each bond contributes a factor of 2 to the M_h_total matrix entries), so v₂(k) accumulates as 2-adic content scaled by bond count. Needs explicit derivation showing why v₂(k) (not e.g. v₂(k+1) or v₂(F_a count)) is the right invariant.
-
-### Gap 3: Deep-2-power bonus `max(0, v₂(k) − 2)`
-
-The most mysterious term. Verified empirically at three v₂(k)≥3 data points: k=8 (v₂=3, bonus=1), k=16 (v₂=4, bonus=2), k=24 (v₂=3, bonus=1). Likely originates in 2-adic ramification of `Q(2·cos(π/(k+2)))` when k has a deep 2-power factor, but no derivation yet maps the bonus formula to a number-theoretic invariant. The threshold at v₂(k) = 2 is structurally specific and unexplained.
-
-### F89c amplitude-layer pair-sum analogue: NOT universal (2026-05-15 probe)
+## F89c amplitude-layer pair-sum analogue: NOT universal (2026-05-15 probe)
 
 `simulations/f89c_amplitude_pair_sum_probe.py` tests whether σ_n + σ_{k+2−n} (chiral pair under the involution y_n ↔ y_{k+2−n} = −y_n) carries a closed-form structure that mirrors F89c's eigenvalue pair-sum AbsorptionTheoremClaim.HammingComplementPairSum on the amplitude layer.
 
@@ -313,7 +296,7 @@ Closed by the native C# `F89PathPolynomialPipeline` (`compute/RCPsiSquared.Core/
 - The residual odd(k)² = k² (for odd k) traces to the F_a eigenvector 1/√k normalisation squared.
 - The 2-power 2^E(k) arises from Chebyshev U_j(c) leading-coefficient growth 2^j combined with polynomial-degree reduction. The polynomial-degree term max(0, ⌊(k-5)/2⌋) is the Vandermonde degree growth of the orbit polynomial: each reduction step potentially introduces a factor of 2 from leading Chebyshev coefficients.
 
-This closes all three Gaps from the Open Questions section: Gap 1 (poly-degree term) from the reduction-step Chebyshev factor, Gap 2 (k-self v₂(k)) from over-divisibility in U_j(c) at even k, Gap 3 (deep-2-power bonus) from the 2-adic over-divisibility chain at v₂(k) ≥ 3.
+All three E(k) terms are structurally accounted for: poly-degree term max(0, ⌊(k-5)/2⌋) from the reduction-step Chebyshev factor, k-self v₂(k) from over-divisibility in U_j(c) at even k, deep-2-power bonus max(0, v₂(k)−2) from the 2-adic over-divisibility chain at v₂(k) ≥ 3.
 
 The closed-form pipeline is the **algebraic mechanism**, no longer an empirical fit. `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` is cached for k=3..46 with int-typed denominator (k=10..46 via the symbolic pipeline). For k ≥ 47 use `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig(k)`, which returns BigInteger coefficients and denominator and runs the same Chebyshev pipeline natively in C#; D_47 = 4,632,608,768 already exceeds int.MaxValue, so the BigInteger path is the only int-safe option beyond k=46. The Tier label is updated to Tier-1-Derived.
 

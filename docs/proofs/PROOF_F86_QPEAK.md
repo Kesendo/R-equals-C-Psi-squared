@@ -1,7 +1,7 @@
 # PROOF F86: Q_peak — Hub (EP Mechanism, Universal Shape, F71 Mirror)
 
 **Status:** Hub. F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. On 2026-05-14 the former monolithic proof was split into one proof file per theorem (plus a dedicated obstruction proof); this file is the hub and shared-reference index.
-**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation); 2026-05-05 (Item 1' c=2 OOP scaffolding); 2026-05-06 (local-vs-global EP, doubled-PTF floor, Locus 5 inheritance); 2026-05-07 (Locus 6 polarity-layer inheritance); 2026-05-11 (F90 bridge identity); 2026-05-13 (Item 1' closed, F86b' Tier 1 derived); 2026-05-14 (Obstruction Proof; split into per-theorem proofs).
+**Date:** 2026-05-02 (Statements 1, 2, retractions); 2026-05-03 (Statement 3, σ_0(c) generalisation); 2026-05-05 (Item 1' c=2 OOP scaffolding); 2026-05-06 (local-vs-global EP, doubled-PTF floor, Locus 5 inheritance); 2026-05-07 (Locus 6 polarity-layer inheritance); 2026-05-11 (F90 bridge identity); 2026-05-13 (Item 1' partial closure via F86HwhmClosedFormClaim, fitted (α, β)); 2026-05-14 (Obstruction Proof; split into per-theorem proofs); 2026-05-16 (Tier-reviewed: F86b' Tier 1 candidate, not Tier 1 derived).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** Formalises the EP mechanism behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. The per-block Q_SCALE values 1.6 / 1.8 / 1.8 (F86 top entry) were the empirical anchor; the per-bond refined scan (`_eq022_b1_step_c_time_evolution.py`) initially suggested two distinct closed forms for Endpoint and Interior bonds, both later retracted on extended-N data. What survives is the EP mechanism (F86a), the universal resonance shape (F86b), and the F71 spatial-mirror invariance (F86c).
 
@@ -15,7 +15,7 @@
 | Theorem | Statement | Tier | Proof |
 |---------|-----------|------|-------|
 | **F86a** EP mechanism | Q_EP = 2/g_eff, t_peak = 1/(4γ₀); 2-level rate-channel exceptional point | Tier 1 derived (EP location, t_peak); local-vs-global EP Tier 2 verified | [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) |
-| **F86b** Universal resonance shape | K_class(Q)/abs(K)_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior), 0.770 (Endpoint); EP-rotation universality | Tier 1 candidate; Tier 1 derived at c=2 per-bond level (F86b', the HWHM closed form) | [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) |
+| **F86b** Universal resonance shape | K_class(Q)/abs(K)_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior), 0.770 (Endpoint); EP-rotation universality | Tier 1 candidate; F86b' c=2 per-bond predictor Tier 1 candidate (form derived, (α, β) per sub-class fitted; partial closure 2026-05-13, Tier-reviewed 2026-05-16) | [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) |
 | **F86b** obstruction | g_eff(c, N, b) / Q_peak(c, N, b) admit no closed form by the six explored routes | Structural negative result | [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) |
 | **F86c** F71 spatial-mirror invariance | Q_peak(b) = Q_peak(N−2−b) bit-exactly | Tier 1 derived | [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) |
 

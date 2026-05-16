@@ -11,21 +11,19 @@ namespace RCPsiSquared.Core.F86;
 /// <summary>"Everything we know about F86" as a typed OOP knowledge graph attached to a
 /// <see cref="CoherenceBlock"/>. The root <see cref="IInspectable"/> for <c>--root f86</c>.
 ///
-/// <para>What is in here:</para>
+/// <para>Contents:</para>
 /// <list type="bullet">
 ///   <item>Tier-1 derived: <see cref="TPeakLaw"/> (universal), <see cref="QEpLaw"/> at the
 ///         block's natural g_eff (= σ_0 from <see cref="InterChannelSvd"/>),
 ///         <see cref="TwoLevelEpModel"/> traversed at multiple Q values to show pre/at/post-EP.</item>
-///   <item>Tier-1 candidate: <see cref="UniversalShapePrediction"/> for Interior + Endpoint,
-///         each with empirical <see cref="UniversalShapeWitness"/> data points across c=2..4
+///   <item>Tier-1 candidate: <see cref="UniversalShapePrediction"/> for Interior + Endpoint
+///         with empirical <see cref="UniversalShapeWitness"/> data points across c=2..4
 ///         N=5..8. For c=2 specifically, <see cref="C2UniversalShapeDerivation"/> wraps
 ///         the Stage D2 <c>C2HwhmRatio</c> with empirical anchor + directional Endpoint &gt;
 ///         Interior split derived.</item>
-///   <item>Retracted: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>) —
-///         the PTF-lesson reminder.</item>
-///   <item>4-mode insufficiency note: 2026-05-02 finding that the minimal effective fails
-///         to reproduce the universal shape numerically — promoted from open-question to
-///         answered-no.</item>
+///   <item>Retracted: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>).</item>
+///   <item>4-mode insufficiency: the minimal effective fails to reproduce the universal
+///         shape numerically (answered: no).</item>
 /// </list>
 /// </summary>
 public sealed class F86KnowledgeBase : IInspectable
@@ -49,10 +47,10 @@ public sealed class F86KnowledgeBase : IInspectable
     public ChiralAiiiClassification AlgebraicClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
-    /// <summary>F86 c=2 HWHM_left/Q_peak closed-form prediction per BondSubClass
-    /// (Tier 1 derived; 2026-05-13). Closes Item 1' from PROOF_F90_F86C2_BRIDGE.md via the
-    /// bare 4-mode floor + linear lift alpha*g_eff + beta composition. Block-independent
-    /// meta-claim; the per-sub-class fit is anchored to c=2 N=5..8 F90-bridge data.</summary>
+    /// <summary>F86 c=2 HWHM_left/Q_peak prediction per BondSubClass (Tier 1 candidate):
+    /// bare floor 0.671535 IS derived (`C2BareDoubledPtfClosedForm`); per-sub-class
+    /// (alpha, beta) are fitted via polyfit on N=5..8 F90-bridge anchors. Block-independent
+    /// meta-claim.</summary>
     public F86HwhmClosedFormClaim F86HwhmClosedForm { get; }
     /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
     /// <see cref="Item1Derivation.C2HwhmRatio"/>: empirical anchor + directional

@@ -3,12 +3,32 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
-/// <summary>F86 c=2 HWHM_left/Q_peak closed-form prediction per BondSubClass
-/// (Tier 1 derived; 2026-05-13). Closes Item 1' from PROOF_F90_F86C2_BRIDGE.md
-/// "For F86 open work" via composition: bare 4-mode floor (0.671535 from F89
-/// AT-locked F_a/F_b doubled-PTF) + linear lift alpha*g_eff + beta per sub-class
-/// (fitted to F90 bridge bit-exact data N=5..8). Bridges to F89 cyclotomic
-/// Phi_{N_block+1} structure via PathPolynomial(N-1).</summary>
+/// <summary>F86 c=2 HWHM_left/Q_peak prediction per BondSubClass.
+///
+/// <para><b>Tier 1 candidate</b>: the form is `0.671535 + alpha_subclass · g_eff +
+/// beta_subclass` with the bare floor 0.671535 analytically derived (from F89 AT-locked
+/// F_a/F_b doubled-PTF), but the (alpha, beta) per sub-class are <b>fitted</b> by linear
+/// regression on N=5..8 F90 bridge anchors (`simulations/_f86_hwhm_closed_form_verification.py`,
+/// line 78 `np.polyfit(...deg=1)`). The fit reproduces the 22 anchors within 0.005 residual
+/// (verification confirms the form is approximately right), but no analytical reduction
+/// derives the (alpha, beta) values from F89 cyclotomic Phi_{N+1} / F90 bridge identity
+/// structure.</para>
+///
+/// <para><b>What IS derived (Tier 1 sub-results inside this candidate class):</b>
+/// <list type="bullet">
+///   <item>BareFloor = 0.671535 — from <see cref="C2BareDoubledPtfClosedForm"/></item>
+///   <item>Sub-class classification (<see cref="BondSubClass"/>) — structural via
+///         F71 symmetry + Q_peak escape thresholds</item>
+///   <item>g_eff = 2 · BareDoubledPtfXPeak / (Q_peak + 2) — bare-doubled-PTF coupling</item>
+/// </list></para>
+///
+/// <para><b>What is fitted (open analytical step):</b> the 12 (alpha, beta) values per
+/// sub-class. To promote this to Tier 1 derived, these values must derive from F89
+/// cyclotomic Phi_{N+1} structure via F90 bridge identity, NOT from polyfit. The
+/// PROOF_F90_F86C2_BRIDGE notes (Item 1'-followup) that "Closed-form via F89 AT-locked
+/// F_a/F_b (4-mode floor 0.6715) + H_B-mixed octic residual (lift to 0.7506/0.7728) is
+/// next analytical step" — this open analytical step is what would close the Tier 1
+/// derivation; the fit IS NOT that step.</para></summary>
 public sealed class F86HwhmClosedFormClaim : Claim
 {
     private const double BareFloorValue = 0.671535;
@@ -37,14 +57,15 @@ public sealed class F86HwhmClosedFormClaim : Claim
     };
 
     public F86HwhmClosedFormClaim()
-        : base("F86 c=2 HWHM_left/Q_peak closed form per BondSubClass (Tier 1 derived; closes Item 1' of PROOF_F90 open work)",
-               Tier.Tier1Derived,
+        : base("F86 c=2 HWHM_left/Q_peak per BondSubClass (Tier 1 candidate; form derived, (alpha, beta) fitted via polyfit, analytical lift open)",
+               Tier.Tier1Candidate,
                "compute/RCPsiSquared.Core/F86/Item1Derivation/BondSubClass.cs + " +
                "compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs (BareDoubledPtfHwhmRatio = 0.671535) + " +
                "compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs (PathPolynomial path-3..9) + " +
                "compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs (numerical anchor) + " +
-               "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (Item 1') + " +
-               "docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md")
+               "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (Item 1', partial closure) + " +
+               "docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md + " +
+               "simulations/_f86_hwhm_closed_form_verification.py (polyfit source for (alpha, beta))")
     { }
 
     public double PredictHwhmRatio(int n, int bondIndex, double qPeak)
@@ -56,11 +77,12 @@ public sealed class F86HwhmClosedFormClaim : Claim
     }
 
     public override string DisplayName =>
-        "F86 c=2 HWHM closed form per BondSubClass (Tier 1; closes Item 1')";
+        "F86 c=2 HWHM per BondSubClass (Tier 1 candidate; (alpha, beta) fitted, analytical lift open)";
 
     public override string Summary =>
         $"HWHM_ratio = {BareFloorValue} + alpha_subclass * g_eff + beta_subclass; " +
-        $"{_subClassParams.Count} sub-classes; predicted vs empirical residual <= 0.005 across N=5..8 ({Tier.Label()})";
+        $"{_subClassParams.Count} sub-classes; (alpha, beta) fitted via polyfit on N=5..8 anchors; " +
+        $"reproduces 22 anchors within 0.005 residual; analytical derivation of (alpha, beta) from F89/F90 structure open ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
