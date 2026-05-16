@@ -129,4 +129,54 @@ public class F89AmplitudeLayerClaimTests
                 $"Angle A residual {residual:E2} at chainN={chainN}, n={witness.BlochIndexN} exceeds tolerance");
         }
     }
+
+    [Fact]
+    public void ComputeScSquaredClosedForm_AtPath3_MatchesProofAnchors()
+    {
+        // From PROOF_F89_PATH_D_CLOSED_FORM.md Angle A: |S_c(2)|² = (10+4√5)/3 at k=3.
+        double sc2 = F89AmplitudeLayerClaim.ComputeScSquaredClosedForm(k: 3, n: 2);
+        double sc4 = F89AmplitudeLayerClaim.ComputeScSquaredClosedForm(k: 3, n: 4);
+        Assert.Equal(Path3.ScSquaredN2, sc2, precision: 10);
+        Assert.Equal(Path3.ScSquaredN4, sc4, precision: 10);
+    }
+
+    [Fact]
+    public void ComputeMvSquaredClosedForm_AtPath3_MatchesProofAnchors()
+    {
+        // From PROOF_F89_PATH_D_CLOSED_FORM.md Angle A: ‖Mv(2)‖² = (25+4√5)/15 at k=3.
+        double mv2 = F89AmplitudeLayerClaim.ComputeMvSquaredClosedForm(k: 3, n: 2);
+        double mv4 = F89AmplitudeLayerClaim.ComputeMvSquaredClosedForm(k: 3, n: 4);
+        Assert.Equal(Path3.MvSquaredN2, mv2, precision: 10);
+        Assert.Equal(Path3.MvSquaredN4, mv4, precision: 10);
+    }
+
+    [Theory]
+    // (k, n) pairs from the S_2-anti orbit n ∈ {2, 4, ..., 2·⌊(k+1)/2⌋}
+    [InlineData(3, 2)] [InlineData(3, 4)]
+    [InlineData(4, 2)] [InlineData(4, 4)]
+    [InlineData(5, 2)] [InlineData(5, 4)] [InlineData(5, 6)]
+    [InlineData(6, 2)] [InlineData(6, 4)] [InlineData(6, 6)]
+    [InlineData(8, 4)] [InlineData(8, 8)]
+    [InlineData(15, 4)] [InlineData(15, 14)]
+    [InlineData(30, 6)] [InlineData(30, 30)]
+    public void AngleA_AnalyticalDecomposition_MatchesPipelinePn(int k, int n)
+    {
+        // Closed-form |S_c|² and ‖Mv|² evaluated directly from the F_a eigenvector ansatz.
+        double scSquared = F89AmplitudeLayerClaim.ComputeScSquaredClosedForm(k, n);
+        double mvSquared = F89AmplitudeLayerClaim.ComputeMvSquaredClosedForm(k, n);
+
+        // Angle A predicts p_n = |S_c|² · ‖Mv|² / 2.
+        double pnFromDecomp = F89AmplitudeLayerClaim.ComputePnFromDecomposition(scSquared, mvSquared);
+
+        // Ground truth: P_k(y_n) / D_k via the F89 unified closed-form / pipeline,
+        // re-expressed as p_n = σ_n · N²·(N−1) with the smallest valid N = k+2.
+        int chainN = k + 2;
+        double sigma = F89UnifiedFaClosedFormClaim.Sigma(k, n, chainN);
+        double pnFromPipeline = F89AmplitudeLayerClaim.ComputePn(sigma, chainN);
+
+        // Should agree to numerical floor (both routes are floating-point evaluations of the same identity).
+        double residual = System.Math.Abs(pnFromDecomp - pnFromPipeline);
+        _out.WriteLine($"k={k}, n={n}: |S_c|²={scSquared:G10}, ‖Mv‖²={mvSquared:G10}, p_n decomp={pnFromDecomp:G14}, p_n pipeline={pnFromPipeline:G14}, residual={residual:E2}");
+        Assert.True(residual < 1e-9, $"Angle A analytical residual {residual:E2} at k={k}, n={n} exceeds 1e-9");
+    }
 }
