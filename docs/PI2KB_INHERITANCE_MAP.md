@@ -74,11 +74,13 @@ Both branches **reconverge** at `Pi2DyadicLadderClaim` (rungs hold 1/2 lineage v
 
 ## Tier-1 roots
 
-Two roots in the typed graph (no inbound edges from other Claims):
+Three roots in the typed graph (no inbound edges from other Claims):
 
 1. **`PolynomialFoundationClaim`** (`Pi2KnowledgeBaseClaims.cs:441`) — semantic root of the number-anchor lineage. Its docstring states: *"This is the trunk that generates both framework anchors: `HalfAsStructuralFixedPointClaim` (1/2 number-anchor) and `NinetyDegreeMirrorMemoryClaim` (90° angle-anchor)."* Only markdown citations.
 
 2. **`F1PalindromeIdentity`** (`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs:24`) — root of the angle/Π-branch via its squaring step `Π² · L · Π⁻² = L`. Now explicitly injected into `Pi2InvolutionClaim` as a typed ctor parent (2026-05-16); before that the edge was prose only.
+
+3. **`ChiralKClaim`** (`compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs`) — chiral / sublattice symmetry root. K = diag((−1)^ℓ) anti-commutes with any NN tight-binding Hamiltonian; gives spectrum inversion `E_{N+1−k} = −E_k` at the Hamiltonian level. Sibling to PolynomialFoundation (dimensional) and F1 (Liouvillian); none derives from another. Added 2026-05-16 to close the prose-only edge.
 
 ---
 
@@ -89,7 +91,7 @@ Each line is an edge that EXISTS in narrative form (docstring, proof, reflection
 | Edge | Asserted at | Why not typed (yet) |
 |---|---|---|
 | **F71 spatial mirror → F1 / Π cluster** | `MIRROR_SYMMETRY_PROOF.md`, `PROOF_C1_MIRROR_SYMMETRY.md` | F71MirrorSymmetryPi2Inheritance attaches to `Pi2DyadicLadderClaim` directly; no F1-sibling edge |
-| **K chiral / sublattice (BDI class)** | `compute/RCPsiSquared.Core/Symmetry/ChiralK.cs`, memory `project_chiral_partnership` | No Claim wrapper for K; only a helper class |
+| ~~**K chiral / sublattice (BDI class)**~~ | ~~`ChiralK.cs`, memory `project_chiral_partnership`~~ | **CLOSED 2026-05-16:** `ChiralKClaim` typed as a sibling root (see Tier-1 roots list above) |
 | **F86, F57, F64 as siblings of 1/4** | `docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md`, `docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md` | Each F-claim attaches independently to the ladder; no typed "1/4-sibling" edge |
 | **"Two readings" anchor** | `reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`, `reflections/ON_THE_HALF.md` | No Claim wrapper for the perspectival reading itself |
 | **F1 → F71 spatial → F81 chain** | `docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md` | Each leaf attaches directly to `Pi2DyadicLadderClaim`; F-to-F lineage is narrative only |
