@@ -90,7 +90,7 @@ Each line is an edge that EXISTS in narrative form (docstring, proof, reflection
 
 | Edge | Asserted at | Why not typed (yet) |
 |---|---|---|
-| **F71 spatial mirror → F1 / Π cluster** | `MIRROR_SYMMETRY_PROOF.md`, `PROOF_C1_MIRROR_SYMMETRY.md` | F71MirrorSymmetryPi2Inheritance attaches to `Pi2DyadicLadderClaim` directly; no F1-sibling edge |
+| ~~**F71 spatial mirror → F1 / Π cluster**~~ (map originally misnamed parent) | `MIRROR_SYMMETRY_PROOF.md`, `PROOF_C1_MIRROR_SYMMETRY.md` | **PARTIALLY CLOSED 2026-05-16:** F71's actual prose parents are `HalfIntegerMirrorClaim` (N-blocked from ctor injection — F71 is N-universal, HalfIntegerMirror takes N at construction) and `Pi2DyadicLadderClaim` (N-agnostic). The latter is now a typed ctor parent of `F71MirrorSymmetryPi2Inheritance`. The HalfIntegerMirror edge remains prose-only because of the N-mismatch. |
 | ~~**K chiral / sublattice (BDI class)**~~ | ~~`ChiralK.cs`, memory `project_chiral_partnership`~~ | **CLOSED 2026-05-16:** `ChiralKClaim` typed as a sibling root (see Tier-1 roots list above) |
 | **F86, F57, F64 as siblings of 1/4** | `docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md`, `docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md` | Each F-claim attaches independently to the ladder; no typed "1/4-sibling" edge |
 | **"Two readings" anchor** | `reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`, `reflections/ON_THE_HALF.md` | No Claim wrapper for the perspectival reading itself |

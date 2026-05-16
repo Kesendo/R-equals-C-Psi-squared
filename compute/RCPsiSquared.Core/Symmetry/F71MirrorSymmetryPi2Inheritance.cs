@@ -149,15 +149,26 @@ public sealed class F71MirrorSymmetryPi2Inheritance : Claim
         return 1 - log2;
     }
 
-    public F71MirrorSymmetryPi2Inheritance()
-        : base("F71 c_1(N, b) = c_1(N, N−2−b) inherits from Pi2-Foundation: N-parity = HalfIntegerMirror regime; bond pair count = ⌊(N−1)/2⌋",
+    /// <summary>The Pi2 dyadic ladder whose rungs <c>a_n = 2^(1−n)</c> anchor F71's
+    /// independent-component count <c>⌊N/2⌋</c> at small N (N=2,3: 1=a_1 self-mirror pivot;
+    /// N=4,5: 2=a_0; N=8,9: 4=a_{−1} discriminant). Injected as a typed parent so the
+    /// previously prose-only F71 → Pi2DyadicLadder edge is now explicit in the Claim graph
+    /// (the second parent HalfIntegerMirrorClaim cannot be ctor-injected because it
+    /// requires fixing N at construction time, and F71's logic is N-universal).</summary>
+    public Pi2DyadicLadderClaim DyadicLadder { get; }
+
+    public F71MirrorSymmetryPi2Inheritance(Pi2DyadicLadderClaim dyadicLadder)
+        : base("F71 c_1(N, b) = c_1(N, N−2−b) inherits from Pi2-Foundation: N-parity = HalfIntegerMirror regime; bond pair count = ⌊(N−1)/2⌋ (small-N values land on Pi2DyadicLadder rungs)",
                Tier.Tier1Derived,
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (typed parent: small-N component counts) + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfIntegerMirrorClaim — prose anchor, N-blocked from ctor injection) + " +
                "docs/ANALYTICAL_FORMULAS.md F71 + " +
                "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md + " +
                "docs/proofs/PROOF_F86_QPEAK.md (Statement 3) + " +
-               "simulations/eq021_obc_sine_basis.py + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfIntegerMirrorClaim)")
-    { }
+               "simulations/eq021_obc_sine_basis.py")
+    {
+        DyadicLadder = dyadicLadder ?? throw new ArgumentNullException(nameof(dyadicLadder));
+    }
 
     public override string DisplayName =>
         "F71 mirror symmetry of c_1 as Pi2-Foundation HalfIntegerMirror inheritance";
@@ -169,6 +180,8 @@ public sealed class F71MirrorSymmetryPi2Inheritance : Claim
     {
         get
         {
+            yield return new InspectableNode("parent (typed)",
+                summary: $"Pi2DyadicLadderClaim ({DyadicLadder.Tier.Label()}): a_n = 2^(1−n); F71's component count ⌊N/2⌋ lands on rungs a_1, a_0, a_{{−1}} at N=2,3 / 4,5 / 8,9");
             yield return new InspectableNode("F71 closed form",
                 summary: "c_1(N, b, ρ₀) = c_1(N, N−2−b, ρ₀); Tier 1 proven kinematic (PROOF_C1_MIRROR_SYMMETRY); verified N=3..6 residuals < 10⁻⁹");
             yield return new InspectableNode("HalfIntegerMirror connection",

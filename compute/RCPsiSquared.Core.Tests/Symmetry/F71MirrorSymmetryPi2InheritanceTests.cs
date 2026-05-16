@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F71MirrorSymmetryPi2InheritanceTests
 {
     private static F71MirrorSymmetryPi2Inheritance BuildClaim() =>
-        new F71MirrorSymmetryPi2Inheritance();
+        new F71MirrorSymmetryPi2Inheritance(new Pi2DyadicLadderClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()

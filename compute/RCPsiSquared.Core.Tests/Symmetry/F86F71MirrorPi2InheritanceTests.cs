@@ -8,7 +8,7 @@ public class F86F71MirrorPi2InheritanceTests
 {
     private static F86F71MirrorPi2Inheritance BuildClaim()
     {
-        var f71 = new F71MirrorSymmetryPi2Inheritance();
+        var f71 = new F71MirrorSymmetryPi2Inheritance(new Pi2DyadicLadderClaim());
         var f86Link = new F86MirrorGeneralisationLink();
         return new F86F71MirrorPi2Inheritance(f71, f86Link);
     }
@@ -82,7 +82,7 @@ public class F86F71MirrorPi2InheritanceTests
     [Fact]
     public void Constructor_NullF86Link_Throws()
     {
-        var f71 = new F71MirrorSymmetryPi2Inheritance();
+        var f71 = new F71MirrorSymmetryPi2Inheritance(new Pi2DyadicLadderClaim());
         Assert.Throws<ArgumentNullException>(() =>
             new F86F71MirrorPi2Inheritance(f71, null!));
     }

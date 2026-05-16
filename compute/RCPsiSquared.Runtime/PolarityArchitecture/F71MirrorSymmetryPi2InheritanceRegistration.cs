@@ -34,7 +34,8 @@ public static class F71MirrorSymmetryPi2InheritanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<F71MirrorSymmetryPi2Inheritance>(b =>
         {
-            _ = b.Get<HalfIntegerMirrorClaim>();   // direct edge: N-parity classification
-            return new F71MirrorSymmetryPi2Inheritance();
+            _ = b.Get<HalfIntegerMirrorClaim>();              // prose-anchor: N-parity (N-blocked from ctor)
+            var ladder = b.Get<Pi2DyadicLadderClaim>();       // typed parent: small-N component counts on rungs
+            return new F71MirrorSymmetryPi2Inheritance(ladder);
         });
 }
