@@ -122,10 +122,10 @@ public class F86VerificationExploration
         var A = ComplexMatrix.Build.Dense(d, d);
         for (int i = 0; i < block.Basis.Mp; i++)
         {
-            int p = block.Basis.StatesP[i];
+            int p = (int)block.Basis.StatesP[i];
             for (int j = 0; j < block.Basis.Mq; j++)
             {
-                int q = block.Basis.StatesQ[j];
+                int q = (int)block.Basis.StatesQ[j];
                 Complex coeff = v[i * block.Basis.Mq + j];
                 A[p, q] += coeff;
                 A[q, p] += Complex.Conjugate(coeff);
