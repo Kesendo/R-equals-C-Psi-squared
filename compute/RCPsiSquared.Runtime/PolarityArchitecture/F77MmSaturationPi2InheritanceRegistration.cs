@@ -5,22 +5,22 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F77MmSaturationPi2Inheritance"/>:
 /// F77's <c>MM(0) → 1 bit</c> saturation as the first F-formula sitting on the
-/// Pi2 dyadic ladder's self-mirror pivot a_1. Three parent edges (one explicit,
-/// two as registration discards):
+/// Pi2 dyadic ladder's self-mirror pivot a_1. Three parent edges (two typed,
+/// one registration discard) as of 2026-05-16:
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_1 = 1</c> (saturation
 ///         bit), <c>a_0 = 2</c>, <c>a_2 = 1/2</c>, <c>a_{-1} = 4</c>.</item>
-///   <item><see cref="HalfAsStructuralFixedPointClaim"/>: registration discard
-///         to document that the "1/2" in F77's mechanism IS the structural
-///         fixed point. Transitively reachable through the ladder; the discard
-///         makes the dependency explicit at registration time.</item>
+///   <item><see cref="HalfAsStructuralFixedPointClaim"/>: typed parent grounding
+///         "the 1/2 in F77's mechanism IS the structural fixed point". The
+///         inversion identity <c>a_0 · a_2 = 1</c> = 2 · (1/2) names Half as
+///         co-author of the self-mirror pivot at a_1.</item>
 ///   <item><see cref="F75MirrorPairMiPi2Inheritance"/>: registration discard.
 ///         F77 IS the asymptotic limit (Taylor expansion at p → 0) of F75's
 ///         general MI formula. Per ANALYTICAL_FORMULAS F77: "the 1-bit limit
 ///         is not a conjecture; it falls out of F75 by Taylor expansion".
-///         F75 → F77 is the typed mother-claim inheritance edge (added
-///         2026-05-09 mirror-map check).</item>
+///         Held as discard because the F75-chain construction (F66 → F65 →
+///         F75) is heavy; promotion to typed parent deferred.</item>
 /// </list>
 ///
 /// <para>"ZERO IS THE MIRROR" reading (Tom 2026-05-09): the inheritance graph's
@@ -44,8 +44,8 @@ public static class F77MmSaturationPi2InheritanceRegistration
         builder.Register<F77MmSaturationPi2Inheritance>(b =>
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
-            _ = b.Get<HalfAsStructuralFixedPointClaim>();      // documents 1/2 = structural fixed point
-            _ = b.Get<F75MirrorPairMiPi2Inheritance>();        // mother claim: F77 = Taylor limit of F75
-            return new F77MmSaturationPi2Inheritance(ladder);
+            var half = b.Get<HalfAsStructuralFixedPointClaim>();
+            _ = b.Get<F75MirrorPairMiPi2Inheritance>();        // mother claim: F77 = Taylor limit of F75 (discard, heavy chain)
+            return new F77MmSaturationPi2Inheritance(ladder, half);
         });
 }

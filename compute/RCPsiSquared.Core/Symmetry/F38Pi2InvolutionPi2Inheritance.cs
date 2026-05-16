@@ -153,11 +153,20 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     public bool LadderFactorisationHolds(int N) =>
         Math.Abs(EigenspaceDimensionViaLadder(N) - EigenspaceDimension(N)) < 1e-12;
 
+    /// <summary>1/2 structural fixed point — the typed parent that grounds
+    /// F38's <c>HalfHalfBalance(N) = EigenspaceDim / FullDim = 1/2</c> exactly.
+    /// The half-half eigenspace split of 4^N IS the structural fixed point;
+    /// Π² partitions the operator space symmetrically because <c>a_2 = 1/2</c>
+    /// is the self-dual cell of the dyadic ladder. Added 2026-05-16 as a typed
+    /// ctor parent (previously prose-only docstring mention).</summary>
+    public HalfAsStructuralFixedPointClaim Half { get; }
+
     public F38Pi2InvolutionPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         Pi2OperatorSpaceMirrorClaim mirror,
-        Pi2I4MemoryLoopClaim memoryLoop)
-        : base("F38 Π² = (−1)^w_YZ inherits from Pi2-Foundation: half-half split of 4^N = a_0·a_{3−2N} per sector",
+        Pi2I4MemoryLoopClaim memoryLoop,
+        HalfAsStructuralFixedPointClaim half)
+        : base("F38 Π² = (−1)^w_YZ inherits from Pi2-Foundation: half-half split of 4^N = a_0·a_{3−2N} per sector; HalfHalfBalance = 1/2 (Half)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F38 + " +
                "experiments/PT_SYMMETRY_ANALYSIS.md + " +
@@ -165,11 +174,13 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
                "experiments/ERROR_CORRECTION_PALINDROME.md (Π⁴ = I bit-exact N=3) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
         _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 
     public override string DisplayName =>

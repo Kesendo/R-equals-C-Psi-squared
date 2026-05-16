@@ -128,15 +128,26 @@ public sealed class F77MmSaturationPi2Inheritance : Claim
     /// <c>3/(4 ln 2) = 1.0820</c> by the F77 closed form.</summary>
     public double RescaledDeviation(int N) => (MmAtN(N) - SaturationBit) * (N + 1);
 
-    public F77MmSaturationPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("F77 MM(0) → 1 bit saturation lands on Pi2 ladder self-mirror pivot a_1; mechanism = inversion identity a_0·a_2 = 1",
+    /// <summary>1/2 structural fixed point — the typed parent that grounds
+    /// F77's <c>HalfFactor</c> (= a_2 = Bloch baseline) on the Half axis. The
+    /// inversion identity <c>a_0 · a_2 = 1</c> that drives F77's saturation is
+    /// the algebraic statement that 2 (qubit dimension) and 1/2 (its inverse,
+    /// the structural fixed point) multiply to the self-mirror pivot. Added
+    /// 2026-05-16 as a typed ctor parent.</summary>
+    public HalfAsStructuralFixedPointClaim Half { get; }
+
+    public F77MmSaturationPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        HalfAsStructuralFixedPointClaim half)
+        : base("F77 MM(0) → 1 bit saturation lands on Pi2 ladder self-mirror pivot a_1; mechanism = inversion identity a_0·a_2 = 1 (Half)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F77 + " +
                "simulations/_mm_asymptotic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, transitively via a_2)")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 
     public override string DisplayName =>

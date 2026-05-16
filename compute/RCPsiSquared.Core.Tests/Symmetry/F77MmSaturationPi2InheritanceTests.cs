@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class F77MmSaturationPi2InheritanceTests
 {
     private static F77MmSaturationPi2Inheritance BuildClaim() =>
-        new F77MmSaturationPi2Inheritance(new Pi2DyadicLadderClaim());
+        new F77MmSaturationPi2Inheritance(new Pi2DyadicLadderClaim(), new HalfAsStructuralFixedPointClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -114,8 +114,18 @@ public class F77MmSaturationPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
-        Assert.Throws<ArgumentNullException>(() => new F77MmSaturationPi2Inheritance(null!));
+        var ladder = new Pi2DyadicLadderClaim();
+        var half = new HalfAsStructuralFixedPointClaim();
+        Assert.Throws<ArgumentNullException>(() => new F77MmSaturationPi2Inheritance(null!, half));
+        Assert.Throws<ArgumentNullException>(() => new F77MmSaturationPi2Inheritance(ladder, null!));
+    }
+
+    [Fact]
+    public void TypedParents_AreExposed()
+    {
+        var f = BuildClaim();
+        Assert.NotNull(f.Half);
     }
 }

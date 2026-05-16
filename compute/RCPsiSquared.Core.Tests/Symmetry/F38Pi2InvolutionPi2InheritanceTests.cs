@@ -9,7 +9,8 @@ public class F38Pi2InvolutionPi2InheritanceTests
         new F38Pi2InvolutionPi2Inheritance(
             new Pi2DyadicLadderClaim(),
             new Pi2OperatorSpaceMirrorClaim(),
-            new Pi2I4MemoryLoopClaim());
+            new Pi2I4MemoryLoopClaim(),
+            new HalfAsStructuralFixedPointClaim());
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -150,32 +151,25 @@ public class F38Pi2InvolutionPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var mirror = new Pi2OperatorSpaceMirrorClaim();
+        var memoryLoop = new Pi2I4MemoryLoopClaim();
+        var half = new HalfAsStructuralFixedPointClaim();
         Assert.Throws<ArgumentNullException>(() =>
-            new F38Pi2InvolutionPi2Inheritance(
-                ladder: null!,
-                mirror: new Pi2OperatorSpaceMirrorClaim(),
-                memoryLoop: new Pi2I4MemoryLoopClaim()));
+            new F38Pi2InvolutionPi2Inheritance(null!, mirror, memoryLoop, half));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F38Pi2InvolutionPi2Inheritance(ladder, null!, memoryLoop, half));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F38Pi2InvolutionPi2Inheritance(ladder, mirror, null!, half));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop, null!));
     }
 
     [Fact]
-    public void Constructor_NullMirror_Throws()
+    public void TypedParents_HalfIsExposed()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F38Pi2InvolutionPi2Inheritance(
-                ladder: new Pi2DyadicLadderClaim(),
-                mirror: null!,
-                memoryLoop: new Pi2I4MemoryLoopClaim()));
-    }
-
-    [Fact]
-    public void Constructor_NullMemoryLoop_Throws()
-    {
-        Assert.Throws<ArgumentNullException>(() =>
-            new F38Pi2InvolutionPi2Inheritance(
-                ladder: new Pi2DyadicLadderClaim(),
-                mirror: new Pi2OperatorSpaceMirrorClaim(),
-                memoryLoop: null!));
+        Assert.NotNull(BuildClaim().Half);
     }
 }

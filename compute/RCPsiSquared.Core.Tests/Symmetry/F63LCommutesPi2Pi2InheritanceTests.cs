@@ -10,7 +10,7 @@ public class F63LCommutesPi2Pi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop);
+        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop, new HalfAsStructuralFixedPointClaim());
         return new F63LCommutesPi2Pi2Inheritance(f38, ladder);
     }
 
@@ -182,7 +182,7 @@ public class F63LCommutesPi2Pi2InheritanceTests
         var ladder = new Pi2DyadicLadderClaim();
         var mirror = new Pi2OperatorSpaceMirrorClaim();
         var memoryLoop = new Pi2I4MemoryLoopClaim();
-        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop);
+        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop, new HalfAsStructuralFixedPointClaim());
         Assert.Throws<ArgumentNullException>(() =>
             new F63LCommutesPi2Pi2Inheritance(f38: f38, ladder: null!));
     }

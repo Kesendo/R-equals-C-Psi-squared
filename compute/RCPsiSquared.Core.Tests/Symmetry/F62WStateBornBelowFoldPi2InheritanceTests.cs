@@ -7,7 +7,7 @@ public class F62WStateBornBelowFoldPi2InheritanceTests
 {
     internal static F61BitAParityPi2Inheritance BuildF61(Pi2DyadicLadderClaim ladder)
     {
-        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, new Pi2OperatorSpaceMirrorClaim(), new Pi2I4MemoryLoopClaim());
+        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, new Pi2OperatorSpaceMirrorClaim(), new Pi2I4MemoryLoopClaim(), new HalfAsStructuralFixedPointClaim());
         var f63 = new F63LCommutesPi2Pi2Inheritance(f38, ladder);
         return new F61BitAParityPi2Inheritance(f63, ladder);
     }
