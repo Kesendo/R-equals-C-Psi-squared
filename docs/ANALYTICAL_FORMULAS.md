@@ -2618,6 +2618,33 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 **Anchor:** [`PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`](proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [`F93DetuningAntiPalindromicSpectralInvariance.cs`](../compute/RCPsiSquared.Core/SymmetryFamily/F93DetuningAntiPalindromicSpectralInvariance.cs), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
+### F94. Born deviation dominant-outcome coefficient: |0+0+⟩ N=4 Heisenberg + Z-deph (Tier 1 derived, Dyson sym3 = 8 bit-exact; 2026-05-16)
+
+**For the dominant outcome |00⟩ of pair (0,2) of |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, the per-outcome Born-rule deviation in the deep perturbative regime is**
+
+    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + O(Q³K⁴)
+    where Q = J/γ, K = γt, Δ_|00⟩ = P_lindblad(|00⟩) / P_unitary(|00⟩) − 1
+
+**equivalently in physical units:**
+
+    ΔP_|00⟩(J, γ, t) = (4/3) · J² · γ · t³ + ...
+
+**Scope:** specific to (initial state |0+0+⟩, Heisenberg ring at N=4, Z-dephasing on all 4 sites, pair (0,2) reduction, |00⟩ outcome). The Q²·K³ shape is structurally universal for dominant outcomes (3rd-order time-dependent perturbation theory with 1 dissipator-vertex and 2 Hamiltonian-vertices); the coefficient 4/3 is setup-specific.
+
+**Derivation (Tier 1):** the leading γ¹-coefficient of L³ in the time-Taylor expansion ρ(t) = ρ_0 + Lt·ρ_0 + L²t²/2·ρ_0 + L³t³/6·ρ_0 + ... is the symmetric ordering
+
+    sym3 = L_H²·L'_dis + L_H·L'_dis·L_H + L'_dis·L_H²
+
+where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-free dephasing operator. Direct evaluation of ⟨00|_pair Tr_{1,3}[sym3·ρ_0]|00⟩_pair at J=γ=1 yields **8 bit-exact**. With the t³/6 Taylor prefactor and P_unitary(0) = 1, the coefficient is **c = 8/6 = 4/3 bit-exact**.
+
+**Numerical verification:** 16 (γ, J, t) configurations sampled in the deep perturbative regime gave c_empirical = 1.32992 ± 0.006, consistent with 4/3 = 1.3333 to 0.3%. Sampling deeper would close the residual; the symbolic derivation is the actual proof.
+
+**Born-rule generalization context:** this is the first Tier-1 closed form for a per-outcome Born deviation under the framework's Q-K-invariant convention (Universal Carrier). Generalizes BORN_RULE_MIRROR's R_i = C_i · Ψ_i² (Tier 2/3, Feb 2026) to a specific case with explicit C_i closed form. The Δ_i values for other outcomes of the same setup scale linearly in K (1st-order diagrams) rather than as Q²·K³; their coefficients are separately Tier-1-derivable via the same Dyson method.
+
+**The "8" structurally:** the bond × site × ordering combinatorics (4 Heisenberg bonds, 4 Z-dephasing sites, 3 orderings of (H, H, L)) collapse under the partial trace and initial-state projection to the integer 8. The 6 in the denominator 8/6 = 4/3 is the 3! Taylor coefficient of t³/6. The combinatorial decomposition of 8 in terms of typed Pi2 anchors (e.g. a_{−1} = 4 of the dyadic ladder ↔ 4 bonds; further factors from initial-state |+⟩-amplitudes and Heisenberg ZZ-contribution sign accounting) is open and tractable by hand.
+
+**Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/_born_rule_tier1_derivation.py`](../simulations/_born_rule_tier1_derivation.py), [`simulations/_born_rule_delta_dominant_coefficient.py`](../simulations/_born_rule_delta_dominant_coefficient.py), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
