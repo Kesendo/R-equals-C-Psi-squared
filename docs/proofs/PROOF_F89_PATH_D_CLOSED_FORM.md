@@ -9,7 +9,7 @@
 
 ## Statement
 
-For path-k (a k-bond uniform-J OBC chain with k+1 sites under Z-dephasing), the F_a signal amplitudes satisfy
+For path-k (a k-bond uniform-J OBC chain with k+1 sites under Z-dephasing), the **F_a signal amplitudes** (the AT-locked overlap-subspace eigenmodes on the S_2-anti Bloch orbit; see § "Setting" for precise definitions) satisfy
 
 ```
 sigma_n(N) = P_k(y_n) / [D_k * N^2 * (N-1)]
@@ -115,7 +115,7 @@ F89 has two layers, and the Absorption Theorem ([`PROOF_ABSORPTION_THEOREM.md`](
 
 **Eigenvalue layer: primitive, closed, Tier-1-Derived.** The AT-lock `λ_n = −2γ₀ + i·y_n` (Setting, above; γ₀ is the uniform dephasing rate written γ there) is the Absorption Theorem read at ⟨n_XY⟩ = 1: the overlap-subspace F_a modes are Hamming-distance-1 coherences, so `Re(λ) = −2γ₀·⟨n_XY⟩ = −2γ₀` exactly. The real part is γ₀; the imaginary part is the Bloch dispersion y_n. Both are spectral primitives. The closure that holds *absolutely* on this layer is F89c, the Hamming-complement pair-sum: a column bit-flip `ρ[a,b] → ρ[a,b̄]` sends ⟨n_XY⟩ = n_diff to N − n_diff, so `α(|a⟩⟨b|) + α(|a⟩⟨b̄|) = 2γ₀·N` exactly, the spectral maximum, Tier-1-Derived, built from γ₀ and the integer count alone. It is the F89 instance of the palindromic sum rule.
 
-**Amplitude layer: residue, Tier-1-Candidate.** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. But `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. That is why this is a Tier-1-*Candidate*, not Tier-1-Derived: parts of a residue can be grounded (the **odd part** traces to the Bloch eigenvector normalisation `√(2/(k+2))`, path-3 exact) and other parts captured empirically (the **2-power** E(k), verified k=3..24), but the whole does not reduce to the primitive basis the way an eigenvalue does. It is the same wall as F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis").
+**Amplitude layer: residue, Tier-1-Derived (closed 2026-05-15).** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. Until 2026-05-15 the amplitude layer was Tier-1-*Candidate*: parts of the residue grounded (the **odd part** traces to the Bloch eigenvector normalisation `√(2/(k+2))`, path-3 exact) and other parts captured empirically (the **2-power** E(k), verified k=3..24), but the whole did not reduce to the primitive basis the way an eigenvalue does. The Chebyshev-expansion + orbit-polynomial-reduction pipeline (see § "Tier-1-Derived closure" below) closes that gap algebraically; the amplitude layer is now Tier-1-Derived. The structural parallel to F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis") remains, but for D_k the algebraic route exists.
 
 ---
 
@@ -191,7 +191,7 @@ S_c(n) and Mv(n) both depend on sums of OBC tight-binding amplitudes ψ_n[j] = s
 
 **Conclusion:** The cyclotomic ring-of-integers approach does not account for D_k.
 
-**Extended 2026-05-15 (`simulations/_f89_path_d_galois_probe.py`):** Probe of disc(p_α) for α = 2·cos(π/m), k=3..14:
+**Extended 2026-05-15 (`simulations/f89_path_d_galois_probe.py`):** Probe of disc(p_α) for α = 2·cos(π/m), k=3..14. (Note: the original probe above quotes the discriminant of the 4·cos(π/m) minimal polynomial; same Galois conjugacy class, differ by a factor of 2^(2·deg) in the discriminant. Disjointness conclusion below is invariant under the choice.):
 
 | k | m | disc(p_α) factorisation | D_k factorisation | shared primes |
 |---:|---:|---|---|---|
@@ -248,13 +248,13 @@ The empirical closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2�
 - **Structurally grounded** for the odd part: the key identity p_n = |S_c(n)|²·‖Mv(n)‖²/2 (numerically verified k=3..6) explains why the denominator has odd part odd(k)² from Bloch normalization. The path-3 case is algebraically exact.
 - **Sketched** for the 2-power terms: the base v2(k) from 2J hopping, the poly-degree term from Vandermonde degree growth, and the deep-2-power bonus at v2(k)≥3 are all empirically supported but lack a complete algebraic derivation.
 - **Angles B and C are negative**: cyclotomic discriminant and Vandermonde det² are both much larger than D_k; the Vandermonde cancellation mechanism (rational-polynomial collapse) is understood.
-- **Tier**: Tier-1-Candidate (empirical + partial proof). Promotion to Tier-1-Derived requires closing the three open derivation gaps below.
+- **Tier**: Tier-1-Derived (closed 2026-05-15 via the Chebyshev pipeline; see § "Tier-1-Derived closure achieved via Chebyshev pipeline"). The three derivation gaps catalogued below were the *promotion criteria* that the pipeline subsequently closed; the section is retained as historical context for the route from empirical fit to algebraic identity.
 
 ---
 
-## Open Questions for Tier-1-Derived Promotion
+## Open Questions for Tier-1-Derived Promotion (closed 2026-05-15, kept for context)
 
-To upgrade `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` from Tier-1-Candidate to Tier-1-Derived, three structural gaps need full algebraic proof:
+The three gaps catalogued here were the open derivation problems for `F89UnifiedFaClosedFormClaim.PredictDenominator(int k)` prior to 2026-05-15. All three are now closed by the Chebyshev-expansion + orbit-polynomial-reduction pipeline (see closure section below). The catalogue is preserved as the historical route; each gap maps to a specific structural feature the pipeline resolves:
 
 ### Gap 1: Polynomial-degree term `max(0, ⌊(k-5)/2⌋)`
 
@@ -350,7 +350,7 @@ The claim is constructed as a Schicht-1 bridge consuming `F89UnifiedFaClosedForm
 
 1. **Jordan-Wigner full general-k**: extend the path-3 algebraic derivation `(33+14√5)/9` to general k via OBC sine-mode Bessel coefficients. Most concrete path; significant algebraic work, expected to address all three gaps.
 
-2. **Cyclotomic Galois ring-of-integers**: compute the index `[O_K : Z[2·cos(π/(k+2))]]` for k=3..24 and check whether its 2-adic content matches the deep-2-power bonus pattern. Quick to probe (sympy); ergebnisoffen.
+2. **Cyclotomic Galois ring-of-integers**: compute the index `[O_K : Z[2·cos(π/(k+2))]]` for k=3..24 and check whether its 2-adic content matches the deep-2-power bonus pattern. Quick to probe (sympy); open-ended.
 
 3. **Combinatorial / Chebyshev**: σ_n is a coefficient in a Chebyshev expansion over the orbit; the 2-adic content of Chebyshev coefficients has known structure (related to Eulerian numbers and Bernoulli denominators).
 
