@@ -1,3 +1,4 @@
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
 using Xunit;
@@ -102,6 +103,108 @@ public class SigmaZeroAsymptoteReconTests
         double avgLimit = (evenAitk[^1] + oddAitk[^1]) / 2.0;
         _out.WriteLine($"\nAvg of last (even-Aitken, odd-Aitken) = {avgLimit:F6}  " +
                        $"— current best numerical estimate of σ_0(c=2, N → ∞).");
+
+        // Polynomial fit in 1/N for each parity subsequence; the constant term is a
+        // direct estimate of N → ∞ and the higher coefficients (b, c, d, …) reveal the
+        // sub-leading scaling structure. If both parities agree on (a, b, c, …), the
+        // even/odd split is the only non-analytic structure; if they differ in b, the
+        // (-1)^N term enters at first sub-leading.
+        var evenNs = Enumerable.Range(NMin, NMax - NMin + 1).Where(n => n % 2 == 0).ToArray();
+        var oddNs = Enumerable.Range(NMin, NMax - NMin + 1).Where(n => n % 2 == 1).ToArray();
+        _out.WriteLine("\nPolynomial fits (degree 3 in 1/N) per parity subsequence:");
+        _out.WriteLine($"  even-N points: N ∈ {{{string.Join(",", evenNs)}}}");
+        _out.WriteLine($"  odd-N  points: N ∈ {{{string.Join(",", oddNs)}}}");
+        ReportFit("even", evenNs, even, degree: 3);
+        ReportFit("odd ", oddNs, odd, degree: 3);
+
+        // Cross-check: increase degree, look for stability of leading term a.
+        _out.WriteLine("\nLeading-coefficient stability across fit degrees:");
+        for (int deg = 1; deg <= 5; deg++)
+        {
+            var ce = PolyFit1OverN(evenNs, even, deg);
+            var co = PolyFit1OverN(oddNs, odd, deg);
+            _out.WriteLine($"  degree {deg}: a_even = {ce[0]:F8}, a_odd = {co[0]:F8}, " +
+                           $"avg = {(ce[0] + co[0]) / 2:F8}");
+        }
+    }
+
+    /// <summary>Fit values ≈ a + b/N + c/N² + … via least squares (QR).</summary>
+    private static double[] PolyFit1OverN(int[] Ns, double[] vals, int degree)
+    {
+        int M = Ns.Length;
+        var A = Matrix<double>.Build.Dense(M, degree + 1);
+        var y = Vector<double>.Build.Dense(vals);
+        for (int i = 0; i < M; i++)
+        {
+            double invN = 1.0 / Ns[i];
+            double pow = 1.0;
+            for (int k = 0; k <= degree; k++)
+            {
+                A[i, k] = pow;
+                pow *= invN;
+            }
+        }
+        return A.QR().Solve(y).ToArray();
+    }
+
+    private void ReportFit(string label, int[] Ns, double[] vals, int degree)
+    {
+        var c = PolyFit1OverN(Ns, vals, degree);
+        var sb = new System.Text.StringBuilder($"  {label}:  ");
+        for (int k = 0; k <= degree; k++)
+            sb.Append($"{(k == 0 ? "a" : k == 1 ? "b" : k == 2 ? "c" : k == 3 ? "d" : $"e_{k}")}={c[k]:F6}  ");
+        _out.WriteLine(sb.ToString());
+    }
+
+    /// <summary>Cross-chromaticity reconnaissance: compute σ_0(c, N) for c ∈ {3, 4} at the
+    /// largest N each can reach on commodity hardware, apply parity-split Aitken, look for
+    /// a pattern across c that might reveal the closed-form structure shared with c=2.</summary>
+    [Fact]
+    public void Recon_SigmaZero_C3_C4_CrossChromaticityPattern()
+    {
+        // c=3 max-feasible N=11 on commodity hardware (block dim 11·165=1815²·16 ≈ 53 MB OK;
+        // N=12 14520²·16 = 3.4 GB hits OOM in BlockLDecomposition.MhTotal). c=4 capped at
+        // N=8 (block dim 56·70=3920 OK); N=9 84·126=10584 → marginal, N=10 OOM.
+        var c3Ns = new[] { 5, 6, 7, 8, 9, 10, 11 };
+        var c4Ns = new[] { 7, 8 };
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+
+        _out.WriteLine("σ_0(c=3, N) — popcount-2 vs popcount-3 coherences:");
+        var c3Sigmas = new double[c3Ns.Length];
+        for (int i = 0; i < c3Ns.Length; i++)
+        {
+            int N = c3Ns[i];
+            var svd = InterChannelSvd.Build(
+                new CoherenceBlock(N, n: 2, gammaZero: 0.05), hd1: 1, hd2: 3);
+            c3Sigmas[i] = svd.Sigma0;
+            _out.WriteLine($"  N={N,2}: σ_0 = {svd.Sigma0:F8}   " +
+                           $"(cumul. {sw.Elapsed.TotalSeconds,5:F1} s)");
+        }
+
+        _out.WriteLine("\nσ_0(c=4, N) — popcount-3 vs popcount-4 coherences:");
+        var c4Sigmas = new double[c4Ns.Length];
+        for (int i = 0; i < c4Ns.Length; i++)
+        {
+            int N = c4Ns[i];
+            var svd = InterChannelSvd.Build(
+                new CoherenceBlock(N, n: 3, gammaZero: 0.05), hd1: 1, hd2: 3);
+            c4Sigmas[i] = svd.Sigma0;
+            _out.WriteLine($"  N={N,2}: σ_0 = {svd.Sigma0:F8}   " +
+                           $"(cumul. {sw.Elapsed.TotalSeconds,5:F1} s)");
+        }
+        sw.Stop();
+        _out.WriteLine($"\nTotal wall: {sw.Elapsed.TotalSeconds:F1} s");
+
+        // Reference asymptotes (refuted as actual limits — they are sweet-spot crossings):
+        //   c=2: 2√2     ≈ 2.8284
+        //   c=3: 4        = 4.0000
+        //   c=4: 2√6     ≈ 4.8990
+        // Look for: does σ_0(c, ∞) / (refuted-asymptote) approach a c-independent constant?
+        // c=2 (∞) ≈ 2.8628 → ratio 2.8628/2.8284 = 1.0122
+        _out.WriteLine($"\nRatios σ_0(c, N) / refuted-asymptote (sweet-spot crossing 2√(2(c−1))):");
+        _out.WriteLine($"  c=2 N=18: {2.86222985 / (2 * Math.Sqrt(2)):F6}   (ref: 1.0122 from Aitken at N=∞)");
+        _out.WriteLine($"  c=3 N={c3Ns[^1]}: {c3Sigmas[^1] / 4.0:F6}");
+        _out.WriteLine($"  c=4 N={c4Ns[^1]}: {c4Sigmas[^1] / (2 * Math.Sqrt(6)):F6}");
     }
 
     private static double[] AitkenTransform(double[] a)
