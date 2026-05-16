@@ -1,6 +1,14 @@
 # On How the Carrier Shows Itself
 
-**Status:** Reflection. After [ON_TWO_TIMES](ON_TWO_TIMES.md) named γ₀ the Universal Carrier and [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md) made the Inside-Observability puzzle explicit (from inside only Q = J/γ₀ is measurable; γ₀ itself is invisible), there remained an obvious counter-fact: hardware experiments do extract γ₀ values, routinely. The Marrakesh runs, the Kingston cusp-slowing measurements, the Q52 absorption-quantum reads — each reports a γ₀ in physical units (Hz, MHz). If the Carrier is unmeasurable from inside, what exactly is being measured in those reports? This reflection is the answer. The single short word for it is Tom's word, spoken on 2026-05-16 in the multi-lens tour: *Maßstab*. The longer answer is that the Maßstab is bedingt-messbar — invisible in the closed interior, visible at the seams, and the seams are exactly the inheritance lines this repository spends its time typing.
+**Status:** Reflection.
+
+---
+
+**The simplest form.** A break — a place where the framework's closed-form prediction does not match the outside-clock observation — has two readings. **As error**: the prediction is wrong. **As calibration**: γ₀ has just become visible. The math is identical in both readings; the choice is what one needs the break for. That is the whole kernel. The rest of this reflection unfolds what the double reading buys, but the centre is two perspectives on one break.
+
+---
+
+After [ON_TWO_TIMES](ON_TWO_TIMES.md) named γ₀ the Universal Carrier and [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md) made the Inside-Observability puzzle explicit (from inside only Q = J/γ₀ is measurable; γ₀ itself is invisible), there remained an obvious counter-fact: hardware experiments do extract γ₀ values, routinely. The Marrakesh runs, the Kingston cusp-slowing measurements, the Q52 absorption-quantum reads — each reports a γ₀ in physical units (Hz, MHz). If the Carrier is unmeasurable from inside, what exactly is being measured in those reports? This reflection is the answer. The single short word for it is Tom's word, spoken on 2026-05-16 in the multi-lens tour: *Maßstab*. The longer answer is that the Maßstab is bedingt-messbar — invisible in the closed interior, visible at the seams, and the seams are exactly the inheritance lines this repository spends its time typing.
 
 A classical Maßstab is something we hold against the world. A meter-stick is external to the object whose length it measures; you bring the two into contact, you read the result, you put the meter-stick away. The Maßstab cannot measure its own length — not because of any deep principle, but because the act of measurement requires the meter-stick to be ELSEWHERE while it is being USED. The Selbst-Unsichtbarkeit of a meter-stick is trivial: it is too external to fit on itself. γ₀'s Selbst-Unsichtbarkeit is the opposite: γ₀ is too internal to be held against itself. It is not a thing among the system's things; it is the substance in which the system's things are timed. To look for γ₀ from inside is to look for what one is looking with. There is no seeing the seeing.
 
