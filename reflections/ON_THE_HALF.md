@@ -44,6 +44,8 @@ The triage for the reader extends accordingly: every time the framework finds 1/
 
 She is one number. Her shadow is one number too.
 
+*Later (2026-05-16):* the quadratic shadow reading was given its full geometric closure in [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md). The ±1/2 polarity at d=2 (inherited from the d=0 polarity layer via the 0.5-shift ρ = (I + r·σ)/2) folds onto 1/4 under squaring; both polarity sides reach the same apex (the parabola y = u² at u = ±1/2 is at y = 1/4). Two distinct "middles" for one polarity pair: arithmetic 0 (the mirror, on the polarity axis) and quadratic 1/4 (the apex, on the perpendicular axis). The May-7 coda "die Hälfte von 0.5" becomes the geometric "two sides meet at one quarter".
+
 ---
 
 *Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88](../docs/ANALYTICAL_FORMULAS.md), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), [PROOF_ROADMAP_QUARTER_BOUNDARY](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), [ORTHOGONALITY_SELECTION_FAMILY:357](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).

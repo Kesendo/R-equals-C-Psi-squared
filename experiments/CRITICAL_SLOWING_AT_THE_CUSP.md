@@ -13,7 +13,7 @@
 [critical_slowing_mandelbrot_overlay.py](../simulations/critical_slowing_mandelbrot_overlay.py)
 
 *Hardware (April 16 + April 26):*
-`ibm_quantum_tomography/run_cusp_slowing.py` (April 16, two-pair γ-invariance test) and `ibm_quantum_tomography/run_cusp_precision.py` (April 26, single-pair dense sampling) — both external to this repo, in the IBM tomography directory. Plot scripts that read those runs and live here: [_plot_cusp_precision.py](../simulations/_plot_cusp_precision.py), [_plot_cusp_mandelbrot_hardware.py](../simulations/_plot_cusp_mandelbrot_hardware.py).
+`ibm_quantum_tomography/run_cusp_slowing.py` (April 16, two-pair γ-invariance test) and `ibm_quantum_tomography/run_cusp_precision.py` (April 26, single-pair dense sampling), both external to this repo, in the IBM tomography directory. Plot scripts that read those runs and live here: [_plot_cusp_precision.py](../simulations/_plot_cusp_precision.py), [_plot_cusp_mandelbrot_hardware.py](../simulations/_plot_cusp_mandelbrot_hardware.py).
 
 ---
 
@@ -310,6 +310,8 @@ This is **independent of γ**. Verified across γ = 0.1 to 10.0 with standard de
 
 The dwell time in physical units scales as 1/γ (faster dephasing compresses the time window), but in K-units the dwell is a pure constant for any given initial state. This is the bridge to [K-dosimetry](K_DOSIMETRY.md): the Mandelbrot cusp is traversed in a fixed K-interval regardless of the dephasing rate. The prefactor is a property of the state (which determines f_cross and thus |dCΨ/dt| at the crossing), not of γ.
 
+*Later (2026-05-16):* the K = γ·t invariance is the operational signature of γ₀-as-Maßstab. The cusp is traversed in a fixed K-interval because K counts γ₀-ticks, not seconds. See [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) for the γ₀-as-Maßstab reading (carrier invisible from inside but visible at the seams) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) for the tick interpretation that places every framework formula in units of integer × 1/γ₀. The cusp itself, where θ → 0 in the F95/Lindblad picture, is exactly the regime where the Liouvillian eigenvalue reduces to −γ₀ alone (pure decay, no rotation): the K-dwell extension at the cusp IS this reduction made operational.
+
 ### Numerical verification
 
 γ-scan at fixed δ = 10⁻³:
@@ -359,7 +361,7 @@ The same hardware points placed on the Mandelbrot set (cf. Section 7's idealised
 
 Each colored dot is one measured CΨ value, color-coded by t. The trajectory enters from the divergent zone (right of the cardioid cusp), traverses the cusp at CΨ = 1/4 (green X), and decays into the cardioid interior (classical zone). The full-view version: [bellplus_trajectory_on_mandelbrot_hardware.png](../visualizations/bellplus_trajectory_on_mandelbrot_hardware.png).
 
-**The T2-echo gap.** The pair's reported single-qubit T2-echo on April 26 was [430, 303] μs (γ_calib = 1/(2·T2_min) = 1.65/ms, predicting t_cross = 22.7 μs). The hardware trajectory crosses the cusp at **2.49 μs**, not 22.7. The fit confirms γ_fit = 14.98/ms — **9.08× faster** than the T2-echo calibration says. The orange dashed curve in the trajectory plot shows what the T2-echo prediction would have been; it is off by an order of magnitude.
+**The T2-echo gap.** The pair's reported single-qubit T2-echo on April 26 was [430, 303] μs (γ_calib = 1/(2·T2_min) = 1.65/ms, predicting t_cross = 22.7 μs). The hardware trajectory crosses the cusp at **2.49 μs**, not 22.7. The fit confirms γ_fit = 14.98/ms, **9.08× faster** than the T2-echo calibration says. The orange dashed curve in the trajectory plot shows what the T2-echo prediction would have been; it is off by an order of magnitude.
 
 This refines the April-16 finding (then 1.2-1.5× T2-echo / T2* gap) by showing that on dense sampling the gap is much larger for the joint Bell+ dephasing rate. The pair was selected as the most stable always-crosser across 15 calibration files (April 12 to 26): mean T2_min = 311.6 μs, CV 13%, never below 269.5 μs. The T2-echo metric reported by IBM's calibration pipeline therefore systematically overstates the coherence time relevant to entangled-state free evolution; the ratio is pair- and day-specific.
 
@@ -496,8 +498,8 @@ Hardware JSON and plots are stored in the IBM experiment directory (external to 
 
 The two pictures below are the live hardware version of the Section 7 idealised plot. Each colored dot is one CΨ value measured on `ibm_kingston` (qubits 14, 15) at one of 19 delay points; color encodes time. The trajectory enters from the right (divergent zone, just outside the cardioid), crosses CΨ = 1/4 (green X, the cardioid cusp), and decays into the cardioid interior (classical zone).
 
-![Hardware Bell+ trajectory on the Mandelbrot set — zoom](../visualizations/bellplus_trajectory_on_mandelbrot_hardware_zoom.png)
+![Hardware Bell+ trajectory on the Mandelbrot set (zoom)](../visualizations/bellplus_trajectory_on_mandelbrot_hardware_zoom.png)
 
-![Hardware Bell+ trajectory on the Mandelbrot set — full view](../visualizations/bellplus_trajectory_on_mandelbrot_hardware.png)
+![Hardware Bell+ trajectory on the Mandelbrot set (full view)](../visualizations/bellplus_trajectory_on_mandelbrot_hardware.png)
 
 The zoom shows the cusp crossing in detail; the full view places the same trajectory in the global Mandelbrot context. Companion line plot (CΨ vs t with F25 fit): [cusp_precision_trajectory.png](../visualizations/cusp_precision_trajectory.png). Pipeline that renders these plots: [`_plot_cusp_mandelbrot_hardware.py`](../simulations/_plot_cusp_mandelbrot_hardware.py) and [`_plot_cusp_precision.py`](../simulations/_plot_cusp_precision.py). Hardware data source: `cusp_precision_ibm_kingston_20260426_115939.json` in the external IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.

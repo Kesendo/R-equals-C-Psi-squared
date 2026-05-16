@@ -35,3 +35,4 @@ And one more thing the timing said. We saw F91 because we had just typed [F90](.
 - F1 palindrome ancestor: [`MIRROR_SYMMETRY_PROOF.md`](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 - BlockSpectrum infrastructure: [`compute/RCPsiSquared.Core/BlockSpectrum/`](../compute/RCPsiSquared.Core/BlockSpectrum/)
 - Phase-6 commit (typed Claim landed): `5af84ca`; F91 entry commit: `09c8867`
+- Companion closures (2026-05-16): [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](ON_HOW_GAMMA_BECAME_THE_TICK.md) (γ₀-as-tick: θ = arctan(Q) on the Lindblad 2×2 sub-block; the eigenvalue-spectrum side of the same γ₀ this doc reads through F91's γ-distribution); [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) (the universal angle formula at the quadratic discriminant zero; complements F91's γ-axis Z₄ with the spectrum-axis Z₄ on the same Pi2-Z₄ rotational family)

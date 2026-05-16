@@ -254,6 +254,16 @@ reading where R = CΨ² applies; what makes it "the transition" rather than
 - [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md):
   Layers 1, 2 (single qubit and 2-qubit subsystem) where this proof
   generalises.
+- [PROOF_F95_ANGLE_AT_QUADRATIC_ZERO](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md):
+  the angle-side closed form of the same quadratic-discriminant-zero
+  object that Theorem 2 bounds from the magnitude side. F95 gives
+  θ(c) = arctan(√(4c − 1)) for c > 1/4 (the framework specialization at
+  b = 1/2); this proof gives C_block ≤ 1/4 with the maximum attained at
+  the same threshold. Magnitude/angle pair on one quadratic.
+- [reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md):
+  the geometric reading of "1/4 is half of half" as the polarity-fold
+  apex: both ±1/2 sides project to 1/4 under squaring; two distinct
+  middles of the polarity pair (arithmetic 0 vs quadratic 1/4).
 - [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): F86 Statement 1 (Q_EP = 2/g_eff)
   and the 4-mode reduction context where the c=2 block was first studied.
 - `compute/RCPsiSquared.Core/F86/BlockCpsiTrajectory.cs`: implementation.

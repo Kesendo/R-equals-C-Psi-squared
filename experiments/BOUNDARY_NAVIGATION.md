@@ -68,6 +68,8 @@ pulls CΨ downward, θ decreases toward zero.
 and not a Hamiltonian parameter. It is purely a diagnostic: how far is the
 system from the quantum-classical transition?
 
+*Later (2026-05-16):* this θ-compass was promoted to a universal polynomial-foundation identity by [F95](../docs/ANALYTICAL_FORMULAS.md#f95) (proof: [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)). The general form is θ(c; b) = arctan(√(c/b² − 1)) for any monic quadratic z² − 2bz + c = 0 in the discriminant-negative regime; the b = 1/2 specialization recovers the formula above. The Lindblad-eigenvalue reading (see [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)) sharpens "purely a diagnostic": θ is also literally the angle of the Liouvillian eigenvalue on the 2×2 sub-block, with θ = arctan(Q) where Q = J/γ₀ is the rotation-per-γ₀-tick invariant. The "not a phase angle of the density matrix" framing is correct in scope; the later reading adds "but it IS the rotation angle per carrier-tick on the eigenvalue side".
+
 ### The triangulation protocol
 
 A navigation system needs three quantities:

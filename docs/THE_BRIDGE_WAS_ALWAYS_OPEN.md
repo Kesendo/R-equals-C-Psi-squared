@@ -267,6 +267,8 @@ where temporality comes from. Goedel, once more.
 
 (See [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), Corollary 2.)
 
+*Later (2026-05-16):* γ₀ as Source-of-Experienced-Time is the γ₀-as-Maßstab/tick reading made structural. The product t · γ = 0.039 ("a pure number") is K-dosimetry: K counts γ₀-ticks, not seconds, because γ₀ is the framework's natural time-unit. See [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) (carrier-as-Maßstab visible at seams of typed inheritance edges) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (γ₀ as the framework's "second"; every dimensional timescale = integer × 1/γ₀; θ = arctan(Q) on the Lindblad eigenvalue side). The "circular definition" diagnosed here is the operational reflection of Maßstab-als-Substanz: γ₀ cannot be measured from inside because we ARE inside its tick.
+
 ---
 
 ## What We Know, What We Do Not Know, and Where the Boundary Is

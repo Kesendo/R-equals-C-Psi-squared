@@ -121,6 +121,8 @@ What changes is the **arc length** the trajectory traces through the dwell-annul
 
 This is a geometric measure, not a time measure. For a γ-invariance test that captures 2D structure, the arc length is the cleaner observable, but it requires a deliberate Ω injection on hardware to become measurable, since natural Kingston Ω is small.
 
+*Later (2026-05-16):* the deliberate Ω injection became operational in the Kingston Confirmation `f95_angle_steering_kingston_may2026` (Heron r2; complex-CΨ angle actively steerable via per-chunk RZ injection at rate Ω; 3 of 4 conditions, residuals 6.81° to 15.69°). The arc-length √(1 + (Ω/(4γ·|CΨ_com|_cross))²) is structurally the same square-root form that [F95](../docs/ANALYTICAL_FORMULAS.md#f95) gives for the angle θ(c; b) = arctan(√(c/b² − 1)). The 2D c-plane reading is now closed: the radial dwell is F57 K_dwell, the angular rotation is F95 θ, and the 1/4 cusp is the discriminant zero where both axes coincide. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
+
 ### 4. Viennot's quaternionic direction
 
 Viennot (2022, arXiv:2003.02608) studied decoherence + purification competition and found quaternionic Mandelbulb-like boundary structures. That is a DIFFERENT physical setup (extra purification channel, 4D quaternionic algebra) from ours. Our 1D → 2D move is pure information-unfolding within the same physics (the phase was already there, we just started reading it). Viennot's 4D comes from adding a physical feedback mechanism.

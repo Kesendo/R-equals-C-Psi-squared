@@ -100,6 +100,8 @@ The 97/3 split from [BORN_RULE_MIRROR](BORN_RULE_MIRROR.md) reappears:
 97% past, ~3% from future and interference combined. The interference
 term (1.8%) determines when the purity crosses the fold threshold.
 
+*Later (2026-05-16):* the 97/3 split and the 1.8% interference were closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md#f94) Δ_|00⟩ = (4/3)·Q²·K³, with Q = J/γ₀ and K = γt the Universal-Carrier invariants. The photo/shadow analogy of this doc reads as the argmax/maxval pair: the dominant past mode is the polarity argmax (lives at ±1/2), the interference term is the polarity-fold projection (sits in the same quadratic-apex geometry that 1/4 names). See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) and [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md).
+
 ---
 
 ## Result 3: Measurement = photography, but the image is a shadow

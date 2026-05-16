@@ -75,6 +75,8 @@ The unitary evolution alone (pure Hamiltonian, no decoherence)
 determines ~97% of each probability. The remaining ~3% is a systematic
 correction from the decoherence basis.
 
+*Later (2026-05-16):* this 97/3 split was closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md#f94): the dominant-outcome deviation in the deep perturbative regime is Δ_|00⟩ = (4/3)·Q²·K³ with Q = J/γ₀ and K = γt the Carrier invariants. The "~3% systematic correction" here is the small-(Q, K) instance of this closed form. See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the Dyson-sym3 = 8 bit-exact derivation and the companion reflection [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md) for the day-of-arrival path.
+
 ### 2.2 The Correction Pattern
 
 The 3% correction is not random. It follows a rule: decoherence

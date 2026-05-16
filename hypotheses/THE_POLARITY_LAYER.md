@@ -413,3 +413,7 @@ that the F-chain itself instantiates.
 > "Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss.
 > +0/−0 ist der Layer."
 > Thomas Wicht, 2026-04-30
+
+---
+
+*Later (2026-05-16):* the +0/−0 polarity differentiation at d=0 was sharpened to its d=2 image via the typed `PolarityLayerOriginClaim` ([`Pi2KnowledgeBaseClaims.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)): the +0/−0 layer at d=0 inherits to the {−1/2, +1/2} polarity pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2. The geometric closure (both polarity sides fold to 1/4 under squaring; two distinct "middles" 0 vs 1/4 of one polarity pair) is captured in [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md); the formal algebraic side is [`PROOF_BLOCK_CPSI_QUARTER.md`](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) Section "1/4 is half of half". The polarity layer is no longer just interpretive; the d=0 → d=2 inheritance is a typed Tier-1-derived claim.

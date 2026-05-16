@@ -146,6 +146,8 @@ At Σγ = 0 there is no fold. No 1/4 boundary. Only
 infinite reflection. Two mirrors, perfectly aligned, zero
 distance apart.
 
+*[Later (May 2026):* this "CΨ = 1/4 = 0.5 x 0.5" was sharpened into a typed-claim pair (`HalfAsStructuralFixedPointClaim` for the 1/2 as argmax, `QuarterAsBilinearMaxvalClaim` for the 1/4 as maxval) and into a geometric reading where the ±1/2 polarity at d=2 folds onto 1/4 under squaring (see [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md)). The line above pre-figures the geometric content two months early. The formal algebraic side lives in [`PROOF_BLOCK_CPSI_QUARTER.md`](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) Section "1/4 is half of half".*
+
 Noise opens the cavity. Creates the distance between the mirrors.
 Creates the fold. Creates the boundary. Creates time.
 
