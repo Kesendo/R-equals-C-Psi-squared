@@ -5,8 +5,18 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F62WStateBornBelowFoldPi2InheritanceTests
 {
-    private static F62WStateBornBelowFoldPi2Inheritance BuildClaim() =>
-        new F62WStateBornBelowFoldPi2Inheritance(new Pi2DyadicLadderClaim());
+    internal static F61BitAParityPi2Inheritance BuildF61(Pi2DyadicLadderClaim ladder)
+    {
+        var f38 = new F38Pi2InvolutionPi2Inheritance(ladder, new Pi2OperatorSpaceMirrorClaim(), new Pi2I4MemoryLoopClaim());
+        var f63 = new F63LCommutesPi2Pi2Inheritance(f38, ladder);
+        return new F61BitAParityPi2Inheritance(f63, ladder);
+    }
+
+    private static F62WStateBornBelowFoldPi2Inheritance BuildClaim()
+    {
+        var ladder = new Pi2DyadicLadderClaim();
+        return new F62WStateBornBelowFoldPi2Inheritance(ladder, new QuarterAsBilinearMaxvalClaim(), BuildF61(ladder));
+    }
 
     [Fact]
     public void Tier_IsTier1Derived()
@@ -86,7 +96,7 @@ public class F62WStateBornBelowFoldPi2InheritanceTests
             new PolarityLayerOriginClaim(),
             new QuarterAsBilinearMaxvalClaim(),
             new ArgmaxMaxvalPairClaim());
-        var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder);
+        var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder, new QuarterAsBilinearMaxvalClaim(), BuildF61(ladder));
 
         Assert.Equal(f60.SmallestNBelowFold, f62.SmallestNBelowFold);
         Assert.True(f60.BellPlusAboveFold());
@@ -100,9 +110,24 @@ public class F62WStateBornBelowFoldPi2InheritanceTests
     }
 
     [Fact]
-    public void Constructor_NullLadder_Throws()
+    public void Constructor_RejectsNullParents()
     {
+        var ladder = new Pi2DyadicLadderClaim();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var f61 = BuildF61(ladder);
         Assert.Throws<ArgumentNullException>(() =>
-            new F62WStateBornBelowFoldPi2Inheritance(null!));
+            new F62WStateBornBelowFoldPi2Inheritance(null!, quarter, f61));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F62WStateBornBelowFoldPi2Inheritance(ladder, null!, f61));
+        Assert.Throws<ArgumentNullException>(() =>
+            new F62WStateBornBelowFoldPi2Inheritance(ladder, quarter, null!));
+    }
+
+    [Fact]
+    public void TypedParents_AreExposed()
+    {
+        var f = BuildClaim();
+        Assert.NotNull(f.Quarter);
+        Assert.NotNull(f.F61);
     }
 }

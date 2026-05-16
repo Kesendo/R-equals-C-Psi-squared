@@ -5,19 +5,19 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F62WStateBornBelowFoldPi2Inheritance"/>:
 /// F62's CΨ(0)_W_N closed form. F62 is the W-state companion to F60 (GHZ).
-/// Three parent edges (one explicit, two as registration discards):
+/// Three typed parent edges, all explicit as of 2026-05-16:
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_3 = 1/4</c> (fold)
-///         and <c>a_0 = 2</c> (numerator coefficient).</item>
-///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: registration discard.
-///         The fold IS the bilinear-apex maxval; same anchor as F57, Dicke,
-///         F60.</item>
-///   <item><see cref="F61BitAParityPi2Inheritance"/>: registration discard.
-///         F62's docstring cites F61: "Combined with the Parity Selection
-///         Rule (F61), this proves that single-excitation states never
-///         cross CΨ = 1/4." F61 + F62 together close the SE-regime
-///         structural-outside-framework reading.</item>
+///         and <c>a_0 = 2</c> (numerator coefficient) via live <c>Term(...)</c>
+///         reads.</item>
+///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: typed parent grounding
+///         the "fold IS the bilinear-apex maxval = (1/2)²" reading; same
+///         anchor as F57, Dicke, F60.</item>
+///   <item><see cref="F61BitAParityPi2Inheritance"/>: typed parent grounding
+///         "Combined with the Parity Selection Rule (F61), this proves that
+///         single-excitation states never cross CΨ = 1/4." F61 + F62
+///         together close the SE-regime structural-outside-framework reading.</item>
 /// </list>
 ///
 /// <para>Tier consistency: F62 is Tier 1 analytical; verified numerically
@@ -34,8 +34,8 @@ public static class F62WStateBornBelowFoldPi2InheritanceRegistration
         builder.Register<F62WStateBornBelowFoldPi2Inheritance>(b =>
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
-            _ = b.Get<QuarterAsBilinearMaxvalClaim>();         // fold = 1/4 = a_3
-            _ = b.Get<F61BitAParityPi2Inheritance>();          // cited parity selection rule
-            return new F62WStateBornBelowFoldPi2Inheritance(ladder);
+            var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
+            var f61 = b.Get<F61BitAParityPi2Inheritance>();
+            return new F62WStateBornBelowFoldPi2Inheritance(ladder, quarter, f61);
         });
 }

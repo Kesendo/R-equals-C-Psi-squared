@@ -13,7 +13,10 @@ public class F69GhzWSexticAboveFoldPi2InheritanceTests
             new PolarityLayerOriginClaim(),
             new QuarterAsBilinearMaxvalClaim(),
             new ArgmaxMaxvalPairClaim());
-        var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder);
+        var f62 = new F62WStateBornBelowFoldPi2Inheritance(
+            ladder,
+            new QuarterAsBilinearMaxvalClaim(),
+            F62WStateBornBelowFoldPi2InheritanceTests.BuildF61(ladder));
         return new F69GhzWSexticAboveFoldPi2Inheritance(ladder, f60, f62);
     }
 
@@ -126,7 +129,10 @@ public class F69GhzWSexticAboveFoldPi2InheritanceTests
             new PolarityLayerOriginClaim(),
             new QuarterAsBilinearMaxvalClaim(),
             new ArgmaxMaxvalPairClaim());
-        var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder);
+        var f62 = new F62WStateBornBelowFoldPi2Inheritance(
+            ladder,
+            new QuarterAsBilinearMaxvalClaim(),
+            F62WStateBornBelowFoldPi2InheritanceTests.BuildF61(ladder));
         Assert.Throws<ArgumentNullException>(() =>
             new F69GhzWSexticAboveFoldPi2Inheritance(null!, f60, f62));
     }
@@ -135,7 +141,10 @@ public class F69GhzWSexticAboveFoldPi2InheritanceTests
     public void Constructor_NullF60_Throws()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var f62 = new F62WStateBornBelowFoldPi2Inheritance(ladder);
+        var f62 = new F62WStateBornBelowFoldPi2Inheritance(
+            ladder,
+            new QuarterAsBilinearMaxvalClaim(),
+            F62WStateBornBelowFoldPi2InheritanceTests.BuildF61(ladder));
         Assert.Throws<ArgumentNullException>(() =>
             new F69GhzWSexticAboveFoldPi2Inheritance(ladder, null!, f62));
     }

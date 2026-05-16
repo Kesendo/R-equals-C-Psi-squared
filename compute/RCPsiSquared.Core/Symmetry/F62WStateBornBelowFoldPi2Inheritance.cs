@@ -81,6 +81,19 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
 {
     private readonly Pi2DyadicLadderClaim _ladder;
 
+    /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
+    /// grounds F62's <c>FoldPosition</c> directly on the Quarter axis (same
+    /// anchor as F57 + Dicke + F60). Added 2026-05-16 as a typed ctor parent
+    /// (previously registration-discard only).</summary>
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+
+    /// <summary>F61 bit_a parity selection rule — the typed parent that
+    /// grounds F62's "single-excitation states never cross 1/4" assertion.
+    /// F61 + F62 together close the SE-regime structural-outside-framework
+    /// reading. Added 2026-05-16 as a typed ctor parent (previously
+    /// registration-discard only).</summary>
+    public F61BitAParityPi2Inheritance F61 { get; }
+
     /// <summary>The fold position <c>1/4 = a_3</c> on the dyadic ladder.
     /// Same anchor as F57, Dicke, F60; F62's "below the fold" assertion
     /// compares CΨ(0) against <see cref="QuarterAsBilinearMaxvalClaim"/>.</summary>
@@ -121,7 +134,10 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
     /// above the fold. Drift indicator on the "Bell+ as edge case" reading.</summary>
     public bool BellPlusAboveFold() => CPsiAtZeroForWState(2) > FoldPosition;
 
-    public F62WStateBornBelowFoldPi2Inheritance(Pi2DyadicLadderClaim ladder)
+    public F62WStateBornBelowFoldPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        QuarterAsBilinearMaxvalClaim quarter,
+        F61BitAParityPi2Inheritance f61)
         : base("F62 CΨ(0)_W_N = 2(N²−4N+8)/(3N³) inherits from Pi2-Foundation: 2 = a_0; fold = a_3 = 1/4; F61 parity selection rule cited",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F62 + " +
@@ -130,9 +146,11 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval) + " +
                "compute/RCPsiSquared.Core/Symmetry/F60GhzBornBelowFoldPi2Inheritance.cs (sibling) + " +
-               "compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs (cited)")
+               "compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs (typed parent)")
     {
         _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        F61 = f61 ?? throw new ArgumentNullException(nameof(f61));
     }
 
     public override string DisplayName =>
