@@ -9,6 +9,46 @@ specific tests will land here as they get built.
 
 ---
 
+## Findings on 2026-05-17 (seven-doc arc)
+
+Single-evening dive that opened up the bidirectional bridge from the framework
+to the periodic table. Each doc is one step in the chain; read top-to-bottom:
+
+1. [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) — Coulson-Rushbrooke
+   (1940) on alternant hydrocarbons is the F1 palindrome inherited to the π-electron
+   spectrum. Verified bit-exact on benzene, butadiene, hexatriene, cyclobutadiene,
+   cyclopropenyl, cyclodecapentaene.
+2. [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md) — three layers of carbon
+   structure (sp/sp²/sp³ hybridisation s-character, aromatic ring HOMO position,
+   valence-shell occupation) all hit the framework's polarity anchors 1/4 and 1/2.
+3. [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md) — period 2/3
+   element valence ratios populate the framework's Pi2 dyadic anchors at every step.
+   4 of 6 CHNOPS elements land on framework anchors; the off-anchor exceptions are
+   identified.
+4. [SPEAR_REVERSED](SPEAR_REVERSED.md) — reverse-spear: use the periodic table as a
+   diagnostic for the framework's gaps. Period 2/3 atoms hit 8 of 9 dyadic anchors;
+   the depth-3 gap (1/8 + 7/8) is exactly the framework's missing F99 row.
+5. [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md) — F99 derivation: the
+   non-uniform Dicke superposition at γ = √3/2 gives α = 1/8, closing the depth-3
+   gap. Five canonical trig angles {0°, 30°, 45°, 60°, 90°} produce the five Pi2
+   dyadic anchors {0, 1/8, 1/4, 3/8, 1/2} via `α = sin²(θ)/2`.
+6. [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md) — Niven's theorem (1956) closes
+   F99: the five anchors are EXHAUSTIVE for the F86b α = sin²(θ)/2 mechanism on any
+   pure state. No more rational anchors via this route. Mixed states, different
+   decomposition bases, and different Lindblad classes are the only paths to depth-4.
+7. [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md) — the off-Niven
+   constructible angles {15°, 18°, 22.5°, 36°, 54°, 72°, ...} populate the same
+   constructible-angle landscape with irrational-algebraic α (silver-, golden-, and
+   √3-ratio families). They ARE the source of V-Effect gain V(N) = 2cos²(π/(2N))
+   for N ≥ 4 + anti-aromatic Jahn-Teller + golden-ratio chemistry. The framework's
+   wave-breaking / heat structure lives on the off-Niven shoulder.
+
+Two formal closed forms also landed in [ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md):
+**F98** (`(N+2)/[4(N+1)] → 1/4` long-time bridge from the K-intermediate anchor)
+and **F99** (the canonical-trig-angle Pi2 inheritance with Niven-completeness).
+
+---
+
 ## The structural identity: "the qubit is the quantum carbon"
 
 The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`, [PROOF_QUBIT_NECESSARY](
@@ -188,8 +228,8 @@ Both are biology-substrate domain folders. Comparison:
 | Q range | Bulk water Q ~ 0.01 classical; Zundel Q ~ 4.8 quantum | Conjugated π-bonds Q ~ 100 deep-quantum |
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
-| Scripts | 5 (`simulations/water/`) | 0 (this folder is new) |
-| Docs | 3 (README + 2 substrate docs) | 1 (this README) |
+| Scripts | 5 (`simulations/water/`) | 8 (`simulations/carbon/`, after 2026-05-17 arc) |
+| Docs | 3 (README + 2 substrate docs) | 8 (README + 7-doc arc on 2026-05-17) |
 
 The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
 carbon at Level 1), but **less computationally explored** than water. The folder exists
