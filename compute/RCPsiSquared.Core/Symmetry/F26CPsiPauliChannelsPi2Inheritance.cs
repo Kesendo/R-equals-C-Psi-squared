@@ -61,13 +61,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (corollary at single-channel limit).</para></summary>
 public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F25CPsiBellPlusPi2Inheritance _f25;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F25CPsiBellPlusPi2Inheritance F25 { get; }
 
     /// <summary>The "4" decay rate coefficient in α, β, δ = 4·(γ_a + γ_b).
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
     /// Same anchor as F25, F65, F73, F76 decay rates.</summary>
-    public double DecayRateCoefficient => _ladder.Term(-1);
+    public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The normalization denominator <c>12</c> in F26's formula.
     /// Combinatorial: 12 = 3 axes · 4 = a_{−1} · 3 (permutations of which
@@ -105,7 +105,7 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim
     {
         if (gammaZ < 0.0) throw new ArgumentOutOfRangeException(nameof(gammaZ), gammaZ, "γ_z must be ≥ 0.");
         if (t < 0.0) throw new ArgumentOutOfRangeException(nameof(t), t, "t must be ≥ 0.");
-        return Math.Abs(CPsiAtTime(0.0, 0.0, gammaZ, t) - _f25.CPsiAtTime(gammaZ, t)) < 1e-12;
+        return Math.Abs(CPsiAtTime(0.0, 0.0, gammaZ, t) - F25.CPsiAtTime(gammaZ, t)) < 1e-12;
     }
 
     /// <summary>Live drift check: at t = 0 with any nonzero γ, CΨ(0) = 1·(1+1+1+1)/12 = 1/3
@@ -133,8 +133,8 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs (corollary at γ_x=γ_y=0)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f25 = f25 ?? throw new ArgumentNullException(nameof(f25));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F25 = f25 ?? throw new ArgumentNullException(nameof(f25));
     }
 
     public override string DisplayName =>

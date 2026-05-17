@@ -67,16 +67,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F1Pi2Inheritance _f1;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F1Pi2Inheritance F1 { get; }
 
     /// <summary>The "2" in d_fast + d_slow = 2·Σγ (palindromic pair sum coefficient).
     /// Live from Pi2DyadicLadder a_0. Same anchor as F1's TwoFactor.</summary>
-    public double SumCoefficient => _ladder.Term(0);
+    public double SumCoefficient => Ladder.Term(0);
 
     /// <summary>The "2" in ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)); comes from the
     /// identity ln((1+x)/(1−x)) = 2·artanh(x). Same a_0 anchor as SumCoefficient.</summary>
-    public double ArTanhCoefficient => _ladder.Term(0);
+    public double ArTanhCoefficient => Ladder.Term(0);
 
     /// <summary>The closed-form rate-ratio logarithm:
     /// <c>ln(d_fast/d_slow) = 2·artanh(Δd/(2·Σγ))</c>.
@@ -144,8 +144,8 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
 
     public override string DisplayName =>
@@ -163,7 +163,7 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("SumCoefficient (= a_0 = 2)", SumCoefficient);
             yield return InspectableNode.RealScalar("ArTanhCoefficient (= a_0 = 2)", ArTanhCoefficient);
             yield return new InspectableNode("F1 palindrome identity (transitive)",
-                summary: $"F44's d_fast + d_slow = 2·Σγ is F1's palindrome identity at the eigenvalue level. F1's TwoFactor (= {_f1.TwoFactor}) is the same '2' as F44's SumCoefficient.");
+                summary: $"F44's d_fast + d_slow = 2·Σγ is F1's palindrome identity at the eigenvalue level. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F44's SumCoefficient.");
             yield return new InspectableNode("linear approximation",
                 summary: "Δd/Σγ ≪ 1: ln(d_fast/d_slow) ≈ Δd/Σγ; gives Boltzmann-like β_eff = 1/Σγ; NOT a physical temperature");
             yield return new InspectableNode("F68 specialization",

@@ -21,8 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// sub-block" and <c>simulations/_f89_path2_se_de_symbolic.py</c>.</para></summary>
 public sealed class F89Path2CardanoClaim : Claim
 {
-    private readonly F89TopologyOrbitClosure _f89;
-
+    public F89TopologyOrbitClosure F89 { get; }
     /// <summary>The two linear-factor eigenvalues at path-2 (SE, DE) S_2-sym
     /// sub-block: <c>(−2γ, −6γ)</c>. Pure-AT rates per F89c; no J-dependence.
     /// At our ρ_block(0) projection, only −2γ is populated (the −6γ eigenvector
@@ -114,7 +113,7 @@ public sealed class F89Path2CardanoClaim : Claim
                "simulations/_f89_path2_se_de_symbolic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
     }
 
     public override string DisplayName =>

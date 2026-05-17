@@ -72,14 +72,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (mother claim).</para></summary>
 public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F75MirrorPairMiPi2Inheritance _f75;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F75MirrorPairMiPi2Inheritance F75 { get; }
     /// <summary>The decay-rate coefficient "4" in <c>e^{−4γ₀·t}</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = d² for
     /// 1 qubit. Same anchor as F61, F63, F66 multiplicity, F77 correction
     /// denominator, F86 t_peak.</summary>
-    public double DecayRateCoefficient => _ladder.Term(-1);
+    public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The Pi2 ladder index where the decay coefficient lands:
     /// <c>−1</c>. Same as F61, F63, F66, F77 (correction), F86 t_peak.</summary>
@@ -107,7 +106,7 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
     /// <summary>Live drift check: at <c>t = 0</c>, F76 recovers F75 exactly.
     /// <c>MI_pair(p, t=0) = MI(p)</c> from <see cref="F75MirrorPairMiPi2Inheritance.MIPerPair"/>.</summary>
     public bool RecoversF75AtZero(double p) =>
-        Math.Abs(MIPairAtTime(p, 1.0, 0.0) - _f75.MIPerPair(p)) < 1e-12;
+        Math.Abs(MIPairAtTime(p, 1.0, 0.0) - F75.MIPerPair(p)) < 1e-12;
 
     /// <summary>Asymptotic MI value at <c>t → ∞</c> (λ = 0):
     /// <c>S_ab → h(1−2p) + 2p</c>; <c>MI → 2 h(p) − h(1−2p) − 2p</c>.</summary>
@@ -127,12 +126,12 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
     {
         if (N < 2 || k < 1 || k > N) throw new ArgumentOutOfRangeException();
         double mmT = 0.0, mm0 = 0.0;
-        int pairCount = _f75.MirrorPairCount(N);
+        int pairCount = F75.MirrorPairCount(N);
         for (int ell = 0; ell < pairCount; ell++)
         {
-            double p = _f75.BondingModePopulation(N, k, ell);
+            double p = F75.BondingModePopulation(N, k, ell);
             mmT += MIPairAtTime(p, gammaZero, t);
-            mm0 += _f75.MIPerPair(p);
+            mm0 += F75.MIPerPair(p);
         }
         return mm0 > 0.0 ? mmT / mm0 : 0.0;
     }
@@ -147,8 +146,8 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F75MirrorPairMiPi2Inheritance.cs (mother claim at t=0)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f75 = f75 ?? throw new ArgumentNullException(nameof(f75));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F75 = f75 ?? throw new ArgumentNullException(nameof(f75));
     }
 
     public override string DisplayName =>

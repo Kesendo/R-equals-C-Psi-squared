@@ -66,9 +66,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (QubitDimensionalAnchorClaim).</para></summary>
 public sealed class F66PoleModesPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly QubitDimensionalAnchorClaim _qubitAnchor;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public QubitDimensionalAnchorClaim QubitAnchor { get; }
     /// <summary>The lower pole position: α = 0. The no-dissipation reference
     /// edge of the interval [0, 2γ₀]; structurally the absence-of-rate.</summary>
     public double LowerPoleAlpha => 0.0;
@@ -77,7 +76,7 @@ public sealed class F66PoleModesPi2Inheritance : Claim
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = polynomial
     /// root d in d² − 2d = 0. The maximal dissipation rate IS the framework's
     /// polynomial root times γ₀.</summary>
-    public double UpperPoleCoefficient => _ladder.Term(0);
+    public double UpperPoleCoefficient => Ladder.Term(0);
 
     /// <summary>The upper pole position: <c>α = 2γ₀</c> for the supplied γ₀.
     /// Throws for γ₀ &lt; 0.</summary>
@@ -140,8 +139,8 @@ public sealed class F66PoleModesPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _qubitAnchor = qubitAnchor ?? throw new ArgumentNullException(nameof(qubitAnchor));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        QubitAnchor = qubitAnchor ?? throw new ArgumentNullException(nameof(qubitAnchor));
     }
 
     public override string DisplayName =>

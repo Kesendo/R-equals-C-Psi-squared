@@ -65,9 +65,8 @@ public sealed class F89AmplitudeLayerClaim : Claim
     public const double AngleATolerance = 1e-8;
 
     // Parent-edge markers for Schicht-1 wiring (consumed by ClaimRegistryBuilder).
-    private readonly F89UnifiedFaClosedFormClaim _unifiedClosedForm;
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89UnifiedFaClosedFormClaim UnifiedClosedForm { get; }
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     /// <summary>Compute <c>p_n = σ_n · N²·(N−1)</c> from the sigma anatomy value.</summary>
     public static double ComputePn(double sigma, int chainN)
     {
@@ -182,9 +181,9 @@ public sealed class F89AmplitudeLayerClaim : Claim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md Angle A; |S_c|² and ‖Mv‖² as explicit sine sums (ComputeScSquaredClosedForm, ComputeMvSquaredClosedForm); bit-exact verified against F89UnifiedFaClosedFormClaim.Sigma in F89AmplitudeLayerClaimTests; path-3 algebraic anchor (33+14√5)/9; same Chebyshev-expansion + orbit-polynomial-reduction pipeline that closed F89UnifiedFaClosedFormClaim 2026-05-15 (F89PathPolynomialPipeline)")
     {
-        _unifiedClosedForm = unifiedClosedForm
+        UnifiedClosedForm = unifiedClosedForm
             ?? throw new ArgumentNullException(nameof(unifiedClosedForm));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName => "F89 amplitude-layer decomposition (Angle A)";

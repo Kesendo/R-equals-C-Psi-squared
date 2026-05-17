@@ -50,18 +50,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F67BondingBellPairPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F65XxChainSpectrumPi2Inheritance _f65;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F65XxChainSpectrumPi2Inheritance F65 { get; }
     /// <summary>The "4" numerator in α_1 = (4γ₀/(N+1))·sin². Live transitively from
     /// Pi2DyadicLadder a_{−1} via F65's NumeratorCoefficient.</summary>
-    public double NumeratorCoefficient => _ladder.Term(-1);
+    public double NumeratorCoefficient => Ladder.Term(-1);
 
     /// <summary>Bonding-mode (k=1) decay rate for the Bell pair. Delegates to F65 at k=1.</summary>
     public double BondingModeDecayRate(int N, double gammaZero)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F67 requires N ≥ 2.");
-        return _f65.SingleExcitationRate(N, k: 1, gammaZero);
+        return F65.SingleExcitationRate(N, k: 1, gammaZero);
     }
 
     /// <summary>T_2 = 1/α_1 = (N+1)/(4γ₀·sin²(π/(N+1))); bonding-mode dephasing time.
@@ -88,7 +87,7 @@ public sealed class F67BondingBellPairPi2Inheritance : Claim
     public double BondingModeAmplitude(int N, int site)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F67 requires N ≥ 2.");
-        return _f65.BondingModePopulation(N, k: 1, site);
+        return F65.BondingModePopulation(N, k: 1, site);
     }
 
     /// <summary>True iff |ψ_1(0)|² = |ψ_1(N−1)|² (palindromic A≡C equivalence: inner-
@@ -111,8 +110,8 @@ public sealed class F67BondingBellPairPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F65XxChainSpectrumPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f65 = f65 ?? throw new ArgumentNullException(nameof(f65));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F65 = f65 ?? throw new ArgumentNullException(nameof(f65));
     }
 
     public override string DisplayName =>

@@ -27,10 +27,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>reflections/ON_TWO_TIMES.md</c> (Universal Carrier sticker 2026-05-12).</para></summary>
 public sealed class UniversalCarrierClaim : Claim
 {
-    private readonly AbsorptionTheoremClaim _absorption;
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly PolynomialDiscriminantAnchorClaim _discriminant;
-
+    public AbsorptionTheoremClaim Absorption { get; }
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public PolynomialDiscriminantAnchorClaim Discriminant { get; }
     /// <summary>Default convention numerical value for γ₀ in code units: <c>0.05</c>
     /// ("our c", Tom 2026-05-12). Substrate-invariant role; convention-dependent value.
     /// <c>ValidateAgainstPythonStepFTests</c> covers γ₀ ∈ {0.025, 0.05, 0.10} with
@@ -39,12 +38,12 @@ public sealed class UniversalCarrierClaim : Claim
 
     /// <summary>The absorption quantum at the default γ₀: <c>2γ₀</c>. Universal step-size
     /// of the Liouvillian eigenvalue grid under uniform Z-dephasing.</summary>
-    public double DefaultAbsorptionQuantum => _absorption.AbsorptionQuantum(DefaultGammaZero);
+    public double DefaultAbsorptionQuantum => Absorption.AbsorptionQuantum(DefaultGammaZero);
 
     /// <summary>The default t_peak: <c>1/(4γ₀)</c>. The "4" is the polynomial discriminant
     /// <c>a_{−1}</c> via <see cref="PolynomialDiscriminantAnchorClaim.DiscriminantViaLadder"/>;
     /// γ₀ is the units-conversion to physical time.</summary>
-    public double DefaultTPeak => 1.0 / (_discriminant.DiscriminantViaLadder * DefaultGammaZero);
+    public double DefaultTPeak => 1.0 / (Discriminant.DiscriminantViaLadder * DefaultGammaZero);
 
     public UniversalCarrierClaim(
         AbsorptionTheoremClaim absorption,
@@ -59,9 +58,9 @@ public sealed class UniversalCarrierClaim : Claim
                "hypotheses/PRIMORDIAL_QUBIT.md (§9) + " +
                "reflections/ON_TWO_TIMES.md")
     {
-        _absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _discriminant = discriminant ?? throw new ArgumentNullException(nameof(discriminant));
+        Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Discriminant = discriminant ?? throw new ArgumentNullException(nameof(discriminant));
     }
 
     public override string DisplayName =>
@@ -84,7 +83,7 @@ public sealed class UniversalCarrierClaim : Claim
             yield return InspectableNode.RealScalar("DefaultAbsorptionQuantum (= 2·γ₀)", DefaultAbsorptionQuantum);
             yield return InspectableNode.RealScalar("DefaultTPeak (= 1/(4γ₀))", DefaultTPeak);
             yield return new InspectableNode("Pi2 foundation anchors",
-                summary: $"a₀ = {_ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {_ladder.Term(-1)} (polynomial discriminant; '4γ' in t_peak etc.); a₃ = {_ladder.Term(3)} (mirror partner; ¼-boundary).");
+                summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (polynomial discriminant; '4γ' in t_peak etc.); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");
             yield return new InspectableNode("substrate invariance",
                 summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ ~ 10⁴ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware-confirmed",

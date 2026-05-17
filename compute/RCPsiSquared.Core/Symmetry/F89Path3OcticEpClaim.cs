@@ -35,10 +35,9 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F89Path3OcticEpClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89TopologyOrbitClosure _f89;
+    public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     /// <summary>q_EP² = (−1 + √13) / 6: the locus from disc factor (3q⁴+q²−1)² = 0.</summary>
     public static readonly double QEpSquared = (-1.0 + Math.Sqrt(13)) / 6.0;
 
@@ -63,8 +62,8 @@ public sealed class F89Path3OcticEpClaim : Claim
                "simulations/_f89_path3_ep_locator.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>

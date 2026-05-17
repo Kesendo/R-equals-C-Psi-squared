@@ -63,10 +63,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// ladder enabling negative indices; the "other side" Tom asked about).</para></summary>
 public sealed class PolynomialDiscriminantAnchorClaim : Claim
 {
-    private readonly PolynomialFoundationClaim _polynomial;
-    private readonly QubitDimensionalAnchorClaim _qubit;
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public PolynomialFoundationClaim Polynomial { get; }
+    public QubitDimensionalAnchorClaim Qubit { get; }
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>Coefficients of the foundational polynomial d² − 2d + 0 in (a, b, c)
     /// form: (1, −2, 0).</summary>
     public (double A, double B, double C) PolynomialCoefficients => (1.0, -2.0, 0.0);
@@ -103,14 +102,14 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
     public int LadderIndex => -1;
 
     /// <summary>The discriminant value via Pi2DyadicLadder.Term(−1) = a_{−1} = 4.</summary>
-    public double DiscriminantViaLadder => _ladder.Term(LadderIndex);
+    public double DiscriminantViaLadder => Ladder.Term(LadderIndex);
 
     /// <summary>Mirror-partner ladder index via a_n · a_{2−n} = 1: n = 2 − (−1) = 3.</summary>
     public int MirrorPartnerLadderIndex => 2 - LadderIndex;
 
     /// <summary>Mirror-partner value: a_3 = 1/4 = the QuarterAsBilinearMaxval anchor on
     /// the memory side. Multiplying with the discriminant gives 4·(1/4) = 1 (closure).</summary>
-    public double MirrorPartnerValue => _ladder.Term(MirrorPartnerLadderIndex);
+    public double MirrorPartnerValue => Ladder.Term(MirrorPartnerLadderIndex);
 
     /// <summary>Drift check: all four readings of the discriminant agree to machine
     /// precision. (Coefficient formula, root separation squared, qubit dimension squared,
@@ -148,9 +147,9 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "hypotheses/ZERO_IS_THE_MIRROR.md")
     {
-        _polynomial = polynomial ?? throw new ArgumentNullException(nameof(polynomial));
-        _qubit = qubit ?? throw new ArgumentNullException(nameof(qubit));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Polynomial = polynomial ?? throw new ArgumentNullException(nameof(polynomial));
+        Qubit = qubit ?? throw new ArgumentNullException(nameof(qubit));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

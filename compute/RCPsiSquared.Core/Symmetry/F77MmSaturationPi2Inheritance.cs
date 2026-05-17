@@ -67,32 +67,31 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (HalfAsStructuralFixedPointClaim).</para></summary>
 public sealed class F77MmSaturationPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The asymptotic saturation value: <c>1 bit</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(1) = <c>a_1</c> = self-mirror pivot
     /// on the dyadic halving ladder. F77 is the first F-formula whose primary
     /// constant lands on the self-mirror axis.</summary>
-    public double SaturationBit => _ladder.Term(1);
+    public double SaturationBit => Ladder.Term(1);
 
     /// <summary>The Pi2 ladder index where F77's saturation lands: <c>1</c>
     /// (the self-mirror pivot). Equal to
     /// <see cref="Pi2DyadicLadderClaim.SelfMirrorIndex"/>.</summary>
-    public int LadderIndexForSaturation => _ladder.SelfMirrorIndex;
+    public int LadderIndexForSaturation => Ladder.SelfMirrorIndex;
 
     /// <summary>True iff F77's saturation index equals the Pi2 ladder's
     /// self-mirror pivot. Drift indicator on the "F77 sits at the mirror axis"
     /// reading.</summary>
-    public bool LandsOnSelfMirrorPivot => LadderIndexForSaturation == _ladder.SelfMirrorIndex;
+    public bool LandsOnSelfMirrorPivot => LadderIndexForSaturation == Ladder.SelfMirrorIndex;
 
     /// <summary>The "2" in F77's leading-order mechanism "2·(1/2) = 1". Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = qubit dimension d.</summary>
-    public double TwoFactor => _ladder.Term(0);
+    public double TwoFactor => Ladder.Term(0);
 
     /// <summary>The "1/2" in F77's leading-order mechanism "2·(1/2) = 1". Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> = Bloch baseline =
     /// <see cref="HalfAsStructuralFixedPointClaim"/>'s structural fixed point.</summary>
-    public double HalfFactor => _ladder.Term(2);
+    public double HalfFactor => Ladder.Term(2);
 
     /// <summary>The Pi2 ladder inversion identity at work in F77: <c>a_0 · a_2 =
     /// 2 · (1/2) = 1 = a_1</c>. Returns the live product, which equals the
@@ -112,7 +111,7 @@ public sealed class F77MmSaturationPi2Inheritance : Claim
 
     /// <summary>The "4" factor in the correction's denominator <c>4(N+1)</c>:
     /// <c>4 = a_{−1}</c> on the dyadic ladder. Live drift check.</summary>
-    public double FourFactorInCorrectionDenominator => _ladder.Term(-1);
+    public double FourFactorInCorrectionDenominator => Ladder.Term(-1);
 
     /// <summary>F77's closed-form asymptotic value at chain length N (best-k* initial
     /// state on uniform chain). Returns <c>1 + 3/(4(N+1) ln 2)</c>, the
@@ -146,7 +145,7 @@ public sealed class F77MmSaturationPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 

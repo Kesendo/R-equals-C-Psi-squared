@@ -79,8 +79,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (cited parity selection rule).</para></summary>
 public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
     /// grounds F62's <c>FoldPosition</c> directly on the Quarter axis (same
     /// anchor as F57 + Dicke + F60). Added 2026-05-16 as a typed ctor parent
@@ -97,12 +96,12 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
     /// <summary>The fold position <c>1/4 = a_3</c> on the dyadic ladder.
     /// Same anchor as F57, Dicke, F60; F62's "below the fold" assertion
     /// compares CΨ(0) against <see cref="QuarterAsBilinearMaxvalClaim"/>.</summary>
-    public double FoldPosition => _ladder.Term(3);
+    public double FoldPosition => Ladder.Term(3);
 
     /// <summary>The "2" numerator coefficient in F62's closed form. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = polynomial
     /// root d. Same anchor as F1, F66, F86 Q_EP.</summary>
-    public double NumeratorTwoCoefficient => _ladder.Term(0);
+    public double NumeratorTwoCoefficient => Ladder.Term(0);
 
     /// <summary>The off-diagonal element of W_N's reduced pair density matrix:
     /// <c>1/N</c>. NOT Pi2-anchored as constant (N-dependent), but structurally
@@ -148,7 +147,7 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F60GhzBornBelowFoldPi2Inheritance.cs (sibling) + " +
                "compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs (typed parent)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
         F61 = f61 ?? throw new ArgumentNullException(nameof(f61));
     }

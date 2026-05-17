@@ -68,22 +68,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (sibling at α=0 and α=2γ₀).</para></summary>
 public sealed class F65XxChainSpectrumPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F66PoleModesPi2Inheritance _f66;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F66PoleModesPi2Inheritance F66 { get; }
     /// <summary>The "4" numerator in <c>α_k/γ₀ = 4/(N+1)·sin²</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>. Same
     /// anchor as F25/F73/F76 decay rates, F61/F63 4-block, F66 multiplicity,
     /// F77 correction.</summary>
-    public double NumeratorCoefficient => _ladder.Term(-1);
+    public double NumeratorCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" upper-bound coefficient in α_k ∈ [0, 2γ₀]. Same as
     /// F66's UpperPoleCoefficient. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = polynomial root d.</summary>
-    public double UpperBoundCoefficient => _f66.UpperPoleCoefficient;
+    public double UpperBoundCoefficient => F66.UpperPoleCoefficient;
 
     /// <summary>The lower-bound: 0. Same as F66's LowerPoleAlpha.</summary>
-    public double LowerBoundCoefficient => _f66.LowerPoleAlpha;
+    public double LowerBoundCoefficient => F66.LowerPoleAlpha;
 
     /// <summary>Live closed form: <c>α_k(N, k, γ₀) = γ₀·(4/(N+1))·sin²(kπ/(N+1))</c>.</summary>
     public double SingleExcitationRate(int N, int k, double gammaZero)
@@ -149,8 +148,8 @@ public sealed class F65XxChainSpectrumPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F66PoleModesPi2Inheritance.cs (sibling at α=0, 2γ₀)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f66 = f66 ?? throw new ArgumentNullException(nameof(f66));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F66 = f66 ?? throw new ArgumentNullException(nameof(f66));
     }
 
     public override string DisplayName =>

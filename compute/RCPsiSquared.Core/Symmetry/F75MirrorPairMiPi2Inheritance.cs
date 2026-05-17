@@ -75,25 +75,24 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs</c>.</para></summary>
 public sealed class F75MirrorPairMiPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F71MirrorSymmetryPi2Inheritance _f71;
-    private readonly F65XxChainSpectrumPi2Inheritance _f65;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F71MirrorSymmetryPi2Inheritance F71 { get; }
+    public F65XxChainSpectrumPi2Inheritance F65 { get; }
     /// <summary>The MI saturation value: <c>2 bits</c> at <c>p_ℓ = 1/2</c>
     /// (Bell-state mirror-pair). Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
     /// = <c>a_0</c> = polynomial root d.</summary>
-    public double MaxMIPerPair => _ladder.Term(0);
+    public double MaxMIPerPair => Ladder.Term(0);
 
     /// <summary>The probability domain upper bound: <c>1/2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> =
     /// <see cref="BilinearApexClaim"/> argmax. Beyond this, the formula's
     /// convexity argument breaks.</summary>
-    public double DomainUpperBound => _ladder.Term(2);
+    public double DomainUpperBound => Ladder.Term(2);
 
     /// <summary>The "2" coefficient in the F75 closed form (appears twice:
     /// 2·h(p_ℓ) and h(2·p_ℓ)). Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0).</summary>
-    public double TwoCoefficient => _ladder.Term(0);
+    public double TwoCoefficient => Ladder.Term(0);
 
     /// <summary>The mirror sign Z₂ pair: <c>{+1, −1}</c>. The wave function
     /// <c>c_{N−1−j} = η c_j</c> has Z₂ structure; the MI formula is
@@ -104,7 +103,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
     /// <summary>Mirror-pair count for an N-site chain: <c>⌊N/2⌋</c>. Delegates
     /// to <see cref="F71MirrorSymmetryPi2Inheritance.IndependentComponentCount"/>;
     /// F75 + F71 share the same count via this typed bridge.</summary>
-    public int MirrorPairCount(int N) => _f71.IndependentComponentCount(N);
+    public int MirrorPairCount(int N) => F71.IndependentComponentCount(N);
 
     /// <summary>Maximum total MM(0) bound: <c>⌊N/2⌋ · 2 = N − (N mod 2)</c> bits.
     /// Achieved iff every mirror-pair is in a pure Bell state (requires
@@ -134,7 +133,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
     /// <see cref="F65XxChainSpectrumPi2Inheritance.BondingModePopulation"/>;
     /// F65 is the spectrum-source typed claim.</summary>
     public double BondingModePopulation(int N, int k, int site) =>
-        _f65.BondingModePopulation(N, k, site);
+        F65.BondingModePopulation(N, k, site);
 
     /// <summary>MM(0) for bonding-mode k summed over all mirror-pairs: O(N) work,
     /// no propagation. Verified table at N=5..13 for various k against PeakMM
@@ -165,9 +164,9 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F65XxChainSpectrumPi2Inheritance.cs (bonding-mode source)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
-        _f65 = f65 ?? throw new ArgumentNullException(nameof(f65));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F71 = f71 ?? throw new ArgumentNullException(nameof(f71));
+        F65 = f65 ?? throw new ArgumentNullException(nameof(f65));
     }
 
     public override string DisplayName =>

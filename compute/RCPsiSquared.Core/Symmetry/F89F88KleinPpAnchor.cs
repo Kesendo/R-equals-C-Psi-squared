@@ -49,9 +49,8 @@ public sealed class F89F88KleinPpAnchor : Claim
     public const int F89InitialStateNp = 1;
     public const int F89InitialStateNq = 2;
 
-    private readonly KleinFourCellClaim _kleinFourCell;
-    private readonly F89TopologyOrbitClosure _f89;
-
+    public KleinFourCellClaim KleinFourCell { get; }
+    public F89TopologyOrbitClosure F89 { get; }
     /// <summary>Cell label for F89's XX bond term (always Pp; computed from
     /// <see cref="KleinBilinearEntry"/>).</summary>
     public static KleinBilinearEntry F89XxEntry { get; } =
@@ -73,8 +72,8 @@ public sealed class F89F88KleinPpAnchor : Claim
                Tier.Tier1Derived,
                "KleinFourCellClaim Pp cell (operator-level), F88PopcountPairLens (state-level α anchors), F89TopologyOrbitClosure (F89 bond-graph orbit closure), docs/ANALYTICAL_FORMULAS.md F88 + F89")
     {
-        _kleinFourCell = kleinFourCell ?? throw new ArgumentNullException(nameof(kleinFourCell));
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        KleinFourCell = kleinFourCell ?? throw new ArgumentNullException(nameof(kleinFourCell));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
     }
 
     public override string DisplayName => "F89 bond (Pp) + ρ_cc (popcount-(1, 2)) anchor in F88";

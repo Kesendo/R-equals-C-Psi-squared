@@ -74,41 +74,40 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (BilinearApexClaim, QuarterAsBilinearMaxvalClaim).</para></summary>
 public sealed class F83AntiFractionPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The maximum anti-fraction value: <c>1/2</c>, reached at <c>r = 0</c>
     /// (pure Π²-odd Hamiltonian). Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> = the
     /// <see cref="BilinearApexClaim"/> apex value (argmax of the rational).</summary>
-    public double MaximumAntiFraction => _ladder.Term(2);
+    public double MaximumAntiFraction => Ladder.Term(2);
 
     /// <summary>The constant coefficient "2" in the anti-fraction denominator
     /// <c>2 + 4·r</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) =
     /// <c>a_0</c> = polynomial root d.</summary>
-    public double DenominatorConstantCoefficient => _ladder.Term(0);
+    public double DenominatorConstantCoefficient => Ladder.Term(0);
 
     /// <summary>The linear coefficient "4" in the anti-fraction denominator
     /// <c>2 + 4·r</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) =
     /// <c>a_{−1}</c> = d² for 1 qubit; same anchor as F61, F63, F66, F77, F86 t_peak.</summary>
-    public double DenominatorLinearCoefficient => _ladder.Term(-1);
+    public double DenominatorLinearCoefficient => Ladder.Term(-1);
 
     /// <summary>The "4" coefficient on ‖H_odd‖² in F83's ‖M‖² closed form
     /// (4·‖H_odd‖² · 2^N). Equal to <see cref="DenominatorLinearCoefficient"/>
     /// = a_{−1}; encodes n_YZ = 1 for Π²-odd via F49's 2^(N+2)·n_YZ mechanism.</summary>
-    public double MNormCoefficientForOdd => _ladder.Term(-1);
+    public double MNormCoefficientForOdd => Ladder.Term(-1);
 
     /// <summary>The "8" coefficient on ‖H_even_nontruly‖² in F83's ‖M‖² closed form
     /// (8·‖H_even_nontruly‖² · 2^N). Equal to <see cref="Pi2DyadicLadderClaim.Term"/>(−2)
     /// = a_{−2} = 8 = 2·d² for 1 qubit; encodes n_YZ = 2 for Π²-even non-truly
     /// via F49's mechanism.</summary>
-    public double MNormCoefficientForEvenNontruly => _ladder.Term(-2);
+    public double MNormCoefficientForEvenNontruly => Ladder.Term(-2);
 
     /// <summary>Hilbert-space dimension <c>2^N = a_{1−N}</c> on the dyadic ladder.
     /// Same anchor as F60. Throws for N &lt; 1.</summary>
     public double HilbertSpaceDimension(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F83 requires N ≥ 1.");
-        return _ladder.Term(1 - N);
+        return Ladder.Term(1 - N);
     }
 
     /// <summary>Live closed form: <c>anti-fraction = 1 / (2 + 4·r)</c>. Throws for
@@ -131,7 +130,7 @@ public sealed class F83AntiFractionPi2Inheritance : Claim
 
     /// <summary>Live drift check: at <c>r = 1/2</c>, anti-fraction = 1/4 = a_3.</summary>
     public bool QuarterCrossoverHolds() =>
-        Math.Abs(AntiFraction(RAtQuarterCrossover) - _ladder.Term(3)) < 1e-15;
+        Math.Abs(AntiFraction(RAtQuarterCrossover) - Ladder.Term(3)) < 1e-15;
 
     /// <summary>Live ‖M_anti‖² for given (H_odd, H_even, N): <c>2 · ‖H_odd‖² · 2^N</c>.</summary>
     public double MAntiNormSquared(double hOddNormSq, int N)
@@ -158,7 +157,7 @@ public sealed class F83AntiFractionPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (BilinearApex, QuarterAsBilinearMaxval)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

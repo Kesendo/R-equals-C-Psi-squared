@@ -67,12 +67,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F43SectorSffPairingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F1Pi2Inheritance _f1;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F1Pi2Inheritance F1 { get; }
 
     /// <summary>The "2" coefficient in the XOR-sector decay rate 2·N·γ. Live from
     /// Pi2DyadicLadder a_0. Same anchor as F1's TwoFactor.</summary>
-    public double XorRateCoefficient => _ladder.Term(0);
+    public double XorRateCoefficient => Ladder.Term(0);
 
     /// <summary>The mirror partner of sector weight w under Π: <c>N − w</c>.</summary>
     public int PartnerSector(int w, int N)
@@ -138,8 +138,8 @@ public sealed class F43SectorSffPairingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
 
     public override string DisplayName =>
@@ -156,7 +156,7 @@ public sealed class F43SectorSffPairingPi2Inheritance : Claim
                 summary: "K_freq(w, t) = K_freq(N−w, t); palindromic Π maps sector w → N−w; identical spectral statistics for paired sectors; valid all N, Heisenberg chain, Z-dephasing");
             yield return InspectableNode.RealScalar("XorRateCoefficient (= a_0 = 2)", XorRateCoefficient);
             yield return new InspectableNode("F1 palindrome at sector level",
-                summary: $"F43's pairing w ↔ N−w is the F1 Π conjugation acting at the Pauli-string-sector level. F1's TwoFactor (= {_f1.TwoFactor}) is the same '2' as the XOR-sector decay coefficient.");
+                summary: $"F43's pairing w ↔ N−w is the F1 Π conjugation acting at the Pauli-string-sector level. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as the XOR-sector decay coefficient.");
             yield return new InspectableNode("XOR sector specialization",
                 summary: $"w = N (all sites X or Y): K_freq = {XorSectorSffValue} (delta-spike); all eigenvalues degenerate at rate 2·N·γ; partner sector w = 0 (identity sector) trivially has K = 1");
             yield return new InspectableNode("mirror axis at N/2",

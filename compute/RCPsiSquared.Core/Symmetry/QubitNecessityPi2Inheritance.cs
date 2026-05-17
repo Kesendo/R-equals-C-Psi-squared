@@ -45,20 +45,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class QubitNecessityPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     /// <summary>Total Pauli operators per site at d=2: 4 = <c>a_{-1}</c> on the
     /// Pi2 ladder (= d² for N=1 qubit, the operator-space-side anchor).</summary>
-    public double TotalPauliOpsPerSite => _ladder.Term(-1);
+    public double TotalPauliOpsPerSite => Ladder.Term(-1);
 
     /// <summary>Immune operators per site (diagonal in dephasing eigenbasis): 2 = <c>a_0</c>
     /// on the Pi2 ladder (= d, the qubit dimension).</summary>
-    public double ImmuneOpsPerSite => _ladder.Term(0);
+    public double ImmuneOpsPerSite => Ladder.Term(0);
 
     /// <summary>Decaying operators per site (anti-diagonal in dephasing eigenbasis):
     /// 2 = <c>a_0</c>. Equal to immune count by the d² − 2d = 0 bijection at d=2.</summary>
-    public double DecayingOpsPerSite => _ladder.Term(0);
+    public double DecayingOpsPerSite => Ladder.Term(0);
 
     /// <summary>The balanced fraction: ImmuneOps / TotalOps = 2/4 = 1/2 = <c>a_2</c>.
     /// This is exactly <see cref="HalfAsStructuralFixedPointClaim"/>'s C = 0.5
@@ -69,7 +68,7 @@ public sealed class QubitNecessityPi2Inheritance : Claim
     /// must equal d² = 4^1 = 4 for N=1 qubit, pinned in
     /// <see cref="Pi2OperatorSpaceMirrorClaim"/>.</summary>
     public double MirrorPinnedTotalOps =>
-        _mirror.PairAt(1)?.OperatorSpace
+        Mirror.PairAt(1)?.OperatorSpace
         ?? throw new InvalidOperationException("Pi2OperatorSpaceMirrorClaim must contain N=1 anchor.");
 
     /// <summary>Live drift check on the bijection equation: the d² − 2d = 0 polynomial
@@ -89,8 +88,8 @@ public sealed class QubitNecessityPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

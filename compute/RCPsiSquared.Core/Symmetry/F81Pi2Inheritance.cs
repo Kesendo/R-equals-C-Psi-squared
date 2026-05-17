@@ -47,17 +47,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Z₄ closure of Π).</para></summary>
 public sealed class F81Pi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
-    private readonly Pi2I4MemoryLoopClaim _memoryLoop;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
+    public Pi2I4MemoryLoopClaim MemoryLoop { get; }
     /// <summary>The "2" coefficient in F81's <c>M − 2·L_{H_odd}</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d.</summary>
-    public double TwoFactor => _ladder.Term(0);
+    public double TwoFactor => Ladder.Term(0);
 
     /// <summary>The "1/2" coefficient in F81's 50/50 split <c>‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2</c>.
     /// Exactly equal to <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> = 1/d.</summary>
-    public double HalfFactor => _ladder.Term(2);
+    public double HalfFactor => Ladder.Term(2);
 
     /// <summary>Live drift check: <c>TwoFactor · HalfFactor</c> = 1 exactly. The two
     /// F81 coefficients are mirror partners under the Pi2 ladder's inversion symmetry
@@ -71,14 +70,14 @@ public sealed class F81Pi2Inheritance : Claim
 
     /// <summary>Live closure check: <c>i^4 = 1</c> exactly. Drift indicator on the
     /// Z₄ memory-loop anchor underlying F81's Π-conjugation.</summary>
-    public Complex MemoryLoopClosure => _memoryLoop.MemoryClosure();
+    public Complex MemoryLoopClosure => MemoryLoop.MemoryClosure();
 
     /// <summary>The operator-space dimension d² = 4^N for an N-qubit chain, the
     /// space where F81's <c>Π·M·Π⁻¹</c> action lives. Pulled from the typed
     /// <see cref="Pi2OperatorSpaceMirrorClaim"/> pinned table for N ∈ {1, ..., 6}.</summary>
     public double OperatorSpaceDimension(int N)
     {
-        var pair = _mirror.PairAt(N)
+        var pair = Mirror.PairAt(N)
             ?? throw new ArgumentOutOfRangeException(nameof(N), N,
                 $"N={N} is outside the Pi2OperatorSpaceMirror pinned table (N=1..6).");
         return pair.OperatorSpace;
@@ -106,9 +105,9 @@ public sealed class F81Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
-        _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
     }
 
     public override string DisplayName =>

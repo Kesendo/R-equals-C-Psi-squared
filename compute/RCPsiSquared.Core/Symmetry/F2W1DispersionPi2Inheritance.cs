@@ -57,16 +57,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F2W1DispersionPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly W1Dispersion _w1;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public W1Dispersion W1 { get; }
 
     /// <summary>The "4" prefactor in ω_k = 4J·(1−cos(πk/N)). Live from
     /// Pi2DyadicLadder a_{−1}. Same anchor as F25/F65/F73/F76.</summary>
-    public double BandwidthPrefactor => _ladder.Term(-1);
+    public double BandwidthPrefactor => Ladder.Term(-1);
 
     /// <summary>The "2" in tight-binding hopping 2J. Live from Pi2DyadicLadder
     /// a_0. Same anchor as F1 TwoFactor, F50 DecayRateFactor.</summary>
-    public double HoppingFactor => _ladder.Term(0);
+    public double HoppingFactor => Ladder.Term(0);
 
     /// <summary>Live closed form: ω_k = 4·J·(1 − cos(π·k/N)) for k = 1..N−1.</summary>
     public double Frequency(int N, double J, int k)
@@ -88,10 +88,10 @@ public sealed class F2W1DispersionPi2Inheritance : Claim
     /// stored Frequencies[k − 1] for the parent W1Dispersion's (N, J).</summary>
     public bool MatchesW1DispersionParent(double tolerance = 1e-12)
     {
-        for (int k = 1; k <= _w1.N - 1; k++)
+        for (int k = 1; k <= W1.N - 1; k++)
         {
-            double f = Frequency(_w1.N, _w1.J, k);
-            double w1f = _w1.Frequencies[k - 1];
+            double f = Frequency(W1.N, W1.J, k);
+            double w1f = W1.Frequencies[k - 1];
             if (Math.Abs(f - w1f) > tolerance) return false;
         }
         return true;
@@ -106,8 +106,8 @@ public sealed class F2W1DispersionPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Spectrum/W1Dispersion.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _w1 = w1 ?? throw new ArgumentNullException(nameof(w1));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        W1 = w1 ?? throw new ArgumentNullException(nameof(w1));
     }
 
     public override string DisplayName =>
@@ -125,7 +125,7 @@ public sealed class F2W1DispersionPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("BandwidthPrefactor (= a_{-1} = 4)", BandwidthPrefactor);
             yield return InspectableNode.RealScalar("HoppingFactor (= a_0 = 2)", HoppingFactor);
             yield return new InspectableNode("W1Dispersion source-claim edge",
-                summary: $"F2 IS W1Dispersion's content at the F-formula registry level. W1Dispersion at (N={_w1.N}, J={_w1.J}, γ={_w1.GammaZero}) gives ω_1 = {_w1.Frequencies[0]:G6}; F2.Frequency(N, J, 1) = {Frequency(_w1.N, _w1.J, 1):G6}; drift check: MatchesW1DispersionParent = {MatchesW1DispersionParent()}");
+                summary: $"F2 IS W1Dispersion's content at the F-formula registry level. W1Dispersion at (N={W1.N}, J={W1.J}, γ={W1.GammaZero}) gives ω_1 = {W1.Frequencies[0]:G6}; F2.Frequency(N, J, 1) = {Frequency(W1.N, W1.J, 1):G6}; drift check: MatchesW1DispersionParent = {MatchesW1DispersionParent()}");
             yield return new InspectableNode("F2 vs F2b distinction",
                 summary: "F2: w=1 LIOUVILLIAN, Heisenberg, dim N−1, argument πk/N. F2b: single-excitation HAMILTONIAN, XY, dim N, argument πk/(N+1). Different operators, different sectors, different boundary conditions.");
             yield return new InspectableNode("three independent validations",

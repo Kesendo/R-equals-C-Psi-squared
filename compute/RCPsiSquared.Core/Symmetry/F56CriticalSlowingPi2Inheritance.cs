@@ -57,26 +57,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (QuarterAsBilinearMaxvalClaim, HalfAsStructuralFixedPointClaim).</para></summary>
 public sealed class F56CriticalSlowingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly QuarterAsBilinearMaxvalClaim _quarter;
-    private readonly HalfAsStructuralFixedPointClaim _half;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
+    public HalfAsStructuralFixedPointClaim Half { get; }
     /// <summary>The "1/2" prefactor in (1/2)·ln(4ε/tol). Live from Pi2DyadicLadder a_2.</summary>
-    public double HalfPrefactor => _ladder.Term(2);
+    public double HalfPrefactor => Ladder.Term(2);
 
     /// <summary>The "4" multiplier in 4·ε inside the log. Live from Pi2DyadicLadder a_{−1}.</summary>
-    public double FourFactor => _ladder.Term(-1);
+    public double FourFactor => Ladder.Term(-1);
 
     /// <summary>The "16" multiplier in 16·tol inside α's log. Equals 4² = a_{−3}
     /// on the dyadic ladder. Live from Pi2DyadicLadder a_{−3}.</summary>
-    public double SixteenFactor => _ladder.Term(-3);
+    public double SixteenFactor => Ladder.Term(-3);
 
     /// <summary>The "−4" starting-transient term in α(tol). Equals −a_{−1}.</summary>
     public double NegFourTransient => -FourFactor;
 
     /// <summary>The cardioid cusp position 1/4 = a_3. Live from
     /// QuarterAsBilinearMaxval (= bilinear-apex maxval at argmax p = 1/2).</summary>
-    public double CardioidCuspPosition => _ladder.Term(3);
+    public double CardioidCuspPosition => Ladder.Term(3);
 
     /// <summary>F56's α(tol) = −4 + (1/2)·ln(16·tol).</summary>
     public double Alpha(double tol)
@@ -140,9 +139,9 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
-        _half = half ?? throw new ArgumentNullException(nameof(half));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 
     public override string DisplayName =>

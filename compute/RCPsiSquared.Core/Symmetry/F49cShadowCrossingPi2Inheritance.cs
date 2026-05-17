@@ -62,8 +62,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F49cShadowCrossingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4^(N−1)" denominator factor in F49c's closed form. Exactly
     /// equal to <see cref="Pi2DyadicLadderClaim.Term"/>(<c>3−2N</c>). Throws for
@@ -71,7 +71,7 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
     public double FourPowerNMinus1Factor(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F49c requires N ≥ 2.");
-        return _ladder.Term(LadderIndexFor(N));
+        return Ladder.Term(LadderIndexFor(N));
     }
 
     /// <summary>The Pi2 ladder index where the F49c power factor lands:
@@ -90,7 +90,7 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F49c requires N ≥ 2.");
         int qubitCount = OperatorSpaceQubitCountFor(N);
-        var pair = _mirror.PairAt(qubitCount)
+        var pair = Mirror.PairAt(qubitCount)
             ?? throw new ArgumentOutOfRangeException(nameof(N), N,
                 $"N={N} maps to qubit count {qubitCount}, outside the Pi2OperatorSpaceMirror pinned table (N=1..6).");
         return pair.OperatorSpace;
@@ -144,8 +144,8 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

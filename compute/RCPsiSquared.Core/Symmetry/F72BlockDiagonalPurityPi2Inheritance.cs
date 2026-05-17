@@ -67,20 +67,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (cited mother claim).</para></summary>
 public sealed class F72BlockDiagonalPurityPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F70DeltaNSelectionRulePi2Inheritance _f70;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F70DeltaNSelectionRulePi2Inheritance F70 { get; }
     /// <summary>The baseline purity term <c>1/2</c> in F72's
     /// <c>Tr(ρ_i²) = 1/2 + P_DD + P_CC</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> =
     /// <see cref="HalfAsStructuralFixedPointClaim"/>'s structural fixed
     /// point. Maximally-mixed-state minimum purity = 1/d for d = 2.</summary>
-    public double BaselineTraceSquared => _ladder.Term(2);
+    public double BaselineTraceSquared => Ladder.Term(2);
 
     /// <summary>The number of sub-blocks in the single-site (k=1) decomposition:
     /// <c>2</c> (DD ⊕ CC). Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
     /// = <c>a_0</c> = polynomial root d.</summary>
-    public double SingleSiteBlockCount => _ladder.Term(0);
+    public double SingleSiteBlockCount => Ladder.Term(0);
 
     /// <summary>The number of sub-blocks at k-local partial trace:
     /// <c>k + 1</c>. Equal to <c>F70.PartialTraceMaxDeltaN(k) + 1</c>.
@@ -88,7 +87,7 @@ public sealed class F72BlockDiagonalPurityPi2Inheritance : Claim
     public int SubBlockCountForKLocal(int kLocal)
     {
         if (kLocal < 1) throw new ArgumentOutOfRangeException(nameof(kLocal), kLocal, "F72 requires k ≥ 1.");
-        return _f70.PartialTraceMaxDeltaN(kLocal) + 1;
+        return F70.PartialTraceMaxDeltaN(kLocal) + 1;
     }
 
     /// <summary>True iff at k = 1 the sub-block count equals 2 (DD ⊕ CC),
@@ -125,8 +124,8 @@ public sealed class F72BlockDiagonalPurityPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPointClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/F70DeltaNSelectionRulePi2Inheritance.cs (mother claim)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f70 = f70 ?? throw new ArgumentNullException(nameof(f70));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F70 = f70 ?? throw new ArgumentNullException(nameof(f70));
     }
 
     public override string DisplayName =>

@@ -61,12 +61,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F50WeightOneDegeneracyPi2Inheritance _f50;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F50WeightOneDegeneracyPi2Inheritance F50 { get; }
 
     /// <summary>The "2" coefficient in rate_1 = 2γ. Live from Pi2DyadicLadder a_0.
     /// Identical to F50's DecayRateFactor at N=3.</summary>
-    public double WeightOneRateCoefficient => _ladder.Term(0);
+    public double WeightOneRateCoefficient => Ladder.Term(0);
 
     /// <summary>F33's rate_1 = 2γ at N=3. Universal weight-1 eigenvalue position
     /// per F50; here specialized to N=3.</summary>
@@ -137,8 +137,8 @@ public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f50 = f50 ?? throw new ArgumentNullException(nameof(f50));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F50 = f50 ?? throw new ArgumentNullException(nameof(f50));
     }
 
     public override string DisplayName =>
@@ -155,7 +155,7 @@ public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim
                 summary: "rate_1 = 2γ (w=1 pure), rate_2 = 8γ/3 (w=1+w=2 mix), rate_3 = 10γ/3 (w=1+w=2 mix); plus boundaries 0 (kernel) and 6γ (XOR at N=3); rational rates unique to N=3");
             yield return InspectableNode.RealScalar("WeightOneRateCoefficient (= a_0 = 2)", WeightOneRateCoefficient);
             yield return new InspectableNode("F50 specialization at N=3",
-                summary: $"F33's rate_1 = 2γ IS F50's universal weight-1 eigenvalue position. F50.DecayRateFactor (= {_f50.DecayRateFactor}) is the same '2' as F33's WeightOneRateCoefficient.");
+                summary: $"F33's rate_1 = 2γ IS F50's universal weight-1 eigenvalue position. F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F33's WeightOneRateCoefficient.");
             yield return new InspectableNode("Absorption Theorem table",
                 summary: "rate_1 ↔ ⟨n_XY⟩ = 1 (pure weight-1); rate_2 ↔ ⟨n_XY⟩ = 4/3 (mix); rate_3 ↔ ⟨n_XY⟩ = 5/3 (mix); the theorem α = 2γ·⟨n_XY⟩ holds exactly including non-integer ⟨n_XY⟩");
             yield return new InspectableNode("N=3 verified",

@@ -50,18 +50,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F67BondingBellPairPi2Inheritance.cs</c> (α_b source).</para></summary>
 public sealed class F68PalindromicPartnerPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F1Pi2Inheritance _f1;
-    private readonly F67BondingBellPairPi2Inheritance _f67;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F1Pi2Inheritance F1 { get; }
+    public F67BondingBellPairPi2Inheritance F67 { get; }
     /// <summary>The "2" coefficient in α_b + α_p = 2γ₀. Live from Pi2DyadicLadder a_0
     /// (polynomial root d). Same anchor as F1's TwoFactor and F66's UpperPoleCoefficient.</summary>
-    public double SumCoefficient => _ladder.Term(0);
+    public double SumCoefficient => Ladder.Term(0);
 
     /// <summary>The bonding-mode rate α_b. Delegates to F67 (which delegates to F65 at k=1).</summary>
     public double BondingRate(int N, double gammaZero)
     {
-        return _f67.BondingModeDecayRate(N, gammaZero);
+        return F67.BondingModeDecayRate(N, gammaZero);
     }
 
     /// <summary>The palindromic partner rate α_p = 2γ₀ − α_b. The F1 palindrome
@@ -111,9 +110,9 @@ public sealed class F68PalindromicPartnerPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F67BondingBellPairPi2Inheritance.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
-        _f67 = f67 ?? throw new ArgumentNullException(nameof(f67));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        F67 = f67 ?? throw new ArgumentNullException(nameof(f67));
     }
 
     public override string DisplayName =>
@@ -130,7 +129,7 @@ public sealed class F68PalindromicPartnerPi2Inheritance : Claim
                 summary: "α_p = 2γ₀ − α_b; |α_b + α_p − 2γ₀| < 4·10⁻¹⁵ verified N=3,4,5; partner V_p in Pauli weight-(N-1) sector (Π-mirror of bonding mode's w=1)");
             yield return InspectableNode.RealScalar("SumCoefficient (= a_0 = 2)", SumCoefficient);
             yield return new InspectableNode("F1 palindrome at eigenvalue level",
-                summary: $"F1 identity Π·L·Π⁻¹ + L + 2σ·I = 0 squared/spectral consequence: α_b + α_p = 2σ. F1's TwoFactor (= {_f1.TwoFactor}) is the same '2'.");
+                summary: $"F1 identity Π·L·Π⁻¹ + L + 2σ·I = 0 squared/spectral consequence: α_b + α_p = 2σ. F1's TwoFactor (= {F1.TwoFactor}) is the same '2'.");
             yield return new InspectableNode("F67 source-claim edge",
                 summary: "F68's α_b = F67's BondingModeDecayRate (which delegates to F65 at k=1). Live delegation, no formula duplication.");
             yield return new InspectableNode("rank structure",

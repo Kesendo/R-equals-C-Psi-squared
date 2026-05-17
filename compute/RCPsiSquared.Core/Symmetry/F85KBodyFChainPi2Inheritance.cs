@@ -79,24 +79,23 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (anti-fraction generalization).</para></summary>
 public sealed class F85KBodyFChainPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F49Pi2Inheritance _f49;
-    private readonly F83AntiFractionPi2Inheritance _f83;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F49Pi2Inheritance F49 { get; }
+    public F83AntiFractionPi2Inheritance F83 { get; }
     /// <summary>The c(k)·4·2^N coefficient factor for Π²-odd terms:
     /// <c>c(Π²-odd) = 1</c>, total factor <c>4·2^N</c>; the "4" = a_{−1}.
     /// Same anchor as F83's MNormCoefficientForOdd.</summary>
-    public double FactorPi2Odd => _ladder.Term(-1);
+    public double FactorPi2Odd => Ladder.Term(-1);
 
     /// <summary>The c(k)·4·2^N coefficient factor for Π²-even non-truly terms:
     /// <c>c(Π²-even non-truly) = 2</c>, total factor <c>8·2^N</c>; the "8" = a_{−2}.
     /// Same anchor as F83's MNormCoefficientForEvenNontruly.</summary>
-    public double FactorPi2EvenNonTruly => _ladder.Term(-2);
+    public double FactorPi2EvenNonTruly => Ladder.Term(-2);
 
     /// <summary>The "2" denominator in the Π²-odd count formula
     /// <c>(3^k − (−1)^k) / 2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d.</summary>
-    public double OddCountDenominator => _ladder.Term(0);
+    public double OddCountDenominator => Ladder.Term(0);
 
     /// <summary>The Frobenius factor c(k) per non-truly Pauli class.
     /// Returns 0 for truly, 1 for Π²-odd non-truly, 2 for Π²-even non-truly.</summary>
@@ -117,7 +116,7 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F85 requires N ≥ 1.");
         int c = FrobeniusFactorPerClass(pi2Class);
-        return 4.0 * c * _ladder.Term(1 - N);
+        return 4.0 * c * Ladder.Term(1 - N);
     }
 
     /// <summary>Live closed form: number of Π²-odd Pauli tuples at k-body:
@@ -155,8 +154,8 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
     /// coincide with F83's <see cref="F83AntiFractionPi2Inheritance.MNormCoefficientForOdd"/>
     /// and <see cref="F83AntiFractionPi2Inheritance.MNormCoefficientForEvenNontruly"/>.</summary>
     public bool MatchesF83Coefficients() =>
-        Math.Abs(FactorPi2Odd - _f83.MNormCoefficientForOdd) < 1e-15 &&
-        Math.Abs(FactorPi2EvenNonTruly - _f83.MNormCoefficientForEvenNontruly) < 1e-15;
+        Math.Abs(FactorPi2Odd - F83.MNormCoefficientForOdd) < 1e-15 &&
+        Math.Abs(FactorPi2EvenNonTruly - F83.MNormCoefficientForEvenNontruly) < 1e-15;
 
     /// <summary>F49 base case lineage: F49's 2-body formula's
     /// <see cref="F49Pi2Inheritance.PowerFactor"/>(chainN=N+2) at chain
@@ -169,7 +168,7 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
         // that's a_1 = 1, the trivial identity. F85's k=2 base is captured
         // by the same Π²-class trichotomy F49 covers; this method confirms
         // F49 is registered upstream by reading any one ladder-anchored value.
-        return Math.Abs(_f49.PowerFactor(chainN: 2) - 1.0) < 1e-15;
+        return Math.Abs(F49.PowerFactor(chainN: 2) - 1.0) < 1e-15;
     }
 
     public F85KBodyFChainPi2Inheritance(
@@ -183,9 +182,9 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F49Pi2Inheritance.cs (base case k=2) + " +
                "compute/RCPsiSquared.Core/Symmetry/F83AntiFractionPi2Inheritance.cs (anti-fraction generalization)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f49 = f49 ?? throw new ArgumentNullException(nameof(f49));
-        _f83 = f83 ?? throw new ArgumentNullException(nameof(f83));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F49 = f49 ?? throw new ArgumentNullException(nameof(f49));
+        F83 = f83 ?? throw new ArgumentNullException(nameof(f83));
     }
 
     public override string DisplayName =>

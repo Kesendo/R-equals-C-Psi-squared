@@ -67,16 +67,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (QuarterAsBilinearMaxvalClaim).</para></summary>
 public sealed class F64CavityModeExposurePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly QuarterAsBilinearMaxvalClaim _quarter;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
     /// <summary>The "2" in α = 2γ_B·|a_B|² (Liouvillian eigenvalue convention).
     /// Live from Pi2DyadicLadder a_0.</summary>
-    public double EigenvalueConventionCoefficient => _ladder.Term(0);
+    public double EigenvalueConventionCoefficient => Ladder.Term(0);
 
     /// <summary>The "1/4" anchor that g(r=1) hits at N=3 uniform J. Live from the
     /// QuarterAsBilinearMaxval primitive (= a_3 = 1/4 = (1/2)²).</summary>
-    public double UniformJSpecialValue => _ladder.Term(3);
+    public double UniformJSpecialValue => Ladder.Term(3);
 
     /// <summary>Lorentzian half-width γ_eff = γ_B · |a_B|² (decoherence rate
     /// in the ρ-evolution convention).</summary>
@@ -147,8 +146,8 @@ public sealed class F64CavityModeExposurePi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
     public override string DisplayName =>

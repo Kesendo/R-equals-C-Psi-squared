@@ -75,32 +75,31 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (cited foundation).</para></summary>
 public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F70DeltaNSelectionRulePi2Inheritance _f70;
-    private readonly F72BlockDiagonalPurityPi2Inheritance _f72;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F70DeltaNSelectionRulePi2Inheritance F70 { get; }
+    public F72BlockDiagonalPurityPi2Inheritance F72 { get; }
     /// <summary>The closure baseline <c>1/2</c> in <c>(1/2)·exp(−4γ₀t)</c>.
     /// Delegates to <see cref="F72BlockDiagonalPurityPi2Inheritance.BaselineTraceSquared"/>;
     /// F73 inherits the same a_2 = 1/2 baseline as F72's <c>Tr(ρ_i²)</c>
     /// decomposition.</summary>
-    public double ClosureBaseline => _f72.BaselineTraceSquared;
+    public double ClosureBaseline => F72.BaselineTraceSquared;
 
     /// <summary>True iff the F70 single-site ΔN-bound (= 1) governs the
     /// (vac, SE) coherence sector this closure operates on. Drift check
     /// on the F70 → F73 scaffolding inheritance.</summary>
     public bool InheritsF70SingleSiteBound() =>
-        Math.Abs(_f70.SingleSiteMaxDeltaN - 1.0) < 1e-15;
+        Math.Abs(F70.SingleSiteMaxDeltaN - 1.0) < 1e-15;
 
     /// <summary>The "4" decay-rate coefficient in <c>exp(−4γ₀t)</c>. Live
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
     /// Same anchor as F25, F76, F61/F63, F66, F77 correction.</summary>
-    public double DecayRateCoefficient => _ladder.Term(-1);
+    public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" per-site coefficient in <c>2 · |(ρ_coh,i)_{0,1}|²</c>.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>
     /// = polynomial root d. Combined with Absorption Theorem rate 2γ₀:
     /// total spatial-sum decay 2·2γ₀ = 4γ₀.</summary>
-    public double PerSitePrefactor => _ladder.Term(0);
+    public double PerSitePrefactor => Ladder.Term(0);
 
     /// <summary>Live closed form: <c>Σ_i 2·|(ρ_coh,i)_{0,1}(t)|² = (1/2)·exp(−4γ₀t)</c>.
     /// Throws for negative γ₀ or t.</summary>
@@ -140,9 +139,9 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F70DeltaNSelectionRulePi2Inheritance.cs (cited) + " +
                "compute/RCPsiSquared.Core/Symmetry/F72BlockDiagonalPurityPi2Inheritance.cs (cited)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f70 = f70 ?? throw new ArgumentNullException(nameof(f70));
-        _f72 = f72 ?? throw new ArgumentNullException(nameof(f72));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F70 = f70 ?? throw new ArgumentNullException(nameof(f70));
+        F72 = f72 ?? throw new ArgumentNullException(nameof(f72));
     }
 
     public override string DisplayName =>

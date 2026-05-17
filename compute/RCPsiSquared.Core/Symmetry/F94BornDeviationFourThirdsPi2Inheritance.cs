@@ -115,8 +115,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Februar precursors).</para></summary>
 public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The setup this claim applies to (specific to F94 numerical value 4/3).</summary>
     public const int N = 4;
 
@@ -173,12 +172,12 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
 
     /// <summary>The "4" in the coefficient 4/3, exactly <c>a_{−1} = 4</c> on the dyadic
     /// ladder, the same "4" in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator.</summary>
-    public double FourFactor => _ladder.Term(-1);
+    public double FourFactor => Ladder.Term(-1);
 
     /// <summary>Mirror partner on the memory side of the ladder:
     /// <c>1/4 = a_3</c>. Equivalent reading via the inversion symmetry
     /// <c>a_n · a_{2−n} = 1</c>: <c>FourFactor · OneOverFourFactor = 1</c> bit-exact.</summary>
-    public double OneOverFourFactor => _ladder.Term(3);
+    public double OneOverFourFactor => Ladder.Term(3);
 
     /// <summary>The full coefficient: <c>4/3 = a_{−1}/3</c>. Bit-exact.</summary>
     public double Coefficient => FourFactor / ThreeDenominator;
@@ -239,7 +238,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     /// should equal 1 bit-exactly via the dyadic-ladder inversion symmetry
     /// <c>a_n · a_{2−n} = 1</c>. Live via <see cref="Pi2DyadicLadderClaim.ProductWithMirrorPartner"/>.</summary>
     public bool MirrorPartnerProductIsOne() =>
-        Math.Abs(_ladder.ProductWithMirrorPartner(-1) - 1.0) < 1e-15;
+        Math.Abs(Ladder.ProductWithMirrorPartner(-1) - 1.0) < 1e-15;
 
     public F94BornDeviationFourThirdsPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
@@ -257,7 +256,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (a_{-1} = 4) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval = mirror partner)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 

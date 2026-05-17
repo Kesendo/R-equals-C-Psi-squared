@@ -16,8 +16,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// additive identity" and <c>simulations/_f89_mixed_topology_additive.py</c>.</para></summary>
 public sealed class F89AdditiveIdentityClaim : Claim
 {
-    private readonly F89TopologyOrbitClosure _f89;
-
+    public F89TopologyOrbitClosure F89 { get; }
     /// <summary>Per-bare-site closed form S_bare(t; N) = (N − 1)/N² · exp(−4γ₀ t).
     /// Returns the contribution of ONE bare site to S(t) at the given (N, γ₀, t).</summary>
     public static double BarePerSite(int n, double gammaZero, double t)
@@ -82,7 +81,7 @@ public sealed class F89AdditiveIdentityClaim : Claim
                "simulations/_f89_mixed_topology_additive.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
     }
 
     public override string DisplayName =>

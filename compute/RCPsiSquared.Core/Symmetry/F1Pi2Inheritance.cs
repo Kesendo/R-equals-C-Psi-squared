@@ -36,8 +36,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
 public sealed class F1Pi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2I4MemoryLoopClaim _memoryLoop;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2I4MemoryLoopClaim MemoryLoop { get; }
 
     /// <summary>F1 master palindrome identity — the typed parent. This claim's
     /// entire purpose is to lift F1's "2" coefficient and "−1" sign flip into the
@@ -52,12 +52,12 @@ public sealed class F1Pi2Inheritance : Claim
 
     /// <summary>The "2" coefficient in F1's "−L − 2Σγ·I" closed form. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d (qubit dimension).</summary>
-    public double TwoFactor => _ladder.Term(0);
+    public double TwoFactor => Ladder.Term(0);
 
     /// <summary>The "−1" sign flip in F1's "−L" reading lives on the Z₄ memory
     /// loop: <c>i² = −1</c>, two 90° rotations summed (Pi2I4MemoryLoop Layer 1).
     /// Live computation through <see cref="Pi2I4MemoryLoopClaim.PowerOfI"/>(2).</summary>
-    public Complex SignFlipFromZ4 => _memoryLoop.PowerOfI(2);
+    public Complex SignFlipFromZ4 => MemoryLoop.PowerOfI(2);
 
     public F1Pi2Inheritance(
         F1.F1PalindromeIdentity f1,
@@ -71,8 +71,8 @@ public sealed class F1Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
     }
 
     public override string DisplayName =>

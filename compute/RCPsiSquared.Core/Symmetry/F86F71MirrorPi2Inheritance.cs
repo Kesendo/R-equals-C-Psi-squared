@@ -67,20 +67,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs</c>.</para></summary>
 public sealed class F86F71MirrorPi2Inheritance : Claim
 {
-    private readonly F71MirrorSymmetryPi2Inheritance _f71;
-    private readonly F86MirrorGeneralisationLink _f86Link;
-
+    public F71MirrorSymmetryPi2Inheritance F71 { get; }
+    public F86MirrorGeneralisationLink F86Link { get; }
     /// <summary>The mirror partner of bond b under F71 spatial reflection: N−2−b.
     /// Delegates to F71MirrorSymmetryPi2Inheritance.MirrorPartner-style logic.</summary>
-    public int MirrorPartnerBond(int N, int b) => _f71.MirrorPair(N, b);
+    public int MirrorPartnerBond(int N, int b) => F71.MirrorPair(N, b);
 
     /// <summary>True iff bond b is self-paired under F71 mirror: b = N−2−b ⟺ b = (N−2)/2.
     /// Only integer for even N (no self-paired center for odd N). Delegates to
     /// <see cref="F71MirrorSymmetryPi2Inheritance.IsSelfPaired"/>.</summary>
-    public bool IsSelfPairedBond(int N, int b) => _f71.IsSelfPaired(N, b);
+    public bool IsSelfPairedBond(int N, int b) => F71.IsSelfPaired(N, b);
 
     /// <summary>Drift check: the F86 mirror partner sum is N−2 for any valid b.</summary>
-    public bool MirrorPartnerSumHolds(int N, int b) => b + _f71.MirrorPair(N, b) == N - 2;
+    public bool MirrorPartnerSumHolds(int N, int b) => b + F71.MirrorPair(N, b) == N - 2;
 
     public F86F71MirrorPi2Inheritance(
         F71MirrorSymmetryPi2Inheritance f71,
@@ -93,8 +92,8 @@ public sealed class F86F71MirrorPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/F71/F86MirrorGeneralisationLink.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs")
     {
-        _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
-        _f86Link = f86Link ?? throw new ArgumentNullException(nameof(f86Link));
+        F71 = f71 ?? throw new ArgumentNullException(nameof(f71));
+        F86Link = f86Link ?? throw new ArgumentNullException(nameof(f86Link));
     }
 
     public override string DisplayName =>

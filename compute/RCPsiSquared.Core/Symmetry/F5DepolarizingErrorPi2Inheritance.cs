@@ -42,19 +42,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F5DepolarizingErrorPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     /// <summary>The "2" multiplier in F5's <c>2·(N−2)/3</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d.</summary>
-    public double DCoefficient => _ladder.Term(0);
+    public double DCoefficient => Ladder.Term(0);
 
     /// <summary>The "3" denominator: <c>d² − 1 = 4 − 1 = 3</c>. The number of
     /// non-identity Pauli operators per qubit. Pi2-derived from
     /// <see cref="Pi2OperatorSpaceMirrorClaim"/>: total operator-space at N=1 is
     /// 4 (= d²); subtracting the identity gives 3 non-identity Paulis (X, Y, Z).</summary>
     public double DSquaredMinusOne =>
-        (_mirror.PairAt(1)?.OperatorSpace ?? 4.0) - 1.0;
+        (Mirror.PairAt(1)?.OperatorSpace ?? 4.0) - 1.0;
 
     /// <summary>The composite ratio <c>2/3 = d/(d²−1) = DCoefficient / DSquaredMinusOne</c>.
     /// The fraction of off-diagonal Pauli mass in the depolarizing channel.</summary>
@@ -85,8 +84,8 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

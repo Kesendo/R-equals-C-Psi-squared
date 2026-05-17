@@ -65,18 +65,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
 public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2I4MemoryLoopClaim _loop;
-    private readonly F1Pi2Inheritance _f1;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2I4MemoryLoopClaim Loop { get; }
+    public F1Pi2Inheritance F1 { get; }
     /// <summary>The "2" in ±2c_l·γ·i. Live from Pi2DyadicLadder a_0.</summary>
-    public double EigenvalueCoefficient => _ladder.Term(0);
+    public double EigenvalueCoefficient => Ladder.Term(0);
 
     /// <summary>The "i" in ±2c_l·γ·i. Live from Pi2I4MemoryLoop i^1.</summary>
-    public Complex ImaginaryUnit => _loop.PowerOfI(1);
+    public Complex ImaginaryUnit => Loop.PowerOfI(1);
 
     /// <summary>Per-site Pauli space dimension (= 4). Live from Pi2DyadicLadder a_{-1}.</summary>
-    public double PerSiteDimension => _ladder.Term(-1);
+    public double PerSiteDimension => Ladder.Term(-1);
 
     /// <summary>Per-site M_l eigenvalues for Pauli letter P at weight c_l, dephasing γ:
     /// X → all 0; Y or Z → ±2c_l·γ·i (each with multiplicity 2).</summary>
@@ -126,9 +125,9 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _loop = loop ?? throw new ArgumentNullException(nameof(loop));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Loop = loop ?? throw new ArgumentNullException(nameof(loop));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
 
     public override string DisplayName =>
@@ -152,7 +151,7 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim
             yield return new InspectableNode("Y ≡ Z SVD-blindness",
                 summary: "Both Y and Z carry bit_b = 1 (Π-non-trivial); M_l identical spectral structure; soft-vs-hard distinction lives in L's eigenVECTORS not M's singular values");
             yield return new InspectableNode("F1 connection",
-                summary: $"M IS F1's residual operator Π·L·Π⁻¹ + L + 2σ·I; F1.TwoFactor (= {_f1.TwoFactor}) = F78's EigenvalueCoefficient; same a_0 anchor at operator and per-site levels");
+                summary: $"M IS F1's residual operator Π·L·Π⁻¹ + L + 2σ·I; F1.TwoFactor (= {F1.TwoFactor}) = F78's EigenvalueCoefficient; same a_0 anchor at operator and per-site levels");
             yield return new InspectableNode("F80 specialization at 2-body chain Π²-odd",
                 summary: "F80 (Bloch sign-walk for chain 2-body Π²-odd) is the same ±2i structure at the 2-body chain level; F78 single-body and F80 2-body share the (±2i) factor on Pi2-Foundation a_0 + Pi2I4MemoryLoop axes");
             yield return new InspectableNode("cluster-multiplicator (chain)",

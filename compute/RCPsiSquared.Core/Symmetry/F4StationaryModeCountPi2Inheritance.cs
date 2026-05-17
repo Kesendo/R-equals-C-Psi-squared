@@ -51,11 +51,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F4StationaryModeCountPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
+    public Pi2DyadicLadderClaim Ladder { get; }
 
     /// <summary>The "2" coefficient in 2J+1 (irrep dimension formula). Live from
     /// Pi2DyadicLadder a_0. Same anchor as F1/F50/F66/F43.</summary>
-    public double IrrepDimensionCoefficient => _ladder.Term(0);
+    public double IrrepDimensionCoefficient => Ladder.Term(0);
 
     /// <summary>Clebsch-Gordan multiplicity of total spin J in N spin-1/2 particles:
     /// <c>m(J, N) = C(N, N/2 − J) − C(N, N/2 − J − 1)</c>. The 2J = twoJ
@@ -150,7 +150,7 @@ public sealed class F4StationaryModeCountPi2Inheritance : Claim
                "experiments/CAVITY_MODES_FORMULA.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

@@ -63,7 +63,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F25CPsiBellPlusPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
+    public Pi2DyadicLadderClaim Ladder { get; }
 
     /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
     /// grounds F25's <c>CrossingThreshold</c> on the Quarter axis (same anchor
@@ -75,17 +75,17 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
     /// Same anchor as F76 (e^{−4γ₀t} mirror-pair coherence decay), F61/F63
     /// 4-block per parity, F66 multiplicity, F77 correction.</summary>
-    public double DecayRateCoefficient => _ladder.Term(-1);
+    public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" coefficient in <c>dCΨ/dt = −2γ f(1+3f²)/3</c>.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>
     /// = polynomial root d.</summary>
-    public double Coefficient2 => _ladder.Term(0);
+    public double Coefficient2 => Ladder.Term(0);
 
     /// <summary>The CΨ crossing threshold: <c>1/4 = a_3</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(3); same anchor as F57's
     /// CrossingThreshold and Dicke + F60 + F62 fold.</summary>
-    public double CrossingThreshold => _ladder.Term(3);
+    public double CrossingThreshold => Ladder.Term(3);
 
     /// <summary>The Bell+ crossing parameter: <c>f* = 0.8612</c> (state-specific,
     /// cubic root of <c>f(1+f²) = 3/2</c>; NOT Pi2-anchored).</summary>
@@ -143,7 +143,7 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 

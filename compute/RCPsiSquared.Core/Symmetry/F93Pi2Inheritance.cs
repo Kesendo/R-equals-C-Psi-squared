@@ -39,8 +39,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <seealso cref="F92Pi2Inheritance"/>
 public sealed class F93Pi2Inheritance : Claim
 {
-    private readonly Pi2I4MemoryLoopClaim _memoryLoop;
-
+    public Pi2I4MemoryLoopClaim MemoryLoop { get; }
     /// <summary>The Z₄ closure order of the 90°-rotation R_{90}: h_l ↦ 2·h_avg − h_{N−1−l}.
     /// Four applications return to identity, matching <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.</summary>
     public int Z4ClosureOrder => Pi2I4MemoryLoopClaim.ClosureOrder;
@@ -48,7 +47,7 @@ public sealed class F93Pi2Inheritance : Claim
     /// <summary>Live drift check: i^4 = 1 exactly on the parent Pi2-Z₄ memory loop.
     /// F93's parameter-side 90°-rotation closes at the same order as the operator-side
     /// quaternion algebra.</summary>
-    public Complex MemoryLoopClosure => _memoryLoop.MemoryClosure();
+    public Complex MemoryLoopClosure => MemoryLoop.MemoryClosure();
 
     /// <summary>Verbal name of the parameter axis F93 lives on: per-site longitudinal
     /// Z-detuning h_l. Distinguishes F93 from its sister claims F91 (per-site
@@ -63,7 +62,7 @@ public sealed class F93Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (NinetyDegreeMirrorMemoryClaim)")
     {
-        _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
     }
 
     public override string DisplayName =>

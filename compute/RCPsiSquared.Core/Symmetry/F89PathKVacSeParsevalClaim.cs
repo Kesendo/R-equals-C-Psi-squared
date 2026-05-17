@@ -21,8 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/_f89_vac_se_parseval_closed.py</c>.</para></summary>
 public sealed class F89PathKVacSeParsevalClaim : Claim
 {
-    private readonly F89TopologyOrbitClosure _f89;
-
+    public F89TopologyOrbitClosure F89 { get; }
     /// <summary>The closed-form (vac, SE) self-contribution per pure-path-k
     /// block at N qubits, evaluated at time t:
     /// <c>(k+1)·(N − k − 1)² / (N²·(N − 1)) · exp(−4γ₀ t)</c>.</summary>
@@ -53,7 +52,7 @@ public sealed class F89PathKVacSeParsevalClaim : Claim
                "simulations/_f89_vac_se_parseval_closed.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
     }
 
     public override string DisplayName =>

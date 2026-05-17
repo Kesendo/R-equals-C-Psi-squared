@@ -64,8 +64,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (PolarityLayerOriginClaim, QuarterAsBilinearMaxvalClaim).</para></summary>
 public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>±0.5 polarity-pair anchor — the typed parent that grounds
     /// F60's <c>OffDiagonalElement = 1/2</c> directly on the polarity-layer
     /// axis. Added 2026-05-16 as a typed ctor parent (previously registration-
@@ -88,7 +87,7 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
     /// <c>ρ[0...0, 1...1] = 1/2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c> = ±0.5 polarity
     /// pair (<see cref="PolarityLayerOriginClaim"/>).</summary>
-    public double OffDiagonalElement => _ladder.Term(2);
+    public double OffDiagonalElement => Ladder.Term(2);
 
     /// <summary>The Hilbert-space dimension <c>2^N</c> for an N-qubit GHZ state.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1 − N</c>) =
@@ -97,7 +96,7 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
     public double HilbertSpaceDimension(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F60 requires N ≥ 2.");
-        return _ladder.Term(LadderIndexForHilbertSpace(N));
+        return Ladder.Term(LadderIndexForHilbertSpace(N));
     }
 
     /// <summary>The Pi2 ladder index for the Hilbert-space dimension:
@@ -109,7 +108,7 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(3); same anchor as
     /// F57's CrossingThreshold and DickeSuperpositionQuarter's QuarterCeiling
     /// (= <see cref="QuarterAsBilinearMaxvalClaim"/>).</summary>
-    public double FoldPosition => _ladder.Term(3);
+    public double FoldPosition => Ladder.Term(3);
 
     /// <summary>Live closed form: <c>CΨ(0) = 1 / (2^N − 1)</c>. Throws for
     /// N &lt; 2.</summary>
@@ -142,7 +141,7 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolarityLayerOrigin, QuarterAsBilinearMaxval, ArgmaxMaxvalPair)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Polarity = polarity ?? throw new ArgumentNullException(nameof(polarity));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
         ArgmaxMaxval = argmaxMaxval ?? throw new ArgumentNullException(nameof(argmaxMaxval));

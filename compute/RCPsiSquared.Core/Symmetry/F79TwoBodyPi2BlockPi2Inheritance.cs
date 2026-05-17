@@ -67,10 +67,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
 {
-    private readonly KleinFourCellClaim _klein;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
-    private readonly F1Pi2Inheritance _f1;
-
+    public KleinFourCellClaim Klein { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
+    public F1Pi2Inheritance F1 { get; }
     /// <summary>Compute the Π²-parity p(P, Q) = (bit_b(P) + bit_b(Q)) mod 2 for a
     /// 2-body bilinear (P, Q). Returns 0 for Π²-even, 1 for Π²-odd.
     /// bit_b: I, X → 0; Y, Z → 1.</summary>
@@ -96,7 +95,7 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
     public double Pi2BlockDimension(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F79 requires N ≥ 1.");
-        var pair = _mirror.PairAt(N);
+        var pair = Mirror.PairAt(N);
         if (pair == null)
             return Math.Pow(4.0, N) / 2.0;
         return pair.OperatorSpace / 2.0;
@@ -155,9 +154,9 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinFourCellClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _klein = klein ?? throw new ArgumentNullException(nameof(klein));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        Klein = klein ?? throw new ArgumentNullException(nameof(klein));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
 
     public override string DisplayName =>
@@ -175,9 +174,9 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
             yield return new InspectableNode("Π²-parity examples",
                 summary: $"XX (p={Pi2Parity('X','X')}), YY (p={Pi2Parity('Y','Y')}), ZZ (p={Pi2Parity('Z','Z')}), YZ (p={Pi2Parity('Y','Z')}); all Π²-even. XY (p={Pi2Parity('X','Y')}), YX (p={Pi2Parity('Y','X')}), XZ (p={Pi2Parity('X','Z')}); all Π²-odd.");
             yield return new InspectableNode("F88 KleinFour refinement",
-                summary: $"F79's binary p splits into 4 KleinFour cells under (Π²_Z, Π²_X). Π²-odd (p=1) splits: Mp = {{XY, YX}} (XX-symmetric within bilinear), Mm = {{XZ, ZX}} (XX-asymmetric). KleinFour: {_klein.DisplayName}");
+                summary: $"F79's binary p splits into 4 KleinFour cells under (Π²_Z, Π²_X). Π²-odd (p=1) splits: Mp = {{XY, YX}} (XX-symmetric within bilinear), Mm = {{XZ, ZX}} (XX-asymmetric). KleinFour: {Klein.DisplayName}");
             yield return new InspectableNode("F1 connection",
-                summary: $"M IS F1's residual operator. F1.TwoFactor (= {_f1.TwoFactor}) is the same '2' as the 2σ·I shift in M. F79 reads M's Π²-block structure.");
+                summary: $"M IS F1's residual operator. F1.TwoFactor (= {F1.TwoFactor}) is the same '2' as the 2σ·I shift in M. F79 reads M's Π²-block structure.");
             yield return new InspectableNode("Π²-odd universality (N=5 chain)",
                 summary: "XY ≡ XZ ≡ XX+XY ≡ XX+XZ all give SV clusters [(5.464, 512), (1.464, 512)]; truly XX contributes 0; Π²-odd part dominates; Pauli-letter-blind within Π²-odd class");
             yield return new InspectableNode("V_+ / V_- equal block dimensions",

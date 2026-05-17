@@ -36,18 +36,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
 public sealed class F80FactorPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2I4MemoryLoopClaim _loop;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2I4MemoryLoopClaim Loop { get; }
     /// <summary>The "2" in F80's "±2i" — exactly <c>a_0</c> on the Pi2 dyadic ladder.</summary>
-    public double TwoFactor => _ladder.Term(0);
+    public double TwoFactor => Ladder.Term(0);
 
     /// <summary>The "i" in F80's "±2i" — exactly <c>i^1</c> on the Z₄ memory loop.</summary>
-    public Complex IFactor => _loop.PowerOfI(1);
+    public Complex IFactor => Loop.PowerOfI(1);
 
     /// <summary>The "−i" partner — exactly <c>i^3</c> on the Z₄ memory loop. Together
     /// with <see cref="IFactor"/> they form the "±" of F80's Spec(M).</summary>
-    public Complex MinusIFactor => _loop.PowerOfI(3);
+    public Complex MinusIFactor => Loop.PowerOfI(3);
 
     /// <summary>The "+2i" half of F80's spectrum factor: (0, 2). Live composition of
     /// <see cref="TwoFactor"/> · <see cref="IFactor"/>.</summary>
@@ -70,8 +69,8 @@ public sealed class F80FactorPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
     {
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _loop = loop ?? throw new ArgumentNullException(nameof(loop));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Loop = loop ?? throw new ArgumentNullException(nameof(loop));
     }
 
     public override string DisplayName =>

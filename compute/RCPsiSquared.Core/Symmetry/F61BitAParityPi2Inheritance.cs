@@ -73,18 +73,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F61BitAParityPi2Inheritance : Claim
 {
-    private readonly F63LCommutesPi2Pi2Inheritance _f63;
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public F63LCommutesPi2Pi2Inheritance F63 { get; }
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>Joint with F63: the count of independent Z₂ symmetries L admits
     /// is <c>2</c>. F61 contributes bit_a (n_XY), F63 contributes bit_b (w_YZ).
     /// Per F34/QUBIT_NECESSITY the C₂ × C₂ is maximal.</summary>
-    public int IndependentZ2SymmetryCount => _f63.IndependentZ2SymmetryCount;
+    public int IndependentZ2SymmetryCount => F63.IndependentZ2SymmetryCount;
 
     /// <summary>The 4-block decomposition count: <c>4 = a_{−1}</c> on the dyadic
     /// ladder. Shared with F63; live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1).</summary>
-    public double BlockCount => _ladder.Term(-1);
+    public double BlockCount => Ladder.Term(-1);
 
     /// <summary>Per-block dimension: <c>4^(N − 1) = a_{3−2N}</c> on the dyadic
     /// ladder. Shared with F63 / F38 / F39 / F1-T1; live from
@@ -92,7 +91,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim
     public double PerBlockDimension(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F61 requires N ≥ 1.");
-        return _ladder.Term(LadderIndexForPerBlock(N));
+        return Ladder.Term(LadderIndexForPerBlock(N));
     }
 
     /// <summary>The dyadic-ladder index where the per-block dimension lands:
@@ -102,13 +101,13 @@ public sealed class F61BitAParityPi2Inheritance : Claim
     /// <summary>True iff F61's per-block dimension agrees with F63's per-block
     /// dimension. Drift check on the bit_a Z₂ ↔ bit_b Z₂ joint structure.</summary>
     public bool PerBlockDimensionAgreesWithF63(int N) =>
-        Math.Abs(PerBlockDimension(N) - _f63.PerBlockDimension(N)) < 1e-12;
+        Math.Abs(PerBlockDimension(N) - F63.PerBlockDimension(N)) < 1e-12;
 
     /// <summary>True iff F61's BlockCount agrees with F63's BlockCount. Drift
     /// check on the joint C₂ × C₂ structure (both should anchor to a_{−1} =
     /// 4 on the ladder).</summary>
     public bool BlockCountAgreesWithF63() =>
-        Math.Abs(BlockCount - _f63.BlockCount) < 1e-12;
+        Math.Abs(BlockCount - F63.BlockCount) < 1e-12;
 
     /// <summary>The Z₂ axis F61 covers: <c>"bit_a (n_XY)"</c>. Identifier for
     /// the bit_a / n_XY parity reading. F63's axis is <c>"bit_b (w_YZ)"</c>.</summary>
@@ -142,8 +141,8 @@ public sealed class F61BitAParityPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F63LCommutesPi2Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _f63 = f63 ?? throw new ArgumentNullException(nameof(f63));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F63 = f63 ?? throw new ArgumentNullException(nameof(f63));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

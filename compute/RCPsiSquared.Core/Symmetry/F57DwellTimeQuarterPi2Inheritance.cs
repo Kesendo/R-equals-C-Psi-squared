@@ -59,9 +59,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F57DwellTimeQuarterPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly QuarterAsBilinearMaxvalClaim _quarter;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public QuarterAsBilinearMaxvalClaim Quarter { get; }
     /// <summary>F25 Bell+ CΨ closed form — the typed mother claim. F57's
     /// Bell+ prefactor <c>1.080088 = 2 / 1.851701</c> derives directly from
     /// F25's <c>|dCΨ/dt|_{t_cross}</c>. Added 2026-05-16 as a typed ctor
@@ -79,13 +78,13 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim
     /// <summary>The CΨ crossing threshold itself: <c>1/4</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(3) = <c>a_3</c> = the bilinear-apex
     /// maxval anchor (<see cref="QuarterAsBilinearMaxvalClaim"/>).</summary>
-    public double CrossingThreshold => _ladder.Term(3);
+    public double CrossingThreshold => Ladder.Term(3);
 
     /// <summary>The 2δ-window doubling factor: <c>2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = polynomial
     /// root d (the "two" in d²−2d=0). Reflects the symmetric δ-above /
     /// δ-below structure of the bilinear apex.</summary>
-    public double WindowDoublingFactor => _ladder.Term(0);
+    public double WindowDoublingFactor => Ladder.Term(0);
 
     /// <summary>The Bell+ Z-dephasing K_dwell prefactor: <c>1.080088</c>
     /// (from <c>2 / 1.851701</c>, where 1.851701 = |dCΨ/dt|_{t_cross} at the
@@ -157,8 +156,8 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs (mother claim, typed) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (ArgmaxMaxvalPair)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
         F25 = f25 ?? throw new ArgumentNullException(nameof(f25));
         ArgmaxMaxval = argmaxMaxval ?? throw new ArgumentNullException(nameof(argmaxMaxval));
     }

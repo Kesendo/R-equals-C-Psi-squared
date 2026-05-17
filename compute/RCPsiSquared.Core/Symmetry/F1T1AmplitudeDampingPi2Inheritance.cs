@@ -52,12 +52,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4" multiplier in <c>4·(Σγ_T1)²</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = 4 = d² for N=1.</summary>
-    public double FourMultiplier => _ladder.Term(-1);
+    public double FourMultiplier => Ladder.Term(-1);
 
     /// <summary>The small integer multiplier "3" in <c>3·Σγ_T1²</c>. From the T1
     /// dissipator algebra; documented but not a direct Pi2-Foundation anchor.</summary>
@@ -70,7 +70,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
     {
         if (N < 2)
             throw new ArgumentOutOfRangeException(nameof(N), N, "T1 amplitude damping scaling requires N ≥ 2.");
-        return _ladder.Term(HPartLadderIndex(N));
+        return Ladder.Term(HPartLadderIndex(N));
     }
 
     /// <summary>The Pi2 ladder index where the H-part prefactor lands: <c>−(N+1)</c>.
@@ -85,7 +85,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
     {
         if (N < 2)
             throw new ArgumentOutOfRangeException(nameof(N), N, "T1 amplitude damping scaling requires N ≥ 2.");
-        return _ladder.Term(T1PartLadderIndex(N));
+        return Ladder.Term(T1PartLadderIndex(N));
     }
 
     /// <summary>The Pi2 ladder index where the T1-only prefactor lands: <c>3−2N</c>.
@@ -108,8 +108,8 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

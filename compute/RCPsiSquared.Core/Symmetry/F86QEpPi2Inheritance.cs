@@ -25,15 +25,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F86QEpPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly QEpLaw _qEp;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public QEpLaw QEp { get; }
     /// <summary>The "2" numerator in F86's <c>Q_EP = 2/g_eff</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d.</summary>
-    public double TwoFactor => _ladder.Term(0);
+    public double TwoFactor => Ladder.Term(0);
 
     /// <summary>The g_eff used in the parent <see cref="QEpLaw"/> instance.</summary>
-    public double GEff => _qEp.GEff;
+    public double GEff => QEp.GEff;
 
     /// <summary>The composed Q_EP value: <c>TwoFactor / GEff</c>; bit-exactly equal
     /// to <see cref="QEpLaw.Value"/>.</summary>
@@ -47,8 +46,8 @@ public sealed class F86QEpPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/F86/QEpLaw.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _qEp = qEp ?? throw new ArgumentNullException(nameof(qEp));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        QEp = qEp ?? throw new ArgumentNullException(nameof(qEp));
     }
 
     public override string DisplayName =>
@@ -66,7 +65,7 @@ public sealed class F86QEpPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("TwoFactor (= a_0 = d)", TwoFactor);
             yield return InspectableNode.RealScalar("g_eff", GEff);
             yield return InspectableNode.RealScalar("LiveQEp (= TwoFactor / g_eff)", LiveQEp);
-            yield return InspectableNode.RealScalar("QEpLaw.Value (parent's pinned)", _qEp.Value);
+            yield return InspectableNode.RealScalar("QEpLaw.Value (parent's pinned)", QEp.Value);
             yield return new InspectableNode("inheritance",
                 summary: "the 2 in the numerator is not a free parameter; it is the qubit dimension on the Pi2 ladder");
         }

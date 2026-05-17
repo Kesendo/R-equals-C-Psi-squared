@@ -54,12 +54,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (a_0 = 2 absorption quantum source).</para></summary>
 public sealed class AbsorptionTheoremClaim : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
+    public Pi2DyadicLadderClaim Ladder { get; }
 
     /// <summary>The absorption quantum (numerical coefficient): <c>2</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d. Multiplying
     /// by γ₀ gives the per-XY-site decay quantum 2γ₀.</summary>
-    public double AbsorptionQuantumCoefficient => _ladder.Term(0);
+    public double AbsorptionQuantumCoefficient => Ladder.Term(0);
 
     /// <summary>The absorption quantum at γ₀: <c>2γ₀</c>. The smallest non-zero rate
     /// step in the Liouvillian spectrum under uniform Z-dephasing.</summary>
@@ -136,7 +136,7 @@ public sealed class AbsorptionTheoremClaim : Claim
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

@@ -52,12 +52,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F2bXyChainSpectrumPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F65XxChainSpectrumPi2Inheritance _f65;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F65XxChainSpectrumPi2Inheritance F65 { get; }
 
     /// <summary>The "2" in E_k = 2J·cos(πk/(N+1)). Live from Pi2DyadicLadder a_0.
     /// Same anchor as F1 TwoFactor, F2 HoppingFactor, F50 DecayRateFactor.</summary>
-    public double HoppingFactor => _ladder.Term(0);
+    public double HoppingFactor => Ladder.Term(0);
 
     /// <summary>Live closed form: E_k = 2·J·cos(π·k/(N+1)) for k = 1..N.</summary>
     public double Eigenvalue(int N, double J, int k)
@@ -90,7 +90,7 @@ public sealed class F2bXyChainSpectrumPi2Inheritance : Claim
     {
         double amp = EigenvectorAmplitude(N, k, site);
         double f2bSquared = amp * amp;
-        double f65Squared = _f65.BondingModePopulation(N, k, site);
+        double f65Squared = F65.BondingModePopulation(N, k, site);
         return Math.Abs(f2bSquared - f65Squared) < tolerance;
     }
 
@@ -116,8 +116,8 @@ public sealed class F2bXyChainSpectrumPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F65XxChainSpectrumPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f65 = f65 ?? throw new ArgumentNullException(nameof(f65));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F65 = f65 ?? throw new ArgumentNullException(nameof(f65));
     }
 
     public override string DisplayName =>
@@ -136,7 +136,7 @@ public sealed class F2bXyChainSpectrumPi2Inheritance : Claim
             yield return new InspectableNode("F2 vs F2b distinction",
                 summary: "F2: w=1 LIOUVILLIAN, Heisenberg, dim N−1, π·k/N. F2b: SE HAMILTONIAN, XY, dim N, π·k/(N+1). Different operators, different sectors, different boundary conditions arising from the same OBC structure.");
             yield return new InspectableNode("F65 sibling edge",
-                summary: $"F2b's |ψ_k(i)|² = (2/(N+1))·sin²(πk(i+1)/(N+1)) IS F65.BondingModePopulation(N, k, i). At N=3, k=1, site=0: F2b ψ² = {EigenvectorAmplitude(3, 1, 0) * EigenvectorAmplitude(3, 1, 0):G6}; F65 = {_f65.BondingModePopulation(3, 1, 0):G6}");
+                summary: $"F2b's |ψ_k(i)|² = (2/(N+1))·sin²(πk(i+1)/(N+1)) IS F65.BondingModePopulation(N, k, i). At N=3, k=1, site=0: F2b ψ² = {EigenvectorAmplitude(3, 1, 0) * EigenvectorAmplitude(3, 1, 0):G6}; F65 = {F65.BondingModePopulation(3, 1, 0):G6}");
             yield return new InspectableNode("OBC Dirichlet boundary",
                 summary: "ψ_k(−1 virtual) = sin(0) = 0; ψ_k(N virtual) = sin(πk) = 0; the (N+1) denominator and N modes follow from N+2 effective sites with two fixed endpoints");
             yield return new InspectableNode("verified eigenvalues N=3, J=1",

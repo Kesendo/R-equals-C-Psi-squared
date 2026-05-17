@@ -31,8 +31,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// § "AT-lock mechanism".</para></summary>
 public sealed class F89PathKAtLockMechanismClaim : Claim
 {
-    private readonly F89TopologyOrbitClosure _f89;
-
+    public F89TopologyOrbitClosure F89 { get; }
     /// <summary>F_a mode count for path-k with block size N_block = k+1.
     /// Equals floor(N_block/2) = number of S_2-anti single-particle Bloch modes
     /// E_n = 4J·cos(πn/(N_block+1)) for n in the orbit {2, 4, ..., 2·floor(N_block/2)}.</summary>
@@ -77,7 +76,7 @@ public sealed class F89PathKAtLockMechanismClaim : Claim
                "simulations/_f89_path4_path5_at_lock_scan.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
     }
 
     public override string DisplayName =>

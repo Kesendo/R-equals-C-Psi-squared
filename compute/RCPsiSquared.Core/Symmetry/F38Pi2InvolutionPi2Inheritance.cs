@@ -63,9 +63,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F38Pi2InvolutionPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
-    private readonly Pi2I4MemoryLoopClaim _memoryLoop;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
+    public Pi2I4MemoryLoopClaim MemoryLoop { get; }
 
     /// <summary>The cyclic order of Π: <c>Π⁴ = I</c>. Equal to
     /// <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/> = 4.</summary>
@@ -81,7 +81,7 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
         var result = new int[4];
         for (int k = 0; k < 4; k++)
         {
-            var z2 = _memoryLoop.PowerOfI(2 * k);
+            var z2 = MemoryLoop.PowerOfI(2 * k);
             result[k] = z2.Real > 0 ? +1 : -1;
         }
         return result;
@@ -96,8 +96,8 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     /// <c>i^4 = 1</c> exactly, the Π⁴ = I cyclic identity that grounds Π²'s
     /// involutivity (Π² = Π⁻²).</summary>
     public bool MemoryLoopClosesAtFour() =>
-        _memoryLoop.MemoryClosure().Real > 1.0 - 1e-12 &&
-        Math.Abs(_memoryLoop.MemoryClosure().Imaginary) < 1e-12;
+        MemoryLoop.MemoryClosure().Real > 1.0 - 1e-12 &&
+        Math.Abs(MemoryLoop.MemoryClosure().Imaginary) < 1e-12;
 
     /// <summary>The full operator-space dimension <c>4^N</c> for an N-qubit
     /// system. Equal to <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1−2N</c>)
@@ -119,7 +119,7 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     public double EigenspaceDimensionViaLadder(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F38 requires N ≥ 1.");
-        return _ladder.Term(0) * _ladder.Term(3 - 2 * N);
+        return Ladder.Term(0) * Ladder.Term(3 - 2 * N);
     }
 
     /// <summary>The dyadic ladder index for the <c>4^(N−1)</c> factor:
@@ -144,7 +144,7 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
     /// at qubit count N, for cross-registry verification with
     /// <see cref="FullOperatorSpaceDimension"/>.</summary>
     public double MirrorPinnedFullDimension(int N) =>
-        _mirror.PairAt(N)?.OperatorSpace
+        Mirror.PairAt(N)?.OperatorSpace
         ?? throw new ArgumentOutOfRangeException(nameof(N), N,
             $"Pi2OperatorSpaceMirror has no pinned pair for N={N} (range 1..6).");
 
@@ -177,9 +177,9 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
-        _memoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
         Half = half ?? throw new ArgumentNullException(nameof(half));
     }
 

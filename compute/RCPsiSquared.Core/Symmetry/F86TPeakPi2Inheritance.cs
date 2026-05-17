@@ -28,20 +28,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F86TPeakPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly TPeakLaw _tPeak;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public TPeakLaw TPeak { get; }
     /// <summary>The "4" denominator in F86's <c>t_peak = 1/(4γ₀)</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = 4 = d² for N=1
     /// (operator-space side of the ladder).</summary>
-    public double FourFactor => _ladder.Term(-1);
+    public double FourFactor => Ladder.Term(-1);
 
     /// <summary>The mirror partner: <c>1/4 = a_3</c> on the memory side. Equivalent
     /// reading via the inversion symmetry <c>a_n · a_{2−n} = 1</c>.</summary>
-    public double OneOverFourFactor => _ladder.Term(3);
+    public double OneOverFourFactor => Ladder.Term(3);
 
     /// <summary>The γ₀ used in the parent <see cref="TPeakLaw"/> instance.</summary>
-    public double GammaZero => _tPeak.GammaZero;
+    public double GammaZero => TPeak.GammaZero;
 
     /// <summary>The composed t_peak value: <c>1 / (FourFactor · GammaZero)</c>;
     /// bit-exactly equal to <see cref="TPeakLaw.Value"/>.</summary>
@@ -67,8 +66,8 @@ public sealed class F86TPeakPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, typed mirror partner)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _tPeak = tPeak ?? throw new ArgumentNullException(nameof(tPeak));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        TPeak = tPeak ?? throw new ArgumentNullException(nameof(tPeak));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
@@ -88,7 +87,7 @@ public sealed class F86TPeakPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("OneOverFourFactor (= a_3 mirror partner)", OneOverFourFactor);
             yield return InspectableNode.RealScalar("γ₀", GammaZero);
             yield return InspectableNode.RealScalar("LiveTPeak", LiveTPeak);
-            yield return InspectableNode.RealScalar("TPeakLaw.Value (parent's pinned)", _tPeak.Value);
+            yield return InspectableNode.RealScalar("TPeakLaw.Value (parent's pinned)", TPeak.Value);
             yield return new InspectableNode("inheritance",
                 summary: "the 4 in the denominator is not a free parameter; it is the operator-space dimension d² for N=1, on the upper side of the Pi2 ladder");
             yield return new InspectableNode("mirror reading",

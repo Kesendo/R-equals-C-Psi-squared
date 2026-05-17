@@ -80,15 +80,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The "2" count multiplier in 2N. Live from Pi2DyadicLadder a_0.
     /// Counts the two active Pauli letters X and Y per chromatic grade c.</summary>
-    public double DegeneracyFactor => _ladder.Term(0);
+    public double DegeneracyFactor => Ladder.Term(0);
 
     /// <summary>The "2" decay rate factor in Re = −2γ. Live from Pi2DyadicLadder a_0.
     /// Same anchor as F1's TwoFactor at the eigenvalue level.</summary>
-    public double DecayRateFactor => _ladder.Term(0);
+    public double DecayRateFactor => Ladder.Term(0);
 
     /// <summary>Total degeneracy count <c>d_real(Re = −2γ) = 2N</c> at the first
     /// non-zero real grid position. The 2N value is the F50 lower bound (always
@@ -148,7 +147,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim
                "experiments/WEIGHT2_KERNEL.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

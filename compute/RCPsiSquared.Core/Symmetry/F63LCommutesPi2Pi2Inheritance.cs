@@ -80,9 +80,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F63LCommutesPi2Pi2Inheritance : Claim
 {
-    private readonly F38Pi2InvolutionPi2Inheritance _f38;
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public F38Pi2InvolutionPi2Inheritance F38 { get; }
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The number of independent Z₂ symmetries L admits per F61 + F63:
     /// <c>2</c> (n_XY parity bit_a, and w_YZ parity bit_b). Together they form
     /// the C₂ × C₂ maximal symmetry admitted by the d = 2 Pauli algebra
@@ -93,7 +92,7 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim
     /// by <c>(bit_a, bit_b) = (n_XY, w_YZ)</c> ∈ <c>{0, 1}²</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1} = 4</c> = d²
     /// for 1 qubit.</summary>
-    public double BlockCount => _ladder.Term(-1);
+    public double BlockCount => Ladder.Term(-1);
 
     /// <summary>Per-block dimension: <c>4^(N − 1)</c>. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(<c>3 − 2N</c>) = <c>a_{3−2N}</c>.
@@ -101,7 +100,7 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim
     public double PerBlockDimension(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F63 requires N ≥ 1.");
-        return _ladder.Term(LadderIndexForPerBlock(N));
+        return Ladder.Term(LadderIndexForPerBlock(N));
     }
 
     /// <summary>The dyadic-ladder index where the per-block dimension lands:
@@ -166,7 +165,7 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim
     /// eigenspace-dimension reading divided by 2 (Π² eigenspace splits each
     /// bit_a sector into two Π²-eigenparts).</summary>
     public bool PerBlockDimensionAgreesWithF38(int N) =>
-        Math.Abs(PerBlockDimension(N) - _f38.EigenspaceDimension(N) / 2.0) < 1e-12;
+        Math.Abs(PerBlockDimension(N) - F38.EigenspaceDimension(N) / 2.0) < 1e-12;
 
     public F63LCommutesPi2Pi2Inheritance(
         F38Pi2InvolutionPi2Inheritance f38,
@@ -181,8 +180,8 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F38Pi2InvolutionPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _f38 = f38 ?? throw new ArgumentNullException(nameof(f38));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F38 = f38 ?? throw new ArgumentNullException(nameof(f38));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

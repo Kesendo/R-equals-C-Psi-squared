@@ -35,8 +35,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F49Pi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     public F49Pi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
         : base("F49 ‖M‖²_F scaling's 4^(N−2) factor inherits from Pi2-Foundation (= d² for (N−2) qubits)",
@@ -46,8 +46,8 @@ public sealed class F49Pi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     /// <summary>The "4^(N−2)" factor in F49's closed form. Exactly equal to
@@ -56,7 +56,7 @@ public sealed class F49Pi2Inheritance : Claim
     {
         if (chainN < 2)
             throw new ArgumentOutOfRangeException(nameof(chainN), chainN, "F49 scaling requires N ≥ 2.");
-        return _ladder.Term(LadderIndexFor(chainN));
+        return Ladder.Term(LadderIndexFor(chainN));
     }
 
     /// <summary>The Pi2 ladder index where the F49 power factor lands: <c>5 − 2N</c>.
@@ -77,7 +77,7 @@ public sealed class F49Pi2Inheritance : Claim
     public bool IsInPinnedMirrorTable(int chainN)
     {
         int qubitCount = OperatorSpaceQubitCountFor(chainN);
-        return _mirror.PairAt(qubitCount) is not null;
+        return Mirror.PairAt(qubitCount) is not null;
     }
 
     /// <summary>Cross-verification through the operator-space mirror: for chainN such
@@ -86,7 +86,7 @@ public sealed class F49Pi2Inheritance : Claim
     public double MirrorPinnedPowerFactor(int chainN)
     {
         int qubitCount = OperatorSpaceQubitCountFor(chainN);
-        var pair = _mirror.PairAt(qubitCount)
+        var pair = Mirror.PairAt(qubitCount)
             ?? throw new ArgumentOutOfRangeException(nameof(chainN), chainN,
                 $"chainN={chainN} maps to qubit count {qubitCount}, outside the Pi2OperatorSpaceMirror pinned table.");
         return pair.OperatorSpace;

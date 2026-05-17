@@ -77,10 +77,9 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F89UnifiedFaClosedFormClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89TopologyOrbitClosure _f89;
+    public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     // Cached coefficient arrays (low-to-high degree) for the per-path polynomials
     // P_path(y) used in sigs[F_a:n](N) = P_path(y_n) / [D_path · N²(N-1)].
     private static readonly double[] _path3Coefs = { 47.0, 14.0 };          // 14y + 47
@@ -349,8 +348,8 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
                "simulations/_f89_to_f86_kbond_via_eigendecomp.py + compute/RCPsiSquared.Core/F86/Item1Derivation/C2FullBlockSigmaAnatomy.cs (path-7 extraction) + " +
                "simulations/_f89_path_d_structure_probe.py (path-8/9 extraction + odd-part rule)")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>

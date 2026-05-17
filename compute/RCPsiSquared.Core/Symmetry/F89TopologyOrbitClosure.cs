@@ -63,15 +63,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// CLI mode.</para></summary>
 public sealed class F89TopologyOrbitClosure : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The "4" decay-rate coefficient in <c>exp(−4γ₀ t)</c>, the asymptotic
     /// rate of S(t) for any all-isolated topology class. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = a_{−1} = 4. Identical anchor
     /// to F73's <see cref="F73SpatialSumPurityClosurePi2Inheritance.DecayRateCoefficient"/>:
     /// the per-coherence Z-deph rate 2γ₀ (= a_{0}·γ₀) doubles to S-decay rate 4γ₀
     /// (= a_{−1}·γ₀) on |·|².</summary>
-    public double DecayRateCoefficient => _ladder.Term(-1);
+    public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The "4" oscillation-frequency coefficient in <c>cos(4J t)</c>, the
     /// frequency of the m-correction in S(t) for all-isolated topology classes.
@@ -79,7 +78,7 @@ public sealed class F89TopologyOrbitClosure : Claim
     /// J-axis mirror of the same Pi2 ladder anchor that gives F73's decay rate:
     /// the H_B-eigenstate frequency 2J (= a_{0}·J) doubles to S-oscillation
     /// frequency 4J (= a_{−1}·J) on |·|².</summary>
-    public double OscillationFrequencyCoefficient => _ladder.Term(-1);
+    public double OscillationFrequencyCoefficient => Ladder.Term(-1);
 
     /// <summary>Live drift check: both the γ-axis decay coefficient and the J-axis
     /// oscillation coefficient resolve to <c>a_{−1} = 4</c> from the Pi2 ladder, and
@@ -201,7 +200,7 @@ public sealed class F89TopologyOrbitClosure : Claim
                "compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs (cited; same a_{-1} anchor) + " +
                "compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs (cited)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

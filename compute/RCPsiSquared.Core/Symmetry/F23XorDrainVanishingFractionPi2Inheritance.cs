@@ -57,12 +57,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (sibling).</para></summary>
 public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4" base in 4^N. Live from Pi2DyadicLadder a_{−1}. Same anchor
     /// as F25/F65/F73/F76 decay rate numerators.</summary>
-    public double BaseFactor => _ladder.Term(-1);
+    public double BaseFactor => Ladder.Term(-1);
 
     /// <summary>Live computation of the operator-space dimension 4^N. For N=1..6
     /// matches Pi2OperatorSpaceMirrorClaim.PairAt(N).OperatorSpace exactly; for
@@ -99,11 +99,11 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim
 
     /// <summary>Drift check: F23's denominator agrees with Pi2OperatorSpaceMirror's
     /// pinned table for N ∈ [1, 6]. Returns true iff <c>OperatorSpaceDim(N)</c>
-    /// matches <c>_mirror.PairAt(N).OperatorSpace</c>.</summary>
+    /// matches <c>Mirror.PairAt(N).OperatorSpace</c>.</summary>
     public bool MatchesMirrorTable(int N, double tolerance = 1e-12)
     {
         if (N < 1 || N > 6) throw new ArgumentOutOfRangeException(nameof(N), N, "Mirror table covers N=1..6 only.");
-        var pair = _mirror.PairAt(N);
+        var pair = Mirror.PairAt(N);
         if (pair == null) return false;
         return Math.Abs(OperatorSpaceDim(N) - pair.OperatorSpace) < tolerance;
     }
@@ -118,8 +118,8 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

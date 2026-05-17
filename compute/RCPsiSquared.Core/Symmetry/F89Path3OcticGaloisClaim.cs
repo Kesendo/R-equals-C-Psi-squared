@@ -30,10 +30,9 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F89Path3OcticGaloisClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89TopologyOrbitClosure _f89;
+    public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     /// <summary>Total degree of disc(F_8) as a polynomial in q: 52.</summary>
     public const int DiscriminantPolynomialDegreeInQ = 52;
 
@@ -62,8 +61,8 @@ public sealed class F89Path3OcticGaloisClaim : Claim
                "simulations/_f89_path3_octic_amplitude_q_scan.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>

@@ -58,12 +58,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F41PalindromicTimePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F1Pi2Inheritance _f1;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F1Pi2Inheritance F1 { get; }
 
     /// <summary>The "2" hopping coefficient in 2·J denominator. Live from
     /// Pi2DyadicLadder a_0. Same anchor as F1's TwoFactor.</summary>
-    public double HoppingCoefficient => _ladder.Term(0);
+    public double HoppingCoefficient => Ladder.Term(0);
 
     /// <summary>Slowest palindromic SFF modulation frequency:
     /// <c>ω_min = 4·J · sin²(π/(2N))</c>. Equals 2·HoppingCoefficient·J·sin²(π/(2N)).</summary>
@@ -112,8 +112,8 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f1 = f1 ?? throw new ArgumentNullException(nameof(f1));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
 
     public override string DisplayName =>
@@ -130,7 +130,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim
                 summary: "t_Pi = π/(2·J·sin²(π/(2N))); ω_min = 4·J·sin²(π/(2N)); period of slowest palindromic SFF modulation; FFT-confirmed <1% at N=2..4, 6");
             yield return InspectableNode.RealScalar("HoppingCoefficient (= a_0 = 2)", HoppingCoefficient);
             yield return new InspectableNode("F1 palindrome at time domain",
-                summary: $"the palindromic modulation exists because F1 pairs eigenvalues λ ↔ −λ − 2σ; F41 reads the period of the slowest such pair-difference. F1's TwoFactor (= {_f1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
+                summary: $"the palindromic modulation exists because F1 pairs eigenvalues λ ↔ −λ − 2σ; F41 reads the period of the slowest such pair-difference. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
             yield return new InspectableNode("asymptotic scaling",
                 summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → 2N²/(π·J); the palindromic modulation is a short-time effect at finite N; t_Pi/t_H ~ N²/4^N → 0 (F42 timescale separation)");
             yield return new InspectableNode("N=3, J=1 verified",

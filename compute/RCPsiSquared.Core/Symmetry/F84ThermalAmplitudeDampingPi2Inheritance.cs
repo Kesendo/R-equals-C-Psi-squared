@@ -74,19 +74,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (mother claim).</para></summary>
 public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F82T1AmplitudeDampingPi2Inheritance _f82;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F82T1AmplitudeDampingPi2Inheritance F82 { get; }
     /// <summary>The "2" coefficient in F84's <c>−2·L_{H_odd} − 2·D_{AmplDamp, odd}</c>.
     /// Same as F81/F82.</summary>
-    public double Coefficient2 => _ladder.Term(0);
+    public double Coefficient2 => Ladder.Term(0);
 
     /// <summary>The 2^(N-1) scaling factor. Live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2 − N) = a_{2−N}. Same as F82.</summary>
-    public double ScalingFactor(int N) => _f82.ScalingFactor(N);
+    public double ScalingFactor(int N) => F82.ScalingFactor(N);
 
     /// <summary>The Pi2 ladder index for scaling: 2 − N. Same as F82.</summary>
-    public int LadderIndexForScaling(int N) => _f82.LadderIndexForScaling(N);
+    public int LadderIndexForScaling(int N) => F82.LadderIndexForScaling(N);
 
     /// <summary>Live closed form for uniform Δγ:
     /// <c>‖D_{AmplDamp, odd}‖ = |Δγ| · √N · 2^(N−1)</c>. The Δγ = γ_↓ − γ_↑
@@ -130,7 +129,7 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim
     /// equals F82's. Drift check across regimes.</summary>
     public bool RecoversF82AtZeroHeating(double gammaCool, int N) =>
         Math.Abs(AmplitudeDampingNormUniform(gammaCool, 0.0, N) -
-                 _f82.T1DissipatorNormUniform(gammaCool, N)) < 1e-12;
+                 F82.T1DissipatorNormUniform(gammaCool, N)) < 1e-12;
 
     /// <summary>Detailed balance regime: γ_↓ = γ_↑ → violation = 0 (T → ∞ limit
     /// where thermal symmetry cancels the palindrome break).</summary>
@@ -149,7 +148,7 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim
     /// estimator; F84's reading is "vacuum-amplitude-damping rate"
     /// (T-independent), F82's reading is "T1 rate" (only valid at T = 0).</summary>
     public double EstimateNetCoolingFromViolation(double f81Violation, int N) =>
-        _f82.EstimateT1FromViolation(f81Violation, N);
+        F82.EstimateT1FromViolation(f81Violation, N);
 
     public F84ThermalAmplitudeDampingPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
@@ -161,8 +160,8 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F82T1AmplitudeDampingPi2Inheritance.cs (mother claim, F82 = vacuum bath case)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f82 = f82 ?? throw new ArgumentNullException(nameof(f82));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F82 = f82 ?? throw new ArgumentNullException(nameof(f82));
     }
 
     public override string DisplayName =>

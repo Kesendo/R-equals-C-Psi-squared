@@ -56,12 +56,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F3DecayRateBoundsPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F50WeightOneDegeneracyPi2Inheritance _f50;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F50WeightOneDegeneracyPi2Inheritance F50 { get; }
 
     /// <summary>The "2" universal coefficient in F3's rate bounds. Live from
     /// Pi2DyadicLadder a_0; transitively from F50's DecayRateFactor.</summary>
-    public double RateCoefficient => _ladder.Term(0);
+    public double RateCoefficient => Ladder.Term(0);
 
     /// <summary>F3's min decay rate: 2·γ for pure-sector w=1 modes.
     /// Identical to F50's universal weight-1 eigenvalue position |Re(λ)|.</summary>
@@ -101,7 +101,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim
     /// position (= |EigenvaluePosition(γ)|).</summary>
     public bool MinRateMatchesF50(double gammaZero)
     {
-        return Math.Abs(MinRate(gammaZero) - Math.Abs(_f50.EigenvaluePosition(gammaZero))) < 1e-12;
+        return Math.Abs(MinRate(gammaZero) - Math.Abs(F50.EigenvaluePosition(gammaZero))) < 1e-12;
     }
 
     /// <summary>Drift check: bandwidth = max − min.</summary>
@@ -137,8 +137,8 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f50 = f50 ?? throw new ArgumentNullException(nameof(f50));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F50 = f50 ?? throw new ArgumentNullException(nameof(f50));
     }
 
     public override string DisplayName =>
@@ -155,7 +155,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim
                 summary: "min rate = 2γ (w=1 pure); max rate = 2(N−1)γ (w=N−1 paired); bandwidth = 2(N−2)γ; XOR boundary 2Nγ (above max); corollary of α = 2γ·⟨n_XY⟩");
             yield return InspectableNode.RealScalar("RateCoefficient (= a_0 = 2)", RateCoefficient);
             yield return new InspectableNode("F50 inheritance (min rate)",
-                summary: $"F3's min rate = 2γ IS F50's |EigenvaluePosition|. F50.DecayRateFactor (= {_f50.DecayRateFactor}) is the same '2' as F3's RateCoefficient.");
+                summary: $"F3's min rate = 2γ IS F50's |EigenvaluePosition|. F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F3's RateCoefficient.");
             yield return new InspectableNode("F43 sibling (XOR boundary)",
                 summary: "F3's XOR boundary 2Nγ IS F43's XorSectorRate(N, γ); both anchor the same a_0·N·γ structure at the high end of the rate spectrum");
             yield return new InspectableNode("hybrid-mode caveat",

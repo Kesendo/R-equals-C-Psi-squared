@@ -40,8 +40,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F39DetPiPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4^{N−1}" factor in F39's exponent. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(<c>3−2N</c>) on the dyadic halving
@@ -49,7 +49,7 @@ public sealed class F39DetPiPi2Inheritance : Claim
     public double PowerNMinus1Factor(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F39 requires N ≥ 1.");
-        return _ladder.Term(LadderIndexFor(N));
+        return Ladder.Term(LadderIndexFor(N));
     }
 
     /// <summary>The Pi2 ladder index where the F39 power factor lands: <c>3 − 2N</c>.
@@ -89,8 +89,8 @@ public sealed class F39DetPiPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

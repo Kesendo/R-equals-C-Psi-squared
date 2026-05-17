@@ -53,10 +53,9 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F90F86C2BridgeIdentity : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89TopologyOrbitClosure _f89;
+    public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     /// <summary>Convention scale factor: F89's J equals <see cref="JConventionFactor"/> × F86's J,
     /// hence Q_F89 = Q_F86 / <see cref="JConventionFactor"/>. Equals 2 because F86 uses
     /// H_b = (J/2)·(XX+YY) while F89 uses H = J·(XX+YY) (no 1/2).</summary>
@@ -100,8 +99,8 @@ public sealed class F90F86C2BridgeIdentity : Claim
                "compute/RCPsiSquared.Core/Resonance/ResonanceScan.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>

@@ -51,10 +51,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F74ChromaticityPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The "2" in pure rate 2γ₀·HD. Live from Pi2DyadicLadder a_0.</summary>
-    public double RateCoefficient => _ladder.Term(0);
+    public double RateCoefficient => Ladder.Term(0);
 
     /// <summary>Chromaticity c(n, N) = min(n, N−1−n) + 1.</summary>
     public int Chromaticity(int n, int N)
@@ -113,7 +112,7 @@ public sealed class F74ChromaticityPi2Inheritance : Claim
                "experiments/Q_SCALE_THREE_BANDS.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

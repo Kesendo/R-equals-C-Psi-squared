@@ -107,8 +107,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (dominant-outcome closed form, the 4/3 unit that F96 elaborates).</para></summary>
 public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The setup this claim applies to (specific to F94's setup;
     /// inherits N = 4).</summary>
     public const int N = 4;
@@ -212,7 +211,7 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs (Q-independence is the operational signature; informational, not typed parent)")
     {
         F94 = f94 ?? throw new ArgumentNullException(nameof(f94));
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

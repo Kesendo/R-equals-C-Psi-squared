@@ -43,8 +43,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly Pi2OperatorSpaceMirrorClaim _mirror;
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4^N" factor in F49b. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1−2N</c>) on the dyadic halving
@@ -53,7 +53,7 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
     public double FourPowerNFactor(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F49b requires N ≥ 1.");
-        return _ladder.Term(LadderIndexFor(N));
+        return Ladder.Term(LadderIndexFor(N));
     }
 
     /// <summary>The Pi2 ladder index where the F49b factor lands: <c>1 − 2N</c>.
@@ -66,7 +66,7 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
     /// operator-space dimension, no shift.</summary>
     public double MirrorPinnedFourPowerN(int N)
     {
-        var pair = _mirror.PairAt(N)
+        var pair = Mirror.PairAt(N)
             ?? throw new ArgumentOutOfRangeException(nameof(N), N,
                 $"N={N} is outside the Pi2OperatorSpaceMirror pinned table (N=1..6).");
         return pair.OperatorSpace;
@@ -84,8 +84,8 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
     }
 
     public override string DisplayName =>

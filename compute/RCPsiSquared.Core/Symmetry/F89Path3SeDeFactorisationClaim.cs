@@ -31,10 +31,9 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F89Path3SeDeFactorisationClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89TopologyOrbitClosure _f89;
+    public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
-    private readonly F89PathKAtLockMechanismClaim _atLock;
-
+    public F89PathKAtLockMechanismClaim AtLock { get; }
     /// <summary>Dimension of the S_2-symmetric sub-block of the (SE, DE) sector
     /// for path-3 (N_block=4): 12.</summary>
     public const int S2SymSubBlockDimension = 12;
@@ -83,8 +82,8 @@ public sealed class F89Path3SeDeFactorisationClaim : Claim
                "simulations/_f89_path3_octic_factor_test.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
-        _f89 = f89 ?? throw new ArgumentNullException(nameof(f89));
-        _atLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
+        F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
+        AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));
     }
 
     public override string DisplayName =>

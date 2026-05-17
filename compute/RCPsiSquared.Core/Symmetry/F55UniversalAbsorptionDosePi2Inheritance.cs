@@ -46,11 +46,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F50WeightOneDegeneracyPi2Inheritance _f50;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F50WeightOneDegeneracyPi2Inheritance F50 { get; }
     /// <summary>The "2" coefficient in rate_min = 2γ (transitively from F50).</summary>
-    public double RateMinCoefficient => _ladder.Term(0);
+    public double RateMinCoefficient => Ladder.Term(0);
 
     /// <summary>K_death = ln(10) ≈ 2.303; universal absorption dose for 99%
     /// absorption of the slowest mortal mode. Independent of N, γ, topology.</summary>
@@ -92,7 +91,7 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim
     /// |Re(λ)| = 2γ. Verifies the F50 → F55 typed inheritance is live.</summary>
     public bool RateMinMatchesF50(double gammaZero)
     {
-        return Math.Abs(RateMinCoefficient * gammaZero - Math.Abs(_f50.EigenvaluePosition(gammaZero))) < 1e-12;
+        return Math.Abs(RateMinCoefficient * gammaZero - Math.Abs(F50.EigenvaluePosition(gammaZero))) < 1e-12;
     }
 
     public F55UniversalAbsorptionDosePi2Inheritance(
@@ -105,8 +104,8 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f50 = f50 ?? throw new ArgumentNullException(nameof(f50));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F50 = f50 ?? throw new ArgumentNullException(nameof(f50));
     }
 
     public override string DisplayName =>
@@ -124,7 +123,7 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim
             yield return InspectableNode.RealScalar("RateMinCoefficient (= a_0 = 2 via F50)", RateMinCoefficient);
             yield return InspectableNode.RealScalar("KDeath (= ln(10))", KDeath);
             yield return new InspectableNode("F50 inheritance",
-                summary: $"F55's rate_min = 2γ IS F50's universal weight-1 eigenvalue position; F50.DecayRateFactor (= {_f50.DecayRateFactor}) is the same '2' as F55's RateMinCoefficient");
+                summary: $"F55's rate_min = 2γ IS F50's universal weight-1 eigenvalue position; F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F55's RateMinCoefficient");
             yield return new InspectableNode("immortal modes",
                 summary: "N+1 modes have rate = 0 (purely {I, Z} Pauli content, invisible to Z-dephasing); complete absorption impossible while F1 palindrome holds; the cavity always retains light");
             yield return new InspectableNode("verified at γ=0.05",

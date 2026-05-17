@@ -69,13 +69,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (mother claim).</para></summary>
 public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F81Pi2Inheritance _f81;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F81Pi2Inheritance F81 { get; }
     /// <summary>The "2" coefficient in F82's <c>−2·L_{H_odd} − 2·D_{T1, odd}</c>.
     /// Same anchor as F81's <c>−2·L_{H_odd}</c>; live from
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>.</summary>
-    public double Coefficient2 => _ladder.Term(0);
+    public double Coefficient2 => Ladder.Term(0);
 
     /// <summary>The <c>2^(N−1)</c> scaling factor in <c>‖D_{T1, odd}‖</c>.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(<c>2 − N</c>) =
@@ -83,7 +82,7 @@ public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim
     public double ScalingFactor(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F82 requires N ≥ 2.");
-        return _ladder.Term(LadderIndexForScaling(N));
+        return Ladder.Term(LadderIndexForScaling(N));
     }
 
     /// <summary>The Pi2 ladder index where the F82 scaling factor lands:
@@ -151,8 +150,8 @@ public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F81Pi2Inheritance.cs (mother claim, recovers at γ_T1=0)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f81 = f81 ?? throw new ArgumentNullException(nameof(f81));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F81 = f81 ?? throw new ArgumentNullException(nameof(f81));
     }
 
     public override string DisplayName =>

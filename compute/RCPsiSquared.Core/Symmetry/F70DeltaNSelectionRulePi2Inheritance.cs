@@ -53,18 +53,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F70DeltaNSelectionRulePi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The maximum <c>|ΔN|</c> visible to single-site partial trace:
     /// <c>1</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(1) = <c>a_1</c>
     /// = self-mirror pivot (same anchor as F77's MM saturation).</summary>
-    public double SingleSiteMaxDeltaN => _ladder.Term(1);
+    public double SingleSiteMaxDeltaN => Ladder.Term(1);
 
     /// <summary>The maximum <c>|ΔN|</c> visible to pair-local partial trace:
     /// <c>2</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>
     /// = polynomial root d (same anchor as F1, F66 upper pole, F86 Q_EP,
     /// F60 numerator).</summary>
-    public double PairMaxDeltaN => _ladder.Term(0);
+    public double PairMaxDeltaN => Ladder.Term(0);
 
     /// <summary>The maximum <c>|ΔN|</c> visible to k-local partial trace:
     /// <c>k</c>. For k = 1 returns SingleSiteMaxDeltaN, for k = 2 returns
@@ -124,7 +123,7 @@ public sealed class F70DeltaNSelectionRulePi2Inheritance : Claim
                "simulations/c1_sector_kernel.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>

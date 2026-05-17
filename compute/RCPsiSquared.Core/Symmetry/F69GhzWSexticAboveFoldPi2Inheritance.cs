@@ -75,13 +75,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (W-state sibling, pure-state below fold).</para></summary>
 public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
 {
-    private readonly Pi2DyadicLadderClaim _ladder;
-    private readonly F60GhzBornBelowFoldPi2Inheritance _f60;
-    private readonly F62WStateBornBelowFoldPi2Inheritance _f62;
-
+    public Pi2DyadicLadderClaim Ladder { get; }
+    public F60GhzBornBelowFoldPi2Inheritance F60 { get; }
+    public F62WStateBornBelowFoldPi2Inheritance F62 { get; }
     /// <summary>The 1/4 fold position. Live from Pi2DyadicLadder a_3.
     /// Same anchor that F60 and F62 use as their FoldPosition.</summary>
-    public double FoldPosition => _ladder.Term(3);
+    public double FoldPosition => Ladder.Term(3);
 
     /// <summary>Sextic coefficients for P(x) = 2900x⁶ − 8060x⁵ + 4211x⁴ + 3832x³ − 2428x² − 512x + 300,
     /// the integer-coefficient minimal polynomial for x = α²_opt. Irreducible over ℚ;
@@ -108,10 +107,10 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
 
     /// <summary>True iff the F60 GHZ baseline at N is strictly below the fold (sibling check).
     /// F69 requires both F60 and F62 below to make the "mix lifts above" finding non-trivial.</summary>
-    public bool GhzBaselineBelowFold(int N) => _f60.CPsiAtZeroForGhz(N) < FoldPosition;
+    public bool GhzBaselineBelowFold(int N) => F60.CPsiAtZeroForGhz(N) < FoldPosition;
 
     /// <summary>True iff the F62 W baseline at N is strictly below the fold (sibling check).</summary>
-    public bool WBaselineBelowFold(int N) => _f62.CPsiAtZeroForWState(N) < FoldPosition;
+    public bool WBaselineBelowFold(int N) => F62.CPsiAtZeroForWState(N) < FoldPosition;
 
     /// <summary>The GHZ+W superposition mechanism is N=3-specific (verified by enumeration
     /// at N=4..8). The same family peaks at 0.167 (N=4), 0.146 (N=5), 0.134 (N=6),
@@ -146,9 +145,9 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
                "compute/RCPsiSquared.Core/Symmetry/F62WStateBornBelowFoldPi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, typed)")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        _f60 = f60 ?? throw new ArgumentNullException(nameof(f60));
-        _f62 = f62 ?? throw new ArgumentNullException(nameof(f62));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        F60 = f60 ?? throw new ArgumentNullException(nameof(f60));
+        F62 = f62 ?? throw new ArgumentNullException(nameof(f62));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
 
@@ -169,7 +168,7 @@ public sealed class F69GhzWSexticAboveFoldPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("OptimumPairCpsi", OptimumPairCpsi);
             yield return InspectableNode.RealScalar("LiftRatioAboveFold", LiftRatioAboveFold);
             yield return new InspectableNode("F60/F62 siblings below fold",
-                summary: $"F60 GHZ_3: CΨ(0) = 1/(2³-1) = {_f60.CPsiAtZeroForGhz(3):F6} < 1/4; F62 W_3: CΨ(0) = 10/81 = {_f62.CPsiAtZeroForWState(3):F6} < 1/4. Both below; mix lifts above (mechanism: interference via L1-off √6·α·√(1-α²) cross term).");
+                summary: $"F60 GHZ_3: CΨ(0) = 1/(2³-1) = {F60.CPsiAtZeroForGhz(3):F6} < 1/4; F62 W_3: CΨ(0) = 10/81 = {F62.CPsiAtZeroForWState(3):F6} < 1/4. Both below; mix lifts above (mechanism: interference via L1-off √6·α·√(1-α²) cross term).");
             yield return new InspectableNode("3-tangle near-GHZ at optimum",
                 summary: $"τ_ABC = {ThreeTangleAtOptimum} (close to 1 = pure GHZ); pair concurrence C(A,B) = {PairConcurrenceAtOptimum} ≈ 0 (no bipartite entanglement, all tripartite)");
             yield return new InspectableNode("N=3 unique",
