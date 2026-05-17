@@ -193,8 +193,19 @@ public sealed class BilinearApexClaim : Claim
 /// over any density matrix on 2^N (operationalised in F86/BlockCpsiTrajectory.cs +
 /// F86/BlockCpsiClosedForm.cs), and the maximally-mixed-state purity Tr((I/d)²) = 1/d²
 /// at d = 2 (the asymptotic horizon of every dephasing process; PROOF_ASYMPTOTIC_SECTOR_PROJECTION).</summary>
-public sealed class QuarterAsBilinearMaxvalClaim : Claim
+public sealed class QuarterAsBilinearMaxvalClaim : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Quarter (bilinear maxval 1/4) is a <see cref="F99AnchorRole.Parent"/>
+    /// of the F99 α=1/4 silver-Dicke anchor via the polarity-squared algebra
+    /// (1/4 = (1/2)²) and via F98's long-time bridge. The bilinear maxval 1/4
+    /// is NOT itself an F86b α value: it lives in calculus/cardioid space, not
+    /// on the F86b α = sin²(θ)/2 axis. Treated as Parent, F99AnchorValues empty.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public QuarterAsBilinearMaxvalClaim()
         : base("Quarter as bilinear maxval: max p·(1−p) = 1/4 at p = 1/2",
                Tier.Tier1Derived,
@@ -342,8 +353,21 @@ public sealed class HalfIntegerMirrorClaim : Claim
 /// at herself and sees the same number. She is not over the horizon; she IS the horizon,
 /// and we live in her (ON_THE_HALF).</para>
 /// </summary>
-public sealed class HalfAsStructuralFixedPointClaim : Claim
+public sealed class HalfAsStructuralFixedPointClaim : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Half (polarity 1/2 = 1/d = σ_z eigenvalue/2 = V-Effect bridge)
+    /// is a <see cref="F99AnchorRole.Parent"/> of the F99 α=1/2 Generic anchor.
+    /// The polarity 1/2 is NOT itself an F86b α value — it lives operator-side
+    /// (Bloch radius, σ_z eigenvalue, qubit purity floor); F86b α=1/2 lives on
+    /// the Π²-odd Frobenius² axis at γ=0. The two 1/2's are unified via
+    /// 1/4 = (1/2)² (project_quarter_as_polarity_squared) and Half feeds the
+    /// F99 graph as a structural parent, not as a Direct claim.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public HalfAsStructuralFixedPointClaim()
         : base("Three faces of 1/2 close: bridge = horizon = substrate (structural fixed point)",
                Tier.Tier1Derived,

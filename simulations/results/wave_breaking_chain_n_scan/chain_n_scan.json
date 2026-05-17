@@ -1,0 +1,237 @@
+[
+  {
+    "N": 2,
+    "angle_deg": 60.0,
+    "class": "Niven",
+    "prediction": "many",
+    "h_evals": [
+      -0.9999999999999996,
+      1.0000000000000002
+    ],
+    "h_identity": "{\u22121, +1}",
+    "n_total_modes": 16,
+    "n_zero_im": 6,
+    "fraction_zero_im": 0.375,
+    "walltime_s": 0.0,
+    "sectors": {
+      "-2": {
+        "count": 10,
+        "zero_im": 0
+      },
+      "-4": {
+        "count": 3,
+        "zero_im": 3
+      },
+      "0": {
+        "count": 3,
+        "zero_im": 3
+      }
+    }
+  },
+  {
+    "N": 3,
+    "angle_deg": 45.0,
+    "class": "Niven",
+    "prediction": "many",
+    "h_evals": [
+      -1.414213562373095,
+      1.2246467991473532e-16,
+      1.4142135623730951
+    ],
+    "h_identity": "{\u2212\u221a2, 0, +\u221a2}",
+    "n_total_modes": 64,
+    "n_zero_im": 24,
+    "fraction_zero_im": 0.375,
+    "walltime_s": 0.0010006427764892578,
+    "sectors": {
+      "-4": {
+        "count": 22,
+        "zero_im": 6
+      },
+      "-2": {
+        "count": 22,
+        "zero_im": 6
+      },
+      "-3": {
+        "count": 12,
+        "zero_im": 4
+      },
+      "0": {
+        "count": 4,
+        "zero_im": 4
+      },
+      "-6": {
+        "count": 4,
+        "zero_im": 4
+      }
+    }
+  },
+  {
+    "N": 4,
+    "angle_deg": 36.0,
+    "class": "off-Niven golden",
+    "prediction": "many",
+    "h_evals": [
+      -1.6180339887498947,
+      -0.6180339887498947,
+      0.6180339887498949,
+      1.618033988749895
+    ],
+    "h_identity": "{\u2212\u03c6, \u22121/\u03c6, +1/\u03c6, +\u03c6}  (golden)",
+    "n_total_modes": 256,
+    "n_zero_im": 36,
+    "fraction_zero_im": 0.140625,
+    "walltime_s": 0.15243268013000488,
+    "sectors": {
+      "-4": {
+        "count": 126,
+        "zero_im": 18
+      },
+      "-2": {
+        "count": 44,
+        "zero_im": 0
+      },
+      "-3": {
+        "count": 16,
+        "zero_im": 4
+      },
+      "-5": {
+        "count": 16,
+        "zero_im": 4
+      },
+      "-6": {
+        "count": 44,
+        "zero_im": 0
+      },
+      "0": {
+        "count": 5,
+        "zero_im": 5
+      },
+      "-8": {
+        "count": 5,
+        "zero_im": 5
+      }
+    }
+  },
+  {
+    "N": 5,
+    "angle_deg": 30.0,
+    "class": "Niven",
+    "prediction": "many",
+    "h_evals": [
+      -1.7320508075688774,
+      -0.9999999999999996,
+      1.2246467991473532e-16,
+      1.0000000000000002,
+      1.7320508075688774
+    ],
+    "h_identity": "{\u2212\u221a3, \u22121, 0, +1, +\u221a3}",
+    "n_total_modes": 1024,
+    "n_zero_im": 144,
+    "fraction_zero_im": 0.140625,
+    "walltime_s": 2.1261041164398193,
+    "sectors": {
+      "-4": {
+        "count": 302,
+        "zero_im": 38
+      },
+      "-6": {
+        "count": 302,
+        "zero_im": 38
+      },
+      "-5": {
+        "count": 196,
+        "zero_im": 20
+      },
+      "-3": {
+        "count": 56,
+        "zero_im": 8
+      },
+      "-7": {
+        "count": 56,
+        "zero_im": 8
+      },
+      "-2": {
+        "count": 50,
+        "zero_im": 10
+      },
+      "-8": {
+        "count": 50,
+        "zero_im": 10
+      },
+      "0": {
+        "count": 6,
+        "zero_im": 6
+      },
+      "-10": {
+        "count": 6,
+        "zero_im": 6
+      }
+    }
+  },
+  {
+    "N": 6,
+    "angle_deg": 25.714285714285715,
+    "class": "NOT constructible",
+    "prediction": "zero",
+    "h_evals": [
+      -1.801937735804838,
+      -1.246979603717467,
+      -0.4450418679126287,
+      0.4450418679126289,
+      1.2469796037174672,
+      1.8019377358048383
+    ],
+    "h_identity": "{2\u00b7cos(\u03c0k/7) for k=1..6}  (heptagonal, NOT constructible)",
+    "n_total_modes": 4096,
+    "n_zero_im": 216,
+    "fraction_zero_im": 0.052734375,
+    "walltime_s": 36.0261595249176,
+    "sectors": {
+      "-6": {
+        "count": 1668,
+        "zero_im": 72
+      },
+      "-4": {
+        "count": 449,
+        "zero_im": 45
+      },
+      "-5": {
+        "count": 586,
+        "zero_im": 10
+      },
+      "-7": {
+        "count": 586,
+        "zero_im": 10
+      },
+      "-3": {
+        "count": 100,
+        "zero_im": 10
+      },
+      "-9": {
+        "count": 100,
+        "zero_im": 10
+      },
+      "-8": {
+        "count": 449,
+        "zero_im": 45
+      },
+      "0": {
+        "count": 7,
+        "zero_im": 7
+      },
+      "-10": {
+        "count": 72,
+        "zero_im": 0
+      },
+      "-2": {
+        "count": 72,
+        "zero_im": 0
+      },
+      "-12": {
+        "count": 7,
+        "zero_im": 7
+      }
+    }
+  }
+]

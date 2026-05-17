@@ -60,7 +60,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/carbon/DEPTH_3_ANCHOR_DERIVED.md</c>,
 /// <c>simulations/carbon/depth_3_anchor_derivation.py</c>.</para>
 /// </summary>
-public sealed class CanonicalTrigAnchorPi2Inheritance : Claim
+public sealed class CanonicalTrigAnchorPi2Inheritance : Claim, IF99AnchorBearing
 {
     /// <summary>The 90° anchor (Generic Dicke at γ = 0). Typed parent.</summary>
     public HalfAsStructuralFixedPointClaim Half { get; }
@@ -110,6 +110,16 @@ public sealed class CanonicalTrigAnchorPi2Inheritance : Claim
             [60] = 3.0 / 8.0,
             [90] = 1.0 / 2.0,
         };
+
+    /// <inheritdoc />
+    /// <remarks>F99 is the <see cref="F99AnchorRole.Covers"/> root claim: it
+    /// covers ALL five canonical-angle dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}
+    /// in one theorem via α = sin²(θ)/2.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Covers;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } =
+        new[] { 0.0, 1.0 / 8.0, 1.0 / 4.0, 3.0 / 8.0, 1.0 / 2.0 };
 
     public CanonicalTrigAnchorPi2Inheritance(
         HalfAsStructuralFixedPointClaim half,

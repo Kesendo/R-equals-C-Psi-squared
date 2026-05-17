@@ -51,8 +51,22 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Anchors: <c>docs/EXCLUSIONS.md</c> (d²−2d=0) +
 /// <c>reflections/ON_THE_HALF.md</c> (the half as anchor + ladder) +
 /// <c>docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md</c> (1/4 = (1/2)²).</para></summary>
-public sealed class Pi2DyadicLadderClaim : Claim
+public sealed class Pi2DyadicLadderClaim : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>The Pi2 dyadic ladder {2, 1, 1/2, 1/4, 1/8, ...} numerically
+    /// CONTAINS the F99 anchor values 1/8, 1/4, 1/2, but as ladder terms not
+    /// as F86b α-axis statements. Treated as
+    /// <see cref="F99AnchorRole.Parent"/>: feeds the inheritance graph
+    /// structurally (the F86b α values land on the dyadic ladder by
+    /// construction) without being a Direct claim about the F86b α-axis.
+    /// F99 itself is the Direct claim that places the ladder rungs at trig
+    /// angles via sin²(θ)/2.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     /// <summary>Pinned table of indices where the ladder term has a typed Tier1Derived
     /// Claim in the Pi2 foundation. Multiple entries per index are allowed when the same
     /// ladder term carries multiple co-existing structural roles (currently: n=0 has two,

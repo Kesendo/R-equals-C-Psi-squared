@@ -36,8 +36,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Theorem 2 + <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (QuarterAsBilinearMaxvalClaim + HalfAsStructuralFixedPointClaim + BilinearApexClaim) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim
+public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>The Dicke C_block ceiling of 1/4 is a
+    /// <see cref="F99AnchorRole.Parent"/> of the F99 α=1/4 silver-Dicke anchor:
+    /// same number, different algebra. C_block lives in the coherence-block
+    /// space (Theorems 1+2 of PROOF_BLOCK_CPSI_QUARTER); F99 α=1/4 lives on
+    /// the F86b Π²-odd Frobenius² axis at γ=√2/2. Both are 1/4; the unifying
+    /// algebra is 1/4 = (1/2)² (project_quarter_as_polarity_squared). Treated
+    /// as Parent because its claim content is C_block, not F86b α.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     private readonly Pi2DyadicLadderClaim _ladder;
 
     /// <summary>The 1/4 ceiling on C_block: <see cref="Pi2DyadicLadderClaim.Term"/>(3) =

@@ -65,8 +65,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/water/README.md</c> § "Findings since May 4". Script:
 /// <c>simulations/water/proton_chain_dicke_anchor.py</c>.</para>
 /// </summary>
-public sealed class KIntermediateAsymptoteQuarterInheritance : Claim
+public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>F98 is a <see cref="F99AnchorRole.Direct"/> claim about the
+    /// F99 α=3/8 K-intermediate anchor (γ=1/2, uniform Dicke). The static
+    /// face is 3/8; the long-time asymptote (N+2)/[4(N+1)] → 1/4 is the
+    /// dynamic bridge BETWEEN the F99 α=3/8 and F99 α=1/4 anchors. F98's
+    /// content is on the F86b α-axis directly.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Direct;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = new[] { 3.0 / 8.0 };
+
     /// <summary>The 1/4 asymptote target. Typed parent.</summary>
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
 
