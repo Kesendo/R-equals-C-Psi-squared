@@ -2692,6 +2692,60 @@ arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 
 **Anchor:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`simulations/_angle_at_zero_tier1_candidate.py`](../simulations/_angle_at_zero_tier1_candidate.py). Reflections (2026-05-16 chain): [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) (the angle's emergence above the discriminant zero), [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (Lindblad specialization θ = arctan(Q)), [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (polarity-fold geometry of the b² = 1/4 threshold). Februar precursor (Mandelbrot-specific case): [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Hardware Confirmation: `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (Kingston Heron r2 2026-05-16; complex-CΨ angle actively steerable via RZ injection at rate Ω; 3 of 4 conditions, residuals 6.81° to 15.69°). Companion magnitude-side closed form: [F94](#f94) Δ_|00⟩ = (4/3)·Q²·K³.
 
+### F96. Born deviation subdominant-outcome slopes: |0+0+⟩ N=4 Heisenberg + Z-deph, pair (0,2) (Tier 1 derived, bit-exact Dyson + unitary matrix elements; 2026-05-17)
+
+**For the subdominant outcomes of pair (0,2) of |0+0+⟩ N=4 under the same setup as [F94](#f94) (Heisenberg ring + Z-dephasing), the per-outcome Born-rule deviation in the deep perturbative regime is linear in K and Q-independent:**
+
+    Δ_|01⟩(K) = Δ_|10⟩(K) = −(16/9) · K = −(4/3)² · K + O(higher)
+    Δ_|11⟩(K)             = −(8/3)  · K = −2·(4/3) · K + O(higher)
+
+with K = γt the Universal-Carrier observable.
+
+**Combined per-outcome table** (F94 + F96):
+
+| Outcome | Closed form | P_u(t) order | leading γ¹ Dyson order |
+|---|---|---|---|
+| \|00⟩ | Δ = +(4/3) · Q²·K³ | t⁰ (= 1) | sym₃ (J², t³) |
+| \|01⟩ | Δ = −(4/3)² · K | t² (= J²t²·3/8) | sym₃ (J², t³) |
+| \|10⟩ | Δ = −(4/3)² · K | t² (= J²t²·3/8) | sym₃ (J², t³) |
+| \|11⟩ | Δ = −2·(4/3) · K | t⁴ (= J⁴t⁴·1/16) | sym₅ (J⁴, t⁵) |
+
+**All four closed forms are simple algebraic expressions in F94's 4/3 anchor.**
+
+**Universal subdominant slope formula:** for an outcome with leading unitary P_u(t) ≈ J^{2k} t^{2k} / (2k)! · U^{(i)}_{2k} and lowest non-vanishing γ¹ Dyson at order (2k+1):
+
+    slope_i = M_{2k+1}^{(i)} / [(2k+1) · U_{2k}^{(i)}]
+
+where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)} = ⟨i|_pair Tr_{1,3}[L_h^{2k} · ρ_0]|i⟩_pair (h := H/J). The J^{2k} factors cancel automatically → Q-independence; only γt = K survives.
+
+**Bit-exact derivation:**
+
+    |01⟩: M_3^{(01)} = −4,  U_2^{(01)} = 3/4  →  slope = −4 / (3 · 3/4) = −16/9
+    |10⟩: (same by 0 ↔ 2 site-permutation symmetry)
+    |11⟩: M_3^{(11)} = 0 AND U_2^{(11)} = 0 (lower-order vanishes)
+           M_5^{(11)} = −20,  U_4^{(11)} = 3/2  →  slope = −20 / (5 · 3/2) = −8/3
+
+**Numerical Lindblad verification:** at Q = 50, γ = 0.01 the slope-per-K converges to the theoretical values as K → 0:
+
+| outcome | K | slope/K | theory |
+|---|---|---|---|
+| \|01⟩ | 0.005 | −1.748 | −1.778 = −16/9 |
+| \|11⟩ | 0.001 | −2.662 | −2.667 = −8/3 |
+
+**Structural reading:** the F94 unit 4/3 = a_{−1}/3 generates the entire 4-outcome table for this setup. The dominant gets +1·(4/3) at order Q²K³; the singly-subdominant degenerate pair gets −(4/3)² at order K; the doubly-subdominant gets −2·(4/3) at order K. The signs are all reading-pattern: dominant **gains** probability beyond unitary (positive Δ), all subdominants **lose** probability beyond unitary (negative Δ). The "2" in Δ_|11⟩ plausibly counts the two independent flip channels (q_0 and q_2) required to populate |11⟩; interpretive, not derived.
+
+**Cross-outcome universality:** the ratio M_3 / U_2 equals −16/3 for both the dominant (|00⟩: 8 / (−3/2)) and the singly-subdominant (|01⟩: −4 / (3/4)) outcomes — the signs of M_3 and U_2 flip together, leaving the ratio invariant. This is a non-trivial structural identity of the Heisenberg + Z-dephasing dynamics at the pair (0,2) reduction; whether it generalizes to other initial states / Hamiltonians / dissipators is open.
+
+**Anchoring to typed Pi2-Foundation:**
+
+| F96 element | Typed Pi2 anchor |
+|---|---|
+| 4/3 building block | F94's `FourFactor / ThreeDenominator` (a_{−1} = 4 dyadic ladder, 3 from Taylor reduction) |
+| Linear-K Q-independence | `UniversalCarrierClaim` (the Universal Carrier signature for subdominant outcomes) |
+| Site-permutation symmetry (|01⟩ ≡ |10⟩) | F1 / F71 spatial mirror |
+
+**Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/_born_rule_subdominant_dyson.py`](../simulations/_born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
