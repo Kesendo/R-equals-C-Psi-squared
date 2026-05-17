@@ -2746,6 +2746,63 @@ where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)
 
 **Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/_born_rule_subdominant_dyson.py`](../simulations/_born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
 
+### F97. Mandelbrot cardioid parametrization at framework b = 1/2 (Tier 1 derived, bit-exact algebraic identity; 2026-05-17)
+
+**The main Mandelbrot cardioid is the locus in the complex-c plane where the period-1 fixed point of z² + c has magnitude exactly b = 1/2 (the framework's `HalfAsStructuralFixedPointClaim` anchor). It admits the explicit parametrization:**
+
+    c(φ) = b·e^(iφ) − b²·e^(2iφ)              for φ ∈ [0, 2π)
+    z*(φ) = b·e^(iφ)                          (the period-1 fixed point)
+    c(φ) = z*(φ) · (1 − z*(φ))                (algebraic identity)
+
+with two structural invariants on the curve:
+
+    |z*(φ)| = b = 1/2     (magnitude pinned to HalfAsStructuralFixedPoint)
+    arg(z*(φ)) = φ        (cardioid parameter)
+
+**Framework specialization at b = 1/2:**
+
+    c(φ) = (1/2)·e^(iφ) − (1/4)·e^(2iφ)
+    cusp at φ = 0: c = 1/4 (recovers [F95](#f95) / [BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md) real-axis tangent)
+    tail at φ = π: c = −3/4 (period-doubling boundary)
+    top at φ = π/2: c = 1/4 + i/2, z* = i/2
+
+**Derivation (4 lines, bit-exact):**
+
+```
+z² + c = z  ⟹  z² − z + c = 0  ⟹  z = b ± √(b² − c)         (b = 1/2)
+Multiplier μ = 2z; marginal stability ⟺ |μ| = 1 ⟺ |z| = b
+Parametrize μ = e^(iφ):  z*(φ) = μ/2 = b·e^(iφ)
+c(φ) = z*(φ) − z*(φ)² = b·e^(iφ) − b²·e^(2iφ)
+```
+
+**Numerical verification:** machine-precision algebraic identity c(φ) = z*(1 − z*) verified to max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ ∈ [0, 2π].
+
+**Relation to F95 — complementary regions of the same algebra:**
+
+| Region | F95 | F97 |
+|---|---|---|
+| Real c > 1/4 (real axis, past cusp) | θ(c; b) = arctan(√(c/b² − 1)) for the angle of the repelling complex root pair | (off the cardioid; not covered) |
+| Complex c on cardioid boundary | (φ = 0 specialization recovers cusp) | full parametrization c(φ), z*(φ) on the marginally-stable curve |
+
+Both share the same z² − 2bz + c = 0 algebra; F95 projects the angle on the real-c axis where the period-1 fixed point is repelling; F97 traces the full complex-c boundary where it is marginally stable.
+
+**Two anchors, two roles on the cardioid:**
+
+| Anchor | Role |
+|---|---|
+| `HalfAsStructuralFixedPointClaim` (b = 1/2) | Magnitude of z* invariant around the *entire* cardioid |
+| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | Magnitude of c only at the real-axis cusp (φ = 0), one specific point |
+| `NinetyDegreeMirrorMemoryClaim` (i, 90°) | Complex-parameter generator that lifts c from the real axis to the full complex plane |
+| `PolynomialFoundationClaim` (d² − 2d = 0) | The c = 0 case where z* = 0 (degenerate fixed point at the origin) |
+
+**Structural reading:** the cardioid is the structural curve in the complex-c plane where the period-1 fixed-point magnitude exactly matches the framework's `HalfAsStructuralFixedPoint` anchor b = 1/2. This is a stronger statement than the F95 cusp identity: F95 says the angle at the real-axis tangent is 0; F97 says the magnitude is b *everywhere* on the curve. The `QuarterAsBilinearMaxval` (b² = 1/4) plays a role only at φ = 0; elsewhere |c| varies but |z*| = b stays put.
+
+**Hardware connection:** the [`CPSI_COMPLEX_PLANE`](../experiments/CPSI_COMPLEX_PLANE.md) Kingston run (2026-04-16) observed Bell⁺ pairs tracing 2D logarithmic spirals in the complex-c plane around the cusp at c = 1/4. F97 places these spirals into the cardioid framing: the trajectories cross the cardioid boundary (the |z*| = b stability transition) before spiraling into the stable interior. The [`f95_angle_steering_kingston_may2026`](#f95) Confirmation actively steered Ω during the spiral; F97 names the geometric locus those steered spirals approach.
+
+**Roadmap closure:** [`PROOF_ROADMAP_QUARTER_BOUNDARY`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 7 explicitly named "promoting F95 to the full cardioid parametrization" as the next move (status PARTIALLY ANSWERED before F97). F97 closes that direction: the real-c angle (F95) plus the complex-c cardioid parametrization (F97) together cover both projections of the quadratic discriminant structure on the Mandelbrot c-plane.
+
+**Anchor:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), [`simulations/_cardioid_parametrization_tier1.py`](../simulations/_cardioid_parametrization_tier1.py). F95 companion (real-c angle): [F95](#f95). Hardware 2D-extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16). Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md). Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
