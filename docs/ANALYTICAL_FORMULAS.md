@@ -225,12 +225,13 @@ Two independent information channels (frequency vs decay) are
 perfectly orthogonal at N=3.
 **Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
 
-### F50. Weight-1 degeneracy / conserved operator count (Tier 1, proven + verified N=2-7)
+### F50. Weight-1 degeneracy / conserved operator count (Tier 1 lower bound proven; Tier 2 verified chain N=2-7 with K_3 N=3 anomaly)
 
-    d_real(Re = -2*gamma) = 2N
+    d_real(Re = -2*gamma) = 2N    (chain at all tested N + most connected graphs)
+    d_real(Re = -2*gamma) = 8     for N=3 K_3 (triangle) instead of 2N=6  [2026-05-17 finding]
 
-Exactly 2N purely-real Liouvillian eigenvalues at the first non-zero
-grid position. These are the SWAP-invariant conserved operators:
+Lower bound `d_real >= 2N` is rigorously proven via the SWAP-invariant
+construction: there are 2N kernel operators
 
     T_c^{(a)} = Sum_j Sum_{S subset complement(j), |S|=c} sigma_a^{(j)} x Z_S x I_rest
 
@@ -243,20 +244,49 @@ Special cases:
 - T_0^{(X)} = 2*S_x, T_0^{(Y)} = 2*S_y (global SU(2) generators)
 - T_{N-1}^{(a)} = Sum_j sigma_a^{(j)} x Z_{all others} (Jordan-Wigner-type)
 
-Lower bound dim(ker) >= 2N: proven (SWAP invariance constructs 2N kernel vectors).
-Upper bound dim(ker) <= 2N: proven (triangle inequality forces each SWAP to
-fix v individually; adjacent transpositions generate S_N; one invariant vector
-per transitive orbit). Numerically verified for N = 2, ..., 7.
+**Upper bound status (2026-05-17 correction):** the original proof's
+Step 5 derivation conflated matrix-commutator `[SWAP_b, v]` with
+conjugation action `SWAP_b · v · SWAP_b^dagger - v`. These are NOT
+equivalent: `[H, v] = 0` with `H = J Sum_b (2 SWAP_b - I)` reduces to
+`Sum_b [SWAP_b, v] = 0` (matrix-commutator sum), not to
+`Sum_b (SWAP_b · v · SWAP_b^dagger - v) = 0`. The triangle-inequality
+argument requires the latter form; the proof's chain of equivalences
+has a gap. The empirical claim `= 2N` is verified for chain N=2..7 and
+for ring/star/complete at N >= 4, but **N=3 K_3 (= ring = triangle =
+complete on 3 vertices) gives 2N+2 = 8** purely-real Liouvillian
+eigenvalues at -2gamma, not 6.
 
-**Valid for:** ANY connected graph with isotropic Heisenberg coupling
-+ uniform Z-dephasing. Not only chains -- also star, ring, complete, tree.
+**The 2 K_3 anomaly extras** are weight-1 operators that commute with
+H_K_3 globally but not with each individual bond's commutator. They
+correspond to the 2-dim standard irrep of S_3 acting on the c=1 weight-1
+sector (mixed X-and-Y combinations with complex phases like
+omega = e^{2*pi*i/3}). Adding any external bond to the triangle (paw,
+bowtie, book at N=4..5) breaks the K_3-specific S_3 symmetry and
+restores the F50 count `= 2N`.
+
+**Empirical sweep summary (2026-05-17):**
+- Chain N=2..5: count = 2N (matches F50) ✓
+- Ring C_n at n >= 4: count = 2N ✓
+- Star K_{1,n-1} at n >= 3: count = 2N ✓
+- Complete K_n at n >= 4: count = 2N ✓
+- Paw / bowtie / book at N=4, 5 (graphs containing triangles): count = 2N ✓
+- **N=3 K_3 = triangle: count = 2N+2 = 8 (anomaly)** ✗
+
+**Valid for:** chain at any N + most connected graphs at N >= 4.
+**Empirically violated for:** N=3 K_3 (= ring = triangle on 3 vertices) only.
 **Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
-**Caveat:** This universality is UNIQUE to k=0 and k=1. For k >= 2,
-d_real(k) is topology-dependent (Chain < Star < Ring < Complete).
-See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
+**Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
+to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
+(Chain < Star < Ring < Complete). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
+**Open question:** what's the right upper-bound formula in terms of the
+graph automorphism group `Aut(G)` and its irrep structure on the weight-1
+Pauli-string sector? K_3 N=3 with `Aut = S_3` has 2 extras from the
+S_3 standard rep; do larger graphs with high symmetry have similar
+extras that simply land in higher-weight sectors (not weight-1)?
 **Replaces:** eigenvector analysis at the first grid position;
-numerical counting of purely-real eigenvalues.
+numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
 **Source:** [Weight-1 Degeneracy Proof](proofs/PROOF_WEIGHT1_DEGENERACY.md)
+(with 2026-05-17 K_3 N=3 anomaly + proof Step-5 gap appendix).
 
 ---
 

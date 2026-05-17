@@ -39,19 +39,37 @@ namespace RCPsiSquared.Core.Symmetry;
 /// polynomial root d. The total count 2N and the eigenvalue position −2γ share
 /// the same Pi2-Foundation anchor; F50 typifies them via two separate properties.</para>
 ///
-/// <para><b>Topology universality:</b> F50 holds for ANY connected graph with
-/// isotropic Heisenberg coupling: chain, star, ring, complete, tree. The 2N
-/// count is graph-invariant. This universality is unique to k = 0 and k = 1;
-/// for k ≥ 2, d_real(k) becomes topology-dependent (Chain &lt; Star &lt; Ring
-/// &lt; Complete; cf. WEIGHT2_KERNEL).</para>
+/// <para><b>Topology universality (with K_3 N=3 caveat, 2026-05-17):</b> F50
+/// holds for the chain at all tested N (= 2..7), for ring/star/complete at
+/// N ≥ 4, and for graphs containing triangles inside larger structure (paw at
+/// N=4, bowtie + book at N=5). The single empirically-known anomaly is
+/// <b>N = 3 K_3 (= ring = triangle = complete on 3 vertices)</b>: this case
+/// gives <c>d_real = 8 = 2N + 2</c> instead of <c>2N = 6</c>. The 2 extras
+/// are weight-1 operators in the standard 2-dim irrep of S_3 = Aut(K_3)
+/// acting on the c=1 sector; they commute with H_K_3 because the three bond
+/// commutators cancel pairwise but do NOT commute with any individual bond.
+/// The proof's Step 5 derivation has a matrix-commutator vs conjugation-
+/// action gap that explains the missed K_3 case; see
+/// <c>PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)</c> for the
+/// structural reading and the topology sweep that established the anomaly is
+/// K_3-specific. <see cref="TotalDegeneracy"/> still returns the 2N lower
+/// bound (always correct, rigorously proven); the K_3 N=3 actual count is
+/// exposed via <see cref="K3TripleN3ActualCount"/>.</para>
+///
+/// <para>For k ≥ 2, d_real(k) becomes topology-dependent
+/// (Chain &lt; Star &lt; Ring &lt; Complete; cf. WEIGHT2_KERNEL).</para>
 ///
 /// <para><b>Breaks for:</b> anisotropic XXZ (Δ ≠ 1), where the ZZ term mixes
 /// X/Y types and the SWAP-invariance argument fails.</para>
 ///
-/// <para>Tier1Derived: lower bound (≥ 2N) proven via SWAP invariance constructing
-/// 2N kernel vectors; upper bound (≤ 2N) proven via triangle inequality forcing
-/// each SWAP to fix v individually, with adjacent transpositions generating S_N.
-/// Numerically verified N=2..7 in <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c>.</para>
+/// <para>Tier consistency: lower bound (≥ 2N) Tier 1 derived via SWAP
+/// invariance constructing 2N kernel vectors. Upper bound (≤ 2N) was claimed
+/// Tier 1 derived via triangle inequality, but the 2026-05-17 review found a
+/// derivation gap (matrix-commutator vs conjugation-action confusion in
+/// Step 5). The upper bound is now Tier 2 verified empirically for chain
+/// N=2..7 and for most other connected graphs at N ≥ 4; the empirical
+/// exception is K_3 N=3 (count = 2N+2 = 8). See PROOF_WEIGHT1_DEGENERACY
+/// § Appendix (2026-05-17).</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F50 (line 228) +
 /// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> +
@@ -70,13 +88,27 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim
     public double DecayRateFactor => _ladder.Term(0);
 
     /// <summary>Total degeneracy count <c>d_real(Re = −2γ) = 2N</c> at the first
-    /// non-zero real grid position. Holds for any connected graph with isotropic
-    /// Heisenberg + uniform Z-dephasing.</summary>
+    /// non-zero real grid position. The 2N value is the F50 lower bound (always
+    /// correct, rigorously proven). For chain at all tested N + most connected
+    /// graphs at N ≥ 4 it is also the actual count (equality holds). The one
+    /// known empirical exception is N=3 K_3 (= ring = triangle = complete on
+    /// 3 vertices), which actually gives 2N+2 = 8; see
+    /// <see cref="K3TripleN3ActualCount"/>.</summary>
     public int TotalDegeneracy(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F50 requires N ≥ 2.");
         return (int)(DegeneracyFactor * N);
     }
+
+    /// <summary>The empirically-observed actual count of pure-real Liouvillian
+    /// eigenvalues at Re = −2γ for the K_3 N=3 graph (= ring = triangle =
+    /// complete on 3 vertices). Returns 8 = 2N + 2, exceeding the F50 lower
+    /// bound by 2. The 2 extras are weight-1 operators in the standard 2-dim
+    /// irrep of S_3 = Aut(K_3); they exist only on K_3 (any external bond
+    /// breaks the S_3 symmetry and restores the count to 2N). See
+    /// <c>F50NativeEigenvalueCountTests.NativeSpectrum_K3N3_Anomaly_Has8PureRealAtMinusTwoGamma</c>
+    /// for the native verification.</summary>
+    public const int K3TripleN3ActualCount = 8;
 
     /// <summary>The eigenvalue real-part position of the F50 conserved operators:
     /// Re = −2γ. The first non-zero real grid position in the Liouvillian spectrum.</summary>
