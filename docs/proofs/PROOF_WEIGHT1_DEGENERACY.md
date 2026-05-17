@@ -679,20 +679,58 @@ For K_4 N=4 w=2: excess = 23 = 1 (sign-rep antisym from S=0) + 22 (other irreps 
 
 A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl + character theory, but writing it as a single closed expression rather than a sum-over-irreps remains open.
 
-### Open questions (refined post-resolution)
+### Open questions (refined post-resolution; resolved Q1/Q2 retired 2026-05-17 evening)
 
-1. **The naive class-sum-scalar conjecture is empirically falsified (tested 2026-05-17).** Initial conjecture: "for graph G where bonds form a single conjugacy class of `Aut(G)`, the dimension excess equals the sum over Aut(G)-irreps ρ with class-sum scalar = 0 of `mult(ρ, weight-1) × dim(ρ)`". This predicts K_3 N=3 excess = 2 (S_3 standard rep, χ(t)=0, mult 2) ✓, but predicts K_4 N=4 excess = 8 (from (2,2) S_4 irrep, χ(t)=0, mult 4) ✗ — empirical excess at K_4 N=4 is 0. The mechanism: Schur's class-sum scalar acts via **left-multiplication** on the group algebra, but `[H, A] = 0` is a **matrix-commutator** condition on the operator space; these are different actions. Even when class-sum left-multiplies as zero on an irrep, `[class-sum, A] = 0` need not hold for operators A in that irrep's isotypic component (the operator space decomposes differently under conjugation vs left-multiplication). See `simulations/f50_irrep_decomposition_probe.py` for the explicit falsification.
+> **Q1 (matrix-commutator vs left-action gap) — RESOLVED 2026-05-17 morning.** The gap
+> is fully characterized in the appendix above (§ "The Schur class-sum gap and its
+> resolution") and in `docs/ANALYTICAL_FORMULAS.md` F50 section. Briefly: `[H, A] = 0`
+> reduces to `Σ_b [SWAP_b, A] = 0` (matrix-commutator sum), not to
+> `Σ_b (SWAP_b(A) − A) = 0` (conjugation-action sum); the centralizer of H decomposes
+> as `⊕_λ M(d_λ)` on each H-eigenspace, and the weight-w intersection is a graph-and-N
+> specific algebraic question. Explicit falsification of the naive class-sum conjecture
+> at K_4 N=4: `simulations/f50_irrep_decomposition_probe.py`.
 
-2. **Why does the S_3 standard rep produce extras at K_3 N=3 specifically?** Despite the naive conjecture failing at K_4, K_3 N=3 remains the unique empirical anomaly. The structural distinguisher between K_3 and K_4 (both are `Aut = S_N`, bond-set = full transposition class, vertex-transitive) is unclear. Possible angles:
-   - K_3's small size means the weight-1 sector dim (= 24) is comparable to the operator-space dim (= 64), so accidental algebraic coincidences are more likely.
-   - The standard rep of S_3 has dim 2, equal to the number of free non-trivial labels (X vs Y) — a coincidence not present at S_4 where standard rep has dim 3.
-   - The matrix-commutator framework with H = J Σ_b (2 SWAP_b − I) needs analysis beyond left-action Schur arguments; possibly involves cross-character or group-ring center structure.
+> **Q2 (why K_3 N=3 specifically) — RESOLVED 2026-05-17 evening.** K_3 N=3 is NOT
+> algebraically special. It is the small-N manifestation of the universal
+> "central-weight excess in high-symmetry topologies" pattern (this proof §
+> "Resolution: K_3 is the small-N face of a central-weight excess pattern"). The
+> structural cause: sub-max-spin sectors concentrate pure-weight mass at central
+> weights only, while max-spin baseline is weight-uniform. N=3's central weight = 1
+> coincides with F50's tracked weight, so the excess shows there; N ≥ 4 has central
+> weight ≥ 2 and the excess shifts there too (K_4 w=2 excess 23, K_5 w=2 excess 40,
+> etc.). Simulation: `f50_spin_isotypic_decomposition.py`, `f50_max_spin_closed_form.py`.
 
-3. **What's the correct universal upper-bound formula?** Conjecture (refined): `dim(ker[H_G, ·] | weight-1) = 2N + δ_G(N)` where δ_G(N) ≥ 0 is a graph-and-N specific correction. Known values: `δ_chain(N) = 0` (all tested N), `δ_K_3(3) = 2`, `δ_K_n(N ≥ 4) = 0` (tested N=4, 5), `δ_C_n(n ≥ 4) = 0` (tested N=4, 5), `δ_star(N) = 0`. A clean formula in terms of (Aut(G), N) is open.
+1. **Sub-max-spin single-block closed-form** (Q3, refined). For max-spin `S = N/2`,
+   `single_block(S, w) = 2 if w ∈ {0, N}, else 4` is the universal Dicke-endpoint
+   ladder-rungs pattern (Tier 1 derived; this proof § "Max-spin closed-form via Dicke
+   endpoint ladder rungs"). For sub-max spin `S < N/2`, the corresponding `f(N, S, w)`
+   in closed form is open. Empirical patterns:
+   - K_3 S=1/2: (0, 2, 2, 0) — the antisym piece, now closed-form via Q3' below.
+   - K_4 S=0: (0, 0, 1, 0, 0); K_4 S=1: (0, 26, 1, 22, 8, 38, 124, 0, 30) at K_6.
+   - K_6 S=0 = (0, 0, 0, 0, 0, 0, 0) — predicted to vanish from antisym; confirmed.
 
-4. **Is K_3 N=3 the ONLY weight-1 anomaly, or are there other small-graph cases?** The empirical sweep tested chain + ring + star + complete + paw + diamond + bowtie + book at N ≤ 5; only K_3 N=3 was anomalous. Larger N or graphs with high automorphism but non-trivial structure (e.g. Petersen graph at N=10, hypercube Q_3 at N=8) untested.
+2. **Q3' Sub-max non-sign-rep contributions** (partial). The sign-rep [1^N]
+   contribution to `single_block(S, w)` is closed-form via distinct-letter Pauli
+   multisets: `C(2, w) · C(2, N−w)` (this proof § "Partial closed-form for sub-max
+   via antisymmetric Pauli orbits", 2026-05-17 night, Tier 1 derived for small cases).
+   For K_4 N=4 w=2 excess = 23 = 1 (sign-rep antisym) + 22 (other irreps from S=1, S=0,
+   S=2). The Schur-Weyl per-S_N-irrep decomposition of the 22 piece is open and would
+   complete the closed-form via Frobenius reciprocity character calculations.
 
-5. **N=3 algebraic-forcing meta-pattern.** Several N=3 specialties are recorded in the repo: F33's exact-rational decay rates (chain N=3 only; D10's `cos(πk/3) = ±1/2`), F69's irreducible sextic over ℚ (GHZ_3+W_3 slice), THE_BOOT_SCRIPT.md OQ-294 (V-Effect 14 broken combos at N=3, open question), NESTED_MIRROR.md's 12-class refraction at N=3, PRIMORDIAL_QUBIT_ALGEBRA.md's `w_M = 3/4` (N=3-chain only). Today's K_3 weight-1 extras are another facet of "N=3 is algebraically distinguished". A synthesis tying these together is open.
+3. **Empirical sweep beyond chain + ring + star + K_N + small graphs (Q4).** The
+   tested set was at N ≤ 5; Petersen graph (N=10, vertex- and edge-transitive) and
+   hypercube Q_3 (N=8, edge-transitive with Aut size 48) are natural next graphs
+   with high automorphism but non-K_N structure. Untested.
+
+4. **N=3 algebraic-forcing meta-pattern (Q5).** Several N=3 specialties are recorded
+   in the repo: F33's exact-rational decay rates (chain N=3 only; D10's
+   `cos(πk/3) = ±1/2`), F69's irreducible sextic over ℚ (GHZ_3 + W_3 slice),
+   `hypotheses/THE_BOOT_SCRIPT.md` OQ-294 (V-Effect 14 broken combos at N=3),
+   `hypotheses/NESTED_MIRROR_STRUCTURE.md`'s 12-class refraction at N=3,
+   `experiments/PRIMORDIAL_QUBIT_ALGEBRA.md`'s `w_M = 3/4` (N=3-chain only). K_3
+   weight-1 extras (now resolved as the small-N face of central-weight excess) are
+   another facet of "N=3 is algebraically distinguished". A synthesis tying these
+   together is open.
 
 ### Status update
 
