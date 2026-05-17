@@ -1,0 +1,5 @@
+# Carbon simulations folder, empty for now.
+# See docs/carbon/README.md for the eight candidate substrates worth testing
+# (benzene C₆, butadiene C₄, hexatriene C₆, cyclobutadiene C₄, naphthalene C₁₀,
+# graphene patch, fullerene C₆₀, polyacetylene chain, carbyne sp-linear chain).
+# Scripts land here as they get built.
